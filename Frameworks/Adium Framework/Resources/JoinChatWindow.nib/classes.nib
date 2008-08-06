@@ -1,0 +1,66 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AILocalizationButton;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+                joinChat = id;
+            };
+            CLASS = DCJoinChatWindowController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "button_cancel" = AILocalizationButton;
+                "button_joinChat" = AILocalizationButton;
+                "label_account" = AILocalizationTextField;
+                "popUp_service" = NSPopUpButton;
+                "view_customView" = NSView;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            ACTIONS =             {
+                joinChat = id;
+            };
+            CLASS = DCNothing;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "popUp_service" = NSPopUpButton;
+                "view_customView" = NSView;
+                "window_main" = NSWindow;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

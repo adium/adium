@@ -1,0 +1,116 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AIAdvancedPreferencePane;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIModularPane;
+        },
+                {
+            CLASS = AILocalizationButton;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            ACTIONS =             {
+                changePreference = id;
+            };
+            CLASS = AIModularPane;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                plugin = id;
+                view = NSView;
+            };
+            SUPERCLASS = AIObject;
+        },
+                {
+            CLASS = AIObject;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = ESContactListAdvancedPreferences;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "checkBox_animateChanges" = NSButton;
+                "checkBox_flash" = NSButton;
+                "checkBox_hideOnScreenEdgesOnlyInBackground" = NSButton;
+                "checkBox_showOnAllSpaces" = NSButton;
+                "checkBox_showTooltips" = NSButton;
+                "checkBox_showTooltipsInBackground" = NSButton;
+                "checkBox_windowHasShadow" = NSButton;
+                "label_appearance" = NSTextField;
+                "label_hide" = NSTextField;
+                "label_orderTheContactList" = NSTextField;
+                "label_tooltips" = NSTextField;
+                "label_windowHandling" = NSTextField;
+                "matrix_hiding" = NSMatrix;
+                "popUp_windowPosition" = NSPopUpButton;
+            };
+            SUPERCLASS = AIAdvancedPreferencePane;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSButtonCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSActionCell;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                prefsWindowWillClose = "SS_PrefsController";
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

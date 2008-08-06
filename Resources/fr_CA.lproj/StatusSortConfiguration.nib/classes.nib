@@ -1,0 +1,70 @@
+{
+    IBClasses = (
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationButtonCell; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButtonCell; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = AISortController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {configureView = NSView; }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {
+            CLASS = ESStatusSort; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "buttonCell_allUnavailable" = NSButtonCell; 
+                "buttonCell_alphabetically" = NSButtonCell; 
+                "buttonCell_manually" = NSButtonCell; 
+                "buttonCell_separateUnavailable" = NSButtonCell; 
+                "checkBox_alphabeticallyByLastName" = NSButton; 
+                "checkBox_groupAvailable" = NSButton; 
+                "checkBox_groupAway" = NSButton; 
+                "checkBox_groupIdle" = NSButton; 
+                "checkBox_groupIdleAndAway" = NSButton; 
+                "checkBox_groupMobileSeparately" = NSButton; 
+                "checkBox_sortIdleTime" = NSButton; 
+                "label_sortWithinEachStatusGrouping" = AILocalizationTextField; 
+                "label_statusGroupOrdering" = AILocalizationTextField; 
+                "matrix_resolution" = NSMatrix; 
+                "matrix_unavailableGrouping" = NSMatrix; 
+                "tableView_sortOrder" = NSTableView; 
+            }; 
+            SUPERCLASS = AISortController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

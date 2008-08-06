@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $URL$ -->
+<!-- $Rev$ $Date$ -->
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr">
+    <head>
+        <title>
+            SQL Logger
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=(iso-8859-1" />
+        <style type="text/css" media="screen" >@import url("layout/css/fixed.css");</style>
+        <script type="text/javascript" src="layout/js/styleswitcher.js"></script>
+        <script type="text/javascript" src="layout/js/geckostyle.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+    </head>
+    <body>
+        <div id="pgContainerWrap">
+            <div id="pgContainer">
+                <div id="pgHeaderContainer">
+                    <div id="pgHeader">
+                        <div id="pgHeaderLogoLeft">
+                            <img src="layout/images/hdr_left_grn.png" width="20" height="80" alt="" />
+                        </div>
+                        <div id="pgHeaderLogoRight">
+                            <img
+                                src="layout/images/hdr_right_grn.png" width="20" height="80" alt=""/>
+                        </div>
+                        <h1><a href="/sqllogger/">SQL Logger</a></h1>
+                    </div>
+                    <h2 class="pgBlockHide">Site Navigation</h2>
+                    <div id="pgTopNav">
+                        <div id="pgTopNavLeft">
+                            <img src="layout/images/nav_lft.png" width="7" height="23" alt="" />
+                        </div>
+                        <div id="pgTopNavRight">
+                            <img src="layout/images/nav_rgt.png" width="7" height="23" alt="" />
+                        </div>
+                        <ul id="pgTopNavList">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=screenshots.jsp">
+                            Screenshots</a></li>
+                            <li><a href="install.html">
+                            Installation</a></li>
+                            <li><a href="technical.html">
+                            Technical Details</a></li>
+                            <li><a href="performance.html">Maintenance/Performance</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=changelog.txt">Changes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="pgContent">
+                    <div id="pgSideWrap">
+                        <div id="pgSideNav">
+                            <ul>
+                                <li><a href="http://www.adiumx.com">Adium</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://forums.adiumx.com">Forums</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_63.tar.gz">Plugin (.63)</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_70.tar.gz">Plugin (.70)</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_80.tar.gz">Plugin
+                                    (.80)</a></li>
+                                </ul>
+                                <li><a
+                                href="http://fire.sourceforge.net">Fire</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://fire.sourceforge.net/forums/">Forums</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/fire_15.tar.gz">Plugin</a></li>
+                                </ul>
+                                <li><a
+                                href="http://wwww.postgresql.org">PostgreSQL</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://www.postgresql.org/docs/7.4/interactive/index.html">Documentation</a></li>
+                                    <li><a
+                                    href="http://www.xceltech.net/products/freeware_products.html">PostMan
+                                    Query</a></li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="pgContentWrap">
+                        <div id="pgDownloadsWrap">
+                            <div id="pgDownloads">
+                            
+                                        <h2>Maintenance</h2>
+    <p>PostgreSQL requires some routine maintenance to function properly.
+      As PostgreSQL makes an update, it does not actually delete the old
+      version of the record.  It does this because if multiple processes are
+      accessing the database at the same time, a single process has no way of
+      knowing if any other process is looking at the same record its modified.
+      Therefore, any process/transaction that started looking at the table
+      before the record was modified see the old version, even if the record
+      has already been changed.</p>
+    <p>This problem is very simple to solve.  All that needs to be run is
+      PostgreSQL's <code>VACUUM</code> command.  This flags all old tuples to
+      be overwritten the next time they need to be.  It's meant to be run in
+      an update/delete heavy application, and the adium stuff isn't very
+      update/delete heavy under normal use, but it's still a good idea to run
+      it periodically.  (Once a week or so.)</p>
+    <p>Running vacuum can be accomplished a few ways:</p>
+    <ul>
+      <li>Through psql:<div class="tutorialcode"><pre>vacuum;
+vacuum analyze;</pre></div></li>
+      <li>Through the command line:<div
+          class="tutorialcode"><pre>vacuumdb
+vacuumdb -z</pre></div></li>
+    </ul>
+    <p>These can easily be added to a weekly cron job or automatic maintenance
+      script.</p>
+    <h2>Performance</h2>
+    <p>If you are not getting the kind of performance you want from
+      PostgreSQL, a few things might be at blame.  PostgreSQL makes use of
+      indexes to perform faster lookups on tables.  These indexes are very
+      similar to indexes in a book, and serve the same purpose.  PostgreSQL is
+      very smart (sometimes too smart) about when not to use indexes.  If your
+      table isn't big enough, it won't take advantage of them at all.</p>
+    <p>If you want to see if PostgreSQL is using an index for something, you
+      can construct a similar query in psql:</p>
+    <div class="tutorialcode">
+      <pre>select * from im.message_v where message_date > 'now'::date;</pre>
+    </div>
+    <p>That query should return very quickly.
+      If you want to see exactly how fast it runs:
+    </p>
+    <div class="tutorialcode">
+      <pre>explain analyze select * from messages where message_date > CURRENT_DATE;</pre></div>
+    <p>The output I get is something like this, for a relatively typical
+      day:</p>
+    <div class="tutorialcode">
+      <pre><b>Index Scan</b> using adium_msg_date_sender_recipient on messages (cost=0.00..160.60 <b>rows=45</b> width=97) (actual time=0.11..3.55 <b>rows=223</b> loops=1)
+  Index Cond: (message_date > '2003-09-02 00:00:00'::timestamp without time zone)
+  Total runtime: <b>4.31 msec</b>
+ (3 rows)</pre></div>
+ <p>I've swapped <b>message_v</b> for <b>messages</b> here, because message_v
+   has a nasty query plan, and it's very difficult to learn anything
+   constructive from it.</p>
+ <p>The important parts of the example above are boldfaced.
+   I've boldfaced the term "Index Scan", because that indicates it is using
+   the index (named adium_msg_date_sender_recipient) to determine where the
+   proper dates are.  This is good.  Index Scans are much faster than
+   Sequential Scans for large tables.</p>
+ <p>If you're not seeing an index scan, there are a few reasons that could be
+   the cause:
+   <ul>
+     <li>Not enough data
+       <ul>
+         <li>if your table is small, there is no reason to use
+           an index scan
+         </li>
+       </ul>
+     </li>
+       <li>Not properly analyzed.</li>
+       <ul>
+         <li>If the number of rows in the cost and the number of rows in the
+           result are significantly different (a factor of 10 or so), rerun
+           <code>vacuum analyze</code> and try again
+         </li>
+       </ul>
+   </ul>
+ </p>
+
+                            
+                            </div>
+                        </div>
+
+                        <div id="pgQuickDownloadsWrap">
+                            <div id="pgQuickDownloads">
+                                <dl>
+                                    <dt>Downloads</dt>
+                                    <dd>
+                                        <p><a
+                                        href="sqllogger.tar.gz">WAR/HTML/Plugins</a></p>
+                                        <p><a href="sqllogger.war">SQL Logger
+                                        WAR</a></p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <br class="pgClearBoth" />
+                </div>
+                <div id="pgFooter">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

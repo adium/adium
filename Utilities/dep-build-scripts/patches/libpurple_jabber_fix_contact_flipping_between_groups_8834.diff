@@ -1,0 +1,46 @@
+#
+# old_revision [2a826fe4f31060ded309b2d01b02df16038271e9]
+#
+# patch "libpurple/protocols/jabber/roster.c"
+#  from [3935ffadba34d0618afae293a7d82ffc2db4cca6]
+#    to [2097f0174c39fb8d05eb3c7069638448789741a2]
+#
+============================================================
+--- libpurple/protocols/jabber/roster.c	3935ffadba34d0618afae293a7d82ffc2db4cca6
++++ libpurple/protocols/jabber/roster.c	2097f0174c39fb8d05eb3c7069638448789741a2
+@@ -31,6 +31,7 @@
+ 
+ #include <string.h>
+ 
++static gboolean parsing_from_server = FALSE;
+ 
+ void jabber_roster_request(JabberStream *js)
+ {
+@@ -169,6 +170,8 @@ void jabber_roster_parse(JabberStream *j
+ 	if(!query)
+ 		return;
+ 
++	parsing_from_server = TRUE;
++
+ 	for(item = xmlnode_get_child(query, "item"); item; item = xmlnode_get_next_twin(item))
+ 	{
+ 		const char *jid, *name, *subscription, *ask;
+@@ -251,6 +254,8 @@ void jabber_roster_parse(JabberStream *j
+ 		}
+ 	}
+ 
++	parsing_from_server = FALSE;
++
+ 	/* if we're just now parsing the roster for the first time,
+ 	 * then now would be the time to send our initial presence */
+ 	if(!js->roster_parsed) {
+@@ -269,6 +274,9 @@ static void jabber_roster_update(JabberS
+ 	JabberIq *iq;
+ 	xmlnode *query, *item, *group;
+ 
++	if (parsing_from_server)
++		return;
++
+ 	if(!(b = purple_find_buddy(js->gc->account, name)))
+ 		return;
+ 

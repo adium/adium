@@ -1,0 +1,40 @@
+#
+# old_revision [c692f6fe1b8c7e0dd4b0099bd67703d5941ddac5]
+#
+# patch "configure.ac"
+#  from [e93dfa5cee17b76c4a5783c0804178353fedb8af]
+#    to [ebd87f51a509478233949e5d72b2e6f1bae17527]
+# 
+# patch "libpurple/protocols/Makefile.am"
+#  from [a75480c624575eb87e669770f66725280960cbd1]
+#    to [af8fc01aaa171e68130d4a641abb5cd8cc020133]
+#
+============================================================
+--- configure.ac	e93dfa5cee17b76c4a5783c0804178353fedb8af
++++ configure.ac	ebd87f51a509478233949e5d72b2e6f1bae17527
+@@ -1017,6 +1017,7 @@ for i in $STATIC_PRPLS ; do
+ 		jabber)		static_jabber=yes ;;
+ 		msn)		static_msn=yes ;;
+ 		msnp9)		static_msn=yes ;;
++		msn_pecan)	static_msn=yes ;;
+ 		myspace)	static_myspace=yes ;;
+ 		novell)		static_novell=yes ;;
+ 		oscar)		static_oscar=yes ;;
+@@ -2374,6 +2375,7 @@ AC_OUTPUT([Makefile
+ 		   libpurple/protocols/irc/Makefile
+ 		   libpurple/protocols/jabber/Makefile
+ 		   libpurple/protocols/msn/Makefile
++		   libpurple/protocols/msn_pecan/Makefile
+ 		   libpurple/protocols/msnp9/Makefile
+ 		   libpurple/protocols/myspace/Makefile
+ 		   libpurple/protocols/novell/Makefile
+============================================================
+--- libpurple/protocols/Makefile.am	a75480c624575eb87e669770f66725280960cbd1
++++ libpurple/protocols/Makefile.am	af8fc01aaa171e68130d4a641abb5cd8cc020133
+@@ -1,5 +1,5 @@ EXTRA_DIST = Makefile.mingw
+ EXTRA_DIST = Makefile.mingw
+ 
+-DIST_SUBDIRS = bonjour gg irc jabber msn msnp9 myspace novell null oscar qq sametime silc silc10 toc simple yahoo zephyr
++DIST_SUBDIRS = bonjour gg irc jabber msn msnp9 msn_pecan myspace novell null oscar qq sametime silc silc10 toc simple yahoo zephyr
+ 
+ SUBDIRS = $(DYNAMIC_PRPLS) $(STATIC_PRPLS)

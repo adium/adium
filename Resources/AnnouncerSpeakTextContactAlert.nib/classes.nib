@@ -1,0 +1,64 @@
+{
+    IBClasses = (
+        {CLASS = AIActionDetailsPane; LANGUAGE = ObjC; SUPERCLASS = AIModularPane; }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = AIModularPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {plugin = id; view = NSView; }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = ESAnnouncerAbstractDetailPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "checkBox_customPitch" = NSButton; 
+                "checkBox_customRate" = NSButton; 
+                "checkBox_speakContactName" = AILocalizationButton; 
+                "checkBox_speakEventTime" = AILocalizationButton; 
+                "label_voice" = NSTextField; 
+                "popUp_voices" = NSPopUpButton; 
+                "slider_pitch" = NSSlider; 
+                "slider_rate" = NSSlider; 
+            }; 
+            SUPERCLASS = AIActionDetailsPane; 
+        }, 
+        {
+            CLASS = ESAnnouncerSpeakTextAlertDetailPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "box_substitutions" = NSBox; 
+                "textView_substitutions" = AILocalizationTextField; 
+                "textView_textToSpeak" = NSTextView; 
+                "textView_textToSpeakLabel" = AILocalizationTextField; 
+            }; 
+            SUPERCLASS = ESAnnouncerAbstractDetailPane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = RBSplitSubview; LANGUAGE = ObjC; OUTLETS = {}; SUPERCLASS = NSView; }, 
+        {
+            CLASS = RBSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = RBSplitSubview; 
+        }, 
+        {
+            CLASS = RBSplitViewPalette; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {splitImage = NSImageView; }; 
+            SUPERCLASS = IBPalette; 
+        }, 
+        {CLASS = SplitViewInspector; LANGUAGE = ObjC; SUPERCLASS = IBInspector; }
+    ); 
+    IBVersion = 1; 
+}

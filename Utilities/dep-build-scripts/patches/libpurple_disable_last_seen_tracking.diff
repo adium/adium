@@ -1,0 +1,19 @@
+#
+# old_revision [20e2add42a314b4914e798757eb2a69ac3b491d0]
+#
+# patch "libpurple/blist.c"
+#  from [ad31660fc4ddaa0f5edd891518e38def75c643fe]
+#    to [fd0f2dc81e4a802abb3b67c64c254c9adc8ef3c4]
+#
+============================================================
+--- libpurple/blist.c	ad31660fc4ddaa0f5edd891518e38def75c643fe
++++ libpurple/blist.c	fd0f2dc81e4a802abb3b67c64c254c9adc8ef3c4
+@@ -778,7 +778,7 @@ purple_blist_update_buddy_status(PurpleB
+ 			((PurpleGroup *)((PurpleBlistNode *)buddy)->parent->parent)->online++;
+ 	} else if (!purple_status_is_online(status) &&
+ 				purple_status_is_online(old_status)) {
+-		purple_blist_node_set_int(&buddy->node, "last_seen", time(NULL));
++/*		purple_blist_node_set_int(&buddy->node, "last_seen", time(NULL)); */
+ 		purple_signal_emit(purple_blist_get_handle(), "buddy-signed-off", buddy);
+ 		((PurpleContact*)((PurpleBlistNode*)buddy)->parent)->online--;
+ 		if (((PurpleContact*)((PurpleBlistNode*)buddy)->parent)->online == 0)

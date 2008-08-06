@@ -1,0 +1,83 @@
+{
+    IBClasses = (
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                cancelLogImport = id; 
+                completeBonjourCreation = id; 
+                deleteLogs = id; 
+                goBack = id; 
+                openHelp = id; 
+                proceed = id; 
+                selectLogAccountDestination = id; 
+            }; 
+            CLASS = BGICImportController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                accountSelectionLabel = NSTextField; 
+                accountSelectionPopup = NSPopUpButton; 
+                assistantPanes = NSTabView; 
+                backButton = NSButton; 
+                backgroundView = SetupWizardBackgroundView; 
+                bonjourAccountNameField = NSTextField; 
+                bonjourNamePromptWindow = NSWindow; 
+                cancelImportButton = NSButton; 
+                createStatusGroupsButton = NSButton; 
+                deleteLogsButton = NSButton; 
+                importAccountsButton = NSButton; 
+                importAccountsDetails = NSTextField; 
+                importAccountsProgress = NSProgressIndicator; 
+                importDetails = NSTextField; 
+                importLogsButton = NSButton; 
+                importProgress = NSProgressIndicator; 
+                importStatusButton = NSButton; 
+                importStatusDetails = NSTextField; 
+                importStatusProgress = NSProgressIndicator; 
+                loggingPanes = NSTabView; 
+                proceedButton = NSButton; 
+                titleField = NSTextField; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = SetupAssistantBoxBackgroundView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            CLASS = SetupWizardBackgroundView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

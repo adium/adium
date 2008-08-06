@@ -1,0 +1,28 @@
+#
+# old_revision [2b2d7fb52eaac7e43d63ed70c894d57c7943ed32]
+#
+# patch "libpurple/protocols/jabber/parser.c"
+#  from [f87f5766fa019332da36d7cda69c8939d68fe074]
+#    to [b25961d20ed7d8b0afe3e2956fdad98881ae8570]
+#
+============================================================
+--- libpurple/protocols/jabber/parser.c	f87f5766fa019332da36d7cda69c8939d68fe074
++++ libpurple/protocols/jabber/parser.c	b25961d20ed7d8b0afe3e2956fdad98881ae8570
+@@ -191,6 +191,8 @@ void jabber_parser_free(JabberStream *js
+ 
+ void jabber_parser_free(JabberStream *js) {
+ 	if (js->context) {
++		xmlSetStructuredErrorFunc(NULL, jabber_parser_structured_error_handler);
++
+ 		xmlParseChunk(js->context, NULL,0,1);
+ 		xmlFreeParserCtxt(js->context);
+ 		js->context = NULL;
+@@ -201,6 +203,8 @@ void jabber_parser_process(JabberStream 
+ {
+ 	int ret;
+ 
++	xmlSetStructuredErrorFunc(NULL, jabber_parser_structured_error_handler);
++
+ 	if (js->context == NULL) {
+ 		/* libxml inconsistently starts parsing on creating the
+ 		 * parser, so do a ParseChunk right afterwards to force it. */

@@ -1,0 +1,95 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AILocalizationButton;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSButton;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+            };
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            ACTIONS =             {
+                pressedButton = id;
+            };
+            CLASS = ESTextAndButtonsWindowController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "button_alternate" = NSButton;
+                "button_default" = NSButton;
+                "button_other" = NSButton;
+                imageView = NSImageView;
+                "scrollView_message" = NSScrollView;
+                "scrollView_messageHeader" = NSScrollView;
+                target = id;
+                "textView_message" = NSTextView;
+                "textView_messageHeader" = NSTextView;
+                userInfo = id;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSButtonCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSActionCell;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                prefsWindowWillClose = "SS_PrefsController";
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

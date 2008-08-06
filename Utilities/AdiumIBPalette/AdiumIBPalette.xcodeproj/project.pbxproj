@@ -1,0 +1,391 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0711CA160A147ED20046A860 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0711CA150A147ED20046A860 /* AIUtilities.framework */; };
+		0711CA1B0A147EDC0046A860 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0711CA1A0A147EDC0046A860 /* Adium.framework */; };
+		073481060A28062100F50878 /* AdiumIBPalette.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 073481050A28062100F50878 /* AdiumIBPalette.tiff */; };
+		0762FD020A27F616005CE437 /* AITextColorPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 07F37AEB0A13CEF70072C392 /* AITextColorPreviewView.m */; };
+		13EB9DBE07DE0F1E00EB933A /* InterfaceBuilder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13EB9DBD07DE0F1E00EB933A /* InterfaceBuilder.framework */; };
+		54D33B2906778E3300C9C163 /* AdiumIBPalette.ibclassdescription in Resources */ = {isa = PBXBuildFile; fileRef = 54D33B2806778E3300C9C163 /* AdiumIBPalette.ibclassdescription */; };
+		8D1AC9670486D14A00FE50C9 /* AITextColorPreviewViewInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C57EFE90428111CA0C5A /* AITextColorPreviewViewInspector.nib */; };
+		8D1AC9680486D14A00FE50C9 /* AdiumIBPalette.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0259C580FE90428111CA0C5A /* AdiumIBPalette.nib */; };
+		8D1AC9690486D14A00FE50C9 /* palette.table in Resources */ = {isa = PBXBuildFile; fileRef = 0259C583FE90428111CA0C5A /* palette.table */; };
+		8D1AC96C0486D14A00FE50C9 /* AITextColorPreviewViewInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C577FE90428111CA0C5A /* AITextColorPreviewViewInspector.m */; settings = {ATTRIBUTES = (); }; };
+		8D1AC96D0486D14A00FE50C9 /* AdiumIBPalette.m in Sources */ = {isa = PBXBuildFile; fileRef = 0259C578FE90428111CA0C5A /* AdiumIBPalette.m */; settings = {ATTRIBUTES = (); }; };
+		8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
+		8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0259C577FE90428111CA0C5A /* AITextColorPreviewViewInspector.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AITextColorPreviewViewInspector.m; sourceTree = "<group>"; };
+		0259C578FE90428111CA0C5A /* AdiumIBPalette.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AdiumIBPalette.m; sourceTree = "<group>"; };
+		0259C57BFE90428111CA0C5A /* AITextColorPreviewViewInspector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AITextColorPreviewViewInspector.h; sourceTree = "<group>"; };
+		0259C57CFE90428111CA0C5A /* AdiumIBPalette.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AdiumIBPalette.h; sourceTree = "<group>"; };
+		0259C57FFE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AITextColorPreviewViewInspector.nib; sourceTree = "<group>"; };
+		0259C581FE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdiumIBPalette.nib; sourceTree = "<group>"; };
+		0259C583FE90428111CA0C5A /* palette.table */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = palette.table; sourceTree = "<group>"; };
+		0711CA150A147ED20046A860 /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AIUtilities.framework; path = "../../Frameworks/AIUtilities Framework/build/Deployment/AIUtilities.framework"; sourceTree = SOURCE_ROOT; };
+		0711CA1A0A147EDC0046A860 /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Adium.framework; path = ../../build/Deployment/Adium.framework; sourceTree = SOURCE_ROOT; };
+		073481050A28062100F50878 /* AdiumIBPalette.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdiumIBPalette.tiff; sourceTree = "<group>"; };
+		07F37AEA0A13CEF70072C392 /* AITextColorPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITextColorPreviewView.h; path = "../../Plugins/Contact List/Preferences/AITextColorPreviewView.h"; sourceTree = SOURCE_ROOT; };
+		07F37AEB0A13CEF70072C392 /* AITextColorPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITextColorPreviewView.m; path = "../../Plugins/Contact List/Preferences/AITextColorPreviewView.m"; sourceTree = SOURCE_ROOT; };
+		13EB9DBD07DE0F1E00EB933A /* InterfaceBuilder.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InterfaceBuilder.framework; path = /System/Library/Frameworks/InterfaceBuilder.framework; sourceTree = "<absolute>"; };
+		13F8B88807B434F6008AE28D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		13F8B88907B434F6008AE28D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+		13F8B88A07B434F6008AE28D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32DBCF980370C29C00C91783 /* AdiumIBPalette_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdiumIBPalette_Prefix.pch; sourceTree = "<group>"; };
+		54D33B2806778E3300C9C163 /* AdiumIBPalette.ibclassdescription */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AdiumIBPalette.ibclassdescription; sourceTree = "<group>"; };
+		8D1AC9730486D14A00FE50C9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1AC9740486D14A00FE50C9 /* AdiumIBPalette.palette */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdiumIBPalette.palette; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1AC97B0486D23100FE50C9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D1AC96E0486D14A00FE50C9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */,
+				13EB9DBE07DE0F1E00EB933A /* InterfaceBuilder.framework in Frameworks */,
+				0711CA160A147ED20046A860 /* AIUtilities.framework in Frameworks */,
+				0711CA1B0A147EDC0046A860 /* Adium.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0259C574FE90428111CA0C5A /* AdiumIBPalette */ = {
+			isa = PBXGroup;
+			children = (
+				07F37AF00A13CEFE0072C392 /* Represented classes */,
+				32DBCF9E0370C38000C91783 /* Palette */,
+				0259C582FE90428111CA0C5A /* Resources */,
+				1ED78706FE9D4A0611CA0C5A /* Products */,
+				2E58F364FFB232C311CA0CBA /* Frameworks */,
+			);
+			name = AdiumIBPalette;
+			sourceTree = "<group>";
+		};
+		0259C582FE90428111CA0C5A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D1AC9730486D14A00FE50C9 /* Info.plist */,
+				8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		07F37AF00A13CEFE0072C392 /* Represented classes */ = {
+			isa = PBXGroup;
+			children = (
+				07F37AF40A13CF140072C392 /* From AIUtilities.framework */,
+				07F37AF70A13CF140072C392 /* From Adium.framework */,
+				07F37AF10A13CF070072C392 /* From Adium */,
+			);
+			name = "Represented classes";
+			sourceTree = "<group>";
+		};
+		07F37AF10A13CF070072C392 /* From Adium */ = {
+			isa = PBXGroup;
+			children = (
+				07F37AEA0A13CEF70072C392 /* AITextColorPreviewView.h */,
+				07F37AEB0A13CEF70072C392 /* AITextColorPreviewView.m */,
+			);
+			name = "From Adium";
+			sourceTree = "<group>";
+		};
+		07F37AF40A13CF140072C392 /* From AIUtilities.framework */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "From AIUtilities.framework";
+			sourceTree = "<group>";
+		};
+		07F37AF70A13CF140072C392 /* From Adium.framework */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "From Adium.framework";
+			sourceTree = "<group>";
+		};
+		131E8FE8067F80F40006E0CE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0259C57EFE90428111CA0C5A /* AITextColorPreviewViewInspector.nib */,
+				0259C580FE90428111CA0C5A /* AdiumIBPalette.nib */,
+				073481050A28062100F50878 /* AdiumIBPalette.tiff */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		13F8B6FD07B43410008AE28D /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13EB9DBD07DE0F1E00EB933A /* InterfaceBuilder.framework */,
+				DD92D38A0106425D02CA0E72 /* Cocoa.framework */,
+				0711CA150A147ED20046A860 /* AIUtilities.framework */,
+				0711CA1A0A147EDC0046A860 /* Adium.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		13F8B70407B43425008AE28D /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13F8B88807B434F6008AE28D /* AppKit.framework */,
+				13F8B88907B434F6008AE28D /* CoreData.framework */,
+				13F8B88A07B434F6008AE28D /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		1ED78706FE9D4A0611CA0C5A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1AC9740486D14A00FE50C9 /* AdiumIBPalette.palette */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2E58F364FFB232C311CA0CBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13F8B6FD07B43410008AE28D /* Linked Frameworks */,
+				13F8B70407B43425008AE28D /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		32DBCF9E0370C38000C91783 /* Palette */ = {
+			isa = PBXGroup;
+			children = (
+				54D33B2406778DD400C9C163 /* Undo Support */,
+				54D33B2506778DF000C9C163 /* Classes */,
+				32DBCF9F0370C38200C91783 /* Other Sources */,
+				131E8FE8067F80F40006E0CE /* Resources */,
+				0259C583FE90428111CA0C5A /* palette.table */,
+			);
+			name = Palette;
+			sourceTree = "<group>";
+		};
+		32DBCF9F0370C38200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF980370C29C00C91783 /* AdiumIBPalette_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		54D33B2406778DD400C9C163 /* Undo Support */ = {
+			isa = PBXGroup;
+			children = (
+				54D33B2806778E3300C9C163 /* AdiumIBPalette.ibclassdescription */,
+			);
+			name = "Undo Support";
+			sourceTree = "<group>";
+		};
+		54D33B2506778DF000C9C163 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0259C57BFE90428111CA0C5A /* AITextColorPreviewViewInspector.h */,
+				0259C577FE90428111CA0C5A /* AITextColorPreviewViewInspector.m */,
+				0259C57CFE90428111CA0C5A /* AdiumIBPalette.h */,
+				0259C578FE90428111CA0C5A /* AdiumIBPalette.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1AC9600486D14A00FE50C9 /* AdiumIBPalette */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C056398308A954F8003078D8 /* Build configuration list for PBXNativeTarget "AdiumIBPalette" */;
+			buildPhases = (
+				8D1AC9660486D14A00FE50C9 /* Resources */,
+				8D1AC96A0486D14A00FE50C9 /* Sources */,
+				8D1AC96E0486D14A00FE50C9 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdiumIBPalette;
+			productInstallPath = "$(HOME)/Developer/Palettes";
+			productName = AdiumIBPalette;
+			productReference = 8D1AC9740486D14A00FE50C9 /* AdiumIBPalette.palette */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0259C573FE90428111CA0C5A /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C056398B08A954F8003078D8 /* Build configuration list for PBXProject "AdiumIBPalette" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0259C574FE90428111CA0C5A /* AdiumIBPalette */;
+			projectDirPath = "";
+			targets = (
+				8D1AC9600486D14A00FE50C9 /* AdiumIBPalette */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1AC9660486D14A00FE50C9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC9670486D14A00FE50C9 /* AITextColorPreviewViewInspector.nib in Resources */,
+				8D1AC9680486D14A00FE50C9 /* AdiumIBPalette.nib in Resources */,
+				8D1AC9800486D23B00FE50C9 /* InfoPlist.strings in Resources */,
+				8D1AC9690486D14A00FE50C9 /* palette.table in Resources */,
+				54D33B2906778E3300C9C163 /* AdiumIBPalette.ibclassdescription in Resources */,
+				073481060A28062100F50878 /* AdiumIBPalette.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D1AC96A0486D14A00FE50C9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D1AC96D0486D14A00FE50C9 /* AdiumIBPalette.m in Sources */,
+				0762FD020A27F616005CE437 /* AITextColorPreviewView.m in Sources */,
+				8D1AC96C0486D14A00FE50C9 /* AITextColorPreviewViewInspector.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0259C57EFE90428111CA0C5A /* AITextColorPreviewViewInspector.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0259C57FFE90428111CA0C5A /* English */,
+			);
+			name = AITextColorPreviewViewInspector.nib;
+			sourceTree = "<group>";
+		};
+		0259C580FE90428111CA0C5A /* AdiumIBPalette.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0259C581FE90428111CA0C5A /* English */,
+			);
+			name = AdiumIBPalette.nib;
+			sourceTree = "<group>";
+		};
+		8D1AC97F0486D23B00FE50C9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8D1AC97B0486D23100FE50C9 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C056398408A954F8003078D8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "$(SRCROOT)/../../Frameworks/AIUtilities\\ Framework/build/$(BUILD_STYLE) $(SRCROOT)/../../build/$(BUILD_STYLE)";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = AdiumIBPalette_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Palettes";
+				PRODUCT_NAME = AdiumIBPalette;
+				WRAPPER_EXTENSION = palette;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		C056398508A954F8003078D8 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "$(SRCROOT)/../../Frameworks/AIUtilities\\ Framework/build/$(BUILD_STYLE) $(SRCROOT)/../../build/$(BUILD_STYLE)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = AdiumIBPalette_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Palettes";
+				PRODUCT_NAME = AdiumIBPalette;
+				WRAPPER_EXTENSION = palette;
+			};
+			name = Deployment;
+		};
+		C056398C08A954F8003078D8 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		C056398D08A954F8003078D8 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C056398308A954F8003078D8 /* Build configuration list for PBXNativeTarget "AdiumIBPalette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C056398408A954F8003078D8 /* Development */,
+				C056398508A954F8003078D8 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+		C056398B08A954F8003078D8 /* Build configuration list for PBXProject "AdiumIBPalette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C056398C08A954F8003078D8 /* Development */,
+				C056398D08A954F8003078D8 /* Deployment */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Deployment;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0259C573FE90428111CA0C5A /* Project object */;
+}

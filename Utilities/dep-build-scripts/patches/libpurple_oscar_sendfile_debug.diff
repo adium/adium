@@ -1,0 +1,69 @@
+#
+# old_revision [0d858a8978355a1e8b7305b64b87db51e44e9978]
+#
+# patch "libpurple/protocols/oscar/peer.c"
+#  from [50b5530d807fd4d80bcc3b9fa66335ae1a3f8643]
+#    to [b3a6526829124201f2fa4e426d33909307d09609]
+#
+============================================================
+--- libpurple/protocols/oscar/peer.c	50b5530d807fd4d80bcc3b9fa66335ae1a3f8643
++++ libpurple/protocols/oscar/peer.c	b3a6526829124201f2fa4e426d33909307d09609
+@@ -540,6 +540,8 @@ peer_connection_common_established_cb(gp
+ 
+ 	conn = data;
+ 
++	purple_debug_info("oscar", "peer_connection_common_established_cb(): source %i, verified %i", source, verified);
++	
+ 	if (verified)
+ 		conn->verified_connect_data = NULL;
+ 	else
+@@ -688,6 +690,10 @@ peer_connection_establish_listener_cb(in
+ 
+ 	listener_ip = purple_network_get_my_ip(bos_conn->fd);
+ 	listener_port = purple_network_get_port_from_fd(conn->listenerfd);
++
++	purple_debug_info("oscar", "peer_connection_establish_listener_cb(): requesting a direct connection at %s:%hu",
++		listener_ip, listener_port);
++
+ 	if (conn->type == OSCAR_CAPABILITY_DIRECTIM)
+ 	{
+ 		aim_im_sendch2_odc_requestdirect(od,
+@@ -789,6 +795,8 @@ peer_connection_trynext(PeerConnection *
+ 			g_free(tmp);
+ 		}
+ 
++		purple_debug_info("oscar", "Attempting to connect to (verified) %s:%hu", 
++			    conn->verifiedip, conn->port);		  
+ 		conn->verified_connect_data = purple_proxy_connect(NULL, account,
+ 				conn->verifiedip, conn->port,
+ 				peer_connection_verified_established_cb, conn);
+@@ -796,6 +804,9 @@ peer_connection_trynext(PeerConnection *
+ 		if ((conn->verifiedip == NULL) ||
+ 			strcmp(conn->verifiedip, conn->clientip))
+ 		{
++			purple_debug_info("oscar", "Attempting to connect to (client) %s:%hu", 
++							  conn->clientip, conn->port);		  
++
+ 			conn->client_connect_data = purple_proxy_connect(NULL, account,
+ 					conn->clientip, conn->port,
+ 					peer_connection_client_established_cb, conn);
+@@ -826,6 +837,8 @@ peer_connection_trynext(PeerConnection *
+ 		 */
+ 		conn->flags |= PEER_CONNECTION_FLAG_IS_INCOMING;
+ 
++		purple_debug_info("oscar", "Asking remote user to connect to us...");
++
+ 		conn->listen_data = purple_network_listen_range(5190, 5290, SOCK_STREAM,
+ 				peer_connection_establish_listener_cb, conn);
+ 		if (conn->listen_data != NULL)
+@@ -862,6 +875,10 @@ peer_connection_trynext(PeerConnection *
+ 			g_free(tmp);
+ 		}
+ 
++		purple_debug_info("oscar", "Attempting to connect via proxy %s:%hu",
++				(conn->proxyip != NULL) ? conn->proxyip : PEER_PROXY_SERVER,
++				PEER_PROXY_PORT);
++
+ 		conn->verified_connect_data = purple_proxy_connect(NULL, account,
+ 				(conn->proxyip != NULL) ? conn->proxyip : PEER_PROXY_SERVER,
+ 				PEER_PROXY_PORT,
