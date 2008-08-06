@@ -131,7 +131,7 @@
 }
 
 //Number of containd objects
-- (unsigned)containedObjectsCount
+- (NSUInteger)containedObjectsCount
 {
     return [containedObjects count];
 }
@@ -151,13 +151,13 @@
 }
 
 //Retrieve an object by index
-- (id)objectAtIndex:(unsigned)index
+- (id)objectAtIndex:(NSUInteger)index
 {
     return [containedObjects objectAtIndex:index];
 }
 
 //Retrieve the index of an object
-- (int)indexOfObject:(AIListObject *)inObject
+- (NSUInteger)indexOfObject:(AIListObject *)inObject
 {
     return [containedObjects indexOfObject:inObject];
 }

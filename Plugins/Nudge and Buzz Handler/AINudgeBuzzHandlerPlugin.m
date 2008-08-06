@@ -245,7 +245,7 @@
 	return inAttributedString;
 }
 
-- (float) filterPriority
+- (CGFloat) filterPriority
 {
 		return DEFAULT_FILTER_PRIORITY;
 }

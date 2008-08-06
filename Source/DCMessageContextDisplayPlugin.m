@@ -98,7 +98,7 @@
 {
 	if (!object) {		
 		shouldDisplay = [[prefDict objectForKey:KEY_DISPLAY_CONTEXT] boolValue];
-		linesToDisplay = [[prefDict objectForKey:KEY_DISPLAY_LINES] intValue];
+		linesToDisplay = [[prefDict objectForKey:KEY_DISPLAY_LINES] integerValue];
 
 		if (shouldDisplay && linesToDisplay > 0 && !isObserving) {
 			//Observe new message windows only if we aren't already observing them
@@ -125,12 +125,12 @@
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	if (!object) {
-		haveTalkedDays = [[prefDict objectForKey:KEY_HAVE_TALKED_DAYS] intValue];
-		haveNotTalkedDays = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_DAYS] intValue];
-		displayMode = [[prefDict objectForKey:KEY_DISPLAY_MODE] intValue];
+		haveTalkedDays = [[prefDict objectForKey:KEY_HAVE_TALKED_DAYS] integerValue];
+		haveNotTalkedDays = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_DAYS] integerValue];
+		displayMode = [[prefDict objectForKey:KEY_DISPLAY_MODE] integerValue];
 		
-		haveTalkedUnits = [[prefDict objectForKey:KEY_HAVE_TALKED_UNITS] intValue];
-		haveNotTalkedUnits = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_UNITS] intValue];		
+		haveTalkedUnits = [[prefDict objectForKey:KEY_HAVE_TALKED_UNITS] integerValue];
+		haveNotTalkedUnits = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_UNITS] integerValue];		
 	}
 }
 
@@ -185,8 +185,8 @@
 - (BOOL)contextShouldBeDisplayed:(NSCalendarDate *)inDate
 {
 	BOOL dateIsGood = YES;
-	int thresholdDays = 0;
-	int thresholdHours = 0;
+	NSInteger thresholdDays = 0;
+	NSInteger thresholdHours = 0;
 	
 	if (displayMode != MODE_ALWAYS) {
 		
@@ -219,7 +219,7 @@
 	return dateIsGood;
 }
 
-static int linesLeftToFind = 0;
+static NSInteger linesLeftToFind = 0;
 /*!
  * @brief Retrieve the message history for a particular chat
  *
@@ -310,9 +310,9 @@ static int linesLeftToFind = 0;
 		[file seekToEndOfFile];
 		
 		//Set up some more doohickeys and then start the parse loop
-		int readSize = 4 * getpagesize(); //Read 4 pages at a time.
+		NSInteger readSize = 4 * getpagesize(); //Read 4 pages at a time.
 		NSMutableData *chunk = [NSMutableData dataWithLength:readSize];
-		int fd = [file fileDescriptor];
+		NSInteger fd = [file fileDescriptor];
 		char *buf = [chunk mutableBytes];
 		off_t offset = [file offsetInFile];
 		enum LMXParseResult result = LMXParsedIncomplete;
@@ -324,7 +324,7 @@ static int linesLeftToFind = 0;
 			offset = (offset <= readSize) ? 0 : offset - readSize;
 			
 			//Seek to it and read greedily until we hit readSize or run out of file.
-			int idx = 0;
+			NSInteger idx = 0;
 			for (ssize_t amountRead = 0; idx < readSize; idx += amountRead) { 
 				amountRead = pread(fd, buf + idx, readSize, offset + idx); 
 			   if (amountRead <= 0) break;

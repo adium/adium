@@ -171,7 +171,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		[button_clear setNeedsDisplay:YES];
 
 		//Resize the status bar text
-		int widthChange = oldFrame.size.width - newFrame.size.width;
+		NSInteger widthChange = oldFrame.size.width - newFrame.size.width;
 		if (widthChange) {
 			NSRect	statusFrame;
 			
@@ -254,8 +254,8 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 #pragma mark Progress row details twiddle
 //Called when the file transfer view's twiddle is clicked.
 - (void)fileTransferProgressRow:(ESFileTransferProgressRow *)progressRow
-			  heightChangedFrom:(float)oldHeight
-							 to:(float)newHeight
+			  heightChangedFrom:(CGFloat)oldHeight
+							 to:(CGFloat)newHeight
 {
 	if (shouldScrollToNewFileTransfer) {
 		[self reloadAllData];
@@ -313,7 +313,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 	if ([fileTransfer isStopped]) {
 		NSClipView		*clipView = [scrollView contentView];
-		unsigned		row;
+		NSUInteger		row;
 
 		//Protect
 		[progressRow retain];
@@ -365,7 +365,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	NSEnumerator				*enumerator;
 	ESFileTransferProgressRow	*aRow;
 	NSString					*statusBarString, *downloadsString = nil, *uploadsString = nil;
-	unsigned					downloads = 0, uploads = 0;
+	NSUInteger					downloads = 0, uploads = 0;
 	
 	enumerator = [progressRows objectEnumerator];
 	while ((aRow = [enumerator nextObject])) {
@@ -381,14 +381,14 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		if (downloads == 1)
 			downloadsString = AILocalizedString(@"1 download",nil);
 		else
-			downloadsString = [NSString stringWithFormat:AILocalizedString(@"%i downloads","(number) downloads"), downloads];
+			downloadsString = [NSString stringWithFormat:AILocalizedString(@"%lu downloads","(number) downloads"), downloads];
 	}
 
 	if (uploads > 0) {
 		if (uploads == 1)
 			uploadsString = AILocalizedString(@"1 upload",nil);
 		else
-			uploadsString = [NSString stringWithFormat:AILocalizedString(@"%i uploads","(number) uploads"), uploads];
+			uploadsString = [NSString stringWithFormat:AILocalizedString(@"%lu uploads","(number) uploads"), uploads];
 	}
 
 	if (downloadsString && uploadsString) {
@@ -422,7 +422,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 }
 
 #pragma mark OutlineView dataSource
-- (id)outlineView:(NSOutlineView *)inOutlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (index < [progressRows count]) {
 		return [progressRows objectAtIndex:index];
@@ -431,7 +431,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 }
 
-- (int)outlineView:(NSOutlineView *)inOutlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)inOutlineView numberOfChildrenOfItem:(id)item
 {
 	return [progressRows count];
 }
@@ -449,7 +449,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 }
 
 //Each row should be the height of its item's view
-- (float)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
 	NSView *view = [(ESFileTransferProgressRow *)item view];
 	
@@ -465,7 +465,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 #pragma mark Outline view delegate
 - (void)outlineViewDeleteSelectedRows:(NSOutlineView *)inOutlineView
 {
-	int		row = [inOutlineView selectedRow];
+	NSInteger		row = [inOutlineView selectedRow];
 	BOOL	didDelete = NO;
 	if (row != -1) {
 		ESFileTransferProgressRow	*progressRow = [inOutlineView itemAtRow:row];
@@ -484,7 +484,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 {
 	NSMenu	*menu = nil;
     NSPoint	location;
-    int		row;
+    NSInteger		row;
 
     //Get the clicked item
     location = [inOutlineView convertPoint:[inEvent locationInWindow]
@@ -512,7 +512,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	[outlineView reloadData];
 
 	NSRect	outlineFrame = [outlineView frame];
-	int		totalHeight = [outlineView totalHeight];
+	NSInteger		totalHeight = [outlineView totalHeight];
 
 	if (outlineFrame.size.height != totalHeight) {
 		outlineFrame.size.height = totalHeight;
@@ -537,7 +537,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	NSSize	maxSize = [inWindow maxSize];
 
 	//Take the desired height and add the parts of the window which aren't in the scrollView.
-	int desiredHeight = ([outlineView totalHeight] + (windowFrame.size.height - [scrollView frame].size.height));
+	NSInteger desiredHeight = ([outlineView totalHeight] + (windowFrame.size.height - [scrollView frame].size.height));
 
 	windowFrame.size.height = desiredHeight;
 	windowFrame.size.width = 300;

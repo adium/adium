@@ -126,7 +126,7 @@
  * @param inData NSData representing an NSImage
  * @param tag A tag indicating the lookup with which this call is associated. We use a tracking dictionary, trackingDict, to associate this int back to a usable object.
  */
-- (void)consumeImageData:(NSData *)inData forTag:(int)tag
+- (void)consumeImageData:(NSData *)inData forTag:(NSInteger)tag
 {
 	if (useABImages) {
 		NSNumber		*tagNumber;
@@ -136,7 +136,7 @@
 		NSString		*uniqueID;
 		id				setOrObject;
 		
-		tagNumber = [NSNumber numberWithInt:tag];
+		tagNumber = [NSNumber numberWithInteger:tag];
 		
 		//Apply the image to the appropriate listObject
 		image = (inData ? [[[NSImage alloc] initWithData:inData] autorelease] : nil);
@@ -196,7 +196,7 @@
  */
 - (BOOL)queueDelayedFetchOfImageFromAnySourceForPerson:(ABPerson *)person object:(AIListObject *)inObject
 {
-	int				tag;
+	NSInteger				tag;
 	NSNumber		*tagNumber;
 	NSString		*uniqueId;
 
@@ -228,7 +228,7 @@
 	} else {
 		//Begin the image load
 		tag = [person beginLoadingImageDataForClient:self];
-		tagNumber = [NSNumber numberWithInt:tag];
+		tagNumber = [NSNumber numberWithInteger:tag];
 		
 		//We need to be able to take a tagNumber and retrieve the object
 		[trackingDict setObject:inObject forKey:tagNumber];
@@ -257,8 +257,8 @@
 					 asynchronously:NO
 						  forObject:inObject];
 		
-		int tag;
-		if ((tag = [[trackingDictPersonToTagNumber objectForKey:[person uniqueId]] intValue])) {
+		NSInteger tag;
+		if ((tag = [[trackingDictPersonToTagNumber objectForKey:[person uniqueId]] integerValue])) {
 			[ABPerson cancelLoadingImageDataForTag:tag];
 		}
 

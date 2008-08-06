@@ -117,10 +117,10 @@
 													  PREVIEW_MENU_IMAGE_SIZE)] autorelease];
 													 
 
-	if ([[menuIconsBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1) {
+	if ([[menuIconsBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1) {
 		NSEnumerator	*enumerator = [[NSArray arrayWithObjects:@"Online",@"Offline",nil] objectEnumerator];
 		NSString		*iconID;
-		int				xOrigin = 0;
+		NSInteger				xOrigin = 0;
 
 		[image lockFocus];
 		while ((iconID = [enumerator nextObject])) {
@@ -132,14 +132,14 @@
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 
 				if (anIconSize.width < targetRect.size.width) {
-					float difference = (targetRect.size.width - anIconSize.width)/2;
+					CGFloat difference = (targetRect.size.width - anIconSize.width)/2;
 
 					targetRect.size.width -= difference;
 					targetRect.origin.x += difference;
 				}
 
 				if (anIconSize.height < targetRect.size.height) {
-					float difference = (targetRect.size.height - anIconSize.height)/2;
+					CGFloat difference = (targetRect.size.height - anIconSize.height)/2;
 
 					targetRect.size.height -= difference;
 					targetRect.origin.y += difference;
@@ -173,7 +173,7 @@
 	monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
 	[monochromeFilter setValue:[[[CIImage alloc] initWithBitmapImageRep:srcImageRep] autorelease]
 						forKey:@"inputImage"]; 
-	[monochromeFilter setValue:[NSNumber numberWithFloat:1.0]
+	[monochromeFilter setValue:[NSNumber numberWithDouble:1.0]
 						forKey:@"inputIntensity"];
 	[monochromeFilter setValue:[[[CIColor alloc] initWithColor:[NSColor blackColor]] autorelease]
 						forKey:@"inputColor"];

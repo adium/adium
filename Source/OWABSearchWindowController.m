@@ -26,7 +26,7 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName initialService:(AIService *)inService;
 - (void)_configurePeoplePicker;
 - (void)_setCarryingWindow:(NSWindow *)inWindow;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (NSString *)propertyFromService:(AIService *)service;
 - (void)buildContactTypeMenu;
 - (void)ensureValidContactTypeSelection;
@@ -190,7 +190,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 /*!
  * @brief Hide ourself and inform our delegate
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (delegate && returnCode == NSOKButton)
 		[delegate absearchWindowControllerDidSelectPerson:self];
@@ -471,7 +471,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
  */
 - (void)ensureValidContactTypeSelection
 {
-	int			serviceIndex = -1;
+	NSInteger			serviceIndex = -1;
 	
 	//Force our menu to update.. it needs to be correctly validated for the code below to work
 	[[popUp_contactType menu] update];

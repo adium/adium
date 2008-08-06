@@ -253,12 +253,12 @@
 // Updates the unread count of the status item.
 - (void)updateUnreadCount
 {
-	int unreadCount = (showConversationCount ?
+	NSUInteger unreadCount = (showConversationCount ?
 					   [[adium chatController] unviewedConversationCount] : [[adium chatController] unviewedContentCount]);
 
 	// Only show if enabled and greater-than zero; otherwise, set to nil.
 	if (showUnreadCount && unreadCount > 0) {
-		[statusItemView setStringValue:[NSString stringWithFormat:@"%i", unreadCount]];
+		[statusItemView setStringValue:[NSString stringWithFormat:@"%lu", unreadCount]];
 	} else {
 		[statusItemView setStringValue:nil];
 	}
@@ -418,7 +418,7 @@
 		//If the badge is bigger than that portion, resize proportionally. Otherwise, leave it alone and adjust the destination origin appropriately.
 		if ((srcRect.size.width > destRect.size.width) || (srcRect.size.height > destRect.size.height)) {
 			//Resize the dest rect.
-			float scale;
+			CGFloat scale;
 			if (srcRect.size.width > srcRect.size.height) {
 				scale = destRect.size.width  / srcRect.size.width;
 			} else {
@@ -553,7 +553,7 @@
 {
 	[self retain];
 	
-	int unviewedContentCount = [[adium chatController] unviewedContentCount];
+	NSUInteger unviewedContentCount = [[adium chatController] unviewedContentCount];
 
 	// Update our open chats
 	[openChatsArray release];

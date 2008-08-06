@@ -31,7 +31,7 @@
 
 @interface AuthorizedTaskManager (PrivateMethods)
 - (BOOL)copyRights;
-- (int)runTaskForPath:(const char *)path withArguments:(const char **)arguments;
+- (NSInteger)runTaskForPath:(const char *)path withArguments:(const char **)arguments;
 @end
 
 @implementation AuthorizedTaskManager
@@ -128,18 +128,18 @@
 // by any other child process that quits in the window between launch and 
 // completion of our actual tool.
 //
-- (int)runTaskForPath:(const char *)path withArguments:(const char **)arguments {
+- (NSInteger)runTaskForPath:(const char *)path withArguments:(const char **)arguments {
   // waitUntilExit polls the run loop, which could end up calling this reentrantly,
   // (like through networking callbacks) and that's bad if another caller tries
   // to use a file with the same path
   
-  static int zReentrancyCount = 0;
+  static NSInteger zReentrancyCount = 0;
   
   assert(zReentrancyCount == 0);// runTaskForPath called reentrantly
   
   zReentrancyCount++;
   
-  int result;
+  NSInteger result;
   if (!commonAuthorizationRef_) {
     // non-authorized 
     
@@ -147,7 +147,7 @@
     // those, but NSTask wants NSStrings, so convert the char*'s to an
     // array of NSStrings here
     NSMutableArray* argsArray = [NSMutableArray array];
-    int idx;
+    NSInteger idx;
     for (idx = 0; arguments[idx] != NULL; idx++) {
       [argsArray addObject:[NSString stringWithUTF8String:arguments[idx]]];
     }
@@ -171,7 +171,7 @@
                                  path, myFlags, (char *const*) arguments, kNoPipe);
     if (result == 0) {
       int wait_status;
-      int pid = wait(&wait_status);
+      pid_t pid = wait(&wait_status);
       if (pid == -1 || !WIFEXITED(wait_status))	{
         result = -1;
       } else {
@@ -199,7 +199,7 @@
   arguments[1] = [src fileSystemRepresentation];
   arguments[2] = [dest fileSystemRepresentation];
   
-  int status = [self runTaskForPath:taskPath withArguments:arguments];
+  NSInteger status = [self runTaskForPath:taskPath withArguments:arguments];
   return (status == 0);
 }
 

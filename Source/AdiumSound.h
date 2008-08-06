@@ -21,9 +21,9 @@
     NSMutableArray		*soundCacheArray;
 	NSTimer				*soundCacheCleanupTimer;
 
-    float				customVolume;
+    CGFloat				customVolume;
 	
-	unsigned			soundsAreMuted;
+	NSUInteger			soundsAreMuted;
 
 	BOOL				reconfigureAudioContextBeforeEachPlay;
 }

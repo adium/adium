@@ -13,9 +13,9 @@
  */
 @implementation AINoisyTableColumn
 
-- (void)setWidth:(float)newWidth
+- (void)setWidth:(CGFloat)newWidth
 {	
-	float width = [self width]; 
+	CGFloat width = [self width]; 
 
 	[super setWidth:newWidth];
 	
@@ -24,7 +24,7 @@
 															object:[self tableView]
 														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 															  self, @"NSTableColumn",
-															  [NSNumber numberWithFloat:width], @"NSOldWidth",
+															  [NSNumber numberWithDouble:width], @"NSOldWidth",
 															  nil]];
 	}
 }

@@ -157,7 +157,7 @@
 {
 //	NSArray *selectedItems = [outlineView_stateList arrayOfSelectedItems];
 	NSIndexSet *selectedIndexes = [outlineView_stateList selectedRowIndexes];
-	int			count = [selectedIndexes count];
+	NSInteger			count = [selectedIndexes count];
 
 	[button_editState setEnabled:(count && 
 								  ([[outlineView_stateList itemAtRow:[selectedIndexes firstIndex]] mutabilityType] == AIEditableStatusState))];
@@ -189,7 +189,7 @@
  */
 - (IBAction)editState:(id)sender
 {
-	int				selectedRow = [outlineView_stateList selectedRow];
+	NSInteger				selectedRow = [outlineView_stateList selectedRow];
 	AIStatusItem	*statusState = [outlineView_stateList itemAtRow:selectedRow];
 	
 	if (statusState) {
@@ -275,7 +275,7 @@
 		//Confirm deletion of a status group with contents
 		NSEnumerator *enumerator;
 		AIStatusItem *statusItem;
-		int			 numberOfItems = 0;
+		NSUInteger			 numberOfItems = 0;
 
 		enumerator = [selectedItems objectEnumerator];
 		while ((statusItem = [enumerator nextObject])) {
@@ -288,7 +288,7 @@
 		}
 
 		if (numberOfItems > 1) {
-			NSString *message = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to delete %i saved status items?",nil),
+			NSString *message = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to delete %lu saved status items?",nil),
 				numberOfItems];
 			
 			//Warn if deleting a group containing status items
@@ -312,7 +312,7 @@
 /*!
  * @brief Confirmed a status item deletion operation
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	NSArray *selectedItems = (NSArray *)contextInfo;
 	if (returnCode == NSAlertDefaultReturn) {
@@ -354,14 +354,14 @@
 
 //State List OutlinView Delegate --------------------------------------------------------------------------------------------
 #pragma mark State List (OutlinView Delegate)
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	AIStatusGroup *statusGroup = (item ? item : [[adium statusController] rootStateGroup]);
 	
 	return [[statusGroup containedStatusItems] objectAtIndex:index];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	AIStatusGroup *statusGroup = (item ? item : [[adium statusController] rootStateGroup]);
 	
@@ -447,7 +447,7 @@
     return YES;
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     if (index == NSOutlineViewDropOnItemIndex && ![item isKindOfClass:[AIStatusGroup class]]) {
 		AIStatusGroup *dropItem = [item containingStatusGroup];
@@ -464,7 +464,7 @@
 /*!
 * @brief Drag complete
  */
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
     NSString	*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:STATE_DRAG_TYPE]];
     if ([avaliableType isEqualToString:STATE_DRAG_TYPE]) {		
@@ -627,7 +627,7 @@
 	NSMenuItem	*menuItem = nil;
 	
 	if (uniqueID) {
-		int			 targetUniqueStatusID= [uniqueID intValue];
+		NSInteger			 targetUniqueStatusID= [uniqueID integerValue];
 		NSEnumerator *enumerator;
 
 		enumerator = [[self addItemsFromMenu:[inPopUpButton menu] toArray:nil] objectEnumerator];
@@ -740,7 +740,7 @@
 
 	[menuItem retain];
 	if (alreadyShowing) {
-		int count = [menu numberOfItems];
+		NSInteger count = [menu numberOfItems];
 		[menu removeItemAtIndex:--count];
 		[menu removeItemAtIndex:--count];			
 	}

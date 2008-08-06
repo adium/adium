@@ -151,7 +151,7 @@
 	[[adium menuController] addMenuItem:menuItem_configureSort toLocation:LOC_View_Sorting];
 	
 	AISortController	*activeSortController;
-	int					index;
+	NSInteger					index;
 	
 	//Show a check by the active sort controller's menu item...
 	activeSortController = [[adium contactController] activeSortController];
@@ -184,7 +184,7 @@
 	AISortController	*controller = [sender representedObject];
 	
 	//Uncheck the old active sort controller
-	int index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[[adium contactController] activeSortController]];
+	NSInteger index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[[adium contactController] activeSortController]];
 	if (index != NSNotFound) {
 		[[[menuItem_configureSort menu] itemAtIndex:index] setState:NSOffState];
 	}

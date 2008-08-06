@@ -108,7 +108,7 @@
  */
 -(IBAction)changeFormat:(id)sender
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender tag]]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
 										 forKey:@"Long Display Format"
 										  group:PREF_GROUP_DISPLAYFORMAT];
 }
@@ -144,7 +144,7 @@
 	[[menu_contactSubmenu itemWithTag:displayFormat] setState:NSOffState];
 	
 	//Load new displayFormat
-	displayFormat = [[prefDict objectForKey:@"Long Display Format"] intValue]; 
+	displayFormat = [[prefDict objectForKey:@"Long Display Format"] integerValue]; 
 	
 	//Set new checkmark
 	[[menu_contactSubmenu itemWithTag:displayFormat] setState:NSOnState];

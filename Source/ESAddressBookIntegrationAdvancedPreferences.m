@@ -88,7 +88,7 @@
 	[checkBox_enableImport setState:[[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
 																			  group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	[popUp_formatMenu selectItemAtIndex:[popUp_formatMenu indexOfItemWithTag:[[[adium preferenceController] preferenceForKey:KEY_AB_DISPLAYFORMAT
-																													   group:PREF_GROUP_ADDRESSBOOK] intValue]]];
+																													   group:PREF_GROUP_ADDRESSBOOK] integerValue]]];
 	[checkBox_useNickName setState:[[[adium preferenceController] preferenceForKey:KEY_AB_USE_NICKNAME
 																			 group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	[checkBox_useMiddleName setState:[[[adium preferenceController] preferenceForKey:KEY_AB_USE_MIDDLE
@@ -217,7 +217,7 @@
  */
 - (IBAction)changeFormat:(id)sender
 {
-        [[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender tag]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
                                             forKey:KEY_AB_DISPLAYFORMAT
                                             group:PREF_GROUP_ADDRESSBOOK];
 }
@@ -286,7 +286,7 @@
     [self configureControlDimming];
 }
 
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertDefaultReturn) {
 		//If we now shouldn't create metaContacts, clear 'em all... not pretty, but effective.

@@ -233,7 +233,7 @@
 	NSString	*host;
 	
 	if (!(host = [self preferenceForKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS])) {
-		int location = [UID rangeOfString:@"@"].location;
+		NSUInteger location = [UID rangeOfString:@"@"].location;
 
 		if ((location != NSNotFound) && (location + 1 < [UID length])) {
 			host = [UID substringFromIndex:(location + 1)];

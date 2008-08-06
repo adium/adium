@@ -16,8 +16,8 @@
 }
 
 - (id)initWithName:(NSString *)name;
-- (unsigned)numberOfChats;
-- (Chat *)chatAtIndex:(int)index;
+- (NSUInteger)numberOfChats;
+- (Chat *)chatAtIndex:(NSInteger)index;
 - (NSMutableArray *)chatsWithString:(NSString *)string;
 - (id) addChatFile:(NSString *)pathToLog;
 - (void) doSort;

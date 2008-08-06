@@ -38,7 +38,7 @@
 
 - (void) deleteChat:(Chat *) c
 {
-	int index = [chats indexOfObjectIdenticalTo:c];
+	NSInteger index = [chats indexOfObjectIdenticalTo:c];
 	if (index != -1)
 		[chats removeObjectAtIndex:index];
 }
@@ -49,12 +49,12 @@
     [chats sortUsingSelector:@selector(compareByDate:)];
 }
 
-- (unsigned)numberOfChats
+- (NSUInteger)numberOfChats
 {
     return [chats count];
 }
 
-- (Chat *)chatAtIndex:(int)index
+- (Chat *)chatAtIndex:(NSInteger)index
 {
     return [chats objectAtIndex:index];
 }
@@ -63,7 +63,7 @@
 - (NSMutableArray *)chatsWithString:(NSString *)string {
     
     NSMutableArray *chatsWithString = [[NSMutableArray alloc] init];
-    for (unsigned int i=0; i < [chats count]; i++) {
+    for (NSUInteger i=0; i < [chats count]; i++) {
         if ([[chats objectAtIndex: i] logContainsString: string]) {
             [chatsWithString addObject: [chats objectAtIndex: i]];
         }
@@ -76,9 +76,9 @@
     return myName;
 }
 
-- (unsigned)hash
+- (NSUInteger)hash
 {
-	int hash = [myName hash];
+	NSInteger hash = [myName hash];
 	
 	return hash;
 }

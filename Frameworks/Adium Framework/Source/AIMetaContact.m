@@ -45,7 +45,7 @@
 
 @implementation AIMetaContact
 
-int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context);
+NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context);
 
 //init
 - (id)initWithObjectID:(NSNumber *)inObjectID
@@ -590,7 +590,7 @@ int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *c
 			([(AIListContact *)listObject remoteGroupName] || includeOfflineAccounts)) {
 
 			NSString        *listObjectInternalObjectID = [listObject internalObjectID]; 
-			unsigned int listContactIndex = [uniqueObjectIDs indexOfObject:listObjectInternalObjectID]; 
+			NSInteger listContactIndex = [uniqueObjectIDs indexOfObject:listObjectInternalObjectID]; 
 			
 			if (listContactIndex == NSNotFound) { 
 				//This contact isn't in the array yet, so add it 
@@ -1063,7 +1063,7 @@ int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *c
 }
 
 //Number of containd objects
-- (unsigned)containedObjectsCount
+- (NSUInteger)containedObjectsCount
 {
     return [containedObjects count];
 }
@@ -1083,13 +1083,13 @@ int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *c
 }
 
 //Retrieve an object by index
-- (id)objectAtIndex:(unsigned)index
+- (id)objectAtIndex:(NSUInteger)index
 {
     return [[self listContacts] objectAtIndex:index];
 }
 
 //Retrieve the index of an object
-- (int)indexOfObject:(AIListObject *)inObject
+- (NSUInteger)indexOfObject:(AIListObject *)inObject
 {
     return [[self listContacts] indexOfObject:inObject];
 }
@@ -1184,7 +1184,7 @@ int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *c
 /*!
  * @brief Sort contained contacts, first by order index and then by internalUniqueObjectID
  */
-int containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context)
+NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context)
 {
 	float orderIndexA = [objectA orderIndex];
 	float orderIndexB = [objectB orderIndex];

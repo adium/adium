@@ -93,7 +93,7 @@
 /*!
  * @brief The width our cell would like to be.
  */
-- (unsigned)desiredWidth
+- (NSUInteger)desiredWidth
 {
 	return [cell cellSizeForBounds:NSMakeRect(0,0,1e6,1e6)].width;
 }

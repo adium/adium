@@ -68,11 +68,11 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
                 "getting file data causes exception: %@", obj);
   }
   [theTask waitUntilExit];
-  int status = [theTask terminationStatus];
+  NSInteger status = [theTask terminationStatus];
   
   if (status != 0 || [plistData length] == 0) {
     
-    NSLog(@"DiskImageUtilities diskImageInfo: hdiutil failed, result %d", status); 
+    NSLog(@"DiskImageUtilities diskImageInfo: hdiutil failed, result %ld", status); 
     
   } else {
     NSString *plist = [[[NSString alloc] initWithData:plistData 
@@ -96,8 +96,8 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
     // points from their system entities
     
     if (imagesArray) {
-      int idx;
-      unsigned int numberOfImages = [imagesArray count];
+      NSInteger idx;
+      NSUInteger numberOfImages = [imagesArray count];
       for (idx = 0; idx < numberOfImages; idx++) {
         
         NSDictionary *imageDict = [imagesArray objectAtIndex:idx];
@@ -106,8 +106,8 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
           
           NSArray *systemEntitiesArray = [imageDict objectForKey:@"system-entities"];
           if (systemEntitiesArray) {
-            int idx;
-            unsigned int numberOfSystemEntities = [systemEntitiesArray count];
+            NSInteger idx;
+            NSUInteger numberOfSystemEntities = [systemEntitiesArray count];
             for (idx = 0; idx < numberOfSystemEntities; idx++) {
               
               NSDictionary *entityDict = [systemEntitiesArray objectAtIndex:idx];
@@ -148,7 +148,7 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
     // we haven't tested this launch path; check it now
     NSArray *imagePaths = [self readOnlyDiskImagePaths];
     
-    int idx;
+    NSInteger idx;
     for (idx = 0; idx < [imagePaths count]; idx++) {
       
       NSString *imagePath = [imagePaths objectAtIndex:idx];
@@ -180,7 +180,7 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
       NSString *btnOK = AILocalizedString(@"Copy", "Button to copy Adium to the Applications folder from the disk image if needed");
       NSString *btnCancel = AILocalizedString(@"Don't Copy", "Button to proceed without copying Adium to the Applications folder");
       
-      int result = NSRunAlertPanel(msg1, msg2, btnOK, btnCancel, NULL, displayName);
+      NSInteger result = NSRunAlertPanel(msg1, msg2, btnOK, btnCancel, NULL, displayName);
       if (result == NSAlertDefaultReturn) {
         // copy to /Applications and launch from there
         
@@ -298,7 +298,7 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
 
 // canWriteToPath checks for permissions to write into the directory |path|
 + (BOOL)canWriteToPath:(NSString *)path {
-  int stat = access([path fileSystemRepresentation], (W_OK | R_OK));
+  NSInteger stat = access([path fileSystemRepresentation], (W_OK | R_OK));
   return (stat == 0);
 }
 

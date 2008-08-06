@@ -25,8 +25,8 @@ typedef enum {
 // could reference them directly.
 	NSString* identifier;			// An identifier string for the subview, default is @"".
 	int tag;						// A tag integer for the subview, default is 0.
-	float minDimension;				// The minimum dimension. Must be 1.0 or any larger integer.
-	float maxDimension;				// The maximum dimension. Must be at least equal to the minDimension.
+	CGFloat minDimension;				// The minimum dimension. Must be 1.0 or any larger integer.
+	CGFloat maxDimension;				// The maximum dimension. Must be at least equal to the minDimension.
 									// Set to a large number if there's no maximum.
 	double fraction;				// A fractional part of the dimension, used for proportional resizing.
 									// Normally varies between -0.999... and 0.999...
@@ -35,7 +35,7 @@ typedef enum {
 	NSRect previous;				// Holds the frame rect for the last delegate notification.
 	NSSize savedSize;				// This holds the size the subview had before it was resized beyond
 									// its minimum or maximum limits. Valid if notInLimits is YES.
-	unsigned int actDivider;		// This is set temporarily while an alternate drag view is being dragged.
+	NSUInteger actDivider;		// This is set temporarily while an alternate drag view is being dragged.
 	BOOL canDragWindow;				// This is set temporarily during a mouseDown on a non-opaque subview.
 	BOOL canCollapse;				// YES if the subview can be collapsed.
 	BOOL notInLimits;				// YES if the subview's dimensions are outside the set limits.

@@ -30,7 +30,7 @@ typedef enum {
 @interface AIAliasSupportPlugin : AIPlugin <AIListObjectObserver> {
 	NSMenu							*menu_contactSubmenu;
 	NSMenuItem						*menuItem_contactName;
-    int 							displayFormat;
+    NSInteger 							displayFormat;
 }
 
 @end

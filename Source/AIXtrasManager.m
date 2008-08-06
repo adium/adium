@@ -130,7 +130,7 @@ static AIXtrasManager *manager;
 	[self updateForSelectedCategory];
 }
 
-int categorySort(id categoryA, id categoryB, void * context)
+NSInteger categorySort(id categoryA, id categoryB, void * context)
 {
 	return [[categoryA objectForKey:@"Name"] caseInsensitiveCompare:[categoryB objectForKey:@"Name"]];
 }
@@ -141,53 +141,53 @@ int categorySort(id categoryA, id categoryB, void * context)
 	categories = [[NSMutableArray alloc] init];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIMessageStylesDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIMessageStylesDirectory], @"Directory",
 		AILocalizedString(@"Message Styles", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumMessageStyle"], @"Image", nil]];
 
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIContactListDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIContactListDirectory], @"Directory",
 		AILocalizedString(@"Contact List Themes", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumListTheme"], @"Image", nil]];
 	
 
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIStatusIconsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIStatusIconsDirectory], @"Directory",
 		AILocalizedString(@"Status Icons", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumStatusIcons"], @"Image", nil]];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AISoundsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AISoundsDirectory], @"Directory",
 		AILocalizedString(@"Sound Sets", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumSoundset"], @"Image", nil]];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIDockIconsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIDockIconsDirectory], @"Directory",
 		AILocalizedString(@"Dock Icons", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumIcon"], @"Image", nil]];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIEmoticonsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIEmoticonsDirectory], @"Directory",
 		AILocalizedString(@"Emoticons", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumEmoticonset"], @"Image", nil]];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIScriptsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIScriptsDirectory], @"Directory",
 		AILocalizedString(@"Scripts", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumScripts"], @"Image", nil]];
 
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIServiceIconsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIServiceIconsDirectory], @"Directory",
 		AILocalizedString(@"Service Icons", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumServiceIcons"], @"Image", nil]];
 	
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:AIMenuBarIconsDirectory], @"Directory",
+		[NSNumber numberWithInteger:AIMenuBarIconsDirectory], @"Directory",
 		AILocalizedString(@"Menu Bar Icons", "AdiumXtras category name"), @"Name",
 		[NSImage imageNamed:@"AdiumMenuBarIcons"], @"Image", nil]];
 
 	[categories addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						   [NSNumber numberWithInt:AIPluginsDirectory], @"Directory",
+						   [NSNumber numberWithInteger:AIPluginsDirectory], @"Directory",
 						   AILocalizedString(@"Plugins", "AdiumXtras category name"), @"Name",
 						   [NSImage imageNamed:@"AdiumPlugin"], @"Image", nil]];
 
@@ -235,7 +235,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	[super dealloc];
 }
 
-- (NSArray *)xtrasForCategoryAtIndex:(int)inIndex
+- (NSArray *)xtrasForCategoryAtIndex:(NSInteger)inIndex
 {
 	if (inIndex == -1) return nil;
 
@@ -243,7 +243,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	NSArray			*xtras;
 	
 	if (!(xtras = [xtrasDict objectForKey:@"Xtras"])) {
-		xtras = [self arrayOfXtrasAtPaths:AISearchPathForDirectoriesInDomains([[xtrasDict objectForKey:@"Directory"] intValue],
+		xtras = [self arrayOfXtrasAtPaths:AISearchPathForDirectoriesInDomains([[xtrasDict objectForKey:@"Directory"] integerValue],
 																			  AIAllDomainsMask & ~AIInternalDomainMask,
 																			  YES)];
 		NSMutableDictionary *newDictionary = [xtrasDict mutableCopy];
@@ -324,14 +324,14 @@ int categorySort(id categoryA, id categoryB, void * context)
 	[self updatePreview];
 }
 
-- (void)deleteXtrasAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)deleteXtrasAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertDefaultReturn) {
 		NSFileManager * manager = [NSFileManager defaultManager];
 		NSIndexSet * indices = [xtraList selectedRowIndexes];
 		NSMutableSet * pathExtensions = [NSMutableSet set];
 		NSString * path;
-		for (int i = [indices lastIndex]; i >= 0; i--) {
+		for (NSInteger i = [indices lastIndex]; i >= 0; i--) {
 			if ([indices containsIndex:i]) {
 				path = [[selectedCategory objectAtIndex:i] path];
 				[pathExtensions addObject:[path pathExtension]];
@@ -354,10 +354,10 @@ int categorySort(id categoryA, id categoryB, void * context)
 
 - (IBAction) deleteXtra:(id)sender
 {
-	int selectionCount = [[xtraList selectedRowIndexes] count];
+	NSUInteger selectionCount = [[xtraList selectedRowIndexes] count];
 
 	NSAlert * warning = [NSAlert alertWithMessageText:((selectionCount > 1) ?
-													   [NSString stringWithFormat:AILocalizedString(@"Delete %i Xtras?", nil), selectionCount] :
+													   [NSString stringWithFormat:AILocalizedString(@"Delete %lu Xtras?", nil), selectionCount] :
 													   AILocalizedString(@"Delete Xtra?", nil))
 										defaultButton:AILocalizedString(@"Delete", nil)
 									  alternateButton:AILocalizedString(@"Cancel", nil)
@@ -399,7 +399,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 			name, kCFBundleNameKey,
 			@"AdIM", @"CFBundlePackageType",
 			[@"com.adiumx." stringByAppendingString:name], kCFBundleIdentifierKey,
-			[NSNumber numberWithInt:1], @"XtraBundleVersion",
+			[NSNumber numberWithInteger:1], @"XtraBundleVersion",
 			@"1.0", kCFBundleInfoDictionaryVersionKey,
 			nil] writeToFile:infoPlistPath atomically:YES];
 
@@ -414,7 +414,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	return success;
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	if (tableView == tableView_categories) {
 		[cell setImage:[[categories objectAtIndex:row] objectForKey:@"Image"]];
@@ -428,7 +428,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	}
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if (tableView == tableView_categories) {
 		return [categories count];
@@ -438,7 +438,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	}
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	if (tableView == tableView_categories) {
 		return [[categories objectAtIndex:row] objectForKey:@"Name"];
@@ -543,7 +543,7 @@ int categorySort(id categoryA, id categoryB, void * context)
 	}
 }
 
-- (float)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(float)proposedWidth
+- (CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth
 {
 	return ((proposedWidth > MINIMUM_SOURCE_LIST_WIDTH) ? proposedWidth : MINIMUM_SOURCE_LIST_WIDTH);
 }

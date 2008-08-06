@@ -52,7 +52,7 @@ typedef enum {
 
 - (NSArray *)fileTransferArray;
 
-- (int)activeTransferCount;
+- (NSUInteger)activeTransferCount;
 
 - (void)receiveRequestForFileTransfer:(ESFileTransfer *)fileTransfer;
 

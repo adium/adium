@@ -149,14 +149,14 @@
 	NSNumber	*idleNumber = nil;
 	
 	if (idleSince) { //Set the handle's 'idle' value
-		int	idle = -[idleSince timeIntervalSinceNow] / 60.0;
+		NSInteger	idle = -[idleSince timeIntervalSinceNow] / 60.0;
 		
 		/* They are idle; a non-zero idle time is needed.  We'll treat them as generically idle until this updates */
 		if (idle == 0) {
 			idle = -1;
 		}
 
-		idleNumber = [NSNumber numberWithInt:idle];
+		idleNumber = [NSNumber numberWithInteger:idle];
 	}
 
 	[inObject setValue:idleNumber
@@ -177,7 +177,7 @@
  */
 - (NSString *)labelForObject:(AIListObject *)inObject
 {
-	int 		idle = [inObject integerValueForProperty:@"Idle"];
+	NSInteger 		idle = [inObject integerValueForProperty:@"Idle"];
 	NSString	*entry = nil;
 
 	if ((idle > 599400) || (idle == -1)) { //Cap idle at 999 Hours (999*60*60 seconds)
@@ -196,7 +196,7 @@
  */
 - (NSAttributedString *)entryForObject:(AIListObject *)inObject
 {
-    int 				idleMinutes = [inObject integerValueForProperty:@"Idle"];
+    NSInteger 				idleMinutes = [inObject integerValueForProperty:@"Idle"];
     NSAttributedString	*entry = nil;
 
     if ((idleMinutes > 599400) || (idleMinutes == -1)) { //Cap idle at 999 Hours (999*60 minutes)

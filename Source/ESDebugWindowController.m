@@ -77,7 +77,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 	if (!filter || 
 		[aDebugString rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound) {
-		unsigned int aDebugStringLength = [aDebugString length];
+		NSUInteger aDebugStringLength = [aDebugString length];
 		
 		[mutableDebugString appendString:aDebugString];
 		[[textView_debug textStorage] addAttribute:NSParagraphStyleAttributeName

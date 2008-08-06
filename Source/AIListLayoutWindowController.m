@@ -35,8 +35,8 @@
 - (void)updateDisplayedTabsFromPrefDict:(NSDictionary *)prefDict;
 - (void)updateStatusAndServiceIconMenusFromPrefDict:(NSDictionary *)prefDict;
 - (void)updateUserIconMenuFromPrefDict:(NSDictionary *)prefDict;
-- (NSMenu *)alignmentMenuWithChoices:(int [])alignmentChoices;
-- (NSMenu *)positionMenuWithChoices:(int [])positionChoices;
+- (NSMenu *)alignmentMenuWithChoices:(NSInteger [])alignmentChoices;
+- (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices;
 - (NSMenu *)extendedStatusStyleMenu;
 - (NSMenu *)extendedStatusPositionMenu;
 - (NSMenu *)windowStyleMenu;
@@ -104,7 +104,7 @@
 }
 
 //Called as the sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 	
@@ -136,7 +136,7 @@
 - (void)configureControls
 {
 	NSDictionary	*prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-	int				textAlignmentChoices[4];
+	NSInteger				textAlignmentChoices[4];
 	
 	textAlignmentChoices[0] = NSLeftTextAlignment;
 	textAlignmentChoices[1] = NSCenterTextAlignment;
@@ -151,29 +151,29 @@
 	
 	//Context text alignment
 	[popUp_contactTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
-	[popUp_contactTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] intValue]];
+	[popUp_contactTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]];
 	
 	//Group text alignment
 	[popUp_groupTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
-	[popUp_groupTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] intValue]];
+	[popUp_groupTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] integerValue]];
 	
 	//Extended Status position
 	[popUp_extendedStatusPosition setMenu:[self extendedStatusPositionMenu]];
-	[popUp_extendedStatusPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] intValue]];
+	[popUp_extendedStatusPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue]];
 	
 	//Window style
 	[popUp_extendedStatusStyle setMenu:[self extendedStatusStyleMenu]];
-	[popUp_extendedStatusStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] intValue]];
+	[popUp_extendedStatusStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue]];
 	
-	[slider_userIconSize setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_SIZE] intValue]];
-	[slider_contactSpacing setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_SPACING] intValue]];
+	[slider_userIconSize setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_SIZE] integerValue]];
+	[slider_contactSpacing setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_SPACING] integerValue]];
 
-	[slider_groupTopSpacing setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_TOP_SPACING] intValue]];
+	[slider_groupTopSpacing setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_TOP_SPACING] integerValue]];
 	[slider_groupTopSpacing setMinValue:0];
 	[slider_groupTopSpacing setMaxValue:16];
 
-	[slider_contactLeftIndent setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_LEFT_INDENT] intValue]];
-	[slider_contactRightIndent setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_RIGHT_INDENT] intValue]];
+	[slider_contactLeftIndent setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_LEFT_INDENT] integerValue]];
+	[slider_contactRightIndent setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_RIGHT_INDENT] integerValue]];
 	[self updateSliderValues];
 	
 	[fontField_contact setFont:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_FONT] representedFont]];
@@ -186,7 +186,7 @@
 - (void)preferenceChanged:(id)sender
 {
 	if (sender == popUp_contactTextAlignment) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_ALIGNMENT
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
@@ -199,49 +199,49 @@
 		[self configureControlDimming];
 		
 	} else if (sender == popUp_groupTextAlignment) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 	} else if (sender == popUp_extendedStatusPosition) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 	} else if (sender == popUp_userIconPosition) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_USER_ICON_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 	} else if (sender == popUp_statusIconPosition) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 	} else if (sender == popUp_serviceIconPosition) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 	} else if (sender == popUp_extendedStatusStyle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE
 											  group:PREF_GROUP_LIST_LAYOUT];
 		
 		
 	} else if (sender == slider_userIconSize) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_LIST_LAYOUT_USER_ICON_SIZE
 											  group:PREF_GROUP_LIST_LAYOUT];
 		[self updateSliderValues];
 		
 	} else if (sender == slider_contactSpacing) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_LIST_LAYOUT_CONTACT_SPACING
 											  group:PREF_GROUP_LIST_LAYOUT];
 		[self updateSliderValues];
 	} else if (sender == slider_groupTopSpacing) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_LIST_LAYOUT_GROUP_TOP_SPACING
 											  group:PREF_GROUP_LIST_LAYOUT];
 		[self updateSliderValues];
@@ -296,23 +296,23 @@
 		[self configureControlDimming];
 		
     } else if (sender == slider_contactLeftIndent) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
                                              forKey:KEY_LIST_LAYOUT_CONTACT_LEFT_INDENT
                                               group:PREF_GROUP_LIST_LAYOUT];
 		[self updateSliderValues];
 		
     } else if (sender == slider_contactRightIndent) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
                                              forKey:KEY_LIST_LAYOUT_CONTACT_RIGHT_INDENT
                                               group:PREF_GROUP_LIST_LAYOUT];
 		[self updateSliderValues];
 		
 	} else if (sender == slider_outlineWidth) {
-		int newValue = [sender intValue];
-		int oldValue = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH
-																 group:PREF_GROUP_LIST_LAYOUT] intValue];
+		NSInteger newValue = [sender integerValue];
+		NSInteger oldValue = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH
+																 group:PREF_GROUP_LIST_LAYOUT] integerValue];
 		if (newValue != oldValue) { 
-			[[adium preferenceController] setPreference:[NSNumber numberWithInt:newValue]
+			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:newValue]
 												 forKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH
 												  group:PREF_GROUP_LIST_LAYOUT];
 			[self updateSliderValues];
@@ -348,21 +348,21 @@
 //
 - (void)updateSliderValues
 {
-	int	iconSize = [slider_userIconSize intValue];
-	[textField_userIconSize setStringValue:[NSString stringWithFormat:@"%ix%i",iconSize,iconSize]];
+	NSInteger	iconSize = [slider_userIconSize integerValue];
+	[textField_userIconSize setStringValue:[NSString stringWithFormat:@"%ldx%ld",iconSize,iconSize]];
 	
-	[textField_contactSpacing setStringValue:[NSString stringWithFormat:@"%ipx",[slider_contactSpacing intValue]]];
-	[textField_groupTopSpacing setStringValue:[NSString stringWithFormat:@"%ipx",[slider_groupTopSpacing intValue]]];
-	[textField_contactLeftIndent setStringValue:[NSString stringWithFormat:@"%ipx",[slider_contactLeftIndent intValue]]];
-	[textField_contactRightIndent setStringValue:[NSString stringWithFormat:@"%ipx",[slider_contactRightIndent intValue]]];
-	[textField_outlineWidthIndicator setStringValue:[NSString stringWithFormat:@"%ipx",[slider_outlineWidth intValue]]];
+	[textField_contactSpacing setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactSpacing integerValue]]];
+	[textField_groupTopSpacing setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_groupTopSpacing integerValue]]];
+	[textField_contactLeftIndent setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactLeftIndent integerValue]]];
+	[textField_contactRightIndent setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_contactRightIndent integerValue]]];
+	[textField_outlineWidthIndicator setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_outlineWidth integerValue]]];
 }
 
 //Configure control dimming
 - (void)configureControlDimming
 {
 	NSDictionary	*prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-	int				windowStyle = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue];
+	NSInteger				windowStyle = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue];
 	
 	//Bubble to fit limitations
 	BOOL nonFitted = (windowStyle != AIContactListWindowStyleContactBubbles_Fitted);
@@ -376,7 +376,7 @@
 		[checkBox_extendedStatusVisible setState:NO];
 	}
 	
-	if (nonFitted || ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] intValue] != NSCenterTextAlignment)) {
+	if (nonFitted || ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue] != NSCenterTextAlignment)) {
 		//For non-fitted or non-centered fitted, enable and set the appropriate value
 		[checkBox_userIconVisible setEnabled:YES];
 		[checkBox_userIconVisible setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue]];
@@ -435,11 +435,11 @@
 
 - (void)updateStatusAndServiceIconMenusFromPrefDict:(NSDictionary *)prefDict
 {
-	int				statusAndServicePositionChoices[7];
+	NSInteger				statusAndServicePositionChoices[7];
 	BOOL			showUserIcon = [[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue];
-	int				indexForFinishingChoices = 0;
+	NSInteger				indexForFinishingChoices = 0;
 	
-	if ([[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue] != AIContactListWindowStyleContactBubbles_Fitted) {
+	if ([[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted) {
 		statusAndServicePositionChoices[0] = LIST_POSITION_FAR_LEFT;
 		statusAndServicePositionChoices[1] = LIST_POSITION_LEFT;
 		statusAndServicePositionChoices[2] = LIST_POSITION_RIGHT;
@@ -449,7 +449,7 @@
 		
 	} else {
 		//For fitted pillows, only show the options which correspond to the text alignment
-		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] intValue]) {
+		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]) {
 			case NSLeftTextAlignment:
 				statusAndServicePositionChoices[0] = LIST_POSITION_FAR_LEFT;
 				statusAndServicePositionChoices[1] = LIST_POSITION_LEFT;
@@ -484,18 +484,18 @@
 	 */
 	[popUp_statusIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
 	if ([popUp_statusIconPosition numberOfItems] &&
-		![popUp_statusIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION] intValue]]) {
+		![popUp_statusIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION] integerValue]]) {
 		[popUp_statusIconPosition selectItemAtIndex:0];
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[popUp_statusIconPosition selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[popUp_statusIconPosition selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];		
 	}
 
 	[popUp_serviceIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
 	if ([popUp_serviceIconPosition numberOfItems] &&
-		![popUp_serviceIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION] intValue]]) {
+		![popUp_serviceIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION] integerValue]]) {
 		[popUp_serviceIconPosition selectItemAtIndex:0];
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[popUp_serviceIconPosition selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[popUp_serviceIconPosition selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION
 											  group:PREF_GROUP_LIST_LAYOUT];
 	}
@@ -503,15 +503,15 @@
 
 - (void)updateUserIconMenuFromPrefDict:(NSDictionary *)prefDict
 {
-	int				userIconPositionChoices[3];
+	NSInteger				userIconPositionChoices[3];
 	
-	if ([[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue] != AIContactListWindowStyleContactBubbles_Fitted) {
+	if ([[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted) {
 		userIconPositionChoices[0] = LIST_POSITION_LEFT;
 		userIconPositionChoices[1] = LIST_POSITION_RIGHT;
 		userIconPositionChoices[2] = -1;
 	} else {
 		//For fitted pillows, only show the options which correspond to the text alignment
-		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] intValue]) {
+		switch ([[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]) {
 			case NSLeftTextAlignment:
 				userIconPositionChoices[0] = LIST_POSITION_LEFT;
 				userIconPositionChoices[1] = -1;
@@ -530,17 +530,17 @@
 	
 	//User icon position
 	[popUp_userIconPosition setMenu:[self positionMenuWithChoices:userIconPositionChoices]];
-	[popUp_userIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION] intValue]];
+	[popUp_userIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION] integerValue]];
 }
 
 #pragma mark Menu generation
 
-- (NSMenu *)alignmentMenuWithChoices:(int [])alignmentChoices
+- (NSMenu *)alignmentMenuWithChoices:(NSInteger [])alignmentChoices
 {
     NSMenu		*alignmentMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSMenuItem	*menuItem;
     
-	unsigned	i = 0;
+	NSUInteger	i = 0;
 	
 	while (alignmentChoices[i] != -1) {
 		NSString	*menuTitle = nil;
@@ -567,12 +567,12 @@
 	
 }
 
-- (NSMenu *)positionMenuWithChoices:(int [])positionChoices
+- (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices
 {
     NSMenu		*positionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
     NSMenuItem	*menuItem;
     
-	unsigned	i = 0;
+	NSUInteger	i = 0;
 	
 	while (positionChoices[i] != -1) {
 		NSString	*menuTitle = nil;
@@ -672,7 +672,7 @@
 	AIContactListWindowStyle	windowStyle;
 	BOOL				tabViewCurrentHasAdvancedContactBubbles;
 	
-	windowStyle = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue];
+	windowStyle = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue];
 	tabViewCurrentHasAdvancedContactBubbles = ([[tabView_preferences tabViewItems] containsObjectIdenticalTo:tabViewItem_advancedContactBubbles]);
 	
 	if ((windowStyle == AIContactListWindowStyleContactBubbles_Fitted) ||
@@ -689,7 +689,7 @@
 		[checkBox_outlineBubbles setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE] boolValue]];
 		[checkBox_drawContactBubblesWithGraadient setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_BUBBLE_GRADIENT] boolValue]];
 		
-		[slider_outlineWidth setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH] intValue]];
+		[slider_outlineWidth setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_OUTLINE_BUBBLE_WIDTH] integerValue]];
 		
 	} else {
 		if (tabViewCurrentHasAdvancedContactBubbles) {

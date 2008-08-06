@@ -22,7 +22,7 @@
 /*!
  * @brief Sort menu items by title
  */
-int titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
+NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 {
 	return [[itemA title] compare:[itemB title] options:NSLiteralSearch];
 }
@@ -42,7 +42,7 @@ int titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 {
 	id<AIAccountController> accountController = [adium accountController];
 	AIServiceImportance	importance;
-	unsigned			numberOfItems = 0;
+	NSUInteger			numberOfItems = 0;
 	id					serviceArray;
 	
 	BOOL targetRespondsToShouldIncludeService = [target respondsToSelector:@selector(serviceMenuShouldIncludeService:)];
@@ -58,7 +58,7 @@ int titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 		AIService		*service;
 		NSMutableArray	*menuItemArray = [[NSMutableArray alloc] init];
 		NSMenuItem		*menuItem;
-		unsigned		currentNumberOfItems;
+		NSUInteger		currentNumberOfItems;
 		BOOL			addedDivider = NO;
 		
 		//Divider

@@ -21,7 +21,7 @@
 
 @interface AIMenuController : NSObject <AIMenuController> {
     IBOutlet	NSObject<AIAdium>	*sharedAdium;
-	int					menuItemProcessingDelays;
+	NSInteger					menuItemProcessingDelays;
 	
     IBOutlet	id		nilMenuItem;
     IBOutlet	id		menu_Adium_About;

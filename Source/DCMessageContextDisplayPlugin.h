@@ -51,14 +51,14 @@ typedef enum AIMessageHistoryDisplayUnits {
 	BOOL							isObserving;
 	BOOL							shouldDisplay;
 	BOOL							dimRecentContext;
-	int								linesToDisplay;
+	NSInteger								linesToDisplay;
 	
-	int								displayMode;
-	int								haveTalkedDays;
-	int								haveNotTalkedDays;
+	NSInteger								displayMode;
+	NSInteger								haveTalkedDays;
+	NSInteger								haveNotTalkedDays;
 	
-	int								haveTalkedUnits;
-	int								haveNotTalkedUnits;
+	NSInteger								haveTalkedUnits;
+	NSInteger								haveNotTalkedUnits;
 	
 	DCMessageContextDisplayPreferences  *preferences;
 	

@@ -45,8 +45,8 @@
 - (ESFileTransferProgressView *)view;
 
 - (void)fileTransferProgressView:(ESFileTransferProgressView *)inView
-			   heightChangedFrom:(float)oldHeight
-							  to:(float)newHeight;
+			   heightChangedFrom:(CGFloat)oldHeight
+							  to:(CGFloat)newHeight;
 
 - (AIFileTransferType)type;
 

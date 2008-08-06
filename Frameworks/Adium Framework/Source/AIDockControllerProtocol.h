@@ -34,7 +34,7 @@ typedef enum {
 - (void)setIconStateNamed:(NSString *)inName;
 - (void)removeIconStateNamed:(NSString *)inName;
 - (void)setIconState:(AIIconState *)iconState named:(NSString *)inName;
-- (float)dockIconScale;
+- (CGFloat)dockIconScale;
 - (NSImage *)baseApplicationIconImage;
 
 //Special access to icon pack loading

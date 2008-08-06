@@ -61,8 +61,8 @@
 
     AIChat					*chat;
 	BOOL					suppressSendLaterPrompt;
-	int						entryMinHeight;
-	int						userListMinWidth;
+	NSInteger						entryMinHeight;
+	NSInteger						userListMinWidth;
 
 	NSUndoManager			*undoManager;
 	

@@ -15,7 +15,7 @@
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey;
 - (EventHotKeyRef)_carbonHotKeyForHotKey: (PTHotKey*)hotKey;
 
-- (void)_updateEventHandler;
+- (void)_updateEventHandlerForHotKey:(PTHotKey *)hotKey;
 - (void)_hotKeyDown: (PTHotKey*)hotKey;
 - (void)_hotKeyUp: (PTHotKey*)hotKey;
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
@@ -55,6 +55,8 @@ static id _sharedHotKeyCenter = nil;
 
 #pragma mark -
 
+static UInt32 counter = 0;
+
 - (BOOL)registerHotKey: (PTHotKey*)hotKey
 {
 	OSStatus err;
@@ -69,13 +71,13 @@ static id _sharedHotKeyCenter = nil;
 		return YES;
 	
 	hotKeyID.signature = 'HCHk';
-	hotKeyID.id = (long)hotKey;
+	hotKeyID.id = ++counter;
 	
 	err = RegisterEventHotKey(  [[hotKey keyCombo] keyCode],
 								[[hotKey keyCombo] modifiers],
 								hotKeyID,
 								GetEventDispatcherTarget(),
-								nil,
+								0,
 								&carbonHotKey );
 
 	if( err )
@@ -85,7 +87,7 @@ static id _sharedHotKeyCenter = nil;
 	if( hotKey && key )
 		[mHotKeys setObject: hotKey forKey: key];
 
-	[self _updateEventHandler];
+    [self _updateEventHandlerForHotKey:hotKey];
 	
 	return YES;
 }
@@ -107,8 +109,8 @@ static id _sharedHotKeyCenter = nil;
 
 	key = [NSValue valueWithPointer: carbonHotKey];
 	[mHotKeys removeObjectForKey: key];
-	
-	[self _updateEventHandler];
+
+    [self _updateEventHandlerForHotKey:hotKey];
 
 	//See that? Completely ignored
 }
@@ -156,7 +158,7 @@ static id _sharedHotKeyCenter = nil;
 	return (EventHotKeyRef)[value pointerValue];
 }
 
-- (void)_updateEventHandler
+- (void)_updateEventHandlerForHotKey:(PTHotKey *)hotKey
 {
 	if( [mHotKeys count] && mEventHandlerInstalled == NO )
 	{
@@ -167,7 +169,7 @@ static id _sharedHotKeyCenter = nil;
 
 		InstallEventHandler( GetEventDispatcherTarget(),
 							 (EventHandlerProcPtr)hotKeyEventHandler, 
-							 2, eventSpec, nil, nil);
+							 2, eventSpec, hotKey, nil);
 	
 		mEventHandlerInstalled = YES;
 	}
@@ -184,7 +186,7 @@ static id _sharedHotKeyCenter = nil;
 
 - (void)sendEvent: (NSEvent*)event
 {
-	long subType;
+	short subType;
 	EventHotKeyRef carbonHotKey;
 	
 	if( [event type] == NSSystemDefined )
@@ -212,7 +214,7 @@ static id _sharedHotKeyCenter = nil;
 	}
 }
 
-- (OSStatus)sendCarbonEvent: (EventRef)event
+- (OSStatus)sendCarbonEvent: (EventRef)event userData:(void *)userData
 {
 	OSStatus err;
 	EventHotKeyID hotKeyID;
@@ -227,14 +229,15 @@ static id _sharedHotKeyCenter = nil;
 								sizeof(EventHotKeyID),
 								nil,
 								&hotKeyID );
+
 	if( err )
 		return err;
 	
 
 	NSAssert( hotKeyID.signature == 'HCHk', @"Invalid hot key id" );
-	NSAssert( hotKeyID.id != nil, @"Invalid hot key id" );
+	NSAssert( hotKeyID.id != 0, @"Invalid hot key id" );
 
-	hotKey = (PTHotKey*)hotKeyID.id;
+	hotKey = userData;
 
 	switch( GetEventKind( event ) )
 	{
@@ -256,7 +259,7 @@ static id _sharedHotKeyCenter = nil;
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon )
 {
-	return [[PTHotKeyCenter sharedCenter] sendCarbonEvent: inEvent];
+    return [[PTHotKeyCenter sharedCenter] sendCarbonEvent: inEvent userData:refCon];
 }
 
 @end

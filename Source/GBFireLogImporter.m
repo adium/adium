@@ -66,7 +66,7 @@
 
 - (void)importQuestionResponse:(NSNumber *)response userInfo:(id)info
 {
-	if([response intValue] == AITextAndButtonsDefaultReturn)
+	if([response integerValue] == AITextAndButtonsDefaultReturn)
 		[NSThread detachNewThreadSelector:@selector(importFireLogs) toTarget:self withObject:nil];
 }
 
@@ -96,7 +96,7 @@ NSString *quotes[] = {
 	NSString *outputBasePath = [[[[adium loginController] userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
 	
 	NSArray *accounts = [[adium accountController] accounts];
-	int current;
+	NSInteger current;
 	NSMutableDictionary *defaultScreenname = [NSMutableDictionary dictionary];
 	for(current = [accounts count] - 1; current >= 0; current--)
 	{
@@ -106,12 +106,12 @@ NSString *quotes[] = {
 	
 	[progressIndicator setDoubleValue:0.0];
 	[progressIndicator setIndeterminate:NO];
-	int total = [subPaths count], currentQuote = 0;
+	NSInteger total = [subPaths count], currentQuote = 0;
 	for(current = 0; current < total; current++)
 	{
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];  //A lot of temporary memory is used here
 		[progressIndicator setDoubleValue:(double)current/(double)total];
-		int nextQuote = current*sizeof(quotes)/sizeof(NSString *)/total;
+		NSInteger nextQuote = current*sizeof(quotes)/sizeof(NSString *)/total;
 		if(nextQuote != currentQuote)
 		{
 			currentQuote = nextQuote;
@@ -239,7 +239,7 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 	BOOL success = YES;
 	NSData *inputData = [NSData dataWithContentsOfFile:inFile];
 	inputFileString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
-	int outfd = open([outFile fileSystemRepresentation], O_CREAT | O_WRONLY, 0644);
+	NSInteger outfd = open([outFile fileSystemRepresentation], O_CREAT | O_WRONLY, 0644);
 	outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:outfd closeOnDealloc:YES];
 	
 	CFXMLParserCallBacks callbacks = {
@@ -258,8 +258,8 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 		NULL
 	};
 	NSMutableString *newStr = [NSMutableString stringWithContentsOfFile:inFile];
-	int endOffset = [newStr rangeOfString:@">" options:NSBackwardsSearch].location;
-	int startOffset = [newStr rangeOfString:@"<" options:NSBackwardsSearch].location;
+	NSInteger endOffset = [newStr rangeOfString:@">" options:NSBackwardsSearch].location;
+	NSInteger startOffset = [newStr rangeOfString:@"<" options:NSBackwardsSearch].location;
 	if((endOffset == NSNotFound || endOffset < startOffset) && startOffset != NSNotFound)
 	{
 		//Broken XML can crash the importer, attempt a repair, but most likely the parse will fail
@@ -453,11 +453,11 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 					[outMessage appendString:@" type=\"action\""];
 					
 					//Hmm...  there is a bug in Fire's logging format that logs action messages like <span>username </span>message
-					int cutIndex = 0;
-					int index = [message rangeOfString:@"<span>"].location;
+					NSInteger cutIndex = 0;
+					NSInteger index = [message rangeOfString:@"<span>"].location;
 					if(index == 0)
 					{
-						int endIndex = [message rangeOfString:@"</span>"].location;
+						NSInteger endIndex = [message rangeOfString:@"</span>"].location;
 						if(sender == nil)
 							sender = [[message substringWithRange:NSMakeRange(6, endIndex-7)] retain];  //6 is length of <span>.  7 is length of <span> plus trailing space
 						index = cutIndex = endIndex + 7;  //7 is length of </span>
@@ -533,7 +533,7 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 				{
 					//now we have to parse all these
 					NSString *type = nil;
-					int parseMessageIndex = 0;
+					NSInteger parseMessageIndex = 0;
 					BOOL idle = NO;
 					if(message != nil)
 					{
@@ -576,7 +576,7 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 					//if the type is unknown, we can't do anything, drop it!
 					if(type != nil)
 					{
-						int colonIndex = [message rangeOfString:@":" options:0 range:NSMakeRange(parseMessageIndex, [message length] - parseMessageIndex)].location;
+						NSInteger colonIndex = [message rangeOfString:@":" options:0 range:NSMakeRange(parseMessageIndex, [message length] - parseMessageIndex)].location;
 						
 						NSMutableString *outMessage = [NSMutableString stringWithFormat:@"<status type=\"%@\"", type];
 						if(sender != nil)
@@ -729,7 +729,7 @@ static void *createStructure(CFXMLParserRef parser, CFXMLNodeRef node, void *con
 					if([dataString characterAtIndex:1] == 'x')
 						hex = 1;
 					
-					int i;
+					NSInteger i;
 					for(i = hex + 1; i < [dataString length]; i++)
 					{
 						if(hex)

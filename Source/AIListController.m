@@ -86,7 +86,7 @@
 
 		//Recall how the contact list was docked last time Adium was open
 		dockToBottomOfScreen = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
-																		 group:PREF_GROUP_WINDOW_POSITIONS] intValue];
+																		 group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 		
 		//Observe preference changes
 		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
@@ -153,7 +153,7 @@
 		if (!NSEqualRects(currentFrame, desiredFrame)) {
 			//We must set the min/max first, otherwise our setFrame will be restricted by them and not produce the
 			//expected results
-			float toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
+			CGFloat toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
 			
 			[theWindow setMinSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
 											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
@@ -195,7 +195,7 @@
 			/* We must set the min/max first, otherwise our setFrame will be restricted by them and not produce the
 			 * expected results
 			 */
-			float toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
+			CGFloat toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
 			NSRect offscreenFrame = desiredFrame;
 			[theWindow setMinSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
 											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
@@ -255,7 +255,7 @@
 
 	//Remember how the contact list is currently docked for next time
 	if (oldDockToBottom != dockToBottomOfScreen) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:dockToBottomOfScreen]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:dockToBottomOfScreen]
 											 forKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
 											  group:PREF_GROUP_WINDOW_POSITIONS];
 	}
@@ -267,7 +267,7 @@
 	NSRect      windowFrame, viewFrame, newWindowFrame, screenFrame, visibleScreenFrame, boundingFrame;
 	NSWindow	*theWindow = [contactListView window];
 	NSScreen	*currentScreen = [theWindow screen];
-	int			desiredHeight = [contactListView desiredHeight];
+	NSInteger			desiredHeight = [contactListView desiredHeight];
 	BOOL		anchorToRightEdge = NO;
 	
 	windowFrame = [theWindow frame];
@@ -380,7 +380,7 @@
 		 * windows... I'm not sure why it's needed, but it doesn't hurt anything.
 		 */
 		if (desiredHeight + (NSHeight(windowFrame) - NSHeight(viewFrame)) > NSHeight(newWindowFrame) + 2) {
-			float scrollerWidth = [NSScroller scrollerWidthForControlSize:[[scrollView_contactList verticalScroller] controlSize]];
+			CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:[[scrollView_contactList verticalScroller] controlSize]];
 			newWindowFrame.size.width += scrollerWidth;
 			
 			if (anchorToRightEdge) {
@@ -402,7 +402,7 @@
 - (void)setMinWindowSize:(NSSize)inSize {
 	minWindowSize = inSize;
 }
-- (void)setMaxWindowWidth:(int)inWidth {
+- (void)setMaxWindowWidth:(NSInteger)inWidth {
 	maxWindowWidth = inWidth;
 }
 - (void)setAutoresizeHorizontally:(BOOL)flag {
@@ -411,7 +411,7 @@
 - (void)setAutoresizeVertically:(BOOL)flag {
 	autoResizeVertically = flag;	
 }
-- (void)setForcedWindowWidth:(int)inWidth {
+- (void)setForcedWindowWidth:(NSInteger)inWidth {
 	forcedWindowWidth = inWidth;
 }
 - (void)setAutoresizeHorizontallyWithIdleTime:(BOOL)flag {
@@ -521,7 +521,7 @@
 /*! 
  * @brief Method to check if operations need to be performed
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
     NSArray			*types = [[info draggingPasteboard] types];
 	NSDragOperation retVal = NSDragOperationNone;
@@ -626,7 +626,7 @@
 					//If we're dragging a group, force a drop onto the contact list itself, and determine the destination location accordingly
 					if ([primaryDragItem isKindOfClass:[AIListGroup class]]) item = nil;
 					
-					int indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
+					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
 																  intoObjects:(item ? [item containedObjects] : [[[adium contactController] contactList] containedObjects])];
 					/*
 					 For example, to specify a drop on an item I, you specify item as 1 and index as NSOutlineViewDropOnItemIndex.
@@ -687,7 +687,7 @@
 	return realDragItems;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
 	BOOL		success = YES;
 	NSPasteboard *draggingPasteboard = [info draggingPasteboard];
@@ -865,7 +865,7 @@
 								   AILocalizedString(@"Once combined, Adium will treat these contacts as a single individual both on your contact list and when sending messages.\n\nYou may un-combine these contacts by getting info on the combined contact.","Explanation of metacontact creation"));
 }	
 
-- (void)mergeContactSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)mergeContactSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	NSDictionary	*context = (NSDictionary *)contextInfo;
 
@@ -876,7 +876,7 @@
 
 		//Keep track of where it was before
 		AIListObject<AIContainingObject> *oldContainingObject = [[item containingObject] retain];
-		float oldIndex = [item orderIndex];
+		CGFloat oldIndex = [item orderIndex];
 
 		//Group the destination and then the dragged items into a metaContact
 		metaContact = [[adium contactController] groupListContacts:[[NSArray arrayWithObject:item]
@@ -898,7 +898,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (object == contactListView && [keyPath isEqualToString:@"desiredHeight"]) {
-		if ([[change objectForKey:NSKeyValueChangeNewKey] intValue] != [[change objectForKey:NSKeyValueChangeOldKey] intValue])
+		if ([[change objectForKey:NSKeyValueChangeNewKey] integerValue] != [[change objectForKey:NSKeyValueChangeOldKey] integerValue])
 			[self contactListDesiredSizeChanged];
 		
 	}
@@ -910,7 +910,7 @@
 {
 	NSNumber	*windowStyleNumber = [[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE 
 																			  group:PREF_GROUP_APPEARANCE];
-	return (windowStyleNumber ? [windowStyleNumber intValue] : AIContactListWindowStyleStandard);
+	return (windowStyleNumber ? [windowStyleNumber integerValue] : AIContactListWindowStyleStandard);
 }
 
 

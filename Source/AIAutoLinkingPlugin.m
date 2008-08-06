@@ -50,7 +50,7 @@
 
 	NSMutableAttributedString	*replacementMessage = [inAttributedString mutableCopy];
 	NSRange						linkRange = NSMakeRange(0,0);
-	unsigned					stringLength = [replacementMessage length];
+	NSUInteger					stringLength = [replacementMessage length];
 
 	if([AHHyperlinkScanner isStringValidURI:[replacementMessage string] usingStrict:YES fromIndex:nil withStatus:nil]){
 		NSString *linkString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
@@ -64,7 +64,7 @@
 		[linkString release];
 	}
 	
-	for (int i = 0; i < stringLength; i += linkRange.length) {
+	for (NSInteger i = 0; i < stringLength; i += linkRange.length) {
 		if (![replacementMessage attribute:NSLinkAttributeName atIndex:i longestEffectiveRange:&linkRange inRange:NSMakeRange(i, stringLength - i)]) {
 			/* If there's no link at this index already, process it via the hyperlinkScanner to see if there should be one.
 			 * We don't process existing links because (a) it would be duplicative effort and (b) we might mess up a link which had
@@ -87,7 +87,7 @@
  *
  * Auto linking overrides other potential filters; do it first
  */
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return HIGHEST_FILTER_PRIORITY;
 }

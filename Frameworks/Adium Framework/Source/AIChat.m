@@ -411,7 +411,7 @@ static int nextChatNumber = 0;
  */
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject
 {
-	int	currentIndex = [pendingOutgoingContentObjects indexOfObjectIdenticalTo:inObject];
+	NSInteger	currentIndex = [pendingOutgoingContentObjects indexOfObjectIdenticalTo:inObject];
 
 	//Don't add the object twice when we are called from -[AIChat finishedSendingContentObject]
 	if (currentIndex == NSNotFound) {
@@ -501,7 +501,7 @@ static int nextChatNumber = 0;
 	return participatingListObjects;
 }
 
-- (unsigned)containedObjectsCount
+- (NSUInteger)containedObjectsCount
 {
 	return [[self containedObjects] count];
 }
@@ -511,12 +511,12 @@ static int nextChatNumber = 0;
 	return [[self containedObjects] containsObjectIdenticalTo:inObject];
 }
 
-- (id)objectAtIndex:(unsigned)index
+- (id)objectAtIndex:(NSUInteger)index
 {
 	return [[self containedObjects] objectAtIndex:index];
 }
 
-- (int)indexOfObject:(AIListObject *)inObject
+- (NSUInteger)indexOfObject:(AIListObject *)inObject
 {
     return [[self containedObjects] indexOfObject:inObject];
 }

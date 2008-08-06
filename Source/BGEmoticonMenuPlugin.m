@@ -293,7 +293,7 @@
  * This rebuilds menus incrementally, in place, and only updating items that need it.
  *
  */
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
 {
 	NSArray			*activePacks = [[adium emoticonController] activeEmoticonPacks];
 	AIEmoticonPack	*pack;
@@ -347,10 +347,10 @@
  * is in a toolbar
  *
  */
-- (int)numberOfItemsInMenu:(NSMenu *)menu
+- (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {	
 	NSArray			*activePacks = [[adium emoticonController] activeEmoticonPacks];
-	int				 itemCounts = -1;
+	NSInteger				 itemCounts = -1;
 	
 	itemCounts = [activePacks count];
 	

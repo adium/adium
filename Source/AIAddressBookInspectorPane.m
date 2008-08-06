@@ -103,7 +103,7 @@
 	[NSApp endSheet:addressBookPanel];
 }
 
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [addressBookPanel orderOut:self];
 }

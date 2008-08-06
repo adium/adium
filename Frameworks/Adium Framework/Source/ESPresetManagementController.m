@@ -148,7 +148,7 @@
 	int selectedRow = [tableView_presets selectedRow];
 	if (selectedRow != -1) {
 		id duplicatePreset, selectedPreset;
-		int duplicatePresetIndex;
+		NSInteger duplicatePresetIndex;
 		
 		//Finish any editing before continuing		
 		//[tableView_presets validateEditing] doesn't work?
@@ -359,9 +359,9 @@
  */
 - (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
 {
-    NSString	*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:PRESET_DRAG_TYPE]];
+    NSString	*availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:PRESET_DRAG_TYPE]];
 	BOOL		success = NO;
-    if ([avaliableType isEqualToString:PRESET_DRAG_TYPE]) {		
+    if ([availableType isEqualToString:PRESET_DRAG_TYPE]) {		
 		NSDictionary	*presetAfterMove = tempDragPreset;
 		
 		//Inform the delegate of the move; it may pass back a changed preset by reference
@@ -373,7 +373,7 @@
 		[tableView_presets reloadData];
 		
 		//Reselect the moved preset if possible
-		int movedPresetIndex = [presets indexOfObject:presetAfterMove];
+		NSInteger movedPresetIndex = [presets indexOfObject:presetAfterMove];
 		if (movedPresetIndex != NSNotFound) {
 			[tableView_presets selectRow:movedPresetIndex byExtendingSelection:NO];
 		}

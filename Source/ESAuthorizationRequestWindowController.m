@@ -95,7 +95,7 @@
 	
 	//Resize the window frame to fit the error title
 	[textView_message sizeToFit];
-	float heightChange = [textView_message frame].size.height - [scrollView_message documentVisibleRect].size.height;
+	CGFloat heightChange = [textView_message frame].size.height - [scrollView_message documentVisibleRect].size.height;
 
 	NSRect windowFrame = [[self window] frame];
 	windowFrame.size.height += heightChange;

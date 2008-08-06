@@ -162,7 +162,7 @@
 - (void)deleteAccount:(AIAccount *)inAccount {
 	[adiumAccounts deleteAccount:inAccount];
 }
-- (int)moveAccount:(AIAccount *)account toIndex:(int)destIndex {
+- (NSUInteger)moveAccount:(AIAccount *)account toIndex:(NSUInteger)destIndex {
 	return [adiumAccounts moveAccount:account toIndex:destIndex];
 }
 - (void)accountDidChangeUID:(AIAccount *)inAccount {

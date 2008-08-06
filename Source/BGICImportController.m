@@ -74,7 +74,7 @@
 	if ([accountsAvailable count] > 0) {
 		[accountSelectionPopup setHidden:NO];
 
-		for (int accountLoop = 0; accountLoop < [accountsAvailable count]; accountLoop++) {
+		for (NSInteger accountLoop = 0; accountLoop < [accountsAvailable count]; accountLoop++) {
 			AIAccount *currentAccount = [accountsAvailable objectAtIndex:accountLoop];
 			[accountSelectionLabel setStringValue:AILocalizedString(@"Please select an account into which to import your transcripts:", nil)];
 			[accountSelectionPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", [currentAccount formattedUID], [currentAccount serviceID]]];
@@ -93,7 +93,7 @@
 // loop through the iChat log paths and move them all to the Trash
 -(void)deleteAllFromiChat
 {	
-	for (int deleteLoop = 0; deleteLoop < [fullDump count]; deleteLoop++) {
+	for (NSInteger deleteLoop = 0; deleteLoop < [fullDump count]; deleteLoop++) {
 		NSString *logPath = [fullDump objectAtIndex:deleteLoop];
 		
 		if ([logPath rangeOfString:@"DS_Store"].length == 0)
@@ -130,7 +130,7 @@
 			bonjourService = (AWBonjourService *)service;
 	}	
 	
-	for (int accountLoop = 0; accountLoop < [accountsFromRaw count]; accountLoop++) {
+	for (NSInteger accountLoop = 0; accountLoop < [accountsFromRaw count]; accountLoop++) {
 		if (![serviceName isEqual:@"SubNet"]) {
 			NSDictionary *currentAccount = [accountsFromRaw objectAtIndex:accountLoop];
 			
@@ -201,7 +201,7 @@
 		if (!logImporter) logImporter = [[BGICLogImportController alloc] initWithDestination:destinationAccount];
 		
 		[importProgress setDoubleValue:dumpLoop];
-		[importDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing transcript %i of %i: %@", "%i will be a number; %@ is a name")  stringByAppendingEllipsis],
+		[importDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing transcript %ld of %ld: %@", "%ld will be a number; %@ is a name")  stringByAppendingEllipsis],
 									   dumpLoop, dumpCount, [logPath stringByDeletingPathExtension]]];
 		
 		if ([logPath rangeOfString:@"DS_Store"].location == NSNotFound) {
@@ -215,7 +215,7 @@
 	}
 		
 	if (cancelImport) {
-		[importDetails setStringValue:[NSString stringWithFormat:AILocalizedString(@"Transcript importing cancelled. %i of %i transcripts already imported.", nil),
+		[importDetails setStringValue:[NSString stringWithFormat:AILocalizedString(@"Transcript importing cancelled. %ld of %ld transcripts already imported.", nil),
 									   dumpLoop, dumpCount]];
 		[importProgress setIndeterminate:YES];
 		[importProgress stopAnimation:importProgress];
@@ -236,7 +236,7 @@
 	// loop through the availables and add them
 	NSArray *customAvailable = [ichatPrefs objectForKey:@"CustomAvailableMessages"];
 	
-	[importStatusDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing %i 'Available' messages", nil) stringByAppendingEllipsis],
+	[importStatusDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing %lu 'Available' messages", nil) stringByAppendingEllipsis],
 										 [customAvailable count]]];
 	
 	AIStatusGroup *availableGroup = nil;
@@ -250,7 +250,7 @@
 		[[[adium statusController] rootStateGroup] addStatusItem:availableGroup atIndex:-1];
 	}
 
-	for (int availableLoop = 0; availableLoop < [customAvailable count]; availableLoop++) {
+	for (NSInteger availableLoop = 0; availableLoop < [customAvailable count]; availableLoop++) {
 		[self addStatusFromString:[customAvailable objectAtIndex:availableLoop] isAway:NO withGroup:availableGroup];
 	}
 	
@@ -268,10 +268,10 @@
 	// loop through the aways and add them
 	NSArray *customAways = [ichatPrefs objectForKey:@"CustomAwayMessages"];
 	
-	[importStatusDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing %i 'Away' messages", nil) stringByAppendingEllipsis],
+	[importStatusDetails setStringValue:[NSString stringWithFormat:[AILocalizedString(@"Now importing %lu 'Away' messages", nil) stringByAppendingEllipsis],
 										 [customAways count]]];
 
-	for (int awayLoop = 0; awayLoop < [customAways count]; awayLoop++) {
+	for (NSInteger awayLoop = 0; awayLoop < [customAways count]; awayLoop++) {
 		[self addStatusFromString:[customAways objectAtIndex:awayLoop] isAway:YES withGroup:awayGroup];
 	}
 		
@@ -471,7 +471,7 @@
 									contextInfo:nil];
 }
 
-- (void)deleteAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)deleteAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertDefaultReturn) {
 		[importDetails setStringValue:[AILocalizedString(@"Deleting iChat Transcripts", nil) stringByAppendingEllipsis]];

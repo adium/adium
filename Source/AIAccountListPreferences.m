@@ -51,7 +51,7 @@
 - (void)configureAccountList;
 - (void)accountListChanged:(NSNotification *)notification;
 
-- (void)calculateHeightForRow:(int)row;
+- (void)calculateHeightForRow:(NSInteger)row;
 - (void)calculateAllHeights;
 
 - (void)updateReconnectTime:(NSTimer *)timer;
@@ -185,7 +185,7 @@
 		   [inModifiedKeys containsObject:@"StatusState"]) {
 
 			//Refresh this account in our list
-			int accountRow = [accountArray indexOfObject:inObject];
+			NSInteger accountRow = [accountArray indexOfObject:inObject];
 			if (accountRow >= 0 && accountRow < [accountArray count]) {
 				[tableView_accountList setNeedsDisplayInRect:[tableView_accountList rectOfRow:accountRow]];
 				// Update the height of the row.
@@ -236,7 +236,7 @@
  */
 - (IBAction)editSelectedAccount:(id)sender
 {
-    int	selectedRow = [tableView_accountList selectedRow];
+    NSInteger	selectedRow = [tableView_accountList selectedRow];
 	if ([tableView_accountList numberOfSelectedRows] == 1 && selectedRow >= 0 && selectedRow < [accountArray count]) {
 		[self editAccount:[accountArray objectAtIndex:selectedRow]];
     }
@@ -290,7 +290,7 @@
  */
 - (IBAction)deleteAccount:(id)sender
 {
-    int index = [tableView_accountList selectedRow];
+    NSInteger index = [tableView_accountList selectedRow];
 
     if ([tableView_accountList numberOfSelectedRows] == 1 && index >= 0 && index < [accountArray count]) {
 		[[(AIAccount *)[accountArray objectAtIndex:index] confirmationDialogForAccountDeletion] beginSheetModalForWindow:[[self view] window]];
@@ -544,7 +544,7 @@
 /*!
  * @brief Returns the status menu associated with a particular row
  */
-- (NSMenu *)menuForRow:(int)row
+- (NSMenu *)menuForRow:(NSInteger)row
 {
 	if (row >= 0 && row < [accountArray count]) {
 		AIAccount		*account = [accountArray objectAtIndex:row];
@@ -607,7 +607,7 @@
  */
 - (void)updateReconnectTime:(NSTimer *)timer
 {
-	int				accountRow;
+	NSInteger				accountRow;
 	BOOL			moreUpdatesNeeded = NO;
 
 	for (accountRow = 0; accountRow < [accountArray count]; accountRow++) {
@@ -645,7 +645,7 @@
 - (void)updateAccountOverview
 {
 	NSString	*accountOverview;
-	int			accountArrayCount = [accountArray count];
+	NSUInteger			accountArrayCount = [accountArray count];
 
 	if (accountArrayCount == 0) {
 		accountOverview = AILocalizedString(@"Click the + to add a new account","Instructions on how to add an account when none are present");
@@ -653,7 +653,7 @@
 	} else {
 		NSEnumerator	*enumerator = [accountArray objectEnumerator];
 		AIAccount		*account;
-		int				online = 0, enabled = 0;
+		NSUInteger		online = 0, enabled = 0;
 		
 		//Count online accounts
 		while ((account = [enumerator nextObject])) {
@@ -664,11 +664,11 @@
 		if (enabled) {
 			if ((accountArrayCount == enabled) ||
 				(online == enabled)){
-				accountOverview = [NSString stringWithFormat:AILocalizedString(@"%i accounts, %i online","Overview of total and online accounts"),
+				accountOverview = [NSString stringWithFormat:AILocalizedString(@"%lu accounts, %lu online","Overview of total and online accounts"),
 					accountArrayCount,
 					online];
 			} else {
-				accountOverview = [NSString stringWithFormat:AILocalizedString(@"%i accounts, %i enabled, %i online","Overview of total, enabled, and online accounts"),
+				accountOverview = [NSString stringWithFormat:AILocalizedString(@"%lu accounts, %lu enabled, %lu online","Overview of total, enabled, and online accounts"),
 					accountArrayCount,
 					enabled,
 					online];			
@@ -703,7 +703,7 @@
 	
 	if ([account valueForProperty:@"ConnectionProgressString"] && [[account valueForProperty:@"Connecting"] boolValue]) {
 		// Connection status if we're currently connecting, with the percent at the end
-		statusMessage = [[account valueForProperty:@"ConnectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"ConnectionProgressPercent"] floatValue]*100.0];
+		statusMessage = [[account valueForProperty:@"ConnectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"ConnectionProgressPercent"] doubleValue]*100.0];
 	} else if ([account lastDisconnectionError] && ![[account valueForProperty:@"Online"] boolValue] && ![[account valueForProperty:@"Connecting"] boolValue]) {
 		// If there's an error and we're not online and not connecting
 		NSMutableString *returnedMessage = [[[account lastDisconnectionError] mutableCopy] autorelease];
@@ -737,7 +737,7 @@
 /*!
 * @brief Calculates the height of a given row and stores it
  */
-- (void)calculateHeightForRow:(int)row
+- (void)calculateHeightForRow:(NSInteger)row
 {	
 	// Make sure this is a valid row.
 	if (row < 0 || row >= [accountArray count]) {
@@ -745,7 +745,7 @@
 	}
 	
 	AIAccount		*account = [accountArray objectAtIndex:row];
-	float			necessaryHeight = MINIMUM_ROW_HEIGHT;
+	CGFloat			necessaryHeight = MINIMUM_ROW_HEIGHT;
 	
 	// If there's a status message, let's try size to fit it.
 	if ([self statusMessageForAccount:account]) {
@@ -764,7 +764,7 @@
 																			  attributes:subStringAttributes];
 		
 		// Both heights combined, with spacing in-between
-		float combinedHeight = [mainTitle heightWithWidth:[tableColumn width]] + [subStringTitle heightWithWidth:[tableColumn width]] + MINIMUM_CELL_SPACING;
+		CGFloat combinedHeight = [mainTitle heightWithWidth:[tableColumn width]] + [subStringTitle heightWithWidth:[tableColumn width]] + MINIMUM_CELL_SPACING;
 		
 		// Make sure we're not down-sizing
 		if (combinedHeight > necessaryHeight) {
@@ -776,8 +776,8 @@
 	}
 	
 	// Cache the height value
-	[requiredHeightDict setObject:[NSNumber numberWithFloat:necessaryHeight]
-						   forKey:[NSNumber numberWithInt:row]];
+	[requiredHeightDict setObject:[NSNumber numberWithDouble:necessaryHeight]
+						   forKey:[NSNumber numberWithInteger:row]];
 }
 
 /*!
@@ -785,7 +785,7 @@
  */
 - (void)calculateAllHeights
 {
-	int accountNumber;
+	NSInteger accountNumber;
 
 	[requiredHeightDict release]; requiredHeightDict = [[NSMutableDictionary alloc] init];
 
@@ -808,7 +808,7 @@
 /*!
  * @brief Number of rows in the table
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [accountArray count];
 }
@@ -816,7 +816,7 @@
 /*!
  * @brief Table values
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	if (row < 0 || row >= [accountArray count]) {
 		return nil;
@@ -874,14 +874,14 @@
 /*!
  * @brief Configure the height of each account for error messages if necessary
  */
-- (float)tableView:(NSTableView *)tableView heightOfRow:(int)row
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
 	// We should probably have this value cached.
-	float necessaryHeight = MINIMUM_ROW_HEIGHT;
+	CGFloat necessaryHeight = MINIMUM_ROW_HEIGHT;
 	
-	NSNumber *cachedHeight = [requiredHeightDict objectForKey:[NSNumber numberWithInt:row]];
+	NSNumber *cachedHeight = [requiredHeightDict objectForKey:[NSNumber numberWithInteger:row]];
 	if (cachedHeight) {
-		necessaryHeight = [cachedHeight floatValue];
+		necessaryHeight = [cachedHeight doubleValue];
 	}
 	
 	return necessaryHeight;
@@ -890,7 +890,7 @@
 /*!
  * @brief Configure cells before display
  */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	// Make sure this row actually exists
 	if (row < 0 || row >= [accountArray count]) {
@@ -960,7 +960,7 @@
  *
  * Checking the box both takes the account online and sets it to autoconnect. Unchecking it does the opposite.
  */
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	if (row >= 0 && row < [accountArray count] && [[tableColumn identifier] isEqualToString:@"enabled"]) {
 		[[accountArray objectAtIndex:row] setEnabled:[(NSNumber *)object boolValue]];
@@ -983,7 +983,7 @@
 /*!
  * @brief Drag validate
  */
-- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
 {
     if (op == NSTableViewDropAbove && row != -1) {
         return NSDragOperationPrivate;
@@ -995,7 +995,7 @@
 /*!
  * @brief Drag complete
  */
-- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
     NSString		*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:ACCOUNT_DRAG_TYPE]];
 	
@@ -1037,7 +1037,7 @@
 - (NSMenu *)tableView:(NSTableView *)inTableView menuForEvent:(NSEvent *)theEvent
 {
 	NSIndexSet	*selectedIndexes	= [inTableView selectedRowIndexes];
-	int			mouseRow			= [inTableView rowAtPoint:[inTableView convertPoint:[theEvent locationInWindow] toView:nil]];
+	NSInteger			mouseRow			= [inTableView rowAtPoint:[inTableView convertPoint:[theEvent locationInWindow] toView:nil]];
 	
 	//Multiple rows selected where the right-clicked row is in the selection
 	if ([selectedIndexes count] > 1 && [selectedIndexes containsIndex:mouseRow]) {

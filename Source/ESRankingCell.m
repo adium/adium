@@ -22,7 +22,7 @@
 
 static NSColor	*drawColor = nil;
 
-- (void)setPercentage:(float)inPercentage
+- (void)setPercentage:(CGFloat)inPercentage
 {
 	percentage = inPercentage;
 }

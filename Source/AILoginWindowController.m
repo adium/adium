@@ -29,15 +29,15 @@
 @interface AILoginWindowController (PRIVATE)
 - (id)initWithOwner:(id)inOwner windowNibName:(NSString *)windowNibName;
 - (void)dealloc;
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 - (IBAction)login:(id)sender;
 - (IBAction)editUsers:(id)sender;
 - (IBAction)doneEditing:(id)sender;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 - (void)updateUserList;
 - (IBAction)newUser:(id)sender;
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 - (IBAction)deleteUser:(id)sender;
 - (void)windowDidLoad;
 - (void)disableLoginTimeout;
@@ -76,7 +76,7 @@
 }
 
 // TableView Delegate methods - Return the number of items in the table
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     if (tableView == tableView_userList) {
         return [userArray count];
@@ -88,7 +88,7 @@
 }
 
 // TableView Delegate methods - Return the requested item in the table
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if (tableView == tableView_userList) {
         return [userArray objectAtIndex:row];
@@ -140,7 +140,7 @@
 }
 
 // Called as the user list edit sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 }
@@ -159,7 +159,7 @@
 // Add a new user
 - (IBAction)newUser:(id)sender
 {
-    int		newRow;
+    NSInteger		newRow;
 
     //Force the table view to end editing
     [tableView_editableUserList reloadData];
@@ -180,7 +180,7 @@
 }
 
 // Rename a user
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     if (tableView == tableView_editableUserList) {
         //Rename the user

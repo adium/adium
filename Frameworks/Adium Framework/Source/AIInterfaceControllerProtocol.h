@@ -133,7 +133,7 @@ typedef enum {
  * @param containerID The name of the container window.
  * @param index The index within that containter window.
  */
-- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(int)index;
+- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(NSUInteger)index;
 
 /*!
  * @brief Move a chat to a new window container
@@ -462,9 +462,9 @@ typedef enum {
 @protocol AIInterfaceComponent <NSObject>
 - (void)openInterface;
 - (void)closeInterface;
-- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(int)index;
+- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(NSUInteger)index;
 - (void)setActiveChat:(AIChat *)inChat;
-- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(int)index;
+- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(NSUInteger)index;
 - (void)moveChatToNewContainer:(AIChat *)inChat;
 - (void)closeChat:(AIChat *)chat;
 - (AIMessageWindowController *)openContainerWithID:(NSString *)containerID name:(NSString *)containerName;
@@ -554,7 +554,7 @@ typedef enum {
 - (id)detachContactList:(AIListGroup *)contactList;
 - (void)nextDetachedContactList;
 - (void)previousDetachedContactList;
-- (unsigned)detachedContactListCount;
+- (NSUInteger)detachedContactListCount;
 @end
 
 //Custom printing informal protocol

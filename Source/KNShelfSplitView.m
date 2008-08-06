@@ -221,21 +221,21 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return contentView;
 }
 
--(void)setShelfWidthNoConstraints:(float)aWidth
+-(void)setShelfWidthNoConstraints:(CGFloat)aWidth
 {
 	currentShelfWidth = aWidth;
 	
 	[self recalculateSizes];	
 }
 
--(void)setShelfWidth:(float)aWidth{
-	float newWidth = aWidth;
+-(void)setShelfWidth:(CGFloat)aWidth{
+	CGFloat newWidth = aWidth;
 
 	// The shelf can never be completely closed. We always have at least enough to show our resize thumb, otherwise
 	// if the delegate responds to shelfSplitView:validateWidth:, we use that width as our minimum shelf size
-	float				minShelf = THUMB_WIDTH;
+	CGFloat				minShelf = THUMB_WIDTH;
 	if( delegateHasValidateWidth ){
-		float				requestedWidth = [delegate shelfSplitView:self validateWidth: aWidth];
+		CGFloat				requestedWidth = [delegate shelfSplitView:self validateWidth: aWidth];
 		if( requestedWidth > minShelf ){
 			minShelf = requestedWidth;
 		}
@@ -246,7 +246,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	// The shelf can never be wider than half the entire view
-	float maxShelf = [self frame].size.width / 2;
+	CGFloat maxShelf = [self frame].size.width / 2;
 	
 	if( newWidth > maxShelf ){
 		newWidth = maxShelf;
@@ -257,7 +257,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	[self recalculateSizes];
 }
 
--(float)shelfWidth{
+-(CGFloat)shelfWidth{
 	return currentShelfWidth;
 }
 
@@ -279,7 +279,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		resizeThumbRect = NSMakeRect( (controlRect.size.width - THUMB_WIDTH), 0, THUMB_WIDTH, CONTROL_HEIGHT );
 		resizeBarRect = NSMakeRect( currentShelfWidth - (RESIZE_BAR_EFFECTIVE_WIDTH / 2), 0, RESIZE_BAR_EFFECTIVE_WIDTH, [self frame].size.height );
 		
-		float availableSpace = controlRect.size.width - THUMB_WIDTH;
+		CGFloat availableSpace = controlRect.size.width - THUMB_WIDTH;
 		
 		if( target && action && (availableSpace > BUTTON_WIDTH) ){
 			shouldDrawActionButton = YES;
@@ -298,7 +298,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}
 	
 	if( contentView ){
-		float contentViewX = (isShelfVisible ? (currentShelfWidth + 1) : 0);
+		CGFloat contentViewX = (isShelfVisible ? (currentShelfWidth + 1) : 0);
 		NSRect newRect = NSMakeRect(contentViewX, 0, NSWidth([self bounds]) - contentViewX, NSHeight([self bounds]));
 		if (!NSEqualRects(newRect, [contentView frame])){
 			[contentView setFrame:newRect];
@@ -479,7 +479,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		if( isShelfVisible ){
 		//NSLog(@"Drawing Control( %f, %f) (%f, %f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
 		
-		float remainderStart = 0.0;
+		CGFloat remainderStart = 0.0;
 		
 		// action button
 		if( shouldDrawActionButton  == YES){
@@ -575,7 +575,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 											1.0, 
 											resizeThumbRect.size.height / 2.0
 										);
-		int i;
+		NSInteger i;
 		for( i=0; i<3; i++ ){
 			NSRectFill( thumbLineRect );
 			thumbLineRect.origin.x += (1+THUMB_LINE_SPACING);

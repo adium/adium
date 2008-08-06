@@ -225,7 +225,7 @@
  */
 - (IBAction)showFingerprint:(id)sender
 {
-	int selectedRow = [tableView_fingerprints selectedRow];
+	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	if (selectedRow != -1) {
 		NSDictionary	*fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
 		[ESOTRFingerprintDetailsWindowController showDetailsForFingerprintDict:fingerprintDict];
@@ -234,12 +234,12 @@
 
 //Fingerprint tableview ------------------------------------------------------------------------------------------------
 #pragma mark Fingerprint tableview
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [fingerprintDictArray count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	if ((rowIndex >= 0) && (rowIndex < [fingerprintDictArray count])) {
 		NSString		*identifier = [aTableColumn identifier];
@@ -257,14 +257,14 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-	int selectedRow = [tableView_fingerprints selectedRow];
+	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	[button_showFingerprint setEnabled:(selectedRow != -1)];
 }
 

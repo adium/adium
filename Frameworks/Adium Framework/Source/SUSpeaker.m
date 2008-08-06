@@ -9,8 +9,20 @@
 #include <unistd.h>
 #include <pthread.h>
 
-void MySpeechDoneCallback(SpeechChannel chan,SInt32 refCon);
-void MySpeechWordCallback (SpeechChannel chan, SInt32 refCon, UInt32 wordPos, 
+//Tiger Compatibility
+#if __LP64__
+typedef void *                          URefCon;
+typedef void *                          SRefCon;
+#else
+typedef UInt32                          URefCon;
+typedef SInt32                          SRefCon;
+#endif  /* __LP64__ */
+
+typedef CALLBACK_API( void , SpeechDoneProcPtr )(SpeechChannel chan, SRefCon refCon);
+typedef CALLBACK_API( void , SpeechWordProcPtr )(SpeechChannel chan, SRefCon refCon, unsigned long wordPos, UInt16 wordLen);
+
+void MySpeechDoneCallback(SpeechChannel chan,SRefCon refCon);
+void MySpeechWordCallback (SpeechChannel chan, SRefCon refCon, UInt32 wordPos, 
     UInt16 wordLen);
 
 @interface SUSpeaker (Private)
@@ -323,7 +335,7 @@ Note that extreme value can make your app crash..."  */
 
 @end
 
-void MySpeechDoneCallback(SpeechChannel chan,SInt32 refCon)
+void MySpeechDoneCallback(SpeechChannel chan,SRefCon refCon)
 {
     SUSpeaker *speaker = (SUSpeaker*)refCon;
     unsigned msg = 8;
@@ -342,7 +354,7 @@ void MySpeechDoneCallback(SpeechChannel chan,SInt32 refCon)
         }
     } 
 }
-void MySpeechWordCallback(SpeechChannel chan, SInt32 refCon, UInt32 wordPos,UInt16 wordLen)
+void MySpeechWordCallback(SpeechChannel chan, SRefCon refCon, UInt32 wordPos,UInt16 wordLen)
 {
     SUSpeaker *speaker = (SUSpeaker*)refCon;
     unsigned msg = 5;

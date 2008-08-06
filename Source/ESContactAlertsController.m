@@ -41,7 +41,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 {
 	static BOOL didInitialize = NO;
 	if (!didInitialize) {
-		for (int i = 0; i < EVENT_HANDLER_GROUP_COUNT; i++) {
+		for (NSInteger i = 0; i < EVENT_HANDLER_GROUP_COUNT; i++) {
 			eventHandlersByGroup[i] = nil;
 			globalOnlyEventHandlersByGroup[i] = nil;
 		}
@@ -173,7 +173,7 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 {
 	NSMutableArray		*menuItemArray = [NSMutableArray array];
 	BOOL				addedItems = NO;
-	int					i;
+	NSInteger					i;
 	
 	for (i = 0; i < EVENT_HANDLER_GROUP_COUNT; i++) {
 		NSMutableArray		*groupMenuItemArray;
@@ -235,8 +235,8 @@ static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_
 /*!
  * @brief Sort event IDs by group and then by global short description
  */
-int eventIDSort(id objectA, id objectB, void *context) {
-	int					groupA, groupB;
+NSInteger eventIDSort(id objectA, id objectB, void *context) {
+	NSInteger					groupA, groupB;
 	id <AIEventHandler> eventHandlerA;
 	id <AIEventHandler> eventHandlerB;
 	
@@ -340,7 +340,7 @@ int eventIDSort(id objectA, id objectB, void *context) {
 										  userInfo:userInfo]) {
 					
 					//If this alert was a single-fire alert, we can delete it now
-					if ([[alert objectForKey:KEY_ONE_TIME_ALERT] intValue]) {
+					if ([[alert objectForKey:KEY_ONE_TIME_ALERT] integerValue]) {
 						AILogWithSignature(@"One time alert, so removing %@ from %@", alert, listObject);
 						[self removeAlert:alert fromListObject:listObject];
 					}

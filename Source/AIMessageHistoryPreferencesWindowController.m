@@ -57,7 +57,7 @@ AIMessageHistory_HaveNotTalkedInInterval
 	BOOL enableTalkedControls = NO;
 	BOOL enableNotTalkedControls = NO;
 	
-	switch ([[[adium preferenceController] preferenceForKey:@"Display Mode" group:@"Message Context Display"] intValue]) {
+	switch ([[[adium preferenceController] preferenceForKey:@"Display Mode" group:@"Message Context Display"] integerValue]) {
 		case AIMessageHistory_Always:
 			break;
 		
@@ -92,7 +92,7 @@ AIMessageHistory_HaveNotTalkedInInterval
 /*!
  * @brief Called as the user list edit sheet closes, dismisses the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 }

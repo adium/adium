@@ -64,7 +64,7 @@
 {
     NSMutableDictionary	*loginDict;
 	NSArray				*arguments;
-	unsigned			argumentIndex;
+	NSUInteger			argumentIndex;
 	NSString			*userName = nil;
 	
     //Retain the target and selector
@@ -160,8 +160,8 @@
     NSString		*userPath;
     NSArray			*directoryContents;
     NSMutableArray	*userArray;
-    int				loop;
-	unsigned		count;
+    NSInteger				loop;
+	NSUInteger		count;
     BOOL			isDirectory;
 
     //Get the users path

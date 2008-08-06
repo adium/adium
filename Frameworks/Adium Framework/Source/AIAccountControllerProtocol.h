@@ -150,7 +150,7 @@ typedef enum {
 - (AIAccount *)createAccountWithService:(AIService *)service UID:(NSString *)inUID;
 - (void)addAccount:(AIAccount *)inAccount;
 - (void)deleteAccount:(AIAccount *)inAccount;
-- (int)moveAccount:(AIAccount *)account toIndex:(int)destIndex;
+- (NSUInteger)moveAccount:(AIAccount *)account toIndex:(NSUInteger)destIndex;
 - (void)accountDidChangeUID:(AIAccount *)inAccount;
 
 //Preferred Accounts

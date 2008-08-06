@@ -76,8 +76,8 @@
 			  uniqueID:(unsigned long long)uniqueID;
 @end
 
-int _scriptTitleSort(id scriptA, id scriptB, void *context);
-int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
+NSInteger _scriptTitleSort(id scriptA, id scriptB, void *context);
+NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 
 /*!
  * @class GBApplescriptFiltersPlugin
@@ -285,7 +285,7 @@ int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 /*!
  * @brief Sort first by set, then by title within sets
  */
-int _scriptTitleSort(id scriptA, id scriptB, void *context) {
+NSInteger _scriptTitleSort(id scriptA, id scriptB, void *context) {
 	NSComparisonResult result;
 	
 	NSString	*setA = [scriptA objectForKey:@"Set"];
@@ -316,12 +316,12 @@ int _scriptTitleSort(id scriptA, id scriptB, void *context) {
 /*!
  * @brief Sort by descending length so the longest keywords are at the beginning of the array
  */
-int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
+NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 {
 	NSComparisonResult result;
 	
-	unsigned int lengthA = [(NSString *)[scriptA objectForKey:@"Keyword"] length];
-	unsigned int lengthB = [(NSString *)[scriptB objectForKey:@"Keyword"] length];
+	NSUInteger lengthA = [(NSString *)[scriptA objectForKey:@"Keyword"] length];
+	NSUInteger lengthB = [(NSString *)[scriptB objectForKey:@"Keyword"] length];
 	if (lengthA > lengthB) {
 		result = NSOrderedAscending;
 	} else if (lengthA < lengthB) {
@@ -345,7 +345,7 @@ int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	NSDictionary	*appendDict;
 	NSString		*lastSet = nil;
 	NSString		*set;
-	int				indentationLevel;
+	NSInteger				indentationLevel;
 	
 	enumerator = [scripts objectEnumerator];
 	while ((appendDict = [enumerator nextObject])) {
@@ -519,7 +519,7 @@ int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
  *
  * Filter earlier than the default
  */
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return HIGH_FILTER_PRIORITY;
 }
@@ -547,7 +547,7 @@ int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 								 atIndex:([scanner scanLocation]-1) /* The scanner ends up one past the keyword */
 						  effectiveRange:nil] == nil)) {
 			//Scan the keyword and ensure it was not found within a link
-			int 		keywordStart, keywordEnd;
+			NSInteger 		keywordStart, keywordEnd;
 			NSArray 	*argArray = nil;
 			NSString	*argString;
 			
@@ -654,9 +654,9 @@ int _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	NSMutableArray	*argArray = [NSMutableArray array];
 	NSArray			*inStringComponents = [inString componentsSeparatedByString:@","];
 	
-	unsigned		i = 0;
-	unsigned		count = (scriptArguments ? [scriptArguments count] : 0);
-	unsigned		inStringComponentsCount = [inStringComponents count];
+	NSUInteger		i = 0;
+	NSUInteger		count = (scriptArguments ? [scriptArguments count] : 0);
+	NSUInteger		inStringComponentsCount = [inStringComponents count];
 	
 	//Add each argument of inString to argArray so long as the number of arguments is less
 	//than the number of expected arguments for the script and the number of supplied arguments

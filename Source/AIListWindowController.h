@@ -65,7 +65,7 @@ typedef enum {
 	// from hiding during the amount of time it is to be shown
 	BOOL								preventHiding;
 	BOOL								overrodeWindowLevel;
-	int									previousWindowLevel;
+	NSInteger									previousWindowLevel;
 
 	//this needs to be stored because we turn the shadow off when the window slides offscreen
 	BOOL								listHasShadow; 
@@ -81,7 +81,7 @@ typedef enum {
 	NSRect								currentScreenFrame;
 	
 	NSViewAnimation						*windowAnimation;
-	float								previousAlpha;
+	CGFloat								previousAlpha;
 	
 	AIListWindowController				*attachToBottom;
 }

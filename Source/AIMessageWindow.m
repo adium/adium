@@ -21,7 +21,7 @@
  */
 @implementation AIMessageWindow
 
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)styleMask backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)styleMask backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
 	if (!(self = [super initWithContentRect:contentRect styleMask:styleMask backing:bufferingType defer:deferCreation]))
 		return nil;
@@ -35,7 +35,7 @@
  * We return AIClickThroughThemeDocumentButton instead of NSThemeDocumentButton to provide
  * click-through dragging behavior on 10.4 and earlier.
  */
-+ (NSButton *)standardWindowButton:(NSWindowButton)button forStyleMask:(unsigned int)styleMask
++ (NSButton *)standardWindowButton:(NSWindowButton)button forStyleMask:(NSUInteger)styleMask
 {
 	NSButton *standardWindowButton = [super standardWindowButton:button forStyleMask:styleMask];
 
@@ -57,7 +57,7 @@
 	return [[NSUniqueIDSpecifier alloc]
 			initWithContainerClassDescription:containerClassDesc
 			containerSpecifier:nil key:@"chatWindows"
-			uniqueID:[NSNumber numberWithUnsignedInt:[self hash]]];
+			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]];
 }
 
 - (NSArray *)chats

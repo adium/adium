@@ -16,9 +16,9 @@
 {
 	if ((self = [super initWithCoder:decoder])) {
 		if ([decoder allowsKeyedCoding]) {
-			granularity = [[decoder decodeObjectForKey:@"Granularity"] intValue];
+			granularity = [[decoder decodeObjectForKey:@"Granularity"] integerValue];
 		} else {
-			granularity = [[decoder decodeObject] intValue];			
+			granularity = [[decoder decodeObject] integerValue];			
 		}
 	}
 	
@@ -30,10 +30,10 @@
 	[super encodeWithCoder:encoder];
 
 	if ([encoder allowsKeyedCoding]) {
-        [encoder encodeObject:[NSNumber numberWithInt:granularity] forKey:@"Granularity"];
+        [encoder encodeObject:[NSNumber numberWithInteger:granularity] forKey:@"Granularity"];
 		
     } else {
-        [encoder encodeObject:[NSNumber numberWithInt:granularity]];
+        [encoder encodeObject:[NSNumber numberWithInteger:granularity]];
     }
 }
 

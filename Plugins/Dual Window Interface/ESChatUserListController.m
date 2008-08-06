@@ -63,7 +63,7 @@
  *
  * When a drop of a contact is performed onto the user list, invite the contact to the chat
  */
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {
 	//Invite the dragged contact(s) to the chat
 	BOOL			success = NO;
@@ -100,7 +100,7 @@
  * @param index The index within item into which the drag would currently drop. It may be a 0-based index inside item or may be NSOutlineViewDropOnItemIndex.
  * @result The drag operation we will allow
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
 	NSEnumerator	*enumerator = [dragItems objectEnumerator];
 	AIListObject	*listObject;
@@ -131,12 +131,12 @@
 - (NSMenu *)contextualMenuForListObject:(AIListObject *)listObject
 {
 	NSArray			*locationsArray = [NSArray arrayWithObjects:
-		[NSNumber numberWithInt:Context_Contact_GroupChatAction],		
-		[NSNumber numberWithInt:Context_Contact_Manage],
-		[NSNumber numberWithInt:Context_Contact_Action],
-		[NSNumber numberWithInt:Context_Contact_ListAction],
-		[NSNumber numberWithInt:Context_Contact_NegativeAction],
-		[NSNumber numberWithInt:Context_Contact_Additions], nil];
+		[NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
+		[NSNumber numberWithInteger:Context_Contact_Manage],
+		[NSNumber numberWithInteger:Context_Contact_Action],
+		[NSNumber numberWithInteger:Context_Contact_ListAction],
+		[NSNumber numberWithInteger:Context_Contact_NegativeAction],
+		[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 	
     return [[adium menuController] contextualMenuWithLocations:locationsArray
 												 forListObject:listObject

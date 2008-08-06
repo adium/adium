@@ -54,17 +54,17 @@ typedef enum {
     
     // Set the values of the controls and fields
     [checkBox_showContext setState:[[preferenceDict objectForKey:KEY_DISPLAY_CONTEXT] boolValue]];
-	[textField_linesToDisplay setIntValue:[[preferenceDict objectForKey:KEY_DISPLAY_LINES] intValue]];
-	[textField_haveTalkedDays setIntValue:[[preferenceDict objectForKey:KEY_HAVE_TALKED_DAYS] intValue]];
-	[textField_haveNotTalkedDays setIntValue:[[preferenceDict objectForKey:KEY_HAVE_NOT_TALKED_DAYS] intValue]];
-	[matrix_radioButtons selectCellAtRow:[[preferenceDict objectForKey:KEY_DISPLAY_MODE] intValue] column:0];
+	[textField_linesToDisplay setIntegerValue:[[preferenceDict objectForKey:KEY_DISPLAY_LINES] integerValue]];
+	[textField_haveTalkedDays setIntegerValue:[[preferenceDict objectForKey:KEY_HAVE_TALKED_DAYS] integerValue]];
+	[textField_haveNotTalkedDays setIntegerValue:[[preferenceDict objectForKey:KEY_HAVE_NOT_TALKED_DAYS] integerValue]];
+	[matrix_radioButtons selectCellAtRow:[[preferenceDict objectForKey:KEY_DISPLAY_MODE] integerValue] column:0];
 	
 	NSMenu	*intervalUnitsMenu = [self intervalUnitsMenu];
 	[menu_haveTalkedUnits setMenu:intervalUnitsMenu];
 	[menu_haveNotTalkedUnits setMenu:[[intervalUnitsMenu copy] autorelease]];
 
-	[menu_haveTalkedUnits selectItemAtIndex:[[preferenceDict objectForKey:KEY_HAVE_TALKED_UNITS] intValue]];
-	[menu_haveNotTalkedUnits selectItemAtIndex:[[preferenceDict objectForKey:KEY_HAVE_NOT_TALKED_UNITS] intValue]];
+	[menu_haveTalkedUnits selectItemAtIndex:[[preferenceDict objectForKey:KEY_HAVE_TALKED_UNITS] integerValue]];
+	[menu_haveNotTalkedUnits selectItemAtIndex:[[preferenceDict objectForKey:KEY_HAVE_NOT_TALKED_UNITS] integerValue]];
 
 	[self configureControlDimming];
 }
@@ -79,28 +79,28 @@ typedef enum {
 		
 	} else if ( sender == textField_linesToDisplay ) {
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_DISPLAY_LINES
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == textField_haveTalkedDays ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_HAVE_TALKED_DAYS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if (sender == textField_haveNotTalkedDays ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender intValue]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_HAVE_NOT_TALKED_DAYS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == matrix_radioButtons ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender selectedRow]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender selectedRow]]
 											 forKey:KEY_DISPLAY_MODE
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 		[self configureControlDimming];
 	} else if ( sender == menu_haveTalkedUnits ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender indexOfSelectedItem]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
 											 forKey:KEY_HAVE_TALKED_UNITS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == menu_haveNotTalkedUnits ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender indexOfSelectedItem]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
 											 forKey:KEY_HAVE_NOT_TALKED_UNITS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	}
@@ -109,7 +109,7 @@ typedef enum {
 
 - (void)configureControlDimming
 {
-	int		selectedRow = [matrix_radioButtons selectedRow];
+	NSInteger		selectedRow = [matrix_radioButtons selectedRow];
 	BOOL	contextEnabled =[checkBox_showContext state];
 		
 	[textField_linesToDisplay setEnabled:contextEnabled];

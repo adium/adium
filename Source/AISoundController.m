@@ -65,19 +65,19 @@
  * @param pitch The pitch to use, or 0.0 to use the default pitch
  * @param rate The rate to use, 0.0 to use the default rate
  */
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate{
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(CGFloat)rate{
 	[adiumSpeech speakDemoTextForVoice:voiceString withPitch:pitch andRate:rate];
 }
-- (float)defaultRate{
+- (CGFloat)defaultRate{
 	return [adiumSpeech defaultRate];
 }
-- (float)defaultPitch{
+- (CGFloat)defaultPitch{
 	return [adiumSpeech defaultPitch];
 }
 - (void)speakText:(NSString *)text{
 	[adiumSpeech speakText:text];
 }
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate{
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(CGFloat)rate{
 	[adiumSpeech speakText:text withVoice:voiceString pitch:pitch rate:rate];
 }
 

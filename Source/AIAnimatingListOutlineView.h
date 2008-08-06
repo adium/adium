@@ -12,7 +12,7 @@
 	
 	NSMutableDictionary *allAnimatingItemsDict;
 	NSMutableSet *animations;
-	int animationsCount;
+	NSInteger animationsCount;
 	NSSize animationHedgeFactor;
 	
 	BOOL disableExpansionAnimation;

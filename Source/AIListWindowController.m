@@ -230,9 +230,9 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[adiumNotificationCenter postNotificationName:Interface_ContactListDidClose object:self];
 }
 
-int levelForAIWindowLevel(AIWindowLevel windowLevel)
+NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 {
-	int				level;
+	NSInteger				level;
 
 	switch (windowLevel) {
 		case AINormalWindowLevel: level = NSNormalWindowLevel; break;
@@ -244,7 +244,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	return level;
 }
 
-- (void)setWindowLevel:(int)level
+- (void)setWindowLevel:(NSInteger)level
 {
 	AILogWithSignature(@"Setting to %i", level);
 	[[self window] setLevel:level];
@@ -267,13 +267,13 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 			return;
 
     if ([group isEqualToString:PREF_GROUP_CONTACT_LIST]) {
-		windowLevel = [[prefDict objectForKey:KEY_CL_WINDOW_LEVEL] intValue];
+		windowLevel = [[prefDict objectForKey:KEY_CL_WINDOW_LEVEL] integerValue];
 		[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 
 		listHasShadow = [[prefDict objectForKey:KEY_CL_WINDOW_HAS_SHADOW] boolValue];
 		[[self window] setHasShadow:listHasShadow];
 		
-		windowHidingStyle = [[prefDict objectForKey:KEY_CL_WINDOW_HIDING_STYLE] intValue];
+		windowHidingStyle = [[prefDict objectForKey:KEY_CL_WINDOW_HIDING_STYLE] integerValue];
 		slideOnlyInBackground = [[prefDict objectForKey:KEY_CL_SLIDE_ONLY_IN_BACKGROUND] boolValue];
 		
 		[[self window] setHidesOnDeactivate:(windowHidingStyle == AIContactListWindowHidingStyleBackground)];
@@ -306,10 +306,10 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	
 	//Auto-Resizing
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
-		AIContactListWindowStyle	windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
+		AIContactListWindowStyle	windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue];
 		BOOL	autoResizeHorizontally = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 		BOOL	autoResizeVertically = YES;
-		int		forcedWindowWidth, maxWindowWidth;
+		NSInteger		forcedWindowWidth, maxWindowWidth;
 		
 		//Determine how to handle vertical autosizing. AIAppearancePreferences must match this behavior for this to make sense.
 		switch (windowStyle) {
@@ -327,7 +327,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 		if (autoResizeHorizontally) {
 			//If autosizing, KEY_LIST_LAYOUT_HORIZONTAL_WIDTH determines the maximum width; no forced width.
-			maxWindowWidth = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] intValue];
+			maxWindowWidth = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] integerValue];
 			forcedWindowWidth = -1;
 		} else {
 			if (windowStyle == AIContactListWindowStyleStandard/* || windowStyle == AIContactListWindowStyleBorderless*/) {
@@ -336,7 +336,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 				forcedWindowWidth = -1;
 			} else {
 				//In the transparent non-autosizing modes, KEY_LIST_LAYOUT_HORIZONTAL_WIDTH determines the width of the window
-				forcedWindowWidth = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] intValue];
+				forcedWindowWidth = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] integerValue];
 				maxWindowWidth = forcedWindowWidth;
 			}
 		}
@@ -400,14 +400,14 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 	//Window opacity
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
-		float opacity = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] floatValue];		
+		CGFloat opacity = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue];		
 		[contactListController setBackgroundOpacity:opacity];
 
 		/*
 		 * If we're using fitted bubbles, we want the default behavior of the winodw, which is to respond to clicks on opaque areas
 		 * and ignore clicks on transparent areas.  If we're using any other style, we never want to ignore clicks.
 		 */
-		BOOL forceWindowToCatchMouseEvents = ([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue] != AIContactListWindowStyleContactBubbles_Fitted);
+		BOOL forceWindowToCatchMouseEvents = ([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue] != AIContactListWindowStyleContactBubbles_Fitted);
 		if (forceWindowToCatchMouseEvents)
 			[[self window] setIgnoresMouseEvents:NO];
 
@@ -429,7 +429,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 		//Layout only
 		if (groupLayout) {
-			int iconSize = [[layoutDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_SIZE] intValue];
+			NSInteger iconSize = [[layoutDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_SIZE] integerValue];
 			[AIUserIcons setListUserIconSize:NSMakeSize(iconSize,iconSize)];
 		}
 			
@@ -445,8 +445,8 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 		}
 
-		EXTENDED_STATUS_STYLE statusStyle = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] intValue];
-		EXTENDED_STATUS_POSITION statusPosition = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] intValue];
+		EXTENDED_STATUS_STYLE statusStyle = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue];
+		EXTENDED_STATUS_POSITION statusPosition = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue];
 		[contactListController setAutoresizeHorizontallyWithIdleTime:
 		 ((statusStyle == IDLE_ONLY || statusStyle == IDLE_AND_STATUS) &&
 		  (statusPosition == EXTENDED_STATUS_POSITION_BESIDE_NAME || statusPosition == EXTENDED_STATUS_POSITION_BOTH))];
@@ -633,7 +633,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 + (void)updateScreenSlideBoundaryRect:(id)sender
 {
 	NSArray *screens = [NSScreen screens];
-	int numScreens = [screens count];
+	NSInteger numScreens = [screens count];
 	
 	[screenSlideBoundaryRectDictionary release];
 	screenSlideBoundaryRectDictionary = [[NSMutableDictionary alloc] initWithCapacity:numScreens];
@@ -648,7 +648,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[screenSlideBoundaryRectDictionary setObject:[NSValue valueWithRect:screenSlideBoundaryRect]
 											  forKey:[NSValue valueWithNonretainedObject:menubarScreen]];
 
-		for (int i = 1; i < numScreens; i++) {
+		for (NSInteger i = 1; i < numScreens; i++) {
 			NSScreen *screen = [screens objectAtIndex:i];
 			[screenSlideBoundaryRectDictionary setObject:[NSValue valueWithRect:[screen frame]]
 												  forKey:[NSValue valueWithNonretainedObject:screen]];
@@ -815,7 +815,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	NSRectEdge screenEdge;
 	for (screenEdge = 0; screenEdge < 4; screenEdge++) {		
 		if (slidableEdgesAdjacentToWindow & (1 << screenEdge)) {
-			float distanceMouseOutsideWindow = AISignedExteriorDistanceRect_edge_toPoint_(windowFrame, AIOppositeRectEdge_(screenEdge), mouseLocation);
+			CGFloat distanceMouseOutsideWindow = AISignedExteriorDistanceRect_edge_toPoint_(windowFrame, AIOppositeRectEdge_(screenEdge), mouseLocation);
 			if (distanceMouseOutsideWindow > WINDOW_SLIDING_MOUSE_DISTANCE_TOLERANCE)
 				shouldSlideOffScreen = YES;
 		}
@@ -852,7 +852,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	return pointScreen;
 }	
 
-- (NSRect)squareRectWithCenter:(NSPoint)point sideLength:(float)sideLength
+- (NSRect)squareRectWithCenter:(NSPoint)point sideLength:(CGFloat)sideLength
 {
 	return NSMakeRect(point.x - sideLength*0.5f, point.y - sideLength*0.5f, sideLength, sideLength);
 }
@@ -861,7 +861,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 {
 	BOOL inCorner = NO;
 	NSScreen *menubarScreen = [[NSScreen screens] objectAtIndex:0];
-	float menubarHeight = NSMaxY([menubarScreen frame]) - NSMaxY([menubarScreen visibleFrame]); // breaks if the dock is at the top of the screen (i.e. if the user is insane)
+	CGFloat menubarHeight = NSMaxY([menubarScreen frame]) - NSMaxY([menubarScreen visibleFrame]); // breaks if the dock is at the top of the screen (i.e. if the user is insane)
 	
 	NSRect screenFrame = [[self screenForPoint:point] frame];
 	NSPoint lowerLeft  = screenFrame.origin;
@@ -869,7 +869,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	NSPoint lowerRight = NSMakePoint(upperRight.x, lowerLeft.y);
 	NSPoint upperLeft  = NSMakePoint(lowerLeft.x, upperRight.y);
 	
-	float sideLength = menubarHeight * 2.0f;
+	CGFloat sideLength = menubarHeight * 2.0f;
 	inCorner = (NSPointInRect(point, [self squareRectWithCenter:lowerLeft sideLength:sideLength])
 				|| NSPointInRect(point, [self squareRectWithCenter:lowerRight sideLength:sideLength])
 				|| NSPointInRect(point, [self squareRectWithCenter:upperLeft sideLength:sideLength])
@@ -905,7 +905,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 				for (screenEdge = 0; screenEdge < 4; screenEdge++) {
 					//But we only care about an edge off of which the window has slid
 					if (windowSlidOffScreenEdgeMask & (1 << screenEdge)) {
-						float mouseOutsideSlideBoundaryRectDistance = AISignedExteriorDistanceRect_edge_toPoint_(screenSlideBoundaryRect,
+						CGFloat mouseOutsideSlideBoundaryRectDistance = AISignedExteriorDistanceRect_edge_toPoint_(screenSlideBoundaryRect,
 																												 screenEdge,
 																												 mouseLocation);
 						//The mouse must be within MOUSE_EDGE_SLIDE_ON_DISTANCE of every slid-off edge to bring the window back on-screen
@@ -1004,7 +1004,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 	if (!windowScreen) windowScreen = [NSScreen mainScreen];
 	
 	NSRect	frame = [myWindow frame];
-	float yOff = (targetPoint.y + NSHeight(frame)) - NSMaxY([windowScreen frame]);
+	CGFloat yOff = (targetPoint.y + NSHeight(frame)) - NSMaxY([windowScreen frame]);
 	if (windowScreen == [[NSScreen screens] objectAtIndex:0]) yOff -= [[NSApp mainMenu] menuBarHeight];
 	if (yOff > 0) targetPoint.y -= yOff;
 	
@@ -1066,7 +1066,7 @@ int levelForAIWindowLevel(AIWindowLevel windowLevel)
 static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *screen)
 {
 	NSArray  *screens = [NSScreen screens];
-	unsigned numScreens = [screens count];
+	NSUInteger numScreens = [screens count];
 	if (numScreens > 1) {
 		NSRect	screenSlideBoundaryRect = [[screenSlideBoundaryRectDictionary objectForKey:[NSValue valueWithNonretainedObject:screen]] rectValue];
 		NSRect	shiftedScreenFrame = screenSlideBoundaryRect;
@@ -1087,7 +1087,7 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 				break;
 		}
 
-		for (int i = 0; i < numScreens; i++) {
+		for (NSInteger i = 0; i < numScreens; i++) {
 			NSScreen *otherScreen = [screens objectAtIndex:i];
 			if (otherScreen != screen) {
 				if (NSIntersectsRect([otherScreen frame], shiftedScreenFrame)) {
@@ -1304,7 +1304,7 @@ static BOOL isInRangeOfRect(NSRect sourceRect, NSRect targetRect)
 /*!
  * @brief Check if points are close enough to be snapped together
  */
-static BOOL canSnap(float a, float b)
+static BOOL canSnap(CGFloat a, CGFloat b)
 {
 	return (abs(a - b) <= SNAP_DISTANCE);
 }
@@ -1312,8 +1312,8 @@ static BOOL canSnap(float a, float b)
 - (NSPoint)snapTo:(NSWindow*)neighborWindow with:(NSRect)currentRect saveTo:(NSPoint)location{
 	NSRect neighbor = [neighborWindow frame];
 	NSPoint spacing = [self windowSpacing];
-	unsigned overlap = 0;
-	unsigned bottom = 0;
+	NSUInteger overlap = 0;
+	NSUInteger bottom = 0;
 	
 	if (!NSEqualRects(neighbor,currentRect) && isInRangeOfRect(currentRect, neighbor)) {
 		// X Snapping
@@ -1360,9 +1360,9 @@ static BOOL canSnap(float a, float b)
  */
 - (NSPoint)windowSpacing {
 	AIContactListWindowStyle style = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
-														  group:PREF_GROUP_APPEARANCE] intValue];
-	int space = [[[adium preferenceController] preferenceForKey:@"Group Top Spacing" 
-														  group:@"List Layout"] intValue];
+														  group:PREF_GROUP_APPEARANCE] integerValue];
+	NSInteger space = [[[adium preferenceController] preferenceForKey:@"Group Top Spacing" 
+														  group:@"List Layout"] integerValue];
 	
 	switch (style) {
 		case AIContactListWindowStyleStandard:

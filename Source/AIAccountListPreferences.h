@@ -46,7 +46,7 @@
 - (void)updateAccountOverview;
 - (void)updateControlAvailability;
 - (NSString *)statusMessageForAccount:(AIAccount *)account;
-- (NSMenu *)menuForRow:(int) row;
+- (NSMenu *)menuForRow:(NSInteger) row;
 - (NSMenu *)menuForRowIndexes:(NSIndexSet *)indexes;
 
 @end

@@ -16,10 +16,10 @@
 
 	NSMutableDictionary	*defaults;
 	NSTimer				*timer_clearingOfCache;
-	int					preferenceChangeDelays;
+	NSInteger					preferenceChangeDelays;
 	
 	NSMutableDictionary **myGlobalPrefs;
-	int					*myUsersOfGlobalPrefs;
+	NSInteger					*myUsersOfGlobalPrefs;
 	NSTimer				**myTimerForSavingGlobalPrefs;
 	NSString			*globalPrefsName;
 }

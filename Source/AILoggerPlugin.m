@@ -671,7 +671,7 @@ NSCalendarDate* getDateFromPath(NSString *path)
 	return nil;
 }
 
-int sortPaths(NSString *path1, NSString *path2, void *context)
+NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	NSCalendarDate *date1 = getDateFromPath(path1);
 	NSCalendarDate *date2 = getDateFromPath(path2);
@@ -716,8 +716,8 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 		}
 		
-		unsigned		contactsToProcess = [pathsToContactFolders count];
-		unsigned		processed = 0;
+		NSUInteger		contactsToProcess = [pathsToContactFolders count];
+		NSUInteger		processed = 0;
 		
 		if (contactsToProcess) {
 			AILogFileUpgradeWindowController *upgradeWindowController;
@@ -917,7 +917,7 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
 }
 
 //Get the current status of indexing.  Returns NO if indexing is not occuring
-- (BOOL)getIndexingProgress:(int *)indexNumber outOf:(int *)total
+- (BOOL)getIndexingProgress:(NSUInteger *)indexNumber outOf:(NSUInteger *)total
 {
 	//logsIndexed + 1 is the log we are currently indexing
 	if (indexNumber) *indexNumber = (logsIndexed + 1 <= logsToIndex) ? logsIndexed + 1 : logsToIndex;
@@ -955,8 +955,8 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
 		NSDictionary *textAnalysisProperties;
 		
 		textAnalysisProperties = [NSDictionary dictionaryWithObjectsAndKeys:
-			[NSNumber numberWithInt:0], kSKMaximumTerms,
-			[NSNumber numberWithInt:2], kSKMinTermLength,
+			[NSNumber numberWithInteger:0], kSKMaximumTerms,
+			[NSNumber numberWithInteger:2], kSKMinTermLength,
 #if ENABLE_PROXIMITY_SEARCH
 			kCFBooleanTrue, kSKProximityIndexing, 
 #endif
@@ -1071,8 +1071,8 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)loadDirtyLogArray
 {
 	if (!dirtyLogArray) {
-		int logVersion = [[[adium preferenceController] preferenceForKey:KEY_LOG_INDEX_VERSION
-																   group:PREF_GROUP_LOGGING] intValue];
+		NSInteger logVersion = [[[adium preferenceController] preferenceForKey:KEY_LOG_INDEX_VERSION
+																   group:PREF_GROUP_LOGGING] integerValue];
 
 		//If the log version has changed, we reset the index and don't load the dirty array (So all the logs are marked dirty)
 		if (logVersion >= CURRENT_LOG_VERSION) {
@@ -1083,7 +1083,7 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
 			[self resetLogIndex];
-			[[adium preferenceController] setPreference:[NSNumber numberWithInt:CURRENT_LOG_VERSION]
+			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:CURRENT_LOG_VERSION]
                                                              forKey:KEY_LOG_INDEX_VERSION
                                                               group:PREF_GROUP_LOGGING];
 		}
@@ -1288,7 +1288,7 @@ int sortPaths(NSString *path1, NSString *path2, void *context)
     //Start cleaning (If we're still supposed to go)
     if (!stopIndexingThreads) {
 		UInt32	lastUpdate = TickCount();
-		int		unsavedChanges = 0;
+		NSInteger		unsavedChanges = 0;
 
 		AILogWithSignature(@"Cleaning %i dirty logs", [dirtyLogArray count]);
 

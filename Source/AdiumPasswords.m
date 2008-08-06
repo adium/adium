@@ -139,7 +139,7 @@
 {
 	NSString		*password = [requestDict objectForKey:@"Password"];
 	AIAccount		*account = [requestDict objectForKey:@"Account"];
-	AIPromptOption	promptOption = [[requestDict objectForKey:@"AIPromptOption"] intValue];
+	AIPromptOption	promptOption = [[requestDict objectForKey:@"AIPromptOption"] integerValue];
 	id				target = [requestDict objectForKey:@"Target"];
 	SEL				selector = NSSelectorFromString([requestDict objectForKey:@"Selector"]);
 	id				context = [requestDict objectForKey:@"Context"];
@@ -205,7 +205,7 @@
 							 toTarget:self
 						   withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 									   inAccount, @"Account",
-									   [NSNumber numberWithInt:promptOption], @"AIPromptOption",
+									   [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
 									   inTarget, @"Target",
 									   NSStringFromSelector(inSelector), @"Selector",
 									   inContext, @"Context" /* may be nil so should be last */,

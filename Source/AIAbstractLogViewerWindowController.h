@@ -66,7 +66,7 @@ typedef enum {
 	IBOutlet	AISplitView			*splitView_contacts_results;
 	IBOutlet	AIDividedAlternatingRowOutlineView	*outlineView_contacts;
 	IBOutlet	NSView				*containingView_contactsSourceList;
-	float							desiredContactsSourceListDeltaX;
+	CGFloat							desiredContactsSourceListDeltaX;
 
 	IBOutlet	NSView			*containingView_results;
 	IBOutlet	AISplitView		*splitView_results;
@@ -94,25 +94,25 @@ typedef enum {
 	NSTableColumn		*selectedColumn;		//Selected/active sort column
 	
 	//Search information
-    int					activeSearchID;			//ID of the active search thread, all other threads should quit
+    NSInteger					activeSearchID;			//ID of the active search thread, all other threads should quit
     NSLock				*searchingLock;			//Locked when a search is in progress
     BOOL				searching;				//YES if a search is in progress
     NSString			*activeSearchString;	//Current search string
 	BOOL				suppressSearchRequests;
 	BOOL				isOpeningForContact;
-	int					indexingUpdatesReceivedWhileSearching; //Number of times indexing has updated during the current search
+	NSInteger					indexingUpdatesReceivedWhileSearching; //Number of times indexing has updated during the current search
 
     BOOL				sortDirection;			//Direction to sort
 
 	NSTimer				*refreshResultsTimer;
-	int					searchIDToReattemptWhenComplete;
+	NSInteger					searchIDToReattemptWhenComplete;
 
 	NSString			*filterForAccountName;	//Account name to restrictively match content searches
 	NSMutableSet		*contactIDsToFilter;
 	
 	AIDateType			filterDateType;
 	NSCalendarDate		*filterDate;
-	int					firstDayOfWeek;
+	NSInteger					firstDayOfWeek;
 	BOOL				iCalFirstDayOfWeekDetermined;
 	
 	NSMutableDictionary	*logToGroupDict;
@@ -133,10 +133,10 @@ typedef enum {
     NSMutableArray		*toServiceArray;		//Array of services for accounts
     NSDateFormatter		*headerDateFormatter;	//Format for dates displayed in the content text view
 	
-    int					sameSelection;
+    NSInteger					sameSelection;
     BOOL				useSame;
 	
-	int					cachedSelectionIndex;
+	NSInteger					cachedSelectionIndex;
 	BOOL				deleteOccurred;			// YES only if a delete occurs, allowing the table to preserve selection after a search begins
 	
 	NSString			*horizontalRule;

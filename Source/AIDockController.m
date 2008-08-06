@@ -132,7 +132,7 @@
 	NSBundle * xtraBundle;
 	while ((path = [folderPathEnumerator nextObject])) {
 		xtraBundle = [NSBundle bundleWithPath:path];
-		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1))//This checks for a new-style xtra
+		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1))//This checks for a new-style xtra
 			path = [xtraBundle resourcePath];
 		[iconPackPaths addObject:path];
 	}
@@ -267,19 +267,19 @@
 {
 	AIIconState		*iconState = nil;
 	
-	if ([[stateDict objectForKey:@"Animated"] intValue]) { //Animated State
+	if ([[stateDict objectForKey:@"Animated"] integerValue]) { //Animated State
 		NSMutableDictionary	*tempIconCache = [NSMutableDictionary dictionary];
 		NSArray				*imageNameArray;
 		NSEnumerator		*imageNameEnumerator;
 		NSString			*imageName;
 		NSMutableArray		*imageArray;
 		BOOL				overlay, looping;
-		float				delay;
+		CGFloat				delay;
 		
 		//Get the state information
 		overlay = [[stateDict objectForKey:@"Overlay"] boolValue];
 		looping = [[stateDict objectForKey:@"Looping"] boolValue];
-		delay   = [[stateDict objectForKey:@"Delay"]  floatValue];
+		delay   = [[stateDict objectForKey:@"Delay"] doubleValue];
 		imageNameArray = [stateDict objectForKey:@"Images"];
 		imageNameEnumerator = [imageNameArray objectEnumerator];
 
@@ -479,14 +479,14 @@
 }
 
 //returns the % of the dock icon's full size that it currently is (0.0 - 1.0)
-- (float)dockIconScale
+- (CGFloat)dockIconScale
 {
     NSSize trueSize = [[NSScreen mainScreen] visibleFrame].size;
     NSSize availableSize = [[NSScreen mainScreen] frame].size;
 
-    int	dHeight = availableSize.height - trueSize.height;
-    int dWidth = availableSize.width - trueSize.width;
-    float dockScale = 0;
+    NSInteger	dHeight = availableSize.height - trueSize.height;
+    NSInteger dWidth = availableSize.width - trueSize.width;
+    CGFloat dockScale = 0;
 
     if (dHeight != 22) { //dock is on the bottom
         if (dHeight == 26) { //dock is hidden

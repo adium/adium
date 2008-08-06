@@ -21,7 +21,7 @@
 - (AIEmoticonPack *)emoticonPackWithName:(NSString *)inName;
 - (NSArray *)activeEmoticons;
 - (NSArray *)activeEmoticonPacks;
-- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(int)index;
+- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(NSUInteger)index;
 - (void)setEmoticonPack:(AIEmoticonPack *)inPack enabled:(BOOL)enabled;
 - (void)setEmoticon:(AIEmoticon *)inEmoticon inPack:(AIEmoticonPack *)inPack enabled:(BOOL)enabled;
 - (void)flushEmoticonImageCache;

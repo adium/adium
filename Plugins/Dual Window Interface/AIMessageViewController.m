@@ -80,12 +80,12 @@
 - (void)_destroyAccountSelectionView;
 - (void)_configureTextEntryView;
 - (void)_updateTextEntryViewHeight;
-- (int)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum;
+- (NSInteger)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum;
 - (void)_showUserListView;
 - (void)_hideUserListView;
 - (void)_configureUserList;
 - (void)_updateUserListViewWidth;
-- (int)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum;
+- (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum;
 - (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
 @end
@@ -184,7 +184,7 @@
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 
 	//Store our minimum height for the text entry area, and minimim width for the user list
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:entryMinHeight]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:entryMinHeight]
 										 forKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
@@ -230,7 +230,7 @@
 
 - (void)saveUserListMinimumSize
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:userListMinWidth]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -532,7 +532,7 @@
 			[alert beginSheetModalForWindow:[view_contents window]
 							  modalDelegate:[self retain] /* Will release after the sheet ends */
 							 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-								contextInfo:[[NSNumber alloc] initWithInt:messageSendingAbility] /* Will release after the sheet ends */];
+                                contextInfo:[[NSNumber numberWithInteger:messageSendingAbility] retain] /* Will release after the sheet ends */];
 			[alert release];
 		}
     }
@@ -541,9 +541,9 @@
 /*!
  * @brief Send Later button was pressed
  */ 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	AIChatSendingAbilityType messageSendingAbility = [(NSNumber *)contextInfo intValue];
+	AIChatSendingAbilityType messageSendingAbility = [(NSNumber *)contextInfo integerValue];
 
 	switch (returnCode) {
 		case NSAlertFirstButtonReturn:
@@ -748,7 +748,7 @@
  */
 - (void)updateFramesForAccountSelectionView
 {
-	int 	accountSelectionHeight = (view_accountSelection ? [view_accountSelection frame].size.height : 0);
+	NSInteger 	accountSelectionHeight = (view_accountSelection ? [view_accountSelection frame].size.height : 0);
 
 	if (view_accountSelection) {
 		[view_accountSelection setFrameOrigin:NSMakePoint(NSMinX([view_accountSelection frame]), NSHeight([[view_accountSelection superview] frame]) - accountSelectionHeight)];
@@ -795,7 +795,7 @@
 	
 	//User's choice of mininum height for their text entry view
 	entryMinHeight = [[[adium preferenceController] preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
-															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue];
+															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
 	if (entryMinHeight <= 0) entryMinHeight = [self _textEntryViewProperHeightIgnoringUserMininum:YES];
 	
 	//Associate the view with our message view so it knows which view to scroll in response to page up/down
@@ -886,7 +886,7 @@
  */
 - (void)_updateTextEntryViewHeight
 {
-	int		height = [self _textEntryViewProperHeightIgnoringUserMininum:NO];
+	NSInteger		height = [self _textEntryViewProperHeightIgnoringUserMininum:NO];
 	//Display the vertical scroller if our view is not tall enough to display all the entered text
 	[scrollView_outgoing setHasVerticalScroller:(height < [textView_outgoing desiredSize].height)];
 	
@@ -906,11 +906,11 @@
  *
  * @param ignoreUserMininum If YES, the user's preference for mininum height will be ignored
  */
-- (int)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum
+- (NSInteger)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum
 {
-	int dividerThickness = [splitView_textEntryHorizontal dividerThickness];
-	int allowedHeight = ([splitView_textEntryHorizontal frame].size.height / 2.0) - dividerThickness;
-	int	height;
+	NSInteger dividerThickness = [splitView_textEntryHorizontal dividerThickness];
+	NSInteger allowedHeight = ([splitView_textEntryHorizontal frame].size.height / 2.0) - dividerThickness;
+	NSInteger	height;
 	
 	//Our primary goal is to display all the entered text
 	height = [textView_outgoing desiredSize].height;
@@ -935,7 +935,7 @@
 	return [[self chat] isGroupChat];
 }
 
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
 {
 	NSMutableArray	*completions;
 	
@@ -1067,7 +1067,7 @@
 
 		//User's choice of mininum width for their user list view
 		userListMinWidth = [[[adium preferenceController] preferenceForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
-																	 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue];
+																	 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
 		if (userListMinWidth < USER_LIST_MIN_WIDTH) userListMinWidth = USER_LIST_DEFAULT_WIDTH;
 		[shelfView setShelfWidth:[userListView bounds].size.width];
 	}
@@ -1098,7 +1098,7 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == userListView) {
-		int selectedIndex = [userListView selectedRow];
+		NSInteger selectedIndex = [userListView selectedRow];
 		[chat setPreferredListObject:((selectedIndex != -1) ? 
 									  [[chat containedObjects] objectAtIndex:selectedIndex] :
 									  nil)];
@@ -1124,8 +1124,8 @@
  */
 - (void)_updateUserListViewWidth
 {
-	int		width = [self _userListViewProperWidthIgnoringUserMininum:NO];
-	int		widthWithDivider = 1 + width;	//resize bar effective width  
+	NSInteger		width = [self _userListViewProperWidthIgnoringUserMininum:NO];
+	NSInteger		widthWithDivider = 1 + width;	//resize bar effective width  
 	NSRect	tempFrame;
 
 	//Size the user list view to the desired width
@@ -1154,11 +1154,11 @@
  *
  * @param ignoreUserMininum If YES, the user's preference for mininum width will be ignored
  */
-- (int)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum
+- (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum
 {
-	int dividerThickness = 1; //[shelfView dividerThickness];
-	int allowedWidth = ([shelfView frame].size.width / 2.0) - dividerThickness;
-	int	width = USER_LIST_MIN_WIDTH;
+	NSInteger dividerThickness = 1; //[shelfView dividerThickness];
+	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0) - dividerThickness;
+	NSInteger	width = USER_LIST_MIN_WIDTH;
 	
 	//We must never fall below the user's prefered mininum or above the allowed width
 	if (!ignoreUserMininum && width < userListMinWidth) width = userListMinWidth;
@@ -1172,7 +1172,7 @@
 
 // This method will be called after a RBSplitView is resized with setFrameSize: but before
 // adjustSubviews is called on it.
-- (void)splitView:(RBSplitView*)sender wasResizedFrom:(float)oldDimension to:(float)newDimension
+- (void)splitView:(RBSplitView*)sender wasResizedFrom:(CGFloat)oldDimension to:(CGFloat)newDimension
 {
 	[[sender subviewAtPosition:0] setDimension:[[sender subviewAtPosition:0] dimension] + (newDimension - oldDimension)];
 }

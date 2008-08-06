@@ -69,7 +69,7 @@
 /*!
  * @brief Called as the user list edit sheet closes, dismisses the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[[adium notificationCenter] postNotificationName:@"NewGroupWindowControllerDidEnd"
 											  object:sheet];

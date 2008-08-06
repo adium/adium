@@ -22,7 +22,7 @@
 #import "AICrashReporter.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 
-void CrashHandler_Signal(int i);
+void CrashHandler_Signal(NSInteger i);
 
 //Enable crash catching for the crash reporter
 static AICrashController *sharedCrashController = nil;
@@ -65,7 +65,7 @@ static AICrashController *sharedCrashController = nil;
 @end
 
 //When a signal occurs, load the crash reporter and close this application
-void CrashHandler_Signal(int i)
+void CrashHandler_Signal(NSInteger i)
 {
 	NSString	*bundlePath = [[NSBundle mainBundle] bundlePath];
 	NSString	*crashReporterPath = [bundlePath stringByAppendingPathComponent:RELATIVE_PATH_TO_CRASH_REPORTER];

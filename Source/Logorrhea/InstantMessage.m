@@ -30,7 +30,7 @@
 		sender = [[decoder decodeObject] retain];
 		date = [[decoder decodeObject] retain];
 		text = [[decoder decodeObject] retain];
-		[decoder decodeValueOfObjCType:@encode(unsigned int) at:&flags];
+		[decoder decodeValueOfObjCType:@encode(unsigned) at:&flags];
 	}
 	
 	return self;

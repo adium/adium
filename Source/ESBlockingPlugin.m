@@ -222,8 +222,8 @@
 			//Enumerate over the various list contacts contained
 			NSEnumerator	*enumerator = [[meta listContacts] objectEnumerator];
 			AIListContact	*contact = nil;
-			int				votesForBlock = 0;
-			int				votesForUnblock = 0;
+			NSInteger				votesForBlock = 0;
+			NSInteger				votesForUnblock = 0;
 
 			while ((contact = [enumerator nextObject])) {
 				AIAccount <AIAccount_Privacy> *acct = [contact account];

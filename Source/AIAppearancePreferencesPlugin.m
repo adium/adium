@@ -246,7 +246,7 @@
 		if ([defaultManager fileExistsAtPath:filePath]) {
 			NSBundle *xtraBundle;
 			if((xtraBundle = [NSBundle bundleWithPath:filePath]) &&
-			   ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1)) {
+			   ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1)) {
 				filePath = [[xtraBundle resourcePath] stringByAppendingPathComponent:@"Data.plist"];
 			}
 
@@ -346,7 +346,7 @@
 }
 
 //Sort sets
-int availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *context) {
+NSInteger availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *context) {
 	return [[objectA objectForKey:@"name"] caseInsensitiveCompare:[objectB objectForKey:@"name"]];
 }
 
@@ -366,7 +366,7 @@ int availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *context
 		name = [[filePath lastPathComponent] stringByDeletingPathExtension];
 
 		if((xtraBundle = [NSBundle bundleWithPath:filePath]) &&
-		   ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1)) {
+		   ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1)) {
 			filePath = [[xtraBundle resourcePath] stringByAppendingPathComponent:@"Data.plist"];
 		}
 

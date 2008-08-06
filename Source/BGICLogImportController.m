@@ -116,7 +116,7 @@
 										nil]];	
 	
 	// sequentially add the messages from the iChat transcript sans attributed text features
-	for(int i = 0; i < [[rawChat objectAtIndex:2] count]; i++)
+	for(NSInteger i = 0; i < [[rawChat objectAtIndex:2] count]; i++)
 	{
 		NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
 		NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:

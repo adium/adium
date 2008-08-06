@@ -521,7 +521,9 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		}
 		struct FSCatalogInfo catalogInfo;
 		memset(&catalogInfo, 0, sizeof(catalogInfo));
-		BlockMoveData(&(info.finderInfo), &(catalogInfo.finderInfo), sizeof((info.finderInfo)));
+		Size byteCount = sizeof(info.finderInfo);
+		if(byteCount > 0)
+		    memmove(&(info.finderInfo), &(catalogInfo.finderInfo), byteCount);
 		OSErr error = FSSetCatalogInfo(/*(const FSRef *)*/ &ref,
 		                               /*(FSCatalogInfoBitmap)*/ (kFSCatInfoFinderInfo),
 		                               /*(const FSCatalogInfo *)*/ &catalogInfo);

@@ -617,11 +617,7 @@
 				err = PtrToHand(&(folder->alias), (Handle *)&aliasHandle, length - kICFileSpecHeaderSize);
 				NSAssert4(err == noErr, @"%s: PtrToHand (trying to create an AliasHandle of %u bytes for the Downloads folder) returned %i (%s)", __PRETTY_FUNCTION__, length, err, GetMacOSStatusCommentString(err));
 
-				//FSSpec is deprecated as of 10.5. For that reason, use the alias if we can; use FSSpec only if that fails.
-				if (!((err = FSResolveAlias(/* fromFile */ NULL, aliasHandle, &ref, &wasChanged)) == noErr)) {
-					err = FSpMakeFSRef(&(folder->fss), &ref);
-				}
-
+				err = FSResolveAlias(/* fromFile */ NULL, aliasHandle, &ref, &wasChanged) == noErr;
 				//If we now have an FSRef, make a path string out of it.
 				if (((err = FSRefMakePath(&ref, (unsigned char *)path, PATH_MAX)) == noErr) &&
 					((path != NULL) && (strlen(path) > 0))) {
@@ -695,7 +691,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	}
 	
 	//We need the key to do AIPC change notifications.
-	int periodIdx = [groupWithKeyPath rangeOfString:@"." options:NSLiteralSearch].location;
+	NSInteger periodIdx = [groupWithKeyPath rangeOfString:@"." options:NSLiteralSearch].location;
 	if (periodIdx == NSNotFound) {
 		group = groupWithKeyPath;
 	} else {
@@ -714,7 +710,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 
 - (void)addObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context
 {
-	unsigned periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
+	NSUInteger periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
 	if(periodIdx == NSNotFound) {
 		[super addObserver:anObserver forKeyPath:keyPath options:options context:context];
 		
@@ -739,7 +735,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 
 - (void)removeObserver:(NSObject *)anObserver forKeyPath:(NSString *)keyPath
 {
-	unsigned periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
+	NSUInteger periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
 	if(periodIdx == NSNotFound) {
 		[super removeObserver:anObserver forKeyPath:keyPath];
 		
@@ -758,7 +754,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 }
 
 - (id) valueForKeyPath:(NSString *)keyPath {
-	unsigned periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
+	NSUInteger periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
 	if(periodIdx == NSNotFound) {
 		return [self valueForKey:keyPath];
 		
@@ -813,7 +809,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
  * For example, General.MyKey would refer to the MyKey value of the General group, as would Group:General.MyKey
  */
 - (void) setValue:(id)value forKeyPath:(NSString *)keyPath {
-	unsigned periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
+	NSUInteger periodIdx = [keyPath rangeOfString:@"." options:NSLiteralSearch].location;
 	if(periodIdx == NSNotFound) {
 		NSString *key = [keyPath substringToIndex:periodIdx];
 

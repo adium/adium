@@ -51,7 +51,7 @@
 							   withEquivalents:(NSArray *)candidateEmoticonTextEquivalents
 									   context:(NSString *)serviceClassContext
 									equivalent:(NSString **)replacementString
-							  equivalentLength:(int *)textLength;
+							  equivalentLength:(NSInteger *)textLength;
 - (void)_buildCharacterSetsAndIndexEmoticons;
 - (void)_saveActiveEmoticonPacks;
 - (void)_saveEmoticonPackOrdering;
@@ -59,7 +59,7 @@
 - (void)_sortArrayOfEmoticonPacks:(NSMutableArray *)packArray;
 @end
 
-int packSortFunction(id packA, id packB, void *packOrderingArray);
+NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 
 @implementation AIEmoticonController
 
@@ -153,7 +153,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 }
 
 //Do emoticons after the default filters
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return LOW_FILTER_PRIORITY;
 }
@@ -165,19 +165,19 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
  *
  * @result The location in messageString of the beginning of the emoticon replaced, or NSNotFound if no replacement was made
  */
-- (unsigned int)replaceAnEmoticonStartingAtLocation:(unsigned *)currentLocation
+- (NSUInteger)replaceAnEmoticonStartingAtLocation:(NSUInteger *)currentLocation
 										 fromString:(NSString *)messageString
-								messageStringLength:(unsigned int)messageStringLength
+								messageStringLength:(NSUInteger)messageStringLength
 						   originalAttributedString:(NSAttributedString *)originalAttributedString
 										 intoString:(NSMutableAttributedString **)newMessage
-								   replacementCount:(unsigned *)replacementCount
+								   replacementCount:(NSUInteger *)replacementCount
 								 callingRecursively:(BOOL)callingRecursively
 								serviceClassContext:(id)serviceClassContext
 						  emoticonStartCharacterSet:(NSCharacterSet *)emoticonStartCharacterSet
 									  emoticonIndex:(NSDictionary *)emoticonIndex
 										  isMessage:(BOOL)isMessage
 {
-	unsigned int	originalEmoticonLocation = NSNotFound;
+	NSUInteger	originalEmoticonLocation = NSNotFound;
 
 	//Find the next occurence of a suspected emoticon
 	*currentLocation = [messageString rangeOfCharacterFromSet:emoticonStartCharacterSet
@@ -201,7 +201,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 			
 			textEnumerator = [[emoticon textEquivalents] objectEnumerator];
 			while ((text = [textEnumerator nextObject])) {
-				int     textLength = [text length];
+				NSInteger     textLength = [text length];
 				
 				if (textLength != 0) { //Invalid emoticon files may let empty text equivalents sneak in
 									   //If there is not enough room in the string for this text, we can skip it
@@ -230,9 +230,9 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 		if ([candidateEmoticons count]) {
 			NSString					*replacementString;
 			NSMutableAttributedString   *replacement;
-			int							textLength;
+			NSInteger							textLength;
 			NSRange						emoticonRangeInNewMessage;
-			int							amountToIncreaseCurrentLocation = 0;
+			NSInteger							amountToIncreaseCurrentLocation = 0;
 
 			originalEmoticonLocation = *currentLocation;
 
@@ -294,7 +294,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 				}
 
 				NSString	*trimmedString = [messageString stringByTrimmingCharactersInSet:endingTrimSet];
-				unsigned int trimmedLength = [trimmedString length];
+				NSUInteger trimmedLength = [trimmedString length];
 				if (trimmedLength == (originalEmoticonLocation + textLength)) {
 					acceptable = YES;
 				} else if ((originalEmoticonLocation - (messageStringLength - trimmedLength)) == 0) {
@@ -305,8 +305,8 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 				/* If we still haven't determined it to be acceptable, look ahead.
 				 * If we do a replacement adjacent to this emoticon, we can do this one, too.
 				 */
-				unsigned int newCurrentLocation = *currentLocation;
-				unsigned int nextEmoticonLocation;
+				NSUInteger newCurrentLocation = *currentLocation;
+				NSUInteger nextEmoticonLocation;
 						
 				/* Call ourself recursively, starting just after the end of the current emoticon candidate
 				 * If the return value is not NSNotFound, an emoticon was found and replaced ahead of us. Discontinuous searching for the win.
@@ -385,7 +385,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
     NSString                    *messageString = [inMessage string];
     NSMutableAttributedString   *newMessage = nil; //We avoid creating a new string unless necessary
 	NSString					*serviceClassContext = nil;
-    unsigned					currentLocation = 0, messageStringLength;
+    NSUInteger					currentLocation = 0, messageStringLength;
 	NSCharacterSet				*emoticonStartCharacterSet = [self emoticonStartCharacterSet];
 	NSDictionary				*emoticonIndex = [self emoticonIndex];
 	//we can avoid loading images if the emoticon is headed for the wkmv, since it will just load from the original path anyway
@@ -457,7 +457,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 	}
 	
     //Number of characters we've replaced so far (used to calcluate placement in the destination string)
-	unsigned int	replacementCount = 0; 
+	NSUInteger	replacementCount = 0; 
 
 	messageStringLength = [messageString length];
     while (currentLocation != NSNotFound && currentLocation < messageStringLength) {
@@ -481,18 +481,18 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 							   withEquivalents:(NSArray *)candidateEmoticonTextEquivalents
 									   context:(NSString *)serviceClassContext
 									equivalent:(NSString **)replacementString
-							  equivalentLength:(int *)textLength
+							  equivalentLength:(NSInteger *)textLength
 {
-	unsigned	i = 0;
-	unsigned	bestIndex = 0, bestLength = 0;
-	unsigned	bestServiceAppropriateIndex = 0, bestServiceAppropriateLength = 0;
+	NSUInteger	i = 0;
+	NSUInteger	bestIndex = 0, bestLength = 0;
+	NSUInteger	bestServiceAppropriateIndex = 0, bestServiceAppropriateLength = 0;
 	NSString	*serviceAppropriateReplacementString = nil;
-	unsigned	count;
+	NSUInteger	count;
 	
 	count = [candidateEmoticonTextEquivalents count];
 	while (i < count) {
 		NSString	*thisString = [candidateEmoticonTextEquivalents objectAtIndex:i];
-		unsigned thisLength = [thisString length];
+		NSUInteger thisLength = [thisString length];
 		if (thisLength > bestLength) {
 			bestLength = thisLength;
 			bestIndex = i;
@@ -725,7 +725,7 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 //Pack ordering --------------------------------------------------------------------------------------------------------
 #pragma mark Pack ordering
 //Re-arrange an emoticon pack
-- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(int)index
+- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(NSUInteger)index
 {    
     NSEnumerator    *enumerator;
     AIEmoticonPack  *pack;
@@ -774,10 +774,10 @@ int packSortFunction(id packA, id packB, void *packOrderingArray);
 	[packArray sortUsingFunction:packSortFunction context:packOrderingArray];
 }
 
-int packSortFunction(id packA, id packB, void *packOrderingArray)
+NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 {
-	int packAIndex = [(NSArray *)packOrderingArray indexOfObject:[packA name]];
-	int packBIndex = [(NSArray *)packOrderingArray indexOfObject:[packB name]];
+	NSInteger packAIndex = [(NSArray *)packOrderingArray indexOfObject:[packA name]];
+	NSInteger packBIndex = [(NSArray *)packOrderingArray indexOfObject:[packB name]];
 	
 	BOOL notFoundA = (packAIndex == NSNotFound);
 	BOOL notFoundB = (packBIndex == NSNotFound);

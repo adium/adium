@@ -12547,6 +12547,7 @@
 		DADE8E3B085507450062B664 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12571,12 +12572,12 @@
 				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Development;
@@ -12614,6 +12615,7 @@
 				PREBINDING = NO;
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = Deployment;
@@ -12655,6 +12657,7 @@
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				STRIP_INSTALLED_PRODUCT = NO;
+				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
 			name = "Deployment-Debug";

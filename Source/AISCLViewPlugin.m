@@ -327,7 +327,7 @@
 /*!
  * @brief The number of detached lists present
  */
-- (unsigned)detachedContactListCount
+- (NSUInteger)detachedContactListCount
 {
 	return [contactLists count];
 }
@@ -469,7 +469,7 @@
 	
 	NSEnumerator		*enumerator = [[listGroup containedObjects] objectEnumerator];
 	AIListObject		*listObject;
-	unsigned			currentCount = 0;
+	NSUInteger			currentCount = 0;
 	
 	while ((listObject = [enumerator nextObject])) {
 		currentCount++;
@@ -517,7 +517,7 @@
 {	
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
 		if (firstTime || !key || [key isEqualToString:KEY_LIST_LAYOUT_WINDOW_STYLE]) {
-			int	newWindowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
+			NSInteger	newWindowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue];
 			
 			if (newWindowStyle != windowStyle) {
 				windowStyle = newWindowStyle;

@@ -335,7 +335,7 @@
 	//method does nothing; force the tab bindings to reload -objectCount
 }
 
-- (int)objectCount
+- (NSInteger)objectCount
 {
 	//return 0 to disable the badge
     return ([[[adium preferenceController] preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?

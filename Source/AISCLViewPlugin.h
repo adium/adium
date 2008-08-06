@@ -55,7 +55,7 @@
 	NSMenuItem								*attachMenuItem;
 	NSMenu									*attachSubmenu;
 
-	unsigned								detachedCycle;
+	NSUInteger								detachedCycle;
 }
 
 //Manage multiple windows

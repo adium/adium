@@ -20,7 +20,7 @@
 	NSMenu					*alternateMenu;
 }
 
-- (unsigned)desiredWidth;
+- (NSUInteger)desiredWidth;
 
 - (void)setRegularImage:(NSImage *)image;
 - (NSImage *)regularImage;

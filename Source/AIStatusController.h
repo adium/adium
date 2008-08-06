@@ -39,8 +39,8 @@
 	NSMutableArray			*stateMenuPluginsArray;
 	NSMutableDictionary		*stateMenuItemArraysDict;
 
-	int						activeStatusUpdateDelays;
-	int						statusMenuRebuildDelays;
+	NSInteger						activeStatusUpdateDelays;
+	NSInteger						statusMenuRebuildDelays;
 
 	NSArray					*_sortedFullStateArray;
 	NSArray					*_flatStateArray;

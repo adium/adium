@@ -12,9 +12,9 @@
     NSMutableSet			*contactObservers;
 	NSMutableSet			*removedContactObservers;
     NSTimer					*delayedUpdateTimer;
-    int						delayedStatusChanges;
+    NSInteger						delayedStatusChanges;
 	NSMutableSet			*delayedModifiedStatusKeys;
-    int						delayedAttributeChanges;
+    NSInteger						delayedAttributeChanges;
 	NSMutableSet			*delayedModifiedAttributeKeys;
 
 	BOOL					updatesAreDelayed;
@@ -23,8 +23,8 @@
 	BOOL					informingObservers;
 	/* Only the contact controller can speak to us directly, and it's allowed to access these ivars */
 @public
-    int						delayedContactChanges;
-	int						delayedUpdateRequests;
+    NSInteger						delayedContactChanges;
+	NSInteger						delayedUpdateRequests;
 }
 
 - (void)registerListObjectObserver:(id <AIListObjectObserver>)inObserver;

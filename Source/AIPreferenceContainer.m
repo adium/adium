@@ -30,11 +30,11 @@
 #endif
 
 static NSMutableDictionary	*objectPrefs = nil;
-static int					usersOfObjectPrefs = 0;
+static NSInteger					usersOfObjectPrefs = 0;
 static NSTimer				*timer_savingOfObjectCache = nil;
 
 static NSMutableDictionary	*accountPrefs = nil;
-static int					usersOfAccountPrefs = 0;
+static NSInteger					usersOfAccountPrefs = 0;
 static NSTimer				*timer_savingOfAccountCache = nil;
 
 static NSConditionLock		*writingLock;
@@ -238,7 +238,7 @@ typedef enum {
 														 error:&error];
 
 				if (error) {
-					NSLog(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+					NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
 						  [error domain], [error code], [error userInfo]);
 					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
 									   [error domain], [error code], [error userInfo]);

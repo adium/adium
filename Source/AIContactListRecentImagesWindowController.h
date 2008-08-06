@@ -17,7 +17,7 @@
 	
 	AIContactListImagePicker *picker;
 
-	int currentHoveredIndex;
+	NSInteger currentHoveredIndex;
 }
 
 + (void)showWindowFromPoint:(NSPoint)inPoint

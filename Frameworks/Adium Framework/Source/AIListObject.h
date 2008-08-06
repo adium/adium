@@ -33,13 +33,13 @@ typedef enum {
 
 @protocol AIContainingObject <NSObject>
 - (NSArray *)containedObjects;
-- (unsigned)containedObjectsCount;
+- (NSUInteger)containedObjectsCount;
 - (BOOL)containsObject:(AIListObject *)inObject;
 
 - (NSString *)contentsBasedIdentifier;
 
-- (id)objectAtIndex:(unsigned)index;
-- (int)indexOfObject:(AIListObject *)inObject;
+- (id)objectAtIndex:(NSUInteger)index;
+- (NSUInteger)indexOfObject:(AIListObject *)inObject;
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 
 - (float)smallestOrder;

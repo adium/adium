@@ -81,7 +81,7 @@
 //Interface: Chat Control ----------------------------------------------------------------------------------------------
 #pragma mark Interface: Chat Control
 //Open a new chat window
-- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(int)index
+- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(NSUInteger)index
 {
 	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)[chat chatContainer];
 	AIMessageWindowController	*container = nil;
@@ -141,7 +141,7 @@
 }
 
 //Move a chat
-- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(int)index
+- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(NSUInteger)index
 {
 	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)[chat chatContainer];
 	AIMessageWindowController	*windowController = [containers objectForKey:containerID];
@@ -264,7 +264,7 @@
 - (AIMessageWindowController *)openContainerWithID:(NSString *)containerID name:(NSString *)containerName
 {
 	if (!containerID)
-		containerID = [NSString stringWithFormat:@"%@:%i", ADIUM_UNIQUE_CONTAINER, uniqueContainerNumber++];
+		containerID = [NSString stringWithFormat:@"%@:%ld", ADIUM_UNIQUE_CONTAINER, (long)uniqueContainerNumber++];
 
 	AIMessageWindowController	*windowController = [containers objectForKey:containerID];
 	if (!windowController) {
@@ -317,7 +317,7 @@
 //Transfer a tab from one window to another (or to its own window)
 - (void)transferMessageTab:(AIMessageTabViewItem *)tabViewItem
 			   toContainer:(id)newMessageWindowController
-				   atIndex:(int)index
+				   atIndex:(NSInteger)index
 		 withTabBarAtPoint:(NSPoint)screenPoint
 {
 	AIMessageWindowController 	*oldMessageWindowController = [tabViewItem windowController];
@@ -368,7 +368,7 @@
 
 - (id)openNewContainer
 {
-	AIMessageWindowController *controller = [self openContainerWithID:[NSString stringWithFormat:@"%@:%i", ADIUM_UNIQUE_CONTAINER, uniqueContainerNumber++]
+	AIMessageWindowController *controller = [self openContainerWithID:[NSString stringWithFormat:@"%@:%ld", ADIUM_UNIQUE_CONTAINER, (long)uniqueContainerNumber++]
 													name:nil];
 	return controller;
 }

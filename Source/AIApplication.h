@@ -11,7 +11,7 @@
 @interface AIApplication : NSApplication {
 
 }
-- (void)insertInStatuses:(AIStatus *)status atIndex:(unsigned int)i;
-- (void)removeFromStatusesAtIndex:(unsigned int)i;
-- (void)replaceInStatuses:(AIStatus *)status atIndex:(unsigned int)i;
+- (void)insertInStatuses:(AIStatus *)status atIndex:(NSUInteger)i;
+- (void)removeFromStatusesAtIndex:(NSUInteger)i;
+- (void)replaceInStatuses:(AIStatus *)status atIndex:(NSUInteger)i;
 @end

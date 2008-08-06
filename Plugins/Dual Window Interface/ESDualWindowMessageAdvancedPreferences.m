@@ -76,11 +76,11 @@
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		
 	} else if (sender == popUp_nameFormat) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_NAME_FORMAT
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	} else if (sender == popUp_minimumFontSize) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_MIN_FONT_SIZE
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		
@@ -109,7 +109,7 @@
  */
 - (void)selectedWindowLevel:(id)sender
 {	
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:[sender tag]]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
 										 forKey:KEY_WINDOW_LEVEL
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -118,7 +118,7 @@
 - (void)viewDidLoad
 {
     NSDictionary	*prefDict;
-	int				menuIndex;
+	NSInteger				menuIndex;
 
 	prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_APPEARANCE];
 	[checkBox_animateDockIcon setState:[[prefDict objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue]];
@@ -130,7 +130,7 @@
 
 	//Window position
 	[popUp_windowPosition setMenu:[[adium interfaceController] menuForWindowLevelsNotifyingTarget:self]];
-	menuIndex =  [popUp_windowPosition indexOfItemWithTag:[[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue]];
+	menuIndex =  [popUp_windowPosition indexOfItemWithTag:[[prefDict objectForKey:KEY_WINDOW_LEVEL] integerValue]];
 	if (menuIndex >= 0 && menuIndex < [popUp_windowPosition numberOfItems]) {
 		[popUp_windowPosition selectItemAtIndex:menuIndex];
 	}
@@ -139,11 +139,11 @@
 	[checkBox_psychicOpen setState:[[prefDict objectForKey:KEY_PSYCHIC] boolValue]];
 
 	prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
-	[popUp_nameFormat compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] intValue]];
+	[popUp_nameFormat compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] integerValue]];
 	[checkBox_customNameFormatting setState:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 
 	[popUp_minimumFontSize setMenu:[self _fontSizeMenu]];
-	[popUp_minimumFontSize compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_MIN_FONT_SIZE] intValue]];
+	[popUp_minimumFontSize compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_MIN_FONT_SIZE] integerValue]];
 	
 	[popUp_timeStampFormat setMenu:[self _timeStampMenu]];
 	[popUp_timeStampFormat selectItemWithRepresentedObject:[prefDict objectForKey:KEY_WEBKIT_TIME_STAMP_FORMAT]];
@@ -202,11 +202,11 @@
 	NSMenu		*menu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSMenuItem	*menuItem;
 
-	unsigned sizes[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,18,20,22,24,36,48,64,72,96};
-	unsigned loopCounter;
+	NSUInteger sizes[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,18,20,22,24,36,48,64,72,96};
+	NSUInteger loopCounter;
 
 	for (loopCounter = 0; loopCounter < 23; loopCounter++) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[NSNumber numberWithInt:sizes[loopCounter]] stringValue]
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[NSNumber numberWithInteger:sizes[loopCounter]] stringValue]
 																		 target:nil
 																		 action:nil
 																  keyEquivalent:@""] autorelease];

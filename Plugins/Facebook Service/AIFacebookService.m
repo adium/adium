@@ -50,7 +50,7 @@
 - (NSCharacterSet *)ignoredCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@""];
 }
-- (NSInteger)allowedLength{
+- (NSUInteger)allowedLength{
 	return 999;
 }
 - (AIServiceImportance)serviceImportance{

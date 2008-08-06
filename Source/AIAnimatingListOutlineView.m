@@ -12,7 +12,7 @@
 #define DISABLE_ANIMATE_EXPAND_AND_COLLAPSE	TRUE
 
 @interface AIAnimatingListOutlineView (PRIVATE)
-- (NSRect)unanimatedRectOfRow:(int)rowIndex;
+- (NSRect)unanimatedRectOfRow:(NSInteger)rowIndex;
 @end
 
 /*!
@@ -82,13 +82,13 @@
  *
  * @result The rect in which the row is currently displayed
  */
-- (NSRect)currentDisplayRectForItemPointer:(NSValue *)itemPointer atRow:(int)rowIndex
+- (NSRect)currentDisplayRectForItemPointer:(NSValue *)itemPointer atRow:(NSInteger)rowIndex
 {
 	NSDictionary *animDict = [allAnimatingItemsDict objectForKey:itemPointer];
 	NSRect rect;
 
 	if (animDict) {
-		float progress = [[animDict objectForKey:@"progress"] floatValue];
+		CGFloat progress = [[animDict objectForKey:@"progress"] doubleValue];
 		NSRect oldR = [[animDict objectForKey:@"old rect"] rectValue];
 		NSRect newR = [self unanimatedRectOfRow:rowIndex];
 
@@ -111,7 +111,7 @@
  *
  * @result The rect in which the row is currently displayed
  */
-- (NSRect)rectOfRow:(int)rowIndex
+- (NSRect)rectOfRow:(NSInteger)rowIndex
 {
 	if (animationsCount > 0) {
 		return [self currentDisplayRectForItemPointer:[NSValue valueWithPointer:[self itemAtRow:rowIndex]] atRow:rowIndex];
@@ -130,11 +130,11 @@
 {
 	if (animationsCount > 0) {
 		//The rows in a given rect aren't necessarily sequential while we're animating. Too bad this doesn't return an NSIndexSet.
-		int count = [self numberOfRows];
+		NSInteger count = [self numberOfRows];
 		NSRange range = NSMakeRange(0, count);
 		BOOL foundLowest = NO;
 		
-		for (int i = 0; i < count; i++) {
+		for (NSInteger i = 0; i < count; i++) {
 			NSRect rowRect = [self rectOfRow:i];
 
 			if (!foundLowest) {
@@ -167,7 +167,7 @@
  *
  * @result The rect in which the row would be displayed were all animations complete.
  */
-- (NSRect)unanimatedRectOfRow:(int)rowIndex
+- (NSRect)unanimatedRectOfRow:(NSInteger)rowIndex
 {
 	return [super rectOfRow:rowIndex];
 }
@@ -185,20 +185,20 @@
 {
 	if (!dict) dict = [NSMutableDictionary dictionary];
 
-	int index = (item ? [self rowForItem:item] : -1);
+	NSInteger index = (item ? [self rowForItem:item] : -1);
 
 	if ((index != -1) || !item) {
 		if (!item || ([self isExpandable:item] &&
 					  [self isItemExpanded:item])) {
-			int numChildren = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
+			NSInteger numChildren = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
 			//Add each child
-			for (int i = 0; i < numChildren; i++) {
+			for (NSInteger i = 0; i < numChildren; i++) {
 				id thisChild = [[self dataSource] outlineView:self child:i ofItem:item];
 				dict = [self indexesForItemAndChildren:thisChild dict:dict];
 			}
 		}
 		
-		if (item) [dict setObject:[NSNumber numberWithInt:index] forKey:[NSValue valueWithPointer:item]];
+		if (item) [dict setObject:[NSNumber numberWithInteger:index] forKey:[NSValue valueWithPointer:item]];
 	}
 
 	return dict;
@@ -227,8 +227,8 @@
 		[allAnimatingItemsDict setObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			oldIndex, @"old index",
 			oldIndex, @"new index", /* unchanged */
-			[NSValue valueWithRect:[self unanimatedRectOfRow:[oldIndex intValue]]], @"old rect",
-			[NSNumber numberWithFloat:0.0f], @"progress", nil]
+			[NSValue valueWithRect:[self unanimatedRectOfRow:[oldIndex integerValue]]], @"old rect",
+			[NSNumber numberWithDouble:0.0f], @"progress", nil]
 								  forKey:oldItem];			
 	}
 	
@@ -265,8 +265,8 @@
 		NSNumber *oldIndex = [oldDict objectForKey:oldItem];
 		NSNumber *newIndex = [newDict objectForKey:oldItem];
 		if (newIndex) {
-			int oldIndexInt = [oldIndex intValue];
-			int newIndexInt = [newIndex intValue];
+			NSInteger oldIndexInt = [oldIndex integerValue];
+			NSInteger newIndexInt = [newIndex integerValue];
 			if (oldIndexInt != newIndexInt) {
 				[animatingRowsDict setObject:oldIndex
 									  forKey:oldItem];
@@ -282,7 +282,7 @@
 					}
 				}
 			} else {
-				[[allAnimatingItemsDict objectForKey:oldItem] setObject:[NSNumber numberWithFloat:1.0f]
+				[[allAnimatingItemsDict objectForKey:oldItem] setObject:[NSNumber numberWithDouble:1.0f]
 																 forKey:@"progress"];
 			}
 
@@ -319,14 +319,14 @@
 {
 	NSEnumerator *enumerator = [animatingRowsDict keyEnumerator];
 	NSValue *itemPointer;
-	float maxRequiredY = 0;
+	CGFloat maxRequiredY = 0;
 
 	[self willChangeValueForKey:@"totalHeight"];
 
 	//Update progress for each item in animatingRowsDict
 	while ((itemPointer = [enumerator nextObject])) {
 		NSMutableDictionary *animDict = [allAnimatingItemsDict objectForKey:itemPointer];
-		int newIndex = [[animDict objectForKey:@"new index"] intValue];
+		NSInteger newIndex = [[animDict objectForKey:@"new index"] integerValue];
 		NSRect oldFrame, newFrame;
 
 		//We'll need to redisplay the space we were in previously
@@ -335,7 +335,7 @@
 		[self setNeedsDisplayInRect:oldFrame];
 
 		//Update the actual progress
-		[animDict setObject:[NSNumber numberWithFloat:currentValue]
+		[animDict setObject:[NSNumber numberWithDouble:currentValue]
 					 forKey:@"progress"];
 
 		//We'll need to redisplay after updating to the new location
@@ -459,9 +459,9 @@
 			[self willChangeValueForKey:@"totalHeight"];
 			
 			//Maintain space for the animation to display
-			int numChildren = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
+			NSInteger numChildren = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
 			
-			for (int i = 0; i < numChildren; i++) {
+			for (NSInteger i = 0; i < numChildren; i++) {
 				id thisChild = [[self dataSource] outlineView:self child:i ofItem:item];
 				animationHedgeFactor.height += [self currentDisplayRectForItemPointer:[NSValue valueWithPointer:thisChild]
 																				atRow:[self rowForItem:thisChild]].size.height + [self intercellSpacing].height;
@@ -493,7 +493,7 @@
  * This is the only point of overlap with AIListOutlineView; otherwise, we are just an NSOutlineView subclass.
  * Add the current animationHedgeFactor's height to whatever super says.
  */
-- (int)totalHeight
+- (NSInteger)totalHeight
 {
 	return [super totalHeight] + animationHedgeFactor.height;
 }

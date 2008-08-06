@@ -564,7 +564,7 @@
 	
 	NSMutableAttributedString	*newAttributedString = nil;
 	NSAttributedString			*attributedMessage = [inContentMessage message];
-	unsigned					length = [attributedMessage length];
+	NSUInteger					length = [attributedMessage length];
 
 	if (length) {
 		NSRange						searchRange = NSMakeRange(0,0);

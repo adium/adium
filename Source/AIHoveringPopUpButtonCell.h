@@ -16,7 +16,7 @@
 	NSMutableParagraphStyle			*statusParagraphStyle;
 	
 	BOOL					hovered;
-	float					hoveredFraction;
+	CGFloat					hoveredFraction;
 }
 
 - (void)setTitle:(NSString *)inTitle;
@@ -24,6 +24,6 @@
 
 - (void)setHovered:(BOOL)inHovered animate:(BOOL)animate;
 - (BOOL)hovered;
-- (float)trackingWidth;
+- (CGFloat)trackingWidth;
 
 @end

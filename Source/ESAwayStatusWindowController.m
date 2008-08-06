@@ -174,7 +174,7 @@ static BOOL							hideInBackground = NO;
 	NSString		*activeUnvailableStatusName = nil;
 	NSSet			*relevantStatuses;
 	NSRect			frame = [window frame];
-	int				newHeight;
+	NSInteger				newHeight;
 	
 	[window setTitle:AILocalizedString(@"Current Status",nil)];
 	[_awayAccounts release]; _awayAccounts = nil;
@@ -207,7 +207,7 @@ static BOOL							hideInBackground = NO;
 		/* Show the multistatus tableview tab if accounts are in different states, which includes the case of only one
 		 * away state being in use but not all online accounts currently making use of it.
 		 */
-		int				requiredHeight;
+		NSInteger				requiredHeight;
 
 		_awayAccounts = [[self awayAccounts] retain];
 
@@ -344,7 +344,7 @@ static BOOL							hideInBackground = NO;
 /*!
 * @brief Number of rows in the table
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [_awayAccounts count];
 }
@@ -354,7 +354,7 @@ static BOOL							hideInBackground = NO;
  *
  * Object value is the account's formatted UID
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	AIAccount	*account = [_awayAccounts objectAtIndex:row];
 
@@ -366,7 +366,7 @@ static BOOL							hideInBackground = NO;
  *
  * Set the image (status icon) and substring (status title) before display.  Cell is an AIImageTextCell.
  */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	AIAccount	*account = [_awayAccounts objectAtIndex:row];
 

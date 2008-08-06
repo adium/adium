@@ -26,7 +26,7 @@
 	NSString *titlecaseString = [self capitalizedString];
 	NSArray *components = [titlecaseString componentsSeparatedByString:@" "];
 	NSMutableString *result = [[[NSMutableString alloc] init] autorelease];
-	int i;
+	NSInteger i;
 	for (i=0;i<[components count];i++)
 		[result appendString:[components objectAtIndex:i]];
 	return result;

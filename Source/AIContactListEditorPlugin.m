@@ -293,13 +293,13 @@
 {
 	if (array) {
 		NSString	*message;
-		int			count = [array count];
+		NSUInteger			count = [array count];
 
 		if (count == 1) {
 			AIListObject	*listObject = [array objectAtIndex:0];
 			NSString		*name = [listObject displayName];
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove the group \"%@\" from the contact lists of your online accounts. The %i contacts within this group will also be removed.\n\nThis action can not be undone.",nil),
+				message = [NSString stringWithFormat:AILocalizedString(@"This will remove the group \"%@\" from the contact lists of your online accounts. The %lu contacts within this group will also be removed.\n\nThis action can not be undone.",nil),
 					name,
 					[(AIListGroup *)listObject containedObjectsCount]];
 				
@@ -316,9 +316,9 @@
 			}
 
 			if (containsGroup) {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %i items from the contact lists of your online accounts. Contacts in any deleted groups will also be removed.\n\nThis action can not be undone.",nil), count];
+				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu items from the contact lists of your online accounts. Contacts in any deleted groups will also be removed.\n\nThis action can not be undone.",nil), count];
 			} else {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %i contacts from the contact lists of your online accounts.",nil), count];
+				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu contacts from the contact lists of your online accounts.",nil), count];
 			}
 		}
 		
@@ -326,7 +326,7 @@
 		[NSApp activateIgnoringOtherApps:YES];
 		
 		//Guard deletion with a warning prompt		
-		int result = NSRunAlertPanel(AILocalizedString(@"Remove from list?",nil),
+		NSInteger result = NSRunAlertPanel(AILocalizedString(@"Remove from list?",nil),
 									 message,
 									 AILocalizedString(@"Remove",nil),
 									 AILocalizedString(@"Cancel",nil),

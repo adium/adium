@@ -163,7 +163,7 @@ typedef enum {
  *
  * @result A float between 0.0 and 1.0, with (HIGHEST_FILTER_PRIORITY == 0.0) and (LOWEST_FILTER_PRIORITY == 1.0)
  */
-- (float)filterPriority;
+- (CGFloat)filterPriority;
 @end
 
 /*!
@@ -196,7 +196,7 @@ typedef enum {
  *
  * @result A float between 0.0 and 1.0, with (HIGHEST_FILTER_PRIORITY == 0.0) and (LOWEST_FILTER_PRIORITY == 1.0)
  */
-- (float)filterPriority;
+- (CGFloat)filterPriority;
 @end
 
 /*!
@@ -237,7 +237,7 @@ typedef enum {
  *
  * @result A float between 0.0 and 1.0, with (HIGHEST_FILTER_PRIORITY == 0.0) and (LOWEST_FILTER_PRIORITY == 1.0)
  */
-- (float)filterPriority;
+- (CGFloat)filterPriority;
 @end
 
 @protocol AdiumMessageEncryptor <NSObject>

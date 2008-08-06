@@ -62,7 +62,7 @@
 			}
 		}
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:autoAcceptType]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:autoAcceptType]
                                              forKey:KEY_FT_AUTO_ACCEPT
                                               group:PREF_GROUP_FILE_TRANSFER];
 	}
@@ -72,7 +72,7 @@
 - (void)viewDidLoad
 {
 	AIFileTransferAutoAcceptType	autoAcceptType = [[[adium preferenceController] preferenceForKey:KEY_FT_AUTO_ACCEPT
-																				   group:PREF_GROUP_FILE_TRANSFER] intValue];
+																				   group:PREF_GROUP_FILE_TRANSFER] integerValue];
 	
 	[self buildDownloadLocationMenu];
 	
@@ -163,7 +163,7 @@
 						  contextInfo:nil];
 }
 
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
 		[[adium preferenceController] setUserPreferredDownloadFolder:[openPanel filename]];

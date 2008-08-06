@@ -41,8 +41,8 @@
 //For use by ESFileTransferProgressRow
 - (void)progressRowDidAwakeFromNib:(ESFileTransferProgressRow *)progressView;
 - (void)fileTransferProgressRow:(ESFileTransferProgressRow *)inRow
-			  heightChangedFrom:(float)oldHeight
-							 to:(float)newHeight;
+			  heightChangedFrom:(CGFloat)oldHeight
+							 to:(CGFloat)newHeight;
 - (void)progressRowDidChangeType:(ESFileTransferProgressRow *)progressRow;
 - (void)progressRowDidChangeStatus:(ESFileTransferProgressRow *)progressRow;
 

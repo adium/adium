@@ -99,7 +99,7 @@
 		if (![accountID isKindOfClass:[NSString class]]) {
 			//Old code stored this as an NSNumber; upgrade.
 			accountID = ([accountID isKindOfClass:[NSNumber class]] ?
-						 [NSString stringWithFormat:@"%i",[(NSNumber *)accountID intValue]] :
+						 [NSString stringWithFormat:@"%ld",[(NSNumber *)accountID integerValue]] :
 						 nil);
 			
 			[inContact setPreference:accountID

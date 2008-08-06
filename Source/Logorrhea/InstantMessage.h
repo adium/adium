@@ -15,7 +15,7 @@
 	Presentity *sender;
 	NSDate *date;
 	NSAttributedString *text;
-	unsigned int flags; 
+	NSUInteger flags; 
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder;

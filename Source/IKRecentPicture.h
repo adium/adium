@@ -42,7 +42,7 @@
 - (double)timeValue;
 - (void)upgradeForCropSize:(NSSize)size;
 - (void *)userInfo;
-- (int)version;
+- (NSInteger)version;
 
 @end
 
@@ -60,7 +60,7 @@
 - (void)dealloc;
 - initWithDomainName:fp8;
 - (void)loadRecentsIfNeeded;
-- (int)maxRecents;
+- (NSInteger)maxRecents;
 - originalImagePathForRecent:fp8;
 - pictureDirPath;
 - (char)purgeExtras;

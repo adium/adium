@@ -114,7 +114,7 @@ enum{
 									   contextInfo:nil];	
 }
 
-- (void)multipleImportAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)multipleImportAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if(returnCode == NSAlertOtherReturn)
 	{

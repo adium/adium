@@ -81,7 +81,7 @@
 - (void)configureForActionDetails:(NSDictionary *)inDetails listObject:(AIListObject *)inObject
 {
 	NSString	*selectedSound;
-	int			soundIndex;
+	NSInteger			soundIndex;
 	
 	if (!inDetails) inDetails = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_SOUND_DICT
 																		group:PREF_GROUP_SOUNDS];
@@ -212,7 +212,7 @@
 - (void)addAndSelectSoundPath:(NSString *)soundPath
 {
 	NSMenu	*rootMenu = [popUp_actionDetails menu];
-	int		menuIndex;
+	NSInteger		menuIndex;
 	
 	//Check for it currently being present in the root menu
 	menuIndex = [popUp_actionDetails indexOfItemWithRepresentedObject:soundPath];
@@ -263,7 +263,7 @@
  *
  * Play the selected sound and update the menu.
  */
-- (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     if (returnCode == NSOKButton) {
         NSString *soundPath = [[panel filenames] objectAtIndex:0];

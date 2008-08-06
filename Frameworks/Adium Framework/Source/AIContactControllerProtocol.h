@@ -129,7 +129,7 @@ typedef enum {
 - (void)addContacts:(NSArray *)contactArray toGroup:(AIListGroup *)group;
 - (void)removeListObjects:(NSArray *)objectArray;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
-- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(int)index;
+- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index;
 - (void)moveContact:(AIListContact *)listContact intoObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)group;
 - (BOOL)useContactListGroups;
@@ -146,7 +146,7 @@ typedef enum {
 - (AIListGroup *)createDetachedContactList;
 - (void)removeDetachedContactList:(AIListGroup *)detachedList;
 - (BOOL)isGroupDetached:(AIListObject *)group;
-- (unsigned)contactListCount;
+- (NSUInteger)contactListCount;
 
 //Contact hiding
 - (AIContactHidingController *)contactHidingController;

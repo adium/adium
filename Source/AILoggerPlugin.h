@@ -65,9 +65,9 @@
     NSLock				*dirtyLogLock;
     
     //Indexing progress
-    int					logsToIndex;
-    int					logsIndexed;
-	int					logIndexingPauses;
+    NSInteger					logsToIndex;
+    NSInteger					logsIndexed;
+	NSInteger					logIndexingPauses;
     
 }
 
@@ -89,7 +89,7 @@
 - (SKIndexRef)logContentIndex;
 - (void)markLogDirtyAtPath:(NSString *)path forChat:(AIChat *)chat;
 - (void)markLogDirtyAtPath:(NSString *)path;
-- (BOOL)getIndexingProgress:(int *)complete outOf:(int *)total;
+- (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
 //
 - (void)stopIndexingThreads;

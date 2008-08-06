@@ -34,7 +34,7 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName account:(AIAccount *)inAccount notifyingTarget:(id)inTarget;
 - (void)_addCustomViewAndTabsForAccount:(AIAccount *)inAccount;
 - (void)_addCustomView:(NSView *)customView toView:(NSView *)setupView tabViewItemIdentifier:(NSString *)identifier
-		runningHeight:(int *)height width:(int *)width;
+		runningHeight:(NSInteger *)height width:(NSInteger *)width;
 - (void)_configureResponderChain:(NSTimer *)inTimer;
 - (void)_removeCustomViewAndTabs;
 - (void)_localizeTabViewItemLabels;
@@ -163,7 +163,7 @@
 /*!
  * @brief Called as the user list edit sheet closes, dismisses the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 }
@@ -243,9 +243,9 @@
 - (void)_addCustomViewAndTabsForAccount:(AIAccount *)inAccount
 {
 	NSRect	windowFrame = [[self window] frame];
-	int		baseHeight = NSHeight([view_accountSetup frame]);
-	int		baseWidth = NSWidth([view_accountSetup frame]);
-	int		newHeight = baseHeight, newWidth = baseWidth;
+	NSInteger		baseHeight = NSHeight([view_accountSetup frame]);
+	NSInteger		baseWidth = NSWidth([view_accountSetup frame]);
+	NSInteger		newHeight = baseHeight, newWidth = baseWidth;
 
 	//Configure our account and proxy view controllers
 	accountViewController = [[[inAccount service] accountViewController] retain];
@@ -319,7 +319,7 @@
  * @result The new required window height to display our existing views and the newly added view
  */
 - (void)_addCustomView:(NSView *)customView toView:(NSView *)setupView tabViewItemIdentifier:(NSString *)identifier
-	  runningHeight:(int *)height width:(int *)width
+	  runningHeight:(NSInteger *)height width:(NSInteger *)width
 {
 	if (customView) {
 		//Adjust height as necessary if our view needs more room

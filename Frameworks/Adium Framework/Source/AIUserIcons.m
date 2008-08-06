@@ -70,7 +70,7 @@ static AIManuallySetUserIconSource	*manuallySetUserIconSource = nil;
 	}
 }
 
-static int compareSources(id <AIUserIconSource> sourceA, id <AIUserIconSource> sourceB, void *context)
+static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUserIconSource> sourceB, void *context)
 {
 	float priorityA = [sourceA priority];
 	float priorityB = [sourceB priority];

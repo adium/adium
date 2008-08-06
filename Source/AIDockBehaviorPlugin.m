@@ -60,7 +60,7 @@
  */
 - (NSString *)longDescriptionForActionID:(NSString *)actionID withDetails:(NSDictionary *)details
 {
-	int behavior = [[details objectForKey:KEY_DOCK_BEHAVIOR_TYPE] intValue];
+	NSInteger behavior = [[details objectForKey:KEY_DOCK_BEHAVIOR_TYPE] integerValue];
 	return [NSString stringWithFormat:AIDockBehavior_ALERT_LONG, [[[adium dockController] descriptionForBehavior:behavior] lowercaseString]];
 }
 
@@ -94,7 +94,7 @@
  */
 - (BOOL)performActionID:(NSString *)actionID forListObject:(AIListObject *)listObject withDetails:(NSDictionary *)details triggeringEventID:(NSString *)eventID userInfo:(id)userInfo
 {
-	if ([[adium dockController] performBehavior:[[details objectForKey:KEY_DOCK_BEHAVIOR_TYPE] intValue]]) {
+	if ([[adium dockController] performBehavior:[[details objectForKey:KEY_DOCK_BEHAVIOR_TYPE] integerValue]]) {
 		//The behavior will continue into the future
 		if ([[adium contactAlertsController] isMessageEvent:eventID]) {
 			AIChat *chat = [userInfo objectForKey:@"AIChat"];

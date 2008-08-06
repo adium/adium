@@ -5,14 +5,14 @@
 {
     NSString *_originalImageName;
     NSImage *_originalImage;
-    struct _NSRect _crop;
+    NSRect _crop;
     NSData *_smallIconData;
 }
 
 + _infoFilePath;
 + (void)_saveChanges;
 + currentPicture;
-+ (int)maxRecents;
++ (NSInteger)maxRecents;
 + (void)noCurrentPicture;
 + pictureDirPath;
 + (char)purgeExtras;
@@ -21,7 +21,7 @@
 + (void)removeAllButCurrent;
 - _infoToSave;
 - (void)_removePermanently;
-- (struct _NSRect)crop;
+- (NSRect)crop;
 - croppedImage;
 - (void)dealloc;
 - initWithInfo:fp8;
