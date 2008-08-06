@@ -19,7 +19,7 @@
 
 VERSION=1.4svn
 BUILD_IN_DEBUG_MODE?=TRUE
-BETA?=TRUE
+BETA?=FALSE
 OFFICIAL_BUILD?=TRUE
 
 # Always builds in debug mode.
