@@ -1,0 +1,63 @@
+{
+    IBClasses = (
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = AIPreferencePane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                delegate = id; 
+                "textField_title" = NSTextField; 
+                view = NSView; 
+                "view_containerSubView" = NSView; 
+                "view_containerView" = NSView; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = ESAddressBookIntegrationAdvancedPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "checkBox_enableImport" = NSButton; 
+                "checkBox_enableNoteSync" = NSButton; 
+                "checkBox_metaContacts" = NSButton; 
+                "checkBox_preferABImages" = NSButton; 
+                "checkBox_syncAutomatic" = NSButton; 
+                "checkBox_useABImages" = NSButton; 
+                "checkBox_useMiddleName" = NSButton; 
+                "checkBox_useNickName" = NSButton; 
+                "label_contacts" = AILocalizationTextField; 
+                "label_formatNamesAs" = AILocalizationTextField; 
+                "label_images" = AILocalizationTextField; 
+                "label_names" = AILocalizationTextField; 
+                "popUp_formatMenu" = NSPopUpButton; 
+            }; 
+            SUPERCLASS = AIPreferencePane; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSButton; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

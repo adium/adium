@@ -1,0 +1,34 @@
+{
+    IBClasses = (
+        {CLASS = AIColoredBoxView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = AICustomTabsView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; tabView = NSTabView; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = AIDockingWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
+        {
+            CLASS = AIMessageSendingTextView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AISendingTextView; 
+        }, 
+        {CLASS = AIMessageWindow; LANGUAGE = ObjC; SUPERCLASS = AIDockingWindow; }, 
+        {
+            ACTIONS = {closeWindow = id; toggleForceTabBarVisible = id; }; 
+            CLASS = AIMessageWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"tabView_messages" = NSTabView; "tabView_tabBar" = PSMTabBarControl; }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = AIMiniToolbar; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = AISendingTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

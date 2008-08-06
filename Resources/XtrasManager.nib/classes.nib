@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {CLASS = AIGradientCell; LANGUAGE = ObjC; SUPERCLASS = NSCell; }, 
+        {CLASS = AIImageTextCell; LANGUAGE = ObjC; SUPERCLASS = AIGradientCell; }, 
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AIPlugin; LANGUAGE = ObjC; SUPERCLASS = AIObject; }, 
+        {CLASS = AIXtraInfo; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                browseXtras = id; 
+                checkForUpdates = id; 
+                deleteXtra = id; 
+                setCategory = id; 
+                setShowsInfo = id; 
+            }; 
+            CLASS = AIXtrasManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                infoView = NSTextView; 
+                previewContainerView = NSScrollView; 
+                previewController = id; 
+                readmeView = NSView; 
+                showInfoControl = NSSegmentedControl; 
+                "tableView_categories" = AIAlternatingRowTableView; 
+                "view_content" = NSView; 
+                "view_shelf" = NSView; 
+                window = NSWindow; 
+                xtraList = NSTableView; 
+            }; 
+            SUPERCLASS = AIPlugin; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleShelf = id; }; 
+            CLASS = KNShelfSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; delegate = id; shelfView = NSView; target = id; }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {CLASS = NSButton; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSSegmentedControl; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

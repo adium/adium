@@ -1,0 +1,73 @@
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                deleteAccount = id;
+                editSelectedAccount = id;
+            };
+            CLASS = AIAccountListPreferences;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "button_deleteAccount" = NSButton;
+                "button_editAccount" = NSButton;
+                "button_newAccount" = NSButton;
+                "scrollView_accountList" = NSScrollView;
+                "tableView_accountList" = NSTableView;
+                "textField_overview" = NSTextField;
+            };
+            SUPERCLASS = AIPreferencePane;
+        },
+                {
+            CLASS = AIAlternatingRowTableView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            ACTIONS =             {
+                changePreference = id;
+            };
+            CLASS = AIModularPane;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                plugin = id;
+                view = NSView;
+            };
+            SUPERCLASS = AIObject;
+        },
+                {
+            CLASS = AIObject;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = AIPlasticButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSPopUpButton;
+        },
+                {
+            CLASS = AIPlasticMinusButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIPlasticButton;
+        },
+                {
+            CLASS = AIPlasticPlusButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIPlasticButton;
+        },
+                {
+            CLASS = AIPreferencePane;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIModularPane;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        }
+    );
+    IBVersion = 1;
+}
