@@ -91,7 +91,7 @@ typedef struct animationData {
 - (void)RB___tryToShortenTrailing:(RBSplitSubview*)trailing divider:(unsigned int)indx leading:(RBSplitSubview*)leading delta:(float)delta always:(BOOL)always;
 - (void)RB___trackMouseEvent:(NSEvent*)theEvent from:(NSPoint)where withBase:(NSPoint)base inDivider:(unsigned)indx;
 - (void)RB___addCursorRectsTo:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta;
-- (unsigned)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta;
+- (NSUInteger)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta;
 - (void)RB___drawDividersIn:(RBSplitView*)masterView forDividerRect:(NSRect)rect thickness:(float)delta;
 
 @end

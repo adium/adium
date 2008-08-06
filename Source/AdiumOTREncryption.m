@@ -111,7 +111,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 	/* Make our OtrlUserState; we'll only use the one. */
 	otrg_plugin_userstate = otrl_userstate_create();
 
-	int err;
+	NSInteger err;
 	
 	err = otrl_privkey_read(otrg_plugin_userstate, PRIVKEY_PATH);
 	if (err) {
@@ -228,15 +228,15 @@ static NSDictionary* details_for_context(ConnContext *context)
 
     /* Make a human-readable version of the sessionid (in two parts) */
     sessionid = context->sessionid;
-    for(int i = 0; i < idhalflen; ++i) sprintf(sess1+(2*i), "%02x", sessionid[i]);
-    for(int i = 0; i < idhalflen; ++i) sprintf(sess2+(2*i), "%02x", sessionid[i+idhalflen]);
+    for(NSUInteger i = 0; i < idhalflen; ++i) sprintf(sess1+(2*i), "%02x", sessionid[i]);
+    for(NSUInteger i = 0; i < idhalflen; ++i) sprintf(sess2+(2*i), "%02x", sessionid[i+idhalflen]);
 
 	account = [[adium accountController] accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
 
 	securityDetailsDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSString stringWithUTF8String:their_hash], @"Their Fingerprint",
 		[NSString stringWithUTF8String:our_hash], @"Our Fingerprint",
-		[NSNumber numberWithInt:encryptionStatus], @"EncryptionStatus",
+		[NSNumber numberWithInteger:encryptionStatus], @"EncryptionStatus",
 		account, @"AIAccount",
 		[NSString stringWithUTF8String:context->username], @"who",
 		[NSString stringWithUTF8String:sess1], (sess1_outgoing ? @"Outgoing SessionID" : @"Incoming SessionID"),
@@ -297,14 +297,14 @@ static OtrlPolicy policyForContact(AIListContact *contact)
 		//Get the contact's preference (or its containing group, or so on)
 		prefNumber = [[contact parentContact] preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 														 group:GROUP_ENCRYPTION];
-		if (!prefNumber || ([prefNumber intValue] == EncryptedChat_Default)) {
+		if (!prefNumber || ([prefNumber integerValue] == EncryptedChat_Default)) {
 			//If no contact preference or the contact is set to use the default, use the account preference
 			prefNumber = [[contact account] preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 													   group:GROUP_ENCRYPTION];		
 		}
 		
 		if (prefNumber) {
-			pref = [prefNumber intValue];
+			pref = [prefNumber integerValue];
 			
 			switch (pref) {
 				case EncryptedChat_Never:
@@ -439,7 +439,7 @@ static void inject_message_cb(void *opdata, const char *accountname,
  *
  * @result 0 if we handled displaying the message; 1 if we could not
  */
-static int display_otr_message(const char *accountname, const char *protocol,
+static NSInteger display_otr_message(const char *accountname, const char *protocol,
 							   const char *username, const char *msg)
 {
 	NSString			*message;
@@ -664,18 +664,18 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	static NSDictionary *maxSizeByServiceClassDict = nil;
 	if (!maxSizeByServiceClassDict) {
 		maxSizeByServiceClassDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-									 [NSNumber numberWithInt:2343], @"AIM-compatible",
-									 [NSNumber numberWithInt:1409], @"MSN",
-									 [NSNumber numberWithInt:832], @"Yahoo!",
-									 [NSNumber numberWithInt:1999], @"Gadu-Gadu",
-									 [NSNumber numberWithInt:417], @"IRC",
+									 [NSNumber numberWithInteger:2343], @"AIM-compatible",
+									 [NSNumber numberWithInteger:1409], @"MSN",
+									 [NSNumber numberWithInteger:832], @"Yahoo!",
+									 [NSNumber numberWithInteger:1999], @"Gadu-Gadu",
+									 [NSNumber numberWithInteger:417], @"IRC",
 									 nil];
 	}
 
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
 	 * which will disable fragmentation.
 	 */
-	return [[maxSizeByServiceClassDict objectForKey:[[chat account] serviceClass]] intValue];
+	return [[maxSizeByServiceClassDict objectForKey:[[chat account] serviceClass]] integerValue];
 }
 
 static OtrlMessageAppOps ui_ops = {
@@ -779,7 +779,7 @@ static void otrg_dialogue_respond_socialist_millionaires(ConnContext *context)
 	 * otrg_plugin_continue_smp() with the secret and the appropriate context */
 }
 
-static void otrg_dialog_update_smp(ConnContext *context, float percentage)
+static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 {
 	/* SMP status update */
 }

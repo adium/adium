@@ -14,7 +14,7 @@
 	NSDictionary	*hoveredMenuItemAttributes;
 	NSDictionary	*disabledMenuItemAttributes;
 
-	int currentHoveredIndex;
+	NSInteger currentHoveredIndex;
 }
 
 - (void)setMenu:(NSMenu *)inMenu;

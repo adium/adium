@@ -193,9 +193,9 @@
 	[self drawInteriorWithFrame:cellFrame inView:controlView];
 }
 
-- (float)trackingWidth
+- (CGFloat)trackingWidth
 {
-	float trackingWidth;
+	CGFloat trackingWidth;
 	
 	trackingWidth = LEFT_MARGIN + [title size].width + RIGHT_MARGIN;
 	if ([self menu]) {
@@ -213,7 +213,7 @@
 	NSRect	textRect;
 	NSColor	*drawingColor;
 	NSMenu	*myMenu = [self menu];
-	float	maxTextWidth;
+	CGFloat	maxTextWidth;
 
 	[statusParagraphStyle setMaximumLineHeight:cellFrame.size.height];
 
@@ -240,7 +240,7 @@
 		//Draw our hovered / highlighted background first
 		NSBezierPath	*path;
 		
-		float backgroundWidth = LEFT_MARGIN + textRect.size.width + RIGHT_MARGIN;
+		CGFloat backgroundWidth = LEFT_MARGIN + textRect.size.width + RIGHT_MARGIN;
 		
 		if (myMenu) {
 			backgroundWidth += (ARROW_XOFFSET + ARROW_WIDTH);

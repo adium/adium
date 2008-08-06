@@ -130,7 +130,7 @@
 		//Update our flash set
 		if (flashUnviewedContentEnabled &&
 			(inModifiedKeys == nil || [inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT])) {
-			int unviewedContent = [inObject integerValueForProperty:KEY_UNVIEWED_CONTENT];
+			NSInteger unviewedContent = [inObject integerValueForProperty:KEY_UNVIEWED_CONTENT];
 			
 			if (unviewedContent && ![flashingListObjects containsObject:inObject]) { //Start flashing
 				[self addToFlashSet:inObject];
@@ -147,8 +147,8 @@
 - (void)_applyColorToContact:(AIListContact *)inContact
 {
     NSColor			*color = nil, *invertedColor = nil, *labelColor = nil;
-    int				unviewedContent;
-	float			opacity = FULL_IMAGE_OPACITY;
+    NSInteger				unviewedContent;
+	CGFloat			opacity = FULL_IMAGE_OPACITY;
 	BOOL			isEvent = NO;
 
     //Prefetch the value for unviewed content, we need it multiple times below
@@ -239,7 +239,7 @@
     [inContact setValue:labelColor
 			forProperty:@"Label Color"
 				 notify:NotifyNever];
-	[inContact setValue:[NSNumber numberWithFloat:opacity]
+	[inContact setValue:[NSNumber numberWithDouble:opacity]
 			forProperty:@"Image Opacity"
 				 notify:NotifyNever];
 	[inContact setValue:(isEvent ? [NSNumber numberWithBool:YES] : nil)

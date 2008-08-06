@@ -99,9 +99,9 @@
 				//It was added as last; move to the middle.
 				[accountsTableView moveColumn:1 toColumn:0];
 				//Set all of the table view's columns to be the same width.
-				float columnWidth = [accountsTableView frame].size.width / 2.0;
+				CGFloat columnWidth = [accountsTableView frame].size.width / 2.0;
 				//NSLog(@"Setting columnWidth to: %f / 2.0 == %f", [accountsTableView frame].size.width, columnWidth);
-				[[accountsTableView tableColumns] setValue:[NSNumber numberWithFloat:columnWidth] forKey:@"width"];
+				[[accountsTableView tableColumns] setValue:[NSNumber numberWithDouble:columnWidth] forKey:@"width"];
 				[accountsTableView sizeToFit];
 				//We don't need it retained anymore.
 				[contactsColumn release];
@@ -115,9 +115,9 @@
 			[contactsColumn retain];
 			[accountsTableView removeTableColumn:contactsColumn];
 			//Set both of the table view's columns to be the same width.
-			float columnWidth = [accountsTableView frame].size.width;
+			CGFloat columnWidth = [accountsTableView frame].size.width;
 			//NSLog(@"Setting columnWidth to: %f", [accountsTableView frame].size.width);
-			[[accountsTableView tableColumns] setValue:[NSNumber numberWithFloat:columnWidth] forKey:@"width"];
+			[[accountsTableView tableColumns] setValue:[NSNumber numberWithDouble:columnWidth] forKey:@"width"];
 			[accountsTableView sizeToFit];
 
 			contactsColumnIsInAccountsTableView = NO;
@@ -141,7 +141,7 @@
 		[popUp_encryption compatibleSelectItemWithTag:EncryptedChat_Default];
 	}
 	
-	[popUp_encryption compatibleSelectItemWithTag:[encryption intValue]];
+	[popUp_encryption compatibleSelectItemWithTag:[encryption integerValue]];
 	
 	[checkBox_alwaysShow setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[checkBox_alwaysShow setState:[inObject alwaysVisible]];
@@ -151,7 +151,7 @@
 {
 	if(!displayedObject)
 		return;
-	[displayedObject setPreference:[NSNumber numberWithInt:[sender tag]] 
+	[displayedObject setPreference:[NSNumber numberWithInteger:[sender tag]] 
 							forKey:KEY_ENCRYPTED_CHAT_PREFERENCE 
 							group:GROUP_ENCRYPTION];
 }
@@ -299,7 +299,7 @@
 /*!
  * @brief Number of table view rows
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [contacts count];
 }
@@ -307,7 +307,7 @@
 /*!
  * @brief Table view object value
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	id result = @"";
 
@@ -338,7 +338,7 @@
 /*!
  * @brief Table view will display a cell
  */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString		*identifier = [tableColumn identifier];
 	AIAccount		*account;
@@ -383,13 +383,13 @@
 /*!
  * @brief Table view set object value
  */
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString		*identifier = [tableColumn identifier];
 	
 	if ([identifier isEqualToString:@"group"]) {
 		NSMenu		*menu = [[tableColumn dataCell] menu];
-		int			menuIndex = [object intValue];
+		NSInteger			menuIndex = [object integerValue];
 		
 		if (menuIndex >= 0 && menuIndex < [menu numberOfItems]) {
 			AIListGroup		*group = [[menu itemAtIndex:menuIndex] representedObject];

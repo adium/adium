@@ -41,7 +41,7 @@
     NSMutableArray				*interfaceArray;	
     NSMutableArray				*contactListTooltipEntryArray;
     NSMutableArray              *contactListTooltipSecondaryEntryArray;
-    float                       maxLabelWidth;
+    CGFloat                       maxLabelWidth;
 
 	
     NSMutableArray				*flashObserverArray;

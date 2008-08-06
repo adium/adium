@@ -16,7 +16,7 @@
 
 @class AIListObject, AIAdium;
 
-typedef int(*sortfunc)(id, id, BOOL);
+typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 
 #define PREF_GROUP_CONTACT_SORTING			@"Sorting"
 

@@ -18,11 +18,11 @@
 
 //Speech
 - (NSArray *)voices;
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate;
-- (float)defaultRate;
-- (float)defaultPitch;
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(CGFloat)rate;
+- (CGFloat)defaultRate;
+- (CGFloat)defaultPitch;
 - (void)speakText:(NSString *)text;
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate;
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(CGFloat)rate;
 
 //Soundsets
 - (NSArray *)soundSets;

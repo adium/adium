@@ -22,8 +22,8 @@
 
 #define KEY_RESOLVE_ALPHABETICALLY  @"Status:Resolve Alphabetically"
 
-int basicGroupVisibilitySort(id objectA, id objectB, void *context);
-int basicVisibilitySort(id objectA, id objectB, void *context);
+NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *context);
+NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context);
 
 @implementation AISortController
 
@@ -186,7 +186,7 @@ int basicVisibilitySort(id objectA, id objectB, void *context);
  *
  * Visible contacts go above invisible ones.  For contacts which are both visible, use the sort function.
  */
-int basicVisibilitySort(id objectA, id objectB, void *context)
+NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context)
 {
     BOOL	visibleA = [objectA visible];
     BOOL	visibleB = [objectB visible];
@@ -213,7 +213,7 @@ int basicVisibilitySort(id objectA, id objectB, void *context)
  *
  * Visible contacts go above invisible ones.  For contacts which are both visible, use the sort function.
  */
-int basicGroupVisibilitySort(id objectA, id objectB, void *context)
+NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *context)
 {
     BOOL	visibleA = [objectA visible];
     BOOL	visibleB = [objectB visible];
@@ -308,7 +308,7 @@ int basicGroupVisibilitySort(id objectA, id objectB, void *context)
 /*!
  * @brief Sort function
  */
-- (int (*)(id, id, BOOL))sortFunction{ return NULL; };
+- (NSComparisonResult (*)(id, id, BOOL))sortFunction{ return NULL; };
 
 /*!
  * @brief Did become active first time

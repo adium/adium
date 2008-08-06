@@ -30,7 +30,7 @@
 
 - (id)initWithPath:(NSString *)inPath from:(NSString *)inFrom to:(NSString *)inTo serviceClass:(NSString *)inServiceClass;
 - (NSEnumerator *)logEnumerator;
-- (int)logCount;
+- (NSInteger)logCount;
 - (NSString *)relativePath;
 - (NSString *)from;
 - (NSString *)to;

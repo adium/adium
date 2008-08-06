@@ -340,7 +340,7 @@
 {
 	AIListContact	*listContact = [[[[adium interfaceController] activeChat] listObject] parentContact];
 	
-	[listContact setPreference:[NSNumber numberWithInt:[sender tag]]
+	[listContact setPreference:[NSNumber numberWithInteger:[sender tag]]
 						forKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 						 group:GROUP_ENCRYPTION];
 }
@@ -363,7 +363,7 @@
 					NSNumber	*pref = [listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																group:GROUP_ENCRYPTION];
 					//Set the state (checked or unchecked) as appropriate. Default = no pref or the actual 'default' value.
-					[menuItem setState:(!pref || (tag == [pref intValue]))];
+					[menuItem setState:(!pref || (tag == [pref integerValue]))];
 				}
 				return YES;
 				break;
@@ -379,7 +379,7 @@
 																group:GROUP_ENCRYPTION];
 					
 					//Set the state (checked or unchecked) as appropriate
-					[menuItem setState:(pref && (tag == [pref intValue]))];
+					[menuItem setState:(pref && (tag == [pref integerValue]))];
 				}
 				return YES;
 				break;

@@ -38,7 +38,7 @@
 - (void)updateSelectedLayoutAndTheme;
 
 - (void)applySet:(NSDictionary *)setDictionary toPreferenceGroup:(NSString *)preferenceGroup;
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row;
 @end
 
 @implementation AICLPreferences
@@ -241,7 +241,7 @@
 						  [selected objectForKey:@"path"]);
 	}
 }
-- (void)deleteLayoutSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(NSDictionary *)contextInfo
+- (void)deleteLayoutSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(NSDictionary *)contextInfo
 {
     if(returnCode == NSAlertDefaultReturn && contextInfo){
 		NSString *path = [contextInfo objectForKey:@"path"];
@@ -272,7 +272,7 @@
 						  [selected objectForKey:@"path"]);
 	}
 }
-- (void)deleteThemeSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(NSDictionary *)contextInfo
+- (void)deleteThemeSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(NSDictionary *)contextInfo
 {
     if(returnCode == NSAlertDefaultReturn && contextInfo){
 		NSString *path = [contextInfo objectForKey:@"path"];
@@ -287,7 +287,7 @@
 
 //Table Delegate -------------------------------------------------------------------------------------------------------
 #pragma mark Table Delegate
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	if(tableView == tableView_layout){
 		return [layoutArray count];
@@ -296,7 +296,7 @@
 	}
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString	*column = [tableColumn identifier];
 	
@@ -323,7 +323,7 @@
 	return @"-";
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
 	if(tableView == tableView_layout){
 		NSDictionary	*layoutDict = [layoutArray objectAtIndex:row];
@@ -344,7 +344,7 @@
 	return YES;
 }
 
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 //	NSString	*column = [tableColumn identifier];
 //

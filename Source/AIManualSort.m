@@ -58,11 +58,11 @@
 /*!
  * @brief Manual sort
  */
-int manualSort(id objectA, id objectB, BOOL groups)
+NSInteger manualSort(id objectA, id objectB, BOOL groups)
 {
 	//Contacts and Groups in manual order
-	float orderIndexA = [objectA orderIndex];
-	float orderIndexB = [objectB orderIndex];
+	CGFloat orderIndexA = [objectA orderIndex];
+	CGFloat orderIndexB = [objectB orderIndex];
 	
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;

@@ -176,7 +176,7 @@
  * @param destIndex Index to place the account
  * @return new index of the account
  */
-- (int)moveAccount:(AIAccount *)account toIndex:(int)destIndex
+- (NSUInteger)moveAccount:(AIAccount *)account toIndex:(NSUInteger)destIndex
 {
     [accounts moveObject:account toIndex:destIndex];
     [self _saveAccounts];
@@ -201,10 +201,10 @@
 //XXX - This setup leaves the possibility that mangled preferences files would create multiple accounts with the same ID -ai
 - (NSString *)_generateUniqueInternalObjectID
 {
-	int			topAccountID = [[[adium preferenceController] preferenceForKey:TOP_ACCOUNT_ID group:PREF_GROUP_ACCOUNTS] intValue];
-	NSString 	*internalObjectID = [NSString stringWithFormat:@"%i",topAccountID];
+	NSInteger			topAccountID = [[[adium preferenceController] preferenceForKey:TOP_ACCOUNT_ID group:PREF_GROUP_ACCOUNTS] integerValue];
+	NSString 	*internalObjectID = [NSString stringWithFormat:@"%ld",topAccountID];
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:topAccountID + 1]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:topAccountID + 1]
 										 forKey:TOP_ACCOUNT_ID
 										  group:PREF_GROUP_ACCOUNTS];
 

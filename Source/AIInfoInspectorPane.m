@@ -167,9 +167,9 @@
 
 - (void)addAttributedString:(NSAttributedString *)string
 					toTable:(NSTextTable *)table
-						row:(int)row
-						col:(int)col
-					colspan:(int)colspan
+						row:(NSInteger)row
+						col:(NSInteger)col
+					colspan:(NSInteger)colspan
 					 header:(BOOL)header
 					  color:(NSColor *)color
 				  alignment:(NSTextAlignment)alignment
@@ -182,7 +182,7 @@
 															columnSpan:colspan];
 	NSMutableParagraphStyle	*style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	
-	int textLength = [text length];
+	NSInteger textLength = [text length];
 
     [block setVerticalAlignment:NSTextBlockTopAlignment];
 	
@@ -241,18 +241,18 @@
 		NSDictionary *lineDict;
 		while ((lineDict = [profileEnumerator nextObject])) {
 			NSString *key = [lineDict objectForKey:KEY_KEY];
-			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] intValue];
-			int insertionIndex = -1;
+			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] integerValue];
+			NSInteger insertionIndex = -1;
 	
 			switch (entryType) {
 				case AIUserInfoSectionBreak:
 					/* Skip double section breaks */
-					if ([[[array lastObject] objectForKey:KEY_TYPE] intValue] == AIUserInfoSectionBreak)
+					if ([[[array lastObject] objectForKey:KEY_TYPE] integerValue] == AIUserInfoSectionBreak)
 						continue;
 					break;
 				case AIUserInfoSectionHeader:
 					/* Use the most recent header if we have multiple headers in a row */
-					if ([[[array lastObject] objectForKey:KEY_TYPE] intValue] == AIUserInfoSectionHeader)
+					if ([[[array lastObject] objectForKey:KEY_TYPE] integerValue] == AIUserInfoSectionHeader)
 						[array removeLastObject];
 					break;
 				case AIUserInfoLabelValuePair:
@@ -335,18 +335,18 @@
 
 - (void)removeDuplicateEntriesFromProfileArray:(NSMutableArray *)array
 {
-	int i;
-	unsigned count = [array count];
+	NSInteger i;
+	NSUInteger count = [array count];
 	for (i = 0; i < (count - 1); i++) {
 		NSDictionary *lineDict = [array objectAtIndex:i];
 		//Look only for label/value pairs
-		if ([[lineDict objectForKey:KEY_TYPE] intValue] == AIUserInfoLabelValuePair) {
-			int j;
+		if ([[lineDict objectForKey:KEY_TYPE] integerValue] == AIUserInfoLabelValuePair) {
+			NSInteger j;
 			NSString *thisKey = [[lineDict objectForKey:KEY_KEY] lowercaseString];
 			for (j = i + 1; j < count; j++) {
 				NSDictionary *otherLineDict = [array objectAtIndex:j];
 
-				if (([[otherLineDict objectForKey:KEY_TYPE] intValue] == AIUserInfoLabelValuePair) &&
+				if (([[otherLineDict objectForKey:KEY_TYPE] integerValue] == AIUserInfoLabelValuePair) &&
 					[[[otherLineDict objectForKey:KEY_KEY] lowercaseString] isEqualToString:thisKey]) {
 					/* Same key. Compare values, which may be NSString or NSAttributedString objects */
 					id thisValue = [lineDict objectForKey:KEY_VALUE];
@@ -420,8 +420,8 @@
 	
 	BOOL							shownAnyContent = NO;
 	
-	for (int row = 0; (lineDict = [enumerator nextObject]); row++) {
-		if ([[lineDict objectForKey:KEY_TYPE] intValue] == AIUserInfoSectionBreak && shownAnyContent == NO) {
+	for (NSInteger row = 0; (lineDict = [enumerator nextObject]); row++) {
+		if ([[lineDict objectForKey:KEY_TYPE] integerValue] == AIUserInfoSectionBreak && shownAnyContent == NO) {
 			continue;
 		}
 		
@@ -448,7 +448,7 @@
 			key = [NSAttributedString stringWithString:[[lineDict objectForKey:KEY_KEY] lowercaseString]];
 		}
 		
-		switch ([[lineDict objectForKey:KEY_TYPE] intValue]) {
+		switch ([[lineDict objectForKey:KEY_TYPE] integerValue]) {
 			case AIUserInfoLabelValuePair:
 				if (key) {
 					[self addAttributedString:key
@@ -664,8 +664,8 @@
 
 - (void)addMultiValue:(ABMultiValue *)value forProperty:(NSString *)property ofType:(ABPropertyType)propertyType toProfileArray:(NSMutableArray *)profileArray
 {
-	unsigned int count = [value count];
-	int i;
+	NSUInteger count = [value count];
+	NSInteger i;
 	for (i = 0; i < count; i++) {
 		NSString *label = ABLocalizedPropertyOrLabel([value labelAtIndex:i]);
 		id innerValue = [value valueAtIndex:i];
@@ -680,7 +680,7 @@
 				break;
 			case kABMultiIntegerProperty:
 			case kABMultiRealProperty:
-				if ([(NSNumber *)innerValue intValue] != 0) {
+				if ([(NSNumber *)innerValue integerValue] != 0) {
 					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 											 [NSString stringWithFormat:@"%@ (%@)", ABLocalizedPropertyOrLabel(property), label], KEY_KEY,
 											 [(NSNumber *)innerValue stringValue], KEY_VALUE,
@@ -779,7 +779,7 @@
 					break;
 				case kABIntegerProperty:
 				case kABRealProperty:
-					if ([value intValue] != 0) {
+					if ([value integerValue] != 0) {
 						[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 												 ABLocalizedPropertyOrLabel(property), KEY_KEY,
 												 [(NSNumber *)value stringValue], KEY_VALUE,

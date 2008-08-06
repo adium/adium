@@ -67,8 +67,8 @@ static BOOL	sortIdleTime;
 static BOOL	resolveAlphabetically;
 static BOOL resolveAlphabeticallyByLastName;
 
-static int  sortOrder[MAX_SORT_ORDER_DIMENSION];
-static int  sizeOfSortOrder;
+static NSInteger  sortOrder[MAX_SORT_ORDER_DIMENSION];
+static NSInteger  sizeOfSortOrder;
 
 @interface ESStatusSort (PRIVATE)
 - (void)configureControlDimming;
@@ -124,7 +124,7 @@ static int  sizeOfSortOrder;
 {
 	NSEnumerator	*enumerator;
 	NSNumber		*sortTypeNumber;
-	int i;
+	NSInteger i;
 	
 	for (i = 0; i < MAX_SORT_ORDER_DIMENSION; i++) {
 		sortOrder[i] = -1;
@@ -139,7 +139,7 @@ static int  sizeOfSortOrder;
 
 	enumerator = [sortOrderArray objectEnumerator];
 	while ((sortTypeNumber = [enumerator nextObject])) {
-		switch ([sortTypeNumber intValue]) {
+		switch ([sortTypeNumber integerValue]) {
 			case Available: 
 				/* Group available if:
 					Group available,
@@ -303,9 +303,9 @@ static int  sizeOfSortOrder;
                                               group:PREF_GROUP_CONTACT_SORTING];		
 		
 		//Ensure the mobile item is in our sort order array, as the old defaults didn't include it
-		if ([sortOrderArray indexOfObject:[NSNumber numberWithInt:Mobile]] == NSNotFound) {
+		if ([sortOrderArray indexOfObject:[NSNumber numberWithInteger:Mobile]] == NSNotFound) {
 			NSMutableArray	*newSortOrderArray = [[sortOrderArray mutableCopy] autorelease];
-			[newSortOrderArray addObject:[NSNumber numberWithInt:Mobile]];
+			[newSortOrderArray addObject:[NSNumber numberWithInteger:Mobile]];
 			
 			[[adium preferenceController] setPreference:newSortOrderArray
 												 forKey:KEY_SORT_ORDER
@@ -385,7 +385,7 @@ static int  sizeOfSortOrder;
 /*!
  * @brief Table view number of rows
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return sizeOfSortOrder;
 }
@@ -393,7 +393,7 @@ static int  sizeOfSortOrder;
 /*!
  * @brief Table view object value
  */
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	switch (sortOrder[rowIndex]) {
 		case Available:
@@ -440,7 +440,7 @@ static int  sizeOfSortOrder;
  */
 - (NSNumber *)numberForString:(NSString *)string
 {
-	int equivalent = -1;
+	NSInteger equivalent = -1;
 
 	if ([string isEqualToString:AVAILABLE]) {
 		equivalent = Available;
@@ -458,7 +458,7 @@ static int  sizeOfSortOrder;
 		equivalent = Mobile;
 	}
 	
-	return [NSNumber numberWithInt:equivalent];
+	return [NSNumber numberWithInteger:equivalent];
 }
 
 /*!
@@ -471,7 +471,7 @@ static int  sizeOfSortOrder;
     //Build a list of all the highlighted aways
     NSString	*dragItem = [self tableView:tableView
 				  objectValueForTableColumn:nil
-										row:[[rows objectAtIndex:0] intValue]];
+										row:[[rows objectAtIndex:0] integerValue]];
 	
     //put it on the pasteboard
     [pboard setString:dragItem forType:STATUS_DRAG_TYPE];
@@ -482,7 +482,7 @@ static int  sizeOfSortOrder;
 /*!
  * @brief Table view validate drop
  */
-- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView *)tableView validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
 {
     NSString	*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:STATUS_DRAG_TYPE]];
 
@@ -500,7 +500,7 @@ static int  sizeOfSortOrder;
 /*!
  * @brief Table view accept drop
  */
-- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)operation
+- (BOOL)tableView:(NSTableView *)tableView acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
 {
     NSString		*availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:STATUS_DRAG_TYPE]];
 
@@ -520,7 +520,7 @@ static int  sizeOfSortOrder;
 			[sortOrderPref addObject:sortNumber];
 		} else {
 			//Find the object which will end up just below it
-			int targetIndex = [sortOrderPref indexOfObject:[self numberForString:[self tableView:tableView
+			NSInteger targetIndex = [sortOrderPref indexOfObject:[self numberForString:[self tableView:tableView
 																		 objectValueForTableColumn:nil
 																							   row:row]]];
 			if (targetIndex != NSNotFound) {
@@ -558,7 +558,7 @@ static int  sizeOfSortOrder;
  *
  * It's magic... but it's efficient magic!
  */
-int statusSort(id objectA, id objectB, BOOL groups)
+NSInteger statusSort(id objectA, id objectB, BOOL groups)
 {
 	if (groups) {
 		//Keep groups in manual order
@@ -584,13 +584,13 @@ int statusSort(id objectA, id objectB, BOOL groups)
 		//We only need to start looking at status for sorting if both are online; 
 		//otherwise, skip to resolving alphabetically or manually
 		if (onlineA && onlineB) {
-			unsigned int	i = 0;
+			NSUInteger	i = 0;
 			BOOL			away[2];
 			BOOL			mobile[2];
 			BOOL			definitelyFinishedIfSuccessful, onlyIfWeAintGotNothinBetter, status;
-			int				idle[2];
-			int				sortIndex[2];
-			int				objectCounter;
+			NSInteger				idle[2];
+			NSInteger				sortIndex[2];
+			NSInteger				objectCounter;
 			
 			//Get the away state and idle times now rather than potentially doing each twice below
 			away[0] = ((statusSummaryA == AIAwayStatus) || (statusSummaryA == AIAwayAndIdleStatus));
@@ -687,8 +687,8 @@ int statusSort(id objectA, id objectB, BOOL groups)
 		
 		if (!resolveAlphabetically) {
 			//If we don't want to resolve alphabetically, we do want to resolve by manual ordering if possible
-			float orderIndexA = [objectA orderIndex];
-			float orderIndexB = [objectB orderIndex];
+			CGFloat orderIndexA = [objectA orderIndex];
+			CGFloat orderIndexB = [objectB orderIndex];
 			
 			if (orderIndexA > orderIndexB) {
 				return NSOrderedDescending;

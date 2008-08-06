@@ -86,7 +86,7 @@
 {
 	return [[self logDict] objectEnumerator];
 }
-- (int)logCount
+- (NSInteger)logCount
 {
 	return [[self logDict] count];
 }
@@ -210,7 +210,7 @@
 			([[(AILogToGroup *)inObject to] isEqualToString:[self to]] &&
 			 [[(AILogToGroup *)inObject serviceClass] isEqualToString:[self serviceClass]]));
 }
-- (unsigned)hash
+- (NSUInteger)hash
 {
 	return [[self to] hash];
 }

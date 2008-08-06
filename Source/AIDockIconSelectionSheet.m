@@ -55,7 +55,7 @@
 /*!
  * Invoked as the sheet closes, dismiss the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 
@@ -172,7 +172,7 @@
 {
 	NSEnumerator	*enumerator = [iconArray objectEnumerator];
 	NSDictionary	*iconDict;
-	int				index = 0;
+	NSInteger				index = 0;
 	
 	while ((iconDict = [enumerator nextObject])) {
 		NSString	*iconName = [[[iconDict objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]		;
@@ -188,7 +188,7 @@
 //Animation ------------------------------------------------------------------------------------------------------------
 #pragma mark Animation
 //Start animating an icon in our grid by index (pass -1 to stop animation)
-- (void)setAnimatedDockIconAtIndex:(int)index
+- (void)setAnimatedDockIconAtIndex:(NSInteger)index
 {
 	//Schedule the old and new animating images for redraw
 	[imageGridView_icons setNeedsDisplayOfImageAtIndex:animatedIndex];
@@ -238,12 +238,12 @@
 
 //ImageGridView Delegate -----------------------------------------------------------------------------------------------
 #pragma mark ImageGridView Delegate
-- (int)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
+- (NSInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
 {
 	return [iconArray count];
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(int)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSInteger)index
 {
 	if (index == animatedIndex) {
 		return [animatedIconState image];
@@ -261,7 +261,7 @@
 		[[adium preferenceController] setPreference:iconName forKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE];
 }
 
-- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(int)index
+- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSInteger)index
 {
 	[self setAnimatedDockIconAtIndex:index];
 }
@@ -289,10 +289,10 @@
 						  AILocalizedString(@"Are you sure you want to delete the %@ Dock Icon? It will be moved to the Trash.",nil), name);
 	}
 }
-- (void)trashConfirmSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(NSString *)selectedIconPath
+- (void)trashConfirmSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(NSString *)selectedIconPath
 {
     if (returnCode == NSOKButton) {
-		int deletedIndex = [imageGridView_icons selectedIndex];
+		NSInteger deletedIndex = [imageGridView_icons selectedIndex];
 		
 		//Deselect and stop animating
 		[self setAnimatedDockIconAtIndex:-1];

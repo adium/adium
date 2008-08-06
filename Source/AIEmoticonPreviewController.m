@@ -42,7 +42,7 @@
 	[column release];
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
 	return NO;
 }
@@ -55,12 +55,12 @@
 	[tableView sizeToFit];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [emoticons count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	AIEmoticon * emoticon = [emoticons objectAtIndex:rowIndex];
 	if([[aTableColumn identifier] isEqualToString:@"Emoticon"])

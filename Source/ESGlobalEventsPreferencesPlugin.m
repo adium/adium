@@ -232,15 +232,15 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 										  group:PREF_GROUP_EVENT_PRESETS];
 }
 
-- (float)nextOrderIndex
+- (CGFloat)nextOrderIndex
 {
 	NSNumber *nextOrderIndexNumber = [[adium preferenceController] preferenceForKey:KEY_NEXT_ORDER_INDEX
 																			  group:PREF_GROUP_EVENT_PRESETS];
-	float	nextOrderIndex;
+	CGFloat	nextOrderIndex;
 	
-	nextOrderIndex = (nextOrderIndexNumber ? [nextOrderIndexNumber floatValue] : 1.0);
+	nextOrderIndex = (nextOrderIndexNumber ? [nextOrderIndexNumber doubleValue] : 1.0);
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithFloat:(nextOrderIndex + 1)]
+	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:(nextOrderIndex + 1)]
 										 forKey:KEY_NEXT_ORDER_INDEX
 										  group:PREF_GROUP_EVENT_PRESETS];	
 
@@ -258,7 +258,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 	NSString	*name = [eventPreset objectForKey:KEY_EVENT_SET_NAME];
 	//Assign the next order index to this preset if it doesn't have one yet
 	if (![eventPreset objectForKey:KEY_ORDER_INDEX]) {
-		[eventPreset setObject:[NSNumber numberWithFloat:[self nextOrderIndex]]
+		[eventPreset setObject:[NSNumber numberWithDouble:[self nextOrderIndex]]
 						forKey:KEY_ORDER_INDEX];
 	}
 
@@ -268,12 +268,12 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 		
 		//Make sure we're not using a name which is already in use
 		if ([storedEventPresets objectForKey:name]) {
-			unsigned i = 1;
-			name = [NEW_PRESET_NAME stringByAppendingFormat:@" (%i)",i];
+			NSUInteger i = 1;
+			name = [NEW_PRESET_NAME stringByAppendingFormat:@" (%lu)",i];
 			
 			while ([storedEventPresets objectForKey:name] != nil) {
 				i++;
-				name = [NEW_PRESET_NAME stringByAppendingFormat:@" (%i)",i];
+				name = [NEW_PRESET_NAME stringByAppendingFormat:@" (%lu)",i];
 			}
 		}
 		
@@ -313,10 +313,10 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 	return storedEventPresets;
 }
 
-int eventPresetsSort(id eventPresetA, id eventPresetB, void *context)
+NSInteger eventPresetsSort(id eventPresetA, id eventPresetB, void *context)
 {
-	float orderIndexA = [[eventPresetA objectForKey:KEY_ORDER_INDEX] floatValue];
-	float orderIndexB = [[eventPresetB objectForKey:KEY_ORDER_INDEX] floatValue];
+	CGFloat orderIndexA = [[eventPresetA objectForKey:KEY_ORDER_INDEX] doubleValue];
+	CGFloat orderIndexB = [[eventPresetB objectForKey:KEY_ORDER_INDEX] doubleValue];
 	
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;

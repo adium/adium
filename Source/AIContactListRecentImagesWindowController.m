@@ -115,7 +115,7 @@
 	[window setFrame:frame display:NO animate:NO];	
 }
 
-- (int)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
+- (NSInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
 {
 	return 10;
 }
@@ -140,7 +140,7 @@
 	}
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(int)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSInteger)index
 {
 	NSImage		*displayImage;
 	NSArray		*recentSmallIcons = [self recentSmallIcons];
@@ -182,7 +182,7 @@
 	return [displayImage autorelease];
 }
 
-- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(int)index
+- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(NSInteger)index
 {
 	//Update our hovered index and redisplay the image
 	currentHoveredIndex = index;
@@ -191,7 +191,7 @@
 
 - (void)imageGridViewSelectionDidChange:(NSNotification *)notification
 {
-	int selectedIndex = [imageGridView selectedIndex];
+	NSInteger selectedIndex = [imageGridView selectedIndex];
 	NSArray *recentPictures = [self recentPictures];
 	if (selectedIndex < [recentPictures count]) {
 		id		recentPicture = [recentPictures objectAtIndex:selectedIndex];
@@ -262,7 +262,7 @@
 #pragma mark Fading
 - (void)fadeOut:(NSTimer *)inTimer
 {
-	float				currentAlpha = [[self window] alphaValue];
+	CGFloat				currentAlpha = [[self window] alphaValue];
 	currentAlpha -= 0.15;
 	
 	if (currentAlpha <= 0) {
@@ -296,8 +296,8 @@
 	activeAccount = [AIStandardListWindowController activeAccountForIconsGettingOnlineAccounts:onlineAccounts
 																			   ownIconAccounts:ownIconAccounts];
 	
-	int ownIconAccountsCount = [ownIconAccounts count];
-	int onlineAccountsCount = [onlineAccounts count];
+	NSInteger ownIconAccountsCount = [ownIconAccounts count];
+	NSInteger onlineAccountsCount = [onlineAccounts count];
 	if (ownIconAccountsCount && ((ownIconAccountsCount > 1) || (onlineAccountsCount > 1))) {
 		//There are at least some accounts using the global preference if the counts differ
 		BOOL		 includeGlobal = (onlineAccountsCount != ownIconAccountsCount);
@@ -373,7 +373,7 @@
 	[inMenuItemView sizeToFit];
 	NSRect	newFrame = [inMenuItemView frame];
 
-	float	heightDifference = newFrame.size.height - oldFrame.size.height;
+	CGFloat	heightDifference = newFrame.size.height - oldFrame.size.height;
 
 	if (heightDifference != 0) {
 		NSRect	myFrame = [[self window] frame];

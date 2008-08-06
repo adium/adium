@@ -57,7 +57,7 @@
                                              forKey:KEY_SCL_USE_GRADIENT
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}else if(sender == slider_labelOpacity){
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:[sender floatValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_LABEL_OPACITY
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];   
     }else if(sender == checkbox_labelGroups){
@@ -81,7 +81,7 @@
     [checkbox_labelAroundContact setState:[[preferenceDict objectForKey:KEY_SCL_LABEL_AROUND_CONTACT] boolValue]];
     [checkbox_outlineLabels setState:[[preferenceDict objectForKey:KEY_SCL_OUTLINE_LABELS] boolValue]];
     
-    [slider_labelOpacity setFloatValue:[[preferenceDict objectForKey:KEY_SCL_LABEL_OPACITY] floatValue]];
+    [slider_labelOpacity setDoubleValue:[[preferenceDict objectForKey:KEY_SCL_LABEL_OPACITY] doubleValue]];
     [slider_labelOpacity setMinValue:0.05];
     [slider_labelOpacity setMaxValue:1.00];
     

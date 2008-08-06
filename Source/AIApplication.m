@@ -56,7 +56,7 @@
 	[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 	[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create window. At least, not like that."];
 }
-- (void)insertObject:(NSWindow *)w inOrderedWindowsAtIndex:(unsigned int)index
+- (void)insertObject:(NSWindow *)w inOrderedWindowsAtIndex:(NSUInteger)index
 {
 	[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 	[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create window. At least, not like that."];
@@ -65,7 +65,7 @@
 {
 	NSArray *windows = [self orderedWindows];
 	NSMutableArray *chatWindows = [[[NSMutableArray alloc] init] autorelease];
-	for (int i=0;i<[windows count];i++)
+	for (NSInteger i=0;i<[windows count];i++)
 		if ([[windows objectAtIndex:i] isKindOfClass:[AIMessageWindow class]])
 			[chatWindows addObject:[windows objectAtIndex:i]];
 	return chatWindows;
@@ -82,11 +82,11 @@
 {
 	return [[adium contactController] allContacts];
 }
-- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(int)index
+- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(NSInteger)index
 {
 	//Intentially unimplemented. This should never be called (contacts are created a different way), but is required for KVC-compliance.
 }
-- (void)removeObjectFromContactsAtIndex:(int)index
+- (void)removeObjectFromContactsAtIndex:(NSInteger)index
 {
 	[[adium contactController] removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
 }
@@ -149,7 +149,7 @@
 	if (!properties || ![properties objectForKey:@"statusTypeApplescript"])
 		type = AIAvailableStatusTypeAS;
 	else
-		type = [[properties objectForKey:@"statusTypeApplescript"] unsignedIntValue];
+		type = [[properties objectForKey:@"statusTypeApplescript"] unsignedIntegerValue];
 	
 	AIStatusType realType;
 	switch (type) {
@@ -186,7 +186,7 @@
 	
 	if ([keyDictionary objectForKey:@"Location"]) {
 		NSPositionalSpecifier *location = [keyDictionary objectForKey:@"Location"];
-		unsigned int index = [location insertionIndex];
+		NSUInteger index = [location insertionIndex];
 		[[[adium statusController] rootStateGroup] addStatusItem:status atIndex:index];
 	} else {
 		[[adium statusController] addStatusState:status];
@@ -194,15 +194,15 @@
 	
 	return status;
 }
-- (void)insertObject:(AIStatus *)status inStatusesAtIndex:(unsigned int)i
+- (void)insertObject:(AIStatus *)status inStatusesAtIndex:(NSUInteger)i
 {
 	[self insertInStatuses:status atIndex:i];
 }
-- (void)removeObjectFromStatusesAtIndex:(unsigned int)i
+- (void)removeObjectFromStatusesAtIndex:(NSUInteger)i
 {
 	[self removeFromStatusesAtIndex:i];
 }
-- (void)replaceObjectInStatusesAtIndex:(unsigned int)i withObject:(AIStatus *)status
+- (void)replaceObjectInStatusesAtIndex:(NSUInteger)i withObject:(AIStatus *)status
 {
 	[self replaceInStatuses:status atIndex:i];
 }
@@ -210,15 +210,15 @@
 {
 	[[adium statusController] addStatusState:status];
 }
-- (void)insertInStatuses:(AIStatus *)status atIndex:(unsigned int)i
+- (void)insertInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
 {
 	[[[adium statusController] rootStateGroup] addStatusItem:status atIndex:i];
 }
-- (void)removeFromStatusesAtIndex:(unsigned int)i
+- (void)removeFromStatusesAtIndex:(NSUInteger)i
 {
 	[[[adium statusController] rootStateGroup] removeStatusItem:[[self statuses] objectAtIndex:i]];
 }
-- (void)replaceInStatuses:(AIStatus *)status atIndex:(unsigned int)i
+- (void)replaceInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
 {
 	NSLog(@"%s NOT IMPLEMENTED",__PRETTY_FUNCTION__);
 }

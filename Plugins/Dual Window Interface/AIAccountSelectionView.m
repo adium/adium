@@ -231,7 +231,7 @@
  */
 - (void)_repositionMenusAndResize
 {
-	int		newHeight = 0;
+	NSInteger		newHeight = 0;
 	NSRect	oldFrame = [self frame];
 	
 	//Account menu is always at the bottom
@@ -263,7 +263,7 @@
 {
 	NSEnumerator 	*enumerator = [[[adium accountController] accounts] objectEnumerator];
 	AIAccount		*account;
-	int				choices = 0;
+	NSInteger				choices = 0;
 
 	while ((account = [enumerator nextObject])) {
 		if ([self _accountIsAvailable:account]) {

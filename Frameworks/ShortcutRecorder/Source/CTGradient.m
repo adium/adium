@@ -14,19 +14,19 @@
 - (void)setBlendingMode:(CTGradientBlendingMode)mode;
 - (void)addElement:(CTGradientElement*)newElement;
 
-- (CTGradientElement *)elementAtIndex:(unsigned)index;
+- (CTGradientElement *)elementAtIndex:(NSUInteger)index;
 
-- (CTGradientElement)removeElementAtIndex:(unsigned)index;
-- (CTGradientElement)removeElementAtPosition:(float)position;
+- (CTGradientElement)removeElementAtIndex:(NSUInteger)index;
+- (CTGradientElement)removeElementAtPosition:(CGFloat)position;
 @end
 
 //C Fuctions for color blending
-void linearEvaluation   (void *info, const float *in, float *out);
-void chromaticEvaluation(void *info, const float *in, float *out);
-void inverseChromaticEvaluation(void *info, const float *in, float *out);
-void transformRGB_HSV(float *components);
-void transformHSV_RGB(float *components);
-void resolveHSV(float *color1, float *color2);
+void linearEvaluation   (void *info, const CGFloat *in, CGFloat *out);
+void chromaticEvaluation(void *info, const CGFloat *in, CGFloat *out);
+void inverseChromaticEvaluation(void *info, const CGFloat *in, CGFloat *out);
+void transformRGB_HSV(CGFloat *components);
+void transformHSV_RGB(CGFloat *components);
+void resolveHSV(CGFloat *color1, CGFloat *color2);
 
 
 @implementation CTGradient
@@ -419,7 +419,7 @@ void resolveHSV(float *color1, float *color2);
   {
   id newInstance = [[[self class] alloc] init];
   
-  struct {float hue; float position; float width;} colorBands[4];
+  struct {CGFloat hue; CGFloat position; CGFloat width;} colorBands[4];
   
   colorBands[0].hue = 22;
   colorBands[0].position = .145;
@@ -441,7 +441,7 @@ void resolveHSV(float *color1, float *color2);
   /////////////////////////////
   for(i = 0; i < 4; i++)
 	{	
-	float color[4];
+	CGFloat color[4];
 	color[0] = colorBands[i].hue - 180*colorBands[i].width;
 	color[1] = 1;
 	color[2] = 0.001;
@@ -495,7 +495,7 @@ void resolveHSV(float *color1, float *color2);
 
 
 #pragma mark Modification
-- (CTGradient *)gradientWithAlphaComponent:(float)alpha
+- (CTGradient *)gradientWithAlphaComponent:(CGFloat)alpha
   {
   id newInstance = [[[self class] alloc] init];
   
@@ -526,7 +526,7 @@ void resolveHSV(float *color1, float *color2);
 
 //Adds a color stop with <color> at <position> in elementList
 //(if two elements are at the same position then added imediatly after the one that was there already)
-- (CTGradient *)addColorStop:(NSColor *)color atPosition:(float)position
+- (CTGradient *)addColorStop:(NSColor *)color atPosition:(CGFloat)position
   {
   CTGradient *newGradient = [self copy];
   CTGradientElement newGradientElement;
@@ -546,7 +546,7 @@ void resolveHSV(float *color1, float *color2);
 
 
 //Removes the color stop at <position> from elementList
-- (CTGradient *)removeColorStopAtPosition:(float)position
+- (CTGradient *)removeColorStopAtPosition:(CGFloat)position
   {
   CTGradient *newGradient = [self copy];
   CTGradientElement removedElement = [newGradient removeElementAtPosition:position];
@@ -557,7 +557,7 @@ void resolveHSV(float *color1, float *color2);
   return [newGradient autorelease];
   }
 
-- (CTGradient *)removeColorStopAtIndex:(unsigned)index
+- (CTGradient *)removeColorStopAtIndex:(NSUInteger)index
   {
   CTGradient *newGradient = [self copy];
   CTGradientElement removedElement = [newGradient removeElementAtIndex:index];
@@ -578,7 +578,7 @@ void resolveHSV(float *color1, float *color2);
   }
 
 //Returns color at <position> in gradient
-- (NSColor *)colorStopAtIndex:(unsigned)index
+- (NSColor *)colorStopAtIndex:(NSUInteger)index
   {
   CTGradientElement *element = [self elementAtIndex:index];
   
@@ -593,9 +593,9 @@ void resolveHSV(float *color1, float *color2);
   return nil;
   }
 
-- (NSColor *)colorAtPosition:(float)position
+- (NSColor *)colorAtPosition:(CGFloat)position
   {
-  float components[4];
+  CGFloat components[4];
   
   switch(blendingMode)
 	{
@@ -623,7 +623,7 @@ void resolveHSV(float *color1, float *color2);
   [self fillRect:rect angle:45];
   }
 
-- (void)fillRect:(NSRect)rect angle:(float)angle
+- (void)fillRect:(NSRect)rect angle:(CGFloat)angle
   {
   //First Calculate where the beginning and ending points should be
   CGPoint startPoint;
@@ -762,8 +762,8 @@ void resolveHSV(float *color1, float *color2);
     
   CGFunctionCallbacks evaluationCallbackInfo = {0 , evaluationFunction, NULL};	//Version, evaluator function, cleanup function
   
-  static const float input_value_range   [2] = { 0, 1 };						//range  for the evaluator input
-  static const float output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };		//ranges for the evaluator output (4 returned values)
+  static const CGFloat input_value_range   [2] = { 0, 1 };						//range  for the evaluator input
+  static const CGFloat output_value_ranges [8] = { 0, 1, 0, 1, 0, 1, 0, 1 };		//ranges for the evaluator output (4 returned values)
   
   gradientFunction = CGFunctionCreate(&elementList,					//the two transition colors
 									  1, input_value_range  ,		//number of inputs (just fraction of progression)
@@ -796,7 +796,7 @@ void resolveHSV(float *color1, float *color2);
 	}
   }
 
-- (CTGradientElement)removeElementAtIndex:(unsigned)index
+- (CTGradientElement)removeElementAtIndex:(NSUInteger)index
   {
   CTGradientElement removedElement;
   
@@ -844,7 +844,7 @@ void resolveHSV(float *color1, float *color2);
   return removedElement;
   }
 
-- (CTGradientElement)removeElementAtPosition:(float)position
+- (CTGradientElement)removeElementAtPosition:(CGFloat)position
   {
   CTGradientElement removedElement;
   
@@ -891,9 +891,9 @@ void resolveHSV(float *color1, float *color2);
   }
 
 
-- (CTGradientElement *)elementAtIndex:(unsigned)index;			
+- (CTGradientElement *)elementAtIndex:(NSUInteger)index;			
   {
-  unsigned count = 0;
+  NSUInteger count = 0;
   CTGradientElement *currentElement = elementList;
   
   while(currentElement != nil)
@@ -913,9 +913,9 @@ void resolveHSV(float *color1, float *color2);
 
 #pragma mark Core Graphics
 //////////////////////////////////////Blending Functions/////////////////////////////////////
-void linearEvaluation (void *info, const float *in, float *out)
+void linearEvaluation (void *info, const CGFloat *in, CGFloat *out)
   {
-  float position = *in;
+  CGFloat position = *in;
   
   if(*(CTGradientElement **)info == nil)	//if elementList is empty return clear color
 	{
@@ -986,9 +986,9 @@ void linearEvaluation (void *info, const float *in, float *out)
 //	this we will add to the hue's angle (if we subtract we'll be doing the inverse
 //	chromatic...scroll down more for that). All we need to do is keep adding to the hue
 //  until we wrap around the colorwheel and get to color2.
-void chromaticEvaluation(void *info, const float *in, float *out)
+void chromaticEvaluation(void *info, const CGFloat *in, CGFloat *out)
   {
-  float position = *in;
+  CGFloat position = *in;
   
   if(*(CTGradientElement **)info == nil)	//if elementList is empty return clear color
 	{
@@ -1000,8 +1000,8 @@ void chromaticEvaluation(void *info, const float *in, float *out)
   CTGradientElement *color1 = *(CTGradientElement **)info;
   CTGradientElement *color2 = color1->nextElement;
   
-  float c1[4];
-  float c2[4];
+  CGFloat c1[4];
+  CGFloat c2[4];
     
   //make sure first color and second color are on other sides of position
   while(color2 != nil && color2->position < position)
@@ -1073,9 +1073,9 @@ void chromaticEvaluation(void *info, const float *in, float *out)
 //	is strictly decreasing, that is we need to get from color1 to color2 by decreasing
 //	the 'angle' (i.e. 90º -> 180º would be done by subtracting 270º and getting -180º...
 //	which is equivalent to 180º mod 360º
-void inverseChromaticEvaluation(void *info, const float *in, float *out)
+void inverseChromaticEvaluation(void *info, const CGFloat *in, CGFloat *out)
   {
-    float position = *in;
+    CGFloat position = *in;
   
   if(*(CTGradientElement **)info == nil)	//if elementList is empty return clear color
 	{
@@ -1087,8 +1087,8 @@ void inverseChromaticEvaluation(void *info, const float *in, float *out)
   CTGradientElement *color1 = *(CTGradientElement **)info;
   CTGradientElement *color2 = color1->nextElement;
   
-  float c1[4];
-  float c2[4];
+  CGFloat c1[4];
+  CGFloat c2[4];
       
   //make sure first color and second color are on other sides of position
   while(color2 != nil && color2->position < position)
@@ -1157,15 +1157,15 @@ void inverseChromaticEvaluation(void *info, const float *in, float *out)
 
 
 
-void transformRGB_HSV(float *components) //H,S,B -> R,G,B
+void transformRGB_HSV(CGFloat *components) //H,S,B -> R,G,B
 	{
-	float H = 0.0, S = 0.0, V = 0.0;
-	float R = components[0],
+	CGFloat H = 0.0, S = 0.0, V = 0.0;
+	CGFloat R = components[0],
 		  G = components[1],
 		  B = components[2];
 	
-	float MAX = R > G ? (R > B ? R : B) : (G > B ? G : B),
-	      MIN = R < G ? (R < B ? R : B) : (G < B ? G : B);
+	CGFloat MAX = R > G ? (R > B ? R : B) : (G > B ? G : B),
+	        MIN = R < G ? (R < B ? R : B) : (G < B ? G : B);
 	
 	if(MAX == MIN)
 		H = NAN;
@@ -1187,15 +1187,15 @@ void transformRGB_HSV(float *components) //H,S,B -> R,G,B
 	components[2] = V;
 	}
 
-void transformHSV_RGB(float *components) //H,S,B -> R,G,B
+void transformHSV_RGB(CGFloat *components) //H,S,B -> R,G,B
 	{
-	float R = 0.0, G = 0.0, B = 0.0;
-	float H = fmodf(components[0],359),	//map to [0,360)
+	CGFloat R = 0.0, G = 0.0, B = 0.0;
+	CGFloat H = fmodf(components[0],359),	//map to [0,360)
 		  S = components[1],
 		  V = components[2];
 	
 	int   Hi = (int)floorf(H/60.) % 6;
-	float f  = H/60-Hi,
+	CGFloat f  = H/60-Hi,
 		  p  = V*(1-S),
 		  q  = V*(1-f*S),
 		  t  = V*(1-(1-f)*S);
@@ -1215,7 +1215,7 @@ void transformHSV_RGB(float *components) //H,S,B -> R,G,B
 	components[2] = B;
 	}
 
-void resolveHSV(float *color1, float *color2)	//H value may be undefined (i.e. graycale color)
+void resolveHSV(CGFloat *color1, CGFloat *color2)	//H value may be undefined (i.e. graycale color)
 	{											//	we want to fill it with a sensible value
 	if(isnan(color1[0]) && isnan(color2[0]))
 		color1[0] = color2[0] = 0;

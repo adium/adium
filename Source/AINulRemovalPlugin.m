@@ -57,7 +57,7 @@
  *
  * Run this filter as early as possible to remove NULs in case other filters want to use the UTF8String of the filtered string.
  */
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return HIGHEST_FILTER_PRIORITY;
 }

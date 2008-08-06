@@ -198,7 +198,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 }
 
 
-- (void)didEndSheet:(NSWindow *)theSheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)didEndSheet:(NSWindow *)theSheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[sheetAccountMenu release]; sheetAccountMenu = nil;
     [theSheet orderOut:self];
@@ -313,7 +313,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		AIListContact	*contact;
 		
 		// Iterate through the selected rows (backwards)
-		for (int selection = [selectedItems lastIndex]; selection != NSNotFound; selection = [selectedItems indexLessThanIndex:selection]) {
+		for (NSInteger selection = [selectedItems lastIndex]; selection != NSNotFound; selection = [selectedItems indexLessThanIndex:selection]) {
 			contact = [listContents objectAtIndex:selection];
 			// Remove from the serverside list
 			[contact setIsOnPrivacyList:NO updateList:YES privacyType:(([self selectedPrivacyOption] == AIPrivacyOptionAllowUsers) ?
@@ -417,7 +417,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				[tabView_contactList setHidden:YES];
 
 				NSRect frame = [[self window] frame];
-				float tabViewHeight = [tabView_contactList frame].size.height;
+				CGFloat tabViewHeight = [tabView_contactList frame].size.height;
 				frame.size.height -= tabViewHeight;
 				frame.origin.y += tabViewHeight;
 				
@@ -425,7 +425,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				[tabView_contactList setAutoresizingMask:NSViewWidthSizable];
 
 				[[self window] setMinSize:NSMakeSize(250, frame.size.height)];
-				[[self window] setMaxSize:NSMakeSize(FLT_MAX, frame.size.height)];
+				[[self window] setMaxSize:NSMakeSize(CGFLOAT_MAX, frame.size.height)];
 				
 				AILog(@"Because of privacy option %i, resizing from %@ to %@",privacyOption,
 					  NSStringFromRect([[self window] frame]),NSStringFromRect(frame));
@@ -439,12 +439,12 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				[tabView_contactList selectTabViewItemWithIdentifier:@"list"];
 
 				NSRect frame = [[self window] frame];
-				float tabViewHeight = [tabView_contactList frame].size.height;
+				CGFloat tabViewHeight = [tabView_contactList frame].size.height;
 				frame.size.height += tabViewHeight;
 				frame.origin.y -= tabViewHeight;
 				
 				[[self window] setMinSize:NSMakeSize(250, 320)];
-				[[self window] setMaxSize:NSMakeSize(FLT_MAX, FLT_MAX)];
+				[[self window] setMaxSize:NSMakeSize(CGFLOAT_MAX, CGFLOAT_MAX)];
 				
 				//Set frame after fixing our min/max size so the resize won't fail
 				AILog(@"Because of privacy option %i, resizing from %@ to %@",privacyOption,
@@ -523,7 +523,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 	} else {
 		//Not on custom; make sure custom isn't still in the menu
-		int customItemIndex = [stateChooser indexOfItemWithTag:AIPrivacyOptionCustom];
+		NSInteger customItemIndex = [stateChooser indexOfItemWithTag:AIPrivacyOptionCustom];
 		if (customItemIndex != -1) {
 			[[stateChooser menu] removeItemAtIndex:customItemIndex];
 		}
@@ -717,12 +717,12 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 #pragma mark Table view
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return [listContents count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
 	NSString		*identifier = [aTableColumn identifier];
 	AIListContact	*contact = [listContents objectAtIndex:rowIndex];
@@ -759,7 +759,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	NSEnumerator	*enumerator = [rows objectEnumerator];
 	NSNumber		*rowNumber;
 	while ((rowNumber = [enumerator nextObject])) {
-		[itemArray addObject:[listContents objectAtIndex:[rowNumber intValue]]];
+		[itemArray addObject:[listContents objectAtIndex:[rowNumber integerValue]]];
 	}
 
 	return [self writeListObjects:itemArray toPasteboard:pboard];
@@ -770,9 +770,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	NSMutableArray 	*itemArray = [NSMutableArray array];
 	id 				item;
 	
-	unsigned int bufSize = [rowIndexes count];
-	unsigned int *buf = malloc(bufSize * sizeof(unsigned int));
-	unsigned int i;
+	NSUInteger bufSize = [rowIndexes count];
+	NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
+	NSUInteger i;
 	
 	NSRange range = NSMakeRange([rowIndexes firstIndex], ([rowIndexes lastIndex]-[rowIndexes firstIndex]) + 1);
 	[rowIndexes getIndexes:buf maxCount:bufSize inIndexRange:&range];
@@ -809,7 +809,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (NSDragOperation)tableView:(NSTableView*)tv
 				validateDrop:(id <NSDraggingInfo>)info
-				 proposedRow:(int)row
+				 proposedRow:(NSInteger)row
 	   proposedDropOperation:(NSTableViewDropOperation)op
 {
     
@@ -848,7 +848,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	}
 }
 
-- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
 	BOOL accept = NO;
     if (row < 0)

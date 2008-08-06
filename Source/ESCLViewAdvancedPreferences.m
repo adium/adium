@@ -45,7 +45,7 @@
 - (IBAction)changePreference:(id)sender
 {
     if(sender == slider_opacity){
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:[sender floatValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_OPACITY
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == checkbox_borderless){
@@ -57,7 +57,7 @@
                                              forKey:KEY_SCL_SHADOWS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == slider_rowSpacing){
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:[sender floatValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_SPACING
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];   
     }else if(sender == checkbox_outlineGroups){
@@ -82,13 +82,13 @@
 {
     NSDictionary	*preferenceDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 
-    [slider_opacity setFloatValue:[[preferenceDict objectForKey:KEY_SCL_OPACITY] floatValue]];
+    [slider_opacity setDoubleValue:[[preferenceDict objectForKey:KEY_SCL_OPACITY] doubleValue]];
     [checkbox_borderless setState:[[preferenceDict objectForKey:KEY_SCL_BORDERLESS] boolValue]];
     [checkbox_shadows setState:[[preferenceDict objectForKey:KEY_SCL_SHADOWS] boolValue]];
     [checkbox_shadows setToolTip:@"Stay close to the Vorlon."];
     [checkBox_tooltips setState:[[preferenceDict objectForKey:KEY_SCL_SHOW_TOOLTIPS] boolValue]];
 	
-    [slider_rowSpacing setFloatValue:[[preferenceDict objectForKey:KEY_SCL_SPACING] floatValue]];
+    [slider_rowSpacing setDoubleValue:[[preferenceDict objectForKey:KEY_SCL_SPACING] doubleValue]];
     [checkbox_outlineGroups setState:[[preferenceDict objectForKey:KEY_SCL_OUTLINE_GROUPS] boolValue]];
     [colorWell_outlineGroupsColor setColor:[[preferenceDict objectForKey:KEY_SCL_OUTLINE_GROUPS_COLOR] representedColor]];
     

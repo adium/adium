@@ -150,11 +150,11 @@
 	return [[list objectAtIndex:index] formattedUID];
 }
 
-- (unsigned int)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string {
+- (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string {
 	AIListGroup *list = [[adium contactController] contactList];
 	NSArray *groups = [list containedObjects];
-	unsigned i;
-	for(i=0;i < [groups count];++i) {
+	NSUInteger i;
+	for(i = 0;i < [groups count];++i) {
 		AIListGroup *group = [groups objectAtIndex:i];
 		if([[group formattedUID] isEqualToString:string])
 			return i;
@@ -176,7 +176,7 @@
 
 #pragma mark account creation
 
-static int compareByDistance(id one, id two, void*context) {
+static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	NSNumber *dist1obj = [one objectForKey:@"distance"];
 	NSNumber *dist2obj = [two objectForKey:@"distance"];
 	

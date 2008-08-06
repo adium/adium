@@ -70,17 +70,17 @@
     }
 	
     if ((pitchNumber = [inDetails objectForKey:KEY_PITCH])) {
-		[slider_pitch setFloatValue:[pitchNumber floatValue]];
+		[slider_pitch setDoubleValue:[pitchNumber doubleValue]];
     } else {
-		[slider_pitch setFloatValue:[[adium soundController] defaultPitch]];
+		[slider_pitch setDoubleValue:[[adium soundController] defaultPitch]];
     }
 	
 	[checkBox_customPitch setState:[[inDetails objectForKey:KEY_PITCH_CUSTOM] boolValue]];
 	
     if ((rateNumber = [inDetails objectForKey:KEY_RATE])) {
-		[slider_rate setFloatValue:[rateNumber floatValue]];
+		[slider_rate setDoubleValue:[rateNumber doubleValue]];
     } else {
-		[slider_rate setFloatValue:[[adium soundController] defaultRate]];
+		[slider_rate setDoubleValue:[[adium soundController] defaultRate]];
     }
 
 	[checkBox_customRate setState:[[inDetails objectForKey:KEY_RATE_CUSTOM] boolValue]];
@@ -146,20 +146,20 @@
 	speakContactName = [NSNumber numberWithBool:([checkBox_speakContactName state] == NSOnState)];
 
 	voice = [[popUp_voices selectedItem] representedObject];	
-	pitch = [NSNumber numberWithFloat:[slider_pitch floatValue]];
-	rate = [NSNumber numberWithFloat:[slider_rate floatValue]];
+	pitch = [NSNumber numberWithDouble:[slider_pitch doubleValue]];
+	rate = [NSNumber numberWithDouble:[slider_rate doubleValue]];
 	
 	if (voice) {
 		[actionDetails setObject:voice
 						  forKey:KEY_VOICE_STRING];
 	}
 
-	if ([pitch floatValue] != [[adium soundController] defaultPitch]) {
+	if ([pitch doubleValue] != [[adium soundController] defaultPitch]) {
 		[actionDetails setObject:pitch
 						  forKey:KEY_PITCH];
 	}
 	
-	if ([rate floatValue] != [[adium soundController] defaultRate]) {
+	if ([rate doubleValue] != [[adium soundController] defaultRate]) {
 		[actionDetails setObject:rate
 						  forKey:KEY_RATE];
 	}
@@ -226,8 +226,8 @@
 	//If the Default voice is selected, also set the pitch and rate to defaults
 	if (sender == popUp_voices) {
 		if (![[popUp_voices selectedItem] representedObject]) {
-			[slider_pitch setFloatValue:[[adium soundController] defaultPitch]];
-			[slider_rate setFloatValue:[[adium soundController] defaultRate]];
+			[slider_pitch setDoubleValue:[[adium soundController] defaultPitch]];
+			[slider_rate setDoubleValue:[[adium soundController] defaultRate]];
 		}
 	}
 
@@ -235,8 +235,8 @@
 	   (sender == slider_pitch || sender == checkBox_customPitch) ||
 	   (sender == slider_rate ||  sender == checkBox_customRate)) {
 		[[adium soundController] speakDemoTextForVoice:[[popUp_voices selectedItem] representedObject]
-											 withPitch:([checkBox_customPitch state] ? [slider_pitch floatValue] : 0.0)
-											   andRate:([checkBox_customRate state] ? [slider_rate floatValue] : 0.0)];
+											 withPitch:([checkBox_customPitch state] ? [slider_pitch doubleValue] : 0.0)
+											   andRate:([checkBox_customRate state] ? [slider_rate doubleValue] : 0.0)];
 	}
 	
 	[super changePreference:sender];

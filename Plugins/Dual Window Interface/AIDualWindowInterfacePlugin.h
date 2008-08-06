@@ -49,7 +49,7 @@
     
 	NSMutableArray			*delayedContainerShowArray;
 	NSMutableDictionary		*containers;
-	int						uniqueContainerNumber;
+	NSInteger						uniqueContainerNumber;
 	
     //Menus
     NSMutableArray			*windowMenuArray;
@@ -88,7 +88,7 @@
 - (AIMessageWindowController *)openContainerWithID:(NSString *)containerID name:(NSString *)containerName;
 - (void)closeContainer:(AIMessageWindowController *)container;
 - (void)containerDidClose:(AIMessageWindowController *)container;
-- (void)transferMessageTab:(AIMessageTabViewItem *)tabViewItem toContainer:(id)newMessageWindow atIndex:(int)index withTabBarAtPoint:(NSPoint)screenPoint;
+- (void)transferMessageTab:(AIMessageTabViewItem *)tabViewItem toContainer:(id)newMessageWindow atIndex:(NSInteger)index withTabBarAtPoint:(NSPoint)screenPoint;
 - (id)openNewContainer;
 
 @end

@@ -119,8 +119,8 @@
 	[self updateSoundSetSelection];
 	
 	//Volume
-	[slider_volume setFloatValue:[[[adium preferenceController] preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
-																		   group:PREF_GROUP_SOUNDS] floatValue]];	
+	[slider_volume setDoubleValue:[[[adium preferenceController] preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
+																		   group:PREF_GROUP_SOUNDS] doubleValue]];	
 }
 
 - (void)localizePane
@@ -406,23 +406,23 @@
 	return [plugin storedEventPresetsArray];
 }
 
-- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(int)index inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
+- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(NSInteger)index inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
 {
 	NSMutableDictionary	*newEventPreset = [preset mutableCopy];
-	float newOrderIndex;
+	CGFloat newOrderIndex;
 	if (index == 0) {		
-		newOrderIndex = [[[presets objectAtIndex:0] objectForKey:@"OrderIndex"] floatValue] / 2.0;
+		newOrderIndex = [[[presets objectAtIndex:0] objectForKey:@"OrderIndex"] doubleValue] / 2.0;
 
 	} else if (index < [presets count]) {
-		float above = [[[presets objectAtIndex:index-1] objectForKey:@"OrderIndex"] floatValue];
-		float below = [[[presets objectAtIndex:index] objectForKey:@"OrderIndex"] floatValue];
+		CGFloat above = [[[presets objectAtIndex:index-1] objectForKey:@"OrderIndex"] doubleValue];
+		CGFloat below = [[[presets objectAtIndex:index] objectForKey:@"OrderIndex"] doubleValue];
 		newOrderIndex = ((above + below) / 2.0);
 
 	} else {
 		newOrderIndex = [plugin nextOrderIndex];
 	}
 	
-	[newEventPreset setObject:[NSNumber numberWithFloat:newOrderIndex]
+	[newEventPreset setObject:[NSNumber numberWithDouble:newOrderIndex]
 					   forKey:@"OrderIndex"];
 			 
 	//Now save the new preset
@@ -595,10 +595,10 @@
 //New value selected on the volume slider or chosen by clicking a volume icon
 - (IBAction)selectVolume:(id)sender
 {
-    float			volume, oldVolume;
+    CGFloat			volume, oldVolume;
 	
 	if (sender == slider_volume) {
-		volume = [slider_volume floatValue];
+		volume = [slider_volume doubleValue];
 	} else if (sender == button_maxvolume) {
 		volume = [slider_volume maxValue];
 		[slider_volume setDoubleValue:volume];
@@ -611,11 +611,11 @@
 	
 	NSNumber *oldVolumeValue = [[adium preferenceController] preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
 																		group:PREF_GROUP_SOUNDS];
-	oldVolume = (oldVolumeValue ? [oldVolumeValue floatValue] : -1.0);
+	oldVolume = (oldVolumeValue ? [oldVolumeValue doubleValue] : -1.0);
 	
     //Volume
     if (volume != oldVolume) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:volume]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:volume]
                                              forKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
                                               group:PREF_GROUP_SOUNDS];
 		

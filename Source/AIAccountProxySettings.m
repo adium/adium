@@ -26,7 +26,7 @@
 - (void)updatePasswordField;
 
 - (NSMenu *)_proxyMenu;
-- (NSMenuItem *)_proxyMenuItemWithTitle:(NSString *)title tag:(int)tag;
+- (NSMenuItem *)_proxyMenuItemWithTitle:(NSString *)title tag:(NSInteger)tag;
 @end
 
 @implementation AIAccountProxySettings
@@ -110,7 +110,7 @@
 		[checkBox_useProxy setState:[[account preferenceForKey:KEY_ACCOUNT_PROXY_ENABLED
 														 group:GROUP_ACCOUNT_STATUS] boolValue]];
 		[popUpButton_proxy compatibleSelectItemWithTag:[[account preferenceForKey:KEY_ACCOUNT_PROXY_TYPE
-																			group:GROUP_ACCOUNT_STATUS] intValue]];
+																			group:GROUP_ACCOUNT_STATUS] integerValue]];
 		
 		//Host & Port
 		NSString	*proxyHost = [account preferenceForKey:KEY_ACCOUNT_PROXY_HOST group:GROUP_ACCOUNT_STATUS];
@@ -146,9 +146,9 @@
 	}
 
 	//Enabled & Type
-	[account setPreference:[NSNumber numberWithInt:[checkBox_useProxy state]]
+	[account setPreference:[NSNumber numberWithInteger:[checkBox_useProxy state]]
 					forKey:KEY_ACCOUNT_PROXY_ENABLED group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:[NSNumber numberWithInt:[[popUpButton_proxy selectedItem] tag]]
+	[account setPreference:[NSNumber numberWithInteger:[[popUpButton_proxy selectedItem] tag]]
 					forKey:KEY_ACCOUNT_PROXY_TYPE group:GROUP_ACCOUNT_STATUS];
 	
 	//Host & Port
@@ -190,7 +190,7 @@
 	if (sender == textField_proxyHostName) {
 		
 	} else if (sender == textField_proxyPortNumber) {
-		[account setPreference:[NSNumber numberWithInt:[textField_proxyPortNumber intValue]]
+		[account setPreference:[NSNumber numberWithInteger:[textField_proxyPortNumber integerValue]]
 						forKey:KEY_ACCOUNT_PROXY_PORT
 						 group:GROUP_ACCOUNT_STATUS];
 		
@@ -269,7 +269,7 @@
  *
  * Convenience method for _proxyMenu
  */
-- (NSMenuItem *)_proxyMenuItemWithTitle:(NSString *)title tag:(int)tag
+- (NSMenuItem *)_proxyMenuItemWithTitle:(NSString *)title tag:(NSInteger)tag
 {
 	NSMenuItem		*menuItem;
     

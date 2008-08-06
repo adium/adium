@@ -321,8 +321,8 @@
 //Draw our background gradient
 - (void)drawBackgroundGradientInRect:(NSRect)inRect
 {
-	float backgroundL;
-	float gradientL;
+	CGFloat backgroundL;
+	CGFloat gradientL;
 	
 	//Gradient
 	[[self backgroundGradient] drawInRect:inRect];

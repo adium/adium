@@ -61,6 +61,6 @@
 + (NSDictionary *)soundAlertForKey:(NSString *)key inSoundsDict:(NSDictionary *)sounds;
 - (void)applySoundSet:(AISoundSet *)soundSet;
 
-- (float)nextOrderIndex;
+- (CGFloat)nextOrderIndex;
 
 @end

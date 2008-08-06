@@ -29,13 +29,13 @@
  */
 @implementation AIEmoticonPackPreviewTableView
 
-- (NSImage *)dragImageForRows:(unsigned int[])buf count:(unsigned int)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
+- (NSImage *)dragImageForRows:(NSUInteger[])buf count:(NSUInteger)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
 	NSTableColumn	*tableColumn;
 	NSRect			rowRect;
-	float			yOffset;
-	unsigned int	i, firstRow, row;
+	CGFloat			yOffset;
+	NSUInteger	i, firstRow, row;
 	
 	firstRow = buf[0];
 	
@@ -95,8 +95,8 @@
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
-	unsigned int	bufSize = [dragRows count];
-	unsigned int	*buf = malloc(bufSize * sizeof(unsigned int));
+	NSUInteger	bufSize = [dragRows count];
+	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
 	
 	NSRange range = NSMakeRange([dragRows firstIndex], ([dragRows lastIndex]-[dragRows firstIndex]) + 1);
 	[dragRows getIndexes:buf maxCount:bufSize inIndexRange:&range];
@@ -112,11 +112,11 @@
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
-	unsigned int	i, bufSize = [dragRows count];
-	unsigned int	*buf = malloc(bufSize * sizeof(unsigned int));
+	NSUInteger	i, bufSize = [dragRows count];
+	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
 	
 	for (i = 0; i < bufSize; i++) {
-		buf[i] = [[dragRows objectAtIndex:0] unsignedIntValue];
+		buf[i] = [[dragRows objectAtIndex:0] unsignedIntegerValue];
 	}
 	
 	image = [self dragImageForRows:buf count:bufSize tableColumns:nil event:dragEvent offset:dragImageOffset]; 

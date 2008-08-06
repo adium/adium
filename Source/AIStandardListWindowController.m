@@ -58,7 +58,7 @@
 - (void)updateStatusMenuSelection:(NSNotification *)notification;
 - (void)updateImagePicker;
 - (void)updateNameView;
-- (void)animateFilterBarWithDuration:(float)duration;
+- (void)animateFilterBarWithDuration:(CGFloat)duration;
 - (void)repositionImagePickerToPosition:(ContactListImagePickerPosition)desiredImagePickerPosition;
 @end
 
@@ -174,7 +174,7 @@
 - (void)positionImagePickerIfNeeded
 {
 	LIST_POSITION					layoutUserIconPosition = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION
-																						 group:PREF_GROUP_LIST_LAYOUT] intValue];
+																						 group:PREF_GROUP_LIST_LAYOUT] integerValue];
 	ContactListImagePickerPosition  desiredImagePickerPosition;
 	
 	//Determine where we want the image picker now
@@ -887,7 +887,7 @@
  *
  * @param duration The duration the animation will last
  */
-- (void)animateFilterBarWithDuration:(float)duration
+- (void)animateFilterBarWithDuration:(CGFloat)duration
 {
 	NSView *targetView = ([contactListView enclosingScrollView] ? (NSView *)[contactListView enclosingScrollView] : contactListView);
 	NSRect targetFrame = [targetView frame];

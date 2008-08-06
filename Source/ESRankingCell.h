@@ -15,9 +15,9 @@
  */
 
 @interface ESRankingCell : NSCell {
-	float	percentage;
+	CGFloat	percentage;
 }
 
--(void)setPercentage:(float)percentage;
+-(void)setPercentage:(CGFloat)percentage;
 
 @end

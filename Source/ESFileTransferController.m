@@ -55,7 +55,7 @@ static ESFileTransferPreferences *preferences;
 @interface ESFileTransferController (PRIVATE)
 - (NSOpenPanel *)createOpenPanelForListContact:(AIListContact *)listContact;
 - (void)requestForSendingFileToListContact:(AIListContact *)listContact forWindow:(NSWindow *)theWindow;
-- (void)filePanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)filePanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 - (void)configureFileTransferProgressWindow;
 - (void)showProgressWindow:(id)sender;
@@ -164,9 +164,9 @@ static ESFileTransferPreferences *preferences;
 	return fileTransfer;
 }
 
-- (int)activeTransferCount
+- (NSUInteger)activeTransferCount
 {
-	int count = 0;
+	NSUInteger count = 0;
 	ESFileTransfer *t;
 	NSEnumerator * fts = [fileTransferArray objectEnumerator];
 
@@ -299,7 +299,7 @@ static ESFileTransferPreferences *preferences;
 	}
 }
 
-- (void)filePanelDidEnd:(NSOpenPanel *)openPanel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)filePanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
 		NSEnumerator *enumerator = [[openPanel filenames] objectEnumerator];
@@ -606,7 +606,7 @@ static ESFileTransferPreferences *preferences;
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	autoAcceptType = [[prefDict objectForKey:KEY_FT_AUTO_ACCEPT] intValue];
+	autoAcceptType = [[prefDict objectForKey:KEY_FT_AUTO_ACCEPT] integerValue];
 	autoOpenSafe = [[prefDict objectForKey:KEY_FT_AUTO_OPEN_SAFE] boolValue];
 	
 	//If we created a safe file extensions set and no longer need it, desroy it

@@ -24,7 +24,7 @@
 @implementation AIAdvancedPreferences
 + (AIPreferencePane *)preferencePane
 {
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:150]
+	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:150]
 																										forKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH]
 																   forGroup:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -53,7 +53,7 @@
 {
 	[shelf_splitView setFrame:[[shelf_splitView superview] frame]];
 	[shelf_splitView setShelfWidth:[[[adium preferenceController] preferenceForKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
-																			 group:PREF_GROUP_WINDOW_POSITIONS] floatValue]];
+																			 group:PREF_GROUP_WINDOW_POSITIONS] doubleValue]];
 
 	[tableView_categories accessibilitySetOverrideValue:AILocalizedString(@"Advanced Preference Categories", nil)
 										   forAttribute:NSAccessibilityRoleDescriptionAttribute];
@@ -64,11 +64,11 @@
 - (void)viewWillClose
 {
 	//Select the previously selected row
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:[tableView_categories selectedRow]]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[tableView_categories selectedRow]]
 										 forKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
 										  group:PREF_GROUP_WINDOW_POSITIONS];
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithFloat:[shelf_splitView shelfWidth]]
+	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:[shelf_splitView shelfWidth]]
 										 forKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
 										  group:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -131,8 +131,8 @@
 																	   alpha:1.0]];
 	
 	//Select the previously selected row
-	int row = [[[adium preferenceController] preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
-														group:PREF_GROUP_WINDOW_POSITIONS] intValue];
+	NSInteger row = [[[adium preferenceController] preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
+														group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 	if (row < 0 || row >= [tableView_categories numberOfRows]) row = 1;
 	
 	[tableView_categories selectRow:row byExtendingSelection:NO];
@@ -142,7 +142,7 @@
 /*!
 * @brief Return the number of accounts
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [[self advancedCategoryArray] count];
 }
@@ -150,7 +150,7 @@
 /*!
 * @brief Return the account description or image
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	return [[[self advancedCategoryArray] objectAtIndex:row] label];
 }
@@ -158,7 +158,7 @@
 /*!
 * @brief Set the category image before the cell is displayed
  */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	[cell setImage:[[[self advancedCategoryArray] objectAtIndex:row] image]];
 	[cell setSubString:nil];
@@ -169,7 +169,7 @@
  */
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-	int row = [tableView_categories selectedRow];
+	NSInteger row = [tableView_categories selectedRow];
 
 	if (row >= 0 && row < [[self advancedCategoryArray] count]) {		
 		[self configureAdvancedPreferencesForPane:[[self advancedCategoryArray] objectAtIndex:row]];

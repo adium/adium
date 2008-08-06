@@ -26,7 +26,7 @@
 #define EMOTICON_LEFT_MARGIN        2		//Left padding of cell
 #define EMOTICON_BOTTOM_MARGIN      2
 
-static  float   distanceBetweenEmoticons = 0;
+static  CGFloat   distanceBetweenEmoticons = 0;
 
 @implementation AIEmoticonPackPreviewView
 
@@ -65,7 +65,7 @@ static  float   distanceBetweenEmoticons = 0;
 	if (NSIntersectsRect(rect,cellFrame)) {		
 		NSEnumerator    *enumerator;
 		AIEmoticon      *emoticon;
-		float			x = 0;
+		CGFloat			x = 0;
 
 		//Display a few preview emoticons
 		enumerator = [[emoticonPack emoticons] objectEnumerator];
@@ -99,7 +99,7 @@ static  float   distanceBetweenEmoticons = 0;
 			}
 			
 			//Move over for the next emoticon, leaving some space
-			float desiredIncrease = destRect.size.width + EMOTICON_SPACING;
+			CGFloat desiredIncrease = destRect.size.width + EMOTICON_SPACING;
 			if (distanceBetweenEmoticons < desiredIncrease)
 				distanceBetweenEmoticons = desiredIncrease;
 			x += distanceBetweenEmoticons;

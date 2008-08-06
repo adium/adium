@@ -53,9 +53,9 @@
 - (IBAction)deleteTheme:(id)sender;
 
 //Table Delegate
-- (int)numberOfRowsInTableView:(NSTableView *)tableView;
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row;
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(int)row;
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row;
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row;
 
 @end

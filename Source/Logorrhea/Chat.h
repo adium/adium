@@ -33,7 +33,7 @@
 - (NSComparisonResult)compareByDate:(Chat *)otherChat;
 - (BOOL)logContainsString:(NSString *)string;
 - (NSAttributedString *) getFormattedContents;
-- (NSAttributedString *) getFormattedContentsWithSearchTermsHilighted:(NSString *) searchTermsStr firstFoundIndex:(int *) foundIndex;
+- (NSAttributedString *) getFormattedContentsWithSearchTermsHilighted:(NSString *) searchTermsStr firstFoundIndex:(NSInteger *) foundIndex;
 - (NSString *) exportableContents;
 
 @end

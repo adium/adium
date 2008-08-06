@@ -227,7 +227,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	NSDictionary *statusDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		statusName, KEY_STATUS_NAME,
 		description, KEY_STATUS_DESCRIPTION,
-		[NSNumber numberWithInt:type], KEY_STATUS_TYPE,
+		[NSNumber numberWithInteger:type], KEY_STATUS_TYPE,
 		nil];
 
 	[statusDicts addObject:statusDict];
@@ -871,7 +871,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		NSCountedSet		*statusCounts = [NSCountedSet set];
 		AIAccount			*account;
 		AIStatus			*statusState;
-		unsigned			 highestCount = 0;
+		NSUInteger			 highestCount = 0;
 		//This was "oneOrMoreConnectedOrConnectingAccounts" before... was there a good reason?
 		BOOL				 accountsAreOnline = [[adium accountController] oneOrMoreConnectedAccounts];
 
@@ -889,7 +889,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 			enumerator = [statusCounts objectEnumerator];
 			while ((statusState = [enumerator nextObject])) {
-				unsigned thisCount = [statusCounts countForObject:statusState];
+				NSUInteger thisCount = [statusCounts countForObject:statusState];
 				if (thisCount > highestCount) {
 					bestStatusState = statusState;
 					highestCount = thisCount;
@@ -919,11 +919,11 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
 	AIAccount			*account;
-	int					statusTypeCount[STATUS_TYPES_COUNT];
+	NSInteger					statusTypeCount[STATUS_TYPES_COUNT];
 	AIStatusType		activeStatusType = AIOfflineStatusType;
-	unsigned			highestCount = 0;
+	NSUInteger			highestCount = 0;
 
-	unsigned i;
+	NSUInteger i;
 	for (i = 0 ; i < STATUS_TYPES_COUNT ; i++) {
 		statusTypeCount[i] = 0;
 	}
@@ -988,7 +988,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	AIAccount			*account;
 	NSMutableSet		*activeUnvailableStatuses = [NSMutableSet set];
 	BOOL				foundStatusName = NO;
-	int					statusTypeCount[STATUS_TYPES_COUNT];
+	NSInteger					statusTypeCount[STATUS_TYPES_COUNT];
 
 	statusTypeCount[AIAwayStatusType] = 0;
 	statusTypeCount[AIInvisibleStatusType] = 0;
@@ -1159,7 +1159,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	if ([temporaryStateArray containsObject:originalState]) {
 		NSEnumerator	*enumerator;
 		AIAccount		*account;
-		int				count = 0;
+		NSInteger				count = 0;
 		
 		enumerator = [[[adium accountController] accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
@@ -1186,7 +1186,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	if (!lastStatusStates) lastStatusStates = [NSMutableDictionary dictionary];
 	
 	[lastStatusStates setObject:[NSKeyedArchiver archivedDataWithRootObject:statusState]
-						 forKey:[[NSNumber numberWithInt:[statusState statusType]] stringValue]];
+						 forKey:[[NSNumber numberWithInteger:[statusState statusType]] stringValue]];
 
 	[[adium preferenceController] setPreference:lastStatusStates
 										 forKey:@"LastStatusStates"

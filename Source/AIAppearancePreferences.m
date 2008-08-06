@@ -53,7 +53,7 @@ typedef enum {
 - (NSMenu *)_colorThemeMenu;
 - (void)_rebuildEmoticonMenuAndSelectActivePack;
 - (NSMenu *)_iconPackMenuForPacks:(NSArray *)packs class:(Class)iconClass;
-- (void)_addWindowStyleOption:(NSString *)option withTag:(int)tag toMenu:(NSMenu *)menu;
+- (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu;
 - (void)_updateSliderValues;
 - (void)xtrasChanged:(NSNotification *)notification;
 
@@ -172,11 +172,11 @@ typedef enum {
 	//Appearance
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
 		if (firstTime) {
-			[popUp_windowStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue]];	
+			[popUp_windowStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue]];	
 			[checkBox_verticalAutosizing setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE] boolValue]];
 			[checkBox_horizontalAutosizing setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue]];
-			[slider_windowOpacity setFloatValue:([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] floatValue] * 100.0)];
-			[slider_horizontalWidth setIntValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] intValue]];
+			[slider_windowOpacity setDoubleValue:([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue] * 100.0)];
+			[slider_horizontalWidth setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH] integerValue]];
 			[self _updateSliderValues];
 		}
 		
@@ -185,7 +185,7 @@ typedef enum {
 			[key isEqualToString:KEY_LIST_LAYOUT_WINDOW_STYLE] ||
 			[key isEqualToString:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE]) {
 
-			AIContactListWindowStyle windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
+			AIContactListWindowStyle windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue];
 			BOOL horizontalAutosize = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 			
 			if (windowStyle == AIContactListWindowStyleStandard) {
@@ -211,7 +211,7 @@ typedef enum {
 					//Standard and borderless don't have to vertically autosize
 					[checkBox_verticalAutosizing setEnabled:YES];
 					[checkBox_verticalAutosizing setState:[[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
-																									group:PREF_GROUP_APPEARANCE] intValue]];
+																									group:PREF_GROUP_APPEARANCE] integerValue]];
 					break;
 				case AIContactListWindowStyleGroupBubbles:
 				case AIContactListWindowStyleContactBubbles:
@@ -274,7 +274,7 @@ typedef enum {
 	
 	//Update the selected pack
 	NSArray	*activeEmoticonPacks = [[adium emoticonController] activeEmoticonPacks];
-	int		numActivePacks = [activeEmoticonPacks count];
+	NSInteger		numActivePacks = [activeEmoticonPacks count];
 	
 	if (numActivePacks == 0) {
 		[popUp_emoticons compatibleSelectItemWithTag:AIEmoticonMenuNone];
@@ -319,7 +319,7 @@ typedef enum {
 											  group:PREF_GROUP_APPEARANCE];
 
 	} else if (sender == popUp_windowStyle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_WINDOW_STYLE
 											  group:PREF_GROUP_APPEARANCE];
 		
@@ -334,17 +334,17 @@ typedef enum {
                                               group:PREF_GROUP_APPEARANCE];
 
     } else if (sender == slider_windowOpacity) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:([sender floatValue] / 100.0)]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:([sender doubleValue] / 100.0)]
                                              forKey:KEY_LIST_LAYOUT_WINDOW_OPACITY
                                               group:PREF_GROUP_APPEARANCE];
 		[self _updateSliderValues];
 		
 	} else if (sender == slider_horizontalWidth) {
-		int newValue = [sender intValue];
-		int oldValue = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
-																 group:PREF_GROUP_APPEARANCE] intValue];
+		NSInteger newValue = [sender integerValue];
+		NSInteger oldValue = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
+																 group:PREF_GROUP_APPEARANCE] integerValue];
 		if (newValue != oldValue) { 
-			[[adium preferenceController] setPreference:[NSNumber numberWithInt:newValue]
+			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:newValue]
 												 forKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
 												  group:PREF_GROUP_APPEARANCE];
 			[self _updateSliderValues];
@@ -378,8 +378,8 @@ typedef enum {
  */
 - (void)_updateSliderValues
 {
-	[textField_windowOpacity setStringValue:[NSString stringWithFormat:@"%i%%", (int)[slider_windowOpacity floatValue]]];
-	[textField_horizontalWidthIndicator setStringValue:[NSString stringWithFormat:@"%ipx",[slider_horizontalWidth intValue]]];
+	[textField_windowOpacity setStringValue:[NSString stringWithFormat:@"%ld%%", (NSInteger)[slider_windowOpacity doubleValue]]];
+	[textField_horizontalWidthIndicator setStringValue:[NSString stringWithFormat:@"%ldpx",[slider_horizontalWidth integerValue]]];
 }
 
 //Emoticons ------------------------------------------------------------------------------------------------------------
@@ -468,7 +468,7 @@ typedef enum {
 
 	return [menu autorelease];
 }
-- (void)_addWindowStyleOption:(NSString *)option withTag:(int)tag toMenu:(NSMenu *)menu{
+- (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu{
     NSMenuItem	*menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:option
 																				  target:nil
 																				  action:nil

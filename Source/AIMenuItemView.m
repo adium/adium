@@ -98,10 +98,10 @@
  *
  * @param inPoint The point in our local coordinates
  */
-- (int)indexAtPoint:(NSPoint)inPoint
+- (NSInteger)indexAtPoint:(NSPoint)inPoint
 {
-	float	heightFromTop = [self frame].size.height - inPoint.y;
-	int		index = 0;
+	CGFloat	heightFromTop = [self frame].size.height - inPoint.y;
+	NSInteger		index = 0;
 
 	while ((heightFromTop - (((MENU_ITEM_HEIGHT + MENU_ITEM_SPACING) * index) + MENU_ITEM_HEIGHT)) > 0) {
 		index++;
@@ -113,7 +113,7 @@
 /*!
  * @brief Return the rect (in local coordinates) for a menu item by index
  */
-- (NSRect)rectForIndex:(int)index
+- (NSRect)rectForIndex:(NSInteger)index
 {
 	NSRect	myFrame = [self frame];
 	return NSMakeRect(0,
@@ -126,7 +126,7 @@
 #pragma mark Drawing
 - (void)drawRect:(NSRect)inRect
 {
-	int		i, numberOfMenuItems;
+	NSInteger		i, numberOfMenuItems;
 	BOOL	willDisplayACheckbox = NO;
 
 	numberOfMenuItems = [menu numberOfItems];
@@ -170,7 +170,7 @@
 				menuItemRect.size.width -= 1;
 				
 				//Indent the menu item if appropriate
-				float indentation = [menuItem indentationLevel] * 5.0;
+				CGFloat indentation = [menuItem indentationLevel] * 5.0;
 				menuItemRect.origin.x += indentation;
 				menuItemRect.size.width -= indentation;
 
@@ -270,7 +270,7 @@
 {
 	NSRect frame = [self frame];
 
-	float change = (([[self menu] numberOfItems] * (MENU_ITEM_HEIGHT + MENU_ITEM_SPACING)) - MENU_ITEM_SPACING) - frame.size.height;
+	CGFloat change = (([[self menu] numberOfItems] * (MENU_ITEM_HEIGHT + MENU_ITEM_SPACING)) - MENU_ITEM_SPACING) - frame.size.height;
 	frame.size.height += change;
 	frame.origin.y -= change;
 
@@ -336,7 +336,7 @@
 	
 	enumerator = [trackingTags objectEnumerator];
 	while ((trackingTag = [enumerator nextObject])) {
-		[self removeTrackingRect:[trackingTag intValue]];
+		[self removeTrackingRect:[trackingTag integerValue]];
 	}
 	
 	[trackingTags release]; trackingTags = nil;	
@@ -352,7 +352,7 @@
 	
 	//Add tracking rects if our superview and window are ready
 	if ([self superview] && [self window]) {		
-		int		i, numberOfMenuItems;
+		NSInteger		i, numberOfMenuItems;
 
 		trackingTags = [[NSMutableSet alloc] init];
 
@@ -365,8 +365,8 @@
 			BOOL				mouseInside = NSPointInRect(localPoint, trackRect);
 
 			trackingTag = [self addTrackingRect:trackRect owner:self userData:nil assumeInside:mouseInside];
-			[trackingTags addObject:[NSNumber numberWithInt:trackingTag]];
-			NSLog(@"Added tracking rect %i for %@ (%i)",trackingTag,NSStringFromRect(trackRect), mouseInside);
+			[trackingTags addObject:[NSNumber numberWithInteger:trackingTag]];
+		    NSLog(@"Added tracking rect %ld for %@ (%@)",trackingTag,NSStringFromRect(trackRect), mouseInside ? @"inside" : @"outside");
 			if (mouseInside) [self mouseEntered:nil];
 		}
 	}

@@ -27,13 +27,13 @@
 	//Currently animated icon state and its index
     NSTimer						*animationTimer;
     AIIconState					*animatedIconState;
-	int 						animatedIndex;
+	NSInteger 						animatedIndex;
 }
 
 + (void)showDockIconSelectorOnWindow:(NSWindow *)parentWindow;
 
 //Animation
-- (void)setAnimatedDockIconAtIndex:(int)index;
+- (void)setAnimatedDockIconAtIndex:(NSInteger)index;
 - (AIIconState *)animatedStateForDockIconAtPath:(NSString *)path;
 
 @end

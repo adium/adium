@@ -23,9 +23,9 @@
 
     SUSpeaker			*_variableVoice;
     SUSpeaker			*_defaultVoice;
-	float				_defaultRate;
-	float				_defaultPitch;
-	float				customVolume;
+	CGFloat				_defaultRate;
+	CGFloat				_defaultPitch;
+	CGFloat				customVolume;
 
 	BOOL				workspaceSessionIsActive;
 	BOOL				speaking;
@@ -34,11 +34,11 @@
 - (void)controllerDidLoad;
 
 - (void)speakText:(NSString *)text;
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate;
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate;
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(float)rate;
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(float)rate;
 
 - (NSArray *)voices;
-- (float)defaultRate;
-- (float)defaultPitch;
+- (CGFloat)defaultRate;
+- (CGFloat)defaultPitch;
 
 @end

@@ -55,7 +55,7 @@
  */
 - (void)configureForActionDetails:(NSDictionary *)inDetails listObject:(AIListObject *)inObject
 {
-	int behaviorIndex = [popUp_actionDetails indexOfItemWithRepresentedObject:[inDetails objectForKey:KEY_DOCK_BEHAVIOR_TYPE]];
+	NSInteger behaviorIndex = [popUp_actionDetails indexOfItemWithRepresentedObject:[inDetails objectForKey:KEY_DOCK_BEHAVIOR_TYPE]];
 	if (behaviorIndex >= 0 && behaviorIndex < [popUp_actionDetails numberOfItems]) {
 		[popUp_actionDetails selectItemAtIndex:behaviorIndex];        
 	}
@@ -112,7 +112,7 @@
 																	 target:self
 																	 action:@selector(selectBehavior:)
 															  keyEquivalent:@""] autorelease];
-    [menuItem setRepresentedObject:[NSNumber numberWithInt:behavior]];
+    [menuItem setRepresentedObject:[NSNumber numberWithInteger:behavior]];
     
     return menuItem;
 }

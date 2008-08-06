@@ -72,11 +72,11 @@
 	BOOL oldShowIdle = showIdle;
 	BOOL oldIncludeIdleInExtendedStatus = includeIdleInExtendedStatus;
 
-	EXTENDED_STATUS_STYLE statusStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] intValue];
+	EXTENDED_STATUS_STYLE statusStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue];
 	showStatus = ((statusStyle == STATUS_ONLY) || (statusStyle == IDLE_AND_STATUS));
 	showIdle = ((statusStyle == IDLE_ONLY) || (statusStyle == IDLE_AND_STATUS));
 	
-	EXTENDED_STATUS_POSITION statusPosition = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] intValue];
+	EXTENDED_STATUS_POSITION statusPosition = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue];
 	includeIdleInExtendedStatus = (statusPosition != EXTENDED_STATUS_POSITION_BOTH);
 	
 	if (firstTime) {
@@ -108,7 +108,7 @@
 		([(AIListContact *)inObject parentContact] == inObject)) {
 		NSMutableString	*statusMessage = nil;
 		NSString		*finalMessage = nil, *finalIdleReadable = nil;
-		int				idle;
+		NSInteger				idle;
 
 		if (showStatus) {
 			NSAttributedString *filteredMessage;
@@ -120,7 +120,7 @@
 			statusMessage = [[[[filteredMessage string] stringByTrimmingCharactersInSet:whitespaceAndNewlineCharacterSet] mutableCopy] autorelease];
 
 			//Incredibly long status messages are slow to size, so we crop them to a reasonable length
-			int statusMessageLength = [statusMessage length];
+			NSInteger statusMessageLength = [statusMessage length];
 			if (statusMessageLength == 0) {
 				statusMessage = nil;
 
@@ -172,7 +172,7 @@
  * @param minutes Number of minutes idle
  * @result A localized string to display for the idle time
  */
-- (NSString *)idleStringForMinutes:(int)minutes //input is actualy minutes
+- (NSString *)idleStringForMinutes:(NSInteger)minutes //input is actualy minutes
 {
 	// Cap Idletime at 599400 minutes (999 hours)
 	return ((minutes > 599400) ? AILocalizedString(@"Idle",nil) : [NSDateFormatter stringForApproximateTimeInterval:(minutes * 60) abbreviated:YES]);

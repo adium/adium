@@ -3,7 +3,7 @@
 
 @implementation AISideSplitView
 
-- (float) dividerThickness
+- (CGFloat) dividerThickness
 {
 	return .50;
 }

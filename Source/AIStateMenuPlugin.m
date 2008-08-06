@@ -174,7 +174,7 @@
     while ((menuItem = [enumerator nextObject])) {
 		AIStatus	*representedStatus = [[menuItem representedObject] objectForKey:@"AIStatus"];
 
-		int			tag = [menuItem tag];
+		NSInteger			tag = [menuItem tag];
 		if ((tag == targetStatusType) && 
 		   (representedStatus == targetStatusState)) {			
 			[menuItem setKeyEquivalent:@"y"];

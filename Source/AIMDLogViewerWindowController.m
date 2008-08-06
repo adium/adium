@@ -38,9 +38,9 @@
  * This uses the 10.4+ asynchronous search functions.
  * Google-like search syntax (phrase, prefix/suffix, boolean, etc. searching) is automatically supported.
  */
-- (void)_logContentFilter:(NSString *)searchString searchID:(int)searchID onSearchIndex:(SKIndexRef)logSearchIndex
+- (void)_logContentFilter:(NSString *)searchString searchID:(NSInteger)searchID onSearchIndex:(SKIndexRef)logSearchIndex
 {
-	float			largestRankingValue = 0;
+	CGFloat			largestRankingValue = 0;
 	SKSearchRef		thisSearch;
     Boolean			more = true;
     UInt32			totalCount = 0;
@@ -101,7 +101,7 @@
 
 			//Don't test for the date now; we'll test once we've found the AIChatLog if we make it that far
 			if ([self searchShouldDisplayDocument:document pathComponents:pathComponents testDate:NO]) {
-				unsigned int	numPathComponents = [pathComponents count];
+				NSUInteger	numPathComponents = [pathComponents count];
 				NSString		*toPath = [NSString stringWithFormat:@"%@/%@",
 					[pathComponents objectAtIndex:numPathComponents-3],
 					[pathComponents objectAtIndex:numPathComponents-2]];
@@ -204,9 +204,9 @@
 	NSMenu		*dateTypeMenu = [super dateTypeMenu];
 	AIDateType	dateType;
 	NSDictionary *dateTypeTitleDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		AILocalizedString(@"Exactly", nil), [NSNumber numberWithInt:AIDateTypeExactly],
-		AILocalizedString(@"Before", nil), [NSNumber numberWithInt:AIDateTypeBefore],
-		AILocalizedString(@"After", nil), [NSNumber numberWithInt:AIDateTypeAfter],
+		AILocalizedString(@"Exactly", nil), [NSNumber numberWithInteger:AIDateTypeExactly],
+		AILocalizedString(@"Before", nil), [NSNumber numberWithInteger:AIDateTypeBefore],
+		AILocalizedString(@"After", nil), [NSNumber numberWithInteger:AIDateTypeAfter],
 		nil];
 
 	[dateTypeMenu addItem:[NSMenuItem separatorItem]];		

@@ -13,7 +13,7 @@
 
 @implementation AIStatusGroup
 
-int statusArraySort(id objectA, id objectB, void *context);
+NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 
 + (id)statusGroup
 {
@@ -377,7 +377,7 @@ int statusArraySort(id objectA, id objectB, void *context);
 
 #pragma mark Sorting
 //Sort the status array
-int statusArraySort(id objectA, id objectB, void *context)
+NSComparisonResult statusArraySort(id objectA, id objectB, void *context)
 {
 	AIStatusType statusTypeA = [objectA statusType];
 	AIStatusType statusTypeB = [objectB statusType];

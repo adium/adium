@@ -55,7 +55,7 @@ typedef enum {
 	NSMenuItem			*editInABContextualMenuItem;
 	NSMenuItem			*addToABContexualMenuItem;
 
-    int                 meTag;
+    NSInteger                 meTag;
     
     NameStyle			displayFormat;
     BOOL                enableImport;

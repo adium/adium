@@ -135,7 +135,7 @@ static  BOOL	sortByLastName;
 /*!
  * @brief Alphabetical sort
  */
-int alphabeticalSort(id objectA, id objectB, BOOL groups)
+NSInteger alphabeticalSort(id objectA, id objectB, BOOL groups)
 {
 	//If we were not passed groups or if we should be sorting groups, sort alphabetically
 	if (!groups) {

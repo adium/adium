@@ -53,11 +53,11 @@
 - (NSAttributedString *)entryForObject:(AIListObject *)inObject
 {
     NSAttributedString	*entry = nil;
-    int					warningLevel;
+    NSInteger					warningLevel;
 
     //Return the correct string
     if ((warningLevel = [inObject integerValueForProperty:@"Warning"])) {
-		entry = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d%%", warningLevel]];
+		entry = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld%%", warningLevel]];
     }
 
     return [entry autorelease];

@@ -25,7 +25,7 @@
 		if ([[inObject UID] isEqualToString:@"twitter@twitter.com"] &&
 			[[inObject serviceClass] isEqualToString:@"Jabber"]) {
 			
-			[inObject setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:YES];
+			[inObject setValue:[NSNumber numberWithInteger:140] forProperty:@"Character Counter Max" notify:YES];
 		}
 	}
 	

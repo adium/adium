@@ -66,15 +66,15 @@ enum segments {
 - (void)contactInfoListControllerSelectionDidChangeToListObject:(AIListObject *)listObject;
 
 //View Animation
--(void)addInspectorPanel:(int)newSegment animate:(BOOL)doAnimate;
+-(void)addInspectorPanel:(NSInteger)newSegment animate:(BOOL)doAnimate;
 -(void)animateViewIn:(NSView *)aView;
 -(void)animateViewOut:(NSView *)aView;
 @end
 
 @interface NSWindow (FakeLeopardAdditions)
 - (void)setAutorecalculatesContentBorderThickness:(BOOL)autorecalculateContentBorderThickness forEdge:(NSRectEdge)edge;
-- (float)contentBorderThicknessForEdge:(NSRectEdge)edge;
-- (void)setContentBorderThickness:(float)borderThickness forEdge:(NSRectEdge)edge;
+- (CGFloat)contentBorderThicknessForEdge:(NSRectEdge)edge;
+- (void)setContentBorderThickness:(CGFloat)borderThickness forEdge:(NSRectEdge)edge;
 @end
 
 @implementation AIContactInfoWindowController
@@ -89,7 +89,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 - (void)segmentSelected:(id)sender animate:(BOOL)shouldAnimate
 {
 	//Action method for the Segmented Control, which is actually the toolbar.
-	int currentSegment = [sender selectedSegment];
+	NSInteger currentSegment = [sender selectedSegment];
 	
 	//Take focus away from any textual controls to ensure that they register changes and save
 	if ([[[self window] firstResponder] isKindOfClass:[NSText class]]) {
@@ -177,11 +177,11 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	currentPane = nil;
 	lastSegment = 0;
 	
-	int	selectedSegment;
+	NSInteger	selectedSegment;
 	
 	//Select the previously selected category
 	selectedSegment = [[[adium preferenceController] preferenceForKey:KEY_INFO_SELECTED_CATEGORY
-																group:PREF_GROUP_WINDOW_POSITIONS] intValue];
+																group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 	
 	if (selectedSegment < 0 || selectedSegment >= [inspectorToolbar segmentCount])
 		selectedSegment = 0;
@@ -193,8 +193,8 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 - (void)windowWillClose:(NSNotification *)inNotification
 {
 	AILogWithSignature(@"");
-		
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:[inspectorToolbar selectedSegment]]
+
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedSegment]]
 										  forKey:KEY_INFO_SELECTED_CATEGORY
 										   group:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -211,7 +211,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 */
 - (void)setupToolbarSegments
 {	
-	int i;
+	NSInteger i;
 	for(i = 0; i < [inspectorToolbar segmentCount]; i++) {
 		NSString	*segmentLabel = nil;
 		NSImage		*segmentImage = nil;
@@ -244,12 +244,12 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-	float availableWidth = [[inspectorToolbar superview] frame].size.width + 2;
+	CGFloat availableWidth = [[inspectorToolbar superview] frame].size.width + 2;
 	[inspectorToolbar setAutoresizingMask:(NSViewWidthSizable | NSViewMinYMargin)];
 	[inspectorToolbar setFrame:NSMakeRect(-1, [inspectorToolbar frame].origin.y,
 										  availableWidth, [inspectorToolbar frame].size.height)];	
 	
-	int i;
+	NSInteger i;
 	for(i = 0; i < [inspectorToolbar segmentCount]; i++) {
 		[(NSSegmentedCell *)[inspectorToolbar cell] setWidth:(availableWidth / 4) forSegment:i];
 	}
@@ -316,7 +316,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 }
 
 #pragma mark View Management and Animation
--(void)addInspectorPanel:(int)newSegment animate:(BOOL)doAnimate
+-(void)addInspectorPanel:(NSInteger)newSegment animate:(BOOL)doAnimate
 {	
 	NSView *newPane = [[loadedContent objectAtIndex:newSegment] inspectorContentView];
 	

@@ -83,7 +83,7 @@
 - (void)prepareContactInfo;
 
 - (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inGroup withTarget:(id)target firstLevel:(BOOL)firstLevel;
-- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(int)level;
+- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(NSInteger)level;
 
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadGroupsFromArray:(NSArray *)array;
@@ -95,7 +95,7 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 
-- (void)_positionObject:(AIListObject *)listObject atIndex:(int)index inObject:(AIListObject<AIContainingObject> *)group;
+- (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveObjectServerside:(AIListObject *)listObject toGroup:(AIListGroup *)group;
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName;
 
@@ -298,7 +298,7 @@
 	
 	while ((identifier = [enumerator nextObject])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		NSNumber *objectID = [NSNumber numberWithInt:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] intValue]];
+		NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
 		[self metaContactWithObjectID:objectID];
 		[pool release];
 	}
@@ -643,17 +643,15 @@
  */
 - (AIMetaContact *)metaContactWithObjectID:(NSNumber *)inObjectID
 {
-	NSString		*metaContactDictKey;
-	AIMetaContact   *metaContact;
 	BOOL			shouldRestoreContacts = YES;
 	
 	//If no object ID is provided, use the next available object ID
 	//(MetaContacts should always have an individually unique object id)
 	if (!inObjectID) {
-		int topID = [[[adium preferenceController] preferenceForKey:TOP_METACONTACT_ID
-															  group:PREF_GROUP_CONTACT_LIST] intValue];
-		inObjectID = [NSNumber numberWithInt:topID];
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:([inObjectID intValue] + 1)]
+		NSInteger topID = [[[adium preferenceController] preferenceForKey:TOP_METACONTACT_ID
+															  group:PREF_GROUP_CONTACT_LIST] integerValue];
+		inObjectID = [NSNumber numberWithInteger:topID];
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:([inObjectID integerValue] + 1)]
 											 forKey:TOP_METACONTACT_ID
 											  group:PREF_GROUP_CONTACT_LIST];
 		
@@ -663,11 +661,11 @@
 	
 	//Look for a metacontact with this object ID.  If none is found, create one
 	//and add its contained contacts to it.
-	metaContactDictKey = [AIMetaContact internalObjectIDFromObjectID:inObjectID];
+	NSString		*metaContactDictKey = [AIMetaContact internalObjectIDFromObjectID:inObjectID];
 	
-	metaContact = [metaContactDict objectForKey:metaContactDictKey];
+	AIMetaContact   *metaContact = [metaContactDict objectForKey:metaContactDictKey];
 	if (!metaContact) {
-		metaContact = [[AIMetaContact alloc] initWithObjectID:inObjectID];
+		metaContact = [(AIMetaContact *)[AIMetaContact alloc] initWithObjectID:inObjectID];
 		
 		//Keep track of it in our metaContactDict for retrieval by objectID
 		[metaContactDict setObject:metaContact forKey:metaContactDictKey];
@@ -956,9 +954,9 @@
 - (AIMetaContact *)knownMetaContactForGroupingUIDs:(NSArray *)UIDsArray forServices:(NSArray *)servicesArray
 {
 	AIMetaContact	*metaContact = nil;
-	int				count = [UIDsArray count];
+	NSInteger				count = [UIDsArray count];
 	
-	for (int i = 0; i < count; i++) {
+	for (NSInteger i = 0; i < count; i++) {
 		if ((metaContact = [contactToMetaContactLookupDict objectForKey:[AIListObject internalObjectIDForServiceID:[servicesArray objectAtIndex:i]
 																											   UID:[UIDsArray objectAtIndex:i]]])) {
 			break;
@@ -987,8 +985,8 @@
 	AIMetaContact	*metaContact = nil;
 	NSEnumerator	*enumerator;
 	NSString		*internalObjectID;
-	int				count = [UIDsArray count];
-	int				i;
+	NSInteger				count = [UIDsArray count];
+	NSInteger				i;
 	
 	/* Build an array of all contacts matching this description (multiple accounts on the same service listing
 	 * the same UID mean that we can have multiple AIListContact objects with a UID/service combination)
@@ -1144,7 +1142,7 @@
 }
 
 //Sort list objects alphabetically by their display name
-int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
+NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
 {
 	return [[objectA displayName] caseInsensitiveCompare:[objectB displayName]];
 }
@@ -1395,7 +1393,7 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
 	
 	return [menu autorelease];
 }
-- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(int)level
+- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(NSInteger)level
 {
 	NSMutableArray	*fromGroups;
 	NSEnumerator	*detachedEnumerator;
@@ -1920,7 +1918,7 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
 											userInfo:userInfo];
 }
 
-- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(int)index
+- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index
 {
 	NSEnumerator	*enumerator;
 	AIListContact	*listContact;
@@ -2028,7 +2026,7 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
 }
 
 //Position a list object within a group
-- (void)_positionObject:(AIListObject *)listObject atIndex:(int)index inObject:(AIListObject<AIContainingObject> *)group
+- (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group
 {
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
@@ -2042,8 +2040,8 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
 		AIListObject	*previousObject = [group objectAtIndex:index-1];
 		AIListObject	*nextObject = [group objectAtIndex:index];
-		float nextLowest = [previousObject orderIndex];
-		float nextHighest = [nextObject orderIndex];
+		CGFloat nextLowest = [previousObject orderIndex];
+		CGFloat nextHighest = [nextObject orderIndex];
 		
 		/* XXX - Fixme as per below
 		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
@@ -2077,8 +2075,8 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
  */
 - (AIListGroup *)createDetachedContactList
 {
-	static int count = 0;
-	AIListGroup * list = [[AIListGroup alloc] initWithUID:[NSString stringWithFormat:@"Detached%d",count++]];
+	static NSInteger count = 0;
+	AIListGroup * list = [[AIListGroup alloc] initWithUID:[NSString stringWithFormat:@"Detached%ld",count++]];
 	[detachedContactLists addObject:list];
 	[list release];
 	return list;
@@ -2112,7 +2110,7 @@ int contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *c
 /*!
  * @returns Number of contact lists (ie. both main contact list and all detached contact lists)
  */
-- (unsigned)contactListCount
+- (NSUInteger)contactListCount
 {
 	return (contactList != nil) + [detachedContactLists count];
 }

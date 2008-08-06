@@ -147,7 +147,7 @@
 				if ([currentStatusState statusType] == AIAvailableStatusType) {
 					//Store the state the account is in at present
 					[previousStatusStateDict setObject:currentStatusState
-												forKey:[NSNumber numberWithUnsignedInt:[account hash]]];
+												forKey:[NSNumber numberWithUnsignedInteger:[account hash]]];
 
 					if ([account online]) {
 						//If online, set the state
@@ -178,7 +178,7 @@
 		enumerator = [[[adium accountController] accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
 			AIStatus		*targetStatusState;
-			NSNumber		*accountHash = [NSNumber numberWithUnsignedInt:[account hash]];
+			NSNumber		*accountHash = [NSNumber numberWithUnsignedInteger:[account hash]];
 
 			targetStatusState = [previousStatusStateDict objectForKey:accountHash];
 			if (targetStatusState) {

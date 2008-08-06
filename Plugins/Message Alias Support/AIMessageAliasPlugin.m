@@ -52,7 +52,7 @@
 	NSMutableAttributedString	*filteredMessage = [self replaceKeywordsInString:inAttributedString context:context];;
 
 	//Filter keywords in URLs (For AIM subprofile links, mostly)
-	int	length = [(filteredMessage ? filteredMessage : inAttributedString) length];
+	NSInteger	length = [(filteredMessage ? filteredMessage : inAttributedString) length];
 	NSRange scanRange = NSMakeRange(0, 0);
 	while (NSMaxRange(scanRange) < length) {
 		id linkURL = [(filteredMessage ? filteredMessage : inAttributedString) attribute:NSLinkAttributeName
@@ -103,7 +103,7 @@
     return (filteredMessage ? filteredMessage : inAttributedString);
 }
 
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return DEFAULT_FILTER_PRIORITY;
 }
@@ -172,7 +172,12 @@
 	//Current Date
 	if ([self string:str containsValidKeyword:@"%d"]) {
 		NSCalendarDate	*currentDate = [NSCalendarDate calendarDate];
-		NSString		*calendarFormat = [[NSUserDefaults standardUserDefaults] objectForKey:NSShortDateFormatString];
+		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+		[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[dateFormatter setLocale:[NSLocale currentLocale]];
+		[dateFormatter setDateStyle:kCFDateFormatterShortStyle];	// short date
+		[dateFormatter setTimeStyle:kCFDateFormatterNoStyle];	// no time
+		NSString *calendarFormat = [dateFormatter dateFormat];
 
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
 		

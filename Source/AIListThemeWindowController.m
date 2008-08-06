@@ -86,7 +86,7 @@
 }
 
 //Called as the sheet closes, dismisses the sheet
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 	
@@ -173,7 +173,7 @@
     NSColor *color = [[prefDict objectForKey:KEY_LIST_THEME_HIGHLIGHT_COLOR] representedColor];
 	if (color) [colorWell_customHighlight setColor:color];
     [colorWell_grid setColor:[[prefDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];	
-	[slider_backgroundFade setFloatValue:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] floatValue]];
+	[slider_backgroundFade setDoubleValue:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] doubleValue]];
 	//not all themes have the draw-custom-highlight setting
 	NSNumber *number = [prefDict objectForKey:KEY_LIST_THEME_HIGHLIGHT_ENABLED];
 	[checkBox_drawCustomHighlight setState:number ? [number boolValue] : NSOffState];
@@ -183,7 +183,7 @@
     [checkBox_fadeOfflineImages setState:[[prefDict objectForKey:KEY_LIST_THEME_FADE_OFFLINE_IMAGES] boolValue]];
 	
 	[popUp_displayImageStyle setMenu:[self displayImageStyleMenu]];
-	[popUp_displayImageStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_STYLE] intValue]];
+	[popUp_displayImageStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_STYLE] integerValue]];
 	
 	[self updateSliderValues];
 	[self configureControlDimming];
@@ -381,7 +381,7 @@
 		[preview_grid setNeedsDisplay:YES];
 		
     } else if (sender == slider_backgroundFade) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithFloat:[sender floatValue]]
+        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_LIST_THEME_BACKGROUND_FADE
                                               group:PREF_GROUP_LIST_THEME];
 		[self updateSliderValues];
@@ -445,7 +445,7 @@
 		[preview_group setNeedsDisplay:YES];
 		
 	} else if (sender == popUp_displayImageStyle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:[[sender selectedItem] tag]]
+		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_THEME_BACKGROUND_IMAGE_STYLE
 											  group:PREF_GROUP_LIST_THEME];	
 	}
@@ -470,14 +470,14 @@
 //
 - (void)updateSliderValues
 {
-	[textField_backgroundFade setStringValue:[NSString stringWithFormat:@"%i%%", (int)([slider_backgroundFade floatValue] * 100.0)]];
+	[textField_backgroundFade setStringValue:[NSString stringWithFormat:@"%ld%%", (NSInteger)([slider_backgroundFade doubleValue] * 100.0)]];
 }
 
 //Configure control dimming
 - (void)configureControlDimming
 {
-	int		backStatus = [checkBox_backgroundAsStatus state];
-	int		backEvent = [checkBox_backgroundAsEvents state];
+	NSInteger		backStatus = [checkBox_backgroundAsStatus state];
+	NSInteger		backEvent = [checkBox_backgroundAsEvents state];
 	
 	//Enable/Disable status color wells
     [colorWell_away setEnabled:[checkBox_away state]];

@@ -53,7 +53,7 @@
 - (IBAction)runBlockSheet:(id)sender;
 - (IBAction)cancelBlockSheet: (id)sender;
 - (IBAction)didBlockSheet: (id)sender;
-- (void)didEndSheet:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 - (NSMutableArray*)listContents;
 - (void)setListContents:(NSArray*)newList;

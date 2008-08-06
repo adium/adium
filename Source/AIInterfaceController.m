@@ -145,12 +145,14 @@
 	NSMutableString	*responderChain = [NSMutableString string];
 	
 	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
+#warning 64BIT: Check formatting arguments
 	[responderChain appendFormat:@"%@ (%i): ",keyWindow,[keyWindow respondsToSelector:@selector(print:)]];
 	
 	NSResponder	*responder = [keyWindow firstResponder];
 	
 	//First, walk down the responder chain looking for a responder which can handle the preferred selector
 	while (responder) {
+#warning 64BIT: Check formatting arguments
 		[responderChain appendFormat:@"%@ (%i)",responder,[responder respondsToSelector:@selector(print:)]];
 		responder = [responder nextResponder];
 		if (responder) [responderChain appendString:@" -> "];
@@ -588,7 +590,7 @@
 	}
 }
 
-- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(int)index
+- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(NSUInteger)index
 {	
 	NSArray		*openContainerIDs = [interfacePlugin openContainerIDs];
 
@@ -984,7 +986,7 @@
 {	
     NSMenuItem				*item;
     NSEnumerator			*enumerator;
-    int						windowKey = 1;
+    NSInteger						windowKey = 1;
 	
     //Remove any existing menus
     enumerator = [windowMenuArray objectEnumerator];
@@ -1019,7 +1021,7 @@
 			
 			//Prepare a key equivalent for the controller
 			if (windowKey < 10) {
-				windowKeyString = [NSString stringWithFormat:@"%i",(windowKey)];
+				windowKeyString = [NSString stringWithFormat:@"%ld",(windowKey)];
 			} else if (windowKey == 10) {
 				windowKeyString = [NSString stringWithString:@"0"];
 			} else {
@@ -1075,7 +1077,7 @@
 
 	if ([openChats count]) {
 		if (activeChat) {
-			int chatIndex = [openChats indexOfObject:activeChat]+1;
+			NSInteger chatIndex = [openChats indexOfObject:activeChat]+1;
 			[self setActiveChat:[openChats objectAtIndex:(chatIndex < [openChats count] ? chatIndex : 0)]];
 		} else {
 			[self setActiveChat:[openChats objectAtIndex:0]];
@@ -1092,7 +1094,7 @@
 	
 	if ([openChats count]) {
 		if (activeChat) {
-			int chatIndex = [openChats indexOfObject:activeChat]-1;
+			NSInteger chatIndex = [openChats indexOfObject:activeChat]-1;
 			[self setActiveChat:[openChats objectAtIndex:(chatIndex >= 0 ? chatIndex : [openChats count]-1)]];
 		} else {
 			[self setActiveChat:[openChats lastObject]];
@@ -1465,7 +1467,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     NSMutableArray                      *labelArray = [NSMutableArray array];
     NSMutableArray                      *entryArray = [NSMutableArray array];
     NSMutableAttributedString           *entryString;
-    float                               labelWidth;
+    CGFloat                               labelWidth;
     BOOL                                isFirst = YES;
     
     NSString                            *formattedUID = [object formattedUID];
@@ -1525,7 +1527,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	}
 		
     if ([object isKindOfClass:[AIListGroup class]]) {
-        [titleString appendString:[NSString stringWithFormat:@" (%i/%i)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object containedObjectsCount]] 
+        [titleString appendString:[NSString stringWithFormat:@" (%ld/%ld)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object containedObjectsCount]] 
                    withAttributes:titleDict];
     }
     
@@ -1608,7 +1610,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     NSMutableArray                  *labelArray = [NSMutableArray array];
     NSMutableArray                  *entryArray = [NSMutableArray array];    
     NSMutableAttributedString       *entryString;
-    float                           labelWidth;
+    CGFloat                           labelWidth;
     BOOL                            firstEntry = YES;
     
     //Calculate the widest label while loading the arrays

@@ -343,7 +343,7 @@ static NSString	*prefsCategory;
 	}
 	
 	AIQuitConfirmationType		confirmationType = [[preferenceController preferenceForKey:@"Confirm Quit Type"
-																							group:@"Confirmations"] intValue];
+																							group:@"Confirmations"] integerValue];
 	BOOL confirmUnreadMessages	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for Unread Messages"
 																	group:@"Confirmations"] boolValue];
 	BOOL confirmFileTransfers	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for File Transfers"
@@ -478,7 +478,7 @@ static NSString	*prefsCategory;
 
 - (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info
 {
-	AITextAndButtonsReturnCode result = [number intValue];
+	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -502,7 +502,7 @@ static NSString	*prefsCategory;
 
 - (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info
 {
-	AITextAndButtonsReturnCode result = [number intValue];
+	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -526,7 +526,7 @@ static NSString	*prefsCategory;
 
 - (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info
 {
-	AITextAndButtonsReturnCode result = [number intValue];
+	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -549,7 +549,7 @@ static NSString	*prefsCategory;
 
 - (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info
 {
-	AITextAndButtonsReturnCode result = [number intValue];
+	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -597,7 +597,7 @@ static NSString	*prefsCategory;
 	NSString			*errorMessage = nil;
     NSString			*fileDescription = nil, *prefsButton = nil;
 	BOOL				success = NO, requiresRestart = NO;
-	int					buttonPressed;
+	NSInteger					buttonPressed;
 	
 	if (([extension caseInsensitiveCompare:@"AdiumLog"] == NSOrderedSame) ||
 		([extension caseInsensitiveCompare:@"AdiumHtmlLog"] == NSOrderedSame) ||
@@ -878,8 +878,7 @@ static NSString	*prefsCategory;
 			if (error) {
 				targetPath = nil;
 				
-				int result;
-				result = NSRunCriticalAlertPanel([NSString stringWithFormat:AILocalizedString(@"Could not create the %@ folder.",nil), name],
+				NSInteger result = NSRunCriticalAlertPanel([NSString stringWithFormat:AILocalizedString(@"Could not create the %@ folder.",nil), name],
 												 AILocalizedString(@"Try running Repair Permissions from Disk Utility.",nil),
 												 AILocalizedString(@"OK",nil), 
 												 AILocalizedString(@"Launch Disk Utility",nil), 
@@ -1176,7 +1175,7 @@ static NSString	*prefsCategory;
 	NSMutableString *accountInfoString = [NSMutableString string];
 	NSEnumerator *infoEnu = [[[condensedAccountInfo allObjects] sortedArrayUsingSelector:@selector(compare:)] objectEnumerator];
 	while ((value = [infoEnu nextObject]))
-	    [accountInfoString appendFormat:@"%@%d", value, [condensedAccountInfo countForObject:value]];
+	    [accountInfoString appendFormat:@"%@%lu", value, [condensedAccountInfo countForObject:value]];
 	
 	entry = [NSDictionary dictionaryWithObjectsAndKeys:
 		 @"IMServices", @"key", 

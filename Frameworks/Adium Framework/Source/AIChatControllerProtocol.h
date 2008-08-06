@@ -38,8 +38,8 @@
 
 - (NSSet *)openChats;
 - (AIChat *)mostRecentUnviewedChat;
-- (int)unviewedContentCount;
-- (int)unviewedConversationCount;
+- (NSUInteger)unviewedContentCount;
+- (NSUInteger)unviewedConversationCount;
 - (void)switchChat:(AIChat *)chat toAccount:(AIAccount *)newAccount;
 - (void)switchChat:(AIChat *)chat toListContact:(AIListContact *)inContact usingContactAccount:(BOOL)useContactAccount;
 - (BOOL)contactIsInGroupChat:(AIListContact *)listContact;

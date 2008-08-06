@@ -77,7 +77,7 @@
 			 @"Protocol does not conform to the VCProtocolProvider protocol.");
 
 	// Add our new provider
-	[providers setObject:provider forKey:[NSNumber numberWithInt:protocol]];	
+	[providers setObject:provider forKey:[NSNumber numberWithInteger:protocol]];	
 }
 
 /*!
@@ -85,7 +85,7 @@
  */
 - (void) unregisterProviderForProtocol:(VCProtocol)protocol
 {
-	[providers removeObjectForKey:[NSNumber numberWithInt:protocol]];
+	[providers removeObjectForKey:[NSNumber numberWithInteger:protocol]];
 }
 
 /*!
@@ -96,7 +96,7 @@
 	NSMutableDictionary	*providersSet	= [NSMutableDictionary dictionary];	
 	NSDictionary		*availableProviders;
 	
-	if ((availableProviders = [providers objectForKey:[NSNumber numberWithInt:protocol]])) {
+	if ((availableProviders = [providers objectForKey:[NSNumber numberWithInteger:protocol]])) {
 		[providersSet addEntriesFromDictionary:availableProviders];
 	}
 	
@@ -112,7 +112,7 @@
 	NSArray					*listOfPayloads	= nil;
 	id<VCProtocolProvider>	 provider;
 	
-	provider = [providers objectForKey:[NSNumber numberWithInt:protocol]];
+	provider = [providers objectForKey:[NSNumber numberWithInteger:protocol]];
 	if (provider != nil) {
 		listOfPayloads = [provider getAudioPayloadsForProtocol:protocol];
 	}
@@ -125,7 +125,7 @@
 	NSArray					*listOfPayloads	= nil;
 	id<VCProtocolProvider>	 provider;
 	
-	provider = [providers objectForKey:[NSNumber numberWithInt:protocol]];
+	provider = [providers objectForKey:[NSNumber numberWithInteger:protocol]];
 	if (provider != nil) {
 		listOfPayloads = [provider getVideoPayloadsForProtocol:protocol];
 	}
@@ -145,7 +145,7 @@
 	id<VCConnection>		connection = nil;
 	id<VCProtocolProvider>	provider;
 	
-	provider = [providers objectForKey:[NSNumber numberWithInt:protocol]];	
+	provider = [providers objectForKey:[NSNumber numberWithInteger:protocol]];	
 	if (provider != nil) {
 		connection = [provider createConnectionWithProtocol:protocol payload:pt from:local to:remote];
 	}

@@ -146,7 +146,7 @@
 		[[adium contentController] sendContentObject:contentObject];
 		
 		//Remember the state
-		[chat setValue:(typingState == AINotTyping ? nil : [NSNumber numberWithInt:typingState])
+		[chat setValue:(typingState == AINotTyping ? nil : [NSNumber numberWithInteger:typingState])
 					   forProperty:OUR_TYPING_STATE
 					   notify:NotifyNever];
 	}

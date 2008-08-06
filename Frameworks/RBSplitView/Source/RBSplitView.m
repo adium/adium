@@ -664,7 +664,7 @@ static inline float fMAX(float a,float b) {
 				float divt = [self dividerThickness];
 				float offset = DIM(where)-DIM(divdr->origin);
 // Check if the leading subview is nested and if yes, if one of its two-axis thumbs was hit.
-				int ldivdr = NSNotFound;
+				NSInteger ldivdr = NSNotFound;
 				float loffset = 0.0;
 				NSPoint lwhere = where;
 				NSRect lrect = NSZeroRect;
@@ -676,7 +676,7 @@ static inline float fMAX(float a,float b) {
 					}
 				}
 // Check if the trailing subview is nested and if yes, if one of its two-axis thumbs was hit.
-				int tdivdr = NSNotFound;
+				NSInteger tdivdr = NSNotFound;
 				float toffset = 0.0;
 				NSPoint twhere = where;
 				NSRect trect = NSZeroRect;
@@ -1032,7 +1032,7 @@ static inline float fMAX(float a,float b) {
 // Returns the index of the divider hit by the point, or NSNotFound if none.
 // point is in coordinates relative to view. delta is the divider thickness added
 // to both ends of the divider rect, to accomodate two-axis thumbs.
-- (unsigned)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta {
+- (NSUInteger)RB___dividerHitBy:(NSPoint)point relativeToView:(RBSplitView*)view thickness:(float)delta {
 	if (!dividers) {
 		return NSNotFound;
 	}
@@ -1648,7 +1648,7 @@ static inline float fMAX(float a,float b) {
 // divider rectangles as we go along, and collapsing and expanding subviews whenever requested.
 	RBSplitSubview* last = nil;
 // And we make a note if there's any nested RBSplitView.
-	int nested = NSNotFound;
+	NSInteger nested = NSNotFound;
 	newsize = DIM(bounds.size)-divcount*divt;
 	for (i=0;i<subcount;i++) {
 		curr = &caches[i];

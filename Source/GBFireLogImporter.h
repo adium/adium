@@ -47,7 +47,7 @@ typedef enum{
 	NSMutableString		*htmlMessage;
 	NSString		*mySN;
 	NSCalendarDate	*date;
-	int				messageStart;
+	NSInteger				messageStart;
 	BOOL			actionMessage;
 	BOOL			autoResponse;
 	NSString		*encryption;

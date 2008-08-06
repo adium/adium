@@ -427,8 +427,12 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	/*Use the info from finder to create the AppleSingleFinderInfo struct */
 	struct AppleSingleFinderInfo fileInfo;
 	memset(&fileInfo, 0, sizeof(fileInfo));
-	BlockMoveData(&(catalogInfo.finderInfo), &(fileInfo.finderInfo), sizeof((fileInfo.finderInfo)));
-	BlockMoveData(&(catalogInfo.extFinderInfo), &(fileInfo.extendedFinderInfo), sizeof((fileInfo.extendedFinderInfo)));
+	Size byteCount = sizeof(fileInfo.finderInfo);
+	if(byteCount > 0)
+	    memmove(&(catalogInfo.finderInfo), &(fileInfo.finderInfo), byteCount);
+	byteCount = sizeof(fileInfo.extendedFinderInfo);
+	if(byteCount > 0)
+	    memmove(&(catalogInfo.extFinderInfo), &(fileInfo.extendedFinderInfo), byteCount);
 
 	/*Now switch from host to network byte order */
 	fileInfo.finderInfo.finderFlags = htons(fileInfo.finderInfo.finderFlags);

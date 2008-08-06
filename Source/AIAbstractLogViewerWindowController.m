@@ -82,8 +82,8 @@
 - (void)startSearchingClearingCurrentResults:(BOOL)clearCurrentResults;
 - (void)buildSearchMenu;
 - (NSMenuItem *)_menuItemWithTitle:(NSString *)title forSearchMode:(LogSearchMode)mode;
-- (void)_logContentFilter:(NSString *)searchString searchID:(int)searchID onSearchIndex:(SKIndexRef)logSearchIndex;
-- (void)_logFilter:(NSString *)searchString searchID:(int)searchID mode:(LogSearchMode)mode;
+- (void)_logContentFilter:(NSString *)searchString searchID:(NSInteger)searchID onSearchIndex:(SKIndexRef)logSearchIndex;
+- (void)_logFilter:(NSString *)searchString searchID:(NSInteger)searchID mode:(LogSearchMode)mode;
 - (void)installToolbar;
 - (void)updateRankColumnVisibility;
 - (void)openLogAtPath:(NSString *)inPath;
@@ -100,7 +100,7 @@
 @implementation AIAbstractLogViewerWindowController
 
 static AIAbstractLogViewerWindowController	*sharedLogViewerInstance = nil;
-static int toArraySort(id itemA, id itemB, void *context);
+static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 + (NSString *)nibName
 {
@@ -193,7 +193,7 @@ static int toArraySort(id itemA, id itemB, void *context);
     searchingLock = [[NSLock alloc] init];
 	contactIDsToFilter = [[NSMutableSet alloc] initWithCapacity:1];
 
-	allContactsIdentifier = [[NSNumber alloc] initWithInt:-1];
+	allContactsIdentifier = [[NSNumber numberWithInteger:-1] retain];
 
 	undoManager = [[NSUndoManager alloc] init];
 
@@ -309,7 +309,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 	NSEnumerator	*enumerator = [logFromGroupDict objectEnumerator];
 	AILogFromGroup	*logFromGroup;
 	
-	int	oldCount = [toArray count];
+	NSInteger	oldCount = [toArray count];
 	[toArray release]; toArray = [[NSMutableArray alloc] initWithCapacity:(oldCount ? oldCount : 20)];
 
 	while ((logFromGroup = [enumerator nextObject])) {
@@ -528,19 +528,19 @@ static int toArraySort(id itemA, id itemB, void *context);
 - (void)updateProgressDisplay
 {
     NSMutableString     *progress = nil;
-    int					indexNumber, indexTotal;
+    NSUInteger					indexNumber, indexTotal;
     BOOL				indexing;
 
     //We always convey the number of logs being displayed
     [resultsLock lock];
-	unsigned count = [currentSearchResults count];
+	NSUInteger count = [currentSearchResults count];
     if (activeSearchString && [activeSearchString length]) {
 		[shelf_splitView setResizeThumbStringValue:[NSString stringWithFormat:((count != 1) ? 
-																			   AILocalizedString(@"%i matching transcripts",nil) :
+																			   AILocalizedString(@"%lu matching transcripts",nil) :
 																			   AILocalizedString(@"1 matching transcript",nil)),count]];
     } else {
 		[shelf_splitView setResizeThumbStringValue:[NSString stringWithFormat:((count != 1) ? 
-																			   AILocalizedString(@"%i transcripts",nil) :
+																			   AILocalizedString(@"%lu transcripts",nil) :
 																			   AILocalizedString(@"1 transcript",nil)),count]];
 		
 		//We are searching, but there is no active search  string. This indicates we're still opening logs.
@@ -575,7 +575,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 			progress = [NSMutableString string];
 		}
 		
-		[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %i of %i transcripts",nil), indexNumber, indexTotal]];
+		[progress appendString:[NSString stringWithFormat:AILocalizedString(@"Indexing %lu of %lu transcripts",nil), indexNumber, indexTotal]];
     }
 	
 	if (progress && (searching || indexing || !(activeSearchString && [activeSearchString length]))) {
@@ -626,7 +626,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 - (void)refreshResultsSearchIsComplete:(BOOL)searchIsComplete
 {
     [resultsLock lock];
-    int count = [currentSearchResults count];
+    NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
 	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
     if (!searching || count <= MAX_LOGS_TO_SORT_WHILE_SEARCHING) {
@@ -823,9 +823,9 @@ static int toArraySort(id itemA, id itemB, void *context);
 					 * wouldn't highlight the word ninja by itself.
 					 */
 					NSArray *quotedWords = [quotedString componentsSeparatedByString:@" "];
-					int quotedWordsCount = [quotedWords count];
+					NSInteger quotedWordsCount = [quotedWords count];
 					
-					for (int i = 0; i < quotedWordsCount; i++) {
+					for (NSInteger i = 0; i < quotedWordsCount; i++) {
 						NSString	*quotedWord = [quotedWords objectAtIndex:i];
 						if (i == 0) {
 							//Originally started with a quote, so put it back on
@@ -835,7 +835,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 							//Originally ended with a quote, so put it back on
 							quotedWord = [quotedWord stringByAppendingString:@"\""];
 						}
-						int searchWordsIndex = [searchWordsArray indexOfObject:quotedWord];
+						NSInteger searchWordsIndex = [searchWordsArray indexOfObject:quotedWord];
 						if (searchWordsIndex != NSNotFound) {
 							[searchWordsArray removeObjectAtIndex:searchWordsIndex];
 						} else {
@@ -904,7 +904,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 //Reselect the displayed log (Or another log if not possible)
 - (void)selectDisplayedLog
 {
-    int     firstIndex = NSNotFound;
+    NSInteger     firstIndex = NSNotFound;
     
     /* Is the log we had selected still in the table?
 	 * (When performing an automatic search, we ignore the previous selection.  This ensures that we always
@@ -958,10 +958,10 @@ static int toArraySort(id itemA, id itemB, void *context);
 //Highlight the occurences of a search string within a displayed log
 - (void)hilightOccurrencesOfString:(NSString *)littleString inString:(NSMutableAttributedString *)bigString firstOccurrence:(NSRange *)outRange
 {
-    int					location = 0;
+    NSInteger					location = 0;
     NSRange				searchRange, foundRange;
     NSString			*plainBigString = [bigString string];
-	unsigned			plainBigStringLength = [plainBigString length];
+	NSUInteger			plainBigStringLength = [plainBigString length];
 	NSMutableDictionary *attributeDictionary = nil;
 
     outRange->location = NSNotFound;
@@ -1114,8 +1114,8 @@ static int toArraySort(id itemA, id itemB, void *context);
 	searching = YES;
 	indexingUpdatesReceivedWhileSearching = 0;
     searchDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:activeSearchID], @"ID",
-		[NSNumber numberWithInt:searchMode], @"Mode",
+		[NSNumber numberWithInteger:activeSearchID], @"ID",
+		[NSNumber numberWithInteger:searchMode], @"Mode",
 		activeSearchString, @"String",
 		[plugin logContentIndex], @"SearchIndex",
 		nil];
@@ -1288,7 +1288,7 @@ static int toArraySort(id itemA, id itemB, void *context);
 
 	//Changing the selection will start a new search
 	[outlineView_contacts selectItemsInArray:[NSArray arrayWithObject:(parentContact ? (id)parentContact : (id)allContactsIdentifier)]];
-	unsigned int selectedRow = [[outlineView_contacts selectedRowIndexes] firstIndex];
+	NSUInteger selectedRow = [[outlineView_contacts selectedRowIndexes] firstIndex];
 	if (selectedRow != NSNotFound) {
 		[outlineView_contacts scrollRowToVisible:selectedRow];
 	}
@@ -1356,7 +1356,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		//Determine the path components if we weren't supplied them
 		if (!pathComponents) pathComponents = pathComponentsForDocument(inDocument);
 
-		unsigned int numPathComponents = [pathComponents count];
+		NSUInteger numPathComponents = [pathComponents count];
 		
 		NSArray *serviceAndFromUIDArray = [[pathComponents objectAtIndex:numPathComponents-3] componentsSeparatedByString:@"."];
 		NSString *serviceClass = (([serviceAndFromUIDArray count] >= 2) ? [serviceAndFromUIDArray objectAtIndex:0] : @"");
@@ -1369,7 +1369,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	if (shouldDisplayDocument && testDate && (filterDateType != AIDateTypeAnyDate)) {
 		if (!pathComponents) pathComponents = pathComponentsForDocument(inDocument);
 
-		unsigned int	numPathComponents = [pathComponents count];
+		NSUInteger	numPathComponents = [pathComponents count];
 		NSString		*toPath = [NSString stringWithFormat:@"%@/%@",
 			[pathComponents objectAtIndex:numPathComponents-3],
 			[pathComponents objectAtIndex:numPathComponents-2]];
@@ -1390,8 +1390,8 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (void)filterLogsWithSearch:(NSDictionary *)searchInfoDict
 {
     NSAutoreleasePool       *pool = [[NSAutoreleasePool alloc] init];
-    int                     mode = [[searchInfoDict objectForKey:@"Mode"] intValue];
-    int                     searchID = [[searchInfoDict objectForKey:@"ID"] intValue];
+    NSInteger                     mode = [[searchInfoDict objectForKey:@"Mode"] integerValue];
+    NSInteger                     searchID = [[searchInfoDict objectForKey:@"ID"] integerValue];
     NSString                *searchString = [searchInfoDict objectForKey:@"String"];
 
     if (searchID == activeSearchID) { //If we're still supposed to go
@@ -1432,7 +1432,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 }
 
 //Perform a filter search based on source name, destination name, or date
-- (void)_logFilter:(NSString *)searchString searchID:(int)searchID mode:(LogSearchMode)mode
+- (void)_logFilter:(NSString *)searchString searchID:(NSInteger)searchID mode:(LogSearchMode)mode
 {
     NSEnumerator        *fromEnumerator, *toEnumerator, *logEnumerator;
     AILogToGroup        *toGroup;
@@ -1507,9 +1507,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 //Since this table view's source data will be accessed from within other threads, we need to lock before
 //accessing it.  We also must be very sure that an incorrect row request is handled silently, since this
 //can occur if the array size is changed during the reload.
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    int count;
+    NSInteger count;
     
     [resultsLock lock];
     count = [currentSearchResults count];
@@ -1519,7 +1519,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 }
 
 
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString	*identifier = [tableColumn identifier];
 
@@ -1531,7 +1531,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 }
 
 //
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString	*identifier = [tableColumn identifier];
     id          value = nil;
@@ -1647,13 +1647,13 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 		[cell setObjectValue:[NSDate date]];
 
-		float width = [dateTableColumn width];
+		CGFloat width = [dateTableColumn width];
 
 #define NUMBER_TIME_STYLES	2
 #define NUMBER_DATE_STYLES	4
 		NSDateFormatterStyle timeFormatterStyles[NUMBER_TIME_STYLES] = { NSDateFormatterShortStyle, NSDateFormatterNoStyle};
 		NSDateFormatterStyle formatterStyles[NUMBER_DATE_STYLES] = { NSDateFormatterFullStyle, NSDateFormatterLongStyle, NSDateFormatterMediumStyle, NSDateFormatterShortStyle };
-		float requiredWidth;
+		CGFloat requiredWidth;
 
 		dateFormatter = [cell formatter];
 		if (!dateFormatter) {
@@ -1663,10 +1663,10 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		}
 		
 		requiredWidth = width + 1;
-		for (int i = 0; (i < NUMBER_TIME_STYLES) && (requiredWidth > width); i++) {
+		for (NSInteger i = 0; (i < NUMBER_TIME_STYLES) && (requiredWidth > width); i++) {
 			[dateFormatter setTimeStyle:timeFormatterStyles[i]];
 
-			for (int j = 0; (j < NUMBER_DATE_STYLES) && (requiredWidth > width); j++) {
+			for (NSInteger j = 0; (j < NUMBER_DATE_STYLES) && (requiredWidth > width); j++) {
 				[dateFormatter setDateStyle:formatterStyles[j]];
 				requiredWidth = [cell cellSizeForBounds:NSMakeRect(0,0,1e6,1e6)].width;
 				//Require a bit of space so the date looks comfortable. Very long dates relative to the current date can still overflow...
@@ -1695,7 +1695,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 }
 
 #pragma mark Outline View Data source
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (!item) {
 		if (index == 0) {
@@ -1721,13 +1721,13 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			[item isKindOfClass:[NSArray class]]);
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	if (!item) {
 		return [toArray count] + 1; //+1 for the All item
 
 	} else if ([item isKindOfClass:[AIMetaContact class]]) {
-		unsigned count = [[(AIMetaContact *)item listContactsIncludingOfflineAccounts] count];
+		NSUInteger count = [[(AIMetaContact *)item listContactsIncludingOfflineAccounts] count];
 		if (count > 1)
 			return count;
 		else
@@ -1757,11 +1757,11 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		return [(AILogToGroup *)item to];
 		
 	} else if (itemClass == [allContactsIdentifier class]) {
-		int contactCount = [toArray count];
+		NSUInteger contactCount = [toArray count];
 		return [NSString stringWithFormat:AILocalizedString(@"All (%@)", nil),
 			((contactCount == 1) ?
 			 AILocalizedString(@"1 Contact", nil) :
-			 [NSString stringWithFormat:AILocalizedString(@"%i Contacts", nil), contactCount])]; 
+			 [NSString stringWithFormat:AILocalizedString(@"%lu Contacts", nil), contactCount])]; 
 
 	} else if (itemClass == [NSString class]) {
 		return item;
@@ -1894,7 +1894,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent;
 {
 	if (outlineView == outlineView_contacts) {
-		int clickedRow = [outlineView_contacts rowAtPoint:[outlineView_contacts convertPoint:[theEvent locationInWindow]
+		NSInteger clickedRow = [outlineView_contacts rowAtPoint:[outlineView_contacts convertPoint:[theEvent locationInWindow]
 																					fromView:nil]];
 		id item = [outlineView_contacts itemAtRow:clickedRow];
 
@@ -1925,12 +1925,12 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 		if ([item isKindOfClass:[AIListContact class]]) {
 			NSArray			*locationsArray = [NSArray arrayWithObjects:
-				[NSNumber numberWithInt:Context_Contact_Message],
-				[NSNumber numberWithInt:Context_Contact_Manage],
-				[NSNumber numberWithInt:Context_Contact_Action],
-				[NSNumber numberWithInt:Context_Contact_ListAction],
-				[NSNumber numberWithInt:Context_Contact_NegativeAction],
-				[NSNumber numberWithInt:Context_Contact_Additions], nil];
+				[NSNumber numberWithInteger:Context_Contact_Message],
+				[NSNumber numberWithInteger:Context_Contact_Manage],
+				[NSNumber numberWithInteger:Context_Contact_Action],
+				[NSNumber numberWithInteger:Context_Contact_ListAction],
+				[NSNumber numberWithInteger:Context_Contact_NegativeAction],
+				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 
 			return [[adium menuController] contextualMenuWithLocations:locationsArray
 														 forListObject:(AIListContact *)item];
@@ -1940,7 +1940,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	return nil;
 }
 
-static int toArraySort(id itemA, id itemB, void *context)
+static NSInteger toArraySort(id itemA, id itemB, void *context)
 {
 	NSString *nameA = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemA];
 	NSString *nameB = [sharedLogViewerInstance outlineView:nil objectValueForTableColumn:nil byItem:itemB];
@@ -1950,7 +1950,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 	return result;
 }
 
-- (void)draggedDividerRightBy:(float)deltaX
+- (void)draggedDividerRightBy:(CGFloat)deltaX
 {	
 	desiredContactsSourceListDeltaX = deltaX;
 	[splitView_contacts_results resizeSubviewsWithOldSize:[splitView_contacts_results frame].size];
@@ -2122,7 +2122,7 @@ static int toArraySort(id itemA, id itemB, void *context)
  */
 - (NSMenuItem *)_menuItemForDateType:(AIDateType)dateType dict:(NSDictionary *)dateTypeTitleDict
 {
-    NSMenuItem  *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[dateTypeTitleDict objectForKey:[NSNumber numberWithInt:dateType]] 
+    NSMenuItem  *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[dateTypeTitleDict objectForKey:[NSNumber numberWithInteger:dateType]] 
 																				 action:@selector(selectDateType:) 
 																		  keyEquivalent:@""];
     [menuItem setTag:dateType];
@@ -2133,13 +2133,13 @@ static int toArraySort(id itemA, id itemB, void *context)
 - (NSMenu *)dateTypeMenu
 {
 	NSDictionary *dateTypeTitleDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		AILocalizedString(@"Any Date", nil), [NSNumber numberWithInt:AIDateTypeAnyDate],
-		AILocalizedString(@"Today", nil), [NSNumber numberWithInt:AIDateTypeToday],
-		AILocalizedString(@"Since Yesterday", nil), [NSNumber numberWithInt:AIDateTypeSinceYesterday],
-		AILocalizedString(@"This Week", nil), [NSNumber numberWithInt:AIDateTypeThisWeek],
-		AILocalizedString(@"Within Last 2 Weeks", nil), [NSNumber numberWithInt:AIDateTypeWithinLastTwoWeeks],
-		AILocalizedString(@"This Month", nil), [NSNumber numberWithInt:AIDateTypeThisMonth],
-		AILocalizedString(@"Within Last 2 Months", nil), [NSNumber numberWithInt:AIDateTypeWithinLastTwoMonths],
+		AILocalizedString(@"Any Date", nil), [NSNumber numberWithInteger:AIDateTypeAnyDate],
+		AILocalizedString(@"Today", nil), [NSNumber numberWithInteger:AIDateTypeToday],
+		AILocalizedString(@"Since Yesterday", nil), [NSNumber numberWithInteger:AIDateTypeSinceYesterday],
+		AILocalizedString(@"This Week", nil), [NSNumber numberWithInteger:AIDateTypeThisWeek],
+		AILocalizedString(@"Within Last 2 Weeks", nil), [NSNumber numberWithInteger:AIDateTypeWithinLastTwoWeeks],
+		AILocalizedString(@"This Month", nil), [NSNumber numberWithInteger:AIDateTypeThisMonth],
+		AILocalizedString(@"Within Last 2 Months", nil), [NSNumber numberWithInteger:AIDateTypeWithinLastTwoMonths],
 		nil];
 	NSMenu	*dateTypeMenu = [[NSMenu alloc] init];
 	AIDateType dateType;
@@ -2154,9 +2154,9 @@ static int toArraySort(id itemA, id itemB, void *context)
 	return [dateTypeMenu autorelease];
 }
 
-- (int)daysSinceStartOfWeekGivenToday:(NSCalendarDate *)today
+- (NSInteger)daysSinceStartOfWeekGivenToday:(NSCalendarDate *)today
 {
-	int todayDayOfWeek = [today dayOfWeek];
+	NSInteger todayDayOfWeek = [today dayOfWeek];
 
 	//Try to look at the iCal preferences if possible
 	if (!iCalFirstDayOfWeekDetermined) {
@@ -2164,7 +2164,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 		if (iCalFirstDayOfWeek) {
 			//This should return a CFNumberRef... we're using another app's prefs, so make sure.
 			if (CFGetTypeID(iCalFirstDayOfWeek) == CFNumberGetTypeID()) {
-				firstDayOfWeek = [(NSNumber *)iCalFirstDayOfWeek intValue];
+				firstDayOfWeek = [(NSNumber *)iCalFirstDayOfWeek integerValue];
 			}
 
 			CFRelease(iCalFirstDayOfWeek);
@@ -2268,7 +2268,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 	iCalFirstDayOfWeekDetermined = NO;
 
 	[popUp_dateFilter setMenu:[self dateTypeMenu]];
-	int index = [popUp_dateFilter indexOfItemWithTag:AIDateTypeAnyDate];
+	NSInteger index = [popUp_dateFilter indexOfItemWithTag:AIDateTypeAnyDate];
 	if(index != NSNotFound)
 		[popUp_dateFilter selectItemAtIndex:index];
 	[self selectedDateType:AIDateTypeAnyDate];
@@ -2283,7 +2283,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 
 	//inPath should be in a folder of the form SERVICE.ACCOUNT_NAME/CONTACT_NAME/log.extension
 	NSArray		*pathComponents = [inPath pathComponents];
-	int			lastIndex = [pathComponents count];
+	NSInteger			lastIndex = [pathComponents count];
 	NSString	*logName = [pathComponents objectAtIndex:--lastIndex];
 	NSString	*contactName = [pathComponents objectAtIndex:--lastIndex];
 	NSString	*serviceAndAccountName = [pathComponents objectAtIndex:--lastIndex];	
@@ -2314,8 +2314,8 @@ static int toArraySort(id itemA, id itemB, void *context)
 		NSString	*fakeRelativePath = @"";
 		
 		//Use .. to get back to the root from the base path
-		int componentsOfBasePath = [[canonicalBasePath pathComponents] count];
-		for (int i = 0; i < componentsOfBasePath; i++) {
+		NSInteger componentsOfBasePath = [[canonicalBasePath pathComponents] count];
+		for (NSInteger i = 0; i < componentsOfBasePath; i++) {
 			fakeRelativePath = [fakeRelativePath stringByAppendingPathComponent:@".."];
 		}
 		
@@ -2374,7 +2374,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 
 - (void)selectCachedIndex
 {
-	int numberOfRows = [tableView_results numberOfRows];
+	NSInteger numberOfRows = [tableView_results numberOfRows];
 	
 	if (cachedSelectionIndex <  numberOfRows) {
 		[tableView_results selectRowIndexes:[NSIndexSet indexSetWithIndex:cachedSelectionIndex]
@@ -2397,12 +2397,12 @@ static int toArraySort(id itemA, id itemB, void *context)
 /*!
  * @brief Get an NSAlert to request deletion of multiple logs
  */
-- (NSAlert *)alertForDeletionOfLogCount:(int)logCount
+- (NSAlert *)alertForDeletionOfLogCount:(NSUInteger)logCount
 {
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setMessageText:AILocalizedString(@"Delete Logs?",nil)];
 	[alert setInformativeText:[NSString stringWithFormat:
-		AILocalizedString(@"Are you sure you want to send %i logs to the Trash?",nil), logCount]];
+		AILocalizedString(@"Are you sure you want to send %lu logs to the Trash?",nil), logCount]];
 	[alert addButtonWithTitle:DELETE]; 
 	[alert addButtonWithTitle:AILocalizedString(@"Cancel",nil)];
 	
@@ -2437,7 +2437,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 	[self rebuildIndices];
 }
 
-- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode  contextInfo:(void *)contextInfo;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode  contextInfo:(void *)contextInfo;
 {
 	NSArray *selectedLogs = (NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
@@ -2519,7 +2519,7 @@ static int toArraySort(id itemA, id itemB, void *context)
  *
  * @param totalLogCount If non-NULL, will be set to the total number of logs on return
  */
-- (NSArray *)allSelectedToGroups:(int *)totalLogCount
+- (NSArray *)allSelectedToGroups:(NSInteger *)totalLogCount
 {
     NSEnumerator        *fromEnumerator;
     AILogFromGroup      *fromGroup;
@@ -2588,7 +2588,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 	[self rebuildIndices];	
 }
 
-- (void)deleteSelectedContactsFromSourceListAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)deleteSelectedContactsFromSourceListAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 {
 	NSArray *allSelectedToGroups = (NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
@@ -2634,7 +2634,7 @@ static int toArraySort(id itemA, id itemB, void *context)
  */
 - (void)deleteSelectedContactsFromSourceList
 {
-	int totalLogCount;
+	NSInteger totalLogCount;
 	NSArray *allSelectedToGroups = [self allSelectedToGroups:&totalLogCount];
 
 	if (totalLogCount > 1) {
@@ -2688,7 +2688,7 @@ static int toArraySort(id itemA, id itemB, void *context)
 - (void)swipeWithEvent:(NSEvent *)inEvent
 {
 	NSTableView *targetTableView;
-	int changeValue, nextSelected;
+	NSInteger changeValue, nextSelected;
 
 	if ([inEvent deltaY] == 0) {
 		// For horizontal swipes, switch between individual logs.

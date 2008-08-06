@@ -29,7 +29,7 @@
  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+#if !__LP64__
 #import "AIStringDebug.h"
 
 #ifdef DEBUG_BUILD
@@ -96,7 +96,7 @@ extern void _objc_flush_caches(Class);
 			  NSStringFromClass(newClass));
 		return NULL;
 	}
-	
+
     method->method_imp = new;
 	
     _objc_flush_caches(oldClass);
@@ -106,3 +106,4 @@ extern void _objc_flush_caches(Class);
 
 #endif
 @end
+#endif

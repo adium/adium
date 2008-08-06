@@ -54,13 +54,13 @@
 	
 	AWBonjourService *bonjourService;				
 	
-	int currentStep;
+	NSInteger currentStep;
 
 	NSString *destinationAccount;
 	NSMutableArray *accountsArray;
 	
 	NSArray *fullDump;
-	int dumpCount, dumpLoop;
+	NSInteger dumpCount, dumpLoop;
 	BOOL cancelImport;
 	
 	BOOL blockForBonjour;

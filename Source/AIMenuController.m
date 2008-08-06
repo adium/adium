@@ -83,8 +83,8 @@
 {
 	NSMenuItem  *menuItem;
 	NSMenu		*targetMenu = nil;
-	int			targetIndex;
-	int			destination;
+	NSInteger			targetIndex;
+	NSInteger			destination;
 
 	//Find the menu item (or the closest one above it)
 	destination = location;
@@ -128,8 +128,8 @@
 	NSMenu		*targetMenu = [targetItem menu];
 	if (!targetMenu) return;
 
-	int			targetIndex = [targetMenu indexOfItem:targetItem];
-	unsigned	loop, maxLoop;
+	NSInteger			targetIndex = [targetMenu indexOfItem:targetItem];
+	NSUInteger	loop, maxLoop;
 	
 	//Fix the pointer if this is one
 	for (loop = 0, maxLoop = [locationArray count]; loop < maxLoop; loop++) {
@@ -197,7 +197,7 @@
 	NSMutableArray		*itemArray;
 
 	//Search for an existing item array for menu items in this location
-	key = [NSNumber numberWithInt:location];
+	key = [NSNumber numberWithInteger:location];
 	itemArray = [contextualMenuItemDict objectForKey:key];
 
 	//If one is not found, create it

@@ -23,15 +23,22 @@
 typedef long NSInteger;
 typedef unsigned long NSUInteger;
 typedef double CGFloat;
+#define CGFLOAT_MIN DBL_MIN
+#define CGFLOAT_MAX DBL_MAX
+#define CGFLOAT_IS_DOUBLE 1
 #else
 typedef int NSInteger;
 typedef unsigned int NSUInteger;
 typedef float CGFloat;
+#define CGFLOAT_MIN FLT_MIN
+#define CGFLOAT_MAX FLT_MAX
+#define CGFLOAT_IS_DOUBLE 0
 #endif
 
 #define NSIntegerMax    LONG_MAX
 #define NSIntegerMin    LONG_MIN
 #define NSUIntegerMax   ULONG_MAX
+#define NSUIntegerMin   ULONG_MIN
 
 #define NSINTEGER_DEFINED 1
 

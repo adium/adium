@@ -117,7 +117,7 @@
 
 - (void)setValue:(NSString *)attrVal forAttribute:(NSString *)attrName
 {
-	unsigned index = [attributeNames indexOfObject:attrName];
+	NSUInteger index = [attributeNames indexOfObject:attrName];
 	if (index != NSNotFound) {
 		[attributeValues replaceObjectAtIndex:index withObject:attrVal];
 	} else {
@@ -127,7 +127,7 @@
 }
 - (NSString *)valueForAttribute:(NSString *)attrName
 {
-	unsigned index = [attributeNames indexOfObject:attrName];
+	NSUInteger index = [attributeNames indexOfObject:attrName];
 	if (index != NSNotFound)
 		return [attributeValues objectAtIndex:index];
 	return nil;

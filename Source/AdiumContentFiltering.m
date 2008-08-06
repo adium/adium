@@ -114,8 +114,8 @@
 {
 	NSParameterAssert(inFilter != nil);
 
-	for (unsigned i = 0; i < FILTER_TYPE_COUNT; i++) {
-		for (unsigned j = 0; j < FILTER_DIRECTION_COUNT; j++) {
+	for (NSUInteger i = 0; i < FILTER_TYPE_COUNT; i++) {
+		for (NSUInteger j = 0; j < FILTER_DIRECTION_COUNT; j++) {
 			[contentFilter[i][j] removeObject:inFilter];
 		}
 	}
@@ -128,8 +128,8 @@
 {
 	NSParameterAssert(inFilter != nil);
 	
-	for (unsigned i = 0; i < FILTER_TYPE_COUNT; i++) {
-		for (unsigned j = 0; j < FILTER_DIRECTION_COUNT; j++) {
+	for (NSUInteger i = 0; i < FILTER_TYPE_COUNT; i++) {
+		for (NSUInteger j = 0; j < FILTER_DIRECTION_COUNT; j++) {
 			[delayedContentFilters[i][j] removeObject:inFilter];
 		}
 	}
@@ -142,7 +142,7 @@
 {
 	NSParameterAssert(inFilter != nil);
 	
-	for (unsigned j = 0; j < FILTER_DIRECTION_COUNT; j++) {
+	for (NSUInteger j = 0; j < FILTER_DIRECTION_COUNT; j++) {
 		[htmlContentFilters[j] removeObject:inFilter];
 	}
 }
@@ -408,10 +408,10 @@
 }
 
 #pragma mark Filter priority sort
-static int filterSort(id<AIContentFilter> filterA, id<AIContentFilter> filterB, void *context)
+static NSInteger filterSort(id<AIContentFilter> filterA, id<AIContentFilter> filterB, void *context)
 {
-	float filterPriorityA = [filterA filterPriority];
-	float filterPriorityB = [filterB filterPriority];
+	CGFloat filterPriorityA = [filterA filterPriority];
+	CGFloat filterPriorityB = [filterB filterPriority];
 	
 	if (filterPriorityA < filterPriorityB)
 		return NSOrderedAscending;

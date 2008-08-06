@@ -1050,7 +1050,7 @@ static NSMutableDictionary *idToSimulatedIvarsMap = nil;
 
 - (int)kfSavedRowForExtensionSearch
 {
-    int row;
+    NSInteger row;
     NSNumber *rowNumber = [[self kfSimulatedIvars] objectForKey:@"initialRowForExtensionSearch"];
     
     // default value

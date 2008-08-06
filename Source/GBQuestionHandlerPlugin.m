@@ -100,7 +100,7 @@ typedef enum
 		SEL selector = NSSelectorFromString(selectorString);
 		if([target respondsToSelector:selector])
 		{
-			[target performSelector:selector withObject:[NSNumber numberWithInt:returnCode] withObject:[userInfo objectForKey:@"Userinfo"]];
+			[target performSelector:selector withObject:[NSNumber numberWithInteger:returnCode] withObject:[userInfo objectForKey:@"Userinfo"]];
 		}
 	}
 	if([self displayNextAlert])

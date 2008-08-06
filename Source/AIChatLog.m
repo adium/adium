@@ -121,20 +121,20 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 	}
 }
 
-- (float)rankingPercentage
+- (CGFloat)rankingPercentage
 {
 	return rankingPercentage;
 }
-- (void)setRankingPercentage:(float)inRankingPercentage
+- (void)setRankingPercentage:(CGFloat)inRankingPercentage
 {
 	rankingPercentage = inRankingPercentage;
 }
 
-- (void)setRankingValueOnArbitraryScale:(float)inRankingValue
+- (void)setRankingValueOnArbitraryScale:(CGFloat)inRankingValue
 {
 	rankingValue = inRankingValue;
 }
-- (float)rankingValueOnArbitraryScale
+- (CGFloat)rankingValueOnArbitraryScale
 {
 	return rankingValue;
 }
@@ -276,7 +276,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 -(NSComparisonResult)compareRank:(AIChatLog *)inLog
 {
 	NSComparisonResult  result;
-	float				otherRankingPercentage = [inLog rankingPercentage];
+	CGFloat				otherRankingPercentage = [inLog rankingPercentage];
 	
 	if (rankingPercentage > otherRankingPercentage) {
 		result = NSOrderedDescending;		
@@ -291,7 +291,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 -(NSComparisonResult)compareRankReverse:(AIChatLog *)inLog
 {
 	NSComparisonResult  result;
-	float				otherRankingPercentage = [inLog rankingPercentage];
+	CGFloat				otherRankingPercentage = [inLog rankingPercentage];
 	
 	if (rankingPercentage > otherRankingPercentage) {
 		result = NSOrderedAscending;		
@@ -310,7 +310,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 static BOOL scandate(const char *sample,
 					 unsigned long *outyear, unsigned long *outmonth,  unsigned long *outdate,
 					 BOOL *outHasTime, unsigned long *outhour, unsigned long *outminute, unsigned long *outsecond,
-					 signed long *outtimezone)
+					 long *outtimezone)
 {
 	BOOL success = YES;
 	unsigned long component;
@@ -399,7 +399,7 @@ static BOOL scandate(const char *sample,
 				success = NO;
 				goto fail;
 			}
-			signed long timezone_sign = 1;
+			long timezone_sign = 1;
 			if(*sample == '+') {
 				++sample;
 			} else if(*sample == '-') {
@@ -410,7 +410,7 @@ static BOOL scandate(const char *sample,
 				success = NO;
 				goto fail;
 			}
-			signed long timezone_hr = 0;
+			long timezone_hr = 0;
 			if (*sample >= '0' || *sample <= '9') {
 				timezone_hr += *(sample++) - '0';
 			}
@@ -418,7 +418,7 @@ static BOOL scandate(const char *sample,
 				timezone_hr *= 10;
 				timezone_hr += *(sample++) - '0';
 			}
-			signed long timezone_min = 0;
+			long timezone_min = 0;
 			if (*sample >= '0' || *sample <= '9') {
 				timezone_min += *(sample++) - '0';
 			}
@@ -443,7 +443,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName)
 	unsigned long   hour = 0;
 	unsigned long   minute = 0;
 	unsigned long   second = 0;
-	  signed long   timezone = NSNotFound;
+	  long   timezone = NSNotFound;
 	BOOL			hasTime = NO;
 	  
 	if (scandate([fileName UTF8String], &year, &month, &day, &hasTime, &hour, &minute, &second, &timezone)) {

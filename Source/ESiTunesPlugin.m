@@ -143,7 +143,7 @@
  		NSMutableDictionary *mutableNewInfo = [newInfo mutableCopy];
 
 		//If we get a stream title, use that as the track name
-		if ([mutableNewInfo objectForKey:ITUNES_STREAM_TITLE] && [[mutableNewInfo objectForKey:ITUNES_STREAM_TITLE] length])
+		if ([mutableNewInfo objectForKey:ITUNES_STREAM_TITLE] && [(NSString *)[mutableNewInfo objectForKey:ITUNES_STREAM_TITLE] length])
 			[mutableNewInfo setObject:[mutableNewInfo objectForKey:ITUNES_STREAM_TITLE]
 							   forKey:ITUNES_NAME];
 
@@ -197,7 +197,7 @@
 	iTunesCurrentInfo = nil;
 
 	//Only install our items if a copy of iTunes which meets the minimum requirements is found
-	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] floatValue] > ITUNES_MINIMUM_VERSION) {
+	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] doubleValue] > ITUNES_MINIMUM_VERSION) {
 		
 		//Perform substitutions on outgoing content
 		[[adium contentController] registerContentFilter:self 
@@ -310,7 +310,7 @@
 	if (concatenatediTunesData && ![concatenatediTunesData isEqualToString:@"None"]) {
 		
 		//get the expected number of entries in the dictionary
-		unsigned infoCount = [substitutionDict count];
+		NSUInteger infoCount = [substitutionDict count];
 		//get the values for the current iTunes song from the string
 		NSArray * iTunesValues = [concatenatediTunesData componentsSeparatedByString:@",$!$,"];
 		
@@ -329,7 +329,7 @@
 																			ITUNES_STORE_URL,
 																			nil]]];
 		} else {
-			NSLog(@"iTunesValues was %@ (%i items), but I was expecting %i. Perhaps CurrentTunes is not updated to match ESiTunesPlugin?",
+			NSLog(@"iTunesValues was %@ (%lu items), but I was expecting %lu. Perhaps CurrentTunes is not updated to match ESiTunesPlugin?",
 				  iTunesValues, [iTunesValues count], infoCount);
 		}
 		
@@ -359,7 +359,7 @@
 	[currentiTunesStatusState setStatusMessage:trackAndArtist];
 	[currentiTunesStatusState setTitle:CURRENT_ITUNES_TRACK];
 	[currentiTunesStatusState setMutabilityType:AISecondaryLockedStatusState];
-	[currentiTunesStatusState setUniqueStatusID:[NSNumber numberWithInt:ITUNES_STATUS_ID]];
+	[currentiTunesStatusState setUniqueStatusID:[NSNumber numberWithInteger:ITUNES_STATUS_ID]];
 	[currentiTunesStatusState setSpecialStatusType:AINowPlayingSpecialStatusType];
 
 	//give it to the AIStatusController
@@ -479,7 +479,7 @@
  *
  * Filter at default priority
  */
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return DEFAULT_FILTER_PRIORITY;
 }

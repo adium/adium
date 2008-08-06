@@ -23,6 +23,7 @@ for the actions of others, following only the true, Aqua path to peace, justice,
 
 @implementation ItIsNotACoincidenceThatMetalAndDevilNearlyRhymeWindow
 
+#if !__LP64__
 + (void)load
 {
 	//Pose as NSWindow if not on Leopard.
@@ -33,6 +34,7 @@ for the actions of others, following only the true, Aqua path to peace, justice,
     	[self poseAsClass:[NSWindow class]];
 	}
 }
+#endif
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)styleMask backing:(NSBackingStoreType)backingType defer:(BOOL)flag
 {

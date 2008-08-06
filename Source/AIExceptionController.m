@@ -86,7 +86,7 @@ static NSSet *safeExceptionReasons = nil, *safeExceptionNames = nil;
 }
 
 // mask is NSHandle<exception type>Mask, exception's userInfo has stack trace for key NSStackTraceKey
-+ (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(unsigned int)aMask
++ (BOOL)exceptionHandler:(NSExceptionHandler *)sender shouldHandleException:(NSException *)exception mask:(NSUInteger)aMask
 {
 	BOOL		shouldLaunchCrashReporter = YES;
 	if (catchExceptions) {
@@ -192,6 +192,7 @@ static NSSet *safeExceptionReasons = nil, *safeExceptionNames = nil;
 		 *			CApplication::CreateClipboardTextView(short&, CViewManager&) const (in TextWrangler)
 		 *	* cat -n: adds line numbers. fairly meaningless, but fun.
 		 */
+#warning 64BIT: Check formatting arguments
 		str = [NSString stringWithFormat:@"%s -p %d %@ | tail -n +3 | head -n +%d | %s | cat -n",
 			[[[[NSBundle mainBundle] pathForResource:@"atos" ofType:nil] stringByEscapingForShell] fileSystemRepresentation], //atos arg 0
 			[[NSProcessInfo processInfo] processIdentifier], //atos arg 2 (argument to -p)

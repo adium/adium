@@ -62,7 +62,7 @@
 	[self closeInstaller];
 }
 
-- (void)sheetDidDismiss:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidDismiss:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	[self cancel:nil];
 }
@@ -114,10 +114,10 @@
 
 - (void)updateInfoText
 {
-	int				percentComplete = (downloadSize > 0 ? (int)(((double)amountDownloaded / (double)downloadSize) * 100.0) : 0);
+	NSInteger				percentComplete = (downloadSize > 0 ? (NSUInteger)(((double)amountDownloaded / (double)downloadSize) * 100.0) : 0);
 	NSString		*installText = [NSString stringWithFormat:AILocalizedString(@"Downloading %@", @"Install an Xtra; %@ is the name of the Xtra."), (xtraName ? xtraName : @"")];
 	
-	[infoText setStringValue:[NSString stringWithFormat:@"%@ (%d%%)", installText, percentComplete]];
+	[infoText setStringValue:[NSString stringWithFormat:@"%@ (%lu%%)", installText, percentComplete]];
 }
 
 - (void)download:(NSURLDownload *)connection didReceiveResponse:(NSHTTPURLResponse *)response
@@ -140,7 +140,7 @@
 	[download setDestination:dest allowOverwrite:YES];
 }
 
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
 	amountDownloaded += (long long)length;
 	if (downloadSize != NSURLResponseUnknownLength) {

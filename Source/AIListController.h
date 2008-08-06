@@ -30,8 +30,8 @@ typedef enum {
     BOOL					autoResizeVertically;
     BOOL					autoResizeHorizontally;
 	BOOL					autoresizeHorizontallyWithIdleTime;
-	int						maxWindowWidth;
-	int						forcedWindowWidth;
+	NSInteger						maxWindowWidth;
+	NSInteger						forcedWindowWidth;
 
 	AIDockToBottomType 		dockToBottomOfScreen;
 	
@@ -53,11 +53,11 @@ typedef enum {
 - (void)contactListWillSlideOnScreen;
 
 - (void)setMinWindowSize:(NSSize)inSize;
-- (void)setMaxWindowWidth:(int)inWidth;
+- (void)setMaxWindowWidth:(NSInteger)inWidth;
 - (void)setAutoresizeHorizontally:(BOOL)flag;
 - (void)setAutoresizeHorizontallyWithIdleTime:(BOOL)flag;
 - (void)setAutoresizeVertically:(BOOL)flag;
-- (void)setForcedWindowWidth:(int)inWidth;
+- (void)setForcedWindowWidth:(NSInteger)inWidth;
 
 - (NSRect)_desiredWindowFrameUsingDesiredWidth:(BOOL)useDesiredWidth desiredHeight:(BOOL)useDesiredHeight;
 

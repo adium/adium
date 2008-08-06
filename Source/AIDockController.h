@@ -26,7 +26,7 @@
     NSMutableArray			*activeIconStateArray;
     AIIconState				*currentIconState;
     
-    int						currentAttentionRequest;
+    NSInteger						currentAttentionRequest;
 	
     BOOL					observingFlash;
     BOOL					needsDisplay;

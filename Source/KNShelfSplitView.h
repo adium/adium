@@ -44,8 +44,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSImage *					actionButtonImage;
 	NSImage *					contextButtonImage;
 	NSColor *					shelfBackgroundColor;
-	float						currentShelfWidth;
-	float						prevShelfWidthBeforeDoubleClick;
+	CGFloat						currentShelfWidth;
+	CGFloat						prevShelfWidthBeforeDoubleClick;
 	BOOL						isShelfVisible;
 	NSMenu *					contextButtonMenu;
 	
@@ -56,14 +56,14 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	NSRect						contextButtonRect;
 	NSRect						resizeThumbRect;
 	NSRect						resizeBarRect;
-	int							activeControlPart;
+	NSInteger							activeControlPart;
 	BOOL						shouldHilite;
 	
 	BOOL						delegateHasValidateWidth;
 	
 	NSString	*stringValue;
 	NSAttributedString *attributedStringValue;
-	float		stringHeight;
+	CGFloat		stringHeight;
 	
 	NSImage		*background;
 	NSSize		backgroundSize;
@@ -87,8 +87,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setContentView:(NSView *)aView;
 -(NSView *)contentView;
 
--(void)setShelfWidth:(float)aWidth;
--(float)shelfWidth;
+-(void)setShelfWidth:(CGFloat)aWidth;
+-(CGFloat)shelfWidth;
 
 -(BOOL)isShelfVisible;
 -(void)setShelfIsVisible:(BOOL)visible;
@@ -114,5 +114,5 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @end
 
 @interface NSObject (KNShelfSplitViewDelegate)
--(float)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(float)proposedWidth;
+-(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth;
 @end

@@ -413,14 +413,14 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	
 	// If the record is for a company, return the company name if present
 	if ((flags = [person valueForProperty:kABPersonFlags])) {
-		if (([flags intValue] & kABShowAsMask) == kABShowAsCompany) {
+		if (([flags integerValue] & kABShowAsMask) == kABShowAsCompany) {
 			NSString *companyName = [person valueForProperty:kABOrganizationProperty];
 			if (companyName && [companyName length]) {
 				return companyName;
 			}
 		}
 
-		if (([flags intValue] & kABNameOrderingMask) == kABLastNameFirst) {
+		if (([flags integerValue] & kABNameOrderingMask) == kABLastNameFirst) {
 			if (thisDisplayFormat == FirstLast) {
 				thisDisplayFormat = LastFirstNoComma;
 			}
@@ -517,7 +517,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		
         //load new displayFormat
 		enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
-		displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] intValue];
+		displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
         automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
         useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
 		useMiddleName = [[prefDict objectForKey:KEY_AB_USE_MIDDLE] boolValue];
@@ -620,7 +620,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
  * @param inData NSData representing an NSImage
  * @param tag A tag indicating the lookup with which this call is associated.
  */
-- (void)consumeImageData:(NSData *)inData forTag:(int)tag
+- (void)consumeImageData:(NSData *)inData forTag:(NSInteger)tag
 {
 	if (tag == meTag) {
 		[[adium preferenceController] setPreference:inData
@@ -738,7 +738,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	NSMutableSet	*contactSet = [NSMutableSet set];
 	NSEnumerator	*servicesEnumerator;
 	ABMultiValue	*emails;
-	int				i, emailsCount;
+	NSInteger				i, emailsCount;
 
 	//An ABPerson may have multiple emails; iterate through them looking for @mac.com addresses
 	{
@@ -792,7 +792,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	while ((serviceID = [servicesEnumerator nextObject])) {
 		NSString		*addressBookKey = [serviceDict objectForKey:serviceID];
 		ABMultiValue	*names;
-		int				nameCount;
+		NSInteger				nameCount;
 
 		//An ABPerson may have multiple names; iterate through them
 		names = [person valueForProperty:addressBookKey];
@@ -1086,7 +1086,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		
 		NSMutableDictionary	*dict;
 		ABMultiValue		*emails;
-		int					i, emailsCount;
+		NSInteger					i, emailsCount;
 		
 		//An ABPerson may have multiple emails; iterate through them looking for @mac.com addresses
 		{
@@ -1156,7 +1156,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		while ((serviceID = [servicesEnumerator nextObject])) {
 			NSString			*addressBookKey = [serviceDict objectForKey:serviceID];
 			ABMultiValue		*names;
-			int					nameCount;
+			NSInteger					nameCount;
 			
 			//An ABPerson may have multiple names; iterate through them
 			names = [person valueForProperty:addressBookKey];
@@ -1359,7 +1359,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 							 group:PREF_GROUP_ADDRESSBOOK];
 			
 			//Ask the user whether it would like to edit the new contact
-			int result = NSRunAlertPanel(CONTACT_ADDED_SUCCESS_TITLE,
+			NSInteger result = NSRunAlertPanel(CONTACT_ADDED_SUCCESS_TITLE,
 										 CONTACT_ADDED_SUCCESS_Message,
 										 AILocalizedString(@"Yes", nil),
 										 AILocalizedString(@"No", nil), nil, UID);

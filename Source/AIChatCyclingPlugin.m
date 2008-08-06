@@ -77,9 +77,9 @@
 	unichar 		left = NSLeftArrowFunctionKey;
 	unichar 		right = NSRightArrowFunctionKey;
 	NSString		*leftKey, *rightKey;
-	unsigned int	keyMask = NSCommandKeyMask;
+	NSUInteger	keyMask = NSCommandKeyMask;
 	
-	switch ([[prefDict objectForKey:KEY_TAB_SWITCH_KEYS] intValue]) {
+	switch ([[prefDict objectForKey:KEY_TAB_SWITCH_KEYS] integerValue]) {
 		case AISwitchArrows:
 		default:
 			leftKey = [NSString stringWithCharacters:&left length:1];

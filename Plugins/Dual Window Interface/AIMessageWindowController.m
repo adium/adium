@@ -252,14 +252,14 @@
     AIMessageTabViewItem	*tabViewItem;
 	
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
-		float widthToStore;
+		CGFloat widthToStore;
 		if ([tabView_tabBar isTabBarHidden]) {
 			widthToStore = lastTabBarWidth;
 		} else {
 			widthToStore = NSWidth([tabView_tabBar frame]);
 		}
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithFloat:widthToStore]
+		[[adium preferenceController] setPreference:[NSNumber numberWithDouble:widthToStore]
 											 forKey:KEY_VERTICAL_TABS_WIDTH
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 	}
@@ -304,7 +304,7 @@
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
 			PSMTabBarOrientation orientation;
 			
-			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] intValue];
+			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] integerValue];
 			orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
 						   PSMTabBarHorizontalOrientation :
 						   PSMTabBarVerticalOrientation);
@@ -361,8 +361,8 @@
 				}
 				case PSMTabBarVerticalOrientation:
 				{
-					float width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
-								   [[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] floatValue] :
+					CGFloat width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
+								   [[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
 								   100);
 					lastTabBarWidth = width;
 					
@@ -426,8 +426,8 @@
 		
 		[self _updateWindowTitleAndIcon];
 
-		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
-		int				level = NSNormalWindowLevel;
+		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] integerValue];
+		NSInteger				level = NSNormalWindowLevel;
 		
 		switch (windowLevel) {
 			case AINormalWindowLevel: level = NSNormalWindowLevel; break;
@@ -446,8 +446,8 @@
 {
 	BOOL someUnviewedContent = NO;
 	
-	int count = [[tabView_tabBar representedTabViewItems] count];
-	for (int i = [tabView_tabBar numberOfVisibleTabs]; i < count; i++) {
+	NSInteger count = [[tabView_tabBar representedTabViewItems] count];
+	for (NSInteger i = [tabView_tabBar numberOfVisibleTabs]; i < count; i++) {
 		if ([[[[tabView_tabBar representedTabViewItems] objectAtIndex:i] chat] unviewedContentCount] > 0) {
 			someUnviewedContent = YES;
 			break;
@@ -485,7 +485,7 @@
 
 //Add a tab view item container (without changing the current selection)
 //If silent is NO, the interface controller will be informed of the add
-- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(int)index silent:(BOOL)silent
+- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)index silent:(BOOL)silent
 {
 	/* XXX This mirrors the hack in -[AIMessageTabViewItem initWithMessageView]. It may have been undone
 	 * in removeTabViewItem:silent: below if the tab was moving between windows.
@@ -554,7 +554,7 @@
 }
 
 //
-- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(int)index
+- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index
 {
 	AIChat	*chat = [inTabViewItem chat];
 
@@ -677,9 +677,9 @@
 #define MAXIMUM_WIDTH_FOR_VERTICAL_TABS 250
 
 //handles the minimum size of vertical tabs
-- (float)splitView:(NSSplitView *)sender constrainMinCoordinate:(float)proposedMin ofSubviewAt:(int)offset
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)offset
 {
-	float min = proposedMin;
+	CGFloat min = proposedMin;
 
 	if (sender == tabView_splitView) {
 		switch (tabPosition) {
@@ -704,9 +704,9 @@
 }
 
 //handles the maximum size of vertical tabs
-- (float)splitView:(NSSplitView *)sender constrainMaxCoordinate:(float)proposedMax ofSubviewAt:(int)offset
+- (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)offset
 {
-	float max = proposedMax;
+	CGFloat max = proposedMax;
 	
 	if (sender == tabView_splitView) {
 		switch (tabPosition) {
@@ -813,22 +813,22 @@
 		NSMutableArray *locations;
 		if ([selectedObject isIntentionallyNotAStranger]) {
 			locations = [NSMutableArray arrayWithObjects:
-				[NSNumber numberWithInt:Context_Contact_Manage],
-				[NSNumber numberWithInt:Context_Contact_Action],
-				[NSNumber numberWithInt:Context_Contact_NegativeAction],
-				[NSNumber numberWithInt:Context_Contact_ChatAction],
-				[NSNumber numberWithInt:Context_Contact_Additions], nil];
+				[NSNumber numberWithInteger:Context_Contact_Manage],
+				[NSNumber numberWithInteger:Context_Contact_Action],
+				[NSNumber numberWithInteger:Context_Contact_NegativeAction],
+				[NSNumber numberWithInteger:Context_Contact_ChatAction],
+				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 		} else {
 			locations = [NSMutableArray arrayWithObjects:
-				[NSNumber numberWithInt:Context_Contact_Manage],
-				[NSNumber numberWithInt:Context_Contact_Action],
-				[NSNumber numberWithInt:Context_Contact_NegativeAction],
-				[NSNumber numberWithInt:Context_Contact_ChatAction],
-				[NSNumber numberWithInt:Context_Contact_Stranger_ChatAction],
-				[NSNumber numberWithInt:Context_Contact_Additions], nil];
+				[NSNumber numberWithInteger:Context_Contact_Manage],
+				[NSNumber numberWithInteger:Context_Contact_Action],
+				[NSNumber numberWithInteger:Context_Contact_NegativeAction],
+				[NSNumber numberWithInteger:Context_Contact_ChatAction],
+				[NSNumber numberWithInteger:Context_Contact_Stranger_ChatAction],
+				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 		}
 		
-		[locations addObject:[NSNumber numberWithInt:Context_Tab_Action]];
+		[locations addObject:[NSNumber numberWithInteger:Context_Tab_Action]];
 
 		tmp = [[adium menuController] contextualMenuWithLocations:locations
 													 forListObject:selectedObject
@@ -872,7 +872,7 @@
 }
 
 //Get an image representation of the chat
-- (NSImage *)tabView:(NSTabView *)tabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
+- (NSImage *)tabView:(NSTabView *)tabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
 {
 	// grabs whole window image
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
@@ -1037,7 +1037,7 @@
 	[[tabView_messages tabViewItems] makeObjectsPerformSelector:@selector(tabViewDidChangeVisibility)];
 }
 
-- (float)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl
+- (CGFloat)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl
 {
 	return (lastTabBarWidth ? lastTabBarWidth : 120);
 }
@@ -1063,7 +1063,7 @@
 
 		AIAccount	*account;
 		NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
-		int onlineAccounts = 0;
+		NSInteger onlineAccounts = 0;
 		while ((account = [enumerator nextObject]) && onlineAccounts < 2) {
 			if ([account online]) onlineAccounts++;
 		}
@@ -1113,7 +1113,7 @@
 - (void)tabBarFrameChanged:(NSNotification *)notification {
 	if ([tabView_tabBar orientation] == PSMTabBarVerticalOrientation) {
 		if (![tabView_tabBar isTabBarHidden]) {
-			float newWidth = NSWidth([tabView_tabBar frame]);
+			CGFloat newWidth = NSWidth([tabView_tabBar frame]);
 			if (newWidth >= MINIMUM_WIDTH_FOR_VERTICAL_TABS)
 				lastTabBarWidth = newWidth;
 			
@@ -1235,7 +1235,7 @@
 	NSArray			*itemArray = [toolbar items];
 	NSEnumerator	*enumerator = [itemArray objectEnumerator];
 	NSToolbarItem	*item;
-	int				index = NSNotFound;
+	NSInteger				index = NSNotFound;
 
 	while ((item = [enumerator nextObject])) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {

@@ -104,7 +104,7 @@
 		{
 			//Prompt for a location to save
 			NSSavePanel *savePanel = [NSSavePanel savePanel];
-			int returnCode = [savePanel runModalForDirectory:[[adium preferenceController] userPreferredDownloadFolder]
+			NSInteger returnCode = [savePanel runModalForDirectory:[[adium preferenceController] userPreferredDownloadFolder]
 																			   file:[fileTransfer remoteFilename]];
 			//Only need to take action if the user pressed OK; if she pressed cancel, just return to our window.
 			if (returnCode == NSOKButton) {

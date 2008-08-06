@@ -263,7 +263,7 @@
 	return [serviceDict objectForKey:serviceName];
 }
 
-- (int)checkPort:(int)port forService:(AIService *)service
+- (NSInteger)checkPort:(NSInteger)port forService:(AIService *)service
 {
 	if(port == 0)
 		return 0;
@@ -313,9 +313,9 @@
 							forKey:KEY_CONNECT_HOST
 							 group:GROUP_ACCOUNT_STATUS];	
 		
-		int port = [[properties objectForKey:@"port"] intValue];
+		NSInteger port = [[properties objectForKey:@"port"] integerValue];
 		if([self checkPort:port forService:service])
-			[newAcct setPreference:[NSNumber numberWithInt:port]
+			[newAcct setPreference:[NSNumber numberWithInteger:port]
 							forKey:KEY_CONNECT_PORT
 							 group:GROUP_ACCOUNT_STATUS];
 		
@@ -341,7 +341,7 @@
 		BOOL isDefault = [[away objectForKey:@"isIdleMessage"] boolValue];
 		BOOL goIdle = [[away objectForKey:@"idleMessage"] boolValue];
 		NSString *attrMessage = [away objectForKey:@"message"];
-		int fireType = [[away objectForKey:@"messageType"] intValue];
+		NSInteger fireType = [[away objectForKey:@"messageType"] integerValue];
 		AIStatusType adiumType = 0;
 		
 		switch(fireType)
@@ -585,9 +585,9 @@ NSComparisonResult groupSort(id left, id right, void *context)
 								forKey:KEY_CONNECT_HOST
 								 group:GROUP_ACCOUNT_STATUS];	
 			
-			int port = [[account objectForKey:@"port"] intValue];
+			NSInteger port = [[account objectForKey:@"port"] integerValue];
 			if([self checkPort:port forService:service])
-				[newAcct setPreference:[NSNumber numberWithInt:port]
+				[newAcct setPreference:[NSNumber numberWithInteger:port]
 								forKey:KEY_CONNECT_PORT
 								 group:GROUP_ACCOUNT_STATUS];
 			
@@ -614,7 +614,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		BOOL isDefault = [[away objectForKey:@"isIdleMessage"] boolValue];
 		BOOL goIdle = [[away objectForKey:@"idleMessage"] boolValue];
 		NSString *message = [away objectForKey:@"message"];
-		int fireType = [[away objectForKey:@"messageType"] intValue];
+		NSInteger fireType = [[away objectForKey:@"messageType"] integerValue];
 		AIStatusType adiumType = 0;
 		
 		switch(fireType)

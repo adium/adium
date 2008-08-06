@@ -165,7 +165,7 @@
 /*!
  * @brief Called as the user list edit sheet closes, dismisses the sheet
  */
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
     [sheet orderOut:nil];
 }
@@ -308,7 +308,7 @@
  */
 - (void)ensureValidContactTypeSelection
 {
-	int			serviceIndex = -1;
+	NSInteger			serviceIndex = -1;
 	
 	//Force our menu to update.. it needs to be correctly validated for the code below to work
 	[[popUp_contactType menu] update];
@@ -512,7 +512,7 @@
 		//Select accounts by default
 		[checkedAccounts addObject:initialAccount];
 
-	} else if ([[accounts valueForKeyPath:@"@sum.online"] intValue] == 1) {
+	} else if ([[accounts valueForKeyPath:@"@sum.online"] integerValue] == 1) {
 		//Only one online account; it should be checked
 		NSEnumerator	*enumerator;
 		AIAccount		*anAccount;
@@ -557,7 +557,7 @@
 /*!
  * @brief Rows in the accounts table view
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [accounts count];
 }
@@ -565,7 +565,7 @@
 /*!
  * @brief Object value for columns in the accounts table view
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString	*identifier = [tableColumn identifier];
 	
@@ -588,7 +588,7 @@
  *
  * Enable/disable account checkbox as appropriate
  */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString	*identifier = [tableColumn identifier];
 	
@@ -600,7 +600,7 @@
 /*!
  * @brief Set the enabled/disabled state for an account in the account list
  */
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString	*identifier = [tableColumn identifier];
 

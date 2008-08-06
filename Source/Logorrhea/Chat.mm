@@ -176,7 +176,7 @@
     return NO;
 }
 
-- (NSAttributedString *) getFormattedContentsWithSearchTermsHilighted:(NSString *) searchTermsStr firstFoundIndex:(int *) foundIndex
+- (NSAttributedString *) getFormattedContentsWithSearchTermsHilighted:(NSString *) searchTermsStr firstFoundIndex:(NSInteger *) foundIndex
 {
 	BOOL firstFound = false;
 	

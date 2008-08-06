@@ -45,7 +45,7 @@
 		[invocation setSelector:NSSelectorFromString(methodName)];
 		id chat = [[self keySpecifier] objectsByEvaluatingSpecifier];
 		[invocation setArgument:&chat atIndex:2];
-		unsigned int index = [toLocation insertionIndex];
+		NSUInteger index = [toLocation insertionIndex];
 		[invocation setArgument:&index atIndex:3];
 		[invocation invokeWithTarget:target];
 		id r;

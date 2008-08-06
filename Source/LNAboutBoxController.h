@@ -28,14 +28,14 @@
     IBOutlet	NSTextView	*textView_credits;
 
 	//Version and duck clicking
-    int						numberOfDuckClicks, numberOfBuildFieldClicks;
+    NSInteger						numberOfDuckClicks, numberOfBuildFieldClicks;
     
 	//Scrolling
     NSTimer					*scrollTimer;
 	NSTimer					*eventLoopScrollTimer;
-    float					scrollLocation;
-    int						maxScroll;
-    float               	scrollRate;
+    CGFloat					scrollLocation;
+    NSInteger						maxScroll;
+    CGFloat               	scrollRate;
 }
 
 + (LNAboutBoxController *)aboutBoxController;

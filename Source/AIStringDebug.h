@@ -7,9 +7,11 @@
 //
 
 
+#if !__LP64__
 
 @interface AIStringDebug : NSObject {
 
 }
 
 @end
+#endif

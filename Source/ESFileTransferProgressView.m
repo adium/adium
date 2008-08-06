@@ -116,7 +116,7 @@
 		} else {
 			NSRect	progressRect = [progressIndicator frame];
 			NSRect	frame;
-			float	distanceToMove = progressRect.size.height / 2;
+			CGFloat	distanceToMove = progressRect.size.height / 2;
 			
 			[progressIndicator setDisplayedWhenStopped:NO];
 			[progressIndicator setIndeterminate:YES];

@@ -69,7 +69,7 @@
 /*!
  *	@brief didEnd selector for the sheet created above, dismisses the sheet
  */
--(void)sheetDidEnd:(NSWindow*)sheet returnCode:(int)returnCode contextInfo:(void*)contextInfo
+-(void)sheetDidEnd:(NSWindow*)sheet returnCode:(NSInteger)returnCode contextInfo:(void*)contextInfo
 {
 	[sheet orderOut:nil];
 }

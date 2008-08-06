@@ -407,8 +407,8 @@
 
 //Pass height change information on to our owner
 - (void)fileTransferProgressView:(ESFileTransferProgressView *)inView
-			   heightChangedFrom:(float)oldHeight
-							 to:(float)newHeight
+			   heightChangedFrom:(CGFloat)oldHeight
+							 to:(CGFloat)newHeight
 {
 	[owner fileTransferProgressRow:self
 				 heightChangedFrom:oldHeight
@@ -419,12 +419,12 @@
 //From Colloquy
 - (NSString *)readableTimeForSecs:(NSTimeInterval)secs inLongFormat:(BOOL)longFormat
 {
-	unsigned int i = 0, stop = 0;
-	NSDictionary *desc = [NSDictionary dictionaryWithObjectsAndKeys:AILocalizedString( @"second", "singular second" ), [NSNumber numberWithUnsignedInt:1], AILocalizedString( @"minute", "singular minute" ), [NSNumber numberWithUnsignedInt:60], AILocalizedString( @"hour", "singular hour" ), [NSNumber numberWithUnsignedInt:3600], AILocalizedString( @"day", "singular day" ), [NSNumber numberWithUnsignedInt:86400], AILocalizedString( @"week", "singular week" ), [NSNumber numberWithUnsignedInt:604800], AILocalizedString( @"month", "singular month" ), [NSNumber numberWithUnsignedInt:2628000], AILocalizedString( @"year", "singular year" ), [NSNumber numberWithUnsignedInt:31536000], nil];
-	NSDictionary *plural = [NSDictionary dictionaryWithObjectsAndKeys:AILocalizedString( @"seconds", "plural seconds" ), [NSNumber numberWithUnsignedInt:1], AILocalizedString( @"minutes", "plural minutes" ), [NSNumber numberWithUnsignedInt:60], AILocalizedString( @"hours", "plural hours" ), [NSNumber numberWithUnsignedInt:3600], AILocalizedString( @"days", "plural days" ), [NSNumber numberWithUnsignedInt:86400], AILocalizedString( @"weeks", "plural weeks" ), [NSNumber numberWithUnsignedInt:604800], AILocalizedString( @"months", "plural months" ), [NSNumber numberWithUnsignedInt:2628000], AILocalizedString( @"years", "plural years" ), [NSNumber numberWithUnsignedInt:31536000], nil];
+	NSUInteger i = 0, stop = 0;
+	NSDictionary *desc = [NSDictionary dictionaryWithObjectsAndKeys:AILocalizedString( @"second", "singular second" ), [NSNumber numberWithUnsignedInteger:1], AILocalizedString( @"minute", "singular minute" ), [NSNumber numberWithUnsignedInteger:60], AILocalizedString( @"hour", "singular hour" ), [NSNumber numberWithUnsignedInteger:3600], AILocalizedString( @"day", "singular day" ), [NSNumber numberWithUnsignedInteger:86400], AILocalizedString( @"week", "singular week" ), [NSNumber numberWithUnsignedInteger:604800], AILocalizedString( @"month", "singular month" ), [NSNumber numberWithUnsignedInteger:2628000], AILocalizedString( @"year", "singular year" ), [NSNumber numberWithUnsignedInteger:31536000], nil];
+	NSDictionary *plural = [NSDictionary dictionaryWithObjectsAndKeys:AILocalizedString( @"seconds", "plural seconds" ), [NSNumber numberWithUnsignedInteger:1], AILocalizedString( @"minutes", "plural minutes" ), [NSNumber numberWithUnsignedInteger:60], AILocalizedString( @"hours", "plural hours" ), [NSNumber numberWithUnsignedInteger:3600], AILocalizedString( @"days", "plural days" ), [NSNumber numberWithUnsignedInteger:86400], AILocalizedString( @"weeks", "plural weeks" ), [NSNumber numberWithUnsignedInteger:604800], AILocalizedString( @"months", "plural months" ), [NSNumber numberWithUnsignedInteger:2628000], AILocalizedString( @"years", "plural years" ), [NSNumber numberWithUnsignedInteger:31536000], nil];
 	NSDictionary *use = nil;
 	NSMutableArray *breaks = nil;
-	unsigned int val = 0.;
+	NSUInteger val = 0.;
 	NSString *retval = nil;
 	
 	if ( secs < 0 ) secs *= -1;
@@ -432,20 +432,20 @@
 	breaks = [[[desc allKeys] mutableCopy] autorelease];
 	[breaks sortUsingSelector:@selector( compare: )];
 	
-	while ( i < [breaks count] && secs >= (NSTimeInterval) [[breaks objectAtIndex:i] unsignedIntValue] ) i++;
+	while ( i < [breaks count] && secs >= (NSTimeInterval) [[breaks objectAtIndex:i] unsignedIntegerValue] ) i++;
 	if ( i > 0 ) i--;
-	stop = [[breaks objectAtIndex:i] unsignedIntValue];
+	stop = [[breaks objectAtIndex:i] unsignedIntegerValue];
 	
-	val = (unsigned int) ( secs / stop );
+	val = (NSUInteger) ( secs / stop );
 	use = ( val != 1 ? plural : desc );
-	retval = [NSString stringWithFormat:@"%d %@", val, [use objectForKey:[NSNumber numberWithUnsignedInt:stop]]];
+	retval = [NSString stringWithFormat:@"%lu %@", val, [use objectForKey:[NSNumber numberWithUnsignedInteger:stop]]];
 	if ( longFormat && i > 0 ) {
-		unsigned int rest = (unsigned int) ( (unsigned int) secs % stop );
-		stop = [[breaks objectAtIndex:--i] unsignedIntValue];
-		rest = (unsigned int) ( rest / stop );
+		NSUInteger rest = (NSUInteger) ( (NSUInteger) secs % stop );
+		stop = [[breaks objectAtIndex:--i] unsignedIntegerValue];
+		rest = (NSUInteger) ( rest / stop );
 		if ( rest > 0 ) {
 			use = ( rest > 1 ? plural : desc );
-			retval = [retval stringByAppendingFormat:@" %d %@", rest, [use objectForKey:[breaks objectAtIndex:i]]];
+			retval = [retval stringByAppendingFormat:@" %lu %@", rest, [use objectForKey:[breaks objectAtIndex:i]]];
 		}
 	}
 	

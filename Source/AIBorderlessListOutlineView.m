@@ -67,13 +67,13 @@
 	}	
 }
 
-- (int)desiredHeight
+- (NSInteger)desiredHeight
 {
-	int height = [super desiredHeight];
+	NSInteger height = [super desiredHeight];
 	return (height > FORCED_MINIMUM_HEIGHT ? height : FORCED_MINIMUM_HEIGHT);
 }
 
-- (int)totalHeight
+- (NSInteger)totalHeight
 {
 	return [super totalHeight] + 2;
 }

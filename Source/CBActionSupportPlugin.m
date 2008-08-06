@@ -89,7 +89,7 @@
 /*!
  * @brief Filter priority
  */
-- (float)filterPriority
+- (CGFloat)filterPriority
 {
 	return DEFAULT_FILTER_PRIORITY;
 }

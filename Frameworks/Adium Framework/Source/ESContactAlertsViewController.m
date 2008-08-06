@@ -352,7 +352,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 }
 
 //A sort which groups actions together.
-int actionSort(id objectA, id objectB, void *context)
+NSComparisonResult actionSort(id objectA, id objectB, void *context)
 {
 	return [(NSString *)[objectA objectForKey:KEY_ACTION_ID] compare:(NSString *)[objectB objectForKey:KEY_ACTION_ID]];
 }
@@ -501,7 +501,7 @@ int actionSort(id objectA, id objectB, void *context)
 		[outlineView_summary reloadData];
 	
 	if (selectedEventID) {
-		int actionsIndex = [contactAlertsEvents indexOfObject:selectedEventID];
+		NSInteger actionsIndex = [contactAlertsEvents indexOfObject:selectedEventID];
 		if (actionsIndex != NSNotFound) {
 			int rowToSelect;
 			

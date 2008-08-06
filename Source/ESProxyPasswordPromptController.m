@@ -36,7 +36,7 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
 + (void)showPasswordPromptForProxyServer:(NSString *)inServer userName:(NSString *)inUserName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
 	ESProxyPasswordPromptController		*controller = nil;
-	NSString							*identifier = [NSString stringWithFormat:@"%@.%@.%x",inServer,inUserName,inTarget];
+	NSString							*identifier = [NSString stringWithFormat:@"%@.%@.%p",inServer,inUserName,inTarget];
 	
 	if (!proxyPasswordPromptControllerDict) proxyPasswordPromptControllerDict = [[NSMutableDictionary alloc] init];
 	
@@ -85,7 +85,7 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
  */
 - (void)windowWillClose:(id)sender
 {
-	NSString	*identifier = [NSString stringWithFormat:@"%@.%@.%x",server,userName,target];
+	NSString	*identifier = [NSString stringWithFormat:@"%@.%@.%p",server,userName,target];
 
 	[proxyPasswordPromptControllerDict removeObjectForKey:identifier];
 	

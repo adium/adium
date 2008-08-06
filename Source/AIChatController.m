@@ -705,9 +705,9 @@
  * 
  * @result The number of unviewed messages
  */
-- (int)unviewedContentCount
+- (NSUInteger)unviewedContentCount
 {
-	int				count = 0;
+	NSUInteger				count = 0;
 	AIChat			*chat;
 	NSEnumerator	*enumerator;
 
@@ -723,9 +723,9 @@
  * 
  * @result The number of conversations with unviewed messages
  */
-- (int)unviewedConversationCount
+- (NSUInteger)unviewedConversationCount
 {
-	int				count = 0;
+	NSUInteger				count = 0;
 	AIChat			*chat;
 	NSEnumerator	*enumerator;
 	

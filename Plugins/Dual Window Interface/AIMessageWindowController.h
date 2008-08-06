@@ -46,7 +46,7 @@ typedef enum
 	BOOL			alwaysShowTabs;		//YES if the tabs should always be visible, even if there is only 1
 
 	AdiumTabPosition tabPosition;
-	float			 lastTabBarWidth;
+	CGFloat			 lastTabBarWidth;
 
 	NSDictionary	*toolbarItems;
 	NSMutableArray	*containedChats;
@@ -69,9 +69,9 @@ typedef enum
 
 //Contained Chats
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem;
-- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(int)index silent:(BOOL)silent;
+- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)index silent:(BOOL)silent;
 - (void)removeTabViewItem:(AIMessageTabViewItem *)inTabViewItem silent:(BOOL)silent;
-- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(int)index;
+- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index;
 - (BOOL)containerIsEmpty;
 - (NSArray *)containedChats;
 

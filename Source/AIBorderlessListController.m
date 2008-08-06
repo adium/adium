@@ -42,7 +42,7 @@
 {
 	[super contactOrderChanged:notification];
 
-	int numberOfRows = [contactListView numberOfRows];
+	NSInteger numberOfRows = [contactListView numberOfRows];
 
 	if (numberOfRows && emptyListHiding) {	
 		emptyListHiding = NO;		

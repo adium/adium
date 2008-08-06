@@ -131,12 +131,12 @@ enum {
 		
 		//Open our file handle and seek if necessary
 		const char *pathCString = [filePath fileSystemRepresentation];
-		int fd = open(pathCString, O_CREAT | O_WRONLY, 0644);
+		NSInteger fd = open(pathCString, O_CREAT | O_WRONLY, 0644);
 		file = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
 		if (initialized) {
 			struct stat sb;
 			fstat(fd, &sb);
-			int closingTagLength = [rootElementName length] + 4; //</rootElementName>
+			NSInteger closingTagLength = [rootElementName length] + 4; //</rootElementName>
 			[file seekToFileOffset:sb.st_size - closingTagLength];
 		}
 	}
@@ -235,7 +235,7 @@ enum {
 	
 	//Open our file handle and seek if necessary
 	const char *pathCString = [filePath fileSystemRepresentation];
-	int fd = open(pathCString, O_CREAT | O_WRONLY, 0644);
+	NSInteger fd = open(pathCString, O_CREAT | O_WRONLY, 0644);
 	if(fd == -1) {
 		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
 			  filePath, pathCString, (pathCString ? strlen(pathCString) : 0));
@@ -244,13 +244,13 @@ enum {
 		if (initialized) {
 			struct stat sb;
 			fstat(fd, &sb);
-			int closingTagLength = [rootElementName length] + 4; //</rootElementName>
+			NSInteger closingTagLength = [rootElementName length] + 4; //</rootElementName>
 			[file seekToFileOffset:sb.st_size - closingTagLength];
 		}
 	}
 }
 
-- (BOOL)writeData:(NSData *)data seekBackLength:(int)seekBackLength
+- (BOOL)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength
 {
 	BOOL success = YES;
 	
@@ -330,7 +330,7 @@ enum {
 		rootElementName = [name retain];
 
 		//Create our strings
-		int closingTagLength = [rootElementName length] + 4; //</rootElementName>
+		NSInteger closingTagLength = [rootElementName length] + 4; //</rootElementName>
 		NSString *rootElement = [self createElementWithName:rootElementName content:@"" attributeKeys:keys attributeValues:values];
 		NSString *initialDocument = [NSString stringWithFormat:@"%@\n%@", XML_MARKER, rootElement];
 		
@@ -407,7 +407,7 @@ enum {
 {
 	//Check our precondition
 	if ([keys count] != [values count]) {
-		NSLog(@"Attribute key (%@) and value (%@) arrays for element %@ are of differing lengths, %u and %u, respectively", keys, values, name, [keys count], [values count]);
+		NSLog(@"Attribute key (%@) and value (%@) arrays for element %@ are of differing lengths, %lu and %lu, respectively", keys, values, name, [keys count], [values count]);
 		return nil;
 	}
 	

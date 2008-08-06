@@ -34,12 +34,12 @@
 
 /* NSWindow Category for our bonus features */
 @interface NSWindow(AWRipplePrivate)
-- (int)windowNum;
+- (NSInteger)windowNum;
 - (void)scaleX:(double)x Y:(double)y;
 @end
 
 @implementation NSWindow(AWRipplePrivate)
-- (int)windowNum
+- (NSInteger)windowNum
 {
     return _windowNum;
 }
@@ -104,7 +104,7 @@
 @end
 
 @implementation AWRippleWindow
-- (id)initWithContentRect:(NSRect)contentRect styleMask:(unsigned int)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag {
 	
     NSWindow* result = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     [result setBackgroundColor: [NSColor clearColor]];

@@ -44,7 +44,7 @@
 + (void)_setHelperAppForScheme:(NSString *)scheme;
 + (BOOL)_checkHelperAppForScheme:(NSString *)scheme;
 + (void)_openChatToContactWithName:(NSString *)name onService:(NSString *)serviceIdentifier withMessage:(NSString *)body;
-+ (void)_openAIMGroupChat:(NSString *)roomname onExchange:(int)exchange;
++ (void)_openAIMGroupChat:(NSString *)roomname onExchange:(NSInteger)exchange;
 + (void)_openXMPPGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)inPassword;
 - (void)promptUser;
 @end
@@ -193,9 +193,9 @@
 				NSString	*roomname = [[url queryArgumentForKey:@"roomname"] stringByDecodingURLEscapes];
 				NSString	*exchangeString = [url queryArgumentForKey:@"exchange"];
 				if (roomname) {
-					int exchange = 0;
+					NSInteger exchange = 0;
 					if (exchangeString) {
-						exchange = [exchangeString intValue];	
+						exchange = [exchangeString integerValue];	
 					}
 					
 					[self _openAIMGroupChat:roomname onExchange:(exchange ? exchange : 4)];
@@ -374,7 +374,7 @@
 	}
 }
 
-+ (void)_openAIMGroupChat:(NSString *)roomname onExchange:(int)exchange
++ (void)_openAIMGroupChat:(NSString *)roomname onExchange:(NSInteger)exchange
 {
 	AIAccount		*account;
 	NSEnumerator	*enumerator;
@@ -395,7 +395,7 @@
 															onAccount:account
 													 chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																		roomname, @"room",
-																		[NSNumber numberWithInt:exchange], @"exchange",
+																		[NSNumber numberWithInteger:exchange], @"exchange",
 																		nil]];
 	} else {
 		NSBeep();
@@ -404,7 +404,7 @@
 
 - (void)URLQuestion:(NSNumber *)number info:(id)info
 {
-	AITextAndButtonsReturnCode ret = [number intValue];
+	AITextAndButtonsReturnCode ret = [number integerValue];
 	switch(ret)
 	{
 		case AITextAndButtonsOtherReturn:

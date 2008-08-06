@@ -148,8 +148,8 @@ static ESDebugController	*sharedDebugController = nil;
 		NSFileManager *mgr = [NSFileManager defaultManager];
 		NSCalendarDate *date = [NSCalendarDate calendarDate];
 		NSString *folder, *dateString, *filename, *pathname;
-		unsigned counter = 0;
-		int fd;
+		NSUInteger counter = 0;
+		NSInteger fd;
 		
 		//make sure the containing folder for debug logs exists.
 		folder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) objectAtIndex:0];
@@ -169,7 +169,7 @@ static ESDebugController	*sharedDebugController = nil;
 			*/
 		filename = dateString = [date descriptionWithCalendarFormat:@"%Y-%m-%d"];
 		while([mgr fileExistsAtPath:(pathname = [folder stringByAppendingPathComponent:[filename stringByAppendingPathExtension:@"log"]])]) {
-			filename = [dateString stringByAppendingFormat:@" %u", ++counter];
+			filename = [dateString stringByAppendingFormat:@" %lu", ++counter];
 		}
 		
 		//create (if necessary) and open the file as writable, in append mode.

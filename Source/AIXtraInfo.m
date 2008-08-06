@@ -41,7 +41,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@, %@, %@, retaincount=%d", [self name], [self path], [self type], [self retainCount]];
+	return [NSString stringWithFormat:@"%@, %@, %@, retaincount=%lu", [self name], [self path], [self type], [self retainCount]];
 }
 
 + (AIXtraInfo *) infoWithURL:(NSURL *)url
@@ -56,7 +56,7 @@
 		path = [[url path] retain];
 		type = [[[[url path] pathExtension] lowercaseString] retain];
 		xtraBundle = [[NSBundle alloc] initWithPath:path];
-		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] intValue] == 1)) { //This checks for a new-style xtra
+		if (xtraBundle && ([[xtraBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1)) { //This checks for a new-style xtra
 			[self setName:[xtraBundle objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey]];
 			resourcePath = [[xtraBundle resourcePath] retain];
 			icon = [[NSImage alloc] initByReferencingFile:[xtraBundle pathForResource:@"Icon" ofType:@"icns"]];

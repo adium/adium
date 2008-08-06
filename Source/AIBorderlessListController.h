@@ -8,7 +8,7 @@
 
 @interface AIBorderlessListController : AIListController {
 	BOOL emptyListHiding;
-	float previousAlpha;
+	CGFloat previousAlpha;
 }
 
 @end
