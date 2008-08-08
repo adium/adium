@@ -407,7 +407,13 @@ typedef enum {
 			[newFormat appendString:@"%Z"];
 			
 		} else if (it == 'Z') {
-			[newFormat appendString:@"%z"];
+			switch ([span length]) {
+				case 1:
+					[newFormat appendString:@"GMT%z"];
+					break;
+				default:
+					[newFormat appendString:@"%z"];
+			}
 			
 		} else if (it == '\'') {
 			if ([span length] >= 2) {
@@ -450,6 +456,206 @@ typedef enum {
 	[newFormat release];
 	return result;
 
+	// http://developer.apple.com/documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatterSyntax.html
+	// http://unicode.org/reports/tr35/tr35-4.html#Date_Format_Patterns
+}
+
+/*!
+ *@brief get the Unicode TR35-4-style format string for an NSDateFormatter
+ *
+ * TODO: Support more width. We don't support %5Y for instance, which would
+ * give 02008.
+ *
+ *@result an NSString containing the Unicode-style format string
+ */ 
+- (NSString *)dateUnicodeFormat {
+	NSString *format = [self dateFormat];
+	
+	// If we're using 10.4+ behavior, it's easy
+	if ([self formatterBehavior] == NSDateFormatterBehavior10_4) {
+		return format;
+	}
+	
+	// Scan across the format string, building the strftime-style format
+	NSMutableString *newFormat = [[NSMutableString alloc] initWithCapacity:[format length]];
+	
+	NSScanner *scanner = [[NSScanner alloc] initWithString:format];
+	[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithRange:NSMakeRange(0, 0)]];
+		
+	while(![scanner isAtEnd]) {		
+		// Skip to the first percentage sign
+		NSString *skipped;
+		if ([scanner scanUpToString:@"%" intoString:&skipped]) {
+			[newFormat appendString:skipped];
+			continue;
+		}
+		
+		// Scan the percentage sign, we don't care about it
+		[scanner scanString:@"%" intoString:nil];
+
+		// Get the character following the format string
+		NSUInteger n = 2;
+		unichar it = [format characterAtIndex:[scanner scanLocation]];
+		
+		// Did we get a number formatter?
+		if (it >= '0' && it <= '9') {
+			n = it - '0';
+			[scanner setScanLocation:[scanner scanLocation] + 2];
+			it = [format characterAtIndex:[scanner scanLocation]];
+		} else {
+			[scanner setScanLocation:[scanner scanLocation] + 1];
+		}
+		
+		// Perform the translation		
+		// XXX Not supported or not fully supported: 
+		
+		if (it == '%') {
+			[newFormat appendString:@"%"];
+			
+		} else if (it == 'a') {
+			[newFormat appendString:@"EEE"];
+			
+		} else if (it == 'A') {
+			[newFormat appendString:@"EEEE"];
+			
+		} else if (it == 'b') {
+			[newFormat appendString:@"MMM"];
+		
+		} else if (it == 'B') {
+			[newFormat appendString:@"MMMM"];
+			
+		} else if (it == 'c') {
+			// Same as "%X %x"
+			// Not an exact conversion, I should see what matches most closely.
+			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
+			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
+			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
+			[newFormat appendString:[tempFormatter dateFormat]];
+			[tempFormatter release];
+			
+		} else if (it == 'd') {
+			if (n < 2) {
+				[newFormat appendString:@"d"];
+			} else {
+				[newFormat appendString:@"dd"];
+			}
+			
+		} else if (it == 'e') {
+			[newFormat appendString:@"d"];
+			
+		} else if (it == 'F') {
+			[newFormat appendString:@"SSSS"];
+			
+		} else if (it == 'H') {
+			if (n < 2) {
+				[newFormat appendString:@"H"];
+			} else {
+				[newFormat appendString:@"HH"];
+			}
+			
+		} else if (it == 'I') {
+			if (n < 2) {
+				[newFormat appendString:@"h"];
+			} else {
+				[newFormat appendString:@"hh"];
+			}
+			
+		} else if (it == 'j') {
+			if (n < 2) {
+				[newFormat appendString:@"D"];
+			} else if (n == 2) {
+				[newFormat appendString:@"DD"];
+			} else {
+				[newFormat appendString:@"DDD"];
+			}
+		
+		} else if (it == 'm') {
+			if (n < 2) {
+				[newFormat appendString:@"M"];
+			} else {
+				[newFormat appendString:@"MM"];
+			}
+			
+		} else if (it == 'M') {
+			if (n < 2) {
+				[newFormat appendString:@"m"];
+			} else {
+				[newFormat appendString:@"mm"];
+			}
+			
+		} else if (it == 'p') {
+			[newFormat appendString:@"a"];
+			
+		} else if (it == 's') {
+			if (n < 2) {
+				[newFormat appendString:@"s"];
+			} else {
+				[newFormat appendString:@"ss"];
+			}
+			
+		} else if (it == 'w') {
+			// Not a perfect translation, assumes start of week is Sunday. If it
+			// is Monday, should use 'E' instead of 'e'.
+			if (n < 2) {
+				[newFormat appendString:@"e"];
+			} else {
+				[newFormat appendString:@"ee"];
+			}
+			
+		} else if (it == 'x') {
+			// Date representation for the locale, including time zone.
+			// Not an exact conversion, I should see what matches most closely.
+			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
+			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+			[tempFormatter setDateStyle:NSDateFormatterFullStyle];
+			[tempFormatter setTimeStyle:NSDateFormatterNoStyle];
+			[newFormat appendString:[tempFormatter dateFormat]];
+			[tempFormatter release];
+			
+			
+		} else if (it == 'X') {
+			// Time representation for the locale.
+			// Not an exact conversion, I should see what matches most closely.
+			NSDateFormatter *tempFormatter = [[NSDateFormatter alloc] init];
+			[tempFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+			[tempFormatter setDateStyle:NSDateFormatterNoStyle];
+			[tempFormatter setTimeStyle:NSDateFormatterFullStyle];
+			[newFormat appendString:[tempFormatter dateFormat]];
+			[tempFormatter release];
+			
+		} else if (it == 'y' || (it == 'Y' && n <= 2)) {
+			if (n < 2) {
+				[newFormat appendString:@"y"];
+			} else {
+				[newFormat appendString:@"yy"];
+			}
+			
+		} else if (it == 'Y') {
+			if (n == 3) {
+				[newFormat appendString:@"yyy"];
+			} else {
+				[newFormat appendString:@"yyyy"];
+			}
+			
+		} else if (it == 'Z') {
+			[newFormat appendString:@"zzzz"];
+		
+		} else if (it == 'z') {
+			[newFormat appendString:@"ZZ"];
+		
+		} else {
+			// Not a supported identifier
+		}
+			
+			
+	}
+	
+	// Make it immutable
+	NSString *result = [newFormat copy];
+	[newFormat release];
+	return result;
+	
 	// http://developer.apple.com/documentation/Cocoa/Conceptual/DataFormatting/Articles/dfDateFormatterSyntax.html
 	// http://unicode.org/reports/tr35/tr35-4.html#Date_Format_Patterns
 }

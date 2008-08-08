@@ -19,4 +19,5 @@
 + (NSString *)stringForTimeInterval:(NSTimeInterval)interval;
 + (NSString *)stringForTimeInterval:(NSTimeInterval)interval showingSeconds:(BOOL)showSeconds abbreviated:(BOOL)abbreviate approximated:(BOOL)approximate;
 - (NSString *)dateCalendarFormat;
+- (NSString *)dateUnicodeFormat;
 @end
