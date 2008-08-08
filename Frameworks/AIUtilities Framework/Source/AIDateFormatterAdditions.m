@@ -463,9 +463,6 @@ typedef enum {
 /*!
  *@brief get the Unicode TR35-4-style format string for an NSDateFormatter
  *
- * TODO: Support more width. We don't support %5Y for instance, which would
- * give 02008.
- *
  *@result an NSString containing the Unicode-style format string
  */ 
 - (NSString *)dateUnicodeFormat {
@@ -497,7 +494,10 @@ typedef enum {
 		NSUInteger n = 2;
 		unichar it = [format characterAtIndex:[scanner scanLocation]];
 		
-		// Did we get a number formatter?
+		// Did we get a numeric flag? These aren't actually documented, so
+		// it's unclear as to how to treat them. Can you have multiple digits?
+		// Currently we don't support padding, so %5Y will incorrectly yield
+		// 2008 (yyyy) instead of 02008 (yyyyy).
 		if (it >= '0' && it <= '9') {
 			n = it - '0';
 			[scanner setScanLocation:[scanner scanLocation] + 2];
