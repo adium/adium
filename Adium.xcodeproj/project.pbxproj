@@ -283,7 +283,6 @@
 		344D97510C3C442600498CA1 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 344D97430C3C442500498CA1 /* Person.m */; };
 		344D97530C3C442600498CA1 /* Presentity.m in Sources */ = {isa = PBXBuildFile; fileRef = 344D97450C3C442600498CA1 /* Presentity.m */; };
 		34500ED00A881F8500509225 /* PurpleDefaultsQQ.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3419E74B0A880C0900C3FC68 /* PurpleDefaultsQQ.plist */; };
-		34555C600DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */; };
 		3456231C0A3771D800E7FC97 /* ESRankingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3456231A0A3771D800E7FC97 /* ESRankingCell.m */; };
 		345623200A3771E100E7FC97 /* AIChatLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3456231E0A3771E100E7FC97 /* AIChatLog.m */; };
 		3456232A0A3771F400E7FC97 /* AILogToGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 345623240A3771F300E7FC97 /* AILogToGroup.m */; };
@@ -1204,6 +1203,8 @@
 		636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93690E4E9FD300E5F558 /* AdiumAddressBookAction_Jabber.scpt */; };
 		636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */; };
 		636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */; };
+		636D93F40E4EAB7500E5F558 /* AdiumContactPropertiesObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		636D94090E4EAB9D00E5F558 /* AdiumContactPropertiesObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */; };
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		63AF931A0AA81E2300B88299 /* Bright Blue.ListTheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63AF91C90AA8102600B88299 /* Bright Blue.ListTheme */; };
 		63AF931B0AA81E2300B88299 /* Bright Green.ListTheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63AF91CA0AA8102600B88299 /* Bright Green.ListTheme */; };
@@ -2599,8 +2600,8 @@
 		345076F90E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = "Plugins/WebKit Message View/pt.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		3452A9F607891C8A00C3C494 /* ESFileTransferRequestPromptController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESFileTransferRequestPromptController.h; path = Source/ESFileTransferRequestPromptController.h; sourceTree = "<group>"; };
 		3452A9F707891C8A00C3C494 /* ESFileTransferRequestPromptController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferRequestPromptController.m; path = Source/ESFileTransferRequestPromptController.m; sourceTree = "<group>"; };
-		34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumContactPropertiesObserverManager.h; path = Source/AdiumContactPropertiesObserverManager.h; sourceTree = "<group>"; };
-		34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumContactPropertiesObserverManager.m; path = Source/AdiumContactPropertiesObserverManager.m; sourceTree = "<group>"; };
+		34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumContactPropertiesObserverManager.h; path = "Frameworks/Adium Framework/Source/AdiumContactPropertiesObserverManager.h"; sourceTree = "<group>"; };
+		34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumContactPropertiesObserverManager.m; path = "Frameworks/Adium Framework/Source/AdiumContactPropertiesObserverManager.m"; sourceTree = "<group>"; };
 		3456231A0A3771D800E7FC97 /* ESRankingCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESRankingCell.m; path = Source/ESRankingCell.m; sourceTree = "<group>"; };
 		3456231B0A3771D800E7FC97 /* ESRankingCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESRankingCell.h; path = Source/ESRankingCell.h; sourceTree = "<group>"; };
 		3456231E0A3771E100E7FC97 /* AIChatLog.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIChatLog.m; path = Source/AIChatLog.m; sourceTree = "<group>"; };
@@ -8127,6 +8128,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636D93F40E4EAB7500E5F558 /* AdiumContactPropertiesObserverManager.h in Headers */,
 				636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */,
 				34DC8A440A7EEEF7003E1636 /* AIApplescriptabilityControllerProtocol.h in Headers */,
 				34DC8A450A7EEEF7003E1636 /* AIControllerProtocol.h in Headers */,
@@ -9810,7 +9812,6 @@
 				4F1CB6320D640D7F0073A1E6 /* AIEventsInspectorPane.m in Sources */,
 				661561650D84AEED004B7946 /* AIContactHidingController.m in Sources */,
 				6615618B0D84B875004B7946 /* AIFilterBarBackgroundBox.m in Sources */,
-				34555C600DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m in Sources */,
 				632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */,
 				34EBB2C30DCA8DE500B4CB6E /* AISearchFieldCell.m in Sources */,
 				EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */,
@@ -9824,6 +9825,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				636D94090E4EAB9D00E5F558 /* AdiumContactPropertiesObserverManager.m in Sources */,
 				636D92BE0E4E97AA00E5F558 /* AIAddressBookUserIconSource.m in Sources */,
 				34DC8A580A7EEEF7003E1636 /* ESPresetManagementController.m in Sources */,
 				34DC8A5B0A7EEEF7003E1636 /* ESPresetNameSheetController.m in Sources */,

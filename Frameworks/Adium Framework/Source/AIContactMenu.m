@@ -7,6 +7,7 @@
 //
 
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 #import <Adium/AISortController.h>
 #import <Adium/AIContactMenu.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -45,7 +46,7 @@
 		containingObject = [inContainingObject retain];
 
 		// Register as a list observer
-		[[adium contactController] registerListObjectObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 		
 		// Register for contact list order notifications (so we can update our sorting)
 		[[adium notificationCenter] addObserver:self
@@ -61,7 +62,7 @@
 
 - (void)dealloc
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 
 	[containingObject release]; containingObject = nil;

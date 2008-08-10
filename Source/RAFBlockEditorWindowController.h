@@ -8,7 +8,7 @@
 
 #import <Adium/AIWindowController.h>
 #import <AIUtilities/AIAlternatingRowTableView.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @class AIListContact, AIAccount, AICompletingTextField, AIAccountMenu;
 

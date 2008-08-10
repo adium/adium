@@ -11,6 +11,7 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AddressBook/AddressBook.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define WIDTH_PROFILE_HEADER	 100.0f
 
@@ -37,7 +38,7 @@
 		//Load Bundle
 		[NSBundle loadNibNamed:[self nibName] owner:self];
 		//Register as AIListObjectObserver
-		[[adium contactController] registerListObjectObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 		//Setup for userIcon
 		[userIcon setAnimates:YES];
 		[userIcon setMaxSize:NSMakeSize(256,256)];
@@ -52,7 +53,7 @@
 {
 	[inspectorContentView release];
 	
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[super dealloc];
 }
@@ -75,7 +76,7 @@
 	displayedObject = inObject;
 	
 	if ([inObject isKindOfClass:[AIListContact class]]) {
-		[[adium contactController] updateListContactStatus:(AIListContact *)inObject];
+		[[AdiumContactPropertiesObserverManager sharedManager] updateListContactStatus:(AIListContact *)inObject];
 	}
 	
 	[self updateProfile:nil

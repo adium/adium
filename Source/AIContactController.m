@@ -52,8 +52,6 @@
 
 #import "AdiumAuthorization.h"
 
-#import "AdiumContactPropertiesObserverManager.h"
-
 #define KEY_FLAT_GROUPS					@"FlatGroups"			//Group storage
 #define KEY_FLAT_CONTACTS				@"FlatContacts"			//Contact storage
 #define KEY_FLAT_METACONTACTS			@"FlatMetaContacts"		//Metacontact objectID storage
@@ -131,7 +129,7 @@
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 		detachedContactLists = [[NSMutableArray alloc] init];
 
-		contactPropertiesObserverManager = [[AdiumContactPropertiesObserverManager alloc] init];
+		contactPropertiesObserverManager = [AdiumContactPropertiesObserverManager sharedManager];
 	}
 	
 	return self;
@@ -205,7 +203,7 @@
 	AIMetaContact	*metaContact;
 	
 	if ([metaContactDictCopy count]) {
-		[self delayListObjectNotifications];
+		[contactPropertiesObserverManager delayListObjectNotifications];
 		
 		//Remove all the metaContacts to get any existing objects out of them
 		enumerator = [metaContactDictCopy objectEnumerator];
@@ -213,7 +211,7 @@
 			[self breakdownAndRemoveMetaContact:metaContact];
 		}
 		
-		[self endListObjectNotificationsDelay];
+		[contactPropertiesObserverManager endListObjectNotificationsDelay];
 	}
 	
 	[metaContactDict release]; metaContactDict = [[NSMutableDictionary alloc] init];
@@ -511,7 +509,7 @@
 	NSEnumerator	*enumerator;
 	AIListObject	*listObject;
 	
-	[self delayListObjectNotifications];
+	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	//Store the preference
 	[[adium preferenceController] setPreference:[NSNumber numberWithBool:!useContactListGroups]
@@ -554,7 +552,7 @@
 	}
 	
 	//Stop delaying object notifications; this will automatically resort the contact list, so we're done.
-	[self endListObjectNotificationsDelay];
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
 
 - (void)prepareShowHideGroups
@@ -621,10 +619,10 @@
 		useOfflineGroup = inFlag;
 		
 		if (useOfflineGroup) {
-			[self registerListObjectObserver:self];	
+			[contactPropertiesObserverManager registerListObjectObserver:self];	
 		} else {
-			[self updateAllListObjectsForObserver:self];
-			[self unregisterListObjectObserver:self];	
+			[contactPropertiesObserverManager updateAllListObjectsForObserver:self];
+			[contactPropertiesObserverManager unregisterListObjectObserver:self];	
 		}
 	}
 }
@@ -878,11 +876,11 @@
 	//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
 	[contactToMetaContactLookupDict removeObjectForKey:[listObject internalObjectID]];
 	
-	[self delayListObjectNotifications];
+	[contactPropertiesObserverManager delayListObjectNotifications];
 	while ((theObject = [enumerator nextObject])) {
 		[self removeListObject:theObject fromMetaContact:metaContact];
 	}
-	[self endListObjectNotificationsDelay];
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
 
 - (void)removeListObject:(AIListObject *)listObject fromMetaContact:(AIMetaContact *)metaContact
@@ -1895,7 +1893,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSEnumerator	*enumerator;
 	AIListContact	*listObject;
 	
-	[self delayListObjectNotifications];
+	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	enumerator = [contactArray objectEnumerator];
 	while ((listObject = [enumerator nextObject])) {
@@ -1903,7 +1901,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[[listObject account] addContacts:[NSArray arrayWithObject:listObject] toGroup:group];
 	}
 	
-	[self endListObjectNotificationsDelay];
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
 
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount
@@ -1923,7 +1921,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSEnumerator	*enumerator;
 	AIListContact	*listContact;
 	
-	[self delayListObjectNotifications];
+	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
 		[(id)group setDelayContainedObjectSorting:YES];
@@ -1937,7 +1935,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[self _positionObject:listContact atIndex:index inObject:group];
 	}
 	
-	[self endListObjectNotificationsDelay];
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 	
 	if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
 		[(id)group setDelayContainedObjectSorting:NO];
@@ -2119,48 +2117,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (AIContactHidingController *)contactHidingController
 {
 	return contactHidingController;
-}
-
-#pragma mark Properties observation
-- (void)delayListObjectNotifications
-{
-	[contactPropertiesObserverManager delayListObjectNotifications];
-}
-- (void)endListObjectNotificationsDelay
-{
-	[contactPropertiesObserverManager endListObjectNotificationsDelay];
-}
-- (void)delayListObjectNotificationsUntilInactivity
-{
-	[contactPropertiesObserverManager delayListObjectNotificationsUntilInactivity];	
-}
-- (void)listObjectStatusChanged:(AIListObject *)inObject modifiedStatusKeys:(NSSet *)inModifiedKeys silent:(BOOL)silent
-{
-	[contactPropertiesObserverManager listObjectStatusChanged:inObject modifiedStatusKeys:inModifiedKeys silent:silent];	
-}
-- (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys
-{
-	[contactPropertiesObserverManager listObjectAttributesChanged:inObject modifiedKeys:inModifiedKeys];		
-}
-- (void)registerListObjectObserver:(id <AIListObjectObserver>)inObserver
-{
-	[contactPropertiesObserverManager registerListObjectObserver:inObserver];
-}
-- (void)unregisterListObjectObserver:(id)inObserver
-{
-	[contactPropertiesObserverManager unregisterListObjectObserver:inObserver];
-}
-- (void)updateAllListObjectsForObserver:(id <AIListObjectObserver>)inObserver
-{
-	[contactPropertiesObserverManager updateAllListObjectsForObserver:inObserver];
-}
-- (void)updateContacts:(NSSet *)contacts forObserver:(id <AIListObjectObserver>)inObserver
-{
-	[contactPropertiesObserverManager updateContacts:contacts forObserver:inObserver];
-}
-- (void)updateListContactStatus:(AIListContact *)inContact
-{
-	[contactPropertiesObserverManager updateListContactStatus:inContact];
 }
 
 @end

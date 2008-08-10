@@ -30,7 +30,16 @@
 
 #define UPDATE_CLUMP_INTERVAL			1.0
 
+static AdiumContactPropertiesObserverManager *sharedObserverManager = nil;
+
 @implementation AdiumContactPropertiesObserverManager
+
++ (AdiumContactPropertiesObserverManager *)sharedManager
+{
+	if(!sharedObserverManager)
+		sharedObserverManager = [[self alloc] init];
+	return sharedObserverManager;
+}
 
 - (id)init
 {

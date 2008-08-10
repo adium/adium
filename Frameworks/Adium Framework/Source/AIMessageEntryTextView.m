@@ -33,6 +33,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
+#import <Adium/AIContactControllerProtocol.h>
 
 #import <AIUtilities/AITigerCompatibility.h>
 
@@ -161,7 +162,7 @@
 
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];	
 	
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 //Init the text view
@@ -188,7 +189,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 
     [chat release];
     [associatedView release];

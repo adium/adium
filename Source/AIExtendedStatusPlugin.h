@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 
 @interface AIExtendedStatusPlugin : AIPlugin <AIListObjectObserver> {

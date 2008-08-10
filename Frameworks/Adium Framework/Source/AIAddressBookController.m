@@ -15,8 +15,9 @@
  */
 
 #import "AIAddressBookController.h"
+#import <Adium/AIControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIAccount.h>
@@ -181,7 +182,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 + (void) stopAddressBookIntegration
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	[addressBookController release];
 }
@@ -502,7 +503,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	if (object) {
-		[[adium contactController] updateContacts:[NSSet setWithObject:object] forObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] updateContacts:[NSSet setWithObject:object] forObserver:self];
 		return;
 	}
 
@@ -525,7 +526,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		[self rebuildAddressBookDict];
 		
 		//Register ourself as a listObject observer, which will update all objects
-		[[adium contactController] registerListObjectObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 		
 		//Note: we don't need to call updateSelfIncludingIcon: because it was already done in installPlugin			
 	} else {
@@ -836,7 +837,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	BOOL			modifiedMe = NO;;
 
 	//Delay listObjectNotifications to speed up metaContact creation
-	[[adium contactController] delayListObjectNotifications];
+	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
 
 	//Addition of new records
 	if ((addedPeopleUniqueIDs = [[notification userInfo] objectForKey:kABInsertedRecords])) {
@@ -897,7 +898,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		}
 
 		//It's tempting to not do this if (person == me), but the 'me' contact may also be in the contact list
-		[[adium contactController] updateContacts:[self contactsForPerson:person]
+		[[AdiumContactPropertiesObserverManager sharedManager] updateContacts:[self contactsForPerson:person]
 									  forObserver:self];
 	}
 
@@ -907,7 +908,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	}
 	
 	//Stop delaying list object notifications since we are done
-	[[adium contactController] endListObjectNotificationsDelay];
+	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
 	[allModifiedPeople release];
 }
 
@@ -916,7 +917,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
  */
 - (void)updateAllContacts
 {
-	[[adium contactController] updateAllListObjectsForObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
     [self updateSelfIncludingIcon:YES];
 }
 
@@ -989,14 +990,14 @@ NSString* serviceIDForJabberUID(NSString *UID);
 - (void)rebuildAddressBookDict
 {
 	//Delay listObjectNotifications to speed up metaContact creation
-	[[adium contactController] delayListObjectNotifications];
+	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
 	
 	[addressBookDict release]; addressBookDict = [[NSMutableDictionary alloc] init];
 	
 	[self addToAddressBookDict:[sharedAddressBook people]];
 
 	//Stop delaying list object notifications since we are done
-	[[adium contactController] endListObjectNotificationsDelay];
+	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
 }
 
 

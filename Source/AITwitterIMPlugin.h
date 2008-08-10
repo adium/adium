@@ -6,7 +6,7 @@
 
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface AITwitterIMPlugin : AIPlugin <AIListObjectObserver> {
 

@@ -21,6 +21,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface AIContactStatusEventsPlugin (PRIVATE)
 - (BOOL)updateCache:(NSMutableDictionary *)cache
@@ -58,12 +59,12 @@
 	[[adium contactAlertsController] registerEventID:CONTACT_SEEN_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
 	
 	//Observe status changes
-    [[adium contactController] registerListObjectObserver:self];
+    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!

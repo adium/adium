@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIPlugin.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface ESBlockingPlugin : AIPlugin <AIListObjectObserver> {
 	NSMenuItem  *blockContactMenuItem;
