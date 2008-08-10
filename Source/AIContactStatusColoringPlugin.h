@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
 @interface AIContactStatusColoringPlugin : AIPlugin <AIListObjectObserver, AIFlashObserver> {

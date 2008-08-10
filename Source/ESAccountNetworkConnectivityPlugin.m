@@ -22,6 +22,7 @@
 #import <AIUtilities/AISleepNotification.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface ESAccountNetworkConnectivityPlugin (PRIVATE)
 - (void)handleConnectivityForAccount:(AIAccount *)account reachable:(BOOL)reachable;
@@ -63,7 +64,7 @@
 						   selector:@selector(systemDidWake:)
 							   name:AISystemDidWake_Notification
 							 object:nil];
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 /*!
@@ -73,7 +74,7 @@
 {
 	[[adium           notificationCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!

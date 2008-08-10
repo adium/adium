@@ -7,6 +7,11 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 
+//Observer which receives notifications of changes in list object status
+@protocol AIListObjectObserver
+- (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
+@end
+
 @interface AdiumContactPropertiesObserverManager : NSObject {
 	//Status and Attribute updates
     NSMutableSet			*contactObservers;
@@ -25,6 +30,7 @@
 	NSInteger						delayedUpdateRequests;
 }
 
++ (AdiumContactPropertiesObserverManager *)sharedManager;
 - (void)registerListObjectObserver:(id <AIListObjectObserver>)inObserver;
 - (void)unregisterListObjectObserver:(id)inObserver;
 - (void)updateAllListObjectsForObserver:(id <AIListObjectObserver>)inObserver;

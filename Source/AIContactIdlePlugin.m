@@ -21,6 +21,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define IDLE_UPDATE_INTERVAL	60.0
 
@@ -46,7 +47,7 @@
     [[adium interfaceController] registerContactListTooltipEntry:self secondaryEntry:YES];
 
     //
-    [[adium contactController] registerListObjectObserver:self];
+    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 /*!
@@ -56,7 +57,7 @@
 {
     //Stop tracking all idle handles
     [idleObjectTimer invalidate]; [idleObjectTimer release]; idleObjectTimer = nil;
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!
@@ -127,7 +128,7 @@
 	//There's actually no reason to re-sort in response to these status changes, but there is no way for us to
 	//let the Adium core know that.  The best we can do is delay updates so only a single sort occurs
 	//of course, smart sorting controllers should be watching IdleSince, not Idle, since that's the important bit
-	[[adium contactController] delayListObjectNotifications];
+	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
 
 	//Update everyone's idle time
     enumerator = [idleObjectArray objectEnumerator];
@@ -137,7 +138,7 @@
 		[pool release];
     }
 	
-	[[adium contactController] endListObjectNotificationsDelay];
+	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
 }
 
 /*!

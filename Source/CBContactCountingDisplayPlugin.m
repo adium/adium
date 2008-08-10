@@ -25,6 +25,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS  @"ContactCountingDisplayDefaults"
 
@@ -80,7 +81,7 @@
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 /*!
@@ -100,7 +101,7 @@
 		countAllObjects = [[prefDict objectForKey:KEY_COUNT_ALL_CONTACTS] boolValue];
 		countVisibleObjects = [[prefDict objectForKey:KEY_COUNT_VISIBLE_CONTACTS] boolValue];
 		
-		[[adium contactController] updateAllListObjectsForObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 	
 		[menuItem_countVisibleObjects setTitle:(countVisibleObjects ? HIDE_COUNT_VISIBLE_CONTACTS_TITLE : SHOW_COUNT_VISIBLE_CONTACTS_TITLE)];
 		[menuItem_countAllObjects setTitle:(countAllObjects ? HIDE_COUNT_ALL_CONTACTS_TITLE : SHOW_COUNT_ALL_CONTACTS_TITLE)];
@@ -201,7 +202,7 @@
 {
     //we are no longer an observer
     [[adium notificationCenter] removeObserver:self];
-    [[adium contactController] unregisterListObjectObserver:self];
+    [[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 }
 

@@ -10,12 +10,12 @@
 
 - (void)installPlugin
 {
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)dealloc
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[super dealloc];
 }
 

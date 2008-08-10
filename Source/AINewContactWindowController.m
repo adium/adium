@@ -32,6 +32,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
 #import <AddressBook/ABPerson.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define ADD_CONTACT_PROMPT_NIB	@"AddContact"
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
@@ -147,7 +148,7 @@
 								   selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 	
 	[self configureControlDimming];
 }
@@ -158,7 +159,7 @@
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
 

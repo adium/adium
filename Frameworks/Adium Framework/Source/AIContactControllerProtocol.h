@@ -97,16 +97,6 @@ typedef enum {
 - (void)clearAllMetaContactData;
 
 //Contact status & Attributes
-- (void)registerListObjectObserver:(id <AIListObjectObserver>)inObserver;
-- (void)unregisterListObjectObserver:(id)inObserver;
-- (void)updateAllListObjectsForObserver:(id <AIListObjectObserver>)inObserver;
-- (void)updateContacts:(NSSet *)contacts forObserver:(id <AIListObjectObserver>)inObserver;
-- (void)delayListObjectNotifications;
-- (void)endListObjectNotificationsDelay;
-- (void)delayListObjectNotificationsUntilInactivity;
-- (void)listObjectStatusChanged:(AIListObject *)inObject modifiedStatusKeys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
-- (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys;
-
 - (void)listObjectRemoteGroupingChanged:(AIListContact *)inObject;
 
 //Contact list sorting
@@ -135,9 +125,6 @@ typedef enum {
 
 - (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
 
-//Contact info
-- (void)updateListContactStatus:(AIListContact *)inContact;
-
 //Contact List 
 - (AIListGroup *)createDetachedContactList;
 - (void)removeDetachedContactList:(AIListGroup *)detachedList;
@@ -147,11 +134,6 @@ typedef enum {
 //Contact hiding
 - (AIContactHidingController *)contactHidingController;
 
-@end
-
-//Observer which receives notifications of changes in list object status
-@protocol AIListObjectObserver
-- (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
 @end
 
 //Empty protocol to allow easy checking for if a particular object is a contact list outline view

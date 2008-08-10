@@ -16,6 +16,7 @@
 
 #import <Adium/AIControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import "AdiumContactPropertiesObserverManager.h"
 
 #define	KEY_HIDE_CONTACTS				@"Hide Contacts"
 #define KEY_SHOW_OFFLINE_CONTACTS		@"Show Offline Contacts"

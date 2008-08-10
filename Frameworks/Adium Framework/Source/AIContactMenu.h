@@ -7,6 +7,7 @@
 //
 
 #import <Adium/AIAbstractListObjectMenu.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @class AIAccount, AIListContact, AIListObject;
 

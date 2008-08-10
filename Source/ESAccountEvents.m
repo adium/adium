@@ -19,6 +19,7 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIAccount.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define ACCOUNT_CONNECTION_STATUS_GROUPING  4.0
 
@@ -42,12 +43,12 @@
 	[[adium contactAlertsController] registerEventID:ACCOUNT_RECEIVED_EMAIL withHandler:self inGroup:AIOtherEventHandlerGroup globalOnly:YES];
 
 	//Observe status changes
-    [[adium contactController] registerListObjectObserver:self];
+    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!

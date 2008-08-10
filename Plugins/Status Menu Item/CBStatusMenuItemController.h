@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 #import "AIMenuBarIcons.h"
 #import "AIStatusItemView.h"
 

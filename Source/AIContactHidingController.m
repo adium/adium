@@ -49,7 +49,7 @@
 
 - (void)dealloc
 {
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[searchString release];
 	[super dealloc];
 }
@@ -74,10 +74,10 @@
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
 	
 	if (firstTime) {
-		[[adium contactController] registerListObjectObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 	} else {
 		//Refresh visibility of all contacts
-		[[adium contactController] updateAllListObjectsForObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		
 		//Resort the entire list, forcing the visibility changes to hae an immediate effect (we return nil in the 
 		//updateListObject: method call, so the contact controller doesn't know we changed anything)
@@ -233,7 +233,7 @@
 	// If the search string is empty, refresh the visibility of all contacts.
 	// This allows us to show *all* contacts when searching, and rehide them when searching is complete.
 	if ([searchString isEqualToString:@""]) {
-		[[adium contactController] updateAllListObjectsForObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		
 		// Restore all group chats to visible
 		NSEnumerator		*enumerator = [[[adium contactController] allBookmarks] objectEnumerator];
@@ -250,7 +250,7 @@
 	[listContacts addObjectsFromArray:[[adium contactController] allBookmarks]];
 	
 	// Delay list object notifications until we're done
-	[[adium contactController] delayListObjectNotifications];
+	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
 	
 	NSEnumerator	*enumerator = [listContacts objectEnumerator];
 	AIListContact	*listContact;
@@ -267,7 +267,7 @@
 	}
 	
 	// Stop delaying list object notifications
-	[[adium contactController] endListObjectNotificationsDelay];
+	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
 }	
 
 /*!

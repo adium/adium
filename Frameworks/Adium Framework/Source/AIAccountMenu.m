@@ -106,7 +106,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 										 object:nil];
 
 		//Observe our accouts and prepare our state menus
-		[[adium contactController] registerListObjectObserver:self];
+		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 
 		if (submenuType == AIAccountStatusSubmenu) {
 			statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
@@ -126,7 +126,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		[statusMenu release]; statusMenu = nil;
 	}
 
-	[[adium contactController] unregisterListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 
 	delegate = nil;

@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIAbstractListObjectMenu.h>
-#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @class AIAccount, AIStatusMenu;
 

@@ -21,7 +21,7 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
-
+#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
@@ -97,14 +97,14 @@
     //Observe preferences and list objects
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
-	[[adium contactController] registerListObjectObserver:self];
+	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	[[adium    contactController] unregisterListObjectObserver:self];
-	[[adium  interfaceController] unregisterFlashObserver:self];	
+	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[adium interfaceController] unregisterFlashObserver:self];	
 }
 
 - (void)dealloc
@@ -396,7 +396,7 @@
 
 		//Update all objects
 		if (!firstTime) {
-			[[adium contactController] updateAllListObjectsForObserver:self];
+			[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		}
 
 	} else if ([group isEqualToString:PREF_GROUP_CONTACT_LIST]) {
@@ -414,11 +414,11 @@
 			}
 			
 			//Make our colors end up right (if we were on an off-flash) by updating all list objects
-			[[adium contactController] updateAllListObjectsForObserver:self];
+			[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		} else if (!oldFlashUnviewedContentEnabled && flashUnviewedContentEnabled) {
 			if (!firstTime) {
 				//Update all list objects so we start flashing
-				[[adium contactController] updateAllListObjectsForObserver:self];
+				[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
 			}
 		}
 	}
