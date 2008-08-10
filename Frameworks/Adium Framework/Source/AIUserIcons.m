@@ -18,7 +18,8 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIAdiumProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIContactObserverManager.h>
 
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <Adium/AIServiceIcons.h>
@@ -104,7 +105,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	AILogWithSignature(@"");
 #endif
 
-	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
+	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	
 	[self flushAllCaches];
 
@@ -115,7 +116,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 		[self updateUserIconForObject:listObject];
 	}
 
-	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];	
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];	
 }
 
 /*!
@@ -135,12 +136,12 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	NSSet			*modifiedKeys = [NSSet setWithObject:KEY_USER_ICON];
 	
 	//Notify
-	[[AdiumContactPropertiesObserverManager sharedManager] listObjectAttributesChanged:inObject
+	[[AIContactObserverManager sharedManager] listObjectAttributesChanged:inObject
 											  modifiedKeys:modifiedKeys];		
 	
 	if ([containingObject isKindOfClass:[AIListContact class]]) {		
 		//Notify
-		[[AdiumContactPropertiesObserverManager sharedManager] listObjectAttributesChanged:containingObject
+		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:containingObject
 												  modifiedKeys:modifiedKeys];
 	}	
 }

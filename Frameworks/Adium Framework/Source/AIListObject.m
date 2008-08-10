@@ -23,7 +23,7 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 
 #define ObjectStatusCache	@"Object Status Cache"
 #define DisplayName			@"Display Name"
@@ -283,7 +283,7 @@
  */
 - (void)didModifyProperties:(NSSet *)keys silent:(BOOL)silent
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] listObjectStatusChanged:self
+	[[AIContactObserverManager sharedManager] listObjectStatusChanged:self
 									modifiedStatusKeys:keys
 												silent:silent];
 }

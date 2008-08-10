@@ -1,36 +1,36 @@
 //
-//  AdiumContactPropertiesObserverManager.h
+//  AIContactObserverManager.h
 //  Adium
 //
 //  Created by Evan Schoenberg on 4/16/08.
 //
 
-#import <Adium/AIContactControllerProtocol.h>
+@class AIListObject, AIListContact;
 
 //Observer which receives notifications of changes in list object status
 @protocol AIListObjectObserver
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
 @end
 
-@interface AdiumContactPropertiesObserverManager : NSObject {
+@interface AIContactObserverManager : NSObject {
 	//Status and Attribute updates
-    NSMutableSet			*contactObservers;
+	NSMutableSet			*contactObservers;
 	NSMutableSet			*removedContactObservers;
-    NSTimer					*delayedUpdateTimer;
-    NSInteger						delayedStatusChanges;
+	NSTimer					*delayedUpdateTimer;
+	NSInteger				delayedStatusChanges;
 	NSMutableSet			*delayedModifiedStatusKeys;
-    NSInteger						delayedAttributeChanges;
+	NSInteger				delayedAttributeChanges;
 	NSMutableSet			*delayedModifiedAttributeKeys;
 
-	BOOL					updatesAreDelayed;
+	BOOL						updatesAreDelayed;
 	NSMutableSet			*changedObjects;
 	
-	BOOL					informingObservers;
-	NSInteger						delayedContactChanges;
-	NSInteger						delayedUpdateRequests;
+	BOOL						informingObservers;
+	NSInteger				delayedContactChanges;
+	NSInteger				delayedUpdateRequests;
 }
 
-+ (AdiumContactPropertiesObserverManager *)sharedManager;
++ (AIContactObserverManager *)sharedManager;
 - (void)registerListObjectObserver:(id <AIListObjectObserver>)inObserver;
 - (void)unregisterListObjectObserver:(id)inObserver;
 - (void)updateAllListObjectsForObserver:(id <AIListObjectObserver>)inObserver;
