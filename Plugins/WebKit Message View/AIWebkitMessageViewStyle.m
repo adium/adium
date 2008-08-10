@@ -737,9 +737,15 @@ static NSArray *validSenderColors;
 				if (date) {
 					NSString *timeFormat = [inString substringWithRange:NSMakeRange(NSMaxRange(range), (endRange.location - NSMaxRange(range)))];
 					
-					NSDateFormatter	*dateFormatter = [[NSDateFormatter alloc] init];
-					[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-					[dateFormatter setDateFormat:timeFormat];
+					NSDateFormatter *dateFormatter;
+					if ([timeFormat rangeOfString:@"%"].location != NSNotFound) {
+						/* Support strftime-style format strings, which old message styles may use */
+						dateFormatter = [[NSDateFormatter alloc] initWithDateFormat:timeFormat allowNaturalLanguage:NO];
+					} else {
+						dateFormatter = [[NSDateFormatter alloc] init];
+						[dateFormatter	setFormatterBehavior:NSDateFormatterBehavior10_4];
+						[dateFormatter setDateFormat:timeFormat];
+					}
 					
 					[inString safeReplaceCharactersInRange:NSUnionRange(range, endRange) 
 												withString:[dateFormatter stringFromDate:date]];
