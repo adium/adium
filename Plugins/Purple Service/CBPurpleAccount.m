@@ -37,7 +37,7 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
@@ -135,7 +135,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//status updates
 	if (!silentAndDelayed) {
 		[self silenceAllContactUpdatesForInterval:2.0];
-		[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];		
+		[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];		
 	}
 	
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
@@ -1822,7 +1822,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	
 	//Silence updates
 	[self silenceAllContactUpdatesForInterval:18.0];
-	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
+	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
 	
 	//Clear any previous disconnection error
 	[self setLastDisconnectionError:nil];
@@ -1898,7 +1898,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		//As per AIAccount's documentation, call super's implementation
 		[super disconnect];
 
-		[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
+		[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
 
 		//Tell libpurple to disconnect
 		[purpleAdapter disconnectAccount:self];

@@ -5,17 +5,18 @@
 //  Created by Colin Barrett on 5/14/08.
 
 #import "AITwitterIMPlugin.h"
+#import <Adium/AIListObject.h>
 
 @implementation AITwitterIMPlugin
 
 - (void)installPlugin
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)dealloc
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[super dealloc];
 }
 

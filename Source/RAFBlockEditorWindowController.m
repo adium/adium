@@ -17,7 +17,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface RAFBlockEditorWindowController (PRIVATE)
 - (NSMenu *)privacyOptionsMenu;
@@ -85,7 +84,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 									   name:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
 									 object:nil];
 	
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
 	[super windowDidLoad];
 }
@@ -94,7 +93,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 {
 	[super windowWillClose:sender];
 
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[[adium notificationCenter] removeObserver:self];
 	[sharedInstance release]; sharedInstance = nil;

@@ -1203,8 +1203,8 @@
 		636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D93690E4E9FD300E5F558 /* AdiumAddressBookAction_Jabber.scpt */; };
 		636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */; };
 		636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */; };
-		636D93F40E4EAB7500E5F558 /* AdiumContactPropertiesObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		636D94090E4EAB9D00E5F558 /* AdiumContactPropertiesObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */; };
+		636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */; };
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		63AF931A0AA81E2300B88299 /* Bright Blue.ListTheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63AF91C90AA8102600B88299 /* Bright Blue.ListTheme */; };
 		63AF931B0AA81E2300B88299 /* Bright Green.ListTheme in CopyFiles */ = {isa = PBXBuildFile; fileRef = 63AF91CA0AA8102600B88299 /* Bright Green.ListTheme */; };
@@ -2600,8 +2600,8 @@
 		345076F90E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = "Plugins/WebKit Message View/pt.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		3452A9F607891C8A00C3C494 /* ESFileTransferRequestPromptController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESFileTransferRequestPromptController.h; path = Source/ESFileTransferRequestPromptController.h; sourceTree = "<group>"; };
 		3452A9F707891C8A00C3C494 /* ESFileTransferRequestPromptController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferRequestPromptController.m; path = Source/ESFileTransferRequestPromptController.m; sourceTree = "<group>"; };
-		34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumContactPropertiesObserverManager.h; path = "Frameworks/Adium Framework/Source/AdiumContactPropertiesObserverManager.h"; sourceTree = "<group>"; };
-		34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumContactPropertiesObserverManager.m; path = "Frameworks/Adium Framework/Source/AdiumContactPropertiesObserverManager.m"; sourceTree = "<group>"; };
+		34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactObserverManager.h; path = "Frameworks/Adium Framework/Source/AIContactObserverManager.h"; sourceTree = "<group>"; };
+		34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactObserverManager.m; path = "Frameworks/Adium Framework/Source/AIContactObserverManager.m"; sourceTree = "<group>"; };
 		3456231A0A3771D800E7FC97 /* ESRankingCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESRankingCell.m; path = Source/ESRankingCell.m; sourceTree = "<group>"; };
 		3456231B0A3771D800E7FC97 /* ESRankingCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESRankingCell.h; path = Source/ESRankingCell.h; sourceTree = "<group>"; };
 		3456231E0A3771E100E7FC97 /* AIChatLog.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIChatLog.m; path = Source/AIChatLog.m; sourceTree = "<group>"; };
@@ -6110,8 +6110,6 @@
 			children = (
 				F57938F6033E745F01A8010A /* AIContactController.h */,
 				F57938AB033E737001A8010A /* AIContactController.m */,
-				34555C5E0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.h */,
-				34555C5F0DB6BCE500649CD4 /* AdiumContactPropertiesObserverManager.m */,
 				343C89B005704DEC005E0632 /* Address Book Integration */,
 				4B28907503C1D14200A8010A /* Alias Support */,
 				34C2D31006334A460018E5D2 /* Blocking */,
@@ -7813,6 +7811,8 @@
 				DA9CF855080F9784000C5249 /* AIPathUtilities.m */,
 				4B422C0905ACB248005E720B /* AISortController.h */,
 				4B422C0A05ACB248005E720B /* AISortController.m */,
+				34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */,
+				34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */,
 				636D930E0E4E9DDD00E5F558 /* Address Book Integration */,
 				34BFD7ED07E6A1FB00AD984D /* Preset Manager */,
 				4B4F5B2D042D645F00A8010A /* Accounts & Services */,
@@ -8128,7 +8128,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				636D93F40E4EAB7500E5F558 /* AdiumContactPropertiesObserverManager.h in Headers */,
+				636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */,
 				636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */,
 				34DC8A440A7EEEF7003E1636 /* AIApplescriptabilityControllerProtocol.h in Headers */,
 				34DC8A450A7EEEF7003E1636 /* AIControllerProtocol.h in Headers */,
@@ -9825,7 +9825,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				636D94090E4EAB9D00E5F558 /* AdiumContactPropertiesObserverManager.m in Sources */,
+				636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */,
 				636D92BE0E4E97AA00E5F558 /* AIAddressBookUserIconSource.m in Sources */,
 				34DC8A580A7EEEF7003E1636 /* ESPresetManagementController.m in Sources */,
 				34DC8A5B0A7EEEF7003E1636 /* ESPresetNameSheetController.m in Sources */,

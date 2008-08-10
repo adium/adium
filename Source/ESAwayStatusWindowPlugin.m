@@ -14,7 +14,6 @@
 #import "AIStatusController.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 /*!
  * @class ESAwayStatusWindowPlugin
@@ -41,7 +40,7 @@
 - (void)uninstallPlugin
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!
@@ -70,7 +69,7 @@
 		if (showStatusWindow) {
 			/* Register as a list object observer, which will update all objects for us immediately leading to the proper
 			 * status window toggling. */
-			[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+			[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 		} else {
 			//Hide the status window if it is currently visible
 			[ESAwayStatusWindowController updateStatusWindowWithVisibility:NO];
@@ -79,7 +78,7 @@
 			[awayAccounts removeAllObjects];
 			
 			//Stop observing list objects
-			[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+			[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 		}
 	}
 

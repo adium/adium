@@ -31,7 +31,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIIconState.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define SMALLESTRADIUS				15
 #define RADIUSRANGE					36
@@ -59,7 +58,7 @@
     overlayState = nil;
 
     //Register as a contact observer (For signed on / signed off)
-    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+    [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	//Register as a chat observer (for unviewed content)
 	[[adium chatController] registerChatObserver:self];
@@ -83,7 +82,7 @@
 
 - (void)uninstallPlugin
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium chatController] unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];

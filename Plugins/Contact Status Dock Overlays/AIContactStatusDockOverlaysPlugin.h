@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 

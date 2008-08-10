@@ -129,7 +129,7 @@
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 		detachedContactLists = [[NSMutableArray alloc] init];
 
-		contactPropertiesObserverManager = [AdiumContactPropertiesObserverManager sharedManager];
+		contactPropertiesObserverManager = [AIContactObserverManager sharedManager];
 	}
 	
 	return self;

@@ -24,7 +24,6 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 /*!
  * @class AIAutoReplyPlugin
@@ -60,7 +59,7 @@
 								   selector:@selector(chatWillClose:)
 									   name:Chat_WillClose object:nil];
 	
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 /*!
@@ -68,7 +67,7 @@
  */
 - (void)dealloc
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[receivedAutoReply release];
 	
 	[super dealloc];

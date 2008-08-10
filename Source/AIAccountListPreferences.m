@@ -39,7 +39,6 @@
 #import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import "KFTypeSelectTableView.h"
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define MINIMUM_ROW_HEIGHT				34
 #define MINIMUM_CELL_SPACING			 4
@@ -147,7 +146,7 @@
  */
 - (void)viewWillClose
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	
 	[accountArray release]; accountArray = nil;
@@ -388,7 +387,7 @@
 	[self accountListChanged:nil];
 	
 	//Observe accounts so we can display accurate status
-    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+    [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 /*!

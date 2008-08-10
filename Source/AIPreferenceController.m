@@ -17,7 +17,7 @@
 #import "AIPreferenceController.h"
 
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 
@@ -332,13 +332,13 @@
 		NSEnumerator    *enumerator = [delayedNotificationGroups objectEnumerator];
 		NSString        *group;
 		
-		[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 		while ((group = [enumerator nextObject])) {
 			[self informObserversOfChangedKey:nil inGroup:group object:nil];
 		}
 
-		[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		[delayedNotificationGroups removeAllObjects];
     }

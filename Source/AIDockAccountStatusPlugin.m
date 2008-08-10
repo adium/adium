@@ -24,7 +24,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface AIDockAccountStatusPlugin (PRIVATE)
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey;
@@ -47,7 +46,7 @@
 - (void)installPlugin
 {
 	//Observe account status changes
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
     //Observer preference changes
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
@@ -59,7 +58,7 @@
 - (void)uninstallPlugin
 {
     //Remove observers
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }

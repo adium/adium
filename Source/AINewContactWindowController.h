@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIWindowController.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 
 #define PREF_GROUP_ADD_CONTACT  @"Add Contact"
 #define KEY_ADD_CONTACT_TO		@"Add Contacts to account"
