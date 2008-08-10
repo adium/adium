@@ -309,16 +309,11 @@
 	NSEnumerator	*enumerator = [listObjects objectEnumerator];;
 	AIListObject	*object;
 	
-	//Create temporary strings outside the loop
-	NSString	*Group = @"Group";
-	NSString	*Type = @"Type";
-	NSString	*Expanded = @"Expanded";
-	
 	while ((object = [enumerator nextObject])) {
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						  Group, Type,
+						  @"Group", @"Type",
 						  [object UID], UID_KEY,
-						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], Expanded,
+						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], @"Expanded",
 						  nil]];
 	}
 	
