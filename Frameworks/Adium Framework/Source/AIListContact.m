@@ -32,7 +32,7 @@
 
 #include <AvailabilityMacros.h>
 
-#import "ESAddressBookIntegrationPlugin.h"
+#import "AIAddressBookController.h"
 
 #define KEY_BASE_WRITING_DIRECTION		@"Base Writing Direction"
 #define PREF_GROUP_WRITING_DIRECTION	@"Writing Direction"
@@ -750,7 +750,7 @@
 #pragma mark Address Book
 - (ABPerson *)addressBookPerson
 {
-	return [[adium contactController] personForListObject:[self parentContact]];	
+	return [AIAddressBookController personForListObject:[self parentContact]];	
 }
 - (void)setAddressBookPerson:(ABPerson *)inPerson
 {

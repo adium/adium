@@ -46,6 +46,7 @@
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import "AIAddressBookController.h"
 #import <Sparkle/Sparkle.h>
 //For Apple Help
 #import <Carbon/Carbon.h>
@@ -276,6 +277,9 @@ static NSString	*prefsCategory;
 	[AdiumURLHandling registerURLTypes];		//Asks the user questions so must load after components
 	[menuController controllerDidLoad];			//Loaded by nib
 	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
+	
+	[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
+	
 	[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
 	[interfaceController controllerDidLoad];	//Loaded by nib
 	[pool release];
@@ -427,6 +431,7 @@ static NSString	*prefsCategory;
 	[interfaceController controllerWillClose];
 	[contentController controllerWillClose];
 	[contactController controllerWillClose];
+	[AIAddressBookController stopAddressBookIntegration];
 	[accountController controllerWillClose];
 	[emoticonController controllerWillClose];
 	[soundController controllerWillClose];

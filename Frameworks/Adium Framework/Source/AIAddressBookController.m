@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "ESAddressBookIntegrationPlugin.h"
+#import "AIAddressBookController.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
@@ -48,7 +48,7 @@
 
 #define KEY_AB_TO_METACONTACT_DICT			@"UniqueIDToMetaContactObjectIDDictionary"
 
-@interface ESAddressBookIntegrationPlugin(PRIVATE)
+@interface AIAddressBookController(PRIVATE)
 + (ABPerson *)_searchForUID:(NSString *)UID serviceID:(NSString *)serviceID;
 
 - (void)processPerson:(ABPerson *)person withKnownContact:(AIListContact *)listContact;
@@ -66,94 +66,69 @@
 @end
 
 /*!
- * @class ESAddressBookIntegrationPlugin
+ * @class AIAddressBookController
  * @brief Provides Apple Address Book integration
  *
  * This class allows Adium to seamlessly interact with the Apple Address Book, pulling names and icons, storing icons
  * if desired, and generating metaContacts based on screen name grouping.  It relies upon cards having screen names listed
  * in the appropriate service fields in the address book.
  */
-@implementation ESAddressBookIntegrationPlugin
+@implementation AIAddressBookController
 
-static	ABAddressBook		*sharedAddressBook = nil;
-static  NSMutableDictionary	*addressBookDict = nil;
-
-static	NSDictionary		*serviceDict = nil;
+static AIAddressBookController *addressBookController = nil;
+static ABAddressBook				*sharedAddressBook;
+static NSMutableDictionary		*addressBookDict;
+static NSDictionary				*serviceDict;
 
 NSString* serviceIDForOscarUID(NSString *UID);
 NSString* serviceIDForJabberUID(NSString *UID);
 
-/*!
- * @brief Install plugin
- *
- * This plugin finishes installing in adiumFinishedLaunching:
- */
-- (void)installPlugin
++ (void) startAddressBookIntegration
 {
-    meTag = -1;
-    addressBookDict = nil;
-	createMetaContacts = NO;
-	
-	personUniqueIdToMetaContactDict = [[NSMutableDictionary alloc] init];
+	if(!addressBookController)
+		addressBookController = [[self alloc] init];
+}
 
-    //Configure our preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:AB_DISPLAYFORMAT_DEFAULT_PREFS 
-																		forClass:[self class]]  
-										  forGroup:PREF_GROUP_ADDRESSBOOK];
-
-	//We want the enableImport preference immediately (without waiting for the preferences observer to be registered in adiumFinishedLaunching:)
-	enableImport = [[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
-															 group:PREF_GROUP_ADDRESSBOOK] boolValue];
-    advancedPreferences = [[ESAddressBookIntegrationAdvancedPreferences preferencePane] retain];
-	
-    //Services dictionary
-    serviceDict = [[NSDictionary dictionaryWithObjectsAndKeys:kABAIMInstantProperty,@"AIM",
-								kABJabberInstantProperty,@"Jabber",
-								kABMSNInstantProperty,@"MSN",
-								kABYahooInstantProperty,@"Yahoo!",
-								kABICQInstantProperty,@"ICQ",nil] retain];
-	
-	//Shared Address Book
-	[sharedAddressBook release]; sharedAddressBook = [[ABAddressBook sharedAddressBook] retain];
-	
-	//Create our contextual menus
-	showInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_IN_AB_CONTEXTUAL_MENU_TITLE
-																			   action:@selector(showInAddressBook)
-																		keyEquivalent:@""] autorelease];
-	[showInABContextualMenuItem setTarget:self];
-	[showInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
-	
-	editInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:EDIT_IN_AB_CONTEXTUAL_MENU_TITLE
-																					   action:@selector(editInAddressBook)
-																				keyEquivalent:@""] autorelease];
-	[editInABContextualMenuItem setTarget:self];
-	[editInABContextualMenuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-	[editInABContextualMenuItem setAlternate:YES];
-	[editInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
-	
-	addToABContexualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_TO_AB_CONTEXTUAL_MENU_TITLE
-																					 action:@selector(addToAddressBook)
-																			  keyEquivalent:@""] autorelease];
-	[addToABContexualMenuItem setTarget:self];
-	[addToABContexualMenuItem setTag:AIRequiresNoAddressBookEntry];
-	
-	//Install our menues
-	[[adium menuController] addContextualMenuItem:addToABContexualMenuItem toLocation:Context_Contact_Action];
-	[[adium menuController] addContextualMenuItem:showInABContextualMenuItem toLocation:Context_Contact_Action];
-	[[adium menuController] addContextualMenuItem:editInABContextualMenuItem toLocation:Context_Contact_Action];
-	
-	[[adium contactController] setAddressBookController:self];
-
-	[self installAddressBookActions];
-	
-	//Wait for Adium to finish launching before we build the address book so the contact list will be ready
-	[[adium notificationCenter] addObserver:self
-								   selector:@selector(adiumFinishedLaunching:)
-									   name:AIApplicationDidFinishLoadingNotification
-									 object:nil];
-	
-	//Update self immediately so the information is available to plugins and interface elements as they load
-	[self updateSelfIncludingIcon:YES];	
+- (id)init
+{
+	if ((self = [super init]))
+	{
+		meTag = -1;
+		addressBookDict = nil;
+		createMetaContacts = NO;
+		
+		personUniqueIdToMetaContactDict = [[NSMutableDictionary alloc] init];
+		
+		//Configure our preferences
+		[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:AB_DISPLAYFORMAT_DEFAULT_PREFS forClass:[self class]]  
+						      forGroup:PREF_GROUP_ADDRESSBOOK];
+		
+		//We want the enableImport preference immediately (without waiting for the preferences observer to be registered in adiumFinishedLaunching:)
+		enableImport = [[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
+									 group:PREF_GROUP_ADDRESSBOOK] boolValue];
+		
+		//Services dictionary
+		serviceDict = [[NSDictionary dictionaryWithObjectsAndKeys:kABAIMInstantProperty,@"AIM",
+				kABJabberInstantProperty,@"Jabber",
+				kABMSNInstantProperty,@"MSN",
+				kABYahooInstantProperty,@"Yahoo!",
+				kABICQInstantProperty,@"ICQ",nil] retain];
+		
+		//Shared Address Book
+		[sharedAddressBook release]; sharedAddressBook = [[ABAddressBook sharedAddressBook] retain];
+		
+		[self installAddressBookActions];
+		
+		//Wait for Adium to finish launching before we build the address book so the contact list will be ready
+		[[adium notificationCenter] addObserver:self
+					       selector:@selector(adiumFinishedLaunching:)
+						   name:AIApplicationDidFinishLoadingNotification
+						 object:nil];
+		
+		//Update self immediately so the information is available to plugins and interface elements as they load
+		[self updateSelfIncludingIcon:YES];	
+	}
+	return self;
 }
 
 - (void)installAddressBookActions
@@ -204,24 +179,18 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	}
 }
 
-/*!
- * @brief Uninstall plugin
- */
-- (void)uninstallPlugin
++ (void) stopAddressBookIntegration
 {
-    [[adium contactController] unregisterListObjectObserver:self];
-    [[adium notificationCenter] removeObserver:self];
+	[[adium contactController] unregisterListObjectObserver:self];
+	[[adium notificationCenter] removeObserver:self];
+	[addressBookController release];
 }
 
-/*!
- * @brief Deallocate
- */
 - (void)dealloc
 {
-    [serviceDict release]; serviceDict = nil;
+	[serviceDict release]; serviceDict = nil;
 
 	[sharedAddressBook release]; sharedAddressBook = nil;
-	[addressBookUserIconSource release]; addressBookUserIconSource = nil;
 	[personUniqueIdToMetaContactDict release]; personUniqueIdToMetaContactDict = nil;
 	
 	[[adium preferenceController] unregisterPreferenceObserver:self];
@@ -238,23 +207,49 @@ NSString* serviceIDForJabberUID(NSString *UID);
  */
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {	
-    //Observe external address book changes
-    [[NSNotificationCenter defaultCenter] addObserver:self
+	//Create our contextual menus
+	showInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_IN_AB_CONTEXTUAL_MENU_TITLE
+											   action:@selector(showInAddressBook)
+										    keyEquivalent:@""] autorelease];
+	[showInABContextualMenuItem setTarget:self];
+	[showInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
+	
+	editInABContextualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:EDIT_IN_AB_CONTEXTUAL_MENU_TITLE
+											   action:@selector(editInAddressBook)
+										    keyEquivalent:@""] autorelease];
+	[editInABContextualMenuItem setTarget:self];
+	[editInABContextualMenuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+	[editInABContextualMenuItem setAlternate:YES];
+	[editInABContextualMenuItem setTag:AIRequiresAddressBookEntry];
+	
+	addToABContexualMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_TO_AB_CONTEXTUAL_MENU_TITLE
+											 action:@selector(addToAddressBook)
+										  keyEquivalent:@""] autorelease];
+	[addToABContexualMenuItem setTarget:self];
+	[addToABContexualMenuItem setTag:AIRequiresNoAddressBookEntry];
+	
+	//Install our menus
+	[[adium menuController] addContextualMenuItem:addToABContexualMenuItem toLocation:Context_Contact_Action];
+	[[adium menuController] addContextualMenuItem:showInABContextualMenuItem toLocation:Context_Contact_Action];
+	[[adium menuController] addContextualMenuItem:editInABContextualMenuItem toLocation:Context_Contact_Action];
+	
+	//Observe external address book changes
+	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(addressBookChanged:)
 												 name:kABDatabaseChangedExternallyNotification
 											   object:nil];
 
-    //Observe account changes
-    [[adium notificationCenter] addObserver:self
-								   selector:@selector(accountListChanged:)
+	//Observe account changes
+	[[adium notificationCenter] addObserver:self
+										selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
 
-    //Observe preferences changes
-    id<AIPreferenceController> preferenceController = [adium preferenceController];
+	//Observe preferences changes
+	id<AIPreferenceController> preferenceController = [adium preferenceController];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_ADDRESSBOOK];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_USERICONS];
-	
+
 	addressBookUserIconSource = [[AIAddressBookUserIconSource alloc] init];
 	[AIUserIcons registerUserIconSource:addressBookUserIconSource];
 }
@@ -511,54 +506,54 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		return;
 	}
 
-    if ([group isEqualToString:PREF_GROUP_ADDRESSBOOK] &&
-		![key isEqualToString:KEY_AB_TO_METACONTACT_DICT]) {
-		BOOL			oldCreateMetaContacts = createMetaContacts;
-		
-        //load new displayFormat
-		enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
-		displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
-        automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
-        useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
-		useMiddleName = [[prefDict objectForKey:KEY_AB_USE_MIDDLE] boolValue];
+	if (![group isEqualToString:PREF_GROUP_ADDRESSBOOK] || [key isEqualToString:KEY_AB_TO_METACONTACT_DICT])
+		return;
+	
+	BOOL			oldCreateMetaContacts = createMetaContacts;
 
-		createMetaContacts = [[prefDict objectForKey:KEY_AB_CREATE_METACONTACTS] boolValue];
-		
-		if (firstTime) {
-			//Build the address book dictionary, which will also trigger metacontact grouping as appropriate
-			[self rebuildAddressBookDict];
-			
-			//Register ourself as a listObject observer, which will update all objects
-			[[adium contactController] registerListObjectObserver:self];
-			
-			//Note: we don't need to call updateSelfIncludingIcon: because it was already done in installPlugin			
-		} else {
-			//This isn't the first time through
+	//load new displayFormat
+	enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
+	displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
+	automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
+	useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
+	useMiddleName = [[prefDict objectForKey:KEY_AB_USE_MIDDLE] boolValue];
 
-			//If we weren't creating meta contacts before but we are now
-			if (!oldCreateMetaContacts && createMetaContacts) {
-				/*
-				 Build the address book dictionary, which will also trigger metacontact grouping as appropriate
-				 Delay to the next run loop to give better UI responsiveness
-				 */
-				[self performSelector:@selector(rebuildAddressBookDict)
-						   withObject:nil
-						   afterDelay:0.0001];
-			}
-			
-			//Update all contacts, which will update objects and then our "me" card information
-			[self updateAllContacts];
+	createMetaContacts = [[prefDict objectForKey:KEY_AB_CREATE_METACONTACTS] boolValue];
+	
+	if (firstTime) {
+		//Build the address book dictionary, which will also trigger metacontact grouping as appropriate
+		[self rebuildAddressBookDict];
+		
+		//Register ourself as a listObject observer, which will update all objects
+		[[adium contactController] registerListObjectObserver:self];
+		
+		//Note: we don't need to call updateSelfIncludingIcon: because it was already done in installPlugin			
+	} else {
+		//This isn't the first time through
+
+		//If we weren't creating meta contacts before but we are now
+		if (!oldCreateMetaContacts && createMetaContacts) {
+			/*
+			 Build the address book dictionary, which will also trigger metacontact grouping as appropriate
+			 Delay to the next run loop to give better UI responsiveness
+			 */
+			[self performSelector:@selector(rebuildAddressBookDict)
+					   withObject:nil
+					   afterDelay:0.0001];
 		}
 		
-		if (automaticUserIconSync) {
-			[[adium notificationCenter] addObserver:self
-										   selector:@selector(listObjectAttributesChanged:)
-											   name:ListObject_AttributesChanged
-											 object:nil];
-		} else {
-			[[adium notificationCenter] removeObserver:self name:ListObject_AttributesChanged object:nil];
-		}
-    }
+		//Update all contacts, which will update objects and then our "me" card information
+		[self updateAllContacts];
+	}
+	
+	if (automaticUserIconSync) {
+		[[adium notificationCenter] addObserver:self
+									   selector:@selector(listObjectAttributesChanged:)
+										   name:ListObject_AttributesChanged
+										 object:nil];
+	} else {
+		[[adium notificationCenter] removeObserver:self name:ListObject_AttributesChanged object:nil];
+	}
 }
 
 /*!
@@ -681,11 +676,6 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	}
 
 	return person;
-}
-
-- (ABPerson *)personForListObject:(AIListObject *)inObject
-{
-	return [[self class] personForListObject:inObject];
 }
 
 /*!
@@ -1316,7 +1306,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 - (void)addToAddressBook
 {
 	AIListObject			*contact = [[adium menuController] currentContextMenuObject];
-	NSString				*serviceProperty = [ESAddressBookIntegrationPlugin propertyFromService:[contact service]];
+	NSString				*serviceProperty = [AIAddressBookController propertyFromService:[contact service]];
 	
 	if (serviceProperty) {
 		ABPerson				*person = [[ABPerson alloc] init];
@@ -1336,7 +1326,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		{
 			multiValue = [[ABMutableMultiValue alloc] init];
 			UID = [c formattedUID];
-			serviceProperty = [ESAddressBookIntegrationPlugin propertyFromService:[c service]];
+			serviceProperty = [AIAddressBookController propertyFromService:[c service]];
 			
 			//Set the IM property
 			[multiValue addValue:UID withLabel:serviceProperty];

@@ -53,10 +53,6 @@ typedef enum {
 @protocol AIListObjectObserver;
 @class AIListGroup, AIListObject, AIListContact, AIMetaContact, AIService, AIAccount, AISortController, AIListBookmark, AIContactHidingController;
 
-@protocol AIAddressBookController
-- (ABPerson *)personForListObject:(AIListObject *)inObject;
-@end
-
 @protocol AIContactController <AIController>
 //Contact list access
 - (AIListGroup *)contactList;
@@ -150,10 +146,6 @@ typedef enum {
 
 //Contact hiding
 - (AIContactHidingController *)contactHidingController;
-
-//Address Book
-- (void)setAddressBookController:(NSObject<AIAddressBookController> *)inAddressBookController;
-- (ABPerson *)personForListObject:(AIListObject *)inObject;
 
 @end
 

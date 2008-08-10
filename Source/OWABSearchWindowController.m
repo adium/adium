@@ -12,7 +12,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceMenu.h>
 #import <Adium/AIServiceIcons.h>
-#import "ESAddressBookIntegrationPlugin.h"
+#import "AIAddressBookController.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
@@ -173,14 +173,14 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	//We show only the active services
 	servicesEnumerator = [[[adium accountController] activeServicesIncludingCompatibleServices:YES] objectEnumerator];
 	while ((aService = [servicesEnumerator nextObject])) {
-		property = [ESAddressBookIntegrationPlugin propertyFromService:aService];
+		property = [AIAddressBookController propertyFromService:aService];
 		if (property && ![[peoplePicker properties] containsObject:property])
 			[peoplePicker addProperty:property];
 	}
 
 	//Display our initial service if we were passed one
 	if (service) {
-		property = [ESAddressBookIntegrationPlugin propertyFromService:service];
+		property = [AIAddressBookController propertyFromService:service];
 		if (property && [[peoplePicker properties] containsObject:property]) {
 			[peoplePicker setDisplayedProperty:property];
 		}
@@ -223,7 +223,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	if ([selectedValues count] > 0)
 		[self _setScreenName:[selectedValues objectAtIndex:0]];
 	//Set the selected service
-	[self _setService:[ESAddressBookIntegrationPlugin serviceFromProperty:[peoplePicker displayedProperty]]];
+	[self _setService:[AIAddressBookController serviceFromProperty:[peoplePicker displayedProperty]]];
 	//Set the selected person
 	[self _setPerson:[[peoplePicker selectedRecords] objectAtIndex:0]];
 	
@@ -281,7 +281,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	if (![contactID isEqualToString:@""]) {
 		ABMutableMultiValue		*value = [[ABMutableMultiValue alloc] init];
 		NSString				*identifier = nil;
-		NSString				*serviceIndentifier = [ESAddressBookIntegrationPlugin propertyFromService:service];
+		NSString				*serviceIndentifier = [AIAddressBookController propertyFromService:service];
 		
 		identifier = [value addValue:contactID withLabel:serviceIndentifier];
 		if (identifier) {
@@ -462,7 +462,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
  */
 - (BOOL)serviceMenuShouldIncludeService:(AIService *)inService
 {
-	return (([ESAddressBookIntegrationPlugin propertyFromService:inService] &&
+	return (([AIAddressBookController propertyFromService:inService] &&
 			 [[[[adium accountController] accountsCompatibleWithService:inService] valueForKeyPath:@"@sum.online"] boolValue]) ? YES : NO);
 }
 

@@ -20,7 +20,7 @@
 #import "AINewContactWindowController.h"
 #import "AINewGroupWindowController.h"
 #import "OWABSearchWindowController.h"
-#import "ESAddressBookIntegrationPlugin.h"
+#import <Adium/AIAddressBookController.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

@@ -6,7 +6,7 @@
 //
 
 #import "AIAddressBookUserIconSource.h"
-#import "ESAddressBookIntegrationPlugin.h"
+#import "AIAddressBookController.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <AddressBook/AddressBook.h>
 #import <Adium/AIUserIcons.h>
@@ -57,7 +57,7 @@
 	if (!useABImages)
 		return AIUserIconSourceDidNotFindIcon;
 
-	ABPerson *person = [[ESAddressBookIntegrationPlugin class] personForListObject:inObject];
+	ABPerson *person = [AIAddressBookController personForListObject:inObject];
 	
 	if (!person)
 		return AIUserIconSourceDidNotFindIcon;

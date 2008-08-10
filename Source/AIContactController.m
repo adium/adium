@@ -2163,22 +2163,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[contactPropertiesObserverManager updateListContactStatus:inContact];
 }
 
-#pragma mark Address Book
-//Address Book
-- (void)setAddressBookController:(NSObject<AIAddressBookController> *)inAddressBookController
-{
-	if (addressBookController != inAddressBookController) {
-		[addressBookController release];
-		addressBookController = [inAddressBookController retain];
-	}
-}
-
-- (ABPerson *)personForListObject:(AIListObject *)inObject
-{
-	return [addressBookController personForListObject:inObject];
-}
-
-
 @end
 
 @implementation AIContactController (ContactControllerHelperAccess)

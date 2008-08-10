@@ -14,9 +14,8 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "ESAddressBookIntegrationAdvancedPreferences.h"
 #import <AddressBook/AddressBook.h>
-#import <Adium/AIPlugin.h>
+#import <Adium/AIControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIUserIcons.h>
 
@@ -29,7 +28,7 @@
 #define KEY_AB_PREFER_ADDRESS_BOOK_IMAGES		@"AB Prefer AB Images"
 #define KEY_AB_USE_NICKNAME						@"AB Use NickName"
 #define KEY_AB_USE_MIDDLE						@"AB Use Middle Name"
-#define	KEY_AB_CREATE_METACONTACTS				@"AB Create MetaContacts"
+#define KEY_AB_CREATE_METACONTACTS				@"AB Create MetaContacts"
 
 #define AB_DISPLAYFORMAT_DEFAULT_PREFS			@"AB Display Format Defaults"
 
@@ -37,7 +36,7 @@
 
 typedef enum {
 	FirstLast = 0,
-    First,
+	First,
 	LastFirst,
 	LastFirstNoComma,
 	FirstLastInitial
@@ -48,26 +47,27 @@ typedef enum {
 	AIRequiresNoAddressBookEntry
 } AIAddressBookContextMenuTag;
 
-@interface ESAddressBookIntegrationPlugin : AIPlugin <AIListObjectObserver, ABImageClient, AIAddressBookController> {
-    ESAddressBookIntegrationAdvancedPreferences *advancedPreferences;
-	
+@interface AIAddressBookController : NSObject <AIListObjectObserver, ABImageClient> {
 	NSMenuItem			*showInABContextualMenuItem;
 	NSMenuItem			*editInABContextualMenuItem;
 	NSMenuItem			*addToABContexualMenuItem;
 
-    NSInteger                 meTag;
+	NSInteger			meTag;
     
-    NameStyle			displayFormat;
-    BOOL                enableImport;
-    BOOL                useNickName;
-	BOOL				useMiddleName;
-    BOOL                automaticUserIconSync;
-	BOOL				createMetaContacts;
+	NameStyle			displayFormat;
+	BOOL					enableImport;
+	BOOL					useNickName;
+	BOOL					useMiddleName;
+	BOOL					automaticUserIconSync;
+	BOOL					createMetaContacts;
 	
 	AIAddressBookUserIconSource *addressBookUserIconSource;
 	
 	NSMutableDictionary			*personUniqueIdToMetaContactDict;
 }
+
++ (void) startAddressBookIntegration;
++ (void) stopAddressBookIntegration;
 
 + (AIService *)serviceFromProperty:(NSString *)property;
 + (NSString *)propertyFromService:(AIService *)service;
