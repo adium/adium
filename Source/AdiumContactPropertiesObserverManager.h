@@ -21,9 +21,7 @@
 	NSMutableSet			*changedObjects;
 	
 	BOOL					informingObservers;
-	/* Only the contact controller can speak to us directly, and it's allowed to access these ivars */
-@public
-    NSInteger						delayedContactChanges;
+	NSInteger						delayedContactChanges;
 	NSInteger						delayedUpdateRequests;
 }
 
