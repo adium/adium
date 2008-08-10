@@ -118,7 +118,7 @@
 																(silent ? @"(Silently)" : @"")]];
 
 	if (contactRange.length) {
-		if (silent) [[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
+		if (silent) [[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 		for (int i = contactRange.location; i < NSMaxRange(contactRange); i++) {
 			AIListContact	*contact;
@@ -136,7 +136,7 @@
 			[contact notifyOfChangedPropertiesSilently:silent];
 		}
 
-		if (silent) [[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
+		if (silent) [[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 	}
 }
 
@@ -278,7 +278,7 @@
 
     [array removeLastObject];
     if ([array count] == 0) {
-		if (silent) [[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
+		if (silent) [[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 
 		[inTimer invalidate];
 	}

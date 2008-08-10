@@ -34,7 +34,6 @@
 #import <Adium/AIStatusIcons.h>
 #import "AIStatusGroup.h"
 #import <Adium/AIStatus.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 //State menu
 #define STATUS_TITLE_OFFLINE		AILocalizedStringFromTable(@"Offline", @"Statuses", "Name of a status")
@@ -99,7 +98,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	NSEnumerator			*enumerator;
 	AIAccount				*account;
 
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
 	[self buildBuiltInStatusTypes];
 
@@ -185,7 +184,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	[[adium notificationCenter] removeObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!

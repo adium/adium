@@ -133,7 +133,7 @@
 		[[adium chatController] registerChatObserver:self];
 		
 		// Register as a list object observer so we can know when accounts need to show reconnecting
-	    [[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	    [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 		
 		// Register as an observer of the preference group so we can update our "show groups contacts" option
 		[[adium preferenceController] registerPreferenceObserver:self
@@ -175,7 +175,7 @@
 	[self invalidateTimers];
 	
 	//Unregister ourself
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium chatController] unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];

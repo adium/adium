@@ -30,7 +30,7 @@
 #import "AWEzvDefines.h"
 #import "AWBonjourPlugin.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
@@ -152,7 +152,7 @@ typedef enum {
 
 	//Silence updates
 	[self silenceAllContactUpdatesForInterval:18.0];
-	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
+	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
 
 	//We need to set our user icon after connecting
 	[self updateStatusForKey:KEY_USER_ICON];	

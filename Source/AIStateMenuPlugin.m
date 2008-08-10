@@ -25,7 +25,6 @@
 #import <Adium/AIStatusMenu.h>
 #import <Adium/AISocialNetworkingStatusMenu.h>
 #import <AIUtilities/AIMenuAdditions.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface AIStateMenuPlugin (PRIVATE)
 - (void)updateKeyEquivalents;
@@ -73,7 +72,7 @@
 									   name:AIStatusActiveStateChangedNotification
 									 object:nil];
 	
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin

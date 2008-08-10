@@ -21,8 +21,6 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
-
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIListContact.h>
@@ -97,13 +95,13 @@
     //Observe preferences and list objects
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium interfaceController] unregisterFlashObserver:self];	
 }
 
@@ -396,7 +394,7 @@
 
 		//Update all objects
 		if (!firstTime) {
-			[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+			[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		}
 
 	} else if ([group isEqualToString:PREF_GROUP_CONTACT_LIST]) {
@@ -414,11 +412,11 @@
 			}
 			
 			//Make our colors end up right (if we were on an off-flash) by updating all list objects
-			[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+			[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		} else if (!oldFlashUnviewedContentEnabled && flashUnviewedContentEnabled) {
 			if (!firstTime) {
 				//Update all list objects so we start flashing
-				[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+				[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 			}
 		}
 	}

@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <AIUtilities/AIHostReachabilityMonitor.h>
 
 @interface ESAccountNetworkConnectivityPlugin : AIPlugin <AIListObjectObserver, AIHostReachabilityObserver> {

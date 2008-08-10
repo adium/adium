@@ -25,7 +25,6 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define ALIASES_DEFAULT_PREFS		@"Alias Defaults"
 #define DISPLAYFORMAT_DEFAULT_PREFS	@"Display Format Defaults"
@@ -88,7 +87,7 @@
  */
 - (void)uninstallPlugin
 {
-    [[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+    [[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
@@ -152,10 +151,10 @@
 	
 	if (firstTime) {
 		//Register ourself as a handle observer
-		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	} else {
 		//Update all existing contacts
-		[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+		[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 
 	}
 }
@@ -261,7 +260,7 @@
 	//If notify is YES, send out a manual listObjectAttributesChanged notice; 
 	//if NO, the observer methods will be handling it
 	if (notify) {
-		[[AdiumContactPropertiesObserverManager sharedManager] listObjectAttributesChanged:inObject
+		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:inObject
 												  modifiedKeys:modifiedAttributes];
 	}
 	

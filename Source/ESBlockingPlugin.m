@@ -29,7 +29,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIChat.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define BLOCK						AILocalizedString(@"Block","Block Contact menu item")
 #define UNBLOCK						AILocalizedString(@"Unblock","Unblock Contact menu item")
@@ -115,13 +114,13 @@
 											 selector:@selector(toolbarDidRemoveItem:)
 												 name:NSToolbarDidRemoveItemNotification
 											   object:nil];
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 - (void)uninstallPlugin
 {
 	[[adium notificationCenter] removeObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[chatToolbarItems release];
 	[blockedToolbarIcons release];

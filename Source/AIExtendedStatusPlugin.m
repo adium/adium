@@ -25,7 +25,6 @@
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 #define STATUS_MAX_LENGTH	100
 
@@ -58,7 +57,7 @@
 - (void)uninstallPlugin
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
 /*!
@@ -81,12 +80,12 @@
 	includeIdleInExtendedStatus = (statusPosition != EXTENDED_STATUS_POSITION_BOTH);
 	
 	if (firstTime) {
-		[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	} else {
 		if ((oldShowStatus != showStatus) ||
 			(oldShowIdle != showIdle) ||
 			(oldIncludeIdleInExtendedStatus != includeIdleInExtendedStatus)) {
-			[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+			[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		}
 	}
 }

@@ -22,7 +22,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
 
 @interface AITabStatusIconsPlugin (PRIVATE)
 - (NSString *)_stateIDForChat:(AIChat *)inChat;
@@ -44,7 +43,7 @@
 - (void)installPlugin
 {
 	//Observe list object changes
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	//Observe chat changes
 	[[adium chatController] registerChatObserver:self];
@@ -60,7 +59,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium chatController] unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
@@ -70,7 +69,7 @@
  */
 - (void)statusIconSetDidChange:(NSNotification *)aNotification
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] updateAllListObjectsForObserver:self];
+	[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 	[[adium chatController] updateAllChatsForObserver:self];
 }
 
@@ -140,7 +139,7 @@
 			[listContact setValue:listStateIcon
 					  forProperty:@"List State Icon"
 						   notify:NotifyNever];
-			[[AdiumContactPropertiesObserverManager sharedManager] listObjectAttributesChanged:listContact
+			[[AIContactObserverManager sharedManager] listObjectAttributesChanged:listContact
 													  modifiedKeys:[NSSet setWithObject:@"List State Icon"]];
 		}		
 	}

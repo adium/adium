@@ -16,7 +16,7 @@
 
 #import <Adium/AIControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import "AdiumContactPropertiesObserverManager.h"
+#import "AIContactObserverManager.h"
 
 #define	KEY_HIDE_CONTACTS				@"Hide Contacts"
 #define KEY_SHOW_OFFLINE_CONTACTS		@"Show Offline Contacts"
@@ -28,7 +28,7 @@
 #define	KEY_HIDE_CONTACT_LIST_GROUPS	@"Hide Contact List Groups"
 #define	PREF_GROUP_CONTACT_LIST_DISPLAY	@"Contact List Display"
 
-@class AISortController, AdiumAuthorization, AIContactHidingController, AdiumContactPropertiesObserverManager;
+@class AISortController, AdiumAuthorization, AIContactHidingController, AIContactObserverManager;
 
 @interface AIContactController : NSObject <AIContactController, AIListObjectObserver> {
 	//Contacts and metaContacts
@@ -57,7 +57,7 @@
 	//hiding
 	AIContactHidingController	*contactHidingController;
 	
-	AdiumContactPropertiesObserverManager *contactPropertiesObserverManager;
+	AIContactObserverManager *contactPropertiesObserverManager;
 }
 
 - (void)sortContactLists:(NSArray *)lists;

@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 
 @class AIStatus, AIService, AdiumIdleManager, AIStatusGroup;
 

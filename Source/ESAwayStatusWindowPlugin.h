@@ -7,7 +7,7 @@
 //
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 
 
 @interface ESAwayStatusWindowPlugin : AIPlugin<AIListObjectObserver> {
