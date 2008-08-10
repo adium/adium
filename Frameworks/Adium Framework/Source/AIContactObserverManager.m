@@ -1,15 +1,16 @@
 //
-//  AdiumContactPropertiesObserverManager.m
+//  AIContactObserverManager.m
 //  Adium
 //
 //  Created by Evan Schoenberg on 4/16/08.
 //
 
-#import "AdiumContactPropertiesObserverManager.h"
+#import <Adium/AIContactControllerProtocol.h>
+#import "AIContactObserverManager.h"
 #import "AIContactController.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
-#import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AISortController.h>
 
@@ -23,18 +24,18 @@
 	#import <Foundation/NSDebug.h>
 #endif
 
-@interface AdiumContactPropertiesObserverManager (PRIVATE)
+@interface AIContactObserverManager (PRIVATE)
 - (NSSet *)_informObserversOfObjectStatusChange:(AIListObject *)inObject withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent;
 - (void)_performDelayedUpdates:(NSTimer *)timer;
 @end
 
 #define UPDATE_CLUMP_INTERVAL			1.0
 
-static AdiumContactPropertiesObserverManager *sharedObserverManager = nil;
+static AIContactObserverManager *sharedObserverManager = nil;
 
-@implementation AdiumContactPropertiesObserverManager
+@implementation AIContactObserverManager
 
-+ (AdiumContactPropertiesObserverManager *)sharedManager
++ (AIContactObserverManager *)sharedManager
 {
 	if(!sharedObserverManager)
 		sharedObserverManager = [[self alloc] init];

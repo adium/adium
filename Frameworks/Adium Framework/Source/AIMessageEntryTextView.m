@@ -162,7 +162,7 @@
 
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];	
 	
-	[[AdiumContactPropertiesObserverManager sharedManager] registerListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
 //Init the text view
@@ -189,7 +189,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
-	[[AdiumContactPropertiesObserverManager sharedManager] unregisterListObjectObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
     [chat release];
     [associatedView release];

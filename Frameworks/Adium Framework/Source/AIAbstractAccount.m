@@ -17,7 +17,9 @@
 #import <Adium/AIAbstractAccount.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIContactObserverManager.h>
+#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
@@ -418,7 +420,7 @@
 				   notify:NotifyNever];
 	
 	//Notify
-	[[AdiumContactPropertiesObserverManager sharedManager] listObjectAttributesChanged:self
+	[[AIContactObserverManager sharedManager] listObjectAttributesChanged:self
 											  modifiedKeys:[NSSet setWithObject:@"Display Name"]];	
 }
 
@@ -1219,7 +1221,7 @@
  */
 - (void)removeAllContacts
 {
-	[[AdiumContactPropertiesObserverManager sharedManager] delayListObjectNotifications];
+	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	
 	/* Clear status flags on all contacts for this account, and set their remote group to nil.
 	 * Also, unless we have an open chat, tell the contact controller that it can release this contact.
@@ -1236,7 +1238,7 @@
 			[[adium contactController] account:self didStopTrackingContact:listContact];
 	}
 	
-	[[AdiumContactPropertiesObserverManager sharedManager] endListObjectNotificationsDelay];
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 }
 
 /*!

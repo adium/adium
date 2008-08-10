@@ -15,7 +15,7 @@
  */
 
 #import <AddressBook/AddressBook.h>
-#import <Adium/AdiumContactPropertiesObserverManager.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIUserIcons.h>
 
