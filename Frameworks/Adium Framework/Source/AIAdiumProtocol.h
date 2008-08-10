@@ -35,7 +35,10 @@ typedef enum {
 - (NSObject <AIContactAlertsController> *)contactAlertsController;
 - (NSObject <AIFileTransferController> *)fileTransferController;
 
+#ifdef DEBUG_BUILD
 - (NSObject <AIDebugController> *)debugController;
+#endif
+
 - (NSObject <AIApplescriptabilityController> *)applescriptabilityController;
 
 - (NSNotificationCenter *)notificationCenter;

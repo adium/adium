@@ -13,6 +13,7 @@
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+#ifdef DEBUG_BUILD
 
 #import "ESDebugController.h"
 #import "ESDebugWindowController.h"
@@ -30,8 +31,6 @@
 #define	KEY_DEBUG_WINDOW_OPEN	@"Debug Window Open"
 
 @implementation ESDebugController
-
-#ifdef DEBUG_BUILD
 
 static ESDebugController	*sharedDebugController = nil;
 
@@ -192,9 +191,6 @@ static ESDebugController	*sharedDebugController = nil;
 	return debugLogFile;
 }
 
-#else
-	- (void)controllerDidLoad {};
-	- (void)controllerWillClose {};
-#endif /* DEBUG_BUILD */
-
 @end
+
+#endif

@@ -35,7 +35,6 @@
 #import "AIToolbarController.h"
 #import "ESApplescriptabilityController.h"
 #import "ESContactAlertsController.h"
-#import "ESDebugController.h"
 #import "ESFileTransferController.h"
 #import "LNAboutBoxController.h"
 #import "AIXtrasManager.h"
@@ -51,6 +50,10 @@
 //For Apple Help
 #import <Carbon/Carbon.h>
 #import <AIUtilities/AITigerCompatibility.h>
+
+#ifdef DEBUG_BUILD
+#import "ESDebugController.h"
+#endif
 
 #define ADIUM_TRAC_PAGE						@"http://trac.adiumx.com/"
 #define ADIUM_REPORT_BUG_PAGE				@"http://trac.adiumx.com/wiki/ReportingBugs"
@@ -130,9 +133,11 @@ static NSString	*prefsCategory;
 - (NSObject <AIApplescriptabilityController> *)applescriptabilityController{
 	return applescriptabilityController;
 }
+#ifdef DEBUG_BUILD
 - (NSObject <AIDebugController> *)debugController{
 	return debugController;
 }
+#endif
 - (NSObject <AIStatusController> *)statusController{
     return statusController;
 }
@@ -237,8 +242,6 @@ static NSString	*prefsCategory;
 
 #ifdef DEBUG_BUILD
 	debugController = [[ESDebugController alloc] init];
-#else
-	debugController = nil;
 #endif
 
 	contactAlertsController = [[ESContactAlertsController alloc] init];
@@ -255,7 +258,9 @@ static NSString	*prefsCategory;
 
 	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
 	[preferenceController controllerDidLoad];
+#ifdef DEBUG_BUILD
 	[debugController controllerDidLoad];
+#endif
 	//Safety for when we remove previously included list xtras
 	[AIAppearancePreferences migrateOldListSettingsIfNeeded];
 	[pool release];
@@ -407,29 +412,31 @@ static NSString	*prefsCategory;
 	isQuitting = YES;
 
 	[[self notificationCenter] postNotificationName:AIAppWillTerminateNotification object:nil];
-	
+
 	//Close the preference window before we shut down the plugins that compose it
 	[preferenceController closePreferenceWindow:nil];
 
-    //Close the controllers in reverse order
+	//Close the controllers in reverse order
 	[pluginLoader controllerWillClose]; 				//** First because plugins rely on all the controllers
 	[componentLoader controllerWillClose];				//** First because components rely on all the controllers
 	[statusController controllerWillClose];				//** Before accountController so account states are saved before being set to offline
-    [chatController controllerWillClose];				//** Before interfaceController so chats can be correctly closed
+	[chatController controllerWillClose];				//** Before interfaceController so chats can be correctly closed
 	[contactAlertsController controllerWillClose];
-    [fileTransferController controllerWillClose];
-    [dockController controllerWillClose];
-    [interfaceController controllerWillClose];
-    [contentController controllerWillClose];
-    [contactController controllerWillClose];
-    [accountController controllerWillClose];
+	[fileTransferController controllerWillClose];
+	[dockController controllerWillClose];
+	[interfaceController controllerWillClose];
+	[contentController controllerWillClose];
+	[contactController controllerWillClose];
+	[accountController controllerWillClose];
 	[emoticonController controllerWillClose];
-    [soundController controllerWillClose];
-    [menuController controllerWillClose];
-    [applescriptabilityController controllerWillClose];
+	[soundController controllerWillClose];
+	[menuController controllerWillClose];
+	[applescriptabilityController controllerWillClose];
+#ifdef DEBUG_BUILD
 	[debugController controllerWillClose];
+#endif
 	[toolbarController controllerWillClose];
-    [preferenceController controllerWillClose];			//** Last since other controllers may want to write preferences as they close
+	[preferenceController controllerWillClose];			//** Last since other controllers may want to write preferences as they close
 	
 	[self deleteTemporaryFiles];
 }

@@ -15,21 +15,20 @@
  */
 
 #import <Adium/AIAdiumProtocol.h>
-#import <Adium/AIDockControllerProtocol.h>
-#import <Adium/AIEmoticonControllerProtocol.h>
 #import <Sparkle/SUVersionComparisonProtocol.h>
 
 @class  AICorePluginLoader, AICoreComponentLoader, SUUpdater;
 
 @protocol	AIAccountController, AIChatController, AIContactAlertsController, AIDebugController,
 			AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
-			AIContentController, AIToolbarController, AISoundController,
-			AIFileTransferController, AILoginController, AIInterfaceController, AIContactController;
+			AIContentController, AIToolbarController, AISoundController, AIEmoticonController,
+			AIFileTransferController, AILoginController, AIInterfaceController, AIContactController,
+			AIDockController;
 
 @interface AIAdium : NSObject <AIAdium, SUVersionComparison> {
-    IBOutlet	NSObject <AIMenuController>			*menuController;
-    IBOutlet	NSObject <AIInterfaceController>	*interfaceController;
-	IBOutlet	SUUpdater							*updater;
+	IBOutlet	NSObject <AIMenuController>			*menuController;
+	IBOutlet	NSObject <AIInterfaceController>		*interfaceController;
+	IBOutlet	SUUpdater									*updater;
 
 	NSObject <AIAccountController>		*accountController;
 	NSObject <AIChatController>			*chatController;
@@ -37,32 +36,30 @@
 	NSObject <AIContentController>		*contentController;
 	NSObject <AIDockController>			*dockController;
 	NSObject <AIEmoticonController>		*emoticonController;
-	NSObject <AILoginController>		*loginController;
+	NSObject <AILoginController>			*loginController;
 	NSObject <AIPreferenceController>	*preferenceController;
-	NSObject <AISoundController>		*soundController;
-	NSObject <AIStatusController>		*statusController;
+	NSObject <AISoundController>			*soundController;
+	NSObject <AIStatusController>			*statusController;
 	NSObject <AIToolbarController>		*toolbarController;
 	NSObject <AIContactAlertsController>*contactAlertsController;
 	NSObject <AIFileTransferController>	*fileTransferController;
+	
+#ifdef DEBUG_BUILD
+	NSObject <AIDebugController>			*debugController;
+#endif
 
 	NSObject <AIApplescriptabilityController>	*applescriptabilityController;
-	NSObject <AIDebugController>				*debugController;
-
 	
-	AICoreComponentLoader			*componentLoader;
-	AICorePluginLoader				*pluginLoader;
+	AICoreComponentLoader		*componentLoader;
+	AICorePluginLoader			*pluginLoader;
     
-    NSNotificationCenter			*notificationCenter;
-    NSMutableDictionary				*eventNotifications;
-
-	//pathnames to the different Application Support folders.
-    NSArray							*appSupportPaths;
+	NSNotificationCenter			*notificationCenter;
 	
 	NSMutableArray					*queuedURLEvents;
-	NSString						*queuedLogPathToShow;
-    BOOL							completedApplicationLoad;
-	NSString						*advancedPrefsName;	
-	BOOL							isQuitting;
+	NSString							*queuedLogPathToShow;
+	BOOL								completedApplicationLoad;
+	NSString							*advancedPrefsName;	
+	BOOL								isQuitting;
 }
 
 - (IBAction)showAboutBox:(id)sender;
