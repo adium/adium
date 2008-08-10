@@ -15,7 +15,7 @@
  */
 
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
-#import "ESAddressBookIntegrationPlugin.h"
+#import <Adium/AIAddressBookController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AILocalizationTextField.h>

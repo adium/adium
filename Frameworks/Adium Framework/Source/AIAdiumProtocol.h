@@ -14,9 +14,9 @@ typedef enum {
 } AIQuitConfirmationType;
 
 @protocol AIAccountController, AIChatController, AIContactAlertsController, AIDebugController, AIEmoticonController,
-		  AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
-		  AIContentController, AIToolbarController, AISoundController, AIDockController,
-		  AIFileTransferController, AILoginController, AIInterfaceController, AIContactController;
+		AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
+		AIContentController, AIToolbarController, AISoundController, AIDockController,
+		AIFileTransferController, AILoginController, AIInterfaceController, AIContactController;
 
 @protocol AIAdium <NSObject>
 - (NSObject <AIAccountController> *)accountController;

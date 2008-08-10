@@ -57,8 +57,6 @@
 	AIContactHidingController	*contactHidingController;
 	
 	AdiumContactPropertiesObserverManager *contactPropertiesObserverManager;
-	
-	NSObject<AIAddressBookController> *addressBookController;
 }
 
 - (void)sortContactLists:(NSArray *)lists;
