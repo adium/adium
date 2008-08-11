@@ -471,8 +471,7 @@
 	NSWindow	*window = [inNotification object];
 
 	if ([[window windowController] isKindOfClass:[AINewGroupWindowController class]]) {
-		NSString	*newGroupUID = [[window windowController] newGroupUID];
-		AIListGroup *group = [[adium contactController] existingGroupWithUID:newGroupUID];
+		AIListGroup *group = [[window windowController] group];
 
 		//Rebuild the group menu
 		[self buildGroupMenu];
