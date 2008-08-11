@@ -215,11 +215,10 @@ static AIContactHidingController *sharedControllerInstance = nil;
  * @result Returns YES if one or more contacts match the string, otherwise NO
  */
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString
-{
-	NSMutableArray *listContacts = [[adium contactController] allContacts];
-	[listContacts addObjectsFromArray:[[adium contactController] allBookmarks]];
-	
-	NSEnumerator	*enumerator = [listContacts objectEnumerator];
+{	
+	id<AIContactController> contactController = [adium contactController];
+	NSArray			*listObjects = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
+	NSEnumerator	*enumerator = [listObjects objectEnumerator];
 	AIListContact	*listContact;
 	
 	while ((listContact = [enumerator nextObject])) {
@@ -255,8 +254,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return;
 	}
 	
-	NSMutableArray *listContacts = [[adium contactController] allContacts];
-	[listContacts addObjectsFromArray:[[adium contactController] allBookmarks]];
+	id<AIContactController> contactController = [adium contactController];
+	NSArray *listContacts = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
 	
 	// Delay list object notifications until we're done
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];

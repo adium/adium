@@ -67,17 +67,17 @@ typedef enum {
 /*!
  * @brief Returns a flat array of all contacts
  */
-- (NSMutableArray *)allContacts;
+- (NSArray *)allContacts;
 /*!
  * @brief Returns a flat array of all contacts on a given account
  * 
  * @param inAccount The account whose contacts are desired, or nil to match every account
  * @result Every contact in the global contactDict which isn't a metacontact and matches the specified account criterion
  */
-- (NSMutableArray *)allContactsOnAccount:(AIAccount *)inAccount;
-- (NSMutableArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
-- (NSMutableArray *)allBookmarks;
-- (NSMutableArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
+- (NSArray *)allContactsOnAccount:(AIAccount *)inAccount;
+- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
+- (NSArray *)allBookmarks;
+- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
 - (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inGroup withTarget:(id)target;
 - (NSMenu *)groupMenuWithTarget:(id)target;
 - (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID existingOnly:(BOOL)existingOnly;
