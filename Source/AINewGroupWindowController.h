@@ -16,7 +16,7 @@
 
 #import <Adium/AIWindowController.h>
 
-@class AILocalizationTextField, AILocalizationButton;
+@class AILocalizationTextField, AILocalizationButton, AIListGroup;
 
 @interface AINewGroupWindowController : AIWindowController {
 	IBOutlet	NSTextField		*textField_groupName;
@@ -24,10 +24,11 @@
 	IBOutlet	AILocalizationTextField	*label_groupName;
 	IBOutlet	AILocalizationButton	*button_add;
 	IBOutlet	AILocalizationButton	*button_cancel;
+	AIListGroup *group;
 }
 
 + (AINewGroupWindowController *)promptForNewGroupOnWindow:(NSWindow *)parentWindow;
-- (NSString *)newGroupUID;
+- (AIListGroup *)group;
 - (IBAction)cancel:(id)sender;
 - (IBAction)addGroup:(id)sender;
 

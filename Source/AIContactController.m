@@ -1755,16 +1755,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return group;
 }
 
-- (AIListGroup *)existingGroupWithUID:(NSString *)groupUID
-{
-	//Return our root group if it is requested
-	//XXX: is this a good idea? it might semi-mask bugs where we accidentally pass nil
-	if (!groupUID || ![groupUID length] || [groupUID isEqualToString:ADIUM_ROOT_GROUP_NAME])
-		return [self contactList];
-	
-	return [groupDict objectForKey:groupUID];
-}
-
 //Contact list editing -------------------------------------------------------------------------------------------------
 #pragma mark Contact list editing
 - (void)removeListObjects:(NSArray *)objectArray

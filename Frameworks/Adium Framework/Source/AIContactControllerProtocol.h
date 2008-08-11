@@ -63,7 +63,6 @@ typedef enum {
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID usingClass:(Class)ContactClass;
 - (AIListGroup *)groupWithUID:(NSString *)groupUID;
-- (AIListGroup *)existingGroupWithUID:(NSString *)groupUID;
 - (NSArray *)allGroups;
 /*!
  * @brief Returns a flat array of all contacts
