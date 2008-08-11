@@ -530,7 +530,7 @@
 	BOOL allowBetweenContactDrop = (index == NSOutlineViewDropOnItemIndex);
 
 	if ([types containsObject:@"AIListObject"]) {
-		BOOL canSortManually = [[[adium contactController] activeSortController] canSortManually];
+		BOOL canSortManually = [[AISortController activeSortController] canSortManually];
 		
 		NSEnumerator *enumerator = [dragItems objectEnumerator];
 		id			 dragItem;
@@ -620,7 +620,7 @@
 			//Otherwise, it's either a move into a group or a manual reordering
 			if (!item || [outlineView isExpandable:item]) {
 				//Figure out where we would insert the dragged item if the sort controller manages the location and it's going into an expandable item
-				AISortController *sortController = [[adium contactController] activeSortController];
+				AISortController *sortController = [AISortController activeSortController];
 				//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
 				if (![sortController canSortManually]) {
 					//If we're dragging a group, force a drop onto the contact list itself, and determine the destination location accordingly

@@ -47,10 +47,6 @@
 	//Detached Contact Lists
 	NSMutableArray			*detachedContactLists;
 	
-	//Sorting
-    NSMutableArray			*sortControllerArray;
-    AISortController	 	*activeSortController;
-	
 	//Authorization
 	AdiumAuthorization		*adiumAuthorization;
 	
