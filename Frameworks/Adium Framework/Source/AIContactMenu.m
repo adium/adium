@@ -171,7 +171,7 @@
 		}
 
 		// Sort what we're given
-		listObjects = [[[adium contactController] activeSortController] sortListObjects:listObjects];
+		listObjects = [[AISortController activeSortController] sortListObjects:listObjects];
 	} else {
 		// We can assume these are already sorted
 		listObjects = [self listObjectsForMenuFromArrayOfListObjects:([containingObject conformsToProtocol:@protocol(AIContainingObject)] ?

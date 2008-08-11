@@ -147,8 +147,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		[delayedModifiedStatusKeys unionSet:inModifiedKeys];
 	} else {
 		//We can safely skip sorting if we know the modified attributes will invoke a resort later
-		if (![[[adium contactController] activeSortController] shouldSortForModifiedAttributeKeys:modifiedAttributeKeys] &&
-			[[[adium contactController] activeSortController] shouldSortForModifiedStatusKeys:inModifiedKeys]) {
+		if (![[AISortController activeSortController] shouldSortForModifiedAttributeKeys:modifiedAttributeKeys] &&
+			[[AISortController activeSortController] shouldSortForModifiedStatusKeys:inModifiedKeys]) {
 			[[adium contactController] sortListObject:inObject];
 		}
 	}
@@ -168,7 +168,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		[delayedModifiedAttributeKeys unionSet:inModifiedKeys];
 	} else {
         //Resort the contact list if necessary
-        if ([[[adium contactController] activeSortController] shouldSortForModifiedAttributeKeys:inModifiedKeys]) {
+        if ([[AISortController activeSortController] shouldSortForModifiedAttributeKeys:inModifiedKeys]) {
 			[[adium contactController] sortListObject:inObject];
         }
 	}
@@ -198,7 +198,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		}
 		if (delayedStatusChanges) {
 			if (!shouldSort &&
-				[[[adium contactController] activeSortController] shouldSortForModifiedStatusKeys:delayedModifiedStatusKeys]) {
+				[[AISortController activeSortController] shouldSortForModifiedStatusKeys:delayedModifiedStatusKeys]) {
 				shouldSort = YES;
 			}
 			[delayedModifiedStatusKeys removeAllObjects];
@@ -206,7 +206,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		}
 		if (delayedAttributeChanges) {
 			if (!shouldSort &&
-				[[[adium contactController] activeSortController] shouldSortForModifiedAttributeKeys:delayedModifiedAttributeKeys]) {
+				[[AISortController activeSortController] shouldSortForModifiedAttributeKeys:delayedModifiedAttributeKeys]) {
 				shouldSort = YES;
 			}
 			[delayedModifiedAttributeKeys removeAllObjects];

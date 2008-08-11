@@ -234,8 +234,7 @@
 		 * since it will add to the bottom/non-visible section of our array.
 		 */
 		if ([inObject visible]) {
-			[self sortListObject:inObject
-				  sortController:[[adium contactController] activeSortController]];
+			[self sortListObject:inObject];
 		}
 		
 		//
@@ -298,8 +297,9 @@
 //Sorting --------------------------------------------------------------------------------------------------------------
 #pragma mark Sorting
 //Resort an object in this group (PRIVATE: For contact controller only)
-- (void)sortListObject:(AIListObject *)inObject sortController:(AISortController *)sortController
+- (void)sortListObject:(AIListObject *)inObject
 {
+	AISortController *sortController = [AISortController activeSortController];
 	[inObject retain];
 	[containedObjects removeObject:inObject];
 	[containedObjects insertObject:inObject 
@@ -309,31 +309,25 @@
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
-- (void)sortGroupAndSubGroups:(BOOL)subGroups sortController:(AISortController *)sortController
+- (void)sortGroupAndSubGroups:(BOOL)subGroups
 {
-    //Sort the groups within this group
-    if (subGroups) {
-		NSEnumerator		*enumerator;
-		AIListObject		*object;
-		
-        enumerator = [containedObjects objectEnumerator];
-        while ((object = [enumerator nextObject])) {
-            if ([object isMemberOfClass:[AIListGroup class]]) {
-                [(AIListGroup *)object sortGroupAndSubGroups:YES
-											  sortController:sortController];
-            }
-        }
-    }
-	
-    //Sort this group
-    if (sortController) {
-		NSMutableArray	*sortedListObjects;
-		
-		if ([containedObjects count] > 1) {
-			sortedListObjects = [[sortController sortListObjects:containedObjects] mutableCopy];
-			[containedObjects release]; containedObjects = sortedListObjects;
+	//Sort the groups within this group
+	if (subGroups) {
+		AIListObject	*object;
+			
+		NSEnumerator *enumerator = [containedObjects objectEnumerator];
+		while ((object = [enumerator nextObject])) {
+			if ([object isMemberOfClass:[AIListGroup class]]) {
+				[(AIListGroup *)object sortGroupAndSubGroups:YES];
+			}
 		}
-    }
+	}
+	
+	//Sort this group
+	if ([containedObjects count] > 1) {
+		[containedObjects autorelease];
+		containedObjects = [[[AISortController activeSortController] sortListObjects:containedObjects] mutableCopy];
+	}
 }
 
 

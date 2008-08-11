@@ -100,10 +100,6 @@ typedef enum {
 - (void)listObjectRemoteGroupingChanged:(AIListContact *)inObject;
 
 //Contact list sorting
-- (NSArray *)sortControllerArray;
-- (void)registerListSortController:(AISortController *)inController;
-- (void)setActiveSortController:(AISortController *)inController;
-- (AISortController *)activeSortController;
 - (void)sortContactList;
 - (void)sortListObject:(AIListObject *)inObject;
 
