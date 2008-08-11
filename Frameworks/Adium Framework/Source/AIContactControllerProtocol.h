@@ -68,13 +68,6 @@ typedef enum {
  * @brief Returns a flat array of all contacts
  */
 - (NSArray *)allContacts;
-/*!
- * @brief Returns a flat array of all contacts on a given account
- * 
- * @param inAccount The account whose contacts are desired, or nil to match every account
- * @result Every contact in the global contactDict which isn't a metacontact and matches the specified account criterion
- */
-- (NSArray *)allContactsOnAccount:(AIAccount *)inAccount;
 - (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
 - (NSArray *)allBookmarks;
 - (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
