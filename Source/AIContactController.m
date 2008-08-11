@@ -119,10 +119,6 @@
 {
 	if ((self = [super init])) {
 		//
-		sortControllerArray = [[NSMutableArray alloc] init];
-		activeSortController = nil;
-				
-		//
 		contactDict = [[NSMutableDictionary alloc] init];
 		groupDict = [[NSMutableDictionary alloc] init];
 		metaContactDict = [[NSMutableDictionary alloc] init];
@@ -177,9 +173,7 @@
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
 	
-    [contactList release];
-	
-	[sortControllerArray release];
+	[contactList release];
 	
 	[contactDict release];
 	[groupDict release];
@@ -512,7 +506,7 @@
 										  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
 	//Configure the sort controller to force ignoring of groups as appropriate
-	[[self activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
+	[[AISortController activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
 	
 	enumerator = [[[[contactList containedObjects] copy] autorelease] objectEnumerator];
 	
@@ -1206,33 +1200,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 //Contact Sorting --------------------------------------------------------------------------------
 #pragma mark Contact Sorting
-//Register sorting code
-- (void)registerListSortController:(AISortController *)inController
-{
-    [sortControllerArray addObject:inController];
-}
-- (NSArray *)sortControllerArray
-{
-    return sortControllerArray;
-}
-
-//Set and get the active sort controller
-- (void)setActiveSortController:(AISortController *)inController
-{
-    activeSortController = inController;
-	
-	[activeSortController didBecomeActive];
-	
-	//The newly-active sort controller needs to know whether it should be forced to ignore groups
-	[[self activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
-	
-    //Resort the list
-    [self sortContactList];
-}
-- (AISortController *)activeSortController
-{
-    return activeSortController;
-}
 
 //Sort the entire contact list
 - (void)sortContactList
@@ -1245,7 +1212,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSEnumerator *listEnum = [lists objectEnumerator];
 	AIListGroup *list;
 	while((list = [listEnum nextObject])) {
-		[list sortGroupAndSubGroups:YES sortController:activeSortController];
+		[list sortGroupAndSubGroups:YES];
 	}
 	[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:nil];
 }
@@ -1261,7 +1228,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		
 		if ([group isKindOfClass:[AIListGroup class]]) {
 			//Sort the groups containing this object
-			[(AIListGroup *)group sortListObject:inObject sortController:activeSortController];
+			[(AIListGroup *)group sortListObject:inObject];
 			[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:inObject];
 		}
 	}

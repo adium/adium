@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIContactControllerProtocol.h>
 #import "AIContactSortSelectionPlugin.h"
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
@@ -64,9 +63,9 @@
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
-	[[adium contactController] registerListSortController:[[[AIAlphabeticalSort alloc] init] autorelease]];
-	[[adium contactController] registerListSortController:[[[ESStatusSort alloc] init] autorelease]];
-	[[adium contactController] registerListSortController:[[[AIManualSort alloc] init] autorelease]];
+	[AISortController registerSortController:[[[AIAlphabeticalSort alloc] init] autorelease]];
+	[AISortController registerSortController:[[[ESStatusSort alloc] init] autorelease]];
+	[AISortController registerSortController:[[[AIManualSort alloc] init] autorelease]];
 }
 
 /*!
@@ -94,26 +93,21 @@
  */
 - (void)_setActiveSortControllerFromPreferences
 {
-	NSEnumerator				*enumerator;
-	AISortController 			*controller;
-	NSString					*identifier;
-	
-	//
-	identifier = [[adium preferenceController] preferenceForKey:KEY_CURRENT_SORT_MODE_IDENTIFIER
+	NSString *identifier = [[adium preferenceController] preferenceForKey:KEY_CURRENT_SORT_MODE_IDENTIFIER
 														  group:PREF_GROUP_CONTACT_SORTING];
 	
-	//
-	enumerator = [[[adium contactController] sortControllerArray] objectEnumerator];
+	NSEnumerator *enumerator = [[AISortController availableSortControllers] objectEnumerator];
+	AISortController *controller = nil;
 	while ((controller = [enumerator nextObject])) {
 		if ([identifier compare:[controller identifier]] == NSOrderedSame) {
-			[[adium contactController] setActiveSortController:controller];
+			[AISortController setActiveSortController:controller];
 			break;
 		}
 	}
 	
 	//Temporary failsafe for old preferences
 	if (!controller) {
-		[[adium contactController] setActiveSortController:[[[adium contactController] sortControllerArray] objectAtIndex:0]];
+		[AISortController setActiveSortController:[[AISortController availableSortControllers] objectAtIndex:0]];
 	}
 }
 
@@ -131,7 +125,7 @@
     sortSelectionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
 	
 	//Add each sort controller
-	enumerator = [[[adium contactController] sortControllerArray] objectEnumerator];
+	enumerator = [[AISortController availableSortControllers] objectEnumerator];
 	while ((controller = [enumerator nextObject])) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[controller displayName]
 																		 target:self
@@ -154,7 +148,7 @@
 	NSInteger					index;
 	
 	//Show a check by the active sort controller's menu item...
-	activeSortController = [[adium contactController] activeSortController];
+	activeSortController = [AISortController activeSortController];
 	
 	index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:activeSortController];
 	if (index != NSNotFound) {
@@ -170,7 +164,7 @@
  */
 - (void)configureSort:(id)sender
 {
-	AISortController *controller = [[adium contactController] activeSortController];
+	AISortController *controller = [AISortController activeSortController];
 	[ESContactSortConfigurationWindowController showSortConfigurationWindowForController:controller];
 }
 
@@ -184,7 +178,7 @@
 	AISortController	*controller = [sender representedObject];
 	
 	//Uncheck the old active sort controller
-	NSInteger index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[[adium contactController] activeSortController]];
+	NSInteger index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[AISortController activeSortController]];
 	if (index != NSNotFound) {
 		[[[menuItem_configureSort menu] itemAtIndex:index] setState:NSOffState];
 	}
@@ -193,7 +187,7 @@
 	[[adium preferenceController] setPreference:[controller identifier] forKey:KEY_CURRENT_SORT_MODE_IDENTIFIER group:PREF_GROUP_CONTACT_SORTING];
 
 	//Inform the contact controller of the new active sort controller
-	[[adium contactController] setActiveSortController:controller];
+	[AISortController setActiveSortController:controller];
 	
 	//Check the menu item and update the configure sort menu item title
 	[sender setState:NSOnState];
