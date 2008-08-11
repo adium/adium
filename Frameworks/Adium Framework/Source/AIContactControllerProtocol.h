@@ -127,9 +127,6 @@ typedef enum {
 - (BOOL)isGroupDetached:(AIListObject *)group;
 - (NSUInteger)contactListCount;
 
-//Contact hiding
-- (AIContactHidingController *)contactHidingController;
-
 @end
 
 //Empty protocol to allow easy checking for if a particular object is a contact list outline view

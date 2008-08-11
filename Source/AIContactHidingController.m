@@ -37,6 +37,15 @@
 
 @implementation AIContactHidingController
 
+static AIContactHidingController *sharedControllerInstance = nil;
+
++ (AIContactHidingController *)sharedController
+{
+	if(!sharedControllerInstance)
+		sharedControllerInstance = [[AIContactHidingController alloc] init];
+	return sharedControllerInstance;
+}
+
 - (id)init
 {
 	self = [super init];
