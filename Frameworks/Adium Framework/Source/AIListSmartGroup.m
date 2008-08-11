@@ -52,8 +52,7 @@
 			//Update our visible count
 			[self _recomputeVisibleCount];
 			
-			[self sortListObject:inObject
-				  sortController:[[adium contactController] activeSortController]];
+			[self sortListObject:inObject];
 		}
 		
 		//

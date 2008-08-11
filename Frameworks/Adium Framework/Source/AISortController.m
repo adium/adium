@@ -18,6 +18,7 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AISortController.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 #define KEY_RESOLVE_ALPHABETICALLY  @"Status:Resolve Alphabetically"
@@ -26,6 +27,41 @@ NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *contex
 NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context);
 
 @implementation AISortController
+
+static AISortController *activeSortController = nil;
+static NSMutableArray *sortControllers = nil;
+
++ (void) setActiveSortController:(AISortController *)newSortController
+{
+	[activeSortController autorelease];
+	activeSortController = [newSortController retain];
+	
+	[activeSortController didBecomeActive];
+	
+	//The newly-active sort controller needs to know whether it should be forced to ignore groups
+	[activeSortController forceIgnoringOfGroups:![[adium contactController] useContactListGroups]];
+	
+	//Resort the list
+	[[adium contactController] sortContactList];
+}
+
++ (AISortController *)activeSortController
+{
+	return activeSortController;
+}
+
++ (void) registerSortController:(AISortController *)newSortController
+{
+	if(!sortControllers)
+		sortControllers = [[NSMutableArray alloc] init];
+	[sortControllers addObject:newSortController];
+}
+
++ (NSArray *)availableSortControllers
+{
+	NSAssert(sortControllers != nil, @"Someone tried to get the list of sort controllers before any registered");
+	return sortControllers;
+}
 
 /*!
  * @brief Initialize

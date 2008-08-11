@@ -32,6 +32,11 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 	BOOL					becameActiveFirstTime;
 }
 
++ (void) setActiveSortController:(AISortController *)newSortController;
++ (AISortController *)activeSortController;
++ (void) registerSortController:(AISortController *)newSortController;
++ (NSArray *)availableSortControllers;
+
 - (BOOL)shouldSortForModifiedStatusKeys:(NSSet *)inModifiedKeys;
 - (BOOL)shouldSortForModifiedAttributeKeys:(NSSet *)inModifiedKeys;
 - (BOOL)alwaysSortGroupsToTopByDefault;

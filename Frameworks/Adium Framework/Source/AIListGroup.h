@@ -40,8 +40,8 @@
 - (BOOL)moveAllGroupsFrom:(AIListGroup *)fromContactList to:(AIListGroup *)toContactList;
 
 //Sorting (PRIVATE: For contact controller only)
-- (void)sortListObject:(AIListObject *)inObject sortController:(AISortController *)sortController;
-- (void)sortGroupAndSubGroups:(BOOL)subGroups sortController:(AISortController *)sortController;
+- (void)sortListObject:(AIListObject *)inObject;
+- (void)sortGroupAndSubGroups:(BOOL)subGroups;
 
 //Visibility
 - (unsigned)visibleCount;
