@@ -35,6 +35,8 @@ typedef enum {
 	BOOL			useContactListGroups;
 }
 
++ (AIContactHidingController *)sharedController;
+
 - (NSString *)contactFilteringSearchString;
 - (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts;
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString;

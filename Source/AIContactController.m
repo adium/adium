@@ -157,8 +157,6 @@
 	adiumAuthorization = [[AdiumAuthorization alloc] init];
 	
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
-	
-	contactHidingController = [[AIContactHidingController alloc]init];
 }
 
 //close
@@ -182,10 +180,9 @@
 	
 	[adiumAuthorization release];
 	
-	[contactHidingController release];
 	[contactPropertiesObserverManager release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)clearAllMetaContactData
@@ -2051,12 +2048,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (NSUInteger)contactListCount
 {
 	return (contactList != nil) + [detachedContactLists count];
-}
-
-#pragma mark Contact Hiding
-- (AIContactHidingController *)contactHidingController
-{
-	return contactHidingController;
 }
 
 @end

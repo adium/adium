@@ -1115,9 +1115,9 @@
 		filterBarExpandedGroups = NO;
 	}
 
-	if ([[[adium contactController] contactHidingController] searchTermMatchesAnyContacts:[sender stringValue]]) {
+	if ([[AIContactHidingController sharedController] searchTermMatchesAnyContacts:[sender stringValue]]) {
 		// Set the new string in the hiding controller, and refilter the contact lists.
-		[[[adium contactController] contactHidingController] setContactFilteringSearchString:[sender stringValue]
+		[[AIContactHidingController sharedController] setContactFilteringSearchString:[sender stringValue]
 																			refilterContacts:YES];
 		
 		// Select the first contact; we're guaranteed at least one visible contact.
@@ -1132,12 +1132,12 @@
 	
 	} else {
 		// Beep if the user continues appending text to an already not found string, otherwise don't beep.
-		if ([[sender stringValue] length] > [[[[adium contactController] contactHidingController] contactFilteringSearchString] length]) {
+		if ([[sender stringValue] length] > [[[AIContactHidingController sharedController] contactFilteringSearchString] length]) {
 			NSBeep();
 		}
 
 		// Set the search string in the hiding controller, but don't refilter the contacts.
-		[[[adium contactController] contactHidingController] setContactFilteringSearchString:[sender stringValue]
+		[[AIContactHidingController sharedController] setContactFilteringSearchString:[sender stringValue]
 																			refilterContacts:NO];
 		
 		//White on light red (like Firefox!)

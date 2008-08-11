@@ -50,16 +50,11 @@
 	//Authorization
 	AdiumAuthorization		*adiumAuthorization;
 	
-	//hiding
-	AIContactHidingController	*contactHidingController;
-	
 	AIContactObserverManager *contactPropertiesObserverManager;
 }
 
 - (void)sortContactLists:(NSArray *)lists;
 - (void)loadContactList;
-
-- (AIContactHidingController *)contactHidingController;
 
 @end
 

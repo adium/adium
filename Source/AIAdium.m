@@ -47,6 +47,7 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import "AIAddressBookController.h"
+#import "AIContactHidingController.h"
 #import <Sparkle/Sparkle.h>
 //For Apple Help
 #import <Carbon/Carbon.h>
@@ -250,6 +251,7 @@ static NSString	*prefsCategory;
 	emoticonController = [[AIEmoticonController alloc] init];
 	accountController = [[AIAccountController alloc] init];
 	contactController = [[AIContactController alloc] init];
+	[AIContactHidingController sharedController];
 	chatController = [[AIChatController alloc] init];
 	contentController = [[AIContentController alloc] init];
 	dockController = [[AIDockController alloc] init];
