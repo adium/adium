@@ -172,7 +172,7 @@
 - (void)updateGroupList
 {
 	//Get the new groups
-	NSMenu		*groupMenu = [[adium contactController] menuOfAllGroupsInGroup:nil withTarget:self];
+	NSMenu		*groupMenu = [[adium contactController] groupMenuWithTarget:self];
 	NSMenuItem  *notListedMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"(Not Listed)", nil)
 																						 target:self
 																action:@selector(selectGroup:)
