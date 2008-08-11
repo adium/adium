@@ -1006,7 +1006,14 @@
  */
 - (NSArray *)contacts
 {
-	return [[adium contactController] allContactsOnAccount:self];
+	NSMutableArray *results = [NSMutableArray array];
+	NSEnumerator *contactEnumerator = [[[adium contactController] allContacts] objectEnumerator];
+	AIListContact *contact = nil;
+	while((contact = [contactEnumerator nextObject])) {
+		if([contact account] == self)
+			[results addObject:contact];
+	}
+	return results;
 }
 
 /*!

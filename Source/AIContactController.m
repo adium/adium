@@ -1251,27 +1251,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSArray *)allContacts
 {
-	return [self allContactsOnAccount:nil];
-}
-
-/*!
- * @brief Returns a flat array of all contacts on a given account
- * 
- * @param inAccount The account whose contacts are desired, or nil to match every account
- * @result Every contact in the global contactDict which isn't a metacontact and matches the specified account criterion
- */
-- (NSArray *)allContactsOnAccount:(AIAccount *)inAccount
-{
 	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
 	
 	NSEnumerator *enumerator = [self contactEnumerator];
 	AIListContact *contact;
 	while ((contact = [enumerator nextObject])) {
-		if (!inAccount || ([contact account] == inAccount)) {
-			/* We want only contacts, not metacontacts. For a given contact, -[contact parentContact] could be used to access the meta. */
-			if (![contact conformsToProtocol:@protocol(AIContainingObject)])
-				[result addObject:contact];
-		}
+		/* We want only contacts, not metacontacts. For a given contact, -[contact parentContact] could be used to access the meta. */
+		if (![contact conformsToProtocol:@protocol(AIContainingObject)])
+			[result addObject:contact];
 	}
 	
 	return result;

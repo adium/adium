@@ -928,7 +928,7 @@
 		NSString *jid = [gateway UID];
 		NSString *pattern = [@"@" stringByAppendingString:jid];
 		NSMutableArray *gatewayContacts = [[NSMutableArray alloc] init];
-		NSEnumerator *e = [[[adium contactController] allContactsOnAccount:self] objectEnumerator];
+		NSEnumerator *e = [[self contacts] objectEnumerator];
 		AIListContact *contact;
 		while((contact = [e nextObject])) {
 			if([[contact UID] hasSuffix:pattern])
