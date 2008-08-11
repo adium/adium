@@ -1349,10 +1349,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	[menu setAutoenablesItems:NO];
 	
-	NSMutableArray	*clists = [NSMutableArray arrayWithArray:detachedContactLists];
-	[clists addObject:contactList];
-	
-	NSEnumerator *contactListEnumerator = [clists objectEnumerator];
+	NSEnumerator *contactListEnumerator = [[detachedContactLists arrayByAddingObject:contactList] objectEnumerator];
 	AIListGroup *clist = nil;
 	while((clist = [contactListEnumerator nextObject])){
 		//Enumerate this contact list and process all groups we find within it
