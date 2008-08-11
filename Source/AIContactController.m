@@ -81,7 +81,6 @@
 - (void)prepareContactInfo;
 
 - (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inGroup withTarget:(id)target firstLevel:(BOOL)firstLevel;
-- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(NSInteger)level;
 
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadGroupsFromArray:(NSArray *)array;
@@ -1349,50 +1348,31 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSMenu	*menu = [[NSMenu alloc] initWithTitle:@""];
 	
 	[menu setAutoenablesItems:NO];
-	[self _menuOfAllGroups:menu forGroup:nil withTarget:target level:0];
 	
-	return [menu autorelease];
-}
-
-- (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(NSInteger)level
-{
-	NSMutableArray	*fromGroups;
-	NSEnumerator	*detachedEnumerator;
+	NSMutableArray	*clists = [NSMutableArray arrayWithArray:detachedContactLists];
+	[clists addObject:contactList];
 	
-	//Passing nil scans the entire contact list
-	if (group == nil){
-		fromGroups = [NSMutableArray arrayWithArray:detachedContactLists];
-		[fromGroups addObject:contactList];
-	}else{
-		fromGroups = [NSMutableArray arrayWithObject:group];
-	}
-	
-	detachedEnumerator = [fromGroups objectEnumerator];
-	
-	while((group = [detachedEnumerator nextObject])){
-		//Enumerate this group and process all groups we find within it
-		NSEnumerator	*enumerator;
+	NSEnumerator *contactListEnumerator = [clists objectEnumerator];
+	AIListGroup *clist = nil;
+	while((clist = [contactListEnumerator nextObject])){
+		//Enumerate this contact list and process all groups we find within it
 		AIListObject	*object;
-		enumerator = [[group containedObjects] objectEnumerator];
+		NSEnumerator *enumerator = [[clist containedObjects] objectEnumerator];
 		while ((object = [enumerator nextObject])) {
 			if ([object isKindOfClass:[AIListGroup class]] && object != [self offlineGroup]) {
 				NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[object displayName]
-																							target:target
-																							action:@selector(selectGroup:)
-																					 keyEquivalent:@""];
+													    target:target
+													    action:@selector(selectGroup:)
+												     keyEquivalent:@""];
 				[menuItem setRepresentedObject:object];
-				if ([menuItem respondsToSelector:@selector(setIndentationLevel:)]) {
-					[menuItem setIndentationLevel:level];
-				}
 				[menu addItem:menuItem];
 				[menuItem release];
-				
-				[self _menuOfAllGroups:menu forGroup:(AIListGroup *)object withTarget:target level:level+1];
 			}
 		}
 	}
+	
+	return [menu autorelease];
 }
-
 
 //Returns a menu containing all the objects in a group on an account
 //- Selector called on contact selection is selectContact:
