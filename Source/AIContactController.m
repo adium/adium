@@ -1249,7 +1249,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @brief Returns a flat array of all contacts
  */
-- (NSMutableArray *)allContacts
+- (NSArray *)allContacts
 {
 	return [self allContactsOnAccount:nil];
 }
@@ -1260,7 +1260,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  * @param inAccount The account whose contacts are desired, or nil to match every account
  * @result Every contact in the global contactDict which isn't a metacontact and matches the specified account criterion
  */
-- (NSMutableArray *)allContactsOnAccount:(AIAccount *)inAccount
+- (NSArray *)allContactsOnAccount:(AIAccount *)inAccount
 {
 	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
 	
@@ -1278,7 +1278,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Return a flat array of all the objects in a group on an account (and all subgroups, if desired)
-- (NSMutableArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
+- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
 {
 	NSParameterAssert(inGroup != nil);
 	
@@ -1299,7 +1299,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Return a flat array of all the bookmarks in a group on an account (and all subgroups, if desired)
-- (NSMutableArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
+- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
 {
 	NSParameterAssert(inGroup != nil);
 	
@@ -1322,13 +1322,13 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (NSArray *)allBookmarks
 {
-	NSMutableArray *result = [self allBookmarksInObject:contactList recurse:YES onAccount:nil];
+	NSMutableArray *result = [NSMutableArray array];
 	
 	/** Could be perfected I'm sure */
-	NSEnumerator *enumerator = [detachedContactLists objectEnumerator];
-	AIListGroup *detached;
-	while((detached = [enumerator nextObject])){
-		[result addObjectsFromArray:[self allBookmarksInObject:detached recurse:YES onAccount:nil]];
+	NSEnumerator *enumerator = [[detachedContactLists arrayByAddingObject:contactList] objectEnumerator];
+	AIListGroup *clist = nil;
+	while((clist = [enumerator nextObject])) {
+		[result addObjectsFromArray:[self allBookmarksInObject:clist recurse:YES onAccount:nil]];
 	}
 	
 	return result;	
