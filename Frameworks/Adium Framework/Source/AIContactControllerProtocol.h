@@ -80,7 +80,7 @@ typedef enum {
 - (NSMutableArray *)allBookmarks;
 - (NSMutableArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
 - (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inGroup withTarget:(id)target;
-- (NSMenu *)menuOfAllGroupsInGroup:(AIListGroup *)inGroup withTarget:(id)target;
+- (NSMenu *)groupMenuWithTarget:(id)target;
 - (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID existingOnly:(BOOL)existingOnly;
 - (AIListGroup *)offlineGroup;
 - (BOOL)useOfflineGroup;

@@ -1344,15 +1344,16 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Returns a menu containing all the groups within a group
 //- Selector called on group selection is selectGroup:
 //- The menu items represented object is the group it represents
-- (NSMenu *)menuOfAllGroupsInGroup:(AIListGroup *)inGroup withTarget:(id)target
+- (NSMenu *)groupMenuWithTarget:(id)target
 {
 	NSMenu	*menu = [[NSMenu alloc] initWithTitle:@""];
 	
 	[menu setAutoenablesItems:NO];
-	[self _menuOfAllGroups:menu forGroup:inGroup withTarget:target level:0];
+	[self _menuOfAllGroups:menu forGroup:nil withTarget:target level:0];
 	
 	return [menu autorelease];
 }
+
 - (void)_menuOfAllGroups:(NSMenu *)menu forGroup:(AIListGroup *)group withTarget:(id)target level:(NSInteger)level
 {
 	NSMutableArray	*fromGroups;
