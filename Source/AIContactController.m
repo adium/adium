@@ -1353,67 +1353,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return [menu autorelease];
 }
 
-//Returns a menu containing all the objects in a group on an account
-//- Selector called on contact selection is selectContact:
-//- The menu item's represented object is the contact it represents
-- (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inObject withTarget:(id)target{
-	return [self menuOfAllContactsInContainingObject:inObject withTarget:target firstLevel:YES];
-}
-- (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inObject withTarget:(id)target firstLevel:(BOOL)firstLevel
-{
-    NSEnumerator				*enumerator;
-    AIListObject				*object;
-	
-	//Prepare our menu
-	NSMenu *menu = [[NSMenu alloc] init];
-	[menu setAutoenablesItems:NO];
-	
-	//Passing nil scans the entire contact list
-	if (inObject == nil) inObject = contactList;
-	
-	//The pull down menu needs an extra item at the top of its root menu to handle the selection.
-	if (firstLevel) [menu addItemWithTitle:@"" action:nil keyEquivalent:@""];
-	
-	//All menu items for all contained objects
-	enumerator = [[inObject listContacts] objectEnumerator];
-    while ((object = [enumerator nextObject])) {
-		NSImage		*menuServiceImage;
-		NSMenuItem	*menuItem;
-		BOOL		needToCreateSubmenu;
-		BOOL		isGroup = [object isKindOfClass:[AIListGroup class]];
-		BOOL		isValidGroup = (isGroup &&
-									[(AIListGroup *)object containedObjectsCount]);
-		
-		//We don't want to include empty groups
-		if (!isGroup || isValidGroup) {
-			
-			needToCreateSubmenu = (isValidGroup ||
-								   ([object isKindOfClass:[AIMetaContact class]] && ([[(AIMetaContact *)object listContacts] count] > 1)));
-			
-			
-			menuServiceImage = [AIUserIcons menuUserIconForObject:object];
-			
-			menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(needToCreateSubmenu ?
-																					[object displayName] :
-																					[object formattedUID])
-																			target:target
-																			action:@selector(selectContact:)
-																	 keyEquivalent:@""];
-			
-			if (needToCreateSubmenu) {
-				[menuItem setSubmenu:[self menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)object withTarget:target firstLevel:NO]];
-			}
-			
-			[menuItem setRepresentedObject:object];
-			[menuItem setImage:menuServiceImage];
-			[menu addItem:menuItem];
-			[menuItem release];
-		}
-	}
-	
-	return [menu autorelease];
-}
-
 //Retrieving Specific Contacts -----------------------------------------------------------------------------------------
 #pragma mark Retrieving Specific Contacts
 
