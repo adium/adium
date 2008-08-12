@@ -80,8 +80,6 @@
 - (void)saveContactList;
 - (void)prepareContactInfo;
 
-- (NSMenu *)menuOfAllContactsInContainingObject:(AIListObject<AIContainingObject> *)inGroup withTarget:(id)target firstLevel:(BOOL)firstLevel;
-
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadGroupsFromArray:(NSArray *)array;
 
