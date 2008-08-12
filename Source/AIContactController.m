@@ -105,8 +105,6 @@
 - (void)breakdownAndRemoveMetaContact:(AIMetaContact *)metaContact;
 - (void)_storeListObject:(AIListObject *)listObject inMetaContact:(AIMetaContact *)metaContact;
 
-- (void)_addMenuItemsFromArray:(NSArray *)contactArray toMenu:(NSMenu *)contactMenu target:(id)target offlineContacts:(BOOL)offlineContacts;
-
 @end
 
 @implementation AIContactController
