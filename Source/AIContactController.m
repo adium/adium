@@ -1913,23 +1913,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[detachedContactLists removeObject:detachedList];
 }
 
-/*!
- * @brief Checks if a particular group is in a detached contact list 
- */
-- (BOOL)isGroupDetached:(AIListObject *)inGroup
-{
-	NSEnumerator		*enumerator = [detachedContactLists objectEnumerator];
-	AIListGroup			*group;
-	
-	while ((group = [enumerator nextObject])) {
-		if ([group containsObject:inGroup]) {
-			return YES;
-		}
-	}
-	
-	return NO;
-}
-
 @end
 
 @implementation AIContactController (ContactControllerHelperAccess)

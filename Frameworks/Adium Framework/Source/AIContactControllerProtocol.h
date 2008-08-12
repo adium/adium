@@ -114,7 +114,6 @@ typedef enum {
 //Contact List 
 - (AIListGroup *)createDetachedContactList;
 - (void)removeDetachedContactList:(AIListGroup *)detachedList;
-- (BOOL)isGroupDetached:(AIListObject *)group;
 
 @end
 
