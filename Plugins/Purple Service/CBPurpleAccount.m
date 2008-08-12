@@ -2005,7 +2005,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)performRegisterWithPassword:(NSString *)inPassword
 {
 	//Save the new password
-	if (![password isEqualToString:inPassword]) {
+	if (inPassword && ![password isEqualToString:inPassword]) {
 		[password release]; password = [[AIWiredString stringWithString:inPassword] retain];
 	}
 
