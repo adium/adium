@@ -104,7 +104,6 @@
 
 @implementation AIContactController
 
-//init
 - (id)init
 {
 	if ((self = [super init])) {
@@ -121,7 +120,6 @@
 	return self;
 }
 
-//finish initing
 - (void)controllerDidLoad
 {	
 	//Default contact preferences
@@ -148,13 +146,11 @@
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }
 
-//close
 - (void)controllerWillClose
 {
 	[self saveContactList];
 }
 
-//dealloc
 - (void)dealloc
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
@@ -214,7 +210,6 @@
 	[metaContactDictCopy release];
 }
 
-//Local Contact List Storage -------------------------------------------------------------------------------------------
 #pragma mark Local Contact List Storage
 //Load the contact list
 - (void)loadContactList
@@ -297,9 +292,7 @@
 	return array;
 }
 
-
 #pragma mark Contact Grouping
-//Contact Grouping -----------------------------------------------------------------------------------------------------
 
 //Redetermine the local grouping of a contact in response to server grouping information or an external change
 - (void)listObjectRemoteGroupingChanged:(AIListContact *)inContact
@@ -605,7 +598,7 @@
 }
 
 #pragma mark Meta Contacts
-//Meta Contacts --------------------------------------------------------------------------------------------------------
+
 /*!
  * @brief Create or load a metaContact
  *
@@ -1179,7 +1172,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return nil;
 }
 
-//Contact Sorting --------------------------------------------------------------------------------
 #pragma mark Contact Sorting
 
 //Sort the entire contact list
@@ -1215,9 +1207,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-//Contact List Access --------------------------------------------------------------------------------------------------
 #pragma mark Contact List Access
-//Returns the main contact list group
+
+/*!
+ * @brief Returns the main contact list group
+ */
 - (AIListGroup *)contactList
 {
     return contactList;
@@ -1306,7 +1300,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return result;	
 }
 
-//Contact List Menus- --------------------------------------------------------------------------------------------------
 #pragma mark Contact List Menus
 
 //Returns a menu containing all the groups within a group
@@ -1340,7 +1333,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return [menu autorelease];
 }
 
-//Retrieving Specific Contacts -----------------------------------------------------------------------------------------
 #pragma mark Retrieving Specific Contacts
 
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
@@ -1611,7 +1603,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-//Retrieving Groups ----------------------------------------------------------------------------------------------------
 #pragma mark Retrieving Groups
 
 //Retrieve a group from the contact list (Creating if necessary)
@@ -1640,7 +1631,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return group;
 }
 
-//Contact list editing -------------------------------------------------------------------------------------------------
 #pragma mark Contact list editing
 - (void)removeListObjects:(NSArray *)objectArray
 {
@@ -1869,7 +1859,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-//Detached Contact Lists ----------------------------------------------------------------------------------------------------
 #pragma mark Detached Contact Lists
 
 /*!
