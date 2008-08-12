@@ -37,7 +37,7 @@
 	NSMutableDictionary		*contactToMetaContactLookupDict;
 	
 	//Contact List and Groups
-    AIListGroup				*contactList;
+	AIListGroup				*contactList;
 	NSMutableDictionary		*groupDict;
 	BOOL					useContactListGroups;
 	NSMenuItem				*menuItem_showGroups;
@@ -45,7 +45,7 @@
 	NSMenuItem				*menuItem_useOfflineGroup;
 	
 	//Detached Contact Lists
-	NSMutableArray			*detachedContactLists;
+	NSMutableArray			*contactLists;
 	
 	//Authorization
 	AdiumAuthorization		*adiumAuthorization;

@@ -112,7 +112,7 @@
 		groupDict = [[NSMutableDictionary alloc] init];
 		metaContactDict = [[NSMutableDictionary alloc] init];
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
-		detachedContactLists = [[NSMutableArray alloc] init];
+		contactLists = [[NSMutableArray alloc] init];
 
 		contactPropertiesObserverManager = [AIContactObserverManager sharedManager];
 	}
@@ -128,6 +128,7 @@
 										  forGroup:PREF_GROUP_CONTACT_LIST];
 	
 	contactList = [[AIListGroup alloc] initWithUID:ADIUM_ROOT_GROUP_NAME];
+	[contactLists addObject:contactList];
 	//Root is always "expanded"
 	[contactList setExpanded:YES];
 	
@@ -154,14 +155,12 @@
 - (void)dealloc
 {
 	[[adium preferenceController] unregisterPreferenceObserver:self];
-	
-	[contactList release];
-	
+		
 	[contactDict release];
 	[groupDict release];
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
-	[detachedContactLists release];
+	[contactLists release];
 	
 	[contactPropertiesObserverManager release];
 
@@ -1177,7 +1176,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Sort the entire contact list
 - (void)sortContactList
 {
-	[self sortContactLists:[detachedContactLists arrayByAddingObject:contactList]];
+	[self sortContactLists:contactLists];
 }
 
 - (void)sortContactLists:(NSArray *)lists
@@ -1291,7 +1290,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSMutableArray *result = [NSMutableArray array];
 	
 	/** Could be perfected I'm sure */
-	NSEnumerator *enumerator = [[detachedContactLists arrayByAddingObject:contactList] objectEnumerator];
+	NSEnumerator *enumerator = [contactLists objectEnumerator];
 	AIListGroup *clist = nil;
 	while((clist = [enumerator nextObject])) {
 		[result addObjectsFromArray:[self allBookmarksInObject:clist recurse:YES onAccount:nil]];
@@ -1311,7 +1310,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	[menu setAutoenablesItems:NO];
 	
-	NSEnumerator *contactListEnumerator = [[detachedContactLists arrayByAddingObject:contactList] objectEnumerator];
+	NSEnumerator *contactListEnumerator = [contactLists objectEnumerator];
 	AIListGroup *clist = nil;
 	while((clist = [contactListEnumerator nextObject])){
 		//Enumerate this contact list and process all groups we find within it
@@ -1868,7 +1867,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	static NSInteger count = 0;
 	AIListGroup * list = [[AIListGroup alloc] initWithUID:[NSString stringWithFormat:@"Detached%ld",count++]];
-	[detachedContactLists addObject:list];
+	[contactLists addObject:list];
 	[list release];
 	return list;
 }
@@ -1878,7 +1877,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (void)removeDetachedContactList:(AIListGroup *)detachedList
 {
-	[detachedContactLists removeObject:detachedList];
+	[contactLists removeObject:detachedList];
 }
 
 @end
