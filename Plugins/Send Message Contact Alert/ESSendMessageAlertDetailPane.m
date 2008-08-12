@@ -26,6 +26,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
 #import <Adium/AIService.h>
 
 @interface ESSendMessageAlertDetailPane (PRIVATE)
@@ -65,6 +66,7 @@
 {
 	[toContact release]; toContact = nil;
 	[accountMenu release]; accountMenu = nil;
+	[contactMenu release]; contactMenu = nil;
 }
 
 //Configure for the action
@@ -72,16 +74,15 @@
 {
 	AIAccount			*sourceAccount;
 	NSAttributedString  *messageText;
-	NSString			*destUniqueID;
 	AIListObject		*destObject = nil;
 
 	//Attempt to find a saved destination object; if none is found, use the one we were passed
-	destUniqueID = [inDetails objectForKey:KEY_MESSAGE_SEND_TO];
+	NSString	*destUniqueID = [inDetails objectForKey:KEY_MESSAGE_SEND_TO];
 	if (destUniqueID) destObject = [[adium contactController] existingListObjectWithUniqueID:destUniqueID];
 	if (!destObject) destObject = inObject;
 		
 	//Configure the destination menu
-	[popUp_messageTo setMenu:[[adium contactController] menuOfAllContactsInContainingObject:nil withTarget:self]];
+	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:nil] retain];
 	
 	if (destObject && [destObject isKindOfClass:[AIListContact class]]) {
 		[self setDestinationContact:(AIListContact *)destObject];
@@ -133,19 +134,6 @@
 	return actionDetails;
 }
 
-//Destination contact was selected from menu
-- (void)selectContact:(id)sender
-{
-	AIListObject *listObject;
-
-	if ((listObject = [sender representedObject]) &&
-		[listObject isKindOfClass:[AIListContact class]]) {
-		[self setDestinationContact:(AIListContact *)listObject];
-		
-		[self detailsForHeaderChanged];
-	}
-}
-
 //Set our destination contact
 - (void)setDestinationContact:(AIListContact *)inContact
 {
@@ -173,6 +161,22 @@
 		//Rebuild the account menu to be appropriate
 		[accountMenu rebuildMenu];
 	}
+}
+
+- (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
+{
+	[self setDestinationContact:inContact];
+	
+	[self detailsForHeaderChanged];
+}
+
+- (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems
+{
+	NSMenu *tempMenu = [inContactMenu menu];
+	[tempMenu addItemWithTitle:@"" action:nil keyEquivalent:@""];
+	[popUp_messageTo setMenu:tempMenu];
+	
+	[popUp_messageTo synchronizeTitleAndSelectedItem];
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
