@@ -73,8 +73,6 @@
 #define UID_KEY							@"UID"
 
 @interface AIContactController (PRIVATE)
-- (AIListGroup *)processGetGroupNamed:(NSString *)serverGroup;
-
 - (void)saveContactList;
 
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
