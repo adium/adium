@@ -50,8 +50,6 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIListBookmark.h>
 
-#import "AdiumAuthorization.h"
-
 #define KEY_FLAT_GROUPS					@"FlatGroups"			//Group storage
 #define KEY_FLAT_CONTACTS				@"FlatContacts"			//Contact storage
 #define KEY_FLAT_METACONTACTS			@"FlatMetaContacts"		//Metacontact objectID storage
@@ -150,8 +148,6 @@
 	[self loadContactList];
 	[self sortContactList];
 	
-	adiumAuthorization = [[AdiumAuthorization alloc] init];
-	
 	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }
 
@@ -173,8 +169,6 @@
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
 	[detachedContactLists release];
-	
-	[adiumAuthorization release];
 	
 	[contactPropertiesObserverManager release];
 
@@ -1882,12 +1876,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		//
 		[listObject setOrderIndex:((nextHighest + nextLowest) / 2.0)];
 	}
-}
-
-#pragma mark Authorization
-- (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount
-{
-	return [adiumAuthorization showAuthorizationRequestWithDict:inDict forAccount:inAccount];
 }
 
 //Detached Contact Lists ----------------------------------------------------------------------------------------------------
