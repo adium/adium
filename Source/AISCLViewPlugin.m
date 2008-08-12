@@ -325,21 +325,13 @@
 #pragma mark Navigate Through Detached Windows
 
 /*!
- * @brief The number of detached lists present
- */
-- (NSUInteger)detachedContactListCount
-{
-	return [contactLists count];
-}
-
-/*!
  * @brief Attempts to bring the next detached contact list to the front 
  */
 - (void)nextDetachedContactList
 {
-	if (detachedCycle>=[contactLists count] || detachedCycle<0)
+	if (detachedCycle >= [contactLists count] || detachedCycle < 0)
 		detachedCycle = 0;
-	if (detachedCycle>=0 && detachedCycle<[contactLists count])
+	if (detachedCycle >= 0 && detachedCycle < [contactLists count])
 		[[contactLists objectAtIndex:detachedCycle++] showWindowInFrontIfAllowed:YES];
 }
 
@@ -501,7 +493,7 @@
 		(menuItem == menuItem_previousDetached) ||
 		(menuItem == menuItem_consolidate) ||
 		(menuItem == attachMenuItem)) {
-		return ([self detachedContactListCount] > 0);
+		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
 		return ([[(AIListGroup *)[[adium menuController] currentContextMenuObject] containingObject] containedObjectsCount] > 1);
 	}
