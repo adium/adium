@@ -13,6 +13,7 @@
 
 }
 
-- (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
++ (void)start;
++ (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
 
 @end

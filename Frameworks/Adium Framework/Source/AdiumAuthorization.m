@@ -17,6 +17,14 @@
 
 @implementation AdiumAuthorization
 
+static AdiumAuthorization *sharedInstance;
+
++ (void)start
+{
+	if(!sharedInstance)
+		sharedInstance = [[AdiumAuthorization alloc] init];
+}
+
 - (id)init
 {
 	if ((self = [super init])) {
@@ -29,7 +37,7 @@
 	return self;
 }
 
-- (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount
++ (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount
 {
 	AIListContact	*listContact = [[adium contactController] contactWithService:[inAccount service]
 																		 account:inAccount

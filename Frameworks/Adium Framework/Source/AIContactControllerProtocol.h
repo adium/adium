@@ -109,8 +109,6 @@ typedef enum {
 //For Accounts
 - (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)listContact;
 
-- (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount;
-
 //Contact List 
 - (AIListGroup *)createDetachedContactList;
 - (void)removeDetachedContactList:(AIListGroup *)detachedList;

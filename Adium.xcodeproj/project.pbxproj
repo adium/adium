@@ -1176,6 +1176,11 @@
 		63093C300892143500F118D3 /* newContentTwoDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2E0892143500F118D3 /* newContentTwoDigits.png */; };
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6311F4720E340DD2004234B8 /* AISharedAdium.m in Sources */ = {isa = PBXBuildFile; fileRef = 6311F4700E340DD2004234B8 /* AISharedAdium.m */; };
+		63218C500E518A3D0008E0D0 /* AdiumAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486E8A5097F24A90044C496 /* AdiumAuthorization.m */; };
+		63218C610E518A560008E0D0 /* ESAuthorizationRequestWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */; };
+		63218C710E518A830008E0D0 /* AuthorizationRequestWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */; };
+		63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E8A4097F24A90044C496 /* AdiumAuthorization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63218C860E518ABB0008E0D0 /* ESAuthorizationRequestWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */; };
 		632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */; };
 		632D801708E7E0A40032C187 /* XtrasManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 632D801608E7E0A40032C187 /* XtrasManager.nib */; };
 		632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D859D0DB70FC800040EC7 /* AIMentionEventPlugin.m */; };
@@ -3018,11 +3023,11 @@
 		34847ADB0C1A62C40019EF08 /* AIOutlineViewAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIOutlineViewAnimation.h; path = Source/AIOutlineViewAnimation.h; sourceTree = "<group>"; };
 		34847ADC0C1A62C40019EF08 /* AIOutlineViewAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIOutlineViewAnimation.m; path = Source/AIOutlineViewAnimation.m; sourceTree = "<group>"; };
 		3485D68009EB416300232CC4 /* AdiumLibpurple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdiumLibpurple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3486E8A4097F24A90044C496 /* AdiumAuthorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumAuthorization.h; path = Source/AdiumAuthorization.h; sourceTree = "<group>"; };
-		3486E8A5097F24A90044C496 /* AdiumAuthorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumAuthorization.m; path = Source/AdiumAuthorization.m; sourceTree = "<group>"; };
+		3486E8A4097F24A90044C496 /* AdiumAuthorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumAuthorization.h; path = "Frameworks/Adium Framework/Source/AdiumAuthorization.h"; sourceTree = "<group>"; };
+		3486E8A5097F24A90044C496 /* AdiumAuthorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumAuthorization.m; path = "Frameworks/Adium Framework/Source/AdiumAuthorization.m"; sourceTree = "<group>"; };
 		3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AuthorizationRequestWindow.nib; path = Resources/AuthorizationRequestWindow.nib; sourceTree = "<group>"; };
-		3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESAuthorizationRequestWindowController.m; path = Source/ESAuthorizationRequestWindowController.m; sourceTree = "<group>"; };
-		3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESAuthorizationRequestWindowController.h; path = Source/ESAuthorizationRequestWindowController.h; sourceTree = "<group>"; };
+		3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESAuthorizationRequestWindowController.m; path = "Frameworks/Adium Framework/Source/ESAuthorizationRequestWindowController.m"; sourceTree = "<group>"; };
+		3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESAuthorizationRequestWindowController.h; path = "Frameworks/Adium Framework/Source/ESAuthorizationRequestWindowController.h"; sourceTree = "<group>"; };
 		3488390F0BB0E770009C3F7C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = Resources/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		348839130BB0E786009C3F7C /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = Resources/ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		348839140BB0E78C009C3F7C /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -5541,11 +5546,6 @@
 		3486E88E097F24530044C496 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				3486E8A4097F24A90044C496 /* AdiumAuthorization.h */,
-				3486E8A5097F24A90044C496 /* AdiumAuthorization.m */,
-				3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */,
-				3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */,
-				3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */,
 			);
 			name = Contacts;
 			sourceTree = "<group>";
@@ -7765,6 +7765,11 @@
 				4BF5BA11042F3CB200A8010A /* AIListContact.m */,
 				4B09D5C005D5265800BC00F0 /* AIMetaContact.h */,
 				4B09D5C105D5265800BC00F0 /* AIMetaContact.m */,
+				3486E8A4097F24A90044C496 /* AdiumAuthorization.h */,
+				3486E8A5097F24A90044C496 /* AdiumAuthorization.m */,
+				3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */,
+				3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */,
+				3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */,
 			);
 			name = "Contacts & Chats";
 			sourceTree = "<group>";
@@ -8128,6 +8133,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */,
 				636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */,
 				636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */,
 				34DC8A440A7EEEF7003E1636 /* AIApplescriptabilityControllerProtocol.h in Headers */,
@@ -8254,6 +8260,7 @@
 				34A1A8CA0DFB246400AC78CF /* AISocialNetworkingStatusMenu.h in Headers */,
 				34A1A8ED0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.h in Headers */,
 				6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */,
+				63218C860E518ABB0008E0D0 /* ESAuthorizationRequestWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9170,6 +9177,7 @@
 				636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */,
 				636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */,
 				636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */,
+				63218C710E518A830008E0D0 /* AuthorizationRequestWindow.nib in Resources */,
 				34DC8A590A7EEEF7003E1636 /* PresetManagement.nib in Resources */,
 				34DC8A5C0A7EEEF7003E1636 /* PresetNameSheet.nib in Resources */,
 				34DC8A650A7EEEF7003E1636 /* AccountSetup.nib in Resources */,
@@ -9838,6 +9846,8 @@
 				34DC8A700A7EEEF7003E1636 /* AIStatusItem.m in Sources */,
 				34DC8A720A7EEEF7003E1636 /* AIStatus.m in Sources */,
 				34DC8A740A7EEEF7003E1636 /* AIStatusGroup.m in Sources */,
+				63218C500E518A3D0008E0D0 /* AdiumAuthorization.m in Sources */,
+				63218C610E518A560008E0D0 /* ESAuthorizationRequestWindowController.m in Sources */,
 				34DC8A760A7EEEF7003E1636 /* AIEditStateWindowController.m in Sources */,
 				34DC8A7A0A7EEEF7003E1636 /* AIAbstractListObjectMenu.m in Sources */,
 				34DC8A7C0A7EEEF7003E1636 /* AIAccountMenu.m in Sources */,

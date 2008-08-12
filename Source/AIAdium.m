@@ -52,6 +52,7 @@
 //For Apple Help
 #import <Carbon/Carbon.h>
 #import <AIUtilities/AITigerCompatibility.h>
+#import <Adium/AdiumAuthorization.h>
 
 #ifdef DEBUG_BUILD
 #import "ESDebugController.h"
@@ -252,6 +253,7 @@ static NSString	*prefsCategory;
 	accountController = [[AIAccountController alloc] init];
 	contactController = [[AIContactController alloc] init];
 	[AIContactHidingController sharedController];
+	[AdiumAuthorization start];
 	chatController = [[AIChatController alloc] init];
 	contentController = [[AIContentController alloc] init];
 	dockController = [[AIDockController alloc] init];

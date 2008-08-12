@@ -55,6 +55,7 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
 #import <AIUtilities/AIWiredString.h>
+#import <Adium/AdiumAuthorization.h>
 
 #import "ESiTunesPlugin.h"
 #import "AMPurpleTuneTooltip.h"
@@ -640,8 +641,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict {
 	//We will release the returned window controller in -[self authorizationWindowController:authorizationWithDict:didAuthorize:]
-	return [[[adium contactController] showAuthorizationRequestWithDict:dict
-																					  forAccount:self] retain];
+	return [[AdiumAuthorization showAuthorizationRequestWithDict:dict forAccount:self] retain];
 }
 
 - (void)authorizationWindowController:(NSWindowController *)inWindowController authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse
