@@ -76,7 +76,6 @@
 - (AIListGroup *)processGetGroupNamed:(NSString *)serverGroup;
 
 - (void)saveContactList;
-- (void)prepareContactInfo;
 
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadGroupsFromArray:(NSArray *)array;
