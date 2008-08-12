@@ -1399,20 +1399,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return [bookmark autorelease];
 }
 
-- (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID usingClass:(Class)ContactClass
-{
-	if (inService && [inUID length]) {
-		return [contactDict objectForKey:[ContactClass internalUniqueObjectIDForService:inService
-																				account:inAccount
-																					UID:inUID]];
-	} else {
-		return nil;
-	}
-}
-
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
 {
-	return [self existingContactWithService:inService account:inAccount UID:inUID usingClass:[AIListContact class]];
+	if (inService && [inUID length]) {
+		return [contactDict objectForKey:[AIListContact internalUniqueObjectIDForService:inService
+											account:inAccount
+											    UID:inUID]];
+	}
+	return nil;
 }
 
 /*!
