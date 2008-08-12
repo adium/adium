@@ -115,7 +115,6 @@ typedef enum {
 - (AIListGroup *)createDetachedContactList;
 - (void)removeDetachedContactList:(AIListGroup *)detachedList;
 - (BOOL)isGroupDetached:(AIListObject *)group;
-- (NSUInteger)contactListCount;
 
 @end
 

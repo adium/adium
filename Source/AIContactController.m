@@ -1930,14 +1930,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return NO;
 }
 
-/*!
- * @returns Number of contact lists (ie. both main contact list and all detached contact lists)
- */
-- (NSUInteger)contactListCount
-{
-	return (contactList != nil) + [detachedContactLists count];
-}
-
 @end
 
 @implementation AIContactController (ContactControllerHelperAccess)

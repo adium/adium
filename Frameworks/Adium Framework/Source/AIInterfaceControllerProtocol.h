@@ -554,7 +554,6 @@ typedef enum {
 - (id)detachContactList:(AIListGroup *)contactList;
 - (void)nextDetachedContactList;
 - (void)previousDetachedContactList;
-- (NSUInteger)detachedContactListCount;
 @end
 
 //Custom printing informal protocol
