@@ -679,8 +679,7 @@
 		} else if ([aDragItem isKindOfClass:[AIListContact class]]) {
 			//For listContacts, add all contacts with the same service and UID (on all accounts)
 			[realDragItems addObjectsFromArray:[[[adium contactController] allContactsWithService:[aDragItem service] 
-																							  UID:[aDragItem UID]
-																					 existingOnly:YES] allObjects]];
+																							  UID:[aDragItem UID]] allObjects]];
 		}
 	}
 	

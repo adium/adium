@@ -854,9 +854,7 @@
 	NSEnumerator	*enumerator;
 	AIListObject	*theObject;
 	
-	enumerator = [[self allContactsWithService:[listObject service]
-										   UID:[listObject UID]
-								  existingOnly:YES] objectEnumerator];
+	enumerator = [[self allContactsWithService:[listObject service] UID:[listObject UID]] objectEnumerator];
 	
 	//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
 	[contactToMetaContactLookupDict removeObjectForKey:[listObject internalObjectID]];
@@ -1496,29 +1494,18 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  *
  * @param service The AIService in question
  * @param inUID The UID, which should be normalized (lower case, no spaces, etc.) as appropriate for the service
- * @param existingOnly If YES, only pre-existing contacts. If NO, an AIListContact is guaranteed to be returned
- *					   on each compatible account, even if one did not previously exist.
  */
-- (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID existingOnly:(BOOL)existingOnly
+- (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID
 {
-	NSEnumerator	*enumerator;
 	AIAccount		*account;
 	NSMutableSet	*returnContactSet = [NSMutableSet set];
 	
-	enumerator = [[[adium accountController] accountsCompatibleWithService:service] objectEnumerator];
+	NSEnumerator *enumerator = [[[adium accountController] accountsCompatibleWithService:service] objectEnumerator];
 	
-	while ((account = [enumerator nextObject])) {
-		AIListContact	*listContact;
-		
-		if (existingOnly) {
-			listContact = [self existingContactWithService:service
-												   account:account
-													   UID:inUID];
-		} else {
-			listContact = [self contactWithService:service
-										   account:account
-											   UID:inUID];
-		}
+	while ((account = [enumerator nextObject])) {		
+		AIListContact *listContact = [self existingContactWithService:service
+														account:account
+															UID:inUID];
 		
 		if (listContact) {
 			[returnContactSet addObject:listContact];
@@ -1748,9 +1735,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			if ([[(AIMetaContact *)listObject listContacts] count] == 1) {
 				AIListContact	*listContact = [[(AIMetaContact *)listObject listContacts] objectAtIndex:0];
 				
-				objectsToRemove = [self allContactsWithService:[listContact service]
-														   UID:[listContact UID]
-												  existingOnly:YES];
+				objectsToRemove = [self allContactsWithService:[listContact service] UID:[listContact UID]];
 			}
 			
 			//And actually remove the single contact if applicable

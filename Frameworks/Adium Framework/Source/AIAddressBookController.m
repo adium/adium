@@ -742,8 +742,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			if ([email hasSuffix:@"@mac.com"]) {
 				//Retrieve all appropriate contacts
 				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"Mac"]
-																				  UID:email
-																		 existingOnly:YES];
+																				  UID:email];
 
 				//Add them to our set
 				[contactSet unionSet:contacts];
@@ -751,8 +750,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			} else if ([email hasSuffix:@"me.com"]) {
 					//Retrieve all appropriate contacts
 					NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MobileMe"]
-																					UID:email
-																		   existingOnly:YES];
+																					UID:email];
 					
 					//Add them to our set
 					[contactSet unionSet:contacts];
@@ -760,16 +758,14 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			} else if ([email hasSuffix:@"gmail.com"] || [email hasSuffix:@"googlemail.com"]) {
 				//Retrieve all appropriate contacts
 				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"GTalk"]
-																				UID:email
-																	   existingOnly:YES];
+																				UID:email];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
 			} else if ([email hasSuffix:@"hotmail.com"]) {
 				//Retrieve all appropriate contacts
 				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MSN"]
-																				UID:email
-																	   existingOnly:YES];
+																				UID:email];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
@@ -807,8 +803,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				}
 				
 				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
-																				  UID:UID
-																		 existingOnly:YES];
+																				  UID:UID];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
