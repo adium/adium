@@ -1421,25 +1421,16 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
 {
-    return [self contactWithService:inService account:inAccount UID:inUID usingClass:[AIListContact class]];
-}
-
-//Retrieve a contact from the contact list (Creating if necessary)
-- (AIListContact *)contactWithService:(AIService *)inService 
-							  account:(AIAccount *)inAccount 
-								  UID:(NSString *)inUID 
-						   usingClass:(Class)ContactClass
-{
 	if (!(inUID && [inUID length] && inService)) return nil; //Ignore invalid requests
 	
 	AIListContact	*contact = nil;
-	NSString		*key = [ContactClass internalUniqueObjectIDForService:inService
+	NSString		*key = [AIListContact internalUniqueObjectIDForService:inService
 															account:inAccount
 																UID:inUID];
 	contact = [contactDict objectForKey:key];
 	if (!contact) {
 		//Create
-		contact = [[ContactClass alloc] initWithUID:inUID account:inAccount service:inService];
+		contact = [[AIListContact alloc] initWithUID:inUID account:inAccount service:inService];
 		
 		//Check to see if we should add to a metaContact
 		AIMetaContact *metaContact = [contactToMetaContactLookupDict objectForKey:[contact internalObjectID]];
