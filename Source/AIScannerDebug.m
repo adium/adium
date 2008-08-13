@@ -6,6 +6,7 @@
 //
 
 #import "AIScannerDebug.h"
+#if !__LP64__
 
 @implementation AIScannerDebug
 
@@ -33,3 +34,5 @@
 #endif
 
 @end
+
+#endif
