@@ -356,7 +356,7 @@ typedef enum
  * If invisible contacts exist and can be messaged, return YES.
  * If the protocol has no concept of invisible contacts, or invisible contacts can't be messaged, return NO.
  */
-- (BOOL)canPossiblyMessageInvisibleContact:(AIListContact *)inContact
+- (BOOL)maySendMessageToInvisibleContact:(AIListContact *)inContact
 {
 	return YES;
 }
