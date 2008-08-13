@@ -459,8 +459,10 @@ static int nextChatNumber = 0;
 				sendingAbilityType = AIChatCanSendMessageNow;
 			} else if ([[self account] canSendOfflineMessageToContact:listObject]) {
 				sendingAbilityType = AIChatCanSendViaServersideOfflineMessage;				
-			} else {
+			} else if ([[self account] canPossiblyMessageInvisibleContact:listObject]) {
 				sendingAbilityType = AIChatMayNotBeAbleToSendMessage;	
+			} else {
+				sendingAbilityType = AIChatCanNotSendMessage;
 			}
 
 		} else {
