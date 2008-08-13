@@ -25,7 +25,6 @@
 #import "AIOutlineView.h"
 #import "AIGradient.h"
 #import "AIColorAdditions.h"
-#import "AITigerCompatibility.h"
 
 @interface AIAlternatingRowOutlineView (PRIVATE)
 - (void)_initAlternatingRowOutlineView;

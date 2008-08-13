@@ -6,7 +6,6 @@
 //  Copyright (c) 2004-2005 The Adium Team. All rights reserved.
 //
 
-#import "AITigerCompatibility.h"
 
 #import "AIImageViewWithImagePicker.h"
 #import <Quartz/Quartz.h>
@@ -18,7 +17,6 @@
 #import "AIStringUtilities.h"
 #import "IKPictureTakerForTiger.h"
 
-#import "AITigerCompatibility.h"
 
 #define DRAGGING_THRESHOLD 16.0
 

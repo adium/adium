@@ -15,7 +15,6 @@
 
 #import "AIPopUpButtonAdditions.h"
 #import "AIApplicationAdditions.h"
-#import "AITigerCompatibility.h"
 
 @implementation NSPopUpButton (AIPopUpButtonAdditions)
 

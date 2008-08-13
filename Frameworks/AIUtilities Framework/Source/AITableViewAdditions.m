@@ -15,7 +15,6 @@
 
 #import "AITableViewAdditions.h"
 #import "AIApplicationAdditions.h"
-#import "AITigerCompatibility.h"
 
 @implementation NSTableView (AITableViewAdditions)
 

@@ -6,7 +6,6 @@
 //  Copyright (c) 2003-2005 The Adium Team. All rights reserved.
 //
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 @interface NSObject (HashingAdditions)
 - (NSUInteger)hash;

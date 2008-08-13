@@ -22,7 +22,6 @@
 #import "AITextAttributes.h"
 #import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
-#import "AITigerCompatibility.h"
 
 NSString *AIFontFamilyAttributeName = @"AIFontFamily";
 NSString *AIFontSizeAttributeName   = @"AIFontSize";

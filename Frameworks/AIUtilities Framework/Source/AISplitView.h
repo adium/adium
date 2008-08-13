@@ -6,7 +6,6 @@
 //  Copyright 2005 the Adium Team. All rights reserved.
 //
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 /*!
  * @class AISplitView

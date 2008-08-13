@@ -36,7 +36,6 @@
 #import <AIUtilities/AIEventAdditions.h>
 #import <Adium/AIContactList.h>
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 #define PREF_GROUP_CONTACT_LIST					@"Contact List"
 

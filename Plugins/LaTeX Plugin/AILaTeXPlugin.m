@@ -17,7 +17,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AITextAttachmentExtension.h>
 
-#import <AIUtilities/AITigerCompatibility.h>
 #import <AIUtilities/AIImageAdditions.h>
 
 #import "AILaTeXPlugin.h"

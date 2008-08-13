@@ -21,7 +21,6 @@
 
 #import "AIWiredData.h"
 #import "AIFunctions.h"
-#import "AITigerCompatibility.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/errno.h>
