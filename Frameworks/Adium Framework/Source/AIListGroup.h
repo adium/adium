@@ -19,11 +19,10 @@
 @class AISortController;
 
 @interface AIListGroup : AIListObject <AIContainingObject> {
-    int					visibleCount;		//The number of visible buddies in the sorted array
-	
+	int					visibleCount;		//The number of visible buddies in the sorted array
 	NSMutableArray		*containedObjects;	//Manually ordered array of contents
-    BOOL				expanded;			//Exanded/Collapsed state of this object
-	BOOL				loadedExpanded;
+	BOOL					expanded;			//Exanded/Collapsed state of this object
+	BOOL					loadedExpanded;
 }
 
 - (id)initWithUID:(NSString *)inUID;
@@ -35,13 +34,9 @@
 - (BOOL)addObject:(AIListObject *)inObject;
 - (void)removeObject:(AIListObject *)inObject;
 
-- (BOOL)moveGroupTo:(AIListObject<AIContainingObject> *)list;
-- (BOOL)moveGroupFrom:(AIListObject<AIContainingObject> *)fromList to:(AIListObject<AIContainingObject> *)toList;
-- (BOOL)moveAllGroupsFrom:(AIListGroup *)fromContactList to:(AIListGroup *)toContactList;
-
 //Sorting (PRIVATE: For contact controller only)
 - (void)sortListObject:(AIListObject *)inObject;
-- (void)sortGroupAndSubGroups:(BOOL)subGroups;
+- (void)sort;
 
 //Visibility
 - (unsigned)visibleCount;

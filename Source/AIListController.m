@@ -452,7 +452,7 @@
 
 - (AIListObject<AIContainingObject> *)contactList
 {
-	return contactList;
+	return (AIListObject<AIContainingObject> *)contactList;
 }
 
 - (AIListOutlineView *)contactListView

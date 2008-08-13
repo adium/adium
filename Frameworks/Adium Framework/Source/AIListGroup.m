@@ -18,6 +18,7 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AISortController.h>
 #import <AIUtilities/AIArrayAdditions.h>
+#import <Adium/AIContactList.h>
 
 @interface AIListGroup (PRIVATE)
 - (void)_recomputeVisibleCount;
@@ -68,16 +69,10 @@
  */
 - (NSString *)contentsBasedIdentifier
 {
-	NSString *contentsBasedIdentifier;
-	if (self == [[adium contactController] contactList]) {
-		contentsBasedIdentifier = [self UID];
+	NSArray *UIDArray = [[containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
+	NSString *contentsBasedIdentifier = [UIDArray componentsJoinedByString:@";"];
+	if (![contentsBasedIdentifier length]) contentsBasedIdentifier = [self UID];
 
-	} else {		
-		NSArray *UIDArray = [[containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
-		contentsBasedIdentifier = [UIDArray componentsJoinedByString:@";"];
-		if (![contentsBasedIdentifier length]) contentsBasedIdentifier = [self UID];
-	}
-	
 	return contentsBasedIdentifier;
 }
 
@@ -142,10 +137,6 @@
 	return [containedObjects containsObject:inObject];
 }
 
-- (BOOL)canContainOtherContacts {
-    return NO;
-}
-
 - (BOOL)containsMultipleContacts {
     return NO;
 }
@@ -189,26 +180,11 @@
 	return object;
 }
 
-- (float)smallestOrder
+- (BOOL)canContainObject:(id)obj
 {
-	return [super smallestOrder];
+	//todo: enforce metacontacts here, after making all contacts have a containing meta
+	return [obj isKindOfClass:[AIListContact class]];
 }
-
-- (float)largestOrder
-{
-	return [super largestOrder];
-}
-
-- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex
-{
-	return [super listObject:listObject didSetOrderIndex:inOrderIndex];
-}
-
-- (float)orderIndexForObject:(AIListObject *)listObject
-{
-	return [super orderIndexForObject:listObject];
-}
-
 
 /*!
  * @brief Add an object to this group
@@ -219,6 +195,8 @@
  */
 - (BOOL)addObject:(AIListObject *)inObject
 {
+	NSParameterAssert(inObject != nil);
+	NSParameterAssert([self canContainObject:inObject]);
 	BOOL success = NO;
 	
 	if (![containedObjects containsObjectIdenticalTo:inObject]) {
@@ -268,32 +246,6 @@
 	}
 }
 
-//Move group from one contact list to another
-- (BOOL)moveGroupTo:(AIListObject<AIContainingObject> *)list
-{
-	return [self moveGroupFrom:[self containingObject] to:list];
-}
-
-- (BOOL)moveGroupFrom:(AIListObject<AIContainingObject> *)fromList to:(AIListObject<AIContainingObject> *)toList
-{
-	// Check if group is not already there
-	if([toList containsObject:self])
-		return NO;
-	
-	[fromList removeObject:self];
-	[toList addObject:self];
-	[self setContainingObject:toList];
-	
-	return YES;
-}
-
-- (BOOL)moveAllGroupsFrom:(AIListGroup *)fromContactList to:(AIListGroup *)toContactList {
-	[[[containedObjects copy] autorelease] makeObjectsPerformSelector:@selector(moveGroupTo:)
-														   withObject:toContactList];
-	
-	return YES;
-}
-
 //Sorting --------------------------------------------------------------------------------------------------------------
 #pragma mark Sorting
 //Resort an object in this group (PRIVATE: For contact controller only)
@@ -309,20 +261,8 @@
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
-- (void)sortGroupAndSubGroups:(BOOL)subGroups
-{
-	//Sort the groups within this group
-	if (subGroups) {
-		AIListObject	*object;
-			
-		NSEnumerator *enumerator = [containedObjects objectEnumerator];
-		while ((object = [enumerator nextObject])) {
-			if ([object isMemberOfClass:[AIListGroup class]]) {
-				[(AIListGroup *)object sortGroupAndSubGroups:YES];
-			}
-		}
-	}
-	
+- (void)sort
+{	
 	//Sort this group
 	if ([containedObjects count] > 1) {
 		[containedObjects autorelease];

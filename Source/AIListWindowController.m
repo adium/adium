@@ -34,6 +34,7 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>
 #import <AIUtilities/AIEventAdditions.h>
+#import <Adium/AIContactList.h>
 
 #import <AIUtilities/AITigerCompatibility.h>
 
@@ -1246,10 +1247,10 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
  */
 - (void)mouseUp:(NSEvent *)event {
 	if (attachToBottom) {
-		AIListGroup *from = (AIListGroup *)[self contactList];
-		AIListGroup *to = (AIListGroup *)[attachToBottom contactList];
+		AIContactList *from = (AIContactList *)[self contactList];
+		AIContactList *to = (AIContactList *)[attachToBottom contactList];
 		
-		[from moveAllGroupsFrom:from to:to];
+		[from moveAllGroupsTo:to];
 		
 		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:from

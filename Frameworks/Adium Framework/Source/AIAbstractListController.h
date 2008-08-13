@@ -19,7 +19,7 @@
 #import <Adium/AIListContact.h>
 #import <AIUtilities/AISmoothTooltipTracker.h>
 
-@class AIAutoScrollView, AIListOutlineView, AIListContactCell, AIListGroupCell, ESObjectWithProperties, AIListObject, AIChat;
+@class AIAutoScrollView, AIContactList, AIListOutlineView, AIListContactCell, AIListGroupCell, ESObjectWithProperties, AIListObject, AIChat;
 
 #define LIST_LAYOUT_FOLDER						@"Contact List"
 #define LIST_LAYOUT_EXTENSION					@"ListLayout"
@@ -170,31 +170,31 @@ typedef enum {
 
 @interface AIAbstractListController : NSObject <AISmoothTooltipTrackerDelegate> {	
 	AIAutoScrollView					*scrollView_contactList;
-    AIListOutlineView					*contactListView;
+	AIListOutlineView					*contactListView;
 	
-	AISmoothTooltipTracker				*tooltipTracker;
+	AISmoothTooltipTracker			*tooltipTracker;
 	
 	AIListContactCell					*contentCell;
-	AIListGroupCell						*groupCell;
+	AIListGroupCell					*groupCell;
 	
-    AIListObject <AIContainingObject> 	*contactList;
-	BOOL								hideRoot;
+   ESObjectWithProperties<AIContainingObject> *contactList;
+	BOOL									hideRoot;
 	
 	float 								backgroundOpacity;
 	
-	BOOL								inDrag;
+	BOOL									inDrag;
 	NSArray								*dragItems;
 	
-	BOOL								configuredViewsAndTooltips;
+	BOOL									configuredViewsAndTooltips;
 
-	id									delegate;
+	id										delegate;
 	
-	BOOL								showTooltips;
-	BOOL								showTooltipsInBackground;
+	BOOL									showTooltips;
+	BOOL									showTooltipsInBackground;
 
-	NSString							*dragOperation;
+	NSString								*dragOperation;
 
-	BOOL								useContactListGroups;
+	BOOL									useContactListGroups;
 	int									indentationPerLevel[9];
 }
 

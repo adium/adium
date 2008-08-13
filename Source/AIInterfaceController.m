@@ -46,6 +46,7 @@
 #import "AIMessageTabViewItem.h"
 #import "KFTypeSelectTableView.h"
 #import <KNShelfSplitview.h>
+#import <Adium/AIContactList.h>
 
 #import "AIMessageViewController.h"
 
@@ -391,7 +392,7 @@
 /*!
  * @returns Created contact list controller for detached contact list
  */
-- (AIListWindowController *)detachContactList:(AIListGroup *)aContactList
+- (AIListWindowController *)detachContactList:(AIContactList *)aContactList
 {
 	return [contactListPlugin detachContactList:aContactList];
 }
@@ -563,7 +564,7 @@
 			AIListObject	*group = [[[inChat listObject] parentContact] containingObject];
 			
 			//If the contact is in the contact list root, we don't have a group
-			if (group && (group != [[adium contactController] contactList])) {
+			if (group && ![group isKindOfClass:[AIContactList class]]) {
 				containerID = [group displayName];
 			}
 		}

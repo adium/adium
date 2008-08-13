@@ -51,11 +51,11 @@ typedef enum {
 } AISortMode;
 
 @protocol AIListObjectObserver;
-@class AIListGroup, AIListObject, AIListContact, AIMetaContact, AIService, AIAccount, AISortController, AIListBookmark, AIContactHidingController;
+@class AIListGroup, AIContactList, AIListObject, AIListContact, AIMetaContact, AIService, AIAccount, AISortController, AIListBookmark, AIContactHidingController;
 
 @protocol AIContactController <AIController>
 //Contact list access
-- (AIListGroup *)contactList;
+- (AIContactList *)contactList;
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact;
 - (AIListObject *)existingListObjectWithUniqueID:(NSString *)uniqueID;
@@ -109,8 +109,8 @@ typedef enum {
 - (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)listContact;
 
 //Contact List 
-- (AIListGroup *)createDetachedContactList;
-- (void)removeDetachedContactList:(AIListGroup *)detachedList;
+- (AIContactList *)createDetachedContactList;
+- (void)removeDetachedContactList:(AIContactList *)detachedList;
 
 @end
 

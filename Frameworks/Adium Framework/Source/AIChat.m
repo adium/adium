@@ -847,4 +847,9 @@ static int nextChatNumber = 0;
 	return nil;
 }
 
+- (BOOL) canContainObject:(id)obj
+{
+	return [obj isKindOfClass:[AIListContact class]];
+}
+
 @end
