@@ -23,9 +23,9 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
 /*!
  * @brief Adium debug log function
  *
- * Prints a message to the Adium debug window, which is only enabled in Debug and Development builds.  
- * In Deployment builds, this function is replaced by a #define which is just a comment, so there is no cost to
- * deployment to use it.
+ * Prints a message to the Adium debug window, which is only enabled in Debug builds.  
+ * In Release builds, this function is replaced by a #define which is just a comment, so there is no cost to
+ * Release to use it.
  *
  * @param format A printf-style format string
  * @param ... 0 or more arguments to the format string

@@ -25,7 +25,7 @@ analyzer_options = {
 	"-warn-objc-unused-ivars"		: True,		# Warn about private ivars that are never used
 }
 
-build_configuration = "Development"
+build_configuration = "Debug"
 
 ##
 # Some functions we'll be using...

@@ -1721,7 +1721,7 @@
 		311AC6D00AF4BA410007F952 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
-			comments = "The Strip Copy Files option will fail miserably:\n/usr/bin/strip: fat file: adium/build/Deployment/net/adium/JavaCocoaAdapter.class truncated or malformed (offset plus size of cputype (4983296) cpusubtype (301996809) extends past the end of the file)\npbxcp: warning: couldn't strip: adium/build/Deployment/Adium.app/Contents/Resources/JavaCocoaAdapter.class: No such file or directory\n\nhttp://trac.adiumx.com/ticket/5703\n";
+			comments = "The Strip Copy Files option will fail miserably:\n/usr/bin/strip: fat file: adium/build/Release/net/adium/JavaCocoaAdapter.class truncated or malformed (offset plus size of cputype (4983296) cpusubtype (301996809) extends past the end of the file)\npbxcp: warning: couldn't strip: adium/build/Release/Adium.app/Contents/Resources/JavaCocoaAdapter.class: No such file or directory\n\nhttp://trac.adiumx.com/ticket/5703\n";
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
@@ -11484,7 +11484,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		312ED3CD0C7E875C00A6BDA9 /* Development */ = {
+		312ED3CD0C7E875C00A6BDA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11499,9 +11499,9 @@
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Development;
+			name = Debug;
 		};
-		312ED3CE0C7E875C00A6BDA9 /* Deployment */ = {
+		312ED3CE0C7E875C00A6BDA9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11516,9 +11516,9 @@
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		312ED3CF0C7E875C00A6BDA9 /* Deployment-Debug */ = {
+		312ED3CF0C7E875C00A6BDA9 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11533,36 +11533,36 @@
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		3417D25D09C332B900FC413E /* Development */ = {
+		3417D25D09C332B900FC413E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Translator.plist;
 				PRODUCT_NAME = Translator;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		3417D25E09C332B900FC413E /* Deployment */ = {
+		3417D25E09C332B900FC413E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Translator.plist;
 				PRODUCT_NAME = Translator;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		3417D25F09C332B900FC413E /* Deployment-Debug */ = {
+		3417D25F09C332B900FC413E /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Translator.plist;
 				PRODUCT_NAME = Translator;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		3485D68309EB416500232CC4 /* Development */ = {
+		3485D68309EB416500232CC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -11602,9 +11602,9 @@
 				PRODUCT_NAME = AdiumLibpurple;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Development;
+			name = Debug;
 		};
-		3485D68409EB416500232CC4 /* Deployment */ = {
+		3485D68409EB416500232CC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -11644,9 +11644,9 @@
 				PRODUCT_NAME = AdiumLibpurple;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		3485D68509EB416500232CC4 /* Deployment-Debug */ = {
+		3485D68509EB416500232CC4 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -11687,9 +11687,9 @@
 				PRODUCT_NAME = AdiumLibpurple;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		349C2F230867ACA9000BF883 /* Development */ = {
+		349C2F230867ACA9000BF883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -11707,30 +11707,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		349C2F240867ACA9000BF883 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				MACOSX_DEPLOYMENT_TARGET = 10.2;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PRODUCT_NAME = AdiumApplescriptRunner;
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Deployment;
-		};
-		349C2F250867ACA9000BF883 /* Deployment-Debug */ = {
+		349C2F240867ACA9000BF883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
@@ -11749,23 +11728,44 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = "Deployment-Debug";
+			name = Release;
 		};
-		34A687690DD38D03008F0430 /* Development */ = {
+		349C2F250867ACA9000BF883 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PRODUCT_NAME = AdiumApplescriptRunner;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = "Release-Debug";
+		};
+		34A687690DD38D03008F0430 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Development\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Debug\"";
 				INFOPLIST_FILE = Plists/Facebook.plist;
 				PRODUCT_NAME = Facebook;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		34A6876A0DD38D03008F0430 /* Deployment */ = {
+		34A6876A0DD38D03008F0430 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11776,23 +11776,23 @@
 				PRODUCT_NAME = Facebook;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		34A6876B0DD38D03008F0430 /* Deployment-Debug */ = {
+		34A6876B0DD38D03008F0430 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Deployment-Debug\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/build/Release-Debug\"";
 				INFOPLIST_FILE = Plists/Facebook.plist;
 				PRODUCT_NAME = Facebook;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		34B323BC09B9FEAC00029361 /* Development */ = {
+		34B323BC09B9FEAC00029361 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11820,9 +11820,9 @@
 				PRODUCT_NAME = "IRC Service";
 				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		34B323BD09B9FEAC00029361 /* Deployment */ = {
+		34B323BD09B9FEAC00029361 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11850,9 +11850,9 @@
 				PRODUCT_NAME = "IRC Service";
 				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		34B323BE09B9FEAC00029361 /* Deployment-Debug */ = {
+		34B323BE09B9FEAC00029361 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -11880,30 +11880,30 @@
 				PRODUCT_NAME = "IRC Service";
 				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		34F3B95B0BDF16130011AB34 /* Development */ = {
+		34F3B95B0BDF16130011AB34 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
-			name = Development;
+			name = Debug;
 		};
-		34F3B95C0BDF16130011AB34 /* Deployment */ = {
+		34F3B95C0BDF16130011AB34 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		34F3B95D0BDF16130011AB34 /* Deployment-Debug */ = {
+		34F3B95D0BDF16130011AB34 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		38D8FADC0A8A4F350078E442 /* Development */ = {
+		38D8FADC0A8A4F350078E442 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -11913,9 +11913,9 @@
 				PRODUCT_NAME = QuickTime;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		38D8FADE0A8A4F350078E442 /* Deployment */ = {
+		38D8FADE0A8A4F350078E442 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -11925,9 +11925,9 @@
 				PRODUCT_NAME = QuickTime;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		38D8FADF0A8A4F350078E442 /* Deployment-Debug */ = {
+		38D8FADF0A8A4F350078E442 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -11937,9 +11937,9 @@
 				PRODUCT_NAME = QuickTime;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		7EC2E19B0DF4390C008C86B4 /* Development */ = {
+		7EC2E19B0DF4390C008C86B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -11963,9 +11963,9 @@
 				WRAPPER_EXTENSION = AdiumPlugin;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		7EC2E19C0DF4390C008C86B4 /* Deployment */ = {
+		7EC2E19C0DF4390C008C86B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -11988,9 +11988,9 @@
 				WRAPPER_EXTENSION = AdiumPlugin;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		7EC2E19D0DF4390C008C86B4 /* Deployment-Debug */ = {
+		7EC2E19D0DF4390C008C86B4 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -12012,9 +12012,9 @@
 				WRAPPER_EXTENSION = AdiumPlugin;
 				ZERO_LINK = YES;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DACF3EDF085574F6006BFB18 /* Development */ = {
+		DACF3EDF085574F6006BFB18 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "External Frameworks";
@@ -12025,9 +12025,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Development;
+			name = Debug;
 		};
-		DACF3EE0085574F6006BFB18 /* Deployment */ = {
+		DACF3EE0085574F6006BFB18 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "External Frameworks";
@@ -12038,9 +12038,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DACF3EE1085574F6006BFB18 /* Deployment-Debug */ = {
+		DACF3EE1085574F6006BFB18 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "External Frameworks";
@@ -12051,9 +12051,9 @@
 					"-Wno-unknown-pragmas",
 				);
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E00085507450062B664 /* Development */ = {
+		DADE8E00085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -12074,9 +12074,9 @@
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E01085507450062B664 /* Deployment */ = {
+		DADE8E01085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -12097,9 +12097,9 @@
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E02085507450062B664 /* Deployment-Debug */ = {
+		DADE8E02085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -12120,9 +12120,9 @@
 				SKIP_INSTALL = YES;
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E0A085507450062B664 /* Development */ = {
+		DADE8E0A085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
@@ -12161,9 +12161,9 @@
 				PRODUCT_NAME = Purple;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E0B085507450062B664 /* Deployment */ = {
+		DADE8E0B085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
@@ -12202,9 +12202,9 @@
 				PRODUCT_NAME = Purple;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E0C085507450062B664 /* Deployment-Debug */ = {
+		DADE8E0C085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
@@ -12244,9 +12244,9 @@
 				PRODUCT_NAME = Purple;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E0F085507450062B664 /* Development */ = {
+		DADE8E0F085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -12258,9 +12258,9 @@
 				PRODUCT_NAME = Bonjour;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E10085507450062B664 /* Deployment */ = {
+		DADE8E10085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
@@ -12269,9 +12269,9 @@
 				PRODUCT_NAME = Bonjour;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E11085507450062B664 /* Deployment-Debug */ = {
+		DADE8E11085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -12283,9 +12283,9 @@
 				PRODUCT_NAME = Bonjour;
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E14085507450062B664 /* Development */ = {
+		DADE8E14085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/WebKit_Message_View.plist;
@@ -12296,29 +12296,9 @@
 				PRODUCT_NAME = "WebKit Message View";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E15085507450062B664 /* Deployment */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
-				INFOPLIST_FILE = Plists/WebKit_Message_View.plist;
-				OTHER_LDFLAGS = (
-					"-undefined",
-					dynamic_lookup,
-				);
-				PRODUCT_NAME = "WebKit Message View";
-				WRAPPER_EXTENSION = AdiumPlugin;
-			};
-			name = Deployment;
-		};
-		DADE8E16085507450062B664 /* Deployment-Debug */ = {
+		DADE8E15085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12336,36 +12316,56 @@
 				PRODUCT_NAME = "WebKit Message View";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = Release;
 		};
-		DADE8E1E085507450062B664 /* Development */ = {
+		DADE8E16085507450062B664 /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_2)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_2 = "\"$(SRCROOT)/Frameworks\"";
+				INFOPLIST_FILE = Plists/WebKit_Message_View.plist;
+				OTHER_LDFLAGS = (
+					"-undefined",
+					dynamic_lookup,
+				);
+				PRODUCT_NAME = "WebKit Message View";
+				WRAPPER_EXTENSION = AdiumPlugin;
+			};
+			name = "Release-Debug";
+		};
+		DADE8E1E085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Plists/Latex Plugin.plist";
 				PRODUCT_NAME = "LaTeX Plugin";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E1F085507450062B664 /* Deployment */ = {
+		DADE8E1F085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Plists/Latex Plugin.plist";
 				PRODUCT_NAME = "Latex Plugin";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E20085507450062B664 /* Deployment-Debug */ = {
+		DADE8E20085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = "Plists/Latex Plugin.plist";
 				PRODUCT_NAME = "Latex Plugin";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E23085507450062B664 /* Development */ = {
+		DADE8E23085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12389,9 +12389,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = Adium;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E24085507450062B664 /* Deployment */ = {
+		DADE8E24085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12415,9 +12415,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = Adium;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E25085507450062B664 /* Deployment-Debug */ = {
+		DADE8E25085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
@@ -12441,9 +12441,9 @@
 				INFOPLIST_PREPROCESS = YES;
 				PRODUCT_NAME = Adium;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E2D085507450062B664 /* Development */ = {
+		DADE8E2D085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
@@ -12479,9 +12479,9 @@
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E2E085507450062B664 /* Deployment */ = {
+		DADE8E2E085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
@@ -12505,9 +12505,9 @@
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E2F085507450062B664 /* Deployment-Debug */ = {
+		DADE8E2F085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
@@ -12539,36 +12539,36 @@
 				WARNING_CFLAGS = "-Wmost";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E32085507450062B664 /* Development */ = {
+		DADE8E32085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Stress_Test.plist;
 				PRODUCT_NAME = "Stress Test";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E33085507450062B664 /* Deployment */ = {
+		DADE8E33085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Stress_Test.plist;
 				PRODUCT_NAME = "Stress Test";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E34085507450062B664 /* Deployment-Debug */ = {
+		DADE8E34085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INFOPLIST_FILE = Plists/Stress_Test.plist;
 				PRODUCT_NAME = "Stress Test";
 				WRAPPER_EXTENSION = AdiumPlugin;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DADE8E3B085507450062B664 /* Development */ = {
+		DADE8E3B085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
@@ -12604,9 +12604,9 @@
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Development;
+			name = Debug;
 		};
-		DADE8E3C085507450062B664 /* Deployment */ = {
+		DADE8E3C085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -12641,9 +12641,9 @@
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DADE8E3D085507450062B664 /* Deployment-Debug */ = {
+		DADE8E3D085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -12682,49 +12682,49 @@
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		F53C25B00A2F95F600F7B73D /* Development */ = {
+		F53C25B00A2F95F600F7B73D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
-			name = Development;
+			name = Debug;
 		};
-		F53C25B10A2F95F600F7B73D /* Deployment */ = {
+		F53C25B10A2F95F600F7B73D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		F53C25B20A2F95F600F7B73D /* Deployment-Debug */ = {
+		F53C25B20A2F95F600F7B73D /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		F5B17CD80A16C6BA004AE99E /* Development */ = {
+		F5B17CD80A16C6BA004AE99E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Plist Macros";
 			};
-			name = Development;
+			name = Debug;
 		};
-		F5B17CD90A16C6BA004AE99E /* Deployment */ = {
+		F5B17CD90A16C6BA004AE99E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Plist Macros";
 			};
-			name = Deployment;
+			name = Release;
 		};
-		F5B17CDA0A16C6BA004AE99E /* Deployment-Debug */ = {
+		F5B17CDA0A16C6BA004AE99E /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "Plist Macros";
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
 /* End XCBuildConfiguration section */
 
@@ -12732,212 +12732,212 @@
 		312ED3CC0C7E875C00A6BDA9 /* Build configuration list for PBXNativeTarget "Unit tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				312ED3CD0C7E875C00A6BDA9 /* Development */,
-				312ED3CE0C7E875C00A6BDA9 /* Deployment */,
-				312ED3CF0C7E875C00A6BDA9 /* Deployment-Debug */,
+				312ED3CD0C7E875C00A6BDA9 /* Debug */,
+				312ED3CE0C7E875C00A6BDA9 /* Release */,
+				312ED3CF0C7E875C00A6BDA9 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		3417D25C09C332B900FC413E /* Build configuration list for PBXNativeTarget "Translator" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3417D25D09C332B900FC413E /* Development */,
-				3417D25E09C332B900FC413E /* Deployment */,
-				3417D25F09C332B900FC413E /* Deployment-Debug */,
+				3417D25D09C332B900FC413E /* Debug */,
+				3417D25E09C332B900FC413E /* Release */,
+				3417D25F09C332B900FC413E /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		3485D68209EB416500232CC4 /* Build configuration list for PBXNativeTarget "AdiumLibpurple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3485D68309EB416500232CC4 /* Development */,
-				3485D68409EB416500232CC4 /* Deployment */,
-				3485D68509EB416500232CC4 /* Deployment-Debug */,
+				3485D68309EB416500232CC4 /* Debug */,
+				3485D68409EB416500232CC4 /* Release */,
+				3485D68509EB416500232CC4 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		349C2F220867ACA9000BF883 /* Build configuration list for PBXNativeTarget "AdiumApplescriptRunner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				349C2F230867ACA9000BF883 /* Development */,
-				349C2F240867ACA9000BF883 /* Deployment */,
-				349C2F250867ACA9000BF883 /* Deployment-Debug */,
+				349C2F230867ACA9000BF883 /* Debug */,
+				349C2F240867ACA9000BF883 /* Release */,
+				349C2F250867ACA9000BF883 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		34A687680DD38D03008F0430 /* Build configuration list for PBXNativeTarget "Facebook" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34A687690DD38D03008F0430 /* Development */,
-				34A6876A0DD38D03008F0430 /* Deployment */,
-				34A6876B0DD38D03008F0430 /* Deployment-Debug */,
+				34A687690DD38D03008F0430 /* Debug */,
+				34A6876A0DD38D03008F0430 /* Release */,
+				34A6876B0DD38D03008F0430 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		34B323BB09B9FEAC00029361 /* Build configuration list for PBXNativeTarget "IRC Service Libpurple Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34B323BC09B9FEAC00029361 /* Development */,
-				34B323BD09B9FEAC00029361 /* Deployment */,
-				34B323BE09B9FEAC00029361 /* Deployment-Debug */,
+				34B323BC09B9FEAC00029361 /* Debug */,
+				34B323BD09B9FEAC00029361 /* Release */,
+				34B323BE09B9FEAC00029361 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		34F3B95A0BDF16130011AB34 /* Build configuration list for PBXAggregateTarget "Touch Framework Bundles to Executable Date" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34F3B95B0BDF16130011AB34 /* Development */,
-				34F3B95C0BDF16130011AB34 /* Deployment */,
-				34F3B95D0BDF16130011AB34 /* Deployment-Debug */,
+				34F3B95B0BDF16130011AB34 /* Debug */,
+				34F3B95C0BDF16130011AB34 /* Release */,
+				34F3B95D0BDF16130011AB34 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		38D8FADB0A8A4F350078E442 /* Build configuration list for PBXNativeTarget "QuickTime Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				38D8FADC0A8A4F350078E442 /* Development */,
-				38D8FADE0A8A4F350078E442 /* Deployment */,
-				38D8FADF0A8A4F350078E442 /* Deployment-Debug */,
+				38D8FADC0A8A4F350078E442 /* Debug */,
+				38D8FADE0A8A4F350078E442 /* Release */,
+				38D8FADF0A8A4F350078E442 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		7EC2E19F0DF4390E008C86B4 /* Build configuration list for PBXNativeTarget "Developer links" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7EC2E19B0DF4390C008C86B4 /* Development */,
-				7EC2E19C0DF4390C008C86B4 /* Deployment */,
-				7EC2E19D0DF4390C008C86B4 /* Deployment-Debug */,
+				7EC2E19B0DF4390C008C86B4 /* Debug */,
+				7EC2E19C0DF4390C008C86B4 /* Release */,
+				7EC2E19D0DF4390C008C86B4 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DACF3EDE085574F6006BFB18 /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DACF3EDF085574F6006BFB18 /* Development */,
-				DACF3EE0085574F6006BFB18 /* Deployment */,
-				DACF3EE1085574F6006BFB18 /* Deployment-Debug */,
+				DACF3EDF085574F6006BFB18 /* Debug */,
+				DACF3EE0085574F6006BFB18 /* Release */,
+				DACF3EE1085574F6006BFB18 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8DFF085507450062B664 /* Build configuration list for PBXNativeTarget "Adium.Framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E00085507450062B664 /* Development */,
-				DADE8E01085507450062B664 /* Deployment */,
-				DADE8E02085507450062B664 /* Deployment-Debug */,
+				DADE8E00085507450062B664 /* Debug */,
+				DADE8E01085507450062B664 /* Release */,
+				DADE8E02085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E09085507450062B664 /* Build configuration list for PBXNativeTarget "Purple" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E0A085507450062B664 /* Development */,
-				DADE8E0B085507450062B664 /* Deployment */,
-				DADE8E0C085507450062B664 /* Deployment-Debug */,
+				DADE8E0A085507450062B664 /* Debug */,
+				DADE8E0B085507450062B664 /* Release */,
+				DADE8E0C085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E0E085507450062B664 /* Build configuration list for PBXNativeTarget "Bonjour" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E0F085507450062B664 /* Development */,
-				DADE8E10085507450062B664 /* Deployment */,
-				DADE8E11085507450062B664 /* Deployment-Debug */,
+				DADE8E0F085507450062B664 /* Debug */,
+				DADE8E10085507450062B664 /* Release */,
+				DADE8E11085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E13085507450062B664 /* Build configuration list for PBXNativeTarget "WebKit Message View" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E14085507450062B664 /* Development */,
-				DADE8E15085507450062B664 /* Deployment */,
-				DADE8E16085507450062B664 /* Deployment-Debug */,
+				DADE8E14085507450062B664 /* Debug */,
+				DADE8E15085507450062B664 /* Release */,
+				DADE8E16085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E1D085507450062B664 /* Build configuration list for PBXNativeTarget "LaTeX Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E1E085507450062B664 /* Development */,
-				DADE8E1F085507450062B664 /* Deployment */,
-				DADE8E20085507450062B664 /* Deployment-Debug */,
+				DADE8E1E085507450062B664 /* Debug */,
+				DADE8E1F085507450062B664 /* Release */,
+				DADE8E20085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E22085507450062B664 /* Build configuration list for PBXNativeTarget "Adium" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E23085507450062B664 /* Development */,
-				DADE8E24085507450062B664 /* Deployment */,
-				DADE8E25085507450062B664 /* Deployment-Debug */,
+				DADE8E23085507450062B664 /* Debug */,
+				DADE8E24085507450062B664 /* Release */,
+				DADE8E25085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E2C085507450062B664 /* Build configuration list for PBXNativeTarget "SQL Logger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E2D085507450062B664 /* Development */,
-				DADE8E2E085507450062B664 /* Deployment */,
-				DADE8E2F085507450062B664 /* Deployment-Debug */,
+				DADE8E2D085507450062B664 /* Debug */,
+				DADE8E2E085507450062B664 /* Release */,
+				DADE8E2F085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E31085507450062B664 /* Build configuration list for PBXNativeTarget "Stress Test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E32085507450062B664 /* Development */,
-				DADE8E33085507450062B664 /* Deployment */,
-				DADE8E34085507450062B664 /* Deployment-Debug */,
+				DADE8E32085507450062B664 /* Debug */,
+				DADE8E33085507450062B664 /* Release */,
+				DADE8E34085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DADE8E3B085507450062B664 /* Development */,
-				DADE8E3C085507450062B664 /* Deployment */,
-				DADE8E3D085507450062B664 /* Deployment-Debug */,
+				DADE8E3B085507450062B664 /* Debug */,
+				DADE8E3C085507450062B664 /* Release */,
+				DADE8E3D085507450062B664 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		F53C25AF0A2F95F600F7B73D /* Build configuration list for PBXAggregateTarget "Setup Build Directory" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F53C25B00A2F95F600F7B73D /* Development */,
-				F53C25B10A2F95F600F7B73D /* Deployment */,
-				F53C25B20A2F95F600F7B73D /* Deployment-Debug */,
+				F53C25B00A2F95F600F7B73D /* Debug */,
+				F53C25B10A2F95F600F7B73D /* Release */,
+				F53C25B20A2F95F600F7B73D /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		F5B17CD70A16C6BA004AE99E /* Build configuration list for PBXAggregateTarget "Plist Macros" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F5B17CD80A16C6BA004AE99E /* Development */,
-				F5B17CD90A16C6BA004AE99E /* Deployment */,
-				F5B17CDA0A16C6BA004AE99E /* Deployment-Debug */,
+				F5B17CD80A16C6BA004AE99E /* Debug */,
+				F5B17CD90A16C6BA004AE99E /* Release */,
+				F5B17CDA0A16C6BA004AE99E /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
