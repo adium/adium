@@ -62,9 +62,9 @@ ifeq ($(NIGHTLY),TRUE)
 endif
 
 ifeq ($(BUILD_IN_DEBUG_MODE),TRUE)
-    BUILDSTYLE=Deployment-Debug
+    BUILDSTYLE=Release-Debug
 else
-    BUILDSTYLE=Deployment
+    BUILDSTYLE=Release
 endif
 
 BUILDFLAGS+="BUILDCONFIGURATION=$(BUILDSTYLE)"

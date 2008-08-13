@@ -66,7 +66,7 @@ adium_co_dir="$adium_build_dir/adium"
 lastbuild_log="$adium_build_dir/log/lastbuild.log"
 
 # Where Adium.app comes out - it will _also_ exist in $adium_co_dir/build
-build_output_dir="$adium_build_dir/build/Deployment"
+build_output_dir="$adium_build_dir/build/Release"
 
 # Normal logging records the status of each step as it completes
 # Verbose mode records all svn activity
@@ -217,7 +217,7 @@ if [ "$changelog" == "yes" ] ; then
 fi
 
 # build Adium - OPTIMIZATION_CFLAGS is in the env
-xcodebuild -project Adium.xcodeproj -target Adium -configuration Deployment
+xcodebuild -project Adium.xcodeproj -target Adium -configuration Release
 
 # Check for build output dir
 if !([ -e $build_output_dir ]); then
@@ -233,19 +233,19 @@ if [ "$package" == "yes" ] ; then			# We're building a .dmg
 	fi
 	$adium_co_dir/Utilities/Build/buildDMG.pl \
 	-buildDir . -compressionLevel 9 -dmgName "Adium_$prettydate" \
-	-volName "Adium_$prettydate" "$adium_co_dir/build/Deployment/Adium.app" \
+	-volName "Adium_$prettydate" "$adium_co_dir/build/Release/Adium.app" \
 	"$adium_co_dir/ChangeLog_$prettydate"
 
 	cp Adium_$prettydate.dmg $build_output_dir/Adium_$prettydate.dmg
 fi
-if [ "$replace_running_adium" == "yes" ] && [ -x "$adium_co_dir/build/Deployment/Adium.app" ]; then
+if [ "$replace_running_adium" == "yes" ] && [ -x "$adium_co_dir/build/Release/Adium.app" ]; then
 		osascript -e "tell application \"$adium_app_name\" to quit"
 		rm -r "$install_dir/$adium_app_name.old.app"
 		mv "$install_dir/$adium_app_name.app" "$install_dir/$adium_app_name.old.app"
-		mv "$adium_co_dir/build/Deployment/Adium.app" "$install_dir/$adium_app_name.app"
+		mv "$adium_co_dir/build/Release/Adium.app" "$install_dir/$adium_app_name.app"
 		"$install_dir/$adium_app_name.app/Contents/MacOS/Adium" $launch_options &
 else
-		cp -r "$adium_co_dir/build/Deployment/Adium.app" "$install_dir/$adium_app_name.app"
+		cp -r "$adium_co_dir/build/Release/Adium.app" "$install_dir/$adium_app_name.app"
 fi
 
 # Get rid of old lastbuild log

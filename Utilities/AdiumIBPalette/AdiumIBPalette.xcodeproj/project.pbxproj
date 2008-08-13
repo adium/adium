@@ -30,8 +30,8 @@
 		0259C57FFE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AITextColorPreviewViewInspector.nib; sourceTree = "<group>"; };
 		0259C581FE90428111CA0C5A /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdiumIBPalette.nib; sourceTree = "<group>"; };
 		0259C583FE90428111CA0C5A /* palette.table */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = palette.table; sourceTree = "<group>"; };
-		0711CA150A147ED20046A860 /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AIUtilities.framework; path = "../../Frameworks/AIUtilities Framework/build/Deployment/AIUtilities.framework"; sourceTree = SOURCE_ROOT; };
-		0711CA1A0A147EDC0046A860 /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Adium.framework; path = ../../build/Deployment/Adium.framework; sourceTree = SOURCE_ROOT; };
+		0711CA150A147ED20046A860 /* AIUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AIUtilities.framework; path = "../../Frameworks/AIUtilities Framework/build/Release/AIUtilities.framework"; sourceTree = SOURCE_ROOT; };
+		0711CA1A0A147EDC0046A860 /* Adium.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Adium.framework; path = ../../build/Release/Adium.framework; sourceTree = SOURCE_ROOT; };
 		073481050A28062100F50878 /* AdiumIBPalette.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AdiumIBPalette.tiff; sourceTree = "<group>"; };
 		07F37AEA0A13CEF70072C392 /* AITextColorPreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITextColorPreviewView.h; path = "../../Plugins/Contact List/Preferences/AITextColorPreviewView.h"; sourceTree = SOURCE_ROOT; };
 		07F37AEB0A13CEF70072C392 /* AITextColorPreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITextColorPreviewView.m; path = "../../Plugins/Contact List/Preferences/AITextColorPreviewView.m"; sourceTree = SOURCE_ROOT; };
@@ -296,7 +296,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		C056398408A954F8003078D8 /* Development */ = {
+		C056398408A954F8003078D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -317,9 +317,9 @@
 				WRAPPER_EXTENSION = palette;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		C056398508A954F8003078D8 /* Deployment */ = {
+		C056398508A954F8003078D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -340,9 +340,9 @@
 				PRODUCT_NAME = AdiumIBPalette;
 				WRAPPER_EXTENSION = palette;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		C056398C08A954F8003078D8 /* Development */ = {
+		C056398C08A954F8003078D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -351,9 +351,9 @@
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		C056398D08A954F8003078D8 /* Deployment */ = {
+		C056398D08A954F8003078D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -362,7 +362,7 @@
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -370,20 +370,20 @@
 		C056398308A954F8003078D8 /* Build configuration list for PBXNativeTarget "AdiumIBPalette" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C056398408A954F8003078D8 /* Development */,
-				C056398508A954F8003078D8 /* Deployment */,
+				C056398408A954F8003078D8 /* Debug */,
+				C056398508A954F8003078D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Deployment;
+			defaultConfigurationName = Release;
 		};
 		C056398B08A954F8003078D8 /* Build configuration list for PBXProject "AdiumIBPalette" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C056398C08A954F8003078D8 /* Development */,
-				C056398D08A954F8003078D8 /* Deployment */,
+				C056398C08A954F8003078D8 /* Debug */,
+				C056398D08A954F8003078D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Deployment;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

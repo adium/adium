@@ -1726,7 +1726,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		34C572C5093E552E00829508 /* Deployment-Debug */ = {
+		34C572C5093E552E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1749,9 +1749,9 @@
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		34C572C6093E552E00829508 /* Deployment-Debug */ = {
+		34C572C6093E552E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1759,9 +1759,9 @@
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		DA8A805908553B3800F24BB3 /* Development */ = {
+		DA8A805908553B3800F24BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -1786,9 +1786,9 @@
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Development;
+			name = Debug;
 		};
-		DA8A805A08553B3800F24BB3 /* Deployment */ = {
+		DA8A805A08553B3800F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -1811,9 +1811,9 @@
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = framework;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		DA8A805D08553B3800F24BB3 /* Development */ = {
+		DA8A805D08553B3800F24BB3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
@@ -1823,9 +1823,9 @@
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
-			name = Development;
+			name = Debug;
 		};
-		DA8A805E08553B3800F24BB3 /* Deployment */ = {
+		DA8A805E08553B3800F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -1833,7 +1833,7 @@
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -1841,22 +1841,22 @@
 		DA8A805808553B3800F24BB3 /* Build configuration list for PBXNativeTarget "AIUtilities" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA8A805908553B3800F24BB3 /* Development */,
-				DA8A805A08553B3800F24BB3 /* Deployment */,
-				34C572C5093E552E00829508 /* Deployment-Debug */,
+				DA8A805908553B3800F24BB3 /* Debug */,
+				DA8A805A08553B3800F24BB3 /* Release */,
+				34C572C5093E552E00829508 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		DA8A805C08553B3800F24BB3 /* Build configuration list for PBXProject "AIUtilities.framework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DA8A805D08553B3800F24BB3 /* Development */,
-				DA8A805E08553B3800F24BB3 /* Deployment */,
-				34C572C6093E552E00829508 /* Deployment-Debug */,
+				DA8A805D08553B3800F24BB3 /* Debug */,
+				DA8A805E08553B3800F24BB3 /* Release */,
+				34C572C6093E552E00829508 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

@@ -392,7 +392,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		11BD7C1A09BBCD01006B26FD /* Development */ = {
+		11BD7C1A09BBCD01006B26FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -403,9 +403,9 @@
 				PRODUCT_NAME = AdiumSpotlightImporter;
 				WRAPPER_EXTENSION = mdimporter;
 			};
-			name = Development;
+			name = Debug;
 		};
-		11BD7C1B09BBCD01006B26FD /* Development */ = {
+		11BD7C1B09BBCD01006B26FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
@@ -415,9 +415,9 @@
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
-			name = Development;
+			name = Debug;
 		};
-		345AF7D70A5D55BC00D7DA6F /* Deployment */ = {
+		345AF7D70A5D55BC00D7DA6F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
@@ -435,9 +435,9 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = AISpotlightImporterTest;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		345AF7D80A5D55BC00D7DA6F /* Deployment-Debug */ = {
+		345AF7D80A5D55BC00D7DA6F /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -453,9 +453,9 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = AISpotlightImporterTest;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		345AF7DA0A5D55BC00D7DA6F /* Development */ = {
+		345AF7DA0A5D55BC00D7DA6F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
@@ -475,9 +475,9 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = AISpotlightImporterTest;
 			};
-			name = Development;
+			name = Debug;
 		};
-		34611CEE09B67B4500870036 /* Deployment-Debug */ = {
+		34611CEE09B67B4500870036 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -488,9 +488,9 @@
 				PRODUCT_NAME = AdiumSpotlightImporter;
 				WRAPPER_EXTENSION = mdimporter;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		34611CEF09B67B4500870036 /* Deployment-Debug */ = {
+		34611CEF09B67B4500870036 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -498,9 +498,9 @@
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
-			name = "Deployment-Debug";
+			name = "Release-Debug";
 		};
-		70138C860896BE9A00968C2F /* Deployment */ = {
+		70138C860896BE9A00968C2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -511,9 +511,9 @@
 				PRODUCT_NAME = AdiumSpotlightImporter;
 				WRAPPER_EXTENSION = mdimporter;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		70138C8A0896BE9A00968C2F /* Deployment */ = {
+		70138C8A0896BE9A00968C2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
@@ -521,7 +521,7 @@
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
-			name = Deployment;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -529,32 +529,32 @@
 		345AF7D50A5D55BC00D7DA6F /* Build configuration list for PBXNativeTarget "AISpotlightImporterTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				345AF7D70A5D55BC00D7DA6F /* Deployment */,
-				345AF7D80A5D55BC00D7DA6F /* Deployment-Debug */,
-				345AF7DA0A5D55BC00D7DA6F /* Development */,
+				345AF7D70A5D55BC00D7DA6F /* Release */,
+				345AF7D80A5D55BC00D7DA6F /* Release-Debug */,
+				345AF7DA0A5D55BC00D7DA6F /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		70138C840896BE9A00968C2F /* Build configuration list for PBXNativeTarget "AdiumSpotlightImporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				70138C860896BE9A00968C2F /* Deployment */,
-				34611CEE09B67B4500870036 /* Deployment-Debug */,
-				11BD7C1A09BBCD01006B26FD /* Development */,
+				70138C860896BE9A00968C2F /* Release */,
+				34611CEE09B67B4500870036 /* Release-Debug */,
+				11BD7C1A09BBCD01006B26FD /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 		70138C880896BE9A00968C2F /* Build configuration list for PBXProject "AdiumSpotlightImporter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				70138C8A0896BE9A00968C2F /* Deployment */,
-				34611CEF09B67B4500870036 /* Deployment-Debug */,
-				11BD7C1B09BBCD01006B26FD /* Development */,
+				70138C8A0896BE9A00968C2F /* Release */,
+				34611CEF09B67B4500870036 /* Release-Debug */,
+				11BD7C1B09BBCD01006B26FD /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Development;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
