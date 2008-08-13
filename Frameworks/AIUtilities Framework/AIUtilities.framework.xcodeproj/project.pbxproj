@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1514,7 +1514,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = DA8A805C08553B3800F24BB3 /* Build configuration list for PBXProject "AIUtilities.framework" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -1759,10 +1759,9 @@
 		34C572C6093E552E00829508 /* Deployment-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_VERSION = 4.0;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
 			name = "Deployment-Debug";
@@ -1825,7 +1824,7 @@
 				ARCHS = "$(NATIVE_ARCH)";
 				GCC_VERSION = 4.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
@@ -1834,10 +1833,9 @@
 		DA8A805E08553B3800F24BB3 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_VERSION = 4.0;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
 			name = Deployment;

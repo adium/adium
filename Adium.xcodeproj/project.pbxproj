@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 45;
 	objects = {
 
 /* Begin PBXAggregateTarget section */
@@ -1905,7 +1905,7 @@
 		31034F0B0C8142720003F5AA /* UTF8Snowman.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = UTF8Snowman.txt; path = UnitTests/UTF8Snowman.txt; sourceTree = "<group>"; };
 		312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		312ED3CB0C7E875B00A6BDA9 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "UnitTests-Info.plist"; path = "Plists/UnitTests-Info.plist"; sourceTree = "<group>"; };
-		312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		312ED3E00C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestDateFormatterStringRepWithInterval.h; path = UnitTests/TestDateFormatterStringRepWithInterval.h; sourceTree = "<group>"; };
 		312ED3E10C7E8A0700A6BDA9 /* TestDateFormatterStringRepWithInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestDateFormatterStringRepWithInterval.m; path = UnitTests/TestDateFormatterStringRepWithInterval.m; sourceTree = "<group>"; };
 		312ED3E30C7E8A4A00A6BDA9 /* UnitTests_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UnitTests_Prefix.pch; path = UnitTests/UnitTests_Prefix.pch; sourceTree = "<group>"; };
@@ -8600,7 +8600,7 @@
 				BuildIndependentTargetsInParallel = NO;
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -12603,7 +12603,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
@@ -12613,8 +12613,7 @@
 		DADE8E3C085507450062B664 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -12642,7 +12641,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
 			};
@@ -12651,8 +12650,7 @@
 		DADE8E3D085507450062B664 /* Deployment-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -12683,7 +12681,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				PREBINDING = NO;
 				PRECOMP_DESTINATION_DIR = "/Library/Caches/com.apple.Xcode.$(UID)/PrefixHeaders";
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = macosx10.5;
 				STRIP_INSTALLED_PRODUCT = NO;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 				WARNING_CFLAGS = "-Wall";
