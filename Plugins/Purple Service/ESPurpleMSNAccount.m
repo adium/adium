@@ -287,7 +287,7 @@ extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
 		 * we won't update to match other clients setting it.
 		 */
 		if (displayName &&
-			strncmp(displayName, "<msnobj", 7),
+			strncmp(displayName, "<msnobj", 7) &&
 			strcmp(displayName, [[self UID] UTF8String]) &&
 			strcmp(displayName, [[self formattedUID] UTF8String])) {
 			/* There is a serverside display name, and it's not the same as our UID. */

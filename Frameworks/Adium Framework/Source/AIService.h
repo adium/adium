@@ -59,7 +59,7 @@ typedef enum {
 - (NSCharacterSet *)allowedCharactersForUIDs;
 - (NSCharacterSet *)allowedCharactersForAccountName;
 - (NSCharacterSet *)ignoredCharacters;
-- (int)allowedLength;
+- (NSUInteger)allowedLength;
 - (int)allowedLengthForUIDs;
 - (int)allowedLengthForAccountName;
 - (BOOL)caseSensitive;
