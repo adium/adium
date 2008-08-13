@@ -297,9 +297,9 @@
  * Max allowed length of user names of this service.  Account and contact names longer than this will not be allowed.
  * @return Max name length
  */
-- (int)allowedLength
+- (NSUInteger)allowedLength
 {
-    return INT_MAX;
+    return NSUIntegerMax;
 }
 
 /*!

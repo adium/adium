@@ -49,7 +49,7 @@
 - (NSCharacterSet *)ignoredCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@"-"];
 }
-- (int)allowedLength{
+- (NSUInteger)allowedLength{
 	return 16;
 }
 - (BOOL)caseSensitive{
