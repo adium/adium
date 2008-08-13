@@ -1041,6 +1041,23 @@ typedef void (*PurpleUtilFetchUrlCallback)(PurpleUtilFetchUrlData *url_data, gpo
  *                   partial URL.
  * @param user_agent The user agent field to use, or NULL.
  * @param http11     TRUE if HTTP/1.1 should be used to download the file.
+ * @param max_len    The maximum number of bytes to retrieve (-1 for unlimited)
+ * @param cb         The callback function.
+ * @param data       The user data to pass to the callback function.
+ * @deprecated       In 3.0.0, we'll rename this to "purple_util_fetch_url" and get rid of the old one
+ */
+#define purple_util_fetch_url_len(url, full, user_agent, http11, max_len, cb, data) \
+	purple_util_fetch_url_request_len(url, full, user_agent, http11, NULL, \
+		FALSE, max_len, cb, data);
+
+/**
+ * Fetches the data from a URL, and passes it to a callback function.
+ *
+ * @param url        The URL.
+ * @param full       TRUE if this is the full URL, or FALSE if it's a
+ *                   partial URL.
+ * @param user_agent The user agent field to use, or NULL.
+ * @param http11     TRUE if HTTP/1.1 should be used to download the file.
  * @param request    A HTTP request to send to the server instead of the
  *                   standard GET
  * @param include_headers
@@ -1051,6 +1068,28 @@ typedef void (*PurpleUtilFetchUrlCallback)(PurpleUtilFetchUrlData *url_data, gpo
 PurpleUtilFetchUrlData *purple_util_fetch_url_request(const gchar *url,
 		gboolean full, const gchar *user_agent, gboolean http11,
 		const gchar *request, gboolean include_headers,
+		PurpleUtilFetchUrlCallback callback, gpointer data);
+
+/**
+ * Fetches the data from a URL, and passes it to a callback function.
+ *
+ * @param url        The URL.
+ * @param full       TRUE if this is the full URL, or FALSE if it's a
+ *                   partial URL.
+ * @param user_agent The user agent field to use, or NULL.
+ * @param http11     TRUE if HTTP/1.1 should be used to download the file.
+ * @param request    A HTTP request to send to the server instead of the
+ *                   standard GET
+ * @param include_headers
+ *                   If TRUE, include the HTTP headers in the response.
+ * @param max_len    The maximum number of bytes to retrieve (-1 for unlimited)
+ * @param callback   The callback function.
+ * @param data       The user data to pass to the callback function.
+ * @deprecated       In 3.0.0, we'll rename this to "purple_util_fetch_url_request" and get rid of the old one
+ */
+PurpleUtilFetchUrlData *purple_util_fetch_url_request_len(const gchar *url,
+		gboolean full, const gchar *user_agent, gboolean http11,
+		const gchar *request, gboolean include_headers, gssize max_len,
 		PurpleUtilFetchUrlCallback callback, gpointer data);
 
 /**

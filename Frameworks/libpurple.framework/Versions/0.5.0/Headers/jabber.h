@@ -108,6 +108,37 @@ struct _JabberStream
 	GHashTable *buddies;
 	gboolean roster_parsed;
 
+	/*
+	 * This boolean was added to eliminate a heinous bug where we would
+	 * get into a loop with the server and move a buddy back and forth
+	 * from one group to another.
+	 *
+	 * The sequence goes something like this:
+	 * 1. Our resource and another resource both approve an authorization
+	 *    request at the exact same time.  We put the buddy in group A and
+	 *    the other resource put the buddy in group B.
+	 * 2. The server receives the roster add for group B and sends us a
+	 *    roster push.
+	 * 3. We receive this roster push and modify our local blist.  This
+	 *    triggers us to send a roster add for group B.
+	 * 4. The server recieves our earlier roster add for group A and sends
+	 *    us a roster push.
+	 * 5. We receive this roster push and modify our local blist.  This
+	 *    triggers us to send a roster add for group A.
+	 * 6. The server receives our earlier roster add for group B and sends
+	 *    us a roster push.
+	 * (repeat steps 3 through 6 ad infinitum)
+	 *
+	 * This boolean is used to short-circuit the sending of a roster add
+	 * when we receive a roster push.
+	 *
+	 * See these bug reports:
+	 * http://trac.adiumx.com/ticket/8834
+	 * http://developer.pidgin.im/ticket/5484
+	 * http://developer.pidgin.im/ticket/6188
+	 */
+	gboolean currently_parsing_roster_push;
+
 	GHashTable *chats;
 	GList *chat_servers;
 	PurpleRoomlist *roomlist;
@@ -205,6 +236,11 @@ struct _JabberStream
 	PurpleSrvResponse *srv_rec;
 	guint srv_rec_idx;
 	guint max_srv_rec_idx;
+	/**
+	 * This linked list contains PurpleUtilFetchUrlData structs
+	 * for when we lookup buddy icons from a url
+	 */
+	GSList *url_datas;
 };
 
 typedef gboolean (JabberFeatureEnabled)(JabberStream *js, const gchar *shortname, const gchar *namespace);
