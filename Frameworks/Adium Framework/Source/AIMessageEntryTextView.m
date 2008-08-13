@@ -35,7 +35,6 @@
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <Adium/AIContactControllerProtocol.h>
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 

@@ -28,7 +28,6 @@
 #import "AIStringUtilities.h"
 #import "AIMenuAdditions.h"
 #import "AIApplicationAdditions.h"
-#import "AITigerCompatibility.h"
 
 #define COPY_LINK   AILocalizedStringFromTableInBundle(@"Copy Link", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "Copy the link to the clipboard")
 

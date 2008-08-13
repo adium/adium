@@ -51,7 +51,6 @@
 #import <Sparkle/Sparkle.h>
 //For Apple Help
 #import <Carbon/Carbon.h>
-#import <AIUtilities/AITigerCompatibility.h>
 #import <Adium/AdiumAuthorization.h>
 
 #ifdef DEBUG_BUILD

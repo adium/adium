@@ -14,7 +14,6 @@
  \------------------------------------------------------------------------------------------------------ */
 
 #import "AITabViewAdditions.h"
-#import "AITigerCompatibility.h"
 
 
 @implementation NSTabView (AITabViewAdditions)

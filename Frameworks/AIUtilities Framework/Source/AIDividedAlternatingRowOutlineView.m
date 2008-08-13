@@ -14,7 +14,6 @@
  \------------------------------------------------------------------------------------------------------ */
 
 #import "AIDividedAlternatingRowOutlineView.h"
-#import "AITigerCompatibility.h"
 
 @implementation AIDividedAlternatingRowOutlineView
 

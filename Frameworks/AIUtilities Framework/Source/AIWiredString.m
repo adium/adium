@@ -22,7 +22,6 @@
 #import "AIWiredString.h"
 #import "AIWiredData.h"
 #import "AIFunctions.h"
-#import "AITigerCompatibility.h"
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <unistd.h>

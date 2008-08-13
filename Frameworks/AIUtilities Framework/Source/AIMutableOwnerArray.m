@@ -19,7 +19,6 @@
 */
 
 #import "AIMutableOwnerArray.h"
-#import "AITigerCompatibility.h"
 
 @interface AIMutableOwnerArray (PRIVATE)
 - (id)_objectWithHighestPriority;

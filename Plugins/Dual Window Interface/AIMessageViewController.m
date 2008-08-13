@@ -49,7 +49,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISplitView.h>
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
 

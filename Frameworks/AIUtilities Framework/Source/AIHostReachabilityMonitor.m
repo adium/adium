@@ -7,7 +7,6 @@
 
 #import "AIHostReachabilityMonitor.h"
 #import "AISleepNotification.h"
-#import "AITigerCompatibility.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #include <arpa/inet.h>
 #include <netdb.h>

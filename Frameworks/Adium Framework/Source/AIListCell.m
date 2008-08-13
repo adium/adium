@@ -27,7 +27,6 @@
 
 #import <Adium/AIStatusControllerProtocol.h>
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 //#define	ORDERING_DEBUG
 

@@ -9,7 +9,6 @@
 #import "AIApplicationAdditions.h"
 #import "AIDateAdditions.h"
 #import "AIStringUtilities.h"
-#import "AITigercompatibility.h"
 
 #define ONE_WEEK AILocalizedStringFromTableInBundle(@"1 week", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)
 #define MULTIPLE_WEEKS AILocalizedStringFromTableInBundle(@"%i weeks", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil)

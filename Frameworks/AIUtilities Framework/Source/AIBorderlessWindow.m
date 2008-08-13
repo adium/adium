@@ -2,7 +2,6 @@
 
 #import "AIBorderlessWindow.h"
 #import "AIEventAdditions.h"
-#import "AITigerCompatibility.h"
 
 #define BORDERLESS_WINDOW_DOCKING_DISTANCE 	12	//Distance in pixels before the window is snapped to an edge
 

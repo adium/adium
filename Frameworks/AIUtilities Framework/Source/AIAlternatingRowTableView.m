@@ -17,7 +17,6 @@
 #import "AIGradient.h"
 #import "AIImageAdditions.h"
 #import "AIColorAdditions.h"
-#import "AITigerCompatibility.h"
 
 /*
  A subclass of table view that adds:

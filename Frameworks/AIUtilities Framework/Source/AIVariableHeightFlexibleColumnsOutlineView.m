@@ -7,7 +7,6 @@
 //
 
 #import "AIVariableHeightFlexibleColumnsOutlineView.h"
-#import "AITigerCompatibility.h"
 
 #define FLIPPY_WIDTH		10
 #define	FLIPPY_HEIGHT		10

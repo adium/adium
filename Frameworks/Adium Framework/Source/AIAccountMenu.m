@@ -27,7 +27,6 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceMenu.h>
 #import <Adium/AISocialNetworkingStatusMenu.h>
-#import <AIUtilities/AITigerCompatibility.h>
 
 //Menu titles
 #define	ACCOUNT_CONNECT_ACTION_MENU_TITLE			AILocalizedString(@"Connect: %@", "Connect account prefix")

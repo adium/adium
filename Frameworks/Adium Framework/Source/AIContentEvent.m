@@ -6,7 +6,6 @@
 //
 
 #import <Adium/AIContentEvent.h>
-#import <AIUtilities/AITigerCompatibility.h>
 
 @implementation AIContentEvent
 

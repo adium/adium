@@ -19,7 +19,6 @@
 
 #import "AIGradient.h"
 #import "AIColorAdditions.h"
-#import "AITigerCompatibility.h"
 
 @interface AIGradient (PRIVATE)
 - (id)initWithFirstColor:(NSColor*)inColor1 secondColor:(NSColor*)inColor2 direction:(enum AIDirection)inDirection;

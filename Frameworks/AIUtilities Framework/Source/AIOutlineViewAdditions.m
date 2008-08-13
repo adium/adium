@@ -7,7 +7,6 @@
 
 #import "AIOutlineViewAdditions.h"
 #import "AIApplicationAdditions.h"
-#import "AITigerCompatibility.h"
 
 @implementation NSOutlineView (AIOutlineViewAdditions)
 

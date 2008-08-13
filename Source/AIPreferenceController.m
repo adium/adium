@@ -33,7 +33,6 @@
 #import "AIPreferencePane.h"
 #import "AIAdvancedPreferencePane.h"
 
-#import <AIUtilities/AITigerCompatibility.h>
 
 #define TITLE_OPEN_PREFERENCES	AILocalizedString(@"Open Preferences",nil)
 
