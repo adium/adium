@@ -24,6 +24,7 @@
 #import <Adium/AIAbstractListController.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIArrayAdditions.h>
+#import <Adium/AIContactList.h>
 
 #define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
@@ -166,7 +167,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			
 			if (oldContainingObject &&
 				[oldContainingObject isKindOfClass:[AIListGroup class]] &&
-				oldContainingObject != [[adium contactController] contactList]) {
+				![oldContainingObject isKindOfClass:[AIContactList class]]) {
 				//A previous grouping (to a non-root group) is saved; restore it
 				targetGroup = (AIListGroup *)oldContainingObject;
 
@@ -640,10 +641,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return containsOnlyOneService;
 }
 
-- (BOOL)canContainOtherContacts {
-    return YES;
-}
-
 //When the listContacts array has a single member, we only contain one unique contact.
 - (void)_determineIfWeShouldAppearToContainOnlyOneContact
 {
@@ -675,7 +672,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	//It's possible we didn't know to be in a group before if all our contained contacts were also groupless.
 	if (![self containingObject] ||
-		(![[adium contactController] useContactListGroups] && ([self containingObject] != [[adium contactController] contactList]))) {
+		(![[adium contactController] useContactListGroups] && ![[self containingObject] isKindOfClass:[AIContactList class]])) {
 		[self restoreGrouping];
 	}
 }
@@ -1223,6 +1220,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[subobjectDescs release];
 
 	return [NSString stringWithFormat:@"<%@:%x %@: %@>",NSStringFromClass([self class]), self, [self internalObjectID], subobjectDescsDesc];
+}
+
+- (BOOL) canContainObject:(id)obj
+{
+	return [obj isKindOfClass:[AIListContact class]] && ![obj isKindOfClass:[AIMetaContact class]];
 }
 
 @end

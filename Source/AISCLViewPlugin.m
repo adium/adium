@@ -25,6 +25,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <Adium/AIContactList.h>
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
@@ -35,7 +36,7 @@
 
 @interface AISCLViewPlugin (PRIVATE)
 - (NSString *)humanReadableNameForGroup:(AIListGroup *)listGroup;
-- (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIListGroup *)destinationGroup;
+- (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIContactList *)destinationGroup;
 
 - (void)loadDetachedGroups;
 - (void)loadWindowPreferences:(NSDictionary *)windowPreferences;
@@ -168,18 +169,16 @@
  *
  * @return Newly created contact list window controller
  */
-- (id)detachContactList:(AIListGroup *)contactList 
+- (id)detachContactList:(AIContactList *)contactList 
 {
-	if ([contactList isKindOfClass:[AIListGroup class]]) { 
-		AIListWindowController  *newContactList = [AIBorderlessListWindowController listWindowControllerForContactList:contactList];
+	NSParameterAssert(contactList != nil);
 	
-		[contactLists addObject:newContactList];
-		[newContactList showWindowInFrontIfAllowed:YES];
+	AIListWindowController  *newContactList = [AIBorderlessListWindowController listWindowControllerForContactList:contactList];
+	
+	[contactLists addObject:newContactList];
+	[newContactList showWindowInFrontIfAllowed:YES];
 		
-		return newContactList;
-	}
-	
-	return nil;
+	return newContactList;
 }
 
 /*!
@@ -199,7 +198,7 @@
  * @brief Closes contact list based on given AIListOutlineView or AIListObject
  *
  * @param notification Notification containing either an AIListOutlineView or 
- * AIListObject object to be used to determin contact list's window. 
+ * AIListObject object to be used to determine contact list's window. 
  */
 - (void)contactListIsEmpty:(NSNotification *)notification
 {
@@ -306,11 +305,9 @@
 		defaultController = nil;
 	} else {
 		//Return the groups in this detached contact list to the main contact list
-		
-		[[[windowController contactList] containedObjects] makeObjectsPerformSelector:@selector(moveGroupTo:)
-																		   withObject:[[adium contactController] contactList]];
+		[(AIContactList *)[windowController contactList] moveAllGroupsTo:[[adium contactController] contactList]];
 
-		[[adium contactController] removeDetachedContactList:(AIListGroup *)[windowController contactList]];
+		[[adium contactController] removeDetachedContactList:(AIContactList *)[windowController contactList]];
 		
 		[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
 												  object:[[adium contactController] contactList] 
@@ -370,7 +367,7 @@
 	AIListGroup			*selectedObject = (AIListGroup *)[[adium menuController] currentContextMenuObject];
 	
 	// If this group isn't part of the main contact list, provide a menu item to add it back.
-	if ([selectedObject containingObject] != [[adium contactController] contactList]) {
+	if ((AIContactList *)[selectedObject containingObject] != [[adium contactController] contactList]) {
 		[menu addItemWithTitle:AILocalizedString(@"Main Window", "Option in the 'Attach to Window' for the main contact list window")
 						target:self
 						action:@selector(attachToWindow:)
@@ -412,7 +409,7 @@
  */
 - (void)detachFromWindow:(id)sender
 {
-	AIListGroup		*destinationGroup = [[adium contactController] createDetachedContactList];
+	AIContactList *destinationGroup = [[adium contactController] createDetachedContactList];
 
 	// Detaching is the same as moving to a new group.
 	[self moveListGroup:(AIListGroup *)[[adium menuController] currentContextMenuObject]
@@ -427,25 +424,25 @@
  * @param listGroup The list group being moved
  * @param destinationGroup The contactList of a detached windo which we're adding to
  */
-- (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIListGroup *)destinationGroup
+- (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIContactList *)destinationList
 {
-	AIListGroup		*sourceGroup = (AIListGroup *)[listGroup containingObject];
+	AIContactList *sourceList = (AIContactList *)[listGroup containingObject];
 
-	[listGroup moveGroupTo:destinationGroup];
+	[sourceList moveGroup:listGroup to:destinationList];
 	
 	// Update contact list
 	[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
-											  object:destinationGroup
+											  object:destinationList
 											userInfo:nil];
 	
 	// Post a notification that we've removed or changed the source group/window
-	if ([sourceGroup containedObjectsCount] == 0) { 
+	if ([sourceList containedObjectsCount] == 0) { 
 		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
-												  object:sourceGroup
+												  object:sourceList
 												userInfo:nil];
 	} else {
 		[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
-												  object:sourceGroup
+												  object:sourceList
 												userInfo:nil]; 
 	}
 }
@@ -607,20 +604,18 @@
  */
 - (void)loadWindowPreferences:(NSDictionary *)windowPreferences
 {
-	AIListGroup		*contactList = nil;
-	NSArray			*groups = [windowPreferences objectForKey:DETACHED_WINDOW_GROUPS];
-	NSString		*groupUID;
-	NSEnumerator	*enumerator;
+	NSArray *groups = [windowPreferences objectForKey:DETACHED_WINDOW_GROUPS];
 
-	if (![groups count])
+	if ([groups count] == 0)
 		return;
 
-	contactList = [[adium contactController] createDetachedContactList];
+	AIContactList *contactList = [[adium contactController] createDetachedContactList];
 
-	enumerator = [groups objectEnumerator];
+	NSString *groupUID;
+	NSEnumerator *enumerator = [groups objectEnumerator];
 	while ((groupUID = [enumerator nextObject])) {
 		AIListGroup		*group = [[adium contactController] groupWithUID:groupUID];
-		[group moveGroupTo:contactList];
+		[(AIContactList *)[group containingObject] moveGroup:group to:contactList];
 	}
 	
 	[self detachContactList:contactList];

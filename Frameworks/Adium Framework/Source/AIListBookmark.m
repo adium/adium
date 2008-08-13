@@ -14,6 +14,7 @@
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIContactList.h>
 
 #define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
@@ -155,7 +156,7 @@
 
 		if (oldContainingObject &&
 			[oldContainingObject isKindOfClass:[AIListGroup class]] &&
-			oldContainingObject != [[adium contactController] contactList]) {
+			![oldContainingObject isKindOfClass:[AIContactList class]]) {
 			//A previous grouping (to a non-root group) is saved; restore it
 			targetGroup = (AIListGroup *)oldContainingObject;
 		}

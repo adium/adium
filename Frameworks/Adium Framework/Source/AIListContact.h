@@ -45,7 +45,6 @@
 - (NSString *)ownPhoneticName;
 - (NSString *)serversideDisplayName;
 
-- (BOOL)canContainOtherContacts;
 - (BOOL)containsMultipleContacts;
 - (BOOL)canJoinMetaContacts;
 

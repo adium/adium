@@ -237,7 +237,8 @@
  */
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
 {
-    if (containingObject != inGroup) {
+	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
+	if (containingObject != inGroup) {
 		[containingObject release];
 		containingObject = [inGroup retain];
 

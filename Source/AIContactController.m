@@ -49,6 +49,7 @@
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIListBookmark.h>
+#import <Adium/AIContactList.h>
 
 #define KEY_FLAT_GROUPS					@"FlatGroups"			//Group storage
 #define KEY_FLAT_CONTACTS				@"FlatContacts"			//Contact storage
@@ -127,7 +128,7 @@
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST];
 	
-	contactList = [[AIListGroup alloc] initWithUID:ADIUM_ROOT_GROUP_NAME];
+	contactList = [[AIContactList alloc] initWithUID:ADIUM_ROOT_GROUP_NAME];
 	[contactLists addObject:contactList];
 	//Root is always "expanded"
 	[contactList setExpanded:YES];
@@ -1182,9 +1183,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)sortContactLists:(NSArray *)lists
 {
 	NSEnumerator *listEnum = [lists objectEnumerator];
-	AIListGroup *list;
+	AIContactList *list;
 	while((list = [listEnum nextObject])) {
-		[list sortGroupAndSubGroups:YES];
+		[list sort];
 	}
 	[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:nil];
 }
@@ -1211,7 +1212,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @brief Returns the main contact list group
  */
-- (AIListGroup *)contactList
+- (AIContactList *)contactList
 {
     return contactList;
 }
@@ -1291,7 +1292,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	/** Could be perfected I'm sure */
 	NSEnumerator *enumerator = [contactLists objectEnumerator];
-	AIListGroup *clist = nil;
+	AIContactList *clist = nil;
 	while((clist = [enumerator nextObject])) {
 		[result addObjectsFromArray:[self allBookmarksInObject:clist recurse:YES onAccount:nil]];
 	}
@@ -1311,7 +1312,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[menu setAutoenablesItems:NO];
 	
 	NSEnumerator *contactListEnumerator = [contactLists objectEnumerator];
-	AIListGroup *clist = nil;
+	AIContactList *clist = nil;
 	while((clist = [contactListEnumerator nextObject])){
 		//Enumerate this contact list and process all groups we find within it
 		AIListObject	*object;
@@ -1750,19 +1751,24 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-- (void)moveContact:(AIListContact *)listContact intoObject:(AIListObject<AIContainingObject> *)group
+- (void)moveContact:(AIListContact *)listContact intoObject:(AIListObject<AIContainingObject> *)destination
 {
 	//Move the object to the new group only if necessary
-	if (group == [listContact containingObject]) return;
+	if (destination == [listContact containingObject]) return;
 	
-	if ([group isKindOfClass:[AIListGroup class]]) {
+	if ([destination isKindOfClass:[AIContactList class]]) {
+		// Move contact from one contact list to another
+		[(AIContactList *)[listContact containingObject] moveGroup:(AIListGroup *)listContact to:(AIContactList *)destination];
+		
+	} else if ([destination isKindOfClass:[AIListGroup class]]) {
+		AIListGroup *group = (AIListGroup *)destination;
 		//Move a contact into a new group
 		if ([listContact isKindOfClass:[AIListBookmark class]]) {
-			[self _moveContactLocally:listContact toGroup:(AIListGroup *)group];
+			[self _moveContactLocally:listContact toGroup:group];
 			
 		} else if ([listContact isKindOfClass:[AIMetaContact class]]) {
 			//Move the meta contact to this new group
-			[self _moveContactLocally:listContact toGroup:(AIListGroup *)group];
+			[self _moveContactLocally:listContact toGroup:group];
 			
 			NSEnumerator	*enumerator;
 			AIListContact	*actualListContact;
@@ -1772,7 +1778,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			while ((actualListContact = [enumerator nextObject])) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
-					[self _moveObjectServerside:actualListContact toGroup:(AIListGroup *)group];
+					[self _moveObjectServerside:actualListContact toGroup:group];
 				}
 			}
 		} else if ([listContact isKindOfClass:[AIListContact class]]) {
@@ -1781,17 +1787,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 				[self removeAllListObjectsMatching:listContact fromMetaContact:(AIMetaContact *)[listContact parentContact]];
 			}
 			
-			[self _moveObjectServerside:listContact toGroup:(AIListGroup *)group];
+			[self _moveObjectServerside:listContact toGroup:group];
 
-		} else if ([listContact isKindOfClass:[AIListGroup class]]) {
-			// Move contact from one contact list to another
-			[(AIListGroup *)listContact moveGroupFrom:[(AIListGroup *)listContact containingObject] to:group];
 		} else {
 			AILogWithSignature(@"I don't know what to do with %@",listContact);
 		}
-	} else if ([group isKindOfClass:[AIMetaContact class]]) {
+	} else if ([destination isKindOfClass:[AIMetaContact class]]) {
 		//Moving a contact into a meta contact
-		[self addListObject:listContact toMetaContact:(AIMetaContact *)group];
+		[self addListObject:listContact toMetaContact:(AIMetaContact *)destination];
 	}
 }
 
@@ -1863,10 +1866,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @returns Empty contact list
  */
-- (AIListGroup *)createDetachedContactList
+- (AIContactList *)createDetachedContactList
 {
 	static NSInteger count = 0;
-	AIListGroup * list = [[AIListGroup alloc] initWithUID:[NSString stringWithFormat:@"Detached%ld",count++]];
+	AIContactList *list = [[AIContactList alloc] initWithUID:[NSString stringWithFormat:@"Detached%ld",count++]];
 	[contactLists addObject:list];
 	[list release];
 	return list;
@@ -1875,7 +1878,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @brief Removes detached contact list
  */
-- (void)removeDetachedContactList:(AIListGroup *)detachedList
+- (void)removeDetachedContactList:(AIContactList *)detachedList
 {
 	[contactLists removeObject:detachedList];
 }

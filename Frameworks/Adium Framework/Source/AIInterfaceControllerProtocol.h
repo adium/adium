@@ -64,7 +64,7 @@ typedef enum {
 
 @class AIListWindowController, AIMessageWindowController;
 
-@class AIChat, AIListObject, AIListGroup;
+@class AIChat, AIListObject, AIListGroup, AIContactList;
 
 @protocol AIInterfaceController <AIController>
 - (void)registerInterfaceController:(id <AIInterfaceComponent>)inController;
@@ -114,7 +114,7 @@ typedef enum {
  *
  * @result Created contact list controller for detached contact list
  */
-- (AIListWindowController *)detachContactList:(AIListGroup *)aContactList;
+- (AIListWindowController *)detachContactList:(AIContactList *)aContactList;
 
 #pragma mark Messaging
 /*!
@@ -551,7 +551,7 @@ typedef enum {
 @end
 
 @protocol AIMultiContactListComponent <AIContactListComponent>
-- (id)detachContactList:(AIListGroup *)contactList;
+- (id)detachContactList:(AIContactList *)contactList;
 - (void)nextDetachedContactList;
 - (void)previousDetachedContactList;
 @end

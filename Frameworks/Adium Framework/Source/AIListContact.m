@@ -192,10 +192,6 @@
 	return [self valueForProperty:@"Server Display Name"];	
 }
 
-- (BOOL)canContainOtherContacts {
-    return NO;
-}
-
 - (void)setServersideAlias:(NSString *)alias 
 				  silently:(BOOL)silent
 {

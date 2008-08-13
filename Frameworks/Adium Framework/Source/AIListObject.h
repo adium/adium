@@ -59,6 +59,7 @@ typedef enum {
 - (BOOL)isExpanded;
 - (BOOL)isExpandable;
 - (unsigned)visibleCount;
+- (BOOL)canContainObject:(id)obj;
 @end
 
 @protocol AIListObject
@@ -167,14 +168,11 @@ typedef enum {
 //Comparison
 - (NSComparisonResult)compare:(AIListObject *)other;
 
-@end
-
 /*!
- * AIContainingObjectInheritableMethods methods are part of the AIContainingObject protocol
+ * These methods are part of the AIContainingObject protocol
  * but are implemented by AIListObject (which does not conform to the protocol) for the convenience
  * of subclasses.
  */
-@interface AIListObject (AIContainingObjectInheritableMethods)
 - (float)smallestOrder;
 - (float)largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
