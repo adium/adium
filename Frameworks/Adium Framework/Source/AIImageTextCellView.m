@@ -65,13 +65,13 @@
 	NSSize	cellSize = [cell cellSizeForBounds:inRect];
 	
 	if (cellSize.width < inRect.size.width) {
-		int difference = (inRect.size.width - cellSize.width)/2;
+		CGFloat difference = (inRect.size.width - cellSize.width)/2.0f;
 		inRect.size.width -= difference;
 		inRect.origin.x += difference;
 	}
 	
 	if (cellSize.height < inRect.size.height) {
-		int difference = (inRect.size.height - cellSize.height)/2;
+		CGFloat difference = (inRect.size.height - cellSize.height)/2.0f;
 		inRect.size.height -= difference;
 		inRect.origin.y += difference;		
 	}
