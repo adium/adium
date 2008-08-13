@@ -200,6 +200,7 @@ typedef enum {
 - (BOOL)connectivityBasedOnNetworkReachability;
 - (BOOL)suppressTypingNotificationChangesAfterSend;
 - (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact;
+- (BOOL)maySendMessageToInvisibleContact:(AIListContact *)inContact;
 - (BOOL)sendOfflineMessagesWithoutPrompting;
 - (BOOL)accountDisplaysFileTransferMessages;
 - (BOOL)managesOwnContactIconCache;
