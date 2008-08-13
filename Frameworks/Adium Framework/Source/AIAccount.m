@@ -350,6 +350,18 @@ typedef enum
 }
 
 /*!
+ * @brief Support messaging invisible contacts?
+ *
+ * This will only be called if the protocol returns NO to -[self canSendOfflineMessageToContact:] 
+ * If invisible contacts exist and can be messaged, return YES.
+ * If the protocol has no concept of invisible contacts, or invisible contacts can't be messaged, return NO.
+ */
+- (BOOL)canPossiblyMessageInvisibleContact:(AIListContact *)inContact
+{
+	return YES;
+}
+
+/*!
  * @brief Should offline messages be sent without prompting the user?
  *
  * If -[self canSendOfflineMessageToContact:] returns YES, Adium typically asks the user whether or not to send a message
