@@ -105,13 +105,9 @@
  */
 - (void)adiumWillTerminate:(NSNotification *)inNotification
 {
-	NSEnumerator	*enumerator = [openChats objectEnumerator];
-	AIChat			*chat;
-	
 	//Every open chat is about to close. We perform the internal closing here rather than calling on the interface controller since the UI need not change.
-	while ((chat = [enumerator nextObject])) {
-#warning Mutating a collection while enumerating it
-		[self closeChat:chat];
+	while ([openChats count] > 0) {
+		[self closeChat:[openChats anyObject]];
 	}
 }
 
