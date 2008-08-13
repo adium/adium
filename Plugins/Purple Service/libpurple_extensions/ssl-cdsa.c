@@ -22,7 +22,6 @@
 #include <libpurple/sslconn.h>
 #include <libpurple/version.h>
 #include <libpurple/signals.h>
-#include <AIUtilities/AITigerCompatibility.h>
 
 #define SSL_CDSA_PLUGIN_ID "ssl-cdsa"
 
