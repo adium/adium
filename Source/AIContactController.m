@@ -1272,7 +1272,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[menu setAutoenablesItems:NO];
 	
 	for(AIContactList *clist in contactLists) {
-		for(AIListObject *object in [clist containedObjects]) {
+		for(AIListObject *object in clist) {
 			if ([object isKindOfClass:[AIListGroup class]] && object != [self offlineGroup]) {
 				NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[object displayName]
 													    target:target

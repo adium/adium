@@ -32,26 +32,26 @@ typedef enum {
 } AIStatusSummary;
 
 @protocol AIContainingObject <NSObject, NSFastEnumeration>
-- (NSArray *)containedObjects;
-- (NSUInteger)containedObjectsCount;
+
+@property (readonly, nonatomic) NSArray *containedObjects;
+@property (readonly, nonatomic) NSUInteger containedObjectsCount;
+
+@property (readonly, nonatomic)  NSString *contentsBasedIdentifier;
+
 - (BOOL)containsObject:(AIListObject *)inObject;
-
-- (NSString *)contentsBasedIdentifier;
-
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfObject:(AIListObject *)inObject;
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 
-- (float)smallestOrder;
-- (float)largestOrder;
+@property (readonly, nonatomic) CGFloat smallestOrder;
+@property (readonly, nonatomic) CGFloat largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
 
 //Should list each list contact only once (for groups, this is the same as the objectEnumerator)
-- (NSArray *)listContacts;
+@property (readonly, nonatomic) NSArray *listContacts;
 
 - (BOOL)addObject:(AIListObject *)inObject;
-
 - (void)removeObject:(AIListObject *)inObject;
 - (void)removeAllObjects;
 
