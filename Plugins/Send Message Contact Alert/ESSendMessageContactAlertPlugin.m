@@ -62,7 +62,7 @@
 	AIListContact	*contact = nil;
 
 	if (destUniqueID) {
-		contact = (AIListContact *)[[adium contactController] existingListObjectWithUniqueID:destUniqueID];
+		contact = (AIListContact *)[adium.contactController existingListObjectWithUniqueID:destUniqueID];
 	}
 	
 	if (contact && messageText) {
@@ -105,7 +105,7 @@
 	account = [[adium accountController] accountWithInternalObjectID:(NSString *)accountID];
 
 	destUniqueID = [details objectForKey:KEY_MESSAGE_SEND_TO];
-	if (destUniqueID) contact = (AIListContact *)[[adium contactController] existingListObjectWithUniqueID:destUniqueID];
+	if (destUniqueID) contact = (AIListContact *)[adium.contactController existingListObjectWithUniqueID:destUniqueID];
 
 	//Message to send and other options
 	useAnotherAccount = [[details objectForKey:KEY_MESSAGE_OTHER_ACCOUNT] boolValue];
@@ -117,7 +117,7 @@
 		contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:[account service]];
 		
 	} else if ([contact isKindOfClass:[AIListContact class]]) {
-		contact = [[adium contactController] contactWithService:[contact service]
+		contact = [adium.contactController contactWithService:[contact service]
 														account:account 
 															UID:[contact UID]];
 	}
@@ -135,7 +135,7 @@
 					contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:[account service]];
 					
 				} else if ([contact isKindOfClass:[AIListContact class]]) {
-					contact = [[adium contactController] contactWithService:[contact service]
+					contact = [adium.contactController contactWithService:[contact service]
 																	account:account 
 																		UID:[contact UID]];
 				}

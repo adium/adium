@@ -426,7 +426,7 @@ static ESFileTransferPreferences *preferences;
 	
 	selectedObject = [[adium interfaceController] selectedListObject];
 	if ([selectedObject isKindOfClass:[AIListContact class]]) {
-		listContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+		listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																 forListContact:(AIListContact *)selectedObject];
 	}
 	
@@ -444,7 +444,7 @@ static ESFileTransferPreferences *preferences;
 - (IBAction)contextualMenuSendFile:(id)sender
 {
 	AIListObject	*selectedObject = [[adium menuController] currentContextMenuObject];
-	AIListContact   *listContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+	AIListContact   *listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																			  forListContact:(AIListContact *)selectedObject];
 	
 	[NSApp activateIgnoringOtherApps:YES];
@@ -538,7 +538,7 @@ static ESFileTransferPreferences *preferences;
     if (menuItem == menuItem_sendFile) {
         AIListObject	*selectedObject = [[adium interfaceController] selectedListObject];
 		if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
-			listContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+			listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																	 forListContact:(AIListContact *)selectedObject];
 		}
 		
@@ -547,7 +547,7 @@ static ESFileTransferPreferences *preferences;
 	} else if (menuItem == menuItem_sendFileContext) {
 		AIListObject	*selectedObject = [[adium menuController] currentContextMenuObject];
 		if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
-			listContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+			listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																	 forListContact:(AIListContact *)selectedObject];
 		}
 		
@@ -567,7 +567,7 @@ static ESFileTransferPreferences *preferences;
 	
 	AIListObject	*selectedObject = [[adium interfaceController] selectedListObject];
 	if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
-		listContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+		listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																 forListContact:(AIListContact *)selectedObject];
 	}
 

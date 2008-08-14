@@ -194,7 +194,7 @@
 			[[popUp_targetGroup selectedItem] representedObject] : 
 			nil);
 	
-	if (!group) group = [[adium contactController] groupWithUID:DEFAULT_GROUP_NAME];
+	if (!group) group = [adium.contactController groupWithUID:DEFAULT_GROUP_NAME];
 	
 	AILogWithSignature(@"checkedAccounts is %@", checkedAccounts);
 
@@ -202,7 +202,7 @@
 	for (account in accounts) {
 		if ([account contactListEditable] && [checkedAccounts containsObject:account]) {
 			AILogWithSignature(@"Accont %@ was checked per its preference; we'll add %@ to it", account, UID);
-			AIListContact	*contact = [[adium contactController] contactWithService:service
+			AIListContact	*contact = [adium.contactController contactWithService:service
 																			 account:account
 																				 UID:UID];
 			
@@ -225,7 +225,7 @@
 	//Add them to our local group
 	AILogWithSignature(@"Adding %@ to %@", contactArray, group);
 	if ([contactArray count]) {
-		[[adium contactController] addContacts:contactArray toGroup:group];
+		[adium.contactController addContacts:contactArray toGroup:group];
 		
 		[self closeWindow:nil];
 	} else {
@@ -413,7 +413,7 @@
 	AIListObject	*selectedObject;
 	NSMenu			*menu;
 	//Rebuild the menu
-	menu = [[adium contactController] groupMenuWithTarget:self];
+	menu = [adium.contactController groupMenuWithTarget:self];
 
 	//Add a default group name to the menu if there are no groups listed
 	if ([menu numberOfItems] == 0) {

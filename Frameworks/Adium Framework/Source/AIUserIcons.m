@@ -108,11 +108,8 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	
 	[self flushAllCaches];
-
-	NSEnumerator *enumerator = [[[adium contactController] allContacts] objectEnumerator];
-	AIListObject *listObject;
 	
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in adium.contactController.allContacts) {
 		[self updateUserIconForObject:listObject];
 	}
 

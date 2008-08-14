@@ -41,7 +41,7 @@
 	[self didConnect];
 
 	if (!commandContact) {
-		commandContact = [[[adium contactController] contactWithService:service 
+		commandContact = [[adium.contactController contactWithService:service 
 																account:self
 																	UID:@"Command"] retain];
 	}
@@ -102,7 +102,7 @@
 		NSString		*buddyUID = [NSString stringWithFormat:@"Buddy%i",i];
 		AIListContact	*contact;
 
-		contact = [[adium contactController] contactWithService:service
+		contact = [adium.contactController contactWithService:service
 														account:self
 															UID:buddyUID];
 		[contact setRemoteGroupName:[NSString stringWithFormat:@"Group %i", (int)(i/5.0)]];
@@ -124,7 +124,7 @@
 			AIListContact	*contact;
 			NSString		*buddyUID = [NSString stringWithFormat:@"Buddy%i",i];
 			
-			contact = [[adium contactController] contactWithService:service
+			contact = [adium.contactController contactWithService:service
 															account:self
 																UID:buddyUID];
 
@@ -295,7 +295,7 @@
     AIListContact	*contact;
     NSString		*buddyUID = [NSString stringWithFormat:@"Buddy%i",i%spread];
 	
-    if ((contact = [[adium contactController] contactWithService:service
+    if ((contact = [adium.contactController contactWithService:service
 														account:self
 															UID:buddyUID])) {
         AIContentMessage *messageObject;
@@ -328,7 +328,7 @@
     AIListContact	*contact;
     NSString		*buddyUID = [NSString stringWithFormat:@"Buddy%i",i%spread];
 	
-    if ((contact = [[adium contactController] contactWithService:service
+    if ((contact = [adium.contactController contactWithService:service
 														account:self
 															UID:buddyUID])) {
         AIContentMessage *messageObject;
@@ -374,7 +374,7 @@
 	if ( i == 0 ) {
 		for (j = 0; j < count; j++) {
 			NSString		*buddyUID = [NSString stringWithFormat:@"Buddy%i",j];
-			[listObjectArray addObject:[[adium contactController] contactWithService:service
+			[listObjectArray addObject:[adium.contactController contactWithService:service
 																			 account:self
 																				 UID:buddyUID]];
 		}

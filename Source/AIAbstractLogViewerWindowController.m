@@ -322,7 +322,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			if ((currentTo = [currentToGroup to])) {
 				NSString *serviceClass = [currentToGroup serviceClass];
 				AIListObject *listObject = ((serviceClass && currentTo) ?
-											[[adium contactController] existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:serviceClass
+											[adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:serviceClass
 																																			 UID:currentTo]] :
 											nil);
 				if (listObject && [listObject isKindOfClass:[AIListContact class]]) {
@@ -1545,7 +1545,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 		if ([identifier isEqualToString:@"To"]) {
 			// Get ListObject for to-UID
-			AIListObject *listObject = [[adium contactController] existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:[theLog serviceClass]
+			AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:[theLog serviceClass]
 																																		UID:[theLog to]]];
 			if (listObject) {
 				//Use the longDisplayName, following the user's contact list preferences as this is presumably how she wants to view contacts' names.
@@ -1897,7 +1897,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 					
 					if (account) {
 						//Finally, make a contact
-						item = [[adium contactController] contactWithService:service
+						item = [adium.contactController contactWithService:service
 																	 account:account
 																		 UID:[(AILogToGroup *)item to]];
 					}
@@ -2274,7 +2274,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 
 	NSString	*serviceID = [[serviceAndAccountName componentsSeparatedByString:@"."] objectAtIndex:0];
 	//Filter for logs from the contact associated with the log we're loading
-	[self filterForContact:[[adium contactController] contactWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
+	[self filterForContact:[adium.contactController contactWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
 																 account:nil
 																	 UID:contactName]];
 	

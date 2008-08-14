@@ -172,7 +172,7 @@
 - (void)updateGroupList
 {
 	//Get the new groups
-	NSMenu		*groupMenu = [[adium contactController] groupMenuWithTarget:self];
+	NSMenu		*groupMenu = [adium.contactController groupMenuWithTarget:self];
 	NSMenuItem  *notListedMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"(Not Listed)", nil)
 																						 target:self
 																action:@selector(selectGroup:)
@@ -223,7 +223,7 @@
 		AIListContact *contact;
 		while ((contact = [enumerator nextObject])) {
 			if ([[contact serviceClass] isEqualToString:[inAccount serviceClass]]) {
-				[array addObject:[[adium contactController] contactWithService:[contact service]
+				[array addObject:[adium.contactController contactWithService:[contact service]
 																	   account:inAccount
 																		   UID:[contact UID]]];
 			}
@@ -359,7 +359,7 @@
 		if (accountOnline) {
 			AIListGroup	*group;
 			
-			if ((group = [[adium contactController] remoteGroupForContact:exactContact])) {
+			if ((group = [adium.contactController remoteGroupForContact:exactContact])) {
 				[cell selectItemWithRepresentedObject:group];
 			} else {
 				[cell selectItemAtIndex:0];			
@@ -397,7 +397,7 @@
 			AIListContact	*exactContact;
 
 			//Retrieve an AIListContact on this account
-			exactContact = [[adium contactController] contactWithService:[contactOnClickedRow service]
+			exactContact = [adium.contactController contactWithService:[contactOnClickedRow service]
 																 account:[[popUp_accounts selectedItem] representedObject]
 																	 UID:[contactOnClickedRow UID]];
 
@@ -405,17 +405,17 @@
 				if (![[group UID] isEqualToString:[exactContact remoteGroupName]]) {
 					if ([exactContact remoteGroupName]) {
 						//Move contact
-						[[adium contactController] moveContact:exactContact intoObject:group];
+						[adium.contactController moveContact:exactContact intoObject:group];
 
 					} else {						
-						[[adium contactController] addContacts:[NSArray arrayWithObject:exactContact] 
+						[adium.contactController addContacts:[NSArray arrayWithObject:exactContact] 
 													   toGroup:group];
 					}
 				}
 
 			} else {
 				//User selected not listed, so we'll remove that contact
-				[[adium contactController] removeListObjects:[NSArray arrayWithObject:exactContact]];
+				[adium.contactController removeListObjects:[NSArray arrayWithObject:exactContact]];
 			}
 		}
 	}

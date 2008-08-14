@@ -1004,9 +1004,7 @@
 - (NSArray *)contacts
 {
 	NSMutableArray *results = [NSMutableArray array];
-	NSEnumerator *contactEnumerator = [[[adium contactController] allContacts] objectEnumerator];
-	AIListContact *contact = nil;
-	while((contact = [contactEnumerator nextObject])) {
+	for (AIListContact *contact in adium.contactController.allContacts) {
 		if([contact account] == self)
 			[results addObject:contact];
 	}
@@ -1026,7 +1024,7 @@
 		sourceUID = [sourceUID compactedString];
 	}
 	
-	return [[adium contactController] contactWithService:service
+	return [adium.contactController contactWithService:service
 												 account:self
 													 UID:sourceUID];
 }
@@ -1239,7 +1237,7 @@
 		[listContact setRemoteGroupName:nil];
 		[self removePropetyValuesFromContact:listContact silently:YES];
 		if (![[adium chatController] existingChatWithContact:[listContact parentContact]])
-			[[adium contactController] account:self didStopTrackingContact:listContact];
+			[adium.contactController account:self didStopTrackingContact:listContact];
 	}
 	
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];

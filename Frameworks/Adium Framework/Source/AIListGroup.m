@@ -82,11 +82,7 @@
  The visible objects contained in a group are always sorted to the top.  This allows us to easily retrieve only visible
  objects without having to physically remove invisible objects from the group.
  */
-//Returns the number of visible objects in this group
-- (unsigned)visibleCount
-{
-    return visibleCount;
-}
+@synthesize visibleCount;
 
 //Cache the number of contained objects that are visible
 - (void)_recomputeVisibleCount
@@ -110,7 +106,7 @@
 	[self _recomputeVisibleCount];
 	
 	//Sort the contained object to or from the bottom (invisible section) of the group
-	[[adium contactController] sortListObject:inObject];
+	[adium.contactController sortListObject:inObject];
 }
 
 //Object Storage ---------------------------------------------------------------------------------------------
@@ -309,7 +305,7 @@
 }
 - (id)moveContacts:(AIListObject *)contact toIndex:(int)index
 {
-	[[adium contactController] moveListObjects:[NSArray arrayWithObject:contact] intoObject:self index:index];
+	[adium.contactController moveListObjects:[NSArray arrayWithObject:contact] intoObject:self index:index];
 	return nil;
 }
 @end

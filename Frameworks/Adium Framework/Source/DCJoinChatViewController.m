@@ -213,7 +213,7 @@
 					UID = [UID compactedString];
 				}
 				
-				if ((listContact = [[adium contactController] contactWithService:[inAccount service] 
+				if ((listContact = [adium.contactController contactWithService:[inAccount service] 
 																	   account:inAccount 
 																		   UID:UID])) {
 					[contactsArray addObject:listContact];
@@ -236,7 +236,7 @@
 - (AIListContact *)validContact:(NSString *)uniqueID withService:(AIService *)service
 {
 	AIListContact *listContact = nil;
-	AIListObject *listObject = [[adium contactController] existingListObjectWithUniqueID:uniqueID];
+	AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:uniqueID];
 	
 	if ( listObject ) {
 		if ( [listObject isKindOfClass:[AIMetaContact class]] ) {
@@ -309,7 +309,7 @@
 			
 			for (uniqueID in dragItemsUniqueIDs) {
 				NSString *oldValue = [theField stringValue];
-				listObject = [[adium contactController] existingListObjectWithUniqueID:uniqueID];
+				listObject = [adium.contactController existingListObjectWithUniqueID:uniqueID];
 				
 				// Get contacts with our service
 				// (May not be necessary, as we reject ungood contacts in the dragging entered phase)

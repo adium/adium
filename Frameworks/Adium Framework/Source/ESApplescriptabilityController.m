@@ -49,7 +49,7 @@
 }
 - (NSArray *)contacts
 {
-	return ([[adium contactController] allContacts]);
+	return (adium.contactController.allContacts);
 }
 - (NSArray *)chats
 {
@@ -143,7 +143,7 @@
 	AIListContact   *contact;
 	AIChat			*chat = nil;
 
-	contact = [[adium contactController] preferredContactWithUID:UID
+	contact = [adium.contactController preferredContactWithUID:UID
 													andServiceID:serviceID 
 										   forSendingContentType:CONTENT_MESSAGE_TYPE];
 

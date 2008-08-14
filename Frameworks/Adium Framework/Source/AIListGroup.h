@@ -19,7 +19,7 @@
 @class AISortController;
 
 @interface AIListGroup : AIListObject <AIContainingObject> {
-	int					visibleCount;		//The number of visible buddies in the sorted array
+	NSUInteger			visibleCount;		//The number of visible buddies in the sorted array
 	NSMutableArray		*containedObjects;	//Manually ordered array of contents
 	BOOL					expanded;			//Exanded/Collapsed state of this object
 	BOOL					loadedExpanded;
@@ -39,7 +39,7 @@
 - (void)sort;
 
 //Visibility
-- (unsigned)visibleCount;
+@property (readonly, nonatomic) NSUInteger visibleCount;
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
 
 @end

@@ -120,7 +120,7 @@
 	//Get the last account used to message someone on this service, and check if the contact is on that account
 	NSString		*lastAccountID = [lastAccountIDToSendContent objectForKey:[[inContact service] serviceID]];
 	AIAccount		*lastUsedAccount = (lastAccountID ? [[adium accountController] accountWithInternalObjectID:lastAccountID] : nil);
-	AIListContact	*possibleContact = [[adium contactController] existingContactWithService:[lastUsedAccount service]
+	AIListContact	*possibleContact = [adium.contactController existingContactWithService:[lastUsedAccount service]
 																				   account:lastUsedAccount
 																					   UID:[inContact UID]];
 	if (possibleContact && ![possibleContact isStranger] &&
@@ -138,7 +138,7 @@
 	//Now check compatible accounts, looking for one that knows about the contact
 	NSEnumerator	*enumerator = [[[adium accountController] accountsCompatibleWithService:[inContact service]] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
-		AIListContact *possibleContact = [[adium contactController] existingContactWithService:[account service]
+		AIListContact *possibleContact = [adium.contactController existingContactWithService:[account service]
 																					   account:account
 																						   UID:[inContact UID]];
 		if ((possibleContact && ![possibleContact isStranger]) &&

@@ -19,42 +19,42 @@ typedef enum {
 		AIFileTransferController, AILoginController, AIInterfaceController, AIContactController;
 
 @protocol AIAdium <NSObject>
-- (NSObject <AIAccountController> *)accountController;
-- (NSObject <AIChatController> *)chatController;
-- (NSObject <AIContactController> *)contactController;
-- (NSObject <AIContentController> *)contentController;
-- (NSObject <AIDockController> *)dockController;
-- (NSObject <AIEmoticonController> *)emoticonController;
-- (NSObject <AIInterfaceController> *)interfaceController;
-- (NSObject <AILoginController> *)loginController;
-- (NSObject <AIMenuController> *)menuController;
-- (NSObject <AIPreferenceController> *)preferenceController;
-- (NSObject <AISoundController> *)soundController;
-- (NSObject <AIStatusController> *)statusController;
-- (NSObject <AIToolbarController> *)toolbarController;
-- (NSObject <AIContactAlertsController> *)contactAlertsController;
-- (NSObject <AIFileTransferController> *)fileTransferController;
+@property (readonly, nonatomic) NSObject<AIAccountController> *accountController;
+@property (readonly, nonatomic) NSObject<AIChatController> *chatController;
+@property (readonly, nonatomic) NSObject<AIContactController> *contactController;
+@property (readonly, nonatomic) NSObject<AIContentController> *contentController;
+@property (readonly, nonatomic) NSObject<AIDockController> *dockController;
+@property (readonly, nonatomic) NSObject<AIEmoticonController> *emoticonController;
+@property (readonly, nonatomic) NSObject<AIInterfaceController> *interfaceController;
+@property (readonly, nonatomic) NSObject<AILoginController> *loginController;
+@property (readonly, nonatomic) NSObject<AIMenuController> *menuController;
+@property (readonly, nonatomic) NSObject<AIPreferenceController> *preferenceController;
+@property (readonly, nonatomic) NSObject<AISoundController> *soundController;
+@property (readonly, nonatomic) NSObject<AIStatusController> *statusController;
+@property (readonly, nonatomic) NSObject<AIToolbarController> *toolbarController;
+@property (readonly, nonatomic) NSObject<AIContactAlertsController> *contactAlertsController;
+@property (readonly, nonatomic) NSObject<AIFileTransferController> *fileTransferController;
 
 #ifdef DEBUG_BUILD
-- (NSObject <AIDebugController> *)debugController;
+@property (readonly, nonatomic) NSObject<AIDebugController> *debugController;
 #endif
 
-- (NSObject <AIApplescriptabilityController> *)applescriptabilityController;
+@property (readonly, nonatomic) NSObject<AIApplescriptabilityController> *applescriptabilityController;
 
-- (NSNotificationCenter *)notificationCenter;
-- (AICoreComponentLoader *)componentLoader;
-- (AICorePluginLoader *)pluginLoader;
+@property (readonly, nonatomic) NSNotificationCenter *notificationCenter;
+@property (readonly, nonatomic) AICoreComponentLoader *componentLoader;
+@property (readonly, nonatomic) AICorePluginLoader *pluginLoader;
 
-- (NSString *)applicationSupportDirectory;
+@property (readonly, nonatomic) NSString *applicationSupportDirectory;
 - (NSString *)createResourcePathForName:(NSString *)name;
 - (NSArray *)resourcePathsForName:(NSString *)name;
 - (NSArray *)allResourcesForName:(NSString *)name withExtensions:(id)extensions;
 - (NSString *)pathOfPackWithName:(NSString *)name extension:(NSString *)extension resourceFolderName:(NSString *)folderName;
-- (NSString *)cachesPath;
+@property (readonly, nonatomic) NSString *cachesPath;
 
 - (NSComparisonResult)compareVersion:(NSString *)versionA toVersion:(NSString *)versionB;
 
-- (BOOL)isQuitting;
+@property (readonly, nonatomic) BOOL isQuitting;
 
 @end
 

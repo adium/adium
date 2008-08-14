@@ -344,7 +344,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			AIMetaContact *personMetaContact;
 			if ((personMetaContact = [personUniqueIdToMetaContactDict objectForKey:[person uniqueId]]) &&
 				![personMetaContact containsObject:listContact]) {
-				[[adium contactController] groupListContacts:[NSArray arrayWithObjects:personMetaContact, listContact, nil]];
+				[adium.contactController groupListContacts:[NSArray arrayWithObjects:personMetaContact, listContact, nil]];
 			}
 		}
     }
@@ -736,7 +736,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			email = [emails valueAtIndex:i];
 			if ([email hasSuffix:@"@mac.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"Mac"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"Mac"]
 																				  UID:email];
 
 				//Add them to our set
@@ -744,7 +744,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 			} else if ([email hasSuffix:@"me.com"]) {
 					//Retrieve all appropriate contacts
-					NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MobileMe"]
+					NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MobileMe"]
 																					UID:email];
 					
 					//Add them to our set
@@ -752,14 +752,14 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 			} else if ([email hasSuffix:@"gmail.com"] || [email hasSuffix:@"googlemail.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"GTalk"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"GTalk"]
 																				UID:email];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
 			} else if ([email hasSuffix:@"hotmail.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MSN"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MSN"]
 																				UID:email];
 				
 				//Add them to our set
@@ -796,7 +796,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 					serviceID = serviceIDForJabberUID(UID);
 				}
 				
-				NSSet	*contacts = [[adium contactController] allContactsWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
 																				  UID:UID];
 				
 				//Add them to our set
@@ -1174,7 +1174,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 			AIMetaContact *metaContact, *metaContactHint;
 			NSString *uniqueId = [person uniqueId];
 
-			metaContactHint = [[adium contactController] knownMetaContactForGroupingUIDs:UIDsArray
+			metaContactHint = [adium.contactController knownMetaContactForGroupingUIDs:UIDsArray
 																		 forServices:servicesArray];
 			if (!metaContactHint) {
 				/* Find a metacontact we used previously but which wasn't saved, if possible. This keeps us from creating a 
@@ -1187,10 +1187,10 @@ NSString* serviceIDForJabberUID(NSString *UID)
 																			  group:PREF_GROUP_ADDRESSBOOK];
 				NSNumber *metaContactObjectID = [dict objectForKey:uniqueId];
 				if (metaContactObjectID)
-					metaContactHint = [[adium contactController] metaContactWithObjectID:metaContactObjectID];
+					metaContactHint = [adium.contactController metaContactWithObjectID:metaContactObjectID];
 			}
 				
-			metaContact = [[adium contactController] groupUIDs:UIDsArray 
+			metaContact = [adium.contactController groupUIDs:UIDsArray 
 												   forServices:servicesArray
 										  usingMetaContactHint:metaContactHint];
 			if (metaContact) {

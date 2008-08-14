@@ -78,7 +78,7 @@
 
 	//Attempt to find a saved destination object; if none is found, use the one we were passed
 	NSString	*destUniqueID = [inDetails objectForKey:KEY_MESSAGE_SEND_TO];
-	if (destUniqueID) destObject = [[adium contactController] existingListObjectWithUniqueID:destUniqueID];
+	if (destUniqueID) destObject = [adium.contactController existingListObjectWithUniqueID:destUniqueID];
 	if (!destObject) destObject = inObject;
 		
 	//Configure the destination menu

@@ -383,7 +383,7 @@
 	AIChat			*chat = nil;
 		
 	if ((internalObjectID = [clickContext objectForKey:KEY_LIST_OBJECT_ID])) {
-		if ((listObject = [[adium contactController] existingListObjectWithUniqueID:internalObjectID]) &&
+		if ((listObject = [adium.contactController existingListObjectWithUniqueID:internalObjectID]) &&
 			([listObject isKindOfClass:[AIListContact class]])) {
 			
 			//First look for an existing chat to avoid changing anything
@@ -400,7 +400,7 @@
 		//If we didn't find a chat, it may have closed since the notification was posted.
 		//If we have an appropriate existing list object, we can create a new chat.
 		if ((!chat) &&
-			(listObject = [[adium contactController] existingListObjectWithUniqueID:uniqueChatID]) &&
+			(listObject = [adium.contactController existingListObjectWithUniqueID:uniqueChatID]) &&
 			([listObject isKindOfClass:[AIListContact class]])) {
 		
 			//If the uniqueChatID led us to an existing contact, create a chat with it

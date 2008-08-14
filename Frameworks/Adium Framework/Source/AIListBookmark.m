@@ -122,12 +122,12 @@
 
 	//Save the change of containing object so it can be restored on launch next time if we are using groups.
 	//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
-	if ([[adium contactController] useContactListGroups] &&
+	if ([adium.contactController useContactListGroups] &&
 		inGroupInternalObjectID &&
 		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
 																   group:OBJECT_STATUS_CACHE
 												   ignoreInheritedValues:YES]] &&
-		(inGroup != [[adium contactController] offlineGroup])) {
+		(inGroup != [adium.contactController offlineGroup])) {
 		[self setPreference:inGroupInternalObjectID
 					 forKey:KEY_CONTAINING_OBJECT_ID
 					  group:OBJECT_STATUS_CACHE];
@@ -143,7 +143,7 @@
 {
 	AIListGroup		*targetGroup = nil;
 
-	if ([[adium contactController] useContactListGroups]) {
+	if ([adium.contactController useContactListGroups]) {
 		NSString		*oldContainingObjectID;
 		AIListObject	*oldContainingObject;
 
@@ -151,7 +151,7 @@
 												 group:OBJECT_STATUS_CACHE];
 		//Get the group's UID out of the internal object ID by taking the substring after "Group."
 		oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
-							   [[adium contactController] groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
+							   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
 							   nil);
 
 		if (oldContainingObject &&
@@ -162,8 +162,8 @@
 		}
 	}
 
-	[[adium contactController] _moveContactLocally:self
-										   toGroup:(targetGroup ? targetGroup : [[adium contactController] contactList])];
+	[adium.contactController _moveContactLocally:self
+										   toGroup:(targetGroup ? targetGroup : [adium.contactController contactList])];
 }
 
 - (void)openChat

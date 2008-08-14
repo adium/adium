@@ -82,7 +82,7 @@
 							 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
 							 context:NULL];
 		
-		[self setContactListRoot:(aContactList ? aContactList : [[adium contactController] contactList])];
+		[self setContactListRoot:(aContactList ? aContactList : [adium.contactController contactList])];
 
 		//Recall how the contact list was docked last time Adium was open
 		dockToBottomOfScreen = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
@@ -572,7 +572,7 @@
 			
 		} else {
 			//We have one or more contacts. Don't allow them to drop on the contact list itself
-			if (!item && [[adium contactController] useContactListGroups]) {
+			if (!item && [adium.contactController useContactListGroups]) {
 				/* The user is hovering on the contact list itself.
 				 * If groups are shown at all, assuming we have any items in the list at all, she is hovering near but not in a group.
 				 *   If (index > 0), the drag is below the end of a group. That group is at (index - 1) in the outline view's root.
@@ -626,7 +626,7 @@
 					if ([primaryDragItem isKindOfClass:[AIListGroup class]]) item = nil;
 					
 					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
-																  intoObjects:(item ? [item containedObjects] : [[[adium contactController] contactList] containedObjects])];
+																  intoObjects:(item ? [item containedObjects] : [[adium.contactController contactList] containedObjects])];
 					/*
 					 For example, to specify a drop on an item I, you specify item as 1 and index as NSOutlineViewDropOnItemIndex.
 					 To specify a drop between child 2 and 3 of item I, you specify item as I and index as 3 (children are a zero-based index).
@@ -676,7 +676,7 @@
 
 		} else if ([aDragItem isKindOfClass:[AIListContact class]]) {
 			//For listContacts, add all contacts with the same service and UID (on all accounts)
-			[realDragItems addObjectsFromArray:[[[adium contactController] allContactsWithService:[aDragItem service] 
+			[realDragItems addObjectsFromArray:[[adium.contactController allContactsWithService:[aDragItem service] 
 																							  UID:[aDragItem UID]] allObjects]];
 		}
 	}
@@ -709,7 +709,7 @@
 			arrayOfDragItems = [NSMutableArray array];
 			
 			for (uniqueID in dragItemsUniqueIDs) {
-				[arrayOfDragItems addObject:[[adium contactController] existingListObjectWithUniqueID:uniqueID]];
+				[arrayOfDragItems addObject:[adium.contactController existingListObjectWithUniqueID:uniqueID]];
 			}
 			
 			//We will release this when the drag is completed
@@ -718,8 +718,8 @@
 
 		//Move the list object to its new location
 		if ([item isKindOfClass:[AIListGroup class]]) {
-			if (item != [[adium contactController] offlineGroup]) {
-				[[adium contactController] moveListObjects:dragItems intoObject:item index:index];
+			if (item != [adium.contactController offlineGroup]) {
+				[adium.contactController moveListObjects:dragItems intoObject:item index:index];
 				
 				[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
 														  object:item
@@ -741,7 +741,7 @@
 				NSMutableSet *set = [NSMutableSet setWithArray:startingArray];
 				[set intersectSet:[NSSet setWithArray:[(AIMetaContact *)item containedObjects]]];
 
-				[[adium contactController] moveListObjects:[set allObjects]
+				[adium.contactController moveListObjects:[set allObjects]
 												intoObject:item
 													 index:index];
 			}
@@ -755,7 +755,7 @@
 	} else if ((availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:
 																				   NSFilenamesPboardType, AIiTunesTrackPboardType, nil]])) {
 		//Drag and Drop file transfer for the contact list.
-		AIListContact	*targetFileTransferContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+		AIListContact	*targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																							  forListContact:item];
 		if (targetFileTransferContact) {
 			NSArray			*files = nil;
@@ -872,11 +872,11 @@
 		CGFloat oldIndex = [item orderIndex];
 
 		//Group the destination and then the dragged items into a metaContact
-		metaContact = [[adium contactController] groupListContacts:[[NSArray arrayWithObject:item]
+		metaContact = [adium.contactController groupListContacts:[[NSArray arrayWithObject:item]
 																	arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
 		//Position the metaContact in the group & index the drop point was before
-		[[adium contactController] moveListObjects:[NSArray arrayWithObject:metaContact]
+		[adium.contactController moveListObjects:[NSArray arrayWithObject:metaContact]
 										intoObject:oldContainingObject
 											 index:oldIndex];
 		

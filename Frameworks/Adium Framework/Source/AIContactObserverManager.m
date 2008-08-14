@@ -149,7 +149,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		//We can safely skip sorting if we know the modified attributes will invoke a resort later
 		if (![[AISortController activeSortController] shouldSortForModifiedAttributeKeys:modifiedAttributeKeys] &&
 			[[AISortController activeSortController] shouldSortForModifiedStatusKeys:inModifiedKeys]) {
-			[[adium contactController] sortListObject:inObject];
+			[adium.contactController sortListObject:inObject];
 		}
 	}
 	
@@ -169,7 +169,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	} else {
         //Resort the contact list if necessary
         if ([[AISortController activeSortController] shouldSortForModifiedAttributeKeys:inModifiedKeys]) {
-			[[adium contactController] sortListObject:inObject];
+			[adium.contactController sortListObject:inObject];
         }
 	}
 
@@ -215,7 +215,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		
 		//Sort only if necessary
 		if (shouldSort) {
-			[[adium contactController] sortContactList];
+			[adium.contactController sortContactList];
 		}
 	}
 	
@@ -280,7 +280,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	
 	[self delayListObjectNotifications];
 	
-	enumerator = (contacts ? [contacts objectEnumerator] : [(AIContactController *)[adium contactController] contactEnumerator]);
+	enumerator = (contacts ? [contacts objectEnumerator] : [(AIContactController *)adium.contactController contactEnumerator]);
 	while ((listObject = [enumerator nextObject])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
@@ -313,7 +313,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	[self updateContacts:nil forObserver:inObserver];
 	
     //Reset all groups
-	enumerator = [(AIContactController *)[adium contactController] groupEnumerator];
+	enumerator = [(AIContactController *)adium.contactController groupEnumerator];
 	while ((listObject = [enumerator nextObject])) {
 		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
 		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];

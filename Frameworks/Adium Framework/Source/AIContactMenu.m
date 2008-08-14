@@ -160,7 +160,7 @@
 	
 	// If we're not given a containing object, use all the contacts
 	if (containingObject == nil) {
-		listObjects = ([[adium contactController] useContactListGroups] ? [[adium contactController] allGroups] : [[adium contactController] allContacts]);
+		listObjects = ([adium.contactController useContactListGroups] ? [adium.contactController allGroups] : adium.contactController.allContacts);
 
 		/* The contact controller's -allContacts gives us an array with meta contacts expanded
 		 * Let's put together our own list if we need to. This also gives our delegate an opportunity

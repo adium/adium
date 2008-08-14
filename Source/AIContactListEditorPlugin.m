@@ -333,7 +333,7 @@
 									 nil);
 
 		if (result == NSAlertDefaultReturn) {
-			[[adium contactController] removeListObjects:array];
+			[adium.contactController removeListObjects:array];
 		}
 	}	
 }

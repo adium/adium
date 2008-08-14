@@ -77,7 +77,7 @@
 
 	if (!contact && UID) {
 		//Find the contact
-		contact = [[adium contactController] contactWithService:[account service]
+		contact = [adium.contactController contactWithService:[account service]
 														account:account 
 															UID:UID];		
 	}
@@ -86,26 +86,22 @@
 }
 
 - (void)_configureTextFieldForAccount:(AIAccount *)account
-{
-	NSEnumerator		*enumerator;
-    AIListContact		*contact;
-	
+{	
 	//Clear the completing strings
 	[textField_handle setCompletingStrings:nil];
 	
 	/* Configure the auto-complete view to autocomplete for contacts matching the selected account's service
 	 * Don't include meta contacts which don't currently contain any valid contacts
 	 */
-    enumerator = [[[adium contactController] allContacts] objectEnumerator];
-    while ((contact = [enumerator nextObject])) {
+	for (AIListContact *contact in adium.contactController.allContacts) {
 		if ([[[contact service] serviceClass] isEqualToString:[[account service] serviceClass]] &&
-			(![contact isKindOfClass:[AIMetaContact class]] || [[(AIMetaContact *)contact listContacts] count])) {
+		    (![contact isKindOfClass:[AIMetaContact class]] || [[(AIMetaContact *)contact listContacts] count])) {
 			NSString *UID = [contact UID];
 			[textField_handle addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
 			[textField_handle addCompletionString:[contact displayName] withImpliedCompletion:contact];
 			[textField_handle addCompletionString:UID];
 		}
-    }	
+	}	
 }
 
 /*!

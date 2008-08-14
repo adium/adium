@@ -30,26 +30,25 @@
 	IBOutlet	NSObject <AIInterfaceController>		*interfaceController;
 	IBOutlet	SUUpdater									*updater;
 
-	NSObject <AIAccountController>		*accountController;
-	NSObject <AIChatController>			*chatController;
-	NSObject <AIContactController>		*contactController;
-	NSObject <AIContentController>		*contentController;
-	NSObject <AIDockController>			*dockController;
-	NSObject <AIEmoticonController>		*emoticonController;
-	NSObject <AILoginController>			*loginController;
-	NSObject <AIPreferenceController>	*preferenceController;
-	NSObject <AISoundController>			*soundController;
-	NSObject <AIStatusController>			*statusController;
-	NSObject <AIToolbarController>		*toolbarController;
-	NSObject <AIContactAlertsController>*contactAlertsController;
-	NSObject <AIFileTransferController>	*fileTransferController;
-	
+	NSObject <AIAccountController>					*accountController;
+	NSObject <AIChatController>						*chatController;
+	NSObject <AIContactController>					*contactController;
+	NSObject <AIContentController>					*contentController;
+	NSObject <AIDockController>						*dockController;
+	NSObject <AIEmoticonController>					*emoticonController;
+	NSObject <AILoginController>						*loginController;
+	NSObject <AIPreferenceController>				*preferenceController;
+	NSObject <AISoundController>						*soundController;
+	NSObject <AIStatusController>						*statusController;
+	NSObject <AIToolbarController>					*toolbarController;
+	NSObject <AIContactAlertsController>			*contactAlertsController;
+	NSObject <AIFileTransferController>				*fileTransferController;
+	NSObject <AIApplescriptabilityController>		*applescriptabilityController;
+
 #ifdef DEBUG_BUILD
-	NSObject <AIDebugController>			*debugController;
+	NSObject <AIDebugController>						*debugController;
 #endif
 
-	NSObject <AIApplescriptabilityController>	*applescriptabilityController;
-	
 	AICoreComponentLoader		*componentLoader;
 	AICorePluginLoader			*pluginLoader;
     

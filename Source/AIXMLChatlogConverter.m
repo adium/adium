@@ -271,7 +271,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 					displayName = (myDisplayName ? myDisplayName : sender);
 					cssClass = @"send";
 				} else {
-					AIListObject *listObject = [[adium contactController] existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
+					AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
 
 					cssClass = @"receive";
 					displayName = [listObject displayName];

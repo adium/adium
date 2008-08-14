@@ -128,7 +128,7 @@ static  BOOL	sortByLastName;
                                               group:PREF_GROUP_CONTACT_SORTING];			
 	}
 	
-	[[adium contactController] sortContactList];
+	[adium.contactController sortContactList];
 }
 
 #pragma mark Sorting

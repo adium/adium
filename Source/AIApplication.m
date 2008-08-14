@@ -80,7 +80,7 @@
 }
 - (NSArray *)contacts
 {
-	return [[adium contactController] allContacts];
+	return adium.contactController.allContacts;
 }
 - (void)insertObject:(AIListObject *)contact inContactsAtIndex:(NSInteger)index
 {
@@ -88,7 +88,7 @@
 }
 - (void)removeObjectFromContactsAtIndex:(NSInteger)index
 {
-	[[adium contactController] removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
+	[adium.contactController removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
 }
 
 - (NSArray *)statuses
@@ -97,7 +97,7 @@
 }
 - (NSArray *)contactGroups
 {
-	return [[adium contactController] allGroups];
+	return [adium.contactController allGroups];
 }
 
 - (void)setIsActive:(BOOL)val

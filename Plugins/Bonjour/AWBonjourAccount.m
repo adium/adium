@@ -189,7 +189,7 @@ typedef enum {
 	NSDate          *idleSinceDate;
 	NSImage         *contactImage;
 	
-	listContact = [[adium contactController] contactWithService:service
+	listContact = [adium.contactController contactWithService:service
 	                                                    account:self
 	                                                        UID:[self UIDForContact:contact]];  
 	if ([contact status] == AWEzvUndefined) {
@@ -247,7 +247,7 @@ typedef enum {
 
 - (void)mainThreadUserChangedImage:(AWEzvContact *)contact
 {
-	AIListContact *listContact = [[adium contactController] contactWithService:service
+	AIListContact *listContact = [adium.contactController contactWithService:service
 																	   account:self
 																		   UID:[self UIDForContact:contact]];  
 
@@ -264,7 +264,7 @@ typedef enum {
 {
 	AIListContact *listContact;
 
-	listContact = [[adium contactController] existingContactWithService:service
+	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self 
 	                                                                UID:inUID];
 
@@ -287,7 +287,7 @@ typedef enum {
 	AIChat              *chat;
 	NSAttributedString  *attributedMessage;
 
-	listContact = [[adium contactController] existingContactWithService:service
+	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                               UID:inUID];
 	chat = [[adium chatController] chatWithContact:listContact];
@@ -330,7 +330,7 @@ typedef enum {
 {
 	AIListContact   *listContact;
 	AIChat          *chat;
-	listContact = [[adium contactController] existingContactWithService:service
+	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                                UID:inUID];
 	chat = [[adium chatController] existingChatWithContact:listContact];
@@ -357,7 +357,7 @@ typedef enum {
 	AIListContact   *listContact;
 	AIChat          *chat;
 
-	listContact = [[adium contactController] existingContactWithService:service
+	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                                UID:inContactUniqueID];
 	chat = [[adium chatController] existingChatWithContact:listContact];
@@ -639,7 +639,7 @@ typedef enum {
 {
 	AIListContact   *listContact;
 
-	listContact = [[adium contactController] existingContactWithService:service account:self UID:inUID];
+	listContact = [adium.contactController existingContactWithService:service account:self UID:inUID];
 	/* Set up the file transfer */
 	ESFileTransfer *fileTransfer = [[adium fileTransferController] newFileTransferWithContact:listContact forAccount:self type:Incoming_FileTransfer];
 	[fileTransfer setRemoteFilename: [file remoteFilename]];

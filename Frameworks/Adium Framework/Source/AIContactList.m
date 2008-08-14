@@ -27,7 +27,7 @@
 
 - (BOOL)canContainObject:(id)obj
 {
-	if([[adium contactController] useContactListGroups])
+	if([adium.contactController useContactListGroups])
 		return [obj isKindOfClass:[AIListGroup class]] && ![obj isKindOfClass:[AIContactList class]];
 	else
 		return YES; //ARGH

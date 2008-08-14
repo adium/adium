@@ -246,7 +246,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				 * If it does, add that contact to our list, using the contactController to get an AIListContact specific for the account.
 				 */
 				if ([[[containedContact service] serviceClass] isEqualToString:[[account service] serviceClass]]) {
-					if ((contact = [[adium contactController] contactWithService:[account service]
+					if ((contact = [adium.contactController contactWithService:[account service]
 																		 account:account
 																			 UID:[containedContact UID]])) {
 						[contactsSet addObject:contact];
@@ -264,7 +264,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 			
 			if (UID) {
 				//Get a contact with this UID on the current account
-				if ((contact = [[adium contactController] contactWithService:[account service]
+				if ((contact = [adium.contactController contactWithService:[account service]
 																	 account:account 
 																		 UID:UID])) {
 					[contactsSet addObject:contact];
@@ -287,7 +287,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[field setCompletingStrings:nil];
 	
 	//Configure the auto-complete view to autocomplete for contacts matching the selected account's service
-    enumerator = [[[adium contactController] allContacts] objectEnumerator];
+    enumerator = [adium.contactController.allContacts objectEnumerator];
     while ((contact = [enumerator nextObject])) {
 		if (!account ||
 			[contact service] == [account service]) {
@@ -851,7 +851,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		NSArray			*dragItemsUniqueIDs = [[info draggingPasteboard] propertyListForType:@"AIListObjectUniqueIDs"];
 		NSString *uniqueUID;
 		for (uniqueUID in dragItemsUniqueIDs)
-			[self addListObjectToList:[[adium contactController] existingListObjectWithUniqueID:uniqueUID]];
+			[self addListObjectToList:[adium.contactController existingListObjectWithUniqueID:uniqueUID]];
 		accept = YES;
 	}
 	

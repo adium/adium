@@ -90,7 +90,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		
 		//Resort the entire list, forcing the visibility changes to hae an immediate effect (we return nil in the 
 		//updateListObject: method call, so the contact controller doesn't know we changed anything)
-		[[adium contactController] sortContactList];
+		[adium.contactController sortContactList];
 	}
 }
 
@@ -167,7 +167,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		} else if ([inObject isKindOfClass:[AIListGroup class]]) {
 			[inObject setVisible:((useContactListGroups) &&
 								  ([(AIListGroup *)inObject visibleCount] > 0 || [inObject integerValueForProperty:@"New Object"]) &&
-								  (useOfflineGroup || ((AIListGroup *)inObject != [[adium contactController] offlineGroup])))];
+								  (useOfflineGroup || ((AIListGroup *)inObject != [adium.contactController offlineGroup])))];
 		}
 	}
 	
@@ -216,7 +216,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
  */
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString
 {	
-	id<AIContactController> contactController = [adium contactController];
+	id<AIContactController> contactController = adium.contactController;
 	NSArray			*listObjects = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
 	AIListContact	*listContact;
 	
@@ -243,7 +243,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		
 		// Restore all group chats to visible
-		NSEnumerator		*enumerator = [[[adium contactController] allBookmarks] objectEnumerator];
+		NSEnumerator		*enumerator = [[adium.contactController allBookmarks] objectEnumerator];
 		AIListBookmark		*bookmark;
 		
 		while ((bookmark = [enumerator nextObject])) {
@@ -253,7 +253,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return;
 	}
 	
-	id<AIContactController> contactController = [adium contactController];
+	id<AIContactController> contactController = adium.contactController;
 	NSArray *listContacts = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
 	
 	// Delay list object notifications until we're done

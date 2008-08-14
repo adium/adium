@@ -675,7 +675,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [[adium contactController] existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
 		[prefContainer addObserver:anObserver forKeyPath:newKeyPath options:options context:context];
 	}	
 }
@@ -700,7 +700,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 		
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [[adium contactController] existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
 		[prefContainer removeObserver:anObserver forKeyPath:newKeyPath];
 	}	
 }
@@ -719,7 +719,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		parseKeypath(keyPath, &group, &newKeyPath, &internalObjectID);
 
 		return [[self preferenceContainerForGroup:group 
-										   object:(internalObjectID ? [[adium contactController] existingListObjectWithUniqueID:internalObjectID] : nil)]
+										   object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)]
 				valueForKeyPath:newKeyPath];
 	}
 }
@@ -776,7 +776,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 		
 		//Change the value.
 		AIPreferenceContainer *prefContainer = [self preferenceContainerForGroup:group
-																		  object:(internalObjectID ? [[adium contactController] existingListObjectWithUniqueID:internalObjectID] : nil)];
+																		  object:(internalObjectID ? [adium.contactController existingListObjectWithUniqueID:internalObjectID] : nil)];
 		[prefContainer setValue:value forKeyPath:newKeyPath];
 	}
 }
