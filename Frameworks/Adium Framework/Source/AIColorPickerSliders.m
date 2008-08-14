@@ -6,12 +6,13 @@
 //
 
 #import <Adium/AIColorPickerSliders.h>
+#import <objc/objc-class.h>
 
 /*!
  * @class AIColorPickerSliders
  * @brief Poses as NSColorPickerSliders to remove the key equivalents from its sliderModePopUp NSPopUpButton's menu
  *
- * In 10.3 and 10.4, sliderModePopUp provides 4 menu items, each of which corresponds to a particular slider mode
+ * In 10.3 through 10.5 (at least), sliderModePopUp provides 4 menu items, each of which corresponds to a particular slider mode
  * and is associated with a shortcut, command-1 through command-4.  Adium uses command-1 through command-4 to switch
  * to the first through fourth open chats. Without this class, after the color picker is opened and the slider view
  * is displayed, the next time Adium reconfigures shortcut keys it will be unable to use these 4 as the color picker
@@ -30,8 +31,8 @@
  */
 + (void)load
 {
-    //Anything you can do, I can do better...
-    [self poseAsClass:[NSColorPickerSliders class]];
+	//Anything you can do, I can do better...
+	method_exchangeImplementations(class_getInstanceMethod([NSColorPickerSliders class], @selector(_setupProfileUI)), class_getInstanceMethod(self, @selector(_setupProfileUI)));
 }
 
 /*!
@@ -42,8 +43,8 @@
  */
 - (void)_setupProfileUI
 {
-	//Must be sure to do super's implementation
-	[super _setupProfileUI];
+	//Must be sure to the original implementation
+	method_invoke(self, class_getInstanceMethod([AIColorPickerSliders class], @selector(_setupProfileUI)));
 
 	if (sliderModePopUp && [sliderModePopUp isKindOfClass:[NSPopUpButton class]]) {
 		NSMenu			*menu = [sliderModePopUp menu];

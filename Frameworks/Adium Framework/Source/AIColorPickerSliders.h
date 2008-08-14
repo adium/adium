@@ -6,7 +6,7 @@
 //  Copyright 2006 The Adium Team. All rights reserved.
 //
 
-
+//Private class :(
 @interface NSColorPickerSliders:NSColorPicker <NSColorPickingCustom>
 {
     id sliderModePopUp;
