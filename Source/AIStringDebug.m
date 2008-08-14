@@ -79,7 +79,7 @@ extern void _objc_flush_caches(Class);
 		return NULL;
 	}
 	
-    struct objc_method *method = class_getInstanceMethod(oldClass, sel); 
+	Method method = class_getInstanceMethod(oldClass, sel); 
 	
 	// original to change
     if (!method) {
@@ -89,7 +89,8 @@ extern void _objc_flush_caches(Class);
         return NULL;
     }
 	
-    IMP new = [newClass instanceMethodForSelector:sel]; // new method to use
+	// new method to use
+    IMP new = class_getMethodImplementation(newClass, sel);
 	if (!new) {
 		NSLog(@"Cannot find implementation for '%@' in %@",
 			  NSStringFromSelector(sel),
@@ -97,7 +98,7 @@ extern void _objc_flush_caches(Class);
 		return NULL;
 	}
 
-    method->method_imp = new;
+	method_setImplementation(method, new);
 	
     _objc_flush_caches(oldClass);
 	
