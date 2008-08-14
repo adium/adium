@@ -25,7 +25,7 @@
 
 #define	NONE							AILocalizedString(@"<None>", "Placeholder shown when no information is available")
 
-@interface ESProxyPasswordPromptController (PRIVATE)
+@interface ESProxyPasswordPromptController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forProxyServer:(NSString *)inServer userName:(NSString *)inUserName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext;
 @end
 

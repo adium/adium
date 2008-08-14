@@ -23,7 +23,7 @@
 #define 	PASSWORD_PROMPT_NIB 		@"PasswordPrompt"
 #define		KEY_PASSWORD_WINDOW_FRAME	@"Password Prompt Frame"
 
-@interface AIPasswordPromptController (PRIVATE)
+@interface AIPasswordPromptController ()
 - (void)setPassword:(NSString *)password;
 @end
 

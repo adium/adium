@@ -27,7 +27,7 @@
 
 #define JOIN_CHAT_NIB		@"JoinChatWindow"
 
-@interface DCJoinChatWindowController (PRIVATE)
+@interface DCJoinChatWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (void)windowDidLoad;
 - (void)_selectPreferredAccountInAccountMenu:(AIAccountMenu *)inAccountMenu;

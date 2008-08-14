@@ -24,7 +24,7 @@
 #define NEW_ALERT_NIB			@"NewAlert"
 #define NEW_ALERT_NO_EVENTS_NIB @"NewAlertNoEvents"
 
-@interface CSNewContactAlertWindowController (PRIVATE)
+@interface CSNewContactAlertWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName 
 					  alert:(NSDictionary *)inAlert
 			  forListObject:(AIListObject *)inListObject

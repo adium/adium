@@ -25,7 +25,7 @@
 #define PREF_GROUP_DOCK_ICON		@"Dock Icon"
 #define DEFAULT_DOCK_ICON_NAME		@"Adiumy Green"
 
-@interface AIDockIconSelectionSheet (PRIVATE)
+@interface AIDockIconSelectionSheet ()
 - (void)selectIconWithName:(NSString *)selectName;
 - (void)xtrasChanged:(NSNotification *)notification;
 - (void)selectIconWithName:(NSString *)selectName;

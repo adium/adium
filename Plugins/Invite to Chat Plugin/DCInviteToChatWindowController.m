@@ -27,7 +27,7 @@
 
 #define INVITE_NIB_NAME		@"InviteToChatWindow"
 
-@interface DCInviteToChatWindowController (PRIVATE)
+@interface DCInviteToChatWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (void)windowDidLoad;
 - (void)setChat:(AIChat *)inChat contact:(AIListContact *)inContact;

@@ -56,7 +56,7 @@ typedef enum {
 
 #define	AUTORELEASE_POOL_REFRESH	5.0
 
-@interface AWBonjourAccount (PRIVATE)
+@interface AWBonjourAccount ()
 - (NSString *)UIDForContact:(AWEzvContact *)contact;
 
 - (void)setAccountIdleTo:(NSDate *)idle;

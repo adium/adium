@@ -48,7 +48,7 @@
 #define WEBKIT_PREVIEW_CONVERSATION_FILE	@"Preview"
 #define	PREF_GROUP_DISPLAYFORMAT			@"Display Format"  //To watch when the contact name display format changes
 
-@interface ESWebKitMessageViewPreferences (PRIVATE)
+@interface ESWebKitMessageViewPreferences ()
 - (void)_setBackgroundImage:(NSImage *)image;
 - (NSMenu *)_stylesMenu;
 - (NSMenu *)_variantsMenu;

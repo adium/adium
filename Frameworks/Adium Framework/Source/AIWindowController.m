@@ -20,7 +20,7 @@
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIWindowControllerAdditions.h>
 
-@interface AIWindowController (PRIVATE)
+@interface AIWindowController ()
 + (void)updateScreenBoundariesRect:(id)sender;
 @end
 

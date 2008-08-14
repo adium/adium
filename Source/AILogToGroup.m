@@ -20,9 +20,8 @@
 #import "AIAbstractLogViewerWindowController.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 
-@interface AILogToGroup (PRIVATE)
+@interface AILogToGroup ()
 - (NSDictionary *)logDict;
-- (AIChatLog *)_logAtRelativeLogPath:(NSString *)relativeLogPath fileName:(NSString *)fileName;
 @end
 
 @implementation AILogToGroup

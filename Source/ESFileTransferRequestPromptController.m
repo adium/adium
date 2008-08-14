@@ -25,11 +25,10 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESFileTransferRequestPromptController (PRIVATE)
+@interface ESFileTransferRequestPromptController ()
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer
 		  notifyingTarget:(id)inTarget
 				 selector:(SEL)inSelector;
-- (ESTextAndButtonsWindowController *)windowController;
 @end
 
 @implementation ESFileTransferRequestPromptController

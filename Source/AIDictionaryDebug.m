@@ -34,7 +34,7 @@
 #ifdef DEBUG_BUILD
 #import <objc/objc-class.h>
 
-@interface AIDictionaryDebug (PRIVATE)
+@interface AIDictionaryDebug ()
 + (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass;
 @end
 

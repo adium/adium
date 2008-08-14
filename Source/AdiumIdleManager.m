@@ -15,7 +15,7 @@
 //Private idle function
 extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
 
-@interface AdiumIdleManager (PRIVATE)
+@interface AdiumIdleManager ()
 - (void)_setMachineIsIdle:(BOOL)inIdle;
 - (void)screenSaverDidStart;
 - (void)screenSaverDidStop;

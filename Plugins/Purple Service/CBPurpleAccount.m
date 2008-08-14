@@ -71,28 +71,18 @@
 
 #define	KEY_PRIVACY_OPTION	@"Privacy Option"
 
-@interface CBPurpleAccount (PRIVATE)
+@interface CBPurpleAccount ()
 - (NSString *)_mapIncomingGroupName:(NSString *)name;
 - (NSString *)_mapOutgoingGroupName:(NSString *)name;
-
 - (void)setTypingFlagOfChat:(AIChat *)inChat to:(NSNumber *)typingState;
-
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date;
-- (void)_sentMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat toDestinationListContact:(AIListContact *)destinationContact flags:(PurpleMessageFlags)flags date:(NSDate *)date;
-- (NSString *)_messageImageCachePathForID:(int)imageID;
-
-- (ESFileTransfer *)createFileTransferObjectForXfer:(PurpleXfer *)xfer;
-
 - (NSNumber *)shouldCheckMail;
-
 - (void)configurePurpleAccountNotifyingTarget:(id)target selector:(SEL)selector;
 - (void)continueConnectWithConfiguredPurpleAccount;
 - (void)continueConnectWithConfiguredProxy;
 - (void)continueRegisterWithConfiguredPurpleAccount;
 - (void)promptForHostBeforeConnecting;
-
 - (void)setAccountProfileTo:(NSAttributedString *)profile configurePurpleAccountContext:(NSInvocation *)inInvocation;
-
 - (void)performAccountMenuAction:(NSMenuItem *)sender;
 @end
 

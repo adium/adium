@@ -28,7 +28,7 @@
 #import "AIDLLinkScanner.h"
 #import "AIDLLexer.h"
 
-@interface AIDLLinkScanner (PRIVATE)
+@interface AIDLLinkScanner ()
 - (AHMarkedHyperlink *)nextURLFromString:(NSString *)inString;
 @end
 

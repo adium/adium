@@ -33,7 +33,7 @@
 
 #define MINIMUM_SOURCE_LIST_WIDTH 40
 
-@interface AIXtrasManager (PRIVATE)
+@interface AIXtrasManager ()
 - (void)installToolbar;
 - (void)updateForSelectedCategory;
 @end

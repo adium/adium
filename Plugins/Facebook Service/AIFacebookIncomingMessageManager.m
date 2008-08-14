@@ -15,7 +15,7 @@
 #import <Adium/AIChat.h>
 #import <JSON/JSON.h>
 
-@interface AIFacebookIncomingMessageManager (PRIVATE)
+@interface AIFacebookIncomingMessageManager ()
 - (id)initForAccount:(AIFacebookAccount *)inAccount;
 - (void)setupIncomingMessageMonitoring;
 @end

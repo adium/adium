@@ -26,7 +26,7 @@
 #define PATH_LOGS                       @"/Logs"
 #define XML_MARKER @"<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
 
-@interface GBFireLogImporter (private)
+@interface GBFireLogImporter ()
 - (void)askBeforeImport;
 - (void)importFireLogs;
 @end

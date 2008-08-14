@@ -14,7 +14,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 
-@interface AIContactMenu (PRIVATE)
+@interface AIContactMenu ()
 - (id)initWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
 - (NSArray *)contactMenusForListObjects:(NSArray *)listObjects;
 - (NSArray *)listObjectsForMenuFromArrayOfListObjects:(NSArray *)listObjects;

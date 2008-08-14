@@ -24,7 +24,7 @@
 
 #define	CONTACT_STATUS_UPDATE_COALESCING_KEY	@"Contact Status Update"
 
-@interface AIStatusChangedMessagesPlugin (PRIVATE)
+@interface AIStatusChangedMessagesPlugin ()
 - (void)statusMessage:(NSString *)message forContact:(AIListContact *)contact 
 			 withType:(NSString *)type
  phraseWithoutSubject:(NSString *)statusPhrase

@@ -20,7 +20,7 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-@interface ESPurpleICQAccountViewController (PRIVATE)
+@interface ESPurpleICQAccountViewController ()
 - (NSMenu *)encodingMenu;
 - (void)addEncodingItemsWithNames:(NSArray *)inArray withTitle:(NSString *)inTitle toMenu:(NSMenu *)menu;
 @end

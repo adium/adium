@@ -40,7 +40,7 @@
 
 #define BUILT_IN_STATE_ARRAY		@"BuiltInStatusStates"
 
-@interface AIStatusController (PRIVATE)
+@interface AIStatusController ()
 - (NSArray *)builtInStateArray;
 
 - (void)_upgradeSavedAwaysToSavedStates;

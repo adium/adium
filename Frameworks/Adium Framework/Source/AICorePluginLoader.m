@@ -41,7 +41,7 @@ NSTimeInterval aggregatePluginLoadingTime = 0.0;
 #endif
 
 static	NSMutableDictionary		*pluginDict = nil;
-@interface AICorePluginLoader (PRIVATE)
+@interface AICorePluginLoader ()
 - (void)loadPlugins;
 + (BOOL)confirmPluginAtPath:(NSString *)pluginPath;
 + (void)disablePlugin:(NSString *)pluginPath;

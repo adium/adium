@@ -39,7 +39,7 @@
 #define LOADED_OBJECT_PREFS_KEY @"Loaded individual object & account prefs"
 #define PREFS_GROUP				@"Preferences"
 
-@interface AIPreferenceController (PRIVATE)
+@interface AIPreferenceController ()
 - (AIPreferenceContainer *)preferenceContainerForGroup:(NSString *)group object:(AIListObject *)object;
 - (void)upgradeToSingleObjectPrefsDictIfNeeded;
 @end

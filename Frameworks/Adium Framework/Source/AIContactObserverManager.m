@@ -24,7 +24,7 @@
 	#import <Foundation/NSDebug.h>
 #endif
 
-@interface AIContactObserverManager (PRIVATE)
+@interface AIContactObserverManager ()
 - (NSSet *)_informObserversOfObjectStatusChange:(AIListObject *)inObject withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent;
 - (void)_performDelayedUpdates:(NSTimer *)timer;
 @end

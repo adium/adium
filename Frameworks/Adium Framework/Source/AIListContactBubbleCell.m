@@ -22,7 +22,7 @@
 
 #define EDGE_INDENT 			4
 
-@interface AIListContactBubbleCell (PRIVATE)
+@interface AIListContactBubbleCell ()
 
 @end
 

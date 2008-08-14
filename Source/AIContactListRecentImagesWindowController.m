@@ -26,7 +26,7 @@
 #define FADE_INCREMENT	0.3
 #define FADE_TIME		.3
 
-@interface AIContactListRecentImagesWindowController (PRIVATE)
+@interface AIContactListRecentImagesWindowController ()
 - (id)initWithWindowNibName:(NSString *)inWindowNibName
 				imagePicker:(AIContactListImagePicker *)inPicker;
 - (void)fadeOutAndClose;

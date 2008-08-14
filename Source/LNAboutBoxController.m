@@ -29,7 +29,7 @@
 #define ABOUT_SCROLL_FPS	30.0
 #define ABOUT_SCROLL_RATE	1.0
 
-@interface LNAboutBoxController (PRIVATE)
+@interface LNAboutBoxController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (NSString *)_applicationVersion;
 - (NSString *)_applicationDate;

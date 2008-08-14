@@ -12,7 +12,7 @@
 
 #define ADVANCED_NIB_NAME (@"AIAdvancedInspectorPane")
 
-@interface AIAdvancedInspectorPane(PRIVATE)
+@interface AIAdvancedInspectorPane()
 - (void)updateGroupList;
 -(void)reloadPopup;
 @end

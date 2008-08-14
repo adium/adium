@@ -25,10 +25,9 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIStatus.h>
 
-@interface AIDockAccountStatusPlugin (PRIVATE)
+@interface AIDockAccountStatusPlugin ()
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey;
 - (BOOL)_accountsWithProperty:(NSString *)inKey;
-- (void)_updateIconForKey:(NSString *)key;
 @end
 
 /*!

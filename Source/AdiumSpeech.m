@@ -31,7 +31,7 @@
  * therefore use 2 instances of SUSpeaker: one for default settings, and one for custom settings.  
  */  
 
-@interface AdiumSpeech (PRIVATE)
+@interface AdiumSpeech ()
 - (SUSpeaker *)defaultVoice;
 - (SUSpeaker *)variableVoice;
 - (void)_speakNext;

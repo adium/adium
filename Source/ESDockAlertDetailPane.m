@@ -20,7 +20,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AILocalizationTextField.h>
 
-@interface ESDockAlertDetailPane (PRIVATE)
+@interface ESDockAlertDetailPane ()
 - (NSMenuItem *)menuItemForBehavior:(AIDockBehavior)behavior withName:(NSString *)name;
 - (NSMenu *)behaviorListMenu;
 @end

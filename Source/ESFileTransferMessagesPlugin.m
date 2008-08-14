@@ -22,7 +22,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/ESFileTransfer.h>
 
-@interface ESFileTransferMessagesPlugin (PRIVATE)
+@interface ESFileTransferMessagesPlugin ()
 - (void)statusMessage:(NSString *)message forContact:(AIListContact *)contact withType:(NSString *)type;
 @end
 

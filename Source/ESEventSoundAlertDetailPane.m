@@ -27,7 +27,7 @@
 #define PLAY_A_SOUND			AILocalizedString(@"Play a sound",nil)
 #define KEY_DEFAULT_SOUND_DICT	@"Default Sound Dict"
 
-@interface ESEventSoundAlertDetailPane (PRIVATE)
+@interface ESEventSoundAlertDetailPane ()
 - (NSMenu *)soundListMenu;
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu;
 @end

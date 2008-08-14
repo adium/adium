@@ -18,7 +18,7 @@
 
 #define TEXT_AND_BUTTONS_WINDOW_NIB   @"TextAndButtonsWindow"
 
-@interface ESTextAndButtonsWindowController (PRIVATE)
+@interface ESTextAndButtonsWindowController ()
 - (void)configureWindow;
 @end
 

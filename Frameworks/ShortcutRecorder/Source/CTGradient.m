@@ -9,7 +9,7 @@
 
 #import "CTGradient.h"
 
-@interface CTGradient (Private)
+@interface CTGradient ()
 - (void)_commonInit;
 - (void)setBlendingMode:(CTGradientBlendingMode)mode;
 - (void)addElement:(CTGradientElement*)newElement;

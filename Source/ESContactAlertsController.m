@@ -21,7 +21,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
-@interface ESContactAlertsController (PRIVATE)
+@interface ESContactAlertsController ()
 - (NSArray *)arrayOfMenuItemsForEventsWithTarget:(id)target forGlobalMenu:(BOOL)global;
 
 - (NSMutableArray *)appendEventsForObject:(AIListObject *)listObject eventID:(NSString *)eventID toArray:(NSMutableArray *)events;

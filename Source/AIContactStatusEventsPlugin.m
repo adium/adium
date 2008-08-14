@@ -22,7 +22,7 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 
-@interface AIContactStatusEventsPlugin (PRIVATE)
+@interface AIContactStatusEventsPlugin ()
 - (BOOL)updateCache:(NSMutableDictionary *)cache
 			forKey:(NSString *)key
 		  newValue:(id)newStatus

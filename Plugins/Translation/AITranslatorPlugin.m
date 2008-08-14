@@ -40,7 +40,7 @@
 
 #define MAX_SIMULTANEOUS_TRANSLATIONS 3
 
-@interface AITranslatorPlugin (PRIVATE)
+@interface AITranslatorPlugin ()
 - (void)translateMessage:(NSDictionary *)messageDict;
 @end
 

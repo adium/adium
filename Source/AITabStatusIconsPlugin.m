@@ -23,11 +23,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
 
-@interface AITabStatusIconsPlugin (PRIVATE)
-- (NSString *)_stateIDForChat:(AIChat *)inChat;
-- (NSString *)_statusIDForListObject:(AIListObject *)listObject;
-@end
-
 /*!
  * @class AITabStatusIconsPlugin
  * @brief Tab status icons component

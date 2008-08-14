@@ -27,7 +27,7 @@
 #import "QTPlugin.h"
 #import "QTAdvancedPreferences.h"
 
-@interface QTAdvancedPreferences (PRIVATE)
+@interface QTAdvancedPreferences ()
 - (void)preferencesChanged:(NSNotification *)notification;
 @end
 

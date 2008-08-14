@@ -18,7 +18,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 
-@interface RAFBlockEditorWindowController (PRIVATE)
+@interface RAFBlockEditorWindowController ()
 - (NSMenu *)privacyOptionsMenu;
 - (AIAccount<AIAccount_Privacy> *)selectedAccount;
 - (void)configureTextField;

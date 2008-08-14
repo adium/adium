@@ -48,7 +48,7 @@
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
-@interface AIListController (PRIVATE)
+@interface AIListController ()
 - (void)contactListChanged:(NSNotification *)notification;
 - (void)promptToCombineItems:(NSArray *)items withContact:(AIListContact *)inContact;
 @end

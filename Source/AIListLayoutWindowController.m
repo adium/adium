@@ -27,7 +27,7 @@
 
 #define	MAX_ALIGNMENT_CHOICES	10
 
-@interface AIListLayoutWindowController (PRIVATE)
+@interface AIListLayoutWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget;
 - (void)configureControls;
 - (void)configureControlDimming;
@@ -39,7 +39,6 @@
 - (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices;
 - (NSMenu *)extendedStatusStyleMenu;
 - (NSMenu *)extendedStatusPositionMenu;
-- (NSMenu *)windowStyleMenu;
 @end
 
 @implementation AIListLayoutWindowController

@@ -3,7 +3,7 @@
 
 #import <AIUtilities/AIWindowAdditions.h>
 
-@interface SS_PrefsController (PRIVATE)
+@interface SS_PrefsController ()
 - (id)initWithPanes:(NSArray *)inArray delegate:(id)inDelegate;
 @end
 

@@ -104,7 +104,7 @@ static NSArray *validSenderColors;
 
 @end
 
-@interface AIWebkitMessageViewStyle (PRIVATE)
+@interface AIWebkitMessageViewStyle ()
 - (id)initWithBundle:(NSBundle *)inBundle;
 - (void)_loadTemplates;
 - (NSMutableString *)_escapeStringForPassingToScript:(NSMutableString *)inString;

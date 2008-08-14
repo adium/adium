@@ -4,7 +4,7 @@
 #import "AMPurpleJabberAdHocCommand.h"
 #include <libpurple/jabber.h>
 
-@interface AMPurpleJabberAdHocServer (PRIVATE)
+@interface AMPurpleJabberAdHocServer ()
 - (BOOL)receivedCommand:(xmlnode*)command from:(NSString*)jid iqid:(NSString*)iqid;
 - (void)addCommandsToXML:(xmlnode*)xml;
 @end

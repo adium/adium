@@ -7,7 +7,7 @@
 
 #import "ESIRCJoinChatViewController.h"
 
-@interface ESIRCJoinChatViewController (PRIVATE)
+@interface ESIRCJoinChatViewController ()
 - (void)validateEnteredText;
 @end
 

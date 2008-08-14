@@ -23,7 +23,7 @@
 
 #define STATE_DRAG_TYPE	@"AIState"
 
-@interface ESStatusPreferences (PRIVATE)
+@interface ESStatusPreferences ()
 - (void)configureOtherControls;
 - (void)configureAutoAwayStatusStatePopUp;
 - (void)saveTimeValues;

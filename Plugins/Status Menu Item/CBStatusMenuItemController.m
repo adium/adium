@@ -43,9 +43,8 @@
 
 #define STATUS_ITEM_MARGIN 8
 
-@interface CBStatusMenuItemController (PRIVATE)
+@interface CBStatusMenuItemController ()
 - (void)activateAdium;
-- (void)setIconImage:(NSImage *)inImage;
 - (NSImage *)badgeDuck:(NSImage *)duckImage withImage:(NSImage *)inImage;
 - (void)updateMenuIcons;
 - (void)updateMenuIconsBundle;

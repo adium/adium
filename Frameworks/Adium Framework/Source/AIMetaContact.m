@@ -31,7 +31,7 @@
 
 #define	KEY_EXPANDED						@"IsExpanded"
 
-@interface AIMetaContact (PRIVATE)
+@interface AIMetaContact ()
 - (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
 - (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
 

@@ -28,10 +28,6 @@
 
 #define STATUS_MAX_LENGTH	100
 
-@interface AIExtendedStatusPlugin (PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
-@end
-
 /*!
  * @class AIExtendedStatusPlugin
  * @brief Manage the 'extended status' shown in the contact list

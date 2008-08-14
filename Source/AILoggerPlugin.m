@@ -75,7 +75,7 @@ enum {
 	AIIndexFileIsClosing
 };
 
-@interface AILoggerPlugin (PRIVATE)
+@interface AILoggerPlugin ()
 - (void)configureMenuItems;
 - (SKIndexRef)createLogIndex;
 - (void)closeLogIndex;
@@ -86,17 +86,13 @@ enum {
 - (void)_saveDirtyLogArray;
 - (NSString *)_dirtyLogArrayPath;
 - (void)_dirtyAllLogsThread;
-- (void)_cleanDirtyLogsThread;
-
 - (void)upgradeLogExtensions;
 - (void)reimportLogsToSpotlightIfNeeded;
-
 - (NSString *)keyForChat:(AIChat *)chat;
 - (AIXMLAppender *)existingAppenderForChat:(AIChat *)chat;
 - (AIXMLAppender *)appenderForChat:(AIChat *)chat;
 - (void)closeAppenderForChat:(AIChat *)chat;
 - (void)finishClosingAppender:(NSString *)chatKey;
-
 @end
 
 static NSString     *logBasePath = nil;     //The base directory of all logs

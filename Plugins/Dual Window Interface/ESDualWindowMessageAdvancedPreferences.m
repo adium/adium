@@ -29,7 +29,7 @@
 
 #import "AIWebKitMessageViewPlugin.h"
 
-@interface ESDualWindowMessageAdvancedPreferences (PRIVATE)
+@interface ESDualWindowMessageAdvancedPreferences ()
 - (NSMenu *)_fontSizeMenu;
 - (NSMenu *)_timeStampMenu;
 - (void)_addTimeStampChoice:(NSDateFormatter *)formatter toMenu:(NSMenu *)menu;

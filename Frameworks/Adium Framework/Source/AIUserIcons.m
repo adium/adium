@@ -43,7 +43,7 @@ static AIManuallySetUserIconSource	*manuallySetUserIconSource = nil;
 
 //#define AIUSERICON_DEBUG
 
-@interface AIUserIcons (PRIVATE)
+@interface AIUserIcons ()
 + (void)updateAllIcons;
 + (void)updateUserIconForObject:(AIListObject *)inObject;
 @end

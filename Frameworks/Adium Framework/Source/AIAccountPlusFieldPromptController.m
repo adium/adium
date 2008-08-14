@@ -26,7 +26,7 @@
 #import <Adium/AIAccountMenu.h>
 #import <Adium/AIMetaContact.h>
 
-@interface AIAccountPlusFieldPromptController (PRIVATE)
+@interface AIAccountPlusFieldPromptController ()
 - (void)_configureTextFieldForAccount:(AIAccount *)account;
 @end
 

@@ -20,7 +20,7 @@
 #import <Adium/AILocalizationButton.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESPanelApplescriptDetailPane (PRIVATE)
+@interface ESPanelApplescriptDetailPane ()
 - (void)setScriptPath:(NSString *)inPath;
 @end
 

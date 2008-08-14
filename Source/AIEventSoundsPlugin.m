@@ -27,11 +27,6 @@
 
 #define SOUND_ALERT_IDENTIFIER		@"PlaySound"
 
-@interface AIEventSoundsPlugin (PRIVATE)
-- (void)eventNotification:(NSNotification *)notification;
-- (void)preferencesChanged:(NSNotification *)notification;
-@end
-
 /*!
  * @class AIEventSoundsPlugin
  *

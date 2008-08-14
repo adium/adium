@@ -24,7 +24,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>
 
-@interface AIDockUnviewedContentPlugin (PRIVATE)
+@interface AIDockUnviewedContentPlugin ()
 - (void)removeAlert;
 @end
 

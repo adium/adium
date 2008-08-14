@@ -45,7 +45,7 @@
 													  OTRL_POLICY_WHITESPACE_START_AKE | \
 													  OTRL_POLICY_ERROR_START_AKE )
 
-@interface AdiumOTREncryption (PRIVATE)
+@interface AdiumOTREncryption ()
 - (void)prepareEncryption;
 
 - (void)setSecurityDetails:(NSDictionary *)securityDetailsDict forChat:(AIChat *)inChat;

@@ -25,7 +25,7 @@
 #define AWAY_STATUS_WINDOW_NIB					@"AwayStatusWindow"
 #define	KEY_AWAY_STATUS_WINDOW_FRAME			@"Away Status Window Frame"
 
-@interface ESAwayStatusWindowController (PRIVATE)
+@interface ESAwayStatusWindowController ()
 - (void)localizeButtons;
 - (void)configureStatusWindow;
 - (NSAttributedString *)attributedStatusTitleForStatus:(AIStatus *)statusState withIcon:(NSImage *)statusIcon;

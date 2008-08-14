@@ -24,10 +24,6 @@
 #define KEY_LAST_SEEN_STATUS	@"Last Seen Status"
 #define KEY_LAST_SEEN_DATE		@"Last Seen Date"
 
-@interface CBContactLastSeenPlugin(PRIVATE)
-- (void)update:(NSNotification *)notification;
-@end
-
 /*!
  * @class CBContactLastSeenPlugin
  * @brief Component to track and display as a tooltip the last time contacts were seen online

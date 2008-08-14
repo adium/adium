@@ -26,7 +26,7 @@
 
 #define	LOGIN_TIMEOUT		10.0
 
-@interface AILoginWindowController (PRIVATE)
+@interface AILoginWindowController ()
 - (id)initWithOwner:(id)inOwner windowNibName:(NSString *)windowNibName;
 - (void)dealloc;
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView;

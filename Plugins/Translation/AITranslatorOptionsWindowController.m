@@ -15,7 +15,7 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import "AIPreferenceController.h"
 
-@interface AITranslatorOptionsWindowController (PRIVATE)
+@interface AITranslatorOptionsWindowController ()
 - (void)configureForListObject:(AIListObject *)listObject;
 @end
 

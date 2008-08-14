@@ -34,7 +34,7 @@
 #define SINGLE_BOUNCE_INTERVAL		999
 #define NO_BOUNCE_INTERVAL			1000
 
-@interface AIDockController (PRIVATE)
+@interface AIDockController ()
 - (void)_setNeedsDisplay;
 - (void)_buildIcon;
 - (void)animateIcon:(NSTimer *)timer;
@@ -42,7 +42,6 @@
 - (BOOL)_continuousBounce;
 - (void)_stopBouncing;
 - (BOOL)_bounceWithInterval:(double)delay;
-- (void)preferencesChanged:(NSNotification *)notification;
 - (AIIconState *)iconStateFromStateDict:(NSDictionary *)stateDict folderPath:(NSString *)folderPath;
 - (void)updateAppBundleIcon;
 @end

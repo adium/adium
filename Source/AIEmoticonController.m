@@ -39,13 +39,12 @@
 #define EMOTICON_PACK_PATH_EXTENSION		@"emoticonPack"
 #define PROTEUS_EMOTICON_SET_PATH_EXTENSION @"emoticons"
 
-@interface AIEmoticonController (PRIVATE)
+@interface AIEmoticonController ()
 - (NSDictionary *)emoticonIndex;
 - (NSCharacterSet *)emoticonHintCharacterSet;
 - (NSCharacterSet *)emoticonStartCharacterSet;
 - (void)resetActiveEmoticons;
 - (void)resetAvailableEmoticons;
-- (NSArray *)_emoticonsPacksAvailableAtPath:(NSString *)inPath;
 - (NSMutableAttributedString *)_convertEmoticonsInMessage:(NSAttributedString *)inMessage context:(id)context;
 - (AIEmoticon *) _bestReplacementFromEmoticons:(NSArray *)candidateEmoticons
 							   withEquivalents:(NSArray *)candidateEmoticonTextEquivalents
@@ -932,6 +931,5 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 {
 	return [NSString stringWithFormat:@"Pack:%@",[inPack name]];
 }
-
 
 @end

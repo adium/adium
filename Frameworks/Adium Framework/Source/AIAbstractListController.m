@@ -56,7 +56,7 @@
 //We put our prefix on this, just in case WebKit exports it publicly in the future.
 static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
-@interface AIAbstractListController (PRIVATE)
+@interface AIAbstractListController ()
 - (LIST_POSITION)pillowsFittedIconPositionForIconPosition:(LIST_POSITION)iconPosition contentCellAlignment:(NSTextAlignment)contentCellAlignment;
 @end
 

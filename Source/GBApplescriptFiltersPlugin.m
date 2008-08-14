@@ -37,29 +37,11 @@
 
 #define SCRIPT_TIMEOUT			30
 
-@interface GBApplescriptFiltersPlugin (PRIVATE)
-
-- (void)_replaceKeyword:(NSString *)keyword
-			 withScript:(NSMutableDictionary *)infoDict
-			   inString:(NSString *)inString
-	 inAttributedString:(NSMutableAttributedString *)attributedString
-			   uniqueID:(unsigned long long)uniqueID;
-
-- (void)_executeScript:(NSMutableDictionary *)infoDict 
-		 withArguments:(NSArray *)arguments
-		 forAttributedString:(NSMutableAttributedString *)attributedString
-		  keywordRange:(NSRange)keywordRange
-			  uniqueID:(unsigned long long)uniqueID;
-
+@interface GBApplescriptFiltersPlugin ()
 - (NSArray *)_argumentsFromString:(NSString *)inString forScript:(NSMutableDictionary *)scriptDict;
-
 - (void)buildScriptMenu;
 - (void)_appendScripts:(NSArray *)scripts toMenu:(NSMenu *)menu;
-- (void)_sortScriptsByTitle:(NSMutableArray *)sortArray;
-
 - (void)registerToolbarItem;
-
-- (void)scriptDidFinish:(NSNotification *)aNotification;
 
 - (void)_replaceKeyword:(NSString *)keyword
 			 withScript:(NSMutableDictionary *)infoDict

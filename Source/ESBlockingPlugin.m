@@ -38,7 +38,7 @@
 #define TOOLBAR_BLOCK_ICON_KEY		@"Block"
 #define TOOLBAR_UNBLOCK_ICON_KEY	@"Unblock"
 
-@interface ESBlockingPlugin(PRIVATE)
+@interface ESBlockingPlugin()
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked;
 - (void)accountConnected:(NSNotification *)notification;
 - (BOOL)areAllGivenContactsBlocked:(NSArray *)contacts;

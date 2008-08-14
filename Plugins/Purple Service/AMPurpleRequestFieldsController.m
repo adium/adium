@@ -10,7 +10,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface WebView (PRIVATE)
+@interface WebView ()
 - (void)setDrawsBackground:(BOOL)flag;
 - (void)setBackgroundColor:(NSColor *)color;
 @end

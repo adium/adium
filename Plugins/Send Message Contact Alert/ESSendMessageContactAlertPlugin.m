@@ -33,10 +33,6 @@
 #define SEND_MESSAGE_ALERT_SHORT	AILocalizedString(@"Send a message",nil)
 #define SEND_MESSAGE_ALERT_LONG		AILocalizedString(@"Send %@ the message \"%@\"",nil)
 
-@interface ESSendMessageContactAlertPlugin (PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
-@end
-
 @implementation ESSendMessageContactAlertPlugin
 - (void)installPlugin
 {

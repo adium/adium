@@ -16,7 +16,7 @@
 
 #import "AdiumContentFiltering.h"
 
-@interface AdiumContentFiltering (PRIVATE)
+@interface AdiumContentFiltering ()
 - (void)_registerContentFilter:(id)inFilter
 				   filterArray:(NSMutableArray *)inFilterArray;
 @end

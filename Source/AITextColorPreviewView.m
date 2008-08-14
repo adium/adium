@@ -20,7 +20,7 @@
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
-@interface AITextColorPreviewView (PRIVATE)
+@interface AITextColorPreviewView ()
 - (void)_initTextColorPreviewView;
 @end
 

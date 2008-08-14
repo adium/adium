@@ -29,7 +29,7 @@
 NSTimeInterval aggregateComponentLoadingTime = 0.0;
 #endif
 
-@interface AICoreComponentLoader (PRIVATE)
+@interface AICoreComponentLoader ()
 - (void)loadComponents;
 @end
 

@@ -28,10 +28,6 @@
 
 #define MAX_GADU_STATUS_MESSAGE_LENGTH 70
 
-@interface ESPurpleGaduGaduAccount (PRIVATE)
-- (NSAttributedString *)statusMessageForContact:(AIListContact *)theContact;
-@end
-
 @implementation ESPurpleGaduGaduAccount
 
 - (const char*)protocolPlugin

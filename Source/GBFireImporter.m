@@ -125,7 +125,7 @@
 }
 @end
 
-@interface GBFireImporter (private)
+@interface GBFireImporter ()
 - (BOOL)importFireConfiguration;
 - (BOOL)import2:(NSString *)fireDir;
 - (BOOL)import1:(NSString *)fireDir;

@@ -19,10 +19,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
-@interface CBStatusMenuItemPlugin(PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
-@end
-
 @implementation CBStatusMenuItemPlugin
 
 - (void)installPlugin

@@ -35,9 +35,8 @@
 #define EMOTICON_LOCATION				@"Location"
 #define EMOTICON_LOCATION_SEPARATOR		@"////"
 
-@interface AIEmoticonPack (PRIVATE)
+@interface AIEmoticonPack ()
 - (AIEmoticonPack *)initFromPath:(NSString *)inPath;
-- (void)setEmoticonArray:(NSArray *)inArray;
 - (void)loadEmoticons;
 - (void)loadAdiumEmoticons:(NSDictionary *)emoticons localizedStrings:(NSDictionary *)localizationDict;
 - (void)loadProteusEmoticons:(NSDictionary *)emoticons;

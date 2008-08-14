@@ -17,7 +17,7 @@
 #import "SRKeyCodeTransformer.h"
 #import "SRValidator.h"
 
-@interface SRRecorderCell (Private)
+@interface SRRecorderCell ()
 - (void)_privateInit;
 - (void)_createGradient;
 - (void)_setJustChanged;
@@ -1017,12 +1017,6 @@
 	if (!hasKeyChars) return SRCharacterForKeyCodeAndCocoaFlags(keyCombo.code,keyCombo.flags);
 	return keyCharsIgnoringModifiers;
 }
-
-@end
-
-#pragma mark -
-
-@implementation SRRecorderCell (Private)
 
 - (void)_privateInit
 {

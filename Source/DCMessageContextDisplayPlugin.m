@@ -49,7 +49,7 @@
  *
  * The amount of history, and criteria of when to display history, are determined in the Advanced->Message History preferences.
  */
-@interface DCMessageContextDisplayPlugin (PRIVATE)
+@interface DCMessageContextDisplayPlugin ()
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
 - (void)old_preferencesChangedForGroup:(NSString *)group key:(NSString *)key

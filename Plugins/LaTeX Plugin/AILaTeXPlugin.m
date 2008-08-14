@@ -21,7 +21,7 @@
 
 #import "AILaTeXPlugin.h"
 
-@interface AILaTeXPlugin (PRIVATE)
+@interface AILaTeXPlugin ()
 + (NSMutableAttributedString *)attributedStringWithImage:(NSImage *)img textEquivalent:(NSString *)textEquivalent;
 + (NSImage *)imageFromLaTeX:(NSString *)bodyLaTeX color:(NSColor *)color;
 + (NSString *)getPathForProgram:(NSString *)progname;

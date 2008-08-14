@@ -9,7 +9,7 @@
 #import "ESOTRPrivateKeyGenerationWindowController.h"
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESOTRPrivateKeyGenerationWindowController (PRIVATE)
+@interface ESOTRPrivateKeyGenerationWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forIdentifier:(NSString *)inIdentifier;
 @end
 

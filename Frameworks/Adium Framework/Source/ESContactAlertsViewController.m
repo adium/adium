@@ -38,7 +38,7 @@
 
 #define	EVENT_COLUMN_INDEX		1
 
-@interface ESContactAlertsViewController (PRIVATE)
+@interface ESContactAlertsViewController ()
 - (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(int)column ofRow:(int)row;
 - (void)configureEventSummaryOutlineView;
 - (void)reloadSummaryData;

@@ -22,7 +22,7 @@
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIObjectAdditions.h>
 
-@interface ESPurpleNotifyEmailController (PRIVATE)
+@interface ESPurpleNotifyEmailController ()
 + (void)openURLString:(NSString *)urlString;
 + (void)startMailApplication;
 + (NSString *)mailApplicationName;

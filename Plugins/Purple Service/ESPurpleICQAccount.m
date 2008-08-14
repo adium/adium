@@ -21,10 +21,6 @@
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
-@interface ESPurpleICQAccount (PRIVATE)
-- (void)updateStatusMessage:(AIListContact *)theContact;
-@end
-
 @implementation ESPurpleICQAccount
 - (const char *)protocolPlugin
 {

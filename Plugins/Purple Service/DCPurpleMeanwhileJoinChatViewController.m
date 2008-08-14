@@ -21,7 +21,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 
-@interface DCPurpleMeanwhileJoinChatViewController (PRIVATE)
+@interface DCPurpleMeanwhileJoinChatViewController ()
 - (void)validateEnteredText;
 - (void)_configureTextField;
 @end

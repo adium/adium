@@ -26,7 +26,7 @@
 #define MAGIC_ARROW_TRANSLATE_X 2.85
 #define MAGIC_ARROW_TRANSLATE_Y 0.75
 
-@interface ESFileTransfer (PRIVATE)
+@interface ESFileTransfer ()
 - (id)initWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)inType;
 - (void)recreateMessage;
 @end

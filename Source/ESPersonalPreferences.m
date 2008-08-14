@@ -17,7 +17,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageViewWithImagePicker.h>
 
-@interface ESPersonalPreferences (PRIVATE)
+@interface ESPersonalPreferences ()
 - (void)fireProfileChangesImmediately;
 - (void)configureProfile;
 - (void)configureImageView;

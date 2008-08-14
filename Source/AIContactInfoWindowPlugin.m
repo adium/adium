@@ -29,7 +29,7 @@
 #define	TITLE_SHOW_INFO					AILocalizedString(@"Show Info",nil)
 #define	TOOLTIP_SHOW_INFO				AILocalizedString(@"Show information about this contact or group and change settings specific to it","Tooltip for the Show Info toolbar button")
 
-@interface AIContactInfoWindowPlugin (PRIVATE)
+@interface AIContactInfoWindowPlugin ()
 - (void)prepareContactInfo;
 @end
 

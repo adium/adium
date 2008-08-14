@@ -34,7 +34,7 @@
 #ifdef DEBUG_BUILD
 #import <objc/objc-class.h>
 
-@interface AIStringDebug (PRIVATE)
+@interface AIStringDebug ()
 + (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass;
 @end
 

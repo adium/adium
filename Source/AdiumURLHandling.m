@@ -39,7 +39,7 @@
 #define ADIUM_BUNDLE_ID				@"com.adiumX.adiumX"
 #define SUPPORTED_MESSAGING_SCHEMES_ARRAY		[NSArray arrayWithObjects:@"aim", @"ymsgr", @"yahoo", @"xmpp", @"jabber", @"msn", nil]
 
-@interface AdiumURLHandling(PRIVATE)
+@interface AdiumURLHandling()
 + (void)registerAsDefaultIMClient;
 + (void)_setHelperAppForScheme:(NSString *)scheme;
 + (BOOL)_checkHelperAppForScheme:(NSString *)scheme;

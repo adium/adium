@@ -21,9 +21,8 @@
 
 #define MAX_AVAILABLE_MESSAGE_LENGTH	249
 
-@interface ESPurpleAIMAccount (PRIVATE)
+@interface ESPurpleAIMAccount ()
 - (void)setFormattedUID;
-- (void)updateInfo:(AIListContact *)theContact;
 @end
 
 @implementation ESPurpleAIMAccount

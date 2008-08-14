@@ -14,11 +14,10 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 
-@interface AIPreferenceContainer (PRIVATE)
+@interface AIPreferenceContainer ()
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject;
-- (void)emptyCache;
+- (void)emptyCache:(NSTimer *)inTimer;
 - (void)save;
-+ (void)performObjectPrefsSave;
 @end
 
 #define EMPTY_CACHE_DELAY		120.0
@@ -141,7 +140,7 @@ typedef enum {
 	[timer_clearingOfCache release]; timer_clearingOfCache = nil;
 	[globalPrefsName release]; globalPrefsName = nil;
 
-	[self emptyCache];
+	[self emptyCache:nil];
 	
 	[super dealloc];
 }

@@ -22,7 +22,7 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
-@interface ESPurpleRequestActionController (PRIVATE)
+@interface ESPurpleRequestActionController ()
 - (id)initWithDict:(NSDictionary *)infoDict;
 - (NSDictionary *)translatedInfoDict:(NSDictionary *)inDict;
 - (void)doRequestActionCbValue:(NSValue *)callBackValue

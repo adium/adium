@@ -47,7 +47,7 @@
 
 #define DEFAULT_JABBER_HOST @"@jabber.org"
 
-@interface ESPurpleJabberAccount (PRIVATE)
+@interface ESPurpleJabberAccount ()
 - (BOOL)enableXMLConsole;
 @end
 

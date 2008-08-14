@@ -20,12 +20,9 @@
 #define MULTILINE_WINDOW_NIB	@"PurpleMultilineRequestWindow"
 #define SINGLELINE_WINDOW_NIB   @"PurpleSinglelineRequestWindow"
 
-@interface ESPurpleRequestWindowController (PRIVATE)
+@interface ESPurpleRequestWindowController ()
 - (void)showWindowWithDict:(NSDictionary *)infoDict multiline:(BOOL)multiline;
 - (NSDictionary *)translatedInfoDict:(NSDictionary *)inDict;
-- (void)purpleAdapterDoRequestInputCbValue:(NSValue *)inCallBackValue
-					  withUserDataValue:(NSValue *)inUserDataValue 
-							inputString:(NSString *)inString;
 @end
 
 @implementation ESPurpleRequestWindowController

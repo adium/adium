@@ -12,7 +12,7 @@
 - (void)animation:(AIOutlineViewAnimation *)animation didSetCurrentValue:(float)currentValue forDict:(NSDictionary *)animatingRowsDict;
 @end
 
-@interface AIOutlineViewAnimation (PRIVATE)
+@interface AIOutlineViewAnimation ()
 - (id)initWithDictionary:(NSDictionary *)inDict delegate:(AIAnimatingListOutlineView *)inOutlineView;
 @end
 

@@ -16,7 +16,7 @@
 
 #import <Adium/AIIconState.h>
 
-@interface AIIconState (PRIVATE)
+@interface AIIconState ()
 - (void)_init;
 @end
 

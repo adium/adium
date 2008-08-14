@@ -20,7 +20,7 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-@interface ESPurpleYahooAccountViewController (PRIVATE)
+@interface ESPurpleYahooAccountViewController ()
 - (NSMenu *)chatServerMenu;
 @end
 

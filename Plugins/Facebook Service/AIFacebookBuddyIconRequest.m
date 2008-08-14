@@ -8,7 +8,7 @@
 #import "AIFacebookBuddyIconRequest.h"
 #import <Adium/AIListContact.h>
 
-@interface AIFacebookBuddyIconRequest (PRIVATE)
+@interface AIFacebookBuddyIconRequest ()
 - (id)initForContact:(AIListContact *)inContact withThumbSrc:(NSString *)thumbSrc;
 @end 
 

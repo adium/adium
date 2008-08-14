@@ -8,12 +8,7 @@
 
 #import "AIContactInfoContentController.h"
 
-@interface AIContactInfoContentController (PRIVATE)
-//Methods for animation and managing inspector views.
--(void)addInspectorView:(NSView *)aView animate:(BOOL)doAnimate;
--(void)animateRemovingRect:(NSRect)aRect inView:(NSView *)aView;
--(void)animateViewIn:(NSView *)aView;
--(void)animateViewOut:(NSView *)aView;
+@interface AIContactInfoContentController ()
 -(void)_setLoadedPanes:(NSArray *)anArray;
 @end
 

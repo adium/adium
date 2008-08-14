@@ -33,7 +33,7 @@
 
 #define	SEND_ON_ENTER					@"Send On Enter"
 
-@interface AIEditStateWindowController (PRIVATE)
+@interface AIEditStateWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forType:(AIStatusType)inStatusType andAccount:(AIAccount *)inAccount customState:(AIStatus *)inStatusState notifyingTarget:(id)inTarget showSaveCheckbox:(BOOL)inShowSaveCheckbox;
 - (id)_positionControl:(id)control relativeTo:(id)guide height:(int *)height;
 - (void)configureStateMenu;

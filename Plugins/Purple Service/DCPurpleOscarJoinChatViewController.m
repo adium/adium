@@ -22,7 +22,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 
-@interface DCPurpleOscarJoinChatViewController (PRIVATE)
+@interface DCPurpleOscarJoinChatViewController ()
 - (void)validateEnteredText;
 - (void)_configureTextField;
 @end

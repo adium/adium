@@ -16,12 +16,12 @@
 
 #import "ESWebView.h"
 
-@interface WebView (PRIVATE)
+@interface WebView ()
 - (void)setDrawsBackground:(BOOL)flag;
 - (void)setBackgroundColor:(NSColor *)color;
 @end
 
-@interface ESWebView (PRIVATE)
+@interface ESWebView ()
 - (void)forwardSelector:(SEL)selector withObject:(id)object;
 @end
 

@@ -26,7 +26,7 @@
 #define SOUND_DEFAULT_PREFS				@"SoundPrefs"
 #define MAX_CACHED_SOUNDS				4			//Max cached sounds
 
-@interface AdiumSound (PRIVATE)
+@interface AdiumSound ()
 - (void)_stopAndReleaseAllSounds;
 - (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume;
 - (void)cachedPlaySound:(NSString *)inPath;

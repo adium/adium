@@ -11,7 +11,7 @@
 #import <JSON/JSON.h>
 #import <Adium/AIListContact.h>
 
-@interface AIFacebookBuddyListManager (PRIVATE)
+@interface AIFacebookBuddyListManager ()
 - (id)initForAccount:(AIFacebookAccount *)inAccount;
 - (void)setupBuddyListPolling;
 @end

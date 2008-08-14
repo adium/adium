@@ -9,7 +9,7 @@
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 
-@interface AIContactInfoImageViewWithImagePicker (PRIVATE)
+@interface AIContactInfoImageViewWithImagePicker ()
 - (void)resetCursorRects;
 - (NSRect)_snapbackRectForFrame:(NSRect)cellFrame;
 @end

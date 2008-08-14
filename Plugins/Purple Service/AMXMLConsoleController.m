@@ -12,7 +12,7 @@
 
 #define XML_PREFIX @"<?xml version='1.0' encoding='UTF-8' ?>\n"
 
-@interface AMXMLConsoleController (PRIVATE)
+@interface AMXMLConsoleController ()
 - (void)appendToLog:(NSAttributedString *)astr;
 - (PurpleConnection *)gc;
 @end;

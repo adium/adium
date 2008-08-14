@@ -63,7 +63,7 @@
 
 #pragma mark -
 
-@interface ESiTunesPlugin (PRIVATE)
+@interface ESiTunesPlugin ()
 - (NSMenuItem *)menuItemWithTitle:(NSString *)title action:(SEL)action representedObject:(id)representedObject kind:(KGiTunesPluginMenuItemKind)itemKind;
 - (void)createiTunesCurrentTrackStatusState;
 - (void)createiTunesToolbarItemWithPath:(NSString *)path;

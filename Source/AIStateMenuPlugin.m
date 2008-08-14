@@ -26,7 +26,7 @@
 #import <Adium/AISocialNetworkingStatusMenu.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-@interface AIStateMenuPlugin (PRIVATE)
+@interface AIStateMenuPlugin ()
 - (void)updateKeyEquivalents;
 @end
 

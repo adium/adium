@@ -21,7 +21,7 @@
 #define CONNECTION_DEBUG			TRUE
 #define CONNECTION_TIME_OUT_DELAY	10.0
 
-@interface AIFacebookAccount (PRIVATE)
+@interface AIFacebookAccount ()
 - (void)extractLoginInfoFromHomePage:(NSString *)homeString;
 - (void)postDictionary:(NSDictionary *)inDict toURL:(NSURL *)inURL;
 @end

@@ -36,7 +36,7 @@
 #define NOTIFICATION				AILocalizedString(@"Send Notification", "Send notification (nudge or buzz) menu item")
 #define TOOLBAR_NOTIFY_IDENTIFIER	@"NotifyParticipants"
 
-@interface AINudgeBuzzHandlerPlugin(PRIVATE)
+@interface AINudgeBuzzHandlerPlugin()
 - (BOOL)contactDoesSupportNotification:(AIListObject *)object;
 - (IBAction)notifyParticipants:(NSToolbarItem *)senderItem;
 - (AIChat *)chatForToolbar:(NSToolbarItem *)senderItem;

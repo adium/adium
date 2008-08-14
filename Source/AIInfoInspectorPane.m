@@ -15,7 +15,7 @@
 
 #define WIDTH_PROFILE_HEADER	 100.0f
 
-@interface AIInfoInspectorPane (PRIVATE)
+@interface AIInfoInspectorPane ()
 - (void)updateUserIcon:(AIListObject *)inObject;
 - (void)updateAccountName:(AIListObject *)inObject;
 - (void)updateServiceIcon:(AIListObject *)inObject;
@@ -25,7 +25,6 @@
 - (void)addTooltipEntriesToProfileArray:(NSMutableArray *)profileArray forContact:(AIListContact *)inContact;
 - (NSAttributedString *)attributedStringProfileForListObject:(AIListObject *)inObject;
 - (void)updateProfile:(NSAttributedString *)infoString context:(AIListObject *)object;
-- (void)gotFilteredStatus:(NSAttributedString *)infoString context:(AIListObject *)object;
 - (void)setAttributedString:(NSAttributedString *)infoString intoTextView:(NSTextView *)textView;
 @end
 

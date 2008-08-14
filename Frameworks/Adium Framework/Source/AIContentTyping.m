@@ -17,7 +17,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentTyping.h>
 
-@interface AIContentTyping (PRIVATE)
+@interface AIContentTyping ()
 - (id)initWithChat:(AIChat *)inChat source:(id)inSource destination:(id)inDest typingState:(AITypingState)inTyping;
 @end
 

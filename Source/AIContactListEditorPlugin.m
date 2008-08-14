@@ -53,7 +53,7 @@
 
 
 
-@interface AIContactListEditorPlugin (PRIVATE)
+@interface AIContactListEditorPlugin ()
 - (void)deleteFromArray:(NSArray *)array;
 - (void)promptForNewContactOnWindow:(NSWindow *)inWindow selectedListObject:(AIListObject *)inListObject;
 @end

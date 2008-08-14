@@ -60,7 +60,7 @@
 
 //#define	LOG_RESPONDER_CHAIN
 
-@interface AIInterfaceController (PRIVATE)
+@interface AIInterfaceController ()
 - (void)_resetOpenChatsCache;
 - (void)_addItemToMainMenuAndDock:(NSMenuItem *)item;
 - (NSAttributedString *)_tooltipTitleForObject:(AIListObject *)object;

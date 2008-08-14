@@ -15,8 +15,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 
-@interface ESContactListAdvancedPreferences (PRIVATE)
-- (NSMenu *)windowPositionMenu;
+@interface ESContactListAdvancedPreferences ()
 - (void)configureControlDimming;
 @end
 

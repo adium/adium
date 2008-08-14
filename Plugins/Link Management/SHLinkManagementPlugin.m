@@ -29,7 +29,7 @@
 #define EDIT_LINK_TITLE			[AILocalizedString(@"Edit Link",nil) stringByAppendingEllipsis]
 #define RM_LINK_TITLE           AILocalizedString(@"Remove Link",nil)
 
-@interface SHLinkManagementPlugin (PRIVATE)
+@interface SHLinkManagementPlugin ()
 - (BOOL)textViewSelectionIsLink:(NSTextView *)textView;
 - (void)registerToolbarItem;
 @end

@@ -25,8 +25,7 @@
 #define	SELECTED_TEXT_COLOR		[NSColor whiteColor]
 #define TRANSFER_STATUS_COLOR	[NSColor disabledControlTextColor]
 
-@interface ESFileTransferProgressView (PRIVATE)
-- (void)updateHeaderLine;
+@interface ESFileTransferProgressView ()
 - (void)updateButtonReveal;
 - (void)updateButtonStopResume;
 @end

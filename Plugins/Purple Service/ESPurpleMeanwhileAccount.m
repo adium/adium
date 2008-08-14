@@ -23,10 +23,6 @@
 
 extern const char *mwServiceAware_getText(void *, void *);
 
-@interface ESPurpleMeanwhileAccount (PRIVATE)
-- (NSAttributedString *)statusMessageForContact:(AIListContact *)theContact;
-@end
-
 @implementation ESPurpleMeanwhileAccount
 
 #ifndef MEANWHILE_NOT_AVAILABLE

@@ -329,7 +329,7 @@ double SRAnimationEaseInOut(double t) {
 
 static NSMutableDictionary *SRSharedImageCache = nil;
 
-@interface SRSharedImageProvider (Private)
+@interface SRSharedImageProvider ()
 + (void)_drawSRSnapback:(id)anNSCustomImageRep;
 + (NSValue *)_sizeSRSnapback;
 + (void)_drawSRRemoveShortcut:(id)anNSCustomImageRep;
@@ -394,9 +394,6 @@ static NSMutableDictionary *SRSharedImageCache = nil;
 //	NSLog(@"returned image: %@", returnImage);
 	return [returnImage autorelease];
 }
-@end
-
-@implementation SRSharedImageProvider (Private)
 
 #define MakeRelativePoint(x,y)	NSMakePoint(x*hScale, y*vScale)
 

@@ -10,7 +10,7 @@
 
 #define	PRESET_NAME_SHEET	@"PresetNameSheet"
 
-@interface ESPresetNameSheetController (PRIVATE)
+@interface ESPresetNameSheetController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName defaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo;
 - (void)configureExplanatoryTextWithString:(NSString *)inExplanatoryText;
 @end

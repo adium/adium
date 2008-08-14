@@ -33,7 +33,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIIconState.h>
 
-@interface AIDockBadger (PRIVATE)
+@interface AIDockBadger ()
 - (void)removeOverlay;
 - (void)_setOverlay;
 @end

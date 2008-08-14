@@ -22,12 +22,11 @@
 
 #define AB_SEARCH_NIB	@"ABSearch"
 
-@interface OWABSearchWindowController (private)
+@interface OWABSearchWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName initialService:(AIService *)inService;
 - (void)_configurePeoplePicker;
 - (void)_setCarryingWindow:(NSWindow *)inWindow;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-- (NSString *)propertyFromService:(AIService *)service;
 - (void)buildContactTypeMenu;
 - (void)ensureValidContactTypeSelection;
 - (void)configureForCurrentServiceType;

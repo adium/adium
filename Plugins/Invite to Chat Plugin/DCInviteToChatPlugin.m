@@ -30,7 +30,7 @@
 
 #define INVITE_CONTACT			AILocalizedString(@"Invite to Chat",nil)
 
-@interface DCInviteToChatPlugin (PRIVATE)
+@interface DCInviteToChatPlugin ()
 - (NSMenu *)groupChatMenuForContact:(AIListContact *)contact;
 @end
 

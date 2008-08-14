@@ -17,7 +17,7 @@
 #define KEY_ADVANCED_PREFERENCE_SELECTED_ROW    @"Preference Advanced Selected Row"
 #define KEY_ADVANCED_PREFERENCE_SHELF_WIDTH		@"AdvancedPrefs:ShelfWidth"
 
-@interface AIAdvancedPreferences (PRIVATE)
+@interface AIAdvancedPreferences ()
 - (void)_configureAdvancedPreferencesTable;
 @end
 

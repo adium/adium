@@ -23,7 +23,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESFileTransferPreferences (PRIVATE)
+@interface ESFileTransferPreferences ()
 - (NSMenu *)downloadLocationMenu;
 - (void)buildDownloadLocationMenu;
 @end

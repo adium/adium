@@ -34,7 +34,7 @@
 #define LABEL_RECT	NSMakeRect(17, 7, 56, 17)
 #define POPUP_RECT	NSMakeRect(75, 1, 212, 26)
 
-@interface AIAccountSelectionView (PRIVATE)
+@interface AIAccountSelectionView ()
 - (id)_init;
 - (void)configureForCurrentChat;
 - (void)chatDestinationChanged:(NSNotification *)notification;

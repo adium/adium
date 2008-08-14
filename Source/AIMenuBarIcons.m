@@ -21,7 +21,7 @@
 
 #define KEY_ICONS_DICT	@"Icons"
 
-@interface AIMenuBarIcons (PRIVATE)
+@interface AIMenuBarIcons ()
 - (NSImage *)imageForKey:(NSString *)keyName;
 - (BOOL)keyOfTypeExists:(NSString *)keyName;
 @end

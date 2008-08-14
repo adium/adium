@@ -24,7 +24,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
 
-@interface AIMessageAliasPlugin (PRIVATE)
+@interface AIMessageAliasPlugin ()
 - (NSMutableAttributedString *)replaceKeywordsInString:(NSAttributedString *)original context:(id)context;
 @end
 

@@ -25,9 +25,8 @@
 #define LINK_EDITOR_NIB_NAME        @"LinkEditor"
 #define FAVS_EDITOR_NIB_NAME        @"FavsEditor"
 
-@interface SHLinkEditorWindowController (PRIVATE)
+@interface SHLinkEditorWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
-- (void)_buildPopUpMenu;
 - (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
 @end

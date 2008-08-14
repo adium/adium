@@ -72,7 +72,7 @@
 
 #define	REFRESH_RESULTS_INTERVAL		1.0 //Interval between results refreshes while searching
 
-@interface AIAbstractLogViewerWindowController (PRIVATE)
+@interface AIAbstractLogViewerWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName plugin:(id)inPlugin;
 - (void)initLogFiltering;
 - (void)displayLog:(AIChatLog *)log;
@@ -81,7 +81,6 @@
 - (void)startSearchingClearingCurrentResults:(BOOL)clearCurrentResults;
 - (void)buildSearchMenu;
 - (NSMenuItem *)_menuItemWithTitle:(NSString *)title forSearchMode:(LogSearchMode)mode;
-- (void)_logContentFilter:(NSString *)searchString searchID:(NSInteger)searchID onSearchIndex:(SKIndexRef)logSearchIndex;
 - (void)_logFilter:(NSString *)searchString searchID:(NSInteger)searchID mode:(LogSearchMode)mode;
 - (void)installToolbar;
 - (void)updateRankColumnVisibility;
@@ -1405,6 +1404,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 								mode:mode];
 					break;
 				case LOG_SEARCH_CONTENT:
+#warning This relies on it being an AIMDLogViewerWindowController; we need to merge these
 					[self _logContentFilter:searchString
 								   searchID:searchID
 							  onSearchIndex:(SKIndexRef)[searchInfoDict objectForKey:@"SearchIndex"]];

@@ -28,7 +28,7 @@
 
 #define SOUND_LOCATION_SEPARATOR	@"////"
 
-@interface AISoundSet (PRIVATE)
+@interface AISoundSet ()
 - (id)initWithContentsOfFile:(NSString *)inPath;
 - (BOOL)_loadSoundSetFromPath:(NSString *)inPath;
 - (NSString *)_fullPathForSoundAtLocalPath:(NSString *)localPath searchLocations:(NSArray *)locations;

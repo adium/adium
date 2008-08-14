@@ -32,23 +32,12 @@
 
 #define EVENT_SOUNDS_DEFAULT_PREFS	@"EventSoundDefaults"
 
-@interface ESGlobalEventsPreferencesPlugin (PRIVATE)
-- (void)activateSoundSet:(NSArray *)soundSetArray;
-
+@interface ESGlobalEventsPreferencesPlugin ()
 - (void)activateDockBehaviorSet:(NSArray *)behaviorArray;
-- (NSDictionary *)dockAlertFromPresetDictionary:(NSDictionary *)dictionary;
-
 - (void)activateSpeechPreset:(NSArray *)presetArray;
-- (NSDictionary *)speechAlertFromDictionary:(NSDictionary *)dictionary;
-
 - (void)activateGrowlPreset:(NSArray *)presetArray;
-- (NSDictionary *)growlAlertFromDictionary:(NSDictionary *)dictionary;
-
 - (NSArray *)_behaviorForPreset:(NSString *)presetName inPresetArray:(NSArray *)presetArray;
-
 - (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector;
-- (NSArray *)_availablePresetsFromArray:(NSArray *)presetsArray;
-- (void)_updateActiveSetFromPresetsArray:(NSArray *)presetsArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector preferencesKey:(NSString *)prefKey preferencesGroup:(NSString *)prefGroup;
 @end
 
 @implementation ESGlobalEventsPreferencesPlugin

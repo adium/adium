@@ -31,7 +31,7 @@
 
 #define ICHAT_LOCATION [@"~/Documents/iChats/" stringByExpandingTildeInPath]
 
-@interface BGICImportController (PRIVATE)
+@interface BGICImportController ()
 -(void)startLogImport;
 -(void)populateAccountPicker;
 -(void)deleteAllFromiChat;
@@ -41,7 +41,7 @@
 -(void)addStatusFromString:(NSString *)statusString isAway:(BOOL)shouldBeAway withGroup:(AIStatusGroup *)parentGroup;
 @end
 
-@implementation BGICImportController (PRIVATE)
+@implementation BGICImportController
 
 -(void)startLogImport
 {
@@ -296,10 +296,6 @@
 		[parentGroup addStatusItem:newStatus atIndex:-1];
 	}
 }
-
-@end
-
-@implementation BGICImportController
 
 + (void)importIChatConfiguration
 {

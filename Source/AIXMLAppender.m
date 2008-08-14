@@ -51,7 +51,7 @@ enum {
 	failedUtf8BomLength = 6
 };
 
-@interface AIXMLAppender(PRIVATE)
+@interface AIXMLAppender()
 - (NSString *)createElementWithName:(NSString *)name content:(NSString *)content attributeKeys:(NSArray *)keys attributeValues:(NSArray *)values;
 - (NSString *)rootElementNameForFileAtPath:(NSString *)path;
 - (void)prepareFileHandle;

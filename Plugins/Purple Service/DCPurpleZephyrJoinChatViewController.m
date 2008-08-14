@@ -18,7 +18,7 @@
 #import "DCJoinChatWindowController.h"
 #import <Adium/AIAccount.h>
 
-@interface DCPurpleZephyrJoinChatViewController (PRIVATE)
+@interface DCPurpleZephyrJoinChatViewController ()
 - (void)validateEnteredText;
 @end
 

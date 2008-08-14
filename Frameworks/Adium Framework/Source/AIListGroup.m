@@ -20,7 +20,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
 
-@interface AIListGroup (PRIVATE)
+@interface AIListGroup ()
 - (void)_recomputeVisibleCount;
 @end
 
