@@ -44,7 +44,6 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AISortController.h>
 #import "AIMessageTabViewItem.h"
-#import "KFTypeSelectTableView.h"
 #import <KNShelfSplitview.h>
 #import <Adium/AIContactList.h>
 
@@ -106,11 +105,6 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		/* Use KFTypeSelectTableView as our NSTableView base class to allow type-select searching of all
-		* table and outline views throughout Adium.
-		*/
-		[[KFTypeSelectTableView class] poseAsClass:[NSTableView class]];
-		
 		contactListViewArray = [[NSMutableArray alloc] init];
 		messageViewArray = [[NSMutableArray alloc] init];
 		contactListTooltipEntryArray = [[NSMutableArray alloc] init];
