@@ -37,10 +37,7 @@
 - (void)sort
 {
 #warning rewrite this once we can enforce that AIContactLists only contain AIListGroups
-	//Sort the groups within this group
-	AIListObject	*object;
-	
-	for (object in containedObjects) {
+	for (AIListObject *object in containedObjects) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[(AIListGroup *)object sort];
 		}
