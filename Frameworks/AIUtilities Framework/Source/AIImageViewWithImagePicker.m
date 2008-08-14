@@ -15,8 +15,6 @@
 #import "AIFileManagerAdditions.h"
 #import "AIApplicationAdditions.h"
 #import "AIStringUtilities.h"
-#import "IKPictureTakerForTiger.h"
-
 
 #define DRAGGING_THRESHOLD 16.0
 
@@ -32,8 +30,6 @@
 @interface NSObject (IKPictureTaker_SecretsAdiumKnows)
 - (void)setRecentPictureAsImageInput:(IKPictureTakerRecentPicture *)picture;
 @end
-
-#define IKPictureTakerClass ([NSApp isOnLeopardOrBetter] ? NSClassFromString(@"IKPictureTaker") : NSClassFromString(@"IKPictureTakerForTiger"))
 
 /*
  * @class AIImageViewWithImagePicker
@@ -584,7 +580,7 @@
 {
 	if (usePictureTaker) {
 		if (!pictureTaker) {	
-			pictureTaker = [[IKPictureTakerClass pictureTaker] retain];
+			pictureTaker = [[IKPictureTaker pictureTaker] retain];
 			[pictureTaker setDelegate:self];
 		}
 		
