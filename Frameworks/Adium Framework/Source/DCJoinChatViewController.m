@@ -24,7 +24,7 @@
 #import <Adium/DCJoinChatViewController.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface DCJoinChatViewController (PRIVATE)
+@interface DCJoinChatViewController ()
 - (NSString *)impliedCompletion:(NSString *)aString;
 @end
 

@@ -10,7 +10,7 @@
 
 #define	PRESET_DRAG_TYPE @"Adium:PresetDrag"
 
-@interface ESPresetManagementController (PRIVATE)
+@interface ESPresetManagementController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName presets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate;
 - (void)configureControlDimming;
 - (void)tableViewSelectionDidChange:(NSNotification *)notification;

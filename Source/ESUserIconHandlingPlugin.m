@@ -36,16 +36,10 @@
 
 #define	TOOLBAR_ITEM_TAG	-999
 
-@interface ESUserIconHandlingPlugin (PRIVATE)
-- (BOOL)cacheAndSetUserIconFromPreferenceForListObject:(AIListObject *)inObject;
-- (BOOL)_cacheUserIconData:(NSData *)inData forObject:(AIListObject *)inObject;
-- (NSString *)_cachedImagePathForObject:(AIListObject *)inObject;
-- (BOOL)destroyCacheForListObject:(AIListObject *)inObject;
+@interface ESUserIconHandlingPlugin ()
 - (void)registerToolbarItem;
-
 - (void)_updateToolbarIconOfChat:(AIChat *)inChat inWindow:(NSWindow *)window;
 - (void)_updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
-
 - (void)updateToolbarItemForObject:(AIListObject *)inObject;
 @end
 

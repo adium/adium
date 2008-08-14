@@ -37,7 +37,7 @@
 #import "AIWebKitMessageViewController.h"
 
 
-@interface AIChat (PRIVATE)
+@interface AIChat ()
 - (id)initForAccount:(AIAccount *)inAccount;
 - (void)clearUniqueChatID;
 - (void)clearListObjectStatuses;

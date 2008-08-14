@@ -34,8 +34,7 @@
 #define EMOTICON_MAX_ROW_HEIGHT			64
 #define EMOTICON_PACKS_TOOLTIP          AILocalizedString(@"Reorder emoticon packs by dragging. Packs are used in the order listed.",nil)
 
-@interface AIEmoticonPreferences (PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
+@interface AIEmoticonPreferences ()
 - (void)_configureEmoticonListForSelection;
 - (void)moveSelectedPacksToTrash;
 - (void)configurePreviewControllers;

@@ -20,7 +20,7 @@
 #define MAX_ERRORS			80				//The max # of errors to display
 #define	ERROR_WINDOW_NIB	@"ErrorWindow"	//Filename of the error window nib
 
-@interface ErrorMessageWindowController (PRIVATE)
+@interface ErrorMessageWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (void)dealloc;
 - (void)refreshErrorDialog;

@@ -18,12 +18,8 @@
 #import <Adium/AIEmoticonPack.h>
 #import <Adium/AITextAttachmentExtension.h>
 
-@interface AIEmoticon (PRIVATE)
+@interface AIEmoticon ()
 - (AIEmoticon *)initWithIconPath:(NSString *)inPath equivalents:(NSArray *)inTextEquivalents name:(NSString *)inName pack:(AIEmoticonPack *)inPack;
-- (NSString *)_stringWithMacEndlines:(NSString *)inString;
-- (void)setTextEquivalents:(NSArray *)inArray;
-- (void)setCachedString:(NSAttributedString *)inString image:(NSImage *)inImage;
-- (NSString *)_pathToEmoticonImage;
 @end
 
 @implementation AIEmoticon

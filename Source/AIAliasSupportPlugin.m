@@ -35,7 +35,7 @@
 #define SCREENNAME_ALIAS			AILocalizedString(@"User Name (Alias)",nil)
 #define SCREENNAME					AILocalizedString(@"User Name",nil)
 
-@interface AIAliasSupportPlugin (PRIVATE)
+@interface AIAliasSupportPlugin ()
 - (NSSet *)_applyAlias:(NSString *)inAlias toObject:(AIListObject *)inObject notify:(BOOL)notify;
 - (NSMenu *)_contactNameMenu;
 @end

@@ -50,18 +50,13 @@
 
 #define SNAP_DISTANCE							15.0 /* Distance beween one window's edge and another's at which they should snap together */
 
-@interface AIListWindowController (PRIVATE)
+@interface AIListWindowController ()
 - (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList;
 + (NSString *)nibName;
-
-- (void)_configureAutoResizing;
 + (void)updateScreenSlideBoundaryRect:(id)sender;
 - (BOOL)shouldSlideWindowOffScreen_mousePositionStrategy;
 - (void)slideWindowIfNeeded:(id)sender;
 - (BOOL)shouldSlideWindowOnScreen_mousePositionStrategy;
-- (BOOL)shouldSlideWindowOnScreen_adiumActiveStrategy;
-- (BOOL)shouldSlideWindowOffScreen_adiumActiveStrategy;
-
 - (void)delayWindowSlidingForInterval:(NSTimeInterval)inDelayTime;
 @end
 

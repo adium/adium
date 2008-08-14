@@ -52,7 +52,7 @@
 
 #define TEMPORARY_FILE_PREFIX	@"TEMP"
 
-@interface AIWebKitMessageViewController (PRIVATE)
+@interface AIWebKitMessageViewController ()
 - (id)initForChat:(AIChat *)inChat withPlugin:(AIWebKitMessageViewPlugin *)inPlugin;
 - (void)_initWebView;
 - (void)_primeWebViewAndReprocessContent:(BOOL)reprocessContent;

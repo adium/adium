@@ -12,7 +12,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import "SLPurpleCocoaAdapter.h"
 
-@interface SLPurpleCocoaAdapter (PRIVATE)
+@interface SLPurpleCocoaAdapter ()
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
 @end
 

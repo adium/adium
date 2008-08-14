@@ -20,7 +20,7 @@
 #import "AIEmoticonController.h"
 #import "AIEmoticonPreferences.h"
 
-@interface AIEmoticonPackPreviewController (PRIVATE)
+@interface AIEmoticonPackPreviewController ()
 - (id)initForPack:(AIEmoticonPack *)inPack preferences:(AIEmoticonPreferences *)inPreferences;
 @end
 

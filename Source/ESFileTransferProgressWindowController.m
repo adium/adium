@@ -25,17 +25,15 @@
 #define FILE_TRANSFER_PROGRESS_NIB			@"FileTransferProgressWindow"
 #define KEY_TRANSFER_PROGRESS_WINDOW_FRAME	@"Transfer Progress Window Frame"
 
-@interface ESFileTransferProgressWindowController (PRIVATE)
+@interface ESFileTransferProgressWindowController ()
 - (void)addFileTransfer:(ESFileTransfer *)fileTransfer;
-- (ESFileTransferProgressRow *)previousRow;
-- (ESFileTransferProgressRow *)nextRow;
 - (void)updateStatusBar;
 - (void)reloadAllData;
 - (void)_removeFileTransfer:(ESFileTransfer *)inFileTransfer;
 - (ESFileTransferProgressRow *)existingRowForFileTransfer:(ESFileTransfer *)inFileTransfer;
 @end
 
-@interface ESFileTransferController (PRIVATE)
+@interface ESFileTransferController ()
 - (void)_removeFileTransfer:(ESFileTransfer *)fileTransfer;
 @end
 

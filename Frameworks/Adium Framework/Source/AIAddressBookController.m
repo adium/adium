@@ -48,16 +48,12 @@
 
 #define KEY_AB_TO_METACONTACT_DICT			@"UniqueIDToMetaContactObjectIDDictionary"
 
-@interface AIAddressBookController(PRIVATE)
+@interface AIAddressBookController()
 + (ABPerson *)_searchForUID:(NSString *)UID serviceID:(NSString *)serviceID;
-
-- (void)processPerson:(ABPerson *)person withKnownContact:(AIListContact *)listContact;
-
 - (void)updateAllContacts;
 - (void)updateSelfIncludingIcon:(BOOL)includeIcon;
 - (NSString *)nameForPerson:(ABPerson *)person phonetic:(NSString **)phonetic;
 - (void)rebuildAddressBookDict;
-- (void)queueDelayedFetchOfImageForPerson:(ABPerson *)person object:(AIListObject *)inObject;
 - (void)showInAddressBook;
 - (void)editInAddressBook;
 - (void)addToAddressBookDict:(NSArray *)people;

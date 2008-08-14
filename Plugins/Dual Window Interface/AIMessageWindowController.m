@@ -55,7 +55,7 @@
 #define VERTICAL_DIVIDER_THICKNESS				4
 #define VERTICAL_TAB_BAR_TO_VIEW_SPACING		3
 
-@interface AIMessageWindowController (PRIVATE)
+@interface AIMessageWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName interface:(AIDualWindowInterfacePlugin *)inInterface containerID:(NSString *)inContainerID containerName:(NSString *)inName;
 - (void)_configureToolbar;
 - (void)_updateWindowTitleAndIcon;

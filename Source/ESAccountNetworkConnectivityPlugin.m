@@ -23,7 +23,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
 
-@interface ESAccountNetworkConnectivityPlugin (PRIVATE)
+@interface ESAccountNetworkConnectivityPlugin ()
 - (void)handleConnectivityForAccount:(AIAccount *)account reachable:(BOOL)reachable;
 - (BOOL)_accountsAreOnlineOrDisconnecting:(BOOL)considerConnecting;
 @end

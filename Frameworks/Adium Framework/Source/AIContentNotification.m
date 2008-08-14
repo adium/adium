@@ -8,7 +8,7 @@
 #import "AIContentNotification.h"
 #import <Adium/AIAccount.h>
 
-@interface AIContentNotification (PRIVATE)
+@interface AIContentNotification ()
 - (id)initWithChat:(AIChat *)inChat
 			source:(id)inSource
 	   destination:(id)inDest

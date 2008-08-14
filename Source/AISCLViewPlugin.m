@@ -34,7 +34,7 @@
 #define DETACHED_WINDOW_GROUPS			@"Groups"
 #define DETACHED_WINDOW_LOCATION		@"Location"
 
-@interface AISCLViewPlugin (PRIVATE)
+@interface AISCLViewPlugin ()
 - (NSString *)humanReadableNameForGroup:(AIListGroup *)listGroup;
 - (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIContactList *)destinationGroup;
 

@@ -73,19 +73,14 @@
 #define SERVICE_ID_KEY					@"ServiceID"
 #define UID_KEY							@"UID"
 
-@interface AIContactController (PRIVATE)
+@interface AIContactController ()
 - (void)saveContactList;
-
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
-- (void)_loadGroupsFromArray:(NSArray *)array;
-
 - (void)_loadBookmarks;
 - (NSArray *)allBookmarks;
-
 - (void)_listChangedGroup:(AIListObject *)group object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
-
 - (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveObjectServerside:(AIListObject *)listObject toGroup:(AIListGroup *)group;
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName;
@@ -100,7 +95,6 @@
 - (void)_saveMetaContacts:(NSDictionary *)allMetaContactsDict;
 - (void)breakdownAndRemoveMetaContact:(AIMetaContact *)metaContact;
 - (void)_storeListObject:(AIListObject *)listObject inMetaContact:(AIMetaContact *)metaContact;
-
 @end
 
 @implementation AIContactController

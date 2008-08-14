@@ -70,7 +70,7 @@ static BOOL resolveAlphabeticallyByLastName;
 static NSInteger  sortOrder[MAX_SORT_ORDER_DIMENSION];
 static NSInteger  sizeOfSortOrder;
 
-@interface ESStatusSort (PRIVATE)
+@interface ESStatusSort ()
 - (void)configureControlDimming;
 - (void)pruneAndSetSortOrderFromArray:(NSArray *)sortOrderArray;
 @end

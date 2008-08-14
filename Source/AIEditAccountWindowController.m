@@ -30,12 +30,11 @@
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 
-@interface AIEditAccountWindowController (PRIVATE)
+@interface AIEditAccountWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName account:(AIAccount *)inAccount notifyingTarget:(id)inTarget;
 - (void)_addCustomViewAndTabsForAccount:(AIAccount *)inAccount;
 - (void)_addCustomView:(NSView *)customView toView:(NSView *)setupView tabViewItemIdentifier:(NSString *)identifier
 		runningHeight:(NSInteger *)height width:(NSInteger *)width;
-- (void)_configureResponderChain:(NSTimer *)inTimer;
 - (void)_removeCustomViewAndTabs;
 - (void)_localizeTabViewItemLabels;
 - (void)saveConfiguration;

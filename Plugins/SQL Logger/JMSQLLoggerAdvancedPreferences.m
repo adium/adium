@@ -18,7 +18,7 @@
 #import "JMSQLLoggerAdvancedPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 
-@interface JMSQLLoggerAdvancedPreferences (PRIVATE)
+@interface JMSQLLoggerAdvancedPreferences ()
 - (void)preferencesChanged:(NSNotification *)notification;
 @end
 

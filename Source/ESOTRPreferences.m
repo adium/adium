@@ -29,9 +29,8 @@
 /* Adium OTR headers */
 #import "ESOTRFingerprintDetailsWindowController.h"
 
-@interface ESOTRPreferences (PRIVATE)
+@interface ESOTRPreferences ()
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
-- (void)configureAccountsMenu;
 @end
 
 @implementation ESOTRPreferences

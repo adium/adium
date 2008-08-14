@@ -30,7 +30,7 @@
 #import "AITranslatorPlugin.h"
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface AITranslatorRequestDelegate (PRIVATE)
+@interface AITranslatorRequestDelegate ()
 - (id)initWithDict:(NSDictionary *)inDict notifyingTarget:(id)inTarget;
 @end
 

@@ -44,7 +44,7 @@ static AIHTMLDecoder	*encoderCloseFontTags = nil;
 static AIHTMLDecoder	*encoderAttachmentsAsText = nil;
 static AIHTMLDecoder	*encoderGroupChat = nil;
 
-@interface CBPurpleOscarAccount (PRIVATE)
+@interface CBPurpleOscarAccount ()
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who;
 @end
 

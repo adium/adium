@@ -32,7 +32,7 @@
 
 #define SQL_LOG_VIEWER  AILocalizedString(@"SQL Log Viewer",nil)
 
-@interface AISQLLoggerPlugin (PRIVATE)
+@interface AISQLLoggerPlugin ()
 - (void)_addMessage:(NSAttributedString *)message dest:(NSString *)destName source:(NSString *)sourceName sendDisplay:(NSString *)sendDisp destDisplay:(NSString *)destDisp sendServe:(NSString *)s_service recServe:(NSString *)r_service;
 - (void)preferencesChanged:(NSNotification *)notification;
 @end

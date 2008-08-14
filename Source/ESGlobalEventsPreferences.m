@@ -44,23 +44,15 @@
 	[@"volume" stringByAppendingPathExtension:@"aiff"], \
 	nil]]
 
-@interface ESGlobalEventsPreferences (PRIVATE)
+@interface ESGlobalEventsPreferences ()
 - (void)popUp:(NSPopUpButton *)inPopUp shouldShowCustom:(BOOL)showCustom;
 - (void)xtrasChanged:(NSNotification *)notification;
 - (void)contactAlertsDidChangeForActionID:(NSString *)actionID;
-
-- (NSMenu *)showMenu;
 - (NSMenu *)eventPresetsMenu;
-
 - (IBAction)selectSoundSet:(id)sender;
 - (NSMenu *)_soundSetMenu;
-
-- (void)editEventsWithEventID:(NSString *)eventID;
-
 - (NSString *)_localizedTitle:(NSString *)englishTitle;
-
 - (void)saveCurrentEventPreset;
-
 - (void)setAndConfigureEventPresetsMenu;
 - (void)updateSoundSetSelection;
 - (void)updateSoundSetSelectionForSoundSet:(AISoundSet *)soundSet;

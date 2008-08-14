@@ -7,7 +7,7 @@
 //
 
 #import "AIChatCommandsController.h"
-@interface AIChatCommandsController (PRIVATE)
+@interface AIChatCommandsController ()
 - (void)verifyCommand:(NSString*)command forChat:(AIChat*)chat;
 @end
 

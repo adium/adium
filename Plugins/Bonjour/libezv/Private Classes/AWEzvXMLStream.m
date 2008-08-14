@@ -50,7 +50,7 @@ void xml_char_data	(void *userData,
                          const XML_Char *s,
                          int len);
 
-@interface AWEzvXMLStream (PRIVATE)
+@interface AWEzvXMLStream ()
 - (void) connectionDidEnd;
 @end
 

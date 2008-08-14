@@ -20,7 +20,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 
 
-@interface AIListSmartGroup (PRIVATE)
+@interface AIListSmartGroup ()
 - (void)_recomputeVisibleCount;
 @end
 

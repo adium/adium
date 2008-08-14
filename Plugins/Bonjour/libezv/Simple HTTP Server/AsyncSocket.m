@@ -36,7 +36,7 @@ enum AsyncSocketFlags
 	kDisconnectSoon       = 0x08    // If set, disconnect as soon as nothing is queued.
 };
 
-@interface AsyncSocket (Private)
+@interface AsyncSocket ()
 
 // Socket Implementation
 - (CFSocketRef) createAcceptSocketForAddress:(NSData *)addr error:(NSError **)errPtr;

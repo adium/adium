@@ -17,7 +17,7 @@
 #import <Adium/AIImageTextCellView.h>
 #import <AIUtilities/AIImageTextCell.h>
 
-@interface AIImageTextCellView (PRIVATE)
+@interface AIImageTextCellView ()
 - (void)_initImageTextView;
 @end
 

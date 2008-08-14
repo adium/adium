@@ -11,7 +11,7 @@
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@interface ESAuthorizationRequestWindowController (PRIVATE)
+@interface ESAuthorizationRequestWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName withDict:(NSDictionary *)inInfoDict forAccount:(AIAccount *)inAccount;
 @end
 

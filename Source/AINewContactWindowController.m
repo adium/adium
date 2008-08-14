@@ -36,7 +36,7 @@
 #define ADD_CONTACT_PROMPT_NIB	@"AddContact"
 #define DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
-@interface AINewContactWindowController (PRIVATE)
+@interface AINewContactWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName contactName:(NSString *)inName service:(AIService *)inService  account:(AIAccount *)inAccount;
 - (void)buildGroupMenu;
 - (void)buildContactTypeMenu;

@@ -12,7 +12,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 
-@interface ESEditStatusGroupWindowController (PRIVATE)
+@interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;
 - (id)initWithWindowNibName:(NSString *)windowNibName forStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget;
 @end

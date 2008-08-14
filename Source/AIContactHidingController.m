@@ -21,7 +21,7 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIContactController.h"
 
-@interface AIContactHidingController (PRIVATE)
+@interface AIContactHidingController ()
 - (void)setVisibility:(BOOL)visibleFlag ofListContact:(AIListContact *)listContact withReason:(AIVisibilityReason)reason;
 - (BOOL)visibilityBasedOnOfflineContactHidingPreferencesOfListContact:(AIListContact *)listContact;
 - (BOOL)evaluatePredicateOnListContact:(AIListContact *)listContact withSearchString:(NSString *)inSearchString;

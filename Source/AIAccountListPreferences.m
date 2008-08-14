@@ -46,7 +46,7 @@
 
 #define NEW_ACCOUNT_DISPLAY_TEXT		AILocalizedString(@"<New Account>", "Placeholder displayed as the name of a new account")
 
-@interface AIAccountListPreferences (PRIVATE)
+@interface AIAccountListPreferences ()
 - (void)configureAccountList;
 - (void)accountListChanged:(NSNotification *)notification;
 

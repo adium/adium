@@ -46,10 +46,6 @@
 
 #define CONFIRMATION_DEFAULT_PREFS	@"ConfirmationDefaults"
 
-@interface ESGeneralPreferencesPlugin (PRIVATE)
-- (void)_configureSendingKeysForObject:(id)inObject;
-@end
-
 @implementation ESGeneralPreferencesPlugin
 
 - (void)installPlugin

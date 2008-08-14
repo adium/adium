@@ -54,8 +54,7 @@
 #define KEY_CHAT_ID				@"uniqueChatID"
 #define KEY_LIST_OBJECT_ID		@"internalObjectID"
 
-@interface NEHGrowlPlugin (PRIVATE)
-- (NSDictionary *)growlRegistrationDict;
+@interface NEHGrowlPlugin ()
 - (NSAttributedString *)_growlInformationForUpdate:(BOOL)isUpdate;
 @end
  

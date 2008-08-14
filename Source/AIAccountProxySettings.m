@@ -21,7 +21,7 @@
 #import <AIUtilities/AITextFieldAdditions.h>
 #import <Adium/AIAccount.h>
 
-@interface AIAccountProxySettings (PRIVATE)
+@interface AIAccountProxySettings ()
 - (void)configureControlDimming;
 - (void)updatePasswordField;
 

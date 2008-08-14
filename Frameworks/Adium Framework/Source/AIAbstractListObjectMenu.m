@@ -13,7 +13,7 @@
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIUserIcons.h>
 
-@interface AIAbstractListObjectMenu (PRIVATE)
+@interface AIAbstractListObjectMenu ()
 - (void)_destroyMenuItems;
 @end
 

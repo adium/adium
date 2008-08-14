@@ -53,7 +53,7 @@
 #import <AIUtilities/AITextAttributes.h>
 #import <AIUtilities/AIImageAdditions.h>
 
-@interface AIContentController (PRIVATE)
+@interface AIContentController ()
 - (void)finishReceiveContentObject:(AIContentObject *)inObject;
 - (void)finishSendContentObject:(AIContentObject *)inObject;
 - (void)finishDisplayContentObject:(AIContentObject *)inObject;

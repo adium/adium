@@ -89,7 +89,7 @@
 }
 @end
 
-@interface AIMessageEntryTextView (PRIVATE)
+@interface AIMessageEntryTextView ()
 - (void)_setPushIndicatorVisible:(BOOL)visible;
 - (void)positionPushIndicator;
 - (void)_resetCacheAndPostSizeChanged;

@@ -25,7 +25,7 @@
 #define AIDockBehavior_ALERT_SHORT	AILocalizedString(@"Bounce the dock icon",nil)
 #define AIDockBehavior_ALERT_LONG	AILocalizedString(@"Bounce the dock icon %@","%@ will be repalced with a string like 'one time' or 'repeatedly'.")
 
-@interface AIDockBehaviorPlugin (PRIVATE)
+@interface AIDockBehaviorPlugin ()
 - (void)observeToStopBouncingForChat:(AIChat *)chat;
 - (void)stopBouncing:(NSNotification *)inNotification;
 @end

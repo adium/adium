@@ -13,7 +13,7 @@
 #define		ADD_BOOKMARK_NIB		@"AddBookmark"
 #define		DEFAULT_GROUP_NAME		AILocalizedString(@"Contacts",nil)
 
-@interface AINewBookmarkWindowController (PRIVATE)
+@interface AINewBookmarkWindowController ()
 - (id)initWithWindowNibName:(NSString *)nibName forChat:(AIChat *)inChat notifyingTarget:(id)inTarget;
 - (void)buildGroupMenu;
 @end

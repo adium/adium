@@ -17,7 +17,7 @@
 #import <OTR/context.h>
 #import <OTR/message.h>
 
-@interface ESOTRFingerprintDetailsWindowController (PRIVATE)
+@interface ESOTRFingerprintDetailsWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forFingerprintDict:(NSDictionary *)inFingerprintDict;
 - (void)setFingerprintDict:(NSDictionary *)inFingerprintDict;
 @end

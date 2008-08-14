@@ -52,17 +52,13 @@
 
 static ESFileTransferPreferences *preferences;
 
-@interface ESFileTransferController (PRIVATE)
-- (NSOpenPanel *)createOpenPanelForListContact:(AIListContact *)listContact;
+@interface ESFileTransferController ()
 - (void)requestForSendingFileToListContact:(AIListContact *)listContact forWindow:(NSWindow *)theWindow;
 - (void)filePanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-
 - (void)configureFileTransferProgressWindow;
 - (void)showProgressWindow:(id)sender;
 - (void)showProgressWindowIfNotOpen:(id)sender;
-
 - (void)_finishReceiveRequestForFileTransfer:(ESFileTransfer *)fileTransfer localFilename:(NSString *)localFilename;
-
 - (BOOL)shouldOpenCompleteFileTransfer:(ESFileTransfer *)fileTransfer;
 @end
 

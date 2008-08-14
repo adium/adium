@@ -21,7 +21,7 @@
 
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
 
-@interface AIListBookmark (PRIVATE)
+@interface AIListBookmark ()
 - (void)restoreGrouping;
 @end
 

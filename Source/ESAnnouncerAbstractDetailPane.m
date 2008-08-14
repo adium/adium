@@ -22,7 +22,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AILocalizationButton.h>
 
-@interface ESAnnouncerAbstractDetailPane (PRIVATE)
+@interface ESAnnouncerAbstractDetailPane ()
 - (NSMenu *)voicesMenu;
 @end
 

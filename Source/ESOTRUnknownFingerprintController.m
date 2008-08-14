@@ -24,7 +24,7 @@
 
 #import "AdiumOTREncryption.h"
 
-@interface ESOTRUnknownFingerprintController (PRIVATE)
+@interface ESOTRUnknownFingerprintController ()
 + (void)showFingerprintPromptWithMessageString:(NSString *)messageString 
 								  acceptButton:(NSString *)acceptButton
 									denyButton:(NSString *)denyButton

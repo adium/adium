@@ -20,7 +20,7 @@
 
 static NSMutableDictionary *acceptedCertificates = nil;
 
-@interface AIPurpleCertificateTrustWarningAlert (PRIVATE)
+@interface AIPurpleCertificateTrustWarningAlert ()
 - (id)initWithAccount:(AIAccount*)account
 			 hostname:(NSString*)hostname
 		 certificates:(CFArrayRef)certs

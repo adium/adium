@@ -28,7 +28,7 @@
 #import <AIUtilities/AIEventAdditions.h>
 #import "AISCLViewPlugin.h"
 
-@interface AIListOutlineView (PRIVATE)
+@interface AIListOutlineView ()
 - (void)_initListOutlineView;
 @end
 

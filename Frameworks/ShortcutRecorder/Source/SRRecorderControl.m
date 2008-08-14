@@ -16,7 +16,7 @@
 
 #define SRCell (SRRecorderCell *)[self cell]
 
-@interface SRRecorderControl (Private)
+@interface SRRecorderControl ()
 - (void)resetTrackingRects;
 @end
 
@@ -295,10 +295,6 @@
 	if (delegate != nil && [delegate respondsToSelector: @selector(shortcutRecorder:keyComboDidChange:)])
 		[delegate shortcutRecorder:self keyComboDidChange:newKeyCombo];
 }
-
-@end
-
-@implementation SRRecorderControl (Private)
 
 - (void)resetTrackingRects
 {

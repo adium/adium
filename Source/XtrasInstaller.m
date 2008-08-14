@@ -22,7 +22,7 @@
 //Should only be YES for testing
 #define	ALLOW_UNTRUSTED_XTRAS	NO
 
-@interface XtrasInstaller (PRIVATE)
+@interface XtrasInstaller ()
 - (void)closeInstaller;
 - (void)updateInfoText;
 @end

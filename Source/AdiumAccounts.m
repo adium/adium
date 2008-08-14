@@ -30,7 +30,7 @@
 #define ACCOUNT_UID						@"UID"				//Account UID
 #define ACCOUNT_OBJECT_ID				@"ObjectID"   		//Account object ID
 
-@interface AdiumAccounts (PRIVATE)
+@interface AdiumAccounts ()
 - (void)_loadAccounts;
 - (void)_saveAccounts;
 - (NSString *)_generateUniqueInternalObjectID;

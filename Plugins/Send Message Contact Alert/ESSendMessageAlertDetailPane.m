@@ -29,7 +29,7 @@
 #import <Adium/AIContactMenu.h>
 #import <Adium/AIService.h>
 
-@interface ESSendMessageAlertDetailPane (PRIVATE)
+@interface ESSendMessageAlertDetailPane ()
 - (void)setDestinationContact:(AIListContact *)inContact;
 @end
 

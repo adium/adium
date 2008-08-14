@@ -11,7 +11,7 @@
 #import <Adium/AIWindowController.h>
 #import <Adium/ESFileTransfer.h>
 
-@interface ESPurpleFileReceiveRequestController (PRIVATE)
+@interface ESPurpleFileReceiveRequestController ()
 - (id)initWithDict:(NSDictionary *)inDict;
 @end
 

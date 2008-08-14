@@ -27,7 +27,7 @@
 #import <AIUtilities/MVMenuButton.h>
 #import <Adium/AIEmoticon.h>
 
-@interface BGEmoticonMenuPlugin(PRIVATE)
+@interface BGEmoticonMenuPlugin()
 - (void)registerToolbarItem;
 @end
 

@@ -25,7 +25,7 @@
 
 #define ROOM_LIST_NIB @"roomlistbrowser.nib"
 
-@interface DCPurpleJabberJoinChatViewController (PRIVATE)
+@interface DCPurpleJabberJoinChatViewController ()
 - (void)_configureTextField;
 @end
 

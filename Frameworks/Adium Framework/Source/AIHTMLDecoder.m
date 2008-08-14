@@ -40,7 +40,7 @@
 
 int HTMLEquivalentForFontSize(int fontSize);
 
-@interface AIHTMLDecoder (PRIVATE)
+@interface AIHTMLDecoder ()
 - (NSDictionary *)processFontTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes;
 - (void)processBodyTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes;
 - (void)processLinkTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes;

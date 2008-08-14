@@ -24,7 +24,7 @@
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIListOutlineView.h>
 
-@interface AIListThemeWindowController (PRIVATE)
+@interface AIListThemeWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName name:(NSString *)inName notifyingTarget:(id)inTarget;
 - (void)configureControls;
 - (void)configureControlDimming;

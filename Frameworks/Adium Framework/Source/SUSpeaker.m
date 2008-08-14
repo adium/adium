@@ -13,7 +13,7 @@ void MySpeechDoneCallback(SpeechChannel chan,SRefCon refCon);
 void MySpeechWordCallback (SpeechChannel chan, SRefCon refCon, UInt32 wordPos, 
     UInt16 wordLen);
 
-@interface SUSpeaker (Private)
+@interface SUSpeaker ()
 -(void)createNewSpeechChannelForVoice:(VoiceSpec *)voice;
 -(NSPort*) port;
 -(void)setReserved1:(unsigned int)r;

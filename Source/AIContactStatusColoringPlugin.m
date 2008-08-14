@@ -29,10 +29,9 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 
-@interface AIContactStatusColoringPlugin (PRIVATE)
+@interface AIContactStatusColoringPlugin ()
 - (void)addToFlashSet:(AIListObject *)inObject;
 - (void)removeFromFlashSet:(AIListObject *)inObject;
-- (void)preferencesChanged:(NSNotification *)notification;
 - (void)_applyColorToContact:(AIListContact *)inObject;
 @end
 

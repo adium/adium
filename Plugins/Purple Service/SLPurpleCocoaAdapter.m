@@ -52,7 +52,7 @@
 
 #include "libpurple_extensions/oscar-adium.h"
 
-@interface SLPurpleCocoaAdapter (PRIVATE)
+@interface SLPurpleCocoaAdapter ()
 - (void)initLibPurple;
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
 @end

@@ -43,16 +43,12 @@ typedef enum {
 	AIEmoticonMenuMultiple
 } AIEmoticonMenuTag;
 
-@interface AIAppearancePreferences (PRIVATE)
+@interface AIAppearancePreferences ()
 - (NSMenu *)_windowStyleMenu;
-- (NSMenu *)_dockIconMenu;
 - (NSMenu *)_emoticonPackMenu;
-- (NSMenu *)_statusIconsMenu;
-- (NSMenu *)_serviceIconsMenu;
 - (NSMenu *)_listLayoutMenu;
 - (NSMenu *)_colorThemeMenu;
 - (void)_rebuildEmoticonMenuAndSelectActivePack;
-- (NSMenu *)_iconPackMenuForPacks:(NSArray *)packs class:(Class)iconClass;
 - (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu;
 - (void)_updateSliderValues;
 - (void)xtrasChanged:(NSNotification *)notification;

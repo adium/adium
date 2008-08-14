@@ -24,7 +24,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatusGroup.h>
 
-@interface ESFastUserSwitchingSupportPlugin (PRIVATE)
+@interface ESFastUserSwitchingSupportPlugin ()
 -(void)switchHandler:(NSNotification*) notification;
 @end
 

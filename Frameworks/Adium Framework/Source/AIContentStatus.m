@@ -17,7 +17,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentStatus.h>
 
-@interface AIContentStatus (PRIVATE)
+@interface AIContentStatus ()
 - (id)initWithChat:(AIChat *)inChat
 			source:(id)inSource
 	   destination:(id)inDest

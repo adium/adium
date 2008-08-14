@@ -31,11 +31,8 @@
 #define BACK_CELL_RIGHT_INDENT	3
 #define LABEL_SIDE_PAD		0
 
-@interface AIMessageTabViewItem (PRIVATE)
+@interface AIMessageTabViewItem ()
 - (id)initWithMessageView:(AIMessageViewController *)inMessageView;
-- (void)drawLabel:(BOOL)shouldTruncateLabel inRect:(NSRect)labelRect;
-- (NSSize)sizeOfLabel:(BOOL)computeMin;
-- (NSAttributedString *)attributedLabelStringWithColor:(NSColor *)textColor;
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification;
 - (void)chatStatusChanged:(NSNotification *)notification;
 - (void)listObjectAttributesChanged:(NSNotification *)notification;

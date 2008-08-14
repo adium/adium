@@ -11,7 +11,7 @@
 #define DISABLE_ALL_ANIMATION				FALSE
 #define DISABLE_ANIMATE_EXPAND_AND_COLLAPSE	TRUE
 
-@interface AIAnimatingListOutlineView (PRIVATE)
+@interface AIAnimatingListOutlineView ()
 - (NSRect)unanimatedRectOfRow:(NSInteger)rowIndex;
 @end
 

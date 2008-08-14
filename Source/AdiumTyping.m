@@ -28,7 +28,7 @@
 #define DELAY_BEFORE_PAUSING_TYPING		3.0		//Wait for 3 seconds of inactivity before pausing typing
 #define DELAY_BEFORE_CLEARING_TYPING	2.0		//Wait 2 seconds before clearing the typing flag
 
-@interface AdiumTyping (PRIVATE)
+@interface AdiumTyping ()
 - (void)setTypingState:(AITypingState)typingState ofChat:(AIChat *)chat;
 - (void)monitorTypingInChat:(AIChat *)chat;
 - (void)stopMonitoringTypingInChat:(AIChat *)chat;

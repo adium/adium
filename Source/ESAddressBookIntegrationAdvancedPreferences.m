@@ -34,8 +34,7 @@
 #define ADDRESS_BOOK_FIRST_LAST_INITIAL				AILocalizedString(@"First Last-Initial", "Address Book Name display style, e.g. Evan S")
 #define ADDRESS_BOOK_FIRST_MIDDLE_LAST_INITIAL		AILocalizedString(@"First Middle Last-Initial", "Address Book Name display style, e.g. Evan Dreskin S")
 
-@interface ESAddressBookIntegrationAdvancedPreferences (PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
+@interface ESAddressBookIntegrationAdvancedPreferences ()
 - (void)configureFormatMenu;
 - (IBAction)changeFormat:(id)sender;
 @end

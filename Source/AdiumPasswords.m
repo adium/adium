@@ -29,7 +29,7 @@
 
 #define KEY_PERFORMED_ACCOUNT_PASSWORD_UPGRADE @"Adium 1.3: Account Passwords Upgraded"
 
-@interface AdiumPasswords (PRIVATE)
+@interface AdiumPasswords ()
 - (NSString *)_oldStyleAccountNameForAccount:(AIAccount *)inAccount;
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount;
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount;

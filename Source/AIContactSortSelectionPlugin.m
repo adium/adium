@@ -31,9 +31,7 @@
 #define CONFIGURE_SORT_MENU_TITLE		[AILocalizedString(@"Configure Sorting",nil) stringByAppendingEllipsis]
 #define SORT_MENU_TITLE					AILocalizedString(@"Sort Contacts",nil)
 
-@interface AIContactSortSelectionPlugin (PRIVATE)
-- (void)sortControllerListChanged:(NSNotification *)notification;
-- (NSMenu *)_sortSelectionMenu;
+@interface AIContactSortSelectionPlugin ()
 - (void)_setActiveSortControllerFromPreferences;
 - (void)_setConfigureSortMenuItemTitleForController:(AISortController *)controller;
 - (void)_configureSortSelectionMenuItems;

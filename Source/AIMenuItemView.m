@@ -12,7 +12,7 @@
 #define MENU_ITEM_HEIGHT	17
 #define	MENU_ITEM_SPACING	2
 
-@interface AIMenuItemView (PRIVATE)
+@interface AIMenuItemView ()
 
 @end
 

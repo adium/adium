@@ -47,7 +47,7 @@ struct message
 /*
  * interface NDRunLoopMessenger
  */
-@interface NDRunLoopMessenger (Private)
+@interface NDRunLoopMessenger ()
 - (void)createPortForRunLoop:(NSRunLoop *)aRunLoop;
 - (void)registerNotificationObservers;
 - (void)sendData:(NSData *)aData;

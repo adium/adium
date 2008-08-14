@@ -24,10 +24,6 @@
 #define PREVIOUS_MESSAGE_MENU_TITLE		AILocalizedString(@"Previous Chat",nil)
 #define NEXT_MESSAGE_MENU_TITLE			AILocalizedString(@"Next Chat",nil)
 
-@interface AIChatCyclingPlugin (PRIVATE)
-- (void)preferencesChanged:(NSNotification *)notification;
-@end
-
 /*!
  * @class AIChatCyclingPlugin
  * @brief Component to manage the chat cycling menu items

@@ -40,10 +40,9 @@
 #define	DOCK_OVERLAY_ALERT_SHORT	AILocalizedString(@"Display name in the dock icon",nil)
 #define DOCK_OVERLAY_ALERT_LONG		DOCK_OVERLAY_ALERT_SHORT
 
-@interface AIContactStatusDockOverlaysPlugin (PRIVATE)
+@interface AIContactStatusDockOverlaysPlugin ()
 - (void)_setOverlay;
 - (NSImage *)overlayImageFlash:(BOOL)flash;
-- (void)preferencesChanged:(NSNotification *)notification;
 - (void)flushPreferenceColorCache;
 @end
 

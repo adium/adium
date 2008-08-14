@@ -23,7 +23,7 @@
 #define ACCOUNT_PASSWORD_PROMPT_NIB		@"PasswordPrompt"
 #define	ACCOUNT_PASSWORD_REQUIRED		AILocalizedString(@"Connecting Account","Password prompt window title")
 
-@interface ESAccountPasswordPromptController (PRIVATE)
+@interface ESAccountPasswordPromptController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forAccount:(AIAccount *)inAccount password:(NSString *)password notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext;
 @end
 

@@ -45,7 +45,7 @@
 extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
 #endif
 
-@interface ESPurpleMSNAccount (PRIVATE)
+@interface ESPurpleMSNAccount ()
 - (void)updateFriendlyNameAfterConnect;
 - (void)setServersideDisplayName:(NSString *)friendlyName;
 @end

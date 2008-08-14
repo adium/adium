@@ -24,7 +24,7 @@
 
 #define IDLE_UPDATE_INTERVAL	60.0
 
-@interface AIContactIdlePlugin (PRIVATE)
+@interface AIContactIdlePlugin ()
 - (void)setIdleForObject:(AIListObject *)inObject silent:(BOOL)silent;
 - (void)updateIdleObjectsTimer:(NSTimer *)inTimer;
 @end

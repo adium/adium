@@ -69,7 +69,7 @@
 
 static NSString	*prefsCategory;
 
-@interface AIAdium (PRIVATE)
+@interface AIAdium ()
 - (void)completeLogin;
 - (void)openAppropriatePreferencesIfNeeded;
 - (void)configureHelp;

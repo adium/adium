@@ -15,7 +15,7 @@
 #import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AITextFieldAdditions.h>
 
-@interface AIGuestAccountWindowController (PRIVATE)
+@interface AIGuestAccountWindowController ()
 - (void)selectServiceType:(id)sender;
 @end
 

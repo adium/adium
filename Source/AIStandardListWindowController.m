@@ -51,7 +51,7 @@
 
 #define TOOLBAR_CONTACT_LIST				@"ContactList:1.0"				//Toolbar identifier
 
-@interface AIStandardListWindowController (PRIVATE)
+@interface AIStandardListWindowController ()
 - (void)showFilterBarWithAnimation:(BOOL)flag;
 - (void)hideFilterBarWithAnimation:(BOOL)flag;
 - (void)_configureToolbar;

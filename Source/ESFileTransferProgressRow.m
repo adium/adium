@@ -27,9 +27,7 @@
 #define	BYTES_SENT			[NSString stringWithFormat:AILocalizedString(@"%@ sent","%@ will be replaced by a string such as '5 MB' in the file transfer window"),bytesString]
 #define	BUFFER_SIZE			25
 
-@interface ESFileTransferProgressRow (PRIVATE)
-- (NSString *)stringForSize:(unsigned long long)size;
-- (NSString *)stringForSize:(unsigned long long)inSize of:(unsigned long long)totalSize ofString:(NSString *)totalSizeString;
+@interface ESFileTransferProgressRow ()
 - (NSString *)readableTimeForSecs:(NSTimeInterval)secs inLongFormat:(BOOL)longFormat;
 - (id)initForFileTransfer:(ESFileTransfer *)inFileTransfer withOwner:(id)owner;
 - (void)updateIconImage;

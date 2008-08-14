@@ -70,7 +70,7 @@
 
 #define TEXTVIEW_HEIGHT_DEBUG
 
-@interface AIMessageViewController (PRIVATE)
+@interface AIMessageViewController ()
 - (id)initForChat:(AIChat *)inChat;
 - (void)chatStatusChanged:(NSNotification *)notification;
 - (void)chatParticipatingListObjectsChanged:(NSNotification *)notification;

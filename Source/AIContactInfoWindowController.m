@@ -56,14 +56,12 @@ enum segments {
 	CONTACT_PLUGINS_SEGMENT = 4
 };
 
-@interface AIContactInfoWindowController (PRIVATE)
+@interface AIContactInfoWindowController ()
 - (void)configureForDisplayedObject;
 
 -(void)segmentSelected:(id)sender animate:(BOOL)shouldAnimate;
 - (void)selectionChanged:(NSNotification *)notification;
 - (void)setupToolbarSegments;
-- (void)configureToolbarForListObject:(AIListObject *)inObject;
-- (void)contactInfoListControllerSelectionDidChangeToListObject:(AIListObject *)listObject;
 
 //View Animation
 -(void)addInspectorPanel:(NSInteger)newSegment animate:(BOOL)doAnimate;

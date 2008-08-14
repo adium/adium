@@ -24,7 +24,7 @@ static NSMutableDictionary	*serviceIcons[NUMBER_OF_SERVICE_ICON_TYPES][NUMBER_OF
 static NSString				*serviceIconBasePath = nil;
 static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 
-@interface AIServiceIcons (PRIVATE)
+@interface AIServiceIcons ()
 + (NSImage *)defaultServiceIconForType:(AIServiceIconType)type serviceID:(NSString *)serviceID;
 @end
 

@@ -11,7 +11,7 @@
 #import "PTKeyCombo.h"
 #import <Carbon/Carbon.h>
 
-@interface PTHotKeyCenter (Private)
+@interface PTHotKeyCenter ()
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey;
 - (EventHotKeyRef)_carbonHotKeyForHotKey: (PTHotKey*)hotKey;
 

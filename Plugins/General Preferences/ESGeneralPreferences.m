@@ -36,14 +36,10 @@
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE	@"Dual Window Interface"
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 
-@interface ESGeneralPreferences (PRIVATE)
+@interface ESGeneralPreferences ()
 - (NSMenu *)tabChangeKeysMenu;
 - (NSMenu *)sendKeysMenu;
 - (NSMenu *)tabPositionMenu;
-
-- (NSMenu *)statusIconsMenu;
-- (NSMenu *)serviceIconsMenu;
-- (NSArray *)_allPacksWithExtension:(NSString *)extension inFolder:(NSString *)inFolder;
 @end
 
 @implementation ESGeneralPreferences

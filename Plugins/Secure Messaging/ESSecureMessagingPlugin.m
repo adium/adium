@@ -46,7 +46,7 @@
 #define CHAT_NOW_SECURE_UNVERIFIED	AILocalizedString(@"Encrypted OTR chat initiated. %@'s identity not verified.", nil)
 #define CHAT_NO_LONGER_SECURE		AILocalizedString(@"Ended encrypted OTR chat.", nil)
 
-@interface ESSecureMessagingPlugin (PRIVATE)
+@interface ESSecureMessagingPlugin ()
 - (void)configureMenuItems;
 - (void)registerToolbarItem;
 - (NSMenu *)_secureMessagingMenu;

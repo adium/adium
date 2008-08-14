@@ -21,7 +21,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
 
-@interface DCPurpleYahooJoinChatViewController (PRIVATE)
+@interface DCPurpleYahooJoinChatViewController ()
 - (void)validateEnteredText;
 - (void)_configureTextField;
 @end

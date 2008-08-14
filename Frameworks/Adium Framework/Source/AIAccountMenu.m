@@ -41,15 +41,13 @@
 
 // XXX Fix those method names! Apple's naming convention don't allow them to start with _
 
-@interface AIAccountMenu (PRIVATE)
+@interface AIAccountMenu ()
 - (id)initWithDelegate:(id)inDelegate
 		   submenuType:(AIAccountSubmenuType)inSubmenuType
 		showTitleVerbs:(BOOL)inShowTitleVerbs;
 - (void)_updateMenuItem:(NSMenuItem *)menuItem;
 - (NSString *)_titleForAccount:(AIAccount *)account;
 - (NSMenu *)actionsMenuForAccount:(AIAccount *)inAccount;
-- (void)addStateMenuItems:(NSArray *)menuItemArray;
-- (void)removeStateMenuItems:(NSArray *)ignoredMenuItemArray;
 - (void)menuNeedsUpdate:(NSMenu*)menu;
 - (void)rebuildActionsSubmenu:(NSMenu*)actionsSubmenu withAccount:(AIAccount*)account;
 @end

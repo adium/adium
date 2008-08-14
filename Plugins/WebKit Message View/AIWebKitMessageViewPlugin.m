@@ -27,10 +27,7 @@
 #define NEW_CONTENT_RETRY_DELAY					0.01
 #define MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT @"Message Styles"
 
-@interface AIWebKitMessageViewPlugin (PRIVATE)
-- (void)_scanAvailableWebkitStyles;
-- (void)preferencesChanged:(NSNotification *)notification;
-- (void)_loadPreferencesForWebView:(ESWebView *)webView withStyleNamed:(NSString *)styleName;
+@interface AIWebKitMessageViewPlugin ()
 - (void) resetStyles;
 @end
 
