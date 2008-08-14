@@ -11,15 +11,6 @@
 
 @implementation AILogDateFormatter
 
-static BOOL isOnLeopardOrBetter = NO;
-
-+ (void)initialize
-{
-	if (self == [AILogDateFormatter class]) {
-		isOnLeopardOrBetter = [[NSApplication sharedApplication] isOnLeopardOrBetter];
-	}
-}
-
 - (NSString *)stringForObjectValue:(NSDate *)date
 {
 	NSString *returnValue = nil;
@@ -30,15 +21,7 @@ static BOOL isOnLeopardOrBetter = NO;
 		NSDateFormatterStyle timeStyle = [self timeStyle];
 
 		if ((dateDay == today) || (dateDay == (today - 1))) {
-#if !__LP64__
-			NSString			*dayString = (isOnLeopardOrBetter ?
-							((dateDay == today) ? AILocalizedString(@"Today", "Day designation for the current day") : AILocalizedString(@"Yesterday", "Day designation for the previous day")) :
-							[[[[NSUserDefaults standardUserDefaults] stringArrayForKey:((dateDay == today) ? NSThisDayDesignations : NSPriorDayDesignations)] objectAtIndex:0] capitalizedString]);
-#else
-		    
-
 			NSString			*dayString = (dateDay == today) ? AILocalizedString(@"Today", "Day designation for the current day") : AILocalizedString(@"Yesterday", "Day designation for the previous day");
-#endif
 			if ((timeStyle != NSDateFormatterNoStyle) &&
 				([(AICalendarDate *)date granularity] == AISecondGranularity)) {
 				//Supposed to show time, and the date has sufficient granularity to show it

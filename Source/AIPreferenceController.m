@@ -556,80 +556,37 @@
 													group:PREF_GROUP_GENERAL] stringByExpandingTildeInPath];
 	
 	if (!userPreferredDownloadFolder) {
-		if ([NSApp isOnLeopardOrBetter]) {
-			//10.5: ICGetPref() for kICDownloadFolder is useless
-			CFURLRef	urlToDefaultBrowser = NULL;
+		//10.5: ICGetPref() for kICDownloadFolder is useless
+		CFURLRef	urlToDefaultBrowser = NULL;
+		
+		//Use Safari's preference as a default if it's the default browser and it is set
+		if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
+								   kLSRolesViewer,
+								   NULL /*outAppRef*/,
+								   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
+			NSString	*defaultBrowserName = nil;
 			
-			//Use Safari's preference as a default if it's the default browser and it is set
-			if (LSGetApplicationForURL((CFURLRef)[NSURL URLWithString:@"http://google.com"],
-									   kLSRolesViewer,
-									   NULL /*outAppRef*/,
-									   &urlToDefaultBrowser) != kLSApplicationNotFoundErr) {
-				NSString	*defaultBrowserName = nil;
-				
-				defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(NSURL *)urlToDefaultBrowser path]];
-				
-				if ([defaultBrowserName rangeOfString:@"Safari"].location != NSNotFound) {
-					/* ICGetPref() for kICDownloadFolder returns any previously set preference, not the default ~/Downloads or the current
-					 * Safari setting, in 10.5.0, with Safari the default browser
-					 */
-					CFPropertyListRef safariDownloadsPath = CFPreferencesCopyAppValue(CFSTR("DownloadsPath"),CFSTR("com.apple.Safari"));
-					if (safariDownloadsPath) {
-						//This should return a CFStringRef... we're using another app's prefs, so make sure.
-						if (CFGetTypeID(safariDownloadsPath) == CFStringGetTypeID()) {
-							userPreferredDownloadFolder = (NSString *)safariDownloadsPath;
-						}
-						
-						[(NSObject *)safariDownloadsPath autorelease];
-					}					
-				}
-			}
-
-			NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
-			if ([searchPaths count]) {
-				userPreferredDownloadFolder = [searchPaths objectAtIndex:0];
-			}
-
-		} else {
-			//10.3 and 10.4: ICGetPref() remains reliable
-			OSStatus		err = noErr;
-			ICInstance		inst = NULL;
-			ICFileSpec		*folder;
-			long			length = 0;
-			FSRef			ref;
-			char			path[PATH_MAX];
+			defaultBrowserName = [[NSFileManager defaultManager] displayNameAtPath:[(NSURL *)urlToDefaultBrowser path]];
 			
-			memset( path, 0, PATH_MAX ); //clear path's memory range
-			
-			if ((err = ICStart(&inst, 'AdiM')) == noErr) {
-				//Get the size first…
-				ICGetPref( inst, kICDownloadFolder, NULL, NULL, &length );
-				//Then allocate the memory…
-				folder = malloc(length);
-				NSAssert2(folder, @"%s: Could not allocate %u bytes for Downloads-folder record", __PRETTY_FUNCTION__, length);
-				//Then get the actual data.
-				ICGetPref( inst, kICDownloadFolder, NULL, folder, &length );
-
-				ICStop( inst );
-				
-				Boolean wasChanged;
-				AliasHandle aliasHandle = NULL;
-				err = PtrToHand(&(folder->alias), (Handle *)&aliasHandle, length - kICFileSpecHeaderSize);
-				NSAssert4(err == noErr, @"%s: PtrToHand (trying to create an AliasHandle of %u bytes for the Downloads folder) returned %i (%s)", __PRETTY_FUNCTION__, length, err, GetMacOSStatusCommentString(err));
-
-				err = FSResolveAlias(/* fromFile */ NULL, aliasHandle, &ref, &wasChanged) == noErr;
-				//If we now have an FSRef, make a path string out of it.
-				if (((err = FSRefMakePath(&ref, (unsigned char *)path, PATH_MAX)) == noErr) &&
-					((path != NULL) && (strlen(path) > 0))) {
-					userPreferredDownloadFolder = [NSString stringWithUTF8String:path];
-				}
-
-				free(folder);
+			if ([defaultBrowserName rangeOfString:@"Safari"].location != NSNotFound) {
+				/* ICGetPref() for kICDownloadFolder returns any previously set preference, not the default ~/Downloads or the current
+				 * Safari setting, in 10.5.0, with Safari the default browser
+				 */
+				CFPropertyListRef safariDownloadsPath = CFPreferencesCopyAppValue(CFSTR("DownloadsPath"),CFSTR("com.apple.Safari"));
+				if (safariDownloadsPath) {
+					//This should return a CFStringRef... we're using another app's prefs, so make sure.
+					if (CFGetTypeID(safariDownloadsPath) == CFStringGetTypeID()) {
+						userPreferredDownloadFolder = (NSString *)safariDownloadsPath;
+					}
+					
+					[(NSObject *)safariDownloadsPath autorelease];
+				}					
 			}
-			
-			if (!userPreferredDownloadFolder) {
-				userPreferredDownloadFolder = [NSHomeDirectory() stringByAppendingPathComponent:@"Desktop"];
-			}
+		}
+
+		NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDownloadsDirectory, NSUserDomainMask, YES);
+		if ([searchPaths count]) {
+			userPreferredDownloadFolder = [searchPaths objectAtIndex:0];
 		}
 	}
 
