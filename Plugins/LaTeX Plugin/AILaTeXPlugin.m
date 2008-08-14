@@ -49,11 +49,7 @@
  * @brief Applies the LaTeX filters to the given string
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
-{	
-	// it doesn't seem possible to rescale the images in Mac OS X 10.4, but it does change the box size leaving lots of
-	// white space around the image, so we only want to rescale images in Mac OS X 10.5 or higher
-	BOOL rescale = (floor(NSAppKitVersionNumber) > 824 /* NSAppKitVersionNumber10_4 */);
-	
+{
 	NSMutableAttributedString *newMessage = [[[NSMutableAttributedString alloc] init] autorelease];
 	
 	NSScanner *stringScanner = [[NSScanner alloc] initWithString:[inAttributedString string]];
@@ -123,14 +119,11 @@
 			// create image from LaTeX
 			NSImage *tempImage = [[self class] imageFromLaTeX:[NSString stringWithFormat:@"$ %@ $", innerLaTeX] color:color];
 			if (tempImage != nil) {
-				// rescale the image on Mac OS X 10.5 and higher to try to match the size of the surrounding text
-				if (rescale) {
-					NSSize imgSize = [tempImage size];
-					float scalefactor = ([[inAttributedString attribute:NSFontAttributeName atIndex:i effectiveRange:NULL] pointSize] / 12.0) * 1.3; // 1.3 chosen to fit the author's aesthetics
-					imgSize.width *= scalefactor;
-					imgSize.height *= scalefactor;
-					[tempImage setSize:imgSize];
-				}
+				NSSize imgSize = [tempImage size];
+				float scalefactor = ([[inAttributedString attribute:NSFontAttributeName atIndex:i effectiveRange:NULL] pointSize] / 12.0) * 1.3; // 1.3 chosen to fit the author's aesthetics
+				imgSize.width *= scalefactor;
+				imgSize.height *= scalefactor;
+				[tempImage setSize:imgSize];
 				
 				[newMessage appendAttributedString:[[self class] attributedStringWithImage:tempImage textEquivalent:innerLaTeX]];
 			}

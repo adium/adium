@@ -159,12 +159,7 @@ ssl_cdsa_handshake_cb(gpointer data, gint source, PurpleInputCondition cond)
 		userdata->hostname[hostnamelen] = '\0'; // just make sure it's zero-terminated
 		userdata->cond = cond;
 		userdata->gsc = gsc;
-#if MAC_OS_X_VERSION_10_5 > MAC_OS_X_VERSION_MAX_ALLOWED
-		// this function was declared deprecated in 10.5
-		SSLGetPeerCertificates(cdsa_data->ssl_ctx, &userdata->certs);
-#else
 		SSLCopyPeerCertificates(cdsa_data->ssl_ctx, &userdata->certs);
-#endif
 		
 		certificate_ui_cb(gsc, userdata->hostname, userdata->certs, query_cert_result, userdata);
 	} else {

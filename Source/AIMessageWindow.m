@@ -14,10 +14,6 @@
 /*!
  * @class AIMessageWindow
  * @brief This AIDockingWindow subclass serves message windows.
- *
- * It overrides the standardWindowButton:forStyleMask: class method to provide
- * AIClickThroughThemeDocumentButton objects for NSWindowDocumentIconButton requests on 10.4 and earlier.
- * Delegate methods in 10.5+ handle what we need.
  */
 @implementation AIMessageWindow
 
