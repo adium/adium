@@ -549,10 +549,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Contact List Editing
 
 - (void)removeContacts:(NSArray *)objects
-{
-	AIListContact	*object;
-	
-	for (object in objects) {
+{	
+	for (AIListContact *object in objects) {
 		NSString	*groupName = [self _mapOutgoingGroupName:[object remoteGroupName]];
 
 		//Have the purple thread perform the serverside actions
@@ -565,10 +563,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group
 {
-	AIListContact	*object;
 	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
 	
-	for (object in objects) {
+	for (AIListContact *object in objects) {
 		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:object], groupName);
 
 		[purpleAdapter addUID:[self _UIDForAddingObject:object] onAccount:self toGroup:groupName];
@@ -586,10 +583,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
 {
 	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
-	AIListContact	*listObject;
 	
 	//Move the objects to it
-	for (listObject in objects) {
+	for (AIListContact *listObject in objects) {
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
 			//Since no protocol here supports nesting, a group move is really a re-name
 			
@@ -1251,8 +1247,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat
 {
-	NSString		*contactName;
-	for (contactName in usersArray) {
+	for (NSString *contactName in usersArray) {
 		[self removeUser:contactName fromChat:chat];
 	}
 }
@@ -2532,10 +2527,9 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			g_list_free(act->children);
 
 			if ([childrenArray count]) {
-				NSMenuItem	 *childMenuItem;
 				NSMenu		 *submenu = [[NSMenu alloc] init];
 				
-				for (childMenuItem in childrenArray) {
+				for (NSMenuItem *childMenuItem in childrenArray) {
 					[submenu addItem:childMenuItem];
 				}
 				
@@ -2877,7 +2871,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								 ignoreInheritedValues:YES];
 
 			if ([object isKindOfClass:[AIMetaContact class]]) {
-				for(AIListContact *containedListContact in [(AIMetaContact *)object containedObjects]) {
+				for(AIListContact *containedListContact in (AIMetaContact *)object) {
 					if ([containedListContact account] == self) {
 						[purpleAdapter setAlias:alias forUID:[containedListContact UID] onAccount:self];
 					}
