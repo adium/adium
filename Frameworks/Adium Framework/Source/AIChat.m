@@ -589,7 +589,7 @@ static int nextChatNumber = 0;
 
 @synthesize expanded;
 
-- (BOOL)expandable
+- (BOOL)isExpandable
 {
 	return NO;
 }

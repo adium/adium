@@ -275,7 +275,7 @@
 	loadedExpanded = YES;
 }
 //Returns the current expanded/collapsed state of this group
-- (BOOL)expanded
+- (BOOL)isExpanded
 {
 	if (!loadedExpanded) {
 		loadedExpanded = YES;
@@ -286,7 +286,7 @@
 	return expanded;
 }
 
-- (BOOL)expandable
+- (BOOL)isExpandable
 {
 	return YES;
 }

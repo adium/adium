@@ -227,7 +227,7 @@
 	AIListGroup	 *listGroup;
 	
 	while ((listGroup = [enumerator nextObject])) {
-		[listGroup setPreference:[NSNumber numberWithBool:[listGroup expanded]]
+		[listGroup setPreference:[NSNumber numberWithBool:[listGroup isExpanded]]
 						  forKey:@"IsExpanded"
 						   group:PREF_GROUP_CONTACT_LIST];
 	}
@@ -280,7 +280,7 @@
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  @"Group", @"Type",
 						  [object UID], UID_KEY,
-						  [NSNumber numberWithBool:[(AIListGroup *)object expanded]], @"Expanded",
+						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], @"Expanded",
 						  nil]];
 	}
 	

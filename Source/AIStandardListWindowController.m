@@ -1077,7 +1077,7 @@
 		for (AIListObject *listObject in [[adium contactController] contactList]) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				// Force the listgroup to save its expanded status
-				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject expanded]]
+				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject isExpanded]]
 								  forKey:@"IsExpanded"
 								   group:@"Contact List"];
 

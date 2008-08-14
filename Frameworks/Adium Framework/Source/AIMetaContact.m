@@ -1126,12 +1126,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 }
 //Returns the current expanded/collapsed state of this group
-- (BOOL)expanded
+- (BOOL)isExpanded
 {
     return expanded;
 }
 
-- (BOOL)expandable
+- (BOOL)isExpandable
 {
 	return !containsOnlyOneUniqueContact;
 }
