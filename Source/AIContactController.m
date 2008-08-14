@@ -594,6 +594,8 @@
 
 - (AIListGroup *)offlineGroup
 {
+	if(!useOfflineGroup)
+		return nil;
 	return [self groupWithUID:AILocalizedString(@"Offline", "Name of offline group")];
 }
 
@@ -1311,13 +1313,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	[menu setAutoenablesItems:NO];
 	
-	NSEnumerator *contactListEnumerator = [contactLists objectEnumerator];
-	AIContactList *clist = nil;
-	while((clist = [contactListEnumerator nextObject])){
-		//Enumerate this contact list and process all groups we find within it
-		AIListObject	*object;
-		NSEnumerator *enumerator = [[clist containedObjects] objectEnumerator];
-		while ((object = [enumerator nextObject])) {
+	for(AIContactList *clist in contactLists) {
+		for(AIListObject *object in [clist containedObjects]) {
 			if ([object isKindOfClass:[AIListGroup class]] && object != [self offlineGroup]) {
 				NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[object displayName]
 													    target:target
