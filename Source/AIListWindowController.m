@@ -1254,7 +1254,6 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 {	
 	NSWindow *myWindow = [self window];
 	NSArray *windows = [[NSApplication sharedApplication] windows];
-	NSEnumerator *enumerator = [windows objectEnumerator];
 	
 	NSWindow *window;
 	
@@ -1262,7 +1261,7 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 	NSPoint suggested = currentFrame.origin;
 	
 	// Check to snap to each guide
-	while ((window = [enumerator nextObject])) {
+	for (window in windows) {
 		// No snapping to itself and it must be within a snapping distance to other windows
 		if ((window != myWindow) &&
 			[window delegate] && [window isVisible] && 

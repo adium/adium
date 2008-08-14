@@ -112,10 +112,9 @@
 - (id)initWithPanes:(NSArray *)inArray delegate:(id)inDelegate
 {
 	if ((self = [self init])) {
-		NSEnumerator *enumerator = [inArray objectEnumerator];
 		id <SS_PreferencePaneProtocol> aPane;
 		
-		while ((aPane = [enumerator nextObject])) {
+		for (aPane in inArray) {
 			[panesOrder addObject:[aPane paneIdentifier]];
 			[preferencePanes setObject:aPane forKey:[aPane paneIdentifier]];
 		}
@@ -222,9 +221,8 @@
     [self debugLog:[NSString stringWithFormat:@"Could not load last-used preference pane \"%@\". Trying to load another pane instead.", lastViewName]];
     
     // Try to load each prefpane in turn if loading the last-viewed one fails.
-    NSEnumerator* panes = [panesOrder objectEnumerator];
     NSString *pane;
-    while ((pane = [panes nextObject])) {
+    for (pane in panesOrder) {
         if (![pane isEqualToString:lastViewName]) {
             if ([self loadPrefsWithIdentifier:pane display:NO]) {
                 if (shouldDisplay) {
@@ -287,10 +285,9 @@
                 if ([paneClass conformsToProtocol:@protocol(SS_PreferencePaneProtocol)] && [paneClass isKindOfClass:[NSObject class]]) {
                     NSArray *panes = [paneClass preferencePanes];
                     
-                    NSEnumerator *enumerator = [panes objectEnumerator];
                     id <SS_PreferencePaneProtocol> aPane;
                     
-                    while ((aPane = [enumerator nextObject])) {
+                    for (aPane in panes) {
                         [panesOrder addObject:[aPane paneIdentifier]];
                         [preferencePanes setObject:aPane forKey:[aPane paneIdentifier]];
                     }
@@ -441,11 +438,10 @@ float ToolbarHeightForWindow(NSWindow *window)
 {
     // Create toolbar items
     prefsToolbarItems = [[NSMutableDictionary alloc] init];
-    NSEnumerator *itemEnumerator = [panesOrder objectEnumerator];
     NSString *identifier;
     NSImage *itemImage;
     
-    while ((identifier = [itemEnumerator nextObject])) {
+    for (identifier in panesOrder) {
         if ([preferencePanes objectForKey:identifier] != nil) {
 			NSObject<SS_PreferencePaneProtocol> *pane = [preferencePanes objectForKey:identifier];
 			
@@ -592,10 +588,9 @@ float ToolbarHeightForWindow(NSWindow *window)
 {
     [panesOrder removeAllObjects];
 
-    NSEnumerator *enumerator = [newPanesOrder objectEnumerator];
     NSString *name;
     
-    while ((name = [enumerator nextObject])) {
+    for (name in newPanesOrder) {
         if (([preferencePanes objectForKey:name] != nil) ||
 			([name isEqual:NSToolbarSeparatorItemIdentifier])) {
             [panesOrder addObject:name];

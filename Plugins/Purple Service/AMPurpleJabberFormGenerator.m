@@ -285,9 +285,8 @@
 	
 	xmlnode_set_attrib(result,"type","jid-multi");
 	if(jids) {
-		NSEnumerator *e = [jids objectEnumerator];
 		NSString *jid;
-		while((jid = [e nextObject]))
+		for(jid in jids)
 			xmlnode_insert_data(xmlnode_new_child(result,"value"),[jid UTF8String],-1);
 	}
 	
@@ -410,16 +409,13 @@
 	
 	xmlnode_set_attrib(result,"type","list-multi");
 	if(options) {
-		NSEnumerator *e = [options objectEnumerator];
-		NSDictionary *option;
-		while((option = [e nextObject])) {
+		for(NSDictionary *option in options) {
 			xmlnode *optnode = xmlnode_new_child(result,"option");
 			xmlnode_set_attrib(optnode,"label",[[option objectForKey:@"label"] UTF8String]);
 			xmlnode_insert_data(xmlnode_new_child(optnode,"value"),[[option objectForKey:@"value"] UTF8String],-1);
 		}
-		e = [values objectEnumerator];
 		NSString *value;
-		while((value = [e nextObject]))
+		for(value in values)
 			xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
 	}
 	
@@ -497,9 +493,8 @@
 	
 	xmlnode_set_attrib(result,"type","list-single");
 	if(options) {
-		NSEnumerator *e = [options objectEnumerator];
 		NSDictionary *option;
-		while((option = [e nextObject])) {
+		for(option in options) {
 			xmlnode *optnode = xmlnode_new_child(result,"option");
 			xmlnode_set_attrib(optnode,"label",[[option objectForKey:@"label"] UTF8String]);
 			xmlnode_insert_data(xmlnode_new_child(optnode,"value"),[[option objectForKey:@"value"] UTF8String],-1);
@@ -778,9 +773,8 @@
 		xmlnode_insert_data(xmlnode_new_child(xml,"title"),[title UTF8String],-1);
 	if(instructions)
 		xmlnode_insert_data(xmlnode_new_child(xml,"instructions"),[instructions UTF8String],-1);
-	NSEnumerator *e = [fields objectEnumerator];
 	AMPurpleJabberFormField *field;
-	while((field = [e nextObject])) {
+	for(field in fields) {
 		xmlnode *fieldxml = [field xml];
 		if(fieldxml)
 			xmlnode_insert_child(xml,fieldxml);

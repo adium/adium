@@ -62,18 +62,15 @@
  */
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
 {
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 
 	//Remove any existing menu items
-	enumerator = [installedMenuItems objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) { 
+    for (menuItem in installedMenuItems) { 
 		[[adium menuController] removeMenuItem:menuItem];
     }
 	
 	//Add the new menu items
-	enumerator = [menuItems objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) {
+    for (menuItem in menuItems) {
 		[[adium menuController] addMenuItem:menuItem toLocation:LOC_File_Accounts];
     }
 	

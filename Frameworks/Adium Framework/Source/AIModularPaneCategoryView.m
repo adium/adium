@@ -43,13 +43,11 @@
 //Insert the passed modular panes into this view
 - (void)setPanes:(NSArray *)paneArray
 {
-    NSEnumerator		*enumerator;
     AIPreferencePane	*pane;
     int					yPos = 0;
     
     //Add their views
-    enumerator = [paneArray objectEnumerator];
-    while ((pane = [enumerator nextObject])) {
+    for (pane in paneArray) {
         NSView	*paneView = [pane view];
 
         //Add the view

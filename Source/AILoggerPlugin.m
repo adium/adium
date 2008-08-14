@@ -700,11 +700,10 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		*/
 		NSFileManager	*defaultManager = [NSFileManager defaultManager];
 		NSArray			*accountFolders = [defaultManager directoryContentsAtPath:logBasePath];
-		NSEnumerator	*accountFolderEnumerator = [accountFolders objectEnumerator];
 		NSString		*accountFolderName;
 		
 		NSMutableSet	*pathsToContactFolders = [NSMutableSet set];
-		while ((accountFolderName = [accountFolderEnumerator nextObject])) {
+		for (accountFolderName in accountFolders) {
 			NSString		*contactBasePath = [logBasePath stringByAppendingPathComponent:accountFolderName];
 			NSArray			*contactFolders = [defaultManager directoryContentsAtPath:contactBasePath];
 			
@@ -725,9 +724,8 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			upgradeWindowController = [[AILogFileUpgradeWindowController alloc] initWithWindowNibName:@"LogFileUpgrade"];
 			[[upgradeWindowController window] makeKeyAndOrderFront:nil];
 
-			NSEnumerator	*pathsToContactFoldersEnumerator = [pathsToContactFolders objectEnumerator];
 			NSString		*pathToContactFolder;
-			while ((pathToContactFolder = [pathsToContactFoldersEnumerator nextObject])) {
+			for (pathToContactFolder in pathsToContactFolders) {
 				NSDirectoryEnumerator *enumerator = [defaultManager enumeratorAtPath:pathToContactFolder];
 				NSString	*file;
 				

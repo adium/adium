@@ -227,7 +227,6 @@
 
 - (NSImage *)_compositeStates:(NSArray *)iconStateArray withBaseState:(AIIconState *)baseState animatingState:(AIIconState *)animatingState forFrame:(int)frame
 {
-    NSEnumerator	*enumerator;
     NSImage			*workingImage;
     AIIconState		*iconState;
 	int				animatingStateNumberOfFrames = [animatingState numberOfFrames];
@@ -244,8 +243,7 @@
     }
 	
     //Draw on the images of all overlayed states
-    enumerator = [iconStateArray objectEnumerator];
-    while ((iconState = [enumerator nextObject])) {
+    for (iconState in iconStateArray) {
         if ([iconState overlay]) {
             NSImage	*overlayImage;
 			

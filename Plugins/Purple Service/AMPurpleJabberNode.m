@@ -73,9 +73,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		if ([features containsObject:@"http://jabber.org/protocol/commands"]) {
 			// in order to avoid endless loops, check if the current node isn't a command by itself (which can't contain other commands)
 			BOOL isCommand = NO;
-			e = [identities objectEnumerator];
 			NSDictionary *identity;
-			while ((identity = [e nextObject])) {
+			for (identity in identities) {
 				if ([[identity objectForKey:@"type"] isEqualToString:@"command-node"]) {
 					isCommand = YES;
 					break;
@@ -279,9 +278,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 - (NSArray*)items {
 	if (!items) {
 		BOOL isCommand = NO;
-		NSEnumerator *e = [identities objectEnumerator];
 		NSDictionary *identity;
-		while ((identity = [e nextObject])) {
+		for (identity in identities) {
 			if ([[identity objectForKey:@"type"] isEqualToString:@"command-node"]) {
 				isCommand = YES;
 				break;

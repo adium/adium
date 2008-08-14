@@ -215,15 +215,13 @@ NSString	*endn = @"\x00\x00\x00\x00";
 /* initialise object with an AV TXT record */
 - (AWEzvRendezvousData *)initWithAVTxt:(NSString *)txt {
     NSArray *attribs;
-    NSEnumerator    *enumerator;
     NSString *key;
     
     self = [self init];
     
     attribs = [txt componentsSeparatedByString:@"\001"];
-    enumerator = [attribs objectEnumerator];
 
-    while ((key = [enumerator nextObject])) {
+    for (key in attribs) {
 	NSRange range;
 	
 	range = [key rangeOfString:@"="];

@@ -119,9 +119,8 @@ enum {
 			 *	cd $savedWorkingDirectory
 			 */
 			NSArray *pathComponents = [[filePath stringByDeletingLastPathComponent] pathComponents];
-			NSEnumerator *pathComponentsEnum = [pathComponents objectEnumerator];
 			NSString *component;
-			while ((component = [pathComponentsEnum nextObject])) {
+			for (component in pathComponents) {
 				[mgr createDirectoryAtPath:component attributes:nil];
 				[mgr changeCurrentDirectoryPath:component];
 			}
@@ -222,9 +221,8 @@ enum {
 		 *	  cd $savedWorkingDirectory 
 		 */ 
 		NSArray *pathComponents = [[filePath stringByDeletingLastPathComponent] pathComponents]; 
-		NSEnumerator *pathComponentsEnum = [pathComponents objectEnumerator]; 
 		NSString *component; 
-		while ((component = [pathComponentsEnum nextObject])) { 
+		for (component in pathComponents) { 
 				[mgr createDirectoryAtPath:component attributes:nil]; 
 				[mgr changeCurrentDirectoryPath:component]; 
 		} 

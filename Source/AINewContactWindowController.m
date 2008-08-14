@@ -185,7 +185,6 @@
 {
 	NSString		*UID = [service normalizeUID:[textField_contactName stringValue] removeIgnoredCharacters:YES];
 	NSString		*alias = [textField_contactAlias stringValue];
-	NSEnumerator	*enumerator;
 	AIListGroup		*group;
 	AIAccount		*account;
 	NSMutableArray	*contactArray = [NSMutableArray array];
@@ -200,8 +199,7 @@
 	AILogWithSignature(@"checkedAccounts is %@", checkedAccounts);
 
 	//Add contact to our accounts
-	enumerator = [accounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in accounts) {
 		if ([account contactListEditable] && [checkedAccounts containsObject:account]) {
 			AILogWithSignature(@"Accont %@ was checked per its preference; we'll add %@ to it", account, UID);
 			AIListContact	*contact = [[adium contactController] contactWithService:service
@@ -513,11 +511,9 @@
 
 	} else if ([[accounts valueForKeyPath:@"@sum.online"] integerValue] == 1) {
 		//Only one online account; it should be checked
-		NSEnumerator	*enumerator;
 		AIAccount		*anAccount;
 		
-		enumerator = [accounts objectEnumerator];
-		while ((anAccount = [enumerator nextObject])) {
+		for (anAccount in accounts) {
 			if ([anAccount online]) {
 				[checkedAccounts addObject:anAccount];
 				break;
@@ -526,11 +522,9 @@
 		
 	} else {
 		//More than one online account; follow our 'add contact to' preferences
-		NSEnumerator	*enumerator;
 		AIAccount		*anAccount;
 
-		enumerator = [accounts objectEnumerator];
-		while ((anAccount = [enumerator nextObject])) {
+		for (anAccount in accounts) {
 			if ([[anAccount preferenceForKey:KEY_ADD_CONTACT_TO group:PREF_GROUP_ADD_CONTACT] boolValue])
 				[checkedAccounts addObject:anAccount];
 		}

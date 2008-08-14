@@ -363,8 +363,7 @@
             AIEmoticonPackPreviewController  *previewController;
             
             //Move
-            enumerator = [dragRows objectEnumerator];
-            while ((dragRow = [enumerator nextObject])) {
+            for (dragRow in dragRows) {
                 [movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:[dragRow integerValue]] emoticonPack]];
             }
             [[adium emoticonController] moveEmoticonPacks:movedPacks toIndex:row];

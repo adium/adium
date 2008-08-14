@@ -168,9 +168,8 @@ static ESFileTransferPreferences *preferences;
 {
 	NSUInteger count = 0;
 	ESFileTransfer *t;
-	NSEnumerator * fts = [fileTransferArray objectEnumerator];
 
-	while ((t = [fts nextObject])) {
+	for (t in fileTransferArray) {
 		AIFileTransferStatus status = [t status];
 
 		if ((status == Unknown_Status_FileTransfer) ||

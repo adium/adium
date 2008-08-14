@@ -58,12 +58,11 @@
 {
 	NSMutableDictionary	*items = [NSMutableDictionary dictionary];
 
-	NSEnumerator		*enumerator = [types objectEnumerator];
 	NSString			*type;
 	NSDictionary		*availableItems;
 
 	//Add our toolbar items
-	while ((type = [enumerator nextObject])) {
+	for (type in types) {
 		if ((availableItems = [toolbarItems objectForKey:type])) {
 			[items addEntriesFromDictionary:availableItems];
 		}

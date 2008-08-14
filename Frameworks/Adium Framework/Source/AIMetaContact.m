@@ -546,10 +546,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (NSArray *)servicesOfContainedObjects
 {
 	NSMutableArray	*services = [[NSMutableArray alloc] init];
-	NSEnumerator	*enumerator = [containedObjects objectEnumerator];
 	AIListObject	*listObject;
 
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in containedObjects) {
 		if (![services containsObject:[listObject service]]) [services addObject:[listObject service]];
 	}
 
@@ -580,12 +579,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSArray			*myContainedObjects = [self containedObjects];
 	NSMutableArray	*listContacts = [[NSMutableArray alloc] init];
 	NSMutableArray	*uniqueObjectIDs = [[NSMutableArray alloc] initWithCapacity:[myContainedObjects count]];
-	unsigned		index;
-	unsigned		count = [myContainedObjects count];
 	
 	//Search for an available contact
-	for (index = 0; index < count; index++) {
-		AIListObject	*listObject = [myContainedObjects objectAtIndex:index];
+	for (AIListObject *listObject in myContainedObjects) {
 
 		if (([listObject isKindOfClass:[AIListContact class]]) &&
 			([(AIListContact *)listObject remoteGroupName] || includeOfflineAccounts)) {
@@ -1211,9 +1207,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	NSMutableArray *subobjectDescs = [[NSMutableArray alloc] initWithCapacity:[containedObjects count]];
 
-	NSEnumerator *containedObjectsEnum = [containedObjects objectEnumerator];
 	AIListObject *subobject;
-	while((subobject = [containedObjectsEnum nextObject]))
+	for(subobject in containedObjects)
 		[subobjectDescs addObject:[subobject description]];
 
 	NSString *subobjectDescsDesc = [subobjectDescs description];

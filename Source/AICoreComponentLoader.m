@@ -71,10 +71,9 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 	NSParameterAssert(componentArray != nil);
 
 	//Load each component
-	NSEnumerator *enumerator = [componentArray objectEnumerator];
 	NSString	 *className;
 
-	while ((className = [enumerator nextObject])) {
+	for (className in componentArray) {
 #ifdef COMPONENT_LOAD_TIMING
 		NSDate *start = [NSDate date];
 #endif

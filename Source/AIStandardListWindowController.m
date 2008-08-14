@@ -361,18 +361,15 @@
  */
 + (AIAccount *)activeAccountForIconsGettingOnlineAccounts:(NSMutableSet *)onlineAccounts ownIconAccounts:(NSMutableSet *)ownIconAccounts
 {
-	AIAccount			*account;
 	AIAccount			*activeAccount = nil;
-	NSEnumerator		*enumerator;
-	BOOL				atLeastOneOwnIconAccount = NO;
+	BOOL					atLeastOneOwnIconAccount = NO;
 	NSArray				*accounts = [[adium accountController] accounts];
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownIconAccounts) ownIconAccounts = [NSMutableSet set];
 	
 	//Figure out what accounts are online and what of those have their own custom icon
-	enumerator = [accounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in accounts) {
 		if ([account online]) {
 			[onlineAccounts addObject:account];
 			if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES]) {
@@ -396,8 +393,7 @@
 		 * Let's use the first one in the accounts list.
 		 */
 		if (!activeAccount && ([ownIconAccounts count] == [onlineAccounts count])) {
-			enumerator = [accounts objectEnumerator];
-			while ((account = [enumerator nextObject])) {
+			for (AIAccount *account in accounts) {
 				if ([account online]) {
 					activeAccount = account;
 					break;
@@ -467,11 +463,10 @@
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu didRebuildStatusMenuItems:(NSArray *)menuItemArray
 {
     NSMenu			*menu = [[NSMenu alloc] init];
-	NSEnumerator	*enumerator = [menuItemArray objectEnumerator];
 	NSMenuItem		*menuItem;
 	
 	//Add a menu item for each state
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemArray) {
 		[menu addItem:menuItem];
 	}
 	
@@ -548,8 +543,7 @@
 		 * Let's use the first one in the accounts list.
 		 */
 		if (!activeAccount && ([ownDisplayNameAccounts count] == [onlineAccounts count])) {
-			enumerator = [accounts objectEnumerator];
-			while ((account = [enumerator nextObject])) {
+			for (account in accounts) {
 				if ([account online]) {
 					activeAccount = account;
 					break;
@@ -615,7 +609,6 @@
 
 - (NSMenu *)nameViewMenuWithActiveAccount:(AIAccount *)activeAccount accountsUsingOwnName:(NSSet *)ownDisplayNameAccounts onlineAccounts:(NSSet *)onlineAccounts
 {
-	NSEnumerator *enumerator;
 	AIAccount *account;
 	NSMenu *menu = [[NSMenu alloc] init];
 	NSMenuItem *menuItem;
@@ -628,8 +621,7 @@
 	[menu addItem:menuItem];
 	[menuItem release];
 	
-	enumerator = [ownDisplayNameAccounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in ownDisplayNameAccounts) {
 		//Put a check before the account if it is the active account
 		menuItem = [[NSMenuItem alloc] initWithTitle:[account formattedUID]
 											  target:self

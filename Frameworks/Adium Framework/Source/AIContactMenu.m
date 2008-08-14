@@ -189,10 +189,9 @@
 - (NSArray *)listObjectsForMenuFromArrayOfListObjects:(NSArray *)listObjects
 {
 	NSMutableArray	*listObjectArray = [NSMutableArray array];
-	NSEnumerator	*enumerator = [listObjects objectEnumerator];
 	AIListObject	*listObject;
 	
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in listObjects) {
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			/* Include if the delegate doesn't specify, or if the delegate approves the contact.
 			 * Note that this includes a metacontact itself, not its contained objects.
@@ -218,10 +217,9 @@
 - (NSArray *)contactMenusForListObjects:(NSArray *)listObjects
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-	NSEnumerator	*enumerator = [listObjects objectEnumerator];
 	AIListObject	*listObject;
 	
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in listObjects) {
 		// Display groups inline
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
 			NSArray			*containedListObjects = [self listObjectsForMenuFromArrayOfListObjects:[(AIListObject<AIContainingObject> *)listObject listContacts]];

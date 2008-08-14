@@ -502,9 +502,8 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	BOOL success = [super sendMessageObject:inContentMessage];
 	
 	if (purpleImagesToUnref) {
-		NSEnumerator *enumerator = [purpleImagesToUnref objectEnumerator];
 		NSNumber	 *imgstoreNumber;
-		while ((imgstoreNumber = [enumerator nextObject])) {
+		for (imgstoreNumber in purpleImagesToUnref) {
 			purple_imgstore_unref_by_id([imgstoreNumber intValue]);			
 		}
 		
@@ -527,11 +526,9 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	//Send any pending directIM messages for this contact
 	NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:[theContact internalObjectID]];
 	if (thisContactQueue) {
-		NSEnumerator	*enumerator;
 		AIContentObject	*contentObject;
 		
-		enumerator = [thisContactQueue objectEnumerator];
-		while ((contentObject = [enumerator nextObject])) {
+		for (contentObject in thisContactQueue) {
 			[[adium contentController] sendContentObject:contentObject];
 		}
 		

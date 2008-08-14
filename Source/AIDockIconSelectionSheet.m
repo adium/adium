@@ -170,11 +170,10 @@
 //Set the selected icon by name
 - (void)selectIconWithName:(NSString *)selectName
 {
-	NSEnumerator	*enumerator = [iconArray objectEnumerator];
 	NSDictionary	*iconDict;
 	NSInteger				index = 0;
 	
-	while ((iconDict = [enumerator nextObject])) {
+	for (iconDict in iconArray) {
 		NSString	*iconName = [[[iconDict objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]		;
 		if ([iconName isEqualToString:selectName]) {
 			[imageGridView_icons selectIndex:index];

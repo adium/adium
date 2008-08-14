@@ -300,12 +300,10 @@
 //Adium unhid
 - (void)applicationDidUnhide:(NSNotification *)notification
 {
-	NSEnumerator				*enumerator;
 	AIMessageWindowController	*container;
 
 	//Open any containers that should have opened while we were hidden
-	enumerator = [delayedContainerShowArray objectEnumerator];
-	while ((container = [enumerator nextObject])) [container showWindowInFrontIfAllowed:YES];
+	for (container in delayedContainerShowArray) [container showWindowInFrontIfAllowed:YES];
 
 	[delayedContainerShowArray removeAllObjects];
 	applicationIsHidden = NO;

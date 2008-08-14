@@ -52,10 +52,7 @@
 
 	BOOL isSigningOn = [account isSigningOn];
 
-	//Process each online contact's information
-	NSEnumerator *enumerator = [nowAvailableContacts objectEnumerator];
-	NSString	 *contactUID;
-	while ((contactUID = [enumerator nextObject])) {
+	for (NSString *contactUID in nowAvailableContacts) {
 		AIListContact *listContact = [account contactWithUID:contactUID];
 		NSDictionary  *dict = [userInfos objectForKey:contactUID];
 		NSString	  *name = [dict objectForKey:@"name"];
@@ -108,8 +105,7 @@
 		NSMutableSet *signedOffContacts = [lastAvailableBuddiesList mutableCopy];
 		[signedOffContacts minusSet:nowAvailableContacts];
 		
-		enumerator = [signedOffContacts objectEnumerator];
-		while ((contactUID = [enumerator nextObject])) {
+		for (NSString *contactUID in signedOffContacts) {
 			AIListContact *listContact = [account contactWithUID:contactUID];
 			[listContact setOnline:NO notify:NotifyLater silently:isSigningOn];
 			

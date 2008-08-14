@@ -162,13 +162,11 @@ static	NSDictionary	*statusTypeDict = nil;
 		loggedMessage:(NSAttributedString *)loggedMessage
 			  inChats:(NSSet *)inChats
 {
-    NSEnumerator		*enumerator;
     AIChat				*chat;
 	NSAttributedString	*attributedMessage = [[[NSAttributedString alloc] initWithString:message
 																			  attributes:[[adium contentController] defaultFormattingAttributes]] autorelease];
 
-	enumerator = [inChats objectEnumerator];
-	while ((chat = [enumerator nextObject])) {
+	for (chat in inChats) {
 		//Don't do anything if the message is the same as the last message displayed for this chat
 		if ([[previousStatusChangedMessages objectForKey:[chat uniqueChatID]] isEqualToString:message])
 			continue;

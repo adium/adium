@@ -95,7 +95,6 @@
 	if (!styleDictionary) {
 		NSArray			*stylesArray = [adium allResourcesForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT 
 												   withExtensions:@"AdiumMessageStyle"];
-		NSEnumerator	*stylesEnumerator;
 		NSBundle		*style;
 		NSString		*resourcePath;
 		
@@ -103,8 +102,7 @@
 		styleDictionary = [[NSMutableDictionary alloc] init];
 		
 		//Get all resource paths to search
-		stylesEnumerator = [stylesArray objectEnumerator];
-		while ((resourcePath = [stylesEnumerator nextObject])) {
+		for (resourcePath in stylesArray) {
 			if ((style = [NSBundle bundleWithPath:resourcePath])) {
 				NSString	*styleIdentifier = [style bundleIdentifier];
 				if (styleIdentifier && [styleIdentifier length]) {

@@ -40,8 +40,7 @@
 	//Sort the groups within this group
 	AIListObject	*object;
 	
-	NSEnumerator *enumerator = [containedObjects objectEnumerator];
-	while ((object = [enumerator nextObject])) {
+	for (object in containedObjects) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[(AIListGroup *)object sort];
 		}
@@ -56,9 +55,8 @@
 
 - (void)moveAllGroupsTo:(AIContactList *)toContactList 
 {
-	NSEnumerator *enumerator = [containedObjects objectEnumerator];
 	AIListObject *object = nil;
-	while ((object = [enumerator nextObject])) {
+	for (object in containedObjects) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[self moveGroup:(AIListGroup *)object to:toContactList];
 		}

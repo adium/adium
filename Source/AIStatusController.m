@@ -245,7 +245,6 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (NSMenu *)menuOfStatusesForService:(AIService *)service withTarget:(id)target
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 	NSString		*serviceCodeUniqueID = [service serviceCodeUniqueID];
 	AIStatusType	type;
@@ -263,8 +262,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		}
 
 		//Add the items for this type
-		enumerator = [menuItemArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in menuItemArray) {
 			[menu addItem:menuItem];
 		}
 	}
@@ -348,11 +346,10 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 							 toArray:(NSMutableArray *)menuItems
 				  alreadyAddedTitles:(NSMutableSet *)alreadyAddedTitles
 {
-	NSEnumerator	*statusDictEnumerator = [statusDicts objectEnumerator];
 	NSDictionary	*statusDict;
 
 	//Enumerate the status dicts
-	while ((statusDict = [statusDictEnumerator nextObject])) {
+	for (statusDict in statusDicts) {
 		NSString	*title = [statusDict objectForKey:KEY_STATUS_DESCRIPTION];
 
 		/*
@@ -607,8 +604,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	if  (isOfflineStatus && [[adium accountController] oneOrMoreConnectedOrConnectingAccounts]) {
 		[accountsToConnect removeAllObjects];
 
-		enumerator = [accountArray objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (account in accountArray) {
 			// Save the account if we're online or trying to be online.
 			if ([account online] || [[account valueForProperty:@"Connecting"] boolValue] || [account valueForProperty:@"Waiting to Reconnect"])
 				[accountsToConnect addObject:account];
@@ -621,8 +617,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		 * If we have no such list of accounts, connect 'em all.
 		 */
 		BOOL noAccountsToConnectCount = ([accountsToConnect count] == 0);
-		enumerator = [accountArray objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (account in accountArray) {
 			if ([account enabled] &&
 				([accountsToConnect containsObject:account] || noAccountsToConnectCount)) {
 				[account setStatusState:statusState];
@@ -634,8 +629,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	} else {
 		//At least one account is online.  Just change its status without taking any other accounts online.
-		enumerator = [accountArray objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (account in accountArray) {
 			if ([account online] || isOfflineStatus) {
 				[account setStatusState:statusState];
 				
@@ -717,13 +711,11 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	if (!builtInStateArray) {
 		NSArray			*savedBuiltInStateArray = [NSArray arrayNamed:BUILT_IN_STATE_ARRAY forClass:[self class]];
-		NSEnumerator	*enumerator;
 		NSDictionary	*dict;
 
 		builtInStateArray = [[NSMutableArray alloc] initWithCapacity:[savedBuiltInStateArray count]];
 
-		enumerator = [savedBuiltInStateArray objectEnumerator];
-		while ((dict = [enumerator nextObject])) {
+		for (dict in savedBuiltInStateArray) {
 			AIStatus	*status = [AIStatus statusWithDictionary:dict];
 			[builtInStateArray addObject:status];
 
@@ -1256,7 +1248,6 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 																   group:OLD_GROUP_AWAY_MESSAGES];
 
 	if (savedAways) {
-		NSEnumerator	*enumerator = [savedAways objectEnumerator];
 		NSDictionary	*state;
 
 		AILog(@"*** Upgrading Adium 0.7x saved aways: %@", savedAways);
@@ -1264,7 +1255,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		[self setDelayStatusMenuRebuilding:YES];
 
 		//Update all the away messages to states.
-		while ((state = [enumerator nextObject])) {
+		for (state in savedAways) {
 			if ([[state objectForKey:@"Type"] isEqualToString:OLD_STATE_SAVED_AWAY]) {
 				AIStatus	*statusState;
 

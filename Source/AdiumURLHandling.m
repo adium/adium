@@ -157,10 +157,8 @@
 				} else {
 					NSString		*listOfNames = [url queryArgumentForKey:@"listofscreennames"];
 					NSArray			*names = [listOfNames componentsSeparatedByString:@","];
-					NSEnumerator	*enumerator;
 					
-					enumerator = [names objectEnumerator];
-					while ((name = [enumerator nextObject])) {
+					for (name in names) {
 						NSString	*decodedName = [[name stringByDecodingURLEscapes] compactedString];
 						[[adium contactController] requestAddContactWithUID:decodedName
 																	service:service

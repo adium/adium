@@ -272,12 +272,9 @@
 	
 	if ([selectedItems count]) {
 		//Confirm deletion of a status group with contents
-		NSEnumerator *enumerator;
-		AIStatusItem *statusItem;
 		NSUInteger			 numberOfItems = 0;
 
-		enumerator = [selectedItems objectEnumerator];
-		while ((statusItem = [enumerator nextObject])) {
+		for (AIStatusItem *statusItem in selectedItems) {
 			if ([statusItem isKindOfClass:[AIStatusGroup class]] &&
 				[[(AIStatusGroup *)statusItem flatStatusSet] count]) {
 				numberOfItems += [[(AIStatusGroup *)statusItem flatStatusSet] count];
@@ -300,8 +297,7 @@
 							  message);			
 		} else {
 			//Use an enumerator because we could be deleting multiple empty groups
-			enumerator = [selectedItems objectEnumerator];
-			while ((statusItem = [enumerator nextObject])) {
+			for (AIStatusItem *statusItem in selectedItems) {
 				[[statusItem containingStatusGroup] removeStatusItem:statusItem];
 			}
 		}
@@ -315,11 +311,9 @@
 {
 	NSArray *selectedItems = (NSArray *)contextInfo;
 	if (returnCode == NSAlertDefaultReturn) {
-		NSEnumerator *enumerator;
 		AIStatusItem *statusItem;
 
-		enumerator = [selectedItems objectEnumerator];
-		while ((statusItem = [enumerator nextObject])) {
+		for (statusItem in selectedItems) {
 			[[statusItem containingStatusGroup] removeStatusItem:statusItem];
 		}
 	}	
@@ -477,12 +471,10 @@
 
 		if (!item) item = [[adium statusController] rootStateGroup];
 
-		NSEnumerator *enumerator;
 		AIStatusItem *statusItem;
 		
-		enumerator = [draggingItems objectEnumerator];
 
-		while ((statusItem = [enumerator nextObject])) {
+		for (statusItem in draggingItems) {
 			if ([statusItem containingStatusGroup] == item) {
 				BOOL shouldIncrement = NO;
 				if ([[[statusItem containingStatusGroup] containedStatusItems] indexOfObject:statusItem] > index) {
@@ -597,13 +589,11 @@
 - (NSMutableArray *)addItemsFromMenu:(NSMenu *)inMenu toArray:(NSMutableArray *)recursiveArray
 {
 	NSArray			*itemArray = [inMenu itemArray];
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 
 	if (!recursiveArray) recursiveArray = [NSMutableArray array];
 
-	enumerator = [itemArray objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in itemArray) {
 		[recursiveArray addObject:menuItem];
 
 		if ([menuItem submenu]) {

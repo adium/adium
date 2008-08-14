@@ -729,10 +729,8 @@ static NSArray *draggedTypes = nil;
 
 	//Remove default items we don't want
 	if (webViewMenuItems) {
-		NSEnumerator	*enumerator;
 
-		enumerator = [defaultMenuItems objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in defaultMenuItems) {
 			NSInteger tag = [menuItem tag];
 			if ((tag == WebMenuItemTagOpenLinkInNewWindow) ||
 				(tag == WebMenuItemTagDownloadLinkToDisk) ||
@@ -901,9 +899,8 @@ static NSArray *draggedTypes = nil;
 		
 		//Not an image but it is a file - send it immediately as a file transfer
 		NSArray			*files = [pasteboard propertyListForType:NSFilenamesPboardType];
-		NSEnumerator	*enumerator = [files objectEnumerator];
 		NSString		*path;
-		while ((path = [enumerator nextObject])) {
+		for (path in files) {
 			AIListObject *listObject = [chat listObject];
 			if (listObject) {
 				[[adium fileTransferController] sendFile:path toListContact:(AIListContact *)listObject];
@@ -982,15 +979,12 @@ static NSArray *draggedTypes = nil;
 - (void)participatingListObjectsChanged:(NSNotification *)notification
 {
 	NSArray			*participatingListObjects = [chat containedObjects];
-	NSEnumerator	*enumerator;
-	AIListObject	*listObject;
 	
 	[[adium notificationCenter] removeObserver:self
 										  name:ListObject_AttributesChanged
 										object:nil];
 	
-	enumerator = [participatingListObjects objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in participatingListObjects) {
 		//Update the mask for any user which just entered the chat
 		if (![objectsWithUserIconsArray containsObjectIdenticalTo:listObject]) {
 			[self updateUserIconForObject:listObject];
@@ -1014,8 +1008,7 @@ static NSArray *draggedTypes = nil;
 	}
 
 	//Remove the cache for any object no longer in the chat
-	enumerator = [objectsWithUserIconsArray objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in objectsWithUserIconsArray) {
 		if ((![listObject isKindOfClass:[AIMetaContact class]] || (![participatingListObjects firstObjectCommonWithArray:[(AIMetaContact *)listObject containedObjects]])) &&
 			(![listObject isKindOfClass:[AIListContact class]] || ![participatingListObjects containsObjectIdenticalTo:(AIListContact *)listObject]) &&
 			!(listObject == [chat account])) {

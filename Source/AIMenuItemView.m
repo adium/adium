@@ -331,11 +331,9 @@
  */
 - (void)removeTrackingRects
 {
-	NSEnumerator *enumerator;
 	NSNumber	 *trackingTag;
 	
-	enumerator = [trackingTags objectEnumerator];
-	while ((trackingTag = [enumerator nextObject])) {
+	for (trackingTag in trackingTags) {
 		[self removeTrackingRect:[trackingTag integerValue]];
 	}
 	

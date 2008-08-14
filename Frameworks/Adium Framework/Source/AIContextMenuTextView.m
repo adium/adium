@@ -51,7 +51,6 @@
 	NSMenu			*contextualMenu;
 	
 	NSArray			*itemsArray = nil;
-	NSEnumerator    *enumerator;
 	NSMenuItem		*menuItem;
 	
 	//Grab NSTextView's default menu, copying so we don't affect menus elsewhere
@@ -67,8 +66,7 @@
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
 		int i = [(NSMenu *)contextualMenu numberOfItems];
-		enumerator = [itemsArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
 			if (submenu &&

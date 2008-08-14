@@ -92,7 +92,6 @@
 	cellFrame.origin.y += 2;
 	cellFrame.size.height -= 4;
 	
-	NSEnumerator	*enumerator = [colorKeyArray objectEnumerator];
 	NSString		*key;
 	NSRect			segmentRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y,
 											 (cellFrame.size.width / [colorKeyArray count]), cellFrame.size.height);
@@ -100,7 +99,7 @@
 	[[NSColor whiteColor] set];
 	[NSBezierPath fillRect:cellFrame];
 	
-	while ((key = [enumerator nextObject])) {
+	for (key in colorKeyArray) {
 		[[[themeDict objectForKey:key] representedColor] set];
 		[NSBezierPath fillRect:segmentRect];
 		segmentRect.origin.x += segmentRect.size.width;

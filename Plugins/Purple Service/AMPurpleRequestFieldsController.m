@@ -697,9 +697,8 @@
             NSArray *formfields = [info componentsSeparatedByString:@"&"];
             [info release];
             
-            NSEnumerator *e = [formfields objectEnumerator];
             NSString *field;
-            while ((field = [e nextObject])) {
+            for (field in formfields) {
                 NSArray *keyvalue = [field componentsSeparatedByString:@"="];
                 if ([keyvalue count] != 2)
                     continue;

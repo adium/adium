@@ -74,9 +74,8 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 - (void) cancelDownload
 {
 	if ([currentDownloads count] > 0) {
-		NSEnumerator *enumerator = [currentDownloads objectEnumerator];
 		NSURLDownload *download;
-		while ( download = [enumerator nextObject]) {
+		for ( download in currentDownloads) {
 			[download cancel];
 		}
 		[currentDownloads release]; currentDownloads = nil;

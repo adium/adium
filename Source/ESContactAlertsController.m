@@ -314,7 +314,6 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSMutableSet	*performedActionIDs = nil;
 	
 	if (alerts && [alerts count]) {
-		NSEnumerator		*enumerator;
 		NSDictionary		*alert;
 
 		performedActionIDs = (previouslyPerformedActionIDs ?
@@ -322,10 +321,9 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 							  [NSMutableSet set]);
 		
 		//We go from contact->group->root; a given action will only fire once for this event
-		enumerator = [alerts objectEnumerator];
 
 		//Process each alert (There may be more than one for an event)
-		while ((alert = [enumerator nextObject])) {
+		for (alert in alerts) {
 			NSString	*actionID;
 			id <AIActionHandler>	actionHandler;			
 			
@@ -557,8 +555,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	//Sort the array of menuItems alphabetically by title	
 	[menuItemArray sortUsingSelector:@selector(titleCompare:)];
 	
-	enumerator = [menuItemArray objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemArray) {
 		[menu addItem:menuItem];
 	}
 	
@@ -818,12 +815,10 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 {
 	NSMutableDictionary	*contactAlerts = [[NSMutableDictionary alloc] init];;
 	NSDictionary		*eventDict;
-	NSEnumerator		*enumerator;
 	
 	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
 	
-	enumerator = [allGlobalAlerts objectEnumerator];
-	while ((eventDict = [enumerator nextObject])) {
+	for (eventDict in allGlobalAlerts) {
 		NSMutableArray		*eventArray;
 		NSString			*eventID = [eventDict objectForKey:KEY_EVENT_ID];
 
@@ -862,13 +857,12 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 - (void)mergeAndMoveContactAlertsFromListObject:(AIListObject *)oldObject intoListObject:(AIListObject *)newObject
 {
 	NSArray				*oldAlerts = [self alertsForListObject:oldObject];
-	NSEnumerator		*enumerator = [oldAlerts objectEnumerator];
 	NSDictionary		*alertDict;
 	
 	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
 	
 	//Add each alert to the target (addAlert:toListObject:setAsNewDefaults: will ensure identical alerts aren't added more than once)
-	while ((alertDict  = [enumerator nextObject])) {
+	for (alertDict in oldAlerts) {
 		[self addAlert:alertDict toListObject:newObject setAsNewDefaults:NO];
 	}
 	

@@ -285,9 +285,8 @@
 
 - (void)importAccounts2:(NSArray *)accountsDict
 {
-	NSEnumerator *accountEnum = [accountsDict objectEnumerator];
 	NSDictionary *account = nil;
-	while((account = [accountEnum nextObject]) != nil)
+	for(account in accountsDict)
 	{
 		NSString *serviceName = [account objectForKey:@"ServiceName"];
 		NSString *accountName = [account objectForKey:@"Username"];
@@ -333,9 +332,8 @@
 
 - (void)importAways2:(NSArray *)awayList
 {
-	NSEnumerator *awayEnum = [awayList objectEnumerator];
 	NSDictionary *away = nil;
-	while((away = [awayEnum nextObject]) != nil)
+	for(away in awayList)
 	{
 		NSString *title = [away objectForKey:@"Title"];
 		BOOL isDefault = [[away objectForKey:@"isIdleMessage"] boolValue];
@@ -406,9 +404,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		[groupDict release];
 	}
 	[groupArray sortUsingFunction:groupSort context:NULL];
-	groupEnum = [groupArray objectEnumerator];
 	NSDictionary *group = nil;
-	while((group = [groupEnum nextObject]) != nil)
+	for(group in groupArray)
 	{
 		AIListGroup *newGroup = [contactController groupWithUID:[group objectForKey:@"Name"]];
 		NSNumber *expanded = [group objectForKey:@"groupexpanded"];
@@ -419,9 +416,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importBuddies2:(NSArray *)buddyArray
 {
-	NSEnumerator *buddyEnum = [buddyArray objectEnumerator];
 	NSDictionary *buddy = nil;
-	while((buddy = [buddyEnum nextObject]) != nil)
+	for(buddy in buddyArray)
 	{
 		NSNumber *inList = [buddy objectForKey:@"BuddyInList"];
 		if(inList == nil || [inList boolValue] == NO)
@@ -473,9 +469,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importPersons2:(NSArray *)personArray
 {
-	NSEnumerator *personEnum = [personArray objectEnumerator];
 	NSDictionary *person = nil;
-	while((person = [personEnum nextObject]) != nil)
+	for(person in personArray)
 	{
 		NSString *personName = [person objectForKey:@"Name"];
 		if([personName length] == 0)
@@ -606,9 +601,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importAways1:(NSArray *)awayList
 {
-	NSEnumerator *awayEnum = [awayList objectEnumerator];
 	NSDictionary *away = nil;
-	while((away = [awayEnum nextObject]) != nil)
+	for(away in awayList)
 	{
 		NSString *title = [away objectForKey:@"Title"];
 		BOOL isDefault = [[away objectForKey:@"isIdleMessage"] boolValue];
@@ -647,9 +641,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 - (void)importBuddies1:(NSArray *)buddyArray
 			   toGroup:(NSString *)groupName
 {
-	NSEnumerator *buddyEnum = [buddyArray objectEnumerator];
 	NSDictionary *buddy = nil;
-	while((buddy = [buddyEnum nextObject]) != nil)
+	for(buddy in buddyArray)
 	{
 		NSString *buddyName = [buddy objectForKey:@"buddyname"];
 		if([buddyName length] == 0)
@@ -723,9 +716,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		[groupDict release];
 	}
 	[groupArray sortUsingFunction:groupSort context:NULL];
-	groupEnum = [groupArray objectEnumerator];
 	NSDictionary *group = nil;
-	while((group = [groupEnum nextObject]) != nil)
+	for(group in groupArray)
 	{
 		NSString *groupName = [group objectForKey:@"Name"];
 		AIListGroup *newGroup = [contactController groupWithUID:groupName];

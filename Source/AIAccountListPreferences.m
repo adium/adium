@@ -414,11 +414,10 @@
 	NSMenuItem		*statusMenuItem = nil;
 	NSArray			*accounts = [accountArray objectsAtIndexes:indexes];
 	AIAccount		*account;
-	NSEnumerator	*enumerator = [accounts objectEnumerator];
 	BOOL			atLeastOneDisabledAccount = NO, atLeastOneOfflineAccount = NO;
 	
 	// Check the accounts' enabled/disabled and online/offline status.
-	while ((account = [enumerator nextObject])) {
+	for (account in accounts) {
 		if (![account enabled])
 			atLeastOneDisabledAccount = YES;
 		
@@ -650,12 +649,11 @@
 		accountOverview = AILocalizedString(@"Click the + to add a new account","Instructions on how to add an account when none are present");
 
 	} else {
-		NSEnumerator	*enumerator = [accountArray objectEnumerator];
 		AIAccount		*account;
 		NSUInteger		online = 0, enabled = 0;
 		
 		//Count online accounts
-		while ((account = [enumerator nextObject])) {
+		for (account in accountArray) {
 			if ([account online]) online++;
 			if ([account enabled]) enabled++;
 		}

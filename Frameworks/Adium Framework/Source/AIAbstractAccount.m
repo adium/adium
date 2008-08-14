@@ -968,9 +968,8 @@
  */
 - (void)_refreshAttributedStrings:(NSTimer *)inTimer
 {
-    NSEnumerator    *keyEnumerator = [autoRefreshingKeys objectEnumerator];
     NSString        *key;
-    while ((key = [keyEnumerator nextObject])) {
+    for (key in autoRefreshingKeys) {
 		if ([self shouldUpdateAutorefreshingAttributedStringForKey:key]) {
 			[self updateStatusForKey:key];
 		}
@@ -981,11 +980,9 @@
 - (void)requestImmediateDynamicContentUpdate:(NSNotification *)notification
 {
 	if ([dynamicKeys count]) {
-		NSEnumerator    *enumerator;
 		NSString        *key;
 		
-		enumerator = [dynamicKeys objectEnumerator];
-		while ((key = [enumerator nextObject])) {
+		for (key in dynamicKeys) {
 			[self updateStatusForKey:key];
 		}
 		

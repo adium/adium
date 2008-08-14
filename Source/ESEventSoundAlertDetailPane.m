@@ -144,7 +144,6 @@
 	while ((soundSet = [enumerator nextObject])) {
 		NSString        *soundSetName = nil;
 		NSArray         *soundSetContents = nil;
-		NSEnumerator    *soundEnumerator;
 		NSString        *soundPath;
 
 		soundSetName = [soundSet name];
@@ -162,8 +161,7 @@
 																	  keyEquivalent:@""] autorelease];
 			
 			//Add an item for each sound
-			soundEnumerator = [soundSetContents objectEnumerator];
-			while ((soundPath = [soundEnumerator nextObject])) {
+			for (soundPath in soundSetContents) {
 				[self addSound:soundPath toMenu:soundsetMenu];
 			}
 			

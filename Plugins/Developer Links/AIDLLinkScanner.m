@@ -314,14 +314,12 @@
 
 	if([rangeArray count]){
 		NSMutableAttributedString	*linkifiedString;
-		NSEnumerator				*enumerator;
 		AHMarkedHyperlink			*markedLink;
 		
 		linkifiedString = [[inString mutableCopy] autorelease];
 
 		//for each SHMarkedHyperlink, add the proper URL to the proper range in the string.
-		enumerator = [rangeArray objectEnumerator];
-		while((markedLink = [enumerator nextObject])){
+		for(markedLink in rangeArray){
 			NSURL *markedLinkURL;
 			
 			if((markedLinkURL = [markedLink URL])){

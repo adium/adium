@@ -226,8 +226,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
 	NSArray			*accounts = [[adium accountController] accounts];
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
 	
 	if (includeConnectAllMenuItem) {
 		NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Connect All Accounts",nil)
@@ -241,8 +239,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	}
 	
 	//Add a menuitem for each enabled account or accounts that the delegate allows
-	enumerator = [accounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in accounts) {
 		if (([account enabled] && !delegateRespondsToShouldIncludeAccount) ||
 			(delegateRespondsToShouldIncludeAccount && [delegate accountMenu:self shouldIncludeAccount:account])) {
 			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
@@ -263,8 +260,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		NSMenu		*disabledAccountMenu = [[NSMenu alloc] init];
 		NSMenuItem	*menuItem;
 
-		enumerator = [accounts objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in accounts) {
 			if (![account enabled] &&
 				(!delegateRespondsToShouldIncludeAccount || [delegate accountMenu:self shouldIncludeAccount:account])) {
 				NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
@@ -589,8 +585,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	//Only build a menu if we have items
 	if (accountActionMenuItems && [accountActionMenuItems count]) {
 		//Build a menu containing all the items
-		NSEnumerator	*enumerator = [accountActionMenuItems objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in accountActionMenuItems) {
 			NSMenuItem	*newMenuItem = [menuItem copy];
 			[actionsSubmenu addItem:newMenuItem];
 			[newMenuItem release];
@@ -703,7 +698,6 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 {
 	AIAccount			*account = [accountMenuItem representedObject];
 	NSMenu				*accountSubmenu;
-	NSEnumerator		*menuItemEnumerator;
 	NSMenuItem			*statusMenuItem;
 	
 	if ([[account service] isSocialNetworkingService]) {		
@@ -715,8 +709,7 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 		[accountSubmenu setMenuChangedMessagesEnabled:NO];
 
 		//Enumerate all the menu items we were originally passed
-		menuItemEnumerator = [menuItemArray objectEnumerator];
-		while ((statusMenuItem = [menuItemEnumerator nextObject])) {
+		for (statusMenuItem in menuItemArray) {
 			AIStatus		*status;
 			NSDictionary	*newRepresentedObject;
 			NSMenuItem		*actualMenuItem;

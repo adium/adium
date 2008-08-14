@@ -604,7 +604,6 @@
 {
 	// Main menu if it needs an update
 	if (menu == mainMenu && mainMenuNeedsUpdate) {
-		NSEnumerator    *enumerator;
 		NSMenuItem      *menuItem;
 		
 		//Clear out all the items, start from scratch
@@ -651,9 +650,8 @@
 		[menu addItem:[NSMenuItem separatorItem]];
 
 		//Add the state menu items
-		enumerator = [stateMenuItemsArray objectEnumerator];
 		menuItem = nil;
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in stateMenuItemsArray) {
 			[menu addItem:menuItem];
 			
 			//Validate the menu items as they are added since they weren't previously validated when the menu was clicked
@@ -664,15 +662,11 @@
 
 		//If there exist any open chats, add them
 		if ([openChatsArray count] > 0) {
-			AIChat          *chat = nil;
-
-			enumerator = [openChatsArray objectEnumerator];
-			
 			//Add a seperator
 			[menu addItem:[NSMenuItem separatorItem]];
 			
 			//Create and add the menu items
-			while ((chat = [enumerator nextObject])) {
+			for (AIChat *chat in openChatsArray) {
 				NSImage *image = nil;
 				//Create a menu item from the chat
 				menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[chat displayName]
@@ -703,7 +697,6 @@
 		mainMenuNeedsUpdate = NO;
 	// Contacts menu
 	} else if (menu == mainContactsMenu && contactsMenuNeedsUpdate) {
-		NSEnumerator    *enumerator = [contactMenuItemsArray objectEnumerator];
 		NSMenuItem      *menuItem;
 		
 		// Remove previous menu items.
@@ -719,7 +712,7 @@
 		if ([contactMenuItemsArray count] > 0)
 			[menu addItem:[NSMenuItem separatorItem]];
 		
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in contactMenuItemsArray) {
 			[menu addItem:menuItem];
 			
 			//Validate the menu items as they are added since they weren't previously validated when the menu was clicked
@@ -741,8 +734,7 @@
 		[menu addItem:[NSMenuItem separatorItem]];
 		
 		//Add the account menu items
-		NSEnumerator *enumerator = [accountMenuItemsArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in accountMenuItemsArray) {
 			NSMenu	*submenu;
 			
 			[menu addItem:menuItem];

@@ -550,10 +550,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)removeContacts:(NSArray *)objects
 {
-	NSEnumerator	*enumerator = [objects objectEnumerator];
 	AIListContact	*object;
 	
-	while ((object = [enumerator nextObject])) {
+	for (object in objects) {
 		NSString	*groupName = [self _mapOutgoingGroupName:[object remoteGroupName]];
 
 		//Have the purple thread perform the serverside actions
@@ -566,11 +565,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group
 {
-	NSEnumerator	*enumerator = [objects objectEnumerator];
 	AIListContact	*object;
 	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
 	
-	while ((object = [enumerator nextObject])) {
+	for (object in objects) {
 		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:object], groupName);
 
 		[purpleAdapter addUID:[self _UIDForAddingObject:object] onAccount:self toGroup:groupName];
@@ -588,12 +586,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
 {
 	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
-	NSEnumerator	*enumerator;
 	AIListContact	*listObject;
 	
 	//Move the objects to it
-	enumerator = [objects objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in objects) {
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
 			//Since no protocol here supports nesting, a group move is really a re-name
 			
@@ -1255,9 +1251,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat
 {
-	NSEnumerator	*enumerator = [usersArray objectEnumerator];
 	NSString		*contactName;
-	while ((contactName = [enumerator nextObject])) {
+	for (contactName in usersArray) {
 		[self removeUser:contactName fromChat:chat];
 	}
 }
@@ -2537,11 +2532,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			g_list_free(act->children);
 
 			if ([childrenArray count]) {
-				NSEnumerator *enumerator = [childrenArray objectEnumerator];
 				NSMenuItem	 *childMenuItem;
 				NSMenu		 *submenu = [[NSMenu alloc] init];
 				
-				while ((childMenuItem = [enumerator nextObject])) {
+				for (childMenuItem in childrenArray) {
 					[submenu addItem:childMenuItem];
 				}
 				

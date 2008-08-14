@@ -163,9 +163,8 @@
 - (void) addObjectsFromArray:(NSArray *)array
 {
 	//We do it this way for the assertion, and to get free escaping of strings.
-	NSEnumerator *arrayEnum = [array objectEnumerator];
 	id obj;
-	while ((obj = [arrayEnum nextObject])) {
+	for (obj in array) {
 		[self addObject:obj];
 	}
 }
@@ -193,9 +192,8 @@
 - (NSString *)contentsAsXMLString
 {
 	NSMutableString *contentString = [NSMutableString string];
-	NSEnumerator *contentsEnumerator = [contents objectEnumerator];
 	id obj = nil;
-	while ((obj = [contentsEnumerator nextObject])) {
+	for (obj in contents) {
 		if ([obj isKindOfClass:[NSString class]])
 			[contentString appendString:obj];
 		else if ([obj isKindOfClass:[AIXMLElement class]])
@@ -216,9 +214,8 @@
 	[string appendFormat:@"<%@", name];
 	if ([attributeNames count]) {
 		unsigned attributeIdx = 0U;
-		NSEnumerator *keysEnum = [attributeNames objectEnumerator];
 		NSString *key;
-		while ((key = [keysEnum nextObject])) {
+		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
 			if ([value respondsToSelector:@selector(stringValue)]) {
 				value = [(NSNumber *)value stringValue];
@@ -233,9 +230,8 @@
 	}
 	[string appendString:@">"];
 
-	NSEnumerator *contentsEnum = [contents objectEnumerator];
 	id obj;
-	while ((obj = [contentsEnum nextObject])) {
+	for (obj in contents) {
 		if ([obj isKindOfClass:[NSString class]]) {
 			[string appendString:(NSString *)obj];
 		} else if([obj isKindOfClass:[AIXMLElement class]]) {
@@ -259,9 +255,8 @@
 	NSMutableString *startTag = [NSMutableString stringWithFormat:@"<%@", name];
 	if ([self numberOfAttributes]) {
 		unsigned attributeIdx = 0U;
-		NSEnumerator *keysEnum = [attributeNames objectEnumerator];
 		NSString *key;
-		while ((key = [keysEnum nextObject])) {
+		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
 			if ([value respondsToSelector:@selector(stringValue)]) {
 				value = [(NSNumber *)value stringValue];
@@ -277,9 +272,8 @@
 	[startTag appendString:@">"];
 	[data appendData:[startTag dataUsingEncoding:NSUTF8StringEncoding]];
 
-	NSEnumerator *contentsEnum = [contents objectEnumerator];
 	id obj;
-	while ((obj = [contentsEnum nextObject])) {
+	for (obj in contents) {
 		if ([obj isKindOfClass:[NSString class]]) {
 			[data appendData:[(NSString *)obj dataUsingEncoding:NSUTF8StringEncoding]];
 		} else if([obj isKindOfClass:[AIXMLElement class]]) {
@@ -303,9 +297,8 @@
 	NSMutableString *string = [NSMutableString stringWithFormat:@"<%@ AIXMLElement:id=\"%p\"", name, self];
 	if ([attributeNames count] && [attributeValues count]) { //there's no way these could be different values, but whatever
 		unsigned attributeIdx = 0U;
-		NSEnumerator *keysEnum = [attributeNames objectEnumerator];
 		NSString *key;
-		while ((key = [keysEnum nextObject])) {
+		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
 			if ([value respondsToSelector:@selector(stringValue)]) {
 				value = [(NSNumber *)value stringValue];

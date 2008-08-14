@@ -1142,8 +1142,7 @@
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
 		int i = [(NSMenu *)contextualMenu numberOfItems];
-		enumerator = [itemsArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
 			NSMenuItem	*menuItemCopy = [[menuItem copy] autorelease];
@@ -1255,9 +1254,8 @@
 			files = [pasteboard filesFromITunesDragPasteboard];
 		}
 		
-		NSEnumerator	*enumerator = [files objectEnumerator];
 		NSString		*path;
-		while ((path = [enumerator nextObject])) {
+		for (path in files) {
 			[self addAttachmentOfPath:path];
 		}
 		

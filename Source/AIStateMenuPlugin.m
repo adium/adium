@@ -93,12 +93,10 @@
  */
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu didRebuildStatusMenuItems:(NSArray *)menuItemArray
 {
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 	NSMenu			*dockStatusMenu = [[NSMenu allocWithZone:[NSMenu zone]] init];
 
-	enumerator = [menuItemArray objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) {
+    for (menuItem in menuItemArray) {
 		NSMenuItem	*dockMenuItem;
 
 		[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_State];
@@ -124,14 +122,12 @@
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu willRemoveStatusMenuItems:(NSArray *)inMenuItems
 {
 	if ([inMenuItems count]) {
-		NSEnumerator	*enumerator;
 		NSMenuItem		*menuItem;
 		
 		NSMenu			*menubarMenu = [(NSMenuItem *)[inMenuItems objectAtIndex:0] menu];
 		[menubarMenu setMenuChangedMessagesEnabled:NO];
 		
-		enumerator = [inMenuItems objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in inMenuItems) {
 			[[adium menuController] removeMenuItem:menuItem];
 		}
 		
@@ -149,7 +145,6 @@
  */
 - (void)updateKeyEquivalents
 {
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 
 	AIStatusType	activeStatusType = [[adium statusController] activeStatusTypeTreatingInvisibleAsAway:YES];
@@ -170,8 +165,7 @@
 		assignCmdOptionY = YES;
 	}
 
-	enumerator = [currentMenuItemArray objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) {
+    for (menuItem in currentMenuItemArray) {
 		AIStatus	*representedStatus = [[menuItem representedObject] objectForKey:@"AIStatus"];
 
 		NSInteger			tag = [menuItem tag];
@@ -250,18 +244,15 @@
  */
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
 {
-	NSEnumerator	*enumerator;
 	NSMenuItem		*menuItem;
 	
 	//Remove any existing menu items
-	enumerator = [installedMenuItems objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) {    
+    for (menuItem in installedMenuItems) {    
 		[[adium menuController] removeMenuItem:menuItem];
     }
 	
 	//Add the new menu items
-	enumerator = [menuItems objectEnumerator];
-    while ((menuItem = [enumerator nextObject])) {    
+    for (menuItem in menuItems) {    
 		[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_Accounts];
     }
 	

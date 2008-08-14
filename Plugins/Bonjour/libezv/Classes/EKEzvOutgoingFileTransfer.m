@@ -248,9 +248,8 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	[root addChild:name];
 	NSArray *children = [self generateXMLFromDirectory:newPath];
 
-	NSEnumerator *enumerator = [children objectEnumerator];
 	NSXMLElement *child;
-	while (child = [enumerator nextObject]) {
+	for (child in children) {
 		[root addChild:child];
 	}
 

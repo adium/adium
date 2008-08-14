@@ -409,10 +409,9 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 			NSMutableCharacterSet	*newEmoticonStartCharacterSet = [emoticonStartCharacterSet mutableCopy];
 			NSMutableDictionary		*newEmoticonIndex = [emoticonIndex mutableCopy];
 
-			NSEnumerator *enumerator = [customEmoticons objectEnumerator];
 			AIEmoticon	 *emoticon;
 			
-			while ((emoticon = [enumerator nextObject])) {
+			for (emoticon in customEmoticons) {
 				NSEnumerator *textEquivalentEnumerator = [[emoticon textEquivalents] objectEnumerator];
 				NSString	 *textEquivalent;
 				while ((textEquivalent = [textEquivalentEnumerator nextObject])) {
@@ -606,7 +605,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 {
     if (!_activeEmoticonPacks) {
         NSArray         *activePackNames;
-        NSEnumerator    *enumerator;
         NSString        *packName;
         
         //
@@ -616,8 +614,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
         activePackNames = [[adium preferenceController] preferenceForKey:KEY_EMOTICON_ACTIVE_PACKS
 																   group:PREF_GROUP_EMOTICONS];
         //Use the names to build an array of the desired emoticon packs
-        enumerator = [activePackNames objectEnumerator];
-        while ((packName = [enumerator nextObject])) {
+        for (packName in activePackNames) {
             AIEmoticonPack  *emoticonPack = [self emoticonPackWithName:packName];
             
             if (emoticonPack) {
@@ -726,20 +723,15 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 #pragma mark Pack ordering
 //Re-arrange an emoticon pack
 - (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(NSUInteger)index
-{    
-    NSEnumerator    *enumerator;
-    AIEmoticonPack  *pack;
-    
+{        
     //Remove each pack
-    enumerator = [inPacks objectEnumerator];
-    while ((pack = [enumerator nextObject])) {
+    for (AIEmoticonPack *pack in inPacks) {
         if ([_availableEmoticonPacks indexOfObject:pack] < index) index--;
         [_availableEmoticonPacks removeObject:pack];
     }
 	
     //Add back the packs in their new location
-    enumerator = [inPacks objectEnumerator];
-    while ((pack = [enumerator nextObject])) {
+    for (AIEmoticonPack *pack in inPacks) {
         [_availableEmoticonPacks insertObject:pack atIndex:index];
         index++;
     }

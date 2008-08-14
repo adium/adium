@@ -94,15 +94,13 @@
 		if ([listContacts count] > 1) {
 			NSMutableString	*entryString;
 			AIListContact	*contact;
-			NSEnumerator	*enumerator;
 			BOOL			shouldAppendString = NO;
 			BOOL			shouldAppendServiceIcon = ![(AIMetaContact *)inObject containsOnlyOneService];
 
 			entry = [[NSMutableAttributedString alloc] init];
 			entryString = [entry mutableString];
 			
-			enumerator = [listContacts objectEnumerator];
-			while ((contact = [enumerator nextObject])) {
+			for (contact in listContacts) {
 				NSImage	*statusIcon, *serviceIcon;
 				
 				if (shouldAppendString) {

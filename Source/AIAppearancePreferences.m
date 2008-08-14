@@ -354,14 +354,13 @@ typedef enum {
 		if ([[sender selectedItem] tag] != AIEmoticonMenuMultiple) {
 			//Disable all active emoticons
 			NSArray			*activePacks = [[[[adium emoticonController] activeEmoticonPacks] mutableCopy] autorelease];
-			NSEnumerator	*enumerator = [activePacks objectEnumerator];
 			AIEmoticonPack	*pack, *selectedPack;
 			
 			selectedPack = [[sender selectedItem] representedObject];
 			
 			[[adium preferenceController] delayPreferenceChangedNotifications:YES];
 
-			while ((pack = [enumerator nextObject])) {
+			for (pack in activePacks) {
 				[[adium emoticonController] setEmoticonPack:pack enabled:NO];
 			}
 			
@@ -747,10 +746,9 @@ typedef enum {
 	
 	//Return the new duplicate by reference for the preset controller
 	if (renamedPreset) {
-		NSEnumerator	*enumerator = [newPresets objectEnumerator];
 		NSDictionary	*aPreset;
 		
-		while ((aPreset = [enumerator nextObject])) {
+		for (aPreset in newPresets) {
 			if ([newName isEqualToString:[aPreset objectForKey:@"name"]]) {
 				*renamedPreset = aPreset;
 				break;
@@ -788,10 +786,9 @@ typedef enum {
 	
 	//Return the new duplicate by reference for the preset controller
 	if (duplicatePreset) {
-		NSEnumerator	*enumerator = [newPresets objectEnumerator];
 		NSDictionary	*aPreset;
 		
-		while ((aPreset = [enumerator nextObject])) {
+		for (aPreset in newPresets) {
 			if ([newName isEqualToString:[aPreset objectForKey:@"name"]]) {
 				*duplicatePreset = aPreset;
 				break;
@@ -1015,10 +1012,9 @@ typedef enum {
 - (NSArray *)_iconPackMenuArrayForPacks:(NSArray *)packs class:(Class)iconClass
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-	NSEnumerator	*enumerator = [packs objectEnumerator];
 	NSString		*packPath;
 
-	while ((packPath = [enumerator nextObject])) {
+	for (packPath in packs) {
 		[menuItemArray addObject:[self menuItemForIconPackAtPath:packPath class:iconClass]];
 	}
 	
@@ -1149,7 +1145,6 @@ typedef enum {
 	}
 	
 	if (menuItemArray) {
-		NSEnumerator	*enumerator;
 		NSMenuItem		*menuItem;
 		
 		//Remove existing items
@@ -1159,8 +1154,7 @@ typedef enum {
 		[menu setTitle:@""];
 		
 		//Add the items
-		enumerator = [menuItemArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in menuItemArray) {
 			[menu addItem:menuItem];
 		}
 		

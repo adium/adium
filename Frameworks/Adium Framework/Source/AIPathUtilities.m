@@ -110,10 +110,9 @@ AISearchPathForDirectoriesInDomains(unsigned directory, unsigned domainMask, BOO
 		if (externalRelativePath) {
 			NSString *pathToAppend = [NSString pathWithComponents:externalRelativePath];
 
-			NSEnumerator *paths = [searchPaths objectEnumerator];
 			NSString *path;
 
-			while ((path = [paths nextObject])) {
+			for (path in searchPaths) {
 				[dirs addObject:[path stringByAppendingPathComponent:pathToAppend]];
 			}
 		} else {

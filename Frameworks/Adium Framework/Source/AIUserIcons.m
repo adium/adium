@@ -217,13 +217,12 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
  */
 + (void)updateUserIconForObject:(AIListObject *)inObject
 {
-	NSEnumerator *enumerator = [userIconSources objectEnumerator];
 	id <AIUserIconSource> userIconSource;
 	BOOL foundIcon = NO;
 	BOOL inProgressForCurrentSource = NO;
 	
 	isQueryingIconSources = YES;
-	while ((userIconSource = [enumerator nextObject])) {
+	for (userIconSource in userIconSources) {
 		AIUserIconSourceQueryResult queryResult = [userIconSource updateUserIconForObject:inObject];
 		if (queryResult == AIUserIconSourceFoundIcon) {
 			foundIcon = YES;

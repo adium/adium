@@ -375,12 +375,9 @@
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
 	NSArray			*availableStyles = [[plugin availableMessageStyles] allValues];
-	NSEnumerator	*enumerator;
-	NSBundle		*style;
 	NSMenuItem		*menuItem;
 	
-	enumerator = [availableStyles objectEnumerator];
-	while ((style = [enumerator nextObject])) {
+	for (NSBundle *style in availableStyles) {
 		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[style name]
 																		target:nil
 																		action:nil
@@ -392,8 +389,7 @@
 	
 	[menuItemArray sortUsingSelector:@selector(titleCompare:)];
 	
-	enumerator = [menuItemArray objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemArray) {
 		[menu addItem:menuItem];
 	}
 	
@@ -597,11 +593,9 @@
  */
 - (void)_addContent:(NSArray *)chatArray toChat:(AIChat *)inChat withParticipants:(NSDictionary *)participants
 {
-	NSEnumerator		*enumerator;
 	NSDictionary		*messageDict;
 	
-	enumerator = [chatArray objectEnumerator];
-	while ((messageDict = [enumerator nextObject])) {
+	for (messageDict in chatArray) {
 		AIContentObject		*content = nil;
 		AIListObject		*source;
 		NSString			*from, *msgType;

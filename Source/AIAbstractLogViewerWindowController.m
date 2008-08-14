@@ -691,11 +691,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		displayText = [[NSMutableAttributedString alloc] init];
 	}
 
-	NSEnumerator *enumerator = [logArray objectEnumerator];
 	AIChatLog	 *theLog;
 	NSString	 *logBasePath = [AILoggerPlugin logBasePath];
 	AILog(@"Displaying %@",logArray);
-	while ((theLog = [enumerator nextObject])) {
+	for (theLog in logArray) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		
 		if (displayText) {
@@ -794,7 +793,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 		//If we are searching by content, highlight the search results
 		if ((searchMode == LOG_SEARCH_CONTENT) && [activeSearchString length]) {
-			NSEnumerator				*enumerator;
 			NSString					*searchWord;
 			NSMutableArray				*searchWordsArray = [[activeSearchString componentsSeparatedByString:@" "] mutableCopy];
 			NSScanner					*scanner = [NSScanner scannerWithString:activeSearchString];
@@ -851,8 +849,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			BOOL shouldScrollToWord = NO;
 			scrollRange = NSMakeRange([displayText length],0);
 
-			enumerator = [searchWordsArray objectEnumerator];
-			while ((searchWord = [enumerator nextObject])) {
+			for (searchWord in searchWordsArray) {
 				NSRange     occurrence;
 				
 				//Check against and/or.  We don't just remove it from the array because then we couldn't check case insensitively.
@@ -1852,10 +1849,8 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 	if ([selectedItems count] && ![selectedItems containsObject:allContactsIdentifier]) {
 		id		item;
-		NSEnumerator *enumerator;
 
-		enumerator = [selectedItems objectEnumerator];
-		while ((item = [enumerator nextObject])) {
+		for (item in selectedItems) {
 			if ([item isKindOfClass:[AIMetaContact class]]) {
 				NSEnumerator	*metaEnumerator;
 				AIListContact	*contact;
@@ -2404,13 +2399,11 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (void)restoreDeletedLogs:(NSArray *)deletedLogs
 {
-	NSEnumerator	*enumerator;
 	AIChatLog		*aLog;
 	NSFileManager	*fileManager = [NSFileManager defaultManager];
 	NSString		*trashPath = [fileManager findFolderOfType:kTrashFolderType inDomain:kUserDomain createFolder:NO];
 
-	enumerator = [deletedLogs objectEnumerator];
-	while ((aLog = [enumerator nextObject])) {
+	for (aLog in deletedLogs) {
 		NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 		
 		[fileManager createDirectoriesForPath:[logPath stringByDeletingLastPathComponent]];
@@ -2432,13 +2425,11 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[resultsLock lock];
 		
 		AIChatLog		*aLog;
-		NSEnumerator	*enumerator;
 		NSMutableSet	*logPaths = [NSMutableSet set];
 		
 		cachedSelectionIndex = [[tableView_results selectedRowIndexes] firstIndex];
 		
-		enumerator = [selectedLogs objectEnumerator];
-		while ((aLog = [enumerator nextObject])) {
+		for (aLog in selectedLogs) {
 			NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 			
 			[[adium notificationCenter] postNotificationName:ChatLog_WillDelete object:aLog userInfo:nil];
@@ -2544,14 +2535,12 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (void)restoreDeletedToGroups:(NSArray *)toGroups
 {
-	NSEnumerator	*enumerator;
 	AILogToGroup	*toGroup;
 	NSFileManager	*fileManager = [NSFileManager defaultManager];
 	NSString		*trashPath = [fileManager findFolderOfType:kTrashFolderType inDomain:kUserDomain createFolder:NO];
 	NSString		*logBasePath = [AILoggerPlugin logBasePath];
 
-	enumerator = [toGroups objectEnumerator];
-	while ((toGroup = [enumerator nextObject])) {
+	for (toGroup in toGroups) {
 		NSString *toGroupPath = [logBasePath stringByAppendingPathComponent:[toGroup relativePath]];
 
 		[fileManager createDirectoriesForPath:[toGroupPath stringByDeletingLastPathComponent]];
@@ -2581,11 +2570,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	NSArray *allSelectedToGroups = (NSArray *)contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
 		AILogToGroup	*logToGroup;
-		NSEnumerator	*enumerator;
 		NSMutableSet	*logPaths = [NSMutableSet set];
 		
-		enumerator = [allSelectedToGroups objectEnumerator];
-		while ((logToGroup = [enumerator nextObject])) {
+		for (logToGroup in allSelectedToGroups) {
 			NSEnumerator *logEnumerator;
 			AIChatLog	 *aLog;
 			

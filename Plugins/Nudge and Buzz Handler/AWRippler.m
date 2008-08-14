@@ -154,7 +154,6 @@ extern CGSConnectionID _CGSDefaultConnection(void);
     NSRect rippleRect;
     NSRect screenRect;
     NSArray *screens;
-    NSEnumerator *screenEnum;
     NSScreen *screen;
     
     if (startTime != 0.0)
@@ -166,9 +165,8 @@ extern CGSConnectionID _CGSDefaultConnection(void);
     /* create covering window */
     rect = NSMakeRect(0.0,0.0,0.0,0.0);
     screens = [NSScreen screens];
-    screenEnum = [screens objectEnumerator];
     
-    while ((screen = [screenEnum nextObject]))
+    for (screen in screens)
     {
         rect = NSUnionRect(rect, [screen frame]);
     }

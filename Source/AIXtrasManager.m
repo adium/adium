@@ -198,12 +198,10 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (NSArray *)arrayOfXtrasAtPaths:(NSArray *)paths
 {
 	NSMutableArray	*contents = [NSMutableArray array];
-	NSEnumerator	*dirEnu;
 	NSString		*path, *xtraName;
 	NSFileManager	*manager = [NSFileManager defaultManager];
 
-	dirEnu = [paths objectEnumerator];
-	while ((path = [dirEnu nextObject])) {
+	for (path in paths) {
 		NSEnumerator	*xEnu;
 
 		xEnu = [[manager directoryContentsAtPath:path] objectEnumerator];
@@ -344,8 +342,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		/*
 		 XXX this is ugly. We should use the AIXtraInfo's type instead of the path extension
 		*/
-		NSEnumerator * extEnu = [pathExtensions objectEnumerator];
-		while ((path = [extEnu nextObject])) { //usually this will only run once
+		for (path in pathExtensions) { //usually this will only run once
 			[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification
 													  object:path];
 		}

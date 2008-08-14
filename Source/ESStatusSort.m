@@ -122,7 +122,6 @@ static NSInteger  sizeOfSortOrder;
  */
 - (void)pruneAndSetSortOrderFromArray:(NSArray *)sortOrderArray
 {
-	NSEnumerator	*enumerator;
 	NSNumber		*sortTypeNumber;
 	NSInteger i;
 	
@@ -137,8 +136,7 @@ static NSInteger  sizeOfSortOrder;
 	
 	BOOL	groupIdleOrIdleTime = (groupIdle || sortIdleTime);
 
-	enumerator = [sortOrderArray objectEnumerator];
-	while ((sortTypeNumber = [enumerator nextObject])) {
+	for (sortTypeNumber in sortOrderArray) {
 		switch ([sortTypeNumber integerValue]) {
 			case Available: 
 				/* Group available if:

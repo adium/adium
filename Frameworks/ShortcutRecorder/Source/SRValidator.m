@@ -74,7 +74,6 @@
 	if ( CopySymbolicHotKeys((CFArrayRef *)&globalHotKeys ) != noErr )
 		return YES;
 	
-	NSEnumerator *globalHotKeysEnumerator = [globalHotKeys objectEnumerator];
 	NSDictionary *globalHotKeyInfoDictionary;
 	SInt32 gobalHotKeyFlags;
 	signed short globalHotKeyCharCode;
@@ -89,7 +88,7 @@
 	if ( flags & shiftKey )     localShiftMod = YES;
 	if ( flags & controlKey )   localCtrlMod = YES;
     
-	while (( globalHotKeyInfoDictionary = [globalHotKeysEnumerator nextObject] ))
+	for (globalHotKeyInfoDictionary in globalHotKeys)
 	{
 		// Only check if global hotkey is enabled
 		if ( (CFBooleanRef)[globalHotKeyInfoDictionary objectForKey:(NSString *)kHISymbolicHotKeyEnabled] != kCFBooleanTrue )
@@ -154,7 +153,6 @@
 - (BOOL) isKeyCode:(signed short)keyCode andFlags:(unsigned int)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
 {
     NSArray *menuItemsArray = [menu itemArray];
-	NSEnumerator *menuItemsEnumerator = [menuItemsArray objectEnumerator];
 	NSMenuItem *menuItem;
 	unsigned int menuItemModifierFlags;
 	NSString *menuItemKeyEquivalent;
@@ -168,7 +166,7 @@
 	if ( flags & shiftKey )     localShiftMod = YES;
 	if ( flags & controlKey )   localCtrlMod = YES;
 	
-	while (( menuItem = [menuItemsEnumerator nextObject] ))
+	for (menuItem in menuItemsArray)
 	{
         // rescurse into all submenus...
 		if ( [menuItem hasSubmenu] )

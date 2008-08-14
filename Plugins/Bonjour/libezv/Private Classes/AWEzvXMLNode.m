@@ -115,8 +115,7 @@
     
     [string appendString:@">"];
     
-    enumerator = [children objectEnumerator];
-    while ((node = [enumerator nextObject])) {
+    for (node in children) {
 		NSString	*xmlString;
 		if ((xmlString = [node xmlString])) {
 			[string appendString:xmlString];
@@ -143,8 +142,7 @@
 	
 	[string appendString:@">"];
 	
-	enumerator = [children objectEnumerator];
-	while ((node = [enumerator nextObject])) {
+	for (node in children) {
 		NSString	*xmlString;
 		if ((xmlString = [node xmlString])) {
 			[string appendString:xmlString];

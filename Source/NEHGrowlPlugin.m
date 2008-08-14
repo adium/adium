@@ -336,11 +336,9 @@
 	NSArray						*allNotes = [contactAlertsController allEventIDs];
 	NSMutableDictionary			*humanReadableNames = [NSMutableDictionary dictionary];
 	NSMutableDictionary			*descriptions = [NSMutableDictionary dictionary];
-	NSEnumerator				*enumerator;
 	NSString					*eventID;
 	
-	enumerator = [allNotes objectEnumerator];
-	while ((eventID = [enumerator nextObject])) {
+	for (eventID in allNotes) {
 		[humanReadableNames setObject:[contactAlertsController globalShortDescriptionForEventID:eventID]
 							   forKey:eventID];
 		
