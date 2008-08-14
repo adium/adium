@@ -93,13 +93,9 @@
 {
 	visibleCount = 0;
 	
-	NSEnumerator *containedObjectEnumerator = [[self containedObjects] objectEnumerator];
-	AIListObject *containedObject = nil;
-	
-	while ((containedObject = [containedObjectEnumerator nextObject])){
-		if ([containedObject visible]) {
+	for (AIListObject *containedObject in self) {
+		if ([containedObject visible])
 			visibleCount++;
-		}
 	}
 	
 	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
@@ -275,11 +271,11 @@
 //Set the expanded/collapsed state of this group (PRIVATE: For the contact list view to let us know our state)
 - (void)setExpanded:(BOOL)inExpanded
 {
-    expanded = inExpanded;
+	expanded = inExpanded;
 	loadedExpanded = YES;
 }
 //Returns the current expanded/collapsed state of this group
-- (BOOL)isExpanded
+- (BOOL)expanded
 {
 	if (!loadedExpanded) {
 		loadedExpanded = YES;
@@ -287,12 +283,17 @@
 									 group:@"Contact List"] boolValue];
 	}
 
-    return expanded;
+	return expanded;
 }
 
-- (BOOL)isExpandable
+- (BOOL)expandable
 {
 	return YES;
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+{
+	return [[self containedObjects] countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark Applescript

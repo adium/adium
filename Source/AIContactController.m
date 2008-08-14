@@ -227,7 +227,7 @@
 	AIListGroup	 *listGroup;
 	
 	while ((listGroup = [enumerator nextObject])) {
-		[listGroup setPreference:[NSNumber numberWithBool:[listGroup isExpanded]]
+		[listGroup setPreference:[NSNumber numberWithBool:[listGroup expanded]]
 						  forKey:@"IsExpanded"
 						   group:PREF_GROUP_CONTACT_LIST];
 	}
@@ -280,7 +280,7 @@
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  @"Group", @"Type",
 						  [object UID], UID_KEY,
-						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], @"Expanded",
+						  [NSNumber numberWithBool:[(AIListGroup *)object expanded]], @"Expanded",
 						  nil]];
 	}
 	
@@ -1187,13 +1187,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 #pragma mark Contact List Access
 
-/*!
- * @brief Returns the main contact list group
- */
-- (AIContactList *)contactList
-{
-    return contactList;
-}
+@synthesize contactList;
 
 /*!
  * @brief Return an array of all contact list groups
@@ -1228,10 +1222,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	NSMutableArray	*contactArray = [NSMutableArray array];    
 	
-	NSEnumerator *enumerator = [[inGroup containedObjects] objectEnumerator];
-	AIListObject *object;
-    while ((object = [enumerator nextObject])) {
-        if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
+	for (AIListObject *object in inGroup) {
+		if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
 			[contactArray addObjectsFromArray:[self allContactsInObject:(AIListObject<AIContainingObject> *)object
 																recurse:recurse
 															  onAccount:inAccount]];
@@ -1249,10 +1241,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	NSMutableArray	*bookmarkArray = [NSMutableArray array];    
 	
-	NSEnumerator *enumerator = [[inGroup containedObjects] objectEnumerator];
-	AIListObject *object;
-    while ((object = [enumerator nextObject])) {
-        if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
+	for (AIListObject *object in inGroup) {
+		if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
 			[bookmarkArray addObjectsFromArray:[self allBookmarksInObject:(AIListObject<AIContainingObject> *)object
 																  recurse:recurse
 																onAccount:inAccount]];
@@ -1470,9 +1460,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			AIListContact *firstAvailableContact = nil;
 			AIListContact *firstNotOfflineContact = nil;
 			
-			AIListContact *thisContact;
-			NSEnumerator *contactsEnum = [[(AIMetaContact *)inContact containedObjects] objectEnumerator];
-			while ((thisContact = [contactsEnum nextObject])) {
+			for (AIListContact *thisContact in (AIMetaContact *)inContact) {
 				AIStatusType statusSummary = [thisContact statusSummary];
 				
 				if ((statusSummary != AIOfflineStatus) && (statusSummary != AIUnknownStatus)) {
@@ -1730,12 +1718,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			//Move the meta contact to this new group
 			[self _moveContactLocally:listContact toGroup:group];
 			
-			NSEnumerator	*enumerator;
-			AIListContact	*actualListContact;
-			
 			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
-			enumerator = [[(AIMetaContact *)listContact containedObjects] objectEnumerator];
-			while ((actualListContact = [enumerator nextObject])) {
+			for (AIListContact *actualListContact in (AIMetaContact *)listContact) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
 					[self _moveObjectServerside:actualListContact toGroup:group];

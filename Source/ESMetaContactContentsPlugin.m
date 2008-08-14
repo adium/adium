@@ -179,7 +179,7 @@
 	}
 
 	if (newListObject && [newListObject isKindOfClass:[AIMetaContact class]] &&
-		![(AIMetaContact *)newListObject isExpanded]) {
+		![(AIMetaContact *)newListObject expanded]) {
 		[newListObject setValue:[NSNumber numberWithBool:YES]
 					forProperty:@"TemporaryMetaContactExpansion"
 						 notify:NotifyNever];
@@ -193,7 +193,7 @@
 {
 	AIListObject *listObject = [[adium menuController] currentContextMenuObject];
 	if ([listObject isKindOfClass:[AIMetaContact class]]) {
-		BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
+		BOOL currentlyExpanded = [(AIMetaContact *)listObject expanded];
 		
 		if (currentlyExpanded) {
 			[[adium notificationCenter] postNotificationName:AIPerformCollapseItemNotification
@@ -218,7 +218,7 @@
 	if (menuItem == contextualMenuItem) {
 		if ([listObject isKindOfClass:[AIMetaContact class]] &&
 			[(AIMetaContact *)listObject containsMultipleContacts]) {
-			BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
+			BOOL currentlyExpanded = [(AIMetaContact *)listObject expanded];
 			
 			if (currentlyExpanded) {
 				[menuItem setTitle:COLLAPSE_CONTACT];

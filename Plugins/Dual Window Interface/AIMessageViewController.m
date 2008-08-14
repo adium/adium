@@ -940,8 +940,6 @@
 	
 	if ([[self chat] isGroupChat]) {
 		NSString		*partialWord = [[[textView textStorage] attributedSubstringFromRange:charRange] string];
-		NSEnumerator	*enumerator;
-		AIListContact	*listContact;
 		
 		NSString		*suffix;
 		if (charRange.location == 0) {
@@ -952,8 +950,7 @@
 		}
 		
 		completions = [NSMutableArray array];
-		enumerator = [[[self chat] containedObjects] objectEnumerator];
-		while ((listContact = [enumerator nextObject])) {
+		for(AIListContact *listContact in [[self chat] containedObjects]) {
 			if ([[listContact displayName] rangeOfString:partialWord
 												 options:(NSLiteralSearch | NSAnchoredSearch)].location != NSNotFound) {
 				
@@ -1098,9 +1095,7 @@
 {
 	if ([notification object] == userListView) {
 		NSInteger selectedIndex = [userListView selectedRow];
-		[chat setPreferredListObject:((selectedIndex != -1) ? 
-									  [[chat containedObjects] objectAtIndex:selectedIndex] :
-									  nil)];
+		[chat setPreferredListObject:((selectedIndex != -1) ? [chat objectAtIndex:selectedIndex] : nil)];
 	}
 }
 

@@ -31,7 +31,7 @@ typedef enum {
 	AIUnknownStatus = 'unkN'
 } AIStatusSummary;
 
-@protocol AIContainingObject <NSObject>
+@protocol AIContainingObject <NSObject, NSFastEnumeration>
 - (NSArray *)containedObjects;
 - (NSUInteger)containedObjectsCount;
 - (BOOL)containsObject:(AIListObject *)inObject;
@@ -55,10 +55,9 @@ typedef enum {
 - (void)removeObject:(AIListObject *)inObject;
 - (void)removeAllObjects;
 
-- (void)setExpanded:(BOOL)inExpanded;
-- (BOOL)isExpanded;
-- (BOOL)isExpandable;
-- (unsigned)visibleCount;
+@property (readwrite, nonatomic) BOOL expanded;
+@property (readonly, nonatomic) BOOL expandable;
+@property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
 @end
 

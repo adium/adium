@@ -645,7 +645,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	return (!item || ([item conformsToProtocol:@protocol(AIContainingObject)] && [item isExpandable]));
+	return (!item || ([item conformsToProtocol:@protocol(AIContainingObject)] && [item expandable]));
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroup:(id)item
@@ -662,7 +662,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(id)item
 {
-    return !item || [item isExpanded];
+    return !item || [item expanded];
 }
 
 /*!
@@ -803,10 +803,8 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 			//Check AIMetaContact first, because it is a kind of AIListContact. The else, thus, serves to implicitly say “is a list contact +and is not a metacontact+”.
 			if ([contact isKindOfClass:[AIMetaContact class]]) {
-				NSEnumerator *containedObjectsEnum = [[(AIMetaContact *)contact containedObjects] objectEnumerator];
-				AIListContact *subcontact;
 				//Process each contact in the metacontact.
-				while ((subcontact = [containedObjectsEnum nextObject])) {
+				for (AIListContact *subcontact in (AIMetaContact *)contact) {
 					format = [URLFormats objectForKey:[subcontact serviceID]];
 					if (format) {
 						[URLStrings addObject:[NSString stringWithFormat:format, [[subcontact UID] stringByEncodingURLEscapes]]];

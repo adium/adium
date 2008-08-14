@@ -834,7 +834,6 @@
 	return largestOrder;
 }
 
-
 #pragma mark Comparison
 /*
 - (BOOL)isEqual:(id)anObject

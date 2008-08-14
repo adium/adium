@@ -1051,11 +1051,8 @@ static NSArray *draggedTypes = nil;
 				 * We are notified of a change to the metacontact's icon. Find the contact inside the chat which we will
 				 * be displaying as changed.
 				 */
-				NSEnumerator	*enumerator;
-				AIListContact	*participatingListObject;
 				
-				enumerator = [[chat containedObjects] objectEnumerator];
-				while ((participatingListObject = [enumerator nextObject])) {
+				for (AIListContact *participatingListObject in chat) {
 					if ([participatingListObject parentContact] == inObject) {
 						actualObject = participatingListObject;
 						break;
