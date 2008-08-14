@@ -950,7 +950,7 @@
 		}
 		
 		completions = [NSMutableArray array];
-		for(AIListContact *listContact in [[self chat] containedObjects]) {
+		for(AIListContact *listContact in [self chat]) {
 			if ([[listContact displayName] rangeOfString:partialWord
 												 options:(NSLiteralSearch | NSAnchoredSearch)].location != NSNotFound) {
 				
