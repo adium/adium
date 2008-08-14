@@ -15,11 +15,12 @@
  */
 
 #import <Adium/AIToolbar.h>
+#import <objc/objc-class.h>
 
 /*!
  * @class AIToolbar
  *
- * AIToolbar poses as NSToolbar to fix what I consider a bug in Apple's implementation: 
+ * AIToolbar swizzles NSToolbar's -dealloc to fix what I consider a bug in Apple's implementation: 
  * NSToolbarDidRemoveItemNotification is not sent for the toolbar's items when the toolbar closes.
  *
  * AIToolbar sends this notification for each item so observers can balance any action taken via
@@ -40,8 +41,8 @@
  */
 + (void)load
 {
-    //Anything you can do, I can do better...
-    [self poseAsClass:[NSToolbar class]];
+	//Anything you can do, I can do better...
+	method_exchangeImplementations(class_getInstanceMethod([NSToolbar class], @selector(dealloc)), class_getInstanceMethod(self, @selector(dealloc)));
 }
 
 /*!
@@ -50,26 +51,21 @@
 - (void)dealloc
 {
 	NSNotificationCenter	*defaultCenter = [NSNotificationCenter defaultCenter];
-	NSEnumerator			*enumerator;
-	NSToolbarItem			*item;
 
 	/* Before proceeding, set our delegate to nil so we don't attempt to message it (it most likely
 	 * is a window controller which will have already dealloced by the time we get here... braaaains.)
 	 */
 	[self setDelegate:nil];
-	
-	//Post the notification for each item
-	enumerator = [[self items] objectEnumerator];
 
-	while ((item = [enumerator nextObject])) {
+	for(NSToolbarItem *item in [self items]) {
 		[defaultCenter postNotificationName:NSToolbarDidRemoveItemNotification
 									 object:self
 								   userInfo:[NSDictionary dictionaryWithObject:item
 																		forKey:@"item"]];
 	}
 
-	//Now perform super's _toolbarWillDeallocNotification
-	[super dealloc];
+	//call the unswizzled implementation now that we're done with our additions
+	method_invoke(self, class_getInstanceMethod([AIToolbar class], @selector(dealloc)));
 }
 
 @end
