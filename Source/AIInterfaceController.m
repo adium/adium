@@ -1295,9 +1295,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 {
 	flashState++;
 
-	if(!flashObserverArray)
-		return;
-
 	for (id<AIFlashObserver>observer in [flashObserverArray copy]) {
 		[observer flash:flashState];
 	}
