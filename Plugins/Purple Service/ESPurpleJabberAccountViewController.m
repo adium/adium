@@ -160,12 +160,9 @@
 }
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string {
-	NSArray *groups = [[[adium contactController] contactList] containedObjects];
-	unsigned i;
-	for(i=0;i < [groups count];++i) {
-		AIListGroup *group = [groups objectAtIndex:i];
-		if([[group formattedUID] hasPrefix:string])
-			return [group formattedUID];
+	for(AIListObject *obj in [[adium contactController] contactList]) {
+		if([obj isKindOfClass:[AIListGroup class]] && [[obj formattedUID] hasPrefix:string])
+			return [obj formattedUID];
 	}
 	return string;
 }

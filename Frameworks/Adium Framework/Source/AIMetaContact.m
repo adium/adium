@@ -1098,14 +1098,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
-	NSEnumerator	*enumerator = [[self containedObjects] objectEnumerator];
-	AIListObject	*object;
-	
-	while ((object = [enumerator nextObject])) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService) break;
+	for (AIListContact *object in self) {
+		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+			return object;
 	}
 	
-	return object;
+	return nil;
 }
 
 - (NSString *)contentsBasedIdentifier
@@ -1128,12 +1126,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 }
 //Returns the current expanded/collapsed state of this group
-- (BOOL)isExpanded
+- (BOOL)expanded
 {
     return expanded;
 }
 
-- (BOOL)isExpandable
+- (BOOL)expandable
 {
 	return !containsOnlyOneUniqueContact;
 }
@@ -1161,6 +1159,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	containedObjectsNeedsSort = YES;
 
 	[self containedObjectsOrOrderDidChange];	
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+{
+	return [[self containedObjects] countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark Contained Contact sorting

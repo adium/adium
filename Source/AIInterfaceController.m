@@ -1293,13 +1293,14 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 //Timer, invoke a flash
 - (void)flashTimer:(NSTimer *)inTimer
 {
-    id<AIFlashObserver>	observer;
-    
-    flashState++;
-    
-    for (observer in flashObserverArray) {
-        [observer flash:flashState];
-    }
+	flashState++;
+
+	if(!flashObserverArray)
+		return;
+
+	for (id<AIFlashObserver>observer in [flashObserverArray copy]) {
+		[observer flash:flashState];
+	}
 }
 
 //Current state of flashing.  This is an integer the increases by 1 with every flash.  Mod to whatever range is desired

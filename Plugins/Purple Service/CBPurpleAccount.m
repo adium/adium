@@ -2877,9 +2877,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 								 ignoreInheritedValues:YES];
 
 			if ([object isKindOfClass:[AIMetaContact class]]) {
-				NSEnumerator	*enumerator = [[(AIMetaContact *)object containedObjects] objectEnumerator];
-				AIListContact	*containedListContact;
-				while ((containedListContact = [enumerator nextObject])) {
+				for(AIListContact *containedListContact in [(AIMetaContact *)object containedObjects]) {
 					if ([containedListContact account] == self) {
 						[purpleAdapter setAlias:alias forUID:[containedListContact UID] onAccount:self];
 					}

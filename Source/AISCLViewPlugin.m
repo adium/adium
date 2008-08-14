@@ -454,11 +454,8 @@
 {
 	NSString			*returnString = @"";
 	
-	NSEnumerator		*enumerator = [[listGroup containedObjects] objectEnumerator];
-	AIListObject		*listObject;
 	NSUInteger			currentCount = 0;
-	
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in listGroup) {
 		currentCount++;
 		
 		// Only include up to an arbitrary number of group entries

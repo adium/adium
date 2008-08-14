@@ -526,14 +526,12 @@ static int nextChatNumber = 0;
 //Retrieve a specific object by service and UID
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
-	NSEnumerator	*enumerator = [[self containedObjects] objectEnumerator];
-	AIListObject	*object;
-	
-	while ((object = [enumerator nextObject])) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService) break;
+	for (AIListContact *object in self) {
+		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+			return object;
 	}
 	
-	return object;
+	return nil;
 }
 
 - (NSArray *)listContacts
@@ -589,15 +587,9 @@ static int nextChatNumber = 0;
 											  object:self];
 }
 
-- (void)setExpanded:(BOOL)inExpanded
-{
-	expanded = inExpanded;
-}
-- (BOOL)isExpanded
-{
-	return expanded;
-}
-- (BOOL)isExpandable
+@synthesize expanded;
+
+- (BOOL)expandable
 {
 	return NO;
 }
@@ -823,10 +815,8 @@ static int nextChatNumber = 0;
 	
 	//Send any file we were told to send to every participating list object (anyone remember the AOL mass mailing zareW scene?)
 	if (fileURL && [[fileURL path] length]) {
-		NSEnumerator	*enumerator = [[self containedObjects] objectEnumerator];
-		AIListContact	*listContact;
 		
-		while ((listContact = [enumerator nextObject])) {
+		for (AIListContact *listContact in self) {
 			AIListContact   *targetFileTransferContact;
 			
 			//Make sure we know where we are sending the file by finding the best contact for
@@ -843,6 +833,11 @@ static int nextChatNumber = 0;
 	}
 	
 	return nil;
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+{
+	return [[self containedObjects] countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 - (BOOL) canContainObject:(id)obj

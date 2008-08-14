@@ -302,13 +302,10 @@ static NSPredicate *filterPredicateTemplate;
 	
 	// If the given contact is a meta contact, check all of its contained objects.
 	if ([listContact isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator = [[(AIMetaContact *)listContact containedObjects] objectEnumerator];
-		AIListContact	*listContact;
 		
-		while ((listContact = [enumerator nextObject])) {
-			if ([predicate evaluateWithObject:listContact]) {
+		for (AIListContact *containedContact in (AIMetaContact *)listContact) {
+			if ([predicate evaluateWithObject:containedContact])
 				return YES;
-			}
 		}
 
 		return NO;

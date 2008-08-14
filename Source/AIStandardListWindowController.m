@@ -1074,13 +1074,10 @@
 
 	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
 		// Temporarily expand all groups when performing a search.
-		NSEnumerator	*enumerator = [[[[adium contactController] contactList] containedObjects] objectEnumerator];
-		AIListObject	*listObject;
-		
-		while ((listObject = [enumerator nextObject])) {
+		for (AIListObject *listObject in [[adium contactController] contactList]) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				// Force the listgroup to save its expanded status
-				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject isExpanded]]
+				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject expanded]]
 								  forKey:@"IsExpanded"
 								   group:@"Contact List"];
 
@@ -1092,10 +1089,7 @@
 		filterBarExpandedGroups = YES;
 	} else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
 		// Restore saved expansion status when returning to no search.
-		NSEnumerator	*enumerator = [[[[adium contactController] contactList] containedObjects] objectEnumerator];
-		AIListObject	*listObject;
-		
-		while ((listObject = [enumerator nextObject])) {
+		for (AIListObject *listObject in [[adium contactController] contactList]) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				// If this group's stored status is to be collapsed, collapse it
 				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {

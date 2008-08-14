@@ -55,24 +55,24 @@ typedef enum {
 
 @protocol AIContactController <AIController>
 //Contact list access
-- (AIContactList *)contactList;
+@property (readonly, nonatomic) AIContactList *contactList;
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact;
 - (AIListObject *)existingListObjectWithUniqueID:(NSString *)uniqueID;
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (AIListGroup *)groupWithUID:(NSString *)groupUID;
-- (NSArray *)allGroups;
+@property (readonly, nonatomic) NSArray *allGroups;
 /*!
  * @brief Returns a flat array of all contacts
  */
-- (NSArray *)allContacts;
+@property (readonly, nonatomic) NSArray *allContacts;
 - (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
-- (NSArray *)allBookmarks;
+@property (readonly, nonatomic) NSArray *allBookmarks;
 - (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
 - (NSMenu *)groupMenuWithTarget:(id)target;
 - (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID;
-- (AIListGroup *)offlineGroup;
-- (BOOL)useOfflineGroup;
+@property (readonly, nonatomic) AIListGroup *offlineGroup;
+@property (readonly, nonatomic) BOOL useOfflineGroup;
 
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat;
 
@@ -103,7 +103,7 @@ typedef enum {
 - (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index;
 - (void)moveContact:(AIListContact *)listContact intoObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)group;
-- (BOOL)useContactListGroups;
+@property (readonly, nonatomic) BOOL useContactListGroups;
 
 //For Accounts
 - (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)listContact;
