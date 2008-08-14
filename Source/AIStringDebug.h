@@ -6,12 +6,8 @@
 //  Copyright 2008 Adium X. All rights reserved.
 //
 
-
-#if !__LP64__
-
 @interface AIStringDebug : NSObject {
 
 }
 
 @end
-#endif
