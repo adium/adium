@@ -90,11 +90,6 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	[super dealloc];
 }
 
-#ifndef MAC_OS_X_VERSION_10_5
-// absent from the headers on 10.4
-OSStatus SecPolicySetValue(SecPolicyRef policyRef, CSSM_DATA *theCssmData);
-#endif
-
 - (IBAction)showWindow:(id)sender {
 	OSStatus err;
 	SecPolicySearchRef searchRef = NULL;

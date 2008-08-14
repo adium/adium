@@ -9,18 +9,6 @@
 #include <unistd.h>
 #include <pthread.h>
 
-//Tiger Compatibility
-#if __LP64__
-typedef void *                          URefCon;
-typedef void *                          SRefCon;
-#else
-typedef UInt32                          URefCon;
-typedef SInt32                          SRefCon;
-#endif  /* __LP64__ */
-
-typedef CALLBACK_API( void , SpeechDoneProcPtr )(SpeechChannel chan, SRefCon refCon);
-typedef CALLBACK_API( void , SpeechWordProcPtr )(SpeechChannel chan, SRefCon refCon, unsigned long wordPos, UInt16 wordLen);
-
 void MySpeechDoneCallback(SpeechChannel chan,SRefCon refCon);
 void MySpeechWordCallback (SpeechChannel chan, SRefCon refCon, UInt32 wordPos, 
     UInt16 wordLen);

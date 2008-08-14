@@ -21,7 +21,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-#import "NSIPRecentPicture.h" //10.4, private
 #import "IKRecentPicture.h" //10.5+, private
 
 #define FADE_INCREMENT	0.3
@@ -188,8 +187,6 @@
 		NSData	*imageData = nil;
 		if ([recentPicture respondsToSelector:@selector(editedImage)])
 			imageData = [[recentPicture editedImage] PNGRepresentation];
-		else if ([recentPicture respondsToSelector:@selector(croppedImage)])
-			imageData = [[recentPicture croppedImage] PNGRepresentation];
 		else if ([recentPicture respondsToSelector:@selector(originalImagePath)])
 			imageData = [NSData dataWithContentsOfFile:[recentPicture originalImagePath]];
 
