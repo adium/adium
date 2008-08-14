@@ -4,11 +4,12 @@
 //
 //  Created by Evan Schoenberg on 9/27/06.
 //
-#if !__LP64__
+#ifdef DEBUG_BUILD
 
 @interface AIScannerDebug : NSScanner {
 
 }
 
 @end
+
 #endif
