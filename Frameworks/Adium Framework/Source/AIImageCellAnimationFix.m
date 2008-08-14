@@ -30,6 +30,7 @@
 	[self poseAsClass:[NSImageCell class]];
 }
 
+#warning Retest on Leopard
 - (void)_animationTimerCallback:(NSTimer *)inTimer
 {
 	[super _animationTimerCallback:inTimer];
