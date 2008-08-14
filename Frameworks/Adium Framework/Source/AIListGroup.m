@@ -115,11 +115,8 @@
 
 //Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
-//Return our contained objects
-- (NSArray *)containedObjects
-{
-	return containedObjects;
-}
+
+@synthesize containedObjects;
 
 //Number of containd objects
 - (NSUInteger)containedObjectsCount

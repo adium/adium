@@ -1136,16 +1136,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return !containsOnlyOneUniqueContact;
 }
 
-- (float)smallestOrder
-{
-	return [super smallestOrder];
-}
-
-- (float)largestOrder
-{
-	return [super largestOrder];
-}
-
 - (float)orderIndexForObject:(AIListObject *)listObject
 {
 	return [super orderIndexForObject:listObject];

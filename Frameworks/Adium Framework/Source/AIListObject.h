@@ -80,8 +80,8 @@ typedef enum {
 	float									orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
-	float				largestOrder;
-	float				smallestOrder;
+	CGFloat				largestOrder;
+	CGFloat				smallestOrder;
 }
 
 //
@@ -103,7 +103,6 @@ typedef enum {
 
 //Grouping
 - (AIListObject <AIContainingObject> *)containingObject;
-- (float)orderIndex;
 - (BOOL)containsMultipleContacts;
 
 //Display
@@ -118,8 +117,8 @@ typedef enum {
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
 - (NSString *)pathToPreferences;
 
-//Alter the placement of this object in a group (PRIVATE: These are for AIListGroup ONLY)
-- (void)setOrderIndex:(float)inIndex;
+//Alter the placement of this object in a group (PRIVATE: Setting this is for AIListGroup ONLY)
+@property (readwrite, nonatomic) CGFloat orderIndex;
 
 //Grouping (PRIVATE: These are for AIListGroup and AIMetaContact ONLY)
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
@@ -172,8 +171,8 @@ typedef enum {
  * but are implemented by AIListObject (which does not conform to the protocol) for the convenience
  * of subclasses.
  */
-- (float)smallestOrder;
-- (float)largestOrder;
+@property (readonly, nonatomic) CGFloat smallestOrder;
+@property (readonly, nonatomic) CGFloat largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
 @end
