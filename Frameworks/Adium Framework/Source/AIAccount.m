@@ -936,12 +936,12 @@ typedef enum
 		[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create a contact without specifying the contact name."];
 		return nil;
 	}
-	AIListContact *newContact = [[adium contactController] contactWithService:[self service] account:self UID:contactUID];
+	AIListContact *newContact = [adium.contactController contactWithService:[self service] account:self UID:contactUID];
 	NSScriptObjectSpecifier *groupSpecifier = [keyDictionary objectForKey:@"parentGroup"];
 	AIListGroup *group = [groupSpecifier objectsByEvaluatingSpecifier];
 	//If we have a group, we add this contact to the contact list.
 	if (groupSpecifier && group) {
-		[[adium contactController] addContacts:[NSArray arrayWithObject:newContact] toGroup:group];
+		[adium.contactController addContacts:[NSArray arrayWithObject:newContact] toGroup:group];
 	}
 	
 	return newContact;
@@ -952,7 +952,7 @@ typedef enum
 }
 - (void)removeObjectFromContactsAtIndex:(int)index
 {
-	[[adium contactController] removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
+	[adium.contactController removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
 }
 
 /**

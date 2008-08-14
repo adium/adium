@@ -237,7 +237,7 @@
 	AIChat	*chat;
 
 	if (onPreferredAccount) {
-		inContact = [[adium contactController] preferredContactForContentType:CONTENT_MESSAGE_TYPE
+		inContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 															   forListContact:inContact];
 	}
 
@@ -271,7 +271,7 @@
 	 being sent and more information - but we'll do it here as well just to be safe.
 	 */
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
-		targetContact = [[adium contactController] preferredContactForContentType:CONTENT_MESSAGE_TYPE
+		targetContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 																   forListContact:inContact];
 		
 		/*
@@ -555,7 +555,7 @@
 			[chat setAccount:newAccount];
 
 			//We want to keep the same destination for the chat but switch it to a listContact on the desired account.
-			AIListContact	*newContact = [[adium contactController] contactWithService:[newAccount service]
+			AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
 																				account:newAccount
 																					UID:[[chat listObject] UID]];
 			[chat setListObject:newContact];
@@ -581,7 +581,7 @@
 	AIAccount		*newAccount = (useContactAccount ? [inContact account] : [chat account]);
 
 	//Switch the inContact over to a contact on the new account so we send messages to the right place.
-	AIListContact	*newContact = [[adium contactController] contactWithService:[newAccount service]
+	AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
 																		account:newAccount
 																			UID:[inContact UID]];
 	if (newContact != [chat listObject]) {

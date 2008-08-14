@@ -90,72 +90,33 @@ static NSString	*prefsCategory;
 
 //Core Controllers -----------------------------------------------------------------------------------------------------
 #pragma mark Core Controllers
-- (NSObject <AILoginController> *)loginController{
-    return loginController;
-}
-- (NSObject <AIMenuController> *)menuController{
-    return menuController;
-}
-- (NSObject <AIAccountController> *)accountController{
-    return accountController;
-}
-- (NSObject <AIChatController> *)chatController{
-	return chatController;
-}
-- (NSObject <AIContentController> *)contentController{
-    return contentController;
-}
-- (NSObject <AIContactController> *)contactController{
-    return contactController;
-}
-- (NSObject <AIEmoticonController> *)emoticonController{
-    return emoticonController;
-}
-- (NSObject <AISoundController> *)soundController{
-    return soundController;
-}
-- (NSObject <AIInterfaceController> *)interfaceController{
-    return interfaceController;
-}
-- (NSObject <AIPreferenceController> *)preferenceController{
-    return preferenceController;
-}
-- (NSObject <AIToolbarController> *)toolbarController{
-    return toolbarController;
-}
-- (NSObject <AIDockController> *)dockController{
-    return dockController;
-}
-- (NSObject <AIFileTransferController> *)fileTransferController{
-    return fileTransferController;    
-}
-- (NSObject <AIContactAlertsController> *)contactAlertsController{
-    return contactAlertsController;
-}
-- (NSObject <AIApplescriptabilityController> *)applescriptabilityController{
-	return applescriptabilityController;
-}
+@synthesize accountController;
+@synthesize chatController;
+@synthesize contactController;
+@synthesize contentController;
+@synthesize dockController;
+@synthesize emoticonController;
+@synthesize interfaceController;
+@synthesize loginController;
+@synthesize menuController;
+@synthesize preferenceController;
+@synthesize soundController;
+@synthesize statusController;
+@synthesize toolbarController;
+@synthesize contactAlertsController;
+@synthesize fileTransferController;
+@synthesize applescriptabilityController;
+
 #ifdef DEBUG_BUILD
-- (NSObject <AIDebugController> *)debugController{
-	return debugController;
-}
+@synthesize debugController;
 #endif
-- (NSObject <AIStatusController> *)statusController{
-    return statusController;
-}
 
 //Loaders --------------------------------------------------------------------------------------------------------
 #pragma mark Loaders
 
-- (AICoreComponentLoader *)componentLoader
-{
-	return componentLoader;
-}
+@synthesize componentLoader;
+@synthesize pluginLoader;
 
-- (AICorePluginLoader *)pluginLoader
-{
-	return pluginLoader;
-}
 //Notifications --------------------------------------------------------------------------------------------------------
 #pragma mark Notifications
 //Return the shared Adium notification center

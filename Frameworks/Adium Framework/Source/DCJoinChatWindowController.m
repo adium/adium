@@ -168,7 +168,7 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	UID = [[account service] normalizeUID:text removeIgnoredCharacters:YES];
 	
 	//Find the contact
-	contact = [[adium contactController] contactWithService:[account service]
+	contact = [adium.contactController contactWithService:[account service]
 													account:account 
 														UID:UID];
 	

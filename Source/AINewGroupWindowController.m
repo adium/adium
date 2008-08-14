@@ -97,7 +97,7 @@
  */
 - (IBAction)addGroup:(id)sender
 {
-	group = [[adium contactController] groupWithUID:[textField_groupName stringValue]];
+	group = [adium.contactController groupWithUID:[textField_groupName stringValue]];
 	
 	//Force this new group to be visible.  Obviously the user created it for a reason, so let's keep
 	//it visible and give them time to stick something inside.

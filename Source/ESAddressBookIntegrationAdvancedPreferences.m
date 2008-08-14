@@ -291,7 +291,7 @@
 		//If we now shouldn't create metaContacts, clear 'em all... not pretty, but effective.
 
 		//Delay to the next run loop to give better UI responsiveness
-		[[adium contactController] performSelector:@selector(clearAllMetaContactData)
+		[adium.contactController performSelector:@selector(clearAllMetaContactData)
 										withObject:nil
 										afterDelay:0.0001];
 		

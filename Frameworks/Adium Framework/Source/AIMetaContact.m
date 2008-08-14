@@ -124,12 +124,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	//Save the change of containing object so it can be restored on launch next time if we are using groups.
 	//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
-	if ([[adium contactController] useContactListGroups] &&
+	if ([adium.contactController useContactListGroups] &&
 		inGroupInternalObjectID &&
 		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
 																   group:OBJECT_STATUS_CACHE
 												   ignoreInheritedValues:YES]] &&
-		(inGroup != [[adium contactController] offlineGroup])) {
+		(inGroup != [adium.contactController offlineGroup])) {
 
 		[self setPreference:inGroupInternalObjectID
 					 forKey:KEY_CONTAINING_OBJECT_ID
@@ -147,12 +147,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)restoreGrouping
 {
-	if ([[adium contactController] useContactListGroups]) {
+	if ([adium.contactController useContactListGroups]) {
 		AIListGroup		*targetGroup = nil;
 
 		if (![self online] &&
-			[[adium contactController] useOfflineGroup]) {
-			targetGroup = [[adium contactController] offlineGroup];
+			[adium.contactController useOfflineGroup]) {
+			targetGroup = [adium.contactController offlineGroup];
 
 		} else {
 			NSString		*oldContainingObjectID;
@@ -162,7 +162,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 													 group:OBJECT_STATUS_CACHE];
 			//Get the group's UID out of the internal object ID by taking the substring after "Group."
 			oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
-								   [[adium contactController] groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
+								   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
 								   nil);
 			
 			if (oldContainingObject &&
@@ -187,18 +187,18 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 				
 				//Put this metacontact in that group
 				if (bestGuessRemoteGroup) {
-					targetGroup = [[adium contactController] groupWithUID:bestGuessRemoteGroup];
+					targetGroup = [adium.contactController groupWithUID:bestGuessRemoteGroup];
 				}
 			}
 		}
 
 		if (targetGroup) {
-			[[adium contactController] _moveContactLocally:self
+			[adium.contactController _moveContactLocally:self
 												   toGroup:targetGroup];
 		}
 	} else {
-		[[adium contactController] _moveContactLocally:self
-											   toGroup:[[adium contactController] contactList]];		
+		[adium.contactController _moveContactLocally:self
+											   toGroup:[adium.contactController contactList]];		
 	}
 }
 
@@ -349,7 +349,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		 * tell the contactController about the change in the removed object.
 		 */
 		if (noteRemoteGroupingChanged) {
-			[[adium contactController] listObjectRemoteGroupingChanged:(AIListContact *)inObject];
+			[adium.contactController listObjectRemoteGroupingChanged:(AIListContact *)inObject];
 		}
 
 		[inObject release];
@@ -668,7 +668,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	//It's possible we didn't know to be in a group before if all our contained contacts were also groupless.
 	if (![self containingObject] ||
-		(![[adium contactController] useContactListGroups] && ![[self containingObject] isKindOfClass:[AIContactList class]])) {
+		(![adium.contactController useContactListGroups] && ![[self containingObject] isKindOfClass:[AIContactList class]])) {
 		[self restoreGrouping];
 	}
 }

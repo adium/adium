@@ -260,11 +260,11 @@
 {
 	AIListContact	*contact;
 	
-	contact = [[adium contactController] existingContactWithService:service
+	contact = [adium.contactController existingContactWithService:service
 															account:self
 																UID:sourceUID];
 	if (!contact) {		
-		contact = [[adium contactController] contactWithService:[self _serviceForUID:sourceUID]
+		contact = [adium.contactController contactWithService:[self _serviceForUID:sourceUID]
 														account:self
 															UID:sourceUID];
 	}
@@ -300,9 +300,9 @@
 			{
 				NSString *groupname = [self preferenceForKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 				if ([groupname length] > 0) {
-					AIListContact *contact = [[adium contactController] contactWithService:[self service] account:self UID:[dict objectForKey:@"Remote Name"]];
-					AIListGroup *group = [[adium contactController] groupWithUID:groupname];
-					[[adium contactController] addContacts:[NSArray arrayWithObject:contact] toGroup:group];
+					AIListContact *contact = [adium.contactController contactWithService:[self service] account:self UID:[dict objectForKey:@"Remote Name"]];
+					AIListGroup *group = [adium.contactController groupWithUID:groupname];
+					[adium.contactController addContacts:[NSArray arrayWithObject:contact] toGroup:group];
 				}
 			}
 			// fallthrough

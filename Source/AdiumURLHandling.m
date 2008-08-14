@@ -150,7 +150,7 @@
 				AIService	*service = [[adium accountController] firstServiceWithServiceID:serviceID];
 				
 				if (name) {
-					[[adium contactController] requestAddContactWithUID:name
+					[adium.contactController requestAddContactWithUID:name
 																service:service
 																	  account:nil];
 					
@@ -160,7 +160,7 @@
 					
 					for (name in names) {
 						NSString	*decodedName = [[name stringByDecodingURLEscapes] compactedString];
-						[[adium contactController] requestAddContactWithUID:decodedName
+						[adium.contactController requestAddContactWithUID:decodedName
 																	service:service
 																		  account:nil];
 					}
@@ -323,7 +323,7 @@
 
 + (void)_openChatToContactWithName:(NSString *)UID onService:(NSString *)serviceID withMessage:(NSString *)message
 {
-	AIListContact		*contact = [[adium contactController] preferredContactWithUID:UID
+	AIListContact		*contact = [adium.contactController preferredContactWithUID:UID
 														  andServiceID:serviceID 
 												 forSendingContentType:CONTENT_MESSAGE_TYPE];
 	if (contact) {

@@ -126,7 +126,7 @@
 			[remoteGroupName release];
 			remoteGroupName = [inName retain];
 		}
-		[[adium contactController] listObjectRemoteGroupingChanged:self];
+		[adium.contactController listObjectRemoteGroupingChanged:self];
 		
 		AIListObject	*myContainingObject = [self containingObject];
 		if ([myContainingObject isKindOfClass:[AIMetaContact class]]) {
@@ -145,7 +145,7 @@
 //Restore this grouping.
 - (void)restoreGrouping
 {
-	[[adium contactController] listObjectRemoteGroupingChanged:self];
+	[adium.contactController listObjectRemoteGroupingChanged:self];
 }
 
 #pragma mark Names
@@ -649,7 +649,7 @@
 	AIListContact   *targetFileTransferContact = nil;
 
 	if (targetAccount) {
-		targetMessagingContact = [[adium contactController] contactOnAccount:targetAccount
+		targetMessagingContact = [adium.contactController contactOnAccount:targetAccount
 															 fromListContact:self];
 		targetFileTransferContact = targetMessagingContact;
 	}
@@ -664,7 +664,7 @@
 		if (!targetMessagingContact) {
 			//Get the target contact.  This could be the same contact, an identical contact on another account, 
 			//or a subcontact (if we're talking about a metaContact, for example)
-			targetMessagingContact = [[adium contactController] preferredContactForContentType:CONTENT_MESSAGE_TYPE
+			targetMessagingContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 																				forListContact:self];
 			targetAccount = [targetMessagingContact account];	
 		}
@@ -696,7 +696,7 @@
 		if (!targetFileTransferContact) {
 			//Get the target contact.  This could be the same contact, an identical contact on another account, 
 			//or a subcontact (if we're talking about a metaContact, for example)
-			targetFileTransferContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+			targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																				   forListContact:self];
 		}
 		

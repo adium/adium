@@ -65,7 +65,7 @@ gboolean purple_init_zephyr_plugin(void);
 		// where realname is the displayName of the contact with UID "username".
 		// Also convert the instance to all lowercase, like owl does.
 		NSString *username = [sourceUID substringToIndex:firstSpace.location];
-		NSString *realname = [[[adium contactController] contactWithService:service account:self UID:username] displayName];
+		NSString *realname = [[adium.contactController contactWithService:service account:self UID:username] displayName];
 		NSString *instance = [[sourceUID substringFromIndex:(firstSpace.location+1)] lowercaseString];
 		NSString *display = [NSString stringWithFormat:@"%@ / %@", realname, instance];
 		[contact setDisplayName:display];

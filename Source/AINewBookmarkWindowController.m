@@ -124,7 +124,7 @@
 	AIListObject	*selectedObject;
 	NSMenu			*menu;
 	//Rebuild the menu
-	menu = [[adium contactController] groupMenuWithTarget:nil];
+	menu = [adium.contactController groupMenuWithTarget:nil];
 
 	//Add a default group name to the menu if there are no groups listed
 	if ([menu numberOfItems] == 0) {

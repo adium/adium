@@ -469,7 +469,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)requestAddContactWithUID:(NSString *)contactUID
 {
-	[[adium contactController] requestAddContactWithUID:contactUID
+	[adium.contactController requestAddContactWithUID:contactUID
 												service:[self _serviceForUID:contactUID]
 												account:self];
 }
@@ -599,7 +599,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[purpleAdapter renameGroup:groupName onAccount:self to:newName];
 
 	//We must also update the remote grouping of all our contacts in that group
-	NSEnumerator	*enumerator = [[[adium contactController] allContactsInObject:inGroup recurse:YES onAccount:self] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.contactController allContactsInObject:inGroup recurse:YES onAccount:self] objectEnumerator];
 	AIListContact	*contact;
 	
 	while ((contact = [enumerator nextObject])) {
@@ -1308,7 +1308,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		}
 
 		//Get our contact, which must already exist for us to care about its removal
-		AIListContact   *contact = [[adium contactController] existingContactWithService:service
+		AIListContact   *contact = [adium.contactController existingContactWithService:service
 																				 account:self
 																					 UID:sourceUID];
 		

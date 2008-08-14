@@ -39,7 +39,7 @@ static AdiumAuthorization *sharedInstance;
 
 + (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount
 {
-	AIListContact	*listContact = [[adium contactController] contactWithService:[inAccount service]
+	AIListContact	*listContact = [adium.contactController contactWithService:[inAccount service]
 																		 account:inAccount
 																			 UID:[inDict objectForKey:@"Remote Name"]];
 

@@ -62,7 +62,7 @@
 	[button_deny setLocalizedString:AILocalizedString(@"Deny", nil)];
 
 	// Hide the "Add to my Contact List" checkbox if the contact already exists in the list
-	AIListContact *contact = [[adium contactController] existingContactWithService:[account service] account:account UID:[infoDict objectForKey:@"Remote Name"]];
+	AIListContact *contact = [adium.contactController existingContactWithService:[account service] account:account UID:[infoDict objectForKey:@"Remote Name"]];
 	if (contact && [contact isIntentionallyNotAStranger]) {
 		[checkBox_addToList setState:NSOffState];
 		[checkBox_addToList setEnabled:NO];
@@ -141,7 +141,7 @@
 	AILog(@"Authorize: (%i) %@",[checkBox_addToList state],infoDict);
 
 	if ([checkBox_addToList state] == NSOnState) {
-		[[adium contactController] requestAddContactWithUID:[infoDict objectForKey:@"Remote Name"]
+		[adium.contactController requestAddContactWithUID:[infoDict objectForKey:@"Remote Name"]
 													service:[account service]
 													account:account];
 	}

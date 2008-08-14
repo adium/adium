@@ -430,7 +430,7 @@
 												  onAccount:account
 										   chatCreationInfo:[chatDict objectForKey:@"ChatCreationInfo"]];
 			} else {
-				AIListContact		*contact = [[adium contactController] contactWithService:service
+				AIListContact		*contact = [adium.contactController contactWithService:service
 																					account:account
 																						UID:[chatDict objectForKey:@"UID"]];
 				

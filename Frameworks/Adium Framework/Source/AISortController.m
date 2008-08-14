@@ -39,10 +39,10 @@ static NSMutableArray *sortControllers = nil;
 	[activeSortController didBecomeActive];
 	
 	//The newly-active sort controller needs to know whether it should be forced to ignore groups
-	[activeSortController forceIgnoringOfGroups:![[adium contactController] useContactListGroups]];
+	[activeSortController forceIgnoringOfGroups:![adium.contactController useContactListGroups]];
 	
 	//Resort the list
-	[[adium contactController] sortContactList];
+	[adium.contactController sortContactList];
 }
 
 + (AISortController *)activeSortController

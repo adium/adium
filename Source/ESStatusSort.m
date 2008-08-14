@@ -363,7 +363,7 @@ static NSInteger  sizeOfSortOrder;
 	
 	[self pruneAndSetSortOrderFromArray:sortOrderArray];
 	
-	[[adium contactController] sortContactList];
+	[adium.contactController sortContactList];
 }
 
 /*!
@@ -539,7 +539,7 @@ static NSInteger  sizeOfSortOrder;
 		//Select and scroll to the dragged object
 		[tableView reloadData];
 		
-		[[adium contactController] sortContactList];
+		[adium.contactController sortContactList];
 
 		[sortOrderPref release];
 	}

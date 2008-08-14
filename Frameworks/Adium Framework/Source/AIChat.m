@@ -559,7 +559,7 @@ static int nextChatNumber = 0;
 
 		if ([inObject isStranger] &&
 			![[adium chatController] existingChatWithContact:[(AIListContact *)inObject parentContact]]) {
-			[[adium contactController] account:[(AIListContact *)inObject account]
+			[adium.contactController account:[(AIListContact *)inObject account]
 						didStopTrackingContact:(AIListContact *)inObject];
 		}		
 	}
@@ -576,7 +576,7 @@ static int nextChatNumber = 0;
 	for (AIListContact *listContact in participatingListObjects) {
 		if ([listContact isStranger] &&
 			![[adium chatController] existingChatWithContact:[(AIListContact *)listContact parentContact]]) {
-			[[adium contactController] account:[listContact account]
+			[adium.contactController account:[listContact account]
 						didStopTrackingContact:listContact];
 		}
 	}
@@ -821,7 +821,7 @@ static int nextChatNumber = 0;
 			
 			//Make sure we know where we are sending the file by finding the best contact for
 			//sending CONTENT_FILE_TRANSFER_TYPE.
-			if ((targetFileTransferContact = [[adium contactController] preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
+			if ((targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																						forListContact:listContact])) {
 				[[adium fileTransferController] sendFile:[fileURL path]
 										   toListContact:targetFileTransferContact];

@@ -106,7 +106,7 @@
 	if(contact != nil)
 		return contact;
 	
-	id <AIContactController> contactController = [adium contactController];
+	id <AIContactController> contactController = adium.contactController;
 
 	contact = [contactController contactWithService:[account service] account:account UID:screenname];
 	if(displayName != nil)
@@ -178,7 +178,7 @@
 
 - (void)accountConnected:(NSNotification *)notification
 {
-	id <AIContactController> contactController = [adium contactController];
+	id <AIContactController> contactController = adium.contactController;
 	AIAccount *acct = [notification object];
 	
 	NSEnumerator *personEnum = [[NSArray arrayWithArray:personLists] objectEnumerator];
@@ -390,7 +390,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importGroups2:(NSDictionary *)groupList
 {
-	id <AIContactController> contactController = [adium contactController];
+	id <AIContactController> contactController = adium.contactController;
 
 	//First itterate through the groups and create an array we can sort
 	NSEnumerator *groupEnum = [groupList keyEnumerator];
@@ -702,7 +702,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importGroups1:(NSDictionary *)groupList
 {
-	id <AIContactController> contactController = [adium contactController];
+	id <AIContactController> contactController = adium.contactController;
 	
 	//First itterate through the groups and create an array we can sort
 	NSEnumerator *groupEnum = [groupList keyEnumerator];

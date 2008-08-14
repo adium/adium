@@ -261,7 +261,7 @@ static AIService* serviceFromServiceID(const char *serviceID)
 
 static AIListContact* contactFromInfo(const char *accountID, const char *serviceID, const char *username)
 {
-	return [[adium contactController] contactWithService:serviceFromServiceID(serviceID)
+	return [adium.contactController contactWithService:serviceFromServiceID(serviceID)
 																		  account:accountFromAccountID(accountID)
 																			  UID:[NSString stringWithUTF8String:username]];
 }

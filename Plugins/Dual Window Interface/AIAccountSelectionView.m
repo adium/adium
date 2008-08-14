@@ -282,7 +282,7 @@
 	
 	for (menuItem in menuItems) {
 		AIAccount *account = [menuItem representedObject];
-		AIListContact *listContact = [[adium contactController] existingContactWithService:[[chat listObject] service]
+		AIListContact *listContact = [adium.contactController existingContactWithService:[[chat listObject] service]
 																				 account:account
 																					 UID:[[chat listObject] UID]];
 
@@ -408,7 +408,7 @@
 	[[adium chatController] switchChat:chat toListContact:inContact usingContactAccount:YES];
 }
 - (AIListContact *)contactMenu:(AIContactMenu *)inContactMenu validateContact:(AIListContact *)inContact {
-	AIListContact *preferredContact = [[adium contactController] preferredContactForContentType:CONTENT_MESSAGE_TYPE
+	AIListContact *preferredContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 																				 forListContact:inContact];
 	return (preferredContact ? preferredContact : inContact);
 }
