@@ -268,10 +268,6 @@ typedef enum {
 				if (errorString) {
 					NSLog(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
 					AILogWithSignature(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
-					
-					/* Memory managed for us in 10.5+ */
-					if (![NSApp isOnLeopardOrBetter])
-						[errorString release];
 				}
 				
 				#ifdef PREFERENCE_CONTAINER_DEBUG

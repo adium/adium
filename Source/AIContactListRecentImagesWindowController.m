@@ -122,22 +122,12 @@
 
 - (NSArray *)recentPictures
 {
-	if ([NSApp isOnLeopardOrBetter]) {
-		return [(IKPictureTakerRecentPictureRepository *)[NSClassFromString(@"IKPictureTakerRecentPictureRepository") recentRepository] recentPictures];
-		
-	} else {
-		return [NSClassFromString(@"NSIPRecentPicture") recentPictures];
-	}
+	return [(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures];
 }
 
 - (NSArray *)recentSmallIcons
 {
-	if ([NSApp isOnLeopardOrBetter]) {
-		return [[(IKPictureTakerRecentPictureRepository *)[NSClassFromString(@"IKPictureTakerRecentPictureRepository") recentRepository] recentPictures] valueForKey:@"smallIcon"];
-
-	} else {
-		return [NSClassFromString(@"NSIPRecentPicture") recentSmallIcons];
-	}
+	return [[(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures] valueForKey:@"smallIcon"];
 }
 
 - (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSInteger)index
@@ -234,12 +224,7 @@
 
 - (void)clearRecentPictures:(id)sender
 {
-	if ([NSApp isOnLeopardOrBetter]) {
-		[[NSClassFromString(@"IKPictureTakerRecentPictureRepository") recentRepository] clearRecents:nil];
-
-	} else {
-		[NSClassFromString(@"NSIPRecentPicture") removeAllButCurrent];
-	}
+	[[IKPictureTakerRecentPictureRepository recentRepository] clearRecents:nil];
 	[imageGridView reloadData];
 }
 

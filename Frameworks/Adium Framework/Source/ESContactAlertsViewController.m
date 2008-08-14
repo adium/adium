@@ -495,10 +495,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 
 	[outlineView_summary reloadData];
 	[self calculateAllHeights];
-	if ([NSApp isOnLeopardOrBetter])
-		[outlineView_summary noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [outlineView_summary numberOfRows])]];
-	else
-		[outlineView_summary reloadData];
+	[outlineView_summary noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [outlineView_summary numberOfRows])]];
 	
 	if (selectedEventID) {
 		NSInteger actionsIndex = [contactAlertsEvents indexOfObject:selectedEventID];
@@ -594,10 +591,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 						forKey:[contactAlertsEvents objectAtIndex:[contactAlertsActions indexOfObjectIdenticalTo:item]]];
 
 	[self calculateHeightForItem:item];
-	if ([NSApp isOnLeopardOrBetter])
-		[outlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:item]]];
-	else
-		[outlineView_summary reloadData];
+	[outlineView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:[outlineView rowForItem:item]]];
 }
 
 /*!

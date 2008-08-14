@@ -29,28 +29,6 @@
 	return self;
 }
 
-/*!
- * @brief Return the standard window button for a mask
- *
- * We return AIClickThroughThemeDocumentButton instead of NSThemeDocumentButton to provide
- * click-through dragging behavior on 10.4 and earlier.
- */
-+ (NSButton *)standardWindowButton:(NSWindowButton)button forStyleMask:(NSUInteger)styleMask
-{
-	NSButton *standardWindowButton = [super standardWindowButton:button forStyleMask:styleMask];
-
-	if (![NSApp isOnLeopardOrBetter]) {
-		if (button == NSWindowDocumentIconButton) {
-			[NSKeyedArchiver setClassName:@"AIClickThroughThemeDocumentButton" forClass:[NSThemeDocumentButton class]];
-			standardWindowButton = [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:standardWindowButton]];
-			
-			[[standardWindowButton retain] autorelease];
-		}
-	}
-	
-	return standardWindowButton;
-}
-
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];

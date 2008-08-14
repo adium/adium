@@ -435,9 +435,6 @@
 			case AIDesktopWindowLevel: level = kCGDesktopWindowLevel; break;
 		}
 		[window setLevel:level];
-		if (![NSApp isOnLeopardOrBetter]) {
-			[window setIgnoresExpose:(windowLevel == AIDesktopWindowLevel)]; //Ignore expose while on the desktop
-		}
 		[window setHidesOnDeactivate:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
     }
 }

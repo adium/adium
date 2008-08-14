@@ -248,9 +248,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 {
 	AILogWithSignature(@"Setting to %i", level);
 	[[self window] setLevel:level];
-	if (![NSApp isOnLeopardOrBetter]) {
-		[[self window] setIgnoresExpose:(level == kCGBackstopMenuLevel)]; //Ignore expose while on the desktop
-	}
 }
 
 //Preferences have changed
@@ -278,13 +275,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		
 		[[self window] setHidesOnDeactivate:(windowHidingStyle == AIContactListWindowHidingStyleBackground)];
 		
-		showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
-		if ([NSApp isOnLeopardOrBetter]) {
-			if (showOnAllSpaces)
-				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
-			else
-				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorDefault];
-		}
+	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
+		[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
 
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -687,8 +679,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 		[self setWindowLevel:NSFloatingWindowLevel];
 		
-		if ([NSApp isOnLeopardOrBetter])
-			[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+		[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 		
 		overrodeWindowLevel = YES;
 	}
@@ -737,8 +728,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 				windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 				[self setWindowLevel:kCGBackstopMenuLevel];
 				
-				if ([NSApp isOnLeopardOrBetter])
-					[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+				[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 				
 				overrodeWindowLevel = YES;
 			}
@@ -753,12 +743,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			 */
 			[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 			
-			if ([NSApp isOnLeopardOrBetter]) {
-				if (showOnAllSpaces)
-					[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
-				else
-					[[self window] setCollectionBehavior:NSWindowCollectionBehaviorDefault];
-			}
+			[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
 			
 			overrodeWindowLevel = NO;
 		}

@@ -337,15 +337,7 @@
  */
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
-	NSMenuItem		*menuItem;
-	if ([NSApp isOnLeopardOrBetter]) {
-		menuItem = [menu itemAtIndex:0];
-	} else {
-		/* On 10.4, the menu should have two items. The first is added by the system; the second has no title and is
-		 * our menu item for showing the image. Leopard fixed this silliness.
-		 */
-		menuItem = [menu itemAtIndex:1];
-	}
+	NSMenuItem *menuItem = [menu itemAtIndex:0];
 	NSToolbarItem	*toolbarItem = [menuItem representedObject];
 
 	[menuItem setImage:[[[(AIImageButton *)[toolbarItem view] image] copy] autorelease]];

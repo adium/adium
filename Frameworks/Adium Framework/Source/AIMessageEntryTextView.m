@@ -406,12 +406,10 @@
 		[self setContinuousSpellCheckingEnabled:[[prefDict objectForKey:KEY_SPELL_CHECKING] boolValue]];
 	}
 
-	if ([NSApp isOnLeopardOrBetter]) {
-		if (!object &&
-			[group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE] &&
-			(!key || [key isEqualToString:KEY_GRAMMAR_CHECKING])) {
-			[self setGrammarCheckingEnabled:[[prefDict objectForKey:KEY_GRAMMAR_CHECKING] boolValue]];
-		}
+	if (!object &&
+		[group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE] &&
+		(!key || [key isEqualToString:KEY_GRAMMAR_CHECKING])) {
+		[self setGrammarCheckingEnabled:[[prefDict objectForKey:KEY_GRAMMAR_CHECKING] boolValue]];
 	}
 }
 
