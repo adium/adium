@@ -55,8 +55,8 @@ typedef enum {
 - (void)removeObject:(AIListObject *)inObject;
 - (void)removeAllObjects;
 
-@property (readwrite, nonatomic) BOOL expanded;
-@property (readonly, nonatomic) BOOL expandable;
+@property (readwrite, nonatomic, getter=isExpanded) BOOL expanded;
+@property (readonly, nonatomic, getter=isExpandable) BOOL expandable;
 @property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
 @end
