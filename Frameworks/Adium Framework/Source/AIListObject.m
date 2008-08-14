@@ -250,7 +250,7 @@
 /*!
  * @brief Returns our desired placement within a group
  */
-- (float)orderIndex
+- (CGFloat)orderIndex
 {
 	if (!orderIndex) 
 		orderIndex = [[self containingObject] orderIndexForObject:self];
@@ -263,7 +263,7 @@
  *
  * PRIVATE: These are for AIListGroup ONLY
  */
-- (void)setOrderIndex:(float)inIndex
+- (void)setOrderIndex:(CGFloat)inIndex
 {
 	orderIndex = inIndex;
 	[[self containingObject] listObject:self didSetOrderIndex:orderIndex];
@@ -824,15 +824,8 @@
 	return orderIndexForObject;
 }
 
-- (float)smallestOrder
-{
-	return smallestOrder;
-}
-
-- (float)largestOrder
-{
-	return largestOrder;
-}
+@synthesize smallestOrder;
+@synthesize largestOrder;
 
 #pragma mark Comparison
 /*

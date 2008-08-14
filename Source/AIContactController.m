@@ -1768,11 +1768,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		[listObject setOrderIndex:([group smallestOrder] / 2.0)];
+		[listObject setOrderIndex:(group.smallestOrder / 2.0)];
 		
 	} else if (index >= [group visibleCount]) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		[listObject setOrderIndex:([group largestOrder] + 1.0)];
+		[listObject setOrderIndex:(group.largestOrder + 1.0)];
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
