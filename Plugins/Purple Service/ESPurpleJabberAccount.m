@@ -836,9 +836,8 @@
 	NSMutableArray *menu = [[NSMutableArray alloc] init];
 	
 	if([gateways count] > 0) {
-		NSEnumerator *e = [gateways objectEnumerator];
 		NSDictionary *gatewaydict;
-		while((gatewaydict = [e nextObject])) {
+		for(gatewaydict in gateways) {
 			AIListContact *gateway = [gatewaydict objectForKey:@"contact"];
 			NSMenuItem *mitem = [[NSMenuItem alloc] initWithTitle:[gateway UID] action:@selector(registerGateway:) keyEquivalent:@""];
 			NSMenu *submenu = [[NSMenu alloc] initWithTitle:[gateway UID]];

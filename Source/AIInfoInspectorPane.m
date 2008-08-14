@@ -749,7 +749,6 @@
 	}
 	
 	NSString *property;
-	NSEnumerator *enumerator;
 	NSArray *propertiesToInclude;
 	
 	propertiesToInclude = [NSArray arrayWithObjects:
@@ -761,8 +760,7 @@
 						   kABNoteProperty,															/* Notes */
 						   nil];
 
-	enumerator = [propertiesToInclude objectEnumerator];
-	while ((property = [enumerator nextObject])) {
+	for (property in propertiesToInclude) {
 		if ([person valueForProperty:property]) {
 			id value = [person valueForProperty:property];
 			ABPropertyType propertyType = [ABPerson typeOfProperty:property];

@@ -248,11 +248,9 @@
 //Flash all handles with unviewed content
 - (void)flash:(int)value
 {
-    NSEnumerator	*enumerator;
     AIListContact	*object;
 
-    enumerator = [flashingListObjects objectEnumerator];
-    while ((object = [enumerator nextObject])) {
+    for (object in flashingListObjects) {
         [self _applyColorToContact:object];
         
         //Force a redraw

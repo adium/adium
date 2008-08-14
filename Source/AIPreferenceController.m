@@ -328,12 +328,11 @@
 	
 	//If changes are no longer delayed, save and notify of all preferences modified while delayed
     if (!preferenceChangeDelays) {
-		NSEnumerator    *enumerator = [delayedNotificationGroups objectEnumerator];
 		NSString        *group;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
-		while ((group = [enumerator nextObject])) {
+		for (group in delayedNotificationGroups) {
 			[self informObserversOfChangedKey:nil inGroup:group object:nil];
 		}
 

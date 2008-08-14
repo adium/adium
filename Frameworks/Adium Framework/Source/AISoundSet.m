@@ -224,10 +224,9 @@
 {
 	//If we've been passed more than one location, scan all of them for the sound file
 	if([locations count] > 1){
-		NSEnumerator	*enumerator = [locations objectEnumerator];
 		NSString		*location;
 		
-		while((location = [enumerator nextObject])){
+		for(location in locations){
 			NSArray		*splitPath = [location componentsSeparatedByString:SOUND_LOCATION_SEPARATOR];
 			NSString	*fullPath;
 			BOOL 		isDir;

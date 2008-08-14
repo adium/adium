@@ -532,10 +532,9 @@
 	if ([types containsObject:@"AIListObject"]) {
 		BOOL canSortManually = [[AISortController activeSortController] canSortManually];
 		
-		NSEnumerator *enumerator = [dragItems objectEnumerator];
 		id			 dragItem;
 		BOOL		 hasGroup = NO, hasNonGroup = NO;
-		while ((dragItem = [enumerator nextObject])) {
+		for (dragItem in dragItems) {
 			if ([dragItem isKindOfClass:[AIListGroup class]])
 				hasGroup = YES;
 			if (![dragItem isKindOfClass:[AIListGroup class]])
@@ -669,10 +668,9 @@
 
 - (NSArray *)arrayOfAllContactsFromArray:(NSArray *)inArray
 {
-	NSEnumerator   *enumerator = [inArray objectEnumerator];
 	NSMutableArray *realDragItems = [NSMutableArray array];
 	AIListObject   *aDragItem;
-	while ((aDragItem = [enumerator nextObject])) {
+	for (aDragItem in inArray) {
 		if ([aDragItem isKindOfClass:[AIMetaContact class]]) {
 			[realDragItems addObjectsFromArray:[(AIMetaContact *)aDragItem containedObjects]];
 
@@ -706,13 +704,11 @@
 			NSArray			*dragItemsUniqueIDs;
 			NSMutableArray	*arrayOfDragItems;
 			NSString		*uniqueID;
-			NSEnumerator	*enumerator;
 			
 			dragItemsUniqueIDs = [draggingPasteboard propertyListForType:@"AIListObjectUniqueIDs"];
 			arrayOfDragItems = [NSMutableArray array];
 			
-			enumerator = [dragItemsUniqueIDs objectEnumerator];
-			while ((uniqueID = [enumerator nextObject])) {
+			for (uniqueID in dragItemsUniqueIDs) {
 				[arrayOfDragItems addObject:[[adium contactController] existingListObjectWithUniqueID:uniqueID]];
 			}
 			
@@ -764,7 +760,6 @@
 		if (targetFileTransferContact) {
 			NSArray			*files = nil;
 			NSString		*file;
-			NSEnumerator	*enumerator;
 			
 			if ([availableType isEqualToString:NSFilenamesPboardType]) {
 				files = [[info draggingPasteboard] propertyListForType:NSFilenamesPboardType];
@@ -773,8 +768,7 @@
 				files = [[info draggingPasteboard] filesFromITunesDragPasteboard];
 			}
 
-			enumerator = [files objectEnumerator];
-			while ((file = [enumerator nextObject])) {
+			for (file in files) {
 				[[adium fileTransferController] sendFile:file toListContact:targetFileTransferContact];
 			}
 

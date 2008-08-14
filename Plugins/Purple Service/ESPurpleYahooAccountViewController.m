@@ -117,8 +117,7 @@
 
 	[menuItems sortUsingSelector:@selector(titleCompare:)];
 
-	enumerator = [menuItems objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItems) {
 		[chatServerMenu addItem:menuItem];
 	}
 

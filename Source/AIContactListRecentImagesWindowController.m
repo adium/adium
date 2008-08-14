@@ -284,7 +284,6 @@
 		//There are at least some accounts using the global preference if the counts differ
 		BOOL		 includeGlobal = (onlineAccountsCount != ownIconAccountsCount);
 		AIAccount	 *account;
-		NSEnumerator *enumerator;
 
 		menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Change Icon For:", nil)
 											  target:nil
@@ -294,8 +293,7 @@
 		[menu addItem:menuItem];
 		[menuItem release];
 		
-		enumerator = [ownIconAccounts objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (account in ownIconAccounts) {
 			//Put a check before the account if it is the active account
 			menuItem = [[NSMenuItem alloc] initWithTitle:[account formattedUID]
 												  target:self

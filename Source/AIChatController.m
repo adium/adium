@@ -186,10 +186,9 @@
  */
 - (void)updateAllChatsForObserver:(id <AIChatObserver>)observer
 {
-	NSEnumerator	*enumerator = [openChats objectEnumerator];
 	AIChat			*chat;
 	
-	while ((chat = [enumerator nextObject])) {
+	for (chat in openChats) {
 		[self chatStatusChanged:chat modifiedStatusKeys:nil silent:NO];
 	}
 }
@@ -200,12 +199,10 @@
 - (NSSet *)_informObserversOfChatStatusChange:(AIChat *)inChat withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent
 {
 	NSMutableSet	*attrChange = nil;
-	NSEnumerator	*enumerator;
 	NSValue			*observerValue;
 	
 	//Let our observers know
-	enumerator = [chatObserverArray objectEnumerator];
-	while ((observerValue = [enumerator nextObject])) {
+	for (observerValue in chatObserverArray) {
 		id <AIChatObserver>	observer;
 		NSSet				*newKeys;
 		
@@ -265,7 +262,6 @@
  */
 - (AIChat *)chatWithContact:(AIListContact *)inContact
 {
-	NSEnumerator	*enumerator;
 	AIChat			*chat = nil;
 	AIListContact	*targetContact = inContact;
 
@@ -296,8 +292,7 @@
 	}
 
 	//Search for an existing chat we can switch instead of replacing
-	enumerator = [openChats objectEnumerator];
-	while ((chat = [enumerator nextObject])) {
+	for (chat in openChats) {
 		//If a chat for this object already exists
 		if ([[chat uniqueChatID] isEqualToString:[targetContact internalObjectID]]) {
 			if (!([chat listObject] == targetContact)) {
@@ -345,20 +340,17 @@
  */
 - (AIChat *)existingChatWithContact:(AIListContact *)inContact
 {
-	NSEnumerator	*enumerator;
 	AIChat			*chat = nil;
 
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//Search for a chat with any contact within this AIMetaContact
-		enumerator = [openChats objectEnumerator];
-		while ((chat = [enumerator nextObject])) {
+		for (chat in openChats) {
 			if ([[(AIMetaContact *)inContact containedObjects] containsObjectIdenticalTo:[chat listObject]]) break;
 		}
 
 	} else {
 		//Search for a chat with this AIListContact
-		enumerator = [openChats objectEnumerator];
-		while ((chat = [enumerator nextObject])) {
+		for (chat in openChats) {
 			if ([chat listObject] == inContact) break;
 		}
 	}
@@ -425,14 +417,12 @@
  */
 - (AIChat *)existingChatWithName:(NSString *)name onAccount:(AIAccount *)account
 {
-	NSEnumerator	*enumerator;
 	AIChat			*chat = nil;
 	
 	name = [[account service] normalizeChatName:name];
 
-	enumerator = [openChats objectEnumerator];
 	
-	while ((chat = [enumerator nextObject])) {
+	for (chat in openChats) {
 		if (([chat account] == account) &&
 			([[chat name] isEqualToString:name])) {
 			break;
@@ -449,12 +439,10 @@
  */
 - (AIChat *)existingChatWithIdentifier:(id)identifier onAccount:(AIAccount *)account
 {
-	NSEnumerator	*enumerator;
 	AIChat			*chat = nil;
 	
-	enumerator = [openChats objectEnumerator];
 
-	while ((chat = [enumerator nextObject])) {
+	for (chat in openChats) {
 		if (([chat account] == account) &&
 		   ([[chat identifier] isEqual:identifier])) {
 			break;
@@ -471,12 +459,10 @@
  */
 - (AIChat *)existingChatWithUniqueChatID:(NSString *)uniqueChatID
 {
-	NSEnumerator	*enumerator;
 	AIChat			*chat = nil;
 	
-	enumerator = [openChats objectEnumerator];
 	
-	while ((chat = [enumerator nextObject])) {
+	for (chat in openChats) {
 		if ([[chat uniqueChatID] isEqualToString:uniqueChatID]) {
 			break;
 		}
@@ -645,11 +631,9 @@
 		}
 		
 	} else {
-		NSEnumerator	*enumerator;
 		AIChat			*chat;
 		
-		enumerator = [openChats objectEnumerator];
-		while ((chat = [enumerator nextObject])) {
+		for (chat in openChats) {
 			if (![chat isGroupChat] &&
 				[[[chat listObject] internalObjectID] isEqualToString:[inContact internalObjectID]] &&
 				[chat isOpen]) {
@@ -741,11 +725,10 @@
  */
 - (BOOL)contactIsInGroupChat:(AIListContact *)listContact
 {
-	NSEnumerator	*chatEnumerator = [openChats objectEnumerator];
 	AIChat			*chat;
 	BOOL			contactIsInGroupChat = NO;
 	
-	while ((chat = [chatEnumerator nextObject])) {
+	for (chat in openChats) {
 		if ([chat isGroupChat] &&
 			[chat containsObject:listContact]) {
 			

@@ -203,12 +203,10 @@
 #pragma mark Contact list
 - (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
 {
-	NSEnumerator	*enumerator;
 	AIListContact	*listObject;
 	
 	//Move the objects to it
-	enumerator = [objects objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in objects) {
 		[buddyListManager moveContact:listObject
 					  toGroupWithName:[group UID]];
 	}

@@ -124,13 +124,11 @@
 - (void)applescriptRunnerIsReady:(NSNotification *)inNotification
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSEnumerator	*enumerator;
 	NSDictionary	*executionDict;
 	
 	applescriptRunnerIsReady = YES;
 	
-	enumerator = [pendingApplescriptsArray objectEnumerator];
-	while ((executionDict = [enumerator nextObject])) {
+	for (executionDict in pendingApplescriptsArray) {
 		[self _executeApplescriptWithDict:executionDict];		
 	}
 	

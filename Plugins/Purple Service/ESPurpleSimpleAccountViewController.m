@@ -21,9 +21,8 @@
 			@"authDomain",
 			nil];
 		
-		NSEnumerator *enumerator = [bindings objectEnumerator];
 		NSString	 *binding;
-		while ((binding = [enumerator nextObject])) {
+		for (binding in bindings) {
 			[self exposeBinding:binding];
 
 			//Notify for all our exposed bindings when the account changes

@@ -96,11 +96,10 @@
 - (NSArray *)accountsCompatibleWithService:(AIService *)service
 {
 	NSMutableArray	*matchingAccounts = [NSMutableArray array];
-	NSEnumerator	*enumerator = [accounts objectEnumerator];
 	AIAccount		*account;
 	NSString		*serviceClass = [service serviceClass];
 	
-	while ((account = [enumerator nextObject])) {
+	for (account in accounts) {
 		if ([account enabled] &&
 			[[[account service] serviceClass] isEqualToString:serviceClass]) {
 			[matchingAccounts addObject:account];
@@ -220,12 +219,10 @@
 - (void)_loadAccounts
 {
     NSArray		 *accountList = [[adium preferenceController] preferenceForKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
-	NSEnumerator *enumerator;
 	NSDictionary *accountDict;
 
     //Create an instance of every saved account
-	enumerator = [accountList objectEnumerator];
-	while ((accountDict = [enumerator nextObject])) {
+	for (accountDict in accountList) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		NSString		*serviceID = [self _upgradeServiceID:[accountDict objectForKey:ACCOUNT_TYPE] forAccountDict:accountDict];
         AIAccount		*newAccount;
@@ -328,12 +325,10 @@
 - (void)_saveAccounts
 {
 	NSMutableArray	*flatAccounts = [NSMutableArray array];
-	NSEnumerator	*enumerator;
 	AIAccount		*account;
 	
 	//Build a flattened array of the accounts
-	enumerator = [accounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in accounts) {
 		if (![account isTemporary]) {
 			NSMutableDictionary		*flatAccount = [NSMutableDictionary dictionary];
 			AIService				*service = [account service];

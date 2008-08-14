@@ -341,14 +341,12 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
  */
 - (void)_appendScripts:(NSArray *)scripts toMenu:(NSMenu *)menu
 {
-	NSEnumerator	*enumerator;
 	NSDictionary	*appendDict;
 	NSString		*lastSet = nil;
 	NSString		*set;
 	NSInteger				indentationLevel;
 	
-	enumerator = [scripts objectEnumerator];
-	while ((appendDict = [enumerator nextObject])) {
+	for (appendDict in scripts) {
 		NSString	*title;
 		NSMenuItem	*item;
 		
@@ -407,7 +405,6 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		
 		//Append arg list to replacement string, to show the user what they can pass
 		if (arguments) {
-			NSEnumerator		*argumentEnumerator = [arguments objectEnumerator];
 			NSDictionary		*originalTypingAttributes = [(NSTextView *)responder typingAttributes];
 			NSMutableDictionary *italicizedTypingAttributes = [originalTypingAttributes mutableCopy];
 			NSString			*anArgument;
@@ -420,7 +417,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 			[(NSTextView *)responder insertText:@"{"];
 			
 			//Will that be a five minute argument or the full half hour?
-			while ((anArgument = [argumentEnumerator nextObject])) {
+			for (anArgument in arguments) {
 				//Insert a comma after each argument past the first
 				if (insertedFirst) {
 					[(NSTextView *)responder insertText:@","];					

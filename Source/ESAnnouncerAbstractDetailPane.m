@@ -194,7 +194,6 @@
 	NSArray			*voicesArray;
 	NSMenu			*voicesMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSMenuItem		*menuItem;
-	NSEnumerator	*enumerator;
 	NSString		*voice;
 	
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Use System Default",nil)
@@ -205,8 +204,7 @@
 	[voicesMenu addItem:[NSMenuItem separatorItem]];
 
 	voicesArray = [[[adium soundController] voices] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-	enumerator = [voicesArray objectEnumerator];
-	while ((voice = [enumerator nextObject])) {
+	for (voice in voicesArray) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:voice
 																					  target:nil
 																					  action:nil

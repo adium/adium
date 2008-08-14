@@ -48,11 +48,10 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 - (void)performFilter
 {
-	NSEnumerator *enumerator = [fullDebugLogArray objectEnumerator];
 	NSString	 *aDebugString;
 	
 	[mutableDebugString setString:@""];
-	while ((aDebugString = [enumerator nextObject])) {
+	for (aDebugString in fullDebugLogArray) {
 		if (!filter || 
 			[aDebugString rangeOfString:filter options:NSCaseInsensitiveSearch].location != NSNotFound) {
 			[mutableDebugString appendString:aDebugString];			

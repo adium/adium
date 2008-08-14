@@ -98,9 +98,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 	if (!_flatStatusSet) {
 		_flatStatusSet = [[NSMutableSet alloc] init];
 		
-		NSEnumerator *enumerator = [containedStatusItems objectEnumerator];
-		id statusItem;
-		while ((statusItem = [enumerator nextObject])) {
+		for (id statusItem in containedStatusItems) {
 			if ([statusItem isKindOfClass:[AIStatus class]]) {
 				[_flatStatusSet addObject:(AIStatus *)statusItem];
 			} else if ([statusItem isKindOfClass:[AIStatusGroup class]]) {

@@ -175,11 +175,9 @@
 - (NSImage *)menuPreviewImage
 {
 	NSArray		 *myEmoticons = [self emoticons];
-	NSEnumerator *enumerator;
 	AIEmoticon	 *emoticon;
 
-	enumerator = [myEmoticons objectEnumerator];
-	while ((emoticon = [enumerator nextObject])) {
+	for (emoticon in myEmoticons) {
 		NSArray *equivalents = [emoticon textEquivalents];
 		if ([equivalents containsObject:@":)"] || [equivalents containsObject:@":-)"]) {
 			break;

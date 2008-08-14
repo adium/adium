@@ -170,10 +170,9 @@
 //Retrieve a specific object by service and UID
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
-	NSEnumerator	*enumerator = [containedObjects objectEnumerator];
 	AIListObject	*object;
 	
-	while ((object = [enumerator nextObject])) {
+	for (object in containedObjects) {
 		if ([inUID isEqualToString:[object UID]] && [object service] == inService) break;
 	}
 	

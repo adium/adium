@@ -180,12 +180,10 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 //Returns the behavior for a preset
 - (NSArray *)_behaviorForPreset:(NSString *)presetName inPresetArray:(NSArray *)presetArray
 {
-    NSEnumerator	*enumerator;
     NSDictionary	*set;
     
     //Search for the desired set
-    enumerator = [presetArray objectEnumerator];
-    while ((set = [enumerator nextObject])) {
+    for (set in presetArray) {
         if ([presetName isEqualToString:[set objectForKey:@"Name"]]) {
             return [set objectForKey:@"Behavior"];
         }
@@ -196,15 +194,13 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 
 - (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector
 {
-	NSEnumerator	*enumerator;
 	NSDictionary	*dictionary;
 	
 	//Clear out old global dock behavior alerts
 	[[adium contactAlertsController] removeAllGlobalAlertsWithActionID:actionID];
 	
 	//
-	enumerator = [setArray objectEnumerator];
-	while ((dictionary = [enumerator nextObject])) {
+	for (dictionary in setArray) {
 		[[adium contactAlertsController] addGlobalAlert:[self performSelector:selector
 																   withObject:dictionary]];
 	}

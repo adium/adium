@@ -136,10 +136,9 @@
  */
 - (void)setPrivacy:(BOOL)block forContacts:(NSArray *)contacts
 {
-	NSEnumerator	*contactEnumerator = [contacts objectEnumerator];
 	AIListContact	*currentContact = nil;
 	
-	while ((currentContact = [contactEnumerator nextObject])) {
+	for (currentContact in contacts) {
 		if ([currentContact isBlocked] != block) {
 			[currentContact setIsBlocked:block updateList:YES];
 		}
@@ -359,12 +358,10 @@
 
 	if ([account conformsToProtocol:@protocol(AIAccount_Privacy)] &&
 		([(AIAccount <AIAccount_Privacy> *)account privacyOptions] == AIPrivacyOptionDenyUsers)) {
-		NSEnumerator	*contactEnumerator;
 		AIListContact	*currentContact;
 		NSArray			*blockedContacts = [(AIAccount <AIAccount_Privacy> *)account listObjectsOnPrivacyList:AIPrivacyTypeDeny];
 		
-		contactEnumerator = [blockedContacts objectEnumerator];
-		while ((currentContact = [contactEnumerator nextObject])) {
+		for (currentContact in blockedContacts) {
 			[currentContact setIsBlocked:YES updateList:NO];
 		}
 	}
@@ -378,12 +375,11 @@
  */
 - (BOOL)areAllGivenContactsBlocked:(NSArray *)contacts
 {
-	NSEnumerator	*contactEnumerator = [contacts objectEnumerator];
 	AIListContact	*currentContact = nil;
 	BOOL			areAllGivenContactsBlocked = YES;
 	
 	//for each contact in the array
-	while ((currentContact = [contactEnumerator nextObject])) {
+	for (currentContact in contacts) {
 		
 		//if the contact is unblocked, then all the contacts in the array aren't blocked
 		if (![currentContact isBlocked]) {

@@ -368,11 +368,10 @@
 		NSError			*error;
 		AIKeychain		*keychain = [AIKeychain defaultKeychain_error:&error];
 		NSArray			*accounts = [[adium accountController] accounts];
-		NSEnumerator	*enumerator = [accounts objectEnumerator];
 		AIAccount		*account;
 		NSString		*password;
 		
-		while ((account = [enumerator nextObject])) {
+		for (account in accounts) {
 			password = [keychain internetPasswordForServer:[self _passKeyForAccount:account]
 												   account:[self _oldStyleAccountNameForAccount:account]
 												  protocol:FOUR_CHAR_CODE('AdIM')

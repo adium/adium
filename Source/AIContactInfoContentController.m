@@ -65,9 +65,8 @@
 	NSMutableArray *contentArray = [NSMutableArray array];
 	//Allocate and initalize each class, then stick it in the array.
 	id currentPane = nil;
-	NSEnumerator *paneEnumerator = [contentPanes objectEnumerator];
 	
-	while((currentPane = [paneEnumerator nextObject])) {
+	for(currentPane in contentPanes) {
 		Class paneClass = nil;
 		if(!(paneClass = NSClassFromString(currentPane))) {
 			AILogWithSignature(@"Warning: Could not obtain a class for %@", currentPane);

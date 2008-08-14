@@ -575,9 +575,7 @@ static int nextChatNumber = 0;
 
 - (void)removeAllParticipatingContactsSilently
 {
-	NSEnumerator *enumerator = [participatingListObjects objectEnumerator];
-	AIListContact *listContact;
-	while ((listContact = [enumerator nextObject])) {
+	for (AIListContact *listContact in participatingListObjects) {
 		if ([listContact isStranger] &&
 			![[adium chatController] existingChatWithContact:[(AIListContact *)listContact parentContact]]) {
 			[[adium contactController] account:[listContact account]

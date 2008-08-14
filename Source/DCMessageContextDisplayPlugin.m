@@ -154,11 +154,9 @@
 		//The most recent message is what determines whether we have "chatted in the last X days", "not chatted in the last X days", etc.
 		NSCalendarDate *mostRecentMessage = [[(AIContentContext *)[context lastObject] date] dateWithCalendarFormat:nil timeZone:nil];
 		if ([self contextShouldBeDisplayed:mostRecentMessage]) {
-			NSEnumerator		*enumerator;
 			AIContentContext	*contextMessage;
 
-			enumerator = [context objectEnumerator];
-			while((contextMessage = [enumerator nextObject])) {
+			for(contextMessage in context) {
 				/* Don't display immediately, so the message view can aggregate multiple message history items.
 				 * As required, we post Content_ChatDidFinishAddingUntrackedContent when finished adding. */
 				[contextMessage setDisplayContentImmediately:NO];

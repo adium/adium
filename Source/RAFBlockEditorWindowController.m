@@ -183,11 +183,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 	//Add the contact immediately
 	if (contactArray && [contactArray count]) {
-		NSEnumerator *enumerator;
 		AIListContact *contact;
 		
-		enumerator = [contactArray objectEnumerator];
-		while ((contact = [enumerator nextObject])) {
+		for (contact in contactArray) {
 			[self addObject:contact];
 		}
 		
@@ -238,8 +236,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		accountArray = tempArray;
 	}
 
-	enumerator = [accountArray objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in accountArray) {
 		if ([impliedValue isKindOfClass:[AIMetaContact class]]) {
 			AIListContact *containedContact;
 			NSEnumerator *contactEnumerator = [[(AIMetaContact *)impliedValue listContactsIncludingOfflineAccounts] objectEnumerator];
@@ -625,7 +622,6 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
 {
 	AIAccount	 *previouslySelectedAccount = nil;
-	NSEnumerator *enumerator;
 	NSMenuItem	 *menuItem;
 	NSMenu		 *menu = [[NSMenu alloc] init];
 
@@ -658,8 +654,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	 *	1) Determine what state the accounts within the menu are in
 	 *  2) Add the menu items to our menu
 	 */
-	enumerator = [menuItems objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {		
+	for (menuItem in menuItems) {		
 		[menu addItem:menuItem];
 	}
 
@@ -756,9 +751,8 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 - (BOOL)tableView:(NSTableView *)tv writeRows:(NSArray*)rows toPasteboard:(NSPasteboard*)pboard
 {	
 	NSMutableArray 	*itemArray = [NSMutableArray array];
-	NSEnumerator	*enumerator = [rows objectEnumerator];
 	NSNumber		*rowNumber;
-	while ((rowNumber = [enumerator nextObject])) {
+	for (rowNumber in rows) {
 		[itemArray addObject:[listContents objectAtIndex:[rowNumber integerValue]]];
 	}
 
@@ -795,10 +789,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		
 		if (dragItems) {
 			NSMutableArray	*dragItemsArray = [NSMutableArray array];
-			NSEnumerator	*enumerator = [dragItems objectEnumerator];
 			AIListObject	*listObject;
 			
-			while ((listObject = [enumerator nextObject])) {
+			for (listObject in dragItems) {
 				[dragItemsArray addObject:[listObject internalObjectID]];
 			}
 			
@@ -857,8 +850,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	if ([[[info draggingPasteboard] types] containsObject:@"AIListObjectUniqueIDs"]) {
 		NSArray			*dragItemsUniqueIDs = [[info draggingPasteboard] propertyListForType:@"AIListObjectUniqueIDs"];
 		NSString *uniqueUID;
-		NSEnumerator *idEnumerator = [dragItemsUniqueIDs objectEnumerator];
-		while ((uniqueUID = [idEnumerator nextObject]))
+		for (uniqueUID in dragItemsUniqueIDs)
 			[self addListObjectToList:[[adium contactController] existingListObjectWithUniqueID:uniqueUID]];
 		accept = YES;
 	}

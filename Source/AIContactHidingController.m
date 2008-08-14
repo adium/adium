@@ -218,10 +218,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 {	
 	id<AIContactController> contactController = [adium contactController];
 	NSArray			*listObjects = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
-	NSEnumerator	*enumerator = [listObjects objectEnumerator];
 	AIListContact	*listContact;
 	
-	while ((listContact = [enumerator nextObject])) {
+	for (listContact in listObjects) {
 		if ([self evaluatePredicateOnListContact:listContact withSearchString:inSearchString]) {
 			return YES;
 		}
@@ -260,10 +259,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	// Delay list object notifications until we're done
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	
-	NSEnumerator	*enumerator = [listContacts objectEnumerator];
 	AIListContact	*listContact;
 
-	while ((listContact = [enumerator nextObject])) {
+	for (listContact in listContacts) {
 		// If this contact is in a meta contact, we need to check the meta contact, not this particular contact.
 		if ([[listContact containingObject] isKindOfClass:[AIMetaContact class]]) {
 			listContact = (AIListContact *)[listContact containingObject];

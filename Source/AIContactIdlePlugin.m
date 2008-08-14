@@ -121,7 +121,6 @@
  */
 - (void)updateIdleObjectsTimer:(NSTimer *)inTimer
 {
-    NSEnumerator	*enumerator;
     AIListObject	*object;
 
 	//There's actually no reason to re-sort in response to these status changes, but there is no way for us to
@@ -130,8 +129,7 @@
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 	//Update everyone's idle time
-    enumerator = [idleObjectArray objectEnumerator];
-    while ((object = [enumerator nextObject])) {
+    for (object in idleObjectArray) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
         [self setIdleForObject:object silent:YES];
 		[pool release];

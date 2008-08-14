@@ -281,7 +281,7 @@
 	NSMutableArray *menuItemsForAccountsWhichKnow = [NSMutableArray array];
 	NSMutableArray *menuItemsForAccountsWhichDoNotKnow = [NSMutableArray array];
 	
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItems) {
 		AIAccount *account = [menuItem representedObject];
 		AIListContact *listContact = [[adium contactController] existingContactWithService:[[chat listObject] service]
 																				 account:account
@@ -305,8 +305,7 @@
 	if ([menu numberOfItems] && [menuItemsForAccountsWhichDoNotKnow count]) [menu addItem:[NSMenuItem separatorItem]];
 
 	//Finally, add items for accounts which are on the right service but don't know about this contact
-	enumerator = [menuItemsForAccountsWhichDoNotKnow objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemsForAccountsWhichDoNotKnow) {
 		[menu addItem:menuItem];
 	}
 

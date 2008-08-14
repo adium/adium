@@ -199,14 +199,12 @@
 		contactNames = [namesSeparatedByCommas componentsSeparatedByString:@","];
 		
 		if ([contactNames count]) {
-			NSEnumerator	*enumerator;
 			NSString		*aContactName, *UID;
 			AIListContact	*listContact;
 			
 			contactsArray = [NSMutableArray array];
 			
-			enumerator = [contactNames objectEnumerator];		
-			while ((aContactName = [enumerator nextObject])) {
+			for (aContactName in contactNames) {
 								
 				UID = [[inAccount service] normalizeUID:[self impliedCompletion:aContactName] removeIgnoredCharacters:YES];
 				
@@ -271,12 +269,10 @@
 		if ([[pboard availableTypeFromArray:[NSArray arrayWithObject:@"AIListObjectUniqueIDs"]] isEqualToString:@"AIListObjectUniqueIDs"]) {
 			NSArray			*dragItemsUniqueIDs;
 			NSString		*uniqueID;
-			NSEnumerator	*enumerator;
 			
 			dragItemsUniqueIDs = [pboard propertyListForType:@"AIListObjectUniqueIDs"];
 			
-			enumerator = [dragItemsUniqueIDs objectEnumerator];
-			while ((uniqueID = [enumerator nextObject])) {
+			for (uniqueID in dragItemsUniqueIDs) {
 				
 				// Is there a contact with our service?
 				if ( [self validContact:uniqueID withService:[account service]] ) {
@@ -308,12 +304,10 @@
 			NSString		*uniqueID;
 			AIListObject	*listObject;
 			AIListContact	*listContact;
-			NSEnumerator	*enumerator;
 			
 			dragItemsUniqueIDs = [pboard propertyListForType:@"AIListObjectUniqueIDs"];
 			
-			enumerator = [dragItemsUniqueIDs objectEnumerator];
-			while ((uniqueID = [enumerator nextObject])) {
+			for (uniqueID in dragItemsUniqueIDs) {
 				NSString *oldValue = [theField stringValue];
 				listObject = [[adium contactController] existingListObjectWithUniqueID:uniqueID];
 				

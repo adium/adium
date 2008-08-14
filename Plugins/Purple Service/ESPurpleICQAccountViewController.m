@@ -211,7 +211,6 @@
 
 - (void)addEncodingItemsWithNames:(NSArray *)inArray withTitle:(NSString *)inTitle toMenu:(NSMenu *)menu
 {
-	NSEnumerator	*enumerator;
 	NSString		*name;
 	NSMenuItem		*menuItem;
     BOOL			canIndent = [NSMenuItem instancesRespondToSelector:@selector(setIndentationLevel:)];
@@ -224,8 +223,7 @@
 	[menu addItem:menuItem];
 	[menuItem release];
 
-	enumerator = [inArray objectEnumerator];
-	while ((name = [enumerator nextObject])) {
+	for (name in inArray) {
 		menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:name
 																		target:nil
 																		action:nil

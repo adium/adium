@@ -238,9 +238,8 @@
     }
 	
 	// Bring all detached windows to front as well
-	NSEnumerator *i = [contactLists objectEnumerator];
 	AIListWindowController *window;
-	while((window = [i nextObject]))
+	for(window in contactLists)
 		[window showWindowInFrontIfAllowed:bringToFront];
 	
 	[defaultController showWindowInFrontIfAllowed:bringToFront];
@@ -375,10 +374,9 @@
 			 representedObject:[[adium contactController] contactList]];
 	}
 	
-	NSEnumerator				*enumerator = [contactLists objectEnumerator];
 	AIListWindowController		*window;
 	
-	while ((window = [enumerator nextObject])) {
+	for (window in contactLists) {
 		// Don't add an "attach" option for the window we're already a part of.
 		if (([window contactList] == [selectedObject containingObject])) {
 			continue;
@@ -587,10 +585,9 @@
 	if (!hasLoaded) {
 		NSArray *detachedWindowsDict = [[adium preferenceController] preferenceForKey:DETACHED_WINDOWS
 																				group:PREF_DETACHED_GROUPS];
-		NSEnumerator *enumerator = [detachedWindowsDict objectEnumerator];
 		NSDictionary *windowPreferenceDict;
 		
-		while ((windowPreferenceDict = [enumerator nextObject])) {
+		for (windowPreferenceDict in detachedWindowsDict) {
 			[self loadWindowPreferences:windowPreferenceDict];
 		}
 		
@@ -612,8 +609,7 @@
 	AIContactList *contactList = [[adium contactController] createDetachedContactList];
 
 	NSString *groupUID;
-	NSEnumerator *enumerator = [groups objectEnumerator];
-	while ((groupUID = [enumerator nextObject])) {
+	for (groupUID in groups) {
 		AIListGroup		*group = [[adium contactController] groupWithUID:groupUID];
 		[(AIContactList *)[group containingObject] moveGroup:group to:contactList];
 	}

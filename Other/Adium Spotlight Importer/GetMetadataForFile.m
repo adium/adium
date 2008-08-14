@@ -142,10 +142,9 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 		NSSet *duplicatesRemover = [NSSet setWithArray: senderNodes];
 		// XPath returns an array of NSXMLNodes. Must convert them to strings containing just the attribute value.
 		NSMutableArray *authorsArray = [NSMutableArray arrayWithCapacity:[duplicatesRemover count]];
-		NSEnumerator *enumerator = [duplicatesRemover objectEnumerator];
 		NSXMLNode *senderNode = nil;
 		
-		while( ( senderNode = [enumerator nextObject] ) ) {
+		for( senderNode in duplicatesRemover ) {
 			[authorsArray addObject:[senderNode objectValue]];
 		}
 		

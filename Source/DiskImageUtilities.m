@@ -96,21 +96,15 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
     // points from their system entities
     
     if (imagesArray) {
-      NSInteger idx;
-      NSUInteger numberOfImages = [imagesArray count];
-      for (idx = 0; idx < numberOfImages; idx++) {
+      for (NSDictionary *imageDict in imagesArray) {
         
-        NSDictionary *imageDict = [imagesArray objectAtIndex:idx];
         NSNumber *isWriteable = [imageDict objectForKey:@"writeable"];
         if (isWriteable && ![isWriteable boolValue]) {
           
           NSArray *systemEntitiesArray = [imageDict objectForKey:@"system-entities"];
           if (systemEntitiesArray) {
-            NSInteger idx;
-            NSUInteger numberOfSystemEntities = [systemEntitiesArray count];
-            for (idx = 0; idx < numberOfSystemEntities; idx++) {
+            for (NSDictionary *entityDict in systemEntitiesArray) {
               
-              NSDictionary *entityDict = [systemEntitiesArray objectAtIndex:idx];
               NSString *mountPoint = [entityDict objectForKey:@"mount-point"];
               if ([mountPoint length] > 0) {
                 
@@ -148,10 +142,8 @@ static NSString* const kHDIUtilPath = @"/usr/bin/hdiutil";
     // we haven't tested this launch path; check it now
     NSArray *imagePaths = [self readOnlyDiskImagePaths];
     
-    NSInteger idx;
-    for (idx = 0; idx < [imagePaths count]; idx++) {
+    for (NSString *imagePath in imagePaths) {
       
-      NSString *imagePath = [imagePaths objectAtIndex:idx];
       if (![imagePath hasSuffix:@"/"])
         imagePath = [NSString stringWithFormat:@"%@/", imagePath];
       if ([mainBundlePath hasPrefix:imagePath]) {

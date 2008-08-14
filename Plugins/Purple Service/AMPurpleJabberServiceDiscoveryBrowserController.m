@@ -79,10 +79,9 @@ static NSImage *det_triangle_closed = nil;
 		NSArray *identities = [item identities];
 		if (!identities)
 			return;
-		NSEnumerator *e = [identities objectEnumerator];
 		NSDictionary *identity;
 		
-		while ((identity = [e nextObject])) {
+		for (identity in identities) {
 			if ([[identity objectForKey:@"category"] isEqualToString:@"gateway"])
 #warning This should not be called outside libpurple!
 				jabber_register_gateway((JabberStream*)gc->proto_data, [[item jid] UTF8String]);
@@ -140,10 +139,9 @@ static NSImage *det_triangle_closed = nil;
 		
 		if (commands) {
 			menu = [[[NSMenu alloc] initWithTitle:@""] autorelease];
-			NSEnumerator *enumerator = [commands objectEnumerator];
 			AMPurpleJabberNode *command;
 			
-			while ((command = [enumerator nextObject])) {
+			for (command in commands) {
 				NSMenuItem *mitem = [[NSMenuItem alloc] initWithTitle:[command name]
 															   action:@selector(performCommand:)
 														keyEquivalent:@""];
@@ -282,10 +280,9 @@ static NSImage *det_triangle_closed = nil;
 	if (!identities)
 		return nil;
 	NSMutableArray *result = [NSMutableArray array];
-	NSEnumerator *e = [identities objectEnumerator];
 	NSDictionary *identity;
 	
-	while ((identity = [e nextObject])) {
+	for (identity in identities) {
 		if ([[identity objectForKey:@"category"] isEqualToString:@"gateway"])
 			[result addObject:[NSString stringWithFormat:AILocalizedString(@"%@; double-click to register.","XMPP service discovery browser gateway tooltip"),[identity objectForKey:@"name"]]];
 		else if ([[identity objectForKey:@"category"] isEqualToString:@"conference"])

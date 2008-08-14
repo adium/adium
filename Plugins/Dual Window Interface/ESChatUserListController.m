@@ -69,10 +69,9 @@
 	BOOL			success = NO;
 	AIChat			*activeChat = [[adium interfaceController] activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = [activeChat account];
-	NSEnumerator	*enumerator = [dragItems objectEnumerator];
 	AIListObject	*listObject;
 	
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in dragItems) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:[activeChatAccount service]];
 		}
@@ -102,12 +101,11 @@
  */
 - (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
-	NSEnumerator	*enumerator = [dragItems objectEnumerator];
 	AIListObject	*listObject;
 	AIChat			*activeChat = [[adium interfaceController] activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = [activeChat account];
 
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in dragItems) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:[activeChatAccount service]];
 		}

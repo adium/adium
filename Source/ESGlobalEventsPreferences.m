@@ -230,8 +230,7 @@
 	if ([storedEventPresetsArray count]) {
 		[eventPresetsMenu addItem:[NSMenuItem separatorItem]];
 		
-		enumerator = [storedEventPresetsArray objectEnumerator];
-		while ((eventPreset = [enumerator nextObject])) {
+		for (eventPreset in storedEventPresetsArray) {
 			NSString		*name = [eventPreset objectForKey:@"Name"];
 			
 			//Add a menu item for the set
@@ -495,8 +494,7 @@
 				//Next, see if any sounds not present within this sound set have been added
 				if (soundMenuItem) {
 					NSDictionary	*alertDict;
-					enumerator = [alertsArray objectEnumerator];
-					while ((alertDict = [enumerator nextObject])) {
+					for (alertDict in alertsArray) {
 						if ([[alertDict objectForKey:KEY_ACTION_ID] isEqualToString:SOUND_ALERT_IDENTIFIER]) {
 							NSString *englishEvent = [[adium contactAlertsController] eventIDForEnglishDisplayName:key];
 							/*
@@ -782,8 +780,7 @@
 	
 	[menuItemArray sortUsingSelector:@selector(titleCompare:)];
 	
-	enumerator = [menuItemArray objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemArray) {
 		[soundSetMenu addItem:menuItem];
 	}
 

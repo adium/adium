@@ -312,9 +312,7 @@ static NSString	*prefsCategory;
 
 	//Process any delayed URL events 
 	if (queuedURLEvents) {
-		NSString *eventString = nil;
-		NSEnumerator *e  = [queuedURLEvents objectEnumerator];
-		while ((eventString = [e nextObject])) {
+		for (NSString *eventString in queuedURLEvents) {
 			[AdiumURLHandling handleURLEvent:eventString];
 		}
 		[queuedURLEvents release]; queuedURLEvents = nil;
@@ -930,8 +928,7 @@ static NSString	*prefsCategory;
 - (NSArray *)resourcePathsForName:(NSString *)name
 {
 	NSArray			*librarySearchPaths;
-	NSEnumerator	*searchPathEnumerator;
-	NSString		*adiumFolderName, *path;
+	NSString		*adiumFolderName;
 	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
 	NSFileManager	*defaultManager = [NSFileManager defaultManager];
 	BOOL			isDir;
@@ -942,10 +939,10 @@ static NSString	*prefsCategory;
 
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
 	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
-	searchPathEnumerator = [librarySearchPaths objectEnumerator];
 
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	while ((path = [searchPathEnumerator nextObject])) {
+	NSString *path = nil;
+	for (path in librarySearchPaths) {
 		NSString	*fullPath;
 		
 		fullPath = [path stringByAppendingPathComponent:adiumFolderName];

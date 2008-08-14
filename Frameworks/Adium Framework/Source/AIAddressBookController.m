@@ -726,7 +726,6 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	NSArray			*allServiceKeys = [serviceDict allKeys];
 	NSString		*serviceID;
 	NSMutableSet	*contactSet = [NSMutableSet set];
-	NSEnumerator	*servicesEnumerator;
 	ABMultiValue	*emails;
 	NSInteger				i, emailsCount;
 
@@ -774,8 +773,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	}
 	
 	//Now go through the instant messaging keys
-	servicesEnumerator = [allServiceKeys objectEnumerator];
-	while ((serviceID = [servicesEnumerator nextObject])) {
+	for (serviceID in allServiceKeys) {
 		NSString		*addressBookKey = [serviceDict objectForKey:serviceID];
 		ABMultiValue	*names;
 		NSInteger				nameCount;
@@ -881,12 +879,10 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		AILogWithSignature(@"Removed %@", deletedPeopleUniqueIDs);
 	}
 	
-	NSEnumerator	*peopleEnumerator;
 	ABPerson		*person;
 	
 	//Do appropriate updates for each updated ABPerson
-	peopleEnumerator = [allModifiedPeople objectEnumerator];
-	while ((person = [peopleEnumerator nextObject])) {
+	for (person in allModifiedPeople) {
 		if (person == me) {
 			modifiedMe = YES;
 		}
@@ -1057,13 +1053,10 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (void)addToAddressBookDict:(NSArray *)people
 {
-	NSEnumerator		*peopleEnumerator;
 	NSArray				*allServiceKeys = [serviceDict allKeys];
 	ABPerson			*person;
 	
-	peopleEnumerator = [people objectEnumerator];
-	while ((person = [peopleEnumerator nextObject])) {
-		NSEnumerator		*servicesEnumerator;
+	for (person in people) {
 		NSString			*serviceID;
 		
 		NSMutableArray		*UIDsArray = [NSMutableArray array];
@@ -1137,8 +1130,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		}
 		
 		//Now go through the instant messaging keys
-		servicesEnumerator = [allServiceKeys objectEnumerator];
-		while ((serviceID = [servicesEnumerator nextObject])) {
+		for (serviceID in allServiceKeys) {
 			NSString			*addressBookKey = [serviceDict objectForKey:serviceID];
 			ABMultiValue		*names;
 			NSInteger					nameCount;
@@ -1233,19 +1225,15 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (void)removeFromAddressBookDict:(NSArray *)uniqueIDs
 {
-	NSEnumerator		*enumerator;
 	NSArray				*allServiceKeys = [serviceDict allKeys];
 	NSString			*uniqueID;
 	
-	enumerator = [uniqueIDs objectEnumerator];
-	while ((uniqueID = [enumerator nextObject])) {
-		NSEnumerator		*servicesEnumerator;
+	for (uniqueID in uniqueIDs) {
 		NSString			*serviceID;
 		NSMutableDictionary	*dict;
 		
 		//The same person may have multiple services; iterate through them and remove each one.
-		servicesEnumerator = [allServiceKeys objectEnumerator];
-		while ((serviceID = [servicesEnumerator nextObject])) {
+		for (serviceID in allServiceKeys) {
 			NSEnumerator *keysEnumerator;
 			NSString *key;
 			

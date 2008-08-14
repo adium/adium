@@ -96,8 +96,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 
 		[menuItemArray sortUsingFunction:titleSort context:NULL];
 		
-		enumerator = [menuItemArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in menuItemArray) {
 			[menu addItem:menuItem];
 		}
 		

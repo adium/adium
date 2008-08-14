@@ -269,7 +269,6 @@
 	NSArray			*itemArray = [[inContact account] menuItemsForContact:inContact];
 
 	if (itemArray && [itemArray count]) {
-		NSEnumerator	*enumerator;
 		NSMenuItem		*menuItem;
 
 		if (*separatorItem == YES) {
@@ -277,8 +276,7 @@
 			*separatorItem = NO;
 		}
 
-		enumerator = [itemArray objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in itemArray) {
 			[workingMenu addItem:menuItem];
 		}
 	}
@@ -295,7 +293,6 @@
 
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray usingMenu:(NSMenu *)inMenu
 {
-	NSEnumerator	*enumerator;
 	NSNumber		*location;
 	NSMenuItem		*menuItem;
 	BOOL			itemsAbove = NO;
@@ -304,10 +301,8 @@
 	[inMenu removeAllItems];
 
 	//Process each specified location
-	enumerator = [inLocationArray objectEnumerator];
-	while ((location = [enumerator nextObject])) {
+	for (location in inLocationArray) {
 		NSArray			*menuItems = [contextualMenuItemDict objectForKey:location];
-		NSEnumerator	*itemEnumerator;
 
 		//Add a seperator
 		if (itemsAbove && [menuItems count]) {
@@ -316,8 +311,7 @@
 		}
 
 		//Add each menu item in the location
-		itemEnumerator = [menuItems objectEnumerator];
-		while ((menuItem = [itemEnumerator nextObject])) {
+		for (menuItem in menuItems) {
 			//Add the menu item
 			[inMenu addItem:menuItem];
 			itemsAbove = YES;
@@ -466,9 +460,8 @@
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
 	NSArray *menuItems = [[[menu itemArray] copy] autorelease];
-	NSEnumerator *enumerator = [menuItems objectEnumerator];
 	NSMenuItem *menuItem;
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItems) {
 		id target = [menuItem target];
 		if ([target respondsToSelector:@selector(menu:needsUpdateForMenuItem:)])
 			[target menu:menu needsUpdateForMenuItem:menuItem];

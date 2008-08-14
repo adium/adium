@@ -106,11 +106,9 @@
 	/* Add ourselves to the default host-reachability monitor as an observer for each account's host.
 	 * At the same time, weed accounts that are to be auto-connected out of the accountsToNotConnect set.
 	 */
-	NSEnumerator	*enumerator;
 	AIAccount		*account;
 	
-	enumerator = [accounts objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in accounts) {
 		BOOL	connectAccount = (!shiftHeld  &&
 								  [account enabled] &&
 								  [[account preferenceForKey:KEY_AUTOCONNECT

@@ -160,12 +160,10 @@
  */
 - (BOOL)shouldPollToUpdateString:(NSString *)inString
 {
-	NSEnumerator	*enumerator;
 	NSString		*stringRequiringPolling;
 	BOOL			shouldPoll = NO;
 	
-	enumerator = [stringsRequiringPolling objectEnumerator];
-	while ((stringRequiringPolling = [enumerator nextObject])) {
+	for (stringRequiringPolling in stringsRequiringPolling) {
 		if ([inString rangeOfString:stringRequiringPolling].location != NSNotFound) {
 			shouldPoll = YES;
 			break;

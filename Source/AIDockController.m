@@ -270,7 +270,6 @@
 	if ([[stateDict objectForKey:@"Animated"] integerValue]) { //Animated State
 		NSMutableDictionary	*tempIconCache = [NSMutableDictionary dictionary];
 		NSArray				*imageNameArray;
-		NSEnumerator		*imageNameEnumerator;
 		NSString			*imageName;
 		NSMutableArray		*imageArray;
 		BOOL				overlay, looping;
@@ -281,11 +280,10 @@
 		looping = [[stateDict objectForKey:@"Looping"] boolValue];
 		delay   = [[stateDict objectForKey:@"Delay"] doubleValue];
 		imageNameArray = [stateDict objectForKey:@"Images"];
-		imageNameEnumerator = [imageNameArray objectEnumerator];
 
 		//Load the images
 		imageArray = [NSMutableArray arrayWithCapacity:[imageNameArray count]];
-		while ((imageName = [imageNameEnumerator nextObject])) {
+		for (imageName in imageNameArray) {
 			NSString	*imagePath;
 			NSImage		*image;
 			
@@ -400,7 +398,6 @@
 {
     NSMutableArray	*iconStates = [NSMutableArray array];
     NSDictionary	*availableIcons;
-    NSEnumerator	*enumerator;
     AIIconState		*state;
     NSString		*name;
 
@@ -413,8 +410,7 @@
 
     //Build an array of the valid active icon states
     availableIcons = [availableIconStateDict objectForKey:@"State"];
-    enumerator = [activeIconStateArray objectEnumerator];
-    while ((name = [enumerator nextObject])) {
+    for (name in activeIconStateArray) {
         if ((state = [availableIcons objectForKey:name]) || (state = [availableDynamicIconStateDict objectForKey:name])) {
             [iconStates addObject:state];
         }

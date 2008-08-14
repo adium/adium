@@ -436,9 +436,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 {
 	[requiredHeightDict release]; requiredHeightDict = [[NSMutableDictionary alloc] init];
 
-	NSEnumerator *enumerator = [contactAlertsActions objectEnumerator];
 	id item;
-	while ((item = [enumerator nextObject])) {
+	for (item in contactAlertsActions) {
 		[self calculateHeightForItem:item];
 	}
 }
@@ -839,11 +838,9 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 - (void)deleteContactActionsInArray:(NSArray *)contactEventArray
 {
 	NSDictionary	*eventDict;
-	NSEnumerator	*enumerator;
 
 	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
-	enumerator = [contactEventArray objectEnumerator];
-	while ((eventDict = [enumerator nextObject])) {
+	for (eventDict in contactEventArray) {
 		[[adium contactAlertsController] removeAlert:eventDict fromListObject:listObject];
 	}
 	[[adium preferenceController] delayPreferenceChangedNotifications:NO];

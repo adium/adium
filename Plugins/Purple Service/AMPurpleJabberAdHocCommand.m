@@ -80,9 +80,8 @@
 	if(actions) {
 		xmlnode *actionsnode = xmlnode_new_child(newcmd,"actions");
 		xmlnode_set_attrib(actionsnode,"execute",[[actions objectAtIndex:defaultAction] UTF8String]);
-		NSEnumerator *e = [actions objectEnumerator];
 		NSString *actionstr;
-		while((actionstr = [e nextObject]))
+		for(actionstr in actions)
 			xmlnode_new_child(actionsnode, [actionstr UTF8String]);
 	}
 	

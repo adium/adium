@@ -126,12 +126,11 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 		  purple_dnsquery_get_host(query_data),
 		  purple_dnsquery_get_port(query_data));	
 
-	NSEnumerator *enumerator = [addresses objectEnumerator];
 	NSData		 *address;
 	GSList		 *returnAddresses = NULL;
 	unsigned short port = purple_dnsquery_get_port(query_data);
 
-	while ((address = [enumerator nextObject])) {
+	for (address in addresses) {
 		struct sockaddr *addr = (struct sockaddr *)[address bytes];
 
 		struct sockaddr_in *addr_to_return = g_malloc(addr->sa_len);

@@ -777,9 +777,8 @@
 {
 	BOOL isReceivingContent = NO;
 
-	NSEnumerator	*objectsBeingReceivedEnumerator = [objectsBeingReceived objectEnumerator];
 	AIContentObject	*contentObject;
-	while ((contentObject = [objectsBeingReceivedEnumerator nextObject])) {
+	for (contentObject in objectsBeingReceived) {
 		if ([contentObject chat] == inChat) {
 			isReceivingContent = YES;
 			break;

@@ -221,12 +221,10 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 - (void)configureControlDimming
 {	
-	NSEnumerator				*enumerator;
 	ESFileTransferProgressRow	*row;
 	BOOL						enableClear = NO;
 	
-	enumerator = [progressRows objectEnumerator];
-	while ((row = [enumerator nextObject])) {
+	for (row in progressRows) {
 		if ([[row fileTransfer] isStopped]) {
 			enableClear = YES;
 			break;
@@ -293,11 +291,9 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 - (ESFileTransferProgressRow *)existingRowForFileTransfer:(ESFileTransfer *)inFileTransfer
 {
-	NSEnumerator				*enumerator;
 	ESFileTransferProgressRow	*row;
 
-	enumerator = [progressRows objectEnumerator];
-	while ((row = [enumerator nextObject])) {
+	for (row in progressRows) {
 		if ([row fileTransfer] == inFileTransfer) break;
 	}
 
@@ -362,13 +358,11 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 //Update the status bar at the bottom of the window
 - (void)updateStatusBar
 {
-	NSEnumerator				*enumerator;
 	ESFileTransferProgressRow	*aRow;
 	NSString					*statusBarString, *downloadsString = nil, *uploadsString = nil;
 	NSUInteger					downloads = 0, uploads = 0;
 	
-	enumerator = [progressRows objectEnumerator];
-	while ((aRow = [enumerator nextObject])) {
+	for (aRow in progressRows) {
 		AIFileTransferType type = [aRow type];
 		if (type == Incoming_FileTransfer) {
 			downloads++;

@@ -106,10 +106,9 @@ static	NSMutableDictionary		*pluginDict = nil;
 //Give all external plugins a chance to close
 - (void)controllerWillClose
 {
-    NSEnumerator	*enumerator = [pluginArray objectEnumerator];
     id <AIPlugin>	plugin;
 
-    while ((plugin = [enumerator nextObject])) {
+    for (plugin in pluginArray) {
 		[[adium notificationCenter] removeObserver:plugin];
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
