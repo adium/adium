@@ -263,10 +263,9 @@
 
 - (void)_loadMetaContactsFromArray:(NSArray *)array
 {
-	NSEnumerator	*enumerator = [array objectEnumerator];
 	NSString		*identifier;
 	
-	while ((identifier = [enumerator nextObject])) {
+	for (identifier in array) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		NSNumber *objectID = [NSNumber numberWithInteger:[[[identifier componentsSeparatedByString:@"-"] objectAtIndex:1] integerValue]];
 		[self metaContactWithObjectID:objectID];
@@ -278,10 +277,10 @@
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects
 {
 	NSMutableArray	*array = [NSMutableArray array];
-	NSEnumerator	*enumerator = [listObjects objectEnumerator];;
+	;
 	AIListObject	*object;
 	
-	while ((object = [enumerator nextObject])) {
+	for (object in listObjects) {
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  @"Group", @"Type",
 						  [object UID], UID_KEY,
@@ -500,12 +499,10 @@
 		while ((listObject = [enumerator nextObject])) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				NSArray			*containedObjects;
-				NSEnumerator	*groupEnumerator;
 				AIListObject	*containedListObject;
 				
 				containedObjects = [[(AIListGroup *)listObject containedObjects] copy];
-				groupEnumerator = [containedObjects objectEnumerator];
-				while ((containedListObject = [groupEnumerator nextObject])) {
+				for (containedListObject in containedObjects) {
 					if ([containedListObject isKindOfClass:[AIListContact class]]) {
 						[self _moveContactLocally:(AIListContact *)containedListObject
 										  toGroup:contactList];
@@ -692,10 +689,9 @@
  */
 - (void)_restoreContactsToMetaContact:(AIMetaContact *)metaContact fromContainedContactsArray:(NSArray *)containedContactsArray
 {
-	NSEnumerator		*enumerator = [containedContactsArray objectEnumerator];
 	NSDictionary		*containedContactDict;
 	
-	while ((containedContactDict = [enumerator nextObject])) {
+	for (containedContactDict in containedContactsArray) {
 		/* Before Adium 0.80, metaContacts could be created within metaContacts. Simply ignore any attempt to restore
 		 * such erroneous data, which will have a YES boolValue for KEY_IS_METACONTACT. */
 		if (![[containedContactDict objectForKey:KEY_IS_METACONTACT] boolValue]) {
@@ -853,7 +849,6 @@
 	//we only allow group->meta->contact, not group->meta->meta->contact
 	NSParameterAssert(![listObject conformsToProtocol:@protocol(AIContainingObject)]);
 	
-	NSEnumerator		*enumerator;
 	NSArray				*containedContactsArray;
 	NSDictionary		*containedContactDict = nil;
 	NSMutableDictionary	*allMetaContactsDict;
@@ -867,12 +862,11 @@
 	containedContactsArray = [allMetaContactsDict objectForKey:metaContactInternalObjectID];
 	
 	//Enumerate it, looking only for the appropriate type of containedContactDict
-	enumerator = [containedContactsArray objectEnumerator];
 	
 	NSString	*listObjectUID = [listObject UID];
 	NSString	*listObjectServiceID = [[listObject service] serviceID];
 	
-	while ((containedContactDict = [enumerator nextObject])) {
+	for (containedContactDict in containedContactsArray) {
 		if ([[containedContactDict objectForKey:UID_KEY] isEqualToString:listObjectUID] &&
 			[[containedContactDict objectForKey:SERVICE_ID_KEY] isEqualToString:listObjectServiceID]) {
 			break;
@@ -946,7 +940,6 @@
 {
 	NSMutableSet	*internalObjectIDs = [[NSMutableSet alloc] init];
 	AIMetaContact	*metaContact = nil;
-	NSEnumerator	*enumerator;
 	NSString		*internalObjectID;
 	NSInteger				count = [UIDsArray count];
 	NSInteger				i;
@@ -974,8 +967,7 @@
 			metaContact = [self metaContactWithObjectID:nil];
 		}
 		
-		enumerator = [internalObjectIDs objectEnumerator];
-		while ((internalObjectID = [enumerator nextObject])) {
+		for (internalObjectID in internalObjectIDs) {
 			AIListObject	*existingObject;
 			if ((existingObject = [self existingListObjectWithUniqueID:internalObjectID])) {
 				/* If there is currently an object (or multiple objects) matching this internalObjectID
@@ -1036,8 +1028,7 @@
 	/* Add all these contacts to our MetaContact.
 	 * Some may already be present, but that's fine, as nothing will happen.
 	 */
-	enumerator = [contactsToGroupArray objectEnumerator];
-	while ((listContact = [enumerator nextObject])) {
+	for (listContact in contactsToGroupArray) {
 		[self addListObject:listContact toMetaContact:metaContact];
 	}
 	
@@ -1048,14 +1039,13 @@
 {
 	//Remove the objects within it from being inside it
 	NSArray								*containedObjects = [[metaContact containedObjects] copy];
-	NSEnumerator						*metaEnumerator = [containedObjects objectEnumerator];
 	AIListObject<AIContainingObject>	*containingObject = [metaContact containingObject];
 	AIListObject						*object;
 	
 	NSMutableDictionary *allMetaContactsDict = [[[adium preferenceController] preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
 	
-	while ((object = [metaEnumerator nextObject])) {
+	for (object in containedObjects) {
 		
 		//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
 		[contactToMetaContactLookupDict removeObjectForKey:[object internalObjectID]];
@@ -1184,9 +1174,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (void)sortContactLists:(NSArray *)lists
 {
-	NSEnumerator *listEnum = [lists objectEnumerator];
 	AIContactList *list;
-	while((list = [listEnum nextObject])) {
+	for(list in lists) {
 		[list sort];
 	}
 	[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:nil];
@@ -1293,9 +1282,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	NSMutableArray *result = [NSMutableArray array];
 	
 	/** Could be perfected I'm sure */
-	NSEnumerator *enumerator = [contactLists objectEnumerator];
 	AIContactList *clist = nil;
-	while((clist = [enumerator nextObject])) {
+	for(clist in contactLists) {
 		[result addObjectsFromArray:[self allBookmarksInObject:clist recurse:YES onAccount:nil]];
 	}
 	
@@ -1631,10 +1619,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 #pragma mark Contact list editing
 - (void)removeListObjects:(NSArray *)objectArray
 {
-	NSEnumerator	*enumerator = [objectArray objectEnumerator];
 	AIListObject	*listObject;
 	
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in objectArray) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			NSSet	*objectsToRemove = nil;
 			
@@ -1687,13 +1674,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (void)addContacts:(NSArray *)contactArray toGroup:(AIListGroup *)group
 {
-	NSEnumerator	*enumerator;
 	AIListContact	*listObject;
 	
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	
-	enumerator = [contactArray objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (listObject in contactArray) {
 		if(![group containsObject:listObject]) //don't add it if it's already there.
 			[[listObject account] addContacts:[NSArray arrayWithObject:listObject] toGroup:group];
 	}
@@ -1715,7 +1700,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index
 {
-	NSEnumerator	*enumerator;
 	AIListContact	*listContact;
 	
 	[contactPropertiesObserverManager delayListObjectNotifications];
@@ -1724,8 +1708,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[(id)group setDelayContainedObjectSorting:YES];
 	}
 	
-	enumerator = [objectArray objectEnumerator];
-	while ((listContact = [enumerator nextObject])) {
+	for (listContact in objectArray) {
 		[self moveContact:listContact intoObject:group];
 		
 		//Set the new index / position of the object

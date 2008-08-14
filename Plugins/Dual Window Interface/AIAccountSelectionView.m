@@ -276,7 +276,6 @@
 
 - (void)rebuildAccountMenuFromMenuItems:(NSArray *)menuItems
 {
-	NSEnumerator *enumerator = [menuItems objectEnumerator];
 	NSMenuItem	 *menuItem;
 	NSMutableArray *menuItemsForAccountsWhichKnow = [NSMutableArray array];
 	NSMutableArray *menuItemsForAccountsWhichDoNotKnow = [NSMutableArray array];
@@ -296,8 +295,7 @@
 	NSMenu *menu = [[NSMenu alloc] init];
 
 	//First, add items for accounts which have the current contact on their contact lists
-	enumerator = [menuItemsForAccountsWhichKnow objectEnumerator];
-	while ((menuItem = [enumerator nextObject])) {
+	for (menuItem in menuItemsForAccountsWhichKnow) {
 		[menu addItem:menuItem];
 	}
 	
