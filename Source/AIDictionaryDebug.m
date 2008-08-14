@@ -29,7 +29,6 @@
  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#if !__LP64__
 #import "AIDictionaryDebug.h"
 
 #ifdef DEBUG_BUILD
@@ -87,40 +86,38 @@ extern void _objc_flush_caches(Class);
 
 + (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass
 {
-    IMP original = [oldClass instanceMethodForSelector:sel];
+	IMP original = [oldClass instanceMethodForSelector:sel];
 
 	if (!original) {
 		NSLog(@"Cannot find implementation for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(oldClass));
+		      NSStringFromSelector(sel),
+		      NSStringFromClass(oldClass));
 		return NULL;
 	}
 
-    struct objc_method *method = class_getInstanceMethod(oldClass, sel); 
+	Method method = class_getInstanceMethod(oldClass, sel); 
 
 	// original to change
-    if (!method) {
-        NSLog(@"Cannot find method for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(oldClass));
-        return NULL;
-    }
-
-    IMP new = [newClass instanceMethodForSelector:sel]; // new method to use
-	if (!new) {
-		NSLog(@"Cannot find implementation for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(newClass));
+	if (!method) {
+		NSLog(@"Cannot find method for '%@' in %@",
+		      NSStringFromSelector(sel),
+		      NSStringFromClass(oldClass));
 		return NULL;
 	}
 
-    method->method_imp = new;
+	IMP new = class_getMethodImplementation(newClass, sel); // new method to use
+	if (!new) {
+		NSLog(@"Cannot find implementation for '%@' in %@",
+		      NSStringFromSelector(sel),
+		      NSStringFromClass(newClass));
+		return NULL;
+	}
 
-    _objc_flush_caches(oldClass);
+	method_setImplementation(method, new);
+	_objc_flush_caches(oldClass);
 
-    return original;
+	return original;
 }
 
 #endif
 @end
-#endif
