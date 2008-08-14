@@ -645,7 +645,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	return (!item || ([item conformsToProtocol:@protocol(AIContainingObject)] && [item expandable]));
+	return (!item || ([item conformsToProtocol:@protocol(AIContainingObject)] && [item isExpandable]));
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isGroup:(id)item
@@ -662,7 +662,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(id)item
 {
-    return !item || [item expanded];
+    return !item || [item isExpanded];
 }
 
 /*!
