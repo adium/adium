@@ -20,7 +20,6 @@
 #import <AIUtilities/AIVerticallyCenteredTextCell.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
-#import "KFTypeSelectTableView.h"
 
 #define STATE_DRAG_TYPE	@"AIState"
 
@@ -353,7 +352,7 @@
 }
 
 //State List OutlinView Delegate --------------------------------------------------------------------------------------------
-#pragma mark State List (OutlinView Delegate)
+#pragma mark State List (OutlineView Delegate)
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	AIStatusGroup *statusGroup = (item ? item : [[adium statusController] rootStateGroup]);
@@ -368,6 +367,12 @@
 	return [[statusGroup containedStatusItems] count];	
 }
 
+- (NSString *)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+	if([[tableColumn identifier] isEqualToString:@"name"])
+		return [item title] ? [item title] : @"";
+	return @"";
+}
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
 
@@ -520,16 +525,6 @@
 
 	[outlineView_stateList selectItemsInArray:theDraggedItems];
 	[outlineView_stateList scrollRowToVisible:[outlineView_stateList rowForItem:[theDraggedItems objectAtIndex:0]]];
-}
-
-/*!
-* @brief Set up KFTypeSelectTableView
- *
- * Only search the "name" column.
- */
-- (void)configureTypeSelectTableView:(KFTypeSelectTableView *)tableView
-{
-    [tableView setSearchColumnIdentifiers:[NSSet setWithObject:@"name"]];
 }
 
 #pragma mark Other status-related controls

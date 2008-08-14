@@ -40,7 +40,6 @@
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
-#import <Adium/KFTypeSelectTableView.h>
 #import "AIMessageWindowController.h"
 #import "DCInviteToChatWindowController.h"
 #import "AIChatController.h"
@@ -715,27 +714,15 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return ([self outlineView:outlineView isGroup:item] ? [groupCell cellSize].height : [contentCell cellSize].height);
 }
 
-#pragma mark Finder-style searching
-
-/*!
- * @brief Configure the type select table view for wrapping
- */
-- (void)configureTypeSelectTableView:(KFTypeSelectTableView *)tableView
-{
-    [tableView setSearchWraps:YES];
-}
-
 /*!
  * @brief Return the string value used for type selection
  */
-- (NSString *)typeSelectTableView:(KFTypeSelectTableView *)tableView stringValueForTableColumn:(NSTableColumn *)col row:(int)row
+- (NSString *)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     NSString *stringValue = @"";
     
-    if ((id)tableView == (id)contactListView)
-    {
-        id item = [contactListView itemAtRow:row];
-        
+    if (outlineView == contactListView)
+    {        
         AIListCell *cell;
         if ([item isKindOfClass:[AIListGroup class]])
             cell = groupCell;
@@ -744,7 +731,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  
         [self outlineView:contactListView 
           willDisplayCell:cell
-           forTableColumn:col
+           forTableColumn:tableColumn
                      item:item];
         
         stringValue = [cell labelString];

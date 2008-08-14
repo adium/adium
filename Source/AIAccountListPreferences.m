@@ -38,7 +38,6 @@
 #import <Adium/AIServiceMenu.h>
 #import <Adium/AIStatusIcons.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import "KFTypeSelectTableView.h"
 
 #define MINIMUM_ROW_HEIGHT				34
 #define MINIMUM_CELL_SPACING			 4
@@ -1050,16 +1049,6 @@
 		// Return our delegate's menu for this row.
 		return [self menuForRow:mouseRow];
 	}	
-}
-
-/*!
- * @brief Set up KFTypeSelectTableView
- *
- * Only search the "name" column.
- */
-- (void)configureTypeSelectTableView:(KFTypeSelectTableView *)tableView
-{
-    [tableView setSearchColumnIdentifiers:[NSSet setWithObject:@"name"]];
 }
 
 @end

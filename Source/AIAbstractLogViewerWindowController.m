@@ -26,7 +26,6 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/KFTypeSelectTableView.h>
 #import <Adium/KNShelfSplitView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -1623,17 +1622,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
     [self deleteSelection:nil];
-}
-
-- (void)configureTypeSelectTableView:(KFTypeSelectTableView *)tableView
-{
-	if (tableView == tableView_results) {
-		[tableView setSearchColumnIdentifiers:[NSSet setWithObjects:@"To", @"From", nil]];
-		[tableView setSearchWraps:YES];
-
-	} else if (tableView == (KFTypeSelectTableView *)outlineView_contacts) {
-		[tableView setSearchWraps:YES];
-	}
 }
 
 - (void)tableViewColumnDidResize:(NSNotification *)aNotification
