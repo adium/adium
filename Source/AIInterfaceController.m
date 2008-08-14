@@ -963,10 +963,9 @@
  */
 - (void)updateActiveWindowMenuItem
 {
-    NSEnumerator	*enumerator = [windowMenuArray objectEnumerator];
     NSMenuItem		*item;
 
-    while ((item = [enumerator nextObject])) {
+    for (item in windowMenuArray) {
 		if ([item representedObject]) [item setState:([item representedObject] == activeChat ? NSOnState : NSOffState)];
     }
 }
@@ -980,12 +979,10 @@
 - (void)buildWindowMenu
 {	
     NSMenuItem				*item;
-    NSEnumerator			*enumerator;
     NSInteger						windowKey = 1;
 	
     //Remove any existing menus
-    enumerator = [windowMenuArray objectEnumerator];
-    while ((item = [enumerator nextObject])) {
+    for (item in windowMenuArray) {
         [[adium menuController] removeMenuItem:item];
     }
     [windowMenuArray release]; windowMenuArray = [[NSMutableArray alloc] init];
@@ -1296,13 +1293,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 //Timer, invoke a flash
 - (void)flashTimer:(NSTimer *)inTimer
 {
-    NSEnumerator	*enumerator;
     id<AIFlashObserver>	observer;
     
     flashState++;
     
-    enumerator = [flashObserverArray objectEnumerator];
-    while ((observer = [enumerator nextObject])) {
+    for (observer in flashObserverArray) {
         [observer flash:flashState];
     }
 }
@@ -1457,7 +1452,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     NSMutableAttributedString           *titleString = [[NSMutableAttributedString alloc] init];
     
     id <AIContactListTooltipEntry>		tooltipEntry;
-    NSEnumerator						*enumerator;
     NSEnumerator                        *labelEnumerator;
     NSMutableArray                      *labelArray = [NSMutableArray array];
     NSMutableArray                      *entryArray = [NSMutableArray array];
@@ -1529,9 +1523,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     //Entries from plugins
     
     //Calculate the widest label while loading the arrays
-    enumerator = [contactListTooltipEntryArray objectEnumerator];
     
-    while ((tooltipEntry = [enumerator nextObject])) {
+    for (tooltipEntry in contactListTooltipEntryArray) {
         
         entryString = [[tooltipEntry entryForObject:object] mutableCopy];
         if (entryString && [entryString length]) {
@@ -1557,10 +1550,9 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     }
     
     //Add labels plus entires to the toolTip
-    enumerator = [entryArray objectEnumerator];
     labelEnumerator = [labelArray objectEnumerator];
     
-    while ((entryString = [enumerator nextObject])) {        
+    for (entryString in entryArray) {        
         NSAttributedString * labelAttribString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@:\t",[labelEnumerator nextObject]]
 																				 attributes:labelDict];
         
@@ -1600,7 +1592,6 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     
     //Entries from plugins
     id <AIContactListTooltipEntry>  tooltipEntry;
-    NSEnumerator                    *enumerator;
     NSEnumerator                    *labelEnumerator; 
     NSMutableArray                  *labelArray = [NSMutableArray array];
     NSMutableArray                  *entryArray = [NSMutableArray array];    
@@ -1609,9 +1600,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     BOOL                            firstEntry = YES;
     
     //Calculate the widest label while loading the arrays
-	enumerator = [contactListTooltipSecondaryEntryArray objectEnumerator];
 	
-	while ((tooltipEntry = [enumerator nextObject])) {
+	for (tooltipEntry in contactListTooltipSecondaryEntryArray) {
 		
 		entryString = [[tooltipEntry entryForObject:object] mutableCopy];
 		if (entryString && [entryString length]) {
@@ -1637,9 +1627,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	}
 		
     //Add labels plus entires to the toolTip
-    enumerator = [entryArray objectEnumerator];
     labelEnumerator = [labelArray objectEnumerator];
-    while ((entryString = [enumerator nextObject])) {
+    for (entryString in entryArray) {
         NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@:\t",[labelEnumerator nextObject]]
 																						attributes:labelDict];
         
