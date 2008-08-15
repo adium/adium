@@ -44,7 +44,7 @@
 	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_Additions];
 	
 	//Register defaults
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:STATUS_DEFAULT_PREFS 
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:STATUS_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_STATUS_PREFERENCES];	
 	
@@ -55,7 +55,7 @@
  */
 - (void)showStatusPreferences:(id)sender
 {
-	[[adium preferenceController] openPreferencesToCategoryWithIdentifier:@"Status"];
+	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Status"];
 }
 
 @end

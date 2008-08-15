@@ -69,7 +69,7 @@
 {
 	//The user probably does not want the sound to continue playing (especially if it's long), so stop it.
 	NSString		*soundPath = [[popUp_actionDetails selectedItem] representedObject];
-	[[adium soundController] stopPlayingSoundAtPath:soundPath];
+	[adium.soundController stopPlayingSoundAtPath:soundPath];
 
 	[soundFileIcon release]; soundFileIcon = nil;
 	[super viewWillClose];
@@ -83,7 +83,7 @@
 	NSString	*selectedSound;
 	NSInteger			soundIndex;
 	
-	if (!inDetails) inDetails = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_SOUND_DICT
+	if (!inDetails) inDetails = [adium.preferenceController preferenceForKey:KEY_DEFAULT_SOUND_DICT
 																		group:PREF_GROUP_SOUNDS];
 
 	//If the user has a custom sound selected, we need to create an entry in the menu for it
@@ -117,7 +117,7 @@
 	}
 
 	//Save the preferred settings for future use as defaults
-	[[adium preferenceController] setPreference:actionDetails
+	[adium.preferenceController setPreference:actionDetails
 										 forKey:KEY_DEFAULT_SOUND_DICT
 										  group:PREF_GROUP_SOUNDS];
 	
@@ -140,7 +140,7 @@
 	NSMenuItem		*menuItem;
 	
 	//Add all soundsets to our menu
-	enumerator = [[[adium soundController] soundSets] objectEnumerator];
+	enumerator = [[adium.soundController soundSets] objectEnumerator];
 	while ((soundSet = [enumerator nextObject])) {
 		NSString        *soundSetName = nil;
 		NSArray         *soundSetContents = nil;
@@ -235,7 +235,7 @@
     NSString	*soundPath = [sender representedObject];
     
     if (soundPath != nil && [soundPath length] != 0) {
-        [[adium soundController] playSoundAtPath:[soundPath stringByExpandingBundlePath]]; //Play the sound
+        [adium.soundController playSoundAtPath:[soundPath stringByExpandingBundlePath]]; //Play the sound
 
 		//Update the menu and and the selection
 		[self addAndSelectSoundPath:soundPath];
@@ -266,7 +266,7 @@
     if (returnCode == NSOKButton) {
         NSString *soundPath = [[panel filenames] objectAtIndex:0];
         
-        [[adium soundController] playSoundAtPath:soundPath]; //Play the sound
+        [adium.soundController playSoundAtPath:soundPath]; //Play the sound
 
         //Update the menu and and the selection
 		[self addAndSelectSoundPath:[soundPath stringByCollapsingBundlePath]];

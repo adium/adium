@@ -118,7 +118,7 @@
 - (void)controllerDidLoad
 {	
 	//Default contact preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONTACT_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST];
 	
@@ -139,7 +139,7 @@
 	[self loadContactList];
 	[self sortContactList];
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }
 
 - (void)controllerWillClose
@@ -149,7 +149,7 @@
 
 - (void)dealloc
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 		
 	[contactDict release];
 	[groupDict release];
@@ -185,10 +185,10 @@
 	[contactToMetaContactLookupDict release]; contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 	
 	//Clear the preferences for good measure
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:KEY_FLAT_METACONTACTS
 										  group:PREF_GROUP_CONTACT_LIST];
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:KEY_METACONTACT_OWNERSHIP
 										  group:PREF_GROUP_CONTACT_LIST];
 	
@@ -209,7 +209,7 @@
 - (void)loadContactList
 {
 	//We must load all the groups before loading contacts for the ordering system to work correctly.
-	[self _loadMetaContactsFromArray:[[adium preferenceController] preferenceForKey:KEY_FLAT_METACONTACTS
+	[self _loadMetaContactsFromArray:[adium.preferenceController preferenceForKey:KEY_FLAT_METACONTACTS
 																			  group:PREF_GROUP_CONTACT_LIST]];
 	[self _loadBookmarks];
 }
@@ -235,14 +235,14 @@
 		}
 	}
 	
-	[[adium preferenceController] setPreference:bookmarks
+	[adium.preferenceController setPreference:bookmarks
 										 forKey:KEY_BOOKMARKS
 										  group:PREF_GROUP_CONTACT_LIST];
 }
 
 - (void)_loadBookmarks
 {
-	NSEnumerator	*enumerator = [[[adium preferenceController] preferenceForKey:KEY_BOOKMARKS
+	NSEnumerator	*enumerator = [[adium.preferenceController preferenceForKey:KEY_BOOKMARKS
 																		 group:PREF_GROUP_CONTACT_LIST] objectEnumerator];
 	NSData *data;
 	while ((data = [enumerator nextObject])) {
@@ -466,7 +466,7 @@
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	//Store the preference
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:!useContactListGroups]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:!useContactListGroups]
 										 forKey:KEY_HIDE_CONTACT_LIST_GROUPS
 										  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
@@ -508,7 +508,7 @@
 - (void)prepareShowHideGroups
 {
 	//Load the preference
-	useContactListGroups = ![[[adium preferenceController] preferenceForKey:KEY_HIDE_CONTACT_LIST_GROUPS
+	useContactListGroups = ![[adium.preferenceController preferenceForKey:KEY_HIDE_CONTACT_LIST_GROUPS
 																	  group:PREF_GROUP_CONTACT_LIST_DISPLAY] boolValue];
 	
 	//Show offline contacts menu item
@@ -598,10 +598,10 @@
 	//If no object ID is provided, use the next available object ID
 	//(MetaContacts should always have an individually unique object id)
 	if (!inObjectID) {
-		NSInteger topID = [[[adium preferenceController] preferenceForKey:TOP_METACONTACT_ID
+		NSInteger topID = [[adium.preferenceController preferenceForKey:TOP_METACONTACT_ID
 															  group:PREF_GROUP_CONTACT_LIST] integerValue];
 		inObjectID = [NSNumber numberWithInteger:topID];
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:([inObjectID integerValue] + 1)]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:([inObjectID integerValue] + 1)]
 											 forKey:TOP_METACONTACT_ID
 											  group:PREF_GROUP_CONTACT_LIST];
 		
@@ -647,7 +647,7 @@
  */
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact
 {
-	NSDictionary	*allMetaContactsDict = [[adium preferenceController] preferenceForKey:KEY_METACONTACT_OWNERSHIP
+	NSDictionary	*allMetaContactsDict = [adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																				 group:PREF_GROUP_CONTACT_LIST];
 	NSArray			*containedContactsArray = [allMetaContactsDict objectForKey:[metaContact internalObjectID]];
 	BOOL			restoredContacts;
@@ -748,7 +748,7 @@
 	NSString			*metaContactInternalObjectID = [metaContact internalObjectID];
 	
 	//Get the dictionary of all metaContacts
-	allMetaContactsDict = [[[adium preferenceController] preferenceForKey:KEY_METACONTACT_OWNERSHIP
+	allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																	group:PREF_GROUP_CONTACT_LIST] mutableCopy];
 	if (!allMetaContactsDict) {
 		allMetaContactsDict = [[NSMutableDictionary alloc] init];
@@ -838,7 +838,7 @@
 	NSString			*metaContactInternalObjectID = [metaContact internalObjectID];
 	
 	//Get the dictionary of all metaContacts
-	NSMutableDictionary *allMetaContactsDict = [[adium preferenceController] preferenceForKey:KEY_METACONTACT_OWNERSHIP
+	NSMutableDictionary *allMetaContactsDict = [adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																   group:PREF_GROUP_CONTACT_LIST];
 	
 	//Load the array for the metaContact
@@ -1024,7 +1024,7 @@
 	NSArray								*containedObjects = [[metaContact containedObjects] copy];
 	AIListObject<AIContainingObject>	*containingObject = [metaContact containingObject];
 	
-	NSMutableDictionary *allMetaContactsDict = [[[adium preferenceController] preferenceForKey:KEY_METACONTACT_OWNERSHIP
+	NSMutableDictionary *allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
 	
 	for (AIListObject *object in containedObjects) {
@@ -1068,10 +1068,10 @@
 - (void)_saveMetaContacts:(NSDictionary *)allMetaContactsDict
 {
 	AILog(@"MetaContacts: Saving!");
-	[[adium preferenceController] setPreference:allMetaContactsDict
+	[adium.preferenceController setPreference:allMetaContactsDict
 										 forKey:KEY_METACONTACT_OWNERSHIP
 										  group:PREF_GROUP_CONTACT_LIST];
-	[[adium preferenceController] setPreference:[allMetaContactsDict allKeys]
+	[adium.preferenceController setPreference:[allMetaContactsDict allKeys]
 										 forKey:KEY_FLAT_METACONTACTS
 										  group:PREF_GROUP_CONTACT_LIST];
 }
@@ -1367,7 +1367,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	AIAccount		*account;
 	NSMutableSet	*returnContactSet = [NSMutableSet set];
 	
-	NSEnumerator *enumerator = [[[adium accountController] accountsCompatibleWithService:service] objectEnumerator];
+	NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:service] objectEnumerator];
 	
 	while ((account = [enumerator nextObject])) {		
 		AIListContact *listContact = [self existingContactWithService:service
@@ -1487,7 +1487,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		/* Find the best account for talking to this contact, and return an AIListContact on that account.
 		 * We'll get nil if no account can send inType to inContact.
 		 */
-		account = [[adium accountController] preferredAccountForSendingContentType:inType
+		account = [adium.accountController preferredAccountForSendingContentType:inType
 																		 toContact:inContact];
 
 		if (account) {
@@ -1518,10 +1518,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //XXX - This is ridiculous.
 - (AIListContact *)preferredContactWithUID:(NSString *)inUID andServiceID:(NSString *)inService forSendingContentType:(NSString *)inType
 {
-	AIService		*theService = [[adium accountController] firstServiceWithServiceID:inService];
+	AIService		*theService = [adium.accountController firstServiceWithServiceID:inService];
 	AIListContact	*tempListContact = [[AIListContact alloc] initWithUID:inUID
 																service:theService];
-	AIAccount		*account = [[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+	AIAccount		*account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																				 toContact:tempListContact];
 	[tempListContact release];
 
@@ -1615,7 +1615,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
 			
 			//Delete the list off of all active accounts
-			enumerator = [[[adium accountController] accounts] objectEnumerator];
+			enumerator = [[adium.accountController accounts] objectEnumerator];
 			while ((account = [enumerator nextObject])) {
 				if ([account online]) {
 					[account deleteGroup:(AIListGroup *)listObject];
@@ -1748,7 +1748,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Rename a group
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName
 {
-	NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount		*account;
 	
 	//Since Adium has no memory of what accounts a group is on, we have to send this message to all available accounts

@@ -55,7 +55,7 @@ static SS_PrefsController			*prefsController = nil;
 + (SS_PrefsController *)sharedPrefsController
 {
 	if (!prefsController) {
-		prefsController = [[SS_PrefsController preferencesWithPanes:[[adium preferenceController] paneArray]
+		prefsController = [[SS_PrefsController preferencesWithPanes:[adium.preferenceController paneArray]
 														   delegate:self] retain];
 
 		// Set which panes are included, and their order.

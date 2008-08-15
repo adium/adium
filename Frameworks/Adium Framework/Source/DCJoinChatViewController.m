@@ -109,7 +109,7 @@
 	AILog(@"Creating chatWithName:%@ onAccount:%@ chatCreationInfo:%@",inName,inAccount,inInfo);
 	
 	
-	chat = [[adium chatController] chatWithName:inName
+	chat = [adium.chatController chatWithName:inName
 									 identifier:nil
 									  onAccount:inAccount
 							   chatCreationInfo:inInfo];

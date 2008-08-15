@@ -226,7 +226,7 @@
 	[tooltipImage release]; tooltipImage = nil;
 	
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
 }
@@ -234,7 +234,7 @@
 - (void)adiumDidFinishLoading:(NSNotification *)inNotification
 {
 	//Observe preference changes. This will also restore saved containers if appropriate.
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_INTERFACE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_INTERFACE];
 	
 	[[adium notificationCenter] removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
@@ -271,7 +271,7 @@
 				/* We've loaded without wanting to save containers; clear any saved
 				 * from a previous session.
 				 */
-				[[adium preferenceController] setPreference:nil
+				[adium.preferenceController setPreference:nil
 													 forKey:KEY_CONTAINERS
 													  group:PREF_GROUP_INTERFACE];
 			}
@@ -290,7 +290,7 @@
 		AIChat	*mostRecentUnviewedChat;
 
 		//If windows are open, try switching to a chat with unviewed content
-		if ((mostRecentUnviewedChat = [[adium chatController] mostRecentUnviewedChat])) {
+		if ((mostRecentUnviewedChat = [adium.chatController mostRecentUnviewedChat])) {
 			if ([mostRecentActiveChat unviewedContentCount]) {
 				//If the most recently active chat has unviewed content, ensure it is in the front
 				[self setActiveChat:mostRecentActiveChat];
@@ -398,7 +398,7 @@
  */
 - (void)restoreSavedContainers
 {
-	NSData				*savedData = [[adium preferenceController] preferenceForKey:KEY_CONTAINERS
+	NSData				*savedData = [adium.preferenceController preferenceForKey:KEY_CONTAINERS
 																	group:PREF_GROUP_INTERFACE];
 	
 	// If there's no data, we can't restore anything.
@@ -421,11 +421,11 @@
 		
 		while ((chatDict = [chatEnumerator nextObject])) {
 			AIChat			*chat = nil;
-			AIService		*service = [[adium accountController] firstServiceWithServiceID:[chatDict objectForKey:@"serviceID"]];
-			AIAccount		*account = [[adium accountController] accountWithInternalObjectID:[chatDict objectForKey:@"AccountID"]];
+			AIService		*service = [adium.accountController firstServiceWithServiceID:[chatDict objectForKey:@"serviceID"]];
+			AIAccount		*account = [adium.accountController accountWithInternalObjectID:[chatDict objectForKey:@"AccountID"]];
 					
 			if ([[chatDict objectForKey:@"IsGroupChat"] boolValue]) {
-				chat = [[adium chatController] chatWithName:[chatDict objectForKey:@"Name"]
+				chat = [adium.chatController chatWithName:[chatDict objectForKey:@"Name"]
 												 identifier:nil
 												  onAccount:account
 										   chatCreationInfo:[chatDict objectForKey:@"ChatCreationInfo"]];
@@ -434,7 +434,7 @@
 																					account:account
 																						UID:[chatDict objectForKey:@"UID"]];
 				
-				chat = [[adium chatController] chatWithContact:contact];
+				chat = [adium.chatController chatWithContact:contact];
 			}
 			
 			// Tag the chat as restored.
@@ -522,7 +522,7 @@
 		[savedContainers addObject:saveDict];
 	}
 	
-	[[adium preferenceController] setPreference:[NSKeyedArchiver archivedDataWithRootObject:savedContainers]
+	[adium.preferenceController setPreference:[NSKeyedArchiver archivedDataWithRootObject:savedContainers]
 										 forKey:KEY_CONTAINERS
 										  group:PREF_GROUP_INTERFACE];
 }
@@ -627,7 +627,7 @@
 - (void)closeChat:(AIChat *)inChat
 {
 	if (inChat) {
-		if ([[adium chatController] closeChat:inChat]) {
+		if ([adium.chatController closeChat:inChat]) {
 			[interfacePlugin closeChat:inChat];
 		}
 	}
@@ -1474,7 +1474,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	//Get the user's display name as an attributed string
     NSAttributedString                  *displayName = [[NSAttributedString alloc] initWithString:[object displayName]
 																					   attributes:titleDict];
-	NSAttributedString					*filteredDisplayName = [[adium contentController] filterAttributedString:displayName
+	NSAttributedString					*filteredDisplayName = [adium.contentController filterAttributedString:displayName
 																								 usingFilterType:AIFilterTooltips
 																									   direction:AIFilterIncoming
 																										 context:nil];
@@ -1656,7 +1656,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
             fullLength = NSMakeRange(0, [entryString length]);
 		
         //Run the entry through the filters and add it to tipString
-		entryString = [[[adium contentController] filterAttributedString:entryString
+		entryString = [[adium.contentController filterAttributedString:entryString
 														 usingFilterType:AIFilterTooltips
 															   direction:AIFilterIncoming
 																 context:object] mutableCopy];
@@ -1739,7 +1739,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 #pragma mark Preferences Display
 - (IBAction)showPreferenceWindow:(id)sender
 {
-	[[adium preferenceController] showPreferenceWindow:sender];
+	[adium.preferenceController showPreferenceWindow:sender];
 }
 
 #pragma mark Font Panel
@@ -1765,7 +1765,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 {
 	NSFont	*selectedFont = [[NSFontManager sharedFontManager] selectedFont];
 
-	[[adium preferenceController] setPreference:[selectedFont stringRepresentation]
+	[adium.preferenceController setPreference:[selectedFont stringRepresentation]
 										 forKey:KEY_FORMATTING_FONT
 										  group:PREF_GROUP_FORMATTING];
 	
@@ -1777,13 +1777,13 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		NSColor			*foregroundColor, *backgroundColor;
 
 		if ((foregroundColor = [typingAttributes objectForKey:NSForegroundColorAttributeName])) {
-			[[adium preferenceController] setPreference:[foregroundColor stringRepresentation]
+			[adium.preferenceController setPreference:[foregroundColor stringRepresentation]
 												 forKey:KEY_FORMATTING_TEXT_COLOR
 												  group:PREF_GROUP_FORMATTING];
 		}
 
 		if ((backgroundColor = [typingAttributes objectForKey:AIBodyColorAttributeName])) {
-			[[adium preferenceController] setPreference:[backgroundColor stringRepresentation]
+			[adium.preferenceController setPreference:[backgroundColor stringRepresentation]
 												 forKey:KEY_FORMATTING_BACKGROUND_COLOR
 												  group:PREF_GROUP_FORMATTING];
 		}

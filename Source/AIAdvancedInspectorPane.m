@@ -30,7 +30,7 @@
 		[NSBundle loadNibNamed:[self nibName] owner:self];
 		
 		//Load Encryption menus
-		[popUp_encryption setMenu:[[adium contentController] encryptionMenuNotifyingTarget:self withDefault:YES]];
+		[popUp_encryption setMenu:[adium.contentController encryptionMenuNotifyingTarget:self withDefault:YES]];
 		[[popUp_encryption menu] setAutoenablesItems:NO];
 
 		//Configure Table view
@@ -202,13 +202,13 @@
 		NSEnumerator *enumerator = [[[(AIMetaContact *)displayedObject listContacts] valueForKey:@"service"] objectEnumerator];
 		AIService *service;
 		while ((service = [enumerator nextObject])) {
-			[set addObjectsFromArray:[[adium accountController] accountsCompatibleWithService:service]];
+			[set addObjectsFromArray:[adium.accountController accountsCompatibleWithService:service]];
 		}
 
 		return [set allObjects];
 
 	} else 	if ([displayedObject isKindOfClass:[AIListContact class]]) {
-		return [[adium accountController] accountsCompatibleWithService:[displayedObject service]];
+		return [adium.accountController accountsCompatibleWithService:[displayedObject service]];
 
 	} else {
 		return nil;

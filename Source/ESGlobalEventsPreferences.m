@@ -105,13 +105,13 @@
 	[self setAndConfigureEventPresetsMenu];
 
 	//And event presets to update our presets menu
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_EVENT_PRESETS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EVENT_PRESETS];
 
 	//Ensure the correct sound set is selected
 	[self updateSoundSetSelection];
 	
 	//Volume
-	[slider_volume setDoubleValue:[[[adium preferenceController] preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
+	[slider_volume setDoubleValue:[[adium.preferenceController preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
 																		   group:PREF_GROUP_SOUNDS] doubleValue]];	
 }
 
@@ -136,7 +136,7 @@
 	[contactAlertsViewController viewWillClose];
 	[contactAlertsViewController release]; contactAlertsViewController = nil;
 
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
     [[adium notificationCenter] removeObserver:self];
 }
 
@@ -255,7 +255,7 @@
 
 - (void)selectActiveEventInPopUp
 {
-	NSString	*activeEventSetName = [[adium preferenceController] preferenceForKey:KEY_ACTIVE_EVENT_SET
+	NSString	*activeEventSetName = [adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																			   group:PREF_GROUP_EVENT_PRESETS];
 
 	//First try to set the localized version
@@ -297,7 +297,7 @@
 	NSString	*explanatoryText;
 	
 	defaultName = [NSString stringWithFormat:@"%@ %@",
-		[self _localizedTitle:[[adium preferenceController] preferenceForKey:KEY_ACTIVE_EVENT_SET
+		[self _localizedTitle:[adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																	   group:PREF_GROUP_EVENT_PRESETS]],
 		COPY_IN_PARENTHESIS];
 	explanatoryText = AILocalizedString(@"Enter a unique name for this new event set.",nil);
@@ -333,7 +333,7 @@
 	NSString	*name = [preset objectForKey:@"Name"];
 	NSString	*localizedTitle;
 	
-	localizedTitle = [self _localizedTitle:[[adium preferenceController] preferenceForKey:KEY_ACTIVE_EVENT_SET
+	localizedTitle = [self _localizedTitle:[adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																					group:PREF_GROUP_EVENT_PRESETS]];
 	//Don't allow the active preset to be deleted
 	return (![localizedTitle isEqualToString:name]);
@@ -343,14 +343,14 @@
 {
 	NSString				*oldPresetName = [preset objectForKey:@"Name"];
 	NSMutableDictionary		*newPreset = [preset mutableCopy];
-	NSString				*localizedCurrentName = [self _localizedTitle:[[adium preferenceController] preferenceForKey:KEY_ACTIVE_EVENT_SET
+	NSString				*localizedCurrentName = [self _localizedTitle:[adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 																												   group:PREF_GROUP_EVENT_PRESETS]];
 	[newPreset setObject:newName
 				  forKey:@"Name"];
 
 	//Mark the newly created (but still functionally identical) event set as active if the old one was active
 	if ([localizedCurrentName isEqualToString:oldPresetName]) {
-		[[adium preferenceController] setPreference:newName
+		[adium.preferenceController setPreference:newName
 											 forKey:KEY_ACTIVE_EVENT_SET
 											  group:PREF_GROUP_EVENT_PRESETS];
 	}
@@ -599,18 +599,18 @@
 		volume = 0;
 	}
 	
-	NSNumber *oldVolumeValue = [[adium preferenceController] preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
+	NSNumber *oldVolumeValue = [adium.preferenceController preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
 																		group:PREF_GROUP_SOUNDS];
 	oldVolume = (oldVolumeValue ? [oldVolumeValue doubleValue] : -1.0);
 	
     //Volume
     if (volume != oldVolume) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:volume]
+        [adium.preferenceController setPreference:[NSNumber numberWithDouble:volume]
                                              forKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
                                               group:PREF_GROUP_SOUNDS];
 		
 		//Play a sample sound
-        [[adium soundController] playSoundAtPath:VOLUME_SOUND_PATH];
+        [adium.soundController playSoundAtPath:VOLUME_SOUND_PATH];
     }
 }
 
@@ -683,7 +683,7 @@
 			[plugin saveEventPreset:newEventPreset];
 			
 			//Presets menu
-			[[adium preferenceController] setPreference:newName
+			[adium.preferenceController setPreference:newName
 												 forKey:KEY_ACTIVE_EVENT_SET
 												  group:PREF_GROUP_EVENT_PRESETS];
 			[popUp_eventPreset setMenu:[self eventPresetsMenu]];
@@ -726,7 +726,7 @@
 
 - (void)updateSoundSetSelection
 {
-	NSEnumerator	*enumerator = [[[adium soundController] soundSets] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.soundController soundSets] objectEnumerator];
     AISoundSet		*soundSet;
 	NSString		*name;
 
@@ -749,7 +749,7 @@
 - (NSMenu *)_soundSetMenu
 {
     NSMenu			*soundSetMenu = [[NSMenu alloc] init];
-    NSEnumerator	*enumerator = [[[adium soundController] soundSets] objectEnumerator];
+    NSEnumerator	*enumerator = [[adium.soundController soundSets] objectEnumerator];
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
     AISoundSet		*soundSet;
     NSMenuItem		*menuItem, *noneMenuItem = nil;

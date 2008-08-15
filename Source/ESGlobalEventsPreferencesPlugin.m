@@ -47,7 +47,7 @@
 	NSString	*activeEventSet;
 	
 	builtInEventPresets = [[NSDictionary dictionaryNamed:@"BuiltInEventPresets" forClass:[self class]] retain];
-	storedEventPresets = [[[adium preferenceController] preferenceForKey:KEY_STORED_EVENT_PRESETS
+	storedEventPresets = [[adium.preferenceController preferenceForKey:KEY_STORED_EVENT_PRESETS
 																   group:PREF_GROUP_EVENT_PRESETS] mutableCopy];
 	if (!storedEventPresets) storedEventPresets = [[NSMutableDictionary alloc] init];
 
@@ -55,14 +55,14 @@
 	 * then we are in one of two conditions: either this is a first-launch, or the user has deleted the event preferences.
 	 * Either way, we want to set ourselves to the default notification set before proceeding.
 	 */
-	activeEventSet = [[adium preferenceController] preferenceForKey:KEY_ACTIVE_EVENT_SET
+	activeEventSet = [adium.preferenceController preferenceForKey:KEY_ACTIVE_EVENT_SET
 															  group:PREF_GROUP_EVENT_PRESETS];
 	if (!activeEventSet || (![builtInEventPresets objectForKey:activeEventSet] &&
 						   ![storedEventPresets objectForKey:activeEventSet])) {
 		[self setEventPreset:[builtInEventPresets objectForKey:@"Default Notifications"]];		
 	}
 
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:EVENT_SOUNDS_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:EVENT_SOUNDS_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_SOUNDS];
 
@@ -124,7 +124,7 @@
 	NSEnumerator	*enumerator;
 	NSString		*key;
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Clear out old global sound alerts
 	[[adium contactAlertsController] removeAllGlobalAlertsWithActionID:SOUND_ALERT_IDENTIFIER];
@@ -141,7 +141,7 @@
 		}
 	}
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
 
@@ -197,7 +197,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 
 - (void)setEventPreset:(NSDictionary *)eventPreset
 {
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 
 	[[adium contactAlertsController] setAllGlobalAlerts:[eventPreset objectForKey:@"Events"]];
 	
@@ -209,23 +209,23 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 		[self applySoundSet:(soundSet ? [AISoundSet soundSetWithContentsOfFile:[soundSet stringByExpandingBundlePath]] : nil)];
 	}
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 
 	//Set the name of the now-active event set, which includes sounds and all other events
-	[[adium preferenceController] setPreference:[eventPreset objectForKey:KEY_EVENT_SET_NAME]
+	[adium.preferenceController setPreference:[eventPreset objectForKey:KEY_EVENT_SET_NAME]
 										 forKey:KEY_ACTIVE_EVENT_SET
 										  group:PREF_GROUP_EVENT_PRESETS];
 }
 
 - (CGFloat)nextOrderIndex
 {
-	NSNumber *nextOrderIndexNumber = [[adium preferenceController] preferenceForKey:KEY_NEXT_ORDER_INDEX
+	NSNumber *nextOrderIndexNumber = [adium.preferenceController preferenceForKey:KEY_NEXT_ORDER_INDEX
 																			  group:PREF_GROUP_EVENT_PRESETS];
 	CGFloat	nextOrderIndex;
 	
 	nextOrderIndex = (nextOrderIndexNumber ? [nextOrderIndexNumber doubleValue] : 1.0);
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:(nextOrderIndex + 1)]
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:(nextOrderIndex + 1)]
 										 forKey:KEY_NEXT_ORDER_INDEX
 										  group:PREF_GROUP_EVENT_PRESETS];	
 
@@ -271,7 +271,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 	[storedEventPresets setObject:eventPreset
 						   forKey:name];
 
-	[[adium preferenceController] setPreference:storedEventPresets
+	[adium.preferenceController setPreference:storedEventPresets
 										 forKey:KEY_STORED_EVENT_PRESETS
 										  group:PREF_GROUP_EVENT_PRESETS];
 }
@@ -283,7 +283,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 {
 	[storedEventPresets removeObjectForKey:[eventPreset objectForKey:KEY_EVENT_SET_NAME]];
 	
-	[[adium preferenceController] setPreference:storedEventPresets
+	[adium.preferenceController setPreference:storedEventPresets
 										 forKey:KEY_STORED_EVENT_PRESETS
 										  group:PREF_GROUP_EVENT_PRESETS];	
 }

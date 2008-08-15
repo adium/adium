@@ -42,7 +42,7 @@
  */
 - (void)installPlugin
 {
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_LAYOUT];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_LAYOUT];
 	
 	whitespaceAndNewlineCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] retain];
 }
@@ -52,7 +52,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
@@ -109,7 +109,7 @@
 		if (showStatus) {
 			NSAttributedString *filteredMessage;
 
-			filteredMessage = [[adium contentController] filterAttributedString:[(AIListContact *)inObject contactListStatusMessage]
+			filteredMessage = [adium.contentController filterAttributedString:[(AIListContact *)inObject contactListStatusMessage]
 																usingFilterType:AIFilterContactList
 																	  direction:AIFilterIncoming
 																		context:inObject];

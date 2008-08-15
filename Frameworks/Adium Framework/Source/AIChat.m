@@ -192,7 +192,7 @@ static int nextChatNumber = 0;
 //Status
 - (void)didModifyProperties:(NSSet *)keys silent:(BOOL)silent
 {
-	[[adium chatController] chatStatusChanged:self
+	[adium.chatController chatStatusChanged:self
 						   modifiedStatusKeys:keys
 									   silent:silent];	
 }
@@ -327,7 +327,7 @@ static int nextChatNumber = 0;
 		//Add
 		[participatingListObjects addObject:inObject];
 
-		[[adium chatController] chat:self addedListContact:inObject notify:notify];
+		[adium.chatController chat:self addedListContact:inObject notify:notify];
 	}
 }
 
@@ -435,7 +435,7 @@ static int nextChatNumber = 0;
 	[pendingOutgoingContentObjects removeObjectIdenticalTo:inObject];
 	
 	if ([pendingOutgoingContentObjects count]) {
-		[[adium contentController] sendContentObject:[pendingOutgoingContentObjects objectAtIndex:0]];
+		[adium.contentController sendContentObject:[pendingOutgoingContentObjects objectAtIndex:0]];
 	}
 }
 
@@ -555,10 +555,10 @@ static int nextChatNumber = 0;
 	if ([inObject isKindOfClass:[AIListContact class]] && [participatingListObjects containsObjectIdenticalTo:inObject]) {
 		[participatingListObjects removeObject:inObject];
 
-		[[adium chatController] chat:self removedListContact:(AIListContact *)inObject];
+		[adium.chatController chat:self removedListContact:(AIListContact *)inObject];
 
 		if ([inObject isStranger] &&
-			![[adium chatController] existingChatWithContact:[(AIListContact *)inObject parentContact]]) {
+			![adium.chatController existingChatWithContact:[(AIListContact *)inObject parentContact]]) {
 			[adium.contactController account:[(AIListContact *)inObject account]
 						didStopTrackingContact:(AIListContact *)inObject];
 		}		
@@ -575,7 +575,7 @@ static int nextChatNumber = 0;
 {
 	for (AIListContact *listContact in participatingListObjects) {
 		if ([listContact isStranger] &&
-			![[adium chatController] existingChatWithContact:[(AIListContact *)listContact parentContact]]) {
+			![adium.chatController existingChatWithContact:[(AIListContact *)listContact parentContact]]) {
 			[adium.contactController account:[listContact account]
 						didStopTrackingContact:listContact];
 		}
@@ -810,7 +810,7 @@ static int nextChatNumber = 0;
 												 message:attributedMessage
 											   autoreply:NO];
 		
-		[[adium contentController] sendContentObject:messageContent];
+		[adium.contentController sendContentObject:messageContent];
 	}
 	
 	//Send any file we were told to send to every participating list object (anyone remember the AOL mass mailing zareW scene?)

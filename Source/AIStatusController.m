@@ -106,7 +106,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	BOOL		needToRebuildMenus = NO;
 	BOOL		allStatusesInSameState = YES;
 	AIStatus *prevStatus = nil;
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		NSData		*lastStatusData = [account preferenceForKey:@"LastStatus"
 														  group:GROUP_ACCOUNT_STATUS];
@@ -161,7 +161,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	NSEnumerator	*enumerator;
 	AIAccount		*account;
 
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		/* Store the current status state for use on next launch.
 		 *
@@ -178,12 +178,12 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 						 group:GROUP_ACCOUNT_STATUS];
 	}
 	
-	[[adium preferenceController] setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
+	[adium.preferenceController setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
 										 forKey:KEY_SAVED_STATUS
 										  group:PREF_GROUP_SAVED_STATUS];
 
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 
@@ -309,7 +309,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		NSEnumerator	*enumerator;
 		AIService		*service;
 
-		enumerator = [[[adium accountController] activeServicesIncludingCompatibleServices:NO] objectEnumerator];
+		enumerator = [[adium.accountController activeServicesIncludingCompatibleServices:NO] objectEnumerator];
 		while ((service = [enumerator nextObject])) {
 			NSSet	*statusDicts;
 			
@@ -489,7 +489,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	//Apply the state to our accounts and notify (delay to the next run loop to improve perceived speed)
 	[self performSelector:@selector(applyState:toAccounts:)
 			   withObject:statusState
-			   withObject:[[adium accountController] accounts]
+			   withObject:[adium.accountController accounts]
 			   afterDelay:0];
 }
 /*!
@@ -601,7 +601,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	/* If we're going offline, determine what accounts are currently online or connecting/reconnecting, first,
 	 * so that we can restore that when an online state is chosen later.
 	 */
-	if  (isOfflineStatus && [[adium accountController] oneOrMoreConnectedOrConnectingAccounts]) {
+	if  (isOfflineStatus && [adium.accountController oneOrMoreConnectedOrConnectingAccounts]) {
 		[accountsToConnect removeAllObjects];
 
 		for (account in accountArray) {
@@ -612,7 +612,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 
 	// Don't consider "connecting" accounts when connecting previously offline.
-	if (![[adium accountController] oneOrMoreConnectedAccounts]) {
+	if (![adium.accountController oneOrMoreConnectedAccounts]) {
 		/* No connected accounts: Connect all enabled accounts which were set offline previously.
 		 * If we have no such list of accounts, connect 'em all.
 		 */
@@ -677,7 +677,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (AIStatusGroup *)rootStateGroup
 {
 	if (!_rootStateGroup) {
-		NSData	*savedStateData = [[adium preferenceController] preferenceForKey:KEY_SAVED_STATUS
+		NSData	*savedStateData = [adium.preferenceController preferenceForKey:KEY_SAVED_STATUS
 																		   group:PREF_GROUP_SAVED_STATUS];
 		if (savedStateData) {
 			id archivedObject = [NSKeyedUnarchiver unarchiveObjectWithData:savedStateData];
@@ -859,13 +859,13 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (AIStatus *)activeStatusState
 {
 	if (!_activeStatusState) {
-		NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 		NSCountedSet		*statusCounts = [NSCountedSet set];
 		AIAccount			*account;
 		AIStatus			*statusState;
 		NSUInteger			 highestCount = 0;
 		//This was "oneOrMoreConnectedOrConnectingAccounts" before... was there a good reason?
-		BOOL				 accountsAreOnline = [[adium accountController] oneOrMoreConnectedAccounts];
+		BOOL				 accountsAreOnline = [adium.accountController oneOrMoreConnectedAccounts];
 
 		if (accountsAreOnline) {
 			AIStatus	*bestStatusState = nil;
@@ -909,7 +909,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (AIStatusType)activeStatusTypeTreatingInvisibleAsAway:(BOOL)invisibleIsAway
 {
-	NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount			*account;
 	NSInteger					statusTypeCount[STATUS_TYPES_COUNT];
 	AIStatusType		activeStatusType = AIOfflineStatusType;
@@ -954,7 +954,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	if (!_allActiveStatusStates) {
 		_allActiveStatusStates = [[NSMutableSet alloc] init];
-		NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount			*account;
 
 		while ((account = [enumerator nextObject])) {
@@ -976,7 +976,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (NSSet *)activeUnavailableStatusesAndType:(AIStatusType *)activeUnvailableStatusType withName:(NSString **)activeUnvailableStatusName allOnlineAccountsAreUnvailable:(BOOL *)allOnlineAccountsAreUnvailable
 {
-	NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount			*account;
 	NSMutableSet		*activeUnvailableStatuses = [NSMutableSet set];
 	BOOL				foundStatusName = NO;
@@ -1115,7 +1115,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)savedStatusesChanged
 {
-	[[adium preferenceController] setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
+	[adium.preferenceController setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
 										 forKey:KEY_SAVED_STATUS
 										  group:PREF_GROUP_SAVED_STATUS];
 	[self notifyOfChangedStatusArray];
@@ -1123,7 +1123,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 - (void)statusStateDidSetUniqueStatusID
 {
-	[[adium preferenceController] setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
+	[adium.preferenceController setPreference:[NSKeyedArchiver archivedDataWithRootObject:[[self rootStateGroup] containedStatusItems]]
 										 forKey:KEY_SAVED_STATUS
 										  group:PREF_GROUP_SAVED_STATUS];
 }
@@ -1153,7 +1153,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		AIAccount		*account;
 		NSInteger				count = 0;
 		
-		enumerator = [[[adium accountController] accounts] objectEnumerator];
+		enumerator = [[adium.accountController accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
 			if ([account actualStatusState] == originalState) {
 				if (++count > 1) break;
@@ -1173,14 +1173,14 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	NSMutableDictionary *lastStatusStates;
 	
-	lastStatusStates = [[[[adium preferenceController] preferenceForKey:@"LastStatusStates"
+	lastStatusStates = [[[adium.preferenceController preferenceForKey:@"LastStatusStates"
 																  group:PREF_GROUP_STATUS_PREFERENCES] mutableCopy] autorelease];
 	if (!lastStatusStates) lastStatusStates = [NSMutableDictionary dictionary];
 	
 	[lastStatusStates setObject:[NSKeyedArchiver archivedDataWithRootObject:statusState]
 						 forKey:[[NSNumber numberWithInteger:[statusState statusType]] stringValue]];
 
-	[[adium preferenceController] setPreference:lastStatusStates
+	[adium.preferenceController setPreference:lastStatusStates
 										 forKey:@"LastStatusStates"
 										  group:PREF_GROUP_STATUS_PREFERENCES];	
 }
@@ -1244,7 +1244,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 #define OLD_STATE_TITLE				@"Title"
 - (void)_upgradeSavedAwaysToSavedStates
 {
-	NSArray	*savedAways = [[adium preferenceController] preferenceForKey:OLD_KEY_SAVED_AWAYS
+	NSArray	*savedAways = [adium.preferenceController preferenceForKey:OLD_KEY_SAVED_AWAYS
 																   group:OLD_GROUP_AWAY_MESSAGES];
 
 	if (savedAways) {
@@ -1299,7 +1299,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		//Save these changes and delete the old aways so we don't need to do this again.
 		[self setDelayStatusMenuRebuilding:NO];
 
-		[[adium preferenceController] setPreference:nil
+		[adium.preferenceController setPreference:nil
 											 forKey:OLD_KEY_SAVED_AWAYS
 											  group:OLD_GROUP_AWAY_MESSAGES];
 	}

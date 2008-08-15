@@ -33,15 +33,15 @@
 - (void)installPlugin
 {
     //Register us as a filter
-	[[adium contentController] registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterAutoReplyContent direction:AIFilterOutgoing];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterTooltips direction:AIFilterIncoming];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterContactList direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterAutoReplyContent direction:AIFilterOutgoing];
+	[adium.contentController registerContentFilter:self ofType:AIFilterTooltips direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterContactList direction:AIFilterIncoming];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
@@ -155,7 +155,7 @@
 		if ([context isKindOfClass:[AIContentObject class]]) {
 			replacement = [[context destination] UID]; //This exists primarily for AIM compatibility; AIM uses the UID (no formatting).
 		} else if ([context isKindOfClass:[AIListContact class]]) {
-			replacement = [[[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+			replacement = [[adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																				  toContact:context] formattedUID];
 		}
 

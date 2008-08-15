@@ -51,22 +51,22 @@
 - (void)installPlugin
 {
 	//Defaults
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:TAB_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:TAB_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_INTERFACE];
 	
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:SENDING_KEY_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:SENDING_KEY_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_GENERAL];
 	
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONFIRMATION_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONFIRMATION_DEFAULT_PREFS
 																		forClass:[self class]]
                                           forGroup:PREF_GROUP_CONFIRMATIONS];
 	
 	//Install our preference view
 	preferences = [[ESGeneralPreferences preferencePaneForPlugin:self] retain];	
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 }
 
 - (void)uninstallPlugin

@@ -261,7 +261,7 @@
  */
 - (BOOL)choicesAvailableForAccount
 {
-	NSEnumerator 	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator 	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount		*account;
 	NSInteger				choices = 0;
 
@@ -318,7 +318,7 @@
 	[self rebuildAccountMenuFromMenuItems:menuItems];
 }
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount {
-	[[adium chatController] switchChat:chat toAccount:inAccount];
+	[adium.chatController switchChat:chat toAccount:inAccount];
 }
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount {
 	return [self _accountIsAvailable:inAccount];
@@ -405,7 +405,7 @@
 	[self chatDestinationChanged:nil];
 }
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact {
-	[[adium chatController] switchChat:chat toListContact:inContact usingContactAccount:YES];
+	[adium.chatController switchChat:chat toListContact:inContact usingContactAccount:YES];
 }
 - (AIListContact *)contactMenu:(AIContactMenu *)inContactMenu validateContact:(AIListContact *)inContact {
 	AIListContact *preferredContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE

@@ -94,7 +94,7 @@
  */
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {
-	NSArray						*accounts = [[adium accountController] accounts];
+	NSArray						*accounts = [adium.accountController accounts];
 	AIHostReachabilityMonitor	*monitor = [AIHostReachabilityMonitor defaultMonitor];
 	BOOL						shiftHeld = [NSEvent shiftKey];
 	
@@ -168,7 +168,7 @@
 	AIAccount		*account;
 	
 	//Connect or disconnect accounts in response to the connectivity change
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if (networkIsReachable && [accountsToNotConnect containsObject:account]) {
 			[accountsToNotConnect removeObject:account];
@@ -243,7 +243,7 @@
 	AILog(@"***** System sleeping...");
 	//Disconnect all online or connecting accounts
 	if ([self _accountsAreOnlineOrDisconnecting:YES]) {
-		NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount		*account;
 		
 		while ((account = [enumerator nextObject])) {
@@ -320,7 +320,7 @@
 				[account setValue:nil forProperty:@"Waiting for Network" notify:NotifyNow];
 
 				//Check if any enabled accounts are still using this now-disabled account's host
-				enumerator = [[[adium accountController] accounts] objectEnumerator];	
+				enumerator = [[adium.accountController accounts] objectEnumerator];	
 				while ((anAccount = [enumerator nextObject])) {
 					if ([anAccount enabled] &&
 						[anAccount connectivityBasedOnNetworkReachability]) {
@@ -350,7 +350,7 @@
  */
 - (BOOL)_accountsAreOnlineOrDisconnecting:(BOOL)considerConnecting
 {
-    NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+    NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount		*account;
     
 	while ((account = [enumerator nextObject])) {
@@ -384,7 +384,7 @@
 	waitingToSleep = NO;
 
 	//Immediately re-connect accounts which are ignoring the server reachability
-	enumerator = [[[adium accountController] accounts] objectEnumerator];	
+	enumerator = [[adium.accountController accounts] objectEnumerator];	
 	while ((account = [enumerator nextObject])) {
 		if (![account connectivityBasedOnNetworkReachability] && [accountsToConnect containsObject:account]) {
 			[account setShouldBeOnline:YES];
@@ -406,7 +406,7 @@
 	AIHostReachabilityMonitor	*monitor = [AIHostReachabilityMonitor defaultMonitor];
 
 	//Immediately re-connect accounts which are ignoring the server reachability
-	enumerator = [[[adium accountController] accounts] objectEnumerator];	
+	enumerator = [[adium.accountController accounts] objectEnumerator];	
 	while ((account = [enumerator nextObject])) {
 		if ([account enabled] &&
 			[account connectivityBasedOnNetworkReachability]) {

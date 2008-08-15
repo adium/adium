@@ -152,7 +152,7 @@
 				otrl_privkey_hash_to_human(hash, fingerprint->fingerprint);
 				fingerprintString = [NSString stringWithUTF8String:hash];
 				
-				AIAccount *account = [[adium accountController] accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
+				AIAccount *account = [adium.accountController accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
 
 				fingerprintDict = [NSDictionary dictionaryWithObjectsAndKeys:
 					UID, @"UID",

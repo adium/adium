@@ -110,8 +110,8 @@ static NSArray *draggedTypes = nil;
 		storedContentObjects = nil;
 
 		//Observe preference changes.
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 		
 		//Observe participants list changes
 		[[adium notificationCenter] addObserver:self 
@@ -178,7 +178,7 @@ static NSArray *draggedTypes = nil;
 
 	//Stop any delayed requests and remove all observers
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	
 	//Clean up style/variant info
@@ -279,7 +279,7 @@ static NSArray *draggedTypes = nil;
 	
 	if (([group isEqualToString:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES] && shouldReflectPreferenceChanges)) {
 		//If the background image changes, wipe the cache and update for the new image
-		[[adium preferenceController] setPreference:nil
+		[adium.preferenceController setPreference:nil
 											 forKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
 		if (!isUpdatingWebViewForCurrentPreferences) {
@@ -337,7 +337,7 @@ static NSArray *draggedTypes = nil;
 	[webView setPreferencesIdentifier:activeStyle];
 
 	//Get the prefered variant (or the default if a prefered is not available)
-	activeVariant = [[[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
+	activeVariant = [[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
 															  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] retain];
 	if (!activeVariant) activeVariant = [[messageStyle defaultVariant] retain];
 	if (!activeVariant) {
@@ -351,38 +351,38 @@ static NSArray *draggedTypes = nil;
 	}
 
 	//Update message style behavior: XXX move this somewhere not per-chat
-	[messageStyle setShowUserIcons:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_SHOW_USER_ICONS
+	[messageStyle setShowUserIcons:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_SHOW_USER_ICONS
 																			 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]];
-	[messageStyle setShowHeader:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_SHOW_HEADER
+	[messageStyle setShowHeader:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_SHOW_HEADER
 																		  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]];
-	[messageStyle setUseCustomNameFormat:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
+	[messageStyle setUseCustomNameFormat:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
 																				   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]];
-	[messageStyle setNameFormat:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_NAME_FORMAT
+	[messageStyle setNameFormat:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
 																		  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue]];
-	[messageStyle setDateFormat:[[adium preferenceController] preferenceForKey:KEY_WEBKIT_TIME_STAMP_FORMAT
+	[messageStyle setDateFormat:[adium.preferenceController preferenceForKey:KEY_WEBKIT_TIME_STAMP_FORMAT
 																		 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]];
-	[messageStyle setShowIncomingMessageColors:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS
+	[messageStyle setShowIncomingMessageColors:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS
 																						 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]];
-	[messageStyle setShowIncomingMessageFonts:[[[adium preferenceController] preferenceForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS
+	[messageStyle setShowIncomingMessageFonts:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS
 																						group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]];
 	
 	//Custom background image
 	//Webkit wants to load these from disk, but we have it stuffed in a plist.  So we'll write it out as an image
 	//into the cache and have webkit fetch from there.
 	NSString	*cachePath = nil;
-	if ([[[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:activeStyle]
+	if ([[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:activeStyle]
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
-		cachePath = [[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
+		cachePath = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
 															 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		if (!cachePath || ![[NSFileManager defaultManager] fileExistsAtPath:cachePath]) {
-			NSData	*backgroundImage = [[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:activeStyle]
+			NSData	*backgroundImage = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:activeStyle]
 																				group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 			
 			if (backgroundImage) {
 				//Generate a unique cache ID for this image
-				NSInteger	uniqueID = [[[adium preferenceController] preferenceForKey:@"BackgroundCacheUniqueID"
+				NSInteger	uniqueID = [[adium.preferenceController preferenceForKey:@"BackgroundCacheUniqueID"
 																		 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue] + 1;
-				[[adium preferenceController] setPreference:[NSNumber numberWithInteger:uniqueID]
+				[adium.preferenceController setPreference:[NSNumber numberWithInteger:uniqueID]
 													 forKey:@"BackgroundCacheUniqueID"
 													  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 				
@@ -392,7 +392,7 @@ static NSArray *draggedTypes = nil;
 				[backgroundImage writeToFile:cachePath atomically:YES];
 
 				//Remember where we cached it
-				[[adium preferenceController] setPreference:cachePath
+				[adium.preferenceController setPreference:cachePath
 													 forKey:[plugin styleSpecificKey:@"BackgroundCachePath" forStyle:activeStyle]
 													  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			} else {
@@ -400,14 +400,14 @@ static NSArray *draggedTypes = nil;
 			}
 		}
 		
-		[messageStyle setCustomBackgroundColor:[[[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"BackgroundColor" forStyle:activeStyle]
+		[messageStyle setCustomBackgroundColor:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundColor" forStyle:activeStyle]
 																						 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] representedColor]];
 	} else {
 		[messageStyle setCustomBackgroundColor:nil];
 	}
 
 	[messageStyle setCustomBackgroundPath:cachePath];
-	[messageStyle setCustomBackgroundType:[[[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:activeStyle]
+	[messageStyle setCustomBackgroundType:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:activeStyle]
 																					group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue]];
 	
 	BOOL isBackgroundTransparent = [[self messageStyle] isBackgroundTransparent];
@@ -417,15 +417,15 @@ static NSArray *draggedTypes = nil;
 		[win setOpaque:!isBackgroundTransparent];
 
 	//Update webview font settings
-	NSString	*fontFamily = [[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
+	NSString	*fontFamily = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
 																	group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	[webView setFontFamily:(fontFamily ? fontFamily : [messageStyle defaultFontFamily])];
 	
-	NSNumber	*fontSize = [[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
+	NSNumber	*fontSize = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
 																  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	[[webView preferences] setDefaultFontSize:[(fontSize ? fontSize : [messageStyle defaultFontSize]) integerValue]];
 	
-	NSNumber	*minSize = [[adium preferenceController] preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
+	NSNumber	*minSize = [adium.preferenceController preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
 																 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	[[webView preferences] setMinimumFontSize:(minSize ? [minSize integerValue] : 1)];
 
@@ -632,7 +632,7 @@ static NSArray *draggedTypes = nil;
 										 destination:[[content chat] account]
 												date:[content date]
 											 message:[[[NSAttributedString alloc] initWithString:dateMessage
-																					  attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																					  attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
 											withType:([content isKindOfClass:[AIContentContext class]] ? @"date_separator history" : @"date_separator")];
 		//Add the date header
 		[self _appendContent:dateSeparator 

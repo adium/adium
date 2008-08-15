@@ -63,10 +63,10 @@
 - (BOOL)validateMenuItem:(id)menuItem
 {
 	if ([menuItem action] == @selector(newMessage:)) {
-		return [[adium accountController] oneOrMoreConnectedAccounts];
+		return [adium.accountController oneOrMoreConnectedAccounts];
 
 	} else if ([menuItem action] == @selector(contextualOpenChat:)) {
-		NSEnumerator *enumerator = [[[adium accountController] accountsCompatibleWithService:[[[adium menuController] currentContextMenuObject] service]] objectEnumerator];
+		NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:[[[adium menuController] currentContextMenuObject] service]] objectEnumerator];
 		AIAccount	 *account;
 		BOOL		 enable = NO;
 
@@ -86,7 +86,7 @@
 - (void)contextualOpenChat:(id)sender
 {
 	//Open a new message with the contact
-	[[adium interfaceController] setActiveChat:[[adium chatController] openChatWithContact:(AIListContact *)[[adium menuController] currentContextMenuObject]
+	[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)[[adium menuController] currentContextMenuObject]
 																		onPreferredAccount:YES]];
 }
 

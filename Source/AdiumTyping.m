@@ -143,7 +143,7 @@
 												  withSource:[chat account]
 												 destination:nil
 												 typingState:typingState];
-		[[adium contentController] sendContentObject:contentObject];
+		[adium.contentController sendContentObject:contentObject];
 		
 		//Remember the state
 		[chat setValue:(typingState == AINotTyping ? nil : [NSNumber numberWithInteger:typingState])

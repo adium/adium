@@ -102,7 +102,7 @@
 			accountID = nil; //Unrecognizable, ignore
 		}
 	}
-	account = [[adium accountController] accountWithInternalObjectID:(NSString *)accountID];
+	account = [adium.accountController accountWithInternalObjectID:(NSString *)accountID];
 
 	destUniqueID = [details objectForKey:KEY_MESSAGE_SEND_TO];
 	if (destUniqueID) contact = (AIListContact *)[adium.contactController existingListObjectWithUniqueID:destUniqueID];
@@ -123,11 +123,11 @@
 	}
 	
 	//If the desired account is not available for sending, ask Adium for the best available account
-	if (![[adium contentController] availableForSendingContentType:CONTENT_MESSAGE_TYPE
+	if (![adium.contentController availableForSendingContentType:CONTENT_MESSAGE_TYPE
 														toContact:contact
 														onAccount:account]) {
 		if (useAnotherAccount) {
-			account = [[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+			account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																			 toContact:contact];
 			if (account) {
 				//Repeat the refinement process using the newly retrieved account
@@ -151,7 +151,7 @@
 		NSAttributedString 		*message;
 
 		//The contact is already on the account we want to use
-		chat = [[adium chatController] openChatWithContact:contact
+		chat = [adium.chatController openChatWithContact:contact
 										onPreferredAccount:NO];
 		if (([chat messageSendingAbility] == AIChatCanSendMessageNow) ||
 			([chat messageSendingAbility] == AIChatCanSendViaServersideOfflineMessage)) {
@@ -168,7 +168,7 @@
 															  autoreply:NO];
 			
 			//Send the content
-			success = [[adium contentController] sendContentObject:content];
+			success = [adium.contentController sendContentObject:content];
 			AILogWithSignature(@"%@ %@ to %@ from %@ in %@", (success ? @"Sent" : @"Failed to send"), content, contact, account, chat);
 			
 			//Display an error message if the message was not delivered

@@ -40,12 +40,12 @@ AIMessageHistory_HaveNotTalkedInInterval
 - (void)windowDidLoad
 {
 	//Observe preference changes
-	[[adium preferenceController] addObserver:self
+	[adium.preferenceController addObserver:self
 								   forKeyPath:@"Message Context Display.Display Mode"
 									  options:NSKeyValueObservingOptionNew
 									  context:NULL];
 	[self observeValueForKeyPath:@"Message Context Display.Display Mode"
-						ofObject:[adium preferenceController]
+						ofObject:adium.preferenceController
 						  change:nil
 						 context:NULL];
 	
@@ -57,7 +57,7 @@ AIMessageHistory_HaveNotTalkedInInterval
 	BOOL enableTalkedControls = NO;
 	BOOL enableNotTalkedControls = NO;
 	
-	switch ([[[adium preferenceController] preferenceForKey:@"Display Mode" group:@"Message Context Display"] integerValue]) {
+	switch ([[adium.preferenceController preferenceForKey:@"Display Mode" group:@"Message Context Display"] integerValue]) {
 		case AIMessageHistory_Always:
 			break;
 		
@@ -83,7 +83,7 @@ AIMessageHistory_HaveNotTalkedInInterval
  */
 - (void)windowWillClose:(id)sender
 {
-	[[adium preferenceController] removeObserver:self forKeyPath:@"Message Context Display.Display Mode"];
+	[adium.preferenceController removeObserver:self forKeyPath:@"Message Context Display.Display Mode"];
 
 	[super windowWillClose:sender];
 	[self autorelease];

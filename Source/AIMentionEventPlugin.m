@@ -33,14 +33,14 @@
  */
 - (void)installPlugin
 {
-	[[adium contentController] registerContentFilter:self
+	[adium.contentController registerContentFilter:self
 											  ofType:AIFilterContent 
 										   direction:AIFilterIncoming];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 #pragma mark -

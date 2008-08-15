@@ -59,18 +59,18 @@ static ESDebugController	*sharedDebugController = nil;
 	[menuItem release];
 
 	//Restore the debug window if it was open when we quit last time
-	if ([[[adium preferenceController] preferenceForKey:KEY_DEBUG_WINDOW_OPEN
+	if ([[adium.preferenceController preferenceForKey:KEY_DEBUG_WINDOW_OPEN
 												  group:GROUP_DEBUG] boolValue]) {
 		[ESDebugWindowController showDebugWindow];
 	}
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:GROUP_DEBUG];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_DEBUG];
 }
 
 - (void)controllerWillClose
 {
 	//Save the open state of the debug window
-	[[adium preferenceController] setPreference:([ESDebugWindowController debugWindowIsOpen] ?
+	[adium.preferenceController setPreference:([ESDebugWindowController debugWindowIsOpen] ?
 												 [NSNumber numberWithBool:YES] :
 												 nil)
 										 forKey:KEY_DEBUG_WINDOW_OPEN

@@ -657,7 +657,7 @@ static NSArray *validSenderColors;
 										        allowJavascriptURLs:NO];
 	
 	if (styleVersion >= 4)
-		htmlEncodedMessage = [[adium contentController] filterHTMLString:htmlEncodedMessage
+		htmlEncodedMessage = [adium.contentController filterHTMLString:htmlEncodedMessage
 															   direction:[content isOutgoing] ? AIFilterOutgoing : AIFilterIncoming
 																 content:content];
 

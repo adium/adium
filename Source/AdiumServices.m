@@ -70,7 +70,7 @@
 - (NSSet *)activeServicesIncludingCompatibleServices:(BOOL)includeCompatible
 {
 	NSMutableSet	*activeServices = [NSMutableSet set];
-	NSEnumerator	*accountEnumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator	*accountEnumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount		*account;
 
 	if (includeCompatible) {

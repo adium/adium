@@ -68,7 +68,7 @@
 	}
 
 	if ([textView_textProfile isKindOfClass:[AITextViewWithPlaceholder class]]) {
-		NSData				*globalProfileData = [[adium preferenceController] preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS];
+		NSData				*globalProfileData = [adium.preferenceController preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS];
 		NSAttributedString	*globalProfile = (globalProfileData ? [NSAttributedString stringWithData:globalProfileData] : nil);
 		
 		if (globalProfile && [globalProfile length]) {

@@ -42,7 +42,7 @@
 	[adium createResourcePathForName:MESSAGE_STYLES_SUBFOLDER_OF_APP_SUPPORT];
 
 	//Setup our preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:WEBKIT_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	preferences = [[ESWebKitMessageViewPreferences preferencePaneForPlugin:self] retain];
 
@@ -52,7 +52,7 @@
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
 
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	
 	//Register ourself as a message view plugin
 	[[adium interfaceController] registerMessageDisplayPlugin:self];
@@ -60,9 +60,9 @@
 
 - (void) uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium interfaceController] unregisterMessageDisplayPlugin:self];
-	[[adium preferenceController] removePreferencePane:preferences];
+	[adium.preferenceController removePreferencePane:preferences];
 
 	[[adium notificationCenter] removeObserver:self];
 
@@ -154,7 +154,7 @@
 - (AIWebkitMessageViewStyle *) currentMessageStyle
 {
 	if(!currentStyle) {
-		id<AIPreferenceController> prefs = [adium preferenceController];
+		id<AIPreferenceController> prefs = adium.preferenceController;
 		currentStyle = [AIWebkitMessageViewStyle messageViewStyleFromPath:[prefs preferenceForKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 																		group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]];
 		if(!currentStyle) {
@@ -173,7 +173,7 @@
 {
 	[styleDictionary release]; styleDictionary = nil;
 	[currentStyle release]; currentStyle = nil;
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:KEY_CURRENT_WEBKIT_STYLE_PATH
 										  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
 }

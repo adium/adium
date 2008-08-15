@@ -87,7 +87,7 @@ static	NSDictionary	*statusTypeDict = nil;
 	NSSet			*allChats;
 	AIListContact	*contact = [notification object];
 	
-	allChats = [[adium chatController] allChatsWithContact:contact];
+	allChats = [adium.chatController allChatsWithContact:contact];
 	AILog(@"Status message for %@ changed (%@)",contact,allChats);
 	if ([allChats count]) {	
 		if ([contact statusType] != AIAvailableStatusType) {
@@ -116,7 +116,7 @@ static	NSDictionary	*statusTypeDict = nil;
 	NSSet			*allChats;
 	AIListContact	*contact = [notification object];
 	
-	allChats = [[adium chatController] allChatsWithContact:contact];
+	allChats = [adium.chatController allChatsWithContact:contact];
 	if ([allChats count]) {
 		NSString		*description, *phraseWithoutSubject;
 		NSString		*name = [notification name];
@@ -164,7 +164,7 @@ static	NSDictionary	*statusTypeDict = nil;
 {
     AIChat				*chat;
 	NSAttributedString	*attributedMessage = [[[NSAttributedString alloc] initWithString:message
-																			  attributes:[[adium contentController] defaultFormattingAttributes]] autorelease];
+																			  attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
 
 	for (chat in inChats) {
 		//Don't do anything if the message is the same as the last message displayed for this chat
@@ -194,7 +194,7 @@ static	NSDictionary	*statusTypeDict = nil;
 		[content setCoalescingKey:CONTACT_STATUS_UPDATE_COALESCING_KEY];
 		
 		//Add the object
-		[[adium contentController] receiveContentObject:content];
+		[adium.contentController receiveContentObject:content];
 		
 		//Keep track of this message for this chat so we don't display it again sequentially
 		[previousStatusChangedMessages setObject:message

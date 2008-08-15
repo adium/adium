@@ -113,7 +113,7 @@
     [table_emoticons setUsesAlternatingRowBackgroundColors:YES];
         
     //Observe prefs    
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
     
     //Configure the right pane to display the emoticons for the current selection
     [self _configureEmoticonListForSelection];
@@ -134,7 +134,7 @@
 	[checkCell release]; checkCell = nil;
 	[selectedEmoticonPack release]; selectedEmoticonPack = nil;
 	[emoticonPackPreviewControllers release]; emoticonPackPreviewControllers = nil;
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[emoticonImageCache release]; emoticonImageCache = nil;
 
     //Flush all the images we loaded

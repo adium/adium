@@ -105,7 +105,7 @@
 	[self _configureChatPreview];
 
 	//Configure our controls to represent the global preferences
-	NSDictionary	*prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
+	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
 	[checkBox_showUserIcons setState:([[previewController messageStyle] allowsUserIcons] ?
 									  [[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue] :
 									  NSOffState)];
@@ -145,7 +145,7 @@
 - (void)messageStyleXtrasDidChange
 {
 	if (viewIsOpen) {
-		NSDictionary *prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+		NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		
 		[popUp_styles setMenu:[self _stylesMenu]];
 		[popUp_styles selectItemWithRepresentedObject:[prefDict objectForKey:KEY_WEBKIT_STYLE]];
@@ -200,7 +200,7 @@
 		[fontPreviewField_currentFont setFont:defaultFont];
 
 		//Style-specific background prefs
-		NSData	*backgroundImage = [[adium preferenceController] preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:style]
+		NSData	*backgroundImage = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Background" forStyle:style]
 																		   group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 		if (backgroundImage) {
 			[imageView_backgroundImage setImage:[[[NSImage alloc] initWithData:backgroundImage] autorelease]];
@@ -238,53 +238,53 @@
 {
 	if (viewIsOpen) {
 		if (sender == checkBox_showUserIcons) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_USER_ICONS
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == checkBox_showHeader) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_HEADER
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == checkBox_showMessageColors) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == checkBox_showMessageFonts) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == checkBox_useCustomBackground) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:[plugin styleSpecificKey:@"UseCustomBackground" 
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == colorWell_customBackgroundColor) {
-			[[adium preferenceController] setPreference:[[colorWell_customBackgroundColor color] stringRepresentation]
+			[adium.preferenceController setPreference:[[colorWell_customBackgroundColor color] stringRepresentation]
 												 forKey:[plugin styleSpecificKey:@"BackgroundColor"
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == popUp_backgroundImageType) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[popUp_backgroundImageType selectedItem] tag]]
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[popUp_backgroundImageType selectedItem] tag]]
 												 forKey:[plugin styleSpecificKey:@"BackgroundType"
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
 			
 		} else if (sender == popUp_styles) {
-			[[adium preferenceController] setPreference:[[sender selectedItem] representedObject]
+			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 												 forKey:KEY_WEBKIT_STYLE
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
 		} else if (sender == popUp_variants) {
-			NSString *activeStyle = [[adium preferenceController] preferenceForKey:KEY_WEBKIT_STYLE
+			NSString *activeStyle = [adium.preferenceController preferenceForKey:KEY_WEBKIT_STYLE
 																			 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 			
-			[[adium preferenceController] setPreference:[[sender selectedItem] representedObject]
+			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 												 forKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		}
@@ -322,13 +322,13 @@
  */
 - (void)_setDisplayFontFace:(NSString *)face size:(NSNumber *)size
 {
-	NSString *activeStyle = [[adium preferenceController] preferenceForKey:KEY_WEBKIT_STYLE
+	NSString *activeStyle = [adium.preferenceController preferenceForKey:KEY_WEBKIT_STYLE
 																	 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	
-	[[adium preferenceController] setPreference:face
+	[adium.preferenceController setPreference:face
 										 forKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
 										  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
-	[[adium preferenceController] setPreference:size
+	[adium.preferenceController setPreference:size
 										 forKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
 										  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	
@@ -362,7 +362,7 @@
 	/* Save the new image.  We store the images in a separate preference group since they may get big.
 	 * This will let loading other groups not be affected by its presence.
 	 */
-	[[adium preferenceController] setPreference:[image PNGRepresentation]
+	[adium.preferenceController setPreference:[image PNGRepresentation]
 										 forKey:[plugin styleSpecificKey:@"Background" forStyle:style]
 										  group:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 }
@@ -526,7 +526,7 @@
 	NSMutableDictionary	*listObjectDict = [NSMutableDictionary dictionary];
 	NSEnumerator		*enumerator = [participants objectEnumerator];
 	NSDictionary		*participant;
-	AIService			*aimService = [[adium accountController] firstServiceWithServiceID:@"AIM"];
+	AIService			*aimService = [adium.accountController firstServiceWithServiceID:@"AIM"];
 	
 	while ((participant = [enumerator nextObject])) {
 		NSString		*UID, *alias, *userIconName;
@@ -650,7 +650,7 @@
 			[content setPostProcessContent:NO];
 			[content setDisplayContentImmediately:NO];
 			
-			[[adium contentController] displayContentObject:content
+			[adium.contentController displayContentObject:content
 										usingContentFilters:YES
 												immediately:YES];
 		}

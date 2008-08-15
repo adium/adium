@@ -471,8 +471,8 @@
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Status message must be a string or an attributed string."];
 		}
 		[[adium statusController] savedStatusesChanged];
-		AILogWithSignature(@"Applying %@ to %@", self, [[adium accountController] accountsWithCurrentStatus:self]);
-		[[adium statusController] applyState:self toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		AILogWithSignature(@"Applying %@ to %@", self, [adium.accountController accountsWithCurrentStatus:self]);
+		[[adium statusController] applyState:self toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	} else {
 		AIStatus *newStatus = [[self mutableCopy] autorelease];
 		[newStatus setMutabilityType:AITemporaryEditableStatusState];
@@ -485,7 +485,7 @@
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Status message must be a string or an attributed string."];
 		}
 		[[adium statusController] savedStatusesChanged];		
-		[[adium statusController] applyState:newStatus toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	}
 }
 - (NSTextStorage *)scriptingAutoreply
@@ -504,7 +504,7 @@
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Autoreply message must be a string or an attributed string."];
 		}
 		[[adium statusController] savedStatusesChanged];
-		[[adium statusController] applyState:self toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:self toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	} else {
 		AIStatus *newStatus = [[self mutableCopy] autorelease];
 		[newStatus setMutabilityType:AITemporaryEditableStatusState];
@@ -517,7 +517,7 @@
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Autoreply message must be a string or an attributed string."];
 		}
 		[[adium statusController] savedStatusesChanged];		
-		[[adium statusController] applyState:newStatus toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	}
 }
 
@@ -543,14 +543,14 @@
 	if ([self mutabilityType] == AIEditableStatusState || [self mutabilityType] == AITemporaryEditableStatusState) {
 		[self setStatusType:statusType];
 		[[adium statusController] savedStatusesChanged];
-		[[adium statusController] applyState:self toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:self toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	} else {
 		AIStatus *newStatus = [[self mutableCopy] autorelease];
 		[newStatus setMutabilityType:AITemporaryEditableStatusState];
 		[newStatus setStatusType:statusType];
 		[newStatus setStatusName:[[adium statusController] defaultStatusNameForType:statusType]];
 		[[adium statusController] savedStatusesChanged];		
-		[[adium statusController] applyState:newStatus toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	}
 }
 
@@ -571,13 +571,13 @@
 	if ([self mutabilityType] == AIEditableStatusState || [self mutabilityType] == AITemporaryEditableStatusState) {
 		[self setTitle:newTitle];
 		[[adium statusController] savedStatusesChanged];
-		[[adium statusController] applyState:self toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:self toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	} else {
 		AIStatus *newStatus = [[self mutableCopy] autorelease];
 		[newStatus setMutabilityType:AITemporaryEditableStatusState];
 		[newStatus setTitle:newTitle];
 		[[adium statusController] savedStatusesChanged];		
-		[[adium statusController] applyState:newStatus toAccounts:[[adium accountController] accountsWithCurrentStatus:self]];
+		[[adium statusController] applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
 	}
 }
 

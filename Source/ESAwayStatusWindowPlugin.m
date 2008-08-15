@@ -33,13 +33,13 @@
 	awayAccounts = [[NSMutableSet alloc] init];
 	
 	//Observe preference changes for updating if we should show the status window
-	[[adium preferenceController] registerPreferenceObserver:self 
+	[adium.preferenceController registerPreferenceObserver:self 
 													forGroup:PREF_GROUP_STATUS_PREFERENCES];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
 

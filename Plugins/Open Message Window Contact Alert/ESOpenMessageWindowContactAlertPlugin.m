@@ -58,7 +58,7 @@
 - (BOOL)performActionID:(NSString *)actionID forListObject:(AIListObject *)listObject withDetails:(NSDictionary *)details triggeringEventID:(NSString *)eventID userInfo:(id)userInfo
 {
 	if ([listObject isKindOfClass:[AIListContact class]]) {
-		[[adium chatController] openChatWithContact:(AIListContact *)listObject
+		[adium.chatController openChatWithContact:(AIListContact *)listObject
 								 onPreferredAccount:YES];
 	}
 	

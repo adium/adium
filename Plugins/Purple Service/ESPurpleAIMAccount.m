@@ -41,12 +41,12 @@
 	arrayOfContactsForDelayedUpdates = nil;
 	delayedSignonUpdateTimer = nil;
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_NOTES];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_NOTES];
 }
 
 - (void)dealloc
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[super dealloc];
 }

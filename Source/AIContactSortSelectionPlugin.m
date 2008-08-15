@@ -51,7 +51,7 @@
 	enableConfigureSort = NO;
 	
     //Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONTACT_SORTING_DEFAULT_PREFS 
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_SORTING_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTACT_SORTING];
 
@@ -91,7 +91,7 @@
  */
 - (void)_setActiveSortControllerFromPreferences
 {
-	NSString *identifier = [[adium preferenceController] preferenceForKey:KEY_CURRENT_SORT_MODE_IDENTIFIER
+	NSString *identifier = [adium.preferenceController preferenceForKey:KEY_CURRENT_SORT_MODE_IDENTIFIER
 														  group:PREF_GROUP_CONTACT_SORTING];
 	
 	NSEnumerator *enumerator = [[AISortController availableSortControllers] objectEnumerator];
@@ -182,7 +182,7 @@
 	}
 	
 	//Save the new preference
-	[[adium preferenceController] setPreference:[controller identifier] forKey:KEY_CURRENT_SORT_MODE_IDENTIFIER group:PREF_GROUP_CONTACT_SORTING];
+	[adium.preferenceController setPreference:[controller identifier] forKey:KEY_CURRENT_SORT_MODE_IDENTIFIER group:PREF_GROUP_CONTACT_SORTING];
 
 	//Inform the contact controller of the new active sort controller
 	[AISortController setActiveSortController:controller];

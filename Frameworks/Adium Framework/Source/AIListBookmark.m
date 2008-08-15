@@ -50,7 +50,7 @@
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-	AIAccount *myAccount = [[adium accountController] accountWithInternalObjectID:[decoder decodeObjectForKey:KEY_ACCOUNT_INTERNAL_ID]];
+	AIAccount *myAccount = [adium.accountController accountWithInternalObjectID:[decoder decodeObjectForKey:KEY_ACCOUNT_INTERNAL_ID]];
 	if (!myAccount) {
 		[self release];
 		return nil;
@@ -58,7 +58,7 @@
 
 	if ((self = [self initWithUID:[decoder decodeObjectForKey:@"UID"]
 						  account:myAccount
-						  service:[[adium accountController] firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]])) {
+						  service:[adium.accountController firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]])) {
 		chatCreationDictionary = [[decoder decodeObjectForKey:@"chatCreationDictionary"] retain];
 		name = [[decoder decodeObjectForKey:@"name"] retain];
 		[self _initListBookmark];
@@ -168,7 +168,7 @@
 
 - (void)openChat
 {
-	AIChat *chat = [[adium chatController] existingChatWithName:[self name]
+	AIChat *chat = [adium.chatController existingChatWithName:[self name]
 													  onAccount:[self account]];
 	if (chat && [[chat chatCreationDictionary] isEqualToDictionary:
 				 [self chatCreationDictionary]]) {
@@ -177,7 +177,7 @@
 		
 	} else {
 		//Open a new group chat (bookmarked chat)
-		[[adium chatController] chatWithName:[self name]
+		[adium.chatController chatWithName:[self name]
 								  identifier:NULL 
 								   onAccount:[self account] 
 							chatCreationInfo:[self chatCreationDictionary]];

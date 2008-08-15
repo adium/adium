@@ -43,7 +43,7 @@
 									 object:nil];
 	
 	//Observe preference changes for updating when and how we should automatically change our state
-	[[adium preferenceController] registerPreferenceObserver:self 
+	[adium.preferenceController registerPreferenceObserver:self 
 													forGroup:PREF_GROUP_STATUS_PREFERENCES];	
 }
 
@@ -56,7 +56,7 @@
 	[accountsToReconnect release];
 	[autoAwayID release];
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[super dealloc];
 }
 
@@ -104,7 +104,7 @@
 			}
 			
 			if (targetStatusState) {
-				enumerator = [[[adium accountController] accounts] objectEnumerator];
+				enumerator = [[adium.accountController accounts] objectEnumerator];
 				while ((account = [enumerator nextObject])) {
 					AIStatus	*currentStatusState = [account statusState];
 					if ([currentStatusState statusType] == AIAvailableStatusType) {
@@ -146,7 +146,7 @@
 		NSEnumerator	*enumerator;
 		AIAccount		*account;
 		
-		enumerator = [[[adium accountController] accounts] objectEnumerator];
+		enumerator = [[adium.accountController accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
 			AIStatus		*targetStatusState;
 			NSNumber		*accountHash = [NSNumber numberWithUnsignedInteger:[account hash]];

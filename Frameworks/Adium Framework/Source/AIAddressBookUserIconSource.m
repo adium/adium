@@ -31,7 +31,7 @@
 		trackingDictTagNumberToPerson = [[NSMutableDictionary alloc] init];
 		priority = AIUserIconLowPriority;
 
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_ADDRESSBOOK];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_ADDRESSBOOK];
 	}
 	
 	return self;

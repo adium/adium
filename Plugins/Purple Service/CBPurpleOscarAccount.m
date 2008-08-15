@@ -161,7 +161,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		contactServiceID = @"libpurple-oscar-AIM";
 	}
 
-	contactService = [[adium accountController] serviceWithUniqueID:contactServiceID];
+	contactService = [adium.accountController serviceWithUniqueID:contactServiceID];
 
 	return contactService;
 }
@@ -519,9 +519,9 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 {
 	AILog(@"Direct IM Connected: %@",[theContact UID]);
 	
-	[[adium contentController] displayEvent:AILocalizedString(@"Direct IM connected","Direct IM is an AIM-specific phrase for transferring images in the message window")
+	[adium.contentController displayEvent:AILocalizedString(@"Direct IM connected","Direct IM is an AIM-specific phrase for transferring images in the message window")
 									 ofType:@"directIMConnected"
-									 inChat:[[adium chatController] chatWithContact:theContact]];
+									 inChat:[adium.chatController chatWithContact:theContact]];
 
 	//Send any pending directIM messages for this contact
 	NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:[theContact internalObjectID]];
@@ -529,7 +529,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		AIContentObject	*contentObject;
 		
 		for (contentObject in thisContactQueue) {
-			[[adium contentController] sendContentObject:contentObject];
+			[adium.contentController sendContentObject:contentObject];
 		}
 		
 		[directIMQueue removeObjectForKey:[theContact internalObjectID]];
@@ -544,9 +544,9 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 {
 	AILog(@"Direct IM Disconnected: %@",[theContact UID]);	
 	
-	[[adium contentController] displayEvent:AILocalizedString(@"Direct IM disconnected","Direct IM is an AIM-specific phrase for transferring images in the message window")
+	[adium.contentController displayEvent:AILocalizedString(@"Direct IM disconnected","Direct IM is an AIM-specific phrase for transferring images in the message window")
 									 ofType:@"directIMDisconnected"
-									 inChat:[[adium chatController] chatWithContact:theContact]];	
+									 inChat:[adium.chatController chatWithContact:theContact]];	
 }
 
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who

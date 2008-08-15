@@ -51,7 +51,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	self = [super init];
 	if (self != nil) {
 		//Register preference observer first so values will be correct for the following calls
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}
 	return self;
 }

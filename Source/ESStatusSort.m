@@ -91,12 +91,12 @@ static NSInteger  sizeOfSortOrder;
 - (void)didBecomeActiveFirstTime
 {
 	//Register our default preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:STATUS_SORT_DEFAULT_PREFS 
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:STATUS_SORT_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTACT_SORTING];
 	
 	//Load our preferences
-	NSDictionary *prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTACT_SORTING];
+	NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_CONTACT_SORTING];
 	
 	groupAvailable = [[prefDict objectForKey:KEY_GROUP_AVAILABLE] boolValue];
 	groupMobile = [[prefDict objectForKey:KEY_GROUP_MOBILE] boolValue];
@@ -284,11 +284,11 @@ static NSInteger  sizeOfSortOrder;
  */
 - (IBAction)changePreference:(id)sender
 {
-	NSArray	*sortOrderArray =  [[adium preferenceController] preferenceForKey:KEY_SORT_ORDER
+	NSArray	*sortOrderArray =  [adium.preferenceController preferenceForKey:KEY_SORT_ORDER
 																		group:PREF_GROUP_CONTACT_SORTING];
 	if (sender == checkBox_groupAvailable) {
 		groupAvailable = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupAvailable]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupAvailable]
                                              forKey:KEY_GROUP_AVAILABLE
                                               group:PREF_GROUP_CONTACT_SORTING];
 
@@ -296,7 +296,7 @@ static NSInteger  sizeOfSortOrder;
 		
 	} else if (sender == checkBox_groupMobileSeparately) {
 		groupMobile = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupMobile]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupMobile]
                                              forKey:KEY_GROUP_MOBILE
                                               group:PREF_GROUP_CONTACT_SORTING];		
 		
@@ -305,7 +305,7 @@ static NSInteger  sizeOfSortOrder;
 			NSMutableArray	*newSortOrderArray = [[sortOrderArray mutableCopy] autorelease];
 			[newSortOrderArray addObject:[NSNumber numberWithInteger:Mobile]];
 			
-			[[adium preferenceController] setPreference:newSortOrderArray
+			[adium.preferenceController setPreference:newSortOrderArray
 												 forKey:KEY_SORT_ORDER
 												  group:PREF_GROUP_CONTACT_SORTING];
 			
@@ -314,31 +314,31 @@ static NSInteger  sizeOfSortOrder;
 		
 	} else if (sender == checkBox_groupAway) {
 		groupAway = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupAway]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupAway]
                                              forKey:KEY_GROUP_AWAY
                                               group:PREF_GROUP_CONTACT_SORTING];		
 	} else if (sender == checkBox_groupIdle) {
 		groupIdle = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupIdle]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupIdle]
                                              forKey:KEY_GROUP_IDLE
                                               group:PREF_GROUP_CONTACT_SORTING];
 		
 	} else if (sender == checkBox_groupIdleAndAway) {
 		groupIdleAndAway = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupIdleAndAway]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupIdleAndAway]
                                              forKey:KEY_GROUP_IDLE_AND_AWAY
                                               group:PREF_GROUP_CONTACT_SORTING];
 		
 	} else if (sender == checkBox_sortIdleTime) {
 		sortIdleTime = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:sortIdleTime]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortIdleTime]
                                              forKey:KEY_SORT_IDLE_TIME
                                               group:PREF_GROUP_CONTACT_SORTING];				
 	} else if (sender == matrix_resolution) {
 		id selectedCell = [sender selectedCell];
 		
 		resolveAlphabetically = (selectedCell == buttonCell_alphabetically);
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:resolveAlphabetically]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:resolveAlphabetically]
 											 forKey:KEY_RESOLVE_ALPHABETICALLY
 											  group:PREF_GROUP_CONTACT_SORTING];
 		
@@ -348,7 +348,7 @@ static NSInteger  sizeOfSortOrder;
 		id selectedCell = [sender selectedCell];
 		
 		groupUnavailable = (selectedCell == buttonCell_allUnavailable);
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:groupUnavailable]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:groupUnavailable]
 											 forKey:KEY_GROUP_UNAVAILABLE
 											  group:PREF_GROUP_CONTACT_SORTING];
 		
@@ -356,7 +356,7 @@ static NSInteger  sizeOfSortOrder;
 		
 	} else if (sender == checkBox_alphabeticallyByLastName) {
 		resolveAlphabeticallyByLastName = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:resolveAlphabeticallyByLastName]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:resolveAlphabeticallyByLastName]
                                              forKey:KEY_RESOLVE_BY_LAST_NAME
                                               group:PREF_GROUP_CONTACT_SORTING];
 	}
@@ -506,7 +506,7 @@ static NSInteger  sizeOfSortOrder;
 		NSString		*item = [[info draggingPasteboard] stringForType:STATUS_DRAG_TYPE];
 		
 		//Remember, sortOrderPref contains all possible sorting types, not just the ones presently visible in the table!
-		NSMutableArray  *sortOrderPref = [[[adium preferenceController] preferenceForKey:KEY_SORT_ORDER
+		NSMutableArray  *sortOrderPref = [[adium.preferenceController preferenceForKey:KEY_SORT_ORDER
 																				   group:PREF_GROUP_CONTACT_SORTING] mutableCopy];
 		NSNumber		*sortNumber = [self numberForString:item];
 		
@@ -530,7 +530,7 @@ static NSInteger  sizeOfSortOrder;
 			}
 		}
 		
-		[[adium preferenceController] setPreference:sortOrderPref
+		[adium.preferenceController setPreference:sortOrderPref
 											 forKey:KEY_SORT_ORDER
 											  group:PREF_GROUP_CONTACT_SORTING];
 		

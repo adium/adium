@@ -149,7 +149,7 @@
 										 object:nil];
 
 		//Observe general preferences for sending keys
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
@@ -180,10 +180,10 @@
 {   
 	AIListContact	*contact = [chat listObject];
 	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	//Store our minimum height for the text entry area, and minimim width for the user list
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:entryMinHeight]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:entryMinHeight]
 										 forKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
@@ -229,7 +229,7 @@
 
 - (void)saveUserListMinimumSize
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:userListMinWidth]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -454,7 +454,7 @@
 											autoreply:NO];
 			[outgoingAttributedString release];
 			
-			if ([[adium contentController] sendContentObject:message]) {
+			if ([adium.contentController sendContentObject:message]) {
 				[[adium notificationCenter] postNotificationName:Interface_DidSendEnteredMessage 
 														  object:chat
 														userInfo:nil];
@@ -622,7 +622,7 @@
 		
 		[alertDict setObject:listContact forKey:@"TEMP-ListContact"];
 		
-		[[adium contentController] filterAttributedString:[[[textView_outgoing textStorage] copy] autorelease]
+		[adium.contentController filterAttributedString:[[[textView_outgoing textStorage] copy] autorelease]
 										  usingFilterType:AIFilterContent
 												direction:AIFilterOutgoing
 											filterContext:listContact
@@ -790,10 +790,10 @@
 		[textView_outgoing setUsesFindPanel:YES];
     }
 	[textView_outgoing setClearOnEscape:YES];
-	[textView_outgoing setTypingAttributes:[[adium contentController] defaultFormattingAttributes]];
+	[textView_outgoing setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
 	
 	//User's choice of mininum height for their text entry view
-	entryMinHeight = [[[adium preferenceController] preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
+	entryMinHeight = [[adium.preferenceController preferenceForKey:KEY_ENTRY_TEXTVIEW_MIN_HEIGHT
 															   group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
 	if (entryMinHeight <= 0) entryMinHeight = [self _textEntryViewProperHeightIgnoringUserMininum:YES];
 	
@@ -832,7 +832,7 @@
 	writingDirection = [textView_outgoing baseWritingDirection];
 	
 	[textView_outgoing setString:@""];
-	[textView_outgoing setTypingAttributes:[[adium contentController] defaultFormattingAttributes]];
+	[textView_outgoing setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
 	
 	[textView_outgoing setBaseWritingDirection:writingDirection];	//Preserve the writing diraction
 
@@ -1062,7 +1062,7 @@
 		[userListController setHideRoot:YES];
 
 		//User's choice of mininum width for their user list view
-		userListMinWidth = [[[adium preferenceController] preferenceForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
+		userListMinWidth = [[adium.preferenceController preferenceForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 																	 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
 		if (userListMinWidth < USER_LIST_MIN_WIDTH) userListMinWidth = USER_LIST_DEFAULT_WIDTH;
 		[shelfView setShelfWidth:[userListView bounds].size.width];

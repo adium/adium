@@ -145,7 +145,7 @@ static void adiumPurpleCoreDebugInit(void)
 
 static void associateLibpurpleAccounts(void)
 {
-	NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	CBPurpleAccount	*adiumAccount;
 
 	while ((adiumAccount = [enumerator nextObject])) {

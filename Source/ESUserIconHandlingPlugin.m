@@ -71,7 +71,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 //Needs some 		[self updateToolbarItemForObject:inObject];
@@ -266,7 +266,7 @@
 	//Update the icon in the toolbar for this contact if a chat is open and we have any toolbar items
 	if (([toolbarItems count] > 0) &&
 		[inObject isKindOfClass:[AIListContact class]] &&
-		(chat = [[adium chatController] existingChatWithContact:(AIListContact *)inObject]) &&
+		(chat = [adium.chatController existingChatWithContact:(AIListContact *)inObject]) &&
 		(window = [[adium interfaceController] windowForChat:chat])) {
 		[self _updateToolbarIconOfChat:chat
 							  inWindow:window];

@@ -161,7 +161,7 @@
 												  message:autoReply
 												autoreply:supportsAutoreply];
 		
-		[[adium contentController] sendContentObject:responseContent];
+		[adium.contentController sendContentObject:responseContent];
 	}
 }
 

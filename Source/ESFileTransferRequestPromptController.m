@@ -60,7 +60,7 @@
 		
 		[fileTransfer setFileTransferRequestPromptController:self];
 		AILog(@"%@: Requeseting file transfer %@", self, fileTransfer);
-		[[adium contentController] receiveContentObject:fileTransfer];
+		[adium.contentController receiveContentObject:fileTransfer];
 	}
 
 	return self;
@@ -89,7 +89,7 @@
 	switch (action) {			
 		case AISaveFile: /* Save */
 		{
-			localFilename = [[[adium preferenceController] userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];
+			localFilename = [[adium.preferenceController userPreferredDownloadFolder] stringByAppendingPathComponent:[fileTransfer remoteFilename]];
 			
 			/* If the file doesn't exist, we're done.  If it does, fall through to AISaveFileAs
 			* triggering a Save As... panel.
@@ -103,7 +103,7 @@
 		{
 			//Prompt for a location to save
 			NSSavePanel *savePanel = [NSSavePanel savePanel];
-			NSInteger returnCode = [savePanel runModalForDirectory:[[adium preferenceController] userPreferredDownloadFolder]
+			NSInteger returnCode = [savePanel runModalForDirectory:[adium.preferenceController userPreferredDownloadFolder]
 																			   file:[fileTransfer remoteFilename]];
 			//Only need to take action if the user pressed OK; if she pressed cancel, just return to our window.
 			if (returnCode == NSOKButton) {

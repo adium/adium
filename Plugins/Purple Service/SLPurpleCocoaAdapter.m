@@ -260,7 +260,7 @@ CBPurpleAccount* accountLookup(PurpleAccount *acct)
 		const char	*protocolID = acct->protocol_id;
 		NSString	*serviceClass = serviceClassForPurpleProtocolID(protocolID);
 
-		NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 		while ((adiumPurpleAccount = [enumerator nextObject])) {
 			if ([adiumPurpleAccount isKindOfClass:[CBPurpleAccount class]] &&
 			   [[[adiumPurpleAccount service] serviceClass] isEqualToString:serviceClass] &&

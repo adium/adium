@@ -178,7 +178,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	//Show the contact list initially even if it is at a screen edge and supposed to slide out of view
 	[self delayWindowSlidingForInterval:5];
 
-	id<AIPreferenceController> preferenceController = [adium preferenceController];
+	id<AIPreferenceController> preferenceController = adium.preferenceController;
     //Observe preference changes
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
@@ -215,7 +215,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[slideWindowIfNeededTimer invalidate]; [slideWindowIfNeededTimer release];
 
     //Stop observing
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 
@@ -411,8 +411,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	BOOL groupLayout = ([group isEqualToString:PREF_GROUP_LIST_LAYOUT]);
 	BOOL groupTheme = ([group isEqualToString:PREF_GROUP_LIST_THEME]);
     if (groupLayout || (groupTheme && !firstTime)) { /* We don't want to execute this code twice when initializing */
-		NSDictionary	*layoutDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
-		NSDictionary	*themeDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_LIST_THEME];
+		NSDictionary	*layoutDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_LAYOUT];
+		NSDictionary	*themeDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_LIST_THEME];
 
 		//Layout only
 		if (groupLayout) {
@@ -479,7 +479,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[contactListController hideTooltip];
 
 		//Open a new message with the contact
-		[[adium interfaceController] setActiveChat:[[adium chatController] openChatWithContact:(AIListContact *)selectedObject
+		[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)selectedObject
 																			onPreferredAccount:YES]];
     }
 }
@@ -1155,7 +1155,7 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 		
 		if (!NSEqualRects(windowFrame, oldFrame)) {
 			//Restore shadow and frame if we're appearing from having slid off-screen
-			[window setHasShadow:[[[adium preferenceController] preferenceForKey:KEY_CL_WINDOW_HAS_SHADOW
+			[window setHasShadow:[[adium.preferenceController preferenceForKey:KEY_CL_WINDOW_HAS_SHADOW
 																		   group:PREF_GROUP_CONTACT_LIST] boolValue]];			
 			[window orderFront:nil]; 
 			[contactListController contactListWillSlideOnScreen];
@@ -1338,9 +1338,9 @@ static BOOL canSnap(CGFloat a, CGFloat b)
  * @brief Gets space that windows should be apart by based on current window style
  */
 - (NSPoint)windowSpacing {
-	AIContactListWindowStyle style = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
+	AIContactListWindowStyle style = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
 														  group:PREF_GROUP_APPEARANCE] integerValue];
-	NSInteger space = [[[adium preferenceController] preferenceForKey:@"Group Top Spacing" 
+	NSInteger space = [[adium.preferenceController preferenceForKey:@"Group Top Spacing" 
 														  group:@"List Layout"] integerValue];
 	
 	switch (style) {

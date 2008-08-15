@@ -44,12 +44,12 @@
     unviewedState = NO;
 
 	//Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:@"DockUnviewedContentDefaults"
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"DockUnviewedContentDefaults"
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_APPEARANCE];
 	
 	//Observe pref changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 }
 
 /*!
@@ -57,7 +57,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
 
@@ -73,7 +73,7 @@
 			
 			if (animateDockIcon) {
 				//Register as a chat observer (So we can catch the unviewed content status flag)
-				[[adium chatController] registerChatObserver:self];
+				[adium.chatController registerChatObserver:self];
 				
 				[[adium notificationCenter] addObserver:self
 											   selector:@selector(chatWillClose:)
@@ -82,7 +82,7 @@
 			} else {
 				[self removeAlert];
 
-				[[adium chatController] unregisterChatObserver:self];
+				[adium.chatController unregisterChatObserver:self];
 				[[adium notificationCenter] removeObserver:self];
 			}
 		}
@@ -106,13 +106,13 @@
 				NSString *iconState;
 
 				if (([[[adium statusController] activeStatusState] statusType] == AIInvisibleStatusType) &&
-					[[adium dockController] currentIconSupportsIconStateNamed:@"InvisibleAlert"]) {
+					[adium.dockController currentIconSupportsIconStateNamed:@"InvisibleAlert"]) {
 					iconState = @"InvisibleAlert";					
 				} else {
 					iconState = @"Alert";
 				}
 
-                [[adium dockController] setIconStateNamed:iconState];
+                [adium.dockController setIconStateNamed:iconState];
                 unviewedState = YES;
             }
 
@@ -138,7 +138,7 @@
  */
 - (void)removeAlert
 {
-	[[adium dockController] removeIconStateNamed:@"Alert"];
+	[adium.dockController removeIconStateNamed:@"Alert"];
 	unviewedState = NO;
 }
 

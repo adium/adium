@@ -215,7 +215,7 @@
 - (IBAction)selectServiceType:(id)sender
 {
 	AIService	*service = [sender representedObject];
-	AIAccount	*account = [[adium accountController] createAccountWithService:service
+	AIAccount	*account = [adium.accountController createAccountWithService:service
 																		   UID:[service defaultUserName]];
 
 	[AIEditAccountWindowController editAccount:account
@@ -259,11 +259,11 @@
  */
 - (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)successful
 {
-	BOOL existingAccount = ([[[adium accountController] accounts] containsObject:inAccount]);
+	BOOL existingAccount = ([[adium.accountController accounts] containsObject:inAccount]);
 	
 	if (!existingAccount && successful) {
 		//New accounts need to be added to our account list once they're configured
-		[[adium accountController] addAccount:inAccount];
+		[adium.accountController addAccount:inAccount];
 
 		//Scroll the new account visible so that the user can see we added it
 		[tableView_accountList scrollRowToVisible:[accountArray indexOfObject:inAccount]];
@@ -396,7 +396,7 @@
 {
     //Update our list of accounts
     [accountArray release];
-	accountArray = [[[adium accountController] accounts] retain];
+	accountArray = [[adium.accountController accounts] retain];
 
 	//Refresh the account table
 	[tableView_accountList reloadData];
@@ -1010,7 +1010,7 @@
 		[tableView_accountList deselectAll:nil];
 		
 		while ((account = [enumerator nextObject])) {
-			[[adium accountController] moveAccount:account toIndex:row];
+			[adium.accountController moveAccount:account toIndex:row];
 		}
 		
 		//Re-select our now-moved accounts

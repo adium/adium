@@ -129,7 +129,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 						   withObject:nil
 						   afterDelay:0.001];
 	
-	[checkBox_logWriting setState:[[[adium preferenceController] preferenceForKey:KEY_DEBUG_WRITE_LOG
+	[checkBox_logWriting setState:[[adium.preferenceController preferenceForKey:KEY_DEBUG_WRITE_LOG
 																			group:GROUP_DEBUG] boolValue]];
 	
 	[super windowDidLoad];
@@ -157,7 +157,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 - (IBAction)toggleLogWriting:(id)sender
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 										 forKey:KEY_DEBUG_WRITE_LOG
 										  group:GROUP_DEBUG];
 }

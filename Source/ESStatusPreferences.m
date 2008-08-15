@@ -225,7 +225,7 @@
 		NSEnumerator	*enumerator;
 		AIAccount		*account;
 		
-		enumerator = [[[adium accountController] accounts] objectEnumerator];
+		enumerator = [[adium.accountController accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
 			if ([account statusState] == originalState) {
 				[account setStatusStateAndRemainOffline:newState];
@@ -527,7 +527,7 @@
 
 - (void)configureOtherControls
 {
-	NSDictionary	*prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_STATUS_PREFERENCES];
+	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_STATUS_PREFERENCES];
 	
 	[checkBox_idle setState:[[prefDict objectForKey:KEY_STATUS_REPORT_IDLE] boolValue]];
 	[textField_idleMinutes setDoubleValue:([[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue] / 60.0)];
@@ -563,15 +563,15 @@
 	[popUp_screenSaverStatusState setMenu:[[statusStatesMenu copy] autorelease]];
 
 	//Now select the proper state, or deselect all items if there is no chosen state or the chosen state doesn't exist
-	targetUniqueStatusIDNumber = [[adium preferenceController] preferenceForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
+	targetUniqueStatusIDNumber = [adium.preferenceController preferenceForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 																		  group:PREF_GROUP_STATUS_PREFERENCES];
 	[self _selectStatusWithUniqueID:targetUniqueStatusIDNumber inPopUpButton:popUp_autoAwayStatusState];
 	
-	targetUniqueStatusIDNumber = [[adium preferenceController] preferenceForKey:KEY_STATUS_FUS_STATUS_STATE_ID
+	targetUniqueStatusIDNumber = [adium.preferenceController preferenceForKey:KEY_STATUS_FUS_STATUS_STATE_ID
 																		  group:PREF_GROUP_STATUS_PREFERENCES];
 	[self _selectStatusWithUniqueID:targetUniqueStatusIDNumber inPopUpButton:popUp_fastUserSwitchingStatusState];	
 	
-	targetUniqueStatusIDNumber = [[adium preferenceController] preferenceForKey:KEY_STATUS_SS_STATUS_STATE_ID
+	targetUniqueStatusIDNumber = [adium.preferenceController preferenceForKey:KEY_STATUS_SS_STATUS_STATE_ID
 																		  group:PREF_GROUP_STATUS_PREFERENCES];
 	[self _selectStatusWithUniqueID:targetUniqueStatusIDNumber inPopUpButton:popUp_screenSaverStatusState];	
 }
@@ -678,30 +678,30 @@
 - (void)changePreference:(id)sender
 {
 	if (sender == checkBox_idle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_STATUS_REPORT_IDLE
 											  group:PREF_GROUP_STATUS_PREFERENCES];
 		[self configureControlDimming];
 		
 	} else if (sender == checkBox_autoAway) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_STATUS_AUTO_AWAY
 											  group:PREF_GROUP_STATUS_PREFERENCES];
 		[self configureControlDimming];
 		
 	} else if (sender == checkBox_showStatusWindow) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_STATUS_SHOW_STATUS_WINDOW
 											  group:PREF_GROUP_STATUS_PREFERENCES];		
 		
 	} else if (sender == checkBox_fastUserSwitching) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_STATUS_FUS
 											  group:PREF_GROUP_STATUS_PREFERENCES];
 		[self configureControlDimming];
 		
 	} else if (sender == checkBox_screenSaver) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_STATUS_SS
 											  group:PREF_GROUP_STATUS_PREFERENCES];
 		[self configureControlDimming];
@@ -749,7 +749,7 @@
 {
 	AIStatus	*statusState = [[sender representedObject] objectForKey:@"AIStatus"];
 
-	[[adium preferenceController] setPreference:[statusState uniqueStatusID]
+	[adium.preferenceController setPreference:[statusState uniqueStatusID]
 										 forKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 										  group:PREF_GROUP_STATUS_PREFERENCES];
 
@@ -762,7 +762,7 @@
 {
 	AIStatus	*statusState = [[sender representedObject] objectForKey:@"AIStatus"];
 
-	[[adium preferenceController] setPreference:[statusState uniqueStatusID]
+	[adium.preferenceController setPreference:[statusState uniqueStatusID]
 										 forKey:KEY_STATUS_FUS_STATUS_STATE_ID
 										  group:PREF_GROUP_STATUS_PREFERENCES];
 	
@@ -775,7 +775,7 @@
 {
 	AIStatus	*statusState = [[sender representedObject] objectForKey:@"AIStatus"];
 	
-	[[adium preferenceController] setPreference:[statusState uniqueStatusID]
+	[adium.preferenceController setPreference:[statusState uniqueStatusID]
 										 forKey:KEY_STATUS_SS_STATUS_STATE_ID
 										  group:PREF_GROUP_STATUS_PREFERENCES];
 	
@@ -803,11 +803,11 @@
  */
 - (void)saveTimeValues
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:([textField_idleMinutes doubleValue]*60.0)]
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:([textField_idleMinutes doubleValue]*60.0)]
 										 forKey:KEY_STATUS_REPORT_IDLE_INTERVAL
 										  group:PREF_GROUP_STATUS_PREFERENCES];
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:([textField_autoAwayMinutes doubleValue]*60.0)]
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:([textField_autoAwayMinutes doubleValue]*60.0)]
 										 forKey:KEY_STATUS_AUTO_AWAY_INTERVAL
 										  group:PREF_GROUP_STATUS_PREFERENCES];
 }

@@ -189,7 +189,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 				[fakeWindow makeKeyAndOrderFront:nil];
 #else
 				//Show as a sheet on the account's preferences
-				[[adium accountController] editAccount:account onWindow:nil notifyingTarget:self];
+				[adium.accountController editAccount:account onWindow:nil notifyingTarget:self];
 #endif
 				break;
 			}

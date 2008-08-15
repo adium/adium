@@ -123,12 +123,12 @@
 									 object:nil];
 	
 	//Now register our other defaults
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONTACT_LIST_DEFAULTS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_LIST_DEFAULTS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST];										  
 											  
 	//Observe window style changes 
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 
 	//Detached state
 	hasLoaded = NO;
@@ -138,7 +138,7 @@
 - (void)uninstallPlugin
 {
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)dealloc
@@ -560,7 +560,7 @@
 		[self closeContactList:windowController];
 	}
 
-	[[adium preferenceController] setPreference:detachedWindowsDicts
+	[adium.preferenceController setPreference:detachedWindowsDicts
 										 forKey:DETACHED_WINDOWS
 										  group:PREF_DETACHED_GROUPS];
 	[detachedWindowsDicts release];
@@ -580,7 +580,7 @@
 	}
 	
 	if (!hasLoaded) {
-		NSArray *detachedWindowsDict = [[adium preferenceController] preferenceForKey:DETACHED_WINDOWS
+		NSArray *detachedWindowsDict = [adium.preferenceController preferenceForKey:DETACHED_WINDOWS
 																				group:PREF_DETACHED_GROUPS];
 		NSDictionary *windowPreferenceDict;
 		

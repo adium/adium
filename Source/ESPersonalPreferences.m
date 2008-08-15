@@ -49,12 +49,12 @@
  */
 - (void)viewDidLoad
 {
-	NSString *displayName = [[[[adium preferenceController] preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
+	NSString *displayName = [[[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 																	   group:GROUP_ACCOUNT_STATUS] attributedString] string];
 	[textField_displayName setStringValue:(displayName ? displayName : @"")];
 	
 	//Set the default local alias (address book name) as the placeholder for the local alias
-	NSString *defaultAlias = [[[[adium preferenceController] defaultPreferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
+	NSString *defaultAlias = [[[adium.preferenceController defaultPreferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 																			   group:GROUP_ACCOUNT_STATUS
 																			  object:nil] attributedString] string];
 	[[textField_displayName cell] setPlaceholderString:(defaultAlias ? defaultAlias : @"")];
@@ -62,7 +62,7 @@
 	[self configureProfile];
 	[self configureTooltips];
 	
-	if ([[[adium preferenceController] preferenceForKey:KEY_USE_USER_ICON
+	if ([[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON
 												  group:GROUP_ACCOUNT_STATUS] boolValue]) {
 		[matrix_userIcon selectCellWithTag:1];
 	} else {
@@ -71,7 +71,7 @@
 
 	[self configureControlDimming];
 
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 	[imageView_userIcon setMaxSize:NSMakeSize(256, 256)];
 
@@ -80,7 +80,7 @@
 
 - (void)viewWillClose
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	[textField_alias fireImmediately];
 	[textField_displayName fireImmediately];
@@ -96,27 +96,27 @@
 	if (sender == textField_displayName) {
 		NSString *displayName = [textField_displayName stringValue];
 		
-		[[adium preferenceController] setPreference:((displayName && [displayName length]) ?
+		[adium.preferenceController setPreference:((displayName && [displayName length]) ?
 													 [[NSAttributedString stringWithString:displayName] dataRepresentation] :
 													 nil)
 											 forKey:KEY_ACCOUNT_DISPLAY_NAME
 											  group:GROUP_ACCOUNT_STATUS];
 
 	} else if (sender == textView_profile) {
-		[[adium preferenceController] setPreference:[[textView_profile textStorage] dataRepresentation] 
+		[adium.preferenceController setPreference:[[textView_profile textStorage] dataRepresentation] 
 											 forKey:@"TextProfile"
 											  group:GROUP_ACCOUNT_STATUS];
 
 	} else if (sender == matrix_userIcon) {
 		BOOL enableUserIcon = ([[matrix_userIcon selectedCell] tag] == 1);
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableUserIcon]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:enableUserIcon]
 											 forKey:KEY_USE_USER_ICON
 											  group:GROUP_ACCOUNT_STATUS];	
 	}else if (sender == button_enableMusicProfile) {
 		BOOL enableUserIcon = ([button_enableMusicProfile state] == NSOnState);
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:enableUserIcon]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:enableUserIcon]
 											 forKey:KEY_USE_USER_ICON
 											  group:GROUP_ACCOUNT_STATUS];	
 	}
@@ -168,7 +168,7 @@
 
 	[[NSFontPanel sharedFontPanel] setDelegate:textView_profile];
 
-	NSData				*profileData = [[adium preferenceController] preferenceForKey:@"TextProfile"
+	NSData				*profileData = [adium.preferenceController preferenceForKey:@"TextProfile"
 																				group:GROUP_ACCOUNT_STATUS];
 	NSAttributedString	*profile = (profileData ? [NSAttributedString stringWithData:profileData] : nil);
 	
@@ -203,14 +203,14 @@
 #pragma mark AIImageViewWithImagePicker Delegate
 - (void)imageViewWithImagePicker:(AIImageViewWithImagePicker *)sender didChangeToImageData:(NSData *)imageData
 {
-	[[adium preferenceController] setPreference:imageData
+	[adium.preferenceController setPreference:imageData
 										 forKey:KEY_USER_ICON
 										  group:GROUP_ACCOUNT_STATUS];
 }
 
 - (void)deleteInImageViewWithImagePicker:(AIImageViewWithImagePicker *)sender
 {
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:KEY_USER_ICON
 										  group:GROUP_ACCOUNT_STATUS];
 
@@ -225,10 +225,10 @@
 
 - (void)configureImageView
 {
-	NSData *imageData = [[adium preferenceController] preferenceForKey:KEY_USER_ICON
+	NSData *imageData = [adium.preferenceController preferenceForKey:KEY_USER_ICON
 																 group:GROUP_ACCOUNT_STATUS];
 	if (!imageData) {
-		imageData = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_USER_ICON
+		imageData = [adium.preferenceController preferenceForKey:KEY_DEFAULT_USER_ICON
 															 group:GROUP_ACCOUNT_STATUS];
 	}
 

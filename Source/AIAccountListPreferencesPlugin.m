@@ -56,7 +56,7 @@
 	AIAccount	*account = [inNotification object];
 	
 	//Open the preferences to the accounts pane
-	[[adium preferenceController] openPreferencesToCategoryWithIdentifier:@"Accounts"];
+	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Accounts"];
 
 	//Then edit the account
 	[accountListPreferences editAccount:account];

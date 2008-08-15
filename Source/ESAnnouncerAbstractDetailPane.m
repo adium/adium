@@ -57,7 +57,7 @@
 	NSString	*voice;
 	NSNumber	*pitchNumber, *rateNumber;
 
-	if (!inDetails) inDetails = [[adium preferenceController] preferenceForKey:[self defaultDetailsKey]
+	if (!inDetails) inDetails = [adium.preferenceController preferenceForKey:[self defaultDetailsKey]
 																		group:PREF_GROUP_ANNOUNCER];
 
 	speakTime = [[inDetails objectForKey:KEY_ANNOUNCER_TIME] boolValue];
@@ -72,7 +72,7 @@
     if ((pitchNumber = [inDetails objectForKey:KEY_PITCH])) {
 		[slider_pitch setDoubleValue:[pitchNumber doubleValue]];
     } else {
-		[slider_pitch setDoubleValue:[[adium soundController] defaultPitch]];
+		[slider_pitch setDoubleValue:[adium.soundController defaultPitch]];
     }
 	
 	[checkBox_customPitch setState:[[inDetails objectForKey:KEY_PITCH_CUSTOM] boolValue]];
@@ -80,7 +80,7 @@
     if ((rateNumber = [inDetails objectForKey:KEY_RATE])) {
 		[slider_rate setDoubleValue:[rateNumber doubleValue]];
     } else {
-		[slider_rate setDoubleValue:[[adium soundController] defaultRate]];
+		[slider_rate setDoubleValue:[adium.soundController defaultRate]];
     }
 
 	[checkBox_customRate setState:[[inDetails objectForKey:KEY_RATE_CUSTOM] boolValue]];
@@ -125,7 +125,7 @@
 	NSDictionary	*actionDetails = [self actionDetailsFromDict:nil];
 
 	//Save the preferred settings for future use as defaults
-	[[adium preferenceController] setPreference:actionDetails
+	[adium.preferenceController setPreference:actionDetails
 										 forKey:[self defaultDetailsKey]
 										  group:PREF_GROUP_ANNOUNCER];
 
@@ -154,12 +154,12 @@
 						  forKey:KEY_VOICE_STRING];
 	}
 
-	if ([pitch doubleValue] != [[adium soundController] defaultPitch]) {
+	if ([pitch doubleValue] != [adium.soundController defaultPitch]) {
 		[actionDetails setObject:pitch
 						  forKey:KEY_PITCH];
 	}
 	
-	if ([rate doubleValue] != [[adium soundController] defaultRate]) {
+	if ([rate doubleValue] != [adium.soundController defaultRate]) {
 		[actionDetails setObject:rate
 						  forKey:KEY_RATE];
 	}
@@ -203,7 +203,7 @@
 	[voicesMenu addItem:menuItem];
 	[voicesMenu addItem:[NSMenuItem separatorItem]];
 
-	voicesArray = [[[adium soundController] voices] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	voicesArray = [[adium.soundController voices] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 	for (voice in voicesArray) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:voice
 																					  target:nil
@@ -224,15 +224,15 @@
 	//If the Default voice is selected, also set the pitch and rate to defaults
 	if (sender == popUp_voices) {
 		if (![[popUp_voices selectedItem] representedObject]) {
-			[slider_pitch setDoubleValue:[[adium soundController] defaultPitch]];
-			[slider_rate setDoubleValue:[[adium soundController] defaultRate]];
+			[slider_pitch setDoubleValue:[adium.soundController defaultPitch]];
+			[slider_rate setDoubleValue:[adium.soundController defaultRate]];
 		}
 	}
 
 	if (sender == popUp_voices ||
 	   (sender == slider_pitch || sender == checkBox_customPitch) ||
 	   (sender == slider_rate ||  sender == checkBox_customRate)) {
-		[[adium soundController] speakDemoTextForVoice:[[popUp_voices selectedItem] representedObject]
+		[adium.soundController speakDemoTextForVoice:[[popUp_voices selectedItem] representedObject]
 											 withPitch:([checkBox_customPitch state] ? [slider_pitch doubleValue] : 0.0)
 											   andRate:([checkBox_customRate state] ? [slider_rate doubleValue] : 0.0)];
 	}

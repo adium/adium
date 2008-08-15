@@ -288,7 +288,7 @@
 		contactServiceID = @"libpurple-Jabber";
 	}
 
-	contactService = [[adium accountController] serviceWithUniqueID:contactServiceID];
+	contactService = [adium.accountController serviceWithUniqueID:contactServiceID];
 	
 	return contactService;
 }

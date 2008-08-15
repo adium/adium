@@ -208,14 +208,14 @@
 	[[adium vcController] registerProvider:self forProtocol:VC_RTP];
 	
     // Install some preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:QUICKTIME_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:QUICKTIME_PREFS
 																		forClass:[self class]]
 										  forGroup:QUICKTIME_PREFS];
 	
 	advancedPreferences = [[QTAdvancedPreferences preferencePane] retain];
 	
 	// Watch for preferences changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:QUICKTIME_PREFS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:QUICKTIME_PREFS];
 	
 	workspaceCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
 	
@@ -241,7 +241,7 @@
 	
 	[[adium vcController] unregisterProviderForProtocol:VC_RTP];
 	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];	
 }

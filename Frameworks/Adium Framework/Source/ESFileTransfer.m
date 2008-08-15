@@ -54,7 +54,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 
 - (id)initWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)inType
 {
-	AIChat			*aChat = [[adium chatController] chatWithContact:inContact];
+	AIChat			*aChat = [adium.chatController chatWithContact:inContact];
 	AIListObject	*s, *d;
 
 	switch (inType) {

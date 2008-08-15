@@ -147,7 +147,7 @@
 				// aim://addbuddy?screenname=tekjew
 				// aim://addbuddy?listofscreennames=screen+name1,screen+name+2&groupname=buddies
 				NSString	*name = [[[url queryArgumentForKey:@"screenname"] stringByDecodingURLEscapes] compactedString];
-				AIService	*service = [[adium accountController] firstServiceWithServiceID:serviceID];
+				AIService	*service = [adium.accountController firstServiceWithServiceID:serviceID];
 				
 				if (name) {
 					[adium.contactController requestAddContactWithUID:name
@@ -231,7 +231,7 @@
 					if (imageData &&
 						[[[NSImage alloc] initWithData:imageData] autorelease]) {
 						//If we successfully got image data, and that data makes a valid NSImage, set it as our global buddy icon
-						[[adium preferenceController] setPreference:imageData
+						[adium.preferenceController setPreference:imageData
 																					  forKey:KEY_USER_ICON
 																					   group:GROUP_ACCOUNT_STATUS];
 					}
@@ -255,7 +255,7 @@
 
 				AIService *jabberService;
 
-				jabberService = [[adium accountController] firstServiceWithServiceID:@"Jabber"];
+				jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
 
 				[AINewContactWindowController promptForNewContactOnWindow:nil
 				                                                     name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
@@ -328,7 +328,7 @@
 												 forSendingContentType:CONTENT_MESSAGE_TYPE];
 	if (contact) {
 		//Open the chat and set it as active
-		[[adium interfaceController] setActiveChat:[[adium chatController] openChatWithContact:contact
+		[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:contact
 																						onPreferredAccount:YES]];
 		
 		//Insert the message text as if the user had typed it after opening the chat
@@ -348,7 +348,7 @@
 	NSEnumerator	*enumerator;
 	
 	//Find an XMPP-compatible online account which can create group chats
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if ([account online] &&
 			[[account serviceClass] isEqualToString:@"Jabber"] &&
@@ -358,7 +358,7 @@
 	}
 	
 	if (name && account) {
-		[[adium chatController] chatWithName:name
+		[adium.chatController chatWithName:name
 														   identifier:nil
 															onAccount:account
 													 chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -378,7 +378,7 @@
 	NSEnumerator	*enumerator;
 	
 	//Find an AIM-compatible online account which can create group chats
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if ([account online] &&
 			[[account serviceClass] isEqualToString:@"AIM-compatible"] &&
@@ -388,7 +388,7 @@
 	}
 	
 	if (roomname && account) {
-		[[adium chatController] chatWithName:roomname
+		[adium.chatController chatWithName:roomname
 														   identifier:nil
 															onAccount:account
 													 chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -406,7 +406,7 @@
 	switch(ret)
 	{
 		case AITextAndButtonsOtherReturn:
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES] forKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING];
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:YES] forKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING];
 			break;
 		case AITextAndButtonsDefaultReturn:
 			[AdiumURLHandling registerAsDefaultIMClient];
@@ -419,8 +419,8 @@
 
 - (void)promptUser
 {
-	if ([[[adium preferenceController] preferenceForKey:KEY_COMPLETED_FIRST_LAUNCH group:GROUP_URL_HANDLING] boolValue]) {
-		if(![[adium preferenceController] preferenceForKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING])
+	if ([[adium.preferenceController preferenceForKey:KEY_COMPLETED_FIRST_LAUNCH group:GROUP_URL_HANDLING] boolValue]) {
+		if(![adium.preferenceController preferenceForKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING])
 			[[adium interfaceController] displayQuestion:AILocalizedString(@"Change default messaging client?", nil)
 										 withDescription:AILocalizedString(@"Adium is not your default Instant Messaging client. The default client is loaded when you click messaging URLs in web pages. Would you like Adium to become the default?", nil)
 										 withWindowTitle:nil
@@ -434,7 +434,7 @@
 		//On the first launch, simply register. If the user uses another IM client which takes control of the protocols again, we'll prompt for what to do.
 		[AdiumURLHandling registerAsDefaultIMClient];
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 											 forKey:KEY_COMPLETED_FIRST_LAUNCH
 											  group:GROUP_URL_HANDLING];
 	}

@@ -134,9 +134,9 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 - (void)savePassword:(NSString *)inPassword
 {
 	if (inPassword) {
-		[[adium accountController] setPassword:inPassword forAccount:account];	
+		[adium.accountController setPassword:inPassword forAccount:account];	
 	} else {
-		[[adium accountController] forgetPasswordForAccount:account];	
+		[adium.accountController forgetPasswordForAccount:account];	
 	}
 }
 

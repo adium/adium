@@ -77,7 +77,7 @@
 			readMePath = [[[NSBundle mainBundle] pathForResource:@"DefaultXtraReadme" ofType:@"rtf"] retain];
 		if (!icon) {
 			if ([[path pathExtension] caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
-				icon = [[[[adium dockController] previewStateForIconPackAtPath:path] image] retain];
+				icon = [[[adium.dockController previewStateForIconPackAtPath:path] image] retain];
 
 			} else {
 				icon = [[[NSWorkspace sharedWorkspace] iconForFileType:[path pathExtension]] retain];

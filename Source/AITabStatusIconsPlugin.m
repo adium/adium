@@ -41,7 +41,7 @@
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	//Observe chat changes
-	[[adium chatController] registerChatObserver:self];
+	[adium.chatController registerChatObserver:self];
 	
 	[[adium notificationCenter] addObserver:self
 								   selector:@selector(statusIconSetDidChange:)
@@ -55,7 +55,7 @@
 - (void)uninstallPlugin
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
 
@@ -65,7 +65,7 @@
 - (void)statusIconSetDidChange:(NSNotification *)aNotification
 {
 	[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
-	[[adium chatController] updateAllChatsForObserver:self];
+	[adium.chatController updateAllChatsForObserver:self];
 }
 
 /*!

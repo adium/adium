@@ -335,7 +335,7 @@
 - (NSInteger)objectCount
 {
 	//return 0 to disable the badge
-    return ([[[adium preferenceController] preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?
+    return ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?
 			[[self chat] unviewedContentCount] : 0);
 }
 

@@ -723,8 +723,8 @@
 	AIChat			 *chat;
 	AIContentMessage *contentMessage;
 
-	if (!(chat = [[adium chatController] existingChatWithContact:inContact])) {
-		chat = [[adium chatController] chatWithContact:inContact];
+	if (!(chat = [adium.chatController existingChatWithContact:inContact])) {
+		chat = [adium.chatController chatWithContact:inContact];
 	}
 
 	contentMessage = [AIContentMessage messageInChat:chat

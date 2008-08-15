@@ -231,7 +231,7 @@ static NSDictionary* details_for_context(ConnContext *context)
     for(NSUInteger i = 0; i < idhalflen; ++i) sprintf(sess1+(2*i), "%02x", sessionid[i]);
     for(NSUInteger i = 0; i < idhalflen; ++i) sprintf(sess2+(2*i), "%02x", sessionid[i+idhalflen]);
 
-	account = [[adium accountController] accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
+	account = [adium.accountController accountWithInternalObjectID:[NSString stringWithUTF8String:context->accountname]];
 
 	securityDetailsDict = [NSDictionary dictionaryWithObjectsAndKeys:
 		[NSString stringWithUTF8String:their_hash], @"Their Fingerprint",
@@ -251,12 +251,12 @@ static NSDictionary* details_for_context(ConnContext *context)
 
 static AIAccount* accountFromAccountID(const char *accountID)
 {
-	return [[adium accountController] accountWithInternalObjectID:[NSString stringWithUTF8String:accountID]];
+	return [adium.accountController accountWithInternalObjectID:[NSString stringWithUTF8String:accountID]];
 }
 
 static AIService* serviceFromServiceID(const char *serviceID)
 {
-	return [[adium accountController] serviceWithUniqueID:[NSString stringWithUTF8String:serviceID]];
+	return [adium.accountController serviceWithUniqueID:[NSString stringWithUTF8String:serviceID]];
 }
 
 static AIListContact* contactFromInfo(const char *accountID, const char *serviceID, const char *username)
@@ -273,9 +273,9 @@ static AIListContact* contactForContext(ConnContext *context)
 static AIChat* chatForContext(ConnContext *context)
 {
 	AIListContact *listContact = contactForContext(context);
-	AIChat *chat = [[adium chatController] existingChatWithContact:listContact];
+	AIChat *chat = [adium.chatController existingChatWithContact:listContact];
 	if (!chat) {
-		chat = [[adium chatController] chatWithContact:listContact];
+		chat = [adium.chatController chatWithContact:listContact];
 	}
 	
 	return chat;
@@ -428,7 +428,7 @@ static int is_logged_in_cb(void *opdata, const char *accountname,
 static void inject_message_cb(void *opdata, const char *accountname,
 							  const char *protocol, const char *recipient, const char *message)
 {	
-	[[adium contentController] sendRawMessage:[NSString stringWithUTF8String:message]
+	[adium.contentController sendRawMessage:[NSString stringWithUTF8String:message]
 															 toContact:contactFromInfo(accountname, protocol, recipient)];
 }
 
@@ -450,7 +450,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 	//We couldn't determine a listContact, so return that we didn't handle the message
 	if (!listContact) return 1;
 	
-	chat = [[adium chatController] existingChatWithContact:listContact];
+	chat = [adium.chatController existingChatWithContact:listContact];
 	
 	message = [NSString stringWithUTF8String:msg];
 	AILog(@"display_otr_message: %s %s %s: %s",accountname,protocol,username, msg);
@@ -474,7 +474,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 													([message length] - NSMaxRange(endRange) - [@"<b>]</b>" length]))]];
 	
 		//Create a new chat if necessary
-		if (!chat) chat = [[adium chatController] chatWithContact:listContact];
+		if (!chat) chat = [adium.chatController chatWithContact:listContact];
 
 		messageObject = [AIContentMessage messageInChat:chat
 											 withSource:listContact
@@ -483,7 +483,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 												message:[AIHTMLDecoder decodeHTML:message]
 											  autoreply:NO];
 		
-		[[adium contentController] receiveContentObject:messageObject];
+		[adium.contentController receiveContentObject:messageObject];
 		
 	} else {
 		NSString	*formattedUID = [listContact formattedUID];
@@ -497,7 +497,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 		if (isWorthOpeningANewChat) {
 			//Create a new chat if we don't already have one and this message is worth it
 			if (!chat)
-				chat = [[adium chatController] chatWithContact:listContact];
+				chat = [adium.chatController chatWithContact:listContact];
 		} else {
 			/* It's not worth opening a new chat. If we found a chat but it's not open, which can happen if the chat is still
 			 * being used by some delayed process, don't display a message thereby opening it.
@@ -506,7 +506,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 		}
 
 		if (chat) {
-			[[adium contentController] displayEvent:[[AIHTMLDecoder decodeHTML:message] string]
+			[adium.contentController displayEvent:[[AIHTMLDecoder decodeHTML:message] string]
 												   ofType:@"encryption"
 												   inChat:chat];
 		}
@@ -986,7 +986,7 @@ void send_default_query_to_chat(AIChat *inChat)
 	char *msg = otrl_proto_default_query_msg([[[inChat account] formattedUID] UTF8String],
 											 policyForContact([inChat listObject]));
 	
-	[[adium contentController] sendRawMessage:[NSString stringWithUTF8String:(msg ? msg : "?OTRv2?")]
+	[adium.contentController sendRawMessage:[NSString stringWithUTF8String:(msg ? msg : "?OTRv2?")]
 															 toContact:[inChat listObject]];
 	if (msg)
 		free(msg);
@@ -1176,7 +1176,7 @@ OtrlUserState otrg_get_userstate(void)
 	
 	NSDictionary	*prplDict = [self prplDict];
 	
-	NSArray			*adiumAccounts = [[adium accountController] accounts];
+	NSArray			*adiumAccounts = [adium.accountController accounts];
 	
 	while (![scanner isAtEnd]) {
 		//username     accountname  protocol      key	trusted\n
@@ -1252,7 +1252,7 @@ OtrlUserState otrg_get_userstate(void)
 										   range:NSMakeRange(0, [sourcePrivateKey length])];
 
 	AIAccount		*account;
-	NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	NSDictionary	*prplDict = [self prplDict];
 
 	while ((account = [enumerator nextObject])) {
@@ -1340,7 +1340,7 @@ OtrlUserState otrg_get_userstate(void)
 
 - (void)upgradeOTRIfNeeded
 {
-	if (![[[adium preferenceController] preferenceForKey:@"GaimOTR_to_AdiumOTR_Update"
+	if (![[adium.preferenceController preferenceForKey:@"GaimOTR_to_AdiumOTR_Update"
 												   group:@"OTR"] boolValue]) {
 		NSString	  *destinationPath = [[adium loginController] userDirectory];
 		NSString	  *sourcePath = [destinationPath stringByAppendingPathComponent:@"libpurple"];
@@ -1361,12 +1361,12 @@ OtrlUserState otrg_get_userstate(void)
 								error:NULL];
 		}
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 											 forKey:@"GaimOTR_to_AdiumOTR_Update"
 											  group:@"OTR"];
 	}
 	
-	if (![[[adium preferenceController] preferenceForKey:@"Libgaim_to_Libpurple_Update"
+	if (![[adium.preferenceController preferenceForKey:@"Libgaim_to_Libpurple_Update"
 												   group:@"OTR"] boolValue]) {
 		NSString	*destinationPath = [[adium loginController] userDirectory];
 		
@@ -1395,7 +1395,7 @@ OtrlUserState otrg_get_userstate(void)
 							error:NULL];
 		[fingerprints release];
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 											 forKey:@"Libgaim_to_Libpurple_Update"
 											  group:@"OTR"];
 	}

@@ -51,51 +51,51 @@
 - (IBAction)changePreference:(id)sender
 {
     if (sender == autohide_tabBar) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:![sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:![sender state]]
 											 forKey:KEY_AUTOHIDE_TABBAR
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 		
     } else if (sender == checkBox_allowInactiveClosing) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_ENABLE_INACTIVE_TAB_CLOSE
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 		
 	} else if (sender == checkBox_hide) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
 											 forKey:KEY_WINDOW_HIDE
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 		
 	} else if (sender == checkBox_psychicOpen) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
 											 forKey:KEY_PSYCHIC
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 	
 	} else if (sender == checkBox_customNameFormatting) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_WEBKIT_USE_NAME_FORMAT
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		
 	} else if (sender == popUp_nameFormat) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_NAME_FORMAT
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	} else if (sender == popUp_minimumFontSize) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_MIN_FONT_SIZE
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 		
 	} else if (sender == popUp_timeStampFormat) {
-		[[adium preferenceController] setPreference:[[sender selectedItem] representedObject]
+		[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 											 forKey:KEY_WEBKIT_TIME_STAMP_FORMAT
 											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 
 	} else if (sender == checkBox_animateDockIcon) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_ANIMATE_DOCK_ICON
 											  group:PREF_GROUP_APPEARANCE];
 		
 	}  else if (sender == checkBox_badgeDockIcon) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_BADGE_DOCK_ICON
 											  group:PREF_GROUP_APPEARANCE];
 		
@@ -109,7 +109,7 @@
  */
 - (void)selectedWindowLevel:(id)sender
 {	
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender tag]]
 										 forKey:KEY_WINDOW_LEVEL
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -120,11 +120,11 @@
     NSDictionary	*prefDict;
 	NSInteger				menuIndex;
 
-	prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_APPEARANCE];
+	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_APPEARANCE];
 	[checkBox_animateDockIcon setState:[[prefDict objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue]];
 	[checkBox_badgeDockIcon setState:[[prefDict objectForKey:KEY_BADGE_DOCK_ICON] boolValue]];
 
-	prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
     [autohide_tabBar setState:![[prefDict objectForKey:KEY_AUTOHIDE_TABBAR] boolValue]];
     [checkBox_allowInactiveClosing setState:[[prefDict objectForKey:KEY_ENABLE_INACTIVE_TAB_CLOSE] boolValue]];
 
@@ -138,7 +138,7 @@
 	[checkBox_hide setState:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
 	[checkBox_psychicOpen setState:[[prefDict objectForKey:KEY_PSYCHIC] boolValue]];
 
-	prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	[popUp_nameFormat compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] integerValue]];
 	[checkBox_customNameFormatting setState:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 
@@ -153,7 +153,7 @@
 
 - (void)configureControlDimming
 {
-	NSDictionary	*prefDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	
 	[popUp_nameFormat setEnabled:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 }

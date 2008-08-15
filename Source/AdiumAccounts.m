@@ -161,7 +161,7 @@
 	//Shut down the account in preparation for release
 	//XXX - Is this sufficient?  Don't some accounts take a while to disconnect and all? -ai
 	[inAccount willBeDeleted];
-	[[adium accountController] forgetPasswordForAccount:inAccount];
+	[adium.accountController forgetPasswordForAccount:inAccount];
 
 	//Remove from our array
 	[accounts removeObject:inAccount];
@@ -200,10 +200,10 @@
 //XXX - This setup leaves the possibility that mangled preferences files would create multiple accounts with the same ID -ai
 - (NSString *)_generateUniqueInternalObjectID
 {
-	NSInteger			topAccountID = [[[adium preferenceController] preferenceForKey:TOP_ACCOUNT_ID group:PREF_GROUP_ACCOUNTS] integerValue];
+	NSInteger			topAccountID = [[adium.preferenceController preferenceForKey:TOP_ACCOUNT_ID group:PREF_GROUP_ACCOUNTS] integerValue];
 	NSString 	*internalObjectID = [NSString stringWithFormat:@"%ld",topAccountID];
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:topAccountID + 1]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:topAccountID + 1]
 										 forKey:TOP_ACCOUNT_ID
 										  group:PREF_GROUP_ACCOUNTS];
 
@@ -218,7 +218,7 @@
  */
 - (void)_loadAccounts
 {
-    NSArray		 *accountList = [[adium preferenceController] preferenceForKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
+    NSArray		 *accountList = [adium.preferenceController preferenceForKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
 	NSDictionary *accountDict;
 
     //Create an instance of every saved account
@@ -228,7 +228,7 @@
         AIAccount		*newAccount;
 
 		//Fetch the account service, UID, and ID
-		AIService	*service = [[adium accountController] serviceWithUniqueID:serviceID];
+		AIService	*service = [adium.accountController serviceWithUniqueID:serviceID];
 		NSString	*accountUID = [accountDict objectForKey:ACCOUNT_UID];
 		NSString	*internalObjectID = [accountDict objectForKey:ACCOUNT_OBJECT_ID];
 
@@ -243,7 +243,7 @@
         } else {
 			if ([accountUID length]) {
 				NSLog(@"Available services are %@: could not load account %@ on service %@ (service %@)",
-					  [[adium accountController] services], accountDict, serviceID, service);
+					  [adium.accountController services], accountDict, serviceID, service);
 				[unloadableAccounts addObject:accountDict];
 			} else {
 				AILog(@"Ignored an account with a 0 length accountUID: %@", accountDict);
@@ -345,7 +345,7 @@
 	[flatAccounts addObjectsFromArray:unloadableAccounts];
 
 	//Save and broadcast an account list changed notification
-	[[adium preferenceController] setPreference:flatAccounts forKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
+	[adium.preferenceController setPreference:flatAccounts forKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
 	[[adium notificationCenter] postNotificationName:Account_ListChanged object:nil userInfo:nil];
 }
 
@@ -407,7 +407,7 @@
 			
 			if (allOnThisKeyAreTheSame && firstAttributedString) {
 				//All strings on this key are the same. Set the preference globally...
-				[[adium preferenceController] setPreference:[firstAttributedString dataRepresentation]
+				[adium.preferenceController setPreference:[firstAttributedString dataRepresentation]
 													 forKey:key
 													  group:GROUP_ACCOUNT_STATUS];
 				

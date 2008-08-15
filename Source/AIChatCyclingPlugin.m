@@ -53,12 +53,12 @@
 	[menuController addMenuItem:nextChatMenuItem toLocation:LOC_Window_Commands];
 
 	//Prefs
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CHAT_CYCLING];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CHAT_CYCLING];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 /*!

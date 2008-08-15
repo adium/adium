@@ -119,7 +119,7 @@
 													 name:NSWindowWillMiniaturizeNotification
 												   object:myWindow];
 		//Prefs
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 		
 		//Register as a tab drag observer so we know when tabs are dragged over our window and can show our tab bar
 		[myWindow registerForDraggedTypes:[NSArray arrayWithObject:@"PSMTabBarControlItemPBType"]];
@@ -151,7 +151,7 @@
 	[containerName release];
 	[containerID release];
 
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
     [super dealloc];
 }
@@ -216,9 +216,9 @@
 //Frames
 - (NSString *)_frameSaveKey
 {
-	if ([[[adium preferenceController] preferenceForKey:KEY_TABBED_CHATTING
+	if ([[adium.preferenceController preferenceForKey:KEY_TABBED_CHATTING
 												  group:PREF_GROUP_INTERFACE] boolValue] &&
-		![[[adium preferenceController] preferenceForKey:KEY_GROUP_CHATS_BY_GROUP
+		![[adium.preferenceController preferenceForKey:KEY_GROUP_CHATS_BY_GROUP
 												   group:PREF_GROUP_INTERFACE] boolValue]) {
 		return KEY_MESSAGE_WINDOW_POSITION;
 
@@ -229,7 +229,7 @@
 }
 - (BOOL)shouldCascadeWindows
 {
-	if ([[[adium preferenceController] preferenceForKey:KEY_TABBED_CHATTING  group:PREF_GROUP_INTERFACE] boolValue])
+	if ([[adium.preferenceController preferenceForKey:KEY_TABBED_CHATTING  group:PREF_GROUP_INTERFACE] boolValue])
 		return NO;
 	else //Not using tabbed chatting: Cascade if we have no frame
 		return ([self savedFrameString] == nil);
@@ -259,7 +259,7 @@
 			widthToStore = NSWidth([tabView_tabBar frame]);
 		}
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithDouble:widthToStore]
+		[adium.preferenceController setPreference:[NSNumber numberWithDouble:widthToStore]
 											 forKey:KEY_VERTICAL_TABS_WIDTH
 											  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 	}
@@ -267,7 +267,7 @@
 	windowIsClosing = YES;
 	[super windowWillClose:sender];
 
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
 	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
@@ -1059,7 +1059,7 @@
 		}
 
 		AIAccount	*account;
-		NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 		NSInteger onlineAccounts = 0;
 		while ((account = [enumerator nextObject]) && onlineAccounts < 2) {
 			if ([account online]) onlineAccounts++;
@@ -1256,7 +1256,7 @@
 {
 	NSImage *miniwindowImage;
 	NSImage	*chatImage = [[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] chat] chatImage];
-	NSImage	*appImage = [[adium dockController] baseApplicationIconImage];
+	NSImage	*appImage = [adium.dockController baseApplicationIconImage];
 	NSSize	chatImageSize = [chatImage size];
 	NSSize	appImageSize = [appImage size];
 	NSSize	newChatImageSize;

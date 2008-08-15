@@ -34,7 +34,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:DEFAULT_FORMATTING_DEFAULT_PREFS
+		[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DEFAULT_FORMATTING_DEFAULT_PREFS
 																			forClass:[self class]]
 											  forGroup:PREF_GROUP_FORMATTING];		
 		_defaultAttributes = nil;
@@ -52,7 +52,7 @@
 - (void)controllerDidLoad
 {
 	//Observe formatting preference changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FORMATTING];
 	
 	//Reset formatting menu item
 	NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Restore Default Formatting",nil)
@@ -80,11 +80,11 @@
 - (NSDictionary *)defaultFormattingAttributes
 {
 	if(!_defaultAttributes){
-		NSFont	*font = [[[adium preferenceController] preferenceForKey:KEY_FORMATTING_FONT
+		NSFont	*font = [[adium.preferenceController preferenceForKey:KEY_FORMATTING_FONT
 																  group:PREF_GROUP_FORMATTING] representedFont];
-		NSColor	*textColor = [[[adium preferenceController] preferenceForKey:KEY_FORMATTING_TEXT_COLOR
+		NSColor	*textColor = [[adium.preferenceController preferenceForKey:KEY_FORMATTING_TEXT_COLOR
 																	   group:PREF_GROUP_FORMATTING] representedColor];
-		NSColor	*backgroundColor = [[[adium preferenceController] preferenceForKey:KEY_FORMATTING_BACKGROUND_COLOR
+		NSColor	*backgroundColor = [[adium.preferenceController preferenceForKey:KEY_FORMATTING_BACKGROUND_COLOR
 																			 group:PREF_GROUP_FORMATTING] representedColor];
 				
 		//Build formatting dict

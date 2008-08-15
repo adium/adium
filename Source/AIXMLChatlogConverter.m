@@ -82,9 +82,9 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 		[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT], @"steppedOut",
 		nil];
 		
-	if ([[[adium preferenceController] preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
+	if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
 												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
-		nameFormat = [[[adium preferenceController] preferenceForKey:KEY_WEBKIT_NAME_FORMAT
+		nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
 															   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue];
 	} else {
 		nameFormat = AIDefaultName;
@@ -169,7 +169,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				[myDisplayName release];
 				myDisplayName = nil;
 				
-				NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
+				NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 				AIAccount	 *account;
 				
 				while ((account = [enumerator nextObject])) {
@@ -313,7 +313,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				
 				NSAttributedString *attributedMessage = [htmlDecoder decodeHTML:message];
 				if (showEmoticons) {
-					attributedMessage = [[adium contentController] filterAttributedString:attributedMessage
+					attributedMessage = [adium.contentController filterAttributedString:attributedMessage
 																		  usingFilterType:AIFilterMessageDisplay
 																				direction:(sentMessage ? AIFilterOutgoing : AIFilterIncoming)
 																				  context:nil];				

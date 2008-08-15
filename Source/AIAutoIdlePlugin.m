@@ -41,7 +41,7 @@
 	automaticIdleSet = NO;
 
 	//Ensure no idle time is set as we load
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:@"IdleSince"
 										  group:GROUP_ACCOUNT_STATUS];
 
@@ -56,14 +56,14 @@
 	                              object:nil];
 
 	//Observe preference changes for updating if and when we should report being idle
-	[[adium preferenceController] registerPreferenceObserver:self 
+	[adium.preferenceController registerPreferenceObserver:self 
 													forGroup:PREF_GROUP_STATUS_PREFERENCES];	
 }
 
 - (void)uninstallPlugin
 {
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 /*!
@@ -92,7 +92,7 @@
 		if (duration > idleTimeInterval) {
 			//If we are over the idle threshold, set our accounts to idle
 			automaticIdleSet = YES;
-			[[adium preferenceController] setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
+			[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
 												 forKey:@"IdleSince"
 												  group:GROUP_ACCOUNT_STATUS];
 		}
@@ -107,7 +107,7 @@
 - (void)machineIsActive:(NSNotification *)notification
 {
 	if (automaticIdleSet) {
-		[[adium preferenceController] setPreference:nil
+		[adium.preferenceController setPreference:nil
 											 forKey:@"IdleSince"
 											  group:GROUP_ACCOUNT_STATUS];		
 		automaticIdleSet = NO;

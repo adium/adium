@@ -136,7 +136,7 @@ Class LogViewerWindowControllerClass = NULL;
 		nil];
 
 	//Setup our preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:LOGGING_DEFAULT_PREFS 
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:LOGGING_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_LOGGING];
 
@@ -148,12 +148,12 @@ Class LogViewerWindowControllerClass = NULL;
 	[[NSFileManager defaultManager] createDirectoriesForPath:logBasePath];
 
 	//Observe preference changes
-	[[adium preferenceController] addObserver:self
+	[adium.preferenceController addObserver:self
 								   forKeyPath:PREF_KEYPATH_LOGGER_ENABLE
 									  options:NSKeyValueObservingOptionNew
 									  context:NULL];
 	[self observeValueForKeyPath:PREF_KEYPATH_LOGGER_ENABLE
-	                    ofObject:[adium preferenceController]
+	                    ofObject:adium.preferenceController
 	                      change:nil
 	                     context:NULL];
 
@@ -200,7 +200,7 @@ Class LogViewerWindowControllerClass = NULL;
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
+	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
 }
 
 //Update for the new preferences
@@ -640,7 +640,7 @@ Class LogViewerWindowControllerClass = NULL;
 					AILocalizedString(@"OK", nil), nil, nil);
 
 	//Disable logging
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:NO]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:NO]
                                              forKey:KEY_LOGGER_ENABLE
                                               group:PREF_GROUP_LOGGING];
 }
@@ -687,7 +687,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 #pragma mark Upgrade code
 - (void)upgradeLogExtensions
 {
-	if (![[[adium preferenceController] preferenceForKey:@"Log Extensions Updated" group:PREF_GROUP_LOGGING] boolValue]) {
+	if (![[adium.preferenceController preferenceForKey:@"Log Extensions Updated" group:PREF_GROUP_LOGGING] boolValue]) {
 		/* This could all be a simple NSDirectoryEnumerator call on basePath, but we wouldn't be able to show progress,
 		* and this could take a bit.
 		*/
@@ -744,7 +744,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			[upgradeWindowController release];
 		}
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 											 forKey:@"Log Extensions Updated"
 											  group:PREF_GROUP_LOGGING];
 	}
@@ -1062,7 +1062,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)loadDirtyLogArray
 {
 	if (!dirtyLogArray) {
-		NSInteger logVersion = [[[adium preferenceController] preferenceForKey:KEY_LOG_INDEX_VERSION
+		NSInteger logVersion = [[adium.preferenceController preferenceForKey:KEY_LOG_INDEX_VERSION
 																   group:PREF_GROUP_LOGGING] integerValue];
 
 		//If the log version has changed, we reset the index and don't load the dirty array (So all the logs are marked dirty)
@@ -1074,7 +1074,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
 			[self resetLogIndex];
-			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:CURRENT_LOG_VERSION]
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:CURRENT_LOG_VERSION]
                                                              forKey:KEY_LOG_INDEX_VERSION
                                                               group:PREF_GROUP_LOGGING];
 		}
@@ -1211,7 +1211,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	[[LogViewerWindowControllerClass existingWindowController] logIndexingProgressUpdate];
 
 	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
-	NSEnumerator *enumerator = [[[adium chatController] openChats] objectEnumerator];
+	NSEnumerator *enumerator = [[adium.chatController openChats] objectEnumerator];
 	AIChat		 *chat;
 
 	while ((chat = [enumerator nextObject])) {

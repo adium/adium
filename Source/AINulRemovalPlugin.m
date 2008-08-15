@@ -14,13 +14,13 @@
 - (void)installPlugin
 {
     //Register us as a filter
-	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterIncoming];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
+	[adium.contentController registerContentFilter:self ofType:AIFilterContent direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context

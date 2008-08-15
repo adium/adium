@@ -51,7 +51,7 @@
 	[[adium contactAlertsController] registerActionID:SPEAK_EVENT_ALERT_IDENTIFIER
 										  withHandler:self];
     
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:ANNOUNCER_DEFAULT_PREFS 
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:ANNOUNCER_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_ANNOUNCER];
 	
@@ -286,7 +286,7 @@
 			rateNumber = [details objectForKey:KEY_RATE];
 		}
 		
-		[[adium soundController] speakText:textToSpeak
+		[adium.soundController speakText:textToSpeak
 								 withVoice:[details objectForKey:KEY_VOICE_STRING]
 									 pitch:(pitchNumber ? [pitchNumber doubleValue] : 0.0)
 									  rate:(rateNumber ? [rateNumber doubleValue] : 0.0)];

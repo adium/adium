@@ -53,7 +53,7 @@
 	NSInteger	menuIndex;
 
 	[popUp_windowPosition setMenu:[[adium interfaceController] menuForWindowLevelsNotifyingTarget:self]];
-	menuIndex =  [popUp_windowPosition indexOfItemWithTag:[[[adium preferenceController] preferenceForKey:KEY_CL_WINDOW_LEVEL
+	menuIndex =  [popUp_windowPosition indexOfItemWithTag:[[adium.preferenceController preferenceForKey:KEY_CL_WINDOW_LEVEL
 																									 group:PREF_GROUP_CONTACT_LIST] integerValue]];
 	if (menuIndex >= 0 && menuIndex < [popUp_windowPosition numberOfItems]) {
 		[popUp_windowPosition selectItemAtIndex:menuIndex];
@@ -105,7 +105,7 @@
 
 - (void)selectedWindowLevel:(id)sender
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender tag]]
 										 forKey:KEY_CL_WINDOW_LEVEL
 										  group:PREF_GROUP_CONTACT_LIST];
 }

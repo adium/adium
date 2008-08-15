@@ -34,12 +34,12 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_SQL_LOGGING];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_SQL_LOGGING];
 }
 
 - (void)viewWillClose
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 //Reflect new preferences in view
@@ -62,27 +62,27 @@
 - (IBAction)changePreference:(id)sender
 {
     if (sender == checkbox_enableSQLLogging) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SQL_LOGGER_ENABLE
                                               group:PREF_GROUP_SQL_LOGGING];
     } else if (sender == text_Username) {
-		[[adium preferenceController] setPreference:[sender stringValue]
+		[adium.preferenceController setPreference:[sender stringValue]
                                              forKey:KEY_SQL_USERNAME
                                               group:PREF_GROUP_SQL_LOGGING];
 	} else if (sender == text_URL) {
-		[[adium preferenceController] setPreference:[sender stringValue]
+		[adium.preferenceController setPreference:[sender stringValue]
                                              forKey:KEY_SQL_URL
                                               group:PREF_GROUP_SQL_LOGGING];
 	} else if (sender == text_Port) {
-		[[adium preferenceController] setPreference:[sender stringValue]
+		[adium.preferenceController setPreference:[sender stringValue]
                                              forKey:KEY_SQL_PORT
                                               group:PREF_GROUP_SQL_LOGGING];
 	} else if (sender == text_database) {
-		[[adium preferenceController] setPreference:[sender stringValue]
+		[adium.preferenceController setPreference:[sender stringValue]
                                              forKey:KEY_SQL_DATABASE
                                               group:PREF_GROUP_SQL_LOGGING];
 	} else if (sender == text_Password) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SQL_PASSWORD
                                               group:PREF_GROUP_SQL_LOGGING];
 	}

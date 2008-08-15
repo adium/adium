@@ -96,11 +96,11 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		personUniqueIdToMetaContactDict = [[NSMutableDictionary alloc] init];
 		
 		//Configure our preferences
-		[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:AB_DISPLAYFORMAT_DEFAULT_PREFS forClass:[self class]]  
+		[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:AB_DISPLAYFORMAT_DEFAULT_PREFS forClass:[self class]]  
 						      forGroup:PREF_GROUP_ADDRESSBOOK];
 		
 		//We want the enableImport preference immediately (without waiting for the preferences observer to be registered in adiumFinishedLaunching:)
-		enableImport = [[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
+		enableImport = [[adium.preferenceController preferenceForKey:KEY_AB_ENABLE_IMPORT
 									 group:PREF_GROUP_ADDRESSBOOK] boolValue];
 		
 		//Services dictionary
@@ -189,7 +189,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	[sharedAddressBook release]; sharedAddressBook = nil;
 	[personUniqueIdToMetaContactDict release]; personUniqueIdToMetaContactDict = nil;
 	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 
 	[super dealloc];
@@ -242,7 +242,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 									 object:nil];
 
 	//Observe preferences changes
-	id<AIPreferenceController> preferenceController = [adium preferenceController];
+	id<AIPreferenceController> preferenceController = adium.preferenceController;
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_ADDRESSBOOK];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_USERICONS];
 
@@ -576,7 +576,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	else if ([property isEqualToString:kABYahooInstantProperty])
 		serviceID = @"Yahoo!";
 
-	return (serviceID ? [[adium accountController] firstServiceWithServiceID:serviceID] : nil);
+	return (serviceID ? [adium.accountController firstServiceWithServiceID:serviceID] : nil);
 }
 
 /*!
@@ -614,7 +614,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 - (void)consumeImageData:(NSData *)inData forTag:(NSInteger)tag
 {
 	if (tag == meTag) {
-		[[adium preferenceController] setPreference:inData
+		[adium.preferenceController setPreference:inData
 											 forKey:KEY_DEFAULT_USER_ICON 
 											  group:GROUP_ACCOUNT_STATUS];
 		meTag = -1;
@@ -736,7 +736,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			email = [emails valueAtIndex:i];
 			if ([email hasSuffix:@"@mac.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"Mac"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"Mac"]
 																				  UID:email];
 
 				//Add them to our set
@@ -744,7 +744,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 			} else if ([email hasSuffix:@"me.com"]) {
 					//Retrieve all appropriate contacts
-					NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MobileMe"]
+					NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"MobileMe"]
 																					UID:email];
 					
 					//Add them to our set
@@ -752,14 +752,14 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 			} else if ([email hasSuffix:@"gmail.com"] || [email hasSuffix:@"googlemail.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"GTalk"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"GTalk"]
 																				UID:email];
 				
 				//Add them to our set
 				[contactSet unionSet:contacts];
 			} else if ([email hasSuffix:@"hotmail.com"]) {
 				//Retrieve all appropriate contacts
-				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:@"MSN"]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:@"MSN"]
 																				UID:email];
 				
 				//Add them to our set
@@ -796,7 +796,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 					serviceID = serviceIDForJabberUID(UID);
 				}
 				
-				NSSet	*contacts = [adium.contactController allContactsWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
+				NSSet	*contacts = [adium.contactController allContactsWithService:[adium.accountController firstServiceWithServiceID:serviceID]
 																				  UID:UID];
 				
 				//Add them to our set
@@ -940,7 +940,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 				
 				myDisplayName = [self nameForPerson:me phonetic:&myPhonetic];
 				
-				NSEnumerator	*accountsArray = [[[adium accountController] accounts] objectEnumerator];
+				NSEnumerator	*accountsArray = [[adium.accountController accounts] objectEnumerator];
 				AIAccount		*account;
 				
 				while ((account = [accountsArray nextObject])) {
@@ -957,7 +957,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 					}
 				}
 
-				[[adium preferenceController] registerDefaults:[NSDictionary dictionaryWithObject:[[NSAttributedString stringWithString:myDisplayName] dataRepresentation]
+				[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:[[NSAttributedString stringWithString:myDisplayName] dataRepresentation]
 																						   forKey:KEY_ACCOUNT_DISPLAY_NAME]
 													  forGroup:GROUP_ACCOUNT_STATUS];
 			}
@@ -1183,7 +1183,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 				 * We don't make address book metacontacts actually persistent because then we would persist them even if the address
 				 * book card were modified or deleted or if the user disabled "Conslidate contacts listed on the card."
 				 */
-				NSDictionary *dict = [[adium preferenceController] preferenceForKey:KEY_AB_TO_METACONTACT_DICT
+				NSDictionary *dict = [adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
 																			  group:PREF_GROUP_ADDRESSBOOK];
 				NSNumber *metaContactObjectID = [dict objectForKey:uniqueId];
 				if (metaContactObjectID)
@@ -1202,12 +1202,12 @@ NSString* serviceIDForJabberUID(NSString *UID)
 													forKey:uniqueId];
 				if (metaContact != metaContactHint) {
 					//Keep track of the use of this metacontact for this address book card
-					NSMutableDictionary *dict = [[[[adium preferenceController] preferenceForKey:KEY_AB_TO_METACONTACT_DICT
+					NSMutableDictionary *dict = [[[adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
 																						   group:PREF_GROUP_ADDRESSBOOK] mutableCopy] autorelease];
 					if (!dict) dict = [NSMutableDictionary dictionary];
 					[dict setObject:[metaContact objectID]
 							 forKey:uniqueId];
-					[[adium preferenceController] setPreference:dict
+					[adium.preferenceController setPreference:dict
 														 forKey:@"UniqueIDToMetaContactObjectIDDictionary"
 														  group:PREF_GROUP_ADDRESSBOOK];
 				}

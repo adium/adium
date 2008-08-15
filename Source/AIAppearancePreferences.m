@@ -91,8 +91,8 @@ typedef enum {
 	[popUp_windowStyle setMenu:[self _windowStyleMenu]];
 		
 	//Observe preference changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 
 	//Observe xtras changes
 	[[adium notificationCenter] addObserver:self
@@ -107,7 +107,7 @@ typedef enum {
  */
 - (void)viewWillClose
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[[adium notificationCenter] removeObserver:self];
 }
@@ -141,13 +141,13 @@ typedef enum {
 	
 	if (!type || [type isEqualToString:@"listtheme"]) {
 		[popUp_colorTheme setMenu:[self _colorThemeMenu]];
-		[popUp_colorTheme selectItemWithRepresentedObject:[[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME
+		[popUp_colorTheme selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME
 																								   group:PREF_GROUP_APPEARANCE]];
 	}
 
 	if (!type || [type isEqualToString:@"listlayout"]) {
 		[popUp_listLayout setMenu:[self _listLayoutMenu]];
-		[popUp_listLayout selectItemWithRepresentedObject:[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME
+		[popUp_listLayout selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																								   group:PREF_GROUP_APPEARANCE]];
 	}
 }
@@ -206,7 +206,7 @@ typedef enum {
 				case AIContactListWindowStyleBorderless:
 					//Standard and borderless don't have to vertically autosize
 					[checkBox_verticalAutosizing setEnabled:YES];
-					[checkBox_verticalAutosizing setState:[[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
+					[checkBox_verticalAutosizing setState:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
 																									group:PREF_GROUP_APPEARANCE] integerValue]];
 					break;
 				case AIContactListWindowStyleGroupBubbles:
@@ -224,7 +224,7 @@ typedef enum {
 			
 			//If the prefDict's item isn't present, we're using the default, so select that one
 			if (![popUp_statusIcons selectedItem]) {
-				[popUp_statusIcons selectItemWithTitle:[[adium preferenceController] defaultPreferenceForKey:KEY_STATUS_ICON_PACK
+				[popUp_statusIcons selectItemWithTitle:[adium.preferenceController defaultPreferenceForKey:KEY_STATUS_ICON_PACK
 																										group:PREF_GROUP_APPEARANCE
 																									   object:nil]];
 			}			
@@ -234,7 +234,7 @@ typedef enum {
 			
 			//If the prefDict's item isn't present, we're using the default, so select that one
 			if (![popUp_serviceIcons selectedItem]) {
-				[popUp_serviceIcons selectItemWithTitle:[[adium preferenceController] defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
+				[popUp_serviceIcons selectItemWithTitle:[adium.preferenceController defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
 																										group:PREF_GROUP_APPEARANCE
 																									   object:nil]];
 			}
@@ -244,7 +244,7 @@ typedef enum {
 			
 			//If the prefDict's item isn't present, we're using the default, so select that one
 			if (![popUp_menuBarIcons selectedItem]) {
-				[popUp_menuBarIcons selectItemWithTitle:[[adium preferenceController] defaultPreferenceForKey:KEY_MENU_BAR_ICONS
+				[popUp_menuBarIcons selectItemWithTitle:[adium.preferenceController defaultPreferenceForKey:KEY_MENU_BAR_ICONS
 																										group:PREF_GROUP_APPEARANCE
 																									   object:nil]];
 			}
@@ -287,60 +287,60 @@ typedef enum {
 - (IBAction)changePreference:(id)sender
 {
  	if (sender == popUp_statusIcons) {
-        [[adium preferenceController] setPreference:[[sender selectedItem] title]
+        [adium.preferenceController setPreference:[[sender selectedItem] title]
                                              forKey:KEY_STATUS_ICON_PACK
                                               group:PREF_GROUP_APPEARANCE];
 		
 	} else if (sender == popUp_serviceIcons) {
-        [[adium preferenceController] setPreference:[[sender selectedItem] title]
+        [adium.preferenceController setPreference:[[sender selectedItem] title]
                                              forKey:KEY_SERVICE_ICON_PACK
                                               group:PREF_GROUP_APPEARANCE];
 	} else if (sender == popUp_menuBarIcons) {
-        [[adium preferenceController] setPreference:[[sender selectedItem] title]
+        [adium.preferenceController setPreference:[[sender selectedItem] title]
                                              forKey:KEY_MENU_BAR_ICONS
                                               group:PREF_GROUP_APPEARANCE];	
 	} else if (sender == popUp_dockIcon) {
-        [[adium preferenceController] setPreference:[[sender selectedItem] representedObject]
+        [adium.preferenceController setPreference:[[sender selectedItem] representedObject]
                                              forKey:KEY_ACTIVE_DOCK_ICON
                                               group:PREF_GROUP_APPEARANCE];
 		
 	} else if (sender == popUp_listLayout) {
-        [[adium preferenceController] setPreference:[[sender selectedItem] title]
+        [adium.preferenceController setPreference:[[sender selectedItem] title]
                                              forKey:KEY_LIST_LAYOUT_NAME
                                               group:PREF_GROUP_APPEARANCE];		
 		
 	} else if (sender == popUp_colorTheme) {
-		[[adium preferenceController] setPreference:[[sender selectedItem] title]
+		[adium.preferenceController setPreference:[[sender selectedItem] title]
 											 forKey:KEY_LIST_THEME_NAME
 											  group:PREF_GROUP_APPEARANCE];
 
 	} else if (sender == popUp_windowStyle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_WINDOW_STYLE
 											  group:PREF_GROUP_APPEARANCE];
 		
     } else if (sender == checkBox_verticalAutosizing) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
                                               group:PREF_GROUP_APPEARANCE];
 		
     } else if (sender == checkBox_horizontalAutosizing) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE
                                               group:PREF_GROUP_APPEARANCE];
 
     } else if (sender == slider_windowOpacity) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:([sender doubleValue] / 100.0)]
+        [adium.preferenceController setPreference:[NSNumber numberWithDouble:([sender doubleValue] / 100.0)]
                                              forKey:KEY_LIST_LAYOUT_WINDOW_OPACITY
                                               group:PREF_GROUP_APPEARANCE];
 		[self _updateSliderValues];
 		
 	} else if (sender == slider_horizontalWidth) {
 		NSInteger newValue = [sender integerValue];
-		NSInteger oldValue = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
+		NSInteger oldValue = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
 																 group:PREF_GROUP_APPEARANCE] integerValue];
 		if (newValue != oldValue) { 
-			[[adium preferenceController] setPreference:[NSNumber numberWithInteger:newValue]
+			[adium.preferenceController setPreference:[NSNumber numberWithInteger:newValue]
 												 forKey:KEY_LIST_LAYOUT_HORIZONTAL_WIDTH
 												  group:PREF_GROUP_APPEARANCE];
 			[self _updateSliderValues];
@@ -354,7 +354,7 @@ typedef enum {
 			
 			selectedPack = [[sender selectedItem] representedObject];
 			
-			[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+			[adium.preferenceController delayPreferenceChangedNotifications:YES];
 
 			for (pack in activePacks) {
 				[[adium emoticonController] setEmoticonPack:pack enabled:NO];
@@ -363,7 +363,7 @@ typedef enum {
 			//Enable the selected pack
 			if (selectedPack) [[adium emoticonController] setEmoticonPack:selectedPack enabled:YES];
 
-			[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+			[adium.preferenceController delayPreferenceChangedNotifications:NO];
 		}
 	}
 }
@@ -478,7 +478,7 @@ typedef enum {
 
 + (void) migrateOldListSettingsIfNeeded
 {
-	id<AIPreferenceController> prefController = [adium preferenceController];
+	id<AIPreferenceController> prefController = adium.preferenceController;
 	NSFileManager *manager = [NSFileManager defaultManager];
 	NSString *theme = [NSString stringWithFormat:@"%@/%@/%@.%@", 
 							[[NSBundle mainBundle] resourcePath], 
@@ -509,7 +509,7 @@ typedef enum {
  */
 - (IBAction)createListTheme:(id)sender
 {
-	NSString *theme = [[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
+	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
 	
 	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:[[theme stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)", nil)]
 													explanatoryText:AILocalizedString(@"Enter a unique name for this new theme.",nil)
@@ -523,7 +523,7 @@ typedef enum {
  */
 - (IBAction)customizeListTheme:(id)sender
 {
-	NSString *theme = [[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
+	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
 	
 	[AIListThemeWindowController editListThemeWithName:theme
 											  onWindow:[[self view] window]
@@ -542,14 +542,14 @@ typedef enum {
 									   extension:LIST_THEME_EXTENSION
 										inFolder:LIST_THEME_FOLDER]) {
 			
-			[[adium preferenceController] setPreference:name
+			[adium.preferenceController setPreference:name
 												 forKey:KEY_LIST_THEME_NAME
 												  group:PREF_GROUP_APPEARANCE];
 		}
 		
 	} else {
 		//Revert back to selected theme
-		NSString *theme = [[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
+		NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE];	
 		
 		//Reapply the selected theme
 		[plugin applySetWithName:theme
@@ -558,7 +558,7 @@ typedef enum {
 			   toPreferenceGroup:PREF_GROUP_LIST_THEME];
 			   
 		//Revert back to the current theme name in popUp_colorTheme component
-		[popUp_colorTheme selectItemWithTitle:[[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE]];		
+		[popUp_colorTheme selectItemWithTitle:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE]];		
 	}
 }
 
@@ -573,7 +573,7 @@ typedef enum {
 									   onWindow:[[self view] window]
 								   withDelegate:self];
 	
-	[popUp_colorTheme selectItemWithRepresentedObject:[[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME
+	[popUp_colorTheme selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME
 																							   group:PREF_GROUP_APPEARANCE]];		
 }
 
@@ -582,7 +582,7 @@ typedef enum {
  */
 - (IBAction)createListLayout:(id)sender
 {
-	NSString *layout = [[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];
+	NSString *layout = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];
 	
 	[ESPresetNameSheetController showPresetNameSheetWithDefaultName:[[layout stringByAppendingString:@" "] stringByAppendingString:AILocalizedString(@"(Copy)",nil)]
 													explanatoryText:AILocalizedString(@"Enter a unique name for this new layout.",nil)
@@ -596,7 +596,7 @@ typedef enum {
  */
 - (IBAction)customizeListLayout:(id)sender
 {
-	NSString *theme = [[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];	
+	NSString *theme = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];	
 	
 	[AIListLayoutWindowController editListLayoutWithName:theme
 											  onWindow:[[self view] window]
@@ -615,14 +615,14 @@ typedef enum {
 									   extension:LIST_LAYOUT_EXTENSION
 										inFolder:LIST_LAYOUT_FOLDER]) {
 			
-			[[adium preferenceController] setPreference:name
+			[adium.preferenceController setPreference:name
 												 forKey:KEY_LIST_LAYOUT_NAME
 												  group:PREF_GROUP_APPEARANCE];
 		}
 		
 	} else {
 		//Revert back to selected layout
-		NSString *layout = [[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];	
+		NSString *layout = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE];	
 
 		//Reapply the selected layout
 		[plugin applySetWithName:layout
@@ -631,7 +631,7 @@ typedef enum {
 			   toPreferenceGroup:PREF_GROUP_LIST_LAYOUT];
 			   
 		//Revert back to the current layout name in popUp_listLayout component
-		[popUp_listLayout selectItemWithTitle:[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE]];
+		[popUp_listLayout selectItemWithTitle:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE]];
 	}
 }
 
@@ -646,7 +646,7 @@ typedef enum {
 									   onWindow:[[self view] window]
 								   withDelegate:self];
 
-	[popUp_listLayout selectItemWithRepresentedObject:[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME
+	[popUp_listLayout selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																							   group:PREF_GROUP_APPEARANCE]];		
 }
 
@@ -695,9 +695,9 @@ typedef enum {
 		case ESPresetNameSheetCancelReturn:
 			//User has canceled the operation	: revert back to the current theme 
 			if ([userInfo isEqualToString:@"theme"]) {
-				[popUp_colorTheme selectItemWithTitle:[[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE]];
+				[popUp_colorTheme selectItemWithTitle:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE]];
 			} else {
-				[popUp_listLayout selectItemWithTitle:[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE]];
+				[popUp_listLayout selectItemWithTitle:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE]];
 			}			
 		break;	
 	}
@@ -924,7 +924,7 @@ typedef enum {
 	NSString	*packName = [[packPath lastPathComponent] stringByDeletingPathExtension];
 	AIIconState	*preview = nil;
 	
-	[[adium dockController] getName:&name
+	[adium.dockController getName:&name
 					   previewState:&preview
 				  forIconPackAtPath:packPath];
 	
@@ -951,7 +951,7 @@ typedef enum {
 	NSEnumerator		*enumerator;
 	NSString			*packPath;
 
-	enumerator = [[[adium dockController] availableDockIconPacks] objectEnumerator];
+	enumerator = [[adium.dockController availableDockIconPacks] objectEnumerator];
 	while ((packPath = [enumerator nextObject])) {
 		[menuItemArray addObject:[self meuItemForDockIconPackAtPath:packPath]];
 	}
@@ -970,7 +970,7 @@ typedef enum {
 {
 	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString	*iconPath;
-	NSString	*activePackName = [[adium preferenceController] preferenceForKey:KEY_ACTIVE_DOCK_ICON
+	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		   group:PREF_GROUP_APPEARANCE];
 	iconPath = [adium pathOfPackWithName:activePackName
 							   extension:@"AdiumIcon"
@@ -1023,14 +1023,14 @@ typedef enum {
 {
 	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString	*iconPath;
-	NSString	*activePackName = [[adium preferenceController] preferenceForKey:KEY_STATUS_ICON_PACK
+	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_STATUS_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
 	iconPath = [adium pathOfPackWithName:activePackName
 							   extension:@"AdiumStatusIcons"
 					  resourceFolderName:@"Status Icons"];
 	
 	if (!iconPath) {
-		activePackName = [[adium preferenceController] defaultPreferenceForKey:KEY_STATUS_ICON_PACK
+		activePackName = [adium.preferenceController defaultPreferenceForKey:KEY_STATUS_ICON_PACK
 																		 group:PREF_GROUP_APPEARANCE
 																		object:nil];
 		
@@ -1050,14 +1050,14 @@ typedef enum {
 {
 	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString	*iconPath;
-	NSString	*activePackName = [[adium preferenceController] preferenceForKey:KEY_SERVICE_ICON_PACK
+	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_SERVICE_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
 	iconPath = [adium pathOfPackWithName:activePackName
 							   extension:@"AdiumServiceIcons"
 					  resourceFolderName:@"Service Icons"];
 	
 	if (!iconPath) {
-		activePackName = [[adium preferenceController] defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
+		activePackName = [adium.preferenceController defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
 																		 group:PREF_GROUP_APPEARANCE
 																		object:nil];
 		
@@ -1077,14 +1077,14 @@ typedef enum {
 {
 	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSString	*iconPath;
-	NSString	*activePackName = [[adium preferenceController] preferenceForKey:KEY_MENU_BAR_ICONS
+	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_MENU_BAR_ICONS
 																		   group:PREF_GROUP_APPEARANCE];
 	iconPath = [adium pathOfPackWithName:activePackName
 							   extension:@"AdiumMenuBarIcons"
 					  resourceFolderName:@"Menu Bar Icons"];
 	
 	if (!iconPath) {
-		activePackName = [[adium preferenceController] defaultPreferenceForKey:KEY_MENU_BAR_ICONS
+		activePackName = [adium.preferenceController defaultPreferenceForKey:KEY_MENU_BAR_ICONS
 																		 group:PREF_GROUP_APPEARANCE
 																		object:nil];
 		
@@ -1111,7 +1111,7 @@ typedef enum {
 	if ([title isEqualToString:@"Temporary Dock Icon Menu"]) {
 		//If the menu has @"Temporary Dock Icon Menu" as its title, we should update it to have all dock icons, not just our selected one
 		menuItemArray = [self _dockIconMenuArray];
-		repObject = [[adium preferenceController] preferenceForKey:KEY_ACTIVE_DOCK_ICON
+		repObject = [adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 															 group:PREF_GROUP_APPEARANCE];
 		popUpButton = popUp_dockIcon;
 		
@@ -1119,7 +1119,7 @@ typedef enum {
 		menuItemArray = [self _iconPackMenuArrayForPacks:[adium allResourcesForName:@"Status Icons" 
 																	 withExtensions:@"AdiumStatusIcons"] 
 												   class:[AIStatusIcons class]];
-		repObject = [[adium preferenceController] preferenceForKey:KEY_STATUS_ICON_PACK
+		repObject = [adium.preferenceController preferenceForKey:KEY_STATUS_ICON_PACK
 															 group:PREF_GROUP_APPEARANCE];
 		popUpButton = popUp_statusIcons;
 		
@@ -1127,7 +1127,7 @@ typedef enum {
 		menuItemArray = [self _iconPackMenuArrayForPacks:[adium allResourcesForName:@"Service Icons" 
 																	 withExtensions:@"AdiumServiceIcons"] 
 												   class:[AIServiceIcons class]];
-		repObject = [[adium preferenceController] preferenceForKey:KEY_SERVICE_ICON_PACK
+		repObject = [adium.preferenceController preferenceForKey:KEY_SERVICE_ICON_PACK
 															 group:PREF_GROUP_APPEARANCE];
 		popUpButton = popUp_serviceIcons;
 		
@@ -1135,7 +1135,7 @@ typedef enum {
 		menuItemArray = [self _iconPackMenuArrayForPacks:[adium allResourcesForName:@"Menu Bar Icons" 
 																	 withExtensions:@"AdiumMenuBarIcons"] 
 												   class:[AIMenuBarIcons class]];
-		repObject = [[adium preferenceController] preferenceForKey:KEY_MENU_BAR_ICONS
+		repObject = [adium.preferenceController preferenceForKey:KEY_MENU_BAR_ICONS
 															 group:PREF_GROUP_APPEARANCE];
 		popUpButton = popUp_menuBarIcons;	
 	}

@@ -96,14 +96,14 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 - (void)controllerDidLoad
 {
 	//Register our default preferences and observe changes
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:SOUND_DEFAULT_PREFS forClass:[self class]]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:SOUND_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_SOUNDS];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_SOUNDS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_SOUNDS];
 }
 
 - (void)dealloc
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 

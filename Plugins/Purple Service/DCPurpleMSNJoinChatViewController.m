@@ -37,7 +37,7 @@
 	
 	chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:room,@"room",nil];
 
-	[[adium chatController] chatWithName:room
+	[adium.chatController chatWithName:room
 							  identifier:nil
 							   onAccount:inAccount
 						chatCreationInfo:chatCreationInfo];

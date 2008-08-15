@@ -872,7 +872,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (void)listControllerDragEnded:(NSNotification *)notification
 {
-	[self setShowTooltips:[[[adium preferenceController] preferenceForKey:KEY_CL_SHOW_TOOLTIPS
+	[self setShowTooltips:[[adium.preferenceController preferenceForKey:KEY_CL_SHOW_TOOLTIPS
 																	group:PREF_GROUP_CONTACT_LIST] boolValue]];
 	
 	[self setDragItems:nil];

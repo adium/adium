@@ -180,7 +180,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 					if (isClosingDirectIM) {
 						if (strcmp(message, _("The remote user has closed the connection.")) != 0) {
 							//Display the message if it's not just the one for the other guy closing it...
-							[[adium contentController] displayEvent:messageString
+							[adium.contentController displayEvent:messageString
 																					  ofType:@"directIMDisconnected"
 																					  inChat:chat];
 						}
@@ -191,7 +191,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 				}
 
 				if (shouldDisplayMessage) {
-					[[adium contentController] displayEvent:messageString
+					[adium.contentController displayEvent:messageString
 																			  ofType:@"libpurpleMessage"
 																			  inChat:chat];
 				}
@@ -239,7 +239,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 					 withObject:[NSNumber numberWithInt:errorType]
 					 afterDelay:0];
 				} else {
-					[[adium contentController] performSelector:@selector(displayEvent:ofType:inChat:)
+					[adium.contentController performSelector:@selector(displayEvent:ofType:inChat:)
 																			 withObject:messageString
 																			 withObject:@"libpurpleMessage"
 																			 withObject:chat

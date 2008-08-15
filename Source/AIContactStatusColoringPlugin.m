@@ -84,7 +84,7 @@
 						 KEY_TYPING, KEY_UNVIEWED_CONTENT,  @"StatusType", @"IsIdle",
 						 @"Online", @"Signed On",  @"Signed Off", @"IsMobile", nil];
 
-	id<AIPreferenceController> preferenceController = [adium preferenceController];
+	id<AIPreferenceController> preferenceController = adium.preferenceController;
 
     //Setup our preferences
     [preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_STATUS_COLORING_DEFAULT_PREFS
@@ -99,7 +99,7 @@
 
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[adium interfaceController] unregisterFlashObserver:self];	
 }

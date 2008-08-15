@@ -57,12 +57,12 @@
 // Configure the preference view
 - (void) viewDidLoad
 {
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:QUICKTIME_PREFS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:QUICKTIME_PREFS];
 }
 
 - (void) viewWillClose
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 // Reflect new preferences in view
@@ -83,12 +83,12 @@
 - (IBAction) changePreference:(id)sender
 {
     if (sender == micDefaultVolume) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_MIC_VOLUME
                                               group:QUICKTIME_PREFS];
 
 	} else if (sender == outDefaultVolume) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_OUT_VOLUME
                                               group:QUICKTIME_PREFS];
 	}

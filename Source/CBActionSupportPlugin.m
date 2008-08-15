@@ -33,17 +33,17 @@
  */
 - (void)installPlugin
 {
-	[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
+	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
 
-	[[adium contentController] registerHTMLContentFilter:self direction:AIFilterOutgoing];
-	[[adium contentController] registerHTMLContentFilter:self direction:AIFilterIncoming];
+	[adium.contentController registerHTMLContentFilter:self direction:AIFilterOutgoing];
+	[adium.contentController registerHTMLContentFilter:self direction:AIFilterIncoming];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterHTMLContentFilter:self];
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterHTMLContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 #pragma mark -

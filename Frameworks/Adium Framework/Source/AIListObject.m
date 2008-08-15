@@ -58,7 +58,7 @@
 		largestOrder = 1.0;
 		smallestOrder = 1.0;
 
-		[[adium preferenceController] addObserver:self
+		[adium.preferenceController addObserver:self
 									   forKeyPath:@"Always Visible.Visible"
 										 ofObject:self
 										  options:NSKeyValueObservingOptionNew
@@ -350,11 +350,11 @@
  */
 - (void)setPreference:(id)value forKey:(NSString *)key group:(NSString *)group
 {   
-	[[adium preferenceController] setPreference:value forKey:key group:group object:self];
+	[adium.preferenceController setPreference:value forKey:key group:group object:self];
 }
 - (void)setPreferences:(NSDictionary *)prefs inGroup:(NSString *)group
 {
-	[[adium preferenceController] setPreferences:prefs inGroup:group object:self];	
+	[adium.preferenceController setPreferences:prefs inGroup:group object:self];	
 }
 
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify
@@ -369,7 +369,7 @@
  */
 - (id)preferenceForKey:(NSString *)key group:(NSString *)group
 {
-	return [[adium preferenceController] preferenceForKey:key group:group object:self];
+	return [adium.preferenceController preferenceForKey:key group:group object:self];
 }
 
 /*!
@@ -378,9 +378,9 @@
 - (id)preferenceForKey:(NSString *)key group:(NSString *)group ignoreInheritedValues:(BOOL)ignore
 {
 	if (ignore) {
-		return [[adium preferenceController] preferenceForKey:key group:group objectIgnoringInheritance:self];
+		return [adium.preferenceController preferenceForKey:key group:group objectIgnoringInheritance:self];
 	} else {
-		return [[adium preferenceController] preferenceForKey:key group:group object:self];
+		return [adium.preferenceController preferenceForKey:key group:group object:self];
 	}
 }
 

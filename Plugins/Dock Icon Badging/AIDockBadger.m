@@ -50,15 +50,15 @@
 	overlayState = nil;
 
 	//Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:@"BadgerDefaults"
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"BadgerDefaults"
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_APPEARANCE];
 
 	//Observe pref changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 	
 	// Register as an observer of the status preferences for unread conversation count
-	[[adium preferenceController] registerPreferenceObserver:self
+	[adium.preferenceController registerPreferenceObserver:self
 													forGroup:PREF_GROUP_STATUS_PREFERENCES];
 }
 
@@ -67,9 +67,9 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 #pragma mark Signals to update
@@ -109,7 +109,7 @@
 			
 			if (shouldBadge) {
 				//Register as a chat observer (for unviewed content). If there is any unviewed content, our overlay will be set.
-				[[adium chatController] registerChatObserver:self];
+				[adium.chatController registerChatObserver:self];
 				
 				[[adium notificationCenter] addObserver:self
 											   selector:@selector(chatClosed:)
@@ -120,7 +120,7 @@
 				[self removeOverlay];
 				
 				//Stop observing
-				[[adium chatController] unregisterChatObserver:self];
+				[adium.chatController unregisterChatObserver:self];
 				[[adium notificationCenter] removeObserver:self];
 			}
 		}
@@ -186,7 +186,7 @@
 - (void)removeOverlay
 {
 	if (overlayState) {
-		[[adium dockController] removeIconStateNamed:@"UnviewedContentCount"];
+		[adium.dockController removeIconStateNamed:@"UnviewedContentCount"];
 		[overlayState release]; overlayState = nil;
 	}
 }
@@ -197,7 +197,7 @@
 - (void)_setOverlay
 {
 	int contentCount = (showConversationCount ?
-					   [[adium chatController] unviewedConversationCount] : [[adium chatController] unviewedContentCount]);
+					   [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
 
 	if (contentCount != lastUnviewedContentCount) {
 		//Remove & release the current overlay state
@@ -208,7 +208,7 @@
 			//Set the state
 			overlayState = [[AIIconState alloc] initWithImage:[self numberedBadge:contentCount] 
 													  overlay:YES];
-			[[adium dockController] setIconState:overlayState named:@"UnviewedContentCount"];
+			[adium.dockController setIconState:overlayState named:@"UnviewedContentCount"];
 		}
 
 		lastUnviewedContentCount = contentCount;

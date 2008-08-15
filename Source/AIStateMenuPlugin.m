@@ -201,7 +201,7 @@
 - (void)updateSocialNetworkingMenuItems
 {
 	BOOL oneOrMoreSocialNetworkingAccountsOnline = NO;
-	NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount	 *account;
 	while ((account = [enumerator nextObject])) {
 		if ([account online] && [[account service] isSocialNetworkingService]) {

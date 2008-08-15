@@ -51,10 +51,10 @@
  */
 - (void)installPlugin
 {
-	[[adium contentController] registerDelayedContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
-	[[adium contentController] registerDelayedContentFilter:self ofType:AIFilterContent direction:AIFilterIncoming];
+	[adium.contentController registerDelayedContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
+	[adium.contentController registerDelayedContentFilter:self ofType:AIFilterContent direction:AIFilterIncoming];
 	
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 																					 @"en", @"LanguageToContact",
 																					 @"en", @"LanguageFromContact", nil]
 										  forGroup:@"Translator"];
@@ -210,7 +210,7 @@
 	}
 
 	//Notify the content controller of the newly-translated string, passing the uniqueID for the message which we were originally given
-	[[adium contentController] delayedFilterDidFinish:attributedString
+	[adium.contentController delayedFilterDidFinish:attributedString
 											 uniqueID:[[messageDict objectForKey:@"uniqueID"] unsignedLongLongValue]];
     [attributedString release];
 }

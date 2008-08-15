@@ -204,7 +204,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  */
 - (void)connectAllAccounts:(NSMenuItem *)menuItem
 {
-	NSEnumerator		*enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount			*account;
 	
 	while ((account = [enumerator nextObject])) {
@@ -223,7 +223,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 - (NSArray *)buildMenuItems
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-	NSArray			*accounts = [[adium accountController] accounts];
+	NSArray			*accounts = [adium.accountController accounts];
 	
 	if (includeConnectAllMenuItem) {
 		NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Connect All Accounts",nil)
@@ -496,9 +496,9 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 - (IBAction)selectServiceType:(id)sender
 {
 	AIService	*service = [sender representedObject];
-	AIAccount	*account = [[adium accountController] createAccountWithService:service
+	AIAccount	*account = [adium.accountController createAccountWithService:service
 																		   UID:[service defaultUserName]];
-	[[adium accountController] editAccount:account
+	[adium.accountController editAccount:account
 								  onWindow:nil
 						   notifyingTarget:self];
 }
@@ -510,7 +510,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 {
 	if (successful) {
 		//New accounts need to be added to our account list once they're configured
-		[[adium accountController] addAccount:inAccount];
+		[adium.accountController addAccount:inAccount];
         
 		//Put new accounts online by default
 		[inAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"Online" group:GROUP_ACCOUNT_STATUS];

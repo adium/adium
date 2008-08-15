@@ -84,7 +84,7 @@
 											 forClass:[AIAccount class]] retain];
 		}
 		
-		[[adium preferenceController] registerDefaults:defaults
+		[adium.preferenceController registerDefaults:defaults
 											  forGroup:GROUP_ACCOUNT_STATUS
 												object:self];
 
@@ -114,7 +114,7 @@
 										 object:nil];
 
 		//Handle the preference changed monitoring (for account status) for our subclass
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 		//Update our display name and formattedUID immediately
 		[self updateStatusForKey:@"FormattedUID"];
@@ -142,7 +142,7 @@
 	[autoRefreshingKeys release]; autoRefreshingKeys = nil;
 	
     [[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
 }
@@ -293,7 +293,7 @@
 		UID = [newProposedUID retain];
 
 		//Inform the account controller of the changed UID
-		[[adium accountController] accountDidChangeUID:self];
+		[adium.accountController accountDidChangeUID:self];
 
 		didChangeUID = YES;
 	}
@@ -445,7 +445,7 @@
 	//Retrieve the user's password and then call connect
 	AILogWithSignature(@"Retrieving %@'s password (promptOption %i)", self, promptOption);
 
-	[[adium accountController] passwordForAccount:self 
+	[adium.accountController passwordForAccount:self 
 									 promptOption:promptOption
 								  notifyingTarget:self
 										 selector:@selector(passwordReturnedForConnect:returnCode:context:)
@@ -762,7 +762,7 @@
 	NSAttributedString  *filteredValue;
 	NSString			*originalValueString = [originalValue string];
 	
-	filteredValue = [[adium contentController] filterAttributedString:originalValue
+	filteredValue = [adium.contentController filterAttributedString:originalValue
 													  usingFilterType:AIFilterContent
 															direction:AIFilterOutgoing
 															  context:self];
@@ -804,7 +804,7 @@
 	}
 	
 	//Filter the content
-	[[adium contentController] filterAttributedString:originalValue
+	[adium.contentController filterAttributedString:originalValue
 									  usingFilterType:AIFilterContent
 											direction:AIFilterOutgoing
 										filterContext:self
@@ -885,7 +885,7 @@
 {
 	[dynamicKeys addObject:key];
 
-	if ([[adium contentController] shouldPollToUpdateString:originalValueString]) {
+	if ([adium.contentController shouldPollToUpdateString:originalValueString]) {
 		[autoRefreshingKeys addObject:key];
 		[self _startAttributedRefreshTimer];
 	}
@@ -1106,7 +1106,7 @@
 	
 	[statusMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
 	
-	[[adium contentController] receiveContentObject:statusMessage];
+	[adium.contentController receiveContentObject:statusMessage];
 }
 
 /*!
@@ -1236,7 +1236,7 @@
 	while ((listContact = [enumerator nextObject])) {
 		[listContact setRemoteGroupName:nil];
 		[self removePropetyValuesFromContact:listContact silently:YES];
-		if (![[adium chatController] existingChatWithContact:[listContact parentContact]])
+		if (![adium.chatController existingChatWithContact:[listContact parentContact]])
 			[adium.contactController account:self didStopTrackingContact:listContact];
 	}
 	
@@ -1281,7 +1281,7 @@
 
 				[statusMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
 
-				[[adium contentController] receiveContentObject:statusMessage];
+				[adium.contentController receiveContentObject:statusMessage];
 				
 				if ([chat isGroupChat])
 					[chat removeAllParticipatingContactsSilently];
@@ -1558,7 +1558,7 @@
 			if (selector) [proxyConfiguration setObject:NSStringFromSelector(selector) forKey:@"NotificationSelector"];
 			if (context) [proxyConfiguration setObject:context forKey:@"NotificationContext"];
 			
-			[[adium accountController] passwordForProxyServer:host 
+			[adium.accountController passwordForProxyServer:host 
 													 userName:username 
 											  notifyingTarget:self 
 													 selector:@selector(gotProxyServerPassword:returnCode:proxyConfiguration:)

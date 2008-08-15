@@ -68,7 +68,7 @@
 	isObserving = NO;
 	
 	//Setup our preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONTEXT_DISPLAY_DEFAULTS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTEXT_DISPLAY_DEFAULTS
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTEXT_DISPLAY];
 		
@@ -81,7 +81,7 @@
 						   firstTime:YES];
 	
 	//Observe preference changes for whether or not to display message history
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTEXT_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTEXT_DISPLAY];
 }
 
 /**
@@ -89,7 +89,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
 
@@ -161,7 +161,7 @@
 				 * As required, we post Content_ChatDidFinishAddingUntrackedContent when finished adding. */
 				[contextMessage setDisplayContentImmediately:NO];
 			
-				[[adium contentController] displayContentObject:contextMessage
+				[adium.contentController displayContentObject:contextMessage
 											usingContentFilters:YES
 													immediately:YES];
 			}
