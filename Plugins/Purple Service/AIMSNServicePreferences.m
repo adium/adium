@@ -41,7 +41,7 @@
 
 - (void)viewDidLoad
 {
-	[checkBox_displayCustomEmoticons setState:[[[adium preferenceController] preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	[checkBox_displayCustomEmoticons setState:[[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
 																						group:PREF_GROUP_MSN_SERVICE] boolValue]];
 	[checkBox_displayCustomEmoticons setLocalizedString:AILocalizedString(@"Display custom emoticons", nil)];
 }
@@ -49,7 +49,7 @@
 - (IBAction)changePreference:(id)sender
 {
 	if (sender == checkBox_displayCustomEmoticons) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]] 
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]] 
 											 forKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
 											  group:PREF_GROUP_MSN_SERVICE];
 	}

@@ -113,7 +113,7 @@
 - (void)awakeFromNib
 {
 	if (popUp_encryption) {
-		[popUp_encryption setMenu:[[adium contentController] encryptionMenuNotifyingTarget:nil 
+		[popUp_encryption setMenu:[adium.contentController encryptionMenuNotifyingTarget:nil 
 																			   withDefault:NO]];
 		[[popUp_encryption menu] setAutoenablesItems:NO];
 	}
@@ -215,13 +215,13 @@
 		[textField_accountUID setEnabled:![account online]];
 		
 		//Password
-		NSString	*savedPassword = [[adium accountController] passwordForAccount:account];
+		NSString	*savedPassword = [adium.accountController passwordForAccount:account];
 		[textField_password setStringValue:[savedPassword length] ? savedPassword : @""];
 		
 		//User alias (display name)
 		NSString *alias = [[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] attributedString] string];
 		[textField_alias setStringValue:(alias ? alias : @"")];
-		[[textField_alias cell] setPlaceholderString:[[[[adium preferenceController] preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString] string]];
+		[[textField_alias cell] setPlaceholderString:[[[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString] string]];
 	
 		//Server Host
 		NSString	*host = [account preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
@@ -274,14 +274,14 @@
 
 	//Password
 	NSString		*password = [textField_password secureStringValue];
-	NSString		*oldPassword = [[adium accountController] passwordForAccount:account];
+	NSString		*oldPassword = [adium.accountController passwordForAccount:account];
 	
 	if (password && [password length] != 0) {
 		if (![password isEqualToString:oldPassword]) {
-			[[adium accountController] setPassword:password forAccount:account];
+			[adium.accountController setPassword:password forAccount:account];
 		}
 	} else if (oldPassword && [oldPassword length] != 0) {
-		[[adium accountController] forgetPasswordForAccount:account];
+		[adium.accountController forgetPasswordForAccount:account];
 	}
 	
 	//Connect Host

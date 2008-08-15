@@ -69,7 +69,7 @@
 	else
 		[accountsArray removeAllObjects];
 	
-	NSArray *accountsAvailable = [[adium accountController] accounts];
+	NSArray *accountsAvailable = [adium.accountController accounts];
 	
 	if ([accountsAvailable count] > 0) {
 		[accountSelectionPopup setHidden:NO];
@@ -110,7 +110,7 @@
 	NSDictionary *rawPrefsFile = [NSDictionary dictionaryWithContentsOfFile:[[NSString stringWithFormat:@"~/Library/Preferences/com.apple.iChat.%@.plist", serviceName] stringByExpandingTildeInPath]];
 	NSArray *accountsFromRaw = [[rawPrefsFile valueForKey:@"Accounts"] allValues];
 		
-	NSEnumerator *serviceEnum = [[[adium accountController] services] objectEnumerator];
+	NSEnumerator *serviceEnum = [[adium.accountController services] objectEnumerator];
 	AIService *service = nil;
 	
 	// we'll grab these momentarily and use judiciously afterwards, Bonjour is external to this to method, unlike the others
@@ -136,7 +136,7 @@
 			
 			NSString *accountName = [currentAccount objectForKey:@"LoginAs"];
 			
-			AIAccount *newAcct = [[adium accountController] createAccountWithService:
+			AIAccount *newAcct = [adium.accountController createAccountWithService:
 				([serviceName isEqual:@"Jabber"] ? (AIService *)jabberService : ([accountName rangeOfString:@"mac.com"].length > 0 ? (AIService *)macService : (AIService *)aimService))
 																				 UID:accountName];
 			if (newAcct == nil)
@@ -159,7 +159,7 @@
 								forKey:KEY_CONNECT_PORT
 								 group:GROUP_ACCOUNT_STATUS];
 			
-			[[adium accountController] addAccount:newAcct];
+			[adium.accountController addAccount:newAcct];
 
 		} else {
 			blockForBonjour = YES;			
@@ -423,14 +423,14 @@
 
 -(IBAction)completeBonjourCreation:(id)sender
 {
-	AIAccount *newAcct = [[adium accountController] createAccountWithService:bonjourService
+	AIAccount *newAcct = [adium.accountController createAccountWithService:bonjourService
 																		 UID:[bonjourAccountNameField stringValue]];
 	if (newAcct) {								
 		[newAcct setPreference:[NSNumber numberWithBool:bonjourAutoLogin]
 						forKey:@"Online"
 						 group:GROUP_ACCOUNT_STATUS];
 		
-		[[adium accountController] addAccount:newAcct];		
+		[adium.accountController addAccount:newAcct];		
 	}
 				
 	[NSApp endSheet:bonjourNamePromptWindow];

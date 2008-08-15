@@ -48,12 +48,12 @@
 	[[adium contactAlertsController] registerEventID:CONTENT_GROUP_CHAT_MENTION withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	
 	//Observe chat changes
-	[[adium chatController] registerChatObserver:self];
+	[adium.chatController registerChatObserver:self];
 }
 
 - (void)dealloc
 {
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	
 	[super dealloc];
 }
@@ -146,7 +146,7 @@
 		}
 		
 		if (message) {
-			[[adium contentController] displayEvent:message
+			[adium.contentController displayEvent:message
 											 ofType:type
 											 inChat:inChat];
 		}

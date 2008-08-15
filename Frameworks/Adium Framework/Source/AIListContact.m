@@ -670,7 +670,7 @@
 		}
 		
 		if (targetMessagingContact) {
-			chat = [[adium chatController] openChatWithContact:targetMessagingContact
+			chat = [adium.chatController openChatWithContact:targetMessagingContact
 											onPreferredAccount:NO];
 			
 			//Take the string and turn it into an attributed string (in case we were passed HTML)
@@ -683,7 +683,7 @@
 													 message:attributedMessage
 												   autoreply:autoreply];
 			
-			[[adium contentController] sendContentObject:messageContent];
+			[adium.contentController sendContentObject:messageContent];
 		} else {
 			AILogWithSignature(@"No contact available to receive a message to %@", self);
 		}

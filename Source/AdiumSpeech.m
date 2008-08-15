@@ -90,7 +90,7 @@
 - (void)dealloc
 {
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	[self _stopSpeaking];
 
@@ -113,7 +113,7 @@
 - (void)controllerDidLoad
 {
 	//Observe changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_SOUNDS];	
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_SOUNDS];	
 }
 
 #pragma mark Preferences

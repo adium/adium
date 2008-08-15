@@ -90,14 +90,14 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 - (AIAccount *)account
 {
 	if (!account) {
-		account = [[[adium accountController] createAccountWithService:[self service]
+		account = [[adium.accountController createAccountWithService:[self service]
 																   UID:[self UID]] retain];
 	} else {
 		if (([self service] != [account service]) ||
 			(![[self UID] isEqualToString:[account UID]])) {
 			[account release];
 
-			account = [[[adium accountController] createAccountWithService:[self service]
+			account = [[adium.accountController createAccountWithService:[self service]
 																	   UID:[self UID]] retain];
 		}
 	}
@@ -126,7 +126,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	AIAccount	*theAccount = [self account];
 	[theAccount setIsTemporary:YES];
 	
-	[[adium accountController] addAccount:theAccount];
+	[adium.accountController addAccount:theAccount];
 	[theAccount setPasswordTemporarily:[textField_password secureStringValue]];
 
 	//Connect the account

@@ -90,7 +90,7 @@
 		NSString *invitationMessage = [textField_inviteMessage stringValue];
 		
 		if (!invitationMessage || ![invitationMessage length]) {
-			invitationMessage = [[adium chatController] defaultInvitationMessageForRoom:room account:inAccount];
+			invitationMessage = [adium.chatController defaultInvitationMessageForRoom:room account:inAccount];
 		}
 
 		[self doJoinChatWithName:room

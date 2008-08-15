@@ -388,13 +388,13 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[containingView_contactsSourceList release];
 
 	//Set emoticon filtering
-	showEmoticons = [[[adium preferenceController] preferenceForKey:KEY_LOG_VIEWER_EMOTICONS
+	showEmoticons = [[adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_EMOTICONS
 															  group:PREF_GROUP_LOGGING] boolValue];
 	[[toolbarItems objectForKey:@"toggleemoticons"] setLabel:(showEmoticons ? HIDE_EMOTICONS : SHOW_EMOTICONS)];
 	[[toolbarItems objectForKey:@"toggleemoticons"] setImage:[NSImage imageNamed:(showEmoticons ? IMAGE_EMOTICONS_ON : IMAGE_EMOTICONS_OFF) forClass:[self class]]];
 
 	// Set timestamp filtering
-	showTimestamps = [[[adium preferenceController] preferenceForKey:KEY_LOG_VIEWER_TIMESTAMPS
+	showTimestamps = [[adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_TIMESTAMPS
 															   group:PREF_GROUP_LOGGING] boolValue];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setLabel:(showTimestamps ? HIDE_TIMESTAMPS : SHOW_TIMESTAMPS)];
 	[[toolbarItems objectForKey:@"toggletimestamps"] setImage:[NSImage imageNamed:(showTimestamps ? IMAGE_TIMESTAMPS_ON : IMAGE_TIMESTAMPS_OFF) forClass:[self class]]];
@@ -435,7 +435,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
     //Sort by preference, defaulting to sorting by date
 	NSString	*selectedTableColumnPref;
-	if ((selectedTableColumnPref = [[adium preferenceController] preferenceForKey:KEY_LOG_VIEWER_SELECTED_COLUMN
+	if ((selectedTableColumnPref = [adium.preferenceController preferenceForKey:KEY_LOG_VIEWER_SELECTED_COLUMN
 																		   group:PREF_GROUP_LOGGING])) {
 		selectedColumn = [[tableView_results tableColumnWithIdentifier:selectedTableColumnPref] retain];
 	}
@@ -483,17 +483,17 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[super windowWillClose:sender];
 
 	//Set preference for emoticon filtering
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:showEmoticons]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:showEmoticons]
 										 forKey:KEY_LOG_VIEWER_EMOTICONS
 										  group:PREF_GROUP_LOGGING];
 											
 	// Set preference for timestamp filtering
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:showTimestamps]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:showTimestamps]
 																			 forKey:KEY_LOG_VIEWER_TIMESTAMPS
 																				group:PREF_GROUP_LOGGING];
 	
 	//Set preference for selected column
-	[[adium preferenceController] setPreference:[selectedColumn identifier]
+	[adium.preferenceController setPreference:[selectedColumn identifier]
 										 forKey:KEY_LOG_VIEWER_SELECTED_COLUMN
 										  group:PREF_GROUP_LOGGING];
 
@@ -669,7 +669,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	id item = [outlineView_contacts firstSelectedItem];
 	if ([item isKindOfClass:[AIListContact class]]) {
 		//Open a new message with the contact
-		[[adium interfaceController] setActiveChat:[[adium chatController] openChatWithContact:(AIListContact *)item onPreferredAccount:YES]];
+		[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)item onPreferredAccount:YES]];
 	}
 }
 
@@ -724,7 +724,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			NSAttributedString *attributedLogFileText = [AIHTMLDecoder decodeHTML:logFileText];
 
 			if (showEmoticons) {
-				attributedLogFileText = [[adium contentController] filterAttributedString:attributedLogFileText
+				attributedLogFileText = [adium.contentController filterAttributedString:attributedLogFileText
 																		  usingFilterType:AIFilterMessageDisplay
 																				direction:AIFilterOutgoing
 																				  context:nil];						
@@ -767,7 +767,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 				NSAttributedString *attributedLogFileText = [[[NSAttributedString alloc] initWithString:logFileText 
 																							 attributes:[textAttributes dictionary]] autorelease];
 				if (showEmoticons) {
-					attributedLogFileText = [[adium contentController] filterAttributedString:attributedLogFileText
+					attributedLogFileText = [adium.contentController filterAttributedString:attributedLogFileText
 																			  usingFilterType:AIFilterMessageDisplay
 																					direction:AIFilterOutgoing
 																					  context:nil];						
@@ -1571,7 +1571,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			NSImage		*image;
 			
 			serviceClass = [theLog serviceClass];
-			image = [AIServiceIcons serviceIconForService:[[adium accountController] firstServiceWithServiceID:serviceClass]
+			image = [AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:serviceClass]
 													 type:AIServiceIconSmall
 												direction:AIIconNormal];
 			value = (image ? image : blankImage);
@@ -1885,9 +1885,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		if ([item isKindOfClass:[AILogToGroup class]]) {
 			if ([(AILogToGroup *)item to] && [(AILogToGroup *)item serviceClass]) {
 				//We need a service with ther right service ID
-				AIService *service = [[adium accountController] firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]];
+				AIService *service = [adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]];
 				if (service) {
-					NSEnumerator *enumerator = [[[adium accountController] accountsCompatibleWithService:service] objectEnumerator];
+					NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:service] objectEnumerator];
 					AIAccount	 *account;
 
 					//Next, we want an online account
@@ -2274,7 +2274,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 
 	NSString	*serviceID = [[serviceAndAccountName componentsSeparatedByString:@"."] objectAtIndex:0];
 	//Filter for logs from the contact associated with the log we're loading
-	[self filterForContact:[adium.contactController contactWithService:[[adium accountController] firstServiceWithServiceID:serviceID]
+	[self filterForContact:[adium.contactController contactWithService:[adium.accountController firstServiceWithServiceID:serviceID]
 																 account:nil
 																	 UID:contactName]];
 	

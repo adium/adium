@@ -71,7 +71,7 @@
 
 	groupsHaveBackground = NO;
 	
-	[[adium preferenceController] registerPreferenceObserver:self
+	[adium.preferenceController registerPreferenceObserver:self
 																			 forGroup:PREF_GROUP_LIST_THEME];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
@@ -84,7 +84,7 @@
 
 - (void)dealloc
 {	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[backgroundImage release];
 	[backgroundColor release];

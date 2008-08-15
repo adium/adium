@@ -41,14 +41,14 @@ static  BOOL	sortByLastName;
 - (void)didBecomeActiveFirstTime
 {
 	//Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:ALPHABETICAL_SORT_DEFAULT_PREFS 
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:ALPHABETICAL_SORT_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTACT_SORTING];
 	
 	//Load our preferences
-	sortGroups = [[[adium preferenceController] preferenceForKey:KEY_SORT_GROUPS
+	sortGroups = [[adium.preferenceController preferenceForKey:KEY_SORT_GROUPS
 														   group:PREF_GROUP_CONTACT_SORTING] boolValue];
-	sortByLastName = [[[adium preferenceController] preferenceForKey:KEY_SORT_BY_LAST_NAME
+	sortByLastName = [[adium.preferenceController preferenceForKey:KEY_SORT_BY_LAST_NAME
 															   group:PREF_GROUP_CONTACT_SORTING] boolValue];
 }
 
@@ -118,12 +118,12 @@ static  BOOL	sortByLastName;
 {
 	if (sender == checkBox_sortGroups) {
 		sortGroups = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:sortGroups]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortGroups]
                                              forKey:KEY_SORT_GROUPS
                                               group:PREF_GROUP_CONTACT_SORTING];		
 	} else if (sender == checkBox_sortByLastName) {
 		sortByLastName = [sender state];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:sortByLastName]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortByLastName]
                                              forKey:KEY_SORT_BY_LAST_NAME
                                               group:PREF_GROUP_CONTACT_SORTING];			
 	}

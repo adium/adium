@@ -13,15 +13,15 @@
 {
 	tracLinkScanner = [[AIDLLinkScanner alloc] init];
 	
-	[[adium contentController] registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
-	[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
+	[adium.contentController registerContentFilter:self ofType:AIFilterContent direction:AIFilterOutgoing];
+	[adium.contentController registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
+	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 - (void)dealloc

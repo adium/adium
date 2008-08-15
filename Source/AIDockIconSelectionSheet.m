@@ -110,16 +110,16 @@
 		iconArray = [[NSMutableArray alloc] init];
 		
 		//Fetch the pack previews
-		NSEnumerator	*enumerator = [[[adium dockController] availableDockIconPacks] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.dockController availableDockIconPacks] objectEnumerator];
 		NSString		*path;
 		
 		while ((path = [enumerator nextObject])) {
-			AIIconState		*previewState = [[adium dockController] previewStateForIconPackAtPath:path];
+			AIIconState		*previewState = [adium.dockController previewStateForIconPackAtPath:path];
 			[iconArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:path, @"Path", previewState, @"State", nil]];    
 		}
 		
 		[imageGridView_icons reloadData];
-		[self selectIconWithName:[[adium preferenceController] preferenceForKey:KEY_ACTIVE_DOCK_ICON
+		[self selectIconWithName:[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		  group:PREF_GROUP_APPEARANCE]];
 	}
 }
@@ -154,7 +154,7 @@
 //                
 //                //Get the icon pack's full path and preview state
 //                fullPath = [iconPath stringByAppendingPathComponent:filePath];
-//				previewState = [[adium dockController] previewStateForIconPackAtPath:fullPath];
+//				previewState = [adium.dockController previewStateForIconPackAtPath:fullPath];
 //    
 //                //Add this icon to our icon array
 //                [iconArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fullPath, @"Path", previewState, @"State", previewState, @"Original State", nil]];    
@@ -164,7 +164,7 @@
 //    
 //    //Update our view and re-select the correct icon
 //	[imageGridView_icons reloadData];
-//	[self selectIconWithName:[[adium preferenceController] preferenceForKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE]];
+//	[self selectIconWithName:[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE]];
 //}
 
 //Set the selected icon by name
@@ -219,7 +219,7 @@
 //Returns an animated AIIconState for the dock icon pack at the specified path
 - (AIIconState *)animatedStateForDockIconAtPath:(NSString *)path
 {
-	NSDictionary 	*iconPackDict = [[adium dockController] iconPackAtPath:path];
+	NSDictionary 	*iconPackDict = [adium.dockController iconPackAtPath:path];
 	NSDictionary	*stateDict = [iconPackDict objectForKey:@"State"];
 	
 	return [[[AIIconState alloc] initByCompositingStates:[NSArray arrayWithObjects:
@@ -256,8 +256,8 @@
 	NSDictionary	*iconDict = [iconArray objectAtIndex:[imageGridView_icons selectedIndex]];
 	NSString		*iconName = [[[iconDict objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension];
 	
-	if (![[[adium preferenceController] preferenceForKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE] isEqualToString:iconName])
-		[[adium preferenceController] setPreference:iconName forKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE];
+	if (![[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE] isEqualToString:iconName])
+		[adium.preferenceController setPreference:iconName forKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE];
 }
 
 - (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSInteger)index

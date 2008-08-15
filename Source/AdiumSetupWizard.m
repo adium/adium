@@ -165,18 +165,18 @@ enum{
 
 		if (UID && [UID length]) {
 			AIService	*service = [[popUp_services selectedItem] representedObject];
-			AIAccount	*account = [[adium accountController] createAccountWithService:service
+			AIAccount	*account = [adium.accountController createAccountWithService:service
 																				   UID:UID];
 			
 			//Save the password
 			NSString		*password = [textField_password secureStringValue];
 			
 			if (password && [password length] != 0) {
-				[[adium accountController] setPassword:password forAccount:account];
+				[adium.accountController setPassword:password forAccount:account];
 			}
 			AILog(@"AdiumSetupWizard: Creating account %@ on service %@",account,service);
 			//New accounts need to be added to our account list once they're configured
-			[[adium accountController] addAccount:account];
+			[adium.accountController addAccount:account];
 			
 			//Put new accounts online by default
 			[account setShouldBeOnline:YES];
@@ -190,7 +190,7 @@ enum{
 	} else if ([identifier isEqualToString:IMPORT_IDENTIFIER]) {
 		[self activateProgressIndicator];
 		success = [GBFireImporter importFireConfiguration];
-		addedAnAccount = [[[adium accountController] accounts] count] != 0;
+		addedAnAccount = [[adium.accountController accounts] count] != 0;
 		[progress_processing stopAnimation:nil];
 		[progress_processing setHidden:YES];
 	}
@@ -350,7 +350,7 @@ enum{
 												 withDefaultAttributes:[[textView_addAccountMessage textStorage] attributesAtIndex:0
 																													effectiveRange:NULL]];
 		//Turn that smiley into an emoticon :)
-		welcomeMessage = [[adium contentController] filterAttributedString:welcomeMessage
+		welcomeMessage = [adium.contentController filterAttributedString:welcomeMessage
 														   usingFilterType:AIFilterDisplay
 																 direction:AIFilterIncoming
 																   context:nil];

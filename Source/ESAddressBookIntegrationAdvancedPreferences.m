@@ -84,23 +84,23 @@
 	[checkBox_syncAutomatic setLocalizedString:AILocalizedString(@"Overwrite Address Book images with contacts' icons",nil)];
 	[checkBox_metaContacts setLocalizedString:AILocalizedString(@"Combine contacts listed on a single card",nil)];	
 
-	[checkBox_enableImport setState:[[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
+	[checkBox_enableImport setState:[[adium.preferenceController preferenceForKey:KEY_AB_ENABLE_IMPORT
 																			  group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[popUp_formatMenu selectItemAtIndex:[popUp_formatMenu indexOfItemWithTag:[[[adium preferenceController] preferenceForKey:KEY_AB_DISPLAYFORMAT
+	[popUp_formatMenu selectItemAtIndex:[popUp_formatMenu indexOfItemWithTag:[[adium.preferenceController preferenceForKey:KEY_AB_DISPLAYFORMAT
 																													   group:PREF_GROUP_ADDRESSBOOK] integerValue]]];
-	[checkBox_useNickName setState:[[[adium preferenceController] preferenceForKey:KEY_AB_USE_NICKNAME
+	[checkBox_useNickName setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_NICKNAME
 																			 group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_useMiddleName setState:[[[adium preferenceController] preferenceForKey:KEY_AB_USE_MIDDLE
+	[checkBox_useMiddleName setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_MIDDLE
 																			   group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_syncAutomatic setState:[[[adium preferenceController] preferenceForKey:KEY_AB_IMAGE_SYNC
+	[checkBox_syncAutomatic setState:[[adium.preferenceController preferenceForKey:KEY_AB_IMAGE_SYNC
 																			   group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_useABImages setState:[[[adium preferenceController] preferenceForKey:KEY_AB_USE_IMAGES
+	[checkBox_useABImages setState:[[adium.preferenceController preferenceForKey:KEY_AB_USE_IMAGES
 																			 group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_enableNoteSync setState:[[[adium preferenceController] preferenceForKey:KEY_AB_NOTE_SYNC
+	[checkBox_enableNoteSync setState:[[adium.preferenceController preferenceForKey:KEY_AB_NOTE_SYNC
 																				group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_preferABImages setState:[[[adium preferenceController] preferenceForKey:KEY_AB_PREFER_ADDRESS_BOOK_IMAGES
+	[checkBox_preferABImages setState:[[adium.preferenceController preferenceForKey:KEY_AB_PREFER_ADDRESS_BOOK_IMAGES
 																				group:PREF_GROUP_ADDRESSBOOK] boolValue]];
-	[checkBox_metaContacts setState:[[[adium preferenceController] preferenceForKey:KEY_AB_CREATE_METACONTACTS
+	[checkBox_metaContacts setState:[[adium.preferenceController preferenceForKey:KEY_AB_CREATE_METACONTACTS
 																			  group:PREF_GROUP_ADDRESSBOOK] boolValue]];
 	
 	[self configureControlDimming];
@@ -119,9 +119,9 @@
  */
 - (void)configureControlDimming
 {
-	BOOL            enableImport = [[[adium preferenceController] preferenceForKey:KEY_AB_ENABLE_IMPORT
+	BOOL            enableImport = [[adium.preferenceController preferenceForKey:KEY_AB_ENABLE_IMPORT
 																			 group:PREF_GROUP_ADDRESSBOOK] boolValue];
-	BOOL            useImages = [[[adium preferenceController] preferenceForKey:KEY_AB_USE_IMAGES
+	BOOL            useImages = [[adium.preferenceController preferenceForKey:KEY_AB_USE_IMAGES
 																		  group:PREF_GROUP_ADDRESSBOOK] boolValue];
 	
 	//Use Nick Name and the format menu are irrelevent if importing of names is not enabled
@@ -149,7 +149,7 @@
     NSMenuItem		*menuItem;
 	NSString		*firstTitle, *firstLastTitle, *lastFirstTitle, *lastFirstNoCommaTitle, *firstLastInitial;
 	
-	BOOL			useMiddleName = [[[adium preferenceController] preferenceForKey:KEY_AB_USE_MIDDLE
+	BOOL			useMiddleName = [[adium.preferenceController preferenceForKey:KEY_AB_USE_MIDDLE
 																			  group:PREF_GROUP_ADDRESSBOOK] boolValue];
 	
 	//If the use middle name preference is set, we use the menu titles that include a middle name
@@ -216,7 +216,7 @@
  */
 - (IBAction)changeFormat:(id)sender
 {
-        [[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
+        [adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender tag]]
                                             forKey:KEY_AB_DISPLAYFORMAT
                                             group:PREF_GROUP_ADDRESSBOOK];
 }
@@ -227,39 +227,39 @@
 - (IBAction)changePreference:(id)sender
 {
     if (sender == checkBox_syncAutomatic) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
                                              forKey:KEY_AB_IMAGE_SYNC
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
     } else if (sender == checkBox_useABImages) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
                                              forKey:KEY_AB_USE_IMAGES
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
     } else if (sender == checkBox_useNickName) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state]==NSOnState)]
                                              forKey:KEY_AB_USE_NICKNAME
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
 	} else if (sender == checkBox_useMiddleName) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
 											 forKey:KEY_AB_USE_MIDDLE
 											  group:PREF_GROUP_ADDRESSBOOK];
 		//Update the format menu to reflect the use of middle names
 		[self configureFormatMenu];
 		
     } else if (sender == checkBox_enableImport) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
                                              forKey:KEY_AB_ENABLE_IMPORT
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
     } else if (sender == checkBox_preferABImages) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
                                              forKey:KEY_AB_PREFER_ADDRESS_BOOK_IMAGES
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
     } else if (sender == checkBox_enableNoteSync) {
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:([sender state] == NSOnState)]
                                              forKey:KEY_AB_NOTE_SYNC
                                               group:PREF_GROUP_ADDRESSBOOK];
 		
@@ -267,7 +267,7 @@
 		BOOL shouldCreateMetaContacts = ([sender state] == NSOnState);
 		
 		if (shouldCreateMetaContacts) {
-			[[adium preferenceController] setPreference:[NSNumber numberWithBool:YES]
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 												 forKey:KEY_AB_CREATE_METACONTACTS
 												  group:PREF_GROUP_ADDRESSBOOK];		
 			
@@ -296,7 +296,7 @@
 										afterDelay:0.0001];
 		
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:NO]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:NO]
                                              forKey:KEY_AB_CREATE_METACONTACTS
                                               group:PREF_GROUP_ADDRESSBOOK];		
 	} else {

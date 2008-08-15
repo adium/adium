@@ -95,7 +95,7 @@ NSString *quotes[] = {
 	NSArray *subPaths = [fm subpathsAtPath:inputLogDir];
 	NSString *outputBasePath = [[[[adium loginController] userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
 	
-	NSArray *accounts = [[adium accountController] accounts];
+	NSArray *accounts = [adium.accountController accounts];
 	NSInteger current;
 	NSMutableDictionary *defaultScreenname = [NSMutableDictionary dictionary];
 	for(current = [accounts count] - 1; current >= 0; current--)

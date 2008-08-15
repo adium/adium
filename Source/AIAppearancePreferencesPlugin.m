@@ -39,7 +39,7 @@
 
 - (void)installPlugin
 {
-	id<AIPreferenceController> preferenceController = [adium preferenceController];
+	id<AIPreferenceController> preferenceController = adium.preferenceController;
 
 	[adium createResourcePathForName:LIST_LAYOUT_FOLDER];
 	[adium createResourcePathForName:LIST_THEME_FOLDER];
@@ -77,7 +77,7 @@
 
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)dealloc
@@ -108,7 +108,7 @@
 
 			//If the preferred pack isn't found (it was probably deleted while active), use the default one
 			if (!success) {
-				NSString *name = [[adium preferenceController] defaultPreferenceForKey:KEY_STATUS_ICON_PACK
+				NSString *name = [adium.preferenceController defaultPreferenceForKey:KEY_STATUS_ICON_PACK
 																				 group:PREF_GROUP_APPEARANCE
 																				object:nil];
 				path = [adium pathOfPackWithName:name
@@ -132,7 +132,7 @@
 			
 			//If the preferred pack isn't found (it was probably deleted while active), use the default one
 			if (!success) {
-				NSString *name = [[adium preferenceController] defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
+				NSString *name = [adium.preferenceController defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
 																				 group:PREF_GROUP_APPEARANCE
 																				object:nil];
 				path = [adium pathOfPackWithName:name
@@ -188,7 +188,7 @@
  */
 - (void)invalidStatusSetActivated:(NSNotification *)inNotification
 {
-	[[adium preferenceController] setPreference:nil
+	[adium.preferenceController setPreference:nil
 										 forKey:KEY_STATUS_ICON_PACK
 										  group:PREF_GROUP_APPEARANCE];
 	
@@ -211,16 +211,16 @@
 	}
 	
 	if (key) {
-		BOOL	 oldValue = [[[adium preferenceController] preferenceForKey:key
+		BOOL	 oldValue = [[adium.preferenceController preferenceForKey:key
 																   group:PREF_GROUP_LIST_LAYOUT] boolValue];
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!oldValue]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!oldValue]
 											 forKey:key
 											  group:PREF_GROUP_LIST_LAYOUT];
 
 		//Save the updated layout
 		[self createSetFromPreferenceGroup:PREF_GROUP_LIST_LAYOUT
-								  withName:[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME
+								  withName:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																					group:PREF_GROUP_APPEARANCE]
 								 extension:LIST_LAYOUT_EXTENSION
 								  inFolder:LIST_LAYOUT_FOLDER];
@@ -256,7 +256,7 @@
 	
 	//Apply its values
 	if (setDictionary) {
-		[[adium preferenceController] setPreferences:setDictionary
+		[adium.preferenceController setPreferences:setDictionary
 											 inGroup:preferenceGroup];
 	}
 }
@@ -272,7 +272,7 @@
 	if ([AIXtrasManager createXtraBundleAtPath:path])
 		path = [path stringByAppendingPathComponent:@"Contents/Resources/Data.plist"];
 	
-	if ([[[adium preferenceController] preferencesForGroup:preferenceGroup] writeToFile:path atomically:NO]) {
+	if ([[adium.preferenceController preferencesForGroup:preferenceGroup] writeToFile:path atomically:NO]) {
 		[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification object:extension];
 		
 		return YES;

@@ -113,12 +113,12 @@ static ESFileTransferPreferences *preferences;
     [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 	
     //Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:FILE_TRANSFER_DEFAULT_PREFS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:FILE_TRANSFER_DEFAULT_PREFS
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_FILE_TRANSFER];
     
     //Observe pref changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_FILE_TRANSFER];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_FILE_TRANSFER];
 	preferences = [[ESFileTransferPreferences preferencePane] retain];
 	
 	//Set up the file transfer progress window
@@ -127,7 +127,7 @@ static ESFileTransferPreferences *preferences;
 
 - (void)controllerWillClose
 {
-    [[adium preferenceController] unregisterPreferenceObserver:self];
+    [adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)dealloc
@@ -208,7 +208,7 @@ static ESFileTransferPreferences *preferences;
 
 	if ((autoAcceptType == AutoAccept_All) ||
 	   ((autoAcceptType == AutoAccept_FromContactList) && [listContact isIntentionallyNotAStranger])) {
-		NSString	*preferredDownloadFolder = [[adium preferenceController] userPreferredDownloadFolder];
+		NSString	*preferredDownloadFolder = [adium.preferenceController userPreferredDownloadFolder];
 		NSString	*remoteFilename = [fileTransfer remoteFilename];
 
 		//If the incoming file would become hidden, prefix it with an underscore so it is visible.
@@ -372,7 +372,7 @@ static ESFileTransferPreferences *preferences;
 {
 	AIAccount		*account;
 	
-	if ((account = [[adium accountController] preferredAccountForSendingContentType:CONTENT_FILE_TRANSFER_TYPE
+	if ((account = [adium.accountController preferredAccountForSendingContentType:CONTENT_FILE_TRANSFER_TYPE
 																		  toContact:listContact]) &&
 		[account conformsToProtocol:@protocol(AIAccount_Files)]) {
 		NSFileManager	*defaultManager = [NSFileManager defaultManager];
@@ -434,7 +434,7 @@ static ESFileTransferPreferences *preferences;
 		if (![sender isKindOfClass:[NSToolbarItem class]] || !listContact) {
 			[self requestForSendingFileToListContact:listContact];
 		} else {
-			AIChat *theChat = [[adium chatController] existingChatWithContact:listContact];
+			AIChat *theChat = [adium.chatController existingChatWithContact:listContact];
 			NSWindow *theWindow = [[adium interfaceController] windowForChat:theChat];
 			[self requestForSendingFileToListContact:listContact forWindow:theWindow];
 		}

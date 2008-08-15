@@ -73,7 +73,7 @@
 	[filterBarAnimation autorelease];
 	[filterBarPreviouslySelected release];
 	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 
 	[super dealloc];
@@ -123,7 +123,7 @@
 									   name:ListObject_AttributesChanged
 									 object:nil];
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 	
 	//Set our minimum size here rather than in the nib to avoid conflicts with autosizing
 	[[self window] setMinSize:NSMakeSize(135, 60)];
@@ -173,7 +173,7 @@
 
 - (void)positionImagePickerIfNeeded
 {
-	LIST_POSITION					layoutUserIconPosition = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION
+	LIST_POSITION					layoutUserIconPosition = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION
 																						 group:PREF_GROUP_LIST_LAYOUT] integerValue];
 	ContactListImagePickerPosition  desiredImagePickerPosition;
 	
@@ -200,7 +200,7 @@
 	if (activeAccount) {
 		imagePickerIsVisible = ([activeAccount userIcon] != nil);
 	} else {
-		imagePickerIsVisible = [[[adium preferenceController] preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue];
+		imagePickerIsVisible = [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue];
 	}
 	
 	if (!imagePickerIsVisible) {
@@ -363,7 +363,7 @@
 {
 	AIAccount			*activeAccount = nil;
 	BOOL					atLeastOneOwnIconAccount = NO;
-	NSArray				*accounts = [[adium accountController] accounts];
+	NSArray				*accounts = [adium.accountController accounts];
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownIconAccounts) ownIconAccounts = [NSMutableSet set];
@@ -381,10 +381,10 @@
 	
 	//At least one account is using its own icon rather than the global preference
 	if (atLeastOneOwnIconAccount) {
-		NSString	*accountID = [[adium preferenceController] preferenceForKey:@"Active Icon Selection Account"
+		NSString	*accountID = [adium.preferenceController preferenceForKey:@"Active Icon Selection Account"
 																			 group:GROUP_ACCOUNT_STATUS];
 		
-		activeAccount = (accountID ? [[adium accountController] accountWithInternalObjectID:accountID] : nil);
+		activeAccount = (accountID ? [adium.accountController accountWithInternalObjectID:accountID] : nil);
 		
 		//If the activeAccount isn't in ownIconAccounts we don't want anything to do with it
 		if (![ownIconAccounts containsObject:activeAccount]) activeAccount = nil;
@@ -413,8 +413,8 @@
 	if (activeAccount) {
 		image = [activeAccount userIcon];
 	} else {
-		NSData *data = [[adium preferenceController] preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
-		if (!data) data = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
+		NSData *data = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
+		if (!data) data = [adium.preferenceController preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
 		image = [[[NSImage alloc] initWithData:data] autorelease];
 	}
@@ -446,7 +446,7 @@
 							   group:GROUP_ACCOUNT_STATUS];
 		
 	} else {
-		[[adium preferenceController] setPreference:imageData
+		[adium.preferenceController setPreference:imageData
 											 forKey:KEY_USER_ICON
 											  group:GROUP_ACCOUNT_STATUS];
 	}
@@ -512,13 +512,13 @@
 	AIAccount			*activeAccount = nil;
 	NSEnumerator		*enumerator;
 	BOOL				atLeastOneOwnDisplayNameAccount = NO;
-	NSArray				*accounts = [[adium accountController] accounts];
+	NSArray				*accounts = [adium.accountController accounts];
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownDisplayNameAccounts) ownDisplayNameAccounts = [NSMutableSet set];
 	
 	//Figure out what accounts are online and what of those have their own custom display name
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if ([account online]) {
 			[onlineAccounts addObject:account];
@@ -531,10 +531,10 @@
 	
 	//At least one account is using its own display name rather than the global preference
 	if (atLeastOneOwnDisplayNameAccount) {
-		NSString	*accountID = [[adium preferenceController] preferenceForKey:@"Active Display Name Account"
+		NSString	*accountID = [adium.preferenceController preferenceForKey:@"Active Display Name Account"
 																			 group:GROUP_ACCOUNT_STATUS];
 		
-		activeAccount = (accountID ? [[adium accountController] accountWithInternalObjectID:accountID] : nil);
+		activeAccount = (accountID ? [adium.accountController accountWithInternalObjectID:accountID] : nil);
 		
 		//If the activeAccount isn't in ownDisplayNameAccounts we don't want anything to do with it
 		if (![ownDisplayNameAccounts containsObject:activeAccount]) activeAccount = nil;
@@ -557,7 +557,7 @@
 
 - (void)nameViewSelectedAccount:(id)sender
 {
-	[[adium preferenceController] setPreference:[[sender representedObject] internalObjectID]
+	[adium.preferenceController setPreference:[[sender representedObject] internalObjectID]
 										 forKey:@"Active Display Name Account"
 										  group:GROUP_ACCOUNT_STATUS];
 }
@@ -574,7 +574,7 @@
 							  forKey:KEY_ACCOUNT_DISPLAY_NAME
 							   group:GROUP_ACCOUNT_STATUS];
 	} else {
-		[[adium preferenceController] setPreference:newDisplayName
+		[adium.preferenceController setPreference:newDisplayName
 											 forKey:KEY_ACCOUNT_DISPLAY_NAME
 											  group:GROUP_ACCOUNT_STATUS];
 	}
@@ -591,7 +591,7 @@
 													 group:GROUP_ACCOUNT_STATUS] attributedString] string];		
 		
 	} else {
-		startingString = [[[[adium preferenceController] preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
+		startingString = [[[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 																	group:GROUP_ACCOUNT_STATUS] attributedString] string];
 	}
 	
@@ -690,7 +690,7 @@
 			/* No online accounts... look for an enabled account using the global preference
 			 * 'cause we still want to use displayName if possible
 			 */
-			NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+			NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 			AIAccount		*account = nil;
 			
 			while ((account = [enumerator nextObject])) {
@@ -725,7 +725,7 @@
 	 * in a no-accounts-enabled situation.
 	 */
 	if (!alias || ![alias length]) {
-		alias = [[[[adium preferenceController] preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
+		alias = [[[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 														   group:GROUP_ACCOUNT_STATUS] attributedString] string];
 		if (!alias || ![alias length]) {
 			alias = @"Adium";
@@ -864,10 +864,10 @@
 	[self filterContacts:searchField];
 	
 	// Restore the default settings which we temporarily disabled previously
-	[contactListController setAutoresizeHorizontally:[[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE
+	[contactListController setAutoresizeHorizontally:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE
 																							   group:PREF_GROUP_APPEARANCE] boolValue]];
 	
-	[contactListView setEnableAnimation:[[[adium preferenceController] preferenceForKey:KEY_CL_ANIMATE_CHANGES
+	[contactListView setEnableAnimation:[[adium.preferenceController preferenceForKey:KEY_CL_ANIMATE_CHANGES
 																				  group:PREF_GROUP_CONTACT_LIST] boolValue]];
 	
 	// Animate the filter bar out of view

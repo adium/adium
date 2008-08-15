@@ -56,7 +56,7 @@
 - (void)installPlugin
 {	
 	//Default preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:@"OfflineContactHidingDefaults" forClass:[self class]]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"OfflineContactHidingDefaults" forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 
 	//"Hide Contacts" menu item
@@ -102,7 +102,7 @@
 	[[adium menuController] addMenuItem:menuItem_useOfflineGroup toLocation:LOC_View_Toggles];
 
 	//Register preference observer first so values will be correct for the following calls
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }
 
 /*!
@@ -110,7 +110,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 /*!
@@ -157,27 +157,27 @@
 - (IBAction)toggleHide:(id)sender
 {
 	if (sender == menuItem_hideContacts) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!hideContacts]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!hideContacts]
 											 forKey:KEY_HIDE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	} else if (sender == menuItem_hideOffline) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!showOfflineContacts]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!showOfflineContacts]
 											 forKey:KEY_SHOW_OFFLINE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	} else if (sender == menuItem_hideIdle) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!showIdleContacts]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!showIdleContacts]
 											 forKey:KEY_SHOW_IDLE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	} else if (sender == menuItem_hideMobile) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!showMobileContacts]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!showMobileContacts]
 											 forKey:KEY_SHOW_MOBILE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];		
 	} else if (sender == menuItem_hideBlocked) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!showBlockedContacts]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!showBlockedContacts]
 											 forKey:KEY_SHOW_BLOCKED_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	} else if (sender == menuItem_useOfflineGroup) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:!useOfflineGroup]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:!useOfflineGroup]
 											 forKey:KEY_USE_OFFLINE_GROUP
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}

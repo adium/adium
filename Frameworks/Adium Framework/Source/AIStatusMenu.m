@@ -406,7 +406,7 @@
 	 * Instead, we load the last used status of that type.
 	 */
 	if (([baseStatusState statusType] != statusType)) {
-		NSDictionary *lastStatusStates = [[adium preferenceController] preferenceForKey:@"LastStatusStates"
+		NSDictionary *lastStatusStates = [adium.preferenceController preferenceForKey:@"LastStatusStates"
 																				  group:PREF_GROUP_STATUS_PREFERENCES];
 		NSData		*lastStatusStateData = [lastStatusStates objectForKey:[[NSNumber numberWithInt:statusType] stringValue]];
 		AIStatus	*lastStatusStateOfThisType = (lastStatusStateData ?

@@ -45,13 +45,13 @@
 	id			tmp;
 
     //Install some prefs.
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:SQL_LOGGING_DEFAULT_PREFS
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:SQL_LOGGING_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_SQL_LOGGING];
     advancedPreferences = [[JMSQLLoggerAdvancedPreferences preferencePane] retain];
 
 	//Watch for pref changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_SQL_LOGGING];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_SQL_LOGGING];
 
 	if ([username isEqualToString:@""] ) {
 		username = nil;
@@ -76,7 +76,7 @@
 - (void)uninstallPlugin
 {
         PQfinish(conn);
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key

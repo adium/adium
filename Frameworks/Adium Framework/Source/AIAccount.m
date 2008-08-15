@@ -227,7 +227,7 @@ typedef enum
  */
 - (void)performDelete
 {
-	[[adium accountController] deleteAccount:self];
+	[adium.accountController deleteAccount:self];
 }
 
 - (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion
@@ -817,7 +817,7 @@ typedef enum
 - (void)requestSecureMessaging:(BOOL)inSecureMessaging
 						inChat:(AIChat *)inChat
 {
-	[[adium contentController] requestSecureOTRMessaging:inSecureMessaging
+	[adium.contentController requestSecureOTRMessaging:inSecureMessaging
 												  inChat:inChat];
 }
 
@@ -830,7 +830,7 @@ typedef enum
  */
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat
 {
-	[[adium contentController] promptToVerifyEncryptionIdentityInChat:inChat];
+	[adium.contentController promptToVerifyEncryptionIdentityInChat:inChat];
 }
 
 #pragma mark Image sending
@@ -1007,7 +1007,7 @@ typedef enum
 			return nil;
 		}
 		
-		AIChat *newChat = [[adium chatController] chatWithContact:contact];
+		AIChat *newChat = [adium.chatController chatWithContact:contact];
 //		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
 		[[adium interfaceController] openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
@@ -1029,10 +1029,10 @@ typedef enum
 			[newParticipants addObject:[[participants objectAtIndex:i] objectsByEvaluatingSpecifier]];
 		}
 		
-		//AIChat *newChat = [[adium chatController] chatWithName:name identifier:nil onAccount:self chatCreationInfo:nil];
+		//AIChat *newChat = [adium.chatController chatWithName:name identifier:nil onAccount:self chatCreationInfo:nil];
 		DCJoinChatViewController *chatController = [DCJoinChatViewController joinChatView];
 		[chatController doJoinChatWithName:name onAccount:self chatCreationInfo:nil invitingContacts:newParticipants withInvitationMessage:@"Hey, wanna join my chat?"];
-		return [[adium chatController] existingChatWithName:name onAccount:self];
+		return [adium.chatController existingChatWithName:name onAccount:self];
 	}
 }
 

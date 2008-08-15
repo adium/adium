@@ -147,16 +147,16 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 
 	if (key) {
 		//Unique key for each number and size of screens
-		frameString = [[adium preferenceController] preferenceForKey:[self multiscreenKeyWithAutosaveName:key]
+		frameString = [adium.preferenceController preferenceForKey:[self multiscreenKeyWithAutosaveName:key]
 															   group:PREF_GROUP_WINDOW_POSITIONS];
 
 		if (!frameString) {
 			//Fall back on the old number-of-screens key
-			frameString = [[adium preferenceController] preferenceForKey:[NSString stringWithFormat:@"%@-%i",key,[[NSScreen screens] count]]
+			frameString = [adium.preferenceController preferenceForKey:[NSString stringWithFormat:@"%@-%i",key,[[NSScreen screens] count]]
 																   group:PREF_GROUP_WINDOW_POSITIONS];
 			if (!frameString) {
 				//Fall back on the single screen preference if necessary (this is effectively a preference upgrade).
-				frameString = [[adium preferenceController] preferenceForKey:key
+				frameString = [adium.preferenceController preferenceForKey:key
 																	   group:PREF_GROUP_WINDOW_POSITIONS];
 			}
 		}
@@ -288,7 +288,7 @@ static float ToolbarHeightForWindow(NSWindow *window)
 
  	if (key) {
 		//Unique key for each number and size of screens
-		[[adium preferenceController] setPreference:[self stringWithSavedFrame]
+		[adium.preferenceController setPreference:[self stringWithSavedFrame]
 											 forKey:[self multiscreenKeyWithAutosaveName:key]
 											  group:PREF_GROUP_WINDOW_POSITIONS];		
 	}

@@ -27,14 +27,14 @@
  */
 - (NSImage *)applicationIconImage
 {
-	NSImage *applicationIconImage = [[adium dockController] baseApplicationIconImage];
+	NSImage *applicationIconImage = [adium.dockController baseApplicationIconImage];
 
 	return (applicationIconImage ? applicationIconImage : [super applicationIconImage]);
 }
 
 - (NSArray *)services
 {
-	return [[adium accountController] services];
+	return [adium.accountController services];
 }
 
 - (NSArray *)orderedWindows
@@ -72,11 +72,11 @@
 }
 - (NSArray *)chats
 {
-	return [[[adium chatController] openChats] allObjects];
+	return [[adium.chatController openChats] allObjects];
 }
 - (NSArray *)accounts
 {
-	return [[adium accountController] accounts];
+	return [adium.accountController accounts];
 }
 - (NSArray *)contacts
 {
@@ -97,7 +97,7 @@
 }
 - (NSArray *)contactGroups
 {
-	return [adium.contactController allGroups];
+	return adium.contactController.allGroups;
 }
 
 - (void)setIsActive:(BOOL)val

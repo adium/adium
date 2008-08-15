@@ -66,7 +66,7 @@
 	if (inAccount)
 		[inAccount setSocialNetworkingStatusMessage:inStatusMessage];
 	else {
-		NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount *account;
 		while ((account = [enumerator nextObject])) {
 			if ([[account service] isSocialNetworkingService] && [account online])
@@ -78,7 +78,7 @@
 + (void)setSocialNetworkingStatus:(NSAttributedString *)inStatusMessage forAccount:(AIAccount *)inAccount
 {
 	//Filter the content
-	[[adium contentController] filterAttributedString:inStatusMessage
+	[adium.contentController filterAttributedString:inStatusMessage
 															   usingFilterType:AIFilterContent
 																	 direction:AIFilterOutgoing
 																 filterContext:self

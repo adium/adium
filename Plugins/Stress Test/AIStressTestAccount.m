@@ -250,7 +250,7 @@
 				
 			}
 
-			[[[adium chatController] chatWithContact:commandContact] setValue:[NSNumber numberWithInt:typingState]
+			[[adium.chatController chatWithContact:commandContact] setValue:[NSNumber numberWithInt:typingState]
 																			  forProperty:KEY_TYPING
 																			  notify:NotifyNow];
 			
@@ -299,14 +299,14 @@
 														account:self
 															UID:buddyUID])) {
         AIContentMessage *messageObject;
-        messageObject = [AIContentMessage messageInChat:[[adium chatController] chatWithContact:contact]
+        messageObject = [AIContentMessage messageInChat:[adium.chatController chatWithContact:contact]
 											 withSource:contact
                                             destination:self
 												   date:nil
                                                 message:[[[NSAttributedString alloc] initWithString:message
-																						 attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																						 attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
 											  autoreply:NO];
-        [[adium contentController] receiveContentObject:messageObject];
+        [adium.contentController receiveContentObject:messageObject];
 		
     }
 	
@@ -333,23 +333,23 @@
 															UID:buddyUID])) {
         AIContentMessage *messageObject;
         if (msgIn) {
-            messageObject = [AIContentMessage messageInChat:[[adium chatController] chatWithContact:contact]
+            messageObject = [AIContentMessage messageInChat:[adium.chatController chatWithContact:contact]
                                                  withSource:self
                                                 destination:contact
                                                        date:nil
                                                     message:[[[NSAttributedString alloc] initWithString:message
-																							 attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																							 attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
                                                   autoreply:YES];
-            [[adium contentController] sendContentObject:messageObject];
+            [adium.contentController sendContentObject:messageObject];
         } else {
-            messageObject = [AIContentMessage messageInChat:[[adium chatController] chatWithContact:contact]
+            messageObject = [AIContentMessage messageInChat:[adium.chatController chatWithContact:contact]
                                                  withSource:contact
                                                 destination:self
                                                        date:nil
                                                     message:[[[NSAttributedString alloc] initWithString:message 
-																							 attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																							 attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
                                                   autoreply:NO];
-            [[adium contentController] receiveContentObject:messageObject];
+            [adium.contentController receiveContentObject:messageObject];
         }
 		
         [userInfo setObject:[NSNumber numberWithBool:!msgIn] forKey:@"in"];
@@ -379,7 +379,7 @@
 																				 UID:buddyUID]];
 		}
 		
-		groupChat = [[[adium chatController] chatWithName:[NSString stringWithFormat:@"%@'s Chat",[[listObjectArray objectAtIndex:0] displayName]]
+		groupChat = [[adium.chatController chatWithName:[NSString stringWithFormat:@"%@'s Chat",[[listObjectArray objectAtIndex:0] displayName]]
 											   identifier:nil
 												onAccount:self
 										 chatCreationInfo:nil] retain];
@@ -392,9 +392,9 @@
 										destination:nil
 											   date:nil
 											message:[[[NSAttributedString alloc] initWithString:message
-																					 attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																					 attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
 										  autoreply:NO];
-	[[adium contentController] receiveContentObject:messageObject];
+	[adium.contentController receiveContentObject:messageObject];
 	
 	//Increment our object counter, invalidating this timer if we're done sending messages
 	i++;
@@ -455,14 +455,14 @@
 - (void)_echo:(NSString *)string
 {
     AIContentMessage *messageObject;
-    messageObject = [AIContentMessage messageInChat:[[adium chatController] chatWithContact:commandContact]
+    messageObject = [AIContentMessage messageInChat:[adium.chatController chatWithContact:commandContact]
                                          withSource:commandContact
                                         destination:self
                                                date:nil
                                             message:[[[NSAttributedString alloc] initWithString:string
-																					 attributes:[[adium contentController] defaultFormattingAttributes]] autorelease]
+																					 attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
                                           autoreply:NO];
-    [[adium contentController] receiveContentObject:messageObject];
+    [adium.contentController receiveContentObject:messageObject];
 }
 
 @end

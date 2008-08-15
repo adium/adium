@@ -86,11 +86,11 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
     [adium createResourcePathForName:EMOTICONS_PATH_NAME];
     
     //Setup Preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:@"EmoticonDefaults" 
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"EmoticonDefaults" 
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_EMOTICONS];
     
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
 	
 	//Observe for installation of new emoticon sets
 	[[adium notificationCenter] addObserver:self
@@ -101,8 +101,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 
 - (void)controllerWillClose
 {
-	[[adium contentController] unregisterContentFilter:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.contentController unregisterContentFilter:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 //
@@ -116,14 +116,14 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 	BOOL    emoticonsEnabled = ([[self activeEmoticons] count] != 0);
 	if (observingContent != emoticonsEnabled) {
 		if (emoticonsEnabled) {
-			[[adium contentController] registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
-			[[adium contentController] registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterOutgoing];
-			[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
-			[[adium contentController] registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
-			[[adium contentController] registerContentFilter:self ofType:AIFilterTooltips direction:AIFilterIncoming];
+			[adium.contentController registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterIncoming];
+			[adium.contentController registerContentFilter:self ofType:AIFilterDisplay direction:AIFilterOutgoing];
+			[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
+			[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
+			[adium.contentController registerContentFilter:self ofType:AIFilterTooltips direction:AIFilterIncoming];
 
 		} else {
-			[[adium contentController] unregisterContentFilter:self];
+			[adium.contentController unregisterContentFilter:self];
 		}
 		observingContent = emoticonsEnabled;
 	}
@@ -448,7 +448,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		}
 
 	} else if ([context isKindOfClass:[AIListContact class]]) {
-		serviceClassContext = [[[[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+		serviceClassContext = [[[adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																					   toContact:(AIListContact *)context] service] serviceClass];
 	} else if ([context isKindOfClass:[AIListObject class]] && [context respondsToSelector:@selector(service)]) {
 		serviceClassContext = [[(AIListObject *)context service] serviceClass];
@@ -562,7 +562,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 - (void)setEmoticon:(AIEmoticon *)inEmoticon inPack:(AIEmoticonPack *)inPack enabled:(BOOL)enabled
 {
     NSString                *packKey = [self _keyForPack:inPack];
-    NSMutableDictionary     *packDict = [[[adium preferenceController] preferenceForKey:packKey
+    NSMutableDictionary     *packDict = [[adium.preferenceController preferenceForKey:packKey
 																				  group:PREF_GROUP_EMOTICONS] mutableCopy];
     NSMutableArray          *disabledArray = [[packDict objectForKey:KEY_EMOTICON_DISABLED] mutableCopy];
 	
@@ -583,14 +583,14 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
     [packDict setObject:disabledArray forKey:KEY_EMOTICON_DISABLED];
 	[disabledArray release];
 
-    [[adium preferenceController] setPreference:packDict forKey:packKey group:PREF_GROUP_EMOTICONS];
+    [adium.preferenceController setPreference:packDict forKey:packKey group:PREF_GROUP_EMOTICONS];
 	[packDict release];
 }
 
 //Returns the disabled emoticons in a pack
 - (NSArray *)disabledEmoticonsInPack:(AIEmoticonPack *)inPack
 {
-    NSDictionary    *packDict = [[adium preferenceController] preferenceForKey:[self _keyForPack:inPack]
+    NSDictionary    *packDict = [adium.preferenceController preferenceForKey:[self _keyForPack:inPack]
 																		 group:PREF_GROUP_EMOTICONS];
     
     return [packDict objectForKey:KEY_EMOTICON_DISABLED];
@@ -610,7 +610,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
         _activeEmoticonPacks = [[NSMutableArray alloc] init];
         
         //Get the names of our active packs
-        activePackNames = [[adium preferenceController] preferenceForKey:KEY_EMOTICON_ACTIVE_PACKS
+        activePackNames = [adium.preferenceController preferenceForKey:KEY_EMOTICON_ACTIVE_PACKS
 																   group:PREF_GROUP_EMOTICONS];
         //Use the names to build an array of the desired emoticon packs
         for (packName in activePackNames) {
@@ -658,7 +658,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
         [nameArray addObject:[pack name]];
     }
     
-    [[adium preferenceController] setPreference:nameArray forKey:KEY_EMOTICON_ACTIVE_PACKS group:PREF_GROUP_EMOTICONS];
+    [adium.preferenceController setPreference:nameArray forKey:KEY_EMOTICON_ACTIVE_PACKS group:PREF_GROUP_EMOTICONS];
 }
 
 
@@ -751,13 +751,13 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
     }
     
 	//Changing a preference will clear out our premade _activeEmoticonPacks array
-    [[adium preferenceController] setPreference:nameArray forKey:KEY_EMOTICON_PACK_ORDERING group:PREF_GROUP_EMOTICONS];	
+    [adium.preferenceController setPreference:nameArray forKey:KEY_EMOTICON_PACK_ORDERING group:PREF_GROUP_EMOTICONS];	
 }
 
 - (void)_sortArrayOfEmoticonPacks:(NSMutableArray *)packArray
 {
 	//Load the saved ordering and sort the active array based on it
-	NSArray *packOrderingArray = [[adium preferenceController] preferenceForKey:KEY_EMOTICON_PACK_ORDERING 
+	NSArray *packOrderingArray = [adium.preferenceController preferenceForKey:KEY_EMOTICON_PACK_ORDERING 
 																		  group:PREF_GROUP_EMOTICONS];
 	//It's most likely quicker to create an empty array here than to do nil checks each time through the sort function
 	if (!packOrderingArray)

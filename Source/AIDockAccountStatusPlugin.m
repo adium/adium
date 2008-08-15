@@ -48,7 +48,7 @@
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
     //Observer preference changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
 }
 
 /*!
@@ -58,7 +58,7 @@
 {
     //Remove observers
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -84,7 +84,7 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if (inObject == nil || [inObject isKindOfClass:[AIAccount class]]) {
-		id<AIDockController>	dockController = [adium dockController];
+		id<AIDockController>	dockController = adium.dockController;
 		BOOL					shouldUpdateStatus = NO;
 		
 		if (inObject == nil || [inModifiedKeys containsObject:@"Online"]) {
@@ -114,7 +114,7 @@
 		}
 		
 		if (shouldUpdateStatus || [inModifiedKeys containsObject:@"StatusState"]) {
-			BOOL			iconSupportsInvisible = [[adium dockController] currentIconSupportsIconStateNamed:@"Invisible"];
+			BOOL			iconSupportsInvisible = [adium.dockController currentIconSupportsIconStateNamed:@"Invisible"];
 			AIStatusType	activeStatusType = [[adium statusController] activeStatusTypeTreatingInvisibleAsAway:!iconSupportsInvisible];
 
 			if (activeStatusType == AIAwayStatusType) {
@@ -142,7 +142,7 @@
  */
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey
 {
-    NSEnumerator    *enumerator = [[[adium accountController] accounts] objectEnumerator];
+    NSEnumerator    *enumerator = [[adium.accountController accounts] objectEnumerator];
     AIAccount       *account;
 
     while ((account = [enumerator nextObject])) {
@@ -160,7 +160,7 @@
  */
 - (BOOL)_accountsWithProperty:(NSString *)inKey
 {
-    NSEnumerator    *enumerator = [[[adium accountController] accounts] objectEnumerator];
+    NSEnumerator    *enumerator = [[adium.accountController accounts] objectEnumerator];
     AIAccount       *account;
 
     while ((account = [enumerator nextObject])) {

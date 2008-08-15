@@ -170,7 +170,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	[peoplePicker setNameDoubleAction:@selector(select:)];
 	
 	//We show only the active services
-	servicesEnumerator = [[[adium accountController] activeServicesIncludingCompatibleServices:YES] objectEnumerator];
+	servicesEnumerator = [[adium.accountController activeServicesIncludingCompatibleServices:YES] objectEnumerator];
 	while ((aService = [servicesEnumerator nextObject])) {
 		property = [AIAddressBookController propertyFromService:aService];
 		if (property && ![[peoplePicker properties] containsObject:property])
@@ -462,7 +462,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (BOOL)serviceMenuShouldIncludeService:(AIService *)inService
 {
 	return (([AIAddressBookController propertyFromService:inService] &&
-			 [[[[adium accountController] accountsCompatibleWithService:inService] valueForKeyPath:@"@sum.online"] boolValue]) ? YES : NO);
+			 [[[adium.accountController accountsCompatibleWithService:inService] valueForKeyPath:@"@sum.online"] boolValue]) ? YES : NO);
 }
 
 /*!

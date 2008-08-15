@@ -64,7 +64,7 @@
 - (void)controllerDidLoad
 {   
 	//Default account preferences
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:ACCOUNT_DEFAULT_PREFS forClass:[self class]]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:ACCOUNT_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_ACCOUNTS];
 	
 	//Finish prepping the accounts

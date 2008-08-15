@@ -372,7 +372,7 @@
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	NSEnumerator	*enumerator = [[[adium accountController] accountsCompatibleWithService:[menuItem representedObject]] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[menuItem representedObject]] objectEnumerator];
 	AIAccount		*account;
 	
 	while ((account = [enumerator nextObject])) {
@@ -500,7 +500,7 @@
 - (void)updateAccountList
 {	
 	[accounts release];
-	accounts = [[[adium accountController] accountsCompatibleWithService:service] retain];
+	accounts = [[adium.accountController accountsCompatibleWithService:service] retain];
 	
 	[checkedAccounts release];
 	checkedAccounts = [[NSMutableSet alloc] init];

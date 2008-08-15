@@ -287,7 +287,7 @@
 				strcmp(accountDisplayNameUTF8String, displayName)) {
 				/* The display name is different from our per-account preference, which exists. Check if our preference is static.
 				 * If the if() above got FALSE, we don't need to do anything; the serverside preference should stand as-is. */
-				[[adium contentController] filterAttributedString:accountDisplayName
+				[adium.contentController filterAttributedString:accountDisplayName
 												  usingFilterType:AIFilterContent
 														direction:AIFilterOutgoing
 													filterContext:self

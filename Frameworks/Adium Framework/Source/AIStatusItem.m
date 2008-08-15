@@ -201,11 +201,11 @@
 	NSNumber	*nextUniqueStatusID;
 
 	//Retain and autorelease since we'll be replacing this value (and therefore releasing it) via the preferenceController.
-	nextUniqueStatusID = [[[[adium preferenceController] preferenceForKey:@"TopStatusID"
+	nextUniqueStatusID = [[[adium.preferenceController preferenceForKey:@"TopStatusID"
 																	group:PREF_GROUP_SAVED_STATUS] retain] autorelease];
 	if (!nextUniqueStatusID) nextUniqueStatusID = [NSNumber numberWithInt:1];
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:([nextUniqueStatusID intValue] + 1)]
+	[adium.preferenceController setPreference:[NSNumber numberWithInt:([nextUniqueStatusID intValue] + 1)]
 										 forKey:@"TopStatusID"
 										  group:PREF_GROUP_SAVED_STATUS];
 

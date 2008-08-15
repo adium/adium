@@ -129,21 +129,21 @@
 										 object:nil];
 		
 		// Register as a chat observer so we can know the status of unread messages
-		[[adium chatController] registerChatObserver:self];
+		[adium.chatController registerChatObserver:self];
 		
 		// Register as a list object observer so we can know when accounts need to show reconnecting
 	    [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 		
 		// Register as an observer of the preference group so we can update our "show groups contacts" option
-		[[adium preferenceController] registerPreferenceObserver:self
+		[adium.preferenceController registerPreferenceObserver:self
 														forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 		
 		// Register as an observer of the status preferences for unread conversation count
-		[[adium preferenceController] registerPreferenceObserver:self
+		[adium.preferenceController registerPreferenceObserver:self
 														forGroup:PREF_GROUP_STATUS_PREFERENCES];		
 		
 		// Register as an observer of our own preference group
-		[[adium preferenceController] registerPreferenceObserver:self
+		[adium.preferenceController registerPreferenceObserver:self
 														forGroup:PREF_GROUP_STATUS_MENU_ITEM];
 		
 		//Register to recieve active state changed notifications
@@ -175,9 +175,9 @@
 	
 	//Unregister ourself
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	//Release our objects
 	[[statusItem statusBar] removeStatusItem:statusItem];
@@ -222,7 +222,7 @@
 {
 	NSString *menuIconPath = nil, *menuIconName;
 	
-	menuIconName = [[adium preferenceController] preferenceForKey:KEY_MENU_BAR_ICONS
+	menuIconName = [adium.preferenceController preferenceForKey:KEY_MENU_BAR_ICONS
 															group:PREF_GROUP_APPEARANCE
 														   object:nil];
 	
@@ -235,7 +235,7 @@
 	
 	// If the pack is not found, get the default one.
 	if (!menuIconPath || !menuIconName) {
-		menuIconName = [[adium preferenceController] defaultPreferenceForKey:KEY_MENU_BAR_ICONS
+		menuIconName = [adium.preferenceController defaultPreferenceForKey:KEY_MENU_BAR_ICONS
 																	   group:PREF_GROUP_APPEARANCE
 																	  object:nil];																	  
 		menuIconPath = [adium pathOfPackWithName:menuIconName
@@ -253,7 +253,7 @@
 - (void)updateUnreadCount
 {
 	NSUInteger unreadCount = (showConversationCount ?
-					   [[adium chatController] unviewedConversationCount] : [[adium chatController] unviewedContentCount]);
+					   [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
 
 	// Only show if enabled and greater-than zero; otherwise, set to nil.
 	if (showUnreadCount && unreadCount > 0) {
@@ -335,7 +335,7 @@
 
 				// Check idle here, since it has less precedence than offline, invisible, or away.
 				anyAccountHasStatusMessage = NO;
-				enumerator = [[[adium accountController] accounts] objectEnumerator];
+				enumerator = [[adium.accountController accounts] objectEnumerator];
 
 				// Check each account for IdleSince, a StatusState status message, or "Waiting to Reconnect"
 				while ((account = [enumerator nextObject])) {
@@ -492,7 +492,7 @@
 
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
-	[[adium interfaceController] setActiveChat:[[adium chatController] openChatWithContact:inContact
+	[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:inContact
 																		onPreferredAccount:YES]];
 	[self activateAdium];
 }
@@ -552,7 +552,7 @@
 {
 	[self retain];
 	
-	NSUInteger unviewedContentCount = [[adium chatController] unviewedContentCount];
+	NSUInteger unviewedContentCount = [adium.chatController unviewedContentCount];
 
 	// Update our open chats
 	[openChatsArray release];
@@ -794,20 +794,20 @@
 
 - (void)activateAccountList:(id)sender
 {
-	[[adium preferenceController] openPreferencesToCategoryWithIdentifier:@"Accounts"];
+	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Accounts"];
 	[self activateAdium];
 }
 
 - (void)disableStatusItem:(id)sender
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:NO]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:NO]
 										 forKey:KEY_STATUS_MENU_ITEM_ENABLED
 										  group:PREF_GROUP_STATUS_MENU_ITEM];
 }
 
 - (void)showPreferenceWindow:(id)sender
 {
-	[[adium preferenceController] showPreferenceWindow:nil];
+	[adium.preferenceController showPreferenceWindow:nil];
 	[self activateAdium];
 }
 

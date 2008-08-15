@@ -376,7 +376,7 @@ typedef enum {
 
 	//Now tell the preference controller
 	if (!preferenceChangeDelays) {
-		[[adium preferenceController] informObserversOfChangedKey:key inGroup:group object:object];
+		[adium.preferenceController informObserversOfChangedKey:key inGroup:group object:object];
 		if (valueChanged)
 			[self save];
 	}
@@ -428,7 +428,7 @@ typedef enum {
 		preferenceChangeDelays++;
 	
 	if (preferenceChangeDelays == 0) {
-		[[adium preferenceController] informObserversOfChangedKey:nil inGroup:group object:object];
+		[adium.preferenceController informObserversOfChangedKey:nil inGroup:group object:object];
 		[self save];
 	}
 }

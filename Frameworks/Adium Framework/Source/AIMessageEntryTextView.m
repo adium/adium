@@ -159,7 +159,7 @@
 																name:Content_ContentObjectAdded 
 															  object:nil];
 
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];	
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];	
 	
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
@@ -186,7 +186,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
@@ -308,7 +308,7 @@
 {
 	//Update typing status
 	if (enableTypingNotifications) {
-		[[adium contentController] userIsTypingContentForChat:chat hasEnteredText:[[self textStorage] length] > 0];
+		[adium.contentController userIsTypingContentForChat:chat hasEnteredText:[[self textStorage] length] > 0];
 	}
 
 	//Hide any existing contact list tooltip when we begin typing
@@ -672,7 +672,7 @@
         chat = [inChat retain];
 		
 		//Observe preferences changes for typing enable/disable
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 		//Set up the character counter for this chat. If this changes, we'll get notified as a list object observer.
 		[self setCharacterCounterMaximum:[[chat listObject] integerValueForProperty:@"Character Counter Max"]];
@@ -1036,7 +1036,7 @@
 
 	int currentCount = (maxCharacters - [[self textStorage] length]);	
 	NSAttributedString *label = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", currentCount] 
-																attributes:[[adium contentController] defaultFormattingAttributes]];
+																attributes:[adium.contentController defaultFormattingAttributes]];
 	[characterCounter setString:label];
 	[characterCounter setFrameSize:[label size]];
 	[label release];
@@ -1300,7 +1300,7 @@
 {
 	[super toggleContinuousSpellChecking:sender];
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:[self isContinuousSpellCheckingEnabled]]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isContinuousSpellCheckingEnabled]]
 										 forKey:KEY_SPELL_CHECKING
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
@@ -1314,7 +1314,7 @@
 {
 	[super toggleGrammarChecking:sender];
 	
-	[[adium preferenceController] setPreference:[NSNumber numberWithBool:[self isGrammarCheckingEnabled]]
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isGrammarCheckingEnabled]]
 										 forKey:KEY_GRAMMAR_CHECKING
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }

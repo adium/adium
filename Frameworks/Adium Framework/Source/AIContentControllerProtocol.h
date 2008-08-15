@@ -217,12 +217,12 @@ typedef enum {
  * 
  * Given an attributed string, the filtering object may begin working on the result of its filter
  *
- * [[adium contentController] delayedFilterDidFinish:uniqueID:] should be called with the eventual result if this method returns YES.
+ * [adium.contentController delayedFilterDidFinish:uniqueID:] should be called with the eventual result if this method returns YES.
  * If the filter eventually fails, this method MUST be called with the original inAttributedString.
  *
  * @param inAttributedString NSAttributedString to filter
  * @param context An object, such as an AIListContact or an AIAccount, potentially relevant to filtration. May be anything, so check its class as needed.
- * @param uniqueID A uniqueID which will be passed back to [[adium contentController] delayedFilterDidFinish:uniqueID:] when this filtration is complete.
+ * @param uniqueID A uniqueID which will be passed back to [adium.contentController delayedFilterDidFinish:uniqueID:] when this filtration is complete.
  *
  * @result YES if a delayed filtration process began; NO if no changes are to be made.
  */

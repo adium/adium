@@ -259,7 +259,7 @@
 	   [eventID isEqualToString:CONTACT_SEEN_ONLINE_YES] ||
 	   [eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) && 
 		[(AIListContact *)listObject contactListStatusMessage]) {
-		NSString *statusMessage = [[[adium contentController] filterAttributedString:[(AIListContact *)listObject contactListStatusMessage]
+		NSString *statusMessage = [[adium.contentController filterAttributedString:[(AIListContact *)listObject contactListStatusMessage]
 																	 usingFilterType:AIFilterContactList
 																		   direction:AIFilterIncoming
 																			 context:listObject] string];
@@ -387,15 +387,15 @@
 			([listObject isKindOfClass:[AIListContact class]])) {
 			
 			//First look for an existing chat to avoid changing anything
-			if (!(chat = [[adium chatController] existingChatWithContact:(AIListContact *)listObject])) {
+			if (!(chat = [adium.chatController existingChatWithContact:(AIListContact *)listObject])) {
 				//If we don't find one, create one
-				chat = [[adium chatController] openChatWithContact:(AIListContact *)listObject
+				chat = [adium.chatController openChatWithContact:(AIListContact *)listObject
 												onPreferredAccount:YES];
 			}
 		}
 
 	} else if ((uniqueChatID = [clickContext objectForKey:KEY_CHAT_ID])) {
-		chat = [[adium chatController] existingChatWithUniqueChatID:uniqueChatID];
+		chat = [adium.chatController existingChatWithUniqueChatID:uniqueChatID];
 		
 		//If we didn't find a chat, it may have closed since the notification was posted.
 		//If we have an appropriate existing list object, we can create a new chat.
@@ -404,7 +404,7 @@
 			([listObject isKindOfClass:[AIListContact class]])) {
 		
 			//If the uniqueChatID led us to an existing contact, create a chat with it
-			chat = [[adium chatController] openChatWithContact:(AIListContact *)listObject
+			chat = [adium.chatController openChatWithContact:(AIListContact *)listObject
 											onPreferredAccount:YES];
 		}	
 	}

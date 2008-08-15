@@ -168,7 +168,7 @@
 		return [[adium menuController] currentContextMenuObject] != nil;
 	
 	} else if (menuItem == menuItem_addContact || menuItem == menuItem_addContactContext) {
-		NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount		*account;
 		
 		while ((account = [enumerator nextObject])) {	

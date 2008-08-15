@@ -101,7 +101,7 @@
 		}
 	}
 
-	if ((sourceAccount = [[adium accountController] accountWithInternalObjectID:(NSString *)accountID])) {
+	if ((sourceAccount = [adium.accountController accountWithInternalObjectID:(NSString *)accountID])) {
 		[popUp_messageFrom selectItemWithRepresentedObject:sourceAccount];
 	}
 	
@@ -154,7 +154,7 @@
 		[popUp_messageTo selectItemAtIndex:0];
 		
 		//Select preferred account
-		preferredAccount = [[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+		preferredAccount = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																							   toContact:toContact];
 		if (preferredAccount) [popUp_messageFrom selectItemWithRepresentedObject:preferredAccount];
 

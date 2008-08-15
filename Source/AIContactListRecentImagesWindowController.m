@@ -205,7 +205,7 @@
 	AIAccount	*activeAccount = [sender representedObject];
 
 	//Change the active account
-	[[adium preferenceController] setPreference:(activeAccount ? [activeAccount internalObjectID] : nil)
+	[adium.preferenceController setPreference:(activeAccount ? [activeAccount internalObjectID] : nil)
 										 forKey:@"Active Icon Selection Account"
 										  group:GROUP_ACCOUNT_STATUS];
 

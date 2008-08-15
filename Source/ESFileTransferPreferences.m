@@ -62,7 +62,7 @@
 			}
 		}
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:autoAcceptType]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:autoAcceptType]
                                              forKey:KEY_FT_AUTO_ACCEPT
                                               group:PREF_GROUP_FILE_TRANSFER];
 	}
@@ -71,7 +71,7 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-	AIFileTransferAutoAcceptType	autoAcceptType = [[[adium preferenceController] preferenceForKey:KEY_FT_AUTO_ACCEPT
+	AIFileTransferAutoAcceptType	autoAcceptType = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT
 																				   group:PREF_GROUP_FILE_TRANSFER] integerValue];
 	
 	[self buildDownloadLocationMenu];
@@ -124,7 +124,7 @@
 	[menu setAutoenablesItems:NO];
 	
 	//Create the menu item for the current download folder
-	userPreferredDownloadFolder = [[adium preferenceController] userPreferredDownloadFolder];
+	userPreferredDownloadFolder = [adium.preferenceController userPreferredDownloadFolder];
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[NSFileManager defaultManager] displayNameAtPath:userPreferredDownloadFolder]
 																	 target:nil
 																	 action:nil
@@ -166,7 +166,7 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSOKButton) {
-		[[adium preferenceController] setUserPreferredDownloadFolder:[openPanel filename]];
+		[adium.preferenceController setUserPreferredDownloadFolder:[openPanel filename]];
 	}
 
 	[self buildDownloadLocationMenu];

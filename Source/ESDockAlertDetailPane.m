@@ -92,7 +92,7 @@
     AIDockBehavior	behavior;
 
 	for (behavior = AIDockBehaviorBounceOnce; behavior <= AIDockBehaviorBounceDelay_OneMinute; behavior++) {
-		NSString *name = [[adium dockController] descriptionForBehavior:behavior];
+		NSString *name = [adium.dockController descriptionForBehavior:behavior];
 		[behaviorMenu addItem:[self menuItemForBehavior:behavior withName:name]];
 	}
     

@@ -33,7 +33,7 @@
 - (void)installPlugin
 {
 	//Register our defaults
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:PURPLE_DEFAULTS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:PURPLE_DEFAULTS
 																		forClass:[self class]]
 										  forGroup:GROUP_ACCOUNT_STATUS];
 	

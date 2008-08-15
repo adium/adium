@@ -30,7 +30,7 @@
 {
 	[images autorelease];
 	[statusNames autorelease];
-	NSDictionary * pack = [[[adium dockController] iconPackAtPath:[xtraInfo path]] objectForKey:@"State"];
+	NSDictionary * pack = [[adium.dockController iconPackAtPath:[xtraInfo path]] objectForKey:@"State"];
 	images = [[pack allValues] retain];
 	statusNames = [[pack allKeys] retain];
 	[tableView reloadData];

@@ -758,12 +758,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chatWasDestroyed:(AIChat *)chat
 {
-	[[adium chatController] accountDidCloseChat:chat];
+	[adium.chatController accountDidCloseChat:chat];
 }
 
 - (void)chatJoinDidFail:(AIChat *)chat
 {
-	[[adium chatController] accountDidCloseChat:chat];
+	[adium.chatController accountDidCloseChat:chat];
 }
 
 /* 
@@ -810,7 +810,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (AIChat *)chatWithContact:(AIListContact *)contact identifier:(id)identifier
 {
-	AIChat *chat = [[adium chatController] chatWithContact:contact];
+	AIChat *chat = [adium.chatController chatWithContact:contact];
 	[chat setIdentifier:identifier];
 
 	return chat;
@@ -819,7 +819,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (AIChat *)chatWithName:(NSString *)name identifier:(id)identifier
 {
-	return [[adium chatController] chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
+	return [adium.chatController chatWithName:name identifier:identifier onAccount:self chatCreationInfo:nil];
 }
 
 //Typing update in an IM
@@ -890,7 +890,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		
 		listContact = [chat listObject];
 
-		attributedMessage = [[adium contentController] decodedIncomingMessage:[messageDict objectForKey:@"Message"]
+		attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
 																  fromContact:listContact
 																	onAccount:self];
 		
@@ -919,7 +919,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 						  date:[messageDict objectForKey:@"Date"]];
 	} else {
 		//If we didn't get a listContact, this is a purple status message... display it as such.
-		[[adium contentController] displayEvent:[attributedMessage string]
+		[adium.contentController displayEvent:[attributedMessage string]
 										 ofType:@"purple"
 										 inChat:chat];
 		
@@ -935,7 +935,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 															  message:attributedMessage
 															autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
 	
-	[[adium contentController] receiveContentObject:messageObject];
+	[adium.contentController receiveContentObject:messageObject];
 }
 
 /*********************/
@@ -1069,7 +1069,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Custom emoticons
 - (void)chat:(AIChat *)inChat isWaitingOnCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[[adium preferenceController] preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
 												  group:PREF_GROUP_MSN_SERVICE] boolValue])
 		return;
 	AIEmoticon *emoticon;
@@ -1108,7 +1108,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat setCustomEmoticon:(NSString *)emoticonEquivalent withImageData:(NSData *)inImageData
 {
-	if(![[[adium preferenceController] preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
 												  group:PREF_GROUP_MSN_SERVICE] boolValue])
 		return;
 	/* XXX Note: If we can set outgoing emoticons, this method needs to be updated to mark emoticons as incoming
@@ -1144,7 +1144,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat closedCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[[adium preferenceController] preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
 												  group:PREF_GROUP_MSN_SERVICE] boolValue])
 		return;
 	AIEmoticon	*emoticon;
@@ -2683,7 +2683,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 													 forClass:[self class]];
 	
 	if (defaults) {
-		[[adium preferenceController] registerDefaults:defaults
+		[adium.preferenceController registerDefaults:defaults
 											  forGroup:GROUP_ACCOUNT_STATUS
 												object:self];
 	} else {
@@ -2700,8 +2700,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	account = NULL;
 
 	//Observe preferences changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_ALIASES];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_ALIASES];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
 - (BOOL)allowAccountUnregistrationIfSupportedByLibpurple
@@ -2826,7 +2826,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)dealloc
 {	
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	[permittedContactsArray release];
 	[deniedContactsArray release];
@@ -2977,7 +2977,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 																  withType:@"psychic"];
 			[forceString release];
 
-			[[adium contentController] receiveContentObject:statusMessage];
+			[adium.contentController receiveContentObject:statusMessage];
 		}
 		
 		[chat setValue:(newTypingState ? typingStateNumber : nil)

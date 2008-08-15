@@ -487,7 +487,7 @@
 	 * also before the first message is done filtering, we would otherwise mistakenly think we needed to create a new
 	 * chat, generating a duplicate.
 	 */
-	shouldRemove = ![[adium contentController] chatIsReceivingContent:inChat];
+	shouldRemove = ![adium.contentController chatIsReceivingContent:inChat];
 
 	[inChat retain];
 

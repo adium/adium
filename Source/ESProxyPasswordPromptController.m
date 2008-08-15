@@ -118,7 +118,7 @@ static NSMutableDictionary	*proxyPasswordPromptControllerDict = nil;
  */
 - (void)savePassword:(NSString *)inPassword
 {
-	[[adium accountController] setPassword:inPassword forProxyServer:server userName:userName];
+	[adium.accountController setPassword:inPassword forProxyServer:server userName:userName];
 }
 
 

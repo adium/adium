@@ -70,12 +70,12 @@
 	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	
     //Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:DOCK_DEFAULT_PREFS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DOCK_DEFAULT_PREFS
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_APPEARANCE];
     
     //Observe pref changes
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 	
     //We always want to stop bouncing when Adium is made active
     [notificationCenter addObserver:self
@@ -99,7 +99,7 @@
 
 - (void)controllerWillClose
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	NSArray			*stateArrayCopy;
 	NSEnumerator	*enumerator;

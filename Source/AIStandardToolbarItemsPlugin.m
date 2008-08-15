@@ -61,7 +61,7 @@
     AIListObject	*object = [[adium interfaceController] selectedListObject];
 
     if ([object isKindOfClass:[AIListContact class]]) {
-		AIChat  *chat = [[adium chatController] openChatWithContact:(AIListContact *)object
+		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object
 												 onPreferredAccount:YES];
         [[adium interfaceController] setActiveChat:chat];
     }

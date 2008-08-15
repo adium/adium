@@ -315,7 +315,7 @@
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked
 {
 	//We want to block on all accounts with the same service class. If you want someone gone, you want 'em GONE.
-	NSEnumerator	*enumerator = [[[adium accountController] accountsCompatibleWithService:[contact service]] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[contact service]] objectEnumerator];
 	AIAccount<AIAccount_Privacy>	*account = nil;
 	AIListContact	*sameContact = nil;
 
@@ -518,7 +518,7 @@
 	//Update the icon in the toolbar for this contact if a chat is open and we have any toolbar items
 	if (([chatToolbarItems count] > 0) &&
 		[inObject isKindOfClass:[AIListContact class]] &&
-		(chat = [[adium chatController] existingChatWithContact:(AIListContact *)inObject]) &&
+		(chat = [adium.chatController existingChatWithContact:(AIListContact *)inObject]) &&
 		(window = [[adium interfaceController] windowForChat:chat])) {
 		[self updateToolbarIconOfChat:chat
 							 inWindow:window];

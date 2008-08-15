@@ -174,7 +174,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 //	NSNumberFormatter	*intFormatter;
 	BOOL				sendOnEnter;
 
-	sendOnEnter = [[[adium preferenceController] preferenceForKey:SEND_ON_ENTER
+	sendOnEnter = [[adium.preferenceController preferenceForKey:SEND_ON_ENTER
 															group:PREF_GROUP_GENERAL] boolValue];
 	
 	[scrollView_statusMessage setAutohidesScrollers:YES];
@@ -214,8 +214,8 @@ static	NSMutableDictionary	*controllerDict = nil;
 	
 	[self configureForAccountAndWorkingStatusState];
 	
-	[textView_statusMessage setTypingAttributes:[[adium contentController] defaultFormattingAttributes]];
-	[textView_autoReply setTypingAttributes:[[adium contentController] defaultFormattingAttributes]];
+	[textView_statusMessage setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
+	[textView_autoReply setTypingAttributes:[adium.contentController defaultFormattingAttributes]];
 
 	NSMutableCharacterSet *noNewlinesCharacterSet;
 	noNewlinesCharacterSet = [[[NSCharacterSet characterSetWithCharactersInString:@""] invertedSet] mutableCopy];

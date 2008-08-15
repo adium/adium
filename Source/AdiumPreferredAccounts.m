@@ -65,7 +65,7 @@
 	NSEnumerator	*enumerator;
 	
 	//First available account in our list of the correct service type
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if ([inContact service] == [account service] &&
 			([account online] || ([account enabled] && !strictChecking))) {
@@ -74,7 +74,7 @@
 	}
 	
 	//First available account in our list of a compatible service type
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		if ([[inContact serviceClass] isEqualToString:[account serviceClass]] &&
 			([account online] || ([account enabled] && !strictChecking))) {
@@ -108,7 +108,7 @@
 		}
 		
 		
-		if ((account = [[adium accountController] accountWithInternalObjectID:accountID])) {
+		if ((account = [adium.accountController accountWithInternalObjectID:accountID])) {
 			if ([account availableForSendingContentType:inType toContact:inContact] || !strictChecking) {
 				return account;
 			}
@@ -119,7 +119,7 @@
 	
 	//Get the last account used to message someone on this service, and check if the contact is on that account
 	NSString		*lastAccountID = [lastAccountIDToSendContent objectForKey:[[inContact service] serviceID]];
-	AIAccount		*lastUsedAccount = (lastAccountID ? [[adium accountController] accountWithInternalObjectID:lastAccountID] : nil);
+	AIAccount		*lastUsedAccount = (lastAccountID ? [adium.accountController accountWithInternalObjectID:lastAccountID] : nil);
 	AIListContact	*possibleContact = [adium.contactController existingContactWithService:[lastUsedAccount service]
 																				   account:lastUsedAccount
 																					   UID:[inContact UID]];
@@ -136,7 +136,7 @@
 	}
 	
 	//Now check compatible accounts, looking for one that knows about the contact
-	NSEnumerator	*enumerator = [[[adium accountController] accountsCompatibleWithService:[inContact service]] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[inContact service]] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
 		AIListContact *possibleContact = [adium.contactController existingContactWithService:[account service]
 																					   account:account

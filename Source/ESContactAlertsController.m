@@ -376,7 +376,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSArray			*newEvents;
 
 	//Add events for this object (replacing any inherited from the containing object so that this object takes precendence)
-	newEvents = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS
+	newEvents = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
 														  group:PREF_GROUP_CONTACT_ALERTS
 									  objectIgnoringInheritance:listObject] objectForKey:eventID];
 	
@@ -401,7 +401,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (NSString *)defaultEventID
 {
-	NSString *defaultEventID = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_EVENT_ID
+	NSString *defaultEventID = [adium.preferenceController preferenceForKey:KEY_DEFAULT_EVENT_ID
 																		group:PREF_GROUP_CONTACT_ALERTS];
 	if (![eventHandlers objectForKey:defaultEventID]) {
 		defaultEventID = [[eventHandlers allKeys] objectAtIndex:0];
@@ -569,7 +569,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (NSString *)defaultActionID
 {
-	NSString *defaultActionID = [[adium preferenceController] preferenceForKey:KEY_DEFAULT_ACTION_ID
+	NSString *defaultActionID = [adium.preferenceController preferenceForKey:KEY_DEFAULT_ACTION_ID
 																		 group:PREF_GROUP_CONTACT_ALERTS];
 	if (![actionHandlers objectForKey:defaultActionID]) {
 		defaultActionID = [[actionHandlers allKeys] objectAtIndex:0];
@@ -599,7 +599,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (NSArray *)alertsForListObject:(AIListObject *)listObject withEventID:(NSString *)eventID actionID:(NSString *)actionID
 {
-	NSDictionary	*contactAlerts = [[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS
+	NSDictionary	*contactAlerts = [adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
 																			  group:PREF_GROUP_CONTACT_ALERTS
 														  objectIgnoringInheritance:listObject];
 	NSMutableArray	*alertArray = [NSMutableArray array];
@@ -655,10 +655,10 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSMutableDictionary	*contactAlerts;
 	NSMutableArray		*eventArray;
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Get the alerts for this list object
-	contactAlerts = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS
+	contactAlerts = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
 															  group:PREF_GROUP_CONTACT_ALERTS
 										  objectIgnoringInheritance:listObject] mutableCopy];
 	if (!contactAlerts) contactAlerts = [[NSMutableDictionary alloc] init];
@@ -674,7 +674,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		
 		//Put the modified event array back into the contact alert dict, and save our changes
 		[contactAlerts setObject:eventArray forKey:newAlertEventID];
-		[[adium preferenceController] setPreference:contactAlerts
+		[adium.preferenceController setPreference:contactAlerts
 											 forKey:KEY_CONTACT_ALERTS
 											  group:PREF_GROUP_CONTACT_ALERTS
 											 object:listObject];	
@@ -682,10 +682,10 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 
 	//Update the default events if requested
 	if (setAsNewDefaults) {
-		[[adium preferenceController] setPreference:newAlertEventID
+		[adium.preferenceController setPreference:newAlertEventID
 											 forKey:KEY_DEFAULT_EVENT_ID
 											  group:PREF_GROUP_CONTACT_ALERTS];
-		[[adium preferenceController] setPreference:[newAlert objectForKey:KEY_ACTION_ID]
+		[adium.preferenceController setPreference:[newAlert objectForKey:KEY_ACTION_ID]
 											 forKey:KEY_DEFAULT_ACTION_ID
 											  group:PREF_GROUP_CONTACT_ALERTS];	
 	}
@@ -694,7 +694,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	[contactAlerts release];
 	[eventArray release];
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
 /*!
@@ -714,7 +714,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 - (void)removeAlert:(NSDictionary *)victimAlert fromListObject:(AIListObject *)listObject
 {
 	AILogWithSignature(@"Removing %@ from %@", victimAlert, listObject);
-	NSMutableDictionary	*contactAlerts = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS
+	NSMutableDictionary	*contactAlerts = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
 																				   group:PREF_GROUP_CONTACT_ALERTS
 															   objectIgnoringInheritance:listObject] mutableCopy];
 	NSString			*victimEventID = [victimAlert objectForKey:KEY_EVENT_ID];
@@ -733,7 +733,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		[contactAlerts removeObjectForKey:victimEventID];	
 	}
 	
-	[[adium preferenceController] setPreference:contactAlerts
+	[adium.preferenceController setPreference:contactAlerts
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:listObject];
@@ -758,7 +758,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (void)removeAllGlobalAlertsWithActionID:(NSString *)actionID
 {
-	NSDictionary		*contactAlerts = [[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS 
+	NSDictionary		*contactAlerts = [adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS 
 																				  group:PREF_GROUP_CONTACT_ALERTS];
 	NSMutableDictionary *newContactAlerts = [contactAlerts mutableCopy];
 	NSEnumerator		*enumerator = [contactAlerts keyEnumerator];
@@ -800,7 +800,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		}
 	}
 	
-	[[adium preferenceController] setPreference:newContactAlerts
+	[adium.preferenceController setPreference:newContactAlerts
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS];
 	[newContactAlerts release];
@@ -816,7 +816,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSMutableDictionary	*contactAlerts = [[NSMutableDictionary alloc] init];;
 	NSDictionary		*eventDict;
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	for (eventDict in allGlobalAlerts) {
 		NSMutableArray		*eventArray;
@@ -835,13 +835,13 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		[contactAlerts setObject:eventArray forKey:eventID];		
 	}
 	
-	[[adium preferenceController] setPreference:contactAlerts
+	[adium.preferenceController setPreference:contactAlerts
 										 forKey:KEY_CONTACT_ALERTS
 										  group:PREF_GROUP_CONTACT_ALERTS
 										 object:nil];
 	[contactAlerts release];
 
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 	
 }
 
@@ -859,7 +859,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSArray				*oldAlerts = [self alertsForListObject:oldObject];
 	NSDictionary		*alertDict;
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Add each alert to the target (addAlert:toListObject:setAsNewDefaults: will ensure identical alerts aren't added more than once)
 	for (alertDict in oldAlerts) {
@@ -869,7 +869,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	//Remove the alerts from the originating list object
 	[self removeAllAlertsFromListObject:oldObject];
 	
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
 #pragma mark -

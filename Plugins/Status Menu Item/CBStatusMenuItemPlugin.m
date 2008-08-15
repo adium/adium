@@ -26,7 +26,7 @@
 	itemController = nil;
 
 	//Register our defaults
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:STATUS_MENU_ITEM_DEFAULT_PREFS forClass:[self class]]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:STATUS_MENU_ITEM_DEFAULT_PREFS forClass:[self class]]
 										  forGroup:PREF_GROUP_STATUS_MENU_ITEM];
 
 	//Wait for Adium to finish launching before we perform further actions
@@ -39,7 +39,7 @@
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {
 	//Observe for preference changes, initially loading our status menu item controller
-	[[adium preferenceController] registerPreferenceObserver:self
+	[adium.preferenceController registerPreferenceObserver:self
 													forGroup:PREF_GROUP_STATUS_MENU_ITEM];
 	[[adium notificationCenter] removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
@@ -48,7 +48,7 @@
 
 - (void)uninstallPlugin
 {
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[itemController release]; itemController = nil;
 }
 

@@ -152,7 +152,7 @@
 	buddiesToContact = [[NSMutableDictionary alloc] init];
 	personLists = [[NSMutableArray alloc] init];
 
-	NSEnumerator *serviceEnum = [[[adium accountController] services] objectEnumerator];
+	NSEnumerator *serviceEnum = [[adium.accountController services] objectEnumerator];
 	AIService *service = nil;
 	serviceDict = [[NSMutableDictionary alloc] init];
 	while ((service = [serviceEnum nextObject]) != nil)
@@ -296,7 +296,7 @@
 		if(service == nil)
 			//Like irc service
 			continue;
-		AIAccount *newAcct = [[adium accountController] createAccountWithService:service
+		AIAccount *newAcct = [adium.accountController createAccountWithService:service
 																			 UID:accountName];
 		if(newAcct == nil)
 			continue;
@@ -319,7 +319,7 @@
 							 group:GROUP_ACCOUNT_STATUS];
 		
 		[accountUIDtoAccount setObject:newAcct forKey:[account objectForKey:@"UniqueID"]];
-		[[adium accountController] addAccount:newAcct];
+		[adium.accountController addAccount:newAcct];
 		[[adium notificationCenter] addObserver:self
 									   selector:@selector(accountConnected:)
 										   name:ACCOUNT_CONNECTED
@@ -362,7 +362,7 @@
 		[newStatus setAutoReplyIsStatusMessage:YES];
 		[newStatus setShouldForceInitialIdleTime:goIdle];
 		if(isDefault)
-			[[adium preferenceController] setPreference:[newStatus uniqueStatusID]
+			[adium.preferenceController setPreference:[newStatus uniqueStatusID]
 												 forKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 												  group:PREF_GROUP_STATUS_PREFERENCES];
 		[[adium statusController] addStatusState:newStatus];
@@ -565,7 +565,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 			if(![accountName length])
 				continue;
 			AIService *service = [self translateServiceName:serviceName screenName:accountName];
-			AIAccount *newAcct = [[adium accountController] createAccountWithService:service
+			AIAccount *newAcct = [adium.accountController createAccountWithService:service
 																				 UID:accountName];
 			if(newAcct == nil)
 				continue;
@@ -587,7 +587,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 								 group:GROUP_ACCOUNT_STATUS];
 			
 			[accountUIDtoAccount setObject:newAcct forKey:[NSString stringWithFormat:@"%@-%@@%@", serviceName, accountName, connectHost]];
-			[[adium accountController] addAccount:newAcct];
+			[adium.accountController addAccount:newAcct];
 			[[adium notificationCenter] addObserver:self
 										   selector:@selector(accountConnected:)
 											   name:ACCOUNT_CONNECTED
@@ -631,7 +631,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		[newStatus setAutoReplyIsStatusMessage:YES];
 		[newStatus setShouldForceInitialIdleTime:goIdle];
 		if(isDefault)
-			[[adium preferenceController] setPreference:[newStatus uniqueStatusID]
+			[adium.preferenceController setPreference:[newStatus uniqueStatusID]
 												 forKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 												  group:PREF_GROUP_STATUS_PREFERENCES];
 		[[adium statusController] addStatusState:newStatus];

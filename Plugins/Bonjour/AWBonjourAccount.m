@@ -290,15 +290,15 @@ typedef enum {
 	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                               UID:inUID];
-	chat = [[adium chatController] chatWithContact:listContact];
+	chat = [adium.chatController chatWithContact:listContact];
 	
 	if (html)
-		attributedMessage = [[adium contentController] decodedIncomingMessage:html
+		attributedMessage = [adium.contentController decodedIncomingMessage:html
 		                                                          fromContact:listContact
 		                                                            onAccount:self];
 	else
 		attributedMessage = [[[NSAttributedString alloc] initWithString:
-		    [[adium contentController] decryptedIncomingMessage:message
+		    [adium.contentController decryptedIncomingMessage:message
 		                                            fromContact:listContact
 		                                              onAccount:self]] autorelease];
 
@@ -309,7 +309,7 @@ typedef enum {
 	                                 message:attributedMessage
 	                               autoreply:NO];
 
-	[[adium contentController] receiveContentObject:msgObj];
+	[adium.contentController receiveContentObject:msgObj];
 
 	//Clear the typing flag
 	[chat setValue:nil
@@ -333,7 +333,7 @@ typedef enum {
 	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                                UID:inUID];
-	chat = [[adium chatController] existingChatWithContact:listContact];
+	chat = [adium.chatController existingChatWithContact:listContact];
 
 	[chat setValue:typingNumber
 	               forProperty:KEY_TYPING
@@ -360,7 +360,7 @@ typedef enum {
 	listContact = [adium.contactController existingContactWithService:service
 	                                                            account:self
 	                                                                UID:inContactUniqueID];
-	chat = [[adium chatController] existingChatWithContact:listContact];
+	chat = [adium.chatController existingChatWithContact:listContact];
 
 	[chat setValue:[NSNumber numberWithInt:AIChatMessageSendingUserNotAvailable]
 	               forProperty:KEY_CHAT_ERROR

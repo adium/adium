@@ -70,9 +70,9 @@
 	BOOL			sendOnEnter, sendOnReturn;
 	
 	//Interface
-    [checkBox_messagesInTabs setState:[[[adium preferenceController] preferenceForKey:KEY_TABBED_CHATTING
+    [checkBox_messagesInTabs setState:[[adium.preferenceController preferenceForKey:KEY_TABBED_CHATTING
 																				group:PREF_GROUP_INTERFACE] boolValue]];
-	[checkBox_arrangeByGroup setState:[[[adium preferenceController] preferenceForKey:KEY_GROUP_CHATS_BY_GROUP
+	[checkBox_arrangeByGroup setState:[[adium.preferenceController preferenceForKey:KEY_GROUP_CHATS_BY_GROUP
 																				group:PREF_GROUP_INTERFACE] boolValue]];
 	
 	// Update Checking
@@ -82,13 +82,13 @@
 
 	//Chat Cycling
 	[popUp_tabKeys setMenu:[self tabChangeKeysMenu]];
-	[popUp_tabKeys compatibleSelectItemWithTag:[[[adium preferenceController] preferenceForKey:KEY_TAB_SWITCH_KEYS
+	[popUp_tabKeys compatibleSelectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TAB_SWITCH_KEYS
 																						 group:PREF_GROUP_CHAT_CYCLING] intValue]];
 
 	//General
-	sendOnEnter = [[[adium preferenceController] preferenceForKey:SEND_ON_ENTER
+	sendOnEnter = [[adium.preferenceController preferenceForKey:SEND_ON_ENTER
 															group:PREF_GROUP_GENERAL] boolValue];
-	sendOnReturn = [[[adium preferenceController] preferenceForKey:SEND_ON_RETURN
+	sendOnReturn = [[adium.preferenceController preferenceForKey:SEND_ON_RETURN
 															group:PREF_GROUP_GENERAL] boolValue];
 	[popUp_sendKeys setMenu:[self sendKeysMenu]];
 	
@@ -101,15 +101,15 @@
 	}
 
 	[popUp_tabPositionMenu setMenu:[self tabPositionMenu]];
-	[popUp_tabPositionMenu compatibleSelectItemWithTag:[[[adium preferenceController] preferenceForKey:KEY_TABBAR_POSITION
+	[popUp_tabPositionMenu compatibleSelectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																								 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
 	
 	//Quit
-	//[checkBox_confirmOnQuit setState:[[[adium preferenceController] preferenceForKey:KEY_CONFIRM_QUIT
+	//[checkBox_confirmOnQuit setState:[[adium.preferenceController preferenceForKey:KEY_CONFIRM_QUIT
 	//																			group:PREF_GROUP_CONFIRMATIONS] boolValue]];
 	
 	//Global hotkey
-	PTKeyCombo *keyCombo = [[[PTKeyCombo alloc] initWithPlistRepresentation:[[adium preferenceController] preferenceForKey:KEY_GENERAL_HOTKEY
+	PTKeyCombo *keyCombo = [[[PTKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
 																													 group:PREF_GROUP_GENERAL]] autorelease];
 	[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
 	[shortcutRecorder setAnimates:YES];
@@ -124,7 +124,7 @@
     if (sender == popUp_tabKeys) {
 		AITabKeys keySelection = [[sender selectedItem] tag];
 
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:keySelection]
+		[adium.preferenceController setPreference:[NSNumber numberWithInt:keySelection]
 											 forKey:KEY_TAB_SWITCH_KEYS
 											  group:PREF_GROUP_CHAT_CYCLING];
 		
@@ -133,10 +133,10 @@
 		BOOL		sendOnEnter = (keySelection == AISendOnEnter || keySelection == AISendOnBoth);
 		BOOL		sendOnReturn = (keySelection == AISendOnReturn || keySelection == AISendOnBoth);
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:sendOnEnter]
+		[adium.preferenceController setPreference:[NSNumber numberWithInt:sendOnEnter]
 											 forKey:SEND_ON_ENTER
 											  group:PREF_GROUP_GENERAL];
-		[[adium preferenceController] setPreference:[NSNumber numberWithInt:sendOnReturn]
+		[adium.preferenceController setPreference:[NSNumber numberWithInt:sendOnReturn]
 											 forKey:SEND_ON_RETURN
                                               group:PREF_GROUP_GENERAL];
 	} else if (sender == checkBox_updatesAutomatic) {
@@ -213,7 +213,7 @@
 	if (aRecorder == shortcutRecorder) {
 		PTKeyCombo *keyCombo = [PTKeyCombo keyComboWithKeyCode:[shortcutRecorder keyCombo].code
 													 modifiers:[shortcutRecorder cocoaToCarbonFlags:[shortcutRecorder keyCombo].flags]];
-		[[adium preferenceController] setPreference:[keyCombo plistRepresentation]
+		[adium.preferenceController setPreference:[keyCombo plistRepresentation]
 											 forKey:KEY_GENERAL_HOTKEY
 											  group:PREF_GROUP_GENERAL];
 	}

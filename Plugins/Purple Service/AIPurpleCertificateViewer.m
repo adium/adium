@@ -40,7 +40,7 @@
 }
 
 - (IBAction)showWindow:(id)sender {
-	[[adium accountController] editAccount:account onWindow:nil notifyingTarget:self];
+	[adium.accountController editAccount:account onWindow:nil notifyingTarget:self];
 }
 
 - (void)editAccountWindow:(NSWindow*)window didOpenForAccount:(AIAccount *)inAccount {

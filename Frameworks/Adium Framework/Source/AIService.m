@@ -40,7 +40,7 @@
 {
 	if ((self = [super init])) {
 		//Register this service with Adium
-		[[adium accountController] registerService:self];
+		[adium.accountController registerService:self];
 		
 		[self registerStatuses];
 	}
@@ -517,7 +517,7 @@
  */
 - (NSArray *)accounts
 {
-	NSArray *accounts = [[adium accountController] accounts];
+	NSArray *accounts = [adium.accountController accounts];
 	
 	NSMutableArray *accountsForThisService = [[[NSMutableArray alloc] init] autorelease];
 	for (int i=0;i<[accounts count];i++) {

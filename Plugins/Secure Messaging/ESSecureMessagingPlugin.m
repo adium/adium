@@ -59,7 +59,7 @@
 - (void)installPlugin
 {
 	//Muy imporatante: Set OTR as our encryption method
-	[[adium contentController] setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
+	[adium.contentController setEncryptor:[[[AdiumOTREncryption alloc] init] autorelease]];
 
 	_secureMessagingMenu = nil;
 	lockImage_Locked = [[NSImage imageNamed:@"Lock_Locked State" forClass:[self class]] retain];
@@ -73,12 +73,12 @@
 	[self registerToolbarItem];
 	[self configureMenuItems];
 
-	[[adium chatController] registerChatObserver:self];
+	[adium.chatController registerChatObserver:self];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -258,7 +258,7 @@
 			}
 
 			if ([inChat isOpen]) {
-				[[adium contentController] displayEvent:message
+				[adium.contentController displayEvent:message
 												 ofType:type
 												 inChat:inChat];
 			}
@@ -454,7 +454,7 @@
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 		[item setTag:AISecureMessagingMenu_Options];
-		[item setSubmenu:[[adium contentController] encryptionMenuNotifyingTarget:self
+		[item setSubmenu:[adium.contentController encryptionMenuNotifyingTarget:self
 																	  withDefault:YES]];
 		[_secureMessagingMenu addItem:item];		
 

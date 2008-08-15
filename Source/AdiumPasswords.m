@@ -367,7 +367,7 @@
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_PERFORMED_ACCOUNT_PASSWORD_UPGRADE]) {
 		NSError			*error;
 		AIKeychain		*keychain = [AIKeychain defaultKeychain_error:&error];
-		NSArray			*accounts = [[adium accountController] accounts];
+		NSArray			*accounts = [adium.accountController accounts];
 		AIAccount		*account;
 		NSString		*password;
 		

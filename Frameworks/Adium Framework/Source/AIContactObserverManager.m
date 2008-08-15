@@ -124,7 +124,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	} else {
 		AIAccount *account = [inContact account];
 		if (![account online]) {
-			account = [[adium accountController] preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
+			account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																			 toContact:inContact];
 		}
 		
@@ -320,7 +320,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	}
 	
 	//Reset all accounts
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((listObject = [enumerator nextObject])) {
 		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
 		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];

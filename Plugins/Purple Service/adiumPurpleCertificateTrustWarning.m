@@ -15,7 +15,7 @@
 #import "ESPurpleJabberAccount.h"
 
 void adium_query_cert_chain(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata) {
-	NSObject<AIAccountController> *accountController = [adium accountController];
+	NSObject<AIAccountController> *accountController = adium.accountController;
 	// only the jabber service supports this right now
 	NSEnumerator *e = [[accountController accountsCompatibleWithService:[accountController firstServiceWithServiceID:@"Jabber"]] objectEnumerator];
 	ESPurpleJabberAccount *account;

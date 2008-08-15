@@ -65,7 +65,7 @@
 	if ([fromUID isEqualToString:[account facebookUID]]) return;
 
 	AIListContact		*listContact = [account contactWithUID:fromUID];
-	AIChat				*chat = [[adium chatController] chatWithContact:listContact];
+	AIChat				*chat = [adium.chatController chatWithContact:listContact];
 	NSDictionary		*messageTextDict = [messageDict objectForKey:@"msg"];
 	if (messageTextDict) {
 		NSString			*text = [[messageTextDict objectForKey:@"text"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -79,7 +79,7 @@
 												message:[[[NSAttributedString alloc] initWithString:text] autorelease]
 											  autoreply:NO];
 		
-		[[adium contentController] receiveContentObject:messageObject];
+		[adium.contentController receiveContentObject:messageObject];
 	}
 	
 	NSDictionary *typingDict = [messageDict objectForKey:@"typ"];

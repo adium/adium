@@ -55,10 +55,10 @@
 - (void)installPlugin
 {
     //Register our default preferences
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:ALIASES_DEFAULT_PREFS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:ALIASES_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_ALIASES];
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:DISPLAYFORMAT_DEFAULT_PREFS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:DISPLAYFORMAT_DEFAULT_PREFS
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_DISPLAYFORMAT];
 	
@@ -79,7 +79,7 @@
 								   selector:@selector(applyAliasRequested:)
 									   name:Contact_ApplyDisplayName
 									 object:nil];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_DISPLAYFORMAT];	
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DISPLAYFORMAT];	
 }
 
 /*!
@@ -88,7 +88,7 @@
 - (void)uninstallPlugin
 {
     [[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 }
 
@@ -108,7 +108,7 @@
  */
 -(IBAction)changeFormat:(id)sender
 {
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender tag]]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender tag]]
 										 forKey:@"Long Display Format"
 										  group:PREF_GROUP_DISPLAYFORMAT];
 }

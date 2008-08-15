@@ -116,9 +116,9 @@
 
 - (void)_restoreLastAccountIfPossible
 {
-	NSString *accountID = [[adium preferenceController] preferenceForKey:[NSString stringWithFormat:@"AccountPlusFieldLastAccountID:%@", [self lastAccountIDKey]]
+	NSString *accountID = [adium.preferenceController preferenceForKey:[NSString stringWithFormat:@"AccountPlusFieldLastAccountID:%@", [self lastAccountIDKey]]
 																   group:ACCOUNT_PLUS_FIELD_GROUP];
-	AIAccount *account = [[adium accountController] accountWithInternalObjectID:accountID];
+	AIAccount *account = [adium.accountController accountWithInternalObjectID:accountID];
 	int accountIndex = (account ? [[popUp_service menu] indexOfItemWithRepresentedObject:account] : -1);
 
 	if (accountIndex != -1) {
@@ -128,7 +128,7 @@
 
 - (void)_saveConfiguredAccount
 {
-	[[adium preferenceController] setPreference:[[[popUp_service selectedItem] representedObject] internalObjectID]
+	[adium.preferenceController setPreference:[[[popUp_service selectedItem] representedObject] internalObjectID]
 										 forKey:[NSString stringWithFormat:@"AccountPlusFieldLastAccountID:%@", [self lastAccountIDKey]]
 											 group:ACCOUNT_PLUS_FIELD_GROUP];
 }
@@ -208,7 +208,7 @@
 - (void)_selectLastUsedAccountInAccountMenu:(AIAccountMenu *)inAccountMenu
 {
 	//First online account in our list
-	NSEnumerator *enumerator = [[[adium accountController] accounts] objectEnumerator];
+	NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount    *preferredAccount;
 	while ((preferredAccount = [enumerator nextObject])) {
 		if ([preferredAccount online])

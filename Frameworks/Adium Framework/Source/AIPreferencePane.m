@@ -36,7 +36,7 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		[[adium preferenceController] addPreferencePane:self];
+		[adium.preferenceController addPreferencePane:self];
 	}
 	return self;
 }

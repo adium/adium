@@ -250,7 +250,7 @@ static NSDictionary *dictionaryFromHashTable(GHashTable *data)
 static void chat_join_failed_cb(PurpleConnection *gc, GHashTable *components)
 {
 	CBPurpleAccount	*account = accountLookup(purple_connection_get_account(gc));
-	NSEnumerator *enumerator = [[[[[adium chatController] openChats] copy] autorelease] objectEnumerator];
+	NSEnumerator *enumerator = [[[[adium.chatController openChats] copy] autorelease] objectEnumerator];
 	AIChat *chat;
 	NSDictionary *componentDict = dictionaryFromHashTable(components);
 
@@ -273,10 +273,10 @@ static void typing_changed(PurpleAccount *acct, const char *name, AITypingState 
 		return;
 	}
 
-	AIChat *chat = [[adium chatController] existingChatWithContact:contact];
+	AIChat *chat = [adium.chatController existingChatWithContact:contact];
 	
 	if (typingState != AINotTyping && !chat) {
-		chat = [[adium chatController] chatWithContact:contact];
+		chat = [adium.chatController chatWithContact:contact];
 		AILogWithSignature(@"Made a chat for %s: %i", name, typingState);
 	}
 

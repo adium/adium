@@ -33,13 +33,13 @@
 		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY
 														   key:nil
 														object:nil
-												preferenceDict:[[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]
+												preferenceDict:[adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]
 													 firstTime:YES];
 		
 		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES
 														   key:nil
 														object:nil
-												preferenceDict:[[adium preferenceController] preferencesForGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES]
+												preferenceDict:[adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES]
 													 firstTime:YES];
 	}
 }

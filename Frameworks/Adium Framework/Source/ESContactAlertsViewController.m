@@ -102,20 +102,20 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	showEventsInEditSheet = NO;
 
 	//
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_ALERTS];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_ALERTS];
 }
 
 //Preference view is closing - stop observing preferences immediately, even if we aren't immediately deallocating
 - (void)viewWillClose
 {
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)dealloc
 {
 	//Ensure that we have unregistered as a preference observer
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[adium notificationCenter] removeObserver:self];
 
 	[outlineView_summary setDelegate:nil];
@@ -466,7 +466,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 		}
 	}
 		
-	contactAlertsDict = [[adium preferenceController] preferenceForKey:KEY_CONTACT_ALERTS
+	contactAlertsDict = [adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
 																 group:PREF_GROUP_CONTACT_ALERTS
 											 objectIgnoringInheritance:listObject];
 	[contactAlertsEvents release]; contactAlertsEvents = [[NSMutableArray alloc] init];
@@ -839,11 +839,11 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 {
 	NSDictionary	*eventDict;
 
-	[[adium preferenceController] delayPreferenceChangedNotifications:YES];
+	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	for (eventDict in contactEventArray) {
 		[[adium contactAlertsController] removeAlert:eventDict fromListObject:listObject];
 	}
-	[[adium preferenceController] delayPreferenceChangedNotifications:NO];
+	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 
 	if (delegate) {
 		[delegate contactAlertsViewController:self

@@ -45,7 +45,7 @@
 #pragma mark Convenience
 - (NSArray *)accounts
 {
-	return ([[adium accountController] accounts]);
+	return ([adium.accountController accounts]);
 }
 - (NSArray *)contacts
 {
@@ -53,14 +53,14 @@
 }
 - (NSArray *)chats
 {
-	return ([[[adium chatController] openChats] allObjects]);
+	return ([[adium.chatController openChats] allObjects]);
 }
 
 #pragma mark Attributes
 
 - (NSTimeInterval)myIdleTime
 {
-	NSDate  *idleSince = [[adium preferenceController] preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+	NSDate  *idleSince = [adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
 	return (-[idleSince timeIntervalSinceNow]);
 }
 - (void)setMyIdleTime:(NSTimeInterval)timeInterval
@@ -72,13 +72,13 @@
 
 - (NSData *)defaultImageData
 {
-	return ([[adium preferenceController] preferenceForKey:KEY_USER_ICON 
+	return ([adium.preferenceController preferenceForKey:KEY_USER_ICON 
 													 group:GROUP_ACCOUNT_STATUS]);
 			
 }
 - (void)setDefaultImageData:(NSData *)newDefaultImageData
 {
-	[[adium preferenceController] setPreference:newDefaultImageData
+	[adium.preferenceController setPreference:newDefaultImageData
 										 forKey:KEY_USER_ICON 
 										  group:GROUP_ACCOUNT_STATUS];	
 }
@@ -149,7 +149,7 @@
 
 	if (contact) {
 		//Open the chat and set it as active
-		chat = [[adium chatController] openChatWithContact:contact onPreferredAccount:YES];
+		chat = [adium.chatController openChatWithContact:contact onPreferredAccount:YES];
 		[[adium interfaceController] setActiveChat:chat];
 	}
 

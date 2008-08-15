@@ -86,7 +86,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 										 keyEquivalent:@""];
 
 	//Perform substitutions on outgoing content; we may be slow, so register as a delayed content filter
-	[[adium contentController] registerDelayedContentFilter:self 
+	[adium.contentController registerDelayedContentFilter:self 
 													 ofType:AIFilterContent
 												  direction:AIFilterOutgoing];
 	
@@ -228,7 +228,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 						[flatScriptArray addObject:infoDict];
 						
 						//Scripts must always be updated via polling
-						[[adium contentController] registerFilterStringWhichRequiresPolling:keyword];
+						[adium.contentController registerFilterStringWhichRequiresPolling:keyword];
 					}
 				}
 			}
@@ -614,7 +614,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	if (![self delayedFilterAttributedString:attributedString
 									 context:[userInfo objectForKey:@"context"]
 									uniqueID:uniqueID]) {
-		[[adium contentController] delayedFilterDidFinish:attributedString
+		[adium.contentController delayedFilterDidFinish:attributedString
 												 uniqueID:uniqueID];
 	}
 }

@@ -76,7 +76,7 @@
 									 object:nil];
 	
 	// Register with AIContentController to recieve the AIContentFilter calls.
-	[[adium contentController] registerContentFilter:self 
+	[adium.contentController registerContentFilter:self 
 											  ofType:AIFilterContent
 										   direction:AIFilterOutgoing];
 	
@@ -276,8 +276,8 @@
 	}
 	
 	// Pick the chat, or open a new one, with the contact.
-	if (!(chat = [[adium chatController] existingChatWithContact:sendChoice])) {
-		chat = [[adium chatController] chatWithContact:sendChoice];
+	if (!(chat = [adium.chatController existingChatWithContact:sendChoice])) {
+		chat = [adium.chatController chatWithContact:sendChoice];
 	}
 
 	AIContentNotification *contentNotification = [AIContentNotification notificationInChat:chat
@@ -287,7 +287,7 @@
 																		  notificationType:AIDefaultNotificationType];
 	
 	// Print the text to the window.
-	[[adium contentController] sendContentObject:contentNotification];
+	[adium.contentController sendContentObject:contentNotification];
 }
 
 // Echoes the buzz event to the window and generates the event.
@@ -302,7 +302,7 @@
 																		  notificationType:AIDefaultNotificationType];
 
 	// Print the text to the window.
-	[[adium contentController] receiveContentObject:contentNotification];
+	[adium.contentController receiveContentObject:contentNotification];
 	
 	// Fire off the event
 	[[adium contactAlertsController] generateEvent:CONTENT_NUDGE_BUZZ_OCCURED

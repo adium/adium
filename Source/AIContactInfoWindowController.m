@@ -178,7 +178,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	NSInteger	selectedSegment;
 	
 	//Select the previously selected category
-	selectedSegment = [[[adium preferenceController] preferenceForKey:KEY_INFO_SELECTED_CATEGORY
+	selectedSegment = [[adium.preferenceController preferenceForKey:KEY_INFO_SELECTED_CATEGORY
 																group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 	
 	if (selectedSegment < 0 || selectedSegment >= [inspectorToolbar segmentCount])
@@ -192,7 +192,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 {
 	AILogWithSignature(@"");
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedSegment]]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedSegment]]
 										  forKey:KEY_INFO_SELECTED_CATEGORY
 										   group:PREF_GROUP_WINDOW_POSITIONS];
 	

@@ -40,7 +40,7 @@ NSInteger titleSort(NSMenuItem *itemA, NSMenuItem *itemB, void *context)
 + (NSMenu *)menuOfServicesWithTarget:(id)target activeServicesOnly:(BOOL)activeServicesOnly
 					 longDescription:(BOOL)longDescription format:(NSString *)format
 {
-	id<AIAccountController> accountController = [adium accountController];
+	id<AIAccountController> accountController = adium.accountController;
 	AIServiceImportance	importance;
 	NSUInteger			numberOfItems = 0;
 	id					serviceArray;

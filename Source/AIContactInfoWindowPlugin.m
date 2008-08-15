@@ -148,7 +148,7 @@
 		return [[adium menuController] currentContextMenuObject] != nil;
 		
 	} else if (menuItem == menuItem_getInfoWithPrompt) {
-		return [[adium accountController] oneOrMoreConnectedAccounts];
+		return [adium.accountController oneOrMoreConnectedAccounts];
 	}
 	
 	return YES;

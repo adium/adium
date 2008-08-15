@@ -18,7 +18,7 @@
  */
 - (void)installPlugin
 {
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:@"PersonalPreferencesDefaults" 
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"PersonalPreferencesDefaults" 
 																		forClass:[self class]]  
 										  forGroup:GROUP_ACCOUNT_STATUS];
 

@@ -198,7 +198,7 @@
 {
 	[message release];
 	message = [[NSAttributedString alloc] initWithString:inMessageString
-											  attributes:[[adium contentController] defaultFormattingAttributes]];
+											  attributes:[adium.contentController defaultFormattingAttributes]];
 	
 }
 

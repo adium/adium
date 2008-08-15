@@ -69,7 +69,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == joinChatMenuItem) {
-		NSEnumerator	*enumerator = [[[adium accountController] accounts] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount		*account;
 
 		while ((account = [enumerator nextObject])) {	

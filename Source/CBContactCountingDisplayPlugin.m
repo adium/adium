@@ -56,7 +56,7 @@
 - (void)installPlugin
 {
     //register our defaults
-    [[adium preferenceController] registerDefaults:[NSDictionary dictionaryNamed:CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS 
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS 
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTACT_LIST];
 	
@@ -77,8 +77,8 @@
 	countAllObjects = NO;
 	countVisibleObjects = NO;
 	
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
@@ -170,7 +170,7 @@
 
 		//Toggle and set, which will call back on preferencesChanged: above
 		[menuItem_countVisibleObjects setTitle:(newPref ? HIDE_COUNT_VISIBLE_CONTACTS_TITLE : SHOW_COUNT_VISIBLE_CONTACTS_TITLE)];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:newPref]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
 											 forKey:KEY_COUNT_VISIBLE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST];
 
@@ -179,7 +179,7 @@
 
 		//Toggle and set, which will call back on preferencesChanged: above
 		[menuItem_countAllObjects setTitle:(newPref ? HIDE_COUNT_ALL_CONTACTS_TITLE : SHOW_COUNT_ALL_CONTACTS_TITLE)];
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:newPref]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
 											 forKey:KEY_COUNT_ALL_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST];
     }
@@ -202,7 +202,7 @@
     //we are no longer an observer
     [[adium notificationCenter] removeObserver:self];
     [[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 @end

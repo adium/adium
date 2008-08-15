@@ -437,7 +437,7 @@
 				NSLog(@"*** WARNING! Invalid value passed in profile array: %@", lineDict);
 			}
 
-			value = [[adium contentController] filterAttributedString:value
+			value = [adium.contentController filterAttributedString:value
 												usingFilterType:AIFilterDisplay
 													  direction:AIFilterIncoming
 														context:inObject];

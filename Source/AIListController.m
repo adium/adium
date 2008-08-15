@@ -85,11 +85,11 @@
 		[self setContactListRoot:(aContactList ? aContactList : [adium.contactController contactList])];
 
 		//Recall how the contact list was docked last time Adium was open
-		dockToBottomOfScreen = [[[adium preferenceController] preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
+		dockToBottomOfScreen = [[adium.preferenceController preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
 																		 group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 		
 		//Observe preference changes
-		[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
 	}
 
 	return self;
@@ -112,7 +112,7 @@
     //Stop observing
     [[adium notificationCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	[self autorelease];
 }
@@ -255,7 +255,7 @@
 
 	//Remember how the contact list is currently docked for next time
 	if (oldDockToBottom != dockToBottomOfScreen) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:dockToBottomOfScreen]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:dockToBottomOfScreen]
 											 forKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
 											  group:PREF_GROUP_WINDOW_POSITIONS];
 	}
@@ -800,7 +800,7 @@
 			}
 			
 			if(messageAttributedString && [messageAttributedString length] !=0) {
-				chat = [[adium chatController] openChatWithContact:(AIListContact *)item
+				chat = [adium.chatController openChatWithContact:(AIListContact *)item
 												onPreferredAccount:YES];
 				messageContent = [AIContentMessage messageInChat:chat
 													  withSource:[chat account]
@@ -809,7 +809,7 @@
 														 message:messageAttributedString
 													   autoreply:NO];
 			
-				[[adium contentController] sendContentObject:messageContent];
+				[adium.contentController sendContentObject:messageContent];
 			}
 			else {
 				success = NO;
@@ -901,7 +901,7 @@
 
 - (AIContactListWindowStyle)windowStyle
 {
-	NSNumber	*windowStyleNumber = [[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE 
+	NSNumber	*windowStyleNumber = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE 
 																			  group:PREF_GROUP_APPEARANCE];
 	return (windowStyleNumber ? [windowStyleNumber integerValue] : AIContactListWindowStyleStandard);
 }

@@ -140,7 +140,7 @@
 	if (![proxyUserName isEqualToString:[account preferenceForKey:KEY_ACCOUNT_PROXY_USERNAME group:GROUP_ACCOUNT_STATUS]] ||
 	   ![proxyHostName isEqualToString:[account preferenceForKey:KEY_ACCOUNT_PROXY_HOST group:GROUP_ACCOUNT_STATUS]]) {
 		
-		[[adium accountController] setPassword:[textField_proxyPassword secureStringValue]
+		[adium.accountController setPassword:[textField_proxyPassword secureStringValue]
 								forProxyServer:proxyHostName
 									  userName:proxyUserName];
 	}
@@ -171,7 +171,7 @@
 	NSString	*proxyUserName = [textField_proxyUserName stringValue];
 	
 	if (proxyHostName && proxyUserName) {
-		NSString *proxyPassword = [[adium accountController] passwordForProxyServer:proxyHostName
+		NSString *proxyPassword = [adium.accountController passwordForProxyServer:proxyHostName
 																		   userName:proxyUserName];
 		[textField_proxyPassword setStringValue:(proxyPassword ? proxyPassword : @"")];
 	}

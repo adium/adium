@@ -24,7 +24,7 @@
 @implementation AIAdvancedPreferences
 + (AIPreferencePane *)preferencePane
 {
-	[[adium preferenceController] registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:150]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:150]
 																										forKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH]
 																   forGroup:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -52,7 +52,7 @@
 - (void)viewDidLoad
 {
 	[shelf_splitView setFrame:[[shelf_splitView superview] frame]];
-	[shelf_splitView setShelfWidth:[[[adium preferenceController] preferenceForKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
+	[shelf_splitView setShelfWidth:[[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
 																			 group:PREF_GROUP_WINDOW_POSITIONS] doubleValue]];
 
 	[tableView_categories accessibilitySetOverrideValue:AILocalizedString(@"Advanced Preference Categories", nil)
@@ -64,11 +64,11 @@
 - (void)viewWillClose
 {
 	//Select the previously selected row
-	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[tableView_categories selectedRow]]
+	[adium.preferenceController setPreference:[NSNumber numberWithInteger:[tableView_categories selectedRow]]
 										 forKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
 										  group:PREF_GROUP_WINDOW_POSITIONS];
 
-	[[adium preferenceController] setPreference:[NSNumber numberWithDouble:[shelf_splitView shelfWidth]]
+	[adium.preferenceController setPreference:[NSNumber numberWithDouble:[shelf_splitView shelfWidth]]
 										 forKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
 										  group:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -85,7 +85,7 @@
 - (NSArray *)advancedCategoryArray
 {
     if (!_advancedCategoryArray) {
-        _advancedCategoryArray = [[[[adium preferenceController] advancedPaneArray] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+        _advancedCategoryArray = [[[adium.preferenceController advancedPaneArray] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
     }
     
     return _advancedCategoryArray;
@@ -131,7 +131,7 @@
 																	   alpha:1.0]];
 	
 	//Select the previously selected row
-	NSInteger row = [[[adium preferenceController] preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
+	NSInteger row = [[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
 														group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 	if (row < 0 || row >= [tableView_categories numberOfRows]) row = 1;
 	

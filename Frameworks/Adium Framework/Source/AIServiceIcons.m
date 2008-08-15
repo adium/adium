@@ -211,7 +211,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 	NSDictionary		*serviceIconDict;
 	NSImage				*defaultServiceIcon = nil;
 	
-	defaultName = [[adium preferenceController] defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
+	defaultName = [adium.preferenceController defaultPreferenceForKey:KEY_SERVICE_ICON_PACK
 																   group:PREF_GROUP_APPEARANCE
 																  object:nil];
 	defaultPath = [adium pathOfPackWithName:defaultName

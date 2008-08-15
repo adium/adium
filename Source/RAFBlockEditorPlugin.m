@@ -36,7 +36,7 @@
 	AIAccount	 *account;
 	NSEnumerator *enumerator;
 
-	enumerator = [[[adium accountController] accounts] objectEnumerator];
+	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject]) && !retVal) {
 		if([[account valueForProperty:@"Online"] boolValue] &&
 		   [account conformsToProtocol:@protocol(AIAccount_Privacy)])

@@ -119,11 +119,11 @@
 	//Only display for offline contacts
 	if (![inObject online]) {
 	
-		lastSeenStatus = [[adium preferenceController] preferenceForKey:KEY_LAST_SEEN_STATUS 
+		lastSeenStatus = [adium.preferenceController preferenceForKey:KEY_LAST_SEEN_STATUS 
 																  group:PREF_GROUP_LAST_SEEN
 																 object:inObject];
 		
-		lastSeenDate = [[adium preferenceController] preferenceForKey:KEY_LAST_SEEN_DATE 
+		lastSeenDate = [adium.preferenceController preferenceForKey:KEY_LAST_SEEN_DATE 
 																group:PREF_GROUP_LAST_SEEN
 															   object:inObject];
 		if (lastSeenStatus && lastSeenDate) {

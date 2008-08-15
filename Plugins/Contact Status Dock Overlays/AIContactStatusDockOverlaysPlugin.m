@@ -60,7 +60,7 @@
     [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 	
 	//Register as a chat observer (for unviewed content)
-	[[adium chatController] registerChatObserver:self];
+	[adium.chatController registerChatObserver:self];
 	
 	[[adium notificationCenter] addObserver:self
 								   selector:@selector(chatClosed:)
@@ -68,8 +68,8 @@
 									 object:nil];
 	
     //Prefs
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 	
     //
     image1 = [[NSImage alloc] initWithSize:NSMakeSize(128,128)];
@@ -82,9 +82,9 @@
 - (void)uninstallPlugin
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium chatController] unregisterChatObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 /*!
@@ -304,7 +304,7 @@
 {
     //Remove & release the current overlay state
     if (overlayState) {
-        [[adium dockController] removeIconStateNamed:@"ContactStatusOverlay"];
+        [adium.dockController removeIconStateNamed:@"ContactStatusOverlay"];
         [overlayState release]; overlayState = nil;
     }
 
@@ -321,7 +321,7 @@
 													  overlay:YES];
 		}
 
-        [[adium dockController] setIconState:overlayState named:@"ContactStatusOverlay"];
+        [adium.dockController setIconState:overlayState named:@"ContactStatusOverlay"];
     }   
 }
 
@@ -338,7 +338,7 @@
     NSImage				*image = (flash ? image1 : image2);
 	
     //Pre-calc some sizes
-    dockIconScale = 1- [[adium dockController] dockIconScale];
+    dockIconScale = 1- [adium.dockController dockIconScale];
     iconHeight = (SMALLESTRADIUS + (RADIUSRANGE * dockIconScale));
 
 	top = 126;

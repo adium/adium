@@ -200,7 +200,7 @@
 	if ([[[NSBundle bundleWithPath:itunesPath] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] doubleValue] > ITUNES_MINIMUM_VERSION) {
 		
 		//Perform substitutions on outgoing content
-		[[adium contentController] registerContentFilter:self 
+		[adium.contentController registerContentFilter:self 
 												  ofType:AIFilterContent
 											   direction:AIFilterOutgoing];
 		
@@ -275,7 +275,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium contentController] unregisterContentFilter:self];
+	[adium.contentController unregisterContentFilter:self];
 }
 
 #pragma mark -

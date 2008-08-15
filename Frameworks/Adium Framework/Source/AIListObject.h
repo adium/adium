@@ -68,15 +68,15 @@ typedef enum {
 @end
 
 @interface AIListObject : ESObjectWithProperties <AIListObject> {
-	AIService				*service;
+	AIService			*service;
 	
-    NSString				*UID;
+	NSString				*UID;
 	NSString				*internalObjectID;
 	BOOL					visible;				//Visibility of this object
 	BOOL					alwaysVisible;
 
 	//Grouping, Manual ordering
-    id <AIContainingObject, AIListObject>	containingObject;		//The group/metacontact this object is in
+	id <AIContainingObject, AIListObject>	containingObject;		//The group/metacontact this object is in
 	float									orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
@@ -88,34 +88,32 @@ typedef enum {
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
 
 //Identifying information
-- (NSString *)UID;
-- (AIService *)service;
-- (NSString *)serviceID;
-- (NSString *)serviceClass;
-- (NSString *)internalObjectID;
+@property (readonly, nonatomic) NSString *UID;
+@property (readonly, nonatomic) AIService *service;
+@property (readonly, nonatomic) NSString *serviceID;
+@property (readonly, nonatomic) NSString *serviceClass;
+@property (readonly, nonatomic) NSString *internalObjectID;
 + (NSString *)internalObjectIDForServiceID:(NSString *)inServiceID UID:(NSString *)inUID;
 
 //Visibility
-- (void)setVisible:(BOOL)inVisible;
-- (BOOL)visible;
-- (void)setAlwaysVisible:(BOOL)isVisible;
-- (BOOL)alwaysVisible;
+@property (readwrite, nonatomic) BOOL visible;
+@property (readwrite, nonatomic) BOOL alwaysVisible;
 
 //Grouping
-- (AIListObject <AIContainingObject> *)containingObject;
-- (BOOL)containsMultipleContacts;
+@property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
+@property (readonly, nonatomic) BOOL containsMultipleContacts;
 
 //Display
-- (NSString *)formattedUID;
+@property (readonly, nonatomic) NSString *formattedUID;
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify;
-- (NSString *)longDisplayName;
+@property (readonly, nonatomic) NSString *longDisplayName;
 
 //Prefs
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)groupName;
 - (void)setPreferences:(NSDictionary *)prefs inGroup:(NSString *)group;
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName ignoreInheritedValues:(BOOL)ignore;
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
-- (NSString *)pathToPreferences;
+@property (readonly, nonatomic) NSString *pathToPreferences;
 
 //Alter the placement of this object in a group (PRIVATE: Setting this is for AIListGroup ONLY)
 @property (readwrite, nonatomic) CGFloat orderIndex;
@@ -124,41 +122,39 @@ typedef enum {
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
 
 //Key-Value pairing
-- (BOOL)online;
+@property (readonly, nonatomic) BOOL online;
 
-- (NSString *)statusName;
-- (AIStatusType)statusType;
+@property (readonly, nonatomic) NSString *statusName;
+@property (readonly, nonatomic) AIStatusType statusType;
 - (void)setStatusWithName:(NSString *)statusName statusType:(AIStatusType)statusType notify:(NotifyTiming)notify;
-- (NSAttributedString *)statusMessage;
-- (NSString *)statusMessageString;
+@property (readonly, nonatomic) NSAttributedString *statusMessage;
+@property (readonly, nonatomic) NSString *statusMessageString;
 - (void)setStatusMessage:(NSAttributedString *)statusMessage notify:(NotifyTiming)notify;
 - (void)setBaseAvailableStatusAndNotify:(NotifyTiming)notify;
-- (AIStatusSummary)statusSummary;
+@property (readonly, nonatomic) AIStatusSummary statusSummary;
 
-- (BOOL)soundsAreMuted;
+@property (readonly, nonatomic) BOOL soundsAreMuted;
 
-- (BOOL)isStranger;
-- (BOOL)isMobile;
-- (BOOL)isBlocked;
+@property (readonly, nonatomic) BOOL isStranger;
+@property (readonly, nonatomic) BOOL isMobile;
+@property (readonly, nonatomic) BOOL isBlocked;
 
-- (NSString *)displayName;
-- (void)setDisplayName:(NSString *)alias;
+@property (readwrite, nonatomic, retain) NSString *displayName;
 
-- (NSString *)phoneticName;
+@property (readonly, nonatomic) NSString *phoneticName;
 
-- (NSString *)notes;
-- (void)setNotes:(NSString *)notes;
+@property (readwrite, nonatomic, retain) NSString *notes;
 
-- (NSNumber *)idleTime;
+@property (readonly, nonatomic) NSNumber *idleTime;
 
-- (NSImage *)userIcon;
-- (NSImage *)menuIcon;
-- (NSImage *)statusIcon;
-- (NSData *)userIconData;
+@property (readonly, nonatomic) NSImage *userIcon;
+@property (readonly, nonatomic) NSImage *menuIcon;
+@property (readonly, nonatomic) NSImage *statusIcon;
+@property (readonly, nonatomic) NSData *userIconData;
 - (void)setUserIconData:(NSData *)inData;
 
 //For use only by subclasses
-- (NSImage *)internalUserIcon;
+@property (readonly, nonatomic) NSImage *internalUserIcon;
 
 //mutableOwnerArray delegate and methods
 - (void)listObject:(AIListObject *)listObject mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(AIListObject *)inOwner priorityLevel:(float)priority;
