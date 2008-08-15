@@ -299,8 +299,8 @@
 - (void)didNotifyOfChangedPropertiesSilently:(BOOL)silent
 {
 	//Let our containing object know about the notification request
-	if (containingObject)
-		[containingObject notifyOfChangedPropertiesSilently:silent];
+	if (self.containingObject)
+		[self.containingObject notifyOfChangedPropertiesSilently:silent];
 }
 
 /*!
@@ -311,8 +311,8 @@
 - (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify
 {				
 	//Inform our containing group about the new property value
-	if (containingObject) {
-		[containingObject object:self didChangeValueForProperty:key notify:notify];
+	if (self.containingObject) {
+		[self.containingObject object:self didChangeValueForProperty:key notify:notify];
 	}
 	
 	[super object:inObject didChangeValueForProperty:key notify:notify];
@@ -328,8 +328,8 @@
  */
 - (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority
 {
-	if (containingObject) {
-		[containingObject listObject:self mutableOwnerArray:inArray didSetObject:anObject withOwner:inOwner priorityLevel:priority];
+	if (self.containingObject) {
+		[self.containingObject listObject:self mutableOwnerArray:inArray didSetObject:anObject withOwner:inOwner priorityLevel:priority];
 	}
 }
 
