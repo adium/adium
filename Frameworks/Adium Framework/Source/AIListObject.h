@@ -61,13 +61,7 @@ typedef enum {
 - (BOOL)canContainObject:(id)obj;
 @end
 
-@protocol AIListObject
-- (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify;
-- (void)notifyOfChangedPropertiesSilently:(BOOL)silent;
-- (void)listObject:(AIListObject *)listObject mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(AIListObject *)anObject withOwner:(AIListObject *)inOwner priorityLevel:(float)priority;
-@end
-
-@interface AIListObject : ESObjectWithProperties <AIListObject> {
+@interface AIListObject : ESObjectWithProperties {
 	AIService			*service;
 	
 	NSString				*UID;
@@ -76,16 +70,18 @@ typedef enum {
 	BOOL					alwaysVisible;
 
 	//Grouping, Manual ordering
-	id <AIContainingObject, AIListObject>	containingObject;		//The group/metacontact this object is in
-	float									orderIndex;				//Placement of this contact within a group
+	AIListObject <AIContainingObject>	*containingObject;		//The group/metacontact this object is in
+	CGFloat				orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
 	CGFloat				largestOrder;
 	CGFloat				smallestOrder;
 }
 
-//
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
+
+- (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify;
+- (void)notifyOfChangedPropertiesSilently:(BOOL)silent;
 
 //Identifying information
 @property (readonly, nonatomic) NSString *UID;

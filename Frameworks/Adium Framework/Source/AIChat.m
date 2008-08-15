@@ -95,14 +95,14 @@ static int nextChatNumber = 0;
 //Big image
 - (NSImage *)chatImage
 {
-	AIListContact 	*listObject = [self listObject];
+	AIListContact 	*listObject = self.listObject;
 	NSImage			*image = nil;
 
 	if (listObject) {
 		image = [[listObject parentContact] userIcon];
 		if (!image) image = [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconLarge direction:AIIconNormal];
 	} else {
-		image = [AIServiceIcons serviceIconForObject:[self account] type:AIServiceIconLarge direction:AIIconNormal];
+		image = [AIServiceIcons serviceIconForObject:self.account type:AIServiceIconLarge direction:AIIconNormal];
 	}
 
 	return image;
@@ -114,7 +114,7 @@ static int nextChatNumber = 0;
 	AIListObject 	*listObject;
 	NSImage			*chatMenuImage = nil;
 	
-	if ((listObject = [self listObject])) {
+	if ((listObject = self.listObject)) {
 		chatMenuImage = [AIUserIcons menuUserIconForObject:listObject];
 	}
 
@@ -203,7 +203,7 @@ static int nextChatNumber = 0;
 	//apply the change to that object as well so it can be cleanly reflected in the contact list.
 	if ([key isEqualToString:KEY_UNVIEWED_CONTENT] ||
 		[key isEqualToString:KEY_TYPING]) {
-		AIListObject	*listObject = [self listObject];
+		AIListObject	*listObject = self.listObject;
 		
 		if (listObject) [listObject setValue:[self valueForProperty:key] forProperty:key notify:notify];
 	}
@@ -213,7 +213,7 @@ static int nextChatNumber = 0;
 
 - (void)clearListObjectStatuses
 {
-	AIListObject	*listObject = [self listObject];
+	AIListObject	*listObject = self.listObject;
 	
 	if (listObject) {
 		[listObject setValue:nil forProperty:KEY_UNVIEWED_CONTENT notify:NotifyLater];
@@ -270,46 +270,21 @@ static int nextChatNumber = 0;
 
 //Name  ----------------------------------------------------------------------------------------------------------------
 #pragma mark Name
-- (NSString *)name
-{
-	return name;
-}
-- (void)setName:(NSString *)inName
-{
-	if (name != inName) {
-		[name release]; name = [inName retain]; 
-	}
-}
+
+@synthesize name;
 
 /*!
- * @brief Return an identifier which can be used to look up this chat later
- *
- * Use setIdentifier to specify an arbitrary identifier for this chat.
+ * @brief An identifier which can be used to look up this chat later
  *
  * Use uniqueChatID as a unique identifier for a contact-service combination.
+ * Only an account which created a chat should specify the identifier; it has no useful meaning outside that context.
  */
-- (id)identifier
-{
-	return identifier;
-}
-
-/*!
- * @brief Set an identifier for this chat
- *
- * Only an account which created a chat should specify the identifier; it has no useful menaing outside that context.
- */
-- (void)setIdentifier:(id)inIdentifier
-{
-	if (identifier != inIdentifier) {
-		[identifier release];
-		identifier = [inIdentifier retain];
-	}
-}
+@synthesize identifier;
 
 - (NSString *)displayName
 {
     NSString	*outName = [self displayArrayObjectForKey:@"Display Name"];
-    return outName ? outName : (name ? name : [[self listObject] displayName]);
+    return outName ? outName : (name ? name : [self.listObject displayName]);
 }
 
 - (void)setDisplayName:(NSString *)inDisplayName
@@ -334,31 +309,24 @@ static int nextChatNumber = 0;
 // Invite a list object to join the chat. Returns YES if the chat joins, NO otherwise
 - (BOOL)inviteListContact:(AIListContact *)inContact withMessage:(NSString *)inviteMessage
 {
-	return ([[self account] inviteContact:inContact toChat:self withMessage:inviteMessage]);
+	return ([self.account inviteContact:inContact toChat:self withMessage:inviteMessage]);
 }
 
-- (void)setPreferredListObject:(AIListContact *)inObject
-{
-	preferredListObject = inObject;
-}
-
-- (AIListContact *)preferredListObject
-{
-	return preferredListObject;
-}
+@synthesize preferredListObject;
 
 //If this chat only has one participating list object, it is returned.  Otherwise, nil is returned
 - (AIListContact *)listObject
 {
-    if (([participatingListObjects count] == 1) && ![self isGroupChat]) {
-        return [participatingListObjects objectAtIndex:0];
-    } else {
-        return nil;
-    }
+	if (([participatingListObjects count] == 1) && ![self isGroupChat]) {
+		return [participatingListObjects objectAtIndex:0];
+	}
+
+	return nil;
 }
+
 - (void)setListObject:(AIListContact *)inListObject
 {
-	if (inListObject != [self listObject]) {
+	if (inListObject != self.listObject) {
 		if ([participatingListObjects count]) {
 			[participatingListObjects removeObjectAtIndex:0];
 		}
@@ -379,7 +347,7 @@ static int nextChatNumber = 0;
 		if ([self isGroupChat]) {
 			uniqueChatID = [[NSString alloc] initWithFormat:@"%@.%i",[self name],nextChatNumber++];
 		} else {			
-			uniqueChatID = [[[self listObject] internalObjectID] retain];
+			uniqueChatID = [[self.listObject internalObjectID] retain];
 		}
 
 		if (!uniqueChatID) {
@@ -444,7 +412,7 @@ static int nextChatNumber = 0;
 	AIChatSendingAbilityType sendingAbilityType;
 
 	if ([self isGroupChat]) {
-		if ([[self account] online]) {
+		if ([self.account online]) {
 			//XXX Liar!
 			sendingAbilityType = AIChatCanSendMessageNow;
 		} else {
@@ -452,14 +420,14 @@ static int nextChatNumber = 0;
 		}
 
 	} else {
-		if ([[self account] online]) {
-			AIListContact *listObject = [self listObject];
+		if ([self.account online]) {
+			AIListContact *listObject = self.listObject;
 			
 			if ([listObject online] || [listObject isStranger]) {
 				sendingAbilityType = AIChatCanSendMessageNow;
-			} else if ([[self account] canSendOfflineMessageToContact:listObject]) {
+			} else if ([self.account canSendOfflineMessageToContact:listObject]) {
 				sendingAbilityType = AIChatCanSendViaServersideOfflineMessage;				
-			} else if ([[self account] maySendMessageToInvisibleContact:listObject]) {
+			} else if ([self.account maySendMessageToInvisibleContact:listObject]) {
 				sendingAbilityType = AIChatMayNotBeAbleToSendMessage;	
 			} else {
 				sendingAbilityType = AIChatCanNotSendMessage;
@@ -475,10 +443,10 @@ static int nextChatNumber = 0;
 
 - (BOOL)canSendImages
 {
-	return [[self account] canSendImagesForChat:self];
+	return [self.account canSendImagesForChat:self];
 }
 
-- (int)unviewedContentCount
+- (NSUInteger)unviewedContentCount
 {
 	return [self integerValueForProperty:KEY_UNVIEWED_CONTENT];
 }
@@ -505,22 +473,22 @@ static int nextChatNumber = 0;
 
 - (NSUInteger)containedObjectsCount
 {
-	return [[self containedObjects] count];
+	return [self.containedObjects count];
 }
 
 - (BOOL)containsObject:(AIListObject *)inObject
 {
-	return [[self containedObjects] containsObjectIdenticalTo:inObject];
+	return [self.containedObjects containsObjectIdenticalTo:inObject];
 }
 
 - (id)objectAtIndex:(NSUInteger)index
 {
-	return [[self containedObjects] objectAtIndex:index];
+	return [self.containedObjects objectAtIndex:index];
 }
 
 - (NSUInteger)indexOfObject:(AIListObject *)inObject
 {
-    return [[self containedObjects] indexOfObject:inObject];
+    return [self.containedObjects indexOfObject:inObject];
 }
 
 //Retrieve a specific object by service and UID
@@ -536,7 +504,7 @@ static int nextChatNumber = 0;
 
 - (NSArray *)listContacts
 {
-	return [self containedObjects];
+	return self.containedObjects;
 }
 
 - (BOOL)addObject:(AIListObject *)inObject
@@ -545,9 +513,9 @@ static int nextChatNumber = 0;
 		[self addParticipatingListObject:(AIListContact *)inObject notify:YES];
 		
 		return YES;
-	} else {
-		return NO;
 	}
+	
+	return NO;
 }
 
 - (void)removeObject:(AIListObject *)inObject
@@ -594,22 +562,21 @@ static int nextChatNumber = 0;
 	return NO;
 }
 
-- (unsigned)visibleCount
+- (NSUInteger)visibleCount
 {
 	return [self containedObjectsCount];
 }
 
 - (NSString *)contentsBasedIdentifier
 {
-	return [NSString stringWithFormat:@"%@-%@.%@",[self name], [[self account] serviceID], [[self account] UID]];
-
+	return [NSString stringWithFormat:@"%@-%@.%@",[self name], [self.account serviceID], [self.account UID]];
 }
 
 //Not used
-- (float)smallestOrder { return 0; }
-- (float)largestOrder { return 1E10; }
-- (float)orderIndexForObject:(AIListObject *)listObject { return 0; }
-- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex {};
+- (CGFloat)smallestOrder { return 0; }
+- (CGFloat)largestOrder { return 1E10; }
+- (CGFloat)orderIndexForObject:(AIListObject *)listObject { return 0; }
+- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(CGFloat)inOrderIndex {};
 
 
 #pragma mark	
@@ -658,17 +625,7 @@ static int nextChatNumber = 0;
 		(uniqueChatID ? uniqueChatID : @"<new>")];
 }
 
-#pragma mark Group Chat
-
-- (void)setIsGroupChat:(BOOL)flag
-{
-	isGroupChat = flag;
-}
-
-- (BOOL)isGroupChat
-{
-	return isGroupChat;
-}
+@synthesize isGroupChat;
 
 #pragma mark Custom emoticons
 
@@ -678,10 +635,7 @@ static int nextChatNumber = 0;
 	[customEmoticons addObject:inEmoticon];
 }
 
-- (NSSet *)customEmoticons;
-{
-	return customEmoticons;
-}
+@synthesize customEmoticons;
 
 #pragma mark Errors
 
@@ -702,7 +656,7 @@ static int nextChatNumber = 0;
 #pragma mark Room commands
 - (NSMenu *)actionMenu
 {	
-	return [[self account] actionsForChat:self];
+	return [self.account actionsForChat:self];
 }
 - (void)setActionMenu:(NSMenu *)inMenu {};
 
@@ -745,7 +699,7 @@ static int nextChatNumber = 0;
 {
 	NSString *aName = [self name];
 	if (!aName)
-		aName = [[self listObject] UID];
+		aName = [self.listObject UID];
 	return aName;
 }
 
@@ -767,7 +721,7 @@ static int nextChatNumber = 0;
 
 - (AIAccount *)scriptingAccount
 {
-	return [self account];
+	return self.account;
 }
 
 - (void)setScriptingAccount:(AIAccount *)a
@@ -804,8 +758,8 @@ static int nextChatNumber = 0;
 		NSAttributedString  *attributedMessage = [AIHTMLDecoder decodeHTML:message];
 		AIContentMessage	*messageContent;
 		messageContent = [AIContentMessage messageInChat:self
-											  withSource:[self account]
-											 destination:[self listObject]
+											  withSource:self.account
+											 destination:self.listObject
 													date:nil
 												 message:attributedMessage
 											   autoreply:NO];
@@ -837,7 +791,7 @@ static int nextChatNumber = 0;
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	return [[self containedObjects] countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 - (BOOL) canContainObject:(id)obj

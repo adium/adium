@@ -304,7 +304,7 @@
 }
 
 /*!
- * @brief Notifcation of changed properties
+ * @brief Notification of changed properties
  *
  * Subclasses may wish to override these - they must be sure to call super's implementation, too!
  */

@@ -150,15 +150,8 @@
 
 //Getting properties ---------------------------------------------------------------------------------------------------
 #pragma mark Getting Properties
-/*!
- * @brief Properties enumeartor
- *
- * @result NSEnumerator of all properties
- */
-- (NSEnumerator	*)propertyEnumerator
-{
-	return [propertiesDictionary keyEnumerator];
-}
+
+@synthesize properties = propertiesDictionary;
 
 /*!
  * @brief Value for a property

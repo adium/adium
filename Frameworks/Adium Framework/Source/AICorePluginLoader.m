@@ -74,14 +74,11 @@ static	NSMutableDictionary		*pluginDict = nil;
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:CONFIRMED_PLUGINS];
 		[[NSUserDefaults standardUserDefaults] setObject:[NSApp applicationVersion] forKey:CONFIRMED_PLUGINS_VERSION];
 	}
-
-	NSEnumerator	*enumerator;
-	NSString		*path;
-
+	
 	NSString *internalPluginsPath = [[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:DIRECTORY_INTERNAL_PLUGINS] stringByExpandingTildeInPath];
+	
 	//Load the plugins in our bundle
-	enumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:internalPluginsPath] objectEnumerator];
-	while ((path = [enumerator nextObject])) {
+	for (NSString *path in [[NSFileManager defaultManager] directoryContentsAtPath:internalPluginsPath]) {
 		if ([[path pathExtension] caseInsensitiveCompare:EXTENSION_ADIUM_PLUGIN] == NSOrderedSame)
 			[[self class] loadPluginAtPath:[internalPluginsPath stringByAppendingPathComponent:path]
 							confirmLoading:NO
@@ -89,9 +86,7 @@ static	NSMutableDictionary		*pluginDict = nil;
 	}
 
 	//Load any external plugins the user has installed
-	enumerator = [[adium allResourcesForName:EXTERNAL_PLUGIN_FOLDER
-							  withExtensions:EXTENSION_ADIUM_PLUGIN] objectEnumerator];
-	while ((path = [enumerator nextObject])) {
+	for (NSString *path in [adium allResourcesForName:EXTERNAL_PLUGIN_FOLDER withExtensions:EXTENSION_ADIUM_PLUGIN]) {
 		[[self class] loadPluginAtPath:path confirmLoading:YES pluginArray:pluginArray];
 	}	
 #ifdef PLUGIN_LOAD_TIMING
@@ -106,9 +101,7 @@ static	NSMutableDictionary		*pluginDict = nil;
 //Give all external plugins a chance to close
 - (void)controllerWillClose
 {
-    id <AIPlugin>	plugin;
-
-    for (plugin in pluginArray) {
+    for (id<AIPlugin>plugin in pluginArray) {
 		[[adium notificationCenter] removeObserver:plugin];
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];

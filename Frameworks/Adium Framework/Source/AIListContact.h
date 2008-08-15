@@ -23,32 +23,31 @@
 @class ABPerson;
 
 @interface AIListContact : AIListObject {
-	AIAccount		*account;
-    NSString		*remoteGroupName;
+	AIAccount	*account;
+	NSString		*remoteGroupName;
 	NSString		*internalUniqueObjectID;
 }
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
-- (void)setRemoteGroupName:(NSString *)inName;
-- (NSString *)remoteGroupName;
+@property (readwrite, nonatomic, retain) NSString *remoteGroupName;
 - (void)setUID:(NSString *)inUID;
-- (AIAccount *)account;
+@property (readonly, nonatomic) AIAccount *account;
 - (NSString *)internalUniqueObjectID;
 + (NSString *)internalUniqueObjectIDForService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (void)restoreGrouping;
 
-- (AIListGroup *)parentGroup;
-- (AIListContact *)parentContact;
+@property (readonly, nonatomic) AIListGroup *parentGroup;
+@property (readonly, nonatomic) AIListContact *parentContact;
 
-- (NSString *)ownDisplayName;
-- (NSString *)ownPhoneticName;
-- (NSString *)serversideDisplayName;
+@property (readonly, nonatomic) NSString *ownDisplayName;
+@property (readonly, nonatomic) NSString *ownPhoneticName;
+@property (readonly, nonatomic) NSString *serversideDisplayName;
 
-- (BOOL)containsMultipleContacts;
-- (BOOL)canJoinMetaContacts;
+@property (readonly, nonatomic) BOOL containsMultipleContacts;
+@property (readonly, nonatomic) BOOL canJoinMetaContacts;
 
-- (BOOL)isIntentionallyNotAStranger;
+@property (readonly, nonatomic) BOOL isIntentionallyNotAStranger;
 
 - (void)setIsMobile:(BOOL)isMobile notify:(NotifyTiming)notify;
 - (void)setOnline:(BOOL)online notify:(NotifyTiming)notify silently:(BOOL)silent;

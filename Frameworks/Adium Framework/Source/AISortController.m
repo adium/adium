@@ -157,11 +157,7 @@ static NSMutableArray *sortControllers = nil;
  */
 - (void)forceIgnoringOfGroups:(BOOL)shouldForce
 {
-	if (shouldForce) {
-		alwaysSortGroupsToTop = NO;
-	} else {
-		alwaysSortGroupsToTop = [self alwaysSortGroupsToTopByDefault];
-	}
+	alwaysSortGroupsToTop = shouldForce ? NO : [self alwaysSortGroupsToTopByDefault];
 }
 
 /*!

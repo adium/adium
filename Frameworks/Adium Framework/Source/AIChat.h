@@ -94,48 +94,42 @@ typedef enum {
 } AIChatErrorType;
 
 @interface AIChat : ESObjectWithProperties <AIContainingObject> {
-    AIAccount			*account;
+	AIAccount			*account;
 	NSDate				*dateOpened;
-	BOOL				isOpen;
-	BOOL				isGroupChat;
-	BOOL				hasSentOrReceivedContent;
+	BOOL					isOpen;
+	BOOL					isGroupChat;
+	BOOL					hasSentOrReceivedContent;
 
 	NSMutableArray		*pendingOutgoingContentObjects;
 
-    NSMutableArray		*participatingListObjects;
+	NSMutableArray		*participatingListObjects;
 	AIListContact		*preferredListObject;
-	NSString			*name;
-	NSString			*uniqueChatID;
-	id					identifier;
+	NSString				*name;
+	NSString				*uniqueChatID;
+	id						identifier;
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL				expanded;			//Exanded/Collapsed state of this object
+	BOOL					expanded;
 	
-	BOOL				enableTypingNotifications;
+	BOOL					enableTypingNotifications;
 	
 	NSMutableSet		*customEmoticons;
-	
-	
 }
 
 + (id)chatForAccount:(AIAccount *)inAccount;
 
-- (AIAccount *)account;
-- (void)setAccount:(AIAccount *)inAccount;
+@property (readwrite, nonatomic, retain) AIAccount *account;
 - (void)accountDidJoinChat;
 
-- (NSDate *)dateOpened;
-- (NSDictionary *)chatCreationDictionary;
-- (void)setChatCreationDictionary:(NSDictionary *)inDict;
+@property (readonly, nonatomic) NSDate *dateOpened;
+@property (readwrite, nonatomic, retain) NSDictionary *chatCreationDictionary;
 
-- (BOOL)isOpen;
-- (void)setIsOpen:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL isOpen;
 
-- (BOOL)hasSentOrReceivedContent;
-- (void)setHasSentOrReceivedContent:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL hasSentOrReceivedContent;
 
-- (int)unviewedContentCount;
+@property (readonly, nonatomic) NSUInteger unviewedContentCount;
 - (void)incrementUnviewedContentCount;
 - (void)clearUnviewedContentCount;
 
@@ -143,48 +137,41 @@ typedef enum {
 
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify;
 - (void)removeAllParticipatingContactsSilently;
-- (AIListContact *)listObject;
-- (void)setListObject:(AIListContact *)inObject;
-- (AIListContact *)preferredListObject;
-- (void)setPreferredListObject:(AIListContact *)inObject;
+@property (readwrite, nonatomic, retain) AIListContact *listObject;
+@property (readwrite, nonatomic, assign) AIListContact *preferredListObject;
 - (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
 
 - (BOOL)shouldBeginSendingContentObject:(AIContentObject *)inObject;
 - (void)finishedSendingContentObject:(AIContentObject *)inObject;
 
-- (NSString *)name;
-- (void)setName:(NSString *)inName;
+@property (readwrite, nonatomic, retain) NSString *name; 
+@property (readwrite, nonatomic, retain) id identifier;
 
-- (id)identifier;
-- (void)setIdentifier:(id)inIdentifier;
+@property (readonly, nonatomic) NSString *uniqueChatID;
 
-- (NSString *)uniqueChatID;
+@property (readonly, nonatomic) NSImage *chatImage;
+@property (readonly, nonatomic) NSImage *chatMenuImage;
 
-- (NSImage *)chatImage;
-- (NSImage *)chatMenuImage;
+@property (readwrite, nonatomic, retain) NSDictionary *securityDetails;
+@property (readonly, nonatomic) BOOL isSecure;
+@property (readonly, nonatomic) AIEncryptionStatus encryptionStatus;
+@property (readonly, nonatomic) BOOL supportsSecureMessagingToggling;
 
-- (void)setSecurityDetails:(NSDictionary *)securityDetails;
-- (NSDictionary *)securityDetails;
-- (BOOL)isSecure;
-- (AIEncryptionStatus)encryptionStatus;
-- (BOOL)supportsSecureMessagingToggling;
-
-- (AIChatSendingAbilityType)messageSendingAbility;
-- (BOOL)canSendImages;
+@property (readonly, nonatomic) AIChatSendingAbilityType messageSendingAbility;
+@property (readonly, nonatomic) BOOL canSendImages;
 
 - (BOOL)isListContactIgnored:(AIListObject *)inContact;
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
-- (BOOL)isGroupChat;
-- (void)setIsGroupChat:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL isGroupChat;
 
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
-- (NSSet *)customEmoticons;
+@property (readonly, nonatomic) NSSet *customEmoticons;
 
 - (void)receivedError:(NSNumber *)type;
 
-- (id <AIChatContainer>)chatContainer;
+@property (readonly, nonatomic) id <AIChatContainer> chatContainer;
 
-- (NSMenu *)actionMenu;
+@property (readonly, nonatomic) NSMenu *actionMenu;
 
 @end
