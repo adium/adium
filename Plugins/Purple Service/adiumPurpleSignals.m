@@ -142,10 +142,6 @@ static void buddy_status_changed_cb(PurpleBuddy *buddy, PurpleStatus *oldstatus,
 
 	statusName = [account statusNameForPurpleBuddy:buddy];
 	statusMessage = [account statusMessageForPurpleBuddy:buddy];
-
-	//XXX This is done so MSN can ignore it since it's currently buggy in libpurple
-	[account updateMobileStatus:theContact
-					   withData:isMobile];
 	
 	//Will also notify
 	[account updateStatusForContact:theContact
