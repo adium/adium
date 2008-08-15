@@ -62,14 +62,14 @@
 																			  action:@selector(toggleAppearancePreference:)
 																	   keyEquivalent:@"i"];
 	[menuItem_userIcons setKeyEquivalentModifierMask:(NSControlKeyMask | NSCommandKeyMask)];
-	[[adium menuController] addMenuItem:menuItem_userIcons toLocation:LOC_View_Appearance_Toggles];
+	[adium.menuController addMenuItem:menuItem_userIcons toLocation:LOC_View_Appearance_Toggles];
 	
 	menuItem_userStatusMessages = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_STATUS_MESSAGES_TITLE
 																					   target:self
 																					   action:@selector(toggleAppearancePreference:)
 																				keyEquivalent:@"s"];
 	[menuItem_userStatusMessages setKeyEquivalentModifierMask:(NSControlKeyMask | NSCommandKeyMask)];
-	[[adium menuController] addMenuItem:menuItem_userStatusMessages toLocation:LOC_View_Appearance_Toggles];
+	[adium.menuController addMenuItem:menuItem_userStatusMessages toLocation:LOC_View_Appearance_Toggles];
 	
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_LAYOUT];	

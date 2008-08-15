@@ -718,7 +718,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		}
 	}
 
-	[[adium interfaceController] openChat:chat];
+	[adium.interfaceController openChat:chat];
 	
 	[chat accountDidJoinChat];
 }
@@ -1461,7 +1461,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer
 {
 	AILog(@"File transfer request received: %@",fileTransfer);
-	[[adium fileTransferController] receiveRequestForFileTransfer:fileTransfer];
+	[adium.fileTransferController receiveRequestForFileTransfer:fileTransfer];
 }
 
 //Create an ESFileTransfer object from an xfer
@@ -1472,7 +1472,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIListContact   *contact = [self contactWithUID:destinationUID];
     ESFileTransfer	*fileTransfer;
 	
-	fileTransfer = [[adium fileTransferController] newFileTransferWithContact:contact
+	fileTransfer = [adium.fileTransferController newFileTransferWithContact:contact
 																   forAccount:self
 																		 type:Unknown_FileTransfer]; 
 	[fileTransfer setSize:inSize];
@@ -1634,7 +1634,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Set our current status state after filtering its statusMessage as appropriate. This will take us online in the process.
 	AIStatus	*statusState = [self valueForProperty:@"StatusState"];
 	if (!statusState || ([statusState statusType] == AIOfflineStatusType)) {
-		statusState = [[adium statusController] defaultInitialStatusState];
+		statusState = [adium.statusController defaultInitialStatusState];
 	}
 
 	AILog(@"Adium: Connect: %@ initiating connection using status state %@ (%@).",[self UID],statusState,
@@ -1914,7 +1914,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)accountConnectionNotice:(NSString *)connectionNotice
 {
-    [[adium interfaceController] handleErrorMessage:[NSString stringWithFormat:AILocalizedString(@"%@ (%@) : Connection Notice",nil),[self formattedUID],[service description]]
+    [adium.interfaceController handleErrorMessage:[NSString stringWithFormat:AILocalizedString(@"%@ (%@) : Connection Notice",nil),[self formattedUID],[service description]]
                                     withDescription:connectionNotice];
 }
 
@@ -2211,7 +2211,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		 * description of this away state. This allows, for example, an AIM user to set the "Do Not Disturb" type provided by her ICQ account
 		 * and have the away message be set appropriately.
 		 */
-		statusMessage = [NSAttributedString stringWithString:[[adium statusController] descriptionForStateOfStatus:statusState]];
+		statusMessage = [NSAttributedString stringWithString:[adium.statusController descriptionForStateOfStatus:statusState]];
 	}
 
 	BOOL isNowPlayingStatus = ([statusState specialStatusType] == AINowPlayingSpecialStatusType);
@@ -2959,7 +2959,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	
     if (currentTypingState != newTypingState) {
 		if (newTypingState == AITyping && openPsychicChats && ![chat isOpen]) {
-			[[adium interfaceController] openChat:chat];
+			[adium.interfaceController openChat:chat];
 			
 			/*
 			 * Use the Libpurple "psychic" tagline. If this is found to be confusing, we should switch to your own version.

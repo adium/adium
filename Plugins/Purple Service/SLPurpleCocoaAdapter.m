@@ -165,12 +165,12 @@ static void ZombieKiller_Signal(int i)
 	//Set the gaim user directory to be within this user's directory
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {
 		//Remove old icons cache
-		[[NSFileManager defaultManager]  removeFileAtPath:[[[[adium loginController] userDirectory] stringByAppendingPathComponent:@"libgaim"] stringByAppendingPathComponent:@"icons"]
+		[[NSFileManager defaultManager]  removeFileAtPath:[[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"] stringByAppendingPathComponent:@"icons"]
 												  handler:nil];
 		
 		//Update the rest
-		[[NSFileManager defaultManager] movePath:[[[adium loginController] userDirectory] stringByAppendingPathComponent:@"libgaim"]
-										  toPath:[[[adium loginController] userDirectory] stringByAppendingPathComponent:@"libpurple"]
+		[[NSFileManager defaultManager] movePath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"]
+										  toPath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libpurple"]
 										 handler:nil];
 		
 		[[NSUserDefaults standardUserDefaults] setBool:YES
@@ -178,7 +178,7 @@ static void ZombieKiller_Signal(int i)
 	}
 	
 	//Set the purple user directory to be within this user's directory
-	NSString	*purpleUserDir = [[[adium loginController] userDirectory] stringByAppendingPathComponent:@"libpurple"];
+	NSString	*purpleUserDir = [[adium.loginController userDirectory] stringByAppendingPathComponent:@"libpurple"];
 	purple_util_set_user_dir([[purpleUserDir stringByExpandingTildeInPath] fileSystemRepresentation]);
 
 	//Set the caches path
@@ -712,7 +712,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
     }
 	
 	//If we didn't grab a translated version, at least display the English version Purple supplied
-	[[adium interfaceController] handleMessage:([errorMessage length] ? errorMessage : primaryString)
+	[adium.interfaceController handleMessage:([errorMessage length] ? errorMessage : primaryString)
 							   withDescription:([description length] ? description : ([secondaryString length] ? secondaryString : @"") )
 							   withWindowTitle:titleString];
 	
@@ -756,7 +756,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 	
 	NSString	*message = primaryString;
 	
-	[[adium interfaceController] handleMessage:(message ? message : @"")
+	[adium.interfaceController handleMessage:(message ? message : @"")
 							   withDescription:(description ? description : @"")
 							   withWindowTitle:(titleString ? titleString : @"")];
 
@@ -767,7 +767,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 #pragma mark File transfers
 - (void)displayFileSendError
 {
-	[[adium interfaceController] handleMessage:AILocalizedString(@"File Send Error",nil)
+	[adium.interfaceController handleMessage:AILocalizedString(@"File Send Error",nil)
 							   withDescription:AILocalizedString(@"An error was encoutered sending the file.",nil)
 							   withWindowTitle:AILocalizedString(@"File Send Error",nil)];
 }

@@ -94,11 +94,11 @@
 	[menuItem setSubmenu:menu];
 	[menuItem setTag:AISecureMessagingMenu_Root];
 
-	[[adium menuController] addMenuItem:menuItem 
+	[adium.menuController addMenuItem:menuItem 
 							 toLocation:LOC_Contact_Additions];
 
 	menuItem = [[menuItem copy] autorelease];
-	[[adium menuController] addContextualMenuItem:menuItem
+	[adium.menuController addContextualMenuItem:menuItem
 									   toLocation:Context_Contact_ChatAction];
 }
 
@@ -136,7 +136,7 @@
 	[button setToolbarItem:toolbarItem];
 
 	//Register our toolbar item
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
 }
 
 
@@ -191,7 +191,7 @@
 		
 		if (window) {
 			[self _updateToolbarItem:item
-							 forChat:[[adium interfaceController] activeChatInWindow:window]];
+							 forChat:[adium.interfaceController activeChatInWindow:window]];
 		}
 	}
 }
@@ -224,7 +224,7 @@
 {
     if ([inModifiedKeys containsObject:@"SecurityDetails"]) {
 		[self _updateToolbarIconOfChat:inChat
-							  inWindow:[[adium interfaceController] windowForChat:inChat]];
+							  inWindow:[adium.interfaceController windowForChat:inChat]];
 		
 		/* Add a status message to the chat */
 		NSNumber	*lastEncryptedNumber = [inChat valueForProperty:@"secureMessagingLastEncryptedState"];
@@ -299,7 +299,7 @@
 
 - (IBAction)toggleSecureMessaging:(id)sender
 {
-	AIChat	*chat = [[adium interfaceController] activeChat];
+	AIChat	*chat = [adium.interfaceController activeChat];
 
 	[[chat account] requestSecureMessaging:![chat isSecure]
 									inChat:chat];
@@ -308,7 +308,7 @@
 - (IBAction)showDetails:(id)sender
 {
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
-								 [[[[adium interfaceController] activeChat] securityDetails] objectForKey:@"Description"],
+								 [[[adium.interfaceController activeChat] securityDetails] objectForKey:@"Description"],
 								 AILocalizedString(@"OK",nil),
 								 nil,
 								 nil);
@@ -316,7 +316,7 @@
 
 - (IBAction)verify:(id)sender
 {
-	AIChat	*chat = [[adium interfaceController] activeChat];
+	AIChat	*chat = [adium.interfaceController activeChat];
 	
 	[[chat account] promptToVerifyEncryptionIdentityInChat:chat];	
 }
@@ -325,7 +325,7 @@
 {
 	NSString	*aboutEncryption;
 	
-	aboutEncryption = [[[[adium interfaceController] activeChat] account] aboutEncryption];
+	aboutEncryption = [[[adium.interfaceController activeChat] account] aboutEncryption];
 	
 	if (aboutEncryption) {
 		NSRunInformationalAlertPanel(AILocalizedString(@"About Encryption",nil),
@@ -338,7 +338,7 @@
 
 - (IBAction)selectedEncryptionPreference:(id)sender
 {
-	AIListContact	*listContact = [[[[adium interfaceController] activeChat] listObject] parentContact];
+	AIListContact	*listContact = [[[adium.interfaceController activeChat] listObject] parentContact];
 	
 	[listContact setPreference:[NSNumber numberWithInteger:[sender tag]]
 						forKey:KEY_ENCRYPTED_CHAT_PREFERENCE
@@ -348,7 +348,7 @@
 //Disable the insertion if a text field is not active
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIChat					*chat = [[adium interfaceController] activeChat];
+	AIChat					*chat = [adium.interfaceController activeChat];
 
 	if (!chat) return NO;
 

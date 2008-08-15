@@ -669,7 +669,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	id item = [outlineView_contacts firstSelectedItem];
 	if ([item isKindOfClass:[AIListContact class]]) {
 		//Open a new message with the contact
-		[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)item onPreferredAccount:YES]];
+		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)item onPreferredAccount:YES]];
 	}
 }
 
@@ -1915,7 +1915,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				[NSNumber numberWithInteger:Context_Contact_NegativeAction],
 				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 
-			return [[adium menuController] contextualMenuWithLocations:locationsArray
+			return [adium.menuController contextualMenuWithLocations:locationsArray
 														 forListObject:(AIListContact *)item];
 		}
 	}

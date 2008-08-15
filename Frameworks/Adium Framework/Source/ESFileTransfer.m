@@ -209,7 +209,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	if (status != inStatus) {
 		status = inStatus;
 		
-		[[adium fileTransferController] fileTransfer:self didSetStatus:status];
+		[adium.fileTransferController fileTransfer:self didSetStatus:status];
 		
 		if (delegate)
 			[delegate fileTransfer:self didSetStatus:status];
@@ -425,7 +425,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	if (fileSize) {
 		NSString	*fileSizeString;
 		
-		fileSizeString = [[adium fileTransferController] stringForSize:fileSize];
+		fileSizeString = [adium.fileTransferController stringForSize:fileSize];
 		filenameDisplay = [NSString stringWithFormat:@"%@ (%@)", rFilename, fileSizeString];
 	} else {
 		filenameDisplay = rFilename;

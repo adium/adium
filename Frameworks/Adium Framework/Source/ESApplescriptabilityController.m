@@ -85,14 +85,14 @@
 
 - (AIStatus *)myStatus
 {
-	return [[adium statusController] activeStatusState];
+	return [adium.statusController activeStatusState];
 }
 
 //Incomplete - make AIStatus scriptable, pass that in
 - (void)setMyStatus:(AIStatus *)newStatus
 {
 	if ([newStatus isKindOfClass:[AIStatus class]]) {
-		[[adium statusController] setActiveStatusState:newStatus];
+		[adium.statusController setActiveStatusState:newStatus];
 	} else {
 		NSLog(@"Applescript error: Tried to set status to %@ which is of class %@.  This method expects an object of class %@.",newStatus, NSStringFromClass([newStatus class]),NSStringFromClass([AIStatus class]));
 	}
@@ -131,7 +131,7 @@
 
 #pragma mark Controller convenience
 - (NSObject <AIInterfaceController> *)interfaceController{
-    return [adium interfaceController];
+    return adium.interfaceController;
 }
 
 
@@ -150,7 +150,7 @@
 	if (contact) {
 		//Open the chat and set it as active
 		chat = [adium.chatController openChatWithContact:contact onPreferredAccount:YES];
-		[[adium interfaceController] setActiveChat:chat];
+		[adium.interfaceController setActiveChat:chat];
 	}
 
 	return chat;

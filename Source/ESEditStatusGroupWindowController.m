@@ -135,7 +135,7 @@
 	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
 	NSMenuItem *menuItem;
 	
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];
@@ -147,7 +147,7 @@
 	[menu addItem:menuItem];
 	[menuItem release];
 
-	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 																	target:nil
 																	action:nil
 															 keyEquivalent:@""];

@@ -848,7 +848,7 @@
 			} else if ([[account valueForProperty:@"Waiting for Network"] boolValue]) {
 				title = AILocalizedString(@"Network Offline", @"Used when the account will connect once the network returns.");
 			} else {
-				title = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE];
+				title = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE];
 			}
 
 		} else {

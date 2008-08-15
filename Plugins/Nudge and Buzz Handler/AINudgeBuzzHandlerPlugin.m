@@ -64,7 +64,7 @@
 - (void)installPlugin
 {
 	// Register our event.
-	[[adium contactAlertsController] registerEventID:CONTENT_NUDGE_BUZZ_OCCURED
+	[adium.contactAlertsController registerEventID:CONTENT_NUDGE_BUZZ_OCCURED
 										 withHandler:self
 											 inGroup:AIMessageEventHandlerGroup
 										  globalOnly:NO];
@@ -93,8 +93,8 @@
 											 keyEquivalent:@""];
 	
 	// Register our menu items.
-	[[adium menuController] addMenuItem:notifyMenuItem toLocation:LOC_Contact_Action];
-	[[adium menuController] addContextualMenuItem:notifyContextualMenuItem toLocation:Context_Contact_Action];
+	[adium.menuController addMenuItem:notifyMenuItem toLocation:LOC_Contact_Action];
+	[adium.menuController addContextualMenuItem:notifyContextualMenuItem toLocation:Context_Contact_Action];
 	
 	// Load the toolbar icon.
 	notifyToolbarIcon = [NSImage imageNamed:@"notify.png" forClass:[self class] loadLazily:YES];
@@ -111,7 +111,7 @@
 																	   menu:nil];
 	
 	// Register the toolbar into message windows
-	[[adium toolbarController] registerToolbarItem:chatItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:chatItem forToolbarType:@"MessageWindow"];
 }
 
 - (void)uninstallPlugin
@@ -161,7 +161,7 @@
 	while ((currentWindow = [windowEnumerator nextObject])) {
 		//if it has a toolbar & it's ours
 		if ((windowToolbar = [currentWindow toolbar]) && (windowToolbar == senderToolbar)) {
-			return [[adium interfaceController] activeChatInWindow:currentWindow];
+			return [adium.interfaceController activeChatInWindow:currentWindow];
 		}
 	}
 	
@@ -174,9 +174,9 @@
 	AIListObject *object;
 	
 	if (sender == notifyMenuItem) {
-		object = [[adium interfaceController] selectedListObject];
+		object = [adium.interfaceController selectedListObject];
 	} else {
-		object = [[adium menuController] currentContextMenuObject];
+		object = [adium.menuController currentContextMenuObject];
 	}
 	
 	[self sendNotification:object];
@@ -188,9 +188,9 @@
 	AIListObject *object;
 	
 	if (menuItem == notifyMenuItem) {
-		object = [[adium interfaceController] selectedListObject];
+		object = [adium.interfaceController selectedListObject];
 	} else {
-		object = [[adium menuController] currentContextMenuObject];
+		object = [adium.menuController currentContextMenuObject];
 	}
 	
 	return [self contactDoesSupportNotification:object];
@@ -305,13 +305,13 @@
 	[adium.contentController receiveContentObject:contentNotification];
 	
 	// Fire off the event
-	[[adium contactAlertsController] generateEvent:CONTENT_NUDGE_BUZZ_OCCURED
+	[adium.contactAlertsController generateEvent:CONTENT_NUDGE_BUZZ_OCCURED
 									 forListObject:[chat listObject]
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];
 	
 	// Flash content if this isn't the active chat.
-	if ([[adium interfaceController] activeChat] != chat) {
+	if ([adium.interfaceController activeChat] != chat) {
 		[chat incrementUnviewedContentCount];
 	}
 }

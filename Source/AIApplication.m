@@ -93,7 +93,7 @@
 
 - (NSArray *)statuses
 {
-	return [[[adium statusController] flatStatusSet] allObjects];
+	return [[adium.statusController flatStatusSet] allObjects];
 }
 - (NSArray *)contactGroups
 {
@@ -136,7 +136,7 @@
  */
 - (AIChat *)activeChat
 {
-	return [[adium interfaceController] mostRecentActiveChat];
+	return [adium.interfaceController mostRecentActiveChat];
 }
 
 #pragma mark Status
@@ -187,9 +187,9 @@
 	if ([keyDictionary objectForKey:@"Location"]) {
 		NSPositionalSpecifier *location = [keyDictionary objectForKey:@"Location"];
 		NSUInteger index = [location insertionIndex];
-		[[[adium statusController] rootStateGroup] addStatusItem:status atIndex:index];
+		[[adium.statusController rootStateGroup] addStatusItem:status atIndex:index];
 	} else {
-		[[adium statusController] addStatusState:status];
+		[adium.statusController addStatusState:status];
 	}
 	
 	return status;
@@ -208,15 +208,15 @@
 }
 - (void)insertInStatuses:(AIStatus *)status
 {
-	[[adium statusController] addStatusState:status];
+	[adium.statusController addStatusState:status];
 }
 - (void)insertInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
 {
-	[[[adium statusController] rootStateGroup] addStatusItem:status atIndex:i];
+	[[adium.statusController rootStateGroup] addStatusItem:status atIndex:i];
 }
 - (void)removeFromStatusesAtIndex:(NSUInteger)i
 {
-	[[[adium statusController] rootStateGroup] removeStatusItem:[[self statuses] objectAtIndex:i]];
+	[[adium.statusController rootStateGroup] removeStatusItem:[[self statuses] objectAtIndex:i]];
 }
 - (void)replaceInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
 {
@@ -224,15 +224,15 @@
 }
 - (AIStatus *)valueInStatusesWithUniqueID:(id)uniqueID
 {
-	return [[adium statusController] statusStateWithUniqueStatusID:uniqueID];
+	return [adium.statusController statusStateWithUniqueStatusID:uniqueID];
 }
 - (AIStatus *)globalStatus
 {
-	return [[adium statusController] activeStatusState];
+	return [adium.statusController activeStatusState];
 }
 - (void)setGlobalStatus:(AIStatus *)inGlobalStatus
 {
-	return [[adium statusController] setActiveStatusState:inGlobalStatus];	
+	return [adium.statusController setActiveStatusState:inGlobalStatus];	
 }
 
 - (id)scriptingGetURL:(NSScriptCommand *)command

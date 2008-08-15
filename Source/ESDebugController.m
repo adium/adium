@@ -55,7 +55,7 @@ static ESDebugController	*sharedDebugController = nil;
 																				target:self
 																				action:@selector(showDebugWindow:)
 																		 keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Adium_About];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Adium_About];
 	[menuItem release];
 
 	//Restore the debug window if it was open when we quit last time

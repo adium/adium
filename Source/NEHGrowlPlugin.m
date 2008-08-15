@@ -112,7 +112,7 @@
 	[GrowlApplicationBridge setGrowlDelegate:self];
 
 	//Install our contact alert
-	[[adium contactAlertsController] registerActionID:GROWL_EVENT_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:GROWL_EVENT_ALERT_IDENTIFIER withHandler:self];
 	
 #ifdef GROWL_DEBUG
 	[GrowlApplicationBridge notifyWithTitle:@"We have found a witch."
@@ -179,12 +179,12 @@
 	NSString			*identifier = nil;
 	
 	// Don't show growl notifications if we're silencing growl.
-	if ([[[adium statusController] activeStatusState] silencesGrowl]) {
+	if ([[adium.statusController activeStatusState] silencesGrowl]) {
 		return NO;
 	}
 
 	//For a message event, listObject should become whoever sent the message
-	if ([[adium contactAlertsController] isMessageEvent:eventID] &&
+	if ([adium.contactAlertsController isMessageEvent:eventID] &&
 		[userInfo respondsToSelector:@selector(objectForKey:)] &&
 		[userInfo objectForKey:@"AIContentObject"]) {
 		AIContentObject	*contentObject = [userInfo objectForKey:@"AIContentObject"];
@@ -248,7 +248,7 @@
 		}
 	}
 	
-	description = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:eventID
+	description = [adium.contactAlertsController naturalLanguageDescriptionForEventID:eventID
 																			 listObject:listObject
 																			   userInfo:userInfo
 																		 includeSubject:NO];
@@ -272,7 +272,7 @@
 					   statusMessage];
 	}
 	
-	if (listObject && [[adium contactAlertsController] isContactStatusEvent:eventID]) {
+	if (listObject && [adium.contactAlertsController isContactStatusEvent:eventID]) {
 		identifier = [listObject internalObjectID];
 	}
 
@@ -331,7 +331,7 @@
  */
 - (NSDictionary *)registrationDictionaryForGrowl
 {
-	id <AIContactAlertsController> contactAlertsController = [adium contactAlertsController];
+	id <AIContactAlertsController> contactAlertsController = adium.contactAlertsController;
 	NSArray						*allNotes = [contactAlertsController allEventIDs];
 	NSMutableDictionary			*humanReadableNames = [NSMutableDictionary dictionary];
 	NSMutableDictionary			*descriptions = [NSMutableDictionary dictionary];
@@ -417,7 +417,7 @@
 
 	if (chat) {
 		//Make the chat active
-		[[adium interfaceController] setActiveChat:chat];
+		[adium.interfaceController setActiveChat:chat];
 	}
 
 	//Make Adium active (needed if, for example, our notification was clicked with another app active)

@@ -74,65 +74,65 @@
     return AILocalizedString(@"Yahoo! ID",nil);    //Yahoo! ID
 }
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_INVISIBLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
+	[adium.statusController registerStatus:STATUS_NAME_INVISIBLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 	
 	/* Yahoo supports custom statuses... ESPurpleYahooAccount will convert a properly written cusutom status
 	 * into the Yahoo-specific statuses as necessary. Uncomment to explicitly add support for these statuses. */
 	/*
-	[[adium statusController] registerStatus:STATUS_NAME_BRB
+	[adium.statusController registerStatus:STATUS_NAME_BRB
 							 withDescription:STATUS_DESCRIPTION_BRB
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_BUSY
+	[adium.statusController registerStatus:STATUS_NAME_BUSY
 							 withDescription:STATUS_DESCRIPTION_BUSY
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_NOT_AT_HOME
+	[adium.statusController registerStatus:STATUS_NAME_NOT_AT_HOME
 							 withDescription:STATUS_DESCRIPTION_NOT_AT_HOME
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_NOT_AT_DESK
+	[adium.statusController registerStatus:STATUS_NAME_NOT_AT_DESK
 							 withDescription:STATUS_DESCRIPTION_NOT_AT_DESK
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_NOT_IN_OFFICE
+	[adium.statusController registerStatus:STATUS_NAME_NOT_IN_OFFICE
 							 withDescription:STATUS_DESCRIPTION_NOT_IN_OFFICE
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_PHONE
+	[adium.statusController registerStatus:STATUS_NAME_PHONE
 							 withDescription:STATUS_DESCRIPTION_PHONE
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_VACATION
+	[adium.statusController registerStatus:STATUS_NAME_VACATION
 							 withDescription:STATUS_DESCRIPTION_VACATION
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_LUNCH
+	[adium.statusController registerStatus:STATUS_NAME_LUNCH
 							 withDescription:STATUS_DESCRIPTION_LUNCH
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_STEPPED_OUT
+	[adium.statusController registerStatus:STATUS_NAME_STEPPED_OUT
 							 withDescription:STATUS_DESCRIPTION_STEPPED_OUT
 									  ofType:AIAwayStatusType
 								  forService:self];

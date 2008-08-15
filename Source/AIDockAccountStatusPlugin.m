@@ -115,7 +115,7 @@
 		
 		if (shouldUpdateStatus || [inModifiedKeys containsObject:@"StatusState"]) {
 			BOOL			iconSupportsInvisible = [adium.dockController currentIconSupportsIconStateNamed:@"Invisible"];
-			AIStatusType	activeStatusType = [[adium statusController] activeStatusTypeTreatingInvisibleAsAway:!iconSupportsInvisible];
+			AIStatusType	activeStatusType = [adium.statusController activeStatusTypeTreatingInvisibleAsAway:!iconSupportsInvisible];
 
 			if (activeStatusType == AIAwayStatusType) {
 				[dockController setIconStateNamed:@"Away"];

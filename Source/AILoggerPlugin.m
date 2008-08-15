@@ -144,7 +144,7 @@ Class LogViewerWindowControllerClass = NULL;
 	[self configureMenuItems];
 	
 	//Create a logs directory
-	logBasePath = [[[[[adium loginController] userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath] retain];
+	logBasePath = [[[[adium.loginController userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath] retain];
 	[[NSFileManager defaultManager] createDirectoriesForPath:logBasePath];
 
 	//Observe preference changes
@@ -168,7 +168,7 @@ Class LogViewerWindowControllerClass = NULL;
 	                                                itemContent:[NSImage imageNamed:@"LogViewer" forClass:[self class] loadLazily:YES]
 	                                                     action:@selector(showLogViewerToSelectedContact:)
 	                                                       menu:nil];
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 
 	dirtyLogArray = nil;
 	index_Content = nil;
@@ -304,30 +304,30 @@ Class LogViewerWindowControllerClass = NULL;
 																			  target:self
 																			  action:@selector(showLogViewer:)
 																	   keyEquivalent:@"L"] autorelease];
-    [[adium menuController] addMenuItem:logViewerMenuItem toLocation:LOC_Window_Auxiliary];
+    [adium.menuController addMenuItem:logViewerMenuItem toLocation:LOC_Window_Auxiliary];
 
     viewContactLogsMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_LOGS_WITH_CONTACT
 																					target:self
 																					action:@selector(showLogViewerToSelectedContact:) 
 																			 keyEquivalent:@"l"] autorelease];
-    [[adium menuController] addMenuItem:viewContactLogsMenuItem toLocation:LOC_Contact_Info];
+    [adium.menuController addMenuItem:viewContactLogsMenuItem toLocation:LOC_Contact_Info];
 
     viewContactLogsContextMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_LOGS_WITH_CONTACT
 																						   target:self
 																						   action:@selector(showLogViewerToSelectedContextContact:) 
 																					keyEquivalent:@""] autorelease];
-    [[adium menuController] addContextualMenuItem:viewContactLogsContextMenuItem toLocation:Context_Contact_Manage];
+    [adium.menuController addContextualMenuItem:viewContactLogsContextMenuItem toLocation:Context_Contact_Manage];
 }
 
 //Enable/Disable our view log menus
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     if (menuItem == viewContactLogsMenuItem) {
-        AIListObject	*selectedObject = [[adium interfaceController] selectedListObject];
+        AIListObject	*selectedObject = [adium.interfaceController selectedListObject];
 		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
 
     } else if (menuItem == viewContactLogsContextMenuItem) {
-        AIListObject	*selectedObject = [[adium menuController] currentContextMenuObject];		
+        AIListObject	*selectedObject = [adium.menuController currentContextMenuObject];		
 		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
 		
     }
@@ -353,7 +353,7 @@ Class LogViewerWindowControllerClass = NULL;
  */
 - (void)showLogViewerToSelectedContact:(id)sender
 {
-    AIListObject   *selectedObject = [[adium interfaceController] selectedListObject];
+    AIListObject   *selectedObject = [adium.interfaceController selectedListObject];
     [LogViewerWindowControllerClass openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
 												 (AIListContact *)selectedObject : 
 												 nil)  
@@ -377,7 +377,7 @@ Class LogViewerWindowControllerClass = NULL;
  */
 - (void)showLogViewerToSelectedContextContact:(id)sender
 {
-	AIListObject* object = [[adium menuController] currentContextMenuObject];
+	AIListObject* object = [adium.menuController currentContextMenuObject];
 	if ([object isKindOfClass:[AIListContact class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
 		[[[LogViewerWindowControllerClass openForContact:(AIListContact *)object plugin:self] window]

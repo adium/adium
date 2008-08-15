@@ -150,7 +150,7 @@
 	AIStatusType			currentStatusType = AIAvailableStatusType;
 	AIStatusMutabilityType	currentStatusMutabilityType = AILockedStatusState;
 
-	[[adium menuController] delayMenuItemPostProcessing];
+	[adium.menuController delayMenuItemPostProcessing];
 	
 	if ([delegate respondsToSelector:@selector(statusMenu:willRemoveStatusMenuItems:)]) {
 		[delegate statusMenu:self willRemoveStatusMenuItems:menuItemArray];
@@ -162,7 +162,7 @@
 	/* Create a menu item for each state.  States must first be sorted such that states of the same AIStatusType
 		* are grouped together.
 		*/
-	enumerator = [[[adium statusController] sortedFullStateArray] objectEnumerator];
+	enumerator = [[adium.statusController sortedFullStateArray] objectEnumerator];
 	while ((statusState = [enumerator nextObject])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		AIStatusType thisStatusType = [statusState statusType];
@@ -232,7 +232,7 @@
 	//Now that we are done creating the menu items, tell the plugin about them
 	[delegate statusMenu:self didRebuildStatusMenuItems:menuItemArray];
 	
-	[[adium menuController] endDelayMenuItemPostProcessing];
+	[adium.menuController endDelayMenuItemPostProcessing];
 }
 
 /*!
@@ -262,7 +262,7 @@
 				* we have a custom state and will be searching for the custom item of the right type, switching all other
 				* menu items to NSOffState.
 				*/
-			if ([[[adium statusController] flatStatusSet] containsObject:appropiateActiveStatusState]) {
+			if ([[adium.statusController flatStatusSet] containsObject:appropiateActiveStatusState]) {
 				//If the search state is in the array so is a saved state, search for the match
 				if ((menuItemStatusState == appropiateActiveStatusState) ||
 					([menuItemStatusState isKindOfClass:[AIStatusGroup class]] &&
@@ -287,7 +287,7 @@
 			}
 		} else {
 			/* General menu items */
-			NSSet	*allActiveStatusStates = [[adium statusController] allActiveStatusStates];
+			NSSet	*allActiveStatusStates = [adium.statusController allActiveStatusStates];
 			int		onState = (([allActiveStatusStates count] == 1) ? NSOnState : NSMixedState);
 			
 			if (menuItemStatusState) {
@@ -302,7 +302,7 @@
 			} else {
 				//If it doesn't, check the tag to see if it should be on or off by looking for a matching custom state
 				NSEnumerator	*activeStatusStatesEnumerator = [allActiveStatusStates objectEnumerator];
-				NSSet			*flatStatusSet = [[adium statusController] flatStatusSet];
+				NSSet			*flatStatusSet = [adium.statusController flatStatusSet];
 				AIStatus		*statusState;
 				BOOL			foundCorrectStatusState = NO;
 				
@@ -357,13 +357,13 @@
 										  andAccount:account
 									  withSaveOption:YES
 											onWindow:nil
-									 notifyingTarget:[adium statusController]];
+									 notifyingTarget:adium.statusController];
 		
 	} else {
 		if (account) {
 			BOOL shouldRebuild;
 			
-			shouldRebuild = [[adium statusController] removeIfNecessaryTemporaryStatusState:[account statusState]];
+			shouldRebuild = [adium.statusController removeIfNecessaryTemporaryStatusState:[account statusState]];
 			[account setStatusState:(AIStatus *)statusItem];
 			
 			//Enable the account if it isn't currently enabled
@@ -377,7 +377,7 @@
 			}
 			
 		} else {
-			[[adium statusController] setActiveStatusState:(AIStatus *)statusItem];
+			[adium.statusController setActiveStatusState:(AIStatus *)statusItem];
 		}
 	}
 }
@@ -399,7 +399,7 @@
 	if (account) {
 		baseStatusState = [account statusState];
 	} else {
-		baseStatusState = [[adium statusController] activeStatusState];
+		baseStatusState = [adium.statusController activeStatusState];
 	}
 	
 	/* If we are going to a custom state of a different type, we don't want to prefill with baseStatusState as it stands.
@@ -428,7 +428,7 @@
 									  andAccount:account
 								  withSaveOption:YES
 										onWindow:nil
-								 notifyingTarget:[adium statusController]];
+								 notifyingTarget:adium.statusController];
 }
 
 #pragma mark -
@@ -453,7 +453,7 @@
 	/* Create a menu item for each state.  States must first be sorted such that states of the same AIStatusType
 		* are grouped together.
 		*/
-	enumerator = [[[adium statusController] sortedFullStateArray] objectEnumerator];
+	enumerator = [[adium.statusController sortedFullStateArray] objectEnumerator];
 	while ((statusState = [enumerator nextObject])) {
 		AIStatusType thisStatusType = [statusState statusType];
 

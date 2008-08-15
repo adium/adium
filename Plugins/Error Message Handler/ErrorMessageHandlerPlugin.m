@@ -37,10 +37,10 @@
 									 object:nil];
     
     //Install our contact alert
-	[[adium contactAlertsController] registerActionID:ERROR_MESSAGE_CONTACT_ALERT_IDENTIFIER
+	[adium.contactAlertsController registerActionID:ERROR_MESSAGE_CONTACT_ALERT_IDENTIFIER
 										  withHandler:self];
 
-	[[adium contactAlertsController] registerEventID:INTERFACE_ERROR_MESSAGE 
+	[adium.contactAlertsController registerEventID:INTERFACE_ERROR_MESSAGE 
 										 withHandler:self
 											 inGroup:AIOtherEventHandlerGroup
 										  globalOnly:YES];
@@ -70,7 +70,7 @@
 																	withTitle:windowTitle];
 	
 	//Generate the event (for no list object, so only global triggers apply)
-	[[adium contactAlertsController] generateEvent:INTERFACE_ERROR_MESSAGE
+	[adium.contactAlertsController generateEvent:INTERFACE_ERROR_MESSAGE
 									 forListObject:nil
 										  userInfo:userInfo
 					  previouslyPerformedActionIDs:nil];

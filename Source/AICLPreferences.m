@@ -69,7 +69,7 @@
 								   selector:@selector(xtrasChanged:)
 									   name:Adium_Xtras_Changed
 									 object:nil];
-	[[adium preferenceController] registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
 	
 	//Images
 	layoutStandard = [[NSImage imageNamed:@"style-standard" forClass:[self class]] retain];
@@ -116,7 +116,7 @@
 	[layoutPillows release]; layoutPillows = nil;
 	
 	[[adium notificationCenter] removeObserver:self];
-	[[adium preferenceController] unregisterPreferenceObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[AISCLViewPlugin resetXtrasCache];
 }
@@ -168,8 +168,8 @@
 	[currentLayoutName release];
 	[currentThemeName release];
 	
-	currentLayoutName = [[[adium preferenceController] preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_CONTACT_LIST] retain];
-	currentThemeName = [[[adium preferenceController] preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_CONTACT_LIST] retain];
+	currentLayoutName = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_CONTACT_LIST] retain];
+	currentThemeName = [[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_CONTACT_LIST] retain];
 	
 	enumerator = [layoutArray objectEnumerator];
 	while((dict = [enumerator nextObject])){
@@ -327,13 +327,13 @@
 {
 	if(tableView == tableView_layout){
 		NSDictionary	*layoutDict = [layoutArray objectAtIndex:row];
-		[[adium preferenceController] setPreference:[layoutDict objectForKey:@"name"]
+		[adium.preferenceController setPreference:[layoutDict objectForKey:@"name"]
 											 forKey:KEY_LIST_LAYOUT_NAME
 											  group:PREF_GROUP_CONTACT_LIST];
 		
 	}else if(tableView == tableView_theme){
 		NSDictionary	*themeDict = [themeArray objectAtIndex:row];
-		[[adium preferenceController] setPreference:[themeDict objectForKey:@"name"]
+		[adium.preferenceController setPreference:[themeDict objectForKey:@"name"]
 											 forKey:KEY_LIST_THEME_NAME
 											  group:PREF_GROUP_CONTACT_LIST];
 		

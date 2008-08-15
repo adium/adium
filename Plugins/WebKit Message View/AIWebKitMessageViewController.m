@@ -812,7 +812,7 @@ static NSArray *draggedTypes = nil;
 				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 		}
 		
-		NSMenu  *originalMenu = [[adium menuController] contextualMenuWithLocations:locations
+		NSMenu  *originalMenu = [adium.menuController contextualMenuWithLocations:locations
 																	  forListObject:chatListObject];
 		
 		enumerator = [[originalMenu itemArray] objectEnumerator];
@@ -903,7 +903,7 @@ static NSArray *draggedTypes = nil;
 		for (path in files) {
 			AIListObject *listObject = [chat listObject];
 			if (listObject) {
-				[[adium fileTransferController] sendFile:path toListContact:(AIListContact *)listObject];
+				[adium.fileTransferController sendFile:path toListContact:(AIListContact *)listObject];
 			}
 		}
 		success = YES;

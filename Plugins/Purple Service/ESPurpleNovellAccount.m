@@ -78,7 +78,7 @@ gboolean purple_init_novell_plugin(void);
 			
 		case AIAwayStatusType:
 			if (([statusName isEqualToString:STATUS_NAME_BUSY]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
 				statusID = "busy";
 			break;
 

@@ -65,7 +65,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 //	[fullDebugLogArray removeAllObjects];
 	
-//	[[adium debugController] clearDebugLogArray];
+//	[adium.debugController clearDebugLogArray];
 	
 	[scrollView_debug scrollToBottom];	
 }
@@ -110,7 +110,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 	[scrollView_debug setAutoScrollToBottom:YES];
 
 	//Load the logs which were added before the window was loaded
-	enumerator = [[[adium debugController] debugLogArray] objectEnumerator];
+	enumerator = [[adium.debugController debugLogArray] objectEnumerator];
 	while ((aDebugString = [enumerator nextObject])) {
 		[mutableDebugString appendString:aDebugString];
 		if ((![aDebugString hasSuffix:@"\n"]) && (![aDebugString hasSuffix:@"\r"])) {
@@ -167,7 +167,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 	[mutableDebugString setString:@""];
 	[fullDebugLogArray removeAllObjects];
 
-	[[adium debugController] clearDebugLogArray];
+	[adium.debugController clearDebugLogArray];
 	
 	[scrollView_debug scrollToTop];
 }

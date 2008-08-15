@@ -93,11 +93,11 @@
 	if (!alert) {	
 		/*
 		if (!defaultEventID) {
-			defaultEventID = [[adium contactAlertsController] defaultEventID];
+			defaultEventID = [adium.contactAlertsController defaultEventID];
 		}
 */
 		alert = [[NSMutableDictionary alloc] initWithObjectsAndKeys:inDefaultEventID, KEY_EVENT_ID,
-																	[[adium contactAlertsController] defaultActionID], KEY_ACTION_ID, nil];
+																	[adium.contactAlertsController defaultActionID], KEY_ACTION_ID, nil];
 	}
 
 	[[adium notificationCenter] addObserver:self
@@ -130,8 +130,8 @@
 
 	//Configure window
 	[[self window] center];
-	[popUp_event setMenu:[[adium contactAlertsController] menuOfEventsWithTarget:self forGlobalMenu:configureForGlobal]];
-	[popUp_action setMenu:[[adium contactAlertsController] menuOfActionsWithTarget:self]];
+	[popUp_event setMenu:[adium.contactAlertsController menuOfEventsWithTarget:self forGlobalMenu:configureForGlobal]];
+	[popUp_action setMenu:[adium.contactAlertsController menuOfActionsWithTarget:self]];
 
 	[[self window] setTitle:AILocalizedString(@"New Alert", nil)];
 	
@@ -254,7 +254,7 @@
 - (void)configureDetailsPane
 {
 	NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
-	id <AIActionHandler>	actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];		
+	id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];		
 
 	//Save changes and close down the old pane
 	if (detailsPane) [self saveDetailsPaneChanges];
@@ -330,9 +330,9 @@
 {
 	NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
 	NSString				*eventID = [alert objectForKey:KEY_EVENT_ID];
-	NSString				*eventDescription = [[adium contactAlertsController] longDescriptionForEventID:eventID 
+	NSString				*eventDescription = [adium.contactAlertsController longDescriptionForEventID:eventID 
 																							 forListObject:listObject];
-	id <AIActionHandler>	actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];
+	id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 
 	if (actionHandler && eventDescription) {
 		[headerView setStringValue:eventDescription];

@@ -42,13 +42,13 @@
 																 target:self 
 																 action:@selector(newMessage:)
 														  keyEquivalent:@"n"] autorelease];
-	[[adium menuController] addMenuItem:newMessageMenuItem toLocation:LOC_File_New];
+	[adium.menuController addMenuItem:newMessageMenuItem toLocation:LOC_File_New];
 	
 	NSMenuItem *openChatMenuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Open Chat",nil)
 																  target:self 
 																  action:@selector(contextualOpenChat:)
 														   keyEquivalent:@""] autorelease]; 
-	[[adium menuController] addContextualMenuItem:openChatMenuItem toLocation:Context_Contact_Message];
+	[adium.menuController addContextualMenuItem:openChatMenuItem toLocation:Context_Contact_Message];
 	
 }	
 
@@ -66,7 +66,7 @@
 		return [adium.accountController oneOrMoreConnectedAccounts];
 
 	} else if ([menuItem action] == @selector(contextualOpenChat:)) {
-		NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:[[[adium menuController] currentContextMenuObject] service]] objectEnumerator];
+		NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:[[adium.menuController currentContextMenuObject] service]] objectEnumerator];
 		AIAccount	 *account;
 		BOOL		 enable = NO;
 
@@ -86,7 +86,7 @@
 - (void)contextualOpenChat:(id)sender
 {
 	//Open a new message with the contact
-	[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)[[adium menuController] currentContextMenuObject]
+	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)[adium.menuController currentContextMenuObject]
 																		onPreferredAccount:YES]];
 }
 

@@ -75,8 +75,8 @@
 	[tempMenu release];
 
     //add the items to their menus.
-    [[adium menuController] addContextualMenuItem:quickContextualMenuItem toLocation:Context_TextView_Edit];    
-    [[adium menuController] addMenuItem:quickMenuItem toLocation:LOC_Edit_Additions];
+    [adium.menuController addContextualMenuItem:quickContextualMenuItem toLocation:Context_TextView_Edit];    
+    [adium.menuController addMenuItem:quickMenuItem toLocation:LOC_Edit_Additions];
 	
 	toolbarItems = [[NSMutableSet alloc] init];
 	[self registerToolbarItem];
@@ -170,7 +170,7 @@
 	[toolbarItem setMinSize:NSMakeSize(32,32)];
 	[toolbarItem setMaxSize:NSMakeSize(32,32)];
 	[button setToolbarItem:toolbarItem];
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 
 
@@ -260,7 +260,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == quickMenuItem || menuItem == quickContextualMenuItem) {
-		BOOL	haveEmoticons = ([[[adium emoticonController] activeEmoticonPacks] count] != 0);
+		BOOL	haveEmoticons = ([[adium.emoticonController activeEmoticonPacks] count] != 0);
 
 		//Disable the main emoticon menu items if no emoticons are available
 		return haveEmoticons;
@@ -295,7 +295,7 @@
  */
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
 {
-	NSArray			*activePacks = [[adium emoticonController] activeEmoticonPacks];
+	NSArray			*activePacks = [adium.emoticonController activeEmoticonPacks];
 	AIEmoticonPack	*pack;
 		
    /* We need special voodoo here to identify if the menu belongs to a toolbar,
@@ -349,7 +349,7 @@
  */
 - (NSInteger)numberOfItemsInMenu:(NSMenu *)menu
 {	
-	NSArray			*activePacks = [[adium emoticonController] activeEmoticonPacks];
+	NSArray			*activePacks = [adium.emoticonController activeEmoticonPacks];
 	NSInteger				 itemCounts = -1;
 	
 	itemCounts = [activePacks count];

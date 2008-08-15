@@ -106,7 +106,7 @@
  */
 - (void)configureForEventID:(NSString *)eventID listObject:(AIListObject *)inObject
 {
-	if ([[adium contactAlertsController] isMessageEvent:eventID]) {
+	if ([adium.contactAlertsController isMessageEvent:eventID]) {
 		[checkBox_speakContactName setEnabled:YES];
 	} else {
 		[checkBox_speakContactName setEnabled:NO];

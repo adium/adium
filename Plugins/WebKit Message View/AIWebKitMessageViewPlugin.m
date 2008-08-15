@@ -55,13 +55,13 @@
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
 	
 	//Register ourself as a message view plugin
-	[[adium interfaceController] registerMessageDisplayPlugin:self];
+	[adium.interfaceController registerMessageDisplayPlugin:self];
 }
 
 - (void) uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium interfaceController] unregisterMessageDisplayPlugin:self];
+	[adium.interfaceController unregisterMessageDisplayPlugin:self];
 	[adium.preferenceController removePreferencePane:preferences];
 
 	[[adium notificationCenter] removeObserver:self];

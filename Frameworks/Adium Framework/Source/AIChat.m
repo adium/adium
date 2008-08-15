@@ -756,7 +756,7 @@ static int nextChatNumber = 0;
 
 - (id)handleCloseScriptCommand:(NSCloseCommand *)closeCommand
 {
-	[[adium interfaceController] closeChat:self];
+	[adium.interfaceController closeChat:self];
 	return nil;
 }
 
@@ -823,7 +823,7 @@ static int nextChatNumber = 0;
 			//sending CONTENT_FILE_TRANSFER_TYPE.
 			if ((targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																						forListContact:listContact])) {
-				[[adium fileTransferController] sendFile:[fileURL path]
+				[adium.fileTransferController sendFile:[fileURL path]
 										   toListContact:targetFileTransferContact];
 			} else {
 				AILogWithSignature(@"No contact available to receive files to %@", listContact);

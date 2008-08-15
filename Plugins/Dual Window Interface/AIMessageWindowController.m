@@ -272,13 +272,13 @@
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
 	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
     while ((tabViewItem = [enumerator nextObject])) {
-		[[adium interfaceController] closeChat:[tabViewItem chat]];
+		[adium.interfaceController closeChat:[tabViewItem chat]];
 	}
 
 	//Chats have all closed, set active to nil, let the interface know we closed.  We should skip this step if our
 	//window is no longer visible, since in that case another window will have already became active.
 	if ([[self window] isVisible] && [[self window] isKeyWindow]) {
-		[[adium interfaceController] chatDidBecomeActive:nil];
+		[adium.interfaceController chatDidBecomeActive:nil];
 	}
 	[interface containerDidClose:self];
 
@@ -500,7 +500,7 @@
 	
 	if (![tabView_messages selectedTabViewItem]) [tabView_messages selectNextTabViewItem:nil];
 	
-	if (!silent) [[adium interfaceController] chatDidOpen:[inTabViewItem chat]];
+	if (!silent) [adium.interfaceController chatDidOpen:[inTabViewItem chat]];
 }
 
 //Remove a tab view item container
@@ -534,7 +534,7 @@
 	
     //Remove the tab and let the interface know a container closed
 	[containedChats removeObject:[inTabViewItem chat]];
-	if (!silent) [[adium interfaceController] chatDidClose:[inTabViewItem chat]];
+	if (!silent) [adium.interfaceController chatDidClose:[inTabViewItem chat]];
 
 	//Now remove the tab view item from our NSTabView
     [tabView_messages removeTabViewItem:inTabViewItem];
@@ -562,7 +562,7 @@
 		[tabView_tabBar setNeedsDisplay:YES];
 		[containedChats moveObject:chat toIndex:index];
 		
-		[[adium interfaceController] chatOrderDidChange];
+		[adium.interfaceController chatOrderDidChange];
 	}
 }
 
@@ -598,13 +598,13 @@
 //Our selected tab is now the active chat
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-	[[adium interfaceController] chatDidBecomeActive:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] chat]];
+	[adium.interfaceController chatDidBecomeActive:[(AIMessageTabViewItem *)[tabView_messages selectedTabViewItem] chat]];
 }
 
 //Our selected tab is no longer the active chat
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-	[[adium interfaceController] chatDidBecomeActive:nil];
+	[adium.interfaceController chatDidBecomeActive:nil];
 }
 
 //Update our window title
@@ -762,7 +762,7 @@
 	if ([tabViewItem respondsToSelector:@selector(chat)]) {
 		AIChat	*chat = [(AIMessageTabViewItem *)tabViewItem chat];
 		
-		[[adium interfaceController] closeChat:chat];
+		[adium.interfaceController closeChat:chat];
 	}
 	
 	return NO;
@@ -776,11 +776,11 @@
         [(AIMessageTabViewItem *)tabViewItem tabViewItemWasSelected]; //Let the tab know it was selected
 		
         if ([[self window] isMainWindow]) { //If our window is main, set the newly selected container as active
-			[[adium interfaceController] chatDidBecomeActive:chat];
+			[adium.interfaceController chatDidBecomeActive:chat];
         }
 		
         [self _updateWindowTitleAndIcon]; //Reflect change in window title
-		[[adium interfaceController] chatDidBecomeVisible:chat inWindow:[self window]];
+		[adium.interfaceController chatDidBecomeVisible:chat inWindow:[self window]];
     }
 }
 
@@ -827,7 +827,7 @@
 		
 		[locations addObject:[NSNumber numberWithInteger:Context_Tab_Action]];
 
-		tmp = [[adium menuController] contextualMenuWithLocations:locations
+		tmp = [adium.menuController contextualMenuWithLocations:locations
 													 forListObject:selectedObject
 														   inChat:chat];
         
@@ -841,7 +841,7 @@
 {
     [self _updateWindowTitleAndIcon];
 	[self _reloadContainedChats];
-	[[adium interfaceController] chatOrderDidChange];
+	[adium.interfaceController chatOrderDidChange];
 	
 	//Remaining disabled until the last crasher I know of is removed
 	/*if ([tabView numberOfTabViewItems] > 0) {
@@ -853,7 +853,7 @@
 - (void)tabView:(NSTabView*)aTabView didDropTabViewItem:(NSTabViewItem *)tabViewItem inTabBar:(PSMTabBarControl *)tabBarControl;
 {
 	[self _reloadContainedChats];
-	[[adium interfaceController] chatOrderDidChange];
+	[adium.interfaceController chatOrderDidChange];
 }
 
 //Allow dragging of text
@@ -1173,7 +1173,7 @@
     [toolbar setAutosavesConfiguration:YES];
 	
     //
-	toolbarItems = [[[adium toolbarController] toolbarItemsForToolbarTypes:[NSArray arrayWithObjects:@"General", @"ListObject", @"TextEntry", @"MessageWindow", nil]] retain];
+	toolbarItems = [[adium.toolbarController toolbarItemsForToolbarTypes:[NSArray arrayWithObjects:@"General", @"ListObject", @"TextEntry", @"MessageWindow", nil]] retain];
 
 	/* Seemingly randomly, setToolbar: may throw:
 	 * Exception:	NSInternalInconsistencyException
@@ -1222,7 +1222,7 @@
 	NSToolbarItem *item = [[notification userInfo] objectForKey:@"item"];
 
 	if ([[item itemIdentifier] isEqualToString:NSToolbarShowFontsItemIdentifier]) {
-		[item setTarget:[adium interfaceController]];
+		[item setTarget:adium.interfaceController];
 		[item setAction:@selector(toggleFontPanel:)];
 	}
 }
@@ -1344,9 +1344,9 @@
 	
 	// Horizontal swipe; +1f is left, -1f is right.
 	if ([inEvent deltaX] == -1) {
-		[[adium interfaceController] nextChat:nil];
+		[adium.interfaceController nextChat:nil];
 	} else {
-		[[adium interfaceController] previousChat:nil];
+		[adium.interfaceController previousChat:nil];
 	}
 }
 

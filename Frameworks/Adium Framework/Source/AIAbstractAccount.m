@@ -631,7 +631,7 @@
 	if ([self integerValueForProperty:@"Online"]) {
 		AIStatus	*statusState = [self valueForProperty:@"StatusState"];
 		if (!statusState) {
-			statusState = [[adium statusController] defaultInitialStatusState];
+			statusState = [adium.statusController defaultInitialStatusState];
 			[self setStatusStateAndRemainOffline:statusState];		
 		}
 		
@@ -643,7 +643,7 @@
 			return statusState;
 		} else {
 			//We're offline, but our status is keeping track of what we'll be when we sign back on. Return the generic offline status.
-			return [[adium statusController] offlineStatusState];
+			return [adium.statusController offlineStatusState];
 		}
 	}
 }
@@ -829,7 +829,7 @@
 		 * unlike -[AIAccount statusState]. Although I expect that the default state will never have an associated
 		 * statusMessage,  it's good form to check it.
 		 */
-		if (!statusState) statusState = [[adium statusController] defaultInitialStatusState];
+		if (!statusState) statusState = [adium.statusController defaultInitialStatusState];
 
 		originalValue = [statusState statusMessage];
 
@@ -1118,7 +1118,7 @@
 {
 	//Display a status message in all open chats for this account.
 	AIChat			*chat = nil;
-	NSEnumerator	*enumerator = [[[adium interfaceController] openChats] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 	
 	while ((chat = [enumerator nextObject])) {
 		if ([chat account] == self && [chat isOpen]) {
@@ -1152,9 +1152,9 @@
 		/* If our account thinks it's still in an offline status, that means it went offline previously via an offline status.
 		 * Set to the status being used by other accounts if possible; otherwise, set to our default initial status.
 		 */
-		AIStatus *newStatus = [[adium statusController] activeStatusState];
+		AIStatus *newStatus = [adium.statusController activeStatusState];
 		if ([newStatus statusType] == AIOfflineStatusType) {
-			newStatus = [[adium statusController] defaultInitialStatusState];
+			newStatus = [adium.statusController defaultInitialStatusState];
 		}
 		
 		[self setStatusState:newStatus];
@@ -1267,7 +1267,7 @@
 	//If we were online, display a status message in all of our open chats noting our disconnection
 	if ([[self valueForProperty:@"Online"] boolValue]) {
 		AIChat			*chat = nil;
-		NSEnumerator	*enumerator = [[[adium interfaceController] openChats] objectEnumerator];
+		NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 		
 		while ((chat = [enumerator nextObject])) {
 			if ([chat account] == self && [chat isOpen]) {
@@ -1335,7 +1335,7 @@
 		} else {
 			AILog(@"%@: Disconnected: Will not reconnect", self);
 			if (lastDisconnectionError) {
-				[[adium interfaceController] handleErrorMessage:[NSString stringWithFormat:@"%@ (%@) : Error",[self UID],[[self service] shortDescription]]
+				[adium.interfaceController handleErrorMessage:[NSString stringWithFormat:@"%@ (%@) : Error",[self UID],[[self service] shortDescription]]
 												withDescription:lastDisconnectionError];
 			}
 			

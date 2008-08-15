@@ -363,7 +363,7 @@
 	[currentiTunesStatusState setSpecialStatusType:AINowPlayingSpecialStatusType];
 
 	//give it to the AIStatusController
-	[[adium statusController] addStatusState:currentiTunesStatusState];
+	[adium.statusController addStatusState:currentiTunesStatusState];
 	[currentiTunesStatusState release];
 }
 
@@ -541,7 +541,7 @@
 	[iTunesItem setMenuFormRepresentation:mItem];
 	
 	//give it to adium to use
-	[[adium toolbarController] registerToolbarItem:iTunesItem forToolbarType:@"TextEntry"];
+	[adium.toolbarController registerToolbarItem:iTunesItem forToolbarType:@"TextEntry"];
 	[button release];
 	[menu release];
 }
@@ -872,12 +872,12 @@
 	NSMenu		*menuOfTriggers = [self menuOfTriggers];
 	
 	[menuItem setSubmenu:menuOfTriggers];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Edit_Additions];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Additions];
 	[menuItem release];
 	
 	menuItem = [[NSMenuItem alloc] initWithTitle:INSERT_TRIGGERS_MENU target:self action:NULL keyEquivalent:@""];
 	[menuItem setSubmenu:[[menuOfTriggers copy] autorelease]];
-	[[adium menuController] addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
+	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
 	[menuItem release];
 }
 

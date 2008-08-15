@@ -105,7 +105,7 @@
             if (!unviewedState) {
 				NSString *iconState;
 
-				if (([[[adium statusController] activeStatusState] statusType] == AIInvisibleStatusType) &&
+				if (([[adium.statusController activeStatusState] statusType] == AIInvisibleStatusType) &&
 					[adium.dockController currentIconSupportsIconStateNamed:@"InvisibleAlert"]) {
 					iconState = @"InvisibleAlert";					
 				} else {

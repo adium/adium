@@ -53,7 +53,7 @@
 
 - (void)askBeforeImport
 {
-	[[adium interfaceController] displayQuestion:AILocalizedString(@"Import Fire Logs?",nil)
+	[adium.interfaceController displayQuestion:AILocalizedString(@"Import Fire Logs?",nil)
 								 withDescription:AILocalizedString(@"For some older log formats, the importer cannot properly determine which account was used for conversation.  In such cases, the importer will guess which account to use based upon the order of the accounts.  Before importing Fire's logs, arrange your account order within the Preferences.",nil)
 								 withWindowTitle:nil
 								   defaultButton:AILocalizedString(@"Import", nil)
@@ -93,7 +93,7 @@ NSString *quotes[] = {
 	}
 	
 	NSArray *subPaths = [fm subpathsAtPath:inputLogDir];
-	NSString *outputBasePath = [[[[adium loginController] userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
+	NSString *outputBasePath = [[[adium.loginController userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
 	
 	NSArray *accounts = [adium.accountController accounts];
 	NSInteger current;

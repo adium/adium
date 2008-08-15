@@ -163,7 +163,7 @@ extern const char *mwServiceAware_getText(void *, void *);
 		case AIInvisibleStatusType: //Meanwhile does not support invisibility
 		{
 			if (([statusName isEqualToString:STATUS_NAME_DND]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame))
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame))
 				statusID = "dnd";
 			else
 				statusID = "away";

@@ -347,7 +347,7 @@
 - (void)_configureMessageDisplay
 {
 	//Create the message view
-	messageDisplayController = [[[adium interfaceController] messageDisplayControllerForChat:chat] retain];
+	messageDisplayController = [[adium.interfaceController messageDisplayControllerForChat:chat] retain];
 	//Get the messageView from the controller
 	controllerView_messages = [[messageDisplayController messageView] retain];
 
@@ -649,7 +649,7 @@
 	listContact = [[alertDict objectForKey:@"TEMP-ListContact"] retain];
 	[alertDict removeObjectForKey:@"TEMP-ListContact"];
 	
-	[[adium contactAlertsController] addAlert:alertDict 
+	[adium.contactAlertsController addAlert:alertDict 
 								 toListObject:listContact
 							 setAsNewDefaults:NO];
 	[listContact release];

@@ -447,7 +447,7 @@
 	if (!actionID ||
 		[actionID isEqualToString:SOUND_ALERT_IDENTIFIER]) {
 		
-		NSArray			*alertsArray = [[adium contactAlertsController] alertsForListObject:nil
+		NSArray			*alertsArray = [adium.contactAlertsController alertsForListObject:nil
 																				withEventID:nil
 																				   actionID:SOUND_ALERT_IDENTIFIER];
 		NSMenuItem		*soundMenuItem;
@@ -488,7 +488,7 @@
 					NSDictionary	*alertDict;
 					for (alertDict in alertsArray) {
 						if ([[alertDict objectForKey:KEY_ACTION_ID] isEqualToString:SOUND_ALERT_IDENTIFIER]) {
-							NSString *englishEvent = [[adium contactAlertsController] eventIDForEnglishDisplayName:key];
+							NSString *englishEvent = [adium.contactAlertsController eventIDForEnglishDisplayName:key];
 							/*
 							 * If the sounds dictionary has no action for this event, or it has one but
 							 * it is for a different sound than specified, the sound set has been changed
@@ -570,7 +570,7 @@
 	}
 	
 	//Get and store the alerts array
-	NSArray				*alertsArray = [[adium contactAlertsController] alertsForListObject:nil
+	NSArray				*alertsArray = [adium.contactAlertsController alertsForListObject:nil
 																				withEventID:nil
 																				   actionID:nil];
 	[currentEventSetForSaving setObject:alertsArray forKey:@"Events"];

@@ -39,13 +39,13 @@
 - (void)controllerDidLoad
 {
 	//Register the events we generate
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_SENT withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_RECEIVED withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_RECEIVED_FIRST withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_RECEIVED_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_GROUP_CHAT_MENTION withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_SENT withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_FIRST withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTENT_GROUP_CHAT_MENTION withHandler:self inGroup:AIMessageEventHandlerGroup globalOnly:NO];
 	
 	//Observe chat changes
 	[adium.chatController registerChatObserver:self];

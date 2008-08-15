@@ -182,7 +182,7 @@
 															   userInfo:inURLString];	
 	
 	//XXX - Hook this to the account for listobject
-	[[adium contactAlertsController] generateEvent:ACCOUNT_RECEIVED_EMAIL
+	[adium.contactAlertsController generateEvent:ACCOUNT_RECEIVED_EMAIL
 															  forListObject:account
 																   userInfo:[inMessage string]
 											   previouslyPerformedActionIDs:nil];	

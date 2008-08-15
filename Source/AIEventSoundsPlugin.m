@@ -40,7 +40,7 @@
 - (void)installPlugin
 {
     //Install our contact alert
-	[[adium contactAlertsController] registerActionID:SOUND_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:SOUND_ALERT_IDENTIFIER withHandler:self];
 }
 
 /*!

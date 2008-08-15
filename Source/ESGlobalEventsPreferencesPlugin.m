@@ -105,7 +105,7 @@
 	NSString		*event;
 
 	if (key &&
-		(event = [[adium contactAlertsController] eventIDForEnglishDisplayName:key])) {
+		(event = [adium.contactAlertsController eventIDForEnglishDisplayName:key])) {
 		soundAlert = [NSDictionary dictionaryWithObjectsAndKeys:event, KEY_EVENT_ID,
 			SOUND_ALERT_IDENTIFIER, KEY_ACTION_ID, 
 			[NSDictionary dictionaryWithObject:[sounds objectForKey:key] forKey: KEY_ALERT_SOUND_PATH], KEY_ACTION_DETAILS,
@@ -127,7 +127,7 @@
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Clear out old global sound alerts
-	[[adium contactAlertsController] removeAllGlobalAlertsWithActionID:SOUND_ALERT_IDENTIFIER];
+	[adium.contactAlertsController removeAllGlobalAlertsWithActionID:SOUND_ALERT_IDENTIFIER];
 
 	AILog(@"Applying sound set %@",soundSet);
 
@@ -137,7 +137,7 @@
 		NSDictionary *soundAlert = [ESGlobalEventsPreferencesPlugin soundAlertForKey:key
 																		inSoundsDict:sounds];
 		if (soundAlert) {
-			[[adium contactAlertsController] addGlobalAlert:soundAlert];
+			[adium.contactAlertsController addGlobalAlert:soundAlert];
 		}
 	}
 	
@@ -186,11 +186,11 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 	NSDictionary	*dictionary;
 	
 	//Clear out old global dock behavior alerts
-	[[adium contactAlertsController] removeAllGlobalAlertsWithActionID:actionID];
+	[adium.contactAlertsController removeAllGlobalAlertsWithActionID:actionID];
 	
 	//
 	for (dictionary in setArray) {
-		[[adium contactAlertsController] addGlobalAlert:[self performSelector:selector
+		[adium.contactAlertsController addGlobalAlert:[self performSelector:selector
 																   withObject:dictionary]];
 	}
 }
@@ -199,7 +199,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 {
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 
-	[[adium contactAlertsController] setAllGlobalAlerts:[eventPreset objectForKey:@"Events"]];
+	[adium.contactAlertsController setAllGlobalAlerts:[eventPreset objectForKey:@"Events"]];
 	
 	/* For a built in set, we now should apply the sound set it specified. User-created sets already include the
 	 * soundset as individual events.

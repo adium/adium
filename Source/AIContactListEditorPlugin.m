@@ -77,19 +77,19 @@
 																				target:self
 																				action:@selector(addContact:)
 																		 keyEquivalent:@"d"];
-    [[adium menuController] addMenuItem:menuItem_addContact toLocation:LOC_Contact_Manage];
+    [adium.menuController addMenuItem:menuItem_addContact toLocation:LOC_Contact_Manage];
 	
 	menuItem_addContactContext = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_CONTACT_TO_GROUP_ELLIPSIS
 																					  target:self
 																					  action:@selector(addContact:)
 																			   keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem_addContactContext toLocation:Context_Group_Manage];
+	[adium.menuController addContextualMenuItem:menuItem_addContactContext toLocation:Context_Group_Manage];
 	
 	menuItem_tabAddContact = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_CONTACT_ELLIPSIS
 																				   target:self 
 																				   action:@selector(addContactFromTab:)
 																			keyEquivalent:@""] autorelease];
-    [[adium menuController] addContextualMenuItem:menuItem_tabAddContact toLocation:Context_Contact_Stranger_ChatAction];
+    [adium.menuController addContextualMenuItem:menuItem_tabAddContact toLocation:Context_Contact_Stranger_ChatAction];
 
 	[[adium notificationCenter] addObserver:self 
 								   selector:@selector(addContactRequest:) 
@@ -101,20 +101,20 @@
 																			 target:self
 																			 action:@selector(addGroup:) 
 																	  keyEquivalent:@"D"];
-    [[adium menuController] addMenuItem:menuItem_addGroup toLocation:LOC_Contact_Manage];
+    [adium.menuController addMenuItem:menuItem_addGroup toLocation:LOC_Contact_Manage];
 
 	//Delete Selection
     menuItem_delete = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:DELETE_CONTACT_ELLIPSIS
 																		   target:self
 																		   action:@selector(deleteSelection:) 
 																	keyEquivalent:@"\b"];
-    [[adium menuController] addMenuItem:menuItem_delete toLocation:LOC_Contact_Manage];
+    [adium.menuController addMenuItem:menuItem_delete toLocation:LOC_Contact_Manage];
 
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:DELETE_CONTACT_CONTEXT_ELLIPSIS
 																	 target:self
 																	 action:@selector(deleteSelectionFromTab:) 
 															  keyEquivalent:@""] autorelease];
-	[[adium menuController] addContextualMenuItem:menuItem toLocation:Context_Contact_NegativeAction];
+	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_Contact_NegativeAction];
 	
 	//Add Contact toolbar item
     toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:ADD_CONTACT_IDENTIFIER
@@ -126,7 +126,7 @@
 													itemContent:[NSImage imageNamed:@"AddContact" forClass:[self class] loadLazily:YES]
 														 action:@selector(addContact:)
 														   menu:nil];
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];	
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];	
 	
 	//Add Group toolbar item
     toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:ADD_GROUP_IDENTIFIER
@@ -138,14 +138,14 @@
 													itemContent:[NSImage imageNamed:@"addGroup" forClass:[self class] loadLazily:YES]
 														 action:@selector(addGroup:)
 														   menu:nil];
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];	
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];	
 	
 	//Rename Group
 	//	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:RENAME_GROUP_ELLIPSIS
 	//																	 target:self
 	//																	 action:@selector(renameGroup:) 
 	//															  keyEquivalent:@""] autorelease];
-	//  [[adium menuController] addContextualMenuItem:menuItem toLocation:Context_Group_Manage];	
+	//  [adium.menuController addContextualMenuItem:menuItem toLocation:Context_Group_Manage];	
 }
 
 /*!
@@ -162,10 +162,10 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == menuItem_delete) {
-		return [[adium interfaceController] selectedListObjectInContactList] != nil;
+		return [adium.interfaceController selectedListObjectInContactList] != nil;
 		
 	} else if (menuItem == menuItem_tabAddContact) {
-		return [[adium menuController] currentContextMenuObject] != nil;
+		return [adium.menuController currentContextMenuObject] != nil;
 	
 	} else if (menuItem == menuItem_addContact || menuItem == menuItem_addContactContext) {
 		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
@@ -189,7 +189,7 @@
 //Called by a context menu
 - (IBAction)renameGroup:(id)sender
 {
-	//	AIListObject	*object = [[adium menuController] currentContextMenuObject];
+	//	AIListObject	*object = [adium.menuController currentContextMenuObject];
 	//<renameGroup> : I wish I worked... :(	
 }
 
@@ -200,7 +200,7 @@
  */
 - (IBAction)addContact:(id)sender
 {
-	[self promptForNewContactOnWindow:nil selectedListObject:[[adium interfaceController] selectedListObject]];
+	[self promptForNewContactOnWindow:nil selectedListObject:[adium.interfaceController selectedListObject]];
 }
 
 
@@ -209,7 +209,7 @@
  */
 - (IBAction)addContactFromTab:(id)sender
 {
-	[self promptForNewContactOnWindow:nil selectedListObject:[[adium menuController] currentContextMenuObject]];
+	[self promptForNewContactOnWindow:nil selectedListObject:[adium.menuController currentContextMenuObject]];
 }
 
 /*!
@@ -268,7 +268,7 @@
  */
 - (IBAction)deleteSelection:(id)sender
 {	
-	[self deleteFromArray:[[adium interfaceController] arrayOfSelectedListObjectsInContactList]];
+	[self deleteFromArray:[adium.interfaceController arrayOfSelectedListObjectsInContactList]];
 }
 
 /*!
@@ -277,7 +277,7 @@
 - (IBAction)deleteSelectionFromTab:(id)sender
 {
 	AIListObject   *currentContextMenuObject;
-	if ((currentContextMenuObject = [[adium menuController] currentContextMenuObject])) {
+	if ((currentContextMenuObject = [adium.menuController currentContextMenuObject])) {
 		[self deleteFromArray:[NSArray arrayWithObject:currentContextMenuObject]];
 	}
 }

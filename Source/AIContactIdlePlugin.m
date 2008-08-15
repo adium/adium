@@ -43,7 +43,7 @@
     idleObjectArray = nil;
 
     //Install our tooltip entry
-    [[adium interfaceController] registerContactListTooltipEntry:self secondaryEntry:YES];
+    [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:YES];
 
     //
     [[AIContactObserverManager sharedManager] registerListObjectObserver:self];

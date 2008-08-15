@@ -328,7 +328,7 @@
 												 forSendingContentType:CONTENT_MESSAGE_TYPE];
 	if (contact) {
 		//Open the chat and set it as active
-		[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:contact
+		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:contact
 																						onPreferredAccount:YES]];
 		
 		//Insert the message text as if the user had typed it after opening the chat
@@ -421,7 +421,7 @@
 {
 	if ([[adium.preferenceController preferenceForKey:KEY_COMPLETED_FIRST_LAUNCH group:GROUP_URL_HANDLING] boolValue]) {
 		if(![adium.preferenceController preferenceForKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING])
-			[[adium interfaceController] displayQuestion:AILocalizedString(@"Change default messaging client?", nil)
+			[adium.interfaceController displayQuestion:AILocalizedString(@"Change default messaging client?", nil)
 										 withDescription:AILocalizedString(@"Adium is not your default Instant Messaging client. The default client is loaded when you click messaging URLs in web pages. Would you like Adium to become the default?", nil)
 										 withWindowTitle:nil
 										   defaultButton:AILocalizedString(@"Yes", nil)

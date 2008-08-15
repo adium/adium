@@ -43,14 +43,14 @@
 																				  target:self
 																				  action:@selector(dummyTarget:)
 																		   keyEquivalent:@""] autorelease];
-	[[adium menuController] addMenuItem:menuItem_inviteToChat toLocation:LOC_Contact_Action];
+	[adium.menuController addMenuItem:menuItem_inviteToChat toLocation:LOC_Contact_Action];
 	
 	//Invite to Chat context menu item
 	menuItem_inviteToChatContext = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:INVITE_CONTACT
 																						 target:self
 																						 action:@selector(dummyTarget:)
 																				  keyEquivalent:@""] autorelease];
-	[[adium menuController] addContextualMenuItem:menuItem_inviteToChatContext toLocation:Context_Contact_Action];	
+	[adium.menuController addContextualMenuItem:menuItem_inviteToChatContext toLocation:Context_Contact_Action];	
 	
 }
 
@@ -82,8 +82,8 @@
 	
 	if (targetMenuItem) {
 		AIListObject *listObject = ((targetMenuItem == menuItem_inviteToChat) ? 
-									[[adium interfaceController] selectedListObjectInContactList] :
-									[[adium menuController] currentContextMenuObject]);
+									[adium.interfaceController selectedListObjectInContactList] :
+									[adium.menuController currentContextMenuObject]);
 
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			[targetMenuItem setSubmenu:[self groupChatMenuForContact:(AIListContact *)listObject]];
@@ -114,7 +114,7 @@
 
 - (NSMenu *)groupChatMenuForContact:(AIListContact *)contact
 {
-	NSArray			*openChats = [[adium interfaceController] openChats];
+	NSArray			*openChats = [adium.interfaceController openChats];
 	NSMenu			*menu_chatMenu = nil;
 	
 	if (contact && ![contact isKindOfClass:[AIListGroup class]]) {

@@ -42,13 +42,13 @@
 - (void)installPlugin
 {
     //Install our tooltip entry
-    [[adium interfaceController] registerContactListTooltipEntry:self secondaryEntry:YES];
+    [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:YES];
 	
 	contextualMenuItem = [[NSMenuItem alloc] initWithTitle:EXPAND_CONTACT
 													target:self
 													action:@selector(toggleMetaContactExpansion:)
 											 keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:contextualMenuItem
+	[adium.menuController addContextualMenuItem:contextualMenuItem
 									   toLocation:Context_Contact_ListAction];
 
 	[[adium notificationCenter] addObserver:self
@@ -191,7 +191,7 @@
 #pragma mark Menu
 - (void)toggleMetaContactExpansion:(id)sender
 {
-	AIListObject *listObject = [[adium menuController] currentContextMenuObject];
+	AIListObject *listObject = [adium.menuController currentContextMenuObject];
 	if ([listObject isKindOfClass:[AIMetaContact class]]) {
 		BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
 		
@@ -207,14 +207,14 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIListObject *listObject = [[adium menuController] currentContextMenuObject];
+	AIListObject *listObject = [adium.menuController currentContextMenuObject];
 	return ([listObject isKindOfClass:[AIMetaContact class]] &&
 			[(AIMetaContact *)listObject containsMultipleContacts]);
 }
 
 - (void)menu:(NSMenu *)menu needsUpdateForMenuItem:(NSMenuItem *)menuItem
 {
-	AIListObject *listObject = [[adium menuController] currentContextMenuObject];
+	AIListObject *listObject = [adium.menuController currentContextMenuObject];
 	if (menuItem == contextualMenuItem) {
 		if ([listObject isKindOfClass:[AIMetaContact class]] &&
 			[(AIMetaContact *)listObject containsMultipleContacts]) {

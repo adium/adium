@@ -45,14 +45,14 @@
 																	 target:self
 																	 action:@selector(editFormattedLink:)
 															  keyEquivalent:@"k"] autorelease];
-    [[adium menuController] addMenuItem:menuItem toLocation:LOC_Edit_Links];
+    [adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Links];
     
     //Context menu
     menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:EDIT_LINK_TITLE
 																	 target:self
 																	 action:@selector(editFormattedLink:)
 															  keyEquivalent:@""] autorelease];
-    [[adium menuController] addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
+    [adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
     [self registerToolbarItem];
 	
     //rm link context
@@ -60,7 +60,7 @@
 																	 target:self
 																	 action:@selector(removeFormattedLink:)
 															  keyEquivalent:@""] autorelease];
-    [[adium menuController] addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
+    [adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_LinkEditing];
 }
 
 - (void)uninstallPlugin
@@ -146,7 +146,7 @@
 {
     //Unregister the existing toolbar item first
     if (toolbarItem) {
-        [[adium toolbarController] unregisterToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+        [adium.toolbarController unregisterToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
         [toolbarItem release]; toolbarItem = nil;
     }
     
@@ -160,6 +160,6 @@
                                                           action:@selector(editFormattedLink:)
                                                             menu:nil] retain];
     
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 @end

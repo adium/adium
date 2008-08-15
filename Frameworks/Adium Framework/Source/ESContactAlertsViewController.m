@@ -262,7 +262,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 
 		} else {
 			/* Deleting a single action */
-			[[adium contactAlertsController] removeAlert:item
+			[adium.contactAlertsController removeAlert:item
 										  fromListObject:listObject];
 
 			if (delegate) {
@@ -298,10 +298,10 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	[oldAlert retain];
 	
 	//If this was an edit, remove the old alert first
-	if (oldAlert) [[adium contactAlertsController] removeAlert:oldAlert fromListObject:listObject];
+	if (oldAlert) [adium.contactAlertsController removeAlert:oldAlert fromListObject:listObject];
 	
 	//Add the new alert
-	[[adium contactAlertsController] addAlert:newAlert toListObject:listObject setAsNewDefaults:YES];
+	[adium.contactAlertsController addAlert:newAlert toListObject:listObject setAsNewDefaults:YES];
 	
 	if (delegate) {
 		[delegate contactAlertsViewController:self
@@ -472,7 +472,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	[contactAlertsEvents release]; contactAlertsEvents = [[NSMutableArray alloc] init];
 	[contactAlertsActions release]; contactAlertsActions = [[NSMutableArray alloc] init];
 	
-	enumerator = [[[adium contactAlertsController] sortedArrayOfEventIDsFromArray:[contactAlertsDict allKeys]] objectEnumerator];
+	enumerator = [[adium.contactAlertsController sortedArrayOfEventIDsFromArray:[contactAlertsDict allKeys]] objectEnumerator];
 	
 	while ((eventID = [enumerator nextObject])) {
 		[contactAlertsEvents addObject:eventID];
@@ -481,8 +481,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	}
 
 	//Now add events which have no actions at present
-	NSArray *sourceEventArray = (listObject ? [[adium contactAlertsController] nonGlobalEventIDs] : [[adium contactAlertsController] allEventIDs]);
-	enumerator = [[[adium contactAlertsController] sortedArrayOfEventIDsFromArray:sourceEventArray] objectEnumerator];
+	NSArray *sourceEventArray = (listObject ? [adium.contactAlertsController nonGlobalEventIDs] : [adium.contactAlertsController allEventIDs]);
+	enumerator = [[adium.contactAlertsController sortedArrayOfEventIDsFromArray:sourceEventArray] objectEnumerator];
 	while ((eventID = [enumerator nextObject])) {
 		if (![contactAlertsEvents containsObject:eventID]) {
 			[contactAlertsEvents addObject:eventID];
@@ -620,7 +620,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 			
 			eventID = [contactAlertsEvents objectAtIndex:[contactAlertsActions indexOfObjectIdenticalTo:contactEvents]];
 
-			return [[adium contactAlertsController] globalShortDescriptionForEventID:eventID];
+			return [adium.contactAlertsController globalShortDescriptionForEventID:eventID];
 			
 		} else if ([identifier isEqualToString:@"action"]) {
 			NSMutableString	*actionDescription = [NSMutableString string];
@@ -635,7 +635,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 				
 				eventDict = [contactEvents objectAtIndex:i];
 				actionID = [eventDict objectForKey:KEY_ACTION_ID];
-				actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];
+				actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 				
 				if (actionHandler) {
 					NSString	*thisDescription;
@@ -703,14 +703,14 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 			
 			eventID = [contactAlertsEvents objectAtIndex:[contactAlertsActions indexOfObjectIdenticalTo:contactEvents]];
 			
-			return [[adium contactAlertsController] imageForEventID:eventID];
+			return [adium.contactAlertsController imageForEventID:eventID];
 		}
 	} else {
 		/* item is an individual event */
 		if ([identifier isEqualToString:@"event"]) {
 			NSDictionary			*alert = (NSDictionary *)item;
 			NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
-			id <AIActionHandler>	actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];
+			id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 
 			return [actionHandler longDescriptionForActionID:actionID
 												 withDetails:[alert objectForKey:KEY_ACTION_DETAILS]];
@@ -777,7 +777,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 		} else {
 			NSDictionary			*alert = (NSDictionary *)item;
 			NSString				*actionID = [alert objectForKey:KEY_ACTION_ID];
-			id <AIActionHandler>	actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];
+			id <AIActionHandler>	actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 		
 			image = [actionHandler imageForActionID:actionID];
 			font = [NSFont systemFontOfSize:11];
@@ -820,7 +820,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 				
 				actionID = [eventDict objectForKey:KEY_ACTION_ID];
 				
-				actionHandler = [[[adium contactAlertsController] actionHandlers] objectForKey:actionID];
+				actionHandler = [[adium.contactAlertsController actionHandlers] objectForKey:actionID];
 				
 				if (actionHandler && [actionHandler respondsToSelector:@selector(performPreviewForAlert:)]) {
 					[(id)actionHandler performPreviewForAlert:eventDict];
@@ -841,7 +841,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	for (eventDict in contactEventArray) {
-		[[adium contactAlertsController] removeAlert:eventDict fromListObject:listObject];
+		[adium.contactAlertsController removeAlert:eventDict fromListObject:listObject];
 	}
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 

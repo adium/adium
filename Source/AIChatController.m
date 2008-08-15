@@ -84,7 +84,7 @@
 																		   target:self
 																		   action:@selector(toggleIgnoreOfContact:)
 																	keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem_ignore toLocation:Context_Contact_GroupChatAction];
+	[adium.menuController addContextualMenuItem:menuItem_ignore toLocation:Context_Contact_GroupChatAction];
 	
 	[adiumChatEvents controllerDidLoad];
 }
@@ -242,7 +242,7 @@
 	}
 
 	chat = [self chatWithContact:inContact];
-	if (chat) [[adium interfaceController] openChat:chat]; 
+	if (chat) [adium.interfaceController openChat:chat]; 
 
 	return chat;
 }
@@ -768,8 +768,8 @@
  */
 - (void)toggleIgnoreOfContact:(id)sender
 {
-	AIListObject	*listObject = [[adium menuController] currentContextMenuObject];
-	AIChat			*chat = [[adium menuController] currentContextMenuChat];
+	AIListObject	*listObject = [adium.menuController currentContextMenuObject];
+	AIChat			*chat = [adium.menuController currentContextMenuChat];
 	
 	if ([listObject isKindOfClass:[AIListContact class]]) {
 		BOOL			isIgnored = [chat isListContactIgnored:(AIListContact *)listObject];
@@ -785,8 +785,8 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == menuItem_ignore) {
-		AIListObject	*listObject = [[adium menuController] currentContextMenuObject];
-		AIChat			*chat = [[adium menuController] currentContextMenuChat];
+		AIListObject	*listObject = [adium.menuController currentContextMenuObject];
+		AIChat			*chat = [adium.menuController currentContextMenuChat];
 		
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			if ([chat isListContactIgnored:(AIListContact *)listObject]) {

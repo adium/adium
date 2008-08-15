@@ -520,9 +520,9 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 			NSString *name, *statusDescription, *statusMessage;
 			
 			name = [listObject longDisplayName];
-			statusDescription = [[adium statusController] localizedDescriptionForStatusName:([listObject statusName] ?
+			statusDescription = [adium.statusController localizedDescriptionForStatusName:([listObject statusName] ?
 																					  [listObject statusName] :
-																					  [[adium statusController] defaultStatusNameForType:[listObject statusType]])
+																					  [adium.statusController defaultStatusNameForType:[listObject statusType]])
 																		  statusType:[listObject statusType]];
 			statusMessage = [listObject statusMessageString];
 			

@@ -42,13 +42,13 @@
 													 target:self 
 													 action:@selector(consolidateChats:)
 											  keyEquivalent:@"O"];
-	[[adium menuController] addMenuItem:consolidateMenuItem toLocation:LOC_Window_Commands];
+	[adium.menuController addMenuItem:consolidateMenuItem toLocation:LOC_Window_Commands];
 
 	newWndowMenuItem = [[NSMenuItem alloc] initWithTitle:NEW_TAB_MENU_TITLE
 												  target:self 
 												  action:@selector(moveChatToNewWindow:)
 										   keyEquivalent:@""];
-	[[adium menuController] addMenuItem:newWndowMenuItem toLocation:LOC_Window_Commands];	
+	[adium.menuController addMenuItem:newWndowMenuItem toLocation:LOC_Window_Commands];	
 }
 
 - (void)dealloc
@@ -66,12 +66,12 @@
  */
 - (void)consolidateChats:(id)sender
 {
-	[[adium interfaceController] consolidateChats];	
+	[adium.interfaceController consolidateChats];	
 }
 
 - (void)moveChatToNewWindow:(id)sender
 {
-	[[adium interfaceController] moveChatToNewContainer:[[adium interfaceController] activeChat]];
+	[adium.interfaceController moveChatToNewContainer:[adium.interfaceController activeChat]];
 }
 
 /*!
@@ -84,9 +84,9 @@
 	BOOL validate;
 
 	if (menuItem == consolidateMenuItem)
-		validate = ([[[adium interfaceController] openContainerIDs] count] > 1);
+		validate = ([[adium.interfaceController openContainerIDs] count] > 1);
 	else if (menuItem == newWndowMenuItem)
-		validate = ([[[[[[adium interfaceController] activeChat] chatContainer] windowController] containedChats] count] > 1);
+		validate = ([[[[[adium.interfaceController activeChat] chatContainer] windowController] containedChats] count] > 1);
 	else
 		validate = TRUE;
 

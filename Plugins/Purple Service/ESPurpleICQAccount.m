@@ -74,13 +74,13 @@
 		case AIAwayStatusType:
 		{
 			if (([statusName isEqualToString:STATUS_NAME_DND]) ||
-			   ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_DND]]== NSOrderedSame))
+			   ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]]== NSOrderedSame))
 				statusID = OSCAR_STATUS_ID_DND;
 			else if (([statusName isEqualToString:STATUS_NAME_NOT_AVAILABLE]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]]== NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]]== NSOrderedSame))
 				statusID = OSCAR_STATUS_ID_NA;
 			else if (([statusName isEqualToString:STATUS_NAME_OCCUPIED]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_OCCUPIED]]== NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OCCUPIED]]== NSOrderedSame))
 				statusID = OSCAR_STATUS_ID_OCCUPIED;
 			break;
 		}

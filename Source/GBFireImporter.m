@@ -365,7 +365,7 @@
 			[adium.preferenceController setPreference:[newStatus uniqueStatusID]
 												 forKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 												  group:PREF_GROUP_STATUS_PREFERENCES];
-		[[adium statusController] addStatusState:newStatus];
+		[adium.statusController addStatusState:newStatus];
 	}	
 }
 
@@ -634,7 +634,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 			[adium.preferenceController setPreference:[newStatus uniqueStatusID]
 												 forKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID
 												  group:PREF_GROUP_STATUS_PREFERENCES];
-		[[adium statusController] addStatusState:newStatus];
+		[adium.statusController addStatusState:newStatus];
 	}	
 }
 

@@ -83,7 +83,7 @@ static AINewMessagePromptController *sharedNewMessageInstance = nil;
         //Initiate the message - the contact is on the right account
 		[super okay:sender];
 
-        [[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:contact
+        [adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:contact
 																			onPreferredAccount:NO]];
 		
 		//Close the prompt

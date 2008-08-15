@@ -32,7 +32,7 @@
 - (void)installPlugin
 {
     //Install our contact alert
-	[[adium contactAlertsController] registerActionID:APPLESCRIPT_CONTACT_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:APPLESCRIPT_CONTACT_ALERT_IDENTIFIER withHandler:self];
 }
 
 /*!
@@ -90,7 +90,7 @@
 	NSString		*path = [details objectForKey:KEY_APPLESCRIPT_TO_RUN];
 
 	if (path) {
-		[[adium applescriptabilityController] runApplescriptAtPath:path
+		[adium.applescriptabilityController runApplescriptAtPath:path
 														  function:nil
 														 arguments:nil
 												   notifyingTarget:nil

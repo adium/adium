@@ -63,7 +63,7 @@
 	// List of windows
 	contactLists = [[NSMutableArray alloc] init];
 	
-    [[adium interfaceController] registerContactListController:self];
+    [adium.interfaceController registerContactListController:self];
 	
 	//Install our preference view
 	advancedPreferences = [[ESContactListAdvancedPreferences preferencePane] retain];
@@ -79,7 +79,7 @@
 	
 	[attachMenuItem setSubmenu:attachSubmenu];
 	
-	[[adium menuController] addContextualMenuItem:attachMenuItem toLocation:Context_Group_AttachDetach];
+	[adium.menuController addContextualMenuItem:attachMenuItem toLocation:Context_Group_AttachDetach];
 	
 	//Context submenu
 	detachMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Detach From Window", "Menu item for detaching groups from their window")
@@ -87,28 +87,28 @@
 												action:@selector(detachFromWindow:)
 										 keyEquivalent:@""];
 	
-	[[adium menuController] addContextualMenuItem:detachMenuItem toLocation:Context_Group_AttachDetach];
+	[adium.menuController addContextualMenuItem:detachMenuItem toLocation:Context_Group_AttachDetach];
 
 	//Control detached groups menu
-	[[adium menuController] addMenuItem:[NSMenuItem separatorItem] toLocation:LOC_Window_Commands];
+	[adium.menuController addMenuItem:[NSMenuItem separatorItem] toLocation:LOC_Window_Commands];
 	
 	menuItem_consolidate = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Consolidate Detached Groups", "menu item title")
 													  target:self
 													  action:@selector(closeDetachedContactLists) 
 											   keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_consolidate toLocation:LOC_Window_Commands];
+	[adium.menuController addMenuItem:menuItem_consolidate toLocation:LOC_Window_Commands];
 	
 	menuItem_nextDetached = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Next Detached Group", "menu item title")
 													   target:self
 													   action:@selector(nextDetachedContactList) 
 												keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_nextDetached toLocation:LOC_Window_Commands];
+	[adium.menuController addMenuItem:menuItem_nextDetached toLocation:LOC_Window_Commands];
 	
 	menuItem_previousDetached = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Previous Detached Group", "menu item title")
 														   target:self
 														   action:@selector(previousDetachedContactList) 
 													keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_previousDetached toLocation:LOC_Window_Commands];
+	[adium.menuController addMenuItem:menuItem_previousDetached toLocation:LOC_Window_Commands];
 	
 	
 	//Observe list closing
@@ -363,7 +363,7 @@
 	[menu removeAllItems];
 	
 	// We're only called on list groups; determine which is our current selected one.
-	AIListGroup			*selectedObject = (AIListGroup *)[[adium menuController] currentContextMenuObject];
+	AIListGroup			*selectedObject = (AIListGroup *)[adium.menuController currentContextMenuObject];
 	
 	// If this group isn't part of the main contact list, provide a menu item to add it back.
 	if ((AIContactList *)[selectedObject containingObject] != [adium.contactController contactList]) {
@@ -398,7 +398,7 @@
 - (void)attachToWindow:(id)sender
 {
 	// Attach the group to its new window.
-	[self moveListGroup:(AIListGroup *)[[adium menuController] currentContextMenuObject]
+	[self moveListGroup:(AIListGroup *)[adium.menuController currentContextMenuObject]
 		  toContactList:[sender representedObject]];
 }
 
@@ -410,7 +410,7 @@
 	AIContactList *destinationGroup = [adium.contactController createDetachedContactList];
 
 	// Detaching is the same as moving to a new group.
-	[self moveListGroup:(AIListGroup *)[[adium menuController] currentContextMenuObject]
+	[self moveListGroup:(AIListGroup *)[adium.menuController currentContextMenuObject]
 		  toContactList:destinationGroup];
 	
 	[[[self detachContactList:destinationGroup] window] setFrameTopLeftPoint:[NSEvent mouseLocation]];
@@ -487,7 +487,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return ([[(AIListGroup *)[[adium menuController] currentContextMenuObject] containingObject] containedObjectsCount] > 1);
+		return ([[(AIListGroup *)[adium.menuController currentContextMenuObject] containingObject] containedObjectsCount] > 1);
 	}
 	
 	return YES;

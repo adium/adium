@@ -1197,7 +1197,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	BOOL shouldRebuild = NO;
 	
 	if ([newState mutabilityType] != AITemporaryEditableStatusState) {
-		[[adium statusController] addStatusState:newState];
+		[adium.statusController addStatusState:newState];
 	}
 
 	if (account) {

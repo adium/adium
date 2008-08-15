@@ -138,7 +138,7 @@
 	[emoticonImageCache release]; emoticonImageCache = nil;
 
     //Flush all the images we loaded
-    [[adium emoticonController] flushEmoticonImageCache];
+    [adium.emoticonController flushEmoticonImageCache];
 }
 
 - (void)configurePreviewControllers
@@ -159,7 +159,7 @@
 	[emoticonPackPreviewControllers release];
 	emoticonPackPreviewControllers = [[NSMutableArray alloc] init];
 	
-	enumerator = [[[adium emoticonController] availableEmoticonPacks] objectEnumerator];
+	enumerator = [[adium.emoticonController availableEmoticonPacks] objectEnumerator];
 	while ((pack = [enumerator nextObject])) {
 		[emoticonPackPreviewControllers addObject:[AIEmoticonPackPreviewController previewControllerForPack:pack
 																								preferences:self]];
@@ -174,7 +174,7 @@
 {
     NSInteger         rowHeight = EMOTICON_MIN_ROW_HEIGHT;
 	NSInteger			selectedRow = [table_emoticonPacks selectedRow];
-	NSArray		*availableEmoticonPacks = [[adium emoticonController] availableEmoticonPacks];
+	NSArray		*availableEmoticonPacks = [adium.emoticonController availableEmoticonPacks];
 	
     //Remember the selected pack
     if ([table_emoticonPacks numberOfSelectedRows] == 1 &&
@@ -316,7 +316,7 @@
 	if (tableView == table_emoticons && [@"Enabled" isEqualToString:[tableColumn identifier]]) {
 		AIEmoticon  *emoticon = [[selectedEmoticonPack emoticons] objectAtIndex:row];
 		
-		[[adium emoticonController] setEmoticon:emoticon inPack:selectedEmoticonPack enabled:[object integerValue]];
+		[adium.emoticonController setEmoticon:emoticon inPack:selectedEmoticonPack enabled:[object integerValue]];
 	}
 }
 
@@ -365,7 +365,7 @@
             for (dragRow in dragRows) {
                 [movedPacks addObject:[[emoticonPackPreviewControllers objectAtIndex:[dragRow integerValue]] emoticonPack]];
             }
-            [[adium emoticonController] moveEmoticonPacks:movedPacks toIndex:row];
+            [adium.emoticonController moveEmoticonPacks:movedPacks toIndex:row];
             
 			[self configurePreviewControllers];
 			
@@ -447,7 +447,7 @@
 
 		[table_emoticonPacks deselectAll:nil];
 		//Note the changed packs
-        [[adium emoticonController] xtrasChanged:nil];
+        [adium.emoticonController xtrasChanged:nil];
     }
 }
 

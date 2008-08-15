@@ -65,23 +65,23 @@
 - (void)registerStatuses{
 	[super registerStatuses];
 
-	[[adium statusController] registerStatus:STATUS_NAME_FREE_FOR_CHAT
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]
+	[adium.statusController registerStatus:STATUS_NAME_FREE_FOR_CHAT
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_DND
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_DND]
+	[adium.statusController registerStatus:STATUS_NAME_DND
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_NOT_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_NOT_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_OCCUPIED
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_OCCUPIED]
+	[adium.statusController registerStatus:STATUS_NAME_OCCUPIED
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OCCUPIED]
 									  ofType:AIAwayStatusType
 								  forService:self];
 }

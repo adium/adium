@@ -132,9 +132,9 @@
 		if (!previousStatusStateDict) previousStatusStateDict = [[NSMutableDictionary alloc] init];
 
 		if ([[notification name] isEqualToString:NSWorkspaceSessionDidResignActiveNotification])
-			targetStatusState = [[adium statusController] statusStateWithUniqueStatusID:fastUserSwitchStatusID];
+			targetStatusState = [adium.statusController statusStateWithUniqueStatusID:fastUserSwitchStatusID];
 		else
-			targetStatusState = [[adium statusController] statusStateWithUniqueStatusID:screenSaverStatusID];
+			targetStatusState = [adium.statusController statusStateWithUniqueStatusID:screenSaverStatusID];
 		
 		if ([targetStatusState isKindOfClass:[AIStatusGroup class]]) {
 			targetStatusState = [(AIStatusGroup *)targetStatusState anyContainedStatus];

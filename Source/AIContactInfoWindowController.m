@@ -256,7 +256,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 //When the contact list selection changes, then configure the window for the new contact
 - (void)selectionChanged:(NSNotification *)notification
 {
-	AIListObject	*object = [[adium interfaceController] selectedListObject];
+	AIListObject	*object = [adium.interfaceController selectedListObject];
 	if (object) {
 		[self setDisplayedListObject:object];
 	}

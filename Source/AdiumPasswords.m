@@ -326,8 +326,8 @@
 	return [NSString stringWithFormat:@"%@.%@",[[inAccount service] serviceID],[inAccount internalObjectID]];
 }
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount{
-	if ([[[adium loginController] userArray] count] > 1) {
-		return [NSString stringWithFormat:@"Adium.%@.%@",[[adium loginController] currentUser],[self _oldStyleAccountNameForAccount:inAccount]];
+	if ([[adium.loginController userArray] count] > 1) {
+		return [NSString stringWithFormat:@"Adium.%@.%@",[adium.loginController currentUser],[self _oldStyleAccountNameForAccount:inAccount]];
 	} else {
 		return [NSString stringWithFormat:@"Adium.%@",[self _oldStyleAccountNameForAccount:inAccount]];
 	}
@@ -350,8 +350,8 @@
 	return [NSString stringWithFormat:@"%@.%@",proxyServer,userName];
 }
 - (NSString *)_passKeyForProxyServer:(NSString *)proxyServer{
-	if ([[[adium loginController] userArray] count] > 1) {
-		return [NSString stringWithFormat:@"Adium.%@.%@",[[adium loginController] currentUser],proxyServer];
+	if ([[adium.loginController userArray] count] > 1) {
+		return [NSString stringWithFormat:@"Adium.%@.%@",[adium.loginController currentUser],proxyServer];
 	} else {
 		return [NSString stringWithFormat:@"Adium.%@",proxyServer];	
 	}

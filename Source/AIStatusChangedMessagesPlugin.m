@@ -122,11 +122,11 @@ static	NSDictionary	*statusTypeDict = nil;
 		NSString		*name = [notification name];
 		NSDictionary	*userInfo = [notification userInfo];
 		
-		description = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:name
+		description = [adium.contactAlertsController naturalLanguageDescriptionForEventID:name
 																				 listObject:contact
 																				   userInfo:userInfo
 																			 includeSubject:YES];
-		phraseWithoutSubject = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:name
+		phraseWithoutSubject = [adium.contactAlertsController naturalLanguageDescriptionForEventID:name
 																						  listObject:contact
 																							userInfo:userInfo
 																					  includeSubject:NO];		

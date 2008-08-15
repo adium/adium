@@ -76,7 +76,7 @@
     image2 = [[NSImage alloc] initWithSize:NSMakeSize(128,128)];
 	
 	//Install our contact alert
-	[[adium contactAlertsController] registerActionID:DOCK_OVERLAY_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:DOCK_OVERLAY_ALERT_IDENTIFIER withHandler:self];
 }
 
 - (void)uninstallPlugin
@@ -134,13 +134,13 @@
  */
 - (BOOL)performActionID:(NSString *)actionID forListObject:(AIListObject *)listObject withDetails:(NSDictionary *)details triggeringEventID:(NSString *)eventID userInfo:(id)userInfo
 {
-	BOOL isMessageEvent = [[adium contactAlertsController] isMessageEvent:eventID];
+	BOOL isMessageEvent = [adium.contactAlertsController isMessageEvent:eventID];
 	
 	if (isMessageEvent) {
 		AIChat	*chat;
 
 		if ((chat = [userInfo objectForKey:@"AIChat"]) &&
-		   (chat != [[adium interfaceController] activeChat]) &&
+		   (chat != [adium.interfaceController activeChat]) &&
 		   (![overlayObjectsArray containsObjectIdenticalTo:chat])) {
 			[overlayObjectsArray addObject:chat];
 			

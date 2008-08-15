@@ -254,7 +254,7 @@ static	NSMutableDictionary	*controllerDict = nil;
  */
 - (void)configureStateMenu
 {
-	[popUp_state setMenu:[[adium statusController] menuOfStatusesForService:(account ? [account service] : nil)
+	[popUp_state setMenu:[adium.statusController menuOfStatusesForService:(account ? [account service] : nil)
 																 withTarget:self]];
 	needToRebuildPopUpState = NO;	
 }
@@ -564,7 +564,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 		[self configureStateMenu];
 	}
 
-	description = [[adium statusController] descriptionForStateOfStatus:statusState];
+	description = [adium.statusController descriptionForStateOfStatus:statusState];
 	index = (description ? [popUp_state indexOfItemWithTitle:description] : -1);
 	if (index != -1) {
 		[popUp_state selectItemAtIndex:index];

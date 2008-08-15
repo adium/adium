@@ -510,16 +510,16 @@
 
 		case AIAwayStatusType:
 			if (([statusName isEqualToString:STATUS_NAME_BRB]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]] == NSOrderedSame))
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]] == NSOrderedSame))
 				statusID = "brb";
 			else if (([statusName isEqualToString:STATUS_NAME_BUSY]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
 				statusID = "busy";
 			else if (([statusName isEqualToString:STATUS_NAME_PHONE]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]] == NSOrderedSame))
 				statusID = "phone";
 			else if (([statusName isEqualToString:STATUS_NAME_LUNCH]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]] == NSOrderedSame))
 				statusID = "lunch";
 
 			break;

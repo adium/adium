@@ -239,7 +239,7 @@
 		[originalState setUniqueStatusID:nil];
 
 	} else {
-		[[adium statusController] addStatusState:newState];
+		[adium.statusController addStatusState:newState];
 	}
 	
 	[outlineView_stateList selectItemsInArray:[NSArray arrayWithObject:newState]];
@@ -250,11 +250,11 @@
 {
 	if (![inStatusGroup containingStatusGroup]) {
 		//Add it if it's not already in a group
-		[[[adium statusController] rootStateGroup] addStatusItem:inStatusGroup atIndex:-1];
+		[[adium.statusController rootStateGroup] addStatusItem:inStatusGroup atIndex:-1];
 
 	} else {
 		//Otherwise just save
-		[[adium statusController] savedStatusesChanged];
+		[adium.statusController savedStatusesChanged];
 	}
 
 	[outlineView_stateList selectItemsInArray:[NSArray arrayWithObject:inStatusGroup]];
@@ -349,14 +349,14 @@
 #pragma mark State List (OutlineView Delegate)
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-	AIStatusGroup *statusGroup = (item ? item : [[adium statusController] rootStateGroup]);
+	AIStatusGroup *statusGroup = (item ? item : [adium.statusController rootStateGroup]);
 	
 	return [[statusGroup containedStatusItems] objectAtIndex:index];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-	AIStatusGroup *statusGroup = (item ? item : [[adium statusController] rootStateGroup]);
+	AIStatusGroup *statusGroup = (item ? item : [adium.statusController rootStateGroup]);
 	
 	return [[statusGroup containedStatusItems] count];	
 }
@@ -450,7 +450,7 @@
 {
     if (index == NSOutlineViewDropOnItemIndex && ![item isKindOfClass:[AIStatusGroup class]]) {
 		AIStatusGroup *dropItem = [item containingStatusGroup];
-		if (dropItem == [[adium statusController] rootStateGroup])
+		if (dropItem == [adium.statusController rootStateGroup])
 			dropItem = nil;
 
 		[outlineView setDropItem:dropItem
@@ -467,9 +467,9 @@
 {
     NSString	*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:STATE_DRAG_TYPE]];
     if ([avaliableType isEqualToString:STATE_DRAG_TYPE]) {		
-		[[adium statusController] setDelayStatusMenuRebuilding:YES];
+		[adium.statusController setDelayStatusMenuRebuilding:YES];
 
-		if (!item) item = [[adium statusController] rootStateGroup];
+		if (!item) item = [adium.statusController rootStateGroup];
 
 		AIStatusItem *statusItem;
 		
@@ -513,7 +513,7 @@
 
 - (void)reselectDraggedItems:(NSArray *)theDraggedItems
 {
-	[[adium statusController] setDelayStatusMenuRebuilding:NO];
+	[adium.statusController setDelayStatusMenuRebuilding:NO];
 
 	[outlineView_stateList selectItemsInArray:theDraggedItems];
 	[outlineView_stateList scrollRowToVisible:[outlineView_stateList rowForItem:[theDraggedItems objectAtIndex:0]]];

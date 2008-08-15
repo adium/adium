@@ -50,7 +50,7 @@ typedef enum {
 //Configure the preference view
 - (void)viewDidLoad
 {
-    NSDictionary	*preferenceDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTEXT_DISPLAY];
+    NSDictionary	*preferenceDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_CONTEXT_DISPLAY];
     
     // Set the values of the controls and fields
     [checkBox_showContext setState:[[preferenceDict objectForKey:KEY_DISPLAY_CONTEXT] boolValue]];
@@ -72,35 +72,35 @@ typedef enum {
 - (IBAction)changePreference:(id)sender
 {
 	if ( sender == checkBox_showContext ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_DISPLAY_CONTEXT
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 		[self configureControlDimming];
 		
 	} else if ( sender == textField_linesToDisplay ) {
 		
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_DISPLAY_LINES
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == textField_haveTalkedDays ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_HAVE_TALKED_DAYS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if (sender == textField_haveNotTalkedDays ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender integerValue]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender integerValue]]
 											 forKey:KEY_HAVE_NOT_TALKED_DAYS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == matrix_radioButtons ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender selectedRow]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender selectedRow]]
 											 forKey:KEY_DISPLAY_MODE
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 		[self configureControlDimming];
 	} else if ( sender == menu_haveTalkedUnits ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
 											 forKey:KEY_HAVE_TALKED_UNITS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	} else if ( sender == menu_haveNotTalkedUnits ) {
-		[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender indexOfSelectedItem]]
 											 forKey:KEY_HAVE_NOT_TALKED_UNITS
 											  group:PREF_GROUP_CONTEXT_DISPLAY];
 	}

@@ -129,7 +129,7 @@
     [checkBox_allowInactiveClosing setState:[[prefDict objectForKey:KEY_ENABLE_INACTIVE_TAB_CLOSE] boolValue]];
 
 	//Window position
-	[popUp_windowPosition setMenu:[[adium interfaceController] menuForWindowLevelsNotifyingTarget:self]];
+	[popUp_windowPosition setMenu:[adium.interfaceController menuForWindowLevelsNotifyingTarget:self]];
 	menuIndex =  [popUp_windowPosition indexOfItemWithTag:[[prefDict objectForKey:KEY_WINDOW_LEVEL] integerValue]];
 	if (menuIndex >= 0 && menuIndex < [popUp_windowPosition numberOfItems]) {
 		[popUp_windowPosition selectItemAtIndex:menuIndex];

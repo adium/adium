@@ -312,7 +312,7 @@
 	}
 
 	//Hide any existing contact list tooltip when we begin typing
-	[[adium interfaceController] showTooltipForListObject:nil atScreenPoint:NSZeroPoint onWindow:nil];
+	[adium.interfaceController showTooltipForListObject:nil atScreenPoint:NSZeroPoint onWindow:nil];
 
     //Reset cache and resize
 	[self _resetCacheAndPostSizeChanged]; 
@@ -1115,7 +1115,7 @@
 			int editIndex = [contextualMenu indexOfItem:editLinkItem];
 			[contextualMenu removeItem:editLinkItem];
 			
-			NSMenu  *linkItemsMenu = [[adium menuController] contextualMenuWithLocations:[NSArray arrayWithObject:
+			NSMenu  *linkItemsMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObject:
 				[NSNumber numberWithInt:Context_TextView_LinkEditing]]
 																								  forTextView:self];
 			
@@ -1135,7 +1135,7 @@
 							  [NSArray arrayWithObject:[NSNumber numberWithInt:Context_TextView_Edit]] :
 							  [NSArray arrayWithObjects:[NSNumber numberWithInt:Context_TextView_LinkEditing], 
 								  [NSNumber numberWithInt:Context_TextView_Edit], nil]);
-	NSMenu  *adiumMenu = [[adium menuController] contextualMenuWithLocations:locationArray
+	NSMenu  *adiumMenu = [adium.menuController contextualMenuWithLocations:locationArray
 																						  forTextView:self];
 	itemsArray = [adiumMenu itemArray];
 	

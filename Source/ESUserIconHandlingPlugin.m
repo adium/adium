@@ -90,10 +90,10 @@
 		if (inObject) {
 			[self updateToolbarItemForObject:inObject];
 		} else {
-			NSEnumerator *enumerator = [[[adium interfaceController] openChats] objectEnumerator];
+			NSEnumerator *enumerator = [[adium.interfaceController openChats] objectEnumerator];
 			AIChat *chat;
 			while ((chat = [enumerator nextObject])) {
-				NSWindow *window = [[adium interfaceController] windowForChat:chat];
+				NSWindow *window = [adium.interfaceController windowForChat:chat];
 				if (window) {
 					[self _updateToolbarIconOfChat:chat
 										  inWindow:window];
@@ -147,7 +147,7 @@
 	[button release];
 
 	//Register our toolbar item
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
 }
 
 /*!
@@ -217,7 +217,7 @@
 		
 		if (window) {
 			[self _updateToolbarItem:item
-							 forChat:[[adium interfaceController] activeChatInWindow:window]];
+							 forChat:[adium.interfaceController activeChatInWindow:window]];
 		}
 	}
 }
@@ -267,7 +267,7 @@
 	if (([toolbarItems count] > 0) &&
 		[inObject isKindOfClass:[AIListContact class]] &&
 		(chat = [adium.chatController existingChatWithContact:(AIListContact *)inObject]) &&
-		(window = [[adium interfaceController] windowForChat:chat])) {
+		(window = [adium.interfaceController windowForChat:chat])) {
 		[self _updateToolbarIconOfChat:chat
 							  inWindow:window];
 	}

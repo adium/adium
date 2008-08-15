@@ -175,7 +175,7 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
 		}
 	} else if (primary && strcmp(primary, _("Accept chat invitation?")) == 0) {
 		AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(account, who));
-		[[adium contactAlertsController] generateEvent:CONTENT_GROUP_CHAT_INVITE
+		[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_INVITE
 										 forListObject:contact
 											  userInfo:[NSDictionary dictionary]
 						  previouslyPerformedActionIDs:nil];	

@@ -46,9 +46,9 @@
 - (void)installPlugin
 {
     //Install our contact alerts
-	[[adium contactAlertsController] registerActionID:SPEAK_TEXT_ALERT_IDENTIFIER
+	[adium.contactAlertsController registerActionID:SPEAK_TEXT_ALERT_IDENTIFIER
 										  withHandler:self];
-	[[adium contactAlertsController] registerActionID:SPEAK_EVENT_ALERT_IDENTIFIER
+	[adium.contactAlertsController registerActionID:SPEAK_EVENT_ALERT_IDENTIFIER
 										  withHandler:self];
     
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:ANNOUNCER_DEFAULT_PREFS 
@@ -163,13 +163,13 @@
 		if ([userText rangeOfString:@"%m"].location != NSNotFound) {
 			NSString			*message;
 			
-			if ([[adium contactAlertsController] isMessageEvent:eventID] &&
+			if ([adium.contactAlertsController isMessageEvent:eventID] &&
 				[userInfo objectForKey:@"AIContentObject"]) {
 				AIContentMessage	*content = [userInfo objectForKey:@"AIContentObject"];
 				message = [[[content message] attributedStringByConvertingAttachmentsToStrings] string];
 				
 			} else {
-				message = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:eventID
+				message = [adium.contactAlertsController naturalLanguageDescriptionForEventID:eventID
 																					 listObject:listObject
 																					   userInfo:userInfo
 																				 includeSubject:NO];
@@ -196,7 +196,7 @@
 						 nil);
 		
 		//Handle messages in a custom manner
-		if ([[adium contactAlertsController] isMessageEvent:eventID] &&
+		if ([adium.contactAlertsController isMessageEvent:eventID] &&
 			[userInfo objectForKey:@"AIContentObject"]) {
 			AIContentMessage	*content = [userInfo objectForKey:@"AIContentObject"];
 			NSString			*message = [[[content message] attributedStringByConvertingAttachmentsToStrings] string];
@@ -251,7 +251,7 @@
 			//the time
 			NSString	*eventDescription;
 			
-			eventDescription = [[adium contactAlertsController] naturalLanguageDescriptionForEventID:eventID
+			eventDescription = [adium.contactAlertsController naturalLanguageDescriptionForEventID:eventID
 																						  listObject:listObject
 																							userInfo:userInfo
 																					  includeSubject:YES];

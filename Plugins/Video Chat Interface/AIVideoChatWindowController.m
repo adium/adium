@@ -24,7 +24,7 @@
 	videoChat = [inVideoChat retain];
 	
 	//Observe frames for this video chat
-	[[adium videoChatController] registerVideoChatObserver:self];
+	[adium.videoChatController registerVideoChatObserver:self];
 	
 	return self;
 }
@@ -40,7 +40,7 @@
 
 - (BOOL)windowShouldClose:(id)sender
 {
-	[[adium videoChatController] unregisterVideoChatObserver:self];
+	[adium.videoChatController unregisterVideoChatObserver:self];
 	[videoChat release];
 	
 }

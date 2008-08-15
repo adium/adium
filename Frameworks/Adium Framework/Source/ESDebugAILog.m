@@ -39,10 +39,10 @@ void AIAddDebugMessage(NSString *debugMessage)
 	
 	/* Be careful; we should only modify debugLogArray and the windowController's view on the main thread. */
 	if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
-		[[adium debugController] addMessage:actualMessage];
+		[adium.debugController addMessage:actualMessage];
 
 	} else {
-		[[adium debugController] performSelectorOnMainThread:@selector(addMessage:)
+		[adium.debugController performSelectorOnMainThread:@selector(addMessage:)
 																		   withObject:actualMessage
 																		waitUntilDone:NO];		
 	}

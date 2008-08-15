@@ -814,7 +814,7 @@
 	NSEnumerator *enumerator;
 	id <AIContactListTooltipEntry> tooltipEntry;
 	
-	enumerator = [[[[adium interfaceController] contactListTooltipPrimaryEntries] arrayByAddingObjectsFromArray:[[adium interfaceController] contactListTooltipSecondaryEntries]] objectEnumerator];
+	enumerator = [[[adium.interfaceController contactListTooltipPrimaryEntries] arrayByAddingObjectsFromArray:[adium.interfaceController contactListTooltipSecondaryEntries]] objectEnumerator];
 	while ((tooltipEntry = [enumerator nextObject])) {
 		/* Note: shouldDisplayInContactInspector is a required part of the AIContactListTooltipEntry protocol. However,
 		 * we are checking for its implementation for compatibility with Adium 1.2 tooltip plugins since Adium 1.3

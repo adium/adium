@@ -234,43 +234,43 @@
 		} else if (f->status != YAHOO_STATUS_AVAILABLE) {
 			switch (f->status) {
 				case YAHOO_STATUS_BRB:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BRB];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB];
 					break;
 					
 				case YAHOO_STATUS_BUSY:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY];
 					break;
 					
 				case YAHOO_STATUS_NOTATHOME:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME];
 					break;
 					
 				case YAHOO_STATUS_NOTATDESK:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK];
 					break;
 					
 				case YAHOO_STATUS_NOTINOFFICE:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE];
 					break;
 					
 				case YAHOO_STATUS_ONPHONE:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE];
 					break;
 					
 				case YAHOO_STATUS_ONVACATION:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION];
 					break;
 					
 				case YAHOO_STATUS_OUTTOLUNCH:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH];
 					break;
 					
 				case YAHOO_STATUS_STEPPEDOUT:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT];
 					break;
 					
 				case YAHOO_STATUS_INVISIBLE:
-					statusMessageString = [[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE];
+					statusMessageString = [adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE];
 					//				statusType = AIInvisibleStatusType; /* Invisible has a special status type */
 					break;
 					
@@ -381,35 +381,35 @@
 		case AIAwayStatusType:
 		{
 			if (([statusName isEqualToString:STATUS_NAME_BRB]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]] == NSOrderedSame))
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_BRB;
 
 			else if (([statusName isEqualToString:STATUS_NAME_BUSY]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_BUSY;
 
 			else if (([statusName isEqualToString:STATUS_NAME_NOT_AT_HOME]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_NOTATHOME;
 
 			else if (([statusName isEqualToString:STATUS_NAME_NOT_AT_DESK]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK]] == NSOrderedSame))
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_NOTATDESK;
 			
 			else if (([statusName isEqualToString:STATUS_NAME_PHONE]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_ONPHONE;
 			
 			else if (([statusName isEqualToString:STATUS_NAME_VACATION]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_ONVACATION;
 			
 			else if (([statusName isEqualToString:STATUS_NAME_LUNCH]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_OUTTOLUNCH;
 			
 			else if (([statusName isEqualToString:STATUS_NAME_STEPPED_OUT]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT]] == NSOrderedSame))
 				statusID = YAHOO_STATUS_TYPE_STEPPEDOUT;
 			
 			

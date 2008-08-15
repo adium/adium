@@ -41,7 +41,7 @@
 													   target:self
 													   action:@selector(showGuestAccountWindow:)
 												keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_File_Additions];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_File_Additions];
 	[menuItem release];
 }
 
@@ -66,12 +66,12 @@
 
 	//Remove any existing menu items
     for (menuItem in installedMenuItems) { 
-		[[adium menuController] removeMenuItem:menuItem];
+		[adium.menuController removeMenuItem:menuItem];
     }
 	
 	//Add the new menu items
     for (menuItem in menuItems) {
-		[[adium menuController] addMenuItem:menuItem toLocation:LOC_File_Accounts];
+		[adium.menuController addMenuItem:menuItem toLocation:LOC_File_Accounts];
     }
 	
 	//Remember the installed items so we can remove them later

@@ -28,7 +28,7 @@ static AdiumAuthorization *sharedInstance;
 - (id)init
 {
 	if ((self = [super init])) {
-		[[adium contactAlertsController] registerEventID:CONTACT_REQUESTED_AUTHORIZATION
+		[adium.contactAlertsController registerEventID:CONTACT_REQUESTED_AUTHORIZATION
 											 withHandler:self
 												 inGroup:AIContactsEventHandlerGroup
 											  globalOnly:YES];
@@ -43,7 +43,7 @@ static AdiumAuthorization *sharedInstance;
 																		 account:inAccount
 																			 UID:[inDict objectForKey:@"Remote Name"]];
 
-	[[adium contactAlertsController] generateEvent:CONTACT_REQUESTED_AUTHORIZATION
+	[adium.contactAlertsController generateEvent:CONTACT_REQUESTED_AUTHORIZATION
 									 forListObject:(AIListObject *)listContact
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];				

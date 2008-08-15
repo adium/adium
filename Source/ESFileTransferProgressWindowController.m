@@ -195,7 +195,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	
 	//Create progress rows for all existing file transfers
 	shouldScrollToNewFileTransfer = NO;
-	enumerator = [[[adium fileTransferController] fileTransferArray] objectEnumerator];
+	enumerator = [[adium.fileTransferController fileTransferArray] objectEnumerator];
 	while ((fileTransfer = [enumerator nextObject])) {
 		[self addFileTransfer:fileTransfer];
 	}
@@ -315,7 +315,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		//Remove the row from our array, and its file transfer from the fileTransferController
 		row = [progressRows indexOfObject:progressRow];
 		[progressRows removeObject:progressRow];
-		[[adium fileTransferController] _removeFileTransfer:fileTransfer];
+		[adium.fileTransferController _removeFileTransfer:fileTransfer];
 		
 		if (shouldScrollToNewFileTransfer) {
 			//Refresh the outline view
