@@ -65,7 +65,7 @@
 			   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
 			   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
 			{
-				[[adium contactAlertsController] generateEvent:CONTENT_GROUP_CHAT_MENTION
+				[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
 												 forListObject:[message source]
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
 								  previouslyPerformedActionIDs:nil];

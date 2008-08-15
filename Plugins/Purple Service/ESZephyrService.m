@@ -78,18 +78,18 @@
 	return NO;
 }
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_INVISIBLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
+	[adium.statusController registerStatus:STATUS_NAME_INVISIBLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 

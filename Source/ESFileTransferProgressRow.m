@@ -129,7 +129,7 @@
 	size = inSize;
 	
 	[sizeString release];
-	sizeString = [[[adium fileTransferController] stringForSize:size] retain];
+	sizeString = [[adium.fileTransferController stringForSize:size] retain];
 }
 
 - (void)fileTransfer:(ESFileTransfer *)inFileTransfer didSetLocalFilename:(NSString *)inLocalFilename
@@ -175,7 +175,7 @@
 		size = [inFileTransfer size];
 		
 		[sizeString release];
-		sizeString = [[[adium fileTransferController] stringForSize:size] retain];
+		sizeString = [[adium.fileTransferController stringForSize:size] retain];
 	}
 
 	switch (status) {
@@ -235,7 +235,7 @@
 			break;
 			case In_Progress_FileTransfer:
 			{
-				NSString			*bytesString = [[adium fileTransferController] stringForSize:bytesSent
+				NSString			*bytesString = [adium.fileTransferController stringForSize:bytesSent
 																							  of:size
 																						ofString:sizeString];
 
@@ -299,7 +299,7 @@
 			unsigned long		ticksDifference = updateTick - [[updateTickQueue objectAtIndex:0] unsignedLongValue];
 			unsigned long long	rate = bytesDifference / (ticksDifference / 60.0);
 			
-			transferSpeedStatus = [NSString stringWithFormat:AILocalizedString(@"%@/sec","Rate of transfer phrase. %@ will be replaced by an abbreviated data amount such as 4 KB or 1 MB"),[[adium fileTransferController] stringForSize:rate]];
+			transferSpeedStatus = [NSString stringWithFormat:AILocalizedString(@"%@/sec","Rate of transfer phrase. %@ will be replaced by an abbreviated data amount such as 4 KB or 1 MB"),[adium.fileTransferController stringForSize:rate]];
 			
 			if (rate > 0) {
 				unsigned long long secsRemaining = ((size - bytesSent) / rate);

@@ -42,7 +42,7 @@
 - (void)installPlugin
 {
 	//Install our contact alert
-	[[adium contactAlertsController] registerActionID:AIDockBehavior_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:AIDockBehavior_ALERT_IDENTIFIER withHandler:self];
 }
 
 /*!
@@ -96,10 +96,10 @@
 {
 	if ([adium.dockController performBehavior:[[details objectForKey:KEY_DOCK_BEHAVIOR_TYPE] integerValue]]) {
 		//The behavior will continue into the future
-		if ([[adium contactAlertsController] isMessageEvent:eventID]) {
+		if ([adium.contactAlertsController isMessageEvent:eventID]) {
 			AIChat *chat = [userInfo objectForKey:@"AIChat"];
 			
-			if (chat == [[adium interfaceController] activeChat]) {
+			if (chat == [adium.interfaceController activeChat]) {
 				//If this is the active chat, stop the bouncing immediately
 				[self stopBouncing:nil];
 	

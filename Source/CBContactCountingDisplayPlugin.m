@@ -65,13 +65,13 @@
 														 target:self 
 														 action:@selector(toggleMenuItem:)
 												  keyEquivalent:@""];
-    [[adium menuController] addMenuItem:menuItem_countVisibleObjects toLocation:LOC_View_Counting_Toggles];		
+    [adium.menuController addMenuItem:menuItem_countVisibleObjects toLocation:LOC_View_Counting_Toggles];		
 
     menuItem_countAllObjects = [[NSMenuItem alloc] initWithTitle:SHOW_COUNT_ALL_CONTACTS_TITLE
 														 target:self 
 														 action:@selector(toggleMenuItem:)
 												  keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_countAllObjects toLocation:LOC_View_Counting_Toggles];		
+	[adium.menuController addMenuItem:menuItem_countAllObjects toLocation:LOC_View_Counting_Toggles];		
     
 	//set up the prefs
 	countAllObjects = NO;

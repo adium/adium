@@ -63,13 +63,13 @@
 	return AILocalizedString(@"Facebook Email", "Label for the username for a Facebook contact");
 }
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 }

@@ -193,7 +193,7 @@
 										  group:PREF_GROUP_CONTACT_LIST];
 	
 	//Clear out old metacontact files
-	path = [[[adium loginController] userDirectory] stringByAppendingPathComponent:OBJECT_PREFS_PATH];
+	path = [[adium.loginController userDirectory] stringByAppendingPathComponent:OBJECT_PREFS_PATH];
 	[[NSFileManager defaultManager] removeFilesInDirectory:path
 												withPrefix:@"MetaContact"
 											 movingToTrash:NO];
@@ -516,7 +516,7 @@
 													 target:self
 													 action:@selector(toggleShowGroups:)
 											  keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_showGroups toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_showGroups toLocation:LOC_View_Toggles];
 	
 	//Toolbar
 	NSToolbarItem	*toolbarItem;
@@ -533,7 +533,7 @@
 																		 loadLazily:YES]
 														 action:@selector(toggleShowGroupsToolbar:)
 														   menu:nil];
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ContactList"];
 }
 
 - (IBAction)toggleShowGroups:(id)sender
@@ -772,7 +772,7 @@
 		//Save
 		[self _saveMetaContacts:allMetaContactsDict];
 		
-		[[adium contactAlertsController] mergeAndMoveContactAlertsFromListObject:listObject
+		[adium.contactAlertsController mergeAndMoveContactAlertsFromListObject:listObject
 																  intoListObject:metaContact];
 	}
 	

@@ -36,7 +36,7 @@
 - (void)installPlugin
 {
     //Install our tooltip entry
-    [[adium interfaceController] registerContactListTooltipEntry:self secondaryEntry:NO];
+    [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:NO];
 	
 	//Install our observers
 	[[adium notificationCenter] addObserver:self

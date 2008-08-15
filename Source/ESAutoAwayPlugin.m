@@ -97,7 +97,7 @@
 			
 			if (!previousStatusStateDict) previousStatusStateDict = [[NSMutableDictionary alloc] init];
 			
-			targetStatusState = [[adium statusController] statusStateWithUniqueStatusID:autoAwayID];
+			targetStatusState = [adium.statusController statusStateWithUniqueStatusID:autoAwayID];
 			
 			if ([targetStatusState isKindOfClass:[AIStatusGroup class]]) {
 				targetStatusState = [(AIStatusGroup *)targetStatusState anyContainedStatus];

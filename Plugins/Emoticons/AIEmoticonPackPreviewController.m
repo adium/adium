@@ -57,7 +57,7 @@
 
 - (IBAction)togglePack:(id)sender
 {
-	[[adium emoticonController] setEmoticonPack:emoticonPack enabled:![emoticonPack isEnabled]];
+	[adium.emoticonController setEmoticonPack:emoticonPack enabled:![emoticonPack isEnabled]];
 	[preferences toggledPackController:self];
 }
 

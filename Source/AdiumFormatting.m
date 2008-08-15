@@ -59,7 +59,7 @@
 																				 target:self
 																				 action:@selector(restoreDefaultFormat:)
 																		  keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Format_Additions];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Format_Additions];
 	[menuItem release];
 }
 

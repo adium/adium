@@ -556,7 +556,7 @@
 		if ((statusName = [self statusName])) {
 			NSString *descriptionOfStatus;
 			
-			if ((descriptionOfStatus = [[adium statusController] localizedDescriptionForStatusName:statusName
+			if ((descriptionOfStatus = [adium.statusController localizedDescriptionForStatusName:statusName
 																						statusType:[self statusType]])) {
 				contactListStatusMessage = [[[NSAttributedString alloc] initWithString:descriptionOfStatus] autorelease];			
 			}
@@ -701,7 +701,7 @@
 		}
 		
 		if (targetFileTransferContact) {
-			[[adium fileTransferController] sendFile:filePath toListContact:targetFileTransferContact];
+			[adium.fileTransferController sendFile:filePath toListContact:targetFileTransferContact];
 		} else {
 			AILogWithSignature(@"No contact available to receive files to %@", self);
 			NSBeep();

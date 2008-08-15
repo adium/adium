@@ -68,36 +68,36 @@
 }
 
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 
 	/*
-	[[adium statusController] registerStatus:STATUS_NAME_NOT_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_NOT_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	*/
 	
-	[[adium statusController] registerStatus:STATUS_NAME_INVISIBLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
+	[adium.statusController registerStatus:STATUS_NAME_INVISIBLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 
 	//What does a Blocked invisible status mean, anyways?
-	[[adium statusController] registerStatus:@"blocked"
+	[adium.statusController registerStatus:@"blocked"
 							 withDescription:AILocalizedString(@"Blocked", nil)
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_OFFLINE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE]
+	[adium.statusController registerStatus:STATUS_NAME_OFFLINE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE]
 									  ofType:AIOfflineStatusType
 								  forService:self];	
 }

@@ -104,10 +104,10 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 	scriptMenu = nil;
 	[self buildScriptMenu]; //this also sets the submenu for the menu item.
 	
-	[[adium menuController] addMenuItem:scriptMenuItem toLocation:LOC_Edit_Additions];
+	[adium.menuController addMenuItem:scriptMenuItem toLocation:LOC_Edit_Additions];
 	
 	contextualScriptMenuItem = [scriptMenuItem copy];
-	[[adium menuController] addContextualMenuItem:contextualScriptMenuItem toLocation:Context_TextView_Edit];
+	[adium.menuController addContextualMenuItem:contextualScriptMenuItem toLocation:Context_TextView_Edit];
 }
 
 /*!
@@ -574,7 +574,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 		(context ? context : [NSNull null]), @"context",
 		nil];
 	
-	[[adium applescriptabilityController] runApplescriptAtPath:[infoDict objectForKey:@"Path"]
+	[adium.applescriptabilityController runApplescriptAtPath:[infoDict objectForKey:@"Path"]
 													  function:@"substitute"
 													 arguments:arguments
 											   notifyingTarget:self
@@ -679,7 +679,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	
 	//Unregister the existing toolbar item first
 	if (toolbarItem) {
-		[[adium toolbarController] unregisterToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+		[adium.toolbarController unregisterToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 		[toolbarItem release]; toolbarItem = nil;
 	}
 	
@@ -698,7 +698,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	[toolbarItem setMinSize:NSMakeSize(32,32)];
 	[toolbarItem setMaxSize:NSMakeSize(32,32)];
 	[button setToolbarItem:toolbarItem];
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 
 /*!

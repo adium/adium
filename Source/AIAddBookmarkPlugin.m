@@ -44,18 +44,18 @@
 																			   action:@selector(addBookmark:)
 																		keyEquivalent:@""];
 	
-	[[adium menuController] addMenuItem:addBookmarkMenuItem
+	[adium.menuController addMenuItem:addBookmarkMenuItem
 							 toLocation:LOC_Contact_Manage];
 	
-	[[adium toolbarController] registerToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
 	
 }
 
 - (void)uninstallPlugin
 {
 	[addBookmarkMenuItem release];
-	[[adium toolbarController] unregisterToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
-	[[adium menuController] removeMenuItem:addBookmarkMenuItem];
+	[adium.toolbarController unregisterToolbarItem:addBookmarkToolbarItem forToolbarType:@"MessageWindow"];
+	[adium.menuController removeMenuItem:addBookmarkMenuItem];
 }
 
 /*!
@@ -64,8 +64,8 @@
  */
 - (void)addBookmark:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:[[adium interfaceController] activeChat]
-													  onWindow:[[[[[adium interfaceController] activeChat] chatContainer] windowController] window]
+	[AINewBookmarkWindowController promptForNewBookmarkForChat:[adium.interfaceController activeChat]
+													  onWindow:[[[[adium.interfaceController activeChat] chatContainer] windowController] window]
 												notifyingTarget:self];
 }
 // @brief: create a bookmark for the given chat with the given name in the given group
@@ -81,12 +81,12 @@
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)inToolbarItem
 {
-	return [[[adium interfaceController] activeChat] isGroupChat];
+	return [[adium.interfaceController activeChat] isGroupChat];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)inMenuItem
 {
-	return [[[adium interfaceController] activeChat] isGroupChat];	
+	return [[adium.interfaceController activeChat] isGroupChat];	
 }
 
 @end

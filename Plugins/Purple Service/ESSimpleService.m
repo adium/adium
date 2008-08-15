@@ -64,8 +64,8 @@
 }
 
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 }

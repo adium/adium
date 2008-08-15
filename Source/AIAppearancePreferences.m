@@ -269,7 +269,7 @@ typedef enum {
 	[popUp_emoticons setMenu:[self _emoticonPackMenu]];
 	
 	//Update the selected pack
-	NSArray	*activeEmoticonPacks = [[adium emoticonController] activeEmoticonPacks];
+	NSArray	*activeEmoticonPacks = [adium.emoticonController activeEmoticonPacks];
 	NSInteger		numActivePacks = [activeEmoticonPacks count];
 	
 	if (numActivePacks == 0) {
@@ -349,7 +349,7 @@ typedef enum {
 	} else if (sender == popUp_emoticons) {
 		if ([[sender selectedItem] tag] != AIEmoticonMenuMultiple) {
 			//Disable all active emoticons
-			NSArray			*activePacks = [[[[adium emoticonController] activeEmoticonPacks] mutableCopy] autorelease];
+			NSArray			*activePacks = [[[adium.emoticonController activeEmoticonPacks] mutableCopy] autorelease];
 			AIEmoticonPack	*pack, *selectedPack;
 			
 			selectedPack = [[sender selectedItem] representedObject];
@@ -357,11 +357,11 @@ typedef enum {
 			[adium.preferenceController delayPreferenceChangedNotifications:YES];
 
 			for (pack in activePacks) {
-				[[adium emoticonController] setEmoticonPack:pack enabled:NO];
+				[adium.emoticonController setEmoticonPack:pack enabled:NO];
 			}
 			
 			//Enable the selected pack
-			if (selectedPack) [[adium emoticonController] setEmoticonPack:selectedPack enabled:YES];
+			if (selectedPack) [adium.emoticonController setEmoticonPack:selectedPack enabled:YES];
 
 			[adium.preferenceController delayPreferenceChangedNotifications:NO];
 		}
@@ -393,7 +393,7 @@ typedef enum {
 - (NSMenu *)_emoticonPackMenu
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSEnumerator	*enumerator = [[[adium emoticonController] availableEmoticonPacks] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.emoticonController availableEmoticonPacks] objectEnumerator];
 	AIEmoticonPack	*pack;
 	NSMenuItem		*menuItem;
 		
@@ -407,7 +407,7 @@ typedef enum {
 	[menu addItem:menuItem];
 	
 	//Add the "Multiple packs selected" option
-	if ([[[adium emoticonController] activeEmoticonPacks] count] > 1) {
+	if ([[adium.emoticonController activeEmoticonPacks] count] > 1) {
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Multiple Packs Selected",nil)
 																		 target:nil
 																		 action:nil

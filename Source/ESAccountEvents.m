@@ -37,9 +37,9 @@
 	accountConnectionStatusGroupingOfflineTimer = nil;
 	
 	//Register the events we generate
-	[[adium contactAlertsController] registerEventID:ACCOUNT_CONNECTED withHandler:self inGroup:AIAccountsEventHandlerGroup globalOnly:YES];
-	[[adium contactAlertsController] registerEventID:ACCOUNT_DISCONNECTED withHandler:self inGroup:AIAccountsEventHandlerGroup globalOnly:YES];
-	[[adium contactAlertsController] registerEventID:ACCOUNT_RECEIVED_EMAIL withHandler:self inGroup:AIOtherEventHandlerGroup globalOnly:YES];
+	[adium.contactAlertsController registerEventID:ACCOUNT_CONNECTED withHandler:self inGroup:AIAccountsEventHandlerGroup globalOnly:YES];
+	[adium.contactAlertsController registerEventID:ACCOUNT_DISCONNECTED withHandler:self inGroup:AIAccountsEventHandlerGroup globalOnly:YES];
+	[adium.contactAlertsController registerEventID:ACCOUNT_RECEIVED_EMAIL withHandler:self inGroup:AIOtherEventHandlerGroup globalOnly:YES];
 
 	//Observe status changes
     [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
@@ -219,7 +219,7 @@
  */
 - (void)accountConnection:(NSTimer *)timer
 {
-	[[adium contactAlertsController] generateEvent:ACCOUNT_CONNECTED
+	[adium.contactAlertsController generateEvent:ACCOUNT_CONNECTED
 									 forListObject:[timer userInfo]
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];
@@ -231,7 +231,7 @@
  */
 - (void)accountDisconnection:(NSTimer *)timer
 {
-	[[adium contactAlertsController] generateEvent:ACCOUNT_DISCONNECTED
+	[adium.contactAlertsController generateEvent:ACCOUNT_DISCONNECTED
 									 forListObject:[timer userInfo]
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];

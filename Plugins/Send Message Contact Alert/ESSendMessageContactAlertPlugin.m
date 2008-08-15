@@ -37,7 +37,7 @@
 - (void)installPlugin
 {
     //Install our contact alert
-	[[adium contactAlertsController] registerActionID:@"SendMessage" withHandler:self];
+	[adium.contactAlertsController registerActionID:@"SendMessage" withHandler:self];
     
     attributes = nil;
 }
@@ -155,7 +155,7 @@
 										onPreferredAccount:NO];
 		if (([chat messageSendingAbility] == AIChatCanSendMessageNow) ||
 			([chat messageSendingAbility] == AIChatCanSendViaServersideOfflineMessage)) {
-			[[adium interfaceController] setActiveChat:chat];
+			[adium.interfaceController setActiveChat:chat];
 			
 			message = [NSAttributedString stringWithData:[details objectForKey:KEY_MESSAGE_SEND_MESSAGE]];
 			
@@ -173,7 +173,7 @@
 			
 			//Display an error message if the message was not delivered
 			if (!success) {
-				[[adium interfaceController] handleMessage:AILocalizedString(@"Contact Alert Error",nil)
+				[adium.interfaceController handleMessage:AILocalizedString(@"Contact Alert Error",nil)
 										   withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.",nil), [contact displayName]]
 										   withWindowTitle:@""];
 			}

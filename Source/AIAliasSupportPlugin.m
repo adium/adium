@@ -69,7 +69,7 @@
 																		  keyEquivalent:@""] autorelease];
 	
 	//Add the menu item (which will have _contactNameMenu as its submenu)
-	[[adium menuController] addMenuItem:menuItem_contactName toLocation:LOC_View_Additions];
+	[adium.menuController addMenuItem:menuItem_contactName toLocation:LOC_View_Additions];
 	
 	menu_contactSubmenu = [[self _contactNameMenu] retain];
 	[menuItem_contactName setSubmenu:menu_contactSubmenu];

@@ -86,7 +86,7 @@
 	NSString *preceedingPath = nil;
 	
 #ifndef LOG_TO_TEST
-	preceedingPath = [[[[adium loginController] userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
+	preceedingPath = [[[adium.loginController userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath];
 #else
 	preceedingPath = TEST_LOGGING_LOCATION;
 #endif

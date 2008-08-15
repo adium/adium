@@ -101,7 +101,7 @@
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium interfaceController] unregisterFlashObserver:self];	
+	[adium.interfaceController unregisterFlashObserver:self];	
 }
 
 - (void)dealloc
@@ -156,7 +156,7 @@
 		/* Use the unviewed content settings if:
 		 *	- we aren't flashing or
 		 *  - every other flash. */
-        if (!flashUnviewedContentEnabled || ([[adium interfaceController] flashState] % 2)) {
+        if (!flashUnviewedContentEnabled || ([adium.interfaceController flashState] % 2)) {
             color = unviewedContentColor;
             invertedColor = unviewedContentInvertedColor;
             labelColor = unviewedContentLabelColor;
@@ -266,12 +266,12 @@
 {
     //Ensure that we're observing the flashing
     if ([flashingListObjects count] == 0) {
-        [[adium interfaceController] registerFlashObserver:self];
+        [adium.interfaceController registerFlashObserver:self];
     }
 
     //Add the contact to our flash set
     [flashingListObjects addObject:inObject];
-    [self flash:[[adium interfaceController] flashState]];
+    [self flash:[adium.interfaceController flashState]];
 }
 
 /*!
@@ -284,7 +284,7 @@
 
     //If we have no more flashing contacts, stop observing the flashes
     if ([flashingListObjects count] == 0) {
-        [[adium interfaceController] unregisterFlashObserver:self];
+        [adium.interfaceController unregisterFlashObserver:self];
     }
 }
 

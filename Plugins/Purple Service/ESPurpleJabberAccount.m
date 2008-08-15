@@ -655,7 +655,7 @@
 		case AIAvailableStatusType:
 		{
 			if (([statusName isEqualToString:STATUS_NAME_FREE_FOR_CHAT]) ||
-			   ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]] == NSOrderedSame))
+			   ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]] == NSOrderedSame))
 				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_CHAT);
 			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
 			break;
@@ -664,13 +664,13 @@
 		case AIAwayStatusType:
 		{
 			if (([statusName isEqualToString:STATUS_NAME_DND]) ||
-				([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame) ||
+				([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]] == NSOrderedSame) ||
 				[statusName isEqualToString:STATUS_NAME_BUSY]) {
 				//Note that Jabber doesn't actually support a 'busy' status; if we have it set because some other service supports it, treat it as DND
 				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_DND);
 
 			} else if (([statusName isEqualToString:STATUS_NAME_EXTENDED_AWAY]) ||
-					 ([statusMessageString caseInsensitiveCompare:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]] == NSOrderedSame))
+					 ([statusMessageString caseInsensitiveCompare:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]] == NSOrderedSame))
 				statusID = jabber_buddy_state_get_status_id(JABBER_BUDDY_STATE_XA);
 			priority = [self preferenceForKey:KEY_JABBER_PRIORITY_AWAY group:GROUP_ACCOUNT_STATUS];
 			break;

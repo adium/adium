@@ -24,15 +24,15 @@
 - (void)controllerDidLoad
 {
 	//Register the events we generate
-	[[adium contactAlertsController] registerEventID:CONTENT_CONTACT_JOINED_CHAT
+	[adium.contactAlertsController registerEventID:CONTENT_CONTACT_JOINED_CHAT
 										 withHandler:self 
 											 inGroup:AIMessageEventHandlerGroup
 										  globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTENT_CONTACT_LEFT_CHAT
+	[adium.contactAlertsController registerEventID:CONTENT_CONTACT_LEFT_CHAT
 										 withHandler:self 
 											 inGroup:AIMessageEventHandlerGroup
 										  globalOnly:NO];	
-	[[adium contactAlertsController] registerEventID:CONTENT_GROUP_CHAT_INVITE
+	[adium.contactAlertsController registerEventID:CONTENT_GROUP_CHAT_INVITE
 										 withHandler:self 
 											 inGroup:AIMessageEventHandlerGroup
 										  globalOnly:NO];	
@@ -43,7 +43,7 @@
  */
 - (void)chat:(AIChat *)chat addedListContact:(AIListContact *)inContact
 {
-	[[adium contactAlertsController] generateEvent:CONTENT_CONTACT_JOINED_CHAT
+	[adium.contactAlertsController generateEvent:CONTENT_CONTACT_JOINED_CHAT
 									 forListObject:inContact
 										  userInfo:[NSDictionary dictionaryWithObject:chat
 																			   forKey:@"AIChat"]
@@ -55,7 +55,7 @@
  */
 - (void)chat:(AIChat *)chat removedListContact:(AIListContact *)inContact
 {
-	[[adium contactAlertsController] generateEvent:CONTENT_CONTACT_LEFT_CHAT
+	[adium.contactAlertsController generateEvent:CONTENT_CONTACT_LEFT_CHAT
 									 forListObject:inContact
 										  userInfo:[NSDictionary dictionaryWithObject:chat
 																			   forKey:@"AIChat"]

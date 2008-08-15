@@ -60,12 +60,12 @@
 	
 	//tooltip for tunes
 	tunetooltip = [[AMPurpleTuneTooltip alloc] init];
-	[[adium interfaceController] registerContactListTooltipEntry:tunetooltip secondaryEntry:YES];
+	[adium.interfaceController registerContactListTooltipEntry:tunetooltip secondaryEntry:YES];
 }
 
 - (void)uninstallPlugin
 {
-	[[adium interfaceController] unregisterContactListTooltipEntry:tunetooltip secondaryEntry:YES];
+	[adium.interfaceController unregisterContactListTooltipEntry:tunetooltip secondaryEntry:YES];
 	[tunetooltip release];
 	tunetooltip = nil;	
 }

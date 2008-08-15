@@ -45,31 +45,31 @@
 - (IBAction)changePreference:(id)sender
 {
     if(sender == slider_opacity){
-        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
+        [adium.preferenceController setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_OPACITY
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == checkbox_borderless){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_BORDERLESS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == checkbox_shadows){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_SHADOWS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == slider_rowSpacing){
-        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
+        [adium.preferenceController setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_SPACING
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];   
     }else if(sender == checkbox_outlineGroups){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_OUTLINE_GROUPS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == colorWell_outlineGroupsColor){
-        [[adium preferenceController] setPreference:[[sender color] stringRepresentation]
+        [adium.preferenceController setPreference:[[sender color] stringRepresentation]
                                              forKey:KEY_SCL_OUTLINE_GROUPS_COLOR
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == checkBox_tooltips){
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_SCL_SHOW_TOOLTIPS
 											  group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}
@@ -80,7 +80,7 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-    NSDictionary	*preferenceDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+    NSDictionary	*preferenceDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 
     [slider_opacity setDoubleValue:[[preferenceDict objectForKey:KEY_SCL_OPACITY] doubleValue]];
     [checkbox_borderless setState:[[preferenceDict objectForKey:KEY_SCL_BORDERLESS] boolValue]];

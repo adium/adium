@@ -37,7 +37,7 @@
 - (void)installPlugin
 {
 	//Install our contact alert
-	[[adium contactAlertsController] registerActionID:SHOW_CONTACT_LIST_BEHAVIOR_ALERT_IDENTIFIER withHandler:self];
+	[adium.contactAlertsController registerActionID:SHOW_CONTACT_LIST_BEHAVIOR_ALERT_IDENTIFIER withHandler:self];
 }
 
 /*!

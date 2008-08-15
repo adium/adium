@@ -36,7 +36,7 @@
 - (void)installPlugin
 {
     //Install our tooltip entry
-    [[adium interfaceController] registerContactListTooltipEntry:self secondaryEntry:YES];
+    [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:YES];
 }
 
 /*!
@@ -95,7 +95,7 @@
 	AIStatusType statusType = [inObject statusType];
 	
 	if (statusName) {
-		awayDescriptionString = [[adium statusController] localizedDescriptionForStatusName:statusName
+		awayDescriptionString = [adium.statusController localizedDescriptionForStatusName:statusName
 																				 statusType:statusType];
 	}
 	

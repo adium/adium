@@ -238,7 +238,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 	if ([self containingStatusGroup]) {
 		[[self containingStatusGroup] statusesOfContainedGroupChanged];
 	} else {
-		[[adium statusController] savedStatusesChanged];
+		[adium.statusController savedStatusesChanged];
 	}
 }
 
@@ -251,7 +251,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 	if ([self containingStatusGroup]) {
 		[[self containingStatusGroup] statusesOfContainedGroupChanged];
 	} else {
-		[[adium statusController] savedStatusesChanged];
+		[adium.statusController savedStatusesChanged];
 	}
 }
 

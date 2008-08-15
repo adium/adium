@@ -306,10 +306,10 @@
 		imageName = IMAGE_TYPE_CONTENT;
 	} else {
 		// Get the correct icon for our current state.
-		switch([[[adium statusController] activeStatusState] statusType]) {
+		switch([[adium.statusController activeStatusState] statusType]) {
 			case AIAwayStatusType:
 				if (showBadge) {
-					badge = [[[adium statusController] activeStatusState] icon];
+					badge = [[adium.statusController activeStatusState] icon];
 				}
 				
 				imageName = IMAGE_TYPE_AWAY;
@@ -317,7 +317,7 @@
 			
 			case AIInvisibleStatusType:
 				if (showBadge) {
-					badge = [[[adium statusController] activeStatusState] icon];
+					badge = [[adium.statusController activeStatusState] icon];
 				}
 				
 				imageName = IMAGE_TYPE_INVISIBLE;
@@ -366,7 +366,7 @@
 				// If we already haven't chosen a badge (for example, offline for a reconnecting account)
 				// and we have a status message set on any online account, use an online badge
 				if (showBadge && !badge && anyAccountHasStatusMessage) {
-					badge = [[[adium statusController] activeStatusState] icon];
+					badge = [[adium.statusController activeStatusState] icon];
 				}
 
 				break;
@@ -492,7 +492,7 @@
 
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
-	[[adium interfaceController] setActiveChat:[adium.chatController openChatWithContact:inContact
+	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
 																		onPreferredAccount:YES]];
 	[self activateAdium];
 }
@@ -556,7 +556,7 @@
 
 	// Update our open chats
 	[openChatsArray release];
-	openChatsArray = [[[adium interfaceController] openChats] retain];
+	openChatsArray = [[adium.interfaceController openChats] retain];
 	
 	// We think there's unviewed content, but there's not.
 	if (unviewedContent && unviewedContentCount == 0) {
@@ -621,7 +621,7 @@
 			[menuItem release];
 		} else {
 			[menu addItemWithTitle:[AILocalizedString(@"Contact List", nil) stringByAppendingEllipsis]
-							target:[adium interfaceController]
+							target:adium.interfaceController
 							action:@selector(toggleContactList:)
 					 keyEquivalent:@""];
 		}
@@ -704,7 +704,7 @@
 		contactsMenuNeedsUpdate = NO;
 	
 		[menu addItemWithTitle:[AILocalizedString(@"Contact List", nil) stringByAppendingEllipsis]
-						target:[adium interfaceController]
+						target:adium.interfaceController
 						action:@selector(toggleContactList:)
 				 keyEquivalent:@""];
 		
@@ -766,7 +766,7 @@
 				 keyEquivalent:@""];
 		
 		[menu addItemWithTitle:AILocalizedString(@"Toggle Contact List", nil)
-						target:[adium interfaceController]
+						target:adium.interfaceController
 						action:@selector(toggleContactList:)
 				 keyEquivalent:@""];
 		
@@ -788,7 +788,7 @@
 
 - (void)switchToChat:(id)sender
 {
-	[[adium interfaceController] setActiveChat:[sender representedObject]];
+	[adium.interfaceController setActiveChat:[sender representedObject]];
 	[self activateAdium];
 }
 

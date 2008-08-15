@@ -173,7 +173,7 @@
 	if (chat && [[chat chatCreationDictionary] isEqualToDictionary:
 				 [self chatCreationDictionary]]) {
 		//An existing open chat matches this bookmark. Switch to it!
-		[[adium interfaceController] setActiveChat:chat];
+		[adium.interfaceController setActiveChat:chat];
 		
 	} else {
 		//Open a new group chat (bookmarked chat)

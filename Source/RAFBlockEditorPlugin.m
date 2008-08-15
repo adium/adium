@@ -22,7 +22,7 @@
 													  action:@selector(showEditor:)
 											   keyEquivalent:@"p"];
 	[blockEditorMenuItem setKeyEquivalentModifierMask:(NSAlternateKeyMask | NSCommandKeyMask)];
-	[[adium menuController] addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
+	[adium.menuController addMenuItem:blockEditorMenuItem toLocation:LOC_Adium_Preferences];
 }
 
 - (void)uninstallPlugin

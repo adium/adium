@@ -29,7 +29,7 @@
 {
 	if ((self = [super init])) {
 		moodTooltip = [[AMPurpleJabberMoodTooltip alloc] init];
-		[[adium interfaceController] registerContactListTooltipEntry:moodTooltip secondaryEntry:YES];
+		[adium.interfaceController registerContactListTooltipEntry:moodTooltip secondaryEntry:YES];
 	}
 
 	return self;
@@ -37,7 +37,7 @@
 
 - (void)dealloc
 {
-	[[adium interfaceController] unregisterContactListTooltipEntry:moodTooltip secondaryEntry:YES];
+	[adium.interfaceController unregisterContactListTooltipEntry:moodTooltip secondaryEntry:YES];
 	[moodTooltip release]; moodTooltip = nil;
 	
 	[super dealloc];
@@ -149,33 +149,33 @@
 }
 
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_FREE_FOR_CHAT
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]
+	[adium.statusController registerStatus:STATUS_NAME_FREE_FOR_CHAT
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_FREE_FOR_CHAT]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_DND
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_DND]
+	[adium.statusController registerStatus:STATUS_NAME_DND
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_EXTENDED_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_EXTENDED_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_INVISIBLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
+	[adium.statusController registerStatus:STATUS_NAME_INVISIBLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 }

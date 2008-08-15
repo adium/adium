@@ -769,7 +769,7 @@
 			}
 
 			for (file in files) {
-				[[adium fileTransferController] sendFile:file toListContact:targetFileTransferContact];
+				[adium.fileTransferController sendFile:file toListContact:targetFileTransferContact];
 			}
 
 		} else {

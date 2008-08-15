@@ -27,7 +27,7 @@
 // Called when a nudge or buzz occurs.
 -(void)nudgeBuzzDidOccur:(NSNotification *)notification
 {
-	NSWindow        *window = [[adium interfaceController] windowForChat:[notification object]];
+	NSWindow        *window = [adium.interfaceController windowForChat:[notification object]];
 	AWRippler        *rippler = [[AWRippler alloc] init];
 
     [rippler rippleWindow:window];        

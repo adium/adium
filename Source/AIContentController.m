@@ -363,7 +363,7 @@
 			
 			if ([inObject trackContent]) {
 				//Did send content
-				[[adium contactAlertsController] generateEvent:CONTENT_MESSAGE_SENT
+				[adium.contactAlertsController generateEvent:CONTENT_MESSAGE_SENT
 												 forListObject:[chat listObject]
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 								  previouslyPerformedActionIDs:nil];
@@ -498,7 +498,7 @@
 			/* Tell the interface to open the chat
 			 * For incoming messages, we don't open the chat until we're sure that new content is being received.
 			 */
-			[[adium interfaceController] openChat:chat];
+			[adium.interfaceController openChat:chat];
 		}
 
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", inObject, @"AIContentObject", nil];
@@ -515,7 +515,7 @@
 			if (![chat hasSentOrReceivedContent]) {
 				//If the chat wasn't open before, generate CONTENT_MESSAGE_RECEIVED_FIRST
 				if (![chat isGroupChat]) {
-					previouslyPerformedActionIDs = [[adium contactAlertsController] generateEvent:CONTENT_MESSAGE_RECEIVED_FIRST
+					previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTENT_MESSAGE_RECEIVED_FIRST
 																				forListObject:listObject
 																					 userInfo:userInfo
 																 previouslyPerformedActionIDs:nil];
@@ -523,15 +523,15 @@
 				[chat setHasSentOrReceivedContent:YES];
 			}
 			
-			if (chat != [[adium interfaceController] activeChat]) {
+			if (chat != [adium.interfaceController activeChat]) {
 				//If the chat is not currently active, generate CONTENT_MESSAGE_RECEIVED_BACKGROUND
-				previouslyPerformedActionIDs = [[adium contactAlertsController] generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP : CONTENT_MESSAGE_RECEIVED_BACKGROUND)
+				previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP : CONTENT_MESSAGE_RECEIVED_BACKGROUND)
 																				forListObject:listObject
 																					 userInfo:userInfo
 																 previouslyPerformedActionIDs:previouslyPerformedActionIDs];					
 			}
 			
-			[[adium contactAlertsController] generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_GROUP : CONTENT_MESSAGE_RECEIVED)
+			[adium.contactAlertsController generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_GROUP : CONTENT_MESSAGE_RECEIVED)
 											 forListObject:listObject
 												  userInfo:userInfo
 							  previouslyPerformedActionIDs:previouslyPerformedActionIDs];				
@@ -625,7 +625,7 @@
 						}
 					}
 					if (path) {
-						[[adium fileTransferController] sendFile:path
+						[adium.fileTransferController sendFile:path
 												   toListContact:(AIListContact *)[inContentMessage destination]];
 					} else {
 						NSLog(@"-[AIContentController handleFileSendsForContentMessage:]: Warning: Failed to have a path for sending an inline file!");

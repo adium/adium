@@ -47,11 +47,11 @@
 	AIListObject *listObject = nil;
 
 	if ((sender == menuItem_getInfoAlternate) || (sender == menuItem_getInfo) || ([sender isKindOfClass:[NSToolbarItem class]])) {
-		listObject = [[adium interfaceController] selectedListObject];
+		listObject = [adium.interfaceController selectedListObject];
 	}
 	
 	if (!listObject) {
-		listObject = [[adium menuController] currentContextMenuObject];
+		listObject = [adium.menuController currentContextMenuObject];
 	}
 	
 	if (listObject) {
@@ -74,14 +74,14 @@
 																							 target:self
 																							 action:@selector(showContactInfo:)
 																					  keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem_getInfoContextualContact
+	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualContact
 									   toLocation:Context_Contact_Manage];
 	
 	menuItem_getInfoContextualGroup = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
 																						   target:self
 																						   action:@selector(showContactInfo:)
 																					keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem_getInfoContextualGroup
+	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualGroup
 									   toLocation:Context_Group_Manage];
 	
 	//Install the standard Get Info menu item which will always be command-shift-I
@@ -90,7 +90,7 @@
 																			action:@selector(showContactInfo:)
 																	 keyEquivalent:@"i"];
 	[menuItem_getInfo setKeyEquivalentModifierMask:GET_INFO_MASK];
-	[[adium menuController] addMenuItem:menuItem_getInfo toLocation:LOC_Contact_Info];
+	[adium.menuController addMenuItem:menuItem_getInfo toLocation:LOC_Contact_Info];
 	
 	/* Install the alternate Get Info menu item which will be alternately command-I and command-shift-I, in the contact list
 		* and in all other places, respectively.
@@ -101,7 +101,7 @@
 																			  keyEquivalent:@"i"];
 	[menuItem_getInfoAlternate setKeyEquivalentModifierMask:ALTERNATE_GET_INFO_MASK];
 	[menuItem_getInfoAlternate setAlternate:YES];
-	[[adium menuController] addMenuItem:menuItem_getInfoAlternate toLocation:LOC_Contact_Info];
+	[adium.menuController addMenuItem:menuItem_getInfoAlternate toLocation:LOC_Contact_Info];
 	
 	//Register for the contact list notifications
 	[[adium notificationCenter] addObserver:self selector:@selector(contactListDidBecomeMain:)
@@ -123,7 +123,7 @@
 																					  action:@selector(showSpecifiedContactInfo:)
 																			   keyEquivalent:@"i"];
 	[menuItem_getInfoWithPrompt setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
-	[[adium menuController] addMenuItem:menuItem_getInfoWithPrompt toLocation:LOC_Contact_Info];
+	[adium.menuController addMenuItem:menuItem_getInfoWithPrompt toLocation:LOC_Contact_Info];
 	
 	//Add our get info toolbar item
 	NSToolbarItem *toolbarItem = [AIToolbarUtilities toolbarItemWithIdentifier:@"ShowInfo"
@@ -135,17 +135,17 @@
 																   itemContent:[NSImage imageNamed:@"pref-personal" forClass:[self class] loadLazily:YES]
 																		action:@selector(showContactInfo:)
 																		  menu:nil];
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 }
 
 //Always be able to show the inspector
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if ((menuItem == menuItem_getInfo) || (menuItem == menuItem_getInfoAlternate)) {
-		return [[adium interfaceController] selectedListObject] != nil;
+		return [adium.interfaceController selectedListObject] != nil;
 		
 	} else if ((menuItem == menuItem_getInfoContextualContact) || (menuItem == menuItem_getInfoContextualGroup)) {
-		return [[adium menuController] currentContextMenuObject] != nil;
+		return [adium.menuController currentContextMenuObject] != nil;
 		
 	} else if (menuItem == menuItem_getInfoWithPrompt) {
 		return [adium.accountController oneOrMoreConnectedAccounts];
@@ -156,7 +156,7 @@
 
 - (void)contactListDidBecomeMain:(NSNotification *)notification
 {
-    [[adium menuController] removeItalicsKeyEquivalent];
+    [adium.menuController removeItalicsKeyEquivalent];
     [menuItem_getInfoAlternate setKeyEquivalentModifierMask:(NSCommandKeyMask)];
 	[menuItem_getInfoAlternate setAlternate:YES];
 }
@@ -169,7 +169,7 @@
     [menuItem_getInfoAlternate setAlternate:YES];
 	
     //Now give the italics its combination back
-    [[adium menuController] restoreItalicsKeyEquivalent];
+    [adium.menuController restoreItalicsKeyEquivalent];
 }
 
 - (void)menuChanged:(NSNotification *)notification

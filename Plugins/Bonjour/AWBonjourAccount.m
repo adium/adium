@@ -641,7 +641,7 @@ typedef enum {
 
 	listContact = [adium.contactController existingContactWithService:service account:self UID:inUID];
 	/* Set up the file transfer */
-	ESFileTransfer *fileTransfer = [[adium fileTransferController] newFileTransferWithContact:listContact forAccount:self type:Incoming_FileTransfer];
+	ESFileTransfer *fileTransfer = [adium.fileTransferController newFileTransferWithContact:listContact forAccount:self type:Incoming_FileTransfer];
 	[fileTransfer setRemoteFilename: [file remoteFilename]];
 	[fileTransfer setAccountData: file];
 	[fileTransfer setSizeWithNumber:[NSNumber numberWithUnsignedLongLong:[file size]]];
@@ -661,7 +661,7 @@ typedef enum {
 - (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer
 {
 	AILog(@"File transfer request received: %@",fileTransfer);
-	[[adium fileTransferController] receiveRequestForFileTransfer:fileTransfer];
+	[adium.fileTransferController receiveRequestForFileTransfer:fileTransfer];
 }
 
 

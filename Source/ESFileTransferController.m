@@ -81,10 +81,10 @@ static ESFileTransferPreferences *preferences;
     menuItem_sendFileContext = [[NSMenuItem alloc] initWithTitle:SEND_FILE_WITH_ELLIPSIS
 														  target:self action:@selector(contextualMenuSendFile:)
 												   keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem_sendFileContext toLocation:Context_Contact_Action];
+	[adium.menuController addContextualMenuItem:menuItem_sendFileContext toLocation:Context_Contact_Action];
 	
 	//Register the events we generate
-	NSObject <AIContactAlertsController> *contactAlertsController = [adium contactAlertsController];
+	NSObject <AIContactAlertsController> *contactAlertsController = adium.contactAlertsController;
 	[contactAlertsController registerEventID:FILE_TRANSFER_REQUEST withHandler:self inGroup:AIFileTransferEventHandlerGroup globalOnly:YES];
 	[contactAlertsController registerEventID:FILE_TRANSFER_WAITING_REMOTE withHandler:self inGroup:AIFileTransferEventHandlerGroup globalOnly:YES];
 	[contactAlertsController registerEventID:FILE_TRANSFER_BEGAN withHandler:self inGroup:AIFileTransferEventHandlerGroup globalOnly:YES];
@@ -97,7 +97,7 @@ static ESFileTransferPreferences *preferences;
 												   target:self action:@selector(sendFileToSelectedContact:)
 											keyEquivalent:@"F"];
 	[menuItem_sendFile setKeyEquivalentModifierMask:(NSCommandKeyMask | NSShiftKeyMask)];
-	[[adium menuController] addMenuItem:menuItem_sendFile toLocation:LOC_Contact_Action];
+	[adium.menuController addMenuItem:menuItem_sendFile toLocation:LOC_Contact_Action];
 	
 	//Add our "Send File" toolbar item
 	NSToolbarItem	*toolbarItem;
@@ -110,7 +110,7 @@ static ESFileTransferPreferences *preferences;
 													itemContent:[NSImage imageNamed:@"sendfile" forClass:[self class] loadLazily:YES]
 														 action:@selector(sendFileToSelectedContact:)
 														   menu:nil];
-    [[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
+    [adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 	
     //Register our default preferences
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:FILE_TRANSFER_DEFAULT_PREFS
@@ -201,7 +201,7 @@ static ESFileTransferPreferences *preferences;
 
 	[fileTransfer setFileTransferType:Incoming_FileTransfer];
 
-	[[adium contactAlertsController] generateEvent:FILE_TRANSFER_REQUEST
+	[adium.contactAlertsController generateEvent:FILE_TRANSFER_REQUEST
 									 forListObject:listContact
 										  userInfo:fileTransfer
 					  previouslyPerformedActionIDs:nil];
@@ -424,7 +424,7 @@ static ESFileTransferPreferences *preferences;
 	AIListObject	*selectedObject;
 	AIListContact   *listContact = nil;
 	
-	selectedObject = [[adium interfaceController] selectedListObject];
+	selectedObject = [adium.interfaceController selectedListObject];
 	if ([selectedObject isKindOfClass:[AIListContact class]]) {
 		listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																 forListContact:(AIListContact *)selectedObject];
@@ -435,7 +435,7 @@ static ESFileTransferPreferences *preferences;
 			[self requestForSendingFileToListContact:listContact];
 		} else {
 			AIChat *theChat = [adium.chatController existingChatWithContact:listContact];
-			NSWindow *theWindow = [[adium interfaceController] windowForChat:theChat];
+			NSWindow *theWindow = [adium.interfaceController windowForChat:theChat];
 			[self requestForSendingFileToListContact:listContact forWindow:theWindow];
 		}
 	}
@@ -443,7 +443,7 @@ static ESFileTransferPreferences *preferences;
 //Prompt for a new contact with the current tab's name
 - (IBAction)contextualMenuSendFile:(id)sender
 {
-	AIListObject	*selectedObject = [[adium menuController] currentContextMenuObject];
+	AIListObject	*selectedObject = [adium.menuController currentContextMenuObject];
 	AIListContact   *listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																			  forListContact:(AIListContact *)selectedObject];
 	
@@ -456,7 +456,7 @@ static ESFileTransferPreferences *preferences;
 {
 	switch (status) {
 		case Checksumming_Filetransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_CHECKSUMMING
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_CHECKSUMMING
 											 forListObject:[fileTransfer contact] 
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
@@ -466,7 +466,7 @@ static ESFileTransferPreferences *preferences;
 			}	
 			break;
 		case Waiting_on_Remote_User_FileTransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_WAITING_REMOTE
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_WAITING_REMOTE
 											 forListObject:[fileTransfer contact]
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
@@ -477,7 +477,7 @@ static ESFileTransferPreferences *preferences;
 				
 				break;
 		case Accepted_FileTransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_BEGAN
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_BEGAN
 											 forListObject:[fileTransfer contact] 
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
@@ -488,7 +488,7 @@ static ESFileTransferPreferences *preferences;
 			
 			break;
 		case Complete_FileTransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_COMPLETE
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_COMPLETE
 											 forListObject:[fileTransfer contact] 
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
@@ -500,13 +500,13 @@ static ESFileTransferPreferences *preferences;
 			
 			break;
 		case Cancelled_Remote_FileTransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_CANCELLED
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_CANCELLED
 											 forListObject:[fileTransfer contact] 
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
 			break;
 		case Failed_FileTransfer:
-			[[adium contactAlertsController] generateEvent:FILE_TRANSFER_FAILED
+			[adium.contactAlertsController generateEvent:FILE_TRANSFER_FAILED
 											 forListObject:[fileTransfer contact] 
 												  userInfo:fileTransfer
 							  previouslyPerformedActionIDs:nil];
@@ -536,7 +536,7 @@ static ESFileTransferPreferences *preferences;
 	AIListContact   *listContact = nil;
 	
     if (menuItem == menuItem_sendFile) {
-        AIListObject	*selectedObject = [[adium interfaceController] selectedListObject];
+        AIListObject	*selectedObject = [adium.interfaceController selectedListObject];
 		if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
 			listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																	 forListContact:(AIListContact *)selectedObject];
@@ -545,7 +545,7 @@ static ESFileTransferPreferences *preferences;
 		return listContact != nil;
 		
 	} else if (menuItem == menuItem_sendFileContext) {
-		AIListObject	*selectedObject = [[adium menuController] currentContextMenuObject];
+		AIListObject	*selectedObject = [adium.menuController currentContextMenuObject];
 		if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
 			listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																	 forListContact:(AIListContact *)selectedObject];
@@ -565,7 +565,7 @@ static ESFileTransferPreferences *preferences;
 {
 	AIListContact   *listContact = nil;
 	
-	AIListObject	*selectedObject = [[adium interfaceController] selectedListObject];
+	AIListObject	*selectedObject = [adium.interfaceController selectedListObject];
 	if (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]) {
 		listContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
 																 forListContact:(AIListContact *)selectedObject];
@@ -583,7 +583,7 @@ static ESFileTransferPreferences *preferences;
 																   action:@selector(showProgressWindow:)
 															keyEquivalent:@"l"];
 	[menuItem_showFileTransferProgress setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
-	[[adium menuController] addMenuItem:menuItem_showFileTransferProgress toLocation:LOC_Window_Auxiliary];
+	[adium.menuController addMenuItem:menuItem_showFileTransferProgress toLocation:LOC_Window_Auxiliary];
 }
 
 //Show the file transfer progress window

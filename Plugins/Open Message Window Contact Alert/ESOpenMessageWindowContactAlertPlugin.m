@@ -29,7 +29,7 @@
 
 - (void)installPlugin
 {
-	[[adium contactAlertsController] registerActionID:@"OpenMessageWindow" withHandler:self];
+	[adium.contactAlertsController registerActionID:@"OpenMessageWindow" withHandler:self];
 }
 
 

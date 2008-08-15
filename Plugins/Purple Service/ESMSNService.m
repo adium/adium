@@ -82,38 +82,38 @@
 }
 
 - (void)registerStatuses{
-	[[adium statusController] registerStatus:STATUS_NAME_AVAILABLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
+	[adium.statusController registerStatus:STATUS_NAME_AVAILABLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE]
 									  ofType:AIAvailableStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_AWAY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
+	[adium.statusController registerStatus:STATUS_NAME_AWAY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_BRB
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]
+	[adium.statusController registerStatus:STATUS_NAME_BRB
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_BUSY
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]
+	[adium.statusController registerStatus:STATUS_NAME_BUSY
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_PHONE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]
+	[adium.statusController registerStatus:STATUS_NAME_PHONE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE]
 									  ofType:AIAwayStatusType
 								  forService:self];
 	
-	[[adium statusController] registerStatus:STATUS_NAME_LUNCH
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]
+	[adium.statusController registerStatus:STATUS_NAME_LUNCH
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_LUNCH]
 									  ofType:AIAwayStatusType
 								  forService:self];
 
-	[[adium statusController] registerStatus:STATUS_NAME_INVISIBLE
-							 withDescription:[[adium statusController] localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
+	[adium.statusController registerStatus:STATUS_NAME_INVISIBLE
+							 withDescription:[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_INVISIBLE]
 									  ofType:AIInvisibleStatusType
 								  forService:self];
 	/*

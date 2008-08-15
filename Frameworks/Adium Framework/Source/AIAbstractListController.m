@@ -680,7 +680,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		[NSNumber numberWithInt:Context_Contact_NegativeAction],
 		[NSNumber numberWithInt:Context_Contact_Additions], nil];
 
-    return [[adium menuController] contextualMenuWithLocations:locationsArray
+    return [adium.menuController contextualMenuWithLocations:locationsArray
 												 forListObject:listObject];
 }
 
@@ -895,7 +895,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	AIListObject	*hoveredObject = [self contactListItemAtScreenPoint:screenPoint];
 	
 	if ([hoveredObject isKindOfClass:[AIListContact class]]) {
-		[[adium interfaceController] showTooltipForListObject:hoveredObject
+		[adium.interfaceController showTooltipForListObject:hoveredObject
 												atScreenPoint:screenPoint
 													 onWindow:[contactListView window]];
 	} else {
@@ -924,7 +924,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //Hide tooltip
 - (void)hideTooltip
 {
-	[[adium interfaceController] showTooltipForListObject:nil atScreenPoint:NSMakePoint(0,0) onWindow:nil];
+	[adium.interfaceController showTooltipForListObject:nil atScreenPoint:NSMakePoint(0,0) onWindow:nil];
 }
 
 

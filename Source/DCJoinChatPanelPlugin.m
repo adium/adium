@@ -40,7 +40,7 @@
 													target:self 
 													action:@selector(joinChat:)
 											 keyEquivalent:@"J"];
-	[[adium menuController] addMenuItem:joinChatMenuItem toLocation:LOC_File_New];
+	[adium.menuController addMenuItem:joinChatMenuItem toLocation:LOC_File_New];
 }	
 
 /*!

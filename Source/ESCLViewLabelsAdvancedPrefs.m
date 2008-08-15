@@ -45,27 +45,27 @@
 - (IBAction)changePreference:(id)sender
 {
     if(sender == checkbox_labelAroundContact){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_LABEL_AROUND_CONTACT
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];       
     }else if(sender == checkbox_outlineLabels){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_OUTLINE_LABELS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }else if(sender == checkbox_useGradient){
-		[[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_USE_GRADIENT
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	}else if(sender == slider_labelOpacity){
-        [[adium preferenceController] setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
+        [adium.preferenceController setPreference:[NSNumber numberWithDouble:[sender doubleValue]]
                                              forKey:KEY_SCL_LABEL_OPACITY
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];   
     }else if(sender == checkbox_labelGroups){
-        [[adium preferenceController] setPreference:[NSNumber numberWithBool:[sender state]]
+        [adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
                                              forKey:KEY_SCL_LABEL_GROUPS
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];       
     }else if(sender == colorWell_labelGroupsColor){
-        [[adium preferenceController] setPreference:[[sender color] stringRepresentation]
+        [adium.preferenceController setPreference:[[sender color] stringRepresentation]
                                              forKey:KEY_SCL_LABEL_GROUPS_COLOR
                                               group:PREF_GROUP_CONTACT_LIST_DISPLAY];
     }
@@ -76,7 +76,7 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-    NSDictionary	*preferenceDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+    NSDictionary	*preferenceDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 
     [checkbox_labelAroundContact setState:[[preferenceDict objectForKey:KEY_SCL_LABEL_AROUND_CONTACT] boolValue]];
     [checkbox_outlineLabels setState:[[preferenceDict objectForKey:KEY_SCL_OUTLINE_LABELS] boolValue]];
@@ -100,7 +100,7 @@
 //Enable/disable controls that are available/unavailable
 - (void)configureControlDimming
 {
-    NSDictionary	*preferenceDict = [[adium preferenceController] preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+    NSDictionary	*preferenceDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 
     BOOL labelsAreEnabled = [[preferenceDict objectForKey:KEY_SCL_SHOW_LABELS] boolValue];
     [checkbox_labelAroundContact    setEnabled:labelsAreEnabled];

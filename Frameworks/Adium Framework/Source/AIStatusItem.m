@@ -253,7 +253,7 @@
 	 * can save us and our contained group.
 	 */
 	if (!encoding && containingStatusGroup) {
-		[[adium statusController] statusStateDidSetUniqueStatusID];
+		[adium.statusController statusStateDidSetUniqueStatusID];
 	}
 }
 

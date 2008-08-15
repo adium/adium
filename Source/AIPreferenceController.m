@@ -90,7 +90,7 @@
 - (void)upgradeToSingleObjectPrefsDictIfNeeded
 {
 	if (![[self preferenceForKey:LOADED_OBJECT_PREFS_KEY group:PREF_GROUP_GENERAL] boolValue]) {
-		NSString	*userDirectory = [[adium loginController] userDirectory];
+		NSString	*userDirectory = [adium.loginController userDirectory];
 		NSMutableDictionary *prefsDict;
 		NSString *dir;
 		

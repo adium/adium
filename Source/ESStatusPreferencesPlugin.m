@@ -41,7 +41,7 @@
 																	target:self
 																	action:@selector(showStatusPreferences:)
 															 keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_Additions];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Status_Additions];
 	
 	//Register defaults
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:STATUS_DEFAULT_PREFS 

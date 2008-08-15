@@ -90,7 +90,7 @@
 													itemContent:browserImage
 														 action:@selector(insertSafariLink:)
 														   menu:nil];
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"TextEntry"];
 }
 
 /*!
@@ -103,7 +103,7 @@
 
 	if (earliestTextView) {
 		NSArray	*arguments = [NSArray arrayWithObject:AILocalizedString(@"Multiple browsers are open. Please select one link:", "Prompt when more than one web browser is available when inserting a link from the active browser.")];
-		[[adium applescriptabilityController] runApplescriptAtPath:SAFARI_LINK_SCRIPT_PATH
+		[adium.applescriptabilityController runApplescriptAtPath:SAFARI_LINK_SCRIPT_PATH
 														  function:@"substitute"
 														 arguments:arguments
 												   notifyingTarget:self

@@ -48,14 +48,14 @@
 	statusMessageCache = [[NSMutableDictionary alloc] init];
 	
 	//Register the events we generate
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_AWAY_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_AWAY_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_IDLE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_STATUS_IDLE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_SEEN_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
-	[[adium contactAlertsController] registerEventID:CONTACT_SEEN_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_AWAY_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_AWAY_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_IDLE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_IDLE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_SEEN_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_SEEN_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
 	
 	//Observe status changes
     [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
@@ -295,14 +295,14 @@
 				   performCompare:YES]) {
 				if (!silent) {
 					NSString	*event = ([newValue boolValue] ? CONTACT_STATUS_ONLINE_YES : CONTACT_STATUS_ONLINE_NO);
-					[[adium contactAlertsController] generateEvent:event
+					[adium.contactAlertsController generateEvent:event
 													 forListObject:inObject
 														  userInfo:nil
 									  previouslyPerformedActionIDs:nil];
 				}
 									
 				NSString	*event = ([newValue boolValue] ? CONTACT_SEEN_ONLINE_YES : CONTACT_SEEN_ONLINE_NO);
-				[[adium contactAlertsController] generateEvent:event
+				[adium.contactAlertsController generateEvent:event
 												 forListObject:inObject
 													  userInfo:nil
 								  previouslyPerformedActionIDs:nil];
@@ -338,7 +338,7 @@
 				if (statusMessageChanged && !silent) {
 					if (newStatusMessage != nil) {
 						//Evan: Not yet a contact alert, but we use the notification - how could/should we use this?
-						previouslyPerformedActionIDs = [[adium contactAlertsController] generateEvent:CONTACT_STATUS_MESSAGE
+						previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTACT_STATUS_MESSAGE
 																						forListObject:inObject
 																							 userInfo:nil
 																		 previouslyPerformedActionIDs:nil];
@@ -356,7 +356,7 @@
 															   forKey:@"Already Posted StatusMessage"];
 					}
 
-					[[adium contactAlertsController] generateEvent:event
+					[adium.contactAlertsController generateEvent:event
 													 forListObject:inObject
 														  userInfo:userInfo
 									  previouslyPerformedActionIDs:previouslyPerformedActionIDs];
@@ -371,7 +371,7 @@
 						   listObject:inObject
 					   performCompare:YES] && !silent) {
 					NSString	*event = ([newValue boolValue] ? CONTACT_STATUS_IDLE_YES : CONTACT_STATUS_IDLE_NO);
-					[[adium contactAlertsController] generateEvent:event
+					[adium.contactAlertsController generateEvent:event
 													 forListObject:inObject
 														  userInfo:nil
 									  previouslyPerformedActionIDs:nil];

@@ -577,7 +577,7 @@ typedef enum
  * response to this method or perhaps make no actions at all.  This method is used by both one-on-one chats and
  * multi-user chats.
  *
- * This method should *only* be called by a core controller.  Call [[adium interfaceController] closeChat:chat] to perform a close from other code.
+ * This method should *only* be called by a core controller.  Call [adium.interfaceController closeChat:chat] to perform a close from other code.
  *
  * @param chat The chat to close
  * @return YES on success
@@ -991,7 +991,7 @@ typedef enum
 		int index = -1; //at end by default
 		if ([resolvedKeyDictionary objectForKey:@"newChatWindow"]) {
 			//I need to put this in a new chat window
-			chatWindowController = [[adium interfaceController] openContainerWithID:nil name:nil];
+			chatWindowController = [adium.interfaceController openContainerWithID:nil name:nil];
 		} else {
 			//I need to figure out to which chat window the location specifier is referring.
 			//NSLog(@"Here is the info about the location specifier: %@",[resolvedKeyDictionary objectForKey:@"Location"]);
@@ -1009,7 +1009,7 @@ typedef enum
 		
 		AIChat *newChat = [adium.chatController chatWithContact:contact];
 //		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
-		[[adium interfaceController] openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
+		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
 	} else {
 		if (![[self service] canCreateGroupChats]) {
@@ -1073,16 +1073,16 @@ typedef enum
 	if ([currentStatus mutabilityType] == AILockedStatusState || [currentStatus mutabilityType] == AISecondaryLockedStatusState) {
 		switch (type) {
 			case AIAvailableStatusType:
-				currentStatus = [[adium statusController] availableStatus];
+				currentStatus = [adium.statusController availableStatus];
 				break;
 			case AIAwayStatusType:
-				currentStatus = [[adium statusController] awayStatus];
+				currentStatus = [adium.statusController awayStatus];
 				break;
 			case AIInvisibleStatusType:
-				currentStatus = [[adium statusController] invisibleStatus];
+				currentStatus = [adium.statusController invisibleStatus];
 				break;
 			case AIOfflineStatusType:
-				currentStatus = [[adium statusController] offlineStatus];
+				currentStatus = [adium.statusController offlineStatus];
 				break;
 		}
 	} else {
@@ -1091,9 +1091,9 @@ typedef enum
 			[currentStatus setMutabilityType:AITemporaryEditableStatusState];
 		}
 		[currentStatus setStatusType:type];
-		[currentStatus setStatusName:[[adium statusController] defaultStatusNameForType:type]];
+		[currentStatus setStatusName:[adium.statusController defaultStatusNameForType:type]];
 	}
-	[[adium statusController] setActiveStatusState:currentStatus forAccount:self];
+	[adium.statusController setActiveStatusState:currentStatus forAccount:self];
 }
 
 /**
@@ -1131,7 +1131,7 @@ typedef enum
 		[currentStatus setStatusMessage:(NSAttributedString *)message];
 	else
 		[currentStatus setStatusMessageString:message];
-	[[adium statusController] setActiveStatusState:currentStatus forAccount:self];
+	[adium.statusController setActiveStatusState:currentStatus forAccount:self];
 }
 
 - (void)setScriptingStatusMessage:(NSString *)message
@@ -1155,7 +1155,7 @@ typedef enum
  */
 - (void)scriptingGoAvailable:(NSScriptCommand *)c
 {
-	[[adium statusController] setActiveStatusState:[[adium statusController] availableStatus] forAccount:self];
+	[adium.statusController setActiveStatusState:[adium.statusController availableStatus] forAccount:self];
 	
 	[self setScriptingStatusMessageFromScriptCommand:c];
 }
@@ -1190,7 +1190,7 @@ typedef enum
  */
 - (void)scriptingGoAway:(NSScriptCommand *)c
 {
-	[[adium statusController] setActiveStatusState:[[adium statusController] awayStatus] forAccount:self];
+	[adium.statusController setActiveStatusState:[adium.statusController awayStatus] forAccount:self];
 
 	[self setScriptingStatusMessageFromScriptCommand:c];
 }
@@ -1200,7 +1200,7 @@ typedef enum
  */
 - (void)scriptingGoInvisible:(NSScriptCommand *)c
 {
-	[[adium statusController] setActiveStatusState:[[adium statusController] invisibleStatus] forAccount:self];
+	[adium.statusController setActiveStatusState:[adium.statusController invisibleStatus] forAccount:self];
 	
 	[self setScriptingStatusMessageFromScriptCommand:c];
 }

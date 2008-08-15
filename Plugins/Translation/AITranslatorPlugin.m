@@ -65,7 +65,7 @@
 										  target:self
 										  action:@selector(showTranslationOptions:)
 								   keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Contact_Additions];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Contact_Additions];
 	[menuItem release];
 }
 
@@ -82,7 +82,7 @@
 #pragma mark Menu item
 - (void)showTranslationOptions:(id)sender
 {
-    AIListObject   *selectedObject = [[adium interfaceController] selectedListObject];
+    AIListObject   *selectedObject = [adium.interfaceController selectedListObject];
 	[AITranslatorOptionsWindowController showOptionsForListObject:selectedObject];
 }
 

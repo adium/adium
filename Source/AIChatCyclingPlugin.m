@@ -37,7 +37,7 @@
  */
 - (void)installPlugin
 {
-	id<AIMenuController> menuController = [adium menuController];
+	id<AIMenuController> menuController = adium.menuController;
 
 	//Cycling menu items
 	previousChatMenuItem = [[NSMenuItem alloc] initWithTitle:PREVIOUS_MESSAGE_MENU_TITLE
@@ -117,7 +117,7 @@
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	return [[[adium interfaceController] openChats] count] != 0;
+	return [[adium.interfaceController openChats] count] != 0;
 }
 
 /*!
@@ -125,7 +125,7 @@
  */
 - (IBAction)nextChat:(id)sender
 {
-	[[adium interfaceController] nextChat:nil];
+	[adium.interfaceController nextChat:nil];
 }
 
 /*!
@@ -133,7 +133,7 @@
  */
 - (IBAction)previousChat:(id)sender
 {
-	[[adium interfaceController] previousChat:nil];
+	[adium.interfaceController previousChat:nil];
 }	
 
 @end

@@ -64,7 +64,7 @@
 													   target:self
 													   action:@selector(toggleHide:)
 												keyEquivalent:@"H"];
-	[[adium menuController] addMenuItem:menuItem_hideContacts toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_hideContacts toLocation:LOC_View_Toggles];
 
 	//Show offline contacts menu item
     menuItem_hideOffline = [[NSMenuItem alloc] initWithTitle:HIDE_OFFLINE_MENU_TITLE
@@ -72,34 +72,34 @@
 													  action:@selector(toggleHide:)
 											   keyEquivalent:@""];
 	[menuItem_hideOffline setIndentationLevel:1];
-	[[adium menuController] addMenuItem:menuItem_hideOffline toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_hideOffline toLocation:LOC_View_Toggles];
 
     menuItem_hideIdle = [[NSMenuItem alloc] initWithTitle:HIDE_IDLE_MENU_TITLE
 												   target:self
 												   action:@selector(toggleHide:)
 											keyEquivalent:@""];
 	[menuItem_hideIdle setIndentationLevel:1];
-	[[adium menuController] addMenuItem:menuItem_hideIdle toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_hideIdle toLocation:LOC_View_Toggles];
 
     menuItem_hideMobile = [[NSMenuItem alloc] initWithTitle:HIDE_MOBILE_MENU_TITLE
 													 target:self
 													 action:@selector(toggleHide:)
 											  keyEquivalent:@""];
 	[menuItem_hideMobile setIndentationLevel:1];
-	[[adium menuController] addMenuItem:menuItem_hideMobile toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_hideMobile toLocation:LOC_View_Toggles];
 
 	menuItem_hideBlocked = [[NSMenuItem alloc] initWithTitle:HIDE_BLOCKED_MENU_TITLE
 													  target:self
 													  action:@selector(toggleHide:)
 											   keyEquivalent:@""];
 	[menuItem_hideBlocked setIndentationLevel:1];
-	[[adium menuController] addMenuItem:menuItem_hideBlocked toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_hideBlocked toLocation:LOC_View_Toggles];
 
 	menuItem_useOfflineGroup = [[NSMenuItem alloc] initWithTitle:SHOW_OFFLINE_GROUP_MENU_TITLE
 														  target:self
 														  action:@selector(toggleHide:)
 												   keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_useOfflineGroup toLocation:LOC_View_Toggles];
+	[adium.menuController addMenuItem:menuItem_useOfflineGroup toLocation:LOC_View_Toggles];
 
 	//Register preference observer first so values will be correct for the following calls
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];

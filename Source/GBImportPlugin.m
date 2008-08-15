@@ -29,7 +29,7 @@
 												target:nil
 												action:nil
 										 keyEquivalent:@""];
-	[[adium menuController] addMenuItem:importMenuRoot toLocation:LOC_File_Additions];
+	[adium.menuController addMenuItem:importMenuRoot toLocation:LOC_File_Additions];
 	
 	NSMenu *subMenu = [[NSMenu alloc] init];
 

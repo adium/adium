@@ -179,7 +179,7 @@ static BOOL							hideInBackground = NO;
 	[window setTitle:AILocalizedString(@"Current Status",nil)];
 	[_awayAccounts release]; _awayAccounts = nil;
 
-	relevantStatuses = [[adium statusController] activeUnavailableStatusesAndType:&activeUnvailableStatusType 
+	relevantStatuses = [adium.statusController activeUnavailableStatusesAndType:&activeUnvailableStatusType 
 																		 withName:&activeUnvailableStatusName
 												   allOnlineAccountsAreUnvailable:&allOnlineAccountsAreUnvailable];
 	
@@ -300,7 +300,7 @@ static BOOL							hideInBackground = NO;
 - (IBAction)returnFromAway:(id)sender
 {
 	NSTabViewItem	*selectedTabViewItem = [tabView_configuration selectedTabViewItem];
-	AIStatus		*availableStatusState = [[adium statusController] defaultInitialStatusState];
+	AIStatus		*availableStatusState = [adium.statusController defaultInitialStatusState];
 
 	[self retain];
 
@@ -308,7 +308,7 @@ static BOOL							hideInBackground = NO;
 		//Put all accounts in the Available status state
 		//We can perform this on all accounts without fear of bringing them online;
 		//Those that are offline will remain offline since -setActiveStatusState considers this.
-		[[adium statusController] setActiveStatusState:availableStatusState];
+		[adium.statusController setActiveStatusState:availableStatusState];
 	} else {
 		//Multistatus
 		NSArray	*selectedAccounts;
@@ -317,12 +317,12 @@ static BOOL							hideInBackground = NO;
 		
 		if ([selectedAccounts count]) {
 			//Apply the available status state to only the selected accounts
-			[[adium statusController] applyState:availableStatusState
+			[adium.statusController applyState:availableStatusState
 									  toAccounts:selectedAccounts];
 		} else {
 			//No selection: Put all accounts in the Available status state
 			//Like above, we can just call -setActiveStatusState and it will handle all accounts.
-			[[adium statusController] setActiveStatusState:availableStatusState];
+			[adium.statusController setActiveStatusState:availableStatusState];
 		}
 
 		[selectedAccounts release];

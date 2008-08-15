@@ -67,7 +67,7 @@
 {
 	//Invite the dragged contact(s) to the chat
 	BOOL			success = NO;
-	AIChat			*activeChat = [[adium interfaceController] activeChatInWindow:[info draggingDestinationWindow]];
+	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = [activeChat account];
 	AIListObject	*listObject;
 	
@@ -102,7 +102,7 @@
 - (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
 	AIListObject	*listObject;
-	AIChat			*activeChat = [[adium interfaceController] activeChatInWindow:[info draggingDestinationWindow]];
+	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = [activeChat account];
 
 	for (listObject in dragItems) {
@@ -136,7 +136,7 @@
 		[NSNumber numberWithInteger:Context_Contact_NegativeAction],
 		[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 	
-    return [[adium menuController] contextualMenuWithLocations:locationsArray
+    return [adium.menuController contextualMenuWithLocations:locationsArray
 												 forListObject:listObject
 														inChat:[[self delegate] chat]];
 }

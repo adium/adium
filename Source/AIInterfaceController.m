@@ -170,22 +170,22 @@
 																							 target:self
 																							 action:@selector(toggleUserlist:)
 																					  keyEquivalent:@""];
-	[[adium menuController] addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
+	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
 																			  
 	//Contact list menu item
 	NSMenuItem* menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
 																				target:self
 																				action:@selector(toggleContactList:)
 																		 keyEquivalent:@"/"];
-	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Window_Fixed];
-	[[adium menuController] addMenuItem:[[menuItem copy] autorelease] toLocation:LOC_Dock_Status];
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Fixed];
+	[adium.menuController addMenuItem:[[menuItem copy] autorelease] toLocation:LOC_Dock_Status];
 	[menuItem release];
 	
 	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Close Chat","Title for the close chat menu item")
 																	target:self
 																	action:@selector(closeContextualChat:)
 															 keyEquivalent:@""];
-	[[adium menuController] addContextualMenuItem:menuItem toLocation:Context_Tab_Action];
+	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_Tab_Action];
 	[menuItem release];
 
     //Observe content so we can open chats as necessary
@@ -911,7 +911,7 @@
  */
 - (IBAction)closeContextualChat:(id)sender
 {
-	[self closeChat:[[adium menuController] currentContextMenuChat]];
+	[self closeChat:[adium.menuController currentContextMenuChat]];
 }
 
 /*!
@@ -983,7 +983,7 @@
 	
     //Remove any existing menus
     for (item in windowMenuArray) {
-        [[adium menuController] removeMenuItem:item];
+        [adium.menuController removeMenuItem:item];
     }
     [windowMenuArray release]; windowMenuArray = [[NSMutableArray alloc] init];
 	
@@ -1045,13 +1045,13 @@
 - (void)_addItemToMainMenuAndDock:(NSMenuItem *)item
 {
 	//Add to main menu first
-	[[adium menuController] addMenuItem:item toLocation:LOC_Window_Fixed];
+	[adium.menuController addMenuItem:item toLocation:LOC_Window_Fixed];
 	[windowMenuArray addObject:item];
 	
 	//Make a copy, and add to the dock
 	item = [item copy];
 	[item setKeyEquivalent:@""];
-	[[adium menuController] addMenuItem:item toLocation:LOC_Dock_Status];
+	[adium.menuController addMenuItem:item toLocation:LOC_Dock_Status];
 	[windowMenuArray addObject:item];
 	[item release];
 }

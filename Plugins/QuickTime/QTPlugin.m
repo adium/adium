@@ -205,7 +205,7 @@
 	NSNotificationCenter	*workspaceCenter;
 	
 	// Register this for some protocols
-	[[adium vcController] registerProvider:self forProtocol:VC_RTP];
+	[adium.vcController registerProvider:self forProtocol:VC_RTP];
 	
     // Install some preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:QUICKTIME_PREFS
@@ -239,7 +239,7 @@
 {
 	[self shutdownQuickTime];
 	
-	[[adium vcController] unregisterProviderForProtocol:VC_RTP];
+	[adium.vcController unregisterProviderForProtocol:VC_RTP];
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	

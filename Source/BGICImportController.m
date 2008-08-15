@@ -247,7 +247,7 @@
 		[availableGroup setTitle:AILocalizedString(@"iChat Available Messages", nil)];
 		[availableGroup setStatusType:AIAvailableStatusType];
 		// add to the set
-		[[[adium statusController] rootStateGroup] addStatusItem:availableGroup atIndex:-1];
+		[[adium.statusController rootStateGroup] addStatusItem:availableGroup atIndex:-1];
 	}
 
 	for (NSInteger availableLoop = 0; availableLoop < [customAvailable count]; availableLoop++) {
@@ -262,7 +262,7 @@
 		[awayGroup setTitle:AILocalizedString(@"iChat Away Messages", nil)];
 		[awayGroup setStatusType:AIAwayStatusType];
 		// add to the set
-		[[[adium statusController] rootStateGroup] addStatusItem:awayGroup atIndex:-1];
+		[[adium.statusController rootStateGroup] addStatusItem:awayGroup atIndex:-1];
 	}	
 
 	// loop through the aways and add them
@@ -291,7 +291,7 @@
 	
 	// optionally add to a status group
 	if (parentGroup == nil) {
-		[[adium statusController] addStatusState:newStatus];	
+		[adium.statusController addStatusState:newStatus];	
 	} else {
 		[parentGroup addStatusItem:newStatus atIndex:-1];
 	}

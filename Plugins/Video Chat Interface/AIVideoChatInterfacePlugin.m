@@ -30,7 +30,7 @@
 //										  target:self 
 //										  action:@selector(openSelfVideo:)
 //								   keyEquivalent:@""];
-//	[[adium menuController] addMenuItem:menuItem toLocation:LOC_Window_Auxiliary];
+//	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Auxiliary];
 //	
 	
 	

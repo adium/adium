@@ -76,7 +76,7 @@ typedef enum {
 	//If a save of the object prefs is pending, perform it immediately since we are quitting
 	if (timer_savingOfObjectCache) {
 		@synchronized(objectPrefs) {
-			[objectPrefs writeToPath:[[adium loginController] userDirectory]
+			[objectPrefs writeToPath:[adium.loginController userDirectory]
 							withName:@"ByObjectPrefs"];
 		}
 		/* There's no guarantee that 'will close' is called in the same run loop as the actual program termination.
@@ -91,7 +91,7 @@ typedef enum {
 	//If a save of the account prefs is pending, perform it immediately since we are quitting
 	if (timer_savingOfAccountCache) {
 		@synchronized(accountPrefs) {
-			[accountPrefs writeToPath:[[adium loginController] userDirectory]
+			[accountPrefs writeToPath:[adium.loginController userDirectory]
 							 withName:@"AccountPrefs"];
 		}
 		/* There's no guarantee that 'will close' is called in the same run loop as the actual program termination.
@@ -225,7 +225,7 @@ typedef enum {
 - (NSMutableDictionary *)prefs
 {
 	if (!prefs) {
-		NSString	*userDirectory = [[adium loginController] userDirectory];
+		NSString	*userDirectory = [adium.loginController userDirectory];
 		
 		if (object) {
 			if (!(*myGlobalPrefs)) {
@@ -504,7 +504,7 @@ typedef enum {
 							 toTarget:self
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 									   [inTimer userInfo], @"PrefsToSave",
-									   [[adium loginController] userDirectory], @"DestinationDirectory",
+									   [adium.loginController userDirectory], @"DestinationDirectory",
 										globalPrefsName, @"PrefsName",
 									    inTimer, @"NSTimer",
 									   nil]];
@@ -535,7 +535,7 @@ typedef enum {
 
 	} else {
 		//Save the preference change immediately
-		NSString	*userDirectory = [[adium loginController] userDirectory];
+		NSString	*userDirectory = [adium.loginController userDirectory];
 		
 		NSString	*path = (object ? [userDirectory stringByAppendingPathComponent:[object pathToPreferences]] : userDirectory);
 		NSString	*name = (object ? [[object internalObjectID] safeFilenameString] : group);

@@ -72,14 +72,14 @@
 	
 	[blockContactMenuItem setKeyEquivalentModifierMask:(NSCommandKeyMask|NSAlternateKeyMask)];
 	
-	[[adium menuController] addMenuItem:blockContactMenuItem toLocation:LOC_Contact_NegativeAction];
+	[adium.menuController addMenuItem:blockContactMenuItem toLocation:LOC_Contact_NegativeAction];
 
     //Add our get info contextual menu items
     blockContactContextualMenuItem = [[NSMenuItem alloc] initWithTitle:BLOCK_MENUITEM
 																target:self
 																action:@selector(blockContact:)
 														 keyEquivalent:@""];
-    [[adium menuController] addContextualMenuItem:blockContactContextualMenuItem toLocation:Context_Contact_NegativeAction];
+    [adium.menuController addContextualMenuItem:blockContactContextualMenuItem toLocation:Context_Contact_NegativeAction];
 	
 	//we want to know when an account connects
 	[[adium notificationCenter] addObserver:self
@@ -104,7 +104,7 @@
 																	   action:@selector(blockOrUnblockParticipants:)
 																		 menu:nil];
 	
-	[[adium toolbarController] registerToolbarItem:chatItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:chatItem forToolbarType:@"MessageWindow"];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(toolbarWillAddItem:)
@@ -150,8 +150,8 @@
 	AIListObject	*object;
 	
 	object = ((sender == blockContactMenuItem) ?
-			  [[adium interfaceController] selectedListObject] :
-			  [[adium menuController] currentContextMenuObject]);
+			  [adium.interfaceController selectedListObject] :
+			  [adium.menuController currentContextMenuObject]);
 	
 	//Don't do groups
 	if ([object isKindOfClass:[AIListContact class]]) {
@@ -207,9 +207,9 @@
 	AIListObject *object;
 	
 	if (menuItem == blockContactMenuItem) {
-		object = [[adium interfaceController] selectedListObject];
+		object = [adium.interfaceController selectedListObject];
 	} else {
-		object = [[adium menuController] currentContextMenuObject];
+		object = [adium.menuController currentContextMenuObject];
 	}
 	
 	//Don't do groups
@@ -420,7 +420,7 @@
 
 			//do the toolbars match?
 			if (windowToolbar == senderToolbar) {
-				activeChatInWindow = [[adium interfaceController] activeChatInWindow:currentWindow];
+				activeChatInWindow = [adium.interfaceController activeChatInWindow:currentWindow];
 				participants = [activeChatInWindow containedObjects];
 				
 				//do the deed
@@ -469,7 +469,7 @@
 											 object:nil];
 		}
 		
-		[self updateToolbarItem:item forChat:[[adium interfaceController] activeChat]];
+		[self updateToolbarItem:item forChat:[adium.interfaceController activeChat]];
 		[chatToolbarItems addObject:item];
 	}
 }
@@ -519,7 +519,7 @@
 	if (([chatToolbarItems count] > 0) &&
 		[inObject isKindOfClass:[AIListContact class]] &&
 		(chat = [adium.chatController existingChatWithContact:(AIListContact *)inObject]) &&
-		(window = [[adium interfaceController] windowForChat:chat])) {
+		(window = [adium.interfaceController windowForChat:chat])) {
 		[self updateToolbarIconOfChat:chat
 							 inWindow:window];
 	}

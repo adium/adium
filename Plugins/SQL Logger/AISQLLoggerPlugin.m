@@ -69,7 +69,7 @@
     if (PQstatus(conn) == CONNECTION_BAD)
     {
         NSString *error =  [NSString stringWithCString:PQerrorMessage(conn)];
-        [[adium interfaceController] handleErrorMessage:@"Connection to database failed." withDescription:error];
+        [adium.interfaceController handleErrorMessage:@"Connection to database failed." withDescription:error];
     }
 }
 
@@ -210,7 +210,7 @@
     res = PQexec(conn, [sqlStatement UTF8String]);
     if (!res || PQresultStatus(res) != PGRES_COMMAND_OK) {
         NSLog(@"%s / %s\n%@", PQresStatus(PQresultStatus(res)), PQresultErrorMessage(res), sqlStatement);
-        [[adium interfaceController] handleErrorMessage:@"Insertion failed." withDescription:@"Database Insert Failed"];
+        [adium.interfaceController handleErrorMessage:@"Insertion failed." withDescription:@"Database Insert Failed"];
         if (res) {
             PQclear(res);
         }
@@ -221,7 +221,7 @@
             conn = PQconnectdb("");
             if (PQstatus(conn) == CONNECTION_BAD)
             {
-                [[adium interfaceController] handleErrorMessage:@"Database reconnect failed.."
+                [adium.interfaceController handleErrorMessage:@"Database reconnect failed.."
 												withDescription:@"Check your settings and try again."];
                 NSLog(@"%s", PQerrorMessage(conn));
             } else {

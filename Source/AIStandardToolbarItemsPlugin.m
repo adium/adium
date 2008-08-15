@@ -50,7 +50,7 @@
 									  itemContent:[NSImage imageNamed:@"message" forClass:[self class] loadLazily:YES]
 										   action:@selector(showSourceDestinationPicker:)
 											 menu:nil];
-	[[adium toolbarController] registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
+	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"MessageWindow"];
 }
 
 /*!
@@ -58,12 +58,12 @@
  */
 - (IBAction)showSourceDestinationPicker:(NSToolbarItem *)toolbarItem
 {
-    AIListObject	*object = [[adium interfaceController] selectedListObject];
+    AIListObject	*object = [adium.interfaceController selectedListObject];
 
     if ([object isKindOfClass:[AIListContact class]]) {
 		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object
 												 onPreferredAccount:YES];
-        [[adium interfaceController] setActiveChat:chat];
+        [adium.interfaceController setActiveChat:chat];
     }
 	
 }

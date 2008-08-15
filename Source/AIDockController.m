@@ -403,7 +403,7 @@
     //Stop any existing animation
     [animationTimer invalidate]; [animationTimer release]; animationTimer = nil;
     if (observingFlash) {
-        [[adium interfaceController] unregisterFlashObserver:self];
+        [adium.interfaceController unregisterFlashObserver:self];
         observingFlash = NO;
     }
 
@@ -428,7 +428,7 @@
 
     } else { //Animated icon
         //Our dock icon can run its animation at any speed, but we want to try and sync it with the global Adium flashing.  To do this, we delay starting our timer until the next flash occurs.
-        [[adium interfaceController] registerFlashObserver:self];
+        [adium.interfaceController registerFlashObserver:self];
         observingFlash = YES;
 
         //Set the first frame of our animation
@@ -451,7 +451,7 @@
     [self animateIcon:animationTimer]; //Set the icon and move to the next frame
 
     //Once our animations stops, we no longer need to observe flashing
-    [[adium interfaceController] unregisterFlashObserver:self];
+    [adium.interfaceController unregisterFlashObserver:self];
     observingFlash = NO;
 }
 

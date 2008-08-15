@@ -63,7 +63,7 @@
 																			  target:self
 																			  action:@selector(dummyAction:)
 																	   keyEquivalent:@""];
-	[[adium menuController] addMenuItem:dockStatusMenuRoot toLocation:LOC_Dock_Status];
+	[adium.menuController addMenuItem:dockStatusMenuRoot toLocation:LOC_Dock_Status];
 
 	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
 
@@ -99,7 +99,7 @@
     for (menuItem in menuItemArray) {
 		NSMenuItem	*dockMenuItem;
 
-		[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_State];
+		[adium.menuController addMenuItem:menuItem toLocation:LOC_Status_State];
 		
 		dockMenuItem = [menuItem copy];
 		[dockStatusMenu addItem:dockMenuItem];
@@ -128,7 +128,7 @@
 		[menubarMenu setMenuChangedMessagesEnabled:NO];
 		
 		for (menuItem in inMenuItems) {
-			[[adium menuController] removeMenuItem:menuItem];
+			[adium.menuController removeMenuItem:menuItem];
 		}
 		
 		[menubarMenu setMenuChangedMessagesEnabled:YES];
@@ -147,7 +147,7 @@
 {
 	NSMenuItem		*menuItem;
 
-	AIStatusType	activeStatusType = [[adium statusController] activeStatusTypeTreatingInvisibleAsAway:YES];
+	AIStatusType	activeStatusType = [adium.statusController activeStatusTypeTreatingInvisibleAsAway:YES];
 	AIStatusType	targetStatusType = AIAvailableStatusType;
 	AIStatus		*targetStatusState = nil;
 	BOOL			assignCmdOptionY;
@@ -161,7 +161,7 @@
 	} else {
 		//If away, invisible, or offline, set an equivalent for the available state
 		targetStatusType = AIAvailableStatusType;		
-		targetStatusState = [[adium statusController] defaultInitialStatusState];
+		targetStatusState = [adium.statusController defaultInitialStatusState];
 		assignCmdOptionY = YES;
 	}
 
@@ -213,11 +213,11 @@
 	if (oneOrMoreSocialNetworkingAccountsOnline) {
 		if (!socialNetworkingMenuItem) {
 			socialNetworkingMenuItem = [[AISocialNetworkingStatusMenu socialNetworkingSubmenuItem] retain];
-			[[adium menuController] addMenuItem:socialNetworkingMenuItem toLocation:LOC_Status_SocialNetworking];
+			[adium.menuController addMenuItem:socialNetworkingMenuItem toLocation:LOC_Status_SocialNetworking];
 		}
 	} else {
 		if (socialNetworkingMenuItem) {
-			[[adium menuController] removeMenuItem:socialNetworkingMenuItem];
+			[adium.menuController removeMenuItem:socialNetworkingMenuItem];
 			[socialNetworkingMenuItem release]; socialNetworkingMenuItem = nil;
 		}
 	}
@@ -248,12 +248,12 @@
 	
 	//Remove any existing menu items
     for (menuItem in installedMenuItems) {    
-		[[adium menuController] removeMenuItem:menuItem];
+		[adium.menuController removeMenuItem:menuItem];
     }
 	
 	//Add the new menu items
     for (menuItem in menuItems) {    
-		[[adium menuController] addMenuItem:menuItem toLocation:LOC_Status_Accounts];
+		[adium.menuController addMenuItem:menuItem toLocation:LOC_Status_Accounts];
     }
 	
 	//Remember the installed items so we can remove them later

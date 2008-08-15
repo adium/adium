@@ -31,8 +31,8 @@
 
 #include <stdlib.h>
 
-#define PRIVKEY_PATH [[[[adium loginController] userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
-#define STORE_PATH	 [[[[adium loginController] userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
+#define PRIVKEY_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
+#define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
 
 #define CLOSED_CONNECTION_MESSAGE "has closed his private connection to you"
 
@@ -1139,7 +1139,7 @@ OtrlUserState otrg_get_userstate(void)
 - (void)notifyWithTitle:(NSString *)title primary:(NSString *)primary secondary:(NSString *)secondary
 {
 	//XXX todo: search on ops->notify in message.c in libotr and handle / localize the error messages
-	[[adium interfaceController] handleMessage:primary
+	[adium.interfaceController handleMessage:primary
 							   withDescription:secondary
 							   withWindowTitle:title];
 }
@@ -1342,7 +1342,7 @@ OtrlUserState otrg_get_userstate(void)
 {
 	if (![[adium.preferenceController preferenceForKey:@"GaimOTR_to_AdiumOTR_Update"
 												   group:@"OTR"] boolValue]) {
-		NSString	  *destinationPath = [[adium loginController] userDirectory];
+		NSString	  *destinationPath = [adium.loginController userDirectory];
 		NSString	  *sourcePath = [destinationPath stringByAppendingPathComponent:@"libpurple"];
 		
 		NSString *privateKey = [self upgradedPrivateKeyFromFile:[sourcePath stringByAppendingPathComponent:@"otr.private_key"]];
@@ -1368,7 +1368,7 @@ OtrlUserState otrg_get_userstate(void)
 	
 	if (![[adium.preferenceController preferenceForKey:@"Libgaim_to_Libpurple_Update"
 												   group:@"OTR"] boolValue]) {
-		NSString	*destinationPath = [[adium loginController] userDirectory];
+		NSString	*destinationPath = [adium.loginController userDirectory];
 		
 		NSString	*privateKeyPath = [destinationPath stringByAppendingPathComponent:@"otr.private_key"];
 		NSString	*fingerprintsPath = [destinationPath stringByAppendingPathComponent:@"otr.fingerprints"];
