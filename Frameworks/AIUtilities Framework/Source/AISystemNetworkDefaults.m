@@ -120,7 +120,7 @@
 				if (pacFile) {
 					//XXX can't use pac file
 					NSString *msg = [NSString stringWithFormat:
-						AILocalizedString(@"The systemwide proxy configuration specified via the Network System Preferences depends upon reading a PAC (Proxy Automatic Confiruation) file from %@.  This information can not be used at this time; to connect, please obtain proxy information from your network administrator and use it manually.", nil),
+						AILocalizedString(@"The system-wide proxy configuration specified via the Network System Preferences depends upon reading a PAC (Proxy Automatic Configuration) file from %@.  This information can not be used at this time; to connect, please obtain proxy information from your network administrator and use it manually.", nil),
 						pacFile];
 					NSRunCriticalAlertPanel(AILocalizedString(@"Unable to read proxy information", "Title of the alert shown when the system proxy configuration can not be determined"),
 											msg,
