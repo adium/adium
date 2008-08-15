@@ -143,6 +143,8 @@ static void buddy_status_changed_cb(PurpleBuddy *buddy, PurpleStatus *oldstatus,
 	statusName = [account statusNameForPurpleBuddy:buddy];
 	statusMessage = [account statusMessageForPurpleBuddy:buddy];
 	
+	[account updateMobileStatus:theContact withData:isMobile];
+	
 	//Will also notify
 	[account updateStatusForContact:theContact
 					   toStatusType:statusTypeNumber
