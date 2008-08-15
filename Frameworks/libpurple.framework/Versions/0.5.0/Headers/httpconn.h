@@ -89,7 +89,7 @@ void msn_httpconn_destroy(MsnHttpConn *httpconn);
  *
  * @return The number of bytes written.
  */
-ssize_t msn_httpconn_write(MsnHttpConn *httpconn, const char *data, size_t data_len);
+gssize msn_httpconn_write(MsnHttpConn *httpconn, const char *data, size_t data_len);
 
 /**
  * Connects the HTTP connection object to a host.

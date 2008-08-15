@@ -1,5 +1,7 @@
 /**
- * Copyright (C) 2007-2008 Felipe Contreras
+ * @file directconn.h MSN direct connection functions
+ *
+ * purple
  *
  * Purple is the legal property of its developers, whose names are too numerous
  * to list here.  Please refer to the COPYRIGHT file distributed with this
@@ -19,49 +21,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
+#ifndef _MSN_DIRECTCONN_H_
+#define _MSN_DIRECTCONN_H_
 
-#ifndef MSN_DIRECTCONN_H
-#define MSN_DIRECTCONN_H
+typedef struct _MsnDirectConn MsnDirectConn;
 
-typedef struct MsnDirectConn MsnDirectConn;
+#include "slplink.h"
+#include "slp.h"
+#include "msg.h"
 
-#include "cvr/slplink.h"
-#include "cvr/slp.h"
-
-#include "cmd/msg.h"
-
-struct PecanNode;
-struct _PurpleProxyConnectData;
-
-struct MsnDirectConn
+struct _MsnDirectConn
 {
-    MsnSlpLink *slplink;
-    MsnSlpCall *initial_call;
+	MsnSlpLink *slplink;
+	MsnSlpCall *initial_call;
 
-    gboolean ack_sent;
-    gboolean ack_recv;
+	PurpleProxyConnectData *connect_data;
 
-    char *nonce;
+	gboolean acked;
 
-    guint read_watch;
-    gboolean connected;
+	char *nonce;
 
-    int port;
+	int fd;
 
-    int c;
-    struct _PurpleProxyConnectData *connect_data;
-    struct PecanNode *conn;
+	int port;
+	int inpa;
+
+	int c;
 };
 
 MsnDirectConn *msn_directconn_new(MsnSlpLink *slplink);
 gboolean msn_directconn_connect(MsnDirectConn *directconn,
-                                const char *host, int port);
-#if 0
+								const char *host, int port);
 void msn_directconn_listen(MsnDirectConn *directconn);
-#endif
 void msn_directconn_send_msg(MsnDirectConn *directconn, MsnMessage *msg);
 void msn_directconn_parse_nonce(MsnDirectConn *directconn, const char *nonce);
 void msn_directconn_destroy(MsnDirectConn *directconn);
 void msn_directconn_send_handshake(MsnDirectConn *directconn);
 
-#endif /* MSN_DIRECTCONN_H */
+#endif /* _MSN_DIRECTCONN_H_ */

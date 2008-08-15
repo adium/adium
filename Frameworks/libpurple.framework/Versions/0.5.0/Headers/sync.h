@@ -1,5 +1,7 @@
 /**
- * Copyright (C) 2008 Felipe Contreras.
+ * @file sync.h MSN list synchronization functions
+ *
+ * purple
  *
  * Purple is the legal property of its developers, whose names are too numerous
  * to list here.  Please refer to the COPYRIGHT file distributed with this
@@ -19,35 +21,32 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
+#ifndef _MSN_SYNC_H_
+#define _MSN_SYNC_H_
 
-#ifndef MSN_SYNC_H
-#define MSN_SYNC_H
-
-typedef struct MsnSync MsnSync;
+typedef struct _MsnSync MsnSync;
 
 #include "session.h"
+#include "table.h"
+#include "user.h"
 
-#include "cmd/table.h"
-
-#include "ab/pecan_contact.h"
-
-struct MsnSync
+struct _MsnSync
 {
-    MsnSession *session;
-    MsnTable *cbs_table;
-    MsnTable *old_cbs_table;
+	MsnSession *session;
+	MsnTable *cbs_table;
+	MsnTable *old_cbs_table;
 
-    gint num_users;
-    gint total_users;
-    gint num_groups;
-    gint total_groups;
-    PecanContact *last_user;
+	int num_users;
+	int total_users;
+	int num_groups;
+	int total_groups;
+	MsnUser *last_user;
 };
 
-void msn_sync_init (void);
-void msn_sync_end (void);
+void msn_sync_init(void);
+void msn_sync_end(void);
 
-MsnSync *msn_sync_new (MsnSession *session);
-void msn_sync_destroy (MsnSync *sync);
+MsnSync * msn_sync_new(MsnSession *session);
+void msn_sync_destroy(MsnSync *sync);
 
-#endif /* MSN_SYNC_H */
+#endif /* _MSN_SYNC_H_ */

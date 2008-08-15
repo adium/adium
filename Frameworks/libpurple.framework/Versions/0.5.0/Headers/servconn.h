@@ -115,8 +115,10 @@ void msn_servconn_destroy(MsnServConn *servconn);
  * @param servconn The connection.
  * @param host The host.
  * @param port The port.
+ * @param force Force this servconn to connect to a new server.
  */
-gboolean msn_servconn_connect(MsnServConn *servconn, const char *host, int port);
+gboolean msn_servconn_connect(MsnServConn *servconn, const char *host, int port,
+                              gboolean force);
 
 /**
  * Disconnects.
@@ -157,7 +159,7 @@ void msn_servconn_set_destroy_cb(MsnServConn *servconn,
  * @param buf The data to write.
  * @param size The size of the data.
  */
-ssize_t msn_servconn_write(MsnServConn *servconn, const char *buf,
+gssize msn_servconn_write(MsnServConn *servconn, const char *buf,
 						  size_t size);
 
 /**

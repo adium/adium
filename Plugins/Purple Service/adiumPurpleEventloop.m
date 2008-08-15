@@ -436,22 +436,3 @@ PurpleEventLoopUiOps *adium_purple_eventloop_get_ui_ops(void)
 
 	return &adiumEventLoopUiOps;
 }
-
-#if USE_PECAN
-static void glib_runloop_iterator(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info) {
-	//Iterate on the glib loop a single time without blocking
-	g_main_context_iteration(/* context */ NULL, /* may_block */ FALSE);
-}
-
-void adium_purple_eventloop_enable_glib_runloop(void)
-{
-	if (!g_thread_supported())
-		g_thread_init(NULL);
-
-	CFRunLoopObserverRef observer = CFRunLoopObserverCreate(kCFAllocatorDefault, kCFRunLoopBeforeSources,
-															/* repeats */ true, /* priority */ 0,
-															glib_runloop_iterator, NULL);
-	CFRunLoopAddObserver([[NSRunLoop currentRunLoop] getCFRunLoop], observer, kCFRunLoopDefaultMode);
-	CFRelease(observer);
-}
-#endif

@@ -1,5 +1,7 @@
 /**
- * Copyright (C) 2008 Felipe Contreras
+ * @file switchboard.h MSN switchboard functions
+ *
+ * purple
  *
  * Purple is the legal property of its developers, whose names are too numerous
  * to list here.  Please refer to the COPYRIGHT file distributed with this
@@ -19,27 +21,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
+#ifndef _MSN_SWITCHBOARD_H_
+#define _MSN_SWITCHBOARD_H_
 
-#ifndef MSN_SWITCHBOARD_H
-#define MSN_SWITCHBOARD_H
+typedef struct _MsnSwitchBoard MsnSwitchBoard;
 
-#include <glib.h>
+#include "conversation.h"
 
-typedef struct MsnSwitchBoard MsnSwitchBoard;
+#include "msg.h"
+#include "user.h"
+
+#include "servconn.h"
+
+#include "slplink.h"
 
 /**
  * A switchboard error.
  */
 typedef enum
 {
-    MSN_SB_ERROR_NONE, /**< No error. */
-    MSN_SB_ERROR_CAL, /**< The user could not join (answer the call). */
-    MSN_SB_ERROR_OFFLINE, /**< The account is offline. */
-    MSN_SB_ERROR_USER_OFFLINE, /**< The user to call is offline. */
-    MSN_SB_ERROR_CONNECTION, /**< There was a connection error. */
-    MSN_SB_ERROR_TOO_FAST, /**< We are sending too fast */
-    MSN_SB_ERROR_AUTHFAILED, /**< Authentication failed joining the switchboard session */
-    MSN_SB_ERROR_UNKNOWN /**< An unknown error occurred. */
+	MSN_SB_ERROR_NONE, /**< No error. */
+	MSN_SB_ERROR_CAL, /**< The user could not join (answer the call). */
+	MSN_SB_ERROR_OFFLINE, /**< The account is offline. */
+	MSN_SB_ERROR_USER_OFFLINE, /**< The user to call is offline. */
+	MSN_SB_ERROR_CONNECTION, /**< There was a connection error. */
+	MSN_SB_ERROR_TOO_FAST, /**< We are sending too fast */
+	MSN_SB_ERROR_AUTHFAILED, /**< Authentication failed joining the switchboard session */
+	MSN_SB_ERROR_UNKNOWN /**< An unknown error occurred. */
 
 } MsnSBErrorType;
 
@@ -48,68 +56,54 @@ typedef enum
  */
 typedef enum
 {
-    MSN_SB_FLAG_IM = 0x01, /**< This switchboard is being used for a conversation. */
-    MSN_SB_FLAG_FT = 0x02, /**< This switchboard is being used for file transfer. */
+	MSN_SB_FLAG_IM = 0x01, /**< This switchboard is being used for a conversation. */
+	MSN_SB_FLAG_FT = 0x02, /**< This switchboard is being used for file transfer. */
 
 } MsnSBFlag;
-
-#include "io/pecan_cmd_server.h"
-#include "io/pecan_node.h"
-
-struct MsnSession;
-struct MsnMessage;
-struct MsnCmdProc;
-
-struct _PurpleConversation;
 
 /**
  * A switchboard.
  *
  * A place where a bunch of users send messages to the rest of the users.
  */
-struct MsnSwitchBoard
+struct _MsnSwitchBoard
 {
-    struct MsnSession *session;
-    struct MsnCmdProc *cmdproc;
-    char *im_user;
+	MsnSession *session;
+	MsnServConn *servconn;
+	MsnCmdProc *cmdproc;
+	char *im_user;
 
-    MsnSBFlag flag;
-    char *auth_key;
-    char *session_id;
+	MsnSBFlag flag;
+	char *auth_key;
+	char *session_id;
 
-    struct _PurpleConversation *conv; /**< The conversation that displays the
-                                messages of this switchboard, or @c NULL if
-                                this is a helper switchboard. */
+	PurpleConversation *conv; /**< The conversation that displays the
+							  messages of this switchboard, or @c NULL if
+							  this is a helper switchboard. */
 
-    gboolean empty;			/**< A flag that states if the swithcboard has no
-                                          users in it. */
-    gboolean invited;		/**< A flag that states if we were invited to the
-                                  switchboard. */
-    gboolean ready;			/**< A flag that states if this switchboard is
-                                          ready to be used. */
-    gboolean closed;		/**< A flag that states if the switchboard has
-                                  been closed by the user. */
-    gboolean destroying;	/**< A flag that states if the switchboard is
-                                  alredy on the process of destruction. */
+	gboolean empty;			/**< A flag that states if the swithcboard has no
+							  users in it. */
+	gboolean invited;		/**< A flag that states if we were invited to the
+							  switchboard. */
+	gboolean ready;			/**< A flag that states if this switchboard is
+							  ready to be used. */
+	gboolean closed;		/**< A flag that states if the switchboard has
+							  been closed by the user. */
+	gboolean destroying;	/**< A flag that states if the switchboard is
+							  alredy on the process of destruction. */
 
-    int current_users;
-    int total_users;
-    GList *users;
+	int current_users;
+	int total_users;
+	GList *users;
 
-    int chat_id;
+	int chat_id;
 
-    GQueue *msg_queue; /**< Queue of messages to send. */
-    GQueue *invites; /**< Queue of participants to invite. */
-    GList *ack_list; /**< List of messages waiting for an ack. */
+	GQueue *msg_queue; /**< Queue of messages to send. */
+	GList *ack_list; /**< List of messages waiting for an ack. */
 
-    MsnSBErrorType error; /**< The error that occurred in this switchboard
-                            (if applicable). */
-    GList *slplinks; /**< The list of slplinks that are using this switchboard. */
-
-    PecanCmdServer *conn;
-    gulong open_handler;
-    gulong close_handler;
-    gulong error_handler;
+	MsnSBErrorType error; /**< The error that occurred in this switchboard
+							(if applicable). */
+	GList *slplinks; /**< The list of slplinks that are using this switchboard. */
 };
 
 /**
@@ -129,7 +123,7 @@ void msn_switchboard_end(void);
  *
  * @return The new switchboard.
  */
-MsnSwitchBoard *msn_switchboard_new(struct MsnSession *session);
+MsnSwitchBoard *msn_switchboard_new(MsnSession *session);
 
 /**
  * Destroys a switchboard.
@@ -173,6 +167,13 @@ void msn_switchboard_set_session_id(MsnSwitchBoard *swboard, const char *id);
 const char *msn_switchboard_get_session_id(MsnSwitchBoard *swboard);
 
 /**
+ * Returns the next chat ID for use by a switchboard.
+ *
+ * @return The chat ID.
+ */
+int msn_switchboard_get_chat_id(void);
+
+/**
  * Sets whether or not we were invited to this switchboard.
  *
  * @param swboard The switchboard.
@@ -199,7 +200,7 @@ gboolean msn_switchboard_is_invited(MsnSwitchBoard *swboard);
  * @return @c TRUE if able to connect, or @c FALSE otherwise.
  */
 gboolean msn_switchboard_connect(MsnSwitchBoard *swboard,
-                                 const char *host, int port);
+								 const char *host, int port);
 
 /**
  * Disconnects from a switchboard.
@@ -247,8 +248,8 @@ gboolean msn_switchboard_can_send(MsnSwitchBoard *swboard);
  *
  * @return @c TRUE if a message can be sent, @c FALSE otherwise.
  */
-void msn_switchboard_send_msg(MsnSwitchBoard *swboard, struct MsnMessage *msg,
-                              gboolean queue);
+void msn_switchboard_send_msg(MsnSwitchBoard *swboard, MsnMessage *msg,
+							  gboolean queue);
 
 gboolean msn_switchboard_chat_leave(MsnSwitchBoard *swboard);
 gboolean msn_switchboard_chat_invite(MsnSwitchBoard *swboard, const char *who);
@@ -262,7 +263,7 @@ void msn_switchboard_request_add_user(MsnSwitchBoard *swboard, const char *user)
  * @param cmdproc The command processor.
  * @param msg     The message.
  */
-void msn_p2p_msg(struct MsnCmdProc *cmdproc, struct MsnMessage *msg);
+void msn_p2p_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
 /**
  * Processes emoticon messages.
@@ -270,7 +271,7 @@ void msn_p2p_msg(struct MsnCmdProc *cmdproc, struct MsnMessage *msg);
  * @param cmdproc The command processor.
  * @param msg     The message.
  */
-void msn_emoticon_msg(struct MsnCmdProc *cmdproc, struct MsnMessage *msg);
+void msn_emoticon_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
 /**
  * Processes INVITE messages.
@@ -278,6 +279,6 @@ void msn_emoticon_msg(struct MsnCmdProc *cmdproc, struct MsnMessage *msg);
  * @param cmdproc The command processor.
  * @param msg     The message.
  */
-void msn_invite_msg(struct MsnCmdProc *cmdproc, struct MsnMessage *msg);
+void msn_invite_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
-#endif /* MSN_SWITCHBOARD_H */
+#endif /* _MSN_SWITCHBOARD_H_ */
