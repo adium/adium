@@ -814,10 +814,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)_updateAllPropertiesForObject:(AIListObject *)inObject
 {
-	NSEnumerator	*enumerator = [inObject propertyEnumerator];
-	NSString		*key;
-
-	while ((key = [enumerator nextObject])) {
+	for (NSString *key in inObject.properties) {
 		[super object:self didChangeValueForProperty:key notify:NotifyLater];
 	}
 

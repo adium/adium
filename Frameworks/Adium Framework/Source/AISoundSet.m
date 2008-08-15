@@ -81,40 +81,21 @@
 /*!
  * @brief Returns the name of this soundSet
  */
-- (NSString *)name
-{
-	return name;
-}
+@synthesize name;
 
 /*!
  * @brief Returns the info for this soundSet
  *
  * @return NSString containing information about the soundset and its creator in no particular format.
  */
-- (NSString *)info
-{
-	return info;
-}
+@synthesize info;
 
 /*!
  * @brief Returns a dictionary of sounds
  *
  * @return NSDictionary with sound identifiers as keys and full paths as objects
  */
-- (NSDictionary *)sounds
-{
-	return sounds;
-}
-
-/*!
- * @brief Path to the soundset
- *
- * @return NSString with the path to the sound set; may need to be expanded with stringByExpandingBundleIdentifier
- */
-- (NSString *)sourcePath
-{
-	return sourcePath;
-}
+@synthesize sounds;
 
 #pragma mark Private methods
 
@@ -185,7 +166,7 @@
 			
 			enumerator = [localSounds keyEnumerator];
 			while((key = [enumerator nextObject])){
-				[sounds setObject:[[self _fullPathForSoundAtLocalPath:[localSounds objectForKey:key]
+				[(NSMutableDictionary *)sounds setObject:[[self _fullPathForSoundAtLocalPath:[localSounds objectForKey:key]
 													  searchLocations:locations] stringByCollapsingBundlePath]
 						   forKey:key];
 			}
@@ -373,20 +354,19 @@
  */
 - (BOOL)isEqual:(id)otherObject
 {
-	return ([otherObject isKindOfClass:[self class]] &&
-			[[(AISoundSet *)otherObject sourcePath] isEqualToString:sourcePath]);
+	return ([otherObject isKindOfClass:[self class]] && [otherObject hash] == [self hash]);
 }
 
 /*!
  * @brief Because we defined equality based on our sourcePath, the sourcePath's hash is an easy hash for us to use
  */
-- (unsigned)hash
+- (NSUInteger)hash
 {
 	return [sourcePath hash];
 }
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@: %x - %@: %i sounds at %@>", NSStringFromClass([self class]), self, [self name], [[self sounds] count], [self sourcePath]];
+	return [NSString stringWithFormat:@"<%@: %x - %@: %i sounds at %@>", NSStringFromClass([self class]), self, self.name, [self.sounds count], sourcePath];
 }
 @end

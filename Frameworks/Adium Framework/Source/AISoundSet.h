@@ -15,16 +15,16 @@
  */
 
 @interface AISoundSet : NSObject {
-	NSString			*name;
-	NSString			*info;
-	NSMutableDictionary	*sounds;
+	NSString					*name;
+	NSString					*info;
+	NSDictionary			*sounds;
 	
-	NSString			*sourcePath;
+	NSString					*sourcePath;
 }
 
 + (id)soundSetWithContentsOfFile:(NSString *)inPath;
-- (NSString *)name;
-- (NSString *)info;
-- (NSDictionary *)sounds;
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) NSString *info;
+@property (readonly, nonatomic) NSDictionary *sounds;
 
 @end

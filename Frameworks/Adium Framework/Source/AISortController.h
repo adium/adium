@@ -27,7 +27,7 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 	
 	sortfunc				sortFunction;
 	
-	IBOutlet	NSView		*configureView;
+	IBOutlet	NSView	*configureView;
 	
 	BOOL					becameActiveFirstTime;
 }
@@ -39,22 +39,22 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 
 - (BOOL)shouldSortForModifiedStatusKeys:(NSSet *)inModifiedKeys;
 - (BOOL)shouldSortForModifiedAttributeKeys:(NSSet *)inModifiedKeys;
-- (BOOL)alwaysSortGroupsToTopByDefault;
+@property (readonly, nonatomic) BOOL alwaysSortGroupsToTopByDefault;
 - (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects;
 - (NSArray *)sortListObjects:(NSArray *)inObjects;
-- (NSView *)configureView;
+@property (readonly, nonatomic) NSView *configureView;
 - (void)forceIgnoringOfGroups:(BOOL)shouldForce;
-- (BOOL)canSortManually;
+@property (readonly, nonatomic) BOOL canSortManually;
 
 //For subclasses to override
-- (NSString *)identifier;
-- (NSString *)displayName;
-- (NSSet *)statusKeysRequiringResort;
-- (NSSet *)attributeKeysRequiringResort;
-- (sortfunc)sortFunction;
-- (NSString *)configureSortMenuItemTitle;
-- (NSString *)configureSortWindowTitle;
-- (NSString *)configureNibName;
+@property (readonly, nonatomic) NSString *identifier;
+@property (readonly, nonatomic) NSString *displayName;
+@property (readonly, nonatomic) NSSet *statusKeysRequiringResort;
+@property (readonly, nonatomic) NSSet *attributeKeysRequiringResort;
+@property (readonly, nonatomic) sortfunc sortFunction;
+@property (readonly, nonatomic) NSString *configureSortMenuItemTitle;
+@property (readonly, nonatomic) NSString *configureSortWindowTitle;
+@property (readonly, nonatomic) NSString *configureNibName;
 - (void)viewDidLoad;
 - (IBAction)changePreference:(id)sender;
 - (void)didBecomeActive;

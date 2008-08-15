@@ -44,11 +44,11 @@
 //Init with an account
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService
 {
-    [self initWithUID:inUID service:inService];
+	[self initWithUID:inUID service:inService];
 	
 	account = [inAccount retain];
 	
-    return self;
+	return self;
 }
 
 //Standard init
@@ -67,17 +67,14 @@
 - (void)dealloc
 {
 	[account release]; account = nil;
-    [remoteGroupName release]; remoteGroupName = nil;
-    [internalUniqueObjectID release]; internalUniqueObjectID = nil;
+	[remoteGroupName release]; remoteGroupName = nil;
+	[internalUniqueObjectID release]; internalUniqueObjectID = nil;
 	
-    [super dealloc];
+	[super dealloc];
 }
 
 //The account that owns this contact
-- (AIAccount *)account
-{
-	return account;
-}
+@synthesize account;
 
 /*!
  * @brief Set the UID of this contact
@@ -100,7 +97,7 @@
 {
 	if (!internalUniqueObjectID) {
 		internalUniqueObjectID = [[AIListContact internalUniqueObjectIDForService:[self service]
-																		  account:[self account]
+																		  account:self.account
 																			  UID:[self UID]] retain];
 	}
 	return internalUniqueObjectID;
@@ -109,7 +106,7 @@
 //Generate a unique object ID for the passed object
 + (NSString *)internalUniqueObjectIDForService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
 {
-	return [NSString stringWithFormat:@"%@.%@.%@", [inService serviceClass], [inAccount UID], inUID];
+	return [NSString stringWithFormat:@"%@.%@.%@", inService.serviceClass, inAccount.UID, inUID];
 }
 
 
@@ -128,7 +125,7 @@
 		}
 		[adium.contactController listObjectRemoteGroupingChanged:self];
 		
-		AIListObject	*myContainingObject = [self containingObject];
+		AIListObject *myContainingObject = self.containingObject;
 		if ([myContainingObject isKindOfClass:[AIMetaContact class]]) {
 			[(AIMetaContact *)myContainingObject remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
 		}
@@ -156,19 +153,16 @@
  * the formatted UID.
  *
  * A listContact attempts to have the same displayName as its containing contact (potentially its metaContact).
- * If it is not in a metaContact, its display name is returned by [super displayName]
+ * If it is not in a metaContact, its display name is returned by super.displayName
  */
 - (NSString *)displayName
 {
-	AIListContact	*parentContact = [self parentContact];
-    NSString		*displayName;
+	AIListContact	*parentContact = self.parentContact;
 
-	displayName = ((parentContact == self) ?
-				   [super displayName] :
-				   [parentContact displayName]);
+	NSString *displayName = parentContact == self ? super.displayName : parentContact.displayName;
 
 	//If a display name was found, return it; otherwise, return the formattedUID  
-    return displayName ? displayName : [self formattedUID];
+	return displayName ? displayName : self.formattedUID;
 }
 
 /*!
@@ -179,7 +173,7 @@
  */
 - (NSString *)ownDisplayName
 {
-	return [super displayName];
+	return super.displayName;
 }
 
 /*!
@@ -220,9 +214,9 @@
 	NSString			*oldDisplayName = [displayNameArray objectValue];
 	
 	//If the mutableOwnerArray's current value isn't identical to this alias, we should set it
-	if (![[displayNameArray objectWithOwner:[self account]] isEqualToString:cleanedAlias]) {
+	if (![[displayNameArray objectWithOwner:self.account] isEqualToString:cleanedAlias]) {
 		[displayNameArray setObject:cleanedAlias
-						  withOwner:[self account]
+						  withOwner:self.account
 					  priorityLevel:Low_Priority];
 		
 		//If this causes the object value to change, we need to request a manual update of the display name
@@ -254,15 +248,15 @@
  */
 - (NSString *)phoneticName
 {
-	AIListContact	*parentContact = [self parentContact];
+	AIListContact	*parentContact = self.parentContact;
 	NSString		*phoneticName;
 
 	phoneticName = ((parentContact == self) ?
-				   [super phoneticName] :
-				   [parentContact phoneticName]);
+				   super.phoneticName :
+				   parentContact.phoneticName);
 	
 	//If a display name was found, return it; otherwise, return the formattedUID
-    return phoneticName ? phoneticName : [self displayName];
+    return phoneticName ? phoneticName : self.displayName;
 }
 
 /*!
@@ -273,7 +267,7 @@
  */
 - (NSString *)ownPhoneticName
 {
-	return [super phoneticName];
+	return super.phoneticName;
 }
 
 #pragma mark Properties
@@ -307,7 +301,7 @@
 			
 		} else {
 			//Will always notify
-			[[self account] removePropetyValuesFromContact:self
+			[self.account removePropetyValuesFromContact:self
 												  silently:silent];	
 		}
 	}
@@ -454,7 +448,7 @@
  */
 - (BOOL)isIntentionallyNotAStranger
 {
-	return ![self isStranger] && [[self account] isContactIntentionallyListed:self];
+	return !self.isStranger && [self.account isContactIntentionallyListed:self];
 }
 
 /*!
@@ -502,7 +496,7 @@
 {
 	if (addToPrivacyLists) {
 		//caller of this method wants to block the contact
-		AIAccount	*contactAccount = [self account];
+		AIAccount	*contactAccount = self.account;
 		
 		if ([contactAccount conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 			BOOL	result = NO;
@@ -571,7 +565,7 @@
  */
 - (BOOL)soundsAreMuted
 {
-	return [[[self account] statusState] mutesSound];
+	return [[self.account statusState] mutesSound];
 }
 
 #pragma mark Parents
@@ -582,7 +576,7 @@
  */
 - (AIListGroup *)parentGroup
 {
-	AIListObject<AIContainingObject>	*parentGroup = [[self parentContact] containingObject];
+	AIListObject<AIContainingObject>	*parentGroup = self.parentContact.containingObject;
 
 	if (parentGroup && [parentGroup isKindOfClass:[AIListGroup class]]) {
 		return (AIListGroup *)parentGroup;
@@ -604,7 +598,7 @@
 	AIListContact	*parentContact = self;
 
 	while ([[parentContact containingObject] isKindOfClass:[AIListContact class]]) {
-		parentContact = (AIListContact *)[parentContact containingObject];
+		parentContact = (AIListContact *)parentContact.containingObject;
 	}
 
 	return parentContact;
@@ -641,9 +635,9 @@
 
 - (id)sendScriptCommand:(NSScriptCommand *)command {
 	NSDictionary	*evaluatedArguments = [command evaluatedArguments];
-	NSString		*message = [evaluatedArguments objectForKey:@"message"];
+	NSString			*message = [evaluatedArguments objectForKey:@"message"];
 	AIAccount		*targetAccount = [evaluatedArguments objectForKey:@"account"];
-	NSString		*filePath = [evaluatedArguments objectForKey:@"filePath"];
+	NSString			*filePath = [evaluatedArguments objectForKey:@"filePath"];
 	
 	AIListContact   *targetMessagingContact = nil;
 	AIListContact   *targetFileTransferContact = nil;
@@ -666,7 +660,7 @@
 			//or a subcontact (if we're talking about a metaContact, for example)
 			targetMessagingContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 																				forListContact:self];
-			targetAccount = [targetMessagingContact account];	
+			targetAccount = targetMessagingContact.account;	
 		}
 		
 		if (targetMessagingContact) {
@@ -746,11 +740,11 @@
 #pragma mark Address Book
 - (ABPerson *)addressBookPerson
 {
-	return [AIAddressBookController personForListObject:[self parentContact]];	
+	return [AIAddressBookController personForListObject:self.parentContact];	
 }
 - (void)setAddressBookPerson:(ABPerson *)inPerson
 {
-	[[self parentContact] setPreference:[inPerson uniqueId]
+	[self.parentContact setPreference:[inPerson uniqueId]
 								 forKey:KEY_AB_UNIQUE_ID
 								  group:PREF_GROUP_ADDRESSBOOK];
 }
@@ -760,7 +754,7 @@
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	//get my account
-	AIAccount *theAccount = [self account];
+	AIAccount *theAccount = self.account;
 	
 	NSScriptObjectSpecifier *containerRef = [theAccount objectSpecifier];
 	return [[[NSNameSpecifier allocWithZone:[self zone]]

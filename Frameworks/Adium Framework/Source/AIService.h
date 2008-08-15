@@ -43,14 +43,14 @@ typedef enum {
 - (DCJoinChatViewController *)joinChatView;
 
 //Service Description
-- (NSString *)serviceCodeUniqueID;
-- (NSString *)serviceID;
-- (NSString *)serviceClass;
-- (NSString *)shortDescription;
-- (NSString *)longDescription;
-- (NSString *)userNameLabel;
-- (NSString *)contactUserNameLabel;
-- (NSString *)UIDPlaceholder;
+@property (readonly, nonatomic) NSString *serviceCodeUniqueID;
+@property (readonly, nonatomic) NSString *serviceID;
+@property (readonly, nonatomic) NSString *serviceClass;
+@property (readonly, nonatomic) NSString *shortDescription;
+@property (readonly, nonatomic) NSString *longDescription;
+@property (readonly, nonatomic) NSString *userNameLabel;
+@property (readonly, nonatomic) NSString *contactUserNameLabel;
+@property (readonly, nonatomic) NSString *UIDPlaceholder;
 - (AIServiceImportance)serviceImportance;
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType;
 

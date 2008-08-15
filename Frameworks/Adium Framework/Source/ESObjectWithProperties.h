@@ -24,8 +24,8 @@ typedef enum {
 } NotifyTiming;
 	
 @interface ESObjectWithProperties : NSObject {
-    NSMutableDictionary		*propertiesDictionary;
-    NSMutableSet			*changedProperties;		//Properties that have changed since the last notification
+	NSMutableDictionary		*propertiesDictionary;
+	NSMutableSet				*changedProperties;		//Properties that have changed since the last notification
 	
 	NSMutableDictionary		*displayDictionary;		//A dictionary of values affecting this object's display
 }
@@ -36,7 +36,7 @@ typedef enum {
 - (void)notifyOfChangedPropertiesSilently:(BOOL)silent;
 
 //Getting properties
-- (NSEnumerator *)propertyEnumerator;
+@property (readonly, nonatomic) NSDictionary *properties;
 - (id)valueForProperty:(NSString *)key;
 - (int)integerValueForProperty:(NSString *)key;
 - (NSNumber *)numberValueForProperty:(NSString *)key;
@@ -58,7 +58,7 @@ typedef enum {
 - (id)displayArrayObjectForKey:(NSString *)inKey;
 
 //Name
-- (NSString *)displayName;
+@property (readonly, nonatomic, retain) NSString *displayName;
 
 //Mutable owner array delegate method
 - (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority;

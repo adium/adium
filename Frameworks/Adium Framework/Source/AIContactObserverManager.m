@@ -114,10 +114,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	//If we're handed something that can contain other contacts, update the status of the contacts contained within it
 	if ([inContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		NSEnumerator	*enumerator = [[(AIListObject<AIContainingObject> *)inContact listContacts] objectEnumerator];
-		AIListContact	*contact;
 		
-		while ((contact = [enumerator nextObject])) {
+		for (AIListContact *contact in (AIListObject <AIContainingObject> *)inContact) {
 			[self updateListContactStatus:contact];
 		}
 		
@@ -334,15 +332,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 - (NSSet *)_informObserversOfObjectStatusChange:(AIListObject *)inObject withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent
 {
 	NSMutableSet	*attrChange = nil;
-	
-	NSEnumerator	*enumerator;
-	NSValue			*observerValue;
-	
-	informingObservers = YES;
 
-	//Let our observers know
-	enumerator = [[[contactObservers copy] autorelease] objectEnumerator];
-	while ((observerValue = [enumerator nextObject])) {
+	for (NSValue *observerValue in [[contactObservers copy] autorelease]) {
 		id <AIListObjectObserver>	observer;
 		NSSet						*newKeys;
 		
@@ -385,13 +376,8 @@ static AIContactObserverManager *sharedObserverManager = nil;
 
 //Command all observers to apply their attributes to an object
 - (void)_updateAllAttributesOfObject:(AIListObject *)inObject
-{
-	NSEnumerator	*enumerator = [[[contactObservers copy] autorelease] objectEnumerator];
-	NSValue			*observerValue;
-
-	informingObservers = YES;
-
-	while ((observerValue = [enumerator nextObject])) {
+{	
+	for (NSValue *observerValue in [[contactObservers copy] autorelease]) {
 		/* Skip any observer which has been removed while we were iterating over observers,
 		 * as we don't retain observers and therefore risk messaging a released object.
 		 */
