@@ -67,6 +67,10 @@ struct _PurpleEventLoopUiOps
 	 *
 	 * Analogous to g_timeout_add in glib.
 	 *
+	 * Note: On Win32, this function may be called from a thread other than
+	 * the libpurple thread.  You should make sure to detect this situation
+	 * and to only call "function" from the libpurple thread.
+	 *
 	 * @param interval the interval in <em>milliseconds</em> between calls
 	 *                 to @a function.
 	 * @param data     arbitrary data to be passed to @a function at each

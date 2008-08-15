@@ -25,11 +25,11 @@
 #define _MSN_SLPCALL_H_
 
 #include "internal.h"
+#include "ft.h"
 
 typedef struct _MsnSlpCall MsnSlpCall;
 
 #include "slplink.h"
-#include "slpsession.h"
 
 /* The official client seems to timeout slp calls after 5 minutes */
 #define MSN_SLPCALL_TIMEOUT 300000
@@ -66,12 +66,12 @@ struct _MsnSlpCall
 
 	void (*progress_cb)(MsnSlpCall *slpcall,
 						gsize total_length, gsize len, gsize offset);
-	void (*session_init_cb)(MsnSlpSession *slpsession);
+	void (*session_init_cb)(MsnSlpCall *slpcall);
 
 	/* Can be checksum, or smile */
 	char *data_info;
 
-	void *xfer;
+	PurpleXfer *xfer;
 
 	MsnSlpCb cb;
 	void (*end_cb)(MsnSlpCall *slpcall, MsnSession *session);

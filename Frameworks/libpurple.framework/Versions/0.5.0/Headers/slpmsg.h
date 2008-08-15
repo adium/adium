@@ -28,7 +28,6 @@ typedef struct _MsnSlpMessage MsnSlpMessage;
 
 #include "imgstore.h"
 
-#include "slpsession.h"
 #include "slpcall.h"
 #include "slplink.h"
 #include "session.h"
@@ -42,7 +41,6 @@ typedef struct _MsnSlpMessage MsnSlpMessage;
  */
 struct _MsnSlpMessage
 {
-	MsnSlpSession *slpsession;
 	MsnSlpCall *slpcall; /**< The slpcall to which this slp message belongs (if applicable). */
 	MsnSlpLink *slplink; /**< The slplink through which this slp message is being sent. */
 	MsnSession *session;

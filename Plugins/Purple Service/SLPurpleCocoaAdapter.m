@@ -195,9 +195,6 @@ static void ZombieKiller_Signal(int i)
 
 	purple_core_set_ui_ops(adium_purple_core_get_ops());
 	purple_eventloop_set_ui_ops(adium_purple_eventloop_get_ui_ops());
-#if USE_PECAN
-	adium_purple_eventloop_enable_glib_runloop();
-#endif
 
 	//Initialize the libpurple core; this will call back on the function specified in our core UI ops for us to finish configuring libpurple
 	if (!purple_core_init("Adium")) {
@@ -237,11 +234,7 @@ NSString* serviceClassForPurpleProtocolID(const char *protocolID)
 			serviceClass = @"Jabber";
 		else if (!strcmp(protocolID, "prpl-meanwhile"))
 			serviceClass = @"Sametime";
-#if USE_PECAN
-		else if (!strcmp(protocolID, PRPL_MSN))
-#else
 		else if (!strcmp(protocolID, "prpl-msn"))
-#endif
 			serviceClass = @"MSN";
 		else if (!strcmp(protocolID, "prpl-novell"))
 			serviceClass = @"GroupWise";

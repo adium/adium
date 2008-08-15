@@ -16,10 +16,8 @@
 
 #import "ESPurpleMSNAccount.h"
 
-#if !USE_PECAN
 #import <libpurple/state.h>
 #import <libpurple/msn.h>
-#endif
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -40,10 +38,6 @@
 
 #define DEFAULT_MSN_PASSPORT_DOMAIN				@"@hotmail.com"
 #define SECONDS_BETWEEN_FRIENDLY_NAME_CHANGES	10
-
-#if USE_PECAN
-extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
-#endif
 
 @interface ESPurpleMSNAccount ()
 - (void)updateFriendlyNameAfterConnect;
@@ -89,11 +83,7 @@ extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
 
 - (const char*)protocolPlugin
 {
-#if USE_PECAN    
-	return PRPL_MSN;
-#else
 	return "prpl-msn";
-#endif
 }
 
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
@@ -381,11 +371,7 @@ extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
 
 			
 			if (friendlyNameUTF8String && friendlyNameUTF8String[0])
-#if USE_PECAN			
-				msn_set_friendly_name(purple_account_get_connection(account), friendlyNameUTF8String);
-#else
 				msn_act_id(purple_account_get_connection(account), friendlyNameUTF8String);
-#endif
 
 			[lastFriendlyNameChange release];
 			lastFriendlyNameChange = [now retain];
@@ -492,27 +478,6 @@ extern void msn_set_friendly_name(PurpleConnection *gc, const char *entry);
 	
 	return statusName;
 }
-
-#if USE_PECAN
-/*!
- * @brief Status message for a contact
- */
-- (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)buddy
-{
-	PurplePlugin			  *prpl;
-	PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(purple_buddy_get_account(buddy)))) ?
-											PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-											NULL);	
-	if (prpl_info && prpl_info->status_text && buddy) {
-		const char *message = prpl_info->status_text(buddy);
-
-		return (message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil);
-
-	} else {
-		return nil;
-	}
-}
-#endif
 
 /*!
  * @brief Return the purple status ID to be used for a status

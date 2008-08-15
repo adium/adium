@@ -1,5 +1,7 @@
 /**
- * Copyright (C) 2007-2008 Felipe Contreras
+ * @file error.h Error functions
+ *
+ * purple
  *
  * Purple is the legal property of its developers, whose names are too numerous
  * to list here.  Please refer to the COPYRIGHT file distributed with this
@@ -19,18 +21,27 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#ifndef MSN_ERROR_H
-#define MSN_ERROR_H
+#ifndef _MSN_ERROR_H_
+#define _MSN_ERROR_H_
 
-#include <glib.h>
+#include "session.h"
 
 /**
- * Returns the string representation of an error id.
+ * Returns the string representation of an error type.
  *
- * @param type The error id.
+ * @param type The error type.
+ * @param debug Whether this should be treated as a debug log message or a user-visible error
  *
- * @return The string representation of the error id.
+ * @return The string representation of the error type.
  */
-gchar *msn_error_get_text (guint id);
+const char *msn_error_get_text(unsigned int type, gboolean *debug);
 
-#endif /* MSN_ERROR_H */
+/**
+ * Handles an error.
+ *
+ * @param session The current session.
+ * @param type    The error type.
+ */
+void msn_error_handle(MsnSession *session, unsigned int type);
+
+#endif /* _MSN_ERROR_H_ */

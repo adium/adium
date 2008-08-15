@@ -30,8 +30,13 @@ typedef struct _MsnGroup  MsnGroup;
 
 #include "session.h"
 #include "user.h"
-
 #include "userlist.h"
+
+#define MSN_INDIVIDUALS_GROUP_ID	"1983"
+#define MSN_INDIVIDUALS_GROUP_NAME	"Other Contacts"
+
+#define MSN_NON_IM_GROUP_ID		"email"
+#define MSN_NON_IM_GROUP_NAME	"Non-IM Contacts"
 
 /**
  * A group.
@@ -40,13 +45,13 @@ struct _MsnGroup
 {
 	MsnSession *session;    /**< The MSN session.           */
 
-	int id;                 /**< The group ID.              */
+	char *id;                 /**< The group ID.              */
 	char *name;             /**< The name of the group.     */
 };
 
-/**************************************************************************/
-/** @name Group API                                                       */
-/**************************************************************************/
+/**************************************************************************
+ ** @name Group API                                                       *
+ **************************************************************************/
 /*@{*/
 
 /**
@@ -58,7 +63,7 @@ struct _MsnGroup
  *
  * @return A new group structure.
  */
-MsnGroup *msn_group_new(MsnUserList *userlist, int id, const char *name);
+MsnGroup *msn_group_new(MsnUserList *userlist, const char *id, const char *name);
 
 /**
  * Destroys a group structure.
@@ -73,7 +78,7 @@ void msn_group_destroy(MsnGroup *group);
  * @param group The group.
  * @param id    The ID.
  */
-void msn_group_set_id(MsnGroup *group, int id);
+void msn_group_set_id(MsnGroup *group, const char *id);
 
 /**
  * Sets the name for a group.
@@ -90,7 +95,7 @@ void msn_group_set_name(MsnGroup *group, const char *name);
  *
  * @return The ID.
  */
-int msn_group_get_id(const MsnGroup *group);
+char* msn_group_get_id(const MsnGroup *group);
 
 /**
  * Returns the name for a group.
@@ -100,4 +105,6 @@ int msn_group_get_id(const MsnGroup *group);
  * @return The name.
  */
 const char *msn_group_get_name(const MsnGroup *group);
+
 #endif /* _MSN_GROUP_H_ */
+

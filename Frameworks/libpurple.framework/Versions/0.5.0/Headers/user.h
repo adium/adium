@@ -31,20 +31,43 @@ typedef struct _MsnUser  MsnUser;
 
 #include "userlist.h"
 
+typedef enum
+{
+	MSN_NETWORK_UNKNOWN      = 0x00,
+	MSN_NETWORK_PASSPORT     = 0x01,
+	MSN_NETWORK_COMMUNICATOR = 0x02,
+	MSN_NETWORK_MOBILE       = 0x04,
+	MSN_NETWORK_MNI          = 0x08,
+	MSN_NETWORK_SMTP         = 0x10,
+	MSN_NETWORK_YAHOO        = 0x20
+} MsnNetwork;
+
+/**
+ * Current media.
+ */
+typedef struct _CurrentMedia
+{
+	char *artist;   /**< Artist. */
+	char *album;    /**< Album.  */
+	char *title;    /**< Title.  */
+} CurrentMedia;
+
 /**
  * A user.
  */
 struct _MsnUser
 {
-#if 0
-	MsnSession *session;    /**< The MSN session.               */
-#endif
 	MsnUserList *userlist;
 
 	char *passport;         /**< The passport account.          */
 	char *friendly_name;    /**< The friendly name.             */
 
+	char * uid;				/*< User Id							*/
+
 	const char *status;     /**< The state of the user.         */
+	char *statusline;       /**< The state of the user.         */
+	CurrentMedia media;     /**< Current media of the user.     */
+
 	gboolean idle;          /**< The idle state of the user.    */
 
 	struct
@@ -64,12 +87,19 @@ struct _MsnUser
 
 	GHashTable *clientcaps; /**< The client's capabilities.     */
 
-	int list_op;
+	guint clientid;         /**< The client's ID                */
+
+	MsnNetwork networkid;   /**< The user's network             */
+
+	int list_op;            /**< Which lists the user is in     */
+
+	guint membership_id[5];	/**< The membershipId sent by the contacts server,
+				     indexed by the list it belongs to		*/
 };
 
-/**************************************************************************/
-/** @name User API                                                        */
-/**************************************************************************/
+/**************************************************************************
+ ** @name User API                                                        *
+ **************************************************************************/
 /*@{*/
 
 /**
@@ -100,6 +130,22 @@ void msn_user_destroy(MsnUser *user);
  * @param user The user to update.
  */
 void msn_user_update(MsnUser *user);
+
+ /**
+  *  Sets the new statusline of user.
+  *
+  *  @param user The user.
+  *  @param state The statusline string.
+  */
+void msn_user_set_statusline(MsnUser *user, const char *statusline);
+
+ /**
+  *  Sets the current media of user.
+  *
+  *  @param user   The user.
+  *  @param cmedia Current media.
+  */
+void msn_user_set_currentmedia(MsnUser *user, const CurrentMedia *cmedia);
 
 /**
  * Sets the new state of user.
@@ -147,7 +193,7 @@ void msn_user_set_group_ids(MsnUser *user, GList *ids);
  * @param user The user.
  * @param id   The group ID.
  */
-void msn_user_add_group_id(MsnUser *user, int id);
+void msn_user_add_group_id(MsnUser *user, const char * id);
 
 /**
  * Removes the group ID from a user.
@@ -155,7 +201,7 @@ void msn_user_add_group_id(MsnUser *user, int id);
  * @param user The user.
  * @param id   The group ID.
  */
-void msn_user_remove_group_id(MsnUser *user, int id);
+void msn_user_remove_group_id(MsnUser *user, const char * id);
 
 /**
  * Sets the home phone number for a user.
@@ -172,6 +218,24 @@ void msn_user_set_home_phone(MsnUser *user, const char *number);
  * @param number The work phone number.
  */
 void msn_user_set_work_phone(MsnUser *user, const char *number);
+
+void msn_user_set_uid(MsnUser *user, const char *uid);
+
+/**
+ * Sets the client id for a user.
+ *
+ * @param user     The user.
+ * @param clientid The client id.
+ */
+void msn_user_set_clientid(MsnUser *user, guint clientid);
+
+/**
+ * Sets the network id for a user.
+ *
+ * @param user    The user.
+ * @param network The network id.
+ */
+void msn_user_set_network(MsnUser *user, MsnNetwork network);
 
 /**
  * Sets the mobile phone number for a user.
@@ -244,6 +308,24 @@ const char *msn_user_get_work_phone(const MsnUser *user);
 const char *msn_user_get_mobile_phone(const MsnUser *user);
 
 /**
+ * Returns the client id for a user.
+ *
+ * @param user    The user.
+ *
+ * @return The user's client id.
+ */
+guint msn_user_get_clientid(const MsnUser *user);
+
+/**
+ * Returns the network id for a user.
+ *
+ * @param user    The user.
+ *
+ * @return The user's network id.
+ */
+MsnNetwork msn_user_get_network(const MsnUser *user);
+
+/**
  * Returns the MSNObject for a user.
  *
  * @param user The user.
@@ -261,6 +343,22 @@ MsnObject *msn_user_get_object(const MsnUser *user);
  */
 GHashTable *msn_user_get_client_caps(const MsnUser *user);
 
+/**
+ * check to see if user is online
+ */
+gboolean
+msn_user_is_online(PurpleAccount *account, const char *name);
+
+/**
+ * check to see if user is Yahoo User
+ */
+gboolean
+msn_user_is_yahoo(PurpleAccount *account ,const char *name);
+
+void msn_user_set_op(MsnUser *user, int list_op);
+void msn_user_unset_op(MsnUser *user, int list_op);
+
 /*@}*/
+
 
 #endif /* _MSN_USER_H_ */

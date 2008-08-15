@@ -22,18 +22,12 @@
 	#define PURPLE_DEBUG FALSE
 #endif
 
-#define USE_PECAN TRUE
-
 //#define MEANWHILE_NOT_AVAILABLE
 
 //Purple includes
 #include <libpurple/libpurple.h>
 
 #define PACKAGE "pidgin"
-
-#if USE_PECAN
-#define	PRPL_MSN "prpl-msn_pecan"
-#endif
 
 #ifdef ENABLE_NLS
 #  include <locale.h>
