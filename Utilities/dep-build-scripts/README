@@ -53,35 +53,6 @@ pidgin.mtn database file in source/im.pidgin.pidgin/_MTN/options. Otherwise,
 you will be unable to pull changesets from the monotone repository.
 
 
-=== DOWNLOADING MSN-PECAN SOURCE TREE ===
-
- * Skip these steps if you are building without msn-pecan.
-
-The msn-pecan source is not installed by the download script. Adium currently
-uses the adium-test branch. You must have Pidgin installed as above to use
-msn-pecan.
-
-The msn-pecan repository is run by git. You can find a Mac OS X git installer
-at http://code.google.com/p/git-osx-installer/downloads/list?can=3.
-
-
-==== INITIAL CHECKOUT ====
-
-To check out the msn-pecan master source tree, run
-
-$ cd source/im.pidgin.pidgin/libpurple/protocols; git clone \
-git://github.com/felipec/msn-pecan.git msn_pecan && ln \
-msn_pecan/adium/Makefile.am msn_pecan && cd ../../../..
-
-
-==== UPDATING ====
-
-To update the msn-pecan source, run
-
-$ cd source/im.pidgin.pidgin/libpurple/protocols/msn_pecan; git pull; \
-cd ../../../../..
-
-
 == CONFIGURATION ==
 
 The configuration settings are found in common.sh. This script is executed
@@ -149,7 +120,7 @@ dependencies above (including general dependencies) are updated.
 
 === LIBPURPLE ===
 
-$ ./purple_make.sh [--ppc | --i386 ] [--regenerate] [--msn-pecan | --msn]
+$ ./purple_make.sh [--ppc | --i386 ] [--regenerate]
 
 This phase builds libpurple. The output of the build process is written to
 STDOUT.
@@ -163,12 +134,6 @@ The script to build libpurple accepts some options:
  * If you would like to force the script to rerun autoconf and automake, use
    the --regenerate option. Otherwise, it will detect whether or not to run
    them based on the presence or absence of needed files.
-
- * If you are building with msn-pecan, use the --msn-pecan option. This is the
-   default. Note that current releases of Adium use msn-pecan.
-
- * If you are building with libpurple's msnp14/15 implementation, use the --msn
-   option.
 
 You must have set the PIDGIN_SOURCE variable for this script to run; see
 SETTING PIDGIN PATH above.
