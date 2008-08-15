@@ -13,7 +13,7 @@ fi
 echo "Using Pidgin source from: $PIDGIN_SOURCE"
 
 # Read in our parameters
-MSN=msn_pecan
+MSN=msn
 USER_REGENERATE=FALSE
 ARCHES=(ppc i386)
 while [ $# -gt 0 ] ; do
@@ -21,15 +21,6 @@ while [ $# -gt 0 ] ; do
 		--regenerate)
 			USER_REGENERATE=TRUE
 			shift 1 
-			;;
-		--msn-pecan)
-			# Note that msn-pecan needs the --enable-msnp14 flag
-			MSN=msn_pecan
-			shift 1
-			;;
-		--msn)
-			MSN=msn
-			shift 1
 			;;
 		--ppc)
 			ARCHES=(ppc)
@@ -86,22 +77,12 @@ LIBPURPLE_PATCHES=("$PATCHDIR/libpurple_makefile_linkage_hacks.diff" \
 					"$PATCHDIR/libpurple_jabber_fallback_to_auth_old_after_gssapi_only_fails.diff" \
 					"$PATCHDIR/libpurple_jabber_roster_debug.diff")
 
-##
-# msn-pecan specific patches
-##
-if [ x"$MSN" = x"msn_pecan" ] ; then
-	LIBPURPLE_PATCHES=( \
-			${LIBPURPLE_PATCHES[@]} \
-			"$PATCHDIR/libpurple_static_for_msn_pecan.diff" \
-		)
-fi
-
 pushd $PIDGIN_SOURCE > /dev/null 2>&1
 	for patch in ${LIBPURPLE_PATCHES[@]} ; do
 		echo "Applying $patch"
 		# telekinetic-patch will let us maintain timestamps,
 		# for incremental building
-		$PATCHDIR/telekinetic-patch.py --forward -p0 < $patch || true
+		python $PATCHDIR/telekinetic-patch.py --forward -p0 < $patch || true
 	done
 
 popd > /dev/null 2>&1
@@ -154,9 +135,6 @@ for ARCH in ${ARCHES[@]} ; do
 	
 	#Note that whether we use openssl or cdsa the same underlying workarounds (as seen in jabber.c, only usage at present 12/07) are needed
 	export CFLAGS="$BASE_CFLAGS -arch $ARCH -I$TARGET_DIR/include -I$SDK_ROOT/usr/include/kerberosIV -DHAVE_SSL -DHAVE_OPENSSL -fno-common "
-	if [ x"$MSN" = x"msn_pecan" ] ; then
-		export CFLAGS="$CFLAGS -DLIBPURPLE_NEW_API "
-	fi
 	
 	if [ "$DEBUG_SYMBOLS" = "TRUE" ] ; then
 		export CFLAGS="$CFLAGS -gdwarf-2 -g3" 

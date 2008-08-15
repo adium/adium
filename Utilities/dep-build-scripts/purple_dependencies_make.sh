@@ -44,7 +44,7 @@ for ARCH in ppc i386 ; do
 
     # We edit libtool before we run make. This is evil and makes me sad.
     echo '  Editing libtool...'
-    cat libtool | sed 's%archive_cmds="\\\$CC%archive_cmds="\\\$CC -mmacosx-version-min=10.4 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.4u.sdk -arch '$ARCH'%' > libtool.tmp
+    cat libtool | sed 's%archive_cmds="\\\$CC%archive_cmds="\\\$CC -mmacosx-version-min=10.5 -Wl,-syslibroot,/Developer/SDKs/MacOSX10.5.sdk -arch '$ARCH'%' > libtool.tmp
     mv libtool.tmp libtool
 
 	echo '  make && make install'
