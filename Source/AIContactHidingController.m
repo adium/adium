@@ -94,13 +94,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	}
 }
 
-/*!
- * @brief Returns the current contact filtering search string
- */
-- (NSString *)contactFilteringSearchString
-{
-    return searchString; 
-}
+@synthesize contactFilteringSearchString;
 
 /*!
  * @brief Sets the contact filtering search string
