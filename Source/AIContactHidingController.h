@@ -37,7 +37,7 @@ typedef enum {
 
 + (AIContactHidingController *)sharedController;
 
-- (NSString *)contactFilteringSearchString;
+@property (readonly, nonatomic) NSString *contactFilteringSearchString;
 - (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts;
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString;
 - (void)refilterContacts;
