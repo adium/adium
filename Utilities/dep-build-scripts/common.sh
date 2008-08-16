@@ -28,17 +28,13 @@ TARGET_DIR_BASE="$BUILDDIR/root"
 export PATH_PPC="$TARGET_DIR_PPC/bin:$PATH"
 export PATH_I386="$TARGET_DIR_I386/bin:$PATH"
 
-SDK_ROOT="/Developer/SDKs/MacOSX10.4u.sdk"
-BASE_CFLAGS="-mmacosx-version-min=10.4 -isysroot $SDK_ROOT"
-BASE_LDFLAGS="-mmacosx-version-min=10.4 -headerpad_max_install_names -Wl,-syslibroot,$SDK_ROOT"
+SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
+BASE_CFLAGS="-mmacosx-version-min=10.5 -isysroot $SDK_ROOT"
+BASE_LDFLAGS="-mmacosx-version-min=10.5 -headerpad_max_install_names -Wl,-syslibroot,$SDK_ROOT"
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
-if [ `sw_vers -productVersion | cut -f 1,2 -d '.'` == 10.4 ] ; then
-    IS_ON_10_4=TRUE
-else
-    IS_ON_10_4=FALSE
-fi
-
+# XXX Not sure if this is even used anymore
+IS_ON_10_4=FALSE
 
 function setupDirStructure {
 	mkdir "$LOGDIR" > /dev/null 2>&1 || true
