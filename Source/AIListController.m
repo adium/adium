@@ -83,7 +83,7 @@
 							 context:NULL];
 		
 		if(!aContactList)
-			aContactList = adium.contactController.contactList;
+			aContactList = (AIListObject *)(adium.contactController.contactList);
 		
 		[self setContactListRoot:aContactList];
 
