@@ -13,7 +13,6 @@ fi
 echo "Using Pidgin source from: $PIDGIN_SOURCE"
 
 # Read in our parameters
-MSN=msn
 USER_REGENERATE=FALSE
 ARCHES=(ppc i386)
 while [ $# -gt 0 ] ; do
@@ -200,7 +199,6 @@ for ARCH in ${ARCHES[@]} ; do
 				--with-krb4 \
 				--enable-cyrus-sasl \
 				--prefix=$TARGET_DIR \
-				--enable-msnp14 \
 				--with-static-prpls="$PROTOCOLS" --disable-plugins \
 				--host=$HOST \
 				--disable-gstreamer \
@@ -239,7 +237,7 @@ for ARCH in ${ARCHES[@]} ; do
 		$PIDGIN_SOURCE/libpurple/protocols/oscar/peer.h \
 		$PIDGIN_SOURCE/libpurple/cmds.h \
 		$PIDGIN_SOURCE/libpurple/internal.h \
-		$PIDGIN_SOURCE/libpurple/protocols/$MSN/*.h \
+		$PIDGIN_SOURCE/libpurple/protocols/msn/*.h \
 		$PIDGIN_SOURCE/libpurple/protocols/yahoo/*.h \
 		$PIDGIN_SOURCE/libpurple/protocols/gg/buddylist.h \
 		$PIDGIN_SOURCE/libpurple/protocols/gg/gg.h \
