@@ -1381,6 +1381,14 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 //Threaded filter/search methods ---------------------------------------------------------------------------------------
 #pragma mark Threaded filter/search methods
+
+// Perform a content search of the indexed logs
+- (void)_logContentFilter:(NSString *)searchString searchID:(NSInteger)searchID onSearchIndex:(SKIndexRef)logSearchIndex
+{
+#warning This is only implemented in AIMDLogViewerWindowController; we need to merge these
+	// no op
+}
+
 //Search the logs, filtering out any matching logs into the currentSearchResults
 - (void)filterLogsWithSearch:(NSDictionary *)searchInfoDict
 {
@@ -1404,7 +1412,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 								mode:mode];
 					break;
 				case LOG_SEARCH_CONTENT:
-#warning This relies on it being an AIMDLogViewerWindowController; we need to merge these
 					[self _logContentFilter:searchString
 								   searchID:searchID
 							  onSearchIndex:(SKIndexRef)[searchInfoDict objectForKey:@"SearchIndex"]];
