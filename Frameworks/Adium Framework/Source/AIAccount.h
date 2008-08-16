@@ -158,26 +158,25 @@ typedef enum {
  * Subclasses of AIAccount, however, inherit much power. With great power comes great responsibility.
  */
 @interface AIAccount : AIListObject {
-    AIWiredString              *password;
-    BOOL                        silentAndDelayed;				//We are waiting for and processing our sign on updates
-    BOOL						disconnectedByFastUserSwitch;	//We are offline because of a fast user switch
-	BOOL						namesAreCaseSensitive;
-	BOOL						isTemporary;
-
-	BOOL						enabled;
+	AIWiredString				*password;
+	BOOL										silentAndDelayed;				//We are waiting for and processing our sign on updates
+	BOOL										disconnectedByFastUserSwitch;	//We are offline because of a fast user switch
+	BOOL										namesAreCaseSensitive;
+	BOOL										isTemporary;
+	BOOL										enabled;
 	
-	int							reconnectAttemptsPerformed;
-	NSString					*lastDisconnectionError;
+	int										reconnectAttemptsPerformed;
+	NSString							*lastDisconnectionError;
 
 	//Attributed string refreshing
-    NSTimer                     *attributedRefreshTimer;
-    NSMutableSet				*autoRefreshingKeys;
+	NSTimer								*attributedRefreshTimer;
+	NSMutableSet				*autoRefreshingKeys;
 	NSMutableSet				*dynamicKeys;
 	
 	//Contact update guarding
-	NSTimer						*delayedUpdateStatusTimer;
-	NSMutableArray				*delayedUpdateStatusTargets;
-	NSTimer						*silenceAllContactUpdatesTimer;
+	NSTimer								*delayedUpdateStatusTimer;
+	NSMutableArray			*delayedUpdateStatusTargets;
+	NSTimer								*silenceAllContactUpdatesTimer;
 }
 
 - (void)initAccount;
@@ -188,25 +187,25 @@ typedef enum {
 - (NSString *)accountWillSetUID:(NSString *)proposedUID;
 - (void)didChangeUID;
 - (void)willBeDeleted;
-- (id<AIAccountControllerRemoveConfirmationDialog>)confirmationDialogForAccountDeletion;
-- (NSAlert*)alertForAccountDeletion;
+@property (readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
+@property (readonly, nonatomic) NSAlert *alertForAccountDeletion;
 - (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(int)returnCode;
-- (NSString *)explicitFormattedUID;
-- (NSString *)formattedUIDForListDisplay;
+@property (readonly, nonatomic) NSString *explicitFormattedUID;
+@property (readonly, nonatomic) NSString *formattedUIDForListDisplay;
 
 //Properties
-- (BOOL)supportsAutoReplies;
-- (BOOL)disconnectOnFastUserSwitch;
-- (BOOL)connectivityBasedOnNetworkReachability;
-- (BOOL)suppressTypingNotificationChangesAfterSend;
-- (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact;
-- (BOOL)maySendMessageToInvisibleContact:(AIListContact *)inContact;
-- (BOOL)sendOfflineMessagesWithoutPrompting;
-- (BOOL)accountDisplaysFileTransferMessages;
-- (BOOL)managesOwnContactIconCache;
+@property (readonly, nonatomic) BOOL supportsAutoReplies;
+@property (readonly, nonatomic) BOOL disconnectOnFastUserSwitch;
+@property (readonly, nonatomic) BOOL connectivityBasedOnNetworkReachability;
+@property (readonly, nonatomic) BOOL suppressTypingNotificationChangesAfterSend;
+- (BOOL) canSendOfflineMessageToContact:(AIListContact *)inContact;
+- (BOOL) maySendMessageToInvisibleContact:(AIListContact *)inContact;
+@property (readonly, nonatomic) BOOL sendOfflineMessagesWithoutPrompting;
+@property (readonly, nonatomic) BOOL accountDisplaysFileTransferMessages;
+@property (readonly, nonatomic) BOOL managesOwnContactIconCache;
 
 //Status
-- (NSSet *)supportedPropertyKeys;
+@property (readonly, nonatomic) NSSet *supportedPropertyKeys;
 - (id)statusForKey:(NSString *)key;
 - (void)updateStatusForKey:(NSString *)key;
 - (void)delayedUpdateContactStatus:(AIListContact *)inContact;
@@ -227,7 +226,7 @@ typedef enum {
 - (BOOL)rejoinChat:(AIChat*)chat;
 
 //Presence Tracking
-- (BOOL)contactListEditable;
+@property (readonly, nonatomic) BOOL contactListEditable;
 - (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group;
 - (void)removeContacts:(NSArray *)objects;
 - (void)deleteGroup:(AIListGroup *)group;
@@ -241,12 +240,12 @@ typedef enum {
 - (NSArray *)menuItemsForContact:(AIListContact *)inContact;
 
 //Account-specific menu items
-- (NSArray *)accountActionMenuItems;
+@property (readonly, nonatomic) NSArray *accountActionMenuItems;
 - (void)accountMenuDidUpdate:(NSMenuItem*)menuItem;
 
 //Secure messaging
 - (BOOL)allowSecureMessagingTogglingForChat:(AIChat *)inChat;
-- (NSString *)aboutEncryption;
+@property (readonly, nonatomic) NSString *aboutEncryption;
 - (void)requestSecureMessaging:(BOOL)inSecureMessaging
 						inChat:(AIChat *)inChat;
 - (void)promptToVerifyEncryptionIdentityInChat:(AIChat *)inChat;

@@ -29,21 +29,21 @@
 //init
 - (id)initWithUID:(NSString *)inUID
 {
-    if ((self = [super initWithUID:inUID service:nil])) {
-		containedObjects = [[NSMutableArray alloc] init];
+	if ((self = [super initWithUID:inUID service:nil])) {
+		_containedObjects = [[NSMutableArray alloc] init];
 		expanded = YES;
 
 		//Default invisible
 		visibleCount = 0;
 		visible = NO;
-    }
+	}
 	
-    return self;
+	return self;
 }
 
 - (void)dealloc
 {
-	[containedObjects release]; containedObjects = nil;
+	[_containedObjects release]; _containedObjects = nil;
 	
 	[super dealloc];
 }
@@ -69,7 +69,7 @@
  */
 - (NSString *)contentsBasedIdentifier
 {
-	NSArray *UIDArray = [[containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
+	NSArray *UIDArray = [[self.containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
 	NSString *contentsBasedIdentifier = [UIDArray componentsJoinedByString:@";"];
 	if (![contentsBasedIdentifier length]) contentsBasedIdentifier = [self UID];
 
@@ -112,18 +112,18 @@
 //Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
 
-@synthesize containedObjects;
+@synthesize containedObjects = _containedObjects;
 
 //Number of containd objects
 - (NSUInteger)containedObjectsCount
 {
-    return [containedObjects count];
+    return self.containedObjects.count;
 }
 
 //Test for the presence of an object in our group
 - (BOOL)containsObject:(AIListObject *)inObject
 {
-	return [containedObjects containsObject:inObject];
+	return [self.containedObjects containsObject:inObject];
 }
 
 - (BOOL)containsMultipleContacts {
@@ -133,39 +133,38 @@
 //Retrieve an object by index
 - (id)objectAtIndex:(NSUInteger)index
 {
-    return [containedObjects objectAtIndex:index];
+    return [self.containedObjects objectAtIndex:index];
 }
 
 //Retrieve the index of an object
 - (NSUInteger)indexOfObject:(AIListObject *)inObject
 {
-    return [containedObjects indexOfObject:inObject];
+    return [self.containedObjects indexOfObject:inObject];
 }
 
 - (NSArray *)listContacts
 {
-	return containedObjects;
+	return self.containedObjects;
 }
 
 //Remove all the objects from this group (PRIVATE: For contact controller only)
 - (void)removeAllObjects
 {
 	//Remove all the objects
-	while ([containedObjects count]) {
-		[self removeObject:[containedObjects objectAtIndex:0]];
+	while ([self.containedObjects count]) {
+		[self removeObject:[self.containedObjects objectAtIndex:0]];
 	}
 }
 
 //Retrieve a specific object by service and UID
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
-	AIListObject	*object;
-	
-	for (object in containedObjects) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService) break;
+	for (AIListObject *object in self.containedObjects) {
+		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+			return object;
 	}
 	
-	return object;
+	return nil;
 }
 
 - (BOOL)canContainObject:(id)obj
@@ -187,10 +186,10 @@
 	NSParameterAssert([self canContainObject:inObject]);
 	BOOL success = NO;
 	
-	if (![containedObjects containsObjectIdenticalTo:inObject]) {
+	if (![self.containedObjects containsObjectIdenticalTo:inObject]) {
 		//Add the object
 		[inObject setContainingObject:self];
-		[containedObjects addObject:inObject];
+		[_containedObjects addObject:inObject];
 		
 		//Update our visible count
 		[self _recomputeVisibleCount];
@@ -204,7 +203,7 @@
 		}
 		
 		//
-		[self setValue:[NSNumber numberWithInt:[containedObjects count]] 
+		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]] 
 					   forProperty:@"ObjectCount"
 					   notify:NotifyNow];
 		
@@ -217,18 +216,18 @@
 //Remove an object from this group (PRIVATE: For contact controller only)
 - (void)removeObject:(AIListObject *)inObject
 {	
-	if ([containedObjects containsObject:inObject]) {		
+	if ([self.containedObjects containsObject:inObject]) {		
 		//Remove the object
 		if ([inObject containingObject] == self)
 			[inObject setContainingObject:nil];
-		[containedObjects removeObject:inObject];
+		[_containedObjects removeObject:inObject];
 		
 		//Update our visible count
 
 		[self _recomputeVisibleCount];
 
 		//
-		[self setValue:[NSNumber numberWithInt:[containedObjects count]]
+		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
 					   forProperty:@"ObjectCount" 
 					   notify:NotifyNow];
 	}
@@ -241,10 +240,9 @@
 {
 	AISortController *sortController = [AISortController activeSortController];
 	[inObject retain];
-	[containedObjects removeObject:inObject];
-	[containedObjects insertObject:inObject 
-						   atIndex:[sortController indexForInserting:inObject 
-														 intoObjects:containedObjects]];
+	[_containedObjects removeObject:inObject];
+	[_containedObjects insertObject:inObject 
+						   atIndex:[sortController indexForInserting:inObject intoObjects:self.containedObjects]];
 	[inObject release];
 }
 
@@ -252,9 +250,9 @@
 - (void)sort
 {	
 	//Sort this group
-	if ([containedObjects count] > 1) {
-		[containedObjects autorelease];
-		containedObjects = [[[AISortController activeSortController] sortListObjects:containedObjects] mutableCopy];
+	if ([self.containedObjects count] > 1) {
+		[self.containedObjects autorelease];
+		_containedObjects = [[[AISortController activeSortController] sortListObjects:self.containedObjects] mutableCopy];
 	}
 }
 
@@ -301,11 +299,15 @@
 
 - (NSArray *)contacts
 {
-	return [self containedObjects];
+	return self.containedObjects;
 }
 - (id)moveContacts:(AIListObject *)contact toIndex:(int)index
 {
 	[adium.contactController moveListObjects:[NSArray arrayWithObject:contact] intoObject:self index:index];
 	return nil;
 }
+
+//inherit these
+@dynamic largestOrder;
+@dynamic smallestOrder;
 @end

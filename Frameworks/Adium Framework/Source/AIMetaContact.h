@@ -19,52 +19,40 @@
 #define	KEY_PREFERRED_DESTINATION_CONTACT	@"Preferred Destination Contact"
 
 @interface AIMetaContact : AIListContact <AIContainingObject> {
-	NSNumber				*objectID;
+	NSNumber					*objectID;
 
-	AIListContact			*_preferredContact;
-	NSArray					*_listContacts;
-	NSArray					*_listContactsIncludingOfflineAccounts;
+	AIListContact		*_preferredContact;
+	NSArray						*_listContacts;
+	NSArray						*_listContactsIncludingOfflineAccounts;
 	
-	BOOL					containsOnlyOneUniqueContact;
-	BOOL					containsOnlyOneService;
+	BOOL								containsOnlyOneUniqueContact;
+	BOOL								containsOnlyOneService;
 
-	NSMutableArray			*containedObjects;			//Manually ordered array of contents
-	BOOL					containedObjectsNeedsSort;
-	BOOL					delayContainedObjectSorting;
-	BOOL					saveGroupingChanges;
+	NSMutableArray	*_containedObjects;			//Manually ordered array of contents
+	BOOL								containedObjectsNeedsSort;
+	BOOL								delayContainedObjectSorting;
+	BOOL								saveGroupingChanges;
 	
-    BOOL					expanded;			//Exanded/Collapsed state of this object
-	BOOL					isExpandable;
+	BOOL								expanded;			//Exanded/Collapsed state of this object
+	BOOL								isExpandable;
 }
 
 //The objectID is unique to a meta contact and is used as the UID for purposes of AIListContact inheritance
 - (id)initWithObjectID:(NSNumber *)objectID;
-- (NSNumber *)objectID;
+@property (readonly, nonatomic) NSNumber *objectID;
 + (NSString *)internalObjectIDFromObjectID:(NSNumber *)inObjectID;
 
-- (AIListContact *)preferredContact;
+@property (readonly, nonatomic) AIListContact *preferredContact;
 - (AIListContact *)preferredContactWithCompatibleService:(AIService *)inService;
 
 - (void)remoteGroupingOfContainedObject:(AIListObject *)inListObject changedTo:(NSString *)inRemoteGroupName;
 
-/*
- * @brief Does this metacontact contains multiple contacts?
- *
- * For a metacontact, this is YES if the metaContact contains more than one contact.
- *
- * Note that a metacontact may contain multiple AIListContacts (as returned by its containedObjects), but
- * if this returns NO, all those AIListContacts represent the same UID/Service combination (but on different accounts).
- * In that case, listContacts will return a single contact.
- */
-- (BOOL)containsMultipleContacts;
-
-//Similarly, YES if the metaContact has only one serviceID within it.
-- (BOOL)containsOnlyOneService;
-- (unsigned)uniqueContainedObjectsCount;
+@property (readonly, nonatomic) BOOL containsOnlyOneService;
+@property (readonly, nonatomic) NSUInteger uniqueContainedObjectsCount;
 - (AIListObject *)uniqueObjectAtIndex:(int)inIndex;
 
-- (NSDictionary *)dictionaryOfServiceClassesAndListContacts;
-- (NSArray *)servicesOfContainedObjects;
+@property (readonly, nonatomic) NSDictionary *dictionaryOfServiceClassesAndListContacts;
+@property (readonly, nonatomic) NSArray *servicesOfContainedObjects;
 
 // (PRIVATE: For contact controller ONLY)
 - (BOOL)addObject:(AIListObject *)inObject;
@@ -75,29 +63,9 @@
  *
  * If multiple AIListContacts with the same UID/Service are within this metacontact (i.e. from multiple accounts),
  * only one will be included in this array, and that one will be the most available of them.
- * Only contacts (regardless of status) for accounts which are currently connected are included.
- */
-- (NSArray *)listContacts;
-
-/*
- * @brief A flat array of AIListContacts each with a different internalObjectID
- *
- * If multiple AIListContacts with the same UID/Service are within this metacontact (i.e. from multiple accounts),
- * only one will be included in this array, and that one will be the most available of them.
  * Contacts from all accounts, including offline ones, will be included.
  */
 - (NSArray *)listContactsIncludingOfflineAccounts;
-
-
-/*!
- * @brief An array of all objects within this metacontact
- *
- * Implemented as required by the AIContainingObject protocol.
- * This returns an array of all AIListContact objects within the metacontact; the same UID/service may be represented
- * multiple times, an AIListContact for each account on that service.
- */
-- (NSArray *)containedObjects;
-
 
 //Delay sorting the contained object list; this should only be used by the contactController. Be sure to set it back to YES when operations are done
 - (void)setDelayContainedObjectSorting:(BOOL)flag;

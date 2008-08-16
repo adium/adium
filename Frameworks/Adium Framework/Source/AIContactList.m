@@ -37,23 +37,22 @@
 - (void)sort
 {
 #warning rewrite this once we can enforce that AIContactLists only contain AIListGroups
-	for (AIListObject *object in containedObjects) {
+	for (AIListObject *object in self.containedObjects) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[(AIListGroup *)object sort];
 		}
 	}
 	
 	//Sort this group
-	if ([containedObjects count] > 1) {
-		[containedObjects autorelease];
-		containedObjects = [[[AISortController activeSortController] sortListObjects:containedObjects] mutableCopy];
+	if ([self.containedObjects count] > 1) {
+		[self.containedObjects autorelease];
+		_containedObjects = [[[AISortController activeSortController] sortListObjects:self.containedObjects] mutableCopy];
 	}
 }
 
 - (void)moveAllGroupsTo:(AIContactList *)toContactList 
 {
-	AIListObject *object = nil;
-	for (object in containedObjects) {
+	for (AIListObject *object in self.containedObjects) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[self moveGroup:(AIListGroup *)object to:toContactList];
 		}

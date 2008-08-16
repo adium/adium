@@ -1419,16 +1419,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (AIListContact *)preferredContactForContentType:(NSString *)inType forListContact:(AIListContact *)inContact
 {
 	AIListContact   *returnContact = nil;
-	AIAccount		*account;
 	
-	if ([inContact containsMultipleContacts]) {
+	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [(id<AIContainingObject>)inContact containsMultipleContacts]) {
 		AIListObject	*preferredContact;
-		NSString		*internalObjectID;
 		
 		/* If we've messaged this object previously, prefer the last contact we sent to if that
 		 * contact is currently in the most-available status the metacontact can offer
 		 */
-        internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT
+		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT
 												 group:OBJECT_STATUS_CACHE];
 		
         if ((internalObjectID) &&
@@ -1487,7 +1485,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		/* Find the best account for talking to this contact, and return an AIListContact on that account.
 		 * We'll get nil if no account can send inType to inContact.
 		 */
-		account = [adium.accountController preferredAccountForSendingContentType:inType
+		AIAccount *account = [adium.accountController preferredAccountForSendingContentType:inType
 																		 toContact:inContact];
 
 		if (account) {

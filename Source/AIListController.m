@@ -82,7 +82,10 @@
 							 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
 							 context:NULL];
 		
-		[self setContactListRoot:(aContactList ? aContactList : [adium.contactController contactList])];
+		if(!aContactList)
+			aContactList = adium.contactController.contactList;
+		
+		[self setContactListRoot:aContactList];
 
 		//Recall how the contact list was docked last time Adium was open
 		dockToBottomOfScreen = [[adium.preferenceController preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN

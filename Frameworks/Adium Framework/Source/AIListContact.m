@@ -609,11 +609,6 @@
     return NO;
 }
 
-- (BOOL)containsMultipleContacts
-{
-    return NO;
-}
-
 /*!
  * @brief Can this object be part of a metacontact?
  */
