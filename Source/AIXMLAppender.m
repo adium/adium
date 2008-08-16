@@ -205,7 +205,7 @@ enum {
 		//Create each component of the path, then change into it.
 		[manager createDirectoryAtPath:[filePath stringByDeletingLastPathComponent]
 		   withIntermediateDirectories:YES
-							attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL] forKey:NSFilePosixPermissions]
+							attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL] forKey:NSFilePosixPermissions]
 								 error:NULL];
 				
 		initialized = NO;
