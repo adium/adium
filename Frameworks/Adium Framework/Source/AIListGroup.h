@@ -19,10 +19,10 @@
 @class AISortController;
 
 @interface AIListGroup : AIListObject <AIContainingObject> {
-	NSUInteger			visibleCount;		//The number of visible buddies in the sorted array
-	NSMutableArray		*containedObjects;	//Manually ordered array of contents
-	BOOL					expanded;			//Exanded/Collapsed state of this object
-	BOOL					loadedExpanded;
+	NSUInteger					visibleCount;		//The number of visible buddies in the sorted array
+	NSMutableArray		*_containedObjects;	//Manually ordered array of contents
+	BOOL									expanded;			//Exanded/Collapsed state of this object
+	BOOL									loadedExpanded;
 }
 
 - (id)initWithUID:(NSString *)inUID;

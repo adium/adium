@@ -44,7 +44,6 @@
 @property (readonly, nonatomic) NSString *ownPhoneticName;
 @property (readonly, nonatomic) NSString *serversideDisplayName;
 
-@property (readonly, nonatomic) BOOL containsMultipleContacts;
 @property (readonly, nonatomic) BOOL canJoinMetaContacts;
 
 @property (readonly, nonatomic) BOOL isIntentionallyNotAStranger;

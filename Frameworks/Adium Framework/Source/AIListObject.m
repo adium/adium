@@ -269,11 +269,6 @@
 	[[self containingObject] listObject:self didSetOrderIndex:orderIndex];
 }
 
-- (BOOL)containsMultipleContacts
-{
-	return NO;
-}
-
 //Properties ------------------------------------------------------------------------------------------------------
 #pragma mark Properties
 /*!
@@ -832,13 +827,13 @@
 - (BOOL)isEqual:(id)anObject
 {
 	return ([anObject isMemberOfClass:[self class]] &&
-			[[(AIListObject *)anObject internalObjectID] isEqualToString:[self internalObjectID]]);
+			[[(AIListObject *)anObject internalObjectID] isEqualToString:self.internalObjectID]);
 }
 */
 
 - (NSComparisonResult)compare:(AIListObject *)other {
 	NSParameterAssert([other isKindOfClass:[AIListObject class]]);
-	return [[self internalObjectID] caseInsensitiveCompare:[other internalObjectID]];
+	return [self.internalObjectID caseInsensitiveCompare:[other internalObjectID]];
 }
 
 #pragma mark Icons
@@ -859,7 +854,7 @@
 #pragma mark Debugging
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@>",NSStringFromClass([self class]), self, [self internalObjectID]];
+	return [NSString stringWithFormat:@"<%@:%x %@>",NSStringFromClass([self class]), self, self.internalObjectID];
 }
 
 #pragma mark Applescript

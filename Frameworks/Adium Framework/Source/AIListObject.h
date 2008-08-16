@@ -42,6 +42,7 @@ typedef enum {
 - (id)objectAtIndex:(NSUInteger)index;
 - (NSUInteger)indexOfObject:(AIListObject *)inObject;
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
+@property (readonly, nonatomic) BOOL containsMultipleContacts;
 
 @property (readonly, nonatomic) CGFloat smallestOrder;
 @property (readonly, nonatomic) CGFloat largestOrder;
@@ -66,16 +67,16 @@ typedef enum {
 	
 	NSString				*UID;
 	NSString				*internalObjectID;
-	BOOL					visible;				//Visibility of this object
-	BOOL					alwaysVisible;
+	BOOL							visible;				//Visibility of this object
+	BOOL							alwaysVisible;
 
 	//Grouping, Manual ordering
 	AIListObject <AIContainingObject>	*containingObject;		//The group/metacontact this object is in
-	CGFloat				orderIndex;				//Placement of this contact within a group
+	CGFloat					orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
-	CGFloat				largestOrder;
-	CGFloat				smallestOrder;
+	CGFloat					largestOrder;
+	CGFloat					smallestOrder;
 }
 
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
@@ -97,7 +98,6 @@ typedef enum {
 
 //Grouping
 @property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
-@property (readonly, nonatomic) BOOL containsMultipleContacts;
 
 //Display
 @property (readonly, nonatomic) NSString *formattedUID;
