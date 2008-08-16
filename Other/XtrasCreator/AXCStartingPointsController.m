@@ -142,7 +142,7 @@
 #pragma mark -
 #pragma mark NSMenuItem validation
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)item
+- (BOOL)validateMenuItem:(NSMenuItem *)item
 {
 	//the Starting Points command has a tag of 1. all the menu items in the New submenu have a tag of 0.
 	if ([item tag])
