@@ -53,6 +53,9 @@ mkdir libgthread-2.0.0 || true
 # no headers to copy, make an empty file so that rtool isn't sad
 touch libgthread-2.0.0/no_headers_here.txt
 
+mkdir libmeanwhile-1 || true
+touch libmeanwhile-1/no_headers_here.txt
+
 rm -rf $UNIVERSAL_DIR/include/$PURPLE_FOLDER
 cp -R $TARGET_DIR_I386/include/libpurple $UNIVERSAL_DIR/include/$PURPLE_FOLDER
 # Another hack: we need libgadu.h
