@@ -201,15 +201,11 @@ enum {
 		rootElementName = [[self rootElementNameForFileAtPath:filePath] retain];
 		initialized = (rootElementName != nil);				
 	
-	//We may need to create the directory structure, so call this just in case
 	} else {
-		NSDictionary *attrDict = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:[NSNumber numberWithUnsignedLong:0600UL], nil]
-															 forKeys:[NSArray arrayWithObjects:NSFilePosixPermissions, nil]];
-		
 		//Create each component of the path, then change into it.
 		[manager createDirectoryAtPath:[filePath stringByDeletingLastPathComponent]
 		   withIntermediateDirectories:YES
-							attributes:attrDict
+							attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL] forKey:NSFilePosixPermissions]
 								 error:NULL];
 				
 		initialized = NO;
