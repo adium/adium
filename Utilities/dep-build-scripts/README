@@ -71,18 +71,6 @@ If you did not check out the Pidgin source as above, substitute the absolute
 path of your local Pidgin source tree.
 
 
-=== SETTING GCC VERSION ===
-
-On some versions of Mac OS X, the default gcc compiler is 4.2.1, which may
-cause problems. You can verify which version of gcc is used by running
-`gcc --version`.
-
-To use gcc 4.0.1, edit the common.sh file. Under the "# Compiler options"
-heading, add the line
-
-export CC=/usr/bin/gcc-4.0
-
-
 == BUILDING ==
 
 A number of scripts are included to simplify the process of building libpurple
