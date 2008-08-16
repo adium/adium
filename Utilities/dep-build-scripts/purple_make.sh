@@ -38,7 +38,7 @@ done
 echo purple_make.sh: Compiling ${ARCHES[@]}
 
 DEBUG_SYMBOLS=TRUE
-PROTOCOLS="bonjour gg irc jabber $MSN myspace novell oscar qq sametime simple yahoo zephyr"
+PROTOCOLS="bonjour gg irc jabber msn myspace novell oscar qq sametime simple yahoo zephyr"
 
 ###
 # Patches bringing in forward changes from libpurple:
