@@ -94,7 +94,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	}
 }
 
-@synthesize contactFilteringSearchString;
+@synthesize contactFilteringSearchString = searchString;
 
 /*!
  * @brief Sets the contact filtering search string
