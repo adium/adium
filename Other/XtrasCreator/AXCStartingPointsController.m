@@ -73,6 +73,13 @@
 
 	return documentTypes;
 }
+- (unsigned) countOfDocumentTypeNames
+{
+	return [[self documentTypes] count];
+}
+- (NSString *) objectInDocumentTypeNamesAtIndex:(unsigned) idx {
+	return [[AXCDocumentController sharedDocumentController] displayNameForType:[documentTypes objectAtIndex:idx]];
+}
 
 - (void) setStartingPointsVisible:(BOOL)flag
 {
@@ -89,15 +96,19 @@
 #pragma mark -
 #pragma mark Actions
 
+- (IBAction) makeNewDocumentOfType:(NSString *) type
+{
+	[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:type display:YES];
+}
 - (IBAction) makeNewDocumentOfSelectedType:(id)sender
 {
 	int selection = [sender selectedRow];
 	if (selection >= 0)
-		[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:[documentTypes objectAtIndex:selection] display:YES];
+		[self makeNewDocumentOfType:[documentTypes objectAtIndex:selection]];
 }
 - (IBAction) makeNewDocumentWithTypeFromMenuItem:(NSMenuItem *)sender
 {
-	[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:[sender representedObject] display:YES];
+	[self makeNewDocumentOfType:[sender representedObject]];
 }
 
 - (IBAction) displayStartingPoints:(id)sender
