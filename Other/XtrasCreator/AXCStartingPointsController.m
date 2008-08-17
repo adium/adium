@@ -57,12 +57,12 @@
 		NSEnumerator *typeDictsEnum = [typeDicts objectEnumerator];
 		NSDictionary *typeDict;
 		while ((typeDict = [typeDictsEnum nextObject])) {
-			NSString *name = [typeDict objectForKey:@"CFBundleTypeName"];
-			unsigned newIdx = [temp indexForInsortingObject:name usingSelector:@selector(caseInsensitiveCompare:)];
-			[temp insertObject:name atIndex:newIdx];
+			NSString *type = [[typeDict objectForKey:@"LSItemContentTypes"] objectAtIndex:0UL];
+			unsigned newIdx = [temp indexForInsortingObject:type usingSelector:@selector(caseInsensitiveCompare:)];
+			[temp insertObject:type atIndex:newIdx];
 
 			if (NSClassFromString([typeDict objectForKey:@"NSDocumentClass"]))
-				[usableDocTypes addObject:name];
+				[usableDocTypes addObject:type];
 		}
 
 		[temp sortUsingSelector:@selector(caseInsensitiveCompare:)];
@@ -95,9 +95,9 @@
 	if (selection >= 0)
 		[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:[documentTypes objectAtIndex:selection] display:YES];
 }
-- (IBAction) makeNewDocumentWithTypeBeingTitleOfMenuItem:(NSMenuItem *)sender
+- (IBAction) makeNewDocumentWithTypeFromMenuItem:(NSMenuItem *)sender
 {
-	[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:[sender title] display:YES];
+	[[AXCDocumentController sharedDocumentController] openUntitledDocumentOfType:[sender representedObject] display:YES];
 }
 
 - (IBAction) displayStartingPoints:(id)sender
@@ -131,9 +131,12 @@
 }
 - (BOOL) menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel
 {
-	[item setTitle:[[self documentTypes] objectAtIndex:index]];
+	NSString *type = [[self documentTypes] objectAtIndex:index];
+	[item setRepresentedObject:type];
+	//Note: If this raises an exception, make sure that all the document types' names are listed in the relevant language's InfoPlist.strings.
+	[item setTitle:[[AXCDocumentController sharedDocumentController] displayNameForType:type]];
 
-	[item setAction:@selector(makeNewDocumentWithTypeBeingTitleOfMenuItem:)];
+	[item setAction:@selector(makeNewDocumentWithTypeFromMenuItem:)];
 	[item setTarget:self];
 
 	return !shouldCancel;
@@ -148,7 +151,7 @@
 	if ([item tag])
 		return ![self isStartingPointsVisible];
 	else
-		return ([[AXCDocumentController sharedDocumentController] documentClassForType:[item title]] != Nil);
+		return ([[AXCDocumentController sharedDocumentController] documentClassForType:[item representedObject]] != Nil);
 }
 
 @end
