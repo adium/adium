@@ -33,4 +33,8 @@ enum AXCFileCellIconSourceMask {
 - (enum AXCFileCellIconSourceMask)iconSourceMask;
 - (void)setIconSourceMask:(enum AXCFileCellIconSourceMask)mask;
 
+//These are the methods that the cell uses to determine the icon and filename that it should draw. You can override them in subclasses. The cell calls them with its current object value, which (in AXCFileCell) is a path.
+- (NSImage *) iconForObjectValue:(id)objValue;
+- (NSString *) filenameForObjectValue:(id)objectValue;
+
 @end
