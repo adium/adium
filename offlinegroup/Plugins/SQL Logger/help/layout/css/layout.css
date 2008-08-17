@@ -1,0 +1,157 @@
+/*
+  PostgreSQL.org - Layout Styles
+*/
+
+/* Container Definitions */
+
+/* Page Container */
+
+#pgContainerWrap {
+  text-align: center; /* Win IE5 */
+}
+
+#pgContainer {
+  margin: 0em auto;
+  width: 780px;
+  padding: 0;
+  padding-top: 4px;
+  padding-bottom: 10px;
+  text-align: left; /* Win IE5 */
+}
+
+
+/* Header Container */
+#pgHeaderContainer {
+  padding-bottom: 2px;
+}
+
+#pgHeader {
+  position: relative;
+  background: url("../images/hdr_fill_grn.png") repeat-x;
+  height: 80px;
+  margin: 0;
+  padding: 0;
+  clear: both;
+}
+
+#pgHeaderLogoLeft {
+  position: relative;
+  width: 20px;
+  height: 80px;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  float: left;
+}
+
+#pgHeaderLogoLeft img {
+  border: 0px;
+}
+
+#pgHeaderLogoRight {
+  position: relative;
+  width: 20px;
+  height: 80px;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+  float: right;
+}
+
+#pgHeaderLogoRight img {
+  border: 0px;
+}
+
+/* Content Container */
+#pgContent {
+  clear: both;
+  display: block;
+}
+
+/* Secondary Pages */
+
+#pgSideWrap {
+  float: left;
+  width: 166px;
+  margin-top: 10px;
+  margin-right: -165px;
+}
+
+#pgContentWrap {
+  margin-left: 165px;
+  padding-top: 10px;
+}
+
+#pgDownloadsWrap {
+  margin-right: -420px;
+  float: left;
+  width: 100%;
+}
+
+#pgDownloads {
+  margin-right: 210px;
+}
+
+#pgQuickDownloadsWrap {
+  float: right;
+  width: 200px;
+  margin-left: 210px;
+  padding: 0;
+  border: 0;
+  top: 0px;
+
+  padding-left: 10px;
+}
+
+#pgQuickDownloads dl {
+  width: 200px;
+  margin: 0;
+  padding: 0;
+  background: #F5F5F5 url(../images/box_bottom.gif) no-repeat bottom left;
+  padding-bottom: 10px;
+}
+
+#pgQuickDownloads dt {
+  margin: 0 0 10px 0;
+  padding: 10px;
+  font-weight: bold;
+  color: #666;
+  border-bottom: 1px solid #EFEFEF;
+  background: #F5F5F5 url(../images/box_top.gif) no-repeat top left;
+}
+
+#pgQuickDownloads dd {
+  margin: 0 0 0 10px;
+  padding: 0 10px 0 0;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Footer Container */
+#pgFooter {
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.3em;
+  padding-top: 5px;
+  clear: both;
+}
+
+/* Misc Classes */
+
+.pgClearBoth {
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+
+.pgBlockHide {
+	display: none;
+	height: 0;
+	width: 0;
+	overflow: hidden;
+	position: absolute;  /* IE5 Mac */
+}
+
+img {
+  border: 0;
+}

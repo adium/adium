@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $URL$ -->
+<!-- $Rev$ $Date$ -->
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr">
+    <head>
+        <title>
+            SQL Logger
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=(iso-8859-1" />
+        <style type="text/css" media="screen" >@import url("layout/css/fixed.css");</style>
+        <script type="text/javascript" src="layout/js/styleswitcher.js"></script>
+        <script type="text/javascript" src="layout/js/geckostyle.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+    </head>
+    <body>
+        <div id="pgContainerWrap">
+            <div id="pgContainer">
+                <div id="pgHeaderContainer">
+                    <div id="pgHeader">
+                        <div id="pgHeaderLogoLeft">
+                            <img src="layout/images/hdr_left_grn.png" width="20" height="80" alt="" />
+                        </div>
+                        <div id="pgHeaderLogoRight">
+                            <img
+                                src="layout/images/hdr_right_grn.png" width="20" height="80" alt=""/>
+                        </div>
+                        <h1><a href="/sqllogger/">SQL Logger</a></h1>
+                    </div>
+                    <h2 class="pgBlockHide">Site Navigation</h2>
+                    <div id="pgTopNav">
+                        <div id="pgTopNavLeft">
+                            <img src="layout/images/nav_lft.png" width="7" height="23" alt="" />
+                        </div>
+                        <div id="pgTopNavRight">
+                            <img src="layout/images/nav_rgt.png" width="7" height="23" alt="" />
+                        </div>
+                        <ul id="pgTopNavList">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=screenshots.jsp">
+                            Screenshots</a></li>
+                            <li><a href="install.html">
+                            Installation</a></li>
+                            <li><a href="technical.html">
+                            Technical Details</a></li>
+                            <li><a href="performance.html">Maintenance/Performance</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=changelog.txt">Changes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="pgContent">
+                    <div id="pgSideWrap">
+                        <div id="pgSideNav">
+                            <ul>
+                                <li><a href="http://www.adiumx.com">Adium</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://forums.adiumx.com">Forums</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_63.tar.gz">Plugin (.63)</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_70.tar.gz">Plugin (.70)</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_80.tar.gz">Plugin
+                                    (.80)</a></li>
+                                </ul>
+                                <li><a
+                                href="http://fire.sourceforge.net">Fire</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://fire.sourceforge.net/forums/">Forums</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/fire_15.tar.gz">Plugin</a></li>
+                                </ul>
+                                <li><a
+                                href="http://wwww.postgresql.org">PostgreSQL</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://www.postgresql.org/docs/7.4/interactive/index.html">Documentation</a></li>
+                                    <li><a
+                                    href="http://www.xceltech.net/products/freeware_products.html">PostMan
+                                    Query</a></li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="pgContentWrap">
+                        <div id="pgDownloadsWrap">
+                            <div id="pgDownloads">
+                            
+                                        <div align="center">
+      <h2>Schema Information</h2>
+      <a href="images/schema.png">
+        <img
+          src="images/schema-mini.png" border="0" width="450" height="311" />
+      </a>
+    </div>
+    <h3 style="background-color: #ccf">users</h3>
+    <p>The first table that is created is <code>users</code>.  It is very
+    simple, storing only a username, a service, and a code, user_id.  Everyone
+    who sends or receives a message will have an entry in
+    <code>users</code>.</p>
+  <h3 style="background-color: #ccf">user_display_name</h3>
+    <p>The user_display_name table is quite simple.  It has a user_id field,
+      which references <code>users.user_id</code>, a text field (display_name)
+      and a date (effdate).  This table is used for storing Aliases and
+      Display Names.  It stores them by date to get the most clear picture of
+      someone whose display name/alias changes often.</p>
+    <p>As an example, let's say I'm talking to my friend Colin (user_id 100) on MSN.
+      He has recently changed his MSN name to <i>Colin Rocks!  He's so cool!
+        He's so good at everything!</i>
+      When he IMs me at 6:15, a row is inserted into user_display_name with
+      his name and the date (6:15).  We talk for a bit.
+      Since this name is annoying, I set his alias to <i>Colin</i> at 6:30.
+      Nothing changes in the database, since I haven't IMed him yet.
+      At 6:45, I IM him.
+      User_display_name now has a row with the following values:
+      Colin / 6:45.</p>
+    <p>So now, doing a select on user_display_name, this is what I see:</p>
+    <div class="tutorialcode"><pre>select * from user_display_name where user_id = 100;
+ user_id  | display_name  | effdate
+ 100      | Colin Rocks!  | 6:15
+ 100      | Colin         | 6:45</pre></div>
+    <h3 style="background-color: #ccf">user_statistics</h3>
+    <p>User statistics keeps a running total of messages sent and received.
+      It stores a sender_id, a recipient_id, the total messages, and the date
+      of the last
+      message sent.  This table is primarily for speed, but not a lot does
+      anything with it.</p>
+    <h3 style="background-color: #ff9">messages</h3>
+    <p>The second table, messages, contains the basis for the plugin: the
+    messages.  Named <code>messages</code>, it has a sequenced field for each
+    message (message_id), the message itself (message), the message date and
+    time (message_date), and two references to users (sender_id,
+    recipient_id).  If you have tsearch indexing setup, it contains another
+    field (idxfti).</p>
+    <h3 style="background-color: #ff9">message_notes</h3>
+    <p>Message notes can be used to add notes to yourself on a message.  It
+      references a message_id, and contains a title, the note itself, and the
+      date it was added.</p>
+    <h3 style="background-color: #ee5858">information_keys</h3>
+    <p>The SQL Logger has extensible meta-data, which means that you can
+      choose to store any information  you want about a certain contact.  What
+      you want to store (URL, Location, Website, Address, etc) are all stored
+      in information_keys.</p>
+    <h3 style="background-color: #ee5858">contact_information</h3>
+    <p>The information about each contact is actually stored in
+      contact_information.  It contains a field referencing information_keys,
+      to determine which key is being stored, a user_id, a meta_id, and the
+      value.  It can store something about either a user or a
+      meta-contact.</p>
+    <h3 style="background-color: #80ee80">meta_container</h3>
+    <p>meta_container stores the names of your meta-contacts.  It has a
+      meta_id is the unique identifier for the meta-contact.</p>
+    <h3 style="background-color: #80ee80">meta_contact</h3>
+    <p>meta_contact is very simple.  It contains only a meta_id and a user_id,
+      so that as many users can be included in each meta contact as you want.
+      It also contains a "preferred" contact, in the cases where one user is
+      in multiple meta-contacts (so the viewer knows which to use).</p>
+    <h3 style="background-color: #c8c">saved_items</h3>
+    <p>saved items stores the name of saved forms.  It currently stores
+      queries, chats, and searches.</p>
+    <h3>saved_fields</h3>
+    <p>saved_fields stores a list of key-value pairs for the values of the
+      saved form.  For example, there is one row for start_date, one row for
+      end_date, etc</p>
+    <h3 style="background-color: #ccc">simple_message_v/message_v</h3>
+    <p>The created view is used for all of the message viewing.  It contains
+      message_id, message, message_date, the screenames from users
+      (sender_sn, sender_service, recipient_sn, recipient_service), and the
+      display name at the time the message was sent.  It does
+      not contain message_idx, the tsearch field, or any statistical
+      information.  Using message_v can allow
+      searches based on screenname instead of a (relatively) meaningless
+      number.</p>
+    <h3>Insertions</h3>
+    <p>Both the Adium plugin and the log parsing scripts work by inserting a
+      record into message_v.  When an insert is performed, a rule fires.  It
+      attempts to insert the screennames into users, and doesn't if that
+      screenname already exists.  Then it retrieves the two user_ids and
+      inserts a record into message.  It also checks to see if the display
+      name has changed, and if it does, inserts a new record into
+      user_display_name.  Updates or deletes on message_v silently
+      fail, and are best performed by operating directly on the underlying
+      tables.</p>
+    <h3>Queries</h3>
+    <p>It is possible to see the queries being run by the JSP pages.  You can
+      see generic queries used by all the JSP pages at <a
+        href="http://www.visualdistortion.org/sqllogger/index.jsp?page=queries/standard.html">standard.html</a>, queries relating to
+      the statistics at <a
+        href="http://www.visualdistortion.org/sqllogger/index.jsp?page=queries/stats.html">stats.html</a> and update
+      and insert queries at <a
+        href="http://www.visualdistortion.org/sqllogger/index.jsp?page=queries/update.html">update.html</a>.
+    </p>
+
+                            
+                            </div>
+                        </div>
+
+                        <div id="pgQuickDownloadsWrap">
+                            <div id="pgQuickDownloads">
+                                <dl>
+                                    <dt>Downloads</dt>
+                                    <dd>
+                                        <p><a
+                                        href="sqllogger.tar.gz">WAR/HTML/Plugins</a></p>
+                                        <p><a href="sqllogger.war">SQL Logger
+                                        WAR</a></p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <br class="pgClearBoth" />
+                </div>
+                <div id="pgFooter">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

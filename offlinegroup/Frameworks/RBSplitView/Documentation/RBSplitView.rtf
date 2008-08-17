@@ -1,0 +1,1511 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\froman\fcharset77 Times-Roman;\f1\fswiss\fcharset77 Helvetica-Bold;\f2\fnil\fcharset77 Monaco;
+\f3\froman\fcharset77 Times-Bold;\f4\froman\fcharset77 Times-Italic;\f5\fmodern\fcharset77 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;}
+\pard\ql\qnatural
+
+\f0\fs24 \cf0 Version 1.1.4 Copyright \'a92004-2006 by Rainer Brockerhoff.  Some Rights Reserved under the Creative Commons Attribution License, version 2.5, and/or the MIT License.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\
+\
+\
+\pard\tx4880\li4880\fi-2780\ql\qnatural
+\cf0 \
+\pard\li2100\ql\qnatural
+
+\f1\b\fs56 \cf0 RBSplitView\
+\pard\tx4880\li4880\fi-2780\ql\qnatural
+
+\f0\b0\fs16 \cf0 \
+\
+\
+\pard\tx4880\li4880\fi-2780\ql\qnatural
+
+\fs28 \cf0 \
+
+\f1\b Inherits From:\
+
+\f0\b0 RBSplitSubview : NSView : NSResponder : NSObject\
+
+\fs20 \
+
+\f1\b\fs28 Conforms To:
+\f0\b0 \
+NSCoding (NSResponder)\
+NSObject (NSObject)\
+
+\fs20 \
+
+\f1\b\fs28 Declared In:
+\f0\b0 \
+RBSplitView.h\
+\pard\li1360\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\
+
+\fs36 Class Description\
+
+\fs16 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 RBSplitView is an alternative to Cocoa\'d5s NSSplitView. NSSplitView is getting long in the tooth, being essentially unchanged from its NeXTstep incarnation, and has serious limitations, due (IMHO) to its basic design and overreliance on delegates. RBSplitView aims to solve most of the problems I (and others) have been battling with in NSSplitView, however it\'d5s not a drop-in replacement. It offers repeatable proportional resizing, individual constraints on each split, collapsing by double-clicking or method calls, nesting split views with two-axis thumbs, saving and restoring state in the user defaults, and several other facilities.\
+RBSplitSubview is the basic view used for containing each \'d2split\'d3 of a RBSplitView. RBSplitView itself is a subclass of RBSplitSubview, to allow for direct nesting, so you must read the descriptions of both classes recursively ;-).\
+You should never use RBSplitSubviews outside of a RBSplitView; conversely, a RBSplitView will accept only RBSplitSubviews as direct subviews, or other RBSplitViews. In the latter case, the nested RBSplitView will usually be \'d2coupled\'d3 to the containing RBSplitView, but you can choose to turn coupling off. If coupling is on, the nested view will get its divider image, background and opacity from the containing view, and a separate two-axis thumb will be drawn where the dividers meet; if coupling is off, all those parameters can be set separately, and no two-aix thumb will be drawn. However, the nested RBSplitView\'d5s orientation will be orthogonal to the containing RBSplitView\'d5s regardless of coupling. If you wish the nested RBSplitView to have the same orientation of the containing RBSplitView, you must interpose an autoresizing NSView between them.\
+For your convenience, if you add another NSView class to a RBSplitView, a RBSplitSubview is automatically created to contain it, and the NSView\'d5s frame and autoresizing mask are set to ensure that it will cover the entire \'d2split\'d3. \
+Normally, you will set up size constraints and other attributes for a RBSplitSubview in Interface Builder and never change these programmatically, although you can do so.\
+RBSplitSubviews are different from normal NSViews in that, instead of height and width, they have a \'d2dimension\'d3 which is measured along the containing RBSplitView\'d5s orientation. The \'d2other\'d3 size is always set automatically to cover the entire RBSplitView, so there\'d5s no way to manipulate it. For that reason, there\'d5s no sense using the automatic view resizing facilities; it\'d5s all handled by the containing RBSplitView.\
+You can set size constraints \'d1\'caminimum and maximum dimensions, in pixels \'d1\'caand allow or not an RBSplitSubview to \'d2collapse\'d3 to zero dimension. A collapsed RBSplitSubview is actually shrunk beyond its minimum dimension, but its own subviews aren\'d5t resized with it, so they won\'d5t get messed up. Collapsing and expanding can be done programmatically or with mouse gestures.\
+When a RBSplitView is resized, it will try to resize its subviews proportionally, respecting all constraints. If all subviews have some constraint set, this may be impossible to do, so some subviews may be collapsed or expanded, if that is allowed.\
+In some cases the constraints may be such that they can\'d5t all be obeyed at the same time for a given RBSplitView size, so one of the views (usually the last uncollapsed one) may be enlarged or shrunk beyond its limits. To avoid this, you should set appropriate size limits on the containing window (or containing RBSplitSubview), or take care not to set maximum limits on all subviews, or avoid having too many non-collapsible subviews with a minimum size set.\
+Subclassing either RBSplitSubview or RBSplitView should never be necessary, as most special behavior should be achievable either by delegate methods or by modifying the source code directly. Read the header comments for more details.\
+RBSplitSubviews are separated by dividers, which are horizontal or vertical rectangles that usually contain a divider image, or \'d2thumb\'d3. Dividers can be dragged or double-clicked anywhere, and this is indicated by appropriate cursors. You can use the default divider images or assign your own, and vary the divider thickness independently if you wish. You can also clear the divider image entirely; in that case, the dividers can be affected only programmatically.\
+You can specify a background color to be drawn inside the divider rectangles and unused portions of the subviews, but the default for these areas is transparency. If you're concerned about redrawing performance you should set the background color to 
+\f2\fs22 \cf2 [NSColor windowBackgroundColor]
+\f0\fs28 \cf0 , although this doesn\'d5t always work perfectly on metal windows.\
+RBSplitSubviews are not flipped, although RBSplitViews are. This shouldn't affect you at all.\
+Most of the resizing and retiling work is done in 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 . This is usually called automatically whenever you redisplay the view after changes, but in some contexts it should be called explicitly.\
+If you prefer to create a RBSplitView programmatically instead of in Interface Builder it\'d5s usually best to call  
+\f2\fs22 \cf2 - initWithFrame:andSubviews:
+\f0\fs28 \cf0  with the parameters already set to your desired frame and subview count, then resize and set the RBSplitSubviews as you wish, then as the last step resizing and adding the RBSplitSubview\'d5s subviews.\
+Animated collapsing and expanding of RBSplitSubviews is done by calling 
+\f2\fs22 \cf2 - collapseWithAnimation
+\f0\fs28 \cf0  or 
+\f2\fs22 \cf2 - expandWithAnimation
+\f0\fs28 \cf0 , and optionally implementing 
+\f2\fs22 \cf2 - splitView:willAnimateSubview:withDimension:
+\f0\fs28 \cf0  in the delegate to modify the animation speed. Only one subview at a time may be animated (for the entire application). After you initiate animation the subsequent steps are done in the main runloop, so be careful about doing something complex to the animated RBSplitSubview or to its containing RBSplitView while it\'d5s running.\
+An RBSplitView can also be inserted into an NSScrollView. This would be typically used to write a Finder-like columns browser. In this case, dragging a divider or resizing any subview resizes the entire RBSplitView by the same amount, and other subviews aren\'d5t affected. Some of the normal features may not work or behave oddly in this case, which hasn\'d5t yet been extensively tested.\
+\pard\tx4880\li4880\fi-2780\ql\qnatural
+\cf0 \
+\pard\li1360\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+
+\fs36 Instance Variables\
+
+\fs16 \
+\pard\tx2480\tx8000\tx10140\li2100\ql\qnatural
+
+\f0\b0\fs28 \cf0 \
+\pard\tx2700\tx3240\tx3780\tx4320\tx4860\tx5400\tx5940\tx6480\li2100\ql\qnatural
+\cf0 All instance variables should be considered private; subclasses should use the corresponding accessor methods.\
+\pard\tx6120\li5940\fi-3840\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\pard\li1360\ql\qnatural
+\cf0 \
+\
+\
+
+\fs36 Method Types\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\f0\b0\fs16 \cf0 \
+\pard\tx6120\li5940\fi-3840\ql\qnatural
+
+\fs28 \cf0 Creating instances\
+
+\f2\fs22 \cf2 - initWithFrame:\
+- initWithFrame:andSubviews:
+\f0\fs28 \cf0 \
+\pard\tx6120\tx9000\li5940\fi-3840\ql\qnatural
+\cf0 \
+\pard\tx6120\li5940\fi-3840\ql\qnatural
+\cf0 Saving and restoring state\
+
+\f2\fs22 \cf2 + removeStateUsingName:\
++ defaultsKeyForName:isHorizontal:\
+- setAutosaveName:recursively:\
+- autosaveName\
+- saveState:\
+- restoreState:\
+- stringWithSavedState\
+- setStateFromString:\
+- arrayWithStates\
+- setStatesFromArray:
+\f0\fs28 \cf0 \
+\pard\tx6120\tx9000\li5940\fi-3840\ql\qnatural
+\cf0 \
+\pard\tx6120\li5940\fi-3840\ql\qnatural
+\cf0 Identifying subviews\
+
+\f2\fs22 \cf2 - subviewWithIdentifier:\
+- subviewAtPosition:\
+- setIdentifier:\
+- identifier
+\f0\fs28 \cf0 \
+\
+Orientation and status\
+
+\f2\fs22 \cf2 - setVertical:\
+- isVertical\
+- isHorizontal\
+- isInScrollView\
+
+\f0\fs28 \cf0 \
+Dividers and background\
+
+\f2\fs22 \cf2 - setDivider:\
+- divider\
+- setDividerThickness:\
+- dividerThickness\
+- setBackground:\
+- background\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+\cf2 - drawDivider:inRect:betweenView:andView:
+\f0\fs28 \cf0 \
+\pard\tx6120\li5940\fi-3840\ql\qnatural
+\cf0 \
+Adjusting\
+
+\f2\fs22 \cf2 - setMustAdjust\
+- mustAdjust\
+- adjustSubviews\
+- adjustSubviewsExcepting:\
+- isDragging\
+
+\f0\fs28 \cf0 \
+Delegates and delegate methods\
+
+\f2\fs22 \cf2 - setDelegate:\
+- delegate\
+- didAdjustSubviews:\
+- splitView:changedFrameOfSubview:from:to:\
+- splitView:collapseLeading:orTrailing:\
+- splitView:cursorRect:forDivider:\
+- splitView:didCollapse:\
+- splitView:didExpand:\
+- splitView:dividerForPoint:inSubview:
+\f0\fs28 \cf0 \
+
+\f2\fs22 \cf2 - splitView:shouldHandleEvent:inDivider:betweenView:andView:\
+- splitView:shouldResizeWindowForDivider:betweenView:andView:\
+- splitView:wasResizedFrom:to:\
+- splitView:willAnimateSubview:withDimension:
+\f0\fs28 \cf0 \
+
+\f2\fs22 \cf2 - splitView:willDrawDividerInRect:betweenView:andView:withProposedRect:\
+- splitView:willDrawSubview:inRect:
+\f0\fs28 \cf0 \
+
+\f2\fs22 \cf2 - willAdjustSubviews:\
+\pard\tx6120\tx9000\li5940\fi-3840\ql\qnatural
+
+\f0\fs28 \cf0 \
+\pard\li1360\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+
+\fs36 Class Methods\
+
+\fs16 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\fs28 \cf0 defaultsKeyForName:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 + (NSString*)
+\f3\b defaultsKeyForName:
+\f0\b0 (NSString*)
+\f4\i name 
+\f3\i0\b isHorizontal:
+\f0\b0 (BOOL)
+\f4\i isHorizontal
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the actual key used to store autosave data in the defaults. There are separate keys for horizontal and vertical RBSplitViews. Normally you won\'d5t need to call this.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\fs28 \cf0 removeStateUsingName:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 + (void)
+\f3\b removeStateUsingName:
+\f0\b0 (NSString*)
+\f4\i name
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Clears the saved state(s) for that autosave name from the defaults, that is, for both orientations. Normally you wouldn\'d5t call this; instead, call 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0  to set the name to @"" (the empty string), and the previously saved state will be removed. See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\li1360\ql\qnatural
+
+\fs36 \cf0 Instance Methods\
+
+\fs16 \
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\fs28 \cf0 addSubview:atPosition:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b addSubview:
+\f0\b0 (NSView*)
+\f4\i aView 
+\f0\i0 a
+\f3\b tPosition:
+\f0\b0 (unsigned)
+\f4\i position
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Adds 
+\f4\i aView
+\f0\i0  to the receiver, inserting it at 
+\f4\i position
+\f0\i0 , or at the end of the subview list if there\'d5s no subview at that position. As a convenience, if 
+\f4\i aView
+\f0\i0  isn\'d5t a RBSplitSubview, a new one will be created automatically to contain it, and 
+\f4\i aView
+\f0\i0 \'d5s frame and resizing springs will be set automatically to cover the RBSplitSubview entirely. The same applies to the standard methods 
+\f2\fs22 \cf2 - addSubview:
+\f0\fs28 \cf0  and 
+\f2\fs22 \cf2 - addSubview:positioned:relativeTo:
+\f0\fs28 \cf0 .\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\f1\b \cf0 \
+adjustSubviews\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b adjustSubviews
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Retiles the receiver\'d5s subviews and dividers to completely cover the RBSplitView, respecting as much as possible each subview\'d5s constraints. Normally called automatically before redisplaying but you may have to call it explicitly in exceptional circumstances. See 
+\f2\fs22 \cf2 - setMustAdjust
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - mustAdjust
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 adjustSubviewsExcepting:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b adjustSubviewsExcepting:
+\f0\b0 (RBSplitSubview*)
+\f4\i exception
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 This should be called only from within the 
+\f2\fs22 \cf2 - splitView:wasResizedFrom:to:
+\f0\fs28 \cf0  delegate method. It will adjust subviews and dividers and try to maintain the 
+\f4\i exception
+\f0\i0  subview at its current dimension, as long as constraints on other subviews can be satisfied. The 
+\f4\i exception
+\f0\i0  subview must be an expanded subview of the receiver.
+\f1\b \
+\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 autosaveName\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSString*)
+\f3\b autosaveName
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the current autosave name for the receiver, or @"" (the empty string) if there\'d5s none. See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\fs28 \cf0 arrayWithStates\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSArray*)
+\f3\b arrayWithStates
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns an array with complete state information for the receiver and all subviews, taking nesting into account. Don't store this array in a file, as its format might change in the future; this is for taking a state snapshot and later restoring it with 
+\f2\fs22 \cf2 - setStatesFromArray:
+\f0\fs28 \cf0 . See 
+\f2\fs22 \cf2 - setStatesFromArray:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\fs28 \cf0 background\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSColor*)
+\f3\b background
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the receiver\'d5s background color, or nil if there is none (which is the default). See 
+\f2\fs22 \cf2 - setBackground:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+delegate\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (id)
+\f3\b delegate
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the receiver\'d5s delegate. See 
+\f2\fs22 \cf2 - setDelegate:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+divider\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSImage*)
+\f3\b divider
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the receiver\'d5s divider image, or \'d2thumb\'d3; this will always be a flipped image. You should not change the returned image. See 
+\f2\fs22 \cf2 - setDivider:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+dividerThickness\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (float)
+\f3\b dividerThickness
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the receiver\'d5s effective divider thickness in pixels; this will always be an integer value. This will be either the value set by 
+\f2\fs22 \cf2 - setDividerThickness:
+\f0\fs28 \cf0  or, if that value is zero, the divider image\'d5s dimension along the receiver\'d5s orientation. See 
+\f2\fs22 \cf2 - setDividerThickness:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+drawDivider:inRect:betweenView:andView:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b drawDivider: inRect:
+\f0\b0 (NSRect)
+\f4\i rect 
+\f3\i0\b betweenView:
+\f0\b0 (RBSplitSubview*)
+\f4\i leading 
+\f3\i0\b andView:
+\f0\b0 (RBSplitSubview*)
+\f4\i trailing\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\i0 \cf0 Draws the standard divider image centered in 
+\f4\i rect
+\f0\i0 . You should never call this method directly but you can override it when subclassing, if you need custom dividers and don\'d5t wish to draw the divider inside the 
+\f2\fs22 \cf2 - splitView:willDrawDividerInRect:betweenView:andView:withProposedRect:
+\f0\fs28 \cf0  delegate method, which is called by the default implementation.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+\cf0 initWithFrame:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (id)
+\f3\b initWithFrame:
+\f0\b0 (NSRect)
+\f4\i rect
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Initializes a newly allocated RBSplitView with 
+\f4\i rect
+\f0\i0  as its frame rectangle. You should add at least two RBSplitSubviews before using the new view; you\'d5ll want to use 
+\f2\fs22 \cf2 - initWithFrame:andSubviews:
+\f0\fs28 \cf0  instead. The new view will have no divider image, a divider thickness of 1.0 pixel, and vertical dividers. \
+This method is the designated initializer for the RBSplitView class. Returns an initialized object. See 
+\f2\fs22 \cf2 - initWithFrame:andSubviews:
+\f0\fs28 \cf0 .\
+\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+initWithFrame:andSubviews:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (id)
+\f3\b initWithFrame:
+\f0\b0 (NSRect)
+\f4\i rect 
+\f3\i0\b andSubviews:
+\f0\b0 (unsigned)
+\f4\i count
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Initializes a newly allocated RBSplitView with 
+\f4\i rect
+\f0\i0  as its frame rectangle, and adds 
+\f4\i count
+\f0\i0  equal RBSplitSubviews to it. To be useful, 
+\f4\i count
+\f0\i0  should be at least 1. The new view will have no divider image, a divider thickness of 1.0 pixel, and vertical dividers. You\'d5ll want to use this instead of the standard  
+\f2\fs22 \cf2 - initWithFrame:
+\f0\fs28 \cf0 .\
+Returns an initialized object. See 
+\f2\fs22 \cf2 - initWithFrame:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+isDragging\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b isDragging
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns YES while the receiver is being continuously resized, usually while dragging a divider, but also if a subview is being animated. You could check this to postpone some complex view updating.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+isHorizontal\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b isHorizontal
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns YES if the receiver\'d5s divider rectangles are horizontal; that is, the RBSplitSubview\'d5s dimensions refer to the vertical size. 
+\f2\fs22 \cf2 - isVertical
+\f0\fs28 \cf0  will return the inverse. See 
+\f2\fs22 \cf2 - setVertical:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - isVertical
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+isInScrollView\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b isInScrollView
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 This convenience method returns YES if the receiver is directly contained within an NSScrollView.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+isVertical\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b isVertical
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns YES if the receiver\'d5s divider rectangles are vertical; that is, the RBSplitSubview\'d5s dimensions refer to the horizontal size. 
+\f2\fs22 \cf2 - isHorizontal
+\f0\fs28 \cf0  will return the inverse. See 
+\f2\fs22 \cf2 - setVertical:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - isHorizontal
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+mustAdjust\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b mustAdjust
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns YES if the receiver has been changed and must have its subviews adjusted by calling 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 . See 
+\f2\fs22 \cf2 - setMustAdjust
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+restoreState:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b restoreState:
+\f0\b0 (BOOL)
+\f4\i recurse
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Restores the receiver\'d5s current state from the defaults if a valid autosave name is set, and if a state for that name had been saved previously \'d1 even in a previous run of your application. If 
+\f4\i recurse
+\f0\i0  is YES, also restores the states of nested RBSplitViews, if any. Returns YES if the receiver\'d5s state was restored. This is called automatically if you set an autosaveName in Interface Builder.\
+You should call 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0  immediately after restoring the state of the outermost RBSplitView. See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+saveState:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b saveState:
+\f0\b0 (BOOL)
+\f4\i recurse
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Saves the receiver\'d5s current state to the defaults if a valid autosave name is set, and if 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0  has been called at least once previously. If 
+\f4\i recurse
+\f0\i0  is YES, also saves the states of nested RBSplitViews, if any. Returns YES if the receiver\'d5s state was saved. Normally called automatically by 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 . See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setAutosaveName:recursively:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setAutosaveName:
+\f0\b0 (NSString*)
+\f4\i aString 
+\f3\i0\b recursively:
+\f0\b0 (BOOL)
+\f4\i flag
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s autosave name to 
+\f4\i aString
+\f0\i0 , or clears it if 
+\f4\i aString
+\f0\i0  is nil or @"". In the latter case, any stored state for the previous name is removed from the defaults. Pass YES in 
+\f4\i flag
+\f0\i0  if you want to apply related (and unique) names to all nested split views.\
+You are responsible for avoiding duplicate names; also avoid using the characters [ and ] in autosave names, as these are used for nested split views. See 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setBackground:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setBackground:
+\f0\b0 (NSColor*)
+\f4\i color
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s background color; this will fill the divider rectangles before the divider image is drawn, and the unused portions of all subviews. If 
+\f4\i color
+\f0\i0  is either nil or a completely transparent color, no background will be drawn, and 
+\f2\fs22 \cf2 - background
+\f0\fs28 \cf0  will return nil; this is the default. If 
+\f4\i color
+\f0\i0  is not completely opaque, calling 
+\f2\fs22 \cf2 - isOpaque
+\f0\fs28 \cf0  on the RBSplitView will return NO.\
+This call is ignored for nested coupled RBSplitViews, which will always use the outermost\'d5s RBSplitView background color. For nested non-coupled RBSplitViews, the background will be drawn over the one defined by the containing RBSplitView (if any). See 
+\f2\fs22 \cf2 - background
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setDelegate:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setDelegate:
+\f0\b0 (id)
+\f4\i anObject
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Makes 
+\f4\i anObject
+\f0\i0  the receiver\'d5s delegate. This object can implement any or all of the delegate methods. As usual, 
+\f4\i anObject
+\f0\i0  will not be retained by the receiver, or released when the receiver is deallocated. See 
+\f2\fs22 \cf2 - delegate
+\f0\fs28 \cf0  and the delegate methods, below.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setDivider:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setDivider:
+\f0\b0 (NSImage*)
+\f4\i image
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s divider image or \'d2thumb\'d3. The default image is 8x8 pixels. If 
+\f4\i image
+\f0\i0  isn\'d5t flipped, this method makes a flipped local copy, so if you just created the image, it\'d5s better to also call setFlipped:YES on it. The effective divider thickness is automatically adjusted to the image\'d5s dimension along the receiver\'d5s orientation; that is, any custom thickness set previously will be lost. If you pass in 
+\f4\i nil
+\f0\i0  as the image, the dividers will show no special cursor and can be adjusted only programmatically.\
+This call is ignored for nested RBSplitViews, which will always use the outermost\'d5s RBSplitView divider image. See 
+\f2\fs22 \cf2 - divider
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setDividerThickness:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setDividerThickness:
+\f0\b0 (float)
+\f4\i thickness
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s divider thickness; set 
+\f4\i thickness
+\f0\i0  to zero to use the divider image\'d5s dimension. In practice, you need to call this only if you want the divider to be different from the image dimension. See 
+\f2\fs22 \cf2 - dividerThickness
+\f0\fs28 \cf0 :.\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+setMustAdjust\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setMustAdjust
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s \'d2must adjust\'d3 flag. If this flag is set, 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0  will be called before displaying the RBSplitView. Usually you won\'d5t need to call this explicitly. See 
+\f2\fs22 \cf2 - mustAdjust
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 .\
+\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 setStateFromString:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b setStateFromString:
+\f0\b0 (NSString*)
+\f4\i aString
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the state of the receiver\'d5s subviews to the one encoded in 
+\f4\i aString
+\f0\i0 . The number of subviews must be the same, and it doesn\'d5t change nested RBSplitViews. You\'d5ll need to call this only if you\'d5re restoring state from some custom repository. See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - stringWithSavedState
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 setStatesFromArray:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b setStatesFromArray:
+\f0\b0 (NSArray*)
+\f4\i array
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0  Restores the state of the receiver and all subviews. The array must have been produced by a previous call to 
+\f2\fs22 \cf2 - arrayWithStates
+\f0\fs28 \cf0 . Returns YES if successful. This will fail if you have added or removed subviews in the meantime! See 
+\f2\fs22 \cf2 - arrayWithStates
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b\fs16 \cf0 \
+\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\fs28 \cf0 setVertical:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b setVertical:
+\f0\b0 (BOOL)
+\f4\i flag
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Sets the receiver\'d5s orientation to vertical if 
+\f4\i flag
+\f0\i0  is YES; this means, the divider rectangles will be vertical and the subviews will be arranged from left to right. This uses the same convention as NSSplitView. If you change orientation for a visible view, you should call 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0  if necessary, then 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0  afterwards.\
+This call is ignored for nested RBSplitViews, which will always use the inverse of the containing RBSplitView. See 
+\f2\fs22 \cf2 - isVertical
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - isHorizontal
+\f0\fs28 \cf0 .\
+\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 stringWithSavedState\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSString*)
+\f3\b stringWithSavedState
+\f0\b0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns a string that encodes the current state of all subviews (not including the internal state of nested RBSplitViews). You\'d5ll need to call this only if you\'d5re saving state into some custom repository. See 
+\f2\fs22 \cf2 - setAutosaveName:recursively:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - restoreState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - saveState:
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - autosaveName
+\f0\fs28 \cf0 , 
+\f2\fs22 \cf2 - setStateFromString:
+\f0\fs28 \cf0 .\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+subviewAtPosition:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (RBSplitSubview*)
+\f3\b subviewAtPosition:
+\f0\b0 (unsigned)
+\f4\i position
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the RBSplitSubview, among the receiver\'d5s direct subviews, which is at the specified position, or nil if there\'d5s none. See 
+\f2\fs22 \cf2 - setPosition:
+\f0\fs28 \cf0  (RBSplitSubview), 
+\f2\fs22 \cf2 - position
+\f0\fs28 \cf0  (RBSplitSubview).\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx7140\li2480\fi-380\ql\qnatural
+\cf0 subviewWithIdentifier:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (RBSplitSubview*)
+\f3\b subviewWithIdentifier:
+\f0\b0 (NSString*)
+\f4\i aString
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Returns the first RBSplitSubview, among the receiver\'d5s direct subviews, which has the specified identifier, or nil if there\'d5s none. See 
+\f2\fs22 \cf2 - setIdentifier:
+\f0\fs28 \cf0  (RBSplitSubview), 
+\f2\fs22 \cf2 - identifier
+\f0\fs28 \cf0  (RBSplitSubview).\
+\pard\tx7140\li2480\fi-380\ql\qnatural
+
+\f1\b \cf0 \
+\pard\li1360\ql\qnatural
+
+\fs36 \cf0 Delegate Methods\
+
+\fs16 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\fs28 \cf0 didAdjustSubviews:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b didAdjustSubviews:
+\f0\b0 (RBSplitView*)
+\f4\i sender
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that subviews have been adjusted.\
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+
+\f1\b \cf0 \
+splitView:canCollapse:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b canCollapse:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to decide whether 
+\f4\i subview
+\f0\i0  can be collapsed. If this method is implemented, the values set by  
+\f2\fs22 \cf2 - setCanCollapse:
+\f0\fs28 \cf0  (RBSplitSubview) will be ignored for all subviews. Return YES to allow collapsing.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+splitView:changedFrameOfSubview:from:to:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b changedFrameOfSubview:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview
+\f3\i0\b  
+\f4\i\b0  
+\f3\i0\b from:
+\f0\b0 (NSRect)
+\f4\i fromRect
+\f3\i0\b  
+\f4\i\b0  
+\f3\i0\b to:
+\f0\b0 (NSRect)
+\f4\i toRect
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that 
+\f4\i subview
+\f0\i0 \'d5s frame has been changed from 
+\f4\i fromRect
+\f0\i0  to 
+\f4\i toRect
+\f0\i0 . You can use this method to keep some auxiliary view always aligned to some particular subview. This is usually called from inside 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 \'d5s final loop, when the definite new subview frames have been computed. However, be aware this never gets called for subviews inside a nested RBSplitView that is itself collapsed. Also, the delegate should not change 
+\f4\i sender
+\f0\i0 \'d5s (or any of its subviews\'d5) frames in any way.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f4\i \cf0 fromRect
+\f0\i0  will be NSZeroRect the first time this delegate method is called, so be careful if you rely on it for resizing.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:collapseLeading:orTrailing:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (RBSplitSubview*)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b collapseLeading:
+\f0\b0 (RBSplitSubview*)
+\f4\i leading 
+\f3\i0\b orTrailing:
+\f0\b0 (RBSplitSubview*)
+\f4\i trailing 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to decide whether 
+\f4\i leading
+\f0\i0  or 
+\f4\i trailing
+\f0\i0  should be collapsed; this is called when the user double-clicks on a divider between two collapsible subviews, neither of which are already collapsed. You can return the subview you wish to collapse, or nil to disable collapsing. If you don\'d5t implement this, the smaller subview will be collapsed.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:cursorRect:forDivider:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSRect)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b cursorRect:
+\f0\b0 (NSRect)
+\f4\i rect 
+\f3\i0\b forDivider:
+\f0\b0 (unsigned int)
+\f4\i divider
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to affect cursor rects for specific dividers. The proposed cursor rect for 
+\f4\i divider
+\f0\i0  is passed in 
+\f4\i rect
+\f0\i0 . You can return it, change it, or return NSZeroRect to turn off the cursor for that divider. If you have only one subview, or no divider image is present, this will be called once with 
+\f4\i divider
+\f0\i0  equal to zero.\
+If you wish to set any custom cursor rects, you should do it here when 
+\f4\i divider
+\f0\i0  is zero.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:didCollapse:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b didCollapse:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that 
+\f4\i subview
+\f0\i0  has been collapsed. The delegate shouldn\'d5t change the subview\'d5s frame in any way, and not hide it immediately; if you want to hide the subview after collapsing, use 
+\f2\fs22 \cf2 performSelector:withObject:afterDelay:
+\f0\fs28 \cf0  to hide it in the main event loop. If the RBSplitSubview\'d5s contents have a focus ring that may go outside the RBSplitView, you should implement this method and call 
+\f2\fs22 \cf2 setNeedsDisplay:
+\f0\fs28 \cf0  on the RBSplitView\'d5s superview.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:didExpand:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b didExpand:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that 
+\f4\i subview
+\f0\i0  has been expanded. The delegate shouldn\'d5t change the subview\'d5s frame in any way.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:dividerForPoint:inSubview:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (unsigned int)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b dividerForPoint:
+\f0\b0 (NSPoint)
+\f4\i point 
+\f3\i0\b inSubview:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to decide if 
+\f4\i point
+\f0\i0  (which is in 
+\f4\i sender
+\f0\i0 \'d5s local coordinates, and guaranteed to be inside 
+\f4\i subview
+\f0\i0 \'d5s frame) is within an alternate drag view. The delegate should return NSNotFound if the point should be handled normally and a valid divider index that should be dragged if a mouse-down occurs at that point. For instance, you could implement it like this:\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f5\fs24 \cf0 - (unsigned int)splitView:(RBSplitView*)sender dividerForPoint:(NSPoint)point inSubview:(RBSplitSubview*)subview \{\
+	if (subview==someSubView) \{\
+		if ([dragView mouse:[dragView convertPoint:point fromView:sender] inRect:[dragView bounds]]) \{\
+			return 0;\
+		\}\
+	\}\
+	return NSNotFound;\
+\}\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\fs28 \cf0 Note that the alternate drag view never gets the mouse-down event itself and usually will be some NSImageView adjacent to the divider that is returned; you should set its position and resizing springs such that it moves correctly along with the mouse cursor. If you wish a specific cursor to be displayed for the view, you must set it yourself; inside 
+\f2\fs22 \cf2 - splitView:cursorRect:forDivider:
+\f0\fs28 \cf0  is a convenient place to do so.\
+In the case of nested RBSplitViews, this delegate is called repeatedly from the outer RBSplitView down, until one of the calls returns anything different from NSNotFound. Notice that nested RBSplitViews may not all point at the same delegate, if any.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+splitView:shouldHandleEvent:inDivider:betweenView:andView:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b splitView:
+\f0\b0 (RBSplitView*) 
+\f4\i sender
+\f0\i0  
+\f3\b shouldHandleEvent:
+\f0\b0 (NSEvent*)
+\f4\i theEvent
+\f0\i0  
+\f3\b inDivider:
+\f0\b0 (unsigned int)
+\f4\i divider
+\f0\i0  
+\f3\b betweenView:
+\f0\b0 (RBSplitSubview*)
+\f4\i leading
+\f0\i0  
+\f3\b andView:
+\f0\b0 (RBSplitSubview*)
+\f4\i trailing
+\f1\i0\b \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 Asks the delegate if 
+\f4\i theEvent
+\f0\i0  \'d1 a mouse-down event inside 
+\f4\i divider
+\f0\i0  \'d1 should be handled by RBSplitView. Return YES to do the normal thing, like divider dragging or collapsing on a double-click. Return NO if you want to handle it yourself or ignore it. This would be a convenient place to do things like animating a collapse on a double-click, for instance. However, for this to be called, a divider image has to be set.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+splitView:shouldResizeWindowForDivider:betweenView:andView:willGrow:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (BOOL)
+\f3\b splitView:
+\f0\b0 (RBSplitView*) 
+\f4\i sender
+\f0\i0  
+\f3\b shouldResizeWindowForDivider:
+\f0\b0 (unsigned int)
+\f4\i divider
+\f0\i0  
+\f3\b betweenView:
+\f0\b0 (RBSplitSubview*)
+\f4\i leading
+\f0\i0  
+\f3\b andView:
+\f0\b0 (RBSplitSubview*)
+\f4\i trailing
+\f0\i0  
+\f3\b willGrow:
+\f0\b0 (BOOL)
+\f4\i grow
+\f1\i0\b \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\b0 \cf0 This method is called continuously while a divider is dragged, just before 
+\f4\i leading
+\f0\i0  is resized. Return NO to resize 
+\f4\i trailing
+\f0\i0  by the same amount, YES to resize the containing window instead. The last parameter indicates whether the window would grow or not. If not implemented, NO is assumed. Note that this method is never called if the RBSplitView is inside an NSScrollView.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:wasResizedFrom:to:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b wasResizedFrom:
+\f0\b0 (float)
+\f4\i oldDimension 
+\f3\i0\b to:
+\f0\b0 (float)
+\f4\i newDimension 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that 
+\f4\i sender
+\f0\i0  has been resized from 
+\f4\i oldDimension
+\f0\i0  to 
+\f4\i newDimension
+\f0\i0 . This method is called after the RBSplitView\'d5s frame has been changed but just before calling 
+\f2\fs22 \cf2 - adjustSubviews
+\f0\fs28 \cf0 . So this is a last chance for the delegate to do selective resizing of some subviews. For instance, you could try to have a specific subview to absorb the entire size change by implementing:\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f5\fs24 \cf0 - (void)splitView:(RBSplitView*)sender wasResizedFrom:(float)oldDimension to:(float)newDimension \{\
+		[specificSubview changeDimensionBy:newDimension-oldDimension mayCollapse:NO setToMinimum:NO];\
+\}\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f0\fs28 \cf0 or try to maintain one specific subview at a constant size by implementing:
+\f1\b\fs26 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f5\b0\fs24 \cf0 - (void)splitView:(RBSplitView*)sender wasResizedFrom:(float)oldDimension to:(float)newDimension \{\
+		[sender adjustSubviewsExcepting:specificSubview];\
+\}\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b\fs28 \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:willAnimateSubview:withDimension:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSTimeInterval)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b willAnimateSubview:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview 
+\f3\i0\b withDimension:
+\f0\b0 (float)
+\f4\i dimension 
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that 
+\f4\i subview
+\f0\i0  of 
+\f4\i sender
+\f0\i0  will be collapsed from, or expanded to,  
+\f4\i dimension
+\f0\i0  with animation. Should return the approximate time that the animation should take. If the delegate doesn\'d5t implement this method, a default time of 0.2 seconds per 150 pixels will be assumed. Return 0.0 to disable the animation completely.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:willDrawDividerInRect:betweenView:andView:withProposedRect:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (NSRect)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b willDrawDividerInRect:
+\f0\b0 (NSRect)
+\f4\i dividerRect 
+\f3\i0\b betweenView:
+\f0\b0 (RBSplitSubview*)
+\f4\i leading 
+\f3\i0\b andView:
+\f0\b0 (RBSplitSubview*)
+\f4\i trailing 
+\f3\i0\b withProposedRect:
+\f0\b0 (NSRect)
+\f4\i imageRect
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to affect the drawing of dividers. This is called from 
+\f4\i sender
+\f0\i0 \'d5s 
+\f2\fs22 \cf2 - drawRect:
+\f0\fs28 \cf0  after the divider rectangle is filled with the background (if any), but before drawing the divider image. Normally, 
+\f4\i dividerRect
+\f0\i0  will be the entire divider rectangle, 
+\f4\i leading
+\f0\i0  and 
+\f4\i trailing
+\f0\i0  will be the adjacent subviews, and 
+\f4\i imageRect
+\f0\i0  will be the rectangle where the divider image would normally be drawn into.\
+The delegate can then overdraw the divider rectangle and/or force the divider image to be drawn elsewhere, by returning another rect instead of 
+\f4\i dividerRect
+\f0\i0 . It can also return NSZeroRect to suppress the divider image entirely, and/or draw another image before returning.\
+If either subview is a nested RBSplitView, this method will be called immediately afterwards for drawing each two-axis thumb; however, in that case, both 
+\f4\i leading
+\f0\i0  and 
+\f4\i trailing
+\f0\i0  will be nil, and 
+\f4\i dividerRect
+\f0\i0  and 
+\f4\i imageRect
+\f0\i0  will be the same.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx6140\tx9660\tx10180\li6140\fi-4040\ql\qnatural
+\cf0 splitView:willDrawSubview:inRect:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b splitView:
+\f0\b0 (RBSplitView*)
+\f4\i sender 
+\f3\i0\b willDrawSubview:
+\f0\b0 (RBSplitSubview*)
+\f4\i subview 
+\f3\i0\b inRect:
+\f0\b0 (NSRect)
+\f4\i rect
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Allows the delegate to affect the drawing of subviews. This is called from 
+\f4\i subview
+\f0\i0 \'d5s 
+\f2\fs22 \cf2 - drawRect:
+\f0\fs28 \cf0  after 
+\f4\i rect
+\f0\i0  is filled with the background (if any), but before drawing the contained subviews. Normally, 
+\f4\i rect
+\f0\i0  will be the entire subview frame, but don\'d5t rely on it. You can use this to draw a frame inside the subview, but make sure to use the actual subview frame rectangle.\
+\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 willAdjustSubviews:\
+\pard\li3240\fi-760\ql\qnatural
+
+\f0\b0 \cf0 - (void)
+\f3\b willAdjustSubviews:
+\f0\b0 (RBSplitView*)
+\f4\i sender
+\f0\i0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs16 \cf0 \
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\fs28 \cf0 Notifies the delegate that subviews are about to be adjusted.\
+\pard\tx2480\tx2860\tx3240\li2100\ql\qnatural
+
+\f1\b \cf0 \
+\
+}

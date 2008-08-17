@@ -1,0 +1,41 @@
+{
+    IBClasses = (
+        {
+            CLASS = AICompletingTextField; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AITextFieldWithDraggingDelegate; 
+        }, 
+        {
+            CLASS = AITextFieldWithDraggingDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dragDelegate = id; }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            ACTIONS = {closeWindow = id; joinChat = id; }; 
+            CLASS = DCJoinChatViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"popUp_service" = NSPopUpButton; view = NSView; "view_customView" = NSView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {joinChat = id; }; 
+            CLASS = DCNothing; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "popUp_service" = NSPopUpButton; 
+                "view_customView" = NSView; 
+                "window_main" = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = ESIRCJoinChatViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"textField_channel" = NSTextField; "textField_password" = NSTextField; }; 
+            SUPERCLASS = DCJoinChatViewController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

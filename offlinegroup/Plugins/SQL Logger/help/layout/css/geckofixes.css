@@ -1,0 +1,21 @@
+/* Gecko is broken with pre,tt,code sizes */
+
+#pgContainer code, #pgContainer pre, #pgContainer tt {
+  font-size: 1.2em;
+}
+
+#docContainer tt, #docContainer pre, #docContainer code {
+  font-size: 1.4em;
+}
+
+#docContainer tt tt, #docContainer tt code, #docContainer tt pre {
+  font-size: 1.0em;
+}
+
+#docContainer pre code, #docContainer pre tt, #docContainer pre pre {
+  font-size: 1.0em;
+}
+
+#docContainer code code, #docContainer code tt, #docContainer code pre {
+  font-size: 1.0em;
+}

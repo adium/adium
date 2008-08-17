@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = DCJoinChatViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {
+            ACTIONS = {buttonClicked = id; }; 
+            CLASS = DCStressTestJoinChatViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"textField_roomName" = NSTextField; }; 
+            SUPERCLASS = DCJoinChatViewController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

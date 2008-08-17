@@ -1,0 +1,94 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                confirmQuit = id; 
+                reportABug = id; 
+                sendFeedback = id; 
+                showAboutBox = id; 
+                showForums = id; 
+                showHelp = id; 
+            }; 
+            CLASS = AIAdium; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                accountController = AIAccountController; 
+                activityWindowController = BZActivityWindowController; 
+                contactAlertsController = ESContactAlertsController; 
+                contactController = AIContactController; 
+                contentController = AIContentController; 
+                dockController = AIDockController; 
+                fileTransferController = ESFileTransferController; 
+                interfaceController = AIInterfaceController; 
+                loginController = AILoginController; 
+                menuController = AIMenuController; 
+                pluginController = AIPluginController; 
+                preferenceController = AIPreferenceController; 
+                soundController = AISoundController; 
+                toolbarController = AIToolbarController; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = AIAlternatingRowOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIOutlineView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {
+            CLASS = AIFileTransferProgressOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIVariableHeightOutlineView; 
+        }, 
+        {
+            ACTIONS = {pasteAsRichText = id; scrollPageDown = id; scrollPageUp = id; }; 
+            CLASS = AIMessageEntryTextView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AISendingTextView; 
+        }, 
+        {CLASS = AIOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {CLASS = AIPlasticButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {
+            ACTIONS = {sendContent = id; }; 
+            CLASS = AISendingTextView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {target = id; }; 
+            SUPERCLASS = NSTextView; 
+        }, 
+        {
+            CLASS = AIVariableHeightOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIAlternatingRowOutlineView; 
+        }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = BZGenericViewCell; LANGUAGE = ObjC; SUPERCLASS = NSCell; }, 
+        {CLASS = BZGenericViewCell1; LANGUAGE = ObjC; SUPERCLASS = NSTableColumn; }, 
+        {
+            ACTIONS = {clearAllCompleteTransfers = id; }; 
+            CLASS = ESFileTransferProgressWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_clear" = NSButton; 
+                outlineView = AIVariableHeightOutlineView; 
+                scrollView = NSScrollView; 
+                "textField_statusBar" = NSTextField; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSArray; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSMutableArray; LANGUAGE = ObjC; SUPERCLASS = NSArray; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {runCustomizationPalette = id; }; 
+            CLASS = NSToolbar; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

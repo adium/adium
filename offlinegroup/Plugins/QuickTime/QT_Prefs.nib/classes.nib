@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = AIPreferencePane; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {myAction = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSLevelIndicator; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            CLASS = QTAdvancedPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {micDefaultVolume = NSSlider; outDefaultVolume = NSSlider; view = NSView; }; 
+            SUPERCLASS = AIPreferencePane; 
+        }
+    ); 
+    IBVersion = 1; 
+}

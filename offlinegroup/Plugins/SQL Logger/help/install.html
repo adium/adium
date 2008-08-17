@@ -1,0 +1,300 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- $URL$ -->
+<!-- $Rev$ $Date$ -->
+
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr">
+    <head>
+        <title>
+            SQL Logger
+        </title>
+        <meta http-equiv="Content-Type" content="text/html; charset=(iso-8859-1" />
+        <style type="text/css" media="screen" >@import url("layout/css/fixed.css");</style>
+        <script type="text/javascript" src="layout/js/styleswitcher.js"></script>
+        <script type="text/javascript" src="layout/js/geckostyle.js"></script>
+        <link rel="stylesheet" type="text/css" href="stylesheet.css" />
+    </head>
+    <body>
+        <div id="pgContainerWrap">
+            <div id="pgContainer">
+                <div id="pgHeaderContainer">
+                    <div id="pgHeader">
+                        <div id="pgHeaderLogoLeft">
+                            <img src="layout/images/hdr_left_grn.png" width="20" height="80" alt="" />
+                        </div>
+                        <div id="pgHeaderLogoRight">
+                            <img
+                                src="layout/images/hdr_right_grn.png" width="20" height="80" alt=""/>
+                        </div>
+                        <h1><a href="/sqllogger/">SQL Logger</a></h1>
+                    </div>
+                    <h2 class="pgBlockHide">Site Navigation</h2>
+                    <div id="pgTopNav">
+                        <div id="pgTopNavLeft">
+                            <img src="layout/images/nav_lft.png" width="7" height="23" alt="" />
+                        </div>
+                        <div id="pgTopNavRight">
+                            <img src="layout/images/nav_rgt.png" width="7" height="23" alt="" />
+                        </div>
+                        <ul id="pgTopNavList">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=screenshots.jsp">
+                            Screenshots</a></li>
+                            <li><a href="install.html">
+                            Installation</a></li>
+                            <li><a href="technical.html">
+                            Technical Details</a></li>
+                            <li><a href="performance.html">Maintenance/Performance</a></li>
+                            <li><a href="http://www.visualdistortion.org/sqllogger/index.jsp?page=changelog.txt">Changes</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="pgContent">
+                    <div id="pgSideWrap">
+                        <div id="pgSideNav">
+                            <ul>
+                                <li><a href="http://www.adiumx.com">Adium</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://forums.adiumx.com">Forums</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_63.tar.gz">Plugin (.63)</a></li>
+                                    <li><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_70.tar.gz">Plugin (.70)</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/adium_80.tar.gz">Plugin
+                                    (.80)</a></li>
+                                </ul>
+                                <li><a
+                                href="http://fire.sourceforge.net">Fire</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://fire.sourceforge.net/forums/">Forums</a></li>
+                                    <li class="last-child"><a
+                                    href="http://www.visualdistortion.org/sqllogger/fire_15.tar.gz">Plugin</a></li>
+                                </ul>
+                                <li><a
+                                href="http://wwww.postgresql.org">PostgreSQL</a></li>
+                                <ul>
+                                    <li><a
+                                    href="http://www.postgresql.org/docs/7.4/interactive/index.html">Documentation</a></li>
+                                    <li><a
+                                    href="http://www.xceltech.net/products/freeware_products.html">PostMan
+                                    Query</a></li>
+                                </ul>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="pgContentWrap">
+                        <div id="pgDownloadsWrap">
+                            <div id="pgDownloads">
+                            
+                                      <h1>Installation Instructions</h1>
+  <p>These instructions are intended for people who want to install
+    PostgreSQL from source and the SQL Logger components on Panther.  It covers almost
+    everything.</p>
+  <h3>Installing PostgreSQL</h3>
+  <p>The first step is to install Fink.  You can get it from <a
+ class="offsite"
+ href="http://fink.sourceforge.net">http://fink.sourceforge.net</a></p>
+  <p>After fink is set up properly, install a couple programs to make
+    PostgreSQL work better.  You can also use DarwinPorts (<a class="offsite"
+      href="http://darwinports.opendarwin.org/ports/">http://darwinports.opendarwin.org/ports/</a> for this purpose, if
+  you have the desire.</p>
+  <div class="tutorialcode"><pre>fink install readline
+fink install ant</pre></div>
+  <p>If you are using darwinports:</p>
+  <div class="tutorialcode"><pre>sudo port install readline
+sudo port install apache-ant</pre></div>
+<p>Readline is a library which allows history in the PostgreSQL prompt.  Ant
+  lets PostgreSQL compile the Java library.</p>
+<p>Download the newest source from <a href="http://www.postgresql.org"
+    class="offsite">http://www.postgresql.org</a>.  If you are on Panther,
+  download the newest 7.4 release.  Compiling Postgres follows the
+  normal pattern, with a lot of options to configure (several of these are not
+  necessary for our purposes, but are included in case they are useful in the
+  future):</p>
+<div class="tutorialcode"><pre>./configure --bindir=/usr/local/bin --mandir=/usr/local/share/man/ \
+    --enable-recode --with-CXX --enable-odbc --with-java \
+    --enable-syslog --enable-unicode-conversion --enable-multibyte \
+    --with-includes=/sw/include --with-libs=/sw/lib
+make
+sudo make install</pre>
+</div>
+<p>If you are using darwin ports, you need to change the --with-includes and
+  --with-libs flag to <code>--with-includes=/opt/local/include</code>
+  and <code>--with-libs=/opt/local/lib</code> .</p>
+<h3>Configuring PostgreSQL</h3>
+<p>That's all it takes to compile and install PostgreSQL.  To set it up, you
+  need to create a new user for Postgres to run as.  I used NetInfo Manager to
+  do this.  After authenticating, select the "www" user and duplicate it.  A
+  few things need to be changed after duplicating the user.</p>
+  <ul>
+    <li>Change the short
+ username to "postgres", and the long name to "PostgreSQL Server".</li>
+    <li>The uid
+  and gid values need to be changed.  It doesn't matter what they're changed
+  to, as long as it is unique.  If the uid is less than 500, the user will not
+  show up on the Login panel. </li>
+<li>The shell needs to be changed from null to /bin/bash</li>
+</ul>
+<p>Now, PostgreSQL can be set up.</p>
+<div class="tutorialcode"><pre>jmelloy $] su
+root #] mkdir /usr/local/pgsql/data
+root #] chown -R postgres /usr/local/pgsql
+root #] su postgres
+postgres $] /usr/local/bin/initdb -D /usr/local/pgsql/data</pre></div>
+<p>This initially sets up PostgreSQL.  For the Perl script and JSP stuff to
+  work, the file <code>/usr/local/pgsql/data/postgresql.conf</code> needs to
+  be edited.  Type <code>pico /usr/local/pgsql/data/postgresql.conf</code> (as
+  postgres or root) and change the line that says <code>tcpip_socket</code> to
+  true.  If the line starts with #, remove the hash.</p>
+<p>This step is not necessary with PostgreSQL 8.0.</p>
+<p>Now Postgres is ready to be started.  USERNAME refers to your unix
+  username, which is also known as your short name.  The prompt should say
+  your unix username.</p>
+<div class="tutorialcode"><pre>postgres $] /usr/local/bin/pg_ctl -D /usr/local/pgsql/data \
+    -l /usr/local/pgsql/logfile start
+postgres $] /usr/local/bin/createdb <i>USERNAME</i>
+postgres $] /usr/local/bin/createuser <i>USERNAME</i>
+postgres $] su <i>username</i></pre></div>
+<h3>Configuring Your Shell</h3>
+<p>At this point you need to determine what shell you're using.  The default
+  is Bash, but some people use TCSH.  Don't worry about which you're using;
+  it doesn't matter.  As yourself:</p>
+<p>Type <code>echo $SHELL</code>.  It should return either Bash or TCSH.</p>
+    <h4>For Bash users</h4>
+    <p>Edit your ~/.bash_profile script using <code>pico</code> or <code>open -e</code>.  Add the following lines:</p>
+<div class="tutorialcode"><pre>PATH=$PATH:/usr/local/bin
+CLASSPATH=/usr/local/pgsql/share/java/postgresql.jar:$CLASSPATH
+export PATH CLASSPATH</pre></div>
+<h4>For TCSH</h4>
+<p>Edit ~/.tcshrc with <code>pico</code> or <code>open -e</code>.  Add the
+  following lines:</p>
+<div class="tutorialcode"><pre>setenv PATH /usr/local/bin:$PATH
+setenv CLASSPATH /usr/local/pgsql/share/java/postgresql.jar:$CLASSPATH</pre>
+</div>
+<p>Now you're ready to use the SQL Logger  stuff.</p>
+<div class="tutorialcode"><pre>cd ~/Desktop/sqllogger/sql
+psql &lt; create.sql</pre></div>
+
+<p>At this point, it is helpful to edit the search path of the database.</p>
+<div class="tutorialcode"><pre>jmelloy $] psql
+Welcome to psql 7.4, the PostgreSQL interactive terminal.
+
+Type:  \copyright for distribution terms
+       \h for help with SQL commands
+       \? for help on internal slash commands
+       \g or terminate with semicolon to execute query
+       \q to quit
+
+jmelloy=# alter user <i>username</i> set search_path=im,public;</pre></div>
+
+<p>At this point, you're ready to import your logs into the database.  Simply
+  use the log_import.pl script, and it will import all of your adium 2.x
+  logfiles.</p>
+<div class="tutorialcode"><pre>jmelloy $] cd ..
+jmelloy $] adium/log_import.pl</pre></div>
+<h3>Installing tsearch for fast searching</h3>
+<p>Note: All steps but the last two may be completed while the import script
+  is running.  The final step should be run after the importer script has
+  finished.</p>
+<div class="tutorialcode"><pre>jmelloy $] cd <i>POSTGRES_SOURCE_LOCATION</i>/contrib/tsearch2
+jmelloy $] make
+jmelloy $] sudo make install
+jmelloy $] psql &lt; tsearch2.sql
+jmelloy $] cd ~/Desktop/sqllogger/sql
+jmelloy $] psql &lt; tsearch2.sql</pre></div>
+
+<p>Now you need to install Resin if you wish to view the logs with the web
+  interface.  The web interface is currently more powerful than the built-in
+  log viewer. Download Resin from <a href="http://www.caucho.com/"
+    class="offsite">http://www.caucho.com</a>.  Get the latest 3.0 release.  Change directories into the Resin folder.</p>
+<p>On PostgreSQL 8.0 and later, the JDBC driver necessary to use PostgreSQL
+  with Resin is not included.  Get it from <a
+    href="http://jdbc.postgresql.org">http://www.postgresql.org</a> and put it
+  in <code>/usr/local/pgsql/share/java/</code>.</p>
+<h3>Resin 3.0.x: </h3>
+
+ <p>The configuration file needs to be edited.  Resin needs to be told how to
+   connect to PostgreSQL and where you have put the JSP files.</p>
+ <div class="tutorialcode"><pre>pico conf/resin.conf</pre></div>
+ <p>To configure the database, find the section that looks like this:</p>
+ <div class="tutorialcode">
+   <pre>&lt;!--
+   - Sample database pool configuration
+   -
+   - The JDBC name is java:comp/env/jdbc/test
+   -
+    &lt;database&gt;
+      &lt;jndi-name&gt;jdbc/mysql&lt;/jndi-name&gt;
+      &lt;driver type="org.gjt.mm.mysql.Driver"&gt;
+        &lt;url&gt;jdbc:mysql://localhost:3306/test&lt;/url&gt;
+        &lt;user&gt;&lt;/user&gt;
+        &lt;password&gt;&lt;/password&gt;
+      &lt;/driver&gt;
+      &lt;max-connections&gt;20&lt;/max-connections&gt;
+      &lt;max-idle-time&gt;30s&lt;/max-idle-time&gt;
+    &lt;/database&gt;
+    --&gt;</pre></div>
+<p>And change it to look like this:</p>
+ <div class="tutorialcode">
+   <pre>&lt;!--
+   - Sample database pool configuration
+   -
+   - The JDBC name is java:comp/env/jdbc/test
+   -
+  <b> --&gt;</b>
+    &lt;database&gt;
+    &lt;jndi-name&gt;<b>jdbc/postgresql</b>&lt;/jndi-name&gt;
+      &lt;driver type="<b>org.postgresql.Driver</b>"&gt;
+        &lt;url&gt;<b>jdbc:postgresql:<i>USERNAME</i></b>&lt;/url&gt;
+        &lt;user&gt;<b><i>USERNAME</i></b>&lt;/user&gt;
+        &lt;password&gt;&lt;/password&gt;
+      &lt;/driver&gt;
+      &lt;max-connections&gt;20&lt;/max-connections&gt;
+      &lt;max-idle-time&gt;30s&lt;/max-idle-time&gt;
+    &lt;/database&gt;</pre></div><br />
+<div class="important">Make sure you move the "--&gt;" to above the
+  &lt;database&gt;.  Otherwise you will comment out the entire file.</div>
+   <p>That's all it takes to set Resin up.  Simply drop sqllogger.war in the
+     <code>webapps</code>directory, and you're done.</p>
+  <div class="tutorialcode">
+    <pre>bin/httpd.sh</pre>
+  </div>
+  <p>To test it out, fire up a web browser and go to <a
+      href="http://localhost:8080/">http://localhost:8080/sqllogger/</a>.
+    You should see the sql logger page.</p>
+<h3>Installing the Plugin</h3>
+<p>All that is left is installing the plugin itself.</p>
+
+                            
+                            </div>
+                        </div>
+
+                        <div id="pgQuickDownloadsWrap">
+                            <div id="pgQuickDownloads">
+                                <dl>
+                                    <dt>Downloads</dt>
+                                    <dd>
+                                        <p><a
+                                        href="sqllogger.tar.gz">WAR/HTML/Plugins</a></p>
+                                        <p><a href="sqllogger.war">SQL Logger
+                                        WAR</a></p>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <br class="pgClearBoth" />
+                </div>
+                <div id="pgFooter">
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
