@@ -9257,7 +9257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$SRCROOT\"\n\necho Copying $SCRIPT_INPUT_FILE_0 to $SCRIPT_OUTPUT_FILE_0\n\n/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"";
+			shellScript = "cd \"$SRCROOT\"\n\necho Copying $SCRIPT_INPUT_FILE_0 to $SCRIPT_OUTPUT_FILE_0\n\nmkdir -p \"$SCRIPT_OUTPUT_FILE_0\"\n/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"";
 		};
 		34C51A620E576D6900162A8C /* Copy RBSplitView.framework */ = {
 			isa = PBXShellScriptBuildPhase;
