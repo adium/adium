@@ -37,30 +37,46 @@
 
 #pragma mark -
 
-- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)view {
-	NSString *path = [self stringValue];
+- (NSImage *) iconForObjectValue:(id)objectValue {
+	NSImage *icon = nil;
 
+	NSString *path = objectValue;
+
+	//First try to get a preview (AXCAbstractXtraDocument creates these).
+	if (iconSource.iconSourceBitfield.getPreviewsByFullPath)
+		icon = [NSImage imageNamed:[@"Preview of " stringByAppendingString:path]];
+
+	//If there's no preview for the absolute path, try the filename.
+	if (iconSource.iconSourceBitfield.getPreviewsByFilename && (!icon) && [path isAbsolutePath])
+		icon = [NSImage imageNamed:[@"Preview of " stringByAppendingString:[path lastPathComponent]]];
+
+	//If there isn't a preview for either path, just get the file's icon.
+	if (iconSource.iconSourceBitfield.getPreviewsFromFileIcons && !icon) {
+		icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
+		[icon setFlipped:YES];
+	}
+
+	//Fallback on generic file icon.
+	if (!icon) {
+		icon = [[NSWorkspace sharedWorkspace] iconForFileType:@"'docu'"];
+		[icon setFlipped:YES];
+	}
+
+	return icon;
+}
+
+- (NSString *) filenameForObjectValue:(id)objectValue {
+	NSString *path = objectValue;
+
+	return [[NSFileManager defaultManager] displayNameAtPath:path];
+}
+
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)view {
 	float gutter = 0.0, contentHeight = 16.0;
 	static const float visualSeparation = 8.0;
 
 	/*draw the icon*/ {
-		//first try to get a preview (AXCAbstractXtraDocument creates these).
-		NSImage *icon = nil;
-		if (iconSource.iconSourceBitfield.getPreviewsByFullPath)
-			icon = [NSImage imageNamed:[@"Preview of " stringByAppendingString:path]];
-		//if there's no preview for the absolute path, try the filename.
-		if (iconSource.iconSourceBitfield.getPreviewsByFilename && (!icon) && [path isAbsolutePath])
-			icon = [NSImage imageNamed:[@"Preview of " stringByAppendingString:[path lastPathComponent]]];
-		//if there isn't a preview for either path, just get the file's icon.
-		if (iconSource.iconSourceBitfield.getPreviewsFromFileIcons && !icon) {
-			icon = [[NSWorkspace sharedWorkspace] iconForFile:path];
-			[icon setFlipped:YES];
-		}
-		//fallback on generic file icon.
-		if (!icon) {
-			icon = [[NSWorkspace sharedWorkspace] iconForFileType:@"'docu'"];
-			[icon setFlipped:YES];
-		}
+		NSImage *icon = [self iconForObjectValue:[self objectValue]];
 
 		//get the largest size that will fit entirely within the frame.
 		float cellDimension = MIN(cellFrame.size.width, cellFrame.size.height);
@@ -99,7 +115,7 @@
 	}
 
 	/*draw the filename*/ {
-		NSString *filename = [[NSFileManager defaultManager] displayNameAtPath:path];
+		NSString *filename = [self filenameForObjectValue:[self objectValue]];
 
 		float leftMargin = gutter + (visualSeparation * 2.0) + contentHeight;
 		NSRect destRect = {
