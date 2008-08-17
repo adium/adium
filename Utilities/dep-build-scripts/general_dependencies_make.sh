@@ -38,9 +38,9 @@ for ARCH in ppc i386 ; do
 	export LDFLAGS="$BASE_LDFLAGS -arch $ARCH"
 	
 	case $ARCH in
-		ppc) HOST=powerpc-apple-darwin8
+		ppc) HOST=powerpc-apple-darwin9
 			 export PATH=$PATH_PPC;;
-		i386) HOST=i686-apple-darwin8
+		i386) HOST=i686-apple-darwin9
 			  export PATH=$PATH_I386;;
 	esac
 	
@@ -84,8 +84,8 @@ for ARCH in ppc i386; do
 	export LDFLAGS="$LOCAL_FLAGS $BASE_LDFLAGS -arch $ARCH"
 	
 	case $ARCH in
-		ppc) HOST=powerpc-apple-darwin8;;
-		i386) HOST=i686-apple-darwin8;;
+		ppc) HOST=powerpc-apple-darwin9;;
+		i386) HOST=i686-apple-darwin9;;
 	esac
 	
 	mkdir glib-$ARCH >/dev/null 2>&1 || true
