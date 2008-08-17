@@ -48,7 +48,7 @@ function is_macho () {
 function is_link () {
 	if ! test "$1" = "" && ! test "$2" = "" ;
 	then
-		grepLink=`otool -L $2 | grep $1 | cut -d" "  -f 1`
+		grepLink=`otool -arch all -L $2 | grep $1 | cut -d" "  -f 1`
 		
 		if ! test "$grepLink" = "" ;
 		then
