@@ -1,0 +1,35 @@
+#
+# old_revision [20e2add42a314b4914e798757eb2a69ac3b491d0]
+#
+# patch "libpurple/xmlnode.c"
+#  from [c75c4e9728a2d97dffe3409ef58302d1df1e6ea5]
+#    to [b977d023c837a3fd6aa5801a77c37dc18cdb7889]
+#
+============================================================
+--- libpurple/xmlnode.c	c75c4e9728a2d97dffe3409ef58302d1df1e6ea5
++++ libpurple/xmlnode.c	b977d023c837a3fd6aa5801a77c37dc18cdb7889
+@@ -694,6 +694,15 @@ static xmlSAXHandler xmlnode_parser_libx
+ 	NULL, /* serror */
+ };
+ 
++static void
++libpurple_parser_structured_error_handler(void *user_data, xmlErrorPtr error)
++{
++	purple_debug_error("xmlnode", "XML parser error: "
++					   "Domain %i, code %i, level %i: %s\n",
++					   error->domain, error->code, error->level,
++					   (error->message ? error->message : "(null)"));
++}
++
+ xmlnode *
+ xmlnode_from_str(const char *str, gssize size)
+ {
+@@ -706,6 +715,8 @@ xmlnode_from_str(const char *str, gssize
+ 	real_size = size < 0 ? strlen(str) : size;
+ 	xpd = g_new0(struct _xmlnode_parser_data, 1);
+ 
++	xmlSetStructuredErrorFunc(NULL, libpurple_parser_structured_error_handler);
++
+ 	if (xmlSAXUserParseMemory(&xmlnode_parser_libxml, xpd, str, real_size) < 0) {
+ 		while(xpd->current && xpd->current->parent)
+ 			xpd->current = xpd->current->parent;

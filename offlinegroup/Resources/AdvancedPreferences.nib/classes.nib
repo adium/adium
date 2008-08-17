@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAdvancedPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                modularPane = AIModularPaneCategoryView; 
+                "shelf_splitView" = KNShelfSplitView; 
+                "tableView_categories" = NSTableView; 
+            }; 
+            SUPERCLASS = AIPreferencePane; 
+        }, 
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {
+            ACTIONS = {changePreference = id; }; 
+            CLASS = AIModularPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {plugin = id; view = NSView; }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {CLASS = AIModularPaneCategoryView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AIPreferencePane; LANGUAGE = ObjC; SUPERCLASS = AIModularPane; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = KNShelfSplitView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; shelfView = NSView; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

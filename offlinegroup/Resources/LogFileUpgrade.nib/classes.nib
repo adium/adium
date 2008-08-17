@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            CLASS = AILogFileUpgradeWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"label_upgrading" = NSTextField; progressIndicator = NSProgressIndicator; }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

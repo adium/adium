@@ -1,0 +1,82 @@
+{
+    IBClasses = (
+        {CLASS = AILinkTextView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                nextTab = id; 
+                pressedAlternateButton = id; 
+                previousTab = id; 
+                promptForMultiples = id; 
+            }; 
+            CLASS = AdiumSetupWizard; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                backgroundView = SetupWizardBackgroundView; 
+                "button_alternate" = NSButton; 
+                "button_continue" = NSButton; 
+                "button_goBack" = NSButton; 
+                "popUp_services" = NSPopUpButton; 
+                "progress_processing" = NSProgressIndicator; 
+                tabView = NSTabView; 
+                "textField_addAccount" = NSTextField; 
+                "textField_done" = NSTextField; 
+                "textField_import" = NSTextField; 
+                "textField_password" = NSTextField; 
+                "textField_passwordLabel" = NSTextField; 
+                "textField_serviceLabel" = NSTextField; 
+                "textField_username" = NSTextField; 
+                "textField_usernameLabel" = NSTextField; 
+                "textField_welcome" = NSTextField; 
+                "textView_addAccountMessage" = NSTextView; 
+                "textView_doneMessage" = NSTextView; 
+                "textView_importMessage" = NSTextView; 
+                "textView_welcomeMessage" = NSTextView; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSButton; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSTextField; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {
+            CLASS = SetupAssistantBoxBackgroundView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            CLASS = SetupWizardBackgroundView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {contentView = NSView; }; 
+            SUPERCLASS = NSView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

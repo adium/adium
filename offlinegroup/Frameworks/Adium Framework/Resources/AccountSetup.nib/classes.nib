@@ -1,0 +1,45 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {changedPreference = id; }; 
+            CLASS = AIAccountViewController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "checkBox_checkMail" = NSButton; 
+                "checkBox_sendTyping" = NSButton; 
+                "label_alias" = NSTextField; 
+                "label_encryption" = NSTextField; 
+                "label_password" = NSTextField; 
+                "label_typing" = NSTextField; 
+                "popUp_encryption" = NSPopUpButton; 
+                "textField_accountUID" = NSTextField; 
+                "textField_accountUIDLabel" = NSTextField; 
+                "textField_alias" = NSTextField; 
+                "textField_connectHost" = NSTextField; 
+                "textField_connectPort" = NSTextField; 
+                "textField_password" = NSTextField; 
+                "view_auxiliaryTabView" = NSTabView; 
+                "view_options" = NSView; 
+                "view_privacy" = NSView; 
+                "view_profile" = NSView; 
+                "view_setup" = NSView; 
+            }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSTextField; LANGUAGE = ObjC; SUPERCLASS = NSControl; }
+    ); 
+    IBVersion = 1; 
+}

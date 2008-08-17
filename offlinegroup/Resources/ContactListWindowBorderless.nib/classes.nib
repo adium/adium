@@ -1,0 +1,45 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAnimatingListOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIListOutlineView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {
+            CLASS = AIBorderlessListOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIAnimatingListOutlineView; 
+        }, 
+        {
+            CLASS = AIBorderlessListWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIListWindowController; 
+        }, 
+        {CLASS = AIBorderlessWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
+        {
+            CLASS = AIListOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIMultiCellOutlineView; 
+        }, 
+        {
+            ACTIONS = {close = id; makeActive = id; }; 
+            CLASS = AIListWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                contactListView = AIListOutlineView; 
+                "scrollView_contactList" = AIAutoScrollView; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = AIMultiCellOutlineView; LANGUAGE = ObjC; SUPERCLASS = AIOutlineView; }, 
+        {CLASS = AIOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

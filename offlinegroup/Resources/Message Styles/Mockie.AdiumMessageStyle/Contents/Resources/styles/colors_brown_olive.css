@@ -1,0 +1,77 @@
+body {
+	background-color: #eef3eb;
+}
+
+.incoming .buddyicon {
+	background: rgba(178,125,75,0.2);
+}
+
+.incoming .topleft {
+	background: url(../images/brown/topleft.png) no-repeat;
+}
+
+.incoming .sender {
+	background: #b27d4b;
+}
+
+.incoming .protocol
+{
+	background: no-repeat url(../images/brown/topright.png) right;
+}
+
+.incoming .time_consecutive, .incoming .time_initial {
+	color: #b27d4b;
+}
+
+.incoming .message
+{
+	background: rgba(226,219,203,0.9);
+}
+
+.incoming .time_consecutive + div {
+	border-top: 1px solid rgba(178,125,75,0.4);
+}
+
+.incoming a:hover
+{
+	background: #b27d4b;
+	color: white;
+}
+
+.outgoing .buddyicon {
+	background: rgba(116,157,95,0.2);
+}
+
+.outgoing .topleft {
+	background: no-repeat url(../images/olive/topleft.png);
+}
+
+.outgoing .sender {
+	background: #749d5f;
+}
+
+.outgoing .protocol
+{
+	background: no-repeat url(../images/olive/topright.png) right;
+}
+
+.outgoing .time_consecutive, .outgoing .time_initial {
+	color: #749d5f;
+}
+
+.outgoing .message {
+	background: rgba(213,225,207,0.9);
+}
+
+.outgoing .time_consecutive + div {
+	border-top: 1px solid rgba(116,157,95,0.4);
+}
+
+.outgoing a:hover {
+	background: #749d5f;
+	color: white;
+}
+
+.status_container {
+	background-color: rgba(238,245,235,0.8);
+}

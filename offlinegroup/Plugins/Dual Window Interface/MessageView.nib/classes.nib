@@ -1,0 +1,195 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AIAccountSelectionView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "box_accounts" = NSBox;
+                "box_contacts" = NSBox;
+                delegate = id;
+                "popUp_accounts" = NSPopUpButton;
+                "popUp_contacts" = NSPopUpButton;
+                "view_contents" = NSView;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = AIAlternatingRowOutlineView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                lastSelectedRowIndexes = id;
+            };
+            SUPERCLASS = AIOutlineView;
+        },
+                {
+            CLASS = AIAutoScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScrollView;
+        },
+                {
+            CLASS = AIColoredBoxView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = AICompletingTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = AIListOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIMultiCellOutlineView;
+        },
+                {
+            ACTIONS =             {
+                pasteAsRichText = id;
+                scrollPageDown = id;
+                scrollPageUp = id;
+            };
+            CLASS = AIMessageEntryTextView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AISendingTextView;
+        },
+                {
+            CLASS = AIMessageTabSplitView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AISplitView;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                didSendMessage = id;
+                sendMessage = id;
+                sendMessageLater = id;
+                toggleUserlist = id;
+            };
+            CLASS = AIMessageViewController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "customView_messages" = NSView;
+                "nibrootView_messageView" = NSView;
+                "nibrootView_shelfVew" = NSView;
+                "nibrootView_userList" = NSView;
+                "scrollView_messages" = AIMessageWindowOutgoingScrollView;
+                "scrollView_outgoing" = NSScrollView;
+                "scrollView_userList" = AIAutoScrollView;
+                shelfView = KNShelfSplitView;
+                "splitView_textEntryHorizontal" = RBSplitView;
+                "textView_outgoing" = AIMessageEntryTextView;
+                userListView = AIListOutlineView;
+                "view_contents" = NSView;
+            };
+            SUPERCLASS = AIObject;
+        },
+                {
+            ACTIONS =             {
+                sendMessage = id;
+            };
+            CLASS = AIMessageWindowController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "scrollView_messageView" = NSScrollView;
+                "textView_outgoing" = AIMessageSendingTextView;
+                toolbar = AIMiniToolbar;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = AIMessageWindowOutgoingScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScrollView;
+        },
+                {
+            CLASS = AIMiniToolbar;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                representedObject = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = AIMultiCellOutlineView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                contentCell = id;
+                groupCell = id;
+            };
+            SUPERCLASS = AIAlternatingRowOutlineView;
+        },
+                {
+            CLASS = AIObject;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = AIOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSOutlineView;
+        },
+                {
+            CLASS = AIPlasticButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButton;
+        },
+                {
+            ACTIONS =             {
+                sendContent = id;
+            };
+            CLASS = AISendingTextView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                target = id;
+            };
+            SUPERCLASS = NSTextView;
+        },
+                {
+            CLASS = AISideSplitView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AISplitView;
+        },
+                {
+            CLASS = AISplitView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSSplitView;
+        },
+                {
+            CLASS = AIUserListOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AIListOutlineView;
+        },
+                {
+            CLASS = AIWidgetStripView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                sideSplitView = id;
+                splitView = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                toggleShelf = id;
+            };
+            CLASS = KNShelfSplitView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                contentView = NSView;
+                delegate = id;
+                shelfView = NSView;
+                target = id;
+            };
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        }
+    );
+    IBVersion = 1;
+}

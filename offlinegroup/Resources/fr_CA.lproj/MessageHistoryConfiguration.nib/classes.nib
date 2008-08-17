@@ -1,0 +1,27 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIMessageHistoryPreferencesWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "popUp_haveNotTalkedUnits" = NSPopUpButton; 
+                "popUp_haveTalkedUnits" = NSPopUpButton; 
+                "stepper_haveNotTalkedDays" = NSStepper; 
+                "stepper_haveTalkedDays" = NSStepper; 
+                "textField_haveNotTalkedDays" = NSTextField; 
+                "textField_haveTalkedDays" = NSTextField; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AISmartStepper; LANGUAGE = ObjC; SUPERCLASS = NSStepper; }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

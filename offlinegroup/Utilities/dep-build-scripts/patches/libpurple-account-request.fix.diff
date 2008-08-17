@@ -1,0 +1,56 @@
+#
+# old_revision [20e2add42a314b4914e798757eb2a69ac3b491d0]
+#
+# patch "libpurple/account.c"
+#  from [4913e4cbb4bcb3af7af553ca85a2e3fbf8c39d31]
+#    to [2fab2be67ffcf03e74c41d053c186e5bd4a545ac]
+#
+============================================================
+--- libpurple/account.c	4913e4cbb4bcb3af7af553ca85a2e3fbf8c39d31
++++ libpurple/account.c	2fab2be67ffcf03e74c41d053c186e5bd4a545ac
+@@ -1208,6 +1208,9 @@ purple_account_request_close_info(Purple
+ 	if (ops != NULL && ops->close_account_request != NULL)
+ 		ops->close_account_request(info->ui_handle);
+ 
++	handles = g_list_remove(handles, info);
++
++	g_free(info->user);
+ 	g_free(info);
+ }
+ 
+@@ -1224,7 +1227,6 @@ purple_account_request_close_with_accoun
+ 		l_next = l->next;
+ 
+ 		if (info->account == account) {
+-			handles = g_list_remove(handles, info);
+ 			purple_account_request_close_info(info);
+ 		}
+ 	}
+@@ -1243,7 +1245,6 @@ purple_account_request_close(void *ui_ha
+ 		l_next = l->next;
+ 
+ 		if (info->ui_handle == ui_handle) {
+-			handles = g_list_remove(handles, info);
+ 			purple_account_request_close_info(info);
+ 		}
+ 	}
+@@ -1256,8 +1257,7 @@ request_auth_cb(void *data)
+ 	info->auth_cb(info->userdata);
+ 	purple_signal_emit(purple_accounts_get_handle(),
+ 			"account-authorization-granted", info->account, info->user);
+-	g_free(info->user);
+-	g_free(info);
++	purple_account_request_close_info(info);
+ }
+ 
+ static void
+@@ -1267,8 +1267,7 @@ request_deny_cb(void *data)
+ 	info->deny_cb(info->userdata);
+ 	purple_signal_emit(purple_accounts_get_handle(),
+ 			"account-authorization-denied", info->account, info->user);
+-	g_free(info->user);
+-	g_free(info);
++	purple_account_request_close_info(info);
+ }
+ 
+ void *
