@@ -27,9 +27,11 @@ for ARCH in ppc i386 ; do
     
 	case $ARCH in
 		ppc) TARGET_DIR="$TARGET_DIR_PPC"
-			 export PATH="$PATH_PPC";;
+			 export PATH="$PATH_PPC"
+			 export PKG_CONFIG_PATH="$TARGET_DIR_PPC/lib/pkgconfig";;
 		i386) TARGET_DIR="$TARGET_DIR_I386"
-			  export PATH="$PATH_I386";;
+			  export PATH="$PATH_I386"
+			  export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig";;
 	esac
 
     mkdir meanwhile-$ARCH || true
