@@ -1311,7 +1311,6 @@
 		EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		EEC461B6096D68580028632F /* OWSpellingPerContactPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */; };
 		EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */; };
-		F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F51BCE390A156312000FDC06 /* AdiumSpotlightImporter.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = 34611C8309B6756D00870036 /* AdiumSpotlightImporter.mdimporter */; };
 		F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F551B1000B8F5130007D3A3C /* FireLogImporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = F56E0DAF0A4CDF9C008D1EB5 /* FireLogImporter.nib */; };
@@ -1724,7 +1723,6 @@
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
 				377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
-				F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */,
 				341BDBBB0968BC9B00CF83F5 /* OTR.framework in Copy Frameworks */,
 				3419FE230531586A00C68BA3 /* Adium.framework in Copy Frameworks */,
 				9E12765407D38B5000AA91C5 /* Growl-WithInstaller.framework in Copy Frameworks */,
@@ -3094,7 +3092,7 @@
 		349DDD5206406A7D00542726 /* stackImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stackImage.png; path = "Frameworks/Adium Framework/stackImage.png"; sourceTree = "<group>"; };
 		349E2E8B07A8AF0C00EAB76A /* AIEmoticonPackPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIEmoticonPackPreviewController.h; path = Plugins/Emoticons/AIEmoticonPackPreviewController.h; sourceTree = "<group>"; };
 		349E2E8C07A8AF0C00EAB76A /* AIEmoticonPackPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIEmoticonPackPreviewController.m; path = Plugins/Emoticons/AIEmoticonPackPreviewController.m; sourceTree = "<group>"; };
-		349ECD2007C1BE2A0014623E /* LaTeX Plugin.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LaTeX Plugin.AdiumPlugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		349ECD2007C1BE2A0014623E /* Latex Plugin.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Latex Plugin.AdiumPlugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		349FE2FC074D01D200E36B3B /* ESFileTransferProgressWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferProgressWindowController.m; path = Source/ESFileTransferProgressWindowController.m; sourceTree = "<group>"; };
 		349FE2FD074D01D300E36B3B /* ESFileTransferProgressWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESFileTransferProgressWindowController.h; path = Source/ESFileTransferProgressWindowController.h; sourceTree = "<group>"; };
 		349FE2FE074D01D300E36B3B /* ESFileTransferProgressView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESFileTransferProgressView.m; path = Source/ESFileTransferProgressView.m; sourceTree = "<group>"; };
@@ -4635,7 +4633,7 @@
 				346C9DA406004754000F5A8A /* Standard Message View.AdiumPlugin */,
 				3499F45006309AC80035B468 /* WebKit Message View.AdiumPlugin */,
 				4947F5CB0655E85200B791E5 /* Bonjour.AdiumPlugin */,
-				349ECD2007C1BE2A0014623E /* LaTeX Plugin.AdiumPlugin */,
+				349ECD2007C1BE2A0014623E /* Latex Plugin.AdiumPlugin */,
 				349C2EFA0867AC97000BF883 /* AdiumApplescriptRunner */,
 				34B323C009B9FEAC00029361 /* IRC Service.AdiumLibpurplePlugin */,
 				3417D26109C332B900FC413E /* Translator.AdiumPlugin */,
@@ -8392,6 +8390,7 @@
 				4BF2E91F067CB76300743318 /* Copy Built-In Xtras */,
 				34BD9D6A053146CC000AB133 /* Copy Built-in Plugins */,
 				63FB49590E57E84F004ED3F3 /* Copy AIUtilities.framework */,
+				94982B230E59031D00E1B125 /* Copy AutoHyperlinks.framework */,
 				34C51A620E576D6900162A8C /* Copy RBSplitView.framework */,
 				34C51A7D0E576E2300162A8C /* Copy FriBidi.framework */,
 				6C15E63106DF3BB600E5A50E /* Script: Delete .h files */,
@@ -8546,7 +8545,7 @@
 			);
 			name = "LaTeX Plugin";
 			productName = "Latex Plugin";
-			productReference = 349ECD2007C1BE2A0014623E /* LaTeX Plugin.AdiumPlugin */;
+			productReference = 349ECD2007C1BE2A0014623E /* Latex Plugin.AdiumPlugin */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -9333,6 +9332,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Delete .h files\nfind \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -print0 | xargs -0 rm -f\n";
+		};
+		94982B230E59031D00E1B125 /* Copy AutoHyperlinks.framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "Copy AutoHyperlinks.framework";
+			files = (
+			);
+			inputPaths = (
+				$BUILT_PRODUCTS_DIR/AutoHyperlinks.framework,
+			);
+			name = "Copy AutoHyperlinks.framework";
+			outputPaths = (
+				$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT\"\n\necho Copying $SCRIPT_INPUT_FILE_0 to $SCRIPT_OUTPUT_FILE_0\n\n/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
