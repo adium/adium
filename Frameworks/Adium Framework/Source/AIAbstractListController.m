@@ -595,12 +595,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
     if (item == nil) {
 		if (hideRoot) {
-			return (index >= 0 && index < [contactList visibleCount]) ? [contactList visibleObjectAtIndex:index] : nil;
+			return (index >= 0 && index < ((AIListObject<AIContainingObject> *)contactList).visibleCount) ? [contactList visibleObjectAtIndex:index] : nil;
 		} else {
 			return contactList;
 		}
     } else {
-        return (index >= 0 && index < [item visibleCount]) ? [item visibleObjectAtIndex:index] : nil;
+        return (index >= 0 && index < ((AIListObject<AIContainingObject> *)item).visibleCount) ? [item visibleObjectAtIndex:index] : nil;
     }
 }
 
@@ -609,12 +609,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
     if (item == nil) {
 		if (hideRoot) {
-			return [contactList visibleCount];
+			return ((AIListObject<AIContainingObject> *)contactList).visibleCount;
 		} else {
 			return 1;
 		}
     } else {
-        return [item visibleCount];
+        return ((AIListObject<AIContainingObject> *)item).visibleCount;
     }
 }
 
@@ -662,7 +662,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(id)item
 {
-    return !item || [item isExpanded];
+    return !item || item.expanded;
 }
 
 /*!
@@ -721,8 +721,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
     NSString *stringValue = @"";
     
-    if (outlineView == contactListView)
-    {        
+    if (outlineView == contactListView) {        
         AIListCell *cell;
         if ([item isKindOfClass:[AIListGroup class]])
             cell = groupCell;
@@ -734,7 +733,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
            forTableColumn:tableColumn
                      item:item];
         
-        stringValue = [cell labelString];
+        stringValue = cell.labelString;
     }
     
     return stringValue;
@@ -753,7 +752,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 
 	// Remove this contact list if from drag & drop operation took the last group away
-	if(![[contactList listContacts] count]){
+	if (contactList.listContacts.count == 0) {
 		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}
@@ -897,7 +896,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	if ([hoveredObject isKindOfClass:[AIListContact class]]) {
 		[adium.interfaceController showTooltipForListObject:hoveredObject
 												atScreenPoint:screenPoint
-													 onWindow:[contactListView window]];
+													 onWindow:contactListView.window];
 	} else {
 		[self hideTooltip];
 	}
@@ -908,8 +907,8 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	AIListObject	*listObject = nil;
 
 	if (showTooltips && (showTooltipsInBackground || [NSApp isActive])) {
-		NSRect		contactListFrame = [contactListView frame];
-		NSPoint		viewPoint = [contactListView convertPoint:[[contactListView window] convertScreenToBase:screenPoint]
+		NSRect		contactListFrame = contactListView.frame;
+		NSPoint		viewPoint = [contactListView convertPoint:[contactListView.window convertScreenToBase:screenPoint]
 													 fromView:nil];
 		
 		//Be sure that screen points outside our view return nil, since no contact is being hovered.
@@ -962,13 +961,13 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 #pragma mark Find Panel
 - (void)outlineViewToggleFindPanel:(NSOutlineView *)outlineView;
 {
-	if ([[self delegate] respondsToSelector:@selector(toggleFindPanel:)])
-		[[self delegate] toggleFindPanel:outlineView];
+	if ([self.delegate respondsToSelector:@selector(toggleFindPanel:)])
+		[self.delegate toggleFindPanel:outlineView];
 }
 - (BOOL)outlineView:(NSOutlineView *)outlineView forwardKeyEventToFindPanel:(NSEvent *)event;
 {
-	if ([[self delegate] respondsToSelector:@selector(forwardKeyEventToFindPanel:)]) {
-		return [[self delegate] forwardKeyEventToFindPanel:event];
+	if ([self.delegate respondsToSelector:@selector(forwardKeyEventToFindPanel:)]) {
+		return [self.delegate forwardKeyEventToFindPanel:event];
 	} else {
 		return NO;
 	}
