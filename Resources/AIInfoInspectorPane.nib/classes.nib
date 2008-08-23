@@ -70,6 +70,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSScrollView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -123,6 +131,25 @@
 			<string>AIDelayedTextField</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AILocalizationTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>view_anchorToLeftSide</key>
+				<string>NSView</string>
+				<key>view_anchorToRightSide</key>
+				<string>NSView</string>
+				<key>window_anchorOnLeftSide</key>
+				<string>NSWindow</string>
+				<key>window_anchorOnRightSide</key>
+				<string>NSWindow</string>
+			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSTextField</string>
 		</dict>

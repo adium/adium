@@ -416,7 +416,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	AIListContact   *returnContact = nil;
 	
 	if (inService) {
-		NSString	*serviceClass = [inService serviceClass];
+		NSString	*serviceClass = inService.serviceClass;
 		
 		//Search for an available contact who is not mobile
 		for (AIListContact *thisContact in self.listContacts) {
@@ -530,7 +530,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	for (i = 0; i < listContactsCount; i++) {
 
 		listContact = [listContacts objectAtIndex:i];
-		serviceClass = [[listContact service] serviceClass];
+		serviceClass = listContact.serviceClass;
 		
 		// Is there already an entry for this service?
 		if ((contactArray = [contactsDict objectForKey:serviceClass])) {

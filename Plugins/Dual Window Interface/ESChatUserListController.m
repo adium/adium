@@ -30,8 +30,8 @@
 		[super outlineViewSelectionDidChange:notification];
 	}
 	
-	if ([[self delegate] respondsToSelector:@selector(outlineViewSelectionDidChange:)]) {
-		[[self delegate] performSelector:@selector(outlineViewSelectionDidChange:)
+	if ([self.delegate respondsToSelector:@selector(outlineViewSelectionDidChange:)]) {
+		[self.delegate performSelector:@selector(outlineViewSelectionDidChange:)
 							  withObject:notification];
 	}
 }
@@ -138,7 +138,7 @@
 	
     return [adium.menuController contextualMenuWithLocations:locationsArray
 												 forListObject:listObject
-														inChat:[[self delegate] chat]];
+														inChat:[self.delegate chat]];
 }
 
 @end

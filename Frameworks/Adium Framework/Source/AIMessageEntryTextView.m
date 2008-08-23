@@ -288,8 +288,8 @@
 			}
 
 		} else if (inChar == NSTabCharacter) {
-			if ([[self delegate] respondsToSelector:@selector(textViewShouldTabComplete:)] &&
-				[[self delegate] textViewShouldTabComplete:self]) {
+			if ([self.delegate respondsToSelector:@selector(textViewShouldTabComplete:)] &&
+				[self.delegate textViewShouldTabComplete:self]) {
 				[self complete:nil];
 			} else {
 				[super keyDown:inEvent];				
@@ -358,8 +358,8 @@
 		[self clearLinkAttribute];		
 	}
 
-	if ([[self delegate] respondsToSelector:@selector(textViewDidCancel:)]) {
-		[[self delegate] textViewDidCancel:self];
+	if ([self.delegate respondsToSelector:@selector(textViewDidCancel:)]) {
+		[self.delegate textViewDidCancel:self];
 	}
 }
 

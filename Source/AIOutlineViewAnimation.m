@@ -64,7 +64,7 @@
 {
 	[super setCurrentProgress:progress];
 
-	[[self delegate] animation:self didSetCurrentValue:[self currentValue] forDict:dict];
+	[self.delegate animation:self didSetCurrentValue:[self currentValue] forDict:dict];
 }
 
 @end

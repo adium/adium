@@ -166,7 +166,7 @@ typedef enum {
 @property (readwrite, nonatomic) BOOL isGroupChat;
 
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
-@property (readonly, nonatomic) NSSet *customEmoticons;
+@property (readonly, nonatomic) NSMutableSet *customEmoticons;
 
 - (void)receivedError:(NSNumber *)type;
 

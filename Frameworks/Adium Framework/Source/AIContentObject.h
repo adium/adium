@@ -90,11 +90,11 @@
  *
  *	@par	There is at least one type defined for every concrete subclass of \c AIContentObject.
  *
- *	@par	Subclassing note: You must override this method and return a string (not \c nil). This string should probably be constant, so that types can be compared using the <code>==</code> operator rather than string comparison.
+ *	@par	Subclassing note: You must override the getter and return a string (not \c nil). This string should probably be constant, so that types can be compared using the <code>==</code> operator rather than string comparison.
  *
  *	@return	A string representing the type of content that this object bears.
  */
-- (NSString *)type;
+@property (nonatomic, readonly) NSString *type;
 
 #pragma mark Comparing
 
@@ -127,21 +127,23 @@
  *
  *	@return	The source of the content.
  */
-- (AIListObject *)source;
+@property (nonatomic, readonly) AIListObject *source;
 /*!	@brief	The list object (usually, contact) that the content is addressed to.
  *
  *	@par	This is set by the init methods.
  *
  *	@return	The intended recipient of the content.
  */
-- (AIListObject *)destination;
+@property (nonatomic, readonly) AIListObject *destination;
+
 /*!	@brief	The date and time at which the content was sent.
  *
  *	@par	This is set by the init methods.
  *
  *	@return	The datestamp of the content.
  */
-- (NSDate *)date;
+@property (nonatomic, readonly) NSDate *date;
+
 /*!	@brief	Returns whether the content is outgoing (the user sent it), rather than incoming (the user received it).
  *
  *	@par	If the content's source is an account, then the content is outgoing (the user sent it). Otherwise, it's incoming (the user received it).
@@ -150,7 +152,7 @@
  *
  *	@return	\c YES if the content is outgoing; \c NO if it is incoming.
  */
-- (BOOL)isOutgoing;
+@property (nonatomic, readonly) BOOL isOutgoing;
 
 /*!	@brief	The chat with which this content is associated.
  *
@@ -158,25 +160,13 @@
  *
  *	@return	The chat with which this content is associated.
  */
-- (AIChat *)chat;
-/*!	@brief	Associate a different chat with this content.
- *
- *	@param	inChat	The chat you want to portage this content to.
- *
- *	@deprecated	Deprecated since 1.2, and likely to be pulled even before then. Nothing currently uses <code>setChat:</code>, so unless a reason to have it becomes evident, this will probably fall off, leaving the \c chat property fixed in stone after initialization.
- */
-- (void)setChat:(AIChat *)inChat;
+@property (nonatomic, readonly) AIChat *chat;
 
-/*!	@brief	Change the message of this content.
- *
- *	@param	inMessage	The new message.
- */
-- (void)setMessage:(NSAttributedString *)inMessage;
 /*!	@brief	Obtain the current message in the content.
  *
  *	@return	The current message.
  */
-- (NSAttributedString *)message;
+@property (nonatomic, retain) NSAttributedString *message;
 
 /*!	@brief	Get an array of CSS class names with which this content should be displayed.
  *
@@ -192,13 +182,6 @@
  */
 - (void) addDisplayClass:(NSString *)className;
 
-/*!	@brief	Obtain an object previously associated with this content object.
- *
- *	@par	\c AIContentObject does not use this object at all; it simply retains it. This property is entirely for your own use.
- *
- *	@return	The user info object.
- */
-- (id)userInfo;
 /*!	@brief	Associate any object you want with this content object.
  *
  *	@par	\c AIContentObject does not use this object at all; it simply retains it. This property is entirely for your own use. This sort of property is also called a “reference constant”, especially by Carbon APIs.
@@ -209,7 +192,7 @@
  *
  *	@param	inUserInfo	The new user-info object.
  */
-- (void)setUserInfo:(id)inUserInfo;
+@property (nonatomic, retain) id userInfo;
 
 #pragma mark Behavior
 
@@ -219,14 +202,7 @@
  *
  *	@return	\c YES if the content will be passed through content filters; \c NO if it will not be passed through filters.
  */
-- (BOOL)filterContent;
-/*!	@brief	Change whether the content passes through content filters.
- *
- *	@par	Content filtering is performed by the content controller; see \c AIContentControllerProtocol. This property tells the content controller whether to apply its filters to the content object, or leave the content object unfiltered.
- *
- *	@param	inFilterContent	\c YES if you want the content to be passed through content filters; \c NO if you do not want it passed through filters.
- */
-- (void)setFilterContent:(BOOL)inFilterContent;
+@property (nonatomic) BOOL filterContent;
 
 /*!	@brief	Return whether the content will cause notifications and events.
  *
@@ -234,20 +210,12 @@
  *
  *	@par	See the \c AIContentControllerProtocol documentation for more information on content controller events.
  *
- *	@return	\c YES if the content controller should generate events and post notifications about this content object; \c NO if it should keep mum.
- */
-- (BOOL)trackContent;
-/*!	@brief	Change whether the content will cause notifications and events.
- *
- *	@par	If \a inTrackContent is \c YES, the content controller will post notifications and generate events (as listed in the Events pane of the Preferences) so that other objects can monitor the progress of receipt and sending of content.
- *
- *	@par	See the \c AIContentControllerProtocol documentation for more information on content controller events.
- *
  *	@par	XXX We should list reasons why you would want or not want a content object to be tracked.
  *
  *	@return	\c YES if the content controller should generate events and post notifications about this content object; \c NO if it should keep mum.
  */
-- (void)setTrackContent:(BOOL)inTrackContent;
+@property (nonatomic) BOOL trackContent;
+
 
 /*!	@brief	Return whether the content will be displayed to the user.
  *
@@ -257,16 +225,7 @@
  *
  *	@return	\c YES if the content controller will display this content; \c NO otherwise.
  */
-- (BOOL)displayContent;
-/*!	@brief	Change whether the content will be displayed to the user.
- *
- *	@par	Once a content object has completely passed through the content controller's receiving or sending procedure, including all filtering, the content controller then looks to this property to decide whether it should display the content. Some types of content, such as typing notification (\c AIContentTyping), are sent, but not displayed.
- *
- *	@par	This property also controls whether the content will be entered into its chat's transcript (if the logger knows how to transcribe this content). If it is not displayed, neither will it be logged. See also the \c postProcessContent property, which controls postprocessing (such as logging) independently of whether the content will be displayed.
- *
- *	@param	inDisplayContent	\c YES if the content controller should display this content; \c NO otherwise.
- */
-- (void)setDisplayContent:(BOOL)inDisplayContent;
+@property (nonatomic) BOOL displayContent;
 
 /*!	@brief	Return whether the content will be displayed immediately, or enqueued.
  *
@@ -276,18 +235,7 @@
  *
  *	@return	\c YES if the content object should not be held in the queue; \c NO if it should.
  */
-- (BOOL)displayContentImmediately;
-/*!	@brief	Change whether the content will be displayed immediately, or enqueued.
- *
- *	@par	The message view keeps a queue of messages which it eventually displays all at once rather than one at a time. When this is \c NO, the content is held in this queue until a suitable moment to display all the queued messages. Such a moment generally does arrive very soon; it is unlikely that the content will be held even for a whole second.
- *
- *	@par	The queue is for the benefit of the message history: it would be distracting if the message view were to scroll as one message after another were introduced into it, so the messages are inserted with <code>displayContentImmediately = YES</code>, so that they bypass the queue and instead all together instantly.
- *
- *	@par	If this property is \c NO, then in order to have the content displayed, the object that created the content object must, at some point in the future, post a \c Content_ChatDidFinishAddingUntrackedContent notification to \c AIAdium's \c notificationCenter, with the notification's \c object set to the \c chat of this content object.
- *
- *	@param	inDisplayContentImmediately	\c YES if the content object should not held in the queue; \c NO if it should.
- */
-- (void)setDisplayContentImmediately:(BOOL)inDisplayContentImmediately;
+@property (nonatomic) BOOL displayContentImmediately;
 
 /*!	@brief	Return whether to allow sending the content.
  *
@@ -295,14 +243,8 @@
  *
  *	@return	\c YES if this content is OK for the content controller to send; \c NO if it should not be sent.
  */
-- (BOOL)sendContent;
-/*!	@brief	Allow or disallow sending the content.
- *
- *	@par	The content controller will not send a content object's content if the content object's \c sendContent property is \c NO.
- *
- *	@param	inSendContent	\c YES if this content is OK for the content controller to send; \c NO if it should not be sent.
- */
-- (void)setSendContent:(BOOL)inSendContent;
+@property (nonatomic) BOOL sendContent;
+
 
 /*!	@brief	Return whether any post-delivery treatment should be applied to the message.
  *
@@ -310,12 +252,6 @@
  *
  *	@return	\c YES if the content should be postprocessed; \c NO if it should not.
  */
-- (BOOL)postProcessContent;
-/*!	@brief	Change whether any post-delivery treatment should be applied to the message.
- *
- *	@par	Logging (aka transcription) is one example of something that is done to messages and other content objects after they have finished being received or sent.
- *
- *	@param	inPostProcessContent	\c YES if the content should be postprocessed; \c NO if it should not.
- */
-- (void)setPostProcessContent:(BOOL)inPostProcessContent;
+@property (nonatomic) BOOL postProcessContent;
+
 @end

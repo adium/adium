@@ -57,8 +57,8 @@
 		id		cell = [tableColumn dataCellForRow:row];
 		
 		//Render the cell
-		if ([[self delegate] respondsToSelector:@selector(tableView:willDisplayCell:forTableColumn:row:)]) {
-			[[self delegate] tableView:self willDisplayCell:cell forTableColumn:nil row:row];
+		if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCell:forTableColumn:row:)]) {
+			[self.delegate tableView:self willDisplayCell:cell forTableColumn:nil row:row];
 		}
 		if ([[self dataSource] respondsToSelector:@selector(tableView:objectValueForTableColumn:row:)]) {
 			[cell setObjectValue:[[self dataSource] tableView:self objectValueForTableColumn:nil row:row]];

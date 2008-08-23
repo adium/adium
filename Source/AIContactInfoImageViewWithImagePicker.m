@@ -144,8 +144,8 @@
 {
 	NSPoint mouseLocation = [self convertPoint:[inEvent locationInWindow] fromView:nil];
 	if ([self mouse:mouseLocation inRect:[self _snapbackRectForFrame:[self bounds]]]) {
-		if ([[self delegate] respondsToSelector:@selector(deleteInImageViewWithImagePicker:)]) {
-			[[self delegate] deleteInImageViewWithImagePicker:self];
+		if ([self.delegate respondsToSelector:@selector(deleteInImageViewWithImagePicker:)]) {
+			[self.delegate deleteInImageViewWithImagePicker:self];
 		}
 
 	} else {
