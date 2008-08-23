@@ -64,6 +64,8 @@ PROTOCOLS="bonjour gg irc jabber msn myspace novell oscar qq sametime simple yah
 # 		poor interaction with cyrus-sasl. Note that this means we can connect
 # 		to some servers iChat can't ;)
 # libpurple_jabber_roster_debug.diff is temporary debugging for #8834
+#
+# libpurple_oscar_sendfile_debug.diff adds debug logging for #10587
 ###
 LIBPURPLE_PATCHES=("$PATCHDIR/libpurple_makefile_linkage_hacks.diff" \
 					"$PATCHDIR/libpurple_disable_last_seen_tracking.diff" \
@@ -74,7 +76,8 @@ LIBPURPLE_PATCHES=("$PATCHDIR/libpurple_makefile_linkage_hacks.diff" \
 					"$PATCHDIR/libpurple_zephyr_fix_krb4_flags.diff" \
 					"$PATCHDIR/libpurple_jabber_use_builtin_digestmd5.diff" \
 					"$PATCHDIR/libpurple_jabber_fallback_to_auth_old_after_gssapi_only_fails.diff" \
-					"$PATCHDIR/libpurple_jabber_roster_debug.diff")
+					"$PATCHDIR/libpurple_jabber_roster_debug.diff" \
+					"$PATCHDIR/libpurple_oscar_sendfile_debug.diff")
 
 pushd $PIDGIN_SOURCE > /dev/null 2>&1
 	for patch in ${LIBPURPLE_PATCHES[@]} ; do

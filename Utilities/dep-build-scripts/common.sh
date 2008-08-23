@@ -12,6 +12,8 @@ GLIB=glib-2.15.4
 MEANWHILE=meanwhile-1.0.2
 GADU=libgadu-1.7.1
 INTLTOOL=intltool-0.36.2
+GPG_ERROR=libgpg-error-1.6
+GCRYPT=libgcrypt-1.4.1
 
 # Directories
 BASEDIR="$PWD"
