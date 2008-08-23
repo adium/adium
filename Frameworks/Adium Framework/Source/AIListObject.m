@@ -178,10 +178,8 @@
 	if (visible != inVisible) {
 		visible = inVisible;
 		
-		if ([containingObject isKindOfClass:[AIListGroup class]]) {
-			//Let our containing group know about the visibility change
-			[(AIListGroup *)containingObject visibilityOfContainedObject:self changedTo:inVisible];			
-		}
+		//Let our containing group know about the visibility change
+		[containingObject visibilityOfContainedObject:self changedTo:inVisible];			
 	}
 }
 

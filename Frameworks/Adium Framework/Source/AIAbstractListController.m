@@ -595,12 +595,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
     if (item == nil) {
 		if (hideRoot) {
-			return (index >= 0 && index < [contactList containedObjectsCount]) ? [contactList objectAtIndex:index] : nil;
+			return (index >= 0 && index < [contactList visibleCount]) ? [contactList visibleObjectAtIndex:index] : nil;
 		} else {
 			return contactList;
 		}
     } else {
-        return (index >= 0 && index < [item containedObjectsCount]) ? [item objectAtIndex:index] : nil;
+        return (index >= 0 && index < [item visibleCount]) ? [item visibleObjectAtIndex:index] : nil;
     }
 }
 

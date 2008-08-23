@@ -109,6 +109,17 @@
 	[adium.contactController sortListObject:inObject];
 }
 
+/*!
+ * @brief Get the visbile object at a given index
+ *
+ * Hidden contacts will be sorted to the bottom of our contained objects array,
+ * so we can just acccess the array directly
+ */
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
+{
+	return (AIListObject *)[self.containedObjects objectAtIndex:index];
+}
+
 //Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
 
@@ -143,6 +154,11 @@
 }
 
 - (NSArray *)listContacts
+{
+	return self.containedObjects;
+}
+
+- (NSArray *)visibleListContacts
 {
 	return self.containedObjects;
 }

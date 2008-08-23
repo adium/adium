@@ -38,7 +38,7 @@
 - (id)_valueForProperty:(NSString *)key containedObjectSelector:(SEL)containedObjectSelector queryNonPreferredContacts:(BOOL)queryNonPreferredContacts;
 - (void)_determineIfWeShouldAppearToContainOnlyOneContact;
 
-- (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts;
+- (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts visibleOnly:(BOOL)visibleOnly;
 
 - (void)updateDisplayName;
 - (void)restoreGrouping;
@@ -56,6 +56,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ((self = [super initWithUID:[inObjectID stringValue] service:nil])) {
 		_preferredContact = nil;
 		_listContacts = nil;
+		_visibleListContacts = nil;
 		_listContactsIncludingOfflineAccounts = nil;
 		
 		_containedObjects = [[NSMutableArray alloc] init];
@@ -250,6 +251,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	_preferredContact = nil;
 	[_listContacts release]; _listContacts = nil;
+	[_visibleListContacts release]; _visibleListContacts = nil;
 	[_listContactsIncludingOfflineAccounts release]; _listContactsIncludingOfflineAccounts = nil;
 	
 	//Our effective icon may have changed
@@ -463,28 +465,48 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (NSArray *)listContacts
 {
 	if (!_listContacts) {
-		unsigned		count;
-		
-		_listContacts = [[self uniqueContainedListContactsIncludingOfflineAccounts:NO] retain];
-
-		/* Only notify if there is a change.
-		 * Use super's implementation as we don't need to be searching our contained objects...
-		 */
-		count = [_listContacts count];
-		if ([super integerValueForProperty:@"VisibleObjectCount"] != count) {
-			[self setValue:(count ? [NSNumber numberWithInt:count] : nil)
-						   forProperty:@"VisibleObjectCount"
-						   notify:NotifyNow];
-		}
+		_listContacts = [[self uniqueContainedListContactsIncludingOfflineAccounts:NO visibleOnly:NO] retain];
 	}
 	
 	return _listContacts;
 }
 
+/*!
+ * @brief Return a flat array of contacts which would be visible in the contact list to be displayed to the user
+ *
+ * This only returns one of each 'unique' contact, whereas the containedObjects potentially contains multiple contacts
+ * which appear the same to the user but are unique to Adium, since each account on the proper service will have its own
+ * instance of AIListContact for a given contact.
+ *
+ * This also only returns contacts which are listed on online accounts.
+ *
+ * This also only returns contacts which would be visible in the contact list.
+ */
+- (NSArray *)visibleListContacts
+{
+	if (!_visibleListContacts) {
+		unsigned		count;
+		
+		_visibleListContacts = [[self uniqueContainedListContactsIncludingOfflineAccounts:NO visibleOnly:YES] retain];
+		
+		/* Only notify if there is a change.
+		 * Use super's implementation as we don't need to be searching our contained objects...
+		 */
+		count = [_visibleListContacts count];
+		if ([super integerValueForProperty:@"VisibleObjectCount"] != count) {
+			[self setValue:(count ? [NSNumber numberWithInt:count] : nil)
+			   forProperty:@"VisibleObjectCount"
+					notify:NotifyNow];
+		}
+	}
+	
+	return _visibleListContacts;
+}
+
 - (NSArray *)listContactsIncludingOfflineAccounts
 {
 	if (!_listContactsIncludingOfflineAccounts) {
-		_listContactsIncludingOfflineAccounts = [[self uniqueContainedListContactsIncludingOfflineAccounts:YES] retain];
+		_listContactsIncludingOfflineAccounts = [[self uniqueContainedListContactsIncludingOfflineAccounts:YES visibleOnly:NO] retain];
 	}
 
 	return _listContactsIncludingOfflineAccounts;
@@ -554,7 +576,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  * Implementation note: uniqueObjectIDs is an array because its indexing matches the indexing of the nascent listContacts array;
  * this allows a fast comparison for existing contacts.
  */
-- (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts
+- (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts visibleOnly:(BOOL)visibleOnly
 {
 	NSArray			*myContainedObjects = self.containedObjects;
 	NSMutableArray	*listContacts = [[NSMutableArray alloc] init];
@@ -564,7 +586,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	for (AIListObject *listObject in myContainedObjects) {
 
 		if (([listObject isKindOfClass:[AIListContact class]]) &&
-			([(AIListContact *)listObject remoteGroupName] || includeOfflineAccounts)) {
+			([(AIListContact *)listObject remoteGroupName] || includeOfflineAccounts) &&
+			(!visibleOnly || listObject.visible)) {
 
 			NSString        *listObjectInternalObjectID = [listObject internalObjectID]; 
 			NSInteger listContactIndex = [uniqueObjectIDs indexOfObject:listObjectInternalObjectID]; 
@@ -1170,7 +1193,21 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (unsigned)visibleCount
 {
-    return [self.listContacts count];
+    return [self.visibleListContacts count];
+}
+
+/*!
+ * @brief Get the visbile object at a given index
+ */
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
+{
+	return [self.visibleListContacts objectAtIndex:index];
+}
+
+- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
+{
+	[_visibleListContacts release];
+	_visibleListContacts = nil;
 }
 
 #pragma mark Debugging

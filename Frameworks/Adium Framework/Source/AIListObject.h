@@ -44,6 +44,11 @@ typedef enum {
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 @property (readonly, nonatomic) BOOL containsMultipleContacts;
 
+/*!
+ * @brief Get the visbile object at a given index
+ */
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index;
+
 @property (readonly, nonatomic) CGFloat smallestOrder;
 @property (readonly, nonatomic) CGFloat largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
@@ -51,6 +56,7 @@ typedef enum {
 
 //Should list each list contact only once (for groups, this is the same as the objectEnumerator)
 @property (readonly, nonatomic) NSArray *listContacts;
+@property (readonly, nonatomic) NSArray *visibleListContacts;
 
 - (BOOL)addObject:(AIListObject *)inObject;
 - (void)removeObject:(AIListObject *)inObject;
@@ -60,6 +66,9 @@ typedef enum {
 @property (readonly, nonatomic, getter=isExpandable) BOOL expandable;
 @property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
+
+- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
+
 @end
 
 @interface AIListObject : ESObjectWithProperties {
