@@ -142,14 +142,13 @@ static void buddy_status_changed_cb(PurpleBuddy *buddy, PurpleStatus *oldstatus,
 
 	statusName = [account statusNameForPurpleBuddy:buddy];
 	statusMessage = [account statusMessageForPurpleBuddy:buddy];
-	
-	[account updateMobileStatus:theContact withData:isMobile];
-	
+
 	//Will also notify
 	[account updateStatusForContact:theContact
 					   toStatusType:statusTypeNumber
 						 statusName:statusName
-					  statusMessage:statusMessage];
+					  statusMessage:statusMessage
+						   isMobile:isMobile];
 }
 
 static void buddy_idle_changed_cb(PurpleBuddy *buddy, gboolean old_idle, gboolean idle, PurpleBuddyEvent event)
@@ -196,6 +195,7 @@ static void buddy_added_cb(PurpleBuddy *buddy)
 		if (!alias) alias = purple_buddy_get_alias_only(buddy);
 		
 		if (alias) {
+			AILogWithSignature(@"%@", listContact);
 			[account updateContact:listContact
 						   toAlias:[NSString stringWithUTF8String:alias]];
 		}
@@ -222,6 +222,7 @@ static void node_aliased_cb(PurpleBlistNode *node, char *old_alias)
 		alias = purple_buddy_get_server_alias(buddy);
 		if (!alias) alias = purple_buddy_get_alias_only(buddy);
 		
+					AILogWithSignature(@"%@", contactLookupFromBuddy(buddy));
 		[account updateContact:contactLookupFromBuddy(buddy)
 					   toAlias:(alias ? [NSString stringWithUTF8String:alias] : nil)];
 	}

@@ -687,6 +687,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 				  toStatusType:(NSNumber *)statusTypeNumber
 					statusName:(NSString *)statusName
 				 statusMessage:(NSAttributedString *)statusMessage
+					  isMobile:(BOOL)isMobile
 {
 	/* XXX - Giant hack!
 	 * Libpurple, as of 2.0.0 but not before so far as we've seen, sometimes feeds us truncated AIM away messages.
@@ -712,7 +713,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		}
 	}
 	
-	[super updateStatusForContact:theContact toStatusType:statusTypeNumber statusName:statusName statusMessage:statusMessage];
+	[super updateStatusForContact:theContact toStatusType:statusTypeNumber statusName:statusName statusMessage:statusMessage isMobile:isMobile];
 }
 
 /*!

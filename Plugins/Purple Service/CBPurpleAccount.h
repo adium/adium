@@ -120,13 +120,13 @@
 - (void)updateSignonTime:(AIListContact *)theContact withData:(NSDate *)signonDate;
 - (void)updateStatusForContact:(AIListContact *)theContact
 				  toStatusType:(NSNumber *)statusTypeNumber
-					statusName:(NSString *)statusName 
-				 statusMessage:(NSAttributedString *)statusMessage;
+					statusName:(NSString *)statusName
+				 statusMessage:(NSAttributedString *)statusMessage
+					  isMobile:(BOOL)isMobile;
 - (NSString *)statusNameForPurpleBuddy:(PurpleBuddy *)b;
 - (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)b;
 - (void)updateEvil:(AIListContact *)theContact withData:(NSNumber *)evilNumber;
 - (void)updateIcon:(AIListContact *)theContact withData:(NSData *)userIconData;
-- (void)updateMobileStatus:(AIListContact *)theContact withData:(BOOL)isMobile;
 
 - (void)removeContact:(AIListContact *)theContact;
 

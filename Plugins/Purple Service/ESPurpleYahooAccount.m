@@ -299,7 +299,7 @@
 /*!
  * @brief Update the status message and away state of the contact
  */
-- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage
+- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
 {
 	NSString			*statusMessageString = [statusMessage string];
 	char				*normalized = g_strdup(purple_normalize(account, [[theContact UID] UTF8String]));
@@ -345,7 +345,8 @@
 	[super updateStatusForContact:theContact
 					 toStatusType:statusTypeNumber
 					   statusName:statusName
-					statusMessage:statusMessage];
+					statusMessage:statusMessage
+						 isMobile:isMobile];
 }
 
 /*!

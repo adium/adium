@@ -248,14 +248,15 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 /*!
  * @brief Update the status message and away state of the contact
  */
-- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage
+- (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
 {
 	[theContact setStatusWithName:statusName
 					   statusType:[statusTypeNumber intValue]
 						   notify:NotifyLater];
 	[theContact setStatusMessage:statusMessage
 						  notify:NotifyLater];
-	
+	[theContact setIsMobile:isMobile notify:NotifyLater];
+
 	//Apply the change
 	[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
 }
@@ -320,13 +321,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 				   withObject:theContact
 				   afterDelay:10.0];
 	}
-}
-
-- (void)updateMobileStatus:(AIListContact *)theContact withData:(BOOL)isMobile
-{
-	[theContact setIsMobile:isMobile notify:NotifyLater];
-
-	[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
 }
 
 - (NSString *)processedIncomingUserInfo:(NSString *)inString
