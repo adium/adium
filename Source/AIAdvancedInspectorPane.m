@@ -405,7 +405,7 @@
 				if (![[group UID] isEqualToString:[exactContact remoteGroupName]]) {
 					if ([exactContact remoteGroupName]) {
 						//Move contact
-						[adium.contactController moveContact:exactContact intoObject:group];
+						[adium.contactController moveObject:exactContact intoObject:group];
 
 					} else {						
 						[adium.contactController addContacts:[NSArray arrayWithObject:exactContact] 
