@@ -557,9 +557,18 @@
 		}
 				
 		if (index != NSOutlineViewDropOnItemIndex && !canSortManually) {
-			/* We're attempting a resorder, and the sort controller says there is no manual sorting allowed. */
-			return NSDragOperationNone;
-		}		
+			/* We're attempting a reorder or containing object change,
+			 * and the sort controller says there is no manual sorting allowed. */
+			AIListObject<AIContainingObject> *actualTarget = (item ? item : adium.contactController.contactList);
+			NSInteger indexForInserting = [[AISortController activeSortController] indexForInserting:[dragItems objectAtIndex:0]
+																						 intoObjects:[actualTarget containedObjects]];
+			if (indexForInserting != index)
+				[outlineView setDropItem:item dropChildIndex:indexForInserting];
+
+			return ((indexForInserting == index) && ([[dragItems objectAtIndex:0] containingObject] != actualTarget) ?
+					NSDragOperationNone :
+					NSDragOperationMove);
+		}
 
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
 			//Disallow dragging groups into or onto other objects
