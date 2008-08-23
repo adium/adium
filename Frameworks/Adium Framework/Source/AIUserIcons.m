@@ -394,11 +394,12 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 									   forKey:[inObject internalObjectID]];
 	}
 
-	return (userIcon ?
-		   	userIcon :
-			[AIServiceIcons serviceIconForObject:inObject
-										   type:AIServiceIconSmall
-									  direction:AIIconNormal]);
+	if(!userIcon)
+		userIcon = [AIServiceIcons serviceIconForObject:inObject
+												   type:AIServiceIconSmall
+											  direction:AIIconNormal];
+	
+	return [[userIcon retain] autorelease];
 }
 
 #pragma mark -
