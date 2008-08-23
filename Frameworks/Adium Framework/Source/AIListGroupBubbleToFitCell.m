@@ -18,10 +18,63 @@
 
 @implementation AIListGroupBubbleToFitCell
 
-//Adjust the bubble rect to tightly fit our label string
+/*!
+ * @brief Return the attributed string to be displayed as the primary text of the cell
+ *
+ * We add our group count onto the name as necessary
+ */
+- (NSAttributedString *)displayName
+{
+	NSString *countText;
+
+	if (([[listObject valueForProperty:@"Show Count"] boolValue] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) &&
+		(countText = [listObject valueForProperty:@"Count Text"])) {
+		return [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ (%@)", [self labelString], countText]
+												attributes:[self labelAttributes]] autorelease];
+
+	} else {
+		return [super displayName];
+	}
+}
+
+/*!
+ * @brief Cell width
+ *
+ * We'll be added a space and parenthesis to the group count if it's displayed, so we need to add on their width
+ */
+- (int)cellWidth
+{
+	int width = [super cellWidth];
+
+	if (([[listObject valueForProperty:@"Show Count"] boolValue] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) && 
+		[listObject valueForProperty:@"Count Text"]) {
+		//We'll be added a space and parenthesis to the group count if it's displayed
+		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:@" ()"
+																		attributes:[self labelAttributes]];
+		width += ceil([countText size].width);
+		[countText release];
+	}
+	
+	return width;
+}
+
+- (NSRect)drawGroupCountWithFrame:(NSRect)inRect
+{
+	/* No-op: Don't let the usual group count drawing occur. We'll add the group count to
+	 * the display name, flush with the name, rather than letting it draw right-justified, which
+	 * would be outside our bubble.
+	 */
+	return inRect;
+}
+
+/*!
+ * @brief Get the bubble rect for drawing
+ *
+ * Adjust the bubble rect to tightly fit our label string.
+ */
 - (NSRect)bubbleRectForFrame:(NSRect)rect
 {
-	NSSize				nameSize = [[self labelString] sizeWithAttributes:[self labelAttributes]];
+	NSSize				nameSize = [[self displayName] size];
 	float				originalWidth = rect.size.width;
 	float				originalX = rect.origin.x;
 

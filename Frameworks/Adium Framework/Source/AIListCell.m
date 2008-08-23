@@ -346,12 +346,19 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	[NSGraphicsContext restoreGraphicsState];	
 }
 
+/*!
+ * @brief Return the attributed string to be displayed as the primary text of the cell
+ */
+- (NSAttributedString *)displayName
+{
+	return [[[NSAttributedString alloc] initWithString:[self labelString]
+											attributes:[self labelAttributes]] autorelease];
+}
+
 //Draw our display name
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect
 {
-	NSAttributedString	*displayName = [[NSAttributedString alloc] initWithString:[self labelString]
-																	   attributes:[self labelAttributes]];
-																	   
+	NSAttributedString	*displayName = [self displayName];
 	NSSize				nameSize = [displayName size];
 	NSRect				rect = inRect;
 
@@ -376,7 +383,6 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 									   rect.origin.y + half,
 									   rect.size.width,
 									   nameSize.height)];
-	[displayName release];
 
 	//Adjust the drawing rect
 	switch ([self textAlignment]) {

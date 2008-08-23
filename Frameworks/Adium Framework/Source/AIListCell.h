@@ -94,6 +94,7 @@
 - (void)drawBackgroundWithFrame:(NSRect)rect;
 - (void)drawContentWithFrame:(NSRect)rect;
 - (void)drawDropHighlightWithFrame:(NSRect)rect;
+- (NSAttributedString *)displayName;
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect;
 - (NSString *)labelString;
 - (NSDictionary *)labelAttributes;
