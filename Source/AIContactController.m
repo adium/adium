@@ -1668,11 +1668,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[(id)group setDelayContainedObjectSorting:YES];
 	}
 	
-	for (AIListContact *listContact in objectArray) {
-		[self moveContact:listContact intoObject:group];
+	for (AIListObject *listObject in objectArray) {
+		[self moveObject:listObject intoObject:group];
 		
 		//Set the new index / position of the object
-		[self _positionObject:listContact atIndex:index inObject:group];
+		[self _positionObject:listObject atIndex:index inObject:group];
 	}
 	
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -1691,46 +1691,47 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-- (void)moveContact:(AIListContact *)listContact intoObject:(AIListObject<AIContainingObject> *)destination
+- (void)moveObject:(AIListObject *)listObject intoObject:(AIListObject<AIContainingObject> *)destination
 {
 	//Move the object to the new group only if necessary
-	if (destination == [listContact containingObject]) return;
+	if (destination == [listObject containingObject]) return;
 	
-	if ([destination isKindOfClass:[AIContactList class]]) {
+	if ([destination isKindOfClass:[AIContactList class]] &&
+		[listObject isKindOfClass:[AIListGroup class]]) {
 		// Move contact from one contact list to another
-		[(AIContactList *)[listContact containingObject] moveGroup:(AIListGroup *)listContact to:(AIContactList *)destination];
-		
+		[(AIContactList *)[listObject containingObject] moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
+
 	} else if ([destination isKindOfClass:[AIListGroup class]]) {
 		AIListGroup *group = (AIListGroup *)destination;
 		//Move a contact into a new group
-		if ([listContact isKindOfClass:[AIListBookmark class]]) {
-			[self _moveContactLocally:listContact toGroup:group];
+		if ([listObject isKindOfClass:[AIListBookmark class]]) {
+			[self _moveContactLocally:(AIListBookmark *)listObject toGroup:group];
 			
-		} else if ([listContact isKindOfClass:[AIMetaContact class]]) {
+		} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			//Move the meta contact to this new group
-			[self _moveContactLocally:listContact toGroup:group];
+			[self _moveContactLocally:(AIMetaContact *)listObject toGroup:group];
 			
 			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
-			for (AIListContact *actualListContact in (AIMetaContact *)listContact) {
+			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
 					[self _moveObjectServerside:actualListContact toGroup:group];
 				}
 			}
-		} else if ([listContact isKindOfClass:[AIListContact class]]) {
+		} else if ([listObject isKindOfClass:[AIListContact class]]) {
 			//Move the object
-			if ([[listContact parentContact] isKindOfClass:[AIMetaContact class]]) {
-				[self removeAllListObjectsMatching:listContact fromMetaContact:(AIMetaContact *)[listContact parentContact]];
+			if ([[(AIListContact *)listObject parentContact] isKindOfClass:[AIMetaContact class]]) {
+				[self removeAllListObjectsMatching:listObject fromMetaContact:(AIMetaContact *)[(AIListContact *)listObject parentContact]];
 			}
 			
-			[self _moveObjectServerside:listContact toGroup:group];
+			[self _moveObjectServerside:listObject toGroup:group];
 
 		} else {
-			AILogWithSignature(@"I don't know what to do with %@",listContact);
+			AILogWithSignature(@"I don't know what to do with %@",listObject);
 		}
 	} else if ([destination isKindOfClass:[AIMetaContact class]]) {
 		//Moving a contact into a meta contact
-		[self addListObject:listContact toMetaContact:(AIMetaContact *)destination];
+		[self addListObject:listObject toMetaContact:(AIMetaContact *)destination];
 	}
 }
 

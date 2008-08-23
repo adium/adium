@@ -74,8 +74,7 @@
 	AIListBookmark *bookmark = [adium.contactController bookmarkForChat:chat];
 	[bookmark setDisplayName:name];
 	
-	[adium.contactController moveContact:bookmark
-								intoObject:group];
+	[adium.contactController moveObject:bookmark intoObject:group];
 	[bookmark setVisible:YES];
 }
 
