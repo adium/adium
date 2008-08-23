@@ -248,7 +248,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	}
 	
 	id<AIContactController> contactController = adium.contactController;
-	NSArray *listContacts = [[contactController allContacts] arrayByAddingObjectsFromArray:[contactController allBookmarks]];
+	NSMutableArray *listContacts = [[[contactController allContacts] mutableCopy] autorelease];
+	[listContacts addObjectsFromArray:[contactController allBookmarks]];
+	[listContacts addObjectsFromArray:[contactController allMetaContacts]];
 	
 	// Delay list object notifications until we're done
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
@@ -256,11 +258,6 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	AIListContact	*listContact;
 
 	for (listContact in listContacts) {
-		// If this contact is in a meta contact, we need to check the meta contact, not this particular contact.
-		if ([[listContact containingObject] isKindOfClass:[AIMetaContact class]]) {
-			listContact = (AIListContact *)[listContact containingObject];
-		}
-
 		[self setVisibility:[self evaluatePredicateOnListContact:listContact withSearchString:searchString]
 			  ofListContact:listContact
 				 withReason:AIContactFilteringReason];

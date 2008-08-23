@@ -40,6 +40,5 @@
 
 //Visibility
 @property (readonly, nonatomic) NSUInteger visibleCount;
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
 
 @end

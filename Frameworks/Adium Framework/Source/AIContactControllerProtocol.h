@@ -69,6 +69,7 @@ typedef enum {
 - (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
 @property (readonly, nonatomic) NSArray *allBookmarks;
 - (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount;
+@property (readonly, nonatomic) NSArray *allMetaContacts;
 - (NSMenu *)groupMenuWithTarget:(id)target;
 - (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID;
 @property (readonly, nonatomic) AIListGroup *offlineGroup;

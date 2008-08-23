@@ -22,8 +22,9 @@
 	NSNumber					*objectID;
 
 	AIListContact		*_preferredContact;
-	NSArray						*_listContacts;
-	NSArray						*_listContactsIncludingOfflineAccounts;
+	NSArray				*_listContacts;
+	NSArray				*_listContactsIncludingOfflineAccounts;
+	NSArray				*_visibleListContacts;
 	
 	BOOL								containsOnlyOneUniqueContact;
 	BOOL								containsOnlyOneService;
@@ -66,6 +67,8 @@
  * Contacts from all accounts, including offline ones, will be included.
  */
 - (NSArray *)listContactsIncludingOfflineAccounts;
+
+- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
 
 //Delay sorting the contained object list; this should only be used by the contactController. Be sure to set it back to YES when operations are done
 - (void)setDelayContainedObjectSorting:(BOOL)flag;

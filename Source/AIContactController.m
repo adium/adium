@@ -1193,6 +1193,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 /*!
  * @brief Returns a flat array of all contacts
+ *
+ * This does not include metacontacts
  */
 - (NSArray *)allContacts
 {
@@ -1207,6 +1209,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 	
 	return result;
+}
+
+/*!
+ * @brief Returns a flat array of all metacontacts
+ */
+- (NSArray *)allMetaContacts
+{
+	return [metaContactDict allValues];
 }
 
 //Return a flat array of all the objects in a group on an account (and all subgroups, if desired)
