@@ -189,7 +189,7 @@
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
 {
 	BOOL		shouldInclude = NO;
-	NSString	*accountServiceClass = [[inAccount service] serviceClass];
+	NSString	*accountServiceClass = inAccount.serviceClass;
 
 	if ([toContact isKindOfClass:[AIMetaContact class]]) {
 		NSEnumerator	*enumerator;
@@ -197,11 +197,11 @@
 		
 		enumerator = [[(AIMetaContact *)toContact listContacts] objectEnumerator];
 		while ((listContact = [enumerator nextObject]) && !shouldInclude) {
-			shouldInclude = [accountServiceClass isEqualToString:[[toContact service] serviceClass]];
+			shouldInclude = [accountServiceClass isEqualToString:toContact.serviceClass];
 		}
 
 	} else {
-		shouldInclude = [accountServiceClass isEqualToString:[[toContact service] serviceClass]];
+		shouldInclude = [accountServiceClass isEqualToString:toContact.serviceClass];
 	}
 	
 	return shouldInclude;

@@ -205,7 +205,7 @@
  */
 - (BOOL)isAppropriateForServiceClass:(NSString *)inServiceClass
 {
-	NSString	*ourServiceClass = [pack serviceClass];
+	NSString	*ourServiceClass = pack.serviceClass;
 	return !ourServiceClass || [ourServiceClass isEqualToString:inServiceClass];
 }
 

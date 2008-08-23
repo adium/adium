@@ -385,23 +385,23 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
     NSMutableAttributedString   *newMessage = nil; //We avoid creating a new string unless necessary
 	NSString					*serviceClassContext = nil;
     NSUInteger					currentLocation = 0, messageStringLength;
-	NSCharacterSet				*emoticonStartCharacterSet = [self emoticonStartCharacterSet];
-	NSDictionary				*emoticonIndex = [self emoticonIndex];
+	NSCharacterSet				*emoticonStartCharacterSet = self.emoticonStartCharacterSet;
+	NSDictionary				*emoticonIndex = self.emoticonIndex;
 	//we can avoid loading images if the emoticon is headed for the wkmv, since it will just load from the original path anyway
 	BOOL						isMessage = NO;  
 
 	//Determine our service class context
 	if ([context isKindOfClass:[AIContentObject class]]) {
 		isMessage = YES;
-		serviceClassContext = [[[(AIContentObject *)context destination] service] serviceClass];
+		serviceClassContext = ((AIContentObject *)context).destination.serviceClass;
 		//If there's no destination, try to use the source for context
 		if (!serviceClassContext) {
-			serviceClassContext = [[[(AIContentObject *)context source] service] serviceClass];
+			serviceClassContext = ((AIContentObject *)context).source.serviceClass;
 		}
 		
 		//Expand our emoticon information to include any custom emoticons in this chat
-		NSSet *customEmoticons = [[(AIContentObject *)context chat] customEmoticons];
-		if (customEmoticons && ![(AIContentObject *)context isOutgoing]) {
+		NSSet *customEmoticons = ((AIContentObject *)context).chat.customEmoticons;
+		if (customEmoticons && !((AIContentObject *)context).isOutgoing) {
 			/* XXX Note that we only display custom emoticons for incoming messages; we can not set our own custom emotcions
 			 * at this time
 			 */
@@ -451,7 +451,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		serviceClassContext = [[[adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																					   toContact:(AIListContact *)context] service] serviceClass];
 	} else if ([context isKindOfClass:[AIListObject class]] && [context respondsToSelector:@selector(service)]) {
-		serviceClassContext = [[(AIListObject *)context service] serviceClass];
+		serviceClassContext = ((AIListObject *)context).serviceClass;
 	}
 	
     //Number of characters we've replaced so far (used to calcluate placement in the destination string)

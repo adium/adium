@@ -212,9 +212,9 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 //Sort by From, then Date
 - (NSComparisonResult)compareService:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [serviceClass caseInsensitiveCompare:[inLog serviceClass]];
+    NSComparisonResult  result = [serviceClass caseInsensitiveCompare:inLog.serviceClass];
     if (result == NSOrderedSame) {
-		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
+		NSTimeInterval		interval = [date timeIntervalSinceDate:inLog.date];
 		
 		if (interval < 0) {
 			result = NSOrderedAscending;
@@ -227,9 +227,9 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 }
 - (NSComparisonResult)compareServiceReverse:(AIChatLog *)inLog
 {
-    NSComparisonResult  result = [[inLog serviceClass] caseInsensitiveCompare:serviceClass];
+    NSComparisonResult  result = [inLog.serviceClass caseInsensitiveCompare:serviceClass];
     if (result == NSOrderedSame) {
-		NSTimeInterval		interval = [date timeIntervalSinceDate:[inLog date]];
+		NSTimeInterval		interval = [date timeIntervalSinceDate:inLog.date];
 		
 		if (interval < 0) {
 			result = NSOrderedAscending;

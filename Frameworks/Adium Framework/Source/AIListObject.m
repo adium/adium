@@ -134,7 +134,7 @@
  */
 - (NSString *)serviceClass
 {
-	return [service serviceClass];
+	return service.serviceClass;
 }
 
 /*!

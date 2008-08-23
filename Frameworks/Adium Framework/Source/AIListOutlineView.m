@@ -171,7 +171,7 @@
 	unsigned	row;
 	unsigned	numberOfRows = [self numberOfRows];
 	int			widestCell = 0;
-	id			theDelegate = [self delegate];
+	id			theDelegate = self.delegate;
 	
 	//Enumerate all rows, find the widest one
 	for (row = 0; row < numberOfRows; row++) {
@@ -571,7 +571,7 @@
 	id item = [self itemAtRow:rowIndex];
 	AIListCell *cell = [self cellForTableColumn:nil item:item];
 	
-	[[self delegate] outlineView:self
+	[self.delegate outlineView:self
 				 willDisplayCell:cell 
 				  forTableColumn:nil
 							item:item];
@@ -618,7 +618,7 @@
 	id item = [self itemAtRow:indentationLevelRow];
 	AIListCell *cell = [self cellForTableColumn:nil item:item];
 	
-	[[self delegate] outlineView:self
+	[self.delegate outlineView:self
 				 willDisplayCell:cell 
 				  forTableColumn:nil
 							item:item];

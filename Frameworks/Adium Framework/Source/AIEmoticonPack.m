@@ -561,7 +561,7 @@
 
 - (NSString *)description
 {
-	return ([NSString stringWithFormat:@"[%@: %@, ServiceClass %@]",[super description], [self name], [self serviceClass]]);
+	return ([NSString stringWithFormat:@"[%@: %@, ServiceClass %@]",[super description], [self name], self.serviceClass]);
 }
 
 /* Localized emoticon names, listed here for genstrings:

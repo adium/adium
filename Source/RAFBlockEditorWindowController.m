@@ -245,10 +245,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				/* For each contact contained my the metacontact, check if its service class matches the current account's.
 				 * If it does, add that contact to our list, using the contactController to get an AIListContact specific for the account.
 				 */
-				if ([[[containedContact service] serviceClass] isEqualToString:[[account service] serviceClass]]) {
-					if ((contact = [adium.contactController contactWithService:[account service]
+				if ([containedContact.serviceClass isEqualToString:account.serviceClass]) {
+					if ((contact = [adium.contactController contactWithService:account.service
 																		 account:account
-																			 UID:[containedContact UID]])) {
+																			 UID:containedContact.UID])) {
 						[contactsSet addObject:contact];
 					}
 				}

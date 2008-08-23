@@ -23,6 +23,9 @@
 
 @implementation AIContentObject
 
+@synthesize source, destination, date, isOutgoing = outgoing, chat, message, userInfo;
+@synthesize filterContent, trackContent, displayContent, displayContentImmediately, sendContent, postProcessContent;
+
 //
 - (id)initWithChat:(AIChat *)inChat
 			source:(AIListObject *)inSource
@@ -97,19 +100,6 @@
 	return classes;
 }
 
-- (id)userInfo
-{
-	return userInfo;
-}
-
-- (void)setUserInfo:(id)inUserInfo
-{
-	if (userInfo != inUserInfo) {
-		[userInfo release];
-		userInfo = [inUserInfo retain];
-	}
-}
-
 //Comparing ------------------------------------------------------------------------------------------------------------
 #pragma mark Comparing
 //Content is similar if it's from the same source, of the same type, and sent within 5 minutes.
@@ -135,51 +125,6 @@
 
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
-//Message Source and destination
-- (AIListObject *)source
-{
-    return source;
-}
-- (AIListObject *)destination
-{
-    return destination;
-}
-
-//Date and time of this message
-- (NSDate *)date
-{
-    return date;
-}
-
-//Is this content incoming or outgoing?
-- (BOOL)isOutgoing
-{
-    return outgoing;
-}
-
-//Chat containing this content
-- (void)setChat:(AIChat *)inChat
-{
-    chat = inChat;
-}
-- (AIChat *)chat
-{
-    return chat;
-}
-
-//Attributed Message
-- (void)setMessage:(NSAttributedString *)inMessage
-{
-	if (message != inMessage) {
-		[message release];
-		message = [inMessage retain];
-	}
-}
-- (NSAttributedString *)message
-{
-	return message;
-}
-
 //HTML string message
 - (void)setMessageHTML:(NSString *)inMessageString
 {
@@ -212,61 +157,6 @@
 - (NSString *)messageString
 {
 	return [message string];
-}
-
-
-//Behavior -------------------------------------------------------------------------------------------------------------
-#pragma mark Behavior
-- (void)setFilterContent:(BOOL)inFilterContent
-{
-	filterContent = inFilterContent;
-}
-- (BOOL)filterContent
-{
-    return filterContent;
-}
-
-- (void)setTrackContent:(BOOL)inTrackContent
-{
-	trackContent = inTrackContent;
-}
-- (BOOL)trackContent
-{
-    return trackContent;
-}
-
-- (void)setDisplayContent:(BOOL)inDisplayContent
-{
-	displayContent = inDisplayContent;
-}
-- (BOOL)displayContent
-{
-    return displayContent;
-}
-
-- (void)setDisplayContentImmediately:(BOOL)inDisplayContentImmediately
-{
-	displayContentImmediately = inDisplayContentImmediately;
-}
-- (BOOL)displayContentImmediately
-{
-	return displayContentImmediately;
-}
-
-- (void)setSendContent:(BOOL)inSendContent{
-	sendContent = inSendContent;
-}
-- (BOOL)sendContent{
-	return sendContent;
-}
-
-- (void)setPostProcessContent:(BOOL)inPostProcessContent
-{
-	postProcessContent = inPostProcessContent;
-}
-- (BOOL)postProcessContent
-{
-	return postProcessContent;
 }
 
 #pragma mark Debug

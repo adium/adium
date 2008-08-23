@@ -516,6 +516,8 @@
 		currentAlias = [[(AIListContact *)inObject parentContact] preferenceForKey:@"Alias"
 																			 group:PREF_GROUP_ALIASES
 															 ignoreInheritedValues:YES];
+		AILogWithSignature(@"inObject is %@; parentContact is %@. Preference is %@.",
+						   inObject, [(AIListContact *)inObject parentContact], currentAlias);
 	} else {
 		currentAlias = [inObject preferenceForKey:@"Alias"
 											group:PREF_GROUP_ALIASES

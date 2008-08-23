@@ -219,13 +219,9 @@
 {
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
 		NSMutableArray *array = [NSMutableArray array];
-		NSEnumerator *enumerator = [[(AIMetaContact *)displayedObject listContacts] objectEnumerator];
-		AIListContact *contact;
-		while ((contact = [enumerator nextObject])) {
-			if ([[contact serviceClass] isEqualToString:[inAccount serviceClass]]) {
-				[array addObject:[adium.contactController contactWithService:[contact service]
-																	   account:inAccount
-																		   UID:[contact UID]]];
+		for (AIListContact *contact in (((AIMetaContact *)displayedObject).listContacts)) {
+			if ([contact.serviceClass isEqualToString:inAccount.serviceClass]) {
+				[array addObject:[adium.contactController contactWithService:contact.service account:inAccount UID:contact.UID]];
 			}
 		}
 		

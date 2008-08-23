@@ -87,8 +87,8 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 
 		[self setDelegate:inDelegate];
 
-		if ([[self delegate] respondsToSelector:@selector(controlSizeForAccountMenu:)]) {
-			controlSize = [[self delegate] controlSizeForAccountMenu:self];
+		if ([self.delegate respondsToSelector:@selector(controlSizeForAccountMenu:)]) {
+			controlSize = [self.delegate controlSizeForAccountMenu:self];
 			//If the delegate specifes a control size, it's implicitly a control; use the right size for it
 			[self setUseSystemFont:YES];
 
