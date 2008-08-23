@@ -1042,7 +1042,7 @@ static NSArray *draggedTypes = nil;
 	if ([keys containsObject:KEY_USER_ICON]) {
 		if (inObject) {
 			AIListObject	*actualObject = nil;
-			
+			AILogWithSignature(@"%@'s icon changed", inObject);
 			if ([chat account] == inObject) {
 				//The account is the object actually in the chat
 				actualObject = inObject;
@@ -1065,6 +1065,7 @@ static NSArray *draggedTypes = nil;
 			}
 
 		} else {
+			AILogWithSignature(@"nil object's icon changed");
 			//We don't know what changed, if anything, that is relevant to our chat. Update source and destination icons.
 			[self sourceOrDestinationChanged:nil];
 		}
@@ -1212,6 +1213,8 @@ static NSArray *draggedTypes = nil;
 		if (!webKitUserIconPath) webKitUserIconPath = @"";
 
 		//Update existing images
+		AILogWithSignature(@"Updating %@ to %@", oldWebKitUserIconPath, webKitUserIconPath);
+
 		if (oldWebKitUserIconPath &&
 			![oldWebKitUserIconPath isEqualToString:webKitUserIconPath]) {
 			DOMNodeList  *images = [[[webView mainFrame] DOMDocument] getElementsByTagName:@"img"];
