@@ -397,30 +397,9 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Display string for our list object
 - (NSString *)labelString
 {
-	NSString *leftText = [listObject valueForProperty:@"Left Text"];
-	NSString *rightText = [listObject valueForProperty:@"Right Text"];
-
-	//Ordering debug
-#ifdef ORDERING_DEBUG
-	rightText = (rightText ?
-				 [rightText stringByAppendingFormat:@" %f",[listObject orderIndex]] :
-				 [NSString stringWithFormat:@" %f",[listObject orderIndex]]); 
-#endif
-
-	if (!leftText && !rightText) {
-		return ([self shouldShowAlias] ? 
-				[listObject longDisplayName] :
-				([listObject formattedUID] ? [listObject formattedUID] : [listObject longDisplayName]));
-	} else {
-		//Combine left text, the object name, and right text
-		return [NSString stringWithFormat:@"%@%@%@",
-			(leftText ? leftText : @""),
-			([self shouldShowAlias] ? [listObject longDisplayName] : ([listObject formattedUID] ?
-																	 [listObject formattedUID] :
-																	 [listObject longDisplayName])),
-			(rightText ? rightText : @"")];
-	}
-
+	return ([self shouldShowAlias] ? 
+			[listObject longDisplayName] :
+			([listObject formattedUID] ? [listObject formattedUID] : [listObject longDisplayName]));
 }
 
 - (BOOL)shouldShowAlias
