@@ -1311,7 +1311,6 @@
 		EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		EEC461B6096D68580028632F /* OWSpellingPerContactPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */; };
 		EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */; };
-		F51BCE390A156312000FDC06 /* AdiumSpotlightImporter.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = 34611C8309B6756D00870036 /* AdiumSpotlightImporter.mdimporter */; };
 		F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F551B1000B8F5130007D3A3C /* FireLogImporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = F56E0DAF0A4CDF9C008D1EB5 /* FireLogImporter.nib */; };
 		F58904F20A7828B9001F0ADC /* OTR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BDBBA0968BC9A00CF83F5 /* OTR.framework */; };
@@ -1798,17 +1797,6 @@
 				63AF932E0AA81E2300B88299 /* Tiny.ListLayout in Copy Legacy ListThemes and ListLayouts */,
 			);
 			name = "Copy Legacy ListThemes and ListLayouts";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F51BCD3E0A156281000FDC06 /* Copy Spotlight Importer */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = Contents/Library/Spotlight;
-			dstSubfolderSpec = 1;
-			files = (
-				F51BCE390A156312000FDC06 /* AdiumSpotlightImporter.mdimporter in Copy Spotlight Importer */,
-			);
-			name = "Copy Spotlight Importer";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -8259,7 +8247,7 @@
 			dependencies = (
 			);
 			name = Translator;
-			productName = "Translator";
+			productName = Translator;
 			productReference = 3417D26109C332B900FC413E /* Translator.AdiumPlugin */;
 			productType = "com.apple.product-type.bundle";
 		};
@@ -8384,7 +8372,7 @@
 				34BD9D42053146CC000AB133 /* Sources */,
 				34BD9D24053146CC000AB133 /* Resources */,
 				34BD9D57053146CC000AB133 /* Frameworks */,
-				F51BCD3E0A156281000FDC06 /* Copy Spotlight Importer */,
+				63F1C0B60E5FAB8A00049BE7 /* Copy Spotlight Importer */,
 				34BD9D5F053146CC000AB133 /* Copy Frameworks */,
 				63AF93140AA81DD700B88299 /* Copy Legacy ListThemes and ListLayouts */,
 				4BF2E91F067CB76300743318 /* Copy Built-In Xtras */,
@@ -9301,6 +9289,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch -r \"$SRCROOT/Frameworks/libpurple.framework/Versions/Current/libpurple\" \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch -r \"$SRCROOT/Frameworks/Growl-WithInstaller.framework/Versions/A/Growl-WithInstaller\" \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch -r \"$SRCROOT/Frameworks/LMX.framework/Versions/A/LMX\" \"$SRCROOT/Frameworks/LMX.framework\"\ntouch -r \"$SRCROOT/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl\" \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch -r \"$SRCROOT/Frameworks/Sparkle.framework/Versions/A/Sparkle\" \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch -r \"$SRCROOT/Frameworks/OTR.framework/Versions/A/OTR\" \"$SRCROOT/Frameworks/OTR.framework\"\n";
+		};
+		63F1C0B60E5FAB8A00049BE7 /* Copy Spotlight Importer */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				$BUILT_PRODUCTS_DIR/AdiumSpotlightImporter.mdimporter,
+			);
+			name = "Copy Spotlight Importer";
+			outputPaths = (
+				$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Contents/Library/Spotlight,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$SRCROOT\"\n\necho Copying $SCRIPT_INPUT_FILE_0 to $SCRIPT_OUTPUT_FILE_0\n\nmkdir -p $SCRIPT_OUTPUT_FILE_0\n\n/Developer/Library/PrivateFrameworks/DevToolsCore.framework/Resources/pbxcp -exclude .DS_Store -exclude CVS -exclude .svn -resolve-src-symlinks \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"";
 		};
 		63FB49590E57E84F004ED3F3 /* Copy AIUtilities.framework */ = {
 			isa = PBXShellScriptBuildPhase;
