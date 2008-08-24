@@ -91,6 +91,9 @@
             SUPERCLASS = NSView;
         },
                 {
+            ACTIONS =             {
+                closeWindow = id;
+            };
             CLASS = AIWindowController;
             LANGUAGE = ObjC;
             SUPERCLASS = NSWindowController;
@@ -101,8 +104,66 @@
             SUPERCLASS = NSObject;
         },
                 {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSButtonCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSActionCell;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                didAdjustSubviews = RBSplitView;
+                prefsWindowWillClose = "SS_PrefsController";
+                toggleFindPanel = id;
+                willAdjustSubviews = RBSplitView;
+            };
             CLASS = NSObject;
             LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = RBSplitSubview;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = RBSplitView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = RBSplitSubview;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
         }
     );
     IBVersion = 1;
