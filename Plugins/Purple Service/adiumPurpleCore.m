@@ -80,10 +80,7 @@ static void init_all_plugins()
 #endif
 
 	//Load each plugin
-	NSEnumerator			*enumerator = [[SLPurpleCocoaAdapter libpurplePluginArray] objectEnumerator];
-	id <AILibpurplePlugin>	plugin;
-
-	while ((plugin = [enumerator nextObject])) {
+	for (id <AILibpurplePlugin>	plugin in [SLPurpleCocoaAdapter libpurplePluginArray]) {
 		if ([plugin respondsToSelector:@selector(installLibpurplePlugin)]) {
 			[plugin installLibpurplePlugin];
 		}
@@ -101,11 +98,8 @@ static void init_all_plugins()
 
 static void load_external_plugins(void)
 {
-	//Load each plugin
-	NSEnumerator			*enumerator = [[SLPurpleCocoaAdapter libpurplePluginArray] objectEnumerator];
-	id <AILibpurplePlugin>	plugin;
-	
-	while ((plugin = [enumerator nextObject])) {
+	//Load each plugin	
+	for (id <AILibpurplePlugin>	plugin in [SLPurpleCocoaAdapter libpurplePluginArray]) {
 		if ([plugin respondsToSelector:@selector(loadLibpurplePlugin)]) {
 			[plugin loadLibpurplePlugin];
 		}
@@ -145,12 +139,9 @@ static void adiumPurpleCoreDebugInit(void)
 
 static void associateLibpurpleAccounts(void)
 {
-	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-	CBPurpleAccount	*adiumAccount;
-
-	while ((adiumAccount = [enumerator nextObject])) {
+	for (CBPurpleAccount *adiumAccount in adium.accountController.accounts) {
 		if ([adiumAccount isKindOfClass:[CBPurpleAccount class]]) {
-			PurpleAccount *account = purple_accounts_find([adiumAccount purpleAccountName], [adiumAccount protocolPlugin]);
+			PurpleAccount *account = purple_accounts_find(adiumAccount.purpleAccountName, adiumAccount.protocolPlugin);
 			if (account) {
 				[(CBPurpleAccount *)account->ui_data autorelease];
 				account->ui_data = [adiumAccount retain];

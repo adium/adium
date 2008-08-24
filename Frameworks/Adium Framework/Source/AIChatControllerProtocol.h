@@ -19,7 +19,6 @@
 
 @protocol AIChatController <AIController, AIChatController_Private>
 //Chats
-- (AIChat *)mostRecentUnviewedChat;
 - (NSSet *)allChatsWithContact:(AIListContact *)inContact;
 - (AIChat *)openChatWithContact:(AIListContact *)inContact onPreferredAccount:(BOOL)onPreferredAccount;
 - (AIChat *)chatWithContact:(AIListContact *)inContact;
@@ -36,10 +35,12 @@
 - (BOOL)closeChat:(AIChat *)inChat;
 - (void)accountDidCloseChat:(AIChat *)inChat;
 
-- (NSSet *)openChats;
-- (AIChat *)mostRecentUnviewedChat;
-- (NSUInteger)unviewedContentCount;
-- (NSUInteger)unviewedConversationCount;
+//XXX Don't modify openChats. Why do we have to have its type match the ivar's type? Ugh.
+@property (nonatomic, readonly) NSMutableSet *openChats;
+@property (nonatomic, readonly) AIChat *mostRecentUnviewedChat;
+@property (nonatomic, readonly) NSUInteger unviewedContentCount;
+@property (nonatomic, readonly) NSUInteger unviewedConversationCount;
+
 - (void)switchChat:(AIChat *)chat toAccount:(AIAccount *)newAccount;
 - (void)switchChat:(AIChat *)chat toListContact:(AIListContact *)inContact usingContactAccount:(BOOL)useContactAccount;
 - (BOOL)contactIsInGroupChat:(AIListContact *)listContact;

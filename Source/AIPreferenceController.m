@@ -296,11 +296,8 @@
         [delayedNotificationGroups addObject:group];
     } else {
 		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object] dictionary] retain];
-		NSEnumerator	*enumerator = [[observers objectForKey:group] objectEnumerator];
-		NSValue			*observerValue;
-
-		while ((observerValue = [enumerator nextObject])) {
-			id observer = [observerValue nonretainedObjectValue];
+		for (NSValue *observerValue in [observers objectForKey:group]) {
+			id observer = observerValue.nonretainedObjectValue;
 			[observer preferencesChangedForGroup:group
 											 key:key
 										  object:object

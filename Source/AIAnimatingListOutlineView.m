@@ -216,13 +216,8 @@
  */
 - (NSDictionary *)saveCurrentIndexesForItem:(id)item
 {
-	NSEnumerator *enumerator;
-	id oldItem;
-
 	NSDictionary *oldDict = [self indexesForItemAndChildren:item dict:nil];
-
-	enumerator = [oldDict keyEnumerator];
-	while ((oldItem = [enumerator nextObject])) {
+	for (id oldItem in oldDict) {
 		NSNumber *oldIndex = [oldDict objectForKey:oldItem];
 		[allAnimatingItemsDict setObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
 			oldIndex, @"old index",
@@ -249,8 +244,6 @@
  */
 - (void)updateForNewIndexesFromOldIndexes:(NSDictionary *)oldDict forItem:(id)item recalculateHedge:(BOOL)recalculateHedge duration:(NSTimeInterval)duration
 {
-	NSEnumerator *enumerator;
-	id oldItem;
 	NSDictionary *newDict = [self indexesForItemAndChildren:item dict:nil];
 	NSMutableDictionary *animatingRowsDict = [NSMutableDictionary dictionary];
 	
@@ -260,8 +253,7 @@
 	}
 
 	//Compare differences
-	enumerator = [oldDict keyEnumerator];
-	while ((oldItem = [enumerator nextObject])) {
+	for (id oldItem in oldDict) {
 		NSNumber *oldIndex = [oldDict objectForKey:oldItem];
 		NSNumber *newIndex = [newDict objectForKey:oldItem];
 		if (newIndex) {
@@ -317,14 +309,12 @@
  */
 - (void)animation:(AIOutlineViewAnimation *)animation didSetCurrentValue:(float)currentValue forDict:(NSDictionary *)animatingRowsDict
 {
-	NSEnumerator *enumerator = [animatingRowsDict keyEnumerator];
-	NSValue *itemPointer;
 	CGFloat maxRequiredY = 0;
 
 	[self willChangeValueForKey:@"totalHeight"];
 
 	//Update progress for each item in animatingRowsDict
-	while ((itemPointer = [enumerator nextObject])) {
+	for (NSValue *itemPointer in animatingRowsDict) {
 		NSMutableDictionary *animDict = [allAnimatingItemsDict objectForKey:itemPointer];
 		NSInteger newIndex = [[animDict objectForKey:@"new index"] integerValue];
 		NSRect oldFrame, newFrame;

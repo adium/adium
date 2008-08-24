@@ -96,10 +96,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
 //Setup the window before it is displayed
 - (void)windowDidLoad
-{    
-	NSEnumerator	*enumerator;
-	NSString		*aDebugString;
-
+{
 	//We store the reference to the mutableString of the textStore for efficiency
 	mutableDebugString = [[[textView_debug textStorage] mutableString] retain];
 	fullDebugLogArray = [[NSMutableArray alloc] init];
@@ -110,8 +107,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 	[scrollView_debug setAutoScrollToBottom:YES];
 
 	//Load the logs which were added before the window was loaded
-	enumerator = [[adium.debugController debugLogArray] objectEnumerator];
-	while ((aDebugString = [enumerator nextObject])) {
+	for (NSString *aDebugString in adium.debugController.debugLogArray) {
 		[mutableDebugString appendString:aDebugString];
 		if ((![aDebugString hasSuffix:@"\n"]) && (![aDebugString hasSuffix:@"\r"])) {
 			[mutableDebugString appendString:@"\n"];

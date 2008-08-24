@@ -563,11 +563,9 @@ static NSArray *validSenderColors;
 - (NSArray *)availableVariants
 {
 	NSMutableArray	*availableVariants = [NSMutableArray array];
-	NSEnumerator	*enumerator = [[styleBundle pathsForResourcesOfType:@"css" inDirectory:@"Variants"] objectEnumerator];
-	NSString		*path;
 	
 	//Build an array of all variant names
-	while ((path = [enumerator nextObject])) {
+	for (NSString *path in [styleBundle pathsForResourcesOfType:@"css" inDirectory:@"Variants"]) {
 		[availableVariants addObject:[[path lastPathComponent] stringByDeletingPathExtension]];
 	}
 

@@ -47,7 +47,7 @@ typedef enum {
  *
  * @return NSArray of AIService instances
  */
-- (NSArray *)services;
+@property (nonatomic, readonly) NSArray *services;
 
 /*!
  * @brief Returns an array of all active services
@@ -143,7 +143,7 @@ typedef enum {
 - (void)passwordForProxyServer:(NSString *)server userName:(NSString *)userName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext;
 
 #pragma mark Accounts
-- (NSArray *)accounts;
+@property (nonatomic, readonly) NSArray *accounts;
 - (NSArray *)accountsCompatibleWithService:(AIService *)service;
 - (NSArray *)accountsWithCurrentStatus:(AIStatus *)status;
 - (AIAccount *)accountWithInternalObjectID:(NSString *)objectID;
@@ -158,8 +158,8 @@ typedef enum {
 
 //Connection convenience methods
 - (void)disconnectAllAccounts;
-- (BOOL)oneOrMoreConnectedAccounts;
-- (BOOL)oneOrMoreConnectedOrConnectingAccounts;
+@property (nonatomic, readonly) BOOL oneOrMoreConnectedAccounts;
+@property (nonatomic, readonly) BOOL oneOrMoreConnectedOrConnectingAccounts;
 
 /*!
  * @brief Display account configuration for an account

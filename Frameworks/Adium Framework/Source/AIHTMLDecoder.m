@@ -965,9 +965,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Turn each consolidated bunch of keys into an element.
 			addElementContentToTopElement = NO;
 
-			NSEnumerator *startedKeysEnum = [startedKeysArray objectEnumerator];
-			NSArray *item;
-			while ((item = [startedKeysEnum nextObject])) {
+			for (NSArray *item in startedKeysArray) {
 				NSSet *itemKeys = [item objectAtIndex:1];
 
 				//Only the last value of addElementContentToTopElement matters here, since we're adding elements to the stack, and that flag relates to the top element.
@@ -1430,11 +1428,8 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
  */
 
 - (void)restoreAttributesFromDict:(NSDictionary *)inAttributes intoAttributes:(AITextAttributes *)textAttributes
-{
-	NSEnumerator *enumerator = [inAttributes keyEnumerator];
-	NSString	 *key;
-	
-	while ((key = [enumerator nextObject])) {
+{	
+	for (NSString *key in inAttributes) {
 		id value = [inAttributes objectForKey:key];
 		SEL selector = NSSelectorFromString(key);
 		if (value == [NSNull null]) value = nil;
@@ -1447,12 +1442,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 //Process the contents of a font tag
 - (NSDictionary *)processFontTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes
 {
-	NSEnumerator		*enumerator;
-	NSString			*arg;
 	NSMutableDictionary	*originalAttributes = [NSMutableDictionary dictionary];
 
-	enumerator = [[inArgs allKeys] objectEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"face"] == NSOrderedSame) {
 			[originalAttributes setObject:([textAttributes fontFamily] ? (id)[textAttributes fontFamily] : (id)[NSNull null])
 								   forKey:@"setFontFamily:"];
@@ -1520,11 +1512,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (void)processBodyTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes
 {
-	NSEnumerator 	*enumerator;
-	NSString		*arg;
-
-	enumerator = [[inArgs allKeys] objectEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"bgcolor"] == NSOrderedSame) {
 			[textAttributes setBackgroundColor:[NSColor colorWithHTMLString:[inArgs objectForKey:arg] defaultColor:[NSColor whiteColor]]];
 		}	
@@ -1533,12 +1521,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (NSDictionary *)processSpanTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes
 {
-	NSEnumerator		*enumerator;
-	NSString			*arg;
 	NSMutableDictionary	*originalAttributes = [NSMutableDictionary dictionary];
 
-	enumerator = [[inArgs allKeys] objectEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"class"] == NSOrderedSame) {
 			//Process the span tag if it's in a log
 			NSString	*class = [inArgs objectForKey:arg];
@@ -1746,11 +1731,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (void)processLinkTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes
 {
-	NSEnumerator 	*enumerator;
-	NSString		*arg;
-
-	enumerator = [[inArgs allKeys] objectEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"href"] == NSOrderedSame) {
 			NSString	*linkString = [inArgs objectForKey:arg];
 			
@@ -1778,11 +1759,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (void)processDivTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes
 {
-	NSEnumerator 	*enumerator;
-	NSString		*arg;
-	
-	enumerator = [[inArgs allKeys] objectEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"dir"] == NSOrderedSame) {
 			//Right to left, left to right handling
 			NSString	*direction = [inArgs objectForKey:arg];
@@ -1811,13 +1788,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 - (NSAttributedString *)processImgTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes baseURL:(NSString *)inBaseURL
 {
-	NSEnumerator				*enumerator;
-	NSString					*arg;
 	NSAttributedString			*attachString;
 	AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
 
-	enumerator = [inArgs keyEnumerator];
-	while ((arg = [enumerator nextObject])) {
+	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"src"] == NSOrderedSame) {
 			NSString	*src = [inArgs objectForKey:arg];
 			

@@ -376,7 +376,7 @@
 	AIAccount		*account;
 	
 	while ((account = [enumerator nextObject])) {
-		if ([account contactListEditable]) return YES;
+		if (account.contactListEditable) return YES;
 	}
 	
 	return NO;
@@ -541,7 +541,7 @@
 		NSEnumerator *enumerator = [checkedAccounts objectEnumerator];
 		AIAccount	 *account;
 		while (!shouldEnable && (account = [enumerator nextObject]))
-			if ([account contactListEditable]) shouldEnable = YES;
+			if (account.contactListEditable) shouldEnable = YES;
 	}
 
 	[button_add setEnabled:shouldEnable];

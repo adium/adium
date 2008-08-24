@@ -147,9 +147,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 - (void)_configurePeoplePicker
 {
 	NSTextField		*accessoryView = [[[NSTextField alloc] init] autorelease];
-	NSEnumerator	*servicesEnumerator;
 	NSString		*property;
-	AIService		*aService;
 	
 	//Create a small explanation text
 	[accessoryView setStringValue:AILocalizedString(@"Select an entry from your address book, or add a new person.",
@@ -170,8 +168,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	[peoplePicker setNameDoubleAction:@selector(select:)];
 	
 	//We show only the active services
-	servicesEnumerator = [[adium.accountController activeServicesIncludingCompatibleServices:YES] objectEnumerator];
-	while ((aService = [servicesEnumerator nextObject])) {
+	for (AIService *aService in [adium.accountController activeServicesIncludingCompatibleServices:YES]) {
 		property = [AIAddressBookController propertyFromService:aService];
 		if (property && ![[peoplePicker properties] containsObject:property])
 			[peoplePicker addProperty:property];

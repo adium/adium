@@ -61,12 +61,8 @@
 
 - (AIAccount *)fallbackAccountForSendingToContact:(AIListContact *)inContact strictChecking:(BOOL)strictChecking
 {
-	AIAccount		*account;
-	NSEnumerator	*enumerator;
-	
 	//First available account in our list of the correct service type
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts ) {
 		if ([inContact service] == [account service] &&
 			([account online] || ([account enabled] && !strictChecking))) {
 			return account;
@@ -74,8 +70,7 @@
 	}
 	
 	//First available account in our list of a compatible service type
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts ) {
 		if ([[inContact serviceClass] isEqualToString:[account serviceClass]] &&
 			([account online] || ([account enabled] && !strictChecking))) {
 			return account;
@@ -136,12 +131,11 @@
 	}
 	
 	//Now check compatible accounts, looking for one that knows about the contact
-	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[inContact service]] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
-		AIListContact *possibleContact = [adium.contactController existingContactWithService:[account service]
-																					   account:account
-																						   UID:[inContact UID]];
-		if ((possibleContact && ![possibleContact isStranger]) &&
+	for (account in [adium.accountController accountsCompatibleWithService:inContact.service]) {
+		AIListContact *possibleContact = [adium.contactController existingContactWithService:account.service
+																					 account:account
+																						 UID:inContact.UID];
+		if ((possibleContact && !possibleContact.isStranger) &&
 			([account availableForSendingContentType:inType toContact:inContact] || !strictChecking)) {
 			//If a contact with this account already exists and isn't a stranger, we've found a good possible choice.
 			return account;

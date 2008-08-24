@@ -273,13 +273,9 @@ static AIContactObserverManager *sharedObserverManager = nil;
  */
 - (void)updateContacts:(NSSet *)contacts forObserver:(id <AIListObjectObserver>)inObserver
 {
-	NSEnumerator	*enumerator;
-	AIListObject	*listObject;
-	
 	[self delayListObjectNotifications];
 	
-	enumerator = (contacts ? [contacts objectEnumerator] : [(AIContactController *)adium.contactController contactEnumerator]);
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in (contacts ? [contacts objectEnumerator] : [(AIContactController *)adium.contactController contactEnumerator])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
 		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
@@ -302,26 +298,21 @@ static AIContactObserverManager *sharedObserverManager = nil;
 //Instructs a controller to update all available list objects
 - (void)updateAllListObjectsForObserver:(id <AIListObjectObserver>)inObserver
 {
-	NSEnumerator	*enumerator;
-	AIListObject	*listObject;
-	
 	[self delayListObjectNotifications];
 	
 	//All contacts
 	[self updateContacts:nil forObserver:inObserver];
 	
     //Reset all groups
-	enumerator = [(AIContactController *)adium.contactController groupEnumerator];
-	while ((listObject = [enumerator nextObject])) {
-		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
-		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
+	for (AIListGroup *listGroup in [(AIContactController *)adium.contactController groupEnumerator]) {
+		NSSet	*attributes = [inObserver updateListObject:listGroup keys:nil silent:YES];
+		if (attributes) [self listObjectAttributesChanged:listGroup modifiedKeys:attributes];
 	}
 	
 	//Reset all accounts
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
-		NSSet	*attributes = [inObserver updateListObject:listObject keys:nil silent:YES];
-		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
+	for (AIAccount *account in adium.accountController.accounts) {
+		NSSet	*attributes = [inObserver updateListObject:account keys:nil silent:YES];
+		if (attributes) [self listObjectAttributesChanged:account modifiedKeys:attributes];
 	}
 	
 	[self endListObjectNotificationsDelay];

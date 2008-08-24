@@ -66,11 +66,9 @@
 		return [adium.accountController oneOrMoreConnectedAccounts];
 
 	} else if ([menuItem action] == @selector(contextualOpenChat:)) {
-		NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:[[adium.menuController currentContextMenuObject] service]] objectEnumerator];
-		AIAccount	 *account;
-		BOOL		 enable = NO;
+		BOOL enable = NO;
 
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in [adium.accountController accountsCompatibleWithService:adium.menuController.currentContextMenuObject.service]) {
 			if ([account online]) {
 				enable = YES;
 				break;

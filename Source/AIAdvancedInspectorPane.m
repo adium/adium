@@ -199,9 +199,7 @@
 {
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
 		NSMutableSet *set = [NSMutableSet set];
-		NSEnumerator *enumerator = [[[(AIMetaContact *)displayedObject listContacts] valueForKey:@"service"] objectEnumerator];
-		AIService *service;
-		while ((service = [enumerator nextObject])) {
+		for (AIService *service in [((AIMetaContact *)displayedObject).listContacts valueForKey:@"service"]) {
 			[set addObjectsFromArray:[adium.accountController accountsCompatibleWithService:service]];
 		}
 

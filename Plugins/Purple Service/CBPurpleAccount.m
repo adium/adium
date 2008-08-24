@@ -374,14 +374,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 				} else if (purple_notify_user_info_entry_get_value(user_info_entry)) {
 					NSMutableString	*value = [processPurpleImages([NSString stringWithUTF8String:purple_notify_user_info_entry_get_value(user_info_entry)],
 																  self) mutableCopy];
-					NSEnumerator	*enumerator;
-					NSString		*valuePair;
 					[value replaceOccurrencesOfString:@"<br>" withString:@"<br/>" options:(NSCaseInsensitiveSearch | NSLiteralSearch)];
 					[value replaceOccurrencesOfString:@"<br />" withString:@"<br/>" options:(NSCaseInsensitiveSearch | NSLiteralSearch)];
 					[value replaceOccurrencesOfString:@"<B>" withString:@"<b>" options:NSLiteralSearch];
 
-					enumerator = [[value componentsSeparatedByString:@"<br/><b>"] objectEnumerator];
-					while ((valuePair = [enumerator nextObject])) {
+					for (NSString *valuePair in [value componentsSeparatedByString:@"<br/><b>"]) {
 						NSRange	firstStartBold = [valuePair rangeOfString:@"<b>"];
 						NSRange	firstEndBold = [valuePair rangeOfString:@"</b>"];
 						

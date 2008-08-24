@@ -402,11 +402,9 @@
 - (NSMenu *)_variantsMenu
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""];
-	NSEnumerator	*enumerator = [[[previewController messageStyle] availableVariants] objectEnumerator];
-	NSString		*variant;
 
 	//Add a menu item for each variant
-	while ((variant = [enumerator nextObject])) {
+	for (NSString *variant in previewController.messageStyle.availableVariants) {
 		[menu addItemWithTitle:variant
 						target:nil
 						action:nil
@@ -524,11 +522,9 @@
 - (NSMutableDictionary *)_addParticipants:(NSDictionary *)participants toChat:(AIChat *)inChat fromPath:(NSString *)previewPath
 {
 	NSMutableDictionary	*listObjectDict = [NSMutableDictionary dictionary];
-	NSEnumerator		*enumerator = [participants objectEnumerator];
-	NSDictionary		*participant;
 	AIService			*aimService = [adium.accountController firstServiceWithServiceID:@"AIM"];
 	
-	while ((participant = [enumerator nextObject])) {
+	for (NSDictionary *participant in participants) {
 		NSString		*UID, *alias, *userIconName;
 		AIListContact	*listContact;
 		

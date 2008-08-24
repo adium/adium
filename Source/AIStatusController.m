@@ -95,9 +95,6 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)controllerDidLoad
 {
-	NSEnumerator			*enumerator;
-	AIAccount				*account;
-
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
 	[self buildBuiltInStatusTypes];
@@ -105,9 +102,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	//Put each account into the status it was in last time we quit.
 	BOOL		needToRebuildMenus = NO;
 	BOOL		allStatusesInSameState = YES;
-	AIStatus *prevStatus = nil;
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	AIStatus	*prevStatus = nil;
+	for (AIAccount *account in adium.accountController.accounts) {
 		NSData		*lastStatusData = [account preferenceForKey:@"LastStatus"
 														  group:GROUP_ACCOUNT_STATUS];
 		AIStatus	*lastStatus = nil;
@@ -158,11 +154,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)controllerWillClose
 {
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
-
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		/* Store the current status state for use on next launch.
 		 *
 		 * We use the valueForProperty:@"StatusState" accessor rather than [account statusState]
@@ -306,11 +298,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		}
 
 	} else {
-		NSEnumerator	*enumerator;
-		AIService		*service;
-
-		enumerator = [[adium.accountController activeServicesIncludingCompatibleServices:NO] objectEnumerator];
-		while ((service = [enumerator nextObject])) {
+		for (AIService *service in [adium.accountController activeServicesIncludingCompatibleServices:NO]) {
 			NSSet	*statusDicts;
 			
 			//Obtain the status dicts for this type and service code unique ID
@@ -419,16 +407,14 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	NSString *description = nil;
 
 	if (statusName &&
-		!(description = [self localizedDescriptionForCoreStatusName:statusName])) {
-		NSEnumerator	*enumerator = [statusDictsByServiceCodeUniqueID[statusType] objectEnumerator];
-		NSSet			*set;
-		
-		while (!description && (set = [enumerator nextObject])) {
+		!(description = [self localizedDescriptionForCoreStatusName:statusName])) {		
+		for (NSSet *set in statusDictsByServiceCodeUniqueID[statusType]) {
 			NSEnumerator	*statusDictsEnumerator = [set objectEnumerator];
 			NSDictionary	*statusDict;
 			while (!description && (statusDict = [statusDictsEnumerator nextObject])) {
 				if ([[statusDict objectForKey:KEY_STATUS_NAME] isEqualToString:statusName]){
 					description = [statusDict objectForKey:KEY_STATUS_DESCRIPTION];
+					break;
 				}
 			}
 		}		
@@ -591,8 +577,6 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)applyState:(AIStatus *)statusState toAccounts:(NSArray *)accountArray
 {
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
 	AIStatus		*aStatusState;
 	BOOL			shouldRebuild = NO;
 	BOOL			isOfflineStatus = ([statusState statusType] == AIOfflineStatusType);
@@ -604,7 +588,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	if  (isOfflineStatus && [adium.accountController oneOrMoreConnectedOrConnectingAccounts]) {
 		[accountsToConnect removeAllObjects];
 
-		for (account in accountArray) {
+		for (AIAccount *account in accountArray) {
 			// Save the account if we're online or trying to be online.
 			if ([account online] || [[account valueForProperty:@"Connecting"] boolValue] || [account valueForProperty:@"Waiting to Reconnect"])
 				[accountsToConnect addObject:account];
@@ -617,7 +601,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		 * If we have no such list of accounts, connect 'em all.
 		 */
 		BOOL noAccountsToConnectCount = ([accountsToConnect count] == 0);
-		for (account in accountArray) {
+		for (AIAccount *account in accountArray) {
 			if ([account enabled] &&
 				([accountsToConnect containsObject:account] || noAccountsToConnectCount)) {
 				[account setStatusState:statusState];
@@ -629,7 +613,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	} else {
 		//At least one account is online.  Just change its status without taking any other accounts online.
-		for (account in accountArray) {
+		for (AIAccount *account in accountArray) {
 			if ([account online] || isOfflineStatus) {
 				[account setStatusState:statusState];
 				
@@ -646,8 +630,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 
 	//Any objects in the temporary state array which aren't the state we just set should now be removed.
-	enumerator = [[[temporaryStateArray copy] autorelease] objectEnumerator];
-	while ((aStatusState = [enumerator nextObject])) {
+	for (aStatusState in [[temporaryStateArray copy] autorelease]) {
 		if (aStatusState != statusState) {
 			[temporaryStateArray removeObject:aStatusState];
 			shouldRebuild = YES;
@@ -859,28 +842,22 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (AIStatus *)activeStatusState
 {
 	if (!_activeStatusState) {
-		NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
 		NSCountedSet		*statusCounts = [NSCountedSet set];
-		AIAccount			*account;
-		AIStatus			*statusState;
 		NSUInteger			 highestCount = 0;
-		//This was "oneOrMoreConnectedOrConnectingAccounts" before... was there a good reason?
-		BOOL				 accountsAreOnline = [adium.accountController oneOrMoreConnectedAccounts];
 
-		if (accountsAreOnline) {
+		if (adium.accountController.oneOrMoreConnectedAccounts) {
 			AIStatus	*bestStatusState = nil;
 
-			while ((account = [enumerator nextObject])) {
-				if ([account online]) {
-					AIStatus *accountStatusState = [account statusState];
+			for (AIAccount *account in adium.accountController.accounts) {
+				if (account.online) {
+					AIStatus *accountStatusState = account.statusState;
 					[statusCounts addObject:(accountStatusState ?
 											 accountStatusState :
-											 [self defaultInitialStatusState])];
+											 self.defaultInitialStatusState)];
 				}
 			}
 
-			enumerator = [statusCounts objectEnumerator];
-			while ((statusState = [enumerator nextObject])) {
+			for (AIStatus *statusState in statusCounts) {
 				NSUInteger thisCount = [statusCounts countForObject:statusState];
 				if (thisCount > highestCount) {
 					bestStatusState = statusState;
@@ -909,9 +886,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (AIStatusType)activeStatusTypeTreatingInvisibleAsAway:(BOOL)invisibleIsAway
 {
-	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount			*account;
-	NSInteger					statusTypeCount[STATUS_TYPES_COUNT];
+	NSInteger			statusTypeCount[STATUS_TYPES_COUNT];
 	AIStatusType		activeStatusType = AIOfflineStatusType;
 	NSUInteger			highestCount = 0;
 
@@ -920,7 +895,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		statusTypeCount[i] = 0;
 	}
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account online] || [account integerValueForProperty:@"Connecting"]) {
 			AIStatusType statusType = [[account statusState] statusType];
 
@@ -954,10 +929,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	if (!_allActiveStatusStates) {
 		_allActiveStatusStates = [[NSMutableSet alloc] init];
-		NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
-		AIAccount			*account;
 
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in adium.accountController.accounts) {
 			if ([account enabled]) {
 				[_allActiveStatusStates addObject:[account statusState]];
 			}
@@ -976,11 +949,9 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (NSSet *)activeUnavailableStatusesAndType:(AIStatusType *)activeUnvailableStatusType withName:(NSString **)activeUnvailableStatusName allOnlineAccountsAreUnvailable:(BOOL *)allOnlineAccountsAreUnvailable
 {
-	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount			*account;
 	NSMutableSet		*activeUnvailableStatuses = [NSMutableSet set];
 	BOOL				foundStatusName = NO;
-	NSInteger					statusTypeCount[STATUS_TYPES_COUNT];
+	NSInteger			statusTypeCount[STATUS_TYPES_COUNT];
 
 	statusTypeCount[AIAwayStatusType] = 0;
 	statusTypeCount[AIInvisibleStatusType] = 0;
@@ -990,8 +961,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		*allOnlineAccountsAreUnvailable = YES;
 	}
 	
-	while ((account = [enumerator nextObject])) {
-		if ([account online] || [account integerValueForProperty:@"Connecting"]) {
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.online || [account integerValueForProperty:@"Connecting"]) {
 			AIStatus	*statusState = [account statusState];
 			AIStatusType statusType = [statusState statusType];
 			
@@ -1044,10 +1015,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	AIStatus		*statusState = nil;
 
 	if (uniqueStatusID) {
-		NSEnumerator	*enumerator = [[self flatStatusSet] objectEnumerator];
-
-		while ((statusState = [enumerator nextObject])) {
-			if ([[statusState uniqueStatusID] compare:uniqueStatusID] == NSOrderedSame)
+		for (statusState in self.flatStatusSet) {
+			if ([statusState.uniqueStatusID compare:uniqueStatusID] == NSOrderedSame)
 				break;
 		}
 	}
@@ -1149,13 +1118,10 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	* then we should remove it.
 	*/
 	if ([temporaryStateArray containsObject:originalState]) {
-		NSEnumerator	*enumerator;
-		AIAccount		*account;
-		NSInteger				count = 0;
+		NSInteger count = 0;
 		
-		enumerator = [[adium.accountController accounts] objectEnumerator];
-		while ((account = [enumerator nextObject])) {
-			if ([account actualStatusState] == originalState) {
+		for (AIAccount *account in adium.accountController.accounts) {
+			if (account.actualStatusState == originalState) {
 				if (++count > 1) break;
 			}
 		}

@@ -236,11 +236,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if ([searchString isEqualToString:@""]) {
 		[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 		
-		// Restore all group chats to visible
-		NSEnumerator		*enumerator = [[adium.contactController allBookmarks] objectEnumerator];
-		AIListBookmark		*bookmark;
-		
-		while ((bookmark = [enumerator nextObject])) {
+		// Restore all group chats to visible		
+		for (AIListBookmark *bookmark in adium.contactController.allBookmarks) {
 			[bookmark setVisible:YES];
 		}
 		

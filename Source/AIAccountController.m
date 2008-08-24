@@ -177,12 +177,8 @@
 
 - (void)disconnectAllAccounts
 {
-    NSEnumerator		*enumerator;
-    AIAccount			*account;
-
-    enumerator = [[self accounts] objectEnumerator];
-    while ((account = [enumerator nextObject])) {
-        if ([account online]) 
+    for (AIAccount *account in self.accounts) {
+        if (account.online) 
 			[account disconnect];
     }
 }
@@ -190,12 +186,8 @@
 //XXX - Re-evaluate this method and its presence in the core
 - (BOOL)oneOrMoreConnectedAccounts
 {
-	NSEnumerator		*enumerator;
-    AIAccount			*account;
-
-    enumerator = [[self accounts] objectEnumerator];
-    while ((account = [enumerator nextObject])) {
-        if ([account online]) {
+    for (AIAccount *account in self.accounts) {
+        if (account.online) {
 			return YES;
         }
     }
@@ -206,12 +198,8 @@
 //XXX - Re-evaluate this method and its presence in the core
 - (BOOL)oneOrMoreConnectedOrConnectingAccounts
 {
-	NSEnumerator		*enumerator;
-    AIAccount			*account;
-	
-    enumerator = [[self accounts] objectEnumerator];
-    while ((account = [enumerator nextObject])) {
-        if ([account online] || [account integerValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
+    for (AIAccount *account in self.accounts) {
+        if (account.online || [account integerValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
 			return YES;
         }
     }	

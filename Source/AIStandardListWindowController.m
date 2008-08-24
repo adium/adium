@@ -508,19 +508,15 @@
  */
 + (AIAccount *)activeAccountForDisplayNameGettingOnlineAccounts:(NSMutableSet *)onlineAccounts ownDisplayNameAccounts:(NSMutableSet *)ownDisplayNameAccounts
 {
-	AIAccount			*account;
 	AIAccount			*activeAccount = nil;
-	NSEnumerator		*enumerator;
 	BOOL				atLeastOneOwnDisplayNameAccount = NO;
-	NSArray				*accounts = [adium.accountController accounts];
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownDisplayNameAccounts) ownDisplayNameAccounts = [NSMutableSet set];
 	
 	//Figure out what accounts are online and what of those have their own custom display name
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
-		if ([account online]) {
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.online) {
 			[onlineAccounts addObject:account];
 			if ([[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] attributedString] length]) {
 				[ownDisplayNameAccounts addObject:account];
@@ -543,8 +539,8 @@
 		 * Let's use the first one in the accounts list.
 		 */
 		if (!activeAccount && ([ownDisplayNameAccounts count] == [onlineAccounts count])) {
-			for (account in accounts) {
-				if ([account online]) {
+			for (AIAccount *account in adium.accountController.accounts) {
+				if (account.online) {
 					activeAccount = account;
 					break;
 				}

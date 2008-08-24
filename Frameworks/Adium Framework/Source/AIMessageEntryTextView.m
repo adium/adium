@@ -477,12 +477,10 @@
 - (BOOL)handlePasteAsRichText
 {
 	NSPasteboard *generalPasteboard = [NSPasteboard generalPasteboard];
-	NSEnumerator *enumerator = [[generalPasteboard types] objectEnumerator];
-	NSString	 *type;
 	BOOL		 handledPaste = NO;
 	
 	//Types is ordered by the preference for handling of the data; enumerating it lets us allow the sending application's hints to be followed.
-	while ((type = [enumerator nextObject]) && !handledPaste) {
+	for (NSString *type in generalPasteboard.types) {
 		if ([type isEqualToString:NSRTFDPboardType]) {
 			NSData *data = [generalPasteboard dataForType:NSRTFDPboardType];
 			[self insertText:[self attributedStringWithAITextAttachmentExtensionsFromRTFDData:data]];
@@ -496,6 +494,8 @@
 			[self addAttachmentsFromPasteboard:generalPasteboard];
 			handledPaste = YES;
 		}
+		
+		if (handledPaste) break;
 		
 	}
 	
@@ -1095,15 +1095,13 @@
 	NSMenu			*contextualMenu = nil;
 	
 	NSArray			*itemsArray = nil;
-	NSEnumerator    *enumerator;
-	NSMenuItem		*menuItem;
 	BOOL			addedOurLinkItems = NO;
 
 	if ((contextualMenu = [super menuForEvent:theEvent])) {
 		contextualMenu = [[contextualMenu copy] autorelease];
-		enumerator = [[contextualMenu itemArray] objectEnumerator];
+
 		NSMenuItem	*editLinkItem = nil;
-		while ((menuItem = [enumerator nextObject])) {
+		for (NSMenuItem *menuItem in contextualMenu.itemArray) {
 			if ([[menuItem title] rangeOfString:AILocalizedString(@"Edit Link", nil)].location != NSNotFound) {
 				editLinkItem = menuItem;
 				break;
@@ -1119,8 +1117,7 @@
 				[NSNumber numberWithInt:Context_TextView_LinkEditing]]
 																								  forTextView:self];
 			
-			enumerator = [[linkItemsMenu itemArray] objectEnumerator];
-			while ((menuItem = [enumerator nextObject])) {
+			for (NSMenuItem *menuItem in linkItemsMenu.itemArray) {
 				[contextualMenu insertItem:[[menuItem copy] autorelease] atIndex:editIndex++];
 			}
 			
@@ -1142,7 +1139,7 @@
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
 		int i = [(NSMenu *)contextualMenu numberOfItems];
-		for (menuItem in itemsArray) {
+		for (NSMenuItem *menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
 			NSMenuItem	*menuItemCopy = [[menuItem copy] autorelease];

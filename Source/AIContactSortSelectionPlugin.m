@@ -115,16 +115,14 @@
 - (void)_configureSortSelectionMenuItems
 {
     NSMenu				*sortSelectionMenu;
-    NSMenuItem			*menuItem;
-    NSEnumerator		*enumerator;
-	AISortController	*controller;
 	
     //Create the menu
     sortSelectionMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];
 	
 	//Add each sort controller
-	enumerator = [[AISortController availableSortControllers] objectEnumerator];
-	while ((controller = [enumerator nextObject])) {
+	for (AISortController *controller in [AISortController availableSortControllers]) {
+		NSMenuItem			*menuItem;
+
 		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[controller displayName]
 																		 target:self
 																		 action:@selector(changedSortSelection:)

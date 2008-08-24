@@ -97,9 +97,7 @@
 	[serviceMenu setAutoenablesItems:YES];
 	
 	//Indent each item in the service menu one level
-	NSEnumerator	*enumerator = [[serviceMenu itemArray] objectEnumerator];
-	NSMenuItem		*menuItem;
-	while ((menuItem = [enumerator nextObject])) {
+	for (NSMenuItem *menuItem in [serviceMenu itemArray]) {
 		[menuItem setIndentationLevel:[menuItem indentationLevel]+1];
 	}
 
@@ -480,12 +478,10 @@
  */
 - (void)toggleOnlineForAccounts:(id)sender
 {
-	NSDictionary		*dict		= [sender representedObject];
-	NSEnumerator		*enumerator	= [[dict objectForKey:@"Accounts"] objectEnumerator];
-	BOOL				connect		= [[dict objectForKey:@"Connect"] boolValue];
-	AIAccount			*account;
+	NSDictionary *dict = [sender representedObject];
+	BOOL		 connect = [[dict objectForKey:@"Connect"] boolValue];
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in [dict objectForKey:@"Accounts"]) {
 		if (![account enabled] && connect)
 			[account setEnabled:YES];
 		[account setShouldBeOnline:connect];
@@ -497,12 +493,10 @@
  */
 - (void)toggleEnabledForAccounts:(id)sender
 {
-	NSDictionary		*dict		= [sender representedObject];
-	NSEnumerator		*enumerator	= [[dict objectForKey:@"Accounts"] objectEnumerator];
-	BOOL				enable		= [[dict objectForKey:@"Enable"] boolValue];
-	AIAccount			*account;
+	NSDictionary *dict = [sender representedObject];
+	BOOL		 enable	 = [[dict objectForKey:@"Enable"] boolValue];
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in [dict objectForKey:@"Accounts"]) {
 		[account setEnabled:enable];
 	}	
 }
@@ -512,11 +506,9 @@
  */
 - (void)updateAccountsForStatus:(id)sender
 {
-	NSEnumerator	*enumerator	= [[accountArray objectsAtIndexes:[tableView_accountList selectedRowIndexes]] objectEnumerator];
 	AIStatus		*status		= [[sender representedObject] objectForKey:@"AIStatus"];
-	AIAccount		*account;
 	
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in [accountArray objectsAtIndexes:[tableView_accountList selectedRowIndexes]]) {
 		[account setStatusState:status];
 		
 		//Enable the account if it isn't currently enabled and this isn't an offline status
@@ -587,9 +579,7 @@
 		[optionsMenu addItem:[NSMenuItem separatorItem]];
 		
 		//Add account options
-		NSMenuItem *menuItem;
-		NSEnumerator *enumerator = [[accountOptionsMenu itemArray] objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
+		for (NSMenuItem *menuItem in [accountOptionsMenu itemArray]) {
 			//Use copies of the menu items rather than moving the actual items, as we may want to use them again
 			[optionsMenu addItem:[[menuItem copy] autorelease]];
 		}
@@ -998,7 +988,6 @@
 	
     if ([avaliableType isEqualToString:@"AIAccount"]) {
 		NSEnumerator	*enumerator;
-		AIAccount		*account;
 
 		//Indexes are shifting as we're doing this, so we have to iterate in the right order
 		//If we're moving accounts to an earlier point in the list, we've got to insert backwards
@@ -1009,7 +998,7 @@
 		
 		[tableView_accountList deselectAll:nil];
 		
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in enumerator) {
 			[adium.accountController moveAccount:account toIndex:row];
 		}
 		

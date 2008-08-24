@@ -25,24 +25,19 @@
 
 - (void) setXtra:(AIXtraInfo *)xtraInfo
 {
+	NSString *resourcePath = [xtraInfo resourcePath];
+	NSDictionary *iconDict = [[NSDictionary dictionaryWithContentsOfFile:[resourcePath stringByAppendingPathComponent:@"Icons.plist"]] objectForKey:@"List"];
+
+	[statusNames release];
+	statusNames = [[iconDict allKeys] retain];
+
 	[images autorelease];
 	images = [[NSMutableArray alloc] init];
-	[statusNames autorelease];
-	NSEnumerator * paths;
-	NSString * resourcePath = [xtraInfo resourcePath];
-	NSDictionary * iconDict = [[NSDictionary dictionaryWithContentsOfFile:[resourcePath stringByAppendingPathComponent:@"Icons.plist"]] objectForKey:@"List"];
-	
-	paths = [[iconDict allValues] objectEnumerator];
-	statusNames = [[iconDict allKeys] retain];
-			
-	NSImage * image;
-	NSString * imageName;
-	NSString * imagePath;
-	while((imageName = [paths nextObject]))
-	{
-		imagePath = [resourcePath stringByAppendingPathComponent:imageName];
-		image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
-		if(image)
+
+	for (NSString *imageName in [iconDict objectEnumerator]) {
+		NSString *imagePath = [resourcePath stringByAppendingPathComponent:imageName];
+		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+		if (image)
 			[images addObject:image];
 	}
 	[tableView reloadData];

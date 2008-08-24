@@ -111,14 +111,12 @@
 
 - (AIAccount *)accountWithInternalObjectID:(NSString *)objectID
 {
-    NSEnumerator	*enumerator = [accounts objectEnumerator];
-    AIAccount		*account = nil;
-
+	AIAccount *account = nil;
 	//Some ancient preferences have NSNumbers instead of NSStrings. Work properly, silently.
 	if ([objectID isKindOfClass:[NSNumber class]]) objectID = [(NSNumber *)objectID stringValue];
 
-    while (objectID && (account = [enumerator nextObject])) {
-        if ([objectID isEqualToString:[account internalObjectID]]) break;
+	for (account in accounts) {
+        if ([objectID isEqualToString:account.internalObjectID]) break;
     }
     
     return account;

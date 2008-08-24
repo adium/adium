@@ -300,13 +300,11 @@
 			}
 
 		} else {
-			NSEnumerator    *enumerator;
-			NSWindow	    *window, *targetWindow = nil;
-			BOOL	    	unMinimizedWindows = 0;
+			NSWindow *targetWindow = nil;
+			BOOL	 unMinimizedWindows = 0;
 			
 			//If there was no unviewed content, ensure that atleast one of Adium's windows is unminimized
-			enumerator = [[NSApp windows] objectEnumerator];
-			while ((window = [enumerator nextObject])) {
+			for (NSWindow *window in [NSApp windows]) {
 				//Check stylemask to rule out the system menu's window (Which reports itself as visible like a real window)
 				if (([window styleMask] & (NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask))) {
 					if (!targetWindow) targetWindow = window;
@@ -404,22 +402,16 @@
 	// If there's no data, we can't restore anything.
 	if (!savedData)
 		return;
-	
-	NSEnumerator		*enumerator = [[NSKeyedUnarchiver unarchiveObjectWithData:savedData] objectEnumerator];
-	NSDictionary		*dict;
-	
-	while ((dict = [enumerator nextObject])) {
+
+	for (NSDictionary *dict in [NSKeyedUnarchiver unarchiveObjectWithData:savedData]) {
 		AIMessageWindowController *windowController = [self openContainerWithID:[dict objectForKey:@"ID"]
 																 name:[dict objectForKey:@"Name"]];
+		AIChat *containerActiveChat = nil;
 		
 		// Position the container where it was last saved (using -savedFrameFromString: to prevent going offscreen)
 		[[windowController window] setFrame:[windowController savedFrameFromString:[dict objectForKey:@"Frame"]] display:YES];
 		
-		NSEnumerator			*chatEnumerator = [[dict objectForKey:@"Content"] objectEnumerator];
-		NSDictionary			*chatDict;
-		AIChat					*containerActiveChat = nil;
-		
-		while ((chatDict = [chatEnumerator nextObject])) {
+		for (NSDictionary *chatDict in [dict objectForKey:@"Content"]) {
 			AIChat			*chat = nil;
 			AIService		*service = [adium.accountController firstServiceWithServiceID:[chatDict objectForKey:@"serviceID"]];
 			AIAccount		*account = [adium.accountController accountWithInternalObjectID:[chatDict objectForKey:@"AccountID"]];
@@ -477,21 +469,17 @@
 
 	// Save active containers.
 	NSMutableArray		*savedContainers = [NSMutableArray array];
-	NSEnumerator		*enumerator = [[interfacePlugin openContainersAndChats] objectEnumerator];
-	NSDictionary		*dict;
 	
-	while ((dict = [enumerator nextObject])) {
+	for (NSDictionary *dict in [interfacePlugin openContainersAndChats]) {
 		NSMutableArray		*containerContents = [NSMutableArray array];
-		NSEnumerator		*containedEnumerator = [[dict objectForKey:@"Content"] objectEnumerator];
-		AIChat				*chat;
 		
-		while ((chat = [containedEnumerator nextObject])) {
+		for (AIChat *chat in [dict objectForKey:@"Content"]) {
 			NSMutableDictionary		*newContainerDict = [NSMutableDictionary dictionary];
 
 			[newContainerDict setObject:[[chat account] internalObjectID] forKey:@"AccountID"];
 			
 			// Save chat-specific information.
-			if ([chat isGroupChat]) {
+			if (chat.isGroupChat) {
 				// -chatCreationDictionary may be nil, so put it last.
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
 															[NSNumber numberWithBool:YES], @"IsGroupChat",
@@ -987,18 +975,13 @@
     }
     [windowMenuArray release]; windowMenuArray = [[NSMutableArray alloc] init];
 	
-    //Messages window and any open messasges
-	NSEnumerator	*containerEnumerator = [[interfacePlugin openContainersAndChats] objectEnumerator];
-	NSDictionary	*containerDict;
-	
-	while ((containerDict = [containerEnumerator nextObject])) {
+    //Messages window and any open messasges	
+	for (NSDictionary *containerDict in [interfacePlugin openContainersAndChats]) {
 		NSString		*containerName = [containerDict objectForKey:@"Name"];
 		NSArray			*contentArray = [containerDict objectForKey:@"Content"];
-		NSEnumerator	*contentEnumerator = [contentArray objectEnumerator];
-		AIChat			*chat;
 		
 		//Add a menu item for the container
-		if ([contentArray count] > 1) {
+		if (contentArray.count > 1) {
 			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:([containerName length] ? containerName : AILocalizedString(@"Chats", nil))
 																		target:nil
 																		action:nil
@@ -1008,25 +991,25 @@
 		}
 		
 		//Add items for the chats it contains
-		while ((chat = [contentEnumerator nextObject])) {
+		for (AIChat *chat in [contentArray objectEnumerator]) {
 			NSString		*windowKeyString;
 			
 			//Prepare a key equivalent for the controller
 			if (windowKey < 10) {
-				windowKeyString = [NSString stringWithFormat:@"%ld",(windowKey)];
+				windowKeyString = [NSString stringWithFormat:@"%ld", (windowKey)];
 			} else if (windowKey == 10) {
 				windowKeyString = [NSString stringWithString:@"0"];
 			} else {
 				windowKeyString = [NSString stringWithString:@""];
 			}
 			
-			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[chat displayName]
+			item = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:chat.displayName
 																		target:self
 																		action:@selector(showChatWindow:)
 																 keyEquivalent:windowKeyString];
 			if ([contentArray count] > 1) [item setIndentationLevel:1];
 			[item setRepresentedObject:chat];
-			[item setImage:[chat chatMenuImage]];
+			[item setImage:chat.chatMenuImage];
 			[self _addItemToMainMenuAndDock:item];
 			[item release];
 
@@ -1589,32 +1572,27 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	                                                                                forKey:NSFontAttributeName];
     
     //Entries from plugins
-    id <AIContactListTooltipEntry>  tooltipEntry;
     NSEnumerator                    *labelEnumerator; 
-    NSMutableArray                  *labelArray = [NSMutableArray array];
-    NSMutableArray                  *entryArray = [NSMutableArray array];    
-    NSMutableAttributedString       *entryString;
-    CGFloat                           labelWidth;
+    NSMutableArray                  *labelArray = [NSMutableArray array]; //Array of NSStrings
+    NSMutableArray                  *entryArray = [NSMutableArray array]; //Array of NSMutableStrings   
+    CGFloat                         labelWidth;
     BOOL                            firstEntry = YES;
     
     //Calculate the widest label while loading the arrays
-	
-	for (tooltipEntry in contactListTooltipSecondaryEntryArray) {
-		
-		entryString = [[tooltipEntry entryForObject:object] mutableCopy];
-		if (entryString && [entryString length]) {
-			
+	for (id <AIContactListTooltipEntry>tooltipEntry in contactListTooltipSecondaryEntryArray) {
+		NSMutableAttributedString *entryString = [[tooltipEntry entryForObject:object] mutableCopy];
+		if (entryString && entryString.length) {
 			NSString        *labelString = [tooltipEntry labelForObject:object];
-			if (labelString && [labelString length]) {
-				
+
+			if (labelString && labelString.length) {
 				[entryArray addObject:entryString];
 				[labelArray addObject:labelString];
 				
-				NSAttributedString * labelAttribString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@:",labelString] 
-																						 attributes:labelDict];
+				NSAttributedString *labelAttribString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@:",labelString] 
+																						attributes:labelDict];
 				
 				//The largest size should be the label's size plus the distance to the next tab at least a space past its end
-				labelWidth = [labelAttribString size].width;
+				labelWidth = labelAttribString.size.width;
 				[labelAttribString release];
 				
 				if (labelWidth > maxLabelWidth)
@@ -1626,7 +1604,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		
     //Add labels plus entires to the toolTip
     labelEnumerator = [labelArray objectEnumerator];
-    for (entryString in entryArray) {
+    for (NSMutableAttributedString *entryString in entryArray) {
         NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@:\t",[labelEnumerator nextObject]]
 																						attributes:labelDict];
         

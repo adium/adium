@@ -239,19 +239,14 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 //Init our log filtering tree
 - (void)initLogFiltering
 {
-    NSEnumerator			*enumerator;
-    NSString				*folderName;
     NSMutableDictionary		*toDict = [NSMutableDictionary dictionary];
     NSString				*basePath = [AILoggerPlugin logBasePath];
     NSString				*fromUID, *serviceClass;
 
     //Process each account folder (/Logs/SERVICE.ACCOUNT_NAME/) - sorting by compare: will result in an ordered list
 	//first by service, then by account name.
-	enumerator = [[[[NSFileManager defaultManager] directoryContentsAtPath:basePath] sortedArrayUsingSelector:@selector(compare:)] objectEnumerator];
-    while ((folderName = [enumerator nextObject])) {
+    for (NSString *folderName in [[[NSFileManager defaultManager] directoryContentsAtPath:basePath] sortedArrayUsingSelector:@selector(compare:)]) {
 		if (![folderName isEqualToString:@".DS_Store"]) { // avoid the directory info
-			NSEnumerator    *toEnum;
-			AILogToGroup    *currentToGroup;			
 			AILogFromGroup  *logFromGroup;
 			NSMutableSet	*toSetForThisService;
 			NSArray         *serviceAndFromUIDArray;
@@ -285,8 +280,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			}
 
 			//Add the 'to' for each grouping on this account
-			toEnum = [[logFromGroup toGroupArray] objectEnumerator];
-			while ((currentToGroup = [toEnum nextObject])) {
+			for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
 				NSString	*currentTo;
 
 				if ((currentTo = [currentToGroup to])) {
@@ -304,19 +298,12 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 - (void)rebuildContactsList
 {
-	NSEnumerator	*enumerator = [logFromGroupDict objectEnumerator];
-	AILogFromGroup	*logFromGroup;
-	
-	NSInteger	oldCount = [toArray count];
+	NSInteger	oldCount = toArray.count;
 	[toArray release]; toArray = [[NSMutableArray alloc] initWithCapacity:(oldCount ? oldCount : 20)];
 
-	while ((logFromGroup = [enumerator nextObject])) {
-		NSEnumerator	*toEnum;
-		AILogToGroup	*currentToGroup;
-
+	for (AILogFromGroup *logFromGroup in [logFromGroupDict objectEnumerator]) {
 		//Add the 'to' for each grouping on this account
-		toEnum = [[logFromGroup toGroupArray] objectEnumerator];
-		while ((currentToGroup = [toEnum nextObject])) {
+		for (AILogToGroup *currentToGroup in [logFromGroup toGroupArray]) {
 			NSString	*currentTo;
 			
 			if ((currentTo = [currentToGroup to])) {
@@ -1437,10 +1424,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 //Perform a filter search based on source name, destination name, or date
 - (void)_logFilter:(NSString *)searchString searchID:(NSInteger)searchID mode:(LogSearchMode)mode
 {
-    NSEnumerator        *fromEnumerator, *toEnumerator, *logEnumerator;
-    AILogToGroup        *toGroup;
-    AILogFromGroup      *fromGroup;
-    AIChatLog			*theLog;
     UInt32		lastUpdate = TickCount();
     
     NSCalendarDate	*searchStringDate = nil;
@@ -1450,8 +1433,8 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	}
 	
     //Walk through every 'from' group
-    fromEnumerator = [logFromGroupDict objectEnumerator];
-    while ((fromGroup = [fromEnumerator nextObject]) && (searchID == activeSearchID)) {
+    for (AILogFromGroup *fromGroup in [logFromGroupDict objectEnumerator]) {
+		if (searchID != activeSearchID) break;
 		
 		//When searching in LOG_SEARCH_FROM, we only proceed into matching groups
 		if ((mode != LOG_SEARCH_FROM) ||
@@ -1459,9 +1442,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			([[fromGroup fromUID] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound)) {
 
 			//Walk through every 'to' group
-			toEnumerator = [[fromGroup toGroupArray] objectEnumerator];
-			while ((toGroup = [toEnumerator nextObject]) && (searchID == activeSearchID)) {
-				
+			for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
+				if (searchID != activeSearchID) break;
+
 				/* When searching in LOG_SEARCH_TO, we only proceed into matching groups
 				 * For all other search modes, we always proceed here so long as either:
 				 *	a) We are not filtering for specific contact names or
@@ -1473,9 +1456,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				   ([[toGroup to] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound))) {
 					
 					//Walk through every log
+					for (AIChatLog *theLog in [toGroup logEnumerator]) {
+						if (searchID != activeSearchID) break;
 
-					logEnumerator = [toGroup logEnumerator];
-					while ((theLog = [logEnumerator nextObject]) && (searchID == activeSearchID)) {
 						/* When searching in LOG_SEARCH_DATE, we must have matching dates
 						 * For all other search modes, we always proceed here
 						 */
@@ -1859,11 +1842,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 		for (item in selectedItems) {
 			if ([item isKindOfClass:[AIMetaContact class]]) {
-				NSEnumerator	*metaEnumerator;
-				AIListContact	*contact;
-
-				metaEnumerator = [[(AIMetaContact *)item listContactsIncludingOfflineAccounts] objectEnumerator];
-				while ((contact = [metaEnumerator nextObject])) {
+				for (AIListContact *contact in [(AIMetaContact *)item listContactsIncludingOfflineAccounts]) {
 					[contactIDsToFilter addObject:
 						[[[NSString stringWithFormat:@"%@.%@",[contact serviceID],[contact UID]] compactedString] safeFilenameString]];
 				}
@@ -1894,12 +1873,10 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 				//We need a service with ther right service ID
 				AIService *service = [adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]];
 				if (service) {
-					NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:service] objectEnumerator];
-					AIAccount	 *account;
-
 					//Next, we want an online account
-					while ((account = [enumerator nextObject])) {
-						if ([account online]) break;
+					AIAccount *account = nil;
+					for (account in [adium.accountController accountsCompatibleWithService:service]) {
+						if (account.online) break;
 					}
 					
 					if (account) {

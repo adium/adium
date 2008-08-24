@@ -261,11 +261,9 @@
 		//When an account signs on or off, force an overlay update as it may have silently changed
 		//contacts' statuses
 		if ([inModifiedKeys containsObject:@"Online"]) {
-			NSEnumerator	*enumerator = [[[overlayObjectsArray copy] autorelease] objectEnumerator];
-			AIListObject	*listObject;
 			BOOL			madeChanges = NO;
 			
-			while ((listObject = [enumerator nextObject])) {
+			for (AIListObject *listObject in [[overlayObjectsArray copy] autorelease]) {
 				if (([listObject respondsToSelector:@selector(account)]) &&
 				   ([(id)listObject account] == inObject) &&
 				   ([overlayObjectsArray containsObjectIdenticalTo:listObject])) {

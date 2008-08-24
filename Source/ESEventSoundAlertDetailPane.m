@@ -135,13 +135,10 @@
 - (NSMenu *)soundListMenu
 {
 	NSMenu			*soundMenu = [[NSMenu alloc] init];
-	NSEnumerator	*enumerator;
-	AISoundSet		*soundSet;
 	NSMenuItem		*menuItem;
 	
 	//Add all soundsets to our menu
-	enumerator = [[adium.soundController soundSets] objectEnumerator];
-	while ((soundSet = [enumerator nextObject])) {
+	for (AISoundSet *soundSet in adium.soundController.soundSets) {
 		NSString        *soundSetName = nil;
 		NSArray         *soundSetContents = nil;
 		NSString        *soundPath;

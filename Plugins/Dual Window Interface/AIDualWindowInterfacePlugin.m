@@ -179,16 +179,14 @@
 - (NSArray *)openContainersAndChats
 {
 	NSMutableArray				*openContainersAndChats = [NSMutableArray array];
-	NSEnumerator				*containerEnumerator = [containers objectEnumerator];
-	AIMessageWindowController	*container;
 	
-	while ((container = [containerEnumerator nextObject])) {
+	for (AIMessageWindowController *container in [containers objectEnumerator]) {
 		[openContainersAndChats addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-										   [container containerID], @"ID",
-										   NSStringFromRect([[container window] frame]), @"Frame",
-										   [container containedChats], @"Content",
-										   [container activeChat], @"ActiveChat",
-										   [container name], @"Name",
+										   container.containerID, @"ID",
+										   NSStringFromRect(container.window.frame), @"Frame",
+										   container.containedChats, @"Content",
+										   container.activeChat, @"ActiveChat",
+										   container.name, @"Name",
 										   nil]];
 	}
 	
@@ -205,11 +203,9 @@
 - (NSArray *)openChats
 {
 	NSMutableArray				*openContainersAndChats = [NSMutableArray array];
-	NSEnumerator				*containerEnumerator = [containers objectEnumerator];
-	AIMessageWindowController	*container;
-	
-	while ((container = [containerEnumerator nextObject])) {
-		[openContainersAndChats addObjectsFromArray:[container containedChats]];
+
+	for (AIMessageWindowController *container in [containers objectEnumerator]) {
+		[openContainersAndChats addObjectsFromArray:container.containedChats];
 	}
 	
 	return openContainersAndChats;

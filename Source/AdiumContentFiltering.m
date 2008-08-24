@@ -186,10 +186,8 @@
 					 direction:(AIFilterDirection)direction
 					   content:(AIContentObject *)content
 {
-	NSEnumerator *filterEnu = [htmlContentFilters[direction] objectEnumerator];
-	id<AIHTMLContentFilter> filter = nil;
 	NSString *result = htmlString;
-	while((filter = [filterEnu nextObject])) {
+	for (id<AIHTMLContentFilter> filter in htmlContentFilters[direction]) {
 		result = [filter filterHTMLString:result content:content];
 	}
 	return result;
@@ -214,8 +212,6 @@
 				  filtersToSkip:(NSArray *)filtersToSkip
 				finishedFilters:(NSArray **)finishedFilters
 {
-	NSEnumerator	*enumerator = [inContentFilterArray objectEnumerator];
-	id				filter;
 	BOOL			beganDelayedFiltering = NO;
 	NSMutableArray	*performedFilters;
 	
@@ -226,13 +222,13 @@
 		performedFilters = [NSMutableArray array];
 	}
 
-	while ((filter = [enumerator nextObject]) && !beganDelayedFiltering) {
+	for (id filter in inContentFilterArray) {
 		//Only run the filter if there were no previously performed filters or this hasn't been previously done
 		if (!filtersToSkip || ![filtersToSkip containsObject:filter]) {
 			if ([filter conformsToProtocol:@protocol(AIDelayedContentFilter)]) {
 				beganDelayedFiltering = [(id <AIDelayedContentFilter>)filter delayedFilterAttributedString:*attributedString 
 																								   context:filterContext
-																								  uniqueID:uniqueID];			
+																								  uniqueID:uniqueID];
 			} else {
 				*attributedString = [(id <AIContentFilter>)filter filterAttributedString:*attributedString context:filterContext];
 			}
@@ -240,6 +236,7 @@
 		
 		//Note that we've now completed this filter
 		[performedFilters addObject:filter];
+		if (beganDelayedFiltering) break;
 	}
 	
 	if (finishedFilters) *finishedFilters = performedFilters;

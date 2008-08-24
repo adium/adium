@@ -272,7 +272,7 @@
     //Close all our tabs (The array will change as we remove tabs, so we must work with a copy)
 	enumerator = [[tabView_messages tabViewItems] reverseObjectEnumerator];
     while ((tabViewItem = [enumerator nextObject])) {
-		[adium.interfaceController closeChat:[tabViewItem chat]];
+		[adium.interfaceController closeChat:tabViewItem.chat];
 	}
 
 	//Chats have all closed, set active to nil, let the interface know we closed.  We should skip this step if our
@@ -1232,7 +1232,7 @@
 	NSArray			*itemArray = [toolbar items];
 	NSEnumerator	*enumerator = [itemArray objectEnumerator];
 	NSToolbarItem	*item;
-	NSInteger				index = NSNotFound;
+	NSInteger		index = NSNotFound;
 
 	while ((item = [enumerator nextObject])) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {

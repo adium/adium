@@ -230,16 +230,13 @@
 	NSEnumerator *enumerator = [([metaContact online] ?
 								 [metaContact listContacts] :
 								 [metaContact listContactsIncludingOfflineAccounts]) objectEnumerator];
-	AIListContact *listContact;
 	BOOL metaContactIsOnline = [metaContact online];
 	
-	while ((listContact = [enumerator nextObject])) {
+	for (AIListContact *listContact in enumerator) {
 		//If one or more contacts are online, skip offline ones
 		if (metaContactIsOnline && ![listContact online]) continue;
-		
-		NSEnumerator *profileEnumerator = [[listContact profileArray] objectEnumerator];
-		NSDictionary *lineDict;
-		while ((lineDict = [profileEnumerator nextObject])) {
+
+		for (NSDictionary *lineDict in listContact.profileArray) {
 			NSString *key = [lineDict objectForKey:KEY_KEY];
 			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] integerValue];
 			NSInteger insertionIndex = -1;
@@ -267,10 +264,8 @@
 					NSSet *existingValues = [previousDictValuesOnThisKey valueForKeyPath:[@"nonretainedObjectValue." stringByAppendingString:KEY_VALUE]];
 					if ([existingValues containsObject:[lineDict valueForKey:KEY_VALUE]])
 						continue;
-					
-					NSEnumerator *prevDictValueEnumerator = [[[previousDictValuesOnThisKey copy] autorelease] objectEnumerator];
-					NSValue *prevDictValue;
-					while ((prevDictValue = [prevDictValueEnumerator nextObject])) {
+
+					for (NSValue *prevDictValue in [[previousDictValuesOnThisKey copy] autorelease]) {
 						NSDictionary		*prevDict = [prevDictValue nonretainedObjectValue];
 						NSMutableDictionary *newDict = [prevDict mutableCopy];
 						AIListContact *ownerOfPrevDict = [[ownershipDict objectForKey:prevDictValue] nonretainedObjectValue];
@@ -813,11 +808,8 @@
 
 - (void)addTooltipEntriesToProfileArray:(NSMutableArray *)profileArray forContact:(AIListContact *)inContact
 {
-	NSEnumerator *enumerator;
-	id <AIContactListTooltipEntry> tooltipEntry;
-	
-	enumerator = [[[adium.interfaceController contactListTooltipPrimaryEntries] arrayByAddingObjectsFromArray:[adium.interfaceController contactListTooltipSecondaryEntries]] objectEnumerator];
-	while ((tooltipEntry = [enumerator nextObject])) {
+	NSArray *tooltipEntries = [[adium.interfaceController contactListTooltipPrimaryEntries] arrayByAddingObjectsFromArray:[adium.interfaceController contactListTooltipSecondaryEntries]];
+	for (id <AIContactListTooltipEntry> tooltipEntry in tooltipEntries) {
 		/* Note: shouldDisplayInContactInspector is a required part of the AIContactListTooltipEntry protocol. However,
 		 * we are checking for its implementation for compatibility with Adium 1.2 tooltip plugins since Adium 1.3
 		 * provides no decent way to notify the user that a plugin is incompatible.

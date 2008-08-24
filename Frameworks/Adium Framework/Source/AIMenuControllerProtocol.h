@@ -53,10 +53,9 @@ typedef enum {
 - (void)addContextualMenuItem:(NSMenuItem *)newItem toLocation:(AIContextMenuLocation)location;
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forListObject:(AIListObject *)inObject;
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forListObject:(AIListObject *)inObject inChat:(AIChat *)inChat;
-- (AIListObject *)currentContextMenuObject;
-- (AIChat *)currentContextMenuChat;
-
-- (NSTextView *)contextualMenuTextView;
+@property (nonatomic, readonly) AIListObject *currentContextMenuObject;
+@property (nonatomic, readonly) AIChat *currentContextMenuChat;
+@property (nonatomic, readonly) NSTextView *contextualMenuTextView;
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forTextView:(NSTextView *)inObject;
 
 //Control over the italics menu item

@@ -1175,9 +1175,7 @@ OtrlUserState otrg_get_userstate(void)
 	[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithCharactersInString:@"\""]];
 	
 	NSDictionary	*prplDict = [self prplDict];
-	
-	NSArray			*adiumAccounts = [adium.accountController accounts];
-	
+
 	while (![scanner isAtEnd]) {
 		//username     accountname  protocol      key	trusted\n
 		NSString		*chunk;
@@ -1209,10 +1207,7 @@ OtrlUserState otrg_get_userstate(void)
 		}
 		
 		if (username && accountname && protocol && key) {
-			AIAccount		*account;
-			NSEnumerator	*enumerator = [adiumAccounts objectEnumerator];
-			
-			while ((account = [enumerator nextObject])) {
+			for (AIAccount *account in adium.accountController.accounts) {
 				//Hit every possibile name for this account along the way
 				if ([[NSSet setWithObjects:[account UID],[account formattedUID],[[account UID] compactedString], nil] containsObject:accountname]) {
 					if ([[[account service] serviceCodeUniqueID] isEqualToString:[prplDict objectForKey:protocol]]) {
@@ -1251,17 +1246,13 @@ OtrlUserState otrg_get_userstate(void)
 										 options:NSLiteralSearch
 										   range:NSMakeRange(0, [sourcePrivateKey length])];
 
-	AIAccount		*account;
-	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
 	NSDictionary	*prplDict = [self prplDict];
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		//Hit every possibile name for this account along the way
-		NSEnumerator	*accountNameEnumerator = [[NSSet setWithObjects:[account UID],[account formattedUID],[[account UID] compactedString], nil] objectEnumerator];
-		NSString		*accountName;
 		NSString		*accountInternalObjectID = [NSString stringWithFormat:@"\"%@\"",[account internalObjectID]];
 
-		while ((accountName = [accountNameEnumerator nextObject])) {
+		for (NSString *accountName in [NSSet setWithObjects:[account UID],[account formattedUID],[[account UID] compactedString], nil]) {
 			NSRange			accountNameRange = NSMakeRange(0, 0);
 			NSRange			searchRange = NSMakeRange(0, [sourcePrivateKey length]);
 

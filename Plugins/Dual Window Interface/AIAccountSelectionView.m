@@ -261,11 +261,9 @@
  */
 - (BOOL)choicesAvailableForAccount
 {
-	NSEnumerator 	*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount		*account;
-	NSInteger				choices = 0;
+	NSInteger		choices = 0;
 
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([self _accountIsAvailable:account]) {
 			if (++choices > 1) return YES;
 		}

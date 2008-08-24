@@ -84,20 +84,13 @@
 //within that tab view
 + (int)heightForTabView:(NSTabView *)tabView
 {
-    NSEnumerator	*enumerator;
-    NSTabViewItem	*tabViewItem;
     int				maxHeight = 0;
 	
     //Determine the tallest view contained within this tab view.
-    enumerator = [[tabView tabViewItems] objectEnumerator];
-    while ((tabViewItem = [enumerator nextObject])) {
-        NSEnumerator	*subViewEnumerator;
-        NSView		*subView;
-		
-        subViewEnumerator = [[[tabViewItem view] subviews] objectEnumerator];
-        while ((subView = [subViewEnumerator nextObject])) {
-            int		height = [(AIModularPaneCategoryView *)subView desiredHeight];
-			
+    for (NSTabViewItem *tabViewItem in [tabView tabViewItems]) {		
+        for (NSView *subView in [tabViewItem.view subviews]) {
+            int		height = ((AIModularPaneCategoryView *)subView).desiredHeight;
+
             if (height > maxHeight) {
                 maxHeight = height;
             }

@@ -253,13 +253,11 @@ static NSDictionary *dictionaryFromHashTable(GHashTable *data)
 static void chat_join_failed_cb(PurpleConnection *gc, GHashTable *components)
 {
 	CBPurpleAccount	*account = accountLookup(purple_connection_get_account(gc));
-	NSEnumerator *enumerator = [[[[adium.chatController openChats] copy] autorelease] objectEnumerator];
-	AIChat *chat;
 	NSDictionary *componentDict = dictionaryFromHashTable(components);
 
-	while ((chat = [enumerator nextObject])) {
-		if (([chat account] == account) &&
-			[account chatCreationDictionary:[chat chatCreationDictionary] isEqualToDictionary:componentDict]) {
+	for (AIChat *chat in [[adium.chatController.openChats copy] autorelease]) {
+		if ((chat.account == account) &&
+			[account chatCreationDictionary:chat.chatCreationDictionary isEqualToDictionary:componentDict]) {
 			[account chatJoinDidFail:chat];
 			break;
 		}

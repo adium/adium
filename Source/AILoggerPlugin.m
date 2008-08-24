@@ -1129,11 +1129,6 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)_dirtyAllLogsThread
 {
     NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
-    NSEnumerator		*fromEnumerator, *toEnumerator, *logEnumerator;
-    NSString			*fromName;
-    AILogFromGroup		*fromGroup = nil;
-    AILogToGroup		*toGroup;
-    AIChatLog			*theLog;    
 
     [indexingThreadLock lock];
     suspendDirtyArraySave = YES;    //Prevent saving of the dirty array until we're finished building it
@@ -1145,16 +1140,13 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
     [dirtyLogLock unlock];
 	
     //Process each from folder
-    fromEnumerator = [[[[NSFileManager defaultManager] directoryContentsAtPath:logBasePath] objectEnumerator] retain];
-    while ((fromName = [[fromEnumerator nextObject] retain])) {
-		fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
+    for (NSString *fromName in [[NSFileManager defaultManager] directoryContentsAtPath:logBasePath]) {
+		AILogFromGroup *fromGroup = fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
 
 		//Walk through every 'to' group
-		toEnumerator = [[[fromGroup toGroupArray] objectEnumerator] retain];
-		while ((toGroup = [[toEnumerator nextObject] retain])) {
+		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
 			//Walk through every log
-			logEnumerator = [toGroup logEnumerator];
-			while ((theLog = [logEnumerator nextObject])) {
+			for (AIChatLog *theLog in [toGroup logEnumerator]) {
 				//Add this log's path to our dirty array.  The dirty array is guarded with a lock
 				//since it will be accessed from outside this thread as well
 				[dirtyLogLock lock];
@@ -1169,12 +1161,9 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			
 			[toGroup release];
 		}
-		[toEnumerator release];
 		
 		[fromGroup release];
-		[fromName release];
     }
-    [fromEnumerator release];
 	
 	AILogWithSignature(@"Finished dritying all logs");
 	
@@ -1221,18 +1210,15 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	[[LogViewerWindowControllerClass existingWindowController] logIndexingProgressUpdate];
 
 	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
-	NSEnumerator *enumerator = [[adium.chatController openChats] objectEnumerator];
-	AIChat		 *chat;
-
-	while ((chat = [enumerator nextObject])) {
+	for (AIChat *chat in adium.chatController.openChats) {
 		NSString *existingAppenderPath = [[self existingAppenderForChat:chat] path];
 		if (existingAppenderPath) {
 			NSString *dirtyKey = [@"LogIsDirty_" stringByAppendingString:existingAppenderPath];
 
 			if ([chat integerValueForProperty:dirtyKey]) {
 				[chat setValue:nil
-							   forProperty:dirtyKey
-							   notify:NotifyNever];
+				   forProperty:dirtyKey
+						notify:NotifyNever];
 			}
 		}
 	}
@@ -1388,10 +1374,8 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	[indexingThreadLock lock];
 
 	SKIndexRef logSearchIndex = (SKIndexRef)[userInfo objectForKey:@"SKIndexRef"];
-	NSEnumerator *enumerator = [[userInfo objectForKey:@"Paths"] objectEnumerator];
-	NSString	 *logPath;
 	
-	while ((logPath = [enumerator nextObject])) {
+	for (NSString *logPath in [userInfo objectForKey:@"Paths"]) {
 		SKDocumentRef document = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath:logPath]);
 		if (document) {
 			SKIndexRemoveDocument(logSearchIndex, document);
