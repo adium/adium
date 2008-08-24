@@ -1015,25 +1015,35 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 //Close the log index
 - (void)closeLogIndex
 {
-	[logWritingLock lockWhenCondition:AIIndexFileAvailable];
-
-	if (index_Content) {
-		AILogWithSignature(@"Triggerring the flushIndex thread and queuing index closing");
-
-		[NSThread detachNewThreadSelector:@selector(flushIndex:)
-								 toTarget:self
-							   withObject:(id)index_Content];
-
-		[self cancelClosingLogIndex];
-		[self performSelector:@selector(finishClosingIndex)
-				   withObject:nil
-				   afterDelay:10];
+	if (isFlushingIndex) {
+		if (index_Content) {
+			[self cancelClosingLogIndex];
+			[self performSelector:@selector(finishClosingIndex)
+					   withObject:nil
+					   afterDelay:30];
+		}
+		
+	} else {
+		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
+		
+		if (index_Content) {
+			AILogWithSignature(@"Triggerring the flushIndex thread and queuing index closing");
+			
+			[NSThread detachNewThreadSelector:@selector(flushIndex:)
+									 toTarget:self
+								   withObject:(id)index_Content];
+			
+			[self cancelClosingLogIndex];
+			[self performSelector:@selector(finishClosingIndex)
+					   withObject:nil
+					   afterDelay:30];
+		}
+		
+		/* Note that we're waiting on the index file to close.  An attempt to open the index file before
+		 * it closes will return nil and make us think that we have a corrupt index file.
+		 */
+		[logWritingLock unlockWithCondition:AIIndexFileIsClosing];
 	}
-
-	/* Note that we're waiting on the index file to close.  An attempt to open the index file before
-	 * it closes will return nil and make us think that we have a corrupt index file.
-	 */
-	[logWritingLock unlockWithCondition:AIIndexFileIsClosing];
 }
 
 //Delete the log index
@@ -1350,13 +1360,14 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			[self _saveDirtyLogArray];
 		}
 
+		isFlushingIndex = YES;
 		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
 		SKIndexFlush(searchIndex);
 		AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 			  SKIndexGetMaximumDocumentID(searchIndex),
 			  SKIndexGetDocumentCount(searchIndex));
 		[logWritingLock unlockWithCondition:AIIndexFileAvailable];
-		
+		isFlushingIndex = NO;
 		
 		[self performSelectorOnMainThread:@selector(didCleanDirtyLogs)
 							   withObject:nil
