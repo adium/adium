@@ -82,7 +82,7 @@
 		}
 		
 		//Gather and return all services compatible with these service classes
-		for (AIService *service in services) {
+		for (AIService *service in [services objectEnumerator]) {
 			if ([serviceClasses containsObject:service.serviceClass]) {
 				[activeServices addObject:service];
 			}
@@ -121,7 +121,7 @@
 - (AIService *)firstServiceWithServiceID:(NSString *)serviceID
 {	
 	AIService *service;
-	for (service in services) {
+	for (service in [services objectEnumerator]) {
 		if ([service.serviceID isEqualToString:serviceID]) break;
 	}
 	NSLog(@"Returning %@ for %@", service, serviceID);
