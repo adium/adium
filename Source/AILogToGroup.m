@@ -94,8 +94,6 @@
 {
 	@synchronized(self) {
 		if (!logDict) {
-			NSEnumerator    *enumerator;
-			NSString		*fileName;
 			NSString		*logBasePath, *fullPath;
 			
 			//
@@ -109,8 +107,7 @@
 			
 			logBasePath = [AILoggerPlugin logBasePath];
 			fullPath = [logBasePath stringByAppendingPathComponent:relativePath];
-			enumerator = [[defaultManager directoryContentsAtPath:fullPath] objectEnumerator];
-			while ((fileName = [enumerator nextObject])) {			
+			for (NSString *fileName in [defaultManager directoryContentsAtPath:fullPath]) {
 				if (![fileName hasPrefix:@"."]) {
 					NSString	*relativeLogPath = [relativePath stringByAppendingPathComponent:fileName];
 					

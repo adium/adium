@@ -617,11 +617,7 @@
 	//Scan the objects participating in each chat, looking for the requested object
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		if ([openChats count]) {
-			NSEnumerator	*enumerator;
-			AIListContact	*listContact;
-
-			enumerator = [[(AIMetaContact *)inContact listContacts] objectEnumerator];
-			while ((listContact = [enumerator nextObject])) {
+			for (AIListContact *listContact in ((AIMetaContact *)inContact).listContacts) {
 				NSSet		*listContactChats;
 				if ((listContactChats = [self allChatsWithContact:listContact])) {
 					if (!foundChats) foundChats = [NSMutableSet set];
@@ -631,12 +627,10 @@
 		}
 		
 	} else {
-		AIChat			*chat;
-		
-		for (chat in openChats) {
-			if (![chat isGroupChat] &&
-				[[[chat listObject] internalObjectID] isEqualToString:[inContact internalObjectID]] &&
-				[chat isOpen]) {
+		for (AIChat *chat in openChats) {
+			if (!chat.isGroupChat &&
+				[chat.listObject.internalObjectID isEqualToString:inContact.internalObjectID] &&
+				chat.isOpen) {
 				if (!foundChats) foundChats = [NSMutableSet set];
 				[foundChats addObject:chat];
 			}
@@ -688,12 +682,9 @@
  */
 - (NSUInteger)unviewedContentCount
 {
-	NSUInteger				count = 0;
-	AIChat			*chat;
-	NSEnumerator	*enumerator;
+	NSUInteger	count = 0;
 
-	enumerator = [[self openChats] objectEnumerator];
-	while ((chat = [enumerator nextObject])) {
+	for (AIChat *chat in self.openChats) {
 		count += [chat unviewedContentCount];
 	}
 	return count;
@@ -706,12 +697,9 @@
  */
 - (NSUInteger)unviewedConversationCount
 {
-	NSUInteger				count = 0;
-	AIChat			*chat;
-	NSEnumerator	*enumerator;
-	
-	enumerator = [[self openChats] objectEnumerator];
-	while ((chat = [enumerator nextObject])) {
+	NSUInteger count = 0;
+
+	for (AIChat *chat in self.openChats) {
 		if ([chat unviewedContentCount] > 0)
 			count++;
 	}

@@ -101,11 +101,11 @@ typedef enum {
 /*!
  * @returns YES if contact list is visible and selected, otherwise NO
  */
-- (BOOL)contactListIsVisibleAndMain;
+@property (nonatomic, readonly) BOOL contactListIsVisibleAndMain;
 /*!
  * @returns YES if contact list is visible, otherwise NO
  */
-- (BOOL)contactListIsVisible;
+@property (nonatomic, readonly) BOOL contactListIsVisible;
 /*! @} */
 
 #pragma mark Detachable Contact List
@@ -155,17 +155,12 @@ typedef enum {
 - (void)consolidateChats;
 
 /*!
- * @brief Brings the tab/window for a chat to the front and sets it as active
- * @param inChat The chat
- */
-- (void)setActiveChat:(AIChat *)inChat;
-
-/*!
- * @brief Get the active chat.
+ * @brief Active Chat property
  *
- * @result The active chat. If no chat is active (a non-chat window is focued, or Adium is not focused), returns nil.
+ * Setter brings the tab/window for a chat to the front and sets it as active
+ * If no chat is active (a non-chat window is focued, or Adium is not focused), getter returns nil.
  */
-- (AIChat *)activeChat;
+@property (nonatomic, retain) AIChat *activeChat;
 
 /*!
  * @brief Get the chat which was most recently active
@@ -173,14 +168,14 @@ typedef enum {
  * If -[self activeChat] is non-nil, this will be the same as activeChat. However, if no chat is active, so long
  * as any chat is open, this will return the chat most recently active.  If no chats are open, this will return nil.
  */
-- (AIChat *)mostRecentActiveChat;
+@property (nonatomic, readonly) AIChat *mostRecentActiveChat;
 
 /*!
  * @brief Get all open chats
  *
  * @result The open chats. Returns an empty array if no chats are open.
  */
-- (NSArray *)openChats;
+@property (nonatomic, readonly) NSArray *openChats;
 
 /*!
  * @brief Get all open chats in a given container.
@@ -192,7 +187,7 @@ typedef enum {
 /*!
  * @brief Get an array of the containerIDs of all open containers
  */
-- (NSArray *)openContainerIDs;
+@property (nonatomic, readonly) NSArray *openContainerIDs;
 
 /*!
  * @brief Open a new container with a given ID and name

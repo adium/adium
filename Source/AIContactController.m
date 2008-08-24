@@ -164,17 +164,11 @@
 
 - (void)clearAllMetaContactData
 {
-	NSString		*path;
-	NSDictionary	*metaContactDictCopy = [metaContactDict copy];
-	NSEnumerator	*enumerator;
-	AIMetaContact	*metaContact;
-	
-	if ([metaContactDictCopy count]) {
+	if (metaContactDict.count) {
 		[contactPropertiesObserverManager delayListObjectNotifications];
 		
 		//Remove all the metaContacts to get any existing objects out of them
-		enumerator = [metaContactDictCopy objectEnumerator];
-		while ((metaContact = [enumerator nextObject])) {
+		for (AIMetaContact *metaContact in [[[metaContactDict copy] autorelease] objectEnumerator]) {
 			[self breakdownAndRemoveMetaContact:metaContact];
 		}
 		
@@ -193,15 +187,12 @@
 										  group:PREF_GROUP_CONTACT_LIST];
 	
 	//Clear out old metacontact files
-	path = [[adium.loginController userDirectory] stringByAppendingPathComponent:OBJECT_PREFS_PATH];
-	[[NSFileManager defaultManager] removeFilesInDirectory:path
+	[[NSFileManager defaultManager] removeFilesInDirectory:[[adium.loginController userDirectory] stringByAppendingPathComponent:OBJECT_PREFS_PATH]
 												withPrefix:@"MetaContact"
 											 movingToTrash:NO];
 	[[NSFileManager defaultManager] removeFilesInDirectory:[adium cachesPath]
 												withPrefix:@"MetaContact"
 											 movingToTrash:NO];
-	
-	[metaContactDictCopy release];
 }
 
 #pragma mark Local Contact List Storage
@@ -217,19 +208,14 @@
 //Save the contact list
 - (void)saveContactList
 {
-	NSEnumerator *enumerator = [groupDict objectEnumerator];
-	AIListGroup	 *listGroup;
-	
-	while ((listGroup = [enumerator nextObject])) {
+	for (AIListGroup *listGroup in [groupDict objectEnumerator]) {
 		[listGroup setPreference:[NSNumber numberWithBool:[listGroup isExpanded]]
 						  forKey:@"IsExpanded"
 						   group:PREF_GROUP_CONTACT_LIST];
 	}
 	
 	NSMutableArray *bookmarks = [NSMutableArray array];
-	AIListObject *listObject;
-	enumerator = [[self allBookmarks] objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in self.allBookmarks) {
 		if ([listObject isKindOfClass:[AIListBookmark class]]) {
 			[bookmarks addObject:[NSKeyedArchiver archivedDataWithRootObject:listObject]];
 		}
@@ -242,10 +228,7 @@
 
 - (void)_loadBookmarks
 {
-	NSEnumerator	*enumerator = [[adium.preferenceController preferenceForKey:KEY_BOOKMARKS
-																		 group:PREF_GROUP_CONTACT_LIST] objectEnumerator];
-	NSData *data;
-	while ((data = [enumerator nextObject])) {
+	for (NSData *data in [adium.preferenceController preferenceForKey:KEY_BOOKMARKS group:PREF_GROUP_CONTACT_LIST]) {
 		AIListBookmark	*bookmark;
 		//As a bookmark is initialized, it will add itself to the contact list in the right place
 		bookmark = [NSKeyedUnarchiver unarchiveObjectWithData:data];	
@@ -460,9 +443,6 @@
 
 - (void)_performChangeOfUseContactListGroups
 {
-	NSEnumerator	*enumerator;
-	AIListObject	*listObject;
-	
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	//Store the preference
@@ -473,20 +453,16 @@
 	//Configure the sort controller to force ignoring of groups as appropriate
 	[[AISortController activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
 	
-	enumerator = [[[[contactList containedObjects] copy] autorelease] objectEnumerator];
-	
 	if (useContactListGroups) { /* We are now using contact list groups, but we weren't before. */
-		
 		//Restore the grouping of all root-level contacts
-		while ((listObject = [enumerator nextObject])) {
+		for (AIListObject *listObject in [[[contactList containedObjects] copy] autorelease]) {
 			if ([listObject isKindOfClass:[AIListContact class]]) {
 				[(AIListContact *)listObject restoreGrouping];
 			}
 		}
 		
 	} else { /* We are no longer using contact list groups, but we were before. */
-		
-		while ((listObject = [enumerator nextObject])) {
+		for (AIListObject *listObject in [[[contactList containedObjects] copy] autorelease]) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				
 				NSArray *containedObjects = [[(AIListGroup *)listObject containedObjects] copy];
@@ -709,11 +685,9 @@
 	
 	//If listObject contains other contacts, perform addListObject:toMetaContact: recursively
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
-		NSEnumerator	*enumerator = [[[[(AIListObject<AIContainingObject> *)listObject containedObjects] copy] autorelease] objectEnumerator];
-		AIListObject	*someObject;
-		
-		while ((someObject = [enumerator nextObject]))
+		for (AIListObject *someObject in [[[(AIListObject<AIContainingObject> *)listObject containedObjects] copy] autorelease]) {
 			[self addListObject:someObject toMetaContact:metaContact];
+		}
 		
 	} else {
 		//Obtain any metaContact this listObject is currently within, so we can remove it later
@@ -980,24 +954,22 @@
  */
 - (AIMetaContact *)groupListContacts:(NSArray *)contactsToGroupArray
 {
-	NSEnumerator	*enumerator;
-	AIListContact   *listContact;
 	AIMetaContact   *metaContact = nil;
 
 	//Look for a metacontact we were passed directly
-	enumerator = [contactsToGroupArray objectEnumerator];
-	while (!metaContact && (listContact = [enumerator nextObject])) {
+	for (AIListContact *listContact in contactsToGroupArray) {
 		if ([listContact isKindOfClass:[AIMetaContact class]]) {
 			metaContact = (AIMetaContact *)listContact;
+			break;
 		}
 	}
 
 	//If we weren't passed a metacontact, look for an existing metacontact associated with a passed contact
 	if (!metaContact) {
-		enumerator = [contactsToGroupArray objectEnumerator];
-		while (!metaContact && (listContact = [enumerator nextObject])) {
-			if (![listContact isKindOfClass:[AIMetaContact class]]) {
-				metaContact = [contactToMetaContactLookupDict objectForKey:[listContact internalObjectID]];
+		for (AIListContact *listContact in contactsToGroupArray) {
+			if (![listContact isKindOfClass:[AIMetaContact class]] &&
+				(metaContact = [contactToMetaContactLookupDict objectForKey:[listContact internalObjectID]])) {
+					break;
 			}
 		}
 	}
@@ -1011,7 +983,7 @@
 	/* Add all these contacts to our MetaContact.
 	 * Some may already be present, but that's fine, as nothing will happen.
 	 */
-	for (listContact in contactsToGroupArray) {
+	for (AIListContact *listContact in contactsToGroupArray) {
 		[self addListObject:listContact toMetaContact:metaContact];
 	}
 	
@@ -1199,10 +1171,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (NSArray *)allContacts
 {
 	NSMutableArray *result = [[[NSMutableArray alloc] init] autorelease];
-	
-	NSEnumerator *enumerator = [self contactEnumerator];
-	AIListContact *contact;
-	while ((contact = [enumerator nextObject])) {
+
+	for (AIListContact *contact in self.contactEnumerator) {
 		/* We want only contacts, not metacontacts. For a given contact, -[contact parentContact] could be used to access the meta. */
 		if (![contact conformsToProtocol:@protocol(AIContainingObject)])
 			[result addObject:contact];
@@ -1374,12 +1344,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSSet *)allContactsWithService:(AIService *)service UID:(NSString *)inUID
 {
-	AIAccount		*account;
 	NSMutableSet	*returnContactSet = [NSMutableSet set];
-	
-	NSEnumerator *enumerator = [[adium.accountController accountsCompatibleWithService:service] objectEnumerator];
-	
-	while ((account = [enumerator nextObject])) {		
+
+	for (AIAccount *account in [adium.accountController accountsCompatibleWithService:service]) {
 		AIListContact *listContact = [self existingContactWithService:service
 														account:account
 															UID:inUID];
@@ -1393,26 +1360,20 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 - (AIListObject *)existingListObjectWithUniqueID:(NSString *)uniqueID
-{
-	NSEnumerator	*enumerator;
-	AIListObject	*listObject;
-	
+{	
 	//Contact
-	enumerator = [contactDict objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
-		if ([[listObject internalObjectID] isEqualToString:uniqueID]) return listObject;
+	for (AIListObject *listObject in contactDict.objectEnumerator) {
+		if ([listObject.internalObjectID isEqualToString:uniqueID]) return listObject;
 	}
 	
 	//Group
-	enumerator = [groupDict objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
-		if ([[listObject internalObjectID] isEqualToString:uniqueID]) return listObject;
+	for (AIListGroup *listObject in groupDict.objectEnumerator) {
+		if ([listObject.internalObjectID isEqualToString:uniqueID]) return listObject;
 	}
 	
 	//Metacontact
-	enumerator = [metaContactDict objectEnumerator];
-	while ((listObject = [enumerator nextObject])) {
-		if ([[listObject internalObjectID] isEqualToString:uniqueID]) return listObject;
+	for (AIMetaContact *listObject in metaContactDict.objectEnumerator) {
+		if ([listObject.internalObjectID isEqualToString:uniqueID]) return listObject;
 	}
 	
 	return nil;
@@ -1616,16 +1577,13 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			
 		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
 			AIListObject <AIContainingObject>	*containingObject = [listObject containingObject];
-			NSEnumerator	*enumerator;
-			AIAccount		*account;
 			
 			//If this is a group, delete all the objects within it
 			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
 			
 			//Delete the list off of all active accounts
-			enumerator = [[adium.accountController accounts] objectEnumerator];
-			while ((account = [enumerator nextObject])) {
-				if ([account online]) {
+			for (AIAccount *account in adium.accountController.accounts) {
+				if (account.online) {
 					[account deleteGroup:(AIListGroup *)listObject];
 				}
 			}
@@ -1639,7 +1597,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			
 		} else {
 			AIAccount	*account = [(AIListContact *)listObject account];
-			if ([account online]) {
+			if (account.online) {
 				[account removeContacts:[NSArray arrayWithObject:listObject]];
 			}
 		}
@@ -1757,12 +1715,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Rename a group
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName
 {
-	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount		*account;
-	
 	//Since Adium has no memory of what accounts a group is on, we have to send this message to all available accounts
 	//The accounts without this group will just ignore it
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		[account renameGroup:listGroup to:newName];
 	}
 	

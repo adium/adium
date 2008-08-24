@@ -185,14 +185,12 @@
 - (NSMenu *)flatEmoticonMenuForPack:(AIEmoticonPack *)incomingPack
 {
     NSMenu			*packMenu = [[NSMenu alloc] initWithTitle:TITLE_EMOTICON];
-    NSEnumerator	*emoteEnum = [[incomingPack emoticons] objectEnumerator];
-    AIEmoticon		*anEmoticon;
 	
 	[packMenu setMenuChangedMessagesEnabled:NO];
 	
     //loop through each emoticon and add a menu item for each
-    while ((anEmoticon = [emoteEnum nextObject])) {
-        if ([anEmoticon isEnabled] == YES) {
+    for (AIEmoticon *anEmoticon in incomingPack.emoticons) {
+        if (anEmoticon.isEnabled) {
 			NSArray *textEquivalents = [anEmoticon textEquivalents];
 			NSString *textEquivalent;
 			if ([textEquivalents count]) {

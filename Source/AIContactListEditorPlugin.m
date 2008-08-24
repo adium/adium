@@ -172,7 +172,7 @@
 		AIAccount		*account;
 		
 		while ((account = [enumerator nextObject])) {	
-			if ([account contactListEditable]) return YES;
+			if (account.contactListEditable) return YES;
 		}
 		
 		return NO;

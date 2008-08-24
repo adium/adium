@@ -202,14 +202,11 @@
  */
 - (void)contactListIsEmpty:(NSNotification *)notification
 {
-	NSEnumerator *i = [[[contactLists copy] autorelease] objectEnumerator];
-	id object = [notification object];
-	AIListWindowController *window;
+	AIContactList *object = [notification object];
 	
-	while ((window = [i nextObject])) {
-		if (([object isKindOfClass:[AIListOutlineView class]] && [window contactListView] == object) ||
-			([object isKindOfClass:[AIListObject class]] && [[window listController] contactList] == object)) {
-			[self closeContactList:window];
+	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
+		if (windowController.listController.contactList == object) {
+			[self closeContactList:windowController];
 			return;
 		}
 	}
@@ -285,10 +282,8 @@
 - (void)closeDetachedContactLists
 {
 	// Close all other windows
-	NSEnumerator *windowEnumerator = [[[contactLists copy] autorelease] objectEnumerator];
-	AIListWindowController *window;
-	while ((window = [windowEnumerator nextObject])) {
-		[self closeContactList:window];
+	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
+		[self closeContactList:windowController];
 	}
 }
 
@@ -550,10 +545,8 @@
 - (void)saveAndCloseDetachedGroups
 {		
 	NSMutableArray *detachedWindowsDicts = [[NSMutableArray alloc] init];
-	NSEnumerator *enumerator = [[[contactLists copy] autorelease] objectEnumerator];
-	AIListWindowController *windowController;
 
-	while ((windowController = [enumerator nextObject])) {
+	for (AIListWindowController *windowController in [[contactLists copy] autorelease]) {
 		NSMutableDictionary *dict = [NSDictionary dictionaryWithObject:[[[windowController contactList] containedObjects] valueForKey:@"UID"]
 																forKey:DETACHED_WINDOW_GROUPS];
 		[detachedWindowsDicts addObject:dict];

@@ -91,14 +91,10 @@ static NSMutableArray		*libpurplePluginArray = nil;
  */
 + (void)pluginDidLoad
 {
-	NSEnumerator	*enumerator;
-	NSString		*libpurplePluginPath;
-
 	libpurplePluginArray = [[NSMutableArray alloc] init];
-	
-	enumerator = [[adium allResourcesForName:@"Plugins"
-													   withExtensions:@"AdiumLibpurplePlugin"] objectEnumerator];
-	while ((libpurplePluginPath = [enumerator nextObject])) {
+
+	for (NSString *libpurplePluginPath in [adium allResourcesForName:@"Plugins"
+													  withExtensions:@"AdiumLibpurplePlugin"]) {
 		[AICorePluginLoader loadPluginAtPath:libpurplePluginPath
 							  confirmLoading:YES
 								 pluginArray:libpurplePluginArray];
@@ -260,11 +256,10 @@ CBPurpleAccount* accountLookup(PurpleAccount *acct)
 		const char	*protocolID = acct->protocol_id;
 		NSString	*serviceClass = serviceClassForPurpleProtocolID(protocolID);
 
-		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-		while ((adiumPurpleAccount = [enumerator nextObject])) {
+		for (adiumPurpleAccount in adium.accountController.accounts) {
 			if ([adiumPurpleAccount isKindOfClass:[CBPurpleAccount class]] &&
-			   [[[adiumPurpleAccount service] serviceClass] isEqualToString:serviceClass] &&
-			   [[adiumPurpleAccount UID] caseInsensitiveCompare:[NSString stringWithUTF8String:acct->username]] == NSOrderedSame) {
+			   [adiumPurpleAccount.serviceClass isEqualToString:serviceClass] &&
+			   [adiumPurpleAccount.UID caseInsensitiveCompare:[NSString stringWithUTF8String:acct->username]] == NSOrderedSame) {
 				break;
 			}
 		}

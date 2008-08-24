@@ -231,11 +231,7 @@
 	//Add any account-specific menu items
 	separatorItem = YES;
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator;
-		AIListContact	*aListContact;
-		enumerator = [[(AIMetaContact *)inObject listContacts] objectEnumerator];
-
-		while ((aListContact = [enumerator nextObject])) {
+		for (AIListContact *aListContact in ((AIMetaContact *)inObject).listContacts) {
 			[self addMenuItemsForContact:aListContact
 								  toMenu:workingMenu
 						   separatorItem:&separatorItem];

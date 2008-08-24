@@ -70,33 +70,28 @@
 - (NSSet *)activeServicesIncludingCompatibleServices:(BOOL)includeCompatible
 {
 	NSMutableSet	*activeServices = [NSMutableSet set];
-	NSEnumerator	*accountEnumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount		*account;
 
 	if (includeCompatible) {
 		//Scan our user's accounts and build a list of service classes that they cover
 		NSMutableSet	*serviceClasses = [NSMutableSet set];
 		
-		while ((account = [accountEnumerator nextObject])) {
-			if ([account enabled]) {
-				[serviceClasses addObject:[[account service] serviceClass]];
+		for (AIAccount *account in adium.accountController.accounts) {
+			if (account.enabled) {
+				[serviceClasses addObject:account.serviceClass];
 			}
 		}
 		
 		//Gather and return all services compatible with these service classes
-		NSEnumerator	*serviceEnumerator = [services objectEnumerator];
-		AIService		*service;
-		
-		while ((service = [serviceEnumerator nextObject])) {
-			if ([serviceClasses containsObject:[service serviceClass]]) {
+		for (AIService *service in services) {
+			if ([serviceClasses containsObject:service.serviceClass]) {
 				[activeServices addObject:service];
 			}
 		}
 		
 	} else {
-		while ((account = [accountEnumerator nextObject])) {
-			if ([account enabled]) {
-				[activeServices addObject:[account service]];
+		for (AIAccount *account in adium.accountController.accounts) {
+			if (account.enabled) {
+				[activeServices addObject:account.service];
 			}
 		}		
 	}
@@ -124,14 +119,12 @@
  * @return The first service with the matching service ID, or nil if none is found.
  */
 - (AIService *)firstServiceWithServiceID:(NSString *)serviceID
-{
-	NSEnumerator	*enumerator = [services objectEnumerator];
-	AIService		*service;
-	
-	while ((service = [enumerator nextObject])) {
-		if ([[service serviceID] isEqualToString:serviceID]) break;
+{	
+	AIService *service;
+	for (service in services) {
+		if ([service.serviceID isEqualToString:serviceID]) break;
 	}
-	
+	NSLog(@"Returning %@ for %@", service, serviceID);
 	return service;
 }
 

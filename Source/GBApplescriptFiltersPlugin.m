@@ -153,21 +153,16 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
  */
 - (void)loadScripts
 {
-	NSEnumerator	*enumerator;
-	NSString 		*filePath;
-	NSBundle		*scriptBundle;
-
 	//
 	[scriptArray release]; scriptArray = [[NSMutableArray alloc] init];
 	[flatScriptArray release]; flatScriptArray = [[NSMutableArray alloc] init];
 	
 	// Load scripts
-	enumerator = [[adium allResourcesForName:@"Scripts" withExtensions:SCRIPT_BUNDLE_EXTENSION] objectEnumerator];
-	while ((filePath = [enumerator nextObject])) {
+	for (NSString *filePath in [adium allResourcesForName:@"Scripts" withExtensions:SCRIPT_BUNDLE_EXTENSION]) {
+		NSBundle		*scriptBundle;
+
 		if ((scriptBundle = [NSBundle bundleWithPath:filePath])) {
 			NSString		*scriptsSetName;
-			NSEnumerator	*scriptEnumerator;
-			NSDictionary	*scriptDict;
 			NSDictionary	*infoDict = [NSDictionary dictionaryWithContentsOfFile:[[scriptBundle bundlePath] stringByAppendingPathComponent:@"Info.plist"]];
 			if (!infoDict) infoDict= [scriptBundle infoDictionary];
 
@@ -178,9 +173,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 			if (!scriptsSetName) scriptsSetName = [infoDict objectForKey:@"Set"];
 
 			//Now enumerate each script the bundle claims as its own
-			scriptEnumerator = [[infoDict objectForKey:@"Scripts"] objectEnumerator];
-			
-			while ((scriptDict = [scriptEnumerator nextObject])) {
+			for (NSDictionary *scriptDict in [infoDict objectForKey:@"Scripts"]) {
 				NSString		*scriptFileName, *scriptFilePath, *keyword, *title;
 				NSArray			*arguments;
 				NSNumber		*prefixOnlyNumber;
@@ -458,12 +451,8 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 	NSString	*stringMessage;
 
 	if ((stringMessage = [inAttributedString string])) {
-		NSEnumerator				*enumerator;
-		NSMutableDictionary			*infoDict;
-		
 		//Replace all keywords
-		enumerator = [flatScriptArray objectEnumerator];
-		while ((infoDict = [enumerator nextObject]) && !beganProcessing) {
+		for (NSMutableDictionary *infoDict in flatScriptArray) {
 			NSString	*keyword = [infoDict objectForKey:@"Keyword"];
 			BOOL		prefixOnly = [[infoDict objectForKey:@"PrefixOnly"] boolValue];
 
@@ -486,6 +475,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context)
 				}
 				
 				beganProcessing = YES;
+				break;
 			}
 		}
 	}

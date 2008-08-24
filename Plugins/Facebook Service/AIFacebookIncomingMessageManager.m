@@ -150,9 +150,7 @@
 
 	} else if ([command isEqualToString:@"msg"]) {
 		//We got a message! (It's an array, so we might have gotten more than one at once, actually)
-		NSEnumerator *enumerator = [[reply objectForKey:@"ms"] objectEnumerator];
-		NSDictionary *messageDict;
-		while ((messageDict = [enumerator nextObject])) {
+		for (NSDictionary *messageDict in [reply objectForKey:@"ms"]) {
 			[self receivedMessage:messageDict];
 		}
 

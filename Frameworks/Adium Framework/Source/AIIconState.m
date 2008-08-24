@@ -60,21 +60,18 @@
 //Create a new icon state by combining/compositing others
 - (id)initByCompositingStates:(NSArray *)inIconStates
 {
-    AIIconState		*animatingState = nil;
-	AIIconState		*overlayAnimatingState = nil;
-    AIIconState		*baseIconState = nil;
-
-	NSEnumerator	*enumerator;
-	AIIconState		*iconState;
-	
     //init
-    if ((self = [super init]))
-	{
-		[self _init];
+    if ((self = [super init])) {
+		AIIconState		*animatingState = nil;
+		AIIconState		*overlayAnimatingState = nil;
+		AIIconState		*baseIconState = nil;
 		
+		[self _init];
 
-		enumerator = [inIconStates reverseObjectEnumerator];
-		while ((iconState = [enumerator nextObject]) && !baseIconState && !animatingState) {
+		for (AIIconState *iconState in [inIconStates reverseObjectEnumerator]) {
+			if (baseIconState || animatingState)
+				break;
+
 			//Find the base image (The image of the top-most non-overlay state)
 			if (!baseIconState && ![iconState overlay]) baseIconState = iconState;
 			

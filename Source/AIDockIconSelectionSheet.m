@@ -110,10 +110,7 @@
 		iconArray = [[NSMutableArray alloc] init];
 		
 		//Fetch the pack previews
-		NSEnumerator	*enumerator = [[adium.dockController availableDockIconPacks] objectEnumerator];
-		NSString		*path;
-		
-		while ((path = [enumerator nextObject])) {
+		for (NSString *path in [adium.dockController availableDockIconPacks]) {
 			AIIconState		*previewState = [adium.dockController previewStateForIconPackAtPath:path];
 			[iconArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:path, @"Path", previewState, @"State", nil]];    
 		}

@@ -13,9 +13,9 @@
 #define LOGIN_LAST_USER				@"Last Login Name"		//Last logged in user
 
 @protocol AILoginController <AIController>
-- (NSString *)userDirectory;
-- (NSString *)currentUser;
-- (NSArray *)userArray;
+@property (nonatomic, readonly) NSString *userDirectory;
+@property (nonatomic, readonly) NSString *currentUser;
+@property (nonatomic, readonly) NSArray *userArray;
 
 - (void)addUser:(NSString *)inUserName;
 - (void)deleteUser:(NSString *)inUserName;

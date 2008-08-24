@@ -320,12 +320,15 @@ static NSString *statusNameForChat(AIChat *inChat)
 	
 	if (iconDict && [[iconDict objectForKey:@"AdiumSetVersion"] intValue] == 1) {
 		NSDictionary	*previewIconNames = [iconDict objectForKey:@"List"];
-		NSEnumerator	*enumerator = [[NSArray arrayWithObjects:STATUS_NAME_AVAILABLE,STATUS_NAME_AWAY,@"Idle",@"Offline",nil] objectEnumerator];
-		NSString		*iconID;
 		int				xOrigin = 0;
 
 		[image lockFocus];
-		while ((iconID = [enumerator nextObject])) {
+		for (NSString *iconID in [NSArray arrayWithObjects:
+								  STATUS_NAME_AVAILABLE,
+								  STATUS_NAME_AWAY,
+								  @"Idle",
+								  @"Offline",
+								  nil]) {
 			NSString	*anIconPath = [inPath stringByAppendingPathComponent:[previewIconNames objectForKey:iconID]];
 			NSImage		*anIcon;
 			

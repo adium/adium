@@ -11,7 +11,7 @@
 @protocol AIDebugController <AIController>
 #ifdef DEBUG_BUILD
 	- (void)addMessage:(NSString *)actualMessage;
-	- (NSArray *)debugLogArray;
+@property (nonatomic, readonly) NSArray *debugLogArray;
 	- (void)clearDebugLogArray;
 #endif
 @end

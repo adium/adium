@@ -208,10 +208,9 @@
 - (void)_selectLastUsedAccountInAccountMenu:(AIAccountMenu *)inAccountMenu
 {
 	//First online account in our list
-	NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 	AIAccount    *preferredAccount;
-	while ((preferredAccount = [enumerator nextObject])) {
-		if ([preferredAccount online])
+	for (preferredAccount in adium.accountController.accounts) {
+		if (preferredAccount.online)
 			break;
 	}
 	

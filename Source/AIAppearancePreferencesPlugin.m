@@ -232,15 +232,13 @@
 - (void)applySetWithName:(NSString *)setName extension:(NSString *)extension inFolder:(NSString *)folder toPreferenceGroup:(NSString *)preferenceGroup
 {
 	NSFileManager	*defaultManager = [NSFileManager defaultManager];
-	NSEnumerator	*enumerator;
-	NSString		*fileName, *resourcePath;
+	NSString		*fileName;
 	NSDictionary	*setDictionary = nil;
 	
 	//Look in each resource location until we find it
 	fileName = [setName stringByAppendingPathExtension:extension];
 	
-	enumerator = [[adium resourcePathsForName:folder] objectEnumerator];
-	while ((resourcePath = [enumerator nextObject]) && !setDictionary) {
+	for (NSString *resourcePath in [adium resourcePathsForName:folder]) {
 		NSString		*filePath = [resourcePath stringByAppendingPathComponent:fileName];
 		
 		if ([defaultManager fileExistsAtPath:filePath]) {
@@ -251,6 +249,7 @@
 			}
 
 			setDictionary = [NSDictionary dictionaryWithContentsOfFile:filePath];
+			if (setDictionary) break;
 		}
 	}
 	
@@ -354,11 +353,9 @@ NSInteger availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *c
 - (NSArray *)availableSetsWithExtension:(NSString *)extension fromFolder:(NSString *)folder
 {
 	NSMutableArray	*setArray = [NSMutableArray array];
-	NSEnumerator	*enumerator = [[adium allResourcesForName:folder withExtensions:extension] objectEnumerator];
 	NSMutableSet	*alreadyAddedArray = [NSMutableSet set];
-	NSString		*filePath;
 	
-    while ((filePath = [enumerator nextObject])) {
+    for (NSString *filePath in [adium allResourcesForName:folder withExtensions:extension]) {
 		NSString		*name;
 		NSBundle		*xtraBundle;
 		NSDictionary 	*themeDict;

@@ -142,10 +142,7 @@
  */
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey
 {
-    NSEnumerator    *enumerator = [[adium.accountController accounts] objectEnumerator];
-    AIAccount       *account;
-
-    while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account integerValueForProperty:inKey] && [account enabled]) return YES;
     }
 
@@ -160,10 +157,7 @@
  */
 - (BOOL)_accountsWithProperty:(NSString *)inKey
 {
-    NSEnumerator    *enumerator = [[adium.accountController accounts] objectEnumerator];
-    AIAccount       *account;
-
-    while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account valueForProperty:inKey] && [account enabled]) return YES;
     }
 

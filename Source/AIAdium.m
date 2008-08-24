@@ -949,33 +949,23 @@ static NSString	*prefsCategory;
  * @param name The full name (including extension as appropriate) of the resource for which to search
  * @param extensions The extension(s) of the resources for which to search, either an NSString or an NSArray
  */
-- (NSArray *)allResourcesForName:(NSString *)name withExtensions:(id)extensions {
+- (NSArray *)allResourcesForName:(NSString *)name withExtensions:(id)extensions
+{
 	NSMutableArray *resources = [NSMutableArray array];
-	NSEnumerator *pathEnumerator;
-	NSEnumerator *resourceEnumerator;
-	NSString *resourceDir;
-	NSString *resourcePath;
 	BOOL extensionsArray = [extensions isKindOfClass:[NSArray class]];
-	NSEnumerator *extensionsEnumerator;
-	NSString *extension;
 	
 	// Get every path that can contain these resources
-	pathEnumerator = [[self resourcePathsForName:name] objectEnumerator];
 	
-	while ((resourceDir = [pathEnumerator nextObject])) {
-		resourceEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:resourceDir] objectEnumerator];
-		
-		while ((resourcePath = [resourceEnumerator nextObject])) {
+	for (NSString *resourceDir in [self resourcePathsForName:name]) {
+		for (NSString *resourcePath in [[NSFileManager defaultManager] directoryContentsAtPath:resourceDir]) {
 			// Add each resource to the array
 			if (extensionsArray) {
-				extensionsEnumerator = [extensions objectEnumerator];
-				while ((extension = [extensionsEnumerator nextObject])) {
-					if ([[resourcePath pathExtension] caseInsensitiveCompare:extension] == NSOrderedSame)
+				for (NSString *extension in extensions) {
+					if ([resourcePath.pathExtension caseInsensitiveCompare:extension] == NSOrderedSame)
 						[resources addObject:[resourceDir stringByAppendingPathComponent:resourcePath]];
 				}
-			}
-			else {
-				if ([[resourcePath pathExtension] caseInsensitiveCompare:extensions] == NSOrderedSame)
+			} else {
+				if ([resourcePath.pathExtension caseInsensitiveCompare:extensions] == NSOrderedSame)
 					[resources addObject:[resourceDir stringByAppendingPathComponent:resourcePath]];
 			}
 		}
@@ -995,20 +985,17 @@ static NSString	*prefsCategory;
 
 	if (!cachesPath) {
 		NSString		*generalAdiumCachesPath;
-		NSFileManager	*defaultManager = [NSFileManager defaultManager];
+		NSFileManager	*defaultManager = NSFileManager.defaultManager;
 
 		generalAdiumCachesPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Caches"] stringByAppendingPathComponent:@"Adium"];
-		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:[[self loginController] currentUser]] retain];
+		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
 
 		//Ensure our cache path exists
 		if ([defaultManager createDirectoriesForPath:cachesPath]) {
 			//If we have to make directories, try to move old cache files into the new directory
-			NSEnumerator	*enumerator;
-			NSString		*filename;
 			BOOL			isDir;
 
-			enumerator = [[defaultManager directoryContentsAtPath:generalAdiumCachesPath] objectEnumerator];
-			while ((filename = [enumerator nextObject])) {
+			for (NSString *filename in [defaultManager directoryContentsAtPath:generalAdiumCachesPath]) {
 				NSString	*fullPath = [generalAdiumCachesPath stringByAppendingPathComponent:filename];
 				
 				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
@@ -1028,11 +1015,9 @@ static NSString	*prefsCategory;
 {
 	NSFileManager	*fileManager = [NSFileManager defaultManager];
     NSString		*packFileName = [name stringByAppendingPathExtension:extension];
-    NSEnumerator	*enumerator = [[self resourcePathsForName:folderName] objectEnumerator];
-    NSString		*resourcePath;
 
 	//Search all our resource paths for the requested pack
-    while ((resourcePath = [enumerator nextObject])) {
+    for (NSString *resourcePath in [self resourcePathsForName:folderName]) {
 		NSString *packPath = [resourcePath stringByAppendingPathComponent:packFileName];
 		if ([fileManager fileExistsAtPath:packPath]) return [packPath stringByExpandingTildeInPath];
 	}
@@ -1136,9 +1121,7 @@ static NSString	*prefsCategory;
 	/*************** Include info about what IM services are used ************/
 	NSMutableString *accountInfo = [NSMutableString string];
 	NSCountedSet *condensedAccountInfo = [NSCountedSet set];
-	NSEnumerator *accountEnu = [[[self accountController] accounts] objectEnumerator];
-	AIAccount *account = nil;
-	while ((account = [accountEnu nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 	    NSString *serviceID = [account serviceID];
 	    [accountInfo appendFormat:@"%@, ", serviceID];
 	    if([serviceID isEqualToString:@"Yahoo! Japan"]) serviceID = @"YJ";
@@ -1146,8 +1129,7 @@ static NSString	*prefsCategory;
 	}
 	
 	NSMutableString *accountInfoString = [NSMutableString string];
-	NSEnumerator *infoEnu = [[[condensedAccountInfo allObjects] sortedArrayUsingSelector:@selector(compare:)] objectEnumerator];
-	while ((value = [infoEnu nextObject]))
+	for (value in [[condensedAccountInfo allObjects] sortedArrayUsingSelector:@selector(compare:)])
 	    [accountInfoString appendFormat:@"%@%lu", value, [condensedAccountInfo countForObject:value]];
 	
 	entry = [NSDictionary dictionaryWithObjectsAndKeys:

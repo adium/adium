@@ -118,12 +118,10 @@
 													 
 
 	if ([[menuIconsBundle objectForInfoDictionaryKey:@"XtraBundleVersion"] integerValue] == 1) {
-		NSEnumerator	*enumerator = [[NSArray arrayWithObjects:@"Online",@"Offline",nil] objectEnumerator];
-		NSString		*iconID;
 		NSInteger				xOrigin = 0;
 
 		[image lockFocus];
-		while ((iconID = [enumerator nextObject])) {
+		for (NSString *iconID in [NSArray arrayWithObjects:@"Online",@"Offline",nil]) {
 			NSString	*anIconPath = [menuIconsBundle pathForImageResource:[imageInfo objectForKey:iconID]];
 			NSImage		*anIcon;
 

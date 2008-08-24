@@ -189,17 +189,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		NSMutableArray  *candidateEmoticonTextEquivalents = nil;		
 		unichar         currentCharacter = [messageString characterAtIndex:*currentLocation];
 		NSString        *currentCharacterString = [NSString stringWithFormat:@"%C", currentCharacter];
-		NSEnumerator    *emoticonEnumerator;
-		AIEmoticon      *emoticon;     
 
 		//Check for the presence of all emoticons starting with this character
-		emoticonEnumerator = [[emoticonIndex objectForKey:currentCharacterString] objectEnumerator];
-		while ((emoticon = [emoticonEnumerator nextObject])) {
-			NSEnumerator        *textEnumerator;
-			NSString            *text;
-			
-			textEnumerator = [[emoticon textEquivalents] objectEnumerator];
-			while ((text = [textEnumerator nextObject])) {
+		for (AIEmoticon *emoticon in [emoticonIndex objectForKey:currentCharacterString]) {			
+			for (NSString *text in [emoticon textEquivalents]) {
 				NSInteger     textLength = [text length];
 				
 				if (textLength != 0) { //Invalid emoticon files may let empty text equivalents sneak in
@@ -229,14 +222,14 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		if ([candidateEmoticons count]) {
 			NSString					*replacementString;
 			NSMutableAttributedString   *replacement;
-			NSInteger							textLength;
+			NSInteger					textLength;
 			NSRange						emoticonRangeInNewMessage;
-			NSInteger							amountToIncreaseCurrentLocation = 0;
+			NSInteger					amountToIncreaseCurrentLocation = 0;
 
 			originalEmoticonLocation = *currentLocation;
 
 			//Use the most appropriate, longest string of those which could be used for the emoticon text we found here
-			emoticon = [self _bestReplacementFromEmoticons:candidateEmoticons
+			AIEmoticon *emoticon = [self _bestReplacementFromEmoticons:candidateEmoticons
 										   withEquivalents:candidateEmoticonTextEquivalents
 												   context:serviceClassContext
 												equivalent:&replacementString
@@ -411,10 +404,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 			AIEmoticon	 *emoticon;
 			
 			for (emoticon in customEmoticons) {
-				NSEnumerator *textEquivalentEnumerator = [[emoticon textEquivalents] objectEnumerator];
-				NSString	 *textEquivalent;
-				while ((textEquivalent = [textEquivalentEnumerator nextObject])) {
-					if ([textEquivalent length]) {
+				for (NSString *textEquivalent in emoticon.textEquivalents) {
+					if (textEquivalent.length) {
 						NSMutableArray	*subIndex;
 						NSString		*firstCharacterString;
 
@@ -531,15 +522,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 - (NSArray *)activeEmoticons
 {
     if (!_activeEmoticons) {
-        NSEnumerator    *enumerator;
-        AIEmoticonPack  *emoticonPack;
-        
-        //
         _activeEmoticons = [[NSMutableArray alloc] init];
 		
         //Grap the emoticons from each active pack
-        enumerator = [[self activeEmoticonPacks] objectEnumerator];
-        while ((emoticonPack = [enumerator nextObject])) {
+        for (AIEmoticonPack *emoticonPack in [self activeEmoticonPacks]) {
             [_activeEmoticons addObjectsFromArray:[emoticonPack emoticons]];
         }
     }
@@ -649,13 +635,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 //Save the active emoticon packs to preferences
 - (void)_saveActiveEmoticonPacks
 {
-    NSEnumerator    *enumerator;
-    AIEmoticonPack  *pack;
     NSMutableArray  *nameArray = [NSMutableArray array];
     
-    enumerator = [[self activeEmoticonPacks] objectEnumerator];
-    while ((pack = [enumerator nextObject])) {
-        [nameArray addObject:[pack name]];
+	for (AIEmoticonPack *emoticonPack in [self activeEmoticonPacks]) {
+        [nameArray addObject:emoticonPack.name];
     }
     
     [adium.preferenceController setPreference:nameArray forKey:KEY_EMOTICON_ACTIVE_PACKS group:PREF_GROUP_EMOTICONS];
@@ -668,18 +651,18 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 - (NSArray *)availableEmoticonPacks
 {
     if (!_availableEmoticonPacks) {
-		NSEnumerator	*enumerator;
-        NSString		*path;
-		
         _availableEmoticonPacks = [[NSMutableArray alloc] init];
         
-		//Load emoticon packs
-		enumerator = [[adium allResourcesForName:EMOTICONS_PATH_NAME withExtensions:[NSArray arrayWithObjects:EMOTICON_PACK_PATH_EXTENSION,ADIUM_EMOTICON_SET_PATH_EXTENSION,PROTEUS_EMOTICON_SET_PATH_EXTENSION,nil]] objectEnumerator];
-		
-		while ((path = [enumerator nextObject])) {
+		//Load emoticon packs		
+		for (NSString *path in [adium allResourcesForName:EMOTICONS_PATH_NAME
+										   withExtensions:[NSArray arrayWithObjects:
+														   EMOTICON_PACK_PATH_EXTENSION,
+														   ADIUM_EMOTICON_SET_PATH_EXTENSION,
+														   PROTEUS_EMOTICON_SET_PATH_EXTENSION,
+														   nil]]) {
 			AIEmoticonPack  *pack = [AIEmoticonPack emoticonPackFromPath:path];
 			
-			if ([[pack emoticons] count]) {
+			if (pack.emoticons.count) {
 				[_availableEmoticonPacks addObject:pack];
 				[pack setDisabledEmoticons:[self disabledEmoticonsInPack:pack]];
 			}
@@ -698,12 +681,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 //Returns the emoticon pack by name
 - (AIEmoticonPack *)emoticonPackWithName:(NSString *)inName
 {
-    NSEnumerator    *enumerator;
-    AIEmoticonPack  *emoticonPack;
-	
-    enumerator = [[self availableEmoticonPacks] objectEnumerator];
-    while ((emoticonPack = [enumerator nextObject])) {
-        if ([[emoticonPack name] isEqualToString:inName]) return emoticonPack;
+    for (AIEmoticonPack *emoticonPack in self.availableEmoticonPacks) {
+        if ([emoticonPack.name isEqualToString:inName]) return emoticonPack;
     }
 	
     return nil;
@@ -741,13 +720,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 
 - (void)_saveEmoticonPackOrdering
 {
-    NSEnumerator		*enumerator;
-    AIEmoticonPack		*pack;
     NSMutableArray		*nameArray = [NSMutableArray array];
     
-    enumerator = [[self availableEmoticonPacks] objectEnumerator];
-    while ((pack = [enumerator nextObject])) {
-        [nameArray addObject:[pack name]];
+    for (AIEmoticonPack *pack in self.availableEmoticonPacks) {
+        [nameArray addObject:pack.name];
     }
     
 	//Changing a preference will clear out our premade _activeEmoticonPacks array
@@ -812,10 +788,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 //For optimization, we build a list of characters that could possibly be an emoticon and will require additional scanning.
 //We also build a dictionary categorizing the emoticons by their first character to quicken lookups.
 - (void)_buildCharacterSetsAndIndexEmoticons
-{
-    NSEnumerator        *emoticonEnumerator;
-    AIEmoticon          *emoticon;
-    
+{    
     //Start with a fresh character set, and a fresh index
 	NSMutableCharacterSet	*tmpEmoticonHintCharacterSet = [[NSMutableCharacterSet alloc] init];
 	NSMutableCharacterSet	*tmpEmoticonStartCharacterSet = [[NSMutableCharacterSet alloc] init];
@@ -823,14 +796,9 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 	[_emoticonIndexDict release]; _emoticonIndexDict = [[NSMutableDictionary alloc] init];
     
     //Process all the text equivalents of each active emoticon
-    emoticonEnumerator = [[self activeEmoticons] objectEnumerator];
-    while ((emoticon = [emoticonEnumerator nextObject])) {
-        if ([emoticon isEnabled]) {
-            NSEnumerator        *textEnumerator;
-            NSString            *text;
-			
-            textEnumerator = [[emoticon textEquivalents] objectEnumerator];
-            while ((text = [textEnumerator nextObject])) {
+    for (AIEmoticon *emoticon in self.activeEmoticons) {
+        if (emoticon.isEnabled) {			
+            for (NSString *text in emoticon.textEquivalents) {
                 NSMutableArray  *subIndex;
                 unichar         firstCharacter;
                 NSString        *firstCharacterString;
@@ -894,13 +862,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray)
 #pragma mark Cache flushing
 //Flush any cached emoticon images (and image attachment strings)
 - (void)flushEmoticonImageCache
-{
-    NSEnumerator    *enumerator;
-    AIEmoticonPack  *pack;
-    
-    //Flag our emoticons as enabled/disabled
-    enumerator = [[self availableEmoticonPacks] objectEnumerator];
-    while ((pack = [enumerator nextObject])) {
+{    
+	for (AIEmoticonPack *pack in self.availableEmoticonPacks) {
         [pack flushEmoticonImageCache];
     }
 }

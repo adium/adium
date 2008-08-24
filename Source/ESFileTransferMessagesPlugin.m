@@ -129,14 +129,14 @@
  */
 - (void)statusMessage:(NSString *)message forContact:(AIListContact *)contact withType:(NSString *)type
 {
-    NSEnumerator		*enumerator;
-    AIChat				*chat;
-	NSAttributedString	*attributedMessage = [[NSAttributedString alloc] initWithString:message
-																			attributes:[adium.contentController defaultFormattingAttributes]];
-	
-    enumerator = [[adium.chatController allChatsWithContact:contact] objectEnumerator];
-    while ((chat = [enumerator nextObject])) {
-        AIContentEvent	*content;
+	NSAttributedString	*attributedMessage = nil;
+
+    for (AIChat *chat in [adium.chatController allChatsWithContact:contact]) {
+        AIContentEvent	*content; 
+		
+		if (!attributedMessage)
+			attributedMessage = [[[NSAttributedString alloc] initWithString:message
+																 attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
 		
         //Create our content object
         content = [AIContentEvent statusInChat:chat
@@ -149,8 +149,6 @@
         //Add the object
         [adium.contentController receiveContentObject:content];
     }
-	
-	[attributedMessage release];
 }
 
 @end

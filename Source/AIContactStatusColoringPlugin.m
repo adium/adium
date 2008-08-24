@@ -401,10 +401,7 @@
 
 		if (oldFlashUnviewedContentEnabled && !flashUnviewedContentEnabled) {
 			//Clear our flash set if we aren't flashing for unviewed content now but we were before
-			NSEnumerator	*enumerator = [[[flashingListObjects copy] autorelease] objectEnumerator];
-			AIListContact	*listContact;
-
-			while ((listContact = [enumerator nextObject])) {
+			for (AIListContact *listContact in [[flashingListObjects copy] autorelease]) {
 				[self removeFromFlashSet:listContact];
 			}
 			

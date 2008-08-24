@@ -234,11 +234,9 @@
 + (NSData *)postDataForDictionary:(NSDictionary *)inDict
 {
 	NSMutableString *post = [NSMutableString string];
-	
+
 	//Build post
-	NSEnumerator *enumerator = [inDict keyEnumerator];
-	NSString	*key;
-	while ((key = [enumerator nextObject])) {
+	for (NSString *key in inDict) {
 		if ([post length] != 0) [post appendString:@"&"];
 		
 		NSMutableString *value = [[[inDict objectForKey:key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] mutableCopy];

@@ -198,14 +198,11 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (NSArray *)arrayOfXtrasAtPaths:(NSArray *)paths
 {
 	NSMutableArray	*contents = [NSMutableArray array];
-	NSString		*path, *xtraName;
+	NSString		*path;
 	NSFileManager	*manager = [NSFileManager defaultManager];
 
 	for (path in paths) {
-		NSEnumerator	*xEnu;
-
-		xEnu = [[manager directoryContentsAtPath:path] objectEnumerator];
-		while ((xtraName = [xEnu nextObject])) {
+		for (NSString *xtraName in [manager directoryContentsAtPath:path]) {
 			if (![xtraName hasPrefix:@"."]) {
 				[contents addObject:[AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:xtraName]]]];
 			}
@@ -213,8 +210,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		
 		NSString *disabledPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:
 								  [[path lastPathComponent] stringByAppendingString:@" (Disabled)"]];
-		xEnu = [[manager directoryContentsAtPath:disabledPath] objectEnumerator];
-		while ((xtraName = [xEnu nextObject])) {
+		for (NSString *xtraName in [manager directoryContentsAtPath:disabledPath]) {
 			if (![xtraName hasPrefix:@"."]) {
 				AIXtraInfo *xtraInfo = [AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[disabledPath stringByAppendingPathComponent:xtraName]]];
 				[xtraInfo setEnabled:NO];

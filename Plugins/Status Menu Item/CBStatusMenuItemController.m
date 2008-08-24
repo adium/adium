@@ -291,8 +291,6 @@
 	NSImage			*badge = nil;
 	BOOL			anyAccountHasStatusMessage;
 	NSString		*imageName;
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
 
 	// If there's content, set our badge to the "content" icon.
 	if (unviewedContent && !currentlyIgnoringUnviewed) {
@@ -335,10 +333,9 @@
 
 				// Check idle here, since it has less precedence than offline, invisible, or away.
 				anyAccountHasStatusMessage = NO;
-				enumerator = [[adium.accountController accounts] objectEnumerator];
 
 				// Check each account for IdleSince, a StatusState status message, or "Waiting to Reconnect"
-				while ((account = [enumerator nextObject])) {
+				for (AIAccount *account in adium.accountController.accounts) {
 					if ([account online] && [account valueForProperty:@"IdleSince"]) {
 						if (showBadge) {
 							badge = [AIStatusIcons statusIconForStatusName:@"Idle"
@@ -743,11 +740,8 @@
 				[[menuItem target] validateMenuItem:menuItem];
 			}
 			
-			submenu = [menuItem submenu];
-			if (submenu) {
-				NSEnumerator	*submenuEnumerator = [[submenu itemArray] objectEnumerator];
-				NSMenuItem		*submenuItem;
-				while ((submenuItem = [submenuEnumerator nextObject])) {
+			if ((submenu = [menuItem submenu])) {
+				for (NSMenuItem *submenuItem in submenu.itemArray) {
 					//Validate the submenu items as they are added since they weren't previously validated when the menu was clicked
 					if ([[submenuItem target] respondsToSelector:@selector(validateMenuItem:)]) {
 						[[submenuItem target] validateMenuItem:submenuItem];

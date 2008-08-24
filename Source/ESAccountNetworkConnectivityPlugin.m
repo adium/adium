@@ -164,12 +164,8 @@
  */
 - (void)hostReachabilityChanged:(BOOL)networkIsReachable forHost:(NSString *)host
 {
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
-	
 	//Connect or disconnect accounts in response to the connectivity change
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if (networkIsReachable && [accountsToNotConnect containsObject:account]) {
 			[accountsToNotConnect removeObject:account];
 		} else {
@@ -243,16 +239,13 @@
 	AILog(@"***** System sleeping...");
 	//Disconnect all online or connecting accounts
 	if ([self _accountsAreOnlineOrDisconnecting:YES]) {
-		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-		AIAccount		*account;
-		
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in adium.accountController.accounts) {
 			if ([account online] ||
 				[[account valueForProperty:@"Connecting"] boolValue] ||
 				[account valueForProperty:@"Waiting to Reconnect"]) {
 
 				// Disconnect the account if it's online
-				if ([account online]) {
+				if (account.online) {
 					[account disconnect];
 				// Cancel any reconnect attempts
 				} else if ([account valueForProperty:@"Waiting to Reconnect"]) {
@@ -312,19 +305,15 @@
 				}
 				
 			} else {
-				NSEnumerator	*enumerator;
-				AIAccount		*anAccount;
 				BOOL			enabledAccountUsingThisHost = NO;
 				NSString		*thisHost = [account host];
 				
 				[account setValue:nil forProperty:@"Waiting for Network" notify:NotifyNow];
 
 				//Check if any enabled accounts are still using this now-disabled account's host
-				enumerator = [[adium.accountController accounts] objectEnumerator];	
-				while ((anAccount = [enumerator nextObject])) {
-					if ([anAccount enabled] &&
-						[anAccount connectivityBasedOnNetworkReachability]) {
-						if ([thisHost caseInsensitiveCompare:[anAccount host]] == NSOrderedSame) {
+				for (AIAccount *account in adium.accountController.accounts) {
+					if (account.enabled && account.connectivityBasedOnNetworkReachability) {
+						if ([thisHost caseInsensitiveCompare:account.host] == NSOrderedSame) {
 							enabledAccountUsingThisHost = YES;
 							break;
 						}
@@ -350,10 +339,7 @@
  */
 - (BOOL)_accountsAreOnlineOrDisconnecting:(BOOL)considerConnecting
 {
-    NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount		*account;
-    
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account online] ||
 		   [[account valueForProperty:@"Disconnecting"] boolValue]) {
 			AILog(@"%@ (and possibly others) is still %@",account, ([account online] ? @"online" : @"disconnecting"));
@@ -373,9 +359,6 @@
  */
 - (void)systemDidWake:(NSNotification *)notification
 {
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
-
 	AILog(@"***** System did wake...");
 
 	/* We could have been waiting to sleep but then timed out and slept anyways; clear the flag if that happened and it wasn't cleared
@@ -384,8 +367,7 @@
 	waitingToSleep = NO;
 
 	//Immediately re-connect accounts which are ignoring the server reachability
-	enumerator = [[adium.accountController accounts] objectEnumerator];	
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if (![account connectivityBasedOnNetworkReachability] && [accountsToConnect containsObject:account]) {
 			[account setShouldBeOnline:YES];
 			[accountsToConnect removeObject:account];
@@ -401,13 +383,10 @@
  */
 - (void)accountListChanged:(NSNotification *)notification
 {
-	NSEnumerator	*enumerator;
-	AIAccount		*account;
 	AIHostReachabilityMonitor	*monitor = [AIHostReachabilityMonitor defaultMonitor];
 
 	//Immediately re-connect accounts which are ignoring the server reachability
-	enumerator = [[adium.accountController accounts] objectEnumerator];	
-	while ((account = [enumerator nextObject])) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account enabled] &&
 			[account connectivityBasedOnNetworkReachability]) {
 			NSString *host = [account host];

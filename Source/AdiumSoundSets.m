@@ -48,14 +48,9 @@
 {
 	NSFileManager	*mgr = [NSFileManager defaultManager];
     NSMutableArray	*soundSets = [NSMutableArray array];
-	NSEnumerator	*pathEnumerator = [[adium resourcePathsForName:SOUNDSET_RESOURCE_PATH] objectEnumerator];
-    NSString		*path;
 	
-	while ((path = [pathEnumerator nextObject])) {
-		NSEnumerator 	*fileEnumerator = [[mgr directoryContentsAtPath:path] objectEnumerator];
-		NSString		*file;
-		
-		while((file = [fileEnumerator nextObject])){
+	for (NSString *path in [adium resourcePathsForName:SOUNDSET_RESOURCE_PATH]) {
+		for (NSString *file in [mgr directoryContentsAtPath:path]) {
 			if([[file pathExtension] caseInsensitiveCompare:SOUND_SET_PATH_EXTENSION] == NSOrderedSame){
 				NSString	*fullPath = [path stringByAppendingPathComponent:file];
 				AISoundSet	*soundSet = [AISoundSet soundSetWithContentsOfFile:fullPath];

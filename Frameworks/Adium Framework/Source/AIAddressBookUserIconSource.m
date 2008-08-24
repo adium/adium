@@ -68,9 +68,7 @@
 	 * contained-contact image if that isn't the sort of thing that the user might be into.
 	 */
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator  *enumerator = [[(AIMetaContact *)inObject listContacts] objectEnumerator];
-		AIListContact *listContact;
-		while ((listContact = [enumerator nextObject])) {
+		for (AIListContact *listContact in ((AIMetaContact *)inObject).listContacts) {
 			if (![AIUserIcons userIconSource:self changeWouldBeRelevantForObject:listContact])
 				return AIUserIconSourceDidNotFindIcon;
 		}
@@ -158,11 +156,8 @@
 							  forObject:listObject];
 			
 		} else /*if ([setOrObject isKindOfClass:[NSSet class]])*/{
-			NSEnumerator	*enumerator;
-			
 			//Apply the image to each listObject at the appropriate priority
-			enumerator = [(NSSet *)setOrObject objectEnumerator];
-			while ((listObject = [enumerator nextObject])) {
+			for (AIListObject *listObject in (NSSet *)setOrObject) {
 				[AIUserIcons userIconSource:self
 					   didDetermineUserIcon:image
 							 asynchronously:YES

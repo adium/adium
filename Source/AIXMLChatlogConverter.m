@@ -169,13 +169,11 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				[myDisplayName release];
 				myDisplayName = nil;
 				
-				NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
-				AIAccount	 *account;
-				
-				while ((account = [enumerator nextObject])) {
+				for (AIAccount *account in adium.accountController.accounts) {
 					if ([[[account UID] compactedString] isEqualToString:[mySN compactedString]] &&
 						[[account serviceID] isEqualToString:service]) {
 						myDisplayName = [[account displayName] retain];
+						break;
 					}
 				}
 

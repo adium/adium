@@ -120,10 +120,6 @@
  */
 - (void)applySoundSet:(AISoundSet *)soundSet
 {
-	NSDictionary	*sounds = [soundSet sounds];
-	NSEnumerator	*enumerator;
-	NSString		*key;
-	
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Clear out old global sound alerts
@@ -132,8 +128,8 @@
 	AILog(@"Applying sound set %@",soundSet);
 
 	//
-	enumerator = [sounds keyEnumerator];
-	while ((key = [enumerator nextObject])) {
+	NSDictionary *sounds = [soundSet sounds];
+	for (NSString *key in sounds) {
 		NSDictionary *soundAlert = [ESGlobalEventsPreferencesPlugin soundAlertForKey:key
 																		inSoundsDict:sounds];
 		if (soundAlert) {

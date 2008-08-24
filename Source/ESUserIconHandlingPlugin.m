@@ -90,9 +90,7 @@
 		if (inObject) {
 			[self updateToolbarItemForObject:inObject];
 		} else {
-			NSEnumerator *enumerator = [[adium.interfaceController openChats] objectEnumerator];
-			AIChat *chat;
-			while ((chat = [enumerator nextObject])) {
+			for (AIChat *chat in adium.interfaceController.openChats) {
 				NSWindow *window = [adium.interfaceController windowForChat:chat];
 				if (window) {
 					[self _updateToolbarIconOfChat:chat
