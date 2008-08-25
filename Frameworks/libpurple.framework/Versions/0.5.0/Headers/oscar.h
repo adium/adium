@@ -607,12 +607,9 @@ struct aim_redirect_data
 	} chat;
 };
 
-void aim_clientready(OscarData *od, FlapConnection *conn);
 int aim_request_login(OscarData *od, FlapConnection *conn, const char *sn);
 int aim_send_login(OscarData *od, FlapConnection *conn, const char *sn, const char *password, gboolean truncate_pass, ClientInfo *ci, const char *key, gboolean allow_multiple_logins);
 /* 0x000b */ int aim_auth_securid_send(OscarData *od, const char *securid);
-
-void aim_cleansnacs(OscarData *, int maxage);
 
 void oscar_data_addhandler(OscarData *od, guint16 family, guint16 subtype, aim_rxcallback_t newhandler, guint16 flags);
 aim_rxcallback_t aim_callhandler(OscarData *od, guint16 family, guint16 subtype);
@@ -651,6 +648,7 @@ void oscar_data_destroy(OscarData *);
 
 
 /* 0x0001 - family_oservice.c */
+/* 0x0002 */ void aim_srv_clientready(OscarData *od, FlapConnection *conn);
 /* 0x0004 */ void aim_srv_requestnew(OscarData *od, guint16 serviceid);
 /* 0x0006 */ void aim_srv_reqrates(OscarData *od, FlapConnection *conn);
 /* 0x0008 */ void aim_srv_rates_addparam(OscarData *od, FlapConnection *conn);
@@ -1609,6 +1607,7 @@ void aim_initsnachash(OscarData *od);
 aim_snacid_t aim_newsnac(OscarData *, aim_snac_t *newsnac);
 aim_snacid_t aim_cachesnac(OscarData *od, const guint16 family, const guint16 type, const guint16 flags, const void *data, const int datalen);
 aim_snac_t *aim_remsnac(OscarData *, aim_snacid_t id);
+void aim_cleansnacs(OscarData *, int maxage);
 int aim_putsnac(ByteStream *, guint16 family, guint16 type, guint16 flags, aim_snacid_t id);
 
 struct chatsnacinfo {
