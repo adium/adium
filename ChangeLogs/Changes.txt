@@ -16,22 +16,8 @@ Version 1.3
    * Support for personal messages
    * Improved error handling for networking issues
    * Improved http method support
-
  * Major performance improvements, most notable when signing on multiple accounts simultaneously and when chatting while other applications are making heavy use of your hard drive.
  * Tons of improvements and fixes, big and small - see below for all the details!
-
- * Fixed storage of ordering within metacontact and groups in certain situations (#10028)
- * Removed some invalid sender colors in message windows (#10219)
- * Fixed moving a contact from one metacontact to another (#10188)
- * Worked around a Firefox 3 problem with retrieving the current webpage's information. The bug is [https://bugzilla.mozilla.org/show_bug.cgi?id=427448 427448].
- * Fixed a crash when disconnecting if a Send Message action were applied to the "Contact No Longer Seen" event (#10181)
- * Fixed issues with applescript and modifying statuses (#8809, #10118)
- * Fixed 'go online with message' applescript command (#10082)
- * Added a 'name' property for single-user chats (#8825)
- * Fixed the contextual menu items for Address Book integration within the message window
- * Added Italics support in the chat transcript viewer (#10086)
- * Fixed problems with manually assigned address book cards and combined contacts
-
 
 == General Changes ==
  * Improved management of contact and account icons:
@@ -68,6 +54,18 @@ Version 1.3
    * Updated service icons for ICQ, Yahoo!, Gadu-Gadu, MySpace IM, Sametime, and QQ (#6338)
    * Updated MSN emoticons to include a more comprehensive default set (#3647)
  * Added "MobileMe" service (#10399)
+ * Fixed storage of ordering within metacontact and groups in certain situations (#10028)
+ * Removed some invalid sender colors in message windows (#10219)
+ * Fixed moving a contact from one metacontact to another (#10188)
+ * Worked around a Firefox 3 problem with retrieving the current webpage's information. The bug is [https://bugzilla.mozilla.org/show_bug.cgi?id=427448 427448].
+ * Fixed a crash when disconnecting if a Send Message action were applied to the "Contact No Longer Seen" event (#10181)
+ * Fixed issues with applescript and modifying statuses (#8809, #10118)
+ * Fixed 'go online with message' applescript command (#10082)
+ * Added a 'name' property for single-user chats (#8825)
+ * Fixed the contextual menu items for Address Book integration within the message window
+ * Added Italics support in the chat transcript viewer (#10086)
+ * Fixed problems with manually assigned address book cards and combined contacts
+ * Updated to libpurple 2.5.0
 
 == Contact List ==
  * Combined contacts can now be expanded and collapsed in the contact list (#5545)
@@ -234,6 +232,23 @@ Version 1.3
  * Provide separate strings for “Get Info” menu item and “Get Info” button (#8570)
  * Added Italian-localized Dock-icon overlays for Away and Idle (#9975)
  * Updated all localizations
+
+Version 1.2.7 (7/4/2008)
+ * Fixed sending of invalid XML when asked for our version information in XMPP, which effectively broke XMPP connectivity. (Bug introduced in 1.2.6) (#10324)
+ * Improved handling of invalid XML over XMPP (#10347, #10353)
+ * Hopefully fixed a bug which caused an XMPP contact to infinitely flip between two groups shortly after authorization (#8834)
+
+Version 1.2.6 (7/1/2008)
+ * Updated to libpurple 2.4.3
+   * Fixed ICQ connectivity
+   * Improved Yahoo! and Yahoo! Japan messaging to use UTF-8, restoring compatibility with the web messenger
+   * Fixed setting your buddy icon for Yahoo! accounts
+   * Multiple QQ fixes
+   * Decreased spam on the MyspaceIM service
+   * Fixed some situations which could lead to the dreaded "MSN list synchronization" errors
+ * Fixed an ancient bug in which the wrong event would be displayed for a contact status change, such as "Contact Came Back" when the contact disconnected. (#468, #5551)
+ * Fixed a crash which could occur when a contact changed status while a new chat window was open with that contact (#9425)
+ * Fixed saving/restoring message window positioning on 10.4
 
 Version 1.2.5 (4/28/2008)
  * Fixed Yahoo! Japan connectivity
