@@ -975,21 +975,31 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)finishClosingIndex
 {
-	//No writing or opening/closing while we call SKIndexClose()
-	[logWritingLock lockWhenCondition:AIIndexFileAvailable];
-	[logClosingLock lockWhenCondition:AIIndexFileAvailable];
+	if (isFlushingIndex) {
+		if (index_Content) {
+			[self cancelClosingLogIndex];
+			[self performSelector:@selector(finishClosingIndex)
+					   withObject:nil
+					   afterDelay:30];
+		}
 
-	AILogWithSignature(@"finishClosingIndex: %p",index_Content);
-
-	if (index_Content) {
-		SKIndexClose(index_Content);
-		index_Content = nil;
+	} else {
+		//No writing or opening/closing while we call SKIndexClose()
+		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
+		[logClosingLock lockWhenCondition:AIIndexFileAvailable];
+		
+		AILogWithSignature(@"finishClosingIndex: %p",index_Content);
+		
+		if (index_Content) {
+			SKIndexClose(index_Content);
+			index_Content = nil;
+		}
+		
+		[logWritingLock unlockWithCondition:AIIndexFileAvailable];
+		[logClosingLock unlockWithCondition:AIIndexFileAvailable];
 	}
-
-	[logWritingLock unlockWithCondition:AIIndexFileAvailable];
-	[logClosingLock unlockWithCondition:AIIndexFileAvailable];
 }
-
+	
 - (void)cancelClosingLogIndex
 {
 	AILogWithSignature(@"Canceled closing");
@@ -1017,6 +1027,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	if (isFlushingIndex) {
 		if (index_Content) {
+			AILogWithSignature(@"Still flushing... will try again in 30 seconds");
 			[self cancelClosingLogIndex];
 			[self performSelector:@selector(finishClosingIndex)
 					   withObject:nil
