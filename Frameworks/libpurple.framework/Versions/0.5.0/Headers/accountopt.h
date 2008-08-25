@@ -139,8 +139,10 @@ PurpleAccountOption *purple_account_option_string_new(const char *text,
  * The list passed will be owned by the account option, and the
  * strings inside will be freed automatically.
  *
- * The list is a list of PurpleKeyValuePair items. The key is the ID stored and
- * used internally, and the <tt>(const char *)</tt> value is the label displayed.
+ * The list is a list of #PurpleKeyValuePair items. The key is the label that
+ * should be displayed to the user, and the <tt>(const char *)</tt> value is
+ * the internal ID that should be passed to purple_account_set_string() to
+ * choose that value.
  *
  * @param text      The text of the option.
  * @param pref_name The account preference name for the option.
@@ -304,7 +306,10 @@ purple_account_option_get_masked(const PurpleAccountOption *option);
  *
  * @param option The account option.
  *
- * @constreturn The list values.
+ * @constreturn A list of #PurpleKeyValuePair, mapping the human-readable
+ *              description of the value to the <tt>(const char *)</tt> that
+ *              should be passed to purple_account_set_string() to set the
+ *              option.
  */
 GList *purple_account_option_get_list(const PurpleAccountOption *option);
 
