@@ -44,6 +44,7 @@ static	NSMutableDictionary		*pluginDict = nil;
 @interface AICorePluginLoader ()
 - (void)loadPlugins;
 + (BOOL)confirmPluginAtPath:(NSString *)pluginPath;
++ (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath;
 + (void)disablePlugin:(NSString *)pluginPath;
 @end
 
@@ -130,7 +131,9 @@ static	NSMutableDictionary		*pluginDict = nil;
 	NSDate *start = [NSDate date];
 #endif	
 	//Confirm the presence of external plugins with the user
-	if (confirmLoading && ![self confirmPluginAtPath:pluginPath])
+	if (confirmLoading && 
+		(![self confirmMinimumVersionMetForPluginAtPath:pluginPath] ||
+		 ![self confirmPluginAtPath:pluginPath]))
 			return;
 		
 	//Load the plugin
@@ -209,6 +212,42 @@ static	NSMutableDictionary		*pluginDict = nil;
 	}
 	
 	return loadPlugin;
+}
+
++ (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath
+{
+	NSString *minimumVersionOfPlugin = [[[NSBundle bundleWithPath:pluginPath] infoDictionary] objectForKey:@"AIMinimumAdiumVersionRequirement"];
+	if (!minimumVersionOfPlugin) {
+		NSString *pluginName = [[pluginPath lastPathComponent] stringByDeletingPathExtension];
+
+		NSLog(@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+			  pluginName, [NSApp applicationVersion]);
+
+		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
+						@"The %@ plugin is not compatible with Adium %@. Please check adiumxtras.com to see if an update is available.",
+						AILocalizedString(@"Disable", nil), nil, nil, pluginName, [NSApp applicationVersion]);
+		[self disablePlugin:pluginPath];
+		return NO;
+	}
+
+	NSComparisonResult versionComparison = [adium compareVersion:[NSApp applicationVersion]
+													   toVersion:minimumVersionOfPlugin];
+
+	if (versionComparison == NSOrderedAscending) {
+		NSString *pluginName = [[pluginPath lastPathComponent] stringByDeletingPathExtension];
+
+		NSLog(@"%@ requires Adium %@ or later. Please upgrade Adium to use %@. You have %@ (%i)",
+			  pluginName, minimumVersionOfPlugin, pluginName, [NSApp applicationVersion]);
+
+		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
+						@"%@ requires Adium %@ or later, but you have Adium %@. Please upgrade Adium to use %@",
+						AILocalizedString(@"Disable", nil), nil, nil, 
+						pluginName, minimumVersionOfPlugin, [NSApp applicationVersion], pluginName);
+		[self disablePlugin:pluginPath];
+		return NO;
+	}
+
+	return YES;
 }
 
 //Move a plugin to the disabled plugins folder
