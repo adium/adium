@@ -24,7 +24,7 @@
 @interface AIContactInfoWindowController : AIWindowController {	
 
 	IBOutlet		AIContactInfoContentController  *contentController;
-	IBOutlet		NSSegmentedControl				*inspectorToolbar;
+	IBOutlet		NSMatrix						*inspectorToolbar;
 	IBOutlet		NSView							*inspectorContent;
 	IBOutlet		NSView							*inspectorBottomBar;
 	IBOutlet		NSBox							*bottomBarSeperator;
@@ -33,7 +33,7 @@
 					NSArray							*loadedContent;
 					
 					AIListObject					*displayedObject;
-					NSInteger								lastSegment;
+					int								lastSegment;
 	
 	BOOL											deallocating;
 }
