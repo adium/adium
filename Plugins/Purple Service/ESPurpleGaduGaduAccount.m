@@ -83,9 +83,9 @@
 	[self uploadContactListToServer];
 }
 
-- (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
-	[super addContacts:objects toGroup:group];	
+	[super addContact:contact toGroup:group];	
 	
 	[self uploadContactListToServer];
 }

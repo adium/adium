@@ -542,17 +542,17 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
-- (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
 	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
 	
-	for (AIListContact *object in objects) {
-		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:object], groupName);
-
-		[purpleAdapter addUID:[self _UIDForAddingObject:object] onAccount:self toGroup:groupName];
+	if(![group containsObject:contact]) {
+		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:contact], groupName);
+		
+		[purpleAdapter addUID:[self _UIDForAddingObject:contact] onAccount:self toGroup:groupName];
 		
 		//Add it to Adium's list
-		[object setRemoteGroupName:[group UID]]; //Use the non-mapped group name locally
+		[contact setRemoteGroupName:[group UID]]; //Use the non-mapped group name locally
 	}
 }
 

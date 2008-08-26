@@ -402,8 +402,7 @@
 						[adium.contactController moveObject:exactContact intoObject:group];
 
 					} else {						
-						[adium.contactController addContacts:[NSArray arrayWithObject:exactContact] 
-													   toGroup:group];
+						[exactContact.account addContact:exactContact toGroup:group];
 					}
 				}
 
