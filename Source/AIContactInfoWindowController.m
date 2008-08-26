@@ -188,8 +188,8 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	selectedSegment = [[[adium preferenceController] preferenceForKey:KEY_INFO_SELECTED_CATEGORY
 																group:PREF_GROUP_WINDOW_POSITIONS] intValue];
 	
-	if (selectedSegment < 1 || selectedSegment > [inspectorToolbar numberOfColumns])
-		selectedSegment = 1;
+	if (selectedSegment < 0 || selectedSegment > [inspectorToolbar numberOfColumns])
+		selectedSegment = 0;
 
 	[inspectorToolbar selectCellAtRow:0 column:selectedSegment];
 	[self segmentSelected:inspectorToolbar];
