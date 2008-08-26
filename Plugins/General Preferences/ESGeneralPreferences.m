@@ -76,7 +76,7 @@
 																				group:PREF_GROUP_INTERFACE] boolValue]];
 	
 	// Update Checking
-	[checkBox_updatesAutomatic setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUCheckAtStartup"]];
+	[checkBox_updatesAutomatic setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUEnableAutomaticChecks"]];
 	[checkBox_updatesProfileInfo setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUIncludeProfile"]];
 	[checkBox_updatesIncludeBetas setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"AIAlwaysUpdateToBetas"]];
 
