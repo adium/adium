@@ -82,7 +82,7 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
-- (void)_moveObjectServerside:(AIListObject *)listObject toGroup:(AIListGroup *)group;
+- (void)_moveContactServerside:(AIListContact *)listContact toGroup:(AIListGroup *)group;
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName;
 
 //MetaContacts
@@ -1683,7 +1683,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
-					[self _moveObjectServerside:actualListContact toGroup:group];
+					[self _moveContactServerside:actualListContact toGroup:group];
 				}
 			}
 		} else if ([listObject isKindOfClass:[AIListContact class]]) {
@@ -1692,7 +1692,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 				[self removeAllListObjectsMatching:listObject fromMetaContact:(AIMetaContact *)[(AIListContact *)listObject parentContact]];
 			}
 			
-			[self _moveObjectServerside:listObject toGroup:group];
+			[self _moveContactServerside:(AIListContact *)listObject toGroup:group];
 
 		} else {
 			AILogWithSignature(@"I don't know what to do with %@",listObject);
@@ -1704,11 +1704,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Move an object to another group
-- (void)_moveObjectServerside:(AIListObject *)listObject toGroup:(AIListGroup *)group
+- (void)_moveContactServerside:(AIListContact *)listContact toGroup:(AIListGroup *)group
 {
-	AIAccount	*account = [(AIListContact *)listObject account];
-	if ([account online]) {
-		[account moveListObjects:[NSArray arrayWithObject:listObject] toGroup:group];
+	AIAccount	*account = listContact.account;
+	if (account.online) {
+		[account moveListObjects:[NSArray arrayWithObject:listContact] toGroup:group];
 	}
 }
 
@@ -1722,7 +1722,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 	
 	//Remove the old group if it's empty
-	if ([listGroup containedObjectsCount] == 0) {
+	if (listGroup.containedObjectsCount == 0) {
 		[self removeListObjects:[NSArray arrayWithObject:listGroup]];
 	}
 }
@@ -1732,18 +1732,18 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		[listObject setOrderIndex:(group.smallestOrder / 2.0)];
+		listObject.orderIndex = group.smallestOrder / 2.0;
 		
-	} else if (index >= [group visibleCount]) {
+	} else if (index >= group.visibleCount) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		[listObject setOrderIndex:(group.largestOrder + 1.0)];
+		listObject.orderIndex = group.largestOrder + 1.0;
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
 		AIListObject	*previousObject = [group objectAtIndex:index-1];
 		AIListObject	*nextObject = [group objectAtIndex:index];
-		CGFloat nextLowest = [previousObject orderIndex];
-		CGFloat nextHighest = [nextObject orderIndex];
+		CGFloat nextLowest = previousObject.orderIndex;
+		CGFloat nextHighest = nextObject.orderIndex;
 		
 		/* XXX - Fixme as per below
 		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
@@ -1758,8 +1758,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
-		//
-		[listObject setOrderIndex:((nextHighest + nextLowest) / 2.0)];
+		listObject.orderIndex = (nextHighest + nextLowest) / 2.0;
 	}
 }
 
