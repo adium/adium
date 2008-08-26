@@ -61,6 +61,7 @@ enum{
 	[textField_passwordLabel setLocalizedString:AILocalizedString(@"Password:", "Label for the password field in the account preferences")];
 	[textField_serviceLabel	setLocalizedString:AILocalizedString(@"Service:",nil)];
 	
+	[button_informationAboutImporting setLocalizedString:AILocalizedString(@"Information About Importing", "button title for more information about importing information in the setup wizard")];
 	[button_alternate setLocalizedString:AILocalizedString(@"Skip Import","button title for skipping the import of another client in the setup wizard")];
 }
 
