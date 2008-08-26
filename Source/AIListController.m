@@ -638,7 +638,7 @@
 					if ([primaryDragItem isKindOfClass:[AIListGroup class]]) item = nil;
 					
 					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
-																  intoObjects:(item ? [item containedObjects] : [[adium.contactController contactList] containedObjects])];
+																  intoObjects:(item ? [item containedObjects] : [adium.contactController.contactList containedObjects])];
 					/*
 					 For example, to specify a drop on an item I, you specify item as 1 and index as NSOutlineViewDropOnItemIndex.
 					 To specify a drop between child 2 and 3 of item I, you specify item as I and index as 3 (children are a zero-based index).
