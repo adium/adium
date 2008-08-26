@@ -18,6 +18,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIService.h>
+#import <Adium/AIContactList.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 
 #define SERVERFEEDRSSURL @"https://www.xmpp.net/servers/feed/rss"
@@ -145,11 +146,11 @@
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index {
-	return [[adium.contactController.contactList objectAtIndex:index] formattedUID];
+	return [[adium.contactController.contactList.containedObjects objectAtIndex:index] formattedUID];
 }
 
 - (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string {
-	NSArray *groups = [adium.contactController.contactList containedObjects];
+	NSArray *groups = adium.contactController.contactList.containedObjects;
 	NSUInteger i;
 	for(i = 0;i < [groups count];++i) {
 		AIListGroup *group = [groups objectAtIndex:i];
