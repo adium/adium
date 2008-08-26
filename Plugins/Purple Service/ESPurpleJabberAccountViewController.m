@@ -141,15 +141,15 @@
 }
 
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-	return [[adium.contactController contactList] containedObjectsCount];
+	return [adium.contactController.contactList containedObjectsCount];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index {
-	return [[[adium.contactController contactList] objectAtIndex:index] formattedUID];
+	return [[adium.contactController.contactList objectAtIndex:index] formattedUID];
 }
 
 - (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string {
-	NSArray *groups = [[adium.contactController contactList] containedObjects];
+	NSArray *groups = [adium.contactController.contactList containedObjects];
 	NSUInteger i;
 	for(i = 0;i < [groups count];++i) {
 		AIListGroup *group = [groups objectAtIndex:i];
@@ -160,7 +160,7 @@
 }
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string {
-	for(AIListObject *obj in [adium.contactController contactList]) {
+	for(AIListObject *obj in adium.contactController.contactList) {
 		if([obj isKindOfClass:[AIListGroup class]] && [[obj formattedUID] hasPrefix:string])
 			return [obj formattedUID];
 	}

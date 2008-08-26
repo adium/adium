@@ -299,12 +299,12 @@
 		defaultController = nil;
 	} else {
 		//Return the groups in this detached contact list to the main contact list
-		[(AIContactList *)[windowController contactList] moveAllGroupsTo:[adium.contactController contactList]];
+		[(AIContactList *)[windowController contactList] moveAllGroupsTo:adium.contactController.contactList];
 
 		[adium.contactController removeDetachedContactList:(AIContactList *)[windowController contactList]];
 		
 		[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
-												  object:[adium.contactController contactList] 
+												  object:adium.contactController.contactList 
 												userInfo:nil];
 			
 		[contactLists removeObject:windowController];
@@ -361,12 +361,12 @@
 	AIListGroup			*selectedObject = (AIListGroup *)[adium.menuController currentContextMenuObject];
 	
 	// If this group isn't part of the main contact list, provide a menu item to add it back.
-	if ((AIContactList *)[selectedObject containingObject] != [adium.contactController contactList]) {
+	if ((AIContactList *)[selectedObject containingObject] != adium.contactController.contactList) {
 		[menu addItemWithTitle:AILocalizedString(@"Main Window", "Option in the 'Attach to Window' for the main contact list window")
 						target:self
 						action:@selector(attachToWindow:)
 				 keyEquivalent:@""
-			 representedObject:[adium.contactController contactList]];
+			 representedObject:adium.contactController.contactList];
 	}
 	
 	AIListWindowController		*window;

@@ -37,7 +37,7 @@
 - (void)sort
 {
 #warning rewrite this once we can enforce that AIContactLists only contain AIListGroups
-	for (AIListObject *object in self.containedObjects) {
+	for (AIListObject *object in self) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[(AIListGroup *)object sort];
 		}
@@ -52,7 +52,7 @@
 
 - (void)moveAllGroupsTo:(AIContactList *)toContactList 
 {
-	for (AIListObject *object in self.containedObjects) {
+	for (AIListObject *object in self) {
 		if ([object isKindOfClass:[AIListGroup class]]) {
 			[self moveGroup:(AIListGroup *)object to:toContactList];
 		}

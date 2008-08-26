@@ -163,7 +163,7 @@
 	}
 
 	[adium.contactController _moveContactLocally:self
-										   toGroup:(targetGroup ? targetGroup : [adium.contactController contactList])];
+										   toGroup:(targetGroup ? targetGroup : adium.contactController.contactList)];
 }
 
 - (void)openChat

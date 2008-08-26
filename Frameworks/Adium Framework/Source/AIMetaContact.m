@@ -199,7 +199,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		}
 	} else {
 		[adium.contactController _moveContactLocally:self
-											   toGroup:[adium.contactController contactList]];		
+											   toGroup:adium.contactController.contactList];		
 	}
 }
 
