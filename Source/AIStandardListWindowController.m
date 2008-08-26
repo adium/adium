@@ -34,7 +34,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIStatusMenu.h>
-//#import <Adium/AIListSmartGroup.h>
 
 #import "AIStatusController.h"
 #import "AIStandardListWindowController.h"
