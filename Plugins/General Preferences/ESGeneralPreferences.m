@@ -140,7 +140,7 @@
 											 forKey:SEND_ON_RETURN
                                               group:PREF_GROUP_GENERAL];
 	} else if (sender == checkBox_updatesAutomatic) {
-		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUCheckAtStartup"];
+		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUEnableAutomaticChecks"];
 		[self configureControlDimming];
 	} else if (sender == checkBox_updatesProfileInfo) {
 		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUIncludeProfile"];
