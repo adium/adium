@@ -25,6 +25,7 @@
 	//Import
 	IBOutlet NSTextField	*textField_import;
 	IBOutlet NSTextView		*textView_importMessage;
+	IBOutlet NSButton		*button_informationAboutImporting;
 	BOOL					canImport;
 	
 	//Account Setup
