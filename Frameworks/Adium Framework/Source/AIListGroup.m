@@ -90,7 +90,7 @@
 	visibleCount = 0;
 	
 	for (AIListObject *containedObject in self) {
-		if ([containedObject visible])
+		if (containedObject.visible)
 			visibleCount++;
 	}
 	
@@ -120,6 +120,13 @@
 	return (AIListObject *)[self.containedObjects objectAtIndex:index];
 }
 
+- (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
+{
+	if(!obj.visible)
+		return NSNotFound;
+	return [self.containedObjects indexOfObject:obj];
+}
+
 //Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
 
@@ -145,12 +152,6 @@
 - (id)objectAtIndex:(NSUInteger)index
 {
     return [self.containedObjects objectAtIndex:index];
-}
-
-//Retrieve the index of an object
-- (NSUInteger)indexOfObject:(AIListObject *)inObject
-{
-    return [self.containedObjects indexOfObject:inObject];
 }
 
 - (NSArray *)listContacts

@@ -1082,12 +1082,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
     return [self.listContacts objectAtIndex:index];
 }
 
-//Retrieve the index of an object
-- (NSUInteger)indexOfObject:(AIListObject *)inObject
-{
-    return [self.listContacts indexOfObject:inObject];
-}
-
 //Remove all the objects from this group (PRIVATE: For contact controller only)
 - (void)removeAllObjects
 {
@@ -1202,6 +1196,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
 	return [self.visibleListContacts objectAtIndex:index];
+}
+
+- (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
+{
+	return [self.visibleListContacts indexOfObject:obj];
 }
 
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible

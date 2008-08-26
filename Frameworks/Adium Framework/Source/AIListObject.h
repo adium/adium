@@ -40,14 +40,21 @@ typedef enum {
 
 - (BOOL)containsObject:(AIListObject *)inObject;
 - (id)objectAtIndex:(NSUInteger)index;
-- (NSUInteger)indexOfObject:(AIListObject *)inObject;
+
+/*!
+ * As -objectAtIndex:, except that it only looks at visible objects
+ */
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index;
+
+/*!
+ * As NSArray's -indexOfObject:, except that it looks at visible objects contained in this object
+ */
+- (NSUInteger)visibleIndexOfObject:(AIListObject *)object;
+
+
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 @property (readonly, nonatomic) BOOL containsMultipleContacts;
 
-/*!
- * @brief Get the visbile object at a given index
- */
-- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index;
 
 @property (readonly, nonatomic) CGFloat smallestOrder;
 @property (readonly, nonatomic) CGFloat largestOrder;
