@@ -709,10 +709,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	return [self numberValueForProperty:key fromAnyContainedObject:YES];
 }
-- (NSString *)stringFromAttributedStringValueForProperty:(NSString *)key
-{
-	return [self stringFromAttributedStringValueForProperty:key fromAnyContainedObject:YES];
-}
 
 //---- fromAnyContainedObject property behavior ----
 //If fromAnyContainedObject is YES, return the best value from any contained object if the preferred object returns nil.
@@ -736,12 +732,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSNumber *returnValue = [self numberValueForProperty:key fromAnyContainedObject:fromAnyContainedObject];
 	
     return returnValue ? [returnValue intValue] : 0;
-}
-
-//String from attributed string (uses valueForProperty:)
-- (NSString *)stringFromAttributedStringValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [[self valueForProperty:key fromAnyContainedObject:fromAnyContainedObject] string];
 }
 
 //Returns the property from our object.

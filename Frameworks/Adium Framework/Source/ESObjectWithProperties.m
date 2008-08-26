@@ -185,20 +185,6 @@
 }
 
 /*!
- * @brief String from a key which stores an attributed string
- *
- * @result The NSString contents of an NSAttributedString for this key
- */
-- (NSString *)stringFromAttributedStringValueForProperty:(NSString *)key
-{
-	id obj = [propertiesDictionary objectForKey:key];
-
-	return ((obj && [obj isKindOfClass:[NSAttributedString class]]) ?
-			[(NSAttributedString *)obj string] :
-			nil);
-}
-
-/*!
  * @brief Retrieve the value for a property
  *
  * Note that fromAnyContainedObject is useful for subclasses; this default implementation ignores it.
@@ -239,20 +225,6 @@
 	NSNumber *returnValue = [self numberValueForProperty:key];
 	
     return returnValue ? [returnValue intValue] : 0;
-}
-
-/*!
- * @brief String from a key which stores an attributed string
- *
- * Note that fromAnyContainedObject is useful for subclasses; this default implementation ignores it.
- *
- * @param key The key
- * @param fromAnyContainedObject If YES, return the best value from any contained object if the preferred object returns nil. If NO, only look at the preferred object. 
- * @result The NSString contents of an NSAttributedString for this key
- */
-- (NSString *)stringFromAttributedStringValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [self stringFromAttributedStringValueForProperty:key];
 }
 
 //For Subclasses -------------------------------------------------------------------------------------------------------
