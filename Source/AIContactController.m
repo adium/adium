@@ -1604,18 +1604,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-- (void)addContacts:(NSArray *)contactArray toGroup:(AIListGroup *)group
-{	
-	[contactPropertiesObserverManager delayListObjectNotifications];
-	
-	for (AIListContact *listObject in contactArray) {
-		if(![group containsObject:listObject]) //don't add it if it's already there.
-			[[listObject account] addContacts:[NSArray arrayWithObject:listObject] toGroup:group];
-	}
-	
-	[contactPropertiesObserverManager endListObjectNotificationsDelay];
-}
-
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount
 {
 	NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:contactUID

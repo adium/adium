@@ -98,7 +98,6 @@ typedef enum {
 - (AIListContact *)preferredContactWithUID:(NSString *)UID andServiceID:(NSString *)serviceID forSendingContentType:(NSString *)inType;
 
 //Editing
-- (void)addContacts:(NSArray *)contactArray toGroup:(AIListGroup *)group;
 - (void)removeListObjects:(NSArray *)objectArray;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
 - (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index;

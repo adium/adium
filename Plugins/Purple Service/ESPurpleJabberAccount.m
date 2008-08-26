@@ -302,7 +302,7 @@
 				if ([groupname length] > 0) {
 					AIListContact *contact = [adium.contactController contactWithService:[self service] account:self UID:[dict objectForKey:@"Remote Name"]];
 					AIListGroup *group = [adium.contactController groupWithUID:groupname];
-					[adium.contactController addContacts:[NSArray arrayWithObject:contact] toGroup:group];
+					[contact.account addContact:contact toGroup:group];
 				}
 			}
 			// fallthrough

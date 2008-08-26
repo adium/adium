@@ -227,7 +227,7 @@ typedef enum {
 
 //Presence Tracking
 @property (readonly, nonatomic) BOOL contactListEditable;
-- (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group;
+- (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group;
 - (void)removeContacts:(NSArray *)objects;
 - (void)deleteGroup:(AIListGroup *)group;
 - (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group;

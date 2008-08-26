@@ -667,7 +667,7 @@ typedef enum
  * @param objects NSArray of AIListContact objects to add
  * @param group AIListGroup destination for contacts
  */
-- (void)addContacts:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
 	//XXX - Our behavior for duplicate contacts isn't specified here.  Should we handle that adium-side automatically? -ai
 }
@@ -941,7 +941,7 @@ typedef enum
 	AIListGroup *group = [groupSpecifier objectsByEvaluatingSpecifier];
 	//If we have a group, we add this contact to the contact list.
 	if (groupSpecifier && group) {
-		[adium.contactController addContacts:[NSArray arrayWithObject:newContact] toGroup:group];
+		[self addContact:newContact toGroup:group];
 	}
 	
 	return newContact;

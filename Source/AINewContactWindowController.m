@@ -187,7 +187,6 @@
 	NSString		*alias = [textField_contactAlias stringValue];
 	AIListGroup		*group;
 	AIAccount		*account;
-	NSMutableArray	*contactArray = [NSMutableArray array];
 	
 	//Group
 	group = ([popUp_targetGroup numberOfItems] ?
@@ -198,6 +197,8 @@
 	
 	AILogWithSignature(@"checkedAccounts is %@", checkedAccounts);
 
+	BOOL addedAtLeastOneContact = NO;
+	
 	//Add contact to our accounts
 	for (account in accounts) {
 		if ([account contactListEditable] && [checkedAccounts containsObject:account]) {
@@ -207,8 +208,11 @@
 																				 UID:UID];
 			
 			if (contact) {
-				if (alias && [alias length]) [contact setDisplayName:alias];
-				[contactArray addObject:contact];
+				if (alias && [alias length]) 
+					[contact setDisplayName:alias];
+				
+				addedAtLeastOneContact = YES;
+				[contact.account addContact:contact toGroup:group];
 				
 				//Remember the ABPerson's unique ID associated with this contact
 				if (person)
@@ -222,11 +226,7 @@
 		}
 	}
 
-	//Add them to our local group
-	AILogWithSignature(@"Adding %@ to %@", contactArray, group);
-	if ([contactArray count]) {
-		[adium.contactController addContacts:contactArray toGroup:group];
-		
+	if (addedAtLeastOneContact) {		
 		[self closeWindow:nil];
 	} else {
 		NSBeep();
