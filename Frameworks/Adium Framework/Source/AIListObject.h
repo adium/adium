@@ -39,10 +39,9 @@ typedef enum {
 @property (readonly, nonatomic)  NSString *contentsBasedIdentifier;
 
 - (BOOL)containsObject:(AIListObject *)inObject;
-- (id)objectAtIndex:(NSUInteger)index;
 
 /*!
- * As -objectAtIndex:, except that it only looks at visible objects
+ * As NSArray's -objectAtIndex:, except that it only looks at visible objects contained in this object
  */
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index;
 
