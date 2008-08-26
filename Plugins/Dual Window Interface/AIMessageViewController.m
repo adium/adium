@@ -1094,8 +1094,7 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == userListView) {
-		NSInteger selectedIndex = [userListView selectedRow];
-		[chat setPreferredListObject:((selectedIndex != -1) ? [chat objectAtIndex:selectedIndex] : nil)];
+		[chat setPreferredListObject:[userListView listObject]];
 	}
 }
 
