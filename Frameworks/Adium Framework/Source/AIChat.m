@@ -491,9 +491,11 @@ static int nextChatNumber = 0;
 	return [self objectAtIndex:index];
 }
 
-- (NSUInteger)indexOfObject:(AIListObject *)inObject
+- (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
 {
-    return [self.containedObjects indexOfObject:inObject];
+	if(!obj.visible)
+		return NSNotFound;
+	return [self.containedObjects indexOfObject:obj];
 }
 
 //Retrieve a specific object by service and UID

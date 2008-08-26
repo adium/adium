@@ -575,10 +575,10 @@
 			if (item != nil) {
 				if ([item isKindOfClass:[AIListGroup class]]) {
 					// In between objects
-					[outlineView setDropItem:nil dropChildIndex:[[item containingObject] indexOfObject:item]];
+					[outlineView setDropItem:nil dropChildIndex:[[item containingObject] visibleIndexOfObject:item]];
 				} else {
 					// On top of an object
-					[outlineView setDropItem:nil dropChildIndex:[[[item containingObject] containingObject] indexOfObject:[item containingObject]]];
+					[outlineView setDropItem:nil dropChildIndex:[[[item containingObject] containingObject] visibleIndexOfObject:[item containingObject]]];
 				}
 			}
 			
@@ -655,7 +655,7 @@
 																	numberOfChildrenOfItem:item])) ||
 							(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
 							[outlineView setDropItem:[item containingObject]
-									  dropChildIndex:([[item containingObject] indexOfObject:item] + 1)];
+									  dropChildIndex:([[item containingObject] visibleIndexOfObject:item] + 1)];
 						}
 					}
 				}
