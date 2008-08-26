@@ -1094,7 +1094,7 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
 	if ([notification object] == userListView) {
-		[chat setPreferredListObject:[userListView listObject]];
+		[chat setPreferredListObject:(AIListContact *)[userListView listObject]];
 	}
 }
 
