@@ -1740,8 +1740,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
-		AIListObject	*previousObject = [group objectAtIndex:index-1];
-		AIListObject	*nextObject = [group objectAtIndex:index];
+		AIListObject	*previousObject = [group.containedObjects objectAtIndex:index-1];
+		AIListObject	*nextObject = [group.containedObjects objectAtIndex:index];
 		CGFloat nextLowest = previousObject.orderIndex;
 		CGFloat nextHighest = nextObject.orderIndex;
 		
