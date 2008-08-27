@@ -871,35 +871,29 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		NSPoint mouseLocation = [NSEvent mouseLocation];
 		//Initially, assume the mouse is not in an appropriate position
 		BOOL	mouseNearSlideOffEdges = NO;
-	
-		NSEnumerator *enumerator = [screenSlideBoundaryRectDictionary objectEnumerator];
-		NSValue		 *screenSlideBoundaryRectValue;
-		while ((screenSlideBoundaryRectValue = [enumerator nextObject])) {
-			NSRectEdge	screenEdge;
-			NSRect		screenSlideBoundaryRect = [screenSlideBoundaryRectValue rectValue];
-			/* Only look at the screen in which the mouse currently resides.
-			 * The mouse may be in no screen if it is over the menu bar.
-			 */
-			if (NSPointInRect(mouseLocation, screenSlideBoundaryRect)) {
-				//Check each edge
-				for (screenEdge = 0; screenEdge < 4; screenEdge++) {
-					//But we only care about an edge off of which the window has slid
-					if (windowSlidOffScreenEdgeMask & (1 << screenEdge)) {
-						CGFloat mouseOutsideSlideBoundaryRectDistance = AISignedExteriorDistanceRect_edge_toPoint_(screenSlideBoundaryRect,
-																												 screenEdge,
-																												 mouseLocation);
-						//The mouse must be within MOUSE_EDGE_SLIDE_ON_DISTANCE of every slid-off edge to bring the window back on-screen
-						if(mouseOutsideSlideBoundaryRectDistance < -MOUSE_EDGE_SLIDE_ON_DISTANCE) {
-							mouseNearSlideOffEdges = NO;
-							break;
-						} else {
-							mouseNearSlideOffEdges = YES;							
-						}
+
+		NSRectEdge	screenEdge;
+		NSRect		screenSlideBoundaryRect = [[screenSlideBoundaryRectDictionary objectForKey:[NSValue valueWithNonretainedObject:windowLastScreen]] rectValue];
+		/* Only look at the screen in which the mouse currently resides.
+		 * The mouse may be in no screen if it is over the menu bar.
+		 */
+		if (NSPointInRect(mouseLocation, screenSlideBoundaryRect)) {
+			//Check each edge
+			for (screenEdge = 0; screenEdge < 4; screenEdge++) {
+				//But we only care about an edge off of which the window has slid
+				if (windowSlidOffScreenEdgeMask & (1 << screenEdge)) {
+					CGFloat mouseOutsideSlideBoundaryRectDistance = AISignedExteriorDistanceRect_edge_toPoint_(screenSlideBoundaryRect,
+																											   screenEdge,
+																											   mouseLocation);
+					//The mouse must be within MOUSE_EDGE_SLIDE_ON_DISTANCE of every slid-off edge to bring the window back on-screen
+					if(mouseOutsideSlideBoundaryRectDistance < -MOUSE_EDGE_SLIDE_ON_DISTANCE) {
+						mouseNearSlideOffEdges = NO;
+						break;
+					} else {
+						mouseNearSlideOffEdges = YES;							
 					}
 				}
 			}
-
-			if (mouseNearSlideOffEdges) break;
 		}
 
 		return mouseNearSlideOffEdges && ![self pointIsInScreenCorner:mouseLocation];
