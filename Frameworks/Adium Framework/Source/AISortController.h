@@ -41,7 +41,6 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 - (BOOL)shouldSortForModifiedAttributeKeys:(NSSet *)inModifiedKeys;
 @property (readonly, nonatomic) BOOL alwaysSortGroupsToTopByDefault;
 - (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects;
-- (NSArray *)sortListObjects:(NSArray *)inObjects;
 @property (readonly, nonatomic) NSView *configureView;
 - (void)forceIgnoringOfGroups:(BOOL)shouldForce;
 @property (readonly, nonatomic) BOOL canSortManually;
@@ -60,4 +59,12 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 - (void)didBecomeActive;
 - (void)didBecomeActiveFirstTime;
 
+@end
+
+@interface NSArray (AdiumSorting)
+- (NSArray *) sortedArrayUsingActiveSortController;
+@end
+
+@interface NSMutableArray (AdiumSorting)
+- (void) sortUsingActiveSortController;
 @end

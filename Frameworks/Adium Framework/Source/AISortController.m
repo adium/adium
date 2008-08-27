@@ -26,6 +26,11 @@
 NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *context);
 NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context);
 
+@interface AISortController()
+- (NSArray *)sortedListObjects:(NSArray *)inObjects;
+- (void)sortListObjects:(NSMutableArray *)inObjects;
+@end
+
 @implementation AISortController
 
 static AISortController *activeSortController = nil;
@@ -206,11 +211,16 @@ static NSMutableArray *sortControllers = nil;
  * @param inObjects An NSArray of AIListObject instances to sort
  * @result A sorted NSArray containing the same AIListObjects from inObjects
  */
-- (NSArray *)sortListObjects:(NSArray *)inObjects
+- (NSArray *)sortedListObjects:(NSArray *)inObjects
 {
 	return [inObjects sortedArrayUsingFunction:(alwaysSortGroupsToTop ? basicGroupVisibilitySort : basicVisibilitySort)
 									   context:sortFunction
 										  hint:[inObjects sortedArrayHint]];
+}
+
+- (void) sortListObjects:(NSMutableArray *)inObjects
+{
+	[inObjects sortUsingFunction:(alwaysSortGroupsToTop ? basicGroupVisibilitySort : basicVisibilitySort) context:sortFunction];
 }
 
 /*!
@@ -374,4 +384,18 @@ NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *contex
  */
 - (IBAction)changePreference:(id)sender{ };
 
+@end
+
+@implementation NSArray (AdiumSorting)
+- (NSArray *) sortedArrayUsingActiveSortController
+{
+	return [[AISortController activeSortController] sortedListObjects:self];
+}
+@end
+
+@implementation NSMutableArray (AdiumSorting)
+- (void) sortUsingActiveSortController
+{
+	[[AISortController activeSortController] sortListObjects:self];
+}
 @end

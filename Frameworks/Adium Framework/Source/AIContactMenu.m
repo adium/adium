@@ -160,7 +160,7 @@
 	
 	// If we're not given a containing object, use all the contacts
 	if (containingObject == nil) {
-		listObjects = ([adium.contactController useContactListGroups] ? adium.contactController.allGroups : adium.contactController.allContacts);
+		listObjects = adium.contactController.useContactListGroups ? adium.contactController.allGroups : adium.contactController.allContacts;
 
 		/* The contact controller's -allContacts gives us an array with meta contacts expanded
 		 * Let's put together our own list if we need to. This also gives our delegate an opportunity
@@ -171,7 +171,7 @@
 		}
 
 		// Sort what we're given
-		listObjects = [[AISortController activeSortController] sortListObjects:listObjects];
+		listObjects = [listObjects sortedArrayUsingActiveSortController];
 	} else {
 		// We can assume these are already sorted
 		listObjects = [self listObjectsForMenuFromArrayOfListObjects:([containingObject conformsToProtocol:@protocol(AIContainingObject)] ?
@@ -189,9 +189,8 @@
 - (NSArray *)listObjectsForMenuFromArrayOfListObjects:(NSArray *)listObjects
 {
 	NSMutableArray	*listObjectArray = [NSMutableArray array];
-	AIListObject	*listObject;
 	
-	for (listObject in listObjects) {
+	for (AIListObject *listObject in listObjects) {
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			/* Include if the delegate doesn't specify, or if the delegate approves the contact.
 			 * Note that this includes a metacontact itself, not its contained objects.
@@ -217,9 +216,8 @@
 - (NSArray *)contactMenusForListObjects:(NSArray *)listObjects
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-	AIListObject	*listObject;
 	
-	for (listObject in listObjects) {
+	for (AIListObject *listObject in listObjects) {
 		// Display groups inline
 		if ([listObject isKindOfClass:[AIListGroup class]]) {
 			NSArray			*containedListObjects = [self listObjectsForMenuFromArrayOfListObjects:[(AIListObject<AIContainingObject> *)listObject listContacts]];
