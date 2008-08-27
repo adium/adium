@@ -43,11 +43,7 @@
 		}
 	}
 	
-	//Sort this group
-	if ([self.containedObjects count] > 1) {
-		[self.containedObjects autorelease];
-		_containedObjects = [[[AISortController activeSortController] sortListObjects:self.containedObjects] mutableCopy];
-	}
+	[_containedObjects sortUsingActiveSortController];
 }
 
 - (void)moveAllGroupsTo:(AIContactList *)toContactList 
