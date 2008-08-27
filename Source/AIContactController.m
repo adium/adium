@@ -1530,9 +1530,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //Retrieve a group from the contact list (Creating if necessary)
 - (AIListGroup *)groupWithUID:(NSString *)groupUID
 {
+	NSParameterAssert(groupUID != nil);
+	
 	//Return our root group if it is requested. 
-	//XXX: is this a good idea? it might semi-mask bugs where we accidentally pass nil
-	if (!groupUID || ![groupUID length] || [groupUID isEqualToString:ADIUM_ROOT_GROUP_NAME])
+	if ([groupUID isEqualToString:ADIUM_ROOT_GROUP_NAME])
 		return [self contactList];
 	
 	AIListGroup		*group = nil;
