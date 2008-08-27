@@ -49,7 +49,7 @@ function downloadSources {
 	mkdir "$SOURCEDIR" > /dev/null 2>&1 || true
 	
 	pushd "$SOURCEDIR"
-		python "$BASEDIR/download.py" `cat "$BASEDIR/urls.txt"`
+		python "$BASEDIR/download.py" -f "$BASEDIR/urls.txt"
 	popd
 }
 
