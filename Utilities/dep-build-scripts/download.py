@@ -36,15 +36,28 @@ def print_argv(argv):
 	for arg in argv: print arg,
 	print
 
+def strip_newlines(seq):
+	for line in seq:
+		if line.endswith('\n'):
+			line = line[:-1]
+		yield line
+
 import optparse
 
 # This doesn't go by URL alone because we don't want to let the user spawn 20 jobs that download from a single server. That would be rude to the server.
 parser = optparse.OptionParser(usage='%prog [options] url [url [url ...]]')
+parser.add_option('-f', '--input-file', help='file to read for URLs', default=None)
 parser.add_option('-j', '--jobs', help='number of domains to download from at once', type='int', default=1)
 parser.add_option('-v', '--verbose', help='print debug logging', default=False, action='store_true')
 
 opts, args = parser.parse_args()
 verbose = opts.verbose
+
+if opts.input_file:
+	input_file = open(opts.input_file, 'r')
+	# Prepend the URLs from the file in front of the URLs from the command line.
+	# Also, ignore comments in the file.
+	args = [URL for URL in strip_newlines(input_file) if URL and not URL.startswith('#')] + args
 
 download_urls = {} # Domain => [URL]
 
