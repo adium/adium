@@ -542,8 +542,8 @@
 - (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
 {
 	//Notify
-	[[adium contactController] listObjectAttributesChanged:self
-											  modifiedKeys:[NSSet setWithObject:KEY_USER_ICON]];	
+	[[AIContactObserverManager sharedManager] listObjectAttributesChanged:self
+															 modifiedKeys:[NSSet setWithObject:KEY_USER_ICON]];	
 }
 
 #pragma mark Status States
