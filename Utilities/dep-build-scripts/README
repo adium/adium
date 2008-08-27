@@ -68,27 +68,10 @@ If you did not check out the Pidgin source as above, change PIDGIN_SOURCE in
 common.sh to the path to your local Pidgin source tree.
 
 
-=== SETTING GCC VERSION ===
-
-Now that we are compiling against the 10.5 SDK, we now use gcc 4.2.1. This
-version of gcc is included with Xcode 3.1. You can check the default version
-of gcc by running `gcc --version`.
-
-If you are using gcc 4.0, you must switch over to 4.2.1. Edit the common.sh
-file. Under the "# Compiler options" heading, add the line
-
-export CC=/usr/bin/gcc-4.2
-
-
 == BUILDING ==
 
 A number of scripts are included to simplify the process of building libpurple
 and other dependencies.
-
-You must have automake 1.10 or later installed to build the dependencies. The
-easiest way to install this is via MacPorts (http://www.macports.org/):
-
-$ port install automake
 
 
 === GENERAL DEPENDENCIES ===
