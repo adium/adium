@@ -19,7 +19,7 @@
 #define FACEBOOK_HOME_PAGE	@"http://www.facebook.com/home.php"
 
 #define CONNECTION_DEBUG			TRUE
-#define CONNECTION_TIME_OUT_DELAY	10.0
+#define CONNECTION_TIME_OUT_DELAY	20.0
 
 @interface AIFacebookAccount ()
 - (void)extractLoginInfoFromHomePage:(NSString *)homeString;
@@ -94,6 +94,9 @@
 	 
 	 */
 	
+	[[self class] cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(connectionAttemptTimedOut)
+												   object:nil];	
 	[self performSelector:@selector(connectionAttemptTimedOut)
 			   withObject:nil
 			   afterDelay:CONNECTION_TIME_OUT_DELAY];
@@ -278,10 +281,23 @@
 	}
 }
 
+- (void)webView:(WebView *)sender resource:(id)identifier didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource
+{
+	AILogWithSignature(@"%@ resource %@ error %@", sender, identifier, error);
+	[self connectionAttemptTimedOut];
+}
+
 - (void)webView:(WebView *)sender resource:(id)identifier didFinishLoadingFromDataSource:(WebDataSource *)dataSource
 {
 	AILogWithSignature(@"%@ resource %@ finished loading %@", sender, identifier, dataSource);
 
+	[[self class] cancelPreviousPerformRequestsWithTarget:self
+												 selector:@selector(connectionAttemptTimedOut)
+												   object:nil];	
+	[self performSelector:@selector(connectionAttemptTimedOut)
+			   withObject:nil
+			   afterDelay:CONNECTION_TIME_OUT_DELAY];
+	
 	if ([identifier isEqualToString:@"Logging in"]) {
 		if (sentLogin) {
 #ifdef CONNECTION_DEBUG
