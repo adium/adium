@@ -232,8 +232,8 @@
 						[[[NSImage alloc] initWithData:imageData] autorelease]) {
 						//If we successfully got image data, and that data makes a valid NSImage, set it as our global buddy icon
 						[adium.preferenceController setPreference:imageData
-																					  forKey:KEY_USER_ICON
-																					   group:GROUP_ACCOUNT_STATUS];
+															 forKey:KEY_USER_ICON
+															  group:GROUP_ACCOUNT_STATUS];
 					}
 				}
 				
