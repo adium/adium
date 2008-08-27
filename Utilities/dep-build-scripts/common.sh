@@ -25,6 +25,7 @@ LOGDIR="$PWD/build"
 export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.pidgin"
 
 # Compiler options
+export CC=/usr/bin/gcc-4.2
 TARGET_DIR_PPC="$BUILDDIR/root-ppc"
 TARGET_DIR_I386="$BUILDDIR/root-i386"
 TARGET_DIR_BASE="$BUILDDIR/root"
