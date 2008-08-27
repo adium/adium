@@ -472,9 +472,6 @@ typedef enum {
 			[[self libezvThreadProxy] setStatus:AWEzvIdle
 			                        withMessage:[[self statusMessage] string]];
 			[self setAccountIdleTo:idleSince];
-		} else if ([key isEqualToString:KEY_USER_ICON]) {
-			NSData  *data = [self userIconData];
-			[self setAccountUserImage:data];
 		}
 	}
 }
@@ -524,13 +521,11 @@ typedef enum {
  *
  * Pass nil for no image.
  */
-- (void)setAccountUserImage:(NSData *)image
+- (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
 {	
-	NSImage *newImage = (image ? [[[NSImage alloc] initWithData:image] autorelease] : nil);
-	[[self libezvThreadProxy] setContactImageData:[newImage JPEGRepresentation]];	
+	[[self libezvThreadProxy] setContactImageData:[image JPEGRepresentation]];	
 
-	//We now have an icon
-	[self setValue:newImage forProperty:KEY_USER_ICON notify:YES];
+	[super setAccountUserImage:image withData:originalData];
 }
 
 //Properties this account supports
