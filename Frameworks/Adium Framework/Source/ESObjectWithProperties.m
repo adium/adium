@@ -331,9 +331,4 @@
 	return @"";
 }
 
-//Comparing
-- (BOOL)isEqual:(id)otherObject
-{
-	return (self == otherObject);
-}
 @end
