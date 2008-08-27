@@ -64,13 +64,8 @@ this file to change build behavior such as which SDK to use.
 
 === SETTING PIDGIN PATH ===
 
-Before building libpurple, we must tell the build scripts where to find the
-Pidgin source. In the common.sh file, under the "# Directories" heading, add
-
-export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.pidgin"
-
-If you did not check out the Pidgin source as above, substitute the absolute
-path of your local Pidgin source tree.
+If you did not check out the Pidgin source as above, change PIDGIN_SOURCE in 
+common.sh to the path to your local Pidgin source tree.
 
 
 === SETTING GCC VERSION ===

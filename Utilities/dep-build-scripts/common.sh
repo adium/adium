@@ -22,6 +22,7 @@ SOURCEDIR="$PWD/source"
 BUILDDIR="$PWD/build"
 UNIVERSAL_DIR="$BUILDDIR/universal"
 LOGDIR="$PWD/build"
+export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.pidgin"
 
 # Compiler options
 TARGET_DIR_PPC="$BUILDDIR/root-ppc"
