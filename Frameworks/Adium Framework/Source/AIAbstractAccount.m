@@ -518,7 +518,32 @@
 		
 		//We are now enabled so should go online, or we are now disabled so should disconnect
 		[self setShouldBeOnline:enabled];
+
+	} else if ([key isEqualToString:KEY_USER_ICON]) {
+		NSData *originalData = [self userIconData];
+
+		[self setAccountUserImage:(originalData ? [[[NSImage alloc] initWithData:originalData] autorelease] : nil)
+						 withData:originalData];
 	}
+}
+
+/*!
+ * @brief Sent by an account to itself to update its user icon
+ *
+ * Both NSImage and NSData forms are passed to prevent duplication of data; either or both may be used.
+ *
+ * The image should be resized as needed for the protocol.
+ *
+ * Subclasses MUST call super's implementation.
+ *
+ * @param image An NSImage of the user icon, or nil if no image.
+ * @param originalData The original data which made the image, which may be in any NSImage-compatible format, or nil if no image.
+ */
+- (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
+{
+	//Notify
+	[[adium contactController] listObjectAttributesChanged:self
+											  modifiedKeys:[NSSet setWithObject:KEY_USER_ICON]];	
 }
 
 #pragma mark Status States

@@ -2058,11 +2058,6 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 							
 		} else if ([key isEqualToString:@"TextProfile"]) {
 			[self autoRefreshingOutgoingContentForStatusKey:key selector:@selector(setAccountProfileTo:) context:nil];
-			
-		} else if ([key isEqualToString:KEY_USER_ICON]) {
-			NSData  *data = [self userIconData];
-
-			[self setAccountUserImageData:data];
 
 		} else if ([key isEqualToString:KEY_ACCOUNT_CHECK_MAIL]) {
 			//Update the mail checking setting if the account is already made (if it isn't, we'll set it when it is made)
@@ -2309,11 +2304,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  * After setting it with purple, it sets it within Adium; if this is not called, the image will
  * show up neither locally nor remotely.
  */
-- (void)setAccountUserImageData:(NSData *)originalData
+- (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
 {
-	NSImage	*image =  (originalData ? [[[NSImage alloc] initWithData:originalData] autorelease] : nil);
-
 	if (account) {
+		NSData		*imageData = originalData;
 		NSSize		imageSize = (image ? [image size] : NSZeroSize);
 		NSData		*buddyIconData = nil;
 
@@ -2350,7 +2344,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 					image = [image imageByScalingToSize:NSMakeSize(width, height)];
 
 					/* Our original data is no longer valid, since we had to scale to a different size */
-					originalData = nil;
+					imageData = nil;
 					AILog(@"%@: Scaled image to size %@", self, NSStringFromSize([image size]));
 				}
 
@@ -2364,11 +2358,11 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 						
 						for (i = 0; prpl_formats[i]; i++) {
 							if (strcmp(prpl_formats[i],"gif") == 0) {
-								/* Try to use our original data.  If we had to scale, originalData will have been set
+								/* Try to use our original data.  If we had to scale, imageData will have been set
 								* to nil and we'll continue below to convert the image. */
 								AILog(@"l33t script kiddie animated GIF!!111");
 								
-								buddyIconData = originalData;
+								buddyIconData = imageData;
 								if (buddyIconData)
 									break;
 							}
@@ -2433,8 +2427,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		[purpleAdapter setBuddyIcon:buddyIconData onAccount:self];
 	}
 	
-	//We now have an icon
-	[self setValue:image forProperty:KEY_USER_ICON notify:NotifyNow];
+	[super setAccountUserImage:image withData:originalData];
 }
 
 #pragma mark Group Chat
@@ -2986,6 +2979,5 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	return NO;
 }
-
 
 @end
