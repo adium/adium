@@ -139,6 +139,7 @@
 - (void)removeAlert
 {
 	[adium.dockController removeIconStateNamed:@"Alert"];
+	[[adium dockController] removeIconStateNamed:@"InvisibleAlert"];
 	unviewedState = NO;
 }
 
