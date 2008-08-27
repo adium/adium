@@ -117,7 +117,8 @@
  */
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
-	return (AIListObject *)[self.containedObjects objectAtIndex:index];
+	AIListObject *obj = [self.containedObjects objectAtIndex:index];
+	return obj.visible ? obj : nil;
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
