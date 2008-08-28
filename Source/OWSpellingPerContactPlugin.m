@@ -142,10 +142,22 @@
 		if ([preferredLanguage isEqualToString:chatLanguage])
 			chatLanguage = nil;
 		
-		[listObject setPreference:chatLanguage
-						   forKey:KEY_LAST_USED_SPELLING
-							group:GROUP_LAST_USED_SPELLING];			
-
+		NSString *previousLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING
+															group:GROUP_LAST_USED_SPELLING];
+		if ((previousLanguage && ![previousLanguage isEqualToString:chatLanguage] ||
+			 (!previousLanguage && chatLanguage)) {
+			[listObject setPreference:chatLanguage
+							   forKey:KEY_LAST_USED_SPELLING
+								group:GROUP_LAST_USED_SPELLING];			
+			
+			/* Set this as a global preference such that it will be the default choice for future new chats.
+			 * If a listObject doesn't have its own preference set, this will be inherited.
+			 */
+			[[adium preferenceController] setPreference:chatLanguage
+												 forKey:KEY_LAST_USED_SPELLING
+												  group:GROUP_LAST_USED_SPELLING];
+		}
+		
 		[languageDict removeObjectForKey:chatID];
 	}
 }
