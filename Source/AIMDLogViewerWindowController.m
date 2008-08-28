@@ -92,8 +92,9 @@
 			 * will cause CFURLCopyFileSystemPath() to crash [ultimately in CFGetAllocator()].  This is the case for all
 			 * Cocoa applications...
 			 */
-			CFStringRef		logPath = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-			NSArray			*pathComponents = [(NSString *)logPath pathComponents];
+//			CFStringRef		logPath = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
+			NSString *logPath = [(NSURL *)url path];
+			NSArray	 *pathComponents = [(NSString *)logPath pathComponents];
 
 			/* Handle chatlogs-as-bundles, which have an xml file inside our target .chatlog path */
 			if ([[[pathComponents lastObject] pathExtension] caseInsensitiveCompare:@"xml"] == NSOrderedSame)
@@ -137,7 +138,7 @@
 				totalCount--;
 			}
 			
-			if (logPath) CFRelease(logPath);
+			//if (logPath) CFRelease(logPath);
 			if (url) CFRelease(url);
 			if (document) CFRelease(document);
         }
