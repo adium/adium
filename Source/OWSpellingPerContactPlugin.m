@@ -17,6 +17,7 @@
 #import "OWSpellingPerContactPlugin.h"
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define GROUP_LAST_USED_SPELLING	@"Last Used Spelling"
 #define KEY_LAST_USED_SPELLING		@"Last Used Spelling Languge"
@@ -144,7 +145,7 @@
 		
 		NSString *previousLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING
 															group:GROUP_LAST_USED_SPELLING];
-		if ((previousLanguage && ![previousLanguage isEqualToString:chatLanguage] ||
+		if ((previousLanguage && ![previousLanguage isEqualToString:chatLanguage]) ||
 			 (!previousLanguage && chatLanguage)) {
 			[listObject setPreference:chatLanguage
 							   forKey:KEY_LAST_USED_SPELLING
