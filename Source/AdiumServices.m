@@ -124,7 +124,7 @@
 	for (service in [services objectEnumerator]) {
 		if ([service.serviceID isEqualToString:serviceID]) break;
 	}
-	NSLog(@"Returning %@ for %@", service, serviceID);
+
 	return service;
 }
 
