@@ -219,10 +219,12 @@ static void node_aliased_cb(PurpleBlistNode *node, char *old_alias)
 		CBPurpleAccount	*account = accountLookup(purple_buddy_get_account(buddy));
 		const char		*alias;
 		
-		alias = purple_buddy_get_server_alias(buddy);
-		if (!alias) alias = purple_buddy_get_alias_only(buddy);
+		/* This will give us an alias we've set serverside (the "private server alias") if possible.
+		 * Failing that, we will get an alias specified remotely (either by the server or by the buddy).
+		 */
+		alias = purple_buddy_get_alias_only(buddy);
 		
-					AILogWithSignature(@"%@", contactLookupFromBuddy(buddy));
+		AILogWithSignature(@"%@ -> %s", contactLookupFromBuddy(buddy), alias);
 		[account updateContact:contactLookupFromBuddy(buddy)
 					   toAlias:(alias ? [NSString stringWithUTF8String:alias] : nil)];
 	}
