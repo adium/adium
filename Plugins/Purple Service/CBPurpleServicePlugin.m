@@ -44,6 +44,7 @@
 	[ESICQService registerService];
 	[ESGaduGaduService registerService];
 	[AIGTalkService registerService];
+	[ESIRCService registerService];
 	[AILiveJournalService registerService];
 	[ESMSNService registerService];
 	[PurpleMySpaceService registerService];
