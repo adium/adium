@@ -87,6 +87,8 @@
 - (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum;
 - (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
+- (void)setUserListVisible:(BOOL)inVisible;
+ -(void)setupShelfView;
 @end
 
 @implementation AIMessageViewController
@@ -143,10 +145,6 @@
 									   selector:@selector(redisplaySourceAndDestinationSelector:) 
 										   name:Chat_DestinationChanged
 										 object:chat];
-		[[adium notificationCenter] addObserver:self
-									   selector:@selector(toggleUserlist:)
-										   name:@"toggleUserlist"
-										 object:nil];
 
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
@@ -999,6 +997,15 @@
 	return [shelfView isShelfVisible];
 }
 
+/* @name	toggleUserlist
+ * @brief	toggles the state of the userlist shelf
+ */
+- (void)toggleUserList
+{
+	if ([chat isGroupChat])
+		[self setUserListVisible:![self userListVisible]];
+}
+
 /*!
  * @brief Show the user list
  */
@@ -1202,15 +1209,6 @@
 
 	[shelfView setShelfIsVisible:YES];
 }
-
-/* @name	toggleUserlist
- * @brief	toggles the state of the userlist shelf
- */
--(void)toggleUserlist:(id)sender
-{
-	if ([chat isGroupChat])
-		[shelfView setShelfIsVisible:![shelfView isShelfVisible]];
-}	
 
 #pragma mark Undo
 - (NSUndoManager *)undoManagerForTextView:(NSTextView *)aTextView
