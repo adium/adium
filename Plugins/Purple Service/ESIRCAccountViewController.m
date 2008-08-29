@@ -11,6 +11,10 @@
 
 @implementation ESIRCAccountViewController
 
+- (NSString *)nibName{
+    return @"ESIRCAccountView";
+}
+
 - (void)configureForAccount:(AIAccount *)inAccount
 {
     [super configureForAccount:inAccount];
