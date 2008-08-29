@@ -11,6 +11,7 @@
 #import "ESIRCJoinChatViewController.h"
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
+#import <AIUtilities/AICharacterSetAdditions.h>
 
 @implementation ESIRCService
 //Account Creation
@@ -40,10 +41,18 @@
 	return @"IRC";
 }
 - (NSString *)longDescription{
-	return @"IRC (Internet Relay Chat)";
+	return AILocalizedString(@"IRC (Internet Relay Chat)", nil);
 }
 - (NSCharacterSet *)allowedCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@"+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@._- "];
+	//Per RFC-2812: http://www.ietf.org/rfc/rfc2812.txt
+	NSMutableCharacterSet	*allowedCharacters = [[NSCharacterSet alphanumericCharacterSet] mutableCopy];
+	NSCharacterSet			*returnSet;
+	
+	[allowedCharacters addCharactersInString:@"[]\`_^{|}"];
+	returnSet = [allowedCharacters immutableCopy];
+	[allowedCharacters release];
+
+	return [returnSet autorelease];
 }
 - (NSCharacterSet *)ignoredCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@""];
