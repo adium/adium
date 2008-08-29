@@ -651,7 +651,9 @@
 	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
-		NSColor		*labelColor = [listObject valueForProperty:@"Label Color"];	
+		NSColor		*labelColor = (isEvent ?
+								   [listObject valueForProperty:@"Label Color"] :
+								   [listObject valueForProperty:@"Label Color" fromAnyContainedObject:NO]);
 		float		colorOpacity = [labelColor alphaComponent];
 		float		targetOpacity = backgroundOpacity * colorOpacity;
 
@@ -666,8 +668,11 @@
 - (NSColor *)textColor
 {
 	NSColor	*theTextColor;
-	
-	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"Text Color"])) {
+	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
+
+	if (shouldUseContactTextColors && (isEvent ?
+									   (theTextColor = [listObject valueForProperty:@"Text Color"]) :
+									   (theTextColor = [listObject valueForProperty:@"Text Color" fromAnyContainedObject:NO]))) {
 		return theTextColor;
 	} else {
 		return [super textColor];
