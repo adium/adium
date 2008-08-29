@@ -517,6 +517,17 @@ typedef enum {
 - (NSView *)view;
 - (NSScrollView *)messagesScrollView;
 - (AIChat *)chat;
+
+/*!
+ * @brief Show/hide the user list for a group chat.
+ * Does nothing if not in a group chat.
+ */
+- (void)toggleUserList;
+
+/*!
+ * @brief Is the user list visible for a group chat?
+ */
+- (BOOL)userListVisible;
 @end
 
 /*!
