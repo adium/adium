@@ -20,6 +20,7 @@
 #import "ESICQService.h"
 #import "ESGaduGaduService.h"
 #import "AIGTalkService.h"
+#import "ESIRCService.h"
 #import "AILiveJournalService.h"
 #import "ESJabberService.h"
 #import "ESMeanwhileService.h"

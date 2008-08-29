@@ -207,7 +207,6 @@
 		341FFD940DD85B1E0049F13D /* AIFacebookStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 341FFD930DD85B1E0049F13D /* AIFacebookStatusManager.m */; };
 		341FFEE50DDA32B40049F13D /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 341FFEE30DDA32B40049F13D /* facebook.png */; };
 		341FFEE60DDA32B40049F13D /* facebook-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 341FFEE40DDA32B40049F13D /* facebook-small.png */; };
-		3420B7200D222D2100605780 /* libpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC90CDAA8D400B8E233 /* libpurple.framework */; };
 		342353D709D45726009FF634 /* AIAbstractLogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342353D509D45725009FF634 /* AIAbstractLogViewerWindowController.m */; };
 		3428328907D2643F004F01C9 /* ESStatusPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328507D2643F004F01C9 /* ESStatusPreferences.m */; };
 		3428328B07D2643F004F01C9 /* ESStatusPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328707D2643F004F01C9 /* ESStatusPreferencesPlugin.m */; };
@@ -342,6 +341,8 @@
 		347933F40C861017007ADCAA /* AIColorStringTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347933F20C861017007ADCAA /* AIColorStringTransformer.m */; };
 		347C6943080C8F2B00E69674 /* ESAwayStatusWindowPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347C6941080C8F2B00E69674 /* ESAwayStatusWindowPlugin.m */; };
 		347C6949080C8F3B00E69674 /* ESAwayStatusWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 347C6947080C8F3A00E69674 /* ESAwayStatusWindowController.m */; };
+		347DC08D0E66CC00009F836D /* AIGrepLogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 347DC08C0E66CC00009F836D /* AIGrepLogViewerWindowController.m */; };
+		347DC0920E66CDAA009F836D /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 347DC0900E66CDAA009F836D /* TaskWrapper.m */; };
 		347E39DC0A98AA4A00961B0E /* missing_image.png in Resources */ = {isa = PBXBuildFile; fileRef = 347E39DB0A98AA4A00961B0E /* missing_image.png */; };
 		347E77F407CA94FF00350507 /* ESAccountEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E77F207CA94FE00350507 /* ESAccountEvents.m */; };
 		347E781407CA961300350507 /* ESUserIconHandlingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E781207CA961300350507 /* ESUserIconHandlingPlugin.m */; };
@@ -377,8 +378,6 @@
 		3482E0F50AB5064E00471992 /* AIAdiumProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3482E0EB0AB5063300471992 /* AIAdiumProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		348477140C1A5CE50019EF08 /* AIAnimatingListOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 348477120C1A5CE50019EF08 /* AIAnimatingListOutlineView.m */; };
 		34847ADE0C1A62C40019EF08 /* AIOutlineViewAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 34847ADC0C1A62C40019EF08 /* AIOutlineViewAnimation.m */; };
-		3485D40409EB3FEA00232CC4 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
-		3485D5F409EB406000232CC4 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D834D207CBE7B2006466F2 /* AIUtilities.framework */; };
 		3485D8B809EB436500232CC4 /* AdiumLibpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; };
 		3485D8BD09EB436C00232CC4 /* AdiumLibpurple.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; };
 		3485D8E709EB445C00232CC4 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D834D207CBE7B2006466F2 /* AIUtilities.framework */; };
@@ -538,11 +537,6 @@
 		349195670C9662AA00595A04 /* AIListBookmark.h in Headers */ = {isa = PBXBuildFile; fileRef = 349195650C9662AA00595A04 /* AIListBookmark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3496A8C207CE6B880055BBAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3496A8C107CE6B880055BBAB /* InfoPlist.strings */; };
 		349710DD096C4C7700699948 /* Buttons.strings in Resources */ = {isa = PBXBuildFile; fileRef = 349710DB096C4C7700699948 /* Buttons.strings */; };
-		3497CBB009BA0B5D00C0428E /* ESIRCJoinChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3497CBAE09BA0B5D00C0428E /* ESIRCJoinChatViewController.m */; };
-		3497CBDE09BA0C0900C0428E /* ESIRCJoinChatView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3497CBDD09BA0C0900C0428E /* ESIRCJoinChatView.nib */; };
-		3497CC0D09BA0D7900C0428E /* ESIRCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3497CC0B09BA0D7900C0428E /* ESIRCAccountViewController.m */; };
-		3497CC1C09BA0DC100C0428E /* ESIRCAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3497CC1B09BA0DC100C0428E /* ESIRCAccountView.nib */; };
-		3497CC2709BA0FDB00C0428E /* PurpleDefaultsIRC.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3497CC2609BA0FDB00C0428E /* PurpleDefaultsIRC.plist */; };
 		349C2F470867AD16000BF883 /* ApplescriptRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 349C2F460867AD16000BF883 /* ApplescriptRunner.m */; };
 		349C2FF00867AD65000BF883 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 349C2FEF0867AD65000BF883 /* Foundation.framework */; };
 		349C30790867ADA3000BF883 /* AdiumApplescriptRunner in Resources */ = {isa = PBXBuildFile; fileRef = 349C2EFA0867AC97000BF883 /* AdiumApplescriptRunner */; };
@@ -608,10 +602,6 @@
 		34AE249E09BCCFA900A35B51 /* AIWindowDraggingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AE249C09BCCFA900A35B51 /* AIWindowDraggingView.m */; };
 		34B1268E0B924E28003B0451 /* adiumPurpleDnsRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B1268C0B924E28003B0451 /* adiumPurpleDnsRequest.h */; };
 		34B1268F0B924E28003B0451 /* adiumPurpleDnsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B1268D0B924E28003B0451 /* adiumPurpleDnsRequest.m */; };
-		34B323B809B9FEAC00029361 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3448758D06D1EBDF00DA778C /* Cocoa.framework */; };
-		34B3244009B9FFE800029361 /* ESIRCLibpurpleServicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3243E09B9FFE800029361 /* ESIRCLibpurpleServicePlugin.m */; };
-		34B3245409BA00E700029361 /* ESIRCAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3245209BA00E700029361 /* ESIRCAccount.m */; };
-		34B3245A09BA00FB00029361 /* ESIRCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3245809BA00FB00029361 /* ESIRCService.m */; };
 		34B3247A0CE4CCF400158D5F /* PurpleAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B324780CE4CCF400158D5F /* PurpleAccountViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34B3247B0CE4CCF400158D5F /* PurpleAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B324790CE4CCF400158D5F /* PurpleAccountViewController.m */; };
 		34B4B5A40708B049002C4C6D /* ESDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B4B5A20708B049002C4C6D /* ESDebugController.m */; };
@@ -646,7 +636,6 @@
 		34C68B260778FA1300EB423C /* ESGeneralPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C68B240778FA1300EB423C /* ESGeneralPreferencesPlugin.m */; };
 		34C68B2C0778FA5C00EB423C /* ESGeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C68B2A0778FA5C00EB423C /* ESGeneralPreferences.m */; };
 		34C6A3BC077A8CB500EB423C /* AppearanceDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C6A3BB077A8CB500EB423C /* AppearanceDefaults.plist */; };
-		34C7C5DC09EC4D7A0060FB4A /* AdiumLibpurple.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3485D68009EB416300232CC4 /* AdiumLibpurple.framework */; };
 		34C7C62809EC4E890060FB4A /* AILibpurplePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B3244309BA003C00029361 /* AILibpurplePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34C899AC07E51B18009357F6 /* BuiltInEventPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C899AB07E51B18009357F6 /* BuiltInEventPresets.plist */; };
 		34C91BBB0CA8909700740974 /* AIContentNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 34C91BB90CA8909700740974 /* AIContentNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -995,6 +984,18 @@
 		34E2A1DB07AF6504006735BC /* AIDockAccountStatusPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A1D907AF6503006735BC /* AIDockAccountStatusPlugin.m */; };
 		34E2A2F507B018B2006735BC /* ESAddressBookIntegrationAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A2EF07B018B2006735BC /* ESAddressBookIntegrationAdvancedPreferences.m */; };
 		34E2A3E807B08CCB006735BC /* AIAliasSupportPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A3E507B08CC9006735BC /* AIAliasSupportPlugin.m */; };
+		34E4CD1E0E6823E000D1B0DC /* ESIRCAccount.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B3245109BA00E700029361 /* ESIRCAccount.h */; };
+		34E4CD1F0E6823E000D1B0DC /* ESIRCAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3245209BA00E700029361 /* ESIRCAccount.m */; };
+		34E4CD200E6823E000D1B0DC /* ESIRCService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B3245709BA00FA00029361 /* ESIRCService.h */; };
+		34E4CD210E6823E000D1B0DC /* ESIRCService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B3245809BA00FB00029361 /* ESIRCService.m */; };
+		34E4CD220E6823E000D1B0DC /* irc.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F191DB09BA5F43001D6BE2 /* irc.png */; };
+		34E4CD230E6823E000D1B0DC /* ESIRCJoinChatViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3497CBAD09BA0B5D00C0428E /* ESIRCJoinChatViewController.h */; };
+		34E4CD240E6823E000D1B0DC /* ESIRCJoinChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3497CBAE09BA0B5D00C0428E /* ESIRCJoinChatViewController.m */; };
+		34E4CD250E6823E000D1B0DC /* ESIRCJoinChatView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3497CBDD09BA0C0900C0428E /* ESIRCJoinChatView.nib */; };
+		34E4CD260E6823E000D1B0DC /* ESIRCAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3497CC0A09BA0D7900C0428E /* ESIRCAccountViewController.h */; };
+		34E4CD270E6823E000D1B0DC /* ESIRCAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3497CC0B09BA0D7900C0428E /* ESIRCAccountViewController.m */; };
+		34E4CD280E6823E000D1B0DC /* ESIRCAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3497CC1B09BA0DC100C0428E /* ESIRCAccountView.nib */; };
+		34E4CD290E6823E000D1B0DC /* PurpleDefaultsIRC.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3497CC2609BA0FDB00C0428E /* PurpleDefaultsIRC.plist */; };
 		34E6C5670A791BAF0076D7F0 /* AIContactInfoWindowPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E6C5650A791BAF0076D7F0 /* AIContactInfoWindowPlugin.m */; };
 		34E6C9950A7926650076D7F0 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
 		34EA6B320A62F3420053DFEB /* AIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EA6B300A62F3420053DFEB /* AIApplication.m */; };
@@ -1009,7 +1010,6 @@
 		34EF9A320E2EB637003E5DC7 /* MobileMe-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 34EF9A300E2EB637003E5DC7 /* MobileMe-large.png */; };
 		34EF9A330E2EB637003E5DC7 /* MobileMe-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 34EF9A310E2EB637003E5DC7 /* MobileMe-small.png */; };
 		34F144430BA8FF3C000473DE /* EmoticonNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 34F144420BA8FF3B000473DE /* EmoticonNames.strings */; };
-		34F191DC09BA5F43001D6BE2 /* irc.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F191DB09BA5F43001D6BE2 /* irc.png */; };
 		34F312930ADC3FE800A4310E /* KNShelfSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 348B25C70A50FBF300B2B972 /* KNShelfSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F312BD0ADC43CA00A4310E /* xtras_duck.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F312BC0ADC43CA00A4310E /* xtras_duck.png */; };
 		34F312F00ADC476300A4310E /* KNShelfSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 348B25C60A50FBF300B2B972 /* KNShelfSplitView.m */; };
@@ -1216,7 +1216,6 @@
 		63AF932D0AA81E2300B88299 /* Tiny (with user icons).ListLayout in Copy Legacy ListThemes and ListLayouts */ = {isa = PBXBuildFile; fileRef = 63AF91DC0AA8102900B88299 /* Tiny (with user icons).ListLayout */; };
 		63AF932E0AA81E2300B88299 /* Tiny.ListLayout in Copy Legacy ListThemes and ListLayouts */ = {isa = PBXBuildFile; fileRef = 63AF91DD0AA8102A00B88299 /* Tiny.ListLayout */; };
 		63C120750910A0DD00C9DB57 /* DefaultXtraReadme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */; };
-		63DEB89009BD3FEC0026DC69 /* AIXtraPreviewImageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DEB88E09BD3FEC0026DC69 /* AIXtraPreviewImageController.m */; };
 		63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DF5B200E52D77F00010E99 /* AIContactList.m */; };
 		63DF5B230E52D77F00010E99 /* AIContactList.h in Headers */ = {isa = PBXBuildFile; fileRef = 63DF5B210E52D77F00010E99 /* AIContactList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63EA62CA094B832D009C8453 /* AIEmoticonPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EA62C8094B832D009C8453 /* AIEmoticonPreviewController.m */; };
@@ -1365,20 +1364,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7ED4FDD00E002653004C5F4B;
 			remoteInfo = ThreadedStressTester;
-		};
-		340BA85509EC59AF000EC441 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34BD9DAF05314751000AB133;
-			remoteInfo = Adium.Framework;
-		};
-		340BA85709EC59AF000EC441 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AIUtilities;
 		};
 		340BAB4609EC6F8C000EC441 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1547,13 +1532,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 34BD9DAF05314751000AB133;
 			remoteInfo = Adium.Framework;
-		};
-		34C7C62C09EC4EBE0060FB4A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3485D67F09EB416300232CC4;
-			remoteInfo = AdiumLibpurple;
 		};
 		34D1AB590D693DEB00470520 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2907,6 +2885,10 @@
 		347C6941080C8F2B00E69674 /* ESAwayStatusWindowPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESAwayStatusWindowPlugin.m; path = Source/ESAwayStatusWindowPlugin.m; sourceTree = "<group>"; };
 		347C6946080C8F3A00E69674 /* ESAwayStatusWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESAwayStatusWindowController.h; path = Source/ESAwayStatusWindowController.h; sourceTree = "<group>"; };
 		347C6947080C8F3A00E69674 /* ESAwayStatusWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESAwayStatusWindowController.m; path = Source/ESAwayStatusWindowController.m; sourceTree = "<group>"; };
+		347DC08B0E66CC00009F836D /* AIGrepLogViewerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGrepLogViewerWindowController.h; path = Source/AIGrepLogViewerWindowController.h; sourceTree = "<group>"; };
+		347DC08C0E66CC00009F836D /* AIGrepLogViewerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGrepLogViewerWindowController.m; path = Source/AIGrepLogViewerWindowController.m; sourceTree = "<group>"; };
+		347DC0900E66CDAA009F836D /* TaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskWrapper.m; path = ../Desktop/Moriarity/TaskWrapper.m; sourceTree = SOURCE_ROOT; };
+		347DC0910E66CDAA009F836D /* TaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskWrapper.h; path = ../Desktop/Moriarity/TaskWrapper.h; sourceTree = SOURCE_ROOT; };
 		347E39DB0A98AA4A00961B0E /* missing_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = missing_image.png; path = "Plugins/Purple Service/missing_image.png"; sourceTree = "<group>"; };
 		347E77F107CA94FE00350507 /* ESAccountEvents.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESAccountEvents.h; path = Source/ESAccountEvents.h; sourceTree = "<group>"; };
 		347E77F207CA94FE00350507 /* ESAccountEvents.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESAccountEvents.m; path = Source/ESAccountEvents.m; sourceTree = "<group>"; };
@@ -3299,9 +3281,6 @@
 		34B272160839E8FB0092A5A0 /* is */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = is; path = "Plugins/Purple Service/is.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34B272170839E8FB0092A5A0 /* is */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = is; path = "Plugins/WebKit Message View/is.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34B272180839E8FB0092A5A0 /* is */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = is; path = Resources/is.lproj/Localizable.strings; sourceTree = "<group>"; };
-		34B323C009B9FEAC00029361 /* IRC Service.AdiumLibpurplePlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "IRC Service.AdiumLibpurplePlugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		34B3243D09B9FFE800029361 /* ESIRCLibpurpleServicePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESIRCLibpurpleServicePlugin.h; path = "Plugins/IRC Libpurple Plugin/ESIRCLibpurpleServicePlugin.h"; sourceTree = "<group>"; };
-		34B3243E09B9FFE800029361 /* ESIRCLibpurpleServicePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESIRCLibpurpleServicePlugin.m; path = "Plugins/IRC Libpurple Plugin/ESIRCLibpurpleServicePlugin.m"; sourceTree = "<group>"; };
 		34B3244309BA003C00029361 /* AILibpurplePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILibpurplePlugin.h; path = "Plugins/Purple Service/AILibpurplePlugin.h"; sourceTree = "<group>"; };
 		34B3245109BA00E700029361 /* ESIRCAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESIRCAccount.h; path = "Plugins/IRC Libpurple Plugin/ESIRCAccount.h"; sourceTree = "<group>"; };
 		34B3245209BA00E700029361 /* ESIRCAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESIRCAccount.m; path = "Plugins/IRC Libpurple Plugin/ESIRCAccount.m"; sourceTree = "<group>"; };
@@ -4427,18 +4406,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		34B323B609B9FEAC00029361 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3420B7200D222D2100605780 /* libpurple.framework in Frameworks */,
-				34C7C5DC09EC4D7A0060FB4A /* AdiumLibpurple.framework in Frameworks */,
-				3485D5F409EB406000232CC4 /* AIUtilities.framework in Frameworks */,
-				3485D40409EB3FEA00232CC4 /* Adium.framework in Frameworks */,
-				34B323B809B9FEAC00029361 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		34BD9D57053146CC000AB133 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -4621,7 +4588,6 @@
 				4947F5CB0655E85200B791E5 /* Bonjour.AdiumPlugin */,
 				349ECD2007C1BE2A0014623E /* LaTeX Plugin.AdiumPlugin */,
 				349C2EFA0867AC97000BF883 /* AdiumApplescriptRunner */,
-				34B323C009B9FEAC00029361 /* IRC Service.AdiumLibpurplePlugin */,
 				3417D26109C332B900FC413E /* Translator.AdiumPlugin */,
 				3485D68009EB416300232CC4 /* AdiumLibpurple.framework */,
 				38D8FAE10A8A4F350078E442 /* QuickTime.AdiumPlugin */,
@@ -4951,6 +4917,7 @@
 				347E39DB0A98AA4A00961B0E /* missing_image.png */,
 				77D903500B78CF1000B86C42 /* zhm */,
 				34416060059FC2450019246B /* Gadu-Gadu */,
+				34B3241D09B9FF6900029361 /* IRC */,
 				34416053059FC2270019246B /* Jabber */,
 				343A7F2206935DAF00150CEC /* Meanwhile */,
 				344159A2059F971C0019246B /* MSN */,
@@ -5638,11 +5605,9 @@
 			name = "Type Select Table View";
 			sourceTree = "<group>";
 		};
-		34B3241D09B9FF6900029361 /* IRC Libpurple Plugin */ = {
+		34B3241D09B9FF6900029361 /* IRC */ = {
 			isa = PBXGroup;
 			children = (
-				34B3243D09B9FFE800029361 /* ESIRCLibpurpleServicePlugin.h */,
-				34B3243E09B9FFE800029361 /* ESIRCLibpurpleServicePlugin.m */,
 				34B3245109BA00E700029361 /* ESIRCAccount.h */,
 				34B3245209BA00E700029361 /* ESIRCAccount.m */,
 				34B3245709BA00FA00029361 /* ESIRCService.h */,
@@ -5656,7 +5621,7 @@
 				3497CC1B09BA0DC100C0428E /* ESIRCAccountView.nib */,
 				3497CC2609BA0FDB00C0428E /* PurpleDefaultsIRC.plist */,
 			);
-			name = "IRC Libpurple Plugin";
+			name = IRC;
 			sourceTree = "<group>";
 		};
 		34B7033B076EDB240016E8BA /* Group Chat */ = {
@@ -5944,7 +5909,6 @@
 			isa = PBXGroup;
 			children = (
 				7EC2E1BE0DF43A94008C86B4 /* Developer Links */,
-				34B3241D09B9FF6900029361 /* IRC Libpurple Plugin */,
 				B782F088058BB60B00AF4BBA /* LaTeX Plugin */,
 				38D8FA240A8A45E00078E442 /* QuickTime */,
 				B7AE664D0465778E0051E914 /* SQL Logger */,
@@ -6967,6 +6931,10 @@
 				345623260A3771F400E7FC97 /* AILogFromGroup.m */,
 				3410745D09B6965600565C9E /* AIMDLogViewerWindowController.h */,
 				3410745E09B6965700565C9E /* AIMDLogViewerWindowController.m */,
+				347DC08B0E66CC00009F836D /* AIGrepLogViewerWindowController.h */,
+				347DC08C0E66CC00009F836D /* AIGrepLogViewerWindowController.m */,
+				347DC0900E66CDAA009F836D /* TaskWrapper.m */,
+				347DC0910E66CDAA009F836D /* TaskWrapper.h */,
 				3456232E0A37723400E7FC97 /* LogViewer.nib */,
 				342353D409D45725009FF634 /* AIAbstractLogViewerWindowController.h */,
 				342353D509D45725009FF634 /* AIAbstractLogViewerWindowController.m */,
@@ -8071,6 +8039,10 @@
 				34EF904B0E2EB17B003E5DC7 /* AIMobileMeService.h in Headers */,
 				34EF90570E2EB1A8003E5DC7 /* AIPurpleMobileMeAccountViewController.h in Headers */,
 				34EF905D0E2EB1C5003E5DC7 /* AIPurpleMobileMeAccount.h in Headers */,
+				34E4CD1E0E6823E000D1B0DC /* ESIRCAccount.h in Headers */,
+				34E4CD200E6823E000D1B0DC /* ESIRCService.h in Headers */,
+				34E4CD230E6823E000D1B0DC /* ESIRCJoinChatViewController.h in Headers */,
+				34E4CD260E6823E000D1B0DC /* ESIRCAccountViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8341,26 +8313,6 @@
 			productReference = 34A6876D0DD38D03008F0430 /* Facebook.AdiumPlugin */;
 			productType = "com.apple.product-type.bundle";
 		};
-		34B322F609B9FEAC00029361 /* IRC Service Libpurple Plugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 34B323BB09B9FEAC00029361 /* Build configuration list for PBXNativeTarget "IRC Service Libpurple Plugin" */;
-			buildPhases = (
-				34B3234409B9FEAC00029361 /* Resources */,
-				34B3236E09B9FEAC00029361 /* Sources */,
-				34B323B609B9FEAC00029361 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				34C7C62D09EC4EBE0060FB4A /* PBXTargetDependency */,
-				340BA85609EC59AF000EC441 /* PBXTargetDependency */,
-				340BA85809EC59AF000EC441 /* PBXTargetDependency */,
-			);
-			name = "IRC Service Libpurple Plugin";
-			productName = Purple;
-			productReference = 34B323C009B9FEAC00029361 /* IRC Service.AdiumLibpurplePlugin */;
-			productType = "com.apple.product-type.bundle";
-		};
 		34BD9CD1053146CC000AB133 /* Adium */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DADE8E22085507450062B664 /* Build configuration list for PBXNativeTarget "Adium" */;
@@ -8615,7 +8567,6 @@
 				4947F5BC0655E85200B791E5 /* Bonjour */,
 				DACF3ED3085574D0006BFB18 /* External Frameworks */,
 				349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */,
-				34B322F609B9FEAC00029361 /* IRC Service Libpurple Plugin */,
 				3417D25009C332B900FC413E /* Translator */,
 				F5B17CCF0A16C6AC004AE99E /* Plist Macros */,
 				38D8FA9A0A8A4F350078E442 /* QuickTime Plugin */,
@@ -8854,6 +8805,10 @@
 				34EF99AA0E2EB35A003E5DC7 /* PurpleDefaultsMobileMe.plist in Resources */,
 				34EF9A320E2EB637003E5DC7 /* MobileMe-large.png in Resources */,
 				34EF9A330E2EB637003E5DC7 /* MobileMe-small.png in Resources */,
+				34E4CD220E6823E000D1B0DC /* irc.png in Resources */,
+				34E4CD250E6823E000D1B0DC /* ESIRCJoinChatView.nib in Resources */,
+				34E4CD280E6823E000D1B0DC /* ESIRCAccountView.nib in Resources */,
+				34E4CD290E6823E000D1B0DC /* PurpleDefaultsIRC.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8863,17 +8818,6 @@
 			files = (
 				341FFEE50DDA32B40049F13D /* facebook.png in Resources */,
 				341FFEE60DDA32B40049F13D /* facebook-small.png in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		34B3234409B9FEAC00029361 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				3497CC2709BA0FDB00C0428E /* PurpleDefaultsIRC.plist in Resources */,
-				3497CBDE09BA0C0900C0428E /* ESIRCJoinChatView.nib in Resources */,
-				3497CC1C09BA0DC100C0428E /* ESIRCAccountView.nib in Resources */,
-				34F191DC09BA5F43001D6BE2 /* irc.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9540,6 +9484,10 @@
 				34EF904C0E2EB17B003E5DC7 /* AIMobileMeService.m in Sources */,
 				34EF90580E2EB1A8003E5DC7 /* AIPurpleMobileMeAccountViewController.m in Sources */,
 				34EF905E0E2EB1C5003E5DC7 /* AIPurpleMobileMeAccount.m in Sources */,
+				34E4CD1F0E6823E000D1B0DC /* ESIRCAccount.m in Sources */,
+				34E4CD210E6823E000D1B0DC /* ESIRCService.m in Sources */,
+				34E4CD240E6823E000D1B0DC /* ESIRCJoinChatViewController.m in Sources */,
+				34E4CD270E6823E000D1B0DC /* ESIRCAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9564,19 +9512,6 @@
 				34A3C8CC0DD3DBB100D35F10 /* AIFacebookOutgoingMessageManager.m in Sources */,
 				34A3C9000DD3DF8000D35F10 /* AIFacebookIncomingMessageManager.m in Sources */,
 				341FFD940DD85B1E0049F13D /* AIFacebookStatusManager.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		34B3236E09B9FEAC00029361 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				34B3244009B9FFE800029361 /* ESIRCLibpurpleServicePlugin.m in Sources */,
-				34B3245409BA00E700029361 /* ESIRCAccount.m in Sources */,
-				34B3245A09BA00FB00029361 /* ESIRCService.m in Sources */,
-				3497CBB009BA0B5D00C0428E /* ESIRCJoinChatViewController.m in Sources */,
-				3497CC0D09BA0D7900C0428E /* ESIRCAccountViewController.m in Sources */,
-				63DEB89009BD3FEC0026DC69 /* AIXtraPreviewImageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9870,6 +9805,8 @@
 				11077B6F0DE647C100A4DD25 /* AIStatusItemView.m in Sources */,
 				34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */,
 				34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */,
+				347DC08D0E66CC00009F836D /* AIGrepLogViewerWindowController.m in Sources */,
+				347DC0920E66CDAA009F836D /* TaskWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10078,16 +10015,6 @@
 			name = UnitTests;
 			targetProxy = 31D8974C0DE6DB7000A1C6A6 /* PBXContainerItemProxy */;
 		};
-		340BA85609EC59AF000EC441 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
-			targetProxy = 340BA85509EC59AF000EC441 /* PBXContainerItemProxy */;
-		};
-		340BA85809EC59AF000EC441 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AIUtilities;
-			targetProxy = 340BA85709EC59AF000EC441 /* PBXContainerItemProxy */;
-		};
 		340BAB4709EC6F8C000EC441 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AIUtilities;
@@ -10162,11 +10089,6 @@
 			isa = PBXTargetDependency;
 			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
 			targetProxy = 34BD98D10531467B000AB133 /* PBXContainerItemProxy */;
-		};
-		34C7C62D09EC4EBE0060FB4A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3485D67F09EB416300232CC4 /* AdiumLibpurple */;
-			targetProxy = 34C7C62C09EC4EBE0060FB4A /* PBXContainerItemProxy */;
 		};
 		34D1AC840D69958000470520 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -11830,96 +11752,6 @@
 			};
 			name = "Release-Debug";
 		};
-		34B323BC09B9FEAC00029361 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				INFOPLIST_FILE = "Plists/IRC Service Libpurple.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				PRODUCT_NAME = "IRC Service";
-				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
-			};
-			name = Debug;
-		};
-		34B323BD09B9FEAC00029361 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				INFOPLIST_FILE = "Plists/IRC Service Libpurple.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				PRODUCT_NAME = "IRC Service";
-				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
-			};
-			name = Release;
-		};
-		34B323BE09B9FEAC00029361 /* Release-Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu89;
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				INFOPLIST_FILE = "Plists/IRC Service Libpurple.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(LIBRARY_SEARCH_PATHS)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_1)",
-				);
-				PRODUCT_NAME = "IRC Service";
-				WRAPPER_EXTENSION = AdiumLibpurplePlugin;
-			};
-			name = "Release-Debug";
-		};
 		34F3B95B0BDF16130011AB34 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12814,16 +12646,6 @@
 				34A687690DD38D03008F0430 /* Debug */,
 				34A6876A0DD38D03008F0430 /* Release */,
 				34A6876B0DD38D03008F0430 /* Release-Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		34B323BB09B9FEAC00029361 /* Build configuration list for PBXNativeTarget "IRC Service Libpurple Plugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				34B323BC09B9FEAC00029361 /* Debug */,
-				34B323BD09B9FEAC00029361 /* Release */,
-				34B323BE09B9FEAC00029361 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
