@@ -70,11 +70,14 @@ void purple_account_set_bool(void *account, const char *name,
 	return @"irc.freenode.net";
 }
 
+- (NSString *)UID
+{
+	return [NSString stringWithFormat:@"%@@%@", [self formattedUID], [self host]];
+}
+
 - (const char *)purpleAccountName
 {
-	NSString	*myUID = [self formattedUID];
-
-	return [[NSString stringWithFormat:@"%@@%@", myUID, [self host]] UTF8String];
+	return [[self UID] UTF8String];
 }
 
 - (void)configurePurpleAccount
