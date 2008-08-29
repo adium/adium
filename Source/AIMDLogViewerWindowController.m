@@ -87,13 +87,19 @@
         for (i = 0; ((i < foundCount) && (searchID == activeSearchID)) ; i++) {
 			SKDocumentRef	document = foundDocRefs[i];
 			CFURLRef		url = SKDocumentCopyURL(document);
+			if (!url) {
+				AILogWithSignature(@"No URL for document %p", document);
+				continue;
+			}
 			/*
 			 * Nasty implementation note: As of 10.4.7 and all previous versions, a path longer than 1024 bytes (PATH_MAX)
 			 * will cause CFURLCopyFileSystemPath() to crash [ultimately in CFGetAllocator()].  This is the case for all
 			 * Cocoa applications...
 			 */
-//			CFStringRef		logPath = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
 			NSString *logPath = [(NSURL *)url path];
+			if (!logPath) 
+				AILogWithSignature(@"Could not get path for %@. ", url);
+
 			NSArray	 *pathComponents = [(NSString *)logPath pathComponents];
 
 			/* Handle chatlogs-as-bundles, which have an xml file inside our target .chatlog path */

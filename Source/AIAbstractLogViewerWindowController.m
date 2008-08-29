@@ -1318,14 +1318,21 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 {
 	CFURLRef	url = SKDocumentCopyURL(inDocument);
-	CFStringRef logPath = CFURLCopyFileSystemPath(url, kCFURLPOSIXPathStyle);
-	NSArray		*pathComponents = [(NSString *)logPath pathComponents];
-	
+	if (!url) {
+		AILogWithSignature(@"Could not get url for %p", inDocument);
+		return nil;
+	}
+
+	NSString	*logPath = [(NSURL *)url path];
+	if (!logPath)
+		AILogWithSignature(@"Could not get path for %@", url);
+	NSArray		*pathComponents = [logPath pathComponents];
+
 	CFRelease(url);
-	CFRelease(logPath);
-	
+
 	return pathComponents;
 }
+
 
 /*!
  * @brief Should a search display a document with the given information?
