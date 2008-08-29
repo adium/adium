@@ -10,7 +10,8 @@ echo "Beginning build at" `date` > $LOG_FILE 2>&1
 # Meanwhile
 # Apply patches
 MEANWHILE_PATCHES=("$PATCHDIR/meanwhile_ft_newservers_fix_1626349.diff" \
-    "$PATCHDIR/meanwhile_prescence_newservers_fix_1626349.diff")
+    "$PATCHDIR/meanwhile_prescence_newservers_fix_1626349.diff" \
+    "$PATCHDIR/meanwhile_blist_parsing_crash_fix.diff")
 
 pushd "$SOURCEDIR/$MEANWHILE" > /dev/null 2>&1
     for patch in ${MEANWHILE_PATCHES[@]} ; do
