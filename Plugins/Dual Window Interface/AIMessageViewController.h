@@ -96,15 +96,6 @@
 - (void)clearTextEntryView;
 - (void)addToTextEntryView:(NSAttributedString *)inString;
 - (void)addDraggedDataToTextEntryView:(id <NSDraggingInfo>)draggingInfo;
-
-//User List
-- (void)setUserListVisible:(BOOL)inVisible;
-- (BOOL)userListVisible;
-
-//splitview
- -(void)setupShelfView;
-// -(void)collapseShelfView;
- -(void)toggleUserlist:(id)sender;
  
 - (void)tabViewDidChangeVisibility;
 
