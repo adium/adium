@@ -73,9 +73,8 @@ void purple_account_set_bool(void *account, const char *name,
 - (const char *)purpleAccountName
 {
 	NSString	*myUID = [self formattedUID];
-	BOOL		serverAppendedToUID  = ([myUID rangeOfString:@"@"].location != NSNotFound);
 
-	return [(serverAppendedToUID ? myUID : [myUID stringByAppendingString:[self serverSuffix]]) UTF8String];
+	return [[NSString stringWithFormat:@"%@@%@", myUID, [self host]] UTF8String];
 }
 
 - (void)configurePurpleAccount
@@ -99,29 +98,15 @@ void purple_account_set_bool(void *account, const char *name,
  */
 - (NSString *)host
 {
-	NSString	*host;
-	NSString	*myUID = [self UID];
-
-	int location = [myUID rangeOfString:@"@"].location;
-	
-	if ((location != NSNotFound) && (location + 1 < [myUID length])) {
-		host = [myUID substringFromIndex:(location + 1)];
-		
-	} else {
-		host = [self serverSuffix];
-	}
-	
+	NSString *host = [self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
+	if(!host)
+		return [self serverSuffix];
 	return host;
 }
 
 - (NSString *)displayName
 {
-	NSString *myUID = [self formattedUID];
-	unsigned int pos = [myUID rangeOfString:@"@"].location;
-	
-	if(pos == NSNotFound)
-		return myUID;
-	return [myUID substringToIndex:pos];
+	return [self formattedUID];
 }
 
 - (NSString *)formattedUIDForListDisplay
