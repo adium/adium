@@ -188,12 +188,15 @@ static void buddy_added_cb(PurpleBuddy *buddy)
 				   toGroupName:groupName
 				   contactName:[NSString stringWithUTF8String:purple_buddy_get_name(buddy)]];
 
-		//We won't get an initial alias update for this buddy if one is already set, so check and update appropriately.
-		const char		*alias;
-
-		alias = purple_buddy_get_server_alias(buddy);
-		if (!alias) alias = purple_buddy_get_alias_only(buddy);
+		/* We won't get an initial alias update for this buddy if one is already set, so check and update appropriately.
+		 *
+		 * This will give us an alias we've set serverside (the "private server alias") if possible.
+		 * Failing that, we will get an alias specified remotely (either by the server or by the buddy).
+		 */
+		const char *alias = purple_buddy_get_alias_only(buddy);
 		
+		AILogWithSignature(@"%@ -> %s", contactLookupFromBuddy(buddy), alias);
+
 		if (alias) {
 			AILogWithSignature(@"%@", listContact);
 			[account updateContact:listContact
