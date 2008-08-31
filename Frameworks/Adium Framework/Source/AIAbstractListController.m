@@ -590,32 +590,31 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 //Outline View data source ---------------------------------------------------------------------------------------------
 #pragma mark Outline View data source
-//
+
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
-    if (item == nil) {
-		if (hideRoot) {
-			return (index >= 0 && index < ((AIListObject<AIContainingObject> *)contactList).visibleCount) ? [contactList visibleObjectAtIndex:index] : nil;
-		} else {
-			return contactList;
-		}
-    } else {
-        return (index >= 0 && index < ((AIListObject<AIContainingObject> *)item).visibleCount) ? [item visibleObjectAtIndex:index] : nil;
-    }
+	if (item) {
+		return index >= 0 && index < ((id<AIContainingObject>)item).visibleCount ? [item visibleObjectAtIndex:index] : nil;
+	}
+	
+	if (hideRoot) {
+		return index >= 0 && index < contactList.visibleCount ? [contactList visibleObjectAtIndex:index] : nil;
+	}
+	
+	return contactList;
 }
 
-//
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if (item == nil) {
-		if (hideRoot) {
-			return ((AIListObject<AIContainingObject> *)contactList).visibleCount;
-		} else {
-			return 1;
-		}
-    } else {
-        return ((AIListObject<AIContainingObject> *)item).visibleCount;
-    }
+	if (item) {
+		return ((AIListObject<AIContainingObject> *)item).visibleCount;
+	}
+		
+	if (hideRoot) {
+		return ((AIListObject<AIContainingObject> *)contactList).visibleCount;
+	}
+	
+	return 1;
 }
 
 /*!
