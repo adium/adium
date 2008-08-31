@@ -58,12 +58,11 @@
 - (BOOL)moveGroup:(AIListGroup *)group to:(AIContactList *)toList
 {
 	// Check if group is not already there
-	if([toList containsObject:group])
+	if(![self containsObject:group] || [toList containsObject:group])
 		return NO;
 	
 	[self removeObject:group];
 	[toList addObject:group];
-	[group setContainingObject:toList];
 	
 	return YES;
 }
