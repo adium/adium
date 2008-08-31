@@ -156,7 +156,7 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 - (NSString *)_applicationVersion
 {
     NSString	*version = [NSApp applicationVersion];
-    return [NSString stringWithFormat:@"Adium X %@",(version ? version : @"")];
+    return [NSString stringWithFormat:@"Adium %@",(version ? version : @"")];
 }
 
 //Returns the formatted build date of Adium
