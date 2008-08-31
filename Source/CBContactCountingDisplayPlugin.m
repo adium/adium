@@ -120,6 +120,8 @@
 
 	//We never update for an AIAccount object
 	if (![inObject isKindOfClass:[AIListGroup class]]) return nil;
+	
+	AIListGroup *inGroup = (AIListGroup *)inObject;
 
 	/* We check against a nil inModifiedKeys so we can remove our Counting information from the display when the user
 	 * toggles it off.
@@ -133,18 +135,18 @@
 		
 		NSString		*countString = nil;
 		
-		NSInteger visibleObjects = [[inObject valueForProperty:@"VisibleObjectCount"] integerValue];
-		NSInteger totalObjects = [[inObject valueForProperty:@"ObjectCount"] integerValue];
+		NSUInteger visibleObjects = inGroup.visibleCount;
+		NSUInteger totalObjects = inGroup.containedObjectsCount;
 	
 		// Create our count string for displaying in the list group's cell
 		// If the number of visible objects is the same as the number of total objects, just display one number.
 		if (countVisibleObjects && countAllObjects && (visibleObjects != totalObjects)) {
-			countString = [NSString stringWithFormat:AILocalizedString(@"%ld of %ld", "Used in the display for the contact list for the number of visible contacts out of the number of total contacts"),
+			countString = [NSString stringWithFormat:AILocalizedString(@"%lu of %lu", "Used in the display for the contact list for the number of visible contacts out of the number of total contacts"),
 													visibleObjects, totalObjects];
 		} else if (countAllObjects) {
-			countString = [NSString stringWithFormat:@"%ld", totalObjects];
+			countString = [NSString stringWithFormat:@"%lu", totalObjects];
 		} else {
-			countString = [NSString stringWithFormat:@"%ld", visibleObjects];
+			countString = [NSString stringWithFormat:@"%lu", visibleObjects];
 		}
 
 		[inObject setValue:countString
