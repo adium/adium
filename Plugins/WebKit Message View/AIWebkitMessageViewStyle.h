@@ -85,6 +85,7 @@ typedef enum {
 	NSString			*headerHTML;
 	NSString			*footerHTML;
 	NSString			*baseHTML;
+	NSString			*contentHTML;
 	NSString			*contentInHTML;
 	NSString			*nextContentInHTML;
 	NSString			*contextInHTML;
