@@ -193,6 +193,7 @@ static NSArray *validSenderColors;
 	[headerHTML release];
 	[footerHTML release];
 	[baseHTML release];
+	[contentHTML release];
 	[contentInHTML release];
 	[nextContentInHTML release];
 	[contextInHTML release];
@@ -434,10 +435,14 @@ static NSArray *validSenderColors;
 	[baseHTML retain];
 	
 	//Content Templates
+	contentHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html"]] retain];
 	contentInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Incoming"]] retain];
 	nextContentInHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Incoming"]] retain];
 	contentOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Content" ofType:@"html" inDirectory:@"Outgoing"]] retain];
 	nextContentOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContent" ofType:@"html" inDirectory:@"Outgoing"]] retain];
+	
+	//fall back to Resources/Content.html if Incoming isn't present
+	if(!contentInHTML) contentInHTML = [contentHTML retain];
 	
 	//fall back to Content if NextContent doesn't need to use different HTML
 	if(!nextContentInHTML) nextContentInHTML = [contentInHTML retain];
@@ -463,6 +468,9 @@ static NSArray *validSenderColors;
 	
 	//Status
 	statusHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Status" ofType:@"html"]] retain];
+	
+	//fall back to Resources/Incoming/Content.html if Status isn't present
+	if(!statusHTML) statusHTML = [contentInHTML retain];
 	
 	//TODO: make a generic Request message, rather than having this ft specific one
 	NSMutableString *fileTransferHTMLTemplate;
