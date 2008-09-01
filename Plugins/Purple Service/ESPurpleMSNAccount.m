@@ -144,7 +144,6 @@
 {
 	switch (step)
 	{
-#if NEW_MSN
 		case 0:
 			return AILocalizedString(@"Connecting",nil);
 			break;
@@ -172,32 +171,6 @@
 		case 8:
 			return AILocalizedString(@"Retrieving buddy list",nil);
 			break;
-#else
-		case 0:
-			return AILocalizedString(@"Connecting",nil);
-			break;
-		case 1:
-			return AILocalizedString(@"Connecting",nil);
-			break;
-		case 2:
-			return AILocalizedString(@"Syncing with server",nil);
-			break;			
-		case 3:
-			return AILocalizedString(@"Requesting to send password",nil);
-			break;
-		case 4:
-			return AILocalizedString(@"Syncing with server",nil);
-			break;
-		case 5:
-			return AILocalizedString(@"Requesting to send password",nil);
-			break;
-		case 6:
-			return AILocalizedString(@"Password sent",nil);
-			break;
-		case 7:
-			return AILocalizedString(@"Retrieving buddy list",nil);
-			break;
-#endif
 	}
 	return nil;
 }

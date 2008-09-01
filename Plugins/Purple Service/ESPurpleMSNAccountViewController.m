@@ -31,9 +31,6 @@
     [super configureForAccount:inAccount];
 	[checkBox_HTTPConnectMethod setState:[[account preferenceForKey:KEY_MSN_HTTP_CONNECT_METHOD 
 															  group:GROUP_ACCOUNT_STATUS] boolValue]];
-#if !NEW_MSN
-	[checkBox_broadcastMusic setEnabled:NO];
-#endif
 }
 
 //Save controls
