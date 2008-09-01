@@ -377,7 +377,11 @@
 		if (!chat) {
 			//See if a chat was made with this name but which doesn't yet have an identifier. If so, take ownership!
 			chat = [self existingChatWithName:name onAccount:account];
-			if (chat && ![chat identifier]) [chat setIdentifier:identifier];
+			if (chat && ![chat identifier])
+                [chat setIdentifier:identifier];
+            // If existingChatWithName:onAccount: finds a chat, make sure it has the right identifier. 
+            else if ([chat identifier] != identifier)
+                chat = nil;
 		}
 
 	} else {
