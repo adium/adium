@@ -126,7 +126,7 @@
 
 - (NSComparisonResult)titleCompare:(NSMenuItem *)inMenuItem
 {
-	return [[self title] caseInsensitiveCompare:[inMenuItem title]];
+	return [[self title] compare:[inMenuItem title] options:NSNumericSearch|NSCaseInsensitiveSearch];
 }
 
 @end
