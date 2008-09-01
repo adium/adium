@@ -100,9 +100,9 @@
 {
 	NSImage *baseImage = [NSImage imageNamed:@"irc" forClass:[self class] loadLazily:YES];
 
-	if (iconType == AIServiceIconSmall) {
+	if (iconType == AIServiceIconSmall || iconType == AIServiceIconList) {
 		baseImage = [baseImage imageByScalingToSize:NSMakeSize(16, 16)];
-	}
+    }
 
 	return baseImage;
 }
