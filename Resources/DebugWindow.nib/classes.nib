@@ -5,6 +5,32 @@
 	<key>IBClasses</key>
 	<array>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>clearLog</key>
+				<string>id</string>
+				<key>toggleLogWriting</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>ESDebugWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>button_clear</key>
+				<string>NSButton</string>
+				<key>checkBox_logWriting</key>
+				<string>NSButton</string>
+				<key>scrollView_debug</key>
+				<string>AIAutoScrollView</string>
+				<key>textView_debug</key>
+				<string>NSTextView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIWindowController</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>NSApplication</string>
 			<key>LANGUAGE</key>
@@ -43,6 +69,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSWindowController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -67,6 +101,14 @@
 			<string>NSObject</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -97,69 +139,6 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSControl</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>clearLog</key>
-				<string>id</string>
-				<key>toggleLogWriting</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>ESDebugWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>button_clear</key>
-				<string>NSButton</string>
-				<key>checkBox_logWriting</key>
-				<string>NSButton</string>
-				<key>scrollView_debug</key>
-				<string>AIAutoScrollView</string>
-				<key>textView_debug</key>
-				<string>NSTextView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>AIWindowController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>closeWindow</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>AIWindowController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSButtonCell</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSActionCell</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>SS_PrefsController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -173,11 +152,32 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>NSButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>AIAutoScrollView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSScrollView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>closeWindow</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
