@@ -49,7 +49,8 @@
 	[facebookUID release]; facebookUID = nil;
 	[account release]; account = nil;
 	
-	//XXX Cancel current connection
+	[loveConnection cancel];
+	[loveConnection release]; loveConnection = nil;
 }
 
 /*!
