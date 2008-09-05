@@ -718,7 +718,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	}
 
 	if (attachmentValue) {
-		AITextAttachmentExtension *extension = (AITextAttachmentExtension *)attachmentValue;
+		AITextAttachmentExtension *extension;
+		if ([attachmentValue isKindOfClass:[AITextAttachmentExtension class]])
+			extension = (AITextAttachmentExtension *)attachmentValue;
+		else
+			extension = [AITextAttachmentExtension textAttachmentExtensionFromTextAttachment:attachmentValue];
+
 		if ((thingsToInclude.attachmentTextEquivalents ||
 			 !imagesPath ||
 			([extension respondsToSelector:@selector(shouldAlwaysSendAsText)] && [extension shouldAlwaysSendAsText])) &&
