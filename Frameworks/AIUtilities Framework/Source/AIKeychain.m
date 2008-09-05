@@ -955,13 +955,16 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					nil];
 				error = [NSError errorWithDomain:AIKEYCHAIN_ERROR_DOMAIN code:err userInfo:userInfo];
 			}
-			*outError = error;
 		}
 	}
+
+	if (outError) *outError = [error retain];
+
 	if (outKeychainItem) *outKeychainItem = keychainItem;
 	else if (keychainItem) CFRelease(keychainItem);
 
 	[pool release];
+	if (outError) [*outError autorelease];
 }
 
 - (void)deleteInternetPasswordForServer:(NSString *)server account:(NSString *)account protocol:(SecProtocolType)protocol error:(out NSError **)outError
