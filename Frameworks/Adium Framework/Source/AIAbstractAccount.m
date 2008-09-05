@@ -1250,22 +1250,24 @@
 {
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 	
+	NSArray *myContacts = [self contacts];
+
 	/* Clear status flags on all contacts for this account, and set their remote group to nil.
 	 * Also, unless we have an open chat, tell the contact controller that it can release this contact.
 	 * Then allow notifications for all these contacts to go out.
 	 */
-	NSEnumerator	*enumerator;
-	AIListContact	*listContact;
-
-	enumerator = [[self contacts] objectEnumerator];
-	while ((listContact = [enumerator nextObject])) {
+	for (AIListContact *listContact in myContacts) {
 		[listContact setRemoteGroupName:nil];
 		[self removePropetyValuesFromContact:listContact silently:YES];
+	}
+
+	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+
+	//Stop track only afer notifying
+	for (AIListContact *listContact in myContacts) {
 		if (![adium.chatController existingChatWithContact:[listContact parentContact]])
 			[adium.contactController account:self didStopTrackingContact:listContact];
 	}
-	
-	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 }
 
 /*!
