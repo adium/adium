@@ -24,6 +24,19 @@
 
 @implementation AITextAttachmentExtension
 
++ (AITextAttachmentExtension *)textAttachmentExtensionFromTextAttachment:(NSTextAttachment *)textAttachment
+{
+	AITextAttachmentExtension *textAttachmentExtension = [[[AITextAttachmentExtension alloc] init] autorelease];
+	[textAttachmentExtension setShouldSaveImageForLogging:YES];
+	[textAttachmentExtension setAttachmentCell:[textAttachment attachmentCell]];
+
+	NSFileWrapper *fileWrapper = [textAttachment fileWrapper];
+	[textAttachmentExtension setString:[fileWrapper preferredFilename]];
+	[textAttachmentExtension setImage:[[[NSImage alloc] initWithData:[fileWrapper regularFileContents]] autorelease]];
+	NSLog(@"image is %@", [textAttachmentExtension image]);
+	return textAttachmentExtension;
+} 
+
 - (id)init
 {
     if ((self = [super init])) {

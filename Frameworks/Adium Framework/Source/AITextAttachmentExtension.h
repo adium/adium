@@ -23,6 +23,8 @@
 	BOOL		shouldAlwaysSendAsText;
 }
 
++ (AITextAttachmentExtension *)textAttachmentExtensionFromTextAttachment:(NSTextAttachment *)textAttachment;
+
 - (void)setString:(NSString *)inString;
 - (NSString *)string;
 - (void)setImageClass:(NSString *)inString;

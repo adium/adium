@@ -62,7 +62,7 @@
 														  bodyBackground:NO
 													 allowJavascriptURLs:YES];
 	[xhtmlDecoder setGeneratesStrictXHTML:YES];
-	[xhtmlDecoder setUsesAttachmentTextEquivalents:YES];
+	[xhtmlDecoder setUsesAttachmentTextEquivalents:NO];
 	
 	// read the raw file into an array for working against, two different formats have been employed by iChat, based on available classes
 	fullPath = [[NSFileManager defaultManager] pathByResolvingAlias:fullPath];
@@ -101,8 +101,12 @@
 		]];
 	
 	// create a new xml parser for logs
-	NSString *documentPath = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%@).chatlog", [[[rawChat objectAtIndex:3] objectAtIndex:0] senderID], [[[[rawChat objectAtIndex:2] objectAtIndex:0] date] dateWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z" timeZone:nil]]];
+	NSString	  *documentPath = [parentPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@ (%@).chatlog",
+																			  [[[rawChat objectAtIndex:3] objectAtIndex:0] senderID],
+																			  [[[[rawChat objectAtIndex:2] objectAtIndex:0] date] dateWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z"
+																																				timeZone:nil]]];
 	AIXMLAppender *appender = [AIXMLAppender documentWithPath:documentPath];
+	NSString	  *imagesPath = [[appender path] stringByDeletingLastPathComponent];
 
 	// set up the initial layout of the xml log
 	[appender initializeDocumentWithRootElementName:@"chat"
@@ -124,7 +128,7 @@
 			[[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], 
 			nil];
 		
-		NSMutableString *chatContents = [[[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:nil] mutableCopy] autorelease];
+		NSMutableString *chatContents = [[[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:imagesPath] mutableCopy] autorelease];
 		
 		[appender addElementWithName:(![[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] isEqual:@""] ? @"message" : @"event")
 					  escapedContent:chatContents
