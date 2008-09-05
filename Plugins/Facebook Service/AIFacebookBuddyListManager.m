@@ -46,8 +46,12 @@
 - (void)parseBuddyList:(NSDictionary *)buddyList
 {
 	NSDictionary *nowAvailableList = [buddyList objectForKey:@"nowAvailableList"];
-	NSDictionary *userInfos = [buddyList objectForKey:@"userInfos"];
-
+	NSDictionary *userInfos = ([nowAvailableList isKindOfClass:[NSDictionary class]] ? 
+							   [buddyList objectForKey:@"userInfos"] : 
+							   nil);
+	if (![userInfos isKindOfClass:[NSDictionary class]]) 
+		return;
+	
 	NSSet *nowAvailableContacts = [NSSet setWithArray:[nowAvailableList allKeys]];
 
 	BOOL isSigningOn = [account isSigningOn];
@@ -55,6 +59,8 @@
 	for (NSString *contactUID in nowAvailableContacts) {
 		AIListContact *listContact = [account contactWithUID:contactUID];
 		NSDictionary  *dict = [userInfos objectForKey:contactUID];
+		if (![dict isKindOfClass:[NSDictionary class]])
+			continue;
 		NSString	  *name = [dict objectForKey:@"name"];
 		/*
 		 NSString	  *firstName = [dict objectForKey:@"firstName"];
@@ -197,20 +203,24 @@
 	NSDictionary *buddyListJSONDict = [receivedString JSONValue];
 
 	AILogWithSignature(@"%@", buddyListJSONDict);
-	if ([[buddyListJSONDict objectForKey:@"error"] integerValue]) {
-		if ([[buddyListJSONDict objectForKey:@"errorSummary"] length] &&
-			[[buddyListJSONDict objectForKey:@"errorSummary"] isEqualToString:@"Not Logged In"]) {
+	if ([buddyListJSONDict isKindOfClass:[NSDictionary class]]) {
+		if ([[buddyListJSONDict objectForKey:@"error"] integerValue]) {
+			if ([[buddyListJSONDict objectForKey:@"errorSummary"] length] &&
+				[[buddyListJSONDict objectForKey:@"errorSummary"] isEqualToString:@"Not Logged In"]) {
 				[account reconnect];		
-		} else if ([[buddyListJSONDict objectForKey:@"error"] integerValue] == 1357001) {
-			[account setLastDisconnectionError:AILocalizedString(@"Logged in from another location", nil)];
-			[account disconnect];
+			} else if ([[buddyListJSONDict objectForKey:@"error"] integerValue] == 1357001) {
+				[account setLastDisconnectionError:AILocalizedString(@"Logged in from another location", nil)];
+				[account disconnect];
+			}
+		}
+		
+		NSDictionary *payload = [buddyListJSONDict objectForKey:@"payload"];
+		if ([payload isKindOfClass:[NSDictionary class]]) {
+			[self parseBuddyList:[payload objectForKey:@"buddy_list"]];
+			[self parseNotifications:[payload objectForKey:@"notifications"]];
 		}
 	}
-
-	NSDictionary *payload = [buddyListJSONDict objectForKey:@"payload"];
-	[self parseBuddyList:[payload objectForKey:@"buddy_list"]];
-	[self parseNotifications:[payload objectForKey:@"notifications"]];
-
+		
 	[receivedString release];
 	
     //Release the connection, and trunacte the data object
