@@ -227,9 +227,9 @@
 		//go through all items
 		for (row = 0; row < numberOfRows; row++) {
 			id item = [delegate outlineView:self child:row ofItem:rootItem];
-			
+
 			//If the item is expandable, correctly expand/collapse it
-			if ([delegate outlineView:self isItemExpandable:item]) {
+			if (item && [delegate outlineView:self isItemExpandable:item]) {
 				ignoreExpandCollapse = YES;
 				if ([delegate outlineView:self expandStateOfItem:item]) {
 					[self expandItem:item];
