@@ -118,7 +118,9 @@
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
 	AIListObject *obj = [self.containedObjects objectAtIndex:index];
-	return obj.visible ? obj : nil;
+	NSAssert3(obj.visible, @"Attempted to get visible object at index %i of %@, but %@ is not visible",
+			  index, self, obj);
+	return obj;
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
