@@ -105,7 +105,7 @@
 
 	linkString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
 	                                        (CFStringRef)inString,
-	                                        (CFStringRef)@"#%",
+	                                        (CFStringRef)@"#%[]",
 	                                        NULL,
 	                                        kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
 
