@@ -43,6 +43,8 @@
 #define ADD_GROUP_ELLIPSIS					[ADD_GROUP stringByAppendingEllipsis]
 
 #define DELETE_CONTACT_ELLIPSIS				[AILocalizedString(@"Remove Contact",nil) stringByAppendingEllipsis]
+#define DELETE_GROUP_ELLIPSIS				[AILocalizedString(@"Remove Group",nil) stringByAppendingEllipsis]
+#define DELETE_CONTACT_OR_GROUP_ELLIPSIS				[AILocalizedString(@"Remove Contact or Group",nil) stringByAppendingEllipsis]
 #define DELETE_CONTACT_CONTEXT_ELLIPSIS		[AILocalizedString(@"Remove",nil) stringByAppendingEllipsis]
 
 #define RENAME_GROUP						AILocalizedString(@"Rename Group",nil)
@@ -162,7 +164,14 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == menuItem_delete) {
-		return [adium.interfaceController selectedListObjectInContactList] != nil;
+		AIListObject *selectedListObject = [adium.interfaceController selectedListObjectInContactList];
+		if (!selectedListObject) {
+			[menuItem setTitle:DELETE_CONTACT_OR_GROUP_ELLIPSIS];
+			return NO;
+		} else {
+			[menuItem setTitle:([selectedListObject isKindOfClass:[AIListGroup class]] ? DELETE_GROUP_ELLIPSIS : DELETE_CONTACT_ELLIPSIS)];
+			return YES;
+		}
 		
 	} else if (menuItem == menuItem_tabAddContact) {
 		return [adium.menuController currentContextMenuObject] != nil;
