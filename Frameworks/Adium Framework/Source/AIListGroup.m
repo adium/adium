@@ -102,9 +102,6 @@
 //Called when the visibility of an object in this group changes
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
 {
-	//Update our visibility as a result of this change
-	[self _recomputeVisibleCount];
-	
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
 }
@@ -118,8 +115,8 @@
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
 	AIListObject *obj = [self.containedObjects objectAtIndex:index];
-	NSAssert3(obj.visible, @"Attempted to get visible object at index %i of %@, but %@ is not visible",
-			  index, self, obj);
+	NSAssert5(obj.visible, @"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i",
+			  index, self, obj, self.containedObjects, self.visibleCount);
 	return obj;
 }
 
@@ -264,12 +261,18 @@
 	[_containedObjects insertObject:inObject 
 						   atIndex:[sortController indexForInserting:inObject intoObjects:self.containedObjects]];
 	[inObject release];
+
+	//Update our visibility as a result of this change
+	[self _recomputeVisibleCount];
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
 - (void)sort
 {	
 	[_containedObjects sortUsingActiveSortController];
+
+	//Update our visibility as a result of this change
+	[self _recomputeVisibleCount];
 }
 
 
