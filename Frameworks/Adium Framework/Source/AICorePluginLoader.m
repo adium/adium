@@ -278,17 +278,11 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 + (BOOL)allDependenciesMetForPluginAtPath:(NSString *)pluginPath
 {
 	NSArray *dependencies = [[[NSBundle bundleWithPath:pluginPath] infoDictionary] objectForKey:@"AIPluginDependencies"];
-
-	if (dependencies) {
-		for (NSString *dependency in dependencies) {
-			if (![pluginBundleIdentifiers containsObject:dependency])
-				return NO;
-		}
-	}
-
-	return YES;
+	
+	return ((dependencies && [dependencies count]) ?
+			[[NSSet setWithArray:dependencies] isSubsetOfSet:pluginBundleIdentifiers] : 
+			YES);
 }
-
 
 //Move a plugin to the disabled plugins folder
 + (void)disablePlugin:(NSString *)pluginPath
