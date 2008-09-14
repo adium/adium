@@ -40,21 +40,32 @@
 NSTimeInterval aggregatePluginLoadingTime = 0.0;
 #endif
 
-static	NSMutableDictionary		*pluginDict = nil;
+static	NSMutableDictionary	*pluginDict = nil;
+static	NSMutableSet		*pluginBundleIdentifiers = nil;	
+static  NSMutableArray		*deferredPluginPaths = nil;
+
 @interface AICorePluginLoader ()
 - (void)loadPlugins;
 + (BOOL)confirmPluginAtPath:(NSString *)pluginPath;
 + (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath;
 + (void)disablePlugin:(NSString *)pluginPath;
++ (BOOL)allDependenciesMetForPluginAtPath:(NSString *)pluginPath;
 @end
 
 @implementation AICorePluginLoader
+
++ (void)initialize
+{
+	if (self == [AICorePluginLoader class]) {
+		pluginDict = [[NSMutableDictionary alloc] init];
+		pluginBundleIdentifiers = [[NSMutableSet alloc] init];
+	}
+}
 
 - (id)init
 {
 	if ((self = [super init])) {
 		pluginArray = [[NSMutableArray alloc] init];
-		if (!pluginDict) pluginDict = [[NSMutableDictionary alloc] init];
 
 		[self loadPlugins];
 	}
@@ -89,7 +100,13 @@ static	NSMutableDictionary		*pluginDict = nil;
 	//Load any external plugins the user has installed
 	for (NSString *path in [adium allResourcesForName:EXTERNAL_PLUGIN_FOLDER withExtensions:EXTENSION_ADIUM_PLUGIN]) {
 		[[self class] loadPluginAtPath:path confirmLoading:YES pluginArray:pluginArray];
-	}	
+	}
+
+	for (NSString *path in deferredPluginPaths) {
+		[[self class] loadPluginAtPath:path confirmLoading:YES pluginArray:pluginArray];		
+	}
+	[deferredPluginPaths release]; deferredPluginPaths = nil;
+
 #ifdef PLUGIN_LOAD_TIMING
 	AILog(@"Total time spent loading plugins: %f", aggregatePluginLoadingTime);
 #endif
@@ -114,7 +131,6 @@ static	NSMutableDictionary		*pluginDict = nil;
 	[pluginArray release];
 	pluginArray = nil;
 
-	[pluginDict release]; pluginDict = nil;
 	[super dealloc];
 }
 
@@ -135,7 +151,14 @@ static	NSMutableDictionary		*pluginDict = nil;
 		(![self confirmMinimumVersionMetForPluginAtPath:pluginPath] ||
 		 ![self confirmPluginAtPath:pluginPath]))
 			return;
+	
+	if (![self allDependenciesMetForPluginAtPath:pluginPath]) {
+		if (!deferredPluginPaths) deferredPluginPaths = [[NSMutableArray alloc] init];
+		[deferredPluginPaths addObject:pluginPath];
+		return;
+	}
 		
+	
 	//Load the plugin
 	NSBundle		*pluginBundle;
 	id <AIPlugin>	plugin = nil;
@@ -157,6 +180,8 @@ static	NSMutableDictionary		*pluginDict = nil;
 				[plugin installPlugin];
 				[inPluginArray addObject:plugin];
 				[pluginDict setObject:plugin forKey:NSStringFromClass(principalClass)];
+				[pluginBundleIdentifiers addObject:[pluginBundle bundleIdentifier]];
+
 				[plugin release];
 			} else {
 				NSLog(@"Failed to initialize Plugin \"%@\" (\"%@\")!",[pluginPath lastPathComponent],pluginPath);
@@ -249,6 +274,21 @@ static	NSMutableDictionary		*pluginDict = nil;
 
 	return YES;
 }
+
++ (BOOL)allDependenciesMetForPluginAtPath:(NSString *)pluginPath
+{
+	NSArray *dependencies = [[[NSBundle bundleWithPath:pluginPath] infoDictionary] objectForKey:@"AIPluginDependencies"];
+
+	if (dependencies) {
+		for (NSString *dependency in dependencies) {
+			if (![pluginBundleIdentifiers containsObject:dependency])
+				return NO;
+		}
+	}
+
+	return YES;
+}
+
 
 //Move a plugin to the disabled plugins folder
 + (void)disablePlugin:(NSString *)pluginPath

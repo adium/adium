@@ -19,7 +19,7 @@
 @protocol AIPlugin;
 
 @interface AICorePluginLoader : NSObject <AIController> {
-    NSMutableArray			*pluginArray;
+    NSMutableArray		*pluginArray;
 }
 
 + (void)loadPluginAtPath:(NSString *)pluginName confirmLoading:(BOOL)confirmLoading pluginArray:(NSMutableArray *)pluginArray;
