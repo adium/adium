@@ -351,7 +351,7 @@
 		[statusDict setObject:statusName
 					   forKey:STATUS_STATUS_NAME];
 	} else {
-		[statusDict removeObjectForKey:statusName];
+		[statusDict removeObjectForKey:STATUS_STATUS_NAME];
 	}
 }
 
