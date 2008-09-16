@@ -448,6 +448,14 @@
 }
 
 /*!
+ * @brief Should a status message be set when using the default "Away" state?
+ */
+- (BOOL)shouldSetStatusMessageForDefaultAwayState
+{
+	return NO;
+}
+
+/*!
  * @brief Return the purple status ID to be used for a status
  *
  * Most subclasses should override this method; these generic values may be appropriate for others.
