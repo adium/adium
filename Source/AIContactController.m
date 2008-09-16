@@ -770,7 +770,7 @@
 		}
 
 		//Ensure the metacontact ends up in the appropriate group
-		if (![metaContact containingObject] || ([metaContact containingObject] == offlineGroup))
+		if (![metaContact containingObject] || ([metaContact containingObject] == [self offlineGroup]))
 			[metaContact restoreGrouping];
 	}
 	
