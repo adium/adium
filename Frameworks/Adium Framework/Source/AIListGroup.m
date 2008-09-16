@@ -104,6 +104,7 @@
 {
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
+	[self _recomputeVisibleCount];
 }
 
 /*!
@@ -261,9 +262,6 @@
 	[_containedObjects insertObject:inObject 
 						   atIndex:[sortController indexForInserting:inObject intoObjects:self.containedObjects]];
 	[inObject release];
-
-	//Update our visibility as a result of this change
-	[self _recomputeVisibleCount];
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
