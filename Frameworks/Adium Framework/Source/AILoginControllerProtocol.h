@@ -10,7 +10,12 @@
 
 #define LOGIN_PREFERENCES_FILE_NAME @"Login Preferences"	//Login preferences file name
 #define LOGIN_SHOW_WINDOW 			@"Show Login Window"	//Should hide the login window 
+
+#ifdef DEBUG_BUILD
+#define LOGIN_LAST_USER				@"Last Login Name-Debug"//Last logged in user - debug
+#else
 #define LOGIN_LAST_USER				@"Last Login Name"		//Last logged in user
+#endif
 
 @protocol AILoginController <AIController>
 @property (nonatomic, readonly) NSString *userDirectory;
