@@ -486,12 +486,11 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 		[adium.contentController receiveContentObject:messageObject];
 		
 	} else {
-		NSString	*formattedUID = [listContact formattedUID];
 		BOOL		isWorthOpeningANewChat = NO;
 
 		//All other OTR messages should be displayed as status messages; decode the message to strip any HTML
 		message = [adiumOTREncryption localizedOTRMessage:message
-											 withUsername:formattedUID
+											 withUsername:[listContact displayName]
 								   isWorthOpeningANewChat:&isWorthOpeningANewChat];
 
 		if (isWorthOpeningANewChat) {
@@ -523,16 +522,16 @@ static void notify_cb(void *opdata, OtrlNotifyLevel level,
 					  const char *title, const char *primary, const char *secondary)
 {
 	AIListContact	*listContact = contactFromInfo(accountname, protocol, username);
-	NSString		*formattedUID = [listContact formattedUID];
+	NSString		*displayName = [listContact displayName];
 
 	[adiumOTREncryption notifyWithTitle:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:title]
-																   withUsername:formattedUID
+																   withUsername:displayName
 														 isWorthOpeningANewChat:NULL]
 								primary:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:primary]
-																   withUsername:formattedUID
+																   withUsername:displayName
 														 isWorthOpeningANewChat:NULL]
 							  secondary:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:secondary]
-																   withUsername:formattedUID
+																   withUsername:displayName
 																 isWorthOpeningANewChat:NULL]];
 }
 
