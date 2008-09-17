@@ -402,6 +402,7 @@
 		baseStatusState = [adium.statusController activeStatusState];
 	}
 	
+#ifdef USE_LAST_STATUS_OF_THIS_TYPE
 	/* If we are going to a custom state of a different type, we don't want to prefill with baseStatusState as it stands.
 	 * Instead, we load the last used status of that type.
 	 */
@@ -422,7 +423,8 @@
 	if ([baseStatusState statusType] != statusType) {
 		baseStatusState = nil;
 	}
-	
+#endif
+
 	[AIEditStateWindowController editCustomState:baseStatusState
 										 forType:statusType
 									  andAccount:account
