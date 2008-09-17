@@ -142,6 +142,14 @@ static	NSMutableDictionary	*controllerDict = nil;
 						  [originalStatusState mutableCopy] :
 						  [[AIStatus statusOfType:inStatusType] retain]);
 	
+	/* Reset to the default for this status type if we're not on it already */
+	if ([workingStatusState statusType] != inStatusType) {
+		[workingStatusState setStatusType:inStatusType];
+		[workingStatusState setStatusName:[[adium statusController] defaultStatusNameForType:inStatusType]];
+
+		[workingStatusState setHasAutoReply:(inStatusType == AIAwayStatusType)];
+	}
+
 	//Clear the title if the save checkbox is showing so it will autoupdate.
 	if (showSaveCheckbox) [workingStatusState setTitle:nil];
 }
