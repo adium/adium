@@ -1614,6 +1614,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AutoHyperlinks.framework;
 		};
+		6349AF560E823BA9007B8BE9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */;
+			remoteInfo = AdiumSpotlightImporter;
+		};
 		6C3E0151054445C000A4AE2E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -4102,6 +4109,7 @@
 		633F175808F905A700C76383 /* AIXtrasManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtrasManager.h; path = Source/AIXtrasManager.h; sourceTree = "<group>"; };
 		633F175908F905A700C76383 /* AIXtrasManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtrasManager.m; path = Source/AIXtrasManager.m; sourceTree = "<group>"; };
 		6341AEFE0E53A09C00AE1439 /* libexpat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.dylib; path = usr/lib/libexpat.dylib; sourceTree = SDKROOT; };
+		6349AF1F0E823B58007B8BE9 /* Spotlight Importer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Spotlight Importer-Info.plist"; sourceTree = "<group>"; };
 		634BCD1D0DDC1542005AF1C2 /* TestMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestMutableStringAdditions.h; path = UnitTests/TestMutableStringAdditions.h; sourceTree = "<group>"; };
 		634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestMutableStringAdditions.m; path = UnitTests/TestMutableStringAdditions.m; sourceTree = "<group>"; };
 		6360B2580BF2EB93004CD99B /* AIWebKitDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWebKitDelegate.h; path = "Plugins/WebKit Message View/AIWebKitDelegate.h"; sourceTree = "<group>"; };
@@ -4684,6 +4692,7 @@
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				6341AEFE0E53A09C00AE1439 /* libexpat.dylib */,
+				6349AF1F0E823B58007B8BE9 /* Spotlight Importer-Info.plist */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -8399,6 +8408,7 @@
 				349C31630867D199000BF883 /* PBXTargetDependency */,
 				F5B17CDF0A16C767004AE99E /* PBXTargetDependency */,
 				34A688220DD3964D008F0430 /* PBXTargetDependency */,
+				6349AF570E823BA9007B8BE9 /* PBXTargetDependency */,
 			);
 			name = Adium;
 			productInstallPath = /;
@@ -10078,6 +10088,11 @@
 			isa = PBXTargetDependency;
 			name = AutoHyperlinks.framework;
 			targetProxy = 4B8E0BD9086A16D4009A7A4D /* PBXContainerItemProxy */;
+		};
+		6349AF570E823BA9007B8BE9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AdiumSpotlightImporter;
+			targetProxy = 6349AF560E823BA9007B8BE9 /* PBXContainerItemProxy */;
 		};
 		6C3E0152054445C000A4AE2E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
