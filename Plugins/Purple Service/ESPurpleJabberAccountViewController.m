@@ -21,7 +21,7 @@
 #import <Adium/AIContactList.h>
 #include <SystemConfiguration/SystemConfiguration.h>
 
-#define SERVERFEEDRSSURL @"https://www.xmpp.net/servers/feed/rss"
+#define SERVERFEEDRSSURL @"http://www.jabber.org/full_servers.xml"
 
 @implementation ESPurpleJabberAccountViewController
 
@@ -203,9 +203,9 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 			[[NSAlert alertWithError:err] runModal];
 		} else {
 			NSXMLElement *root = [serverfeed rootElement];
-			NSArray *channels = [root elementsForName:@"channel"];
+			NSArray *items = [root elementsForName:@"item"];
 			
-			if(!root || !channels || ![[root name] isEqualToString:@"rss"] || [channels count] != 1) {
+			if(!root || !items || ![[root name] isEqualToString:@"query"]) {
 				[serverfeed release];
 				
 				[[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
@@ -224,16 +224,19 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 				longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
 				
 				servers = [[NSMutableArray alloc] init];
-				NSEnumerator *enumer = [[[channels lastObject] elementsForName:@"item"] objectEnumerator];
+				NSEnumerator *enumer = [items objectEnumerator];
 				NSXMLElement *item;
 				
 				while((item = [enumer nextObject])) {
-					NSXMLElement *title = [[item elementsForName:@"title"] lastObject];
+					NSXMLElement *title = [[item elementsForName:@"name"] lastObject];
 					if(!title)
 						continue;
 					NSXMLElement *description = [[item elementsForName:@"description"] lastObject];
-					NSXMLElement *latitudeNode  = [[item elementsForLocalName:@"latitude"  URI:@"http://geourl.org/rss/module/"] lastObject];
-					NSXMLElement *longitudeNode = [[item elementsForLocalName:@"longitude" URI:@"http://geourl.org/rss/module/"] lastObject];
+					NSXMLElement *latitudeNode  = [[item elementsForName:@"latitude"] lastObject];
+					NSXMLElement *longitudeNode = [[item elementsForName:@"longitude"] lastObject];
+					NSString *domain = [[item attributeForName:@"jid"] stringValue];
+					NSString *homepageStr = [[[item elementsForName:@"homepage"] lastObject] stringValue];
+					NSURL *homepage = homepageStr?[NSURL URLWithString:homepageStr]:nil;
 					
 					id distance = [NSNull null];
 					if (latitudeNode && longitudeNode) {
@@ -258,6 +261,8 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 						[title stringValue], @"servername",
 						(description ? (id)[description stringValue] : (id)[NSNull null]), @"description",
 						distance, @"distance",
+						domain, @"domain",
+						homepage, @"homepage", // might be nil
 						nil]];
 				}
 				
@@ -292,9 +297,19 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
-	NSString *servername = [self tableView:[notification object] objectValueForTableColumn:[[notification object] tableColumnWithIdentifier:@"servername"] row:[[notification object] selectedRow]];
+	NSDictionary *serverInfo = [servers objectAtIndex:[tableview_servers selectedRow]];
+	NSString *servername = [serverInfo objectForKey:@"domain"];
 	[textField_registerServerName setStringValue:servername];
 	[textField_registerServerPort setStringValue:@""];
+	[textView_serverDescription setString:[serverInfo objectForKey:@"description"]];
+	
+	[button_serverHomepage setEnabled:[serverInfo objectForKey:@"homepage"] != nil];
+}
+
+- (IBAction)visitServerHomepage:(id)sender {
+	NSDictionary *serverInfo = [servers objectAtIndex:[tableview_servers selectedRow]];
+	
+	[[NSWorkspace sharedWorkspace] openURL:[serverInfo objectForKey:@"homepage"]];
 }
 
 - (IBAction)registerCancel:(id)sender {
