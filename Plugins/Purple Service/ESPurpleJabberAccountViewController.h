@@ -37,6 +37,8 @@
 	IBOutlet	NSTableView		*tableview_servers;
 	IBOutlet	NSTextField		*textField_registerServerName;
 	IBOutlet	NSTextField		*textField_registerServerPort;
+	IBOutlet	NSTextView		*textView_serverDescription;
+	IBOutlet	NSButton		*button_serverHomepage;
 
 	NSArray *servers;
 }
@@ -46,5 +48,7 @@
 - (IBAction)registerRequestAccount:(id)sender;
 
 - (IBAction)subscriptionModeDidChange:(id)sender;
+
+- (IBAction)visitServerHomepage:(id)sender;
 
 @end
