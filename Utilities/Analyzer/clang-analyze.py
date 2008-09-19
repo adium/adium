@@ -355,7 +355,7 @@ if numreports > 0:
 	for f in os.listdir(htmldir):
 		pth = os.path.join(htmldir, f)
 		
-		if not os.path.isfile(pth) or pth[:7] != "report-":
+		if not os.path.isfile(pth) or not f.startswith("report-"):
 			continue
 		
 		# Print what we're doing
