@@ -353,6 +353,11 @@ if numreports > 0:
 
 	reportlist = [ ]
 	for f in os.listdir(htmldir):
+		pth = os.path.join(htmldir, f)
+		
+		if not os.path.isfile(pth) or pth[:7] != "report-":
+			continue
+		
 		# Print what we're doing
 		output = "Post-processing report %s" % f
 
@@ -366,7 +371,7 @@ if numreports > 0:
 
 		# Feed the file into the parser
 		p = reports.ReportParser(adiumdir)
-		fd = open(os.path.join(htmldir, f))
+		fd = open(pth)
 		p.feed(fd.read())
 		fd.close()
 
