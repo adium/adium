@@ -292,10 +292,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		//Add the object from our status cache, notifying of the changes (silently) as appropriate
 		[self _updateAllPropertiesForObject:inObject];
 
-		if ([inObject isKindOfClass:[AIListContact class]] && [(AIListContact *)inObject remoteGroupName]) {
-			//Force an immediate update of our visibileListContacts list, which will also update our visible count
-			[self visibleListContacts];
-		}
+		//Force an immediate update of our visibileListContacts list, which will also update our visible count
+		[self visibleListContacts];
 
 		success = YES;
 	}
@@ -669,6 +667,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		(![adium.contactController useContactListGroups] && ![self.containingObject isKindOfClass:[AIContactList class]])) {
 		[self restoreGrouping];
 	}
+
+	//Force an immediate update of our visibileListContacts list, which will also update our visible count
+	[self visibleListContacts];
 }
 
 //Property Handling -----------------------------------------------------------------------------------------------
