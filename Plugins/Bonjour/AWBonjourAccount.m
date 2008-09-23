@@ -521,7 +521,7 @@ typedef enum {
  *
  * Pass nil for no image.
  */
-- (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
+- (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData
 {	
 	[[self libezvThreadProxy] setContactImageData:[image JPEGRepresentation]];	
 
