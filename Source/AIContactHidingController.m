@@ -123,6 +123,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 {	
 	if ([listContact visible] == visibleFlag) {
 		// The contact already has this visibility set
+		AILogWithSignature(@"%@ is already %i", listContact, visibleFlag);
 		return;
 	}
 
@@ -178,9 +179,14 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if ([listContact alwaysVisible]) {
 		return YES;
 	}
-	
+
+	if ([listContact conformsToProtocol:@protocol(AIContainingObject)]) {
+		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
+		return ([(AIListContact<AIContainingObject> *)listContact visibleCount] > 0);
+	}
+
 	BOOL visible = YES;
-	
+
 	// If we're hiding contacts, and these meet a criteria for hiding
 	if (hideOfflineIdleOrMobileContacts && ((!showIdleContacts &&
 											 [listContact valueForProperty:@"IdleSince"]) ||
@@ -194,12 +200,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 											 [listContact isBlocked]))) {
 		visible = NO;
 	}
-	
-	if ([listContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
-		visible = (visible && ([(AIListContact<AIContainingObject> *)listContact visibleCount] > 0));
-	} 
-	
+
 	return visible;
 }
 
