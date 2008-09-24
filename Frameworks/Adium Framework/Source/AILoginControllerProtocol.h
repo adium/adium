@@ -13,6 +13,7 @@
 
 #ifdef DEBUG_BUILD
 #define LOGIN_LAST_USER				@"Last Login Name-Debug"//Last logged in user - debug
+#define LOGIN_LAST_USER_FALLBACK	@"Last Login Name"		//Last logged in user
 #else
 #define LOGIN_LAST_USER				@"Last Login Name"		//Last logged in user
 #endif
