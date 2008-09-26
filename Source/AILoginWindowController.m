@@ -115,7 +115,7 @@
     [loginDict setObject:[NSNumber numberWithBool:[checkbox_displayOnStartup state]] forKey:LOGIN_SHOW_WINDOW];
 
     //Save the login they used
-#if DEBUG_BUILD
+#ifdef DEBUG_BUILD
     [loginDict setObject:selectedUserName forKey:LOGIN_LAST_USER_DEBUG];
 #else
     [loginDict setObject:selectedUserName forKey:LOGIN_LAST_USER];
