@@ -108,12 +108,13 @@
 		shouldShowWindow = [NSEvent optionKey];
 		if (!shouldShowWindow)
 			shouldShowWindow = (userRequestedShowWindow = [[loginDict objectForKey:LOGIN_SHOW_WINDOW] boolValue]);
-		if (!shouldShowWindow)
-			shouldShowWindow = ((userName = [loginDict objectForKey:LOGIN_LAST_USER]) == nil);
+		if (!shouldShowWindow) {
 #ifdef DEBUG_BUILD
-		if (!shouldShowWindow)
-			shouldShowWindow = ((userName = [loginDict objectForKey: LOGIN_LAST_USER_FALLBACK]) == nil);
+			userName = [loginDict objectForKey:LOGIN_LAST_USER_DEBUG];
+			if (!userName)
 #endif
+				shouldShowWindow = ((userName = [loginDict objectForKey:LOGIN_LAST_USER]) == nil);
+		}
 		if (shouldShowWindow) {
 			//Prompt for the user
 			loginWindowController = [[AILoginWindowController loginWindowControllerWithOwner:self] retain];
