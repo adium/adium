@@ -152,6 +152,10 @@
 					preferenceDict:(NSDictionary *)prefDict
 						 firstTime:(BOOL)firstTime
 {
+	if (object) {
+		return;
+	}
+	
 	// Idle
 	[idleID release];
 	idleID = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID] retain];
