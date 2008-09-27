@@ -77,6 +77,7 @@
 		110763F808676CC9005987A5 /* RAFBlockEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110763F408676CC9005987A5 /* RAFBlockEditorWindowController.m */; };
 		110763FA08676D05005987A5 /* BlockEditorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 110763F908676D04005987A5 /* BlockEditorWindow.nib */; };
 		11077B6F0DE647C100A4DD25 /* AIStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11077B6E0DE647C100A4DD25 /* AIStatusItemView.m */; };
+		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
 		1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC50CDAA8D400B8E233 /* libgobject.framework */; };
@@ -254,7 +255,6 @@
 		343ECBEB0971B18200349098 /* ESShowContactInfoPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343ECBE90971B18200349098 /* ESShowContactInfoPromptController.m */; };
 		343ECBEE0971B18E00349098 /* ShowContactInfoPrompt.nib in Resources */ = {isa = PBXBuildFile; fileRef = 343ECBED0971B18E00349098 /* ShowContactInfoPrompt.nib */; };
 		343ECBFC0971B92100349098 /* AIBorderlessListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 343ECBFA0971B92100349098 /* AIBorderlessListController.m */; };
-		344093AB07D9161B00321BB3 /* ESAutoAwayPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 344093A907D9161B00321BB3 /* ESAutoAwayPlugin.m */; };
 		344458F0070B5BEF00D8E932 /* ESDebugWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344458EE070B5BEF00D8E932 /* ESDebugWindowController.m */; };
 		344499E90B23CA5D0054B761 /* adiumPurpleAccounts.h in Headers */ = {isa = PBXBuildFile; fileRef = 344499E70B23CA5D0054B761 /* adiumPurpleAccounts.h */; };
 		344499EA0B23CA5D0054B761 /* adiumPurpleAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = 344499E80B23CA5D0054B761 /* adiumPurpleAccounts.m */; };
@@ -982,7 +982,6 @@
 		34E0EA1007CC53FE00A82198 /* AINewMessagePromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E0EA0C07CC53FE00A82198 /* AINewMessagePromptController.m */; };
 		34E2A0BC07AF5924006735BC /* ESAccountNetworkConnectivityPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A0BA07AF5924006735BC /* ESAccountNetworkConnectivityPlugin.m */; };
 		34E2A0C307AF593B006735BC /* AIAccountMenuAccessPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A0C107AF593B006735BC /* AIAccountMenuAccessPlugin.m */; };
-		34E2A1CD07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A1CB07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.m */; };
 		34E2A1DB07AF6504006735BC /* AIDockAccountStatusPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A1D907AF6503006735BC /* AIDockAccountStatusPlugin.m */; };
 		34E2A2F507B018B2006735BC /* ESAddressBookIntegrationAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A2EF07B018B2006735BC /* ESAddressBookIntegrationAdvancedPreferences.m */; };
 		34E2A3E807B08CCB006735BC /* AIAliasSupportPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E2A3E507B08CC9006735BC /* AIAliasSupportPlugin.m */; };
@@ -1353,14 +1352,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AutoHyperlinks.framework */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AutoHyperlinks.framework;
 		};
 		317D83AD0E89F91D00298BDB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D5E002A007328E1100594182 /* Framework */;
+			remoteGlobalIDString = D5E002A007328E1100594182;
 			remoteInfo = Framework;
 		};
 		31A763FA0DA570E9000AC729 /* PBXContainerItemProxy */ = {
@@ -1850,6 +1849,8 @@
 		110763F908676D04005987A5 /* BlockEditorWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BlockEditorWindow.nib; path = Resources/BlockEditorWindow.nib; sourceTree = "<group>"; };
 		11077B6D0DE647C100A4DD25 /* AIStatusItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIStatusItemView.h; path = "Plugins/Status Menu Item/AIStatusItemView.h"; sourceTree = "<group>"; };
 		11077B6E0DE647C100A4DD25 /* AIStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIStatusItemView.m; path = "Plugins/Status Menu Item/AIStatusItemView.m"; sourceTree = "<group>"; };
+		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
+		111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutomaticStatus.m; path = Source/AIAutomaticStatus.m; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
 		1172FBC40CDAA8D400B8E233 /* libgmodule.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgmodule.framework; path = Frameworks/libgmodule.framework; sourceTree = "<group>"; };
 		1172FBC50CDAA8D400B8E233 /* libgobject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgobject.framework; path = Frameworks/libgobject.framework; sourceTree = "<group>"; };
@@ -2415,8 +2416,6 @@
 		343ECBED0971B18E00349098 /* ShowContactInfoPrompt.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ShowContactInfoPrompt.nib; path = Resources/ShowContactInfoPrompt.nib; sourceTree = "<group>"; };
 		343ECBF90971B92100349098 /* AIBorderlessListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIBorderlessListController.h; path = Source/AIBorderlessListController.h; sourceTree = "<group>"; };
 		343ECBFA0971B92100349098 /* AIBorderlessListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIBorderlessListController.m; path = Source/AIBorderlessListController.m; sourceTree = "<group>"; };
-		344093A807D9161B00321BB3 /* ESAutoAwayPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESAutoAwayPlugin.h; path = Source/ESAutoAwayPlugin.h; sourceTree = SOURCE_ROOT; };
-		344093A907D9161B00321BB3 /* ESAutoAwayPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESAutoAwayPlugin.m; path = Source/ESAutoAwayPlugin.m; sourceTree = SOURCE_ROOT; };
 		344158A9059F90FA0019246B /* ESMSNService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESMSNService.h; path = "Plugins/Purple Service/ESMSNService.h"; sourceTree = "<group>"; };
 		344158AA059F90FB0019246B /* ESMSNService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESMSNService.m; path = "Plugins/Purple Service/ESMSNService.m"; sourceTree = "<group>"; };
 		3441593F059F94C10019246B /* ESPurpleMSNAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESPurpleMSNAccount.h; path = "Plugins/Purple Service/ESPurpleMSNAccount.h"; sourceTree = "<group>"; };
@@ -3622,8 +3621,6 @@
 		34E2A0BA07AF5924006735BC /* ESAccountNetworkConnectivityPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESAccountNetworkConnectivityPlugin.m; path = Source/ESAccountNetworkConnectivityPlugin.m; sourceTree = "<group>"; };
 		34E2A0C107AF593B006735BC /* AIAccountMenuAccessPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAccountMenuAccessPlugin.m; path = Source/AIAccountMenuAccessPlugin.m; sourceTree = "<group>"; };
 		34E2A0C207AF593B006735BC /* AIAccountMenuAccessPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAccountMenuAccessPlugin.h; path = Source/AIAccountMenuAccessPlugin.h; sourceTree = "<group>"; };
-		34E2A1CB07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESFastUserSwitchingSupportPlugin.m; path = Source/ESFastUserSwitchingSupportPlugin.m; sourceTree = "<group>"; };
-		34E2A1CC07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESFastUserSwitchingSupportPlugin.h; path = Source/ESFastUserSwitchingSupportPlugin.h; sourceTree = "<group>"; };
 		34E2A1D907AF6503006735BC /* AIDockAccountStatusPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIDockAccountStatusPlugin.m; path = Source/AIDockAccountStatusPlugin.m; sourceTree = "<group>"; };
 		34E2A1DA07AF6504006735BC /* AIDockAccountStatusPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIDockAccountStatusPlugin.h; path = Source/AIDockAccountStatusPlugin.h; sourceTree = "<group>"; };
 		34E2A2EC07B018B1006735BC /* ESAddressBookIntegrationAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESAddressBookIntegrationAdvancedPreferences.h; path = Source/ESAddressBookIntegrationAdvancedPreferences.h; sourceTree = "<group>"; };
@@ -4975,13 +4972,13 @@
 			name = "Applescript Contact Alert";
 			sourceTree = "<group>";
 		};
-		3440938707D915D300321BB3 /* Auto-Away */ = {
+		3440938707D915D300321BB3 /* Auto-Status Change */ = {
 			isa = PBXGroup;
 			children = (
-				344093A807D9161B00321BB3 /* ESAutoAwayPlugin.h */,
-				344093A907D9161B00321BB3 /* ESAutoAwayPlugin.m */,
+				111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */,
+				111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */,
 			);
-			name = "Auto-Away";
+			name = "Auto-Status Change";
 			sourceTree = "<group>";
 		};
 		34415880059F8F050019246B /* Services */ = {
@@ -5211,15 +5208,6 @@
 				0CFA98C70D35C18000A077C6 /* NSDataAdditions.m */,
 			);
 			name = Applescriptability;
-			sourceTree = "<group>";
-		};
-		344EE9210574504B000F342B /* Fast User Switching Support */ = {
-			isa = PBXGroup;
-			children = (
-				34E2A1CC07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.h */,
-				34E2A1CB07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.m */,
-			);
-			name = "Fast User Switching Support";
 			sourceTree = "<group>";
 		};
 		3459CBE00A25FFA100ECC256 /* Log Indexing */ = {
@@ -6590,10 +6578,9 @@
 				4B292D3007A9C8E100C5F882 /* AIStatusController.h */,
 				4B292D3107A9C8E100C5F882 /* AIStatusController.m */,
 				347C693D080C8F0200E69674 /* Away Status Window */,
-				3440938707D915D300321BB3 /* Auto-Away */,
+				3440938707D915D300321BB3 /* Auto-Status Change */,
 				4BC32F7107AABC3500DDED66 /* Auto-Idle */,
 				4B292D4707A9C92D00C5F882 /* Auto-Reply */,
-				344EE9210574504B000F342B /* Fast User Switching Support */,
 				4B587C6C07ABFD2E001832A9 /* Preset State Menu */,
 				3428328307D263F0004F01C9 /* Status Preferences */,
 			);
@@ -9558,7 +9545,6 @@
 				342910CD07AE228600C815F6 /* AIEmoticonPackPreviewTableView.m in Sources */,
 				34E2A0BC07AF5924006735BC /* ESAccountNetworkConnectivityPlugin.m in Sources */,
 				34E2A0C307AF593B006735BC /* AIAccountMenuAccessPlugin.m in Sources */,
-				34E2A1CD07AF635A006735BC /* ESFastUserSwitchingSupportPlugin.m in Sources */,
 				34E2A1DB07AF6504006735BC /* AIDockAccountStatusPlugin.m in Sources */,
 				34E2A2F507B018B2006735BC /* ESAddressBookIntegrationAdvancedPreferences.m in Sources */,
 				34E2A3E807B08CCB006735BC /* AIAliasSupportPlugin.m in Sources */,
@@ -9610,7 +9596,6 @@
 				9E125C6607D3571400AA91C5 /* ESBlockingPlugin.m in Sources */,
 				34A6FAD907D6F3AA00972830 /* AIEventSoundsPlugin.m in Sources */,
 				34A6FADB07D6F3AA00972830 /* ESEventSoundAlertDetailPane.m in Sources */,
-				344093AB07D9161B00321BB3 /* ESAutoAwayPlugin.m in Sources */,
 				34BFD80007E6A51D00AD984D /* GBApplescriptFiltersPlugin.m in Sources */,
 				34BFE20207E8E11500AD984D /* AIChatCyclingPlugin.m in Sources */,
 				34BFE25007E8E5F200AD984D /* AIAutoLinkingPlugin.m in Sources */,
@@ -9783,6 +9768,7 @@
 				11077B6F0DE647C100A4DD25 /* AIStatusItemView.m in Sources */,
 				34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */,
 				34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */,
+				111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
