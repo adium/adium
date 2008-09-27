@@ -16,15 +16,25 @@
 
 #import <Adium/AIPlugin.h>
 
-@interface ESFastUserSwitchingSupportPlugin : AIPlugin {
-	NSNumber	*fastUserSwitchStatusID;
-	NSNumber	*screenSaverStatusID;
+#define	AIScreensaverDidStartNotification		@"com.apple.screensaver.didstart"
+#define AIScreensaverDidStopNotification		@"com.apple.screensaver.didstop"
+
+@interface AIAutomaticStatus : AIPlugin {
+	NSNumber						*fastUserSwitchID;
+	NSNumber						*screenSaverID;
+	NSNumber						*idleID;
 	
-	NSMutableDictionary	*previousStatusStateDict;
-	NSMutableSet		*accountsToReconnect;
+	NSMutableDictionary				*previousStatus;
+	NSMutableSet					*accountsToReconnect;
 	
-	BOOL fastUserSwitchStatus;
-	BOOL screenSaverStatus;
+	BOOL							fastUserSwitchEnabled;
+	BOOL							screenSaverEnabled;
+	BOOL							idleEnabled;
+	
+	double							idleInterval;
+	
+	BOOL							automaticStatusSet;
+	BOOL							confirmReturn;
 }
 
 @end
