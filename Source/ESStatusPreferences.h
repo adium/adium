@@ -41,7 +41,6 @@
 	BOOL						showingSubmenuItemInScreenSaver;
 	
 	IBOutlet	NSButton		*checkBox_showStatusWindow;
-	IBOutlet	NSButton		*checkBox_confirmAutoReturn;
 }
 
 - (void)configureStateList;

@@ -540,8 +540,6 @@
 
 	[checkBox_showStatusWindow setState:[[prefDict objectForKey:KEY_STATUS_SHOW_STATUS_WINDOW] boolValue]];
 	
-	[checkBox_confirmAutoReturn setState:[[prefDict objectForKey:KEY_STATUS_CONFIRM_AUTOAWAY_RETURN] boolValue]];
-
 	[self configureControlDimming];
 }
 
@@ -708,10 +706,6 @@
 											  group:PREF_GROUP_STATUS_PREFERENCES];
 		[self configureControlDimming];
 		
-	} else if (sender == checkBox_confirmAutoReturn) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-																	forKey:KEY_STATUS_CONFIRM_AUTOAWAY_RETURN
-																	 group:PREF_GROUP_STATUS_PREFERENCES];		
 	}
 }
 
