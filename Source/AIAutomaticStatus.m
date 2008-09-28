@@ -292,7 +292,6 @@
 			// If we set an automatic idle, we need to preserve it in a way the user can unset it.
 			// To achieve this, we duplicate the account's current status and set its forced idle property.
 			if (automaticIdleSet) {
-				// Go through each account and set its forced idle time, so a status change will unset it.
 				double duration = [(NSDate *)[adium.preferenceController preferenceForKey:@"IdleSince"
 																		            group:GROUP_ACCOUNT_STATUS] timeIntervalSinceNow];
 				
