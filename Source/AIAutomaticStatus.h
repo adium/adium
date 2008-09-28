@@ -30,10 +30,13 @@
 	BOOL							fastUserSwitchEnabled;
 	BOOL							screenSaverEnabled;
 	BOOL							idleEnabled;
+	BOOL							reportIdleEnabled;
 	
-	double							idleInterval;
+	double							idleReportInterval;
+	double							idleStatusInterval;
 	
 	BOOL							automaticStatusSet;
+	BOOL							automaticIdleSet;
 	BOOL							confirmReturn;
 }
 

@@ -18,6 +18,8 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusGroup.h>
@@ -43,14 +45,10 @@
  */
 - (void)installPlugin
 {
-	// Default to not performing any automatic changes
-	fastUserSwitchEnabled = screenSaverEnabled = idleEnabled = NO;
-	fastUserSwitchID = screenSaverID = idleID = nil;
-
-	automaticStatusSet = NO;
-	
-	// Start off by always asking to return 
-	confirmReturn = NO;// = YES;
+	// Ensure no idle time is set as we load
+	[adium.preferenceController setPreference:nil
+									   forKey:@"IdleSince"
+										group:GROUP_ACCOUNT_STATUS];
 	
 	// Initialize our state information
 	accountsToReconnect = [[NSMutableSet alloc] init];
@@ -156,11 +154,17 @@
 		return;
 	}
 	
-	// Idle
+	confirmReturn = [[prefDict objectForKey:KEY_STATUS_CONFIRM_AUTOAWAY_RETURN] boolValue];
+	
+	// Idle reporting
+	reportIdleEnabled = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE] boolValue];
+	idleReportInterval = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue];
+	
+	// Idle status change
 	[idleID release];
 	idleID = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_STATUS_STATE_ID] retain];
 	idleEnabled = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY] boolValue];
-	idleInterval = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue];
+	idleStatusInterval = [[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue];
 	
 	// Fast user switch
 	[fastUserSwitchID release];
@@ -201,9 +205,20 @@
 		statusID = screenSaverID;
 	} else if ([notificationName isEqualToString:AIMachineIdleUpdateNotification]) {
 		double duration = [[[notification userInfo] objectForKey:@"Duration"] doubleValue];
-	
+		
+		// Update our idle time
+		if (!automaticIdleSet && reportIdleEnabled && duration >= idleReportInterval) {
+			AILogWithSignature(@"Idle (report) detected.");
+			
+			automaticIdleSet = YES;
+			
+			[adium.preferenceController setPreference:[[notification userInfo] objectForKey:@"IdleSince"]
+											   forKey:@"IdleSince"
+												group:GROUP_ACCOUNT_STATUS];
+		}
+		
 		// Idle events require that we've been idle longer than required
-		startEvent = (idleEnabled && duration >= idleInterval);
+		startEvent = (idleEnabled && duration >= idleStatusInterval);
 		statusID = idleID;
 
 		// This is very spammy when we're already idle.
@@ -224,21 +239,94 @@
 	} else if ([notificationName isEqualToString:AIMachineIsActiveNotification]) {
 		AILogWithSignature(@"Idle (end) detected.");
 		
-		endEvent = idleEnabled;
+		endEvent = (idleEnabled || automaticIdleSet);
 	}
 	
 	// Go away, or return from away
 	if (startEvent && statusID && !automaticStatusSet) {
 		[self triggerAutoAwayWithStatusID:statusID];
-	} else if (endEvent && automaticStatusSet) {
-		if (confirmReturn) {
-			// TODO
+	} else if (endEvent && (automaticStatusSet || automaticIdleSet)) {
+		// Only confirm return if we have a previous status to go back to, or idle time was set automatically
+		if (confirmReturn && ([previousStatus count] > 0 || automaticIdleSet)) {
+			[adium.interfaceController displayQuestion:nil
+									   withDescription:AILocalizedString(@"Would you like to change the status of your accounts back to available?", "Asked when the user returns from an automatic event such as fast user switching or being idle")
+									   withWindowTitle:AILocalizedString(@"Welcome Back", nil)
+										 defaultButton:AILocalizedString(@"Change", nil)
+									   alternateButton:AILocalizedString(@"Don't Change", nil)
+										   otherButton:nil
+												target:self
+											  selector:@selector(returnResponse:userInfo:)
+											  userInfo:nil];
 		} else {
 			[self returnFromAutoAway];
 		}
 	}
 	
 }
+	
+/*!
+ * @brief Handle a question end
+ */
+- (void)returnResponse:(NSNumber *)returnCode userInfo:(id)info
+{
+	AITextAndButtonsReturnCode ret = [returnCode integerValue];
+	
+	AILogWithSignature(@"Returned with code %d", ret);
+	
+	switch (ret) {
+		case AITextAndButtonsOtherReturn:
+		case AITextAndButtonsClosedWithoutResponse:
+		case AITextAndButtonsDefaultReturn:
+			// Change status
+			[self returnFromAutoAway];
+			
+			break;
+			
+		case AITextAndButtonsAlternateReturn:
+			// Don't change status, remove saved state information		
+			[accountsToReconnect removeAllObjects];
+			[previousStatus removeAllObjects];
+			
+			automaticStatusSet = NO;
+
+			// If we set an automatic idle, we need to preserve it in a way the user can unset it.
+			// To achieve this, we duplicate the account's current status and set its forced idle property.
+			if (automaticIdleSet) {
+				// Go through each account and set its forced idle time, so a status change will unset it.
+				double duration = [(NSDate *)[adium.preferenceController preferenceForKey:@"IdleSince"
+																		            group:GROUP_ACCOUNT_STATUS] timeIntervalSinceNow];
+				
+				for (AIAccount *account in adium.accountController.accounts) {
+					// Only add it to online accounts.
+					if (![account online]) {
+						continue;
+					}
+									
+					AIStatus *status = [account statusState];
+					
+					// Only apply a forced idle time if there wasn't one before.
+					if (![status shouldForceInitialIdleTime]) {
+						status = [[status mutableCopy] autorelease];
+					
+						[status setShouldForceInitialIdleTime:YES];
+						[status setForcedInitialIdleTime:duration];
+					
+						[account setStatusState:status];
+					}
+				}
+				
+				// Unset the global idle property
+				automaticIdleSet = NO;
+				
+				[adium.preferenceController setPreference:nil
+				                                   forKey:@"IdleSince"
+													group:GROUP_ACCOUNT_STATUS];	
+			}
+			
+			break;
+	}
+}
+
 
 /*!
  * @brief Automatically set an account as away
@@ -261,7 +349,7 @@
 		return;
 	}
 	
-	for (AIAccount *account in [adium.accountController accounts]) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		AIStatus	*currentStatusState = [account statusState];
 		
 		// Don't modify or store the status of non-available accounts
@@ -298,7 +386,7 @@
  */
 - (void)returnFromAutoAway
 {
-	for (AIAccount *account in [adium.accountController accounts]) {
+	for (AIAccount *account in adium.accountController.accounts) {
 		AIStatus *previousStatusState = [previousStatus objectForKey:[NSNumber numberWithUnsignedInt:[account hash]]];
 		
 		// Skip accounts without stored information.
@@ -315,6 +403,14 @@
 			//If offline, set the state without coming online
 			[account setStatusStateAndRemainOffline:previousStatusState];
 		}
+	}
+	
+	if (automaticIdleSet) {
+		automaticIdleSet = NO;
+		
+		[adium.preferenceController setPreference:nil
+										   forKey:@"IdleSince"
+											group:GROUP_ACCOUNT_STATUS];	
 	}
 	
 	[accountsToReconnect removeAllObjects];

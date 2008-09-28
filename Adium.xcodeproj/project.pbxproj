@@ -1134,7 +1134,6 @@
 		4BD6758506001E450049CAF7 /* ErrorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 40AC0F1303B5C34800A80202 /* ErrorWindow.nib */; };
 		4BD6758806001E460049CAF7 /* AlertMessageContactAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3439FD8C05794B4500B2E449 /* AlertMessageContactAlert.nib */; };
 		4BDAF69907A1561000276D68 /* AIAccountProxySettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BDAF69607A1561000276D68 /* AIAccountProxySettings.m */; };
-		4BE6175607AC67EE0049C87D /* AIAutoIdlePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6174C07AC67ED0049C87D /* AIAutoIdlePlugin.m */; };
 		4BE6175807AC67EE0049C87D /* AIAutoReplyPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6174E07AC67ED0049C87D /* AIAutoReplyPlugin.m */; };
 		4BE6175E07AC67EE0049C87D /* AIStateMenuPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE6175407AC67EE0049C87D /* AIStateMenuPlugin.m */; };
 		4BE9FFE8055981AB00359B15 /* Adium.pch in Resources */ = {isa = PBXBuildFile; fileRef = 4BE9FFE7055981AB00359B15 /* Adium.pch */; };
@@ -4049,8 +4048,6 @@
 		4BE3AD1D085F3EDD005919E7 /* AdiumPreferredAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumPreferredAccounts.m; path = Source/AdiumPreferredAccounts.m; sourceTree = "<group>"; };
 		4BE40C1E0846544000F5790F /* AdiumAccounts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumAccounts.h; path = Source/AdiumAccounts.h; sourceTree = "<group>"; };
 		4BE40C1F0846544000F5790F /* AdiumAccounts.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumAccounts.m; path = Source/AdiumAccounts.m; sourceTree = "<group>"; };
-		4BE6174B07AC67ED0049C87D /* AIAutoIdlePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAutoIdlePlugin.h; path = Source/AIAutoIdlePlugin.h; sourceTree = SOURCE_ROOT; };
-		4BE6174C07AC67ED0049C87D /* AIAutoIdlePlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAutoIdlePlugin.m; path = Source/AIAutoIdlePlugin.m; sourceTree = SOURCE_ROOT; };
 		4BE6174D07AC67ED0049C87D /* AIAutoReplyPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAutoReplyPlugin.h; path = Source/AIAutoReplyPlugin.h; sourceTree = SOURCE_ROOT; };
 		4BE6174E07AC67ED0049C87D /* AIAutoReplyPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIAutoReplyPlugin.m; path = Source/AIAutoReplyPlugin.m; sourceTree = SOURCE_ROOT; };
 		4BE6175307AC67EE0049C87D /* AIStateMenuPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIStateMenuPlugin.h; path = Source/AIStateMenuPlugin.h; sourceTree = SOURCE_ROOT; };
@@ -6579,7 +6576,6 @@
 				4B292D3107A9C8E100C5F882 /* AIStatusController.m */,
 				347C693D080C8F0200E69674 /* Away Status Window */,
 				3440938707D915D300321BB3 /* Auto-Status Change */,
-				4BC32F7107AABC3500DDED66 /* Auto-Idle */,
 				4B292D4707A9C92D00C5F882 /* Auto-Reply */,
 				4B587C6C07ABFD2E001832A9 /* Preset State Menu */,
 				3428328307D263F0004F01C9 /* Status Preferences */,
@@ -6854,15 +6850,6 @@
 				34E6CEED0A793DE40076D7F0 /* URL and Xtras Installation handling */,
 			);
 			name = "Private classes for the Controllers";
-			sourceTree = "<group>";
-		};
-		4BC32F7107AABC3500DDED66 /* Auto-Idle */ = {
-			isa = PBXGroup;
-			children = (
-				4BE6174B07AC67ED0049C87D /* AIAutoIdlePlugin.h */,
-				4BE6174C07AC67ED0049C87D /* AIAutoIdlePlugin.m */,
-			);
-			name = "Auto-Idle";
 			sourceTree = "<group>";
 		};
 		4BC4439A08612BD800B10F28 /* Content */ = {
@@ -9539,7 +9526,6 @@
 				34DFF5FD07A63DB400B92233 /* ESSecureMessagingPlugin.m in Sources */,
 				349E2E8E07A8AF0C00EAB76A /* AIEmoticonPackPreviewController.m in Sources */,
 				34C14CD307A8B1AB003CC138 /* AIEmoticonPackPreviewView.m in Sources */,
-				4BE6175607AC67EE0049C87D /* AIAutoIdlePlugin.m in Sources */,
 				4BE6175807AC67EE0049C87D /* AIAutoReplyPlugin.m in Sources */,
 				4BE6175E07AC67EE0049C87D /* AIStateMenuPlugin.m in Sources */,
 				342910CD07AE228600C815F6 /* AIEmoticonPackPreviewTableView.m in Sources */,
