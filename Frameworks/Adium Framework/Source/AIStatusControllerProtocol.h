@@ -40,6 +40,7 @@
 #define KEY_STATUS_SS							@"ScreenSaver Auto Away"
 #define KEY_STATUS_SS_STATUS_STATE_ID			@"ScreenSaver Status State ID"
 #define KEY_STATUS_AUTO_AWAY_INTERVAL			@"Auto Away Interval"
+#define KEY_STATUS_CONFIRM_AUTOAWAY_RETURN		@"Confirm Autoaway Return"
 
 #define KEY_STATUS_SHOW_STATUS_WINDOW				@"Show Status Window"
 #define KEY_STATUS_STATUS_WINDOW_ON_TOP				@"Status Window Always On Top"
