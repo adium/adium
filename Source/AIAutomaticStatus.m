@@ -153,9 +153,7 @@
 	if (object) {
 		return;
 	}
-	
-	confirmReturn = [[prefDict objectForKey:KEY_STATUS_CONFIRM_AUTOAWAY_RETURN] boolValue];
-	
+
 	// Idle reporting
 	reportIdleEnabled = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE] boolValue];
 	idleReportInterval = [[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue];
@@ -239,93 +237,24 @@
 	} else if ([notificationName isEqualToString:AIMachineIsActiveNotification]) {
 		AILogWithSignature(@"Idle (end) detected.");
 		
-		endEvent = (idleEnabled || automaticIdleSet);
+		if (automaticIdleSet) {	
+			automaticIdleSet = NO;
+			
+			[adium.preferenceController setPreference:nil
+											   forKey:@"IdleSince"
+											     group:GROUP_ACCOUNT_STATUS];
+		}
+		
+		endEvent = idleEnabled;
 	}
 	
-	// Go away, or return from away
 	if (startEvent && statusID && !automaticStatusSet) {
 		[self triggerAutoAwayWithStatusID:statusID];
-	} else if (endEvent && (automaticStatusSet || automaticIdleSet)) {
-		// Only confirm return if we have a previous status to go back to, or idle time was set automatically
-		if (confirmReturn && ([previousStatus count] > 0 || automaticIdleSet)) {
-			[adium.interfaceController displayQuestion:nil
-									   withDescription:AILocalizedString(@"Would you like to change the status of your accounts back to available?", "Asked when the user returns from an automatic event such as fast user switching or being idle")
-									   withWindowTitle:AILocalizedString(@"Welcome Back", nil)
-										 defaultButton:AILocalizedString(@"Change", nil)
-									   alternateButton:AILocalizedString(@"Don't Change", nil)
-										   otherButton:nil
-												target:self
-											  selector:@selector(returnResponse:userInfo:)
-											  userInfo:nil];
-		} else {
-			[self returnFromAutoAway];
-		}
+	} else if (endEvent && automaticStatusSet) {
+		[self returnFromAutoAway];
 	}
 	
 }
-	
-/*!
- * @brief Handle a question end
- */
-- (void)returnResponse:(NSNumber *)returnCode userInfo:(id)info
-{
-	AITextAndButtonsReturnCode ret = [returnCode integerValue];
-	
-	AILogWithSignature(@"Returned with code %d", ret);
-	
-	switch (ret) {
-		case AITextAndButtonsOtherReturn:
-		case AITextAndButtonsClosedWithoutResponse:
-		case AITextAndButtonsDefaultReturn:
-			// Change status
-			[self returnFromAutoAway];
-			
-			break;
-			
-		case AITextAndButtonsAlternateReturn:
-			// Don't change status, remove saved state information		
-			[accountsToReconnect removeAllObjects];
-			[previousStatus removeAllObjects];
-			
-			automaticStatusSet = NO;
-
-			// If we set an automatic idle, we need to preserve it in a way the user can unset it.
-			// To achieve this, we duplicate the account's current status and set its forced idle property.
-			if (automaticIdleSet) {
-				double duration = [(NSDate *)[adium.preferenceController preferenceForKey:@"IdleSince"
-																		            group:GROUP_ACCOUNT_STATUS] timeIntervalSinceNow];
-				
-				for (AIAccount *account in adium.accountController.accounts) {
-					// Only add it to online accounts.
-					if (![account online]) {
-						continue;
-					}
-									
-					AIStatus *status = [account statusState];
-					
-					// Only apply a forced idle time if there wasn't one before.
-					if (![status shouldForceInitialIdleTime]) {
-						status = [[status mutableCopy] autorelease];
-					
-						[status setShouldForceInitialIdleTime:YES];
-						[status setForcedInitialIdleTime:duration];
-					
-						[account setStatusState:status];
-					}
-				}
-				
-				// Unset the global idle property
-				automaticIdleSet = NO;
-				
-				[adium.preferenceController setPreference:nil
-				                                   forKey:@"IdleSince"
-													group:GROUP_ACCOUNT_STATUS];	
-			}
-			
-			break;
-	}
-}
-
 
 /*!
  * @brief Automatically set an account as away
@@ -402,14 +331,6 @@
 			//If offline, set the state without coming online
 			[account setStatusStateAndRemainOffline:previousStatusState];
 		}
-	}
-	
-	if (automaticIdleSet) {
-		automaticIdleSet = NO;
-		
-		[adium.preferenceController setPreference:nil
-										   forKey:@"IdleSince"
-											group:GROUP_ACCOUNT_STATUS];	
 	}
 	
 	[accountsToReconnect removeAllObjects];
