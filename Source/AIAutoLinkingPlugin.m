@@ -58,10 +58,14 @@
 													(CFStringRef)@"#%",
 													NULL,
 													kCFStringEncodingUTF8);
-		[replacementMessage addAttribute:NSLinkAttributeName
-								   value:[NSURL URLWithString:linkString]
-								   range:NSMakeRange(0, [replacementMessage length])];
+		NSURL *linkURL = [NSURL URLWithString:linkString];
+		if(nil != linkURL) {
+			[replacementMessage addAttribute:NSLinkAttributeName
+									value:linkURL
+									range:NSMakeRange(0, [replacementMessage length])];
+		}
 		[linkString release];
+		[linkURL release];
 	}
 	
 	for (NSInteger i = 0; i < stringLength; i += linkRange.length) {
