@@ -323,7 +323,7 @@
 											  withValidationStatus:validStatus
 													  parentString:m_scanString
 														  andRange:scannedRange];
-            return [markedLink autorelease];
+            return [markedLink URL]? [markedLink autorelease] : nil;
         }
 
 		//step location after scanning a string
