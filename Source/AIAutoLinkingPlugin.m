@@ -65,7 +65,6 @@
 									range:NSMakeRange(0, [replacementMessage length])];
 		}
 		[linkString release];
-		[linkURL release];
 	}
 	
 	for (NSInteger i = 0; i < stringLength; i += linkRange.length) {
