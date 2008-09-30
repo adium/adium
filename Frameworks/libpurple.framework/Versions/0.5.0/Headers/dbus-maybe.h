@@ -23,7 +23,10 @@
 
 #else  /* !HAVE_DBUS */
 
-#define PURPLE_DBUS_REGISTER_POINTER(ptr, type) 
+#define PURPLE_DBUS_REGISTER_POINTER(ptr, type) { \
+    if (ptr) {} \
+}
+
 #define PURPLE_DBUS_UNREGISTER_POINTER(ptr)
 #define DBUS_EXPORT
 
