@@ -176,6 +176,8 @@ struct yahoo_data {
 	 * the server expects us to keep track of the group for which it is sending us contact names.
 	 */
 	char *current_list15_grp;
+	time_t last_ping;
+	time_t last_keepalive;
 };
 
 #define YAHOO_MAX_STATUS_MESSAGE_LENGTH (255)
@@ -203,6 +205,9 @@ void yahoo_init_colorht(void);
 void yahoo_dest_colorht(void);
 char *yahoo_codes_to_html(const char *x);
 char *yahoo_html_to_codes(const char *src);
+
+gboolean
+yahoo_account_use_http_proxy(PurpleConnection *conn);
 
 /**
  * Encode some text to send to the yahoo server.

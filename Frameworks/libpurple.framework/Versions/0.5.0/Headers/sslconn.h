@@ -67,7 +67,7 @@ struct _PurpleSslConnection
 	int fd;
 	/** Glib event source ID; used to refer to the received data callback 
 	 * in the glib eventloop */
-	int inpa;
+	guint inpa;
 	/** Data related to the underlying TCP connection */
 	PurpleProxyConnectData *connect_data;
 
