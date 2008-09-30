@@ -138,7 +138,7 @@
 	NSMutableDictionary *infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:title,@"Title",
 		message,@"Message",nil];
 	
-	NSString	*urlString = (urls ? [NSString stringWithUTF8String:urls[0]] : nil);
+	NSString	*urlString = ((urls && *urls) ? [NSString stringWithUTF8String:(*urls)] : nil);
 
 	if (urlString) {
 		[infoDict setObject:urlString forKey:@"URL"];
