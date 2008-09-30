@@ -76,6 +76,7 @@ enum {
 };
 
 @interface AILoggerPlugin ()
++ (NSString *)dereferenceLogFolderAlias;
 - (void)configureMenuItems;
 - (SKIndexRef)createLogIndex;
 - (void)closeLogIndex;
@@ -97,6 +98,7 @@ enum {
 @end
 
 static NSString     *logBasePath = nil;     //The base directory of all logs
+static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path refers to an alias file, this is that path, and logBasePath is the destination of the alias; otherwise, this is nil and logBasePath is the usual Logs folder path.
 Class LogViewerWindowControllerClass = NULL;
 
 @implementation AILoggerPlugin
@@ -206,6 +208,38 @@ Class LogViewerWindowControllerClass = NULL;
 	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
 }
 
+//If logBasePath refers to an alias file, dereference the alias and replace logBasePath with that pathname.
++ (NSString *)dereferenceLogFolderAlias {
+	if (!logBaseAliasPath) {
+		FSRef ref;
+
+		Boolean isDir = YES;
+		OSStatus err = FSPathMakeRef((UInt8 *)[logBasePath UTF8String], &ref, &isDir);
+		if (err != noErr) {
+			NSLog(@"Warning: Couldn't obtain FSRef for transcripts folder: %s (%i)", GetMacOSStatusCommentString(err), err);
+			return logBasePath;
+		}
+		if (isDir) {
+			//It's really a folder, not an alias file. No dereferencing to do.
+			return logBasePath;
+		}
+
+		//It's a file—presumably an alias file.
+		Boolean wasAliased_nobodyCares;
+		err = FSResolveAliasFile(&ref, /*resolveAliasChains*/ true, &isDir, &wasAliased_nobodyCares);
+		if (err != noErr) {
+			NSLog(@"Warning: Couldn't resolve alias to transcripts folder: %s (%i)", GetMacOSStatusCommentString(err), err);
+		} else {
+			//Successfully dereferenced!
+			NSURL *logBaseURL = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorDefault, &ref) autorelease];
+			logBaseAliasPath = logBasePath;
+			logBasePath = [[logBaseURL path] copy];
+		}
+	}
+
+	return logBasePath;
+}
+
 //Update for the new preferences
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -250,7 +284,12 @@ Class LogViewerWindowControllerClass = NULL;
 //Logging Paths --------------------------------------------------------------------------------------------------------
 + (NSString *)logBasePath
 {
+	[self dereferenceLogFolderAlias];
 	return logBasePath;
+}
+- (NSString *)logBasePath
+{
+	return [[self class] logBasePath];
 }
 
 //Returns the RELATIVE path to the folder where the log should be written
@@ -278,7 +317,7 @@ Class LogViewerWindowControllerClass = NULL;
 	if (!objectUID) objectUID = [[chat listObject] UID];
 	objectUID = [objectUID safeFilenameString];
 
-	return [logBasePath stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
+	return [[self logBasePath] stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
 }
 
 + (NSString *)fullPathForLogOfChat:(AIChat *)chat onDate:(NSDate *)date
@@ -289,7 +328,7 @@ Class LogViewerWindowControllerClass = NULL;
 	if (!objectUID) objectUID = [[chat listObject] UID];
 	objectUID = [objectUID safeFilenameString];
 
-	NSString	*absolutePath = [logBasePath stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
+	NSString	*absolutePath = [[self logBasePath] stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
 
 	NSString	*name = [self nameForLogWithObject:objectUID onDate:date];
 	NSString	*fullPath = [[absolutePath stringByAppendingPathComponent:[name stringByAppendingPathExtension:@"chatlog"]]
@@ -639,7 +678,7 @@ Class LogViewerWindowControllerClass = NULL;
 {
 	NSRunAlertPanel(AILocalizedString(@"Unable to write log", nil),
 					[NSString stringWithFormat:
-						AILocalizedString(@"Adium was unable to write the log file for this conversation. Please ensure you have appropriate file permissions to write to your log directory (%@) for and then re-enable logging in the General preferences.", nil), logBasePath],
+						AILocalizedString(@"Adium was unable to write the log file for this conversation. Please ensure you have appropriate file permissions to write to your log directory (%@) for and then re-enable logging in the General preferences.", nil), [self logBasePath]],
 					AILocalizedString(@"OK", nil), nil, nil);
 
 	//Disable logging
@@ -695,7 +734,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		* and this could take a bit.
 		*/
 		NSFileManager	*defaultManager = [NSFileManager defaultManager];
-		NSArray			*accountFolders = [defaultManager directoryContentsAtPath:logBasePath];
+		NSArray			*accountFolders = [defaultManager directoryContentsAtPath:[self logBasePath]];
 		NSString		*accountFolderName;
 		
 		NSMutableSet	*pathsToContactFolders = [NSMutableSet set];
@@ -758,11 +797,11 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	/* This is based off of -upgradeLogExtensions. Refer to that. */
 	
 	NSFileManager	*defaultManager = [NSFileManager defaultManager];
-	NSArray			*accountFolders = [defaultManager directoryContentsAtPath:logBasePath];
+	NSArray			*accountFolders = [defaultManager directoryContentsAtPath:[self logBasePath]];
 	
 	NSMutableSet	*pathsToContactFolders = [NSMutableSet set];
 	for (NSString *accountFolderName in accountFolders) {
-		NSString		*contactBasePath = [logBasePath stringByAppendingPathComponent:accountFolderName];
+		NSString		*contactBasePath = [[self logBasePath] stringByAppendingPathComponent:accountFolderName];
 		NSArray			*contactFolders = [defaultManager directoryContentsAtPath:contactBasePath];
 		
 		// Set permissions to prohibit access from other users
@@ -1241,7 +1280,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
     [dirtyLogLock unlock];
 	
     //Process each from folder
-    for (NSString *fromName in [[NSFileManager defaultManager] directoryContentsAtPath:logBasePath]) {
+    for (NSString *fromName in [[NSFileManager defaultManager] directoryContentsAtPath:[self logBasePath]]) {
 		AILogFromGroup *fromGroup = fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
 
 		//Walk through every 'to' group
