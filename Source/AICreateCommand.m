@@ -71,6 +71,8 @@
 - (id)subjectsSpecifier
 {
 	NSAppleEventDescriptor *subjDesc = [[self appleEvent] attributeDescriptorForKeyword: 'subj'];
+	if ([subjDesc aeDesc] && [subjDesc aeDesc]->descriptorType == typeNull)
+		return nil;
 	NSScriptObjectSpecifier *subjSpec = [NSScriptObjectSpecifier _objectSpecifierFromDescriptor: subjDesc inCommandConstructionContext: nil];
 	return [subjSpec objectsByEvaluatingSpecifier];
 }
