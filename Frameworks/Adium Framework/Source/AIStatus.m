@@ -450,7 +450,6 @@
 }
 
 #pragma mark Applescript
-
 /**
  * @brief Returns the message of this status as an NSTextStorage
  */
@@ -469,6 +468,7 @@
 		else {
 			[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Status message must be a string or an attributed string."];
+			return;
 		}
 		[adium.statusController savedStatusesChanged];
 		AILogWithSignature(@"Applying %@ to %@", self, [adium.accountController accountsWithCurrentStatus:self]);
@@ -483,6 +483,7 @@
 		else {
 			[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Status message must be a string or an attributed string."];
+			return;
 		}
 		[adium.statusController savedStatusesChanged];		
 		[adium.statusController applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
@@ -502,6 +503,7 @@
 		else {
 			[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Autoreply message must be a string or an attributed string."];
+			return;
 		}
 		[adium.statusController savedStatusesChanged];
 		[adium.statusController applyState:self toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
@@ -515,6 +517,7 @@
 		else {
 			[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Autoreply message must be a string or an attributed string."];
+			return;
 		}
 		[adium.statusController savedStatusesChanged];		
 		[adium.statusController applyState:newStatus toAccounts:[adium.accountController accountsWithCurrentStatus:self]];
