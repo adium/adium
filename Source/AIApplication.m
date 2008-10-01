@@ -194,34 +194,6 @@
 	
 	return status;
 }
-- (void)insertObject:(AIStatus *)status inStatusesAtIndex:(NSUInteger)i
-{
-	[self insertInStatuses:status atIndex:i];
-}
-- (void)removeObjectFromStatusesAtIndex:(NSUInteger)i
-{
-	[self removeFromStatusesAtIndex:i];
-}
-- (void)replaceObjectInStatusesAtIndex:(NSUInteger)i withObject:(AIStatus *)status
-{
-	[self replaceInStatuses:status atIndex:i];
-}
-- (void)insertInStatuses:(AIStatus *)status
-{
-	[adium.statusController addStatusState:status];
-}
-- (void)insertInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
-{
-	[[adium.statusController rootStateGroup] addStatusItem:status atIndex:i];
-}
-- (void)removeFromStatusesAtIndex:(NSUInteger)i
-{
-	[[adium.statusController rootStateGroup] removeStatusItem:[[self statuses] objectAtIndex:i]];
-}
-- (void)replaceInStatuses:(AIStatus *)status atIndex:(NSUInteger)i
-{
-	NSLog(@"%s NOT IMPLEMENTED",__PRETTY_FUNCTION__);
-}
 - (AIStatus *)valueInStatusesWithUniqueID:(id)uniqueID
 {
 	return [adium.statusController statusStateWithUniqueStatusID:uniqueID];
