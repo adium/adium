@@ -213,7 +213,7 @@ Class LogViewerWindowControllerClass = NULL;
 	if (!logBaseAliasPath) {
 		FSRef ref;
 
-		Boolean isDir = YES;
+		Boolean isDir = true;
 		OSStatus err = FSPathMakeRef((UInt8 *)[logBasePath UTF8String], &ref, &isDir);
 		if (err != noErr) {
 			NSLog(@"Warning: Couldn't obtain FSRef for transcripts folder: %s (%i)", GetMacOSStatusCommentString(err), err);
