@@ -1251,16 +1251,17 @@ typedef enum
 /**
  * @brief Gets the proxy's port
  */
-- (int)proxyPort
+- (NSNumber *)proxyPort
 {
-	return [[self preferenceForKey:KEY_ACCOUNT_PROXY_PORT group:GROUP_ACCOUNT_STATUS] intValue];
+	NSString *proxyPort = [self preferenceForKey:KEY_ACCOUNT_PROXY_PORT group:GROUP_ACCOUNT_STATUS];
+	return [NSNumber numberWithUnsignedShort:[proxyPort integerValue]];
 }
 /**
  * @brief Set the port to which we should connect when connecting to the proxy
  */
-- (void)setProxyPort:(int)port
+- (void)setProxyPort:(NSNumber *)port
 {
-	[self setPreference:[NSNumber numberWithInt:port] forKey:KEY_ACCOUNT_PROXY_PORT group:GROUP_ACCOUNT_STATUS];
+	[self setPreference:[port stringValue] forKey:KEY_ACCOUNT_PROXY_PORT group:GROUP_ACCOUNT_STATUS];
 }
 /**
  * @brief Gets the username we use when connecting to the proxy
