@@ -336,10 +336,10 @@
 		
 		//Guard deletion with a warning prompt		
 		NSInteger result = NSRunAlertPanel(AILocalizedString(@"Remove from list?",nil),
-									 message,
+									 @"%@",
 									 AILocalizedString(@"Remove",nil),
 									 AILocalizedString(@"Cancel",nil),
-									 nil);
+									 nil, message);
 
 		if (result == NSAlertDefaultReturn) {
 			[adium.contactController removeListObjects:array];
