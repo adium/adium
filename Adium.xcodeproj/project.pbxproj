@@ -1165,6 +1165,7 @@
 		63218C710E518A830008E0D0 /* AuthorizationRequestWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */; };
 		63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E8A4097F24A90044C496 /* AdiumAuthorization.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63218C860E518ABB0008E0D0 /* ESAuthorizationRequestWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */; };
+		632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */; };
 		632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */; };
 		632D801708E7E0A40032C187 /* XtrasManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 632D801608E7E0A40032C187 /* XtrasManager.nib */; };
 		632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D859D0DB70FC800040EC7 /* AIMentionEventPlugin.m */; };
@@ -4097,6 +4098,8 @@
 		63125D970A75ECE400303EE9 /* AILiveJournalService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AILiveJournalService.h; path = "Plugins/Purple Service/AILiveJournalService.h"; sourceTree = "<group>"; };
 		63125D980A75ECE400303EE9 /* AILiveJournalService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AILiveJournalService.m; path = "Plugins/Purple Service/AILiveJournalService.m"; sourceTree = "<group>"; };
 		63125D990A75ECE400303EE9 /* PurpleDefaultsLiveJournal.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = PurpleDefaultsLiveJournal.plist; path = "Plugins/Purple Service/PurpleDefaultsLiveJournal.plist"; sourceTree = "<group>"; };
+		632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = Source/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
+		632ADC140E9EDDCA00AB6817 /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = Source/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
 		632D608D094B7EEB003A9786 /* AIXtraPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewController.h; path = Source/AIXtraPreviewController.h; sourceTree = "<group>"; };
 		632D60BE094B81AB003A9786 /* AIDockIconPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIDockIconPreviewController.h; path = Source/AIDockIconPreviewController.h; sourceTree = "<group>"; };
 		632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIDockIconPreviewController.m; path = Source/AIDockIconPreviewController.m; sourceTree = "<group>"; };
@@ -7333,6 +7336,8 @@
 				342F88CB0A2A74EA0001DB29 /* PTHotKeyCenter.m */,
 				342F88CA0A2A74EA0001DB29 /* PTKeyCombo.h */,
 				342F88C90A2A74EA0001DB29 /* PTKeyCombo.m */,
+				632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */,
+				632ADC140E9EDDCA00AB6817 /* PTKeyCodeTranslator.h */,
 				342F88B30A2A74D40001DB29 /* SRCommon.h */,
 				342F88B60A2A74D40001DB29 /* SRCommon.m */,
 				347374BB0AA9206B00AD18E3 /* ShortcutRecorder.strings */,
@@ -9755,6 +9760,7 @@
 				34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */,
 				34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */,
 				111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */,
+				632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,8 @@
 //      Finlay Dobbie
 //      Vincent Pottier
 
+#import <AppKit/AppKit.h>
+
 @class PTHotKey;
 
 @interface PTHotKeyCenter : NSObject
@@ -18,7 +20,7 @@
 	BOOL					mEventHandlerInstalled;
 }
 
-+ (PTHotKeyCenter *)sharedCenter;
++ (PTHotKeyCenter*)sharedCenter;
 
 - (BOOL)registerHotKey: (PTHotKey*)hotKey;
 - (void)unregisterHotKey: (PTHotKey*)hotKey;
