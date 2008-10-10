@@ -72,6 +72,8 @@
  - (void)setValue:(id)value forProperty:(NSString *)key notify:(NotifyTiming)notify
 {
 	if (key) {
+		if (value && [[self valueForKey:key] isEqual:value]) //No need to do all this work just to stay the same
+			return;
 		BOOL changedPropertiesDict = YES;
 
 		[self willChangeValueForKey:key];
