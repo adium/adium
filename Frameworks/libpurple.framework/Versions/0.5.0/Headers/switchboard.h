@@ -104,6 +104,7 @@ struct _MsnSwitchBoard
 	MsnSBErrorType error; /**< The error that occurred in this switchboard
 							(if applicable). */
 	GList *slplinks; /**< The list of slplinks that are using this switchboard. */
+	guint reconn_timeout_h;
 };
 
 /**

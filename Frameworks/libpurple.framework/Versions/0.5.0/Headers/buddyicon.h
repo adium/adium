@@ -308,7 +308,7 @@ purple_buddy_icons_node_find_custom_icon(PurpleBlistNode *node);
  *
  * @param node      The blist node for which to set a custom icon.
  * @param icon_data The image data of the icon, which the buddy icon code will
- *                  free. Use NULL to unset the icon.
+ *                  free.
  * @param icon_len  The length of the data in @a icon_data.
  *
  * @return The icon that was set. The caller does NOT own a reference to this,
@@ -326,8 +326,7 @@ purple_buddy_icons_node_set_custom_icon(PurpleBlistNode *node,
  * @see purple_buddy_icons_node_set_custom_icon()
  *
  * @param node      The blist node for which to set a custom icon.
- * @param filename  The path to the icon to set for the blist node. Use NULL
- *                  to unset the custom icon.
+ * @param filename  The path to the icon to set for the blist node.
  *
  * @return The icon that was set. The caller does NOT own a reference to this,
  *         and must call purple_imgstore_ref() if it wants one.

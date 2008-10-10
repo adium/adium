@@ -129,6 +129,8 @@ struct _MsnMessage
 	void *ack_data; /**< The data used by callbacks. */
 
 	MsnMsgErrorType error; /**< The error of the message. */
+
+	guint32 retries;
 };
 
 /**
@@ -243,24 +245,6 @@ void msn_message_set_flag(MsnMessage *msg, char flag);
  */
 char msn_message_get_flag(const MsnMessage *msg);
 
-#if 0
-/**
- * Sets the body of a message.
- *
- * @param msg  The message.
- * @param body The body of the message.
- */
-void msn_message_set_body(MsnMessage *msg, const char *body);
-
-/**
- * Returns the body of the message.
- *
- * @param msg The message.
- *
- * @return The body of the message.
- */
-const char *msn_message_get_body(const MsnMessage *msg);
-#endif
 /**
  * Sets the binary content of the message.
  *

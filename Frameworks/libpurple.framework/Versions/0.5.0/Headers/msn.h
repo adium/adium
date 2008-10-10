@@ -55,6 +55,8 @@
 
 #include "ft.h"
 
+#include "msg.h"
+
 #define MSN_BUF_LEN 8192
 
 /* Windows Live Messenger Server*/
@@ -142,5 +144,6 @@ typedef enum
 
 void msn_act_id(PurpleConnection *gc, const char *entry);
 void msn_send_privacy(PurpleConnection *gc);
+void msn_send_im_message(MsnSession *session, MsnMessage *msg);
 
 #endif /* _MSN_H_ */
