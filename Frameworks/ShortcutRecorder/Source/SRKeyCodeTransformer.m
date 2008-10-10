@@ -15,6 +15,7 @@
 #import <Carbon/Carbon.h>
 #import <CoreServices/CoreServices.h>
 #import "SRCommon.h"
+#import "PTKeyCodeTranslator.h"
 
 static NSMutableDictionary  *stringToKeyCodeDict = nil;
 static NSDictionary         *keyCodeToStringDict = nil;
@@ -133,64 +134,7 @@ static NSArray              *padKeysArray        = nil;
 	NSString *unmappedString = [keyCodeToStringDict objectForKey: SRInt( keyCode )];
 	if ( unmappedString != nil ) return unmappedString;
 	
-	BOOL isPadKey = [padKeysArray containsObject: SRInt( keyCode )];	
-	KeyboardLayoutRef currentLayoutRef;
-	KeyboardLayoutKind currentLayoutKind;
-    OSStatus err;
-	
-	err = KLGetCurrentKeyboardLayout( &currentLayoutRef );
-    if (err != noErr) return nil;
-	
-	err = KLGetKeyboardLayoutProperty( currentLayoutRef, kKLKind,(const void **)&currentLayoutKind );
-	if ( err != noErr ) return nil;
-    
-	UInt32 keysDown = 0;
-	
-	if ( currentLayoutKind == kKLKCHRKind )
-	{
-		Handle kchrHandle;
-        
-		err = KLGetKeyboardLayoutProperty( currentLayoutRef, kKLKCHRData, (const void **)&kchrHandle );
-		if ( err != noErr ) return nil;
-		
-		UInt32 charCode = KeyTranslate( kchrHandle, keyCode, &keysDown );
-		
-		if (keysDown != 0) charCode = KeyTranslate( kchrHandle, keyCode, &keysDown );
-		
-        char theChar = ( charCode & 0x00FF );
-		
-		NSString *keyString = [[[[NSString alloc] initWithData:[NSData dataWithBytes:&theChar length:1] encoding:NSMacOSRomanStringEncoding] autorelease] uppercaseString];
-		
-        return ( isPadKey ? [NSString stringWithFormat: SRLoc(@"Pad %@"), keyString] : keyString );
-	}
-	else // kKLuchrKind, kKLKCHRuchrKind
-	{
-		UCKeyboardLayout *keyboardLayout = NULL;
-		err = KLGetKeyboardLayoutProperty( currentLayoutRef, kKLuchrData, (const void **)&keyboardLayout );
-		if ( err != noErr ) return nil;
-		
-		UniCharCount length = 4, realLength;
-        UniChar chars[4];
-        
-        err = UCKeyTranslate( keyboardLayout, 
-                              keyCode,
-                              kUCKeyActionDisplay,
-                              0,
-                              LMGetKbdType(),
-                              kUCKeyTranslateNoDeadKeysBit,
-                              &keysDown,
-                              length,
-                              &realLength,
-                              chars);
-		
-		if ( err != noErr ) return nil;
-        
-		NSString *keyString = [[NSString stringWithCharacters:chars length:1] uppercaseString];
-		
-        return ( isPadKey ? [NSString stringWithFormat: SRLoc(@"Pad %@"), keyString] : keyString );
-	}
-    
-	return nil;    
+	return [[PTKeyCodeTranslator currentTranslator] translateKeyCode:keyCode];
 }
 
 //---------------------------------------------------------- 

@@ -11,11 +11,17 @@
 #import "PTKeyCombo.h"
 #import <Carbon/Carbon.h>
 
-@interface PTHotKeyCenter ()
+#if __PROTEIN__
+#import "PTNSObjectAdditions.h"
+#endif
+
+@interface PTHotKeyCenter (Private)
+- (BOOL)_hasCarbonEventSupport;
+
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey;
 - (EventHotKeyRef)_carbonHotKeyForHotKey: (PTHotKey*)hotKey;
 
-- (void)_updateEventHandlerForHotKey:(PTHotKey *)hotKey;
+- (void)_updateEventHandler;
 - (void)_hotKeyDown: (PTHotKey*)hotKey;
 - (void)_hotKeyUp: (PTHotKey*)hotKey;
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon );
@@ -23,13 +29,16 @@ static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef in
 
 @implementation PTHotKeyCenter
 
-static id _sharedHotKeyCenter = nil;
+static PTHotKeyCenter* _sharedHotKeyCenter = nil;
 
-+ (PTHotKeyCenter *)sharedCenter
++ (PTHotKeyCenter*)sharedCenter
 {
 	if( _sharedHotKeyCenter == nil )
 	{
 		_sharedHotKeyCenter = [[self alloc] init];
+		#if __PROTEIN__
+			[_sharedHotKeyCenter releaseOnTerminate];
+		#endif
 	}
 	
 	return _sharedHotKeyCenter;
@@ -55,8 +64,6 @@ static id _sharedHotKeyCenter = nil;
 
 #pragma mark -
 
-static UInt32 counter = 0;
-
 - (BOOL)registerHotKey: (PTHotKey*)hotKey
 {
 	OSStatus err;
@@ -70,8 +77,8 @@ static UInt32 counter = 0;
 	if( [[hotKey keyCombo] isValidHotKeyCombo] == NO )
 		return YES;
 	
-	hotKeyID.signature = 'HCHk';
-	hotKeyID.id = ++counter;
+	hotKeyID.signature = 'PTHk';
+	hotKeyID.id = (long)hotKey;
 	
 	err = RegisterEventHotKey(  [[hotKey keyCombo] keyCode],
 								[[hotKey keyCombo] modifiers],
@@ -87,7 +94,7 @@ static UInt32 counter = 0;
 	if( hotKey && key )
 		[mHotKeys setObject: hotKey forKey: key];
 
-    [self _updateEventHandlerForHotKey:hotKey];
+	[self _updateEventHandler];
 	
 	return YES;
 }
@@ -109,8 +116,8 @@ static UInt32 counter = 0;
 
 	key = [NSValue valueWithPointer: carbonHotKey];
 	[mHotKeys removeObjectForKey: key];
-
-    [self _updateEventHandlerForHotKey:hotKey];
+	
+	[self _updateEventHandler];
 
 	//See that? Completely ignored
 }
@@ -139,6 +146,11 @@ static UInt32 counter = 0;
 
 #pragma mark -
 
+- (BOOL)_hasCarbonEventSupport
+{
+	return floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_1;
+}
+
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey
 {
 	NSValue* key = [NSValue valueWithPointer: carbonHotKey];
@@ -151,15 +163,18 @@ static UInt32 counter = 0;
 	NSValue* value;
 	
 	values = [mHotKeys allKeysForObject: hotKey];
-	NSAssert( [values count] == 1, @"Failed to find Carbon Hotkey for HotKey" );
+	NSAssert( [values count] == 1, @"Failed to find Carbon Hotkey for PTHotKey" );
 	
 	value = [values lastObject];
 	
 	return (EventHotKeyRef)[value pointerValue];
 }
 
-- (void)_updateEventHandlerForHotKey:(PTHotKey *)hotKey
+- (void)_updateEventHandler
 {
+	if( [self _hasCarbonEventSupport] == NO ) //Don't use event handler on these systems
+		return;
+
 	if( [mHotKeys count] && mEventHandlerInstalled == NO )
 	{
 		EventTypeSpec eventSpec[2] = {
@@ -169,7 +184,7 @@ static UInt32 counter = 0;
 
 		InstallEventHandler( GetEventDispatcherTarget(),
 							 (EventHandlerProcPtr)hotKeyEventHandler, 
-							 2, eventSpec, hotKey, nil);
+							 2, eventSpec, nil, nil);
 	
 		mEventHandlerInstalled = YES;
 	}
@@ -186,8 +201,12 @@ static UInt32 counter = 0;
 
 - (void)sendEvent: (NSEvent*)event
 {
-	short subType;
+	long subType;
 	EventHotKeyRef carbonHotKey;
+	
+	//We only have to intercept sendEvent to do hot keys on old system versions
+	if( [self _hasCarbonEventSupport] )
+		return;
 	
 	if( [event type] == NSSystemDefined )
 	{
@@ -214,12 +233,13 @@ static UInt32 counter = 0;
 	}
 }
 
-- (OSStatus)sendCarbonEvent: (EventRef)event userData:(void *)userData
+- (OSStatus)sendCarbonEvent: (EventRef)event
 {
 	OSStatus err;
 	EventHotKeyID hotKeyID;
 	PTHotKey* hotKey;
 
+	NSAssert( [self _hasCarbonEventSupport], @"" );
 	NSAssert( GetEventClass( event ) == kEventClassKeyboard, @"Unknown event class" );
 
 	err = GetEventParameter(	event,
@@ -229,15 +249,14 @@ static UInt32 counter = 0;
 								sizeof(EventHotKeyID),
 								nil,
 								&hotKeyID );
-
 	if( err )
 		return err;
 	
 
-	NSAssert( hotKeyID.signature == 'HCHk', @"Invalid hot key id" );
+	NSAssert( hotKeyID.signature == 'PTHk', @"Invalid hot key id" );
 	NSAssert( hotKeyID.id != 0, @"Invalid hot key id" );
 
-	hotKey = userData;
+	hotKey = (PTHotKey*)hotKeyID.id;
 
 	switch( GetEventKind( event ) )
 	{
@@ -259,7 +278,7 @@ static UInt32 counter = 0;
 
 static OSStatus hotKeyEventHandler(EventHandlerCallRef inHandlerRef, EventRef inEvent, void* refCon )
 {
-    return [[PTHotKeyCenter sharedCenter] sendCarbonEvent: inEvent userData:refCon];
+	return [[PTHotKeyCenter sharedCenter] sendCarbonEvent: inEvent];
 }
 
 @end
