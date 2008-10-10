@@ -93,18 +93,17 @@
 		if (containedObject.visible)
 			visibleCount++;
 	}
-	
-	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-				   forProperty:@"VisibleObjectCount"
-				   notify:NotifyNow];
 }
 
 //Called when the visibility of an object in this group changes
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
 {
+	[self _recomputeVisibleCount];
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
-	[self _recomputeVisibleCount];
+	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
+	   forProperty:@"VisibleObjectCount"
+			notify:NotifyNow];
 }
 
 /*!
@@ -224,6 +223,9 @@
 		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]] 
 					   forProperty:@"ObjectCount"
 					   notify:NotifyNow];
+		[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
+		   forProperty:@"VisibleObjectCount"
+				notify:NotifyNow];
 		
 		success = YES;
 	}
@@ -248,6 +250,9 @@
 		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
 					   forProperty:@"ObjectCount" 
 					   notify:NotifyNow];
+		[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
+		   forProperty:@"VisibleObjectCount"
+				notify:NotifyNow];
 	}
 }
 
@@ -270,7 +275,11 @@
 	[_containedObjects sortUsingActiveSortController];
 
 	//Update our visibility as a result of this change
+	//XXX: what change? why does sort assume a visibility change?
 	[self _recomputeVisibleCount];
+	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
+	   forProperty:@"VisibleObjectCount"
+			notify:NotifyNow];
 }
 
 
