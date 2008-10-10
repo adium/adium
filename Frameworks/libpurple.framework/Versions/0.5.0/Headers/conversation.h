@@ -114,7 +114,7 @@ typedef enum
 	                                        which are only open for
 	                                        internal UI purposes
 	                                        (e.g. for contact-aware
-	                                         conversions).           */
+	                                         conversations).           */
 	PURPLE_MESSAGE_NICK        = 0x0020, /**< Contains your nick.      */
 	PURPLE_MESSAGE_NO_LOG      = 0x0040, /**< Do not log.              */
 	PURPLE_MESSAGE_WHISPER     = 0x0080, /**< Whispered message.       */
