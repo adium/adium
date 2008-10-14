@@ -514,7 +514,7 @@ static NSArray *draggedTypes = nil;
  */
 - (void) setIsGroupChat:(BOOL) flag
 {
-	DOMHTMLElement *chatElement = (DOMHTMLElement *)[[[webView mainFrame] DOMDocument] getElementById:@"Chat"];
+	DOMHTMLElement *chatElement = (DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"Chat"];
 	NSMutableString *chatClassName = [[[chatElement className] mutableCopy] autorelease];
 	if (flag == NO)
 		[chatClassName replaceOccurrencesOfString:@" groupchat"
@@ -1217,7 +1217,7 @@ static NSArray *draggedTypes = nil;
 
 		if (oldWebKitUserIconPath &&
 			![oldWebKitUserIconPath isEqualToString:webKitUserIconPath]) {
-			DOMNodeList  *images = [[[webView mainFrame] DOMDocument] getElementsByTagName:@"img"];
+			DOMNodeList  *images = [[webView mainFrameDocument] getElementsByTagName:@"img"];
 			NSUInteger imagesCount = [images length];
 
 			webKitUserIconPath = [[webKitUserIconPath copy] autorelease];
@@ -1238,7 +1238,7 @@ static NSArray *draggedTypes = nil;
 
 - (void)updateServiceIcon
 {
-	DOMDocument *doc = [[webView mainFrame] DOMDocument];
+	DOMDocument *doc = [webView mainFrameDocument];
 	//Old WebKits don't support this... if someone feels like doing it the slower way here, feel free
 	if(![doc respondsToSelector:@selector(getElementsByClassName:)])
 		return; 
@@ -1256,7 +1256,7 @@ static NSArray *draggedTypes = nil;
 
 - (void)customEmoticonUpdated:(NSNotification *)inNotification
 {
-	DOMNodeList  *images = [[[webView mainFrame] DOMDocument] getElementsByTagName:@"img"];
+	DOMNodeList  *images = [[webView mainFrameDocument] getElementsByTagName:@"img"];
 	NSUInteger imagesCount = [images length];
 
 	if (imagesCount > 0) {
@@ -1380,7 +1380,7 @@ static NSArray *draggedTypes = nil;
 //gets the source of the html page, for debugging
 - (NSString *)webviewSource
 {
-	return [(DOMHTMLHtmlElement *)[[[[webView mainFrame] DOMDocument] getElementsByTagName:@"html"] item:0] outerHTML];
+	return [(DOMHTMLHtmlElement *)[[[webView mainFrameDocument] getElementsByTagName:@"html"] item:0] outerHTML];
 }
 
 /*!
@@ -1395,7 +1395,7 @@ static NSArray *draggedTypes = nil;
 				   afterDelay:0.01];
 	} else {
 		// Add the old "Chat" element to the window.
-		[(DOMHTMLElement *)[[[webView mainFrame] DOMDocument] getElementById:@"Chat"] setOuterHTML:source];
+		[(DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"Chat"] setOuterHTML:source];
 
 		NSString	*scrollToBottomScript;		
 		if ((scrollToBottomScript = [messageStyle scriptForScrollingAfterAddingMultipleContentObjects])) {
@@ -1409,7 +1409,7 @@ static NSArray *draggedTypes = nil;
  */
 - (NSString *)chatContentSource
 {
-	return [(DOMHTMLElement *)[[[webView mainFrame] DOMDocument] getElementById:@"Chat"] outerHTML];
+	return [(DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"Chat"] outerHTML];
 }
 
 /*!
