@@ -51,8 +51,17 @@
 		CFRelease(currentSearch); currentSearch = NULL;
 	}
 
+	NSMutableString *wildcardedSearchString = [NSMutableString string];
+	for (NSString *searchComponent in [searchString componentsSeparatedByString:@" "]) {
+		if ([searchComponent rangeOfString:@"*"].location == NSNotFound) {
+			//If the user specifies particular wildcard behavior, respect it
+			[wildcardedSearchString appendFormat:@"*%@* ", searchComponent];
+		} else
+			[wildcardedSearchString appendFormat:@"%@ ", searchComponent];
+	}
+
 	thisSearch = SKSearchCreate(logSearchIndex,
-								(CFStringRef)searchString,
+								(CFStringRef)wildcardedSearchString,
 								kSKSearchOptionDefault);
 	currentSearch = (thisSearch ? (SKSearchRef)CFRetain(thisSearch) : NULL);
 	[currentSearchLock unlock];
