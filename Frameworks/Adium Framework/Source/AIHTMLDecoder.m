@@ -1314,7 +1314,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 					//Convert <li> into a bullet point
 					} else if ([chunkString caseInsensitiveCompare:@"LI"] == NSOrderedSame) {
-						[attrString appendString:@" • " withAttributes:[textAttributes dictionary]];
+						[attrString appendString:@"• " withAttributes:[textAttributes dictionary]];
 	
 					//Invalid
 					} else {
