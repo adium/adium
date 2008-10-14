@@ -61,7 +61,7 @@ typedef enum {
 
 - (NSRect)_desiredWindowFrameUsingDesiredWidth:(BOOL)useDesiredWidth desiredHeight:(BOOL)useDesiredHeight;
 
-- (void)contactOrderChanged:(NSNotification *)notification;
+- (void)reloadListObject:(NSNotification *)notification;
 
 @end
 

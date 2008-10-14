@@ -49,7 +49,6 @@
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
 @interface AIListController ()
-- (void)contactListChanged:(NSNotification *)notification;
 - (void)promptToCombineItems:(NSArray *)items withContact:(AIListContact *)inContact;
 @end
 
@@ -70,10 +69,10 @@
 		forcedWindowWidth = -1;
 		
 		//Observe contact list content and display changes
-		[[adium notificationCenter] addObserver:self selector:@selector(contactListChanged:) 
+		[[adium notificationCenter] addObserver:self selector:@selector(reloadListObject:) 
 										   name:Contact_ListChanged
 										 object:nil];
-		[[adium notificationCenter] addObserver:self selector:@selector(contactOrderChanged:)
+		[[adium notificationCenter] addObserver:self selector:@selector(reloadListObject:)
 										   name:Contact_OrderChanged 
 										 object:nil];
 		
@@ -423,35 +422,6 @@
 
 //Content Updating -----------------------------------------------------------------------------------------------------
 #pragma mark Content Updating
-/*!
- * @brief The entire contact list, or an entire group, changed
- *
- * This indicates that an entire group changed -- the contact list is just a giant group, so that includes the entire
- * contact list changing.  Reload the appropriate object.
- */
-- (void)contactListChanged:(NSNotification *)notification
-{
-	id		object = [notification object];
-
-	//Redisplay and resize
-	if (!object || object == contactList) {
-		[contactListView reloadData];
-
-	} else {
-		NSDictionary	*userInfo = [notification userInfo];
-		AIListGroup		*containingGroup = [userInfo objectForKey:@"ContainingGroup"];
-
-		if (!containingGroup || containingGroup == contactList) {
-			//Reload the whole tree if the containing group is our root
-			
-		} else {
-			/* We need to reload the contaning group since this notification is posted when adding and removing objects.
-			 * Reloading the actual object that changed will produce no results since it may not be on the list.
-			 */
-			[contactListView reloadItem:containingGroup reloadChildren:YES];
-		}
-	}
-}
 
 - (AIListObject<AIContainingObject> *)contactList
 {
@@ -463,15 +433,9 @@
 	return contactListView;
 }
 
-/*!
- * @brief Order of contacts changed
- *
- * The notification's object is the contact whose order changed.  
- * We must reload the group containing that contact in order to correctly update the list.
- */
-- (void)contactOrderChanged:(NSNotification *)notification
+- (void)reloadListObject:(NSNotification *)notification
 {
-	id		object = [[notification object] containingObject];
+	id		object = [notification object];
 
 	//Treat a nil object as equivalent to the whole contact list
 	if (!object || (object == contactList)) {
@@ -835,7 +799,7 @@
 	[super outlineView:outlineView acceptDrop:info item:item childIndex:index];
 
 	//XXX Is this actually needed?
-	[self contactListChanged:nil];
+	[self reloadListObject:nil];
 	
     return success;
 }
