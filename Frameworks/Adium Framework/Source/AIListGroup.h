@@ -30,10 +30,6 @@
 //Object Storage
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 
-//Object Storage (PRIVATE: For contact controller only)
-- (BOOL)addObject:(AIListObject *)inObject;
-- (void)removeObject:(AIListObject *)inObject;
-
 //Sorting (PRIVATE: For contact controller only)
 - (void)sortListObject:(AIListObject *)inObject;
 - (void)sort;

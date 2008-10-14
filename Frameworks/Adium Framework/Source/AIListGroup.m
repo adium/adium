@@ -241,9 +241,8 @@
 		if ([inObject containingObject] == self)
 			[inObject setContainingObject:nil];
 		[_containedObjects removeObject:inObject];
-		
-		//Update our visible count
 
+		//Update our visible count
 		[self _recomputeVisibleCount];
 
 		//
@@ -254,6 +253,23 @@
 		   forProperty:@"VisibleObjectCount"
 				notify:NotifyNow];
 	}
+}
+
+- (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
+{
+	[inObject setContainingObject:nil];
+	[_containedObjects removeObject:inObject];
+
+	//Update our visible count
+	[self _recomputeVisibleCount];
+	
+	//
+	[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
+	   forProperty:@"ObjectCount" 
+			notify:NotifyLater];
+	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
+	   forProperty:@"VisibleObjectCount"
+			notify:NotifyLater];	
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
