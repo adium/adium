@@ -1001,6 +1001,7 @@
 		34E6C9950A7926650076D7F0 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
 		34EA6B320A62F3420053DFEB /* AIApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EA6B300A62F3420053DFEB /* AIApplication.m */; };
 		34EBB2C30DCA8DE500B4CB6E /* AISearchFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EBB2C20DCA8DE500B4CB6E /* AISearchFieldCell.m */; };
+		34EC3C2B0EA5098D003CB39B /* AIFacebookBuddyProfileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EC3C290EA5098D003CB39B /* AIFacebookBuddyProfileManager.m */; };
 		34EF904B0E2EB17B003E5DC7 /* AIMobileMeService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34EF90490E2EB17B003E5DC7 /* AIMobileMeService.h */; };
 		34EF904C0E2EB17B003E5DC7 /* AIMobileMeService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34EF904A0E2EB17B003E5DC7 /* AIMobileMeService.m */; };
 		34EF90570E2EB1A8003E5DC7 /* AIPurpleMobileMeAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34EF90550E2EB1A8003E5DC7 /* AIPurpleMobileMeAccountViewController.h */; };
@@ -3676,6 +3677,8 @@
 		34EA6B300A62F3420053DFEB /* AIApplication.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIApplication.m; path = Source/AIApplication.m; sourceTree = "<group>"; };
 		34EBB2C10DCA8DE400B4CB6E /* AISearchFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISearchFieldCell.h; path = Source/AISearchFieldCell.h; sourceTree = "<group>"; };
 		34EBB2C20DCA8DE500B4CB6E /* AISearchFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISearchFieldCell.m; path = Source/AISearchFieldCell.m; sourceTree = "<group>"; };
+		34EC3C290EA5098D003CB39B /* AIFacebookBuddyProfileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFacebookBuddyProfileManager.m; path = "Plugins/Facebook Service/AIFacebookBuddyProfileManager.m"; sourceTree = "<group>"; };
+		34EC3C2A0EA5098D003CB39B /* AIFacebookBuddyProfileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFacebookBuddyProfileManager.h; path = "Plugins/Facebook Service/AIFacebookBuddyProfileManager.h"; sourceTree = "<group>"; };
 		34EF90490E2EB17B003E5DC7 /* AIMobileMeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMobileMeService.h; path = "Plugins/Purple Service/AIMobileMeService.h"; sourceTree = "<group>"; };
 		34EF904A0E2EB17B003E5DC7 /* AIMobileMeService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMobileMeService.m; path = "Plugins/Purple Service/AIMobileMeService.m"; sourceTree = "<group>"; };
 		34EF90550E2EB1A8003E5DC7 /* AIPurpleMobileMeAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleMobileMeAccountViewController.h; path = "Plugins/Purple Service/AIPurpleMobileMeAccountViewController.h"; sourceTree = "<group>"; };
@@ -5635,6 +5638,8 @@
 				34A687320DD38CC3008F0430 /* AIFacebookService.m */,
 				34A687360DD38CCD008F0430 /* AIFacebookAccount.h */,
 				34A687370DD38CCD008F0430 /* AIFacebookAccount.m */,
+				34EC3C2A0EA5098D003CB39B /* AIFacebookBuddyProfileManager.h */,
+				34EC3C290EA5098D003CB39B /* AIFacebookBuddyProfileManager.m */,
 				34A6873B0DD38CE1008F0430 /* AIFacebookPlugin.h */,
 				34A6873C0DD38CE1008F0430 /* AIFacebookPlugin.m */,
 				34A687A40DD38E04008F0430 /* AIFacebookAccountViewController.h */,
@@ -9469,6 +9474,7 @@
 				34A3C8CC0DD3DBB100D35F10 /* AIFacebookOutgoingMessageManager.m in Sources */,
 				34A3C9000DD3DF8000D35F10 /* AIFacebookIncomingMessageManager.m in Sources */,
 				341FFD940DD85B1E0049F13D /* AIFacebookStatusManager.m in Sources */,
+				34EC3C2B0EA5098D003CB39B /* AIFacebookBuddyProfileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
