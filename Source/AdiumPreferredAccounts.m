@@ -36,8 +36,6 @@
 - (id)init
 {
 	if ((self = [super init])) {
-		lastAccountIDToSendContent = [[NSMutableDictionary alloc] init];		
-
 		//Observe content (for accountForSendingContentToContact)
 		[[adium notificationCenter] addObserver:self
 									   selector:@selector(didSendContent:)
@@ -54,7 +52,6 @@
 - (void)dealloc
 {
     [[adium notificationCenter] removeObserver:self];
-	[lastAccountIDToSendContent release]; lastAccountIDToSendContent = nil;
 	
 	[super dealloc];
 }
@@ -110,52 +107,27 @@
 		}
 	}
 	
-	/* We don't have a known previously used account for this contact. */
-	
-	//Get the last account used to message someone on this service, and check if the contact is on that account
-	NSString		*lastAccountID = [lastAccountIDToSendContent objectForKey:[[inContact service] serviceID]];
-	AIAccount		*lastUsedAccount = (lastAccountID ? [adium.accountController accountWithInternalObjectID:lastAccountID] : nil);
-	AIListContact	*possibleContact = [adium.contactController existingContactWithService:[lastUsedAccount service]
-																				   account:lastUsedAccount
-																					   UID:[inContact UID]];
-	if (possibleContact && ![possibleContact isStranger] &&
-		([lastUsedAccount availableForSendingContentType:inType toContact:inContact] || !strictChecking)) {
-		return lastUsedAccount;
-	}
-	
-	//Use the current account if and only if the contact is not a stranger on that account.
-	if ((account = [inContact account]) &&
-		![inContact isStranger] &&
-		([account availableForSendingContentType:inType toContact:inContact] || !strictChecking)) {
-		return account;
-	}
-	
-	//Now check compatible accounts, looking for one that knows about the contact
+	//Check all compatible accounts, looking for one that has the contact on its list
 	for (account in [adium.accountController accountsCompatibleWithService:inContact.service]) {
 		AIListContact *possibleContact = [adium.contactController existingContactWithService:account.service
-																					 account:account
-																						 UID:inContact.UID];
+										  account:account
+										  UID:inContact.UID];
 		if ((possibleContact && !possibleContact.isStranger) &&
-			([account availableForSendingContentType:inType toContact:inContact] || !strictChecking)) {
+			([account availableForSendingContentType:inType toContact:possibleContact] || !strictChecking)) {
 			//If a contact with this account already exists and isn't a stranger, we've found a good possible choice.
 			return account;
 		}
-	}
-	
+	}	
+
 	/* Now, just look for any account which could send to this contact.
 	 * We no longer care if the contact is not a stranger, as we exchausted all those possibilities.
-	 *
-	 * First, check to see if the last account used on this service will work.
 	 */
-	if ([lastUsedAccount availableForSendingContentType:inType toContact:inContact] || !strictChecking) {
-		return lastUsedAccount;
-	}
+	for (account in [adium.accountController accountsCompatibleWithService:inContact.service]) {
+		if ([account availableForSendingContentType:inType toContact:inContact] || !strictChecking) {
+			return account;
+		}
+	}	
 	
-	//If inObject is an AIListContact return the account the object is on even if the account is offline
-	if (!strictChecking && (account = [inContact account])) {
-		return account;
-	}
-
 	return nil;
 }
 
@@ -198,8 +170,6 @@
 							   forKey:KEY_PREFERRED_SOURCE_ACCOUNT
 								group:PREF_GROUP_PREFERRED_ACCOUNTS];
         }
-
-        [lastAccountIDToSendContent setObject:[sourceAccount internalObjectID] forKey:[[destObject service] serviceID]];
     }
 }
 
