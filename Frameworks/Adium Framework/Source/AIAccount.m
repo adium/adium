@@ -869,6 +869,12 @@ typedef enum
 	//add stuff
 }
 
+#pragma mark Logging
+- (BOOL)shouldLogChat:(AIChat *)chat
+{
+	return ![self isTemporary];
+}
+
 #pragma mark AppleScript
 - (NSNumber *)scriptingInternalObjectID
 {
