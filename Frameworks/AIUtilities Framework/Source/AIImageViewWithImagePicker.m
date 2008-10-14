@@ -597,7 +597,9 @@
 			[pictureTaker setInputImage:(theImage ? theImage : [self image])];
 
 		[pictureTaker setTitle:([self title] ? [self title] : AILocalizedStringFromTableInBundle(@"Image Picker", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], nil))];
-		[pictureTaker setValue:[NSValue valueWithSize:[self maxSize]]
+		[pictureTaker setValue:(([self maxSize].width != 0 && [self maxSize].height != 0) ?
+								[NSValue valueWithSize:[self maxSize]] :
+								nil)
 						forKey:IKPictureTakerOutputImageMaxSizeKey];
 		[pictureTaker setValue:[NSNumber numberWithBool:YES]
 						forKey:IKPictureTakerShowEffectsKey];
