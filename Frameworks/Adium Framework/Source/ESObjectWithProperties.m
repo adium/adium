@@ -183,49 +183,6 @@
 	return ((obj && [obj isKindOfClass:[NSNumber class]]) ? obj : nil);
 }
 
-/*!
- * @brief Retrieve the value for a property
- *
- * Note that fromAnyContainedObject is useful for subclasses; this default implementation ignores it.
- *
- * @param key The key
- * @param fromAnyContainedObject If YES, return the best value from any contained object if the preferred object returns nil. If NO, only look at the preferred object.
- */
-- (id)valueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [self valueForProperty:key];
-}
-
-/*!
- * @brief NSNumber value for a property
- *
- * Note that fromAnyContainedObject is useful for subclasses; this default implementation ignores it.
- *
- * @param key The key
- * @param fromAnyContainedObject If YES, return the best value from any contained object if the preferred object returns nil. If NO, only look at the preferred object. 
- * @result The NSNumber for this key, or nil if no such key is set or the value is not an NSNumber
- */
-- (NSNumber *)numberValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [self numberValueForProperty:key];
-}
-
-/*!
- * @brief Integer value for a property
- *
- * Note that fromAnyContainedObject is useful for subclasses; this default implementation ignores it.
- *
- * @param key The key
- * @param fromAnyContainedObject If YES, return the best value from any contained object if the preferred object returns nil. If NO, only look at the preferred object. 
- * @result int value for key, or 0 if no object is set for key
- */
-- (int)integerValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	NSNumber *returnValue = [self numberValueForProperty:key];
-	
-    return returnValue ? [returnValue intValue] : 0;
-}
-
 //For Subclasses -------------------------------------------------------------------------------------------------------
 #pragma mark For Subclasses
 

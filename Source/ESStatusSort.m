@@ -595,10 +595,10 @@ NSInteger statusSort(id objectA, id objectB, BOOL groups)
 			away[1] = ((statusSummaryB == AIAwayStatus) || (statusSummaryB == AIAwayAndIdleStatus));
 			
 			idle[0] = (((statusSummaryA == AIIdleStatus) || (statusSummaryA == AIAwayAndIdleStatus)) ?
-					   [objectA integerValueForProperty:@"Idle" fromAnyContainedObject:NO] :
+					   [objectA integerValueForProperty:@"Idle"] :
 					   0);
 			idle[1] = (((statusSummaryB == AIIdleStatus) || (statusSummaryB == AIAwayAndIdleStatus)) ?
-					   [objectB integerValueForProperty:@"Idle" fromAnyContainedObject:NO] :
+					   [objectB integerValueForProperty:@"Idle"] :
 					   0);
 			
 			if (groupMobile) {

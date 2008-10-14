@@ -651,9 +651,7 @@
 	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
-		NSColor		*labelColor = (isEvent ?
-								   [listObject valueForProperty:@"Label Color"] :
-								   [listObject valueForProperty:@"Label Color" fromAnyContainedObject:NO]);
+		NSColor		*labelColor = [listObject valueForProperty:@"Label Color"];
 		float		colorOpacity = [labelColor alphaComponent];
 		float		targetOpacity = backgroundOpacity * colorOpacity;
 
@@ -669,10 +667,9 @@
 {
 	NSColor	*theTextColor;
 	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
-
-	if (shouldUseContactTextColors && (isEvent ?
-									   (theTextColor = [listObject valueForProperty:@"Text Color"]) :
-									   (theTextColor = [listObject valueForProperty:@"Text Color" fromAnyContainedObject:NO]))) {
+	/* XXX If it's an event, we may want to be inheriting from more than just the metacontact's preferred contact...
+	 * this is the only case for that which I've come across */
+	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"Text Color"])) {
 		return theTextColor;
 	} else {
 		return [super textColor];

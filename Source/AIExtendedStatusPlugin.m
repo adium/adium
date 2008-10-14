@@ -100,11 +100,10 @@
 		 (showIdle && [inModifiedKeys containsObject:@"Idle"]) ||
 		 (showStatus && ([inModifiedKeys containsObject:@"StatusMessage"] ||
 						 [inModifiedKeys containsObject:@"StatusName"]))) &&
-		[inObject isKindOfClass:[AIListContact class]] &&
-		([(AIListContact *)inObject parentContact] == inObject)) {
+		[inObject isKindOfClass:[AIListContact class]]){
 		NSMutableString	*statusMessage = nil;
 		NSString		*finalMessage = nil, *finalIdleReadable = nil;
-		NSInteger				idle;
+		NSInteger		idle;
 
 		if (showStatus) {
 			NSAttributedString *filteredMessage;

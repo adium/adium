@@ -456,7 +456,7 @@
  */
 - (BOOL)isMobile
 {
-	return [self integerValueForProperty:@"IsMobile" fromAnyContainedObject:NO];
+	return [self integerValueForProperty:@"IsMobile"];
 }
 
 /*!

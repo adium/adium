@@ -33,9 +33,7 @@
 
 @interface AIMetaContact ()
 - (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
-- (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
 
-- (id)_valueForProperty:(NSString *)key containedObjectSelector:(SEL)containedObjectSelector queryNonPreferredContacts:(BOOL)queryNonPreferredContacts;
 - (void)_determineIfWeShouldAppearToContainOnlyOneContact;
 
 - (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts visibleOnly:(BOOL)visibleOnly;
@@ -290,7 +288,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		}
 
 		//Add the object from our status cache, notifying of the changes (silently) as appropriate
-		[self _updateAllPropertiesForObject:inObject];
+		if (inObject == [self preferredContact]) {
+			[self _updateAllPropertiesForObject:inObject];
+		}
 
 		//Force an immediate update of our visibileListContacts list, which will also update our visible count
 		[self visibleListContacts];
@@ -312,7 +312,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		BOOL	noteRemoteGroupingChanged = NO;
 
 		[inObject retain];
-		
+
+		BOOL	wasPreferredContact = (inObject == [self preferredContact]);
+
 		[_containedObjects removeObject:inObject];
 		
 		if ([(AIListContact *)inObject remoteGroupName]) {
@@ -333,7 +335,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		}
 
 		//Remove all references to the object from our status cache; notifying of the changes as appropriate
-		[self _updateAllPropertiesForObject:inObject];
+		if (wasPreferredContact)
+			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
 		if ([self.containedObjects count] == 0) {
@@ -690,11 +693,17 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 //Property Handling -----------------------------------------------------------------------------------------------
 #pragma mark Property Handling
-//Update our preferred ordering as objects that we contain change their status
+/*
+ * @brief Update our preferred ordering as objects that we contain change their status
+ *
+ * The purpose of this is to determine if we need to recalculate our preferredContact.
+ * This will be done "lazily," though in reality it will most likely happen quite soon.
+ */
 - (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify
 {
-	//If the online status of a contained object changed, we should also check if our one-contact-only
-	//in terms of online contacts has changed
+	/* If the online status of a contained object changed, we should also check if our one-contact-only
+	 * in terms of online contacts has changed
+	 */
 	if ([key isEqualToString:@"Online"]) {
 		_preferredContact = nil;
 		[self _determineIfWeShouldAppearToContainOnlyOneContact];
@@ -710,71 +719,32 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[super object:self didChangeValueForProperty:key notify:notify];
 }
 
-//---- Default property behavior ----
-//Retrieve a property for this object - return the value of our preferredContact, 
-//returning nil if our preferredContact returns nil.
-
 - (id)valueForProperty:(NSString *)key
 {
-	return [self valueForProperty:key fromAnyContainedObject:YES];
+	id result;
+
+	if (!(result = [super valueForProperty:key]))
+		result = [self.preferredContact valueForProperty:key];
+
+	return result;
 }
 - (int)integerValueForProperty:(NSString *)key
 {
-	return [self integerValueForProperty:key fromAnyContainedObject:YES];
+	int	result;
+	
+	if (!(result = [super integerValueForProperty:key]))
+		result = [self.preferredContact integerValueForProperty:key];
+	
+	return result;
 }
 - (NSNumber *)numberValueForProperty:(NSString *)key
 {
-	return [self numberValueForProperty:key fromAnyContainedObject:YES];
-}
-
-//---- fromAnyContainedObject property behavior ----
-//If fromAnyContainedObject is YES, return the best value from any contained object if the preferred object returns nil.
-//If it is NO, only look at the preferred object.
-
-//General property
-- (id)valueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [self _valueForProperty:key containedObjectSelector:@selector(valueForProperty:) queryNonPreferredContacts:fromAnyContainedObject];
-}
-
-//NSNumber
-- (NSNumber *)numberValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	return [self _valueForProperty:key containedObjectSelector:@selector(numberValueForProperty:) queryNonPreferredContacts:fromAnyContainedObject];
-}
-
-//Integer (uses numberValueForProperty:)
-- (int)integerValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject
-{
-	NSNumber *returnValue = [self numberValueForProperty:key fromAnyContainedObject:fromAnyContainedObject];
+	NSNumber *result;
 	
-    return returnValue ? [returnValue intValue] : 0;
-}
-
-//Returns the property from our object.
-//If no such object is found, return the property from the preferredContact for a given key.
-//If no such object is found, and containedObjectSelector is not nil, 
-//queries the entire mutableOwnerArray using that selector.
-- (id)_valueForProperty:(NSString *)key containedObjectSelector:(SEL)containedObjectSelector queryNonPreferredContacts:(BOOL)queryNonPreferredContacts
-{
-	id					returnValue;
-
-	returnValue = [super valueForProperty:key];
-
-	if (!returnValue) {
-		returnValue = [self.preferredContact performSelector:containedObjectSelector
-													withObject:key];
-		if (!returnValue && queryNonPreferredContacts) {
-			NSEnumerator  *enumerator = [self.listContacts objectEnumerator];
-			AIListContact *listContact;
-			while (!returnValue && (listContact = [enumerator nextObject])) {
-				returnValue = [listContact performSelector:containedObjectSelector
-												withObject:key];
-			}
-		}
-	}
-
-	return returnValue;
+	if (!(result = [super numberValueForProperty:key]))
+		result = [self.preferredContact numberValueForProperty:key];
+	
+	return result;
 }
 
 #pragma mark Attribute arrays
@@ -890,6 +860,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  * First, call displayUserIcon. See below for details.
  * If that returns nil, look at our preferredContact's userIcon.
  * If that returns nil, find any userIcon of a containedContact.
+ *
+ * Note that this is one of the few places that a metacontact will display information from a contact other
+ * than its preferred contact.
  *
  * @result The <tt>NSImage</tt> to associate with this metaContact
  */
@@ -1010,26 +983,19 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (NSAttributedString *)contactListStatusMessage
 {
-	NSEnumerator		*enumerator;
 	NSAttributedString	*contactListStatusMessage = nil;
-	AIListContact		*listContact;
 	
 	//Try to use an actual status message first
-	enumerator = [self.listContacts objectEnumerator];
-	while (!contactListStatusMessage && (listContact = [enumerator nextObject])) {
-		contactListStatusMessage = [listContact statusMessage];
-	}
+	contactListStatusMessage = [self.preferredContact statusMessage];
 
-	if (!contactListStatusMessage) {
-		//Next go for any contact list status message, which may include a display name or the name of a status such as "BRB"
-		enumerator = [self.listContacts objectEnumerator];
-		while (!contactListStatusMessage && (listContact = [enumerator nextObject])) {
-			contactListStatusMessage = [listContact contactListStatusMessage];
-		}		
-	}
+	if (!contactListStatusMessage)
+		contactListStatusMessage = [self.preferredContact contactListStatusMessage];
 
-	if (!contactListStatusMessage) {
-		return [self statusMessage];
+	if (!contactListStatusMessage) { 
+		contactListStatusMessage = [self statusMessage];
+		if (contactListStatusMessage)
+			AILogWithSignature(@"%@: Odd. Why do I have a statusmessage (%@) but my preferred contact doesn't?", 
+							   self, contactListStatusMessage);
 	}
 
 	return contactListStatusMessage;

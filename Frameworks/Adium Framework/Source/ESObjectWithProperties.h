@@ -44,10 +44,6 @@ typedef enum {
 - (int)integerValueForProperty:(NSString *)key;
 - (NSNumber *)numberValueForProperty:(NSString *)key;
 
-- (id)valueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject;
-- (int)integerValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject;
-- (NSNumber *)numberValueForProperty:(NSString *)key fromAnyContainedObject:(BOOL)fromAnyContainedObject;
-
 //Properties: Specifically for subclasses
 - (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify;
 - (void)didModifyProperties:(NSSet *)keys silent:(BOOL)silent;
