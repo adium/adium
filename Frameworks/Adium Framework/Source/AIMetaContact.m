@@ -351,6 +351,22 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 }
 
+- (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
+{
+	[inObject retain];
+	
+	[_containedObjects removeObject:inObject];
+	[inObject setContainingObject:nil];
+	[self containedObjectsOrOrderDidChange];
+
+	//If we remove our list object, don't continue to show up in the contact list
+	if ([self.containedObjects count] == 0) {
+		[self setContainingObject:nil];
+	}
+	
+	[inObject release];
+}
+
 /*!
  * @brief Return the preferred contact to use within this metaContact
  *

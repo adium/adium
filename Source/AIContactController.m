@@ -1325,6 +1325,17 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)inContact
 {
 	[[inContact retain] autorelease];
+
+	/* Remove after a short delay. Otherwise, the removal may be visible as the object remains in the contact
+	 * list until a display delay is over, which would show up as the name going blank on metacontacts and other
+	 * odd behavior.
+	 *
+	 * Of course, this really means that the object delay code is somehow failing to actually delay all updates.
+	 * I can't figure out where or why, so this is a hack around it. Ugh. -evands 10/08
+	 */
+	[inContact.containingObject performSelector:@selector(removeObjectAfterAccountStopsTracking:)
+									 withObject:inContact
+									 afterDelay:1];
 	[contactDict removeObjectForKey:[inContact internalUniqueObjectID]];
 }
 

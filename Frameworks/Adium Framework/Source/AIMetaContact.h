@@ -55,10 +55,6 @@
 @property (readonly, nonatomic) NSDictionary *dictionaryOfServiceClassesAndListContacts;
 @property (readonly, nonatomic) NSArray *servicesOfContainedObjects;
 
-// (PRIVATE: For contact controller ONLY)
-- (BOOL)addObject:(AIListObject *)inObject;
-- (void)removeObject:(AIListObject *)inObject;
-
 /*
  * @brief A flat array of AIListContacts each with a different internalObjectID
  *
