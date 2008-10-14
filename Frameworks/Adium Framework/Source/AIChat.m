@@ -464,6 +464,13 @@ static int nextChatNumber = 0;
 	[self setValue:nil forProperty:KEY_UNVIEWED_CONTENT notify:NotifyNow];
 }
 
+#pragma mark Logging
+
+- (BOOL)shouldLog
+{
+	return [self.account shouldLogChat:self];
+}
+
 #pragma mark AIContainingObject protocol
 //AIContainingObject protocol
 - (NSArray *)containedObjects
@@ -543,6 +550,11 @@ static int nextChatNumber = 0;
 						didStopTrackingContact:(AIListContact *)inObject];
 		}		
 	}
+}
+
+- (void)removeObjectAfterAccountStopsTracking:(AIListObject *)object
+{
+	[self removeObject:object];
 }
 
 - (void)removeAllObjects 

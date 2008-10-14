@@ -437,8 +437,7 @@ Class LogViewerWindowControllerClass = NULL;
 	if ([content postProcessContent]) {
 		AIChat				*chat = [notification object];
 
-		//Don't log chats for temporary accounts
-		if ([[chat account] isTemporary]) return;	
+		if (![chat shouldLog]) return;	
 		
 		BOOL			dirty = NO;
 		NSString		*contentType = [content type];
@@ -533,8 +532,7 @@ Class LogViewerWindowControllerClass = NULL;
 {
 	AIChat	*chat = [notification object];
 
-	//Don't log chats for temporary accounts
-	if ([[chat account] isTemporary]) return;	
+	if (![chat shouldLog]) return;	
 	
 	//Try reusing the appender object
 	AIXMLAppender *appender = [self existingAppenderForChat:chat];
@@ -564,8 +562,7 @@ Class LogViewerWindowControllerClass = NULL;
 {
 	AIChat	*chat = [notification object];
 
-	//Don't log chats for temporary accounts
-	if ([[chat account] isTemporary]) return;
+	if (![chat shouldLog]) return;	
 	
 	//Use this method so we don't create a new appender for chat close events
 	AIXMLAppender *appender = [self existingAppenderForChat:chat];
