@@ -289,15 +289,7 @@
 - (void)sort
 {	
 	[_containedObjects sortUsingActiveSortController];
-
-	//Update our visibility as a result of this change
-	//XXX: what change? why does sort assume a visibility change?
-	[self _recomputeVisibleCount];
-	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-	   forProperty:@"VisibleObjectCount"
-			notify:NotifyNow];
 }
-
 
 //Expanded State -------------------------------------------------------------------------------------------------------
 #pragma mark Expanded State
