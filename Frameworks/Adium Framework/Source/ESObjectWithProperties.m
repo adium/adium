@@ -17,9 +17,6 @@
 #import <Adium/ESObjectWithProperties.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 
-#define KEY_KEY		@"Key"
-#define KEY_VALUE	@"Value"
-
 /*!
  * @class ESObjectWithProperties
  * @brief Abstract superclass for objects with a system of properties and display arrays
