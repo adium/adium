@@ -286,7 +286,7 @@
 		([(AIListContact *)inObject parentContact] == (AIListContact *)inObject)) {
 
 		if ([inModifiedKeys containsObject:@"Online"]) {
-			id newValue = [inObject numberValueForProperty:@"Online" fromAnyContainedObject:NO];
+			id newValue = [inObject numberValueForProperty:@"Online"];
 
 			if ([self updateCache:onlineCache
 						   forKey:@"Online"
@@ -364,7 +364,7 @@
 			}
 
 			if ([inModifiedKeys containsObject:@"IsIdle"]) {
-				id newValue = [inObject numberValueForProperty:@"IsIdle" fromAnyContainedObject:NO];
+				id newValue = [inObject numberValueForProperty:@"IsIdle"];
 				if ([self updateCache:idleCache
 							   forKey:@"IsIdle"
 							 newValue:newValue
