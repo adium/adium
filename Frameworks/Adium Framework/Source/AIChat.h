@@ -174,4 +174,6 @@ typedef enum {
 
 @property (readonly, nonatomic) NSMenu *actionMenu;
 
+@property (readonly, nonatomic) BOOL shouldLog;
+
 @end

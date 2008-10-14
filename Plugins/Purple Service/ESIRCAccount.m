@@ -8,6 +8,7 @@
 
 #import "ESIRCAccount.h"
 #import <Adium/AIHTMLDecoder.h>
+#import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import "SLPurpleCocoaAdapter.h"
@@ -123,6 +124,20 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	return ([[[inContact UID] lowercaseString] isEqualToString:@"nickserv"] ||
 			[[[inContact UID] lowercaseString] isEqualToString:@"chanserv"]);
+}
+
+- (BOOL)shouldLogChat:(AIChat *)chat
+{
+	NSString *source = [[chat listObject] UID];
+	BOOL shouldLog = YES;
+	
+	if (source && (([source caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
+				   ([source caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
+				   ([source rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound))) {
+		shouldLog = NO;	
+	}
+
+	return (shouldLog && [super shouldLogChat:chat]);
 }
 
 - (BOOL)closeChat:(AIChat*)chat
