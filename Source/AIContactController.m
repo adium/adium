@@ -422,8 +422,8 @@
 
 	} else {
 		[[adium notificationCenter] postNotificationName:Contact_ListChanged
-												  object:object
-												userInfo:(group ? [NSDictionary dictionaryWithObject:group forKey:@"ContainingGroup"] : nil)];
+												  object:group
+												userInfo:nil];
 	}
 }
 
@@ -1158,7 +1158,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		if ([group isKindOfClass:[AIListGroup class]]) {
 			//Sort the groups containing this object
 			[(AIListGroup *)group sortListObject:inObject];
-			[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:inObject];
+			[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:group];
 		}
 	}
 }
