@@ -22,7 +22,10 @@ typedef enum {
 	NotifyLater = NO,   /* 0 */
 	NotifyNow = YES		/* 1 */
 } NotifyTiming;
-	
+
+#define KEY_KEY		@"Key"
+#define KEY_VALUE	@"Value"
+
 @interface ESObjectWithProperties : NSObject {
 	NSMutableDictionary		*propertiesDictionary;
 	NSMutableSet						*changedProperties;		//Properties that have changed since the last notification
