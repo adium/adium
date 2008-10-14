@@ -347,7 +347,7 @@
 					id thisValue = [lineDict objectForKey:KEY_VALUE];
 					id otherValue = [otherLineDict objectForKey:KEY_VALUE];
 					
-					if ([lineDict isKindOfClass:[otherLineDict class]]) {
+					if ([thisValue isKindOfClass:[otherValue class]]) {
 						/* Same class. Compare directly. */
 						if ([thisValue isEqual:otherValue]) {
 							[array removeObjectAtIndex:j];
