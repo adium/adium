@@ -264,7 +264,14 @@ typedef enum {
  */
 - (void)authorizationWindowController:(NSWindowController *)inWindowController authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
 
--(NSMenu*)actionsForChat:(AIChat*)chat;
+- (NSMenu*)actionsForChat:(AIChat *)chat;
+
+/*!
+ * @brief Should transcripts be stored for a given chat?
+ *
+ * Subclasses which intend to return YES should return [super shouldLogChat:chat].
+ */
+- (BOOL)shouldLogChat:(AIChat *)chat;
 
 //chat actions
 -(void)verifyCommand:(NSString*)commandName forChat:(AIChat*)chat;
