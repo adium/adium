@@ -37,7 +37,7 @@
 - (void)updateContacts:(NSSet *)contacts forObserver:(id <AIListObjectObserver>)inObserver;
 - (void)delayListObjectNotifications;
 - (void)endListObjectNotificationsDelay;
-- (BOOL)updatesAreDelayed;
+@property (readonly, nonatomic) BOOL updatesAreDelayed;
 - (void)delayListObjectNotificationsUntilInactivity;
 - (void)listObjectStatusChanged:(AIListObject *)inObject modifiedStatusKeys:(NSSet *)inModifiedKeys silent:(BOOL)silent;
 - (void)listObjectAttributesChanged:(AIListObject *)inObject modifiedKeys:(NSSet *)inModifiedKeys;
