@@ -39,7 +39,7 @@ static AITranslatorOptionsWindowController *sharedWindowController = nil;
 		 * display the effectively-invisible metacontact's info but rather the info of this contact itself.
 		 */
 		if (![parentContact isKindOfClass:[AIMetaContact class]] ||
-			[[(AIMetaContact *)parentContact listContacts] count]) {
+			[(AIMetaContact *)parentContact uniqueContainedObjectsCount]) {
 			listObject = parentContact;
 		}
 	}
