@@ -673,13 +673,13 @@
 		AIStatusType	statusType = [self statusType];
 		
 		if ((statusType == AIAwayStatusType) || (statusType == AIInvisibleStatusType)) {
-			if ([self integerValueForProperty:@"IsIdle" fromAnyContainedObject:NO]) {
+			if ([self integerValueForProperty:@"IsIdle"]) {
 				return AIAwayAndIdleStatus;
 			} else {
 				return AIAwayStatus;
 			}
 			
-		} else if ([self integerValueForProperty:@"IsIdle" fromAnyContainedObject:NO]) {
+		} else if ([self integerValueForProperty:@"IsIdle"]) {
 			return AIIdleStatus;
 			
 		} else {
