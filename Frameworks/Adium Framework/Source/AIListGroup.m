@@ -252,12 +252,7 @@ static NSSet* visibleObjectCountProperty;
 //Resort an object in this group (PRIVATE: For contact controller only)
 - (void)sortListObject:(AIListObject *)inObject
 {
-	AISortController *sortController = [AISortController activeSortController];
-	[inObject retain];
-	[_containedObjects removeObject:inObject];
-	[_containedObjects insertObject:inObject 
-						   atIndex:[sortController indexForInserting:inObject intoObjects:self.containedObjects]];
-	[inObject release];
+	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects]];
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
@@ -310,6 +305,7 @@ static NSSet* visibleObjectCountProperty;
 {
 	return self.containedObjects;
 }
+
 - (id)moveContacts:(AIListObject *)contact toIndex:(int)index
 {
 	[adium.contactController moveListObjects:[NSArray arrayWithObject:contact] intoObject:self index:index];
