@@ -35,6 +35,7 @@ typedef enum {
 
 @property (readonly, nonatomic) NSArray *containedObjects;
 @property (readonly, nonatomic) NSUInteger containedObjectsCount;
+@property (readonly, nonatomic) NSArray *uniqueContainedObjects;
 
 @property (readonly, nonatomic)  NSString *contentsBasedIdentifier;
 
@@ -57,9 +58,6 @@ typedef enum {
 @property (readonly, nonatomic) CGFloat largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
-
-//Should list each list contact only once (for groups, this is the same as the objectEnumerator)
-@property (readonly, nonatomic) NSArray *listContacts;
 
 - (BOOL)addObject:(AIListObject *)inObject;
 - (void)removeObject:(AIListObject *)inObject;

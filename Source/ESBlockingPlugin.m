@@ -175,7 +175,7 @@
 				AIMetaContact *meta = (AIMetaContact *)object;
 									
 				//Enumerate over the various list contacts contained
-				NSEnumerator *enumerator = [[meta listContacts] objectEnumerator];
+				NSEnumerator *enumerator = [[meta uniqueContainedObjects] objectEnumerator];
 				AIListContact *containedContact = nil;
 				
 				while ((containedContact = [enumerator nextObject])) {
@@ -219,7 +219,7 @@
 			AIMetaContact *meta = (AIMetaContact *)object;
 								
 			//Enumerate over the various list contacts contained
-			NSEnumerator	*enumerator = [[meta listContacts] objectEnumerator];
+			NSEnumerator	*enumerator = [[meta uniqueContainedObjects] objectEnumerator];
 			AIListContact	*contact = nil;
 			NSInteger				votesForBlock = 0;
 			NSInteger				votesForUnblock = 0;

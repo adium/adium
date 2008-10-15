@@ -228,7 +228,7 @@
 	NSMutableDictionary *ownershipDict = [NSMutableDictionary dictionary];
 
 	NSEnumerator *enumerator = [([metaContact online] ?
-								 [metaContact listContacts] :
+								 [metaContact uniqueContainedObjects] :
 								 [metaContact listContactsIncludingOfflineAccounts]) objectEnumerator];
 	BOOL metaContactIsOnline = [metaContact online];
 	

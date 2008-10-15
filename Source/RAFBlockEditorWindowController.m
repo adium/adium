@@ -822,13 +822,13 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	NSEnumerator *enumerator;
 
 	if ([listObject isKindOfClass:[AIListGroup class]]) {
-		enumerator = [[(AIListGroup *)listObject listContacts] objectEnumerator];
+		enumerator = [[(AIListGroup *)listObject uniqueContainedObjects] objectEnumerator];
 		while ((containedObject = [enumerator nextObject])) {
 			[self addListObjectToList:containedObject];
 		}
 
 	} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
-		enumerator = [[(AIMetaContact *)listObject listContacts] objectEnumerator];
+		enumerator = [[(AIMetaContact *)listObject uniqueContainedObjects] objectEnumerator];
 		while ((containedObject = [enumerator nextObject])) {
 			[self addListObjectToList:containedObject];
 		}

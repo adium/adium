@@ -206,7 +206,7 @@
 	
 	// Meta Contacts.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator = [[(AIMetaContact *)object listContacts] objectEnumerator];
+		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
 		AIListContact	*contact = nil;		
 		// Loop through the various contacts.
 		while ((contact = [enumerator nextObject])) {
@@ -263,7 +263,7 @@
 	
 	// Find the correct choice to send for a meta contact.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator = [[(AIMetaContact *)object listContacts] objectEnumerator];
+		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
 		AIListContact	*contact = nil;		
 		// Loop until the first MSN or Yahoo service.
 		while ((contact = [enumerator nextObject])) {
