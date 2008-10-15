@@ -40,6 +40,7 @@
 
 - (void)updateDisplayName;
 - (void)restoreGrouping;
+@property (readonly, nonatomic) NSArray *visibleListContacts;
 @end
 
 @implementation AIMetaContact

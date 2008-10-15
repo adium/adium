@@ -521,11 +521,6 @@ static int nextChatNumber = 0;
 	return self.containedObjects;
 }
 
-- (NSArray *)visibleListContacts
-{
-	return [self listContacts];
-}
-
 - (BOOL)addObject:(AIListObject *)inObject
 {
 	if ([inObject isKindOfClass:[AIListContact class]]) {

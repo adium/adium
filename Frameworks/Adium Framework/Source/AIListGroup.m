@@ -155,11 +155,6 @@ static NSSet* visibleObjectCountProperty;
 	return self.containedObjects;
 }
 
-- (NSArray *)visibleListContacts
-{
-	return self.containedObjects;
-}
-
 //Remove all the objects from this group (PRIVATE: For contact controller only)
 - (void)removeAllObjects
 {
