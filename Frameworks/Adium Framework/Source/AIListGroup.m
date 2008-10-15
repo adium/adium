@@ -20,8 +20,6 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
 
-static NSSet* visibleObjectCountProperty;
-
 @implementation AIListGroup
 
 //init
@@ -32,8 +30,6 @@ static NSSet* visibleObjectCountProperty;
 		expanded = YES;
 
 		//Default invisible
-		if(!visibleObjectCountProperty)
-			visibleObjectCountProperty = [[NSSet alloc] initWithObjects:@"VisibleObjectCount", nil];
 		visible = NO;
 	}
 	
@@ -99,7 +95,7 @@ static NSSet* visibleObjectCountProperty;
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
 	if(inVisible != self.visible)
-		[self didModifyProperties:visibleObjectCountProperty silent:NO];
+		[self didModifyProperties:[NSSet setWithObject:@"VisibleObjectCount"] silent:NO];
 }
 
 /*!
@@ -203,11 +199,7 @@ static NSSet* visibleObjectCountProperty;
 			[self sortListObject:inObject];
 		}
 		
-		//
-		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]] 
-					   forProperty:@"ObjectCount"
-					   notify:NotifyNow];
-		[self didModifyProperties:visibleObjectCountProperty silent:NO];
+		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
 		
 		success = YES;
 	}
@@ -223,11 +215,8 @@ static NSSet* visibleObjectCountProperty;
 		if ([inObject containingObject] == self)
 			[inObject setContainingObject:nil];
 		[_containedObjects removeObject:inObject];
-		//
-		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
-					   forProperty:@"ObjectCount" 
-					   notify:NotifyNow];
-		[self didModifyProperties:visibleObjectCountProperty silent:NO];
+
+		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
 	}
 }
 
@@ -235,12 +224,7 @@ static NSSet* visibleObjectCountProperty;
 {
 	[inObject setContainingObject:nil];
 	[_containedObjects removeObject:inObject];
-	
-	//
-	[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
-	   forProperty:@"ObjectCount" 
-			notify:NotifyLater];
-	[self didModifyProperties:visibleObjectCountProperty silent:NO];	
+	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
