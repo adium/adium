@@ -61,7 +61,6 @@ typedef enum {
 
 - (BOOL)addObject:(AIListObject *)inObject;
 - (void)removeObject:(AIListObject *)inObject;
-- (void)removeAllObjects;
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject;
 
 @property (readwrite, nonatomic, getter=isExpanded) BOOL expanded;

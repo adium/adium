@@ -147,15 +147,6 @@
 	return self.containedObjects;
 }
 
-//Remove all the objects from this group (PRIVATE: For contact controller only)
-- (void)removeAllObjects
-{
-	//Remove all the objects
-	while ([self.containedObjects count]) {
-		[self removeObject:[self.containedObjects objectAtIndex:0]];
-	}
-}
-
 //Retrieve a specific object by service and UID
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {

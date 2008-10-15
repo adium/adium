@@ -1042,15 +1042,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
     return [self.uniqueContainedObjects objectAtIndex:index];
 }
 
-//Remove all the objects from this group (PRIVATE: For contact controller only)
-- (void)removeAllObjects
-{
-	//Remove all the objects
-	while ([self.containedObjects count]) {
-		[self removeObject:[self.containedObjects objectAtIndex:0]];
-	}
-}
-
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
 	for (AIListContact *object in self) {
