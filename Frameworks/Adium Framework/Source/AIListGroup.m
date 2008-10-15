@@ -140,10 +140,6 @@ static NSSet* visibleObjectCountProperty;
 	return [self.containedObjects containsObject:inObject];
 }
 
-- (BOOL)containsMultipleContacts {
-    return NO;
-}
-
 //Retrieve an object by index
 - (id)objectAtIndex:(NSUInteger)index
 {

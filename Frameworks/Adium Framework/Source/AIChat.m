@@ -823,7 +823,4 @@ static int nextChatNumber = 0;
 	return [obj isKindOfClass:[AIListContact class]];
 }
 
-//inherit this
-@dynamic containsMultipleContacts;
-
 @end
