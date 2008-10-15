@@ -95,7 +95,7 @@
 	 */
 	for (AIListContact *contact in adium.contactController.allContacts) {
 		if ([contact.serviceClass isEqualToString:account.serviceClass] &&
-		    (![contact isKindOfClass:[AIMetaContact class]] || [[(AIMetaContact *)contact listContacts] count])) {
+		    (![contact isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)contact uniqueContainedObjectsCount])) {
 			NSString *UID = [contact UID];
 			[textField_handle addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
 			[textField_handle addCompletionString:[contact displayName] withImpliedCompletion:contact];

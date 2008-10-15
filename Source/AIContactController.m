@@ -1585,7 +1585,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			NSSet	*objectsToRemove = nil;
 			
 			//If the metaContact only has one listContact, we will remove that contact from all accounts
-			if ([[(AIMetaContact *)listObject listContacts] count] == 1) {
+			if ([(AIMetaContact *)listObject uniqueContainedObjectsCount] == 1) {
 				AIListContact	*listContact = [[(AIMetaContact *)listObject listContacts] objectAtIndex:0];
 				
 				objectsToRemove = [self allContactsWithService:[listContact service] UID:[listContact UID]];
