@@ -91,8 +91,7 @@
 {
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
-	if(inVisible != self.visible)
-		[self didModifyProperties:[NSSet setWithObject:@"VisibleObjectCount"] silent:NO];
+	[self didModifyProperties:[NSSet setWithObject:@"VisibleObjectCount"] silent:NO];
 }
 
 /*!
