@@ -86,10 +86,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	}
 }
 
-- (BOOL)updatesAreDelayed
-{
-	return updatesAreDelayed;
-}
+@synthesize updatesAreDelayed;
 
 //Delay all list object notifications until a period of inactivity occurs.  This is useful for accounts that do not
 //know when they have finished connecting but still want to mute events.
