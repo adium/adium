@@ -20,7 +20,7 @@
 							  inScrollView:inScrollView_contactList
 								  delegate:inDelegate])) {
 		emptyListHiding = NO;
-		[self contactOrderChanged:nil];
+		[self reloadListObject:nil];
 	}
 	
 	return self;
@@ -30,7 +30,7 @@
 {
 	[super configureViewsAndTooltips];
 	
-	[self contactOrderChanged:nil];
+	[self reloadListObject:nil];
 }
 /*!
  * @brief When the contact order changes, check to ensure we have 1 or more visible rows
@@ -40,7 +40,7 @@
  */
 - (void)contactOrderChanged:(NSNotification *)notification
 {
-	[super contactOrderChanged:notification];
+	[super reloadListObject:notification];
 
 	NSInteger numberOfRows = [contactListView numberOfRows];
 
