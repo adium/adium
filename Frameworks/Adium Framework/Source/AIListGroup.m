@@ -22,14 +22,11 @@
 
 @implementation AIListGroup
 
-//init
 - (id)initWithUID:(NSString *)inUID
 {
 	if ((self = [super initWithUID:inUID service:nil])) {
 		_containedObjects = [[NSMutableArray alloc] init];
 		expanded = YES;
-
-		//Default invisible
 		visible = NO;
 	}
 	
@@ -71,8 +68,8 @@
 	return contentsBasedIdentifier;
 }
 
-//Visibility -----------------------------------------------------------------------------------------------------------
 #pragma mark Visibility
+
 /*
  The visible objects contained in a group are always sorted to the top.  This allows us to easily retrieve only visible
  objects without having to physically remove invisible objects from the group.
@@ -119,7 +116,6 @@
 	return [self.containedObjects indexOfObject:obj];
 }
 
-//Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
 
 @synthesize containedObjects = _containedObjects;
@@ -218,8 +214,8 @@
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
 }
 
-//Sorting --------------------------------------------------------------------------------------------------------------
 #pragma mark Sorting
+
 //Resort an object in this group (PRIVATE: For contact controller only)
 - (void)sortListObject:(AIListObject *)inObject
 {
@@ -232,14 +228,15 @@
 	[_containedObjects sortUsingActiveSortController];
 }
 
-//Expanded State -------------------------------------------------------------------------------------------------------
 #pragma mark Expanded State
+
 //Set the expanded/collapsed state of this group (PRIVATE: For the contact list view to let us know our state)
 - (void)setExpanded:(BOOL)inExpanded
 {
 	expanded = inExpanded;
 	loadedExpanded = YES;
 }
+
 //Returns the current expanded/collapsed state of this group
 - (BOOL)isExpanded
 {
@@ -259,10 +256,11 @@
 
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	return [[self containedObjects] countByEnumeratingWithState:state objects:stackbuf count:len];
+	return [self.containedObjects countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 #pragma mark Applescript
+
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
