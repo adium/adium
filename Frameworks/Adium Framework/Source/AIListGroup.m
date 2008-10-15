@@ -20,9 +20,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
 
-@interface AIListGroup ()
-- (void)_recomputeVisibleCount;
-@end
+static NSSet* visibleObjectCountProperty;
 
 @implementation AIListGroup
 
@@ -34,7 +32,8 @@
 		expanded = YES;
 
 		//Default invisible
-		visibleCount = 0;
+		if(!visibleObjectCountProperty)
+			visibleObjectCountProperty = [[NSSet alloc] initWithObjects:@"VisibleObjectCount", nil];
 		visible = NO;
 	}
 	
@@ -82,32 +81,29 @@
  The visible objects contained in a group are always sorted to the top.  This allows us to easily retrieve only visible
  objects without having to physically remove invisible objects from the group.
  */
-@synthesize visibleCount;
-
-//Cache the number of contained objects that are visible
-- (void)_recomputeVisibleCount
+- (NSUInteger) visibleCount
 {
-	visibleCount = 0;
+	NSUInteger visibleCount = 0;
 	
 	for (AIListObject *containedObject in self) {
 		if (containedObject.visible)
 			visibleCount++;
 	}
+	
+	return visibleCount;
 }
 
 //Called when the visibility of an object in this group changes
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
 {
-	[self _recomputeVisibleCount];
 	//Sort the contained object to or from the bottom (invisible section) of the group
 	[adium.contactController sortListObject:inObject];
-	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-	   forProperty:@"VisibleObjectCount"
-			notify:NotifyNow];
+	if(inVisible != self.visible)
+		[self didModifyProperties:visibleObjectCountProperty silent:NO];
 }
 
 /*!
- * @brief Get the visbile object at a given index
+ * @brief Get the visibile object at a given index
  *
  * Hidden contacts will be sorted to the bottom of our contained objects array,
  * so we can just acccess the array directly
@@ -132,7 +128,7 @@
 
 @synthesize containedObjects = _containedObjects;
 
-//Number of containd objects
+//Number of contained objects
 - (NSUInteger)containedObjectsCount
 {
     return self.containedObjects.count;
@@ -208,9 +204,6 @@
 		[inObject setContainingObject:self];
 		[_containedObjects addObject:inObject];
 		
-		//Update our visible count
-		[self _recomputeVisibleCount];
-		
 		/* Sort this object on our own.  This always comes along with a content change, so calling contact controller's
 		 * sort code would invoke an extra update that we don't need.  We can skip sorting if this object is not visible,
 		 * since it will add to the bottom/non-visible section of our array.
@@ -223,9 +216,7 @@
 		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]] 
 					   forProperty:@"ObjectCount"
 					   notify:NotifyNow];
-		[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-		   forProperty:@"VisibleObjectCount"
-				notify:NotifyNow];
+		[self didModifyProperties:visibleObjectCountProperty silent:NO];
 		
 		success = YES;
 	}
@@ -241,17 +232,11 @@
 		if ([inObject containingObject] == self)
 			[inObject setContainingObject:nil];
 		[_containedObjects removeObject:inObject];
-
-		//Update our visible count
-		[self _recomputeVisibleCount];
-
 		//
 		[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
 					   forProperty:@"ObjectCount" 
 					   notify:NotifyNow];
-		[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-		   forProperty:@"VisibleObjectCount"
-				notify:NotifyNow];
+		[self didModifyProperties:visibleObjectCountProperty silent:NO];
 	}
 }
 
@@ -259,17 +244,12 @@
 {
 	[inObject setContainingObject:nil];
 	[_containedObjects removeObject:inObject];
-
-	//Update our visible count
-	[self _recomputeVisibleCount];
 	
 	//
 	[self setValue:[NSNumber numberWithInt:[self.containedObjects count]]
 	   forProperty:@"ObjectCount" 
 			notify:NotifyLater];
-	[self setValue:(visibleCount ? [NSNumber numberWithInt:visibleCount] : nil)
-	   forProperty:@"VisibleObjectCount"
-			notify:NotifyLater];	
+	[self didModifyProperties:visibleObjectCountProperty silent:NO];	
 }
 
 //Sorting --------------------------------------------------------------------------------------------------------------
