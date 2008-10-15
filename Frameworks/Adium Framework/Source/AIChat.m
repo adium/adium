@@ -552,12 +552,6 @@ static int nextChatNumber = 0;
 	[self removeObject:object];
 }
 
-- (void)removeAllObjects 
-{
-	while([self containedObjectsCount] > 0)
-		[self removeObject:[self objectAtIndex:0]];
-}
-
 - (void)removeAllParticipatingContactsSilently
 {
 	for (AIListContact *listContact in participatingListObjects) {
