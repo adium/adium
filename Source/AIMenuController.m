@@ -231,7 +231,7 @@
 	//Add any account-specific menu items
 	separatorItem = YES;
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
-		for (AIListContact *aListContact in ((AIMetaContact *)inObject).listContacts) {
+		for (AIListContact *aListContact in ((AIMetaContact *)inObject).uniqueContainedObjects) {
 			[self addMenuItemsForContact:aListContact
 								  toMenu:workingMenu
 						   separatorItem:&separatorItem];

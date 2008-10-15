@@ -146,7 +146,7 @@ static NSSet* visibleObjectCountProperty;
     return [self.containedObjects objectAtIndex:index];
 }
 
-- (NSArray *)listContacts
+- (NSArray *)uniqueContainedObjects
 {
 	return self.containedObjects;
 }

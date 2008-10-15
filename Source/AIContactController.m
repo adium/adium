@@ -1414,7 +1414,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	AIListContact   *returnContact = nil;
 	
-	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [[(id<AIContainingObject>)inContact listContacts] count] > 1) {
+	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [[(id<AIContainingObject>)inContact uniqueContainedObjects] count] > 1) {
 		AIListObject	*preferredContact;
 		
 		/* If we've messaged this object previously, prefer the last contact we sent to if that
@@ -1586,7 +1586,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			
 			//If the metaContact only has one listContact, we will remove that contact from all accounts
 			if ([(AIMetaContact *)listObject uniqueContainedObjectsCount] == 1) {
-				AIListContact	*listContact = [[(AIMetaContact *)listObject listContacts] objectAtIndex:0];
+				AIListContact	*listContact = [[(AIMetaContact *)listObject uniqueContainedObjects] objectAtIndex:0];
 				
 				objectsToRemove = [self allContactsWithService:[listContact service] UID:[listContact UID]];
 			}

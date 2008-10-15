@@ -516,7 +516,7 @@ static int nextChatNumber = 0;
 	return nil;
 }
 
-- (NSArray *)listContacts
+- (NSArray *)uniqueContainedObjects
 {
 	return self.containedObjects;
 }

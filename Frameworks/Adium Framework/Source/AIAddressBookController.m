@@ -1297,7 +1297,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
 
 		NSString				*UID = [contact formattedUID];
 	
-		NSEnumerator * containedContactEnu = [contact isKindOfClass:[AIMetaContact class]] ? [[(AIMetaContact *)contact listContacts] objectEnumerator] : [[NSArray arrayWithObject:contact] objectEnumerator];
+		NSEnumerator * containedContactEnu = [contact isKindOfClass:[AIMetaContact class]] ? [[(AIMetaContact *)contact uniqueContainedObjects] objectEnumerator] : [[NSArray arrayWithObject:contact] objectEnumerator];
 		AIListObject *c;
 		ABMutableMultiValue		*multiValue;
 		

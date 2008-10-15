@@ -751,7 +751,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 
 	// Remove this contact list if from drag & drop operation took the last group away
-	if (contactList.listContacts.count == 0) {
+	if (contactList.uniqueContainedObjects.count == 0) {
 		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}

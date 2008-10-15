@@ -621,7 +621,7 @@
 	//Scan the objects participating in each chat, looking for the requested object
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		if ([openChats count]) {
-			for (AIListContact *listContact in ((AIMetaContact *)inContact).listContacts) {
+			for (AIListContact *listContact in ((AIMetaContact *)inContact).uniqueContainedObjects) {
 				NSSet		*listContactChats;
 				if ((listContactChats = [self allChatsWithContact:listContact])) {
 					if (!foundChats) foundChats = [NSMutableSet set];

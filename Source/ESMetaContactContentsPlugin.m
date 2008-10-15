@@ -88,7 +88,7 @@
     NSMutableAttributedString	*entry = nil;
 	
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
-		NSArray				*listContacts = [(AIMetaContact *)inObject listContacts];
+		NSArray				*listContacts = [(AIMetaContact *)inObject uniqueContainedObjects];
 		
 		//Only display the contents if it has more than one contact within it.
 		if ([listContacts count] > 1) {

@@ -68,7 +68,7 @@
 	 * contained-contact image if that isn't the sort of thing that the user might be into.
 	 */
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
-		for (AIListContact *listContact in ((AIMetaContact *)inObject).listContacts) {
+		for (AIListContact *listContact in ((AIMetaContact *)inObject).uniqueContainedObjects) {
 			if (![AIUserIcons userIconSource:self changeWouldBeRelevantForObject:listContact])
 				return AIUserIconSourceDidNotFindIcon;
 		}

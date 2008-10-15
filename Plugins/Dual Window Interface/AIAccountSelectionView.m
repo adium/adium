@@ -388,7 +388,7 @@
 - (BOOL)choicesAvailableForContact{
 	AIListContact *parentContact = [[chat listObject] parentContact];
 	if ([parentContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		return [[(AIListContact <AIContainingObject> *)parentContact listContacts] count] > 1;
+		return [[(AIListContact <AIContainingObject> *)parentContact uniqueContainedObjects] count] > 1;
 	} else {
 		return NO;
 	}

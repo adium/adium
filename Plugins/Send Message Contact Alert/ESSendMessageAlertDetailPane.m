@@ -195,7 +195,7 @@
 		NSEnumerator	*enumerator;
 		AIListContact	*listContact;
 		
-		enumerator = [((AIMetaContact *)toContact).listContacts objectEnumerator];
+		enumerator = [((AIMetaContact *)toContact).uniqueContainedObjects objectEnumerator];
 		while ((listContact = [enumerator nextObject]) && !shouldInclude) {
 			shouldInclude = [accountServiceClass isEqualToString:toContact.serviceClass];
 		}

@@ -199,7 +199,7 @@
 {
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
 		NSMutableSet *set = [NSMutableSet set];
-		for (AIService *service in [((AIMetaContact *)displayedObject).listContacts valueForKey:@"service"]) {
+		for (AIService *service in [((AIMetaContact *)displayedObject).uniqueContainedObjects valueForKey:@"service"]) {
 			[set addObjectsFromArray:[adium.accountController accountsCompatibleWithService:service]];
 		}
 
@@ -217,7 +217,7 @@
 {
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
 		NSMutableArray *array = [NSMutableArray array];
-		for (AIListContact *contact in (((AIMetaContact *)displayedObject).listContacts)) {
+		for (AIListContact *contact in (((AIMetaContact *)displayedObject).uniqueContainedObjects)) {
 			if ([contact.serviceClass isEqualToString:inAccount.serviceClass]) {
 				[array addObject:[adium.contactController contactWithService:contact.service account:inAccount UID:contact.UID]];
 			}
