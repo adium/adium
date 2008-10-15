@@ -209,7 +209,7 @@
 {
 	AIListObject *listObject = [adium.menuController currentContextMenuObject];
 	return ([listObject isKindOfClass:[AIMetaContact class]] &&
-			[(AIMetaContact *)listObject containsMultipleContacts]);
+			[(AIMetaContact *)listObject uniqueContainedObjectsCount] > 1);
 }
 
 - (void)menu:(NSMenu *)menu needsUpdateForMenuItem:(NSMenuItem *)menuItem
@@ -217,7 +217,7 @@
 	AIListObject *listObject = [adium.menuController currentContextMenuObject];
 	if (menuItem == contextualMenuItem) {
 		if ([listObject isKindOfClass:[AIMetaContact class]] &&
-			[(AIMetaContact *)listObject containsMultipleContacts]) {
+			[(AIMetaContact *)listObject uniqueContainedObjectsCount] > 1) {
 			BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
 			
 			if (currentlyExpanded) {

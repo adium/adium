@@ -52,8 +52,6 @@ typedef enum {
 
 
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
-@property (readonly, nonatomic) BOOL containsMultipleContacts;
-
 
 @property (readonly, nonatomic) CGFloat smallestOrder;
 @property (readonly, nonatomic) CGFloat largestOrder;

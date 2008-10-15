@@ -1414,7 +1414,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	AIListContact   *returnContact = nil;
 	
-	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [(id<AIContainingObject>)inContact containsMultipleContacts]) {
+	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [[(id<AIContainingObject>)inContact listContacts] count] > 1) {
 		AIListObject	*preferredContact;
 		
 		/* If we've messaged this object previously, prefer the last contact we sent to if that
@@ -1446,7 +1446,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			AIListContact *firstAvailableContact = nil;
 			AIListContact *firstNotOfflineContact = nil;
 			
-			for (AIListContact *thisContact in (AIMetaContact *)inContact) {
+			for (AIListContact *thisContact in (id <AIContainingObject>)inContact) {
 				AIStatusType statusSummary = [thisContact statusSummary];
 				
 				if ((statusSummary != AIOfflineStatus) && (statusSummary != AIUnknownStatus)) {
