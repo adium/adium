@@ -210,7 +210,7 @@
 			}
 		}
 		if(aBuddyCreated && [thisMetaContact count] > 1)
-			[contactController groupListContacts:thisMetaContact];
+			[contactController groupContacts:thisMetaContact];
 		if(!aBuddyNotCreated)
 			[personLists removeObject:personContacts];
 		[thisMetaContact release];

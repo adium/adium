@@ -344,7 +344,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			AIMetaContact *personMetaContact;
 			if ((personMetaContact = [personUniqueIdToMetaContactDict objectForKey:[person uniqueId]]) &&
 				![personMetaContact containsObject:listContact]) {
-				[adium.contactController groupListContacts:[NSArray arrayWithObjects:personMetaContact, listContact, nil]];
+				[adium.contactController groupContacts:[NSArray arrayWithObjects:personMetaContact, listContact, nil]];
 			}
 		}
     }

@@ -123,7 +123,7 @@
 			[remoteGroupName release];
 			remoteGroupName = [inName retain];
 		}
-		[adium.contactController listObjectRemoteGroupingChanged:self];
+		[adium.contactController contactRemoteGroupingChanged:self];
 		
 		AIListObject *myContainingObject = self.containingObject;
 		if ([myContainingObject isKindOfClass:[AIMetaContact class]]) {
@@ -142,7 +142,7 @@
 //Restore this grouping.
 - (void)restoreGrouping
 {
-	[adium.contactController listObjectRemoteGroupingChanged:self];
+	[adium.contactController contactRemoteGroupingChanged:self];
 }
 
 #pragma mark Names

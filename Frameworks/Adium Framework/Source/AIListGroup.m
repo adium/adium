@@ -95,7 +95,7 @@
 }
 
 /*!
- * @brief Get the visibile object at a given index
+ * @brief Get the visible object at a given index
  *
  * Hidden contacts will be sorted to the bottom of our contained objects array,
  * so we can just acccess the array directly
@@ -181,7 +181,7 @@
 		 * sort code would invoke an extra update that we don't need.  We can skip sorting if this object is not visible,
 		 * since it will add to the bottom/non-visible section of our array.
 		 */
-		if ([inObject visible]) {
+		if (inObject.visible) {
 			[self sortListObject:inObject];
 		}
 		
@@ -196,7 +196,7 @@
 //Remove an object from this group (PRIVATE: For contact controller only)
 - (void)removeObject:(AIListObject *)inObject
 {	
-	if ([self.containedObjects containsObject:inObject]) {		
+	if ([self containsObject:inObject]) {		
 		//Remove the object
 		if ([inObject containingObject] == self)
 			[inObject setContainingObject:nil];
