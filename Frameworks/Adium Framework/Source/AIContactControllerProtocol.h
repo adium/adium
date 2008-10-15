@@ -81,13 +81,13 @@ typedef enum {
 - (AIMetaContact *)groupUIDs:(NSArray *)UIDsArray forServices:(NSArray *)servicesArray usingMetaContactHint:(AIMetaContact *)metaContactHint;
 - (AIMetaContact *)metaContactWithObjectID:(NSNumber *)inObjectID;
 
-- (AIMetaContact *)groupListContacts:(NSArray *)contactsToGroupArray;
-- (void)removeAllListObjectsMatching:(AIListObject *)listObject fromMetaContact:(AIMetaContact *)metaContact;
+- (AIMetaContact *)groupContacts:(NSArray *)contactsToGroupArray;
+- (void)removeAllContactsMatching:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact;
 - (AIListGroup *)remoteGroupForContact:(AIListContact *)inContact;
 - (void)clearAllMetaContactData;
 
 //Contact status & Attributes
-- (void)listObjectRemoteGroupingChanged:(AIListContact *)inObject;
+- (void)contactRemoteGroupingChanged:(AIListContact *)inObject;
 
 //Contact list sorting
 - (void)sortContactList;

@@ -848,7 +848,7 @@
 		CGFloat oldIndex = [item orderIndex];
 
 		//Group the destination and then the dragged items into a metaContact
-		metaContact = [adium.contactController groupListContacts:[[NSArray arrayWithObject:item]
+		metaContact = [adium.contactController groupContacts:[[NSArray arrayWithObject:item]
 																	arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
 		//Position the metaContact in the group & index the drop point was before

@@ -348,7 +348,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		 * tell the contactController about the change in the removed object.
 		 */
 		if (noteRemoteGroupingChanged) {
-			[adium.contactController listObjectRemoteGroupingChanged:(AIListContact *)inObject];
+			[adium.contactController contactRemoteGroupingChanged:(AIListContact *)inObject];
 		}
 
 		[inObject release];
