@@ -62,7 +62,6 @@ typedef enum {
 
 //Should list each list contact only once (for groups, this is the same as the objectEnumerator)
 @property (readonly, nonatomic) NSArray *listContacts;
-@property (readonly, nonatomic) NSArray *visibleListContacts;
 
 - (BOOL)addObject:(AIListObject *)inObject;
 - (void)removeObject:(AIListObject *)inObject;
