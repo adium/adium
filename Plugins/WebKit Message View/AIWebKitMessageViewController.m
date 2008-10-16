@@ -459,12 +459,6 @@ static NSArray *draggedTypes = nil;
 	[self _primeWebViewAndReprocessContent:NO];
 	[previousContent release];
 	previousContent = nil;
-	
-	if([[self messageStyle] isBackgroundTransparent]) {
-		[[webView window] performSelector:@selector(invalidateShadow)
-							   withObject:nil
-							   afterDelay:0.0];
-	}
 }
 
 /*!
@@ -666,11 +660,6 @@ static NSArray *draggedTypes = nil;
 																					similar:contentIsSimilar
 																  willAddMoreContentObjects:willAddMoreContentObjects
 																		 replaceLastContent:replaceLastContent]];
-	if([[self messageStyle] isBackgroundTransparent]) {
-		[[webView window] performSelector:@selector(invalidateShadow)
-							   withObject:nil
-							   afterDelay:0.0];
-	}
 
 	NSAccessibilityPostNotification(webView, NSAccessibilityValueChangedNotification);
 }
