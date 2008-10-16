@@ -21,6 +21,10 @@
 - (void)setBackgroundColor:(NSColor *)color;
 @end
 
+@interface NSWindow ()
+- (void) _setContentHasShadow:(BOOL) shadow; 
+@end
+
 @interface ESWebView ()
 - (void)forwardSelector:(SEL)selector withObject:(id)object;
 @end
@@ -39,20 +43,6 @@
 	return self;
 }
 
-- (void)drawRect:(NSRect)rect
-{
-	[super drawRect:rect];
-	
-	//Only reset the shadow if we're transparent and not currently resizing
-	if (transparentBackground && ![self inLiveResize]) {
-		//This happens after the next run loop to ensure that we invalidate the shadow after all of our subviews have drawn
-		[[self window] performSelector:@selector(invalidateShadow)
-							withObject:nil
-							afterDelay:0
-							   inModes:[NSArray arrayWithObjects:NSDefaultRunLoopMode, NSEventTrackingRunLoopMode, nil]];
-	}
-}
-
 - (void)viewDidEndLiveResize
 {
 	[self setNeedsDisplay:YES];
@@ -63,13 +53,12 @@
 #pragma mark Transparency
 - (void)setTransparent:(BOOL)flag
 {
-	if ([self respondsToSelector:@selector(setBackgroundColor:)]) {
-		//As of Safari 3.0, we must call setBackgroundColor: to make the webview transparent
-		[self setBackgroundColor:(flag ? [NSColor clearColor] : [NSColor whiteColor])];
-		
-	} else {
-		[self setDrawsBackground:!flag];
-	}
+	//Private method: this is new in Tiger
+	if( [[self window] respondsToSelector:@selector( _setContentHasShadow: )] )
+		[[self window] _setContentHasShadow:NO];
+	
+	//As of Safari 3.0, we must call setBackgroundColor: to make the webview transparent
+	[self setBackgroundColor:(flag ? [NSColor clearColor] : [NSColor whiteColor])];
 	
 	transparentBackground = flag;
 }
@@ -77,8 +66,10 @@
 - (void)viewDidMoveToWindow
 {
 	NSWindow *win = [self window];
-	if(win)
+	if(win) {
 		[win setOpaque:!transparentBackground];
+		[win _setContentHasShadow:NO];
+	}
 }
 
 //Font Family ----------------------------------------------------------------------------------------------------------
