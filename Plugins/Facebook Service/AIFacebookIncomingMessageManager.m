@@ -58,6 +58,10 @@
  */
 - (void)receivedMessage:(NSDictionary *)messageDict
 {
+	//Ignore notifications
+	if ([[messageDict objectForKey:@"type"] isEqualToString:@"notification"])
+		return;
+
 	NSString			*fromUID = [messageDict objectForKey:@"from"];
 	//fromUID may be a number rather than a string
 	if ([fromUID isKindOfClass:[NSNumber class]]) fromUID = [(NSNumber *)fromUID stringValue];
