@@ -43,13 +43,6 @@
 	return self;
 }
 
-- (void)viewDidEndLiveResize
-{
-	[self setNeedsDisplay:YES];
-	
-	[super viewDidEndLiveResize];
-}
-
 #pragma mark Transparency
 - (void)setTransparent:(BOOL)flag
 {
