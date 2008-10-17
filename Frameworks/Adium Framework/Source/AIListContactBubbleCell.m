@@ -18,7 +18,7 @@
 #import <Adium/AIListOutlineView.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIGradient.h>
+#import <AIUtilities/AIGradientAdditions.h>
 
 #define EDGE_INDENT 			4
 

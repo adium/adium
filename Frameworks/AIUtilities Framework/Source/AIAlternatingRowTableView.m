@@ -14,7 +14,7 @@
  \------------------------------------------------------------------------------------------------------ */
 
 #import "AIAlternatingRowTableView.h"
-#import "AIGradient.h"
+#import "AIGradientAdditions.h"
 #import "AIImageAdditions.h"
 #import "AIColorAdditions.h"
 

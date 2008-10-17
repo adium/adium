@@ -17,7 +17,7 @@
 #import <Adium/AIListGroupMockieCell.h>
 #import <Adium/AIListOutlineView.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
-#import <AIUtilities/AIGradient.h>
+#import <AIUtilities/AIGradientAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 
 @implementation AIListGroupMockieCell

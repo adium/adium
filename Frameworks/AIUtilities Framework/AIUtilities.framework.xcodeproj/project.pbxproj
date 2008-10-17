@@ -70,8 +70,8 @@
 		34486C6106D1DF0400DA778C /* AIEventAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34486B6106D1DF0300DA778C /* AIEventAdditions.m */; };
 		34486C6206D1DF0400DA778C /* AIFileManagerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 34486B6206D1DF0300DA778C /* AIFileManagerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34486C6306D1DF0400DA778C /* AIFileManagerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34486B6306D1DF0300DA778C /* AIFileManagerAdditions.m */; };
-		34486C7806D1DF0400DA778C /* AIGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 34486B7806D1DF0300DA778C /* AIGradient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34486C7906D1DF0400DA778C /* AIGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = 34486B7906D1DF0300DA778C /* AIGradient.m */; };
+		34486C7806D1DF0400DA778C /* AIGradientAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 34486B7806D1DF0300DA778C /* AIGradientAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34486C7906D1DF0400DA778C /* AIGradientAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 34486B7906D1DF0300DA778C /* AIGradientAdditions.m */; };
 		34486C7E06D1DF0400DA778C /* AIImageTextCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 34486B7E06D1DF0300DA778C /* AIImageTextCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34486C7F06D1DF0400DA778C /* AIImageTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 34486B7F06D1DF0300DA778C /* AIImageTextCell.m */; };
 		34486C8006D1DF0400DA778C /* AIKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 34486B8006D1DF0300DA778C /* AIKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -321,8 +321,8 @@
 		34486B6106D1DF0300DA778C /* AIEventAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIEventAdditions.m; path = Source/AIEventAdditions.m; sourceTree = "<group>"; };
 		34486B6206D1DF0300DA778C /* AIFileManagerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIFileManagerAdditions.h; path = Source/AIFileManagerAdditions.h; sourceTree = "<group>"; };
 		34486B6306D1DF0300DA778C /* AIFileManagerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIFileManagerAdditions.m; path = Source/AIFileManagerAdditions.m; sourceTree = "<group>"; };
-		34486B7806D1DF0300DA778C /* AIGradient.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIGradient.h; path = Source/AIGradient.h; sourceTree = "<group>"; };
-		34486B7906D1DF0300DA778C /* AIGradient.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIGradient.m; path = Source/AIGradient.m; sourceTree = "<group>"; };
+		34486B7806D1DF0300DA778C /* AIGradientAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIGradientAdditions.h; path = Source/AIGradientAdditions.h; sourceTree = "<group>"; };
+		34486B7906D1DF0300DA778C /* AIGradientAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIGradientAdditions.m; path = Source/AIGradientAdditions.m; sourceTree = "<group>"; };
 		34486B7E06D1DF0300DA778C /* AIImageTextCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIImageTextCell.h; path = Source/AIImageTextCell.h; sourceTree = "<group>"; };
 		34486B7F06D1DF0300DA778C /* AIImageTextCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIImageTextCell.m; path = Source/AIImageTextCell.m; sourceTree = "<group>"; };
 		34486B8006D1DF0300DA778C /* AIKeychain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIKeychain.h; path = Source/AIKeychain.h; sourceTree = "<group>"; };
@@ -1255,8 +1255,8 @@
 		4BD1F41306D2828000B3975E /* Drawing Gradients */ = {
 			isa = PBXGroup;
 			children = (
-				34486B7806D1DF0300DA778C /* AIGradient.h */,
-				34486B7906D1DF0300DA778C /* AIGradient.m */,
+				34486B7806D1DF0300DA778C /* AIGradientAdditions.h */,
+				34486B7906D1DF0300DA778C /* AIGradientAdditions.m */,
 			);
 			name = "Drawing Gradients";
 			sourceTree = "<group>";
@@ -1384,7 +1384,7 @@
 				34486C5E06D1DF0400DA778C /* AIDockingWindow.h in Headers */,
 				34486C6006D1DF0400DA778C /* AIEventAdditions.h in Headers */,
 				34486C6206D1DF0400DA778C /* AIFileManagerAdditions.h in Headers */,
-				34486C7806D1DF0400DA778C /* AIGradient.h in Headers */,
+				34486C7806D1DF0400DA778C /* AIGradientAdditions.h in Headers */,
 				34486C7E06D1DF0400DA778C /* AIImageTextCell.h in Headers */,
 				34486C8006D1DF0400DA778C /* AIKeychain.h in Headers */,
 				34486C8206D1DF0400DA778C /* AILinkTextView.h in Headers */,
@@ -1597,7 +1597,7 @@
 				34486C6106D1DF0400DA778C /* AIEventAdditions.m in Sources */,
 				34486C6306D1DF0400DA778C /* AIFileManagerAdditions.m in Sources */,
 				076CAD6D0785B62900250504 /* AIFunctions.m in Sources */,
-				34486C7906D1DF0400DA778C /* AIGradient.m in Sources */,
+				34486C7906D1DF0400DA778C /* AIGradientAdditions.m in Sources */,
 				34486C7F06D1DF0400DA778C /* AIImageTextCell.m in Sources */,
 				34486C8106D1DF0400DA778C /* AIKeychain.m in Sources */,
 				34486C8306D1DF0400DA778C /* AILinkTextView.m in Sources */,
