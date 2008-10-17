@@ -137,10 +137,10 @@
 					break;
 			}
 			
-		} else if ([inChat integerValueForProperty:KEY_CHAT_CLOSED_WINDOW] && listObject) {
+		} else if ([inChat boolValueForProperty:KEY_CHAT_CLOSED_WINDOW] && listObject) {
 			message = [NSString stringWithFormat:AILocalizedString(@"%@ closed the conversation window.",nil),[listObject displayName]];
 			type = @"closed";
-		} else if ([inChat integerValueForProperty:KEY_CHAT_TIMED_OUT] && listObject) {
+		} else if ([inChat boolValueForProperty:KEY_CHAT_TIMED_OUT] && listObject) {
 			message = [NSString stringWithFormat:AILocalizedString(@"The conversation with %@ timed out.",nil),[listObject displayName]];			
 			type = @"timed_out";
 		}

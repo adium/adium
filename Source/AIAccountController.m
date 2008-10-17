@@ -199,7 +199,7 @@
 - (BOOL)oneOrMoreConnectedOrConnectingAccounts
 {
     for (AIAccount *account in self.accounts) {
-        if (account.online || [account integerValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
+        if (account.online || [account boolValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
 			return YES;
         }
     }	

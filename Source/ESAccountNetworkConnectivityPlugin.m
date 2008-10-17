@@ -212,7 +212,7 @@
 		if ([accountsToConnect containsObject:account] ||
 			[account valueForProperty:@"Waiting to Reconnect"]) {
 			if (![account online] &&
-				![account integerValueForProperty:@"Connecting"]) {
+				![account boolValueForProperty:@"Connecting"]) {
 				[account setShouldBeOnline:YES];
 				[accountsToConnect removeObject:account];
 			}
@@ -221,8 +221,8 @@
 		//If we are no longer online and this account is connected, disconnect it.
 		[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Waiting for Network" notify:NotifyNow];
 		if (([account online] ||
-			 [account integerValueForProperty:@"Connecting"]) &&
-			![account integerValueForProperty:@"Disconnecting"]) {
+			 [account boolValueForProperty:@"Connecting"]) &&
+			![account boolValueForProperty:@"Disconnecting"]) {
 			[account disconnectFromDroppedNetworkConnection];
 			[accountsToConnect addObject:account];
 		}
@@ -241,7 +241,7 @@
 	if ([self _accountsAreOnlineOrDisconnecting:YES]) {
 		for (AIAccount *account in adium.accountController.accounts) {
 			if ([account online] ||
-				[[account valueForProperty:@"Connecting"] boolValue] ||
+				[account boolValueForProperty:@"Connecting"] ||
 				[account valueForProperty:@"Waiting to Reconnect"]) {
 
 				// Disconnect the account if it's online
@@ -341,11 +341,11 @@
 {
 	for (AIAccount *account in adium.accountController.accounts) {
 		if ([account online] ||
-		   [[account valueForProperty:@"Disconnecting"] boolValue]) {
+		   [account boolValueForProperty:@"Disconnecting"]) {
 			AILog(@"%@ (and possibly others) is still %@",account, ([account online] ? @"online" : @"disconnecting"));
 			return YES;
 		} else if (considerConnecting &&
-				   ([[account valueForProperty:@"Connecting"] boolValue] ||
+				   ([account boolValueForProperty:@"Connecting"] ||
 					[account valueForProperty:@"Waiting to Reconnect"])) {
 			return YES;
 		}

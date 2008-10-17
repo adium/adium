@@ -220,7 +220,7 @@
 			[self statusFont], NSFontAttributeName,nil] retain];
 	}
 	
-	if (backgroundColorIsEvents && [[listObject valueForProperty:@"Is Event"] boolValue]) {
+	if (backgroundColorIsEvents && [listObject boolValueForProperty:@"Is Event"]) {
 		//If we are showing a temporary event with a custom background color, use the standard text color
 		//since it will be appropriate to the current background color.
 		NSMutableDictionary	*mutableStatusAttributes = [_statusAttributes mutableCopy];
@@ -648,7 +648,7 @@
 //Contact label color
 - (NSColor *)labelColor
 {
-	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
+	BOOL	isEvent = [listObject boolValueForProperty:@"Is Event"];
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
 		NSColor		*labelColor = [listObject valueForProperty:@"Label Color"];
@@ -666,7 +666,7 @@
 - (NSColor *)textColor
 {
 	NSColor	*theTextColor;
-	BOOL	isEvent = [[listObject valueForProperty:@"Is Event"] boolValue];
+	BOOL	isEvent = [listObject boolValueForProperty:@"Is Event"];
 	/* XXX If it's an event, we may want to be inheriting from more than just the metacontact's preferred contact...
 	 * this is the only case for that which I've come across */
 	if (shouldUseContactTextColors && (theTextColor = [listObject valueForProperty:@"Text Color"])) {
@@ -701,7 +701,7 @@
 //
 - (float)imageOpacityForDrawing
 {
-	NSNumber *imageOpacityNumber = [listObject valueForProperty:@"Image Opacity"];
+	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"Image Opacity"];
 	return (imageOpacityNumber ? [imageOpacityNumber floatValue] : 0.0);
 }
 

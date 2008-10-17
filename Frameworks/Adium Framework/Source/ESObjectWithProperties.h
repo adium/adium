@@ -41,7 +41,8 @@ typedef enum {
 //Getting properties
 @property (readonly, nonatomic) NSDictionary *properties;
 - (id)valueForProperty:(NSString *)key;
-- (int)integerValueForProperty:(NSString *)key;
+- (NSInteger)integerValueForProperty:(NSString *)key;
+- (BOOL)boolValueForProperty:(NSString *)key;
 - (NSNumber *)numberValueForProperty:(NSString *)key;
 
 //Properties: Specifically for subclasses

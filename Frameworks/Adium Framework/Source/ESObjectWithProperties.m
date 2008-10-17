@@ -166,10 +166,16 @@
  *
  * @result int value for key, or 0 if no value is set for key
  */
-- (int)integerValueForProperty:(NSString *)key
+- (NSInteger)integerValueForProperty:(NSString *)key
 {
-	NSNumber *number = [self valueForProperty:key];
-    return number ? [number intValue] : 0;
+	NSNumber *number = [self numberValueForProperty:key];
+	return number ? [number integerValue] : 0;
+}
+
+- (BOOL)boolValueForProperty:(NSString *)key
+{
+	NSNumber *number = [self numberValueForProperty:key];
+	return number ? [number boolValue] : NO;
 }
 
 /*!
@@ -179,7 +185,7 @@
  */
 - (NSNumber *)numberValueForProperty:(NSString *)key
 {
-	id obj = [propertiesDictionary objectForKey:key];
+	id obj = [self valueForProperty:key];
 	return ((obj && [obj isKindOfClass:[NSNumber class]]) ? obj : nil);
 }
 

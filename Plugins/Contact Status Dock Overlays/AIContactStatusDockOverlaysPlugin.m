@@ -404,11 +404,11 @@
                 backColor = backUnviewedContentColor;
                 textColor = unviewedContentColor;
             }
-        } else if ([object integerValueForProperty:@"Signed On"]) { //Signed on
+        } else if ([object boolValueForProperty:@"Signed On"]) { //Signed on
             backColor = backSignedOnColor;
             textColor = signedOnColor;
 			
-        } else if ([object integerValueForProperty:@"Signed Off"]) { //Signed off
+        } else if ([object boolValueForProperty:@"Signed Off"]) { //Signed off
             backColor = backSignedOffColor;
             textColor = signedOffColor;
 			

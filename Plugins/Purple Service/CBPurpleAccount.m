@@ -1865,7 +1865,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (void)disconnect
 {
-	if ([self online] || [self integerValueForProperty:@"Connecting"]) {
+	if ([self online] || [self boolValueForProperty:@"Connecting"]) {
 		//As per AIAccount's documentation, call super's implementation
 		[super disconnect];
 

@@ -437,7 +437,7 @@
 - (void)retrievePasswordThenConnect
 {
 	AIPromptOption promptOption = AIPromptAsNeeded;
-	if ([[self valueForProperty:@"Prompt For Password On Next Connect"] boolValue]) 
+	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"]) 
 		promptOption = AIPromptAlways;
 	else if (![[self service] requiresPassword])
 		promptOption = AIPromptNever;
@@ -460,16 +460,16 @@
  */
 - (void)updateCommonStatusForKey:(NSString *)key
 {
-    BOOL    areOnline = [[self valueForProperty:@"Online"] boolValue];
+    BOOL    areOnline = [self boolValueForProperty:@"Online"];
     
     //Online status changed
     //Call connect or disconnect as appropriate
     if ([key isEqualToString:@"Online"]) {
         if ([self shouldBeOnline] &&
 			[self enabled]) {
-            if (!areOnline && ![[self valueForProperty:@"Connecting"] boolValue]) {
+            if (!areOnline && ![self boolValueForProperty:@"Connecting"]) {
 				if ([[self service] supportsPassword] && (!password ||
-														  [[self valueForProperty:@"Prompt For Password On Next Connect"] boolValue])) {
+														  [self boolValueForProperty:@"Prompt For Password On Next Connect"])) {
 					[self retrievePasswordThenConnect];
 
 				} else {
@@ -481,8 +481,8 @@
 				
             }
         } else {
-            if ((areOnline || ([[self valueForProperty:@"Connecting"] boolValue])) && 
-			   (![[self valueForProperty:@"Disconnecting"] boolValue])) {
+            if ((areOnline || ([self boolValueForProperty:@"Connecting"])) && 
+			   (![self boolValueForProperty:@"Disconnecting"])) {
                 //Disconnect
                 [self disconnect];
             }
@@ -653,7 +653,7 @@
 
 - (AIStatus *)statusState
 {
-	if ([self integerValueForProperty:@"Online"]) {
+	if ([self boolValueForProperty:@"Online"]) {
 		AIStatus	*statusState = [self valueForProperty:@"StatusState"];
 		if (!statusState) {
 			statusState = [adium.statusController defaultInitialStatusState];
@@ -744,8 +744,7 @@
 					   forProperty:@"Prompt For Password On Next Connect"
 					   notify:NotifyNever];
 
-		if (![[self valueForProperty:@"Online"] boolValue] &&
-		   ![[self valueForProperty:@"Connecting"] boolValue]) {
+		if (![self boolValueForProperty:@"Online"] && ![self valueForProperty:@"Connecting"]) {
 			[self setPasswordTemporarily:inPassword];
 
 			//Time to connect!
@@ -1098,7 +1097,7 @@
 - (void)toggleOnline
 {
 	BOOL    online = [self online];
-	BOOL	connecting = [[self valueForProperty:@"Connecting"] boolValue];
+	BOOL	connecting = [self boolValueForProperty:@"Connecting"];
 	BOOL	reconnecting = ([self valueForProperty:@"Waiting to Reconnect"] != nil);
 	
 	//If online or connecting set the account offline, otherwise set it to online
@@ -1220,7 +1219,7 @@
 {
 	//If we still want to be online, and we're not yet online, continue with the reconnect
     if ([self shouldBeOnline] &&
-	   ![self online] && ![[self valueForProperty:@"Connecting"] boolValue]) {
+	   ![self online] && ![self boolValueForProperty:@"Connecting"]) {
 		[self updateStatusForKey:@"Online"];
     }
 }
@@ -1296,7 +1295,7 @@
 - (void)didDisconnect
 {
 	//If we were online, display a status message in all of our open chats noting our disconnection
-	if ([[self valueForProperty:@"Online"] boolValue]) {
+	if ([self boolValueForProperty:@"Online"]) {
 		AIChat			*chat = nil;
 		NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 		
@@ -1335,7 +1334,7 @@
 	[self removeAllContacts];
 	
 	//If we were disconnected unexpectedly, attempt a reconnect. Give subclasses a chance to handle the disconnection error.
-	if (reconnectAttemptsPerformed > 1 && [[self valueForProperty:@"Waiting for Network"] boolValue]) {
+	if (reconnectAttemptsPerformed > 1 && [self boolValueForProperty:@"Waiting for Network"]) {
 		// If we know this connection is waiting for the network to return, don't bother continuing to reconnect.
 		// Let it try for 2 times and then cancel and wait for the network to return.
 		[self cancelAutoReconnect];

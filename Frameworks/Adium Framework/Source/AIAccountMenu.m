@@ -411,9 +411,9 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	
 	if ([account enabled]) {
 		if (showTitleVerbs) {
-			if ([[account valueForProperty:@"Connecting"] boolValue] || [account valueForProperty:@"Waiting to Reconnect"]) {
+			if ([account boolValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
 				titleFormat = ACCOUNT_CONNECTING_ACTION_MENU_TITLE;
-			} else if ([[account valueForProperty:@"Disconnecting"] boolValue]) {
+			} else if ([account boolValueForProperty:@"Disconnecting"]) {
 				titleFormat = ACCOUNT_DISCONNECTING_ACTION_MENU_TITLE;
 			} else {
 				//Display 'connect' or 'disconnect' before the account name
@@ -421,7 +421,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 			
 		} else {
-			if ([[account valueForProperty:@"Connecting"] boolValue]) {
+			if ([account boolValueForProperty:@"Connecting"]) {
 				titleFormat = ACCOUNT_CONNECT_PARENS_MENU_TITLE;
 			}
 		}
