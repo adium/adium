@@ -172,13 +172,6 @@
 }
 
 #pragma mark Gradient selection and alternating rows
-/*
- * @brief If we are drawing a gradient selection, returns the gradient to draw
- */
-- (AIGradient *)selectedControlGradient
-{
-	return [AIGradient selectedControlGradientWithDirection:AIVertical];
-}
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {
@@ -190,7 +183,7 @@
 		NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
 		unsigned int i = 0, j = 0;
 
-		AIGradient *gradient = [self selectedControlGradient];
+		NSGradient *gradient = [NSGradient selectedControlGradient];
 		
 		NSRange range = NSMakeRange([indices firstIndex], ([indices lastIndex]-[indices firstIndex]) + 1);
 		[indices getIndexes:buf maxCount:bufSize inIndexRange:&range];
@@ -217,7 +210,7 @@
 					thisRect = startRow;
 				}
 
-				[gradient drawInRect:thisRect];
+				[gradient drawInRect:thisRect angle:90.0];
 				
 				//Draw a line at the light side, to make it look a lot cleaner
 				thisRect.size.height = 1;
@@ -227,7 +220,7 @@
 			i++;		
 		}
 
-		[[[gradient firstColor] darkenAndAdjustSaturationBy:0.1] set];
+		[[NSColor alternateSelectedControlColor] set];
 		NSRectFillListUsingOperation(selectionLineRects, j, NSCompositeSourceOver);
 		
 		free(buf);

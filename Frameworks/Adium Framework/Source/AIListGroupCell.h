@@ -41,7 +41,7 @@
 - (void)setDrawsGradientEdges:(BOOL)inValue;
 - (NSImage *)cachedGradient:(NSSize)inSize;
 - (void)drawBackgroundGradientInRect:(NSRect)inRect;
-- (AIGradient *)backgroundGradient;
+- (NSGradient *)backgroundGradient;
 - (void)flushGradientCache;
 - (NSColor *)flippyColor;
 	

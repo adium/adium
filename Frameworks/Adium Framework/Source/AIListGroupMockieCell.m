@@ -76,16 +76,14 @@
 {
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
-		AIGradient 	*gradient = (highlightColor ?
-								 [AIGradient gradientWithFirstColor:highlightColor
-														secondColor:[highlightColor darkenAndAdjustSaturationBy:0.4] 
-														  direction:AIVertical] :
-								 [AIGradient selectedControlGradientWithDirection:AIVertical]);
+		NSGradient 	*gradient = (highlightColor ?
+								 [[[NSGradient alloc] initWithStartingColor:highlightColor	endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+								 [NSGradient selectedControlGradient]);
 
 		if ([controlView isItemExpanded:listObject]) {
-			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:cellFrame radius:MOCKIE_RADIUS]];
+			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
 		} else {
-			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:cellFrame radius:MOCKIE_RADIUS]];
+			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
 		}
 	}
 }
@@ -122,9 +120,9 @@
 - (void)drawBackgroundGradientInRect:(NSRect)rect
 {
 	if ([controlView isItemExpanded:listObject]) {
-		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS]];
+		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS] angle:90.0];
 	} else {
-		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS]];
+		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS] angle:90.0];
 	}
 }
 

@@ -106,19 +106,17 @@
 {
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
-		AIGradient 	*gradient = (highlightColor ?
-								 [AIGradient gradientWithFirstColor:highlightColor
-														secondColor:[highlightColor darkenAndAdjustSaturationBy:0.4] 
-														  direction:AIVertical] :
-								 [AIGradient selectedControlGradientWithDirection:AIVertical]);
+		NSGradient 	*gradient = (highlightColor ?
+								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+								 [NSGradient selectedControlGradient]);
 
 		[lastBackgroundBezierPath release];
 		lastBackgroundBezierPath = [[self bezierPathForDrawingInRect:cellFrame] retain];
 		
 		if (lastBackgroundBezierPath)
-			[gradient drawInBezierPath:lastBackgroundBezierPath];
+			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
 		else
-			[gradient drawInRect:cellFrame];
+			[gradient drawInRect:cellFrame angle:90.0];
 	}
 }
 

@@ -325,7 +325,7 @@
 	CGFloat gradientL;
 	
 	//Gradient
-	[[self backgroundGradient] drawInRect:inRect];
+	[[self backgroundGradient] drawInRect:inRect angle:90.0];
 	
 	//Add a sealing line at the light side of the gradient to make it look more polished.  Apple does this with
 	//most gradients in OS X.
@@ -348,11 +348,9 @@
 }
 
 //Group background gradient
-- (AIGradient *)backgroundGradient
+- (NSGradient *)backgroundGradient
 {
-	return [AIGradient gradientWithFirstColor:backgroundColor
-								  secondColor:gradientColor
-									direction:AIVertical];
+	return [[[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:gradientColor] autorelease];
 }
 
 //Reset gradient cache
