@@ -922,7 +922,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSString	*displayName = [self displayArrayObjectForKey:@"Display Name"];
 	
 	if (!displayName) {
-		displayName = [self.preferredContact ownDisplayName];
+		displayName = self.preferredContact.ownDisplayName;
 	}
 
 	return displayName;
@@ -933,7 +933,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSString	*phoneticName = [self displayArrayObjectForKey:@"Phonetic Name"];
 	
 	if (!phoneticName) {
-		phoneticName = [self.preferredContact ownPhoneticName];
+		phoneticName = self.preferredContact.ownPhoneticName;
 	}
 	
 	return phoneticName;
@@ -942,11 +942,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //FormattedUID will return nil if we have multiple different UIDs contained within us
 - (NSString *)formattedUID
 {
-	if (containsOnlyOneUniqueContact) {
-		return [self.preferredContact formattedUID];
-	} else {
-		return nil;
-	}
+	return containsOnlyOneUniqueContact ? self.preferredContact.formattedUID : nil;
 }
 
 - (NSString *)longDisplayName
@@ -954,7 +950,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSString	*longDisplayName = [self displayArrayObjectForKey:@"Long Display Name"];
 
 	if (!longDisplayName) {
-		longDisplayName = [self.preferredContact longDisplayName];
+		longDisplayName = self.preferredContact.longDisplayName;
 	}
 
 	//    return [longDisplayName stringByAppendingString:[NSString stringWithFormat:@"-Meta-%i",[self containedObjectsCount]]];
@@ -964,17 +960,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 #pragma mark Status
 - (NSString *)statusName
 {
-	return [self.preferredContact valueForProperty:@"StatusName"];
+	return self.preferredContact.statusName;
 }
 
 - (AIStatusType)statusType
 {
-	NSNumber		*statusTypeNumber = [self.preferredContact valueForProperty:@"StatusType"];
-	AIStatusType	statusType = (statusTypeNumber ?
-								  [statusTypeNumber intValue] :
-								  AIAvailableStatusType);
-	
-	return statusType;
+	return self.preferredContact.statusType;
 }
 
 /*!
