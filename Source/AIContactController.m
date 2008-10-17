@@ -73,6 +73,10 @@
 #define SERVICE_ID_KEY					@"ServiceID"
 #define UID_KEY							@"UID"
 
+@interface AIListObject ()
+@property (readwrite, nonatomic) CGFloat orderIndex;
+@end
+
 @interface AIContactController ()
 - (void)saveContactList;
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;

@@ -774,32 +774,6 @@
 	//XXX is this still needed?
 	if  (!(orderIndexForObject < INFINITY)) orderIndexForObject = 0;
 
-	/* XXX Upgrade code from Adium 1.2 and below: Load the order index from the object itself, if it has one.
-	 * Remove me for 1.4
-	 */	
-	if (!orderIndexForObject) {
-		orderIndexForObjectNumber = [listObject preferenceForKey:KEY_ORDER_INDEX
-														   group:ObjectStatusCache 
-										   ignoreInheritedValues:YES];
-		orderIndexForObject = (orderIndexForObjectNumber ? [orderIndexForObjectNumber floatValue] : 0);
-		
-		//Clear the old preference and save the new one
-		if (orderIndexForObjectNumber) {
-			[listObject setPreference:nil
-							   forKey:KEY_ORDER_INDEX
-								group:ObjectStatusCache];
-		}
-
-		if (orderIndexForObjectNumber && orderIndexForObject && (orderIndexForObject < INFINITY)) {
-			if (!dict || ([[dict allKeysForObject:listObject] count] == 0))
-				[listObject setOrderIndex:orderIndexForObject];
-			else
-				AILogWithSignature(@"Could not upgrade orderindex %f for %@",
-								   orderIndexForObject,
-								   listObject);
-		}
-	}
-
 	if (orderIndexForObject) {
 		//Keep track of our largest and smallest order indexes for quick access
 		if (orderIndexForObject > largestOrder) {

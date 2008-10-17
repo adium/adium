@@ -121,8 +121,7 @@ typedef enum {
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
 @property (readonly, nonatomic) NSString *pathToPreferences;
 
-//Alter the placement of this object in a group (PRIVATE: Setting this is for AIListGroup ONLY)
-@property (readwrite, nonatomic) CGFloat orderIndex;
+@property (readonly, nonatomic) CGFloat orderIndex;
 
 //Grouping (PRIVATE: These are for AIListGroup and AIMetaContact ONLY)
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
