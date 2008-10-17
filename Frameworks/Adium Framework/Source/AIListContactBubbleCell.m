@@ -89,12 +89,9 @@
 		
 		//Draw using a (slow) AIGradient if requested, otherwise just fill
 		if (drawWithGradient) {
-			AIGradient	*gradient;
 			
-			gradient = [AIGradient gradientWithFirstColor:labelColor
-											  secondColor:[labelColor darkenAndAdjustSaturationBy:0.4] 
-												direction:AIVertical];
-			[gradient drawInBezierPath:lastBackgroundBezierPath];
+			NSGradient *gradient = [[[NSGradient alloc] initWithStartingColor:labelColor endingColor:[labelColor darkenAndAdjustSaturationBy:0.4]] autorelease];
+			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
 			
 		} else {
 			[labelColor set];
@@ -115,17 +112,15 @@
 {
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
-		AIGradient 	*gradient = highlightColor
-			? [AIGradient gradientWithFirstColor:highlightColor
-			                         secondColor:[highlightColor darkenAndAdjustSaturationBy:0.4] 
-			                           direction:AIVertical]
-			: [AIGradient selectedControlGradientWithDirection:AIVertical];
+		NSGradient 	*gradient = highlightColor
+			? [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease]
+			: [NSGradient selectedControlGradient];
 
 		[lastBackgroundBezierPath release];
 		lastBackgroundBezierPath = [[NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:cellFrame]] retain];
 
 		//Draw our bubble with the selected control gradient
-		[gradient drawInBezierPath:lastBackgroundBezierPath];
+		[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
 	}
 }
 

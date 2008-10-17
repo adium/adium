@@ -74,12 +74,10 @@
 {
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
-		AIGradient 	*gradient = (highlightColor ?
-								 [AIGradient gradientWithFirstColor:highlightColor
-														secondColor:[highlightColor darkenAndAdjustSaturationBy:0.4] 
-														  direction:AIVertical] :
-								 [AIGradient selectedControlGradientWithDirection:AIVertical]);
-		[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:cellFrame]]];
+		NSGradient 	*gradient = (highlightColor ?
+								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+								 [NSGradient selectedControlGradient]);
+		[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:cellFrame]] angle:270.0];
 	}
 }
 
@@ -90,7 +88,7 @@
 		NSBezierPath	*bezierPath;
 		
 		bezierPath = [NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:inRect]];
-		[[self backgroundGradient] drawInBezierPath:bezierPath];
+		[[self backgroundGradient] drawInBezierPath:bezierPath angle:90.0];
 		
 		if (outlineBubble) {
 			[bezierPath setLineWidth:outlineBubbleLineWidth];

@@ -451,14 +451,12 @@
 	if (updateShadowsWhileDrawing) [[self window] invalidateShadow];
 }
 
-- (AIGradient *)selectedControlGradient
+- (NSGradient *)selectedControlGradient
 {
 	NSColor		*myHighlightColor = [self highlightColor];
-	AIGradient 	*gradient = (myHighlightColor ?
-							 [AIGradient gradientWithFirstColor:myHighlightColor
-													secondColor:[myHighlightColor darkenAndAdjustSaturationBy:0.4] 
-													  direction:AIVertical] :
-							 [AIGradient selectedControlGradientWithDirection:AIVertical]);
+	NSGradient 	*gradient = (myHighlightColor ?
+							 [[[NSGradient alloc] initWithStartingColor:myHighlightColor endingColor:[myHighlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+							 [NSGradient selectedControlGradient]);
 
 	return gradient;
 }

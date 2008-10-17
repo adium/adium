@@ -16,7 +16,6 @@
 
 #import "AITextColorPreviewView.h"
 #import <AIUtilities/AIStringUtilities.h>
-#import <AIUtilities/AIGradient.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
@@ -54,9 +53,7 @@
 	
 	//Background
 	if (([backgroundEnabled state] != NSOffState) && backgroundGradientColor) {
-		[[AIGradient gradientWithFirstColor:[backgroundGradientColor color]
-							   secondColor:[backgroundColor color]
-								 direction:AIVertical] drawInRect:rect];
+		[[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] autorelease] drawInRect:rect angle:90.0];
 	} else {
 		NSColor *backColor = (backColorOverride ? backColorOverride : [backgroundColor color]);
 		if (backColor) {

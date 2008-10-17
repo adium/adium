@@ -114,8 +114,8 @@
 - (void)_drawHighlightWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	//Draw the gradient
-	AIGradient *gradient = [AIGradient selectedControlGradientWithDirection:AIVertical];
-	[gradient drawInRect:cellFrame];
+	NSGradient *gradient = [NSGradient selectedControlGradient];
+	[gradient drawInRect:cellFrame angle:90.0];
 	
 	//Draw a line at the light side, to make it look a lot cleaner
 	cellFrame.size.height = 1;
