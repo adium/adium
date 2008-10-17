@@ -13,9 +13,34 @@
 
 #import "SRRecorderCell.h"
 #import "SRRecorderControl.h"
-#import "CTGradient.h"
 #import "SRKeyCodeTransformer.h"
 #import "SRValidator.h"
+
+@interface NSGradient (SRRecorderAdditions)
++ (id)unifiedPressedGradientWithAlpha:(CGFloat)alpha;
++ (id)unifiedNormalGradientWithAlpha:(CGFloat)alpha;
+@end
+
+@implementation NSGradient (SRRecorderAdditions)
+//Adapted from CTGradient
++ (id)unifiedNormalGradientWithAlpha:(CGFloat)alpha
+{
+	static NSGradient *grad;
+	if (!grad) {
+		grad = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.75 alpha:alpha] endingColor:[NSColor colorWithCalibratedWhite:0.90 alpha:alpha]];
+	}
+	return grad;
+}
+
++ (NSGradient *) unifiedPressedGradientWithAlpha:(CGFloat)alpha
+{
+	static NSGradient *grad;
+	if (!grad) {
+		grad = [[NSGradient alloc] initWithStartingColor:[NSColor colorWithCalibratedWhite:0.6 alpha:alpha] endingColor:[NSColor colorWithCalibratedWhite:0.75 alpha:alpha]];
+	}
+	return grad;
+}
+@end
 
 @interface SRRecorderCell ()
 - (void)_privateInit;
@@ -229,7 +254,7 @@
 		// Fill background with gradient
 			[[NSGraphicsContext currentContext] saveGraphicsState];
 			[roundedRect addClip];
-			[recordingGradient fillRect:cellFrame angle:90.0];
+			[recordingGradient drawInRect:cellFrame angle:90.0];
 			[[NSGraphicsContext currentContext] restoreGraphicsState];
 			
 		// Highlight if inside or down
@@ -430,7 +455,7 @@
 			[[[[NSColor windowFrameColor] shadowWithLevel:0.2] colorWithAlphaComponent:alphaRecording] set];
 			[snapBackButton stroke];
 //		NSLog(@"stroked along path of %@", NSStringFromRect(correctedSnapBackRect));
-			[[((mouseDown && mouseInsideTrackingArea) ? ([CTGradient unifiedPressedGradient]) : ([CTGradient unifiedNormalGradient])) gradientWithAlphaComponent:alphaRecording] fillRect:NSInsetRect(correctedSnapBackRect,-([snapBackButton lineWidth]/2.0),-([snapBackButton lineWidth]/2.0)) angle:90];
+			[((mouseDown && mouseInsideTrackingArea) ? ([NSGradient unifiedPressedGradientWithAlpha:alphaRecording]) : ([NSGradient unifiedNormalGradientWithAlpha:alphaRecording])) drawInRect:NSInsetRect(correctedSnapBackRect,-([snapBackButton lineWidth]/2.0),-([snapBackButton lineWidth]/2.0)) angle:90];
 			/*
 		// Highlight if inside or down
 			 if (mouseInsideTrackingArea)
@@ -1049,16 +1074,12 @@
 
 - (void)_createGradient
 {
+	[recordingGradient autorelease];
+
 	NSColor *gradientStartColor = [[[NSColor alternateSelectedControlColor] shadowWithLevel: 0.2] colorWithAlphaComponent: 0.9];
 	NSColor *gradientEndColor = [[[NSColor alternateSelectedControlColor] highlightWithLevel: 0.2] colorWithAlphaComponent: 0.9];
 	
-	CTGradient *newGradient = [CTGradient gradientWithBeginningColor:gradientStartColor endingColor:gradientEndColor];
-	
-	if (recordingGradient != newGradient)
-	{
-		[recordingGradient release];
-		recordingGradient = [newGradient retain];
-	}
+	recordingGradient = [[NSGradient alloc] initWithStartingColor:gradientStartColor endingColor:gradientEndColor];
 	
 	[[self controlView] display];
 }
