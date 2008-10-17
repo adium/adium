@@ -19,12 +19,12 @@
 @implementation NSGradient (AIGradientAdditions)
 
 + (NSGradient *) selectedControlGradient
-{
-	NSColor *selectedColor = [NSColor alternateSelectedControlColor];
-	
+{	
 	static NSGradient *grad;
-	if (!grad)
+	if (!grad) {
+		NSColor *selectedColor = [NSColor alternateSelectedControlColor];
 		grad = [[NSGradient alloc] initWithStartingColor:[selectedColor darkenAndAdjustSaturationBy:-0.1] endingColor:[selectedColor darkenAndAdjustSaturationBy:0.1]];
+	}
 	
 	return grad;
 }
