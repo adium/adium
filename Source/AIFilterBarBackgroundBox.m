@@ -15,15 +15,18 @@
  */
 
 #import "AIFilterBarBackgroundBox.h"
-#import "CTGradient.h"
 
 @implementation AIFilterBarBackgroundBox
 - (void)drawRect:(NSRect)rect
 {
-	//Filter bar color's selflessly borrowed from Safari 3's inline search bar
-	NSColor *topColor = [NSColor colorWithCalibratedRed:0.914 green:0.914 blue:0.914 alpha:1.0];
-	NSColor *bottomColor = [NSColor colorWithCalibratedRed:0.816 green:0.816 blue:0.816 alpha:1.0];
+	static NSGradient *gradient;
+	if (!gradient) {
+		//Filter bar color's selflessly borrowed from Safari 3's inline search bar
+		NSColor *topColor = [NSColor colorWithCalibratedRed:0.914 green:0.914 blue:0.914 alpha:1.0];
+		NSColor *bottomColor = [NSColor colorWithCalibratedRed:0.816 green:0.816 blue:0.816 alpha:1.0];
+		gradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor]; //intentional one time leak
+	}
 	
-	[[CTGradient gradientWithBeginningColor:bottomColor endingColor:topColor]fillRect:[self bounds] angle:90.0];
+	[gradient drawInRect:[self bounds] angle:270.0];
 }
 @end
