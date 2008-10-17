@@ -23,7 +23,7 @@
 
 #import "AIAlternatingRowOutlineView.h"
 #import "AIOutlineView.h"
-#import "AIGradient.h"
+#import "AIGradientAdditions.h"
 #import "AIColorAdditions.h"
 
 @interface AIAlternatingRowOutlineView (PRIVATE)

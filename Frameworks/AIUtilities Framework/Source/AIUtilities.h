@@ -40,7 +40,7 @@
 #import <AIUtilities/AIEventAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
-#import <AIUtilities/AIGradient.h>
+#import <AIUtilities/AIGradientAdditions.h>
 #import <AIUtilities/AIGradientCell.h>
 #import <AIUtilities/AIHostReachabilityMonitor.h>
 #import <AIUtilities/AIImageGridView.h>

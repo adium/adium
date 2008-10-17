@@ -17,7 +17,7 @@
 #import "AIListThemePreviewCell.h"
 #import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
-#import <AIUtilities/AIGradient.h>
+#import <AIUtilities/AIGradientAdditions.h>
 #import <Adium/AIAbstractListController.h>
 
 @implementation AIListThemePreviewCell
