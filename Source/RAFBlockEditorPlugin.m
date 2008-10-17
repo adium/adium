@@ -38,7 +38,7 @@
 
 	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject]) && !retVal) {
-		if([[account valueForProperty:@"Online"] boolValue] &&
+		if([account boolValueForProperty:@"Online"] &&
 		   [account conformsToProtocol:@protocol(AIAccount_Privacy)])
 			retVal = YES;
 	}

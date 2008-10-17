@@ -664,22 +664,22 @@
 
 - (BOOL)online
 {
-	return ([self integerValueForProperty:@"Online"] ? YES : NO);
+	return [self boolValueForProperty:@"Online"];
 }
 
 - (AIStatusSummary)statusSummary
 {
-	if ([self integerValueForProperty:@"Online"]) {
+	if ([self online]) {
 		AIStatusType	statusType = [self statusType];
 		
 		if ((statusType == AIAwayStatusType) || (statusType == AIInvisibleStatusType)) {
-			if ([self integerValueForProperty:@"IsIdle"]) {
+			if ([self boolValueForProperty:@"IsIdle"]) {
 				return AIAwayAndIdleStatus;
 			} else {
 				return AIAwayStatus;
 			}
 			
-		} else if ([self integerValueForProperty:@"IsIdle"]) {
+		} else if ([self boolValueForProperty:@"IsIdle"]) {
 			return AIIdleStatus;
 			
 		} else {

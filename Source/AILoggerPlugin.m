@@ -993,7 +993,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	NSString    *dirtyKey = [@"LogIsDirty_" stringByAppendingString:path];
 	
-	if (![chat integerValueForProperty:dirtyKey]) {
+	if (![chat boolValueForProperty:dirtyKey]) {
 		//Add to dirty array (Lock to ensure that no one changes its content while we are)
 		[dirtyLogLock lock];
 		if (path != nil) {

@@ -150,7 +150,7 @@
 	width += ceil([displayName size].width) + 1;
 	[displayName release];
 	
-	if (([[listObject valueForProperty:@"Show Count"] boolValue] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) && 
+	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) && 
 		[listObject valueForProperty:@"Count Text"]) {
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"Count Text"]
 																		attributes:[self labelAttributes]];
@@ -207,7 +207,7 @@
 		rect.size.width -= rect.size.height*.4 + rect.size.height*.2 + FLIPPY_TEXT_PADDING;
 //	}
 	
-	if ([[listObject valueForProperty:@"Show Count"] boolValue] ||
+	if ([listObject boolValueForProperty:@"Show Count"] ||
 		(showCollapsedCount && ![controlView isItemExpanded:listObject])) {
 		rect = [self drawGroupCountWithFrame:rect];
 	}

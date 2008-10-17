@@ -1100,7 +1100,7 @@ static NSArray *draggedTypes = nil;
 										 inObject);
 	NSString		*path;
 	
-	NSInteger chatsUsingCachedIcon = [[iconSourceObject valueForProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON] integerValue];
+	NSInteger chatsUsingCachedIcon = [iconSourceObject integerValueForProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON];
 	chatsUsingCachedIcon--;
 	[iconSourceObject setValue:[NSNumber numberWithInteger:chatsUsingCachedIcon]
 					   forProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON
@@ -1194,7 +1194,7 @@ static NSArray *draggedTypes = nil;
 			[objectsWithUserIconsArray addObject:iconSourceObject];
 
 			//Keep track of this chat using the icon
-			[iconSourceObject setValue:[NSNumber numberWithInteger:([[iconSourceObject valueForProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON] integerValue] + 1)]
+			[iconSourceObject setValue:[NSNumber numberWithInteger:([iconSourceObject integerValueForProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON] + 1)]
 									   forProperty:KEY_WEBKIT_CHATS_USING_CACHED_ICON
 									   notify:NotifyNever];
 		}

@@ -170,7 +170,7 @@
 	AIListObject *newListObject = [[inNotification userInfo] objectForKey:KEY_NEW_INSPECTED_OBJECT];
 
 	if (oldListObject && [oldListObject isKindOfClass:[AIMetaContact class]] &&
-		[[oldListObject valueForProperty:@"TemporaryMetaContactExpansion"] boolValue]) {
+		[oldListObject boolValueForProperty:@"TemporaryMetaContactExpansion"]) {
 		[oldListObject setValue:nil
 					forProperty:@"TemporaryMetaContactExpansion"
 						 notify:NotifyNever];

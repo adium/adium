@@ -192,8 +192,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 											 [listContact valueForProperty:@"IdleSince"]) ||
 											(!showOfflineContacts &&
 											 ![listContact online] &&
-											 ![listContact integerValueForProperty:@"Signed Off"] &&
-											 ![listContact integerValueForProperty:@"New Object"]) ||
+											 ![listContact boolValueForProperty:@"Signed Off"] &&
+											 ![listContact boolValueForProperty:@"New Object"]) ||
 											(!showMobileContacts && 
 											 [listContact isMobile]) ||
 											(!showBlockedContacts &&

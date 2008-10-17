@@ -729,24 +729,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 	return result;
 }
-- (int)integerValueForProperty:(NSString *)key
-{
-	int	result;
-	
-	if (!(result = [super integerValueForProperty:key]))
-		result = [self.preferredContact integerValueForProperty:key];
-	
-	return result;
-}
-- (NSNumber *)numberValueForProperty:(NSString *)key
-{
-	NSNumber *result;
-	
-	if (!(result = [super numberValueForProperty:key]))
-		result = [self.preferredContact numberValueForProperty:key];
-	
-	return result;
-}
 
 #pragma mark Attribute arrays
 /**

@@ -392,7 +392,7 @@
  *
  * @result The warning level, an integer between 0 and 100
  */
-- (int)warningLevel
+- (NSInteger)warningLevel
 {
 	return [self integerValueForProperty:@"Warning"];
 }
@@ -440,7 +440,7 @@
  */
 - (BOOL)isStranger
 {
-	return ![self integerValueForProperty:@"NotAStranger"];
+	return ![self boolValueForProperty:@"NotAStranger"];
 }
 
 /*!
@@ -456,7 +456,7 @@
  */
 - (BOOL)isMobile
 {
-	return [self integerValueForProperty:@"IsMobile"];
+	return [self boolValueForProperty:@"IsMobile"];
 }
 
 /*!
@@ -476,7 +476,7 @@
  */
 - (BOOL)isBlocked
 {
-	return [self integerValueForProperty:KEY_IS_BLOCKED];
+	return [self boolValueForProperty:KEY_IS_BLOCKED];
 }
 
 - (void)setIsBlocked:(BOOL)yesOrNo updateList:(BOOL)addToPrivacyLists
