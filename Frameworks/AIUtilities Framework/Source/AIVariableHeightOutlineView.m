@@ -208,7 +208,7 @@
 		BOOL alternateColor = YES;
 		int numberOfRows = [self numberOfRows], rectNumber = 0;
 		NSTableColumn *tableColumn = [[self tableColumns] objectAtIndex:0];
-		NSRect *gridRects = (NSRect *)malloc(sizeof(NSRect) * numberOfRows);
+		NSRect *gridRects = (NSRect *)alloca(sizeof(NSRect) * numberOfRows);
 		
 		for (int row = 0; row < numberOfRows; row++) {
 			id 	cell = [self cellForTableColumn:tableColumn item:[self itemAtRow:row]];
@@ -232,9 +232,7 @@
 		if (rectNumber > 0) {
 			[[self alternatingRowColor] set];
 			NSRectFillList(gridRects, rectNumber);
-		}
-		
-		free(gridRects);
+		}		
 	}
 }
 
