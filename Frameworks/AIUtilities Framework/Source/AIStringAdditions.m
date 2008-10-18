@@ -63,7 +63,7 @@ enum {
 			'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
 			'W', 'X', 'Y', 'Z'
 		};
-		register unsigned remaining = inLength;
+		unsigned remaining = inLength;
 		while (remaining--) {
 			buf[remaining] = alphanumeric[random() % sizeof(alphanumeric)];
 		}
@@ -340,9 +340,9 @@ enum {
 	const char			*UTF8 = [UTF8Data bytes];
 	char				*destPtr;
 	NSMutableData		*destData;
-	register unsigned	 sourceIndex = 0;
+	unsigned	 sourceIndex = 0;
 	unsigned			 sourceLength = [UTF8Data length];
-	register unsigned	 destIndex = 0;
+	unsigned	 destIndex = 0;
 
 	//this table translates plusses to spaces, and flags all characters that need hex-encoding with 0x00.
 	static const char translationTable[256] = {
@@ -410,9 +410,9 @@ enum {
 	const char			*UTF8 = [UTF8Data bytes];
 	char				*destPtr;
 	NSMutableData		*destData;
-	register unsigned	 sourceIndex = 0;
+	unsigned	 sourceIndex = 0;
 	unsigned			 sourceLength = [UTF8Data length];
-	register unsigned	 destIndex = 0;
+	unsigned	 destIndex = 0;
 
 	//this table translates spaces to plusses, and vice versa.
 	static const char translationTable[256] = {
