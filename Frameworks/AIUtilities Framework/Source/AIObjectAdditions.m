@@ -7,23 +7,6 @@
 
 #import "AIObjectAdditions.h"
 
-/* 
- * this wonderful little thing is the creation of Mulle kybernetiK.
- * the awesome page I found this on is here: 
- * http://www.mulle-kybernetik.com/artikel/Optimization/
- * Happy landings! --chb 9/22/03
- */
-
-@implementation NSObject (HashingAdditions)
-
-- (NSUInteger) hash
-{
-	enum { numBitsPerUnsignedInt = sizeof(NSUInteger) * 8 };
-	return (((NSUInteger) self >> 4) | (NSUInteger) self << (numBitsPerUnsignedInt - 4));
-}
-
-@end
-
 // Clever addition by Jonathan Jansson found on cocoadev.com (http://www.cocoadev.com/index.pl?ThreadCommunication)
 @implementation NSObject (RunLoopMessenger)
 
