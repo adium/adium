@@ -1,5 +1,5 @@
 //
-//  AIAbstractLogViewerWindowController.h
+//  AILogViewerWindowController.h
 //  Adium
 //
 //  Created by Evan Schoenberg on 3/24/06.
@@ -58,11 +58,11 @@ typedef enum {
 
 @class AIListContact, AISplitView, KNShelfSplitView;
 
-@interface AIAbstractLogViewerWindowController : AIWindowController {
+@interface AILogViewerWindowController : AIWindowController {
 	AILoggerPlugin				*plugin;
 
 	IBOutlet	KNShelfSplitView	*shelf_splitView;
-	
+
 	IBOutlet	AISplitView			*splitView_contacts_results;
 	IBOutlet	AIDividedAlternatingRowOutlineView	*outlineView_contacts;
 	IBOutlet	NSView				*containingView_contactsSourceList;
@@ -70,83 +70,89 @@ typedef enum {
 
 	IBOutlet	NSView			*containingView_results;
 	IBOutlet	AISplitView		*splitView_results;
-    IBOutlet	NSTableView		*tableView_results;
-    IBOutlet	NSTextView		*textView_content;
+	IBOutlet	NSTableView		*tableView_results;
+	IBOutlet	NSTextView		*textView_content;
 
 	IBOutlet    NSView			*view_SearchField;
-    IBOutlet    NSButton		*button_deleteLogs;
+	IBOutlet    NSButton		*button_deleteLogs;
 
 	IBOutlet	NSView			*view_DatePicker;
 	IBOutlet	NSPopUpButton	*popUp_dateFilter;
-	
+
 	IBOutlet    NSProgressIndicator         *progressIndicator;
-    IBOutlet    NSTextField                 *textField_progress;
-	
+	IBOutlet    NSTextField                 *textField_progress;
+
 	IBOutlet	NSSearchField	*searchField_logs;
-	
+
+	IBOutlet	NSDatePicker	*datePicker;
+
+
 	//Array of selected / displayed logs.  (Locked access)
-    NSMutableArray		*currentSearchResults;	//Array of filtered/resulting logs
-    NSRecursiveLock		*resultsLock;			//Lock before touching the array
+	NSMutableArray		*currentSearchResults;	//Array of filtered/resulting logs
+	NSRecursiveLock		*resultsLock;			//Lock before touching the array
 	NSArray				*displayedLogArray;		//Currently selected/displayed log(s)
 
 	LogSearchMode		searchMode;				//Currently selected search mode
 
 	NSTableColumn		*selectedColumn;		//Selected/active sort column
-	
+
 	//Search information
-    NSInteger					activeSearchID;			//ID of the active search thread, all other threads should quit
-    NSLock				*searchingLock;			//Locked when a search is in progress
-    BOOL				searching;				//YES if a search is in progress
-    NSString			*activeSearchString;	//Current search string
+	NSInteger					activeSearchID;			//ID of the active search thread, all other threads should quit
+	NSLock				*searchingLock;			//Locked when a search is in progress
+	BOOL				searching;				//YES if a search is in progress
+	NSString			*activeSearchString;	//Current search string
 	BOOL				suppressSearchRequests;
 	BOOL				isOpeningForContact;
 	NSInteger					indexingUpdatesReceivedWhileSearching; //Number of times indexing has updated during the current search
 
-    BOOL				sortDirection;			//Direction to sort
+	BOOL				sortDirection;			//Direction to sort
 
 	NSTimer				*refreshResultsTimer;
 	NSInteger					searchIDToReattemptWhenComplete;
 
 	NSString			*filterForAccountName;	//Account name to restrictively match content searches
 	NSMutableSet		*contactIDsToFilter;
-	
+
 	AIDateType			filterDateType;
 	NSCalendarDate		*filterDate;
 	NSInteger					firstDayOfWeek;
 	BOOL				iCalFirstDayOfWeekDetermined;
-	
+
 	NSMutableDictionary	*logToGroupDict;
 	NSMutableDictionary	*logFromGroupDict;
 
 	BOOL				automaticSearch;		//YES if this search was performed automatically for the user (view ___'s logs...)
-    BOOL				ignoreSelectionChange;	//Hack to prevent automatic table selection changes from clearing the automaticSearch flag
-    BOOL				windowIsClosing;		//YES only if windowShouldClose: has been called, to prevent actions after that point
+	BOOL				ignoreSelectionChange;	//Hack to prevent automatic table selection changes from clearing the automaticSearch flag
+	BOOL				windowIsClosing;		//YES only if windowShouldClose: has been called, to prevent actions after that point
 
 	NSMutableDictionary	*toolbarItems;
-    NSImage				*blankImage;
+	NSImage				*blankImage;
 	NSImage				*adiumIcon;
 	NSImage				*adiumIconHighlighted;
 
 	NSMutableArray		*fromArray;				//Array of account names
-    NSMutableArray		*fromServiceArray;		//Array of services for accounts
-    NSMutableArray		*toArray;				//Array of contacts
-    NSMutableArray		*toServiceArray;		//Array of services for accounts
-    NSDateFormatter		*headerDateFormatter;	//Format for dates displayed in the content text view
-	
-    NSInteger					sameSelection;
-    BOOL				useSame;
-	
+	NSMutableArray		*fromServiceArray;		//Array of services for accounts
+	NSMutableArray		*toArray;				//Array of contacts
+	NSMutableArray		*toServiceArray;		//Array of services for accounts
+	NSDateFormatter		*headerDateFormatter;	//Format for dates displayed in the content text view
+
+	NSInteger					sameSelection;
+	BOOL				useSame;
+
 	NSInteger					cachedSelectionIndex;
 	BOOL				deleteOccurred;			// YES only if a delete occurs, allowing the table to preserve selection after a search begins
-	
+
 	NSString			*horizontalRule;
 
 	NSUndoManager		*undoManager;
-	
+
 	NSNumber			*allContactsIdentifier;
 	//Old
 	BOOL showEmoticons;
 	BOOL showTimestamps;
+
+	SKSearchRef currentSearch;
+	NSLock		*currentSearchLock;
 }
 
 + (id)openForPlugin:(id)inPlugin;
@@ -188,6 +194,8 @@ typedef enum {
 - (IBAction)selectDateType:(id)sender;
 - (void)selectedDateType:(AIDateType)dateType;
 - (void)configureDateFilter;
+
+- (NSString *)dateItemNibName;
 
 @end
 

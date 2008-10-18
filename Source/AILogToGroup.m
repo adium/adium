@@ -17,7 +17,7 @@
 #import "AILoggerPlugin.h"
 #import "AILogToGroup.h"
 #import "AIChatLog.h"
-#import "AIAbstractLogViewerWindowController.h"
+#import "AILogViewerWindowController.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 
 @interface AILogToGroup ()
