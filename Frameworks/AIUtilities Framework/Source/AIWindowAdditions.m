@@ -69,14 +69,6 @@
 }
 
 /*
- * @brief Is this window textured/brushed metal?
- */
-- (BOOL)isTextured
-{
-    return (([self styleMask] & NSTexturedBackgroundWindowMask) != 0);
-}
-
-/*
  * @brief Is this window borderless?
  */
 - (BOOL)isBorderless
