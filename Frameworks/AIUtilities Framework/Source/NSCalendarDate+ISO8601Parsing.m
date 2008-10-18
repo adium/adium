@@ -94,7 +94,7 @@ static double read_double(const unsigned char *str, const unsigned char **next) 
 		if(((*str == ',') || (*str == '.'))) {
 			++str;
 
-			register double multiplier, multiplier_multiplier;
+			double multiplier, multiplier_multiplier;
 			multiplier = multiplier_multiplier = 0.1;
 
 			while(isdigit(*str)) {
