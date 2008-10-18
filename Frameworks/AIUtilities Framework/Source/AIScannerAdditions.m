@@ -27,13 +27,13 @@
 
 	NSString *string = [self string];
 	NSRange range = { .location = [self scanLocation], .length = 0 };
-	register unsigned length = [string length] - range.location; //register because it is used in the loop below.
+	unsigned length = [string length] - range.location;
 	range.length = length;
 
 	unichar *buf = malloc(length * sizeof(unichar));
 	[string getCharacters:buf range:range];
 
-	register unsigned i = 0;
+	unsigned i = 0;
 
 	if (length && (buf[i] == '+')) {
 		++i;
