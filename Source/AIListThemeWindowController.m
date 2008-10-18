@@ -183,7 +183,7 @@
     [checkBox_fadeOfflineImages setState:[[prefDict objectForKey:KEY_LIST_THEME_FADE_OFFLINE_IMAGES] boolValue]];
 	
 	[popUp_displayImageStyle setMenu:[self displayImageStyleMenu]];
-	[popUp_displayImageStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_STYLE] integerValue]];
+	[popUp_displayImageStyle selectItemWithTag:[[prefDict objectForKey:KEY_LIST_THEME_BACKGROUND_IMAGE_STYLE] integerValue]];
 	
 	[self updateSliderValues];
 	[self configureControlDimming];

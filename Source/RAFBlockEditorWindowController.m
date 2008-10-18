@@ -505,7 +505,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (void)selectPrivacyOption:(AIPrivacyOption)privacyOption
 {
-	BOOL success = [stateChooser compatibleSelectItemWithTag:privacyOption];
+	BOOL success = [stateChooser selectItemWithTag:privacyOption];
 	if (privacyOption == AIPrivacyOptionCustom) {
 		if (!success) {
 			NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"(Multiple privacy levels are active)", nil) 
@@ -515,7 +515,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 			[[stateChooser menu] addItem:menuItem];
 			[menuItem release];
 			
-			success = [stateChooser compatibleSelectItemWithTag:privacyOption];
+			success = [stateChooser selectItemWithTag:privacyOption];
 		}
 
 	} else {

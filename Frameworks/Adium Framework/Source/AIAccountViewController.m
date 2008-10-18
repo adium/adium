@@ -244,7 +244,7 @@
 															  group:GROUP_ACCOUNT_STATUS] boolValue]];
 
 		//Encryption
-		[popUp_encryption compatibleSelectItemWithTag:[[account preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
+		[popUp_encryption selectItemWithTag:[[account preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																		   group:GROUP_ENCRYPTION] intValue]];
 		
 		[[adium notificationCenter] removeObserver:self

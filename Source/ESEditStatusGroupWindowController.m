@@ -59,7 +59,7 @@
 - (void)windowDidLoad
 {
 	[popUp_groupWith setMenu:[self groupWithStatusMenu]];
-	[popUp_groupWith compatibleSelectItemWithTag:[statusGroup statusType]];
+	[popUp_groupWith selectItemWithTag:[statusGroup statusType]];
 	
 	NSString *title = [statusGroup title];
 	[textField_title setStringValue:(title ? title : @"")];

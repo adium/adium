@@ -168,7 +168,7 @@ typedef enum {
 	//Appearance
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
 		if (firstTime) {
-			[popUp_windowStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue]];	
+			[popUp_windowStyle selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue]];	
 			[checkBox_verticalAutosizing setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE] boolValue]];
 			[checkBox_horizontalAutosizing setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue]];
 			[slider_windowOpacity setDoubleValue:([[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue] * 100.0)];
@@ -273,9 +273,9 @@ typedef enum {
 	NSInteger		numActivePacks = [activeEmoticonPacks count];
 	
 	if (numActivePacks == 0) {
-		[popUp_emoticons compatibleSelectItemWithTag:AIEmoticonMenuNone];
+		[popUp_emoticons selectItemWithTag:AIEmoticonMenuNone];
 	} else if (numActivePacks > 1) {
-		[popUp_emoticons compatibleSelectItemWithTag:AIEmoticonMenuMultiple];
+		[popUp_emoticons selectItemWithTag:AIEmoticonMenuMultiple];
 	} else {
 		[popUp_emoticons selectItemWithRepresentedObject:[activeEmoticonPacks objectAtIndex:0]];
 	}

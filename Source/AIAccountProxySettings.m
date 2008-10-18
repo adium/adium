@@ -109,7 +109,7 @@
 		//Enabled & Type
 		[checkBox_useProxy setState:[[account preferenceForKey:KEY_ACCOUNT_PROXY_ENABLED
 														 group:GROUP_ACCOUNT_STATUS] boolValue]];
-		[popUpButton_proxy compatibleSelectItemWithTag:[[account preferenceForKey:KEY_ACCOUNT_PROXY_TYPE
+		[popUpButton_proxy selectItemWithTag:[[account preferenceForKey:KEY_ACCOUNT_PROXY_TYPE
 																			group:GROUP_ACCOUNT_STATUS] integerValue]];
 		
 		//Host & Port

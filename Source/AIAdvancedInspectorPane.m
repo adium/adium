@@ -138,10 +138,10 @@
 	encryption = [inObject preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
 	
 	if(!encryption) {
-		[popUp_encryption compatibleSelectItemWithTag:EncryptedChat_Default];
+		[popUp_encryption selectItemWithTag:EncryptedChat_Default];
 	}
 	
-	[popUp_encryption compatibleSelectItemWithTag:[encryption integerValue]];
+	[popUp_encryption selectItemWithTag:[encryption integerValue]];
 	
 	[checkBox_alwaysShow setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[checkBox_alwaysShow setState:[inObject alwaysVisible]];

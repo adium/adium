@@ -82,7 +82,7 @@
 
 	//Chat Cycling
 	[popUp_tabKeys setMenu:[self tabChangeKeysMenu]];
-	[popUp_tabKeys compatibleSelectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TAB_SWITCH_KEYS
+	[popUp_tabKeys selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TAB_SWITCH_KEYS
 																						 group:PREF_GROUP_CHAT_CYCLING] intValue]];
 
 	//General
@@ -93,15 +93,15 @@
 	[popUp_sendKeys setMenu:[self sendKeysMenu]];
 	
 	if (sendOnEnter && sendOnReturn) {
-		[popUp_sendKeys compatibleSelectItemWithTag:AISendOnBoth];
+		[popUp_sendKeys selectItemWithTag:AISendOnBoth];
 	} else if (sendOnEnter) {
-		[popUp_sendKeys compatibleSelectItemWithTag:AISendOnEnter];			
+		[popUp_sendKeys selectItemWithTag:AISendOnEnter];			
 	} else if (sendOnReturn) {
-		[popUp_sendKeys compatibleSelectItemWithTag:AISendOnReturn];
+		[popUp_sendKeys selectItemWithTag:AISendOnReturn];
 	}
 
 	[popUp_tabPositionMenu setMenu:[self tabPositionMenu]];
-	[popUp_tabPositionMenu compatibleSelectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
+	[popUp_tabPositionMenu selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																								 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
 	
 	//Quit
