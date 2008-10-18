@@ -150,19 +150,19 @@
 	
 	//Context text alignment
 	[popUp_contactTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
-	[popUp_contactTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]];
+	[popUp_contactTextAlignment selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_ALIGNMENT] integerValue]];
 	
 	//Group text alignment
 	[popUp_groupTextAlignment setMenu:[self alignmentMenuWithChoices:textAlignmentChoices]];
-	[popUp_groupTextAlignment compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] integerValue]];
+	[popUp_groupTextAlignment selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_ALIGNMENT] integerValue]];
 	
 	//Extended Status position
 	[popUp_extendedStatusPosition setMenu:[self extendedStatusPositionMenu]];
-	[popUp_extendedStatusPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue]];
+	[popUp_extendedStatusPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue]];
 	
 	//Window style
 	[popUp_extendedStatusStyle setMenu:[self extendedStatusStyleMenu]];
-	[popUp_extendedStatusStyle compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue]];
+	[popUp_extendedStatusStyle selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue]];
 	
 	[slider_userIconSize setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_SIZE] integerValue]];
 	[slider_contactSpacing setIntegerValue:[[prefDict objectForKey:KEY_LIST_LAYOUT_CONTACT_SPACING] integerValue]];
@@ -483,7 +483,7 @@
 	 */
 	[popUp_statusIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
 	if ([popUp_statusIconPosition numberOfItems] &&
-		![popUp_statusIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION] integerValue]]) {
+		![popUp_statusIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION] integerValue]]) {
 		[popUp_statusIconPosition selectItemAtIndex:0];
 		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[popUp_statusIconPosition selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_STATUS_ICON_POSITION
@@ -492,7 +492,7 @@
 
 	[popUp_serviceIconPosition setMenu:[self positionMenuWithChoices:statusAndServicePositionChoices]];
 	if ([popUp_serviceIconPosition numberOfItems] &&
-		![popUp_serviceIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION] integerValue]]) {
+		![popUp_serviceIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION] integerValue]]) {
 		[popUp_serviceIconPosition selectItemAtIndex:0];
 		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[popUp_serviceIconPosition selectedItem] tag]]
 											 forKey:KEY_LIST_LAYOUT_SERVICE_ICON_POSITION
@@ -529,7 +529,7 @@
 	
 	//User icon position
 	[popUp_userIconPosition setMenu:[self positionMenuWithChoices:userIconPositionChoices]];
-	[popUp_userIconPosition compatibleSelectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION] integerValue]];
+	[popUp_userIconPosition selectItemWithTag:[[prefDict objectForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION] integerValue]];
 }
 
 #pragma mark Menu generation

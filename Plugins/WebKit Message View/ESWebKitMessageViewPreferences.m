@@ -212,7 +212,7 @@
 		[colorWell_customBackgroundColor setColor:(backgroundColor ? backgroundColor : [NSColor whiteColor])] ;
 
 		[checkBox_useCustomBackground setState:[[prefDict objectForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:style]] boolValue]];
-		[popUp_backgroundImageType compatibleSelectItemWithTag:[[prefDict objectForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:style]] integerValue]];
+		[popUp_backgroundImageType selectItemWithTag:[[prefDict objectForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:style]] integerValue]];
 
 		//Disable the custom background controls if the style doesn't support them
 		BOOL	allowCustomBackground = [[previewController messageStyle] allowsCustomBackground];

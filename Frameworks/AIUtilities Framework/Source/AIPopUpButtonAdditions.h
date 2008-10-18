@@ -17,7 +17,6 @@
 
 - (BOOL)selectItemWithRepresentedObject:(id)object;
 - (BOOL)selectItemWithRepresentedObjectUsingCompare:(id)object;
-- (BOOL)compatibleSelectItemWithTag:(int)tag;
 - (void)autosizeAndCenterHorizontally;
 
 @end
