@@ -8,8 +8,6 @@
 
 @interface NSApplication (AIApplicationAdditions)
 
-- (BOOL)isWebKitAvailable;
-
 - (NSString *)applicationVersion;
 
 @end
