@@ -152,7 +152,6 @@
 		340C1ABF0BD58FAB00D09235 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		340C1E770BD59A0500D09235 /* GBImportPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 340C1E750BD59A0500D09235 /* GBImportPlugin.m */; };
 		340D859B0ADC82D100D05B3F /* sourceListBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 340670790A55A044004E22AC /* sourceListBackground.png */; };
-		3410746009B6965700565C9E /* AIMDLogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3410745E09B6965700565C9E /* AIMDLogViewerWindowController.m */; };
 		34107B4C09E9923D001CC042 /* AIGuestAccountWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34107B4A09E9923D001CC042 /* AIGuestAccountWindowController.m */; };
 		34107B5609E992DA001CC042 /* GuestAccountWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34107B5509E992DA001CC042 /* GuestAccountWindow.nib */; };
 		341591E405463DA800291275 /* SQL_Logger_Prefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 341591E105463DA800291275 /* SQL_Logger_Prefs.nib */; };
@@ -210,7 +209,7 @@
 		341FFD940DD85B1E0049F13D /* AIFacebookStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 341FFD930DD85B1E0049F13D /* AIFacebookStatusManager.m */; };
 		341FFEE50DDA32B40049F13D /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = 341FFEE30DDA32B40049F13D /* facebook.png */; };
 		341FFEE60DDA32B40049F13D /* facebook-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 341FFEE40DDA32B40049F13D /* facebook-small.png */; };
-		342353D709D45726009FF634 /* AIAbstractLogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342353D509D45725009FF634 /* AIAbstractLogViewerWindowController.m */; };
+		342353D709D45726009FF634 /* AILogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342353D509D45725009FF634 /* AILogViewerWindowController.m */; };
 		3428328907D2643F004F01C9 /* ESStatusPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328507D2643F004F01C9 /* ESStatusPreferences.m */; };
 		3428328B07D2643F004F01C9 /* ESStatusPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3428328707D2643F004F01C9 /* ESStatusPreferencesPlugin.m */; };
 		342838EE07D2D004004F01C9 /* Shared Dock Icon Images in Resources */ = {isa = PBXBuildFile; fileRef = 342838ED07D2D004004F01C9 /* Shared Dock Icon Images */; };
@@ -2032,8 +2031,6 @@
 		340F487D06DA5E440072E2FA /* AIListGroupBubbleToFitCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIListGroupBubbleToFitCell.h; path = "Frameworks/Adium Framework/Source/AIListGroupBubbleToFitCell.h"; sourceTree = "<group>"; };
 		340F487E06DA5E440072E2FA /* AIListGroupBubbleCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIListGroupBubbleCell.m; path = "Frameworks/Adium Framework/Source/AIListGroupBubbleCell.m"; sourceTree = "<group>"; };
 		340F487F06DA5E440072E2FA /* AIListGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIListGroupCell.h; path = "Frameworks/Adium Framework/Source/AIListGroupCell.h"; sourceTree = "<group>"; };
-		3410745D09B6965600565C9E /* AIMDLogViewerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMDLogViewerWindowController.h; path = Source/AIMDLogViewerWindowController.h; sourceTree = "<group>"; };
-		3410745E09B6965700565C9E /* AIMDLogViewerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMDLogViewerWindowController.m; path = Source/AIMDLogViewerWindowController.m; sourceTree = "<group>"; };
 		34107B4909E9923D001CC042 /* AIGuestAccountWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGuestAccountWindowController.h; path = Source/AIGuestAccountWindowController.h; sourceTree = "<group>"; };
 		34107B4A09E9923D001CC042 /* AIGuestAccountWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGuestAccountWindowController.m; path = Source/AIGuestAccountWindowController.m; sourceTree = "<group>"; };
 		34107B5509E992DA001CC042 /* GuestAccountWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GuestAccountWindow.nib; path = Resources/GuestAccountWindow.nib; sourceTree = "<group>"; };
@@ -2222,8 +2219,8 @@
 		3421181A0827D86900A3B0FB /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = "Plugins/Purple Service/nl.lproj/ESPurpleOscarAccountView.nib"; sourceTree = "<group>"; };
 		3421186C0827D8B100A3B0FB /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = "Frameworks/Adium Framework/Resources/nl.lproj/EditStateSheet.nib"; sourceTree = "<group>"; };
 		342118800827D8C300A3B0FB /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = Resources/nl.lproj/StatusPreferences.nib; sourceTree = "<group>"; };
-		342353D409D45725009FF634 /* AIAbstractLogViewerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAbstractLogViewerWindowController.h; path = Source/AIAbstractLogViewerWindowController.h; sourceTree = "<group>"; };
-		342353D509D45725009FF634 /* AIAbstractLogViewerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAbstractLogViewerWindowController.m; path = Source/AIAbstractLogViewerWindowController.m; sourceTree = "<group>"; };
+		342353D409D45725009FF634 /* AILogViewerWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILogViewerWindowController.h; path = Source/AILogViewerWindowController.h; sourceTree = "<group>"; };
+		342353D509D45725009FF634 /* AILogViewerWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILogViewerWindowController.m; path = Source/AILogViewerWindowController.m; sourceTree = "<group>"; };
 		3428328407D2643E004F01C9 /* ESStatusPreferencesPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESStatusPreferencesPlugin.h; path = Source/ESStatusPreferencesPlugin.h; sourceTree = "<group>"; };
 		3428328507D2643F004F01C9 /* ESStatusPreferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESStatusPreferences.m; path = Source/ESStatusPreferences.m; sourceTree = "<group>"; };
 		3428328607D2643F004F01C9 /* ESStatusPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESStatusPreferences.h; path = Source/ESStatusPreferences.h; sourceTree = "<group>"; };
@@ -7017,11 +7014,9 @@
 				345623240A3771F300E7FC97 /* AILogToGroup.m */,
 				345623270A3771F400E7FC97 /* AILogFromGroup.h */,
 				345623260A3771F400E7FC97 /* AILogFromGroup.m */,
-				3410745D09B6965600565C9E /* AIMDLogViewerWindowController.h */,
-				3410745E09B6965700565C9E /* AIMDLogViewerWindowController.m */,
 				3456232E0A37723400E7FC97 /* LogViewer.nib */,
-				342353D409D45725009FF634 /* AIAbstractLogViewerWindowController.h */,
-				342353D509D45725009FF634 /* AIAbstractLogViewerWindowController.m */,
+				342353D409D45725009FF634 /* AILogViewerWindowController.h */,
+				342353D509D45725009FF634 /* AILogViewerWindowController.m */,
 				34B9C7910A255DCE00CEA8AE /* LogViewerDateFilter.nib */,
 				34F849560A4AF04D0002A017 /* AILogFileUpgradeWindowController.h */,
 				34F849570A4AF04D0002A017 /* AILogFileUpgradeWindowController.m */,
@@ -9659,9 +9654,8 @@
 				34607EE909B228FE000DB3D2 /* AIContactListNameButton.m in Sources */,
 				34607F1009B2296A000DB3D2 /* AIHoveringPopUpButtonCell.m in Sources */,
 				34607F1209B2296A000DB3D2 /* AIHoveringPopUpButton.m in Sources */,
-				3410746009B6965700565C9E /* AIMDLogViewerWindowController.m in Sources */,
 				34AE249E09BCCFA900A35B51 /* AIWindowDraggingView.m in Sources */,
-				342353D709D45726009FF634 /* AIAbstractLogViewerWindowController.m in Sources */,
+				342353D709D45726009FF634 /* AILogViewerWindowController.m in Sources */,
 				34107B4C09E9923D001CC042 /* AIGuestAccountWindowController.m in Sources */,
 				9ECB03E709F2A9D900996F44 /* AIDictionaryDebug.m in Sources */,
 				9ECB03E909F2A9D900996F44 /* AIXMLAppender.m in Sources */,

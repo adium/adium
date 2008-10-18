@@ -18,7 +18,7 @@
 #import "AIChatLog.h"
 #import "AILogFromGroup.h"
 #import "AILogToGroup.h"
-#import "AIMDLogViewerWindowController.h"
+#import "AILogViewerWindowController.h"
 #import "AIXMLAppender.h"
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
@@ -99,17 +99,12 @@ enum {
 
 static NSString     *logBasePath = nil;     //The base directory of all logs
 static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path refers to an alias file, this is that path, and logBasePath is the destination of the alias; otherwise, this is nil and logBasePath is the usual Logs folder path.
-Class LogViewerWindowControllerClass = NULL;
 
 @implementation AILoggerPlugin
 
 //
 - (void)installPlugin
 {
-	//XXX: this should be refactored now that we can rely on Tiger.
-	LogViewerWindowControllerClass = [AIMDLogViewerWindowController class];
-
-    //Init
 	observingContent = NO;
 
 	activeAppenders = [[NSMutableDictionary alloc] init];
@@ -384,7 +379,7 @@ Class LogViewerWindowControllerClass = NULL;
  */
 - (void)showLogViewer:(id)sender
 {
-    [LogViewerWindowControllerClass openForContact:nil  
+    [AILogViewerWindowController openForContact:nil  
 										 plugin:self];	
 }
 
@@ -396,7 +391,7 @@ Class LogViewerWindowControllerClass = NULL;
 - (void)showLogViewerToSelectedContact:(id)sender
 {
     AIListObject   *selectedObject = [adium.interfaceController selectedListObject];
-    [LogViewerWindowControllerClass openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
+    [AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
 												 (AIListContact *)selectedObject : 
 												 nil)  
 										 plugin:self];
@@ -404,7 +399,7 @@ Class LogViewerWindowControllerClass = NULL;
 
 - (void)showLogViewerForLogAtPath:(NSString *)inPath
 {
-	[LogViewerWindowControllerClass openLogAtPath:inPath plugin:self];
+	[AILogViewerWindowController openLogAtPath:inPath plugin:self];
 }
 
 - (void)showLogNotification:(NSNotification *)inNotification
@@ -422,7 +417,7 @@ Class LogViewerWindowControllerClass = NULL;
 	AIListObject* object = [adium.menuController currentContextMenuObject];
 	if ([object isKindOfClass:[AIListContact class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
-		[[[LogViewerWindowControllerClass openForContact:(AIListContact *)object plugin:self] window]
+		[[[AILogViewerWindowController openForContact:(AIListContact *)object plugin:self] window]
 									 makeKeyAndOrderFront:nil];
 	}
 }
@@ -1309,7 +1304,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	suspendDirtyArraySave = NO; //Re-allow saving of the dirty array
     
     //Begin cleaning the logs (If the log viewer is open)
-    if (!stopIndexingThreads && [LogViewerWindowControllerClass existingWindowController]) {
+    if (!stopIndexingThreads && [AILogViewerWindowController existingWindowController]) {
 		[self cleanDirtyLogs];
     }
     
@@ -1344,7 +1339,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
     logsToIndex = [dirtyLogArray count];
     [dirtyLogLock unlock];
 
-	[[LogViewerWindowControllerClass existingWindowController] logIndexingProgressUpdate];
+	[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 
 	//Clear the dirty status of all open chats so they will be marked dirty if they receive another message
 	for (AIChat *chat in adium.chatController.openChats) {
@@ -1456,7 +1451,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 				//Update our progress
 				logsIndexed++;
 				if (lastUpdate == 0 || TickCount() > lastUpdate + LOG_INDEX_STATUS_INTERVAL) {
-					[[LogViewerWindowControllerClass existingWindowController]
+					[[AILogViewerWindowController existingWindowController]
                                             performSelectorOnMainThread:@selector(logIndexingProgressUpdate) 
                                                              withObject:nil
                                                           waitUntilDone:NO];
