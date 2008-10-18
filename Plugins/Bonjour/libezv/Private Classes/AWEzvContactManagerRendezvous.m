@@ -204,6 +204,7 @@ void image_register_reply (
 		[[client client] reportError:@"Could not register DNS service: _presence._tcp" ofLevel:AWEzvConnectionError];
 		[self disconnect];
 	}
+	TXTRecordDeallocate(&txtRecord);
 }
 
 /* this is used for a clean logout */
@@ -307,6 +308,8 @@ void image_register_reply (
 		[[client client] reportError:@"Error updating TXT Record" ofLevel:AWEzvConnectionError];
 		[self disconnect];
 	}
+	
+	TXTRecordDeallocate(&txtRecord);
 }
 
 - (void) updatedName {
@@ -383,7 +386,7 @@ void image_register_reply (
 
 - (void) updatePHSH {
 	if (imagehash != nil) {
-		[userAnnounceData setField:@"phsh" content:imagehash];
+		[userAnnounceData setField:@"phsh" content:[imagehash autorelease]];
 		/* announce to network */
 		[self updateAnnounceInfo];
 	} else {
