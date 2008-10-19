@@ -22,6 +22,11 @@
 @class AIAccountMenu, AIStatusMenu, AIContactMenu;
 @protocol AIListObjectObserver;
 
+/*!
+ * @class CBStatusMenuItemController
+ *
+ * @brief Manages the Adium NSStatusItem
+ */
 @interface CBStatusMenuItemController : NSObject <AIChatObserver, AIListObjectObserver>
 {
 	NSStatusItem            *statusItem;
@@ -58,6 +63,7 @@
 	BOOL					optionsMenuNeedsUpdate;
 	BOOL					mainMenuNeedsUpdate;
 }
+
 
 + (CBStatusMenuItemController *)statusMenuItemController;
 - (void)invalidateTimers;
