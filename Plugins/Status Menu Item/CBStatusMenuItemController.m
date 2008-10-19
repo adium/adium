@@ -288,7 +288,7 @@
 /*!
  * @brief Invalidate running timers
  *
- * Since an NSTimer instance retains its delegates, this method is used to prevent
+ * Since an NSTimer instance retains its targets, this method is used to prevent
  * \c autoreleased objects from being stuck around indefinitely.
  */
 - (void)invalidateTimers
