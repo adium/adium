@@ -210,7 +210,6 @@
 	[super dealloc];
 }
 
-//Icon State --------------------------------------------------------
 #pragma mark Icon State
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
@@ -218,6 +217,11 @@
 #define EXTENSION_MENU_BAR_ICONS	@"AdiumMenuBarIcons"
 #define	RESOURCE_MENU_BAR_ICONS		@"Menu Bar Icons"
 
+/*!
+ * @brief Update the Xtra bundle
+ *
+ * Updates the stored information we have on an \c AdiumMenuBarIcons bundle.
+ */
 - (void)updateMenuIconsBundle
 {
 	NSString *menuIconPath = nil, *menuIconName;
@@ -249,7 +253,11 @@
 	[self updateMenuIcons];
 }
 
-// Updates the unread count of the status item.
+/*!
+ * @brief Update the unread count
+ *
+ * Updates the string text found next to the status item's icon.
+ */
 - (void)updateUnreadCount
 {
 	NSUInteger unreadCount = (showConversationCount ?
@@ -263,7 +271,12 @@
 	}
 }
 
-// Flashes unviewed content.
+/*!
+ * @brief Update the unviewed content flash
+ * @arg timer The NSTimer calling this method
+ *
+ * Toggles state between having unread content and not every time the timer ends.
+ */
 - (void)updateUnviewedContentFlash:(NSTimer *)timer
 {
 	// Invert our current setting
@@ -272,6 +285,12 @@
 	[self updateMenuIcons];
 }
 
+/*!
+ * @brief Invalidate running timers
+ *
+ * Since an NSTimer instance retains its delegates, this method is used to prevent
+ * \c autoreleased objects from being stuck around indefinitely.
+ */
 - (void)invalidateTimers
 {
 	currentlyIgnoringUnviewed = NO;
@@ -286,6 +305,11 @@
 #define	IMAGE_TYPE_OFFLINE		@"Offline"
 #define	IMAGE_TYPE_ONLINE		@"Online"
 
+/*!
+ * @brief Update the menu icons
+ *
+ * Updates the menu icon with the appropriate icon and badge icon.
+ */
 - (void)updateMenuIcons
 {
 	NSImage			*badge = nil;
@@ -385,6 +409,9 @@
 	[self updateStatusItemLength];
 }
 
+/*!
+ * @brief Update the status item's width
+ */
 - (void)updateStatusItemLength
 {
 	[statusItem setLength:[statusItemView desiredWidth] + STATUS_ITEM_MARGIN];
@@ -392,7 +419,13 @@
 	[statusItemView setNeedsDisplay:YES];
 }
 
-
+/*!
+ * @brief Badge the given image with the given badge
+ * @arg duckImage The base image
+ * @arg badgeImage The badge which will be draw on the base image
+ *
+ * Drags the \c badgeImage in the bottom right quadrant of the \c duckImage.
+ */
 - (NSImage *)badgeDuck:(NSImage *)duckImage withImage:(NSImage *)badgeImage 
 {
 	NSImage *image = duckImage;
@@ -441,8 +474,10 @@
 	return image;
 }
 
-//Account Menu --------------------------------------------------------
 #pragma mark Account Menu
+/*!
+ * @brief AIAccountMenu delegate method
+ */
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems {
 	// Going from or to 1 account requires a main menu update
 	if ([accountMenuItemsArray count] == 1 || [menuItems count] == 1)
@@ -456,13 +491,17 @@
 	accountsMenuNeedsUpdate = YES;
 }
 
+/*!
+ * @brief AIAccountMenu delegate method
+ */
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount {
 	[inAccount toggleOnline];
 }
 
-
-//Status Menu --------------------------------------------------------
 #pragma mark Status Menu
+/*!
+ * @brief AIStatusMenu delegate method
+ */
 - (void)statusMenu:(AIStatusMenu *)inStatusMenu didRebuildStatusMenuItems:(NSArray *)menuItemArray
 {
 	[stateMenuItemsArray release];
@@ -472,8 +511,10 @@
 	mainMenuNeedsUpdate = YES;
 }
 
-//Contact Menu --------------------------------------------------------
 #pragma mark Contact Menu
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems
 {
 	// Going from or to 0 contacts requires a main menu update
@@ -487,6 +528,9 @@
 	contactsMenuNeedsUpdate = YES;
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
 	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
@@ -494,34 +538,55 @@
 	[self activateAdium];
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ *
+ * Shows the given contact if it is visible in the contact list.
+ */
 - (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact
 {
 	// Show this contact if we're showing offline contacts or if this contact is online.
 	return [inContact visible];
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (BOOL)contactMenuShouldDisplayGroupHeaders:(AIContactMenu *)inContactMenu
 {
 	return showContactGroups;
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (BOOL)contactMenuShouldUseDisplayName:(AIContactMenu *)inContactMenu
 {
 	return YES;
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (BOOL)contactMenuShouldUseUserIcon:(AIContactMenu *)inContactMenu
 {
 	return YES;
 }
 
+/*!
+ * @brief AIContactMenu delegate method
+ */
 - (BOOL)contactMenuShouldSetTooltip:(AIContactMenu *)inContactMenu
 {
 	return YES;
 }
 
-//List Object Observer -------------------------------------------------
 #pragma mark List Object Observer
+/*!
+ * @brief List Observer delegate method
+ *
+ * Updates the menu icon if our accounts change connecting state.
+ */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ([inObject isKindOfClass:[AIAccount class]]) {
@@ -534,9 +599,12 @@
 	return nil;
 }
 
-//Chat Observer --------------------------------------------------------
 #pragma mark Chat Observer
-
+/*!
+ * @brief Chat observer delegate method
+ *
+ * Updates our opened chats when called.
+ */
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	[self updateOpenChats];
@@ -545,6 +613,12 @@
 	return nil;
 }
 
+/*!
+ * @brief Updates open chats menu
+ *
+ * Update our content image if necessary, creating an NSTimer instance to flash the badge if the 
+ * user has the preference enabled to do so.
+ */
 - (void)updateOpenChats
 {
 	[self retain];
@@ -594,8 +668,12 @@
 	[self release];
 }
 
-//Menu Delegates/Actions --------------------------------------------------------
 #pragma mark Menu Delegates/Actions
+/*!
+ * @brief NSMenu delegate method
+ *
+ * This method updates all of the given menus which we control if we've deteremined an update to be necessary.
+ */
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
 	// Main menu if it needs an update
@@ -780,18 +858,30 @@
 	}
 }
 
+/*!
+ * @brief Switch to a chat
+ * @arg An NSMenuItem instance whose \c representedObject is an AIChat.
+ */
 - (void)switchToChat:(id)sender
 {
 	[adium.interfaceController setActiveChat:[sender representedObject]];
 	[self activateAdium];
 }
 
+/*!
+ * @brief Open the account list
+ */
 - (void)activateAccountList:(id)sender
 {
 	[adium.preferenceController openPreferencesToCategoryWithIdentifier:@"Accounts"];
 	[self activateAdium];
 }
 
+/*!
+ * @brief Disable the status item
+ *
+ * Updates the preference for displaying the status item to be NO.
+ */
 - (void)disableStatusItem:(id)sender
 {
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:NO]
@@ -799,12 +889,20 @@
 										  group:PREF_GROUP_STATUS_MENU_ITEM];
 }
 
+/*!
+ * @brief Show the preference window
+ */
 - (void)showPreferenceWindow:(id)sender
 {
 	[adium.preferenceController showPreferenceWindow:nil];
 	[self activateAdium];
 }
 
+/*!
+ * @brief Activate Adium
+ * 
+ * Brings Adium to front.
+ */
 - (void)activateAdium
 {
 	if (![NSApp isActive]) {
@@ -814,6 +912,11 @@
 }
 
 #pragma mark Preferences Observer
+/*!
+ * @brief Preferences observer
+ *
+ * Updates our display based on preference changes, such as the display of badges or the unread count being displayed.
+ */
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
