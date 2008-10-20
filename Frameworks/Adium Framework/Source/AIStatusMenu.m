@@ -254,19 +254,18 @@
 		
 		if (account) {
 			/* Account-specific menu items */
-			AIStatus		*appropiateActiveStatusState;
-			appropiateActiveStatusState = [account statusState];
+			AIStatus *appropriateActiveStatusState = account.statusState;
 			
 			/* Our "Custom..." menu choice has a nil represented object.  If the appropriate active search state is
 				* in our array of states from which we made menu items, we'll be searching to match it.  If it isn't,
 				* we have a custom state and will be searching for the custom item of the right type, switching all other
 				* menu items to NSOffState.
 				*/
-			if ([adium.statusController.flatStatusSet containsObject:appropiateActiveStatusState]) {
+			if ([adium.statusController.flatStatusSet containsObject:appropriateActiveStatusState]) {
 				//If the search state is in the array so is a saved state, search for the match
-				if ((menuItemStatusState == appropiateActiveStatusState) ||
+				if ((menuItemStatusState == appropriateActiveStatusState) ||
 					([menuItemStatusState isKindOfClass:[AIStatusGroup class]] &&
-					 [(AIStatusGroup *)menuItemStatusState enclosesStatusState:appropiateActiveStatusState])) {
+					 [(AIStatusGroup *)menuItemStatusState enclosesStatusState:appropriateActiveStatusState])) {
 					if ([menuItem state] != NSOnState) [menuItem setState:NSOnState];
 				} else {
 					if ([menuItem state] != NSOffState) [menuItem setState:NSOffState];
@@ -278,7 +277,7 @@
 					if ([menuItem state] != NSOffState) [menuItem setState:NSOffState];
 				} else {
 					//If it doesn't, check the tag to see if it should be on or off.
-					if ([menuItem tag] == [appropiateActiveStatusState statusType]) {
+					if ([menuItem tag] == [appropriateActiveStatusState statusType]) {
 						if ([menuItem state] != NSOnState) [menuItem setState:NSOnState];
 					} else {
 						if ([menuItem state] != NSOffState) [menuItem setState:NSOffState];
