@@ -77,7 +77,7 @@
 	
 	// Update Checking
 	[checkBox_updatesAutomatic setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUEnableAutomaticChecks"]];
-	[checkBox_updatesProfileInfo setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUIncludeProfile"]];
+	[checkBox_updatesProfileInfo setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"SUSendProfileInfo"]];
 	[checkBox_updatesIncludeBetas setState:[[NSUserDefaults standardUserDefaults] boolForKey:@"AIAlwaysUpdateToBetas"]];
 
 	//Chat Cycling
@@ -143,7 +143,7 @@
 		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUEnableAutomaticChecks"];
 		[self configureControlDimming];
 	} else if (sender == checkBox_updatesProfileInfo) {
-		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUIncludeProfile"];
+		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"SUSendProfileInfo"];
 	} else if (sender == checkBox_updatesIncludeBetas) {
 		[[NSUserDefaults standardUserDefaults] setBool:[sender state] forKey:@"AIAlwaysUpdateToBetas"];
 	}
