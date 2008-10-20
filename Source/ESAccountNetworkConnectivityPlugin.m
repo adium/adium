@@ -94,7 +94,7 @@
  */
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {
-	NSArray						*accounts = [adium.accountController accounts];
+	NSArray						*accounts = adium.accountController.accounts;
 	AIHostReachabilityMonitor	*monitor = [AIHostReachabilityMonitor defaultMonitor];
 	BOOL						shiftHeld = [NSEvent shiftKey];
 	

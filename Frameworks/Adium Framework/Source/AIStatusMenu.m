@@ -262,7 +262,7 @@
 				* we have a custom state and will be searching for the custom item of the right type, switching all other
 				* menu items to NSOffState.
 				*/
-			if ([[adium.statusController flatStatusSet] containsObject:appropiateActiveStatusState]) {
+			if ([adium.statusController.flatStatusSet containsObject:appropiateActiveStatusState]) {
 				//If the search state is in the array so is a saved state, search for the match
 				if ((menuItemStatusState == appropiateActiveStatusState) ||
 					([menuItemStatusState isKindOfClass:[AIStatusGroup class]] &&
@@ -302,7 +302,7 @@
 			} else {
 				//If it doesn't, check the tag to see if it should be on or off by looking for a matching custom state
 				NSEnumerator	*activeStatusStatesEnumerator = [allActiveStatusStates objectEnumerator];
-				NSSet			*flatStatusSet = [adium.statusController flatStatusSet];
+				NSSet			*flatStatusSet = adium.statusController.flatStatusSet;
 				AIStatus		*statusState;
 				BOOL			foundCorrectStatusState = NO;
 				
