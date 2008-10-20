@@ -1094,60 +1094,61 @@ static NSString	*prefsCategory;
  */
 - (NSArray *)feedParametersForUpdater:(SUUpdater *)updater sendingSystemProfile:(BOOL)sendProfileInfo
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-		//Sparkle 1.5 has a different defaults key, do a one time migration of the value
-		if ([defaults boolForKey:@"SUIncludeProfile"]) {
-			[defaults setBool:YES forKey:@"SUSendProfileInfo"];
-			sendProfileInfo = YES;
-			[defaults setBool:NO forKey:@"SUIncludeProfile"]; //make sure this only runs once
-		}
-    
-    //If we're not sending profile information, or if it hasn't been long enough since the last profile submission, return just the type of update we're looking for and the generation number.
-    NSMutableArray *profileInfo = [NSMutableArray array];
-    
-    [profileInfo addObject:UPDATE_GENERATION_DICT];
-    [profileInfo addObject:UPDATE_TYPE_DICT];
-#ifdef NIGHTLY_RELEASE
-    NSString *buildId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"];
-    [profileInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"revision", @"key", @"Revision", @"visibleKey", buildId, @"value", buildId, @"visibleValue", nil]];
-#endif
-    
-    if (sendProfileInfo) {		
-	NSString *value = ([defaults boolForKey:@"AIHasSentSparkleProfileInfo"]) ? @"no" : @"yes";
-	
-	NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
-			       @"FirstSubmission", @"key", 
-			       value, @"value",
-			       nil];
-	
-	[profileInfo addObject:entry];
-	
-	[defaults setBool:YES forKey:@"AIHasSentSparkleProfileInfo"];
-	
-	/*************** Include info about what IM services are used ************/
-	NSMutableString *accountInfo = [NSMutableString string];
-	NSCountedSet *condensedAccountInfo = [NSCountedSet set];
-	for (AIAccount *account in adium.accountController.accounts) {
-	    NSString *serviceID = [account serviceID];
-	    [accountInfo appendFormat:@"%@, ", serviceID];
-	    if([serviceID isEqualToString:@"Yahoo! Japan"]) serviceID = @"YJ";
-	    [condensedAccountInfo addObject:[NSString stringWithFormat:@"%@", [serviceID substringToIndex:2]]]; 
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+	//Sparkle 1.5 has a different defaults key, do a one time migration of the value
+	if ([defaults boolForKey:@"SUIncludeProfile"]) {
+		[defaults setBool:YES forKey:@"SUSendProfileInfo"];
+		sendProfileInfo = YES;
+		[defaults setBool:NO forKey:@"SUIncludeProfile"]; //make sure this only runs once
 	}
-	
-	NSMutableString *accountInfoString = [NSMutableString string];
-	for (value in [[condensedAccountInfo allObjects] sortedArrayUsingSelector:@selector(compare:)])
-	    [accountInfoString appendFormat:@"%@%lu", value, [condensedAccountInfo countForObject:value]];
-	
-	entry = [NSDictionary dictionaryWithObjectsAndKeys:
-		 @"IMServices", @"key", 
-		 accountInfoString, @"value",
-		 nil];
-	[profileInfo addObject:entry];
-    }
-    
-    
-    return profileInfo;
+
+	//If we're not sending profile information, or if it hasn't been long enough since the last profile submission, return just the type of update we're looking for and the generation number.
+	NSMutableArray *profileInfo = [NSMutableArray array];
+
+	[profileInfo addObject:UPDATE_GENERATION_DICT];
+	[profileInfo addObject:UPDATE_TYPE_DICT];
+#ifdef NIGHTLY_RELEASE
+	NSString *buildId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"AIBuildIdentifier"];
+	[profileInfo addObject:[NSDictionary dictionaryWithObjectsAndKeys:@"revision", @"key", @"Revision", @"visibleKey", buildId, @"value", buildId, @"visibleValue", nil]];
+#endif
+
+	if (sendProfileInfo) {		
+		NSString *value = ([defaults boolForKey:@"AIHasSentSparkleProfileInfo"]) ? @"no" : @"yes";
+
+		NSDictionary *entry = [NSDictionary dictionaryWithObjectsAndKeys:
+			@"FirstSubmission", @"key", 
+			value, @"value",
+			nil];
+
+		[profileInfo addObject:entry];
+
+		[defaults setBool:YES forKey:@"AIHasSentSparkleProfileInfo"];
+
+		/*************** Include info about what IM services are used ************/
+		NSMutableString *accountInfo = [NSMutableString string];
+		NSCountedSet *condensedAccountInfo = [NSCountedSet set];
+		for (AIAccount *account in adium.accountController.accounts) {
+			NSString *serviceID = [account serviceID];
+			[accountInfo appendFormat:@"%@, ", serviceID];
+			if([serviceID isEqualToString:@"Yahoo! Japan"]) 
+				serviceID = @"YJ";
+			[condensedAccountInfo addObject:[NSString stringWithFormat:@"%@", [serviceID substringToIndex:2]]]; 
+		}
+
+		NSMutableString *accountInfoString = [NSMutableString string];
+		for (value in [[condensedAccountInfo allObjects] sortedArrayUsingSelector:@selector(compare:)])
+			[accountInfoString appendFormat:@"%@%lu", value, [condensedAccountInfo countForObject:value]];
+
+		entry = [NSDictionary dictionaryWithObjectsAndKeys:
+			@"IMServices", @"key", 
+			accountInfoString, @"value",
+			nil];
+			[profileInfo addObject:entry];
+	}
+
+
+	return profileInfo;
 }
 
 - (NSArray *)updaterInfoWithoutProfile
