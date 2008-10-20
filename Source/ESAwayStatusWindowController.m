@@ -279,7 +279,7 @@ static BOOL							hideInBackground = NO;
 - (NSArray *)awayAccounts
 {	
 	NSMutableArray	*awayAccounts = [NSMutableArray array];	
-	NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
+	NSEnumerator	*enumerator = [adium.accountController.accounts objectEnumerator];
 	AIAccount		*account;
 	
 	while ((account = [enumerator nextObject])) {

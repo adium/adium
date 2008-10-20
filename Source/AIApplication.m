@@ -72,11 +72,11 @@
 }
 - (NSArray *)chats
 {
-	return [[adium.chatController openChats] allObjects];
+	return [adium.chatController.openChats allObjects];
 }
 - (NSArray *)accounts
 {
-	return [adium.accountController accounts];
+	return adium.accountController.accounts;
 }
 - (NSArray *)contacts
 {
@@ -93,7 +93,7 @@
 
 - (NSArray *)statuses
 {
-	return [[adium.statusController flatStatusSet] allObjects];
+	return [adium.statusController.flatStatusSet allObjects];
 }
 - (NSArray *)contactGroups
 {

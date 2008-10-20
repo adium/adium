@@ -100,20 +100,20 @@
  */
 - (NSMenu *)menuOfStatusesForService:(AIService *)service withTarget:(id)target;
 
-- (NSSet *)flatStatusSet;
-- (NSArray *)sortedFullStateArray;
-- (AIStatus *)offlineStatusState;
-- (AIStatus *)availableStatus;
-- (AIStatus *)awayStatus;
-- (AIStatus *)invisibleStatus;
-- (AIStatus *)offlineStatus;
+@property (readonly, nonatomic) NSSet *flatStatusSet;
+@property (readonly, nonatomic) NSArray *sortedFullStateArray;
+@property (readonly, nonatomic) AIStatus *offlineStatusState;
+@property (readonly, nonatomic) AIStatus *availableStatus;
+@property (readonly, nonatomic) AIStatus *awayStatus;
+@property (readonly, nonatomic) AIStatus *invisibleStatus;
+@property (readonly, nonatomic) AIStatus *offlineStatus;
 - (AIStatus *)statusStateWithUniqueStatusID:(NSNumber *)uniqueStatusID;
 
 - (void)setActiveStatusState:(AIStatus *)state;
 - (void)setActiveStatusState:(AIStatus *)state forAccount:(AIAccount *)account;
 - (void)setDelayStatusMenuRebuilding:(BOOL)shouldDelay;
 - (void)applyState:(AIStatus *)statusState toAccounts:(NSArray *)accountArray;
-- (AIStatus *)activeStatusState;
+@property (readonly, nonatomic) AIStatus *activeStatusState;
 - (NSSet *)allActiveStatusStates;
 - (AIStatusType)activeStatusTypeTreatingInvisibleAsAway:(BOOL)invisibleIsAway;
 - (NSSet *)activeUnavailableStatusesAndType:(AIStatusType *)activeUnvailableStatusType 
