@@ -154,7 +154,12 @@
 {
 	[checkBox_arrangeByGroup setEnabled:[checkBox_messagesInTabs state]];
 	[checkBox_updatesProfileInfo setEnabled:[checkBox_updatesAutomatic state]];
+#ifdef BETA_RELEASE
+	[checkBox_updatesIncludeBetas setEnabled:NO];
+	[checkBox_updatesAutomatic setState:NSOnState];
+#else
 	[checkBox_updatesIncludeBetas setEnabled:[checkBox_updatesAutomatic state]];
+#endif
 }
 
 /*!
