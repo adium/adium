@@ -1095,6 +1095,13 @@ static NSString	*prefsCategory;
 - (NSArray *)feedParametersForUpdater:(SUUpdater *)updater sendingSystemProfile:(BOOL)sendProfileInfo
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+		//Sparkle 1.5 has a different defaults key, do a one time migration of the value
+		if ([defaults boolForKey:@"SUIncludeProfile"]) {
+			[defaults setBool:YES forKey:@"SUSendProfileInfo"];
+			sendProfileInfo = YES;
+			[defaults setBool:NO forKey:@"SUIncludeProfile"]; //make sure this only runs once
+		}
     
     //If we're not sending profile information, or if it hasn't been long enough since the last profile submission, return just the type of update we're looking for and the generation number.
     NSMutableArray *profileInfo = [NSMutableArray array];
