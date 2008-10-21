@@ -196,8 +196,7 @@
 													  forKeys:encKeys];
 				[enclosureStack addObject:encDict];
 			}else if([enclosureStopArray containsObject:matchChar]) {
-				NSEnumerator *encEnumerator = [enclosureStack objectEnumerator];
-				while ((encDict = [encEnumerator nextObject])) {
+				for (encDict in enclosureStack) {
 					unsigned int encTagIndex = [(NSNumber *)[encDict objectForKey:ENC_INDEX_KEY] unsignedIntValue];
 					unsigned int encStartIndex = [enclosureStartArray indexOfObjectIdenticalTo:[encDict objectForKey:ENC_CHAR_KEY]];
 					if([enclosureStopArray indexOfObjectIdenticalTo:matchChar] == encStartIndex) {

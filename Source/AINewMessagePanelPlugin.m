@@ -84,7 +84,7 @@
 - (void)contextualOpenChat:(id)sender
 {
 	//Open a new message with the contact
-	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)[adium.menuController currentContextMenuObject]
+	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)adium.menuController.currentContextMenuObject
 																		onPreferredAccount:YES]];
 }
 

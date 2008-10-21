@@ -152,7 +152,7 @@
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
 		 */
-		[self setUserListVisible:[chat isGroupChat]];
+		[self setUserListVisible:chat.isGroupChat];
 		
 		[self chatParticipatingListObjectsChanged:nil];
 		[self chatStatusChanged:nil];
@@ -426,15 +426,15 @@
 			return;
 		}
 		
-		if ([chat isGroupChat] && ![chat.account online]) {
+		if (chat.isGroupChat && !chat.account.online) {
 			//Refuse to do anything with a group chat for an offline account.
 			NSBeep();
 			return;
 		}
 
-		AIChatSendingAbilityType messageSendingAbility = [chat messageSendingAbility];
+		AIChatSendingAbilityType messageSendingAbility = chat.messageSendingAbility;
 		if (suppressSendLaterPrompt || (messageSendingAbility == AIChatCanSendMessageNow) ||
-			((messageSendingAbility == AIChatCanSendViaServersideOfflineMessage) && [chat.account sendOfflineMessagesWithoutPrompting])) {
+			((messageSendingAbility == AIChatCanSendViaServersideOfflineMessage) && chat.account.sendOfflineMessagesWithoutPrompting)) {
 			AIContentMessage		*message;
 			NSAttributedString		*outgoingAttributedString;
 			AIAccount				*account = chat.account;
@@ -608,9 +608,9 @@
 		NSMutableDictionary *detailsDict, *alertDict;
 		
 		detailsDict = [NSMutableDictionary dictionary];
-		[detailsDict setObject:[chat.account internalObjectID] forKey:@"Account ID"];
+		[detailsDict setObject:chat.account.internalObjectID forKey:@"Account ID"];
 		[detailsDict setObject:[NSNumber numberWithBool:YES] forKey:@"Allow Other"];
-		[detailsDict setObject:[listContact internalObjectID] forKey:@"Destination ID"];
+		[detailsDict setObject:listContact.internalObjectID forKey:@"Destination ID"];
 
 		alertDict = [NSMutableDictionary dictionary];
 		[alertDict setObject:detailsDict forKey:@"ActionDetails"];
@@ -1002,7 +1002,7 @@
  */
 - (void)toggleUserList
 {
-	if ([chat isGroupChat])
+	if (chat.isGroupChat)
 		[self setUserListVisible:![self userListVisible]];
 }
 

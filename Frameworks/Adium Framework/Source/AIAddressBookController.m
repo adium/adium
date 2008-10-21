@@ -1250,7 +1250,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	BOOL	hasABEntry = ([[self class] personForListObject:[adium.menuController currentContextMenuObject]] != nil);
+	BOOL	hasABEntry = ([[self class] personForListObject:adium.menuController.currentContextMenuObject] != nil);
 	BOOL	result = NO;
 	
 	if ([menuItem tag] == AIRequiresAddressBookEntry) {
@@ -1267,7 +1267,7 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (void)showInAddressBook
 {
-	ABPerson *selectedPerson = [[self class] personForListObject:[adium.menuController currentContextMenuObject]];
+	ABPerson *selectedPerson = [[self class] personForListObject:adium.menuController.currentContextMenuObject];
 	NSString *url = [NSString stringWithFormat:@"addressbook://%@", [selectedPerson uniqueId]];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
@@ -1277,14 +1277,14 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (void)editInAddressBook
 {
-	ABPerson *selectedPerson = [[self class] personForListObject:[adium.menuController currentContextMenuObject]];
+	ABPerson *selectedPerson = [[self class] personForListObject:adium.menuController.currentContextMenuObject];
 	NSString *url = [NSString stringWithFormat:@"addressbook://%@?edit", [selectedPerson uniqueId]];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
 - (void)addToAddressBook
 {
-	AIListObject			*contact = [adium.menuController currentContextMenuObject];
+	AIListObject			*contact = adium.menuController.currentContextMenuObject;
 	NSString				*serviceProperty = [AIAddressBookController propertyFromService:[contact service]];
 	
 	if (serviceProperty) {

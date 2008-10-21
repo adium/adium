@@ -227,14 +227,12 @@
 	NSMutableDictionary	*addedKeysDict = [NSMutableDictionary dictionary];
 	NSMutableDictionary *ownershipDict = [NSMutableDictionary dictionary];
 
-	NSEnumerator *enumerator = [([metaContact online] ?
-								 [metaContact uniqueContainedObjects] :
-								 [metaContact listContactsIncludingOfflineAccounts]) objectEnumerator];
-	BOOL metaContactIsOnline = [metaContact online];
+	NSArray *contacts = metaContact.online ? metaContact.uniqueContainedObjects :
+	metaContact.listContactsIncludingOfflineAccounts;
 	
-	for (AIListContact *listContact in enumerator) {
+	for (AIListContact *listContact in contacts) {
 		//If one or more contacts are online, skip offline ones
-		if (metaContactIsOnline && ![listContact online]) continue;
+		if (metaContact.online && !listContact.online) continue;
 
 		for (NSDictionary *lineDict in listContact.profileArray) {
 			NSString *key = [lineDict objectForKey:KEY_KEY];

@@ -670,7 +670,7 @@ static NSArray *draggedTypes = nil;
 
 - (void)webViewIsReady{
 	webViewIsReady = YES;
-	[self setIsGroupChat:[chat isGroupChat]];
+	[self setIsGroupChat:chat.isGroupChat];
 	[self processQueuedContent];
 }
 
@@ -1234,7 +1234,7 @@ static NSArray *draggedTypes = nil;
 	DOMNodeList  *serviceIconImages = [doc getElementsByClassName:@"serviceIcon"];
 	NSUInteger imagesCount = [serviceIconImages length];
 	
-	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:[chat.account serviceID] 
+	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:chat.account.serviceID 
 																type:AIServiceIconLarge];
 	
 	for (NSInteger i = 0; i < imagesCount; i++) {

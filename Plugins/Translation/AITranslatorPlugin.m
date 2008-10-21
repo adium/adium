@@ -82,7 +82,7 @@
 #pragma mark Menu item
 - (void)showTranslationOptions:(id)sender
 {
-    AIListObject   *selectedObject = [adium.interfaceController selectedListObject];
+    AIListObject   *selectedObject = adium.interfaceController.selectedListObject;
 	[AITranslatorOptionsWindowController showOptionsForListObject:selectedObject];
 }
 

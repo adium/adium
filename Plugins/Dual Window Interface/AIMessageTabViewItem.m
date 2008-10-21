@@ -63,7 +63,7 @@
 		AIChat *chat = [messageViewController chat];
 		
 		//groupchats don't have any concept of status beyond typing indicators, so we don't need to watch most of this
-		if(![chat isGroupChat])
+		if(!chat.isGroupChat)
 		{
 			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatSourceOrDestinationChanged:)

@@ -26,6 +26,7 @@
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIService.h>
 
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -128,7 +129,7 @@
 	AIChat *chat = [self chatForToolbar:senderItem];
 	
 	// Don't handle group chats.
-	if (!chat || [chat isGroupChat]) {
+	if (!chat || chat.isGroupChat) {
 		return;
 	}
 	
@@ -142,7 +143,7 @@
 	AIChat *chat = [self chatForToolbar:senderItem];
 	
 	// Don't handle group chats.
-	if (!chat || [chat isGroupChat]) {
+	if (!chat || chat.isGroupChat) {
 		return NO;
 	}
 	
@@ -152,13 +153,11 @@
 
 - (AIChat *)chatForToolbar:(NSToolbarItem *)senderItem
 {
-	NSEnumerator	*windowEnumerator = [[NSApp windows] objectEnumerator];
-	NSWindow		*currentWindow = nil;
 	NSToolbar		*windowToolbar = nil;
 	NSToolbar		*senderToolbar = [senderItem toolbar];
 
 	//for each open window
-	while ((currentWindow = [windowEnumerator nextObject])) {
+	for (NSWindow *currentWindow in [NSApp windows]) {
 		//if it has a toolbar & it's ours
 		if ((windowToolbar = [currentWindow toolbar]) && (windowToolbar == senderToolbar)) {
 			return [adium.interfaceController activeChatInWindow:currentWindow];
@@ -174,9 +173,9 @@
 	AIListObject *object;
 	
 	if (sender == notifyMenuItem) {
-		object = [adium.interfaceController selectedListObject];
+		object = adium.interfaceController.selectedListObject;
 	} else {
-		object = [adium.menuController currentContextMenuObject];
+		object = adium.menuController.currentContextMenuObject;
 	}
 	
 	[self sendNotification:object];
@@ -188,9 +187,9 @@
 	AIListObject *object;
 	
 	if (menuItem == notifyMenuItem) {
-		object = [adium.interfaceController selectedListObject];
+		object = adium.interfaceController.selectedListObject;
 	} else {
-		object = [adium.menuController currentContextMenuObject];
+		object = adium.menuController.currentContextMenuObject;
 	}
 	
 	return [self contactDoesSupportNotification:object];
@@ -206,19 +205,16 @@
 	
 	// Meta Contacts.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
-		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
-		AIListContact	*contact = nil;		
-		// Loop through the various contacts.
-		while ((contact = [enumerator nextObject])) {
+		for (AIListContact *contact in [(AIMetaContact *)object uniqueContainedObjects]) {
 			// If this contact is Yahoo or MSN, we're good to go.
-			if ([[[contact service] serviceID] isEqualToString:@"MSN"] || [[[contact service] serviceID] isEqualToString:@"Yahoo!"] ||
-				[[[contact service] serviceID] isEqualToString:@"Jabber"]) {
+			if ([contact.service.serviceID isEqualToString:@"MSN"] || [contact.service.serviceID isEqualToString:@"Yahoo!"] ||
+				[contact.service.serviceID isEqualToString:@"Jabber"]) {
 				return YES;
 			}
 		}
 		// Normal Contacts, if Yahoo or MSN, valid.
-	} else if ([[[object service] serviceID] isEqualToString:@"MSN"] || [[[object service] serviceID] isEqualToString:@"Yahoo!"] ||
-			   [[[object service] serviceID] isEqualToString:@"Jabber"]) {
+	} else if ([object.service.serviceID isEqualToString:@"MSN"] || [object.service.serviceID isEqualToString:@"Yahoo!"] ||
+			   [object.service.serviceID isEqualToString:@"Jabber"]) {
 		return YES;
 	}
 	

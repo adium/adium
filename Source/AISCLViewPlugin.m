@@ -358,7 +358,7 @@
 	[menu removeAllItems];
 	
 	// We're only called on list groups; determine which is our current selected one.
-	AIListGroup			*selectedObject = (AIListGroup *)[adium.menuController currentContextMenuObject];
+	AIListGroup			*selectedObject = (AIListGroup *)adium.menuController.currentContextMenuObject;
 	
 	// If this group isn't part of the main contact list, provide a menu item to add it back.
 	if ((AIContactList *)[selectedObject containingObject] != adium.contactController.contactList) {
@@ -393,7 +393,7 @@
 - (void)attachToWindow:(id)sender
 {
 	// Attach the group to its new window.
-	[self moveListGroup:(AIListGroup *)[adium.menuController currentContextMenuObject]
+	[self moveListGroup:(AIListGroup *)adium.menuController.currentContextMenuObject
 		  toContactList:[sender representedObject]];
 }
 
@@ -405,7 +405,7 @@
 	AIContactList *destinationGroup = [adium.contactController createDetachedContactList];
 
 	// Detaching is the same as moving to a new group.
-	[self moveListGroup:(AIListGroup *)[adium.menuController currentContextMenuObject]
+	[self moveListGroup:(AIListGroup *)adium.menuController.currentContextMenuObject
 		  toContactList:destinationGroup];
 	
 	[[[self detachContactList:destinationGroup] window] setFrameTopLeftPoint:[NSEvent mouseLocation]];
@@ -482,7 +482,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return (AIListGroup *)[adium.menuController currentContextMenuObject].containingObject.containedObjectsCount > 1;
+		return (AIListGroup *)adium.menuController.currentContextMenuObject.containingObject.containedObjectsCount > 1;
 	}
 	
 	return YES;

@@ -133,7 +133,7 @@
             else {
                 destDisplay = chat.displayName;;
             }
-            destSrv = [[chat.account service] serviceID];
+            destSrv = chat.account.service.serviceID;
             srcDisplay = [source displayName];
             srcUID = [source UID];
             srcSrv = [[source service] serviceID];
@@ -150,7 +150,7 @@
                 srcDisplay = srcUID;
                 destDisplay = chat.displayName;
             }
-            srcSrv = [[chat.account service] serviceID];
+            srcSrv = chat.account.service.serviceID;
             destSrv = srcSrv;
         }
 

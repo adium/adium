@@ -674,7 +674,7 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
 	 * which will disable fragmentation.
 	 */
-	return [[maxSizeByServiceClassDict objectForKey:[chat.account serviceClass]] integerValue];
+	return [[maxSizeByServiceClassDict objectForKey:chat.account.serviceClass] integerValue];
 }
 
 static OtrlMessageAppOps ui_ops = {

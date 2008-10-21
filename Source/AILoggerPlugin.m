@@ -360,11 +360,11 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     if (menuItem == viewContactLogsMenuItem) {
-        AIListObject	*selectedObject = [adium.interfaceController selectedListObject];
+        AIListObject	*selectedObject = adium.interfaceController.selectedListObject;
 		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
 
     } else if (menuItem == viewContactLogsContextMenuItem) {
-        AIListObject	*selectedObject = [adium.menuController currentContextMenuObject];		
+        AIListObject	*selectedObject = adium.menuController.currentContextMenuObject;		
 		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
 		
     }
@@ -390,7 +390,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
  */
 - (void)showLogViewerToSelectedContact:(id)sender
 {
-    AIListObject   *selectedObject = [adium.interfaceController selectedListObject];
+    AIListObject   *selectedObject = adium.interfaceController.selectedListObject;
     [AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
 												 (AIListContact *)selectedObject : 
 												 nil)  
@@ -414,7 +414,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
  */
 - (void)showLogViewerToSelectedContextContact:(id)sender
 {
-	AIListObject* object = [adium.menuController currentContextMenuObject];
+	AIListObject* object = adium.menuController.currentContextMenuObject;
 	if ([object isKindOfClass:[AIListContact class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
 		[[[AILogViewerWindowController openForContact:(AIListContact *)object plugin:self] window]
@@ -547,7 +547,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		[appender addElementWithName:@"event"
 							 content:nil
 					   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-					 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [chat.account UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+					 attributeValues:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[self markLogDirtyAtPath:[appender path] forChat:chat];
 	}
@@ -567,7 +567,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		[appender addElementWithName:@"event"
 							 content:nil
 					   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-					 attributeValues:[NSArray arrayWithObjects:@"windowClosed", [chat.account UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+					 attributeValues:[NSArray arrayWithObjects:@"windowClosed", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[self closeAppenderForChat:chat];
 
@@ -595,7 +595,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 - (NSString *)keyForChat:(AIChat *)chat
 {
 	AIAccount *account = chat.account;
-	NSString *chatID = ([chat isGroupChat] ? [chat identifier] : chat.listObject.UID);
+	NSString *chatID = (chat.isGroupChat ? [chat identifier] : chat.listObject.UID);
 
 	return [NSString stringWithFormat:@"%@.%@-%@", [account serviceID], [account UID], chatID];
 }
@@ -626,15 +626,15 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 										  attributeKeys:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
 										attributeValues:[NSArray arrayWithObjects:
 											XML_LOGGING_NAMESPACE,
-											[chat.account UID],
-											[chat.account serviceID],
+											chat.account.UID,
+											chat.account.serviceID,
 											nil]];
 		
 		//Add the window opened event now
 		[appender addElementWithName:@"event"
 					 content:nil
 			   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-			 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [chat.account UID], [[chatDate dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+			 attributeValues:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[chatDate dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
 		

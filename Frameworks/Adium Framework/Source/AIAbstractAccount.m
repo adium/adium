@@ -1141,7 +1141,7 @@
 	
 	while ((chat = [enumerator nextObject])) {
 		if (chat.account == self && [chat isOpen]) {
-			if ([chat isGroupChat]) {
+			if (chat.isGroupChat) {
 				// Returns BOOL result, however since there is no callback from
 				// libpurple if the chat failed, the result of rejoining will 
 				// always be true at the moment
@@ -1308,7 +1308,7 @@
 
 				[adium.contentController receiveContentObject:statusMessage];
 				
-				if ([chat isGroupChat])
+				if (chat.isGroupChat)
 					[chat removeAllParticipatingContactsSilently];
 			}
 		}

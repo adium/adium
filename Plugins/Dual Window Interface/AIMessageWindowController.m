@@ -1044,12 +1044,12 @@
 	AIChat		*chat = [(AIMessageTabViewItem *)tabViewItem chat];
 	NSString	*tooltip = nil;
 
-	if ([chat isGroupChat]) {
-		tooltip = [NSString stringWithFormat:AILocalizedString(@"%@ in %@","AccountName on ChatRoomName"), [chat.account formattedUID], [chat name]];
+	if (chat.isGroupChat) {
+		tooltip = [NSString stringWithFormat:AILocalizedString(@"%@ in %@","AccountName on ChatRoomName"), chat.account.formattedUID, chat.name];
 	} else {
 		AIListObject	*destination = chat.listObject;
-		NSString		*destinationDisplayName = [destination displayName];
-		NSString		*destinationFormattedUID = [destination formattedUID];
+		NSString		*destinationDisplayName = destination.displayName;
+		NSString		*destinationFormattedUID = destination.formattedUID;
 		BOOL			includeDestination = NO;
 		BOOL			includeSource = NO;
 		
@@ -1068,15 +1068,15 @@
 		if (onlineAccounts >=2) {
 			includeSource = YES;
 		}
-		AILog(@"Displaying tooltip for %@ --> %@ (%@) --> %@ (%@)",chat,chat.account, [chat.account formattedUID], destination,destinationFormattedUID);
+		AILog(@"Displaying tooltip for %@ --> %@ (%@) --> %@ (%@)", chat, chat.account, chat.account.formattedUID, destination, destinationFormattedUID);
 		if (includeDestination && includeSource) {
-			tooltip = [NSString stringWithFormat:AILocalizedString(@"%@ talking to %@","AccountName talking to Username"), [chat.account formattedUID], destinationFormattedUID];
+			tooltip = [NSString stringWithFormat:AILocalizedString(@"%@ talking to %@","AccountName talking to Username"), chat.account.formattedUID, destinationFormattedUID];
 
 		} else if (includeDestination) {
 			tooltip = destinationFormattedUID;
 			
 		} else if (includeSource) {
-			tooltip = [chat.account formattedUID];
+			tooltip = chat.account.formattedUID;
 		}
 	}
 	
