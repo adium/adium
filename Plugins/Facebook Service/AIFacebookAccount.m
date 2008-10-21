@@ -87,7 +87,7 @@
 	 
 	 sentLogin = YES;
 	 [self postDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-			[self UID], @"email",
+			self.UID, @"email",
 			password, @"pass",
 			@"Login", @"login",
 			nil]
@@ -329,7 +329,7 @@
 			[sender stopLoading:self];
 			
 			[self postDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
-								  [self UID], @"email",
+								  self.UID, @"email",
 								  password, @"pass",
 								  @"Login", @"login",
 								  nil]

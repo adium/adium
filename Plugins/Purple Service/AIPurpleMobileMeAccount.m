@@ -46,6 +46,6 @@
  */
 - (NSString *)explicitFormattedUID
 {
-	return [NSString stringWithUTF8String:[self purpleAccountName]];
+	return [NSString stringWithUTF8String:self.purpleAccountName];
 }
 @end

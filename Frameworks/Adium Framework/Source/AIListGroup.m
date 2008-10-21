@@ -47,7 +47,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		internalObjectID = [[AIListObject internalObjectIDForServiceID:@"Group" UID:[self UID]] retain];
+		internalObjectID = [[AIListObject internalObjectIDForServiceID:@"Group" UID:self.UID] retain];
 	}
 	return internalObjectID;
 }
@@ -63,7 +63,7 @@
 {
 	NSArray *UIDArray = [[self.containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
 	NSString *contentsBasedIdentifier = [UIDArray componentsJoinedByString:@";"];
-	if (![contentsBasedIdentifier length]) contentsBasedIdentifier = [self UID];
+	if (![contentsBasedIdentifier length]) contentsBasedIdentifier = self.UID;
 
 	return contentsBasedIdentifier;
 }
@@ -266,7 +266,7 @@
 	return [[[NSNameSpecifier alloc]
 		   initWithContainerClassDescription:containerClassDesc
 		   containerSpecifier:nil key:@"contactGroups"
-		   name:[self UID]] autorelease];
+		   name:self.UID] autorelease];
 }
 
 - (NSArray *)contacts

@@ -251,8 +251,8 @@
 		 */
 		if (displayName &&
 			strncmp(displayName, "<msnobj", 7) &&
-			strcmp(displayName, [[self UID] UTF8String]) &&
-			strcmp(displayName, [[self formattedUID] UTF8String])) {
+			strcmp(displayName, [self.UID UTF8String]) &&
+			strcmp(displayName, [self.formattedUID UTF8String])) {
 			/* There is a serverside display name, and it's not the same as our UID. */
 			const char			*accountDisplayNameUTF8String = [[accountDisplayName string] UTF8String];
 			

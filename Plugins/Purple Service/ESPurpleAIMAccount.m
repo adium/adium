@@ -71,7 +71,7 @@
 	NSString	*formattedUID;
 	
 	//Set our capitilization properly if necessary
-	formattedUID = [self formattedUID];
+	formattedUID = self.formattedUID;
 	
 	if (![[formattedUID lowercaseString] isEqualToString:formattedUID]) {
 		

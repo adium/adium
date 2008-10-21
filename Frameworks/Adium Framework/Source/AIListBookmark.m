@@ -72,9 +72,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-	[encoder encodeObject:[self UID] forKey:@"UID"];
+	[encoder encodeObject:self.UID forKey:@"UID"];
 	[encoder encodeObject:[[self account] internalObjectID] forKey:KEY_ACCOUNT_INTERNAL_ID];
-	[encoder encodeObject:[[self service] serviceID] forKey:@"ServiceID"];
+	[encoder encodeObject:[self.service serviceID] forKey:@"ServiceID"];
 	[encoder encodeObject:[self chatCreationDictionary] forKey:@"chatCreationDictionary"];
 	[encoder encodeObject:name forKey:@"name"];
 }
@@ -207,7 +207,7 @@
 #pragma mark -
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@>",NSStringFromClass([self class]), self, [self formattedUID], [self chatCreationDictionary], [self account]];
+	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@>",NSStringFromClass([self class]), self, self.formattedUID, [self chatCreationDictionary], [self account]];
 }
 
 @end

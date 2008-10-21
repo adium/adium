@@ -128,7 +128,7 @@
 	NSString	*connectServer;
 	BOOL		forceOldSSL, allowPlaintext, requireTLS;
 
-	purple_account_set_username(account, [self purpleAccountName]);
+	purple_account_set_username(account, self.purpleAccountName);
 
 	//'Connect via' server (nil by default)
 	connectServer = [self preferenceForKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
@@ -300,7 +300,7 @@
 			{
 				NSString *groupname = [self preferenceForKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 				if ([groupname length] > 0) {
-					AIListContact *contact = [adium.contactController contactWithService:[self service] account:self UID:[dict objectForKey:@"Remote Name"]];
+					AIListContact *contact = [adium.contactController contactWithService:self.service account:self UID:[dict objectForKey:@"Remote Name"]];
 					AIListGroup *group = [adium.contactController groupWithUID:groupname];
 					[contact.account addContact:contact toGroup:group];
 				}
@@ -321,7 +321,7 @@
 
 - (void)purpleAccountRegistered:(BOOL)success
 {
-	if(success && [[self service] accountViewController]) {
+	if(success && [self.service accountViewController]) {
 		const char *usernamestr = purple_account_get_username(account);
 		NSString *username;
 		if (usernamestr) {
@@ -382,7 +382,7 @@
 	if ([objectUID rangeOfString:@"@"].location != NSNotFound) {
 		properUID = objectUID;
 	} else {
-		properUID = [NSString stringWithFormat:@"%@@%@",objectUID,[self host]];
+		properUID = [NSString stringWithFormat:@"%@@%@",objectUID,self.host];
 	}
 	
 	return [properUID lowercaseString];
@@ -809,9 +809,9 @@
 
 - (PurpleSslConnection *)secureConnection {
 	// this is really ugly
-	PurpleConnection *gc = purple_account_get_connection([self purpleAccount]);
+	PurpleConnection *gc = purple_account_get_connection(self.purpleAccount);
 
-	return ((gc && gc->proto_data) ? ((JabberStream*)purple_account_get_connection([self purpleAccount])->proto_data)->gsc : NULL);
+	return ((gc && gc->proto_data) ? ((JabberStream*)purple_account_get_connection(self.purpleAccount)->proto_data)->gsc : NULL);
 }
 
 - (void)setShouldVerifyCertificates:(BOOL)yesOrNo {
@@ -908,7 +908,7 @@
 
 - (void)registerGateway:(NSMenuItem*)mitem {
 	if(mitem && [mitem representedObject])
-		jabber_register_gateway((JabberStream*)purple_account_get_connection([self purpleAccount])->proto_data, [[[mitem representedObject] UID] UTF8String]);
+		jabber_register_gateway((JabberStream*)purple_account_get_connection(self.purpleAccount)->proto_data, [[[mitem representedObject] UID] UTF8String]);
 	else
 		NSBeep();
 }
