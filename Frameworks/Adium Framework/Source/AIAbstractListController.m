@@ -82,30 +82,30 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		backgroundOpacity = 1.0;
 
 		//Watch for drags ending so we can clear any cached drag data
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(listControllerDragEnded:)
 										   name:@"AIListControllerDragEnded"
 										 object:nil];
 		
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(listObjectAttributesChanged:)
 										   name:ListObject_AttributesChanged
 										 object:nil];
 		
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(setDragItems:)
 										   name:@"AIListControllerDraggedItems"
 										 object:nil];
 		
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(performExpandItem:)
 										   name:AIPerformExpandItemNotification
 										 object:nil];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(performCollapseItem:)
 										   name:AIPerformCollapseItemNotification
 										 object:nil];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(displayableContainedObjectsDidChange:)
 										   name:AIDisplayableContainedObjectsDidChange
 										 object:nil];
@@ -143,7 +143,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	[groupCell release];
 	[contentCell release];
 	
-	[[adium notificationCenter] removeObserver:self]; 
+	[adium.notificationCenter removeObserver:self]; 
 
     [super dealloc];
 }
@@ -752,7 +752,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	// Remove this contact list if from drag & drop operation took the last group away
 	if (contactList.uniqueContainedObjects.count == 0) {
-		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
+		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}
 }
@@ -768,7 +768,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	if (pboard == [NSPasteboard pasteboardWithName:NSDragPboard]) {
 		//Begin the drag
-		[[adium notificationCenter] postNotificationName:@"AIListControllerDraggedItems"
+		[adium.notificationCenter postNotificationName:@"AIListControllerDraggedItems"
 											  	  object:items];
 	}
 	
@@ -838,7 +838,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
 {	
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
-	[[adium notificationCenter] postNotificationName:@"AIListControllerDragEnded"
+	[adium.notificationCenter postNotificationName:@"AIListControllerDragEnded"
 											  object:nil];
 
 	return YES;
@@ -864,7 +864,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)outlineView:(NSOutlineView *)outlineView draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
-	[[adium notificationCenter] postNotificationName:@"AIListControllerDragEnded"
+	[adium.notificationCenter postNotificationName:@"AIListControllerDragEnded"
 											  object:nil];
 }
 

@@ -98,7 +98,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 		if ([chat isGroupChat]) {
 			NSString *message = [textField_message stringValue];
 			if (!message || ![message length]) {
-				message = [adium.chatController defaultInvitationMessageForRoom:[chat name] account:[chat account]];
+				message = [adium.chatController defaultInvitationMessageForRoom:[chat name] account:chat.account];
 			}
 			[chat inviteListContact:(AIListContact *)contact withMessage:message];
 		}
@@ -136,7 +136,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 	
 	if (chat != inChat) {
 		[chat release]; chat = [inChat retain];
-		[service release]; service = [[[chat account] service] retain];
+		[service release]; service = [[chat.account service] retain];
 	}
 	
 	[self configureForChatAndContact];
@@ -191,7 +191,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 		if ([chat isGroupChat]) {
 			NSString *message = [textField_message stringValue];
 			if (!message || ![message length]) {
-				message = [adium.chatController defaultInvitationMessageForRoom:[chat name] account:[chat account]];
+				message = [adium.chatController defaultInvitationMessageForRoom:[chat name] account:chat.account];
 			}
 			[chat inviteListContact:inContact withMessage:message];
 		}

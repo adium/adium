@@ -58,7 +58,7 @@
 - (void)uninstallPlugin
 {
 	[adium.chatController unregisterChatObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 #pragma mark Preference observing
@@ -75,7 +75,7 @@
 				//Register as a chat observer (So we can catch the unviewed content status flag)
 				[adium.chatController registerChatObserver:self];
 				
-				[[adium notificationCenter] addObserver:self
+				[adium.notificationCenter addObserver:self
 											   selector:@selector(chatWillClose:)
 												   name:Chat_WillClose object:nil];
 				
@@ -83,7 +83,7 @@
 				[self removeAlert];
 
 				[adium.chatController unregisterChatObserver:self];
-				[[adium notificationCenter] removeObserver:self];
+				[adium.notificationCenter removeObserver:self];
 			}
 		}
 	}

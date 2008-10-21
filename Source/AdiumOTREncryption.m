@@ -81,7 +81,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 		adiumOTREncryption = self;
 
 		//Wait for Adium to finish launching to prepare encryption so that accounts will be loaded
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(adiumFinishedLaunching:)
 										   name:AIApplicationDidFinishLoadingNotification
 										 object:nil];
@@ -137,20 +137,20 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 	otrg_ui_update_fingerprint();
 	
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumWillTerminate:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_SourceChanged
 									 object:nil];
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_DestinationChanged
 									 object:nil];
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_DidOpen
 									 object:nil];
@@ -162,7 +162,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 - (void)dealloc
 {
 	[OTRPrefs release];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[super dealloc];
 }
@@ -338,12 +338,12 @@ static ConnContext* contextForChat(AIChat *chat)
     ConnContext *context;
 	
     /* Do nothing if this isn't an IM conversation */
-    if ([chat isGroupChat]) return nil;
+    if (chat.isGroupChat) return nil;
 	
-    account = [chat account];
-	accountname = [[account internalObjectID] UTF8String];
-	proto = [[[account service] serviceCodeUniqueID] UTF8String];
-    username = [[[chat listObject] UID] UTF8String];
+    account = chat.account;
+	accountname = [account.internalObjectID UTF8String];
+	proto = [account.service.serviceCodeUniqueID UTF8String];
+    username = [chat.listObject.UID UTF8String];
 	
     context = otrl_context_find(otrg_plugin_userstate,
 								username, accountname, proto, 0, NULL,
@@ -478,7 +478,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 
 		messageObject = [AIContentMessage messageInChat:chat
 											 withSource:listContact
-											destination:[chat account]
+											destination:chat.account
 												   date:nil
 												message:[AIHTMLDecoder decodeHTML:message]
 											  autoreply:NO];
@@ -674,7 +674,7 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
 	 * which will disable fragmentation.
 	 */
-	return [[maxSizeByServiceClassDict objectForKey:[[chat account] serviceClass]] integerValue];
+	return [[maxSizeByServiceClassDict objectForKey:[chat.account serviceClass]] integerValue];
 }
 
 static OtrlMessageAppOps ui_ops = {

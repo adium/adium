@@ -68,7 +68,7 @@
 - (void)uninstallPlugin
 {
 	[adium.chatController unregisterChatObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -111,7 +111,7 @@
 				//Register as a chat observer (for unviewed content). If there is any unviewed content, our overlay will be set.
 				[adium.chatController registerChatObserver:self];
 				
-				[[adium notificationCenter] addObserver:self
+				[adium.notificationCenter addObserver:self
 											   selector:@selector(chatClosed:)
 												   name:Chat_WillClose
 												 object:nil];
@@ -121,7 +121,7 @@
 				
 				//Stop observing
 				[adium.chatController unregisterChatObserver:self];
-				[[adium notificationCenter] removeObserver:self];
+				[adium.notificationCenter removeObserver:self];
 			}
 		}
 	}

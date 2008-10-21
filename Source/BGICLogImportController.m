@@ -115,8 +115,8 @@
 										XML_LOGGING_NAMESPACE,
 										[[[rawChat objectAtIndex:3] objectAtIndex:0] senderID],
 										[rawChat objectAtIndex:0],
-										//										[[chat account] UID], // pulled from iChat transcript
-										//										[[chat account] serviceID], // pulled from iChat transcript
+										//										chat.account.UID, // pulled from iChat transcript
+										//										chat.account.serviceID, // pulled from iChat transcript
 										nil]];	
 	
 	// sequentially add the messages from the iChat transcript sans attributed text features

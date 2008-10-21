@@ -93,7 +93,7 @@
 																			keyEquivalent:@""] autorelease];
     [adium.menuController addContextualMenuItem:menuItem_tabAddContact toLocation:Context_Contact_Stranger_ChatAction];
 
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(addContactRequest:) 
 									   name:Contact_AddNewContact 
 									 object:nil];
@@ -155,7 +155,7 @@
  */
 - (void)uninstallPlugin
 {
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
 }
 
 /*!

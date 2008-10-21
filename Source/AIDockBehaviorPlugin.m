@@ -99,7 +99,7 @@
 		if ([adium.contactAlertsController isMessageEvent:eventID]) {
 			AIChat *chat = [userInfo objectForKey:@"AIChat"];
 			
-			if (chat == [adium.interfaceController activeChat]) {
+			if (chat == adium.interfaceController.activeChat) {
 				//If this is the active chat, stop the bouncing immediately
 				[self stopBouncing:nil];
 	
@@ -117,12 +117,12 @@
  */
 - (void)observeToStopBouncingForChat:(AIChat *)chat
 {
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(stopBouncing:)
 									   name:Chat_WillClose
 									 object:chat];
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(stopBouncing:)
 									   name:Chat_BecameActive
 									 object:chat];
@@ -136,10 +136,10 @@
  */
 - (void)stopBouncing:(NSNotification *)inNotification
 {
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:Chat_WillClose
 										object:nil];
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:Chat_BecameActive
 										object:nil];
 

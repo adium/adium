@@ -68,7 +68,7 @@
 	[[containers allValues] makeObjectsPerformSelector:@selector(closeWindow:) withObject:nil];
 
     //Stop observing
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
     //Cleanup
@@ -108,7 +108,7 @@
 	//Open the container window.  We wait until after the chat has been added to the container
 	//before making it visible so window opening looks cleaner.
 	if (container && !applicationIsHidden && ![[container window] isVisible]) {
-		[container showWindowInFrontIfAllowed:!([adium.interfaceController activeChat])];
+		[container showWindowInFrontIfAllowed:!(adium.interfaceController.activeChat)];
 	}
 	
 	return messageTab;

@@ -101,7 +101,7 @@ extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
 			[self _setMachineIsIdle:NO];
 		} else {
 			//Periodically broadcast a 'MachineIdleUpdate' notification
-			[[adium notificationCenter] postNotificationName:AIMachineIdleUpdateNotification
+			[adium.notificationCenter postNotificationName:AIMachineIdleUpdateNotification
 													  object:nil
 													userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 														[NSNumber numberWithDouble:currentIdle], @"Duration",
@@ -129,9 +129,9 @@ extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
 	
 	//Post the appropriate idle or active notification
 	if (machineIsIdle) {
-		[[adium notificationCenter] postNotificationName:AIMachineIsIdleNotification object:nil];
+		[adium.notificationCenter postNotificationName:AIMachineIsIdleNotification object:nil];
 	} else {
-		[[adium notificationCenter] postNotificationName:AIMachineIsActiveNotification object:nil];
+		[adium.notificationCenter postNotificationName:AIMachineIsActiveNotification object:nil];
 	}
 	
 	//Update our timer interval for either idle or active polling

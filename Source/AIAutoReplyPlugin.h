@@ -17,12 +17,12 @@
 #import <Adium/AIPlugin.h>
 #import <Adium/AIContactObserverManager.h>
 
-@class AIChat;
+@class AIChat, AIAccount;
 
 @interface AIAutoReplyPlugin : AIPlugin<AIListObjectObserver> {
 	NSMutableSet	*receivedAutoReply;
 }
 
-- (void)sendAutoReplyFromAccount:(id)source toContact:(id)destination onChat:(AIChat *)chat;
+- (void)sendAutoReplyFromAccount:(AIAccount *)source toContact:(AIListObject *)destination onChat:(AIChat *)chat;
 
 @end

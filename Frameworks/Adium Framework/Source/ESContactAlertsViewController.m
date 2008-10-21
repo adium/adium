@@ -65,7 +65,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	//Configure Table view
 	[self configureEventSummaryOutlineView];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(outlineViewColumnDidResize:)
 									   name:NSOutlineViewColumnDidResizeNotification
 									 object:outlineView_summary];
@@ -108,7 +108,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 //Preference view is closing - stop observing preferences immediately, even if we aren't immediately deallocating
 - (void)viewWillClose
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -116,7 +116,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 {
 	//Ensure that we have unregistered as a preference observer
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[outlineView_summary setDelegate:nil];
 	[outlineView_summary setDataSource:nil];

@@ -71,7 +71,7 @@
  */
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	[[adium notificationCenter] postNotificationName:@"NewGroupWindowControllerDidEnd"
+	[adium.notificationCenter postNotificationName:@"NewGroupWindowControllerDidEnd"
 											  object:sheet];
     [sheet orderOut:nil];
 }

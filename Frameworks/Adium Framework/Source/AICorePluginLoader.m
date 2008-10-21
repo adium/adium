@@ -120,7 +120,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 - (void)controllerWillClose
 {
     for (id<AIPlugin>plugin in pluginArray) {
-		[[adium notificationCenter] removeObserver:plugin];
+		[adium.notificationCenter removeObserver:plugin];
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
     }

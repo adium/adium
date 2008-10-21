@@ -114,32 +114,32 @@ static NSArray *draggedTypes = nil;
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES];
 		
 		//Observe participants list changes
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(participatingListObjectsChanged:)
 										   name:Chat_ParticipatingListObjectsChanged 
 										 object:inChat];
 
 		//Observe source/destination changes
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(sourceOrDestinationChanged:)
 										   name:Chat_SourceChanged 
 										 object:inChat];
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(sourceOrDestinationChanged:)
 										   name:Chat_DestinationChanged 
 										 object:inChat];
 		
 		//Observe content additons
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(contentObjectAdded:)
 										   name:Content_ContentObjectAdded 
 										 object:inChat];
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(chatDidFinishAddingUntrackedContent:)
 										   name:Content_ChatDidFinishAddingUntrackedContent 
 										 object:inChat];
 
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(customEmoticonUpdated:)
 										   name:@"AICustomEmoticonUpdated"
 										 object:inChat];
@@ -179,7 +179,7 @@ static NSArray *draggedTypes = nil;
 	//Stop any delayed requests and remove all observers
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	//Clean up style/variant info
 	[messageStyle release]; messageStyle = nil;
@@ -713,7 +713,7 @@ static NSArray *draggedTypes = nil;
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
 	NSMutableArray *webViewMenuItems = [[defaultMenuItems mutableCopy] autorelease];
-	AIListContact	*chatListObject = [chat listObject];
+	AIListContact	*chatListObject = chat.listObject;
 	NSMenuItem		*menuItem;
 
 	//Remove default items we don't want
@@ -890,7 +890,7 @@ static NSArray *draggedTypes = nil;
 		NSArray			*files = [pasteboard propertyListForType:NSFilenamesPboardType];
 		NSString		*path;
 		for (path in files) {
-			AIListObject *listObject = [chat listObject];
+			AIListObject *listObject = chat.listObject;
 			if (listObject) {
 				[adium.fileTransferController sendFile:path toListContact:(AIListContact *)listObject];
 			}
@@ -969,7 +969,7 @@ static NSArray *draggedTypes = nil;
 {
 	NSArray			*participatingListObjects = [chat containedObjects];
 	
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:ListObject_AttributesChanged
 										object:nil];
 	
@@ -981,7 +981,7 @@ static NSArray *draggedTypes = nil;
 		
 		//In the future, watch for changes on the parent object, since that's the icon we display
 		if ([listObject isKindOfClass:[AIListContact class]]) {
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(listObjectAttributesChanged:) 
 											   name:ListObject_AttributesChanged
 											 object:[(AIListContact *)listObject parentContact]];
@@ -989,18 +989,18 @@ static NSArray *draggedTypes = nil;
 	}
 	
 	//Also observe our account
-	if ([chat account]) {
-		[[adium notificationCenter] addObserver:self
+	if (chat.account) {
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(listObjectAttributesChanged:) 
 										   name:ListObject_AttributesChanged
-										 object:[chat account]];
+										 object:chat.account];
 	}
 
 	//Remove the cache for any object no longer in the chat
 	for (AIListObject *listObject in objectsWithUserIconsArray) {
 		if ((![listObject isKindOfClass:[AIMetaContact class]] || (![participatingListObjects firstObjectCommonWithArray:[(AIMetaContact *)listObject containedObjects]])) &&
 			(![listObject isKindOfClass:[AIListContact class]] || ![participatingListObjects containsObjectIdenticalTo:(AIListContact *)listObject]) &&
-			!(listObject == [chat account])) {
+			!(listObject == chat.account)) {
 			[self releaseCurrentWebKitUserIconForObject:listObject];
 		}
 	}
@@ -1015,7 +1015,7 @@ static NSArray *draggedTypes = nil;
 	[self participatingListObjectsChanged:nil];
 	
 	//And update the source account
-	[self updateUserIconForObject:[chat account]];
+	[self updateUserIconForObject:chat.account];
 	
 	[self updateServiceIcon];
 }
@@ -1032,7 +1032,7 @@ static NSArray *draggedTypes = nil;
 		if (inObject) {
 			AIListObject	*actualObject = nil;
 			AILogWithSignature(@"%@'s icon changed", inObject);
-			if ([chat account] == inObject) {
+			if (chat.account == inObject) {
 				//The account is the object actually in the chat
 				actualObject = inObject;
 			} else {
@@ -1234,7 +1234,7 @@ static NSArray *draggedTypes = nil;
 	DOMNodeList  *serviceIconImages = [doc getElementsByClassName:@"serviceIcon"];
 	NSUInteger imagesCount = [serviceIconImages length];
 	
-	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:[[chat account] serviceID] 
+	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:[chat.account serviceID] 
 																type:AIServiceIconLarge];
 	
 	for (NSInteger i = 0; i < imagesCount; i++) {

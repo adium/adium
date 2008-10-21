@@ -153,7 +153,7 @@
 					}
 					
 					if (![addedChats containsObject:chat]) {
-						[menu_chatMenu addItemWithTitle:[chat displayName]
+						[menu_chatMenu addItemWithTitle:chat.displayName
 												 target:self
 												 action:@selector(inviteToChat:)
 										  keyEquivalent:@""

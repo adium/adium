@@ -111,7 +111,7 @@
 		AIListContact	*contact;
 		//Init
 		chat = [inChat retain];
-		contact = [chat listObject];
+		contact = chat.listObject;
 		view_accountSelection = nil;
 		userListController = nil;
 		suppressSendLaterPrompt = NO;
@@ -121,27 +121,27 @@
 		[NSBundle loadNibNamed:MESSAGE_VIEW_NIB owner:self];
 		
 		//Register for the various notification we need
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(sendMessage:) 
 										   name:Interface_SendEnteredMessage
 										 object:chat];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(didSendMessage:)
 										   name:Interface_DidSendEnteredMessage 
 										 object:chat];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(chatStatusChanged:) 
 										   name:Chat_StatusChanged
 										 object:chat];
-		[[adium notificationCenter] addObserver:self 
+		[adium.notificationCenter addObserver:self 
 									   selector:@selector(chatParticipatingListObjectsChanged:)
 										   name:Chat_ParticipatingListObjectsChanged
 										 object:chat];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(redisplaySourceAndDestinationSelector:) 
 										   name:Chat_SourceChanged
 										 object:chat];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(redisplaySourceAndDestinationSelector:) 
 										   name:Chat_DestinationChanged
 										 object:chat];
@@ -176,7 +176,7 @@
  */
 - (void)dealloc
 {   
-	AIListContact	*contact = [chat listObject];
+	AIListContact	*contact = chat.listObject;
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
@@ -196,7 +196,7 @@
 	[chat release]; chat = nil;
 
     //remove observers
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     //Account selection view
@@ -298,7 +298,7 @@
  */
 - (AIAccount *)account
 {
-    return [chat account];
+    return chat.account;
 }
 
 /*!
@@ -306,7 +306,7 @@
  */
 - (AIListContact *)listObject
 {
-    return [chat listObject];
+    return chat.listObject;
 }
 
 /*!
@@ -412,7 +412,7 @@
 	
 	//Only send if we have a non-zero-length string
     if ([attributedString length] != 0) { 
-		AIListObject				*listObject = [chat listObject];
+		AIListObject				*listObject = chat.listObject;
 
 		//If user typed command /clear, reset the content of the view
 		if ([[attributedString string] caseInsensitiveCompare:AILocalizedString(@"/clear", "Command which will clear the message area of a chat. Please include the '/' at the front of your translation.")] == NSOrderedSame) {
@@ -426,7 +426,7 @@
 			return;
 		}
 		
-		if ([chat isGroupChat] && ![[chat account] online]) {
+		if ([chat isGroupChat] && ![chat.account online]) {
 			//Refuse to do anything with a group chat for an offline account.
 			NSBeep();
 			return;
@@ -434,26 +434,26 @@
 
 		AIChatSendingAbilityType messageSendingAbility = [chat messageSendingAbility];
 		if (suppressSendLaterPrompt || (messageSendingAbility == AIChatCanSendMessageNow) ||
-			((messageSendingAbility == AIChatCanSendViaServersideOfflineMessage) && [[chat account] sendOfflineMessagesWithoutPrompting])) {
+			((messageSendingAbility == AIChatCanSendViaServersideOfflineMessage) && [chat.account sendOfflineMessagesWithoutPrompting])) {
 			AIContentMessage		*message;
 			NSAttributedString		*outgoingAttributedString;
-			AIAccount				*account = [chat account];
+			AIAccount				*account = chat.account;
 			//Send the message
-			[[adium notificationCenter] postNotificationName:Interface_WillSendEnteredMessage
+			[adium.notificationCenter postNotificationName:Interface_WillSendEnteredMessage
 													  object:chat
 													userInfo:nil];
 			
 			outgoingAttributedString = [attributedString copy];
 			message = [AIContentMessage messageInChat:chat
 										   withSource:account
-										  destination:[chat listObject]
+										  destination:chat.listObject
 												 date:nil //created for us by AIContentMessage
 											  message:outgoingAttributedString
 											autoreply:NO];
 			[outgoingAttributedString release];
 			
 			if ([adium.contentController sendContentObject:message]) {
-				[[adium notificationCenter] postNotificationName:Interface_DidSendEnteredMessage 
+				[adium.notificationCenter postNotificationName:Interface_DidSendEnteredMessage 
 														  object:chat
 														userInfo:nil];
 			}
@@ -602,13 +602,13 @@
 	}
 
 	//Put the alert on the metaContact containing this listContact if applicable
-	listContact = [[chat listObject] parentContact];
+	listContact = chat.listObject.parentContact;
 
 	if (listContact) {
 		NSMutableDictionary *detailsDict, *alertDict;
 		
 		detailsDict = [NSMutableDictionary dictionary];
-		[detailsDict setObject:[[chat account] internalObjectID] forKey:@"Account ID"];
+		[detailsDict setObject:[chat.account internalObjectID] forKey:@"Account ID"];
 		[detailsDict setObject:[NSNumber numberWithBool:YES] forKey:@"Allow Other"];
 		[detailsDict setObject:[listContact internalObjectID] forKey:@"Destination ID"];
 

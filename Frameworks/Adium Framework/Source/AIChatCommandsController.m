@@ -38,7 +38,7 @@
 {
 	parameters = [[NSMutableDictionary alloc] init];
 	[parameters setObject:chat forKey:@"chat"];
-	[parameters setObject:[chat account] forKey:@"account"];
+	[parameters setObject:chat.account forKey:@"account"];
 	[parameters setObject:[command stringByAppendingString:@" "] forKey:@"command"];
 
 	//check what command was given & set proper label

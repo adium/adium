@@ -35,7 +35,7 @@
  */
 - (void)installPlugin
 {
-	NSNotificationCenter *notificationCenter = [adium notificationCenter];
+	NSNotificationCenter *notificationCenter = adium.notificationCenter;
 	
 	[notificationCenter addObserver:self
 						   selector:@selector(chatBecameActive:)
@@ -68,7 +68,7 @@
 	[languageDict release]; languageDict = nil;
 	[preferredLanguage release]; preferredLanguage = nil;
 	
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!
@@ -130,10 +130,10 @@
 - (void)chatWillClose:(NSNotification *)notification
 {
 	AIChat			*chat = [notification object];
-	AIListContact	*listObject = [chat listObject];
+	AIListContact	*listObject = chat.listObject;
 
 	if (listObject) {
-		NSString	 *chatID = [chat uniqueChatID];
+		NSString	 *chatID = chat.uniqueChatID;
 		NSString	 *chatLanguage = [languageDict objectForKey:chatID];
 
 		//If we didn't cache a language for this chat, we might just never have made it inactive; use the spell checker's current language

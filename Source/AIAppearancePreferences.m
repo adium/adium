@@ -95,7 +95,7 @@ typedef enum {
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 
 	//Observe xtras changes
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];	
@@ -109,7 +109,7 @@ typedef enum {
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!

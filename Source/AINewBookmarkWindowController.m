@@ -143,7 +143,7 @@
 	//Select the group of the currently selected object on the contact list
 	selectedObject = [adium.interfaceController selectedListObject];
 	while (selectedObject && ![selectedObject isKindOfClass:[AIListGroup class]]) {
-		selectedObject = [selectedObject containingObject];
+		selectedObject = selectedObject.containingObject;
 	}
 
 	[popUp_group setMenu:menu];
@@ -169,7 +169,7 @@
 	newGroupWindowController = [AINewGroupWindowController promptForNewGroupOnWindow:[self window]];
 
 	//Observe for the New Group window to close
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(newGroupDidEnd:) 
 									   name:@"NewGroupWindowControllerDidEnd"
 									 object:[newGroupWindowController window]];	
@@ -202,7 +202,7 @@
 	}
 
 	//Stop observing
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:@"NewGroupWindowControllerDidEnd" 
 										object:window];
 }

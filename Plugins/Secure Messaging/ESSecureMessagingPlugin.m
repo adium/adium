@@ -149,7 +149,7 @@
 		
 		//If this is the first item added, start observing for chats becoming visible so we can update the icon
 		if ([toolbarItems count] == 0) {
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatDidBecomeVisible:)
 											   name:@"AIChatDidBecomeVisible"
 											 object:nil];
@@ -205,7 +205,7 @@
 		[validatedItems removeObject:item];
 
 		if ([toolbarItems count] == 0) {
-			[[adium notificationCenter] removeObserver:self
+			[adium.notificationCenter removeObserver:self
 												  name:@"AIChatDidBecomeVisible"
 												object:nil];
 		}
@@ -299,16 +299,16 @@
 
 - (IBAction)toggleSecureMessaging:(id)sender
 {
-	AIChat	*chat = [adium.interfaceController activeChat];
+	AIChat	*chat = adium.interfaceController.activeChat;
 
-	[[chat account] requestSecureMessaging:![chat isSecure]
+	[chat.account requestSecureMessaging:!chat.isSecure
 									inChat:chat];
 }
 
 - (IBAction)showDetails:(id)sender
 {
 	NSRunInformationalAlertPanel(AILocalizedString(@"Details",nil),
-								 [[[adium.interfaceController activeChat] securityDetails] objectForKey:@"Description"],
+								 [[adium.interfaceController.activeChat securityDetails] objectForKey:@"Description"],
 								 AILocalizedString(@"OK",nil),
 								 nil,
 								 nil);
@@ -316,16 +316,16 @@
 
 - (IBAction)verify:(id)sender
 {
-	AIChat	*chat = [adium.interfaceController activeChat];
+	AIChat	*chat = adium.interfaceController.activeChat;
 	
-	[[chat account] promptToVerifyEncryptionIdentityInChat:chat];	
+	[chat.account promptToVerifyEncryptionIdentityInChat:chat];	
 }
 
 - (IBAction)showAbout:(id)sender
 {
 	NSString	*aboutEncryption;
 	
-	aboutEncryption = [[[adium.interfaceController activeChat] account] aboutEncryption];
+	aboutEncryption = adium.interfaceController.activeChat.account.aboutEncryption;
 	
 	if (aboutEncryption) {
 		NSRunInformationalAlertPanel(AILocalizedString(@"About Encryption",nil),
@@ -338,7 +338,7 @@
 
 - (IBAction)selectedEncryptionPreference:(id)sender
 {
-	AIListContact	*listContact = [[[adium.interfaceController activeChat] listObject] parentContact];
+	AIListContact	*listContact = adium.interfaceController.activeChat.listObject.parentContact;
 	
 	[listContact setPreference:[NSNumber numberWithInteger:[sender tag]]
 						forKey:KEY_ENCRYPTED_CHAT_PREFERENCE
@@ -348,7 +348,7 @@
 //Disable the insertion if a text field is not active
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIChat					*chat = [adium.interfaceController activeChat];
+	AIChat					*chat = adium.interfaceController.activeChat;
 
 	if (!chat) return NO;
 
@@ -358,7 +358,7 @@
 		switch (tag) {
 			case EncryptedChat_Default:
 			{
-				AIListContact	*listContact = [[chat listObject] parentContact];
+				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
 					NSNumber	*pref = [listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																group:GROUP_ENCRYPTION];
@@ -373,7 +373,7 @@
 			case EncryptedChat_Automatically:
 			case EncryptedChat_RejectUnencryptedMessages:
 			{
-				AIListContact	*listContact = [[chat listObject] parentContact];
+				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
 					NSNumber	*pref = [listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																group:GROUP_ENCRYPTION];
@@ -408,7 +408,7 @@
 				
 			case AISecureMessagingMenu_Options:
 				//Only enable options if the chat is with a single person 
-				return ([chat supportsSecureMessagingToggling] && [chat listObject] && ![chat isGroupChat]);
+				return ([chat supportsSecureMessagingToggling] && chat.listObject && ![chat isGroupChat]);
 				break;
 				
 			case AISecureMessagingMenu_ShowAbout:

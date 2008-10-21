@@ -139,8 +139,8 @@
 	if(chat != inChat){
 		if(chat){
 			//Stop observing the existing chat
-			[[adium notificationCenter] removeObserver:self name:Chat_SourceChanged object:chat];
-			[[adium notificationCenter] removeObserver:self name:Chat_DestinationChanged object:chat];
+			[adium.notificationCenter removeObserver:self name:Chat_SourceChanged object:chat];
+			[adium.notificationCenter removeObserver:self name:Chat_DestinationChanged object:chat];
 
 			//Remove our menus
 			[self _destroyAccountMenu];
@@ -155,11 +155,11 @@
 			chat = [inChat retain];
 			
 			//Observe changes to this chat's source and destination
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatSourceChanged:)
 											   name:Chat_SourceChanged
 											 object:chat];
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatDestinationChanged:)
 											   name:Chat_DestinationChanged
 											 object:chat];
@@ -195,10 +195,10 @@
  */
 - (void)chatDestinationChanged:(NSNotification *)notification
 {
-	AILogWithSignature(@"popUp_contacts selecting %@ (%@)", [chat listObject], [notification object]);
+	AILogWithSignature(@"popUp_contacts selecting %@ (%@)", chat.listObject, [notification object]);
 
 	//Update selection in contact menu
-	[popUp_contacts selectItemWithRepresentedObjectUsingCompare:[chat listObject]];
+	[popUp_contacts selectItemWithRepresentedObjectUsingCompare:chat.listObject];
 
 	//Rebuild 'From' account menu
 	if ([self choicesAvailableForAccount]){
@@ -220,8 +220,8 @@
 - (void)chatSourceChanged:(NSNotification *)notification
 {
 	//Update selection in account menu
-	AILogWithSignature(@"popUp_accounts selecting %@ (%@)", [chat account],  [notification object]);
-	[popUp_accounts selectItemWithRepresentedObject:[chat account]];
+	AILogWithSignature(@"popUp_accounts selecting %@ (%@)", chat.account,  [notification object]);
+	[popUp_accounts selectItemWithRepresentedObject:chat.account];
 }
 
 /*!
@@ -280,11 +280,11 @@
 	
 	for (menuItem in menuItems) {
 		AIAccount *account = [menuItem representedObject];
-		AIListContact *listContact = [adium.contactController existingContactWithService:[[chat listObject] service]
+		AIListContact *listContact = [adium.contactController existingContactWithService:chat.listObject.service
 																				 account:account
-																					 UID:[[chat listObject] UID]];
+																					 UID:chat.listObject.UID];
 
-		if (!listContact || [listContact isStranger])
+		if (!listContact || listContact.isStranger)
 			[menuItemsForAccountsWhichDoNotKnow addObject:menuItem];
 		else
 			[menuItemsForAccountsWhichKnow addObject:menuItem];
@@ -335,8 +335,7 @@
  */
 - (BOOL)_accountIsAvailable:(AIAccount *)inAccount
 {
-	return ([[[[chat listObject] service] serviceClass] isEqualToString:[[inAccount service] serviceClass]] &&
-			[inAccount online]);
+	return [chat.listObject.service.serviceClass isEqualToString:inAccount.service.serviceClass] && inAccount.online;
 }
 
 /*!
@@ -386,7 +385,7 @@
  * @brief Returns YES if a choice of destination contact is available
  */
 - (BOOL)choicesAvailableForContact{
-	AIListContact *parentContact = [[chat listObject] parentContact];
+	AIListContact *parentContact = chat.listObject.parentContact;
 	if ([parentContact conformsToProtocol:@protocol(AIContainingObject)]) {
 		return [[(AIListContact <AIContainingObject> *)parentContact uniqueContainedObjects] count] > 1;
 	} else {
@@ -433,7 +432,7 @@
 	if (contactMenu)
 		[contactMenu rebuildMenu];
 	else
-		contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:[[chat listObject] parentContact]] retain];
+		contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:chat.listObject.parentContact] retain];
 }
 
 /*!

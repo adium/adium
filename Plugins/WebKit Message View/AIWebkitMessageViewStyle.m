@@ -1036,24 +1036,24 @@ static NSArray *validSenderColors;
 	NSRange	range;
 	
 	[inString replaceKeyword:@"%chatName%"
-				  withString:[[chat displayName] stringByEscapingForXMLWithEntities:nil]];
+				  withString:[chat.displayName stringByEscapingForXMLWithEntities:nil]];
 
-	NSString * sourceName = [[[chat account] displayName] stringByEscapingForXMLWithEntities:nil];
+	NSString * sourceName = [chat.account.displayName stringByEscapingForXMLWithEntities:nil];
 	if(!sourceName) sourceName = @" ";
 	[inString replaceKeyword:@"%sourceName%"
 				  withString:sourceName];
 	
-	NSString *destinationName = [[chat listObject] displayName];
-	if (!destinationName) destinationName = [chat displayName];
+	NSString *destinationName = chat.listObject.displayName;
+	if (!destinationName) destinationName = chat.displayName;
 	[inString replaceKeyword:@"%destinationName%"
 				  withString:destinationName];
 	
-	NSString *serversideDisplayName = [[chat listObject] serversideDisplayName];
-	if (!serversideDisplayName) serversideDisplayName = [chat displayName];
+	NSString *serversideDisplayName = chat.listObject.serversideDisplayName;
+	if (!serversideDisplayName) serversideDisplayName = chat.displayName;
 	[inString replaceKeyword:@"%destinationDisplayName%"
 				  withString:[serversideDisplayName stringByEscapingForXMLWithEntities:nil]];
 		
-	AIListContact	*listObject = [chat listObject];
+	AIListContact	*listObject = chat.listObject;
 	NSString		*iconPath = nil;
 	
 	if (listObject) {
@@ -1065,7 +1065,7 @@ static NSArray *validSenderColors;
 	[inString replaceKeyword:@"%incomingIconPath%"
 				  withString:(iconPath ? iconPath : @"incoming_icon.png")];
 	
-	AIListObject	*account = [chat account];
+	AIListObject	*account = chat.account;
 	iconPath = nil;
 	
 	if (account) {

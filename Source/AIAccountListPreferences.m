@@ -120,13 +120,13 @@
 												  showTitleVerbs:NO] retain];
 
 	//Observe status icon pack changes
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(iconPackDidChange:)
 									   name:AIStatusIconSetDidChangeNotification
 									 object:nil];
 	
 	//Observe service icon pack changes
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(iconPackDidChange:)
 									   name:AIServiceIconSetDidChangeNotification
 									 object:nil];
@@ -144,7 +144,7 @@
 - (void)viewWillClose
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	[accountArray release]; accountArray = nil;
 	[requiredHeightDict release]; requiredHeightDict = nil;
@@ -377,7 +377,7 @@
 	[tableView_accountList sizeToFit];
 
 	//Observe changes to the account list
-    [[adium notificationCenter] addObserver:self
+    [adium.notificationCenter addObserver:self
 								   selector:@selector(accountListChanged:) 
 									   name:Account_ListChanged 
 									 object:nil];

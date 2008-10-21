@@ -98,7 +98,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[progressRows release]; progressRows = nil;
 
@@ -188,7 +188,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	[super windowDidLoad];
 
 	//Observe for new file transfers
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
                                    selector:@selector(newFileTransfer:)
                                        name:FileTransfer_NewFileTransfer
 									 object:nil];

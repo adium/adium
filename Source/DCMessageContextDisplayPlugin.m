@@ -90,7 +90,7 @@
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
@@ -103,7 +103,7 @@
 		if (shouldDisplay && linesToDisplay > 0 && !isObserving) {
 			//Observe new message windows only if we aren't already observing them
 			isObserving = YES;
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(addContextDisplayToWindow:)
 											   name:Chat_DidOpen 
 											 object:nil];
@@ -111,7 +111,7 @@
 		} else if (isObserving && (!shouldDisplay || linesToDisplay <= 0)) {
 			//Remove observer
 			isObserving = NO;
-			[[adium notificationCenter] removeObserver:self name:Chat_DidOpen object:nil];
+			[adium.notificationCenter removeObserver:self name:Chat_DidOpen object:nil];
 			
 		}
 	}
@@ -167,7 +167,7 @@
 			}
 
 			//We finished adding untracked content
-			[[adium notificationCenter] postNotificationName:Content_ChatDidFinishAddingUntrackedContent
+			[adium.notificationCenter postNotificationName:Content_ChatDidFinishAddingUntrackedContent
 												  	  object:chat];
 		}
 	}
@@ -232,11 +232,11 @@ static NSInteger linesLeftToFind = 0;
 	AIHTMLDecoder *decoder = [AIHTMLDecoder decoder];
 
 	NSString *logObjectUID = [chat name];
-	if (!logObjectUID) logObjectUID = [[chat listObject] UID];
+	if (!logObjectUID) logObjectUID = chat.listObject.UID;
 	logObjectUID = [logObjectUID safeFilenameString];
 
 	NSString *baseLogPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:
-		[AILoggerPlugin relativePathForLogWithObject:logObjectUID onAccount:[chat account]]];	
+		[AILoggerPlugin relativePathForLogWithObject:logObjectUID onAccount:chat.account]];	
 
 	if ([chat boolValueForProperty:@"Restored Chat"] && linesToDisplay < RESTORED_CHAT_CONTEXT_LINE_NUMBER) {
 		linesLeftToFind = RESTORED_CHAT_CONTEXT_LINE_NUMBER;
@@ -289,7 +289,7 @@ static NSInteger linesLeftToFind = 0;
 			//Get the service name from the path name
 			NSString *serviceName = [[[[[logPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] lastPathComponent] componentsSeparatedByString:@"."] objectAtIndex:0U];
 
-			AIListObject *account = [chat account];
+			AIListObject *account = chat.account;
 			NSString	 *accountID = [NSString stringWithFormat:@"%@.%@", [account serviceID], [account UID]];
 
 			contextInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -404,8 +404,8 @@ static NSInteger linesLeftToFind = 0;
 				 */
 				Class messageClass = (-[time timeIntervalSinceNow] > 300.0) ? [AIContentContext class] : [AIContentMessage class];
 				AIContentMessage *message = [messageClass messageInChat:chat 
-															 withSource:(sentByMe ? account : [chat listObject])
-															destination:(sentByMe ? [chat listObject] : account)
+															 withSource:(sentByMe ? account : chat.listObject)
+															destination:(sentByMe ? chat.listObject : account)
 																   date:time
 																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:[element contentsAsXMLString]]
 															  autoreply:(autoreplyAttribute && [autoreplyAttribute caseInsensitiveCompare:@"true"] == NSOrderedSame)];

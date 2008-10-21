@@ -66,7 +66,7 @@
 
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[textView release];
 	[target release];
     [super dealloc];

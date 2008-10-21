@@ -172,48 +172,48 @@
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"%@ joined %@","Contact joined Chat Name"),
 				[listObject displayName],
-				[chat displayName]];
+				chat.displayName];
 			
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"%@ left %@","Contact left Chat Name"),
 				[listObject displayName],
-				[chat displayName]];
+				chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ left %@","Contact left Chat Name"),
 						   [listObject displayName],
-						   [chat displayName]];
+						   chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ invites you to a group chat","Contact invites you to a group chat"),
 						   [listObject displayName],
-						   [chat displayName]];
+						   chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ mentioned you in %@","Someone mentions your name in a group chat"),
 						   [listObject displayName],
-						   [chat displayName]];
+						   chat.displayName];
 		}
 		
 	} else {
 		if ([eventID isEqualToString:CONTENT_CONTACT_JOINED_CHAT]) {
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"joined %@","Contact joined Chat Name"),
-				[chat displayName]];
+				chat.displayName];
 			
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"left %@","Contact left Chat Name"),
-				[chat displayName]];
+				chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_INVITE]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"invites you to a group chat","Contact left Chat Name"),
-						   [chat displayName]];
+						   chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"you were mentioned in %@","Someone mentions your name in a group chat"),
-						   [chat displayName]];
+						   chat.displayName];
 		}
 	}
 	

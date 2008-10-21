@@ -134,7 +134,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			}
 		}
 
-		[[adium notificationCenter] postNotificationName:AIServiceIconSetDidChangeNotification
+		[adium.notificationCenter postNotificationName:AIServiceIconSetDidChangeNotification
 																		   object:nil];
 
 		return YES;

@@ -73,7 +73,7 @@
  */
 - (void)installPlugin
 {
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
@@ -99,7 +99,7 @@
 			   withObject:nil
 			   afterDelay:0.00001];
 
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }
@@ -215,7 +215,7 @@
 		}
 		
 		if (chat) {
-			[clickContext setObject:[chat uniqueChatID]
+			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
 			
 		} else {
@@ -234,12 +234,12 @@
 		if (chat) {
 			title = [chat name];
 
-			[clickContext setObject:[chat uniqueChatID]
+			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
 
 			//If we have no listObject or we have a name, we are a group chat and
 			//should use the account's service icon
-			iconData = [[AIServiceIcons serviceIconForObject:[chat account]
+			iconData = [[AIServiceIcons serviceIconForObject:chat.account
 														type:AIServiceIconLarge
 												   direction:AIIconNormal] TIFFRepresentation];
 			

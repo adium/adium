@@ -58,7 +58,7 @@
 - (void)installPlugin
 {
 	//Register our observers
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(listObjectAttributesChanged:)
 									   name:ListObject_AttributesChanged
 									 object:nil];
@@ -184,7 +184,7 @@
 
 		//If this is the first item added, start observing for chats becoming visible so we can update the icon
 		if ([toolbarItems count] == 0) {
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatDidBecomeVisible:)
 											   name:@"AIChatDidBecomeVisible"
 											 object:nil];
@@ -236,7 +236,7 @@
 		[validatedItems removeObject:item];
 
 		if ([toolbarItems count] == 0) {
-			[[adium notificationCenter] removeObserver:self
+			[adium.notificationCenter removeObserver:self
 												  name:@"AIChatDidBecomeVisible"
 												object:nil];
 		}
@@ -276,7 +276,7 @@
 	AIListContact	*listContact;
 	NSImage			*image;
 	
-	if ((listContact = [[chat listObject] parentContact]) && ![chat isGroupChat]) {
+	if ((listContact = chat.listObject.parentContact) && ![chat isGroupChat]) {
 		image = [listContact userIcon];
 		
 		//Use the serviceIcon if no image can be found
@@ -286,7 +286,7 @@
 	} else {
 		//If we have no listObject or we have a name, we are a group chat and
 		//should use the account's service icon
-		image = [AIServiceIcons serviceIconForObject:[chat account]
+		image = [AIServiceIcons serviceIconForObject:chat.account
 												type:AIServiceIconLarge
 										   direction:AIIconNormal];
 	}

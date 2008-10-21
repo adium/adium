@@ -185,7 +185,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	
 	[self reimportLogsToSpotlightIfNeeded];
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(showLogNotification:)
 									   name:AIShowLogAtPathNotification
 									 object:nil];
@@ -199,7 +199,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
 }
 
@@ -247,27 +247,27 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		observingContent = newLogValue;
 				
 		if (!observingContent) { //Stop Logging
-			[[adium notificationCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
+			[adium.notificationCenter removeObserver:self name:Content_ContentObjectAdded object:nil];
 			
-			[[adium notificationCenter] removeObserver:self name:Chat_DidOpen object:nil];			
-			[[adium notificationCenter] removeObserver:self name:Chat_WillClose object:nil];
+			[adium.notificationCenter removeObserver:self name:Chat_DidOpen object:nil];			
+			[adium.notificationCenter removeObserver:self name:Chat_WillClose object:nil];
 
 		} else { //Start Logging
-			[[adium notificationCenter] addObserver:self 
+			[adium.notificationCenter addObserver:self 
 										   selector:@selector(contentObjectAdded:) 
 											   name:Content_ContentObjectAdded 
 											 object:nil];
 											 
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatOpened:)
 											   name:Chat_DidOpen
 											 object:nil];
 											 
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatClosed:)
 											   name:Chat_WillClose
 											 object:nil];
-			[[adium notificationCenter] addObserver:self
+			[adium.notificationCenter addObserver:self
 										   selector:@selector(chatWillDelete:)
 											   name:ChatLog_WillDelete
 											 object:nil];
@@ -307,9 +307,9 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 + (NSString *)pathForLogsLikeChat:(AIChat *)chat
 {
 	NSString	*objectUID = [chat name];
-	AIAccount	*account = [chat account];
+	AIAccount	*account = chat.account;
 	
-	if (!objectUID) objectUID = [[chat listObject] UID];
+	if (!objectUID) objectUID = chat.listObject.UID;
 	objectUID = [objectUID safeFilenameString];
 
 	return [[self logBasePath] stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
@@ -318,9 +318,9 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 + (NSString *)fullPathForLogOfChat:(AIChat *)chat onDate:(NSDate *)date
 {
 	NSString	*objectUID = [chat name];
-	AIAccount	*account = [chat account];
+	AIAccount	*account = chat.account;
 
-	if (!objectUID) objectUID = [[chat listObject] UID];
+	if (!objectUID) objectUID = chat.listObject.UID;
 	objectUID = [objectUID safeFilenameString];
 
 	NSString	*absolutePath = [[self logBasePath] stringByAppendingPathComponent:[self relativePathForLogWithObject:objectUID onAccount:account]];
@@ -547,7 +547,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		[appender addElementWithName:@"event"
 							 content:nil
 					   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-					 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [[chat account] UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+					 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [chat.account UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[self markLogDirtyAtPath:[appender path] forChat:chat];
 	}
@@ -567,7 +567,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		[appender addElementWithName:@"event"
 							 content:nil
 					   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-					 attributeValues:[NSArray arrayWithObjects:@"windowClosed", [[chat account] UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+					 attributeValues:[NSArray arrayWithObjects:@"windowClosed", [chat.account UID], [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[self closeAppenderForChat:chat];
 
@@ -594,8 +594,8 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 - (NSString *)keyForChat:(AIChat *)chat
 {
-	AIAccount *account = [chat account];
-	NSString *chatID = ([chat isGroupChat] ? [chat identifier] : [[chat listObject] UID]);
+	AIAccount *account = chat.account;
+	NSString *chatID = ([chat isGroupChat] ? [chat identifier] : chat.listObject.UID);
 
 	return [NSString stringWithFormat:@"%@.%@-%@", [account serviceID], [account UID], chatID];
 }
@@ -626,15 +626,15 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 										  attributeKeys:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
 										attributeValues:[NSArray arrayWithObjects:
 											XML_LOGGING_NAMESPACE,
-											[[chat account] UID],
-											[[chat account] serviceID],
+											[chat.account UID],
+											[chat.account serviceID],
 											nil]];
 		
 		//Add the window opened event now
 		[appender addElementWithName:@"event"
 					 content:nil
 			   attributeKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
-			 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [[chat account] UID], [[chatDate dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+			 attributeValues:[NSArray arrayWithObjects:@"windowOpened", [chat.account UID], [[chatDate dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 
 		[activeAppenders setObject:appender forKey:[self keyForChat:chat]];
 		

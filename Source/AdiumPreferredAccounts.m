@@ -37,7 +37,7 @@
 {
 	if ((self = [super init])) {
 		//Observe content (for accountForSendingContentToContact)
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(didSendContent:)
 										   name:CONTENT_MESSAGE_SENT
 										 object:nil];		
@@ -51,7 +51,7 @@
  */
 - (void)dealloc
 {
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
 	
 	[super dealloc];
 }
@@ -157,7 +157,7 @@
 {
 	NSDictionary	*userInfo = [notification userInfo];
     AIChat			*chat = [userInfo objectForKey:@"AIChat"];
-    AIListContact	*destObject = [chat listObject];
+    AIListContact	*destObject = chat.listObject;
     
     if (chat && destObject) {
         AIContentObject *contentObject = [userInfo objectForKey:@"AIContentObject"];

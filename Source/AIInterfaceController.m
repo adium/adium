@@ -189,19 +189,19 @@
 	[menuItem release];
 
     //Observe content so we can open chats as necessary
-    [[adium notificationCenter] addObserver:self selector:@selector(didReceiveContent:) 
+    [adium.notificationCenter addObserver:self selector:@selector(didReceiveContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED object:nil];
-    [[adium notificationCenter] addObserver:self selector:@selector(didReceiveContent:) 
+    [adium.notificationCenter addObserver:self selector:@selector(didReceiveContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED_GROUP object:nil];
 	
 	//Observe Adium finishing loading so we can do things which may require other components or plugins
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumDidFinishLoading:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
 	//Observe quits so we can save containers.
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(saveContainersOnQuit:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
@@ -225,7 +225,7 @@
 	[tooltipBody release]; tooltipBody = nil;
 	[tooltipImage release]; tooltipImage = nil;
 	
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
@@ -236,7 +236,7 @@
 	//Observe preference changes. This will also restore saved containers if appropriate.
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_INTERFACE];
 	
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }
@@ -476,7 +476,7 @@
 		for (AIChat *chat in [dict objectForKey:@"Content"]) {
 			NSMutableDictionary		*newContainerDict = [NSMutableDictionary dictionary];
 
-			[newContainerDict setObject:[[chat account] internalObjectID] forKey:@"AccountID"];
+			[newContainerDict setObject:[chat.account internalObjectID] forKey:@"AccountID"];
 			
 			// Save chat-specific information.
 			if (chat.isGroupChat) {
@@ -489,9 +489,9 @@
 			} else {
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
 															[NSNumber numberWithBool:([dict objectForKey:@"ActiveChat"] == chat)], @"ActiveChat",
-															[[chat listObject] UID], @"UID",
-															[[chat listObject] serviceID], @"serviceID",
-															[[chat account] internalObjectID], @"AccountID",nil]];
+															chat.listObject.UID, @"UID",
+															chat.listObject.serviceID, @"serviceID",
+															chat.account.internalObjectID, @"AccountID",nil]];
 			}
 					
 			[containerContents addObject:newContainerDict];
@@ -533,21 +533,21 @@
 	if (!tabbedChatting) {
 		//We're not using tabs; each chat starts in its own container, based on the destination object or the chat name
 		if ([inChat listObject]) {
-			containerID = [[inChat listObject] internalObjectID];
+			containerID = inChat.listObject.internalObjectID;
 		} else {
-			containerID = [inChat name];
+			containerID = inChat.name;
 		}
 		
 	} else if (groupChatsByContactGroup) {
-		if ([inChat isGroupChat]) {
+		if (inChat.isGroupChat) {
 			containerID = AILocalizedString(@"Group Chats",nil);
 			
 		} else {
-			AIListObject	*group = [[[inChat listObject] parentContact] containingObject];
+			AIListObject	*group = inChat.listObject.parentContact.containingObject;
 			
 			//If the contact is in the contact list root, we don't have a group
 			if (group && ![group isKindOfClass:[AIContactList class]]) {
-				containerID = [group displayName];
+				containerID = group.displayName;
 			}
 		}
 		
@@ -569,7 +569,7 @@
 		[inChat setIsOpen:YES];
 		
 		//Post the notification last, so observers receive a chat whose isOpen flag is yes.
-		[[adium notificationCenter] postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
+		[adium.notificationCenter postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
 	}
 }
 
@@ -592,7 +592,7 @@
 		[inChat setIsOpen:YES];
 		
 		//Post the notification last, so observers receive a chat whose isOpen flag is yes.
-		[[adium notificationCenter] postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
+		[adium.notificationCenter postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
 	}
 	return tabViewItem;
 }
@@ -764,7 +764,7 @@
 		mostRecentActiveChat = [inChat retain];
 	}
 	
-	[[adium notificationCenter] postNotificationName:Chat_BecameActive
+	[adium.notificationCenter postNotificationName:Chat_BecameActive
 											  object:inChat 
 											userInfo:(previouslyActiveChat ?
 													  [NSDictionary dictionaryWithObject:previouslyActiveChat
@@ -792,7 +792,7 @@
  */
 - (void)chatDidBecomeVisible:(AIChat *)inChat inWindow:(NSWindow *)inWindow
 {
-	[[adium notificationCenter] postNotificationName:@"AIChatDidBecomeVisible"
+	[adium.notificationCenter postNotificationName:@"AIChatDidBecomeVisible"
 											  object:inChat
 											userInfo:[NSDictionary dictionaryWithObject:inWindow
 																				 forKey:@"NSWindow"]];
@@ -829,7 +829,7 @@
 	[inChat clearUnviewedContentCount];
 	[self buildWindowMenu];
 	
-	if (![adium isQuitting]) {
+	if (!adium.isQuitting) {
 		// Don't save containers when the chats are closed while quitting
 		[self saveContainers];
 	}
@@ -851,12 +851,12 @@
 	[self _resetOpenChatsCache];
 	[self buildWindowMenu];
 
-	if (![adium isQuitting]) {
+	if (!adium.isQuitting) {
 		// Don't save containers when the chats are closed while quitting
 		[self saveContainers];
 	}
 	
-	[[adium notificationCenter] postNotificationName:Chat_OrderDidChange object:nil userInfo:nil];
+	[adium.notificationCenter postNotificationName:Chat_OrderDidChange object:nil userInfo:nil];
 	
 }
 
@@ -907,10 +907,7 @@
  */
 - (IBAction)closeAllChats:(id)sender
 {
-	NSEnumerator	*containerEnumerator = [[[[interfacePlugin openChats] copy] autorelease] objectEnumerator];
-	AIChat			*chatToClose;
-
-	while ((chatToClose = [containerEnumerator nextObject])) {
+	for (AIChat *chatToClose in [[interfacePlugin.openChats copy] autorelease]) {
 		[self closeChat:chatToClose];
 	}
 }
@@ -1185,7 +1182,7 @@
     
     //Post a notification that an error was recieved
     errorDict = [NSDictionary dictionaryWithObjectsAndKeys:inTitle,@"Title",inDesc,@"Description",inWindowTitle,@"Window Title",nil];
-    [[adium notificationCenter] postNotificationName:Interface_ShouldDisplayErrorMessage object:nil userInfo:errorDict];
+    [adium.notificationCenter postNotificationName:Interface_ShouldDisplayErrorMessage object:nil userInfo:errorDict];
 }
 
 //Display then clear the last disconnection error
@@ -1221,7 +1218,7 @@
 	if(inUserInfo != nil)
 		[questionDict setObject:inUserInfo forKey:@"Userinfo"];
 	
-	[[adium notificationCenter] postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
+	[adium.notificationCenter postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
 }
 
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle

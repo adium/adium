@@ -64,8 +64,8 @@
  */
 - (void)addBookmark:(id)sender
 {
-	[AINewBookmarkWindowController promptForNewBookmarkForChat:[adium.interfaceController activeChat]
-													  onWindow:[[[[adium.interfaceController activeChat] chatContainer] windowController] window]
+	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.interfaceController.activeChat
+													  onWindow:[adium.interfaceController.activeChat.chatContainer.windowController window]
 												notifyingTarget:self];
 }
 // @brief: create a bookmark for the given chat with the given name in the given group
@@ -80,12 +80,12 @@
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)inToolbarItem
 {
-	return [[adium.interfaceController activeChat] isGroupChat];
+	return adium.interfaceController.activeChat.isGroupChat;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)inMenuItem
 {
-	return [[adium.interfaceController activeChat] isGroupChat];	
+	return adium.interfaceController.activeChat.isGroupChat;	
 }
 
 @end

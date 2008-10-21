@@ -253,7 +253,7 @@
         [self _applyColorToContact:object];
         
         //Force a redraw
-        [[adium notificationCenter] postNotificationName:ListObject_AttributesChanged 
+        [adium.notificationCenter postNotificationName:ListObject_AttributesChanged 
 												  object:object
 												userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObjects:@"Text Color", @"Label Color", @"Inverted Text Color", nil] forKey:@"Keys"]];
     }

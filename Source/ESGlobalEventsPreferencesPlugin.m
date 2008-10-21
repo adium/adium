@@ -70,7 +70,7 @@
     preferences = [[ESGlobalEventsPreferences preferencePaneForPlugin:self] retain];
 
 	//Wait for Adium to finish launching before we perform further actions
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];	
@@ -79,13 +79,13 @@
 - (void)uninstallPlugin
 {
     //Uninstall our observers
-    [[adium notificationCenter] removeObserver:preferences];
+    [adium.notificationCenter removeObserver:preferences];
     [[NSNotificationCenter defaultCenter] removeObserver:preferences];
 }
 
 - (void)adiumFinishedLaunching:(NSNotification *)notification
 {
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }

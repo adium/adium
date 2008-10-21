@@ -722,12 +722,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIListContact	*listContact;
 	
 	//Obtain the contact's information if it's a stranger
-	if ((listContact = [chat listObject]) && ([listContact isStranger])) {
+	if ((listContact = chat.listObject) && ([listContact isStranger])) {
 		[self delayedUpdateContactStatus:listContact];
 	}
 #endif
 	
-	AILog(@"purple openChat:%@ for %@",chat,[chat uniqueChatID]);
+	AILog(@"purple openChat:%@ for %@",chat,chat.uniqueChatID);
 
 	//Inform purple that we have opened this chat
 	[purpleAdapter openChat:chat onAccount:self];
@@ -742,7 +742,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	//Be sure any remaining typing flag is cleared as the chat closes
 	[self setTypingFlagOfChat:chat to:nil];
-	AILog(@"purple closeChat:%@",[chat uniqueChatID]);
+	AILog(@"purple closeChat:%@",chat.uniqueChatID);
 	
     return YES;
 }
@@ -879,7 +879,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		NSAttributedString		*attributedMessage;
 		AIListContact			*listContact;
 		
-		listContact = [chat listObject];
+		listContact = chat.listObject;
 
 		attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
 																  fromContact:listContact
@@ -1147,7 +1147,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 	
 	if (emoticon) {
-		[[adium notificationCenter] postNotificationName:@"AICustomEmoticonUpdated"
+		[adium.notificationCenter postNotificationName:@"AICustomEmoticonUpdated"
 												  object:inChat
 												userInfo:[NSDictionary dictionaryWithObject:emoticon
 																					 forKey:@"AIEmoticon"]];
@@ -1203,8 +1203,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)renameRoomOccupant:(NSString *)contactName to:(NSString *)newName inChat:(AIChat *)chat
 {
-	AIListContact	*occupant = (AIListContact *)[chat objectWithService:[[chat account] service]
-																	 UID:contactName];
+	AIListContact	*occupant = (AIListContact *)[chat objectWithService:chat.account.service UID:contactName];
 
 	[occupant setFormattedUID:newName notify:NotifyLater];
 }
@@ -1786,7 +1785,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	[super didConnect];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(iTunesDidUpdate:)
 									   name:Adium_iTunesTrackChangedNotification
 									 object:nil];
@@ -1917,7 +1916,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:Adium_iTunesTrackChangedNotification
 										object:nil];
 	[tuneinfo release];
@@ -2012,7 +2011,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
 		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
 
-		[[adium notificationCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
+		[adium.notificationCenter postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
 												  object:self
 												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 													username, @"username",
@@ -2962,7 +2961,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 										 withString:[NSString ellipsis]
 											options:NSLiteralSearch];
 			AIContentStatus *statusMessage = [AIContentStatus statusInChat:chat
-																withSource:[chat listObject]
+																withSource:chat.listObject
 															   destination:self
 																	  date:[NSDate date]
 																   message:[NSAttributedString stringWithString:forceString]

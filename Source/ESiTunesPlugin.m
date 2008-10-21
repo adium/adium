@@ -176,8 +176,8 @@
 
  -(void)fireUpdateiTunesInfo
  {
-     [[adium notificationCenter] postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
-	 [[adium notificationCenter] postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
+     [adium.notificationCenter postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
+	 [adium.notificationCenter postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
  }
 
 #pragma mark -

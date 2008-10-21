@@ -70,7 +70,7 @@
 										  globalOnly:NO];
 	
 	// Register to observe a nudge or buzz event.
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(nudgeBuzzDidOccur:)
 									   name:Chat_NudgeBuzzOccured
 									 object:nil];
@@ -117,7 +117,7 @@
 - (void)uninstallPlugin
 {
 	// Unregister ourself.
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[notifyMenuItem release];
 	[notifyContextualMenuItem release];
 }
@@ -133,7 +133,7 @@
 	}
 	
 	// Send a notification to this contact.
-	[self sendNotification:[chat listObject]];
+	[self sendNotification:chat.listObject];
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)senderItem
@@ -147,7 +147,7 @@
 	}
 	
 	// Return if the contact can be notified.
-	return [self contactDoesSupportNotification:[chat listObject]];
+	return [self contactDoesSupportNotification:chat.listObject];
 }
 
 - (AIChat *)chatForToolbar:(NSToolbarItem *)senderItem
@@ -281,8 +281,8 @@
 	}
 
 	AIContentNotification *contentNotification = [AIContentNotification notificationInChat:chat
-																				withSource:[chat account]
-																			   destination:[chat listObject]
+																				withSource:chat.account
+																			   destination:chat.listObject
 																					  date:[NSDate date]
 																		  notificationType:AIDefaultNotificationType];
 	
@@ -296,8 +296,8 @@
 	AIChat			*chat = [notification object];
 
 	AIContentNotification *contentNotification = [AIContentNotification notificationInChat:chat
-																				withSource:[chat listObject]
-																			   destination:[chat account]
+																				withSource:chat.listObject
+																			   destination:chat.account
 																					  date:[NSDate date]
 																		  notificationType:AIDefaultNotificationType];
 
@@ -306,12 +306,12 @@
 	
 	// Fire off the event
 	[adium.contactAlertsController generateEvent:CONTENT_NUDGE_BUZZ_OCCURED
-									 forListObject:[chat listObject]
+									 forListObject:chat.listObject
 										  userInfo:nil
 					  previouslyPerformedActionIDs:nil];
 	
 	// Flash content if this isn't the active chat.
-	if ([adium.interfaceController activeChat] != chat) {
+	if (adium.interfaceController.activeChat != chat) {
 		[chat incrementUnviewedContentCount];
 	}
 }

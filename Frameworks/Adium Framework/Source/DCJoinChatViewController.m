@@ -121,7 +121,7 @@
 			[chat setValue:invitationMessage forProperty:@"InitialInivitationMessage" notify:NotifyNever];
 		}
 		
-		[[adium notificationCenter] addObserver:self selector:@selector(chatDidOpen:) name:Chat_DidOpen object:chat];
+		[adium.notificationCenter addObserver:self selector:@selector(chatDidOpen:) name:Chat_DidOpen object:chat];
 	}
 	
 }
@@ -155,7 +155,7 @@
 	[chat setValue:nil forProperty:@"InitialInivitationMessage" notify:NotifyNever];
 	
 	//We are no longer concerned with the opening of this chat.
-	[[adium notificationCenter] removeObserver:self name:Chat_DidOpen object:chat];
+	[adium.notificationCenter removeObserver:self name:Chat_DidOpen object:chat];
 }
 
 /*!

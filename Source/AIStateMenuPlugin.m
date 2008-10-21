@@ -49,7 +49,7 @@
 - (void)installPlugin
 {
 	//Wait for Adium to finish launching before we perform further actions
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
@@ -67,7 +67,7 @@
 
 	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(stateMenuSelectionsChanged:)
 									   name:AIStatusActiveStateChangedNotification
 									 object:nil];
@@ -77,7 +77,7 @@
 
 - (void)uninstallPlugin
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	[accountMenu release]; accountMenu = nil;
 	[statusMenu release]; statusMenu = nil;

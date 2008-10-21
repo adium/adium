@@ -84,7 +84,7 @@
 							 object:nil];
 	
 	// Idle events are in the Adium notification center, posted by the AdiumIdleManager
-	notificationCenter = [adium notificationCenter];
+	notificationCenter = adium.notificationCenter;
 
 	[notificationCenter addObserver:self
 						   selector:@selector(notificationHandler:)
@@ -111,7 +111,7 @@
 	// Unregister our notifications
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	// Unregister our preference observations
 	[adium.preferenceController unregisterPreferenceObserver:self];

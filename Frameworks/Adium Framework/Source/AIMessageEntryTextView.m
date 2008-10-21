@@ -150,11 +150,11 @@
 											 selector:@selector(frameDidChange:) 
 												 name:NSViewFrameDidChangeNotification 
 											   object:self];
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 															selector:@selector(toggleMessageSending:)
 																name:@"AIChatDidChangeCanSendMessagesNotification"
 															  object:chat];
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 															selector:@selector(contentObjectAdded:) 
 																name:Content_ContentObjectAdded 
 															  object:nil];
@@ -187,7 +187,7 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
     [chat release];
@@ -393,10 +393,10 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	if ((!object || (object == [chat account])) &&
+	if ((!object || (object == chat.account)) &&
 		[group isEqualToString:GROUP_ACCOUNT_STATUS] &&
 		(!key || [key isEqualToString:KEY_DISABLE_TYPING_NOTIFICATIONS])) {
-		enableTypingNotifications = ![[[chat account] preferenceForKey:KEY_DISABLE_TYPING_NOTIFICATIONS
+		enableTypingNotifications = ![[chat.account preferenceForKey:KEY_DISABLE_TYPING_NOTIFICATIONS
 																 group:GROUP_ACCOUNT_STATUS] boolValue];
 	}
 	
@@ -675,8 +675,8 @@
 		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 		//Set up the character counter for this chat. If this changes, we'll get notified as a list object observer.
-		[self setCharacterCounterMaximum:[[chat listObject] integerValueForProperty:@"Character Counter Max"]];
-		[self setCharacterCounterVisible:([[chat listObject] valueForProperty:@"Character Counter Max"] != nil)];
+		[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
+		[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
     }
 }
 - (AIChat *)chat{
@@ -686,7 +686,7 @@
 //Return the selected list object (to auto-configure the contact menu)
 - (AIListContact *)listObject
 {
-	return [chat listObject];
+	return chat.listObject;
 }
 
 - (AIListContact *)preferredListObject
@@ -1078,7 +1078,7 @@
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if ((inObject == [chat listObject]) &&
+	if ((inObject == chat.listObject) &&
 		(!inModifiedKeys || [inModifiedKeys containsObject:@"Character Counter Max"])) {
 		[self setCharacterCounterMaximum:[inObject integerValueForProperty:@"Character Counter Max"]];
 		[self setCharacterCounterVisible:([inObject valueForProperty:@"Character Counter Max"] != nil)];

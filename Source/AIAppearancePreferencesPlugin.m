@@ -51,7 +51,7 @@
 
 	preferences = [[AIAppearancePreferences preferencePaneForPlugin:self] retain];	
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(invalidStatusSetActivated:)
 									   name:AIStatusIconSetInvalidSetNotification
 									 object:nil];
@@ -146,7 +146,7 @@
 		// Menu Bar Icons
 		if (firstTime || [key isEqualToString:KEY_MENU_BAR_ICONS]) {
 			// Post a notification to update the menu bar icons.
-			[[adium notificationCenter] postNotificationName:AIMenuBarIconsDidChangeNotification
+			[adium.notificationCenter postNotificationName:AIMenuBarIconsDidChangeNotification
 																			   object:nil];
 		}
 		
@@ -272,7 +272,7 @@
 		path = [path stringByAppendingPathComponent:@"Contents/Resources/Data.plist"];
 	
 	if ([[adium.preferenceController preferencesForGroup:preferenceGroup] writeToFile:path atomically:NO]) {
-		[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification object:extension];
+		[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
 		
 		return YES;
 	} else {
@@ -298,7 +298,7 @@
 													   handler:nil];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
-	[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification object:extension];
+	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
 	
 	return success;
 }
@@ -318,7 +318,7 @@
 											   handler:nil];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
-	[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification object:extension];
+	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
 	
 	return success;
 }
@@ -339,7 +339,7 @@
 											   handler:nil];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
-	[[adium notificationCenter] postNotificationName:AIXtrasDidChangeNotification object:extension];
+	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
 	
 	return success;
 }

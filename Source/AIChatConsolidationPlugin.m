@@ -71,7 +71,7 @@
 
 - (void)moveChatToNewWindow:(id)sender
 {
-	[adium.interfaceController moveChatToNewContainer:[adium.interfaceController activeChat]];
+	[adium.interfaceController moveChatToNewContainer:adium.interfaceController.activeChat];
 }
 
 /*!
@@ -84,9 +84,9 @@
 	BOOL validate;
 
 	if (menuItem == consolidateMenuItem)
-		validate = ([[adium.interfaceController openContainerIDs] count] > 1);
+		validate = ([adium.interfaceController.openContainerIDs count] > 1);
 	else if (menuItem == newWndowMenuItem)
-		validate = ([[[[[adium.interfaceController activeChat] chatContainer] windowController] containedChats] count] > 1);
+		validate = ([adium.interfaceController.activeChat.chatContainer.windowController.containedChats count] > 1);
 	else
 		validate = TRUE;
 

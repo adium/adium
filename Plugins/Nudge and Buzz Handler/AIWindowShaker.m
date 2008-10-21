@@ -12,7 +12,7 @@
 -(void)installPlugin
 {
 	// Register to observe a nudge or buzz event.
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(nudgeBuzzDidOccur:)
 									   name:Chat_NudgeBuzzOccured
 									 object:nil];
@@ -21,7 +21,7 @@
 // Unregister ourselves.
 -(void)uninstallPlugin
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 // Called when a nudge or buzz occurs.

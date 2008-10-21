@@ -135,7 +135,7 @@
 	[self prepareShowHideGroups];
 	
 	//Observe content (for preferredContactForContentType:forListContact:)
-    [[adium notificationCenter] addObserver:self
+    [adium.notificationCenter addObserver:self
                                    selector:@selector(didSendContent:)
                                        name:CONTENT_MESSAGE_SENT
                                      object:nil];
@@ -273,10 +273,10 @@
 //Redetermine the local grouping of a contact in response to server grouping information or an external change
 - (void)contactRemoteGroupingChanged:(AIListContact *)inContact
 {
-	NSString							*remoteGroupName = [inContact remoteGroupName];
+	NSString *remoteGroupName = inContact.remoteGroupName;
 	[[inContact retain] autorelease];
 	
-	AIListObject<AIContainingObject>	*containingObject = [inContact containingObject];
+	AIListObject<AIContainingObject>	*containingObject = inContact.containingObject;
 	
 	if ([containingObject isKindOfClass:[AIMetaContact class]]) {
 		
@@ -297,7 +297,7 @@
 			
 			[self _didChangeContainer:localGroup object:containingObject];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
-																object:[localGroup containingObject]
+																object:localGroup.containingObject
 															  userInfo:nil];
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
 		}
@@ -350,7 +350,7 @@
 	//	AILog(@"Moving %@ to %@",listContact,localGroup);
 	
 	//Remove this object from any local groups we have it in currently
-	if ((containingObject = [listContact containingObject]) &&
+	if ((containingObject = listContact.containingObject) &&
 		([containingObject isKindOfClass:[AIListGroup class]])) {
 		//Remove the object
 		[(AIListGroup *)containingObject removeObject:listContact];
@@ -415,7 +415,7 @@
 		[contactPropertiesObserverManager noteContactChanged:object];
 
 	} else {
-		[[adium notificationCenter] postNotificationName:Contact_ListChanged
+		[adium.notificationCenter postNotificationName:Contact_ListChanged
 												  object:inContainingObject
 												userInfo:nil];
 	}
@@ -742,7 +742,7 @@
 
 	BOOL								success;
 	
-	AIListObject<AIContainingObject> *oldContainingObject = [inContact containingObject];
+	AIListObject<AIContainingObject> *oldContainingObject = inContact.containingObject;
 	
 	//Remove the object from its previous containing group
 	if (oldContainingObject && (oldContainingObject != metaContact)) {
@@ -756,14 +756,14 @@
 		
 		[self _didChangeContainer:metaContact object:inContact];
 		//If the metaContact isn't in a group yet, use the group of the object we just added
-		if ((![metaContact containingObject]) && oldContainingObject) {
+		if (!metaContact.containingObject && oldContainingObject) {
 			//Add the new meta contact to our list
 			[(AIMetaContact *)oldContainingObject addObject:metaContact];
 			[self _didChangeContainer:oldContainingObject object:metaContact];
 		}
 
 		//Ensure the metacontact ends up in the appropriate group
-		if (![metaContact containingObject] || ([metaContact containingObject] == [self offlineGroup]))
+		if (!metaContact.containingObject || metaContact.containingObject == self.offlineGroup)
 			[metaContact restoreGrouping];
 	}
 	
@@ -973,7 +973,7 @@
 {
 	//Remove the objects within it from being inside it
 	NSArray								*containedObjects = [[metaContact containedObjects] copy];
-	AIListObject<AIContainingObject>	*containingObject = [metaContact containingObject];
+	AIListObject<AIContainingObject>	*containingObject = metaContact.containingObject;
 	
 	NSMutableDictionary *allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
@@ -1040,7 +1040,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if ([listObject isKindOfClass:[AIListContact class]]) {
 		//Find the highest-up metaContact
 		AIListObject	*containingObject;
-		while ([(containingObject = [listObject containingObject]) isKindOfClass:[AIMetaContact class]]) {
+		while ([(containingObject = listObject.containingObject) isKindOfClass:[AIMetaContact class]]) {
 			listObject = (AIMetaContact *)containingObject;
 		}
 	}
@@ -1130,7 +1130,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	for(AIContactList *list in lists) {
 		[list sort];
 	}
-	[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:nil];
+	[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
 }
 
 //Sort an individual object
@@ -1140,12 +1140,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[contactPropertiesObserverManager noteContactChanged:inObject];
 
 	} else {
-		AIListObject		*group = [inObject containingObject];
+		AIListObject		*group = inObject.containingObject;
 		
 		if ([group isKindOfClass:[AIListGroup class]]) {
 			//Sort the groups containing this object
 			[(AIListGroup *)group sortListObject:inObject];
-			[[adium notificationCenter] postNotificationName:Contact_OrderChanged object:group];
+			[adium.notificationCenter postNotificationName:Contact_OrderChanged object:group];
 		}
 	}
 }
@@ -1252,7 +1252,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	for(AIContactList *clist in contactLists) {
 		for(AIListObject *object in clist) {
-			if ([object isKindOfClass:[AIListGroup class]] && object != [self offlineGroup]) {
+			if ([object isKindOfClass:[AIListGroup class]] && object != self.offlineGroup) {
 				NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[object displayName]
 													    target:target
 													    action:@selector(selectGroup:)
@@ -1518,7 +1518,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)didSendContent:(NSNotification *)notification
 {
 	AIChat			*chat = [[notification userInfo] objectForKey:@"AIChat"];
-	AIListContact	*destContact = [chat listObject];
+	AIListContact	*destContact = chat.listObject;
 	AIListContact	*metaContact = [destContact parentContact];
 	
 	//it's not particularly obvious from the name, but -parentContact can return self
@@ -1587,7 +1587,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[self breakdownAndRemoveMetaContact:(AIMetaContact *)listObject];				
 			
 		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
-			AIListObject <AIContainingObject>	*containingObject = [listObject containingObject];
+			AIListObject <AIContainingObject>	*containingObject = listObject.containingObject;
 			
 			//If this is a group, delete all the objects within it
 			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
@@ -1622,7 +1622,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (inService) [userInfo setObject:inService forKey:@"AIService"];
 	if (inAccount) [userInfo setObject:inAccount forKey:@"AIAccount"];
 	
-	[[adium notificationCenter] postNotificationName:Contact_AddNewContact
+	[adium.notificationCenter postNotificationName:Contact_AddNewContact
 											  object:nil
 											userInfo:userInfo];
 }
@@ -1661,12 +1661,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)moveObject:(AIListObject *)listObject intoObject:(AIListObject<AIContainingObject> *)destination
 {
 	//Move the object to the new group only if necessary
-	if (destination == [listObject containingObject]) return;
+	if (destination == listObject.containingObject) return;
 	
 	if ([destination isKindOfClass:[AIContactList class]] &&
 		[listObject isKindOfClass:[AIListGroup class]]) {
 		// Move contact from one contact list to another
-		[(AIContactList *)[listObject containingObject] moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
+		[(AIContactList *)listObject.containingObject moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
 
 	} else if ([destination isKindOfClass:[AIListGroup class]]) {
 		AIListGroup *group = (AIListGroup *)destination;

@@ -2466,7 +2466,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		for (aLog in selectedLogs) {
 			NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 			
-			[[adium notificationCenter] postNotificationName:ChatLog_WillDelete object:aLog userInfo:nil];
+			[adium.notificationCenter postNotificationName:ChatLog_WillDelete object:aLog userInfo:nil];
 			AILogToGroup	*logToGroup = [logToGroupDict objectForKey:[[aLog relativePath] stringByDeletingLastPathComponent]];
 
 			// Success will be unused in deployment builds as AILog turns to nothing
