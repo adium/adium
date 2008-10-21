@@ -335,8 +335,6 @@
 							notify:NotifyLater];
 		[inContact notifyOfChangedPropertiesSilently:YES];
 	}
-	
-	[inContact release];
 }
 
 - (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
