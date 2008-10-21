@@ -273,25 +273,24 @@
 //Redetermine the local grouping of a contact in response to server grouping information or an external change
 - (void)contactRemoteGroupingChanged:(AIListContact *)inContact
 {
-	AIListObject<AIContainingObject>	*containingObject;
 	NSString							*remoteGroupName = [inContact remoteGroupName];
-	[inContact retain];
+	[[inContact retain] autorelease];
 	
-	containingObject = [inContact containingObject];
+	AIListObject<AIContainingObject>	*containingObject = [inContact containingObject];
 	
 	if ([containingObject isKindOfClass:[AIMetaContact class]]) {
 		
 		/* If inContact's containingObject is a metaContact, and that metaContact has no containingObject,
 		 * use inContact's remote grouping as the metaContact's grouping.
 		 */
-		if (![containingObject containingObject] && [remoteGroupName length]) {
+		if (!containingObject.containingObject && [remoteGroupName length]) {
 			//If no similar objects exist, we add this contact directly to the list
 			//Create a group for the contact even if contact list groups aren't on,
 			//otherwise requests for all the contact list groups will return nothing
 			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
 			
 			localGroup = (useContactListGroups ?
-						  ((useOfflineGroup && ![inContact online]) ? [self offlineGroup] : contactGroup) :
+						  (useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
 						  contactList);
 			
 			[localGroup addObject:containingObject];
@@ -303,41 +302,34 @@
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
 		}
 		
-	} else {
-		//If we have a remoteGroupName, add the contact locally to the list
-		if (remoteGroupName) {
-			//Create a group for the contact even if contact list groups aren't on,
-			//otherwise requests for all the contact list groups will return nothing
-			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
-			
-			localGroup = (useContactListGroups ?
-						  ((useOfflineGroup && ![inContact online]) ? [self offlineGroup] : contactGroup) :
-						  contactList);
-			
-			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
-				
-			[self _moveContactLocally:inContact
-							  toGroup:localGroup];
-			
-			if([[localGroup containingObject] isKindOfClass:[AIListGroup class]])
-				[(AIListGroup *)[localGroup containingObject] visibilityOfContainedObject:localGroup changedTo:YES];
-			
-		} else {
-			//If !remoteGroupName, remove the contact from any local groups
-			if (containingObject) {
-				//Remove the object
-				[(AIListGroup *)containingObject removeObject:inContact];
-				
-				[self _didChangeContainer:(AIListGroup *)containingObject object:inContact];
-				
-				//NSLog(@"contactRemoteGroupingChanged: %@: -- !remoteGroupName so removed from %@",inContact,containingObject);
-			}
-		}
+	} else if (remoteGroupName) {
+		//Create a group for the contact even if contact list groups aren't on,
+		//otherwise requests for all the contact list groups will return nothing
+		AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
+		
+		localGroup = useContactListGroups ?
+			(useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
+			contactList;
+		
+		//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
+		
+		[self _moveContactLocally:inContact
+						  toGroup:localGroup];
+		
+		if([localGroup.containingObject isKindOfClass:[AIListGroup class]])
+			[(AIListGroup *)localGroup.containingObject visibilityOfContainedObject:localGroup changedTo:YES];
+		
+	} else if (containingObject) {
+		//If !remoteGroupName, remove the contact from any local groups
+		[(AIListGroup *)containingObject removeObject:inContact];
+		
+		[self _didChangeContainer:(AIListGroup *)containingObject object:inContact];
+		
+		//NSLog(@"contactRemoteGroupingChanged: %@: -- !remoteGroupName so removed from %@",inContact,containingObject);
 	}
 	
-	BOOL	isCurrentlyAStranger = [inContact isStranger];
-	if ((isCurrentlyAStranger && (remoteGroupName != nil)) ||
-		(!isCurrentlyAStranger && (remoteGroupName == nil))) {
+	BOOL	isCurrentlyAStranger = inContact.isStranger;
+	if ((isCurrentlyAStranger && remoteGroupName) || (!isCurrentlyAStranger && !remoteGroupName)) {
 		[inContact setValue:(remoteGroupName ? [NSNumber numberWithBool:YES] : nil)
 							forProperty:@"NotAStranger"
 							notify:NotifyLater];
@@ -1074,7 +1066,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		BOOL shouldUseOfflineGroup = ((![[prefDict objectForKey:KEY_HIDE_CONTACTS] boolValue] ||
 									   [[prefDict objectForKey:KEY_SHOW_OFFLINE_CONTACTS] boolValue]) &&
 									  [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
+
 		BOOL newlyRegistered = NO;
+		
 		if (shouldUseOfflineGroup != useOfflineGroup) {
 			useOfflineGroup = shouldUseOfflineGroup;
 			
@@ -1082,13 +1076,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 				[contactPropertiesObserverManager registerListObjectObserver:self];
 				newlyRegistered = YES;
 			} else {
-				[contactPropertiesObserverManager unregisterListObjectObserver:self];	
+				[contactPropertiesObserverManager unregisterListObjectObserver:self];    
 			}
 		}
 		
-
 		if (!newlyRegistered && key)
-			[contactPropertiesObserverManager updateAllListObjectsForObserver:self];
+			[contactPropertiesObserverManager updateAllListObjectsForObserver:self];	
 	}
 }
 
@@ -1097,33 +1090,30 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if (!inModifiedKeys ||
-		[inModifiedKeys containsObject:@"Online"]) {
+	if (inModifiedKeys && [inModifiedKeys containsObject:@"Online"])
+		return nil;
 		
-		if ([inObject isKindOfClass:[AIListContact class]]) {			
-			//If this contact is not its own parent contact, don't bother since we'll get an update for the parent if appropriate
-			if (inObject == [(AIListContact *)inObject parentContact]) {
-				if (useOfflineGroup && useContactListGroups) {
-					AIListObject *containingObject = [inObject containingObject];
-					
-					if ([inObject online] &&
-						(containingObject == [self offlineGroup])) {
-						[(AIListContact *)inObject restoreGrouping];
-						
-					} else if (![inObject online] &&
-							   containingObject &&
-							   (containingObject != [self offlineGroup])) {
-						[self _moveContactLocally:(AIListContact *)inObject
-										  toGroup:[self offlineGroup]];
-					}
-					
-				} else {
-					if ([inObject containingObject] == [self offlineGroup]) {
-						[(AIListContact *)inObject restoreGrouping];
-					}
-				}
-			}
+	if (![inObject isKindOfClass:[AIListContact class]])
+		return nil;
+	
+	//If this contact is not its own parent contact, don't bother since we'll get an update for the parent if appropriate
+	if (inObject != [(AIListContact *)inObject parentContact])
+		return nil;
+	
+	AIListObject *containingObject = inObject.containingObject;
+
+	if (useOfflineGroup && useContactListGroups) {
+		
+		if (inObject.online && containingObject == self.offlineGroup) {
+			[(AIListContact *)inObject restoreGrouping];
+			
+		} else if (!inObject.online && containingObject && containingObject != self.offlineGroup) {
+			[self _moveContactLocally:(AIListContact *)inObject
+							  toGroup:self.offlineGroup];
 		}
+		
+	} else if (containingObject == self.offlineGroup) {
+		[(AIListContact *)inObject restoreGrouping];
 	}
 	
 	return nil;
