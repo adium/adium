@@ -56,7 +56,7 @@
 										  forGroup:PREF_GROUP_CONTACT_SORTING];
 
 	//Wait for Adium to finish launching before we set up the sort controller
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];

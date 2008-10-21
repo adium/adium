@@ -281,7 +281,7 @@ typedef enum {
  * We find the first responder that knows about list objects and get its selected object.
  * This may be, for example, the contact list or a chat window.
  */
-- (AIListObject *)selectedListObject;
+@property (readonly, nonatomic) AIListObject *selectedListObject;
 
 /*!
  * @brief Get the list object currently selected in the contact list
@@ -289,14 +289,14 @@ typedef enum {
  * If multiple objects are selected, this returns the first one. If possible, use arrayOfSelectedListObjectsInContactList and
  * handle multiple selections.
  */
-- (AIListObject *)selectedListObjectInContactList;
+@property (readonly, nonatomic) AIListObject *selectedListObjectInContactList;
 
 /*!
  * @brief Get the list objects currently selected in the contact list
  *
  * @result An NSArray of selected objects
  */
-- (NSArray *)arrayOfSelectedListObjectsInContactList;
+@property (readonly, nonatomic) NSArray *arrayOfSelectedListObjectsInContactList;
 
 #pragma mark Message View
 /*!

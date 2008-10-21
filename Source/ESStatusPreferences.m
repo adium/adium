@@ -92,7 +92,7 @@
 
 	/* Register as an observer of state array changes so we can refresh our list
 	 * in response to changes. */
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(stateArrayChanged:)
 									   name:AIStatusStateArrayChangedNotification
 									 object:nil];
@@ -107,7 +107,7 @@
 - (void)viewWillClose
 {
 	[self saveTimeValues];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!

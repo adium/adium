@@ -38,27 +38,27 @@
 - (void)installPlugin
 {
 	//Install our observers
-    [[adium notificationCenter] addObserver:self 
+    [adium.notificationCenter addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_CANCELLED 
 									 object:nil];
 
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_COMPLETE 
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_WAITING_REMOTE 
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_BEGAN 
 									 object:nil];
 
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_FAILED 
 									 object:nil];
@@ -69,7 +69,7 @@
  */
 - (void)uninstallPlugin
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!
@@ -141,7 +141,7 @@
         //Create our content object
         content = [AIContentEvent statusInChat:chat
 									withSource:contact
-								   destination:[chat account]
+								   destination:chat.account
 										  date:[NSDate date]
 									   message:attributedMessage
 									  withType:type];

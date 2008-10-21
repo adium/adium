@@ -12,6 +12,7 @@
 #import <Adium/AIContentMessage.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import "SLPurpleCocoaAdapter.h"
+#import <Adium/AIListContact.h>
 
 @interface SLPurpleCocoaAdapter ()
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
@@ -104,13 +105,13 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	NSString *host = [self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
 	if(!host)
-		return [self serverSuffix];
+		return self.serverSuffix;
 	return host;
 }
 
 - (NSString *)displayName
 {
-	return [self formattedUID];
+	return self.formattedUID;
 }
 
 - (NSString *)formattedUIDForListDisplay
@@ -122,13 +123,13 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact
 {
-	return ([[[inContact UID] lowercaseString] isEqualToString:@"nickserv"] ||
-			[[[inContact UID] lowercaseString] isEqualToString:@"chanserv"]);
+	return ([[inContact.UID lowercaseString] isEqualToString:@"nickserv"] ||
+			[[inContact.UID lowercaseString] isEqualToString:@"chanserv"]);
 }
 
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
-	NSString *source = [[chat listObject] UID];
+	NSString *source = chat.listObject.UID;
 	BOOL shouldLog = YES;
 	
 	if (source && (([source caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
@@ -142,7 +143,7 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (BOOL)closeChat:(AIChat*)chat
 {
-	if([adium isQuitting])
+	if(adium.isQuitting)
 		return NO;
 	else
 		return [super closeChat:chat];

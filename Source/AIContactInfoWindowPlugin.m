@@ -104,16 +104,16 @@
 	[adium.menuController addMenuItem:menuItem_getInfoAlternate toLocation:LOC_Contact_Info];
 	
 	//Register for the contact list notifications
-	[[adium notificationCenter] addObserver:self selector:@selector(contactListDidBecomeMain:)
+	[adium.notificationCenter addObserver:self selector:@selector(contactListDidBecomeMain:)
 									   name:Interface_ContactListDidBecomeMain
 									 object:nil];
-	[[adium notificationCenter] addObserver:self selector:@selector(contactListDidResignMain:)
+	[adium.notificationCenter addObserver:self selector:@selector(contactListDidResignMain:)
 									   name:Interface_ContactListDidResignMain
 									 object:nil];
 	
 	//Watch changes in viewContactInfoMenuItem_alternate's menu so we can maintain its alternate status
 	//(it will expand into showing both the normal and the alternate items when the menu changes)
-	[[adium notificationCenter] addObserver:self selector:@selector(menuChanged:)
+	[adium.notificationCenter addObserver:self selector:@selector(menuChanged:)
 									   name:AIMenuDidChange
 									 object:[menuItem_getInfoAlternate menu]];
 	

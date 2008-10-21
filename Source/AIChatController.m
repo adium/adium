@@ -59,22 +59,22 @@
 - (void)controllerDidLoad
 {	
 	//Observe content so we can update the most recent chat
-    [[adium notificationCenter] addObserver:self 
+    [adium.notificationCenter addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED
 									 object:nil];
 	
-    [[adium notificationCenter] addObserver:self 
+    [adium.notificationCenter addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED_GROUP
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self 
+	[adium.notificationCenter addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_SENT
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumWillTerminate:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
@@ -118,7 +118,7 @@
 {
 	[openChats release]; openChats = nil;
 	[chatObserverArray release]; chatObserverArray = nil;
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[super dealloc];
 }
@@ -173,7 +173,7 @@
 - (void)chatAttributesChanged:(AIChat *)inChat modifiedKeys:(NSSet *)inModifiedKeys
 {
 	//Post an attributes changed message
-	[[adium notificationCenter] postNotificationName:Chat_AttributesChanged
+	[adium.notificationCenter postNotificationName:Chat_AttributesChanged
 											  object:inChat
 											userInfo:(inModifiedKeys ? [NSDictionary dictionaryWithObject:inModifiedKeys 
 																								   forKey:@"Keys"] : nil)];
@@ -214,7 +214,7 @@
 	}
 	
 	//Send out the notification for other observers
-	[[adium notificationCenter] postNotificationName:Chat_StatusChanged
+	[adium.notificationCenter postNotificationName:Chat_StatusChanged
 											  object:inChat
 											userInfo:(modifiedKeys ? [NSDictionary dictionaryWithObject:modifiedKeys 
 																								 forKey:@"Keys"] : nil)];
@@ -294,17 +294,17 @@
 	//Search for an existing chat we can switch instead of replacing
 	for (chat in openChats) {
 		//If a chat for this object already exists
-		if ([[chat uniqueChatID] isEqualToString:[targetContact internalObjectID]]) {
-			if (!([chat listObject] == targetContact)) {
-				[self switchChat:chat toAccount:[targetContact account]];
+		if ([chat.uniqueChatID isEqualToString:targetContact.internalObjectID]) {
+			if (!(chat.listObject == targetContact)) {
+				[self switchChat:chat toAccount:targetContact.account];
 			}
 			
 			break;
 		}
 		
 		//If this object is within a meta contact, and a chat for an object in that meta contact already exists
-		if ([[targetContact containingObject] isKindOfClass:[AIMetaContact class]] && 
-		   [[chat listObject] containingObject] == [targetContact containingObject]) {
+		if ([targetContact.containingObject isKindOfClass:[AIMetaContact class]] && 
+		   chat.listObject.containingObject == targetContact.containingObject) {
 
 			//Switch the chat to be on this contact (and its account) now
 			[self switchChat:chat toListContact:targetContact usingContactAccount:YES];
@@ -314,7 +314,7 @@
 	}
 
 	if (!chat) {
-		AIAccount	*account = [targetContact account];
+		AIAccount	*account = targetContact.account;
 
 		//Create a new chat
 		chat = [AIChat chatForAccount:account];
@@ -323,7 +323,7 @@
 		AILog(@"chatWithContact: Added <<%@>> [%@]",chat,openChats);
 
 		//Inform the account of its creation
-		if (![[targetContact account] openChat:chat]) {
+		if (![targetContact.account openChat:chat]) {
 			[openChats removeObject:chat];
 			AILog(@"chatWithContact: Immediately removed <<%@>> [%@]",chat,openChats);
 			chat = nil;
@@ -345,13 +345,13 @@
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//Search for a chat with any contact within this AIMetaContact
 		for (chat in openChats) {
-			if ([[(AIMetaContact *)inContact containedObjects] containsObjectIdenticalTo:[chat listObject]]) break;
+			if ([[(AIMetaContact *)inContact containedObjects] containsObjectIdenticalTo:chat.listObject]) break;
 		}
 
 	} else {
 		//Search for a chat with this AIListContact
 		for (chat in openChats) {
-			if ([chat listObject] == inContact) break;
+			if (chat.listObject == inContact) break;
 		}
 	}
 	
@@ -427,7 +427,7 @@
 
 	
 	for (chat in openChats) {
-		if (([chat account] == account) &&
+		if ((chat.account == account) &&
 			([[chat name] isEqualToString:name])) {
 			break;
 		}
@@ -447,7 +447,7 @@
 	
 
 	for (chat in openChats) {
-		if (([chat account] == account) &&
+		if ((chat.account == account) &&
 		   ([[chat identifier] isEqual:identifier])) {
 			break;
 		}
@@ -467,7 +467,7 @@
 	
 	
 	for (chat in openChats) {
-		if ([[chat uniqueChatID] isEqualToString:uniqueChatID]) {
+		if ([chat.uniqueChatID isEqualToString:uniqueChatID]) {
 			break;
 		}
 	}	
@@ -501,7 +501,7 @@
 	}
 	
 	//Send out the Chat_WillClose notification
-	[[adium notificationCenter] postNotificationName:Chat_WillClose object:inChat userInfo:nil];
+	[adium.notificationCenter postNotificationName:Chat_WillClose object:inChat userInfo:nil];
 
 	//Remove the chat
 	if (shouldRemove) {
@@ -546,7 +546,7 @@
  */
 - (void)switchChat:(AIChat *)chat toAccount:(AIAccount *)newAccount
 {
-	AIAccount	*oldAccount = [chat account];
+	AIAccount	*oldAccount = chat.account;
 	if (newAccount != oldAccount) {
 		//Hang onto stuff until we're done
 		[chat retain];
@@ -561,7 +561,7 @@
 			//We want to keep the same destination for the chat but switch it to a listContact on the desired account.
 			AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
 																				account:newAccount
-																					UID:[[chat listObject] UID]];
+																					UID:chat.listObject.UID];
 			[chat setListObject:newContact];
 		}
 
@@ -582,18 +582,18 @@
  */
 - (void)switchChat:(AIChat *)chat toListContact:(AIListContact *)inContact usingContactAccount:(BOOL)useContactAccount
 {
-	AIAccount		*newAccount = (useContactAccount ? [inContact account] : [chat account]);
+	AIAccount		*newAccount = (useContactAccount ? [inContact account] : chat.account);
 
 	//Switch the inContact over to a contact on the new account so we send messages to the right place.
 	AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
 																		account:newAccount
 																			UID:[inContact UID]];
-	if (newContact != [chat listObject]) {
+	if (newContact != chat.listObject) {
 		//Hang onto stuff until we're done
 		[chat retain];
 		
 		//Close down the chat on the account, as the account may need to perform actions such as closing a connection
-		[[chat account] closeChat:chat];
+		[chat.account closeChat:chat];
 		
 		//Set to the new listContact and account as needed
 		[chat setListObject:newContact];
@@ -601,7 +601,7 @@
 			[chat setAccount:newAccount];
 
 		//Reopen the chat on the account
-		[[chat account] openChat:chat];
+		[chat.account openChat:chat];
 		
 		//Clean up
 		[chat release];
@@ -818,7 +818,7 @@
 	}
 
 	//Always notify Adium that the list changed so it can be updated, caches can be modified, etc.
-	[[adium notificationCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:chat];
 }
 
@@ -834,7 +834,7 @@
 		[adiumChatEvents chat:chat removedListContact:inContact];
 	}
 
-	[[adium notificationCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:chat];
 }
 

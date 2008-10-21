@@ -102,7 +102,7 @@
 		accountsMenuNeedsUpdate = YES;
 		optionsMenuNeedsUpdate = YES;
 		
-		NSNotificationCenter *notificationCenter = [adium notificationCenter];
+		NSNotificationCenter *notificationCenter = adium.notificationCenter;
 		//Register to recieve chat opened and chat closed notifications
 		[notificationCenter addObserver:self
 		                       selector:@selector(updateOpenChats)
@@ -123,7 +123,7 @@
 								 object:nil];
 		
 		// Register for our menu bar icon set changing
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(updateMenuIconsBundle)
 										   name:AIMenuBarIconsDidChangeNotification
 										 object:nil];
@@ -176,7 +176,7 @@
 	//Unregister ourself
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	//Release our objects
@@ -743,7 +743,7 @@
 			for (AIChat *chat in openChatsArray) {
 				NSImage *image = nil;
 				//Create a menu item from the chat
-				menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[chat displayName]
+				menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:chat.displayName
 																				target:self
 																				action:@selector(switchToChat:)
 																		 keyEquivalent:@""];

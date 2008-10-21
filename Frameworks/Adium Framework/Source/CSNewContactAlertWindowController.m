@@ -100,7 +100,7 @@
 																	[adium.contactAlertsController defaultActionID], KEY_ACTION_ID, nil];
 	}
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(alertDetailsForHeaderChanged:)
 									   name:CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED
 									 object:nil];
@@ -111,7 +111,7 @@
 //Dealloc
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[alert release];
 	[oldAlert release];

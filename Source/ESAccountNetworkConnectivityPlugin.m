@@ -47,7 +47,7 @@
 - (void)installPlugin
 {
 	//Wait for Adium to finish launching to handle autoconnecting enabled accounts
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
@@ -142,7 +142,7 @@
 	[knownHosts release];
 	
 	//Watch for future changes to our account list
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
@@ -150,7 +150,7 @@
 
 - (void)networkDidChange
 {
-	[[adium notificationCenter] postNotificationName:AINetworkDidChangeNotification
+	[adium.notificationCenter postNotificationName:AINetworkDidChangeNotification
 											  object:nil];
 }
 

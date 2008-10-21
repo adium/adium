@@ -65,7 +65,7 @@
 }
 - (void)setMyIdleTime:(NSTimeInterval)timeInterval
 {
-	[[adium notificationCenter] postNotificationName:Adium_RequestSetManualIdleTime	
+	[adium.notificationCenter postNotificationName:Adium_RequestSetManualIdleTime	
 											  object:(timeInterval ? [NSNumber numberWithDouble:timeInterval] : nil)
 											userInfo:nil];
 }

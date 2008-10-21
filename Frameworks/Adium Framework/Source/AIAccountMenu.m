@@ -97,7 +97,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		}
 		
 		//Rebuild our account menu when accounts or icon sets change
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(rebuildMenu)
 										   name:Account_ListChanged
 										 object:nil];
@@ -124,7 +124,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	}
 
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	delegate = nil;
 
@@ -617,7 +617,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  */
 - (void)editAccount:(id)sender
 {
-	[[adium notificationCenter] postNotificationName:@"AIEditAccount"
+	[adium.notificationCenter postNotificationName:@"AIEditAccount"
 											  object:[sender representedObject]];
 }
 

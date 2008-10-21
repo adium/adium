@@ -202,7 +202,7 @@
 - (void)uninstallPlugin
 {
     //we are no longer an observer
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
     [[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }

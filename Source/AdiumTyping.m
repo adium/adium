@@ -42,11 +42,11 @@
  - (id)init
 {
 	if ((self = [super init])) {
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(didSendMessage:)
 										   name:Interface_DidSendEnteredMessage
 										 object:nil];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(chatWillClose:)
 										   name:Chat_WillClose
 										 object:nil];
@@ -57,7 +57,7 @@
 
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	[super dealloc];
 }
@@ -103,7 +103,7 @@
 {
 	AIChat	*chat = [notification object];
 	
-	if (![[chat account] suppressTypingNotificationChangesAfterSend]) {
+	if (![chat.account suppressTypingNotificationChangesAfterSend]) {
 		[self _clearUserTypingForChat:chat];
 	} else {
 		//Some protocols implicitly clear typing when a message is sent.  For these protocols we'll just update our
@@ -140,7 +140,7 @@
 
 		//Send typing content object (It will go directly to the account since typing content isn't tracked or filtered)
 		contentObject = [AIContentTyping typingContentInChat:chat
-												  withSource:[chat account]
+												  withSource:chat.account
 												 destination:nil
 												 typingState:typingState];
 		[adium.contentController sendContentObject:contentObject];

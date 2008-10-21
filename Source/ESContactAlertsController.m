@@ -344,7 +344,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		}
 	}
 	
-	[[adium notificationCenter] postNotificationName:eventID
+	[adium.notificationCenter postNotificationName:eventID
 											  object:listObject 
 											userInfo:userInfo];
 	
@@ -382,7 +382,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	//Get all events from the contanining object if we have an object
 	if (listObject) {
 		//If listObject doesn't have a containingObject, this will pass nil
-		events = [self appendEventsForObject:[listObject containingObject]
+		events = [self appendEventsForObject:listObject.containingObject
 									 eventID:eventID
 									 toArray:events];
 	}

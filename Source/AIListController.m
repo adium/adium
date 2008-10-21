@@ -69,10 +69,10 @@
 		forcedWindowWidth = -1;
 		
 		//Observe contact list content and display changes
-		[[adium notificationCenter] addObserver:self selector:@selector(reloadListObject:) 
+		[adium.notificationCenter addObserver:self selector:@selector(reloadListObject:) 
 										   name:Contact_ListChanged
 										 object:nil];
-		[[adium notificationCenter] addObserver:self selector:@selector(reloadListObject:)
+		[adium.notificationCenter addObserver:self selector:@selector(reloadListObject:)
 										   name:Contact_OrderChanged 
 										 object:nil];
 		
@@ -112,7 +112,7 @@
 - (void)close
 {	
     //Stop observing
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
@@ -477,7 +477,7 @@
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {   
-	[[adium notificationCenter] performSelector:@selector(postNotificationName:object:)
+	[adium.notificationCenter performSelector:@selector(postNotificationName:object:)
 									 withObject:Interface_ContactSelectionChanged
 									 withObject:nil
 									 afterDelay:0];
@@ -529,26 +529,28 @@
 			if (indexForInserting != index)
 				[outlineView setDropItem:item dropChildIndex:indexForInserting];
 
-			return ((indexForInserting == index) && ([[dragItems objectAtIndex:0] containingObject] != actualTarget) ?
+			return ((indexForInserting == index) && (((AIListObject *)[dragItems objectAtIndex:0]).containingObject != actualTarget) ?
 					NSDragOperationNone :
 					NSDragOperationMove);
 		}
+		
+		AIListObject *listItem = (AIListObject *)item;
 
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
 			//Disallow dragging groups into or onto other objects
 			if (item != nil) {
 				if ([item isKindOfClass:[AIListGroup class]]) {
 					// In between objects
-					[outlineView setDropItem:nil dropChildIndex:[[item containingObject] visibleIndexOfObject:item]];
+					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject visibleIndexOfObject:listItem]];
 				} else {
 					// On top of an object
-					[outlineView setDropItem:nil dropChildIndex:[[[item containingObject] containingObject] visibleIndexOfObject:[item containingObject]]];
+					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject.containingObject visibleIndexOfObject:listItem.containingObject]];
 				}
 			}
 			
 		} else {
 			//We have one or more contacts. Don't allow them to drop on the contact list itself
-			if (!item && [adium.contactController useContactListGroups]) {
+			if (!item && adium.contactController.useContactListGroups) {
 				/* The user is hovering on the contact list itself.
 				 * If groups are shown at all, assuming we have any items in the list at all, she is hovering near but not in a group.
 				 *   If (index > 0), the drag is below the end of a group. That group is at (index - 1) in the outline view's root.
@@ -557,11 +559,11 @@
 				 *
 				 * 
 				 */
-				id itemAboveProposedIndex = [[outlineView dataSource] outlineView:outlineView
+				AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
 																			child:((index > 0) ? (index - 1) : 0)
 																		   ofItem:nil];
 				if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
-					itemAboveProposedIndex = [itemAboveProposedIndex containingObject];
+					itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
 
 				index = ((index > 0) ?
 						 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
@@ -618,8 +620,8 @@
 						if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
 																	numberOfChildrenOfItem:item])) ||
 							(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
-							[outlineView setDropItem:[item containingObject]
-									  dropChildIndex:([[item containingObject] visibleIndexOfObject:item] + 1)];
+							[outlineView setDropItem:listItem.containingObject
+									  dropChildIndex:([listItem.containingObject visibleIndexOfObject:listItem] + 1)];
 						}
 					}
 				}
@@ -697,7 +699,7 @@
 			if (item != [adium.contactController offlineGroup]) {
 				[adium.contactController moveListObjects:dragItems intoObject:item index:index];
 				
-				[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
+				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 														  object:item
 														userInfo:nil];
 			} else {
@@ -779,8 +781,8 @@
 				chat = [adium.chatController openChatWithContact:(AIListContact *)item
 												onPreferredAccount:YES];
 				messageContent = [AIContentMessage messageInChat:chat
-													  withSource:[chat account]
-													 destination:[chat listObject]
+													  withSource:chat.account
+													 destination:chat.listObject
 															date:nil
 														 message:messageAttributedString
 													   autoreply:NO];
@@ -844,7 +846,7 @@
 		AIMetaContact	*metaContact;
 
 		//Keep track of where it was before
-		AIListObject<AIContainingObject> *oldContainingObject = [[item containingObject] retain];
+		AIListObject<AIContainingObject> *oldContainingObject = [item.containingObject retain];
 		CGFloat oldIndex = [item orderIndex];
 
 		//Group the destination and then the dragged items into a metaContact

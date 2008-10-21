@@ -62,7 +62,7 @@
 	//Register as a chat observer (for unviewed content)
 	[adium.chatController registerChatObserver:self];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(chatClosed:)
 									   name:Chat_WillClose
 									 object:nil];
@@ -83,7 +83,7 @@
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -140,7 +140,7 @@
 		AIChat	*chat;
 
 		if ((chat = [userInfo objectForKey:@"AIChat"]) &&
-		   (chat != [adium.interfaceController activeChat]) &&
+		   (chat != adium.interfaceController.activeChat) &&
 		   (![overlayObjectsArray containsObjectIdenticalTo:chat])) {
 			[overlayObjectsArray addObject:chat];
 			

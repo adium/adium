@@ -79,7 +79,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 										   showTitleVerbs:NO] retain];
 	[table registerForDraggedTypes:[NSArray arrayWithObjects:@"AIListObject", @"AIListObjectUniqueIDs",nil]];
 
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(privacySettingsChangedExternally:)
 									   name:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
 									 object:nil];
@@ -95,7 +95,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[sharedInstance release]; sharedInstance = nil;
 }
 

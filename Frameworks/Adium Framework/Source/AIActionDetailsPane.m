@@ -41,7 +41,7 @@
  */
 - (void)detailsForHeaderChanged
 {
-   [[adium notificationCenter] postNotificationName:CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED
+   [adium.notificationCenter postNotificationName:CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED
 											 object:self];
 }
 

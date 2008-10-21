@@ -417,7 +417,7 @@
 	
 	//If there is no object specific preference, inherit the value from the object containing this one
 	if (!result && object) {
-		return [self _noDefaultsPreferenceForKey:key group:group object:[object containingObject]];
+		return [self _noDefaultsPreferenceForKey:key group:group object:object.containingObject];
 	} else {
 		return result;
 	}
@@ -432,7 +432,7 @@
 
 	//If there is no object specific preference, inherit the value from the object containing this one
 	if (!result && object) {
-		return [self defaultPreferenceForKey:key group:group object:[object containingObject]];
+		return [self defaultPreferenceForKey:key group:group object:object.containingObject];
 	} else {
 		return result;
 	}	

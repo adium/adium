@@ -233,7 +233,7 @@
 		if (![chat isListContactIgnored:[inObject source]]) {
 			//Notify: Will Receive Content
 			if ([inObject trackContent]) {
-				[[adium notificationCenter] postNotificationName:Content_WillReceiveContent
+				[adium.notificationCenter postNotificationName:Content_WillReceiveContent
 														  object:chat
 														userInfo:[NSDictionary dictionaryWithObjectsAndKeys:inObject,@"Object",nil]];
 			}
@@ -344,7 +344,7 @@
 	
 	//Notify: Will Send Content
     if ([inObject trackContent]) {
-        [[adium notificationCenter] postNotificationName:Content_WillSendContent
+        [adium.notificationCenter postNotificationName:Content_WillSendContent
 												  object:chat 
 												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:inObject,@"Object",nil]];
     }
@@ -364,7 +364,7 @@
 			if ([inObject trackContent]) {
 				//Did send content
 				[adium.contactAlertsController generateEvent:CONTENT_MESSAGE_SENT
-												 forListObject:[chat listObject]
+												 forListObject:chat.listObject
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 								  previouslyPerformedActionIDs:nil];
 				
@@ -504,13 +504,13 @@
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", inObject, @"AIContentObject", nil];
 
 		//Notify: Content Object Added
-		[[adium notificationCenter] postNotificationName:Content_ContentObjectAdded
+		[adium.notificationCenter postNotificationName:Content_ContentObjectAdded
 												  object:chat
 												userInfo:userInfo];		
 		
 		if (shouldPostContentReceivedEvents) {
 			NSSet			*previouslyPerformedActionIDs = nil;
-			AIListObject	*listObject = [chat listObject];
+			AIListObject	*listObject = chat.listObject;
 
 			if (![chat hasSentOrReceivedContent]) {
 				//If the chat wasn't open before, generate CONTENT_MESSAGE_RECEIVED_FIRST
@@ -523,7 +523,7 @@
 				[chat setHasSentOrReceivedContent:YES];
 			}
 			
-			if (chat != [adium.interfaceController activeChat]) {
+			if (chat != adium.interfaceController.activeChat) {
 				//If the chat is not currently active, generate CONTENT_MESSAGE_RECEIVED_BACKGROUND
 				previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP : CONTENT_MESSAGE_RECEIVED_BACKGROUND)
 																				forListObject:listObject

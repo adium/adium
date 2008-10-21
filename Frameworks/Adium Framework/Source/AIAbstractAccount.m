@@ -102,13 +102,13 @@
 		disconnectedByFastUserSwitch = NO;
 
 		//Register to be notified of dynamic content updates
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(requestImmediateDynamicContentUpdate:)
 										   name:Adium_RequestImmediateDynamicContentUpdate
 										 object:nil];	
 
 		//Some actions must wait until Adium is finished loading so that all plugins are available
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(adiumDidLoad:)
 										   name:AIApplicationDidFinishLoadingNotification
 										 object:nil];
@@ -141,7 +141,7 @@
 	[self _stopAttributedRefreshTimer];
 	[autoRefreshingKeys release]; autoRefreshingKeys = nil;
 	
-    [[adium notificationCenter] removeObserver:self];
+    [adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
@@ -151,7 +151,7 @@
 {
 	[self updateStatusForKey:KEY_ACCOUNT_DISPLAY_NAME];
 
-	[[adium notificationCenter] removeObserver:self 
+	[adium.notificationCenter removeObserver:self 
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }
@@ -1122,8 +1122,8 @@
 {
 	//Display a connected message
 	AIContentStatus *statusMessage = [AIContentStatus statusInChat:chat
-														withSource:[chat account]
-													   destination:[chat account]
+														withSource:chat.account
+													   destination:chat.account
 															  date:[NSDate date]
 														   message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have connected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
 														  withType:@"connected"];
@@ -1145,7 +1145,7 @@
 	NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 	
 	while ((chat = [enumerator nextObject])) {
-		if ([chat account] == self && [chat isOpen]) {
+		if (chat.account == self && [chat isOpen]) {
 			if ([chat isGroupChat]) {
 				// Returns BOOL result, however since there is no callback from
 				// libpurple if the chat failed, the result of rejoining will 
@@ -1300,11 +1300,11 @@
 		NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 		
 		while ((chat = [enumerator nextObject])) {
-			if ([chat account] == self && [chat isOpen]) {
+			if (chat.account == self && [chat isOpen]) {
 				//Display a connected message in all open chats
 				AIContentStatus *statusMessage = [AIContentStatus statusInChat:chat
-																	withSource:[chat account]
-																   destination:[chat account]
+																	withSource:chat.account
+																   destination:chat.account
 																		  date:[NSDate date]
 																	   message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have disconnected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
 																	  withType:@"disconnected"];

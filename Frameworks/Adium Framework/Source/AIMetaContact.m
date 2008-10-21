@@ -314,13 +314,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 		[inObject retain];
 
-		BOOL	wasPreferredContact = (inObject == [self preferredContact]);
+		BOOL	wasPreferredContact = inObject == self.preferredContact;
 
 		[_containedObjects removeObject:inObject];
 		
 		if ([(AIListContact *)inObject remoteGroupName]) {
 			//Reset it to its remote group
-			if ([inObject containingObject] == self)
+			if (inObject.containingObject == self)
 				[inObject setContainingObject:nil];
 			noteRemoteGroupingChanged = YES;
 		} else {
@@ -736,7 +736,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)updateDisplayName
 {
-	[[adium notificationCenter] postNotificationName:Contact_ApplyDisplayName
+	[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
 											  object:self
 											userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																				 forKey:@"Notify"]];

@@ -210,7 +210,7 @@ static void ZombieKiller_Signal(int i)
 	}
 	
 	//Observe for network changes to tell libpurple about it
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(networkDidChange:)
 									   name:AINetworkDidChangeNotification
 									 object:nil];
@@ -395,7 +395,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 	PurpleAccount		*account = accountLookupFromAdiumAccount(adiumAccount);
 
 	if (!conv && adiumAccount && purple_account_get_connection(account)) {
-		AIListObject *listObject = [chat listObject];
+		AIListObject *listObject = chat.listObject;
 		
 		//If we have a listObject, we are dealing with a one-on-one chat, so proceed accordingly
 		if (listObject) {
@@ -440,7 +440,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					 perform the join.
 					 */
 					NSDictionary	*chatCreationInfo = [chat valueForProperty:@"ChatCreationInfo"];
-					chatCreationInfo = [(CBPurpleAccount *)[chat account] willJoinChatUsingDictionary:chatCreationInfo];
+					chatCreationInfo = [(CBPurpleAccount *)chat.account willJoinChatUsingDictionary:chatCreationInfo];
 
 					if (!chatCreationInfo) {
 						AILog(@"*** No chat creation info for %@ on %@",chat,adiumAccount);
@@ -1118,7 +1118,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	PurpleConversation	*conv;
 	PurpleAccount			*account;
 	PurpleConvChat		*purpleChat;
-	AIAccount			*adiumAccount = [chat account];
+	AIAccount			*adiumAccount = chat.account;
 	
 	AILog(@"#### inviteContact:%@ toChat:%@",[listContact UID],[chat name]);
 	// dchoby98
@@ -1140,7 +1140,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 - (void)createNewGroupChat:(AIChat *)chat withListContact:(AIListContact *)contact
 {
 	//Create the chat
-	convLookupFromChat(chat, [chat account]);
+	convLookupFromChat(chat, chat.account);
 	
 	//Invite the contact, with no message
 	[self inviteContact:contact toChat:chat withMessage:nil];

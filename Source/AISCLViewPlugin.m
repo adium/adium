@@ -112,12 +112,12 @@
 	
 	
 	//Observe list closing
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(contactListDidClose:)
 									   name:Interface_ContactListDidClose
 									 object:nil];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(contactListIsEmpty:)
 									   name:DetachedContactListIsEmpty
 									 object:nil];
@@ -137,7 +137,7 @@
 
 - (void)uninstallPlugin
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -303,7 +303,7 @@
 
 		[adium.contactController removeDetachedContactList:(AIContactList *)[windowController contactList]];
 		
-		[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
+		[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 												  object:adium.contactController.contactList 
 												userInfo:nil];
 			
@@ -373,7 +373,7 @@
 	
 	for (window in contactLists) {
 		// Don't add an "attach" option for the window we're already a part of.
-		if (([window contactList] == [selectedObject containingObject])) {
+		if (window.contactList == selectedObject.containingObject) {
 			continue;
 		}
 		
@@ -424,17 +424,17 @@
 	[sourceList moveGroup:listGroup to:destinationList];
 	
 	// Update contact list
-	[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
+	[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 											  object:destinationList
 											userInfo:nil];
 	
 	// Post a notification that we've removed or changed the source group/window
 	if ([sourceList containedObjectsCount] == 0) { 
-		[[adium notificationCenter] postNotificationName:DetachedContactListIsEmpty
+		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
 												  object:sourceList
 												userInfo:nil];
 	} else {
-		[[adium notificationCenter] postNotificationName:@"Contact_ListChanged"
+		[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 												  object:sourceList
 												userInfo:nil]; 
 	}
@@ -482,7 +482,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return ([[(AIListGroup *)[adium.menuController currentContextMenuObject] containingObject] containedObjectsCount] > 1);
+		return (AIListGroup *)[adium.menuController currentContextMenuObject].containingObject.containedObjectsCount > 1;
 	}
 	
 	return YES;

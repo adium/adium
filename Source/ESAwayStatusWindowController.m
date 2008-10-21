@@ -127,7 +127,7 @@ static BOOL							hideInBackground = NO;
 
 	[self configureStatusWindow];
 	
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(statusIconSetChanged:)
 									   name:AIStatusIconSetDidChangeNotification
 									 object:nil];	
@@ -158,7 +158,7 @@ static BOOL							hideInBackground = NO;
 - (void)dealloc
 {
 	[_awayAccounts release]; _awayAccounts = nil;
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 
 	[super dealloc];
 }

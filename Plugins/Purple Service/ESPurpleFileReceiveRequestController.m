@@ -30,7 +30,7 @@
 		
 		[account requestReceiveOfFileTransfer:fileTransfer];
 
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 																selector:@selector(cancel:)
 																	name:FILE_TRANSFER_CANCELLED
 																  object:nil];
@@ -42,7 +42,7 @@
 
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	[super dealloc];
 }

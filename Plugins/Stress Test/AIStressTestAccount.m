@@ -418,7 +418,7 @@
 //Initiate a new chat
 - (BOOL)openChat:(AIChat *)chat
 {
-	AIListObject	*listObject = [chat listObject];
+	AIListObject	*listObject = chat.listObject;
 	if (listObject && (listObject == commandContact)) {
 		NSMutableString *instructions = [NSMutableString string];
 		[instructions appendString:@"Stress Test\r-------------\r"];

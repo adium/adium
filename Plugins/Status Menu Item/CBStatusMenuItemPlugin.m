@@ -30,7 +30,7 @@
 										  forGroup:PREF_GROUP_STATUS_MENU_ITEM];
 
 	//Wait for Adium to finish launching before we perform further actions
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
@@ -41,7 +41,7 @@
 	//Observe for preference changes, initially loading our status menu item controller
 	[adium.preferenceController registerPreferenceObserver:self
 													forGroup:PREF_GROUP_STATUS_MENU_ITEM];
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }

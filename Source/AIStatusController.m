@@ -174,7 +174,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 										 forKey:KEY_SAVED_STATUS
 										  group:PREF_GROUP_SAVED_STATUS];
 
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 }
@@ -513,7 +513,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	//Let observers know the active state has changed
 	if (!activeStatusUpdateDelays) {
-		[[adium notificationCenter] postNotificationName:AIStatusActiveStateChangedNotification object:nil];
+		[adium.notificationCenter postNotificationName:AIStatusActiveStateChangedNotification object:nil];
 	}
 }
 
@@ -551,7 +551,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		activeStatusUpdateDelays--;
 	
 	if (!activeStatusUpdateDelays) {
-		[[adium notificationCenter] postNotificationName:AIStatusActiveStateChangedNotification object:nil];
+		[adium.notificationCenter postNotificationName:AIStatusActiveStateChangedNotification object:nil];
 	}
 }
 
@@ -568,7 +568,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		statusMenuRebuildDelays--;
 	
 	if (!statusMenuRebuildDelays) {
-		[[adium notificationCenter] postNotificationName:AIStatusStateArrayChangedNotification object:nil];	
+		[adium.notificationCenter postNotificationName:AIStatusStateArrayChangedNotification object:nil];	
 	}
 }
 
@@ -1069,7 +1069,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	[_flatStatusSet release]; _flatStatusSet = nil;
 
 	if (!statusMenuRebuildDelays) {
-		[[adium notificationCenter] postNotificationName:AIStatusStateArrayChangedNotification object:nil];	
+		[adium.notificationCenter postNotificationName:AIStatusStateArrayChangedNotification object:nil];	
 	}
 }
 

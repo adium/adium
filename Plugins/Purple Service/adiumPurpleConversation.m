@@ -115,7 +115,7 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 				type = @"notification";
 			}
 
-			[[adium notificationCenter] postNotificationName:Chat_NudgeBuzzOccured
+			[adium.notificationCenter postNotificationName:Chat_NudgeBuzzOccured
 																			   object:chatLookupFromConv(conv)
 																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																					   type, @"Type",
@@ -129,7 +129,7 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 			messageString = [NSString stringWithUTF8String:message];
 			chat = chatLookupFromConv(conv);
 			
-			AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, [[chat listObject] UID]);
+			AILog(@"adiumPurpleConvWriteIm: Received %@ from %@", messageString, chat.listObject.UID);
 			
 			//Process any purple imgstore references into real HTML tags pointing to real images
 			messageString = processPurpleImages(messageString, adiumAccount);
@@ -157,7 +157,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 			if (messageString) {
 				BOOL				shouldDisplayMessage = TRUE;
 				if (strcmp(message, _("Direct IM established")) == 0) {
-					[accountLookup(purple_conversation_get_account(conv)) updateContact:[chat listObject]
+					[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject
 													   forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_CONNECTED]];
 					shouldDisplayMessage = FALSE;
 					
@@ -185,7 +185,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 																					  inChat:chat];
 						}
 						
-						[accountLookup(purple_conversation_get_account(conv)) updateContact:[chat listObject] forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_DISCONNECTED]];
+						[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_DISCONNECTED]];
 						shouldDisplayMessage = FALSE;
 					}
 				}

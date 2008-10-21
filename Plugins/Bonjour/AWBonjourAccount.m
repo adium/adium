@@ -402,7 +402,7 @@ typedef enum {
 - (void)sendTypingObject:(AIContentTyping *)inContentTyping
 {
 	AIChat           *chat = [inContentTyping chat];
-	AIListObject     *listObject = [chat listObject];
+	AIListObject     *listObject = chat.listObject;
 	NSString         *to = [listObject UID];
 
 	[[self libezvThreadProxy] sendTypingNotification:(([inContentTyping typingState] == AITyping) ? AWEzvIsTyping : AWEzvNotTyping)

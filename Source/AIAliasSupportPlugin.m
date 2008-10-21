@@ -75,7 +75,7 @@
 	[menuItem_contactName setSubmenu:menu_contactSubmenu];
 
     //Observe preferences changes
-    [[adium notificationCenter] addObserver:self
+    [adium.notificationCenter addObserver:self
 								   selector:@selector(applyAliasRequested:)
 									   name:Contact_ApplyDisplayName
 									 object:nil];
@@ -89,7 +89,7 @@
 {
     [[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!

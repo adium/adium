@@ -143,7 +143,7 @@
 	if (contactName) [textField_contactName setStringValue:contactName];	
 	
 	//Observe account list and status changes
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
@@ -159,7 +159,7 @@
 {
 	[super windowWillClose:sender];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 }
 
 /*!
@@ -430,9 +430,9 @@
 			 keyEquivalent:@""];
 	
 	//Select the group of the currently selected object on the contact list
-	selectedObject = [adium.interfaceController selectedListObject];
+	selectedObject = adium.interfaceController.selectedListObject;
 	while (selectedObject && ![selectedObject isKindOfClass:[AIListGroup class]]) {
-		selectedObject = [selectedObject containingObject];
+		selectedObject = selectedObject.containingObject;
 	}
 
 	[popUp_targetGroup setMenu:menu];
@@ -458,7 +458,7 @@
 	newGroupWindowController = [AINewGroupWindowController promptForNewGroupOnWindow:[self window]];
 
 	//Observe for the New Group window to close
-	[[adium notificationCenter] addObserver:self
+	[adium.notificationCenter addObserver:self
 								   selector:@selector(newGroupDidEnd:) 
 									   name:@"NewGroupWindowControllerDidEnd"
 									 object:[newGroupWindowController window]];	
@@ -487,7 +487,7 @@
 	}
 
 	//Stop observing
-	[[adium notificationCenter] removeObserver:self
+	[adium.notificationCenter removeObserver:self
 										  name:@"NewGroupWindowControllerDidEnd" 
 										object:window];
 }

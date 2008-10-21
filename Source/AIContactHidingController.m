@@ -190,7 +190,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	// If we're hiding contacts, and these meet a criteria for hiding
 	if (hideOfflineIdleOrMobileContacts && ((!showIdleContacts &&
 											 [listContact valueForProperty:@"IdleSince"]) ||
-											(!showOfflineContacts &&
+											((!showOfflineContacts || (useOfflineGroup && listContact.containingObject == adium.contactController.offlineGroup)) &&
 											 ![listContact online] &&
 											 ![listContact boolValueForProperty:@"Signed Off"] &&
 											 ![listContact boolValueForProperty:@"New Object"]) ||

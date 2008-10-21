@@ -251,7 +251,7 @@
 - (CGFloat)orderIndex
 {
 	if (!orderIndex) 
-		orderIndex = [[self containingObject] orderIndexForObject:self];
+		orderIndex = [self.containingObject orderIndexForObject:self];
 	
 	return orderIndex;
 }
@@ -264,7 +264,7 @@
 - (void)setOrderIndex:(CGFloat)inIndex
 {
 	orderIndex = inIndex;
-	[[self containingObject] listObject:self didSetOrderIndex:orderIndex];
+	[self.containingObject listObject:self didSetOrderIndex:orderIndex];
 }
 
 //Properties ------------------------------------------------------------------------------------------------------
@@ -461,7 +461,7 @@
 		[self setPreference:alias forKey:@"Alias" group:PREF_GROUP_ALIASES];
 		
 		//XXX - There must be a cleaner way to do this alias stuff!  This works for now :)
-		[[adium notificationCenter] postNotificationName:Contact_ApplyDisplayName
+		[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
 												  object:self
 												userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																					 forKey:@"Notify"]];

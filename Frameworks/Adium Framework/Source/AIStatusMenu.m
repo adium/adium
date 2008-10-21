@@ -47,17 +47,17 @@
 
 		[self rebuildMenu];
 
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(stateArrayChanged:)
 										   name:AIStatusStateArrayChangedNotification
 										 object:nil];
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(activeStatusStateChanged:)
 										   name:AIStatusActiveStateChangedNotification
 										 object:nil];
 		
 		//Update our state menus when the state array or status icon set changes
-		[[adium notificationCenter] addObserver:self
+		[adium.notificationCenter addObserver:self
 									   selector:@selector(statusIconSetChanged:)
 										   name:AIStatusIconSetDidChangeNotification
 										 object:nil];
@@ -68,7 +68,7 @@
 
 - (void)dealloc
 {
-	[[adium notificationCenter] removeObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	[stateMenuItemsAlreadyValidated release];
 	[menuItemArray release];
 
@@ -372,7 +372,7 @@
 			
 			if (shouldRebuild) {
 				//Rebuild our menus if there was a change
-				[[adium notificationCenter] postNotificationName:AIStatusStateArrayChangedNotification object:nil];
+				[adium.notificationCenter postNotificationName:AIStatusStateArrayChangedNotification object:nil];
 			}
 			
 		} else {

@@ -95,10 +95,10 @@
 		observingContent = newLogValue;
 
 		if (!observingContent) { //Stop Logging
-			[[adium notificationCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
+			[adium.notificationCenter removeObserver:self name:Content_ContentObjectAdded object:nil];
 
 		} else { //Start Logging
-			[[adium notificationCenter] addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
+			[adium.notificationCenter addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
 		}
 	}
 }
@@ -114,7 +114,7 @@
         AIChat		*chat = [notification object];
         AIListObject	*source = [content source];
         AIListObject	*destination = [content destination];
-        AIAccount	*account = [chat account];
+        AIAccount	*account = chat.account;
 
         NSString	*srcDisplay = nil;
         NSString	*destDisplay = nil;
@@ -127,30 +127,30 @@
 #warning I think it would be better to use the destination of the message as a test here, but I am not sure.
             destUID  = [chat name];
             if (!destUID) {
-                destUID = [[chat listObject] UID];
-                destDisplay = [[chat listObject] displayName];
+                destUID = chat.listObject.UID;
+                destDisplay = chat.listObject.displayName;
             }
             else {
-                destDisplay = [chat displayName];;
+                destDisplay = chat.displayName;;
             }
-            destSrv = [[[chat account] service] serviceID];
+            destSrv = [[chat.account service] serviceID];
             srcDisplay = [source displayName];
             srcUID = [source UID];
             srcSrv = [[source service] serviceID];
         } else {
             destUID = [chat name];
             if (!destUID) {
-                srcDisplay = [[chat listObject] displayName];
-                srcUID = [[chat listObject] UID];
+                srcDisplay = chat.listObject.displayName;
+                srcUID = chat.listObject.UID;
                 destUID = [destination UID];
                 destDisplay = [destination displayName];
             }
             else {
                 srcUID = [source UID];
                 srcDisplay = srcUID;
-                destDisplay = [chat displayName];
+                destDisplay = chat.displayName;
             }
-            srcSrv = [[[chat account] service] serviceID];
+            srcSrv = [[chat.account service] serviceID];
             destSrv = srcSrv;
         }
 
