@@ -42,7 +42,7 @@
 	if ([UID rangeOfString:@"@"].location != NSNotFound) {
 		userNameWithHost = UID;
 	} else {
-		userNameWithHost = [NSString stringWithFormat:@"%@@%@",UID,[self host]];
+		userNameWithHost = [NSString stringWithFormat:@"%@@%@",UID,self.host];
 	}
 	
 	return [userNameWithHost UTF8String];

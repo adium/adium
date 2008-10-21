@@ -96,9 +96,9 @@
 - (NSString *)internalUniqueObjectID
 {
 	if (!internalUniqueObjectID) {
-		internalUniqueObjectID = [[AIListContact internalUniqueObjectIDForService:[self service]
+		internalUniqueObjectID = [[AIListContact internalUniqueObjectIDForService:self.service
 																		  account:self.account
-																			  UID:[self UID]] retain];
+																			  UID:self.UID] retain];
 	}
 	return internalUniqueObjectID;
 }
@@ -754,7 +754,7 @@
 	NSScriptObjectSpecifier *containerRef = [theAccount objectSpecifier];
 	return [[[NSNameSpecifier allocWithZone:[self zone]]
 		initWithContainerClassDescription:[containerRef keyClassDescription]
-		containerSpecifier:containerRef key:@"contacts" name:[self UID]] autorelease];
+		containerSpecifier:containerRef key:@"contacts" name:self.UID] autorelease];
 }
 
 - (BOOL)scriptingBlocked

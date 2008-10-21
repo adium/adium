@@ -147,7 +147,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		internalObjectID = [[AIListObject internalObjectIDForServiceID:[[self service] serviceID] UID:[self UID]] retain];
+		internalObjectID = [[AIListObject internalObjectIDForServiceID:[self.service serviceID] UID:self.UID] retain];
 	}
 	return internalObjectID;
 }
@@ -433,7 +433,7 @@
 - (NSString *)displayName
 {
     NSString	*displayName = [self displayArrayObjectForKey:DisplayName];
-    return displayName ? displayName : [self formattedUID];
+    return displayName ? displayName : self.formattedUID;
 }
 
 /*!

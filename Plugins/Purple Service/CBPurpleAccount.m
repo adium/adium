@@ -96,7 +96,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//Create a purple account if one does not already exist
 	if (!account) {
 		[self createNewPurpleAccount];
-		AILog(@"Created PurpleAccount 0x%x with UID %@, protocolPlugin %s", account, [self UID], [self protocolPlugin]);
+		AILog(@"Created PurpleAccount 0x%x with UID %@, protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	}
 	
     return account;
@@ -159,7 +159,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
-	NSString	*normalizedUID = [[self service] normalizeUID:newUID removeIgnoredCharacters:YES];
+	NSString	*normalizedUID = [self.service normalizeUID:newUID removeIgnoredCharacters:YES];
 	
 	if ([normalizedUID isEqualToString:[theContact UID]]) {
 		[theContact setValue:newUID
@@ -435,7 +435,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 //outgoing before being used.
 - (NSString *)_mapIncomingGroupName:(NSString *)name
 {
-	if (!name || ([[name compactedString] caseInsensitiveCompare:[self UID]] == NSOrderedSame)) {
+	if (!name || ([[name compactedString] caseInsensitiveCompare:self.UID] == NSOrderedSame)) {
 		return ADIUM_ROOT_GROUP_NAME;
 	} else {
 		return name;
@@ -444,7 +444,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (NSString *)_mapOutgoingGroupName:(NSString *)name
 {
 	if ([[name compactedString] caseInsensitiveCompare:ADIUM_ROOT_GROUP_NAME] == NSOrderedSame) {
-		return [self UID];
+		return self.UID;
 	} else {
 		return name;
 	}
@@ -467,7 +467,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (AIService *)_serviceForUID:(NSString *)contactUID
 {
-	return [self service];
+	return self.service;
 }
 
 - (void)gotGroupForContact:(AIListContact *)listContact {};
@@ -480,7 +480,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurpleBuddy		*buddy;
 	NSData			*data = nil;
 
-	if ([self purpleAccount] &&
+	if (self.purpleAccount &&
 		(buddy = purple_find_buddy(account, [[contact UID] UTF8String]))) {
 		PurpleBuddyIcon *buddyIcon;
 		BOOL			shouldUnref = NO;
@@ -1562,7 +1562,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	//Make sure our settings are correct
 	if ([self connectivityBasedOnNetworkReachability] &&
-		![[self host] length]) {
+		![self.host length]) {
 		//If we use the network for connectivity, and we don't have a host, we need to get ourselves one. Prompt for it!
 		[self promptForHostBeforeConnecting];
 	} else {
@@ -1597,10 +1597,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)promptForHostBeforeConnecting
 {
 	purple_request_input(NULL, [[NSString stringWithFormat:AILocalizedString(@"%@ (%@) Setup", "first %@ is an account name; second is a service. This is a title for a window"),
-								[self formattedUID], [[self service] shortDescription]] UTF8String],
+								self.formattedUID, [self.service shortDescription]] UTF8String],
 						 [AILocalizedString(@"No Server Specified", nil) UTF8String],
 						 [[NSString stringWithFormat:AILocalizedString(@"No server has been configured for the %@ account %@. Please enter one below to connect", nil),
-						   [[self service] longDescription], [self formattedUID]] UTF8String],
+						   [self.service longDescription], self.formattedUID] UTF8String],
 						 /* default value */ "", /* multiline */ FALSE, /* masked */ FALSE, /* hint */ NULL,
 						 [AILocalizedString(@"Connect", "Button title to connect; this is a verb") UTF8String], G_CALLBACK(prompt_host_ok_cb),
 						 [AILocalizedString(@"Cancel", nil) UTF8String], G_CALLBACK(prompt_host_cancel_cb),
@@ -1627,7 +1627,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		statusState = [adium.statusController defaultInitialStatusState];
 	}
 
-	AILog(@"Adium: Connect: %@ initiating connection using status state %@ (%@).",[self UID],statusState,
+	AILog(@"Adium: Connect: %@ initiating connection using status state %@ (%@).",self.UID,statusState,
 			  [statusState statusMessageString]);
 
 	[self autoRefreshingOutgoingContentForStatusKey:@"StatusState"
@@ -1663,7 +1663,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (NSString *)hostForPurple
 {
-	return [self host];
+	return self.host;
 }
 
 //Synchronous purple account configuration activites, always performed after an account is created.
@@ -1804,7 +1804,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 //Our account has connected
 - (void)accountConnectionConnected
 {
-	AILog(@"************ %@ CONNECTED ***********",[self UID]);
+	AILog(@"************ %@ CONNECTED ***********",self.UID);
 	[self didConnect];
 }
 
@@ -1818,7 +1818,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	AILog(@"************ %@ --step-- %i",[self UID],[step intValue]);
+	AILog(@"************ %@ --step-- %i",self.UID,[step intValue]);
 }
 
 /*!
@@ -1829,7 +1829,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (const char *)purpleAccountName
 {
-	return [[self formattedUID] UTF8String];
+	return [self.formattedUID UTF8String];
 }
 
 - (void)setPurpleAccount:(PurpleAccount *)inAccount
@@ -1848,12 +1848,12 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//-[SLPurpleCocoaAdapter addAdiumAccount:] should have immediately called back on setPurpleAccount. It's bad if it didn't.
 	if (account) {
-		AILog(@"Created PurpleAccount 0x%x with UID %@ and protocolPlugin %s", account, [self UID], [self protocolPlugin]);
+		AILog(@"Created PurpleAccount 0x%x with UID %@ and protocolPlugin %s", account, self.UID, [self protocolPlugin]);
 	} else {
 		AILog(@"Unable to create Libpurple account with name %s and protocol plugin %s",
-			  [self purpleAccountName], [self protocolPlugin]);
+			  self.purpleAccountName, [self protocolPlugin]);
 		NSLog(@"Unable to create Libpurple account with name %s and protocol plugin %s",
-			  [self purpleAccountName], [self protocolPlugin]);
+			  self.purpleAccountName, [self protocolPlugin]);
 	}
 }
 
@@ -1904,7 +1904,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)accountConnectionNotice:(NSString *)connectionNotice
 {
-    [adium.interfaceController handleErrorMessage:[NSString stringWithFormat:AILocalizedString(@"%@ (%@) : Connection Notice",nil),[self formattedUID],[service description]]
+    [adium.interfaceController handleErrorMessage:[NSString stringWithFormat:AILocalizedString(@"%@ (%@) : Connection Notice",nil),self.formattedUID,[service description]]
                                     withDescription:connectionNotice];
 }
 
@@ -1994,7 +1994,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Set password and connect
 	purple_account_set_password(account, [password UTF8String]);
 	
-	AILog(@"Adium: Register: %@ initiating connection.",[self UID]);
+	AILog(@"Adium: Register: %@ initiating connection.",self.UID);
 	
 	[purpleAdapter registerAccount:self];
 }
@@ -2007,7 +2007,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)purpleAccountRegistered:(BOOL)success
 {
-	if (success && [[self service] accountViewController]) {
+	if (success && [self.service accountViewController]) {
 		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
 		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
 
@@ -2543,7 +2543,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		buddy = purple_find_buddy(account, [[inContact UID] UTF8String]);
 		
 		if (prpl_info && prpl_info->blist_node_menu && buddy) {
-			NSImage	*serviceIcon = [AIServiceIcons serviceIconForService:[self service]
+			NSImage	*serviceIcon = [AIServiceIcons serviceIconForService:self.service
 																	type:AIServiceIconSmall
 															   direction:AIIconNormal];
 			
@@ -2670,7 +2670,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #pragma mark AIAccount Subclassed Methods
 - (void)initAccount
 {
-	NSDictionary	*defaults = [NSDictionary dictionaryNamed:[NSString stringWithFormat:@"PurpleDefaults%@",[[self service] serviceID]]
+	NSDictionary	*defaults = [NSDictionary dictionaryNamed:[NSString stringWithFormat:@"PurpleDefaults%@",[self.service serviceID]]
 													 forClass:[self class]];
 	
 	if (defaults) {
@@ -2678,7 +2678,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 											  forGroup:GROUP_ACCOUNT_STATUS
 												object:self];
 	} else {
-		AILog(@"Failed to load defaults for %@",[NSString stringWithFormat:@"PurpleDefaults%@",[[self service] serviceID]]);
+		AILog(@"Failed to load defaults for %@",[NSString stringWithFormat:@"PurpleDefaults%@",[self.service serviceID]]);
 	}
 	
 	//Defaults
@@ -2720,7 +2720,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 							   defaultButton:AILocalizedString(@"Delete",nil)
 							 alternateButton:AILocalizedString(@"Cancel",nil)
 								 otherButton:AILocalizedString(@"Delete & Unregister",nil)
-				   informativeTextWithFormat:AILocalizedString(@"Delete the account %@? You can also optionally unregister the account on the server if possible.",nil), ([[self formattedUID] length] ? [self formattedUID] : NEW_ACCOUNT_DISPLAY_TEXT)];		
+				   informativeTextWithFormat:AILocalizedString(@"Delete the account %@? You can also optionally unregister the account on the server if possible.",nil), ([self.formattedUID length] ? self.formattedUID : NEW_ACCOUNT_DISPLAY_TEXT)];		
 
 	} else {
 		return [super alertForAccountDeletion];

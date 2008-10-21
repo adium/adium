@@ -88,7 +88,7 @@
 											  forGroup:GROUP_ACCOUNT_STATUS
 												object:self];
 
-		namesAreCaseSensitive = [[self service] caseSensitive];
+		namesAreCaseSensitive = self.service.caseSensitive;
 		
 		enabled = [[self preferenceForKey:KEY_ENABLED group:GROUP_ACCOUNT_STATUS] boolValue];
 
@@ -174,7 +174,7 @@
  */
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"%@:%@",[super description],[self UID]];
+	return [NSString stringWithFormat:@"%@:%@",[super description],self.UID];
 }
 
 /*!
@@ -280,15 +280,15 @@
 - (void)filterAndSetUID:(NSString *)inUID
 {
 	//Filter our UID both with and without removing ignored characters
-	NSString	*newProposedUID = [[self service] normalizeUID:inUID removeIgnoredCharacters:YES];
-	NSString	*newProposedFormattedUID = [[self service] normalizeUID:inUID removeIgnoredCharacters:NO];
+	NSString	*newProposedUID = [self.service normalizeUID:inUID removeIgnoredCharacters:YES];
+	NSString	*newProposedFormattedUID = [self.service normalizeUID:inUID removeIgnoredCharacters:NO];
 	BOOL		didChangeUID = NO;
 
 	//Give the account a chance to modify the UID
 	newProposedUID = [self accountWillSetUID:newProposedUID];
 
-	//Set our UID first (since [self formattedUID] uses the UID as necessary)
-	if (![newProposedUID isEqualToString:[self UID]]) {
+	//Set our UID first (since self.formattedUID uses the UID as necessary)
+	if (![newProposedUID isEqualToString:self.UID]) {
 		[UID release];
 		UID = [newProposedUID retain];
 
@@ -299,7 +299,7 @@
 	}
 
 	//Set our formatted UID if necessary
-	if (![newProposedFormattedUID isEqualToString:[self formattedUID]]) {
+	if (![newProposedFormattedUID isEqualToString:self.formattedUID]) {
 		[self setPreference:newProposedFormattedUID
 					 forKey:@"FormattedUID"
 					  group:GROUP_ACCOUNT_STATUS];
@@ -329,7 +329,7 @@
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	if (!object || object == self) {
-		if ([[self supportedPropertyKeys] containsObject:key]) {
+		if ([self.supportedPropertyKeys containsObject:key]) {
 			[self updateStatusForKey:[self effectiveStatusKeyForKey:key]];
 		}
 	}
@@ -439,7 +439,7 @@
 	AIPromptOption promptOption = AIPromptAsNeeded;
 	if ([self boolValueForProperty:@"Prompt For Password On Next Connect"]) 
 		promptOption = AIPromptAlways;
-	else if (![[self service] requiresPassword])
+	else if (!self.service.requiresPassword)
 		promptOption = AIPromptNever;
 
 	//Retrieve the user's password and then call connect
@@ -464,31 +464,26 @@
     
     //Online status changed
     //Call connect or disconnect as appropriate
-    if ([key isEqualToString:@"Online"]) {
-        if ([self shouldBeOnline] &&
-			[self enabled]) {
-            if (!areOnline && ![self boolValueForProperty:@"Connecting"]) {
-				if ([[self service] supportsPassword] && (!password ||
-														  [self boolValueForProperty:@"Prompt For Password On Next Connect"])) {
-					[self retrievePasswordThenConnect];
+		if ([key isEqualToString:@"Online"]) {
+			if (self.shouldBeOnline && self.enabled) {
+				if (!areOnline && ![self boolValueForProperty:@"Connecting"]) {
+					if (self.service.supportsPassword && (!password || [self boolValueForProperty:@"Prompt For Password On Next Connect"])) {
+						[self retrievePasswordThenConnect];
 
-				} else {
-					/* Connect immediately without retrieving a password because we either don't need one or
-					 * already have one.
-					 */
-					[self connect];
+					} else {
+						/* Connect immediately without retrieving a password because we either don't need one or
+						* already have one.
+						*/
+						[self connect];
+					}
+
 				}
-				
-            }
-        } else {
-            if ((areOnline || ([self boolValueForProperty:@"Connecting"])) && 
-			   (![self boolValueForProperty:@"Disconnecting"])) {
-                //Disconnect
-                [self disconnect];
-            }
-        }
-		
-    } else if ([key isEqualToString:@"StatusState"]) {
+			} else if ((areOnline || ([self boolValueForProperty:@"Connecting"])) && ![self boolValueForProperty:@"Disconnecting"]) {
+				//Disconnect
+				[self disconnect];
+			}
+
+		} else if ([key isEqualToString:@"StatusState"]) {
 		if (areOnline) {
 			//Set the status state after filtering its statusMessage as appropriate
 			[self autoRefreshingOutgoingContentForStatusKey:@"StatusState"
@@ -500,7 +495,7 @@
 		}
 
     } else if ([key isEqualToString:KEY_ACCOUNT_DISPLAY_NAME]) {
-		if ([self enabled]) {
+		if (self.enabled) {
 			[self autoRefreshingOutgoingContentForStatusKey:key selector:@selector(gotFilteredDisplayName:) context:nil];
 		}
 
@@ -575,7 +570,7 @@
 		 * is thereafter responsible for updating any serverside settings as needed.  All of our current services will handle
 		 * updating idle time as it changes automatically. This is a per-account preference setting; it will override
 		 * any global idle setting for this account but won't change it. */	
-		if ([[self supportedPropertyKeys] containsObject:@"IdleSince"]) {
+		if ([self.supportedPropertyKeys containsObject:@"IdleSince"]) {
 			NSDate	*idleSince;
 			
 			idleSince = ([statusState shouldForceInitialIdleTime] ?
@@ -603,11 +598,11 @@
 	//Store the status state as a property so it can be easily used elsewhere
 	[self setValue:statusState forProperty:@"StatusState" notify:NotifyNever];
 
-	if ([[self supportedPropertyKeys] containsObject:@"IdleSince"]) {
+	if ([self.supportedPropertyKeys containsObject:@"IdleSince"]) {
 		NSDate	*idleSince;
 		
-		idleSince = ([statusState shouldForceInitialIdleTime] ?
-					 [NSDate dateWithTimeIntervalSinceNow:-[statusState forcedInitialIdleTime]] :
+		idleSince = (statusState.shouldForceInitialIdleTime ?
+					 [NSDate dateWithTimeIntervalSinceNow:-statusState.forcedInitialIdleTime] :
 					 nil);
 		
 		if ([self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS] != idleSince) {
@@ -739,7 +734,7 @@
 {
     //If a password was returned, and we're still waiting to connect
     if ((returnCode == AIPasswordPromptOKReturn) &&
-		((inPassword && [inPassword length]) || ![[self service] requiresPassword])) {
+		((inPassword && [inPassword length]) || ![self.service requiresPassword])) {
 		[self setValue:nil
 					   forProperty:@"Prompt For Password On Next Connect"
 					   notify:NotifyNever];
@@ -1365,7 +1360,7 @@
 		} else {
 			AILog(@"%@: Disconnected: Will not reconnect", self);
 			if (lastDisconnectionError) {
-				[adium.interfaceController handleErrorMessage:[NSString stringWithFormat:@"%@ (%@) : Error",[self UID],[[self service] shortDescription]]
+				[adium.interfaceController handleErrorMessage:[NSString stringWithFormat:@"%@ (%@) : Error",self.UID,[self.service shortDescription]]
 												withDescription:lastDisconnectionError];
 			}
 			

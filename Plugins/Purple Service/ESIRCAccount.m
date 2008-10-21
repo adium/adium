@@ -39,9 +39,9 @@ void purple_account_set_bool(void *account, const char *name,
 {
 
 	NSString	*encodedString = nil;
-	BOOL		didCommand = [[self purpleAdapter] attemptPurpleCommandOnMessage:[[inContentMessage message] string]
-																	 fromAccount:(AIAccount *)[inContentMessage source]
-																		  inChat:[inContentMessage chat]];	
+	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
+																	 fromAccount:(AIAccount *)inContentMessage.source
+																		  inChat:inContentMessage.chat];	
 
 	if (!didCommand) {
 		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
@@ -74,23 +74,23 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (NSString *)UID
 {
-	return [NSString stringWithFormat:@"%@@%@", [self formattedUID], [self host]];
+	return [NSString stringWithFormat:@"%@@%@", self.formattedUID, self.host];
 }
 
 - (const char *)purpleAccountName
 {
-	return [[self UID] UTF8String];
+	return [self.UID UTF8String];
 }
 
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
 
-	purple_account_set_username([self purpleAccount], [self purpleAccountName]);
+	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
 	
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
 	
-	purple_account_set_bool([self purpleAccount], "ssl", useSSL);
+	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
 }
 
 /*!
@@ -118,7 +118,7 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	// on IRC, the nickname isn't that important for an account, the server is
 	// (I guess the number of IRC users that use the same server with different nicks is very low)
-	return [NSString stringWithFormat:@"%@ (%@)", [self host], [self displayName]];
+	return [NSString stringWithFormat:@"%@ (%@)", self.host, [self displayName]];
 }
 
 - (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact

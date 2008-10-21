@@ -78,7 +78,7 @@
  */
 - (const char *)purpleAccountName
 {
-	return [[self stringByRemovingYahooSuffix:[self formattedUID]] UTF8String];
+	return [[self stringByRemovingYahooSuffix:self.formattedUID] UTF8String];
 }
 
 - (NSSet *)supportedPropertyKeys

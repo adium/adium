@@ -247,7 +247,7 @@ typedef enum
 						   defaultButton:AILocalizedString(@"Delete",nil)
 						 alternateButton:AILocalizedString(@"Cancel",nil)
 							 otherButton:nil
-			   informativeTextWithFormat:AILocalizedString(@"Delete the account %@?",nil), ([[self formattedUID] length] ? [self formattedUID] : NEW_ACCOUNT_DISPLAY_TEXT)];
+			   informativeTextWithFormat:AILocalizedString(@"Delete the account %@?",nil), ([self.formattedUID length] ? self.formattedUID : NEW_ACCOUNT_DISPLAY_TEXT)];
 }
 
 /*!
@@ -278,7 +278,7 @@ typedef enum
  */
 - (NSString *)explicitFormattedUID
 {
-	return [self formattedUID];
+	return self.formattedUID;
 }
 
 /*!
@@ -286,7 +286,7 @@ typedef enum
  */
 - (NSString *)formattedUIDForListDisplay
 {
-	return [self formattedUID];
+	return self.formattedUID;
 }
 
 //Properties -----------------------------------------------------------------------------------------------------------
@@ -507,7 +507,7 @@ typedef enum
 /*!
  * @brief Set the social networking status message for this account
  *
- * This will only be called if [[self service] isSocialNetworkingService] returns TRUE.
+ * This will only be called if [self.service isSocialNetworkingService] returns TRUE.
  *
  * @param statusMessage The status message, which has already been filtered.
  */
@@ -805,7 +805,7 @@ typedef enum
 {
 	return [NSString stringWithFormat:
 		AILocalizedStringFromTableInBundle(@"Adium provides encryption, authentication, deniability, and perfect forward secrecy over %@ via Off-the-Record Messaging (OTR). If your contact is not using an OTR-compatible messaging system, your contact will be sent a link to the OTR web site when you attempt to connect. For more information on OTR, visit http://www.cypherpunks.ca/otr/.", nil, [NSBundle bundleForClass:[AIAccount class]], nil),
-		[[self service] shortDescription]];
+		[self.service shortDescription]];
 }
 
 /*!
@@ -890,7 +890,7 @@ typedef enum
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	//get my service
-	AIService *theService = [self service];
+	AIService *theService = self.service;
 	NSScriptObjectSpecifier *containerRef = [theService objectSpecifier];
 
 	return [[[NSUniqueIDSpecifier alloc]
@@ -904,7 +904,7 @@ typedef enum
  */
 - (NSString *)scriptingUID
 {
-	return [self UID];
+	return self.UID;
 }
 
 /**
@@ -942,7 +942,7 @@ typedef enum
 		[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create a contact without specifying the contact name."];
 		return nil;
 	}
-	AIListContact *newContact = [adium.contactController contactWithService:[self service] account:self UID:contactUID];
+	AIListContact *newContact = [adium.contactController contactWithService:self.service account:self UID:contactUID];
 	NSScriptObjectSpecifier *groupSpecifier = [keyDictionary objectForKey:@"parentGroup"];
 	AIListGroup *group = [groupSpecifier objectsByEvaluatingSpecifier];
 	//If we have a group, we add this contact to the contact list.
@@ -1018,7 +1018,7 @@ typedef enum
 		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
 		return newChat;
 	} else {
-		if (![[self service] canCreateGroupChats]) {
+		if (![self.service canCreateGroupChats]) {
 			[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 			[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create a group chat with this service!"];
 			return nil;

@@ -24,7 +24,7 @@
 
 /*!
  * @brief The server name to be passed to libpurple
- * QQ prpl will choose a server randomly for load balancing if we don't pass one, so do that.  -[self host] returns the first server
+ * QQ prpl will choose a server randomly for load balancing if we don't pass one, so do that.  -self.host returns the first server
  * for host reachability checking purpoes.
  */
 - (NSString *)hostForPurple

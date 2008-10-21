@@ -82,7 +82,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	NSString *UID = [textField_name stringValue];
 	
 	//Use the default user name if possible, if no UID is specified
-	if (!UID || ![UID length]) UID = [[self service] defaultUserName];
+	if (!UID || ![UID length]) UID = [self.service defaultUserName];
 
 	return UID;
 }
@@ -90,15 +90,15 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 - (AIAccount *)account
 {
 	if (!account) {
-		account = [[adium.accountController createAccountWithService:[self service]
-																   UID:[self UID]] retain];
+		account = [[adium.accountController createAccountWithService:self.service
+																   UID:self.UID] retain];
 	} else {
-		if (([self service] != [account service]) ||
-			(![[self UID] isEqualToString:[account UID]])) {
+		if ((self.service != [account service]) ||
+			(![self.UID isEqualToString:[account UID]])) {
 			[account release];
 
-			account = [[adium.accountController createAccountWithService:[self service]
-																	   UID:[self UID]] retain];
+			account = [[adium.accountController createAccountWithService:self.service
+																	   UID:self.UID] retain];
 		}
 	}
 	
@@ -107,7 +107,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 
 - (void)selectServiceType:(id)sender
 {
-	AIService *service = [self service];
+	AIService *service = self.service;
 	[label_name setStringValue:[[service userNameLabel] stringByAppendingString:AILocalizedString(@":", "Colon which will be appended after a label such as 'User Name', before an input field")]];
 	
 	[textField_name setFormatter:
@@ -151,7 +151,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	}
 	
 	//Make sure our UID is still accurate
-	if (![[inAccount UID] isEqualToString:[self UID]]) {
+	if (![[inAccount UID] isEqualToString:self.UID]) {
 		[textField_name setStringValue:[inAccount UID]];
 	}
 }
