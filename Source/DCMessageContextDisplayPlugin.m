@@ -144,7 +144,7 @@
 	AIChat	*chat = (AIChat *)[notification object];
 	
 	//Don't show context for group chats
-	if ([chat isGroupChat]) return;
+	if (chat.isGroupChat) return;
 	
 	NSArray	*context = [self contextForChat:chat];
 

@@ -456,7 +456,6 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					GList					*list, *tmp;
 					struct proto_chat_entry *pce;
 					NSString				*identifier;
-					NSEnumerator			*enumerator;
 
 					g_return_val_if_fail(gc != NULL, NULL);
 
@@ -465,8 +464,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					components = g_hash_table_new_full(g_str_hash, g_str_equal,
 													   g_free, g_free);
 					
-					enumerator = [chatCreationInfo keyEnumerator];
-					while ((identifier = [enumerator nextObject])) {
+					for (identifier in chatCreationInfo) {
 						id		value = [chatCreationInfo objectForKey:identifier];
 						char	*valueUTF8String = NULL;
 						
@@ -1153,11 +1151,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	GList *attrs = NULL;
 
 	if ([arguments count]) {
-		NSEnumerator	*enumerator;
-		NSString		*key;
-		
-		enumerator = [arguments keyEnumerator];
-		while ((key = [enumerator nextObject])) {
+		for (NSString *key in arguments) {
 			const char *value = NULL;
 			id	 valueObject;
 			

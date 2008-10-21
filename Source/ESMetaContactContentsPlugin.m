@@ -191,7 +191,7 @@
 #pragma mark Menu
 - (void)toggleMetaContactExpansion:(id)sender
 {
-	AIListObject *listObject = [adium.menuController currentContextMenuObject];
+	AIListObject *listObject = adium.menuController.currentContextMenuObject;
 	if ([listObject isKindOfClass:[AIMetaContact class]]) {
 		BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
 		
@@ -207,14 +207,14 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIListObject *listObject = [adium.menuController currentContextMenuObject];
+	AIListObject *listObject = adium.menuController.currentContextMenuObject;
 	return ([listObject isKindOfClass:[AIMetaContact class]] &&
 			[(AIMetaContact *)listObject uniqueContainedObjectsCount] > 1);
 }
 
 - (void)menu:(NSMenu *)menu needsUpdateForMenuItem:(NSMenuItem *)menuItem
 {
-	AIListObject *listObject = [adium.menuController currentContextMenuObject];
+	AIListObject *listObject = adium.menuController.currentContextMenuObject;
 	if (menuItem == contextualMenuItem) {
 		if ([listObject isKindOfClass:[AIMetaContact class]] &&
 			[(AIMetaContact *)listObject uniqueContainedObjectsCount] > 1) {

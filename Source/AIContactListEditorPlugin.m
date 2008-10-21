@@ -174,7 +174,7 @@
 		}
 		
 	} else if (menuItem == menuItem_tabAddContact) {
-		return [adium.menuController currentContextMenuObject] != nil;
+		return adium.menuController.currentContextMenuObject != nil;
 	
 	} else if (menuItem == menuItem_addContact || menuItem == menuItem_addContactContext) {
 		NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
@@ -198,7 +198,7 @@
 //Called by a context menu
 - (IBAction)renameGroup:(id)sender
 {
-	//	AIListObject	*object = [adium.menuController currentContextMenuObject];
+	//	AIListObject	*object = adium.menuController.currentContextMenuObject;
 	//<renameGroup> : I wish I worked... :(	
 }
 
@@ -209,7 +209,7 @@
  */
 - (IBAction)addContact:(id)sender
 {
-	[self promptForNewContactOnWindow:nil selectedListObject:[adium.interfaceController selectedListObject]];
+	[self promptForNewContactOnWindow:nil selectedListObject:adium.interfaceController.selectedListObject];
 }
 
 
@@ -218,7 +218,7 @@
  */
 - (IBAction)addContactFromTab:(id)sender
 {
-	[self promptForNewContactOnWindow:nil selectedListObject:[adium.menuController currentContextMenuObject]];
+	[self promptForNewContactOnWindow:nil selectedListObject:adium.menuController.currentContextMenuObject];
 }
 
 /*!
@@ -286,7 +286,7 @@
 - (IBAction)deleteSelectionFromTab:(id)sender
 {
 	AIListObject   *currentContextMenuObject;
-	if ((currentContextMenuObject = [adium.menuController currentContextMenuObject])) {
+	if ((currentContextMenuObject = adium.menuController.currentContextMenuObject)) {
 		[self deleteFromArray:[NSArray arrayWithObject:currentContextMenuObject]];
 	}
 }

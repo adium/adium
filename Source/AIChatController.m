@@ -661,22 +661,19 @@
  */
 - (AIChat *)mostRecentUnviewedChat
 {
-	AIChat  *mostRecentUnviewedChat = nil;
-	
-	if (mostRecentChat && [mostRecentChat unviewedContentCount]) {
+	if (mostRecentChat && mostRecentChat.unviewedContentCount) {
 		//First choice: switch to the chat which received chat most recently if it has unviewed content
-		mostRecentUnviewedChat = mostRecentChat;
+		return mostRecentChat;
 		
 	} else {
 		//Second choice: switch to the first chat we can find which has unviewed content
-		NSEnumerator	*enumerator = [openChats objectEnumerator];
-		AIChat			*chat;
-		while ((chat = [enumerator nextObject]) && ![chat unviewedContentCount]);
-		
-		if (chat) mostRecentUnviewedChat = chat;
+		for (AIChat *chat in openChats) {
+			if (chat.unviewedContentCount)
+				return chat;
+		}
 	}
 	
-	return mostRecentUnviewedChat;
+	return nil;
 }
 
 /*!
@@ -721,7 +718,7 @@
 	BOOL			contactIsInGroupChat = NO;
 	
 	for (chat in openChats) {
-		if ([chat isGroupChat] &&
+		if (chat.isGroupChat &&
 			[chat containsObject:listContact]) {
 			
 			contactIsInGroupChat = YES;
@@ -760,7 +757,7 @@
  */
 - (void)toggleIgnoreOfContact:(id)sender
 {
-	AIListObject	*listObject = [adium.menuController currentContextMenuObject];
+	AIListObject	*listObject = adium.menuController.currentContextMenuObject;
 	AIChat			*chat = [adium.menuController currentContextMenuChat];
 	
 	if ([listObject isKindOfClass:[AIListContact class]]) {
@@ -777,7 +774,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if (menuItem == menuItem_ignore) {
-		AIListObject	*listObject = [adium.menuController currentContextMenuObject];
+		AIListObject	*listObject = adium.menuController.currentContextMenuObject;
 		AIChat			*chat = [adium.menuController currentContextMenuChat];
 		
 		if ([listObject isKindOfClass:[AIListContact class]]) {
@@ -807,7 +804,7 @@
  */
 - (void)chat:(AIChat *)chat addedListContact:(AIListContact *)inContact notify:(BOOL)notify
 {
-	if (notify && [chat isGroupChat]) {
+	if (notify && chat.isGroupChat) {
 		/* Prevent triggering of the event when we are informed that the chat's own account entered the chat
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
@@ -830,7 +827,7 @@
  */
 - (void)chat:(AIChat *)chat removedListContact:(AIListContact *)inContact
 {
-	if ([chat isGroupChat]) {
+	if (chat.isGroupChat) {
 		[adiumChatEvents chat:chat removedListContact:inContact];
 	}
 

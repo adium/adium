@@ -408,7 +408,7 @@
 				
 			case AISecureMessagingMenu_Options:
 				//Only enable options if the chat is with a single person 
-				return ([chat supportsSecureMessagingToggling] && chat.listObject && ![chat isGroupChat]);
+				return ([chat supportsSecureMessagingToggling] && chat.listObject && !chat.isGroupChat);
 				break;
 				
 			case AISecureMessagingMenu_ShowAbout:

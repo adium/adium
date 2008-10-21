@@ -58,7 +58,7 @@
  */
 - (IBAction)showSourceDestinationPicker:(NSToolbarItem *)toolbarItem
 {
-    AIListObject	*object = [adium.interfaceController selectedListObject];
+    AIListObject	*object = adium.interfaceController.selectedListObject;
 
     if ([object isKindOfClass:[AIListContact class]]) {
 		AIChat  *chat = [adium.chatController openChatWithContact:(AIListContact *)object

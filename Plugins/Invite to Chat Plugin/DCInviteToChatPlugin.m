@@ -83,7 +83,7 @@
 	if (targetMenuItem) {
 		AIListObject *listObject = ((targetMenuItem == menuItem_inviteToChat) ? 
 									[adium.interfaceController selectedListObjectInContactList] :
-									[adium.menuController currentContextMenuObject]);
+									adium.menuController.currentContextMenuObject);
 
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			[targetMenuItem setSubmenu:[self groupChatMenuForContact:(AIListContact *)listObject]];
@@ -144,7 +144,7 @@
 			AIChat		*chat;
 			while ((chat = [chatEnumerator nextObject])) {				
 				//Is this the same serviceClass as this contact?				
-				if ([chat isGroupChat] &&
+				if (chat.isGroupChat &&
 					[chat.account.serviceClass isEqualToString:serviceClass]) {
 					
 					if (!menu_chatMenu) {

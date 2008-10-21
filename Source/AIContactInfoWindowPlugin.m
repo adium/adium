@@ -47,11 +47,11 @@
 	AIListObject *listObject = nil;
 
 	if ((sender == menuItem_getInfoAlternate) || (sender == menuItem_getInfo) || ([sender isKindOfClass:[NSToolbarItem class]])) {
-		listObject = [adium.interfaceController selectedListObject];
+		listObject = adium.interfaceController.selectedListObject;
 	}
 	
 	if (!listObject) {
-		listObject = [adium.menuController currentContextMenuObject];
+		listObject = adium.menuController.currentContextMenuObject;
 	}
 	
 	if (listObject) {
@@ -142,10 +142,10 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if ((menuItem == menuItem_getInfo) || (menuItem == menuItem_getInfoAlternate)) {
-		return [adium.interfaceController selectedListObject] != nil;
+		return adium.interfaceController.selectedListObject != nil;
 		
 	} else if ((menuItem == menuItem_getInfoContextualContact) || (menuItem == menuItem_getInfoContextualGroup)) {
-		return [adium.menuController currentContextMenuObject] != nil;
+		return adium.menuController.currentContextMenuObject != nil;
 		
 	} else if (menuItem == menuItem_getInfoWithPrompt) {
 		return [adium.accountController oneOrMoreConnectedAccounts];

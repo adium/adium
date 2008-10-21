@@ -53,7 +53,7 @@
 	if([context isKindOfClass:[AIContentMessage class]]) {
 		AIContentMessage *message = (AIContentMessage *)context;
 		AIChat *chat = [message chat];
-		if([chat isGroupChat]) {
+		if(chat.isGroupChat) {
 			NSString *messageString = [inAttributedString string];
 			AIListObject *me = [message destination];
 			NSRange range = [messageString rangeOfString:[me displayName] options:NSCaseInsensitiveSearch];

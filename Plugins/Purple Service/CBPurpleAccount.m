@@ -702,7 +702,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	if ([chat isOpen]) {
 		[self displayYouHaveConnectedInChat:chat];
 		
-		if ([chat isGroupChat]) {
+		if (chat.isGroupChat) {
 			[self performSelector:@selector(updateUserListForChat:)
 					   withObject:chat
 					   afterDelay:0];
@@ -937,7 +937,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	AIChat *chat = [inContentTyping chat];
 
-	if (![chat isGroupChat]) {
+	if (!chat.isGroupChat) {
 		[purpleAdapter sendTyping:[inContentTyping typingState] inChat:chat];
 	}
 }

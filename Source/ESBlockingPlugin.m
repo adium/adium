@@ -150,8 +150,8 @@
 	AIListObject	*object;
 	
 	object = ((sender == blockContactMenuItem) ?
-			  [adium.interfaceController selectedListObject] :
-			  [adium.menuController currentContextMenuObject]);
+			  adium.interfaceController.selectedListObject :
+			  adium.menuController.currentContextMenuObject);
 	
 	//Don't do groups
 	if ([object isKindOfClass:[AIListContact class]]) {
@@ -207,9 +207,9 @@
 	AIListObject *object;
 	
 	if (menuItem == blockContactMenuItem) {
-		object = [adium.interfaceController selectedListObject];
+		object = adium.interfaceController.selectedListObject;
 	} else {
-		object = [adium.menuController currentContextMenuObject];
+		object = adium.menuController.currentContextMenuObject;
 	}
 	
 	//Don't do groups

@@ -514,7 +514,7 @@
 
 			if (![chat hasSentOrReceivedContent]) {
 				//If the chat wasn't open before, generate CONTENT_MESSAGE_RECEIVED_FIRST
-				if (![chat isGroupChat]) {
+				if (!chat.isGroupChat) {
 					previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTENT_MESSAGE_RECEIVED_FIRST
 																				forListObject:listObject
 																					 userInfo:userInfo
@@ -525,13 +525,13 @@
 			
 			if (chat != adium.interfaceController.activeChat) {
 				//If the chat is not currently active, generate CONTENT_MESSAGE_RECEIVED_BACKGROUND
-				previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP : CONTENT_MESSAGE_RECEIVED_BACKGROUND)
+				previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:(chat.isGroupChat ? CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP : CONTENT_MESSAGE_RECEIVED_BACKGROUND)
 																				forListObject:listObject
 																					 userInfo:userInfo
 																 previouslyPerformedActionIDs:previouslyPerformedActionIDs];					
 			}
 			
-			[adium.contactAlertsController generateEvent:([chat isGroupChat] ? CONTENT_MESSAGE_RECEIVED_GROUP : CONTENT_MESSAGE_RECEIVED)
+			[adium.contactAlertsController generateEvent:(chat.isGroupChat ? CONTENT_MESSAGE_RECEIVED_GROUP : CONTENT_MESSAGE_RECEIVED)
 											 forListObject:listObject
 												  userInfo:userInfo
 							  previouslyPerformedActionIDs:previouslyPerformedActionIDs];				

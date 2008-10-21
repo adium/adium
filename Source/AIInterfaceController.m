@@ -476,7 +476,7 @@
 		for (AIChat *chat in [dict objectForKey:@"Content"]) {
 			NSMutableDictionary		*newContainerDict = [NSMutableDictionary dictionary];
 
-			[newContainerDict setObject:[chat.account internalObjectID] forKey:@"AccountID"];
+			[newContainerDict setObject:chat.account.internalObjectID forKey:@"AccountID"];
 			
 			// Save chat-specific information.
 			if (chat.isGroupChat) {
