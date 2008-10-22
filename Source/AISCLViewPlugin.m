@@ -482,7 +482,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return (AIListGroup *)adium.menuController.currentContextMenuObject.containingObject.containedObjectsCount > 1;
+		return adium.menuController.currentContextMenuObject.containingObject.containedObjectsCount > 1;
 	}
 	
 	return YES;
