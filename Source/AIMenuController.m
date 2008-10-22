@@ -45,8 +45,6 @@
 
 		textViewContextualMenu = [[NSMenu alloc] init];
 		[textViewContextualMenu setDelegate:self];
-
-		contextualMenu_TextView = nil;
 	}
 	
 	return self;
@@ -278,12 +276,8 @@
 	}
 }
 
-- (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forTextView:(NSTextView *)inTextView
+- (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray
 {
-	//remember menu config
-	[contextualMenu_TextView release];
-	contextualMenu_TextView = [inTextView retain];
-
 	return [self contextualMenuWithLocations:inLocationArray usingMenu:textViewContextualMenu];
 }
 
@@ -325,11 +319,6 @@
 - (AIChat *)currentContextMenuChat
 {
 	return currentContextMenuChat;
-}
-
-- (NSTextView *)contextualMenuTextView
-{
-	return contextualMenu_TextView;
 }
 
 #pragma mark Italics

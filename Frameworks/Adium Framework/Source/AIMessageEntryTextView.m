@@ -1114,8 +1114,7 @@
 			[contextualMenu removeItem:editLinkItem];
 			
 			NSMenu  *linkItemsMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObject:
-				[NSNumber numberWithInt:Context_TextView_LinkEditing]]
-																								  forTextView:self];
+				[NSNumber numberWithInt:Context_TextView_LinkEditing]]];
 			
 			for (NSMenuItem *menuItem in linkItemsMenu.itemArray) {
 				[contextualMenu insertItem:[[menuItem copy] autorelease] atIndex:editIndex++];
@@ -1132,8 +1131,7 @@
 							  [NSArray arrayWithObject:[NSNumber numberWithInt:Context_TextView_Edit]] :
 							  [NSArray arrayWithObjects:[NSNumber numberWithInt:Context_TextView_LinkEditing], 
 								  [NSNumber numberWithInt:Context_TextView_Edit], nil]);
-	NSMenu  *adiumMenu = [adium.menuController contextualMenuWithLocations:locationArray
-																						  forTextView:self];
+	NSMenu  *adiumMenu = [adium.menuController contextualMenuWithLocations:locationArray];
 	itemsArray = [adiumMenu itemArray];
 	
 	if ([itemsArray count] > 0) {
