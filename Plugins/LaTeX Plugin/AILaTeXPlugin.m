@@ -50,6 +50,10 @@
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
 {
+	if (([[inAttributedString string] rangeOfString:@"$$" options:NSLiteralSearch] == NSNotFound) &&
+		([[inAttributedString string] rangeOfString:@"\\[" options:NSLiteralSearch] == NSNotFound)) 
+		return inAttributedString;
+	
 	NSMutableAttributedString *newMessage = [[[NSMutableAttributedString alloc] init] autorelease];
 	
 	NSScanner *stringScanner = [[NSScanner alloc] initWithString:[inAttributedString string]];
