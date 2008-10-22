@@ -261,9 +261,6 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	if (versionComparison == NSOrderedAscending) {
 		NSString *pluginName = [[pluginPath lastPathComponent] stringByDeletingPathExtension];
 
-		NSLog(@"%@ requires Adium %@ or later. Please upgrade Adium to use %@. You have %@ (%i)",
-			  pluginName, minimumVersionOfPlugin, pluginName, [NSApp applicationVersion]);
-
 		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
 						@"%@ requires Adium %@ or later, but you have Adium %@. Please upgrade Adium to use %@",
 						AILocalizedString(@"Disable", nil), nil, nil, 
