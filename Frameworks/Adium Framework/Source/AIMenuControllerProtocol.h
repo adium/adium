@@ -55,8 +55,7 @@ typedef enum {
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forListObject:(AIListObject *)inObject inChat:(AIChat *)inChat;
 @property (nonatomic, readonly) AIListObject *currentContextMenuObject;
 @property (nonatomic, readonly) AIChat *currentContextMenuChat;
-@property (nonatomic, readonly) NSTextView *contextualMenuTextView;
-- (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forTextView:(NSTextView *)inObject;
+- (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray;
 
 //Control over the italics menu item
 - (void)removeItalicsKeyEquivalent;

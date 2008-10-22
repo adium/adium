@@ -153,7 +153,6 @@
     AIChat					*currentContextMenuChat;
 	
     NSMenu					*textViewContextualMenu;
-    NSTextView				*contextualMenu_TextView;
     
     NSMutableArray			*locationArray;
     BOOL					isTracking;
