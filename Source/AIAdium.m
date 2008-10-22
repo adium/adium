@@ -49,6 +49,7 @@
 #import "AIAddressBookController.h"
 #import "AIContactHidingController.h"
 #import <Sparkle/Sparkle.h>
+#import "ESAddressBookIntegrationAdvancedPreferences.h"
 //For Apple Help
 #import <Carbon/Carbon.h>
 #import <Adium/AdiumAuthorization.h>
@@ -243,6 +244,7 @@ static NSString	*prefsCategory;
 	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
 	
 	[AIAddressBookController startAddressBookIntegration];//** Before contactController so AB contacts are available
+	[ESAddressBookIntegrationAdvancedPreferences preferencePane];
 	
 	[contactController controllerDidLoad];		//** Before interfaceController so the contact list is available to the interface
 	[interfaceController controllerDidLoad];	//Loaded by nib
