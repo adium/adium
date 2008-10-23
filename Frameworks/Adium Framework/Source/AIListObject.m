@@ -24,6 +24,7 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIContactHidingController.h>
 
 #define ObjectStatusCache	@"Object Status Cache"
 #define DisplayName			@"Display Name"
@@ -165,30 +166,13 @@
 
 //Visibility -----------------------------------------------------------------------------------------------------------
 #pragma mark Visibility
-/*!
- * @brief Toggle visibility of this object
- *
- * How visibility works:
- * Code elsewhere will later query this object to determine if it is visible.  The object's containing group tracks
- * the number of visibile objects within it.  Visible objects are always sorted to the top of their group; a group
- * only displays as many objects as are visible, so invisible objects are not shown.
- */
-- (void)setVisible:(BOOL)inVisible
-{	
-	if (visible != inVisible) {
-		visible = inVisible;
-		
-		//Let our containing group know about the visibility change
-		[containingObject visibilityOfContainedObject:self changedTo:inVisible];			
-	}
-}
 
 /*!
  * @brief Is the object visible?
  */
 - (BOOL)visible
 {
-	return visible;
+	return [[AIContactHidingController sharedController] visibilityOfContact:self];
 }
 
 /*!

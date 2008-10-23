@@ -55,7 +55,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ((self = [super initWithUID:[inObjectID stringValue] service:nil])) {
 		_preferredContact = nil;
 		_listContacts = nil;
-		_visibleListContacts = nil;
 		_listContactsIncludingOfflineAccounts = nil;
 		
 		_containedObjects = [[NSMutableArray alloc] init];
@@ -250,7 +249,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	_preferredContact = nil;
 	[_listContacts release]; _listContacts = nil;
-	[_visibleListContacts release]; _visibleListContacts = nil;
 	[_listContactsIncludingOfflineAccounts release]; _listContactsIncludingOfflineAccounts = nil;
 	
 	//Our effective icon may have changed
@@ -502,23 +500,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (NSArray *)visibleListContacts
 {
-	if (!_visibleListContacts) {
-		unsigned		count;
-		
-		_visibleListContacts = [[self uniqueContainedListContactsIncludingOfflineAccounts:NO visibleOnly:YES] retain];
-		
-		/* Only notify if there is a change.
-		 * Use super's implementation as we don't need to be searching our contained objects...
-		 */
-		count = [_visibleListContacts count];
-		if ([super integerValueForProperty:@"VisibleObjectCount"] != count) {
-			[self setValue:(count ? [NSNumber numberWithInt:count] : nil)
-			   forProperty:@"VisibleObjectCount"
-					notify:NotifyNow];
-		}
-	}
-	
-	return _visibleListContacts;
+		return [self uniqueContainedListContactsIncludingOfflineAccounts:NO visibleOnly:YES];
 }
 
 - (NSArray *)listContactsIncludingOfflineAccounts
@@ -1111,7 +1093,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (unsigned)visibleCount
 {
-    return [self.visibleListContacts count];
+	return [self.visibleListContacts count];
 }
 
 /*!
@@ -1129,8 +1111,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
 {
-	[_visibleListContacts release];
-	_visibleListContacts = nil;
+//	[_visibleListContacts release];
+//	_visibleListContacts = nil;
 }
 
 #pragma mark Debugging

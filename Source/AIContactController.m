@@ -19,7 +19,7 @@
 #import "AIContactController.h"
 
 #import "AISCLViewPlugin.h"
-#import "AIContactHidingController.h"
+#import <Adium/AIContactHidingController.h>
 
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
@@ -296,7 +296,7 @@
 			[localGroup addObject:containingObject];
 			
 			[self _didChangeContainer:localGroup object:containingObject];
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
+			[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 																object:localGroup.containingObject
 															  userInfo:nil];
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
