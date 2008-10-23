@@ -1195,6 +1195,8 @@
 		636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */; };
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
+		639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
+		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		63AF931A0AA81E2300B88299 /* Bright Blue.ListTheme in Copy Legacy ListThemes and ListLayouts */ = {isa = PBXBuildFile; fileRef = 63AF91C90AA8102600B88299 /* Bright Blue.ListTheme */; };
 		63AF931B0AA81E2300B88299 /* Bright Green.ListTheme in Copy Legacy ListThemes and ListLayouts */ = {isa = PBXBuildFile; fileRef = 63AF91CA0AA8102600B88299 /* Bright Green.ListTheme */; };
 		63AF931D0AA81E2300B88299 /* Bright Pink.ListTheme in Copy Legacy ListThemes and ListLayouts */ = {isa = PBXBuildFile; fileRef = 63AF91CC0AA8102600B88299 /* Bright Pink.ListTheme */; };
@@ -1222,7 +1224,6 @@
 		63EA63DD094BB79A009C8453 /* StatusIconPreviewView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 63336B3F094994A800970871 /* StatusIconPreviewView.nib */; };
 		63EA6409094BB9A9009C8453 /* AIStatusIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EA6407094BB9A9009C8453 /* AIStatusIconPreviewController.m */; };
 		63FBAA480887779D00026246 /* AIDockBadger.m in Sources */ = {isa = PBXBuildFile; fileRef = 636AB7F2087E2B6700A87670 /* AIDockBadger.m */; };
-		661561650D84AEED004B7946 /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
 		6615618B0D84B875004B7946 /* AIFilterBarBackgroundBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 6615618A0D84B874004B7946 /* AIFilterBarBackgroundBox.m */; };
 		6C3E0730054471CD00A4AE2E /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
 		6E4D961406B739AC005235E9 /* DCJoinChatPanelPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4D961206B739AC005235E9 /* DCJoinChatPanelPlugin.m */; };
@@ -4184,8 +4185,8 @@
 		63EA62EE094B8705009C8453 /* AIXtraInfoController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtraInfoController.m; path = Source/AIXtraInfoController.m; sourceTree = "<group>"; };
 		63EA6406094BB9A9009C8453 /* AIStatusIconPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIStatusIconPreviewController.h; path = Source/AIStatusIconPreviewController.h; sourceTree = "<group>"; };
 		63EA6407094BB9A9009C8453 /* AIStatusIconPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIStatusIconPreviewController.m; path = Source/AIStatusIconPreviewController.m; sourceTree = "<group>"; };
-		661561630D84AEEC004B7946 /* AIContactHidingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactHidingController.h; path = Source/AIContactHidingController.h; sourceTree = "<group>"; };
-		661561640D84AEEC004B7946 /* AIContactHidingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactHidingController.m; path = Source/AIContactHidingController.m; sourceTree = "<group>"; };
+		661561630D84AEEC004B7946 /* AIContactHidingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactHidingController.h; path = "Frameworks/Adium Framework/Source/AIContactHidingController.h"; sourceTree = "<group>"; };
+		661561640D84AEEC004B7946 /* AIContactHidingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactHidingController.m; path = "Frameworks/Adium Framework/Source/AIContactHidingController.m"; sourceTree = "<group>"; };
 		661561890D84B874004B7946 /* AIFilterBarBackgroundBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFilterBarBackgroundBox.h; path = Source/AIFilterBarBackgroundBox.h; sourceTree = "<group>"; };
 		6615618A0D84B874004B7946 /* AIFilterBarBackgroundBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFilterBarBackgroundBox.m; path = Source/AIFilterBarBackgroundBox.m; sourceTree = "<group>"; };
 		6CE795BD0A6F9CEE00FF3217 /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = Resources/es.lproj/PersonalPreferences.nib; sourceTree = "<group>"; };
@@ -8141,6 +8142,7 @@
 				34DC8A4A0A7EEEF7003E1636 /* AIContentControllerProtocol.h in Headers */,
 				34DC8A4B0A7EEEF7003E1636 /* AIDockControllerProtocol.h in Headers */,
 				34DC8A4C0A7EEEF7003E1636 /* AIEmoticonControllerProtocol.h in Headers */,
+				6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */,
 				34DC8A4D0A7EEEF7003E1636 /* AIFileTransferControllerProtocol.h in Headers */,
 				34DC8A4E0A7EEEF7003E1636 /* AIInterfaceControllerProtocol.h in Headers */,
 				34DC8A4F0A7EEEF7003E1636 /* AILoginControllerProtocol.h in Headers */,
@@ -9775,7 +9777,6 @@
 				4F1CB62E0D640D770073A1E6 /* AIAdvancedInspectorPane.m in Sources */,
 				4F1CB62F0D640D770073A1E6 /* AIAddressBookInspectorPane.m in Sources */,
 				4F1CB6320D640D7F0073A1E6 /* AIEventsInspectorPane.m in Sources */,
-				661561650D84AEED004B7946 /* AIContactHidingController.m in Sources */,
 				6615618B0D84B875004B7946 /* AIFilterBarBackgroundBox.m in Sources */,
 				632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */,
 				34EBB2C30DCA8DE500B4CB6E /* AISearchFieldCell.m in Sources */,
@@ -9802,6 +9803,7 @@
 				34DC8A640A7EEEF7003E1636 /* AIAccountViewController.m in Sources */,
 				34DC8A6B0A7EEEF7003E1636 /* AIEmoticon.m in Sources */,
 				34DC8A6D0A7EEEF7003E1636 /* AIEmoticonPack.m in Sources */,
+				639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */,
 				34DC8A700A7EEEF7003E1636 /* AIStatusItem.m in Sources */,
 				34DC8A720A7EEEF7003E1636 /* AIStatus.m in Sources */,
 				34DC8A740A7EEEF7003E1636 /* AIStatusGroup.m in Sources */,
