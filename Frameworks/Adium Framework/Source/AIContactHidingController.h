@@ -15,13 +15,8 @@
  */
 #import <Adium/AIContactObserverManager.h>
 
-typedef enum {
-	AIOfflineContactHidingReason = 0,
-	AIContactFilteringReason
-} AIVisibilityReason;
-
 @class AIListContact;
-@interface AIContactHidingController : NSObject <AIListObjectObserver> {
+@interface AIContactHidingController : NSObject {
 	NSString		*searchString;
 	
 	BOOL			hideOfflineIdleOrMobileContacts;
@@ -40,5 +35,5 @@ typedef enum {
 @property (readonly, nonatomic) NSString *contactFilteringSearchString;
 - (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts;
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString;
-- (void)refilterContacts;
+- (BOOL)visibilityOfContact:(AIListContact *)listContact;
 @end

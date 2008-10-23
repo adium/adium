@@ -197,10 +197,8 @@
 #pragma mark -
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if ([keyPath isEqualToString:@"Online"] && (object == [self account])) {
-		BOOL online = [[self account] online];
-		[self setVisible:online];
-		[self setOnline:online notify:NotifyNow silently:YES];
+	if ([keyPath isEqualToString:@"Online"] && object == self.account) {
+		[self setOnline:self.account.online notify:NotifyNow silently:YES];
 	}
 }
 

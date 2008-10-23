@@ -42,7 +42,7 @@
 #import "AIContactListImagePicker.h"
 #import "AIContactListNameButton.h"
 #import "AIContactController.h"
-#import "AIContactHidingController.h"
+#import <Adium/AIContactHidingController.h>
 
 #import "AISearchFieldCell.h"
 
@@ -1065,6 +1065,7 @@
 		filterBarExpandedGroups = NO;
 	}
 
+	//XXX this filters twice, which shouldn't be necessary
 	if ([[AIContactHidingController sharedController] searchTermMatchesAnyContacts:[sender stringValue]]) {
 		// Set the new string in the hiding controller, and refilter the contact lists.
 		[[AIContactHidingController sharedController] setContactFilteringSearchString:[sender stringValue]

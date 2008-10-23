@@ -24,7 +24,6 @@
 	AIListContact		*_preferredContact;
 	NSArray				*_listContacts;
 	NSArray				*_listContactsIncludingOfflineAccounts;
-	NSArray				*_visibleListContacts;
 	
 	BOOL								containsOnlyOneUniqueContact;
 	BOOL								containsOnlyOneService;

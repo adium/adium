@@ -47,7 +47,7 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import "AIAddressBookController.h"
-#import "AIContactHidingController.h"
+#import <Adium/AIContactHidingController.h>
 #import <Sparkle/Sparkle.h>
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
 //For Apple Help

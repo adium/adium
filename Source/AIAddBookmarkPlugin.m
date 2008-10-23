@@ -75,7 +75,6 @@
 	[bookmark setDisplayName:name];
 	
 	[adium.contactController moveObject:bookmark intoObject:group];
-	[bookmark setVisible:YES];
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)inToolbarItem
