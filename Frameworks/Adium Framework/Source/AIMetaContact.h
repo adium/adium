@@ -63,8 +63,6 @@
  */
 - (NSArray *)listContactsIncludingOfflineAccounts;
 
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
-
 //Delay sorting the contained object list; this should only be used by the contactController. Be sure to set it back to YES when operations are done
 - (void)setDelayContainedObjectSorting:(BOOL)flag;
 

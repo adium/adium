@@ -316,9 +316,6 @@
 		[self _moveContactLocally:inContact
 						  toGroup:localGroup];
 		
-		if([localGroup.containingObject isKindOfClass:[AIListGroup class]])
-			[(AIListGroup *)localGroup.containingObject visibilityOfContainedObject:localGroup changedTo:YES];
-		
 	} else if (containingObject) {
 		//If !remoteGroupName, remove the contact from any local groups
 		[(AIListGroup *)containingObject removeObject:inContact];
@@ -1652,8 +1649,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	 Resort the entire list if we are moving within or between AIListGroup objects
 	 (other containing objects such as metaContacts will handle their own sorting).
 	 */
-	if ([group isKindOfClass:[AIListGroup class]]){
-		[(AIListGroup *)group visibilityOfContainedObject:group changedTo:YES];
+	if ([group isKindOfClass:[AIListGroup class]]) {
 		[self sortContactLists:[NSArray arrayWithObject:group]];
 	}
 }

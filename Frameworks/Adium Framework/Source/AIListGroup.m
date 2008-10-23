@@ -86,14 +86,6 @@
 	return visibleCount;
 }
 
-//Called when the visibility of an object in this group changes
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
-{
-	//Sort the contained object to or from the bottom (invisible section) of the group
-	[adium.contactController sortListObject:inObject];
-	[self didModifyProperties:[NSSet setWithObject:@"VisibleObjectCount"] silent:NO];
-}
-
 /*!
  * @brief Get the visible object at a given index
  *

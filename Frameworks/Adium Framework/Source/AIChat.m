@@ -580,11 +580,6 @@ static int nextChatNumber = 0;
 	return [self containedObjectsCount];
 }
 
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
-{
-	//Nothing to do; we don't pay attention to the object's visibility
-}
-
 - (NSString *)contentsBasedIdentifier
 {
 	return [NSString stringWithFormat:@"%@-%@.%@",[self name], [self.account serviceID], [self.account UID]];

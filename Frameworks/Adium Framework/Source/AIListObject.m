@@ -172,7 +172,7 @@
  */
 - (BOOL)visible
 {
-	return [[AIContactHidingController sharedController] visibilityOfContact:self];
+	return [[AIContactHidingController sharedController] visibilityOfListObject:self];
 }
 
 /*!
@@ -189,8 +189,7 @@
 					   notify:NotifyNow];
 		
 		if ([containingObject isKindOfClass:[AIListGroup class]]) {
-			//Let our containing group know about the visibility change
-			[(AIListGroup *)containingObject visibilityOfContainedObject:self changedTo:(alwaysVisible || [self visible])];
+			[adium.contactController sortListObject:self];
 		}
 	}
 }
