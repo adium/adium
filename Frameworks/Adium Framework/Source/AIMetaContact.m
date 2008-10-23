@@ -1109,12 +1109,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return [self.visibleListContacts indexOfObject:obj];
 }
 
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible
-{
-//	[_visibleListContacts release];
-//	_visibleListContacts = nil;
-}
-
 #pragma mark Debugging
 - (NSString *)description
 {

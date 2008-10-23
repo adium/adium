@@ -19,10 +19,11 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AIListBookmark.h>
 #import "AIContactController.h"
 
 @interface AIContactHidingController ()
-- (BOOL)evaluatePredicateOnListContact:(AIListContact *)listContact withSearchString:(NSString *)inSearchString;
+- (BOOL)evaluatePredicateOnListObject:(AIListObject *)listObject withSearchString:(NSString *)inSearchString;
 @end;
 
 static NSPredicate *filterPredicateTemplate;
@@ -106,38 +107,39 @@ static AIContactHidingController *sharedControllerInstance = nil;
  * @brief Determines a contact's visibility based on the contact hiding preferences
  * @result Returns YES if the contact should be visible, otherwise NO
  */
-- (BOOL)visibilityOfContact:(AIListContact *)listContact
+- (BOOL)visibilityOfListObject:(AIListObject *)listObject
 {
 	// Don't do any processing for a contact that's always visible.
-	if (listContact.alwaysVisible)
+	if (listObject.alwaysVisible)
 		return YES;
 
-	if ([listContact conformsToProtocol:@protocol(AIContainingObject)]) {
+	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
-		return ([(AIListContact<AIContainingObject> *)listContact visibleCount] > 0);
+		return ([(AIListContact<AIContainingObject> *)listObject visibleCount] > 0);
 	}
 	
 	if (searchString && [searchString length])
-		return [self evaluatePredicateOnListContact:listContact withSearchString:searchString];
+		return [self evaluatePredicateOnListObject:listObject withSearchString:searchString];
 	
 	if (!hideOfflineIdleOrMobileContacts)
 		return YES;
 	
-	BOOL online = listContact.online || [listContact boolValueForProperty:@"Signed Off"] || [listContact boolValueForProperty:@"New Object"];
+	BOOL online = listObject.online || [listObject boolValueForProperty:@"Signed Off"] || [listObject boolValueForProperty:@"New Object"];
 	
-	if ([listContact isKindOfClass:[AIListBookmark class]])
+	if ([listObject isKindOfClass:[AIListBookmark class]])
 		return online;
 	
-	if (!online && (!showOfflineContacts || !(listContact.parentContact.containingObject && listContact.parentContact.containingObject == adium.contactController.offlineGroup)))
+	//we can cast to AIListContact here since groups and metas were handled up above
+	if (!online && (!showOfflineContacts || !(((AIListContact *)listObject).parentContact.containingObject && ((AIListContact *)listObject).parentContact.containingObject == adium.contactController.offlineGroup)))
 		return NO;
 	
-	if (!showIdleContacts && [listContact valueForProperty:@"IdleSince"])
+	if (!showIdleContacts && [listObject valueForProperty:@"IdleSince"])
 		return NO;
 
-	if (!showMobileContacts && listContact.isMobile)
+	if (!showMobileContacts && listObject.isMobile)
 		return NO;
 	
-	if (!showBlockedContacts && listContact.isBlocked)
+	if (!showBlockedContacts && listObject.isBlocked)
 		return NO;
 
 	return YES;
@@ -151,7 +153,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString
 {	
 	for (AIListContact *listContact in [adium.contactController.allContacts arrayByAddingObjectsFromArray:adium.contactController.allBookmarks]) {
-		if ([self evaluatePredicateOnListContact:listContact withSearchString:inSearchString]) {
+		if ([self evaluatePredicateOnListObject:listContact withSearchString:inSearchString]) {
 			return YES;
 		}
 	}
@@ -165,11 +167,11 @@ static AIContactHidingController *sharedControllerInstance = nil;
  * @param inSearchString The search string the listContact should be compared with
  * @result Returns YES if the display name, formatted UID or status message contain inSearchString, or if inSearchString is empty. Otherwise NO.
  */
-- (BOOL)evaluatePredicateOnListContact:(AIListContact *)listContact
+- (BOOL)evaluatePredicateOnListObject:(AIListObject *)listObject
 					  withSearchString:(NSString *)inSearchString
 {	
 	// If we aren't given a contact, return NO.
-	if (!listContact)
+	if (!listObject)
 		return NO;
 
 	// If the search string is nil or empty, return YES.
@@ -184,16 +186,16 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		filterPredicate = [[filterPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:inSearchString forKey:@"SEARCH_STRING"]] retain];
 	
 	// If the given contact is a meta contact, check all of its contained objects.
-	if ([listContact conformsToProtocol:@protocol(AIContainingObject)]) {
+	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		
-		for (AIListContact *containedContact in (AIListContact<AIContainingObject> *)listContact) {
+		for (AIListContact *containedContact in (AIListContact<AIContainingObject> *)listObject) {
 			if ([filterPredicate evaluateWithObject:containedContact])
 				return YES;
 		}
 
 		return NO;
 	} else {
-		return [filterPredicate evaluateWithObject:listContact];
+		return [filterPredicate evaluateWithObject:listObject];
 	}
 }
 

@@ -35,5 +35,5 @@
 @property (readonly, nonatomic) NSString *contactFilteringSearchString;
 - (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts;
 - (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString;
-- (BOOL)visibilityOfContact:(AIListContact *)listContact;
+- (BOOL)visibilityOfListObject:(AIListObject *)listObject;
 @end

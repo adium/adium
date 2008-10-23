@@ -67,9 +67,6 @@ typedef enum {
 @property (readonly, nonatomic, getter=isExpandable) BOOL expandable;
 @property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
-
-- (void)visibilityOfContainedObject:(AIListObject *)inObject changedTo:(BOOL)inVisible;
-
 @end
 
 @interface AIListObject : ESObjectWithProperties {
