@@ -24,6 +24,7 @@
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContactObserverManager.h>
 
 @implementation AIStressTestAccount
 //
