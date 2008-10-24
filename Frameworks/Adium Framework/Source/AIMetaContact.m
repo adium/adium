@@ -582,9 +582,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSMutableArray	*listContacts = [[NSMutableArray alloc] init];
 	
 	//Search for an available contact
-	NSUInteger count = [myContainedObjects count];
-	for (NSUInteger i = 0; i < count; i++) {
-		AIListContact *listContact = [myContainedObjects objectAtIndex:i];
+	for (AIListContact *listContact in myContainedObjects) {
 		AIListContact *previousContact = [listContacts lastObject];
 		
 		//Take advantage of the fact that this is a sorted list. If there are duplicates, they will be right next to each other.
@@ -593,7 +591,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			 * has the best possible listContacts (making display elsewhere more straightforward) 
 			 */ 
 			if (!previousContact.online && listContact.online)
-				[listContacts replaceObjectAtIndex:i-1 withObject:listContact];
+				[listContacts replaceObjectAtIndex:[listContacts count] - 1 withObject:listContact];
 			continue;
 		}
 
