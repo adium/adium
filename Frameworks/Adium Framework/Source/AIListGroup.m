@@ -27,7 +27,6 @@
 	if ((self = [super initWithUID:inUID service:nil])) {
 		_containedObjects = [[NSMutableArray alloc] init];
 		expanded = YES;
-		visible = NO;
 	}
 	
 	return self;
