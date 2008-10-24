@@ -49,6 +49,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if ((self = [super init])) {
 		//Register preference observer first so values will be correct for the following calls
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+		matchedContacts = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
@@ -90,17 +91,20 @@ static AIContactHidingController *sharedControllerInstance = nil;
  * @brief Sets the contact filtering search string
  *
  * @param inSearchString The search string
- * @param refilterContacts If YES, all contacts will be reevaluated against the string
  */
-- (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts
+- (BOOL)filterContacts:(NSString *)inSearchString
 {
 	[searchString release];
 	searchString = [inSearchString retain];
 	[filterPredicate release];
 	filterPredicate = nil;
 	
-	if(refilterContacts)
-		[adium.contactController sortContactList];;
+	for (AIListContact *listContact in [adium.contactController.allContacts arrayByAddingObjectsFromArray:adium.contactController.allBookmarks]) {
+			[matchedContacts setObject:[NSNumber numberWithBool:[self evaluatePredicateOnListObject:listContact withSearchString:inSearchString]] forKey:listContact.UID];
+	}
+	
+	[adium.contactController sortContactList];
+	return [matchedContacts count] > 0;
 }
 
 /*!
@@ -118,8 +122,12 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return ([(AIListContact<AIContainingObject> *)listObject visibleCount] > 0);
 	}
 	
-	if (searchString && [searchString length])
+	if (searchString && [searchString length]) {
+		NSNumber *matched = [matchedContacts objectForKey:listObject.UID];
+		if (matched)
+			return [matched boolValue];
 		return [self evaluatePredicateOnListObject:listObject withSearchString:searchString];
+	}
 	
 	if (!hideOfflineIdleOrMobileContacts)
 		return YES;
@@ -143,22 +151,6 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return NO;
 
 	return YES;
-}
-
-/*!
- * @brief Determines if any contacts match the given search string
- * @param inSearchString The search string contacts are evaluated against
- * @result Returns YES if one or more contacts match the string, otherwise NO
- */
-- (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString
-{	
-	for (AIListContact *listContact in [adium.contactController.allContacts arrayByAddingObjectsFromArray:adium.contactController.allBookmarks]) {
-		if ([self evaluatePredicateOnListObject:listContact withSearchString:inSearchString]) {
-			return YES;
-		}
-	}
-	
-	return NO;
 }
 
 /*!
