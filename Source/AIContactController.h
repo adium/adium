@@ -33,6 +33,7 @@
 @interface AIContactController : NSObject <AIContactController, AIListObjectObserver> {
 	//Contacts and metaContacts
 	NSMutableDictionary		*contactDict;
+	NSMutableDictionary  *bookmarkDict;
 	NSMutableDictionary		*metaContactDict;
 	NSMutableDictionary		*contactToMetaContactLookupDict;
 	
