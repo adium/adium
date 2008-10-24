@@ -158,6 +158,7 @@
 		
 	[contactDict release];
 	[groupDict release];
+	[bookmarkDict release];
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
 	[contactLists release];
