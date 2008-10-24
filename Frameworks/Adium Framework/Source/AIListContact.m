@@ -44,9 +44,9 @@
 //Init with an account
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService
 {
-	[self initWithUID:inUID service:inService];
-	
-	account = [inAccount retain];
+	if ((self = [self initWithUID:inUID service:inService])) {
+		account = [inAccount retain];
+	}
 	
 	return self;
 }
@@ -54,12 +54,12 @@
 //Standard init
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService
 {
-	[super initWithUID:inUID service:inService];
+	if ((self = [super initWithUID:inUID service:inService])) {
+		account = nil;
+		remoteGroupName = nil;
+		internalUniqueObjectID = nil;
+	}
 
-	account = nil;
-	remoteGroupName = nil;
-	internalUniqueObjectID = nil;
-	
 	return self;
 }
 
