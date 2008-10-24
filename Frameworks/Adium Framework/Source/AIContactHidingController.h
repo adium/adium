@@ -18,6 +18,7 @@
 @class AIListContact;
 @interface AIContactHidingController : NSObject {
 	NSString		*searchString;
+	NSMutableDictionary *matchedContacts;
 	
 	BOOL			hideOfflineIdleOrMobileContacts;
 	
@@ -33,7 +34,6 @@
 + (AIContactHidingController *)sharedController;
 
 @property (readonly, nonatomic) NSString *contactFilteringSearchString;
-- (void)setContactFilteringSearchString:(NSString *)inSearchString refilterContacts:(BOOL)refilterContacts;
-- (BOOL)searchTermMatchesAnyContacts:(NSString *)inSearchString;
+- (BOOL)filterContacts:(NSString *)inSearchString;
 - (BOOL)visibilityOfListObject:(AIListObject *)listObject;
 @end

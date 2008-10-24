@@ -1065,11 +1065,7 @@
 		filterBarExpandedGroups = NO;
 	}
 
-	//XXX this filters twice, which shouldn't be necessary
-	if ([[AIContactHidingController sharedController] searchTermMatchesAnyContacts:[sender stringValue]]) {
-		// Set the new string in the hiding controller, and refilter the contact lists.
-		[[AIContactHidingController sharedController] setContactFilteringSearchString:[sender stringValue]
-																			refilterContacts:YES];
+	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
 		
 		// Select the first contact; we're guaranteed at least one visible contact.
 		[contactListView selectRowIndexes:[NSIndexSet indexSetWithIndex:[contactListView indexOfFirstVisibleListContact]]
@@ -1082,15 +1078,6 @@
 		[[searchField cell] setTextColor:nil backgroundColor:nil];
 	
 	} else {
-		// Beep if the user continues appending text to an already not found string, otherwise don't beep.
-		if ([[sender stringValue] length] > [[[AIContactHidingController sharedController] contactFilteringSearchString] length]) {
-			NSBeep();
-		}
-
-		// Set the search string in the hiding controller, but don't refilter the contacts.
-		[[AIContactHidingController sharedController] setContactFilteringSearchString:[sender stringValue]
-																			refilterContacts:NO];
-		
 		//White on light red (like Firefox!)
 		[[searchField cell] setTextColor:[NSColor whiteColor] backgroundColor:[NSColor colorWithCalibratedHue:0.983
 																								   saturation:0.43
