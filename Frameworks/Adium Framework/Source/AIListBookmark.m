@@ -37,7 +37,7 @@
 
 -(id)initWithChat:(AIChat *)inChat
 {
-	if ((self = [super initWithUID:[NSString stringWithFormat:@"Bookmark:%@", inChat.uniqueChatID]
+	if ((self = [self initWithUID:[NSString stringWithFormat:@"Bookmark:%@", inChat.uniqueChatID]
 						   account:inChat.account
 						   service:inChat.account.service])) {
 		chatCreationDictionary = [inChat.chatCreationDictionary copy];
