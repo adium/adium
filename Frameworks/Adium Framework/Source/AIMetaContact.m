@@ -583,18 +583,16 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSMutableArray	*uniqueObjectIDs = [[NSMutableArray alloc] initWithCapacity:[myContainedObjects count]];
 	
 	//Search for an available contact
-	for (AIListObject *listObject in myContainedObjects) {
+	for (AIListContact *listContact in myContainedObjects) {
 
-		if (([listObject isKindOfClass:[AIListContact class]]) &&
-			([(AIListContact *)listObject remoteGroupName] || includeOfflineAccounts) &&
-			(!visibleOnly || listObject.visible)) {
+		if ((listContact.remoteGroupName || includeOfflineAccounts) && (!visibleOnly || listContact.visible)) {
 
-			NSString        *listObjectInternalObjectID = [listObject internalObjectID]; 
+			NSString        *listObjectInternalObjectID = [listContact internalObjectID]; 
 			NSInteger listContactIndex = [uniqueObjectIDs indexOfObject:listObjectInternalObjectID]; 
 			
 			if (listContactIndex == NSNotFound) { 
 				//This contact isn't in the array yet, so add it 
-				[listContacts addObject:listObject]; 
+				[listContacts addObject:listContact]; 
 				[uniqueObjectIDs addObject:listObjectInternalObjectID]; 
 				
 			} else { 
@@ -602,10 +600,10 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 				 * has the best possible listContacts (making display elsewhere more straightforward) 
 				 */ 
 				if (![[listContacts objectAtIndex:listContactIndex] online] && 
-					[listObject online]) { 
+					[listContact online]) { 
 					
 					[listContacts replaceObjectAtIndex:listContactIndex 
-											withObject:listObject]; 
+											withObject:listContact]; 
 				}
             }
 		}
