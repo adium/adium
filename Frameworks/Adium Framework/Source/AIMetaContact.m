@@ -580,36 +580,27 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	NSArray			*myContainedObjects = self.containedObjects;
 	NSMutableArray	*listContacts = [[NSMutableArray alloc] init];
-	NSMutableArray	*uniqueObjectIDs = [[NSMutableArray alloc] initWithCapacity:[myContainedObjects count]];
 	
 	//Search for an available contact
-	for (AIListContact *listContact in myContainedObjects) {
+	NSUInteger count = [myContainedObjects count];
+	for (NSUInteger i = 0; i < count; i++) {
+		AIListContact *listContact = [myContainedObjects objectAtIndex:i];
+		AIListContact *previousContact = [listContacts lastObject];
+		
+		//Take advantage of the fact that this is a sorted list. If there are duplicates, they will be right next to each other.
+		if ([listContact.internalObjectID isEqualToString:previousContact.internalObjectID]) {
+			/* If it is a duplicate, but the previous pick is offline and this contact is online, swap 'em out so our array 
+			 * has the best possible listContacts (making display elsewhere more straightforward) 
+			 */ 
+			if (!previousContact.online && listContact.online)
+				[listContacts replaceObjectAtIndex:i-1 withObject:listContact];
+			continue;
+		}
 
 		if ((listContact.remoteGroupName || includeOfflineAccounts) && (!visibleOnly || listContact.visible)) {
-
-			NSString        *listObjectInternalObjectID = [listContact internalObjectID]; 
-			NSInteger listContactIndex = [uniqueObjectIDs indexOfObject:listObjectInternalObjectID]; 
-			
-			if (listContactIndex == NSNotFound) { 
-				//This contact isn't in the array yet, so add it 
-				[listContacts addObject:listContact]; 
-				[uniqueObjectIDs addObject:listObjectInternalObjectID]; 
-				
-			} else { 
-				/* If it is found, but it is offline and this contact is online, swap 'em out so our array 
-				 * has the best possible listContacts (making display elsewhere more straightforward) 
-				 */ 
-				if (![[listContacts objectAtIndex:listContactIndex] online] && 
-					[listContact online]) { 
-					
-					[listContacts replaceObjectAtIndex:listContactIndex 
-											withObject:listContact]; 
-				}
-            }
+			[listContacts addObject:listContact]; 
 		}
 	}
-	
-	[uniqueObjectIDs release];
 	
 	return [listContacts autorelease];
 }
