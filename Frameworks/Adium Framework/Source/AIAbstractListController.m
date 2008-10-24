@@ -594,11 +594,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
 {
 	if (item) {
-		return index >= 0 && index < ((id<AIContainingObject>)item).visibleCount ? [item visibleObjectAtIndex:index] : nil;
+		return [item visibleObjectAtIndex:index];
 	}
 	
 	if (hideRoot) {
-		return index >= 0 && index < contactList.visibleCount ? [contactList visibleObjectAtIndex:index] : nil;
+		return [contactList visibleObjectAtIndex:index];
 	}
 	
 	return contactList;
