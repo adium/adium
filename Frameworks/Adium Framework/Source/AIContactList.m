@@ -18,6 +18,7 @@
 #import <Adium/AISortController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 
 @implementation AIContactList
 - (NSString *)contentsBasedIdentifier
@@ -27,8 +28,9 @@
 
 - (BOOL)canContainObject:(id)obj
 {
+	//bookmarks have no containing group apparently?
 	if(adium.contactController.useContactListGroups)
-		return [obj isKindOfClass:[AIListGroup class]] && ![obj isKindOfClass:[AIContactList class]];
+		return ([obj isKindOfClass:[AIListGroup class]] || [obj isKindOfClass:[AIListBookmark class]]) && ![obj isKindOfClass:[AIContactList class]];
 	else
 		return YES; //ARGH
 }
