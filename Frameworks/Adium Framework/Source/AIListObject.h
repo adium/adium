@@ -74,7 +74,6 @@ typedef enum {
 	
 	NSString				*UID;
 	NSString				*internalObjectID;
-	BOOL							visible;				//Visibility of this object
 	BOOL							alwaysVisible;
 
 	//Grouping, Manual ordering

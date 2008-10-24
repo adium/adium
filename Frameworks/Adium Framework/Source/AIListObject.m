@@ -53,7 +53,6 @@
 		UID = [inUID retain];	
 		service = inService;
 
-		visible = YES;
 		orderIndex = 0;
 
 		largestOrder = 1.0;
