@@ -28,20 +28,20 @@
 @implementation AIListBookmark
 - (void)_initListBookmark
 {
-	[[self account] addObserver:self
+	[self.account addObserver:self
 					 forKeyPath:@"Online"
 						options:NSKeyValueObservingOptionNew
 						context:NULL];
-	[self observeValueForKeyPath:@"Online" ofObject:[self account] change:nil context:NULL];
+	[self observeValueForKeyPath:@"Online" ofObject:self.account change:nil context:NULL];
 }
 
 -(id)initWithChat:(AIChat *)inChat
 {
-	if ((self = [self initWithUID:[NSString stringWithFormat:@"Bookmark:%@",[inChat uniqueChatID]]
-						   account:[inChat account]
-						   service:[[inChat account] service]])) {
-		chatCreationDictionary = [[inChat chatCreationDictionary] copy];
-		name = [[inChat name] copy];
+	if ((self = [super initWithUID:[NSString stringWithFormat:@"Bookmark:%@", inChat.uniqueChatID]
+						   account:inChat.account
+						   service:inChat.account.service])) {
+		chatCreationDictionary = [inChat.chatCreationDictionary copy];
+		name = [inChat.name copy];
 		[self _initListBookmark];
 		AILog(@"Created AIListBookmark %@", self);
 	}
