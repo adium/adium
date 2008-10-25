@@ -94,8 +94,9 @@
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
 	AIListObject *obj = [self.containedObjects objectAtIndex:index];
-	NSAssert5(obj.visible, @"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i",
-			  index, self, obj, self.containedObjects, self.visibleCount);
+	if(!obj.visible)
+		AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
+
 	return obj;
 }
 
