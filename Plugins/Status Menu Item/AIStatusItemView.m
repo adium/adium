@@ -37,6 +37,8 @@
 	[super dealloc];
 }
 
+#pragma mark Display
+
 - (void)drawRect:(NSRect)rect
 {
 	// A known bug with screen flashing and updating: http://www.cocoabuilder.com/archive/message/cocoa/2008/4/22/204861
@@ -74,6 +76,8 @@
 	[self setNeedsDisplay:YES];	
 }
 
+#pragma mark Events
+
 /*!
  * @brief Primary menu on left mouse down
  */
@@ -90,6 +94,8 @@
 	[self displayMenu:(alternateMenu ? alternateMenu : mainMenu)];
 }
 
+#pragma mark AIImageTextCellView subclass responsibilities
+
 /*!
  * @brief The width our cell would like to be.
  */
@@ -97,6 +103,8 @@
 {
 	return [cell cellSizeForBounds:NSMakeRect(0,0,1e6,1e6)].width;
 }
+
+#pragma mark Accessors
 
 /*!
  * @brief Sets the regular image
