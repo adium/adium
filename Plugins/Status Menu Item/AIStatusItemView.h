@@ -16,23 +16,19 @@
 	NSImage					*regularImage;
 	NSImage					*alternateImage;
 	
-	NSMenu					*mainMenu;
+	NSMenu					*menu;
 	NSMenu					*alternateMenu;
 }
 
-- (NSUInteger)desiredWidth;
+@property(readonly) NSUInteger desiredWidth;
 
-- (void)setRegularImage:(NSImage *)image;
-- (NSImage *)regularImage;
-- (void)setAlternateImage:(NSImage *)image;
-- (NSImage *)alternateImage;
+@property(copy) NSImage *regularImage;
+@property(copy) NSImage *alternateImage;
 
-- (void)setMenu:(NSMenu *)menu;
-- (NSMenu *)menu;
-- (void)setAlternateMenu:(NSMenu *)menu;
-- (NSMenu *)alternateMenu;
+//These are by retain in case you want to set a delegate for the menu.
+@property(retain) NSMenu *menu;
+@property(retain) NSMenu *alternateMenu;
 
-- (void)setStatusItem:(NSStatusItem *)statusItem;
-- (NSStatusItem *)statusItem;
+@property(assign) NSStatusItem *statusItem;
 
 @end

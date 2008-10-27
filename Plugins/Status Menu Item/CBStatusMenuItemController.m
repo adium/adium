@@ -67,7 +67,7 @@
 		statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:25] retain];
 		
 		statusItemView = [[AIStatusItemView alloc] initWithFrame:NSMakeRect(0,0,25,22)];
-		[statusItemView setStatusItem:statusItem];
+		statusItemView.statusItem = statusItem;
 		[statusItem setView:statusItemView];
 		
 		unviewedContent = NO;
@@ -87,8 +87,8 @@
 		[mainOptionsMenu setDelegate:self];
 
 		// Set the main menu as the status item's menu
-		[statusItemView setMenu:mainMenu];
-		[statusItemView setAlternateMenu:mainContactsMenu];
+		statusItemView.menu = mainMenu;
+		statusItemView.alternateMenu = mainContactsMenu;
 		
 		// Create the caches for our menu items
 		accountMenuItemsArray = [[NSMutableArray alloc] init];
@@ -398,9 +398,9 @@
 	NSImage *alternateMenuIcon = [menuIcons imageOfType:imageName alternate:YES];
 	
 	// Set our icon.
-	[statusItemView setRegularImage:[self badgeDuck:menuIcon withImage:badge]];
+	statusItemView.regularImage = [self badgeDuck:menuIcon withImage:badge];
 	// Badge the highlight image and set it.
-	[statusItemView setAlternateImage:[self badgeDuck:alternateMenuIcon withImage:badge]];
+	statusItemView.alternateImage = [self badgeDuck:alternateMenuIcon withImage:badge];
 	// Update our unread count.
 	if (showUnreadCount) {
 		[self updateUnreadCount];
@@ -414,8 +414,8 @@
  */
 - (void)updateStatusItemLength
 {
-	[statusItem setLength:[statusItemView desiredWidth] + STATUS_ITEM_MARGIN];
-	[statusItemView setFrame:NSMakeRect(0, 0, [statusItemView desiredWidth] + STATUS_ITEM_MARGIN, 22)];
+	[statusItem setLength:statusItemView.desiredWidth + STATUS_ITEM_MARGIN];
+	[statusItemView setFrame:NSMakeRect(0, 0, statusItemView.desiredWidth + STATUS_ITEM_MARGIN, 22)];
 	[statusItemView setNeedsDisplay:YES];
 }
 
