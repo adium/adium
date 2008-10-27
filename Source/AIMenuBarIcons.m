@@ -173,7 +173,7 @@
 						forKey:@"inputImage"]; 
 	[monochromeFilter setValue:[NSNumber numberWithDouble:1.0]
 						forKey:@"inputIntensity"];
-	[monochromeFilter setValue:[[[CIColor alloc] initWithColor:[NSColor blackColor]] autorelease]
+	[monochromeFilter setValue:[[[CIColor alloc] initWithColor:[NSColor whiteColor]] autorelease]
 						forKey:@"inputColor"];
 	
 	//Now invert our greyscale image
