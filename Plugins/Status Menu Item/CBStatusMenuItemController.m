@@ -424,7 +424,7 @@
  * @arg duckImage The base image
  * @arg badgeImage The badge which will be draw on the base image
  *
- * Drags the \c badgeImage in the bottom right quadrant of the \c duckImage.
+ * Draws the \c badgeImage in the bottom right quadrant of the \c duckImage.
  */
 - (NSImage *)badgeDuck:(NSImage *)duckImage withImage:(NSImage *)badgeImage 
 {
