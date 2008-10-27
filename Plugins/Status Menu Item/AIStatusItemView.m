@@ -17,7 +17,7 @@
 		statusItem = nil;
 		regularImage = nil;
 		alternateImage = nil;
-		mainMenu = nil;
+		menu = nil;
 		alternateMenu = nil;
 		
 		[cell setHighlightWhenNotKey:YES];
@@ -31,7 +31,7 @@
 	[statusItem release];
 	[regularImage release];
 	[alternateImage release];
-	[mainMenu release];
+	[menu release];
 	[alternateMenu release];
 	
 	[super dealloc];
@@ -53,7 +53,7 @@
 /*!
  * @brief Displays the desired menu, setting the highlight image as necessary.
  */
-- (void)displayMenu:(NSMenu *)menu
+- (void)displayMenu:(NSMenu *)menuToDisplay
 {
 	mouseDown = YES;
 	if (alternateImage) {
@@ -66,7 +66,7 @@
 	
 	[cell setHighlighted:NO];
 	
-	[statusItem popUpStatusItemMenu:menu];
+	[statusItem popUpStatusItemMenu:menuToDisplay];
 	
 	mouseDown = NO;
 	if (alternateImage) {
@@ -83,7 +83,7 @@
  */
 - (void)mouseDown:(NSEvent *)event
 {
-	[self displayMenu:mainMenu];
+	[self displayMenu:self.menu];
 }
 
 /*!
@@ -91,7 +91,7 @@
  */
 - (void)rightMouseDown:(NSEvent *)event
 {
-	[self displayMenu:(alternateMenu ? alternateMenu : mainMenu)];
+	[self displayMenu:(self.alternateMenu ? self.alternateMenu : self.menu)];
 }
 
 #pragma mark AIImageTextCellView subclass responsibilities
@@ -114,7 +114,7 @@
 - (void)setRegularImage:(NSImage *)image
 {
 	[regularImage release];
-	regularImage = [image retain];
+	regularImage = [image copy];
 	
 	if (!mouseDown) {
 		[self setImage:regularImage];
@@ -140,7 +140,7 @@
 - (void)setAlternateImage:(NSImage *)image
 {
 	[alternateImage release];
-	alternateImage = [image retain];
+	alternateImage = [image copy];
 
 	if (mouseDown) {
 		[self setImage:alternateImage];
@@ -158,59 +158,9 @@
 	return alternateImage;
 }
 
-/*!
- * @brief Set the menu displayed when left clicking
- *
- * This is also the menu used for right-clicking if no alternate menu is specified
- */
-- (void)setMenu:(NSMenu *)menu
-{
-	[mainMenu release];
-	mainMenu = [menu retain];
-}
+@synthesize menu;
+@synthesize alternateMenu;
 
-/*!
- * @brief The menu displayed when left clicking
- *
- * This is also the menu used for right-clicking if no alternate menu is specified
- */
-- (NSMenu *)menu
-{
-	return mainMenu;
-}
-
-/*!
- * @brief Set the menu displayed when right clicking
- */
-- (void)setAlternateMenu:(NSMenu *)menu
-{
-	[alternateMenu release];
-	alternateMenu = [menu retain];
-}
-
-/*!
- * @brief The menu displayed when right clicking
- */
-- (NSMenu *)alternateMenu
-{
-	return alternateMenu;
-}
-
-/*!
- * @brief Set this view's status item
- */
-- (void)setStatusItem:(NSStatusItem *)inStatusItem
-{
-	[statusItem release];
-	statusItem = [inStatusItem retain];
-}
-
-/*!
- * @brief This view's status item
- */
-- (NSStatusItem *)statusItem
-{
-	return statusItem;
-}
+@synthesize statusItem;
 
 @end
