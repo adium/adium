@@ -9,10 +9,12 @@
 #import "ESPurpleSimpleAccountViewController.h"
 #import "ESPurpleSimpleAccount.h"
 
+static NSSet *bindings;
+
 @implementation ESPurpleSimpleAccountViewController
 + (void)initialize {
 	if (self == [ESPurpleSimpleAccountViewController class]) {
-		NSArray *bindings = [NSArray arrayWithObjects:
+		bindings = [[NSSet alloc] initWithObjects:
 			@"publishStatus",
 			@"useUDP",
 			@"useSIPProxy",
@@ -24,11 +26,16 @@
 		NSString	 *binding;
 		for (binding in bindings) {
 			[self exposeBinding:binding];
-
-			//Notify for all our exposed bindings when the account changes
-			[self setKeys:[NSArray arrayWithObject:@"account"] triggerChangeNotificationsForDependentKey:binding];
 		}
 	}
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	NSSet *superSet = [super keyPathsForValuesAffectingValueForKey:key];
+	if ([bindings containsObject:key])
+		return [superSet setByAddingObject:@"account"];
+	return superSet;
 }
 
 - (NSString *)nibName{

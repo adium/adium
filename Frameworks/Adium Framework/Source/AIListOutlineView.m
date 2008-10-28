@@ -38,7 +38,14 @@
 {
 	[self exposeBinding:@"desiredHeight"];
 	[self exposeBinding:@"totalHeight"];
-	[self setKeys:[NSArray arrayWithObject:@"totalHeight"] triggerChangeNotificationsForDependentKey:@"desiredHeight"];
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+	NSSet *superSet = [super keyPathsForValuesAffectingValueForKey:key];
+	if ([key isEqualToString:@"desiredHeight"])
+		return [superSet setByAddingObject:@"totalHeight"];
+	return superSet;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
