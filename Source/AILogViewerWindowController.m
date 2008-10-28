@@ -2445,8 +2445,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		[fileManager createDirectoryAtPath:[logPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 		
 		[fileManager moveItemAtPath:[trashPath stringByAppendingPathComponent:[logPath lastPathComponent]]
-					   toPath:logPath 
-					  handler:NULL];
+							 toPath:logPath 
+							  error:NULL];
 		
 		[plugin markLogDirtyAtPath:logPath];
 	}
@@ -2583,12 +2583,12 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		if ([fileManager fileExistsAtPath:toGroupPath]) {
 			AILog(@"Removing path %@ to make way for %@",
 				  toGroupPath,[trashPath stringByAppendingPathComponent:[toGroupPath lastPathComponent]]);
-			[fileManager removeFileAtPath:toGroupPath
-								  handler:NULL];
+			[fileManager removeItemAtPath:toGroupPath
+									error:NULL];
 		}
 		[fileManager moveItemAtPath:[trashPath stringByAppendingPathComponent:[toGroupPath lastPathComponent]]
-					   toPath:toGroupPath
-					  handler:NULL];
+							 toPath:toGroupPath
+							  error:NULL];
 		
 		NSEnumerator *logEnumerator = [toGroup logEnumerator];
 		AIChatLog	 *aLog;
