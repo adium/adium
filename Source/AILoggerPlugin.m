@@ -1272,11 +1272,15 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
     [dirtyLogLock unlock];
 	
     //Process each from folder
-    for (NSString *fromName in [[NSFileManager defaultManager] directoryContentsAtPath:[self logBasePath]]) {
+	NSArray *fromNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self logBasePath]
+																			 error:NULL];
+
+    for (NSString *fromName in fromNames) {
 		AILogFromGroup *fromGroup = fromGroup = [[AILogFromGroup alloc] initWithPath:fromName fromUID:fromName serviceClass:nil];
 
 		//Walk through every 'to' group
 		for (AILogToGroup *toGroup in [fromGroup toGroupArray]) {
+			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 			//Walk through every log
 			for (AIChatLog *theLog in [toGroup logEnumerator]) {
 				//Add this log's path to our dirty array.  The dirty array is guarded with a lock
@@ -1289,9 +1293,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 			
 			//Flush our pool
-			[pool release]; pool = [[NSAutoreleasePool alloc] init];
-			
-			[toGroup release];
+			[innerPool release];
 		}
 		
 		[fromGroup release];

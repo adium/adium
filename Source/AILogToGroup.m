@@ -31,9 +31,10 @@
 {
     if ((self = [super init]))
 	{
-		relativePath = [inPath retain];
-		from = [inFrom retain];
-		to = [inTo retain];
+		NSParameterAssert(inPath != nil);
+		relativePath = [inPath copy];
+		from = [inFrom copy];
+		to = [inTo copy];
 		serviceClass = [handleSpecialCasesForUIDAndServiceClass(to, inServiceClass) retain];
 		logDict = nil;
 		partialLogDict = nil;
