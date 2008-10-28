@@ -113,10 +113,10 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 /*!
 * @brief Announce when the window script object is available for modification
  */
-- (void)webView:(WebView *)sender windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+- (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame {
     AIWebKitMessageViewController *controller = [mapping objectForKey:[NSValue valueWithPointer:sender]];
 	if(controller)
-        [controller webView:sender windowScriptObjectAvailable:windowScriptObject];
+        [controller webView:sender didClearWindowObject:windowObject forFrame:frame];
 }
 
 /*!
