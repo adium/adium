@@ -712,7 +712,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		
 		if ([[theLog relativePath] hasSuffix:@".AdiumHTMLLog"] || [[theLog relativePath] hasSuffix:@".html"] || [[theLog relativePath] hasSuffix:@".html.bak"]) {
 			//HTML log
-			NSString		   *logFileText = [NSString stringWithContentsOfFile:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+			NSURL *logURL = [NSURL fileURLWithPath:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+			NSString *logFileText = [NSString stringWithContentsOfURL:logURL encoding:NSUTF8StringEncoding error:NULL];
 			NSAttributedString *attributedLogFileText = [AIHTMLDecoder decodeHTML:logFileText];
 
 			if (showEmoticons) {
@@ -753,7 +754,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 		} else {
 			//Fallback: Plain text log
-			NSString *logFileText = [NSString stringWithContentsOfFile:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+			NSURL *logURL = [NSURL fileURLWithPath:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+			NSString *logFileText = [NSString stringWithContentsOfURL:logURL encoding:NSUTF8StringEncoding error:NULL];
 			if (logFileText) {
 				AITextAttributes *textAttributes = [AITextAttributes textAttributesWithFontFamily:@"Helvetica" traits:0 size:12];
 				NSAttributedString *attributedLogFileText = [[[NSAttributedString alloc] initWithString:logFileText 
@@ -909,7 +911,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		[tableView_results scrollRowToVisible:[[tableView_results selectedRowIndexes] firstIndex]];
     } else {
         if (useSame == YES && sameSelection > 0) {
-            [tableView_results selectRow:sameSelection byExtendingSelection:NO];
+            [tableView_results selectRowIndexes:[NSIndexSet indexSetWithIndex:sameSelection] byExtendingSelection:NO];
         } else {
             [self selectFirstLog];
         }
@@ -935,7 +937,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	//search.  As a quick hack, I've added an ignoreSelectionChange flag that can be set to inform our selectionDidChange method
 	//that we instantiated this selection change, and not the user.
 	ignoreSelectionChange = YES;
-	[tableView_results selectRow:0 byExtendingSelection:NO];
+	[tableView_results selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[tableView_results scrollRowToVisible:0];
 	ignoreSelectionChange = NO;
 

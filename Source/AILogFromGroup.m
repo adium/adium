@@ -26,9 +26,10 @@
 {
     if ((self = [super init]))
 	{
-		path = [inPath retain];
-		fromUID = [inFromUID retain];
-		serviceClass = [inServiceClass retain];
+		NSParameterAssert(inPath != nil);
+		path = [inPath copy];
+		fromUID = [inFromUID copy];
+		serviceClass = [inServiceClass copy];
 		toGroupArray = nil;
 	}
     
