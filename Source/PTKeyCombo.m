@@ -133,11 +133,8 @@
 	
 	if( keyCodes == nil )
 	{
-		NSString* path;
-		NSString* contents;
-		
-		path = [[NSBundle bundleForClass: self] pathForResource: @"PTKeyCodes" ofType: @"plist"];
-		contents = [NSString stringWithContentsOfFile: path];
+		NSURL *url = [NSURL fileURLWithPath:[[NSBundle bundleForClass: self] pathForResource: @"PTKeyCodes" ofType: @"plist"]];
+		NSString *contents = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
 		keyCodes = [[contents propertyList] retain];
 	}
 	

@@ -257,7 +257,7 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 		CFRelease,
 		NULL
 	};
-	NSMutableString *newStr = [NSMutableString stringWithContentsOfFile:inFile];
+	NSMutableString *newStr = [NSMutableString stringWithContentsOfFile:inFile usedEncoding:nil error:NULL];
 	NSInteger endOffset = [newStr rangeOfString:@">" options:NSBackwardsSearch].location;
 	NSInteger startOffset = [newStr rangeOfString:@"<" options:NSBackwardsSearch].location;
 	if((endOffset == NSNotFound || endOffset < startOffset) && startOffset != NSNotFound)
