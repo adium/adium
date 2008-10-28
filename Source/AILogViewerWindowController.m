@@ -247,7 +247,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
     //Process each account folder (/Logs/SERVICE.ACCOUNT_NAME/) - sorting by compare: will result in an ordered list
 	//first by service, then by account name.
-    for (NSString *folderName in [[[NSFileManager defaultManager] directoryContentsAtPath:basePath] sortedArrayUsingSelector:@selector(compare:)]) {
+    for (NSString *folderName in [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:basePath error:NULL] sortedArrayUsingSelector:@selector(compare:)]) {
 		if (![folderName isEqualToString:@".DS_Store"]) { // avoid the directory info
 			AILogFromGroup  *logFromGroup;
 			NSMutableSet	*toSetForThisService;

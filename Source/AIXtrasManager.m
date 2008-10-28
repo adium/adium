@@ -198,11 +198,10 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (NSArray *)arrayOfXtrasAtPaths:(NSArray *)paths
 {
 	NSMutableArray	*contents = [NSMutableArray array];
-	NSString		*path;
 	NSFileManager	*manager = [NSFileManager defaultManager];
 
-	for (path in paths) {
-		for (NSString *xtraName in [manager directoryContentsAtPath:path]) {
+	for (NSString *path in paths) {
+		for (NSString *xtraName in [manager contentsOfDirectoryAtPath:path error:NULL]) {
 			if (![xtraName hasPrefix:@"."]) {
 				[contents addObject:[AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:xtraName]]]];
 			}
@@ -210,7 +209,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		
 		NSString *disabledPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:
 								  [[path lastPathComponent] stringByAppendingString:@" (Disabled)"]];
-		for (NSString *xtraName in [manager directoryContentsAtPath:disabledPath]) {
+		for (NSString *xtraName in [manager contentsOfDirectoryAtPath:disabledPath error:NULL]) {
 			if (![xtraName hasPrefix:@"."]) {
 				AIXtraInfo *xtraInfo = [AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[disabledPath stringByAppendingPathComponent:xtraName]]];
 				[xtraInfo setEnabled:NO];
@@ -383,8 +382,8 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	NSFileManager * manager = [NSFileManager defaultManager];
 	NSString * name = [[path lastPathComponent] stringByDeletingPathExtension];
 	if (![manager fileExistsAtPath:path]) {
-		[manager createDirectoryAtPath:path attributes:nil];
-		[manager createDirectoryAtPath:contentsPath attributes:nil];
+		[manager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL];
+		[manager createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:NULL];
 
 		//Info.plist
 		[[NSDictionary dictionaryWithObjectsAndKeys:
@@ -397,7 +396,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 			nil] writeToFile:infoPlistPath atomically:YES];
 
 		//Resources
-		[manager createDirectoryAtPath:resourcesPath attributes:nil];
+		[manager createDirectoryAtPath:resourcesPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	}
 
 	BOOL isDir = NO, success;

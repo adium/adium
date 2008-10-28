@@ -154,7 +154,7 @@ static ESDebugController	*sharedDebugController = nil;
 		folder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) objectAtIndex:0];
 		folder = [folder stringByAppendingPathComponent:@"Logs"];
 		folder = [folder stringByAppendingPathComponent:@"Adium Debug"];
-		BOOL success = [mgr createDirectoryAtPath:folder attributes:nil];
+		BOOL success = [mgr createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:NULL];
 		if((!success) && (errno != EEXIST)) {
 			/*raise an exception if the folder could not be created,
 			*	but not if that was because it already exists.

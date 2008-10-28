@@ -67,7 +67,7 @@
 		toGroupArray = [[NSMutableArray alloc] init];
 		
 		fullPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:path];
-		for (NSString *folderName in [[NSFileManager defaultManager] directoryContentsAtPath:fullPath]) {
+		for (NSString *folderName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:fullPath error:NULL]) {
 			if (![folderName isEqualToString:@".DS_Store"]) {
 				AILogToGroup    *toGroup = nil;
 				
