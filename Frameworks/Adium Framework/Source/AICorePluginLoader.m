@@ -90,7 +90,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	NSString *internalPluginsPath = [[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:DIRECTORY_INTERNAL_PLUGINS] stringByExpandingTildeInPath];
 	
 	//Load the plugins in our bundle
-	for (NSString *path in [[NSFileManager defaultManager] directoryContentsAtPath:internalPluginsPath]) {
+	for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:internalPluginsPath error:NULL]) {
 		if ([[path pathExtension] caseInsensitiveCompare:EXTENSION_ADIUM_PLUGIN] == NSOrderedSame)
 			[[self class] loadPluginAtPath:[internalPluginsPath stringByAppendingPathComponent:path]
 							confirmLoading:NO

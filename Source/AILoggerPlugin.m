@@ -752,9 +752,12 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 						NSString *fullFile = [pathToContactFolder stringByAppendingPathComponent:file];
 						NSString *newFile = [[fullFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"AdiumHTMLLog"];
 						
+						NSError *err;
 						[[NSFileManager defaultManager] moveItemAtPath:fullFile
 																toPath:newFile
-																 error:self];
+																 error:&err];
+						if (err)
+							AILogWithSignature([err localizedDescription]);
 					}
 				}
 				
@@ -819,20 +822,23 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 				[[NSFileManager defaultManager] fileExistsAtPath:fullFile isDirectory:&isDir];
 				
 				if (!isDir) {
-					[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
-																					 forKey:NSFilePosixPermissions]
-												  atPath:fullFile];
+					[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
+																							  forKey:NSFilePosixPermissions]
+													 ofItemAtPath:fullFile
+															error:NULL];
 					
 				} else {
-					[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
-																					 forKey:NSFilePosixPermissions]
-												  atPath:fullFile];
+					[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
+																							  forKey:NSFilePosixPermissions] 
+													 ofItemAtPath:fullFile 
+															error:NULL];
 					
 					// We have to enumerate this directory, too, only not as deep					
 					for (NSString *contentFile in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:fullFile error:NULL]) {
-						[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
-																						 forKey:NSFilePosixPermissions]
-													  atPath:contentFile];
+						[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
+																								  forKey:NSFilePosixPermissions]
+														 ofItemAtPath:contentFile
+																error:NULL];
 					}
 					
 				}
@@ -850,13 +856,6 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
 	 forKey:@"Log Permissions Updated"
 	 group:PREF_GROUP_LOGGING];
-}
-
-- (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo
-{
-	AILogWithSignature(@"Error: %@",errorInfo);
-	
-	return NO;
 }
 
 /*!
@@ -1041,7 +1040,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			//It appears our index was somehow corrupt, since it exists but it could not be opened. Remove it so we can create a new one.
 			AILogWithSignature(@"*** Warning: The Chat Transcript searching index at %@ was corrupt. Removing it and starting fresh; transcripts will be re-indexed automatically.",
 				  logIndexPath);
-			[[NSFileManager defaultManager] removeFileAtPath:logIndexPath handler:NULL];
+			[[NSFileManager defaultManager] removeItemAtPath:logIndexPath error:NULL];
 		}
     }
     if (!newIndex) {
@@ -1065,7 +1064,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		if (newIndex) {
 			AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",newIndex,logIndexPathURL,textAnalysisProperties);
 			//Clear the dirty log array in case it was loaded (this can happen if the user mucks with the cache directory)
-			[[NSFileManager defaultManager] removeFileAtPath:[self _dirtyLogArrayPath] handler:NULL];
+			[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogArrayPath] error:NULL];
 			[dirtyLogArray release]; dirtyLogArray = nil;
 		} else {
 			AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
@@ -1163,11 +1162,11 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)resetLogIndex
 {
 	if ([[NSFileManager defaultManager] fileExistsAtPath:[self _logIndexPath]]) {
-		[[NSFileManager defaultManager] removeFileAtPath:[self _logIndexPath] handler:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:[self _logIndexPath] error:NULL];
 	}	
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:[self _dirtyLogArrayPath]]) {
-		[[NSFileManager defaultManager] removeFileAtPath:[self _dirtyLogArrayPath] handler:NULL];
+		[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogArrayPath] error:NULL];
 	}
 }
 
