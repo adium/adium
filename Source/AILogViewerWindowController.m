@@ -2444,7 +2444,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		
 		[fileManager createDirectoryAtPath:[logPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 		
-		[fileManager movePath:[trashPath stringByAppendingPathComponent:[logPath lastPathComponent]]
+		[fileManager moveItemAtPath:[trashPath stringByAppendingPathComponent:[logPath lastPathComponent]]
 					   toPath:logPath 
 					  handler:NULL];
 		
@@ -2586,7 +2586,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 			[fileManager removeFileAtPath:toGroupPath
 								  handler:NULL];
 		}
-		[fileManager movePath:[trashPath stringByAppendingPathComponent:[toGroupPath lastPathComponent]]
+		[fileManager moveItemAtPath:[trashPath stringByAppendingPathComponent:[toGroupPath lastPathComponent]]
 					   toPath:toGroupPath
 					  handler:NULL];
 		

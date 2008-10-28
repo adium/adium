@@ -292,10 +292,10 @@
 {
 	BOOL		success;
 	
-	success = [[NSFileManager defaultManager] removeFileAtPath:[adium pathOfPackWithName:setName
+	success = [[NSFileManager defaultManager] removeItemAtPath:[adium pathOfPackWithName:setName
 																			   extension:extension
 																	  resourceFolderName:folder]
-													   handler:nil];
+													   error:NULL];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
 	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
@@ -311,11 +311,11 @@
 	NSString	*destFolder = [[adium applicationSupportDirectory] stringByAppendingPathComponent:folder];
 	NSString	*newFileName = [newName stringByAppendingPathExtension:extension];
 	
-	success = [[NSFileManager defaultManager] movePath:[adium pathOfPackWithName:setName
+	success = [[NSFileManager defaultManager] moveItemAtPath:[adium pathOfPackWithName:setName
 																	   extension:extension
 															  resourceFolderName:folder]
 												toPath:[destFolder stringByAppendingPathComponent:newFileName]
-											   handler:nil];
+											   error:NULL];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
 	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];
@@ -332,11 +332,11 @@
 	NSString	*destFolder = [[adium applicationSupportDirectory] stringByAppendingPathComponent:folder];
 	NSString	*newFileName = [newName stringByAppendingPathExtension:extension];
 	
-	success = [[NSFileManager defaultManager] copyPath:[adium pathOfPackWithName:setName
+	success = [[NSFileManager defaultManager] copyItemAtPath:[adium pathOfPackWithName:setName
 																	   extension:extension
 															  resourceFolderName:folder]
 												toPath:[destFolder stringByAppendingPathComponent:newFileName]
-											   handler:nil];
+											   error:NULL];
 	
 	//The availability of an xtras just changed, since we deleted it... post a notification so we can update
 	[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification object:extension];

@@ -489,7 +489,7 @@ typedef enum {
 	{
 		NSString *oldTheme = [OLD_LIST_SETTINGS_PATH stringByAppendingPathComponent:[theme lastPathComponent]];
 		if([manager fileExistsAtPath:oldTheme])
-			[manager movePath:oldTheme toPath:theme handler:nil];
+			[manager moveItemAtPath:oldTheme toPath:theme error:NULL];
 	}
 	NSString *layout = [NSString stringWithFormat:@"%@/%@/%@.%@", 
 							[[NSBundle mainBundle] resourcePath], 
@@ -500,7 +500,7 @@ typedef enum {
 	{
 		NSString *oldLayout = [OLD_LIST_SETTINGS_PATH stringByAppendingPathComponent:[layout lastPathComponent]];
 		if([manager fileExistsAtPath:oldLayout])
-			[manager movePath:oldLayout toPath:layout handler:nil];
+			[manager moveItemAtPath:oldLayout toPath:layout error:NULL];
 	}
 }
 

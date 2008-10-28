@@ -443,10 +443,10 @@
 	//Rename the existing pack to .AdiumEmoticonOld
 	tempPackName = [packName stringByAppendingPathExtension:EMOTICON_PACK_TEMP_EXTENSION];
 	tempPackPath = [workingDirectory stringByAppendingPathComponent:tempPackName];
-	[mgr movePath:packPath toPath:tempPackPath handler:nil];
+	[mgr moveItemAtPath:packPath toPath:tempPackPath error:NULL];
 	
 	//Create ourself a new pack
-	[mgr createDirectoryAtPath:packPath attributes:nil];
+	[mgr createDirectoryAtPath:packPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	
 	//Version this pack as 1
 	[infoDict setObject:[NSNumber numberWithInt:1] forKey:EMOTICON_PACK_VERSION];
@@ -476,7 +476,7 @@
 					
 					//Move the image into our new pack (with a unique name)
 					NSString	*newImagePath = [packPath stringByAppendingPathComponent:newImageName];
-					[mgr copyPath:imagePath toPath:newImagePath handler:nil];
+					[mgr copyItemAtPath:imagePath toPath:newImagePath error:NULL];
 					
 					//Add to our emoticon plist
 					[emoticonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:

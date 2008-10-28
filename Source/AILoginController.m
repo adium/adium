@@ -224,7 +224,7 @@
     destPath = [[[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS] stringByAppendingPathComponent:newName];
 
     //Rename the user's folder (by moving it to a path with a different name)
-    [[NSFileManager defaultManager] movePath:sourcePath toPath:destPath handler:nil];
+    [[NSFileManager defaultManager] moveItemAtPath:sourcePath toPath:destPath error:NULL];
 }
 
 @end

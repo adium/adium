@@ -145,11 +145,11 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		} else {
 			//Ridiculous safety since everyone should have a Library folder...
 			libraryDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Library"];
-			[fileManager createDirectoryAtPath:libraryDirectory attributes:nil];
+			[fileManager createDirectoryAtPath:libraryDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
 		}
 
 		pluginDirectory = [[libraryDirectory stringByAppendingPathComponent:@"Address Book Plug-Ins"] stringByAppendingPathComponent:@"/"];
-		[fileManager createDirectoryAtPath:pluginDirectory attributes:nil];
+		[fileManager createDirectoryAtPath:pluginDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
 		
 		while ((name = [enumerator nextObject])) {
 			NSString *fullName = [NSString stringWithFormat:@"AdiumAddressBookAction_%@",name];
@@ -158,9 +158,9 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			if (path) {
 				NSString *destination = [pluginDirectory stringByAppendingPathComponent:[fullName stringByAppendingPathExtension:@"scpt"]];
 				[fileManager trashFileAtPath:destination];
-				[fileManager copyPath:path
+				[fileManager copyItemAtPath:path
 							   toPath:destination
-							  handler:NULL];
+							  error:NULL];
 				
 				//Remove the old xtra if installed
 				[fileManager trashFileAtPath:[pluginDirectory stringByAppendingPathComponent:
