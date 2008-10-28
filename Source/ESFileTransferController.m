@@ -326,7 +326,7 @@ static ESFileTransferPreferences *preferences;
 			BOOL		success = YES;
 
 			//Ensure our temporary directory exists [it never will the first time this method is called]
-			[defaultManager createDirectoryAtPath:tmpDir attributes:nil];
+			[defaultManager createDirectoryAtPath:tmpDir withIntermediateDirectories:YES attributes:nil error:NULL];
 
 			pathToArchive = [[NSFileManager defaultManager] uniquePathForPath:[tmpDir stringByAppendingPathComponent:[folderName stringByAppendingPathExtension:@"zip"]]];
 

@@ -962,7 +962,7 @@ static NSString	*prefsCategory;
 	// Get every path that can contain these resources
 	
 	for (NSString *resourceDir in [self resourcePathsForName:name]) {
-		for (NSString *resourcePath in [[NSFileManager defaultManager] directoryContentsAtPath:resourceDir]) {
+		for (NSString *resourcePath in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:resourceDir error:NULL]) {
 			// Add each resource to the array
 			if (extensionsArray) {
 				for (NSString *extension in extensions) {
@@ -1000,7 +1000,7 @@ static NSString	*prefsCategory;
 			//If we have to make directories, try to move old cache files into the new directory
 			BOOL			isDir;
 
-			for (NSString *filename in [defaultManager directoryContentsAtPath:generalAdiumCachesPath]) {
+			for (NSString *filename in [defaultManager contentsOfDirectoryAtPath:generalAdiumCachesPath error:NULL]) {
 				NSString	*fullPath = [generalAdiumCachesPath stringByAppendingPathComponent:filename];
 				
 				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&

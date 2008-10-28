@@ -108,7 +108,7 @@
 			
 			logBasePath = [AILoggerPlugin logBasePath];
 			fullPath = [logBasePath stringByAppendingPathComponent:relativePath];
-			for (NSString *fileName in [defaultManager directoryContentsAtPath:fullPath]) {
+			for (NSString *fileName in [defaultManager contentsOfDirectoryAtPath:fullPath error:NULL]) {
 				if (![fileName hasPrefix:@"."]) {
 					NSString	*relativeLogPath = [relativePath stringByAppendingPathComponent:fileName];
 					

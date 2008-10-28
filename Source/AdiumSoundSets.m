@@ -50,7 +50,7 @@
     NSMutableArray	*soundSets = [NSMutableArray array];
 	
 	for (NSString *path in [adium resourcePathsForName:SOUNDSET_RESOURCE_PATH]) {
-		for (NSString *file in [mgr directoryContentsAtPath:path]) {
+		for (NSString *file in [mgr contentsOfDirectoryAtPath:path error:NULL]) {
 			if([[file pathExtension] caseInsensitiveCompare:SOUND_SET_PATH_EXTENSION] == NSOrderedSame){
 				NSString	*fullPath = [path stringByAppendingPathComponent:file];
 				AISoundSet	*soundSet = [AISoundSet soundSetWithContentsOfFile:fullPath];

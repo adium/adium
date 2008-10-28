@@ -271,16 +271,15 @@
 			
 			if (!oldSetString || ![oldSetString length]) {
 				//If we can't find a txt file with the correct name, try to use any text file
-				NSEnumerator	*enumerator = [[mgr directoryContentsAtPath:tempSetPath] objectEnumerator];
-				NSString		*filename;
 				
 				oldSetString = nil;
 				
-				while ((filename = [enumerator nextObject]) && !oldSetString) {
+				for (NSString *filename in [mgr contentsOfDirectoryAtPath:tempSetPath error:NULL]) {
 					if ([[filename pathExtension] caseInsensitiveCompare:@"txt"] == NSOrderedSame) {
 						oldSetString = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[tempSetPath stringByAppendingPathComponent:filename]]
 																encoding:NSUTF8StringEncoding
 																   error:NULL];
+						break;
 					}
 				}
 			}

@@ -134,7 +134,7 @@
 - (void)download:(NSURLDownload *)connection decideDestinationWithSuggestedFilename:(NSString *)filename
 {
 	NSString * downloadDir = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString uuid]];
-	[[NSFileManager defaultManager] createDirectoryAtPath:downloadDir attributes:nil];
+	[[NSFileManager defaultManager] createDirectoryAtPath:downloadDir withIntermediateDirectories:YES attributes:nil error:NULL];
 	dest = [downloadDir stringByAppendingPathComponent:filename];
 	AILogWithSignature(@"Downloading to is %@", dest);
 	[download setDestination:dest allowOverwrite:YES];

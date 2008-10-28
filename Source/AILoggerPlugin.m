@@ -713,7 +713,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 
 + (NSArray *)sortedArrayOfLogFilesForChat:(AIChat *)chat
 {
-	NSArray *files = [[NSFileManager defaultManager] directoryContentsAtPath:[self pathForLogsLikeChat:chat]];
+	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForLogsLikeChat:chat] error:NULL];
 
 	return (files ? [files sortedArrayUsingFunction:&sortPaths context:NULL] : nil);
 }
@@ -725,16 +725,12 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		/* This could all be a simple NSDirectoryEnumerator call on basePath, but we wouldn't be able to show progress,
 		* and this could take a bit.
 		*/
-		NSFileManager	*defaultManager = [NSFileManager defaultManager];
-		NSArray			*accountFolders = [defaultManager directoryContentsAtPath:[self logBasePath]];
-		NSString		*accountFolderName;
 		
 		NSMutableSet	*pathsToContactFolders = [NSMutableSet set];
-		for (accountFolderName in accountFolders) {
+		for (NSString *accountFolderName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self logBasePath] error:NULL]) {
 			NSString		*contactBasePath = [logBasePath stringByAppendingPathComponent:accountFolderName];
-			NSArray			*contactFolders = [defaultManager directoryContentsAtPath:contactBasePath];
 			
-			for (NSString *contactFolderName in contactFolders) {
+			for (NSString *contactFolderName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:contactBasePath error:NULL]) {
 				[pathsToContactFolders addObject:[contactBasePath stringByAppendingPathComponent:contactFolderName]];
 			}
 		}
@@ -743,17 +739,12 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		NSUInteger		processed = 0;
 		
 		if (contactsToProcess) {
-			AILogFileUpgradeWindowController *upgradeWindowController;
 			
-			upgradeWindowController = [[AILogFileUpgradeWindowController alloc] initWithWindowNibName:@"LogFileUpgrade"];
+			AILogFileUpgradeWindowController *upgradeWindowController = [[AILogFileUpgradeWindowController alloc] initWithWindowNibName:@"LogFileUpgrade"];
 			[[upgradeWindowController window] makeKeyAndOrderFront:nil];
 
-			NSString		*pathToContactFolder;
-			for (pathToContactFolder in pathsToContactFolders) {
-				NSDirectoryEnumerator *enumerator = [defaultManager enumeratorAtPath:pathToContactFolder];
-				NSString	*file;
-				
-				while ((file = [enumerator nextObject])) {
+			for (NSString *pathToContactFolder in pathsToContactFolders) {
+				for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pathToContactFolder error:NULL]) {
 					if (([[file pathExtension] isEqualToString:@"html"]) ||
 						([[file pathExtension] isEqualToString:@"adiumLog"]) ||
 						(([[file pathExtension] isEqualToString:@"bak"]) && ([file hasSuffix:@".html.bak"] || 
@@ -761,7 +752,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 						NSString *fullFile = [pathToContactFolder stringByAppendingPathComponent:file];
 						NSString *newFile = [[fullFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"AdiumHTMLLog"];
 						
-						[defaultManager movePath:fullFile
+						[[NSFileManager defaultManager] movePath:fullFile
 										  toPath:newFile
 										 handler:self];
 					}
@@ -787,26 +778,22 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 		return;
 	
 	/* This is based off of -upgradeLogExtensions. Refer to that. */
-	
-	NSFileManager	*defaultManager = [NSFileManager defaultManager];
-	NSArray			*accountFolders = [defaultManager directoryContentsAtPath:[self logBasePath]];
-	
 	NSMutableSet	*pathsToContactFolders = [NSMutableSet set];
-	for (NSString *accountFolderName in accountFolders) {
+	for (NSString *accountFolderName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self logBasePath] error:NULL]) {
+		//??? isn't this just going to be the same as accountFolderName?
 		NSString		*contactBasePath = [[self logBasePath] stringByAppendingPathComponent:accountFolderName];
-		NSArray			*contactFolders = [defaultManager directoryContentsAtPath:contactBasePath];
 		
 		// Set permissions to prohibit access from other users
-		[defaultManager setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
+		[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
 																		 forKey:NSFilePosixPermissions]
 						 ofItemAtPath:contactBasePath
 								error:NULL];
 		
-		for (NSString *contactFolderName in contactFolders) {
+		for (NSString *contactFolderName in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:contactBasePath error:NULL]) {
 			NSString	*contactFolderPath = [contactBasePath stringByAppendingPathComponent:contactFolderName];
 			
 			// Set permissions to prohibit access from other users
-			[defaultManager setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
+			[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
 																			 forKey:NSFilePosixPermissions]
 						     ofItemAtPath:contactFolderPath
 									error:NULL];
@@ -819,37 +806,31 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 	NSUInteger		contactsToProcess = [pathsToContactFolders count];
 	NSUInteger		processed = 0;
 	
-	if (contactsToProcess) {
-		AILogFileUpgradeWindowController *upgradeWindowController;
-		
-		upgradeWindowController = [[AILogFileUpgradeWindowController alloc] initWithWindowNibName:@"LogFileUpgrade"];
+	if (contactsToProcess) {		
+		AILogFileUpgradeWindowController *upgradeWindowController = [[AILogFileUpgradeWindowController alloc] initWithWindowNibName:@"LogFileUpgrade"];
 		[[upgradeWindowController window] makeKeyAndOrderFront:nil];
 		
-		for (NSString *pathToContactFolder in pathsToContactFolders) {
-			NSArray			*logFiles = [defaultManager directoryContentsAtPath:pathToContactFolder];
-			
-			for (NSString *file in logFiles) {
+		for (NSString *pathToContactFolder in pathsToContactFolders) {			
+			for (NSString *file in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:pathToContactFolder error:NULL]) {
 				NSString	*fullFile = [pathToContactFolder stringByAppendingPathComponent:file];
 				BOOL		isDir;
 				
 				// Some chat logs are bundles
-				[defaultManager fileExistsAtPath:fullFile isDirectory:&isDir];
+				[[NSFileManager defaultManager] fileExistsAtPath:fullFile isDirectory:&isDir];
 				
 				if (!isDir) {
-					[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
+					[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
 																					 forKey:NSFilePosixPermissions]
 												  atPath:fullFile];
 					
 				} else {
-					[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
+					[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL]
 																					 forKey:NSFilePosixPermissions]
 												  atPath:fullFile];
 					
-					// We have to enumerate this directory, too, only not as deep
-					NSArray			*contentFiles = [defaultManager directoryContentsAtPath:fullFile];
-					
-					for (NSString *contentFile in contentFiles) {
-						[defaultManager changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
+					// We have to enumerate this directory, too, only not as deep					
+					for (NSString *contentFile in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:fullFile error:NULL]) {
+						[[NSFileManager defaultManager] changeFileAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0600UL]
 																						 forKey:NSFilePosixPermissions]
 													  atPath:contentFile];
 					}

@@ -165,24 +165,15 @@
 // Creates and returns a mutable array of the login users
 - (NSArray *)userArray
 {
-    NSString		*userPath;
-    NSArray			*directoryContents;
-    NSMutableArray	*userArray;
-    NSInteger				loop;
-	NSUInteger		count;
     BOOL			isDirectory;
 
     //Get the users path
-    userPath = [[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS];
+    NSString *userPath = [[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS];
 
     //Build the user array
-    userArray = [[NSMutableArray alloc] init];
+    NSMutableArray *userArray = [NSMutableArray array];
 
-    directoryContents = [[NSFileManager defaultManager] directoryContentsAtPath:userPath];
-	count = [directoryContents count];
-    for (loop = 0;loop < count;loop++) {
-        NSString	*path = [directoryContents objectAtIndex:loop];
-
+	for (NSString *path in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:userPath error:NULL]) {
         //Fetch the names of all directories
         if ([[NSFileManager defaultManager] fileExistsAtPath:[userPath stringByAppendingPathComponent:path] isDirectory:&isDirectory]) {
             if (isDirectory) {
@@ -191,7 +182,7 @@
         }
     }
 
-    return [userArray autorelease];
+    return userArray;
 }
 
 // Delete a user

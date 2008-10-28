@@ -101,7 +101,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName);
 			//Sometimes the filename doesn't have a date (e.g., “jdoe ((null)).chatlog”). In such cases, if it's a chatlog, parse it and get the date from the first element that has one.
 			//We don't do this first because NSXMLParser uses +[NSData dataWithContentsOfURL:], which is painful for large log files.
 			if ([[relativePath pathExtension] isEqualToString:@"chatlog"]) {
-				NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[[adium.loginController userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByAppendingPathComponent:relativePath]]];
+				NSXMLParser *parser = [[NSXMLParser alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[AILoggerPlugin logBasePath] stringByAppendingPathComponent:relativePath]]];
 				[parser setDelegate:self];
 				[parser parse];
 				[parser release];
