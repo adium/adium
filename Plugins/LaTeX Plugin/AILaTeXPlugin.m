@@ -245,7 +245,7 @@
   err:
 	
 	// clear temporary files
-	[fm removeFileAtPath:filepath error:NULL];
+	[fm removeItemAtPath:filepath error:NULL];
 	
 	return res;
 	
