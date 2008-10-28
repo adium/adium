@@ -723,7 +723,8 @@ static NSString	*prefsCategory;
 			[[NSFileManager defaultManager] trashFileAtPath:destinationFilePath];
 			
 			//Ensure the directory exists
-			[[NSFileManager defaultManager] createDirectoryAtPath:destination attributes:nil];
+
+			[[NSFileManager defaultManager] createDirectoryAtPath:destination withIntermediateDirectories:YES attributes:nil error:NULL];
 			
 			//Perform the copy and display an alert informing the user of its success or failure
 			if ([[NSFileManager defaultManager] copyPath:filename 
@@ -843,13 +844,15 @@ static NSString	*prefsCategory;
 	 for creating files in the user domain.
 	 */
     if ([existingResourcePaths indexOfObject:targetPath] == NSNotFound) {
-        if (![defaultManager createDirectoryAtPath:targetPath attributes:nil]) {
+		
+		//XXX seems like we could use the error argument to do this with less guesswork
+        if (![defaultManager createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
 			BOOL error;
-			
+
 			//If the directory could not be created, there may be a file in the way. Death to file.
 			error = ![defaultManager trashFileAtPath:targetPath];
 
-			if (!error) error = ![defaultManager createDirectoryAtPath:targetPath attributes:nil];
+			if (!error) error = ![defaultManager createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:NULL];
 
 			if (error) {
 				targetPath = nil;
@@ -993,7 +996,7 @@ static NSString	*prefsCategory;
 		cachesPath = [[generalAdiumCachesPath stringByAppendingPathComponent:self.loginController.currentUser] retain];
 
 		//Ensure our cache path exists
-		if ([defaultManager createDirectoriesForPath:cachesPath]) {
+		if ([defaultManager createDirectoryAtPath:cachesPath withIntermediateDirectories:YES attributes:nil error:NULL]) {
 			//If we have to make directories, try to move old cache files into the new directory
 			BOOL			isDir;
 

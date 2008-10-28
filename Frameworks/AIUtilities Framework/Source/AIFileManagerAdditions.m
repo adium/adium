@@ -68,41 +68,6 @@
 	}	
 }
 
-//Creates all the folders specified in 'fullPath' (if they don't exist). Returns YES if any directories were created.
-- (BOOL)createDirectoriesForPath:(NSString *)fullPath
-{
-    NSParameterAssert(fullPath != nil && [fullPath length] != 0);
-
-	NSFileManager *manager = [NSFileManager defaultManager];
-    BOOL			isDir;
-	unsigned		count = 0;
-
-	if (![manager fileExistsAtPath:fullPath isDirectory:&isDir] || !isDir) {
-		NSMutableArray	*neededFolders = [[NSMutableArray alloc] init];
-		
-		do
-		{
-			[neededFolders addObject:[fullPath lastPathComponent]];
-			fullPath = [fullPath stringByDeletingLastPathComponent];
-			
-		}
-		while (![manager fileExistsAtPath:fullPath isDirectory:&isDir] || !isDir);
-		
-		count = [neededFolders count];
-		if (count > 0) {
-			short			folderIndex;
-			for (folderIndex = count-1; folderIndex >= 0; folderIndex--) {
-				fullPath = [fullPath stringByAppendingPathComponent:[neededFolders objectAtIndex:folderIndex]];
-				[manager createDirectoryAtPath:fullPath attributes:nil];
-			}
-		}
-		
-		[neededFolders release];
-	}
-	
-	return (count > 0);
-}
-
 #pragma mark -
 
 //returns the pathname passed in if it exists on disk (test -e). Doesn't care whether the path is a file or a directory.

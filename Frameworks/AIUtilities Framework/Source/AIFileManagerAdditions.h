@@ -31,15 +31,6 @@
 - (BOOL)trashFileAtPath:(NSString *)sourcePath;
 
 /*
- * @brief Create all directories for a path
- *
- * Like <b>mkdir -p</b>, create the specified directory if it does not exist and create all intermediate directories as needed.
- * @param fullPath Path to be created
- * @result YES if one or more directories were created
- */
-- (BOOL)createDirectoriesForPath:(NSString *)fullPath;
-
-/*
  * @brief Delete or trash all files in a directory starting with <b>prefix</b>
  *
  * The files must begin with characters matching <b>prefix</b> exactly; the comparison is case sensitive.

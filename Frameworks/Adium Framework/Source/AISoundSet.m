@@ -126,7 +126,7 @@
 			NSFileManager	*mgr = [NSFileManager defaultManager];
 			
 			//Move the sound pack into a folder with the same name as its parent folder, but with (Disabled) after it
-			[mgr createDirectoriesForPath:newFolder];
+			[mgr createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:NULL];
 			[mgr movePath:inPath
 				   toPath:[newFolder stringByAppendingPathComponent:[inPath lastPathComponent]]
 				  handler:nil];
@@ -260,7 +260,7 @@
 	
 	if (success) {
 		//Create a folder for the new soundset
-		success = [mgr createDirectoryAtPath:setPath attributes:nil];
+		success = [mgr createDirectoryAtPath:setPath withIntermediateDirectories:YES attributes:nil error:NULL];
 		if (success) {
 	
 			//Extract the set's contents
