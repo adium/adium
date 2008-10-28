@@ -723,9 +723,11 @@ static NSArray *validSenderColors;
 				  withString:[(contentIsSimilar ? @"consecutive " : @"") stringByAppendingString:[[content displayClasses] componentsJoinedByString:@" "]]];
 	
 	if(!validSenderColors) {
-		NSString *path = [stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"];
-		if([[NSFileManager defaultManager] fileExistsAtPath:path])
-			validSenderColors = [[[NSString stringWithContentsOfFile:path] componentsSeparatedByString:@":"] retain];
+		NSURL *url = [NSURL fileURLWithPath:[stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"]];
+		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+		
+		if(senderColorsFile)
+			validSenderColors = [[senderColorsFile componentsSeparatedByString:@":"] retain];
 		if(!validSenderColors || [validSenderColors count] == 0)
 			validSenderColors = VALID_SENDER_COLORS_ARRAY;
 	}
