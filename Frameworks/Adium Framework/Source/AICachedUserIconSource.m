@@ -45,8 +45,8 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 			success = ([inData writeToFile:cachedImagePath
 								atomically:YES]);
 		} else {
-			success = [[NSFileManager defaultManager] removeFileAtPath:cachedImagePath
-															   handler:NULL];
+			success = [[NSFileManager defaultManager] removeItemAtPath:cachedImagePath
+																 error:NULL];
 		}
 		
 		[AIUserIcons userIconSource:sharedCachedUserIconSourceInstance didChangeForObject:inObject];

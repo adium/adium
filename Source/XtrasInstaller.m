@@ -250,9 +250,9 @@
 	//Delete the compressed xtra, now that we've decompressed it
 #ifdef DEBUG_BUILD
 	if (decompressionSuccess)
-		[fileManager removeFileAtPath:dest error:NULL];
+		[fileManager removeItemAtPath:dest error:NULL];
 #else
-	[fileManager removeFileAtPath:dest error:NULL];
+	[fileManager removeItemAtPath:dest error:NULL];
 #endif
 	
 	dest = [dest stringByDeletingLastPathComponent];

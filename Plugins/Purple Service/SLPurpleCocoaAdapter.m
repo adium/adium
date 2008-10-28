@@ -161,7 +161,7 @@ static void ZombieKiller_Signal(int i)
 	//Set the gaim user directory to be within this user's directory
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {
 		//Remove old icons cache
-		[[NSFileManager defaultManager]  removeFileAtPath:[[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"] stringByAppendingPathComponent:@"icons"]
+		[[NSFileManager defaultManager]  removeItemAtPath:[[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"] stringByAppendingPathComponent:@"icons"]
 												  error:NULL];
 		
 		//Update the rest
@@ -182,7 +182,7 @@ static void ZombieKiller_Signal(int i)
 
 	/* Delete blist.xml once when 1.2.4 runs to clear out any old silliness, including improperly blocked Yahoo contacts */
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.2.4 deleted blist.xml"]) {
-		[[NSFileManager defaultManager] removeFileAtPath:
+		[[NSFileManager defaultManager] removeItemAtPath:
 			[[[NSString stringWithUTF8String:purple_user_dir()] stringByAppendingPathComponent:@"blist"] stringByAppendingPathExtension:@"xml"]
 												 error:NULL];
 		[[NSUserDefaults standardUserDefaults] setBool:YES
