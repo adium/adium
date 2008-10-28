@@ -172,7 +172,7 @@
 		if (duplicatePreset) {
 			duplicatePresetIndex = [presets indexOfObject:duplicatePreset];
 			if (duplicatePresetIndex != NSNotFound) {
-				[tableView_presets selectRow:duplicatePresetIndex byExtendingSelection:NO];
+				[tableView_presets selectRowIndexes:[NSIndexSet indexSetWithIndex:duplicatePresetIndex] byExtendingSelection:NO];
 				[tableView_presets editColumn:0
 										  row:duplicatePresetIndex
 									withEvent:nil
@@ -301,7 +301,7 @@
 			[tableView_presets reloadData];
 						
 			//Select the new row
-			[tableView_presets selectRow:[presets indexOfObjectIdenticalTo:renamedPreset] byExtendingSelection:NO];
+			[tableView_presets selectRowIndexes:[NSIndexSet indexSetWithIndex:[presets indexOfObjectIdenticalTo:renamedPreset]] byExtendingSelection:NO];
 		}
 	}		
 }
@@ -375,7 +375,7 @@
 		//Reselect the moved preset if possible
 		NSInteger movedPresetIndex = [presets indexOfObject:presetAfterMove];
 		if (movedPresetIndex != NSNotFound) {
-			[tableView_presets selectRow:movedPresetIndex byExtendingSelection:NO];
+			[tableView_presets selectRowIndexes:[NSIndexSet indexSetWithIndex:movedPresetIndex] byExtendingSelection:NO];
 		}
 
         success = YES;

@@ -122,7 +122,7 @@
                      group:GROUP_ACCOUNT_STATUS];
 
     [tableView_servers reloadData];
-    [tableView_servers selectRow:[ray count] byExtendingSelection:NO];
+    [tableView_servers selectRowIndexes:[NSIndexSet indexSetWithIndex:[ray count]] byExtendingSelection:NO];
     [tableView_servers editColumn:0 row:[ray count] withEvent:nil select:YES];
 
     [ray release];

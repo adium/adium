@@ -79,7 +79,7 @@
 	//Configure the outline view
 	[table_emoticonPacks setDrawsGradientSelection:YES];
 	[[table_emoticonPacks tableColumnWithIdentifier:@"Emoticons"] setDataCell:[[[AIGenericViewCell alloc] init] autorelease]];
-	[table_emoticonPacks selectRow:0 byExtendingSelection:NO];
+	[table_emoticonPacks selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[table_emoticonPacks setToolTip:EMOTICON_PACKS_TOOLTIP];
 	[table_emoticonPacks setDelegate:self];
 	[table_emoticonPacks setDataSource:self];
@@ -376,7 +376,7 @@
 				//If the moved packs contains this preview controller's pack, select it, wherever it may be
 				AIEmoticonPack	*emoticonPack = [previewController emoticonPack];
 				if ([movedPacks indexOfObjectIdenticalTo:emoticonPack] != NSNotFound) {
-					[tableView selectRow:[emoticonPackPreviewControllers indexOfObject:previewController] byExtendingSelection:NO];					
+					[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:[emoticonPackPreviewControllers indexOfObject:previewController]] byExtendingSelection:NO];					
 				}
             }
             
@@ -467,7 +467,7 @@
 
 - (void)toggledPackController:(id)packController
 {
-	[table_emoticonPacks selectRow:[emoticonPackPreviewControllers indexOfObject:packController] byExtendingSelection:NO];					
+	[table_emoticonPacks selectRowIndexes:[NSIndexSet indexSetWithIndex:[emoticonPackPreviewControllers indexOfObject:packController]] byExtendingSelection:NO];					
 }
 
 - (void)emoticonXtrasDidChange

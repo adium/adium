@@ -696,7 +696,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
     item = [outlineView itemAtRow:row];
 	
     //Select the clicked row and bring the window forward
-    [outlineView selectRow:row byExtendingSelection:NO];
+    [outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
     [[outlineView window] makeKeyAndOrderFront:nil];
 	
     //Hide any open tooltip

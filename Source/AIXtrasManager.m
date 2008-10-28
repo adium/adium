@@ -332,7 +332,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 				[manager trashFileAtPath:path];
 			}
 		}
-		[xtraList selectRow:0 byExtendingSelection:NO];
+		[xtraList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 		[selectedCategory removeObjectsAtIndexes:indices];
 		[xtraList reloadData];
 		/*

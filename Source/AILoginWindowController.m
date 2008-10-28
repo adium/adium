@@ -176,7 +176,7 @@
 
     //Select, scroll to, and 'edit' the new user
     newRow = [userArray indexOfObject:NEW_USER_NAME];
-    [tableView_editableUserList selectRow:newRow byExtendingSelection:NO];
+    [tableView_editableUserList selectRowIndexes:[NSIndexSet indexSetWithIndex:newRow] byExtendingSelection:NO];
     [tableView_editableUserList scrollRowToVisible:newRow];
     [tableView_editableUserList editColumn:0 row:newRow withEvent:nil select:YES];
 
@@ -238,11 +238,14 @@
 
     //Select the login they used last
     lastLogin = [loginDict objectForKey:LOGIN_LAST_USER];
+	NSIndexSet *rowIndex;
     if (lastLogin != nil && [lastLogin length] != 0 && [userArray indexOfObject:lastLogin] != NSNotFound) {
-        [tableView_userList selectRow:[userArray indexOfObject:lastLogin] byExtendingSelection:NO];
+        rowIndex = [NSIndexSet indexSetWithIndex:[userArray indexOfObject:lastLogin]];
     } else {
-        [tableView_userList selectRow:0 byExtendingSelection:NO];
+		rowIndex = [NSIndexSet indexSetWithIndex:0];
     }
+	
+	[tableView_userList selectRowIndexes:rowIndex byExtendingSelection:NO];
 
     //Set login so it's called when the user double clicks a name
     [tableView_userList setDoubleAction:@selector(login:)];

@@ -498,12 +498,10 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	
 	if (selectedEventID) {
 		NSInteger actionsIndex = [contactAlertsEvents indexOfObject:selectedEventID];
-		if (actionsIndex != NSNotFound) {
-			int rowToSelect;
+		if (actionsIndex != NSNotFound) {			
+			NSInteger rowToSelect = [outlineView_summary rowForItem:[contactAlertsActions objectAtIndex:actionsIndex]];
 			
-			rowToSelect = [outlineView_summary rowForItem:[contactAlertsActions objectAtIndex:actionsIndex]];
-			
-			[outlineView_summary selectRow:rowToSelect
+			[outlineView_summary selectRowIndexes:[NSIndexSet indexSetWithIndex:rowToSelect]
 					  byExtendingSelection:NO];
 		}
 		

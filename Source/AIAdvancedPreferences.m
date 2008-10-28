@@ -135,7 +135,7 @@
 														group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
 	if (row < 0 || row >= [tableView_categories numberOfRows]) row = 1;
 	
-	[tableView_categories selectRow:row byExtendingSelection:NO];
+	[tableView_categories selectRowIndexes:[NSIndexSet indexSetWithIndex:row] byExtendingSelection:NO];
 	[self tableViewSelectionDidChange:nil];
 }
 
