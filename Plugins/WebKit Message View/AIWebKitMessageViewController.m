@@ -699,9 +699,9 @@ static NSArray *draggedTypes = nil;
 	NSURL	*imageURL = (NSURL *)contextInfo;
 
 	if (returnCode ==  NSOKButton) {
-		[[NSFileManager defaultManager] copyPath:[imageURL path]
-										  toPath:[sheet filename]
-										 handler:NULL];
+		[[NSFileManager defaultManager] copyItemAtURL:imageURL
+												toURL:[sheet URL]
+												error:NULL];
 	}
 	
 	[imageURL release];
@@ -829,7 +829,7 @@ static NSArray *draggedTypes = nil;
 /*!
  * @brief Add ourself to the window script object bridge when it's safe to do so
  */
-- (void)webView:(WebView *)sender windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject
+- (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame
 {
     [[webView windowScriptObject] setValue:self forKey:@"client"];
 }
@@ -1072,7 +1072,7 @@ static NSArray *draggedTypes = nil;
 		if (objectsKnownIconPath &&
 			[currentIconPath isEqualToString:objectsKnownIconPath]) {
 			//We're the first one to get to this object!  We get to delete the old path and remove the reference to it
-			[[NSFileManager defaultManager] removeFileAtPath:currentIconPath handler:nil];
+			[[NSFileManager defaultManager] removeItemAtPath:currentIconPath error:NULL];
 			[iconSourceObject setValue:nil
 									   forProperty:KEY_WEBKIT_USER_ICON
 									   notify:NotifyNever];
@@ -1109,7 +1109,7 @@ static NSArray *draggedTypes = nil;
 
 	if ((chatsUsingCachedIcon <= 0) &&
 		(path = [iconSourceObject valueForProperty:KEY_WEBKIT_USER_ICON])) {
-		[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+		[[NSFileManager defaultManager] removeItemAtPath:path error:NULL];
 		[iconSourceObject setValue:nil
 								   forProperty:KEY_WEBKIT_USER_ICON
 								   notify:NotifyNever];
@@ -1364,7 +1364,7 @@ static NSArray *draggedTypes = nil;
 	return YES;
 }
 
-- (void)debugLog:(NSString *)message { NSLog(message); }
+- (void)debugLog:(NSString *)message { NSLog(@"%@", message); }
 
 //gets the source of the html page, for debugging
 - (NSString *)webviewSource
