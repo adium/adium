@@ -173,8 +173,10 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 //Display the software license sheet
 - (IBAction)showLicense:(id)sender
 {
-	NSString	*licensePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"License" ofType:@"txt"];
-	[textView_license setString:[NSString stringWithContentsOfFile:licensePath]];
+	NSURL	*licenseURL = [NSURL fileURLWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"License" ofType:@"txt"]];
+	[textView_license setString:[NSString stringWithContentsOfURL:licenseURL
+														 encoding:NSUTF8StringEncoding
+															error:NULL]];
 	
 	[NSApp beginSheet:panel_licenseSheet
 	   modalForWindow:[self window]
