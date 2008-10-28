@@ -1150,7 +1150,9 @@ static NSArray *draggedTypes = nil;
 	 */
 	if (!(userIcon = [iconSourceObject userIcon])) {
 		//If that's not the case, try using the UserIconPath
-		userIcon = [[[NSImage alloc] initWithContentsOfFile:[iconSourceObject valueForProperty:@"UserIconPath"]] autorelease];
+		NSString *userIconPath = [iconSourceObject valueForProperty:@"UserIconPath"];
+		if (userIconPath)
+			userIcon = [[[NSImage alloc] initWithContentsOfFile:userIconPath] autorelease];
 	}
 
 	if (userIcon) {
