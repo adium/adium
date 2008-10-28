@@ -72,7 +72,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 							 source:s
 						destination:d
 							   date:[NSDate date]
-							message:@""
+							message:[NSAttributedString string]
 						  autoreply:NO])) {
 		type = inType;
 		status = Unknown_Status_FileTransfer;
