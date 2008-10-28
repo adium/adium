@@ -92,7 +92,7 @@ return validated;
 	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
     NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
-	[[NSFileManager defaultManager] createDirectoriesForPath:path]; //make sure the path exists
+	[[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]; //make sure the path exists
 	
 	NSData *plistData;
 	NSString *retainedError = nil;

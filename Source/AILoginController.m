@@ -217,7 +217,7 @@
     userPath = [[[adium applicationSupportDirectory] stringByAppendingPathComponent:PATH_USERS] stringByAppendingPathComponent:inUserName];
     
     //Create a folder for the new user
-    [[NSFileManager defaultManager] createDirectoriesForPath:userPath];
+    [[NSFileManager defaultManager] createDirectoryAtPath:userPath withIntermediateDirectories:YES attributes:nil error:NULL];
 }
 
 // Rename an existing user

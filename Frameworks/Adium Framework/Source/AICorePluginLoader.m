@@ -288,7 +288,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	NSString	*basePath = [pluginPath stringByDeletingLastPathComponent];
 	NSString	*disabledPath = [[basePath stringByDeletingLastPathComponent] stringByAppendingPathComponent:EXTERNAL_DISABLED_PLUGIN_FOLDER];
 	
-	[[NSFileManager defaultManager] createDirectoriesForPath:disabledPath];
+	[[NSFileManager defaultManager] createDirectoryAtPath:disabledPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	[[NSFileManager defaultManager] movePath:[basePath stringByAppendingPathComponent:pluginName]
 									  toPath:[disabledPath stringByAppendingPathComponent:pluginName]
 									 handler:nil];

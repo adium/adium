@@ -154,7 +154,7 @@
 		 */
 		NSString *tmpDir = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
 		NSString *filename = [[self string] stringByAppendingPathExtension:@"png"];
-		[[NSFileManager defaultManager] createDirectoriesForPath:tmpDir];
+		[[NSFileManager defaultManager] createDirectoryAtPath:tmpDir withIntermediateDirectories:YES attributes:nil error:NULL];
 
 		[self setPath:[tmpDir stringByAppendingPathComponent:filename]];
 		[[image PNGRepresentation] writeToFile:path atomically:NO];

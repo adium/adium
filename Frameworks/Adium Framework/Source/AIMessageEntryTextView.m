@@ -1434,7 +1434,7 @@
 				
 				//Get a unique folder within our temporary directory
 				destinationPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[[NSProcessInfo processInfo] globallyUniqueString]];
-				[[NSFileManager defaultManager] createDirectoriesForPath:destinationPath];
+				[[NSFileManager defaultManager] createDirectoryAtPath:destinationPath withIntermediateDirectories:YES attributes:nil error:NULL];
 				destinationPath = [destinationPath stringByAppendingPathComponent:preferredName];
 				
 				//Write the file out to it

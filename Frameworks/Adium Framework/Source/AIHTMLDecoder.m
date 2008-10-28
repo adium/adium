@@ -1888,7 +1888,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	if (imagesPath || !inPath) {
 		//create the images directory if it doesn't exist
 		if (imagesPath) {
-			[[NSFileManager defaultManager] createDirectoriesForPath:imagesPath];
+			[[NSFileManager defaultManager] createDirectoryAtPath:imagesPath withIntermediateDirectories:YES attributes:nil error:NULL];
 		}
 
 		if (inPath) {

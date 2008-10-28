@@ -2442,7 +2442,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	for (aLog in deletedLogs) {
 		NSString *logPath = [[AILoggerPlugin logBasePath] stringByAppendingPathComponent:[aLog relativePath]];
 		
-		[fileManager createDirectoriesForPath:[logPath stringByDeletingLastPathComponent]];
+		[fileManager createDirectoryAtPath:[logPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 		
 		[fileManager movePath:[trashPath stringByAppendingPathComponent:[logPath lastPathComponent]]
 					   toPath:logPath 
@@ -2579,7 +2579,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 	for (toGroup in toGroups) {
 		NSString *toGroupPath = [logBasePath stringByAppendingPathComponent:[toGroup relativePath]];
 
-		[fileManager createDirectoriesForPath:[toGroupPath stringByDeletingLastPathComponent]];
+		[fileManager createDirectoryAtPath:[toGroupPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 		if ([fileManager fileExistsAtPath:toGroupPath]) {
 			AILog(@"Removing path %@ to make way for %@",
 				  toGroupPath,[trashPath stringByAppendingPathComponent:[toGroupPath lastPathComponent]]);

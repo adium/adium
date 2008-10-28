@@ -143,7 +143,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	
 	//Create a logs directory
 	logBasePath = [[[[adium.loginController userDirectory] stringByAppendingPathComponent:PATH_LOGS] stringByExpandingTildeInPath] retain];
-	[[NSFileManager defaultManager] createDirectoriesForPath:logBasePath];
+	[[NSFileManager defaultManager] createDirectoryAtPath:logBasePath withIntermediateDirectories:YES attributes:nil error:NULL];
 
 	//Observe preference changes
 	[adium.preferenceController addObserver:self
@@ -1075,7 +1075,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 			nil];
 
 		//Create the index if one doesn't exist or it couldn't be opened.
-		[[NSFileManager defaultManager] createDirectoriesForPath:[logIndexPath stringByDeletingLastPathComponent]];
+		[[NSFileManager defaultManager] createDirectoryAtPath:[logIndexPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:NULL];
 
 		newIndex = SKIndexCreateWithURL((CFURLRef)logIndexPathURL,
 										(CFStringRef)@"Content", 
