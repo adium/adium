@@ -134,9 +134,9 @@ static void *adiumPurpleNotifyUri(const char *uri)
 
 			if (![[passedURI pathExtension] length]) {
 				actualURI = [passedURI stringByAppendingPathExtension:@"htm"];
-				[[NSFileManager defaultManager] copyPath:passedURI
+				[[NSFileManager defaultManager] copyItemAtPath:passedURI
 												  toPath:actualURI
-												 handler:nil];
+												 error:NULL];
 			}
 		
 			FSRef appRef;

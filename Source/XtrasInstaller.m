@@ -250,9 +250,9 @@
 	//Delete the compressed xtra, now that we've decompressed it
 #ifdef DEBUG_BUILD
 	if (decompressionSuccess)
-		[fileManager removeFileAtPath:dest handler:nil];
+		[fileManager removeFileAtPath:dest error:NULL];
 #else
-	[fileManager removeFileAtPath:dest handler:nil];
+	[fileManager removeFileAtPath:dest error:NULL];
 #endif
 	
 	dest = [dest stringByDeletingLastPathComponent];
@@ -305,9 +305,9 @@
 	//delete our temporary directory, and any files remaining in it
 #ifdef DEBUG_BUILD
 	if (success)
-		[fileManager removeFileAtPath:dest handler:nil];
+		[fileManager removeFileAtPath:dest error:NULL];
 #else
-	[fileManager removeFileAtPath:dest handler:nil];
+	[fileManager removeFileAtPath:dest error:NULL];
 #endif
 
 	[self closeInstaller];

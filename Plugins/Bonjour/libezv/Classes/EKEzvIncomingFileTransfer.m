@@ -103,7 +103,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	bool exists = [fileManager fileExistsAtPath:localFilename isDirectory:&isDirectory];
 	if (exists && isDirectory) {
 		/*We need to remove this file*/
-		if (![fileManager removeFileAtPath:localFilename handler:nil]) {
+		if (![fileManager removeFileAtPath:localFilename error:NULL]) {
 			[[[[self manager] client] client] reportError:@"Could not replace old file at path" ofLevel:AWEzvError];
 			[[[[self manager] client] client] remoteCanceledFileTransfer:self];
 			return;

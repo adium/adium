@@ -742,9 +742,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			NSString *path = [extension path];
 			if (path) {
 				NSString *destinationPath = [imagesPath stringByAppendingPathComponent:[path lastPathComponent]];
-				if ([[NSFileManager defaultManager] copyPath:path
+				if ([[NSFileManager defaultManager] copyItemAtPath:path
 													  toPath:destinationPath
-													 handler:nil]) {
+													 error:NULL]) {
 					/* Just the file name; the XML should be set to have a base URL of the imagesPath */
 					/* It might be good to make this an optional behavior, with the other choice of an absolute
 					 * file URL (destinationPath).

@@ -750,7 +750,7 @@
     iconrPath = [path stringByAppendingPathComponent:@"Icon\r"];
     if( [fm fileExistsAtPath:iconrPath] )
     {
-        if( ![fm removeFileAtPath:iconrPath handler:nil] )
+        if( ![fm removeFileAtPath:iconrPath error:NULL] )
             return NO;
     }
     if( ![iconrPath getFSRef:&iconrFSRef createFileIfNecessary:YES] )

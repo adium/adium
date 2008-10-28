@@ -752,7 +752,7 @@ NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
 						NSString *fullFile = [pathToContactFolder stringByAppendingPathComponent:file];
 						NSString *newFile = [[fullFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"AdiumHTMLLog"];
 						
-						[[NSFileManager defaultManager] movePath:fullFile
+						[[NSFileManager defaultManager] moveItemAtPath:fullFile
 										  toPath:newFile
 										 handler:self];
 					}

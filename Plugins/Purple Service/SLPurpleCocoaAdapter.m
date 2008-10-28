@@ -162,12 +162,12 @@ static void ZombieKiller_Signal(int i)
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {
 		//Remove old icons cache
 		[[NSFileManager defaultManager]  removeFileAtPath:[[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"] stringByAppendingPathComponent:@"icons"]
-												  handler:nil];
+												  error:NULL];
 		
 		//Update the rest
-		[[NSFileManager defaultManager] movePath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"]
+		[[NSFileManager defaultManager] moveItemAtPath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libgaim"]
 										  toPath:[[adium.loginController userDirectory] stringByAppendingPathComponent:@"libpurple"]
-										 handler:nil];
+										 error:NULL];
 		
 		[[NSUserDefaults standardUserDefaults] setBool:YES
 												forKey:@"Adium 1.0.3 moved to libpurple"];
@@ -184,7 +184,7 @@ static void ZombieKiller_Signal(int i)
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.2.4 deleted blist.xml"]) {
 		[[NSFileManager defaultManager] removeFileAtPath:
 			[[[NSString stringWithUTF8String:purple_user_dir()] stringByAppendingPathComponent:@"blist"] stringByAppendingPathExtension:@"xml"]
-												 handler:nil];
+												 error:NULL];
 		[[NSUserDefaults standardUserDefaults] setBool:YES
 												forKey:@"Adium 1.2.4 deleted blist.xml"];
 	}

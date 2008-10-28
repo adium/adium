@@ -727,9 +727,9 @@ static NSString	*prefsCategory;
 			[[NSFileManager defaultManager] createDirectoryAtPath:destination withIntermediateDirectories:YES attributes:nil error:NULL];
 			
 			//Perform the copy and display an alert informing the user of its success or failure
-			if ([[NSFileManager defaultManager] copyPath:filename 
+			if ([[NSFileManager defaultManager] copyItemAtPath:filename 
 												  toPath:destinationFilePath 
-												 handler:nil]) {
+												 error:NULL]) {
 				
 				alertTitle = AILocalizedString(@"Installation Successful","Title of installation successful window");
 				alertMsg = [NSString stringWithFormat:AILocalizedString(@"Installation of the %@ %@ was successful.",
@@ -787,7 +787,7 @@ static NSString	*prefsCategory;
 	BOOL success;
 	
 	success = [self application:theApplication openFile:filename];
-	[[NSFileManager defaultManager] removeFileAtPath:filename handler:nil];
+	[[NSFileManager defaultManager] removeItemAtPath:filename error:NULL];
 	
 	return success;
 }
@@ -1005,9 +1005,9 @@ static NSString	*prefsCategory;
 				
 				if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
 				   (!isDir)) {
-					[defaultManager movePath:fullPath
+					[defaultManager moveItemAtPath:fullPath
 									  toPath:[cachesPath stringByAppendingPathComponent:filename]
-									 handler:nil];
+									 error:NULL];
 				}
 			}
 		}

@@ -127,9 +127,9 @@
 			
 			//Move the sound pack into a folder with the same name as its parent folder, but with (Disabled) after it
 			[mgr createDirectoryAtPath:newFolder withIntermediateDirectories:YES attributes:nil error:NULL];
-			[mgr movePath:inPath
+			[mgr moveItemAtPath:inPath
 				   toPath:[newFolder stringByAppendingPathComponent:[inPath lastPathComponent]]
-				  handler:nil];
+				  error:NULL];
 
 			NSRunAlertPanel(AILocalizedString(@"Sound set upgrade failed", nil),
 							[NSString stringWithFormat:AILocalizedString(@"This version of Adium uses a new format for sound sets. Adium was not able to update the sound set %@ located at %@. It has been disabled.", nil),
@@ -256,7 +256,7 @@
 	//Rename the existing set to .AdiumSoundSetOld
 	tempSetName = [setName stringByAppendingPathExtension:SOUNDSET_TEMP_EXTENSION];
 	tempSetPath = [workingDirectory stringByAppendingPathComponent:tempSetName];
-	success = [mgr movePath:setPath toPath:tempSetPath handler:nil];
+	success = [mgr moveItemAtPath:setPath toPath:tempSetPath error:NULL];
 	
 	if (success) {
 		//Create a folder for the new soundset
@@ -311,9 +311,9 @@
 					
 					//Move the sound into our new pack
 					if (path && [path length]) {
-						success = [mgr copyPath:[tempSetPath stringByAppendingPathComponent:path]
+						success = [mgr copyItemAtPath:[tempSetPath stringByAppendingPathComponent:path]
 										 toPath:[setPath stringByAppendingPathComponent:[path lastPathComponent]]
-										handler:nil];
+										error:NULL];
 						if (success) {
 							[newSounds setObject:[path lastPathComponent] forKey:event];
 						}
@@ -344,7 +344,7 @@
 		[mgr trashFileAtPath:setPath];
 		
 		//Move the unconverted sound set back to its original location
-		[mgr movePath:tempSetPath toPath:setPath handler:nil];	
+		[mgr moveItemAtPath:tempSetPath toPath:setPath error:NULL];	
 	}
 	
 	return success;

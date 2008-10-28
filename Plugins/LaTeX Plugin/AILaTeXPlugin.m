@@ -245,7 +245,7 @@
   err:
 	
 	// clear temporary files
-	[fm removeFileAtPath:filepath handler:nil];
+	[fm removeFileAtPath:filepath error:NULL];
 	
 	return res;
 	
