@@ -520,15 +520,13 @@
  */
 - (NSArray *)_equivalentsForEmoticonPath:(NSString *)inPath
 {
-	NSString    *equivFilePath = [inPath stringByAppendingPathComponent:@"TextEquivalents.txt"];
+	NSURL		*equivFileURL = [NSURL fileURLWithPath:[inPath stringByAppendingPathComponent:@"TextEquivalents.txt"]];
 	NSArray 	*textEquivalents = nil;
 	
 	//Fetch the text equivalents
-	if ([[NSFileManager defaultManager] fileExistsAtPath:equivFilePath]) {
-		NSString	*equivString;
-		
-		//Convert the text file into an array of strings
-		equivString = [NSMutableString stringWithContentsOfFile:equivFilePath];
+	NSString *equivString = [NSMutableString stringWithContentsOfURL:equivFileURL encoding:NSUTF8StringEncoding error:NULL];
+	if (equivString) {		
+		//Convert the text file into an array of strings		
 		equivString = [self _stringWithMacEndlines:equivString];
 		textEquivalents = [[equivString componentsSeparatedByString:@"\r"] retain];
 	}
