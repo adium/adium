@@ -647,7 +647,7 @@
 	
     // Now set the modification time back to when the file was actually last modified.
     NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:modificationDate, NSFileModificationDate, nil];
-    [[NSFileManager defaultManager] changeFileAttributes:attributes atPath:path];
+    [[NSFileManager defaultManager] setAttributes:attributes ofItemAtPath:path error:NULL];
 
     // Notify the system that the directory containing the file has changed, to
     // give Finder the chance to find out about the file's new custom icon.

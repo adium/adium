@@ -305,9 +305,9 @@
 	//delete our temporary directory, and any files remaining in it
 #ifdef DEBUG_BUILD
 	if (success)
-		[fileManager removeFileAtPath:dest error:NULL];
+		[fileManager removeItemAtPath:dest error:NULL];
 #else
-	[fileManager removeFileAtPath:dest error:NULL];
+	[fileManager removeItemAtPath:dest error:NULL];
 #endif
 
 	[self closeInstaller];
