@@ -264,7 +264,9 @@
 		if (success) {
 	
 			//Extract the set's contents
-			oldSetString = [NSString stringWithContentsOfFile:[tempSetPath stringByAppendingPathComponent:[setName stringByAppendingPathExtension:@"txt"]]];
+			oldSetString = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[tempSetPath stringByAppendingPathComponent:[setName stringByAppendingPathExtension:@"txt"]]]
+													encoding:NSUTF8StringEncoding
+													   error:NULL];
 			success = NO;
 			
 			if (!oldSetString || ![oldSetString length]) {
@@ -276,7 +278,9 @@
 				
 				while ((filename = [enumerator nextObject]) && !oldSetString) {
 					if ([[filename pathExtension] caseInsensitiveCompare:@"txt"] == NSOrderedSame) {
-						oldSetString = [NSString stringWithContentsOfFile:[tempSetPath stringByAppendingPathComponent:filename]];
+						oldSetString = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[tempSetPath stringByAppendingPathComponent:filename]]
+																encoding:NSUTF8StringEncoding
+																   error:NULL];
 					}
 				}
 			}
