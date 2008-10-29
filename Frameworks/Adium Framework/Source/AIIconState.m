@@ -252,7 +252,9 @@
                     [imagesToComposite addObject:[[iconState imageArray] objectAtIndex:( ((frame + 1) / animatingStateNumberOfFrames) * ([iconState numberOfFrames] - 1)) ]];
 				}
             } else {
-                [imagesToComposite addObject:[iconState image]];
+				NSImage *img = [iconState image];
+				if(img)
+					[imagesToComposite addObject:img];
             }
         }
     }
