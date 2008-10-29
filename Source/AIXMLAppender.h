@@ -12,6 +12,7 @@
  *
  ****
  Copyright (c) 2005, 2006 Colin Barrett
+ Copyright (c) 2008 The Adium Team
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -30,26 +31,21 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+@class AIAppendXMLOperation;
 
 @interface AIXMLAppender : NSObject {
-	NSFileHandle	*file;
-	NSString		*filePath;
+	NSFileHandle			*file;
+	NSString				*path;
 
-	NSString		*rootElementName;
+	NSXMLElement			*rootElement;
+	AIAppendXMLOperation	*lastOp;
 	
-	BOOL			initialized;
-	BOOL			fsyncAfterEachAppend;
+	BOOL					initialized;
 }
 
-+ (id)documentWithPath:(NSString *)path;
++ (id)documentWithPath:(NSString *)path rootElement:(NSXMLElement *)root;
+- (id)initWithPath:(NSString *)path rootElement:(NSXMLElement *)elm;
 
-- (id)initWithPath:(NSString *)path;
-
-- (BOOL)isInitialized;
-- (NSString *)path;
-- (NSString *)rootElement;
-
-- (BOOL)initializeDocumentWithRootElementName:(NSString *)name attributeKeys:(NSArray *)keys attributeValues:(NSArray *)values;
-- (BOOL)addElementWithName:(NSString *)name content:(NSString *)content attributeKeys:(NSArray *)keys attributeValues:(NSArray *)values;
-- (BOOL)addElementWithName:(NSString *)name escapedContent:(NSString *)content attributeKeys:(NSArray *)keys attributeValues:(NSArray *)values;
+@property (readonly, copy, nonatomic) NSString *path;
+- (void)appendElement:(NSXMLElement *)element;
 @end

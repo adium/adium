@@ -22,6 +22,7 @@
 #import <Adium/AILoginControllerProtocol.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
+#import <AIUtilities/AIStringAdditions.h>
 
 // InstantMessage and other iChat transcript classes are from Spiny Software's Logorrhea, used with permission.
 #import "InstantMessage.h"
@@ -105,19 +106,14 @@
 																			  [[[rawChat objectAtIndex:3] objectAtIndex:0] senderID],
 																			  [[[[rawChat objectAtIndex:2] objectAtIndex:0] date] dateWithCalendarFormat:@"%Y-%m-%dT%H.%M.%S%z"
 																																				timeZone:nil]]];
-	AIXMLAppender *appender = [AIXMLAppender documentWithPath:documentPath];
-	NSString	  *imagesPath = [[appender path] stringByDeletingLastPathComponent];
-
-	// set up the initial layout of the xml log
-	[appender initializeDocumentWithRootElementName:@"chat"
-									  attributeKeys:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
-									attributeValues:[NSArray arrayWithObjects:
-										XML_LOGGING_NAMESPACE,
-										[[[rawChat objectAtIndex:3] objectAtIndex:0] senderID],
-										[rawChat objectAtIndex:0],
-										//										chat.account.UID, // pulled from iChat transcript
-										//										chat.account.serviceID, // pulled from iChat transcript
-										nil]];	
+	NSXMLElement *rootElement = [[[NSXMLElement alloc] initWithName:@"chat"] autorelease];
+	[rootElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
+											XML_LOGGING_NAMESPACE, @"xmlns",
+											[[[rawChat objectAtIndex:3] objectAtIndex:0] senderID], @"account",
+											[rawChat objectAtIndex:0], @"service",
+											nil]];
+	AIXMLAppender *appender = [AIXMLAppender documentWithPath:documentPath rootElement:rootElement];
+	NSString	  *imagesPath = [appender.path stringByDeletingLastPathComponent];
 	
 	// sequentially add the messages from the iChat transcript sans attributed text features
 	for(NSInteger i = 0; i < [[rawChat objectAtIndex:2] count]; i++)
@@ -130,10 +126,14 @@
 		
 		NSMutableString *chatContents = [[[xhtmlDecoder encodeHTML:[[[rawChat objectAtIndex:2] objectAtIndex:i] text] imagesPath:imagesPath] mutableCopy] autorelease];
 		
-		[appender addElementWithName:(![[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] isEqual:@""] ? @"message" : @"event")
-					  escapedContent:chatContents
-					   attributeKeys:([attributeValues count] == 2 ? attributeKeys : nil)
-					 attributeValues:([attributeValues count] == 2 ? attributeValues : nil)];
+		NSString *elementName = ![[[(InstantMessage *)[[rawChat objectAtIndex:2] objectAtIndex:i] sender] senderID] isEqual:@""] ? @"message" : @"event";
+		NSXMLElement *elm = [[[NSXMLElement alloc] initWithXMLString:[NSString stringWithFormat:@"<%@>%@</%@>", elementName, chatContents, elementName] error:NULL] autorelease];
+		if ([attributeValues count] == 2) {
+			[elm setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:attributeValues
+																	   forKeys:attributeKeys]];
+		}
+		
+		[appender appendElement:elm];
 	}
 
 	if ([[NSFileManager defaultManager] fileExistsAtPath:documentPath]) {
