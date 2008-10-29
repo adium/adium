@@ -113,8 +113,6 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 
 - (NSAttributedString *)readFile:(NSString *)filePath withOptions:(NSDictionary *)options
 {
-	NSData *inputData = [NSData dataWithContentsOfFile:filePath];
-	inputFileString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
 	NSURL *url = [[NSURL alloc] initFileURLWithPath:filePath];
 	output = [[NSMutableAttributedString alloc] init];
 	
@@ -142,7 +140,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 	parser = CFXMLParserCreateWithDataFromURL(NULL, (CFURLRef)url, kCFXMLParserSkipMetaData | kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion, &callbacks, &context);
 	if (!CFXMLParserParse(parser)) {
 		NSLog(@"%@: Parser %@ for inputFileString %@ returned false.",
-			  [self class], parser, inputFileString);
+			  [self class], parser, [[NSString alloc] initWithData:[NSData dataWithContentsOfFile:filePath] encoding:NSUTF8StringEncoding]);
 		[output release];
 		output = nil;
 	}
