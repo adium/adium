@@ -47,47 +47,46 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 
 - (id)init
 {
-	self = [super init];
-	if(self == nil)
-		return nil;
+	if ((self = [super init])) {
 	
-	state = XML_STATE_NONE;
-	
-	inputFileString = nil;
-	sender = nil;
-	mySN = nil;
-	myDisplayName = nil;
-	date = nil;
-	parser = NULL;
-	status = nil;
-	
-	newlineAttributedString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
-
-	statusLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
-		AILocalizedString(@"Online", nil), @"online",
-		AILocalizedString(@"Idle", nil), @"idle",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE], @"offline",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY], @"away",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE], @"available",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY], @"busy",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME], @"notAtHome",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE], @"onThePhone",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION], @"onVacation",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND], @"doNotDisturb",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY], @"extendedAway",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB], @"beRightBack",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE], @"notAvailable",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK], @"notAtMyDesk",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE], @"notInTheOffice",
-		[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT], @"steppedOut",
-		nil];
+		state = XML_STATE_NONE;
 		
-	if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
-		nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
-															   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue];
-	} else {
-		nameFormat = AIDefaultName;
+		inputFileString = nil;
+		sender = nil;
+		mySN = nil;
+		myDisplayName = nil;
+		date = nil;
+		parser = NULL;
+		status = nil;
+		
+		newlineAttributedString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
+
+		statusLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
+			AILocalizedString(@"Online", nil), @"online",
+			AILocalizedString(@"Idle", nil), @"idle",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_OFFLINE], @"offline",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AWAY], @"away",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_AVAILABLE], @"available",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BUSY], @"busy",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_HOME], @"notAtHome",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_PHONE], @"onThePhone",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_VACATION], @"onVacation",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_DND], @"doNotDisturb",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_EXTENDED_AWAY], @"extendedAway",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_BRB], @"beRightBack",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AVAILABLE], @"notAvailable",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_AT_DESK], @"notAtMyDesk",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_NOT_IN_OFFICE], @"notInTheOffice",
+			[adium.statusController localizedDescriptionForCoreStatusName:STATUS_NAME_STEPPED_OUT], @"steppedOut",
+			nil];
+			
+		if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
+													  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
+			nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
+																   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue];
+		} else {
+			nameFormat = AIDefaultName;
+		}
 	}
 
 	return self;
@@ -113,6 +112,8 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 
 - (NSAttributedString *)readFile:(NSString *)filePath withOptions:(NSDictionary *)options
 {
+	NSData *inputData = [NSData dataWithContentsOfFile:filePath]; 
+	inputFileString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding]; 
 	NSURL *url = [[NSURL alloc] initFileURLWithPath:filePath];
 	output = [[NSMutableAttributedString alloc] init];
 	
@@ -137,10 +138,10 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 		CFRelease,
 		NULL
 	};
-	parser = CFXMLParserCreateWithDataFromURL(NULL, (CFURLRef)url, kCFXMLParserSkipMetaData | kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion, &callbacks, &context);
+	parser = CFXMLParserCreate(NULL, (CFDataRef)inputData, NULL, kCFXMLParserSkipMetaData | kCFXMLParserSkipWhitespace, kCFXMLNodeCurrentVersion, &callbacks, &context);
 	if (!CFXMLParserParse(parser)) {
 		NSLog(@"%@: Parser %@ for inputFileString %@ returned false.",
-			  [self class], parser, [[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:filePath] encoding:NSUTF8StringEncoding] autorelease]);
+			  [self class], parser, inputFileString);
 		[output release];
 		output = nil;
 	}
