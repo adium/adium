@@ -228,44 +228,46 @@
     AIIconState		*iconState;
 	int				animatingStateNumberOfFrames = [animatingState numberOfFrames];
 	
+	NSMutableArray *imagesToComposite = [NSMutableArray array];
+	
     //Use the base image as our starting point
     if ([baseState animated]) {
         if (baseState == animatingState) { //Only one state animates at a time
-            workingImage = [[[baseState imageArray] objectAtIndex:frame] copy];
+            [imagesToComposite addObject:[[baseState imageArray] objectAtIndex:frame]];
         } else {
-            workingImage = [[[baseState imageArray] objectAtIndex:0] copy];
+            [imagesToComposite addObject:[[baseState imageArray] objectAtIndex:0]];
         }
     } else {
-        workingImage = [[baseState image] copy];
+        [imagesToComposite addObject:[baseState image]];
     }
 	
     //Draw on the images of all overlayed states
     for (iconState in iconStateArray) {
         if ([iconState overlay]) {
-            NSImage	*overlayImage;
-			
             //Get the overlay image
             if ([iconState animated] && animatingStateNumberOfFrames) {
                 if (iconState == animatingState) { //Only one state animates at a time
-                    overlayImage = [[iconState imageArray] objectAtIndex:frame];
+                    [imagesToComposite addObject:[[iconState imageArray] objectAtIndex:frame]];
                 } else {
-                    overlayImage = [[iconState imageArray] objectAtIndex:( ((frame + 1) / animatingStateNumberOfFrames) * ([iconState numberOfFrames] - 1)) ];
+                    [imagesToComposite addObject:[[iconState imageArray] objectAtIndex:( ((frame + 1) / animatingStateNumberOfFrames) * ([iconState numberOfFrames] - 1)) ]];
 				}
             } else {
-                overlayImage = [iconState image];
+                [imagesToComposite addObject:[iconState image]];
             }
-			
-			NSSize size = [overlayImage size];
-			
-            //Layer it on top of our working image
-            [workingImage lockFocus];
-            [overlayImage drawAtPoint:NSMakePoint(0,0)
-							 fromRect:NSMakeRect(0,0,size.width,size.height)
-							operation:NSCompositeSourceOver
-							 fraction:1.0];
-            [workingImage unlockFocus];
         }
     }
+	
+	workingImage = [[NSImage alloc] initWithSize:[[imagesToComposite objectAtIndex:0] size]];
+	[workingImage lockFocus];
+	for (NSImage *overlayImage in imagesToComposite)
+	{
+		NSSize size = [overlayImage size];
+		[overlayImage drawAtPoint:NSMakePoint(0,0)
+						 fromRect:NSMakeRect(0,0,size.width,size.height)
+						operation:NSCompositeSourceOver
+						 fraction:1.0];
+	}
+	[workingImage unlockFocus];
 	
     return [workingImage autorelease];
 }
