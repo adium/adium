@@ -83,10 +83,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		if (className && (class = NSClassFromString(className))) {
 			id <AIPlugin>	object = [[class alloc] init];
 
-			if (!object) {
-                AILog(@"Failed to load %@", className);
-                continue;
-            }
+			NSAssert1(object, @"Failed to load %@", className);
 
 			[object installPlugin];
 
