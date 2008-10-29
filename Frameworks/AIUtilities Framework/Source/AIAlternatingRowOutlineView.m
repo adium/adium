@@ -166,7 +166,7 @@
 {
 	[super drawRect:rect];
 
-	if (drawsBackground && drawsAlternatingRows && [self drawsGrid]) {
+	if (drawsBackground && drawsAlternatingRows && [self gridStyleMask] != NSTableViewGridNone) {
 		[self _drawGridInClipRect:rect];
 	}
 }
