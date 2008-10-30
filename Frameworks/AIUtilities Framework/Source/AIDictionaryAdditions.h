@@ -18,6 +18,7 @@
 + (NSDictionary *)dictionaryNamed:(NSString *)name forClass:(Class)inClass;
 + (NSDictionary *)dictionaryAtPath:(NSString *)path withName:(NSString *)name create:(BOOL)create;
 - (BOOL)writeToPath:(NSString *)path withName:(NSString *)name;
+- (void)asyncWriteToPath:(NSString *)path withName:(NSString *)name;
 
 - (NSDictionary *)dictionaryByTranslating:(NSDictionary *)translation adding:(NSDictionary *)addition removing:(NSSet *)removal;
 

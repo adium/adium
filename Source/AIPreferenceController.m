@@ -118,7 +118,7 @@
 			}
 		}
 
-		[prefsDict writeToPath:userDirectory
+		[prefsDict asyncWriteToPath:userDirectory
 					  withName:@"ByObjectPrefs"];
 
 		dir = [userDirectory stringByAppendingPathComponent:ACCOUNT_PREFS_PATH];
@@ -135,7 +135,7 @@
 			}
 		}
 
-		[prefsDict writeToPath:userDirectory
+		[prefsDict asyncWriteToPath:userDirectory
 					  withName:@"AccountPrefs"];
 
 		[self setPreference:[NSNumber numberWithBool:YES]

@@ -454,7 +454,7 @@ typedef enum {
 		dictToSave = [[NSDictionary alloc] initWithDictionary:sourcePrefsToSave copyItems:YES];
 	}
 	//...and now it's safe to write it out, which may take a little while.
-	[dictToSave writeToPath:[info objectForKey:@"DestinationDirectory"]
+	[dictToSave asyncWriteToPath:[info objectForKey:@"DestinationDirectory"]
 				   withName:[info objectForKey:@"PrefsName"]];
 
 	/* Data verification */
@@ -540,9 +540,7 @@ typedef enum {
 		NSString	*path = (object ? [userDirectory stringByAppendingPathComponent:[object pathToPreferences]] : userDirectory);
 		NSString	*name = (object ? [[object internalObjectID] safeFilenameString] : group);
 		
-		BOOL success = [[self prefs] writeToPath:path withName:name];
-		if (!success)
-			NSLog(@"Error writing %@ for %@", self);
+		[[self prefs] asyncWriteToPath:path withName:name];
 	}
 }
 

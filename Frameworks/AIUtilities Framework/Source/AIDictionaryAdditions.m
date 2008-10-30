@@ -20,6 +20,58 @@
 #import "AIDictionaryAdditions.h"
 #import "AIFileManagerAdditions.h"
 
+@interface AIWriteDictionaryOperation : NSOperation 
+{
+	NSString *path;
+	NSDictionary *dict;
+}
+
+- (AIWriteDictionaryOperation *)initWithPath:(NSString *)path dictionary:(NSDictionary *)dict;
+
+@end
+
+@implementation AIWriteDictionaryOperation
+- (AIWriteDictionaryOperation *)initWithPath:(NSString *)p dictionary:(NSDictionary *)d
+{
+	if ((self = [super init]))
+	{
+		path = [p retain];
+		dict = [d retain];
+	}
+	return self;
+}
+
+- (void) dealloc
+{
+	[dict release];
+	[path release];
+	[super dealloc];
+}
+
+- (void) main
+{
+	[[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]; //make sure the path exists
+	
+	NSData *plistData;
+	NSString *retainedError = nil;
+	plistData = [NSPropertyListSerialization dataFromPropertyList:dict
+														   format:NSPropertyListBinaryFormat_v1_0
+												 errorDescription:&retainedError];
+	if (plistData) {
+		BOOL success = [plistData writeToFile:[path stringByAppendingPathExtension:@"plist"]
+								   atomically:YES];
+		if (!success)
+			NSLog(@"%s: Error writing dictionary to path %@", __PRETTY_FUNCTION__, path);
+		
+	} else {		
+		NSLog(@"%s: Could not serialize. Error: \"%@\".", __PRETTY_FUNCTION__, retainedError);
+		[dict validateAsPropertyList];
+		
+		if (retainedError) [retainedError release];		
+	}	
+}
+@end
+
 @implementation NSDictionary (AIDictionaryAdditions)
 
 // Returns a dictionary from the owners bundle with the specified name
@@ -86,34 +138,50 @@
 return validated;
 }
 
-// saves this dictionary to the specified path
 - (BOOL)writeToPath:(NSString *)path withName:(NSString *)name
 {
 	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
     NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
 	[[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]; //make sure the path exists
-	
-	NSData *plistData;
-	NSString *retainedError = nil;
-	plistData = [NSPropertyListSerialization dataFromPropertyList:self
-														   format:NSPropertyListBinaryFormat_v1_0
-												 errorDescription:&retainedError];
-	if (plistData) {
-		BOOL success = [plistData writeToFile:[[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]
-								  atomically:YES];
-		if (!success)
-			NSLog(@"%s: Error writing path %@, name %@ (%@)", __PRETTY_FUNCTION__, path, name, [[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]);
+	 
+	 NSData *plistData;
+	 NSString *retainedError = nil;
+	 plistData = [NSPropertyListSerialization dataFromPropertyList:self
+															format:NSPropertyListBinaryFormat_v1_0
+												  errorDescription:&retainedError];
+	 if (plistData) {
+		 BOOL success = [plistData writeToFile:[[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]
+		 atomically:YES];
+		 if (!success)
+		 NSLog(@"%s: Error writing path %@, name %@ (%@)", __PRETTY_FUNCTION__, path, name, [[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]);
+		 
+		 return success;
+	 } else {		
+		 NSLog(@"%s: Could not serialize. Error: \"%@\".", __PRETTY_FUNCTION__, retainedError);
+		 [self validateAsPropertyList];
+		 
+		 if (retainedError) [retainedError release];
+		 
+		 return NO;
+	 }
+	return YES;
+}
 
-		return success;
-	} else {		
-		NSLog(@"%s: Could not serialize. Error: \"%@\".", __PRETTY_FUNCTION__, retainedError);
-		[self validateAsPropertyList];
+static NSOperationQueue *dictWriterQueue;
+// saves this dictionary to the specified path
 
-		if (retainedError) [retainedError release];
+- (void)asyncWriteToPath:(NSString *)path withName:(NSString *)name
+{
+	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
+    NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
-		return NO;
+	if (!dictWriterQueue) {
+		dictWriterQueue = [[NSOperationQueue alloc] init];
 	}
+	
+	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:[path stringByAppendingPathComponent:name] dictionary:self] autorelease];
+	[dictWriterQueue addOperation:op];
 }
 
 - (NSDictionary *)dictionaryByTranslating:(NSDictionary *)translation adding:(NSDictionary *)addition removing:(NSSet *)removal
