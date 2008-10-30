@@ -122,8 +122,8 @@
 #endif
 
     //Save the login preferences
-    [loginDict writeToPath:[adium applicationSupportDirectory]
-                           withName:LOGIN_PREFERENCES_FILE_NAME];
+    [loginDict asyncWriteToPath:[adium applicationSupportDirectory]
+					   withName:LOGIN_PREFERENCES_FILE_NAME];
 
     //Login
     [owner loginAsUser:selectedUserName];

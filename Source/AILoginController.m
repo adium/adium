@@ -81,7 +81,7 @@
 
         //Set 'default' as the login of choice
         [loginDict setObject:DEFAULT_USER_NAME forKey:LOGIN_LAST_USER];
-		[loginDict writeToPath:[adium applicationSupportDirectory] withName:LOGIN_PREFERENCES_FILE_NAME];
+		[loginDict asyncWriteToPath:[adium applicationSupportDirectory] withName:LOGIN_PREFERENCES_FILE_NAME];
     }
 	
 	//Retrieve the desired user from the command line if possible
