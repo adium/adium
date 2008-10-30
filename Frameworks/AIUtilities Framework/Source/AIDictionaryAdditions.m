@@ -23,26 +23,29 @@
 @interface AIWriteDictionaryOperation : NSOperation 
 {
 	NSString *path;
+	NSString *name;
 	NSDictionary *dict;
 }
 
-- (AIWriteDictionaryOperation *)initWithPath:(NSString *)path dictionary:(NSDictionary *)dict;
+- (AIWriteDictionaryOperation *)initWithPath:(NSString *)path name:(NSString *)s dictionary:(NSDictionary *)dict;
 
 @end
 
 @implementation AIWriteDictionaryOperation
-- (AIWriteDictionaryOperation *)initWithPath:(NSString *)p dictionary:(NSDictionary *)d
+- (AIWriteDictionaryOperation *)initWithPath:(NSString *)p name:(NSString *)s dictionary:(NSDictionary *)d
 {
 	if ((self = [super init]))
 	{
 		path = [p retain];
 		dict = [d retain];
+		name = [s retain];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
+	[name release];
 	[dict release];
 	[path release];
 	[super dealloc];
@@ -50,25 +53,7 @@
 
 - (void) main
 {
-	[[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL]; //make sure the path exists
-	
-	NSData *plistData;
-	NSString *retainedError = nil;
-	plistData = [NSPropertyListSerialization dataFromPropertyList:dict
-														   format:NSPropertyListBinaryFormat_v1_0
-												 errorDescription:&retainedError];
-	if (plistData) {
-		BOOL success = [plistData writeToFile:[path stringByAppendingPathExtension:@"plist"]
-								   atomically:YES];
-		if (!success)
-			NSLog(@"%s: Error writing dictionary to path %@", __PRETTY_FUNCTION__, path);
-		
-	} else {		
-		NSLog(@"%s: Could not serialize. Error: \"%@\".", __PRETTY_FUNCTION__, retainedError);
-		[dict validateAsPropertyList];
-		
-		if (retainedError) [retainedError release];		
-	}	
+	[dict writeToPath:path withName:name];
 }
 @end
 
@@ -154,7 +139,7 @@ return validated;
 		 BOOL success = [plistData writeToFile:[[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]
 		 atomically:YES];
 		 if (!success)
-		 NSLog(@"%s: Error writing path %@, name %@ (%@)", __PRETTY_FUNCTION__, path, name, [[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]);
+			 NSLog(@"%s: Error writing path %@, name %@ (%@)", __PRETTY_FUNCTION__, path, name, [[path stringByAppendingPathComponent:name] stringByAppendingPathExtension:@"plist"]);
 		 
 		 return success;
 	 } else {		
@@ -180,7 +165,7 @@ static NSOperationQueue *dictWriterQueue;
 		dictWriterQueue = [[NSOperationQueue alloc] init];
 	}
 	
-	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:[path stringByAppendingPathComponent:name] dictionary:self] autorelease];
+	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:path name:name dictionary:self] autorelease];
 	[dictWriterQueue addOperation:op];
 }
 
