@@ -53,6 +53,8 @@ static	NSDictionary	*statusTypeDict = nil;
 		@"idle",CONTACT_STATUS_IDLE_YES,
 		@"return_idle",CONTACT_STATUS_IDLE_NO,
 		@"away_message",CONTACT_STATUS_MESSAGE,
+		@"mobile",CONTACT_STATUS_MOBILE_YES,
+		@"return_mobile",CONTACT_STATUS_MOBILE_NO,
 		nil] retain];
 	
 	previousStatusChangedMessages = [[NSMutableDictionary alloc] init];
@@ -62,6 +64,8 @@ static	NSDictionary	*statusTypeDict = nil;
     [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_ONLINE_NO object:nil];
     [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_YES object:nil];
     [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_NO object:nil];
+	[adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_YES object:nil];
+    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_NO object:nil];
 
 	[adium.notificationCenter addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_YES object:nil];
     [adium.notificationCenter addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_NO object:nil];

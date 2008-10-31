@@ -72,6 +72,8 @@ typedef enum {
 #define CONTACT_STATUS_MESSAGE				@"Contact_StatusMessage"
 #define CONTACT_SEEN_ONLINE_YES				@"Contact_SeenOnlineYes"
 #define CONTACT_SEEN_ONLINE_NO				@"Contact_SeenOnlineNo"
+#define CONTACT_STATUS_MOBILE_YES			@"Contact_StatusMobileYes"
+#define CONTACT_STATUS_MOBILE_NO			@"Contact_StatusMobileNo"
 #define CONTENT_MESSAGE_SENT				@"Content_MessageSent"
 #define CONTENT_MESSAGE_RECEIVED			@"Content_MessageReceived"
 #define CONTENT_MESSAGE_RECEIVED_GROUP		@"Content_MessageReceivedGroup"

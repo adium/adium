@@ -46,6 +46,7 @@
     awayCache = [[NSMutableDictionary alloc] init];
     idleCache = [[NSMutableDictionary alloc] init];
 	statusMessageCache = [[NSMutableDictionary alloc] init];
+	mobileCache = [[NSMutableDictionary alloc] init];
 	
 	//Register the events we generate
 	[adium.contactAlertsController registerEventID:CONTACT_STATUS_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
@@ -56,6 +57,8 @@
 	[adium.contactAlertsController registerEventID:CONTACT_STATUS_IDLE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTACT_SEEN_ONLINE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
 	[adium.contactAlertsController registerEventID:CONTACT_SEEN_ONLINE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_MOBILE_YES withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
+	[adium.contactAlertsController registerEventID:CONTACT_STATUS_MOBILE_NO withHandler:self inGroup:AIContactsEventHandlerGroup globalOnly:NO];
 	
 	//Observe status changes
     [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
@@ -64,6 +67,17 @@
 - (void)uninstallPlugin
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
+}
+
+- (void)dealloc
+{
+	[onlineCache release];
+	[awayCache release];
+	[idleCache release];
+	[statusMessageCache release];
+	[mobileCache release];
+	
+	[super dealloc];
 }
 
 /*!
@@ -90,6 +104,10 @@
 		description = AILocalizedString(@"Is seen",nil);
 	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 		description = AILocalizedString(@"Is no longer seen",nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+		description = AILocalizedString(@"Goes mobile",nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+		description = AILocalizedString(@"Returns from mobile",nil);
 	} else {
 		description = @"";
 	}
@@ -120,6 +138,10 @@
 		description = AILocalizedString(@"Contact is seen",nil);
 	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 		description = AILocalizedString(@"Contact is no longer seen",nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+		description = AILocalizedString(@"Contact goes mobile",nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+		description = AILocalizedString(@"Contact returns from mobile",nil);
 	} else {
 		description = @"";
 	}
@@ -155,6 +177,10 @@
 		description = @"Contact is seen";
 	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 		description = @"Contact is no longer seen";
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+		description = @"Contact Went Mobile";
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+		description = @"Contact Returns from Mobile";
 	} else {
 		description = @"";	
 	}
@@ -186,6 +212,10 @@
 		format = AILocalizedString(@"When you see %@",nil);
 	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 		format = AILocalizedString(@"When you no longer see %@",nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+		format = AILocalizedString(@"When %@ goes mobile",nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+		format = AILocalizedString(@"When %@ returns from mobile",nil);
 	} else {
 		format = @"";
 	}
@@ -236,6 +266,10 @@
 			format = AILocalizedString(@"%@ is seen","Event: <A contact's name> is seen (which can be 'came online' or 'was online when you connected')");
 		} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 			format = AILocalizedString(@"%@ is no longer seen","Event: <A contact's name> is no longer seen (went offline, or you went offline)");
+		} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+			format = AILocalizedString(@"%@ went mobile", "Event: <A contact's name> went mobile (went offline but is available on a mobile device)");
+		} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+			format = AILocalizedString(@"%@ returned from mobile", "Event: <A contact's name> is no longer mobile (came online and is no longer available on a mobile device)");
 		}
 		
 		if (format) {
@@ -258,6 +292,10 @@
 			description = AILocalizedString(@"is seen","Event: is seen (follows a contact's name displayed as a header)");
 		} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
 			description = AILocalizedString(@"is no longer seen","Event: is no longer seen (follows a contact's name displayed as a header)");
+		} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+			description = AILocalizedString(@"went mobile", "Event: went mobile (follows a contact's name displayed as a header)");
+		} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+			description = AILocalizedString(@"returned from mobile", "Event: is no longer mobile (follows a contact's name displayed as a header)");
 		}
 	}
 	
@@ -284,7 +322,7 @@
 	 * Ignore meta contact children since the actual meta contact provides a better event. The best way to check this is to verify that the contact's parentContact is itself.*/
 	if (([inObject isKindOfClass:[AIListContact class]]) &&
 		([(AIListContact *)inObject parentContact] == (AIListContact *)inObject)) {
-
+		
 		if ([inModifiedKeys containsObject:@"Online"]) {
 			id newValue = [inObject numberValueForProperty:@"Online"];
 
@@ -306,6 +344,22 @@
 												 forListObject:inObject
 													  userInfo:nil
 								  previouslyPerformedActionIDs:nil];
+			}
+		}
+		
+		// IsMobile can be broadcasted before Online
+		if([inModifiedKeys containsObject:@"IsMobile"]) {
+			id newValue = [inObject numberValueForProperty:@"IsMobile"];
+			if([self updateCache:mobileCache 
+						  forKey:@"IsMobile"
+						newValue:newValue 
+					  listObject:inObject 
+				  performCompare:YES] && !silent) {
+				NSString	*event = ([newValue boolValue] ? CONTACT_STATUS_MOBILE_YES : CONTACT_STATUS_MOBILE_NO);
+				[adium.contactAlertsController generateEvent:event 
+				 forListObject:inObject 
+				 userInfo:nil 
+				 previouslyPerformedActionIDs:nil];
 			}
 		}
 		
