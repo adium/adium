@@ -23,6 +23,7 @@
 	NSMutableDictionary		*awayCache;
 	NSMutableDictionary		*idleCache;
 	NSMutableDictionary		*statusMessageCache;
+	NSMutableDictionary		*mobileCache;
 }
 
 @end
