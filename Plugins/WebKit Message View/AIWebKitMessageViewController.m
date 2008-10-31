@@ -699,9 +699,9 @@ static NSArray *draggedTypes = nil;
 	NSURL	*imageURL = (NSURL *)contextInfo;
 
 	if (returnCode ==  NSOKButton) {
-		[[NSFileManager defaultManager] copyItemAtURL:imageURL
-												toURL:[sheet URL]
-												error:NULL];
+		[[NSFileManager defaultManager] copyItemAtPath:[imageURL absoluteString]
+												toPath:[[sheet URL] absoluteString]
+												 error:NULL];
 	}
 	
 	[imageURL release];
