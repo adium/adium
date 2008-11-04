@@ -24,7 +24,6 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
-#import <AIUtilities/AISetAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -894,7 +893,8 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					--popRange.location; ++popRange.length;
 
 					NSMutableSet *attributeNames = [attributeNamesStack objectAtIndex:popRange.location];
-					NSSet *intersection = [attributeNames intersectionWithSet:mutableEndedKeys];
+					NSMutableSet *intersection = [[attributeNames mutableCopy] autorelease];
+					[intersection intersectSet:mutableEndedKeys];
 
 					[attributeNames minusSet:intersection];
 					[attributesToRestore unionSet:attributeNames];
