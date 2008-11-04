@@ -1249,17 +1249,15 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	[menu setAutoenablesItems:NO];
 	
-	for(AIContactList *clist in contactLists) {
-		for(AIListObject *object in clist) {
-			if ([object isKindOfClass:[AIListGroup class]] && object != self.offlineGroup) {
-				NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[object displayName]
-													    target:target
-													    action:@selector(selectGroup:)
-												     keyEquivalent:@""];
-				[menuItem setRepresentedObject:object];
-				[menu addItem:menuItem];
-				[menuItem release];
-			}
+	for(AIListGroup *group in self.allGroups) {
+		if (group != self.offlineGroup) {
+			NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:group.displayName
+													target:target
+													action:@selector(selectGroup:)
+												 keyEquivalent:@""];
+			[menuItem setRepresentedObject:group];
+			[menu addItem:menuItem];
+			[menuItem release];
 		}
 	}
 	
