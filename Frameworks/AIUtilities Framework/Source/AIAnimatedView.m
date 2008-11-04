@@ -19,7 +19,7 @@
     An animated image.  Image file should be frames stacked vertically.
 */
 
-@interface AIAnimatedView (PRIVATE)
+@interface AIAnimatedView ()
     - (void)animate:(NSTimer *)timer;
 @end
 

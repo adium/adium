@@ -25,8 +25,7 @@
  - Delete key handling
  */
 
-@interface AIAlternatingRowTableView (PRIVATE)
-- (void)_drawRowInRect:(NSRect)rect colored:(BOOL)colored selected:(BOOL)selected;
+@interface AIAlternatingRowTableView ()
 - (void)_initAlternatingRowTableView;
 @end
 
@@ -54,7 +53,7 @@
 
 - (void)_initAlternatingRowTableView
 {
-	acceptFirstMouse = NO;
+	self.acceptsFirstMouse = NO;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(alternatingRowTableViewSelectionDidChange:)
 												 name:NSTableViewSelectionDidChangeNotification
@@ -108,13 +107,11 @@
 }
 
 // First mouse ----------------------------------------------------------------------
-- (void)setAcceptsFirstMouse:(BOOL)inAcceptFirstMouse
-{
-	acceptFirstMouse = inAcceptFirstMouse;
-}
+@synthesize acceptsFirstMouse;
+
 - (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
 {
-	return acceptFirstMouse;
+	return self.acceptsFirstMouse;
 }
 
 //Allow our delegate to specify context menus

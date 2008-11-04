@@ -16,7 +16,7 @@
 
 static AIHostReachabilityMonitor *singleton = nil;
 
-@interface AIHostReachabilityMonitor (PRIVATE)
+@interface AIHostReachabilityMonitor ()
 - (void)scheduleReachabilityMonitoringForHost:(NSString *)nodename observer:(id)observer;
 - (void)gotReachabilityRef:(SCNetworkReachabilityRef)reachabilityRef forHost:(NSString *)host observer:(id)observer;
 

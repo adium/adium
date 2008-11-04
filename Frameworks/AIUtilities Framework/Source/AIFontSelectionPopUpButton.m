@@ -15,7 +15,7 @@
 #define FONT_SAMPLE_WIDTH		60
 #define FONT_SAMPLE_HEIGHT		16
 
-@interface AIFontSelectionPopUpButton (PRIVATE)
+@interface AIFontSelectionPopUpButton ()
 - (void)_buildFontMenu;
 - (void)_setCustomFont:(NSFont *)inFont;
 - (NSImage *)_sampleImageForFont:(NSFont *)inFont;

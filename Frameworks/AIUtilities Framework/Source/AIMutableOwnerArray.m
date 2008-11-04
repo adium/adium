@@ -20,7 +20,7 @@
 
 #import "AIMutableOwnerArray.h"
 
-@interface AIMutableOwnerArray (PRIVATE)
+@interface AIMutableOwnerArray ()
 - (id)_objectWithHighestPriority;
 - (void)_moveObjectToFront:(int)objectIndex;
 - (void)_createArrays;
@@ -49,19 +49,17 @@
 {
 	delegate = nil;
 	
-    [self _destroyArrays];
-    [super dealloc];
+	[self _destroyArrays];
+	[super dealloc];
 }
 
 
 - (NSString *)description
 {
 	NSMutableString	*desc = [[NSMutableString alloc] initWithFormat:@"<%@: %x: ", NSStringFromClass([self class]), self];
-	NSEnumerator	*enumerator = [contentArray objectEnumerator];
-	id				object;
-	int				i = 0;
+	NSUInteger	i = 0;
 	
-	while ((object = [enumerator nextObject])) {
+	for (id object in self) {
 		[desc appendFormat:@"(%@:%@:%@)%@", [ownerArray objectAtIndex:i], object, [priorityArray objectAtIndex:i], (object == [contentArray lastObject] ? @"" : @", ")];
 		i++;
 	}
@@ -99,9 +97,9 @@
 		if (!ownerArray) [self _createArrays];
 		
 		//Add the object
-        [ownerArray addObject:inOwner];
-        [contentArray addObject:anObject];
-        [priorityArray addObject:[NSNumber numberWithFloat:priority]];
+		[ownerArray addObject:inOwner];
+		[contentArray addObject:anObject];
+		[priorityArray addObject:[NSNumber numberWithFloat:priority]];
 	}
 
 	//Our array may no longer have the return value sorted to the front, clear this flag so it can be sorted again
@@ -258,14 +256,12 @@
 	//If we have more than one object and the object we want is not already in the front of our arrays, 
 	//we need to find the object with highest priority and move it to the front
 	if ([priorityArray count] != 1 && !valueIsSortedToFront) {
-		NSEnumerator	*enumerator = [priorityArray objectEnumerator];
-		NSNumber		*priority;
 		float			currentMax = Lowest_Priority;
 		int				indexOfMax = 0;
 		int				index = 0;
 		
 		//Find the object with highest priority
-		while ((priority = [enumerator nextObject])) {
+		for (NSNumber *priority in priorityArray) {
 			float	value = [priority floatValue];
 			if (value < currentMax) {
 				currentMax = value;
@@ -337,12 +333,9 @@
 	return [contentArray objectEnumerator];
 }
 
-- (NSArray *)allValues
-{
-	return contentArray;
-}
+@synthesize allValues = contentArray;
 
-- (unsigned)count
+- (NSUInteger)count
 {
     return [contentArray count];
 }
@@ -354,16 +347,16 @@
 //Create our storage arrays
 - (void)_createArrays
 {
-    contentArray = [[NSMutableArray alloc] init];
-    priorityArray = [[NSMutableArray alloc] init];
-    ownerArray = [[NSMutableArray alloc] init];
+	contentArray = [[NSMutableArray alloc] init];
+	priorityArray = [[NSMutableArray alloc] init];
+	ownerArray = [[NSMutableArray alloc] init];
 }
 
 //Destroy our storage arrays
 - (void)_destroyArrays
 {
-    [contentArray release]; contentArray = nil;
-    [priorityArray release]; priorityArray = nil;
+	[contentArray release]; contentArray = nil;
+	[priorityArray release]; priorityArray = nil;
 	[ownerArray release]; ownerArray = nil;
 }
 
@@ -379,6 +372,11 @@
 - (id)delegate
 {
 	return delegate;
+}
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len;
+{
+	return [contentArray countByEnumeratingWithState:state objects:stackbuf count:len];
 }
 
 @end

@@ -11,7 +11,7 @@
 /*
  Used for displaying a potentially large image
  */
-@interface AIScaledImageCell (PRIVATE)
+@interface AIScaledImageCell ()
 - (BOOL)isHighlighted;
 @end
 

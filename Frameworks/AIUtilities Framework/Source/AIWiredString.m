@@ -26,7 +26,7 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
-@interface AIWiredString (PRIVATE)
+@interface AIWiredString ()
 
 //creates a UTF-8 representation of the input.
 //XXX - currently does not know about BOMs.
@@ -409,9 +409,7 @@
 	return [[self retain] autorelease];
 }
 
-@end
-
-@implementation AIWiredString (PRIVATE)
+#pragma mark Private
 
 - (size_t)makeUTF8:(out UTF8Char **)output length:(out size_t *)outputLength extraBytes:(const size_t)numExtraBytes forUTF16:(const UTF16Char *)input length:(size_t)inputLength
 {
@@ -425,19 +423,19 @@
 	} else {
 		const size_t outSizeIncrement = getpagesize();
 		unsigned long i;
-
+		
 		UnicodeScalarValue scalar;
 		UTF16Char surrogateHigh = kUnicodeNotAChar;
-
+		
 		for (i = 0; i < inputLength; ++i) {
 #define OUTPUT_BOUNDARY_GUARD \
-			if ((!outSize) || (j >= (outSize - numExtraBytes))) { \
-				outBuf = AIReallocWired(outBuf, outSize += outSizeIncrement); \
-				if (!outBuf) break; \
-			}
-
+if ((!outSize) || (j >= (outSize - numExtraBytes))) { \
+outBuf = AIReallocWired(outBuf, outSize += outSizeIncrement); \
+if (!outBuf) break; \
+}
+			
 			OUTPUT_BOUNDARY_GUARD;
-
+			
 			if (surrogateHigh != kUnicodeNotAChar) {
 				scalar = UCGetUnicodeScalarValueForSurrogatePair(surrogateHigh, input[i]);
 				surrogateHigh = kUnicodeNotAChar;
@@ -447,7 +445,7 @@
 			} else {
 				scalar = input[i];
 			}
-
+			
 			if (scalar < 0x80) {
 				outBuf[j++] = scalar;
 			} else {
@@ -455,7 +453,7 @@
 				u_int8_t yyyyyy = (scalar >>  6) & 0x7f; 
 				u_int8_t   zzzz = (scalar >> 12) & 0x0f;
 				u_int8_t  uuuuu = (scalar >> 16) & 0x1f;
-
+				
 				if (uuuuu) {
 					outBuf[j++] = 0x240 | (uuuuu >> 2);
 					OUTPUT_BOUNDARY_GUARD;
@@ -474,20 +472,20 @@
 				}
 				outBuf[j++] = 0x80 | xxxxxx;
 			}
-	#undef OUTPUT_BOUNDARY_GUARD
+#undef OUTPUT_BOUNDARY_GUARD
 		}
-
+		
 		AISetRangeInMemory(outBuf, NSMakeRange(j, outSize - j), '\0');
 	}
-
+	
 	if (output) *output = outBuf;
 	else {
 		munlock(outBuf, outSize);
 		free(outBuf);
 	}
-
+	
 	if (outputLength) *outputLength = j;
-
+	
 	return outSize;
 }
 

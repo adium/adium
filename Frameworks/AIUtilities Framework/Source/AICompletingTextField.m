@@ -22,9 +22,8 @@
     A text field that auto-completes known strings
  */
 
-@interface AICompletingTextField (PRIVATE)
+@interface AICompletingTextField ()
 - (id)_init;
-- (void)insertText:(id)insertString;
 - (NSString *)completionForString:(NSString *)inString;
 @end
 

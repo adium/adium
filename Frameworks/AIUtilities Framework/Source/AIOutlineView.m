@@ -16,7 +16,7 @@
 #import "AIOutlineView.h"
 #import "AIOutlineViewAdditions.h"
 
-@interface AIOutlineView (PRIVATE)
+@interface AIOutlineView ()
 - (void)_initOutlineView;
 - (void)expandOrCollapseItemsOfItem:(id)rootItem;
 @end

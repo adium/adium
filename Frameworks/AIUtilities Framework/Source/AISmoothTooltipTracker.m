@@ -16,7 +16,7 @@
 
 #define	LOG_TRACKING_INFO		FALSE
 
-@interface AISmoothTooltipTracker (PRIVATE)
+@interface AISmoothTooltipTracker ()
 - (AISmoothTooltipTracker *)initForView:(NSView *)inView withDelegate:(id)inDelegate;
 
 - (void)installCursorRect;

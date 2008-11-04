@@ -10,7 +10,7 @@
 #import "AIStringUtilities.h"
 #import "AIMenuAdditions.h"
 
-@interface AIObjectSelectionPopUpButton (PRIVATE)
+@interface AIObjectSelectionPopUpButton ()
 - (void)_buildMenu;
 @end
 

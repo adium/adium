@@ -14,7 +14,7 @@
 #define WINDOW_FADE_MIN                         0.0
 #define WINDOW_FADE_SNAP                        0.05 //How close to min/max we must get before fade is finished
 
-@interface AIFloater (PRIVATE)
+@interface AIFloater ()
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
 - (void)_setWindowOpacity:(float)opacity;
 @end

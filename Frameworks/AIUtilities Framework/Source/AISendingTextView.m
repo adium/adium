@@ -25,7 +25,7 @@
 //order with the text, and the problem is eliminated.
 //
 
-@interface AISendingTextView (PRIVATE)
+@interface AISendingTextView ()
 - (void)_initSendingTextView;
 @end
 

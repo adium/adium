@@ -9,7 +9,7 @@
 #import "AITextFieldWithDraggingDelegate.h"
 #import "AITextFieldAdditions.h"
 
-@interface AITextFieldWithDraggingDelegate (PRIVATE)
+@interface AITextFieldWithDraggingDelegate ()
 - (id)_init;
 @end
 

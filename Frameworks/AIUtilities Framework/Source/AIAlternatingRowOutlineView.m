@@ -26,12 +26,9 @@
 #import "AIGradientAdditions.h"
 #import "AIColorAdditions.h"
 
-@interface AIAlternatingRowOutlineView (PRIVATE)
-- (void)_initAlternatingRowOutlineView;
-- (void)outlineViewDeleteSelectedRows:(NSTableView *)tableView;
+@interface AIAlternatingRowOutlineView ()
+- (void)initAlternatingRowOutlineView;
 - (void)_drawGridInClipRect:(NSRect)rect;
-- (BOOL)_restoreSelectionFromSavedSelection;
-- (void)_saveCurrentSelection;
 @end
 
 @interface NSOutlineView (Undocumented)
@@ -43,7 +40,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if ((self = [super initWithCoder:aDecoder])) {
-		[self _initAlternatingRowOutlineView];
+		[self initAlternatingRowOutlineView];
 	}
 	return self;
 }
@@ -51,17 +48,17 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	if ((self = [super initWithFrame:frameRect])) {
-		[self _initAlternatingRowOutlineView];
+		[self initAlternatingRowOutlineView];
 	}
 	return self;
 }
 
-- (void)_initAlternatingRowOutlineView
+- (void)initAlternatingRowOutlineView
 {
-    drawsAlternatingRows = NO;
+	drawsAlternatingRows = NO;
 	drawsBackground = YES;
 	drawsGradientSelection = NO;
-    alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0/255.0) green:(243.0/255.0) blue:(254.0/255.0) alpha:1.0] retain];
+	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0/255.0) green:(243.0/255.0) blue:(254.0/255.0) alpha:1.0] retain];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(alternatingRowOutlineViewSelectionDidChange:)
@@ -71,10 +68,10 @@
 
 - (void)dealloc
 {
-    [alternatingRowColor release];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [super dealloc];
+	[alternatingRowColor release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
+	[super dealloc];
 }
 
 
@@ -82,8 +79,8 @@
 //Toggle the drawing of alternating rows
 - (void)setDrawsAlternatingRows:(BOOL)flag
 {
-    drawsAlternatingRows = flag;
-    [self setNeedsDisplay:YES];
+	drawsAlternatingRows = flag;
+	[self setNeedsDisplay:YES];
 }
 - (BOOL)drawsAlternatingRows{
 	return drawsAlternatingRows;
@@ -103,11 +100,11 @@
 //Set the alternating row color
 - (void)setAlternatingRowColor:(NSColor *)color
 {
-    if (color != alternatingRowColor) {
-        [alternatingRowColor release];
-        alternatingRowColor = [color retain];
-        [self setNeedsDisplay:YES];
-    }
+	if (color != alternatingRowColor) {
+		[alternatingRowColor release];
+		alternatingRowColor = [color retain];
+		[self setNeedsDisplay:YES];
+	}
 }
 - (NSColor *)alternatingRowColor{
 	return alternatingRowColor;
@@ -118,7 +115,7 @@
 - (void)setDrawsBackground:(BOOL)inDraw
 {
 	drawsBackground = inDraw;
-    [self setNeedsDisplay:YES];
+	[self setNeedsDisplay:YES];
 }
 - (BOOL)drawsBackground{
 	return drawsBackground;
