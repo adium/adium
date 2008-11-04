@@ -6,6 +6,8 @@
 //  Copyright (c) 2003-2005 The Adium Team. All rights reserved.
 //
 
+#warning Cocoa can do this for us now, this (and its siblings) should go away when someone has time
+
 /*!
  * @class AIPlasticButton
  * @brief NSButton subclass for implementing a "plastic" Aqua button
