@@ -14,10 +14,8 @@
 - (NSArray *)peopleFromUniqueIDs:(NSArray *)uniqueIDs
 {
 	NSMutableArray *result = [[NSMutableArray alloc] init];
-	NSEnumerator *idsEnumerator = [uniqueIDs objectEnumerator];
-	NSString *uniqueID;
 	
-	while ((uniqueID = [idsEnumerator nextObject])) {
+	for (NSString *uniqueID in uniqueIDs) {
 		ABRecord *record;
 		
 		if ((record = [self recordForUniqueId:uniqueID]) && [record isKindOfClass:[ABPerson class]])
