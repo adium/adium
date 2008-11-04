@@ -430,7 +430,7 @@
  */
 - (BOOL)availableForSending
 {
-	return [self isSendingEnabled];
+	return self.sendingEnabled;
 }
 
 //Set our string, preserving the selected range
