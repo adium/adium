@@ -16,9 +16,9 @@
 @interface NSWindow (AIWindowAdditions)
 - (void)setContentSize:(NSSize)aSize display:(BOOL)displayFlag animate:(BOOL)animateFlag;
 - (void)setIgnoresExpose:(BOOL)flag;
-- (BOOL)isBorderless;
+@property (readonly, nonatomic) BOOL isBorderless;
 - (void)betterCenter;
-- (float)toolbarHeight;
+@property (readonly, nonatomic) float toolbarHeight;
 
 - (NSResponder *)earliestResponderWhichRespondsToSelector:(SEL)selector andIsNotOfClass:(Class)classToAvoid;
 - (NSResponder *)earliestResponderOfClass:(Class)targetClass;
