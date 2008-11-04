@@ -13,11 +13,11 @@
 @interface NSURL (AIURLAdditions)
 
 /**
- * @brief Gets the length of the URL.
+ * @brief The length of the URL.
  *
- * @return The length (number of characters) of the URL.
+ * @return The length (number of characters) of the absolute URL.
  */
-- (NSUInteger)length;
+@property (readonly, nonatomic) NSUInteger length;
 
 /*!
  * @brief Returns the argument for the specified key in the query string component of
