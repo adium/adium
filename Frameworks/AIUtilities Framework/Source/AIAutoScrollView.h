@@ -15,7 +15,7 @@
 
 /*!
  * @class AIAutoScrollView
- * @brief <tt>NSScrollView</tt> subclass which adds automatic scrolling, scroll bar hiding, and other features.
+ * @brief <tt>NSScrollView</tt> subclass which adds automatic scrolling, and other features.
  *
  * This <tt>NSScrollView</tt> subclass adds:
  * 	 - Methods to scroll to the top and bottom of the view
