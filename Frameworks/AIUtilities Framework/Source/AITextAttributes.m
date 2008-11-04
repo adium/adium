@@ -23,7 +23,7 @@
 
 #define FONT_DEFAULT_NAME	@"Helvetica"
 
-@interface AITextAttributes (PRIVATE)
+@interface AITextAttributes ()
 - (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(int)inSize;
 - (id)initWithDictionary:(NSDictionary *)inAttributes;
 - (void)updateFont;

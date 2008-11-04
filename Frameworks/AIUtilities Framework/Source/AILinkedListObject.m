@@ -8,7 +8,7 @@
 
 #import "AILinkedListObject.h"
 
-@interface AILinkedListObject (PRIVATE)
+@interface AILinkedListObject ()
 - (void)setLastObject:(AILinkedListObject *)theObject;
 @end
 

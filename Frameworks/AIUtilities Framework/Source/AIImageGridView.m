@@ -18,7 +18,7 @@ Adium, Copyright 2001-2005, Adam Iser
 
 #define MIN_PADDING			1			//The minimum padding between images
 
-@interface AIImageGridView (PRIVATE)
+@interface AIImageGridView ()
 - (void)_initImageGridView;
 - (void)_updateGrid;
 - (void)_updateGridForNewFrame:(NSRect)newFrame;

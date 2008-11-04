@@ -3,7 +3,7 @@
 #import "MVMenuButton.h"
 #import "AIImageDrawingAdditions.h"
 
-@interface MVMenuButton (PRIVATE)
+@interface MVMenuButton ()
 - (NSBezierPath *)popUpArrowPath;
 @end
 

@@ -18,7 +18,7 @@
 
 #define ERRORS_BEFORE_DIALOG	3	//Number of mistakes that can be made before an error dialog will appear
 
-@interface AIStringFormatter (PRIVATE)
+@interface AIStringFormatter ()
 - (id)initAllowingCharacters:(NSCharacterSet *)inCharacters length:(int)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage;
 @end
 

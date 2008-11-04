@@ -18,7 +18,7 @@
 
 #define DRAGGING_THRESHOLD 16.0
 
-@interface AIImageViewWithImagePicker (PRIVATE)
+@interface AIImageViewWithImagePicker ()
 - (void)_initImageViewWithImagePicker;
 - (void)showPictureTaker;
 - (void)copy:(id)sender;

@@ -15,25 +15,19 @@
 
 /*!
  * @class AIAlternatingRowTableView
- * @brief An <tt>NSTableView</tt> subclass supporting gradient selection and notificatoin of a delete keypress.
+ * @brief An <tt>NSTableView</tt> subclass supporting gradient selection and notification of a delete keypress.
  *
  * The name is currently AIAlternatingRowTableView for Adium legacy regions. This class should be renamed.
  *
  */
 @interface AIAlternatingRowTableView : NSTableView {
-	BOOL	acceptFirstMouse;
+	BOOL	acceptsFirstMouse;
 	BOOL	drawsGradientSelection;
 }
-/*!
- * @brief Set the return value of -(BOOL)acceptsFirstMouse
- *
- * See the <tt>NSView</tt> documentation for details.
- * @param acceptFirstMouse The new value to return for -(BOOL)acceptsFirstMouse
- */
-- (void)setAcceptsFirstMouse:(BOOL)acceptFirstMouse;
 
-- (void)setDrawsGradientSelection:(BOOL)inDrawsGradientSelection;
-- (BOOL)drawsGradientSelection;
+@property (readwrite, nonatomic) BOOL acceptsFirstMouse;
+
+@property (readwrite, nonatomic) BOOL drawsGradientSelection;
 
 @end
 

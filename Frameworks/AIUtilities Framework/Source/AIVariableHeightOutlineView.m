@@ -13,10 +13,8 @@
 
 #define	DRAG_IMAGE_FRACTION	0.75
 
-@interface AIVariableHeightOutlineView (PRIVATE)
+@interface AIVariableHeightOutlineView ()
 - (void)_initVariableHeightOutlineView;
-
-- (void)_drawRowSelectionInRect:(NSRect)rect;
 - (NSImage *)dragImageForRows:(NSUInteger *)buf count:(unsigned int)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset;
 @end
 

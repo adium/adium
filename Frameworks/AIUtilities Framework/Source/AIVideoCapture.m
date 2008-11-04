@@ -24,7 +24,7 @@ pascal OSErr videoCaptureDataCallback(SGChannel c, Ptr p, long len, long *offset
 
 static long instanceCounter = 0L;
 
-@interface AIVideoCapture (PRIVATE)
+@interface AIVideoCapture ()
 - (void)_initVideoCapture;
 - (void)_deallocVideoCapture;
 - (void)_primeDecompression;

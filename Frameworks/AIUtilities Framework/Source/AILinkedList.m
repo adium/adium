@@ -9,7 +9,7 @@
 #import "AILinkedList.h"
 #import "AILinkedListObject.h"
 
-@interface AILinkedList (PRIVATE)
+@interface AILinkedList ()
 - (id)linkedListObjectAtIndex:(unsigned)index;
 @end
 

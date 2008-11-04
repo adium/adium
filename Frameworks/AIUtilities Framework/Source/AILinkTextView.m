@@ -20,7 +20,7 @@
 #import "AILinkTextView.h"
 #import "AILinkTrackingController.h"
 
-@interface AILinkTextView (PRIVATE)
+@interface AILinkTextView ()
 - (void)_initLinkTextView;
 @end
 

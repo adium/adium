@@ -41,10 +41,10 @@
  * Floating point priority levels can be used to dictate the ordering of objects in the array.
  * Lower numbers have higher priority.
  */
-@interface AIMutableOwnerArray : NSObject {
-    NSMutableArray	*contentArray;
-    NSMutableArray	*ownerArray;
-    NSMutableArray	*priorityArray;
+@interface AIMutableOwnerArray : NSObject <NSFastEnumeration> {
+	NSMutableArray	*contentArray;
+	NSMutableArray	*ownerArray;
+	NSMutableArray	*priorityArray;
 	
 	BOOL			valueIsSortedToFront;
 	
@@ -83,35 +83,35 @@
  *
  * @result The object with the highest priority, performing no other comparison
  */
-- (id)objectValue;
+@property (readonly, nonatomic) id objectValue;
 /*!
  * @brief Greatest NSNumber value
  *
  * Assumes the \c AIMutableOwnerArray contains \c NSNumber instances
  * @result Returns the greatest (highest value) contained \c NSNumber value.
  */
-- (NSNumber *)numberValue;
+@property (readonly, nonatomic) NSNumber *numberValue;
 /*!
  * @brief Greatest integer value
  *
  * Assuming the \c AIMutableOwnerArray contains \c NSNumber instances, returns the \c intValue of the greatest (highest-valued) one.
  * @return  Returns the greatest contained integer value.
  */
-- (int)intValue;
+@property (readonly, nonatomic) NSInteger intValue;
 /*!
  * @brief Greatest double value
  *
  * Assuming the \c AIMutableOwnerArray contains \c NSNumber instances, returns the \c doubleValue of the greatest (highest-valued) one.
  * @return  Returns the greatest contained double value.
  */
-- (double)doubleValue;
+@property (readonly, nonatomic) double doubleValue;
 /*!
  * @brief Earliest date
  *
  * Assuming the \c AIMutableOwnerArray contains \c NSDate instances, returns the earliest one.
  * @return  Returns the earliest contained date.
  */
-- (NSDate *)date;
+@property (readonly, nonatomic) NSDate *date;
 /*!
  * @brief Retrieve object by owner
  *
@@ -150,38 +150,31 @@
  * Retrieve an \c NSEnumerator for all objects in the \c AIMutableOwnerArray. Order is not guaranteed.
  * @return  Returns \c NSEnumerator for all objects.
  */
-- (NSEnumerator *)objectEnumerator;
+@property (readonly, nonatomic) NSEnumerator *objectEnumerator;
 /*!
  * @brief Retrieve array of values
  * 
  * Retrieve an \c NSArray for all objects in the \c AIMutableOwnerArray. Order is not guaranteed.
  * @return  Returns \c NSArray for all objects.
  */
-- (NSArray *)allValues;
+@property (readonly, nonatomic) NSArray *allValues;
 /*!
  * @brief Retrieve number of objects
  * 
  * Retrieve the number of objects in the \c AIMutableOwnerArray.
  * @return  Returns an unsigned of the number of objects.
  */
-- (unsigned)count;
+@property (readonly, nonatomic) NSUInteger count;
 
 //Delegation
 /*!
- * @brief Set the delegate
+ * @brief Delegate
  * 
  * The delegate may implement:<br>
  * <code>- (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority</code><br>
  * to be notified with the \c AIMutableOwnerArray is modified.
  * @param inDelegate The delegate
  */
-- (void)setDelegate:(id)inDelegate;
-/*!
- * @brief Retrieve the delegate.
- *
- * Retrieve the delegate.
- * @return Returns the delegate.
- */
-- (id)delegate;
+@property (readwrite, nonatomic, assign) id delegate;
 
 @end

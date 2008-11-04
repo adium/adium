@@ -17,7 +17,7 @@
 
 #define AUTOSCROLL_CATCH_SIZE 	20	//The distance (in pixels) that the scrollview must be within (from the bottom) for auto-scroll to kick in.
 
-@interface AIAutoScrollView (PRIVATE)
+@interface AIAutoScrollView ()
 - (void)_initAutoScrollView;
 @end
 

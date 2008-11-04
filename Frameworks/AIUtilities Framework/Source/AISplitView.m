@@ -16,7 +16,7 @@
 #import "AISplitView.h"
 
 
-@interface AISplitView (PRIVATE)
+@interface AISplitView ()
 - (void)_initSplitView;
 @end
 

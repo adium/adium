@@ -20,7 +20,7 @@
     Create a temporary floating window with an animated image
 */
 
-@interface AIAnimatedFloater (PRIVATE)
+@interface AIAnimatedFloater ()
 - (id)initWithImage:(NSImage *)inImage size:(NSSize)inSize frames:(int)inFrames delay:(float)inDelay at:(NSPoint)inPoint;
 @end
 

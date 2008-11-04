@@ -28,7 +28,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-@interface AISocket (PRIVATE)
+@interface AISocket ()
 - (id)initWithHost:(NSString *)host port:(int)port;
 - (BOOL)readyForSending;
 - (BOOL)readyForReceiving;

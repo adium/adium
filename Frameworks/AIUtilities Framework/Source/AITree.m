@@ -25,7 +25,7 @@ static CFDictionaryKeyCallBacks nonRetainingCFDictionaryCallbacks = {
 static CFDictionaryKeyCallBacks *nonRetainingCFDictionaryKeyCallbacks = &nonRetainingCFDictionaryCallbacks;
 static CFDictionaryValueCallBacks *nonRetainingCFDictionaryValueCallbacks = (CFDictionaryValueCallBacks *)&nonRetainingCFDictionaryCallbacks;
 
-@interface AITree (PRIVATE)
+@interface AITree ()
 
 
 @end

@@ -8,9 +8,8 @@
 
 //  A text field that groups changes, sending its action to its target when 0.5 seconds elapses without a change
 
-@interface AIDelayedTextField (PRIVATE)
+@interface AIDelayedTextField ()
 - (id)_init;
-- (void)_delayedAction:(NSTimer *)timer;
 @end
 
 @implementation AIDelayedTextField

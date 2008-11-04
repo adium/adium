@@ -7,7 +7,7 @@
 
 #import "AIMultiCellOutlineView.h"
 
-@interface AIMultiCellOutlineView (PRIVATE)
+@interface AIMultiCellOutlineView ()
 - (void)_initMultiCellOutlineView;
 @end
 

@@ -24,14 +24,12 @@
 #define TOOLTIP_FADEOUT_INTERVAL	0.025
 #define TOOLTIP_FADOUT_STEP			0.1
 
-@interface AITooltipUtilities (PRIVATE)
+@interface AITooltipUtilities ()
 + (void)_createTooltip;
 + (void)_closeTooltip;
 + (void)_sizeTooltip;
-+ (void)_drawImage;
 + (NSPoint)_tooltipFrameOriginForSize:(NSSize)tooltipSize;
 + (void)_reallyCloseTooltip;
-+ (void)_performFade:(NSTimer *)timer;
 @end
 
 @implementation AITooltipUtilities

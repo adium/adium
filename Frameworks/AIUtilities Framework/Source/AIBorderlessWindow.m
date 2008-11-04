@@ -5,7 +5,7 @@
 
 #define BORDERLESS_WINDOW_DOCKING_DISTANCE 	12	//Distance in pixels before the window is snapped to an edge
 
-@interface AIBorderlessWindow (PRIVATE)
+@interface AIBorderlessWindow ()
 - (BOOL)dockWindowFrame:(NSRect *)inFrame toScreenFrame:(NSRect)screenFrame;
 @end
 

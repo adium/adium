@@ -31,12 +31,11 @@
 
 #define COPY_LINK   AILocalizedStringFromTableInBundle(@"Copy Link", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "Copy the link to the clipboard")
 
-@interface AILinkTrackingController (PRIVATE)
+@interface AILinkTrackingController ()
 - (id)initForView:(NSView *)inControlView withTextStorage:(NSTextStorage *)inTextStorage layoutManager:(NSLayoutManager *)inLayoutManager textContainer:(NSTextContainer *)inTextContainer;
 - (void)_beginCursorTrackingInRect:(NSRect)visibleRect withOffset:(NSPoint)offset;
 - (void)_endCursorTracking;
 - (void)_setMouseOverLink:(AIFlexibleLink *)inHoveredLink atPoint:(NSPoint)inPoint;
-- (void)_showTooltipAtScreenPoint:(NSPoint)inPoint;
 @end
 
 BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, int arraySize, BOOL flipped);

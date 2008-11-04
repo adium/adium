@@ -15,7 +15,7 @@
 #define COLOR_SAMPLE_HEIGHT		12
 #define SAMPLE_FRAME_DARKEN		0.3
 
-@interface AIColorSelectionPopUpButton (PRIVATE)
+@interface AIColorSelectionPopUpButton ()
 - (void)_initColorSelectionPopUpButton;
 - (void)_buildColorMenu;
 - (void)_setCustomColor:(NSColor *)inColor;
