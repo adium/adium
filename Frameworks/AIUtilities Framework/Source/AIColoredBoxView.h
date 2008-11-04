@@ -24,11 +24,10 @@
 }
 
 /*!
- * @brief Set the color of the view
+ * @brief The color of the view
  *
- * Set the <tt>NSColor</tt> to draw in the view
- * @param inColor An <tt>NSColor</tt>
+ * The <tt>NSColor</tt> to draw in the view
  */ 
-- (void)setColor:(NSColor *)inColor;
+@property (readwrite, nonatomic, retain) NSColor *color;
 
 @end

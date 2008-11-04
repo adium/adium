@@ -22,17 +22,9 @@
 
 @implementation AIColoredBoxView
 
-- (id)initWithFrame:(NSRect)frameRect
-{
-	if ((self = [super initWithFrame:frameRect])) {
-		color = nil;
-	}
-	return self;
-}
-
 - (void)dealloc
 {
-    [color release];
+    self.color = nil;
 
     [super dealloc];
 }
@@ -42,26 +34,20 @@
     return NO;
 }
 
-- (void)setColor:(NSColor *)inColor
-{
-    if (inColor != color) {
-        [color release];
-        color = [inColor retain];
-    }
-}
+@synthesize color;
 
 - (void)drawRect:(NSRect)rect
 {    
     //Clear the rect
     [[NSColor clearColor] set];
-    [NSBezierPath fillRect:rect];
+    NSRectFill(rect);
 
     //Fill it with our color
     if (!color) {
-        color = [[NSColor whiteColor] retain];
+        self.color = [NSColor whiteColor];
     }
     [color set];
-    [NSBezierPath fillRect:rect];
+    NSRectFill(rect);
     
     //Draw our contents
     [super drawRect:rect];
