@@ -688,7 +688,7 @@ static int nextChatNumber = 0;
 - (unsigned int)index
 {
 	//what we're going to do is find this tab in the tab view's hierarchy, so as to get its index
-	id<AIChatWindowController> windowController = [[self chatContainer] windowController];
+	AIMessageWindowController *windowController = self.chatContainer.windowController;
 
 	NSArray *chats = [windowController containedChats];
 	for (unsigned int i=0;i<[chats count];i++) {
@@ -700,7 +700,7 @@ static int nextChatNumber = 0;
 }
 /*- (void)setIndex:(unsigned int)index
 {
-	id<AIChatWindowController> windowController = [[self chatContainer] windowController];
+	AIMessageWindowController *windowController = self.chatContainer.windowController;
 	NSArray *chats = [windowController containedChats];
 	NSAssert (index-1 < [chats count], @"Don't let index be bigger than the count!");
 	NSLog(@"Trying to move %@ in %@ to %u",messageTab,window,index-1);

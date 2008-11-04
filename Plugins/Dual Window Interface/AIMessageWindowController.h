@@ -34,11 +34,11 @@ typedef enum
 @protocol AIFlexibleToolbarItemDelegate;
 
 @interface AIMessageWindowController : AIWindowController {
-    IBOutlet	NSTabView			*tabView_messages;
-    IBOutlet	PSMTabBarControl	*tabView_tabBar;
+	IBOutlet	NSTabView			*tabView_messages;
+	IBOutlet	PSMTabBarControl	*tabView_tabBar;
 	PSMAdiumTabStyle				*tabView_tabStyle;
 	AIMessageTabSplitView			*tabView_splitView;
-    AIDualWindowInterfacePlugin 	*interface;
+	AIDualWindowInterfacePlugin 	*interface;
 	NSString						*containerName;
 	NSString						*containerID;
 
@@ -49,7 +49,7 @@ typedef enum
 	CGFloat			 lastTabBarWidth;
 
 	NSDictionary	*toolbarItems;
-	NSMutableArray	*containedChats;
+	NSMutableArray	*m_containedChats;
 	
 	BOOL			hasShownDocumentButton;
 	
@@ -61,19 +61,28 @@ typedef enum
 															withID:(NSString *)inContainerID
 															  name:(NSString *)inName;
 - (IBAction)closeWindow:(id)sender;
-- (NSString *)containerID;
-- (PSMTabBarControl *)tabBar;
-- (AdiumTabPosition)tabPosition;
-- (NSString *)name;
-- (AIChat *)activeChat;
+@property (readonly, nonatomic) NSString *containerID;
+@property (readonly, nonatomic) PSMTabBarControl *tabBar;
+@property (readonly, nonatomic) AdiumTabPosition tabPosition;
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) AIChat *activeChat;
+
+/*
+ * @brief Get an array of all the chats within this window controller's window.
+ */
+@property (readonly, nonatomic) NSArray *containedChats;
+
+/*
+ * @brief The window
+ */
+@property (readonly, nonatomic) NSWindow *window;
 
 //Contained Chats
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem;
 - (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)index silent:(BOOL)silent;
 - (void)removeTabViewItem:(AIMessageTabViewItem *)inTabViewItem silent:(BOOL)silent;
 - (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index;
-- (BOOL)containerIsEmpty;
-- (NSArray *)containedChats;
+@property (readonly, nonatomic) BOOL containerIsEmpty;
 
 //Tabs
 - (void)updateIconForTabViewItem:(AIMessageTabViewItem *)tabViewItem;

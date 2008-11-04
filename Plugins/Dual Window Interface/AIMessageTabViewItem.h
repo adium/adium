@@ -21,7 +21,7 @@
 
 @interface AIMessageTabViewItem : NSTabViewItem <AIChatContainer> {
 	AIMessageWindowController	*windowController;
-    AIMessageViewController 	*messageViewController;
+	AIMessageViewController 	*messageViewController;
 	NSImage						*tabViewItemImage;
 	NSImage						*largeImage;
 }
@@ -29,16 +29,16 @@
 + (AIMessageTabViewItem *)messageTabWithView:(AIMessageViewController *)inMessageView;
 - (void)makeActive:(id)sender;
 - (void)close:(id)sender;
-- (NSString *)label;
-- (NSImage *)icon;
-- (NSImage *)statusIcon;
-- (NSImage *)stateIcon;
-- (AIChat *)chat;
-- (NSImage *)image;
-- (AIMessageViewController *)messageViewController;
 - (void)tabViewItemWasSelected;
 - (void)tabViewDidChangeVisibility;
-- (void)setWindowController:(AIMessageWindowController *)inWindowController;
-- (AIMessageWindowController *)windowController;
+
+@property (readonly, nonatomic) NSString *label;
+@property (readonly, nonatomic) NSImage *icon;
+@property (readonly, nonatomic) NSImage *statusIcon;
+@property (readonly, nonatomic) NSImage *stateIcon;
+@property (readonly, nonatomic) AIChat *chat;
+@property (readonly, nonatomic) NSImage *image;
+@property (readonly, nonatomic) AIMessageViewController *messageViewController;
+@property (readwrite, nonatomic, retain) AIMessageWindowController *windowController;
 
 @end

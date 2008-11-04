@@ -123,8 +123,8 @@
  */
 - (void)closeChat:(AIChat *)chat
 {
-	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)[chat chatContainer];
-	AIMessageWindowController	*container = [messageTab windowController];
+	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)chat.chatContainer;
+	AIMessageWindowController *container = messageTab.windowController;
 
 	//Close the chat
 	[container removeTabViewItem:messageTab silent:NO];

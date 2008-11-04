@@ -93,7 +93,7 @@
 		interface = [inInterface retain];
 		containerName = [inName retain];
 		containerID = [inContainerID retain];
-		containedChats = [[NSMutableArray alloc] init];
+		m_containedChats = [[NSMutableArray alloc] init];
 		hasShownDocumentButton = NO;
 		
 		//Load our window
@@ -146,7 +146,7 @@
 
     [tabView_tabBar setDelegate:nil];
 
-	[containedChats release];
+	[self.containedChats release];
 	[toolbarItems release];
 	[containerName release];
 	[containerID release];
@@ -533,7 +533,7 @@
     }
 	
     //Remove the tab and let the interface know a container closed
-	[containedChats removeObject:[inTabViewItem chat]];
+	[m_containedChats removeObject:[inTabViewItem chat]];
 	if (!silent) [adium.interfaceController chatDidClose:[inTabViewItem chat]];
 
 	//Now remove the tab view item from our NSTabView
@@ -545,7 +545,7 @@
 	[inTabViewItem setIdentifier:nil];
 
 	//close if we're empty
-	if (!windowIsClosing && [containedChats count] == 0) {
+	if (!windowIsClosing && [self.containedChats count] == 0) {
 		[self closeWindow:nil];
 	}
 }
@@ -555,12 +555,12 @@
 {
 	AIChat	*chat = [inTabViewItem chat];
 
-	if ([containedChats indexOfObject:chat] != index) {
+	if ([self.containedChats indexOfObject:chat] != index) {
 		NSMutableArray *cells = [tabView_tabBar cells];
 		
 		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:index];
 		[tabView_tabBar setNeedsDisplay:YES];
-		[containedChats moveObject:chat toIndex:index];
+		[m_containedChats moveObject:chat toIndex:index];
 		
 		[adium.interfaceController chatOrderDidChange];
 	}
@@ -569,14 +569,11 @@
 //Returns YES if we are empty (currently contain no chats)
 - (BOOL)containerIsEmpty
 {
-	return ([containedChats count] == 0);
+	return [self.containedChats count] == 0;
 }
 
 //Returns an array of the chats we contain
-- (NSArray *)containedChats
-{
-    return containedChats;
-}
+@synthesize containedChats = m_containedChats;
 
 - (void)_reloadContainedChats
 {
@@ -584,12 +581,12 @@
 	AIMessageTabViewItem	*tabViewItem;
 
 	//Update our contained chats array to mirror the order of the tabs
-	[containedChats release]; containedChats = [[NSMutableArray alloc] init];
+	[m_containedChats release]; m_containedChats = [[NSMutableArray alloc] init];
 	enumerator = [[tabView_messages tabViewItems] objectEnumerator];
 	
 	while ((tabViewItem = [enumerator nextObject])) {
 		[tabViewItem setWindowController:self];
-		[containedChats addObject:[tabViewItem chat]];
+		[m_containedChats addObject:[tabViewItem chat]];
 	}
 }
 
@@ -1349,5 +1346,8 @@
 		[adium.interfaceController previousChat:nil];
 	}
 }
+
+//inherit this
+@dynamic window;
 
 @end

@@ -18,6 +18,7 @@
 
 #import <Adium/AIChat.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import "AIMessageWindowController.h"
 #import <Adium/AIMenuControllerProtocol.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
