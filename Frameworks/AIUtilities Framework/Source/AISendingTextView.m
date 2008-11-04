@@ -51,15 +51,15 @@
 
 - (void)_initSendingTextView
 {
-    returnArray = [[NSMutableArray alloc] init];
-    sendOnReturn = YES;
+	returnArray = [[NSMutableArray alloc] init];
+	sendOnReturn = YES;
 	nextIsReturn = NO;
 	sendOnEnter = YES;
 	nextIsEnter = NO;
 	optionPressedWithNext = NO;
-    target = nil;
-    selector = nil;
-    sendingEnabled = YES;
+	target = nil;
+	selector = nil;
+	sendingEnabled = YES;
 }
 
 - (void)dealloc
@@ -70,24 +70,11 @@
 }
 
 //If true we will invoke selector on target when a send key is pressed
-- (void)setSendingEnabled:(BOOL)inBool
-{
-    sendingEnabled = inBool;
-}
-- (BOOL)isSendingEnabled
-{
-    return sendingEnabled;
-}
+@synthesize sendingEnabled;
 
-//Configure the send keys
-- (void)setSendOnReturn:(BOOL)inBool
-{
-    sendOnReturn = inBool;
-}
-- (void)setSendOnEnter:(BOOL)inBool
-{
-    sendOnEnter = inBool;
-}
+@synthesize sendOnReturn;
+@synthesize sendOnEnter;
+
 - (void)setTarget:(id)inTarget action:(SEL)inSelector
 {
     target = inTarget;

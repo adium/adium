@@ -17,52 +17,43 @@
  */
 
 @interface AISendingTextView : AITextViewWithPlaceholder {
-    NSMutableArray	*returnArray;
-    BOOL			insertingText;
+	NSMutableArray	*returnArray;
+	BOOL			insertingText;
 
-    id				target;
-    SEL				selector;
-    BOOL			sendingEnabled;
+	id				target;
+	SEL			selector;
+	BOOL			sendingEnabled;
 
-    BOOL			sendOnEnter;
-    BOOL			sendOnReturn;
-	
+	BOOL			sendOnEnter;
+	BOOL			sendOnReturn;
+
 	BOOL			nextIsReturn;
-    BOOL			nextIsEnter;
-    BOOL			optionPressedWithNext;
+	BOOL			nextIsEnter;
+	BOOL			optionPressedWithNext;
 }
 
 /*!
- * @brief Set if send keys trigger the set action
+ * @brief Whether send keys trigger the set action
  *
  * Set if send keys trigger the set action. If YES, we will invoke action on target when a send key is pressed.
- * @param inBool YES if sending is enabled
  * @see setTarget:action:
  */
-- (void)setSendingEnabled:(BOOL)inBool;
+@property (readwrite, nonatomic) BOOL sendingEnabled;
 
 /*!
- * @brief Return whether sending keys are enabled
- *
- * Returns whether sending keys will trigger the send action to be sent to the target
- */
-- (BOOL)isSendingEnabled;
-
-/*!
- * @brief Set if Return triggers a send
+ * @brief Whether Return triggers a send
  *
  * Set if Return triggers a send. If it does, the send will be performed instead of a newline being inserted.
- * @param inBool YES if Return triggers a send.
  */
-- (void)setSendOnReturn:(BOOL)inBool;
+@property (readwrite, nonatomic) BOOL sendOnReturn;
 
 /*!
- * @brief Set if Enter triggers a send
+ * @brief Whether Enter triggers a send
  *
  * Set if Enter triggers a send. If it does, the send will be performed instead of a newline being inserted.
  * @param inBool YES if Enter triggers a send.
  */
-- (void)setSendOnEnter:(BOOL)inBool;
+@property (readwrite, nonatomic) BOOL sendOnEnter;
 
 /*!
  * @brief Set the target and action to message when a send occurs
