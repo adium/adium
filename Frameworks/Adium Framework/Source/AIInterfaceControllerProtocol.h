@@ -474,9 +474,9 @@ typedef enum {
  *	@"ActiveChat"	AIChat that is currently active
  *	@"Name"		NSString of the container's name
  */
-- (NSArray *)openContainersAndChats;
-- (NSArray *)openContainerIDs;
-- (NSArray *)openChats;
+@property (readonly, nonatomic) NSArray *openContainersAndChats;
+@property (readonly, nonatomic) NSArray *openContainerIDs;
+@property (readonly, nonatomic) NSArray *openChats;
 - (NSArray *)openChatsInContainerWithID:(NSString *)containerID;
 - (NSString *)containerIDForChat:(AIChat *)chat;
 - (NSWindow *)windowForChat:(AIChat *)chat;
@@ -490,21 +490,6 @@ typedef enum {
 @protocol AIInterfaceContainer <NSObject>
 - (void)makeActive:(id)sender;	//Make the container active/front
 - (void)close:(id)sender;	//Close the container
-@end
-
-/*!
- * @brief AIChatWindow defines the protocol for an object which contains one or more AIChatContainers
- */
-@protocol AIChatWindowController <NSObject>
-/*
- * @brief Get an array of all the chats within this window controller's window.
- */
-- (NSArray *)containedChats;
-
-/*
- * @brief The window
- */
-- (NSWindow *)window;
 @end
 
 /*!
@@ -538,12 +523,12 @@ typedef enum {
 /*
  * @brief Get the window controller which holds this AIChatContainer
  */
-- (id <AIChatWindowController>)windowController;
+@property (readonly, nonatomic, retain) AIMessageWindowController *windowController;
 
 /*
  * @brief Get the view controller for this AIChatContainer
  */
-- (id <AIChatViewController>)chatViewController;
+@property (readonly, nonatomic) id <AIChatViewController> chatViewController;
 @end
 
 @protocol AIContactListComponent <NSObject>
