@@ -43,41 +43,29 @@ typedef enum {
 + (AIStatus *)statusWithDictionary:(NSDictionary *)inDictionary;
 + (AIStatus *)statusOfType:(AIStatusType)inStatusType;
 
-- (NSAttributedString *)statusMessage;
-- (void)setStatusMessage:(NSAttributedString *)statusMessage;
+@property (readwrite, nonatomic, retain) NSAttributedString *statusMessage;
 
-- (NSString *)statusMessageString;
-- (void)setStatusMessageString:(NSString *)statusMessageString;
+@property (readwrite, nonatomic, copy) NSString *statusMessageString;
 
 - (void)setFilteredStatusMessage:(NSString *)inFilteredStatusMessage;
+
 - (NSString *)statusMessageTooltipString;
 
-- (NSAttributedString *)autoReply;
-- (void)setAutoReply:(NSAttributedString *)autoReply;
+@property (readwrite, nonatomic, retain) NSAttributedString *autoReply;
 - (void)setAutoReplyString:(NSString *)autoReplyString;
 
-- (BOOL)hasAutoReply;
-- (void)setHasAutoReply:(BOOL)hasAutoReply;
-- (BOOL)autoReplyIsStatusMessage;
-- (void)setAutoReplyIsStatusMessage:(BOOL)autoReplyIsStatusMessage;
+@property (readwrite, nonatomic) BOOL hasAutoReply;
+@property (readwrite, nonatomic) BOOL autoReplyIsStatusMessage;
 
-- (NSString *)statusName;
-- (void)setStatusName:(NSString *)statusName;
+@property (readwrite, nonatomic, retain) NSString *statusName;
 
-- (BOOL)shouldForceInitialIdleTime;
-- (void)setShouldForceInitialIdleTime:(BOOL)shouldForceInitialIdleTime;
-- (double)forcedInitialIdleTime;
-- (void)setForcedInitialIdleTime:(double)forcedInitialIdleTime;
+@property (readwrite, nonatomic) BOOL shouldForceInitialIdleTime;
+@property (readwrite, nonatomic) double forcedInitialIdleTime;
 
 - (void)setMutabilityType:(AIStatusMutabilityType)mutabilityType;
 
-- (BOOL)mutesSound;
-- (void)setMutesSound:(BOOL)mutes;
-
-- (BOOL)silencesGrowl;
-- (void)setSilencesGrowl:(BOOL)silences;
-
-- (AISpecialStatusType)specialStatusType;
-- (void)setSpecialStatusType:(AISpecialStatusType)inSpecialStatusType;
+@property (readwrite, nonatomic) BOOL mutesSound;
+@property (readwrite, nonatomic) BOOL silencesGrowl;
+@property (readwrite, nonatomic) AISpecialStatusType specialStatusType;
 
 @end
