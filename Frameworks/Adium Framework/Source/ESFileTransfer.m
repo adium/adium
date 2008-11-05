@@ -285,17 +285,7 @@ static NSMutableDictionary *fileTransferDict = nil;
     return bytesSent;
 }
 
-- (void)setAccountData:(id)inAccountData
-{
-    if (accountData != inAccountData) {
-        [accountData release];
-        accountData = [inAccountData retain];
-    }
-}
-- (id)accountData
-{
-    return accountData;   
-}
+@synthesize accountData;
 
 - (void)setDelegate:(id <FileTransferDelegate>)inDelegate
 {

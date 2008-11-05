@@ -523,4 +523,6 @@
 
 + (void)dummyAction:(id)sender {};
 
+@synthesize delegate;
+
 @end

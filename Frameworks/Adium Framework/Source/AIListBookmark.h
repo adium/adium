@@ -17,9 +17,8 @@
 }
 
 - (id)initWithChat:(AIChat *)inChat;
-
-- (NSString*)name;
-- (NSDictionary*)chatCreationDictionary;
+@property (readonly, nonatomic) NSString *name;
+@property (readonly, nonatomic) NSDictionary *chatCreationDictionary;
 
 - (void)openChat;
 

@@ -26,8 +26,7 @@
 
 + (id)contactMenuWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
 
-- (void)setDelegate:(id)inDelegate;
-- (id)delegate;
+@property (readwrite, nonatomic, assign) id delegate;
 
 @end
 

@@ -62,15 +62,13 @@
 	[super dealloc];
 }
 
-- (NSView *)view
-{
-	return view;
-}
+@synthesize view;
 
 //Stubs for subclasses
 - (NSString *)nibName {
 	return nil;
 };
+
 - (void)joinChatWithAccount:(AIAccount *)inAccount
 {
 	
@@ -328,27 +326,8 @@
 	return YES;
 }
 
-#pragma mark Delegate handling
-- (void)setDelegate:(id)inDelegate
-{
-	delegate = inDelegate;
-}
-- (id)delegate;
-{
-	return delegate;
-}
+@synthesize delegate;
 
-#pragma mark Roomlist Delegate
-- (void)setSharedChatInstance:(id)newInstance
-{
-	NSLog(@"sharedChatInstance: %@",newInstance);
-	sharedChatInstance = newInstance;
-}
-
--(id)sharedChatInstance
-{
-	return sharedChatInstance;
-}
-
+@synthesize sharedChatInstance;
 
 @end

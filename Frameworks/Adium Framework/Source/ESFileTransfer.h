@@ -65,24 +65,17 @@
 - (void)setSize:(unsigned long long)inSize;
 - (unsigned long long)size;
 
-- (void)setIsDirectory:(BOOL)inIsDirectory;
-- (BOOL)isDirectory;
-
-- (void)setFileTransferType:(AIFileTransferType)inType;
-- (AIFileTransferType)fileTransferType;
-
-- (void)setStatus:(AIFileTransferStatus)inStatus;
-- (AIFileTransferStatus)status;
+@property (readwrite, nonatomic) BOOL isDirectory;
+@property (readwrite, nonatomic) AIFileTransferType fileTransferType;
+@property (readwrite, nonatomic) AIFileTransferStatus status;
 
 - (void)setPercentDone:(float)inPercent bytesSent:(unsigned long long)inBytesSent;
-- (float)percentDone;
-- (unsigned long long)bytesSent;
+@property (readonly, nonatomic) float percentDone;
+@property (readonly, nonatomic) unsigned long long bytesSent;
 
-- (void)setAccountData:(id)inAccountData;
-- (id)accountData;
+@property (readwrite, nonatomic, retain) id accountData;
 
-- (void)setDelegate:(id <FileTransferDelegate>)inDelegate;
-- (id <FileTransferDelegate>)delegate;
+@property (readwrite, nonatomic, retain) id <FileTransferDelegate> delegate;
 
 - (BOOL)isStopped;
 

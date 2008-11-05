@@ -44,7 +44,7 @@ typedef float AIUserIconPriority;
 /*!
  * @brief The priority at which this source should be used. See the \#defines in AIUserIcons.h for posible values.
  */
-- (AIUserIconPriority)priority;
+@property (readonly, nonatomic) AIUserIconPriority priority;
 @end
 
 @interface AIUserIcons : NSObject {

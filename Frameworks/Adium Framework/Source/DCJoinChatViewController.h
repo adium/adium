@@ -29,8 +29,8 @@
 + (DCJoinChatViewController *)joinChatView;
 
 - (id)init;
-- (NSView *)view;
-- (NSString *)nibName;
+@property (readonly, nonatomic) NSView *view;
+@property (readonly, nonatomic) NSString *nibName;
 
 - (void)configureForAccount:(AIAccount *)inAccount;
 - (void)joinChatWithAccount:(AIAccount *)inAccount;
@@ -47,12 +47,11 @@
 	 withInvitationMessage:(NSString *)invitationMessage;
 - (NSArray *)contactsFromNamesSeparatedByCommas:(NSString *)namesSeparatedByCommas onAccount:(AIAccount *)inAccount;
 
-- (void)setDelegate:(id)inDelegate;
-- (id)delegate;
+@property (readwrite, nonatomic, assign) id delegate;
 
 //roomlistWindowController delegate
-- (void)setSharedChatInstance:(id)newInstance;
-- (id)sharedChatInstance;
+@property (readwrite, nonatomic, assign) id sharedChatInstance;
+
 @end
 
 

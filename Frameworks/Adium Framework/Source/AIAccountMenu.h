@@ -49,22 +49,10 @@ typedef enum {
 /*!	@brief	Whether to use the system font instead of the menu font.
  *
  *	@par	By default, menu items in the account menu use the menu font, but a client can request them with the system font instead.
- *
- *	@return	\c NO if the menu font should be used (the default); \c YES if the system font should be used instead.
  */
-- (BOOL) useSystemFont;
-/*!	@brief	Change whether to use the system font instead of the menu font.
- *
- *	@par	By default, menu items in the account menu use the menu font, but a client can request them with the system font instead.
- *
- *	@par	One situation in which it's appropriate to use the system font instead of the menu font is in the case of an NSPopUpButton, in which case the menu font is too big.
- *
- *	@param	flag	\c NO if the menu font should be used (the default); \c YES if the system font should be used instead.
- */
-- (void) setUseSystemFont:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL useSystemFont;
 
-- (void)setDelegate:(id)inDelegate;
-- (id)delegate;
+@property (readwrite, nonatomic, assign) id delegate;
 
 - (NSMenuItem *)menuItemForAccount:(AIAccount *)account;
 
