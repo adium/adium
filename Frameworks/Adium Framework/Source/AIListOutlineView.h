@@ -52,7 +52,6 @@ typedef enum {
 	NSArray				*draggedItems;
 }
 
-- (void)setDelegate:(id)delegate;
 @property (readonly, nonatomic) int desiredHeight;
 @property (readonly, nonatomic) int desiredWidth;
 - (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth;

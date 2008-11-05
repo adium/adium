@@ -38,7 +38,7 @@
 - (id)initWithDelegate:(id)inDelegate
 {
 	if ((self = [super init])) {
-		delegate = inDelegate;
+		self.delegate = inDelegate;
 		
 		NSParameterAssert([delegate respondsToSelector:@selector(statusMenu:didRebuildStatusMenuItems:)]);
 
@@ -72,15 +72,12 @@
 	[stateMenuItemsAlreadyValidated release];
 	[menuItemArray release];
 
-	delegate = nil;
+	self.delegate = nil;
 
 	[super dealloc];
 }
 
-- (void)setDelegate:(id)inDelegate
-{
-	delegate = inDelegate;
-}
+@synthesize delegate;
 
 /*!
  * @brief The delegate is just too good for the menu items we've created; it will create all of the ones it wants on its own
