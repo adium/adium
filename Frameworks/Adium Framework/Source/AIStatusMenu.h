@@ -16,7 +16,8 @@
 }
 
 + (id)statusMenuWithDelegate:(id)inDelegate;
-- (void)setDelegate:(id)inDelegate;
+
+@property (readwrite, nonatomic, assign) id delegate;
 
 - (void)delegateWillReplaceAllMenuItems;
 - (void)delegateCreatedMenuItems:(NSArray *)addedMenuItems;

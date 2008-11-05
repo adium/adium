@@ -17,8 +17,8 @@
 	NSInteger currentHoveredIndex;
 }
 
-- (void)setMenu:(NSMenu *)inMenu;
-- (void)setDelegate:(id)inDelegate;
+@property (readwrite, nonatomic, retain) NSMenu *menu;
+@property (readwrite, nonatomic, assign) id delegate;
 - (void)sizeToFit;
 
 @end

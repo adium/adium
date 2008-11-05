@@ -83,13 +83,7 @@
 	return menu;
 }
 
-/*!
- * @brief Set our delegate
- */
-- (void)setDelegate:(id)inDelegate
-{
-	delegate = inDelegate;
-}
+@synthesize delegate;
 
 #pragma mark Index and Point/Rect Correlation
 
