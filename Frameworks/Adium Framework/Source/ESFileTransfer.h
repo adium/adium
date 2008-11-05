@@ -31,15 +31,15 @@
 @end
 
 @interface ESFileTransfer : AIContentMessage {
-    NSString					*localFilename;
-    NSString					*remoteFilename;
-    id							accountData;
-    
-    float						percentDone;
-    unsigned long long			size;
-    unsigned long long			bytesSent;
+	NSString					*localFilename;
+	NSString					*remoteFilename;
+	id							accountData;
+
+	float						percentDone;
+	unsigned long long			size;
+	unsigned long long			bytesSent;
 	BOOL                        isDirectory;
-    AIFileTransferType			type;
+	AIFileTransferType			type;
 	AIFileTransferStatus		status;
 
 	NSString					*uniqueID;
@@ -51,20 +51,14 @@
 + (id)fileTransferWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)t;
 + (ESFileTransfer *)existingFileTransferWithID:(NSString *)fileTransferID;
 
-- (AIListContact *)contact;
-- (AIAccount<AIAccount_Files> *)account;
+@property (readonly, nonatomic) AIListContact *contact;
+@property (readonly, nonatomic) AIAccount<AIAccount_Files> *account;
 
-- (void)setRemoteFilename:(NSString *)inRemoteFilename;
-- (NSString *)remoteFilename;
+@property (readwrite, nonatomic, retain) NSString *remoteFilename;
+@property (readwrite, nonatomic, retain) NSString *localFilename;
+@property (readonly, nonatomic) NSString *displayFilename;
 
-- (void)setLocalFilename:(NSString *)inLocalFilename;
-- (NSString *)localFilename;
-
-- (NSString *)displayFilename;
-
-- (void)setSize:(unsigned long long)inSize;
-- (unsigned long long)size;
-
+@property (readwrite, nonatomic) unsigned long long size;
 @property (readwrite, nonatomic) BOOL isDirectory;
 @property (readwrite, nonatomic) AIFileTransferType fileTransferType;
 @property (readwrite, nonatomic) AIFileTransferStatus status;
@@ -77,17 +71,16 @@
 
 @property (readwrite, nonatomic, retain) id <FileTransferDelegate> delegate;
 
-- (BOOL)isStopped;
+@property (readonly, nonatomic) BOOL isStopped;
 
 - (void)cancel;
 - (void)reveal;
 - (void)openFile;
 
-- (NSImage *)iconImage;
+@property (readonly, nonatomic) NSImage *iconImage;
 
-- (NSString *)uniqueID;
+@property (readonly, nonatomic) NSString *uniqueID;
 
-- (void)setFileTransferRequestPromptController:(ESFileTransferRequestPromptController *)inPromptController;
-- (ESFileTransferRequestPromptController *)fileTransferRequestPromptController;
+@property (readwrite, nonatomic, retain) ESFileTransferRequestPromptController *fileTransferRequestPromptController;
 
 @end

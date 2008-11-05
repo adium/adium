@@ -18,6 +18,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIChatControllerProtocol.h>
+#import <Adium/AIChat.h>
 
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
@@ -103,12 +104,12 @@ static NSMutableDictionary *fileTransferDict = nil;
 
 - (AIListContact *)contact
 {
-    return ([self fileTransferType] == Incoming_FileTransfer || [self fileTransferType] == Unknown_FileTransfer) ? (AIListContact *)[self source] : (AIListContact *)[self destination];   
+    return (self.fileTransferType == Incoming_FileTransfer || self.fileTransferType == Unknown_FileTransfer) ? (AIListContact *)[self source] : (AIListContact *)[self destination];   
 }
 
 - (AIAccount<AIAccount_Files> *)account
 {
-    return [[self chat] account];   
+    return self.chat.account;   
 }
 
 - (void)setRemoteFilename:(NSString *)inRemoteFilename
@@ -135,6 +136,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	if (delegate)
 		[delegate fileTransfer:self didSetLocalFilename:localFilename];
 }
+
 - (NSString *)localFilename
 {
     return localFilename;
@@ -154,6 +156,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 {
 	[self setSize:[newSize unsignedLongLongValue]];
 }
+
 - (void)setSize:(unsigned long long)inSize
 {
     size = inSize;
@@ -163,6 +166,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	
 	[self recreateMessage];
 }
+
 - (unsigned long long)size
 {
     return size;
@@ -173,13 +177,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	return [NSNumber numberWithUnsignedLongLong:size];
 }
 
-- (void)setIsDirectory:(BOOL)inIsDirectory{
-	isDirectory = inIsDirectory;
-}
-- (BOOL)isDirectory{
-	return isDirectory;
-}
-
+@synthesize isDirectory;
 
 - (void)setFileTransferType:(AIFileTransferType)inType
 {
@@ -199,10 +197,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	[self recreateMessage];
 }
 
-- (AIFileTransferType)fileTransferType
-{
-    return type;   
-}
+@synthesize fileTransferType = type;
 
 - (void)setStatus:(AIFileTransferStatus)inStatus
 {
@@ -215,16 +210,13 @@ static NSMutableDictionary *fileTransferDict = nil;
 			[delegate fileTransfer:self didSetStatus:status];
 		
 		//Once we're stopped, no further need for a request prompt
-		if ([self isStopped]) {
-			[self setFileTransferRequestPromptController:nil];
+		if (self.isStopped) {
+			self.fileTransferRequestPromptController = nil;
 		}
 	}
 }
 
-- (AIFileTransferStatus)status
-{
-	return status;
-}
+@synthesize status;
 
 /*!
  * @brief Report a progress update on the file transfer
@@ -271,30 +263,17 @@ static NSMutableDictionary *fileTransferDict = nil;
 		}
 	}
 }
+
 -(void)setPercentDone:(NSNumber *)percent bytes:(NSNumber *)bytes
 {
 	[self setPercentDone:[percent floatValue] bytesSent:[bytes unsignedLongLongValue]];
 	
 }
-- (float)percentDone
-{
-    return percentDone;
-}
-- (unsigned long long)bytesSent
-{
-    return bytesSent;
-}
 
+@synthesize percentDone;
+@synthesize bytesSent;
 @synthesize accountData;
-
-- (void)setDelegate:(id <FileTransferDelegate>)inDelegate
-{
-	delegate = inDelegate;
-}
-- (id <FileTransferDelegate>)delegate;
-{
-	return delegate;
-}
+@synthesize delegate;
 
 - (void)cancel
 {
@@ -428,18 +407,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 	
 }
 
-- (void)setFileTransferRequestPromptController:(ESFileTransferRequestPromptController *)inPromptController
-{
-	if (promptController != inPromptController) {
-		[promptController autorelease];
-		promptController = [inPromptController retain];
-	}
-}
-
-- (ESFileTransferRequestPromptController *)fileTransferRequestPromptController
-{
-	return promptController;
-}
+@synthesize fileTransferRequestPromptController = promptController;
 
 - (NSString *)uniqueID
 {
