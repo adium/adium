@@ -119,12 +119,6 @@
     return NSFocusRingTypeNone;
 }
 
-//When our delegate is set, ask it for our data cells
-- (void)setDelegate:(id)delegate
-{
-	[super setDelegate:delegate];
-}
-
 //Keep our column full width
 - (void)setFrameSize:(NSSize)newSize
 {
