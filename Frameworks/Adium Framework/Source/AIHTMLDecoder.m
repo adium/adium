@@ -1950,19 +1950,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	return success;
 }
 
-#pragma mark Accessors
+#pragma mark Properties
 
-- (NSString *) XMLNamespace
-{
-	return XMLNamespace;
-}
-- (void) setXMLNamespace:(NSString *)newXMLNamespace
-{
-	if(XMLNamespace != newXMLNamespace) {
-		[XMLNamespace release];
-		XMLNamespace = [newXMLNamespace copy];
-	}
-}
+@synthesize XMLNamespace;
 
 - (BOOL)generatesStrictXHTML
 {
@@ -2090,18 +2080,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	thingsToInclude.allowJavascriptURLs = newValue;
 }
 
-- (NSString *)baseURL
-{
-	return baseURL;
-}
-
-- (void)setBaseURL:(NSString *)inBaseURL
-{
-	if (baseURL != inBaseURL) {
-		[baseURL release];
-		baseURL = [inBaseURL copy];
-	}
-}
+@synthesize baseURL;
 
 @end
 

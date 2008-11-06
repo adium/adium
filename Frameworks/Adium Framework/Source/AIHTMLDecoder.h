@@ -110,57 +110,26 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 //uses no options.
 - (NSDictionary *)parseArguments:(NSString *)arguments;
 
-#pragma mark Accessors
+#pragma mark Properties
 
-- (NSString *)XMLNamespace;
-- (void) setXMLNamespace:(NSString *)newXMLNamespace;
-
-- (BOOL)generatesStrictXHTML;
-- (void)setGeneratesStrictXHTML:(BOOL)newValue;
-
+@property (readwrite, nonatomic, copy) NSString *XMLNamespace;
+@property (readwrite, nonatomic) BOOL generatesStrictXHTML;
 //meaning <HTML> and </HTML>.
-- (BOOL)includesHeaders;
-- (void)setIncludesHeaders:(BOOL)newValue;
-
-- (BOOL)includesFontTags;
-- (void)setIncludesFontTags:(BOOL)newValue;
-
-- (BOOL)closesFontTags;
-- (void)setClosesFontTags:(BOOL)newValue;
-
-- (BOOL)includesColorTags;
-- (void)setIncludesColorTags:(BOOL)newValue;
-
-- (BOOL)includesStyleTags;
-- (void)setIncludesStyleTags:(BOOL)newValue;
-
+@property (readwrite, nonatomic) BOOL includesHeaders;
+@property (readwrite, nonatomic) BOOL includesFontTags;
+@property (readwrite, nonatomic) BOOL closesFontTags;
+@property (readwrite, nonatomic) BOOL includesColorTags;
+@property (readwrite, nonatomic) BOOL includesStyleTags;
 //turn non-printable characters into entities.
-- (BOOL)encodesNonASCII;
-- (void)setEncodesNonASCII:(BOOL)newValue;
-
-- (BOOL)preservesAllSpaces;
-- (void)setPreservesAllSpaces:(BOOL)newValue;
-
-- (BOOL)usesAttachmentTextEquivalents;
-- (void)setUsesAttachmentTextEquivalents:(BOOL)newValue;
-
-- (BOOL)onlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage;
-- (void)setOnlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage:(BOOL)newValue;
-
-- (BOOL)onlyUsesSimpleTags;
-- (void)setOnlyUsesSimpleTags:(BOOL)newValue;
-
-- (BOOL)includesBodyBackground;
-- (void)setIncludesBodyBackground:(BOOL)newValue;
-
-- (BOOL)allowAIMsubprofileLinks;
-- (void)setAllowAIMsubprofileLinks:(BOOL)newValue;
-
-- (BOOL)allowJavascriptURLs;
-- (void)setAllowJavascriptURLs:(BOOL)newValue;
-
-- (NSString *)baseURL;
-- (void)setBaseURL:(NSString *)inBaseURL;
+@property (readwrite, nonatomic) BOOL encodesNonASCII;
+@property (readwrite, nonatomic) BOOL preservesAllSpaces;
+@property (readwrite, nonatomic) BOOL usesAttachmentTextEquivalents;
+@property (readwrite, nonatomic) BOOL onlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage;
+@property (readwrite, nonatomic) BOOL onlyUsesSimpleTags;
+@property (readwrite, nonatomic) BOOL includesBodyBackground;
+@property (readwrite, nonatomic) BOOL allowAIMsubprofileLinks;
+@property (readwrite, nonatomic) BOOL allowJavascriptURLs;
+@property (readwrite, nonatomic, copy) NSString *baseURL;
 
 @end
 
