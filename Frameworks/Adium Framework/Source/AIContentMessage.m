@@ -50,13 +50,13 @@
 		   message:(NSAttributedString *)inMessage
 		 autoreply:(BOOL)inAutoReply
 {
-    if ((self = [super initWithChat:inChat source:inSource destination:inDest date:inDate message:inMessage])) {
+	if ((self = [super initWithChat:inChat source:inSource destination:inDest date:inDate message:inMessage])) {
 		isAutoreply = inAutoReply;
 		encodedMessage = nil;
 		encodedMessageAccountData = nil;
 	}
 
-    return self;
+	return self;
 }
 
 - (void)dealloc
@@ -79,12 +79,7 @@
 
 
 //This message was automatically generated
-- (void)setIsAutoreply:(BOOL)inAutoreply{
-	isAutoreply = inAutoreply;
-}
-- (BOOL)isAutoreply{
-    return isAutoreply;
-}
+@synthesize isAutoreply;
 
 /*!
  * @brief The AIAccount-generated contents of the message as a simple string
@@ -92,36 +87,11 @@
  * This will often be an HTML string. It is the form in which the account wishes to send data to the other side.
  * It may be an encrypted string.
  */
-- (NSString *)encodedMessage
-{
-	return encodedMessage;
-}
-
-- (void)setEncodedMessage:(NSString *)inEncodedMessage
-{
-	if (encodedMessage != inEncodedMessage) {
-		[encodedMessage release];
-		encodedMessage = [inEncodedMessage retain];
-	}
-}
+@synthesize encodedMessage;
 
 /*!
  * @brief For AIAccount internal use: data associated with this message
  */
-- (id)encodedMessageAccountData
-{
-	return encodedMessageAccountData;
-}
-
-/*!
- * @brief For AIAccount internal use: set data associated with this message
- */
-- (void)setEncodedMessageAccountData:(id)inEncodedMessageAccountData
-{
-	if (encodedMessageAccountData != inEncodedMessageAccountData) {
-		[encodedMessageAccountData release];
-		encodedMessageAccountData = [inEncodedMessageAccountData retain];
-	}
-}
+@synthesize encodedMessageAccountData;
 
 @end

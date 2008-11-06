@@ -30,12 +30,9 @@
 
 - (NSAttributedString *)loggedMessage
 {
-	return [self message];
+	return self.message;
 }
 
-- (NSString *)eventType
-{
-	return statusType;
-}
+@synthesize eventType = statusType;
 
 @end

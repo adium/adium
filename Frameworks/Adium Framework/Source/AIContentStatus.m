@@ -52,16 +52,16 @@
 		   message:(NSAttributedString *)inMessage
 		  withType:(NSString *)inStatus
 {
-    [super initWithChat:inChat source:inSource destination:inDest date:inDate message:inMessage];
+	if ((self = [super initWithChat:inChat source:inSource destination:inDest date:inDate message:inMessage])) {
+		//Filter so that triggers in messages can be resolved, don't track status changes
+		filterContent = YES;
+		trackContent = NO;
+		
+		//Store source and dest
+		statusType = [inStatus retain];
+	}
 	
-	//Filter so that triggers in messages can be resolved, don't track status changes
-	filterContent = YES;
-	trackContent = NO;
-
-    //Store source and dest
-	statusType = [inStatus retain];
-	
-    return self;
+	return self;
 }
 
 //Dealloc
@@ -71,7 +71,7 @@
 	[loggedMessage release]; loggedMessage = nil;
 	[coalescingKey release]; coalescingKey = nil;
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (NSMutableArray *)displayClasses
@@ -95,32 +95,8 @@
 }
 
 //The type of status change this is
-- (NSString *)status
-{
-	return statusType;
-}
-
-- (void)setLoggedMessage:(NSAttributedString *)inLoggedMessage
-{
-	if (loggedMessage != inLoggedMessage) {
-		[loggedMessage release];
-		loggedMessage = [inLoggedMessage retain];
-	}
-}
-
-- (NSAttributedString *)loggedMessage
-{
-	return loggedMessage;
-}
-
-- (void)setCoalescingKey:(NSString *)inCoalescingKey
-{
-	coalescingKey = [inCoalescingKey copy];
-}
-
-- (NSString *)coalescingKey
-{
-	return coalescingKey;
-}
+@synthesize status = statusType;
+@synthesize loggedMessage;
+@synthesize coalescingKey;
 
 @end
