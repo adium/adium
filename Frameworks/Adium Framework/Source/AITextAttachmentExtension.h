@@ -14,9 +14,9 @@
 \------------------------------------------------------------------------------------------------------ */
 
 @interface AITextAttachmentExtension : NSTextAttachment <NSCopying> {
-    NSString	*stringRepresentation;
-    BOOL        shouldSaveImageForLogging;
-	BOOL		hasAlternate;
+	NSString	*stringRepresentation;
+	BOOL	shouldSaveImageForLogging;
+	BOOL	hasAlternate;
 	NSString	*path;
 	NSImage		*image;
 	NSString	*imageClass; //set as class attribute in html, used to tell images apart for CSS
@@ -25,26 +25,13 @@
 
 + (AITextAttachmentExtension *)textAttachmentExtensionFromTextAttachment:(NSTextAttachment *)textAttachment;
 
-- (void)setString:(NSString *)inString;
-- (NSString *)string;
-- (void)setImageClass:(NSString *)inString;
-- (NSString *)imageClass;
-- (BOOL)shouldSaveImageForLogging;
-- (void)setShouldSaveImageForLogging:(BOOL)flag;
-- (BOOL)hasAlternate;
-- (void)setHasAlternate:(BOOL)flag;
-
-- (void)setPath:(NSString *)inPath;
-- (NSString *)path;
-
-- (void)setImage:(NSImage *)inImage;
-- (NSImage *)image;
-
-- (NSImage *)iconImage;
-
-- (BOOL)attachesAnImage;
-
-- (BOOL)shouldAlwaysSendAsText;
-- (void)setShouldAlwaysSendAsText:(BOOL)flag;
-
+@property (readwrite, nonatomic, copy) NSString *string;
+@property (readwrite, nonatomic, copy) NSString *imageClass;
+@property (readwrite, nonatomic) BOOL shouldSaveImageForLogging;
+@property (readwrite, nonatomic) BOOL hasAlternate;
+@property (readwrite, nonatomic, copy) NSString *path;
+@property (readwrite, nonatomic, retain) NSImage *image;
+@property (readonly, nonatomic) NSImage *iconImage;
+@property (readonly, nonatomic) BOOL attachesAnImage;
+@property (readwrite, nonatomic) BOOL shouldAlwaysSendAsText;
 @end
