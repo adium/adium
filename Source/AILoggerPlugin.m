@@ -706,7 +706,7 @@ NSCalendarDate* getDateFromPath(NSString *path)
 	return nil;
 }
 
-NSInteger sortPaths(NSString *path1, NSString *path2, void *context)
+NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	NSCalendarDate *date1 = getDateFromPath(path1);
 	NSCalendarDate *date2 = getDateFromPath(path2);
