@@ -39,7 +39,7 @@
 
 - (id)init
 {
-    if ((self = [super init])) {
+	if ((self = [super init])) {
 		stringRepresentation = nil;
 		shouldSaveImageForLogging = NO;
 		hasAlternate = NO;
@@ -142,7 +142,7 @@
 {
 	if (inPath != path) {
 		[path release];
-		path = [inPath retain];
+		path = [inPath copy];
 	}
 }
 
@@ -233,10 +233,10 @@
 
 - (void)setString:(NSString *)inString
 {
-    if (stringRepresentation != inString) {
-        [stringRepresentation autorelease];
-        stringRepresentation = [inString retain];
-    }
+	if (stringRepresentation != inString) {
+		[stringRepresentation autorelease];
+		stringRepresentation = [inString copy];
+	}
 }
 
 /*!
@@ -272,50 +272,16 @@
 {
 	if (stringRepresentation == nil) {
 		[self setString:[[NSProcessInfo processInfo] globallyUniqueString]];
-    }
+	}
 	
-    return (stringRepresentation);
+	return stringRepresentation;
 }
 
-- (void)setImageClass:(NSString *)inString
-{
-	if (imageClass != inString) {
-        [imageClass autorelease];
-        imageClass = [inString retain];
-    }
-}
 
-- (NSString *)imageClass
-{
-	return imageClass;
-}
-
-- (BOOL)shouldSaveImageForLogging
-{
-    return shouldSaveImageForLogging;
-}
-- (void)setShouldSaveImageForLogging:(BOOL)flag
-{
-    shouldSaveImageForLogging = flag;
-}
-
-- (BOOL)hasAlternate
-{
-	return hasAlternate;
-}
-- (void)setHasAlternate:(BOOL)flag
-{
-	hasAlternate = flag;
-}
-
-- (BOOL)shouldAlwaysSendAsText
-{
-	return shouldAlwaysSendAsText;
-}
-- (void)setShouldAlwaysSendAsText:(BOOL)flag
-{
-	shouldAlwaysSendAsText = flag;	
-}
+@synthesize imageClass;
+@synthesize shouldSaveImageForLogging;
+@synthesize hasAlternate;
+@synthesize shouldAlwaysSendAsText;
 
 - (NSString *)description
 {

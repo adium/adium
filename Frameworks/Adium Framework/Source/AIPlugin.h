@@ -21,10 +21,10 @@
 @end
 
 @protocol AIPluginInfo
-- (NSString *)pluginAuthor;
-- (NSString *)pluginVersion;
-- (NSString *)pluginDescription;
-- (NSString *)pluginURL;
+@property (readonly, nonatomic) NSString *pluginAuthor;
+@property (readonly, nonatomic) NSString *pluginVersion;
+@property (readonly, nonatomic) NSString *pluginDescription;
+@property (readonly, nonatomic) NSString *pluginURL;
 @end
 
 @interface AIPlugin : NSObject <AIPlugin> {
