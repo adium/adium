@@ -31,7 +31,6 @@
 
 #import <Adium/AITextAttachmentExtension.h>
 #import <Adium/ESFileWrapperExtension.h>
-#import <Adium/AIXMLElement.h>
 
 #import <FriBidi/NSString-FBAdditions.h>
 
@@ -693,7 +692,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	return string;
 }
 
-- (AIXMLElement *)elementWithAppKitAttributes:(NSDictionary *)attributes
+- (NSXMLElement *)elementWithAppKitAttributes:(NSDictionary *)attributes
 							   attributeNames:(NSSet *)attributeNames
 							   elementContent:(NSMutableString *)elementContent
 		  shouldAddElementContentToTopElement:(out BOOL *)outAddElementContentToTopElement
@@ -711,9 +710,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	BOOL moreThanJustAnImage = [attributes count] - (attachmentValue != nil);
 
 	BOOL addElementContentToTopElement = YES;
-	AIXMLElement *thisElement = moreThanJustAnImage ? [AIXMLElement elementWithNamespaceName:XMLNamespace elementName:elementName] : nil;
+	NSXMLElement *thisElement = moreThanJustAnImage ? [NSXMLNode elementWithName:elementName URI:XMLNamespace] : nil;
 	if (linkValue) {
-		[thisElement setValue:linkValue forAttribute:@"href"];
+		[thisElement addAttribute:[NSXMLNode attributeWithName:@"href" stringValue:linkValue]];
 	}
 
 	if (attachmentValue) {
@@ -730,13 +729,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			[elementContent setString:[extension string]];
 		} else {
 			/* We have an image we want to save if possible, and we have an imagesPath */
-			AIXMLElement *imageElement = [AIXMLElement elementWithNamespaceName:XMLNamespace elementName:@"img"];
-			[imageElement setSelfCloses:YES];
+			NSXMLElement *imageElement = [NSXMLNode elementWithName:@"img" URI:XMLNamespace];
 
 			NSTextAttachmentCell *cell = (NSTextAttachmentCell *)[attachmentValue attachmentCell];
 			NSSize size = [cell cellSize];
-			[imageElement setValue:[[NSNumber numberWithFloat:size.width] stringValue] forAttribute:@"width"];
-			[imageElement setValue:[[NSNumber numberWithFloat:size.height] stringValue] forAttribute:@"height"];
+			[imageElement addAttribute:[NSXMLNode attributeWithName:@"width" stringValue:[[NSNumber numberWithFloat:size.width] stringValue]]];
+			[imageElement addAttribute:[NSXMLNode attributeWithName:@"height" stringValue:[[NSNumber numberWithFloat:size.height] stringValue]]];
 
 			NSString *path = [extension path];
 			if (path) {
@@ -748,19 +746,18 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					/* It might be good to make this an optional behavior, with the other choice of an absolute
 					 * file URL (destinationPath).
 					 */
-					[imageElement setValue:[path lastPathComponent]
-							  forAttribute:@"src"];					
+					[imageElement addAttribute:[NSXMLNode attributeWithName:@"src" stringValue:[path lastPathComponent]]];
 				} else {
 					AILogWithSignature(@"Could not copy %@ to %@", path, destinationPath);
 				}
 			}
 
 			if (elementContent && [elementContent length]) {
-				[imageElement setValue:elementContent forAttribute:@"alt"];
+				[imageElement addAttribute:[NSXMLNode attributeWithName:@"alt" stringValue:elementContent]];
 			}
 
 			if (thisElement) {
-				[thisElement addObject:imageElement];
+				[thisElement addChild:imageElement];
 			} else {
 				thisElement = imageElement;
 			}
@@ -771,7 +768,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 	NSString *CSSString = [NSAttributedString CSSStringForTextAttributes:attributes];
 	if (CSSString && [CSSString length]) {
-		[thisElement setValue:CSSString forAttribute:@"style"];
+		[thisElement addAttribute:[NSXMLNode attributeWithName:@"style" stringValue:CSSString]];
 	}
 
 	if (outAddElementContentToTopElement) {
@@ -811,7 +808,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	}
 }
 
-- (AIXMLElement *)rootStrictXHTMLElementForAttributedString:(NSAttributedString *)inMessage imagesPath:(NSString *)imagesSavePath
+- (NSXMLElement *)rootStrictXHTMLElementForAttributedString:(NSAttributedString *)inMessage imagesPath:(NSString *)imagesSavePath
 {
 	NSRange			 searchRange;
 
@@ -828,11 +825,11 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	//Root element: includeHeaders ? <html> : <div>
 
 	if (thingsToInclude.headers) {
-		[elementStack addObject:[AIXMLElement elementWithNamespaceName:XMLNamespace elementName:@"html"]];
+		[elementStack addObject:[NSXMLNode elementWithName:@"html" URI:XMLNamespace]];
 		[attributeNamesStack addObject:emptySet];
 
-		AIXMLElement *bodyElement = [AIXMLElement elementWithNamespaceName:XMLNamespace elementName:@"body"];
-		[[elementStack lastObject] addObject:bodyElement];
+		NSXMLElement *bodyElement = [NSXMLNode elementWithName:@"body" URI:XMLNamespace];
+		[[elementStack lastObject] addChild:bodyElement];
 		[elementStack addObject:bodyElement];
 		[attributeNamesStack addObject:emptySet];
 
@@ -842,20 +839,20 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 									 atIndex:0
 							  effectiveRange:NULL]))
 		{
-			[bodyElement setValue:[@"background-color: " stringByAppendingString:[pageColor CSSRepresentation]] forAttribute:@"style"];
+			[bodyElement addAttribute:[NSXMLNode attributeWithName:@"style" stringValue:[@"background-color: " stringByAppendingString:[pageColor CSSRepresentation]]]];
 		}
 	}
 
-	AIXMLElement *divElement = [AIXMLElement elementWithNamespaceName:XMLNamespace elementName:@"div"];
+	NSXMLElement *divElement = [NSXMLNode elementWithName:@"div" URI:XMLNamespace];
 	//If the text is right-to-left, enclose all our HTML in an rtl div tag
 	if ((messageLength > 0) &&
 		([[inMessage attribute:NSParagraphStyleAttributeName
 					   atIndex:0
 				effectiveRange:nil] baseWritingDirection] == NSWritingDirectionRightToLeft))
 	{
-		[divElement setValue:@"rtl" forAttribute:@"dir"];
+		[divElement addAttribute:[NSXMLNode attributeWithName:@"dir" stringValue:@"rtl"]];
 	}
-	[[elementStack lastObject] addObject:divElement];
+	[[elementStack lastObject] addChild:divElement];
 	[elementStack addObject:divElement];
 	[attributeNamesStack addObject:emptySet];
 
@@ -908,12 +905,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				//If no attributes need to be restored, then we do nothing.
 				//If there are attributes to be restored but they're not in the attributes dictionary, then they have in fact ended, and are thus excluded from restoration by the call to -dictionaryWithIntersectionWithSetOfKeys:.
 				if (attributesToRestore && [attributesToRestore count]) {
-					AIXMLElement *restoreElement = [self elementWithAppKitAttributes:[attributes dictionaryWithIntersectionWithSetOfKeys:attributesToRestore]
+					NSXMLElement *restoreElement = [self elementWithAppKitAttributes:[attributes dictionaryWithIntersectionWithSetOfKeys:attributesToRestore]
 					                                                  attributeNames:attributesToRestore
 					                                                  elementContent:nil
 					                             shouldAddElementContentToTopElement:NULL
 																		  imagesPath:imagesSavePath];
-					[[elementStack lastObject] addObject:restoreElement];
+					[[elementStack lastObject] addChild:restoreElement];
 					[elementStack addObject:restoreElement];
 
 					[attributeNamesStack addObject:attributesToRestore];
@@ -974,17 +971,17 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				NSSet *itemKeys = [item objectAtIndex:1];
 
 				//Only the last value of addElementContentToTopElement matters here, since we're adding elements to the stack, and that flag relates to the top element.
-				AIXMLElement *thisElement = [self elementWithAppKitAttributes:attributes
+				NSXMLElement *thisElement = [self elementWithAppKitAttributes:attributes
 															   attributeNames:itemKeys
 															   elementContent:elementContent
 										  shouldAddElementContentToTopElement:&addElementContentToTopElement
 																   imagesPath:imagesSavePath];
 				if (thisElement) {
-					[[elementStack lastObject] addObject:thisElement];
+					[[elementStack lastObject] addChild:thisElement];
 					[attributeNamesStack addObject:itemKeys];
 					[elementStack addObject:thisElement];
 				} else if(!addElementContentToTopElement) {
-					[[elementStack lastObject] addObject:elementContent];
+					[[elementStack lastObject] addChild:[NSXMLNode textWithStringValue:elementContent]];
 				}
 			}
 			[startedKeysArray release];
@@ -995,12 +992,17 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 		if (addElementContentToTopElement) {
 			//Insert an empty BR element between every pair of lines.
-			AIXMLElement *brElement = [AIXMLElement elementWithNamespaceName:XMLNamespace elementName:@"br"];
-			[brElement setSelfCloses:YES];
+			NSXMLElement *brElement = [NSXMLNode elementWithName:@"br" URI:XMLNamespace];
 			NSArray *linesAndBRs = [elementContent allLinesWithSeparator:brElement];
 
 			//Add these zero or more lines, with BRs between them, to the top element on the stack.
-			[[elementStack lastObject] addObjectsFromArray:linesAndBRs];
+			NSXMLElement *lastElement = [elementStack lastObject];
+			for (id obj in linesAndBRs) {
+				if ([obj isKindOfClass:[NSString class]])
+					[lastElement addChild:[NSXMLNode textWithStringValue:(NSString *)obj]];
+				else
+					[lastElement addChild:(NSXMLNode *)obj];
+			}
 		}
 
 		searchRange.location += runRange.length;
