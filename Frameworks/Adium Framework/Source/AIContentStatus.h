@@ -30,24 +30,15 @@
 			  date:(NSDate *)inDate 
 		   message:(NSAttributedString *)inMessage
 		  withType:(NSString *)inType;
-- (NSString *)status;
-
-- (void)setLoggedMessage:(NSAttributedString *)inLoggedMessage;
-- (NSAttributedString *)loggedMessage;
 
 /*!
- * @brief Set a key on which multple status messages should be consolidated if possible
+ * @brief A key on which multiple status messages should be consolidated if possible
  *
  * The message view can choose to collapse multiple consecutive status messages into a single
  * or combined display if those messages have the same coalescing key.
  */
-- (void)setCoalescingKey:(NSString *)inCoalescingKey;
-
-/*!
- * @brief Retrieve the coalescing key.
- *
- * See -[self setCoalescingKey:] for details
- */
-- (NSString *)coalescingKey;
+@property (readwrite, nonatomic, copy) NSString *coalescingKey;
+@property (readonly, nonatomic) NSString *status;
+@property (readwrite, nonatomic, retain) NSAttributedString *loggedMessage;
 
 @end

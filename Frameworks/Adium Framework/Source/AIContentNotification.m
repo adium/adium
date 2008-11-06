@@ -69,13 +69,10 @@
 
 - (NSString *)eventType
 {
-	return [self type];
+	return self.type;
 }
 
-- (AINotificationType)notificationType
-{
-	return notificationType;
-}
+@synthesize notificationType;
 
 - (NSMutableArray *)displayClasses
 {

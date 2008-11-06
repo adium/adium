@@ -26,7 +26,7 @@ typedef enum {
 					date:(NSDate *)inDate
 		notificationType:(AINotificationType)inNotificationType;
 
-- (AINotificationType)notificationType;
-- (NSString *)eventType;
+@property (readonly, nonatomic) AINotificationType notificationType;
+@property (readonly, nonatomic) NSString *eventType;
 
 @end

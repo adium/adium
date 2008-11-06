@@ -13,6 +13,6 @@
 
 }
 
-- (NSString *)eventType;
+@property (readonly, nonatomic) NSString *eventType;
 
 @end

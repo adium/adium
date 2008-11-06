@@ -29,6 +29,6 @@ typedef enum {
 }
 
 + (id)typingContentInChat:(AIChat *)inChat withSource:(id)inSource destination:(id)inDest typingState:(AITypingState)inTypingState;
-- (AITypingState)typingState;
+@property (readonly, nonatomic) AITypingState typingState;
 
 @end
