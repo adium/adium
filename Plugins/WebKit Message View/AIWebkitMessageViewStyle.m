@@ -522,7 +522,14 @@ static NSArray *validSenderColors;
 		script = (contentIsSimilar ? APPEND_NEXT_MESSAGE : APPEND_MESSAGE);
 		
 	} else {
-		script = (contentIsSimilar ? APPEND_NEXT_MESSAGE_WITH_SCROLL : APPEND_MESSAGE_WITH_SCROLL);
+		if (usingCustomTemplateHTML && [content isKindOfClass:[AIContentStatus class]]) {
+			/* Old styles with a custom template.html had Status.html files without 'insert' divs coupled 
+			 * with a APPEND_NEXT_MESSAGE_WITH_SCROLL script which assumes one exists.
+			 */
+			script = APPEND_MESSAGE_WITH_SCROLL;
+		} else {
+			script = (contentIsSimilar ? APPEND_NEXT_MESSAGE_WITH_SCROLL : APPEND_MESSAGE_WITH_SCROLL);
+		}
 	}
 	
 	return [NSString stringWithFormat:script, [self _escapeStringForPassingToScript:newHTML]]; 
