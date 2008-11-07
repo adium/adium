@@ -121,10 +121,26 @@ void purple_account_set_bool(void *account, const char *name,
 	return [NSString stringWithFormat:@"%@ (%@)", self.host, [self displayName]];
 }
 
+BOOL contactUIDIsServerContact(NSString *contactUID)
+{
+	return (([contactUID caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
+			([contactUID caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
+			([contactUID rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound));
+}
+
+/*!
+ * @brief Can we send an offline message to this contact?
+ *
+ * We can only send offline messages to the server contacts, since such a message might cause us to connect
+ */
 - (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact
 {
-	return ([[inContact.UID lowercaseString] isEqualToString:@"nickserv"] ||
-			[[inContact.UID lowercaseString] isEqualToString:@"chanserv"]);
+	return contactUIDIsServerContact(inContact.UID);
+}
+
+- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
+{
+	return !contactUIDIsServerContact(message.source.UID);
 }
 
 - (BOOL)shouldLogChat:(AIChat *)chat

@@ -648,6 +648,17 @@ typedef enum
     return [self encodedAttributedString:[inContentMessage message] forListObject:[inContentMessage destination]];
 }
 
+/*!
+ * @brief Should an autoreply be sent to this message?
+ *
+ * This will only be called if the generic algorithm determines that an autoreply is appropriate. The account
+ * gets an opportunity to suppress sending the autoreply, e.g. on the basis of the message's content or source.
+ */
+- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
+{
+	return YES;
+}
+
 //Presence Tracking ----------------------------------------------------------------------------------------------------
 #pragma mark Presence Tracking
 /*!
