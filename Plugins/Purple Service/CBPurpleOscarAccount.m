@@ -513,6 +513,12 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	return success;
 }
 
+- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
+{
+	return ![[message.message string] hasPrefix:@"[Offline IM sent"];
+}
+
+
 #pragma mark DirectIM (IM Image)
 //We are now connected via DirectIM to theContact
 - (void)directIMConnected:(AIListContact *)theContact

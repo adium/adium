@@ -111,15 +111,14 @@
 	 * Additionally, it's not sensible to send autoreplies if the arriving message
 	 * was an offline message we're getting as we connect and it's older than 5 minutes
 	 * (or the person sending it is no longer online) -RAF
-	 * For AIM accounts, we know it is an offline message if it starts with "[Offline IM sent". Of course, a user could send a message like that...
-	 *	but said user deserves not to receive an auto-reply.
+	 * We also give the account a chance to suppress the autoreply
 	 */
 	if ([[contentObject type] isEqualToString:CONTENT_MESSAGE_TYPE] &&
 	   ![(AIContentMessage *)contentObject isAutoreply] &&
 	   ![receivedAutoReply containsObject:chat.uniqueChatID] &&
 	   !chat.isGroupChat &&
 		(abs([contentObject.date timeIntervalSinceNow]) < 300) &&
-		!([contentObject.source.serviceClass isEqualToString:@"AIM-compatible"] && [[contentObject.message string] hasPrefix:@"[Offline IM sent"])) {
+		[[chat account] shouldSendAutoreplyToMessage:(AIContentMessage *)contentObject]) {
 		//300 is 5 minutes in seconds
 		
 		[self sendAutoReplyFromAccount:(AIAccount *)contentObject.destination
