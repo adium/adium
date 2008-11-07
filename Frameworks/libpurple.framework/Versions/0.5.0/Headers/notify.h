@@ -289,7 +289,7 @@ void purple_notify_searchresults_column_add(PurpleNotifySearchResults *results,
  */
 void purple_notify_searchresults_row_add(PurpleNotifySearchResults *results,
 									   GList *row);
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_NOTIFY_C_)
 /**
  * Returns a number of the rows in the search results object.
  *
@@ -310,7 +310,7 @@ void purple_notify_searchresults_row_add(PurpleNotifySearchResults *results,
 guint purple_notify_searchresults_get_rows_count(PurpleNotifySearchResults *results);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_NOTIFY_C_)
 /**
  * Returns a number of the columns in the search results object.
  *
@@ -331,7 +331,7 @@ guint purple_notify_searchresults_get_rows_count(PurpleNotifySearchResults *resu
 guint purple_notify_searchresults_get_columns_count(PurpleNotifySearchResults *results);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_NOTIFY_C_)
 /**
  * Returns a row of the results from the search results object.
  *
@@ -354,7 +354,7 @@ GList *purple_notify_searchresults_row_get(PurpleNotifySearchResults *results,
 										 unsigned int row_id);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_NOTIFY_C_)
 /**
  * Returns a title of the search results object's column.
  *

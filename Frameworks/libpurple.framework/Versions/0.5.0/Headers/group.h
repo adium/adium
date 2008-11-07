@@ -33,10 +33,10 @@ typedef struct _MsnGroup  MsnGroup;
 #include "userlist.h"
 
 #define MSN_INDIVIDUALS_GROUP_ID	"1983"
-#define MSN_INDIVIDUALS_GROUP_NAME	"Other Contacts"
+#define MSN_INDIVIDUALS_GROUP_NAME	_("Other Contacts")
 
 #define MSN_NON_IM_GROUP_ID		"email"
-#define MSN_NON_IM_GROUP_NAME	"Non-IM Contacts"
+#define MSN_NON_IM_GROUP_NAME	_("Non-IM Contacts")
 
 /**
  * A group.
