@@ -533,7 +533,7 @@ void purple_plugins_probe(const char *ext);
  */
 gboolean purple_plugins_enabled(void);
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Registers a function that will be called when probing is finished.
  *
@@ -544,7 +544,7 @@ gboolean purple_plugins_enabled(void);
 void purple_plugins_register_probe_notify_cb(void (*func)(void *), void *data);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Unregisters a function that would be called when probing is finished.
  *
@@ -554,7 +554,7 @@ void purple_plugins_register_probe_notify_cb(void (*func)(void *), void *data);
 void purple_plugins_unregister_probe_notify_cb(void (*func)(void *));
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Registers a function that will be called when a plugin is loaded.
  *
@@ -566,7 +566,7 @@ void purple_plugins_register_load_notify_cb(void (*func)(PurplePlugin *, void *)
 										  void *data);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Unregisters a function that would be called when a plugin is loaded.
  *
@@ -576,7 +576,7 @@ void purple_plugins_register_load_notify_cb(void (*func)(PurplePlugin *, void *)
 void purple_plugins_unregister_load_notify_cb(void (*func)(PurplePlugin *, void *));
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Registers a function that will be called when a plugin is unloaded.
  *
@@ -588,7 +588,7 @@ void purple_plugins_register_unload_notify_cb(void (*func)(PurplePlugin *, void 
 											void *data);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_PLUGIN_C_)
 /**
  * Unregisters a function that would be called when a plugin is unloaded.
  *

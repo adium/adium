@@ -654,7 +654,7 @@ void msn_update_contact(MsnSession *session, const char *passport, MsnContactUpd
 
 void msn_add_contact(MsnSession *session, MsnCallbackState *state,
 		     const char *passport);
-void msn_delete_contact(MsnSession *session, const char *contactId);
+void msn_delete_contact(MsnSession *session, MsnUser *user);
 
 void msn_add_contact_to_group(MsnSession *session, MsnCallbackState *state,
 			      const char *passport, const char *groupId);

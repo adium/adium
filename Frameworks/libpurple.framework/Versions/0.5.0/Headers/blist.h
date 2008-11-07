@@ -75,11 +75,11 @@ typedef enum
 
 } PurpleBlistNodeFlags;
 
-#define PURPLE_BLIST_NODE_HAS_FLAG(b, f) (((PurpleBlistNode*)(b))->flags & (f))
+#define PURPLE_BLIST_NODE_HAS_FLAG(b, f) (purple_blist_node_get_flags((PurpleBlistNode*)(b)) & (f))
 #define PURPLE_BLIST_NODE_SHOULD_SAVE(b) (! PURPLE_BLIST_NODE_HAS_FLAG(b, PURPLE_BLIST_NODE_FLAG_NO_SAVE))
 
-#define PURPLE_BLIST_NODE_NAME(n) ((n)->type == PURPLE_BLIST_CHAT_NODE  ? purple_chat_get_name((PurpleChat*)n) :        \
-				     (n)->type == PURPLE_BLIST_BUDDY_NODE ? purple_buddy_get_name((PurpleBuddy*)n) : NULL)
+#define PURPLE_BLIST_NODE_NAME(n) (purple_blist_node_get_type(n) == PURPLE_BLIST_CHAT_NODE  ? purple_chat_get_name((PurpleChat*)n) :        \
+				     purple_blist_node_get_type(n) == PURPLE_BLIST_BUDDY_NODE ? purple_buddy_get_name((PurpleBuddy*)n) : NULL)
 
 #include "account.h"
 #include "buddyicon.h"
@@ -88,6 +88,8 @@ typedef enum
 /**************************************************************************/
 /* Data Structures                                                        */
 /**************************************************************************/
+
+#if !(defined PURPLE_HIDE_STRUCTS) || (defined _PURPLE_BLIST_C_)
 
 /**
  * A Buddy list node.  This can represent a group, a buddy, or anything else.
@@ -153,6 +155,8 @@ struct _PurpleChat {
 	GHashTable *components;  /**< the stuff the protocol needs to know to join the chat */
 	PurpleAccount *account; /**< The account this chat is attached to */
 };
+
+#endif /* PURPLE_HIDE_STRUCTS && PURPLE_BLIST_STRUCTS */
 
 
 /**
@@ -331,7 +335,7 @@ void purple_blist_update_buddy_status(PurpleBuddy *buddy, PurpleStatus *old_stat
  */
 void purple_blist_update_node_icon(PurpleBlistNode *node);
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_BLIST_C_)
 /**
  * Updates a buddy's icon.
  *
@@ -557,7 +561,7 @@ void purple_blist_merge_contact(PurpleContact *source, PurpleBlistNode *node);
  */
 PurpleBuddy *purple_contact_get_priority_buddy(PurpleContact *contact);
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_BLIST_C_)
 /**
  * Sets the alias for a contact.
  *

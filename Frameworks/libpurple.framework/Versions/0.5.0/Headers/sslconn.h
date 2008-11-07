@@ -67,7 +67,7 @@ struct _PurpleSslConnection
 	int fd;
 	/** Glib event source ID; used to refer to the received data callback 
 	 * in the glib eventloop */
-	int inpa;
+	guint inpa;
 	/** Data related to the underlying TCP connection */
 	PurpleProxyConnectData *connect_data;
 
@@ -185,7 +185,7 @@ PurpleSslConnection *purple_ssl_connect(PurpleAccount *account, const char *host
 									PurpleSslErrorFunction error_func,
 									void *data);
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_SSLCONN_C_)
 /**
  * Makes a SSL connection using an already open file descriptor.
  *

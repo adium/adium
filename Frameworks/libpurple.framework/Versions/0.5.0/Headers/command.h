@@ -51,6 +51,7 @@ struct _MsnCommand
 	size_t payload_len;
 
 	MsnPayloadCb payload_cb;
+	void *payload_cbdata;
 };
 
 MsnCommand *msn_command_from_string(const char *string);

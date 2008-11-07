@@ -268,7 +268,7 @@ extern "C" {
 /**************************************************************************/
 /*@{*/
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_CONNECTION_C_)
 /**
  * This function should only be called by purple_account_connect()
  * in account.c.  If you're trying to sign on an account, use that
@@ -292,7 +292,7 @@ void purple_connection_new(PurpleAccount *account, gboolean regist,
 									const char *password);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_CONNECTION_C_)
 /**
  * This function should only be called by purple_account_unregister()
  * in account.c.
@@ -310,7 +310,7 @@ void purple_connection_new(PurpleAccount *account, gboolean regist,
 void purple_connection_new_unregister(PurpleAccount *account, const char *password, PurpleAccountUnregistrationCb cb, void *user_data);
 #endif
 
-#ifndef PURPLE_DISABLE_DEPRECATED
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_CONNECTION_C_)
 /**
  * Disconnects and destroys a PurpleConnection.
  *
