@@ -41,28 +41,34 @@
 
 			//Locate the insertion point
 			var insert = document.getElementById("insert");
-		
-			//make new node
-			var range = document.createRange();
-			range.selectNode(insert.parentNode);
-			var newNode = range.createContextualFragment(html);
-
-			//swap
-			insert.parentNode.replaceChild(newNode,insert);
-			
-			alignChat(shouldScroll);
+			if(insert){
+				//make new node
+				var range = document.createRange();
+				range.selectNode(insert.parentNode);
+				var newNode = range.createContextualFragment(html);
+				
+				//swap
+				insert.parentNode.replaceChild(newNode,insert);
+				
+				alignChat(shouldScroll);
+			} else {
+				appendMessage(html);
+			}
 		}
 		function appendNextMessageNoScroll(html){
 			//Locate the insertion point
 			var insert = document.getElementById("insert");
-		
-			//make new node
-			var range = document.createRange();
-			range.selectNode(insert.parentNode);
-			var newNode = range.createContextualFragment(html);
-
-			//swap
-			insert.parentNode.replaceChild(newNode,insert);
+			if(insert){
+				//make new node
+				var range = document.createRange();
+				range.selectNode(insert.parentNode);
+				var newNode = range.createContextualFragment(html);
+				
+				//swap
+				insert.parentNode.replaceChild(newNode,insert);
+			} else {
+				appendMessageNoScroll(html);
+			}
 		}
 		function replaceLastMessage(html){
             shouldScroll = nearBottom();
@@ -70,10 +76,12 @@
             //Retrieve the current insertion point, then remove it
             //This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
 			var insert = document.getElementById("insert");
-            var parentNode = insert.parentNode;
-   			var lastMessage = insert.previousSibling;
-   			parentNode.removeChild(insert);
-			parentNode.removeChild(lastMessage);
+			if(insert){
+				var parentNode = insert.parentNode;
+				var lastMessage = insert.previousSibling;
+				parentNode.removeChild(insert);
+				parentNode.removeChild(lastMessage);
+			}
 
             //Now append the message itself
 			var range = document.createRange();
