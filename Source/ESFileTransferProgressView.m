@@ -49,6 +49,7 @@
 	[button_reveal setDelegate:self];
 
 	buttonStopResumeIsHovered = NO;
+    buttonStopResumeIsResend = NO;
 	buttonRevealIsHovered = NO;
 }
 
@@ -155,6 +156,22 @@
 		//Display immediately
 		[[self window] display];
 	}
+}
+
+- (void)setButtonStopResumeVisible:(BOOL)flag
+{
+    [button_stopResume setHidden:!flag];
+}
+
+- (void)setButtonStopResumeIsResend:(BOOL)flag
+{
+    buttonStopResumeIsResend = flag;
+    [self updateButtonStopResume];
+}
+
+- (BOOL)buttonStopResumeIsResend
+{
+    return buttonStopResumeIsResend;
 }
 
 - (void)setTransferBytesStatus:(NSString *)inTransferBytesStatus
@@ -305,17 +322,32 @@
 
 - (void)updateButtonStopResume
 {
-	if (isSelected) {
-		[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover_Selected" : @"FTProgressStop_Selected")
-											   forClass:[self class]]];
-		
-		[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed_Selected" forClass:[self class]]];
-		
+	if (buttonStopResumeIsResend) {
+	    if (isSelected) {
+			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressResendRollover_Selected" : @"FTProgressResend_Selected")
+												   forClass:[self class]]];
+
+			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressResendPressed_Selected" forClass:[self class]]];
+				
+		} else {
+			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressResendRollover" : @"FTProgressResend")
+												   forClass:[self class]]];
+
+			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressResendPressed" forClass:[self class]]];
+		}
 	} else {
-		[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover" : @"FTProgressStop")
-											   forClass:[self class]]];
-		
-		[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed" forClass:[self class]]];
+		if (isSelected) {
+			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover_Selected" : @"FTProgressStop_Selected")
+													forClass:[self class]]];
+
+			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed_Selected" forClass:[self class]]];
+
+		} else {
+			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover" : @"FTProgressStop")
+													forClass:[self class]]];
+
+			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed" forClass:[self class]]];
+		}
 	}
 }
 

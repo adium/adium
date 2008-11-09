@@ -33,6 +33,7 @@
 
 	IBOutlet AIRolloverButton		*button_stopResume;
 	BOOL							buttonStopResumeIsHovered;
+    BOOL                            buttonStopResumeIsResend;
 
 	IBOutlet AIRolloverButton		*button_reveal;
 	BOOL							buttonRevealIsHovered;
@@ -69,6 +70,10 @@
 - (void)setProgressIndeterminate:(BOOL)flag;
 - (void)setProgressAnimation:(BOOL)flag;
 - (void)setProgressVisible:(BOOL)flag;
+
+- (void)setButtonStopResumeVisible:(BOOL)flag;
+- (void)setButtonStopResumeIsResend:(BOOL)flag;
+- (BOOL)buttonStopResumeIsResend;
 
 - (void)setTransferBytesStatus:(NSString *)inTransferBytesStatus
 			   remainingStatus:(NSString *)inTransferRemainingStatus
