@@ -26,9 +26,6 @@
 #define ABOUT_BOX_NIB		@"AboutBox"
 #define	ADIUM_SITE_LINK		AILocalizedString(@"http://www.adiumx.com/","Adium homepage. Only localize if a translated version of the page exists.")
 
-#define ABOUT_SCROLL_FPS	30.0
-#define ABOUT_SCROLL_RATE	1.0
-
 @interface LNAboutBoxController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 - (NSString *)_applicationVersion;
@@ -65,26 +62,7 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     //Credits
     creditsString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"]
 										   documentAttributes:nil] autorelease];
-    [[textView_credits textStorage] setAttributedString:creditsString];
-    [[textView_credits enclosingScrollView] setLineScroll:0.0];
-    [[textView_credits enclosingScrollView] setPageScroll:0.0];
-	[[textView_credits enclosingScrollView] setVerticalScroller:nil];
-    
-    //Start scrolling    
-    scrollLocation = 0; 
-    scrollRate = ABOUT_SCROLL_RATE;
-    maxScroll = [[textView_credits textStorage] size].height - [[textView_credits enclosingScrollView] documentVisibleRect].size.height;
-    scrollTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0/ABOUT_SCROLL_FPS)
-													target:self
-												  selector:@selector(scrollTimer:)
-												  userInfo:nil
-												   repeats:YES] retain];
-	eventLoopScrollTimer = [[NSTimer timerWithTimeInterval:(1.0/ABOUT_SCROLL_FPS)
-												   target:self
-												 selector:@selector(scrollTimer:)
-												 userInfo:nil
-												  repeats:YES] retain];
-    [[NSRunLoop currentRunLoop] addTimer:eventLoopScrollTimer forMode:NSEventTrackingRunLoopMode];
+	[textView_credits loadText:creditsString];
 	
     //Setup the build date / version
     [button_buildButton setTitle:[self _applicationDate]];
@@ -103,8 +81,6 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 	[super windowWillClose:sender];
 	
     [sharedAboutBoxInstance autorelease]; sharedAboutBoxInstance = nil;
-    [scrollTimer invalidate]; [scrollTimer release]; scrollTimer = nil;
-	[eventLoopScrollTimer invalidate]; [eventLoopScrollTimer release]; eventLoopScrollTimer = nil;
 }
 
 //Visit the Adium homepage
@@ -113,29 +89,11 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.adiumx.com"]];
 }
 
-
-//Scrolling Credits ----------------------------------------------------------------------------------------------------
-#pragma mark Scrolling Credits
-//Scroll the credits
-- (void)scrollTimer:(NSTimer *)scrollTimer
-{    
-	scrollLocation += scrollRate;
-	
-	if (scrollLocation > maxScroll) scrollLocation = 0;    
-	if (scrollLocation < 0) scrollLocation = maxScroll;
-	
-	[textView_credits scrollPoint:NSMakePoint(0, scrollLocation)];
-}
-
-//Receive the flags changed event for reversing the scroll direction via option
+//Receive the flags changed event for starting/stopping the automatic scroll via option
 - (void)flagsChanged:(NSEvent *)theEvent
 {
     if ([theEvent optionKey]) {
-        scrollRate = -ABOUT_SCROLL_RATE;
-    } else if ([theEvent controlKey]) {
-        scrollRate = 0;
-    } else {
-        scrollRate = ABOUT_SCROLL_RATE;   
+		[textView_credits toggleScrolling];
     }
 }
 

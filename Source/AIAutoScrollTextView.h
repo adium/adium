@@ -14,29 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIWindowController.h>
-#import "AIAutoScrollTextView.h"
+#import <Cocoa/Cocoa.h>
 
-@interface LNAboutBoxController : AIWindowController {
-	IBOutlet	NSPanel		*panel_licenseSheet;
-	IBOutlet	NSTextView	*textView_license;
-	
-	IBOutlet	NSButton				*button_duckIcon;
-	IBOutlet	NSButton				*button_buildButton;
-	IBOutlet	NSButton				*button_homepage;
-	IBOutlet	NSButton				*button_license;
-	IBOutlet	NSTextField				*textField_version;
-	IBOutlet	AIAutoScrollTextView	*textView_credits;
 
-	//Version and duck clicking
-    NSInteger						numberOfDuckClicks, numberOfBuildFieldClicks;
+@interface AIAutoScrollTextView : NSTextView {
+	NSTimer			*scrollTimer;
+	NSTimer			*eventLoopScrollTimer;
+	CGFloat			scrollLocation;
+	NSInteger		maxScroll;
 }
 
-+ (LNAboutBoxController *)aboutBoxController;
-- (IBAction)adiumDuckClicked:(id)sender;
-- (IBAction)buildFieldClicked:(id)sender;
-- (IBAction)visitHomepage:(id)sender;
-- (IBAction)showLicense:(id)sender;
-- (IBAction)hideLicense:(id)sender;
+- (void)loadText:(NSAttributedString *)textToLoad;
+- (void)toggleScrolling;
 
 @end

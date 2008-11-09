@@ -1152,6 +1152,7 @@
 		4F1CB6410D640DA40073A1E6 /* events_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63D0D640DA40073A1E6 /* events_segment.png */; };
 		4F1CB6420D640DA40073A1E6 /* info_segment.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB63E0D640DA40073A1E6 /* info_segment.png */; };
 		4F1CB64C0D640F4F0073A1E6 /* ContactInfoInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */; };
+		5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */; };
 		63093C2F0892143500F118D3 /* newContentThreeDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2D0892143500F118D3 /* newContentThreeDigits.png */; };
 		63093C300892143500F118D3 /* newContentTwoDigits.png in Resources */ = {isa = PBXBuildFile; fileRef = 63093C2E0892143500F118D3 /* newContentTwoDigits.png */; };
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4110,6 +4111,8 @@
 		4F1CB63D0D640DA40073A1E6 /* events_segment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = events_segment.png; path = Resources/events_segment.png; sourceTree = "<group>"; };
 		4F1CB63E0D640DA40073A1E6 /* info_segment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info_segment.png; path = Resources/info_segment.png; sourceTree = "<group>"; };
 		4F1CB64B0D640F4F0073A1E6 /* ContactInfoInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ContactInfoInspector.nib; path = Resources/ContactInfoInspector.nib; sourceTree = "<group>"; };
+		5A1781840EC1215D00BA1E04 /* AIAutoScrollTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutoScrollTextView.h; path = Source/AIAutoScrollTextView.h; sourceTree = "<group>"; };
+		5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutoScrollTextView.m; path = Source/AIAutoScrollTextView.m; sourceTree = "<group>"; };
 		63093C2D0892143500F118D3 /* newContentThreeDigits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newContentThreeDigits.png; sourceTree = "<group>"; };
 		63093C2E0892143500F118D3 /* newContentTwoDigits.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newContentTwoDigits.png; sourceTree = "<group>"; };
 		6311F46F0E340DD2004234B8 /* AISharedAdium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISharedAdium.h; path = "Frameworks/Adium Framework/Source/AISharedAdium.h"; sourceTree = "<group>"; };
@@ -7611,6 +7614,8 @@
 		D3B4A920052DE51000A8010B /* About Box */ = {
 			isa = PBXGroup;
 			children = (
+				5A1781840EC1215D00BA1E04 /* AIAutoScrollTextView.h */,
+				5A1781850EC1215D00BA1E04 /* AIAutoScrollTextView.m */,
 				D3DA2E40052E65E400A8010B /* LNAboutBoxController.h */,
 				D3DA2E3E052E65DE00A8010B /* LNAboutBoxController.m */,
 				3402E02D07CB0DBB0044F818 /* AboutBox.nib */,
@@ -9779,6 +9784,7 @@
 				34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */,
 				111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */,
 				632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */,
+				5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
