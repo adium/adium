@@ -149,7 +149,6 @@
 	forceUpdate = YES;
 	[self gotUpdateForFileTransfer:inFileTransfer];
 	
-	[view setAllowsCancel:![inFileTransfer isStopped]];
 	[owner progressRowDidChangeStatus:self];
 	
 	[[view window] display];
@@ -199,15 +198,27 @@
 			break;
 		case Complete_FileTransfer:
 			[view setProgressVisible:NO];
+            [view setButtonStopResumeVisible:NO];
 			transferSpeedStatus = AILocalizedString(@"Complete",nil);
 			break;
 		case Cancelled_Local_FileTransfer:
+		    [view setProgressVisible:NO];
+			if (type == Outgoing_FileTransfer) {
+	            [view setButtonStopResumeIsResend:YES];
+			} else {
+				//can't resend what wasn't ours
+				[view setButtonStopResumeVisible:NO];
+			}
+			transferSpeedStatus = AILocalizedString(@"Stopped",nil);
+			break;
 		case Cancelled_Remote_FileTransfer:
 			[view setProgressVisible:NO];
+			[view setButtonStopResumeVisible:NO];
 			transferSpeedStatus = AILocalizedString(@"Stopped",nil);
 			break;
 		case Failed_FileTransfer:
 			[view setProgressVisible:NO];
+			[view setButtonStopResumeIsResend:YES];
 			transferSpeedStatus = AILocalizedString(@"Failed",nil);
 			break;
 	}
@@ -344,8 +355,14 @@
 #pragma mark Button actions
 - (IBAction)stopResumeAction:(id)sender
 {
-	[fileTransfer cancel];
+    if ([view buttonStopResumeIsResend]) {
+        [adium.fileTransferController sendFile:[fileTransfer localFilename] toListContact:[fileTransfer contact]];
+		[owner _removeFileTransferRow:self];
+    } else {
+        [fileTransfer cancel];
+    }
 }
+
 - (IBAction)revealAction:(id)sender
 {
 	[fileTransfer reveal];	
