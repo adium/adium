@@ -459,6 +459,7 @@ static NSArray *draggedTypes = nil;
 	[self _primeWebViewAndReprocessContent:NO];
 	[previousContent release];
 	previousContent = nil;
+	[chat clearUnviewedContentCount];
 }
 
 /*!
