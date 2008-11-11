@@ -102,3 +102,4 @@
 	[self scrollPoint:NSMakePoint(0, scrollLocation)];
 }
 
+@end
