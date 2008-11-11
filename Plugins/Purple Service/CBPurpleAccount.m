@@ -590,10 +590,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[purpleAdapter renameGroup:groupName onAccount:self to:newName];
 
 	//We must also update the remote grouping of all our contacts in that group
-	NSEnumerator	*enumerator = [[adium.contactController allContactsInObject:inGroup recurse:YES onAccount:self] objectEnumerator];
-	AIListContact	*contact;
-	
-	while ((contact = [enumerator nextObject])) {
+	for (AIListContact *contact in [adium.contactController allContactsInObject:inGroup onAccount:self]) {
 		//Evan: should we use groupName or newName here?
 		[contact setRemoteGroupName:newName];
 	}

@@ -81,7 +81,7 @@
 - (void)saveContactList;
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadBookmarks;
-- (NSArray *)allBookmarks;
+- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup;
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
@@ -1188,16 +1188,15 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Return a flat array of all the objects in a group on an account (and all subgroups, if desired)
-- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
+- (NSArray *)allContactsInObject:(AIListObject<AIContainingObject> *)inGroup onAccount:(AIAccount *)inAccount
 {
 	NSParameterAssert(inGroup != nil);
 	
 	NSMutableArray	*contactArray = [NSMutableArray array];    
 	
 	for (AIListObject *object in inGroup) {
-		if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
+		if ([object conformsToProtocol:@protocol(AIContainingObject)]) {
 			[contactArray addObjectsFromArray:[self allContactsInObject:(AIListObject<AIContainingObject> *)object
-																recurse:recurse
 															  onAccount:inAccount]];
 		} else if ([object isMemberOfClass:[AIListContact class]] && (!inAccount || ([(AIListContact *)object account] == inAccount)))
 			[contactArray addObject:object];
@@ -1207,18 +1206,16 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Return a flat array of all the bookmarks in a group on an account (and all subgroups, if desired)
-- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup recurse:(BOOL)recurse onAccount:(AIAccount *)inAccount
+- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup
 {
 	NSParameterAssert(inGroup != nil);
 	
 	NSMutableArray	*bookmarkArray = [NSMutableArray array];    
 	
 	for (AIListObject *object in inGroup) {
-		if (recurse && [object conformsToProtocol:@protocol(AIContainingObject)]) {
-			[bookmarkArray addObjectsFromArray:[self allBookmarksInObject:(AIListObject<AIContainingObject> *)object
-																  recurse:recurse
-																onAccount:inAccount]];
-		} else if ([object isMemberOfClass:[AIListBookmark class]] && (!inAccount || ([(AIListBookmark *)object account] == inAccount))) {
+		if ([object conformsToProtocol:@protocol(AIContainingObject)]) {
+			[bookmarkArray addObjectsFromArray:[self allBookmarksInObject:(AIListObject<AIContainingObject> *)object]];
+		} else if ([object isKindOfClass:[AIListBookmark class]]) {
 			[bookmarkArray addObject:object];
 		}
 	}
@@ -1232,7 +1229,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	/** Could be perfected I'm sure */
 	for(AIContactList *clist in contactLists) {
-		[result addObjectsFromArray:[self allBookmarksInObject:clist recurse:YES onAccount:nil]];
+		[result addObjectsFromArray:[self allBookmarksInObject:clist]];
 	}
 	
 	return result;	
