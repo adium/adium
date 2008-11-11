@@ -229,8 +229,8 @@
 	if (inObject) {
 		AIChat			*chat = [inObject chat];
 
-		//Only proceed if the contact is not ignored
-		if (![chat isListContactIgnored:[inObject source]]) {
+		//Only proceed if the contact is not ignored or blocked
+		if (![chat isListContactIgnored:[inObject source]] && ![[inObject source] isBlocked]) {
 			//Notify: Will Receive Content
 			if ([inObject trackContent]) {
 				[adium.notificationCenter postNotificationName:Content_WillReceiveContent
