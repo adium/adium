@@ -794,7 +794,7 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 		substringRange.length = lineBreakRange.location - searchRange.location;
 
 		[lines addObject:[self substringWithRange:substringRange]];
-		if (separatorObj) [lines addObject:separatorObj];
+		if (separatorObj) [lines addObject:[[separatorObj copy] autorelease]];
 
 		searchRange.location = (lineBreakRange.location + lineBreakRange.length);
 		searchRange.length = selfLength - searchRange.location;
