@@ -94,8 +94,16 @@
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
 	AIListObject *obj = [self.containedObjects objectAtIndex:index];
-	if(!obj.visible)
+	if(!obj.visible) {
 		AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
+		[self sort];
+		AIListObject *obj = [self.containedObjects objectAtIndex:index];
+		if(!obj.visible)
+			AILog(@"Failed to correct for messed up visibleObjectAtIndex by sorting");
+		else
+			AILog(@"Successfully corrected for messed up visibleObjectAtIndex by sorting");
+	}
+
 
 	return obj;
 }
