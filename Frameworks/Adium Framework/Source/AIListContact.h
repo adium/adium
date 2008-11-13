@@ -18,16 +18,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListGroup.h>
 
-typedef enum
-{
-		AIGroupChatNone						= 0x0000, /**< No flags                     */
-		AIGroupChatVoice						= 0x0001, /**< Voiced user or "Participant" */
-		AIGroupChatHalfOp					= 0x0002, /**< Half-op                      */
-		AIGroupChatOp								= 0x0004, /**< Channel Op or Moderator      */
-		AIGroupChatFounder				= 0x0008, /**< Channel Founder              */
-		AIGroupChatTyping					= 0x0010, /**< Currently typing             */
-} AIGroupChatFlags;
-
 #define KEY_AB_UNIQUE_ID		@"AB Unique ID"
 
 @class ABPerson;
@@ -36,7 +26,6 @@ typedef enum
 	AIAccount	*account;
 	NSString		*remoteGroupName;
 	NSString		*internalUniqueObjectID;
-	AIGroupChatFlags groupChatFlags;
 }
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
@@ -54,8 +43,6 @@ typedef enum
 @property (readonly, nonatomic) NSString *ownDisplayName;
 @property (readonly, nonatomic) NSString *ownPhoneticName;
 @property (readonly, nonatomic) NSString *serversideDisplayName;
-
-@property (readwrite, nonatomic) AIGroupChatFlags groupChatFlags;
 
 @property (readonly, nonatomic) BOOL canJoinMetaContacts;
 

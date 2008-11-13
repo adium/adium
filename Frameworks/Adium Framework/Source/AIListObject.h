@@ -31,6 +31,15 @@ typedef enum {
 	AIUnknownStatus = 'unkN'
 } AIStatusSummary;
 
+typedef enum {
+		AIGroupChatNone						= 0x0000, /**< No flags                     */
+		AIGroupChatVoice						= 0x0001, /**< Voiced user or "Participant" */
+		AIGroupChatHalfOp					= 0x0002, /**< Half-op                      */
+		AIGroupChatOp								= 0x0004, /**< Channel Op or Moderator      */
+		AIGroupChatFounder				= 0x0008, /**< Channel Founder              */
+		AIGroupChatTyping					= 0x0010, /**< Currently typing             */
+} AIGroupChatFlags;
+
 @protocol AIContainingObject <NSObject, NSFastEnumeration>
 
 @property (readonly, nonatomic) NSArray *containedObjects;
@@ -75,6 +84,8 @@ typedef enum {
 	NSString				*UID;
 	NSString				*internalObjectID;
 	BOOL							alwaysVisible;
+	
+	AIGroupChatFlags groupChatFlags;
 
 	//Grouping, Manual ordering
 	AIListObject <AIContainingObject>	*containingObject;		//The group/metacontact this object is in
@@ -109,6 +120,9 @@ typedef enum {
 @property (readonly, nonatomic) NSString *formattedUID;
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify;
 @property (readonly, nonatomic) NSString *longDisplayName;
+
+//GroupChats
+@property (readwrite, nonatomic) AIGroupChatFlags groupChatFlags;
 
 //Prefs
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)groupName;
