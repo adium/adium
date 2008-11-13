@@ -17,6 +17,8 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIChat.h>
 
 @implementation AIContentMessage
 
@@ -74,6 +76,17 @@
 	NSMutableArray *classes = [super displayClasses];
 	[classes addObject:@"message"];
 	if(isAutoreply) [classes addObject:@"autoreply"];
+	if(self.chat.isGroupChat && [self.source isKindOfClass:[AIListContact class]]) {
+		AIGroupChatFlags flags = ((AIListContact *)self.source).groupChatFlags;
+		if (flags & AIGroupChatOp)
+			[classes addObject:@"op"];
+		if (flags & AIGroupChatHalfOp)
+			[classes addObject:@"half-op"];
+		if (flags & AIGroupChatFounder)
+			[classes addObject:@"roomfounder"];
+		if (flags & AIGroupChatVoice)
+			[classes addObject:@"voice"];
+	}
 	return classes;
 }
 
