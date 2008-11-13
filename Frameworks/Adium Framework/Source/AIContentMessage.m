@@ -76,7 +76,7 @@
 	NSMutableArray *classes = [super displayClasses];
 	[classes addObject:@"message"];
 	if(isAutoreply) [classes addObject:@"autoreply"];
-	if(self.chat.isGroupChat && [self.source isKindOfClass:[AIListContact class]]) {
+	if(self.chat.isGroupChat) {
 		AIGroupChatFlags flags = ((AIListContact *)self.source).groupChatFlags;
 		if (flags & AIGroupChatOp)
 			[classes addObject:@"op"];

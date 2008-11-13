@@ -568,8 +568,6 @@
 	return [[self.account statusState] mutesSound];
 }
 
-@synthesize groupChatFlags;
-
 #pragma mark Parents
 /*!
  * @brief This object's parent AIListGroup
