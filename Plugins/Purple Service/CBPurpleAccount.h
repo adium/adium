@@ -171,6 +171,7 @@
 - (NSString *)titleForAccountActionMenuLabel:(const char *)label;
 
 - (NSString *)_UIDForAddingObject:(AIListContact *)object;
+- (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat;
 
 #pragma mark Contacts
 - (void)renameContact:(AIListContact *)theContact toUID:(NSString *)newUID;
