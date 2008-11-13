@@ -74,6 +74,8 @@
 	}
 
 	if ((proxyDict = (NSDictionary *)SCDynamicStoreCopyProxies(NULL))) {
+		[proxyDict autorelease];
+
 		//Enabled?
 		enable = [[proxyDict objectForKey:(NSString *)enableKey] intValue];
 		if (enable) {
@@ -118,22 +120,33 @@
 				NSString *pacFile = [proxyDict objectForKey:(NSString *)kSCPropNetProxiesProxyAutoConfigURLString];
 				
 				if (pacFile) {
-					//XXX can't use pac file
-					NSString *msg = [NSString stringWithFormat:
-						AILocalizedString(@"The system-wide proxy configuration specified via the Network System Preferences depends upon reading a PAC (Proxy Automatic Configuration) file from %@.  This information can not be used at this time; to connect, please obtain proxy information from your network administrator and use it manually.", nil),
-						pacFile];
-					NSRunCriticalAlertPanel(AILocalizedString(@"Unable to read proxy information", "Title of the alert shown when the system proxy configuration can not be determined"),
-											msg,
-											nil,
-											nil,
-											nil);
+					CFURLRef url = (CFURLRef)[NSURL URLWithString:@"http://www.google.com"];
+					NSString *scriptStr = [NSString stringWithContentsOfURL:[NSURL URLWithString:pacFile] encoding:NSUTF8StringEncoding error:NULL];
+					
+					if (url && scriptStr) {
+						NSArray *proxies;
+						// The following note is from Apple's CFProxySupportTool:
+						// Work around <rdar://problem/5530166>.  This dummy call to 
+						// CFNetworkCopyProxiesForURL initialise some state within CFNetwork 
+						// that is required by CFNetworkCopyProxiesForAutoConfigurationScript.
+						(void) CFNetworkCopyProxiesForURL(url, NULL);
+						
+						proxies = [(NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((CFStringRef)scriptStr, url, NULL) autorelease];
+						if (proxies && proxies.count) {
+							proxyDict = [proxies objectAtIndex:0];
+							
+							systemProxySettingsDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+															 [proxyDict objectForKey:(NSString *)kCFProxyHostNameKey], @"Host",
+															 [proxyDict objectForKey:(NSString *)kCFProxyPortNumberKey], @"Port",
+															 [proxyDict objectForKey:(NSString *)kCFProxyUsernameKey], @"Username",
+															 [proxyDict objectForKey:(NSString *)kCFProxyPasswordKey], @"Password",
+															 nil];
+						}
+					}
 				}
 			}
 		}
 		// Could check and process kSCPropNetProxiesExceptionsList here, which returns: CFArray[CFString]
-
-		//Clean up; proxyDict was created by a call with Copy in its name
-		[proxyDict release];
 	}
 
 
