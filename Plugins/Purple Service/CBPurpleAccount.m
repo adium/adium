@@ -1189,6 +1189,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 		listContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
 		[listContact setFormattedUID:contactName notify:NotifyNow];
+		
+		//XXX if purple's flags change this could stop working
+		listContact.groupChatFlags = (AIGroupChatFlags)flags;
 
 		if (alias && [alias length] && ![alias isEqualToString:contactName]) {
 			[listContact setServersideAlias:alias silently:YES];

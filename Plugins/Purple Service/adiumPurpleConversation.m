@@ -313,7 +313,9 @@ static void adiumPurpleConvChatRemoveUsers(PurpleConversation *conv, GList *user
 
 static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user)
 {
-	AILog(@"adiumPurpleConvUpdateUser: %s",user);
+	CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
+	AIListContact *contact = [account contactWithUID:[account uidForContactWithUID:[NSString stringWithUTF8String:user] inChat:groupChatLookupFromConv(conv)]];
+	contact.groupChatFlags = purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user);	
 }
 
 static void adiumPurpleConvPresent(PurpleConversation *conv)
