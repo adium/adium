@@ -48,6 +48,11 @@
 // You can download it at http://evands.penguinmilitia.net/ShortcutRecorder.palette.zip
 // This comes from http://wafflesoftware.net/shortcut/
 
++ (NSSet *)keyPathsForValuesAffectingChatHistoryDisplayActive
+{
+	return [NSSet setWithObject:@"adium.preferenceController.Logging.Enable Logging"];
+}
+
 //Preference pane properties
 - (NSString *)paneIdentifier
 {
@@ -68,7 +73,7 @@
 - (void)viewDidLoad
 {
 	BOOL			sendOnEnter, sendOnReturn;
-	
+
 	//Interface
     [checkBox_messagesInTabs setState:[[adium.preferenceController preferenceForKey:KEY_TABBED_CHATTING
 																				group:PREF_GROUP_INTERFACE] boolValue]];
@@ -280,7 +285,19 @@
 			 keyEquivalent:@""
 					   tag:AdiumTabPositionRight];
 	
-	return [menu autorelease];		
+	return [menu autorelease];
+}
+
+- (BOOL)chatHistoryDisplayActive
+{
+	return ([[adium.preferenceController preferenceForKey:@"Display Message Context" group:@"Message Context Display"] boolValue] &&
+			[[adium.preferenceController preferenceForKey:@"Enable Logging" group:@"Logging"] boolValue]);
+}
+- (void)setChatHistoryDisplayActive:(BOOL)flag
+{
+	[adium.preferenceController setPreference:[NSNumber	numberWithBool:flag]
+	 forKey:@"Display Message Context"
+	 group:@"Message Context Display"];
 }
 
 #pragma mark Message history
