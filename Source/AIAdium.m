@@ -227,8 +227,6 @@ static NSString	*prefsCategory;
 #ifdef DEBUG_BUILD
 	[debugController controllerDidLoad];
 #endif
-	//Safety for when we remove previously included list xtras
-	[AIAppearancePreferences migrateOldListSettingsIfNeeded];
 	[pool release];
 
 	//Plugins and components should always init last, since they rely on everything else.
