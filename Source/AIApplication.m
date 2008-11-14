@@ -70,6 +70,14 @@
 			[chatWindows addObject:[windows objectAtIndex:i]];
 	return chatWindows;
 }
+- (AIMessageWindow *)valueInChatWindowsWithUniqueID:(NSNumber *)uniqueID
+{
+	for (NSWindow *window in [self orderedWindows])
+		if ([window isKindOfClass:[AIMessageWindow class]])
+			if ([window hash] == [uniqueID unsignedIntValue])
+				return (AIMessageWindow *)window;
+	return nil;
+}
 - (NSArray *)chats
 {
 	return [adium.chatController.openChats allObjects];
