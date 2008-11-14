@@ -50,7 +50,9 @@
 
 + (NSSet *)keyPathsForValuesAffectingChatHistoryDisplayActive
 {
-	return [NSSet setWithObject:@"adium.preferenceController.Logging.Enable Logging"];
+	return [NSSet setWithObjects:@"adium.preferenceController.Logging.Enable Logging",
+			@"adium.preferenceController.Message Context Display.Display Message Context",
+			nil];
 }
 
 //Preference pane properties
