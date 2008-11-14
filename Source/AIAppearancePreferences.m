@@ -36,8 +36,6 @@
 #import <Adium/ESPresetNameSheetController.h>
 #import <AIMenuBarIcons.h>
 
-#define OLD_LIST_SETTINGS_PATH [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"OldListXtras"]
-
 typedef enum {
 	AIEmoticonMenuNone = 1,
 	AIEmoticonMenuMultiple
@@ -485,23 +483,11 @@ typedef enum {
 							LIST_THEME_FOLDER,
 							[prefController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE],
 							LIST_THEME_EXTENSION];
-	if(![manager fileExistsAtPath:theme])
-	{
-		NSString *oldTheme = [OLD_LIST_SETTINGS_PATH stringByAppendingPathComponent:[theme lastPathComponent]];
-		if([manager fileExistsAtPath:oldTheme])
-			[manager moveItemAtPath:oldTheme toPath:theme error:NULL];
-	}
 	NSString *layout = [NSString stringWithFormat:@"%@/%@/%@.%@", 
 							[[NSBundle mainBundle] resourcePath], 
 							LIST_THEME_FOLDER, 
 							[prefController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE],
 							@"ListLayout"];
-	if(![manager fileExistsAtPath:layout])
-	{
-		NSString *oldLayout = [OLD_LIST_SETTINGS_PATH stringByAppendingPathComponent:[layout lastPathComponent]];
-		if([manager fileExistsAtPath:oldLayout])
-			[manager moveItemAtPath:oldLayout toPath:layout error:NULL];
-	}
 }
 
 /*!
