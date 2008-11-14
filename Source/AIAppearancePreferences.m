@@ -474,22 +474,6 @@ typedef enum {
 //Contact list layout & theme ----------------------------------------------------------------------------------------
 #pragma mark Contact list layout & theme
 
-+ (void) migrateOldListSettingsIfNeeded
-{
-	id<AIPreferenceController> prefController = adium.preferenceController;
-	NSFileManager *manager = [NSFileManager defaultManager];
-	NSString *theme = [NSString stringWithFormat:@"%@/%@/%@.%@", 
-							[[NSBundle mainBundle] resourcePath], 
-							LIST_THEME_FOLDER,
-							[prefController preferenceForKey:KEY_LIST_THEME_NAME group:PREF_GROUP_APPEARANCE],
-							LIST_THEME_EXTENSION];
-	NSString *layout = [NSString stringWithFormat:@"%@/%@/%@.%@", 
-							[[NSBundle mainBundle] resourcePath], 
-							LIST_THEME_FOLDER, 
-							[prefController preferenceForKey:KEY_LIST_LAYOUT_NAME group:PREF_GROUP_APPEARANCE],
-							@"ListLayout"];
-}
-
 /*!
  * @brief Create a new theme
  */
