@@ -68,9 +68,9 @@ typedef enum
  */
 struct _MsnSwitchBoard
 {
-	MsnSession *session;
-	MsnServConn *servconn;
-	MsnCmdProc *cmdproc;
+	MsnSession *session;   /**< Our parent session. */
+	MsnServConn *servconn; /**< The physical connection for this switchboard. */
+	MsnCmdProc *cmdproc;   /**< Convenience variable for servconn->cmdproc. */
 	char *im_user;
 
 	MsnSBFlag flag;
@@ -224,10 +224,8 @@ void msn_switchboard_close(MsnSwitchBoard *swboard);
  *
  * @param swboard The switchboard to release.
  * @param flag The flag that states the function.
- *
- * @return @c TRUE if the switchboard was closed, @c FALSE otherwise.
  */
-gboolean msn_switchboard_release(MsnSwitchBoard *swboard, MsnSBFlag flag);
+void msn_switchboard_release(MsnSwitchBoard *swboard, MsnSBFlag flag);
 
 /**
  * Returns whether or not we currently can send a message through this

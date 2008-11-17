@@ -236,7 +236,8 @@ void purple_notify_searchresults_new_rows(PurpleConnection *gc,
  * Adds a stock button that will be displayed in the search results dialog.
  *
  * @param results The search results object.
- * @param type    Type of the button. (TODO: Only one button of a given type can be displayed.)
+ * @param type    Type of the button. (TODO: Only one button of a given type
+ *                can be displayed.)
  * @param cb      Function that will be called on the click event.
  */
 void purple_notify_searchresults_button_add(PurpleNotifySearchResults *results,
@@ -245,8 +246,9 @@ void purple_notify_searchresults_button_add(PurpleNotifySearchResults *results,
 
 
 /**
- * Adds a plain labelled button that will be displayed in the search results dialog.
- * 
+ * Adds a plain labelled button that will be displayed in the search results
+ * dialog.
+ *
  * @param results The search results object
  * @param label   The label to display
  * @param cb      Function that will be called on the click event
@@ -267,7 +269,7 @@ PurpleNotifySearchResults *purple_notify_searchresults_new(void);
  * Returns a newly created search result column object.
  *
  * @param title Title of the column. NOTE: Title will get g_strdup()ed.
- * 
+ *
  * @return The new search column object.
  */
 PurpleNotifySearchColumn *purple_notify_searchresults_column_new(const char *title);
@@ -470,53 +472,58 @@ void *purple_notify_formatted(void *handle, const char *title,
  * The text is essentially a stripped-down format of HTML, the same that
  * IMs may send.
  *
- * @param gc		         The PurpleConnection handle associated with the information.
- * @param who				 The username associated with the information.
- * @param user_info          The PurpleNotifyUserInfo which contains the information
- * @param cb                 The callback to call when the user closes
- *                           the notification.
- * @param user_data          The data to pass to the callback.
+ * @param gc         The PurpleConnection handle associated with the information.
+ * @param who        The username associated with the information.
+ * @param user_info  The PurpleNotifyUserInfo which contains the information
+ * @param cb         The callback to call when the user closes the notification.
+ * @param user_data  The data to pass to the callback.
  *
- * @return A UI-specific handle.
+ * @return  A UI-specific handle.
  */
 void *purple_notify_userinfo(PurpleConnection *gc, const char *who,
 						   PurpleNotifyUserInfo *user_info, PurpleNotifyCloseCallback cb,
 						   gpointer user_data);
 
 /**
- * Create a new PurpleNotifyUserInfo which is suitable for passing to purple_notify_userinfo()
+ * Create a new PurpleNotifyUserInfo which is suitable for passing to
+ * purple_notify_userinfo()
  *
- * @return A new PurpleNotifyUserInfo, which the caller must destroy when done
+ * @return  A new PurpleNotifyUserInfo, which the caller must destroy when done
  */
 PurpleNotifyUserInfo *purple_notify_user_info_new(void);
 
 /**
  * Destroy a PurpleNotifyUserInfo
  *
- * @param user_info          The PurpleNotifyUserInfo
+ * @param user_info  The PurpleNotifyUserInfo
  */
 void purple_notify_user_info_destroy(PurpleNotifyUserInfo *user_info);
 
 /**
- * Retrieve the array of PurpleNotifyUserInfoEntry objects from a PurpleNotifyUserInfo
+ * Retrieve the array of PurpleNotifyUserInfoEntry objects from a
+ * PurpleNotifyUserInfo
  *
- * This GList may be manipulated directly with normal GList functions such as g_list_insert(). Only 
- * PurpleNotifyUserInfoEntry are allowed in the list.  If a PurpleNotifyUserInfoEntry item is added to the list,
- * it should not be g_free()'d by the caller; PurpleNotifyUserInfo will g_free it when destroyed.
+ * This GList may be manipulated directly with normal GList functions such
+ * as g_list_insert(). Only PurpleNotifyUserInfoEntry are allowed in the
+ * list.  If a PurpleNotifyUserInfoEntry item is added to the list, it
+ * should not be g_free()'d by the caller; PurpleNotifyUserInfo will g_free
+ * it when destroyed.
  *
- * To remove a PurpleNotifyUserInfoEntry, use purple_notify_user_info_remove_entry(). Do not use the GList directly.
+ * To remove a PurpleNotifyUserInfoEntry, use
+ * purple_notify_user_info_remove_entry(). Do not use the GList directly.
  *
- * @param user_info          The PurpleNotifyUserInfo
+ * @param user_info  The PurpleNotifyUserInfo
  *
- * @constreturn              A GList of PurpleNotifyUserInfoEntry objects
+ * @constreturn A GList of PurpleNotifyUserInfoEntry objects
  */
 GList *purple_notify_user_info_get_entries(PurpleNotifyUserInfo *user_info);
 
 /**
- * Create a textual representation of a PurpleNotifyUserInfo, separating entries with newline
+ * Create a textual representation of a PurpleNotifyUserInfo, separating
+ * entries with newline
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param newline            The separation character
+ * @param user_info  The PurpleNotifyUserInfo
+ * @param newline    The separation character
  */
 char *purple_notify_user_info_get_text_with_newline(PurpleNotifyUserInfo *user_info, const char *newline);
 
@@ -524,46 +531,58 @@ char *purple_notify_user_info_get_text_with_newline(PurpleNotifyUserInfo *user_i
  * Add a label/value pair to a PurpleNotifyUserInfo object.
  * PurpleNotifyUserInfo keeps track of the order in which pairs are added.
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param label              A label, which for example might be displayed by a UI with a colon after it ("Status:"). Do not include a colon.
- *                           If NULL, value will be displayed without a label.
- * @param value              The value, which might be displayed by a UI after the label.
- *                           If NULL, label will still be displayed; the UI should then treat label as independent
- *                           and not include a colon if it would otherwise.
+ * @param user_info  The PurpleNotifyUserInfo
+ * @param label      A label, which for example might be displayed by a
+ *                   UI with a colon after it ("Status:"). Do not include
+ *                   a colon.  If NULL, value will be displayed without a
+ *                   label.
+ * @param value      The value, which might be displayed by a UI after
+ *                   the label.  If NULL, label will still be displayed;
+ *                   the UI should then treat label as independent and not
+ *                   include a colon if it would otherwise.
  */
 void purple_notify_user_info_add_pair(PurpleNotifyUserInfo *user_info, const char *label, const char *value);
 
 /**
  * Prepend a label/value pair to a PurpleNotifyUserInfo object
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param label              A label, which for example might be displayed by a UI with a colon after it ("Status:"). Do not include a colon.
- *                           If NULL, value will be displayed without a label.
- * @param value              The value, which might be displayed by a UI after the label.
- *                           If NULL, label will still be displayed; the UI should then treat label as independent
- *                           and not include a colon if it would otherwise.
+ * @param user_info  The PurpleNotifyUserInfo
+ * @param label      A label, which for example might be displayed by a
+ *                   UI with a colon after it ("Status:"). Do not include
+ *                   a colon.  If NULL, value will be displayed without a
+ *                   label.
+ * @param value      The value, which might be displayed by a UI after
+ *                   the label.  If NULL, label will still be displayed;
+ *                   the UI should then treat label as independent and not
+ *                   include a colon if it would otherwise.
  */
 void purple_notify_user_info_prepend_pair(PurpleNotifyUserInfo *user_info, const char *label, const char *value);
 
 /**
- * Remove a PurpleNotifyUserInfoEntry from a PurpleNotifyUserInfo object without freeing the entry.
+ * Remove a PurpleNotifyUserInfoEntry from a PurpleNotifyUserInfo object
+ * without freeing the entry.
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param user_info_entry    The PurpleNotifyUserInfoEntry
+ * @param user_info        The PurpleNotifyUserInfo
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
  */
 void purple_notify_user_info_remove_entry(PurpleNotifyUserInfo *user_info, PurpleNotifyUserInfoEntry *user_info_entry);
+
 /**
  * Create a new PurpleNotifyUserInfoEntry
  *
- * If added to a PurpleNotifyUserInfo object, this should not be free()'d, as PurpleNotifyUserInfo will do so
- * when destroyed.  purple_notify_user_info_add_pair() and purple_notify_user_info_prepend_pair() are convenience
- * methods for creating entries and adding them to a PurpleNotifyUserInfo.
+ * If added to a PurpleNotifyUserInfo object, this should not be free()'d,
+ * as PurpleNotifyUserInfo will do so when destroyed.
+ * purple_notify_user_info_add_pair() and
+ * purple_notify_user_info_prepend_pair() are convenience methods for
+ * creating entries and adding them to a PurpleNotifyUserInfo.
  *
- * @param label              A label, which for example might be displayed by a UI with a colon after it ("Status:"). Do not include a colon.
- *                           If NULL, value will be displayed without a label.
- * @param value              The value, which might be displayed by a UI after the label.
- *                           If NULL, label will still be displayed; the UI should then treat label as independent
- *                           and not include a colon if it would otherwise.
+ * @param label  A label, which for example might be displayed by a UI
+ *               with a colon after it ("Status:"). Do not include a
+ *               colon.  If NULL, value will be displayed without a label.
+ * @param value  The value, which might be displayed by a UI after the
+ *               label.  If NULL, label will still be displayed; the UI
+ *               should then treat label as independent and not include a
+ *               colon if it would otherwise.
  *
  * @result A new PurpleNotifyUserInfoEntry
  */
@@ -572,71 +591,74 @@ PurpleNotifyUserInfoEntry *purple_notify_user_info_entry_new(const char *label, 
 /**
  * Add a section break.  A UI might display this as a horizontal line.
  *
- * @param user_info          The PurpleNotifyUserInfo
+ * @param user_info  The PurpleNotifyUserInfo
  */
 void purple_notify_user_info_add_section_break(PurpleNotifyUserInfo *user_info);
 
 /**
  * Prepend a section break.  A UI might display this as a horizontal line.
  *
- * @param user_info          The PurpleNotifyUserInfo
+ * @param user_info  The PurpleNotifyUserInfo
  * @since 2.5.0
  */
 void purple_notify_user_info_prepend_section_break(PurpleNotifyUserInfo *user_info);
-	
+
 /**
- * Add a section header.  A UI might display this in a different font from other text.
+ * Add a section header.  A UI might display this in a different font
+ * from other text.
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param label              The name of the section
+ * @param user_info  The PurpleNotifyUserInfo
+ * @param label      The name of the section
  */
 void purple_notify_user_info_add_section_header(PurpleNotifyUserInfo *user_info, const char *label);
-	
+
 /**
- * Prepend a section header.  A UI might display this in a different font from other text.
+ * Prepend a section header.  A UI might display this in a different font
+ * from other text.
  *
- * @param user_info          The PurpleNotifyUserInfo
- * @param label              The name of the section
+ * @param user_info  The PurpleNotifyUserInfo
+ * @param label      The name of the section
  * @since 2.5.0
  */
 void purple_notify_user_info_prepend_section_header(PurpleNotifyUserInfo *user_info, const char *label);
-	
+
 /**
- * Remove the last item which was added to a PurpleNotifyUserInfo. This could be used to remove a section header which is not needed.
+ * Remove the last item which was added to a PurpleNotifyUserInfo. This
+ * could be used to remove a section header which is not needed.
  */
 void purple_notify_user_info_remove_last_item(PurpleNotifyUserInfo *user_info);
 
 /**
  * Get the label for a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
  *
- * @result                    The label
+ * @return  The label
  */
 const gchar *purple_notify_user_info_entry_get_label(PurpleNotifyUserInfoEntry *user_info_entry);
 
 /**
  * Set the label for a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
- * @param label			      The label
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
+ * @param label            The label
  */
 void purple_notify_user_info_entry_set_label(PurpleNotifyUserInfoEntry *user_info_entry, const char *label);
 
 /**
  * Get the value for a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
  *
- * @result                    The value
+ * @result  The value
  */
 const gchar *purple_notify_user_info_entry_get_value(PurpleNotifyUserInfoEntry *user_info_entry);
 
 /**
  * Set the value for a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
- * @param value				  The value
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
+ * @param value            The value
  */
 void purple_notify_user_info_entry_set_value(PurpleNotifyUserInfoEntry *user_info_entry, const char *value);
 
@@ -644,17 +666,17 @@ void purple_notify_user_info_entry_set_value(PurpleNotifyUserInfoEntry *user_inf
 /**
  * Get the type of a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
  *
- * @result					  The PurpleNotifyUserInfoEntryType
+ * @return  The PurpleNotifyUserInfoEntryType
  */
 PurpleNotifyUserInfoEntryType purple_notify_user_info_entry_get_type(PurpleNotifyUserInfoEntry *user_info_entry);
 
 /**
  * Set the type of a PurpleNotifyUserInfoEntry
  *
- * @param user_info_entry     The PurpleNotifyUserInfoEntry
- * @param type				  The PurpleNotifyUserInfoEntryType
+ * @param user_info_entry  The PurpleNotifyUserInfoEntry
+ * @param type             The PurpleNotifyUserInfoEntryType
  */
 void purple_notify_user_info_entry_set_type(PurpleNotifyUserInfoEntry *user_info_entry,
 										  PurpleNotifyUserInfoEntryType type);
