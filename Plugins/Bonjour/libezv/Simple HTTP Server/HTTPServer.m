@@ -1,6 +1,7 @@
 #import "AsyncSocket.h"
 #import "HTTPServer.h"
 #import "HTTPAuthenticationRequest.h"
+#import "EKEzvOutgoingFileTransfer.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 
 #import <stdlib.h>
@@ -30,7 +31,7 @@
 **/
 - (id)init
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		// Initialize underlying asynchronous tcp/ip socket
 		asyncSocket = [[AsyncSocket alloc] initWithDelegate:self];
@@ -140,9 +141,7 @@
 
 
 - (NSString *)localHost{
-	NSEnumerator* e = [[[NSHost currentHost] addresses] objectEnumerator];
-	NSString* addr;
-	while (addr = (NSString*)[e nextObject])
+	for (NSString *addr in [[NSHost currentHost] addresses])
 	{
 		if ([[addr componentsSeparatedByString:@"."] count] == 4 && ![addr isEqual:@"127.0.0.1"])
 		{

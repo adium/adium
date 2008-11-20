@@ -68,7 +68,7 @@
 @end
 
 
-@protocol AWEzvClientProtocol
+@protocol AWEzvClientProtocol <NSObject>
 - (void) reportLoggedIn;
 - (void) reportLoggedOut;
 - (void) userLoggedOut:(AWEzvContact *)contact;
@@ -88,9 +88,6 @@
 // Outgoing File Transfer
 - (void)remoteUserBeganDownload:(EKEzvOutgoingFileTransfer *)fileTransfer;
 - (void)remoteUserFinishedDownload:(EKEzvOutgoingFileTransfer *)fileTransfer;
-
-
-
 
 - (void) reportError:(NSString *)error ofLevel:(AWEzvErrorSeverity)severity;
 - (void) reportError:(NSString *)error ofLevel:(AWEzvErrorSeverity)severity forUser:(NSString *)contact;

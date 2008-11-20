@@ -64,7 +64,7 @@
 	[super dealloc];
 }
 
-- (id <AWEzvClientProtocol, NSObject>) client {
+- (id <AWEzvClientProtocol>) client {
     return client;
 }
 

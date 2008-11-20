@@ -35,17 +35,17 @@
 @class AWEzvXMLStream, AWEzvRendezvousData, AWEzvContactManager, NSImage, ServiceController, EKEzvOutgoingFileTransfer;
 
 @interface AWEzvContact : NSObject {
-    NSString *_name;
-    NSString *_uniqueID;
-    NSData *_contactImageData;
-    AWEzvStatus _status;
-    NSDate *_idleSinceDate;
-    AWEzvXMLStream *_stream;
-    AWEzvRendezvousData *_rendezvous;
-    NSString *_ipAddr;
+	NSString *_name;
+	NSString *_uniqueID;
+	NSData *_contactImageData;
+	AWEzvStatus _status;
+	NSDate *_idleSinceDate;
+	AWEzvXMLStream *_stream;
+	AWEzvRendezvousData *_rendezvous;
+	NSString *_ipAddr;
 	NSString *imageHash;
-    u_int16_t _port;
-    AWEzvContactManager *_manager;
+	u_int16_t _port;
+	AWEzvContactManager *_manager;
 	ServiceController *_resolveServiceController;
 	ServiceController *_imageServiceController;
 	ServiceController *_addressServiceController;
