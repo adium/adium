@@ -41,8 +41,6 @@
  * capabilities) instead of NSNetService/NSNetServiceBrowser
  */
 
-
-#import <Foundation/Foundation.h>
 #import "AWEzvContactManager.h"
 #import "AWEzvDefines.h"
 

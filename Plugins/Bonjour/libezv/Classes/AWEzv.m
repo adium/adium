@@ -36,7 +36,6 @@
 
 #import "EKEzvFileTransfer.h"
 #import "EKEzvOutgoingFileTransfer.h"
-#import <AppKit/AppKit.h>
 
 /* Private classes - libezv use only */
 #import <AWEzvContactManager.h>

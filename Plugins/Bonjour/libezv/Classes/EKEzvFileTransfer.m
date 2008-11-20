@@ -1,4 +1,3 @@
-#import <AppKit/AppKit.h>
 #import "EKEzvFileTransfer.h"
 
 @implementation EKEzvFileTransfer

@@ -32,6 +32,5 @@
  */
 
 #ifdef __OBJC__
-    #import <AppKit/AppKit.h>
-    #import <Foundation/Foundation.h>
+    #import <Cocoa/Cocoa.h>
 #endif
