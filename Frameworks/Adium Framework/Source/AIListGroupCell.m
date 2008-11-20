@@ -16,6 +16,7 @@
 
 #import <Adium/AIListGroupCell.h>
 #import <Adium/AIListOutlineView.h>
+#import <Adium/ESObjectWithProperties.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIGradientAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>

@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIListContactCell.h>
-#import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
