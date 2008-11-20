@@ -77,6 +77,7 @@
 - (boolean_t)addToCurrentRunLoop;
 - (void)breakdownServiceController;
 - (DNSServiceRef)serviceRef;
+@property (readonly, nonatomic) AWEzvContactManager *contactManager;
 
 @end // interface ServiceController
 
@@ -689,7 +690,7 @@ void image_register_reply (
 	}
 
 	/* now set the port */
-	if (recPort < 0) {
+	if (recPort == 0) {
 		/* Couldn't find port from browse result so use port specified by txt records */
 		if ([rendezvousData getField:@"port.p2pj"] == nil) {
 			[[client client] reportError:@"Invalid rendezvous announcement for contact: no port specified" ofLevel:AWEzvError];
