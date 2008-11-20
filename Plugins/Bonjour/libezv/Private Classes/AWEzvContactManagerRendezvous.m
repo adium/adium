@@ -883,7 +883,7 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 		if ((err == kDNSServiceErr_Unknown) && !data) {
 			//Try to accept(2) a connection. May be the cause of a hang on Tiger; see #7887.
 			int socketFD = CFSocketGetNative(s);
-			int childFD = accept(s, /*addr*/ NULL, /*addrlen*/ NULL);
+			int childFD = accept(socketFD, /*addr*/ NULL, /*addrlen*/ NULL);
 			AILog(@"%@: Service ref %p received an unknown error with no data; perhaps mDNSResponder crashed? Result of calling accept(2) on fd %d is %d; will disconnect with error",
 				  self, [self serviceRef], socketFD, childFD);
 			//We don't actually *want* a connection, so close the socket immediately.

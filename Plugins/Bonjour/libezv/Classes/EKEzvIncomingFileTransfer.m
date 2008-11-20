@@ -278,11 +278,11 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	[permissionsToApply release]; permissionsToApply = nil;
 	return YES;
 }
-- (void)downloadURL:(NSURL *)url toPath:(NSString *)path
+- (void)downloadURL:(NSURL *)downloadURL toPath:(NSString *)path
 {
 	/* This should be easy.  We have a url and a location so let's download things to a location! */
 
-	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:downloadURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
 	NSString *value = [NSString stringWithString:@"AppleSingle"];
 	[theRequest addValue:value forHTTPHeaderField:@"Accept-Encoding"];
 

@@ -1,5 +1,6 @@
 #import "EKEzvFileTransfer.h"
 #import "EKEzvIncomingFileTransfer.h"
+#import "EKEzvOutgoingFileTransfer.h"
 
 @implementation EKEzvFileTransfer
 
