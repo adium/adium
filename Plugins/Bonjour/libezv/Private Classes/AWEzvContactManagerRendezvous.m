@@ -42,7 +42,7 @@
 
 #include <dns_sd.h>
 
-#include "sha1.h"
+#include <openssl/sha.h>
 
 /* One of the stupidest things I've ever met. Doing DNS lookups using the standard
  * functions does not for mDNS records work unless you're in BIND 8 compatibility
@@ -324,7 +324,7 @@ void image_register_reply (
 
 - (void)setImageData:(NSData *)JPEGData {
 	DNSServiceErrorType error;
-	SHA1_CTX ctx;
+	SHA_CTX ctx;
 	unsigned char digest[20];
 
 	if (avDNSReference == NULL) {
@@ -374,9 +374,9 @@ void image_register_reply (
 
 	if (error == kDNSServiceErr_NoError) {
 		/* Let's create the hash */
-		SHA1Init(&ctx);
-		SHA1Update(&ctx, [JPEGData bytes], [JPEGData length]);
-		SHA1Final(digest, &ctx);
+		SHA1_Init(&ctx);
+		SHA1_Update(&ctx, [JPEGData bytes], (unsigned long)[JPEGData length]);
+		SHA1_Final(digest, &ctx);
 		imagehash = [[NSData dataWithBytes:digest length:20] retain];
 		
 		[self updatePHSH];
