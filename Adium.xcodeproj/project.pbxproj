@@ -1057,7 +1057,6 @@
 		4947F6310655E90D00B791E5 /* AWEzvStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947F5FF0655E90D00B791E5 /* AWEzvStack.m */; };
 		4947F6330655E90D00B791E5 /* AWEzvXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947F6010655E90D00B791E5 /* AWEzvXMLNode.m */; };
 		4947F6350655E90D00B791E5 /* AWEzvXMLStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947F6030655E90D00B791E5 /* AWEzvXMLStream.m */; };
-		4947F6360655E90D00B791E5 /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = 4947F6040655E90D00B791E5 /* sha1.c */; };
 		49778165067F558700401CC7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34E839050583207E00F2AADB /* SystemConfiguration.framework */; };
 		4B03711606595A70008F5981 /* Template.html in Resources */ = {isa = PBXBuildFile; fileRef = 4B03711506595A70008F5981 /* Template.html */; };
 		4B08399507D2350D0034A001 /* AIDockIconSelectionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B08399307D2350D0034A001 /* AIDockIconSelectionSheet.m */; };
@@ -1184,6 +1183,7 @@
 		6341AEFF0E53A09C00AE1439 /* libexpat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6341AEFE0E53A09C00AE1439 /* libexpat.dylib */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
 		6360B25A0BF2EB93004CD99B /* AIWebKitDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */; };
+		636C6E4C0ED56C2A00E0E528 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
 		636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E2A2EE07B018B1006735BC /* AIAddressBookController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D92840E4E968A00E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
@@ -3807,23 +3807,6 @@
 		4947F5D30655E90C00B791E5 /* AWEzv.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzv.m; sourceTree = "<group>"; };
 		4947F5D40655E90C00B791E5 /* AWEzvContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContact.h; sourceTree = "<group>"; };
 		4947F5D50655E90C00B791E5 /* AWEzvContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContact.m; sourceTree = "<group>"; };
-		4947F5D70655E90C00B791E5 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
-		4947F5D80655E90C00B791E5 /* expat_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat_config.h; sourceTree = "<group>"; };
-		4947F5DA0655E90C00B791E5 /* ascii.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ascii.h; sourceTree = "<group>"; };
-		4947F5DB0655E90C00B791E5 /* asciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asciitab.h; sourceTree = "<group>"; };
-		4947F5DC0655E90C00B791E5 /* expat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = expat.h; sourceTree = "<group>"; };
-		4947F5DD0655E90C00B791E5 /* iasciitab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iasciitab.h; sourceTree = "<group>"; };
-		4947F5DE0655E90C00B791E5 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
-		4947F5DF0655E90C00B791E5 /* latin1tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = latin1tab.h; sourceTree = "<group>"; };
-		4947F5E00655E90C00B791E5 /* nametab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nametab.h; sourceTree = "<group>"; };
-		4947F5E10655E90C00B791E5 /* utf8tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8tab.h; sourceTree = "<group>"; };
-		4947F5E20655E90C00B791E5 /* xmlparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlparse.c; sourceTree = "<group>"; };
-		4947F5E30655E90C00B791E5 /* xmlrole.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmlrole.c; sourceTree = "<group>"; };
-		4947F5E40655E90C00B791E5 /* xmlrole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmlrole.h; sourceTree = "<group>"; };
-		4947F5E50655E90C00B791E5 /* xmltok.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok.c; sourceTree = "<group>"; };
-		4947F5E60655E90C00B791E5 /* xmltok.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok.h; sourceTree = "<group>"; };
-		4947F5E70655E90C00B791E5 /* xmltok_impl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_impl.c; sourceTree = "<group>"; };
-		4947F5E80655E90C00B791E5 /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
 		4947F5EB0655E90C00B791E5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4947F5ED0655E90C00B791E5 /* AWEzvDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvDefines.h; sourceTree = "<group>"; };
 		4947F5EE0655E90C00B791E5 /* AWEzvSupportRoutines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvSupportRoutines.h; sourceTree = "<group>"; };
@@ -3847,8 +3830,6 @@
 		4947F6010655E90D00B791E5 /* AWEzvXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvXMLNode.m; sourceTree = "<group>"; };
 		4947F6020655E90D00B791E5 /* AWEzvXMLStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvXMLStream.h; sourceTree = "<group>"; };
 		4947F6030655E90D00B791E5 /* AWEzvXMLStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvXMLStream.m; sourceTree = "<group>"; };
-		4947F6040655E90D00B791E5 /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
-		4947F6050655E90D00B791E5 /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
 		4B0149050733D3A4001A4C57 /* AICoreComponentLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AICoreComponentLoader.h; path = Source/AICoreComponentLoader.h; sourceTree = "<group>"; };
 		4B0149060733D3A5001A4C57 /* AICoreComponentLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICoreComponentLoader.m; path = Source/AICoreComponentLoader.m; sourceTree = "<group>"; };
 		4B03711506595A70008F5981 /* Template.html */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.html; name = Template.html; path = "Plugins/WebKit Message View/Template.html"; sourceTree = "<group>"; };
@@ -4119,6 +4100,8 @@
 		6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitDelegate.m; path = "Plugins/WebKit Message View/AIWebKitDelegate.m"; sourceTree = "<group>"; };
 		636AB7F1087E2B6700A87670 /* AIDockBadger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDockBadger.h; sourceTree = "<group>"; };
 		636AB7F2087E2B6700A87670 /* AIDockBadger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIDockBadger.m; sourceTree = "<group>"; };
+		636C6A1F0ED5675100E0E528 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = /System/Library/Frameworks/Kernel.framework; sourceTree = "<absolute>"; };
+		636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		636D8C970E4E95A500E5F558 /* AIAddressBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAddressBookController.m; path = "Frameworks/Adium Framework/Source/AIAddressBookController.m"; sourceTree = "<group>"; };
 		636D93660E4E9FD300E5F558 /* AdiumAddressBookAction_Yahoo.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_Yahoo.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Yahoo.scpt"; sourceTree = "<group>"; };
 		636D93670E4E9FD300E5F558 /* AdiumAddressBookAction_SMS.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_SMS.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_SMS.scpt"; sourceTree = "<group>"; };
@@ -4530,6 +4513,7 @@
 				49778165067F558700401CC7 /* SystemConfiguration.framework in Frameworks */,
 				3448761606D1EC3000DA778C /* Cocoa.framework in Frameworks */,
 				6341AEFF0E53A09C00AE1439 /* libexpat.dylib in Frameworks */,
+				636C6E4C0ED56C2A00E0E528 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4656,6 +4640,8 @@
 		29B97314FDCFA39411CA2CEA /* CocAIMe2 */ = {
 			isa = PBXGroup;
 			children = (
+				636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */,
+				636C6A1F0ED5675100E0E528 /* Kernel.framework */,
 				4BE9FFE7055981AB00359B15 /* Adium.pch */,
 				F59DB3D6033EA9CD01A8010A /* AIAdium.h */,
 				F59DB3D7033EA9CD01A8010A /* AIAdium.m */,
@@ -6289,7 +6275,6 @@
 			isa = PBXGroup;
 			children = (
 				4947F5D10655E90C00B791E5 /* Classes */,
-				4947F5D60655E90C00B791E5 /* expat */,
 				4947F5EB0655E90C00B791E5 /* LICENSE */,
 				4947F5EC0655E90C00B791E5 /* Other Sources */,
 				4947F5F10655E90D00B791E5 /* Private Classes */,
@@ -6308,38 +6293,6 @@
 				4947F5D50655E90C00B791E5 /* AWEzvContact.m */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		4947F5D60655E90C00B791E5 /* expat */ = {
-			isa = PBXGroup;
-			children = (
-				4947F5D70655E90C00B791E5 /* COPYING */,
-				4947F5D80655E90C00B791E5 /* expat_config.h */,
-				4947F5D90655E90C00B791E5 /* lib */,
-			);
-			path = expat;
-			sourceTree = "<group>";
-		};
-		4947F5D90655E90C00B791E5 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				4947F5DA0655E90C00B791E5 /* ascii.h */,
-				4947F5DB0655E90C00B791E5 /* asciitab.h */,
-				4947F5DC0655E90C00B791E5 /* expat.h */,
-				4947F5DD0655E90C00B791E5 /* iasciitab.h */,
-				4947F5DE0655E90C00B791E5 /* internal.h */,
-				4947F5DF0655E90C00B791E5 /* latin1tab.h */,
-				4947F5E00655E90C00B791E5 /* nametab.h */,
-				4947F5E10655E90C00B791E5 /* utf8tab.h */,
-				4947F5E20655E90C00B791E5 /* xmlparse.c */,
-				4947F5E30655E90C00B791E5 /* xmlrole.c */,
-				4947F5E40655E90C00B791E5 /* xmlrole.h */,
-				4947F5E50655E90C00B791E5 /* xmltok.c */,
-				4947F5E60655E90C00B791E5 /* xmltok.h */,
-				4947F5E70655E90C00B791E5 /* xmltok_impl.c */,
-				4947F5E80655E90C00B791E5 /* xmltok_impl.h */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 		4947F5EC0655E90C00B791E5 /* Other Sources */ = {
@@ -6379,8 +6332,6 @@
 				4947F6010655E90D00B791E5 /* AWEzvXMLNode.m */,
 				4947F6020655E90D00B791E5 /* AWEzvXMLStream.h */,
 				4947F6030655E90D00B791E5 /* AWEzvXMLStream.m */,
-				4947F6040655E90D00B791E5 /* sha1.c */,
-				4947F6050655E90D00B791E5 /* sha1.h */,
 			);
 			path = "Private Classes";
 			sourceTree = "<group>";
@@ -9870,7 +9821,6 @@
 				4947F6310655E90D00B791E5 /* AWEzvStack.m in Sources */,
 				4947F6330655E90D00B791E5 /* AWEzvXMLNode.m in Sources */,
 				4947F6350655E90D00B791E5 /* AWEzvXMLStream.m in Sources */,
-				4947F6360655E90D00B791E5 /* sha1.c in Sources */,
 				34F4675E080F46AC007800AB /* ESBonjourAccountViewController.m in Sources */,
 				34F46760080F46AC007800AB /* AWBonjourPlugin.m in Sources */,
 				34F46762080F46AC007800AB /* AWBonjourAccount.m in Sources */,
