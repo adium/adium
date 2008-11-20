@@ -42,6 +42,7 @@
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIMessageEntryTextView.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
+#import <Adium/AIServiceIcons.h>
 
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>

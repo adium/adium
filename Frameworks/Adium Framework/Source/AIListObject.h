@@ -15,9 +15,9 @@
  */
 
 #import <Adium/ESObjectWithProperties.h>
-#import <Adium/AIStatus.h>
+#import <Adium/AIStatusDefines.h>
 
-@class AIListObject, AIService, AIMutableOwnerArray, AIListGroup;
+@class AIListObject, AIStatus, AIService, AIMutableOwnerArray, AIListGroup;
 
 #define	KEY_ORDER_INDEX		@"Order Index"
 #define KEY_IS_BLOCKED		@"isBlocked"

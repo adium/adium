@@ -12,6 +12,7 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AddressBook/AddressBook.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIStatusIcons.h>
 
 #define WIDTH_PROFILE_HEADER	 100.0f
 

@@ -39,6 +39,7 @@
 #import <PSMTabBarControl/PSMAdiumTabStyle.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import "AIMessageTabSplitView.h"
+#import <Adium/AIStatusIcons.h>
 
 #define KEY_MESSAGE_WINDOW_POSITION 			@"Message Window"
 
