@@ -46,6 +46,7 @@
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <Adium/AIListContact.h>
 #import "AIAddressBookController.h"
 #import <Adium/AIContactHidingController.h>
 #import <Sparkle/Sparkle.h>
