@@ -16,11 +16,10 @@
 
 #import <Adium/AIListObject.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIListGroup.h>
 
 #define KEY_AB_UNIQUE_ID		@"AB Unique ID"
 
-@class ABPerson;
+@class ABPerson, AIListGroup;
 
 @interface AIListContact : AIListObject {
 	AIAccount	*account;
