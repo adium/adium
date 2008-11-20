@@ -118,7 +118,7 @@ void resolve_reply (
     const char *hosttarget, 
     uint16_t port, 
     uint16_t txtLen, 
-    const char *txtRecord, 
+    const unsigned char *txtRecord, 
     void *context );
 
 void AddressQueryRecordReply( DNSServiceRef DNSServiceRef, DNSServiceFlags flags, uint32_t interfaceIndex, 
@@ -819,7 +819,7 @@ void resolve_reply (DNSServiceRef sdRef,
 					const char *hosttarget, 
 					uint16_t port, 
 					uint16_t txtLen, 
-					const char *txtRecord, 
+					const unsigned char *txtRecord, 
 					void *context)
 {
 	if (errorCode == kDNSServiceErr_NoError) {

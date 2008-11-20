@@ -233,7 +233,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
     
     return self;
 }
-- (AWEzvRendezvousData *) initWithTXTRecordRef:(const char *) txtRecord length:(uint16_t)len{
+- (AWEzvRendezvousData *) initWithTXTRecordRef:(const unsigned char *) txtRecord length:(uint16_t)len{
 	
 	self = [self init];
     
