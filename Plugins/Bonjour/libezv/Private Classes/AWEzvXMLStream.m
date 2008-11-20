@@ -34,7 +34,7 @@
 #import "AWEzvXMLStream.h"
 #import "AWEzvXMLNode.h"
 #import "AWEzvStack.h"
-
+#import <AIUtilities/AIStringAdditions.h>
 #import "AWEzvSupportRoutines.h"
 
 #define XMLCALL

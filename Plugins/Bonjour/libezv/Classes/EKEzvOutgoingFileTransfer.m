@@ -7,7 +7,8 @@
 //
 
 #import "EKEzvOutgoingFileTransfer.h"
-
+#import "AWEzv.h"
+#import "AWEzvContactManager.h"
 
 #define APPLE_SINGLE_HEADER_LENGTH 26
 #define APPLE_SINGLE_MAGIC_NUMBER 0x00051600
@@ -170,10 +171,9 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		directoryXMLData = [[self generateDirectoryXML] retain];
 		/* Now we need to get the NSData for each item in the directory */
 		NSFileManager *fileManager = [NSFileManager defaultManager];
-		NSDirectoryEnumerator *enumerator = [fileManager enumeratorAtPath:[self localFilename]];
-		NSString *file;
 		NSString *basePath = [[self localFilename] stringByAppendingString:@"/"];
-		while (file = [enumerator nextObject]) {
+		
+		for (NSString *file in [fileManager enumeratorAtPath:[self localFilename]]) {
 			NSString *fullPath = [basePath stringByAppendingString:file];
 
 			BOOL exists = NO;
@@ -269,13 +269,11 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	 **/
 	NSMutableArray *children = [NSMutableArray arrayWithCapacity:10];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSEnumerator *enumerator = [[fileManager directoryContentsAtPath:basePath] objectEnumerator];
 
-	NSString *file;
-	while (file = [enumerator nextObject]) {
+	for (NSString *file in [fileManager directoryContentsAtPath:basePath]){
 		NSString *newPath = [basePath stringByAppendingPathComponent:file];
-		bool exists = NO;
-		bool directory = NO;
+		BOOL exists = NO;
+		BOOL directory = NO;
 		exists = [fileManager fileExistsAtPath:newPath isDirectory:&directory];
 		if (!exists) {
 			[[[[self manager] client] client] reportError:@"File to transfer no longer exists." ofLevel:AWEzvError];
@@ -298,9 +296,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 			NSArray *dirChildren = [self generateXMLFromDirectory:newPath];
 
-			NSEnumerator *dirEnumerator = [dirChildren objectEnumerator];
-			NSXMLElement *child;
-			while (child = [dirEnumerator nextObject]) {
+			for (NSXMLElement *child in dirChildren) {
 				[directory addChild:child];
 			}
 
@@ -318,7 +314,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 				[fileXML addAttribute:[NSXMLNode attributeWithName:@"posixflags" stringValue:posixFlags]];
 			}
 			NSString *sizeString = [self sizeForPath:newPath];
-			if (size != nil) {
+			if (size != 0) {
 				[fileXML addAttribute:[NSXMLNode attributeWithName:@"size" stringValue:sizeString]];
 			}
 
@@ -406,7 +402,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	FSRef ref;
 	FSCatalogInfo catalogInfo;
 	OSStatus err;
-	BOOL itemIsDirectory = NO;
+	Boolean itemIsDirectory = NO;
 	err = FSPathMakeRef((const UInt8 *)[filePath fileSystemRepresentation], &ref, &itemIsDirectory);
 	if (err != noErr) {
 		[[[[self manager] client] client] reportError:@"AppleSingle: Error creating FSRef" ofLevel:AWEzvError];

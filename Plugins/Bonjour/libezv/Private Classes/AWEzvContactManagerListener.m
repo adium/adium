@@ -34,6 +34,7 @@
 #import "AWEzvContact.h"
 #import "AWEzvContactPrivate.h"
 #import "AWEzvXMLStream.h"
+#import "AWEzv.h"
 
 /* socket functions */
 #include <sys/socket.h>
