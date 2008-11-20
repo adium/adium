@@ -25,6 +25,7 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
+#import <Adium/AIStatus.h>
 
 #define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"

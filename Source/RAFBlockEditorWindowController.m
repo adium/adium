@@ -16,6 +16,7 @@
 #import <Adium/AIAccountMenu.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIService.h>
 
 @interface RAFBlockEditorWindowController ()
