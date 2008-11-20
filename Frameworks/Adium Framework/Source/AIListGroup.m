@@ -19,6 +19,7 @@
 #import <Adium/AISortController.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
+#import <Adium/AIListContact.h>
 
 @implementation AIListGroup
 

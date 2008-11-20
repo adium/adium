@@ -10,6 +10,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <Adium/AIListContact.h>
 
 @interface ESAuthorizationRequestWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName withDict:(NSDictionary *)inInfoDict forAccount:(AIAccount *)inAccount;
