@@ -64,7 +64,6 @@ typedef enum {
 - (NSString *)UIDForContact:(AWEzvContact *)contact;
 
 - (void)setAccountIdleTo:(NSDate *)idle;
-- (void)setAccountUserImage:(NSImage *)image;
 - (void)setStatus:(AWEzvStatus)status withMessage:(NSAttributedString *)message;
 @end
 
