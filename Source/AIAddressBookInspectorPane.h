@@ -6,15 +6,13 @@
 //  Copyright 2008 Adium. All rights reserved.
 //
 
-#import <Adium/AIListObject.h>
-#import <Adium/AIListContact.h>
 #import <AIContactInfoContentController.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <AIUtilities/AIDelayedTextField.h>
+
+@class AIDelayedTextField;
 
 @interface AIAddressBookInspectorPane : NSObject <AIContentInspectorPane> {
 	IBOutlet	NSView					*inspectorContentView;
-				AIListObject			*displayedObject;
+	AIListObject			*displayedObject;
 	
 	IBOutlet	NSTextField				*label_notes;
 	IBOutlet	AIDelayedTextField		*contactNotes;

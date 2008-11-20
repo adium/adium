@@ -14,6 +14,18 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIListGroup.h>
+#import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIMetaContact.h>
+#import <Adium/AIService.h>
+#import <Adium/AIServiceIcons.h>
+#import <Adium/AIContentControllerProtocol.h>
+#import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AITextAttributes.h>
+#import <AIContactInfoImageViewWithImagePicker.h>;
+#import <AIUtilities/AIDelayedTextField.h>
 
 #define WIDTH_PROFILE_HEADER	 100.0f
 
