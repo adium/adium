@@ -36,6 +36,10 @@
 #import "AWEzvXMLNode.h"
 #import "AWEzvXMLStream.h"
 #import "AWEzvRendezvousData.h"
+#import "AWEzvContactManager.h"
+#import "AWEzv.h"
+#import "EKEzvFileTransfer.h"
+
 #include "sha1.h"
 
 @implementation AWEzvContact

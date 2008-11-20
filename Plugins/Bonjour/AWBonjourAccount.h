@@ -23,9 +23,7 @@
  */
  
 #import <Adium/AIAccount.h>
-
-@protocol AWEzvClientProtocol;
-@class AWEzv;
+#import "AWEzv.h"
 
 @interface AWBonjourAccount : AIAccount <AWEzvClientProtocol, AIAccount_Files> {
     AWEzv				*libezv;

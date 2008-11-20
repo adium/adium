@@ -38,6 +38,8 @@
 #import "AWEzvRendezvousData.h"
 #import "AWEzvSupportRoutines.h"
 #import "EKEzvFileTransfer.h"
+#import "AWEzvContactManagerRendezvous.h"
+#import "EKEzvIncomingFileTransfer.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>

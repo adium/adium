@@ -170,7 +170,7 @@ void image_register_reply (
 		computerName = CFUUIDCreateString(NULL, uuid);
 		CFRelease(uuid);		
 	}
-    avInstanceName = [NSString stringWithFormat:@"%@@%@", (consoleUser ? consoleUser : @""), (computerName ? computerName : @"")];
+    avInstanceName = [NSString stringWithFormat:@"%@@%@", (consoleUser ? (NSString *)consoleUser : @""), (computerName ? (NSString *)computerName : @"")];
 	if (consoleUser) CFRelease(consoleUser);
 	if (computerName) CFRelease(computerName);
 	[avInstanceName retain];

@@ -485,18 +485,13 @@ NSString	*endn = @"\x00\x00\x00\x00";
 	//AWEzvLog(@"dataAsTXTRecordRef called");
 	TXTRecordRef txtRecord;
 	DNSServiceErrorType txtRecordError;
-	NSString *key;
-	NSEnumerator *enumerator;
 	id value;
-	id valueToSet;
+	char *valueToSet;
 	uint8_t valueSize;
 	TXTRecordCreate(/* TXTRecordRef */ &txtRecord, /* buffer length */ 0, /* buffer */ NULL);
 	
 	/* Enumerate through keys setting the txtrecordvalue */
-	enumerator = [keys keyEnumerator];
-    
-	while (key = [enumerator nextObject]) {
-		
+	for (NSString *key in [keys keyEnumerator]) {		
 		value = [keys objectForKey:key];
 		 //AWEzvLog(@"key=%@ value=%@", key, value);
 		
