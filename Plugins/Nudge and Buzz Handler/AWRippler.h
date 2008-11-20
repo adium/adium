@@ -28,7 +28,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import <AIUtilities/AIWindowAdditions.h>
 

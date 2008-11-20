@@ -33,8 +33,6 @@
 #include "AWEzvSupportRoutines.h"
 #include <stdarg.h>
 
-#import <Foundation/Foundation.h>
-
 void AWEzvLog (NSString *format, ...) {
     va_list ap;
     va_start(ap, format);

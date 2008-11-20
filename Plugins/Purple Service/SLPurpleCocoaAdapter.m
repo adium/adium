@@ -34,8 +34,7 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIImageAdditions.h>
 
-#import <CoreFoundation/CFRunLoop.h>
-#import <CoreFoundation/CFSocket.h>
+#import <CoreFoundation/CoreFoundation.h>
 #include <libpurple/libpurple.h>
 #include <glib.h>
 #include <stdlib.h>

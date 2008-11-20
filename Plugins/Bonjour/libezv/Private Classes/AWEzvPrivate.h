@@ -31,7 +31,6 @@
  */
 
 #import "AWEzv.h"
-#import <Foundation/Foundation.h>
 
 @interface AWEzv (Private)
 - (NSString *) name;
