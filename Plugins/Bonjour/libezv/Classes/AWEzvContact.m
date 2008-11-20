@@ -40,8 +40,6 @@
 #import "AWEzv.h"
 #import "EKEzvFileTransfer.h"
 
-#include "sha1.h"
-
 @implementation AWEzvContact
 - (NSString *)uniqueID
 {
