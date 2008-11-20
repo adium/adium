@@ -81,15 +81,16 @@
 	}
 }
 
-- (void) setContactImageData:(NSImage *)contactImageData
+- (void) setContactImageData:(NSData *)contactImageData
 {
+	
     if (_contactImageData != contactImageData) {
 		[_contactImageData release];
 		_contactImageData = [contactImageData retain];
 	}
 }
 
-- (NSImage *) contactImageData
+- (NSData *) contactImageData
 {
     return _contactImageData;
 }

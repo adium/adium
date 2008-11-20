@@ -147,7 +147,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 		terminator:(NSData *)e
 	  bufferOffset:(CFIndex)b
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		buffer = [d retain];
 		timeout = t;
@@ -186,9 +186,9 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 
 @implementation AsyncWritePacket
 
-- (id)initWithData:(NSData *)d timeout:(NSTimeInterval)t tag:(long)i;
+- (id)initWithData:(NSData *)d timeout:(NSTimeInterval)t tag:(long)i
 {
-	if(self = [super init])
+	if ((self = [super init]))
 	{
 		buffer = [d retain];
 		timeout = t;

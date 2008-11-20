@@ -6,6 +6,7 @@
 //
 
 #import "EKEzvIncomingFileTransfer.h"
+#import "AWEzv.h"
 
 #define APPLE_SINGLE_HEADER_LENGTH 26
 #define APPLE_SINGLE_MAGIC_NUMBER 0x00051600
@@ -511,7 +512,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		/*Now apply attributes */
 		FSRef ref;
 		OSStatus err;
-		BOOL isDirectory = NO;
+		Boolean isDirectory = NO;
 		err = FSPathMakeRef((const UInt8 *)[path fileSystemRepresentation], &ref, &isDirectory);
 		if (err != noErr) {
 			[[[manager client] client] reportError:@"AppleSingle: Error creating FSRef" ofLevel: AWEzvError];
