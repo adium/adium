@@ -22,6 +22,8 @@
 #import <Adium/AIService.h>
 #import <Adium/AIChat.h>
 #import <Adium/ESFileTransfer.h>
+#import "AIStatusItem.h"
+#import "AIStatus.h"
 #import "AdiumAccounts.h"
 
 #import <AIChatCommandsController.h>

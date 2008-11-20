@@ -25,6 +25,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/ESFileTransfer.h>
+#import <Adium/AIStatus.h>
 #import <Adium/AIHTMLDecoder.h>
 
 #import <AIUtilities/AIMutableOwnerArray.h>

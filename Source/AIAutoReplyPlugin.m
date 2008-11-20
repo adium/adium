@@ -23,6 +23,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
+#import <Adium/AIStatus.h>
 #import <Adium/AIContentObject.h>
 
 /*!

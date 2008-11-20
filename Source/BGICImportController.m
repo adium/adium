@@ -25,6 +25,7 @@
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIStatusGroup.h>
 #import <Adium/AIAccountControllerProtocol.h>
+#import <Adium/AIStatus.h>
 
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>

@@ -1,4 +1,3 @@
-#import <Adium/Adium.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIWindowShaker.h"
 #import "AWRippler.h"
