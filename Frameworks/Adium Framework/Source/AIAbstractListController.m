@@ -23,15 +23,17 @@
 #import <Adium/AIListContactBubbleToFitCell.h>
 #import <Adium/AIListContactCell.h>
 #import <Adium/AIListContactMockieCell.h>
-#import <Adium/AIListGroup.h>
 #import <Adium/AIListGroupBubbleCell.h>
 #import <Adium/AIListGroupBubbleToFitCell.h>
 #import <Adium/AIListGroupCell.h>
 #import <Adium/AIListGroupMockieCell.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIListGroup.h>
+#import <Adium/AIMetaContact.h>
+#import <Adium/AIContactList.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIColorAdditions.h>
@@ -45,7 +47,6 @@
 #import "AIChatController.h"
 #import "AISCLViewPlugin.h"
 #import "AICoreComponentLoader.h"
-#import <Adium/AIContactList.h>
 
 #define CONTENT_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
 #define STATUS_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
@@ -751,7 +752,8 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 
 	// Remove this contact list if from drag & drop operation took the last group away
-	if (contactList.uniqueContainedObjects.count == 0) {
+	// XXX what the heck? why does it want a cast here... that shouldn't be necessary
+	if (((id<AIContainingObject>)contactList).containedObjectsCount == 0) {
 		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}
