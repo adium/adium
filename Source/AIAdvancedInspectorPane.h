@@ -6,28 +6,9 @@
 //  Copyright 2008 The Adium Team. All rights reserved.
 //
 
-#import <Adium/AIListObject.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIChat.h>
-#import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <AIUtilities/AIMenuAdditions.h>
-#import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AIStringFormatter.h>
 #import <AIContactInfoContentController.h>
 
-//imports from old accounts pane
-#import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
-#import <AIUtilities/AIArrayAdditions.h>
-#import <Adium/AIAccount.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListGroup.h>
-#import <Adium/AILocalizationTextField.h>
-#import <Adium/AIMetaContact.h>
-
-@class AIAccountMenu;
+@class AIAccountMenu, AIAlternatingRowTableView;
 
 @interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane> {
 	IBOutlet	NSView							*inspectorContentView;

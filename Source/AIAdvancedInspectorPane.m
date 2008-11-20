@@ -9,6 +9,21 @@
 #import "AIAdvancedInspectorPane.h"
 #import <Adium/AIAccountMenu.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
+#import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIChat.h>
+#import <Adium/AIAccountControllerProtocol.h>
+#import <AIUtilities/AIAlternatingRowTableView.h>
+#import <AIUtilities/AIArrayAdditions.h>
+#import <Adium/AIAccount.h>
+#import <Adium/AIListGroup.h>
+#import <Adium/AILocalizationTextField.h>
+#import <Adium/AIMetaContact.h>
+#import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIContentControllerProtocol.h>
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIPopUpButtonAdditions.h>
+#import <AIUtilities/AIStringFormatter.h>
 
 #define ADVANCED_NIB_NAME (@"AIAdvancedInspectorPane")
 

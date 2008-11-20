@@ -7,23 +7,13 @@
 //
 
 #import <AIContactInfoContentController.h>
-#import <Adium/AIListObject.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIMetaContact.h>
-#import <Adium/AIService.h>
-#import <Adium/AIServiceIcons.h>
 #import <Adium/AIContactObserverManager.h>
-#import <Adium/AIContentControllerProtocol.h>
-#import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import <AIUtilities/AIStringAdditions.h>
-#import <AIUtilities/AITextAttributes.h>
-#import <AIContactInfoImageViewWithImagePicker.h>;
-#import <AIUtilities/AIDelayedTextField.h>
+
+@class AIContactInfoImageViewWithImagePicker, AIDelayedTextField;
 
 @interface AIInfoInspectorPane : NSObject <AIContentInspectorPane, AIListObjectObserver> {	
 	
-			 AIListObject							*displayedObject;
+	AIListObject											*displayedObject;
 	IBOutlet NSView									*inspectorContentView;
 
 	IBOutlet AIContactInfoImageViewWithImagePicker	*userIcon;
