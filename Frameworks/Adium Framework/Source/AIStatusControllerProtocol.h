@@ -8,9 +8,9 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
-#import <Adium/AIStatus.h>
+#import <Adium/AIStatusDefines.h>
 
-@class AIStatus,AIAccount;
+@class AIStatus, AIAccount, AIStatusGroup, AIService;
 
 //Status State Notifications
 #define AIStatusStateArrayChangedNotification	@"AIStatusStateArrayChangedNotification"

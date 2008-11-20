@@ -27,6 +27,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
 #import "AIHTMLDecoder.h"
+#import <Adium/AIStatus.h>
 
 @implementation ESApplescriptabilityController
 
