@@ -36,6 +36,7 @@
 #import "AWEzvStack.h"
 #import <AIUtilities/AIStringAdditions.h>
 #import "AWEzvSupportRoutines.h"
+#import "AWEzvContactManager.h"
 
 #define XMLCALL
 #include <expat.h> 
