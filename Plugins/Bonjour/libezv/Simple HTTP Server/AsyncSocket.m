@@ -99,7 +99,6 @@ enum AsyncSocketFlags
 - (void) doWriteTimeout:(NSTimer *)timer;
 
 // Callbacks
-- (void) doCFCallback:(CFSocketCallBackType)type forSocket:(CFSocketRef)sock withAddress:(NSData *)address withData:(const void *)pData;
 - (void) doCFReadStreamCallback:(CFStreamEventType)type forStream:(CFReadStreamRef)stream;
 - (void) doCFWriteStreamCallback:(CFStreamEventType)type forStream:(CFWriteStreamRef)stream;
 

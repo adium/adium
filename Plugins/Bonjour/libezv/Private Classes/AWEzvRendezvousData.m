@@ -486,7 +486,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
 	TXTRecordRef txtRecord;
 	DNSServiceErrorType txtRecordError;
 	id value;
-	char *valueToSet;
+	const char *valueToSet;
 	uint8_t valueSize;
 	TXTRecordCreate(/* TXTRecordRef */ &txtRecord, /* buffer length */ 0, /* buffer */ NULL);
 	
