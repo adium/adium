@@ -17,6 +17,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
 #import <Adium/AIMessageEntryTextView.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/ESFileWrapperExtension.h>
