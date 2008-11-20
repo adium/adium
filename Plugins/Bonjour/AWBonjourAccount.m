@@ -29,6 +29,7 @@
 #import "EKEzvOutgoingFileTransfer.h"
 #import "AWEzvDefines.h"
 #import "AWBonjourPlugin.h"
+#import "AWEzvSupportRoutines.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -42,8 +43,10 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
 #import <Adium/NDRunLoopMessenger.h>
+#import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIObjectAdditions.h>
+#import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
 
 static	NSConditionLock     *threadPreparednessLock = nil;
@@ -53,7 +56,7 @@ static	AWEzv               *_libezvThreadProxy = nil;
 typedef enum {
 	AIThreadPreparing = 0,
 	AIThreadReady
-};
+} AIThreadState;
 
 #define	AUTORELEASE_POOL_REFRESH	5.0
 
@@ -188,7 +191,6 @@ typedef enum {
 	AIListContact   *listContact;
 	NSString        *contactName, *statusMessage;
 	NSDate          *idleSinceDate;
-	NSImage         *contactImage;
 	
 	listContact = [adium.contactController contactWithService:service
 	                                                    account:self
@@ -591,7 +593,7 @@ typedef enum {
 - (void)remoteCanceledFileTransfer:(EKEzvFileTransfer *)fileTransfer
 {
 	ESFileTransfer *transfer = [ESFileTransfer existingFileTransferWithID: [fileTransfer uniqueID]];
-	[[self libezvThreadProxy] transferCancelled:transfer];
+	[[self libezvThreadProxy] transferCancelled:fileTransfer];
 	[self mainPerformSelector:@selector(mainThreadCancelFileTransferRemotely:)
 	               withObject:transfer];
 }
@@ -764,7 +766,7 @@ typedef enum {
 - (void)threadWillExit:(NSNotification *)inNotification
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self
-	                                            selector:@selector(threadWillExit:) 
+																																	name:NSThreadWillExitNotification
 	                                              object:[inNotification object]];
 
 	[self clearBonjourThreadInfo];

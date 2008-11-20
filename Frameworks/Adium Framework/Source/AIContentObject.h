@@ -167,7 +167,7 @@
  *	@return	The current message.
  */
 @property (nonatomic, retain) NSAttributedString *message;
-
+@property (readonly, nonatomic) NSString *messageString;
 /*!	@brief	Get an array of CSS class names with which this content should be displayed.
  *
  *	@par	You should use these classes whenever inserting the content into an HTML or XHTML document, or anywhere else where CSS would be used with the content.

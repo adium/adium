@@ -153,6 +153,8 @@
  * This existed for AppleScript support of obtaining the message string in 1.1 and below.  I don't believe it worked -eds.
  * It will likely no longer be necessary with the GSoC 2007 Applescripting changes.  I've removed it from the public API
  * but left it here for now. -eds
+ *
+ * Bonjour still uses this. If it doesn't work, we need to fix it or transition bonjour off of it.
  */
 - (NSString *)messageString
 {
