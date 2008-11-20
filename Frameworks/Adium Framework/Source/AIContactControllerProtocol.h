@@ -7,8 +7,9 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
-#import <Adium/AIListContact.h>
-#import <Adium/AIListObject.h>
+
+@class AIListObject, AIListContact, AIChat;
+@protocol AIContainingObject;
 
 #define ListObject_AttributesChanged			@"ListObject_AttributesChanged"
 #define ListObject_StatusChanged				@"ListObject_StatusChanged"

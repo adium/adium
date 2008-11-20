@@ -15,7 +15,7 @@
  */
 
 #import "ESPurpleGaduGaduAccountViewController.h"
-
+#import <Adium/AIListContact.h>
 
 @implementation ESPurpleGaduGaduAccountViewController
 
