@@ -5,9 +5,9 @@
 //  Created by Chloe Haney on 19/07/07.
 //
 
-#import <AIListContact.h>
-#import <AIAccount.h>
-#import <AIListGroup.h>
+#import "AIListContact.h"
+
+@class AIChat;
 
 @interface AIListBookmark : AIListContact <NSCoding> {
 	NSDictionary *chatCreationDictionary;

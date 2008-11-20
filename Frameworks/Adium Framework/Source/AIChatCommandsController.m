@@ -7,6 +7,11 @@
 //
 
 #import "AIChatCommandsController.h"
+#import "AIChat.h"
+#import <AIUtilities/AICompletingTextField.h>
+#import "AIMetaContact.h"
+#import "AIAccount.h"
+
 @interface AIChatCommandsController ()
 - (void)verifyCommand:(NSString*)command forChat:(AIChat*)chat;
 @end
