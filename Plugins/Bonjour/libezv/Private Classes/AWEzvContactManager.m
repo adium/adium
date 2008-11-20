@@ -85,6 +85,7 @@
 
 - (NSString *)myInstanceName {
 	NSAssert(NO, @"AWEzvContactManager -myInstanceName: This should not be reached");
+	return nil;
 }
 
 @end
