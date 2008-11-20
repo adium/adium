@@ -2,12 +2,7 @@
 #import "EKEzvIncomingFileTransfer.h"
 
 @implementation EKEzvFileTransfer
-- (id)init
-{
-	if ((self = [super init])) {	
-	}
-	return self;
-}
+
 - (void)dealloc
 {
 	[self setContact:nil];

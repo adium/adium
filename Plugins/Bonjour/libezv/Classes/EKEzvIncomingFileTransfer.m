@@ -7,6 +7,7 @@
 
 #import "EKEzvIncomingFileTransfer.h"
 #import "AWEzv.h"
+#import "AWEzvContactManager.h"
 
 #define APPLE_SINGLE_HEADER_LENGTH 26
 #define APPLE_SINGLE_MAGIC_NUMBER 0x00051600
@@ -125,9 +126,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	permissionsToApply = [[NSMutableDictionary  alloc] initWithCapacity:10];
 		
 	/*Call downloadFolder:path:url: for dir children */
-	NSEnumerator *enumerator = [[root elementsForName:@"dir"] objectEnumerator];
-	NSXMLElement *nextElement;
-	while (nextElement = [enumerator nextObject]) {
+	for (NSXMLElement *nextElement in [root elementsForName:@"dir"]) {
 		folderSuccess = [self downloadFolder:nextElement path:localFilename url:[self url]];
 	}
 	
