@@ -100,8 +100,8 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 
-	bool isDirectory = NO;
-	bool exists = [fileManager fileExistsAtPath:localFilename isDirectory:&isDirectory];
+	BOOL isDirectory = NO;
+	BOOL exists = [fileManager fileExistsAtPath:localFilename isDirectory:&isDirectory];
 	if (exists && isDirectory) {
 		/*We need to remove this file*/
 		if (![fileManager removeItemAtPath:localFilename error:NULL]) {
@@ -132,25 +132,22 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	}
 	
 	/*Call downloadFolder:path:url: for file children */
-	enumerator = [[root elementsForName:@"file"] objectEnumerator];
-	while (nextElement = [enumerator nextObject]) {
+	for (NSXMLElement *nextElement in [root elementsForName:@"file"]) {
 		fileSuccess = [self downloadFolder:nextElement path:localFilename url:[self url]];
 	}
 	
 	if (folderSuccess && fileSuccess) {
 
 		/*Now go through itemsToDownload and download the files*/
-		NSEnumerator *enumerator = [itemsToDownload keyEnumerator];
-		NSString *path;
-		NSURL *url;
-		while ((path = [enumerator nextObject])) {
+		NSURL *downloadURL;
+		for (NSString* path in [itemsToDownload keyEnumerator]) {
 			/* code that uses the returned key */
-			url = [itemsToDownload valueForKey:path];
-			if (url) {
-				[self downloadURL:url toPath:path];
-				url = nil;
+			downloadURL = [itemsToDownload valueForKey:path];
+			if (downloadURL) {
+				[self downloadURL:downloadURL toPath:path];
+				downloadURL = nil;
 			} else {
-				[[[[self manager] client] client] reportError:[NSString stringWithFormat:@"Error downloading file from %@ to %@", url, path] ofLevel:AWEzvError];
+				[[[[self manager] client] client] reportError:[NSString stringWithFormat:@"Error downloading file from %@ to %@", downloadURL, path] ofLevel:AWEzvError];
 				[[[[self manager] client] client] remoteCanceledFileTransfer:self];
 			}
 		}
@@ -215,17 +212,15 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		bool fileSuccess = YES;
 		/* Now call downloadFolder for dir and file children */
 		NSString *newURL = [rootURL stringByAppendingPathComponent:[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-		NSEnumerator *enumerator = [[root elementsForName:@"dir"] objectEnumerator];
-		NSXMLElement *nextElement;
-		while (nextElement = [enumerator nextObject]) {
+
+		for (NSXMLElement *nextElement in [root elementsForName:@"dir"]) {
 			folderSuccess = [self downloadFolder:nextElement path:newPath url:newURL];
 		}
-		enumerator = [[root elementsForName:@"file"] objectEnumerator];
-		while (nextElement = [enumerator nextObject]) {
+		for (NSXMLElement *nextElement in [root elementsForName:@"file"]) {
 			fileSuccess = [self downloadFolder:nextElement path:newPath url:newURL];
 		}
-		return (fileSuccess && folderSuccess);
-	} else{
+		return fileSuccess && folderSuccess;
+	} else {
 		[[[[self manager] client] client] reportError:@"Error, attempting to download something which is not a directory or a file." ofLevel: AWEzvError];
 		
 		return NO;
@@ -245,11 +240,11 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSDictionary *attributes = NULL;
 	if (posixFlags) {
 		NSScanner *scanner;
-		int tempInt;
+		unsigned tempInt;
 
 		scanner = [NSScanner scannerWithString:posixFlags];
 		[scanner scanHexInt:&tempInt];
-		NSNumber *number = [NSNumber numberWithInt:tempInt];
+		NSNumber *number = [NSNumber numberWithUnsignedInt:tempInt];
 
 		attributes = [NSMutableDictionary dictionary];
 		[attributes setValue:number forKey:@"NSFilePosixPermissions"];
