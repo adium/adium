@@ -31,4 +31,6 @@
     NSString			*savedAwayMessage;
 }
 
+- (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer;
+
 @end

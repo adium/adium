@@ -65,6 +65,8 @@
 - (void) sendFile:(NSString *)filename to:(NSString *)contact size:(size_t)size;
 
 - (void) startOutgoingFileTransfer:(EKEzvOutgoingFileTransfer *)transfer;
+- (void)transferCancelled:(EKEzvFileTransfer *)transfer;
+- (void) transferAccepted:(EKEzvFileTransfer *)transfer withFileName:(NSString *)fileName;
 @end
 
 

@@ -63,9 +63,12 @@
 @property (readwrite, nonatomic) AIFileTransferType fileTransferType;
 @property (readwrite, nonatomic) AIFileTransferStatus status;
 
+- (void)setPercentDone:(NSNumber *)percent bytes:(NSNumber *)bytes;
 - (void)setPercentDone:(float)inPercent bytesSent:(unsigned long long)inBytesSent;
 @property (readonly, nonatomic) float percentDone;
 @property (readonly, nonatomic) unsigned long long bytesSent;
+- (void)setSizeWithNumber:(NSNumber *)newSize;
+- (NSNumber *)sizeNumber;
 
 @property (readwrite, nonatomic, retain) id accountData;
 
