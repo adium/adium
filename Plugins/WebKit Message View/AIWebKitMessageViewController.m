@@ -32,6 +32,7 @@
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIEmoticon.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIMetaContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>

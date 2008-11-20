@@ -5,11 +5,9 @@
 //  Created by Chloe Haney on 11/07/07.
 //
 
-#import <AIAccount.h>
-#import "AIChat.h"
 #import "AIWindowController.h"
-#import "AIUtilities/AICompletingTextField.h"
-#import "AIMetaContact.h"
+
+@class AIChat, AIAccount, AIMetaContact, AICompletingTextField;
 
 @interface AIChatCommandsController : AIWindowController 
 {
@@ -18,11 +16,10 @@
 	IBOutlet				id								label_comment;
 	IBOutlet				AICompletingTextField			*textField_target;
 	IBOutlet				NSTextField						*textField_comment;
-							id								delegate;
-							NSMutableDictionary				*parameters;
-							NSMutableString					*nibToLoad;
-							AIChatCommandsController *newChatCommandsController;
-
+	id								delegate;
+	NSMutableDictionary				*parameters;
+	NSMutableString					*nibToLoad;
+	AIChatCommandsController *newChatCommandsController;
 }
 
 + (void)showCommand:(NSString *)command forChat:(AIChat *)chat;

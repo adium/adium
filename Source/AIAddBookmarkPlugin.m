@@ -16,6 +16,7 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIListBookmark.h>
 
 #define ADD_BOOKMARKTOOLBAR_ITEM_IDENTIFIER		@"AddBookmark"
