@@ -1,5 +1,3 @@
-#import <Cocoa/Cocoa.h>
-
 #import "ESPurpleJabberAccount.h"
 
 @class AMPurpleJabberAdHocCommand;

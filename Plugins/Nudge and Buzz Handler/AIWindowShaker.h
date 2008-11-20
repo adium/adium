@@ -1,6 +1,3 @@
-#import <Cocoa/Cocoa.h>
-
-
 @interface AIWindowShaker : AIPlugin {
 
 }
