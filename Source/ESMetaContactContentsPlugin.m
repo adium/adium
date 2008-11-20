@@ -25,6 +25,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
+#import <Adium/AIStatusIcons.h>
 
 #define META_TOOLTIP_ICON_SIZE NSMakeSize(11,11)
 

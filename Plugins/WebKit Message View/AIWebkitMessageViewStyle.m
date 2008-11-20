@@ -33,6 +33,7 @@
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContentControllerProtocol.h>
+#import <Adium/AIStatusIcons.h>
 
 //
 #define LEGACY_VERSION_THRESHOLD		3	//Styles older than this version are considered legacy

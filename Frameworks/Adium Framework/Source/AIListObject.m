@@ -25,6 +25,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContactHidingController.h>
+#import <Adium/AIStatus.h>
 
 #define ObjectStatusCache	@"Object Status Cache"
 #define DisplayName			@"Display Name"
