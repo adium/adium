@@ -6,8 +6,6 @@
 //  Copyright 2008 Adium X / Saltatory Software. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @class AIListContact;
 
 @interface AIFacebookBuddyProfileManager : NSObject {

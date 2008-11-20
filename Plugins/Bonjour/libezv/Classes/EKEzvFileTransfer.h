@@ -1,6 +1,4 @@
 #import <Cocoa/Cocoa.h>
-#import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import "AWEzvContact.h"
 
 typedef enum {
