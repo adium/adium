@@ -5,7 +5,7 @@
 //  Created by Evan Schoenberg on 1/8/08.
 //
 
-#import <Adium/AIListObject.h>
+@class AIListObject;
 
 @interface AIPreferenceContainer : NSObject {
 	NSString			*group;

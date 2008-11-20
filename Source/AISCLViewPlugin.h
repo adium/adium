@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIPlugin.h>
-#import <Adium/AIListContact.h>
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
@@ -29,7 +28,7 @@
 
 #define DetachedContactListIsEmpty		@"DetachedContactListIsEmpty"
 
-@class AIListWindowController, AICLPreferences, ESContactListAdvancedPreferences;
+@class AIListWindowController, AICLPreferences, AIListContact, ESContactListAdvancedPreferences;
 
 @protocol AIMultiContactListComponent;
 

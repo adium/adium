@@ -7,7 +7,6 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
-#import <Adium/AIListContact.h>
 
 #define	FileTransfer_NewFileTransfer	@"NewFileTransfer"
 
@@ -44,7 +43,7 @@ typedef enum {
     AutoAccept_FromContactList,
 } AIFileTransferAutoAcceptType;
 
-@class ESFileTransfer, AIAccount;
+@class ESFileTransfer, AIAccount, AIListContact;
 
 @protocol AIFileTransferController <AIController>
 //Should be the only vendor of new ESFileTransfer* objects, as it creates, tracks, and returns them
