@@ -11460,12 +11460,7 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
 				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ENABLE_NLS,
 					HAVE_CDSA,
@@ -11493,7 +11488,6 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -11502,15 +11496,9 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
 				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ENABLE_NLS,
-					CRASH_REPORTER,
 					HAVE_CDSA,
 				);
 				HEADER_SEARCH_PATHS = (
@@ -11535,7 +11523,6 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
@@ -11544,16 +11531,10 @@
 			buildSettings = {
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
 				FRAMEWORK_VERSION = A;
-				GCC_C_LANGUAGE_STANDARD = gnu89;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ENABLE_NLS,
 					HAVE_CDSA,
-					CRASH_REPORTER,
 					DEBUG_BUILD,
 				);
 				HEADER_SEARCH_PATHS = (
@@ -11578,7 +11559,6 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = "Release-Debug";
 		};
