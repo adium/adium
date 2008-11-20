@@ -1183,7 +1183,7 @@
 		6341AEFF0E53A09C00AE1439 /* libexpat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6341AEFE0E53A09C00AE1439 /* libexpat.dylib */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
 		6360B25A0BF2EB93004CD99B /* AIWebKitDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */; };
-		636C6E4C0ED56C2A00E0E528 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */; };
+		636C6E5E0ED56D0100E0E528 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 636C6E5D0ED56D0100E0E528 /* libcrypto.dylib */; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
 		636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E2A2EE07B018B1006735BC /* AIAddressBookController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D92840E4E968A00E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
@@ -4100,8 +4100,7 @@
 		6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitDelegate.m; path = "Plugins/WebKit Message View/AIWebKitDelegate.m"; sourceTree = "<group>"; };
 		636AB7F1087E2B6700A87670 /* AIDockBadger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDockBadger.h; sourceTree = "<group>"; };
 		636AB7F2087E2B6700A87670 /* AIDockBadger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIDockBadger.m; sourceTree = "<group>"; };
-		636C6A1F0ED5675100E0E528 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = /System/Library/Frameworks/Kernel.framework; sourceTree = "<absolute>"; };
-		636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		636C6E5D0ED56D0100E0E528 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		636D8C970E4E95A500E5F558 /* AIAddressBookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAddressBookController.m; path = "Frameworks/Adium Framework/Source/AIAddressBookController.m"; sourceTree = "<group>"; };
 		636D93660E4E9FD300E5F558 /* AdiumAddressBookAction_Yahoo.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_Yahoo.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_Yahoo.scpt"; sourceTree = "<group>"; };
 		636D93670E4E9FD300E5F558 /* AdiumAddressBookAction_SMS.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_SMS.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_SMS.scpt"; sourceTree = "<group>"; };
@@ -4513,7 +4512,7 @@
 				49778165067F558700401CC7 /* SystemConfiguration.framework in Frameworks */,
 				3448761606D1EC3000DA778C /* Cocoa.framework in Frameworks */,
 				6341AEFF0E53A09C00AE1439 /* libexpat.dylib in Frameworks */,
-				636C6E4C0ED56C2A00E0E528 /* libcrypto.dylib in Frameworks */,
+				636C6E5E0ED56D0100E0E528 /* libcrypto.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4640,8 +4639,6 @@
 		29B97314FDCFA39411CA2CEA /* CocAIMe2 */ = {
 			isa = PBXGroup;
 			children = (
-				636C6E4B0ED56C2A00E0E528 /* libcrypto.dylib */,
-				636C6A1F0ED5675100E0E528 /* Kernel.framework */,
 				4BE9FFE7055981AB00359B15 /* Adium.pch */,
 				F59DB3D6033EA9CD01A8010A /* AIAdium.h */,
 				F59DB3D7033EA9CD01A8010A /* AIAdium.m */,
@@ -6274,6 +6271,7 @@
 		4947F5D00655E90C00B791E5 /* libezv */ = {
 			isa = PBXGroup;
 			children = (
+				636C6E5D0ED56D0100E0E528 /* libcrypto.dylib */,
 				4947F5D10655E90C00B791E5 /* Classes */,
 				4947F5EB0655E90C00B791E5 /* LICENSE */,
 				4947F5EC0655E90C00B791E5 /* Other Sources */,
