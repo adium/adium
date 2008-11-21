@@ -159,10 +159,11 @@ static NSOperationQueue *dictWriterQueue;
 - (void)asyncWriteToPath:(NSString *)path withName:(NSString *)name
 {
 	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
-    NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
+	NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
 	if (!dictWriterQueue) {
 		dictWriterQueue = [[NSOperationQueue alloc] init];
+		[dictWriterQueue setMaxConcurrentOperationCount:1];
 	}
 	
 	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:path name:name dictionary:self] autorelease];
