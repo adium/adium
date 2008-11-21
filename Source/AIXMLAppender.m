@@ -289,6 +289,7 @@ static NSOperationQueue *writerQueue;
 	if (!writerQueue)
 	{
 		writerQueue = [[NSOperationQueue alloc] init];
+		[writerQueue setMaxConcurrentOperationCount:1];
 	}
 	[lastOp autorelease];
 	lastOp = [[AIAppendXMLOperation alloc] initWithData:data
