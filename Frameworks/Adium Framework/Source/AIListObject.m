@@ -220,11 +220,15 @@
 	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
 	if (![containingObjects containsObject:inGroup]) {
 		//XXX multiple containers
-		AIListObject<AIContainingObject> *container = self.containingObject;
-		if(container)
-			[containingObjects removeObject:container];
-		[containingObjects addObject:inGroup];
-
+		if(!inGroup) {
+			[containingObjects removeAllObjects];
+		} else {
+			AIListObject<AIContainingObject> *container = self.containingObject;
+			if(container)
+				[containingObjects removeObject:container];
+			[containingObjects addObject:inGroup];
+		}
+		
 		//Reset then redetermine our order index	
 		orderIndex = 0;
 	}
