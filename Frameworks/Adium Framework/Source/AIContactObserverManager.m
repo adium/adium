@@ -281,7 +281,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
 		
 		//If this contact is within a meta contact, update the meta contact too
-		AIListObject<AIContainingObject>	*containingObject = [listObject containingObject];
+		AIListObject<AIContainingObject>	*containingObject = listObject.containingObject;
 		if (containingObject && [containingObject isKindOfClass:[AIMetaContact class]]) {
 			NSSet	*attributes = [inObserver updateListObject:containingObject
 														keys:nil

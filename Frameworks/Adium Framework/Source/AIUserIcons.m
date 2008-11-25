@@ -129,7 +129,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 
 + (void)notifyOfChangedIconForObject:(AIListObject *)inObject
 {
-	AIListObject	*containingObject = [inObject containingObject];
+	AIListObject	*containingObject = inObject.containingObject;
 	NSSet			*modifiedKeys = [NSSet setWithObject:KEY_USER_ICON];
 	
 	//Notify
