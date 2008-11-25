@@ -188,9 +188,7 @@
 					   forProperty:AlwaysVisible
 					   notify:NotifyNow];
 		
-		if ([self.containingObject isKindOfClass:[AIListGroup class]]) {
-			[adium.contactController sortListObject:self];
-		}
+		[adium.contactController sortListObject:self];
 	}
 }
 
@@ -278,9 +276,9 @@
  */
 - (void)didNotifyOfChangedPropertiesSilently:(BOOL)silent
 {
-	//Let our containing object know about the notification request
-	if (self.containingObject)
-		[self.containingObject notifyOfChangedPropertiesSilently:silent];
+	//Let our containing objects know about the notification request
+	for (AIListContact<AIContainingObject> *container in containingObjects)
+		[container notifyOfChangedPropertiesSilently:silent];
 }
 
 /*!
@@ -290,10 +288,9 @@
  */
 - (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify
 {				
-	//Inform our containing group about the new property value
-	if (self.containingObject) {
-		[self.containingObject object:self didChangeValueForProperty:key notify:notify];
-	}
+	//Inform our containing groups about the new property value
+	for (AIListContact<AIContainingObject> *container in containingObjects)
+		[container object:self didChangeValueForProperty:key notify:notify];
 	
 	[super object:inObject didChangeValueForProperty:key notify:notify];
 }
@@ -308,9 +305,8 @@
  */
 - (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority
 {
-	if (self.containingObject) {
-		[self.containingObject listObject:self mutableOwnerArray:inArray didSetObject:anObject withOwner:inOwner priorityLevel:priority];
-	}
+	for (AIListContact<AIContainingObject> *container in containingObjects)
+		[container listObject:self mutableOwnerArray:inArray didSetObject:anObject withOwner:inOwner priorityLevel:priority];
 }
 
 /*!

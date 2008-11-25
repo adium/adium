@@ -126,9 +126,8 @@
 		}
 		[adium.contactController contactRemoteGroupingChanged:self];
 		
-		AIListObject *myContainingObject = self.containingObject;
-		if ([myContainingObject isKindOfClass:[AIMetaContact class]]) {
-			[(AIMetaContact *)myContainingObject remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
+		if (self.parentContact != self) {
+			[(AIMetaContact *)self.parentContact remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
 		}
 	}
 }
