@@ -53,10 +53,10 @@ static	NSConditionLock     *threadPreparednessLock = nil;
 static	NDRunLoopMessenger  *bonjourThreadMessenger = nil;
 static	AWEzv               *_libezvThreadProxy = nil;
 
-typedef enum {
+enum {
 	AIThreadPreparing = 0,
 	AIThreadReady
-} AIThreadState;
+};
 
 #define	AUTORELEASE_POOL_REFRESH	5.0
 
