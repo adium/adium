@@ -281,7 +281,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		if (attributes) [self listObjectAttributesChanged:listObject modifiedKeys:attributes];
 		
 		if ([listObject isKindOfClass:[AIListContact class]]) {
-			AIListContact *contact = listObject;
+			AIListContact *contact = (AIListContact *)listObject;
 			
 			//If this contact is within a meta contact, update the meta contact too
 			if (contact.metaContact) {
