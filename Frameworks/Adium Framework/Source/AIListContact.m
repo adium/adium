@@ -126,8 +126,8 @@
 		}
 		[adium.contactController contactRemoteGroupingChanged:self];
 		
-		if (self.parentContact != self) {
-			[(AIMetaContact *)self.parentContact remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
+		if (self.metaContact) {
+			[self.metaContact remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
 		}
 	}
 }
@@ -157,9 +157,9 @@
  */
 - (NSString *)displayName
 {
-	AIListContact	*parentContact = self.parentContact;
+	AIMetaContact	*meta = self.metaContact;
 
-	NSString *displayName = parentContact == self ? super.displayName : parentContact.displayName;
+	NSString *displayName = meta ? meta.displayName : super.displayName;
 
 	//If a display name was found, return it; otherwise, return the formattedUID  
 	return displayName ? displayName : self.formattedUID;
@@ -248,15 +248,13 @@
  */
 - (NSString *)phoneticName
 {
-	AIListContact	*parentContact = self.parentContact;
+	AIMetaContact *meta = self.metaContact;
 	NSString		*phoneticName;
 
-	phoneticName = ((parentContact == self) ?
-				   super.phoneticName :
-				   parentContact.phoneticName);
+	phoneticName = meta ? meta.phoneticName : super.phoneticName;;
 	
 	//If a display name was found, return it; otherwise, return the formattedUID
-    return phoneticName ? phoneticName : self.displayName;
+	return phoneticName ? phoneticName : self.displayName;
 }
 
 /*!
@@ -569,21 +567,6 @@
 }
 
 #pragma mark Parents
-/*!
- * @brief This object's parent AIListGroup
- *
- * @result An AIListGroup which contains this object or the object containing this object, or nil if it is not in an AIListGroup.
- */
-- (AIListGroup *)parentGroup
-{
-	AIListObject<AIContainingObject>	*parentGroup = self.parentContact.containingObject;
-
-	if (parentGroup && [parentGroup isKindOfClass:[AIListGroup class]]) {
-		return (AIListGroup *)parentGroup;
-	} else {
-		return nil;
-	}
-}
 
 /*!
  * @brief This object's parent AIListContact
@@ -593,20 +576,31 @@
  *
  * @result Either this contact or some more-encompassing contact which ultimately contains it.
  */
- - (AIListContact *)parentContact
- {
-	AIListContact	*parentContact = self;
-
-	while ([parentContact.containingObject isKindOfClass:[AIListContact class]]) {
-		parentContact = (AIListContact *)parentContact.containingObject;
-	}
-
-	return parentContact;
- }
+- (AIListContact *)parentContact
+{
+	if (self.metaContact)
+		return self.metaContact;
+	
+	return self;
+}
 
 - (BOOL)containsObject:(AIListObject*)object
 {
     return NO;
+}
+
+- (NSSet *)groups {
+	//if we're not in a meta, we should be in at least one group
+	if (!self.metaContact)
+		return containingObjects;
+	return [NSSet set];
+}
+
+- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
+{
+	if (!inGroup || [inGroup isKindOfClass:[AIMetaContact class]])
+		metaContact = (AIMetaContact *)inGroup;
+	[super setContainingObject:inGroup];
 }
 
 /*!
@@ -615,6 +609,13 @@
 - (BOOL)canJoinMetaContacts
 {
 	return YES;
+}
+
+- (AIMetaContact *)metaContact
+{
+	if (metaContact)
+		return metaContact;
+	return nil;
 }
 
 #pragma mark Equality

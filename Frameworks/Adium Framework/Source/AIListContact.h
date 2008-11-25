@@ -19,10 +19,11 @@
 
 #define KEY_AB_UNIQUE_ID		@"AB Unique ID"
 
-@class ABPerson, AIListGroup;
+@class ABPerson, AIListGroup, AIMetaContact;
 
 @interface AIListContact : AIListObject {
 	AIAccount	*account;
+	AIMetaContact *metaContact;
 	NSString		*remoteGroupName;
 	NSString		*internalUniqueObjectID;
 }
@@ -36,8 +37,8 @@
 + (NSString *)internalUniqueObjectIDForService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (void)restoreGrouping;
 
-@property (readonly, nonatomic) AIListGroup *parentGroup;
-@property (readonly, nonatomic) AIListContact *parentContact;
+@property (readonly, nonatomic) AIListContact *parentContact; //This needs renaming. It's the 'topmost' contact, either self or meta
+@property (readonly, nonatomic) AIMetaContact *metaContact;
 
 @property (readonly, nonatomic) NSString *ownDisplayName;
 @property (readonly, nonatomic) NSString *ownPhoneticName;

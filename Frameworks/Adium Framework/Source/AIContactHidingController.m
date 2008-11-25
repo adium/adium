@@ -138,8 +138,15 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return online;
 	
 	//we can cast to AIListContact here since groups and metas were handled up above
-	if (!online && (!showOfflineContacts || !(((AIListContact *)listObject).parentContact.containingObject && ((AIListContact *)listObject).parentContact.containingObject == adium.contactController.offlineGroup)))
-		return NO;
+	AIListContact *contact = (AIListContact *)listObject;
+	
+	if (!online) {
+		if (showOfflineContacts) {
+			if (useOfflineGroup && ![contact.parentContact.groups containsObject:adium.contactController.offlineGroup])
+				return NO;
+		} else
+			return NO;
+	}
 	
 	if (!showIdleContacts && [listObject valueForProperty:@"IdleSince"])
 		return NO;

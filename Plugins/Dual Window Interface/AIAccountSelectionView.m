@@ -384,13 +384,11 @@
 /*!
  * @brief Returns YES if a choice of destination contact is available
  */
-- (BOOL)choicesAvailableForContact{
-	AIListContact *parentContact = chat.listObject.parentContact;
-	if ([parentContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		return [[(AIListContact <AIContainingObject> *)parentContact uniqueContainedObjects] count] > 1;
-	} else {
-		return NO;
-	}
+- (BOOL)choicesAvailableForContact {
+	if (chat.listObject.metaContact)
+		return chat.listObject.metaContact.uniqueContainedObjects.count > 1;
+	
+	return NO;
 }
 
 /*!
