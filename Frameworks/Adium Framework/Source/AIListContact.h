@@ -24,13 +24,15 @@
 @interface AIListContact : AIListObject {
 	AIAccount	*account;
 	AIMetaContact *metaContact;
-	NSString		*remoteGroupName;
+	NSMutableSet *m_remoteGroupNames;
 	NSString		*internalUniqueObjectID;
 }
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
 @property (readwrite, nonatomic, retain) NSString *remoteGroupName;
+@property (readonly, nonatomic) NSSet *remoteGroupNames;
+
 - (void)setUID:(NSString *)inUID;
 @property (readonly, nonatomic) AIAccount *account;
 - (NSString *)internalUniqueObjectID;

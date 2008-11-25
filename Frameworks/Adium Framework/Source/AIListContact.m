@@ -57,7 +57,7 @@
 {
 	if ((self = [super initWithUID:inUID service:inService])) {
 		account = nil;
-		remoteGroupName = nil;
+		m_remoteGroupNames = [[NSMutableSet alloc] initWithCapacity:1];
 		internalUniqueObjectID = nil;
 	}
 
@@ -68,7 +68,7 @@
 - (void)dealloc
 {
 	[account release]; account = nil;
-	[remoteGroupName release]; remoteGroupName = nil;
+	[m_remoteGroupNames release]; m_remoteGroupNames = nil;
 	[internalUniqueObjectID release]; internalUniqueObjectID = nil;
 	
 	[super dealloc];
@@ -116,18 +116,19 @@
 //Set the desired group for this contact.  Pass nil to indicate this object is no longer listed.
 - (void)setRemoteGroupName:(NSString *)inName
 {
-	if ((!remoteGroupName && inName) || ![inName isEqualToString:remoteGroupName]) {
-		if (!remoteGroupName || !inName)
+	if ((!self.remoteGroupName && inName) || ![inName isEqualToString:self.remoteGroupName]) {
+		if (!self.remoteGroupName || !inName)
 			[AIUserIcons flushCacheForObject:self];
 
-		if (remoteGroupName != inName) {
-			[remoteGroupName release];
-			remoteGroupName = [inName retain];
+		//XXX multiple containers
+		if (self.remoteGroupName != inName) {
+			[m_remoteGroupNames removeAllObjects];
+			[m_remoteGroupNames addObject:inName];
 		}
 		[adium.contactController contactRemoteGroupingChanged:self];
 		
 		if (self.metaContact) {
-			[self.metaContact remoteGroupingOfContainedObject:self changedTo:remoteGroupName];
+			[self.metaContact remoteGroupingOfContainedObject:self changedTo:inName];
 		}
 	}
 }
@@ -135,7 +136,12 @@
 //The current desired group of this contact
 - (NSString *)remoteGroupName
 {
-	return remoteGroupName;
+	return self.remoteGroupNames.anyObject;
+}
+
+- (NSSet *)remoteGroupNames
+{
+	return m_remoteGroupNames;
 }
 
 //An AIListContact normally groups based on its remoteGroupName (if it is not within a metaContact). 
