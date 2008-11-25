@@ -199,8 +199,8 @@
 {	
 	if ([self containsObject:inObject]) {		
 		//Remove the object
-		if (inObject.containingObject == self)
-			[inObject setContainingObject:nil];
+		if ([inObject.groups containsObject:self])
+			inObject.containingObject = nil;
 		[_containedObjects removeObject:inObject];
 
 		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];

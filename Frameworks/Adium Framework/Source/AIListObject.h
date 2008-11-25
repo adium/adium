@@ -115,6 +115,7 @@ typedef enum {
 
 //Grouping
 @property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
+@property (readonly, nonatomic) NSSet *groups;
 
 //Display
 @property (readonly, nonatomic) NSString *formattedUID;

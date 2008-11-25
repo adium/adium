@@ -38,6 +38,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIMetaContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIMessageEntryTextView.h>
@@ -594,8 +595,6 @@
  */
 - (IBAction)sendMessageLater:(id)sender
 {
-	AIListContact	*listContact;
-
 	//If the chat can _now_ send a message, send it immediately instead of waiting for "later".
 	if ([chat messageSendingAbility] == AIChatCanSendMessageNow) {
 		[self sendMessage:sender];
@@ -603,7 +602,7 @@
 	}
 
 	//Put the alert on the metaContact containing this listContact if applicable
-	listContact = chat.listObject.parentContact;
+	AIMetaContact *listContact = chat.listObject.metaContact;
 
 	if (listContact) {
 		NSMutableDictionary *detailsDict, *alertDict;

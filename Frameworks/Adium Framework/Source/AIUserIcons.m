@@ -16,6 +16,7 @@
 
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIMetaContact.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -129,16 +130,15 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 
 + (void)notifyOfChangedIconForObject:(AIListObject *)inObject
 {
-	AIListObject	*containingObject = inObject.containingObject;
 	NSSet			*modifiedKeys = [NSSet setWithObject:KEY_USER_ICON];
 	
 	//Notify
 	[[AIContactObserverManager sharedManager] listObjectAttributesChanged:inObject
 											  modifiedKeys:modifiedKeys];		
 	
-	if ([containingObject isKindOfClass:[AIListContact class]]) {		
+	if ([inObject isKindOfClass:[AIListContact class]] && ((AIListContact *)inObject).metaContact) {		
 		//Notify
-		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:containingObject
+		[[AIContactObserverManager sharedManager] listObjectAttributesChanged:((AIListContact *)inObject).metaContact
 												  modifiedKeys:modifiedKeys];
 	}	
 }

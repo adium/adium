@@ -139,6 +139,16 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[super setContainingObject:inGroup];
 }
 
+- (AIListContact *)parentContact
+{
+	return self;
+}
+
+- (AIMetaContact *)metaContact
+{
+	return self;
+}
+
 /*!
  * @brief Restore the AIListGroup grouping into which this object was last manually placed
  *
@@ -308,6 +318,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)removeObject:(AIListObject *)inObject
 {
+	AIListContact *contact = (AIListContact *)inObject;
 	if ([self.containedObjects containsObjectIdenticalTo:inObject]) {
 		BOOL	noteRemoteGroupingChanged = NO;
 
@@ -317,13 +328,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 		[_containedObjects removeObject:inObject];
 		
-		if ([(AIListContact *)inObject remoteGroupName]) {
+		if (contact.remoteGroupName) {
 			//Reset it to its remote group
-			if (inObject.containingObject == self)
-				[inObject setContainingObject:nil];
+			if (contact.metaContact)
+				contact.containingObject = nil;
 			noteRemoteGroupingChanged = YES;
 		} else {
-			[inObject setContainingObject:self.containingObject];
+			contact.containingObject = self.containingObject;
 		}
 
 		[self containedObjectsOrOrderDidChange];
@@ -339,9 +350,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
-		if ([self.containedObjects count] == 0) {
+	/*	if ([self.containedObjects count] == 0) {
 			[self setContainingObject:nil];
-		}
+		}*/
 
 		/* Now that we're done reconfigured ourselves and the recently removed object,
 		 * tell the contactController about the change in the removed object.

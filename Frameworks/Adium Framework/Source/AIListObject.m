@@ -201,6 +201,12 @@
 
 //Grouping / Ownership -------------------------------------------------------------------------------------------------
 #pragma mark Grouping / Ownership
+
+- (NSSet *)groups
+{
+	return [NSSet set];
+}
+
 /*!
  * @brief Containing object of this object
  */
@@ -219,10 +225,11 @@
 {
 	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
 	if (![containingObjects containsObject:inGroup]) {
+		
 		//XXX multiple containers
-		if(!inGroup) {
+		if (!inGroup)
 			[containingObjects removeAllObjects];
-		} else {
+		else {
 			AIListObject<AIContainingObject> *container = self.containingObject;
 			if(container)
 				[containingObjects removeObject:container];

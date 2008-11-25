@@ -278,14 +278,12 @@
 	NSString *remoteGroupName = inContact.remoteGroupName;
 	[[inContact retain] autorelease];
 	
-	AIListObject<AIContainingObject>	*containingObject = inContact.containingObject;
-	
-	if ([containingObject isKindOfClass:[AIMetaContact class]]) {
+	if (inContact.metaContact) {
 		
 		/* If inContact's containingObject is a metaContact, and that metaContact has no containingObject,
 		 * use inContact's remote grouping as the metaContact's grouping.
 		 */
-		if (!containingObject.containingObject && [remoteGroupName length]) {
+		if (!inContact.metaContact.containingObject && [remoteGroupName length]) {
 			//If no similar objects exist, we add this contact directly to the list
 			//Create a group for the contact even if contact list groups aren't on,
 			//otherwise requests for all the contact list groups will return nothing
@@ -295,9 +293,9 @@
 						  (useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
 						  contactList);
 			
-			[localGroup addObject:containingObject];
+			[localGroup addObject:inContact.metaContact];
 			
-			[self _didChangeContainer:localGroup object:containingObject];
+			[self _didChangeContainer:localGroup object:inContact.metaContact];
 			[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 																object:localGroup.containingObject
 															  userInfo:nil];
@@ -318,11 +316,12 @@
 		[self _moveContactLocally:inContact
 						  toGroup:localGroup];
 		
-	} else if (containingObject) {
+	} else if (inContact.groups.count > 0) {
 		//If !remoteGroupName, remove the contact from any local groups
-		[(AIListGroup *)containingObject removeObject:inContact];
-		
-		[self _didChangeContainer:(AIListGroup *)containingObject object:inContact];
+		for (AIListGroup *group in inContact.groups) {
+			[group removeObject:inContact];
+			[self _didChangeContainer:group object:inContact];
+		}
 		
 		//NSLog(@"contactRemoteGroupingChanged: %@: -- !remoteGroupName so removed from %@",inContact,containingObject);
 	}
@@ -338,7 +337,6 @@
 
 - (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
 {
-	AIListObject	*containingObject;
 	AIListObject	*existingObject;
 	BOOL			performedGrouping = NO;
 	
@@ -349,14 +347,12 @@
 	//	AILog(@"Moving %@ to %@",listContact,localGroup);
 	
 	//Remove this object from any local groups we have it in currently
-	if ((containingObject = listContact.containingObject) &&
-		([containingObject isKindOfClass:[AIListGroup class]])) {
-		//Remove the object
-		[(AIListGroup *)containingObject removeObject:listContact];
-		[self _didChangeContainer:(AIListGroup *)containingObject object:listContact];
+	for (AIListGroup *group in listContact.groups) {
+		[group removeObject:listContact];
+		[self _didChangeContainer:group object:listContact];
 	}
 	
-	if ([listContact canJoinMetaContacts]) {
+	if (listContact.canJoinMetaContacts) {
 		if ((existingObject = [localGroup objectWithService:[listContact service] UID:[listContact UID]])) {
 			//If an object exists in this group with the same UID and serviceID, create a MetaContact
 			//for the two.
@@ -397,7 +393,8 @@
 	
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//For a metaContact, the closest we have to a remote group is the group it is within locally
-		group = [(AIMetaContact *)inContact parentGroup];
+		//XXX multiple containers
+		group = [[inContact groups] anyObject];
 		
 	} else {
 		NSString	*remoteGroup = [inContact remoteGroupName];
