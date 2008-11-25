@@ -598,7 +598,7 @@
  {
 	AIListContact	*parentContact = self;
 
-	while ([[parentContact containingObject] isKindOfClass:[AIListContact class]]) {
+	while ([parentContact.containingObject isKindOfClass:[AIListContact class]]) {
 		parentContact = (AIListContact *)parentContact.containingObject;
 	}
 

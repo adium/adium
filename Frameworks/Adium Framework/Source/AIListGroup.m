@@ -199,7 +199,7 @@
 {	
 	if ([self containsObject:inObject]) {		
 		//Remove the object
-		if ([inObject containingObject] == self)
+		if (inObject.containingObject == self)
 			[inObject setContainingObject:nil];
 		[_containedObjects removeObject:inObject];
 
