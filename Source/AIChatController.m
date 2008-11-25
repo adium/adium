@@ -303,8 +303,7 @@
 		}
 		
 		//If this object is within a meta contact, and a chat for an object in that meta contact already exists
-		if ([targetContact.containingObject isKindOfClass:[AIMetaContact class]] && 
-		   chat.listObject.containingObject == targetContact.containingObject) {
+		if (targetContact.parentContact != targetContact && chat.listObject.parentContact == targetContact.parentContact) {
 
 			//Switch the chat to be on this contact (and its account) now
 			[self switchChat:chat toListContact:targetContact usingContactAccount:YES];
