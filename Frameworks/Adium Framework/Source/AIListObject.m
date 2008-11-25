@@ -50,7 +50,7 @@
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService
 {
 	if ((self = [super init])) {
-		containingObject = nil;
+		containingObjects = [[NSMutableSet alloc] initWithCapacity:1];
 		UID = [inUID retain];	
 		service = inService;
 
@@ -81,7 +81,7 @@
 	//
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
-	[containingObject release]; containingObject = nil;
+	[containingObjects release]; containingObjects = nil;
 
     [super dealloc];
 }
@@ -188,7 +188,7 @@
 					   forProperty:AlwaysVisible
 					   notify:NotifyNow];
 		
-		if ([containingObject isKindOfClass:[AIListGroup class]]) {
+		if ([self.containingObject isKindOfClass:[AIListGroup class]]) {
 			[adium.contactController sortListObject:self];
 		}
 	}
@@ -208,7 +208,8 @@
  */
 - (AIListObject<AIContainingObject> *)containingObject
 {
-    return containingObject;
+	//XXX multiple containers
+    return [containingObjects anyObject];
 }
 
 /*!
@@ -219,9 +220,12 @@
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
 {
 	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
-	if (containingObject != inGroup) {
-		[containingObject release];
-		containingObject = [inGroup retain];
+	if (![containingObjects containsObject:inGroup]) {
+		//XXX multiple containers
+		AIListObject<AIContainingObject> *container = self.containingObject;
+		if(container)
+			[containingObjects removeObject:container];
+		[containingObjects addObject:inGroup];
 
 		//Reset then redetermine our order index	
 		orderIndex = 0;

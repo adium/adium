@@ -88,7 +88,7 @@ typedef enum {
 	AIGroupChatFlags groupChatFlags;
 
 	//Grouping, Manual ordering
-	AIListObject <AIContainingObject>	*containingObject;		//The group/metacontact this object is in
+	NSMutableSet *containingObjects; //The AIContainingObjects that this object is in; currently always has only 1
 	CGFloat					orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
