@@ -31,6 +31,7 @@ extern CFRunLoopRef CFRunLoopGetMain(void);
  * @param ... 0 or more arguments to the format string
  */
 #ifdef DEBUG_BUILD
+#include <execinfo.h>
 void AIAddDebugMessage(NSString *debugMessage)
 {
 	NSString *actualMessage = [[[NSDate date] descriptionWithCalendarFormat:@"%H:%M:%S: "
@@ -76,10 +77,25 @@ void AILogWithPrefix (const char *prefix, NSString *format, ...) {
 
 	va_end(ap); /* clean up when done */
 }
+
+void AILogBacktrace() {
+	void* callstack[128];
+	int i, frames = backtrace(callstack, 128);
+	char** strs = backtrace_symbols(callstack, frames);
+	NSMutableString *str = [NSMutableString string];
+	for (i = 0; i < frames; ++i) {
+		[str appendFormat:@"%s\n", strs[i]];
+	}
+	free(strs);	
+	AILog(@"%@", str);
+};
+
 #else
 //Insert a fake symbol so that plugins using AILog() don't crash.
 #undef AILog
 void AILog (NSString *format, ...) {};
 #undef AILogWithPrefix
 void AILogWithPrefix (char *sig, NSString *format, ...) {};
+#undef AILogBacktrace
+void AILogBacktrace() {};
 #endif

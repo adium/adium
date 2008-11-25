@@ -19,9 +19,11 @@
 	void AILogWithPrefix (const char *signature, NSString *format, ...);
 	#define AILogWithSignature(fmt, args...) AILogWithPrefix(__PRETTY_FUNCTION__, fmt, ##args);
 	void AILog (NSString *format, ...);
+	void AILogBacktrace();
 #else
 /* For a non-debug build, define it to be a comment so there is no overhead in using it liberally */
 	#define AILog(fmt, ...) /**/
 	#define AILogWithSignature(fmt, ...) /**/
 	#define AILogWithPrefix(sig, fmt, ...) /**/
+	#define AILogBacktrace() /**/
 #endif
