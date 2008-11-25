@@ -138,9 +138,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 	
 	if (groupName && [groupName isEqualToString:@PURPLE_ORPHANS_GROUP_NAME]) {
-		[theContact setRemoteGroupName:AILocalizedString(@"Orphans","Name for the orphans group")];
+		[theContact addRemoteGroupName:AILocalizedString(@"Orphans","Name for the orphans group")];
 	} else if (groupName && [groupName length] != 0) {
-		[theContact setRemoteGroupName:[self _mapIncomingGroupName:groupName]];
+		[theContact addRemoteGroupName:[self _mapIncomingGroupName:groupName]];
 	} else {
 		AILog(@"Got a nil group for %@",theContact);
 	}
@@ -538,7 +538,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[purpleAdapter removeUID:[object UID] onAccount:self fromGroup:groupName];
 		
 		//Remove it from Adium's list
-		[object setRemoteGroupName:nil];
+		[object removeRemoteGroupName:groupName];
 	}
 }
 
@@ -552,7 +552,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[purpleAdapter addUID:[self _UIDForAddingObject:contact] onAccount:self toGroup:groupName];
 		
 		//Add it to Adium's list
-		[contact setRemoteGroupName:[group UID]]; //Use the non-mapped group name locally
+		[contact addRemoteGroupName:[group UID]]; //Use the non-mapped group name locally
 	}
 }
 
@@ -577,7 +577,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			[purpleAdapter moveUID:[listObject UID] onAccount:self toGroup:groupName];
 
 			//Use the non-mapped group name locally
-			[listObject setRemoteGroupName:[group UID]];
+			[listObject addRemoteGroupName:[group UID]];
 		}
 	}		
 }
@@ -592,7 +592,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//We must also update the remote grouping of all our contacts in that group
 	for (AIListContact *contact in [adium.contactController allContactsInObject:inGroup onAccount:self]) {
 		//Evan: should we use groupName or newName here?
-		[contact setRemoteGroupName:newName];
+		[contact addRemoteGroupName:newName];
 	}
 }
 

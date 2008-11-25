@@ -98,7 +98,7 @@
 			NSString *groupName = [listContact preferenceForKey:@"Facebook Local Group"
 														  group:@"Facebook"];
 			if (!groupName) groupName = @"Facebook";
-			[listContact setRemoteGroupName:groupName];
+			[listContact addRemoteGroupName:groupName];
 		}
 
 		[listContact setOnline:YES notify:NotifyLater silently:isSigningOn];
@@ -133,7 +133,7 @@
 						group:@"Facebook"];
 	
 	//Use the non-mapped group name locally
-	[listContact setRemoteGroupName:groupName];
+	[listContact addRemoteGroupName:groupName];
 }	
 
 - (void)parseNotifications:(NSDictionary *)notifications

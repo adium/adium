@@ -196,12 +196,13 @@ enum {
 	                                                        UID:[self UIDForContact:contact]];  
 	if ([contact status] == AWEzvUndefined) {
 		AILogWithSignature(@"Warning: Received a status update for a contact with an undefined status. This shouldn't happen.");
-		[listContact setRemoteGroupName:nil];
+		for (NSString *groupName in listContact.remoteGroupNames)
+			[listContact removeRemoteGroupName:groupName];
 		[listContact setOnline:NO notify:NotifyLater silently:silentAndDelayed];
 
 	} else {
 		if (![listContact remoteGroupName]) {
-			[listContact setRemoteGroupName:@"Bonjour"];
+			[listContact addRemoteGroupName:@"Bonjour"];
 		}
 
 		//We only get state change updates on Online contacts
@@ -270,7 +271,8 @@ enum {
 	                                                            account:self 
 	                                                                UID:inUID];
 
-	[listContact setRemoteGroupName:nil];
+	for (NSString *groupName in listContact.remoteGroupNames)
+		[listContact removeRemoteGroupName:groupName];
 	[listContact setOnline:NO notify:NotifyNow silently:silentAndDelayed];
 }
 

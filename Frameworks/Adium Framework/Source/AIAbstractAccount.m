@@ -1251,7 +1251,8 @@
 	 * Then allow notifications for all these contacts to go out.
 	 */
 	for (AIListContact *listContact in myContacts) {
-		[listContact setRemoteGroupName:nil];
+		for (NSString *groupName in listContact.remoteGroupNames)
+			[listContact removeRemoteGroupName:groupName];
 		[self removePropetyValuesFromContact:listContact silently:YES];
 	}
 

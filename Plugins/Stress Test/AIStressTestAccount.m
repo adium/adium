@@ -47,14 +47,15 @@
 																	UID:@"Command"] retain];
 	}
 	AILog(@"Created command contact %@",commandContact);
-	[commandContact setRemoteGroupName:@"Command"];
+	[commandContact addRemoteGroupName:@"Command"];
 	[commandContact setValue:[NSNumber numberWithBool:YES] forProperty:@"Online" notify:YES];
 
 }
 
 - (void)disconnect
 {
-	[commandContact setRemoteGroupName:nil];
+	for (NSString *name in commandContact.remoteGroupNames)
+		[commandContact removeRemoteGroupName:name];
 	[commandContact setValue:nil forProperty:@"Online" notify:YES];
 	[commandContact release]; commandContact = nil;
 
@@ -106,7 +107,7 @@
 		contact = [adium.contactController contactWithService:service
 														account:self
 															UID:buddyUID];
-		[contact setRemoteGroupName:[NSString stringWithFormat:@"Group %i", (int)(i/5.0)]];
+		[contact addRemoteGroupName:[NSString stringWithFormat:@"Group %i", (int)(i/5.0)]];
 	}
 	
 	[self echo:[NSString stringWithFormat:@"Created %i contacts", numContacts]];	
