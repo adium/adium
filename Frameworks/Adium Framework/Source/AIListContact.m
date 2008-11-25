@@ -40,6 +40,10 @@
 
 #define CONTACT_SIGN_ON_OR_OFF_PERSISTENCE_DELAY 15
 
+@interface AIListContact ()
+@property (readwrite, nonatomic, retain) NSString *remoteGroupName;
+@end
+
 @implementation AIListContact
 
 //Init with an account
@@ -131,6 +135,18 @@
 			[self.metaContact remoteGroupingOfContainedObject:self changedTo:inName];
 		}
 	}
+}
+
+- (void) addRemoteGroupName:(NSString *)name
+{
+	//XXX multiple containers
+	[self setRemoteGroupName:name];
+}
+
+- (void) removeRemoteGroupName:(NSString *)name
+{
+	//XXX multiple containers
+	[self setRemoteGroupName:nil];
 }
 
 //The current desired group of this contact

@@ -114,7 +114,7 @@
 	if(blocked)
 		[contact setIsBlocked:YES updateList:YES];
 	if(groupName)
-		[contact setRemoteGroupName:groupName];
+		[contact addRemoteGroupName:groupName];
 	
 	return contact;
 }
