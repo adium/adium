@@ -182,11 +182,16 @@ enum {
 		
 	} else {
 		//Create each component of the path, then change into it.
-		[manager createDirectoryAtPath:[appender.path stringByDeletingLastPathComponent]
-		   withIntermediateDirectories:YES
-							attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL] forKey:NSFilePosixPermissions]
-								 error:NULL];
-		
+		NSError *error = nil;
+		if (![manager createDirectoryAtPath:[appender.path stringByDeletingLastPathComponent]
+				withIntermediateDirectories:YES
+								 attributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedLong:0700UL] forKey:NSFilePosixPermissions]
+									  error:&error]) {
+			AILogWithSignature(@"Error creating directory at %@: %@", 
+							   [appender.path stringByDeletingLastPathComponent],
+							   error);
+		}
+
 		appender.initialized = NO;
 	}
 	
