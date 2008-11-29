@@ -177,9 +177,11 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 + (void) stopAddressBookIntegration
 {
-	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[adium.notificationCenter removeObserver:self];
-	[addressBookController release];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:addressBookController];
+	[adium.preferenceController unregisterPreferenceObserver:addressBookController];
+	[adium.notificationCenter removeObserver:addressBookController];
+
+	[addressBookController release]; addressBookController = nil;
 }
 
 - (void)dealloc
@@ -188,7 +190,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 	[sharedAddressBook release]; sharedAddressBook = nil;
 	[personUniqueIdToMetaContactDict release]; personUniqueIdToMetaContactDict = nil;
-	
+
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[adium.notificationCenter removeObserver:self];
 
