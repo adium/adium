@@ -35,6 +35,10 @@
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;
 
+//XXX should these be private/in a category private to AIListGroup?
+- (void) addGroup:(AIListGroup *)group;
+- (void) removeGroup:(AIListGroup *)group;
+
 - (void)setUID:(NSString *)inUID;
 @property (readonly, nonatomic) AIAccount *account;
 - (NSString *)internalUniqueObjectID;
@@ -42,7 +46,7 @@
 - (void)restoreGrouping;
 
 @property (readonly, nonatomic) AIListContact *parentContact; //This needs renaming. It's the 'topmost' contact, either self or meta
-@property (readonly, nonatomic) AIMetaContact *metaContact;
+@property (readonly, nonatomic, assign) AIMetaContact *metaContact;
 
 @property (readonly, nonatomic) NSString *ownDisplayName;
 @property (readonly, nonatomic) NSString *ownPhoneticName;

@@ -543,7 +543,8 @@
 			containerID = AILocalizedString(@"Group Chats",nil);
 			
 		} else {
-			AIListObject	*group = inChat.listObject.parentContact.containingObject;
+			//XXX multiple containers: this is "correct" but maybe not desirable, as it is non-deterministic
+			AIListGroup	*group = inChat.listObject.parentContact.groups.anyObject;
 			
 			//If the contact is in the contact list root, we don't have a group
 			if (group && ![group isKindOfClass:[AIContactList class]]) {

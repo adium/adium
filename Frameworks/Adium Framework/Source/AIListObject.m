@@ -50,7 +50,7 @@
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService
 {
 	if ((self = [super init])) {
-		containingObjects = [[NSMutableSet alloc] initWithCapacity:1];
+		m_groups = [[NSMutableSet alloc] initWithCapacity:1];
 		UID = [inUID retain];	
 		service = inService;
 
@@ -81,9 +81,9 @@
 	//
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
-	[containingObjects release]; containingObjects = nil;
+	[m_groups release]; m_groups = nil;
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -202,10 +202,7 @@
 //Grouping / Ownership -------------------------------------------------------------------------------------------------
 #pragma mark Grouping / Ownership
 
-- (NSSet *)groups
-{
-	return [NSSet set];
-}
+@synthesize groups = m_groups;
 
 /*!
  * @brief Containing object of this object
@@ -213,8 +210,10 @@
 - (AIListObject<AIContainingObject> *)containingObject
 {
 	//XXX multiple containers
-    return [containingObjects anyObject];
+	return self.containingObjects.anyObject;
 }
+
+@synthesize containingObjects = m_groups;
 
 /*!
  * @brief Set the local grouping for this object
@@ -224,17 +223,13 @@
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
 {
 	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
-	if (![containingObjects containsObject:inGroup]) {
+	if (![self.groups containsObject:inGroup]) {
 		
 		//XXX multiple containers
-		if (!inGroup)
-			[containingObjects removeAllObjects];
-		else {
-			AIListObject<AIContainingObject> *container = self.containingObject;
-			if(container)
-				[containingObjects removeObject:container];
-			[containingObjects addObject:inGroup];
-		}
+		[m_groups removeAllObjects];
+
+		if (inGroup)
+			[m_groups addObject:inGroup];
 		
 		//Reset then redetermine our order index	
 		orderIndex = 0;
@@ -288,7 +283,7 @@
 - (void)didNotifyOfChangedPropertiesSilently:(BOOL)silent
 {
 	//Let our containing objects know about the notification request
-	for (AIListContact<AIContainingObject> *container in containingObjects)
+	for (AIListContact<AIContainingObject> *container in self.containingObjects)
 		[container notifyOfChangedPropertiesSilently:silent];
 }
 
@@ -300,7 +295,7 @@
 - (void)object:(id)inObject didChangeValueForProperty:(NSString *)key notify:(NotifyTiming)notify
 {				
 	//Inform our containing groups about the new property value
-	for (AIListContact<AIContainingObject> *container in containingObjects)
+	for (AIListContact<AIContainingObject> *container in self.containingObjects)
 		[container object:self didChangeValueForProperty:key notify:notify];
 	
 	[super object:inObject didChangeValueForProperty:key notify:notify];
@@ -316,7 +311,7 @@
  */
 - (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority
 {
-	for (AIListContact<AIContainingObject> *container in containingObjects)
+	for (AIListContact<AIContainingObject> *container in self.containingObjects)
 		[container listObject:self mutableOwnerArray:inArray didSetObject:anObject withOwner:inOwner priorityLevel:priority];
 }
 

@@ -40,8 +40,13 @@
 
 #define CONTACT_SIGN_ON_OR_OFF_PERSISTENCE_DELAY 15
 
+@interface AIListObject ()
+- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+@end
+
 @interface AIListContact ()
 @property (readwrite, nonatomic, retain) NSString *remoteGroupName;
+@property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
 @end
 
 @implementation AIListContact
@@ -127,7 +132,8 @@
 		//XXX multiple containers
 		if (self.remoteGroupName != inName) {
 			[m_remoteGroupNames removeAllObjects];
-			[m_remoteGroupNames addObject:inName];
+			if (inName)
+				[m_remoteGroupNames addObject:inName];
 		}
 		[adium.contactController contactRemoteGroupingChanged:self];
 		
@@ -165,6 +171,18 @@
 - (void)restoreGrouping
 {
 	[adium.contactController contactRemoteGroupingChanged:self];
+}
+
+- (void) addGroup:(AIListGroup *)group
+{
+	//XXX multiple containers
+	self.containingObject = group;
+}
+
+- (void) removeGroup:(AIListGroup *)group
+{
+	//XXX multiple containers
+	self.containingObject = nil;
 }
 
 #pragma mark Names
@@ -611,18 +629,21 @@
     return NO;
 }
 
-- (NSSet *)groups {
-	//if we're not in a meta, we should be in at least one group
-	if (!self.metaContact)
-		return containingObjects;
-	return [NSSet set];
-}
-
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
 {
 	if (!inGroup || [inGroup isKindOfClass:[AIMetaContact class]])
+	{
 		metaContact = (AIMetaContact *)inGroup;
-	[super setContainingObject:inGroup];
+		super.containingObject = nil;
+	}
+	else
+		super.containingObject = inGroup;
+}
+
+- (NSSet *) containingObjects {
+	if (metaContact)
+		return [super.containingObjects setByAddingObject:metaContact];
+	return super.containingObjects;
 }
 
 /*!
@@ -635,9 +656,12 @@
 
 - (AIMetaContact *)metaContact
 {
-	if (metaContact)
-		return metaContact;
-	return nil;
+	return metaContact;
+}
+
+- (void) setMetaContact:(AIMetaContact *)meta
+{
+	self.containingObject = meta;
 }
 
 #pragma mark Equality
