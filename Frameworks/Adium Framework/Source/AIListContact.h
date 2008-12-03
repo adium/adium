@@ -35,10 +35,6 @@
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;
 
-//XXX should these be private/in a category private to AIListGroup?
-- (void) addGroup:(AIListGroup *)group;
-- (void) removeGroup:(AIListGroup *)group;
-
 - (void)setUID:(NSString *)inUID;
 @property (readonly, nonatomic) AIAccount *account;
 - (NSString *)internalUniqueObjectID;

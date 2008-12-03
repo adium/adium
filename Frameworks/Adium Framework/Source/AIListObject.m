@@ -36,6 +36,10 @@
 #define FormattedUID		@"FormattedUID"
 #define AlwaysVisible		@"AlwaysVisible"
 
+@interface AIListObject ()
+- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+@end
+
 /*!
  * @class AIListObject
  * @brief Base class for all contacts, groups, and accounts
@@ -203,6 +207,18 @@
 #pragma mark Grouping / Ownership
 
 @synthesize groups = m_groups;
+
+- (void) addGroup:(AIListGroup *)group
+{
+	//XXX multiple containers
+	self.containingObject = group;
+}
+
+- (void) removeGroup:(AIListGroup *)group
+{
+	//XXX multiple containers
+	self.containingObject = nil;
+}
 
 /*!
  * @brief Containing object of this object
