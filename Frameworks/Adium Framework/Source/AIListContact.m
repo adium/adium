@@ -173,18 +173,6 @@
 	[adium.contactController contactRemoteGroupingChanged:self];
 }
 
-- (void) addGroup:(AIListGroup *)group
-{
-	//XXX multiple containers
-	self.containingObject = group;
-}
-
-- (void) removeGroup:(AIListGroup *)group
-{
-	//XXX multiple containers
-	self.containingObject = nil;
-}
-
 #pragma mark Names
 /*!
  * @brief Display name
