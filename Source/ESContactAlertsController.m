@@ -382,6 +382,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	//Get all events from the contanining object if we have an object
 	if (listObject) {
 		//If listObject doesn't have a containingObject, this will pass nil
+		//XXX multiple containers
 		events = [self appendEventsForObject:listObject.containingObject
 									 eventID:eventID
 									 toArray:events];

@@ -141,6 +141,7 @@
 			 keyEquivalent:@""];
 	
 	//Select the group of the currently selected object on the contact list
+	//XXX multiple containers
 	selectedObject = adium.interfaceController.selectedListObject;
 	while (selectedObject && ![selectedObject isKindOfClass:[AIListGroup class]]) {
 		selectedObject = selectedObject.containingObject;

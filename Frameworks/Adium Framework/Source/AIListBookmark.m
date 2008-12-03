@@ -23,6 +23,10 @@
 
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
 
+@interface AIListObject ()
+- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+@end
+
 @interface AIListBookmark ()
 - (void)restoreGrouping;
 @end
@@ -135,7 +139,7 @@
 					  group:OBJECT_STATUS_CACHE];
 	}
 	
-	[super setContainingObject:inGroup];
+	super.containingObject = inGroup;
 }
 
 /*!

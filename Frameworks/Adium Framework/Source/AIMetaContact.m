@@ -32,6 +32,11 @@
 
 #define	KEY_EXPANDED						@"IsExpanded"
 
+@interface AIListContact ()
+@property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
+- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+@end
+
 @interface AIMetaContact ()
 - (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
 
@@ -120,23 +125,26 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
 - (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
 {
-	NSString	*inGroupInternalObjectID = [inGroup internalObjectID];
-	
-	//Save the change of containing object so it can be restored on launch next time if we are using groups.
-	//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
-	if ([adium.contactController useContactListGroups] &&
-		inGroupInternalObjectID &&
-		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-																   group:OBJECT_STATUS_CACHE
-												   ignoreInheritedValues:YES]] &&
-		(inGroup != [adium.contactController offlineGroup])) {
+	if (inGroup) {
+		NSParameterAssert([inGroup canContainObject:self]);
+		NSString	*inGroupInternalObjectID = [inGroup internalObjectID];
+		
+		//Save the change of containing object so it can be restored on launch next time if we are using groups.
+		//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
+		if (adium.contactController.useContactListGroups &&
+			inGroupInternalObjectID &&
+			![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
+																	   group:OBJECT_STATUS_CACHE
+													   ignoreInheritedValues:YES]] &&
+			(inGroup != [adium.contactController offlineGroup])) {
 
-		[self setPreference:inGroupInternalObjectID
-					 forKey:KEY_CONTAINING_OBJECT_ID
-					  group:OBJECT_STATUS_CACHE];
+			[self setPreference:inGroupInternalObjectID
+						 forKey:KEY_CONTAINING_OBJECT_ID
+						  group:OBJECT_STATUS_CACHE];
+		}
 	}
 
-	[super setContainingObject:inGroup];
+	super.containingObject = inGroup;
 }
 
 - (AIListContact *)parentContact
@@ -148,6 +156,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	return self;
 }
+
+- (void) setMetaContact:(AIMetaContact *)meta{ NSAssert(NO, @"Should not be reached"); }
 
 /*!
  * @brief Restore the AIListGroup grouping into which this object was last manually placed
@@ -285,7 +295,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self restoreGrouping];	
 		}
 		
-		[inObject setContainingObject:self];
+		((AIListContact *)inObject).metaContact = self;
 		[_containedObjects addObject:inObject];
 		containedObjectsNeedsSort = YES;
 		
@@ -318,6 +328,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)removeObject:(AIListObject *)inObject
 {
+	NSParameterAssert([inObject isKindOfClass:[AIListContact class]]);
 	AIListContact *contact = (AIListContact *)inObject;
 	if ([self.containedObjects containsObjectIdenticalTo:inObject]) {
 		BOOL	noteRemoteGroupingChanged = NO;
@@ -330,11 +341,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		if (contact.remoteGroupName) {
 			//Reset it to its remote group
-			if (contact.metaContact)
-				contact.containingObject = nil;
+			contact.metaContact = nil;
 			noteRemoteGroupingChanged = YES;
 		} else {
-			contact.containingObject = self.containingObject;
+			for (AIListGroup *group in self.groups)
+				[contact addGroup:group];
 		}
 
 		[self containedObjectsOrOrderDidChange];
@@ -350,9 +361,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
-	/*	if ([self.containedObjects count] == 0) {
-			[self setContainingObject:nil];
-		}*/
+		if (self.containedObjectsCount == 0) {
+			for (AIListGroup *group in self.groups) {
+				[self removeGroup:group];
+			}
+		}
 
 		/* Now that we're done reconfigured ourselves and the recently removed object,
 		 * tell the contactController about the change in the removed object.
@@ -367,18 +380,22 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
 {
-	[inObject retain];
+	NSParameterAssert([inObject isKindOfClass:[AIListContact class]]);
+	AIListContact *contact = (AIListContact *)inObject;
+	[contact retain];
 	
 	[_containedObjects removeObject:inObject];
-	[inObject setContainingObject:nil];
+	contact.metaContact = nil;
 	[self containedObjectsOrOrderDidChange];
 
 	//If we remove our list object, don't continue to show up in the contact list
-	if ([self.containedObjects count] == 0) {
-		[self setContainingObject:nil];
+	if (self.containedObjectsCount == 0) {
+		for (AIListGroup *group in self.groups) {
+			[self removeGroup:group];
+		}
 	}
 	
-	[inObject release];
+	[contact release];
 }
 
 /*!
@@ -617,21 +634,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (BOOL)containsOnlyOneService
 {
-	containsOnlyOneService = YES;
-
-	NSEnumerator	*enumerator = [self.uniqueContainedObjects objectEnumerator];
-	AIListObject	*listObject = [enumerator nextObject];
-	AIService		*firstService = [listObject service];
-
-	//If any of the services are different from the initial service, then we have multiple contained services
-	while ((listObject = [enumerator nextObject])) {
-		if ([listObject service] != firstService) {
-			containsOnlyOneService = NO;
-			break;
-		}
-	}
-	
-	return containsOnlyOneService;
+	return self.servicesOfContainedObjects.count == 1;
 }
 
 //When the listContacts array has a single member, we only contain one unique contact.
@@ -664,8 +667,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[self _determineIfWeShouldAppearToContainOnlyOneContact];
 	
 	//It's possible we didn't know to be in a group before if all our contained contacts were also groupless.
-	if (!self.containingObject ||
-		(![adium.contactController useContactListGroups] && ![self.containingObject isKindOfClass:[AIContactList class]])) {
+	if (self.groups.count == 0 ||
+		(!adium.contactController.useContactListGroups && ![self.groups.anyObject isKindOfClass:[AIContactList class]])) {
 		[self restoreGrouping];
 	}
 
@@ -810,7 +813,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	//Finally, do the recursive lookup starting with our containing group
 	if (!returnValue) {
-		returnValue = [self.containingObject preferenceForKey:inKey group:groupName];
+		for (AIListGroup *group in self.groups) {
+			returnValue = [group preferenceForKey:inKey group:groupName];
+			if (returnValue)
+				break;
+		}
 	}
 
 	return returnValue;
@@ -981,7 +988,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //Number of containd objects
 - (NSUInteger)containedObjectsCount
 {
-    return [self.containedObjects count];
+    return self.containedObjects.count;
 }
 
 //Test for the presence of an object in our group

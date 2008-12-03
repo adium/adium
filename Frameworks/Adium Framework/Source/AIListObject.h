@@ -88,7 +88,7 @@ typedef enum {
 	AIGroupChatFlags groupChatFlags;
 
 	//Grouping, Manual ordering
-	NSMutableSet *containingObjects; //The AIContainingObjects that this object is in; currently always has only 1
+	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
 	CGFloat					orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
@@ -115,6 +115,8 @@ typedef enum {
 
 //Grouping
 @property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
+//Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
+@property (readonly, nonatomic) NSSet *containingObjects;
 @property (readonly, nonatomic) NSSet *groups;
 
 //Display
@@ -133,9 +135,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *pathToPreferences;
 
 @property (readonly, nonatomic) CGFloat orderIndex;
-
-//Grouping (PRIVATE: These are for AIListGroup and AIMetaContact ONLY)
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
 
 //Key-Value pairing
 @property (readonly, nonatomic) BOOL online;

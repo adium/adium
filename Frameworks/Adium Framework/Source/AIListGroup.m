@@ -21,6 +21,10 @@
 #import <Adium/AIContactList.h>
 #import <Adium/AIListContact.h>
 
+@interface AIListObject ()
+- (void) setContainingObject:(id<AIContainingObject>)obj;
+@end
+
 @implementation AIListGroup
 
 - (id)initWithUID:(NSString *)inUID
@@ -174,8 +178,12 @@
 	BOOL success = NO;
 	
 	if (![self.containedObjects containsObjectIdenticalTo:inObject]) {
-		//Add the object
-		[inObject setContainingObject:self];
+		//Add the object (icky special casing :( )
+		if ([inObject isKindOfClass:[AIListContact class]])
+			[(AIListContact *)inObject addGroup:self];
+		else
+			inObject.containingObject = self;
+		
 		[_containedObjects addObject:inObject];
 		
 		/* Sort this object on our own.  This always comes along with a content change, so calling contact controller's
@@ -198,10 +206,11 @@
 - (void)removeObject:(AIListObject *)inObject
 {	
 	if ([self containsObject:inObject]) {		
+		AIListContact *contact = (AIListContact *)inObject;
 		//Remove the object
-		if ([inObject.groups containsObject:self])
-			inObject.containingObject = nil;
-		[_containedObjects removeObject:inObject];
+		if ([contact.groups containsObject:self])
+			[contact removeGroup:self];
+		[_containedObjects removeObject:contact];
 
 		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
 	}
@@ -209,7 +218,8 @@
 
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
 {
-	[inObject setContainingObject:nil];
+	NSParameterAssert([self canContainObject:inObject]);
+	[(AIListContact *)inObject removeGroup:self];
 	[_containedObjects removeObject:inObject];
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
 }

@@ -280,10 +280,10 @@
 	
 	if (inContact.metaContact) {
 		
-		/* If inContact's containingObject is a metaContact, and that metaContact has no containingObject,
+		/* If inContact's containingObject is a metaContact, and that metaContact has no groups,
 		 * use inContact's remote grouping as the metaContact's grouping.
 		 */
-		if (!inContact.metaContact.containingObject && [remoteGroupName length]) {
+		if (inContact.metaContact.groups.count == 0 && [remoteGroupName length]) {
 			//If no similar objects exist, we add this contact directly to the list
 			//Create a group for the contact even if contact list groups aren't on,
 			//otherwise requests for all the contact list groups will return nothing
@@ -297,7 +297,7 @@
 			
 			[self _didChangeContainer:localGroup object:inContact.metaContact];
 			[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
-																object:localGroup.containingObject
+																object:localGroup.containingObjects.anyObject
 															  userInfo:nil];
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
 		}
@@ -532,7 +532,8 @@
 - (AIListGroup *)offlineGroup
 {
 	if(!useOfflineGroup)
-		return nil;
+		return [groupDict objectForKey:[AILocalizedString(@"Offline", "Name of offline group") lowercaseString]];
+
 	return [self groupWithUID:AILocalizedString(@"Offline", "Name of offline group")];
 }
 
@@ -738,12 +739,12 @@
 
 	BOOL								success;
 	
-	AIListObject<AIContainingObject> *oldContainingObject = inContact.containingObject;
+	NSSet *contactGroups = inContact.groups;
 	
-	//Remove the object from its previous containing group
-	if (oldContainingObject && (oldContainingObject != metaContact)) {
-		[oldContainingObject removeObject:inContact];
-		[self _didChangeContainer:oldContainingObject object:inContact];
+	//Remove the object from its previous containing groups
+	for (AIListGroup *group in contactGroups) {
+		[group removeObject:inContact];
+		[self _didChangeContainer:group object:inContact];
 	}
 	
 	//AIMetaContact will handle reassigning the list object's grouping to being itself
@@ -752,14 +753,15 @@
 		
 		[self _didChangeContainer:metaContact object:inContact];
 		//If the metaContact isn't in a group yet, use the group of the object we just added
-		if (!metaContact.containingObject && oldContainingObject) {
-			//Add the new meta contact to our list
-			[(AIMetaContact *)oldContainingObject addObject:metaContact];
-			[self _didChangeContainer:oldContainingObject object:metaContact];
+		if (metaContact.groups.count == 0) {
+			for (AIListGroup *group in contactGroups) {
+				[group addObject:metaContact];
+				[self _didChangeContainer:group object:metaContact];
+			}
 		}
 
 		//Ensure the metacontact ends up in the appropriate group
-		if (!metaContact.containingObject || metaContact.containingObject == self.offlineGroup)
+		if (metaContact.groups.count == 0 || [metaContact.groups containsObject:self.offlineGroup])
 			[metaContact restoreGrouping];
 	}
 	
@@ -968,8 +970,8 @@
 - (void)breakdownAndRemoveMetaContact:(AIMetaContact *)metaContact
 {
 	//Remove the objects within it from being inside it
-	NSArray								*containedObjects = [[metaContact containedObjects] copy];
-	AIListObject<AIContainingObject>	*containingObject = metaContact.containingObject;
+	NSArray	*containedObjects = [metaContact.containedObjects copy];
+	NSSet	*groups = metaContact.groups;
 	
 	NSMutableDictionary *allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
@@ -987,8 +989,10 @@
 	//Protect!
 	[metaContact retain];
 	
-	//Remove it from its containing group
-	[containingObject removeObject:metaContact];
+	//Remove it from its containing groups
+	for (AIListGroup *group in groups) {
+		[group removeObject:metaContact];
+	}
 	
 	NSString	*metaContactInternalObjectID = [metaContact internalObjectID];
 	
@@ -1001,7 +1005,9 @@
 	//XXX - contactToMetaContactLookupDict
 	
 	//Post the list changed notification for the old containingObject
-	[self _didChangeContainer:containingObject object:metaContact];
+	for (AIListGroup *group in groups) {
+		[self _didChangeContainer:group object:metaContact];
+	}
 	
 	//Save the updated allMetaContactsDict which no longer lists the metaContact
 	[self _saveMetaContacts:allMetaContactsDict];
@@ -1027,21 +1033,6 @@
 NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
 {
 	return [[objectA displayName] caseInsensitiveCompare:[objectB displayName]];
-}
-
-//Return either the highest metaContact containing this list object, or the list object itself.  Appropriate for when
-//preferences should be read from/to the most generalized contact possible.
-- (AIListObject *)parentContactForListObject:(AIListObject *)listObject
-{
-	if ([listObject isKindOfClass:[AIListContact class]]) {
-		//Find the highest-up metaContact
-		AIListObject	*containingObject;
-		while ([(containingObject = listObject.containingObject) isKindOfClass:[AIMetaContact class]]) {
-			listObject = (AIMetaContact *)containingObject;
-		}
-	}
-	
-	return listObject;
 }
 
 #pragma mark Preference observing
@@ -1090,23 +1081,23 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (![inObject isKindOfClass:[AIListContact class]])
 		return nil;
 	
-	//If this contact is not its own parent contact, don't bother since we'll get an update for the parent if appropriate
-	if (inObject != [(AIListContact *)inObject parentContact])
+	//If this contact is in a meta, don't bother since we'll get an update for the parent if appropriate
+	if (((AIListContact *)inObject).metaContact)
 		return nil;
 	
-	AIListObject *containingObject = inObject.containingObject;
-
+	NSSet *groups = ((AIListContact *)inObject).groups;
+	
 	if (useOfflineGroup && useContactListGroups) {
 		
-		if (inObject.online && containingObject == self.offlineGroup) {
+		if (inObject.online && [groups containsObject:self.offlineGroup]) {
 			[(AIListContact *)inObject restoreGrouping];
 			
-		} else if (!inObject.online && containingObject && containingObject != self.offlineGroup) {
+		} else if (!inObject.online && groups.count > 0 && ![groups containsObject:self.offlineGroup]) {
 			[self _moveContactLocally:(AIListContact *)inObject
 							  toGroup:self.offlineGroup];
 		}
 		
-	} else if (containingObject == self.offlineGroup) {
+	} else if ([groups containsObject:self.offlineGroup]) {
 		[(AIListContact *)inObject restoreGrouping];
 	}
 	
@@ -1136,11 +1127,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		[contactPropertiesObserverManager noteContactChanged:inObject];
 
 	} else {
-		AIListObject		*group = inObject.containingObject;
-		
-		if ([group isKindOfClass:[AIListGroup class]]) {
+		for (AIListGroup *group in inObject.groups) {
 			//Sort the groups containing this object
-			[(AIListGroup *)group sortListObject:inObject];
+			[group sortListObject:inObject];
 			[adium.notificationCenter postNotificationName:Contact_OrderChanged object:group];
 		}
 	}
@@ -1311,9 +1300,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	 * Of course, this really means that the object delay code is somehow failing to actually delay all updates.
 	 * I can't figure out where or why, so this is a hack around it. Ugh. -evands 10/08
 	 */
-	[inContact.containingObject performSelector:@selector(removeObjectAfterAccountStopsTracking:)
-									 withObject:inContact
-									 afterDelay:1];
+	for (AIListObject<AIContainingObject> *container in inContact.containingObjects) {
+		[container performSelector:@selector(removeObjectAfterAccountStopsTracking:)
+		 withObject:inContact
+		 afterDelay:1];
+	}
+	
 	[contactDict removeObjectForKey:[inContact internalUniqueObjectID]];
 }
 
@@ -1583,7 +1575,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[self breakdownAndRemoveMetaContact:(AIMetaContact *)listObject];				
 			
 		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
-			AIListObject <AIContainingObject>	*containingObject = listObject.containingObject;
+			AIContactList	*containingObject = (AIContactList *)listObject.containingObjects.anyObject; //groups can only have one parent group
 			
 			//If this is a group, delete all the objects within it
 			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
@@ -1656,12 +1648,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)moveObject:(AIListObject *)listObject intoObject:(AIListObject<AIContainingObject> *)destination
 {
 	//Move the object to the new group only if necessary
-	if (destination == listObject.containingObject) return;
+	if ([listObject.groups containsObject:destination]) return;
 	
 	if ([destination isKindOfClass:[AIContactList class]] &&
 		[listObject isKindOfClass:[AIListGroup class]]) {
 		// Move contact from one contact list to another
-		[(AIContactList *)listObject.containingObject moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
+		[(AIContactList *)listObject.containingObjects.anyObject moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
 
 	} else if ([destination isKindOfClass:[AIListGroup class]]) {
 		AIListGroup *group = (AIListGroup *)destination;
@@ -1694,7 +1686,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	} else if ([destination isKindOfClass:[AIMetaContact class]]) {
 		//Moving a contact into a meta contact
 		NSParameterAssert([listObject isKindOfClass:[AIListContact class]]);
-		[self addContact:(AIListContact*)listObject toMetaContact:(AIMetaContact *)destination];
+		if (((AIListContact *)listObject).metaContact != destination)
+			[self addContact:(AIListContact*)listObject toMetaContact:(AIMetaContact *)destination];
 	}
 }
 
