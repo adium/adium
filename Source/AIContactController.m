@@ -1653,6 +1653,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if ([destination isKindOfClass:[AIContactList class]] &&
 		[listObject isKindOfClass:[AIListGroup class]]) {
 		// Move contact from one contact list to another
+		// Groups can only have one containing object, so asking for anyObject like this is safe
 		[(AIContactList *)listObject.containingObjects.anyObject moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
 
 	} else if ([destination isKindOfClass:[AIListGroup class]]) {
