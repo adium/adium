@@ -180,7 +180,7 @@
 	if (![self.containedObjects containsObjectIdenticalTo:inObject]) {
 		//Add the object (icky special casing :( )
 		if ([inObject isKindOfClass:[AIListContact class]])
-			[(AIListContact *)inObject addGroup:self];
+			[(AIListContact *)inObject addContainingGroup:self];
 		else
 			inObject.containingObject = self;
 		
@@ -209,7 +209,7 @@
 		AIListContact *contact = (AIListContact *)inObject;
 		//Remove the object
 		if ([contact.groups containsObject:self])
-			[contact removeGroup:self];
+			[contact removeContainingGroup:self];
 		[_containedObjects removeObject:contact];
 
 		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
@@ -219,7 +219,7 @@
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
 {
 	NSParameterAssert([self canContainObject:inObject]);
-	[(AIListContact *)inObject removeGroup:self];
+	[(AIListContact *)inObject removeContainingGroup:self];
 	[_containedObjects removeObject:inObject];
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
 }
