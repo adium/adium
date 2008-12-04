@@ -72,6 +72,11 @@
 	return contentsBasedIdentifier;
 }
 
+- (AIContactList *)contactList
+{
+	return self.groups.anyObject; //can only have one containing group, its contact list
+}
+
 #pragma mark Visibility
 
 /*
