@@ -16,7 +16,7 @@
 
 #import <Adium/AIListObject.h>
 
-@class AISortController;
+@class AISortController, AIContactList;
 
 @interface AIListGroup : AIListObject <AIContainingObject> {
 	NSMutableArray		*_containedObjects;	//Manually ordered array of contents
@@ -35,5 +35,7 @@
 
 //Visibility
 @property (readonly, nonatomic) NSUInteger visibleCount;
+
+@property (readonly, nonatomic) AIContactList *contactList;
 
 @end

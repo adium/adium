@@ -297,7 +297,7 @@
 			
 			[self _didChangeContainer:localGroup object:inContact.metaContact];
 			[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
-																object:localGroup.containingObjects.anyObject
+																object:localGroup.contactList
 															  userInfo:nil];
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
 		}
@@ -1575,7 +1575,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[self breakdownAndRemoveMetaContact:(AIMetaContact *)listObject];				
 			
 		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
-			AIContactList	*containingObject = (AIContactList *)listObject.containingObjects.anyObject; //groups can only have one parent group
+			AIContactList	*containingObject = ((AIListGroup *)listObject).contactList;
 			
 			//If this is a group, delete all the objects within it
 			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
@@ -1653,8 +1653,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if ([destination isKindOfClass:[AIContactList class]] &&
 		[listObject isKindOfClass:[AIListGroup class]]) {
 		// Move contact from one contact list to another
-		// Groups can only have one containing object, so asking for anyObject like this is safe
-		[(AIContactList *)listObject.containingObjects.anyObject moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
+		[((AIListGroup *)listObject).contactList moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
 
 	} else if ([destination isKindOfClass:[AIListGroup class]]) {
 		AIListGroup *group = (AIListGroup *)destination;
