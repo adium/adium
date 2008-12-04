@@ -208,13 +208,13 @@
 
 @synthesize groups = m_groups;
 
-- (void) addGroup:(AIListGroup *)group
+- (void) addContainingGroup:(AIListGroup *)group
 {
 	//XXX multiple containers
 	self.containingObject = group;
 }
 
-- (void) removeGroup:(AIListGroup *)group
+- (void) removeContainingGroup:(AIListGroup *)group
 {
 	//XXX multiple containers
 	self.containingObject = nil;

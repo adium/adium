@@ -345,7 +345,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			noteRemoteGroupingChanged = YES;
 		} else {
 			for (AIListGroup *group in self.groups)
-				[contact addGroup:group];
+				[contact addContainingGroup:group];
 		}
 
 		[self containedObjectsOrOrderDidChange];
@@ -363,7 +363,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		//If we remove our list object, don't continue to show up in the contact list
 		if (self.containedObjectsCount == 0) {
 			for (AIListGroup *group in self.groups) {
-				[self removeGroup:group];
+				[self removeContainingGroup:group];
 			}
 		}
 
@@ -391,7 +391,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	//If we remove our list object, don't continue to show up in the contact list
 	if (self.containedObjectsCount == 0) {
 		for (AIListGroup *group in self.groups) {
-			[self removeGroup:group];
+			[self removeContainingGroup:group];
 		}
 	}
 	

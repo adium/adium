@@ -118,8 +118,8 @@ typedef enum {
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
 @property (readonly, nonatomic) NSSet *containingObjects;
 @property (readonly, nonatomic) NSSet *groups;
-- (void) removeGroup:(AIListGroup *)group;
-- (void) addGroup:(AIListGroup *)group;
+- (void) removeContainingGroup:(AIListGroup *)group;
+- (void) addContainingGroup:(AIListGroup *)group;
 
 //Display
 @property (readonly, nonatomic) NSString *formattedUID;
