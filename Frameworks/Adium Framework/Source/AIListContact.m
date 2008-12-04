@@ -630,7 +630,7 @@
 
 - (NSSet *) containingObjects {
 	if (metaContact)
-		return [super.containingObjects setByAddingObject:metaContact];
+		return [NSSet setWithObject:metaContact];
 	return super.containingObjects;
 }
 
