@@ -229,7 +229,10 @@
 	return self.containingObjects.anyObject;
 }
 
-@synthesize containingObjects = m_groups;
+- (NSSet *)containingObjects
+{
+	return self.groups;
+}
 
 /*!
  * @brief Set the local grouping for this object
