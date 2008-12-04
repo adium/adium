@@ -205,7 +205,7 @@ void getRGBFromHueLuminanceSaturation(float *r, float *g, float *b, float hue, f
  *
  *	@par	\a hex must be ASCII (including UTF-8 and all variants of ISO-8859).
  *
- *	@par	If \a is not a valid hexadecimal character, this function returns -1. Remember to check its return value.
+ *	@par	If \a hex is not a valid hexadecimal character, this function returns -1. Remember to check its return value.
  *
  *	@return	The number represented by the digit, or -1.
  */
