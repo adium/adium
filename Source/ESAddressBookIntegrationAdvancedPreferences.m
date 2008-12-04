@@ -293,7 +293,7 @@
 		//Delay to the next run loop to give better UI responsiveness
 		[adium.contactController performSelector:@selector(clearAllMetaContactData)
 										withObject:nil
-										afterDelay:0.0001];
+										afterDelay:0];
 		
 		
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:NO]

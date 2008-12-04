@@ -511,7 +511,7 @@
 	//Update the contact list.  Do it on the next run loop for better menu responsiveness, as it may be a lengthy procedure.
 	[self performSelector:@selector(_performChangeOfUseContactListGroups)
 			   withObject:nil
-			   afterDelay:0.000001];
+			   afterDelay:0];
 }
 
 - (IBAction)toggleShowGroupsToolbar:(id)sender

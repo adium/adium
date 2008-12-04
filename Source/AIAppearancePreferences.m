@@ -656,9 +656,9 @@ typedef enum {
 		case ESPresetNameSheetOkayReturn:
 			//User has created a new theme/layout	: show the editor
 			if ([userInfo isEqualToString:@"theme"]) {
-				[self performSelector:@selector(_editListThemeWithName:) withObject:newName afterDelay:0.00001];
+				[self performSelector:@selector(_editListThemeWithName:) withObject:newName afterDelay:0];
 			} else {
-				[self performSelector:@selector(_editListLayoutWithName:) withObject:newName afterDelay:0.00001];
+				[self performSelector:@selector(_editListLayoutWithName:) withObject:newName afterDelay:0];
 			}
 		break;
 			

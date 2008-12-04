@@ -155,7 +155,7 @@ static ESFileTransferPreferences *preferences;
 	[adium.notificationCenter performSelector:@selector(postNotificationName:object:)
 									 withObject:FileTransfer_NewFileTransfer 
 									 withObject:fileTransfer
-									 afterDelay:0.0001];
+									 afterDelay:0];
 
 	return fileTransfer;
 }

@@ -123,7 +123,7 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 	//On the next run loop, scroll to the bottom
 	[scrollView_debug performSelector:@selector(scrollToBottom)
 						   withObject:nil
-						   afterDelay:0.001];
+						   afterDelay:0];
 	
 	[checkBox_logWriting setState:[[adium.preferenceController preferenceForKey:KEY_DEBUG_WRITE_LOG
 																			group:GROUP_DEBUG] boolValue]];

@@ -68,7 +68,7 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 	AIWebKitMessageViewController *controller = [mapping objectForKey:[NSValue valueWithPointer:sender]];
 	if(controller) {
 		//Flag the view as ready (as soon as the current methods exit) so we know it's now safe to add content
-		[controller performSelector:@selector(webViewIsReady) withObject:nil afterDelay:0.00001];
+		[controller performSelector:@selector(webViewIsReady) withObject:nil afterDelay:0];
 	}
 	
 	//We don't care about any further didFinishLoad notifications

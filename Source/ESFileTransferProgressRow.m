@@ -100,7 +100,7 @@
 	/*
 	[self performSelector:@selector(informOfAwakefromNib)
 			   withObject:nil
-			   afterDelay:0.000001];
+			   afterDelay:0];
 	 */
 }
 

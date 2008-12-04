@@ -98,7 +98,7 @@
 {
 	[self performSelector:@selector(beginGrowling)
 			   withObject:nil
-			   afterDelay:0.00001];
+			   afterDelay:0];
 
 	[adium.notificationCenter removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
