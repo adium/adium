@@ -513,7 +513,7 @@
 					//reopening with the right windowStyle.
 					[self performSelector:@selector(closeAndReopencontactList)
 							   withObject:nil
-							   afterDelay:0.00001];
+							   afterDelay:0];
 				}
 			}
 		}

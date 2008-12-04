@@ -1385,7 +1385,7 @@ static NSArray *draggedTypes = nil;
 		// If the webview isn't ready yet, wait a very short amount of time before trying again
 		[self performSelector:@selector(setChatContentSource:)
 				   withObject:source
-				   afterDelay:0.01];
+				   afterDelay:0];
 	} else {
 		// Add the old "Chat" element to the window.
 		[(DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"Chat"] setOuterHTML:source];

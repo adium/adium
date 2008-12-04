@@ -538,7 +538,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			 */
 			[self performSelector:@selector(rebuildAddressBookDict)
 					   withObject:nil
-					   afterDelay:0.0001];
+					   afterDelay:0];
 		}
 		
 		//Update all contacts, which will update objects and then our "me" card information
