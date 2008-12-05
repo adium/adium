@@ -541,9 +541,11 @@
 			if (item != nil) {
 				if ([item isKindOfClass:[AIListGroup class]]) {
 					// In between objects
+					//XXX multiple containers
 					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject visibleIndexOfObject:listItem]];
 				} else {
 					// On top of an object
+					//XXX multiple containers
 					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject.containingObject visibleIndexOfObject:listItem.containingObject]];
 				}
 			}
@@ -562,6 +564,7 @@
 				AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
 																			child:((index > 0) ? (index - 1) : 0)
 																		   ofItem:nil];
+				//XXX multiple containers
 				if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
 					itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
 
@@ -620,6 +623,7 @@
 						if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
 																	numberOfChildrenOfItem:item])) ||
 							(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
+							//XXX multiple containers
 							[outlineView setDropItem:listItem.containingObject
 									  dropChildIndex:([listItem.containingObject visibleIndexOfObject:listItem] + 1)];
 						}
@@ -846,6 +850,7 @@
 		AIMetaContact	*metaContact;
 
 		//Keep track of where it was before
+		//XXX multiple containers
 		AIListObject<AIContainingObject> *oldContainingObject = [item.containingObject retain];
 		CGFloat oldIndex = [item orderIndex];
 
