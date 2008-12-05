@@ -83,7 +83,7 @@ typedef enum {
 
 - (AIMetaContact *)groupContacts:(NSArray *)contactsToGroupArray;
 - (void)removeAllContactsMatching:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact;
-- (AIListGroup *)remoteGroupForContact:(AIListContact *)inContact;
+- (NSSet *)remoteGroupsForContact:(AIListContact *)inContact;
 - (void)clearAllMetaContactData;
 
 //Contact status & Attributes
@@ -100,7 +100,7 @@ typedef enum {
 //Editing
 - (void)removeListObjects:(NSArray *)objectArray;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
-- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index;
+- (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index;
 - (void)moveObject:(AIListObject *)listContact intoObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)group;
 @property (readonly, nonatomic) BOOL useContactListGroups;

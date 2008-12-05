@@ -368,7 +368,8 @@
 		if (accountOnline) {
 			AIListGroup	*group;
 			
-			if ((group = [adium.contactController remoteGroupForContact:exactContact])) {
+			//XXX multiple containers
+			if ((group = [adium.contactController remoteGroupsForContact:exactContact].anyObject)) {
 				[cell selectItemWithRepresentedObject:group];
 			} else {
 				[cell selectItemAtIndex:0];			

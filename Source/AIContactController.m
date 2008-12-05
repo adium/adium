@@ -387,21 +387,22 @@
 	[listContact release];
 }
 
-- (AIListGroup *)remoteGroupForContact:(AIListContact *)inContact
+- (NSSet *)remoteGroupsForContact:(AIListContact *)inContact
 {
-	AIListGroup		*group;
+	NSSet *groups;
 	
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
-		//For a metaContact, the closest we have to a remote group is the group it is within locally
-		//XXX multiple containers
-		group = [[inContact groups] anyObject];
+		//For a metaContact, the closest we have to a remote group is the groups it is within locally
+		groups = inContact.groups;
 		
 	} else {
-		NSString	*remoteGroup = [inContact remoteGroupName];
-		group = (remoteGroup ? [self groupWithUID:remoteGroup] : nil);
+		groups = [NSMutableSet set];
+		for (NSString *remoteGroup in inContact.remoteGroupNames) {
+			[(NSMutableSet *)groups addObject:[self groupWithUID:remoteGroup]];
+		}
 	}
 	
-	return group;
+	return groups;
 }
 
 //Post a list grouping changed notification for the object and containing object
@@ -1615,33 +1616,36 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 											userInfo:userInfo];
 }
 
-- (void)moveListObjects:(NSArray *)objectArray intoObject:(AIListObject<AIContainingObject> *)group index:(NSUInteger)index
-{	
-	[contactPropertiesObserverManager delayListObjectNotifications];
-	
-	if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
-		[(id)group setDelayContainedObjectSorting:YES];
-	}
-	
-	for (AIListObject *listObject in objectArray) {
-		[self moveObject:listObject intoObject:group];
+//XXX multiple containers , needs to a) handle indices properly, and b) handle add vs move properly
+- (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index
+{		
+	for (AIListObject<AIContainingObject> *group in containers) {
+		[contactPropertiesObserverManager delayListObjectNotifications];
+
+		if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
+			[(id)group setDelayContainedObjectSorting:YES];
+		}
 		
-		//Set the new index / position of the object
-		[self _positionObject:listObject atIndex:index inObject:group];
-	}
-	
-	[contactPropertiesObserverManager endListObjectNotificationsDelay];
-	
-	if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
-		[(id)group setDelayContainedObjectSorting:NO];
-	}
-	
-	/*
-	 Resort the entire list if we are moving within or between AIListGroup objects
-	 (other containing objects such as metaContacts will handle their own sorting).
-	 */
-	if ([group isKindOfClass:[AIListGroup class]]) {
-		[self sortContactLists:[NSArray arrayWithObject:group]];
+		for (AIListObject *listObject in objectArray) {
+			[self moveObject:listObject intoObject:group];
+			
+			//Set the new index / position of the object
+			[self _positionObject:listObject atIndex:index inObject:group];
+		}
+		
+		[contactPropertiesObserverManager endListObjectNotificationsDelay];
+		
+		if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
+			[(id)group setDelayContainedObjectSorting:NO];
+		}
+		
+		/*
+		 Resort the entire list if we are moving within or between AIListGroup objects
+		 (other containing objects such as metaContacts will handle their own sorting).
+		 */
+		if ([group isKindOfClass:[AIListGroup class]]) {
+			[self sortContactLists:[NSArray arrayWithObject:group]];
+		}
 	}
 }
 
