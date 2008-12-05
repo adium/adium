@@ -529,9 +529,9 @@
 			if (indexForInserting != index)
 				[outlineView setDropItem:item dropChildIndex:indexForInserting];
 
-			return ((indexForInserting == index) && (((AIListObject *)[dragItems objectAtIndex:0]).containingObject != actualTarget) ?
+			return indexForInserting == index && ![((AIListObject *)[dragItems objectAtIndex:0]).containingObjects containsObject:actualTarget] ?
 					NSDragOperationNone :
-					NSDragOperationMove);
+					NSDragOperationMove;
 		}
 		
 		AIListObject *listItem = (AIListObject *)item;
