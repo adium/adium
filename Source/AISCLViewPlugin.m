@@ -362,7 +362,7 @@
 	AIListGroup			*selectedObject = (AIListGroup *)adium.menuController.currentContextMenuObject;
 	
 	// If this group isn't part of the main contact list, provide a menu item to add it back.
-	if ((AIContactList *)selectedObject.containingObject != adium.contactController.contactList) {
+	if (selectedObject.contactList != adium.contactController.contactList) {
 		[menu addItemWithTitle:AILocalizedString(@"Main Window", "Option in the 'Attach to Window' for the main contact list window")
 						target:self
 						action:@selector(attachToWindow:)
@@ -374,7 +374,7 @@
 	
 	for (window in contactLists) {
 		// Don't add an "attach" option for the window we're already a part of.
-		if (window.contactList == selectedObject.containingObject) {
+		if (window.contactList == selectedObject.contactList) {
 			continue;
 		}
 		
@@ -420,7 +420,7 @@
  */
 - (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIContactList *)destinationList
 {
-	AIContactList *sourceList = (AIContactList *)listGroup.containingObject;
+	AIContactList *sourceList = listGroup.contactList;
 
 	[sourceList moveGroup:listGroup to:destinationList];
 	
@@ -483,7 +483,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return adium.menuController.currentContextMenuObject.containingObject.containedObjectsCount > 1;
+		return adium.menuController.currentContextMenuObject.contactList.containedObjectsCount > 1;
 	}
 	
 	return YES;
@@ -601,7 +601,7 @@
 
 	for (NSString *groupUID in groups) {
 		AIListGroup		*group = [adium.contactController groupWithUID:groupUID];
-		[(AIContactList *)group.containingObject moveGroup:group to:contactList];
+		[group.contactList moveGroup:group to:contactList];
 	}
 	
 	[self detachContactList:contactList];
