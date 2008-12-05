@@ -541,8 +541,7 @@
 			if (item != nil) {
 				if ([item isKindOfClass:[AIListGroup class]]) {
 					// In between objects
-					//XXX multiple containers
-					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject visibleIndexOfObject:listItem]];
+					[outlineView setDropItem:nil dropChildIndex:[((AIListGroup *)listItem).contactList visibleIndexOfObject:listItem]];
 				} else {
 					// On top of an object
 					//XXX multiple containers
@@ -701,7 +700,7 @@
 		//Move the list object to its new location
 		if ([item isKindOfClass:[AIListGroup class]]) {
 			if (item != [adium.contactController offlineGroup]) {
-				[adium.contactController moveListObjects:dragItems intoObject:item index:index];
+				[adium.contactController moveListObjects:dragItems intoObjects:[NSSet setWithObject:item] index:index];
 				
 				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 														  object:item
@@ -724,7 +723,7 @@
 				[set intersectSet:[NSSet setWithArray:[(AIMetaContact *)item containedObjects]]];
 
 				[adium.contactController moveListObjects:[set allObjects]
-												intoObject:item
+									intoObjects:[NSSet setWithObject: item]
 													 index:index];
 			}
 			[outlineView reloadData];
@@ -850,20 +849,19 @@
 		AIMetaContact	*metaContact;
 
 		//Keep track of where it was before
-		//XXX multiple containers
-		AIListObject<AIContainingObject> *oldContainingObject = [item.containingObject retain];
-		CGFloat oldIndex = [item orderIndex];
-
+		NSSet *oldContainers = item.containingObjects;
+		CGFloat oldIndex = item.orderIndex;
+		
 		//Group the destination and then the dragged items into a metaContact
 		metaContact = [adium.contactController groupContacts:[[NSArray arrayWithObject:item]
 																	arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
 		//Position the metaContact in the group & index the drop point was before
 		[adium.contactController moveListObjects:[NSArray arrayWithObject:metaContact]
-										intoObject:oldContainingObject
+										intoObjects:oldContainers
 											 index:oldIndex];
 		
-		[oldContainingObject release];
+		[oldContainers release];
 	}
 
 	[context release]; //We are responsible for retaining & releasing the context dict
