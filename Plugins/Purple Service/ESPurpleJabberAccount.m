@@ -729,9 +729,7 @@
 	if(atsign.location != NSNotFound)
 		[super removeContact:theContact];
 	else {
-		NSEnumerator *e = [gateways objectEnumerator];
-		NSDictionary *gatewaydict;
-		while((gatewaydict = [e nextObject])) {
+		for (NSDictionary *gatewaydict in [[gateways copy] autorelease]) {
 			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:[theContact UID]]) {
 				[[self purpleAdapter] removeUID:[theContact UID] onAccount:self fromGroup:[gatewaydict objectForKey:@"remoteGroup"]];
 				
