@@ -19,8 +19,10 @@
 
 #import "AIDictionaryAdditions.h"
 #import "AIFileManagerAdditions.h"
+#import "RAOperationQueue.h"
+#import "RAOperation.h"
 
-@interface AIWriteDictionaryOperation : NSOperation 
+@interface AIWriteDictionaryOperation : RAOperation 
 {
 	NSString *path;
 	NSString *name;
@@ -51,7 +53,7 @@
 	[super dealloc];
 }
 
-- (void) main
+- (void) run
 {
 	[dict writeToPath:path withName:name];
 }
@@ -153,7 +155,7 @@ return validated;
 	return YES;
 }
 
-static NSOperationQueue *dictWriterQueue;
+static RAOperationQueue *dictWriterQueue;
 // saves this dictionary to the specified path
 
 - (void)asyncWriteToPath:(NSString *)path withName:(NSString *)name
@@ -161,10 +163,8 @@ static NSOperationQueue *dictWriterQueue;
 	NSParameterAssert(path != nil); NSParameterAssert([path length] != 0);
 	NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
-	if (!dictWriterQueue) {
-		dictWriterQueue = [[NSOperationQueue alloc] init];
-		[dictWriterQueue setMaxConcurrentOperationCount:1];
-	}
+	if (!dictWriterQueue)
+		dictWriterQueue = [[RAOperationQueue alloc] init];
 	
 	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:path name:name dictionary:self] autorelease];
 	[dictWriterQueue addOperation:op];
