@@ -205,6 +205,14 @@
 		6341B2630E5405A100AE1439 /* ImageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6341B2620E5405A100AE1439 /* ImageKit.framework */; };
 		639B3CA80ABC708700D618E9 /* AIWindowControllerAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 639B3CA60ABC708700D618E9 /* AIWindowControllerAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639B3CA90ABC708700D618E9 /* AIWindowControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 639B3CA70ABC708700D618E9 /* AIWindowControllerAdditions.m */; };
+		63A40AF80EEDF9FB00B2F986 /* RAOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A40AF00EEDF9FB00B2F986 /* RAOperationQueue.m */; };
+		63A40AF90EEDF9FB00B2F986 /* RAOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 63A40AF10EEDF9FB00B2F986 /* RAOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63A40AFA0EEDF9FB00B2F986 /* RAOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A40AF20EEDF9FB00B2F986 /* RAOperation.m */; };
+		63A40AFB0EEDF9FB00B2F986 /* RAOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 63A40AF30EEDF9FB00B2F986 /* RAOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63A40AFC0EEDF9FB00B2F986 /* RALatchTrigger.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A40AF40EEDF9FB00B2F986 /* RALatchTrigger.m */; };
+		63A40AFD0EEDF9FB00B2F986 /* RALatchTrigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 63A40AF50EEDF9FB00B2F986 /* RALatchTrigger.h */; };
+		63A40AFE0EEDF9FB00B2F986 /* RAAtomicList.m in Sources */ = {isa = PBXBuildFile; fileRef = 63A40AF60EEDF9FB00B2F986 /* RAAtomicList.m */; };
+		63A40AFF0EEDF9FB00B2F986 /* RAAtomicList.h in Headers */ = {isa = PBXBuildFile; fileRef = 63A40AF70EEDF9FB00B2F986 /* RAAtomicList.h */; };
 		6E03C8D307C68A5800EAA71E /* AITextFieldWithDraggingDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E03C8D107C68A5800EAA71E /* AITextFieldWithDraggingDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6E03C8D407C68A5800EAA71E /* AITextFieldWithDraggingDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E03C8D207C68A5800EAA71E /* AITextFieldWithDraggingDelegate.m */; };
 		8D1D4DE90BD62FDB0091C3CE /* AIDividedAlternatingRowOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D1D4DE70BD62FDB0091C3CE /* AIDividedAlternatingRowOutlineView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -445,6 +453,14 @@
 		6341B2620E5405A100AE1439 /* ImageKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageKit.framework; path = /System/Library/Frameworks/Quartz.framework/Versions/A/Frameworks/ImageKit.framework; sourceTree = "<absolute>"; };
 		639B3CA60ABC708700D618E9 /* AIWindowControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWindowControllerAdditions.h; path = Source/AIWindowControllerAdditions.h; sourceTree = "<group>"; };
 		639B3CA70ABC708700D618E9 /* AIWindowControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWindowControllerAdditions.m; path = Source/AIWindowControllerAdditions.m; sourceTree = "<group>"; };
+		63A40AF00EEDF9FB00B2F986 /* RAOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RAOperationQueue.m; path = Source/RAOperationQueue/RAOperationQueue.m; sourceTree = "<group>"; };
+		63A40AF10EEDF9FB00B2F986 /* RAOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAOperationQueue.h; path = Source/RAOperationQueue/RAOperationQueue.h; sourceTree = "<group>"; };
+		63A40AF20EEDF9FB00B2F986 /* RAOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RAOperation.m; path = Source/RAOperationQueue/RAOperation.m; sourceTree = "<group>"; };
+		63A40AF30EEDF9FB00B2F986 /* RAOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAOperation.h; path = Source/RAOperationQueue/RAOperation.h; sourceTree = "<group>"; };
+		63A40AF40EEDF9FB00B2F986 /* RALatchTrigger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RALatchTrigger.m; path = Source/RAOperationQueue/RALatchTrigger.m; sourceTree = "<group>"; };
+		63A40AF50EEDF9FB00B2F986 /* RALatchTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RALatchTrigger.h; path = Source/RAOperationQueue/RALatchTrigger.h; sourceTree = "<group>"; };
+		63A40AF60EEDF9FB00B2F986 /* RAAtomicList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RAAtomicList.m; path = Source/RAOperationQueue/RAAtomicList.m; sourceTree = "<group>"; };
+		63A40AF70EEDF9FB00B2F986 /* RAAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAAtomicList.h; path = Source/RAOperationQueue/RAAtomicList.h; sourceTree = "<group>"; };
 		6E03C8D107C68A5800EAA71E /* AITextFieldWithDraggingDelegate.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AITextFieldWithDraggingDelegate.h; path = Source/AITextFieldWithDraggingDelegate.h; sourceTree = "<group>"; };
 		6E03C8D207C68A5800EAA71E /* AITextFieldWithDraggingDelegate.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AITextFieldWithDraggingDelegate.m; path = Source/AITextFieldWithDraggingDelegate.m; sourceTree = "<group>"; };
 		8D1D4DE70BD62FDB0091C3CE /* AIDividedAlternatingRowOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDividedAlternatingRowOutlineView.h; path = Source/AIDividedAlternatingRowOutlineView.h; sourceTree = "<group>"; };
@@ -798,6 +814,7 @@
 		4BD1EEF006D2608000B3975E /* Working Around System Bugs */ = {
 			isa = PBXGroup;
 			children = (
+				63A40AEF0EEDF9E300B2F986 /* Operation queue that doesn't crash so much */,
 				4BD1EFC206D2669700B3975E /* Stepper control focus issues */,
 				4BD1EFC506D2669F00B3975E /* Text view observing return & enter */,
 			);
@@ -1148,6 +1165,21 @@
 			name = "Colored box view";
 			sourceTree = "<group>";
 		};
+		63A40AEF0EEDF9E300B2F986 /* Operation queue that doesn't crash so much */ = {
+			isa = PBXGroup;
+			children = (
+				63A40AF00EEDF9FB00B2F986 /* RAOperationQueue.m */,
+				63A40AF10EEDF9FB00B2F986 /* RAOperationQueue.h */,
+				63A40AF20EEDF9FB00B2F986 /* RAOperation.m */,
+				63A40AF30EEDF9FB00B2F986 /* RAOperation.h */,
+				63A40AF40EEDF9FB00B2F986 /* RALatchTrigger.m */,
+				63A40AF50EEDF9FB00B2F986 /* RALatchTrigger.h */,
+				63A40AF60EEDF9FB00B2F986 /* RAAtomicList.m */,
+				63A40AF70EEDF9FB00B2F986 /* RAAtomicList.h */,
+			);
+			name = "Operation queue that doesn't crash so much";
+			sourceTree = "<group>";
+		};
 		6E03C8D007C68A2000EAA71E /* Text Field with dragging delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -1261,6 +1293,10 @@
 				3113CCA60CE8CB4200B13AC0 /* AIDateAdditions.h in Headers */,
 				346E5F400D60F87000ACD38C /* AIImageDrawingAdditions.h in Headers */,
 				34E6D03C0DEAED82002819F6 /* AIPasteboardAdditions.h in Headers */,
+				63A40AF90EEDF9FB00B2F986 /* RAOperationQueue.h in Headers */,
+				63A40AFB0EEDF9FB00B2F986 /* RAOperation.h in Headers */,
+				63A40AFD0EEDF9FB00B2F986 /* RALatchTrigger.h in Headers */,
+				63A40AFF0EEDF9FB00B2F986 /* RAAtomicList.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1456,6 +1492,10 @@
 				31FA7E8D0D4A6CF800ABE634 /* AIRichTextCoercer.m in Sources */,
 				346E5F410D60F87000ACD38C /* AIImageDrawingAdditions.m in Sources */,
 				34E6D03D0DEAED82002819F6 /* AIPasteboardAdditions.m in Sources */,
+				63A40AF80EEDF9FB00B2F986 /* RAOperationQueue.m in Sources */,
+				63A40AFA0EEDF9FB00B2F986 /* RAOperation.m in Sources */,
+				63A40AFC0EEDF9FB00B2F986 /* RALatchTrigger.m in Sources */,
+				63A40AFE0EEDF9FB00B2F986 /* RAAtomicList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

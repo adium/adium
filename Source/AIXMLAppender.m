@@ -39,13 +39,15 @@
 */
 
 /*****
- IMPORTANT NOTE:
+ IMPORTANT NOTE if we ever switch back to NSOperationQueue:
  
  The invariant that no two operations from the same AIXMLAppender are executing concurrently is extremely important. NSOperation's dependency mechanism should prevent this.
  
  *****/
 
 #import "AIXMLAppender.h"
+#import <AIUtilities/RAOperationQueue.h>
+#import <AIUtilities/RAOperation.h>
 #define BSD_LICENSE_ONLY 1
 #import <AIUtilities/AIStringAdditions.h>
 #import <sys/stat.h>
@@ -69,7 +71,7 @@ enum {
 @property (readwrite, copy, nonatomic) NSString *path;
 @end
 
-@interface AIAppendXMLOperation : NSOperation
+@interface AIAppendXMLOperation : RAOperation
 {
 	NSData *data;
 	NSInteger seekBackLength;
@@ -94,8 +96,8 @@ enum {
 		data = [d retain];
 		seekBackLength = s;
 		appender = [a retain];
-		if (o && ![o isFinished])
-			[self addDependency:o];
+	//	if (o && ![o isFinished])
+	//		[self addDependency:o];
 	}
 	
 	return self;
@@ -108,7 +110,7 @@ enum {
 	[super dealloc];
 }
 
-- (void) main
+- (void) run
 {
 	BOOL success = YES;
 	if (!appender.fileHandle)
@@ -287,14 +289,14 @@ enum {
 
 #pragma mark -
 
-static NSOperationQueue *writerQueue;
+static RAOperationQueue *writerQueue;
 
 - (void)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength
 {
 	if (!writerQueue)
 	{
-		writerQueue = [[NSOperationQueue alloc] init];
-		[writerQueue setMaxConcurrentOperationCount:1];
+		writerQueue = [[RAOperationQueue alloc] init];
+		//[writerQueue setMaxConcurrentOperationCount:1];
 	}
 	[lastOp autorelease];
 	lastOp = [[AIAppendXMLOperation alloc] initWithData:data
