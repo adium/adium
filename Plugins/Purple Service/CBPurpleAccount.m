@@ -2923,7 +2923,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 -(void)executeCommandWithParameters:(NSMutableDictionary*)parameters
 {
 	BOOL result = [purpleAdapter doCommand:[parameters objectForKey:@"totalCommandString"] fromAccount:self inChat:[parameters objectForKey:@"chat"]];
-	if(result == FALSE)	{
+	if(!result)	{
 #warning Incomplete
 		// Either choice should be taken into account for various actions
 		// or the panel should be modified to only present an OK button,
