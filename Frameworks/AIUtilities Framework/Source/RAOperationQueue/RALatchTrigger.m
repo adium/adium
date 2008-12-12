@@ -61,8 +61,14 @@
 
 - (void)wait
 {
-	mach_msg_header_t msg;
-	kern_return_t result = mach_msg(&msg, MACH_RCV_MSG, 0, sizeof(msg), _triggerPort, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
+	struct
+	{
+		mach_msg_header_t header;
+		mach_msg_trailer_t trailer;
+	} msg;
+	
+	msg.header.msgh_size = sizeof( msg );
+	kern_return_t result = mach_msg(&msg.header, MACH_RCV_MSG, 0, msg.header.msgh_size, _triggerPort, MACH_MSG_TIMEOUT_NONE, MACH_PORT_NULL);
 	
 	if( result != MACH_MSG_SUCCESS && result != MACH_RCV_TOO_LARGE )
 	{
