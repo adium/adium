@@ -1453,9 +1453,15 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 											   );
         for (i = 0; ((i < foundCount) && (searchID == activeSearchID)) ; i++) {
 			SKDocumentRef	document = foundDocRefs[i];
+					if (!document) {
+						AILogWithSignature(@"SearchKit returned NULL document for ID %ld", (long)foundDocIDs[i]);
+						totalCount--;
+						continue;
+					}
 			CFURLRef		url = SKDocumentCopyURL(document);
 			if (!url) {
 				AILogWithSignature(@"No URL for document %p", document);
+				totalCount--;
 				continue;
 			}
 			/*
