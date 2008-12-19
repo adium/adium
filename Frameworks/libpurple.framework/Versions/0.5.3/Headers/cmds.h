@@ -38,7 +38,7 @@ typedef enum _PurpleCmdStatus {
 	PURPLE_CMD_STATUS_NOT_FOUND,
 	PURPLE_CMD_STATUS_WRONG_ARGS,
 	PURPLE_CMD_STATUS_WRONG_PRPL,
-	PURPLE_CMD_STATUS_WRONG_TYPE,
+	PURPLE_CMD_STATUS_WRONG_TYPE
 } PurpleCmdStatus;
 
 /** Commands registered with the core return one of these values when run.
@@ -51,7 +51,7 @@ typedef enum _PurpleCmdStatus {
 typedef enum _PurpleCmdRet {
 	PURPLE_CMD_RET_OK,       /**< Everything's okay; Don't look for another command to call. */
 	PURPLE_CMD_RET_FAILED,   /**< The command failed, but stop looking.*/
-	PURPLE_CMD_RET_CONTINUE, /**< Continue, looking for other commands with the same name to call. */
+	PURPLE_CMD_RET_CONTINUE /**< Continue, looking for other commands with the same name to call. */
 } PurpleCmdRet;
 
 #define PURPLE_CMD_FUNC(func) ((PurpleCmdFunc)func)
@@ -76,7 +76,7 @@ typedef enum _PurpleCmdPriority {
 	PURPLE_CMD_P_PLUGIN    =  3000,
 	PURPLE_CMD_P_ALIAS     =  4000,
 	PURPLE_CMD_P_HIGH      =  5000,
-	PURPLE_CMD_P_VERY_HIGH =  6000,
+	PURPLE_CMD_P_VERY_HIGH =  6000
 } PurpleCmdPriority;
 
 /** Flags used to set various properties of commands.  Every command should
@@ -93,7 +93,7 @@ typedef enum _PurpleCmdFlag {
 	/** Command is usable only for a particular prpl. */
 	PURPLE_CMD_FLAG_PRPL_ONLY        = 0x04,
 	/** Incorrect arguments to this command should be accepted anyway. */
-	PURPLE_CMD_FLAG_ALLOW_WRONG_ARGS = 0x08,
+	PURPLE_CMD_FLAG_ALLOW_WRONG_ARGS = 0x08
 } PurpleCmdFlag;
 
 

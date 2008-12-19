@@ -71,7 +71,7 @@ typedef enum
 
 typedef enum
 {
-	PURPLE_BLIST_NODE_FLAG_NO_SAVE      = 1 << 0, /**< node should not be saved with the buddy list */
+	PURPLE_BLIST_NODE_FLAG_NO_SAVE      = 1 << 0 /**< node should not be saved with the buddy list */
 
 } PurpleBlistNodeFlags;
 

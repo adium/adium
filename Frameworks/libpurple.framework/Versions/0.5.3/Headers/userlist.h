@@ -47,12 +47,11 @@ struct _MsnUserList
 
 	GList *users; /* Contains MsnUsers */
 	GList *groups; /* Contains MsnGroups */
+	GList *pending; /* MsnUsers pending addition (waiting for FQY response) */
 
 	GQueue *buddy_icon_requests;
 	int buddy_icon_window;
 	guint buddy_icon_request_timer;
-
-	int fl_users_count;
 
 };
 
@@ -93,6 +92,12 @@ void msn_userlist_remove_group_id(MsnUserList *userlist, const char *group_id);
 void msn_userlist_rem_buddy(MsnUserList *userlist, const char *who);
 void msn_userlist_add_buddy(MsnUserList *userlist,
 			    const char *who, const char *group_name);
+void msn_userlist_save_pending_buddy(MsnUserList *userlist,
+                                     const char *who,
+                                     const char *group_name);
+void msn_userlist_add_pending_buddy(MsnUserList *userlist,
+                                    const char *who,
+                                    /*MsnNetwork*/ int network);
 void msn_userlist_move_buddy(MsnUserList *userlist, const char *who,
 						    const char *old_group_name,
 						    const char *new_group_name);

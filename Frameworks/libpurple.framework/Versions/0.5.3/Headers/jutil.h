@@ -42,4 +42,5 @@ gboolean jabber_resourceprep_validate(const char *);
 
 PurpleConversation *jabber_find_unnormalized_conv(const char *name, PurpleAccount *account);
 
+char *jabber_calculate_data_sha1sum(gconstpointer data, size_t len);
 #endif /* _PURPLE_JABBER_JUTIL_H_ */
