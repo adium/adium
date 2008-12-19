@@ -65,8 +65,9 @@ typedef struct {
 	uin_t tmp_buddy;
 	int chats_count;
 
+	GList *pending_richtext_messages;
+	GHashTable *pending_images;
 } GGPInfo;
-
 
 #endif /* _PURPLE_GG_H */
 

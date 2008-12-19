@@ -42,6 +42,7 @@ typedef struct _MsnNotification MsnNotification;
 #include "session.h"
 #include "servconn.h"
 #include "cmdproc.h"
+#include "user.h"
 
 struct _MsnNotification
 {
@@ -64,9 +65,9 @@ void msn_notification_end(void);
 void msn_notification_init(void);
 
 void msn_notification_add_buddy_to_list(MsnNotification *notification,
-					MsnListId list_id, const char *who);
+					MsnListId list_id, MsnUser *user);
 void msn_notification_rem_buddy_from_list(MsnNotification *notification,
-					  MsnListId list_id, const char *who);
+					  MsnListId list_id, MsnUser *user);
 
 void msn_notification_send_fqy(MsnSession *session, const char *passport);
 

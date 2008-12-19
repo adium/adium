@@ -37,7 +37,7 @@ typedef struct _MsnSlpCall MsnSlpCall;
 typedef enum
 {
 	MSN_SLPCALL_ANY,
-	MSN_SLPCALL_DC,
+	MSN_SLPCALL_DC
 
 } MsnSlpCallType;
 

@@ -211,6 +211,27 @@
 		"</contactInfo>"\
 	"</Contact>"
 
+#define MSN_CONTACT_ID_XML \
+	"<Contact>"\
+		"<contactId>%s</contactId>"\
+	"</Contact>"
+
+#define MSN_CONTACT_EMAIL_XML \
+	"<Contact>"\
+		"<contactInfo>"\
+			"<emails>"\
+				"<ContactEmail>"\
+					"<contactEmailType>%s</contactEmailType>"\
+					"<email>%s</email>"\
+					"<isMessengerEnabled>true</isMessengerEnabled>"\
+					"<Capability>%d</Capability>"\
+					"<MessengerEnabledExternally>false</MessengerEnabledExternally>"\
+					"<propertiesChanged/>"\
+				"</ContactEmail>"\
+			"</emails>"\
+		"</contactInfo>"\
+	"</Contact>"
+
 #define MSN_ADD_CONTACT_TEMPLATE	"<?xml version=\"1.0\" encoding=\"utf-8\"?>"\
 "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\""\
 	" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""\
@@ -275,7 +296,6 @@
 
 /* Delete a contact from the Contact List */
 #define MSN_CONTACT_DEL_SOAP_ACTION	"http://www.msn.com/webservices/AddressBook/ABContactDelete"
-#define MSN_CONTACT_ID_XML		"<Contact><contactId>%s</contactId></Contact>"
 #define MSN_DEL_CONTACT_TEMPLATE	"<?xml version=\"1.0\" encoding=\"utf-8\"?>"\
 "<soap:Envelope"\
 	" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\""\
@@ -376,22 +396,32 @@
 #define MSN_DELETE_MEMBER_FROM_LIST_SOAP_ACTION	"http://www.msn.com/webservices/AddressBook/DeleteMember"
 
 #define MSN_MEMBER_PASSPORT_XML	\
-	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"PassportMember\">"\
+	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"%s\">"\
 		"<Type>Passport</Type>"\
 		"<State>Accepted</State>"\
 		"<PassportName>%s</PassportName>"\
+		"%s"\
 	"</Member>"
 
 #define MSN_MEMBER_MEMBERSHIPID_XML	\
-	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"PassportMember\">"\
+	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"%s\">"\
 		"<Type>Passport</Type>"\
 		"<MembershipId>%u</MembershipId>"\
 		"<State>Accepted</State>"\
+		"%s"\
 	"</Member>"
+
+#define MSN_MEMBER_FEDERATED_ANNOTATION_XML \
+	"<Annotations>"\
+		"<Annotation>"\
+			"<Name>MSN.IM.BuddyType</Name>"\
+			"<Value>%02d:</Value>"\
+		"</Annotation>"\
+	"</Annotations>"
 
 /* first delete contact from allow list */
 
-#define MSN_CONTACT_DELECT_FROM_LIST_TEMPLATE "<?xml version=\"1.0\" encoding=\"utf-8\"?>"\
+#define MSN_CONTACT_DELETE_FROM_LIST_TEMPLATE "<?xml version=\"1.0\" encoding=\"utf-8\"?>"\
 "<soap:Envelope"\
 	" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\""\
 	" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""\
@@ -586,7 +616,7 @@ typedef enum
 	MSN_ADD_GROUP       = 0x10,
 	MSN_DEL_GROUP       = 0x20,
 	MSN_RENAME_GROUP    = 0x40,
-	MSN_UPDATE_INFO     = 0x80,
+	MSN_UPDATE_INFO     = 0x80
 } MsnCallbackAction;
 
 typedef struct _MsnCallbackState MsnCallbackState;

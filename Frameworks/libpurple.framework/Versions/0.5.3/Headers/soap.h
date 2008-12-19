@@ -44,13 +44,8 @@ struct _MsnSoapMessage {
 
 MsnSoapMessage *msn_soap_message_new(const char *action, xmlnode *xml);
 
-void msn_soap_message_add_header(MsnSoapMessage *req,
-	const char *name, const char *value);
-
 void msn_soap_message_send(MsnSession *session, MsnSoapMessage *message,
 	const char *host, const char *path, gboolean secure,
 	MsnSoapCallback cb, gpointer cb_data);
-
-void msn_soap_message_destroy(MsnSoapMessage *message);
 
 #endif
