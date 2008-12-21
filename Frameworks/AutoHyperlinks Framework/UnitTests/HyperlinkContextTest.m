@@ -214,6 +214,8 @@
 	[self testLaxContext:@"@%@" withURI:@"example.com"];
 	
 	[self testLaxContext:@"foo (bar) %@" withURI:@"http://example.com/path/to/url.html"];
+	
+	[self testLaxContext:@"%@" withURI:[NSString stringWithFormat:@"%@",@"http://example.com/hi%uthere"]]; //#11160
 }
 
 - (void)testCompositeContext {
