@@ -26,7 +26,7 @@
 
 #define PURPLE_MAJOR_VERSION (2)
 #define PURPLE_MINOR_VERSION (5)
-#define PURPLE_MICRO_VERSION (3)
+#define PURPLE_MICRO_VERSION (4)
 
 #define PURPLE_VERSION_CHECK(x,y,z) ((x) == PURPLE_MAJOR_VERSION && \
 									 ((y) < PURPLE_MINOR_VERSION || \
