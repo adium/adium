@@ -872,10 +872,12 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
  * Adium 1.0.2 and earlier had a bug which made spotlight import not work properly.
  * New logs are properly indexed, but previously created logs are not. On first launch of Adium 1.1,
  * Adium will tell Spotlight to reimport those old logs.
+ *
+ * We also reindex in Adium 1.3.3 to help capture logs in Mac OS X 10.5.6 which indexes logs in our default location.
  */
 - (void)reimportLogsToSpotlightIfNeeded
 {
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.1:Reimported Spotlight Logs"]) {
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.3.3:Reimported Spotlight Logs"]) {
 		@try {
 			NSArray *arguments;
 			
@@ -891,7 +893,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		}
 		
 		[[NSUserDefaults standardUserDefaults] setBool:YES
-												forKey:@"Adium 1.1:Reimported Spotlight Logs"];
+												forKey:@"Adium 1.3.3:Reimported Spotlight Logs"];
 	}
 }
 
