@@ -38,7 +38,8 @@ process. Please note that this file is nearly 200 MB.
 $ cd source; mkdir im.pidgin.pidgin; cd im.pidgin.pidgin; curl -LO \
 http://developer.pidgin.im/static/pidgin.mtn.bz2 && bzip2 -d pidgin.mtn.bz2 \
 && mtn db -d pidgin.mtn migrate && mtn -d pidgin.mtn pull --set-default \
-pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.pidgin .; cd ../..
+mtn.pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.pidgin .; cd \
+../..
 
 
 ==== UPDATING ====
