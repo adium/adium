@@ -136,6 +136,10 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
+	[windowAnimation stopAnimation];
+	[windowAnimation setDelegate:nil];
+	[windowAnimation release]; windowAnimation = nil;
+	
 	[contactListController close];
 	[windowLastScreen release];
 
