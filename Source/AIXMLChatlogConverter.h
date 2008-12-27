@@ -41,6 +41,8 @@ typedef enum {
 	NSString		*inputFileString;
 	NSDictionary	*eventTranslate;
 	
+	NSDateFormatter *dateFormatter;
+	
 	chatLogState	state;
 	NSString		*sender;
 	NSString		*senderAlias;
