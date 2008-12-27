@@ -59,6 +59,8 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 		parser = NULL;
 		status = nil;
 		
+		dateFormatter = [[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] retain];
+		
 		newlineAttributedString = [[NSAttributedString alloc] initWithString:@"\n" attributes:nil];
 
 		statusLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -94,6 +96,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 
 - (void)dealloc
 {
+	[dateFormatter release];
 	[newlineAttributedString release];
 	[inputFileString release];
 	[eventTranslate release];
@@ -299,7 +302,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 					}
 				}
 				
-				NSString *timestampStr = [[NSDateFormatter localizedDateFormatterShowingSeconds:YES showingAMorPM:YES] stringFromDate:date];
+				NSString *timestampStr = [dateFormatter stringFromDate:date];
 				
 				BOOL sentMessage = [mySN isEqualToString:sender];
 				[output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:
@@ -344,8 +347,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				if([displayMessage length])
 					[output appendAttributedString:[htmlDecoder decodeHTML:[NSString stringWithFormat:@"<div class=\"status\">%@ (%@)</div>\n",
 																			displayMessage,
-																			[[NSDateFormatter localizedDateFormatterShowingSeconds:YES
-																												     showingAMorPM:YES] stringFromDate:date]]]];
+																			[dateFormatter stringFromDate:date]]]];
 					state = XML_STATE_CHAT;
 			}			
 		case XML_STATE_CHAT:
