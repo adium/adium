@@ -62,6 +62,8 @@
 
 @implementation AIListWindowController
 
+@synthesize windowAnimation;
+
 static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 
 + (void)initialize
@@ -138,7 +140,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 
 	[windowAnimation stopAnimation];
 	[windowAnimation setDelegate:nil];
-	[windowAnimation release]; windowAnimation = nil;
+	self.windowAnimation = nil;
 	
 	[contactListController close];
 	[windowLastScreen release];
@@ -956,7 +958,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		AILogWithSignature(@"Previous alpha is now %f; window set to alpha 0.0 ", previousAlpha);
 	}
 	
-	[windowAnimation release]; windowAnimation = nil;
+	self.windowAnimation = nil;
 }
 
 - (BOOL)keepListOnScreenWhenSliding
@@ -1011,15 +1013,15 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	
 	if (windowAnimation) {
 		[windowAnimation stopAnimation];
-		[windowAnimation release];
+		self.windowAnimation = nil;
 	}
 
-	windowAnimation = [[NSViewAnimation alloc] initWithViewAnimations:
-		[NSArray arrayWithObject:
-			[NSDictionary dictionaryWithObjectsAndKeys:
-				myWindow, NSViewAnimationTargetKey,
-				[NSValue valueWithRect:frame], NSViewAnimationEndFrameKey,
-				nil]]];
+	self.windowAnimation = [[[NSViewAnimation alloc] initWithViewAnimations:
+							 [NSArray arrayWithObject:
+							  [NSDictionary dictionaryWithObjectsAndKeys:
+							   myWindow, NSViewAnimationTargetKey,
+							   [NSValue valueWithRect:frame], NSViewAnimationEndFrameKey,
+							   nil]]] autorelease];
 	[windowAnimation setFrameRate:0.0];
 	[windowAnimation setDuration:0.25];
 	[windowAnimation setDelegate:self];

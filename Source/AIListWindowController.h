@@ -115,6 +115,7 @@ typedef enum {
 - (BOOL)animationShouldStart:(NSAnimation *)animation;
 - (void)animationDidEnd:(NSAnimation*)animation;
 
+@property (nonatomic, retain) NSViewAnimation *windowAnimation;
 
 // Window snapping
 - (void)snapToOtherWindows;

@@ -66,6 +66,8 @@
 
 @implementation AIStandardListWindowController
 
+@synthesize filterBarAnimation;
+
 /*!
  * @brief Deallocate
  */
@@ -75,7 +77,8 @@
 	
 	[filterBarAnimation stopAnimation];
 	[filterBarAnimation setDelegate:nil];
-	[filterBarAnimation autorelease];
+	self.filterBarAnimation = nil;
+
 	[filterBarPreviouslySelected release];
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
@@ -137,7 +140,7 @@
 	
 	filterBarExpandedGroups = NO;
 	filterBarIsVisible = NO;
-	filterBarAnimation = nil;
+	self.filterBarAnimation = nil;
 	filterBarPreviouslySelected = nil;
 	[searchField setDelegate:self];
 
@@ -922,7 +925,10 @@
 	targetViewDict = [NSDictionary dictionaryWithObjectsAndKeys:targetView, NSViewAnimationTargetKey,
 					  [NSValue valueWithRect:targetFrame], NSViewAnimationEndFrameKey, nil];
 
-	filterBarAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:targetViewDict, filterBarDict, nil]];
+	self.filterBarAnimation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:
+																				targetViewDict,
+																				filterBarDict,
+																				nil]] autorelease];
 	[filterBarAnimation setDuration:duration];
 	[filterBarAnimation setAnimationBlockingMode:NSAnimationBlocking];
 	[filterBarAnimation setDelegate:self];
@@ -977,7 +983,7 @@
 	[contactListController contactListDesiredSizeChanged];
 	
 	// We're no longer animating.
-	[filterBarAnimation autorelease]; filterBarAnimation = nil;
+	self.filterBarAnimation = nil;
 }
 
 /*!
