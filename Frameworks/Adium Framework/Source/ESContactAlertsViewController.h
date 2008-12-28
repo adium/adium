@@ -18,6 +18,7 @@
 #define CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED	@"ContactAlertDetailsForHeaderChanged"
 
 @class AIVariableHeightFlexibleColumnsOutlineView, AIListObject, AIAutoScrollView;
+@class CSNewContactAlertWindowController;
 
 @interface ESContactAlertsViewController : NSObject {
 	IBOutlet	NSView						*view;
@@ -42,6 +43,8 @@
 	BOOL						showEventsInEditSheet;
 
 	NSString					*targetEventID;
+	
+	CSNewContactAlertWindowController *editingPanel;
 }
 
 - (void)configureForListObject:(AIListObject *)inObject;

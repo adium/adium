@@ -35,7 +35,6 @@
 	NSMutableDictionary				*alert;
 
 	id								target;
-	id								delegate;
 	NSDictionary					*oldAlert;
 	
 	AIListObject					*listObject;
@@ -45,15 +44,25 @@
 	IBOutlet	AIImageTextCellView	*headerView;
 }
 
-+ (void)editAlert:(NSDictionary *)inAlert
-	forListObject:(AIListObject *)inObject
-		 onWindow:(NSWindow *)parentWindow
-  notifyingTarget:(id)inTarget 
-		 delegate:(id)inDelegate
-		 oldAlert:(id)inOldAlert
-	configureForGlobal:(BOOL)inConfigureForGlobal
-   defaultEventID:(NSString *)defaultEventID;
-
+/*!
+ * @brief Edit or create a contact alert
+ *
+ * @param inAlert The alert to edit. Pass nil to create a new alert.
+ * @param inObject The list object for which to edit. Pass nil for global.
+ * @param parentWindow A window on which to show a modal sheet. Pass nil for a panel prompt.
+ * @param inTarget The target to notify when complete, which must implement - (void)alertUpdated:(NSDictionary *)newAlert oldAlert:(NSDictionary *)oldAlert
+ *                 newAlert will be 'nil' if the user cancels.
+ * @param inConfigureForGlobal YES if the display should be for global events
+ * @param inDefaultEventID The event to show initially for this alert
+ *
+ * @result An autoreleased CSNewContactAlertWindowController, which will already have its window or sheet showing.
+ */
++ (CSNewContactAlertWindowController *)editAlert:(NSDictionary *)inAlert
+								   forListObject:(AIListObject *)inObject
+										onWindow:(NSWindow *)parentWindow
+								 notifyingTarget:(id)inTarget
+							  configureForGlobal:(BOOL)inConfigureForGlobal
+								  defaultEventID:(NSString *)inDefaultEventID;
 - (IBAction)cancel:(id)sender;
 - (IBAction)save:(id)sender;
 

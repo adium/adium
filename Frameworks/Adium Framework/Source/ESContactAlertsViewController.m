@@ -121,6 +121,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	[outlineView_summary setDelegate:nil];
 	[outlineView_summary setDataSource:nil];
 
+	[editingPanel release]; editingPanel = nil;
 	[contactAlertsEvents release]; contactAlertsEvents = nil;
 	[contactAlertsActions release]; contactAlertsActions = nil;
 	[listObject release]; listObject = nil;
@@ -161,18 +162,26 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 
 - (void)configureForListObject:(AIListObject *)inObject showingAlertsForEventID:(NSString *)inTargetEventID
 {
-	//Configure for the list object, using the highest-up metacontact if necessary
-	[listObject release];
-	listObject = ([inObject isKindOfClass:[AIListContact class]] ?
-				  [(AIListContact *)inObject parentContact] :
-				  inObject);
-	[listObject retain];
+	//Cancel any existing edit/add panel, since we're no longer looking at the same object
+	if (listObject != inObject) {
+		if (editingPanel) {
+			[editingPanel cancel:nil];
+			[editingPanel release]; editingPanel = nil;
+		}
 
-	[targetEventID release];
-	targetEventID = [inTargetEventID retain];
-	
-	//
-	[self preferencesChangedForGroup:nil key:nil object:nil preferenceDict:nil firstTime:NO];
+		//Configure for the list object, using the highest-up metacontact if necessary
+		[listObject release];
+		listObject = ([inObject isKindOfClass:[AIListContact class]] ?
+					  [(AIListContact *)inObject parentContact] :
+					  inObject);
+		[listObject retain];
+		
+		[targetEventID release];
+		targetEventID = [inTargetEventID retain];
+		
+		//
+		[self preferencesChangedForGroup:nil key:nil object:nil preferenceDict:nil firstTime:NO];
+	}
 }
 
 //Alerts have changed
@@ -200,14 +209,12 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 		defaultEventID = [item objectForKey:KEY_EVENT_ID];
 	}
 	
-	[CSNewContactAlertWindowController editAlert:nil 
-								   forListObject:listObject
-										onWindow:[view window]
-								 notifyingTarget:self
-										delegate:delegate
-										oldAlert:nil
-							  configureForGlobal:configureForGlobal
-								  defaultEventID:defaultEventID];
+	editingPanel = [[CSNewContactAlertWindowController editAlert:nil 
+												   forListObject:listObject
+														onWindow:[view window]
+												 notifyingTarget:self
+											  configureForGlobal:configureForGlobal
+												  defaultEventID:defaultEventID] retain];
 }
 
 //Edit existing alert
@@ -217,14 +224,12 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	if (selectedRow >= 0 && selectedRow < [outlineView_summary numberOfRows]) {
 		NSDictionary	*alert = [outlineView_summary itemAtRow:selectedRow];
 		
-		[CSNewContactAlertWindowController editAlert:alert
-									   forListObject:listObject
-											onWindow:[view window]
-									 notifyingTarget:self
-											delegate:delegate
-											oldAlert:alert
-								  configureForGlobal:configureForGlobal
-									  defaultEventID:nil];
+		editingPanel = [[CSNewContactAlertWindowController editAlert:alert
+													   forListObject:listObject
+															onWindow:[view window]
+													 notifyingTarget:self
+												  configureForGlobal:configureForGlobal
+													  defaultEventID:nil] retain];
 	}
 }
 
@@ -295,24 +300,27 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 //Callback from 'new alert' panel.  (Add the alert, or update existing alert)
 - (void)alertUpdated:(NSDictionary *)newAlert oldAlert:(NSDictionary *)oldAlert
 {
-	[oldAlert retain];
-	
-	//If this was an edit, remove the old alert first
-	if (oldAlert) [adium.contactAlertsController removeAlert:oldAlert fromListObject:listObject];
-	
-	//Add the new alert
-	[adium.contactAlertsController addAlert:newAlert toListObject:listObject setAsNewDefaults:YES];
-	
-	if (delegate) {
-		[delegate contactAlertsViewController:self
-								 updatedAlert:newAlert
-									 oldAlert:oldAlert];
-	}
-	
-	//Update all heights, since there's been a change
-	[self calculateAllHeights];
+	if (newAlert) {
+		//If this was an edit, remove the old alert first
+		if (oldAlert) {
+			[[oldAlert retain] autorelease];
+			[adium.contactAlertsController removeAlert:oldAlert fromListObject:listObject];
+		}
 
-	[oldAlert release];
+		//Add the new alert
+    	[adium.contactAlertsController addAlert:newAlert toListObject:listObject setAsNewDefaults:YES];
+
+		if (delegate) {
+			[delegate contactAlertsViewController:self
+									 updatedAlert:newAlert
+										 oldAlert:oldAlert];
+		}
+
+		//Update all heights, since there's been a change
+		[self calculateAllHeights];
+	}
+
+	[editingPanel release]; editingPanel = nil;
 }
 
 #pragma mark Outline view
