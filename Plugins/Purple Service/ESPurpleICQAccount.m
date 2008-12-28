@@ -45,14 +45,6 @@
 	purple_account_set_bool(account, "web_aware", [[self preferenceForKey:KEY_ICQ_WEB_AWARE group:GROUP_ACCOUNT_STATUS] boolValue]);
 }
 
-/*!
- * @brief Setting aliases serverside would override the information Purple is feeding us
- */
-- (BOOL)shouldSetAliasesServerside
-{
-	return NO;
-}
-
 #pragma mark Contact updates
 
 - (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
