@@ -255,7 +255,11 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		return NO;
 	}
 
-	NSComparisonResult versionComparison = [adium compareVersion:[NSApp applicationVersion]
+	NSString *appVersion = [NSApp applicationVersion];
+	if ([appVersion rangeOfString:@"svn"].location != NSNotFound)
+		appVersion = [appVersion substringToIndex:[appVersion rangeOfString:@"svn"].location];
+
+	NSComparisonResult versionComparison = [adium compareVersion:appVersion
 													   toVersion:minimumVersionOfPlugin];
 
 	if (versionComparison == NSOrderedAscending) {
@@ -264,7 +268,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 		NSRunAlertPanel([NSString stringWithFormat:@"Could not load %@", pluginName],
 						@"%@ requires Adium %@ or later, but you have Adium %@. Please upgrade Adium to use %@",
 						AILocalizedString(@"Disable", nil), nil, nil, 
-						pluginName, minimumVersionOfPlugin, [NSApp applicationVersion], pluginName);
+						pluginName, minimumVersionOfPlugin, appVersion, pluginName);
 		[self disablePlugin:pluginPath];
 		return NO;
 	}

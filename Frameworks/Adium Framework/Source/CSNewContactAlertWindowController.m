@@ -29,8 +29,6 @@
 					  alert:(NSDictionary *)inAlert
 			  forListObject:(AIListObject *)inListObject
 			notifyingTarget:(id)inTarget
-				   delegate:(id)inDelegate 
-				   oldAlert:(id)inOldAlert
 		 configureForGlobal:(BOOL)inConfigureForGlobal
 			 defaultEventID:(NSString *)inDefaultEventID;
 - (void)configureForEvent;
@@ -44,28 +42,33 @@
 @implementation CSNewContactAlertWindowController
 
 //Prompt for a new alert.  Pass nil for a panel prompt.
-+ (void)editAlert:(NSDictionary *)inAlert forListObject:(AIListObject *)inObject onWindow:(NSWindow *)parentWindow notifyingTarget:(id)inTarget delegate:(id)inDelegate oldAlert:(id)inOldAlert configureForGlobal:(BOOL)inConfigureForGlobal defaultEventID:(NSString *)inDefaultEventID
++ (CSNewContactAlertWindowController *)editAlert:(NSDictionary *)inAlert
+								   forListObject:(AIListObject *)inObject
+										onWindow:(NSWindow *)parentWindow
+								 notifyingTarget:(id)inTarget
+							  configureForGlobal:(BOOL)inConfigureForGlobal
+								  defaultEventID:(NSString *)inDefaultEventID
 {
-	CSNewContactAlertWindowController	*newAlertwindow = [[self alloc] initWithWindowNibName:(/*showEventsInEditSheet ? 
+	CSNewContactAlertWindowController	*newController = [[self alloc] initWithWindowNibName:(/*showEventsInEditSheet ? 
 																							   NEW_ALERT_NIB :*/
 																							   NEW_ALERT_NO_EVENTS_NIB)
 																						alert:inAlert
 																				forListObject:inObject
 																			  notifyingTarget:inTarget
-																					 delegate:inDelegate
-																					 oldAlert:inOldAlert
 																		   configureForGlobal:inConfigureForGlobal
 																			   defaultEventID:inDefaultEventID];
 	
 	if (parentWindow) {
-		[NSApp beginSheet:[newAlertwindow window]
+		[NSApp beginSheet:[newController window]
 		   modalForWindow:parentWindow
-			modalDelegate:newAlertwindow
+			modalDelegate:newController
 		   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
 			  contextInfo:nil];
 	} else {
-		[newAlertwindow showWindow:nil];
+		[newController showWindow:nil];
 	}
+	
+	return newController;
 }
 	
 //Init
@@ -73,18 +76,15 @@
 					  alert:(NSDictionary *)inAlert
 			  forListObject:(AIListObject *)inListObject
 			notifyingTarget:(id)inTarget
-				   delegate:(id)inDelegate 
-				   oldAlert:(id)inOldAlert
 		 configureForGlobal:(BOOL)inConfigureForGlobal
 			 defaultEventID:(NSString *)inDefaultEventID
 {
 	[super initWithWindowNibName:windowNibName];
 	
 	//
-	oldAlert = [inOldAlert retain];
+	oldAlert = [inAlert retain];
 	listObject = [inListObject retain];
 	target = inTarget;
-	delegate = inDelegate;
 	detailsPane = nil;
 	configureForGlobal = inConfigureForGlobal;
 	
@@ -175,6 +175,9 @@
 //Cancel changes
 - (IBAction)cancel:(id)sender
 {
+	//Pass the modified alert to our target
+	[target performSelector:@selector(alertUpdated:oldAlert:) withObject:nil withObject:oldAlert];
+
 	[self closeWindow:nil];
 }
 

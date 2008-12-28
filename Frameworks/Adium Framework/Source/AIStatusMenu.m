@@ -345,8 +345,11 @@
 	/* Random undocumented feature of the moment... hold option and select a state to bring up the custom status window
 	 * for modifying and then setting it. Alternately, select an active status (one in the on state) to do the same.
 	 * Selecting a mixed state item should still select it to switch to full-on (all accounts).
-	 */
-	if ([NSEvent optionKey] ||
+	 */	
+	NSEventType eventType = [[NSApp currentEvent] type];
+	BOOL		keyEvent = (eventType == NSKeyDown || eventType == NSKeyUp);
+	BOOL		isOptionClick = [NSEvent optionKey] && !keyEvent;
+	if (isOptionClick ||
 		(([sender state] == NSOnState) && ([statusItem statusType] != AIOfflineStatusType))) {
 		[AIEditStateWindowController editCustomState:(AIStatus *)statusItem
 											 forType:[statusItem statusType]
