@@ -631,7 +631,7 @@ static NSArray *draggedTypes = nil;
 																					  attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
 											withType:@"date_separator"];
 
-		if (([content isKindOfClass:[AIContentContext class]])
+		if ([content isKindOfClass:[AIContentContext class]])
 			[dateSeparator addDisplayClass:@"history"];
 
 		//Add the date header
