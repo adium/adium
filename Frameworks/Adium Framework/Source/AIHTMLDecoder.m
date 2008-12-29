@@ -1813,10 +1813,18 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"src"] == NSOrderedSame) {
 			NSString	*src = [inArgs objectForKey:arg];
-			NSURL		*url = (baseURL ?
-								[NSURL URLWithString:src relativeToURL:[NSURL URLWithString:baseURL]] :
-								[NSURL URLWithString:src]);
-
+			NSURL		*url;
+			
+			if ([src rangeOfString:@"://"].location != NSNotFound) {
+				url = (baseURL ?
+					   [NSURL URLWithString:src relativeToURL:[NSURL URLWithString:baseURL]] :
+					   [NSURL URLWithString:src]);
+			} else {
+				url = [NSURL fileURLWithPath:(baseURL ?
+											  [baseURL stringByAppendingPathComponent:src] :
+											  src)];
+			}
+			
 			if (url && ![url isFileURL]) {
 				NSData *data = [NSData dataWithContentsOfURL:url];
 				//Arbitrary image extension; it just needs to have one.
