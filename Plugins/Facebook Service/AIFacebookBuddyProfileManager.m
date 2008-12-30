@@ -40,9 +40,7 @@ static NSURL	*currentURL = nil;
 									   [contact UID]]] retain];
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:currentURL
 														   cachePolicy:NSURLRequestUseProtocolCachePolicy
-													   timeoutInterval:120];		
-	NSLog(@"Loading %@ --> %@", currentURL, request);
-
+													   timeoutInterval:120];
 	[[webView mainFrame] loadRequest:request];
 
 }
