@@ -2418,15 +2418,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 							AILog(@"Image %i is larger than %i!",[buddyIconData length],maxSize);
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
-									float compressionFactor;
-									for (compressionFactor = 0.99; compressionFactor > 0.4; compressionFactor -= 0.01) {
-										buddyIconData = [image JPEGRepresentationWithCompressionFactor:compressionFactor];
-										
-										if (buddyIconData && ([buddyIconData length] <= maxSize)) {
-											AILog(@"Succeeded getting it down to %i with compressionFactor %f",[buddyIconData length],compressionFactor);
-											break;
-										}
-									}
+									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxSize];
 								}
 							}
 						}
