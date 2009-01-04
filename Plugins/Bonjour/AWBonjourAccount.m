@@ -384,6 +384,7 @@ enum {
 	if (severity == AWEzvConnectionError) {
 		[self mainPerformSelector:@selector(setLastDisconnectionError:)
 					   withObject:error];
+		[self mainPerformSelector:@selector(disconnect)];
 	}
 	NSLog(@"Bonjour Error (%i): %@", severity, error);
 	AILog(@"Bonjour Error (%i): %@", severity, error);
