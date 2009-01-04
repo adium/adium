@@ -125,10 +125,29 @@
 	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
 	* before creating our representation or transparent parts will become black.  White is preferable.
 	*/
-	
 	return ([[self opaqueBitmapImageRep] representationUsingType:NSJPEGFileType 
 													  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
 																							 forKey:NSImageCompressionFactor]]);	
+}
+- (NSData *)JPEGRepresentationWithMaximumByteSize:(NSUInteger)maxByteSize
+{
+	/* JPEG does not support transparency, but NSImage does. We need to create a non-transparent NSImage
+	 * before creating our representation or transparent parts will become black.  White is preferable.
+	 */
+	NSBitmapImageRep *opaqueBitmapImageRep = [self opaqueBitmapImageRep];
+	NSData *data = nil;
+	for (float compressionFactor = 0.99; compressionFactor > 0.4; compressionFactor -= 0.01) {
+		data = [opaqueBitmapImageRep representationUsingType:NSJPEGFileType 
+												  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
+																						 forKey:NSImageCompressionFactor]];
+		if (data && ([data length] <= maxByteSize)) {
+			break;
+		} else {
+			data = nil;
+		}
+	}
+
+	return data;
 }
 
 - (NSData *)PNGRepresentation
