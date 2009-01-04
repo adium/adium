@@ -47,6 +47,7 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <AIUtilities/AIImageDrawingAdditions.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
 
 static	NSConditionLock     *threadPreparednessLock = nil;
@@ -526,8 +527,14 @@ enum {
  * Pass nil for no image.
  */
 - (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData
-{	
-	[[self libezvThreadProxy] setContactImageData:[image JPEGRepresentation]];	
+{
+	const static NSSize MAX_BONJOUR_IMAGE_SIZE = {96, 96};
+	const static int MAX_BONJOUR_IMAGE_BYTES = 65535;
+
+	NSImage *bonjourImage = [image imageByScalingToSize:MAX_BONJOUR_IMAGE_SIZE];
+	NSData	*bonjourImageData = [bonjourImage JPEGRepresentationWithMaximumByteSize:MAX_BONJOUR_IMAGE_BYTES];
+
+	[[self libezvThreadProxy] setContactImageData:bonjourImageData];	
 
 	[super setAccountUserImage:image withData:originalData];
 }
