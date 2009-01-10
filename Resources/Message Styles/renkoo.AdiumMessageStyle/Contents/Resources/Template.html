@@ -355,25 +355,25 @@
 		//Swap an image with its alt-tag text on click
 		document.onclick = imageCheck;
 		function imageCheck() {		
-			node = event.target;
-			if(node.tagName == 'IMG' && node.alt && node.className!="avatar") {
-				a = document.createElement('a');
+			var node = event.target;
+			if(node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt && (node.className != "avatar")) {
+				var a = document.createElement('a');
 				a.setAttribute('onclick', 'imageSwap(this)');
-				a.setAttribute('src', node.src);
+				a.setAttribute('src', node.getAttribute('src'));
 				a.className = node.className;
-				text = document.createTextNode(node.alt);
+				var text = document.createTextNode(node.alt);
 				a.appendChild(text);
 				node.parentNode.replaceChild(a, node);
 			}
 		}
 		function imageSwap(node) {
-			shouldScroll = nearBottom();
+			var shouldScroll = nearBottom();
 
 			//Swap the image/text
-			img = document.createElement('img');
-			img.setAttribute('src', node.src);
-			img.className = node.className;
+			var img = document.createElement('img');
+			img.setAttribute('src', node.getAttribute('src'));
 			img.setAttribute('alt', node.firstChild.nodeValue);
+			img.className = node.className;
 			node.parentNode.replaceChild(img, node);
 			
 			alignChat(shouldScroll);

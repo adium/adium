@@ -91,7 +91,7 @@
 			alignChat(true);
 		}
 		
-function appendNextMessageNoScroll(html){
+		function appendNextMessageNoScroll(html){
 			//Locate the insertion point
 			var insert = document.getElementById("insert");
 		
@@ -137,6 +137,32 @@ function appendNextMessageNoScroll(html){
 			document.body.scrollTop = document.body.offsetHeight;
 		}
 		
+		//Swap an image with its alt-tag text on click
+		document.onclick = imageCheck;
+		function imageCheck() {		
+			var node = event.target;
+			if(node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt && (node.className != "avatar")) {
+				var a = document.createElement('a');
+				a.setAttribute('onclick', 'imageSwap(this)');
+				a.setAttribute('src', node.getAttribute('src'));
+				a.className = node.className;
+				var text = document.createTextNode(node.alt);
+				a.appendChild(text);
+				node.parentNode.replaceChild(a, node);
+			}
+		}
+		function imageSwap(node) {
+			var shouldScroll = nearBottom();
+
+			//Swap the image/text
+			var img = document.createElement('img');
+			img.setAttribute('src', node.getAttribute('src'));
+			img.setAttribute('alt', node.firstChild.nodeValue);
+			img.className = node.className;
+			node.parentNode.replaceChild(img, node);
+			
+			alignChat(shouldScroll);
+		}
 		
 		//Dynamically exchange the active stylesheet
 		function setStylesheet( id, url ) {
