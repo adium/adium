@@ -19,10 +19,7 @@ xargs -I %file% tar xjf %file%); rm -f *.tar.*; cd ..
 === DOWNLOADING PIDGIN SOURCE TREE ===
 
 The Pidgin source is not installed by the download script. Adium currently uses
-libpurple from the branch im.pidgin.pidgin (see the latest change on
-$SRCROOT/Frameworks/libpurple.framework/Versions/0.5.0/libpurple for exact
-version information). Patches applied during the build process expect this
-version.
+libpurple from the branch im.pidgin.adium. Patches applied during the build process expect this version.
 
 The official documentation for getting Pidgin source is maintained at
 http://developer.pidgin.im/wiki/UsingPidginMonotone, simplified here. The
@@ -35,10 +32,10 @@ installer at http://www.monotone.ca/.
 We will download a snapshot of the monotone database to bootstrap the checkout
 process. Please note that this file is nearly 200 MB.
 
-$ cd source; mkdir im.pidgin.pidgin; cd im.pidgin.pidgin; curl -LO \
+$ cd source; mkdir im.pidgin.adium; cd im.pidgin.adium; curl -LO \
 http://developer.pidgin.im/static/pidgin.mtn.bz2 && bzip2 -d pidgin.mtn.bz2 \
 && mtn db -d pidgin.mtn migrate && mtn -d pidgin.mtn pull --set-default \
-mtn.pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.pidgin .; cd \
+mtn.pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.adium .; cd \
 ../..
 
 
@@ -46,13 +43,13 @@ mtn.pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.pidgin .; cd \
 
 To update the Pidgin source tree, just run
 
-$ cd source/im.pidgin.pidgin; mtn pull; cd ../..
+$ cd source/im.pidgin.adium; mtn pull; cd ../..
 
 
 ==== MOVING ====
 
 If you move the Pidgin source tree, you must update the absolute path of the
-pidgin.mtn database file in source/im.pidgin.pidgin/_MTN/options. Otherwise,
+pidgin.mtn database file in source/im.pidgin.adium/_MTN/options. Otherwise,
 you will be unable to pull changesets from the monotone repository.
 
 

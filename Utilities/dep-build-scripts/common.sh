@@ -22,7 +22,7 @@ SOURCEDIR="$PWD/source"
 BUILDDIR="$PWD/build"
 UNIVERSAL_DIR="$BUILDDIR/universal"
 LOGDIR="$PWD/build"
-export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.pidgin"
+export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
 
 # Compiler options
 export CC=/usr/bin/gcc-4.2
