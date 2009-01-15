@@ -41,55 +41,6 @@ DEBUG_SYMBOLS=TRUE
 PROTOCOLS="bonjour gg irc jabber msn myspace novell oscar qq sametime simple yahoo zephyr"
 
 ###
-# Patches bringing in forward changes from libpurple:
-#
-###
-# Patches for our own hackery
-#
-# libpurple_jabber_avoid_sasl_option_hack.diff is needed to avoid using PLAIN via SASL on Mac OS X 10.4, 
-# 		where it doesn't work properly
-# libpurple_makefile_linkage_hacks.diff fixes some linkage problems
-# libpurple_jabber_parser_error_handler.diff maintains the error handler
-# 		which Foundation apparently manages to reset repeated, 
-# 		which may fix crashes in __xmlRaiseError() --> _structuredErrorFunc().
-# libpurple_xmlnode_parser_error_handler does the same for other xml parsing.
-# libpurple_disable_last_seen_tracking.diff disables the last-seen tracking, 
-# 		avoiding unnecessary blist.xml writes, since we don't ever use the information (we keep track of it ourselves).
-# libpurple_jabber_fallback_to_auth_old_after_gssapi_only_fails.diff fixes iChat 
-# 		10.5 Server compatibility by falling back on iq:jabber:auth if GSSAPI
-# 		fails and is the only available mechanism. It should be applied after
-# 		libpurple_jabber_avoid_sasl_option_hack.diff
-# libpurple_jabber_use_builtin_digestmd5.diff uses our built-in digest-MD5
-# 		implementation for Jabber auth to prevent problems with some servers'
-# 		poor interaction with cyrus-sasl. Note that this means we can connect
-# 		to some servers iChat can't ;)
-# libpurple_jabber_roster_debug.diff is temporary debugging for #8834
-#
-# libpurple_oscar_sendfile_debug.diff adds debug logging for #10587
-###
-LIBPURPLE_PATCHES=("$PATCHDIR/libpurple_makefile_linkage_hacks.diff" \
-					"$PATCHDIR/libpurple_disable_last_seen_tracking.diff" \
-					"$PATCHDIR/libpurple-restrict-potfiles-to-libpurple.diff" \
-					"$PATCHDIR/libpurple_jabber_parser_error_handler.diff" \
-					"$PATCHDIR/libpurple_jabber_avoid_sasl_option_hack.diff" \
-					"$PATCHDIR/libpurple_xmlnode_parser_error_handler.diff" \
-					"$PATCHDIR/libpurple_zephyr_fix_krb4_flags.diff" \
-					"$PATCHDIR/libpurple_jabber_use_builtin_digestmd5.diff" \
-					"$PATCHDIR/libpurple_jabber_fallback_to_auth_old_after_gssapi_only_fails.diff" \
-					"$PATCHDIR/libpurple_jabber_roster_debug.diff" \
-					"$PATCHDIR/libpurple_oscar_sendfile_debug.diff")
-
-pushd $PIDGIN_SOURCE > /dev/null 2>&1
-	for patch in ${LIBPURPLE_PATCHES[@]} ; do
-		echo "Applying $patch"
-		# telekinetic-patch will let us maintain timestamps,
-		# for incremental building
-		python $PATCHDIR/telekinetic-patch.py --forward -p0 < $patch || true
-	done
-
-popd > /dev/null 2>&1
-
-###
 # These files are overwritten during each build, which prevents us from
 # performing incremental builds.
 #
@@ -253,14 +204,5 @@ for ARCH in ${ARCHES[@]} ; do
 		$PIDGIN_SOURCE/libpurple/protocols/jabber/jabber.h \
 		$TARGET_DIR/include/libpurple
 done
-
-pushd $PIDGIN_SOURCE > /dev/null 2>&1
-	for patch in ${LIBPURPLE_PATCHES[@]} ; do
-		echo "Reverting $patch"
-		# telekinetic-patch will let us maintain timestamps,
-		# for incremental building
-		$PATCHDIR/telekinetic-patch.py -R -p0 < $patch || true
-	done
-popd > /dev/null 2>&1
 
 echo "Done - now run ./universalize.sh"
