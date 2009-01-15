@@ -45,6 +45,7 @@ typedef enum {
 
 	BOOL									filterBarExpandedGroups;
 	BOOL									filterBarIsVisible;
+	BOOL									filterBarShownAutomatically;
 	NSViewAnimation							*filterBarAnimation;
 	NSArray									*filterBarPreviouslySelected;
 	
