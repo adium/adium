@@ -81,6 +81,7 @@
 
 	[filterBarPreviouslySelected release];
 	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[adium.notificationCenter removeObserver:self];
 
@@ -140,6 +141,7 @@
 	
 	filterBarExpandedGroups = NO;
 	filterBarIsVisible = NO;
+	filterBarShownAutomatically = NO;
 	self.filterBarAnimation = nil;
 	filterBarPreviouslySelected = nil;
 	[searchField setDelegate:self];
@@ -152,7 +154,12 @@
 	/* Get rid of the "x" button in the search field that would clear the search.
 	 * It conflicts with the other "x" button that hides the entire bar, and clearing a few characters is probably not necessary.
 	 */
-	[[searchField cell] setCancelButtonCell:nil];	
+	[[searchField cell] setCancelButtonCell:nil];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowDidResignMain:)
+												 name:NSWindowDidResignMainNotification
+											   object:[self window]];
 }
 
 /*!
@@ -811,6 +818,7 @@
 		[[self window] makeFirstResponder:searchField]; 
 
 	} else if ([contactListView numberOfRows] > 0) {
+		filterBarShownAutomatically = NO;
 		[self showFilterBarWithAnimation:YES];
 
 	} else {
@@ -987,23 +995,51 @@
 }
 
 /*!
+ * @brief Called when the window loses focus
+ */
+- (void)windowDidResignMain:(NSNotification *)sender
+{
+	/* If the filter bar was shown by type-to-find (but not by command-F), and the window is no longer main,
+	 * assume the user is done and hide the filter bar.
+	 */
+	if (filterBarIsVisible && filterBarShownAutomatically)
+		[self hideFilterBarWithAnimation:NO];
+}
+
+/*!
  * @brief Forward typing events from the contact list to the filter bar
  */
 - (BOOL)forwardKeyEventToFindPanel:(NSEvent *)theEvent;
 {
 	//if we were not searching something before, we need to show the filter bar first without animation
 	NSString	*charString = [theEvent charactersIgnoringModifiers];
+	unichar		pressedChar = 0;
+
+	//Get the pressed character
+	if ([charString length] == 1) pressedChar = [charString characterAtIndex:0];
 
 #define NSEscapeFunctionKey 27
-	
-	// With no selection, the escape key should end a find operation.
-	if([charString characterAtIndex:0] == NSEscapeFunctionKey && [contactListView selectedRow] == -1 && filterBarIsVisible) {
+	/* Hitting escape once should clear any existing selection. Keys with functional modifiers pressed should not be passed.
+	 * Home and End should be passed to the find panel only  if it is already visible.
+	 */
+	if (((pressedChar == NSEscapeFunctionKey) && ([contactListView selectedRow] != -1 || !filterBarIsVisible)) ||
+		(([theEvent modifierFlags] & NSCommandKeyMask) || ([theEvent modifierFlags] & NSAlternateKeyMask) || ([theEvent modifierFlags] & NSControlKeyMask)) ||
+		((pressedChar == NSPageUpFunctionKey) || (pressedChar == NSPageDownFunctionKey) || (pressedChar == NSMenuFunctionKey)) ||
+		(!filterBarIsVisible && ((pressedChar == NSHomeFunctionKey) || (pressedChar == NSEndFunctionKey)))) {
+		return NO;
+
+	} else {
+		if (!filterBarIsVisible) {
+			/* Typing caused the filter bar ot be shown automatically */
+			filterBarShownAutomatically = YES;
+			[self showFilterBarWithAnimation:NO];
+		}
+
 		[[self window] makeFirstResponder:searchField];
 		[[[self window] fieldEditor:YES forObject:searchField] keyDown:theEvent];
+		
 		return YES;
 	}
-	
-	return NO;
 }
 
 /*!
