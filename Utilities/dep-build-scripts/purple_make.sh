@@ -38,7 +38,7 @@ done
 echo purple_make.sh: Compiling ${ARCHES[@]}
 
 DEBUG_SYMBOLS=TRUE
-PROTOCOLS="bonjour gg irc jabber msn myspace novell oscar qq sametime simple yahoo zephyr"
+PROTOCOLS="bonjour facebook gg irc jabber msn myspace novell oscar qq sametime simple yahoo zephyr"
 
 ###
 # These files are overwritten during each build, which prevents us from
@@ -93,7 +93,7 @@ for ARCH in ${ARCHES[@]} ; do
 		export CFLAGS="$CFLAGS -gdwarf-2 -g3" 
 	fi
 	
-	export LDFLAGS="$BASE_LDFLAGS -L$TARGET_DIR/lib -arch $ARCH"
+	export LDFLAGS="$BASE_LDFLAGS -L$TARGET_DIR/lib -arch $ARCH -lsasl2"
 	export PKG_CONFIG="$TARGET_DIR_BASE-$ARCH/bin/pkg-config"
 	export MSGFMT="`which msgfmt`"
 	
