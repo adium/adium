@@ -1189,6 +1189,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 
 	AILog(@"Setting status on %x (%s): ID %s, isActive %i, attributes %@",account, purple_account_get_username(account),
 		  statusID, [isActive boolValue], arguments);
+
 	purple_account_set_status_list(account, statusID, [isActive boolValue], attrs);
 	g_list_free(attrs);
 

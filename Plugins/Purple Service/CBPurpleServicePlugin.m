@@ -42,6 +42,7 @@
 	[ESDotMacService registerService];
 	[AIMobileMeService registerService];
 	[ESICQService registerService];
+	[PurpleFacebookService registerService];
 	[ESGaduGaduService registerService];
 	[AIGTalkService registerService];
 	[ESIRCService registerService];

@@ -766,9 +766,9 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	return replacementString;
 }
 
-- (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info
+- (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info forContact:(AIListContact *)contact
 {
-	NSMutableArray *array = [super arrayOfDictionariesFromPurpleNotifyUserInfo:user_info];
+	NSMutableArray *array = [super arrayOfDictionariesFromPurpleNotifyUserInfo:user_info forContact:contact];
 	NSString *onlineSinceKey = [NSString stringWithUTF8String:_("Online Since")];
 	NSString *memberSinceKey = [NSString stringWithUTF8String:_("Member Since")];
 

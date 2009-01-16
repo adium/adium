@@ -337,7 +337,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	return (returnString ? returnString : inString);
 }
 
-- (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info
+- (NSString *)webProfileStringForContact:(AIListContact *)contact
+{
+	return [NSString stringWithFormat:NSLocalizedString(@"View %@'s %@ web profile", nil), 
+			[contact formattedUID], [[contact service] shortDescription]];
+}
+
+- (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info forContact:(AIListContact *)contact
 {
 	GList *l;
 	NSMutableArray *array = [NSMutableArray array];
@@ -400,12 +406,36 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		}
 	}
 
+	NSString *webProfileValue = [NSString stringWithFormat:@"%s</a>", _("View web profile")];
+	
+	int i;
+	unsigned int count = [array count];
+	for (i = 0; i < count; i++) {
+		NSDictionary *dict = [array objectAtIndex:i];
+		NSString *value = [dict objectForKey:KEY_VALUE];
+		if (value &&
+			[value rangeOfString:webProfileValue options:(NSBackwardsSearch | NSAnchoredSearch | NSLiteralSearch)].location != NSNotFound) {
+			NSMutableString *newValue = [value mutableCopy];
+			[newValue replaceOccurrencesOfString:webProfileValue
+									  withString:[self webProfileStringForContact:contact]
+										 options:(NSBackwardsSearch | NSAnchoredSearch | NSLiteralSearch)];
+			
+			NSMutableDictionary *replacementDict = [dict mutableCopy];
+			[replacementDict setObject:newValue forKey:KEY_VALUE];
+			[array replaceObjectAtIndex:i withObject:replacementDict];
+			[replacementDict release];
+
+			/* There will only be 1 (at most) web profile link */
+			break;
+		}
+	}
+	
 	return array;
 }
 
 - (void)updateUserInfo:(AIListContact *)theContact withData:(PurpleNotifyUserInfo *)user_info
 {
-	NSArray		*profileContents = [self arrayOfDictionariesFromPurpleNotifyUserInfo:user_info];
+	NSArray		*profileContents = [self arrayOfDictionariesFromPurpleNotifyUserInfo:user_info forContact:theContact];
 	[theContact setProfileArray:profileContents
 					notify:NotifyLater];
 
