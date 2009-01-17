@@ -136,8 +136,8 @@
  * 
  * Retains new information, requests immediate content update and lets the plugin know what iTunes is doing.
  */
- - (void)setiTunesCurrentInfo:(NSDictionary *)newInfo
- {
+- (void)setiTunesCurrentInfo:(NSDictionary *)newInfo
+{
  	if (newInfo != iTunesCurrentInfo) {
  		[iTunesCurrentInfo release];
  		NSMutableDictionary *mutableNewInfo = [newInfo mutableCopy];
@@ -172,13 +172,16 @@
         //fire an iTunes update in three seconds.
         [self performSelector:@selector(fireUpdateiTunesInfo) withObject:nil afterDelay:3.0];
  	}
- }
+}
 
- -(void)fireUpdateiTunesInfo
- {
-     [adium.notificationCenter postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
-	 [adium.notificationCenter postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
- }
+- (void)fireUpdateiTunesInfo
+{
+	/* First, note that the track changed; code elsewhere cares, promise. */
+	[adium.notificationCenter postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
+
+	/* Next, update any dynamic content which includes iTunes triggers, including the Now Playing status itself */
+	[adium.notificationCenter postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
+}
 
 #pragma mark -
 #pragma mark Plugin Methods
