@@ -41,6 +41,7 @@
 	BOOL				deletePurpleAccountAfterDisconnecting;
 	BOOL				finishedConnectProcess;
 	BOOL				openPsychicChats;
+	BOOL				shouldIncludeNowPlayingInformationInAllStatuses;
 
 	PurpleConnectionError lastDisconnectionReason;
 }

@@ -1216,10 +1216,15 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	tune = purple_presence_get_status(purple_account_get_presence(account), "tune");
 	if (!tune)
 		return;
-
-	attrs = createListFromDictionary(arguments);
-	purple_status_set_active_with_attrs_list(tune, TRUE, attrs);
-	g_list_free(attrs);
+	
+	if (!arguments)
+		purple_status_set_active(tune, FALSE);
+	else
+	{
+		attrs = createListFromDictionary(arguments);
+		purple_status_set_active_with_attrs_list(tune, TRUE, attrs);
+		g_list_free(attrs);
+	}
 }	
 
 - (void)setInfo:(NSString *)profileHTML onAccount:(id)adiumAccount

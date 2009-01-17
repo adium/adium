@@ -1822,11 +1822,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	[super didConnect];
 	
-	[adium.notificationCenter addObserver:self
-								   selector:@selector(iTunesDidUpdate:)
-									   name:Adium_iTunesTrackChangedNotification
-									 object:nil];
-	
+	[adium.notificationCenter addObserver:self selector:@selector(iTunesDidUpdate:) name:Adium_iTunesTrackChangedNotification object:nil];
+
 	//Silence updates
 	[self silenceAllContactUpdatesForInterval:18.0];
 	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
@@ -2156,53 +2153,40 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	return NO;
 }
 
-- (BOOL)shouldIncludeNowPlayingInformationInAllStatuses
-{
-	return NO;
-}
-
 - (NSDictionary *)purpleSongInfoDictionary
 {
-	NSMutableDictionary *arguments = [NSMutableDictionary dictionary];
+	NSMutableDictionary *arguments = nil;
 
-	if ([self shouldIncludeNowPlayingInformationInAllStatuses]) {
-		if (tuneinfo && [[tuneinfo objectForKey:ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
-			NSString *artist = [tuneinfo objectForKey:ITUNES_ARTIST];
-			NSString *name = [tuneinfo objectForKey:ITUNES_NAME];
-			
-			[arguments setObject:(artist ? artist : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ARTIST]];
-			[arguments setObject:(name ? name : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
-			[arguments setObject:([tuneinfo objectForKey:ITUNES_ALBUM] ? [tuneinfo objectForKey:ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
-			[arguments setObject:([tuneinfo objectForKey:ITUNES_GENRE] ? [tuneinfo objectForKey:ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
-			[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
-			[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
-			[arguments setObject:([tuneinfo objectForKey:ITUNES_STORE_URL] ? [tuneinfo objectForKey:ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
-			
-			[arguments setObject:[NSString stringWithFormat:@"%@%@%@", (name ? name : @""), (name && artist ? @" - " : @""), (artist ? artist : @"")]
-						  forKey:[NSString stringWithUTF8String:PURPLE_TUNE_FULL]];
-			
-		} else {
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ARTIST]];
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
-			[arguments setObject:[NSNumber numberWithInt:-1] forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
-			[arguments setObject:[NSNumber numberWithInt:-1] forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
-			[arguments setObject:@"" forKey:[NSString stringWithUTF8String:PURPLE_TUNE_FULL]];
-		}
+	if (tuneinfo && [[tuneinfo objectForKey:ITUNES_PLAYER_STATE] isEqualToString:@"Playing"]) {
+		arguments = [NSMutableDictionary dictionary];
+		
+		NSString *artist = [tuneinfo objectForKey:ITUNES_ARTIST];
+		NSString *name = [tuneinfo objectForKey:ITUNES_NAME];
+		
+		[arguments setObject:(artist ? artist : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ARTIST]];
+		[arguments setObject:(name ? name : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_ALBUM] ? [tuneinfo objectForKey:ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_GENRE] ? [tuneinfo objectForKey:ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_STORE_URL] ? [tuneinfo objectForKey:ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
+		
+		[arguments setObject:[NSString stringWithFormat:@"%@%@%@", (name ? name : @""), (name && artist ? @" - " : @""), (artist ? artist : @"")]
+					  forKey:[NSString stringWithUTF8String:PURPLE_TUNE_FULL]];
 	}
 
 	return arguments;
 }
 
 - (void)iTunesDidUpdate:(NSNotification*)notification {
-	if ([self shouldIncludeNowPlayingInformationInAllStatuses]) {
-		[tuneinfo release];
-		tuneinfo = [[notification object] retain];
+	[tuneinfo release];
+	tuneinfo = [[notification object] retain];
 
-		[purpleAdapter setSongInformation:[self purpleSongInfoDictionary] onAccount:self];
-	}
+	/* Only if we're including the information in all statuses do we need to do an update;
+	 * if we just have a 'now playing' status, the dynamic stats update will call
+	 * -[self setStatusState:usingStatusMessage:] in a moment.
+	 */	 
+	[purpleAdapter setSongInformation:(shouldIncludeNowPlayingInformationInAllStatuses ? [self purpleSongInfoDictionary] : nil) onAccount:self];
 }
 
 /*!
@@ -2263,6 +2247,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 							  forKey:@"itmsurl"];
 			}
 		}
+		
+		NSDictionary *purpleSongInfoDictionary = [self purpleSongInfoDictionary];
+		if (purpleSongInfoDictionary)
+			[arguments addEntriesFromDictionary:purpleSongInfoDictionary];
 	}
 
 	//Encode the status message if we have one
@@ -2893,10 +2881,18 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 				}
 			}
 		}
-	}
-	
-	if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
+	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
 		openPsychicChats = [[prefDict objectForKey:KEY_PSYCHIC] boolValue];
+
+	} else if ([group isEqualToString:GROUP_ACCOUNT_STATUS]) {
+		BOOL oldNowPlaying = shouldIncludeNowPlayingInformationInAllStatuses;
+		
+		shouldIncludeNowPlayingInformationInAllStatuses = [[self preferenceForKey:KEY_BROADCAST_MUSIC_INFO group:GROUP_ACCOUNT_STATUS] boolValue];
+
+		if (oldNowPlaying && !shouldIncludeNowPlayingInformationInAllStatuses) {
+			/* Clear any existing song info immediately if we're no longer supposed to broadcast it */
+			[purpleAdapter setSongInformation:nil onAccount:self];
+		}
 	}
 }
 
