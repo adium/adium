@@ -218,13 +218,14 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 				}
 			}
 		}
-		
+
+		BOOL currentLocationNeedsUpdate = YES;
+
 		if ([candidateEmoticons count]) {
 			NSString					*replacementString;
 			NSMutableAttributedString   *replacement;
 			NSInteger					textLength;
 			NSRange						emoticonRangeInNewMessage;
-			NSInteger					amountToIncreaseCurrentLocation = 0;
 
 			originalEmoticonLocation = *currentLocation;
 
@@ -235,7 +236,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 												equivalent:&replacementString
 										  equivalentLength:&textLength];
 			emoticonRangeInNewMessage = NSMakeRange(*currentLocation - *replacementCount, textLength);
-
+			
 			/* We want to show this emoticon if there is:
 			 *		It begins or ends the string
 			 *		It is bordered by spaces or line breaks or quotes on both sides
@@ -322,17 +323,13 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 						*/
 						acceptable = YES;
 					}
-				}
-
-				/* Whether the current candidate is acceptable or not, we can now skip ahead to just after the next emoticon if
-				 * there is one. If there isn't, we can skip ahead to the end of the string.
-				 *
-				 * We do -1 because we will do a +1 at the end of the loop no matter what.
-				 */				
-				if (newCurrentLocation != NSNotFound) {
-					amountToIncreaseCurrentLocation = (newCurrentLocation - *currentLocation) - 1;
+					
+					currentLocationNeedsUpdate = NO;
+					*currentLocation = newCurrentLocation;
 				} else {
-					amountToIncreaseCurrentLocation = (messageStringLength - *currentLocation) - 1;					
+					/* If there isn't a next emoticon, we can skip ahead to the end of the string. */			
+					*currentLocation = messageStringLength;
+					currentLocationNeedsUpdate = NO;
 				}
 			}
 
@@ -351,19 +348,20 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 				
 				//Update where we are in the original and replacement messages
 				*replacementCount += textLength-1;
-				*currentLocation += textLength-1;
+				
+				if (currentLocationNeedsUpdate)
+					*currentLocation += textLength-1;
 			} else {
 				//Didn't find an acceptable emoticon, so we should return NSNotFound
 				originalEmoticonLocation = NSNotFound;
-			}
-			
-			//If appropriate, skip ahead by amountToIncreaseCurrentLocation
-			*currentLocation += amountToIncreaseCurrentLocation;
+			}			
 		}
 
 		//Always increment the loop
-		*currentLocation += 1;
-
+		if (currentLocationNeedsUpdate) {
+			*currentLocation += 1;
+		}
+		
 		[candidateEmoticons release];
 		[candidateEmoticonTextEquivalents release];
 	}
