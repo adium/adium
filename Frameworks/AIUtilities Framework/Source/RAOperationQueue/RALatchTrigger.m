@@ -37,7 +37,9 @@
 
 - (void)dealloc
 {
-	mach_port_deallocate( mach_task_self(), _triggerPort );
+	kern_return_t ret = mach_port_mod_refs( mach_task_self(), _triggerPort, MACH_PORT_RIGHT_RECEIVE, -1 );
+	if( ret != KERN_SUCCESS )
+		abort();
 	
 	[super dealloc];
 }
