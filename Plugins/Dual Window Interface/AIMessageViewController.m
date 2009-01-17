@@ -459,7 +459,9 @@
 														  object:chat
 														userInfo:nil];
 			}
-
+			/* If we sent with AIChatCanSendViaServersideOfflineMessage, we should probably show a status message to
+			 * the effect AILocalizedString(@"Your message has been sent. %@ will receive it when online.", nil)
+			 */
 		} else {
 			NSString							*formattedUID = [listObject formattedUID];
 			
