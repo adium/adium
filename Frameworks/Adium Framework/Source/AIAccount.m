@@ -369,11 +369,12 @@ typedef enum
  * If -[self canSendOfflineMessageToContact:] returns YES, Adium typically asks the user whether or not to send a message
  * to be stored on the server. If sendOfflineMessagesWithoutPrompting returns YES, this prompt is always suppressed.
  *
- * This should only be true if offline messaging is a well-established expectation for the service.
+ * This should only be true if offline messaging is a well-established expectation for the service. We assume that
+ * this is the case by default.
  */
 - (BOOL)sendOfflineMessagesWithoutPrompting
 {
-	return NO;
+	return YES;
 }
 
 /*!
