@@ -24,7 +24,11 @@
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithAttributedString:[inView textStorage]];
-	[[inView textStorage] setAttributedString:[scanner linkifiedString]];
+	NSAttributedString *attributedString = [scanner linkifiedString];
+	
+	[[inView textStorage] performSelectorOnMainThread:@selector(setAttributedString:)
+										   withObject:attributedString
+										waitUntilDone:NO];
 	[pool release];
 }
 @end
