@@ -432,6 +432,83 @@ static NSArray *validSenderColors;
 		usingCustomTemplateHTML = NO;
 	} else {
 		usingCustomTemplateHTML = YES;
+		
+		if ([baseHTML rangeOfString:@"function imageCheck()" options:NSLiteralSearch].location != NSNotFound) {
+			/* This doesn't quite fix image swapping on styles with broken image swapping due to custom HTML templates,
+			 * but it improves it. For some reason, the result of using our normal template.html functions is that 
+			 * clicking works once, then the text doesn't allow a return click. This is an improvement compared
+			 * to fully broken behavior in which the return click shows a missing-image placeholder.
+			 */
+			NSMutableString *imageSwapFixedBaseHTML = [[baseHTML mutableCopy] autorelease];
+			[imageSwapFixedBaseHTML replaceOccurrencesOfString:
+			 @"		function imageCheck() {\n"
+			 "			node = event.target;\n"
+			 "			if(node.tagName == 'IMG' && node.alt) {\n"
+			 "				a = document.createElement('a');\n"
+			 "				a.setAttribute('onclick', 'imageSwap(this)');\n"
+			 "				a.setAttribute('src', node.src);\n"
+			 "				text = document.createTextNode(node.alt);\n"
+			 "				a.appendChild(text);\n"
+			 "				node.parentNode.replaceChild(a, node);\n"
+			 "			}\n"
+			 "		}"
+													withString:
+			 @"		function imageCheck() {\n"
+			 "			var node = event.target;\n"
+			 "			if(node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt) {\n"
+			 "				var a = document.createElement('a');\n"
+			 "				a.setAttribute('onclick', 'imageSwap(this)');\n"
+			 "				a.setAttribute('src', node.getAttribute('src'));\n"
+			 "				a.className = node.className;\n"
+			 "				var text = document.createTextNode(node.alt);\n"
+			 "				a.appendChild(text);\n"
+			 "				node.parentNode.replaceChild(a, node);\n"
+			 "			}\n"
+			 "		}"
+													   options:NSLiteralSearch];
+			[imageSwapFixedBaseHTML replaceOccurrencesOfString:
+			 @"		function imageSwap(node) {\n"
+			 "			img = document.createElement('img');\n"
+			 "			img.setAttribute('src', node.src);\n"
+			 "			img.setAttribute('alt', node.firstChild.nodeValue);\n"
+			 "			node.parentNode.replaceChild(img, node);\n"
+			 "			alignChat();\n"
+			 "		}"
+													withString:
+			 @"		function imageSwap(node) {\n"
+			 "			var shouldScroll = nearBottom();\n"
+			 "			//Swap the image/text\n"
+			 "			var img = document.createElement('img');\n"
+			 "			img.setAttribute('src', node.getAttribute('src'));\n"
+			 "			img.setAttribute('alt', node.firstChild.nodeValue);\n"
+			 "			img.className = node.className;\n"
+			 "			node.parentNode.replaceChild(img, node);\n"
+			 "			\n"
+			 "			alignChat(shouldScroll);\n"
+			 "		}"
+													   options:NSLiteralSearch];
+			/* Now for ones which don't call alignChat() */
+			[imageSwapFixedBaseHTML replaceOccurrencesOfString:
+			 @"		function imageSwap(node) {\n"
+			 "			img = document.createElement('img');\n"
+			 "			img.setAttribute('src', node.src);\n"
+			 "			img.setAttribute('alt', node.firstChild.nodeValue);\n"
+			 "			node.parentNode.replaceChild(img, node);\n"
+			 "		}"
+													withString:
+			 @"		function imageSwap(node) {\n"
+			 "			var shouldScroll = nearBottom();\n"
+			 "			//Swap the image/text\n"
+			 "			var img = document.createElement('img');\n"
+			 "			img.setAttribute('src', node.getAttribute('src'));\n"
+			 "			img.setAttribute('alt', node.firstChild.nodeValue);\n"
+			 "			img.className = node.className;\n"
+			 "			node.parentNode.replaceChild(img, node);\n"
+			 "		}"
+													   options:NSLiteralSearch];
+			baseHTML = imageSwapFixedBaseHTML;
+		}
+		
 	}
 	[baseHTML retain];
 	
