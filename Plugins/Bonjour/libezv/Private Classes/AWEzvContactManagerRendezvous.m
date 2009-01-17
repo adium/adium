@@ -185,7 +185,7 @@ void image_register_reply (
 
 	dnsError = DNSServiceRegister(
 			/* uninitialized service discovery reference */ &servRef, 
-		    /* flags indicating how to handle name conflicts */ kDNSServiceFlagsNoAutoRename, 
+		    /* flags indicating how to handle name conflicts */ /* kDNSServiceFlagsNoAutoRename */ 0, 
 		    /* interface on which to register, 0 for all available */ 0, 
 		    /* service's name, may be null */ [avInstanceName UTF8String],
 		    /* service registration type */ "_presence._tcp", 
@@ -297,7 +297,7 @@ void image_register_reply (
 	}
 
 	txtRecord = [userAnnounceData dataAsTXTRecordRef];
-
+	AILogWithSignature(@"%@", [userAnnounceData dictionary]);
 	updateError = DNSServiceUpdateRecord (
 		/* serviceRef */ avDNSReference,
 		/* recordRef, may be NULL */ NULL,
@@ -344,7 +344,6 @@ void image_register_reply (
 			[self updateAnnounceInfo];
 			return;
 		}
-		
 	}
 
 	if (imageRef != nil && JPEGData != nil) {
@@ -370,7 +369,7 @@ void image_register_reply (
 	                             /* type */ kDNSServiceType_NULL, 
 	                             /* length */ [JPEGData length], 
 	                             /* data */ [JPEGData bytes], 
-	                             /* time to live */ 0);
+	                             /* time to live; 0=default */ 0);
 
 	if (error == kDNSServiceErr_NoError) {
 		/* Let's create the hash */
@@ -378,7 +377,7 @@ void image_register_reply (
 		SHA1_Update(&ctx, [JPEGData bytes], (unsigned long)[JPEGData length]);
 		SHA1_Final(digest, &ctx);
 		imagehash = [[NSData dataWithBytes:digest length:20] retain];
-		
+		AILogWithSignature(@"Will update with hash %@; length is %u", imagehash, [JPEGData length]);
 		[self updatePHSH];
 	} else {
 		[[client client] reportError:@"Error adding image record" ofLevel:AWEzvWarning];
@@ -569,6 +568,7 @@ void image_register_reply (
 	if (!moreToCome) {
 		[contact setImageServiceController: nil];
 	}
+	AILogWithSignature(@"%@ -> %@ (%i)", [NSData dataWithBytes:data length:dataLen], [[[NSImage alloc] initWithData:[NSData dataWithBytes:data length:dataLen]] autorelease], dataLen);
 	if (dataLen != 0 ) {
 		/* We have an image */
 		/* parse raw Data */
@@ -664,6 +664,7 @@ void image_register_reply (
 		/* We should check to see if this is a new phsh */
 		NSString *hash = [contact imageHash];
 		NSString *newHash = [rendezvousData getField:@"phsh"];
+		AILogWithSignature(@"received image hash %@ for %@", newHash, contact);
 		if (hash == NULL || [newHash compare: hash] != NSOrderedSame) {
 			[contact setImageHash: newHash];	
 			/* The two hashes are different or there was no image before so there is an image to be downloaded */
@@ -676,6 +677,7 @@ void image_register_reply (
 			                            kDNSServiceType_NULL, kDNSServiceClass_IN, ImageQueryRecordReply, contact);
 			if ( err == kDNSServiceErr_NoError) {
 				ServiceController *temp = [[ServiceController alloc] initWithServiceRef:serviceRef forContactManager:self];
+				AILogWithSignature(@"requesting image with %@", temp);
 				[contact setImageServiceController:temp];
 				[[contact imageServiceController] addToCurrentRunLoop];
 				[temp release];
@@ -877,6 +879,7 @@ static void	ProcessSockData( CFSocketRef s, CFSocketCallBackType type, CFDataRef
 // CFRunloop callback that notifies dns_sd when new data appears on a DNSServiceRef's socket.
 {
 	ServiceController *self = (ServiceController *)info;
+	AILogWithSignature(@"Processing result for %@", self);
 
 	DNSServiceErrorType err = DNSServiceProcessResult([self serviceRef]);
 	if (err != kDNSServiceErr_NoError) {
