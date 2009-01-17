@@ -17,7 +17,7 @@
 #import <Adium/AIPlugin.h>
 #import <Adium/AIContentControllerProtocol.h>
 
-@interface AILaTeXPlugin : AIPlugin <AIContentFilter> {
+@interface AILaTeXPlugin : AIPlugin <AIDelayedContentFilter> {
 }
 
 @end

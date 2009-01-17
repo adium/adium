@@ -14,18 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AITextAttachmentExtension.h>
-
-#import <AIUtilities/AIImageAdditions.h>
-
 #import "AILaTeXPlugin.h"
-
-@interface AILaTeXPlugin ()
-+ (NSMutableAttributedString *)attributedStringWithImage:(NSImage *)img textEquivalent:(NSString *)textEquivalent;
-+ (NSImage *)imageFromLaTeX:(NSString *)bodyLaTeX color:(NSColor *)color;
-+ (NSString *)getPathForProgram:(NSString *)progname;
-@end
+#import "AILaTeXProcessor.h"
+#import <Adium/AIContentControllerProtocol.h>
 
 /*!
  * @class AILaTeXPlugin
@@ -36,108 +27,37 @@
 - (void)installPlugin
 {
 	// only filter messages as we display them; do not transform the messages actually sent
-	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
-	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
+	[adium.contentController registerDelayedContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
+	[adium.contentController registerDelayedContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
 }
 
 - (void)uninstallPlugin
 {
-	[adium.contentController unregisterContentFilter:self];
+	[adium.contentController unregisterDelayedContentFilter:self];
 }
 
 /*!
  * @brief Applies the LaTeX filters to the given string
+ * 
+ * Given an attributed string, the filtering object may begin working on the result of its filter
+ *
+ * [adium.contentController delayedFilterDidFinish:uniqueID:] should be called with the eventual result if this method returns YES.
+ * If the filter eventually fails, this method MUST be called with the original inAttributedString.
+ *
+ * @param inAttributedString NSAttributedString to filter
+ * @param context An object, such as an AIListContact or an AIAccount, potentially relevant to filtration. May be anything, so check its class as needed.
+ * @param uniqueID A uniqueID which will be passed back to [adium.contentController delayedFilterDidFinish:uniqueID:] when this filtration is complete.
+ *
+ * @result YES if a delayed filtration process began; NO if no changes are to be made.
  */
-- (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
+- (BOOL)delayedFilterAttributedString:(NSAttributedString *)inAttributedString context:(id)context uniqueID:(unsigned long long)uniqueID;
 {
-	if (([[inAttributedString string] rangeOfString:@"$$" options:NSLiteralSearch] == NSNotFound) &&
-		([[inAttributedString string] rangeOfString:@"\\[" options:NSLiteralSearch] == NSNotFound)) 
-		return inAttributedString;
+	if (([[inAttributedString string] rangeOfString:@"$$" options:NSLiteralSearch].location == NSNotFound) &&
+		([[inAttributedString string] rangeOfString:@"\\[" options:NSLiteralSearch].location == NSNotFound)) 
+		return NO;
 	
-	NSMutableAttributedString *newMessage = [[[NSMutableAttributedString alloc] init] autorelease];
-	
-	NSScanner *stringScanner = [[NSScanner alloc] initWithString:[inAttributedString string]];
-	[stringScanner setCharactersToBeSkipped:[[[NSCharacterSet alloc] init] autorelease]];
-		
-	while ([stringScanner isAtEnd] == NO) {
-		NSUInteger doubleDollar = [[inAttributedString string] rangeOfString:@"$$" options:NSLiteralSearch range:NSMakeRange([stringScanner scanLocation], [inAttributedString length] - [stringScanner scanLocation])].location;
-		NSUInteger slashBracket = [[inAttributedString string] rangeOfString:@"\\[" options:NSLiteralSearch range:NSMakeRange([stringScanner scanLocation], [inAttributedString length] - [stringScanner scanLocation])].location;
-		
-		// If there's nothing else, just slap it on the end of newMessage
-		if (doubleDollar == NSNotFound && slashBracket == NSNotFound) {
-			[newMessage appendAttributedString:[inAttributedString attributedSubstringFromRange:NSMakeRange([stringScanner scanLocation], [inAttributedString length] - [stringScanner scanLocation])]];
-			break;
-		}
-		
-		// Read in the contents between the markers
-		NSString *innerLaTeX = nil;
-		NSUInteger i = 0;
-		
-		if (doubleDollar < slashBracket) {
-			// Grab the stuff leading up to the LaTeX
-			i = [stringScanner scanLocation];
-			if ([stringScanner scanUpToString:@"$$" intoString:nil]) {
-				[newMessage appendAttributedString:[inAttributedString attributedSubstringFromRange:NSMakeRange(i, [stringScanner scanLocation] - i)]];
-			}
-			
-			// Make sure we have a close tag
-			if ([[inAttributedString string] rangeOfString:@"$$" options:NSLiteralSearch range:NSMakeRange(doubleDollar + 2, [inAttributedString length] - doubleDollar - 2)].location == NSNotFound) {
-				[newMessage appendAttributedString:[inAttributedString attributedSubstringFromRange:NSMakeRange([stringScanner scanLocation], 2)]];
-				[stringScanner scanString:@"$$" intoString:nil];
-				continue;
-			}
-			
-			// Grab the inner LaTeX code
-			[stringScanner scanString:@"$$" intoString:nil];
-			i = [stringScanner scanLocation];
-			if ([stringScanner scanUpToString:@"$$" intoString:&innerLaTeX]) {
-				[stringScanner scanString:@"$$" intoString:nil];
-			}
-			
-		} else {
-			// Grab the stuff leading up to the LaTeX
-			i = [stringScanner scanLocation];
-			if ([stringScanner scanUpToString:@"\\[" intoString:nil]) {
-				[newMessage appendAttributedString:[inAttributedString attributedSubstringFromRange:NSMakeRange(i, [stringScanner scanLocation] - i)]];
-			}
-			
-			// Make sure we have a close tag
-			if ([[inAttributedString string] rangeOfString:@"\\]" options:NSLiteralSearch range:NSMakeRange(slashBracket + 2, [inAttributedString length] - slashBracket - 2)].location == NSNotFound) {
-				[newMessage appendAttributedString:[inAttributedString attributedSubstringFromRange:NSMakeRange([stringScanner scanLocation], 2)]];
-				[stringScanner scanString:@"\\[" intoString:nil];
-				continue;
-			}
-			
-			// Grab the inner LaTeX code
-			[stringScanner scanString:@"\\[" intoString:nil];
-			i = [stringScanner scanLocation];
-			if ([stringScanner scanUpToString:@"\\]" intoString:&innerLaTeX]) {
-				[stringScanner scanString:@"\\]" intoString:nil];
-			}
-		}
-		
-		if (innerLaTeX) {			
-			// Get the color from our attributed string
-			NSColor *color = [inAttributedString attribute:NSForegroundColorAttributeName atIndex:i effectiveRange:NULL];
-
-			// create image from LaTeX
-			NSImage *tempImage = [[self class] imageFromLaTeX:[NSString stringWithFormat:@"$ %@ $", innerLaTeX] color:color];
-			if (tempImage != nil) {
-				NSSize imgSize = [tempImage size];
-				float scalefactor = ([[inAttributedString attribute:NSFontAttributeName atIndex:i effectiveRange:NULL] pointSize] / 12.0) * 1.3; // 1.3 chosen to fit the author's aesthetics
-				imgSize.width *= scalefactor;
-				imgSize.height *= scalefactor;
-				[tempImage setSize:imgSize];
-				
-				[newMessage appendAttributedString:[[self class] attributedStringWithImage:tempImage textEquivalent:innerLaTeX]];
-			}
-		}
-	}
-	
-	[stringScanner release];
-
-	return newMessage;
-
+	[AILaTeXProcessor processString:inAttributedString context:context uniqueID:uniqueID];
+	return YES;
 }
 
 - (float)filterPriority
