@@ -386,11 +386,6 @@
 	[super gotFilteredDisplayName:attributedDisplayName];
 }
 
-- (BOOL)shouldIncludeNowPlayingInformationInAllStatuses
-{
-	return [[self preferenceForKey:KEY_BROADCAST_MUSIC_INFO group:GROUP_ACCOUNT_STATUS] boolValue];
-}
-
 #pragma mark File transfer
 - (BOOL)canSendFolders
 {
