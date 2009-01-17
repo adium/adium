@@ -72,46 +72,10 @@
 	return [[[[self class] alloc] initWithAttributedString:inString usingStrictChecking:NO] autorelease];
 }
 
-#pragma mark Init/Dealloc
-
-
-- (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag
+#pragma mark Initialization
++ (void)initialize
 {
-	if((self = [self init])){
-		m_scanString = [inString retain];
-		m_scanAttrString = nil;
-		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			@"ftp://", @"ftp",
-			nil];
-		m_strictChecking = flag;
-		m_scanLocation = 0;
-		m_scanStringLength = [m_scanString length];
-	}
-	return self;
-}
-
-- (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag
-{
-	if((self = [self init])){
-		m_scanString = [[inString string] retain];
-		m_scanAttrString = [inString retain];
-		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
-			@"ftp://", @"ftp",
-			nil];
-		m_strictChecking = flag;
-		m_scanLocation = 0;
-		m_scanStringLength = [m_scanString length];
-	}
-	return self;
-}
-
-- (id)init
-{
-	static BOOL		 s_allSet = NO;
-	static NSLock	*s_initLock = nil;
-	if((self = [super init]) && !s_allSet) {
-		if(!s_initLock) s_initLock = [[NSLock alloc] init];
-		[s_initLock lock];
+	if ((self = [AHHyperlinkScanner class])) {
 		if (!skipSet) {
 			NSMutableCharacterSet *mutableSkipSet = [[NSMutableCharacterSet alloc] init];
 			[mutableSkipSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -153,14 +117,43 @@
 		if(!enclosureStopArray){
 			enclosureStopArray = [[NSArray arrayWithObjects:@")",@"]",@"}",nil] retain];
 		}
-
+		
 		if(!encKeys){
 			encKeys = [[NSArray arrayWithObjects:ENC_INDEX_KEY, ENC_CHAR_KEY, nil] retain];
-		}
-		s_allSet = YES;
-		[s_initLock unlock];
+		}		
 	}
-	
+}
+
+#pragma mark Init/Dealloc
+
+
+- (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag
+{
+	if((self = [self init])){
+		m_scanString = [inString retain];
+		m_scanAttrString = nil;
+		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			@"ftp://", @"ftp",
+			nil];
+		m_strictChecking = flag;
+		m_scanLocation = 0;
+		m_scanStringLength = [m_scanString length];
+	}
+	return self;
+}
+
+- (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag
+{
+	if((self = [self init])){
+		m_scanString = [[inString string] retain];
+		m_scanAttrString = [inString retain];
+		m_urlSchemes = [[NSDictionary alloc] initWithObjectsAndKeys:
+			@"ftp://", @"ftp",
+			nil];
+		m_strictChecking = flag;
+		m_scanLocation = 0;
+		m_scanStringLength = [m_scanString length];
+	}
 	return self;
 }
 
@@ -257,8 +250,9 @@
 
 	// main scanning loop
 	while([self _scanString:m_scanString upToCharactersFromSet:skipSet intoRange:&scannedRange fromIndex:&scannedLocation]) {
-	
-		// Check for and filter  enclosures.  We can't add (, [, etc. to the skipSet as they may be in a URI
+		BOOL foundUnpairedEnclosureCharacter = NO;
+
+		// Check for and filter enclosures.  We can't add (, [, etc. to the skipSet as they may be in a URI
 		if([enclosureSet characterIsMember:[m_scanString characterAtIndex:scannedRange.location]]){
 			unsigned long encIdx = [enclosureStartArray indexOfObject:[m_scanString substringWithRange:NSMakeRange(scannedRange.location, 1)]];
 			NSRange encRange;
@@ -266,6 +260,8 @@
 				encRange = [m_scanString rangeOfString:[enclosureStopArray objectAtIndex:encIdx] options:NSBackwardsSearch range:scannedRange];
 				if(NSNotFound != encRange.location){
 					scannedRange.location++; scannedRange.length -= 2;
+				}else{
+					foundUnpairedEnclosureCharacter = YES;
 				}
 			}
 		}
@@ -276,6 +272,7 @@
 		while (scannedRange.length > 2 && [endSet characterIsMember:[m_scanString characterAtIndex:(scannedRange.location + scannedRange.length - 1)]]) {
 			if((longestEnclosure.location + longestEnclosure.length) < scannedRange.length){
 				scannedRange.length--;
+				foundUnpairedEnclosureCharacter = NO;
 			}else break;
 		}
 		
@@ -285,6 +282,7 @@
 		AH_URI_VERIFICATION_STATUS	 validStatus;
 		NSString					*_scanString = nil;
 		if(3 < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
+
         if((3 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:&m_scanLocation withStatus:&validStatus]){
             AHMarkedHyperlink	*markedLink;
 			
@@ -327,11 +325,15 @@
         }
 
 		//step location after scanning a string
-		NSRange startRange = [m_scanString rangeOfCharacterFromSet:puncSet options:NSLiteralSearch range:scannedRange];
-		if (startRange.location != NSNotFound)
-			m_scanLocation = startRange.location + startRange.length;
-		else
-			m_scanLocation += scannedRange.length;
+		if (foundUnpairedEnclosureCharacter){
+			m_scanLocation++;
+		}else{
+			NSRange startRange = [m_scanString rangeOfCharacterFromSet:puncSet options:NSLiteralSearch range:scannedRange];
+			if (startRange.location != NSNotFound)
+				m_scanLocation = startRange.location + startRange.length;
+			else
+				m_scanLocation += scannedRange.length;
+		}
 			
 		scannedLocation = m_scanLocation;
     }
