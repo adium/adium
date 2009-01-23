@@ -28,13 +28,26 @@ export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
 export CC=/usr/bin/gcc-4.2
 TARGET_DIR_PPC="$BUILDDIR/root-ppc"
 TARGET_DIR_I386="$BUILDDIR/root-i386"
+TARGET_DIR_ARMV6="$BUILDDIR/root-armv6"
+
 TARGET_DIR_BASE="$BUILDDIR/root"
 export PATH_PPC="$TARGET_DIR_PPC/bin:$PATH"
 export PATH_I386="$TARGET_DIR_I386/bin:$PATH"
+export PATH_ARMV6="$TARGET_DIR_ARMV6/bin:$PATH"
 
-SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
-BASE_CFLAGS="-mmacosx-version-min=10.5 -isysroot $SDK_ROOT"
-BASE_LDFLAGS="-mmacosx-version-min=10.5 -headerpad_max_install_names -Wl,-syslibroot,$SDK_ROOT"
+if [ "$1" = "-iphone" ]; then
+    #HOST="arm-apple-darwin"
+    echo "iPhone!"
+    SDK_ROOT="/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS2.2.sdk"
+    BASE_CFLAGS="-miphoneos-version-min=2.2 -isysroot $SDK_ROOT"
+    BASE_LDFLAGS="-miphoneos-version-min=2.2 -headerpad_max_install_names -Wl,-syslibroot,$SDK_ROOT"
+
+else
+    SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
+    BASE_CFLAGS="-mmacosx-version-min=10.5 -isysroot $SDK_ROOT"
+    BASE_LDFLAGS="-mmacosx-version-min=10.5 -headerpad_max_install_names -Wl,-syslibroot,$SDK_ROOT"
+fi
+
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 
 # XXX Not sure if this is even used anymore
