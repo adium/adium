@@ -40,6 +40,29 @@
 }
 
 /*!
+ * @brief Return the description of the object's status to show after Status:
+ *
+ * If a statusName exists for the object's status, its localized description will be shown.
+ * If the object is away and no statusName is set, Away will be shown.
+ */
+- (NSString *)awayDescriptionForObject:(AIListObject *)inObject
+{
+	NSString *awayDescriptionString = nil;
+	NSString *statusName = [inObject statusName];
+	AIStatusType statusType = [inObject statusType];
+	
+	if (statusName) {
+		awayDescriptionString = [adium.statusController localizedDescriptionForStatusName:statusName
+																			   statusType:statusType];
+	}
+	
+	if (!statusName && (statusType == AIAwayStatusType)) {
+		awayDescriptionString = AWAY;
+	}
+	
+	return awayDescriptionString;
+}
+/*!
  * @brief Tooltip label
  *
  * @result A label, or nil if no tooltip entry should be shown
@@ -63,11 +86,11 @@
 			//Check to make sure we're not duplicating server display name information
 			NSString	*serverDisplayName = [inObject valueForProperty:@"Server Display Name"];
 			
-			//Return the correct string
 			if ([serverDisplayName isEqualToString:[statusMessage string]]) {
+				/* If the server display name is the status message, awayDescriptionForObject: will be the entry */
 				label = STATUS_LABEL;
 			} else {
-				label = AWAY_MESSAGE_LABEL;
+				label = [self awayDescriptionForObject:inObject];
 			}
 			
 		} else {
@@ -83,33 +106,7 @@
 }
 
 /*!
- * @brief Return the description of the object's status to show after Status:
- *
- * If a statusName exists for the object's status, its localized description will be shown.
- * If the object is away and no statusName is set, Away will be shown.
- */
-- (NSAttributedString *)awayDescriptionForObject:(AIListObject *)inObject
-{
-	NSString *awayDescriptionString = nil;
-	NSString *statusName = [inObject statusName];
-	AIStatusType statusType = [inObject statusType];
-	
-	if (statusName) {
-		awayDescriptionString = [adium.statusController localizedDescriptionForStatusName:statusName
-																				 statusType:statusType];
-	}
-	
-	if (!statusName && (statusType == AIAwayStatusType)) {
-		awayDescriptionString = AWAY;
-	}
-	
-	return (awayDescriptionString ?
-			[[[NSAttributedString alloc] initWithString:awayDescriptionString] autorelease] :
-			nil);
-}
-
-/*!
-* @brief Tooltip entry
+ * @brief Tooltip entry
  *
  * @result The tooltip entry, or nil if no tooltip should be shown
  */
@@ -130,7 +127,10 @@
 		/* If the status and server display name are the same, just display the status as appropriate since
 		 * we'll display the server display name itself in the proper place.
 		 */
-		entry = [self awayDescriptionForObject:inObject];
+		NSString *awayDescription = [self awayDescriptionForObject:inObject];
+		entry = (awayDescription ?
+				 [[[NSAttributedString alloc] initWithString:awayDescription] autorelease] :
+				 nil);
 		
 	} else {
 		if (statusMessage != nil && [statusMessage length] != 0) {
@@ -151,7 +151,10 @@
 			
 			
 		} else {
-			entry = [self awayDescriptionForObject:inObject];
+			NSString *awayDescription = [self awayDescriptionForObject:inObject];
+			entry = (awayDescription ?
+					 [[[NSAttributedString alloc] initWithString:awayDescription] autorelease] :
+					 nil);
 		}
 	}
 	
