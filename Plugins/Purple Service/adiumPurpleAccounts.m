@@ -10,7 +10,7 @@
 
 /* A buddy we already have added us to their buddy list. */
 static void adiumPurpleAccountNotifyAdded(PurpleAccount *account, const char *remote_user,
-							 const char *id, const char *alias,
+							 const char *identifier, const char *alias,
 							 const char *message)
 {
 	

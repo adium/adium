@@ -129,7 +129,6 @@
 	if (useABImages) {
 		NSNumber		*tagNumber;
 		NSImage			*image;
-		AIListObject	*listObject;
 		//		AIListContact	*parentContact;
 		NSString		*uniqueID;
 		id				setOrObject;
@@ -148,7 +147,7 @@
 		setOrObject = [trackingDict objectForKey:tagNumber];
 
 		if ([setOrObject isKindOfClass:[AIListObject class]]) {
-			listObject = (AIListObject *)setOrObject;
+			AIListObject *listObject = (AIListObject *)setOrObject;
 			
 			[AIUserIcons userIconSource:self
 				   didDetermineUserIcon:image
