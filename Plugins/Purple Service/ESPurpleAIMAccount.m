@@ -129,22 +129,6 @@
 	[super updateContact:theContact forEvent:event];
 }
 
-#pragma mark Status
-/*!
-* @brief Encode an attributed string for a status type
- *
- * Away messages are HTML encoded.  Available messages are plaintext.
- */
-- (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forStatusState:(AIStatus *)statusState
-{
-	if (statusState && ([statusState statusType] == AIAvailableStatusType)) {
-		NSString	*messageString = [[inAttributedString attributedStringByConvertingLinksToStrings] string];
-		return [messageString stringWithEllipsisByTruncatingToLength:MAX_AVAILABLE_MESSAGE_LENGTH];
-	} else {
-		return [super encodedAttributedString:inAttributedString forStatusState:statusState];
-	}
-}
-
 #pragma mark Suported keys
 - (NSSet *)supportedPropertyKeys
 {

@@ -125,17 +125,6 @@
 	return YES;
 }
 
-#pragma mark Status
-/*!
- * @brief Encode an attributed string for a status type
- *
- */
-- (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forStatusState:(AIStatus *)statusState
-{
-	NSString	*messageString = [[inAttributedString attributedStringByConvertingLinksToStrings] string];
-	return [messageString stringWithEllipsisByTruncatingToLength:MAX_GADU_STATUS_MESSAGE_LENGTH];
-}
-
 - (BOOL)handleOfflineAsStatusChange
 {
 	return YES;
