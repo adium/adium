@@ -199,8 +199,8 @@ PurpleStatusType *purple_status_type_new_full(PurpleStatusPrimitive primitive,
 										  gboolean independent);
 
 /**
- * Creates a new status type with some default values (not
- * savable and not independent).
+ * Creates a new status type with some default values (
+ * saveable and not independent).
  *
  * @param primitive     The primitive status type.
  * @param id            The ID of the status type, or @c NULL to use the id of

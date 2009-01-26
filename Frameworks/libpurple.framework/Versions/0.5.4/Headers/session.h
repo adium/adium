@@ -123,7 +123,7 @@ struct _MsnSession
 	} passport_info;
 
 	GHashTable *soap_table;
-	int soap_cleanup_handle;
+	guint soap_cleanup_handle;
 };
 
 /**
