@@ -454,7 +454,6 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					PurpleConnection		*gc = purple_account_get_connection(account);
 					GList					*list, *tmp;
 					struct proto_chat_entry *pce;
-					NSString				*identifier;
 
 					g_return_val_if_fail(gc != NULL, NULL);
 
@@ -463,7 +462,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 					components = g_hash_table_new_full(g_str_hash, g_str_equal,
 													   g_free, g_free);
 					
-					for (identifier in chatCreationInfo) {
+					for (NSString *identifier in chatCreationInfo) {
 						id		value = [chatCreationInfo objectForKey:identifier];
 						char	*valueUTF8String = NULL;
 						
