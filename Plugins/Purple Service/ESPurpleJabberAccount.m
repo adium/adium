@@ -531,14 +531,6 @@
 	return statusName;
 }
 
-/*!
- * @brief Jabber status messages are plaintext
- */
-- (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forStatusState:(AIStatus *)statusState
-{
-	return [[inAttributedString attributedStringByConvertingLinksToStrings] string];
-}
-
 #pragma mark Menu items
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
