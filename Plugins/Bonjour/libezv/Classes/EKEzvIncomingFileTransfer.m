@@ -388,7 +388,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	struct AppleSingleFinderInfo info;
 	struct AppleSingleHeader header;
 	struct AppleSingleEntry entry;
-	NSRange resourceRange;
+	NSRange resourceRange = NSMakeRange(0, 0);
 	BOOL resourceExist = NO;
 	offset = 0;
 
