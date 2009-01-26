@@ -12,9 +12,6 @@
 #define MACHINE_ACTIVE_POLL_INTERVAL	30	//Poll every 30 seconds when the user is active
 #define MACHINE_IDLE_POLL_INTERVAL		1	//Poll every second when the user is idle
 
-//Private idle function
-extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
-
 @interface AdiumIdleManager ()
 - (void)_setMachineIsIdle:(BOOL)inIdle;
 - (void)screenSaverDidStart;
@@ -23,7 +20,7 @@ extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
 
 /*!
  * @class AdiumIdleManager
- * @brief Core class to manage sending notifications when the system is idle or no longe ridle
+ * @brief Core class to manage sending notifications when the system is idle or no longer idle
  *
  * Posts AIMachineIsIdleNotification to adium's notification center when the machine becomes idle.
  * Posts AIMachineIsActiveNotification when the machine is no longer idle
@@ -62,19 +59,7 @@ extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
  */
 - (CFTimeInterval)currentMachineIdle
 {
-	CFTimeInterval idleTime;
-
-	/* CGSSecondsSinceLastInputEvent is a private function available in 10.2 and later. Note that CGEventSourceSecondsSinceLastEventType()
-	 * should work as of 10.4 but doesn't return a sensical value.
-	 */
-	idleTime = CGSSecondsSinceLastInputEvent(-1);
-	
-	/* On MDD Powermacs, the above function will return a large value when the machine is active (perhaps a -1?).
-	 * Here we check for that value and correctly return a 0 idle time.
-	 */
-	if (idleTime >= 18446744000.0) idleTime = 0.0; //18446744073.0 is the lowest I've seen on my MDD -ai		
-	
-    return idleTime;
+    return CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGAnyInputEventType);
 }
 
 /*!
@@ -92,7 +77,7 @@ extern CFTimeInterval CGSSecondsSinceLastInputEvent(unsigned long evType);
 - (void)_idleCheckTimer:(NSTimer *)inTimer
 {
 	CFTimeInterval	currentIdle = [self currentMachineIdle];
-	
+
 	if (machineIsIdle) {
 		if (currentIdle < lastSeenIdle) {
 			/* If the machine is less idle than the last time we recorded, it means that activity has occured and the
