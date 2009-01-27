@@ -126,7 +126,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 }
 
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
+- (void)setContainingObject:(AIListGroup *)inGroup
 {
 	if (inGroup) {
 		NSParameterAssert([inGroup canContainObject:self]);
@@ -659,10 +659,10 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 }
 
-- (void)remoteGroupingOfContainedObject:(AIListObject *)inListObject changedTo:(NSString *)inRemoteGroupName
+- (void)updateRemoteGroupingOfContact:(AIListContact *)inListContact;
 {
 #ifdef META_GROUPING_DEBUG
-	AILog(@"AIMetaContact: Remote grouping of %@ changed to %@",inListObject,inRemoteGroupName);
+	AILog(@"AIMetaContact: Remote grouping of %@ changed to %@",inListObject,inListObject.remoteGroupNames);
 #endif
 	
 	//When a contact has its remote grouping changed, this may mean it is now listed on an online account.
@@ -675,7 +675,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[self restoreGrouping];
 	}
 
-	//Force an immediate update of our visibileListContacts list, which will also update our visible count
+	//Force an immediate update of our visibleListContacts list, which will also update our visible count
 	[self visibleListContacts];
 }
 

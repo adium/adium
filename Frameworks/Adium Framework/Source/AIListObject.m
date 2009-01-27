@@ -208,16 +208,24 @@
 
 @synthesize groups = m_groups;
 
-- (void) addContainingGroup:(AIListGroup *)group
+- (void) addContainingGroup:(AIListGroup *)inGroup
 {
-	//XXX multiple containers
-	self.containingObject = group;
+	NSParameterAssert(inGroup && [inGroup canContainObject:self]);
+	if (![self.groups containsObject:inGroup]) {
+		
+		if (inGroup)
+			[m_groups addObject:inGroup];
+		
+		//Reset then redetermine our order index	
+		orderIndex = 0;
+	}
 }
 
 - (void) removeContainingGroup:(AIListGroup *)group
 {
-	//XXX multiple containers
-	self.containingObject = nil;
+	NSParameterAssert(group != nil && [m_groups containsObject:group]);
+	[m_groups removeObject:group];
+	orderIndex = 0;
 }
 
 /*!
@@ -239,20 +247,11 @@
  *
  * PRIVATE: This is only for use by AIListObjects conforming to the AIContainingObject protocol.
  */
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
+- (void)setContainingObject:(AIListGroup *)inGroup
 {
-	NSParameterAssert(!inGroup || [inGroup canContainObject:self]);
-	if (![self.groups containsObject:inGroup]) {
-		
-		//XXX multiple containers
-		[m_groups removeAllObjects];
-
-		if (inGroup)
-			[m_groups addObject:inGroup];
-		
-		//Reset then redetermine our order index	
-		orderIndex = 0;
-	}
+	[m_groups removeAllObjects];
+	if(inGroup)
+		[self addContainingGroup:inGroup];
 }
 	
 /*!

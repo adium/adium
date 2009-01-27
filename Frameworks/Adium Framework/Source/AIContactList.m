@@ -28,6 +28,7 @@
 
 - (BOOL)canContainObject:(id)obj
 {
+	if ([obj isKindOfClass:[AIListBookmark class]]) return YES;
 	if(adium.contactController.useContactListGroups)
 		return [obj isKindOfClass:[AIListGroup class]] && ![obj isKindOfClass:[AIContactList class]];
 	else
