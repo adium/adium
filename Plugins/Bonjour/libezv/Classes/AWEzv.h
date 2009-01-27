@@ -46,7 +46,6 @@
 - (void) user:(AWEzvContact *)contact typeAhead:(NSString *)message withHtml:(NSString *)html;
 
 // File Transfer
-- (void) remoteUserFinishedDownload:(EKEzvFileTransfer *)fileTransfer;
 - (void)updateProgressForFileTransfer:(EKEzvFileTransfer *)fileTransfer percent:(NSNumber *)percent bytesSent:(NSNumber *)bytesSent;
 - (void)remoteCanceledFileTransfer:(EKEzvFileTransfer *)fileTransfer;
 - (void)transferFailed:(EKEzvFileTransfer *)fileTransfer;
