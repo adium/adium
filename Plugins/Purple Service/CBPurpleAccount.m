@@ -120,7 +120,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 }
 
-- (void)updateContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName
+- (void)addContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName
 {
 	//When a new contact is created, if we aren't already silent and delayed, set it  a second to cover our initial
 	//status updates
@@ -146,6 +146,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 	
 	[self gotGroupForContact:theContact];
+}
+
+- (void)removeContact:(AIListContact *)theContact fromGroupName:(NSString *)groupName
+{
+	NSParameterAssert(groupName != nil); //is this always true?
+	NSParameterAssert(theContact != nil);
+	[theContact removeRemoteGroupName:[self _mapIncomingGroupName:groupName]];
 }
 
 /*!
