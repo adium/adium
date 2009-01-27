@@ -1011,6 +1011,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 
 	buddyUTF8String = [objectUID UTF8String];
 	/* If we support contacts in multiple groups at once this should change */
+#warning Need to free this
 	GSList *buddies = purple_find_buddies(account, buddyUTF8String);
 
 	if (buddies) {

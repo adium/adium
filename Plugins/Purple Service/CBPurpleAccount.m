@@ -589,7 +589,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[purpleAdapter addUID:[self _UIDForAddingObject:contact] onAccount:self toGroup:groupName];
 		
 		//Add it to Adium's list
-		[contact addRemoteGroupName:[group UID]]; //Use the non-mapped group name locally
+		[contact addRemoteGroupName:group.UID]; //Use the non-mapped group name locally
 	}
 }
 
