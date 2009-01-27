@@ -689,7 +689,7 @@
 
 #pragma mark Gateway Tracking
 
-- (void)updateContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName {
+- (void)addContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName {
 	NSRange atsign = [[theContact UID] rangeOfString:@"@"];
 	if(atsign.location != NSNotFound)
 		[super updateContact:theContact toGroupName:groupName contactName:contactName];

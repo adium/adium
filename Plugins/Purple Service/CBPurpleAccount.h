@@ -110,9 +110,10 @@
 - (void)accountConnectionProgressStep:(NSNumber *)step percentDone:(NSNumber *)connectionProgressPrecent;
 
 - (void)newContact:(AIListContact *)theContact withName:(NSString *)inName;
-- (void)updateContact:(AIListContact *)theContact
+- (void)addContact:(AIListContact *)theContact
 				 toGroupName:(NSString *)groupName
 				 contactName:(NSString *)contactName;
+- (void)removeContact:(AIListContact *)theContact fromGroupName:(NSString *)groupName;
 - (void)updateContact:(AIListContact *)theContact toAlias:(NSString *)purpleAlias;
 - (void)updateContact:(AIListContact *)theContact forEvent:(NSNumber *)event;
 - (void)updateSignon:(AIListContact *)theContact withData:(void *)data;
