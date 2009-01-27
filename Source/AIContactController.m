@@ -275,7 +275,7 @@
 //Redetermine the local grouping of a contact in response to server grouping information or an external change
 - (void)contactRemoteGroupingChanged:(AIListContact *)inContact
 {
-	NSString *remoteGroupName = inContact.remoteGroupName;
+	NSSet *remoteGroupNames = inContact.remoteGroupNames;
 	[[inContact retain] autorelease];
 	
 	if (inContact.metaContact) {
@@ -283,38 +283,45 @@
 		/* If inContact's containingObject is a metaContact, and that metaContact has no groups,
 		 * use inContact's remote grouping as the metaContact's grouping.
 		 */
-		if (inContact.metaContact.groups.count == 0 && [remoteGroupName length]) {
+		if (inContact.metaContact.groups.count == 0 && remoteGroupNames.count > 0) {
 			//If no similar objects exist, we add this contact directly to the list
 			//Create a group for the contact even if contact list groups aren't on,
 			//otherwise requests for all the contact list groups will return nothing
-			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
+			for (NSString *remoteGroupName in remoteGroupNames) {
+				AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
+				
+				localGroup = (useContactListGroups ?
+							  (useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
+							  contactList);
+				
+				[localGroup addObject:inContact.metaContact];
+				
+				[self _didChangeContainer:localGroup object:inContact.metaContact];
+				
+				//todo: updating too frequently here
+				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
+				 object:localGroup.contactList
+				 userInfo:nil];
+			}
 			
-			localGroup = (useContactListGroups ?
-						  (useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
-						  contactList);
-			
-			[localGroup addObject:inContact.metaContact];
-			
-			[self _didChangeContainer:localGroup object:inContact.metaContact];
-			[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
-																object:localGroup.contactList
-															  userInfo:nil];
 			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
 		}
 		
-	} else if (remoteGroupName) {
+	} else if (remoteGroupNames.count > 0) {
 		//Create a group for the contact even if contact list groups aren't on,
 		//otherwise requests for all the contact list groups will return nothing
-		AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
-		
-		localGroup = useContactListGroups ?
-			(useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
-			contactList;
-		
-		//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
-		
-		[self _moveContactLocally:inContact
-						  toGroup:localGroup];
+		for (NSString *remoteGroupName in remoteGroupNames) {
+			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
+			
+			localGroup = useContactListGroups ?
+				(useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
+				contactList;
+			
+			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
+			
+			[self _moveContactLocally:inContact
+							  toGroup:localGroup];
+		}
 		
 	} else if (inContact.groups.count > 0) {
 		//If !remoteGroupName, remove the contact from any local groups
@@ -327,8 +334,8 @@
 	}
 	
 	BOOL	isCurrentlyAStranger = inContact.isStranger;
-	if ((isCurrentlyAStranger && remoteGroupName) || (!isCurrentlyAStranger && !remoteGroupName)) {
-		[inContact setValue:(remoteGroupName ? [NSNumber numberWithBool:YES] : nil)
+	if ((isCurrentlyAStranger && remoteGroupNames.count > 0) || (!isCurrentlyAStranger && remoteGroupNames.count == 0)) {
+		[inContact setValue:(remoteGroupNames.count > 0 ? [NSNumber numberWithBool:YES] : nil)
 							forProperty:@"NotAStranger"
 							notify:NotifyLater];
 		[inContact notifyOfChangedPropertiesSilently:YES];
