@@ -139,7 +139,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
 																	   group:OBJECT_STATUS_CACHE
 													   ignoreInheritedValues:YES]] &&
-			(inGroup != [adium.contactController offlineGroup])) {
+			(inGroup != adium.contactController.offlineGroup)) {
 
 			[self setPreference:inGroupInternalObjectID
 						 forKey:KEY_CONTAINING_OBJECT_ID
@@ -173,9 +173,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if ([adium.contactController useContactListGroups]) {
 		AIListGroup		*targetGroup = nil;
 
-		if (![self online] &&
-			[adium.contactController useOfflineGroup]) {
-			targetGroup = [adium.contactController offlineGroup];
+		if (!self.online && adium.contactController.useOfflineGroup) {
+			targetGroup = adium.contactController.offlineGroup;
 
 		} else {
 			NSString		*oldContainingObjectID;
