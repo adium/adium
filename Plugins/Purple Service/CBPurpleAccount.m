@@ -598,9 +598,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	return [object UID];
 }
 
-- (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
 {
-	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
+	NSMutableSet *groupNames = [NSMutableSet set];
+	for (AIListGroup* group in groups)
+	{
+		[groupNames addObject:[self _mapOutgoingGroupName:[group UID]]];
+	}
 	
 	//Move the objects to it
 	for (AIListContact *listObject in objects) {
@@ -611,10 +615,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			//			NSString	*oldGroupName = [self _mapOutgoingGroupName:[listObject remoteGroupName]];
 			
 			//Tell the purple thread to perform the serverside operation
-			[purpleAdapter moveUID:[listObject UID] onAccount:self toGroup:groupName];
+			[purpleAdapter moveUID:[listObject UID] onAccount:self toGroups:groupNames];
 
 			//Use the non-mapped group name locally
-			[listObject addRemoteGroupName:[group UID]];
+			for (AIListGroup* group in groups)
+			{
+				[listObject addRemoteGroupName:[group UID]];
+			}
 		}
 	}		
 }

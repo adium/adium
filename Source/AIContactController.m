@@ -319,7 +319,7 @@
 			
 			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
 			
-			[self _moveContactLocally:inContact
+			[self _addContactLocally:inContact
 							  toGroup:localGroup];
 		}
 		
@@ -342,7 +342,7 @@
 	}
 }
 
-- (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
+- (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
 {
 	AIListObject	*existingObject;
 	BOOL			performedGrouping = NO;
@@ -351,13 +351,7 @@
 	[listContact retain];
 	
 	//XXX
-	//	AILog(@"Moving %@ to %@",listContact,localGroup);
-	
-	//Remove this object from any local groups we have it in currently
-	for (AIListGroup *group in listContact.groups) {
-		[group removeObject:listContact];
-		[self _didChangeContainer:group object:listContact];
-	}
+	//	AILog(@"Adding %@ to %@",listContact,localGroup);
 	
 	if (listContact.canJoinMetaContacts) {
 		if ((existingObject = [localGroup objectWithService:[listContact service] UID:[listContact UID]])) {
@@ -391,6 +385,23 @@
 	}
 	
 	//Cleanup
+	[listContact release];
+}
+
+- (void)_moveContactLocally:(AIListContact *)listContact toGroups:(NSSet *)groups
+{
+	//Protect with a retain while we are removing and adding the contact to our arrays
+	[listContact retain];
+	
+	//Remove this object from any local groups we have it in currently
+	for (AIListGroup *group in listContact.groups) {
+		[group removeObject:listContact];
+		[self _didChangeContainer:group object:listContact];
+	}
+	
+	for (AIListGroup *group in groups)
+		[self _addContactLocally:listContact toGroup:group];
+	
 	[listContact release];
 }
 
@@ -467,7 +478,7 @@
 				for (AIListObject *containedListObject in containedObjects) {
 					if ([containedListObject isKindOfClass:[AIListContact class]]) {
 						[self _moveContactLocally:(AIListContact *)containedListObject
-										  toGroup:contactList];
+										 toGroups:[NSSet setWithObject:contactList]];
 					}
 				}
 				[containedObjects release];
@@ -750,7 +761,7 @@
 	NSSet *contactGroups = inContact.groups;
 	
 	//Remove the object from its previous containing groups
-	for (AIListGroup *group in contactGroups) {
+	for (AIListGroup *group in [[contactGroups copy] autorelease]) {
 		[group removeObject:inContact];
 		[self _didChangeContainer:group object:inContact];
 	}
@@ -1102,7 +1113,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			
 		} else if (!inObject.online && groups.count > 0 && ![groups containsObject:self.offlineGroup]) {
 			[self _moveContactLocally:(AIListContact *)inObject
-							  toGroup:self.offlineGroup];
+							 toGroups:[NSSet setWithObject:self.offlineGroup]];
 		}
 		
 	} else if ([groups containsObject:self.offlineGroup]) {
@@ -1623,7 +1634,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 											userInfo:userInfo];
 }
 
-//XXX multiple containers , needs to a) handle indices properly, and b) handle add vs move properly
+//XXX multiple containers , needs to a) handle indices properly, and b) handle add vs move properly, c) not do the silly rewrapping of groups into sets of 1
 - (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index
 {		
 	for (AIListObject<AIContainingObject> *group in containers) {
@@ -1634,7 +1645,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		}
 		
 		for (AIListObject *listObject in objectArray) {
-			[self moveObject:listObject intoObject:group];
+			[self moveObject:listObject intoObjects:[NSSet setWithObject:group]];
 			
 			//Set the new index / position of the object
 			[self _positionObject:listObject atIndex:index inObject:group];
@@ -1656,31 +1667,33 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 }
 
-- (void)moveObject:(AIListObject *)listObject intoObject:(AIListObject<AIContainingObject> *)destination
+- (void)moveObject:(AIListObject *)listObject intoObjects:(NSSet *)containers
 {
 	//Move the object to the new group only if necessary
-	if ([listObject.groups containsObject:destination]) return;
+	if ([listObject.groups isEqual:containers]) return;
+	AIListObject<AIContainingObject> *container = containers.anyObject;
 	
-	if ([destination isKindOfClass:[AIContactList class]] &&
+	if ([container isKindOfClass:[AIContactList class]] &&
 		[listObject isKindOfClass:[AIListGroup class]]) {
+		NSParameterAssert(containers.count == 1); //groups can't be in multiple contact lists
 		// Move contact from one contact list to another
-		[((AIListGroup *)listObject).contactList moveGroup:(AIListGroup *)listObject to:(AIContactList *)destination];
+		[((AIListGroup *)listObject).contactList moveGroup:(AIListGroup *)listObject to:(AIContactList *)containers.anyObject];
 
-	} else if ([destination isKindOfClass:[AIListGroup class]]) {
-		AIListGroup *group = (AIListGroup *)destination;
+	} else if ([container isKindOfClass:[AIListGroup class]]) {
 		//Move a contact into a new group
 		if ([listObject isKindOfClass:[AIListBookmark class]]) {
-			[self _moveContactLocally:(AIListBookmark *)listObject toGroup:group];
+			[self _moveContactLocally:(AIListBookmark *)listObject toGroups:containers];
 			
 		} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
-			//Move the meta contact to this new group
-			[self _moveContactLocally:(AIMetaContact *)listObject toGroup:group];
+			//Move the meta contact to these new groups
+			[self _moveContactLocally:(AIMetaContact *)listObject toGroups:containers];
 			
 			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
 			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
-					[self _moveContactServerside:actualListContact toGroup:group];
+					//XXX multiple groups
+					[self _moveContactServerside:actualListContact toGroup:(AIListGroup *)container];
 				}
 			}
 		} else if ([listObject isKindOfClass:[AIListContact class]]) {
@@ -1689,16 +1702,18 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 				[self removeAllContactsMatching:(AIListContact *)listObject fromMetaContact:(AIMetaContact *)[(AIListContact *)listObject parentContact]];
 			}
 			
-			[self _moveContactServerside:(AIListContact *)listObject toGroup:group];
+			//XXX multiple groups
+			[self _moveContactServerside:(AIListContact *)listObject toGroup:(AIListGroup *)container];
 
 		} else {
 			AILogWithSignature(@"I don't know what to do with %@",listObject);
 		}
-	} else if ([destination isKindOfClass:[AIMetaContact class]]) {
+	} else if ([container isKindOfClass:[AIMetaContact class]]) {
 		//Moving a contact into a meta contact
 		NSParameterAssert([listObject isKindOfClass:[AIListContact class]]);
-		if (((AIListContact *)listObject).metaContact != destination)
-			[self addContact:(AIListContact*)listObject toMetaContact:(AIMetaContact *)destination];
+		NSParameterAssert(containers.count == 1);
+		if (((AIListContact *)listObject).metaContact != container)
+			[self addContact:(AIListContact*)listObject toMetaContact:(AIMetaContact *)container];
 	}
 }
 

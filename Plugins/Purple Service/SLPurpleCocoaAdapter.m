@@ -989,7 +989,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	}
 }
 
-- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroup:(NSString *)groupName
+- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroups:(NSSet *)groupNames;
 {
 	PurpleAccount *account;
 	PurpleBuddy	*buddy;
@@ -999,38 +999,41 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 
 	account = accountLookupFromAdiumAccount(adiumAccount);
 
-	//Get the destination group (creating if necessary)
-	groupUTF8String = (groupName ? [groupName UTF8String] : "Buddies");
-	group = purple_find_group(groupUTF8String);
-	if (!group) {
-		/* If we can't find the group, something's gone wrong... we shouldn't be using a group we don't have.
-		 * We'll just silently turn this into an add operation. */
-		group = purple_group_new(groupUTF8String);
-		purple_blist_add_group(group, NULL);
-	}
-
-	buddyUTF8String = [objectUID UTF8String];
-	/* If we support contacts in multiple groups at once this should change */
-#warning Need to free this
-	GSList *buddies = purple_find_buddies(account, buddyUTF8String);
-
-	if (buddies) {
-		GSList *cur;
-		for (cur = buddies; cur; cur = cur->next) {
-			/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
-			purple_blist_add_buddy(cur->data, NULL, group, NULL);			
+	for (NSString *groupName in groupNames) {
+		//Get the destination group (creating if necessary)
+		groupUTF8String = (groupName ? [groupName UTF8String] : "Buddies");
+		group = purple_find_group(groupUTF8String);
+		if (!group) {
+			/* If we can't find the group, something's gone wrong... we shouldn't be using a group we don't have.
+			 * We'll just silently turn this into an add operation. */
+			group = purple_group_new(groupUTF8String);
+			purple_blist_add_group(group, NULL);
 		}
-
-	} else {
-		/* If we can't find a buddy, something's gone wrong... we shouldn't be moving a buddy we don't have.
- 		 * As with the group, we'll just silently turn this into an add operation. */
-		buddy = purple_buddy_new(account, buddyUTF8String, NULL);
-
-		/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
-		purple_blist_add_buddy(buddy, NULL, group, NULL);
 		
-		/* purple_blist_add_buddy() won't perform a serverside add, however.  Add if necessary. */
-		purple_account_add_buddy(account, buddy);
+		buddyUTF8String = [objectUID UTF8String];
+		/* If we support contacts in multiple groups at once this should change */
+#warning Need to free this
+		GSList *buddies = purple_find_buddies(account, buddyUTF8String);
+		
+		if (buddies) {
+			GSList *cur;
+			for (cur = buddies; cur; cur = cur->next) {
+				/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
+				purple_blist_add_buddy(cur->data, NULL, group, NULL);			
+			}
+			
+		} else {
+			/* If we can't find a buddy, something's gone wrong... we shouldn't be moving a buddy we don't have.
+			 * As with the group, we'll just silently turn this into an add operation. */
+			buddy = purple_buddy_new(account, buddyUTF8String, NULL);
+			
+			/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
+			purple_blist_add_buddy(buddy, NULL, group, NULL);
+			
+			/* purple_blist_add_buddy() won't perform a serverside add, however.  Add if necessary. */
+			purple_account_add_buddy(account, buddy);
+			
+		}
 	}
 }
 

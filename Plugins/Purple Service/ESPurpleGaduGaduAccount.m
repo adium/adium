@@ -76,9 +76,9 @@
 	}
 }
 
-- (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
 {
-	[super moveListObjects:objects toGroup:group];
+	[super moveListObjects:objects toGroups:groups];
 	
 	[self uploadContactListToServer];
 }

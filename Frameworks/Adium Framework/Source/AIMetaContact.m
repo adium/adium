@@ -171,56 +171,28 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (void)restoreGrouping
 {
 	if ([adium.contactController useContactListGroups]) {
-		AIListGroup		*targetGroup = nil;
+		NSMutableSet *targetGroups = [NSMutableSet set];
 
 		if (!self.online && adium.contactController.useOfflineGroup) {
-			targetGroup = adium.contactController.offlineGroup;
-
+			[targetGroups addObject:adium.contactController.offlineGroup];
 		} else {
-			NSString		*oldContainingObjectID;
-			AIListObject	*oldContainingObject;
-
-			oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-													 group:OBJECT_STATUS_CACHE];
-			//Get the group's UID out of the internal object ID by taking the substring after "Group."
-			oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
-								   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
-								   nil);
-			
-			if (oldContainingObject &&
-				[oldContainingObject isKindOfClass:[AIListGroup class]] &&
-				![oldContainingObject isKindOfClass:[AIContactList class]]) {
-				//A previous grouping (to a non-root group) is saved; restore it
-				targetGroup = (AIListGroup *)oldContainingObject;
-
-			} else {
-				/* This metaContact doesn't have a group assigned to it... if any contained object has a group,
-				* use that group as a best-guess for the proper destination.
-				*/
-				NSString		*bestGuessRemoteGroup = nil;
-				AIListContact	*containedContact;
-				NSEnumerator	*enumerator;
-				
-				enumerator = [self.uniqueContainedObjects objectEnumerator];
-				
-				//Find the first contact with a group
-				while ((containedContact = [enumerator nextObject]) &&
-					   !(bestGuessRemoteGroup = [containedContact remoteGroupName]));
-				
-				//Put this metacontact in that group
-				if (bestGuessRemoteGroup) {
-					targetGroup = [adium.contactController groupWithUID:bestGuessRemoteGroup];
+				NSMutableSet *targetGroups = [NSMutableSet set];
+				for (AIListContact *containedContact in self.uniqueContainedObjects)
+				{
+					for (NSString *groupName in containedContact.remoteGroupNames)
+					{
+						[targetGroups addObject:[adium.contactController groupWithUID:groupName]];
+					}
 				}
-			}
 		}
 
-		if (targetGroup) {
+		if (targetGroups.count > 0) {
 			[adium.contactController _moveContactLocally:self
-												   toGroup:targetGroup];
+				 toGroups:targetGroups];
 		}
 	} else {
 		[adium.contactController _moveContactLocally:self
-											   toGroup:adium.contactController.contactList];		
+				toGroups:[NSSet setWithObject:adium.contactController.contactList]];		
 	}
 }
 

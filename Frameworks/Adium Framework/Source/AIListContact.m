@@ -140,7 +140,14 @@
 		
 		[self.metaContact updateRemoteGroupingOfContact:self];
 	}
-	AILog(@"%d", m_remoteGroupNames.count);
+	if (m_remoteGroupNames.count > 1)
+	{
+		NSLog(@"Contact %@ is in ", self.UID);
+		for (NSString *group in m_remoteGroupNames)
+		{
+			NSLog(@"%@", group);
+		}
+	}
 }
 
 - (void) removeRemoteGroupName:(NSString *)inName

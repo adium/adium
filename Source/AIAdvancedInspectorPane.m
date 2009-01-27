@@ -412,10 +412,11 @@
 																	 UID:[contactOnClickedRow UID]];
 
 			if (group) {				
+				//XXX multiple groups
 				if (![[group UID] isEqualToString:[exactContact remoteGroupName]]) {
 					if ([exactContact remoteGroupName]) {
 						//Move contact
-						[adium.contactController moveObject:exactContact intoObject:group];
+						[adium.contactController moveObject:exactContact intoObjects:[NSSet setWithObject:group]];
 
 					} else {						
 						[exactContact.account addContact:exactContact toGroup:group];
