@@ -716,9 +716,9 @@ typedef enum
  * @param objects NSArray of AIListContact objects to remove
  * @param group AIListGroup destination for contacts
  */
-- (void)moveListObjects:(NSArray *)objects toGroup:(AIListGroup *)group
+- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
 {
-	
+	NSAssert(NO, @"Should not be reached");
 }
 
 /*!
@@ -730,7 +730,7 @@ typedef enum
  */
 - (void)renameGroup:(AIListGroup *)group to:(NSString *)newName
 {
-	
+	NSAssert(NO, @"Should not be reached");
 }
 
 /*!

@@ -101,8 +101,8 @@ typedef enum {
 - (void)removeListObjects:(NSArray *)objectArray;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
 - (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index;
-- (void)moveObject:(AIListObject *)listContact intoObject:(AIListObject<AIContainingObject> *)group;
-- (void)_moveContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)group;
+- (void)moveObject:(AIListObject *)listContact intoObjects:(NSSet *)containers;
+- (void)_moveContactLocally:(AIListContact *)listContact toGroups:(NSSet *)groups;
 @property (readonly, nonatomic) BOOL useContactListGroups;
 
 //For Accounts
