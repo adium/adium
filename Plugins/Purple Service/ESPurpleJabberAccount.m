@@ -692,7 +692,7 @@
 - (void)addContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName {
 	NSRange atsign = [[theContact UID] rangeOfString:@"@"];
 	if(atsign.location != NSNotFound)
-		[super updateContact:theContact toGroupName:groupName contactName:contactName];
+		[super addContact:theContact toGroupName:groupName contactName:contactName];
 	else {
 		NSEnumerator *e = [gateways objectEnumerator];
 		NSDictionary *gatewaydict;
