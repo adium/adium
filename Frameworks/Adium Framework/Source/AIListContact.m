@@ -125,34 +125,37 @@
 //Set the desired group for this contact.  Pass nil to indicate this object is no longer listed.
 - (void)setRemoteGroupName:(NSString *)inName
 {
-	if ((!self.remoteGroupName && inName) || ![inName isEqualToString:self.remoteGroupName]) {
-		if (!self.remoteGroupName || !inName)
+	}
+
+- (void) addRemoteGroupName:(NSString *)inName
+{
+	NSParameterAssert(inName != nil);
+	if (![m_remoteGroupNames containsObject:inName]) {
+		if (m_remoteGroupNames.count == 0)
 			[AIUserIcons flushCacheForObject:self];
 
-		//XXX multiple containers
-		if (self.remoteGroupName != inName) {
-			[m_remoteGroupNames removeAllObjects];
-			if (inName)
-				[m_remoteGroupNames addObject:inName];
-		}
+		[m_remoteGroupNames addObject:inName];
+		
 		[adium.contactController contactRemoteGroupingChanged:self];
 		
-		if (self.metaContact) {
-			[self.metaContact remoteGroupingOfContainedObject:self changedTo:inName];
-		}
+		[self.metaContact updateRemoteGroupingOfContact:self];
 	}
+	AILog(@"%d", m_remoteGroupNames.count);
 }
 
-- (void) addRemoteGroupName:(NSString *)name
+- (void) removeRemoteGroupName:(NSString *)inName
 {
-	//XXX multiple containers
-	[self setRemoteGroupName:name];
-}
+	NSParameterAssert(inName != nil);
+	if ([m_remoteGroupNames containsObject:inName]) {
+		if (m_remoteGroupNames.count == 1)
+			[AIUserIcons flushCacheForObject:self];
 
-- (void) removeRemoteGroupName:(NSString *)name
-{
-	//XXX multiple containers
-	[self setRemoteGroupName:nil];
+		[m_remoteGroupNames removeObject:inName];
+
+		[adium.contactController contactRemoteGroupingChanged:self];
+		
+		[self.metaContact updateRemoteGroupingOfContact:self];
+	}
 }
 
 //The current desired group of this contact
@@ -617,17 +620,6 @@
     return NO;
 }
 
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
-{
-	if (!inGroup || [inGroup isKindOfClass:[AIMetaContact class]])
-	{
-		metaContact = (AIMetaContact *)inGroup;
-		super.containingObject = nil;
-	}
-	else
-		super.containingObject = inGroup;
-}
-
 - (NSSet *) containingObjects {
 	if (metaContact)
 		return [NSSet setWithObject:metaContact];
@@ -649,7 +641,8 @@
 
 - (void) setMetaContact:(AIMetaContact *)meta
 {
-	self.containingObject = meta;
+	metaContact = meta;
+	super.containingObject = nil;
 }
 
 #pragma mark Equality

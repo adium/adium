@@ -122,7 +122,7 @@
 }
 
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup
+- (void)setContainingObject:(AIListGroup *)inGroup
 {
 	NSString	*inGroupInternalObjectID = [inGroup internalObjectID];
 

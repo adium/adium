@@ -45,7 +45,7 @@
 @property (readonly, nonatomic) AIListContact *preferredContact;
 - (AIListContact *)preferredContactWithCompatibleService:(AIService *)inService;
 
-- (void)remoteGroupingOfContainedObject:(AIListObject *)inListObject changedTo:(NSString *)inRemoteGroupName;
+- (void)updateRemoteGroupingOfContact:(AIListContact *)inListContact;
 
 @property (readonly, nonatomic) BOOL containsOnlyOneService;
 @property (readonly, nonatomic) NSUInteger uniqueContainedObjectsCount;
