@@ -86,7 +86,7 @@
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
 - (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
-- (void)_moveContactServerside:(AIListContact *)listContact toGroup:(AIListGroup *)group;
+- (void)_moveContactServerside:(AIListContact *)listContact toGroups:(NSSet *)groups;
 - (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName;
 
 //MetaContacts
@@ -325,7 +325,7 @@
 		
 	} else if (inContact.groups.count > 0) {
 		//If !remoteGroupName, remove the contact from any local groups
-		for (AIListGroup *group in inContact.groups) {
+		for (AIListGroup *group in [[inContact.groups copy] autorelease]) {
 			[group removeObject:inContact];
 			[self _didChangeContainer:group object:inContact];
 		}
@@ -1692,8 +1692,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
 				//Only move the contact if it is actually listed on the account in question
 				if (![actualListContact isStranger]) {
-					//XXX multiple groups
-					[self _moveContactServerside:actualListContact toGroup:(AIListGroup *)container];
+					[self _moveContactServerside:actualListContact toGroups:containers];
 				}
 			}
 		} else if ([listObject isKindOfClass:[AIListContact class]]) {
@@ -1702,8 +1701,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 				[self removeAllContactsMatching:(AIListContact *)listObject fromMetaContact:(AIMetaContact *)[(AIListContact *)listObject parentContact]];
 			}
 			
-			//XXX multiple groups
-			[self _moveContactServerside:(AIListContact *)listObject toGroup:(AIListGroup *)container];
+			[self _moveContactServerside:(AIListContact *)listObject toGroups:containers];
 
 		} else {
 			AILogWithSignature(@"I don't know what to do with %@",listObject);
@@ -1718,11 +1716,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 //Move an object to another group
-- (void)_moveContactServerside:(AIListContact *)listContact toGroup:(AIListGroup *)group
+- (void)_moveContactServerside:(AIListContact *)listContact toGroups:(NSSet *)groups
 {
 	AIAccount	*account = listContact.account;
 	if (account.online) {
-		[account moveListObjects:[NSArray arrayWithObject:listContact] toGroup:group];
+		[account moveListObjects:[NSArray arrayWithObject:listContact] toGroups:groups];
 	}
 }
 
