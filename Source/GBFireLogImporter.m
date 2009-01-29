@@ -101,7 +101,7 @@ NSString *quotes[] = {
 	for(current = [accounts count] - 1; current >= 0; current--)
 	{
 		AIAccount *acct = [accounts objectAtIndex:current];
-		[defaultScreenname setObject:acct.UID forKey:acct.serviceID];
+		[defaultScreenname setObject:acct.UID forKey:acct.service.serviceID];
 	}
 	
 	[progressIndicator setDoubleValue:0.0];
