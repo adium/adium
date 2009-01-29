@@ -54,9 +54,6 @@
 
 	return [returnSet autorelease];
 }
-- (NSCharacterSet *)ignoredCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@""];
-}
 - (BOOL)caseSensitive{
 	return NO;
 }

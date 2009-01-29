@@ -46,9 +46,6 @@
 - (NSCharacterSet *)allowedCharacters{
 	return [[NSCharacterSet illegalCharacterSet] invertedSet];
 }
-- (NSCharacterSet *)ignoredCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@""];
-}
 - (NSUInteger)allowedLength{
 	return 999;
 }
