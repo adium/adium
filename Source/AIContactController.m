@@ -394,7 +394,7 @@
 	[listContact retain];
 	
 	//Remove this object from any local groups we have it in currently
-	for (AIListGroup *group in listContact.groups) {
+	for (AIListGroup *group in [[listContact.groups copy] autorelease]) {
 		[group removeObject:listContact];
 		[self _didChangeContainer:group object:listContact];
 	}
