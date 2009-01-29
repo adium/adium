@@ -120,9 +120,6 @@
 	return [returnSet autorelease];
 }
 
-- (NSCharacterSet *)ignoredCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@""];
-}
 - (NSUInteger)allowedLength{
 	return 129;
 }

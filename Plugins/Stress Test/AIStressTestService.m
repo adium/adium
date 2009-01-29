@@ -48,9 +48,6 @@
 - (NSCharacterSet *)allowedCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz0123456789@."];
 }
-- (NSCharacterSet *)ignoredCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@""];
-}
 - (int)allowedLength{
 	return 20;
 }

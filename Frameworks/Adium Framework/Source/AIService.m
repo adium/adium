@@ -288,7 +288,7 @@
  */
 - (NSCharacterSet *)ignoredCharacters
 {
-    return nil;
+    return [NSCharacterSet characterSetWithCharactersInString:@""];
 }
 
 /*!
