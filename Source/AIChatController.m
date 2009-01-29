@@ -427,7 +427,7 @@
 	
 	for (chat in openChats) {
 		if ((chat.account == account) &&
-			([[chat name] isEqualToString:name])) {
+			([chat.name isEqualToString:name])) {
 			break;
 		}
 	}	
@@ -586,7 +586,7 @@
 	//Switch the inContact over to a contact on the new account so we send messages to the right place.
 	AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
 																		account:newAccount
-																			UID:[inContact UID]];
+																			UID:inContact.UID];
 	if (newContact != chat.listObject) {
 		//Hang onto stuff until we're done
 		[chat retain];
@@ -808,7 +808,7 @@
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
 		 */
-		if (![[[inContact account] UID] isEqualToString:[inContact UID]]) {
+		if (![[[inContact account] UID] isEqualToString:inContact.UID]) {
 			[adiumChatEvents chat:chat addedListContact:inContact];
 		}
 	}

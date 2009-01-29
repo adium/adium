@@ -244,7 +244,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	NSString *serversideComment = nil;
 	
 	if (purple_account_is_connected(account)) {
-		const char  *uidUTF8String = [[theContact UID] UTF8String];
+		const char  *uidUTF8String = [theContact.UID UTF8String];
 		PurpleBuddy   *buddy;
 		
 		if ((buddy = purple_find_buddy(account, uidUTF8String))) {
@@ -304,7 +304,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 							 notify:YES];
 
 		//Request ICQ contacts' info to get the nickname
-		const char *contactUIDUTF8String = [[theContact UID] UTF8String];
+		const char *contactUIDUTF8String = [theContact.UID UTF8String];
 		if (aim_snvalid_icq(contactUIDUTF8String)) {
 			OscarData			*od;
 
@@ -384,7 +384,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	OscarData *od = ((account && purple_account_get_connection(account)) ? purple_account_get_connection(account)->proto_data : NULL);
 	if (od) {
 		AIListObject *listObject = [inChat listObject];
-		const char *contactUID = [[listObject UID] UTF8String];
+		const char *contactUID = [listObject.UID UTF8String];
 		aim_userinfo_t *userinfo = aim_locate_finduserinfo(od, contactUID);
 		
 		if (userinfo &&
@@ -415,7 +415,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	if (inListObject) {
 		if ([[inContentMessage chat] isSecure] &&
 			aim_snvalid_icq([[[inContentMessage source] UID] UTF8String]) &&
-			aim_snvalid_icq([[inListObject UID] UTF8String])) {
+			aim_snvalid_icq([inListObject.UID UTF8String])) {
 			/* If we're an ICQ account and they're an ICQ account, we need to strip HTML now since the 
 			 * encrypted message won't be able to be processed by libpurple */
 			encodedString = [[inAttributedString attributedStringByConvertingLinksToStrings] string];
@@ -436,7 +436,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 				//Check for a PeerConnection for a direct IM currently open
 				PeerConnection	*conn;
 				OscarData		*od = (OscarData *)purple_account_get_connection(account)->proto_data;
-				const char		*who = [[inListObject UID] UTF8String];
+				const char		*who = [inListObject.UID UTF8String];
 				
 				conn = peer_connection_find_by_type(od, who, OSCAR_CAPABILITY_DIRECTIM);
 				
@@ -484,7 +484,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 			//This message is in our queue of messages to send...
 			PeerConnection	*conn;
 			OscarData		*od = (OscarData *)purple_account_get_connection(account)->proto_data;
-			const char		*who = [[[inContentMessage destination] UID] UTF8String];
+			const char		*who = [inContentMessage.destination.UID UTF8String];
 			
 			conn = peer_connection_find_by_type(od, who, OSCAR_CAPABILITY_DIRECTIM);
 			
@@ -523,7 +523,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 //We are now connected via DirectIM to theContact
 - (void)directIMConnected:(AIListContact *)theContact
 {
-	AILog(@"Direct IM Connected: %@",[theContact UID]);
+	AILog(@"Direct IM Connected: %@",theContact.UID);
 	
 	[adium.contentController displayEvent:AILocalizedString(@"Direct IM connected","Direct IM is an AIM-specific phrase for transferring images in the message window")
 									 ofType:@"directIMConnected"
@@ -548,7 +548,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 
 - (void)directIMDisconnected:(AIListContact *)theContact
 {
-	AILog(@"Direct IM Disconnected: %@",[theContact UID]);	
+	AILog(@"Direct IM Disconnected: %@",theContact.UID);	
 	
 	[adium.contentController displayEvent:AILocalizedString(@"Direct IM disconnected","Direct IM is an AIM-specific phrase for transferring images in the message window")
 									 ofType:@"directIMDisconnected"

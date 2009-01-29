@@ -484,7 +484,7 @@
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
 															[NSNumber numberWithBool:YES], @"IsGroupChat",
 															[NSNumber numberWithBool:([dict objectForKey:@"ActiveChat"] == chat)], @"ActiveChat",
-															[chat name], @"Name",
+															chat.name, @"Name",
 															[chat chatCreationDictionary], @"ChatCreationInfo",nil]];
 			} else {
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:

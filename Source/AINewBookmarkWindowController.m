@@ -4,6 +4,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListGroup.h>
+#import <Adium/AIChat.h>
 #import <Adium/AIServiceMenu.h>
 
 #import <AIUtilities/AIMenuAdditions.h>
@@ -83,7 +84,7 @@
 	[self buildGroupMenu];
 	
 	if (chat) {
-		[textField_name setStringValue:[chat name]];
+		[textField_name setStringValue:chat.name];
 	}
 	
 	[label_name setLocalizedString:AILocalizedString(@"Name:", nil)];

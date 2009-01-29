@@ -120,12 +120,12 @@
  */
 - (AIService *)firstServiceWithServiceID:(NSString *)serviceID
 {	
-	AIService *service;
-	for (service in [services objectEnumerator]) {
-		if ([service.serviceID isEqualToString:serviceID]) break;
+	for (AIService *service in [services objectEnumerator]) {
+		if ([service.serviceID isEqualToString:serviceID])
+			return service;
 	}
 
-	return service;
+	return nil;
 }
 
 @end

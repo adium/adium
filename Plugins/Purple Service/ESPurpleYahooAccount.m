@@ -302,7 +302,7 @@
 - (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
 {
 	NSString			*statusMessageString = [statusMessage string];
-	char				*normalized = g_strdup(purple_normalize(account, [[theContact UID] UTF8String]));
+	char				*normalized = g_strdup(purple_normalize(account, [theContact.UID UTF8String]));
 	struct yahoo_data   *od;
 	YahooFriend			*f;
 

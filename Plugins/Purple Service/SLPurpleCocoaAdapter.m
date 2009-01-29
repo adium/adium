@@ -400,7 +400,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 		if (listObject) {
 			char *destination;
 			
-			destination = g_strdup(purple_normalize(account, [[listObject UID] UTF8String]));
+			destination = g_strdup(purple_normalize(account, [listObject.UID UTF8String]));
 			
 			conv = purple_conversation_new(PURPLE_CONV_TYPE_IM, account, destination);
 			
@@ -413,7 +413,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 			//Otherwise, we have a multiuser chat.
 			
 			//All multiuser chats should have a non-nil name.
-			NSString	*chatName = [chat name];
+			NSString	*chatName = chat.name;
 			if (chatName) {
 				const char *name = [chatName UTF8String];
 				
@@ -1120,19 +1120,19 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	PurpleConvChat		*purpleChat;
 	AIAccount			*adiumAccount = chat.account;
 	
-	AILog(@"#### inviteContact:%@ toChat:%@",[listContact UID],[chat name]);
+	AILog(@"#### inviteContact:%@ toChat:%@",listContact.UID,chat.name);
 	// dchoby98
 	if (([adiumAccount isKindOfClass:[CBPurpleAccount class]]) &&
 	   (conv = convLookupFromChat(chat, adiumAccount)) &&
 	   (account = accountLookupFromAdiumAccount((CBPurpleAccount *)adiumAccount)) &&
 	   (purpleChat = purple_conversation_get_chat_data(conv))) {
 
-		//PurpleBuddy		*buddy = purple_find_buddy(account, [[listObject UID] UTF8String]);
-		AILog(@"#### addChatUser chat: %@ (%@) buddy: %@",[chat name], chat,[listContact UID]);
+		//PurpleBuddy		*buddy = purple_find_buddy(account, [listObject.UID UTF8String]);
+		AILog(@"#### addChatUser chat: %@ (%@) buddy: %@",chat.name, chat,listContact.UID);
 		serv_chat_invite(purple_conversation_get_gc(conv),
 						 purple_conv_chat_get_id(purpleChat),
 						 (inviteMessage ? [inviteMessage UTF8String] : ""),
-						 [[listContact UID] UTF8String]);
+						 [listContact.UID UTF8String]);
 		
 	}
 }

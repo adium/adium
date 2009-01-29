@@ -236,7 +236,7 @@
 	}
 	
 	[AINewContactWindowController promptForNewContactOnWindow:inWindow
-														 name:(inListObject ? [inListObject UID] : nil)
+														 name:(inListObject ? inListObject.UID : nil)
 													  service:(inListObject ? [(AIListContact *)inListObject service] : nil)
 													  account:nil];
 }

@@ -306,7 +306,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 + (NSString *)pathForLogsLikeChat:(AIChat *)chat
 {
-	NSString	*objectUID = [chat name];
+	NSString	*objectUID = chat.name;
 	AIAccount	*account = chat.account;
 	
 	if (!objectUID) objectUID = chat.listObject.UID;
@@ -317,7 +317,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 + (NSString *)fullPathForLogOfChat:(AIChat *)chat onDate:(NSDate *)date
 {
-	NSString	*objectUID = [chat name];
+	NSString	*objectUID = chat.name;
 	AIAccount	*account = chat.account;
 
 	if (!objectUID) objectUID = chat.listObject.UID;

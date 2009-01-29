@@ -323,11 +323,11 @@
  * @brief Old-style Keychain identifier for an account
  */
 - (NSString *)_oldStyleAccountNameForAccount:(AIAccount *)inAccount{
-	return [NSString stringWithFormat:@"%@.%@",[[inAccount service] serviceID],[inAccount internalObjectID]];
+	return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, inAccount.internalObjectID];
 }
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount{
 	if ([[adium.loginController userArray] count] > 1) {
-		return [NSString stringWithFormat:@"Adium.%@.%@",[adium.loginController currentUser],[self _oldStyleAccountNameForAccount:inAccount]];
+		return [NSString stringWithFormat:@"Adium.%@.%@", adium.loginController.currentUser, [self _oldStyleAccountNameForAccount:inAccount]];
 	} else {
 		return [NSString stringWithFormat:@"Adium.%@",[self _oldStyleAccountNameForAccount:inAccount]];
 	}
@@ -340,7 +340,7 @@
 	return [[inAccount UID] compactedString];
 }
 - (NSString *)_serverNameForAccount:(AIAccount *)inAccount {
-	return [NSString stringWithFormat:@"%@.%@", [[inAccount service] serviceID], [self _accountNameForAccount:inAccount]];
+	return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, [self _accountNameForAccount:inAccount]];
 }
 
 /*!

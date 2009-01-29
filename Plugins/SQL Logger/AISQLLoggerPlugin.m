@@ -123,9 +123,9 @@
         NSString	*destSrv = nil;
         NSString	*srcSrv = nil;
 
-        if ([account.UID isEqual:[source UID]]) {
+        if ([account.UID isEqual:source.UID]) {
 #warning I think it would be better to use the destination of the message as a test here, but I am not sure.
-            destUID  = [chat name];
+            destUID  = chat.name;
             if (!destUID) {
                 destUID = chat.listObject.UID;
                 destDisplay = chat.listObject.displayName;
@@ -134,19 +134,19 @@
                 destDisplay = chat.displayName;;
             }
             destSrv = chat.account.service.serviceID;
-            srcDisplay = [source displayName];
-            srcUID = [source UID];
-            srcSrv = [[source service] serviceID];
+            srcDisplay = source.displayName;
+            srcUID = source.UID;
+            srcSrv = source.service.serviceID;
         } else {
-            destUID = [chat name];
+            destUID = chat.name;
             if (!destUID) {
                 srcDisplay = chat.listObject.displayName;
                 srcUID = chat.listObject.UID;
-                destUID = [destination UID];
-                destDisplay = [destination displayName];
+                destUID = destination.UID;
+                destDisplay = destination.displayName;
             }
             else {
-                srcUID = [source UID];
+                srcUID = source.UID;
                 srcDisplay = srcUID;
                 destDisplay = chat.displayName;
             }

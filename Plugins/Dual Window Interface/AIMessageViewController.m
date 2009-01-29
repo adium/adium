@@ -957,7 +957,7 @@
 					[[listContact formattedUID] rangeOfString:partialWord
 												  options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					 ||
-				[[listContact UID] rangeOfString:partialWord
+				[listContact.UID rangeOfString:partialWord
 										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					) {
 				[completions addObject:(suffix ? [[listContact displayName] stringByAppendingString:suffix] : [listContact displayName])];
