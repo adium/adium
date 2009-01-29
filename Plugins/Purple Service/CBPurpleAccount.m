@@ -569,13 +569,15 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)removeContacts:(NSArray *)objects
 {	
 	for (AIListContact *object in objects) {
-		NSString	*groupName = [self _mapOutgoingGroupName:[object remoteGroupName]];
-
-		//Have the purple thread perform the serverside actions
-		[purpleAdapter removeUID:[object UID] onAccount:self fromGroup:groupName];
-		
-		//Remove it from Adium's list
-		[object removeRemoteGroupName:groupName];
+		for (NSString *remoteGroupName in [[object.remoteGroupNames copy] autorelease]) {
+			NSString	*groupName = [self _mapOutgoingGroupName:remoteGroupName];
+			
+			//Have the purple thread perform the serverside actions
+			[purpleAdapter removeUID:[object UID] onAccount:self fromGroup:groupName];
+			
+			//Remove it from Adium's list
+			[object removeRemoteGroupName:groupName];
+		}
 	}
 }
 

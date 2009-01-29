@@ -413,8 +413,8 @@
 
 			if (group) {				
 				//XXX multiple groups
-				if (![[group UID] isEqualToString:[exactContact remoteGroupName]]) {
-					if ([exactContact remoteGroupName]) {
+				if (![group.UID isEqualToString:exactContact.remoteGroupNames.anyObject]) {
+					if (exactContact.remoteGroupNames.anyObject) {
 						//Move contact
 						[adium.contactController moveObject:exactContact intoObjects:[NSSet setWithObject:group]];
 

@@ -30,7 +30,6 @@
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
-@property (readonly, nonatomic, retain) NSString *remoteGroupName;
 @property (readonly, nonatomic) NSSet *remoteGroupNames;
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;
