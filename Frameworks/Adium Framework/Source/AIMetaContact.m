@@ -450,7 +450,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		//If no available contacts, find the first online contact
 		if (!returnContact) {
 			for (AIListContact *thisContact in self.uniqueContainedObjects) {
-				if (thisContact.online && [thisContact.serviceClass isEqualToString:serviceClass]) {
+				if (thisContact.online && [thisContact.service.serviceClass isEqualToString:serviceClass]) {
 					returnContact = thisContact;
 					break;
 				}
@@ -459,7 +459,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		if (!returnContact) {
 			for (AIListContact *thisContact in self.uniqueContainedObjects) {
-				if ([thisContact.serviceClass isEqualToString:serviceClass]) {
+				if ([thisContact.service.serviceClass isEqualToString:serviceClass]) {
 					returnContact = thisContact;
 					break;
 				}
@@ -533,7 +533,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	for (i = 0; i < listContactsCount; i++) {
 
 		listContact = [listContacts objectAtIndex:i];
-		serviceClass = listContact.serviceClass;
+		serviceClass = listContact.service.serviceClass;
 		
 		// Is there already an entry for this service?
 		if ((contactArray = [contactsDict objectForKey:serviceClass])) {

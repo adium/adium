@@ -130,7 +130,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 	if(!jid)
 		return NO;
 	NSRange slash = [jid rangeOfString:@"/"];
-	if(slash.location == NSNotFound || ![[jid substringToIndex:slash.location] isEqualToString:[account UID]])
+	if(slash.location == NSNotFound || ![[jid substringToIndex:slash.location] isEqualToString:account.UID])
 		return NO;
 	
 	const char *node = xmlnode_get_attrib(command,"node");

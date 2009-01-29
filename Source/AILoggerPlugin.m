@@ -290,7 +290,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 //Returns the RELATIVE path to the folder where the log should be written
 + (NSString *)relativePathForLogWithObject:(NSString *)object onAccount:(AIAccount *)account
 {	
-	return [NSString stringWithFormat:@"%@.%@/%@", [account serviceID], [[account UID] safeFilenameString], object];
+	return [NSString stringWithFormat:@"%@.%@/%@", account.service.serviceID, [account.UID safeFilenameString], object];
 }
 
 + (NSString *)nameForLogWithObject:(NSString *)object onDate:(NSDate *)date
@@ -604,7 +604,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	AIAccount *account = chat.account;
 	NSString *chatID = (chat.isGroupChat ? [chat identifier] : chat.listObject.UID);
 
-	return [NSString stringWithFormat:@"%@.%@-%@", [account serviceID], [account UID], chatID];
+	return [NSString stringWithFormat:@"%@.%@-%@", account.service.serviceID, account.UID, chatID];
 }
 
 - (AIXMLAppender *)existingAppenderForChat:(AIChat *)chat
@@ -632,7 +632,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		[rootElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
 																					XML_LOGGING_NAMESPACE,
 																					chat.account.UID,
-																					chat.account.serviceID,
+																					chat.account.service.serviceID,
 																					nil]
 																			forKeys:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]]];
 		appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];

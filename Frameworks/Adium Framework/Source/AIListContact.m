@@ -45,7 +45,6 @@
 @end
 
 @interface AIListContact ()
-@property (readwrite, nonatomic, retain) NSString *remoteGroupName;
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
 @end
 

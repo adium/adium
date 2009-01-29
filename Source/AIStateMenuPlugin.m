@@ -202,7 +202,7 @@
 {
 	BOOL oneOrMoreSocialNetworkingAccountsOnline = NO;
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account online] && [[account service] isSocialNetworkingService]) {
+		if (account.online && [[account service] isSocialNetworkingService]) {
 			oneOrMoreSocialNetworkingAccountsOnline = YES;
 			break;
 		}

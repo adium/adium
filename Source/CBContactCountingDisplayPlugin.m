@@ -131,7 +131,7 @@
 	 */	
 	if ((inModifiedKeys == nil) ||
 		(([inModifiedKeys containsObject:@"ObjectCount"] || [inModifiedKeys containsObject:@"VisibleObjectCount"]) &&
-		 (![[inObject UID] isEqualToString:ADIUM_ROOT_GROUP_NAME]))) {
+		 (![inObject.UID isEqualToString:ADIUM_ROOT_GROUP_NAME]))) {
 		
 		NSString		*countString = nil;
 		

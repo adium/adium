@@ -287,7 +287,7 @@ static OtrlPolicy policyForContact(AIListContact *contact)
 	OtrlPolicy		policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
 	
 	//Force OTRL_POLICY_MANUAL when interacting with mobile numbers
-	if ([[contact UID] characterAtIndex:0] == '+') {
+	if ([contact.UID characterAtIndex:0] == '+') {
 		policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
 		
 	} else {
@@ -674,7 +674,7 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
 	 * which will disable fragmentation.
 	 */
-	return [[maxSizeByServiceClassDict objectForKey:chat.account.serviceClass] integerValue];
+	return [[maxSizeByServiceClassDict objectForKey:chat.account.service.serviceClass] integerValue];
 }
 
 static OtrlMessageAppOps ui_ops = {
@@ -1208,7 +1208,7 @@ OtrlUserState otrg_get_userstate(void)
 		if (username && accountname && protocol && key) {
 			for (AIAccount *account in adium.accountController.accounts) {
 				//Hit every possibile name for this account along the way
-				if ([[NSSet setWithObjects:[account UID],[account formattedUID],[[account UID] compactedString], nil] containsObject:accountname]) {
+				if ([[NSSet setWithObjects:account.UID,[account formattedUID],[account.UID compactedString], nil] containsObject:accountname]) {
 					if ([[[account service] serviceCodeUniqueID] isEqualToString:[prplDict objectForKey:protocol]]) {
 						[outFingerprints appendString:
 							[NSString stringWithFormat:@"%@\t%@\t%@\t%@", username, [account internalObjectID], [[account service] serviceCodeUniqueID], key]];
@@ -1251,7 +1251,7 @@ OtrlUserState otrg_get_userstate(void)
 		//Hit every possibile name for this account along the way
 		NSString		*accountInternalObjectID = [NSString stringWithFormat:@"\"%@\"",[account internalObjectID]];
 
-		for (NSString *accountName in [NSSet setWithObjects:[account UID],[account formattedUID],[[account UID] compactedString], nil]) {
+		for (NSString *accountName in [NSSet setWithObjects:account.UID,[account formattedUID],[account.UID compactedString], nil]) {
 			NSRange			accountNameRange = NSMakeRange(0, 0);
 			NSRange			searchRange = NSMakeRange(0, [sourcePrivateKey length]);
 

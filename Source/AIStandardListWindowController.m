@@ -378,7 +378,7 @@
 	
 	//Figure out what accounts are online and what of those have their own custom icon
 	for (AIAccount *account in accounts) {
-		if ([account online]) {
+		if (account.online) {
 			[onlineAccounts addObject:account];
 			if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES]) {
 				[ownIconAccounts addObject:account];
@@ -402,7 +402,7 @@
 		 */
 		if (!activeAccount && ([ownIconAccounts count] == [onlineAccounts count])) {
 			for (AIAccount *account in accounts) {
-				if ([account online]) {
+				if (account.online) {
 					activeAccount = account;
 					break;
 				}
@@ -698,7 +698,7 @@
 			AIAccount		*account = nil;
 			
 			while ((account = [enumerator nextObject])) {
-				if ([account enabled] && 
+				if (account.enabled && 
 					![[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME 
 										   group:GROUP_ACCOUNT_STATUS
 						   ignoreInheritedValues:YES] attributedString] length]) break;

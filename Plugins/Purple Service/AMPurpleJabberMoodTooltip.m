@@ -17,7 +17,7 @@
 	if ([inObject isKindOfClass:[AIListContact class]] &&
 		[[(AIListContact *)inObject account] isKindOfClass:[ESPurpleJabberAccount class]]) {
 		PurpleAccount *account = [(ESPurpleJabberAccount *)[(AIListContact *)inObject account] purpleAccount];
-		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [[inObject UID] UTF8String]) : nil);
+		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [inObject.UID UTF8String]) : nil);
 		PurplePresence *presence = (buddy ? purple_buddy_get_presence(buddy) : nil);
 		PurpleStatus *status = (presence ? purple_presence_get_active_status(presence) : nil);
 		PurpleValue *value = (status ? purple_status_get_attr_value(status, "mood") : nil);
@@ -33,7 +33,7 @@
 	if ([inObject isKindOfClass:[AIListContact class]] &&
 		[[(AIListContact *)inObject account] isKindOfClass:[ESPurpleJabberAccount class]]) {
 		PurpleAccount *account = [(ESPurpleJabberAccount *)[(AIListContact *)inObject account] purpleAccount];
-		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [[inObject UID] UTF8String]) : nil);
+		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [inObject.UID UTF8String]) : nil);
 		PurplePresence *presence = (buddy ? purple_buddy_get_presence(buddy) : nil);
 		PurpleStatus *status = (presence ? purple_presence_get_active_status(presence) : nil);
 		PurpleValue *value = (status ? purple_status_get_attr_value(status, "mood") : nil);

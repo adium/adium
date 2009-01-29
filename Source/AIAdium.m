@@ -47,6 +47,7 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIService.h>
 #import "AIAddressBookController.h"
 #import <Adium/AIContactHidingController.h>
 #import <Sparkle/Sparkle.h>
@@ -1133,7 +1134,7 @@ static NSString	*prefsCategory;
 		NSMutableString *accountInfo = [NSMutableString string];
 		NSCountedSet *condensedAccountInfo = [NSCountedSet set];
 		for (AIAccount *account in adium.accountController.accounts) {
-			NSString *serviceID = [account serviceID];
+			NSString *serviceID = account.service.serviceID;
 			[accountInfo appendFormat:@"%@, ", serviceID];
 			if([serviceID isEqualToString:@"Yahoo! Japan"]) 
 				serviceID = @"YJ";

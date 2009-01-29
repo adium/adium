@@ -384,10 +384,10 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 	//Determine our service class context
 	if ([context isKindOfClass:[AIContentObject class]]) {
 		isMessage = YES;
-		serviceClassContext = ((AIContentObject *)context).destination.serviceClass;
+		serviceClassContext = ((AIContentObject *)context).destination.service.serviceClass;
 		//If there's no destination, try to use the source for context
 		if (!serviceClassContext) {
-			serviceClassContext = ((AIContentObject *)context).source.serviceClass;
+			serviceClassContext = ((AIContentObject *)context).source.service.serviceClass;
 		}
 		
 		//Expand our emoticon information to include any custom emoticons in this chat
@@ -440,7 +440,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		serviceClassContext = [[[adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																					   toContact:(AIListContact *)context] service] serviceClass];
 	} else if ([context isKindOfClass:[AIListObject class]] && [context respondsToSelector:@selector(service)]) {
-		serviceClassContext = ((AIListObject *)context).serviceClass;
+		serviceClassContext = ((AIListObject *)context).service.serviceClass;
 	}
 	
     //Number of characters we've replaced so far (used to calcluate placement in the destination string)

@@ -6,6 +6,7 @@
 
 #import "AITwitterIMPlugin.h"
 #import <Adium/AIListObject.h>
+#import <Adium/AIService.h>
 
 @implementation AITwitterIMPlugin
 
@@ -23,8 +24,8 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if (!inModifiedKeys) {
-		if ([[inObject UID] isEqualToString:@"twitter@twitter.com"] &&
-			[[inObject serviceClass] isEqualToString:@"Jabber"]) {
+		if ([inObject.UID isEqualToString:@"twitter@twitter.com"] &&
+			[inObject.service.serviceClass isEqualToString:@"Jabber"]) {
 			
 			[inObject setValue:[NSNumber numberWithInteger:140] forProperty:@"Character Counter Max" notify:YES];
 		}

@@ -320,7 +320,7 @@
 	AIListContact	*sameContact = nil;
 
 	while ((account = [enumerator nextObject])) {
-		sameContact = [account contactWithUID:[contact UID]];
+		sameContact = [account contactWithUID:contact.UID];
 		if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]){
 			
 			if (sameContact){ 

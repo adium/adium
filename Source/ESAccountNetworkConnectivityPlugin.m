@@ -110,11 +110,11 @@
 	
 	for (account in accounts) {
 		BOOL	connectAccount = (!shiftHeld  &&
-								  [account enabled] &&
+								  account.enabled &&
 								  [[account preferenceForKey:KEY_AUTOCONNECT
 													  group:GROUP_ACCOUNT_STATUS] boolValue]);
 
-		if ([account enabled] &&
+		if (account.enabled &&
 			[account connectivityBasedOnNetworkReachability]) {
 			NSString *host = [account host];
 			if (host && ![knownHosts containsObject:host]) {
@@ -211,7 +211,7 @@
 		[account setValue:nil forProperty:@"Waiting for Network" notify:NotifyNow];
 		if ([accountsToConnect containsObject:account] ||
 			[account valueForProperty:@"Waiting to Reconnect"]) {
-			if (![account online] &&
+			if (!account.online &&
 				![account boolValueForProperty:@"Connecting"]) {
 				[account setShouldBeOnline:YES];
 				[accountsToConnect removeObject:account];
@@ -220,7 +220,7 @@
 	} else {
 		//If we are no longer online and this account is connected, disconnect it.
 		[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Waiting for Network" notify:NotifyNow];
-		if (([account online] ||
+		if ((account.online ||
 			 [account boolValueForProperty:@"Connecting"]) &&
 			![account boolValueForProperty:@"Disconnecting"]) {
 			[account disconnectFromDroppedNetworkConnection];
@@ -240,7 +240,7 @@
 	//Disconnect all online or connecting accounts
 	if ([self _accountsAreOnlineOrDisconnecting:YES]) {
 		for (AIAccount *account in adium.accountController.accounts) {
-			if ([account online] ||
+			if (account.online ||
 				[account boolValueForProperty:@"Connecting"] ||
 				[account valueForProperty:@"Waiting to Reconnect"]) {
 
@@ -291,7 +291,7 @@
 		if ([inModifiedKeys containsObject:@"Enabled"]) {
 			AIAccount *account = (AIAccount *)inObject;
 
-			if ([account enabled]) {
+			if (account.enabled) {
 				//Start observing for this host if we're not already
 				if ([account connectivityBasedOnNetworkReachability]) {
 					NSString *host = [account host];
@@ -340,9 +340,9 @@
 - (BOOL)_accountsAreOnlineOrDisconnecting:(BOOL)considerConnecting
 {
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account online] ||
+		if (account.online ||
 		   [account boolValueForProperty:@"Disconnecting"]) {
-			AILog(@"%@ (and possibly others) is still %@",account, ([account online] ? @"online" : @"disconnecting"));
+			AILog(@"%@ (and possibly others) is still %@",account, (account.online ? @"online" : @"disconnecting"));
 			return YES;
 		} else if (considerConnecting &&
 				   ([account boolValueForProperty:@"Connecting"] ||
@@ -387,7 +387,7 @@
 
 	//Immediately re-connect accounts which are ignoring the server reachability
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account enabled] &&
+		if (account.enabled &&
 			[account connectivityBasedOnNetworkReachability]) {
 			NSString *host = [account host];
 			

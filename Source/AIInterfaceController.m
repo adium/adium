@@ -490,7 +490,7 @@
 				[newContainerDict addEntriesFromDictionary:[NSDictionary dictionaryWithObjectsAndKeys:
 															[NSNumber numberWithBool:([dict objectForKey:@"ActiveChat"] == chat)], @"ActiveChat",
 															chat.listObject.UID, @"UID",
-															chat.listObject.serviceID, @"serviceID",
+															chat.account.service.serviceID, @"serviceID",
 															chat.account.internalObjectID, @"AccountID",nil]];
 			}
 					

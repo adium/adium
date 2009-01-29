@@ -119,7 +119,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		
 	} else {
 		AIAccount *account = [inContact account];
-		if (![account online]) {
+		if (!account.online) {
 			account = [adium.accountController preferredAccountForSendingContentType:CONTENT_MESSAGE_TYPE
 																			 toContact:inContact];
 		}

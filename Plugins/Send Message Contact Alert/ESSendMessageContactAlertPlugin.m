@@ -119,7 +119,7 @@
 	} else if ([contact isKindOfClass:[AIListContact class]]) {
 		contact = [adium.contactController contactWithService:[contact service]
 														account:account 
-															UID:[contact UID]];
+															UID:contact.UID];
 	}
 	
 	//If the desired account is not available for sending, ask Adium for the best available account
@@ -137,7 +137,7 @@
 				} else if ([contact isKindOfClass:[AIListContact class]]) {
 					contact = [adium.contactController contactWithService:[contact service]
 																	account:account 
-																		UID:[contact UID]];
+																		UID:contact.UID];
 				}
 			}
 		} else {

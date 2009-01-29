@@ -1242,7 +1242,7 @@ static NSArray *draggedTypes = nil;
 	DOMNodeList  *serviceIconImages = [doc getElementsByClassName:@"serviceIcon"];
 	NSUInteger imagesCount = [serviceIconImages length];
 	
-	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:chat.account.serviceID 
+	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:chat.account.service.serviceID 
 																type:AIServiceIconLarge];
 	
 	for (NSInteger i = 0; i < imagesCount; i++) {

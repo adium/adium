@@ -177,7 +177,7 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 }
 
 - (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact {
-	return ([inContact.serviceClass isEqualToString:service.serviceClass] &&
+	return ([inContact.service.serviceClass isEqualToString:service.serviceClass] &&
 			(!contact.online || inContact.online));
 }
 

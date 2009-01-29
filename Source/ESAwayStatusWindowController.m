@@ -283,7 +283,7 @@ static BOOL							hideInBackground = NO;
 	AIAccount		*account;
 	
 	while ((account = [enumerator nextObject])) {
-		if ([account online] || [account boolValueForProperty:@"Connecting"]) {
+		if (account.online || [account boolValueForProperty:@"Connecting"]) {
 			AIStatus	*statusState = [account statusState];
 			if ([statusState statusType] != AIAvailableStatusType) {
 				[awayAccounts addObject:account];

@@ -596,7 +596,7 @@
 		
 		//Set to the new listContact and account as needed
 		[chat setListObject:newContact];
-		if (useContactAccount || ![inContact.account.serviceClass isEqualToString:chat.account.serviceClass])
+		if (useContactAccount || ![inContact.service.serviceClass isEqualToString:chat.account.service.serviceClass])
 			[chat setAccount:newAccount];
 
 		//Reopen the chat on the account

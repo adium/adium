@@ -77,7 +77,7 @@
 		
 		for (AIAccount *account in adium.accountController.accounts) {
 			if (account.enabled) {
-				[serviceClasses addObject:account.serviceClass];
+				[serviceClasses addObject:account.service.serviceClass];
 			}
 		}
 		

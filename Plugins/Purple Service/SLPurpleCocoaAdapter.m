@@ -257,7 +257,7 @@ CBPurpleAccount* accountLookup(PurpleAccount *acct)
 
 		for (adiumPurpleAccount in adium.accountController.accounts) {
 			if ([adiumPurpleAccount isKindOfClass:[CBPurpleAccount class]] &&
-			   [adiumPurpleAccount.serviceClass isEqualToString:serviceClass] &&
+			   [adiumPurpleAccount.service.serviceClass isEqualToString:serviceClass] &&
 			   [adiumPurpleAccount.UID caseInsensitiveCompare:[NSString stringWithUTF8String:acct->username]] == NSOrderedSame) {
 				break;
 			}

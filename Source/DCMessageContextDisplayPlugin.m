@@ -21,6 +21,8 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentContext.h>
+#import <Adium/AIService.h>
+
 //#import "SMSQLiteLoggerPlugin.h"
 //#import "AICoreComponentLoader.h"
 
@@ -289,7 +291,7 @@ static NSInteger linesLeftToFind = 0;
 			NSString *serviceName = [[[[[logPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] lastPathComponent] componentsSeparatedByString:@"."] objectAtIndex:0U];
 
 			AIListObject *account = chat.account;
-			NSString	 *accountID = [NSString stringWithFormat:@"%@.%@", [account serviceID], [account UID]];
+			NSString	 *accountID = [NSString stringWithFormat:@"%@.%@", account.service.serviceID, account.UID];
 
 			contextInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 						   serviceName, @"Service name",

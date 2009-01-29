@@ -360,7 +360,7 @@
 
 				// Check each account for IdleSince, a StatusState status message, or "Waiting to Reconnect"
 				for (AIAccount *account in adium.accountController.accounts) {
-					if ([account online] && [account valueForProperty:@"IdleSince"]) {
+					if (account.online && [account valueForProperty:@"IdleSince"]) {
 						if (showBadge) {
 							badge = [AIStatusIcons statusIconForStatusName:@"Idle"
 																statusType:AIAvailableStatusType
@@ -379,7 +379,7 @@
 															statusType:AIOfflineStatusType
 															  iconType:AIStatusIconList
 															 direction:AIIconNormal];
-					} else if ([account online] && [[account valueForProperty:@"StatusState"] statusMessage]) {
+					} else if (account.online && [[account valueForProperty:@"StatusState"] statusMessage]) {
 						anyAccountHasStatusMessage = YES;
 					}
 				}

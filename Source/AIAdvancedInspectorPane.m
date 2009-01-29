@@ -16,6 +16,7 @@
 #import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAccount.h>
+#import <Adium/AIService.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AILocalizationTextField.h>
 #import <Adium/AIMetaContact.h>
@@ -233,7 +234,7 @@
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
 		NSMutableArray *array = [NSMutableArray array];
 		for (AIListContact *contact in (((AIMetaContact *)displayedObject).uniqueContainedObjects)) {
-			if ([contact.serviceClass isEqualToString:inAccount.serviceClass]) {
+			if ([contact.service.serviceClass isEqualToString:inAccount.service.serviceClass]) {
 				[array addObject:[adium.contactController contactWithService:contact.service account:inAccount UID:contact.UID]];
 			}
 		}
@@ -326,7 +327,7 @@
 //		AIAccount		*account = [accounts objectAtIndex:row];
 //		NSString	*accountFormattedUID = [account formattedUID];
 //		
-//		if ([account online]) {
+//		if (account.online) {
 //			result = accountFormattedUID;
 //			
 //		} else {
@@ -356,7 +357,7 @@
 		
 	//account =  [accounts objectAtIndex:row];
 	account = [[popUp_accounts selectedItem] representedObject];
-	accountOnline = [account online];
+	accountOnline = account.online;
 
 	exactContact = [contacts objectAtIndex:row];				
 

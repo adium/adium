@@ -43,7 +43,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 								   userData:(void*)ud
 {
 	if ([hostname caseInsensitiveCompare:@"talk.google.com"] == NSOrderedSame) {
-		NSString *UID = [account UID];
+		NSString *UID = account.UID;
 		NSRange startOfDomain = [UID rangeOfString:@"@"];
 		if (startOfDomain.location == NSNotFound ||
 			([[UID substringFromIndex:NSMaxRange(startOfDomain)] caseInsensitiveCompare:@"gmail.com"] == NSOrderedSame)) {

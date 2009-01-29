@@ -588,7 +588,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 + (NSString *)propertyFromService:(AIService *)inService
 {
 	NSString *result;
-	NSString *serviceID = [inService serviceID];
+	NSString *serviceID = inService.serviceID;
 
 	result = [serviceDict objectForKey:serviceID];
 
@@ -656,8 +656,8 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			}
 			
 		} else {
-			NSString		*UID = [inObject UID];
-			NSString		*serviceID = [[inObject service] serviceID];
+			NSString		*UID = inObject.UID;
+			NSString		*serviceID = inObject.service.serviceID;
 			
 			person = [self _searchForUID:UID serviceID:serviceID];
 			

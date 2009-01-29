@@ -1060,7 +1060,7 @@
 		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 		NSInteger onlineAccounts = 0;
 		while ((account = [enumerator nextObject]) && onlineAccounts < 2) {
-			if ([account online]) onlineAccounts++;
+			if (account.online) onlineAccounts++;
 		}
 
 		if (onlineAccounts >=2) {

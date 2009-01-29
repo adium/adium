@@ -110,7 +110,7 @@
 
 	//Account Overview
 	[textField_serviceName setStringValue:[[account service] longDescription]];
-	[textField_accountDescription setStringValue:[account UID]];
+	[textField_accountDescription setStringValue:account.UID];
 
 	[button_chooseIcon setLocalizedString:[AILocalizedString(@"Choose Icon",nil) stringByAppendingEllipsis]];
 	[button_OK setLocalizedString:AILocalizedString(@"OK",nil)];

@@ -123,7 +123,7 @@
         NSString	*destSrv = nil;
         NSString	*srcSrv = nil;
 
-        if ([[account UID] isEqual:[source UID]]) {
+        if ([account.UID isEqual:[source UID]]) {
 #warning I think it would be better to use the destination of the message as a test here, but I am not sure.
             destUID  = [chat name];
             if (!destUID) {
