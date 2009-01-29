@@ -21,38 +21,6 @@
  */
 BOOL AIGetSurrogates(UTF32Char in, UTF16Char *outHigh, UTF16Char *outLow);
 
-#pragma mark Wired memory
-/*!	@defgroup AIWiredMemory Wired memory
- *
- *	Functions for allocating and handling wired memory.
- */
-/*@{*/
-
-/*!	@brief Clobbers a region of memory with gibberish.
- *
- *	Use this to sanitize memory that you don't want to be viewed in the future. For example, if you had a password in this memory, you would clobber it using this function so that the password cannot be peeked later.
- */
-void AIWipeMemory(void *buf, size_t len);
-/*!	@brief Allocate or resize a region of wired memory.
- *
- *	AIReallocWired is for use with wired memory. It returns a block that is already wired in core memory.
- *	Before freeing the old block, it wipes (see AIWipeMemory) and unlocks it.
- *
- *	If the new block could not be allocated or wired, the old block is still valid, wired, and unchanged.
- *	All other aspects of its behaviour are the same as \c realloc(3) (for example, \c realloc(NULL, x) == \c malloc(x)).
- *	When you are done with the memory, call \c munlock on it, followed by \c free.
- *
- *	@return The new region of memory, or \c NULL if one could not be created and wired.
- */
-void *AIReallocWired(void *oldBuf, size_t newLen);
-
-/*!	@brief Sets every byte in \a buf within \a range to \a ch.
- *	Qux.
- */
-void AISetRangeInMemory(void *buf, NSRange range, int ch);
-
-/*@}*/
-
 #pragma mark Rect utilities
 /*!	@defgroup AIRectUtilities Rectangle utilities
  *

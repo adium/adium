@@ -15,7 +15,6 @@
 #import "AIServiceMenu.h"
 #import <Adium/AIService.h>
 #import <Adium/AIAccount.h>
-#import <AIUtilities/AITextFieldAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import "AIHTMLDecoder.h"
@@ -170,7 +169,7 @@ enum{
 																				   UID:UID];
 			
 			//Save the password
-			NSString		*password = [textField_password secureStringValue];
+			NSString		*password = [textField_password stringValue];
 			
 			if (password && [password length] != 0) {
 				[adium.accountController setPassword:password forAccount:account];

@@ -16,8 +16,6 @@
 
 #import <Adium/AIAccount.h>
 
-@class AIWiredString;
-
 typedef enum {
 	AIReconnectNever = 0,
 	AIReconnectImmediately,
@@ -107,13 +105,13 @@ typedef enum {
 - (BOOL)isTemporary;
 - (void)setIsTemporary:(BOOL)inIsTemporary;
 
-- (void)setPasswordTemporarily:(AIWiredString *)inPassword;
+- (void)setPasswordTemporarily:(NSString *)inPassword;
 /*!
  * @brief While we are connected, return the password used to connect
  *
  * This will not look up the password in the keychain. Results are undefined if we are not connected.
  */
-- (AIWiredString *)passwordWhileConnected;
+@property (readonly, nonatomic) NSString *passwordWhileConnected;
 
 @end
 

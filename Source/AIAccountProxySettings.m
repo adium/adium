@@ -18,7 +18,6 @@
 #import "AIAccountProxySettings.h"
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
-#import <AIUtilities/AITextFieldAdditions.h>
 #import <Adium/AIAccount.h>
 
 @interface AIAccountProxySettings ()
@@ -140,7 +139,7 @@
 	if (![proxyUserName isEqualToString:[account preferenceForKey:KEY_ACCOUNT_PROXY_USERNAME group:GROUP_ACCOUNT_STATUS]] ||
 	   ![proxyHostName isEqualToString:[account preferenceForKey:KEY_ACCOUNT_PROXY_HOST group:GROUP_ACCOUNT_STATUS]]) {
 		
-		[adium.accountController setPassword:[textField_proxyPassword secureStringValue]
+		[adium.accountController setPassword:[textField_proxyPassword stringValue]
 								forProxyServer:proxyHostName
 									  userName:proxyUserName];
 	}

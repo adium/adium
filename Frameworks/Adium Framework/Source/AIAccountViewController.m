@@ -26,7 +26,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
-#import <AIUtilities/AITextFieldAdditions.h>
 #import <AIUtilities/AIStringUtilities.h>
 
 #define KEY_DISABLE_TYPING_NOTIFICATIONS		@"Disable Typing Notifications"
@@ -273,7 +272,7 @@
 	}
 
 	//Password
-	NSString		*password = [textField_password secureStringValue];
+	NSString		*password = [textField_password stringValue];
 	NSString		*oldPassword = [adium.accountController passwordForAccount:account];
 	
 	if (password && [password length] != 0) {

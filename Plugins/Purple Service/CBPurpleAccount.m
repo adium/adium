@@ -54,7 +54,6 @@
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
-#import <AIUtilities/AIWiredString.h>
 #import <Adium/AdiumAuthorization.h>
 
 #import "ESiTunesPlugin.h"
@@ -2026,7 +2025,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	//Save the new password
 	if (inPassword && ![password isEqualToString:inPassword]) {
-		[password release]; password = [[AIWiredString stringWithString:inPassword] retain];
+		[password release]; password = [inPassword retain];
 	}
 
 	//Ensure we have a purple account if one does not already exist

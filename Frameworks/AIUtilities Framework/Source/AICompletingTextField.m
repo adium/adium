@@ -15,8 +15,26 @@
 
 #import "AICompletingTextField.h"
 #import "AIAttributedStringAdditions.h"
-#import "AITextFieldAdditions.h"
 #import "AIStringAdditions.h"
+
+@interface NSTextField (AITextFieldAdditions)
+
+- (void)selectRange:(NSRange)range;
+
+@end
+
+@implementation NSTextField (AITextFieldAdditions)
+
+- (void)selectRange:(NSRange)range
+{
+    NSText	*fieldEditor;
+	
+    fieldEditor = [[self window] fieldEditor:YES forObject:self];
+	
+    [fieldEditor setSelectedRange:range];
+}
+
+@end
 
 /*
     A text field that auto-completes known strings
