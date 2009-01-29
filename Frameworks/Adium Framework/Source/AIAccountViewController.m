@@ -212,7 +212,7 @@
 
 		//Can't change the UID while the account is online
 		//XXX update this if the account connectivity changes -eds
-		[textField_accountUID setEnabled:![account online]];
+		[textField_accountUID setEnabled:!account.online];
 		
 		//Password
 		NSString	*savedPassword = [adium.accountController passwordForAccount:account];
@@ -267,7 +267,7 @@
 {
 	//UID - account 
 	NSString	*newUID = [textField_accountUID stringValue];
-	if (![[account UID] isEqualToString:newUID] ||
+	if (![account.UID isEqualToString:newUID] ||
 	   ![[account formattedUID] isEqualToString:newUID]) {
 		[account filterAndSetUID:newUID];
 	}

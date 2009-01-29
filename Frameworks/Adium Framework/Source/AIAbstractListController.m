@@ -805,20 +805,20 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 			if ([contact isKindOfClass:[AIMetaContact class]]) {
 				//Process each contact in the metacontact.
 				for (AIListContact *subcontact in (AIMetaContact *)contact) {
-					format = [URLFormats objectForKey:[subcontact serviceID]];
+					format = [URLFormats objectForKey:subcontact.service.serviceID];
 					if (format) {
 						[URLStrings addObject:[NSString stringWithFormat:format, [[subcontact UID] stringByEncodingURLEscapes]]];
 						[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, [subcontact UID], [[subcontact service] longDescription]]];
 					}
 				}
 			} else if ([contact isKindOfClass:[AIListContact class]]) {
-				format = [URLFormats objectForKey:[contact serviceID]];
+				format = [URLFormats objectForKey:contact.service.serviceID];
 				if (!format) {
-					AILogWithSignature(@"Can't copy contact %@ of service %@ because there's no URL scheme associated with that service - skipping", contact, [contact serviceID]);
+					AILogWithSignature(@"Can't copy contact %@ of service %@ because there's no URL scheme associated with that service - skipping", contact, contact.service.serviceID);
 
 				} else {
-					[URLStrings addObject:[NSString stringWithFormat:format, [[contact UID] stringByEncodingURLEscapes]]];
-					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, [contact UID], [[contact service] longDescription]]];
+					[URLStrings addObject:[NSString stringWithFormat:format, [contact.UID stringByEncodingURLEscapes]]];
+					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, contact.UID, [[contact service] longDescription]]];
 				}
 			}
 			//We ignore groups.

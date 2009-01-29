@@ -127,7 +127,7 @@
 		// Get a dictionary of (service class, contacts in that service)
 		serviceDict = ([contact isKindOfClass:[AIMetaContact class]] ?
 					   ((AIMetaContact *)contact).dictionaryOfServiceClassesAndListContacts :
-					   [NSDictionary dictionaryWithObject:contact forKey:contact.serviceClass]);
+					   [NSDictionary dictionaryWithObject:contact forKey:contact.service.serviceClass]);
 
 		//Iterate on each service. For an AIListMetacontact, this may be multiple services; for an AIListContact, this will just be a single iteration.
 		enumerator = [serviceDict keyEnumerator];
@@ -145,7 +145,7 @@
 			while ((chat = [chatEnumerator nextObject])) {				
 				//Is this the same serviceClass as this contact?				
 				if (chat.isGroupChat &&
-					[chat.account.serviceClass isEqualToString:serviceClass]) {
+					[chat.account.service.serviceClass isEqualToString:serviceClass]) {
 					
 					if (!menu_chatMenu) {
 						menu_chatMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] initWithTitle:@""] autorelease];

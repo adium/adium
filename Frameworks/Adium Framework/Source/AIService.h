@@ -38,9 +38,9 @@ typedef enum {
 
 //Account Creation
 - (id)accountWithUID:(NSString *)inUID internalObjectID:(NSString *)inInternalObjectID;
-- (Class)accountClass;
-- (AIAccountViewController *)accountViewController;
-- (DCJoinChatViewController *)joinChatView;
+@property (readonly, nonatomic) Class accountClass;
+@property (readonly, nonatomic) AIAccountViewController *accountViewController;
+@property (readonly, nonatomic) DCJoinChatViewController *joinChatView;
 
 //Service Description
 @property (readonly, nonatomic) NSString *serviceCodeUniqueID;
@@ -51,30 +51,31 @@ typedef enum {
 @property (readonly, nonatomic) NSString *userNameLabel;
 @property (readonly, nonatomic) NSString *contactUserNameLabel;
 @property (readonly, nonatomic) NSString *UIDPlaceholder;
-- (AIServiceImportance)serviceImportance;
+@property (readonly, nonatomic) AIServiceImportance serviceImportance;
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType;
 
 //Service Properties
-- (NSCharacterSet *)allowedCharacters;
-- (NSCharacterSet *)allowedCharactersForUIDs;
-- (NSCharacterSet *)allowedCharactersForAccountName;
-- (NSCharacterSet *)ignoredCharacters;
-- (NSUInteger)allowedLength;
-- (int)allowedLengthForUIDs;
-- (int)allowedLengthForAccountName;
-- (BOOL)caseSensitive;
-- (BOOL)canCreateGroupChats;
-- (BOOL)canRegisterNewAccounts;
-- (BOOL)supportsProxySettings;
-- (BOOL)supportsPassword;
-- (BOOL)requiresPassword;
-- (void)registerStatuses;
-- (BOOL)isSocialNetworkingService;
-- (NSString *)defaultUserName;
-- (BOOL)isHidden;
+@property (readonly, nonatomic) NSCharacterSet *allowedCharacters;
+@property (readonly, nonatomic) NSCharacterSet *allowedCharactersForUIDs;
+@property (readonly, nonatomic) NSCharacterSet *allowedCharactersForAccountName;
+@property (readonly, nonatomic) NSCharacterSet *ignoredCharacters;
+@property (readonly, nonatomic) NSUInteger allowedLength;
+@property (readonly, nonatomic) int allowedLengthForUIDs;
+@property (readonly, nonatomic) int allowedLengthForAccountName;
+@property (readonly, nonatomic) BOOL caseSensitive;
+@property (readonly, nonatomic) BOOL canCreateGroupChats;
+@property (readonly, nonatomic) BOOL canRegisterNewAccounts;
+@property (readonly, nonatomic) BOOL supportsProxySettings;
+@property (readonly, nonatomic) BOOL supportsPassword;
+@property (readonly, nonatomic) BOOL requiresPassword;
+@property (readonly, nonatomic) BOOL isSocialNetworkingService;
+@property (readonly, nonatomic) NSString *defaultUserName;
+@property (readonly, nonatomic) BOOL isHidden;
 
 //Utilities
 - (NSString *)normalizeUID:(NSString *)inUID removeIgnoredCharacters:(BOOL)removeIgnored;
 - (NSString *)normalizeChatName:(NSString *)inChatName;
+
+-(void) registerStatuses;
 
 @end

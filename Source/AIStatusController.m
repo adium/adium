@@ -590,7 +590,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 		for (AIAccount *account in accountArray) {
 			// Save the account if we're online or trying to be online.
-			if ([account online] || [account valueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"])
+			if (account.online || [account valueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"])
 				[accountsToConnect addObject:account];
 		}
 	}
@@ -602,7 +602,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		 */
 		BOOL noAccountsToConnectCount = ([accountsToConnect count] == 0);
 		for (AIAccount *account in accountArray) {
-			if ([account enabled] &&
+			if (account.enabled &&
 				([accountsToConnect containsObject:account] || noAccountsToConnectCount)) {
 				[account setStatusState:statusState];
 
@@ -614,7 +614,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	} else {
 		//At least one account is online.  Just change its status without taking any other accounts online.
 		for (AIAccount *account in accountArray) {
-			if ([account online] || isOfflineStatus) {
+			if (account.online || isOfflineStatus) {
 				[account setStatusState:statusState];
 				
 			} else {
@@ -896,7 +896,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	}
 
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account online] || [account boolValueForProperty:@"Connecting"]) {
+		if (account.online || [account boolValueForProperty:@"Connecting"]) {
 			AIStatusType statusType = [[account statusState] statusType];
 
 			//If invisibleIsAway, pretend that invisible is away
@@ -931,7 +931,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		_allActiveStatusStates = [[NSMutableSet alloc] init];
 
 		for (AIAccount *account in adium.accountController.accounts) {
-			if ([account enabled]) {
+			if (account.enabled) {
 				[_allActiveStatusStates addObject:[account statusState]];
 			}
 		}
@@ -1173,7 +1173,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 		[account setStatusState:newState];
 		
 		//Enable the account if it isn't currently enabled
-		if (![account enabled]) {
+		if (!account.enabled) {
 			[account setEnabled:YES];
 		}		
 

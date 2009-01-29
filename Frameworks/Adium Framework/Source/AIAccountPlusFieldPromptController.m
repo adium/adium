@@ -94,9 +94,9 @@
 	 * Don't include meta contacts which don't currently contain any valid contacts
 	 */
 	for (AIListContact *contact in adium.contactController.allContacts) {
-		if ([contact.serviceClass isEqualToString:account.serviceClass] &&
+		if ([contact.service.serviceClass isEqualToString:account.service.serviceClass] &&
 		    (![contact isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)contact uniqueContainedObjectsCount])) {
-			NSString *UID = [contact UID];
+			NSString *UID = contact.UID;
 			[textField_handle addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
 			[textField_handle addCompletionString:[contact displayName] withImpliedCompletion:contact];
 			[textField_handle addCompletionString:UID];

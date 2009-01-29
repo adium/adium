@@ -366,7 +366,7 @@
 			[account setStatusState:(AIStatus *)statusItem];
 			
 			//Enable the account if it isn't currently enabled
-			if (![account enabled] && [statusItem statusType] != AIOfflineStatusType) {
+			if (!account.enabled && [statusItem statusType] != AIOfflineStatusType) {
 				[account setEnabled:YES];
 			}
 			

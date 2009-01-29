@@ -18,6 +18,7 @@
 #import "AIStandardListWindowController.h"
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -172,8 +173,8 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				myDisplayName = nil;
 				
 				for (AIAccount *account in adium.accountController.accounts) {
-					if ([[[account UID] compactedString] isEqualToString:[mySN compactedString]] &&
-						[[account serviceID] isEqualToString:service]) {
+					if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
+						[account.service.serviceID isEqualToString:service]) {
 						myDisplayName = [[account displayName] retain];
 						break;
 					}

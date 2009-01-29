@@ -518,7 +518,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	NSData			*data = nil;
 
 	if (self.purpleAccount &&
-		(buddy = purple_find_buddy(account, [[contact UID] UTF8String]))) {
+		(buddy = purple_find_buddy(account, [contact.UID UTF8String]))) {
 		PurpleBuddyIcon *buddyIcon;
 		BOOL			shouldUnref = NO;
 		
@@ -528,7 +528,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			/* Failing that, load one from the cache. We'll need to unreference the returned PurpleBuddyIcon
 			 * when we're done.
 			 */
-			buddyIcon = purple_buddy_icons_find(account, [[contact UID] UTF8String]);
+			buddyIcon = purple_buddy_icons_find(account, [contact.UID UTF8String]);
 			shouldUnref = YES;
 		}
 		
@@ -1292,17 +1292,17 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (BOOL)addListObject:(AIListObject *)inObject toPrivacyList:(AIPrivacyType)type
 {
     if (type == AIPrivacyTypePermit)
-        return (purple_privacy_permit_add(account,[[inObject UID] UTF8String],FALSE));
+        return (purple_privacy_permit_add(account,[inObject.UID UTF8String],FALSE));
     else
-        return (purple_privacy_deny_add(account,[[inObject UID] UTF8String],FALSE));
+        return (purple_privacy_deny_add(account,[inObject.UID UTF8String],FALSE));
 }
 
 - (BOOL)removeListObject:(AIListObject *)inObject fromPrivacyList:(AIPrivacyType)type
 {
     if (type == AIPrivacyTypePermit)
-        return (purple_privacy_permit_remove(account,[[inObject UID] UTF8String],FALSE));
+        return (purple_privacy_permit_remove(account,[inObject.UID UTF8String],FALSE));
     else
-        return (purple_privacy_deny_remove(account,[[inObject UID] UTF8String],FALSE));
+        return (purple_privacy_deny_remove(account,[inObject.UID UTF8String],FALSE));
 }
 
 - (NSArray *)listObjectsOnPrivacyList:(AIPrivacyType)type

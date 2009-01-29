@@ -94,7 +94,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 																   UID:self.UID] retain];
 	} else {
 		if ((self.service != [account service]) ||
-			(![self.UID isEqualToString:[account UID]])) {
+			(![self.UID isEqualToString:account.UID])) {
 			[account release];
 
 			account = [[adium.accountController createAccountWithService:self.service

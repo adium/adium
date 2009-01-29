@@ -208,7 +208,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	AIAccount			*account;
 	
 	while ((account = [enumerator nextObject])) {
-		if ([account enabled] && ![account online]) {
+		if (account.enabled && !account.online) {
 			[account setShouldBeOnline:YES];
 		}
 	}
@@ -238,7 +238,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	
 	//Add a menuitem for each enabled account or accounts that the delegate allows
 	for (AIAccount *account in accounts) {
-		if (([account enabled] && !delegateRespondsToShouldIncludeAccount) ||
+		if ((account.enabled && !delegateRespondsToShouldIncludeAccount) ||
 			(delegateRespondsToShouldIncludeAccount && [delegate accountMenu:self shouldIncludeAccount:account])) {
 			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
 																						target:self
@@ -259,7 +259,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 		NSMenuItem	*menuItem;
 
 		for (AIAccount *account in accounts) {
-			if (![account enabled] &&
+			if (!account.enabled &&
 				(!delegateRespondsToShouldIncludeAccount || [delegate accountMenu:self shouldIncludeAccount:account])) {
 				NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:@""
 																							target:self
@@ -409,7 +409,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	//If the account doesn't have a name, give it a generic one
 	if (!accountTitle || ![accountTitle length]) accountTitle = NEW_ACCOUNT_DISPLAY_TEXT;
 	
-	if ([account enabled]) {
+	if (account.enabled) {
 		if (showTitleVerbs) {
 			if ([account boolValueForProperty:@"Connecting"] || [account valueForProperty:@"Waiting to Reconnect"]) {
 				titleFormat = ACCOUNT_CONNECTING_ACTION_MENU_TITLE;
@@ -417,7 +417,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 				titleFormat = ACCOUNT_DISCONNECTING_ACTION_MENU_TITLE;
 			} else {
 				//Display 'connect' or 'disconnect' before the account name
-				titleFormat = ([account online] ? ACCOUNT_DISCONNECT_ACTION_MENU_TITLE : ACCOUNT_CONNECT_ACTION_MENU_TITLE);
+				titleFormat = (account.online ? ACCOUNT_DISCONNECT_ACTION_MENU_TITLE : ACCOUNT_CONNECT_ACTION_MENU_TITLE);
 			}
 			
 		} else {
@@ -629,7 +629,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 - (void)toggleAccountEnabled:(id)sender
 {
 	AIAccount	*account = [sender representedObject];
-	[account setEnabled:![account enabled]];
+	[account setEnabled:!account.enabled];
 }
 
 //Account Status Submenu -----------------------------------------------------------------------------------------------
@@ -677,7 +677,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	 * By copying the accountMenuItem's target and action, it gains the action of toggling conncectivity,
 	 * which is exactly what we want.
 	 */
-	onlineOfflineItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:([account online] ?
+	onlineOfflineItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:(account.online ?
 																					 AILocalizedString(@"Disconnect", nil) :
 																					 AILocalizedString(@"Connect", nil))
 																			 target:target
@@ -749,7 +749,7 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 	
 	NSMenuItem *enableDisableItem;
 	
-	if ([account enabled]) {
+	if (account.enabled) {
 		enableDisableItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable", nil)
 																						target:self
 																						action:@selector(toggleAccountEnabled:)

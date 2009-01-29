@@ -61,15 +61,15 @@
 	//First available account in our list of the correct service type
 	for (AIAccount *account in adium.accountController.accounts ) {
 		if ([inContact service] == [account service] &&
-			([account online] || ([account enabled] && !strictChecking))) {
+			(account.online || (account.enabled && !strictChecking))) {
 			return account;
 		}
 	}
 	
 	//First available account in our list of a compatible service type
 	for (AIAccount *account in adium.accountController.accounts ) {
-		if ([[inContact serviceClass] isEqualToString:[account serviceClass]] &&
-			([account online] || ([account enabled] && !strictChecking))) {
+		if ([inContact.service.serviceClass isEqualToString:account.service.serviceClass] &&
+			(account.online || (account.enabled && !strictChecking))) {
 			return account;
 		}
 	}

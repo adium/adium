@@ -17,6 +17,7 @@
 #import "ESChatUserListController.h"
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIService.h>
 #import "AIMessageTabViewItem.h"
 
 @implementation ESChatUserListController
@@ -77,7 +78,7 @@
 		}
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&
-			[[listObject serviceClass] isEqualToString:[activeChatAccount serviceClass]]) {
+			[listObject.service.serviceClass isEqualToString:activeChatAccount.service.serviceClass]) {
 			[activeChatAccount inviteContact:(AIListObject *)listObject toChat:activeChat withMessage:nil];
 			success = YES;
 		}
@@ -111,7 +112,7 @@
 		}
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&
-			[[listObject serviceClass] isEqualToString:[activeChatAccount serviceClass]]) {
+			[listObject.service.serviceClass isEqualToString:activeChatAccount.service.serviceClass]) {
 			return NSDragOperationCopy;
 		}
 	}

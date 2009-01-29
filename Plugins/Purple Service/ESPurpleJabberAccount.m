@@ -915,7 +915,7 @@
 		NSEnumerator *e = [[self contacts] objectEnumerator];
 		AIListContact *contact;
 		while((contact = [e nextObject])) {
-			if([[contact UID] hasSuffix:pattern])
+			if([contact.UID hasSuffix:pattern])
 				[gatewayContacts addObject:contact];
 		}
 		// now, remove them from the roster

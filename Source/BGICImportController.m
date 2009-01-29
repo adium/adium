@@ -78,8 +78,8 @@
 		for (NSInteger accountLoop = 0; accountLoop < [accountsAvailable count]; accountLoop++) {
 			AIAccount *currentAccount = [accountsAvailable objectAtIndex:accountLoop];
 			[accountSelectionLabel setStringValue:AILocalizedString(@"Please select an account into which to import your transcripts:", nil)];
-			[accountSelectionPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", [currentAccount formattedUID], [currentAccount serviceID]]];
-			[accountsArray addObject:[NSString stringWithFormat:@"%@.%@", [currentAccount serviceID], [currentAccount formattedUID]]];
+			[accountSelectionPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", currentAccount.formattedUID, currentAccount.service.serviceID]];
+			[accountsArray addObject:[NSString stringWithFormat:@"%@.%@", currentAccount.service.serviceID, currentAccount.formattedUID]];
 		}		
 	} else {
 		// no accounts are present so we'll error this phase out
@@ -121,13 +121,13 @@
 	
 #warning iChat Import needs to be updated for MobileMe
 	while ((service = [serviceEnum nextObject])) {
-		if ([[service serviceID] isEqual:@"AIM"])
+		if ([service.serviceID isEqual:@"AIM"])
 			aimService = (ESAIMService *)service;
-		else if ([[service serviceID] isEqual:@"Mac"])
+		else if ([service.serviceID isEqual:@"Mac"])
 			macService = (ESDotMacService *)service;
-		else if ([[service serviceID] isEqual:@"Jabber"])
+		else if ([service.serviceID isEqual:@"Jabber"])
 			jabberService = (ESJabberService *)service;
-		else if ([[service serviceID] isEqual:@"Bonjour"])
+		else if ([service.serviceID isEqual:@"Bonjour"])
 			bonjourService = (AWBonjourService *)service;
 	}	
 	

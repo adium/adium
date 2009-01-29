@@ -21,6 +21,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIAccount.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
@@ -69,7 +70,7 @@
 		BOOL enable = NO;
 
 		for (AIAccount *account in [adium.accountController accountsCompatibleWithService:adium.menuController.currentContextMenuObject.service]) {
-			if ([account online]) {
+			if (account.online) {
 				enable = YES;
 				break;
 			}

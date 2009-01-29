@@ -19,7 +19,7 @@
 	if ([inObject isKindOfClass:[AIListContact class]] &&
 		[[(AIListContact *)inObject account] isKindOfClass:[CBPurpleAccount class]]) {
 		PurpleAccount *account = [(CBPurpleAccount *)[(AIListContact *)inObject account] purpleAccount];
-		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [[inObject UID] UTF8String]) : nil);
+		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [inObject.UID UTF8String]) : nil);
 		PurplePresence *presence = (buddy ? purple_buddy_get_presence(buddy) : nil);
 		PurpleStatus *status = (presence ? purple_presence_get_status(presence, "tune") : nil);
 		PurpleValue *value = (status ? purple_status_get_attr_value(status, "tune_title") : nil);
@@ -35,7 +35,7 @@
 	if ([inObject isKindOfClass:[AIListContact class]] &&
 		[[(AIListContact *)inObject account] isKindOfClass:[CBPurpleAccount class]]) {
 		PurpleAccount *account = [(CBPurpleAccount *)[(AIListContact *)inObject account] purpleAccount];
-		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [[inObject UID] UTF8String]) : nil);
+		PurpleBuddy *buddy = (account ? purple_find_buddy(account, [inObject.UID UTF8String]) : nil);
 		PurplePresence *presence = (buddy ? purple_buddy_get_presence(buddy) : nil);
 		PurpleStatus *status = (presence ? purple_presence_get_status(presence, "tune") : nil);
 		

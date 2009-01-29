@@ -17,6 +17,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIServiceIcons.h>
@@ -582,7 +583,7 @@ static int nextChatNumber = 0;
 
 - (NSString *)contentsBasedIdentifier
 {
-	return [NSString stringWithFormat:@"%@-%@.%@",[self name], [self.account serviceID], [self.account UID]];
+	return [NSString stringWithFormat:@"%@-%@.%@",self.name, self.account.service.serviceID, self.account.UID];
 }
 
 //Not used

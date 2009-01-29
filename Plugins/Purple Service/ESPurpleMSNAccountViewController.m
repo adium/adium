@@ -40,7 +40,7 @@
 					forKey:KEY_MSN_HTTP_CONNECT_METHOD group:GROUP_ACCOUNT_STATUS];
 	
 	//Alias
-	if (![account online] &&
+	if (!account.online &&
 		![[textField_alias stringValue] isEqualToString:[[NSAttributedString stringWithData:[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 																											   group:GROUP_ACCOUNT_STATUS]] string]]) {
 		[account setPreference:[NSNumber numberWithBool:YES]

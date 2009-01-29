@@ -350,8 +350,8 @@
 	//Find an XMPP-compatible online account which can create group chats
 	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
-		if ([account online] &&
-			[[account serviceClass] isEqualToString:@"Jabber"] &&
+		if (account.online &&
+			[account.service.serviceClass isEqualToString:@"Jabber"] &&
 			[[account service] canCreateGroupChats]) {
 			break;
 		}
@@ -380,8 +380,8 @@
 	//Find an AIM-compatible online account which can create group chats
 	enumerator = [[adium.accountController accounts] objectEnumerator];
 	while ((account = [enumerator nextObject])) {
-		if ([account online] &&
-			[[account serviceClass] isEqualToString:@"AIM-compatible"] &&
+		if (account.online &&
+			[account.service.serviceClass isEqualToString:@"AIM-compatible"] &&
 			[[account service] canCreateGroupChats]) {
 			break;
 		}

@@ -117,7 +117,7 @@
     enumerator = [adium.contactController.allContacts objectEnumerator];
     while ((contact = [enumerator nextObject])) {
 		if ([contact service] == [account service]) {
-			NSString *UID = [contact UID];
+			NSString *UID = contact.UID;
 			[textField_inviteUsers addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
 			[textField_inviteUsers addCompletionString:[contact displayName] withImpliedCompletion:UID];
 			[textField_inviteUsers addCompletionString:UID];

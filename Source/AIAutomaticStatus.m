@@ -291,7 +291,7 @@
 		
 		AILogWithSignature(@"Setting %@ to status %@", account, targetStatusState);
 		
-		if ([account online]) {
+		if (account.online) {
 			// Set the account's status to our new value
 			[account setStatusState:(AIStatus *)targetStatusState];
 			
@@ -324,7 +324,7 @@
 		
 		AILogWithSignature(@"Returning %@ to status %@", account, previousStatusState);
 
-		if ([account online] || [accountsToReconnect containsObject:account]) {
+		if (account.online || [accountsToReconnect containsObject:account]) {
 			//If online or needs to be reconnected, set the previous state, going online if necessary
 			[account setStatusState:previousStatusState];
 		} else {

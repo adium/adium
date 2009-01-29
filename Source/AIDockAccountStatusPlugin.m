@@ -143,7 +143,7 @@
 - (BOOL)_accountsWithBoolProperty:(NSString *)inKey
 {
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account boolValueForProperty:inKey] && [account enabled]) return YES;
+		if ([account boolValueForProperty:inKey] && account.enabled) return YES;
     }
 
     return NO;
@@ -158,7 +158,7 @@
 - (BOOL)_accountsWithProperty:(NSString *)inKey
 {
 	for (AIAccount *account in adium.accountController.accounts) {
-		if ([account valueForProperty:inKey] && [account enabled]) return YES;
+		if ([account valueForProperty:inKey] && account.enabled) return YES;
     }
 
     return NO;

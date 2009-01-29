@@ -69,7 +69,7 @@
 		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
 		AIAccount *account;
 		while ((account = [enumerator nextObject])) {
-			if ([[account service] isSocialNetworkingService] && [account online])
+			if ([[account service] isSocialNetworkingService] && account.online)
 				[account setSocialNetworkingStatusMessage:inStatusMessage];
 		}
 	}

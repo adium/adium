@@ -20,14 +20,15 @@
 #import <Adium/AIAccountControllerProtocol.h>
 
 #import <AIUtilities/AIFileManagerAdditions.h>
-#import "AIAccount.h"
+#import <Adium/AIAccount.h>
+#import <Adium/AIService.h>
 #import <Adium/AIStatus.h>
 #import "AIHTMLDecoder.h"
 #import "AIStatusController.h"
 
-#import "AIListGroup.h"
+#import <Adium/AIListGroup.h>
 #import <Adium/AIListContact.h>
-#import "AIMetaContact.h"
+#import <Adium/AIMetaContact.h>
 #import "GBFireLogImporter.h"
 
 #define FIRECONFIGURATION2		@"FireConfiguration2.plist"
@@ -157,7 +158,7 @@
 	serviceDict = [[NSMutableDictionary alloc] init];
 	while ((service = [serviceEnum nextObject]) != nil)
 	{
-		[serviceDict setObject:service forKey:[service serviceID]];
+		[serviceDict setObject:service forKey:service.serviceID];
 	}
 	[serviceDict setObject:[serviceDict objectForKey:@"Bonjour"] forKey:@"Rendezvous"];
 	[serviceDict setObject:[serviceDict objectForKey:@"GTalk"] forKey:@"GoogleTalk"];
@@ -267,9 +268,9 @@
 {
 	if(port == 0)
 		return 0;
-	if([[service serviceID] isEqualTo:@"AIM"] && port == 9898)
+	if([service.serviceID isEqualTo:@"AIM"] && port == 9898)
 		return 0;
-	if([[service serviceID] isEqualTo:@"GTalk"] && port == 5223)
+	if([service.serviceID isEqualTo:@"GTalk"] && port == 5223)
 		return 0;
 	return port;
 }
@@ -278,7 +279,7 @@
 {
 	if(host == nil)
 		return nil;
-	if([[service serviceID] isEqualTo:@"AIM"] && [host hasPrefix:@"toc"])
+	if([service.serviceID isEqualTo:@"AIM"] && [host hasPrefix:@"toc"])
 		return nil;
 	return host;
 }
@@ -663,11 +664,9 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		}
 		else
 		{
-			NSEnumerator *acctEnum = [accountUIDtoAccount objectEnumerator];
-			AIAccount *acct = nil;
-			while ((acct = [acctEnum nextObject]) != nil)
+			for (AIAccount *acct in accountUIDtoAccount)
 			{
-				if([[acct serviceClass] isEqualToString:[buddy objectForKey:@"service"]])
+				if([acct.service.serviceClass isEqualToString:[buddy objectForKey:@"service"]])
 					[accounts addObject:acct];
 			}
 		}

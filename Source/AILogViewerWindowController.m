@@ -24,6 +24,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/KNShelfSplitView.h>
@@ -2018,12 +2019,12 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 			if ([item isKindOfClass:[AIMetaContact class]]) {
 				for (AIListContact *contact in [(AIMetaContact *)item listContactsIncludingOfflineAccounts]) {
 					[contactIDsToFilter addObject:
-						[[[NSString stringWithFormat:@"%@.%@",[contact serviceID],[contact UID]] compactedString] safeFilenameString]];
+						[[[NSString stringWithFormat:@"%@.%@", contact.service.serviceID, contact.UID] compactedString] safeFilenameString]];
 				}
 				
 			} else if ([item isKindOfClass:[AIListContact class]]) {
 				[contactIDsToFilter addObject:
-					[[[NSString stringWithFormat:@"%@.%@",[(AIListContact *)item serviceID],[(AIListContact *)item UID]] compactedString] safeFilenameString]];
+					[[[NSString stringWithFormat:@"%@.%@",((AIListContact *)item).service.serviceID,((AIListContact *)item).UID] compactedString] safeFilenameString]];
 				
 			} else if ([item isKindOfClass:[AILogToGroup class]]) {
 				[contactIDsToFilter addObject:[[NSString stringWithFormat:@"%@.%@",[(AILogToGroup *)item serviceClass],[(AILogToGroup *)item to]] compactedString]]; 

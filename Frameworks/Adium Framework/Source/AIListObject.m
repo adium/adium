@@ -107,40 +107,12 @@
  * name should be compared ignoring spaces, it has no spaces.  For an account, this is the account name.  For a contact,
  * this is the screen name, buddy name, etc.
  */
-- (NSString *)UID
-{
-    return UID;
-}
+@synthesize UID;
 
 /*!
  * @brief Service of this object
  */
-- (AIService *)service
-{
-	return service;
-}
-
-/*!
- * @brief ServiceID of this object's service
- *
- * The serviceID is completely unique to the specific service.
- */
-- (NSString *)serviceID
-{
-	return [service serviceID];
-}
-
-/*!
- * @brief ServiceClass of this object's service
- *
- * A serviceClass may be shared by multiple compatible services.
- * For example, AIM and ICQ share the serviceClass @"AIM-compatible"
- * 
- */
-- (NSString *)serviceClass
-{
-	return service.serviceClass;
-}
+@synthesize service;
 
 /*!
  * @brief Internal ID for this object
@@ -152,7 +124,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		internalObjectID = [[AIListObject internalObjectIDForServiceID:[self.service serviceID] UID:self.UID] retain];
+		internalObjectID = [[AIListObject internalObjectIDForServiceID:self.service.serviceID UID:self.UID] retain];
 	}
 	return internalObjectID;
 }

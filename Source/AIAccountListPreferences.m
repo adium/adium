@@ -300,7 +300,7 @@
 - (void)toggleShouldBeOnline:(id)sender
 {
 	AIAccount		*account = [sender representedObject];
-	if (![account enabled])
+	if (!account.enabled)
 		[account setEnabled:YES];
 	else
 		[account toggleOnline];
@@ -416,10 +416,10 @@
 	
 	// Check the accounts' enabled/disabled and online/offline status.
 	for (account in accounts) {
-		if (![account enabled])
+		if (!account.enabled)
 			atLeastOneDisabledAccount = YES;
 		
-		if (![account online] && ![account boolValueForProperty:@"Connecting"])
+		if (!account.online && ![account boolValueForProperty:@"Connecting"])
 			atLeastOneOfflineAccount = YES;
 		
 		if (atLeastOneOfflineAccount && atLeastOneDisabledAccount)
@@ -482,7 +482,7 @@
 	BOOL		 connect = [[dict objectForKey:@"Connect"] boolValue];
 
 	for (AIAccount *account in [dict objectForKey:@"Accounts"]) {
-		if (![account enabled] && connect)
+		if (!account.enabled && connect)
 			[account setEnabled:YES];
 		[account setShouldBeOnline:connect];
 	}
@@ -512,7 +512,7 @@
 		[account setStatusState:status];
 		
 		//Enable the account if it isn't currently enabled and this isn't an offline status
-		if (![account enabled] && [status statusType] != AIOfflineStatusType) {
+		if (!account.enabled && [status statusType] != AIOfflineStatusType) {
 			[account setEnabled:YES];
 		}
 	}
@@ -549,7 +549,7 @@
 		//We can't put the submenu into our menu directly or otherwise modify the accountMenu_status, as we may want to use it again
 		[statusMenuItem setSubmenu:[[[[accountMenu_status menuItemForAccount:account] submenu] copy] autorelease]];
 		
-		if (![account online] && ![account boolValueForProperty:@"Connecting"] && [self statusMessageForAccount:account]) {
+		if (!account.online && ![account boolValueForProperty:@"Connecting"] && [self statusMessageForAccount:account]) {
 			[optionsMenu addItemWithTitle:AILocalizedString(@"Copy Error Message","Menu Item for the context menu of an account in the accounts list")
 								   target:self
 								   action:@selector(copyStatusMessage:)
@@ -567,7 +567,7 @@
 		
 		//Connect or disconnect the account. Enabling a disabled account will connect it, so this is only valid for non-disabled accounts.
 		//Only online & connecting can be "Disconnected"; those offline or waiting to reconnect can be "Connected"
-		[optionsMenu addItemWithTitle:(([account online] || [account boolValueForProperty:@"Connecting"]) ?
+		[optionsMenu addItemWithTitle:((account.online || [account boolValueForProperty:@"Connecting"]) ?
 									   AILocalizedString(@"Disconnect",nil) :
 									   AILocalizedString(@"Connect",nil))
 							   target:self
@@ -644,8 +644,8 @@
 		
 		//Count online accounts
 		for (account in accountArray) {
-			if ([account online]) online++;
-			if ([account enabled]) enabled++;
+			if (account.online) online++;
+			if (account.enabled) enabled++;
 		}
 		
 		if (enabled) {
@@ -816,7 +816,7 @@
 		return [[AIServiceIcons serviceIconForObject:account
 												type:AIServiceIconLarge
 										   direction:AIIconNormal] imageByScalingToSize:NSMakeSize(MINIMUM_ROW_HEIGHT-2, MINIMUM_ROW_HEIGHT-2)
-																			   fraction:([account enabled] ?
+																			   fraction:(account.enabled ?
 																						 1.0 :
 																						 0.75)];
 
@@ -826,7 +826,7 @@
 	} else if ([identifier isEqualToString:@"status"]) {
 		NSString	*title;
 		
-		if ([account enabled]) {
+		if (account.enabled) {
 			if ([account boolValueForProperty:@"Connecting"]) {
 				title = AILocalizedString(@"Connecting",nil);
 			} else if ([account boolValueForProperty:@"Disconnecting"]) {
@@ -890,7 +890,7 @@
 	AIAccount	*account = [accountArray objectAtIndex:row];
 	
 	if ([identifier isEqualToString:@"enabled"]) {
-		[cell setState:([account enabled] ? NSOnState : NSOffState)];
+		[cell setState:(account.enabled ? NSOnState : NSOffState)];
 
 	} else if ([identifier isEqualToString:@"name"]) {
 		if ([account encrypted]) {
@@ -901,7 +901,7 @@
 
 		[cell setImageTextPadding:MINIMUM_CELL_SPACING/2.0];
 		
-		[cell setEnabled:[account enabled]];
+		[cell setEnabled:account.enabled];
 
 		// Update the subString with our current status message (if it exists);
 		[cell setSubString:[self statusMessageForAccount:account]];
@@ -914,7 +914,7 @@
  
 
 	} else if ([identifier isEqualToString:@"status"]) {
-		if ([account enabled] && ![account boolValueForProperty:@"Connecting"] && [account valueForProperty:@"Waiting to Reconnect"]) {
+		if (account.enabled && ![account boolValueForProperty:@"Connecting"] && [account valueForProperty:@"Waiting to Reconnect"]) {
 			NSString *format = [NSDateFormatter stringForTimeInterval:[[account valueForProperty:@"Waiting to Reconnect"] timeIntervalSinceNow]
 													   showingSeconds:YES
 														  abbreviated:YES
