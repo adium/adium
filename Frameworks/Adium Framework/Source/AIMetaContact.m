@@ -313,7 +313,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 		[_containedObjects removeObject:inObject];
 		
-		if (contact.remoteGroupName) {
+		if (contact.remoteGroupNames.count > 0) {
 			//Reset it to its remote group
 			contact.metaContact = nil;
 			noteRemoteGroupingChanged = YES;
@@ -598,7 +598,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			continue;
 		}
 
-		if ((listContact.remoteGroupName || includeOfflineAccounts) && (!visibleOnly || listContact.visible)) {
+		if ((listContact.remoteGroupNames.count > 0 || includeOfflineAccounts) && (!visibleOnly || listContact.visible)) {
 			[listContacts addObject:listContact]; 
 		}
 	}
