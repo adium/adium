@@ -355,7 +355,7 @@
 	//	AILog(@"Adding %@ to %@",listContact,localGroup);
 	
 	if (listContact.canJoinMetaContacts) {
-		if ((existingObject = [localGroup objectWithService:[listContact service] UID:[listContact UID]])) {
+		if ((existingObject = [localGroup objectWithService:[listContact service] UID:listContact.UID])) {
 			//If an object exists in this group with the same UID and serviceID, create a MetaContact
 			//for the two.
 			[self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
@@ -730,8 +730,8 @@
 	
 	//Create the dictionary describing this list object
 	containedContactDict = [NSDictionary dictionaryWithObjectsAndKeys:
-							[[listObject service] serviceID],SERVICE_ID_KEY,
-							[listObject UID],UID_KEY,nil];
+							listObject.service.serviceID, SERVICE_ID_KEY,
+							listObject.UID, UID_KEY, nil];
 	
 	//Only add if this dict isn't already in the array
 	if (containedContactDict && ([containedContactsArray indexOfObject:containedContactDict] == NSNotFound)) {
@@ -794,7 +794,7 @@
 	[contactToMetaContactLookupDict removeObjectForKey:[inContact internalObjectID]];
 	
 	[contactPropertiesObserverManager delayListObjectNotifications];
-	for (AIListContact *contact in [self allContactsWithService:[inContact service] UID:[inContact UID]]) {
+	for (AIListContact *contact in [self allContactsWithService:[inContact service] UID:inContact.UID]) {
 		[self removeContact:contact fromMetaContact:metaContact];
 	}
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -816,8 +816,8 @@
 	
 	//Enumerate it, looking only for the appropriate type of containedContactDict
 	
-	NSString	*listObjectUID = [inContact UID];
-	NSString	*listObjectServiceID = [[inContact service] serviceID];
+	NSString	*listObjectUID = inContact.UID;
+	NSString	*listObjectServiceID = inContact.service.serviceID;
 	
 	NSDictionary *containedContactDict = nil;
 	for (containedContactDict in containedContactsArray) {
@@ -1483,7 +1483,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			} else {
 				returnContact = [self contactWithService:[inContact service]
 												 account:account
-													 UID:[inContact UID]];
+													 UID:inContact.UID];
 			}
 		}
  	}
@@ -1496,7 +1496,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact
 {
 	if (account && ([inContact account] != account)) {
-		return [self contactWithService:[inContact service] account:account UID:[inContact UID]];
+		return [self contactWithService:[inContact service] account:account UID:inContact.UID];
 	} else {
 		return inContact;
 	}
@@ -1583,7 +1583,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			if ([(AIMetaContact *)listObject uniqueContainedObjectsCount] == 1) {
 				AIListContact	*listContact = [[(AIMetaContact *)listObject uniqueContainedObjects] objectAtIndex:0];
 				
-				objectsToRemove = [self allContactsWithService:[listContact service] UID:[listContact UID]];
+				objectsToRemove = [self allContactsWithService:[listContact service] UID:listContact.UID];
 			}
 			
 			//And actually remove the single contact if applicable
@@ -1610,7 +1610,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			//Then, procede to delete the group
 			[listObject retain];
 			[containingObject removeObject:listObject];
-			[groupDict removeObjectForKey:[[listObject UID] lowercaseString]];
+			[groupDict removeObjectForKey:[listObject.UID lowercaseString]];
 			[self _didChangeContainer:containingObject object:listObject];
 			[listObject release];
 			

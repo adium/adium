@@ -16,6 +16,7 @@
 
 #import "GBFireLogImporter.h"
 #import <Adium/AIAccount.h>
+#import <Adium/AIService.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>

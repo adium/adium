@@ -130,7 +130,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
-	if (![contactName isEqualToString:[theContact formattedUID]] && ![contactName isEqualToString:[theContact UID]]) {
+	if (![contactName isEqualToString:[theContact formattedUID]] && ![contactName isEqualToString:theContact.UID]) {
 		[theContact setValue:contactName
 							 forProperty:@"FormattedUID"
 							 notify:NotifyLater];
@@ -167,7 +167,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
 	NSString	*normalizedUID = [self.service normalizeUID:newUID removeIgnoredCharacters:YES];
 	
-	if ([normalizedUID isEqualToString:[theContact UID]]) {
+	if ([normalizedUID isEqualToString:theContact.UID]) {
 		[theContact setValue:newUID
 							 forProperty:@"FormattedUID"
 							 notify:NotifyLater];		
@@ -178,7 +178,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateContact:(AIListContact *)theContact toAlias:(NSString *)purpleAlias
 {
-	if (![[purpleAlias compactedString] isEqualToString:[[theContact UID] compactedString]]) {
+	if (![[purpleAlias compactedString] isEqualToString:[theContact.UID compactedString]]) {
 		//Store this alias as the serverside display name so long as it isn't identical when unformatted to the UID
 		[theContact setServersideAlias:purpleAlias
 							  silently:silentAndDelayed];
@@ -186,7 +186,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	} else {
 		//If it's the same characters as the UID, apply it as a formatted UID
 		if (![purpleAlias isEqualToString:[theContact formattedUID]] && 
-			![purpleAlias isEqualToString:[theContact UID]]) {
+			![purpleAlias isEqualToString:theContact.UID]) {
 			[theContact setFormattedUID:purpleAlias
 								 notify:NotifyLater];
 
@@ -491,7 +491,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
     //Request profile
 	AILogWithSignature(@"");
-	[purpleAdapter getInfoFor:[inContact UID] onAccount:self];
+	[purpleAdapter getInfoFor:inContact.UID onAccount:self];
 }
 
 - (void)requestAddContactWithUID:(NSString *)contactUID
@@ -582,7 +582,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
-	NSString		*groupName = [self _mapOutgoingGroupName:[group UID]];
+	NSString		*groupName = [self _mapOutgoingGroupName:group.UID];
 	
 	if(![group containsObject:contact]) {
 		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:contact], groupName);
@@ -604,7 +604,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	NSMutableSet *groupNames = [NSMutableSet set];
 	for (AIListGroup* group in groups)
 	{
-		[groupNames addObject:[self _mapOutgoingGroupName:[group UID]]];
+		[groupNames addObject:[self _mapOutgoingGroupName:group.UID]];
 	}
 	
 	//Move the objects to it
@@ -616,12 +616,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			//			NSString	*oldGroupName = [self _mapOutgoingGroupName:[listObject remoteGroupName]];
 			
 			//Tell the purple thread to perform the serverside operation
-			[purpleAdapter moveUID:[listObject UID] onAccount:self toGroups:groupNames];
+			[purpleAdapter moveUID:listObject.UID onAccount:self toGroups:groupNames];
 
 			//Use the non-mapped group name locally
 			for (AIListGroup* group in groups)
 			{
-				[listObject addRemoteGroupName:[group UID]];
+				[listObject addRemoteGroupName:group.UID];
 			}
 		}
 	}		
@@ -629,7 +629,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)renameGroup:(AIListGroup *)inGroup to:(NSString *)newName
 {
-	NSString		*groupName = [self _mapOutgoingGroupName:[inGroup UID]];
+	NSString		*groupName = [self _mapOutgoingGroupName:inGroup.UID];
 
 	//Tell the purple thread to perform the serverside operation	
 	[purpleAdapter renameGroup:groupName onAccount:self to:newName];
@@ -643,7 +643,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)deleteGroup:(AIListGroup *)inGroup
 {
-	NSString		*groupName = [self _mapOutgoingGroupName:[inGroup UID]];
+	NSString		*groupName = [self _mapOutgoingGroupName:inGroup.UID];
 
 	[purpleAdapter deleteGroup:groupName onAccount:self];
 }
@@ -1069,7 +1069,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(purple_account_get_connection(account)->prpl);
 	
 	if (prpl_info && prpl_info->send_file)
-		return (!prpl_info->can_receive_file || prpl_info->can_receive_file(purple_account_get_connection(account), [[inListObject UID] UTF8String]));
+		return (!prpl_info->can_receive_file || prpl_info->can_receive_file(purple_account_get_connection(account), [inListObject.UID UTF8String]));
 	else
 		return NO;
 }
@@ -1092,7 +1092,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	if (prpl_info && prpl_info->offline_message) {
 		
-		return (prpl_info->offline_message(purple_find_buddy(account, [[inContact UID] UTF8String])));
+		return (prpl_info->offline_message(purple_find_buddy(account, [inContact.UID UTF8String])));
 
 	} else
 		return NO;
@@ -2572,7 +2572,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		PurpleBuddy				*buddy;
 		
 		//Find the PurpleBuddy
-		buddy = purple_find_buddy(account, [[inContact UID] UTF8String]);
+		buddy = purple_find_buddy(account, [inContact.UID UTF8String]);
 		
 		if (prpl_info && prpl_info->blist_node_menu && buddy) {
 			NSImage	*serviceIcon = [AIServiceIcons serviceIconForService:self.service
@@ -2702,7 +2702,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #pragma mark AIAccount Subclassed Methods
 - (void)initAccount
 {
-	NSDictionary	*defaults = [NSDictionary dictionaryNamed:[NSString stringWithFormat:@"PurpleDefaults%@",[self.service serviceID]]
+	NSDictionary	*defaults = [NSDictionary dictionaryNamed:[NSString stringWithFormat:@"PurpleDefaults%@",self.service.serviceID]
 													 forClass:[self class]];
 	
 	if (defaults) {
@@ -2710,7 +2710,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 											  forGroup:GROUP_ACCOUNT_STATUS
 												object:self];
 	} else {
-		AILog(@"Failed to load defaults for %@",[NSString stringWithFormat:@"PurpleDefaults%@",[self.service serviceID]]);
+		AILog(@"Failed to load defaults for %@",[NSString stringWithFormat:@"PurpleDefaults%@",self.service.serviceID]);
 	}
 	
 	//Defaults

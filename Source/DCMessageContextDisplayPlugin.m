@@ -232,7 +232,7 @@ static NSInteger linesLeftToFind = 0;
 
 	AIHTMLDecoder *decoder = [AIHTMLDecoder decoder];
 
-	NSString *logObjectUID = [chat name];
+	NSString *logObjectUID = chat.name;
 	if (!logObjectUID) logObjectUID = chat.listObject.UID;
 	logObjectUID = [logObjectUID safeFilenameString];
 

@@ -409,7 +409,7 @@ enum {
 {
 	AIChat           *chat = [inContentTyping chat];
 	AIListObject     *listObject = chat.listObject;
-	NSString         *to = [listObject UID];
+	NSString         *to = listObject.UID;
 
 	[[self libezvThreadProxy] sendTypingNotification:(([inContentTyping typingState] == AITyping) ? AWEzvIsTyping : AWEzvNotTyping)
 	                                              to:to];

@@ -576,7 +576,7 @@
 //Multiuser chats come in with just the contact's name as contactName, but we want to actually do it right.
 - (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat
 {
-	return [NSString stringWithFormat:@"%@/%@",[chat name],inUID];
+	return [NSString stringWithFormat:@"%@/%@",chat.name,inUID];
 }
 
 /*!
@@ -690,7 +690,7 @@
 #pragma mark Gateway Tracking
 
 - (void)addContact:(AIListContact *)theContact toGroupName:(NSString *)groupName contactName:(NSString *)contactName {
-	NSRange atsign = [[theContact UID] rangeOfString:@"@"];
+	NSRange atsign = [theContact.UID rangeOfString:@"@"];
 	if(atsign.location != NSNotFound)
 		[super addContact:theContact toGroupName:groupName contactName:contactName];
 	else {
@@ -698,7 +698,7 @@
 		NSDictionary *gatewaydict;
 		// avoid duplicates!
 		while((gatewaydict = [e nextObject])) {
-			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:[theContact UID]]) {
+			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:theContact.UID]) {
 				[gateways removeObjectIdenticalTo:gatewaydict];
 				break;
 			}
@@ -712,13 +712,13 @@
 }
 
 - (void)removeContact:(AIListContact *)theContact {
-	NSRange atsign = [[theContact UID] rangeOfString:@"@"];
+	NSRange atsign = [theContact.UID rangeOfString:@"@"];
 	if(atsign.location != NSNotFound)
 		[super removeContact:theContact];
 	else {
 		for (NSDictionary *gatewaydict in [[gateways copy] autorelease]) {
-			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:[theContact UID]]) {
-				[[self purpleAdapter] removeUID:[theContact UID] onAccount:self fromGroup:[gatewaydict objectForKey:@"remoteGroup"]];
+			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:theContact.UID]) {
+				[[self purpleAdapter] removeUID:theContact.UID onAccount:self fromGroup:[gatewaydict objectForKey:@"remoteGroup"]];
 				
 				[gateways removeObjectIdenticalTo:gatewaydict];
 				break;

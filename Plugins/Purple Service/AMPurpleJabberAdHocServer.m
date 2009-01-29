@@ -48,7 +48,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 				NSRange slash = [to rangeOfString:@"/"];
 				if(slash.location != NSNotFound) {
 					NSString *barejid = [to substringToIndex:slash.location];
-					if([barejid isEqualToString:[[self account] UID]]) {
+					if([barejid isEqualToString:self.account.UID]) {
 						const char *type = xmlnode_get_attrib(xml,"type");
 						if(type && !strcmp(type,"result")) {
 							xmlnode *query = xmlnode_get_child_with_namespace(xml,"query","http://jabber.org/protocol/disco#items");

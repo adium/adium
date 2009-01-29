@@ -233,7 +233,7 @@
 
 	} else {
 		if (chat) {
-			title = [chat name];
+			title = chat.name;
 
 			[clickContext setObject:chat.uniqueChatID
 							 forKey:KEY_CHAT_ID];
