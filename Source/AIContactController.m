@@ -310,6 +310,7 @@
 	} else if (remoteGroupNames.count > 0) {
 		//Create a group for the contact even if contact list groups aren't on,
 		//otherwise requests for all the contact list groups will return nothing
+		NSMutableSet *groups = [NSMutableSet set];
 		for (NSString *remoteGroupName in remoteGroupNames) {
 			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
 			
@@ -319,9 +320,9 @@
 			
 			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
 			
-			[self _addContactLocally:inContact
-							  toGroup:localGroup];
+			[groups addObject:localGroup];
 		}
+		[self _moveContactLocally:inContact toGroups:groups];
 		
 	} else if (inContact.groups.count > 0) {
 		//If !remoteGroupName, remove the contact from any local groups
