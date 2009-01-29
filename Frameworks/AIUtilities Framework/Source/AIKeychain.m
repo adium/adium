@@ -19,8 +19,6 @@
 
 #import "AIKeychain.h"
 #import "AIStringAdditions.h"
-#import "AIWiredData.h"
-#import "AIWiredString.h"
 #include <CoreServices/CoreServices.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <Security/Security.h>
@@ -86,8 +84,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	AIWiredString *str = [AIWiredString stringWithString:password];
-	AIWiredData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	OSStatus err = SecKeychainUnlock(/*keychain*/ NULL, [data length], [data bytes], /*usePassword*/ true);
 
 	[pool release];
@@ -286,8 +283,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 - (id)initWithPath:(NSString *)path password:(NSString *)password promptUser:(BOOL)prompt initialAccess:(SecAccessRef)initialAccess error:(out NSError **)outError
 {
 	if ((self = [super init])) {
-		/*we create our own copy of the string (if any) using AIWiredString to
-		 *	ensure that the NSData that we create is an AIWiredData.
+		/*we create our own copy of the string (if any) using NSString to
+		 *	ensure that the NSData that we create is an NSData.
 		 *we create our own pool to ensure that both objects are released ASAP.
 		 */
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -296,8 +293,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		u_int32_t passwordLength = 0;
 
 		if (password) {
-			AIWiredString *str = [AIWiredString stringWithString:password];
-			AIWiredData  *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+			NSData  *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 			passwordBytes      = (void *)[data bytes];
 			passwordLength     = [data length];
 		}
@@ -502,8 +498,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	AIWiredString *str = [AIWiredString stringWithString:password];
-	AIWiredData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	
 	/* If keychainRef is NULL, the default keychain will unlocked */
 	OSStatus err = SecKeychainUnlock(keychainRef, [data length], [data bytes], /*usePassword*/ true);
@@ -576,8 +571,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	AIWiredString *passwordStr  = [AIWiredString stringWithString:password];
-	AIWiredData   *passwordData = [passwordStr dataUsingEncoding:NSUTF8StringEncoding];
+	NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 
 	NSData *serverData  = [server  dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *domainData  = [domain  dataUsingEncoding:NSUTF8StringEncoding];
@@ -657,7 +651,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *domainData  = [domain  dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *pathData    = [path    dataUsingEncoding:NSUTF8StringEncoding];
-	AIWiredString *passwordString = nil;
+	NSString *passwordString = nil;
 
 	/* If keychainRef is NULL, the users's default keychain search list will be used */
 	OSStatus err = SecKeychainFindInternetPassword(keychainRef,
@@ -696,7 +690,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		*outError = error;
 	}
 
-	passwordString = [AIWiredString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
+	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
 	SecKeychainItemFreeContent(NULL, passwordData);
 	return passwordString;
 }
@@ -769,7 +763,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 													   &passwordBytes);
 			if (err == noErr) {
 				NSString *username = [NSString stringWithBytes:attrList->attr[0].data length:attrList->attr[0].length encoding:NSUTF8StringEncoding];
-				AIWiredString *password = [AIWiredString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
+				NSString *password = [NSString stringWithBytes:passwordBytes length:passwordLength encoding:NSUTF8StringEncoding];
 				result = [NSDictionary dictionaryWithObjectsAndKeys:
 					username, @"Username",
 					password, @"Password",
@@ -857,8 +851,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					//Retain this because of the autorelease pool.
 					if (outError) *outError = [error retain];
 				} else {
-					AIWiredString *passwordStr  = [AIWiredString stringWithString:password];
-					AIWiredData   *passwordData = [passwordStr dataUsingEncoding:NSUTF8StringEncoding];
+					NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 
 					//change the password.
 					err = SecKeychainItemModifyAttributesAndData(item,
@@ -994,8 +987,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	AIWiredString *passwordStr  = [AIWiredString stringWithString:password];
-	AIWiredData   *passwordData = [passwordStr dataUsingEncoding:NSUTF8StringEncoding];
+	NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
 
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
@@ -1036,7 +1028,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
-	AIWiredString *passwordString = nil;
+	NSString *passwordString = nil;
 
 	/* If keychainRef is NULL, the users's default keychain search list will be used */
 	OSStatus err = SecKeychainFindGenericPassword(keychainRef,
@@ -1061,7 +1053,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		*outError = error;
 	}
 
-	passwordString = [AIWiredString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
+	passwordString = [NSString stringWithBytes:passwordData length:passwordLength encoding:NSUTF8StringEncoding];
 	SecKeychainItemFreeContent(NULL, passwordData);
 	return passwordString;	
 }

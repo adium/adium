@@ -13,7 +13,6 @@
 #import "AIServiceMenu.h"
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
-#import <AIUtilities/AITextFieldAdditions.h>
 
 @interface AIGuestAccountWindowController ()
 - (void)selectServiceType:(id)sender;
@@ -127,7 +126,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	[theAccount setIsTemporary:YES];
 	
 	[adium.accountController addAccount:theAccount];
-	[theAccount setPasswordTemporarily:[textField_password secureStringValue]];
+	[theAccount setPasswordTemporarily:[textField_password stringValue]];
 
 	//Connect the account
 	[theAccount setPreference:[NSNumber numberWithBool:YES] forKey:@"Online" group:GROUP_ACCOUNT_STATUS];

@@ -17,7 +17,6 @@
 #import <Adium/AIListObject.h>
 
 @class AIListContact, AIChat, AIContentObject, ESFileTransfer, AIStatus, AIContentMessage, AIContentTyping;
-@class AIWiredString;
 
 #define GROUP_ACCOUNT_STATUS   @"Account Status"
 
@@ -158,7 +157,7 @@ typedef enum {
  * Subclasses of AIAccount, however, inherit much power. With great power comes great responsibility.
  */
 @interface AIAccount : AIListObject {
-	AIWiredString				*password;
+	NSString							*password;
 	BOOL										silentAndDelayed;				//We are waiting for and processing our sign on updates
 	BOOL										disconnectedByFastUserSwitch;	//We are offline because of a fast user switch
 	BOOL										namesAreCaseSensitive;

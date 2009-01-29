@@ -37,7 +37,6 @@
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
-#import <AIUtilities/AIWiredString.h>
 
 #define FILTERED_STRING_REFRESH    30.0    //delay in seconds between refresh of our attributed string statuses when needed
 
@@ -50,7 +49,7 @@
 #define ACCOUNT_STATUS_UPDATE_COALESCING_KEY	@"Account Status Update"
 
 @interface AIAccount (Abstract_PRIVATE)
-- (void)passwordReturnedForConnect:(AIWiredString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext;
+- (void)passwordReturnedForConnect:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext;
 @end
 
 /*!
@@ -708,7 +707,7 @@
 /*!
  * @brief Store in memory (but nowhere else) the password for this account
  */
-- (void)setPasswordTemporarily:(AIWiredString *)inPassword
+- (void)setPasswordTemporarily:(NSString *)inPassword
 {
 	if (password != inPassword) {
 		[password release]; password = [inPassword retain];
@@ -720,7 +719,7 @@
  *
  * This will not look up the password in the keychain. Results are undefined if we are not connected.
  */
-- (AIWiredString *)passwordWhileConnected
+- (NSString *)passwordWhileConnected
 {
 	return password;
 }
@@ -730,7 +729,7 @@
  *
  * Callback after the user enters her password for connecting; finish the connect process.
  */
-- (void)passwordReturnedForConnect:(AIWiredString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext
+- (void)passwordReturnedForConnect:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext
 {
     //If a password was returned, and we're still waiting to connect
     if ((returnCode == AIPasswordPromptOKReturn) &&

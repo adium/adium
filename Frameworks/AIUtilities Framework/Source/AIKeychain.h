@@ -15,8 +15,6 @@
 
 #include <Security/Security.h>
 
-@class AIWiredString;
-
 #pragma mark AIKeychain errors
 
 /*!	@defgroup AIKeychainErrors AIKeychain errors
@@ -92,10 +90,6 @@
  *
  *	@par
  *	Cocoa wrapper which offers class methods for accessing the default keychain and others, and instance methods for accessing data from the keychains.
- *
- *	@par
- *	NOTE: it is <strong>STRONGLY</strong> recommended that you use \c AIWiredString, rather than the Apple-supplied \c NSString or \c CFString, to supply passwords to \c AIKeychain.
- *	\c AIKeychain uses \c AIWiredString itself for all handling of passwords.
  */
 @interface AIKeychain: NSObject {
 	SecKeychainRef keychainRef;

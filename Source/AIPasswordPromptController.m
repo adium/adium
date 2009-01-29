@@ -17,7 +17,6 @@
 // $Id$
 
 #import "AIPasswordPromptController.h"
-#import <AIUtilities/AITextFieldAdditions.h>
 #import <objc/objc-runtime.h>
 
 #define 	PASSWORD_PROMPT_NIB 		@"PasswordPrompt"
@@ -96,7 +95,7 @@
 
 - (IBAction)okay:(id)sender
 {
-	AIWiredString	*thePassword = [textField_password secureStringValue];
+	NSString	*thePassword = [textField_password stringValue];
 	BOOL	savePassword = [checkBox_savePassword state];
 
 	//save password?
@@ -128,7 +127,7 @@
 {
 	//if the password field is empty, disable the OK button.
 	//otherwise, enable it.
-	[button_OK setEnabled:([[textField_password secureStringValue] length] != 0)];
+	[button_OK setEnabled:([[textField_password stringValue] length] != 0)];
 }
 
 // called as the window closes
