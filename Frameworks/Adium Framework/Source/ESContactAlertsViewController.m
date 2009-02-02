@@ -474,9 +474,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 		}
 	}
 		
-	contactAlertsDict = [adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
-																 group:PREF_GROUP_CONTACT_ALERTS
-											 objectIgnoringInheritance:listObject];
+	contactAlertsDict = [listObject preferenceForKey:KEY_CONTACT_ALERTS group:PREF_GROUP_CONTACT_ALERTS ignoreInheritedValues:YES];
 	[contactAlertsEvents release]; contactAlertsEvents = [[NSMutableArray alloc] init];
 	[contactAlertsActions release]; contactAlertsActions = [[NSMutableArray alloc] init];
 	
