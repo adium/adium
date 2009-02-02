@@ -220,9 +220,7 @@
 	NSAttributedString	*accountDisplayName = [[self preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 														   group:GROUP_ACCOUNT_STATUS
 										   ignoreInheritedValues:YES] attributedString];
-	NSAttributedString	*globalPreference = [[self preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
-															  group:GROUP_ACCOUNT_STATUS
-											  ignoreInheritedValues:NO] attributedString];
+	NSAttributedString *globalPreference = [[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString];
 	BOOL				accountDisplayNameChanged = NO;
 	BOOL				shouldUpdateDisplayNameImmediately= NO;
 
