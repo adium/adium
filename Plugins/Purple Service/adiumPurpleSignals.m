@@ -353,10 +353,15 @@ file_recv_request_cb(PurpleXfer *xfer)
 {
 	ESFileTransfer  *fileTransfer;
 	
+    //Purple doesn't return normalized user id, so it should be normalized manually
+    char* who = g_strdup(purple_normalize(xfer->account, xfer->who));
+    
 	//Ask the account for an ESFileTransfer* object
-	fileTransfer = [accountLookup(xfer->account) newFileTransferObjectWith:[NSString stringWithUTF8String:purple_xfer_get_remote_user(xfer)]
+	fileTransfer = [accountLookup(xfer->account) newFileTransferObjectWith:[NSString stringWithUTF8String:who]
 					size:purple_xfer_get_size(xfer)
 					remoteFilename:[NSString stringWithUTF8String:purple_xfer_get_filename(xfer)]];
+    
+    g_free(who);
 	
 	//Configure the new object for the transfer
 	[fileTransfer setAccountData:[NSValue valueWithPointer:xfer]];
