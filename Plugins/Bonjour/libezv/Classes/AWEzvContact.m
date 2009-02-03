@@ -37,73 +37,44 @@
 #import "AWEzvXMLStream.h"
 #import "AWEzvRendezvousData.h"
 #import "AWEzvContactManager.h"
+#import "AWEzvContactManagerRendezvous.h"
 #import "AWEzv.h"
 #import "EKEzvFileTransfer.h"
+#import "EKEzvIncomingFileTransfer.h"
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 @implementation AWEzvContact
-- (NSString *)uniqueID
-{
-    return _uniqueID;
-}
 
-- (NSString *) name
-{
-    return _name;
-}
-
-- (AWEzvStatus) status
-{
-    return _status;
-}
+@synthesize uniqueID, name, status, idleSinceDate, contactImageData, port, ipAddr, imageHash, manager, stream, addressServiceController, imageServiceController, resolveServiceController, rendezvous;
 
 - (NSString *) statusMessage
 {
-    return [_rendezvous getField:@"msg"];
+    return [self.rendezvous getField:@"msg"];
 }
 
-- (NSDate *) idleSinceDate
+- (void)dealloc
 {
-    return _idleSinceDate;
-}
-
-- (AWEzvContactManager *)manager
-{
-	return _manager;
-}
-
-- (void) setUniqueID:(NSString *)uniqueID
-{
-    if (_uniqueID != uniqueID) {
-        [_uniqueID release];
-		_uniqueID = [uniqueID retain];
-	}
-}
-
-- (void) setContactImageData:(NSData *)contactImageData
-{
+	[self.manager contactWillDeallocate:self];
 	
-    if (_contactImageData != contactImageData) {
-		[_contactImageData release];
-		_contactImageData = [contactImageData retain];
-	}
+	self.name = nil;
+	self.uniqueID = nil;
+	self.contactImageData = nil;
+	self.idleSinceDate = nil;
+	self.stream = nil;
+	self.rendezvous = nil;
+	self.ipAddr = nil;
+	self.imageHash = nil;
+	self.resolveServiceController = nil;
+	self.imageServiceController = nil;
+	self.addressServiceController = nil;
+	self.manager = nil;
+	
+	[super dealloc];
 }
-
-- (NSData *) contactImageData
-{
-    return _contactImageData;
-}
-- (void)setImageHash:(NSString *)newHash
-{
-	if (imageHash != newHash) {
-        [imageHash release];
-        imageHash = [newHash retain];
-    }
-}
-- (NSString *)imageHash
-{
-	return imageHash;
-}
-
 
 #pragma mark Sending Messages
 //Note: html should actually be HTML; libezv in imservices assumes it is plaintext
@@ -117,10 +88,10 @@
 	
 	/* Lets 'fix' absz and size to include quotes */
 	fixedHTML = [self fixHTML:html];
-	//XXX if _ipAddr is nil, we should do something
-	if (_ipAddr != nil) {
+	//XXX if self.ipAddr is nil, we should do something
+	if (self.ipAddr != nil) {
 
-		if (_stream == nil) {
+		if (self.stream == nil) {
 			[self createConnection];
 		}
 
@@ -146,9 +117,9 @@
 
 	/* setup XML tree */
 		messageNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"message"];
-		//[messageNode addAttribute:@"to" withValue:_ipAddr];
-		[messageNode addAttribute:@"to" withValue:_uniqueID];
-		[messageNode addAttribute:@"from" withValue: [_manager myInstanceName]];
+		//[messageNode addAttribute:@"to" withValue:self.ipAddr];
+		[messageNode addAttribute:@"to" withValue:self.uniqueID];
+		[messageNode addAttribute:@"from" withValue: [self.manager myInstanceName]];
 		[messageNode addAttribute:@"type" withValue:@"chat"];
 
 		bodyNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"body"];
@@ -170,7 +141,7 @@
 		[htmlBodyNode addChild:htmlMessageNode];
 				
 		/* send the data */
-		[_stream sendString:[messageNode xmlString]];
+		[self.stream sendString:[messageNode xmlString]];
 
 		
 
@@ -189,8 +160,8 @@
 		[self setStatus: AWEzvUndefined];
 
 		/* and notify */
-		[[[[self manager] client] client] userChangedState:self];
-		[[[[self manager] client] client] reportError:@"Could Not Send" ofLevel:AWEzvError forUser:[self uniqueID]];
+		[self.manager.client.client userChangedState:self];
+		[self.manager.client.client reportError:@"Could Not Send" ofLevel:AWEzvError forUser:[self uniqueID]];
 	}
 }
 - (NSString *) fixHTML:(NSString *)html
@@ -242,10 +213,10 @@
 {
 	AWEzvXMLNode *messageNode, *bodyNode, *htmlNode, *xNode, *composingNode = nil, *idNode = nil;
 
-	if (_ipAddr != nil) {
+	if (self.ipAddr != nil) {
 		messageNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"message"];
 		[messageNode addAttribute:@"to" withValue:[self uniqueID]];
-		[messageNode addAttribute:@"from" withValue:[_manager myInstanceName]];
+		[messageNode addAttribute:@"from" withValue:[self.manager myInstanceName]];
 
 		bodyNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"body"];
 		[messageNode addChild:bodyNode];
@@ -267,7 +238,7 @@
 		[xNode addChild:idNode];
 
 		/* send the data */
-		[_stream sendString:[messageNode xmlString]];
+		[self.stream sendString:[messageNode xmlString]];
 
 		/* release messages */
 		[idNode release];
@@ -300,13 +271,13 @@
 	* </message> 
 	**/	
 	AWEzvXMLNode *messageNode, *bodyNode, *htmlNode, *xNode, *urlNode, *urlValue;
-	if (_ipAddr != nil) {
-		if (_stream == nil) {
+	if (self.ipAddr != nil) {
+		if (self.stream == nil) {
 			[self createConnection];
 		}
 		messageNode =  [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"message"];
 		[messageNode addAttribute:@"to" withValue:[self uniqueID]];
-		[messageNode addAttribute:@"from" withValue:[_manager myInstanceName]];
+		[messageNode addAttribute:@"from" withValue:[self.manager myInstanceName]];
 		[messageNode addAttribute:@"type" withValue:@"chat"];
 
 		bodyNode = [[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:@"body"];
@@ -337,7 +308,7 @@
 		[xNode addChild:urlNode];
 		
 		/*Send the xml*/
-		[_stream sendString:[messageNode xmlString]];
+		[self.stream sendString:[messageNode xmlString]];
 		
 		[urlValue release];
 		[urlNode release];
@@ -346,6 +317,277 @@
 		[bodyNode release];
 		[messageNode release];
 	}
+}
+
+#pragma mark Various Handling Stuff
+
+- (void) setStatus:(AWEzvStatus) inStatus {
+    status = inStatus;
+    
+    /* if it's idle it'll be reset soon */
+    self.idleSinceDate = nil;
+}
+
+
+- (int) serial {
+    return self.rendezvous.serial;
+}
+
+#pragma mark Connection Handling
+/* connect to contact if required */
+- (void)createConnection {
+	int			fd;
+	struct sockaddr_in	socketAddress;	/* socket address structure */
+	NSFileHandle	*connection;
+	
+	if (self.stream != nil || (self.ipAddr == nil))
+		return;
+	
+	if ((fd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
+		[self.manager.client.client reportError:@"Could not create socket to connect to contact for iChat Bonjour" ofLevel:AWEzvError];
+		return;
+	}
+	
+	/* setup socket address structure */	
+	memset(&socketAddress, 0, sizeof(socketAddress));
+	socketAddress.sin_family = AF_INET;
+	socketAddress.sin_addr.s_addr = inet_addr([self.ipAddr UTF8String]);
+	socketAddress.sin_port = htons([self port]);
+	
+	/* connect to client */
+	if (connect(fd, (const struct sockaddr *)&socketAddress, sizeof(socketAddress)) < 0) {
+		[self.manager.client.client reportError:
+		 [NSString stringWithFormat:@"%@: Could not connect socket on fd %i to contact (%@:%i)", self, fd, self.ipAddr, [self port]]
+											  ofLevel:AWEzvError];
+		return;
+	}
+	
+	/* make NSFileHandle */
+	connection = [[NSFileHandle alloc] initWithFileDescriptor:fd];
+	
+	/* now to create stream */
+	self.stream = [[AWEzvXMLStream alloc] initWithFileHandle:connection initiator:1];
+	[self.stream setDelegate:self];
+	[self.stream readAndParse];
+	
+	[connection release];
+}
+
+
+#pragma mark XML Handling
+- (void) XMLReceivedMessage:(AWEzvXMLNode *)root {
+	/* XXX This routine is rather ugly! */
+	AWEzvXMLNode    *node;
+	NSString	    *plaintext = nil;
+	NSString	    *html = nil;
+	
+	/* parse incoming message */
+	if (([root type] == AWEzvXMLElement) && ([[root name] isEqualToString:@"message"])) {
+		if (([[root attributes] objectForKey:@"type"] != nil) && ([(NSString *)[[root attributes] objectForKey:@"type"] isEqualToString:@"chat"])) {
+			NSEnumerator	*objs = [[root children] objectEnumerator];
+			
+			while ((node = [objs nextObject])) {
+				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"body"])) {
+					NSEnumerator	*childs = [[node children] objectEnumerator];
+					
+					while ((node = [childs nextObject])) {
+						if ([node type] == AWEzvXMLText) {
+							plaintext = [node name];
+						}
+					}
+				}
+				
+				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"html"])) {
+					html = [node xmlString];
+					/* Fix iChat's sending of line-breaks as <br></br> by replacing <br></br> with <br /> */
+					NSMutableString *mutableHtml = [html mutableCopy];
+					[mutableHtml replaceOccurrencesOfString:@"<br></br>" withString:@"<br />" 
+													options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableHtml length])];
+					html = [mutableHtml autorelease];
+				}
+				
+				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"x"])) {
+					[self XMLCheckForEvent:node];
+					[self XMLCheckForOOB:node];
+				}
+			}
+			
+		} else {
+			NSEnumerator	*objs = [[root children] objectEnumerator];
+			
+			while ((node = [objs nextObject])) {
+				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"x"])) {
+					[self XMLCheckForEvent:node];
+					[self XMLCheckForOOB:node];
+				}
+			}
+		}
+		
+		/* if we've got a message then we can send it to the client to display */
+		if ([plaintext length] > 0)
+			[self.manager.client.client user:self sentMessage:plaintext withHtml:html];
+		
+	} else if (([root type] == AWEzvXMLElement) && ([[root name] isEqualToString:@"iq"])) {
+		/* We can also receive items such as 
+		 * <iq id="iChat_887C7BB4" type="set" to="erichjkr@erkreutzer">
+		 *   <query xmlns="jabber:iq:oob">
+		 *     <url type="file" size="2556" posixflags="000001B4" mimeType="image/gif">http://192.168.1.100:5297/7E17EB87552F078C/Gere%20Mask.gif</url>
+		 *   </query>
+		 * </iq>
+		 */
+		NSEnumerator	*objs = [[root children] objectEnumerator];
+		
+		while ((node = [objs nextObject])) {
+			if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"query"])) {
+				[self XMLCheckForOOB:node];
+			}
+		}
+		
+	}
+}
+
+- (void) XMLCheckForEvent:(AWEzvXMLNode *)node {
+	NSEnumerator	*objs = [[node attributes] keyEnumerator];
+	NSString		*key;
+	AWEzvXMLNode	*obj;
+	int			eventFlag = 0;
+	
+	/* check for events in jabber stream */
+	while ((key = [objs nextObject])) {
+		if (([key isEqualToString:@"xmlns"]) && 
+			([(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:x:event"])) {
+			eventFlag = 1;
+		}
+	}
+	
+	if (!eventFlag)
+		return;
+	
+	/* if we've got an event, check for typing action. this is all we support
+	 for now */
+	objs = [[node children] objectEnumerator];
+	while ((obj = [objs nextObject])) {
+		if ([[obj name] isEqualToString:@"composing"]) {
+			[self.manager.client.client user:self typingNotification:AWEzvIsTyping];
+			return;
+		}
+		[self.manager.client.client user:self typingNotification:AWEzvNotTyping];
+	}
+	
+}
+
+- (void) XMLCheckForOOB:(AWEzvXMLNode *)node {
+	/* The following is an example of what iChat 3.1.8 v445 sends upon file transfer */
+	/*
+	 *
+	 *<x xmlns="jabber:x:oob"><url type="file" size="15767265" posixflags="000001A4" mimeType="application/zip">http://192.168.1.111:5297/4D6C52DF9D399D00/Adium.zip</url></x>
+	 *
+	 **/
+	NSEnumerator	*objs = [[node attributes] keyEnumerator];
+	NSString		*key;
+	AWEzvXMLNode	*obj;
+	int			OOBFlag = 0;
+	
+	/* check for events in jabber stream */
+	while ((key = [objs nextObject])) {
+		if (([key isEqualToString:@"xmlns"]) && 
+			([(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:x:oob"] || [(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:iq:oob"])) {
+			OOBFlag = 1;
+		}
+	}
+	if (!OOBFlag)
+		return;
+	
+	
+	int urlFlag = 0;
+	
+	/* If we have an oob entry check for url */
+	objs = [[node children] objectEnumerator];
+	while ((obj = [objs nextObject])) {
+		if ([[obj name] isEqualToString:@"url"]) {
+			urlFlag = 1;
+			break;
+		}
+	}
+	
+	if (!urlFlag)
+		return;
+	
+	[self evaluteURLXML:obj];
+	
+}
+- (void) XMLConnectionClosed {
+    [self.stream autorelease];
+    self.stream = nil;
+}
+
+#pragma mark File Transfer
+
+- (void)evaluteURLXML:(AWEzvXMLNode *)node{
+	/* Examle url:
+	 <url type="file" size="15767265" posixflags="000001A4" mimeType="application/zip">http://192.168.1.111:5297/4D6C52DF9D399D00/Adium.zip</url>
+	 -and-
+	 <url type="directory" size="90048908" nfiles="3456" posixflags="000001ED">http://192.168.1.101:34570/A26F7D11E2EDC3D9/folder/</url>
+	 */
+	
+	NSEnumerator	*objs = [[node attributes] keyEnumerator];
+	NSString		*key;
+	
+	
+	/* We have a url, so let's determine what type it is */
+	NSString *type = nil, *sizeString = nil, *nfiles = nil, *posixflags = nil, *mimeType = nil;
+	objs = [[node attributes] keyEnumerator];
+	while ((key = [objs nextObject])) {
+		if ([key isEqualToString:@"type"]) {
+			type = [[node attributes] objectForKey:key];
+		} else if ([key isEqualToString:@"size"]) {
+			sizeString = [[node attributes] objectForKey:key]; 
+		} else if ([key isEqualToString:@"nfiles"]) {
+			nfiles = [[node attributes] objectForKey:key]; 
+		} else if ([key isEqualToString:@"posixflags"]) {
+			posixflags = [[node attributes] objectForKey:key]; 
+		} else if ([key isEqualToString:@"mimeType"]) {
+			mimeType = [[node attributes] objectForKey:key]; 
+		}
+	}
+	
+	/*Find the url */
+	NSEnumerator	*childs = [[node children] objectEnumerator];
+	NSString *url = nil;
+	while ((node = [childs nextObject])) {
+		if ([node type] == AWEzvXMLText) {
+			url = [node name];
+		}
+	}
+	/*Let's get the name out of the url */
+	NSString *fileName = nil;
+	fileName = [url lastPathComponent];
+	fileName = [fileName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	
+	/* Parse type information */
+	
+	NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+	NSNumber *size = [numberFormatter numberFromString:sizeString];
+	// unsigned long long size = [[numberFormatter numberFromString:sizeString] unsignedLongLongValue];
+	[numberFormatter release];
+	
+	
+	/* Set up EKEzvFileTransfer object */
+	EKEzvIncomingFileTransfer *fileTransfer = [[EKEzvIncomingFileTransfer alloc] init];
+	[fileTransfer setContact: self];
+	[fileTransfer setManager: self.manager];
+	[fileTransfer setSizeWithNSNumber: size];
+	[fileTransfer setDirection: EKEzvIncomingTransfer];
+	[fileTransfer setUrl: url];
+	[fileTransfer setRemoteFilename: fileName];
+	if ([type isEqualToString:@"directory"]) {
+		[fileTransfer setType:EKEzvDirectory_Transfer];
+	} else if ([type isEqualToString:@"file"]) {
+		[fileTransfer setType:EKEzvFile_Transfer];
+	}
+	
+	[self.manager.client.client user:self sentFile:fileTransfer];
+	[fileTransfer release];
 }
 
 @end

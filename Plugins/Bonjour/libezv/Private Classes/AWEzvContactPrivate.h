@@ -34,34 +34,19 @@
 
 @class AWEzvXMLNode;
 
-@interface AWEzvContact (Private)
-- (void) setStream:(AWEzvXMLStream *)stream;
-- (AWEzvXMLStream *)stream;
-- (void) setStatus:(AWEzvStatus) status;
-- (void) setIdleSinceDate:(NSDate *) idleSince;
-
-- (void)setName:(NSString *)name;
-
-- (void) setRendezvous:(AWEzvRendezvousData *)rendezvous;
-- (AWEzvRendezvousData *) rendezvous;
-- (NSString *)ipaddr;
-- (void) setIpaddr:(NSString *)myipaddr;
-- (u_int16_t) port;
-- (void) setPort:(u_int16_t)port;
-
-- (void) setManager:(AWEzvContactManager *)manager;
-- (AWEzvContactManager *) manager;
-
-- (void) setResolveServiceController:(ServiceController *)controller;
-- (ServiceController *) resolveServiceController;
-
-- (void) setImageServiceController:(ServiceController *)controller;
-- (ServiceController *) imageServiceController;
-
-- (void) setAddressServiceController:(ServiceController *)controller;
-- (ServiceController *) addressServiceController;
-
-- (int) serial;
+@interface AWEzvContact ()
+@property (readwrite, nonatomic) AWEzvStatus status;
+@property (readwrite, retain, nonatomic) NSDate *idleSinceDate;
+@property (readwrite, retain, nonatomic) NSString *name;
+@property (readwrite, retain, nonatomic) AWEzvXMLStream *stream;
+@property (readwrite, retain, nonatomic) AWEzvRendezvousData *rendezvous;
+@property (readwrite, retain, nonatomic) NSString *ipAddr;
+@property (readwrite, nonatomic) u_int16_t port;
+@property (readwrite, retain, nonatomic) AWEzvContactManager *manager;
+@property (readwrite, retain, nonatomic) ServiceController * resolveServiceController;
+@property (readwrite, retain, nonatomic) ServiceController * imageServiceController;
+@property (readwrite, retain, nonatomic) ServiceController * addressServiceController;
+@property (readonly, nonatomic) int serial;
 
 - (void)createConnection;
 

@@ -35,35 +35,29 @@
 @class AWEzvXMLStream, AWEzvRendezvousData, AWEzvContactManager, NSImage, ServiceController, EKEzvOutgoingFileTransfer;
 
 @interface AWEzvContact : NSObject {
-	NSString *_name;
-	NSString *_uniqueID;
-	NSData *_contactImageData;
-	AWEzvStatus _status;
-	NSDate *_idleSinceDate;
-	AWEzvXMLStream *_stream;
-	AWEzvRendezvousData *_rendezvous;
-	NSString *_ipAddr;
+	NSString *name;
+	NSString *uniqueID;
+	NSData *contactImageData;
+	AWEzvStatus status;
+	NSDate *idleSinceDate;
+	AWEzvXMLStream *stream;
+	AWEzvRendezvousData *rendezvous;
+	NSString *ipAddr;
 	NSString *imageHash;
-	u_int16_t _port;
-	AWEzvContactManager *_manager;
-	ServiceController *_resolveServiceController;
-	ServiceController *_imageServiceController;
-	ServiceController *_addressServiceController;
+	u_int16_t port;
+	AWEzvContactManager *manager;
+	ServiceController *resolveServiceController;
+	ServiceController *imageServiceController;
+	ServiceController *addressServiceController;
 }
 
-- (NSString *)name;
-
-- (NSString *)uniqueID;
-- (void)setUniqueID:(NSString *)uniqueID;
-
-- (NSData *) contactImageData;
-- (void)setImageHash:(NSString *)newHash;
-- (NSString *)imageHash;
-- (void)setContactImageData:(NSData *)contactImageData;
-
-- (AWEzvStatus) status;
-- (NSString *) statusMessage;
-- (NSDate *) idleSinceDate;
+@property (readwrite, retain, nonatomic) NSString *uniqueID;
+@property (readwrite, retain, nonatomic) NSData *contactImageData;
+@property (readwrite, retain, nonatomic) NSString *imageHash;
+@property (readonly, nonatomic) AWEzvStatus status;
+@property (readonly, nonatomic) NSString *statusMessage;
+@property (readonly, retain, nonatomic) NSDate *idleSinceDate;
+@property (readonly, retain, nonatomic) NSString *name;
 
 - (void)sendMessage:(NSString *)message withHtml:(NSString *)html;
 - (NSString *) fixHTML:(NSString *)html;
