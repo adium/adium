@@ -370,7 +370,9 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	NSArray			*newEvents;
 
 	//Add events for this object (replacing any inherited from the containing object so that this object takes precendence)
-	newEvents = [[listObject preferenceForKey:KEY_CONTACT_ALERTS group:PREF_GROUP_CONTACT_ALERTS ignoreInheritedValues:YES] objectForKey:eventID];
+	newEvents = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
+														  group:PREF_GROUP_CONTACT_ALERTS
+									  objectIgnoringInheritance:listObject] objectForKey:eventID];
 	
 	if (newEvents && [newEvents count]) {
 		if (!events) events = [NSMutableArray array];
@@ -584,7 +586,9 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
  */
 - (NSArray *)alertsForListObject:(AIListObject *)listObject withEventID:(NSString *)eventID actionID:(NSString *)actionID
 {
-	NSDictionary *contactAlerts = [listObject preferenceForKey:KEY_CONTACT_ALERTS group:PREF_GROUP_CONTACT_ALERTS ignoreInheritedValues:YES];
+	NSDictionary	*contactAlerts = [adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
+																			  group:PREF_GROUP_CONTACT_ALERTS
+														  objectIgnoringInheritance:listObject];
 	NSMutableArray	*alertArray = [NSMutableArray array];
 
 	if (eventID) {
@@ -623,12 +627,15 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 - (void)addAlert:(NSDictionary *)newAlert toListObject:(AIListObject *)listObject setAsNewDefaults:(BOOL)setAsNewDefaults
 {
 	NSString			*newAlertEventID = [newAlert objectForKey:KEY_EVENT_ID];
+	NSMutableDictionary	*contactAlerts;
 	NSMutableArray		*eventArray;
 	
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
 	
 	//Get the alerts for this list object
-	NSMutableDictionary *contactAlerts = [[listObject preferenceForKey:KEY_CONTACT_ALERTS group:PREF_GROUP_CONTACT_ALERTS ignoreInheritedValues:YES] mutableCopy];
+	contactAlerts = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
+															  group:PREF_GROUP_CONTACT_ALERTS
+										  objectIgnoringInheritance:listObject] mutableCopy];
 	if (!contactAlerts) contactAlerts = [[NSMutableDictionary alloc] init];
 	
 	//Get the event array for the new alert, making a copy so we can modify it
@@ -682,7 +689,9 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 - (void)removeAlert:(NSDictionary *)victimAlert fromListObject:(AIListObject *)listObject
 {
 	AILogWithSignature(@"Removing %@ from %@", victimAlert, listObject);
-	NSMutableDictionary	*contactAlerts = [[listObject preferenceForKey:KEY_CONTACT_ALERTS group:PREF_GROUP_CONTACT_ALERTS ignoreInheritedValues:YES] mutableCopy];
+	NSMutableDictionary	*contactAlerts = [[adium.preferenceController preferenceForKey:KEY_CONTACT_ALERTS
+																				   group:PREF_GROUP_CONTACT_ALERTS
+															   objectIgnoringInheritance:listObject] mutableCopy];
 	NSString			*victimEventID = [victimAlert objectForKey:KEY_EVENT_ID];
 	NSMutableArray		*eventArray;
 	
