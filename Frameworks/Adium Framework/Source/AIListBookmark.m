@@ -153,8 +153,7 @@
 		NSString		*oldContainingObjectID;
 		AIListObject	*oldContainingObject;
 
-		oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-												 group:OBJECT_STATUS_CACHE];
+		oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
 		//Get the group's UID out of the internal object ID by taking the substring after "Group."
 		oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
 							   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
