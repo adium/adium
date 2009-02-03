@@ -634,7 +634,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 + (ABPerson *)personForListObject:(AIListObject *)inObject
 {
 	ABPerson	*person = nil;
-	NSString	*uniqueID = [inObject preferenceForKey:KEY_AB_UNIQUE_ID group:PREF_GROUP_ADDRESSBOOK ignoreInheritedValues:YES];
+	NSString	*uniqueID = [inObject preferenceForKey:KEY_AB_UNIQUE_ID group:PREF_GROUP_ADDRESSBOOK];
 	if (!uniqueID) uniqueID = [inObject valueForProperty:KEY_AB_UNIQUE_ID];
 	ABRecord	*record = nil;
 	

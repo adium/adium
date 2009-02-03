@@ -74,7 +74,7 @@
 		
 		NSString	*host;
 		//Upgrade code: grab a previously specified Jabber host
-		if ((host = [self preferenceForKey:@"Jabber:Host" group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES])) {
+		if ((host = [self preferenceForKey:@"Jabber:Host" group:GROUP_ACCOUNT_STATUS])) {
 			//Determine our new, full UID
 			correctUID = [NSString stringWithFormat:@"%@@%@",proposedUID, host];
 

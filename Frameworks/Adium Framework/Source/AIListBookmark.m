@@ -132,7 +132,7 @@
 		inGroupInternalObjectID &&
 		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
 																   group:OBJECT_STATUS_CACHE
-												   ignoreInheritedValues:YES]] &&
+												  ]] &&
 		(inGroup != [adium.contactController offlineGroup])) {
 		[self setPreference:inGroupInternalObjectID
 					 forKey:KEY_CONTAINING_OBJECT_ID
@@ -153,7 +153,7 @@
 		NSString		*oldContainingObjectID;
 		AIListObject	*oldContainingObject;
 
-		oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
+		oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID group:OBJECT_STATUS_CACHE];
 		//Get the group's UID out of the internal object ID by taking the substring after "Group."
 		oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
 							   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :

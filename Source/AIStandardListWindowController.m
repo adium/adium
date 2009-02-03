@@ -380,7 +380,7 @@
 	for (AIAccount *account in accounts) {
 		if (account.online) {
 			[onlineAccounts addObject:account];
-			if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES]) {
+			if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS]) {
 				[ownIconAccounts addObject:account];
 				atLeastOneOwnIconAccount = YES;
 			}
@@ -526,7 +526,7 @@
 	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.online) {
 			[onlineAccounts addObject:account];
-			if ([[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] attributedString] length]) {
+			if ([[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString] length]) {
 				[ownDisplayNameAccounts addObject:account];
 				atLeastOneOwnDisplayNameAccount = YES;
 			}
@@ -701,7 +701,7 @@
 				if (account.enabled && 
 					![[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME 
 										   group:GROUP_ACCOUNT_STATUS
-						   ignoreInheritedValues:YES] attributedString] length]) break;
+						  ] attributedString] length]) break;
 			}
 			
 			alias = [account displayName];
@@ -1104,7 +1104,7 @@
 		for (AIListObject *listObject in adium.contactController.contactList) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				// If this group's stored status is to be collapsed, collapse it
-				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List" ignoreInheritedValues:YES] boolValue]) {
+				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
 					[contactListView collapseItem:listObject];
 				}
 			}

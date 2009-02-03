@@ -558,13 +558,13 @@
 	AIEncryptedChatPreference	pref = EncryptedChat_Default;
 	
 	//Get the contact's preference (or metacontact's)
-	prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION ignoreInheritedValues:YES];
+	prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
 	
 	//If that turned up nothing, check all the groups it's in
 	if (!prefNumber) {
 		for (AIListGroup *group in self.parentContact.groups)
 		{
-			if ((prefNumber = [group preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION ignoreInheritedValues:YES]))
+			if ((prefNumber = [group preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION]))
 			break;
 		}	
 	}
@@ -775,7 +775,7 @@
 }
 
 - (NSWritingDirection)baseWritingDirection {
-	NSNumber	*dir = [self preferenceForKey:KEY_BASE_WRITING_DIRECTION group:PREF_GROUP_WRITING_DIRECTION ignoreInheritedValues:YES];
+	NSNumber	*dir = [self preferenceForKey:KEY_BASE_WRITING_DIRECTION group:PREF_GROUP_WRITING_DIRECTION];
 
 	return (dir ? [dir intValue] : [self defaultBaseWritingDirection]);
 }

@@ -20,7 +20,7 @@
 
 - (NSData *)manuallySetUserIconDataForObject:(AIListObject *)inObject
 {
-	return [inObject preferenceForKey:KEY_USER_ICON group:PREF_GROUP_USERICONS ignoreInheritedValues:YES];
+	return [inObject preferenceForKey:KEY_USER_ICON group:PREF_GROUP_USERICONS];
 }
 
 /*!

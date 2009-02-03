@@ -418,7 +418,7 @@ typedef enum
 //Accounts can't have containers, so we can explicitly only use self and global preferences
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName
 {
-	id result = [super preferenceForKey:inKey group:groupName ignoreInheritedValues:YES];
+	id result = [super preferenceForKey:inKey group:groupName];
 	if(!result)
 		result = [adium.preferenceController preferenceForKey:inKey group:groupName];
 	return result;

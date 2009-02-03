@@ -1415,7 +1415,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		/* If we've messaged this object previously, prefer the last contact we sent to if that
 		 * contact is currently in the most-available status the metacontact can offer
 		 */
-		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
+		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
 		
 		if ((internalObjectID) &&
 			(preferredContact = [self existingListObjectWithUniqueID:internalObjectID]) &&
@@ -1532,7 +1532,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		return;
 	
 	NSString	*destinationInternalObjectID = [destContact internalObjectID];
-	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
+	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
 	
 	if (![destinationInternalObjectID isEqualToString:currentPreferredDestination]) {
 		[metaContact setPreference:destinationInternalObjectID

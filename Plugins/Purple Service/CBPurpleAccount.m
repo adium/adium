@@ -2881,7 +2881,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 			NSString *alias = [object preferenceForKey:@"Alias"
 												 group:PREF_GROUP_ALIASES 
-								 ignoreInheritedValues:YES];
+								];
 
 			if ([object isKindOfClass:[AIMetaContact class]]) {
 				for(AIListContact *containedListContact in (AIMetaContact *)object) {

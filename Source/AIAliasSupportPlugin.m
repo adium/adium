@@ -123,7 +123,7 @@
     if ((inModifiedKeys == nil) || ([inModifiedKeys containsObject:@"FormattedUID"])) {
 		return [self _applyAlias:[inObject preferenceForKey:@"Alias"
 													  group:PREF_GROUP_ALIASES 
-									  ignoreInheritedValues:YES]
+									 ]
 						toObject:inObject
 						  notify:NO];
     }
@@ -180,7 +180,7 @@
 	if (!alias) {
 		alias = [object preferenceForKey:@"Alias"
 								   group:PREF_GROUP_ALIASES 
-				   ignoreInheritedValues:YES];
+				  ];
 	}
 	
 	[self _applyAlias:alias
