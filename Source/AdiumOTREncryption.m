@@ -41,7 +41,7 @@
 * mask, both users would have to be on automatic for OTR to begin automatically, even though one user
 * _manually_ attempting OTR will _automatically_ bring the other into OTR even if the setting is Manual.
 */
-#define OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE	( OTRL_POLICY_MANUAL | \
+#define OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE	( OTRL_POLICY_MANUAL | \
 													  OTRL_POLICY_WHITESPACE_START_AKE | \
 													  OTRL_POLICY_ERROR_START_AKE )
 
@@ -284,35 +284,21 @@ static AIChat* chatForContext(ConnContext *context)
 
 static OtrlPolicy policyForContact(AIListContact *contact)
 {
-	OtrlPolicy		policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
+	OtrlPolicy		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 	
 	//Force OTRL_POLICY_MANUAL when interacting with mobile numbers
 	if ([contact.UID characterAtIndex:0] == '+') {
-		policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
+		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 		
 	} else {
-		NSNumber					*prefNumber;
-		AIEncryptedChatPreference	pref;
-		
-		//Get the contact's preference (or its containing group, or so on)
-		prefNumber = [[contact parentContact] preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
-														 group:GROUP_ENCRYPTION];
-		if (!prefNumber || ([prefNumber integerValue] == EncryptedChat_Default)) {
-			//If no contact preference or the contact is set to use the default, use the account preference
-			prefNumber = [[contact account] preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
-													   group:GROUP_ENCRYPTION];		
-		}
-		
-		if (prefNumber) {
-			pref = [prefNumber integerValue];
-			
-			switch (pref) {
+		AIEncryptedChatPreference	pref = contact.encryptedChatPreferences;
+		switch (pref) {
 				case EncryptedChat_Never:
 					policy = OTRL_POLICY_NEVER;
 					break;
 				case EncryptedChat_Manually:
 				case EncryptedChat_Default:
-					policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
+					policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 					break;
 				case EncryptedChat_Automatically:
 					policy = OTRL_POLICY_OPPORTUNISTIC;
@@ -320,9 +306,6 @@ static OtrlPolicy policyForContact(AIListContact *contact)
 				case EncryptedChat_RejectUnencryptedMessages:
 					policy = OTRL_POLICY_ALWAYS;
 					break;
-			}
-		} else {
-			policy = OTRL_POLICY_MANUAL_AND_REPOND_TO_WHITESPACE;
 		}
 	}
 	

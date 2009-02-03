@@ -16,6 +16,7 @@
 
 #import <Adium/AIListObject.h>
 #import <Adium/AIAccount.h>
+#import <Adium/AIChat.h>
 
 #define KEY_AB_UNIQUE_ID		@"AB Unique ID"
 
@@ -50,6 +51,8 @@
 @property (readonly, nonatomic) BOOL canJoinMetaContacts;
 
 @property (readonly, nonatomic) BOOL isIntentionallyNotAStranger;
+
+@property (readonly, nonatomic) AIEncryptedChatPreference encryptedChatPreferences;
 
 - (void)setIsMobile:(BOOL)isMobile notify:(NotifyTiming)notify;
 - (void)setOnline:(BOOL)online notify:(NotifyTiming)notify silently:(BOOL)silent;
