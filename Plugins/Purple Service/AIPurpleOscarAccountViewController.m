@@ -58,7 +58,7 @@
 	[[NSFontPanel sharedFontPanel] setDelegate: textView_textProfile];
     
     //Profile
-    NSData				*profileData = [account preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES];
+    NSData				*profileData = [account preferenceForKey:@"TextProfile" group:GROUP_ACCOUNT_STATUS];
 	NSAttributedString	*profile = (profileData ? [NSAttributedString stringWithData:profileData] : nil);
 	
 	if (profile && [profile length]) {

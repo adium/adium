@@ -135,8 +135,7 @@
 
 	//Show the reset image button if a preference is set on this object, overriding its serverside icon
 	[userIcon setShowResetImageButton:([inObject preferenceForKey:KEY_USER_ICON
-															group:PREF_GROUP_USERICONS
-											ignoreInheritedValues:YES] != nil)];
+															group:PREF_GROUP_USERICONS] != nil)];
 }
 
 -(void)updateAccountName:(AIListObject *)inObject
@@ -521,14 +520,12 @@
 	
 	if ([inObject isKindOfClass:[AIListContact class]]) {
 		currentAlias = [[(AIListContact *)inObject parentContact] preferenceForKey:@"Alias"
-																			 group:PREF_GROUP_ALIASES
-															 ignoreInheritedValues:YES];
+																			 group:PREF_GROUP_ALIASES];
 		AILogWithSignature(@"inObject is %@; parentContact is %@. Preference is %@.",
 						   inObject, [(AIListContact *)inObject parentContact], currentAlias);
 	} else {
 		currentAlias = [inObject preferenceForKey:@"Alias"
-											group:PREF_GROUP_ALIASES
-							ignoreInheritedValues:YES];		
+											group:PREF_GROUP_ALIASES];		
 	}
 	
 	if (!currentAlias && ![[inObject displayName] isEqualToString:[inObject formattedUID]]) {
