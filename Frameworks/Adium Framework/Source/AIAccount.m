@@ -30,6 +30,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 
 #import "DCJoinChatViewController.h"
 #import "AIChatControllerProtocol.h"
@@ -411,6 +412,16 @@ typedef enum
 {
 	NSData	*iconData = [self userIconData];
 	return (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
+}
+
+#pragma mark Prefs
+//Accounts can't have containers, so we can explicitly only use self and global preferences
+- (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName
+{
+	id result = [super preferenceForKey:inKey group:groupName ignoreInheritedValues:YES];
+	if(!result)
+		result = [adium.preferenceController preferenceForKey:inKey group:groupName];
+	return result;
 }
 
 //Status ---------------------------------------------------------------------------------------------------------------
