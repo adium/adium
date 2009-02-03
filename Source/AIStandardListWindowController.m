@@ -1104,7 +1104,7 @@
 		for (AIListObject *listObject in adium.contactController.contactList) {
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				// If this group's stored status is to be collapsed, collapse it
-				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
+				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List" ignoreInheritedValues:YES] boolValue]) {
 					[contactListView collapseItem:listObject];
 				}
 			}
