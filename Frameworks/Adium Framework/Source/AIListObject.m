@@ -93,7 +93,10 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath hasSuffix:@"Visible"]) {
-		alwaysVisible = [[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
+		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE ignoreInheritedValues:YES];
+		if (!alwaysVisiblePrefValue && [self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact)
+			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE ignoreInheritedValues:YES];
+		alwaysVisible = [alwaysVisiblePrefValue boolValue];
 	}
 }
 
@@ -349,11 +352,7 @@
  */
 - (id)preferenceForKey:(NSString *)key group:(NSString *)group ignoreInheritedValues:(BOOL)ignore
 {
-	if (ignore) {
 		return [adium.preferenceController preferenceForKey:key group:group objectIgnoringInheritance:self];
-	} else {
-		return [adium.preferenceController preferenceForKey:key group:group object:self];
-	}
 }
 
 /*!

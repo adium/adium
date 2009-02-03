@@ -741,7 +741,7 @@
 }
 
 - (NSWritingDirection)baseWritingDirection {
-	NSNumber	*dir = [self preferenceForKey:KEY_BASE_WRITING_DIRECTION group:PREF_GROUP_WRITING_DIRECTION];
+	NSNumber	*dir = [self preferenceForKey:KEY_BASE_WRITING_DIRECTION group:PREF_GROUP_WRITING_DIRECTION ignoreInheritedValues:YES];
 
 	return (dir ? [dir intValue] : [self defaultBaseWritingDirection]);
 }

@@ -65,8 +65,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		_containedObjects = [[NSMutableArray alloc] init];
 		
-		expanded = [[self preferenceForKey:KEY_EXPANDED
-									 group:OBJECT_STATUS_CACHE] boolValue];
+		expanded = [[self preferenceForKey:KEY_EXPANDED group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES] boolValue];
 
 		containsOnlyOneUniqueContact = NO;
 		containsOnlyOneService = YES;
