@@ -409,7 +409,7 @@
 																	 UID:[contactOnClickedRow UID]];
 
 			if (group) {				
-				//XXX multiple groups
+				//XXX multiple containers
 				if (![group.UID isEqualToString:exactContact.remoteGroupNames.anyObject]) {
 					if (exactContact.remoteGroupNames.anyObject) {
 						//Move contact
