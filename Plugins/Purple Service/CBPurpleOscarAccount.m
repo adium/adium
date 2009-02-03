@@ -282,8 +282,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 			
 			if ([key isEqualToString:@"Notes"]) {
 				NSString  *comment = [object preferenceForKey:@"Notes" 
-														group:PREF_GROUP_NOTES
-										ignoreInheritedValues:YES];
+														group:PREF_GROUP_NOTES];
 				
 				[[super purpleAdapter] OSCAREditComment:comment forUID:[object UID] onAccount:self];
 			}			
