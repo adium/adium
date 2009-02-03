@@ -742,57 +742,21 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //Retrieve a preference value (with the option of ignoring inherited values)
 //If we don't find a preference, query our preferredContact to take its preference as our own.
 //We could potentially query all the objects.. but that's possibly overkill.
-- (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName ignoreInheritedValues:(BOOL)ignore
-{
-	id returnValue;
-	
-	if (!ignore) {
-		returnValue = [self preferenceForKey:inKey group:groupName];
-		
-	} else {
-		returnValue = [super preferenceForKey:inKey group:groupName];
-		
-		//Look to our first contained object
-		if (!returnValue && [self.containedObjects count]) {
-			returnValue = [self.preferredContact preferenceForKey:inKey group:groupName];
-
-			//Move the preference to us so we will have it next time and the contact won't (lazy migration)
-			if (returnValue) {
-				[self setPreference:returnValue forKey:inKey group:groupName];
-				[self.preferredContact setPreference:nil forKey:inKey group:groupName];
-			}
-		}
-	}
-	
-	return returnValue;
-}
-
-//Retrieve a preference value
-//If we don't find a preference, query our first contained object to 'inherit' its preference before going on to the recrusive lookup.
-//We could potentially query all the objects.. but that's possibly overkill.
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName
 {
-	id returnValue;
+	id returnValue = [super preferenceForKey:inKey group:groupName];
 	
-	//First, look at ourself (no recursion)
-	returnValue = [super preferenceForKey:inKey group:groupName];
-	
-	//Then, look at our preferredContact (no recursion)
+	//Look to our first contained object
 	if (!returnValue && [self.containedObjects count]) {
-		returnValue = [self.preferredContact preferenceForKey:inKey
-														  group:groupName 
-										 ];
-	}
-	
-	//Finally, do the recursive lookup starting with our containing group
-	if (!returnValue) {
-		for (AIListGroup *group in self.groups) {
-			returnValue = [group preferenceForKey:inKey group:groupName];
-			if (returnValue)
-				break;
+		returnValue = [self.preferredContact preferenceForKey:inKey group:groupName];
+
+		//Move the preference to us so we will have it next time and the contact won't (lazy migration)
+		if (returnValue) {
+			[self setPreference:returnValue forKey:inKey group:groupName];
+			[self.preferredContact setPreference:nil forKey:inKey group:groupName];
 		}
 	}
-
+	
 	return returnValue;
 }
 
