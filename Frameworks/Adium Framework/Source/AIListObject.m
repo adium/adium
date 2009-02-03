@@ -93,9 +93,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath hasSuffix:@"Visible"]) {
-		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE ignoreInheritedValues:YES];
+		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
 		if (!alwaysVisiblePrefValue && [self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact)
-			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE ignoreInheritedValues:YES];
+			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
 		alwaysVisible = [alwaysVisiblePrefValue boolValue];
 	}
 }
@@ -344,14 +344,6 @@
  */
 - (id)preferenceForKey:(NSString *)key group:(NSString *)group
 {
-	return [adium.preferenceController preferenceForKey:key group:group object:self];
-}
-
-/*!
- * @brief Retrieve a preference value, possibly ignoring inheritance
- */
-- (id)preferenceForKey:(NSString *)key group:(NSString *)group ignoreInheritedValues:(BOOL)ignore
-{
 		return [adium.preferenceController preferenceForKey:key group:group objectIgnoringInheritance:self];
 }
 
@@ -430,7 +422,7 @@
 {
 	if ([alias length] == 0) alias = nil; 
 	
-	NSString	*oldAlias = [self preferenceForKey:@"Alias" group:PREF_GROUP_ALIASES ignoreInheritedValues:YES];
+	NSString	*oldAlias = [self preferenceForKey:@"Alias" group:PREF_GROUP_ALIASES];
 	
 	if ((!alias && oldAlias) ||
 		(alias && !([alias isEqualToString:oldAlias]))) {
@@ -481,7 +473,7 @@
 {
 	NSString *notes;
 	
-    notes = [self preferenceForKey:@"Notes" group:PREF_GROUP_NOTES ignoreInheritedValues:YES];
+    notes = [self preferenceForKey:@"Notes" group:PREF_GROUP_NOTES];
 	if (!notes) notes = [self valueForProperty:@"Notes"];
 	
 	return notes;
@@ -490,7 +482,7 @@
 {
 	if ([notes length] == 0) notes = nil; 
 
-	NSString	*oldNotes = [self preferenceForKey:@"Notes" group:PREF_GROUP_NOTES ignoreInheritedValues:YES];
+	NSString	*oldNotes = [self preferenceForKey:@"Notes" group:PREF_GROUP_NOTES];
 	if ((!notes && oldNotes) ||
 		(notes && (![notes isEqualToString:oldNotes]))) {
 		//Save the note
@@ -696,7 +688,7 @@
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
 										   group:ObjectStatusCache 
-						   ignoreInheritedValues:YES];
+						  ];
 	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
 	NSNumber *orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 	
@@ -745,7 +737,7 @@
 {
 	NSDictionary *dict = [self preferenceForKey:@"OrderIndexDictionary"
 										  group:ObjectStatusCache 
-						  ignoreInheritedValues:YES];
+						 ];
 	NSNumber *orderIndexForObjectNumber = [dict objectForKey:[listObject internalObjectID]];
 	float orderIndexForObject = (orderIndexForObjectNumber ? [orderIndexForObjectNumber floatValue] : 0);
 	

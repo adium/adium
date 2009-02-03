@@ -196,11 +196,11 @@
 {
 	NSData	*userIconData = nil;
 
-	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] boolValue]
+	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]
 		  || (!isTemporary && [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue])) {
 		
 		if (isTemporary)
-			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES];
+			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		else
 			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
@@ -209,7 +209,7 @@
 		}
 	} else {
 		//Globally, we're not using an icon; however, the account may specify its own, overriding that.
-		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES];		
+		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];		
 	}
 
 	return userIconData;
@@ -859,7 +859,7 @@
 
 	} else {
 		if (isTemporary)
-			originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] attributedString];	
+			originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];	
 		else
 			originalValue = [[adium.preferenceController preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];
 	}

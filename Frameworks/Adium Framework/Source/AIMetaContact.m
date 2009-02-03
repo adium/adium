@@ -65,7 +65,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		
 		_containedObjects = [[NSMutableArray alloc] init];
 		
-		expanded = [[self preferenceForKey:KEY_EXPANDED group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES] boolValue];
+		expanded = [[self preferenceForKey:KEY_EXPANDED group:OBJECT_STATUS_CACHE] boolValue];
 
 		containsOnlyOneUniqueContact = NO;
 		containsOnlyOneService = YES;
@@ -137,7 +137,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			inGroupInternalObjectID &&
 			![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
 																	   group:OBJECT_STATUS_CACHE
-													   ignoreInheritedValues:YES]] &&
+													  ]] &&
 			(inGroup != adium.contactController.offlineGroup)) {
 
 			[self setPreference:inGroupInternalObjectID
@@ -750,11 +750,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		returnValue = [self preferenceForKey:inKey group:groupName];
 		
 	} else {
-		returnValue = [super preferenceForKey:inKey group:groupName ignoreInheritedValues:YES];
+		returnValue = [super preferenceForKey:inKey group:groupName];
 		
 		//Look to our first contained object
 		if (!returnValue && [self.containedObjects count]) {
-			returnValue = [self.preferredContact preferenceForKey:inKey group:groupName ignoreInheritedValues:YES];
+			returnValue = [self.preferredContact preferenceForKey:inKey group:groupName];
 
 			//Move the preference to us so we will have it next time and the contact won't (lazy migration)
 			if (returnValue) {
@@ -775,13 +775,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	id returnValue;
 	
 	//First, look at ourself (no recursion)
-	returnValue = [super preferenceForKey:inKey group:groupName ignoreInheritedValues:YES];
+	returnValue = [super preferenceForKey:inKey group:groupName];
 	
 	//Then, look at our preferredContact (no recursion)
 	if (!returnValue && [self.containedObjects count]) {
 		returnValue = [self.preferredContact preferenceForKey:inKey
 														  group:groupName 
-										  ignoreInheritedValues:YES];
+										 ];
 	}
 	
 	//Finally, do the recursive lookup starting with our containing group

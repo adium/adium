@@ -130,7 +130,6 @@ typedef enum {
 //Prefs
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)groupName;
 - (void)setPreferences:(NSDictionary *)prefs inGroup:(NSString *)group;
-- (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName ignoreInheritedValues:(BOOL)ignore;
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
 @property (readonly, nonatomic) NSString *pathToPreferences;
 

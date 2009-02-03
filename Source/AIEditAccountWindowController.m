@@ -121,7 +121,7 @@
 	[[matrix_userIcon cellWithTag:1] setTitle:AILocalizedString(@"Use this icon:", "Radio button in the Personal tab of Account preferences; an image is shown beneath it to select the account's icon.  This -must- be a short string of 20 characters or less.")];
 	
 	//User icon
-	if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES]) {
+	if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS]) {
 		//If this account has a icon set directly on it, then it has its own icon
 		[matrix_userIcon selectCellWithTag:1];
 

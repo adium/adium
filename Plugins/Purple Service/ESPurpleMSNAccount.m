@@ -219,7 +219,7 @@
 	const char			*displayName = purple_connection_get_display_name(purple_account_get_connection(account));
 	NSAttributedString	*accountDisplayName = [[self preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 														   group:GROUP_ACCOUNT_STATUS
-										   ignoreInheritedValues:YES] attributedString];
+										  ] attributedString];
 	NSAttributedString *globalPreference = [[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString];
 	BOOL				accountDisplayNameChanged = NO;
 	BOOL				shouldUpdateDisplayNameImmediately= NO;

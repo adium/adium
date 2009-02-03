@@ -106,7 +106,7 @@
 
 				if (listObject) {
 					//Load the preference if possible
-					newChatLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING group:GROUP_LAST_USED_SPELLING ignoreInheritedValues:YES];
+					newChatLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING group:GROUP_LAST_USED_SPELLING];
 				}
 
 				if (!newChatLanguage) {
@@ -143,7 +143,7 @@
 		if ([preferredLanguage isEqualToString:chatLanguage])
 			chatLanguage = nil;
 		
-		NSString *previousLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING group:GROUP_LAST_USED_SPELLING ignoreInheritedValues:YES];
+		NSString *previousLanguage = [listObject preferenceForKey:KEY_LAST_USED_SPELLING group:GROUP_LAST_USED_SPELLING];
 		if ((previousLanguage && ![previousLanguage isEqualToString:chatLanguage]) ||
 			 (!previousLanguage && chatLanguage)) {
 			[listObject setPreference:chatLanguage
