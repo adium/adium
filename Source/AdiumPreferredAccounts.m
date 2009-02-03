@@ -85,8 +85,12 @@
 	NSParameterAssert(inContact != nil);
 
 	//If we've messaged this object previously, and the account we used to message it is online, return that account
-	NSString *accountID = [inContact preferenceForKey:KEY_PREFERRED_SOURCE_ACCOUNT
-												group:PREF_GROUP_PREFERRED_ACCOUNTS];
+	NSString *accountID = [inContact preferenceForKey:KEY_PREFERRED_SOURCE_ACCOUNT group:PREF_GROUP_PREFERRED_ACCOUNTS ignoreInheritedValues:YES];
+	
+	//Check the metacontact as well. 
+	if (!accountID)
+		accountID = [inContact.parentContact preferenceForKey:KEY_PREFERRED_SOURCE_ACCOUNT group:PREF_GROUP_PREFERRED_ACCOUNTS ignoreInheritedValues:YES];
+	
 	if (accountID) {
 		if (![accountID isKindOfClass:[NSString class]]) {
 			//Old code stored this as an NSNumber; upgrade.
