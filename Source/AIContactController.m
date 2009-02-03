@@ -1409,16 +1409,15 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	AIListContact   *returnContact = nil;
 	
-	if ([inContact conformsToProtocol:@protocol(AIContainingObject)] && [[(id<AIContainingObject>)inContact uniqueContainedObjects] count] > 1) {
+	if ([inContact isKindOfClass:[AIMetaContact class]] && [(AIMetaContact *)inContact uniqueContainedObjectsCount] > 1) {
 		AIListObject	*preferredContact;
 		
 		/* If we've messaged this object previously, prefer the last contact we sent to if that
 		 * contact is currently in the most-available status the metacontact can offer
 		 */
-		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT
-												 group:OBJECT_STATUS_CACHE];
+		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
 		
-        if ((internalObjectID) &&
+		if ((internalObjectID) &&
 			(preferredContact = [self existingListObjectWithUniqueID:internalObjectID]) &&
 			([preferredContact isKindOfClass:[AIListContact class]]) &&
 			([preferredContact statusSummary] == [inContact statusSummary]) &&
@@ -1527,14 +1526,13 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	AIChat			*chat = [[notification userInfo] objectForKey:@"AIChat"];
 	AIListContact	*destContact = chat.listObject;
-	AIListContact	*metaContact = [destContact parentContact];
+	AIListContact	*metaContact = destContact.metaContact;
 	
-	//it's not particularly obvious from the name, but -parentContact can return self
-	if (metaContact == destContact) return;
+	if (!metaContact) 
+		return;
 	
 	NSString	*destinationInternalObjectID = [destContact internalObjectID];
-	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT
-																	group:OBJECT_STATUS_CACHE];
+	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE ignoreInheritedValues:YES];
 	
 	if (![destinationInternalObjectID isEqualToString:currentPreferredDestination]) {
 		[metaContact setPreference:destinationInternalObjectID
