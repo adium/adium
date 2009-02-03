@@ -1178,7 +1178,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			NSArray			*tableColumns;
 
 			//Set up the results column
-			resultsColumn = [[NSTableColumn alloc] initWithIdentifier:@"Rank"];
+			resultsColumn = [[[NSTableColumn alloc] initWithIdentifier:@"Rank"] autorelease];
 			[[resultsColumn headerCell] setTitle:AILocalizedString(@"Rank",nil)];
 			[resultsColumn setDataCell:[[[ESRankingCell alloc] init] autorelease]];
 			
