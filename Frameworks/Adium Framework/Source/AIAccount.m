@@ -1140,11 +1140,11 @@ typedef enum
  *
  * If the current status is built in, we create a temporary copy of the current status and set that.
  */
-- (AIStatus *)createMutableCopyOfCurrentStatusIfBuiltIn
+- (AIStatus *)mutableCopyOfCurrentStatusIfBuiltIn
 {
 	AIStatus *currentStatus = [self statusState];
 	if ([currentStatus mutabilityType] != AITemporaryEditableStatusState) {
-		currentStatus = [currentStatus mutableCopy];
+		currentStatus = [[currentStatus mutableCopy] autorelease];
 		[currentStatus setMutabilityType:AITemporaryEditableStatusState];
 	}	
 	return currentStatus;
@@ -1157,7 +1157,7 @@ typedef enum
  */
 - (void)setScriptingStatusMessageWithAttributedString:(id)message
 {
-	AIStatus *currentStatus = [self createMutableCopyOfCurrentStatusIfBuiltIn];
+	AIStatus *currentStatus = [self mutableCopyOfCurrentStatusIfBuiltIn];
 	if ([message isKindOfClass:[NSAttributedString class]])
 		[currentStatus setStatusMessage:(NSAttributedString *)message];
 	else
