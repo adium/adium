@@ -196,8 +196,14 @@
 {
 	NSData	*userIconData = nil;
 
-	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:isTemporary] boolValue]) {
-		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:isTemporary];
+	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] boolValue]
+		  || (!isTemporary && [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue])) {
+		
+		if (isTemporary)
+			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES];
+		else
+			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
+		
 		if (!userIconData && !isTemporary) {
 			userIconData = [self preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		}
@@ -852,7 +858,10 @@
 		originalValue = [statusState statusMessage];
 
 	} else {
-		originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:isTemporary] attributedString];				
+		if (isTemporary)
+			originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS ignoreInheritedValues:YES] attributedString];	
+		else
+			originalValue = [[adium.preferenceController preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];
 	}
 
 	return originalValue;
