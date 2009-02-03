@@ -792,8 +792,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			NSScanner					*scanner = [NSScanner scannerWithString:activeSearchString];
 			
 			//Look for an initial quote
+			NSAutoreleasePool *pool = nil;
 			while (![scanner isAtEnd]) {
-				NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+				[pool release];
+				pool = [[NSAutoreleasePool alloc] init];
 				
 				[scanner scanUpToString:@"\"" intoString:NULL];
 				
@@ -837,7 +839,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 					//Add the full quoted string
 					[searchWordsArray addObject:quotedString];
 				}
-				[pool release];
 			}
 
 			BOOL shouldScrollToWord = NO;
