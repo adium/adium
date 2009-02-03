@@ -377,8 +377,7 @@
 			enumerator = [[self accounts] objectEnumerator];
 			while ((account = [enumerator nextObject])) {
 				NSAttributedString *attributedString = [[account preferenceForKey:key
-																			group:GROUP_ACCOUNT_STATUS
-															ignoreInheritedValues:YES] attributedString];
+																			group:GROUP_ACCOUNT_STATUS] attributedString];
 				if (attributedString && ![attributedString length]) {
 					[account setPreference:nil
 									forKey:key
