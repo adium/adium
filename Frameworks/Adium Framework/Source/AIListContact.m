@@ -18,6 +18,7 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
@@ -550,6 +551,39 @@
 					   forProperty:KEY_IS_BLOCKED
 					   notify:NotifyNow];
 	}
+}
+
+- (AIEncryptedChatPreference)encryptedChatPreferences {
+	NSNumber					*prefNumber;
+	AIEncryptedChatPreference	pref = EncryptedChat_Default;
+	
+	//Get the contact's preference (or metacontact's)
+	prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION ignoreInheritedValues:YES];
+	
+	//If that turned up nothing, check all the groups it's in
+	if (!prefNumber) {
+		for (AIListGroup *group in self.parentContact.groups)
+		{
+			if ((prefNumber = [group preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION ignoreInheritedValues:YES]))
+			break;
+		}	
+	}
+	
+	//If that turned up nothing, check global prefs
+	if (!prefNumber) {
+		prefNumber = [adium.preferenceController preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
+	}
+	
+	//If no contact preference or the contact is set to use the default, use the account preference
+	if (!prefNumber || ([prefNumber integerValue] == EncryptedChat_Default)) {
+		prefNumber = [self.account preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
+					  group:GROUP_ENCRYPTION];		
+	}
+	
+	if (prefNumber)
+		pref = [prefNumber integerValue];
+	
+	return pref;
 }
 
 #pragma mark Status

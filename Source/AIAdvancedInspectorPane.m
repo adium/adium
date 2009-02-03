@@ -149,18 +149,14 @@
 		[self reloadPopup];
 	}
 	
-	NSNumber *encryption;
-	
-	encryption = [inObject preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
-	
-	if(!encryption) {
+	if(![inObject isKindOfClass:[AIListContact class]]) {
 		[popUp_encryption selectItemWithTag:EncryptedChat_Default];
+	} else {
+		[popUp_encryption selectItemWithTag:((AIListContact *)inObject).encryptedChatPreferences];
 	}
 	
-	[popUp_encryption selectItemWithTag:[encryption integerValue]];
-	
 	[checkBox_alwaysShow setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
-	[checkBox_alwaysShow setState:[inObject alwaysVisible]];
+	[checkBox_alwaysShow setState:inObject.alwaysVisible];
 }
 
 - (IBAction)selectedEncryptionPreference:(id)sender

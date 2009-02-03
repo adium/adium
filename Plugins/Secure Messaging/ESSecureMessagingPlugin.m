@@ -360,10 +360,8 @@
 			{
 				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
-					NSNumber	*pref = [listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
-																group:GROUP_ENCRYPTION];
 					//Set the state (checked or unchecked) as appropriate. Default = no pref or the actual 'default' value.
-					[menuItem setState:(!pref || (tag == [pref integerValue]))];
+					[menuItem setState:listContact.encryptedChatPreferences];
 				}
 				return YES;
 				break;
@@ -375,11 +373,8 @@
 			{
 				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
-					NSNumber	*pref = [listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
-																group:GROUP_ENCRYPTION];
-					
 					//Set the state (checked or unchecked) as appropriate
-					[menuItem setState:(pref && (tag == [pref integerValue]))];
+					[menuItem setState:listContact.encryptedChatPreferences];
 				}
 				return YES;
 				break;
