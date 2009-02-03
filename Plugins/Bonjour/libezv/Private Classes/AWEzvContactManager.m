@@ -55,7 +55,7 @@
 	NSEnumerator *enumerator = [contacts objectEnumerator];
 
 	while ((contact = [enumerator nextObject])) {
-	    if ([[contact uniqueID] caseInsensitiveCompare:uniqueID] == NSOrderedSame)
+	    if ([contact.uniqueID caseInsensitiveCompare:uniqueID] == NSOrderedSame)
 		break;
 	}
     }

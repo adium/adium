@@ -451,8 +451,8 @@ void image_register_reply (
 		/* Add this contact */
 		/* initialise contact */
 		contact = [[AWEzvContact alloc] init];
-		[contact setUniqueID:replyNameString];
-		[contact setManager:self];
+		contact.uniqueID = replyNameString;
+		contact.manager = self;
 		/* save contact in dictionary */
 		[contacts setObject:contact forKey:replyNameString];
 		[contact autorelease];
@@ -521,15 +521,15 @@ void image_register_reply (
 	more:(boolean_t)moreToCome{
 
 	/* check that contact exists in dictionary */
-	if ([contacts objectForKey:[contact uniqueID]] == nil) {
-		NSString *uniqueID = [contact uniqueID];
+	if ([contacts objectForKey:contact.uniqueID] == nil) {
+		NSString *uniqueID = contact.uniqueID;
 		/* So they haven't been seen before... not to worry we'll add them */
-		if ([contact uniqueID] != nil) {
+		if (contact.uniqueID != nil) {
 			contact = [[AWEzvContact alloc] init];
-			[contact setUniqueID:uniqueID];
-			[contact setManager:self];
+			contact.uniqueID = uniqueID;
+			contact.manager = self;
 			/* save contact in dictionary */
-			[contacts setObject:contact forKey:[contact uniqueID]];
+			[contacts setObject:contact forKey:contact.uniqueID];
 			[contact autorelease];
 
 		} else {
@@ -545,12 +545,12 @@ void image_register_reply (
 	inet_ntop( AF_INET, buff, addrBuff, sizeof addrBuff);
 
 	ipAddr = [NSString stringWithCString:addrBuff encoding:NSUTF8StringEncoding];
-    range = [ipAddr rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
-    if (range.location == NSNotFound) {
-		[contact setIpaddr:ipAddr];
+	range = [ipAddr rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
+	if (range.location == NSNotFound) {
+		contact.ipAddr = ipAddr;
 	}
 
-	if (![contact ipaddr] || ![[contact ipaddr] length]) {
+	if (!contact.ipAddr || !contact.ipAddr.length) {
 		[[client client] reportError:@"ip address not set" ofLevel:AWEzvError];
 		[contact setStatus: AWEzvUndefined];
 	}
@@ -593,15 +593,15 @@ void image_register_reply (
 	NSNumber           *idleTime = nil;			/* idle time */
 
 	/* check that contact exists in dictionary */
-	if ([contacts objectForKey:[contact uniqueID]] == nil) {
-		NSString *uniqueID = [contact uniqueID];
+	if ([contacts objectForKey:contact.uniqueID] == nil) {
+		NSString *uniqueID = contact.uniqueID;
 		/* So they haven't been seen before... not to worry we'll add them */
-		if ([contact uniqueID] != nil) {
+		if (contact.uniqueID != nil) {
 			contact = [[AWEzvContact alloc] init];
-			[contact setUniqueID:uniqueID];
-			[contact setManager:self];
+			contact.uniqueID = uniqueID;
+			contact.manager = self;
 			/* save contact in dictionary */
-			[contacts setObject:contact forKey:[contact uniqueID]];
+			[contacts setObject:contact forKey:contact.uniqueID];
 			[contact autorelease];
 		} else {
 			[[client client] reportError:@"Contact to update not in dictionary and has bad identifier" ofLevel:AWEzvError];
@@ -616,7 +616,7 @@ void image_register_reply (
 		oldrendezvous = [contact rendezvous];
 		/* check serials */
 		if ([contact serial] > [contact serial]) {
-			/* AWEzvLog(@"Rendezvous update for %@ with lower serial, updating anyway", [contact uniqueID]); */
+			/* AWEzvLog(@"Rendezvous update for %@ with lower serial, updating anyway", contact.uniqueID); */
 			/* we'll update anyway, and hopefully we'll be back in sync with the network */
 		}
 	}
@@ -672,7 +672,7 @@ void image_register_reply (
 			DNSServiceErrorType err;
 			DNSServiceRef		serviceRef;
 
-			NSString *dnsname = [NSString stringWithFormat:@"%@%s", [contact uniqueID],"._presence._tcp.local."];
+			NSString *dnsname = [NSString stringWithFormat:@"%@%s", contact.uniqueID,"._presence._tcp.local."];
 			err = DNSServiceQueryRecord( &serviceRef, (DNSServiceFlags) 0, interface, [dnsname UTF8String], 
 			                            kDNSServiceType_NULL, kDNSServiceClass_IN, ImageQueryRecordReply, contact);
 			if ( err == kDNSServiceErr_NoError) {

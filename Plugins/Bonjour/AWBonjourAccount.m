@@ -124,7 +124,8 @@ enum {
 {
 	[super connect];
 
-	[[self libezvThreadProxy] setName:[self displayName]];
+	NSString *displayName = self.displayName;
+	[[self libezvThreadProxy] setName:displayName];
 	AILog(@"%@: Logging in using libezvThreadProxy %@",self, [self libezvThreadProxy]);
 	[[self libezvThreadProxy] login];
 }
@@ -224,7 +225,7 @@ enum {
 	              notify:NotifyLater];
 
 	//Use the contact alias as the serverside display name
-	contactName = [contact name];
+	contactName = contact.name;
 
 	if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:contactName]) {
 		[listContact setServersideAlias:contactName
@@ -280,7 +281,7 @@ enum {
 - (void)userLoggedOut:(AWEzvContact *)contact
 {
 	[self mainPerformSelector:@selector(mainThreadUserWithUIDLoggedOut:)
-	               withObject:[contact uniqueID]];
+	               withObject:contact.uniqueID];
 
 	[libezvContacts removeObject:contact];
 }
@@ -326,7 +327,7 @@ enum {
 - (void)user:(AWEzvContact *)contact sentMessage:(NSString *)message withHtml:(NSString *)html
 {
 	[self mainPerformSelector:@selector(mainThreadUserWithUID:sentMessage:withHtml:)
-	               withObject:[contact uniqueID]
+	               withObject:contact.uniqueID
 	               withObject:message
 	               withObject:html];
 }
@@ -348,7 +349,7 @@ enum {
 - (void)user:(AWEzvContact *)contact typingNotification:(AWEzvTyping)typingStatus
 {
 	[self mainPerformSelector:@selector(mainThreadUserWithUID:typingNotificationNumber:)
-	               withObject:[contact uniqueID]
+	               withObject:contact.uniqueID
 	               withObject:((typingStatus == AWEzvIsTyping) ? [NSNumber numberWithInt:AITyping] : nil)];
 }
 
@@ -563,7 +564,7 @@ enum {
 
 - (NSString *)UIDForContact:(AWEzvContact *)contact
 {
-	return [contact uniqueID];
+	return contact.uniqueID;
 }
 
 /*****************************************************/
@@ -661,7 +662,7 @@ enum {
 - (void)user:(AWEzvContact *)contact sentFile:(EKEzvFileTransfer *)fileTransfer
 {
 	[self mainPerformSelector:@selector(mainThreadUserWithUID:sentFile:)
-	               withObject:[contact uniqueID]
+	               withObject:contact.uniqueID
 	               withObject:fileTransfer];
 }
 

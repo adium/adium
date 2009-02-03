@@ -378,7 +378,7 @@
 - (NSString *)formattedUID
 {
 	NSString  *outName = [self valueForProperty:FormattedUID];
-    return outName ? outName : UID;	
+	return outName ? outName : UID;	
 }
 
 /*!

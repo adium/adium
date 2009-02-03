@@ -148,8 +148,8 @@
 		NSEnumerator *enumerator = [contacts objectEnumerator];
 
 		while ((contact = [enumerator nextObject])) {
-			AILog(@"%s: Searching contacts; rendezvous is %@ and ipaddr is %@", __PRETTY_FUNCTION__, [contact rendezvous], [contact ipaddr]);
-			if ([contact rendezvous] != nil && [[contact ipaddr] isEqualToString:ipAddr])
+			AILog(@"%s: Searching contacts; rendezvous is %@ and ipaddr is %@", __PRETTY_FUNCTION__, contact.rendezvous, contact.ipAddr);
+			if ([contact rendezvous] != nil && [contact.ipAddr isEqualToString:ipAddr])
 				break;
 		}
 		
@@ -159,7 +159,7 @@
 			 */
 			contact = [[AWEzvContact alloc] init];
 			
-			[contact setIpaddr:ipAddr];
+			contact.ipAddr = ipAddr;
 			
 			[contact setUniqueID:contactIdentifier];
 			[contact setManager:self];
@@ -178,7 +178,7 @@
 	
 	stream = [[AWEzvXMLStream alloc] initWithFileHandle:incomingConnection initiator:0];
 	[stream setDelegate:contact];
-	[contact setStream:stream];
+	contact.stream = stream;
 	[stream readAndParse];
 	[stream release];
 

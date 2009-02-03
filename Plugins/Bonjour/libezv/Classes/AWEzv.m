@@ -47,7 +47,7 @@
 @implementation AWEzv
 - (id) initWithClient:(id <AWEzvClientProtocol, NSObject>)newClient 
 {
-    if ((self = [super init])) {
+	if ((self = [super init])) {
 		client = newClient;
 		name = nil;
 		status = AWEzvUndefined;
@@ -60,7 +60,7 @@
 	//Ensure we log out before deallocing
 	[self logout];
 	
-    [manager release];	
+	[manager release];	
 	[super dealloc];
 }
 
@@ -75,7 +75,7 @@
 }
 
 - (void) setName:(NSString *)newName {
-    if (name != newName) {
+	if (name != newName) {
 		[name release];
 		name = [newName retain];
 		[manager updatedName];
