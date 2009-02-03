@@ -413,15 +413,7 @@
  */
 - (id)_noDefaultsPreferenceForKey:(NSString *)key group:(NSString *)group object:(AIListObject *)object
 {
-	id	result = [[self preferenceContainerForGroup:group object:object] valueForKey:key ignoringDefaults:YES];
-	
-	//If there is no object specific preference, inherit the value from the object containing this one
-	//XXX multiple containers
-	if (!result && object) {
-		return [self _noDefaultsPreferenceForKey:key group:group object:object.containingObject];
-	} else {
-		return result;
-	}
+	return [[self preferenceContainerForGroup:group object:object] valueForKey:key ignoringDefaults:YES];
 }
 
 /*!
@@ -429,15 +421,7 @@
  */
 - (id)defaultPreferenceForKey:(NSString *)key group:(NSString *)group object:(AIListObject *)object
 {
-	id	result = [[self preferenceContainerForGroup:group object:object] defaultValueForKey:key];
-
-	//If there is no object specific preference, inherit the value from the object containing this one
-	//XXX multiple containers
-	if (!result && object) {
-		return [self defaultPreferenceForKey:key group:group object:object.containingObject];
-	} else {
-		return result;
-	}	
+	return [[self preferenceContainerForGroup:group object:object] defaultValueForKey:key];
 }
 
 /*!
