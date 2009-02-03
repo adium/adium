@@ -196,9 +196,9 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 - (IBAction)registerNewAccount:(id)sender {
 	if(!servers) {
 		NSError *err = NULL;
-		NSXMLDocument *serverfeed = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
+		NSXMLDocument *serverfeed = [[[NSXMLDocument alloc] initWithContentsOfURL:[NSURL URLWithString:SERVERFEEDRSSURL]
 																		 options:0
-																		   error:&err];
+																		   error:&err] autorelease];
 		if(err) {
 			[[NSAlert alertWithError:err] runModal];
 		} else {
@@ -206,7 +206,6 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 			NSArray *items = [root elementsForName:@"item"];
 			
 			if(!root || !items || ![[root name] isEqualToString:@"query"]) {
-				[serverfeed release];
 				
 				[[NSAlert alertWithMessageText:AILocalizedString(@"Parse Error.",nil)
 								 defaultButton:AILocalizedString(@"OK",nil)
@@ -265,8 +264,6 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 						homepage, @"homepage", // might be nil
 						nil]];
 				}
-				
-				[serverfeed release];
 				
 				[(NSMutableArray*)servers sortUsingFunction:compareByDistance context:nil];
 				
