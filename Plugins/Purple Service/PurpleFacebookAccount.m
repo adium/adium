@@ -81,6 +81,8 @@
 	
 	if (prpl_info && prpl_info->status_text)
 		message = prpl_info->status_text(buddy);
+	else
+		message = NULL;
 
 	return (message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil);
 }
