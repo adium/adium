@@ -867,7 +867,7 @@
 }
 
 //Get an image representation of the chat
-- (NSImage *)tabView:(NSTabView *)tabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
+- (NSImage *)tabView:(NSTabView *)tabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned *)styleMask
 {
 	// grabs whole window image
 	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
@@ -1032,7 +1032,7 @@
 	[[tabView_messages tabViewItems] makeObjectsPerformSelector:@selector(tabViewDidChangeVisibility)];
 }
 
-- (CGFloat)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl
+- (float)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl
 {
 	return (lastTabBarWidth ? lastTabBarWidth : 120);
 }

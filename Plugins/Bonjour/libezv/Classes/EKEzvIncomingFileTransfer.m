@@ -342,7 +342,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 		[encodedDownloads addObject: [[download request] URL]];
 	}
 }
-- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(unsigned)length
+- (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
 	bytesReceived=bytesReceived+length;
 	percentComplete=((float)bytesReceived/(float)size);
