@@ -721,22 +721,9 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	NSString *group = nil;
 	NSString *internalObjectID = nil;
 
-	if (prefixRange.location == 0) {
-		group = [key substringFromIndex:prefixRange.length + 1];
-	} else {
-		prefixRange = [key rangeOfString:@"ByObject:" options:(NSLiteralSearch | NSAnchoredSearch)];
-		if (prefixRange.location == 0) {			 
-			 key = [key substringFromIndex:prefixRange.length + 1];
+	parseKeypath(keyPay, &group, NULL, &internalObjectID);
 
-			 NSRange nextPeriod = [key rangeOfString:@"." 
-											 options:NSLiteralSearch
-											   range:NSMakeRange(prefixRange.length, [key length] - prefixRange.length)];
-			internalObjectID = [key substringToIndex:nextPeriod.location - 1];
-			group = [key substringFromIndex:nextPeriod.location + 1];			
-		}
-	}
-
-	[[self preferenceContainerForGroup:key object:nil] setPreferences:value];
+	[[self preferenceContainerForGroup:group object:internalObjectID] setPreferences:value];
 }
 
 /* 
