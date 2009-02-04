@@ -66,7 +66,7 @@
 - (void)setServersideIconData:(NSData *)iconData notify:(NotifyTiming)notify;
 
 - (void)setWarningLevel:(int)warningLevel notify:(NotifyTiming)notify;
-- (int)warningLevel;
+- (NSInteger)warningLevel;
 
 - (void)setProfileArray:(NSArray *)array notify:(NotifyTiming)notify;
 - (void)setProfile:(NSAttributedString *)profile notify:(NotifyTiming)notify;

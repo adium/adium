@@ -587,10 +587,10 @@ static int nextChatNumber = 0;
 }
 
 //Not used
-- (CGFloat)smallestOrder { return 0; }
-- (CGFloat)largestOrder { return 1E10; }
-- (CGFloat)orderIndexForObject:(AIListObject *)listObject { return 0; }
-- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(CGFloat)inOrderIndex {};
+- (float)smallestOrder { return 0; }
+- (float)largestOrder { return 1E10; }
+- (float)orderIndexForObject:(AIListObject *)listObject { return 0; }
+- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex {};
 
 
 #pragma mark	

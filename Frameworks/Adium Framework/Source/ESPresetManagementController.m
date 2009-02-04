@@ -145,7 +145,7 @@
  */
 - (IBAction)duplicatePreset:(id)sender
 {
-	int selectedRow = [tableView_presets selectedRow];
+	NSInteger selectedRow = [tableView_presets selectedRow];
 	if (selectedRow != -1) {
 		id duplicatePreset, selectedPreset;
 		NSInteger duplicatePresetIndex;
@@ -189,7 +189,7 @@
  */
 - (IBAction)deletePreset:(id)sender
 {
-	int selectedRow = [tableView_presets selectedRow];
+	NSInteger selectedRow = [tableView_presets selectedRow];
 	if (selectedRow != -1) {
 		//Abort any editing before continuing
 		[tableView_presets abortEditing];
@@ -214,7 +214,7 @@
  */
 - (IBAction)renamePreset:(id)sender
 {
-	int selectedRow = [tableView_presets selectedRow];
+	NSInteger selectedRow = [tableView_presets selectedRow];
 	if (selectedRow != -1) {
 		[tableView_presets editColumn:0 row:selectedRow withEvent:nil select:YES];
 	}
@@ -225,7 +225,7 @@
  */
 - (void)configureControlDimming
 {
-	int selectedRow = [tableView_presets selectedRow];
+	NSInteger selectedRow = [tableView_presets selectedRow];
 	
 	if (selectedRow != -1) {
 		id	preset = [presets objectAtIndex:selectedRow];
@@ -254,7 +254,7 @@
 /*!
  * @brief Number of rows
  */
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [presets count];
 }
@@ -262,7 +262,7 @@
 /*!
  * @brief Table values
  */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	id	preset = [presets objectAtIndex:row];
 
@@ -276,7 +276,7 @@
 	return @"";
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(int)row
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)row
 {
 	if ([anObject isKindOfClass:[NSString class]]) {
 		id			preset = [presets objectAtIndex:row];
@@ -331,7 +331,7 @@
 {
 	if ([delegate respondsToSelector:@selector(movePreset:toIndex:inPresets:presetAfterMove:)]) {
 		[tempDragPreset release];
-		tempDragPreset = [[presets objectAtIndex:[[rows objectAtIndex:0] intValue]] retain];
+		tempDragPreset = [[presets objectAtIndex:[[rows objectAtIndex:0] integerValue]] retain];
 		
 		[pboard declareTypes:[NSArray arrayWithObject:PRESET_DRAG_TYPE] owner:self];
 		[pboard setString:@"Preset" forType:PRESET_DRAG_TYPE]; //Arbitrary state
@@ -345,7 +345,7 @@
 /*!
  * @brief Drag validate
  */
-- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(int)row proposedDropOperation:(NSTableViewDropOperation)op
+- (NSDragOperation)tableView:(NSTableView*)tv validateDrop:(id <NSDraggingInfo>)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)op
 {
     if (op == NSTableViewDropAbove && row != -1) {
         return NSDragOperationPrivate;
@@ -357,7 +357,7 @@
 /*!
  * @brief Drag complete
  */
-- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(int)row dropOperation:(NSTableViewDropOperation)op
+- (BOOL)tableView:(NSTableView*)tv acceptDrop:(id <NSDraggingInfo>)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)op
 {
     NSString	*availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:PRESET_DRAG_TYPE]];
 	BOOL		success = NO;

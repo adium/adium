@@ -163,12 +163,12 @@
 
 //Sizing -----------------------------------------------------------------------------------------------------
 // Returns our desired size
-- (int)desiredHeight
+- (NSInteger)desiredHeight
 {
 	return ([self totalHeight] + desiredHeightPadding);
 }
 
-- (int)desiredWidth
+- (NSInteger)desiredWidth
 {
 	unsigned	row;
 	unsigned	numberOfRows = [self numberOfRows];

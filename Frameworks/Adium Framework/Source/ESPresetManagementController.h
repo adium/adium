@@ -42,7 +42,7 @@
 
 @interface NSObject (ESPresetManagementControllerDelegate_Optional)
 - (NSArray *)movePreset:(NSDictionary *)preset
-				toIndex:(int)index
+				toIndex:(NSUInteger)index
 			  inPresets:(NSArray *)presets
 		presetAfterMove:(id *)presetAfterMove;
 - (BOOL)allowDeleteOfPreset:(NSDictionary *)preset;

@@ -51,13 +51,7 @@
 		[self.delegate fontPreviewField:self didChangeToFont:font];
 }
 
-#ifndef MAC_OS_X_VERSION_10_3
-#define NSFontPanelStandardModesMask 0
-#define NSFontPanelSizeModeMask 0
-#define NSFontPanelFaceModeMask 0
-#endif
-
-- (unsigned int) validModesForFontPanel:(NSFontPanel *) fontPanel
+- (NSUInteger) validModesForFontPanel:(NSFontPanel *) fontPanel
 {
 	unsigned int ret = NSFontPanelStandardModesMask;
 	if (!_showPointSize) ret ^= NSFontPanelSizeModeMask;
