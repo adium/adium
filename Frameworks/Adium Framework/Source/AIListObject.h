@@ -63,8 +63,8 @@ typedef enum {
 
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID;
 
-@property (readonly, nonatomic) CGFloat smallestOrder;
-@property (readonly, nonatomic) CGFloat largestOrder;
+@property (readonly, nonatomic) float smallestOrder;
+@property (readonly, nonatomic) float largestOrder;
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
 

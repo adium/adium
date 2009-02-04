@@ -559,7 +559,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return [services autorelease];
 }
 
-- (unsigned)uniqueContainedObjectsCount
+- (NSUInteger)uniqueContainedObjectsCount
 {
 	return [self.uniqueContainedObjects count];
 }
@@ -1034,7 +1034,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 /*!
  * @brief Returns the number of visible objects in this metaContact, which is the same as the count of listContacts
  */
-- (unsigned)visibleCount
+- (NSUInteger)visibleCount
 {
 	return [self.visibleListContacts count];
 }

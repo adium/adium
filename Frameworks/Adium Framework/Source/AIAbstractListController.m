@@ -592,7 +592,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //Outline View data source ---------------------------------------------------------------------------------------------
 #pragma mark Outline View data source
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (item) {
 		return [item visibleObjectAtIndex:index];
@@ -605,7 +605,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return contactList;
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	if (item) {
 		return ((AIListObject<AIContainingObject> *)item).visibleCount;
@@ -709,7 +709,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return [self contextualMenuForListObject:listObject];
 }
 
-- (float)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
 	return ([self outlineView:outlineView isGroup:item] ? [groupCell cellSize].height : [contentCell cellSize].height);
 }
@@ -837,7 +837,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return YES;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(int)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {	
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
 	[adium.notificationCenter postNotificationName:@"AIListControllerDragEnded"
@@ -857,7 +857,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  * @param index The index within item into which the drag would currently drop. It may be a 0-based index inside item or may be NSOutlineViewDropOnItemIndex.
  * @result The drag operation we will allow
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(int)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {	
 	return NSDragOperationMove;
 }

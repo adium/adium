@@ -39,7 +39,7 @@
 #define	EVENT_COLUMN_INDEX		1
 
 @interface ESContactAlertsViewController ()
-- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(int)column ofRow:(int)row;
+- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(NSInteger)column ofRow:(NSInteger)row;
 - (void)configureEventSummaryOutlineView;
 - (void)reloadSummaryData;
 - (void)deleteContactActionsInArray:(NSArray *)contactEventArray;
@@ -543,7 +543,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	}
 }
 
-- (id)outlineView:(NSOutlineView *)inOutlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (item == nil) item = contactAlertsActions;
 	
@@ -555,7 +555,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	}
 }
 
-- (int)outlineView:(NSOutlineView *)inOutlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)inOutlineView numberOfChildrenOfItem:(id)item
 {
 	if (item == nil) {
 		return [contactAlertsActions count];
@@ -732,9 +732,9 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 }
 
 //Each row should be tall enough to fit its event and action descriptions as necessary
-- (float)outlineView:(NSOutlineView *)inOutlineView heightOfRowByItem:(id)item
+- (CGFloat)outlineView:(NSOutlineView *)inOutlineView heightOfRowByItem:(id)item
 {	
-	float	necessaryHeight;
+	CGFloat	necessaryHeight;
 
 	if ([contactAlertsActions containsObjectIdenticalTo:item]) {
 		NSNumber *cachedHeight = [requiredHeightDict objectForKey:[NSValue valueWithPointer:item]];
@@ -747,7 +747,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	return necessaryHeight;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(int)column ofRow:(int)row
+- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(NSInteger)column ofRow:(NSInteger)row
 {
 	if (column == 1) {
 		if ([outlineView_summary levelForRow:row] > 0) {

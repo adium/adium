@@ -52,8 +52,8 @@ typedef enum {
 	NSArray				*draggedItems;
 }
 
-@property (readonly, nonatomic) int desiredHeight;
-@property (readonly, nonatomic) int desiredWidth;
+@property (readonly, nonatomic) NSInteger desiredHeight;
+@property (readonly, nonatomic) NSInteger desiredWidth;
 - (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth;
 - (void)setDesiredHeightPadding:(int)inPadding;
 

@@ -181,7 +181,7 @@ typedef enum {
 
 // This method will be called after a RBSplitView is resized with setFrameSize: but before
 // adjustSubviews is called on it.
-- (void)splitView:(RBSplitView*)sender wasResizedFrom:(float)oldDimension to:(float)newDimension;
+- (void)splitView:(RBSplitView*)sender wasResizedFrom:(CGFloat)oldDimension to:(float)newDimension;
 
 // This method will be called when a divider is double-clicked and both leading and trailing
 // subviews can be collapsed. Return either of the parameters to collapse that subview, or nil
