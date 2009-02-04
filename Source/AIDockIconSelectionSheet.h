@@ -15,10 +15,11 @@
  */
 
 #import <Adium/AIWindowController.h>
+#import <AIUtilities/AIImageGridView.h>
 
-@class AIIconState, AIImageGridView;
+@class AIIconState;
 
-@interface AIDockIconSelectionSheet : AIWindowController {
+@interface AIDockIconSelectionSheet : AIWindowController <AIImageGridViewDelegate> {
 	IBOutlet	AIImageGridView	*imageGridView_icons;
     NSMutableArray				*iconArray;
 

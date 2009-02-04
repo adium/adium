@@ -6,10 +6,11 @@
 //
 
 #import <Adium/AIWindowController.h>
+#import <AIUtilities/AIImageGridView.h>
 
 @class AIImageGridView, AIColoredBoxView, AIMenuItemView, AIContactListImagePicker;
 
-@interface AIContactListRecentImagesWindowController : AIWindowController {
+@interface AIContactListRecentImagesWindowController : AIWindowController <AIImageGridViewDelegate> {
 	IBOutlet	AIImageGridView	 *imageGridView;
 	IBOutlet	AIColoredBoxView *coloredBox;
 	IBOutlet	AIMenuItemView	 *menuItemView;
