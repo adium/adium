@@ -239,7 +239,7 @@
 	return [iconArray count];
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSInteger)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index
 {
 	if (index == animatedIndex) {
 		return [animatedIconState image];

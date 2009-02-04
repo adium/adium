@@ -153,7 +153,7 @@
 	return 0;
 }
 
-- (int)intValue
+- (NSInteger)intValue
 {
 	int count;
 	if (ownerArray && (count = [ownerArray count])) {

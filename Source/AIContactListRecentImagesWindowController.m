@@ -114,7 +114,7 @@
 	[window setFrame:frame display:NO animate:NO];	
 }
 
-- (NSInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
+- (NSUInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
 {
 	return 10;
 }
@@ -129,7 +129,7 @@
 	return [[(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures] valueForKey:@"smallIcon"];
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSInteger)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index
 {
 	NSImage		*displayImage;
 	NSArray		*recentSmallIcons = [self recentSmallIcons];
@@ -171,7 +171,7 @@
 	return [displayImage autorelease];
 }
 
-- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(NSInteger)index
+- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index
 {
 	//Update our hovered index and redisplay the image
 	currentHoveredIndex = index;
