@@ -397,7 +397,7 @@
 	return [plugin storedEventPresetsArray];
 }
 
-- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(NSInteger)index inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
+- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(NSUInteger)index inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
 {
 	NSMutableDictionary	*newEventPreset = [preset mutableCopy];
 	CGFloat newOrderIndex;

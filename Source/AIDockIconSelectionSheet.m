@@ -234,7 +234,7 @@
 
 //ImageGridView Delegate -----------------------------------------------------------------------------------------------
 #pragma mark ImageGridView Delegate
-- (NSInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
+- (NSUInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView
 {
 	return [iconArray count];
 }
@@ -257,7 +257,7 @@
 		[adium.preferenceController setPreference:iconName forKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE];
 }
 
-- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSInteger)index
+- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index
 {
 	[self setAnimatedDockIconAtIndex:index];
 }
