@@ -153,12 +153,13 @@ Adium, Copyright 2001-2005, Adam Iser
 @end
 
 //AIImageGridView delegate methods.  These are very similar to NSTableView.
-@interface NSObject (AIImageGridViewDelegate)
-- (int)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView;
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(int)index;
-- (BOOL)imageGridView:(AIImageGridView *)imageGridView shouldSelectIndex:(int)index;			//Optional
-- (void)imageGridViewDeleteSelectedImage:(AIImageGridView *)imageGridView;						//Optional
-- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(int)index;	//Optional
+@protocol AIImageGridViewDelegate
+- (NSUInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView;
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index;
+@optional
+- (BOOL)imageGridView:(AIImageGridView *)imageGridView shouldSelectIndex:(NSUInteger)index;
+- (void)imageGridViewDeleteSelectedImage:(AIImageGridView *)imageGridView;
+- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index;
 @end
 
 //Notifications.  These are automatically sent to the delegate.
