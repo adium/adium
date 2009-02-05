@@ -15,10 +15,11 @@
  */
  
 #import <Adium/AIWindowController.h>
+#import <Adium/AIContactMenu.h>
 
-@class AIService, AIChat, AIListContact, AIContactMenu;
+@class AIService, AIChat, AIListContact;
 
-@interface DCInviteToChatWindowController : AIWindowController {	
+@interface DCInviteToChatWindowController : AIWindowController <AIContactMenuDelegate> {	
 	IBOutlet	NSPopUpButton   *menu_contacts;
 	IBOutlet	NSTextField		*textField_message;
 	IBOutlet	NSTextField		*textField_chatName;

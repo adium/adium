@@ -11,10 +11,12 @@
 
 @class AIAccount, AIListContact, AIListObject;
 
+@protocol AIContactMenuDelegate;
+
 @interface AIContactMenu : AIAbstractListObjectMenu <AIListObjectObserver> {
 	AIListObject			*containingObject;
 	
-	id						delegate;
+	id<AIContactMenuDelegate>						delegate;
 	BOOL					delegateRespondsToDidSelectContact;
 	BOOL					delegateRespondsToShouldIncludeContact;	
 	BOOL					delegateRespondsToValidateContact;
@@ -24,20 +26,21 @@
 	BOOL					shouldSetTooltip;
 }
 
-+ (id)contactMenuWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
++ (id)contactMenuWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
 
-@property (readwrite, nonatomic, assign) id delegate;
+@property (readwrite, nonatomic, assign) id<AIContactMenuDelegate> delegate;
 
 @end
 
-@interface NSObject (AIContactMenuDelegate)
+@protocol AIContactMenuDelegate <NSObject>
 - (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems;
-- (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact; //Optional
-- (AIListContact *)contactMenu:(AIContactMenu *)inContactMenu validateContact:(AIListContact *)inContact; //Optional
-- (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact; //Optional
-- (BOOL)contactMenuShouldUseUserIcon:(AIContactMenu *)inContactMenu; //Optional
-- (BOOL)contactMenuShouldSetTooltip:(AIContactMenu *)inContactMenu; //Optional
+@optional
+- (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact; 
+- (AIListContact *)contactMenu:(AIContactMenu *)inContactMenu validateContact:(AIListContact *)inContact; 
+- (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact; 
+- (BOOL)contactMenuShouldUseUserIcon:(AIContactMenu *)inContactMenu; 
+- (BOOL)contactMenuShouldSetTooltip:(AIContactMenu *)inContactMenu; 
 // Called on each rebuild:
-- (BOOL)contactMenuShouldDisplayGroupHeaders:(AIContactMenu *)inContactMenu; //Optional; only applies to contained groups
-- (BOOL)contactMenuShouldUseDisplayName:(AIContactMenu *)inContactMenu; //Optional
+- (BOOL)contactMenuShouldDisplayGroupHeaders:(AIContactMenu *)inContactMenu; //only applies to contained groups
+- (BOOL)contactMenuShouldUseDisplayName:(AIContactMenu *)inContactMenu; 
 @end

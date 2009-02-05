@@ -9,10 +9,11 @@
 #import <Adium/AIWindowController.h>
 #import <AIUtilities/AIAlternatingRowTableView.h>
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIAccountMenu.h>
 
-@class AIListContact, AIAccount, AICompletingTextField, AIAccountMenu;
+@class AIListContact, AIAccount, AICompletingTextField;
 
-@interface RAFBlockEditorWindowController : AIWindowController <AIListObjectObserver> {
+@interface RAFBlockEditorWindowController : AIWindowController <AIListObjectObserver, AIAccountMenuDelegate> {
 	IBOutlet NSWindow			*window;
 	IBOutlet NSTableView		*table;
 

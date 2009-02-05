@@ -18,12 +18,13 @@
 #import "AISideSplitView.h"
 #import "KNShelfSplitView.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/AIMessageEntryTextView.h>
 
-@class AIAccount, AIListContact, AIListObject, AIAccountSelectionView, AIMessageTabSplitView, AIMessageEntryTextView;
+@class AIAccount, AIListContact, AIListObject, AIAccountSelectionView, AIMessageTabSplitView;
 @class AIMessageWindowController, AIMessageWindowOutgoingScrollView;
 @class RBSplitView;
 
-@interface AIMessageViewController : NSObject <AIListControllerDelegate, AIChatViewController> {
+@interface AIMessageViewController : NSObject <AIListControllerDelegate, AIChatViewController, AIMessageEntryTextViewDelegate> {
     IBOutlet	NSView			*view_contents;
 	
 	//Split views

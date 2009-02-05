@@ -25,8 +25,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/AIAccountMenu.h>
-#import <Adium/AIContactMenu.h>
 #import <Adium/AIService.h>
 
 @interface ESSendMessageAlertDetailPane ()

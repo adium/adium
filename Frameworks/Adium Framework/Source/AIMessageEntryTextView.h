@@ -21,6 +21,16 @@
 
 @class AIListContact, AIAccount, AIChat;
 
+@protocol AIMessageEntryTextViewDelegate <NSObject>
+@optional
+/*!
+ * @brief Should the tab key trigger an autocomplete?
+ */
+- (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView;
+
+- (void)textViewDidCancel:(NSTextView *)inTextView;
+@end
+
 @interface AISimpleTextView : NSView {
 	NSAttributedString *string;
 }
@@ -29,38 +39,39 @@
 
 
 @interface AIMessageEntryTextView : AISendingTextView <AITextEntryView, AIListObjectObserver> {
-    AIChat				*chat;
-    
-    BOOL                 clearOnEscape;
+	AIChat				*chat;
+
+	BOOL                 clearOnEscape;
 	BOOL				 historyEnabled;
-    BOOL                 pushPopEnabled;
+	BOOL                 pushPopEnabled;
 	BOOL				 homeToStartOfLine;
 	BOOL				 enableTypingNotifications;
 
-    NSMutableArray		*historyArray;
-    int                  currentHistoryLocation;
+	NSMutableArray		*historyArray;
+	int                  currentHistoryLocation;
 
-    NSMutableArray		*pushArray;
-    BOOL                 pushIndicatorVisible;
-    NSButton			*pushIndicator;
-    NSMenu              *pushMenu;
-    NSDictionary		*defaultTypingAttributes;
-	
-    NSSize               lastPostedSize;
-    NSSize               _desiredSizeCached;
+	NSMutableArray		*pushArray;
+	BOOL                 pushIndicatorVisible;
+	NSButton			*pushIndicator;
+	NSMenu              *pushMenu;
+	NSDictionary		*defaultTypingAttributes;
+
+	NSSize               lastPostedSize;
+	NSSize               _desiredSizeCached;
 	BOOL				 resizing;
-    
-    NSView              *associatedView;
-	
+
+	NSView              *associatedView;
+
 	AISimpleTextView	*characterCounter;
 	int					maxCharacters;
 }
 
+@property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
+
 //Configure
-- (void)setClearOnEscape:(BOOL)inBool;
-- (void)setHomeToStartOfLine:(BOOL)inBool;
-- (void)setAssociatedView:(NSView *)inView;
-- (NSView *)associatedView;
+@property (readwrite, nonatomic) BOOL clearOnEscape;
+@property (readwrite, nonatomic) BOOL homeToStartOfLine;
+@property (readwrite, retain, nonatomic) NSView *associatedView;
 
 //Adium Text Entry
 - (void)setAttributedString:(NSAttributedString *)inAttributedString;
@@ -70,16 +81,15 @@
 - (NSSize)desiredSize;
 
 //Context
-- (void)setChat:(AIChat *)inChat;
-- (AIChat *)chat;
-- (AIListContact *)listObject;
+@property (readwrite, retain, nonatomic) AIChat *chat;
+@property (readonly, nonatomic) AIListContact *listObject;
 
 //Paging
 - (void)scrollPageUp:(id)sender;
 - (void)scrollPageDown:(id)sender;
 
 //History
-- (void)setHistoryEnabled:(BOOL)inHistoryEnabled;
+@property (readwrite, nonatomic) BOOL historyEnabled;
 - (void)historyUp;
 - (void)historyDown;
 
@@ -89,15 +99,4 @@
 - (void)popContent;
 - (void)swapContent;
 
-@end
-
-@interface NSObject (AIMessageEntryTextViewDelegate)
-/*!
- * @brief Should the tab key trigger an autocomplete?
- *
- * Implementation is optional.
- */
-- (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView;
-
-- (void)textViewDidCancel:(NSTextView *)inTextView;
 @end

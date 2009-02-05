@@ -16,11 +16,12 @@
 
 #import <AIUtilities/AIRolloverButton.h>
 #import "AIListWindowController.h"
+#import <Adium/AIStatusMenu.h>
 
 #define ALL_OTHER_ACCOUNTS AILocalizedString(@"All Other Accounts", nil)
 
 @protocol StateMenuPlugin;
-@class AIAccount, AIStatusMenu, AIHoveringPopUpButton, AIContactListNameButton, AIContactListImagePicker;
+@class AIAccount, AIHoveringPopUpButton, AIContactListNameButton, AIContactListImagePicker;
 
 typedef enum {
 	ContactListImagePickerOnLeft = 0,
@@ -29,7 +30,7 @@ typedef enum {
 	ContactListImagePickerHiddenOnRight,
 } ContactListImagePickerPosition;
 
-@interface AIStandardListWindowController : AIListWindowController <AIRolloverButtonDelegate> {
+@interface AIStandardListWindowController : AIListWindowController <AIRolloverButtonDelegate, AIStatusMenuDelegate> {
 	IBOutlet	NSView						*view_statusAndImage;
 	
 	IBOutlet	NSView						*view_nameAndStatusMenu;

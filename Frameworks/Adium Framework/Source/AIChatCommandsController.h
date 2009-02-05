@@ -16,7 +16,6 @@
 	IBOutlet				id								label_comment;
 	IBOutlet				AICompletingTextField			*textField_target;
 	IBOutlet				NSTextField						*textField_comment;
-	id								delegate;
 	NSMutableDictionary				*parameters;
 	NSMutableString					*nibToLoad;
 	AIChatCommandsController *newChatCommandsController;
@@ -28,8 +27,3 @@
 -(IBAction)cancel:(id)sender;
 
 @end
-
-@interface NSObject (AIChatCommandsControllerDelegate)
-- (void)executeCommandWithParameters:(NSDictionary *)paramters;
-@end
-

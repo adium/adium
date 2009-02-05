@@ -15,10 +15,12 @@
  */
 
 #import <Adium/AIActionDetailsPane.h>
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
 
-@class AIAccountMenu, AIContactMenu, AIListContact;
+@class AIListContact;
 
-@interface ESSendMessageAlertDetailPane : AIActionDetailsPane {
+@interface ESSendMessageAlertDetailPane : AIActionDetailsPane <AIAccountMenuDelegate, AIContactMenuDelegate> {
 	IBOutlet	NSPopUpButton   	*popUp_messageFrom;
 	IBOutlet	NSPopUpButton   	*popUp_messageTo;
     IBOutlet	NSButton			*button_useAnotherAccount;

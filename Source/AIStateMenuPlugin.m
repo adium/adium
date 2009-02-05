@@ -19,10 +19,8 @@
 #import <Adium/AIEditStateWindowController.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIAccountMenu.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
-#import <Adium/AIStatusMenu.h>
 #import <Adium/AISocialNetworkingStatusMenu.h>
 #import <AIUtilities/AIMenuAdditions.h>
 

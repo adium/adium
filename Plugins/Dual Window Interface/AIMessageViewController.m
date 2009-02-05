@@ -41,7 +41,6 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListOutlineView.h>
-#import <Adium/AIMessageEntryTextView.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIServiceIcons.h>
 

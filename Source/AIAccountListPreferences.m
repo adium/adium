@@ -30,7 +30,6 @@
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIAccountMenu.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatusMenu.h>

@@ -15,7 +15,7 @@
 #import <Adium/AIListGroup.h>
 
 @interface AIContactMenu ()
-- (id)initWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
+- (id)initWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
 - (NSArray *)contactMenusForListObjects:(NSArray *)listObjects;
 - (NSArray *)listObjectsForMenuFromArrayOfListObjects:(NSArray *)listObjects;
 - (void)_updateMenuItem:(NSMenuItem *)menuItem;
@@ -28,7 +28,7 @@
  * @param inDelegate Delegate in charge of adding menu items
  * @param inContainingObject Containing contact whose contents will be displayed in the menu, nil for all contacts/groups
  */
-+ (id)contactMenuWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject
++ (id)contactMenuWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject
 {
 	return [[[self alloc] initWithDelegate:inDelegate forContactsInObject:inContainingObject] autorelease];
 }
@@ -38,7 +38,7 @@
  * @param inDelegate Delegate in charge of adding menu items
  * @param inContainingObject Containing contact whose contents will be displayed in the menu, nil for all contacts/groups
  */
-- (id)initWithDelegate:(id)inDelegate forContactsInObject:(AIListObject *)inContainingObject
+- (id)initWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject
 {
 	if ((self = [super init])) {
 		[self setDelegate:inDelegate];

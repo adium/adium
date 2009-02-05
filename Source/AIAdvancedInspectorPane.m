@@ -7,7 +7,6 @@
 //
 
 #import "AIAdvancedInspectorPane.h"
-#import <Adium/AIAccountMenu.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>

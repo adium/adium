@@ -230,6 +230,7 @@ typedef enum {
  * gets an opportunity to suppress sending the autoreply, e.g. on the basis of the message's content or source.
  */
 - (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message;
+- (void)executeCommandWithParameters:(NSDictionary *)parameters;
 
 //Presence Tracking
 @property (readonly, nonatomic) BOOL contactListEditable;

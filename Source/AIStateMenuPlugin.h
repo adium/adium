@@ -16,10 +16,10 @@
 
 #import <Adium/AIPlugin.h>
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIStatusMenu.h>
 
-@class AIAccountMenu, AIStatusMenu;
-
-@interface AIStateMenuPlugin : AIPlugin <AIListObjectObserver> {
+@interface AIStateMenuPlugin : AIPlugin <AIListObjectObserver, AIAccountMenuDelegate, AIStatusMenuDelegate> {
 	NSMenuItem		*dockStatusMenuRoot;
 	AIAccountMenu	*accountMenu;
 	AIStatusMenu	*statusMenu;

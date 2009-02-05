@@ -25,8 +25,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
-#import <Adium/AIAccountMenu.h>
-#import <Adium/AIContactMenu.h>
 #import <Adium/AIChat.h>
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
 

@@ -32,9 +32,6 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AIStatusMenu.h>
-#import <Adium/AIAccountMenu.h>
-#import <Adium/AIContactMenu.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIPreferenceControllerProtocol.h>

@@ -18,7 +18,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>
-#import "AIAccountMenu.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 
