@@ -200,7 +200,16 @@
     [super dealloc];
 }
 
-//
+- (void) setDelegate:(id<AIMessageEntryTextViewDelegate>)del
+{
+	super.delegate = del;
+}
+
+- (id<AIMessageEntryTextViewDelegate>)delegate
+{
+	return super.delegate;
+}
+
 - (void)keyDown:(NSEvent *)inEvent
 {
 	NSString *charactersIgnoringModifiers = [inEvent charactersIgnoringModifiers];
@@ -368,29 +377,7 @@
 
 //Configure ------------------------------------------------------------------------------------------------------------
 #pragma mark Configure
-//Set clears entered text on escape
-- (void)setClearOnEscape:(BOOL)inBool
-{
-	clearOnEscape = inBool;
-}
-
-//Set to make home/end go to start/end of line instead of home/end of associated view
-- (void)setHomeToStartOfLine:(BOOL)inBool
-{
-	homeToStartOfLine = inBool;
-}
-
-//Associate a view with this text view for key forwarding
-- (void)setAssociatedView:(NSView *)inView
-{
-	if (inView != associatedView) {
-		[associatedView release];
-		associatedView = [inView retain];
-	}
-}
-- (NSView *)associatedView{
-	return associatedView;
-}
+@synthesize clearOnEscape, homeToStartOfLine, associatedView;
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
@@ -776,10 +763,7 @@
 
 //History --------------------------------------------------------------------------------------------------------------
 #pragma mark History
-- (void)setHistoryEnabled:(BOOL)inHistoryEnabled
-{
-	historyEnabled = inHistoryEnabled;
-}
+@synthesize historyEnabled;
 
 //Move up through the history
 - (void)historyUp

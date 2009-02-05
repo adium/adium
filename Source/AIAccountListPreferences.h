@@ -16,10 +16,11 @@
 
 #import <Adium/AIPreferencePane.h>
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIAccountMenu.h>
 
-@class AIAccountController, AIAccount, AIAutoScrollView, AIImageViewWithImagePicker, AIAccountMenu;
+@class AIAccountController, AIAccount, AIAutoScrollView, AIImageViewWithImagePicker;
 
-@interface AIAccountListPreferences : AIPreferencePane <AIListObjectObserver> {
+@interface AIAccountListPreferences : AIPreferencePane <AIListObjectObserver, AIAccountMenuDelegate> {
 	//Account list
     IBOutlet		NSScrollView			*scrollView_accountList;
     IBOutlet		NSTableView				*tableView_accountList;

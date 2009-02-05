@@ -15,10 +15,11 @@
  */
 
 #import <Adium/AIWindowController.h>
+#import <Adium/AIAccountMenu.h>
 
-@class AIListContact, AICompletingTextField, AIAccountMenu;
+@class AIListContact, AICompletingTextField;
 
-@interface AIAccountPlusFieldPromptController : AIWindowController {
+@interface AIAccountPlusFieldPromptController : AIWindowController <AIAccountMenuDelegate> {
     IBOutlet	AICompletingTextField	*textField_handle;
     IBOutlet	NSPopUpButton			*popUp_service;
 	

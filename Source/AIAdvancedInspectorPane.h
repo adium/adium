@@ -7,10 +7,11 @@
 //
 
 #import <AIContactInfoContentController.h>
+#import <Adium/AIAccountMenu.h>
 
-@class AIAccountMenu, AIAlternatingRowTableView;
+@class AIAlternatingRowTableView;
 
-@interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane> {
+@interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane, AIAccountMenuDelegate> {
 	IBOutlet	NSView							*inspectorContentView;
 	
 	IBOutlet	AIAlternatingRowTableView		*accountsTableView;

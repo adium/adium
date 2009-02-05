@@ -16,8 +16,10 @@
 
 #import <Adium/AIAbstractListObjectMenu.h>
 #import <Adium/AIContactObserverManager.h>
+#import <Adium/AIStatusMenu.h>
 
-@class AIAccount, AIStatusMenu;
+@class AIAccount;
+@protocol AIAccountMenuDelegate;
 
 typedef enum {
 	AIAccountNoSubmenu = 0,
@@ -25,8 +27,8 @@ typedef enum {
 	AIAccountOptionsSubmenu
 } AIAccountSubmenuType;
 
-@interface AIAccountMenu : AIAbstractListObjectMenu <AIListObjectObserver> {
-	id				delegate;
+@interface AIAccountMenu : AIAbstractListObjectMenu <AIListObjectObserver, AIStatusMenuDelegate> {
+	id<AIAccountMenuDelegate>				delegate;
 	BOOL			delegateRespondsToDidSelectAccount;
 	BOOL			delegateRespondsToShouldIncludeAccount;	
 
@@ -42,7 +44,7 @@ typedef enum {
 	AIStatusMenu	*statusMenu;
 }
 
-+ (id)accountMenuWithDelegate:(id)inDelegate
++ (id)accountMenuWithDelegate:(id<AIAccountMenuDelegate>)inDelegate
 				  submenuType:(AIAccountSubmenuType)inSubmenuType
 			   showTitleVerbs:(BOOL)inShowTitleVerbs;
 
@@ -52,30 +54,32 @@ typedef enum {
  */
 @property (readwrite, nonatomic) BOOL useSystemFont;
 
-@property (readwrite, nonatomic, assign) id delegate;
+@property (readwrite, nonatomic, assign) id<AIAccountMenuDelegate> delegate;
 
 - (NSMenuItem *)menuItemForAccount:(AIAccount *)account;
 
 @end
 
-@interface NSObject (AIAccountMenuDelegate)
+@protocol AIAccountMenuDelegate <NSObject>
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems;
-- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount; 	//Optional
-- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount; //Optional
+
+@optional
+- (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount; 	
+- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount; 
 
 /*!
  * @brief At what size will this menu be used?
  *
  * If not implemented, the default is NSRegularControlSize. NSMiniControlSize is not supported.
  */
-- (NSControlSize)controlSizeForAccountMenu:(AIAccountMenu *)inAccountMenu; //Optional
+- (NSControlSize)controlSizeForAccountMenu:(AIAccountMenu *)inAccountMenu; 
 
 //Should the account menu include a submenu of services for adding accounts?
-- (BOOL)accountMenuShouldIncludeAddAccountsMenu:(AIAccountMenu *)inAccountMenu;			//Optional
+- (BOOL)accountMenuShouldIncludeAddAccountsMenu:(AIAccountMenu *)inAccountMenu;			
 
 //Should the account menu include a "connect all" menu item?
-- (BOOL)accountMenuShouldIncludeConnectAllMenuItem:(AIAccountMenu *)inAccountMenu;			//Optional
+- (BOOL)accountMenuShouldIncludeConnectAllMenuItem:(AIAccountMenu *)inAccountMenu;			
 
 //Should the account menu include a submenu of 'disabled accounts'?
-- (BOOL)accountMenuShouldIncludeDisabledAccountsMenu:(AIAccountMenu *)inAccountMenu;			//Optional
+- (BOOL)accountMenuShouldIncludeDisabledAccountsMenu:(AIAccountMenu *)inAccountMenu;			
 @end

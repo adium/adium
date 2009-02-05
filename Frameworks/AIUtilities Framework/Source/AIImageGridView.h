@@ -18,6 +18,7 @@ Adium, Copyright 2001-2005, Adam Iser
 #define AIImageGridViewSelectionIsChangingNotification	@"AIImageGridViewSelectionIsChangingNotification"
 
 @class AIScaledImageCell;
+@protocol AIImageGridViewDelegate;
 
 /*!
  * @class AIImageGridView
@@ -30,7 +31,7 @@ Adium, Copyright 2001-2005, Adam Iser
  * and with neither horizontal nor vertical scrollers if you don't want there to be any scrolling.
  */
 @interface AIImageGridView : NSView {
-	id					delegate;
+	id<AIImageGridViewDelegate>			delegate;
 	AIScaledImageCell	*cell;
 	NSTrackingRectTag	trackingTag;
 	
@@ -51,20 +52,13 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 /*!
- * @brief Set the delegate for this view
+ * @brief The delegate for this view
  *
  * The delegate is informed of selection changes, cursor movement, and serves as the data source for the images
  * that will be displayed.
  * @param inDelegate Delegate and datasource 
  */
-- (void)setDelegate:(id)inDelegate;
-
-/*!
- * @brief Retrieve the delegate for this view
- *
- * @return the current delegate 
- */
-- (id)delegate;
+@property (readwrite, assign, nonatomic) id<AIImageGridViewDelegate> delegate;
 
 /*!
  * @brief Set the size images will display
@@ -153,17 +147,15 @@ Adium, Copyright 2001-2005, Adam Iser
 @end
 
 //AIImageGridView delegate methods.  These are very similar to NSTableView.
-@protocol AIImageGridViewDelegate
+@protocol AIImageGridViewDelegate <NSObject>
 - (NSUInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView;
 - (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index;
 @optional
 - (BOOL)imageGridView:(AIImageGridView *)imageGridView shouldSelectIndex:(NSUInteger)index;
 - (void)imageGridViewDeleteSelectedImage:(AIImageGridView *)imageGridView;
 - (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index;
-@end
 
 //Notifications.  These are automatically sent to the delegate.
-@interface NSObject(AIImageGridViewNotifications)
 - (void)imageGridViewSelectionDidChange:(NSNotification *)notification;
 - (void)imageGridViewSelectionIsChanging:(NSNotification *)notification;
 @end

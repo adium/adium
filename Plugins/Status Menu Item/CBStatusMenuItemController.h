@@ -18,8 +18,10 @@
 #import <Adium/AIContactObserverManager.h>
 #import "AIMenuBarIcons.h"
 #import "AIStatusItemView.h"
+#import <Adium/AIStatusMenu.h>
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
 
-@class AIAccountMenu, AIStatusMenu, AIContactMenu;
 @protocol AIListObjectObserver;
 
 /*!
@@ -27,7 +29,7 @@
  *
  * @brief Manages the Adium NSStatusItem
  */
-@interface CBStatusMenuItemController : NSObject <AIChatObserver, AIListObjectObserver>
+@interface CBStatusMenuItemController : NSObject <AIChatObserver, AIListObjectObserver, AIAccountMenuDelegate, AIStatusMenuDelegate, AIContactMenuDelegate>
 {
 	NSStatusItem            *statusItem;
 	AIStatusItemView		*statusItemView;

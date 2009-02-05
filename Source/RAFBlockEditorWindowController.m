@@ -13,7 +13,6 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIAccount.h>
-#import <Adium/AIAccountMenu.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListGroup.h>

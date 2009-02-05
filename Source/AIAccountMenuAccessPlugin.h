@@ -15,10 +15,9 @@
  */
 
 #import <Adium/AIPlugin.h>
+#import <Adium/AIAccountMenu.h>
 
-@class AIAccountMenu;
-
-@interface AIAccountMenuAccessPlugin : AIPlugin {
+@interface AIAccountMenuAccessPlugin : AIPlugin <AIAccountMenuDelegate> {
 	AIAccountMenu	*accountMenu;
 	NSMutableArray	*installedMenuItems;
 }

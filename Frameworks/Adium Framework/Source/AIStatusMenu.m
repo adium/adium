@@ -25,17 +25,17 @@
 #define STATE_TITLE_MENU_LENGTH		30
 
 @interface AIStatusMenu ()
-- (id)initWithDelegate:(id)inDelegate;
+- (id)initWithDelegate:(id<AIStatusMenuDelegate>)inDelegate;
 @end
 
 @implementation AIStatusMenu
 
-+ (id)statusMenuWithDelegate:(id)inDelegate
++ (id)statusMenuWithDelegate:(id<AIStatusMenuDelegate>)inDelegate
 {
 	return [[[self alloc] initWithDelegate:inDelegate] autorelease];
 }
 
-- (id)initWithDelegate:(id)inDelegate
+- (id)initWithDelegate:(id<AIStatusMenuDelegate>)inDelegate
 {
 	if ((self = [super init])) {
 		self.delegate = inDelegate;

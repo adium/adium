@@ -17,8 +17,8 @@
 
 #define CONTACT_ALERTS_DETAILS_FOR_HEADER_CHANGED	@"ContactAlertDetailsForHeaderChanged"
 
-@class AIVariableHeightFlexibleColumnsOutlineView, AIListObject, AIAutoScrollView;
-@class CSNewContactAlertWindowController;
+@class AIVariableHeightFlexibleColumnsOutlineView, AIListObject, AIAutoScrollView, CSNewContactAlertWindowController;
+@protocol ESContactAlertsViewControllerDelegate;
 
 @interface ESContactAlertsViewController : NSObject {
 	IBOutlet	NSView						*view;
@@ -37,7 +37,7 @@
     
 	AIListObject				*listObject;
 	
-	id							delegate;
+	id<ESContactAlertsViewControllerDelegate> delegate;
 	
 	BOOL						configureForGlobal;
 	BOOL						showEventsInEditSheet;
@@ -64,7 +64,7 @@
 
 @end
 
-@interface NSObject (ESContactAlertsViewControllerDelegate)
+@protocol ESContactAlertsViewControllerDelegate
 
 //Delegate is notified with the new and old alert dictionaries when the user makes a change
 - (void)contactAlertsViewController:(ESContactAlertsViewController *)inController

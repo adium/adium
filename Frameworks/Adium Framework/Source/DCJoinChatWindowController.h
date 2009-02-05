@@ -15,9 +15,11 @@
  */
 
 #import <Adium/AIWindowController.h>
-@class AILocalizationTextField, AILocalizationButton, AIListContact, DCJoinChatViewController, AIAccountMenu;
+#import <Adium/AIAccountMenu.h>
 
-@interface DCJoinChatWindowController : AIWindowController {	
+@class AILocalizationTextField, AILocalizationButton, AIListContact, DCJoinChatViewController;
+
+@interface DCJoinChatWindowController : AIWindowController <AIAccountMenuDelegate> {	
     IBOutlet		NSPopUpButton   *popUp_service;				//Account selector
     IBOutlet		NSView			*view_customView;			//View containing service-specific controls
 	

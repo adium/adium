@@ -5,19 +5,19 @@
 //  Created by Evan Schoenberg on 11/23/05.
 //
 
-
 @class AIStatusItem;
+@protocol AIStatusMenuDelegate;
 
 @interface AIStatusMenu : NSObject {
 	NSMutableArray	*menuItemArray;
 	NSMutableSet	*stateMenuItemsAlreadyValidated;
 
-	id				delegate;
+	id<AIStatusMenuDelegate>				delegate;
 }
 
-+ (id)statusMenuWithDelegate:(id)inDelegate;
++ (id)statusMenuWithDelegate:(id<AIStatusMenuDelegate>)inDelegate;
 
-@property (readwrite, nonatomic, assign) id delegate;
+@property (readwrite, nonatomic, assign) id<AIStatusMenuDelegate> delegate;
 
 - (void)delegateWillReplaceAllMenuItems;
 - (void)delegateCreatedMenuItems:(NSArray *)addedMenuItems;
@@ -28,10 +28,8 @@
 
 @end
 
-@interface NSObject (AIStatusMenuDelegate)
-//Required
+@protocol AIStatusMenuDelegate <NSObject>
 - (void)statusMenu:(AIStatusMenu *)statusMenu didRebuildStatusMenuItems:(NSArray *)inMenuItems;
-
-//Optional
+@optional
 - (void)statusMenu:(AIStatusMenu *)statusMenu willRemoveStatusMenuItems:(NSArray *)inMenuItems;
 @end

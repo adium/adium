@@ -15,8 +15,10 @@
  */
 
 #import <Adium/AIAdiumProtocol.h>
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
 
-@class AIChat, AIAccountMenu, AIContactMenu;
+@class AIChat;
 
 #define AIViewFrameDidChangeNotification	@"AIViewFrameDidChangeNotification"
 
@@ -25,7 +27,7 @@
  *	@par	This view contains two pop-up menus: One for accounts, and the other for contacts. It appears at the top of the chat window when the user double-clicks on a contact row in the contact list, and when the chat receives content from a different contact in the same metacontact as the existing current contact.
  */
 
-@interface AIAccountSelectionView : NSView {
+@interface AIAccountSelectionView : NSView <AIAccountMenuDelegate, AIContactMenuDelegate> {
 	NSPopUpButton		*popUp_accounts;
 	NSView				*box_accounts;
 

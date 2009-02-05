@@ -63,7 +63,7 @@ Adium, Copyright 2001-2005, Adam Iser
 #pragma mark Configuration
 
 //Set our delegate
-- (void)setDelegate:(id)inDelegate
+- (void)setDelegate:(id<AIImageGridViewDelegate>)inDelegate
 {
 	delegate = inDelegate;
 	
@@ -82,7 +82,7 @@ Adium, Copyright 2001-2005, Adam Iser
 	if (_respondsToImageHovered) [[self window] setAcceptsMouseMovedEvents:YES];
 	[self reloadData];
 }
-- (id)delegate
+- (id<AIImageGridViewDelegate>)delegate
 {
 	return delegate;
 }
