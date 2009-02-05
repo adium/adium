@@ -721,7 +721,7 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
 	NSString *group = nil;
 	NSString *internalObjectID = nil;
 
-	parseKeypath(keyPay, &group, NULL, &internalObjectID);
+	parseKeypath(key, &group, NULL, &internalObjectID);
 
 	[[self preferenceContainerForGroup:group object:internalObjectID] setPreferences:value];
 }
