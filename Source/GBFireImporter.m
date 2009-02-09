@@ -153,10 +153,8 @@
 	buddiesToContact = [[NSMutableDictionary alloc] init];
 	personLists = [[NSMutableArray alloc] init];
 
-	NSEnumerator *serviceEnum = [[adium.accountController services] objectEnumerator];
-	AIService *service = nil;
 	serviceDict = [[NSMutableDictionary alloc] init];
-	while ((service = [serviceEnum nextObject]) != nil)
+	for (AIService *service in adium.accountController.services)
 	{
 		[serviceDict setObject:service forKey:service.serviceID];
 	}
