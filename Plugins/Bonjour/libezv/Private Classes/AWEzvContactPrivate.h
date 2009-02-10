@@ -50,7 +50,9 @@
 
 - (void)createConnection;
 
+- (void) XMLReceived:(AWEzvXMLNode *)root;
 - (void) XMLReceivedMessage:(AWEzvXMLNode *)root;
+- (void) XMLReceivedIQ:(AWEzvXMLNode *)root;
 - (void) XMLCheckForEvent:(AWEzvXMLNode *)node;
 - (void) XMLCheckForOOB:(AWEzvXMLNode *)node;
 - (void)evaluteURLXML:(AWEzvXMLNode *)node;

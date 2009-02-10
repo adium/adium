@@ -375,59 +375,14 @@
 
 
 #pragma mark XML Handling
-- (void) XMLReceivedMessage:(AWEzvXMLNode *)root {
-	/* XXX This routine is rather ugly! */
-	AWEzvXMLNode    *node;
-	NSString	    *plaintext = nil;
-	NSString	    *html = nil;
+- (void) XMLReceived:(AWEzvXMLNode *)root {
+	if (root.type != AWEzvXMLElement)
+		return;
 	
 	/* parse incoming message */
-	if (([root type] == AWEzvXMLElement) && ([[root name] isEqualToString:@"message"])) {
-		if (([[root attributes] objectForKey:@"type"] != nil) && ([(NSString *)[[root attributes] objectForKey:@"type"] isEqualToString:@"chat"])) {
-			NSEnumerator	*objs = [[root children] objectEnumerator];
-			
-			while ((node = [objs nextObject])) {
-				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"body"])) {
-					NSEnumerator	*childs = [[node children] objectEnumerator];
-					
-					while ((node = [childs nextObject])) {
-						if ([node type] == AWEzvXMLText) {
-							plaintext = [node name];
-						}
-					}
-				}
-				
-				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"html"])) {
-					html = [node xmlString];
-					/* Fix iChat's sending of line-breaks as <br></br> by replacing <br></br> with <br /> */
-					NSMutableString *mutableHtml = [html mutableCopy];
-					[mutableHtml replaceOccurrencesOfString:@"<br></br>" withString:@"<br />" 
-													options:NSCaseInsensitiveSearch range:NSMakeRange(0, [mutableHtml length])];
-					html = [mutableHtml autorelease];
-				}
-				
-				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"x"])) {
-					[self XMLCheckForEvent:node];
-					[self XMLCheckForOOB:node];
-				}
-			}
-			
-		} else {
-			NSEnumerator	*objs = [[root children] objectEnumerator];
-			
-			while ((node = [objs nextObject])) {
-				if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"x"])) {
-					[self XMLCheckForEvent:node];
-					[self XMLCheckForOOB:node];
-				}
-			}
-		}
-		
-		/* if we've got a message then we can send it to the client to display */
-		if ([plaintext length] > 0)
-			[self.manager.client.client user:self sentMessage:plaintext withHtml:html];
-		
-	} else if (([root type] == AWEzvXMLElement) && ([[root name] isEqualToString:@"iq"])) {
+	if ([root.name isEqualToString:@"message"])
+		[self XMLReceivedMessage:root];
+	else if ([root.name isEqualToString:@"iq"]) {
 		/* We can also receive items such as 
 		 * <iq id="iChat_887C7BB4" type="set" to="erichjkr@erkreutzer">
 		 *   <query xmlns="jabber:iq:oob">
@@ -435,14 +390,52 @@
 		 *   </query>
 		 * </iq>
 		 */
-		NSEnumerator	*objs = [[root children] objectEnumerator];
+		[self XMLReceivedIQ:root];
+	}
+}
+
+- (void) XMLReceivedMessage:(AWEzvXMLNode *)root {
+	NSString	    *plaintext = nil;
+	NSString	    *html = nil;
+	
+	for (AWEzvXMLNode *node in root.children) {
 		
-		while ((node = [objs nextObject])) {
-			if (([node type] == AWEzvXMLElement) && ([[node name] isEqualToString:@"query"])) {
-				[self XMLCheckForOOB:node];
+		if (node.type != AWEzvXMLElement)
+			continue;
+		
+		NSString *type = [root.attributes objectForKey:@"type"];
+		
+		if (type && ([type isEqualToString:@"chat"])) {
+			
+			if ([node.name isEqualToString:@"body"]) {
+				for (AWEzvXMLNode *child in node.children) {
+					if (child.type == AWEzvXMLText)
+						plaintext = child.name;
+				}
+			} else if ([node.name isEqualToString:@"html"]) {
+				/* Fix iChat's sending of line-breaks as <br></br> by replacing <br></br> with <br /> */
+				NSString *xmlString = [node xmlString];
+				html = [xmlString stringByReplacingOccurrencesOfString:@"<br></br>" withString:@"<br />" options:NSCaseInsensitiveSearch range:NSMakeRange(0, xmlString.length)];
 			}
+		
 		}
 		
+		if ([node.name isEqualToString:@"x"]) {
+			[self XMLCheckForEvent:node];
+			[self XMLCheckForOOB:node];
+		}
+	}
+	
+	/* if we've got a message then we can send it to the client to display */
+	if (plaintext.length > 0)
+		[self.manager.client.client user:self sentMessage:plaintext withHtml:html];
+}
+
+- (void) XMLReceivedIQ:(AWEzvXMLNode *)root {
+	for (AWEzvXMLNode *node in root.children) {
+		if (node.type == AWEzvXMLElement && [node.name isEqualToString:@"query"]) {
+			[self XMLCheckForOOB:node];
+		}
 	}
 }
 
@@ -544,11 +537,11 @@
 	}
 	
 	/*Find the url */
-	NSEnumerator	*childs = [[node children] objectEnumerator];
+	NSEnumerator	*childs = [node.children objectEnumerator];
 	NSString *url = nil;
 	while ((node = [childs nextObject])) {
-		if ([node type] == AWEzvXMLText) {
-			url = [node name];
+		if (node.type == AWEzvXMLText) {
+			url = node.name;
 		}
 	}
 	/*Let's get the name out of the url */

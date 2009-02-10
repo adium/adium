@@ -65,7 +65,7 @@
 
 @protocol AWEzvXMLStreamProtocol
 - (void) XMLConnectionClosed;
-- (void) XMLReceivedMessage:(AWEzvXMLNode *)root;
+- (void) XMLReceived:(AWEzvXMLNode *)root;
 - (NSString *) uniqueID;
 - (AWEzvContactManager *) manager;
 @end

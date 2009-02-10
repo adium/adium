@@ -219,7 +219,7 @@ void xml_char_data	(void *userData,
     
 	if ([nodeStack size] == 0 && node != nil) {
 		if (delegate != nil)
-			[delegate XMLReceivedMessage:node];
+			[delegate XMLReceived:node];
 		else
 			AWEzvLog(@"Received message but no delegate to send it to");
 	}
