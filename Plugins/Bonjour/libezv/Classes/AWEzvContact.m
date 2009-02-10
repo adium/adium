@@ -517,7 +517,6 @@
 	
 }
 - (void) XMLConnectionClosed {
-    [self.stream autorelease];
     self.stream = nil;
 }
 
