@@ -447,16 +447,13 @@
 }
 
 - (void) XMLCheckForEvent:(AWEzvXMLNode *)node {
-	NSEnumerator	*objs = [[node attributes] keyEnumerator];
-	NSString		*key;
-	AWEzvXMLNode	*obj;
-	int			eventFlag = 0;
+	BOOL			eventFlag = NO;
 	
 	/* check for events in jabber stream */
-	while ((key = [objs nextObject])) {
+	for (NSString *key in [node.attributes keyEnumerator]) {
 		if (([key isEqualToString:@"xmlns"]) && 
-			([(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:x:event"])) {
-			eventFlag = 1;
+			([(NSString *)[node.attributes objectForKey:key] isEqualToString:@"jabber:x:event"])) {
+			eventFlag = YES;
 		}
 	}
 	
@@ -465,9 +462,8 @@
 	
 	/* if we've got an event, check for typing action. this is all we support
 	 for now */
-	objs = [[node children] objectEnumerator];
-	while ((obj = [objs nextObject])) {
-		if ([[obj name] isEqualToString:@"composing"]) {
+	for (AWEzvXMLNode *obj in node.children) {
+		if ([obj.name isEqualToString:@"composing"]) {
 			[self.manager.client.client user:self typingNotification:AWEzvIsTyping];
 			return;
 		}
@@ -483,29 +479,26 @@
 	 *<x xmlns="jabber:x:oob"><url type="file" size="15767265" posixflags="000001A4" mimeType="application/zip">http://192.168.1.111:5297/4D6C52DF9D399D00/Adium.zip</url></x>
 	 *
 	 **/
-	NSEnumerator	*objs = [[node attributes] keyEnumerator];
-	NSString		*key;
-	AWEzvXMLNode	*obj;
-	int			OOBFlag = 0;
+	BOOL			OOBFlag = NO;
 	
 	/* check for events in jabber stream */
-	while ((key = [objs nextObject])) {
+	for (NSString *key in [node.attributes keyEnumerator]) {
 		if (([key isEqualToString:@"xmlns"]) && 
-			([(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:x:oob"] || [(NSString *)[[node attributes] objectForKey:key] isEqualToString:@"jabber:iq:oob"])) {
-			OOBFlag = 1;
+			([(NSString *)[node.attributes objectForKey:key] isEqualToString:@"jabber:x:oob"] || [(NSString *)[node.attributes objectForKey:key] isEqualToString:@"jabber:iq:oob"])) {
+			OOBFlag = YES;
 		}
 	}
+	
 	if (!OOBFlag)
 		return;
 	
-	
-	int urlFlag = 0;
-	
+	BOOL urlFlag = NO;
+	AWEzvXMLNode	*obj = nil;
+
 	/* If we have an oob entry check for url */
-	objs = [[node children] objectEnumerator];
-	while ((obj = [objs nextObject])) {
-		if ([[obj name] isEqualToString:@"url"]) {
-			urlFlag = 1;
+	for (obj in node.children) {
+		if ([obj.name isEqualToString:@"url"]) {
+			urlFlag = YES;
 			break;
 		}
 	}
@@ -514,8 +507,8 @@
 		return;
 	
 	[self evaluteURLXML:obj];
-	
 }
+
 - (void) XMLConnectionClosed {
     self.stream = nil;
 }
