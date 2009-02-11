@@ -190,7 +190,7 @@
 {
 	NSMutableArray	*listObjectArray = [NSMutableArray array];
 	
-	for (AIListObject *listObject in listObjects) {
+	for (AIListObject *listObject in [[listObjects copy] autorelease]) {
 		if ([listObject isKindOfClass:[AIListContact class]]) {
 			/* Include if the delegate doesn't specify, or if the delegate approves the contact.
 			 * Note that this includes a metacontact itself, not its contained objects.
