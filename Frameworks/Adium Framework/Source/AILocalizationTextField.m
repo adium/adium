@@ -48,6 +48,16 @@
 	return (NSTextField *)self;
 }
 
+- (id)initWithFrame:(NSRect)inFrame
+{
+	if ((self = [super initWithFrame:inFrame])) {
+		originalFrame = inFrame;
+		[self _initLocalizationControl];
+	}
+	
+	return self;
+}
+
 #include "AILocalizationControl.m"
 
 @end
