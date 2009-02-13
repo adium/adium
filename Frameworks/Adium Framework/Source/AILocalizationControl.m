@@ -20,27 +20,18 @@
 
 - (id)initWithCoder:(NSCoder *)inCoder
 {
-	[super initWithCoder:inCoder];
-	[self _initLocalizationControl];
-	
-	return self;
-}
-
-- (id)initWithFrame:(NSRect)inFrame
-{
-	[(id)super initWithFrame:inFrame];
-	
-	originalFrame = inFrame;
-	[self _initLocalizationControl];
+	if ((self = [super initWithCoder:inCoder])) {
+		[self _initLocalizationControl];
+	}
 	
 	return self;
 }
 
 - (void)awakeFromNib
 {
-    if ([[self superclass] instancesRespondToSelector:@selector(awakeFromNib)]) {
-        [super awakeFromNib];
-    }
+	if ([[self superclass] instancesRespondToSelector:@selector(awakeFromNib)]) {
+		[super awakeFromNib];
+	}
 
 	originalFrame = [TARGET_CONTROL frame];
 }
