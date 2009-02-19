@@ -1,5 +1,52 @@
 				Adium Version History
 				-----------------------
+Version 1.3.3 (2/19/2009)
+ * Major changes
+    * Fixed a crash when using XMPP gateways and removing contacts
+    * Switched to the pidgin-facebook plugin for Facebook connectivity, which should resolve several issues with Facebook and improve the interaction between Adium and Safari when both are logged into Facebook.
+    * Automatically send messages to offline contact when offline messaging is supported rather than prompting to send now / send later (#11127)
+    * Fixed updating the list of users in a groupchat in many situations (#183, #10727)
+    * Tweaked the behavior of standard contact list type-to-search (#11496)
+    * Fixed ICQ aliases storage on the server (#9890)
+    * Fixed problem of events being recorded with wrong contact (#10436)
+    * Fixed visual glitch that made creating a SameTime account impossible in some localizations (#11675)
+    * Tab completion of names in groupchats is now case-insensitive
+    * Updated from libpurple 2.5.2 to 2.5.5mtn
+      * Fixed several MSN problems introduced by WLM 9:  icons not showing up (#11529, #11532), file transfers failing (#11396)
+      * Fixed publishing of ICQ (available and away) status messages (#3085)
+      * Fixed publishing of ICQ icons (#10597)
+      * Fixed a crash when a Yahoo user messages an MSN contact (#11256)
+      * Fixed a QQ hang/crash (#11290)
+      * Fixed a Sametime crash on login (#11381)
+      * Fixed display of Gadu-Gadu user icons (#4702)
+      * Fixed "Unable to add user - Unknown error (205)"  when connecting to MSN (#11126) 
+      * Fixed duplicated buddies on authorization (#7171)
+      * SASL PLAIN or IQ Auth passwords are no more in debug logs
+      * includes many, many more fixes, especially to MySpace and MSN
+ * Chat Transcript fixes
+    * Fixed a crash involving the log viewer (#11309)
+    * Fixed a bug that caused Adium to leave log files open
+    * Reimported all logs into Spotlight, since 10.5.6 fixed importing them (#8320)
+ *ÊChat window fixes
+    * Fixed scrolling to the bottom of the chat when it loads for certain message styles (#10541)
+    * Fixed several message styles (#10921)
+    * Fixed alignment of the message display after clicking an emoticon (#11602)
+    * Fixed some internal bugs related to historical and notification messages (#10152, #10174)
+    * Fixed Renkoo's image-click handling and added proper image-click handling to Renkoo Naked (#11561)
+ *ÊOther minor bug fixes
+    * Fixed setting XMPP status messages, AIM available, and Gadu-Gadu status messages which contain characters normally escaped in HTML (#11215)
+    * Properly hide iTunes Now playing information when appropriate (#11585)
+    * Fixed referencing chat windows from AppleScript (#11352)
+    * Fixed a code signing error when launching Adium after not changing list layouts since pre-1.0
+    * Fix unpaired external enclosure characters around strings to be linkified. (#11175)
+ * Localization changes
+    * Added a Greek localization thanks to "evripidis" (#11350)
+    * Updated the German localization
+    * Updated the French localization (#11646)
+    * Updated the Russian localization (#11590, #11220)
+    * Updated the Slovenian localization
+
+
 Version 1.3.2 (10/9/2008)
  * Updated to MSNp15 via libpurple (from MSNp12 via msn-pecan)
    * Display pictures on MSN now work again
