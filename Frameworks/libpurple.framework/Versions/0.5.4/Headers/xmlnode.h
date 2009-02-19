@@ -243,7 +243,7 @@ void xmlnode_set_prefix(xmlnode *node, const char *prefix);
  * @param node The node to get the prefix from
  * @return The prefix of this node
  */
-const char *xmlnode_get_prefix(xmlnode *node);
+const char *xmlnode_get_prefix(const xmlnode *node);
 
 /**
  * Returns the node in a string of xml.
@@ -254,7 +254,7 @@ const char *xmlnode_get_prefix(xmlnode *node);
  * @return The node represented as a string.  You must
  *         g_free this string when finished using it.
  */
-char *xmlnode_to_str(xmlnode *node, int *len);
+char *xmlnode_to_str(const xmlnode *node, int *len);
 
 /**
  * Returns the node in a string of human readable xml.
@@ -266,7 +266,7 @@ char *xmlnode_to_str(xmlnode *node, int *len);
  *         tab and new line characters.  You must
  *         g_free this string when finished using it.
  */
-char *xmlnode_to_formatted_str(xmlnode *node, int *len);
+char *xmlnode_to_formatted_str(const xmlnode *node, int *len);
 
 /**
  * Creates a node from a string of XML.  Calling this on the

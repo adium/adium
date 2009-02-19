@@ -178,8 +178,10 @@ void msn_user_set_passport(MsnUser *user, const char *passport);
  *
  * @param user The user.
  * @param name The friendly name.
+ *
+ * @returns TRUE is name actually changed, FALSE otherwise.
  */
-void msn_user_set_friendly_name(MsnUser *user, const char *name);
+gboolean msn_user_set_friendly_name(MsnUser *user, const char *name);
 
 /**
  * Sets the buddy icon for a local user.

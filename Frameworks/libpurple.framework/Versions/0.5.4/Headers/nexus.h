@@ -204,6 +204,7 @@ struct _MsnTicketToken {
 	GHashTable *token;
 	char *secret;
 	time_t expiry;
+	GSList *updates;
 };
 
 typedef struct _MsnNexus MsnNexus;

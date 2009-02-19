@@ -46,6 +46,8 @@ struct _MsnCmdProc
 
 	MsnHistory *history;
 
+	GHashTable *multiparts; /**< Multi-part message ID's */
+
 	void *data; /**< Extra data, like the switchboard. */
 };
 

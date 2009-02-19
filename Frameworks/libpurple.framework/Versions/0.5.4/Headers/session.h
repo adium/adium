@@ -94,11 +94,11 @@ struct _MsnSession
 	gboolean http_method;
 
 	MsnNotification *notification;
-	MsnNexus *nexus;
-	MsnOim		*oim;
-	MsnSync *sync;
-
-	MsnUserList *userlist;
+	MsnNexus        *nexus;
+	MsnOim          *oim;
+	MsnSync         *sync;
+	MsnUserList     *userlist;
+	char            *abch_cachekey;
 
 	int servconns_count; /**< The count of server connections. */
 	GList *switches; /**< The list of all the switchboards. */
@@ -107,7 +107,9 @@ struct _MsnSession
 	/*psm info*/
 	char *psm;
 
+#if 0
 	char *blocked_text;
+#endif
 
 	struct
 	{
