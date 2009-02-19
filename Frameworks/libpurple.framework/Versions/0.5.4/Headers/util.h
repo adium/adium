@@ -1207,7 +1207,7 @@ gchar *purple_utf8_salvage(const char *str);
 G_CONST_RETURN gchar *purple_gai_strerror(gint errnum);
 
 /**
- * Compares two UTF-8 strings case-insensitively.  This string is
+ * Compares two UTF-8 strings case-insensitively.  This comparison is
  * more expensive than a simple g_utf8_collate() comparison because
  * it calls g_utf8_casefold() on each string, which allocates new
  * strings.

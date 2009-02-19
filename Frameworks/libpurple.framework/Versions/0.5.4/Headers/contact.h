@@ -52,7 +52,7 @@
 		 "</ABApplicationHeader>"\
 		"<ABAuthHeader xmlns=\"http://www.msn.com/webservices/AddressBook\">"\
 			"<ManagedGroupRequest xmlns=\"http://www.msn.com/webservices/AddressBook\">false</ManagedGroupRequest>"\
-			"<TicketToken>%s</TicketToken>"\
+			"<TicketToken>EMPTY</TicketToken>"\
 		"</ABAuthHeader>"\
 	"</soap:Header>"\
 	"<soap:Body xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">"\
@@ -94,7 +94,7 @@
 		"</ABApplicationHeader>"\
 		"<ABAuthHeader xmlns=\"http://www.msn.com/webservices/AddressBook\">"\
 			"<ManagedGroupRequest>false</ManagedGroupRequest>"\
-			"<TicketToken>%s</TicketToken>"\
+			"<TicketToken>EMPTY</TicketToken>"\
 		"</ABAuthHeader>"\
 	"</soap:Header>"\
 	"<soap:Body>"\
@@ -135,7 +135,7 @@
 		"</ABApplicationHeader>"\
 		"<ABAuthHeader xmlns=\"http://www.msn.com/webservices/AddressBook\">"\
 			"<ManagedGroupRequest>false</ManagedGroupRequest>"\
-			"<TicketToken>%s</TicketToken>"\
+			"<TicketToken>EMPTY</TicketToken>"\
 		"</ABAuthHeader>"\
 	"</soap:Header>"\
 	"<soap:Body>"\
@@ -619,6 +619,15 @@ typedef enum
 	MSN_UPDATE_INFO     = 0x80
 } MsnCallbackAction;
 
+typedef enum
+{
+	MSN_PS_INITIAL,
+	MSN_PS_SAVE_CONTACT,
+	MSN_PS_PENDING_LIST,
+	MSN_PS_CONTACT_API,
+	MSN_PS_BLOCK_UNBLOCK
+} MsnSoapPartnerScenario;
+
 typedef struct _MsnCallbackState MsnCallbackState;
 
 struct _MsnCallbackState
@@ -636,16 +645,9 @@ struct _MsnCallbackState
 	const gchar *post_action;
 	const gchar *post_url;
 	MsnSoapCallback cb;
+	/* For msn_get_contact_list only */
+	MsnSoapPartnerScenario partner_scenario;
 };
-
-typedef enum
-{
-	MSN_PS_INITIAL,
-	MSN_PS_SAVE_CONTACT,
-	MSN_PS_PENDING_LIST,
-	MSN_PS_CONTACT_API,
-	MSN_PS_BLOCK_UNBLOCK
-} MsnSoapPartnerScenario;
 
 typedef enum
 {
