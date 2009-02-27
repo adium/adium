@@ -111,7 +111,10 @@ static NSMutableArray		*libpurplePluginArray = nil;
 	//Note that purple_account_new() calls purple_accounts_find() first, returning an existing PurpleAccount if there is one.
 	PurpleAccount *account = purple_account_new([adiumAccount purpleAccountName], [adiumAccount protocolPlugin]);
 
-	[(CBPurpleAccount *)account->ui_data autorelease];
+	if (account->ui_data) {
+		[(CBPurpleAccount *)account->ui_data autorelease];
+		[(CBPurpleAccount *)account->ui_data setPurpleAccount:nil];
+	}
 	account->ui_data = [adiumAccount retain];
 
 	[adiumAccount setPurpleAccount:account];
@@ -125,11 +128,14 @@ static NSMutableArray		*libpurplePluginArray = nil;
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
 
-	[(CBPurpleAccount *)account->ui_data release];
-	account->ui_data = nil;
-	[adiumAccount setPurpleAccount:NULL];
+	if (account) {
+		[(CBPurpleAccount *)account->ui_data release];
+		account->ui_data = nil;
+		
+		purple_accounts_remove(account);
+	}
 
-    purple_accounts_remove(account);	
+	[adiumAccount setPurpleAccount:NULL];
 }
 
 #pragma mark Initialization
