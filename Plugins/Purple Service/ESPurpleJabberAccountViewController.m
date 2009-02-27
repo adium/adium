@@ -53,10 +53,12 @@
 	[checkBox_allowPlaintext setState:[[account preferenceForKey:KEY_JABBER_ALLOW_PLAINTEXT group:GROUP_ACCOUNT_STATUS] boolValue]];
 	
 	//Resource
-	if([account preferenceForKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS])
-		[textField_resource setStringValue:[account preferenceForKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS]];
-	else
-		[textField_resource setStringValue:[(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease]];
+	NSString *resource = [account preferenceForKey:KEY_JABBER_RESOURCE group:GROUP_ACCOUNT_STATUS];
+	if (!resource)
+		resource = [(NSString*)SCDynamicStoreCopyLocalHostName(NULL) autorelease];
+	if (!resource)
+		resource = @"";	
+	[textField_resource setStringValue:resource];
 	
 	//Connect server
 	NSString *connectServer = [account preferenceForKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
