@@ -278,6 +278,25 @@
 	}
 }
 
+/*!
+ * @brief Trigger an info update
+ *
+ * This is called when the info inspector wants more information on a contact.
+ * Grab the user's profile information, set everything up accordingly in the user info method.
+ */
+- (void)delayedUpdateContactStatus:(AIListContact *)inContact
+{
+	if(self.online) {
+		NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
+		
+		if(requestID) {
+			[self setRequestType:AITwitterProfileUserInfo
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
+		}
+	}
+}
+
 #pragma mark Menu Items
 /*!
  * @brief Menu items for the account's actions
@@ -659,6 +678,16 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			}
 		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileStatusUpdates) {
+		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+
+		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
+		
+		for (NSDictionary *update in statuses) {
+			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:[update objectForKey:TWITTER_STATUS_TEXT], KEY_VALUE, nil]];
+		}
+		
+		[listContact setProfileArray:profileArray notify:NotifyNow];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
@@ -779,6 +808,41 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else {	
 			// Trigger our normal update routine.
 			[updateTimer fire];
+		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
+		NSLog(@"User profile request, info: %@", userInfo);
+		
+		// created_at
+		// status
+		
+		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
+		
+		if (thisUserInfo) {
+			NSArray *keyNames = [NSArray arrayWithObjects:@"screen_name", @"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
+			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"User name", nil), AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
+									  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
+									  AILocalizedString(@"Followers", nil), AILocalizedString(@"Updates", nil), nil];
+			
+			NSMutableArray *profileArray = [NSMutableArray array];
+			
+			for (NSUInteger index = 0; index < [keyNames count]; index++) {
+				NSString			*readableName = [readableNames objectAtIndex:index];
+				NSAttributedString	*value = [NSAttributedString stringWithString:[thisUserInfo objectForKey:[keyNames objectAtIndex:index]]];
+				
+				[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
+			}
+			
+			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			[listContact setProfileArray:profileArray notify:NotifyNow];
+			
+			// Grab their statuses.
+			NSString *requestID = [twitterEngine getUserTimelineFor:listContact.UID since:nil startingAtPage:0 count:TWITTER_UPDATE_TIMELINE_COUNT];
+			
+			if (requestID) {
+				[self setRequestType:AITwitterProfileStatusUpdates
+						forRequestID:requestID
+					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
+			}
 		}
 	}
 	
