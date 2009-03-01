@@ -297,6 +297,15 @@
 	}
 }
 
+/*!
+ * @brief Should an autoreply be sent to this message?
+ */
+- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
+{
+	return NO;
+}
+
+
 #pragma mark Menu Items
 /*!
  * @brief Menu items for the account's actions
