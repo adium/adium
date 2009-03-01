@@ -11,6 +11,7 @@
 
 typedef enum {
 	AITwitterUnknownType = 0,
+	AITwitterValidateCredentials,
 	AITwitterDisconnect,
 	AITwitterInitialUserInfo,
 	AITwitterUserIconPull,
@@ -18,16 +19,19 @@ typedef enum {
 	AITwitterSendUpdate,
 	AITwitterUpdateDirectMessage,
 	AITwitterUpdateFollowedTimeline,
+	AITwitterUpdateReplies,
 	AITwitterRemoveFollow
 } AITwitterRequestType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10
+#define TWITTER_UPDATE_TIMELINE_COUNT		0 // get the default amount
+
+#define TWITTER_INCORRECT_PASSWORD_MESSAGE	AILocalizedString(@"Incorrect username or password","Error message displayed when the server reports username or password as being incorrect.")
 
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
 #define TWITTER_TIMELINE_NAME				@"Twitter Timeline"
 #define TWITTER_TIMELINE_UID				@"twitter-timeline"
 
-#define TWITTER_PREFERENCE_CREATED_BOOKMARK	@"Created Timeline Bookmark"
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
@@ -56,6 +60,11 @@ typedef enum {
 	NSTimer				*updateTimer;
 	
 	AIChat				*timelineChat;
+	
+	BOOL				followedTimelineCompleted;
+	BOOL				repliesCompleted;
+	NSMutableArray		*queuedUpdates;
+	NSMutableArray		*queuedDM;
 	
 	NSMutableDictionary	*pendingRequests;
 }
