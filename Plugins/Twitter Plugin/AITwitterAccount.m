@@ -394,6 +394,9 @@
 	// This state information helps us know how many pages to pull.
 	followedTimelineCompleted = repliesCompleted = NO;
 	
+	[queuedUpdates removeAllObjects];
+	[queuedDM removeAllObjects];
+	
 	// We'll update the date preferences for last pulled times when the response is received.
 	// We use the current date, not the date when received, just in case a request is received in-between.
 	
@@ -672,12 +675,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		BOOL nextPageNecessary = ([messages count] != 0);
 		
-		NSLog(@"---- Page: %d", [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue]);
-		
 		for (NSDictionary *message in messages)  {
 			NSDate			*date = [message objectForKey:TWITTER_DM_CREATED];
-			
-			NSLog(@"Message: %@", date);
 					
 			if ([date compare:lastPull] == NSOrderedAscending) {
 				nextPageNecessary = NO;
