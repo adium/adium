@@ -826,10 +826,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSMutableArray *profileArray = [NSMutableArray array];
 			
 			for (NSUInteger index = 0; index < [keyNames count]; index++) {
-				NSString			*readableName = [readableNames objectAtIndex:index];
-				NSAttributedString	*value = [NSAttributedString stringWithString:[thisUserInfo objectForKey:[keyNames objectAtIndex:index]]];
+				NSString			*unattributedValue = [thisUserInfo objectForKey:[keyNames objectAtIndex:index]];
 				
-				[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
+				if(![unattributedValue isEqualToString:@""]) {
+					NSString			*readableName = [readableNames objectAtIndex:index];
+					NSAttributedString	*value = [NSAttributedString stringWithString:unattributedValue];
+					
+					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
+				}
 			}
 			
 			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
