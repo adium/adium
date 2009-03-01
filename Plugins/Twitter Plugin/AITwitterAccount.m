@@ -658,9 +658,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[queuedDM removeAllObjects];
 			}
 		} else {
-			/*[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
+			[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
 						 forKey:TWITTER_PREFERENCE_DATE_DM
-						  group:TWITTER_PREFERENCE_GROUP_UPDATES];*/
+						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 			
 			[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 		}
