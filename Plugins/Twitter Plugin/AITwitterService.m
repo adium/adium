@@ -8,6 +8,7 @@
 
 #import "AITwitterService.h"
 #import <Adium/AIStatusControllerProtocol.h>
+#import <AIUtilities/AIImageAdditions.h>
 #import "AITwitterAccount.h"
 #import "AITwitterAccountViewController.h"
 

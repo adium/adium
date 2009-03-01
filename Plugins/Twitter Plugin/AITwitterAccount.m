@@ -455,15 +455,19 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
-			AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
-																	withSource:listContact
-																   destination:self
-																		  date:date
-																	   message:[NSAttributedString stringWithString:text]
-																	 autoreply:NO];
-			
-			[adium.contentController receiveContentObject:contentMessage];
+			if(chat) {
+				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
+																		withSource:listContact
+																	   destination:self
+																			  date:date
+																		   message:[NSAttributedString stringWithString:text]
+																		 autoreply:NO];
+				
+				[adium.contentController receiveContentObject:contentMessage];
+			}
 		}
+		
+		[queuedDM removeAllObjects];
 	}
 }
 
