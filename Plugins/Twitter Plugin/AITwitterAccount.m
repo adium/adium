@@ -10,6 +10,7 @@
 #import "MGTwitterEngine/MGTwitterEngine.h"
 #import <Adium/AIChat.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -49,6 +50,8 @@
 	[super connect];
 	
 	[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
+	
+	[self silenceAllContactUpdatesForInterval:18.0];
 	
 	//[twitterEngine getFollowedTimelineFor:self.UID since:nil startingAtPage:0];
 	NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:0];
@@ -90,7 +93,9 @@
 							notify:NotifyLater];
 	
 	// Set the user as online.
-	[listContact setOnline:YES notify:NotifyNow silently:silentAndDelayed];	
+	[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];	
+	
+	[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];
 }
 
 - (void)disconnect
@@ -343,10 +348,8 @@
 			AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
 			
 			// Update the user's status message if necessary.
-			if(![[listContact.statusMessage string] isEqualToString:text]) {
-				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
-									   notify:NotifyLater];
-			}
+			[listContact setStatusMessage:[NSAttributedString stringWithString:text]
+								   notify:NotifyLater];
 			
 			if(timelineChat && [date compare:lastFollowedTimelinePull] != NSOrderedAscending) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
@@ -410,7 +413,9 @@
 
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {			
+	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
 			
@@ -444,8 +449,12 @@
 								   notify:NotifyLater];
 		
 			// Set the user as online.
-			[listContact setOnline:YES notify:NotifyNow silently:silentAndDelayed];
+			[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
+			
+			[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];
 		}
+		
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		// Trigger our normal update routine.
 		[updateTimer fire];
