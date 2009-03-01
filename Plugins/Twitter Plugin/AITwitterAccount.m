@@ -232,6 +232,14 @@
 }
 
 /*!
+ * @brief Don't allow OTR encryption.
+ */
+- (BOOL)allowSecureMessagingTogglingForChat:(AIChat *)inChat
+{
+	return NO;
+}
+
+/*!
  * @brief Update our status
  */
 - (void)setSocialNetworkingStatusMessage:(NSAttributedString *)statusMessage
