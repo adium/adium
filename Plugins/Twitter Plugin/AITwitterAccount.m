@@ -334,6 +334,9 @@
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)identifier
 {	
 	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
+		NSDate		*lastFollowedTimelinePull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_TIMELINE
+																group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		
 		for (NSDictionary *status in [statuses reverseObjectEnumerator]) {
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
@@ -345,7 +348,7 @@
 									   notify:NotifyLater];
 			}
 			
-			if(timelineChat) {
+			if(timelineChat && [date compare:lastFollowedTimelinePull] != NSOrderedAscending) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
 																	   destination:self
