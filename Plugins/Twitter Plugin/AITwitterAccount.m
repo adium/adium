@@ -278,23 +278,21 @@
 	
 	NSLog(@"Requested DMs since %d", [lastDirectMessagePull timeIntervalSince1970]);
 	
-	if (timelineChat) {
-		NSDate		*lastFollowedTimelinePull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_TIMELINE
-															 group:TWITTER_PREFERENCE_GROUP_UPDATES];
-		
-		// Pull followed timeline
-		requestID = [twitterEngine getFollowedTimelineFor:self.UID
-													since:lastFollowedTimelinePull
-										   startingAtPage:0];
-		
-		if (requestID) {
-			[self setRequestType:AITwitterUpdateFollowedTimeline
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:[NSDate date] forKey:@"Date"]];
-		}	
-		
-		NSLog(@"Requested timeline since %@", lastFollowedTimelinePull);
-	}
+	NSDate		*lastFollowedTimelinePull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_TIMELINE
+														 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	
+	// Pull followed timeline
+	requestID = [twitterEngine getFollowedTimelineFor:self.UID
+												since:lastFollowedTimelinePull
+									   startingAtPage:0];
+	
+	if (requestID) {
+		[self setRequestType:AITwitterUpdateFollowedTimeline
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObject:[NSDate date] forKey:@"Date"]];
+	}	
+	
+	NSLog(@"Requested timeline since %@", lastFollowedTimelinePull);
 }
 
 #pragma mark MGTwitterEngine Delegate Methods
@@ -335,24 +333,35 @@
 
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)identifier
 {	
-    NSLog(@"Got statuses:\r%@", statuses);
-	
-	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline && timelineChat) {
+	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 		for (NSDictionary *status in [statuses reverseObjectEnumerator]) {
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
 			AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
 			
-			NSLog(@"list Contact = %@", listContact);
+			// Update the user's status message if necessary.
+			if(![[listContact.statusMessage string] isEqualToString:text]) {
+				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
+									   notify:NotifyLater];
+			}
 			
-			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
-																	withSource:listContact
-																   destination:self
-																		  date:date
-																	   message:[NSAttributedString stringWithString:text]
-																	 autoreply:NO];
-			
-			[adium.contentController receiveContentObject:contentMessage];
+			if(timelineChat) {
+				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
+																		withSource:listContact
+																	   destination:self
+																			  date:date
+																		   message:[NSAttributedString stringWithString:text]
+																		 autoreply:NO];
+				
+				[adium.contentController receiveContentObject:contentMessage];
+			}
+		}
+		
+		if (timelineChat) {
+			// Set the "last pulled" date for Direct Messages, only if we've pushed content to the timeline.
+			[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
+						 forKey:TWITTER_PREFERENCE_DATE_TIMELINE
+						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		}
 	}
 	
