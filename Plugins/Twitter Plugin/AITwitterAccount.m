@@ -669,11 +669,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSLog(@"fTC: %d rC: %d", followedTimelineCompleted, repliesCompleted);
 			
-			if (followedTimelineCompleted && repliesCompleted) {
+			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
 				// Set the "last pulled" for the timeline, since we've completed both replies and the timeline.
 				[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
 							 forKey:TWITTER_PREFERENCE_DATE_TIMELINE
-							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];					
 				
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			}
@@ -729,7 +729,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				// Gracefully fail: remove all stored objects.
 				[queuedDM removeAllObjects];
 			}
-		} else {
+		} else if([queuedDM count] > 0) {
 			[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
 						 forKey:TWITTER_PREFERENCE_DATE_DM
 						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
@@ -810,11 +810,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[updateTimer fire];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
-		NSLog(@"User profile request, info: %@", userInfo);
-		
-		// created_at
-		// status
-		
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
 		
 		if (thisUserInfo) {
