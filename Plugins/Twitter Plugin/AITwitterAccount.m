@@ -8,16 +8,17 @@
 
 #import "AITwitterAccount.h"
 #import "MGTwitterEngine/MGTwitterEngine.h"
-#import <Adium/AIChat.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
-#import <Adium/AIContactObserverManager.h>
-#import <Adium/AIListContact.h>
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIContactObserverManager.h>
+#import <Adium/AIListContact.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListBookmark.h>
-#import <AIUtilities/AIApplicationAdditions.h>
+#import <Adium/AIChat.h>
 
 @interface AITwitterAccount()
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
@@ -267,6 +268,37 @@
 	} else {
 		return NO;
 	}
+}
+
+#pragma mark Menu Items
+/*!
+ * @brief Menu items for the account's actions
+ *
+ * Returns an array of menu items for account-specific actions.  This is the best place to add protocol-specific
+ * actions that aren't otherwise supported by Adium.  It will only be queried if the account is online.
+ * @return NSArray of NSMenuItem instances for this account
+ */
+- (NSArray *)accountActionMenuItems
+{
+	NSMutableArray *menuItemArray = [NSMutableArray array];
+	
+	NSMenuItem *menuItem;
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Force Refresh",nil)
+																	target:self
+																	action:@selector(forceUpdate:)
+															 keyEquivalent:@""] autorelease];
+	[menuItemArray addObject:menuItem];
+	
+	return menuItemArray;	
+}
+
+/*!
+ * @brief Forces our periodic updates to fire.
+ */
+- (void)forceUpdate:(NSMenuItem *)menuItem
+{
+	[updateTimer fire];
 }
 
 #pragma mark Contact handling
