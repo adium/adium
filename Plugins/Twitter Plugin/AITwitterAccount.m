@@ -122,7 +122,9 @@
 	NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
 	
 	if (requestID) {
-		[self setRequestType:AITwitterInitialUserInfo forRequestID:requestID withDictionary:nil];
+		[self setRequestType:AITwitterInitialUserInfo
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
 	} else {
 		[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
 		[self didDisconnect];
@@ -185,8 +187,6 @@
  */
 - (BOOL)openChat:(AIChat *)chat
 {	
-	NSLog(@"openChat %@", chat);
-	
 	if([chat.listObject.UID isEqualToString:TWITTER_TIMELINE_UID]) {
 		timelineChat = chat;
 			
@@ -247,7 +247,7 @@
  */
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	NSLog(@"Message to: %@ content: %@", [[inContentMessage destination] UID], [inContentMessage messageString]);
+	NSLog(@"Sending message to: %@ content: %@", [[inContentMessage destination] UID], [inContentMessage messageString]);
 	
 	NSString *requestID;
 	
@@ -681,6 +681,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
+		BOOL nextPageNecessary = ([userInfo count] != 0);
+		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
 			
@@ -721,8 +723,24 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
-		// Trigger our normal update routine.
-		[updateTimer fire];
+		if (nextPageNecessary) {
+			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
+			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:nextPage];
+			
+			if(requestID) {
+				[self setRequestType:AITwitterInitialUserInfo
+						forRequestID:requestID
+					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:nextPage]
+																 forKey:@"Page"]];
+			} else { 
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
+				[self didDisconnect];
+			}
+			
+		} else {	
+			// Trigger our normal update routine.
+			[updateTimer fire];
+		}
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
