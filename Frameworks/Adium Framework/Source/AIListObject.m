@@ -818,3 +818,14 @@
 	return 0;
 }
 @end
+
+/*
+ * Trivial plugin compatibility; these methods were removed from the public API
+ * but have trivial new-API implementations
+ */
+@implementation AIListObject (PluginCompatibility)
+- (NSString *)serviceID
+{
+	return [[self service] serviceID];
+}
+@end
