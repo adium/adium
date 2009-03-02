@@ -826,6 +826,6 @@
 @implementation AIListObject (PluginCompatibility)
 - (NSString *)serviceID
 {
-	return [[self service] serviceID];
+	return self.service.serviceID;
 }
 @end
