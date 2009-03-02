@@ -74,6 +74,8 @@
 														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
 									  previouslyPerformedActionIDs:nil];
 					[message addDisplayClass:@"mention"];
+					
+					break;
 				}
 			}
 		}
