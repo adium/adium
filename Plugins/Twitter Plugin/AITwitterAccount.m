@@ -846,20 +846,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfoUpdateIcon) {
-		for (NSDictionary *info in userInfo) {			
-			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
-			
-			// Grab the user icon and set it as their serverside icon.
-			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
-			
-			if(requestID) {
-				[self setRequestType:AITwitterUserIconPull
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
-			}
-		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
+	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		BOOL nextPageNecessary = ([userInfo count] != 0);
