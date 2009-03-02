@@ -410,6 +410,8 @@
 	for (AIListContact *listContact in [self contacts]) {
 		[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 	}
+	
+	[timelineChat setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:NotifyNow];
 }
 
 /*!
