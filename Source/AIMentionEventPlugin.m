@@ -53,26 +53,32 @@
 	if([context isKindOfClass:[AIContentMessage class]]) {
 		AIContentMessage *message = (AIContentMessage *)context;
 		AIChat *chat = [message chat];
+		
 		if(chat.isGroupChat) {
 			NSString *messageString = [inAttributedString string];
-			AIListObject *me = [message destination];
-			NSRange range = [messageString rangeOfString:[me displayName] options:NSCaseInsensitiveSearch];
-			if(range.location == NSNotFound)
-				range = [messageString rangeOfString:[me formattedUID] options:NSCaseInsensitiveSearch];
+					
+			AIListObject *account = [message destination];
 			
-			//TODO: This needs to respect per-room nicknames
-			if(range.location != NSNotFound &&
-			   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
-			   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
-			{
-				[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
-												 forListObject:[message source]
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
-								  previouslyPerformedActionIDs:nil];
-				[message addDisplayClass:@"mention"];
+			// XXX Include chat nickname
+			NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
+			
+			for(NSString *checkString in myNames) {
+				NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
+			
+				if(range.location != NSNotFound &&
+				   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
+				   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
+				{
+					[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
+													 forListObject:[message source]
+														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
+									  previouslyPerformedActionIDs:nil];
+					[message addDisplayClass:@"mention"];
+				}
 			}
 		}
 	}
+	
 	return inAttributedString;
 }
 
