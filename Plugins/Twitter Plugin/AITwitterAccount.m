@@ -621,9 +621,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
-			if(chat) {
-				[self updateUserIcon:[[message objectForKey:TWITTER_DM_SENDER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
-				
+			if(chat) {				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:listContact
 																	   destination:self
