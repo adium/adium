@@ -23,6 +23,7 @@ typedef enum {
 	AITwitterDisconnect,
 	AITwitterInitialUserInfo,
 	AITwitterProfileUserInfo,
+	AITwitterProfileUserInfoUpdateIcon,
 	AITwitterProfileStatusUpdates,
 	AITwitterUserIconPull,
 	AITwitterDirectMessageSend,
@@ -42,6 +43,8 @@ typedef enum {
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
 #define TWITTER_TIMELINE_NAME				AILocalizedString(@"Twitter Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")
 
+#define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
+
 #define TWITTER_PREFERENCE_BOOKMARK			@"Created Bookmark"
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
@@ -55,6 +58,7 @@ typedef enum {
 
 // Direct Messages
 #define TWITTER_DM_CREATED					@"created_at"
+#define TWITTER_DM_SENDER					@"sender"
 #define TWITTER_DM_SENDER_UID				@"sender_screen_name"
 #define TWITTER_DM_TEXT						@"text"
 
