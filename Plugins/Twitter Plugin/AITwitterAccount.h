@@ -40,11 +40,11 @@ typedef enum {
 #define TWITTER_INCORRECT_PASSWORD_MESSAGE	AILocalizedString(@"Incorrect username or password","Error message displayed when the server reports username or password as being incorrect.")
 
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
-#define TWITTER_TIMELINE_NAME				AILocalizedString(@"Twitter Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")
+#define TWITTER_TIMELINE_NAME				AILocalizedString(@"Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
-#define TWITTER_PREFERENCE_BOOKMARK			@"Created Bookmark"
+#define TWITTER_PREFERENCE_BOOKMARK			@"Created Bookmark2"
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
