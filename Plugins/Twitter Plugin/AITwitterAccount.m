@@ -56,10 +56,17 @@
 						 version:[NSApp applicationVersion]
 							 URL:@"http://www.adiumx.com"
 						   token:@""];
+	
+	[adium.notificationCenter addObserver:self
+							     selector:@selector(chatDidOpen:) 
+									 name:Chat_DidOpen
+								   object:nil];
 }
 
 - (void)dealloc
 {
+	[adium.notificationCenter removeObserver:self];
+	
 	[twitterEngine release];
 	[pendingRequests release];
 	[queuedUpdates release];
@@ -191,7 +198,7 @@
  * @brief Affirm we can open chats.
  */
 - (BOOL)openChat:(AIChat *)chat
-{
+{	
 	return YES;
 }
 
@@ -204,15 +211,25 @@
 }
 
 /*!
- * @brief Make the rejoined timeline not show up as unknown.
- *
- * We claim to have rejoined the chat, if only for simplicity sake.
+ * @brief Rejoin the requested chat.
  */
 - (BOOL)rejoinChat:(AIChat *)inChat
-{
-	[self updateTimelineChat:inChat];
-	
+{	
 	return YES;
+}
+
+/*!
+ * @brief A chat opened.
+ *
+ * If this is a group chat which belongs to us, aka a timeline chat, set it up how we want it.
+ */
+- (void)chatDidOpen:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	
+	if(chat.isGroupChat && chat.account == self) {
+		[self updateTimelineChat:chat];
+	}	
 }
 
 /*!
@@ -534,9 +551,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 												   identifier:nil
 													onAccount:self
 											 chatCreationInfo:nil];
-		
-			// Update the timeline chat and its options to be how we want it.
-			[self updateTimelineChat:timelineChat];
 		}
 		
 		for (NSDictionary *status in sortedQueuedUpdates) {
