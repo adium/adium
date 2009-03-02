@@ -27,8 +27,11 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIUserIcons.h>
 
 @interface AITwitterAccount()
+- (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
+
 - (NSString *)timelineChatName;
 - (void)updateTimelineChat:(AIChat *)timelineChat;
 
@@ -328,7 +331,6 @@
 	return NO;
 }
 
-
 #pragma mark Menu Items
 /*!
  * @brief Menu items for the account's actions
@@ -380,6 +382,31 @@
 	if ([[[timelineChat chatContainer] chatViewController] userListVisible]) {
 		[[[timelineChat chatContainer] chatViewController] toggleUserList]; 
 	}	
+	
+	// Update the participant list.
+	for (AIListContact *listContact in [self contacts]) {
+		[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+	}
+}
+
+/*!
+ * @brief Update a user icon from a URL if necessary
+ */
+- (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
+{
+	// If we don't already have an icon for the user...
+	if(![AIUserIcons userIconSourceForObject:listContact] && ![[listContact valueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON] boolValue]) {
+		// Grab the user icon and set it as their serverside icon.
+		NSString *requestID = [twitterEngine getImageAtURL:url];
+		
+		if(requestID) {
+			[self setRequestType:AITwitterUserIconPull
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
+		}
+		
+		[listContact setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+	}
 }
 
 /*!
@@ -563,6 +590,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
 									   notify:NotifyNow];
 				
+				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				
+				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
 																	   destination:self
@@ -591,6 +622,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
 			if(chat) {
+				[self updateUserIcon:[[message objectForKey:TWITTER_DM_SENDER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:listContact
 																	   destination:self
@@ -653,6 +686,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
 		[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
 		[self didDisconnect];
+	} else if([self requestTypeForRequestID:identifier] == AITwitterUserIconPull) {
+		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+		
+		// Image pull failed, flag ourselves as needing to try again.
+		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 	}
 	
 	NSLog(@"Request failed (%@ - %d) - %@", identifier, [self requestTypeForRequestID:identifier], error);
@@ -808,7 +846,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
+	if([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfoUpdateIcon) {
+		for (NSDictionary *info in userInfo) {			
+			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
+			
+			// Grab the user icon and set it as their serverside icon.
+			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
+			
+			if(requestID) {
+				[self setRequestType:AITwitterUserIconPull
+						forRequestID:requestID
+					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
+			}
+		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		BOOL nextPageNecessary = ([userInfo count] != 0);
@@ -828,13 +879,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 			
 			// Grab the user icon and set it as their serverside icon.
-			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
-			
-			if(requestID) {
-				[self setRequestType:AITwitterUserIconPull
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
-			}
+			[self updateUserIcon:[info objectForKey:TWITTER_INFO_ICON] forContact:listContact];
 			
 			// Set the user as available.
 			[listContact setStatusWithName:nil
@@ -928,6 +973,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		[listContact setServersideIconData:[image TIFFRepresentation]
 									notify:NotifyLater];
+		
+		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
