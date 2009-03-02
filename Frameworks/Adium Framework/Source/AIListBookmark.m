@@ -175,17 +175,22 @@
 {
 	AIChat *chat = [adium.chatController existingChatWithName:[self name]
 													  onAccount:[self account]];
-	if (chat && [[chat chatCreationDictionary] isEqualToDictionary:
-				 [self chatCreationDictionary]]) {
+	if (chat && (!chat.chatCreationDictionary || [[chat chatCreationDictionary] isEqualToDictionary:[self chatCreationDictionary]])) {
+		if(!chat.isOpen) {
+			[adium.interfaceController openChat:chat];
+		}
+		
 		//An existing open chat matches this bookmark. Switch to it!
 		[adium.interfaceController setActiveChat:chat];
 		
 	} else {
 		//Open a new group chat (bookmarked chat)
-		[adium.chatController chatWithName:[self name]
-								  identifier:NULL 
-								   onAccount:[self account] 
-							chatCreationInfo:[self chatCreationDictionary]];
+		chat = [adium.chatController chatWithName:[self name]
+									   identifier:NULL 
+								        onAccount:[self account] 
+							     chatCreationInfo:[self chatCreationDictionary]];
+		
+		[adium.interfaceController openChat:chat];
 	}	
 }
 
