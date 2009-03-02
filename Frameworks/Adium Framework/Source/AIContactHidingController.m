@@ -26,9 +26,6 @@
 - (BOOL)evaluatePredicateOnListObject:(AIListObject *)listObject withSearchString:(NSString *)inSearchString;
 @end;
 
-static NSPredicate *filterPredicateTemplate;
-static NSPredicate *filterPredicate;
-
 /*!
  *	@class AIContactHidingController
  *	@brief Manages the visibility state of contacts. 
@@ -50,14 +47,17 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		//Register preference observer first so values will be correct for the following calls
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 		matchedContacts = [[NSMutableDictionary alloc] init];
+		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR statusMessageString contains[cd] $SEARCH_STRING"] retain];
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	[searchString release];
-	[filterPredicate release];
+	[matchedContacts release]; matchedContacts = nil;
+	[searchString release]; searchString = nil;
+	[filterPredicate release]; filterPredicate = nil;
+	[filterPredicateTemplate release]; filterPredicateTemplate = nil;
 	[super dealloc];
 }
 
@@ -81,6 +81,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
 	
 	if (!firstTime) {
+		[adium.notificationCenter postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 		[adium.contactController sortContactList];
 	}
 }
@@ -98,11 +99,13 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	searchString = [inSearchString retain];
 	[filterPredicate release];
 	filterPredicate = nil;
+	[matchedContacts removeAllObjects];
 	
 	for (AIListContact *listContact in [adium.contactController.allContacts arrayByAddingObjectsFromArray:adium.contactController.allBookmarks]) {
 			[matchedContacts setObject:[NSNumber numberWithBool:[self evaluatePredicateOnListObject:listContact withSearchString:inSearchString]] forKey:listContact.UID];
 	}
 	
+	[adium.notificationCenter postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 	[adium.contactController sortContactList];
 	return [matchedContacts count] > 0;
 }
@@ -119,7 +122,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
-		return ([(AIListContact<AIContainingObject> *)listObject visibleCount] > 0);
+		return ([(id<AIContainingObject>)listObject visibleCount] > 0);
 	}
 	
 	if (searchString && [searchString length]) {
@@ -176,10 +179,6 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	// If the search string is nil or empty, return YES.
 	if(!inSearchString || ![inSearchString length])
 		return YES;
-	
-	// Create a static predicate to search the properties of a contact.
-	if (!filterPredicateTemplate)
-		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR statusMessageString contains[cd] $SEARCH_STRING"] retain];
 	
 	if (!filterPredicate)
 		filterPredicate = [[filterPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:inSearchString forKey:@"SEARCH_STRING"]] retain];

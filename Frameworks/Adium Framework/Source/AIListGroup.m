@@ -20,9 +20,17 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContactHidingController.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
+
+#define PREF_GROUP_CONTACT_LIST_DISPLAY		@"Contact List Display"
 
 @interface AIListObject ()
 - (void) setContainingObject:(id<AIContainingObject>)obj;
+@end
+
+@interface AIListGroup ()
+- (void) rebuildVisibleCache;
 @end
 
 @implementation AIListGroup
@@ -30,8 +38,11 @@
 - (id)initWithUID:(NSString *)inUID
 {
 	if ((self = [super initWithUID:inUID service:nil])) {
+		_visibleObjects = [[NSMutableArray alloc] init];
 		_containedObjects = [[NSMutableArray alloc] init];
 		expanded = YES;
+		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
+		[adium.notificationCenter addObserver:self selector:@selector(rebuildVisibleCache) name:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 	}
 	
 	return self;
@@ -39,7 +50,10 @@
 
 - (void)dealloc
 {
+	[_visibleObjects release]; _visibleObjects = nil;
 	[_containedObjects release]; _containedObjects = nil;
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
+	[adium.notificationCenter removeObserver:self];
 	
 	[super dealloc];
 }
@@ -79,50 +93,77 @@
 
 #pragma mark Visibility
 
-/*
- The visible objects contained in a group are always sorted to the top.  This allows us to easily retrieve only visible
- objects without having to physically remove invisible objects from the group.
- */
+- (void) rebuildVisibleCache
+{
+	[_visibleObjects removeAllObjects];
+	[self sort];
+	for (AIListObject *obj in self)
+	{
+		if (obj.visible)
+			[_visibleObjects addObject:obj];
+	}
+	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", nil] silent:NO];
+}
+
+- (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
+{
+	if (![self containsObject:inObject]) return nil;
+	
+	NSSet *modifiedProperties = nil;
+	if (inModifiedKeys == nil ||
+			[inModifiedKeys containsObject:@"Online"] ||
+			[inModifiedKeys containsObject:@"IdleSince"] ||
+			[inModifiedKeys containsObject:@"Signed Off"] ||
+			[inModifiedKeys containsObject:@"Signed On"] ||
+			[inModifiedKeys containsObject:@"New Object"] ||
+			[inModifiedKeys containsObject:@"VisibleObjectCount"] ||
+			[inModifiedKeys containsObject:@"IsMobile"] ||
+			[inModifiedKeys containsObject:@"IsBlocked"] ||
+			[inModifiedKeys containsObject:@"AlwaysVisible"]) {
+		
+		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject];
+		BOOL isVisible = [_visibleObjects containsObject: inObject];
+		if (shouldBeVisible != isVisible) {
+			if (shouldBeVisible) {
+				[_visibleObjects addObject: inObject];
+				[self sortListObject:inObject];
+			}
+			else
+				[_visibleObjects removeObject: inObject];
+		}
+		modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
+	}
+
+	return modifiedProperties;
+}
+
 - (NSUInteger) visibleCount
 {
-	NSUInteger visibleCount = 0;
-	
-	for (AIListObject *containedObject in self) {
-		if (containedObject.visible)
-			visibleCount++;
-	}
-	
-	return visibleCount;
+	return _visibleObjects.count;
 }
 
 /*!
  * @brief Get the visible object at a given index
- *
- * Hidden contacts will be sorted to the bottom of our contained objects array,
- * so we can just acccess the array directly
  */
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
-	AIListObject *obj = [self.containedObjects objectAtIndex:index];
+	AIListObject *obj = [_visibleObjects objectAtIndex:index];
 	if(!obj.visible) {
 		AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
-		[self sort];
-		AIListObject *obj = [self.containedObjects objectAtIndex:index];
+		[self rebuildVisibleCache];
+		AIListObject *obj = [_visibleObjects objectAtIndex:index];
 		if(!obj.visible)
-			AILog(@"Failed to correct for messed up visibleObjectAtIndex by sorting");
+			AILog(@"Failed to correct for messed up visibleObjectAtIndex by recaching");
 		else
-			AILog(@"Successfully corrected for messed up visibleObjectAtIndex by sorting");
+			AILog(@"Successfully corrected for messed up visibleObjectAtIndex by recaching");
 	}
-
-
+	
 	return obj;
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
 {
-	if(!obj.visible)
-		return NSNotFound;
-	return [self.containedObjects indexOfObject:obj];
+	return [_visibleObjects indexOfObject:obj];
 }
 
 #pragma mark Object Storage
@@ -155,8 +196,8 @@
 //Retrieve a specific object by service and UID
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
-	for (AIListObject *object in self.containedObjects) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+	for (AIListObject *object in self) {
+		if ([inUID isEqualToString:object.UID] && object.service == inService)
 			return object;
 	}
 	
@@ -196,6 +237,7 @@
 		 * since it will add to the bottom/non-visible section of our array.
 		 */
 		if (inObject.visible) {
+			[_visibleObjects addObject: inObject];
 			[self sortListObject:inObject];
 		}
 		
@@ -213,9 +255,12 @@
 	if ([self containsObject:inObject]) {		
 		AIListContact *contact = (AIListContact *)inObject;
 		//Remove the object
+		if ([_visibleObjects containsObject:contact])
+			[_visibleObjects removeObject:contact];
 		if ([contact.groups containsObject:self])
 			[contact removeContainingGroup:self];
 		[_containedObjects removeObject:contact];
+		
 
 		[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];
 	}
@@ -224,6 +269,8 @@
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject
 {
 	NSParameterAssert([self canContainObject:inObject]);
+	if ([_visibleObjects containsObject:inObject])
+		[_visibleObjects removeObject:inObject];
 	[(AIListContact *)inObject removeContainingGroup:self];
 	[_containedObjects removeObject:inObject];
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", @"ObjectCount", nil] silent:NO];	
@@ -235,12 +282,15 @@
 - (void)sortListObject:(AIListObject *)inObject
 {
 	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects]];
+	if ([_visibleObjects containsObject:inObject])
+		[_visibleObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_visibleObjects]];
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
 - (void)sort
 {	
 	[_containedObjects sortUsingActiveSortController];
+	[_visibleObjects sortUsingActiveSortController];
 }
 
 #pragma mark Expanded State

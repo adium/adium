@@ -15,10 +15,12 @@
  */
 
 #import <Adium/AIListObject.h>
+#import <Adium/AIContactObserverManager.h>
 
 @class AISortController, AIContactList;
 
-@interface AIListGroup : AIListObject <AIContainingObject> {
+@interface AIListGroup : AIListObject <AIContainingObject, AIListObjectObserver> {
+	NSMutableArray		*_visibleObjects;
 	NSMutableArray		*_containedObjects;	//Manually ordered array of contents
 	BOOL									expanded;			//Exanded/Collapsed state of this object
 	BOOL									loadedExpanded;
