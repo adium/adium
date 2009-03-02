@@ -187,6 +187,7 @@
 
 - (void)dealloc
 {
+	[chat removeObserver:self forKeyPath:@"Character Counter Max"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[adium.notificationCenter removeObserver:self];
@@ -657,6 +658,7 @@
 - (void)setChat:(AIChat *)inChat
 {
     if (chat != inChat) {
+		[chat removeObserver:self forKeyPath:@"Character Counter Max"];
         [chat release];
         chat = [inChat retain];
 		
@@ -664,8 +666,15 @@
 		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
 
 		//Set up the character counter for this chat. If this changes, we'll get notified as a list object observer.
-		[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
-		[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
+		if(chat.isGroupChat) {
+			[chat addObserver:self
+				   forKeyPath:@"Character Counter Max"
+					  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionInitial)
+					  context:NULL];
+		} else {
+			[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
+			[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
+		}
     }
 }
 - (AIChat *)chat{
@@ -1060,7 +1069,7 @@
 	[[self enclosingScrollView] setNeedsDisplay:YES];
 }
 
-#pragma mark List Object Observer
+#pragma mark List Object Observer / Chat KVO
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
@@ -1073,6 +1082,13 @@
 	return nil;
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if(object == chat && [keyPath isEqualToString:@"Character Counter Max"]) {
+		[self setCharacterCounterMaximum:[chat integerValueForProperty:@"Character Counter Max"]];
+		[self setCharacterCounterVisible:([chat valueForProperty:@"Character Counter Max"] != nil)];		
+	}
+}
 
 #pragma mark Contextual Menus
 
