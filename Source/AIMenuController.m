@@ -244,6 +244,27 @@
 	return workingMenu;
 }
 
+/*!
+ * @brief Obtain an NSMenu of contextual menu items for a chat
+ *
+ * @param chat The chat for which menu items should be generated
+ */
+- (NSMenu *)contextualMenuForChat:(AIChat *)chat
+{
+	NSArray	*itemArray = [chat.account menuItemsForChat:chat];
+	NSMenu	*workingMenu = textViewContextualMenu;
+	
+	[workingMenu removeAllItems];
+	
+	if(itemArray && [itemArray count]) {
+		for(NSMenuItem *menuItem in itemArray) {
+			[workingMenu addItem:menuItem];
+		}
+	}
+	
+	return workingMenu;
+}
+
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forListObject:(AIListObject *)inObject inChat:(AIChat *)inChat
 {
 	[currentContextMenuChat release];

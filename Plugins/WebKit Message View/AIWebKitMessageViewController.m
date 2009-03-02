@@ -786,9 +786,9 @@ static NSArray *draggedTypes = nil;
 		webViewMenuItems = [NSMutableArray array];
 	}
 
+	NSMenu *originalMenu = nil;
+	
 	if (chatListObject) {
-		NSEnumerator	*enumerator;
-
 		NSArray *locations;
 		if ([chatListObject isIntentionallyNotAStranger]) {
 			locations = [NSArray arrayWithObjects:
@@ -807,15 +807,16 @@ static NSArray *draggedTypes = nil;
 				[NSNumber numberWithInteger:Context_Contact_Additions], nil];
 		}
 		
-		NSMenu  *originalMenu = [adium.menuController contextualMenuWithLocations:locations
+		originalMenu = [adium.menuController contextualMenuWithLocations:locations
 																	  forListObject:chatListObject];
-		
-		enumerator = [[originalMenu itemArray] objectEnumerator];
-		while ((menuItem = [enumerator nextObject])) {
-			NSMenuItem	*webViewMenuItem = [menuItem copy];
-			[webViewMenuItems addObject:webViewMenuItem];
-			[webViewMenuItem release];
-		}
+	} else if(chat.isGroupChat) {
+		originalMenu = [adium.menuController contextualMenuForChat:chat];
+	}
+	
+	for(menuItem in [originalMenu itemArray]) {
+		NSMenuItem	*webViewMenuItem = [menuItem copy];
+		[webViewMenuItems addObject:webViewMenuItem];
+		[webViewMenuItem release];
 	}
 
 	if ([webViewMenuItems count])

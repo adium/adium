@@ -333,6 +333,29 @@
 
 #pragma mark Menu Items
 /*!
+ * @brief Menu items for chat
+ *
+ * Returns an array of menu items for a chat on this account.  This is the best place to add protocol-specific
+ * actions that aren't otherwise supported by Adium.
+ * @param inChat AIChat for menu items
+ * @return NSArray of NSMenuItem instances for the passed contact
+ */
+- (NSArray *)menuItemsForChat:(AIChat *)inChat
+{
+	NSMutableArray *menuItemArray = [NSMutableArray array];
+	
+	NSMenuItem *menuItem;
+	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Force Refresh",nil)
+																	 target:self
+																	 action:@selector(forceUpdate:)
+															  keyEquivalent:@""] autorelease];
+	[menuItemArray addObject:menuItem];
+	
+	return menuItemArray;	
+}
+
+/*!
  * @brief Menu items for the account's actions
  *
  * Returns an array of menu items for account-specific actions.  This is the best place to add protocol-specific

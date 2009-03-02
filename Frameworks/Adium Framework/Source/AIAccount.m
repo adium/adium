@@ -758,6 +758,19 @@ typedef enum
 }
 
 /*!
+ * @brief Menu items for chat
+ *
+ * Returns an array of menu items for a chat on this account.  This is the best place to add protocol-specific
+ * actions that aren't otherwise supported by Adium.
+ * @param inChat AIChat for menu items
+ * @return NSArray of NSMenuItem instances for the passed contact
+ */
+- (NSArray *)menuItemsForChat:(AIChat *)inChat
+{
+	return nil;
+}
+
+/*!
  * @brief Menu items for the account's actions
  *
  * Returns an array of menu items for account-specific actions.  This is the best place to add protocol-specific

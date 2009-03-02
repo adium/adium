@@ -246,6 +246,9 @@ typedef enum {
 //Contact-specific menu items
 - (NSArray *)menuItemsForContact:(AIListContact *)inContact;
 
+//Chat-specific menu items
+- (NSArray *)menuItemsForChat:(AIChat *)inChat;
+
 //Account-specific menu items
 @property (readonly, nonatomic) NSArray *accountActionMenuItems;
 - (void)accountMenuDidUpdate:(NSMenuItem*)menuItem;
