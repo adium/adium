@@ -23,7 +23,6 @@ typedef enum {
 	AITwitterDisconnect,
 	AITwitterInitialUserInfo,
 	AITwitterProfileUserInfo,
-	AITwitterProfileUserInfoUpdateIcon,
 	AITwitterProfileStatusUpdates,
 	AITwitterUserIconPull,
 	AITwitterDirectMessageSend,
