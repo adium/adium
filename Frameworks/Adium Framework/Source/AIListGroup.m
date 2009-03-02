@@ -147,15 +147,22 @@
  */
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
-	AIListObject *obj = [_visibleObjects objectAtIndex:index];
-	if(!obj.visible) {
-		AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
-		[self rebuildVisibleCache];
-		AIListObject *obj = [_visibleObjects objectAtIndex:index];
-		if(!obj.visible)
-			AILog(@"Failed to correct for messed up visibleObjectAtIndex by recaching");
-		else
-			AILog(@"Successfully corrected for messed up visibleObjectAtIndex by recaching");
+	AIListObject *obj = nil;
+	@try
+	{
+	 obj = [_visibleObjects objectAtIndex:index];
+	}
+	@catch(...)
+	{
+		if(!obj.visible) {
+			AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
+			[self rebuildVisibleCache];
+			AIListObject *obj = [_visibleObjects objectAtIndex:index];
+			if(!obj.visible)
+				AILog(@"Failed to correct for messed up visibleObjectAtIndex by recaching");
+			else
+				AILog(@"Successfully corrected for messed up visibleObjectAtIndex by recaching");
+		}
 	}
 	
 	return obj;
