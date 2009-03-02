@@ -106,15 +106,21 @@
 	[self silenceAllContactUpdatesForInterval:18.0];
 	
 	// Creating the fake timeline account.
-	AIChat *newTimelineChat = [adium.chatController chatWithName:[self timelineChatName]
-													  identifier:nil
-													   onAccount:self 
-												chatCreationInfo:nil];
-	
-	AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
-	
-	if(timelineBookmark.remoteGroupNames.count == 0) {
-		[timelineBookmark addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
+	if(![[self preferenceForKey:TWITTER_PREFERENCE_BOOKMARK group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+		AIChat *newTimelineChat = [adium.chatController chatWithName:[self timelineChatName]
+														  identifier:nil
+														   onAccount:self 
+													chatCreationInfo:nil];
+		
+		AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
+		
+		if(timelineBookmark.remoteGroupNames.count == 0) {
+			[timelineBookmark addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
+		}
+		
+		// Don't create another bookmark.
+		[self setPreference:[NSNumber numberWithBool:YES] forKey:TWITTER_PREFERENCE_BOOKMARK group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		
 	}
 	
 	// Grab all of our real updates	
