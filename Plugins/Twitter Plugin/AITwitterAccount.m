@@ -29,6 +29,9 @@
 #import <Adium/AIChat.h>
 
 @interface AITwitterAccount()
+- (NSString *)timelineChatName;
+- (void)updateTimelineChat:(AIChat *)timelineChat;
+
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
 - (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
 - (NSDictionary *)dictionaryForRequestID:(NSString *)requestID;
@@ -85,6 +88,7 @@
 		[self setLastDisconnectionError:AILocalizedString(@"Unable to Connect", nil)];
 		[self didDisconnect];
 	}
+	
 }
 
 /*!
@@ -102,29 +106,15 @@
 	[self silenceAllContactUpdatesForInterval:18.0];
 	
 	// Creating the fake timeline account.
-	{
-		AIListContact *listContact = [self contactWithUID:TWITTER_TIMELINE_UID];
-		
-		// If the user isn't in a group, set them in the Twitter group.
-		if(listContact.remoteGroupNames.count == 0) {
-			[listContact addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
-		}
-		
-		// Grab the Twitter display name and set it as the remote alias.
-		if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:TWITTER_TIMELINE_NAME]) {
-			[listContact setServersideAlias:TWITTER_TIMELINE_NAME
-								   silently:silentAndDelayed];
-		}
-		
-		// Set the user as available.
-		[listContact setStatusWithName:nil
-							statusType:AIAvailableStatusType
-								notify:NotifyLater];
-		
-		// Set the user as online.
-		[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];	
-		
-		[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];
+	AIChat *newTimelineChat = [adium.chatController chatWithName:[self timelineChatName]
+													  identifier:nil
+													   onAccount:self 
+												chatCreationInfo:nil];
+	
+	AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
+	
+	if(timelineBookmark.remoteGroupNames.count == 0) {
+		[timelineBookmark addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
 	}
 	
 	// Grab all of our real updates	
@@ -173,7 +163,7 @@
  */
 - (void)didDisconnect
 {
-	[updateTimer invalidate];
+	[updateTimer invalidate]; updateTimer = nil;
 	[pendingRequests removeAllObjects];
 	[queuedDM removeAllObjects];
 	[queuedUpdates removeAllObjects];
@@ -195,13 +185,7 @@
  * @brief Affirm we can open chats.
  */
 - (BOOL)openChat:(AIChat *)chat
-{	
-	if([chat.listObject.UID isEqualToString:TWITTER_TIMELINE_UID]) {
-		timelineChat = chat;
-			
-		[updateTimer fire];
-	}
-	
+{
 	return YES;
 }
 
@@ -209,10 +193,18 @@
  * @brief Allow all chats to close.
  */
 - (BOOL)closeChat:(AIChat *)inChat
+{	
+	return YES;
+}
+
+/*!
+ * @brief Make the rejoined timeline not show up as unknown.
+ *
+ * We claim to have rejoined the chat, if only for simplicity sake.
+ */
+- (BOOL)rejoinChat:(AIChat *)inChat
 {
-	if(inChat == timelineChat) {
-		timelineChat = nil;
-	}
+	[self updateTimelineChat:inChat];
 	
 	return YES;
 }
@@ -268,7 +260,7 @@
 	
 	NSString *requestID;
 	
-	if(inContentMessage.chat == timelineChat) {
+	if(inContentMessage.chat.isGroupChat) {
 		requestID = [twitterEngine sendUpdate:[inContentMessage messageString]];
 	} else {		
 		requestID = [twitterEngine sendDirectMessage:[inContentMessage messageString]
@@ -346,6 +338,27 @@
 }
 
 #pragma mark Contact handling
+/*!
+ * @brief The name of our timeline chat
+ */
+- (NSString *)timelineChatName
+{
+	return [NSString stringWithFormat:TWITTER_TIMELINE_NAME, self.UID];
+}
+
+/*!
+ * @brief Update the timeline chat
+ * 
+ * Remove the userlist
+ */
+- (void)updateTimelineChat:(AIChat *)timelineChat
+{
+	// Disable the user list on the chat.
+	if ([[[timelineChat chatContainer] chatViewController] userListVisible]) {
+		[[[timelineChat chatContainer] chatViewController] toggleUserList]; 
+	}	
+}
+
 /*!
  * @brief Unfollow the requested contacts.
  */
@@ -500,30 +513,53 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType
 {
 	if(requestType == AITwitterUpdateReplies || requestType == AITwitterUpdateFollowedTimeline) {
+		if([queuedUpdates count] == 0) {
+			return;
+		}
+		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
+		
+		AIChat *timelineChat = [adium.chatController existingChatWithName:[self timelineChatName]
+																onAccount:self];
+		
+		if (!timelineChat) {
+			timelineChat = [adium.chatController chatWithName:[self timelineChatName]
+												   identifier:nil
+													onAccount:self
+											 chatCreationInfo:nil];
+		
+			// Update the timeline chat and its options to be how we want it.
+			[self updateTimelineChat:timelineChat];
+		}
 		
 		for (NSDictionary *status in sortedQueuedUpdates) {
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
 			AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
 			
-			// Update the user's status message
-			[listContact setStatusMessage:[NSAttributedString stringWithString:text]
-								   notify:NotifyNow];
-			
-			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
-																	withSource:listContact
-																   destination:self
-																		  date:date
-																	   message:[NSAttributedString stringWithString:text]
-																	 autoreply:NO];
-			
-			[adium.contentController receiveContentObject:contentMessage];
+			if (![listContact.UID isEqualToString:self.UID]) {
+				// Update the user's status message
+				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
+									   notify:NotifyNow];
+				
+				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
+																		withSource:listContact
+																	   destination:self
+																			  date:date
+																		   message:[NSAttributedString stringWithString:text]
+																		 autoreply:NO];
+				
+				[adium.contentController receiveContentObject:contentMessage];
+			}
 		}
 		
 		[queuedUpdates removeAllObjects];
 	} else if (requestType == AITwitterUpdateDirectMessage) {
+		if([queuedDM count] == 0) {
+			return;
+		}
+		
 		NSArray *sortedQueuedDM = [queuedDM sortedArrayUsingFunction:queuedDMSort context:nil];
 		
 		for (NSDictionary *message in sortedQueuedDM) {
@@ -586,16 +622,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-		// XXX check HTTP error code, make sure it's really a 401
-		[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
-		[self serverReportedInvalidPassword];
+		// Error code 401 is an invalid password.
+		if([error code] == 401) {
+			[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
+			[self serverReportedInvalidPassword];
+		} else {
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to Connect", nil)];
+		}
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
 		[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
 		[self didDisconnect];
 	}
 	
-	NSLog(@"Request failed (%@) - %@", identifier, error);
+	NSLog(@"Request failed (%@ - %d) - %@", identifier, [self requestTypeForRequestID:identifier], error);
 	
 	[self clearRequestTypeForRequestID:identifier];
 }
@@ -611,12 +651,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 												 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
 		// If we've never pulled anything before, we shall default to only pulling 1 page.
-		// We only need to traverse more if we're pulling for the timeline chat.
 		// If there's nothing in this set of statuses, then there's no need to get another page.
-		BOOL nextPageNecessary = (timelineChat && lastPull != nil && [statuses count] != 0);
-		
-		NSLog(@"Type: %d", [self requestTypeForRequestID:identifier]);
-		NSLog(@"Initial nPN: %d", nextPageNecessary);
+		BOOL nextPageNecessary = (lastPull != nil && [statuses count] != 0);
 		
 		// The order doesn't matter since we'll sort later, but for the sake of updating statuses, let's go backwards.
 		for (NSDictionary *status in [statuses reverseObjectEnumerator]) {
@@ -624,19 +660,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			if ([date compare:lastPull] == NSOrderedAscending) {
 				nextPageNecessary = NO;
-			} else if (timelineChat) {
-				[queuedUpdates addObject:status];
 			} else {
-				// Only update status here if we're not pulling for a timeline.
-				AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
-				NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
-				
-				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
-									   notify:NotifyNow];
+				[queuedUpdates addObject:status];
 			}
 		}
-		
-		NSLog(@"nPN after: %d", nextPageNecessary);
 		
 		// See if we need to pull more updates.
 		if (nextPageNecessary) {
@@ -677,20 +704,18 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					[queuedUpdates removeAllObjects];
 				}
 			}
-		} else 	if (timelineChat) {
+		} else {
 			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				followedTimelineCompleted = YES;
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
 			}
 			
-			NSLog(@"fTC: %d rC: %d", followedTimelineCompleted, repliesCompleted);
-			
 			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
 				// Set the "last pulled" for the timeline, since we've completed both replies and the timeline.
 				[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
 							 forKey:TWITTER_PREFERENCE_DATE_TIMELINE
-							  group:TWITTER_PREFERENCE_GROUP_UPDATES];					
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 				
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			}
@@ -852,7 +877,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[listContact setProfileArray:profileArray notify:NotifyNow];
 			
 			// Grab their statuses.
-			NSString *requestID = [twitterEngine getUserTimelineFor:listContact.UID since:nil startingAtPage:0 count:TWITTER_UPDATE_TIMELINE_COUNT];
+			NSString *requestID = [twitterEngine getUserTimelineFor:listContact.UID since:nil startingAtPage:0 count:TWITTER_UPDATE_USER_INFO_COUNT];
 			
 			if (requestID) {
 				[self setRequestType:AITwitterProfileStatusUpdates

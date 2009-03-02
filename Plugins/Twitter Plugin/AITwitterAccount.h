@@ -34,13 +34,13 @@ typedef enum {
 } AITwitterRequestType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10
-#define TWITTER_UPDATE_TIMELINE_COUNT		0 // get the default amount
+#define TWITTER_UPDATE_TIMELINE_COUNT		100
+#define TWITTER_UPDATE_USER_INFO_COUNT		10
 
 #define TWITTER_INCORRECT_PASSWORD_MESSAGE	AILocalizedString(@"Incorrect username or password","Error message displayed when the server reports username or password as being incorrect.")
 
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
-#define TWITTER_TIMELINE_NAME				@"Twitter Timeline"
-#define TWITTER_TIMELINE_UID				@"twitter-timeline"
+#define TWITTER_TIMELINE_NAME				AILocalizedString(@"Twitter Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")
 
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
@@ -68,8 +68,6 @@ typedef enum {
 @interface AITwitterAccount : AIAccount <MGTwitterEngineDelegate> {
 	MGTwitterEngine		*twitterEngine;
 	NSTimer				*updateTimer;
-	
-	AIChat				*timelineChat;
 	
 	BOOL				followedTimelineCompleted;
 	BOOL				repliesCompleted;
