@@ -50,34 +50,36 @@
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context;
 {
-	if([context isKindOfClass:[AIContentMessage class]]) {
-		AIContentMessage *message = (AIContentMessage *)context;
-		AIChat *chat = [message chat];
+	if(![context isKindOfClass:[AIContentMessage class]])
+		return inAttributedString;
+	
+	AIContentMessage *message = (AIContentMessage *)context;
+	AIChat *chat = [message chat];
+	
+	if(!chat.isGroupChat)
+		return inAttributedString;
 		
-		if(chat.isGroupChat) {
-			NSString *messageString = [inAttributedString string];
-					
-			AIListObject *account = [message destination];
+	NSString *messageString = [inAttributedString string];
 			
-			// XXX Include chat nickname
-			NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
+	AIListObject *account = [message destination];
+	
+	// XXX Include chat nickname
+	NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
+	
+	for(NSString *checkString in myNames) {
+		NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
+	
+		if(range.location != NSNotFound &&
+		   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
+		   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
+		{
+			[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
+											 forListObject:[message source]
+												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
+							  previouslyPerformedActionIDs:nil];
+			[message addDisplayClass:@"mention"];
 			
-			for(NSString *checkString in myNames) {
-				NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
-			
-				if(range.location != NSNotFound &&
-				   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
-				   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
-				{
-					[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
-													 forListObject:[message source]
-														  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
-									  previouslyPerformedActionIDs:nil];
-					[message addDisplayClass:@"mention"];
-					
-					break;
-				}
-			}
+			break;
 		}
 	}
 	
