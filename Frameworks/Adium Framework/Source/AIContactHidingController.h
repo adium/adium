@@ -14,11 +14,14 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import <Adium/AIContactObserverManager.h>
+#define CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION @"AIContactVisibilityOptionsDidChangeNotification"
 
 @class AIListContact;
 @interface AIContactHidingController : NSObject {
 	NSString		*searchString;
 	NSMutableDictionary *matchedContacts;
+	NSPredicate *filterPredicate;
+	NSPredicate *filterPredicateTemplate;
 	
 	BOOL			hideOfflineIdleOrMobileContacts;
 	
