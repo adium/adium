@@ -111,15 +111,18 @@ static AIContactHidingController *sharedControllerInstance = nil;
 }
 
 /*!
- * @brief Determines a contact's visibility based on the contact hiding preferences
+ * @brief Determines a contact's visibility in a particular group based on the contact hiding preferences
  * @result Returns YES if the contact should be visible, otherwise NO
  */
-- (BOOL)visibilityOfListObject:(AIListObject *)listObject
+- (BOOL)visibilityOfListObject:(AIListObject *)listObject inContainer:(id<AIContainingObject>)container
 {
+	if (![container containsObject:listObject])
+		return NO;
+	
 	// Don't do any processing for a contact that's always visible.
 	if (listObject.alwaysVisible)
 		return YES;
-
+	
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
 		return ([(id<AIContainingObject>)listObject visibleCount] > 0);
@@ -153,13 +156,13 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	
 	if (!showIdleContacts && [listObject valueForProperty:@"IdleSince"])
 		return NO;
-
+	
 	if (!showMobileContacts && listObject.isMobile)
 		return NO;
 	
 	if (!showBlockedContacts && listObject.isBlocked)
 		return NO;
-
+	
 	return YES;
 }
 

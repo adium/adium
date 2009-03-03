@@ -23,8 +23,8 @@
 
 #define KEY_RESOLVE_ALPHABETICALLY  @"Status:Resolve Alphabetically"
 
-NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *context);
-NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context);
+NSComparisonResult basicGroupSort(id objectA, id objectB, void *context);
+NSComparisonResult basicSort(id objectA, id objectB, void *context);
 
 @interface AISortController()
 - (NSArray *)sortedListObjects:(NSArray *)inObjects;
@@ -191,10 +191,10 @@ static NSMutableArray *sortControllers = nil;
 
 	if (alwaysSortGroupsToTop) {
 		while ((object = [enumerator nextObject]) && ((object == inObject) || 
-			  basicGroupVisibilitySort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
+			  basicGroupSort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
 	} else {
 		while ((object = [enumerator nextObject]) && ((object == inObject) ||
-			  basicVisibilitySort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
+			  basicSort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
 	}
 	
 	return index;
@@ -213,76 +213,42 @@ static NSMutableArray *sortControllers = nil;
  */
 - (NSArray *)sortedListObjects:(NSArray *)inObjects
 {
-	return [inObjects sortedArrayUsingFunction:(alwaysSortGroupsToTop ? basicGroupVisibilitySort : basicVisibilitySort)
+	return [inObjects sortedArrayUsingFunction:(alwaysSortGroupsToTop ? basicGroupSort : basicSort)
 									   context:sortFunction
 										  hint:[inObjects sortedArrayHint]];
 }
 
 - (void) sortListObjects:(NSMutableArray *)inObjects
 {
-	[inObjects sortUsingFunction:(alwaysSortGroupsToTop ? basicGroupVisibilitySort : basicVisibilitySort) context:sortFunction];
+	[inObjects sortUsingFunction:(alwaysSortGroupsToTop ? basicGroupSort : basicSort) context:sortFunction];
 }
 
 /*!
  * @brief Primary sort when groups are sorted alongside contacts (alwaysSortGroupsToTop == FALSE)
- *
- * Visible contacts go above invisible ones.  For contacts which are both visible, use the sort function.
  */
-NSComparisonResult basicVisibilitySort(id objectA, id objectB, void *context)
+NSComparisonResult basicSort(id objectA, id objectB, void *context)
 {
-    BOOL	visibleA = [objectA visible];
-    BOOL	visibleB = [objectB visible];
+	sortfunc	function = context;
 	
-	if (visibleA || visibleB) {
-		if (!visibleA && visibleB) {
-			return NSOrderedDescending;
-		} else if (visibleA && !visibleB) {
-			return NSOrderedAscending;
-		} else {
-			sortfunc	function = context;
-			
-			return (function)(objectA, objectB, NO);
-		}
-
-	} else {
-		//We don't care about the relative ordering of two invisible contacts
-		return NSOrderedSame;
-	}
+	return (function)(objectA, objectB, NO);
 }
 
 /*!
  * @brief Primary sort when groups are always sorted to the top
- *
- * Visible contacts go above invisible ones.  For contacts which are both visible, use the sort function.
  */
-NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *context)
+NSComparisonResult basicGroupSort(id objectA, id objectB, void *context)
 {
-    BOOL	visibleA = [objectA visible];
-    BOOL	visibleB = [objectB visible];
+	BOOL	groupA = [objectA isKindOfClass:[AIListGroup class]];
+	BOOL	groupB = [objectB isKindOfClass:[AIListGroup class]];
 	
-	if (visibleA || visibleB) {
-		if (!visibleA && visibleB) {
-			return NSOrderedDescending;
-		} else if (visibleA && !visibleB) {
-			return NSOrderedAscending;
-		} else {
-			BOOL	groupA = [objectA isKindOfClass:[AIListGroup class]];
-			BOOL	groupB = [objectB isKindOfClass:[AIListGroup class]];
-			
-			if (groupA && !groupB) {
-				return NSOrderedAscending;
-			} else if (!groupA && groupB) {
-				return NSOrderedDescending;
-			} else {
-				sortfunc	function = context;
-				
-				return (function)(objectA, objectB, groupA);
-			}
-		}
-
+	if (groupA && !groupB) {
+		return NSOrderedAscending;
+	} else if (!groupA && groupB) {
+		return NSOrderedDescending;
 	} else {
-		//We don't care about the relative ordering of two invisible contacts
-		return NSOrderedSame;
+		sortfunc	function = context;
+		
+		return (function)(objectA, objectB, groupA);
 	}
 }
 
@@ -318,9 +284,9 @@ NSComparisonResult basicGroupVisibilitySort(id objectA, id objectB, void *contex
 - (NSComparisonResult)compareObject:(id)object1 toObject:(id)object2
 {
 	if (alwaysSortGroupsToTop) {
-		return basicGroupVisibilitySort(object1, object2, sortFunction);
+		return basicGroupSort(object1, object2, sortFunction);
 	} else {
-		return basicVisibilitySort(object1, object2, sortFunction);
+		return basicSort(object1, object2, sortFunction);
 	}	
 }
 

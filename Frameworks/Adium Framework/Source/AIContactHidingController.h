@@ -17,6 +17,7 @@
 #define CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION @"AIContactVisibilityOptionsDidChangeNotification"
 
 @class AIListContact;
+@protocol AIContainingObject;
 @interface AIContactHidingController : NSObject {
 	NSString		*searchString;
 	NSMutableDictionary *matchedContacts;
@@ -38,5 +39,5 @@
 
 @property (readonly, nonatomic) NSString *contactFilteringSearchString;
 - (BOOL)filterContacts:(NSString *)inSearchString;
-- (BOOL)visibilityOfListObject:(AIListObject *)listObject;
+- (BOOL)visibilityOfListObject:(AIListObject *)listObject inContainer:(id<AIContainingObject>)container;
 @end

@@ -32,6 +32,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
+#import <Adium/AIContactHidingController.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
@@ -543,7 +544,13 @@
 - (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact
 {
 	// Show this contact if we're showing offline contacts or if this contact is online.
-	return [inContact visible];
+	for (id<AIContainingObject> container in inContact.containingObjects) 
+	{
+		if ([[AIContactHidingController sharedController] visibilityOfListObject:inContact inContainer:container])
+			return YES;
+	}
+		
+	return NO;
 }
 
 /*!

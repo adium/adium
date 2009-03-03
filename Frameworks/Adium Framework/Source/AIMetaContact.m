@@ -26,6 +26,7 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIStatus.h>
+#import <Adium/AIContactHidingController.h>
 
 #define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
@@ -597,7 +598,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			continue;
 		}
 
-		if ((listContact.remoteGroupNames.count > 0 || includeOfflineAccounts) && (!visibleOnly || listContact.visible)) {
+		if ((listContact.remoteGroupNames.count > 0 || includeOfflineAccounts) && (!visibleOnly || [[AIContactHidingController sharedController] visibilityOfListObject:listContact inContainer:self])) {
 			[listContacts addObject:listContact]; 
 		}
 	}

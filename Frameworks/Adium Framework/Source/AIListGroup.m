@@ -99,7 +99,7 @@
 	[self sort];
 	for (AIListObject *obj in self)
 	{
-		if (obj.visible)
+		if ([[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
 			[_visibleObjects addObject:obj];
 	}
 	[self didModifyProperties:[NSSet setWithObjects:@"VisibleObjectCount", nil] silent:NO];
@@ -121,7 +121,7 @@
 			[inModifiedKeys containsObject:@"IsBlocked"] ||
 			[inModifiedKeys containsObject:@"AlwaysVisible"]) {
 		
-		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject];
+		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self];
 		BOOL isVisible = [_visibleObjects containsObject: inObject];
 		if (shouldBeVisible != isVisible) {
 			if (shouldBeVisible) {
@@ -154,11 +154,11 @@
 	}
 	@catch(...)
 	{
-		if(!obj.visible) {
+		if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self]) {
 			AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
 			[self rebuildVisibleCache];
 			AIListObject *obj = [_visibleObjects objectAtIndex:index];
-			if(!obj.visible)
+			if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
 				AILog(@"Failed to correct for messed up visibleObjectAtIndex by recaching");
 			else
 				AILog(@"Successfully corrected for messed up visibleObjectAtIndex by recaching");
@@ -243,7 +243,7 @@
 		 * sort code would invoke an extra update that we don't need.  We can skip sorting if this object is not visible,
 		 * since it will add to the bottom/non-visible section of our array.
 		 */
-		if (inObject.visible) {
+		if ([[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self]) {
 			[_visibleObjects addObject: inObject];
 			[self sortListObject:inObject];
 		}
