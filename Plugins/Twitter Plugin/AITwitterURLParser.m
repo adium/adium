@@ -14,17 +14,17 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AITwitterURLParse.h"
+#import "AITwitterURLParser.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
-@implementation AITwitterURLParse
+@implementation AITwitterURLParser
 
 +(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
 {	
 	NSAttributedString *attributedString;
 	
-	attributedString = [AITwitterURLParse linkifiedStringFromAttributedString:inString
+	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
 														  forPrefixCharacter:@"@"
 															   withURLFormat:@"http://www.twitter.com/%@"
 															validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"]];
@@ -32,7 +32,7 @@
 	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
 	
-	attributedString = [AITwitterURLParse linkifiedStringFromAttributedString:attributedString
+	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
 														   forPrefixCharacter:@"#"
 																withURLFormat:@"http://search.twitter.com/search?q=%%23%@"
 															validCharacterSet:[disallowedCharacters invertedSet]];
