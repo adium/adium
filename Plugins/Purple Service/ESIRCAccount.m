@@ -47,7 +47,7 @@ void purple_account_set_bool(void *account, const char *name,
 		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
 		 * If we're sending a message normally, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
 		 */
-		encodedString = [AIHTMLDecoder encodeHTML:([[inContentMessage chat] isSecure] ? [inContentMessage message] : [[inContentMessage message] attributedStringByConvertingLinksToStrings])
+		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? inContentMessage.message : [inContentMessage.message attributedStringByConvertingLinksToStrings])
 										  headers:NO
 										 fontTags:YES
 							   includingColorTags:YES

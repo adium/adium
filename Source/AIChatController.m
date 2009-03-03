@@ -738,8 +738,8 @@
 	AIContentObject	*contentObject = [[notification userInfo] objectForKey:@"AIContentObject"];
 
 	//Update our most recent chat
-	if ([contentObject trackContent]) {
-		AIChat	*chat = [contentObject chat];
+	if (contentObject.trackContent) {
+		AIChat	*chat = contentObject.chat;
 		
 		if (chat != mostRecentChat) {
 			[mostRecentChat release];

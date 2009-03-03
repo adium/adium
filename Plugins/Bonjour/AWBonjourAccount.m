@@ -448,7 +448,7 @@ enum {
 
 	[XHTMLDecoder setGeneratesStrictXHTML:YES];
 	[XHTMLDecoder setClosesFontTags:YES];
-	NSString *encodedMessage = [XHTMLDecoder encodeHTML:[inContentMessage message] imagesPath:nil];
+	NSString *encodedMessage = [XHTMLDecoder encodeHTML:inContentMessage.message imagesPath:nil];
 	[XHTMLDecoder release];
 	return encodedMessage;
 }

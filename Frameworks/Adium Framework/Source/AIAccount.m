@@ -659,7 +659,7 @@ typedef enum
  */
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {
-    return [self encodedAttributedString:[inContentMessage message] forListObject:[inContentMessage destination]];
+    return [self encodedAttributedString:inContentMessage.message forListObject:[inContentMessage destination]];
 }
 
 /*!

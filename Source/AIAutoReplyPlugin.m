@@ -105,7 +105,7 @@
 - (void)didReceiveContent:(NSNotification *)notification
 {
     AIContentObject 	*contentObject = [[notification userInfo] objectForKey:@"AIContentObject"];
-    AIChat				*chat = [contentObject chat];
+    AIChat				*chat = contentObject.chat;
 	
 	/* We will not respond to the received message if it is an auto-reply, over a chat where we have already responded,
 	 * or over a group chat.
@@ -174,7 +174,7 @@
 - (void)didSendContent:(NSNotification *)notification
 {
     AIContentObject	*contentObject = [[notification userInfo] objectForKey:@"AIContentObject"];
-	AIChat			*chat = [contentObject chat];
+	AIChat			*chat = contentObject.chat;
    
     if ([[contentObject type] isEqualToString:CONTENT_MESSAGE_TYPE]) {
 		[receivedAutoReply addObject:chat.uniqueChatID];

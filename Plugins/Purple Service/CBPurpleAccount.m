@@ -977,10 +977,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Content
 - (void)sendTypingObject:(AIContentTyping *)inContentTyping
 {
-	AIChat *chat = [inContentTyping chat];
+	AIChat *chat = inContentTyping.chat;
 
 	if (!chat.isGroupChat) {
-		[purpleAdapter sendTyping:[inContentTyping typingState] inChat:chat];
+		[purpleAdapter sendTyping:inContentTyping.typingState inChat:chat];
 	}
 }
 
@@ -998,7 +998,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		//Send a notification directly if possible
 		[purpleAdapter sendNotificationOfType:[(AIContentNotification *)inContentMessage notificationType]
 								 fromAccount:self
-									  inChat:[inContentMessage chat]];
+									  inChat:inContentMessage.chat];
 
 	} else {
 		if ([inContentMessage isAutoreply]) {
@@ -1007,7 +1007,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 		[purpleAdapter sendEncodedMessage:[inContentMessage encodedMessage]
 							 fromAccount:self
-								  inChat:[inContentMessage chat]
+								  inChat:inContentMessage.chat
 							   withFlags:flags];
 	}
 	
@@ -1021,9 +1021,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  */
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {
-	BOOL		didCommand = [purpleAdapter attemptPurpleCommandOnMessage:[[inContentMessage message] string]
+	BOOL		didCommand = [purpleAdapter attemptPurpleCommandOnMessage:[inContentMessage.message string]
 														 fromAccount:(AIAccount *)[inContentMessage source]
-															  inChat:[inContentMessage chat]];	
+															  inChat:inContentMessage.chat];	
 	
 	return (didCommand ? nil : [super encodedAttributedStringForSendingContentMessage:inContentMessage]);
 }

@@ -408,18 +408,18 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {		
 	AIListObject		*inListObject = [inContentMessage destination];
-	NSAttributedString	*inAttributedString = [inContentMessage message];
+	NSAttributedString	*inAttributedString = inContentMessage.message;
 	NSString			*encodedString;
 	
 	if (inListObject) {
-		if ([[inContentMessage chat] isSecure] &&
-			aim_snvalid_icq([[[inContentMessage source] UID] UTF8String]) &&
+		if (inContentMessage.chat.isSecure &&
+			aim_snvalid_icq([inContentMessage.source.UID UTF8String]) &&
 			aim_snvalid_icq([inListObject.UID UTF8String])) {
 			/* If we're an ICQ account and they're an ICQ account, we need to strip HTML now since the 
 			 * encrypted message won't be able to be processed by libpurple */
 			encodedString = [[inAttributedString attributedStringByConvertingLinksToStrings] string];
 
-		} else if ([self canSendImagesForChat:[inContentMessage chat]]) {
+		} else if ([self canSendImagesForChat:inContentMessage.chat]) {
 			//Encode to HTML and look for outgoing images if the chat supports it
 			encodedString = [encoderCloseFontTags encodeHTML:inAttributedString
 												  imagesPath:@"/tmp"];
