@@ -208,7 +208,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath isEqualToString:@"Online"] && object == self.account) {
-		[self setOnline:self.account.online notify:NotifyNow silently:YES];
+		[self setOnline:self.account.online notify:NotifyLater silently:YES];
+		[self notifyOfChangedPropertiesSilently:YES];
 	}
 }
 
