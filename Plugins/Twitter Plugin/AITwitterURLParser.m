@@ -49,6 +49,8 @@
 	
 	NSScanner		*scanner = [NSScanner scannerWithString:[inString string]];
 	
+	[scanner setCharactersToBeSkipped:nil];
+	
 	NSString *trash;
 	
 	[newString beginEditing];
@@ -60,17 +62,27 @@
 			break;
 		}
 		
-		NSUInteger	startLocation = [scanner scanLocation]+1;
-		NSString	*linkText;
+		NSUInteger	startLocation = [scanner scanLocation];
+		NSString	*linkText = nil;
+
+		// Advance to the start of the string we want.
+		// Check to make sure we aren't exceeding the string bounds.
+		if(startLocation + 1 < [[scanner string] length]) {
+			[scanner setScanLocation:[scanner scanLocation]+1];
+		} else {
+			break;
+		}
 		
-		[scanner setScanLocation:startLocation];
-		[scanner scanUpToCharactersFromSet:[validValues invertedSet] intoString:&linkText];
-		
-		NSUInteger endLocation = [scanner scanLocation];
+		// Grab any valid characters we can.
+		BOOL scannedCharacters = [scanner scanCharactersFromSet:validValues intoString:&linkText];
 			
-		[newString addAttribute:NSLinkAttributeName
-						  value:[NSString stringWithFormat:inURLFormat, [linkText stringByEncodingURLEscapes]]
-						  range:NSMakeRange(startLocation, endLocation - startLocation)];
+		if(scannedCharacters) {
+			[newString addAttribute:NSLinkAttributeName
+							  value:[NSString stringWithFormat:inURLFormat, [linkText stringByEncodingURLEscapes]]
+							  range:NSMakeRange(startLocation + 1, [linkText length])];
+		} else {
+			[scanner setScanLocation:[scanner scanLocation]+1];
+		}
 	}
 	
 	[newString endEditing];

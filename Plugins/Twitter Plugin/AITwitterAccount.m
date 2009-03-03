@@ -18,6 +18,7 @@
 #import "AITwitterURLParser.h"
 #import "MGTwitterEngine/MGTwitterEngine.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -35,6 +36,8 @@
 
 - (NSString *)timelineChatName;
 - (void)updateTimelineChat:(AIChat *)timelineChat;
+
+- (NSAttributedString *)parseMessage:(NSString *)message;
 
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
 - (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
@@ -583,6 +586,21 @@
 	}
 }
 
+#pragma mark Message Display
+/*!
+ * @brief Parses a Twitter message into an attributed string
+ */
+- (NSAttributedString *)parseMessage:(NSString *)inMessage
+{
+	NSAttributedString *message;
+	
+	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
+	
+	message = [AITwitterURLParser linkifiedAttributedStringFromString:message];
+	
+	return message;
+}
+
 /*!
  * @brief Sort status updates
  */
@@ -640,13 +658,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 				
-				NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
-				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
 																	   destination:self
 																			  date:date
-																		   message:attributedMessage
+																		   message:[self parseMessage:text]
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
@@ -670,13 +686,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			AIChat			*chat = [adium.chatController chatWithContact:listContact];
 			
 			if(chat) {
-				NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
-				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:listContact
 																	   destination:self
 																			  date:date
-																		   message:attributedMessage
+																		   message:[self parseMessage:text]
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
@@ -843,8 +857,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AILogWithSignature(@"Updating statuses for profile, user %@", listContact);
 		
 		for (NSDictionary *update in statuses) {
-			NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:[update objectForKey:TWITTER_STATUS_TEXT]]];
-			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, KEY_VALUE, nil]];
+			NSAttributedString *message = [self parseMessage:[update objectForKey:TWITTER_STATUS_TEXT]];
+			
+			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
 		}
 		
 		[listContact setProfileArray:profileArray notify:NotifyNow];
