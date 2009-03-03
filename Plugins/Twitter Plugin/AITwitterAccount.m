@@ -198,6 +198,14 @@
 }
 
 /*!
+ * @brief Returns whether or not this account is connected via an encrypted connection.
+ */
+- (BOOL)encrypted
+{
+	return [twitterEngine usesSecureConnection];
+}
+
+/*!
  * @brief Affirm we can open chats.
  */
 - (BOOL)openChat:(AIChat *)chat
