@@ -15,7 +15,7 @@
  */
 
 #import "AITwitterAccount.h"
-#import "AITwitterURLParse.h"
+#import "AITwitterURLParser.h"
 #import "MGTwitterEngine/MGTwitterEngine.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -619,7 +619,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 				
-				NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
+				NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
 				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
@@ -649,7 +649,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
 			if(chat) {
-				NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
+				NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
 				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:listContact
@@ -811,7 +811,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
 		
 		for (NSDictionary *update in statuses) {
-			NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:[update objectForKey:TWITTER_STATUS_TEXT]]];
+			NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:[update objectForKey:TWITTER_STATUS_TEXT]]];
 			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, KEY_VALUE, nil]];
 		}
 		
