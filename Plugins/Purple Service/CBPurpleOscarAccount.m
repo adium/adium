@@ -378,7 +378,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
  */
 - (BOOL)canSendImagesForChat:(AIChat *)inChat
 {	
-	if ([inChat isGroupChat]) return NO;
+	if (inChat.isGroupChat) return NO;
 	
 	OscarData *od = ((account && purple_account_get_connection(account)) ? purple_account_get_connection(account)->proto_data : NULL);
 	if (od) {

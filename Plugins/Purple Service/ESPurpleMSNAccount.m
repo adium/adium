@@ -89,15 +89,15 @@
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {
 	NSString	*encodedString;
-	BOOL		didCommand = [[self purpleAdapter] attemptPurpleCommandOnMessage:[[inContentMessage message] string]
-															  fromAccount:(AIAccount *)[inContentMessage source]
-																   inChat:[inContentMessage chat]];	
+	BOOL		didCommand = [[self purpleAdapter] attemptPurpleCommandOnMessage:inContentMessage.message.string
+															  fromAccount:(AIAccount *)inContentMessage.source
+																   inChat:inContentMessage.chat];	
 	
 	if (!didCommand) {
 		/* If we're sending a message on an encryption chat, we can encode the HTML normally, as links will go through fine.
 		 * If we're sending a message normally, MSN will drop the title of any link, so we preprocess it to be in the form "title (link)"
 		 */
-		encodedString = [AIHTMLDecoder encodeHTML:([[inContentMessage chat] isSecure] ? [inContentMessage message] : [[inContentMessage message] attributedStringByConvertingLinksToStrings])
+		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? inContentMessage.message : [inContentMessage.message attributedStringByConvertingLinksToStrings])
 										  headers:NO
 										 fontTags:YES
 							   includingColorTags:YES
@@ -123,7 +123,7 @@
 		 * one returned by our superclass as it appends its own html to the string.
 		 * Only the content message can tell us the original direction.
 		 */
-		return (([[[inContentMessage message] string] baseWritingDirection] == NSWritingDirectionRightToLeft)
+		return (([[inContentMessage.message string] baseWritingDirection] == NSWritingDirectionRightToLeft)
 				? [NSString stringWithFormat:@"<span dir=\"rtl\">%@</span>", encodedString]
 				: encodedString);
 	} else {

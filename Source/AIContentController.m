@@ -227,7 +227,7 @@
 - (void)receiveContentObject:(AIContentObject *)inObject
 {
 	if (inObject) {
-		AIChat			*chat = [inObject chat];
+		AIChat			*chat = inObject.chat;
 
 		//Only proceed if the contact is not ignored or blocked
 		if (![chat isListContactIgnored:[inObject source]] && ![[inObject source] isBlocked]) {
@@ -286,7 +286,7 @@
 - (BOOL)sendContentObject:(AIContentObject *)inObject
 {
 	//Only proceed if the chat allows it; if it doesn't, it will handle calling this method again when it is ready
-	if ([[inObject chat] shouldBeginSendingContentObject:inObject]) {
+	if ([inObject.chat shouldBeginSendingContentObject:inObject]) {
 
 		//Run the object through our outgoing content filters
 		if ([inObject filterContent]) {
@@ -340,7 +340,7 @@
 //Sending step 4: Post notifications and ask the account to actually send the content.
 - (void)finishSendContentObject:(AIContentObject *)inObject
 {
-    AIChat		*chat = [inObject chat];
+    AIChat		*chat = inObject.chat;
 	
 	//Notify: Will Send Content
     if ([inObject trackContent]) {
@@ -483,7 +483,7 @@
 {
     //Check if the object should display
     if ([inObject displayContent] && ([[inObject message] length] > 0)) {
-		AIChat			*chat = [inObject chat];
+		AIChat			*chat = inObject.chat;
 		NSDictionary	*userInfo;
 		BOOL			contentReceived, shouldPostContentReceivedEvents;
 
@@ -775,17 +775,12 @@
  */
 - (BOOL)chatIsReceivingContent:(AIChat *)inChat
 {
-	BOOL isReceivingContent = NO;
-
-	AIContentObject	*contentObject;
-	for (contentObject in objectsBeingReceived) {
-		if ([contentObject chat] == inChat) {
-			isReceivingContent = YES;
-			break;
-		}
+	for (AIContentObject *contentObject in objectsBeingReceived) {
+		if (contentObject.chat == inChat)
+			return YES;
 	}
 
-	return isReceivingContent;
+	return NO;
 }
 
 - (void)displayEvent:(NSString *)message ofType:(NSString *)type inChat:(AIChat *)inChat

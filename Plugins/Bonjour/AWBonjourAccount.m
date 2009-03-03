@@ -408,19 +408,19 @@ enum {
 // Send a content object
 - (void)sendTypingObject:(AIContentTyping *)inContentTyping
 {
-	AIChat           *chat = [inContentTyping chat];
+	AIChat           *chat = inContentTyping.chat;
 	AIListObject     *listObject = chat.listObject;
 	NSString         *to = listObject.UID;
 
-	[[self libezvThreadProxy] sendTypingNotification:(([inContentTyping typingState] == AITyping) ? AWEzvIsTyping : AWEzvNotTyping)
+	[[self libezvThreadProxy] sendTypingNotification:(inContentTyping.typingState == AITyping ? AWEzvIsTyping : AWEzvNotTyping)
 	                                              to:to];
 }
 
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	[[self libezvThreadProxy] sendMessage:[inContentMessage messageString] 
-	                                   to:[[inContentMessage destination] UID]
-	                             withHtml:[inContentMessage encodedMessage]];
+	[[self libezvThreadProxy] sendMessage:inContentMessage.messageString 
+	                                   to:inContentMessage.destination.UID
+	                             withHtml:inContentMessage.encodedMessage];
 
 	return YES;
 }

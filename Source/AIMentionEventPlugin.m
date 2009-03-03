@@ -54,7 +54,7 @@
 		return inAttributedString;
 	
 	AIContentMessage *message = (AIContentMessage *)context;
-	AIChat *chat = [message chat];
+	AIChat *chat = message.chat;
 	
 	if(!chat.isGroupChat)
 		return inAttributedString;

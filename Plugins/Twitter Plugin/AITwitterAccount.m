@@ -282,21 +282,21 @@
  */
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	NSLog(@"Sending message to: %@ content: %@", [[inContentMessage destination] UID], [inContentMessage messageString]);
+	NSLog(@"Sending message to: %@ content: %@", inContentMessage.destination.UID, inContentMessage.messageString);
 	
 	NSString *requestID;
 	
 	if(inContentMessage.chat.isGroupChat) {
-		requestID = [twitterEngine sendUpdate:[inContentMessage messageString]];
+		requestID = [twitterEngine sendUpdate:inContentMessage.messageString];
 	} else {		
-		requestID = [twitterEngine sendDirectMessage:[inContentMessage messageString]
-												  to:[[inContentMessage destination] UID]];
+		requestID = [twitterEngine sendDirectMessage:inContentMessage.messageString
+												  to:inContentMessage.destination.UID];
 	}
 	
 	if(requestID) {
 		[self setRequestType:AITwitterDirectMessageSend
 				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:[inContentMessage chat]
+			  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
 														 forKey:@"Chat"]];
 		return YES;
 	} else {
@@ -402,12 +402,12 @@
 - (void)updateTimelineChat:(AIChat *)timelineChat
 {
 	// Disable the user list on the chat.
-	if ([[[timelineChat chatContainer] chatViewController] userListVisible]) {
-		[[[timelineChat chatContainer] chatViewController] toggleUserList]; 
+	if (timelineChat.chatContainer.chatViewController.userListVisible) {
+		[timelineChat.chatContainer.chatViewController toggleUserList]; 
 	}	
 	
 	// Update the participant list.
-	for (AIListContact *listContact in [self contacts]) {
+	for (AIListContact *listContact in self.contacts) {
 		[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 	}
 	
