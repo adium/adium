@@ -50,6 +50,8 @@ typedef enum {
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
 
 // Status Updates
+#define TWITTER_STATUS_ID					@"id"
+#define TWITTER_STATUS_REPLY_ID				@"in_reply_to_status_id"
 #define TWITTER_STATUS_CREATED				@"created_at"
 #define TWITTER_STATUS_USER					@"user"
 #define TWITTER_STATUS_UID					@"screen_name"

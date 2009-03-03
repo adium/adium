@@ -30,6 +30,7 @@
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIUserIcons.h>
+#import <Adium/AIService.h>
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
@@ -38,6 +39,10 @@
 - (void)updateTimelineChat:(AIChat *)timelineChat;
 
 - (NSAttributedString *)parseMessage:(NSString *)message;
+- (NSAttributedString *)parseMessage:(NSString *)inMessage
+							 tweetID:(NSString *)tweetID
+							  userID:(NSString *)userID
+					inReplyToTweetID:(NSString *)replyTweetID;
 
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
 - (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
@@ -589,8 +594,24 @@
 #pragma mark Message Display
 /*!
  * @brief Parses a Twitter message into an attributed string
+ *
+ * This is a shortcut method if no additional information is provided
  */
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
+{
+	return [self parseMessage:inMessage
+					  tweetID:nil
+					   userID:nil
+			 inReplyToTweetID:nil];
+}
+
+/*!
+ * @brief Parses a Twitter message into an attributed string
+ */
+- (NSAttributedString *)parseMessage:(NSString *)inMessage
+							 tweetID:(NSString *)tweetID
+							  userID:(NSString *)userID
+					inReplyToTweetID:(NSString *)replyTweetID
 {
 	NSAttributedString *message;
 	
@@ -598,7 +619,47 @@
 	
 	message = [AITwitterURLParser linkifiedAttributedStringFromString:message];
 	
-	return message;
+	BOOL replyTweet = ([replyTweetID length]);
+	BOOL tweetLink = ([tweetID length] && [userID length]);
+	
+	if (replyTweet || tweetLink) {
+		NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+		
+		[mutableMessage appendString:@"  (" withAttributes:nil];
+	
+		// Append a link to the tweet this is in reply to
+		if (replyTweet) {
+			// Parse out the user this is in reply to. I really wish Twitter provided it on its own.
+			NSString *replyUsername = [inMessage substringFromIndex:1];
+			NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[self.service.allowedCharacters invertedSet]];
+			
+			replyUsername = [replyUsername substringToIndex:usernameRange.location];
+			
+			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUsername, replyTweetID];
+			
+			[mutableMessage appendString:[NSString stringWithFormat:AILocalizedString(@"in reply to %@", "Link appended to tweets with a link *to* the message this is in reply to."),
+											replyUsername]
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+		}
+		
+		// Append a link to reply to this tweet
+		if (tweetLink) {
+			NSString *linkAddress = [NSString stringWithFormat:@"twitterreply://%@/%@", userID, tweetID];
+			
+			if(replyTweet) {
+				[mutableMessage appendString:@", " withAttributes:nil];
+			}
+			
+			[mutableMessage appendString:AILocalizedString(@"reply", "Link appended to tweets to reply to *this* tweet")
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+		}
+	
+		[mutableMessage appendString:@")" withAttributes:nil];
+	
+		return mutableMessage;
+	} else {
+		return message;
+	}
 }
 
 /*!
@@ -658,11 +719,16 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 				
+				NSAttributedString *message = [self parseMessage:text
+														 tweetID:[status objectForKey:TWITTER_STATUS_ID]
+														  userID:listContact.UID
+												inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
+				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
 																	   destination:self
 																			  date:date
-																		   message:[self parseMessage:text]
+																		   message:message
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
