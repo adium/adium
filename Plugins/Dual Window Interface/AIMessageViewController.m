@@ -930,15 +930,15 @@
  */
 - (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView
 {
-	return [[self chat] isGroupChat];
+	return self.chat.isGroupChat;
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
 {
 	NSMutableArray	*completions;
 	
-	if ([[self chat] isGroupChat]) {
-		NSString		*partialWord = [[[textView textStorage] attributedSubstringFromRange:charRange] string];
+	if (self.chat.isGroupChat) {
+		NSString		*partialWord = [[textView.textStorage attributedSubstringFromRange:charRange] string];
 		
 		NSString		*suffix;
 		if (charRange.location == 0) {
@@ -949,7 +949,7 @@
 		}
 		
 		completions = [NSMutableArray array];
-		for(AIListContact *listContact in [self chat]) {
+		for(AIListContact *listContact in self.chat) {
 			if ([[listContact displayName] rangeOfString:partialWord
 												 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					 ||
@@ -1199,7 +1199,7 @@
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
 
-	[shelfView bind:@"contextButtonMenu" toObject:[self chat] withKeyPath:@"actionMenu"
+	[shelfView bind:@"contextButtonMenu" toObject:self.chat withKeyPath:@"actionMenu"
 			options:[NSDictionary dictionaryWithObjectsAndKeys:
 					 [NSNumber numberWithBool:YES], NSAllowsNullArgumentBindingOption,
 					 [NSNumber numberWithBool:YES], NSValidatesImmediatelyBindingOption,

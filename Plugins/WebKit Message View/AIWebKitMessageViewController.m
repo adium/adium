@@ -621,12 +621,12 @@ static NSArray *draggedTypes = nil;
 	if ((!previousContent && [content isKindOfClass:[AIContentContext class]]) ||
 	   (![content isFromSameDayAsContent:previousContent])) {
 		
-		NSString *dateMessage = [[NSDateFormatter localizedDateFormatter] stringFromDate:[content date]];
+		NSString *dateMessage = [[NSDateFormatter localizedDateFormatter] stringFromDate:content.date];
 		
-		dateSeparator = [AIContentEvent statusInChat:[content chat]
-										  withSource:[[content chat] listObject]
-										 destination:[[content chat] account]
-												date:[content date]
+		dateSeparator = [AIContentEvent statusInChat:content.chat
+										  withSource:content.chat.listObject
+										 destination:content.chat.account
+												date:content.date
 											 message:[[[NSAttributedString alloc] initWithString:dateMessage
 																					  attributes:[adium.contentController defaultFormattingAttributes]] autorelease]
 											withType:@"date_separator"];

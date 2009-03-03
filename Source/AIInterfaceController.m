@@ -1855,7 +1855,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 									  AILocalizedString(@"Show Fonts",nil))];
 		return YES;
 	} else if (menuItem == menuItem_toggleUserlist) {
-			return [[self activeChat] isGroupChat];
+			return self.activeChat.isGroupChat;
 	} else {
 		return YES;
 	}

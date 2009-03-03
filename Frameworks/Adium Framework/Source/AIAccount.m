@@ -829,7 +829,7 @@ typedef enum
 - (BOOL)allowSecureMessagingTogglingForChat:(AIChat *)inChat
 {
 	//Allow secure messaging via OTR for one-on-one chats
-	return ![inChat isGroupChat];
+	return !inChat.isGroupChat;
 }
 
 /*!

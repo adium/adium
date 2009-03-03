@@ -60,7 +60,7 @@
 		windowController = nil;
 
 		//Configure ourself for the message view
-		AIChat *chat = [messageViewController chat];
+		AIChat *chat = messageViewController.chat;
 		
 		//groupchats don't have any concept of status beyond typing indicators, so we don't need to watch most of this
 		if(!chat.isGroupChat)
@@ -121,7 +121,7 @@
 //Our chat
 - (AIChat *)chat
 {
-	return [messageViewController chat];
+	return messageViewController.chat;
 }
 
 //Our containing window
@@ -272,7 +272,7 @@
 //
 - (NSString *)label
 {
-	return ([[messageViewController chat] displayName]);
+	return messageViewController.chat.displayName;
 }
 
 - (void)setIcon:(NSImage *)newIcon
@@ -283,7 +283,7 @@
 //Return the icon to be used for our tabs.  State gets first priority, then status.
 - (NSImage *)icon
 {
-	NSImage *image = [self stateIcon];
+	NSImage *image = self.stateIcon;
 	
 	//Multi-user chats won't have status icons
 	if (!image && ![messageViewController userListVisible]) image = [self statusIcon];
@@ -296,7 +296,7 @@
 //Status icon is the status of this contact (away, idle, online, stranger)
 - (NSImage *)statusIcon
 {
-	return [AIStatusIcons statusIconForListObject:[[messageViewController chat] listObject]
+	return [AIStatusIcons statusIconForListObject:[messageViewController.chat listObject]
 											 type:AIStatusIconTab
 										direction:AIIconNormal];
 }
@@ -304,7 +304,7 @@
 //State icon is the state of the contact (Typing, unviewed content)
 - (NSImage *)stateIcon
 {
-	return [[messageViewController chat] valueForProperty:@"Tab State Icon"];
+	return [messageViewController.chat valueForProperty:@"Tab State Icon"];
 }
 
 - (NSImage *)image

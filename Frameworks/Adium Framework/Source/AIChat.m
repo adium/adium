@@ -318,7 +318,7 @@ static int nextChatNumber = 0;
 //If this chat only has one participating list object, it is returned.  Otherwise, nil is returned
 - (AIListContact *)listObject
 {
-	if (([participatingListObjects count] == 1) && ![self isGroupChat]) {
+	if (participatingListObjects.count == 1 && !self.isGroupChat) {
 		return [participatingListObjects objectAtIndex:0];
 	}
 
@@ -328,7 +328,7 @@ static int nextChatNumber = 0;
 - (void)setListObject:(AIListContact *)inListObject
 {
 	if (inListObject != self.listObject) {
-		if ([participatingListObjects count]) {
+		if (participatingListObjects.count) {
 			[participatingListObjects removeObjectAtIndex:0];
 		}
 		[self addObject:inListObject];
@@ -345,7 +345,7 @@ static int nextChatNumber = 0;
 - (NSString *)uniqueChatID
 {
 	if (!uniqueChatID) {
-		if ([self isGroupChat]) {
+		if (self.isGroupChat) {
 			uniqueChatID = [[NSString alloc] initWithFormat:@"%@.%i",[self name],nextChatNumber++];
 		} else {			
 			uniqueChatID = [[self.listObject internalObjectID] retain];
@@ -412,7 +412,7 @@ static int nextChatNumber = 0;
 {
 	AIChatSendingAbilityType sendingAbilityType;
 
-	if ([self isGroupChat]) {
+	if (self.isGroupChat) {
 		if ([self.account online]) {
 			//XXX Liar!
 			sendingAbilityType = AIChatCanSendMessageNow;

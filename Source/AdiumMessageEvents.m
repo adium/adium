@@ -308,9 +308,9 @@
 	if (includeSubject) {
 		
 		if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
-			displayName = (listObject ? [listObject displayName] : [[contentObject chat] name]);
+			displayName = (listObject ? listObject.displayName : contentObject.chat.name);
 		
-			if (messageText && [messageText length]) {
+			if (messageText && messageText.length) {
 				description = [NSString stringWithFormat:
 					AILocalizedString(@"You said %@ to %@","You said Message to Contact"),
 					messageText,
