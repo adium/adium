@@ -15,6 +15,7 @@
  */
 
 #import "AITwitterAccount.h"
+#import "AITwitterURLParse.h"
 #import "MGTwitterEngine/MGTwitterEngine.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -98,7 +99,6 @@
 		[self setLastDisconnectionError:AILocalizedString(@"Unable to Connect", nil)];
 		[self didDisconnect];
 	}
-	
 }
 
 /*!
@@ -619,11 +619,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
 				
+				NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
+				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																		withSource:listContact
 																	   destination:self
 																			  date:date
-																		   message:[NSAttributedString stringWithString:text]
+																		   message:attributedMessage
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
@@ -646,12 +648,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
-			if(chat) {				
+			if(chat) {
+				NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
+				
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
 																		withSource:listContact
 																	   destination:self
 																			  date:date
-																		   message:[NSAttributedString stringWithString:text]
+																		   message:attributedMessage
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
@@ -807,7 +811,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
 		
 		for (NSDictionary *update in statuses) {
-			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:[update objectForKey:TWITTER_STATUS_TEXT], KEY_VALUE, nil]];
+			NSAttributedString *attributedMessage = [AITwitterURLParse linkifiedAttributedStringFromString:[NSAttributedString stringWithString:[update objectForKey:TWITTER_STATUS_TEXT]]];
+			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, KEY_VALUE, nil]];
 		}
 		
 		[listContact setProfileArray:profileArray notify:NotifyNow];
