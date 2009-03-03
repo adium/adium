@@ -290,15 +290,17 @@
  */
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	NSLog(@"Sending message to: %@ content: %@", inContentMessage.destination.UID, inContentMessage.messageString);
-	
 	NSString *requestID;
 	
 	if(inContentMessage.chat.isGroupChat) {
 		requestID = [twitterEngine sendUpdate:inContentMessage.messageString];
+		
+		AILogWithSignature(@"Sending update: %@", inContentMessage.messageString);
 	} else {		
 		requestID = [twitterEngine sendDirectMessage:inContentMessage.messageString
 												  to:inContentMessage.destination.UID];
+		
+		AILogWithSignature(@"Sending DM to %@: %@", inContentMessage.destination.UID, inContentMessage.messageString);
 	}
 	
 	if(requestID) {
@@ -308,6 +310,7 @@
 														 forKey:@"Chat"]];
 		return YES;
 	} else {
+		AILogWithSignature(@"Message immediate fail.");
 		return NO;
 	}
 }
@@ -320,14 +323,16 @@
  */
 - (void)delayedUpdateContactStatus:(AIListContact *)inContact
 {
-	if(self.online) {
-		NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
-		
-		if(requestID) {
-			[self setRequestType:AITwitterProfileUserInfo
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
-		}
+	if(!self.online) {
+		return;
+	}
+	
+	NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
+	
+	if(requestID) {
+		[self setRequestType:AITwitterProfileUserInfo
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
 	}
 }
 
@@ -450,6 +455,8 @@
 	for (AIListContact *object in objects) {
 		NSString *requestID = [twitterEngine disableUpdatesFor:object.UID];
 		
+		AILogWithSignature(@"Requesting unfollow for: %@", object.UID);
+		
 		if(requestID) {
 			[self setRequestType:AITwitterRemoveFollow
 					forRequestID:requestID
@@ -464,6 +471,8 @@
 - (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
 	NSString	*requestID = [twitterEngine enableUpdatesFor:contact.UID];
+	
+	AILogWithSignature(@"Requesting follow for: %@", object.UID);
 	
 	if(requestID) {	
 		NSString	*updateRequestID = [twitterEngine getUserInformationFor:contact.UID];
@@ -531,6 +540,8 @@
 	
 	// We'll update the date preferences for last pulled times when the response is received.
 	// We use the current date, not the date when received, just in case a request is received in-between.
+	
+	AILogWithSignature(@"Periodic update fire");
 	
 	// Pull direct messages	
 	lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_DM
@@ -600,6 +611,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
+		AILogWithSignature(@"Displaying %d updates", [queuedUpdates count]);
+		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
 		
@@ -646,6 +659,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			return;
 		}
 		
+		AILogWithSignature(@"Displaying %d DMs", [queuedDM count]);
+		
 		NSArray *sortedQueuedDM = [queuedDM sortedArrayUsingFunction:queuedDMSort context:nil];
 		
 		for (NSDictionary *message in sortedQueuedDM) {
@@ -653,8 +668,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSString		*text = [message objectForKey:TWITTER_DM_TEXT];
 			AIListContact	*listContact = [self contactWithUID:[message objectForKey:TWITTER_DM_SENDER_UID]];
 			AIChat			*chat = [adium.chatController chatWithContact:listContact];
-			
-			NSLog(@"Received DM: %@ %@ %@", date, text, listContact);
 			
 			if(chat) {
 				NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:text]];
@@ -707,6 +720,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	if([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend) {
 		AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
 		[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
+		
+		AILogWithSignature(@"Chat send error on %@", chat);
+		
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
@@ -728,7 +744,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 	}
 	
-	NSLog(@"Request failed (%@ - %d) - %@", identifier, [self requestTypeForRequestID:identifier], error);
+	AILogWithSignature(@"Request failed (%@ - %d) - %@", identifier, [self requestTypeForRequestID:identifier], error);
 	
 	[self clearRequestTypeForRequestID:identifier];
 }
@@ -758,6 +774,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 		}
 		
+		AILogWithSignature(@"Last Pull: %@ Next Page Necessary: %@", lastPull, nextPageNecessary);
+		
 		// See if we need to pull more updates.
 		if (nextPageNecessary) {
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
@@ -770,7 +788,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 												   startingAtPage:nextPage
 															count:TWITTER_UPDATE_TIMELINE_COUNT];
 				
-				NSLog(@"Pulling timeline page %d", nextPage);
+				AILogWithSignature(@"Pulling additional timeline page %d", nextPage);
 				
 				if (requestID) {
 					[self setRequestType:AITwitterUpdateFollowedTimeline
@@ -779,13 +797,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 										  requestDate, @"Date", nil]];
 				} else {
 					// Gracefully fail: remove all stored objects.
+					AILogWithSignature(@"Immediate timeline fail");
 					[queuedUpdates removeAllObjects];
 				}
 				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				requestID = [twitterEngine getRepliesStartingAtPage:nextPage];
 				
-				NSLog(@"Pulling replies page %d", nextPage);
+				AILogWithSignature(@"Pulling additional replies page %d", nextPage);
 				
 				if (requestID) {
 					[self setRequestType:AITwitterUpdateReplies
@@ -794,6 +813,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 										  requestDate, @"Date", nil]];
 				} else {
 					// Gracefully fail: remove all stored objects.
+					AILogWithSignature(@"Immediate reply fail");
 					[queuedUpdates removeAllObjects];
 				}
 			}
@@ -803,6 +823,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
 			}
+			
+			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
 			
 			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
 				// Set the "last pulled" for the timeline, since we've completed both replies and the timeline.
@@ -817,6 +839,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 
 		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
+		
+		AILogWithSignature(@"Updating statuses for profile, user %@", listContact);
 		
 		for (NSDictionary *update in statuses) {
 			NSAttributedString *attributedMessage = [AITwitterURLParser linkifiedAttributedStringFromString:[NSAttributedString stringWithString:[update objectForKey:TWITTER_STATUS_TEXT]]];
@@ -850,11 +874,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 		}
 		
+		AILogWithSignature(@"Last pull: %@ Next page necessary: %d", lastPull, nextPageNecessary);
+		
 		if(nextPageNecessary) {
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			NSDate		*requestDate = [[self dictionaryForRequestID:identifier] objectForKey:@"Date"];
 			
 			NSString	*requestID = [twitterEngine getDirectMessagesSince:lastPull startingAtPage:nextPage];
+			
+			AILogWithSignature(@"Pulling additional DM page %d", nextPage);
 			
 			if(requestID) {
 				[self setRequestType:AITwitterUpdateDirectMessage
@@ -863,6 +891,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									  requestDate, @"Date", nil]];
 			} else {
 				// Gracefully fail: remove all stored objects.
+				AILogWithSignature(@"Immediate DM pull fail");
 				[queuedDM removeAllObjects];
 			}
 		} else if([queuedDM count] > 0) {
@@ -887,6 +916,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		// The current amount of friends per page is 100. Use >= just in case this changes.
 		BOOL nextPageNecessary = ([userInfo count] >= 100);
+		
+		AILogWithSignature(@"Initial user info pull, Next page necessary: %d Count: %d", nextPageNecessary, [userInfo count]);
 		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
@@ -926,6 +957,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:nextPage];
 			
+			AILogWithSignature(@"Pulling additional user info page %d", nextPage);
+			
 			if(requestID) {
 				[self setRequestType:AITwitterInitialUserInfo
 						forRequestID:requestID
@@ -943,7 +976,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
 		
-		if (thisUserInfo) {
+		if (thisUserInfo) {	
 			NSArray *keyNames = [NSArray arrayWithObjects:@"screen_name", @"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
 			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"User name", nil), AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
 									  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
@@ -963,6 +996,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 			
 			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			
+			AILogWithSignature(@"Updating profileArray for user %@", listContact);
+			
 			[listContact setProfileArray:profileArray notify:NotifyNow];
 			
 			// Grab their statuses.
@@ -984,7 +1020,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier
 {
-	NSLog(@"Got misc info:\r%@", miscInfo);
+	AILogWithSignature(@"Got misc info: %@", miscInfo);
 }
 
 /*!
@@ -994,6 +1030,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 {
 	if([self requestTypeForRequestID:identifier] == AITwitterUserIconPull) {
 		AIListContact		*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+		
+		AILogWithSignature(@"Updated user icon for %@", listContact);
 		
 		[listContact setServersideIconData:[image TIFFRepresentation]
 									notify:NotifyLater];
