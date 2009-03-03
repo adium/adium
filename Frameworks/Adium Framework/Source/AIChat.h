@@ -102,8 +102,8 @@ typedef enum {
 
 	NSMutableArray		*pendingOutgoingContentObjects;
 
-	NSMutableArray		*participatingListObjects;
-	AIListContact		*preferredListObject;
+	NSMutableArray		*participatingContacts;
+	AIListContact		*preferredContact;
 	NSString				*name;
 	NSString				*uniqueChatID;
 	id						identifier;
