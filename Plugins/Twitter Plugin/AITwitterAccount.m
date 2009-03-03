@@ -472,7 +472,7 @@
 {
 	NSString	*requestID = [twitterEngine enableUpdatesFor:contact.UID];
 	
-	AILogWithSignature(@"Requesting follow for: %@", object.UID);
+	AILogWithSignature(@"Requesting follow for: %@", contact.UID);
 	
 	if(requestID) {	
 		NSString	*updateRequestID = [twitterEngine getUserInformationFor:contact.UID];
