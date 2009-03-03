@@ -641,8 +641,7 @@
 			
 			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUsername, replyTweetID];
 			
-			[mutableMessage appendString:[NSString stringWithFormat:AILocalizedString(@"in reply to %@", "Link appended to tweets with a link *to* the message this is in reply to."),
-											replyUsername]
+			[mutableMessage appendString:AILocalizedString(@"original", "Link appended which goes to the permanent location of the status this tweet is in reply to")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
 		}
 		
@@ -656,6 +655,14 @@
 			
 			[mutableMessage appendString:AILocalizedString(@"reply", "Link appended to tweets to reply to *this* tweet")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			
+			linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, tweetID];
+			
+			[mutableMessage appendString:@", " withAttributes:nil];
+			
+			[mutableMessage appendString:@"link"
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];			
+
 		}
 	
 		[mutableMessage appendString:@")" withAttributes:nil];
