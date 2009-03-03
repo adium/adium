@@ -38,17 +38,17 @@
 //Resorts the group contents (PRIVATE: For contact controller only)
 - (void)sort
 {
-	if(!adium.contactController.useContactListGroups)
-		[super sort];
-
+	if(adium.contactController.useContactListGroups)
+	{
 #warning rewrite this once we can enforce that AIContactLists only contain AIListGroups
-	for (AIListObject *object in self) {
-		if ([object isKindOfClass:[AIListGroup class]]) {
-			[(AIListGroup *)object sort];
+		for (AIListObject *object in self) {
+			if ([object isKindOfClass:[AIListGroup class]]) {
+				[(AIListGroup *)object sort];
+			}
 		}
 	}
 	
-	[_containedObjects sortUsingActiveSortController];
+	[super sort];
 }
 
 - (void)moveAllGroupsTo:(AIContactList *)toContactList 
