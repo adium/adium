@@ -22,7 +22,7 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIUserIcons.h>
-
+#import <Adium/AIContactHidingController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -501,7 +501,7 @@ static int nextChatNumber = 0;
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
 {
-	if(!obj.visible)
+	if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
 		return NSNotFound;
 	return [self.containedObjects indexOfObject:obj];
 }

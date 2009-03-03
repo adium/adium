@@ -147,14 +147,6 @@
 #pragma mark Visibility
 
 /*!
- * @brief Is the object visible?
- */
-- (BOOL)visible
-{
-	return [[AIContactHidingController sharedController] visibilityOfListObject:self];
-}
-
-/*!
  * @brief Sets if list object should always be visible
  */
 - (void)setAlwaysVisible:(BOOL)inVisible {

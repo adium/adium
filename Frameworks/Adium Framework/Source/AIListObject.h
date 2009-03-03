@@ -108,7 +108,6 @@ typedef enum {
 + (NSString *)internalObjectIDForServiceID:(NSString *)inServiceID UID:(NSString *)inUID;
 
 //Visibility
-@property (readonly, nonatomic) BOOL visible;
 @property (readwrite, nonatomic) BOOL alwaysVisible;
 
 //Grouping
