@@ -53,7 +53,7 @@
 	return @"Twitter";
 }
 - (NSCharacterSet *)allowedCharacters{
-	return [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz_"];
+	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
 }
 - (NSUInteger)allowedLength{
 	return 999;
