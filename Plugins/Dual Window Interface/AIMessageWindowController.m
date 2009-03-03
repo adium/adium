@@ -501,7 +501,7 @@
 	
 	if (![tabView_messages selectedTabViewItem]) [tabView_messages selectNextTabViewItem:nil];
 	
-	if (!silent) [adium.interfaceController chatDidOpen:[inTabViewItem chat]];
+	if (!silent) [adium.interfaceController chatDidOpen:inTabViewItem.chat];
 }
 
 //Remove a tab view item container
@@ -534,8 +534,8 @@
     }
 	
     //Remove the tab and let the interface know a container closed
-	[m_containedChats removeObject:[inTabViewItem chat]];
-	if (!silent) [adium.interfaceController chatDidClose:[inTabViewItem chat]];
+	[m_containedChats removeObject:inTabViewItem.chat];
+	if (!silent) [adium.interfaceController chatDidClose:inTabViewItem.chat];
 
 	//Now remove the tab view item from our NSTabView
     [tabView_messages removeTabViewItem:inTabViewItem];
@@ -554,7 +554,7 @@
 //
 - (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index
 {
-	AIChat	*chat = [inTabViewItem chat];
+	AIChat	*chat = inTabViewItem.chat;
 
 	if ([self.containedChats indexOfObject:chat] != index) {
 		NSMutableArray *cells = [tabView_tabBar cells];

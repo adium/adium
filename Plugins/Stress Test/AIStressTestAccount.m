@@ -151,7 +151,7 @@
         NSArray		*commands;
         NSString	*type = 
         
-		message = [[inContentMessage message] string];
+		message = [inContentMessage.message string];
 		AILog(@"Stress Test: Sending %@",message);
 
 		commands = [message componentsSeparatedByString:@" "];

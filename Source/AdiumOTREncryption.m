@@ -711,7 +711,7 @@ static OtrlMessageAppOps ui_ops = {
 		 */
 		char *lastFragmentOfMessage = NULL;
 
-		ConnContext		*context = contextForChat([inContentMessage chat]);
+		ConnContext		*context = contextForChat(inContentMessage.chat);
 
 		err = otrl_message_fragment_and_send(&ui_ops, /* opData */ NULL, context,
 											 fullOutgoingMessage, OTRL_FRAGMENT_SEND_ALL_BUT_LAST, &lastFragmentOfMessage);

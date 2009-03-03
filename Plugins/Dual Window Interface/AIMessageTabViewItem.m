@@ -336,12 +336,12 @@
 {
 	//return 0 to disable the badge
     return ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?
-			[[self chat] unviewedContentCount] : 0);
+			self.chat.unviewedContentCount : 0);
 }
 
 - (void)tabViewDidChangeVisibility
 {
-	[[self messageViewController] tabViewDidChangeVisibility];
+	[self.messageViewController tabViewDidChangeVisibility];
 }
 
 //Update the contact and status icons on the tab.
@@ -351,13 +351,13 @@
 	 * Pretending to have changed our icon key is a path of much less resistance to note that -[self icon] has changed.
 	 */
 	[self willChangeValueForKey:@"icon"];
-	[[self windowController] updateIconForTabViewItem:self];
+	[self.windowController updateIconForTabViewItem:self];
 	[self didChangeValueForKey:@"icon"];
 }
 - (void)updateTabContactIcon
 {
 	[self willChangeValueForKey:@"icon"];
-	[self setLargeImage:[[[self chat] chatImage] imageByScalingToSize:NSMakeSize(48,48)]];
+	[self setLargeImage:[self.chat.chatImage imageByScalingToSize:NSMakeSize(48,48)]];
 	[self didChangeValueForKey:@"icon"];
 }
 

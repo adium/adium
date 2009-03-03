@@ -554,17 +554,17 @@
  */
 - (void)handleFileSendsForContentMessage:(AIContentMessage *)inContentMessage
 {
-	if (![inContentMessage destination] ||
-		![[inContentMessage destination] isKindOfClass:[AIListContact class]] ||
-		![[[inContentMessage chat] account] availableForSendingContentType:CONTENT_FILE_TRANSFER_TYPE
-																 toContact:(AIListContact *)[inContentMessage destination]]) {
+	if (!inContentMessage.destination ||
+		![inContentMessage.destination isKindOfClass:[AIListContact class]] ||
+		![inContentMessage.chat.account availableForSendingContentType:CONTENT_FILE_TRANSFER_TYPE
+																 toContact:(AIListContact *)inContentMessage.destination]) {
 		//Simply return if we can't do anything about file sends for this message.
 		return;
 	}
 	
 	NSMutableAttributedString	*newAttributedString = nil;
-	NSAttributedString			*attributedMessage = [inContentMessage message];
-	NSUInteger					length = [attributedMessage length];
+	NSAttributedString			*attributedMessage = inContentMessage.message;
+	NSUInteger					length = attributedMessage.length;
 
 	if (length) {
 		NSRange						searchRange = NSMakeRange(0,0);
@@ -577,7 +577,7 @@
 			if (textAttachment) {
 				BOOL shouldSendAttachmentAsFile;
 				//Invariant within the loop, but most calls to handleFileSendsForContentMessage: don't get here at all
-				BOOL canSendImages = [(AIAccount *)[inContentMessage source] canSendImagesForChat:[inContentMessage chat]];
+				BOOL canSendImages = [(AIAccount *)[inContentMessage source] canSendImagesForChat:inContentMessage.chat];
 
 				if ([textAttachment isKindOfClass:[AITextAttachmentExtension class]]) {
 					AITextAttachmentExtension *textAttachmentExtension = (AITextAttachmentExtension *)textAttachment;
@@ -626,7 +626,7 @@
 					}
 					if (path) {
 						[adium.fileTransferController sendFile:path
-												   toListContact:(AIListContact *)[inContentMessage destination]];
+												   toListContact:(AIListContact *)inContentMessage.destination];
 					} else {
 						NSLog(@"-[AIContentController handleFileSendsForContentMessage:]: Warning: Failed to have a path for sending an inline file!");
 						AILog(@"-[AIContentController handleFileSendsForContentMessage:]: Warning: Failed to have a path for sending an inline file for content message %@!",
