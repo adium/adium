@@ -723,7 +723,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			if (![listContact.UID isEqualToString:self.UID]) {
 				// Update the user's status message
-				[listContact setStatusMessage:[NSAttributedString stringWithString:text]
+				[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
 									   notify:NotifyNow];
 				
 				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
@@ -1034,7 +1034,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									notify:NotifyLater];
 			
 			// Set the user's status message to their current twitter status text
-			[listContact setStatusMessage:[NSAttributedString stringWithString:[[info objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT]]
+			[listContact setStatusMessage:[NSAttributedString stringWithString:[[[info objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil]]
 								   notify:NotifyLater];
 		
 			// Set the user as online.
