@@ -143,12 +143,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if ([listObject isKindOfClass:[AIListBookmark class]])
 		return online;
 	
-	//we can cast to AIListContact here since groups and metas were handled up above
-	AIListContact *contact = (AIListContact *)listObject;
-	
 	if (!online) {
 		if (showOfflineContacts) {
-			if (useOfflineGroup && ![contact.parentContact.groups containsObject:adium.contactController.offlineGroup])
+			if (useOfflineGroup && container != adium.contactController.offlineGroup)
 				return NO;
 		} else
 			return NO;
