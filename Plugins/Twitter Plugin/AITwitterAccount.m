@@ -633,6 +633,10 @@
 			NSString *replyUsername = [inMessage substringFromIndex:1];
 			NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[self.service.allowedCharacters invertedSet]];
 			
+			if(usernameRange.location == NSNotFound) {
+				usernameRange = NSMakeRange([replyUsername length], 0);
+			}
+			
 			replyUsername = [replyUsername substringToIndex:usernameRange.location];
 			
 			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUsername, replyTweetID];
