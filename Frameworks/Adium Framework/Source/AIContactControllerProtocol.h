@@ -106,7 +106,7 @@ typedef enum {
 @property (readonly, nonatomic) BOOL useContactListGroups;
 
 //For Accounts
-- (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)listContact;
+- (void)accountDidStopTrackingContact:(AIListContact *)listContact;
 
 //Contact List 
 - (AIContactList *)createDetachedContactList;

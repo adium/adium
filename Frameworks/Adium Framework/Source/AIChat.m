@@ -535,31 +535,34 @@ static int nextChatNumber = 0;
 
 - (void)removeObject:(AIListObject *)inObject
 {
-	if ([inObject isKindOfClass:[AIListContact class]] && [participatingListObjects containsObjectIdenticalTo:inObject]) {
+	if ([self containsObject:inObject]) {
+		AIListContact *contact = (AIListContact *)inObject; //if we contain it, it has to be an AIListContact
+		
+		//make sure removing it from the array doesn't deallocate it immediately, since we need it for -chat:removedListContact:
+		[inObject retain];
+		
 		[participatingListObjects removeObject:inObject];
 
-		[adium.chatController chat:self removedListContact:(AIListContact *)inObject];
+		[adium.chatController chat:self removedListContact:contact];
 
-		if ([inObject isStranger] &&
-			![adium.chatController existingChatWithContact:[(AIListContact *)inObject parentContact]]) {
-			[adium.contactController account:[(AIListContact *)inObject account]
-						didStopTrackingContact:(AIListContact *)inObject];
-		}		
+		if (contact.isStranger && ![adium.chatController existingChatWithContact:contact.parentContact]) {
+			[adium.contactController accountDidStopTrackingContact:contact];
+		}
+		
+		[inObject release];
 	}
 }
 
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)object
 {
-	[self removeObject:object];
+	[self removeObject:object]; //does nothing if we've already removed it
 }
 
 - (void)removeAllParticipatingContactsSilently
 {
 	for (AIListContact *listContact in participatingListObjects) {
-		if ([listContact isStranger] &&
-			![adium.chatController existingChatWithContact:[(AIListContact *)listContact parentContact]]) {
-			[adium.contactController account:[listContact account]
-						didStopTrackingContact:listContact];
+		if (listContact.isStranger && ![adium.chatController existingChatWithContact:listContact.parentContact]) {
+			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
 

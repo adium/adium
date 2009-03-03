@@ -1271,7 +1271,7 @@
 	//Stop track only afer notifying
 	for (AIListContact *listContact in myContacts) {
 		if (![adium.chatController existingChatWithContact:[listContact parentContact]])
-			[adium.contactController account:self didStopTrackingContact:listContact];
+			[adium.contactController accountDidStopTrackingContact:listContact];
 	}
 
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];

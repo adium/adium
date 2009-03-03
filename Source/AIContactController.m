@@ -1309,7 +1309,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return contact;
 }
 
-- (void)account:(AIAccount *)account didStopTrackingContact:(AIListContact *)inContact
+- (void)accountDidStopTrackingContact:(AIListContact *)inContact
 {
 	[[inContact retain] autorelease];
 
@@ -1326,7 +1326,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		 afterDelay:1];
 	}
 	
-	[contactDict removeObjectForKey:[inContact internalUniqueObjectID]];
+	[contactDict removeObjectForKey:inContact.internalUniqueObjectID];
 }
 
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat
