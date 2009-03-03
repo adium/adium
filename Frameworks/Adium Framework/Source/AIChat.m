@@ -58,7 +58,7 @@ static int nextChatNumber = 0;
     if ((self = [super init])) {
 		name = nil;
 		account = [inAccount retain];
-		participatingListObjects = [[NSMutableArray alloc] init];
+		participatingContacts = [[NSMutableArray alloc] init];
 		dateOpened = [[NSDate date] retain];
 		uniqueChatID = nil;
 		ignoredListContacts = nil;
@@ -83,7 +83,7 @@ static int nextChatNumber = 0;
 	AILog(@"[%@ dealloc]",self);
 
 	[account release];
-	[participatingListObjects release];
+	[participatingContacts release];
 	[dateOpened release];
 	[ignoredListContacts release];
 	[pendingOutgoingContentObjects release];
@@ -100,7 +100,7 @@ static int nextChatNumber = 0;
 	NSImage			*image = nil;
 
 	if (listObject) {
-		image = [[listObject parentContact] userIcon];
+		image = listObject.parentContact.userIcon;
 		if (!image) image = [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconLarge direction:AIIconNormal];
 	} else {
 		image = [AIServiceIcons serviceIconForObject:self.account type:AIServiceIconLarge direction:AIIconNormal];
@@ -112,10 +112,10 @@ static int nextChatNumber = 0;
 //lil image
 - (NSImage *)chatMenuImage
 {
-	AIListObject 	*listObject;
+	AIListObject 	*listObject = self.listObject;
 	NSImage			*chatMenuImage = nil;
 	
-	if ((listObject = self.listObject)) {
+	if (listObject) {
 		chatMenuImage = [AIUserIcons menuUserIconForObject:listObject];
 	}
 
@@ -163,30 +163,7 @@ static int nextChatNumber = 0;
 	[self didChangeValueForKey:@"actionMenu"];
 }
 
-//Date Opened
-#pragma mark Date Opened
-- (NSDate *)dateOpened
-{
-	return dateOpened;
-}
-
-- (BOOL)isOpen
-{
-	return isOpen;
-}
-- (void)setIsOpen:(BOOL)flag
-{
-	isOpen = flag;
-}
-
-- (BOOL)hasSentOrReceivedContent
-{
-	return hasSentOrReceivedContent;
-}
-- (void)setHasSentOrReceivedContent:(BOOL)flag
-{
-	hasSentOrReceivedContent = flag;
-}
+@synthesize hasSentOrReceivedContent, isOpen, dateOpened;
 
 //Status ---------------------------------------------------------------------------------------------------------------
 #pragma mark Status
@@ -237,17 +214,15 @@ static int nextChatNumber = 0;
 }
 
 - (BOOL)isSecure
-{
-	AIEncryptionStatus encryptionStatus = [self encryptionStatus];
-	
-	return (encryptionStatus != EncryptionStatus_None);
+{	
+	return self.encryptionStatus != EncryptionStatus_None;
 }
 
 - (AIEncryptionStatus)encryptionStatus
 {
 	AIEncryptionStatus	encryptionStatus = EncryptionStatus_None;
 
-	NSDictionary		*securityDetails = [self securityDetails];
+	NSDictionary		*securityDetails = self.securityDetails;
 	if (securityDetails) {
 		NSNumber *detailsStatus;
 		if ((detailsStatus = [securityDetails objectForKey:@"EncryptionStatus"])) {
@@ -266,7 +241,7 @@ static int nextChatNumber = 0;
 
 - (BOOL)supportsSecureMessagingToggling
 {
-	return (BOOL)[account allowSecureMessagingTogglingForChat:self];
+	return [account allowSecureMessagingTogglingForChat:self];
 }
 
 //Name  ----------------------------------------------------------------------------------------------------------------
@@ -285,7 +260,7 @@ static int nextChatNumber = 0;
 - (NSString *)displayName
 {
     NSString	*outName = [self displayArrayObjectForKey:@"Display Name"];
-    return outName ? outName : (name ? name : [self.listObject displayName]);
+    return outName ? outName : (name ? name : self.listObject.displayName);
 }
 
 - (void)setDisplayName:(NSString *)inDisplayName
@@ -299,9 +274,9 @@ static int nextChatNumber = 0;
 
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify
 {
-	if (![participatingListObjects containsObjectIdenticalTo:inObject]) {
+	if (![self containsObject:inObject]) {
 		//Add
-		[participatingListObjects addObject:inObject];
+		[participatingContacts addObject:inObject];
 
 		[adium.chatController chat:self addedListContact:inObject notify:notify];
 	}
@@ -313,13 +288,13 @@ static int nextChatNumber = 0;
 	return ([self.account inviteContact:inContact toChat:self withMessage:inviteMessage]);
 }
 
-@synthesize preferredListObject;
+@synthesize preferredListObject = preferredContact;
 
 //If this chat only has one participating list object, it is returned.  Otherwise, nil is returned
 - (AIListContact *)listObject
 {
-	if (participatingListObjects.count == 1 && !self.isGroupChat) {
-		return [participatingListObjects objectAtIndex:0];
+	if (self.containedObjectsCount == 1 && !self.isGroupChat) {
+		return [self.containedObjects objectAtIndex:0];
 	}
 
 	return nil;
@@ -328,8 +303,8 @@ static int nextChatNumber = 0;
 - (void)setListObject:(AIListContact *)inListObject
 {
 	if (inListObject != self.listObject) {
-		if (participatingListObjects.count) {
-			[participatingListObjects removeObjectAtIndex:0];
+		if (self.containedObjectsCount) {
+			[participatingContacts removeObjectAtIndex:0];
 		}
 		[self addObject:inListObject];
 
@@ -346,13 +321,13 @@ static int nextChatNumber = 0;
 {
 	if (!uniqueChatID) {
 		if (self.isGroupChat) {
-			uniqueChatID = [[NSString alloc] initWithFormat:@"%@.%i",[self name],nextChatNumber++];
+			uniqueChatID = [[NSString alloc] initWithFormat:@"%@.%i", self.name, nextChatNumber++];
 		} else {			
-			uniqueChatID = [[self.listObject internalObjectID] retain];
+			uniqueChatID = [self.listObject.internalObjectID retain];
 		}
 
 		if (!uniqueChatID) {
-			uniqueChatID = [[NSString alloc] initWithFormat:@"UnknownChat.%i",nextChatNumber++];
+			uniqueChatID = [[NSString alloc] initWithFormat:@"UnknownChat.%i", nextChatNumber++];
 			NSLog(@"Warning: Unknown chat %p",self);
 		}
 	}
@@ -387,8 +362,7 @@ static int nextChatNumber = 0;
 		[pendingOutgoingContentObjects addObject:inObject];		
 	}
 
-	return (([pendingOutgoingContentObjects count] == 1) ||
-			(currentIndex == 0));
+	return pendingOutgoingContentObjects.count == 1 || currentIndex == 0;
 }
 
 /*!
@@ -403,7 +377,7 @@ static int nextChatNumber = 0;
 {
 	[pendingOutgoingContentObjects removeObjectIdenticalTo:inObject];
 	
-	if ([pendingOutgoingContentObjects count]) {
+	if (pendingOutgoingContentObjects.count) {
 		[adium.contentController sendContentObject:[pendingOutgoingContentObjects objectAtIndex:0]];
 	}
 }
@@ -413,7 +387,7 @@ static int nextChatNumber = 0;
 	AIChatSendingAbilityType sendingAbilityType;
 
 	if (self.isGroupChat) {
-		if ([self.account online]) {
+		if (self.account.online) {
 			//XXX Liar!
 			sendingAbilityType = AIChatCanSendMessageNow;
 		} else {
@@ -421,10 +395,10 @@ static int nextChatNumber = 0;
 		}
 
 	} else {
-		if ([self.account online]) {
+		if (self.account.online) {
 			AIListContact *listObject = self.listObject;
 			
-			if ([listObject online] || [listObject isStranger]) {
+			if (listObject.online || listObject.isStranger) {
 				sendingAbilityType = AIChatCanSendMessageNow;
 			} else if ([self.account canSendOfflineMessageToContact:listObject]) {
 				sendingAbilityType = AIChatCanSendViaServersideOfflineMessage;				
@@ -476,12 +450,12 @@ static int nextChatNumber = 0;
 //AIContainingObject protocol
 - (NSArray *)containedObjects
 {
-	return participatingListObjects;
+	return participatingContacts;
 }
 
 - (NSUInteger)containedObjectsCount
 {
-	return [self.containedObjects count];
+	return self.containedObjects.count;
 }
 
 - (BOOL)containsObject:(AIListObject *)inObject
@@ -489,14 +463,9 @@ static int nextChatNumber = 0;
 	return [self.containedObjects containsObjectIdenticalTo:inObject];
 }
 
-- (id)objectAtIndex:(NSUInteger)index
-{
-	return [self.containedObjects objectAtIndex:index];
-}
-
 - (id)visibleObjectAtIndex:(NSUInteger)index
 {
-	return [self objectAtIndex:index];
+	return [self.containedObjects objectAtIndex:index];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
@@ -510,7 +479,7 @@ static int nextChatNumber = 0;
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
 	for (AIListContact *object in self) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+		if ([inUID isEqualToString:object.UID] && object.service == inService)
 			return object;
 	}
 	
@@ -524,7 +493,7 @@ static int nextChatNumber = 0;
 
 - (BOOL)addObject:(AIListObject *)inObject
 {
-	if ([inObject isKindOfClass:[AIListContact class]]) {
+	if ([self canContainObject:inObject]) {
 		[self addParticipatingListObject:(AIListContact *)inObject notify:YES];
 		
 		return YES;
@@ -541,7 +510,7 @@ static int nextChatNumber = 0;
 		//make sure removing it from the array doesn't deallocate it immediately, since we need it for -chat:removedListContact:
 		[inObject retain];
 		
-		[participatingListObjects removeObject:inObject];
+		[participatingContacts removeObject:inObject];
 
 		[adium.chatController chat:self removedListContact:contact];
 
@@ -560,13 +529,13 @@ static int nextChatNumber = 0;
 
 - (void)removeAllParticipatingContactsSilently
 {
-	for (AIListContact *listContact in participatingListObjects) {
+	for (AIListContact *listContact in self) {
 		if (listContact.isStranger && ![adium.chatController existingChatWithContact:listContact.parentContact]) {
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
 
-	[participatingListObjects removeAllObjects];
+	[participatingContacts removeAllObjects];
 
 	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:self];
@@ -581,7 +550,7 @@ static int nextChatNumber = 0;
 
 - (NSUInteger)visibleCount
 {
-	return [self containedObjectsCount];
+	return self.containedObjectsCount;
 }
 
 - (NSString *)contentsBasedIdentifier
@@ -714,7 +683,7 @@ static int nextChatNumber = 0;
 
 - (NSString *)scriptingName
 {
-	NSString *aName = [self name];
+	NSString *aName = self.name;
 	if (!aName)
 		aName = [self.listObject UID];
 	return aName;
@@ -785,7 +754,7 @@ static int nextChatNumber = 0;
 	}
 	
 	//Send any file we were told to send to every participating list object (anyone remember the AOL mass mailing zareW scene?)
-	if (fileURL && [[fileURL path] length]) {
+	if (fileURL && fileURL.path.length) {
 		
 		for (AIListContact *listContact in self) {
 			AIListContact   *targetFileTransferContact;
