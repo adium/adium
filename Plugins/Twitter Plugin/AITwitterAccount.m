@@ -885,7 +885,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
-		BOOL nextPageNecessary = ([userInfo count] != 0);
+		// The current amount of friends per page is 100. Use >= just in case this changes.
+		BOOL nextPageNecessary = ([userInfo count] >= 100);
 		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
