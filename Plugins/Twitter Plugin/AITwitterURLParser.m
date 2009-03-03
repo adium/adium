@@ -27,7 +27,7 @@
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
 														  forPrefixCharacter:@"@"
 															   withURLFormat:@"http://www.twitter.com/%@"
-															validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"]];
+															validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345678_"]];
 	
 	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
