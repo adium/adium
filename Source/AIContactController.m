@@ -1575,11 +1575,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {	
 	for (AIListObject *listObject in objectArray) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
+			AIMetaContact *meta = (AIMetaContact *)listObject;
 			NSSet	*objectsToRemove = nil;
 			
 			//If the metaContact only has one listContact, we will remove that contact from all accounts
-			if ([(AIMetaContact *)listObject uniqueContainedObjectsCount] == 1) {
-				AIListContact	*listContact = [[(AIMetaContact *)listObject uniqueContainedObjects] objectAtIndex:0];
+			if (meta.uniqueContainedObjectsCount == 1) {
+				AIListContact	*listContact = [meta.uniqueContainedObjects objectAtIndex:0];
 				
 				objectsToRemove = [self allContactsWithService:listContact.service UID:listContact.UID];
 			}
@@ -1590,18 +1591,19 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			}
 			
 			//Now break the metaContact down, taking out all contacts and putting them back in the main list
-			[self breakdownAndRemoveMetaContact:(AIMetaContact *)listObject];				
+			[self breakdownAndRemoveMetaContact:meta];				
 			
 		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
-			AIContactList	*containingObject = ((AIListGroup *)listObject).contactList;
+			AIListGroup *group = (AIListGroup *)listObject;
+			AIContactList	*containingObject = group.contactList;
 			
 			//If this is a group, delete all the objects within it
-			[self removeListObjects:[(AIListGroup *)listObject containedObjects]];
+			[self removeListObjects:group.containedObjects];
 			
 			//Delete the list off of all active accounts
 			for (AIAccount *account in adium.accountController.accounts) {
 				if (account.online) {
-					[account deleteGroup:(AIListGroup *)listObject];
+					[account deleteGroup:group];
 				}
 			}
 			
@@ -1672,11 +1674,11 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if ([listObject.groups isEqual:containers]) return;
 	AIListObject<AIContainingObject> *container = containers.anyObject;
 	
-	if ([container isKindOfClass:[AIContactList class]] &&
-		[listObject isKindOfClass:[AIListGroup class]]) {
+	if ([container isKindOfClass:[AIContactList class]] && [listObject isKindOfClass:[AIListGroup class]]) {
 		NSParameterAssert(containers.count == 1); //groups can't be in multiple contact lists
+		AIListGroup *group = (AIListGroup *)listObject;
 		// Move contact from one contact list to another
-		[((AIListGroup *)listObject).contactList moveGroup:(AIListGroup *)listObject to:(AIContactList *)containers.anyObject];
+		[group.contactList moveGroup:group to:(AIContactList *)containers.anyObject];
 
 	} else if ([container isKindOfClass:[AIListGroup class]]) {
 		//Move a contact into a new group
@@ -1684,23 +1686,25 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			[self _moveContactLocally:(AIListBookmark *)listObject toGroups:containers];
 			
 		} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
+			AIMetaContact *meta = (AIMetaContact *)listObject;
 			//Move the meta contact to these new groups
-			[self _moveContactLocally:(AIMetaContact *)listObject toGroups:containers];
+			[self _moveContactLocally:meta toGroups:containers];
 			
 			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
-			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
+			for (AIListContact *actualListContact in meta) {
 				//Only move the contact if it is actually listed on the account in question
 				if (!actualListContact.isStranger) {
 					[self _moveContactServerside:actualListContact toGroups:containers];
 				}
 			}
 		} else if ([listObject isKindOfClass:[AIListContact class]]) {
+			AIListContact *contact = (AIListContact *)listObject;
 			//Move the object
-			if ([[(AIListContact *)listObject parentContact] isKindOfClass:[AIMetaContact class]]) {
-				[self removeAllContactsMatching:(AIListContact *)listObject fromMetaContact:(AIMetaContact *)[(AIListContact *)listObject parentContact]];
+			if (contact.metaContact) {
+				[self removeAllContactsMatching:contact fromMetaContact:contact.metaContact];
 			}
 			
-			[self _moveContactServerside:(AIListContact *)listObject toGroups:containers];
+			[self _moveContactServerside:contact toGroups:containers];
 
 		} else {
 			AILogWithSignature(@"I don't know what to do with %@",listObject);
@@ -1709,8 +1713,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		//Moving a contact into a meta contact
 		NSParameterAssert([listObject isKindOfClass:[AIListContact class]]);
 		NSParameterAssert(containers.count == 1);
-		if (((AIListContact *)listObject).metaContact != container)
-			[self addContact:(AIListContact*)listObject toMetaContact:(AIMetaContact *)container];
+		AIListContact *contact = (AIListContact *)listObject;
+		if (contact.metaContact != container)
+			[self addContact:contact toMetaContact:(AIMetaContact *)container];
 	}
 }
 
