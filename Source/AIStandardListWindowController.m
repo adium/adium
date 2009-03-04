@@ -626,7 +626,7 @@
 	
 	for (account in ownDisplayNameAccounts) {
 		//Put a check before the account if it is the active account
-		menuItem = [[NSMenuItem alloc] initWithTitle:[account formattedUID]
+		menuItem = [[NSMenuItem alloc] initWithTitle:account.formattedUID
 											  target:self
 											  action:@selector(nameViewSelectedAccount:)
 									   keyEquivalent:@""];
@@ -678,7 +678,7 @@
 	
 	if (activeAccount) {
 		//There is a specific account active whose display name we should show
-		alias = [activeAccount displayName];
+		alias = activeAccount.displayName;
 	} else {
 		/* There isn't an account active. We should show the global preference if possible.  Using it directly would mean
 		 * that it displays exactly as typed by the user, whereas using it via an account's displayName means it is preprocessed
@@ -703,7 +703,7 @@
 						  ] attributedString] length]) break;
 			}
 			
-			alias = [account displayName];
+			alias = account.displayName;
 		}
 		
 		[onlineAccountsUsingGlobalPreference release];

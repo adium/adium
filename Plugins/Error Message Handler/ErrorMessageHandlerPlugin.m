@@ -112,7 +112,7 @@
 	NSString	*alertText = [[details objectForKey:KEY_ALERT_TEXT] lastPathComponent];
 
 	//Display an alert
-    [[ErrorMessageWindowController errorMessageWindowController] displayError:[listObject displayName] 
+    [[ErrorMessageWindowController errorMessageWindowController] displayError:listObject.displayName 
 															  withDescription:(alertText ? [NSString stringWithFormat:@"%@: %@", dateString, alertText] : @"")
 																	withTitle:AILocalizedString(@"Contact Alert",nil)];
 	

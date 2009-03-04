@@ -92,7 +92,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 		account = [[adium.accountController createAccountWithService:self.service
 																   UID:self.UID] retain];
 	} else {
-		if ((self.service != [account service]) ||
+		if ((self.service != account.service) ||
 			(![self.UID isEqualToString:account.UID])) {
 			[account release];
 
@@ -122,7 +122,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 
 - (IBAction)okay:(id)sender
 {
-	AIAccount	*theAccount = [self account];
+	AIAccount	*theAccount = self.account;
 	[theAccount setIsTemporary:YES];
 	
 	[adium.accountController addAccount:theAccount];
@@ -136,7 +136,7 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 
 - (IBAction)displayAdvanced:(id)sender
 {
-	[AIEditAccountWindowController editAccount:[self account]
+	[AIEditAccountWindowController editAccount:self.account
 									  onWindow:[self window]
 							   notifyingTarget:self];	
 }
@@ -150,8 +150,8 @@ static AIGuestAccountWindowController *sharedGuestAccountWindowController = nil;
 	}
 	
 	//Make sure our UID is still accurate
-	if (![[inAccount UID] isEqualToString:self.UID]) {
-		[textField_name setStringValue:[inAccount UID]];
+	if (![inAccount.UID isEqualToString:self.UID]) {
+		[textField_name setStringValue:inAccount.UID];
 	}
 }
 

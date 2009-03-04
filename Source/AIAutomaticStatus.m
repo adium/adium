@@ -278,10 +278,10 @@
 	}
 	
 	for (AIAccount *account in adium.accountController.accounts) {
-		AIStatus	*currentStatusState = [account statusState];
+		AIStatus	*currentStatusState = account.statusState;
 		
 		// Don't modify or store the status of non-available accounts
-		if ([currentStatusState statusType] != AIAvailableStatusType) {
+		if (currentStatusState.statusType != AIAvailableStatusType) {
 			continue;
 		}
 		
@@ -296,7 +296,7 @@
 			[account setStatusState:(AIStatus *)targetStatusState];
 			
 			// If this status brought the account offline, add it to the list to reconnect.
-			if ([targetStatusState statusType] == AIOfflineStatusType) {
+			if (targetStatusState.statusType == AIOfflineStatusType) {
 				[accountsToReconnect addObject:account];
 			}
 		} else {

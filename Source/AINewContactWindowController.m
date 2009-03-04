@@ -515,7 +515,7 @@
 		AIAccount		*anAccount;
 		
 		for (anAccount in accounts) {
-			if ([anAccount online]) {
+			if (anAccount.online) {
 				[checkedAccounts addObject:anAccount];
 				break;
 			}

@@ -164,7 +164,7 @@
 				  AILocalizedString(@"Are you sure you want to block %@?",nil) :
 				  AILocalizedString(@"Are you sure you want to unblock %@?",nil));
 
-		if (NSRunAlertPanel([NSString stringWithFormat:format, [contact displayName]],
+		if (NSRunAlertPanel([NSString stringWithFormat:format, contact.displayName],
 							@"",
 							(shouldBlock ? BLOCK : UNBLOCK),
 							AILocalizedString(@"Cancel", nil),
@@ -179,7 +179,7 @@
 				AIListContact *containedContact = nil;
 				
 				while ((containedContact = [enumerator nextObject])) {
-					AIAccount <AIAccount_Privacy> *acct = [containedContact account];
+					AIAccount <AIAccount_Privacy> *acct = containedContact.account;
 					if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 						[self _setContact:containedContact isBlocked:shouldBlock];
 					} else {
@@ -188,7 +188,7 @@
 				}
 			} else {
 				AIListContact *contact = (AIListContact *)object;
-				AIAccount <AIAccount_Privacy> *acct = [contact account];
+				AIAccount <AIAccount_Privacy> *acct = contact.account;
 				if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 					[self _setContact:contact isBlocked:shouldBlock];
 				} else {
@@ -225,7 +225,7 @@
 			NSInteger				votesForUnblock = 0;
 
 			while ((contact = [enumerator nextObject])) {
-				AIAccount <AIAccount_Privacy> *acct = [contact account];
+				AIAccount <AIAccount_Privacy> *acct = contact.account;
 				if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 					AIPrivacyType privType = (([acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
 					if ([[acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
@@ -270,7 +270,7 @@
 
 		} else {
 			AIListContact *contact = (AIListContact *)object;
-			AIAccount <AIAccount_Privacy> *acct = [contact account];
+			AIAccount <AIAccount_Privacy> *acct = contact.account;
 			if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 				AIPrivacyType privType = (([acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
 				if ([[acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
@@ -315,7 +315,7 @@
 - (void)_setContact:(AIListContact *)contact isBlocked:(BOOL)isBlocked
 {
 	//We want to block on all accounts with the same service class. If you want someone gone, you want 'em GONE.
-	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:[contact service]] objectEnumerator];
+	NSEnumerator	*enumerator = [[adium.accountController accountsCompatibleWithService:contact.service] objectEnumerator];
 	AIAccount<AIAccount_Privacy>	*account = nil;
 	AIListContact	*sameContact = nil;
 

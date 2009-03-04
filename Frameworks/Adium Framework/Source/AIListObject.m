@@ -383,7 +383,7 @@
 {
     NSString	*outName = [self displayArrayObjectForKey:LongDisplayName];
 	
-    return outName ? outName : [self displayName];
+    return outName ? outName : self.displayName;
 }
 
 /*!
@@ -406,7 +406,7 @@
 - (NSString *)phoneticName
 {
 	NSString	*phoneticName = [self displayArrayObjectForKey:@"Phonetic Name"];
-    return phoneticName ? phoneticName : [self displayName];
+    return phoneticName ? phoneticName : self.displayName;
 }
 
 //Apply an alias
@@ -492,7 +492,7 @@
  *
  * The statusName may be nil if no additional status information is available for the contact. For example, an AIM
  * contact will never have a statusName value, as the possibilities enumerated by AIStatusType -- and therefore returned
- * by -[AIListObject statusType] -- cover all possibilities.  An ICQ contact, on the other hand, might have a statusType
+ * by -AIListObject.statusType -- cover all possibilities.  An ICQ contact, on the other hand, might have a statusType
  * of AIAwayStatusType and then a statusName of @"Not Available" or @"DND".
  *
  * @result The statusName, or nil none exists
@@ -509,7 +509,7 @@
  */
 - (AIStatusType)statusType
 {
-	if ([self online]) {
+	if (self.online) {
 		NSNumber *statusTypeNumber = [self valueForProperty:@"StatusType"];
 		if (statusTypeNumber)
 			return [statusTypeNumber intValue];
@@ -528,8 +528,8 @@
  */
 - (void)setStatusWithName:(NSString *)statusName statusType:(AIStatusType)statusType notify:(NotifyTiming)notify
 {
-	AIStatusType	currentStatusType = [self statusType];
-	NSString		*oldStatusName = [self statusName];
+	AIStatusType	currentStatusType = self.statusType;
+	NSString		*oldStatusName = self.statusName;
 	
 	if (currentStatusType != statusType) {
 		[self setValue:[NSNumber numberWithInt:statusType] forProperty:@"StatusType" notify:NotifyLater];
@@ -631,8 +631,8 @@
 
 - (AIStatusSummary)statusSummary
 {
-	if ([self online]) {
-		AIStatusType	statusType = [self statusType];
+	if (self.online) {
+		AIStatusType	statusType = self.statusType;
 		
 		if ((statusType == AIAwayStatusType) || (statusType == AIInvisibleStatusType)) {
 			if ([self boolValueForProperty:@"IsIdle"]) {
@@ -650,7 +650,7 @@
 		}
 	} else {
 		//We don't know the status of an stranger who isn't showing up as online
-		if ([self isStranger]) {
+		if (self.isStranger) {
 			return AIUnknownStatus;
 			
 		} else {
@@ -796,7 +796,7 @@
 #pragma mark Applescript
 - (int)scriptingStatusType
 {
-	AIStatusType statusType = [self statusType];
+	AIStatusType statusType = self.statusType;
 	switch (statusType) {
 		case AIAvailableStatusType:
 			return AIAvailableStatusTypeAS;

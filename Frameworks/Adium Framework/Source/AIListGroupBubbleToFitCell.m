@@ -34,7 +34,7 @@
 												attributes:[self labelAttributes]] autorelease];
 
 	} else {
-		return [super displayName];
+		return super.displayName;
 	}
 }
 
@@ -75,7 +75,7 @@
  */
 - (NSRect)bubbleRectForFrame:(NSRect)rect
 {
-	NSSize				nameSize = [[self displayName] size];
+	NSSize				nameSize = [self.displayName size];
 	float				originalWidth = rect.size.width;
 	float				originalX = rect.origin.x;
 

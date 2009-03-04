@@ -215,7 +215,7 @@ enum {
 	                    statusType:(([contact status] == AWEzvAway) ? AIAwayStatusType : AIAvailableStatusType)
 	                        notify:NotifyLater];
 
-	statusMessage = [contact statusMessage];
+	statusMessage = contact.statusMessage;
 	[listContact setStatusMessage:(statusMessage ? [[[NSAttributedString alloc] initWithString:statusMessage] autorelease] : nil)
 	                       notify:NotifyLater];
 	
@@ -477,7 +477,7 @@ enum {
 		if ([key isEqualToString:@"IdleSince"]) {
 			NSDate	*idleSince = [self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
 			[[self libezvThreadProxy] setStatus:AWEzvIdle
-			                        withMessage:[[self statusMessage] string]];
+			                        withMessage:[self.statusMessage string]];
 			[self setAccountIdleTo:idleSince];
 		}
 	}
@@ -485,11 +485,11 @@ enum {
 
 - (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)statusMessage
 {
-	if ([statusState statusType] == AIOfflineStatusType) {
+	if (statusState.statusType == AIOfflineStatusType) {
 		[self disconnect];
 	} else {
-		if ([self online]) {
-			AIStatusType	statusType = [statusState statusType];
+		if (self.online) {
+			AIStatusType	statusType = statusState.statusType;
 			switch(statusType) {
 				case AIAvailableStatusType:
 					[self setStatus:AWEzvOnline withMessage:statusMessage];

@@ -48,7 +48,7 @@
 						  "Purported fingerprint for %@: %@\n\n"
 						  "Accept this fingerprint as verified?",nil),
 		who,
-		[account formattedUID],
+		account.formattedUID,
 		ourHash,
 		who,
 		theirHash];
@@ -71,7 +71,7 @@
 		AILocalizedString(@"Fingerprint for you (%@): %@\n\n"
 						  "Purported fingerprint for %@: %@\n\n"
 						  "Is this the verifiably correct fingerprint for %@?",nil),
-		[account formattedUID],
+		account.formattedUID,
 		ourHash,
 		who,
 		theirHash,
@@ -163,7 +163,7 @@
 	
 	ConnContext *context = otrl_context_find(otrg_get_userstate(),
 											 [who UTF8String], [[account internalObjectID] UTF8String],
-											 [[[account service] serviceCodeUniqueID] UTF8String],
+											 [[account.service serviceCodeUniqueID] UTF8String],
 											 0, NULL, NULL, NULL);
     Fingerprint *fprint;
     BOOL oldtrust;

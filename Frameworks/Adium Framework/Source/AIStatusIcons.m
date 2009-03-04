@@ -48,7 +48,7 @@ static BOOL					statusIconsReady = NO;
 + (NSImage *)statusIconForListObject:(AIListObject *)listObject type:(AIStatusIconType)iconType direction:(AIIconDirection)iconDirection
 {
 	return [AIStatusIcons statusIconForStatusName:[self statusNameForListObject:listObject]
-									   statusType:[listObject statusType]
+									   statusType:listObject.statusType
 										 iconType:iconType
 										direction:iconDirection];
 }
@@ -288,7 +288,7 @@ static NSString *statusNameForChat(AIChat *inChat)
 			/* Note: AIIdleStatus, but not AIAwayAndIdleStatus, which implies an away state */
 			statusName = @"Idle";
 		} else {
-			statusName = [listObject statusName];
+			statusName = listObject.statusName;
 			
 			if (!statusName && (statusSummary == AIUnknownStatus)) {
 				statusName = @"Unknown";

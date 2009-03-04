@@ -80,7 +80,7 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	[currentView release]; currentView = nil;
 
 	//Get a view controller for this account if there is one
-	controller = [[[inAccount service] joinChatView] retain];
+	controller = [[inAccount.service joinChatView] retain];
 	currentView = [controller view];
 	[controller setDelegate:self];
 	[controller setSharedChatInstance:self];
@@ -164,10 +164,10 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	
 	//Get the service type and UID
 	account = [[popUp_service selectedItem] representedObject];
-	UID = [[account service] normalizeUID:text removeIgnoredCharacters:YES];
+	UID = [account.service normalizeUID:text removeIgnoredCharacters:YES];
 	
 	//Find the contact
-	contact = [adium.contactController contactWithService:[account service]
+	contact = [adium.contactController contactWithService:account.service
 													account:account 
 														UID:UID];
 	
@@ -186,7 +186,7 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 	[self configureForAccount:inAccount];
 }
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount {
-	return [inAccount online] && [[inAccount service] canCreateGroupChats];
+	return inAccount.online && [inAccount.service canCreateGroupChats];
 }
 
 //Select the last used account / Available online account

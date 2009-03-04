@@ -217,7 +217,7 @@
 		return [set allObjects];
 
 	} else 	if ([displayedObject isKindOfClass:[AIListContact class]]) {
-		return [adium.accountController accountsCompatibleWithService:[displayedObject service]];
+		return [adium.accountController accountsCompatibleWithService:displayedObject.service];
 
 	} else {
 		return nil;
@@ -320,7 +320,7 @@
 
 	//if ([identifier isEqualToString:@"account"]) {
 //		AIAccount		*account = [accounts objectAtIndex:row];
-//		NSString	*accountFormattedUID = [account formattedUID];
+//		NSString	*accountFormattedUID = account.formattedUID;
 //		
 //		if (account.online) {
 //			result = accountFormattedUID;
@@ -334,7 +334,7 @@
 		
 	/*} else*/ if ([identifier isEqualToString:@"contact"]) {
 		AIListObject *contact = [contacts objectAtIndex:row];
-		result = [contact formattedUID];
+		result = contact.formattedUID;
 	}
 	
 	return result;
@@ -403,9 +403,9 @@
 			AIListContact	*exactContact;
 
 			//Retrieve an AIListContact on this account
-			exactContact = [adium.contactController contactWithService:[contactOnClickedRow service]
+			exactContact = [adium.contactController contactWithService:contactOnClickedRow.service
 																 account:[[popUp_accounts selectedItem] representedObject]
-																	 UID:[contactOnClickedRow UID]];
+																	 UID:contactOnClickedRow.UID];
 
 			if (group) {				
 				//XXX multiple containers

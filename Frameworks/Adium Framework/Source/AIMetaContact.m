@@ -116,13 +116,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //Return the account of this metaContact, which we may treat as the preferredContact's account
 - (AIAccount *)account
 {
-	return [self.preferredContact account];
+	return self.preferredContact.account;
 }
 
 //Return the service of our preferred contact, so we will display the service icon of our preferred contact on the list
 - (AIService *)service
 {
-	return [self.preferredContact service];
+	return self.preferredContact.service;
 }
 
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
@@ -554,7 +554,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	AIListObject	*listObject;
 
 	for (listObject in self.containedObjects) {
-		if (![services containsObject:[listObject service]]) [services addObject:[listObject service]];
+		if (![services containsObject:listObject.service]) [services addObject:listObject.service];
 	}
 
 	return [services autorelease];
@@ -886,13 +886,13 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSAttributedString	*contactListStatusMessage = nil;
 	
 	//Try to use an actual status message first
-	contactListStatusMessage = [self.preferredContact statusMessage];
+	contactListStatusMessage = self.preferredContact.statusMessage;
 
 	if (!contactListStatusMessage)
 		contactListStatusMessage = [self.preferredContact contactListStatusMessage];
 
 	if (!contactListStatusMessage) { 
-		contactListStatusMessage = [self statusMessage];
+		contactListStatusMessage = self.statusMessage;
 		if (contactListStatusMessage)
 			AILogWithSignature(@"%@: Odd. Why do I have a statusmessage (%@) but my preferred contact doesn't?", 
 							   self, contactListStatusMessage);
@@ -906,7 +906,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (BOOL)soundsAreMuted
 {
-	return [[[self.preferredContact account] statusState] mutesSound];
+	return self.preferredContact.account.statusState.mutesSound;
 }
 
 //Object Storage ---------------------------------------------------------------------------------------------
@@ -944,7 +944,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
 {
 	for (AIListContact *object in self) {
-		if ([inUID isEqualToString:[object UID]] && [object service] == inService)
+		if ([inUID isEqualToString:object.UID] && object.service == inService)
 			return object;
 	}
 	

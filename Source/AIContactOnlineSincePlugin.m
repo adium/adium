@@ -46,7 +46,7 @@
 - (NSAttributedString *)entryForObject:(AIListObject *)inObject
 {
     NSAttributedString * entry = nil;
-    if ([inObject online]) {
+    if (inObject.online) {
 
         NSDate	*signonDate;
 	

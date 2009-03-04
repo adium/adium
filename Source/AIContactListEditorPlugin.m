@@ -306,7 +306,7 @@
 
 		if (count == 1) {
 			AIListObject	*listObject = [array objectAtIndex:0];
-			NSString		*name = [listObject displayName];
+			NSString		*name = listObject.displayName;
 			if ([listObject isKindOfClass:[AIListGroup class]]) {
 				message = [NSString stringWithFormat:AILocalizedString(@"This will remove the group \"%@\" from the contact lists of your online accounts. The %lu contacts within this group will also be removed.\n\nThis action can not be undone.",nil),
 					name,

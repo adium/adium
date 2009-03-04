@@ -457,7 +457,7 @@
  * to the status message.  This method should handle any status whose statusNname this service set as well as any statusName
  * defined in  AIStatusController.h (which will correspond to the services handled by Adium by default).
  * It should also handle a status name not specified in either of these places with a sane default, most likely by loooking at
- * [statusState statusType] for a general idea of the status's type.
+ * statusState.statusType for a general idea of the status's type.
  *
  * @param statusState The status for which to find the purple status ID
  * @param arguments Prpl-specific arguments which will be passed with the state. Message is handled automatically.
@@ -468,12 +468,12 @@
 							arguments:(NSMutableDictionary *)arguments
 {
 	const char		*statusID = NULL;
-	NSString		*statusName = [statusState statusName];
+	NSString		*statusName = statusState.statusName;
 	NSString		*statusMessageString = [statusState statusMessageString];
 
 	if (!statusMessageString) statusMessageString = @"";
 
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			break;
 
@@ -508,10 +508,10 @@
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
 	if ((strcmp(label, _("Initiate Chat")) == 0) || (strcmp(label, _("Initiate _Chat")) == 0)) {
-		return [NSString stringWithFormat:AILocalizedString(@"Initiate Multiuser Chat with %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Initiate Multiuser Chat with %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label, _("Send to Mobile")) == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Send to %@'s Mobile",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Send to %@'s Mobile",nil),inContact.formattedUID];
 	}
 	
 	return [super titleForContactMenuLabel:label forContact:inContact];

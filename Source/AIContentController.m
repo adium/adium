@@ -719,7 +719,7 @@
  */
 - (void)sendRawMessage:(NSString *)inString toContact:(AIListContact *)inContact
 {
-	AIAccount		 *account = [inContact account];
+	AIAccount		 *account = inContact.account;
 	AIChat			 *chat;
 	AIContentMessage *contentMessage;
 
@@ -793,7 +793,7 @@
 
 	content = [AIContentEvent statusInChat:inChat
 								withSource:[inChat listObject]
-							   destination:[inChat account]
+							   destination:inChat.account
 									  date:[NSDate date]
 								   message:attributedMessage
 								  withType:type];

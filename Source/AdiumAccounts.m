@@ -101,7 +101,7 @@
 	
 	for (account in accounts) {
 		if (account.enabled &&
-			[[[account service] serviceClass] isEqualToString:serviceClass]) {
+			[[account.service serviceClass] isEqualToString:serviceClass]) {
 			[matchingAccounts addObject:account];
 		}
 	}
@@ -329,7 +329,7 @@
 	for (account in accounts) {
 		if (![account isTemporary]) {
 			NSMutableDictionary		*flatAccount = [NSMutableDictionary dictionary];
-			AIService				*service = [account service];
+			AIService				*service = account.service;
 			[flatAccount setObject:[service serviceCodeUniqueID] forKey:ACCOUNT_TYPE]; 	//Unique plugin ID
 			[flatAccount setObject:service.serviceID forKey:ACCOUNT_SERVICE];	    	//Shared service ID
 			[flatAccount setObject:account.UID forKey:ACCOUNT_UID];		    					//Account UID

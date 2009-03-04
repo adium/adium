@@ -299,7 +299,7 @@
  */
 - (void)setOnline:(BOOL)online notify:(NotifyTiming)notify silently:(BOOL)silent
 {
-	if (online != [self online]) {
+	if (online != self.online) {
 		[self setValue:(online ? [NSNumber numberWithBool:YES] : nil)
 					   forProperty:@"Online"
 					   notify:notify];
@@ -597,16 +597,16 @@
  */
 - (NSAttributedString *)contactListStatusMessage
 {
-	NSAttributedString	*contactListStatusMessage = [self statusMessage];
+	NSAttributedString	*contactListStatusMessage = self.statusMessage;
 
 	if (!contactListStatusMessage) {
 		NSString			*statusName;
 		
-		if ((statusName = [self statusName])) {
+		if ((statusName = self.statusName)) {
 			NSString *descriptionOfStatus;
 			
 			if ((descriptionOfStatus = [adium.statusController localizedDescriptionForStatusName:statusName
-																						statusType:[self statusType]])) {
+																						statusType:self.statusType])) {
 				contactListStatusMessage = [[[NSAttributedString alloc] initWithString:descriptionOfStatus] autorelease];			
 			}
 		}
@@ -620,7 +620,7 @@
  */
 - (BOOL)soundsAreMuted
 {
-	return [[self.account statusState] mutesSound];
+	return [self.account.statusState mutesSound];
 }
 
 #pragma mark Parents

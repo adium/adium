@@ -136,8 +136,8 @@
 		
 		if (format) {
 			name = ([listObject isKindOfClass:[AIListGroup class]] ?
-					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),[listObject displayName]] :
-					[listObject displayName]);
+					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),listObject.displayName] :
+					listObject.displayName);
 			
 			description = [NSString stringWithFormat:format, name];
 		}
@@ -171,28 +171,28 @@
 		if ([eventID isEqualToString:CONTENT_CONTACT_JOINED_CHAT]) {
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"%@ joined %@","Contact joined Chat Name"),
-				[listObject displayName],
+				listObject.displayName,
 				chat.displayName];
 			
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 				AILocalizedString(@"%@ left %@","Contact left Chat Name"),
-				[listObject displayName],
+				listObject.displayName,
 				chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ left %@","Contact left Chat Name"),
-						   [listObject displayName],
+						   listObject.displayName,
 						   chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ invites you to a group chat","Contact invites you to a group chat"),
-						   [listObject displayName],
+						   listObject.displayName,
 						   chat.displayName];
 		} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
 			description = [NSString stringWithFormat:
 						   AILocalizedString(@"%@ mentioned you in %@","Someone mentions your name in a group chat"),
-						   [listObject displayName],
+						   listObject.displayName,
 						   chat.displayName];
 		}
 		

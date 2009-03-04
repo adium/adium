@@ -123,7 +123,7 @@
 	for (AISortController *controller in [AISortController availableSortControllers]) {
 		NSMenuItem			*menuItem;
 
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[controller displayName]
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:controller.displayName
 																		 target:self
 																		 action:@selector(changedSortSelection:)
 																  keyEquivalent:@""] autorelease];

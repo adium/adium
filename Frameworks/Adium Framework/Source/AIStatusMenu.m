@@ -162,7 +162,7 @@
 	enumerator = [[adium.statusController sortedFullStateArray] objectEnumerator];
 	while ((statusState = [enumerator nextObject])) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		AIStatusType thisStatusType = [statusState statusType];
+		AIStatusType thisStatusType = statusState.statusType;
 		AIStatusType thisStatusMutabilityType = [statusState mutabilityType];
 		
 		if ((currentStatusMutabilityType != AISecondaryLockedStatusState) &&
@@ -274,7 +274,7 @@
 					if ([menuItem state] != NSOffState) [menuItem setState:NSOffState];
 				} else {
 					//If it doesn't, check the tag to see if it should be on or off.
-					if ([menuItem tag] == [appropriateActiveStatusState statusType]) {
+					if ([menuItem tag] == appropriateActiveStatusState.statusType) {
 						if ([menuItem state] != NSOnState) [menuItem setState:NSOnState];
 					} else {
 						if ([menuItem state] != NSOffState) [menuItem setState:NSOffState];
@@ -307,7 +307,7 @@
 					* its statusType matches the menuItem's tag.
 					*/
 					foundCorrectStatusState = (![flatStatusSet containsObject:statusState] &&
-											   ([menuItem tag] == [statusState statusType]));
+											   ([menuItem tag] == statusState.statusType));
 				}
 				
 				if (foundCorrectStatusState) {
@@ -350,9 +350,9 @@
 	BOOL		keyEvent = (eventType == NSKeyDown || eventType == NSKeyUp);
 	BOOL		isOptionClick = [NSEvent optionKey] && !keyEvent;
 	if (isOptionClick ||
-		(([sender state] == NSOnState) && ([statusItem statusType] != AIOfflineStatusType))) {
+		(([sender state] == NSOnState) && (statusItem.statusType != AIOfflineStatusType))) {
 		[AIEditStateWindowController editCustomState:(AIStatus *)statusItem
-											 forType:[statusItem statusType]
+											 forType:statusItem.statusType
 										  andAccount:account
 									  withSaveOption:YES
 											onWindow:nil
@@ -362,11 +362,11 @@
 		if (account) {
 			BOOL shouldRebuild;
 			
-			shouldRebuild = [adium.statusController removeIfNecessaryTemporaryStatusState:[account statusState]];
+			shouldRebuild = [adium.statusController removeIfNecessaryTemporaryStatusState:account.statusState];
 			[account setStatusState:(AIStatus *)statusItem];
 			
 			//Enable the account if it isn't currently enabled
-			if (!account.enabled && [statusItem statusType] != AIOfflineStatusType) {
+			if (!account.enabled && statusItem.statusType != AIOfflineStatusType) {
 				[account setEnabled:YES];
 			}
 			
@@ -396,7 +396,7 @@
 	AIStatus		*baseStatusState;
 	
 	if (account) {
-		baseStatusState = [account statusState];
+		baseStatusState = account.statusState;
 	} else {
 		baseStatusState = [adium.statusController activeStatusState];
 	}
@@ -405,7 +405,7 @@
 	/* If we are going to a custom state of a different type, we don't want to prefill with baseStatusState as it stands.
 	 * Instead, we load the last used status of that type.
 	 */
-	if (([baseStatusState statusType] != statusType)) {
+	if ((baseStatusState.statusType != statusType)) {
 		NSDictionary *lastStatusStates = [adium.preferenceController preferenceForKey:@"LastStatusStates"
 																				  group:PREF_GROUP_STATUS_PREFERENCES];
 		NSData		*lastStatusStateData = [lastStatusStates objectForKey:[[NSNumber numberWithInt:statusType] stringValue]];
@@ -419,7 +419,7 @@
 	/* Don't use the current status state as a base, and when going from Away to Available, don't autofill the Available
 	 * status message with the old away message.
 	 */
-	if ([baseStatusState statusType] != statusType) {
+	if (baseStatusState.statusType != statusType) {
 		baseStatusState = nil;
 	}
 #endif
@@ -456,7 +456,7 @@
 		*/
 	enumerator = [[adium.statusController sortedFullStateArray] objectEnumerator];
 	while ((statusState = [enumerator nextObject])) {
-		AIStatusType thisStatusType = [statusState statusType];
+		AIStatusType thisStatusType = statusState.statusType;
 
 		//We treat Invisible statuses as being the same as Away for purposes of the menu
 		if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;
@@ -473,7 +473,7 @@
 									   keyEquivalent:@""];
 	
 		[menuItem setImage:[statusState menuIcon]];
-		[menuItem setTag:[statusState statusType]];
+		[menuItem setTag:statusState.statusType];
 		[menuItem setRepresentedObject:[NSDictionary dictionaryWithObject:statusState
 																   forKey:@"AIStatus"]];
 		if ([statusState isKindOfClass:[AIStatus class]]) {

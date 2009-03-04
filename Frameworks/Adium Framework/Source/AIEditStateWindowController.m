@@ -143,7 +143,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 						  [[AIStatus statusOfType:inStatusType] retain]);
 	
 	/* Reset to the default for this status type if we're not on it already */
-	if ([workingStatusState statusType] != inStatusType) {
+	if (workingStatusState.statusType != inStatusType) {
 		[workingStatusState setStatusType:inStatusType];
 		[workingStatusState setStatusName:[[adium statusController] defaultStatusNameForType:inStatusType]];
 
@@ -262,7 +262,7 @@ static	NSMutableDictionary	*controllerDict = nil;
  */
 - (void)configureStateMenu
 {
-	[popUp_state setMenu:[adium.statusController menuOfStatusesForService:(account ? [account service] : nil)
+	[popUp_state setMenu:[adium.statusController menuOfStatusesForService:(account ? account.service : nil)
 																 withTarget:self]];
 	needToRebuildPopUpState = NO;	
 }
@@ -598,7 +598,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	[checkBox_silenceGrowl setState:[statusState silencesGrowl]];
 	
 	//Strings
-	NSAttributedString	*statusMessage = [statusState statusMessage];
+	NSAttributedString	*statusMessage = statusState.statusMessage;
 	NSAttributedString	*autoReply = [statusState autoReply];
 
 	NSAttributedString	*blankString = [NSAttributedString stringWithString:@""];

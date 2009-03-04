@@ -295,7 +295,7 @@
 		
 		for (account in ownIconAccounts) {
 			//Put a check before the account if it is the active account
-			menuItem = [[NSMenuItem alloc] initWithTitle:[account formattedUID]
+			menuItem = [[NSMenuItem alloc] initWithTitle:account.formattedUID
 												  target:self
 												  action:@selector(selectedAccount:)
 										   keyEquivalent:@""];

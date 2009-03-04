@@ -480,7 +480,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 			}
 		}
 		
-		if ((submenuType == AIAccountStatusSubmenu) && [[inObject service] isSocialNetworkingService] && [inModifiedKeys containsObject:@"Online"]) {
+		if ((submenuType == AIAccountStatusSubmenu) && [inObject.service isSocialNetworkingService] && [inModifiedKeys containsObject:@"Online"]) {
 			menuItem = [self menuItemForAccount:(AIAccount *)inObject];
 			
 			if (menuItem) {
@@ -567,7 +567,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  * @param inAccount The account this menu belongs to
  */
 - (void)rebuildActionsSubmenu:(NSMenu*)actionsSubmenu withAccount:(AIAccount*)inAccount {
-	NSArray		*accountActionMenuItems = ([inAccount online] ? [inAccount accountActionMenuItems] : nil);
+	NSArray		*accountActionMenuItems = (inAccount.online ? [inAccount accountActionMenuItems] : nil);
 	NSMenuItem	*menuItem;
 	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Edit Account", nil)
 																	target:self
@@ -697,7 +697,7 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 	NSMenu				*accountSubmenu;
 	NSMenuItem			*statusMenuItem;
 	
-	if ([[account service] isSocialNetworkingService]) {		
+	if ([account.service isSocialNetworkingService]) {		
 		accountSubmenu = socialNetworkingSubmenuForAccount(account, [accountMenuItem target], [accountMenuItem action], self);
 		[accountSubmenu setMenuChangedMessagesEnabled:NO];
 		

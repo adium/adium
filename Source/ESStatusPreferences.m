@@ -194,7 +194,7 @@
 	if (statusState) {
 		if ([statusState isKindOfClass:[AIStatus class]]) {
 			[AIEditStateWindowController editCustomState:(AIStatus *)statusState
-												 forType:[statusState statusType]
+												 forType:statusState.statusType
 											  andAccount:nil
 										  withSaveOption:NO
 												onWindow:[[self view] window]
@@ -227,7 +227,7 @@
 		
 		enumerator = [[adium.accountController accounts] objectEnumerator];
 		while ((account = [enumerator nextObject])) {
-			if ([account statusState] == originalState) {
+			if (account.statusState == originalState) {
 				[account setStatusStateAndRemainOffline:newState];
 				
 				[account notifyOfChangedPropertiesSilently:YES];

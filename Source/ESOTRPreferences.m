@@ -184,7 +184,7 @@
 		
 		if (account) {
 			const char		*accountname = [[account internalObjectID] UTF8String];
-			const char		*protocol = [[[account service] serviceCodeUniqueID] UTF8String];
+			const char		*protocol = [[account.service serviceCodeUniqueID] UTF8String];
 			char			*fingerprint;
 			OtrlUserState	otrg_plugin_userstate;
 			
@@ -215,7 +215,7 @@
 	AIAccount	*account = ([popUp_accounts numberOfItems] ? [[popUp_accounts selectedItem] representedObject] : nil);
 	
 	otrg_plugin_create_privkey([[account internalObjectID] UTF8String],
-							   [[[account service] serviceCodeUniqueID] UTF8String]);
+							   [[account.service serviceCodeUniqueID] UTF8String]);
 }
 
 /*!

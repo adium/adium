@@ -99,8 +99,8 @@
 		statusName = @"Idle";
 		statusType = AIAwayStatusType;
 	} else {
-		statusName = [self statusName];
-		statusType = [self statusType];
+		statusName = self.statusName;
+		statusType = self.statusType;
 	}
 	
 	return [AIStatusIcons statusIconForStatusName:statusName
@@ -131,7 +131,7 @@
  */
 - (NSString *)statusMessageString
 {
-	return [[self statusMessage] string];
+	return [self.statusMessage string];
 }
 
 /*!
@@ -186,7 +186,7 @@
 
 	if ([self hasAutoReply]) {
 		autoReply = ([self autoReplyIsStatusMessage] ?
-					 [self statusMessage] :
+					 self.statusMessage :
 					 [statusDict objectForKey:STATUS_AUTO_REPLY_MESSAGE]);
 	}
 
@@ -280,7 +280,7 @@
 	
 	//If the state has a status message, use it.
 	if (!title && 
-	   (statusMessage = [self statusMessage]) &&
+	   (statusMessage = self.statusMessage) &&
 	   ([statusMessage length])) {
 		title = [statusMessage string];
 	}
@@ -294,10 +294,10 @@
 	
 	/* If the state is not an available state, or it's an available state with a non-default statusName,
  	 * use the description of the state itself. */
-	statusType = [self statusType];
+	statusType = self.statusType;
 	if (!title &&
-	   (([self statusType] != AIAvailableStatusType) || (([self statusName] != nil) &&
-														 ![[self statusName] isEqualToString:STATUS_NAME_AVAILABLE]))) {
+	   ((self.statusType != AIAvailableStatusType) || ((self.statusName != nil) &&
+														 ![self.statusName isEqualToString:STATUS_NAME_AVAILABLE]))) {
 		title = [adium.statusController descriptionForStateOfStatus:self];
 	}
 
@@ -455,7 +455,7 @@
  */
 - (NSTextStorage *)scriptingMessage
 {
-	return [[[NSTextStorage alloc] initWithAttributedString:[self statusMessage]] autorelease];
+	return [[[NSTextStorage alloc] initWithAttributedString:self.statusMessage] autorelease];
 }
 - (void)setScriptingMessage:(NSTextStorage *)newMessage
 {

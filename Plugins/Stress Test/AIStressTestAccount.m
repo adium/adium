@@ -66,12 +66,12 @@
 
 - (void)setStatusState:(AIStatus *)statusState usingStatusMessage:(NSAttributedString *)statusMessage
 {
-	if ([statusState statusType] == AIOfflineStatusType) {
+	if (statusState.statusType == AIOfflineStatusType) {
 		[self disconnect];
 	} else {
-		if ([self online]) {
-			[commandContact setStatusWithName:[statusState statusName]
-								   statusType:[statusState statusType]
+		if (self.online) {
+			[commandContact setStatusWithName:statusState.statusName
+								   statusType:statusState.statusType
 									   notify:NotifyLater];
 			[commandContact setStatusMessage:statusMessage
 									  notify:NotifyLater];

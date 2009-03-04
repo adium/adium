@@ -66,7 +66,7 @@
 	NSString		*yourName;
 	
 	if (account) {
-		yourName = [account formattedUID];
+		yourName = account.formattedUID;
 	} else if (tos && *tos) {
 		yourName = [NSString stringWithUTF8String:*tos];
 	} else {

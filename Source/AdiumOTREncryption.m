@@ -369,7 +369,7 @@ void otrg_plugin_create_privkey(const char *accountname,
 	AIAccount	*account = accountFromAccountID(accountname);
 	AIService	*service = serviceFromServiceID(protocol);
 	
-	NSString	*identifier = [NSString stringWithFormat:@"%@ (%@)",[account formattedUID], [service shortDescription]];
+	NSString	*identifier = [NSString stringWithFormat:@"%@ (%@)",account.formattedUID, [service shortDescription]];
 	
 	[ESOTRPrivateKeyGenerationWindowController startedGeneratingForIdentifier:identifier];
 	
@@ -403,7 +403,7 @@ static int is_logged_in_cb(void *opdata, const char *accountname,
 	if ([contact statusSummary] == AIUnknownStatus)
 		return -1;
 	else
-		return ([contact online] ? 1 : 0);
+		return (contact.online ? 1 : 0);
 }
 
 /* Send the given IM to the given recipient from the given
@@ -473,7 +473,7 @@ static NSInteger display_otr_message(const char *accountname, const char *protoc
 
 		//All other OTR messages should be displayed as status messages; decode the message to strip any HTML
 		message = [adiumOTREncryption localizedOTRMessage:message
-											 withUsername:[listContact displayName]
+											 withUsername:listContact.displayName
 								   isWorthOpeningANewChat:&isWorthOpeningANewChat];
 
 		if (isWorthOpeningANewChat) {
@@ -505,7 +505,7 @@ static void notify_cb(void *opdata, OtrlNotifyLevel level,
 					  const char *title, const char *primary, const char *secondary)
 {
 	AIListContact	*listContact = contactFromInfo(accountname, protocol, username);
-	NSString		*displayName = [listContact displayName];
+	NSString		*displayName = listContact.displayName;
 
 	[adiumOTREncryption notifyWithTitle:[adiumOTREncryption localizedOTRMessage:[NSString stringWithUTF8String:title]
 																   withUsername:displayName
@@ -688,7 +688,7 @@ static OtrlMessageAppOps ui_ops = {
 	const char	*originalMessage = [[inContentMessage encodedMessage] UTF8String];
 	AIAccount	*account = (AIAccount *)[inContentMessage source];
     const char	*accountname = [[account internalObjectID] UTF8String];
-    const char	*protocol = [[[account service] serviceCodeUniqueID] UTF8String];
+    const char	*protocol = [[account.service serviceCodeUniqueID] UTF8String];
     const char	*username = [[[inContentMessage destination] UID] UTF8String];
 	char		*fullOutgoingMessage = NULL;
 
@@ -773,9 +773,9 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 	char *newMessage = NULL;
     OtrlTLV *tlvs = NULL;
     OtrlTLV *tlv = NULL;
-	const char *username = [[inListContact UID] UTF8String];
+	const char *username = [inListContact.UID UTF8String];
     const char *accountname = [[inAccount internalObjectID] UTF8String];
-    const char *protocol = [[[inAccount service] serviceCodeUniqueID] UTF8String];
+    const char *protocol = [[inAccount.service serviceCodeUniqueID] UTF8String];
 	BOOL	res;
 
 	/* If newMessage is set to non-NULL and res is 0, use newMessage.
@@ -965,7 +965,7 @@ void update_security_details_for_chat(AIChat *inChat)
 void send_default_query_to_chat(AIChat *inChat)
 {
 	//Note that we pass a name for display, not internal usage
-	char *msg = otrl_proto_default_query_msg([[[inChat account] formattedUID] UTF8String],
+	char *msg = otrl_proto_default_query_msg([inChat.account.formattedUID UTF8String],
 											 policyForContact([inChat listObject]));
 	
 	[adium.contentController sendRawMessage:[NSString stringWithUTF8String:(msg ? msg : "?OTRv2?")]
@@ -1191,10 +1191,10 @@ OtrlUserState otrg_get_userstate(void)
 		if (username && accountname && protocol && key) {
 			for (AIAccount *account in adium.accountController.accounts) {
 				//Hit every possibile name for this account along the way
-				if ([[NSSet setWithObjects:account.UID,[account formattedUID],[account.UID compactedString], nil] containsObject:accountname]) {
-					if ([[[account service] serviceCodeUniqueID] isEqualToString:[prplDict objectForKey:protocol]]) {
+				if ([[NSSet setWithObjects:account.UID,account.formattedUID,[account.UID compactedString], nil] containsObject:accountname]) {
+					if ([[account.service serviceCodeUniqueID] isEqualToString:[prplDict objectForKey:protocol]]) {
 						[outFingerprints appendString:
-							[NSString stringWithFormat:@"%@\t%@\t%@\t%@", username, [account internalObjectID], [[account service] serviceCodeUniqueID], key]];
+							[NSString stringWithFormat:@"%@\t%@\t%@\t%@", username, [account internalObjectID], [account.service serviceCodeUniqueID], key]];
 						if (trusted) {
 							[outFingerprints appendString:@"\t"];
 							[outFingerprints appendString:trusted];
@@ -1234,7 +1234,7 @@ OtrlUserState otrg_get_userstate(void)
 		//Hit every possibile name for this account along the way
 		NSString		*accountInternalObjectID = [NSString stringWithFormat:@"\"%@\"",[account internalObjectID]];
 
-		for (NSString *accountName in [NSSet setWithObjects:account.UID,[account formattedUID],[account.UID compactedString], nil]) {
+		for (NSString *accountName in [NSSet setWithObjects:account.UID,account.formattedUID,[account.UID compactedString], nil]) {
 			NSRange			accountNameRange = NSMakeRange(0, 0);
 			NSRange			searchRange = NSMakeRange(0, [sourcePrivateKey length]);
 
@@ -1282,7 +1282,7 @@ OtrlUserState otrg_get_userstate(void)
 
 						NSString *uniqueServiceID = [prplDict objectForKey:protocolName];
 
-						if ([[[account service] serviceCodeUniqueID] isEqualToString:uniqueServiceID]) {
+						if ([[account.service serviceCodeUniqueID] isEqualToString:uniqueServiceID]) {
 							//Replace the protocol name first
 							[sourcePrivateKey replaceCharactersInRange:protocolNameRange
 															withString:uniqueServiceID];

@@ -807,8 +807,8 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 				for (AIListContact *subcontact in (AIMetaContact *)contact) {
 					format = [URLFormats objectForKey:subcontact.service.serviceID];
 					if (format) {
-						[URLStrings addObject:[NSString stringWithFormat:format, [[subcontact UID] stringByEncodingURLEscapes]]];
-						[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, [subcontact UID], [[subcontact service] longDescription]]];
+						[URLStrings addObject:[NSString stringWithFormat:format, [subcontact.UID stringByEncodingURLEscapes]]];
+						[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, subcontact.UID, [subcontact.service longDescription]]];
 					}
 				}
 			} else if ([contact isKindOfClass:[AIListContact class]]) {
@@ -818,7 +818,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 				} else {
 					[URLStrings addObject:[NSString stringWithFormat:format, [contact.UID stringByEncodingURLEscapes]]];
-					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, contact.UID, [[contact service] longDescription]]];
+					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, contact.UID, [contact.service longDescription]]];
 				}
 			}
 			//We ignore groups.

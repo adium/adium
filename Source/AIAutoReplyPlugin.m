@@ -119,7 +119,7 @@
 	   ![receivedAutoReply containsObject:chat.uniqueChatID] &&
 	   !chat.isGroupChat &&
 		(abs([contentObject.date timeIntervalSinceNow]) < 300) &&
-		[[chat account] shouldSendAutoreplyToMessage:(AIContentMessage *)contentObject]) {
+		[chat.account shouldSendAutoreplyToMessage:(AIContentMessage *)contentObject]) {
 		//300 is 5 minutes in seconds
 		
 		[self sendAutoReplyFromAccount:(AIAccount *)contentObject.destination

@@ -262,7 +262,7 @@
 	for (AIListObject *object in listObjects) {
 		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 						  @"Group", @"Type",
-						  [object UID], UID_KEY,
+						  object.UID, UID_KEY,
 						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], @"Expanded",
 						  nil]];
 	}
@@ -355,7 +355,7 @@
 	//	AILog(@"Adding %@ to %@",listContact,localGroup);
 	
 	if (listContact.canJoinMetaContacts) {
-		if ((existingObject = [localGroup objectWithService:[listContact service] UID:listContact.UID])) {
+		if ((existingObject = [localGroup objectWithService:listContact.service UID:listContact.UID])) {
 			//If an object exists in this group with the same UID and serviceID, create a MetaContact
 			//for the two.
 			[self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
@@ -794,7 +794,7 @@
 	[contactToMetaContactLookupDict removeObjectForKey:[inContact internalObjectID]];
 	
 	[contactPropertiesObserverManager delayListObjectNotifications];
-	for (AIListContact *contact in [self allContactsWithService:[inContact service] UID:inContact.UID]) {
+	for (AIListContact *contact in [self allContactsWithService:inContact.service UID:inContact.UID]) {
 		[self removeContact:contact fromMetaContact:metaContact];
 	}
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -1052,7 +1052,7 @@
 //Sort list objects alphabetically by their display name
 NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, void *context)
 {
-	return [[objectA displayName] caseInsensitiveCompare:[objectB displayName]];
+	return [objectA.displayName caseInsensitiveCompare:objectB.displayName];
 }
 
 #pragma mark Preference observing
@@ -1477,10 +1477,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 																		 toContact:inContact];
 
 		if (account) {
-			if ([inContact account] == account) {
+			if (inContact.account == account) {
 				returnContact = inContact;
 			} else {
-				returnContact = [self contactWithService:[inContact service]
+				returnContact = [self contactWithService:inContact.service
 												 account:account
 													 UID:inContact.UID];
 			}
@@ -1494,8 +1494,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //In many cases this will be the same as inContact.
 - (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact
 {
-	if (account && ([inContact account] != account)) {
-		return [self contactWithService:[inContact service] account:account UID:inContact.UID];
+	if (account && inContact.account != account) {
+		return [self contactWithService:inContact.service account:account UID:inContact.UID];
 	} else {
 		return inContact;
 	}
@@ -1531,7 +1531,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (!metaContact) 
 		return;
 	
-	NSString	*destinationInternalObjectID = [destContact internalObjectID];
+	NSString	*destinationInternalObjectID = destContact.internalObjectID;
 	NSString	*currentPreferredDestination = [metaContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
 	
 	if (![destinationInternalObjectID isEqualToString:currentPreferredDestination]) {
@@ -1581,7 +1581,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			if ([(AIMetaContact *)listObject uniqueContainedObjectsCount] == 1) {
 				AIListContact	*listContact = [[(AIMetaContact *)listObject uniqueContainedObjects] objectAtIndex:0];
 				
-				objectsToRemove = [self allContactsWithService:[listContact service] UID:listContact.UID];
+				objectsToRemove = [self allContactsWithService:listContact.service UID:listContact.UID];
 			}
 			
 			//And actually remove the single contact if applicable
@@ -1690,7 +1690,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
 			for (AIListContact *actualListContact in (AIMetaContact *)listObject) {
 				//Only move the contact if it is actually listed on the account in question
-				if (![actualListContact isStranger]) {
+				if (!actualListContact.isStranger) {
 					[self _moveContactServerside:actualListContact toGroups:containers];
 				}
 			}

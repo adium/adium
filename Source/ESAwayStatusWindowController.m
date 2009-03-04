@@ -240,7 +240,7 @@ static BOOL							hideInBackground = NO;
 	NSTextAttachmentCell		*cell;
 	NSAttributedString			*statusMessage;
 	
-	if ((statusMessage = [statusState statusMessage]) &&
+	if ((statusMessage = statusState.statusMessage) &&
 	   ([statusMessage length])) {
 		//Use the status message if it is set
 		statusTitle = [statusMessage mutableCopy];
@@ -284,8 +284,8 @@ static BOOL							hideInBackground = NO;
 	
 	while ((account = [enumerator nextObject])) {
 		if (account.online || [account boolValueForProperty:@"Connecting"]) {
-			AIStatus	*statusState = [account statusState];
-			if ([statusState statusType] != AIAvailableStatusType) {
+			AIStatus	*statusState = account.statusState;
+			if (statusState.statusType != AIAvailableStatusType) {
 				[awayAccounts addObject:account];
 			}
 		}
@@ -358,7 +358,7 @@ static BOOL							hideInBackground = NO;
 {
 	AIAccount	*account = [_awayAccounts objectAtIndex:row];
 
-	return [account formattedUID];
+	return account.formattedUID;
 }
 
 /*!
@@ -373,7 +373,7 @@ static BOOL							hideInBackground = NO;
 	[cell setImage:[AIStatusIcons statusIconForListObject:account
 													 type:AIServiceIconSmall
 												direction:AIIconNormal]];
-	[cell setSubString:[[account statusState] title]];
+	[cell setSubString:[account.statusState title]];
 }
 
 - (void)localizeButtons

@@ -66,7 +66,7 @@
 	}
 	
 	if (contact && messageText) {
-		return [NSString stringWithFormat:SEND_MESSAGE_ALERT_LONG, [contact displayName], messageText];
+		return [NSString stringWithFormat:SEND_MESSAGE_ALERT_LONG, contact.displayName, messageText];
 	} else {
 		return SEND_MESSAGE_ALERT_SHORT;		
 	}
@@ -114,10 +114,10 @@
 	//availableForSendingContentType: will return NO incorrectly.
 	//######### The core should really handle this for us. #########
 	if ([contact isKindOfClass:[AIMetaContact class]]) {
-		contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:[account service]];
+		contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:account.service];
 		
 	} else if ([contact isKindOfClass:[AIListContact class]]) {
-		contact = [adium.contactController contactWithService:[contact service]
+		contact = [adium.contactController contactWithService:contact.service
 														account:account 
 															UID:contact.UID];
 	}
@@ -132,10 +132,10 @@
 			if (account) {
 				//Repeat the refinement process using the newly retrieved account
 				if ([contact isKindOfClass:[AIMetaContact class]]) {
-					contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:[account service]];
+					contact = [(AIMetaContact *)contact preferredContactWithCompatibleService:account.service];
 					
 				} else if ([contact isKindOfClass:[AIListContact class]]) {
-					contact = [adium.contactController contactWithService:[contact service]
+					contact = [adium.contactController contactWithService:contact.service
 																	account:account 
 																		UID:contact.UID];
 				}
@@ -174,7 +174,7 @@
 			//Display an error message if the message was not delivered
 			if (!success) {
 				[adium.interfaceController handleMessage:AILocalizedString(@"Contact Alert Error",nil)
-										   withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.",nil), [contact displayName]]
+										   withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to send message to %@.",nil), contact.displayName]
 										   withWindowTitle:@""];
 			}
 		}

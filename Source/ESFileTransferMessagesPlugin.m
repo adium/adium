@@ -79,7 +79,7 @@
 {
 	ESFileTransfer	*fileTransfer = (ESFileTransfer *)[notification userInfo];
 
-	if ([[fileTransfer account] accountDisplaysFileTransferMessages]) return;
+	if ([fileTransfer.account accountDisplaysFileTransferMessages]) return;
 
 	AIListContact	*listContact = [notification object];
 	NSString		*notificationName = [notification name];
@@ -95,7 +95,7 @@
 
 		if ([notificationName isEqualToString:FILE_TRANSFER_CANCELLED]) {
 			type = @"fileTransferAborted";
-			message = [NSString stringWithFormat:AILocalizedString(@"%@ cancelled the transfer of %@",nil),[listContact formattedUID],filename];
+			message = [NSString stringWithFormat:AILocalizedString(@"%@ cancelled the transfer of %@",nil),listContact.formattedUID,filename];
 
 		} else if ([notificationName isEqualToString:FILE_TRANSFER_FAILED]) {
 			type = @"fileTransferAborted";
@@ -117,7 +117,7 @@
 		} else if ([notificationName isEqualToString:FILE_TRANSFER_WAITING_REMOTE]) {
 			type = @"fileTransferWaitingRemote";
 			//We should only receive this notification upon sending a file
-			message = [NSString stringWithFormat:AILocalizedString(@"Offering to send %@ to %@",nil),filename,[listContact formattedUID]];
+			message = [NSString stringWithFormat:AILocalizedString(@"Offering to send %@ to %@",nil),filename,listContact.formattedUID];
 		}
 
 		[self statusMessage:message forContact:listContact withType:type];

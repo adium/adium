@@ -344,10 +344,10 @@
 	AIListObject	*source = [fileTransfer source];
 	AIListObject	*destination = [fileTransfer destination];
 	
-	[view setSourceName:[source formattedUID]];
+	[view setSourceName:source.formattedUID];
 	[view setSourceIcon:[AIUserIcons menuUserIconForObject:source]];
 	
-	[view setDestinationName:[destination formattedUID]];
+	[view setDestinationName:destination.formattedUID];
 	[view setDestinationIcon:[AIUserIcons menuUserIconForObject:destination]];
 }
 

@@ -166,7 +166,7 @@
 
     //Offline, Signed off, signed on, or typing
     if ((!color && !labelColor)) {
-		if (offlineEnabled && (![inContact online] &&
+		if (offlineEnabled && (!inContact.online &&
 							  ![inContact boolValueForProperty:@"Signed Off"])) {
 			color = offlineColor;
 			invertedColor = offlineInvertedColor;
@@ -220,7 +220,7 @@
     }
 
     //Online
-    if ((!color && !labelColor) && onlineEnabled && [inContact online]) {
+    if ((!color && !labelColor) && onlineEnabled && inContact.online) {
         color = onlineColor;
         invertedColor = onlineInvertedColor;
         labelColor = onlineLabelColor;

@@ -134,7 +134,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	[popUp_sheetAccounts selectItemWithRepresentedObject:inAccount];
 	[self configureTextField];
 	
-	NSString	*userNameLabel = [[inAccount service] userNameLabel];
+	NSString	*userNameLabel = [inAccount.service userNameLabel];
 	
 	[accountText setAutoresizingMask:NSViewMinXMargin];
 	[buddyText setLocalizedString:[(userNameLabel ?
@@ -259,12 +259,12 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 				UID = [(AIListContact *)impliedValue UID];
 			
 			} else  if ([impliedValue isKindOfClass:[NSString class]]) {
-				UID = [[account service] normalizeUID:impliedValue removeIgnoredCharacters:YES];
+				UID = [account.service normalizeUID:impliedValue removeIgnoredCharacters:YES];
 			}
 			
 			if (UID) {
 				//Get a contact with this UID on the current account
-				if ((contact = [adium.contactController contactWithService:[account service]
+				if ((contact = [adium.contactController contactWithService:account.service
 																	 account:account 
 																		 UID:UID])) {
 					[contactsSet addObject:contact];
@@ -290,10 +290,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
     enumerator = [adium.contactController.allContacts objectEnumerator];
     while ((contact = [enumerator nextObject])) {
 		if (!account ||
-			[contact service] == [account service]) {
+			contact.service == account.service) {
 			NSString *UID = contact.UID;
-			[field addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
-			[field addCompletionString:[contact displayName] withImpliedCompletion:UID];
+			[field addCompletionString:contact.formattedUID withImpliedCompletion:UID];
+			[field addCompletionString:contact.displayName withImpliedCompletion:UID];
 			[field addCompletionString:UID];
 		}
     }
@@ -680,17 +680,17 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 	BOOL isPrimaryAccountMenu = (!accountMenu || (inAccountMenu == accountMenu));
 
 	if (isPrimaryAccountMenu) {
-		return ([inAccount online] &&
+		return (inAccount.online &&
 				[inAccount conformsToProtocol:@protocol(AIAccount_Privacy)]);
 	} else {
-		AIAccount *selectedPrimaryAccount = [self selectedAccount];
+		AIAccount *selectedPrimaryAccount = self.selectedAccount;
 		if (selectedPrimaryAccount) {
 			//An account is selected in the main window; only incldue that account in our sheet
 			return (inAccount == selectedPrimaryAccount);
 
 		} else {
 			//'All' is selected in the main window; include all accounts which are online and support privacy
-			return ([inAccount online] &&
+			return (inAccount.online &&
 					[inAccount conformsToProtocol:@protocol(AIAccount_Privacy)]);			
 		}
 	}
@@ -726,10 +726,10 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 		return [contact menuIcon];
 		
 	} else if ([identifier isEqualToString:@"contact"]) {
-		return [contact formattedUID];
+		return contact.formattedUID;
 
 	} else if ([identifier isEqualToString:@"account"]) {
-		return [[contact account] formattedUID];
+		return contact.account.formattedUID;
 	}
 	
 	return nil;
@@ -835,7 +835,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 	} else if ([listObject isKindOfClass:[AIListContact class]]) {
 		//if the account for this contact is connected...
-		if ([[(AIListContact *)listObject account] online]) {
+		if ([(AIListContact *)listObject account].online) {
 			[self addObject:(AIListContact *)listObject];
 		}
 	}
@@ -847,10 +847,8 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
     if (row < 0)
 		row = 0;
 	
-	if ([[[info draggingPasteboard] types] containsObject:@"AIListObjectUniqueIDs"]) {
-		NSArray			*dragItemsUniqueIDs = [[info draggingPasteboard] propertyListForType:@"AIListObjectUniqueIDs"];
-		NSString *uniqueUID;
-		for (uniqueUID in dragItemsUniqueIDs)
+	if ([info.draggingPasteboard.types containsObject:@"AIListObjectUniqueIDs"]) {
+		for (NSString *uniqueUID in [info.draggingPasteboard propertyListForType:@"AIListObjectUniqueIDs"])
 			[self addListObjectToList:[adium.contactController existingListObjectWithUniqueID:uniqueUID]];
 		accept = YES;
 	}

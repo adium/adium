@@ -138,10 +138,10 @@
 	//Configure the auto-complete view to autocomplete for contacts matching the selected account's service
     enumerator = [adium.contactController.allContacts objectEnumerator];
     while ((contact = [enumerator nextObject])) {
-		if ([contact service] == [account service]) {
+		if (contact.service == account.service) {
 			NSString *UID = contact.UID;
-			[textField_inviteUsers addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
-			[textField_inviteUsers addCompletionString:[contact displayName] withImpliedCompletion:UID];
+			[textField_inviteUsers addCompletionString:contact.formattedUID withImpliedCompletion:UID];
+			[textField_inviteUsers addCompletionString:contact.displayName withImpliedCompletion:UID];
 			[textField_inviteUsers addCompletionString:UID];
 		}
     }

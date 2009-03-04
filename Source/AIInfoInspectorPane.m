@@ -130,7 +130,7 @@
 										 NSScaleProportionally)];
 	[userIcon setImage:currentIcon];
 	[userIcon setTitle:(inObject ?
-								  [NSString stringWithFormat:AILocalizedString(@"%@'s Image",nil),[inObject displayName]] :
+								  [NSString stringWithFormat:AILocalizedString(@"%@'s Image",nil),inObject.displayName] :
 								  AILocalizedString(@"Image Picker",nil))];
 
 	//Show the reset image button if a preference is set on this object, overriding its serverside icon
@@ -145,10 +145,10 @@
 		return;
 	}
 	
-	NSString *displayName = [inObject formattedUID];
+	NSString *displayName = inObject.formattedUID;
 	
 	if (!displayName) {
-		displayName = [inObject displayName];
+		displayName = inObject.displayName;
 	}
 	
 	[accountName setStringValue:displayName];
@@ -282,7 +282,7 @@
 						AIListContact *ownerOfPrevDict = [[ownershipDict objectForKey:prevDictValue] nonretainedObjectValue];
 						if (ownerOfPrevDict) {
 							[newDict setObject:[NSString stringWithFormat:AILocalizedString(@"%@'s %@", nil),
-												[ownerOfPrevDict formattedUID],
+												ownerOfPrevDict.formattedUID,
 												key]
 										forKey:KEY_KEY];
 						}
@@ -305,7 +305,7 @@
 					
 					NSMutableDictionary *newDict = [lineDict mutableCopy];
 					[newDict setObject:[NSString stringWithFormat:AILocalizedString(@"%@'s %@", "(name)'s (information type), e.g. tekjew's status"),
-										[listContact formattedUID],
+										listContact.formattedUID,
 										key]
 								forKey:KEY_KEY];					
 					lineDict = [newDict autorelease];
@@ -528,8 +528,8 @@
 											group:PREF_GROUP_ALIASES];		
 	}
 	
-	if (!currentAlias && ![[inObject displayName] isEqualToString:[inObject formattedUID]]) {
-		[[contactAlias cell] setPlaceholderString:[inObject displayName]];
+	if (!currentAlias && ![inObject.displayName isEqualToString:inObject.formattedUID]) {
+		[[contactAlias cell] setPlaceholderString:inObject.displayName];
 	} else {
 		[[contactAlias cell] setPlaceholderString:nil];
 	}
@@ -659,7 +659,7 @@
 
 - (NSString *)fileNameForImageInImagePicker:(AIImageViewWithImagePicker *)picker
 {
-	NSString *fileName = [[displayedObject displayName] safeFilenameString];
+	NSString *fileName = [displayedObject.displayName safeFilenameString];
 	if ([fileName hasPrefix:@"."]) {
 		fileName = [fileName substringFromIndex:1];
 	}

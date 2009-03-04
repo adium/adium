@@ -77,7 +77,7 @@
 	[comboBox_subscriptionGroup setStringValue:(defaultGroup ? defaultGroup : @"")];
 	
 	//Hide the register button if the account can't register new accounts
-	[button_register setHidden:![[account service] canRegisterNewAccounts]];
+	[button_register setHidden:![account.service canRegisterNewAccounts]];
 	
 	//Set hidden flag of the default group combobox
 	[self subscriptionModeDidChange:nil];
@@ -156,7 +156,7 @@
 	NSUInteger i;
 	for(i = 0;i < [groups count];++i) {
 		AIListGroup *group = [groups objectAtIndex:i];
-		if([[group formattedUID] isEqualToString:string])
+		if([group.formattedUID isEqualToString:string])
 			return i;
 	}
 	return NSNotFound;
@@ -164,8 +164,8 @@
 
 - (NSString *)comboBox:(NSComboBox *)aComboBox completedString:(NSString *)string {
 	for(AIListObject *obj in adium.contactController.contactList) {
-		if([obj isKindOfClass:[AIListGroup class]] && [[obj formattedUID] hasPrefix:string])
-			return [obj formattedUID];
+		if([obj isKindOfClass:[AIListGroup class]] && [obj.formattedUID hasPrefix:string])
+			return obj.formattedUID;
 	}
 	return string;
 }

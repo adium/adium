@@ -481,13 +481,13 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 						NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
 						NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
 														   translatedStatus, 
-														   [actualObject UID], 
+														   actualObject.UID, 
 														   date,
 														   nil];
 
-						if (![[actualObject UID] isEqualToString:[actualObject displayName]]) {
+						if (![actualObject.UID isEqualToString:actualObject.displayName]) {
 							[attributeKeys addObject:@"alias"];
-							[attributeValues addObject:[actualObject displayName]];				
+							[attributeValues addObject:actualObject.displayName];				
 						}
 						
 						NSString *statusElementContents = [(AIContentStatus *)content loggedMessage] ? [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] : @"";

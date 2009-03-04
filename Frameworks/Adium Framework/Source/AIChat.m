@@ -685,7 +685,7 @@ static int nextChatNumber = 0;
 {
 	NSString *aName = self.name;
 	if (!aName)
-		aName = [self.listObject UID];
+		aName = self.listObject.UID;
 	return aName;
 }
 

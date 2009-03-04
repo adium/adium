@@ -204,7 +204,7 @@
 			listObject = [(AIListContact *)listObject parentContact];
 			title = [listObject longDisplayName];
 		} else {
-			title = [listObject displayName];
+			title = listObject.displayName;
 		}
 		
 		iconData = [listObject userIconData];

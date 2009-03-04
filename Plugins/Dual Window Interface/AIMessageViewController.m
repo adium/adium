@@ -462,7 +462,7 @@
 			 * the effect AILocalizedString(@"Your message has been sent. %@ will receive it when online.", nil)
 			 */
 		} else {
-			NSString							*formattedUID = [listObject formattedUID];
+			NSString							*formattedUID = listObject.formattedUID;
 			
 			NSAlert *alert = [[NSAlert alloc] init];
 			NSImage *icon = ([listObject userIcon] ? [listObject userIcon] : [AIServiceIcons serviceIconForObject:listObject
@@ -950,16 +950,16 @@
 		
 		completions = [NSMutableArray array];
 		for(AIListContact *listContact in self.chat) {
-			if ([[listContact displayName] rangeOfString:partialWord
+			if ([listContact.displayName rangeOfString:partialWord
 												 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					 ||
-					[[listContact formattedUID] rangeOfString:partialWord
+					[listContact.formattedUID rangeOfString:partialWord
 												  options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					 ||
 				[listContact.UID rangeOfString:partialWord
 										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
 					) {
-				[completions addObject:(suffix ? [[listContact displayName] stringByAppendingString:suffix] : [listContact displayName])];
+				[completions addObject:(suffix ? [listContact.displayName stringByAppendingString:suffix] : listContact.displayName)];
 			}
 		}
 

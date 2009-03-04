@@ -81,11 +81,11 @@
 					break;
 					
 				case AIChatMessageSendingUserNotAvailable:
-					message = [NSString stringWithFormat:AILocalizedString(@"Could not send because %@ is not available.",nil),[listObject formattedUID]];
+					message = [NSString stringWithFormat:AILocalizedString(@"Could not send because %@ is not available.",nil),listObject.formattedUID];
 					break;
 					
 				case AIChatMessageSendingUserIsBlocked:
-					message = [NSString stringWithFormat:AILocalizedString(@"Could not send because %@ is blocked.",nil),[listObject formattedUID]];
+					message = [NSString stringWithFormat:AILocalizedString(@"Could not send because %@ is blocked.",nil),listObject.formattedUID];
 					break;
 					
 				case AIChatMessageSendingTooLarge:
@@ -113,7 +113,7 @@
 					break;
 					
 				case AIChatMessageReceivingMissedRemoteIsTooEvil:
-					message = [NSString stringWithFormat:AILocalizedString(@"Could not receive; %@ is too evil.",nil),[listObject formattedUID]];
+					message = [NSString stringWithFormat:AILocalizedString(@"Could not receive; %@ is too evil.",nil),listObject.formattedUID];
 					
 					break;
 				case AIChatMessageReceivingMissedLocalIsTooEvil:
@@ -138,10 +138,10 @@
 			}
 			
 		} else if ([inChat boolValueForProperty:KEY_CHAT_CLOSED_WINDOW] && listObject) {
-			message = [NSString stringWithFormat:AILocalizedString(@"%@ closed the conversation window.",nil),[listObject displayName]];
+			message = [NSString stringWithFormat:AILocalizedString(@"%@ closed the conversation window.",nil),listObject.displayName];
 			type = @"closed";
 		} else if ([inChat boolValueForProperty:KEY_CHAT_TIMED_OUT] && listObject) {
-			message = [NSString stringWithFormat:AILocalizedString(@"The conversation with %@ timed out.",nil),[listObject displayName]];			
+			message = [NSString stringWithFormat:AILocalizedString(@"The conversation with %@ timed out.",nil),listObject.displayName];			
 			type = @"timed_out";
 		}
 		
@@ -261,8 +261,8 @@
 		
 		if (format) {
 			name = ([listObject isKindOfClass:[AIListGroup class]] ?
-					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),[listObject displayName]] :
-					[listObject displayName]);
+					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),listObject.displayName] :
+					listObject.displayName);
 			
 			description = [NSString stringWithFormat:format, name];
 		}
@@ -325,7 +325,7 @@
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] ||
 				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
 				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND]) {
-			displayName = (listObject ? [listObject displayName] : [[contentObject source] displayName]);
+			displayName = (listObject ? listObject.displayName : [[contentObject source] displayName]);
 			
 			if (messageText && [messageText length]) {
 				description = [NSString stringWithFormat:

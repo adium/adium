@@ -109,7 +109,7 @@
 	
 	id <AIContactController> contactController = adium.contactController;
 
-	contact = [contactController contactWithService:[account service] account:account UID:screenname];
+	contact = [contactController contactWithService:account.service account:account UID:screenname];
 	if(displayName != nil)
 		[contact setDisplayName:displayName];
 	if(blocked)
@@ -197,7 +197,7 @@
 				[thisMetaContact addObject:contact];
 				continue;
 			}
-			if([buddy account] == acct)
+			if(buddy.account == acct)
 			{
 				contact = [buddy createContact];
 				[thisMetaContact addObject:contact];

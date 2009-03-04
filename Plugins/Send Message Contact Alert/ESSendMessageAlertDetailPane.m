@@ -146,8 +146,8 @@
 		//displays.
 		firstMenuItem = (NSMenuItem *)[[popUp_messageTo menu] itemAtIndex:0];
 		[firstMenuItem setTitle:([toContact isKindOfClass:[AIMetaContact class]] ?
-								 [toContact displayName] :
-								 [toContact formattedUID])];
+								 toContact.displayName :
+								 toContact.formattedUID)];
 		[firstMenuItem setImage:[AIUserIcons menuUserIconForObject:toContact]];
 		[popUp_messageTo selectItemAtIndex:0];
 		

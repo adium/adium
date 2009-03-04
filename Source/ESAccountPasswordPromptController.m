@@ -111,8 +111,8 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 {
 	[[self window] setTitle:ACCOUNT_PASSWORD_REQUIRED];
 	
-    [textField_account setStringValue:[account formattedUID]];
-	[imageView_service setImage:[AIServiceIcons serviceIconForService:[account service]
+    [textField_account setStringValue:account.formattedUID];
+	[imageView_service setImage:[AIServiceIcons serviceIconForService:account.service
 																 type:AIServiceIconLarge
 															direction:AIIconNormal]];
 	

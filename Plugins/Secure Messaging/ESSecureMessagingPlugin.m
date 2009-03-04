@@ -241,8 +241,8 @@
 				if ([inChat encryptionStatus] == EncryptionStatus_Unverified) {
 					AIListObject	*listObject = [inChat listObject];
 					NSString		*displayName = (listObject ?
-													[listObject formattedUID] :
-													[inChat displayName]);
+													listObject.formattedUID :
+													inChat.displayName);
 
 					message = [NSString stringWithFormat:CHAT_NOW_SECURE_UNVERIFIED, displayName];
 					type = @"encryptionStartedUnverified";

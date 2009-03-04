@@ -522,7 +522,7 @@
 	NSMutableArray *accountsForThisService = [[[NSMutableArray alloc] init] autorelease];
 	for (int i=0;i<[accounts count];i++) {
 		AIAccount *account = [accounts objectAtIndex:i];
-		if ([account service] == self)
+		if (account.service == self)
 			[accountsForThisService addObject:account];
 	}
 	return accountsForThisService;

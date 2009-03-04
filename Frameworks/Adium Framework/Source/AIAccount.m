@@ -508,7 +508,7 @@ typedef enum
  *
  * Sets the account to a passed status state.  The account should set itself to best possible status given the return
  * values of statusState's accessors.  The passed statusMessage has been filtered; it should be used rather than
- * [statusState statusMessage], which returns an unfiltered statusMessage.
+ * statusState.statusMessage, which returns an unfiltered statusMessage.
  *
  * @param statusState The state to enter
  * @param statusMessage The filtered status message to use.
@@ -538,7 +538,7 @@ typedef enum
  */
 - (BOOL)shouldUpdateAutorefreshingAttributedStringForKey:(NSString *)inKey
 {
-	return [self online];
+	return self.online;
 }
 
 //Messaging, Chatting, Strings -----------------------------------------------------------------------------------------
@@ -559,12 +559,12 @@ typedef enum
 {
 	if ([inType isEqualToString:CONTENT_MESSAGE_TYPE] ||
 		[inType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
-		return ([self online] &&
-				(!inContact || [inContact online] || [inContact isStranger] || [self canSendOfflineMessageToContact:inContact]));
+		return (self.online &&
+				(!inContact || inContact.online || inContact.isStranger || [self canSendOfflineMessageToContact:inContact]));
 				
 	} else if ([inType isEqualToString:CONTENT_FILE_TRANSFER_TYPE]) {
-		return ([self online] && [self conformsToProtocol:@protocol(AIAccount_Files)] &&
-				(!inContact || [inContact online] || [inContact isStranger]));
+		return (self.online && [self conformsToProtocol:@protocol(AIAccount_Files)] &&
+				(!inContact || inContact.online || inContact.isStranger));
 	}
 
 	return NO;
@@ -1085,7 +1085,7 @@ typedef enum
  */
 - (AIStatusTypeApplescript)scriptingStatusType
 {
-	return [[self statusState] statusTypeApplescript];
+	return [self.statusState statusTypeApplescript];
 }
 
 /**
@@ -1113,7 +1113,7 @@ typedef enum
 			break;
 	}
 	
-	AIStatus *currentStatus = [self statusState];
+	AIStatus *currentStatus = self.statusState;
 	if ([currentStatus mutabilityType] == AILockedStatusState || [currentStatus mutabilityType] == AISecondaryLockedStatusState) {
 		switch (type) {
 			case AIAvailableStatusType:
@@ -1145,7 +1145,7 @@ typedef enum
  */
 - (NSTextStorage *)scriptingStatusMessage
 {
-	return [[[NSTextStorage alloc] initWithAttributedString:[[self statusState] statusMessage]] autorelease];
+	return [[[NSTextStorage alloc] initWithAttributedString:self.statusState.statusMessage] autorelease];
 }
 
 /**
@@ -1155,7 +1155,7 @@ typedef enum
  */
 - (AIStatus *)mutableCopyOfCurrentStatusIfBuiltIn
 {
-	AIStatus *currentStatus = [self statusState];
+	AIStatus *currentStatus = self.statusState;
 	if ([currentStatus mutabilityType] != AITemporaryEditableStatusState) {
 		currentStatus = [[currentStatus mutableCopy] autorelease];
 		[currentStatus setMutabilityType:AITemporaryEditableStatusState];
@@ -1209,7 +1209,7 @@ typedef enum
  */
 - (void)scriptingGoOnline:(NSScriptCommand *)c
 {
-	if ([self statusType] == AIInvisibleStatusType) {
+	if (self.statusType == AIInvisibleStatusType) {
 		[self scriptingGoAvailable:c];
 
 	} else {		

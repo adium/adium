@@ -277,7 +277,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 
 - (void)cancel
 {
-	[[self account] cancelFileTransfer:self];
+	[self.account cancelFileTransfer:self];
 }
 
 - (void)reveal
@@ -297,19 +297,19 @@ static NSMutableDictionary *fileTransferDict = nil;
 	NSString	*extension;
 	NSImage		*systemIcon;
 
-	extension = [[self localFilename] pathExtension];
+	extension = self.localFilename.pathExtension;
 	
 	//Fall back on the remote filename if necessary
-	if (!extension || ![extension length]) extension = [[self remoteFilename] pathExtension]; 
+	if (!extension || ![extension length]) extension = self.remoteFilename.pathExtension; 
 	
 	if (extension && [extension length]) {
 		systemIcon = [[NSWorkspace sharedWorkspace] iconForFileType:extension];
 
 	} else {
-		if ([[self account] canSendFolders] && [self isDirectory]){
+		if ([self.account canSendFolders] && [self isDirectory]){
 			systemIcon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode(kGenericFolderIcon)];
 		} else {
-			systemIcon = [[NSWorkspace sharedWorkspace] iconForFile:[self localFilename]];
+			systemIcon = [[NSWorkspace sharedWorkspace] iconForFile:self.localFilename];
 		}
 	}
 

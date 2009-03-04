@@ -352,7 +352,7 @@
 	while ((account = [enumerator nextObject])) {
 		if (account.online &&
 			[account.service.serviceClass isEqualToString:@"Jabber"] &&
-			[[account service] canCreateGroupChats]) {
+			[account.service canCreateGroupChats]) {
 			break;
 		}
 	}
@@ -364,7 +364,7 @@
 													 chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																	   name, @"room",
 																	   server, @"server",
-																	   [account formattedUID], @"handle",
+																	   account.formattedUID, @"handle",
 																	   password, @"password", /* may be nil, so should be last */
 																	   nil]];
 	} else {
@@ -382,7 +382,7 @@
 	while ((account = [enumerator nextObject])) {
 		if (account.online &&
 			[account.service.serviceClass isEqualToString:@"AIM-compatible"] &&
-			[[account service] canCreateGroupChats]) {
+			[account.service canCreateGroupChats]) {
 			break;
 		}
 	}
