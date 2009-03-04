@@ -497,7 +497,7 @@
 	AIPreferenceContainer	*prefContainer;
 	
 	if (object) {
-		NSString	*cacheKey = [[object internalObjectID] stringByAppendingString:group];
+		NSString	*cacheKey = [object.internalObjectID stringByAppendingString:group];
 		
 		if ((prefContainer = [objectPrefCache objectForKey:cacheKey])) {
 			//Until we access this pref container again, it will be associated with the passed group

@@ -687,8 +687,8 @@ static OtrlMessageAppOps ui_ops = {
 {
 	const char	*originalMessage = [[inContentMessage encodedMessage] UTF8String];
 	AIAccount	*account = (AIAccount *)[inContentMessage source];
-    const char	*accountname = [[account internalObjectID] UTF8String];
-    const char	*protocol = [[account.service serviceCodeUniqueID] UTF8String];
+    const char	*accountname = [account.internalObjectID UTF8String];
+    const char	*protocol = [account.service.serviceCodeUniqueID UTF8String];
     const char	*username = [[[inContentMessage destination] UID] UTF8String];
 	char		*fullOutgoingMessage = NULL;
 
@@ -774,8 +774,8 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
     OtrlTLV *tlvs = NULL;
     OtrlTLV *tlv = NULL;
 	const char *username = [inListContact.UID UTF8String];
-    const char *accountname = [[inAccount internalObjectID] UTF8String];
-    const char *protocol = [[inAccount.service serviceCodeUniqueID] UTF8String];
+    const char *accountname = [inAccount.internalObjectID UTF8String];
+    const char *protocol = [inAccount.service.serviceCodeUniqueID UTF8String];
 	BOOL	res;
 
 	/* If newMessage is set to non-NULL and res is 0, use newMessage.
@@ -1192,9 +1192,9 @@ OtrlUserState otrg_get_userstate(void)
 			for (AIAccount *account in adium.accountController.accounts) {
 				//Hit every possibile name for this account along the way
 				if ([[NSSet setWithObjects:account.UID,account.formattedUID,[account.UID compactedString], nil] containsObject:accountname]) {
-					if ([[account.service serviceCodeUniqueID] isEqualToString:[prplDict objectForKey:protocol]]) {
+					if ([account.service.serviceCodeUniqueID isEqualToString:[prplDict objectForKey:protocol]]) {
 						[outFingerprints appendString:
-							[NSString stringWithFormat:@"%@\t%@\t%@\t%@", username, [account internalObjectID], [account.service serviceCodeUniqueID], key]];
+							[NSString stringWithFormat:@"%@\t%@\t%@\t%@", username, account.internalObjectID, account.service.serviceCodeUniqueID, key]];
 						if (trusted) {
 							[outFingerprints appendString:@"\t"];
 							[outFingerprints appendString:trusted];
@@ -1232,7 +1232,7 @@ OtrlUserState otrg_get_userstate(void)
 
 	for (AIAccount *account in adium.accountController.accounts) {
 		//Hit every possibile name for this account along the way
-		NSString		*accountInternalObjectID = [NSString stringWithFormat:@"\"%@\"",[account internalObjectID]];
+		NSString		*accountInternalObjectID = [NSString stringWithFormat:@"\"%@\"",account.internalObjectID];
 
 		for (NSString *accountName in [NSSet setWithObjects:account.UID,account.formattedUID,[account.UID compactedString], nil]) {
 			NSRange			accountNameRange = NSMakeRange(0, 0);
@@ -1282,7 +1282,7 @@ OtrlUserState otrg_get_userstate(void)
 
 						NSString *uniqueServiceID = [prplDict objectForKey:protocolName];
 
-						if ([[account.service serviceCodeUniqueID] isEqualToString:uniqueServiceID]) {
+						if ([account.service.serviceCodeUniqueID isEqualToString:uniqueServiceID]) {
 							//Replace the protocol name first
 							[sourcePrivateKey replaceCharactersInRange:protocolNameRange
 															withString:uniqueServiceID];

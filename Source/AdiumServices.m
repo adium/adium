@@ -46,7 +46,7 @@
  */
 - (void)registerService:(AIService *)inService
 {
-    [services setObject:inService forKey:[inService serviceCodeUniqueID]];
+    [services setObject:inService forKey:inService.serviceCodeUniqueID];
 }
 
 /*!
@@ -102,7 +102,7 @@
 /*!
  * @brief Retrieves a service by its unique ID
  *
- * Unique IDs are returned by -[AIService serviceCodeUniqueID]. An example is @"libpurple-oscar-AIM".
+ * Unique IDs are returned by -AIService.serviceCodeUniqueID. An example is @"libpurple-oscar-AIM".
  * @param uniqueID The serviceCodeUniqueID of the desired service
  * @return AIService if found, nil if not found
  */

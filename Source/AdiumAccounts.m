@@ -330,10 +330,10 @@
 		if (![account isTemporary]) {
 			NSMutableDictionary		*flatAccount = [NSMutableDictionary dictionary];
 			AIService				*service = account.service;
-			[flatAccount setObject:[service serviceCodeUniqueID] forKey:ACCOUNT_TYPE]; 	//Unique plugin ID
+			[flatAccount setObject:service.serviceCodeUniqueID forKey:ACCOUNT_TYPE]; 	//Unique plugin ID
 			[flatAccount setObject:service.serviceID forKey:ACCOUNT_SERVICE];	    	//Shared service ID
 			[flatAccount setObject:account.UID forKey:ACCOUNT_UID];		    					//Account UID
-			[flatAccount setObject:[account internalObjectID] forKey:ACCOUNT_OBJECT_ID];  			//Account Object ID
+			[flatAccount setObject:account.internalObjectID forKey:ACCOUNT_OBJECT_ID];  			//Account Object ID
 			
 			[flatAccounts addObject:flatAccount];
 		}

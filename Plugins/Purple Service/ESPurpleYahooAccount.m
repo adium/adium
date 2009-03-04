@@ -338,7 +338,7 @@
 								([statusMessageString rangeOfString:@"I'm mobile"].location != NSNotFound))) {
 		[theContact setIsMobile:YES notify:NotifyLater];
 
-	} else if ([theContact isMobile]) {
+	} else if (theContact.isMobile) {
 		[theContact setIsMobile:NO notify:NotifyLater];		
 	}
 	

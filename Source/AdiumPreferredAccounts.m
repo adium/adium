@@ -168,8 +168,8 @@
         AIAccount		*sourceAccount = (AIAccount *)[contentObject source];
         
 		if (![[destObject preferenceForKey:KEY_PREFERRED_SOURCE_ACCOUNT
-									 group:PREF_GROUP_PREFERRED_ACCOUNTS] isEqualToString:[sourceAccount internalObjectID]]) {
-			[destObject setPreference:[sourceAccount internalObjectID]
+									 group:PREF_GROUP_PREFERRED_ACCOUNTS] isEqualToString:sourceAccount.internalObjectID]) {
+			[destObject setPreference:sourceAccount.internalObjectID
 							   forKey:KEY_PREFERRED_SOURCE_ACCOUNT
 								group:PREF_GROUP_PREFERRED_ACCOUNTS];
         }

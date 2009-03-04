@@ -544,7 +544,7 @@ void* adium_purple_get_handle(void)
 
 static NSString *_messageImageCachePathWithoutExtension(int imageID, AIAccount* adiumAccount)
 {
-    NSString    *messageImageCacheFilename = [NSString stringWithFormat:@"TEMP-Image_%@_%i", [adiumAccount internalObjectID], imageID];
+    NSString    *messageImageCacheFilename = [NSString stringWithFormat:@"TEMP-Image_%@_%i", adiumAccount.internalObjectID, imageID];
     return [[adium cachesPath] stringByAppendingPathComponent:messageImageCacheFilename];
 }
 

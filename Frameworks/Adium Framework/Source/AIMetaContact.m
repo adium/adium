@@ -110,7 +110,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //A metaContact's internalObjectID is completely unique to it, so return that for interalUniqueObjectID
 - (NSString *)internalUniqueObjectID
 {
-	return [self internalObjectID];
+	return self.internalObjectID;
 }
 
 //Return the account of this metaContact, which we may treat as the preferredContact's account
@@ -130,7 +130,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 {
 	if (inGroup) {
 		NSParameterAssert([inGroup canContainObject:self]);
-		NSString	*inGroupInternalObjectID = [inGroup internalObjectID];
+		NSString	*inGroupInternalObjectID = inGroup.internalObjectID;
 		
 		//Save the change of containing object so it can be restored on launch next time if we are using groups.
 		//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
@@ -953,7 +953,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (NSString *)contentsBasedIdentifier
 {
-	return [self internalObjectID];
+	return self.internalObjectID;
 }
 
 //Expanded State -------------------------------------------------------------------------------------------------------
@@ -1064,7 +1064,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSString *subobjectDescsDesc = [subobjectDescs description];
 	[subobjectDescs release];
 
-	return [NSString stringWithFormat:@"<%@:%x %@: %@>",NSStringFromClass([self class]), self, [self internalObjectID], subobjectDescsDesc];
+	return [NSString stringWithFormat:@"<%@:%x %@: %@>",NSStringFromClass([self class]), self, self.internalObjectID, subobjectDescsDesc];
 }
 
 - (BOOL) canContainObject:(id)obj

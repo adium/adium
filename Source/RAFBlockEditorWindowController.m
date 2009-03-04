@@ -792,7 +792,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 			AIListObject	*listObject;
 			
 			for (listObject in dragItems) {
-				[dragItemsArray addObject:[listObject internalObjectID]];
+				[dragItemsArray addObject:listObject.internalObjectID];
 			}
 			
 			[sender setPropertyList:dragItemsArray forType:@"AIListObjectUniqueIDs"];
