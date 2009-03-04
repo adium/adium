@@ -205,7 +205,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 - (void)registerStatus:(NSString *)statusName withDescription:(NSString *)description ofType:(AIStatusType)type forService:(AIService *)service
 {
 	NSMutableSet	*statusDicts;
-	NSString		*serviceCodeUniqueID = [service serviceCodeUniqueID];
+	NSString		*serviceCodeUniqueID = service.serviceCodeUniqueID;
 
 	//Create the set if necessary
 	if (!statusDictsByServiceCodeUniqueID[type]) statusDictsByServiceCodeUniqueID[type] = [[NSMutableDictionary alloc] init];
@@ -238,7 +238,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	NSMenu			*menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
 	NSMenuItem		*menuItem;
-	NSString		*serviceCodeUniqueID = [service serviceCodeUniqueID];
+	NSString		*serviceCodeUniqueID = service.serviceCodeUniqueID;
 	AIStatusType	type;
 
 	for (type = AIAvailableStatusType ; type < STATUS_TYPES_COUNT ; type++) {
@@ -302,7 +302,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			NSSet	*statusDicts;
 			
 			//Obtain the status dicts for this type and service code unique ID
-			if ((statusDicts = [statusDictsByServiceCodeUniqueID[type] objectForKey:[service serviceCodeUniqueID]])) {
+			if ((statusDicts = [statusDictsByServiceCodeUniqueID[type] objectForKey:service.serviceCodeUniqueID])) {
 				//And add them
 				[self _addMenuItemsForStatusOfType:type
 										withTarget:target

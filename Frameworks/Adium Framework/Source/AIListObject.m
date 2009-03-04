@@ -686,7 +686,7 @@
 	
 	//Prevent setting an order index which we already have
 	NSArray *existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
-	while ([existingKeys count] && ![existingKeys isEqualToArray:[NSArray arrayWithObject:[listObject internalObjectID]]]) {
+	while ([existingKeys count] && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
 		if ([existingKeys count] == 1) {
 			AILogWithSignature(@"*** Warning: %@ had order index %f, but %@ already had an object with that order index. Setting to %f instead. Incrementing.",
 							   listObject, orderIndexForObject, self, (largestOrder + 1));
@@ -710,7 +710,7 @@
 	}
 
 	[newDict setObject:orderIndexForObjectNumber
-				forKey:[listObject internalObjectID]];
+				forKey:listObject.internalObjectID];
 	
 	[self setPreference:newDict
 				 forKey:@"OrderIndexDictionary"
@@ -730,7 +730,7 @@
 	NSDictionary *dict = [self preferenceForKey:@"OrderIndexDictionary"
 										  group:ObjectStatusCache 
 						 ];
-	NSNumber *orderIndexForObjectNumber = [dict objectForKey:[listObject internalObjectID]];
+	NSNumber *orderIndexForObjectNumber = [dict objectForKey:listObject.internalObjectID];
 	float orderIndexForObject = (orderIndexForObjectNumber ? [orderIndexForObjectNumber floatValue] : 0);
 	
 	//Evan: I don't know how we got up to infinity.. perhaps pref corruption in a previous version?
@@ -769,7 +769,7 @@
 
 - (NSComparisonResult)compare:(AIListObject *)other {
 	NSParameterAssert([other isKindOfClass:[AIListObject class]]);
-	return [self.internalObjectID caseInsensitiveCompare:[other internalObjectID]];
+	return [self.internalObjectID caseInsensitiveCompare:other.internalObjectID];
 }
 
 #pragma mark Icons

@@ -30,20 +30,20 @@
 		 * we don't want to keep it separately in memory long-term.
 		 */
 		if (inData)
-			[serversideIconDataCache setObject:inData forKey:[inObject internalObjectID]];
+			[serversideIconDataCache setObject:inData forKey:inObject.internalObjectID];
 		
 		//Tell AIUserIcons that we're ready
 		[AIUserIcons userIconSource:self didChangeForObject:inObject];
 		//Cache the icon if desired
 		[AICachedUserIconSource cacheUserIconData:inData forObject:inObject];
 		
-		[serversideIconDataCache removeObjectForKey:[inObject internalObjectID]];
+		[serversideIconDataCache removeObjectForKey:inObject.internalObjectID];
 	}
 }
 
 - (NSData *)serversideUserIconDataForObject:(AIListObject *)inObject
 {
-	NSData *iconData = [serversideIconDataCache objectForKey:[inObject internalObjectID]];
+	NSData *iconData = [serversideIconDataCache objectForKey:inObject.internalObjectID];
 	if (!iconData && [inObject isMemberOfClass:[AIListContact class]]) {
 		//If this is specifically an AIListContact, ask the account if it has serverside data.
 		gettingServersideData = YES;

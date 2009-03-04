@@ -1073,7 +1073,7 @@ static NSArray *draggedTypes = nil;
 	AIListObject	*iconSourceObject = ([inObject isKindOfClass:[AIListContact class]] ?
 										 [(AIListContact *)inObject parentContact] :
 										 inObject);
-	NSString		*currentIconPath = [objectIconPathDict objectForKey:[iconSourceObject internalObjectID]];
+	NSString		*currentIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];
 	if (currentIconPath) {
 		NSString	*objectsKnownIconPath = [iconSourceObject valueForProperty:KEY_WEBKIT_USER_ICON];
 		if (objectsKnownIconPath &&
@@ -1122,7 +1122,7 @@ static NSArray *draggedTypes = nil;
 								   notify:NotifyNever];
 	}
 
-	[objectIconPathDict removeObjectForKey:[iconSourceObject internalObjectID]];
+	[objectIconPathDict removeObjectForKey:iconSourceObject.internalObjectID];
 }
 
 /*!
@@ -1178,7 +1178,7 @@ static NSArray *draggedTypes = nil;
 			webKitUserIcon = userIcon;
 		}
 
-		oldWebKitUserIconPath = [objectIconPathDict objectForKey:[iconSourceObject internalObjectID]];
+		oldWebKitUserIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];
 		webKitUserIconPath = [iconSourceObject valueForProperty:KEY_WEBKIT_USER_ICON];
 
 		if (!webKitUserIconPath) {
@@ -1230,7 +1230,7 @@ static NSArray *draggedTypes = nil;
 		}
 
 		[objectIconPathDict setObject:webKitUserIconPath
-							   forKey:[iconSourceObject internalObjectID]];
+							   forKey:iconSourceObject.internalObjectID];
 	}
 }
 
@@ -1298,7 +1298,7 @@ static NSArray *draggedTypes = nil;
  */
 - (NSString *)_webKitUserIconPathForObject:(AIListObject *)inObject
 {
-	NSString	*filename = [NSString stringWithFormat:@"%@-%@%@.png", TEMPORARY_FILE_PREFIX, [inObject internalObjectID], [NSString randomStringOfLength:5]];
+	NSString	*filename = [NSString stringWithFormat:@"%@-%@%@.png", TEMPORARY_FILE_PREFIX, inObject.internalObjectID, [NSString randomStringOfLength:5]];
 	return [[adium cachesPath] stringByAppendingPathComponent:filename];
 }
 

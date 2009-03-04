@@ -159,7 +159,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	if (wasAsynchronous && ![self userIconSource:inSource changeWouldBeRelevantForObject:inObject])
 		return;
 
-	NSString *internalObjectID = [inObject internalObjectID];
+	NSString *internalObjectID = inObject.internalObjectID;
 
 	//Keep the data around so that this image can be resized without loss of quality
 	[inUserIcon setDataRetained:YES];
@@ -204,7 +204,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
  */
 + (id <AIUserIconSource>)userIconSourceForObject:(AIListObject *)inObject
 {
-	return [iconCacheOwners objectForKey:[inObject internalObjectID]];
+	return [iconCacheOwners objectForKey:inObject.internalObjectID];
 }
 
 /*!
@@ -306,7 +306,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 + (NSImage *)userIconForObject:(AIListObject *)inObject
 {
 	NSImage		*userIcon = nil;
-	NSString	*internalObjectID = [inObject internalObjectID];
+	NSString	*internalObjectID = inObject.internalObjectID;
 	
 	userIcon = [iconCache objectForKey:internalObjectID];
 	if (!userIcon) {
@@ -333,7 +333,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 + (void)setActualUserIcon:(NSImage *)userIcon andSource:(id <AIUserIconSource>)inSource forObject:(AIListObject *)inObject
 {
 	if (userIcon && inSource) {
-		NSString	*internalObjectID = [inObject internalObjectID];
+		NSString	*internalObjectID = inObject.internalObjectID;
 		
 		[self flushCacheForObject:inObject];
 
@@ -360,7 +360,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	NSImage *userIcon = nil;
 	
 	//Retrieve the icon from our cache
-	if (cache) userIcon = [listIconCache objectForKey:[inObject internalObjectID]];
+	if (cache) userIcon = [listIconCache objectForKey:inObject.internalObjectID];
 
 	//Render the icon if it's not cached
 	if (!userIcon) {
@@ -369,7 +369,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 													flipImage:YES
 											   proportionally:YES
 											   allowAnimation:YES];
-		if (userIcon && cache) [listIconCache setObject:userIcon forKey:[inObject internalObjectID]];
+		if (userIcon && cache) [listIconCache setObject:userIcon forKey:inObject.internalObjectID];
 	}
 	
 	return userIcon;
@@ -385,13 +385,13 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	NSImage *userIcon;
 	
 	//Retrieve the icon from our cache
-	userIcon = [menuIconCache objectForKey:[inObject internalObjectID]];
+	userIcon = [menuIconCache objectForKey:inObject.internalObjectID];
 	
 	//Render the icon if it's not cached
 	if (!userIcon) {
 		userIcon = [[inObject userIcon] imageByScalingForMenuItem];
 		if (userIcon) [menuIconCache setObject:userIcon
-									   forKey:[inObject internalObjectID]];
+									   forKey:inObject.internalObjectID];
 	}
 
 	if(!userIcon)
@@ -433,7 +433,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	AILogWithSignature(@"%@",inObject);
 #endif
 
-	NSString *internalObjectID = [inObject internalObjectID];
+	NSString *internalObjectID = inObject.internalObjectID;
 	[iconCache removeObjectForKey:internalObjectID];
 	[iconCacheOwners removeObjectForKey:internalObjectID];
 

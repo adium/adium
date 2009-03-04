@@ -226,7 +226,7 @@
 								 forKey:KEY_FILE_TRANSFER_ID];
 
 			} else {
-				[clickContext setObject:[listObject internalObjectID]
+				[clickContext setObject:listObject.internalObjectID
 								 forKey:KEY_LIST_OBJECT_ID];
 			}
 		}
@@ -274,7 +274,7 @@
 	}
 	
 	if (listObject && [adium.contactAlertsController isContactStatusEvent:eventID]) {
-		identifier = [listObject internalObjectID];
+		identifier = listObject.internalObjectID;
 	}
 
 	NSAssert5((title || description),

@@ -176,7 +176,7 @@
 		 * to assume that a contact in a group chat is by definition not on their cell phone. This assumption
 		 * could become wrong in the future... we can deal with it more properly at that time. :P -eds
 		 */	
-		if ([listContact isMobile]) {
+		if (listContact.isMobile) {
 			[listContact setIsMobile:NO notify:NotifyLater];
 			
 			[listContact setValue:nil

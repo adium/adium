@@ -194,7 +194,7 @@
         }
     }
 
-	if ((!color && !labelColor) && mobileEnabled && [inContact isMobile]) {
+	if ((!color && !labelColor) && mobileEnabled && inContact.isMobile) {
 		color = mobileColor;
 		invertedColor = mobileInvertedColor;
 		labelColor = mobileLabelColor;		

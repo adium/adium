@@ -451,12 +451,12 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 					//Add this content message to the sending queue for this contact to be sent once a connection is established
 					if (!directIMQueue) directIMQueue = [[NSMutableDictionary alloc] init];
 					
-					NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:[inListObject internalObjectID]];
+					NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:inListObject.internalObjectID];
 					if (!thisContactQueue) {
 						thisContactQueue = [NSMutableArray array];
 						
 						[directIMQueue setObject:thisContactQueue
-										  forKey:[inListObject internalObjectID]];
+										  forKey:inListObject.internalObjectID];
 					}
 					
 					[thisContactQueue addObject:inContentMessage];
@@ -529,7 +529,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 									 inChat:[adium.chatController chatWithContact:theContact]];
 
 	//Send any pending directIM messages for this contact
-	NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:[theContact internalObjectID]];
+	NSMutableArray	*thisContactQueue = [directIMQueue objectForKey:theContact.internalObjectID];
 	if (thisContactQueue) {
 		AIContentObject	*contentObject;
 		
@@ -537,7 +537,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 			[adium.contentController sendContentObject:contentObject];
 		}
 		
-		[directIMQueue removeObjectForKey:[theContact internalObjectID]];
+		[directIMQueue removeObjectForKey:theContact.internalObjectID];
 		
 		if (![directIMQueue count]) {
 			[directIMQueue release]; directIMQueue = nil;

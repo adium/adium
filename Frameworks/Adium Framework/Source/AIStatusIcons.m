@@ -275,7 +275,7 @@ static NSString *statusNameForChat(AIChat *inChat)
 {
 	NSString		*statusName = nil;
 
-	if ([listObject isMobile]) {
+	if (listObject.isMobile) {
 		statusName = @"Mobile";
 	} else if ([listObject isBlocked]) {
 		statusName = @"Blocked";

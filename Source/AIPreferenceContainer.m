@@ -284,7 +284,7 @@ typedef enum {
 			}
 
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
-			NSString *globalPrefsKey = [[object internalObjectID] safeFilenameString];
+			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
 			if (!prefs) {
 				/* If this particular object has no dictionary within the global one,
@@ -538,7 +538,7 @@ typedef enum {
 		NSString	*userDirectory = [adium.loginController userDirectory];
 		
 		NSString	*path = (object ? [userDirectory stringByAppendingPathComponent:[object pathToPreferences]] : userDirectory);
-		NSString	*name = (object ? [[object internalObjectID] safeFilenameString] : group);
+		NSString	*name = (object ? [object.internalObjectID safeFilenameString] : group);
 		
 		[[self prefs] writeToPath:path withName:name];
 	}

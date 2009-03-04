@@ -19,7 +19,7 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
  */
 + (NSString *)_cachedImagePathForObject:(AIListObject *)inObject
 {
-	return [[adium cachesPath] stringByAppendingPathComponent:[inObject internalObjectID]];
+	return [[adium cachesPath] stringByAppendingPathComponent:inObject.internalObjectID];
 }
 
 /*!

@@ -916,7 +916,7 @@ typedef enum
 #pragma mark AppleScript
 - (NSNumber *)scriptingInternalObjectID
 {
-	return [NSNumber numberWithInt:[[self internalObjectID] intValue]];
+	return [NSNumber numberWithInt:[self.internalObjectID intValue]];
 }
 
 /**
