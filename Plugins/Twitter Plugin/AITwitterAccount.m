@@ -865,7 +865,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 		}
 		
-		AILogWithSignature(@"Last Pull: %@ Next Page Necessary: %@", lastPull, nextPageNecessary);
+		AILogWithSignature(@"Last Pull: %@ Next Page Necessary: %d", lastPull, nextPageNecessary);
 		
 		// See if we need to pull more updates.
 		if (nextPageNecessary) {
