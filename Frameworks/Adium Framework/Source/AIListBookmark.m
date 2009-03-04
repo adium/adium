@@ -121,6 +121,23 @@
 	return password;
 }
 
+/*!
+ * @brief Set our display name
+ *
+ * Update the display name of our chat if our display name changes.
+ */
+- (void)setDisplayName:(NSString *)inDisplayName
+{
+	[super setDisplayName:inDisplayName];
+	
+	AIChat *chat = [adium.chatController existingChatWithName:[self name]
+					onAccount:self.account];
+	
+	if ([self chatIsOurs:chat]) {
+		chat.displayName = self.displayName;
+	}
+}
+
 -(void)setPassword:(NSString*)newPassword
 {
 	if(password != newPassword) {
