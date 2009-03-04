@@ -267,6 +267,11 @@ static int nextChatNumber = 0;
 {
 	[[self displayArrayForKey:@"Display Name"] setObject:inDisplayName
 											   withOwner:self];
+	
+	//The display array doesn't cause an attribute update; fake it.
+	[adium.chatController chatStatusChanged:self
+						 modifiedStatusKeys:[NSSet setWithObject:@"Display Name"]
+									 silent:NO];
 }
 
 //Participating ListObjects --------------------------------------------------------------------------------------------

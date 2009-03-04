@@ -175,16 +175,7 @@
 
     //If the display name changed, we resize the tabs
     if (notification == nil || [keys containsObject:@"Display Name"]) {
-		id delegate = [[self tabView] delegate];
-		//[delegate resizeTabForTabViewItem:self];
-		
-        /* This should really be looked at and possibly a better method found.
-		 * This works and causes an automatic update to each open tab.  But it feels like a hack.
-		 * There is probably a more elegant method.  Something like [[[self tabView] delegate] redraw];  
-		 * I guess that's what this causes to happen, but the indirectness bugs me. It's obviously not the best solution,
-		 * but good enough for now.
-		 */
-        [delegate tabViewDidChangeNumberOfTabViewItems:[self tabView]];
+		[self setLabel:[self label]];
     } else if ([keys containsObject:@"UnviewedContent"]) {
 		[self setValue:nil forKeyPath:@"objectCount"];
 	}
