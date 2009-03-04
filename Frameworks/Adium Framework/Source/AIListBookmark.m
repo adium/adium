@@ -28,6 +28,7 @@
 @end
 
 @interface AIListBookmark ()
+- (BOOL)chatIsOurs:(AIChat *)chat;
 - (void)restoreGrouping;
 @end
 
@@ -38,7 +39,13 @@
 					 forKeyPath:@"Online"
 						options:NSKeyValueObservingOptionNew
 						context:NULL];
+	
 	[self observeValueForKeyPath:@"Online" ofObject:self.account change:nil context:NULL];
+	
+	[adium.notificationCenter addObserver:self
+								 selector:@selector(chatDidOpen:) 
+									 name:Chat_DidOpen
+								   object:nil];
 }
 
 -(id)initWithChat:(AIChat *)inChat
@@ -87,6 +94,7 @@
 
 - (void)dealloc
 {
+	[adium.notificationCenter removeObserver:self];
 	[self.account removeObserver:self forKeyPath:@"Online"];
 
 	[super dealloc];
@@ -175,23 +183,31 @@
 {
 	AIChat *chat = [adium.chatController existingChatWithName:[self name]
 													  onAccount:self.account];
-	if (chat && (!chat.chatCreationDictionary || [[chat chatCreationDictionary] isEqualToDictionary:[self chatCreationDictionary]])) {
-		if(!chat.isOpen) {
-			[adium.interfaceController openChat:chat];
-		}
-		
-		//An existing open chat matches this bookmark. Switch to it!
-		[adium.interfaceController setActiveChat:chat];
-		
-	} else {
+	
+	if (![self chatIsOurs:chat]) {
 		//Open a new group chat (bookmarked chat)
 		chat = [adium.chatController chatWithName:[self name]
 									   identifier:NULL 
 								        onAccount:self.account 
 							     chatCreationInfo:[self chatCreationDictionary]];
-		
-		[adium.interfaceController openChat:chat];
+		chat.displayName = self.displayName;
 	}	
+	
+	if(!chat.isOpen) {
+		[adium.interfaceController openChat:chat];
+	}
+	
+	[adium.interfaceController setActiveChat:chat];
+}
+
+- (void)chatDidOpen:(NSNotification *)notification
+{
+	AIChat *chat = [notification object];
+	
+	// If this is our chat, we should set it up appropriately.
+	if ([self chatIsOurs:chat]) {
+		chat.displayName = self.displayName;
+	}
 }
 
 /*!
@@ -202,6 +218,20 @@
 - (BOOL)canJoinMetaContacts
 {
 	return NO;
+}
+
+/*!
+ * @brief Is this chat ours?
+ *
+ * If the chat's name, account, and creation dictionary matches ours, it should be considered ours.
+ */
+- (BOOL)chatIsOurs:(AIChat *)chat
+{
+	return (chat &&
+			[chat.name isEqualToString:self.name] &&
+			chat.account == self.account &&
+			((!chat.chatCreationDictionary && !self.chatCreationDictionary) ||
+			 ([chat.chatCreationDictionary isEqualToDictionary:self.chatCreationDictionary])));
 }
 
 #pragma mark -

@@ -174,7 +174,7 @@
     NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
 
     //If the display name changed, we resize the tabs
-    if (notification == nil || [keys containsObject:@"DisplayName"]) {
+    if (notification == nil || [keys containsObject:@"Display Name"]) {
 		id delegate = [[self tabView] delegate];
 		//[delegate resizeTabForTabViewItem:self];
 		
