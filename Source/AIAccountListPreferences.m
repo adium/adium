@@ -33,6 +33,7 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatusMenu.h>
+#import <Adium/AIStatus.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIServiceMenu.h>
 #import <Adium/AIStatusIcons.h>
@@ -511,7 +512,7 @@
 		[account setStatusState:status];
 		
 		//Enable the account if it isn't currently enabled and this isn't an offline status
-		if (!account.enabled && [status statusType] != AIOfflineStatusType) {
+		if (!account.enabled && status.statusType != AIOfflineStatusType) {
 			[account setEnabled:YES];
 		}
 	}
@@ -741,7 +742,7 @@
 		
 		// Main string (account name)
 		NSDictionary		*mainStringAttributes	= [NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:13], NSFontAttributeName, nil];
-		NSAttributedString	*mainTitle = [[NSAttributedString alloc] initWithString:([[account formattedUID] length] ? [account formattedUID] : NEW_ACCOUNT_DISPLAY_TEXT)
+		NSAttributedString	*mainTitle = [[NSAttributedString alloc] initWithString:([account.formattedUID length] ? account.formattedUID : NEW_ACCOUNT_DISPLAY_TEXT)
 																		 attributes:mainStringAttributes];
 		
 		// Substring (the status message)
@@ -906,7 +907,7 @@
 		[cell setSubString:[self statusMessageForAccount:account]];
 		
 	} else if ([identifier isEqualToString:@"service"]) {
-		[cell accessibilitySetOverrideValue:[[account service] longDescription]
+		[cell accessibilitySetOverrideValue:[account.service longDescription]
 							   forAttribute:NSAccessibilityTitleAttribute];		 
 		[cell accessibilitySetOverrideValue:@" "
 							   forAttribute:NSAccessibilityRoleDescriptionAttribute];		 

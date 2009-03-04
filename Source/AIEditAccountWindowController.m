@@ -109,7 +109,7 @@
 	[[self window] setTitle:AILocalizedString(@"Edit Account", nil)];
 
 	//Account Overview
-	[textField_serviceName setStringValue:[[account service] longDescription]];
+	[textField_serviceName setStringValue:[account.service longDescription]];
 	[textField_accountDescription setStringValue:account.UID];
 
 	[button_chooseIcon setLocalizedString:[AILocalizedString(@"Choose Icon",nil) stringByAppendingEllipsis]];
@@ -247,10 +247,10 @@
 	NSInteger		newHeight = baseHeight, newWidth = baseWidth;
 
 	//Configure our account and proxy view controllers
-	accountViewController = [[[inAccount service] accountViewController] retain];
+	accountViewController = [[inAccount.service accountViewController] retain];
 	[accountViewController configureForAccount:inAccount];
 
-	accountProxyController = ([[inAccount service] supportsProxySettings] ?
+	accountProxyController = ([inAccount.service supportsProxySettings] ?
 							  [[AIAccountProxySettings alloc] init] :
 							  nil);
 	[accountProxyController configureForAccount:inAccount];
@@ -398,7 +398,7 @@
 
 - (NSString *)fileNameForImageInImagePicker:(AIImageViewWithImagePicker *)picker
 {
-	NSString *fileName = [[account displayName] safeFilenameString];
+	NSString *fileName = [account.displayName safeFilenameString];
 	if ([fileName hasPrefix:@"."]) {
 		fileName = [fileName substringFromIndex:1];
 	}

@@ -817,7 +817,7 @@ static NSArray *validSenderColors;
 			validSenderColors = VALID_SENDER_COLORS_ARRAY;
 	}
 	[inString replaceKeyword:@"%senderColor%"
-				  withString:[validSenderColors objectAtIndex:([[contentSource UID] hash] % ([validSenderColors count]))]];
+				  withString:[validSenderColors objectAtIndex:([contentSource.UID hash] % ([validSenderColors count]))]];
 	
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
 	[inString replaceKeyword:@"%messageDirection%"
@@ -882,8 +882,8 @@ static NSArray *validSenderColors;
 		} while (range.location != NSNotFound);
 		
 		//Use [content source] directly rather than the potentially-metaContact theSource
-		NSString *formattedUID = [contentSource formattedUID];
-		NSString *displayName = [contentSource displayName];
+		NSString *formattedUID = contentSource.formattedUID;
+		NSString *displayName = contentSource.displayName;
 		[inString replaceKeyword:@"%senderScreenName%" 
 					  withString:[(formattedUID ?
 								   formattedUID :
@@ -948,7 +948,7 @@ static NSArray *validSenderColors;
 												   [(AIListContact *)theSource serversideDisplayName] :
 												   nil);
 				if (!serversideDisplayName) {
-					serversideDisplayName = [theSource displayName];
+					serversideDisplayName = theSource.displayName;
 				}
 				
 				[inString safeReplaceCharactersInRange:range
@@ -957,7 +957,7 @@ static NSArray *validSenderColors;
 		} while (range.location != NSNotFound);
 		
 		[inString replaceKeyword:@"%service%" 
-					  withString:[[contentSource service] shortDescription]];
+					  withString:[contentSource.service shortDescription]];
 
 		//Blatantly stealing the date code for the background color script.
 		do{
@@ -1072,7 +1072,7 @@ static NSArray *validSenderColors;
 				  withString:[[(AIContentStatus *)content status] stringByEscapingForXMLWithEntities:nil]];
 		
 		[inString replaceKeyword:@"%statusSender%" 
-				  withString:[[theSource displayName] stringByEscapingForXMLWithEntities:nil]];
+				  withString:[theSource.displayName stringByEscapingForXMLWithEntities:nil]];
 
 		if ((statusPhrase = [[content userInfo] objectForKey:@"Status Phrase"])) {
 			do{
@@ -1167,7 +1167,7 @@ static NSArray *validSenderColors;
 	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:account.service.serviceID
 																		  type:AIServiceIconLarge];
 	
-	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"@\" alt=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [[account service] shortDescription]];
+	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"@\" alt=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [account.service shortDescription]];
 	
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];

@@ -87,7 +87,7 @@
 
 - (void)dealloc
 {
-	[[self account] removeObserver:self forKeyPath:@"Online"];
+	[self.account removeObserver:self forKeyPath:@"Online"];
 
 	[super dealloc];
 }
@@ -174,7 +174,7 @@
 - (void)openChat
 {
 	AIChat *chat = [adium.chatController existingChatWithName:[self name]
-													  onAccount:[self account]];
+													  onAccount:self.account];
 	if (chat && (!chat.chatCreationDictionary || [[chat chatCreationDictionary] isEqualToDictionary:[self chatCreationDictionary]])) {
 		if(!chat.isOpen) {
 			[adium.interfaceController openChat:chat];
@@ -187,7 +187,7 @@
 		//Open a new group chat (bookmarked chat)
 		chat = [adium.chatController chatWithName:[self name]
 									   identifier:NULL 
-								        onAccount:[self account] 
+								        onAccount:self.account 
 							     chatCreationInfo:[self chatCreationDictionary]];
 		
 		[adium.interfaceController openChat:chat];
@@ -216,7 +216,7 @@
 #pragma mark -
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@>",NSStringFromClass([self class]), self, self.formattedUID, [self chatCreationDictionary], [self account]];
+	return [NSString stringWithFormat:@"<%@:%x %@ - %@ on %@>",NSStringFromClass([self class]), self, self.formattedUID, [self chatCreationDictionary], self.account];
 }
 
 @end

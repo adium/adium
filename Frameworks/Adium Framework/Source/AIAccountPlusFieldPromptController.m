@@ -71,12 +71,12 @@
 		UID = [(AIListContact *)impliedValue UID];
 
 	} else  if ([impliedValue isKindOfClass:[NSString class]]) {
-		UID = [[account service] normalizeUID:impliedValue removeIgnoredCharacters:YES];
+		UID = [account.service normalizeUID:impliedValue removeIgnoredCharacters:YES];
 	}
 
 	if (!contact && UID) {
 		//Find the contact
-		contact = [adium.contactController contactWithService:[account service]
+		contact = [adium.contactController contactWithService:account.service
 														account:account 
 															UID:UID];		
 	}
@@ -96,8 +96,8 @@
 		if ([contact.service.serviceClass isEqualToString:account.service.serviceClass] &&
 		    (![contact isKindOfClass:[AIMetaContact class]] || [(AIMetaContact *)contact uniqueContainedObjectsCount])) {
 			NSString *UID = contact.UID;
-			[textField_handle addCompletionString:[contact formattedUID] withImpliedCompletion:UID];
-			[textField_handle addCompletionString:[contact displayName] withImpliedCompletion:contact];
+			[textField_handle addCompletionString:contact.formattedUID withImpliedCompletion:UID];
+			[textField_handle addCompletionString:contact.displayName withImpliedCompletion:contact];
 			[textField_handle addCompletionString:UID];
 		}
 	}	
@@ -200,7 +200,7 @@
 	[self _configureTextFieldForAccount:inAccount];
 }
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount {
-	return [inAccount online];
+	return inAccount.online;
 }
 
 //Select the last used account / Available online account

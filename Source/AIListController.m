@@ -657,8 +657,8 @@
 
 		} else if ([aDragItem isKindOfClass:[AIListContact class]]) {
 			//For listContacts, add all contacts with the same service and UID (on all accounts)
-			[realDragItems addObjectsFromArray:[[adium.contactController allContactsWithService:[aDragItem service] 
-																							  UID:[aDragItem UID]] allObjects]];
+			[realDragItems addObjectsFromArray:[[adium.contactController allContactsWithService:aDragItem.service 
+																							  UID:aDragItem.UID] allObjects]];
 		}
 	}
 	
@@ -816,10 +816,10 @@
 	//Appropriate prompt
 	if ([items count] == 1) {
 		promptTitle = [NSString stringWithFormat:AILocalizedString(@"Combine %@ and %@?","Title of the prompt when combining two contacts. Each %@ will be filled with a contact name."),
-					   [[items objectAtIndex:0] displayName], [inContact displayName]];
+					   [[items objectAtIndex:0] displayName], inContact.displayName];
 	} else {
 		promptTitle = [NSString stringWithFormat:AILocalizedString(@"Combine these contacts with %@?","Title of the prompt when combining two or more contacts with another.  %@ will be filled with a contact name."),
-					   [inContact displayName]];
+					   inContact.displayName];
 	}
 	
 	//Metacontact creation, prompt the user

@@ -69,12 +69,12 @@
 	//Invite the dragged contact(s) to the chat
 	BOOL			success = NO;
 	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
-	AIAccount		*activeChatAccount = [activeChat account];
+	AIAccount		*activeChatAccount = activeChat.account;
 	AIListObject	*listObject;
 	
 	for (listObject in dragItems) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
-			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:[activeChatAccount service]];
+			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];
 		}
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&
@@ -104,11 +104,11 @@
 {
 	AIListObject	*listObject;
 	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
-	AIAccount		*activeChatAccount = [activeChat account];
+	AIAccount		*activeChatAccount = activeChat.account;
 
 	for (listObject in dragItems) {
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
-			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:[activeChatAccount service]];
+			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];
 		}
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&

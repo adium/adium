@@ -173,7 +173,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 		*/
 	enumerator = [[self sortedContainedStatusItems] objectEnumerator];
 	while ((statusState = [enumerator nextObject])) {
-		AIStatusType thisStatusType = [statusState statusType];
+		AIStatusType thisStatusType = statusState.statusType;
 
 		//We treat Invisible statuses as being the same as Away for purposes of the menu
 		if (thisStatusType == AIInvisibleStatusType) thisStatusType = AIAwayStatusType;

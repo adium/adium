@@ -560,7 +560,7 @@
  */
 - (void)setStatusState:(AIStatus *)statusState
 {
-	if (([statusState statusType] == AIOfflineStatusType) &&
+	if ((statusState.statusType == AIOfflineStatusType) &&
 		![self handleOfflineAsStatusChange]) {
 		[self setShouldBeOnline:NO];
 		
@@ -629,7 +629,7 @@
 
 - (AIStatusSummary)statusSummary
 {
-	AIStatusType	statusType = [[self statusState] statusType];
+	AIStatusType	statusType = self.statusState.statusType;
 	
 	if (statusType == AIOfflineStatusType) {
 		return AIOfflineStatus;
@@ -663,7 +663,7 @@
 		return statusState;
 	} else {
 		AIStatus	*statusState = [self valueForProperty:@"StatusState"];
-		if (statusState && [statusState statusType] == AIOfflineStatusType) {
+		if (statusState && statusState.statusType == AIOfflineStatusType) {
 			//We're in an actual offline status; return it
 			return statusState;
 		} else {
@@ -683,21 +683,21 @@
 
 - (NSString *)statusName
 {
-	return [[self statusState] statusName];
+	return self.statusState.statusName;
 }
 
 - (AIStatusType)statusType
 {
-	return [[self statusState] statusType];
+	return self.statusState.statusType;
 }
 
 - (NSAttributedString *)statusMessage
 {
-	return [[self statusState] statusMessage];
+	return self.statusState.statusMessage;
 }
 - (NSString *)statusMessageString
 {
-	return [[self statusMessage] string];
+	return [self.statusMessage string];
 }
 
 /*!
@@ -705,7 +705,7 @@
  */
 - (BOOL)soundsAreMuted
 {
-	return [[self statusState] mutesSound];
+	return [self.statusState mutesSound];
 }
 
 #pragma mark Passwords
@@ -850,12 +850,12 @@
 	if ([key isEqualToString:@"StatusState"]) {
 		AIStatus *statusState = [self actualStatusState];
 		/* -[AIAccount actualStatusState] won't set usinto an initial state if we don't have one yet,
-		 * unlike -[AIAccount statusState]. Although I expect that the default state will never have an associated
+		 * unlike -AIAccount.statusState. Although I expect that the default state will never have an associated
 		 * statusMessage,  it's good form to check it.
 		 */
 		if (!statusState) statusState = [adium.statusController defaultInitialStatusState];
 
-		originalValue = [statusState statusMessage];
+		originalValue = statusState.statusMessage;
 
 	} else {
 		if (isTemporary)
@@ -1032,7 +1032,7 @@
 {
 	NSMutableArray *results = [NSMutableArray array];
 	for (AIListContact *contact in adium.contactController.allContacts) {
-		if([contact account] == self)
+		if(contact.account == self)
 			[results addObject:contact];
 	}
 	return results;
@@ -1099,7 +1099,7 @@
 
 - (void)toggleOnline
 {
-	BOOL    online = [self online];
+	BOOL    online = self.online;
 	BOOL	connecting = [self boolValueForProperty:@"Connecting"];
 	BOOL	reconnecting = ([self valueForProperty:@"Waiting to Reconnect"] != nil);
 	
@@ -1175,12 +1175,12 @@
     reconnectAttemptsPerformed = 0;
 	
 	//Update our status and idle status to ensure our newly connected account is in the states we want it to be
-	if ([[self statusState] statusType] == AIOfflineStatusType) {
+	if (self.statusState.statusType == AIOfflineStatusType) {
 		/* If our account thinks it's still in an offline status, that means it went offline previously via an offline status.
 		 * Set to the status being used by other accounts if possible; otherwise, set to our default initial status.
 		 */
 		AIStatus *newStatus = [adium.statusController activeStatusState];
-		if ([newStatus statusType] == AIOfflineStatusType) {
+		if (newStatus.statusType == AIOfflineStatusType) {
 			newStatus = [adium.statusController defaultInitialStatusState];
 		}
 		
@@ -1222,7 +1222,7 @@
 {
 	//If we still want to be online, and we're not yet online, continue with the reconnect
     if ([self shouldBeOnline] &&
-	   ![self online] && ![self boolValueForProperty:@"Connecting"]) {
+	   !self.online && ![self boolValueForProperty:@"Connecting"]) {
 		[self updateStatusForKey:@"Online"];
     }
 }
@@ -1468,7 +1468,7 @@
  */
 - (void)fastUserSwitchLeave:(NSNotification *)notification
 {
-	if ([self online]) {
+	if (self.online) {
 		[self setShouldBeOnline:NO];
 		disconnectedByFastUserSwitch = YES;
 	}

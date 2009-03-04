@@ -48,8 +48,8 @@
 - (NSString *)awayDescriptionForObject:(AIListObject *)inObject
 {
 	NSString *awayDescriptionString = nil;
-	NSString *statusName = [inObject statusName];
-	AIStatusType statusType = [inObject statusType];
+	NSString *statusName = inObject.statusName;
+	AIStatusType statusType = inObject.statusType;
 	
 	if (statusName) {
 		awayDescriptionString = [adium.statusController localizedDescriptionForStatusName:statusName
@@ -73,10 +73,10 @@
     NSAttributedString 	*statusMessage = nil;
     BOOL				away;
     
-    away = ([inObject statusType] == AIAwayStatusType);
+    away = (inObject.statusType == AIAwayStatusType);
     
     //Get the status message
-    statusMessage = [inObject statusMessage];
+    statusMessage = inObject.statusMessage;
     
     //Return the correct string
     if(statusMessage != nil && [statusMessage length] != 0){
@@ -117,7 +117,7 @@
 	NSString			*serverDisplayName = nil;
 	
     //Get the status message
-    statusMessage = [inObject statusMessage];
+    statusMessage = inObject.statusMessage;
 	
 	//Check to make sure we're not duplicating server display name information
 	serverDisplayName = [inObject valueForProperty:@"Server Display Name"];

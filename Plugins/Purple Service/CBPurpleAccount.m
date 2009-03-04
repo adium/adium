@@ -130,7 +130,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	//If the name we were passed differs from the current formatted UID of the contact, it's itself a formatted UID
 	//This is important since we may get an alias ("Evan Schoenberg") from the server but also want the formatted name
-	if (![contactName isEqualToString:[theContact formattedUID]] && ![contactName isEqualToString:theContact.UID]) {
+	if (![contactName isEqualToString:theContact.formattedUID] && ![contactName isEqualToString:theContact.UID]) {
 		[theContact setValue:contactName
 							 forProperty:@"FormattedUID"
 							 notify:NotifyLater];
@@ -185,7 +185,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	} else {
 		//If it's the same characters as the UID, apply it as a formatted UID
-		if (![purpleAlias isEqualToString:[theContact formattedUID]] && 
+		if (![purpleAlias isEqualToString:theContact.formattedUID] && 
 			![purpleAlias isEqualToString:theContact.UID]) {
 			[theContact setFormattedUID:purpleAlias
 								 notify:NotifyLater];
@@ -346,7 +346,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (NSString *)webProfileStringForContact:(AIListContact *)contact
 {
 	return [NSString stringWithFormat:NSLocalizedString(@"View %@'s %@ web profile", nil), 
-			[contact formattedUID], [[contact service] shortDescription]];
+			contact.formattedUID, [contact.service shortDescription]];
 }
 
 - (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info forContact:(AIListContact *)contact
@@ -572,7 +572,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			NSString	*groupName = [self _mapOutgoingGroupName:remoteGroupName];
 			
 			//Have the purple thread perform the serverside actions
-			[purpleAdapter removeUID:[object UID] onAccount:self fromGroup:groupName];
+			[purpleAdapter removeUID:object.UID onAccount:self fromGroup:groupName];
 			
 			//Remove it from Adium's list
 			[object removeRemoteGroupName:groupName];
@@ -596,7 +596,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (NSString *)_UIDForAddingObject:(AIListContact *)object
 {
-	return [object UID];
+	return object.UID;
 }
 
 - (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
@@ -651,7 +651,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 // Return YES if the contact list is editable
 - (BOOL)contactListEditable
 {
-    return [self online];
+    return self.online;
 }
 
 - (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict {
@@ -764,7 +764,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIListContact	*listContact;
 	
 	//Obtain the contact's information if it's a stranger
-	if ((listContact = chat.listObject) && ([listContact isStranger])) {
+	if ((listContact = chat.listObject) && (listContact.isStranger)) {
 		[self delayedUpdateContactStatus:listContact];
 	}
 #endif
@@ -1049,10 +1049,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  */
 - (BOOL)availableForSendingContentType:(NSString *)inType toContact:(AIListContact *)inContact
 {
-    if ([self online] && [inType isEqualToString:CONTENT_FILE_TRANSFER_TYPE]) {
+    if (self.online && [inType isEqualToString:CONTENT_FILE_TRANSFER_TYPE]) {
 		if (inContact) {
 			return ([self conformsToProtocol:@protocol(AIAccount_Files)] &&
-					(([inContact online] || [inContact isStranger]) && [self allowFileTransferWithListObject:inContact]));
+					((inContact.online || inContact.isStranger) && [self allowFileTransferWithListObject:inContact]));
 		} else {
 			return [self conformsToProtocol:@protocol(AIAccount_Files)];
 		}
@@ -1675,7 +1675,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	//Set our current status state after filtering its statusMessage as appropriate. This will take us online in the process.
 	AIStatus	*statusState = [self valueForProperty:@"StatusState"];
-	if (!statusState || ([statusState statusType] == AIOfflineStatusType)) {
+	if (!statusState || (statusState.statusType == AIOfflineStatusType)) {
 		statusState = [adium.statusController defaultInitialStatusState];
 	}
 
@@ -1913,7 +1913,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (void)disconnect
 {
-	if ([self online] || [self boolValueForProperty:@"Connecting"]) {
+	if (self.online || [self boolValueForProperty:@"Connecting"]) {
 		//As per AIAccount's documentation, call super's implementation
 		[super disconnect];
 
@@ -2126,7 +2126,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  * to the status message.  This method should handle any status whose statusNname this service set as well as any statusName
  * defined in  AIStatusController.h (which will correspond to the services handled by Adium by default).
  * It should also handle a status name not specified in either of these places with a sane default, most likely by loooking at
- * [statusState statusType] for a general idea of the status's type.
+ * statusState.statusType for a general idea of the status's type.
  *
  * @param statusState The status for which to find the purple status ID
  * @param arguments Prpl-specific arguments which will be passed with the state. Message is handled automatically.
@@ -2138,7 +2138,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	char	*statusID = NULL;
 	
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			statusID = "available";
 			break;
@@ -2217,7 +2217,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  *
  * Sets the account to a passed status state.  The account should set itself to best possible status given the return
  * values of statusState's accessors.  The passed statusMessage has been filtered; it should be used rather than
- * [statusState statusMessage], which returns an unfiltered statusMessage.
+ * statusState.statusMessage, which returns an unfiltered statusMessage.
  *
  * @param statusState The state to enter
  * @param statusMessage The filtered status message to use.
@@ -2232,8 +2232,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 											 arguments:arguments];
 
 	if (![statusMessage length] &&
-		([statusState statusType] == AIAwayStatusType) &&
-		[statusState statusName] &&
+		(statusState.statusType == AIAwayStatusType) &&
+		statusState.statusName &&
 		(!statusID || ((strcmp(statusID, "away") == 0) && [self shouldSetStatusMessageForDefaultAwayState]))) {
 		/* If we don't have a status message, and the status type is away for a non-default away such as "Do Not Disturb", and we're only setting
 		 * a default away state becuse we don't know a better one for this service, get a default
@@ -2770,7 +2770,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		switch (returnCode) {
 			case NSAlertOtherReturn:
 				// delete & unregister
-				if ([self online])
+				if (self.online)
 					[self unregister];
 				else {
 					unregisterAfterConnecting = YES;
@@ -2836,7 +2836,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (void)willBeDeleted
 {	
-	if ([self online]) {
+	if (self.online) {
 		//Wait until we are finished disconnecting before removing ourselves from libpurple.
 		deletePurpleAccountAfterDisconnecting = TRUE;
 
@@ -2885,14 +2885,14 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 			if ([object isKindOfClass:[AIMetaContact class]]) {
 				for(AIListContact *containedListContact in (AIMetaContact *)object) {
-					if ([containedListContact account] == self) {
-						[purpleAdapter setAlias:alias forUID:[containedListContact UID] onAccount:self];
+					if (containedListContact.account == self) {
+						[purpleAdapter setAlias:alias forUID:containedListContact.UID onAccount:self];
 					}
 				}
 				
 			} else if ([object isKindOfClass:[AIListContact class]]) {
 				if ([(AIListContact *)object account] == self) {
-					[purpleAdapter setAlias:alias forUID:[object UID] onAccount:self];
+					[purpleAdapter setAlias:alias forUID:object.UID onAccount:self];
 				}
 			}
 		}

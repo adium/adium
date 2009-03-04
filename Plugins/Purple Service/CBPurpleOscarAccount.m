@@ -213,7 +213,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 {
 	char	*statusID = NULL;
 
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			statusID = OSCAR_STATUS_ID_AVAILABLE;
 			break;
@@ -284,7 +284,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 				NSString  *comment = [object preferenceForKey:@"Notes" 
 														group:PREF_GROUP_NOTES];
 				
-				[[super purpleAdapter] OSCAREditComment:comment forUID:[object UID] onAccount:self];
+				[[super purpleAdapter] OSCAREditComment:comment forUID:object.UID onAccount:self];
 			}			
 		}
 	}
@@ -388,7 +388,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		
 		if (userinfo &&
 			aim_sncmp(purple_account_get_username(account), contactUID) &&
-			[listObject online]) {
+			listObject.online) {
 			return ((userinfo->capabilities & OSCAR_CAPABILITY_DIRECTIM) != 0);
 			
 		} else {
@@ -703,8 +703,8 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	 * before someone will notice this "odd" behavior and file a bug report... -evands
 	 */
 	 
-	if (([theContact statusType] == [statusTypeNumber intValue]) &&
-		((statusName && ![theContact statusName]) || [[theContact statusName] isEqualToString:statusName])) {
+	if ((theContact.statusType == [statusTypeNumber intValue]) &&
+		((statusName && !theContact.statusName) || [theContact.statusName isEqualToString:statusName])) {
 		//Type and name match...
 		NSString *currentStatusMessage = [theContact statusMessageString];
 		if (currentStatusMessage &&
@@ -806,13 +806,13 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		return nil;
 
 	} else if (strcmp(label, _("Re-request Authorization")) == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Re-request Authorization from %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Re-request Authorization from %@",nil),inContact.formattedUID];
 		
 	} else 	if (strcmp(label, _("Get AIM Info")) == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Get AIM information for %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Get AIM information for %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label, _("Direct IM")) == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Initiate Direct IM with %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Initiate Direct IM with %@",nil),inContact.formattedUID];
 	}
 
 	return [super titleForContactMenuLabel:label forContact:inContact];

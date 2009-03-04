@@ -149,7 +149,7 @@
 		}
 		
 		if (format) {
-			description = [NSString stringWithFormat:format,[listObject formattedUID]];
+			description = [NSString stringWithFormat:format,listObject.formattedUID];
 		}
 	} else {
 		if ([eventID isEqualToString:ACCOUNT_CONNECTED]) {

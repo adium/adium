@@ -358,7 +358,7 @@
  * to the status message.  This method should handle any status whose statusNname this service set as well as any statusName
  * defined in  AIStatusController.h (which will correspond to the services handled by Adium by default).
  * It should also handle a status name not specified in either of these places with a sane default, most likely by loooking at
- * [statusState statusType] for a general idea of the status's type.
+ * statusState.statusType for a general idea of the status's type.
  *
  * @param statusState The status for which to find the purple status ID
  * @param arguments Prpl-specific arguments which will be passed with the state. Message is handled automatically.
@@ -369,12 +369,12 @@
 							arguments:(NSMutableDictionary *)arguments
 {
 	const char		*statusID = NULL;
-	NSString		*statusName = [statusState statusName];
+	NSString		*statusName = statusState.statusName;
 	NSString		*statusMessageString = [statusState statusMessageString];
 
 	if (!statusMessageString) statusMessageString = @"";
 
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			statusID = YAHOO_STATUS_TYPE_AVAILABLE;
 			break;
@@ -444,28 +444,28 @@
 		return nil;
 		
 	} else if (!strcmp(label, _("Join in Chat"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Join %@'s Chat",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Join %@'s Chat",nil),inContact.formattedUID];
 
 	} else if (!strcmp(label, _("Initiate Conference"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Initiate Conference with %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Initiate Conference with %@",nil), inContact.formattedUID];
 
 	} else if (!strcmp(label, _("Presence Settings"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Presence Settings for %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Presence Settings for %@",nil), inContact.formattedUID];
 
 	} else if (!strcmp(label, _("Appear Online"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Appear Online to %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Appear Online to %@",nil), inContact.formattedUID];
 		
 	} else if (!strcmp(label, _("Appear Offline"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Appear Offline to %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Appear Offline to %@",nil), inContact.formattedUID];
 		
 	} else if (!strcmp(label, _("Appear Permanently Offline"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Always Appear Offline to %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Always Appear Offline to %@",nil), inContact.formattedUID];
 		
 	} else if (!strcmp(label, _("Don't Appear Permanently Offline"))) {
-		return [NSString stringWithFormat:AILocalizedString(@"Don't Always Appear Offline to %@",nil), [inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Don't Always Appear Offline to %@",nil), inContact.formattedUID];
 		
 	} else if (!strcmp(label, _("View Webcam"))) {
-		//return [NSString stringWithFormat:AILocalizedString(@"View %@'s Webcam",nil), [inContact formattedUID]];		
+		//return [NSString stringWithFormat:AILocalizedString(@"View %@'s Webcam",nil), inContact.formattedUID];		
 		return nil;
 
 	} else if (!strcmp(label, _("Start Doodling"))) {

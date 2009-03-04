@@ -135,7 +135,7 @@
 }
 
 - (void)send {
-	PurpleAccount *account = [[server account] purpleAccount];
+	PurpleAccount *account = [server.account purpleAccount];
 	xmlnode *iq = xmlnode_new("iq");
 	
 	xmlnode_set_attrib(iq, "id", [iqid UTF8String]);

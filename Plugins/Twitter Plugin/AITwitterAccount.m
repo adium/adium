@@ -256,7 +256,7 @@
  */
 - (BOOL)contactListEditable
 {
-    return [self online];
+    return self.online;
 }
 
 /*!

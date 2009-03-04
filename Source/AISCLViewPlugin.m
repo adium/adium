@@ -456,9 +456,9 @@
 		
 		// Only include up to an arbitrary number of group entries
 		if (currentCount == 4 || currentCount == [listGroup containedObjectsCount]) {
-			returnString = [returnString stringByAppendingString:[listObject displayName]];
+			returnString = [returnString stringByAppendingString:listObject.displayName];
 		} else {
-			returnString = [returnString stringByAppendingFormat:@"%@, ", [listObject displayName]];
+			returnString = [returnString stringByAppendingFormat:@"%@, ", listObject.displayName];
 		}
 		
 		// Only include up to the first 4

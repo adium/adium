@@ -60,7 +60,7 @@
 {
 	//First available account in our list of the correct service type
 	for (AIAccount *account in adium.accountController.accounts ) {
-		if ([inContact service] == [account service] &&
+		if (inContact.service == account.service &&
 			(account.online || (account.enabled && !strictChecking))) {
 			return account;
 		}

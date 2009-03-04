@@ -56,7 +56,7 @@ gboolean purple_init_novell_plugin(void);
  * to the status message.  This method should handle any status whose statusNname this service set as well as any statusName
  * defined in  AIStatusController.h (which will correspond to the services handled by Adium by default).
  * It should also handle a status name not specified in either of these places with a sane default, most likely by loooking at
- * [statusState statusType] for a general idea of the status's type.
+ * statusState.statusType for a general idea of the status's type.
  *
  * @param statusState The status for which to find the purple status ID
  * @param arguments Prpl-specific arguments which will be passed with the state. Message is handled automatically.
@@ -67,12 +67,12 @@ gboolean purple_init_novell_plugin(void);
 							arguments:(NSMutableDictionary *)arguments
 {
 	const char		*statusID = NULL;
-	NSString		*statusName = [statusState statusName];
+	NSString		*statusName = statusState.statusName;
 	NSString		*statusMessageString = [statusState statusMessageString];
 	
 	if (!statusMessageString) statusMessageString = @"";
 
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			break;
 			

@@ -1438,7 +1438,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
     CGFloat                               labelWidth;
     BOOL                                isFirst = YES;
     
-    NSString                            *formattedUID = [object formattedUID];
+    NSString                            *formattedUID = object.formattedUID;
     
     //Configure fonts and attributes
     NSFontManager                       *fontManager = [NSFontManager sharedFontManager];
@@ -1453,7 +1453,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	                                                                                    forKey:NSFontAttributeName];
 	
 	//Get the user's display name as an attributed string
-    NSAttributedString                  *displayName = [[NSAttributedString alloc] initWithString:[object displayName]
+    NSAttributedString                  *displayName = [[NSAttributedString alloc] initWithString:object.displayName
 																					   attributes:titleDict];
 	NSAttributedString					*filteredDisplayName = [adium.contentController filterAttributedString:displayName
 																								 usingFilterType:AIFilterTooltips

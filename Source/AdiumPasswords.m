@@ -337,7 +337,7 @@
  * @brief New-style Keychain identifier for an account
  */
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount {
-	return [[inAccount UID] compactedString];
+	return [inAccount.UID compactedString];
 }
 - (NSString *)_serverNameForAccount:(AIAccount *)inAccount {
 	return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, [self _accountNameForAccount:inAccount]];

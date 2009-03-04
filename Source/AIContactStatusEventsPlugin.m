@@ -222,8 +222,8 @@
 	
 	if (listObject) {
 		name = ([listObject isKindOfClass:[AIListGroup class]] ?
-				[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),[listObject displayName]] :
-				[listObject displayName]);
+				[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),listObject.displayName] :
+				listObject.displayName);
 	} else {
 		name = AILocalizedString(@"a contact",nil);
 	}
@@ -273,7 +273,7 @@
 		}
 		
 		if (format) {
-			description = [NSString stringWithFormat:format,[listObject displayName]];
+			description = [NSString stringWithFormat:format,listObject.displayName];
 		}
 	} else {
 		if ([eventID isEqualToString:CONTACT_STATUS_ONLINE_YES]) {
@@ -374,7 +374,7 @@
 				NSSet		*previouslyPerformedActionIDs = nil;
 
 				//Update away/not-away
-				newAwayNumber = ([inObject statusType] == AIAwayStatusType) ? [NSNumber numberWithBool:YES] : nil;
+				newAwayNumber = (inObject.statusType == AIAwayStatusType) ? [NSNumber numberWithBool:YES] : nil;
 				awayChanged = [self updateCache:awayCache
 										 forKey:@"Away"
 									   newValue:newAwayNumber
@@ -382,7 +382,7 @@
 								 performCompare:YES];
 				
 				//Update status message
-				newStatusMessage = [[inObject statusMessage] string];
+				newStatusMessage = [inObject.statusMessage string];
 				statusMessageChanged = [self updateCache:statusMessageCache 
 												 forKey:@"StatusMessage"
 											   newValue:newStatusMessage

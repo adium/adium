@@ -97,7 +97,7 @@
 {
 	if ([inObject isKindOfClass:[AIAccount class]] &&
 	   (!inModifiedKeys || [inModifiedKeys containsObject:@"StatusState"] || [inModifiedKeys containsObject:@"Online"])) {
-		if ([inObject online] && ([inObject statusType] != AIAvailableStatusType)) {
+		if (inObject.online && (inObject.statusType != AIAvailableStatusType)) {
 			[awayAccounts addObject:inObject];
 		} else {
 			[awayAccounts removeObject:inObject];

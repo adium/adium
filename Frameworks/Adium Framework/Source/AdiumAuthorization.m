@@ -39,7 +39,7 @@ static AdiumAuthorization *sharedInstance;
 
 + (id)showAuthorizationRequestWithDict:(NSDictionary *)inDict forAccount:(AIAccount *)inAccount
 {
-	AIListContact	*listContact = [adium.contactController contactWithService:[inAccount service]
+	AIListContact	*listContact = [adium.contactController contactWithService:inAccount.service
 																		 account:inAccount
 																			 UID:[inDict objectForKey:@"Remote Name"]];
 
@@ -110,8 +110,8 @@ static AdiumAuthorization *sharedInstance;
 		
 		if (format) {
 			name = ([listObject isKindOfClass:[AIListGroup class]] ?
-					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),[listObject displayName]] :
-					[listObject displayName]);
+					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),listObject.displayName] :
+					listObject.displayName);
 			
 			description = [NSString stringWithFormat:format, name];
 		}
@@ -133,7 +133,7 @@ static AdiumAuthorization *sharedInstance;
 	NSString	*description = nil;
 	
 	if (includeSubject) {
-		description = [NSString stringWithFormat:AILocalizedString(@"%@ requested authorization", "Event: <A contact's name> requested authorization"), [listObject formattedUID]];
+		description = [NSString stringWithFormat:AILocalizedString(@"%@ requested authorization", "Event: <A contact's name> requested authorization"), listObject.formattedUID];
 
 	} else {
 		description = AILocalizedString(@"requested authorization", "Event: requested authorization (follows a contact's name displayed as a header)");

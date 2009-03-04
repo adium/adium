@@ -1288,17 +1288,17 @@ NSString* serviceIDForJabberUID(NSString *UID)
 - (void)addToAddressBook
 {
 	AIListObject			*contact = adium.menuController.currentContextMenuObject;
-	NSString				*serviceProperty = [AIAddressBookController propertyFromService:[contact service]];
+	NSString				*serviceProperty = [AIAddressBookController propertyFromService:contact.service];
 	
 	if (serviceProperty) {
 		ABPerson				*person = [[ABPerson alloc] init];
 		
 		//Set the name
-		[person setValue:[contact displayName] forKey:kABFirstNameProperty];
-		if (![[contact phoneticName] isEqualToString:[contact displayName]])
+		[person setValue:contact.displayName forKey:kABFirstNameProperty];
+		if (![[contact phoneticName] isEqualToString:contact.displayName])
 			[person setValue:[contact phoneticName] forKey:kABFirstNamePhoneticProperty];
 
-		NSString				*UID = [contact formattedUID];
+		NSString				*UID = contact.formattedUID;
 	
 		NSEnumerator * containedContactEnu = [contact isKindOfClass:[AIMetaContact class]] ? [[(AIMetaContact *)contact uniqueContainedObjects] objectEnumerator] : [[NSArray arrayWithObject:contact] objectEnumerator];
 		AIListObject *c;
@@ -1307,8 +1307,8 @@ NSString* serviceIDForJabberUID(NSString *UID)
 		while((c = [containedContactEnu nextObject]))
 		{
 			multiValue = [[ABMutableMultiValue alloc] init];
-			UID = [c formattedUID];
-			serviceProperty = [AIAddressBookController propertyFromService:[c service]];
+			UID = c.formattedUID;
+			serviceProperty = [AIAddressBookController propertyFromService:c.service];
 			
 			//Set the IM property
 			[multiValue addValue:UID withLabel:serviceProperty];

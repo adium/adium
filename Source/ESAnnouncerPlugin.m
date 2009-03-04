@@ -131,7 +131,7 @@
 		NSMutableString	*userText = [[[details objectForKey:KEY_ANNOUNCER_TEXT_TO_SPEAK] mutableCopy] autorelease];
 		
 		if ([userText rangeOfString:@"%n"].location != NSNotFound) {
-			NSString	*replacementText = [listObject formattedUID];
+			NSString	*replacementText = listObject.formattedUID;
 			
 			[userText replaceOccurrencesOfString:@"%n"
 									  withString:(replacementText ? replacementText : @"")

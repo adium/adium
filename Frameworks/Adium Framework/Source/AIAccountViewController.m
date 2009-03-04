@@ -193,15 +193,15 @@
 		account = inAccount;
 		[self didChangeValueForKey:@"account"];
 		
-		service = [account service];
+		service = account.service;
 
 		//UID Label
 		//Must use AILocalized...FromTableInBundle() because this class is intended to be subclasses, and if the subclass is in a different bundle, AILocalized...String fails.
 		[textField_accountUIDLabel setStringValue:[[service userNameLabel] stringByAppendingString:AILocalizedStringFromTableInBundle(@":", nil, [NSBundle bundleForClass:[AIAccountViewController class]], "Colon which will be appended after a label such as 'User Name', before an input field")]];
 
 		//UID
-		NSString	*formattedUID = [account formattedUID];
-		[textField_accountUID setStringValue:(formattedUID ? [account formattedUID] : @"")];
+		NSString	*formattedUID = account.formattedUID;
+		[textField_accountUID setStringValue:(formattedUID ? account.formattedUID : @"")];
 		[textField_accountUID setFormatter:
 			[AIStringFormatter stringFormatterAllowingCharacters:[service allowedCharactersForAccountName]
 														  length:[service allowedLengthForAccountName]
@@ -267,7 +267,7 @@
 	//UID - account 
 	NSString	*newUID = [textField_accountUID stringValue];
 	if (![account.UID isEqualToString:newUID] ||
-	   ![[account formattedUID] isEqualToString:newUID]) {
+	   ![account.formattedUID isEqualToString:newUID]) {
 		[account filterAndSetUID:newUID];
 	}
 

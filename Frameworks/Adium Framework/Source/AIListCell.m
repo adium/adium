@@ -358,7 +358,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Draw our display name
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect
 {
-	NSAttributedString	*displayName = [self displayName];
+	NSAttributedString	*displayName = self.displayName;
 	NSSize				nameSize = [displayName size];
 	NSRect				rect = inRect;
 
@@ -405,7 +405,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 {
 	return ([self shouldShowAlias] ? 
 			[listObject longDisplayName] :
-			([listObject formattedUID] ? [listObject formattedUID] : [listObject longDisplayName]));
+			(listObject.formattedUID ? listObject.formattedUID : [listObject longDisplayName]));
 }
 
 - (BOOL)shouldShowAlias
@@ -505,10 +505,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 			NSString *name, *statusDescription, *statusMessage;
 			
 			name = [listObject longDisplayName];
-			statusDescription = [adium.statusController localizedDescriptionForStatusName:([listObject statusName] ?
-																					  [listObject statusName] :
-																					  [adium.statusController defaultStatusNameForType:[listObject statusType]])
-																		  statusType:[listObject statusType]];
+			statusDescription = [adium.statusController localizedDescriptionForStatusName:(listObject.statusName ?
+																					  listObject.statusName :
+																					  [adium.statusController defaultStatusNameForType:listObject.statusType])
+																		  statusType:listObject.statusType];
 			statusMessage = [listObject statusMessageString];
 			
 			value = [[name mutableCopy] autorelease];

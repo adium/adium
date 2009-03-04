@@ -230,7 +230,7 @@
  * The interface controller will then be asked to open the UI for the new chat.
  *
  * @param inContact The AIListContact on which to open a chat. If an AIMetaContact, an appropriate contained contact will be selected.
- * @param onPreferredAccount If YES, Adium will determine the account on which the chat should be opened. If NO, [inContact account] will be used. Value is treated as YES for AIMetaContacts by the action of -[AIChatController chatWithContact:].
+ * @param onPreferredAccount If YES, Adium will determine the account on which the chat should be opened. If NO, inContact.account will be used. Value is treated as YES for AIMetaContacts by the action of -[AIChatController chatWithContact:].
  */
 - (AIChat *)openChatWithContact:(AIListContact *)inContact onPreferredAccount:(BOOL)onPreferredAccount
 {
@@ -255,7 +255,7 @@
  * If a chat with a contact within the same metaContact at this contact exists, it is switched to this contact
  * and then returned.
  *
- * The passed contact, if an AIListContact, will be used exactly -- that is, [inContact account] is the account on which the chat will be opened.
+ * The passed contact, if an AIListContact, will be used exactly -- that is, inContact.account is the account on which the chat will be opened.
  * If the passed contact is an AIMetaContact, an appropriate contact/account pair will be automatically selected by this method.
  *
  * @param inContact The contact with which to open a chat. See description above.
@@ -369,7 +369,7 @@
 {
 	AIChat			*chat = nil;
 
-	name = [[account service] normalizeChatName:name];
+	name = [account.service normalizeChatName:name];
 
  	if (identifier) {
  		chat = [self existingChatWithIdentifier:identifier onAccount:account];
@@ -422,7 +422,7 @@
 {
 	AIChat			*chat = nil;
 	
-	name = [[account service] normalizeChatName:name];
+	name = [account.service normalizeChatName:name];
 
 	
 	for (chat in openChats) {
@@ -507,7 +507,7 @@
 		/* If we didn't remove the chat because we're waiting for it to reopen, don't cause the account
 		 * to close down the chat.
 		 */
-		[[inChat account] closeChat:inChat];
+		[inChat.account closeChat:inChat];
 		[openChats removeObject:inChat];
 		AILog(@"closeChat: Removed <<%@>> [%@]",inChat, openChats);
 	} else {
@@ -558,7 +558,7 @@
 			[chat setAccount:newAccount];
 
 			//We want to keep the same destination for the chat but switch it to a listContact on the desired account.
-			AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
+			AIListContact	*newContact = [adium.contactController contactWithService:newAccount.service
 																				account:newAccount
 																					UID:chat.listObject.UID];
 			[chat setListObject:newContact];
@@ -577,14 +577,14 @@
  *
  * @param chat The chat
  * @param inContact The contact with which the chat will now take place
- * @param useContactAccount If YES, the chat is also set to [inContact account] as its account. If NO, the account and service of chat are unchanged.
+ * @param useContactAccount If YES, the chat is also set to inContact.account as its account. If NO, the account and service of chat are unchanged.
  */
 - (void)switchChat:(AIChat *)chat toListContact:(AIListContact *)inContact usingContactAccount:(BOOL)useContactAccount
 {
-	AIAccount		*newAccount = (useContactAccount ? [inContact account] : chat.account);
+	AIAccount		*newAccount = (useContactAccount ? inContact.account : chat.account);
 
 	//Switch the inContact over to a contact on the new account so we send messages to the right place.
-	AIListContact	*newContact = [adium.contactController contactWithService:[newAccount service]
+	AIListContact	*newContact = [adium.contactController contactWithService:newAccount.service
 																		account:newAccount
 																			UID:inContact.UID];
 	if (newContact != chat.listObject) {
@@ -808,7 +808,7 @@
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
 		 */
-		if (![[[inContact account] UID] isEqualToString:inContact.UID]) {
+		if (![inContact.account.UID isEqualToString:inContact.UID]) {
 			[adiumChatEvents chat:chat addedListContact:inContact];
 		}
 	}
@@ -836,7 +836,7 @@
 
 - (NSString *)defaultInvitationMessageForRoom:(NSString *)room account:(AIAccount *)inAccount
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%@ invites you to join the chat \"%@\"", nil), [inAccount formattedUID], room];
+	return [NSString stringWithFormat:AILocalizedString(@"%@ invites you to join the chat \"%@\"", nil), inAccount.formattedUID, room];
 }
 
 @end

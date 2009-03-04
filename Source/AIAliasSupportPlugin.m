@@ -209,7 +209,7 @@
 	[[inObject displayArrayForKey:@"Display Name" create:(inAlias != nil)] setObject:inAlias withOwner:self priorityLevel:High_Priority];
 
 	//Get the displayName which is now active for the object
-	displayName = [inObject displayName];
+	displayName = inObject.displayName;
 
     //Build and set the Long Display Name
 	if ([inObject isKindOfClass:[AIListContact class]]) {
@@ -220,7 +220,7 @@
 				break;
 				
 			case AINameFormat_DisplayName_ScreenName:
-				formattedUID = [inObject formattedUID];
+				formattedUID = inObject.formattedUID;
 				
 				if (!displayName || !formattedUID || [displayName isEqualToString:formattedUID]) {
 					longDisplayName = displayName;
@@ -230,7 +230,7 @@
 					break;
 				
 			case AINameFormat_ScreenName_DisplayName:
-				formattedUID = [inObject formattedUID];
+				formattedUID = inObject.formattedUID;
 				if (!displayName || !formattedUID || [displayName isEqualToString:formattedUID]) {
 					longDisplayName = displayName;
 				} else {
@@ -240,7 +240,7 @@
 				
 			case AINameFormat_ScreenName:
 				//??? - How should this be handled for metaContacts?  What if there are no aliases set?
-				formattedUID = [inObject formattedUID];
+				formattedUID = inObject.formattedUID;
 				longDisplayName = (formattedUID ? formattedUID : displayName);
 				break;
 				

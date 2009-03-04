@@ -376,7 +376,7 @@
 
 - (NSString *)_UIDForAddingObject:(AIListContact *)object
 {
-	NSString	*objectUID = [object UID];
+	NSString	*objectUID = object.UID;
 	NSString	*properUID;
 	
 	if ([objectUID rangeOfString:@"@"].location != NSNotFound) {
@@ -535,19 +535,19 @@
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
 	if (strcmp(label, "Un-hide From") == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Un-hide From %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Un-hide From %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label, "Temporarily Hide From") == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Temporarily Hide From %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Temporarily Hide From %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label, "Unsubscribe") == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Unsubscribe %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Unsubscribe %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label, "(Re-)Request authorization") == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Re-request Authorization from %@",nil),[inContact formattedUID]];
+		return [NSString stringWithFormat:AILocalizedString(@"Re-request Authorization from %@",nil),inContact.formattedUID];
 
 	} else if (strcmp(label,  "Cancel Presence Notification") == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Cancel Presence Notification to %@",nil),[inContact formattedUID]];	
+		return [NSString stringWithFormat:AILocalizedString(@"Cancel Presence Notification to %@",nil),inContact.formattedUID];	
 	}
 	
 	return [super titleForContactMenuLabel:label forContact:inContact];
@@ -591,7 +591,7 @@
 	if (![[chatCreationDictionary objectForKey:@"handle"] length]) {
 		NSMutableDictionary *dict = [[chatCreationDictionary mutableCopy] autorelease];
 		
-		[dict setObject:[self displayName]
+		[dict setObject:self.displayName
 				 forKey:@"handle"];
 
 		chatCreationDictionary = dict;
@@ -621,7 +621,7 @@
  * to the status message.  This method should handle any status whose statusNname this service set as well as any statusName
  * defined in  AIStatusController.h (which will correspond to the services handled by Adium by default).
  * It should also handle a status name not specified in either of these places with a sane default, most likely by loooking at
- * [statusState statusType] for a general idea of the status's type.
+ * statusState.statusType for a general idea of the status's type.
  *
  * @param statusState The status for which to find the purple status ID
  * @param arguments Prpl-specific arguments which will be passed with the state. Message is handled automatically.
@@ -632,13 +632,13 @@
 							arguments:(NSMutableDictionary *)arguments
 {
 	const char		*statusID = NULL;
-	NSString		*statusName = [statusState statusName];
+	NSString		*statusName = statusState.statusName;
 	NSString		*statusMessageString = [statusState statusMessageString];
 	NSNumber		*priority = nil;
 	
 	if (!statusMessageString) statusMessageString = @"";
 
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 		{
 			if (([statusName isEqualToString:STATUS_NAME_FREE_FOR_CHAT]) ||
@@ -734,7 +734,7 @@
  */
 - (BOOL)encrypted
 {
-	return ([self online] && [self secureConnection]);
+	return (self.online && [self secureConnection]);
 }
 
 - (void)didConnect {
@@ -824,8 +824,8 @@
 		NSDictionary *gatewaydict;
 		for(gatewaydict in gateways) {
 			AIListContact *gateway = [gatewaydict objectForKey:@"contact"];
-			NSMenuItem *mitem = [[NSMenuItem alloc] initWithTitle:[gateway UID] action:@selector(registerGateway:) keyEquivalent:@""];
-			NSMenu *submenu = [[NSMenu alloc] initWithTitle:[gateway UID]];
+			NSMenuItem *mitem = [[NSMenuItem alloc] initWithTitle:gateway.UID action:@selector(registerGateway:) keyEquivalent:@""];
+			NSMenu *submenu = [[NSMenu alloc] initWithTitle:gateway.UID];
 			
 			NSArray *menuitemarray = [self menuItemsForContact:gateway];
 			NSEnumerator *e2 = [menuitemarray objectEnumerator];
@@ -907,9 +907,9 @@
 					 defaultButton:AILocalizedString(@"Remove","alert default button")
 				   alternateButton:AILocalizedString(@"Cancel",nil)
 					   otherButton:nil
-					 informativeTextWithFormat:AILocalizedString(@"This operation would remove the gateway %@ itself and all contacts belonging to the gateway on your contact list. It cannot be undone.",nil), [gateway UID]] runModal] == NSAlertDefaultReturn) {
+					 informativeTextWithFormat:AILocalizedString(@"This operation would remove the gateway %@ itself and all contacts belonging to the gateway on your contact list. It cannot be undone.",nil), gateway.UID] runModal] == NSAlertDefaultReturn) {
 		// first, locate all contacts on the roster that belong to this gateway
-		NSString *jid = [gateway UID];
+		NSString *jid = gateway.UID;
 		NSString *pattern = [@"@" stringByAppendingString:jid];
 		NSMutableArray *gatewayContacts = [[NSMutableArray alloc] init];
 		NSEnumerator *e = [[self contacts] objectEnumerator];

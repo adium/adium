@@ -51,12 +51,12 @@
 							arguments:(NSMutableDictionary *)arguments
 {
 	const char		*statusID = NULL;
-	NSString		*statusName = [statusState statusName];
+	NSString		*statusName = statusState.statusName;
 	NSString		*statusMessageString = [statusState statusMessageString];
 	
 	if (!statusMessageString) statusMessageString = @"";
 		
-	switch ([statusState statusType]) {
+	switch (statusState.statusType) {
 		case AIAvailableStatusType:
 			if ([statusName isEqualToString:STATUS_NAME_FREE_FOR_CHAT]) {
 				statusID = OSCAR_STATUS_ID_FREE4CHAT;

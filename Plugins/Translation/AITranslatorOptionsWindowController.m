@@ -108,9 +108,9 @@ static AITranslatorOptionsWindowController *sharedWindowController = nil;
 		[popUp_destinationLanguage selectItemWithRepresentedObject:[currentListObject preferenceForKey:@"LanguageFromContact"
 																							group:@"Translator"]];
 		
-		[textField_header setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"When talking to %@", nil), [currentListObject displayName]]];
+		[textField_header setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"When talking to %@", nil), currentListObject.displayName]];
 //		[textField_sourceLanguage setLocalizedString:AILocalizedString(@"I speak:", nil)];
-//		[textField_destinationLanguage setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"%@ speaks:", nil), [currentListObject displayName]]];
+//		[textField_destinationLanguage setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"%@ speaks:", nil), currentListObject.displayName]];
 	}
 }
 

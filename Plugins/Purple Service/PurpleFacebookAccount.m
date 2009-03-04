@@ -9,6 +9,7 @@
 #import "PurpleFacebookAccount.h"
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIStatus.h>
 
 @implementation PurpleFacebookAccount
 
@@ -20,7 +21,7 @@
 - (NSString *)webProfileStringForContact:(AIListContact *)contact
 {
 	return [NSString stringWithFormat:NSLocalizedString(@"View %@'s Facebook profile", nil), 
-			[contact displayName]];
+			contact.displayName];
 }
 
 - (void)configurePurpleAccount
@@ -42,7 +43,7 @@
 - (const char *)purpleStatusIDForStatus:(AIStatus *)statusState
 							  arguments:(NSMutableDictionary *)arguments
 {
-	if ([statusState statusType] == AIOfflineStatusType) {
+	if (statusState.statusType == AIOfflineStatusType) {
 		return "offline";
 	} else {
 		return "available";
@@ -118,8 +119,8 @@
  */
 - (void)updateContact:(AIListContact *)theContact toAlias:(NSString *)purpleAlias
 {
-	if (![purpleAlias isEqualToString:[theContact formattedUID]] && 
-		![purpleAlias isEqualToString:[theContact UID]]) {
+	if (![purpleAlias isEqualToString:theContact.formattedUID] && 
+		![purpleAlias isEqualToString:theContact.UID]) {
 		[theContact setFormattedUID:purpleAlias
 							 notify:NotifyLater];
 		

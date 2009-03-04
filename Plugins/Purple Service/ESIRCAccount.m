@@ -118,7 +118,7 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	// on IRC, the nickname isn't that important for an account, the server is
 	// (I guess the number of IRC users that use the same server with different nicks is very low)
-	return [NSString stringWithFormat:@"%@ (%@)", self.host, [self displayName]];
+	return [NSString stringWithFormat:@"%@ (%@)", self.host, self.displayName];
 }
 
 BOOL contactUIDIsServerContact(NSString *contactUID)

@@ -47,7 +47,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 //Retrive the correct service icon for a contact
 + (NSImage *)serviceIconForObject:(AIListObject *)inObject type:(AIServiceIconType)iconType direction:(AIIconDirection)iconDirection
 {
-	return [self serviceIconForService:[inObject service] type:iconType direction:iconDirection];
+	return [self serviceIconForService:inObject.service type:iconType direction:iconDirection];
 }
 
 //Retrieve the correct service icon for a service

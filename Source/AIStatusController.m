@@ -157,7 +157,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	for (AIAccount *account in adium.accountController.accounts) {
 		/* Store the current status state for use on next launch.
 		 *
-		 * We use the valueForProperty:@"StatusState" accessor rather than [account statusState]
+		 * We use the valueForProperty:@"StatusState" accessor rather than account.statusState
 		 * because we don't want anything besides the account's actual status state.  That is, we don't
 		 * want the default available state if the account doesn't have a state yet, and we want the
 		 * real last-state-which-was-set (not the offline one) if the account is offline.
@@ -433,8 +433,8 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (NSString *)descriptionForStateOfStatus:(AIStatus *)statusState
 {
-	return [self localizedDescriptionForStatusName:[statusState statusName]
-										statusType:[statusState statusType]];
+	return [self localizedDescriptionForStatusName:statusState.statusName
+										statusType:statusState.statusType];
 }
 
 /*!
@@ -487,7 +487,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (void)setActiveStatusState:(AIStatus *)state forAccount:(AIAccount *)account
 {
-	[self removeIfNecessaryTemporaryStatusState:[account statusState]];
+	[self removeIfNecessaryTemporaryStatusState:account.statusState];
 	[self applyState:state toAccounts:[NSArray arrayWithObject:account]];
 }
 
@@ -579,7 +579,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 {
 	AIStatus		*aStatusState;
 	BOOL			shouldRebuild = NO;
-	BOOL			isOfflineStatus = ([statusState statusType] == AIOfflineStatusType);
+	BOOL			isOfflineStatus = (statusState.statusType == AIOfflineStatusType);
 	[self setDelayActiveStatusUpdates:YES];
 	
 	/* If we're going offline, determine what accounts are currently online or connecting/reconnecting, first,
@@ -703,7 +703,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 			[builtInStateArray addObject:status];
 
 			//Store a reference to our offline state if we just loaded it
-			if ([status statusType] == AIOfflineStatusType) {
+			if (status.statusType == AIOfflineStatusType) {
 				[offlineStatusState release];
 				offlineStatusState = [status retain];
 			}
@@ -897,7 +897,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.online || [account boolValueForProperty:@"Connecting"]) {
-			AIStatusType statusType = [[account statusState] statusType];
+			AIStatusType statusType = account.statusState.statusType;
 
 			//If invisibleIsAway, pretend that invisible is away
 			if (invisibleIsAway && (statusType == AIInvisibleStatusType)) statusType = AIAwayStatusType;
@@ -932,7 +932,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 
 		for (AIAccount *account in adium.accountController.accounts) {
 			if (account.enabled) {
-				[_allActiveStatusStates addObject:[account statusState]];
+				[_allActiveStatusStates addObject:account.statusState];
 			}
 		}
 	}
@@ -963,11 +963,11 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	
 	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.online || [account boolValueForProperty:@"Connecting"]) {
-			AIStatus	*statusState = [account statusState];
-			AIStatusType statusType = [statusState statusType];
+			AIStatus	*statusState = account.statusState;
+			AIStatusType statusType = statusState.statusType;
 			
 			if ((statusType == AIAwayStatusType) || (statusType == AIInvisibleStatusType)) {
-				NSString	*statusName = [statusState statusName];
+				NSString	*statusName = statusState.statusName;
 				
 				[activeUnvailableStatuses addObject:statusState];
 				
@@ -983,7 +983,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 				} else {
 					//We haven't found a status name yet, so store this one as the active status name
 					if (activeUnvailableStatusName != NULL) {
-						*activeUnvailableStatusName = [statusState statusName];
+						*activeUnvailableStatusName = statusState.statusName;
 					}
 					foundStatusName = YES;
 				}
@@ -1144,7 +1144,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	if (!lastStatusStates) lastStatusStates = [NSMutableDictionary dictionary];
 	
 	[lastStatusStates setObject:[NSKeyedArchiver archivedDataWithRootObject:statusState]
-						 forKey:[[NSNumber numberWithInteger:[statusState statusType]] stringValue]];
+						 forKey:[[NSNumber numberWithInteger:statusState.statusType] stringValue]];
 
 	[adium.preferenceController setPreference:lastStatusStates
 										 forKey:@"LastStatusStates"

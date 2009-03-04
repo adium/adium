@@ -175,7 +175,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				for (AIAccount *account in adium.accountController.accounts) {
 					if ([[account.UID compactedString] isEqualToString:[mySN compactedString]] &&
 						[account.service.serviceID isEqualToString:service]) {
-						myDisplayName = [[account displayName] retain];
+						myDisplayName = [account.displayName retain];
 						break;
 					}
 				}
@@ -275,7 +275,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 					AIListObject *listObject = [adium.contactController existingListObjectWithUniqueID:[AIListObject internalObjectIDForServiceID:service UID:sender]];
 
 					cssClass = @"receive";
-					displayName = [listObject displayName];
+					displayName = listObject.displayName;
 					longDisplayName = [listObject longDisplayName];
 				}
 

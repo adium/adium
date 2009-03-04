@@ -272,8 +272,8 @@
 			[menuItem setImage:[self imageForListObject:listObject usingUserIcon:shouldUseUserIcon]];
 		}
 		
-		[menuItem setTitle:(shouldUseDisplayName ? [listObject displayName] : [listObject formattedUID])];
-		[menuItem setToolTip:(shouldSetTooltip ? [[listObject statusMessage] string] : nil)];
+		[menuItem setTitle:(shouldUseDisplayName ? listObject.displayName : listObject.formattedUID)];
+		[menuItem setToolTip:(shouldSetTooltip ? [listObject.statusMessage string] : nil)];
 
 		[[menuItem menu] setMenuChangedMessagesEnabled:YES];
 	}

@@ -293,7 +293,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 {	
 	//Set the title of the window.
 	if (displayedObject) {
-		[[self window] setTitle:[NSString stringWithFormat:AILocalizedString(@"%@'s Info",nil), [displayedObject displayName]]];
+		[[self window] setTitle:[NSString stringWithFormat:AILocalizedString(@"%@'s Info",nil), displayedObject.displayName]];
 	} else {
 		[[self window] setTitle:AILocalizedString(@"Contact Info",nil)];
 	}

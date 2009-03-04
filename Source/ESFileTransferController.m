@@ -245,14 +245,14 @@ static ESFileTransferPreferences *preferences;
 		[fileTransfer setLocalFilename:localFilename];
 		[fileTransfer setStatus:Accepted_FileTransfer];
 
-		[(AIAccount<AIAccount_Files> *)[fileTransfer account] acceptFileTransferRequest:fileTransfer];
+		[(AIAccount<AIAccount_Files> *)fileTransfer.account acceptFileTransferRequest:fileTransfer];
 		
 		if (showProgressWindow) {
 			[self showProgressWindowIfNotOpen:nil];
 		}
 		
 	} else {
-		[(AIAccount<AIAccount_Files> *)[fileTransfer account] rejectFileReceiveRequest:fileTransfer];
+		[(AIAccount<AIAccount_Files> *)fileTransfer.account rejectFileReceiveRequest:fileTransfer];
 		[fileTransfer setStatus:Cancelled_Local_FileTransfer];
 	}	
 }
@@ -260,7 +260,7 @@ static ESFileTransferPreferences *preferences;
 - (NSOpenPanel *)sendFilePanelForListContact:(AIListContact *)listContact
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-	[openPanel setTitle:[NSString stringWithFormat:AILocalizedString(@"Send File to %@",nil),[listContact displayName]]];
+	[openPanel setTitle:[NSString stringWithFormat:AILocalizedString(@"Send File to %@",nil),listContact.displayName]];
 	[openPanel setCanChooseDirectories:YES];
 	[openPanel setResolvesAliases:YES];
 	[openPanel setAllowsMultipleSelection:YES];
@@ -697,8 +697,8 @@ static ESFileTransferPreferences *preferences;
 		if (format) {
 			NSString *name;
 			name = ([listObject isKindOfClass:[AIListGroup class]] ?
-					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),[listObject displayName]] :
-					[listObject displayName]);
+					[NSString stringWithFormat:AILocalizedString(@"a member of %@",nil),listObject.displayName] :
+					listObject.displayName);
 			
 			description = [NSString stringWithFormat:format, name];
 
@@ -741,7 +741,7 @@ static ESFileTransferPreferences *preferences;
 	NSParameterAssert([userInfo isKindOfClass:[ESFileTransfer class]]);
 	fileTransfer = (ESFileTransfer *)userInfo;
 	
-	displayName = [listObject displayName];
+	displayName = listObject.displayName;
 	displayFilename = [fileTransfer displayFilename];
 	
 	if (includeSubject) {

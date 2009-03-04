@@ -13,7 +13,7 @@
 
 static void AMPurpleJabberAdHocServer_received_data_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
 	AMPurpleJabberAdHocServer *self = this;
-	PurpleAccount *account = [[self account] purpleAccount];
+	PurpleAccount *account = [self.account purpleAccount];
 	if(purple_account_get_connection(account) == gc) {
 		if(strcmp((*packet)->name,"iq"))
 			return;
@@ -39,7 +39,7 @@ static void AMPurpleJabberAdHocServer_received_data_cb(PurpleConnection *gc, xml
 static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
 	xmlnode *xml = *packet;
 	AMPurpleJabberAdHocServer *self = this;
-	PurpleAccount *account = [[self account] purpleAccount];
+	PurpleAccount *account = [self.account purpleAccount];
 	if(xml && purple_account_get_connection(account) == gc) {
 		if(!strcmp(xml->name,"iq")) {
 			const char *tostr = xmlnode_get_attrib(xml,"to");
@@ -113,7 +113,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 - (void)addCommandsToXML:(xmlnode*)xml {
 	NSEnumerator *e = [commands keyEnumerator];
 	NSString *node;
-	JabberStream *js = purple_account_get_connection([[self account] purpleAccount])->proto_data;
+	JabberStream *js = purple_account_get_connection([self.account purpleAccount])->proto_data;
 	char *jid = g_strdup_printf("%s@%s/%s", js->user->node, js->user->domain, js->user->resource);
 	
 	while((node = [e nextObject])) {

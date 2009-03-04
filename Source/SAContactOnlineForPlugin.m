@@ -54,7 +54,7 @@
 {
     NSAttributedString	*entry = nil;
 	
-    if ([inObject online]) {
+    if (inObject.online) {
         NSDate	*signonDate;
 
         if ([inObject isKindOfClass:[AIListContact class]] &&

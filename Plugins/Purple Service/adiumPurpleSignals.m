@@ -292,7 +292,7 @@ static void typing_changed(PurpleAccount *acct, const char *name, AITypingState 
 	AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(acct, name));
 	
 	// Don't do anything for those who aren't on our contact list.
-	if ([contact isStranger]) {
+	if (contact.isStranger) {
 		return;
 	}
 

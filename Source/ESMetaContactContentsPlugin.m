@@ -131,7 +131,7 @@
 					[entryString appendString:@" "];
 				}
 				
-				[entryString appendString:[contact formattedUID]];
+				[entryString appendString:contact.formattedUID];
 				
 				if (shouldAppendServiceIcon) {
 					serviceIcon = [[AIServiceIcons serviceIconForObject:contact type:AIServiceIconSmall direction:AIIconNormal]

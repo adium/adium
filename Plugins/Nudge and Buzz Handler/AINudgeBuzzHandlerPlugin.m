@@ -340,8 +340,8 @@
 		NSString	*format = AILocalizedString(@"When %@ sends a notification", nil);
 		
 		name = ([listObject isKindOfClass:[AIListGroup class]] ?
-				[NSString stringWithFormat:AILocalizedString(@"a member of %@", nil),[listObject displayName]] :
-				[listObject displayName]);
+				[NSString stringWithFormat:AILocalizedString(@"a member of %@", nil),listObject.displayName] :
+				listObject.displayName);
 			
 		description = [NSString stringWithFormat:format, name];
 	} else {
@@ -361,7 +361,7 @@
 	if (includeSubject) {		
 		description = [NSString stringWithFormat:
 			AILocalizedString(@"%@ wants your attention!", "Message displayed when a contact sends a buzz/nudge/other notification"),
-			[listObject displayName]];
+			listObject.displayName];
 	} else {
 		description = AILocalizedString(@"wants your attention!", "Phrase displayed when a contact sends a buzz/nudge/other notification. The contact's name will be shown above this phrase, as in a Growl notification.");
 	}

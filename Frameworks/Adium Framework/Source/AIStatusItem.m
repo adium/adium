@@ -164,7 +164,7 @@
 {
 	AIStatusType	statusType;
 	
-	statusType = [self statusType];
+	statusType = self.statusType;
 	
 	return [AIStatusIcons statusIconForStatusName:nil
 									   statusType:statusType
@@ -294,7 +294,7 @@
 
 - (AIStatusTypeApplescript)statusTypeApplescript
 {
-	AIStatusType			statusType = [self statusType];
+	AIStatusType			statusType = self.statusType;
 	AIStatusTypeApplescript statusTypeApplescript;
 	
 	switch (statusType) {

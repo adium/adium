@@ -94,8 +94,8 @@ static	NSDictionary	*statusTypeDict = nil;
 	allChats = [adium.chatController allChatsWithContact:contact];
 	AILog(@"Status message for %@ changed (%@)",contact,allChats);
 	if ([allChats count]) {	
-		if ([contact statusType] != AIAvailableStatusType) {
-			NSAttributedString *statusMessage = [contact statusMessage];
+		if (contact.statusType != AIAvailableStatusType) {
+			NSAttributedString *statusMessage = contact.statusMessage;
 			NSString			*statusMessageString = [statusMessage string];
 			NSString			*statusType = [statusTypeDict objectForKey:CONTACT_STATUS_MESSAGE];
 			

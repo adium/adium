@@ -204,14 +204,14 @@
 			
 			for (aContactName in contactNames) {
 								
-				UID = [[inAccount service] normalizeUID:[self impliedCompletion:aContactName] removeIgnoredCharacters:YES];
+				UID = [inAccount.service normalizeUID:[self impliedCompletion:aContactName] removeIgnoredCharacters:YES];
 				
 				//If the service is not case sensitive, compact the string before proceeding so our UID will be correct
-				if (![[inAccount service] caseSensitive]) {
+				if (![inAccount.service caseSensitive]) {
 					UID = [UID compactedString];
 				}
 				
-				if ((listContact = [adium.contactController contactWithService:[inAccount service] 
+				if ((listContact = [adium.contactController contactWithService:inAccount.service 
 																	   account:inAccount 
 																		   UID:UID])) {
 					[contactsArray addObject:listContact];
@@ -240,12 +240,12 @@
 		if ( [listObject isKindOfClass:[AIMetaContact class]] ) {
 			listContact = [(AIMetaContact *)listObject preferredContactWithCompatibleService:service];
 		} else if ( [listObject isKindOfClass:[AIListContact class]] ) {
-			if ([[listObject service] isEqualTo:service]) {
+			if ([listObject.service isEqualTo:service]) {
 				listContact = (AIListContact *)listObject;
 			}
 		}				
 		
-		if ( listContact && [listContact online] ) {
+		if ( listContact && listContact.online ) {
 			return listContact;
 		}
 	}
@@ -273,7 +273,7 @@
 			for (uniqueID in dragItemsUniqueIDs) {
 				
 				// Is there a contact with our service?
-				if ( [self validContact:uniqueID withService:[account service]] ) {
+				if ( [self validContact:uniqueID withService:account.service] ) {
 					
 					//if ([[view window] firstResponder] != textField_inviteUsers)
 					//	[[view window] makeFirstResponder:textField_inviteUsers];
@@ -311,14 +311,14 @@
 				
 				// Get contacts with our service
 				// (May not be necessary, as we reject ungood contacts in the dragging entered phase)
-				if ((listContact = [self validContact:uniqueID withService:[account service]])) {
+				if ((listContact = [self validContact:uniqueID withService:account.service])) {
 					
 					// Add a comma for prettiness if need be
 					if ( [oldValue length] && ![[oldValue substringFromIndex:([oldValue length]-1)] isEqualToString:@","] ) {
 						oldValue = [oldValue stringByAppendingString:@", "];
 						[theField setStringValue:oldValue];
 					}
-					[theField setStringValue:[oldValue stringByAppendingString:[listContact displayName]]];
+					[theField setStringValue:[oldValue stringByAppendingString:listContact.displayName]];
 				}
 			}
 		}

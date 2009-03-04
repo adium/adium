@@ -281,7 +281,7 @@
  */
 - (void)addMenuItemsForContact:(AIListContact *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem
 {
-	NSArray			*itemArray = [[inContact account] menuItemsForContact:inContact];
+	NSArray			*itemArray = [inContact.account menuItemsForContact:inContact];
 
 	if (itemArray && [itemArray count]) {
 		NSMenuItem		*menuItem;
