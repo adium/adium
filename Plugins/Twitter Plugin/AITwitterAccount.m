@@ -942,32 +942,32 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 		NSNumber *lastID;
 		
+		BOOL nextPageNecessary = (lastID ? YES : NO);
+		
 		if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+			
+			nextPageNecessary = (nextPageNecessary && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
 		} else {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+			
+			nextPageNecessary = (nextPageNecessary && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT);
 		}
-		
-		// If we've never pulled anything before, we shall default to only pulling 1 page.
-		// If there's nothing in this set of statuses, then there's no need to get another page.
-		BOOL nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
 		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
-		// The order doesn't matter since we'll sort later, but for the sake of updating statuses, let's go backwards.
-		for (NSDictionary *status in [statuses reverseObjectEnumerator]) {
-			NSNumber		*tweetID = [status objectForKey:TWITTER_STATUS_ID];
-			
-			// If this tweet's ID is larger, store it instead of our current largest.
+		// The largest ID is first, compare.
+		if (statuses.count) {
+			NSNumber *tweetID = [[statuses objectAtIndex:0] objectForKey:TWITTER_STATUS_ID];
 			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
 				largestTweet = tweetID;
 			}
-			
-			[queuedUpdates addObject:status];
 		}
+		
+		[queuedUpdates addObjectsFromArray:statuses];
 		
 		AILogWithSignature(@"Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", lastID, largestTweet, nextPageNecessary);
 		
@@ -1084,16 +1084,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
 		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
-		for (NSDictionary *message in messages)  {
-			NSNumber		*tweetID = [message objectForKey:TWITTER_DM_ID];
-			
-			// If this tweet's ID is larger, store it instead of our current largest.
+		// The largest ID is first, compare.
+		if (messages.count) {
+			NSNumber *tweetID = [[messages objectAtIndex:0] objectForKey:TWITTER_DM_ID];
 			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
 				largestTweet = tweetID;
 			}
-			
-			[queuedDM addObject:message];
 		}
+		
+		[queuedDM addObjectsFromArray:messages];
 		
 		AILogWithSignature(@"Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", lastID, largestTweet, nextPageNecessary);
 		
