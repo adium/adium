@@ -1026,7 +1026,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AILogWithSignature(@"Updating statuses for profile, user %@", listContact);
 		
 		for (NSDictionary *update in statuses) {
-			NSAttributedString *message = [self parseMessage:[update objectForKey:TWITTER_STATUS_TEXT]];
+			NSAttributedString *message = [self parseMessage:[update objectForKey:TWITTER_STATUS_TEXT]
+													 tweetID:[update objectForKey:TWITTER_STATUS_ID]
+													  userID:listContact.UID
+											inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
 		}
