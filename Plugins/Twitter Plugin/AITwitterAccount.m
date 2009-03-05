@@ -49,7 +49,7 @@
 - (NSDictionary *)dictionaryForRequestID:(NSString *)requestID;
 - (void)clearRequestTypeForRequestID:(NSString *)requestID;
 
-- (void)updateTimer:(NSTimer *)timer;
+- (void)periodicUpdate;
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType;
 @end
 
@@ -164,7 +164,7 @@
 	if(updateInterval > 0) {
 		updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
 													   target:self
-													 selector:@selector(updateTimer:)
+													 selector:@selector(periodicUpdate)
 													 userInfo:nil
 													  repeats:YES];
 	}
@@ -382,7 +382,7 @@
 	
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
-																	 action:@selector(forceUpdate:)
+																	 action:@selector(periodicUpdate)
 															  keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
 	
@@ -404,19 +404,11 @@
 	
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	target:self
-																	action:@selector(forceUpdate:)
+																	action:@selector(periodicUpdate)
 															 keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	
-}
-
-/*!
- * @brief Forces our periodic updates to fire.
- */
-- (void)forceUpdate:(NSMenuItem *)menuItem
-{
-	[self updateTimer:nil];
 }
 
 #pragma mark Contact handling
@@ -584,7 +576,7 @@
 				if(newTimeInterval > 0) {
 					updateTimer = [NSTimer scheduledTimerWithTimeInterval:newTimeInterval
 																   target:self
-																 selector:@selector(updateTimer:)
+																 selector:@selector(periodicUpdate)
 																 userInfo:nil
 																  repeats:YES];
 				}
@@ -597,20 +589,17 @@
 /*!
  * @brief Trigger our periodic updates
  */
-- (void)updateTimer:(NSTimer *)timer
+- (void)periodicUpdate
 {
 	NSString	*requestID;
 	NSUInteger	lastID;
 	
 	// We haven't completed the timeline nor replies.
-	// This state information helps us know how many pages to pull.
+	// This state information helps us know if we should display both or display none.
 	followedTimelineCompleted = repliesCompleted = NO;
 	
 	[queuedUpdates removeAllObjects];
 	[queuedDM removeAllObjects];
-	
-	// We'll update the date preferences for last pulled times when the response is received.
-	// We use the current date, not the date when received, just in case a request is received in-between.
 	
 	AILogWithSignature(@"Periodic update fire");
 	
@@ -1014,14 +1003,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else {
 			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				followedTimelineCompleted = YES;
-
-				AILogWithSignature(@"Future timeline largest = %@", largestTweet);
 				futureTimelineLastID = [largestTweet retain];
-				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
-
-				AILogWithSignature(@"Future replies largest = %@", largestTweet);
 				futureRepliesLastID = [largestTweet retain];
 			}
 			
@@ -1030,6 +1014,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
 				// Set the "last pulled" for the timeline and replies, since we've completed both.
 				if(futureRepliesLastID) {
+					AILogWithSignature(@"futureRepliesLastID = %@", futureRepliesLastID);
+					
 					[self setPreference:futureRepliesLastID
 								 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
@@ -1038,6 +1024,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				}
 				
 				if(futureTimelineLastID) {
+					AILogWithSignature(@"futureTimelineLastID = %@", futureTimelineLastID);
+					
 					[self setPreference:futureTimelineLastID
 								 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
@@ -1115,7 +1103,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[queuedDM removeAllObjects];
 			}
 		} else if([queuedDM count] > 0) {
-			AILogWithSignature(@"Largest DM = %@", largestTweet);
+			AILogWithSignature(@"Largest DM pulled = %@", largestTweet);
 		
 			[self setPreference:largestTweet
 						 forKey:TWITTER_PREFERENCE_DM_LAST_ID
@@ -1193,7 +1181,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 		} else {	
 			// Trigger our normal update routine.
-			[self updateTimer:nil];
+			[self periodicUpdate];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
