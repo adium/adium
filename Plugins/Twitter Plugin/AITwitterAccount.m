@@ -954,7 +954,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSDate		*lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_DM
 												 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
-		BOOL nextPageNecessary = ([messages count] != 0);
+		BOOL nextPageNecessary = (lastPull != nil && [messages count] != 0);
 		
 		for (NSDictionary *message in messages)  {
 			NSDate			*date = [message objectForKey:TWITTER_DM_CREATED];
