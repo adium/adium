@@ -44,7 +44,6 @@ typedef enum {
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
-#define TWITTER_PREFERENCE_BOOKMARK			@"Created Bookmark2"
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
