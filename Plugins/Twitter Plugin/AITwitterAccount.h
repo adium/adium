@@ -37,6 +37,7 @@ typedef enum {
 
 #define TWITTER_UPDATE_TIMELINE_COUNT		200
 #define TWITTER_UPDATE_DM_COUNT				20
+#define TWITTER_UPDATE_REPLIES_COUNT		20
 #define TWITTER_UPDATE_USER_INFO_COUNT		10
 
 #define TWITTER_INCORRECT_PASSWORD_MESSAGE	AILocalizedString(@"Incorrect username or password","Error message displayed when the server reports username or password as being incorrect.")
