@@ -952,7 +952,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		// If we've never pulled anything before, we shall default to only pulling 1 page.
 		// If there's nothing in this set of statuses, then there's no need to get another page.
-		BOOL nextPageNecessary = (lastID && statuses.count);
+		BOOL nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
 		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
