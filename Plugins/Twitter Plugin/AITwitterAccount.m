@@ -1084,7 +1084,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSNumber *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
 											group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
-		BOOL nextPageNecessary = (lastID && messages.count);
+		BOOL nextPageNecessary = (lastID && messages.count >= 20);
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
 		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
