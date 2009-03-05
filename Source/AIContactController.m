@@ -77,6 +77,10 @@
 @property (readwrite, nonatomic) CGFloat orderIndex;
 @end
 
+@interface AIMetaContact ()
+- (AIListContact *)preferredContactForContentType:(NSString *)inType;
+@end
+
 @interface AIContactController ()
 - (void)saveContactList;
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
@@ -1442,98 +1446,28 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (AIListContact *)preferredContactForContentType:(NSString *)inType forListContact:(AIListContact *)inContact
 {
-	AIListContact   *returnContact = nil;
-	
-	if ([inContact isKindOfClass:[AIMetaContact class]] && [(AIMetaContact *)inContact uniqueContainedObjectsCount] > 1) {
-		AIListObject	*preferredContact;
-		
-		/* If we've messaged this object previously, prefer the last contact we sent to if that
-		 * contact is currently in the most-available status the metacontact can offer
-		 */
-		NSString *internalObjectID = [inContact preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
-		
-		if ((internalObjectID) &&
-			(preferredContact = [self existingListObjectWithUniqueID:internalObjectID]) &&
-			([preferredContact isKindOfClass:[AIListContact class]]) &&
-			([preferredContact statusSummary] == [inContact statusSummary]) &&
-			([inContact isMobile] || ![preferredContact isMobile]) && //Either the parent contact is mobile (so that's the best we have), or the preferred is not.
-			([(id<AIContainingObject>)inContact containsObject:preferredContact])) {
+	if ([inContact isKindOfClass:[AIMetaContact class]])
+		inContact = [(AIMetaContact *)inContact preferredContactForContentType:inType];
 
-			returnContact = [self preferredContactForContentType:inType
-												  forListContact:(AIListContact *)preferredContact];
-        }
-		
-		/* If the last contact we sent to is not appropriate, use the following algorithm, which differs from -[AIMetaContact preferredContact]
-		 * in that it doesn't "like" mobile contacts.
-		 *
-		 *  1) Prefer available contacts who are not mobile
-		 *  2) If no available non-mobile contacts, use the first online contact
-		 *  3) If no online contacts, use the metacontact's preferredContact
-		 */
-		if (!returnContact) {
-			//Recurse into metacontacts if necessary
-			AIListContact *firstAvailableContact = nil;
-			AIListContact *firstNotOfflineContact = nil;
-			
-			for (AIListContact *thisContact in (id <AIContainingObject>)inContact) {
-				AIStatusType statusSummary = [thisContact statusSummary];
-				
-				if ((statusSummary != AIOfflineStatus) && (statusSummary != AIUnknownStatus)) {
-					if (!firstNotOfflineContact) {
-						firstNotOfflineContact = thisContact;
-					}
-					
-					if (statusSummary == AIAvailableStatus && ![thisContact isMobile]) {
-						if (!firstAvailableContact) {
-							firstAvailableContact = thisContact;
-						}
-						
-						break;
-					}
-				}
-			}
-			
-			returnContact = (firstAvailableContact ?
-							 firstAvailableContact :
-							 (firstNotOfflineContact ? firstNotOfflineContact : [(AIMetaContact *)inContact preferredContact]));
-			
-			returnContact = [self preferredContactForContentType:inType forListContact:returnContact];
-		}
-		
-	} else {
-		//This contact doesn't contain multiple contacts... but it might still be a metacontact. Do NOT proceed with a metacontact.
-		if ([inContact respondsToSelector:@selector(preferredContact)])
-			inContact = [inContact performSelector:@selector(preferredContact)];
-		
-		/* Find the best account for talking to this contact, and return an AIListContact on that account.
-		 * We'll get nil if no account can send inType to inContact.
-		 */
-		AIAccount *account = [adium.accountController preferredAccountForSendingContentType:inType
-																		 toContact:inContact];
+	/* Find the best account for talking to this contact, and return an AIListContact on that account.
+	 * We'll get nil if no account can send inType to inContact.
+	 */
+	AIAccount *account = [adium.accountController preferredAccountForSendingContentType:inType toContact:inContact];
 
-		if (account) {
-			if (inContact.account == account) {
-				returnContact = inContact;
-			} else {
-				returnContact = [self contactWithService:inContact.service
-												 account:account
-													 UID:inContact.UID];
-			}
-		}
- 	}
+	if (account)
+		return [self contactWithService:inContact.service account:account UID:inContact.UID];
 
-	return returnContact;
+	return nil;
 }
 
 //Retrieve a list contact matching the UID and serviceID of the passed contact but on the specified account.
 //In many cases this will be the same as inContact.
 - (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact
 {
-	if (account && inContact.account != account) {
+	if (account && inContact.account != account)
 		return [self contactWithService:inContact.service account:account UID:inContact.UID];
-	} else {
-		return inContact;
-	}
+	
+	return inContact;
 }
 
 //XXX - This is ridiculous.
