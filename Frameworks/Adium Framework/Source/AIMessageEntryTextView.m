@@ -187,7 +187,10 @@
 
 - (void)dealloc
 {
-	[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+	if(chat.isGroupChat) {
+		[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+	}
+	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[adium.notificationCenter removeObserver:self];
@@ -658,7 +661,10 @@
 - (void)setChat:(AIChat *)inChat
 {
     if (chat != inChat) {
-		[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+		if(chat.isGroupChat) {
+			[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+		}
+		
         [chat release];
         chat = [inChat retain];
 		
