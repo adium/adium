@@ -380,7 +380,7 @@
 	
 	NSMenuItem *menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Force Refresh",nil)
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(forceUpdate:)
 															  keyEquivalent:@""] autorelease];
@@ -402,7 +402,7 @@
 	
 	NSMenuItem *menuItem;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Force Refresh",nil)
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	target:self
 																	action:@selector(forceUpdate:)
 															 keyEquivalent:@""] autorelease];
