@@ -46,8 +46,9 @@ typedef enum {
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
 #define TWITTER_PREFERENCE_UPDATE_INTERVAL	@"Update Interval In Minutes"
-#define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
-#define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
+#define TWITTER_PREFERENCE_DM_LAST_ID		@"Direct Messages Last ID"
+#define TWITTER_PREFERENCE_TIMELINE_LAST_ID	@"Followed Timeline Last ID"
+#define TWITTER_PREFERENCE_REPLIES_LAST_ID	@"Replies Last ID"
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
 
 // Status Updates
@@ -59,6 +60,7 @@ typedef enum {
 #define TWITTER_STATUS_TEXT					@"text"
 
 // Direct Messages
+#define TWITTER_DM_ID						@"id"
 #define TWITTER_DM_CREATED					@"created_at"
 #define TWITTER_DM_SENDER					@"sender"
 #define TWITTER_DM_SENDER_UID				@"sender_screen_name"
@@ -80,6 +82,9 @@ typedef enum {
 	BOOL				repliesCompleted;
 	NSMutableArray		*queuedUpdates;
 	NSMutableArray		*queuedDM;
+	
+	NSNumber			*futureTimelineLastID;
+	NSNumber			*futureRepliesLastID;
 	
 	NSMutableDictionary	*pendingRequests;
 }
