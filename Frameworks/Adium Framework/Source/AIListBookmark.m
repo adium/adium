@@ -37,7 +37,7 @@
 {
 	[self.account addObserver:self
 					 forKeyPath:@"Online"
-						options:NSKeyValueObservingOptionNew
+						options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
 						context:NULL];
 	
 	[self observeValueForKeyPath:@"Online" ofObject:self.account change:nil context:NULL];
@@ -76,7 +76,6 @@
 		name = [[decoder decodeObjectForKey:@"name"] retain];
 		[self _initListBookmark];
 		AILog(@"Created AIListBookmark from coder with dict %@",chatCreationDictionary);
-		[self restoreGrouping];
 		
 	}
 	
@@ -262,6 +261,12 @@
 	if ([keyPath isEqualToString:@"Online"] && object == self.account) {
 		[self setOnline:self.account.online notify:NotifyLater silently:YES];
 		[self notifyOfChangedPropertiesSilently:YES];
+		
+		if (self.account.online) {
+			[self restoreGrouping];
+		} else {
+			[adium.contactController _moveContactLocally:self toGroups:nil];
+		}
 	}
 }
 
