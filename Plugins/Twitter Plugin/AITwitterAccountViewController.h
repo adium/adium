@@ -17,7 +17,7 @@
 #import <Adium/AIAccountViewController.h>
 
 @interface AITwitterAccountViewController : AIAccountViewController {
-
+	IBOutlet	NSPopUpButton	*popUp_updateInterval;
 }
 
 @end
