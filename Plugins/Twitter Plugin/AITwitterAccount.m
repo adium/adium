@@ -64,6 +64,8 @@
 	queuedDM = [[NSMutableArray alloc] init];
 	updateTimer = nil;
 	
+	futureTimelineLastID = futureRepliesLastID = nil;
+	
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
 							 URL:@"http://www.adiumx.com"
@@ -1019,13 +1021,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				followedTimelineCompleted = YES;
 
 				AILogWithSignature(@"Future timeline largest = %@", largestTweet);
-				futureTimelineLastID = largestTweet;
+				futureTimelineLastID = [largestTweet retain];
 				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
 
 				AILogWithSignature(@"Future replies largest = %@", largestTweet);
-				futureRepliesLastID = largestTweet;
+				futureRepliesLastID = [largestTweet retain];
 			}
 			
 			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
@@ -1036,12 +1038,16 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					[self setPreference:futureRepliesLastID
 								 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+					
+					[futureRepliesLastID release]; futureRepliesLastID = nil;
 				}
 				
 				if(futureTimelineLastID) {
 					[self setPreference:futureTimelineLastID
 								 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+					
+					[futureTimelineLastID release]; futureTimelineLastID = nil;
 				}
 				
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
