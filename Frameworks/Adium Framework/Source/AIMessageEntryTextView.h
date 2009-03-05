@@ -63,6 +63,7 @@
 	NSView              *associatedView;
 
 	AISimpleTextView	*characterCounter;
+	NSString			*characterCounterPrefix;
 	int					maxCharacters;
 }
 

@@ -82,4 +82,6 @@ typedef enum {
 	NSMutableDictionary	*pendingRequests;
 }
 
+@property (readonly) NSString *timelineChatName;
+
 @end

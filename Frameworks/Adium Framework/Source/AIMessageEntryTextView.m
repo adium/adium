@@ -104,6 +104,7 @@
 
 - (void)setCharacterCounterVisible:(BOOL)visible;
 - (void)setCharacterCounterMaximum:(int)inMaxCharacters;
+- (void)setCharacterCounterPrefix:(NSString *)prefix;
 - (void)updateCharacterCounter;
 - (void)positionCharacterCounter;
 
@@ -133,6 +134,7 @@
 	[self setDrawsBackground:YES];
 	_desiredSizeCached = NSMakeSize(0,0);
 	characterCounter = nil;
+	characterCounterPrefix = nil;
 	maxCharacters = 0;
 	
 	if ([self respondsToSelector:@selector(setAllowsUndo:)]) {
@@ -189,6 +191,7 @@
 {
 	if(chat.isGroupChat) {
 		[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+		[chat removeObserver:self forKeyPath:@"Character Counter Prefix"];
 	}
 	
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -196,6 +199,7 @@
 	[adium.notificationCenter removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
+	[characterCounterPrefix release];
     [chat release];
     [associatedView release];
     [historyArray release]; historyArray = nil;
@@ -663,6 +667,7 @@
     if (chat != inChat) {
 		if(chat.isGroupChat) {
 			[chat removeObserver:self forKeyPath:@"Character Counter Max"];
+			[chat removeObserver:self forKeyPath:@"Character Counter Prefix"];
 		}
 		
         [chat release];
@@ -677,9 +682,17 @@
 				   forKeyPath:@"Character Counter Max"
 					  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionInitial)
 					  context:NULL];
+			
+			[chat addObserver:self
+				   forKeyPath:@"Character Counter Prefix"
+					  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionInitial)
+					  context:NULL];
 		} else {
 			[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
 			[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
+			[self setCharacterCounterPrefix:[chat.listObject valueForProperty:@"Character Counter Prefix"]];
+			
+			[self updateCharacterCounter];
 		}
     }
 }
@@ -1017,6 +1030,17 @@
 	}
 }
 
+/*!
+ * @brief Set the prefix for the character count.
+ */
+- (void)setCharacterCounterPrefix:(NSString *)prefix
+{
+	if(prefix != characterCounterPrefix) {
+		[characterCounterPrefix release];
+		characterCounterPrefix = [prefix retain];
+	}
+}
+
 /**
  * @brief Set the number of characters the character counter should count down from.
  */
@@ -1035,8 +1059,15 @@
 {
 	NSRect visRect = [[self superview] bounds];
 
-	int currentCount = (maxCharacters - [[self textStorage] length]);	
-	NSAttributedString *label = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", currentCount] 
+	int currentCount = (maxCharacters - [[self textStorage] length]);
+	
+	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
+	
+	if (characterCounterPrefix) {
+		counterText = [NSString stringWithFormat:@"%@%@", characterCounterPrefix, counterText];
+	}
+	
+	NSAttributedString *label = [[NSAttributedString alloc] initWithString:counterText
 																attributes:[adium.contentController defaultFormattingAttributes]];
 	[characterCounter setString:label];
 	[characterCounter setFrameSize:[label size]];
@@ -1080,9 +1111,12 @@
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ((inObject == chat.listObject) &&
-		(!inModifiedKeys || [inModifiedKeys containsObject:@"Character Counter Max"])) {
+		(!inModifiedKeys || [inModifiedKeys containsObject:@"Character Counter Max"] || [inModifiedKeys containsObject:@"Character Counter Prefix"])) {
 		[self setCharacterCounterMaximum:[inObject integerValueForProperty:@"Character Counter Max"]];
 		[self setCharacterCounterVisible:([inObject valueForProperty:@"Character Counter Max"] != nil)];
+		[self setCharacterCounterPrefix:[inObject valueForProperty:@"Character Counter Prefix"]];
+		
+		[self updateCharacterCounter];
 	}
 
 	return nil;
@@ -1090,9 +1124,12 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if(object == chat && [keyPath isEqualToString:@"Character Counter Max"]) {
+	if(object == chat && ([keyPath isEqualToString:@"Character Counter Max"] || [keyPath isEqualToString:@"Character Counter Prefix"])) {
 		[self setCharacterCounterMaximum:[chat integerValueForProperty:@"Character Counter Max"]];
-		[self setCharacterCounterVisible:([chat valueForProperty:@"Character Counter Max"] != nil)];		
+		[self setCharacterCounterVisible:([chat valueForProperty:@"Character Counter Max"] != nil)];
+		[self setCharacterCounterPrefix:[chat valueForProperty:@"Character Counter Prefix"]];
+		
+		[self updateCharacterCounter];
 	}
 }
 
