@@ -1018,14 +1018,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				followedTimelineCompleted = YES;
 
-				AILog(@"Future timeline largest = %@", largestTweet);
-				futureTimelineLastID = largestTweet ?: nil;
+				AILogWithSignature(@"Future timeline largest = %@", largestTweet);
+				futureTimelineLastID = largestTweet;
 				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
 
-				AILog(@"Future replies largest = %@", largestTweet);
-				futureRepliesLastID = largestTweet ?: nil;
+				AILogWithSignature(@"Future replies largest = %@", largestTweet);
+				futureRepliesLastID = largestTweet;
 			}
 			
 			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
