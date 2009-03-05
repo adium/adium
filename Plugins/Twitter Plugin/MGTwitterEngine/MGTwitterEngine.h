@@ -90,6 +90,7 @@
 - (NSString *)getUserTimelineFor:(NSString *)username sinceID:(int)updateID startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
 - (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum;																		// 80 per page
 - (NSString *)getPublicTimelineSinceID:(int)updateID;
+- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum;
 - (NSString *)getRepliesStartingAtPage:(int)pageNum;                                          // sent TO this user
 - (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum;
 - (NSString *)getUpdate:(int)updateID;
