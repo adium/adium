@@ -29,6 +29,14 @@
 }
 
 /*!
+ * @brief We do not yet have personal settings.
+ */
+- (NSView *)profileView
+{
+	return nil;
+}
+
+/*!
  * @brief Use the Twitter account view.
  */
 - (NSString *)nibName
