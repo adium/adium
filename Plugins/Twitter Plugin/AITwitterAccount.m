@@ -21,6 +21,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -72,11 +73,19 @@
 							     selector:@selector(chatDidOpen:) 
 									 name:Chat_DidOpen
 								   object:nil];
+	
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES]
+																			 forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL]
+										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
+										  object:self];
+	
+	[adium.preferenceController registerPreferenceObserver:self forGroup:TWITTER_PREFERENCE_GROUP_UPDATES];
 }
 
 - (void)dealloc
 {
 	[adium.notificationCenter removeObserver:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[twitterEngine release];
 	[pendingRequests release];
@@ -150,7 +159,9 @@
 		[self didDisconnect];
 	}
 	
-	updateTimer = [NSTimer scheduledTimerWithTimeInterval:60*TWITTER_UPDATE_INTERVAL_MINUTES
+	NSUInteger updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
+	
+	updateTimer = [NSTimer scheduledTimerWithTimeInterval:60*updateInterval
 												   target:self
 												 selector:@selector(updateTimer:)
 												 userInfo:nil
@@ -527,6 +538,35 @@
 - (void)clearRequestTypeForRequestID:(NSString *)requestID
 {
 	[pendingRequests removeObjectForKey:requestID];
+}
+
+#pragma mark Preference updating
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
+					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	[super preferencesChangedForGroup:group key:key object:object preferenceDict:prefDict firstTime:firstTime];
+	
+	// We only care about our changes.
+	if (object != self) {
+		return;
+	}
+	
+	if([group isEqualToString:TWITTER_PREFERENCE_GROUP_UPDATES]) {
+		if(!firstTime && [key isEqualToString:TWITTER_PREFERENCE_UPDATE_INTERVAL]) {
+			NSTimeInterval timeInterval = [updateTimer timeInterval];
+			NSTimeInterval newTimeInterval = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL] intValue] * 60;
+			
+			if (timeInterval != newTimeInterval) {
+				[updateTimer invalidate];
+				
+				updateTimer = [NSTimer scheduledTimerWithTimeInterval:newTimeInterval
+															   target:self
+															 selector:@selector(updateTimer:)
+															 userInfo:nil
+															  repeats:YES];
+			}
+		}
+	}	
 }
 
 #pragma mark Periodic update scheduler

@@ -33,7 +33,8 @@ typedef enum {
 	AITwitterRemoveFollow
 } AITwitterRequestType;
 
-#define TWITTER_UPDATE_INTERVAL_MINUTES		10
+#define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
+
 #define TWITTER_UPDATE_TIMELINE_COUNT		100
 #define TWITTER_UPDATE_USER_INFO_COUNT		10
 
@@ -44,6 +45,7 @@ typedef enum {
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
+#define TWITTER_PREFERENCE_UPDATE_INTERVAL	@"Update Interval In Minutes"
 #define TWITTER_PREFERENCE_DATE_DM			@"Direct Messages"
 #define TWITTER_PREFERENCE_DATE_TIMELINE	@"Followed Timeline"
 #define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
