@@ -71,6 +71,9 @@
 	
 	//Adium xtras
 	[self _setHelperAppForScheme:@"adiumxtra"];
+	
+	//Twitter replies
+	[self _setHelperAppForScheme:@"twitterreply"];
 }
 
 + (void)registerAsDefaultIMClient
@@ -86,6 +89,9 @@
 
 	//Adium xtras
 	[AdiumURLHandling _setHelperAppForScheme:@"adiumxtra"];
+	
+	//Twitter replies
+	[self _setHelperAppForScheme:@"twitterreply"];
 }
 
 + (void)handleURLEvent:(NSString *)eventString
@@ -302,6 +308,12 @@
 			// adiumxtra://www.adiumxtras.com/path/to/xtra.zip
 
 			[[XtrasInstaller installer] installXtraAtURL:url];
+		} else if ([scheme isEqualToString:@"twitterreply"]) {
+			// We want to reply to a specific status update.
+			// Broadcast the notification.
+
+			// XXX Should this be done differently?
+			[adium.notificationCenter postNotificationName:@"AITwitterReplyLinkClicked" object:url];
 		}
 	}
 }

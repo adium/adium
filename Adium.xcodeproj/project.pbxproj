@@ -78,6 +78,7 @@
 		110763FA08676D05005987A5 /* BlockEditorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 110763F908676D04005987A5 /* BlockEditorWindow.nib */; };
 		11077B6F0DE647C100A4DD25 /* AIStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11077B6E0DE647C100A4DD25 /* AIStatusItemView.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
+		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
@@ -1769,6 +1770,8 @@
 		11077B6E0DE647C100A4DD25 /* AIStatusItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIStatusItemView.m; path = "Plugins/Status Menu Item/AIStatusItemView.m"; sourceTree = "<group>"; };
 		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
 		111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutomaticStatus.m; path = Source/AIAutomaticStatus.m; sourceTree = "<group>"; };
+		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
+		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
@@ -4700,6 +4703,8 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				6341AEFE0E53A09C00AE1439 /* libexpat.dylib */,
 				6349AF1F0E823B58007B8BE9 /* Spotlight Importer-Info.plist */,
+				112523170F5F7F86003FC58A /* AITwitterURLHandler.h */,
+				112523180F5F7F86003FC58A /* AITwitterURLHandler.m */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -9620,6 +9625,7 @@
 				11F739860F58D4DD00B3285B /* NSData+Base64.m in Sources */,
 				11F739870F58D4DD00B3285B /* NSString+UUID.m in Sources */,
 				113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */,
+				112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

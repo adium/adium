@@ -93,6 +93,7 @@
 - (void)setAccountSelectionMenuVisibleIfNeeded:(BOOL)makeVisible;
 
 //Text Entry
+- (AIMessageEntryTextView *)textEntryView;
 - (void)makeTextEntryViewFirstResponder;
 - (void)clearTextEntryView;
 - (void)addToTextEntryView:(NSAttributedString *)inString;

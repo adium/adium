@@ -822,6 +822,16 @@
 }
 
 /*!
+ * @brief Returns the Text Entry View
+ *
+ * Make sure you need to use this. If you just need to enter text, see -addToTextEntryView:
+ */
+- (AIMessageEntryTextView *)textEntryView
+{
+	return textView_outgoing;
+}
+
+/*!
  * @brief Clear the message entry text view
  */
 - (void)clearTextEntryView

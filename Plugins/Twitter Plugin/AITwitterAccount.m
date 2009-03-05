@@ -35,7 +35,6 @@
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
 
-- (NSString *)timelineChatName;
 - (void)updateTimelineChat:(AIChat *)timelineChat;
 
 - (NSAttributedString *)parseMessage:(NSString *)message;
@@ -124,10 +123,10 @@
 	[self silenceAllContactUpdatesForInterval:18.0];
 	
 	// Creating the fake timeline account.
-	if(![adium.contactController existingBookmarkForChatName:[self timelineChatName]
+	if(![adium.contactController existingBookmarkForChatName:self.timelineChatName
 												   onAccount:self
-											chatCreationInfo:nil]) {		
-		AIChat *newTimelineChat = [adium.chatController chatWithName:[self timelineChatName]
+											chatCreationInfo:nil]) {	
+		AIChat *newTimelineChat = [adium.chatController chatWithName:self.timelineChatName
 														  identifier:nil
 														   onAccount:self 
 													chatCreationInfo:nil];
@@ -299,9 +298,12 @@
 	NSString *requestID;
 	
 	if(inContentMessage.chat.isGroupChat) {
-		requestID = [twitterEngine sendUpdate:inContentMessage.messageString];
+		NSInteger replyID = [[inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"] integerValue];
 		
-		AILogWithSignature(@"Sending update: %@", inContentMessage.messageString);
+		requestID = [twitterEngine sendUpdate:inContentMessage.messageString
+									inReplyTo:replyID];
+		
+		AILogWithSignature(@"Sending update [in reply to %d]: %@", replyID, inContentMessage.messageString);
 	} else {		
 		requestID = [twitterEngine sendDirectMessage:inContentMessage.messageString
 												  to:inContentMessage.destination.UID];
@@ -645,7 +647,7 @@
 		
 		// Append a link to reply to this tweet
 		if (tweetLink) {
-			NSString *linkAddress = [NSString stringWithFormat:@"twitterreply://%@/%@", userID, tweetID];
+			NSString *linkAddress = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@", self.UID, userID, tweetID];
 			
 			if(replyTweet) {
 				[mutableMessage appendString:@", " withAttributes:nil];
@@ -704,11 +706,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
 		
-		AIChat *timelineChat = [adium.chatController existingChatWithName:[self timelineChatName]
+		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 																onAccount:self];
 		
 		if (!timelineChat) {
-			timelineChat = [adium.chatController chatWithName:[self timelineChatName]
+			timelineChat = [adium.chatController chatWithName:self.timelineChatName
 												   identifier:nil
 													onAccount:self
 											 chatCreationInfo:nil];
