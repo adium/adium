@@ -1336,6 +1336,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (!bookmark) {
 		bookmark = [[[AIListBookmark alloc] initWithChat:inChat] autorelease];
 		[bookmarkDict setObject:bookmark forKey:inChat.uniqueChatID];
+		[self saveContactList];
 	}
 	
 	//Do the update thing
