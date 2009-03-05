@@ -645,7 +645,7 @@
 	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 							   group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
 	
-	requestID = [twitterEngine getRepliesStartingAtPage:1];
+	requestID = [twitterEngine getRepliesSinceID:lastID startingAtPage:1];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterUpdateReplies
@@ -1001,7 +1001,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				}
 				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-				requestID = [twitterEngine getRepliesStartingAtPage:nextPage];
+				requestID = [twitterEngine getRepliesSinceID:[lastID intValue] startingAtPage:nextPage];
 				
 				AILogWithSignature(@"Pulling additional replies page %d", nextPage);
 				
