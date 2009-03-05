@@ -202,6 +202,20 @@
 	}
 }
 
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
+{
+	for(NSWindow *currentWindow in [NSApp windows]) {
+		if (currentWindow.toolbar == toolbarItem.toolbar) {
+			AIChat *chat = [adium.interfaceController activeChatInWindow:currentWindow];
+			AIAccount *account = chat.account;
+
+			return 	[account conformsToProtocol:@protocol(AIAccount_Privacy)];
+		}
+	}
+	
+	return NO;
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	AIListObject *object;
@@ -424,8 +438,28 @@
 				participants = [activeChatInWindow containedObjects];
 				
 				//do the deed
-				[self setPrivacy:(![self areAllGivenContactsBlocked:participants]) forContacts:participants];
-				[self updateToolbarItem:senderItem forChat:activeChatInWindow];
+				BOOL shouldBlock = ![self areAllGivenContactsBlocked:participants];
+				NSString *format = (shouldBlock ? 
+									AILocalizedString(@"Are you sure you want to block %@?",nil) :
+									AILocalizedString(@"Are you sure you want to unblock %@?",nil));
+				
+				NSString *questionQualifier = [NSString stringWithFormat:AILocalizedString(@"%d contacts", nil), 
+											   activeChatInWindow.containedObjects.count];
+				
+				if(activeChatInWindow.containedObjects.count == 1) {
+					questionQualifier = [[activeChatInWindow.containedObjects objectAtIndex:0] displayName];
+				}
+				
+				if (NSRunAlertPanel([NSString stringWithFormat:format, questionQualifier],
+									@"",
+									(shouldBlock ? BLOCK : UNBLOCK),
+									AILocalizedString(@"Cancel", nil),
+									nil) == NSAlertDefaultReturn) {
+				
+					[self setPrivacy:shouldBlock forContacts:participants];
+					[self updateToolbarItem:senderItem forChat:activeChatInWindow];
+				}
+					
 				break;
 			}
 		}
