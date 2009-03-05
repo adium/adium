@@ -1329,6 +1329,40 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[contactDict removeObjectForKey:inContact.internalUniqueObjectID];
 }
 
+/*!
+ * @brief Find an existing bookmark
+ *
+ * Finds an existing bookmark for a given AIChat
+ */
+- (AIListBookmark *)existingBookmarkForChat:(AIChat *)inChat
+{
+	return [bookmarkDict objectForKey:inChat.uniqueChatID];	
+}
+
+/*!
+ * @brief Find an existing bookmark
+ *
+ * Finds an existing bookmark for given information.
+ */
+- (AIListBookmark *)existingBookmarkForChatName:(NSString *)inName
+									  onAccount:(AIAccount *)inAccount
+							   chatCreationInfo:(NSDictionary *)inCreationInfo
+{
+	AIListBookmark *existingBookmark = nil;
+	
+	for(AIListBookmark *listBookmark in self.allBookmarks) {
+		if([listBookmark.name isEqualToString:inName] &&
+			listBookmark.account == inAccount &&
+			((!listBookmark.chatCreationDictionary && !inCreationInfo) ||
+			 ([listBookmark.chatCreationDictionary isEqualToDictionary:inCreationInfo]))) {
+			existingBookmark = listBookmark;
+			break;
+		}
+	}
+	
+	return existingBookmark;
+}
+
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat
 {
 	AIListBookmark *bookmark = [bookmarkDict objectForKey:inChat.uniqueChatID];

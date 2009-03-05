@@ -75,6 +75,10 @@ typedef enum {
 @property (readonly, nonatomic) AIListGroup *offlineGroup;
 @property (readonly, nonatomic) BOOL useOfflineGroup;
 
+- (AIListBookmark *)existingBookmarkForChat:(AIChat *)inChat;
+- (AIListBookmark *)existingBookmarkForChatName:(NSString *)inName
+									  onAccount:(AIAccount *)inAccount
+							   chatCreationInfo:(NSDictionary *)inCreationInfo;
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat;
 
 - (AIMetaContact *)knownMetaContactForGroupingUIDs:(NSArray *)UIDsArray forServices:(NSArray *)servicesArray;
