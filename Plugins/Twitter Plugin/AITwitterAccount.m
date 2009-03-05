@@ -754,6 +754,34 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 }
 
 /*!
+ * @brief Remove duplicate status updates.
+ *
+ * If we're following someone who replies to us, we'll receive a status update in both the
+ * timeline and the reply feed.
+ *
+ * @param inArray The sorted array of Tweets
+ */
+- (NSArray *)arrayWithDuplicateTweetsRemoved:(NSArray *)inArray
+{
+	NSMutableArray *mutableArray = [inArray mutableCopy];
+	
+	NSDictionary *status = nil, *previousStatus = nil;
+	
+	// Starting at index 1, checking backwards. We'll never exceed bounds this way.
+	for(NSUInteger index = 1; index < inArray.count; index++)
+	{
+		status = [inArray objectAtIndex:index];
+		previousStatus = [inArray objectAtIndex:index-1];
+		
+		if([[status objectForKey:TWITTER_STATUS_ID] isEqualToString:[previousStatus objectForKey:TWITTER_STATUS_ID]]) {
+			[mutableArray removeObject:status];
+		}
+	}
+	
+	return [mutableArray autorelease];
+}
+
+/*!
  * @brief Display queued updates or direct messages
  *
  * This could potentially be simplified since both DMs and updates have the same format.
@@ -769,6 +797,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
+		
+		sortedQueuedUpdates = [self arrayWithDuplicateTweetsRemoved:sortedQueuedUpdates];
 		
 		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
 																onAccount:self];
