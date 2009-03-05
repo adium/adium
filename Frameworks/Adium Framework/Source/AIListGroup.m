@@ -91,6 +91,11 @@
 	return self.groups.anyObject; //can only have one containing group, its contact list
 }
 
+- (void) removeFromList
+{
+	[adium.contactController removeListGroup:self];
+}
+
 #pragma mark Visibility
 
 - (void) rebuildVisibleCache

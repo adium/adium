@@ -117,6 +117,7 @@ typedef enum {
 @property (readonly, nonatomic) NSSet *groups;
 - (void) removeContainingGroup:(AIListGroup *)group;
 - (void) addContainingGroup:(AIListGroup *)group;
+- (void) removeFromList;
 
 //Display
 @property (readonly, nonatomic) NSString *formattedUID;

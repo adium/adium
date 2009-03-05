@@ -196,6 +196,23 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 }
 
+- (void) removeFromList
+{
+	NSSet	*objectsToRemove = nil;
+	
+	//If the metaContact only has one listContact, we will remove that contact from all accounts
+	if (self.uniqueContainedObjectsCount == 1) {
+		AIListContact	*listContact = [self.uniqueContainedObjects objectAtIndex:0];
+		
+		objectsToRemove = [adium.contactController allContactsWithService:listContact.service UID:listContact.UID];
+		for (AIListContact *contact in objectsToRemove)
+			[contact removeFromList];
+	}
+	
+	//Now break the metaContact down, taking out all contacts and putting them back in the main list
+	[adium.contactController explodeMetaContact:self];			
+}
+
 //A metaContact should never be a stranger
 - (BOOL)isStranger
 {

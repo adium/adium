@@ -209,6 +209,12 @@
 	return self.groups;
 }
 
+- (void) removeFromList
+{
+	NSString *error = [NSString stringWithFormat:@"%@ needs an implementation of -removeFromList", NSStringFromClass([self class])];
+	NSAssert(NO, error);
+}
+
 /*!
  * @brief Set the local grouping for this object
  *

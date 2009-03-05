@@ -302,7 +302,7 @@
 {
 	if (array) {
 		NSString	*message;
-		NSUInteger			count = [array count];
+		NSUInteger count = array.count;
 
 		if (count == 1) {
 			AIListObject	*listObject = [array objectAtIndex:0];
@@ -317,11 +317,13 @@
 			}
 		} else {
 			BOOL		containsGroup = NO;
-			NSEnumerator *enumerator = [array objectEnumerator];
-			AIListObject *listObject;
 			
-			while ((listObject = [enumerator nextObject]) && !containsGroup) {
-				containsGroup = [listObject isKindOfClass:[AIListGroup class]];
+			for (AIListObject *obj in array)
+			{
+				if([obj isKindOfClass:[AIListGroup class]]) {
+					containsGroup = YES;
+					break;
+				}
 			}
 
 			if (containsGroup) {
@@ -342,7 +344,7 @@
 									 nil, message);
 
 		if (result == NSAlertDefaultReturn) {
-			[adium.contactController removeListObjects:array];
+			[array makeObjectsPerformSelector:@selector(removeFromList)];
 		}
 	}	
 }
