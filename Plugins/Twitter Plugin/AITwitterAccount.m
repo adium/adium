@@ -447,12 +447,32 @@
 }
 
 /*!
+ * @brief Update serverside icon
+ *
+ * This is called by AIUserIcons when it needs an icon update for a contact.
+ * If we already have an icon set, ignore it. Otherwise return the Twitter service icon.
+ * This is so that when an unknown contact appears, it has an actual image
+ * to replace in the WKMV when an actual icon update is returned.
+ *
+ * This service icon will not remain saved very long, I see no harm in using it.
+ * This only occurs for "strangers".
+ */
+- (NSData *)serversideIconDataForContact:(AIListContact *)listContact
+{
+	if (![AIUserIcons userIconSourceForObject:listContact] && [listContact isStranger]) {
+		return [[self.service defaultServiceIconOfType:AIServiceIconLarge] TIFFRepresentation];
+	} else {
+		return nil;
+	}
+}
+
+/*!
  * @brief Update a user icon from a URL if necessary
  */
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
 {
 	// If we don't already have an icon for the user...
-	if(![AIUserIcons userIconSourceForObject:listContact] && ![[listContact valueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON] boolValue]) {
+	if(![[listContact valueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON] boolValue]) {
 		// Grab the user icon and set it as their serverside icon.
 		NSString *requestID = [twitterEngine getImageAtURL:url];
 		
