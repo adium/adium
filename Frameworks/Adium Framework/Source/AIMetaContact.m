@@ -372,6 +372,33 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[contact release];
 }
 
+- (AIListContact *)preferredContactForContentType:(NSString *)inType
+{
+	AIListObject *preferredContact = nil;
+	
+	/* If we've messaged this contact previously, prefer the last contact we sent to 
+	 * if that contact's status is the most-available one the metacontact can offer
+	 */
+	NSString *objID = [self preferenceForKey:KEY_PREFERRED_DESTINATION_CONTACT group:OBJECT_STATUS_CACHE];
+	
+	if (objID)
+		preferredContact = [adium.contactController existingListObjectWithUniqueID:objID];
+	
+	//Use our standard preferred contact if:
+	//a) we no longer contain the saved contact
+	//b) we have a more available contact
+	//c) we have a non-mobile contact and our saved contact is mobile
+	if (
+		(![self containsObject:preferredContact]) ||
+		(preferredContact.statusSummary != self.statusSummary) ||
+		(!self.isMobile && preferredContact.isMobile)	
+	) {
+		preferredContact = self.preferredContact;
+	}
+	
+	return (AIListContact *)preferredContact;
+}
+
 /*!
  * @brief Return the preferred contact to use within this metaContact
  *
