@@ -142,9 +142,7 @@
 		
 		AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
 		
-		if(timelineBookmark.remoteGroupNames.count == 0) {
-			[timelineBookmark addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
-		}	
+		[adium.contactController moveObject:timelineBookmark intoObjects:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
 	}
 	
 	// Grab all of our real updates	
