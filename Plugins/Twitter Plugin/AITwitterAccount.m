@@ -598,8 +598,7 @@
 - (void)updateTimer:(NSTimer *)timer
 {
 	NSString	*requestID;
-	NSDate		*lastPull;
-	NSDate		*requestDate = [NSDate date];
+	NSUInteger	lastID;
 	
 	// We haven't completed the timeline nor replies.
 	// This state information helps us know how many pages to pull.
@@ -614,42 +613,42 @@
 	AILogWithSignature(@"Periodic update fire");
 	
 	// Pull direct messages	
-	lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_DM
-								group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
+								group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
 	
-	requestID = [twitterEngine getDirectMessagesSince:lastPull startingAtPage:1];
+	requestID = [twitterEngine getDirectMessagesSinceID:lastID startingAtPage:1];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterUpdateDirectMessage
 				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page",
-							  requestDate, @"Date", nil]];
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
 	}
 
 	// Pull followed timeline
-	lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_TIMELINE
-								group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+								group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
 
 	requestID = [twitterEngine getFollowedTimelineFor:self.UID
-												since:lastPull
+											  sinceID:lastID
 									   startingAtPage:1
 												count:TWITTER_UPDATE_TIMELINE_COUNT];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterUpdateFollowedTimeline
 				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page",
-							  requestDate, @"Date", nil]];
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
 	}
 	
 	// Pull the replies feed	
+	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
+							   group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
+	
 	requestID = [twitterEngine getRepliesStartingAtPage:1];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterUpdateReplies
 				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page",
-							  requestDate, @"Date", nil]];
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
 	}
 }
 
@@ -939,35 +938,50 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 {		
 	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline ||
 	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-		NSDate		*lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_TIMELINE
-												 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		NSNumber *lastID;
+		
+		if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
+			lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		} else {
+			lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
+									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		}
 		
 		// If we've never pulled anything before, we shall default to only pulling 1 page.
 		// If there's nothing in this set of statuses, then there's no need to get another page.
-		BOOL nextPageNecessary = (lastPull != nil && [statuses count] != 0);
+		BOOL nextPageNecessary = (lastID && statuses.count);
+		
+		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
+		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
 		// The order doesn't matter since we'll sort later, but for the sake of updating statuses, let's go backwards.
 		for (NSDictionary *status in [statuses reverseObjectEnumerator]) {
-			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
+			NSNumber		*tweetID = [status objectForKey:TWITTER_STATUS_ID];
 			
-			if ([date compare:lastPull] == NSOrderedAscending) {
+			// If this tweet's ID is larger, store it instead of our current largest.
+			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
+				largestTweet = tweetID;
+			}
+			
+			// If this tweet ID is <= the last largest, ignore it. Otherwise queue it.
+			if ([tweetID compare:lastID] != NSOrderedDescending) {
 				nextPageNecessary = NO;
 			} else {
 				[queuedUpdates addObject:status];
 			}
 		}
 		
-		AILogWithSignature(@"Last Pull: %@ Next Page Necessary: %d", lastPull, nextPageNecessary);
+		AILogWithSignature(@"Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", lastID, largestTweet, nextPageNecessary);
 		
 		// See if we need to pull more updates.
 		if (nextPageNecessary) {
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
-			NSDate		*requestDate = [[self dictionaryForRequestID:identifier] objectForKey:@"Date"];
 			NSString	*requestID;
 			
 			if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				requestID = [twitterEngine getFollowedTimelineFor:self.UID
-															since:lastPull
+														  sinceID:[lastID intValue]
 												   startingAtPage:nextPage
 															count:TWITTER_UPDATE_TIMELINE_COUNT];
 				
@@ -976,8 +990,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				if (requestID) {
 					[self setRequestType:AITwitterUpdateFollowedTimeline
 							forRequestID:requestID
-						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page",
-										  requestDate, @"Date", nil]];
+						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page", 
+										  largestTweet, @"LargestTweet", nil]];
 				} else {
 					// Gracefully fail: remove all stored objects.
 					AILogWithSignature(@"Immediate timeline fail");
@@ -993,7 +1007,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					[self setRequestType:AITwitterUpdateReplies
 							forRequestID:requestID
 						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page",
-										  requestDate, @"Date", nil]];
+										  largestTweet, @"LargestTweet", nil]];
 				} else {
 					// Gracefully fail: remove all stored objects.
 					AILogWithSignature(@"Immediate reply fail");
@@ -1003,17 +1017,32 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else {
 			if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				followedTimelineCompleted = YES;
+
+				AILog(@"Future timeline largest = %@", largestTweet);
+				futureTimelineLastID = largestTweet ?: nil;
+				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 				repliesCompleted = YES;
+
+				AILog(@"Future replies largest = %@", largestTweet);
+				futureRepliesLastID = largestTweet ?: nil;
 			}
 			
 			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
 			
 			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
-				// Set the "last pulled" for the timeline, since we've completed both replies and the timeline.
-				[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
-							 forKey:TWITTER_PREFERENCE_DATE_TIMELINE
-							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+				// Set the "last pulled" for the timeline and replies, since we've completed both.
+				if(futureRepliesLastID) {
+					[self setPreference:futureRepliesLastID
+								 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
+								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+				}
+				
+				if(futureTimelineLastID) {
+					[self setPreference:futureTimelineLastID
+								 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+				}
 				
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			}
@@ -1046,28 +1075,37 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)identifier
 {	
 	if ([self requestTypeForRequestID:identifier] == AITwitterUpdateDirectMessage) {		
-		NSDate		*lastPull = [self preferenceForKey:TWITTER_PREFERENCE_DATE_DM
-												 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+		NSNumber *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
+											group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
-		BOOL nextPageNecessary = (lastPull != nil && [messages count] != 0);
+		BOOL nextPageNecessary = (lastID && messages.count);
+		
+		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
+		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
 		for (NSDictionary *message in messages)  {
-			NSDate			*date = [message objectForKey:TWITTER_DM_CREATED];
-					
-			if ([date compare:lastPull] == NSOrderedAscending) {
+			NSNumber		*tweetID = [message objectForKey:TWITTER_DM_ID];
+			
+			// If this tweet's ID is larger, store it instead of our current largest.
+			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
+				largestTweet = tweetID;
+			}
+			
+			// If this tweet ID is <= the last largest, ignore it. Otherwise queue it.
+			if ([tweetID compare:lastID] != NSOrderedDescending) {
 				nextPageNecessary = NO;
 			} else {
 				[queuedDM addObject:message];
 			}
 		}
 		
-		AILogWithSignature(@"Last pull: %@ Next page necessary: %d", lastPull, nextPageNecessary);
+		AILogWithSignature(@"Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", lastID, largestTweet, nextPageNecessary);
 		
 		if(nextPageNecessary) {
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
-			NSDate		*requestDate = [[self dictionaryForRequestID:identifier] objectForKey:@"Date"];
 			
-			NSString	*requestID = [twitterEngine getDirectMessagesSince:lastPull startingAtPage:nextPage];
+			NSString	*requestID = [twitterEngine getDirectMessagesSinceID:[lastID intValue] 
+														      startingAtPage:nextPage];
 			
 			AILogWithSignature(@"Pulling additional DM page %d", nextPage);
 			
@@ -1075,17 +1113,19 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[self setRequestType:AITwitterUpdateDirectMessage
 						forRequestID:requestID
 					  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:nextPage], @"Page",
-									  requestDate, @"Date", nil]];
+									  largestTweet, @"LargestTweet", nil]];
 			} else {
 				// Gracefully fail: remove all stored objects.
 				AILogWithSignature(@"Immediate DM pull fail");
 				[queuedDM removeAllObjects];
 			}
 		} else if([queuedDM count] > 0) {
-			[self setPreference:[[self dictionaryForRequestID:identifier] objectForKey:@"Date"]
-						 forKey:TWITTER_PREFERENCE_DATE_DM
+			AILogWithSignature(@"Largest DM = %@", largestTweet);
+		
+			[self setPreference:largestTweet
+						 forKey:TWITTER_PREFERENCE_DM_LAST_ID
 						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-			
+		
 			[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 		}
 	}
