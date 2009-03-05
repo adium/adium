@@ -421,7 +421,7 @@
 
 			} else {
 				//User selected not listed, so we'll remove that contact
-				[adium.contactController removeListObjects:[NSArray arrayWithObject:exactContact]];
+				[exactContact removeFromList];
 			}
 		}
 	}

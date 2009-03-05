@@ -671,6 +671,12 @@
 	super.containingObject = nil;
 }
 
+- (void) removeFromList
+{
+	if (self.account.online)
+		[self.account removeContacts:[NSArray arrayWithObject:self]];
+}
+
 #pragma mark Equality
 /*
 - (BOOL)isEqual:(id)anObject

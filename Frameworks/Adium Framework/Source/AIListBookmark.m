@@ -121,6 +121,11 @@
 	return password;
 }
 
+- (void) removeFromList
+{
+#warning TODO implement me
+}
+
 /*!
  * @brief Set our display name
  *

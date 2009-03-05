@@ -996,7 +996,7 @@ typedef enum
 }
 - (void)removeObjectFromContactsAtIndex:(int)index
 {
-	[adium.contactController removeListObjects:[NSArray arrayWithObject:[[self contacts] objectAtIndex:index]]];
+	[[self.contacts objectAtIndex:index] removeFromList];
 }
 
 /**

@@ -91,7 +91,6 @@
 - (void)_performChangeOfUseContactListGroups;
 - (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
 - (void)_moveContactServerside:(AIListContact *)listContact toGroups:(NSSet *)groups;
-- (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;
@@ -101,7 +100,6 @@
 - (void)removeContact:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact;
 - (void)_loadMetaContactsFromArray:(NSArray *)array;
 - (void)_saveMetaContacts:(NSDictionary *)allMetaContactsDict;
-- (void)breakdownAndRemoveMetaContact:(AIMetaContact *)metaContact;
 - (void)_storeListObject:(AIListObject *)listObject inMetaContact:(AIMetaContact *)metaContact;
 @end
 
@@ -179,7 +177,7 @@
 		
 		//Remove all the metaContacts to get any existing objects out of them
 		for (AIMetaContact *metaContact in [[[metaContactDict copy] autorelease] objectEnumerator]) {
-			[self breakdownAndRemoveMetaContact:metaContact];
+			[self explodeMetaContact:metaContact];
 		}
 		
 		[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -991,7 +989,7 @@
 	return metaContact;
 }
 
-- (void)breakdownAndRemoveMetaContact:(AIMetaContact *)metaContact
+- (void)explodeMetaContact:(AIMetaContact *)metaContact
 {
 	//Remove the objects within it from being inside it
 	NSArray	*containedObjects = [metaContact.containedObjects copy];
@@ -1540,56 +1538,28 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 #pragma mark Contact list editing
-- (void)removeListObjects:(NSArray *)objectArray
-{	
-	for (AIListObject *listObject in objectArray) {
-		if ([listObject isKindOfClass:[AIMetaContact class]]) {
-			AIMetaContact *meta = (AIMetaContact *)listObject;
-			NSSet	*objectsToRemove = nil;
-			
-			//If the metaContact only has one listContact, we will remove that contact from all accounts
-			if (meta.uniqueContainedObjectsCount == 1) {
-				AIListContact	*listContact = [meta.uniqueContainedObjects objectAtIndex:0];
-				
-				objectsToRemove = [self allContactsWithService:listContact.service UID:listContact.UID];
-			}
-			
-			//And actually remove the single contact if applicable
-			if (objectsToRemove) {
-				[self removeListObjects:[objectsToRemove allObjects]];
-			}
-			
-			//Now break the metaContact down, taking out all contacts and putting them back in the main list
-			[self breakdownAndRemoveMetaContact:meta];				
-			
-		} else if ([listObject isKindOfClass:[AIListGroup class]]) {
-			AIListGroup *group = (AIListGroup *)listObject;
-			AIContactList	*containingObject = group.contactList;
-			
-			//If this is a group, delete all the objects within it
-			[self removeListObjects:group.containedObjects];
-			
-			//Delete the list off of all active accounts
-			for (AIAccount *account in adium.accountController.accounts) {
-				if (account.online) {
-					[account deleteGroup:group];
-				}
-			}
-			
-			//Then, procede to delete the group
-			[listObject retain];
-			[containingObject removeObject:listObject];
-			[groupDict removeObjectForKey:[listObject.UID lowercaseString]];
-			[self _didChangeContainer:containingObject object:listObject];
-			[listObject release];
-			
-		} else {
-			AIAccount	*account = [(AIListContact *)listObject account];
-			if (account.online) {
-				[account removeContacts:[NSArray arrayWithObject:listObject]];
-			}
+- (void)removeListGroup:(AIListGroup *)group
+{
+	AIContactList	*containingObject = group.contactList;
+	
+	//Remove all the contacts from this group
+	for (AIListContact *contact in group) {
+		[group removeObject:contact];
+	}
+	
+	//Delete the group from all active accounts
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.online) {
+			[account deleteGroup:group];
 		}
 	}
+	
+	//Then, procede to delete the group
+	[group retain];
+	[containingObject removeObject:group];
+	[groupDict removeObjectForKey:[group.UID lowercaseString]];
+	[self _didChangeContainer:containingObject object:group];
+	[group release];
 }
 
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount
@@ -1694,21 +1664,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	AIAccount	*account = listContact.account;
 	if (account.online) {
 		[account moveListObjects:[NSArray arrayWithObject:listContact] toGroups:groups];
-	}
-}
-
-//Rename a group
-- (void)_renameGroup:(AIListGroup *)listGroup to:(NSString *)newName
-{
-	//Since Adium has no memory of what accounts a group is on, we have to send this message to all available accounts
-	//The accounts without this group will just ignore it
-	for (AIAccount *account in adium.accountController.accounts) {
-		[account renameGroup:listGroup to:newName];
-	}
-	
-	//Remove the old group if it's empty
-	if (listGroup.containedObjectsCount == 0) {
-		[self removeListObjects:[NSArray arrayWithObject:listGroup]];
 	}
 }
 
