@@ -159,13 +159,15 @@
 		[self didDisconnect];
 	}
 	
-	NSUInteger updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
+	NSTimeInterval updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue] * 60;
 	
-	updateTimer = [NSTimer scheduledTimerWithTimeInterval:60*updateInterval
-												   target:self
-												 selector:@selector(updateTimer:)
-												 userInfo:nil
-												  repeats:YES];
+	if(updateInterval > 0) {
+		updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
+													   target:self
+													 selector:@selector(updateTimer:)
+													 userInfo:nil
+													  repeats:YES];
+	}
 }
 
 /*!
@@ -414,7 +416,7 @@
  */
 - (void)forceUpdate:(NSMenuItem *)menuItem
 {
-	[updateTimer fire];
+	[self updateTimer:nil];
 }
 
 #pragma mark Contact handling
@@ -577,13 +579,15 @@
 			NSTimeInterval newTimeInterval = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL] intValue] * 60;
 			
 			if (timeInterval != newTimeInterval) {
-				[updateTimer invalidate];
+				[updateTimer invalidate]; updateTimer = nil;
 				
-				updateTimer = [NSTimer scheduledTimerWithTimeInterval:newTimeInterval
-															   target:self
-															 selector:@selector(updateTimer:)
-															 userInfo:nil
-															  repeats:YES];
+				if(newTimeInterval > 0) {
+					updateTimer = [NSTimer scheduledTimerWithTimeInterval:newTimeInterval
+																   target:self
+																 selector:@selector(updateTimer:)
+																 userInfo:nil
+																  repeats:YES];
+				}
 			}
 		}
 	}	
@@ -1123,7 +1127,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 		} else {	
 			// Trigger our normal update routine.
-			[updateTimer fire];
+			[self updateTimer:nil];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
