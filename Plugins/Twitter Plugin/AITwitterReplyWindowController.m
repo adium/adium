@@ -76,9 +76,8 @@ static AITwitterReplyWindowController *sharedController = nil;
  */
 - (IBAction)reply:(id)sender
 {
-	if ([textField_usernameOrTweetURL.stringValue rangeOfCharacterFromSet:[account.service.allowedCharacters invertedSet]].location != NSNotFound) {
-		NSBeep();
-	} else if (![[NSString stringWithFormat:@"%d", [textField_statusID.stringValue intValue]] isEqualToString:textField_statusID.stringValue]) {
+	if (([textField_usernameOrTweetURL.stringValue rangeOfCharacterFromSet:[account.service.allowedCharacters invertedSet]].location != NSNotFound) ||
+		(![[NSString stringWithFormat:@"%d", [textField_statusID.stringValue intValue]] isEqualToString:textField_statusID.stringValue])) {
 		NSBeep();
 	} else if (textField_usernameOrTweetURL.stringValue && textField_statusID.stringValue) {
 		NSURL *replyURL = [NSURL URLWithString:[NSString stringWithFormat:@"twitterreply://%@%@/?status=%@",
