@@ -420,11 +420,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( activeControlPart != CONTROL_PART_NONE ){
 		if([anEvent clickCount] == 2){
 			if( (activeControlPart == CONTROL_PART_RESIZE_THUMB) || (activeControlPart == CONTROL_PART_RESIZE_BAR) ){
-				if (currentShelfWidth > NSWidth(resizeBarRect)) {
-					prevShelfWidthBeforeDoubleClick = currentShelfWidth;
-					[self setShelfWidthNoConstraints:NSWidth(resizeBarRect)];
-				} else {
-					[self setShelfWidth:prevShelfWidthBeforeDoubleClick];
+				if([delegate respondsToSelector:@selector(splitViewDidHaveResizeDoubleClick:)]) {
+					[delegate splitViewDidHaveResizeDoubleClick:self];
+				} else {			
+					if (currentShelfWidth > NSWidth(resizeBarRect)) {
+						prevShelfWidthBeforeDoubleClick = currentShelfWidth;
+						[self setShelfWidthNoConstraints:NSWidth(resizeBarRect)];
+					} else {
+						[self setShelfWidth:prevShelfWidthBeforeDoubleClick];
+					}
 				}
 			}
 

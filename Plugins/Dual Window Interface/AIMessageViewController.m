@@ -1199,6 +1199,11 @@
 	}
 }
 
+- (void)splitViewDidHaveResizeDoubleClick:(RBSplitView *)sender
+{
+	[self toggleUserList];
+}
+
 #pragma mark Shelfview
 /* @name	setupShelfView
  * @brief	sets up shelfsplitview containing userlist & contentviews
