@@ -406,6 +406,7 @@
 }
 
 - (void)testInternationalDomainNameURI {
+#if 0
 	NSString *URLString;
 	NSURL *correctURL, *foundURL;
 
@@ -443,6 +444,7 @@
 		correctURL = [NSURL URLWithString:@"http://xn--hgi.ws/%EF%B7%BA"];
 		STAssertEqualObjects(foundURL, correctURL, @"Hyperlink scanner returned incorrect URL");
 	}
+#endif
 }
 
 - (void)testUniqueURI {
