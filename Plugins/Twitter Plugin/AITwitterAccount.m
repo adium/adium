@@ -16,6 +16,7 @@
 
 #import "AITwitterAccount.h"
 #import "AITwitterURLParser.h"
+#import "AITwitterReplyWindowController.h"
 #import "MGTwitterEngine/MGTwitterEngine.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -386,6 +387,12 @@
 															  keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
 	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+																	 target:self
+																	 action:@selector(replyToTweet)
+															  keyEquivalent:@""] autorelease];
+	[menuItemArray addObject:menuItem];
+	
 	return menuItemArray;	
 }
 
@@ -407,8 +414,24 @@
 																	action:@selector(periodicUpdate)
 															 keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
+
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
+																	 target:self
+																	 action:@selector(replyToTweet)
+															  keyEquivalent:@""] autorelease];
+	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	
+}
+
+/*!
+ * @brief Open the reply to tweet window
+ *
+ * Opens a window in which the user can create a reply featuring in_reply_to_status_id being set.
+ */
+- (void)replyToTweet
+{
+	[AITwitterReplyWindowController showReplyWindowForAccount:self];
 }
 
 #pragma mark Contact handling
