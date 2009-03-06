@@ -169,7 +169,9 @@
 	menuItem_toggleUserlist = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																							 target:self
 																							 action:@selector(toggleUserlist:)
-																					  keyEquivalent:@""];
+																					  keyEquivalent:@"/"];
+	[menuItem_toggleUserlist setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
+	
 	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
 																			  
 	//Contact list menu item
