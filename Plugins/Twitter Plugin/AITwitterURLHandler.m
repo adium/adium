@@ -68,7 +68,6 @@
 	
 	AITwitterAccount	*account = nil;
 	
-	
 	for(AIAccount *tempAccount in accountArray) {
 		if (![tempAccount isKindOfClass:[AITwitterAccount class]]) {
 			return;
