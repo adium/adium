@@ -1122,7 +1122,10 @@
  */
 - (void)performDefaultActionOnSelectedObject:(AIListObject *)listObject sender:(NSOutlineView *)sender
 {
-	//Empty
+	if ([listObject isKindOfClass:[AIListContact class]]) {
+		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)listObject
+												  onPreferredAccount:YES]];
+	}
 }
 
 /* 
