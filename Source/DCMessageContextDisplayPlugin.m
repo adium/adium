@@ -144,9 +144,6 @@
 {
 	AIChat	*chat = (AIChat *)[notification object];
 	
-	//Don't show context for group chats
-	if (chat.isGroupChat) return;
-	
 	NSArray	*context = [self contextForChat:chat];
 
 	if (context && [context count] > 0 && shouldDisplay) {
@@ -410,9 +407,18 @@ static NSInteger linesLeftToFind = 0;
 				 *Why the class trickery? Less code duplication, clearer what is actually different between the two cases.
 				 */
 				Class messageClass = (-[time timeIntervalSinceNow] > 300.0) ? [AIContentContext class] : [AIContentMessage class];
+				
+				AIListContact *listContact = nil;
+				
+				if (chat.isGroupChat) {
+					listContact = [chat.account contactWithUID:[[element attributeForName:@"sender"] stringValue]];
+				} else {
+					listContact = chat.listObject;
+				}
+				
 				AIContentMessage *message = [messageClass messageInChat:chat 
-															 withSource:(sentByMe ? account : chat.listObject)
-															destination:(sentByMe ? chat.listObject : account)
+															 withSource:(sentByMe ? account : listContact)
+															destination:(sentByMe ? (chat.isGroupChat ? nil : chat.listObject) : account)
 																   date:time
 																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:contents]
 															  autoreply:(autoreplyAttribute && [autoreplyAttribute caseInsensitiveCompare:@"true"] == NSOrderedSame)];
