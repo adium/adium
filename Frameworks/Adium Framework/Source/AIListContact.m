@@ -671,7 +671,7 @@
 - (void) setMetaContact:(AIMetaContact *)meta
 {
 	metaContact = meta;
-	super.containingObject = nil;
+	[m_groups removeAllObjects];
 }
 
 - (BOOL) existsServerside
@@ -833,5 +833,7 @@
 {
 	[self setIsBlocked:b updateList:YES];
 }
+
+@dynamic containingObject;
 
 @end
