@@ -457,7 +457,7 @@
 	
 	// Update the participant list.
 	for (AIListContact *listContact in self.contacts) {
-		[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+		[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
 	}
 	
 	[timelineChat setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:NotifyNow];
@@ -833,7 +833,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
 				
-				[timelineChat addParticipatingListObject:listContact notify:NotifyNow];
+				[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
 				
 				NSAttributedString *message = [self parseMessage:text
 														 tweetID:[status objectForKey:TWITTER_STATUS_ID]
