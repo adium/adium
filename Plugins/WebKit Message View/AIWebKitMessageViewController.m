@@ -819,7 +819,7 @@ static NSArray *draggedTypes = nil;
 		[webViewMenuItem release];
 	}
 
-	if ([webViewMenuItems count])
+	if (webViewMenuItems.count > 0 && ![[webViewMenuItems objectAtIndex:webViewMenuItems.count-1] isSeparatorItem])
 		[webViewMenuItems addObject:[NSMenuItem separatorItem]];
 
 	//Present an option to clear the display
