@@ -423,6 +423,36 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 	return [[[NSAttributedString alloc] initWithString:inString] autorelease];
 }
 
++ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)link
+{
+    NSParameterAssert(inString != nil);
+
+    if ([link isKindOfClass:[NSString class]]) {
+        link = [NSURL URLWithString:link];
+    }
+    NSParameterAssert(link != nil);
+    NSParameterAssert([link isKindOfClass:[NSURL class]]);
+
+    NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:inString] autorelease];
+    //Throws NSInvalidArgumentException if the range is out-of-range.
+    [attributedString addAttribute:NSLinkAttributeName value:link range:linkRange];
+
+    return attributedString;
+}
++ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)link
+{
+    NSParameterAssert(inString != nil);
+
+    if ([link isKindOfClass:[NSString class]]) {
+        link = [NSURL URLWithString:link];
+    }
+    NSParameterAssert(link != nil);
+    NSParameterAssert([link isKindOfClass:[NSURL class]]);
+
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:link forKey:NSLinkAttributeName];
+    return [[[self alloc] initWithString:inString attributes:attributes] autorelease];
+}
+
 - (float)heightWithWidth:(float)width
 {	
     //Setup the layout manager and text container
