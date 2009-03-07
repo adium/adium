@@ -77,10 +77,13 @@
 									 name:Chat_DidOpen
 								   object:nil];
 	
-	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES]
-																			 forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL]
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+												  [NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES], TWITTER_PREFERENCE_UPDATE_INTERVAL,
+												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND, nil]
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
+	
+	updateAfterSend = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:TWITTER_PREFERENCE_GROUP_UPDATES];
 }
@@ -297,7 +300,13 @@
  */
 - (void)setSocialNetworkingStatusMessage:(NSAttributedString *)statusMessage
 {
-	[twitterEngine sendUpdate:[statusMessage string]];
+	NSString *requestID = [twitterEngine sendUpdate:[statusMessage string]];
+
+	if(requestID) {
+		[self setRequestType:AITwitterSendUpdate
+				forRequestID:requestID
+			  withDictionary:nil];
+	}
 }
 
 /*!
@@ -317,24 +326,35 @@
 		requestID = [twitterEngine sendUpdate:inContentMessage.messageString
 									inReplyTo:replyID];
 		
-		AILogWithSignature(@"Sending update [in reply to %d]: %@", replyID, inContentMessage.messageString);
+		if(requestID) {
+			[self setRequestType:AITwitterSendUpdate
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
+															 forKey:@"Chat"]];
+			
+			AILogWithSignature(@"Sending update [in reply to %d]: %@", replyID, inContentMessage.messageString);
+		}
+		
+		inContentMessage.displayContent = NO;
 	} else {		
 		requestID = [twitterEngine sendDirectMessage:inContentMessage.messageString
 												  to:inContentMessage.destination.UID];
 		
-		AILogWithSignature(@"Sending DM to %@: %@", inContentMessage.destination.UID, inContentMessage.messageString);
+		if(requestID) {
+			[self setRequestType:AITwitterDirectMessageSend
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
+															 forKey:@"Chat"]];
+			
+			AILogWithSignature(@"Sending DM to %@: %@", inContentMessage.destination.UID, inContentMessage.messageString);
+		}
 	}
 	
-	if(requestID) {
-		[self setRequestType:AITwitterDirectMessageSend
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
-														 forKey:@"Chat"]];
-		return YES;
-	} else {
+	if (!requestID) {
 		AILogWithSignature(@"Message immediate fail.");
-		return NO;
 	}
+	
+	return (requestID != nil);
 }
 
 /*!
@@ -605,6 +625,10 @@
 				}
 			}
 		}
+		
+		if ([key isEqualToString:TWITTER_PREFERENCE_UPDATE_AFTER_SEND]) {		
+			updateAfterSend = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND] boolValue];
+		}
 	}	
 }
 
@@ -826,29 +850,27 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
 			AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
 			
-			if (![listContact.UID isEqualToString:self.UID]) {
-				// Update the user's status message
-				[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
-									   notify:NotifyNow];
-				
-				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
-				
-				[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
-				
-				NSAttributedString *message = [self parseMessage:text
-														 tweetID:[status objectForKey:TWITTER_STATUS_ID]
-														  userID:listContact.UID
-												inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
-				
-				AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
-																		withSource:listContact
-																	   destination:self
-																			  date:date
-																		   message:message
-																		 autoreply:NO];
-				
-				[adium.contentController receiveContentObject:contentMessage];
-			}
+			// Update the user's status message
+			[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
+								   notify:NotifyNow];
+			
+			[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+			
+			[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
+			
+			NSAttributedString *message = [self parseMessage:text
+													 tweetID:[status objectForKey:TWITTER_STATUS_ID]
+													  userID:listContact.UID
+											inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
+			
+			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
+																	withSource:listContact
+																   destination:self
+																		  date:date
+																	   message:message
+																	 autoreply:NO];
+			
+			[adium.contentController receiveContentObject:contentMessage];
 		}
 		
 		[queuedUpdates removeAllObjects];
@@ -913,11 +935,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)requestFailed:(NSString *)identifier withError:(NSError *)error
 {		
-	if([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend) {
+	if([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend || [self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
 		AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
-		[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
 		
-		AILogWithSignature(@"Chat send error on %@", chat);
+		if (chat) {
+			[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
+			
+			AILogWithSignature(@"Chat send error on %@", chat);
+		}
 		
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
@@ -1076,6 +1101,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 		
 		[listContact setProfileArray:profileArray notify:NotifyNow];
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate && updateAfterSend) {
+		[self periodicUpdate];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];

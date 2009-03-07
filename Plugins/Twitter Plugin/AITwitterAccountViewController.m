@@ -95,6 +95,9 @@
 	if(inAccount != account) {
 		NSNumber *updateInterval = [inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		[popUp_updateInterval selectItemAtIndex:[[popUp_updateInterval menu] indexOfItemWithRepresentedObject:updateInterval]];
+		
+		BOOL updateAfterSend = [[inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+		[checkBox_updateAfterSend setState:updateAfterSend];
 	}
 	
 	[super configureForAccount:inAccount];
@@ -109,6 +112,10 @@
 	
 	[account setPreference:popUp_updateInterval.selectedItem.representedObject
 					forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL
+					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_updateAfterSend state]]
+					forKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 }
 

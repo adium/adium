@@ -47,11 +47,12 @@ typedef enum {
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
-#define TWITTER_PREFERENCE_UPDATE_INTERVAL	@"Update Interval In Minutes"
-#define TWITTER_PREFERENCE_DM_LAST_ID		@"Direct Messages Last ID"
-#define TWITTER_PREFERENCE_TIMELINE_LAST_ID	@"Followed Timeline Last ID"
-#define TWITTER_PREFERENCE_REPLIES_LAST_ID	@"Replies Last ID"
-#define TWITTER_PREFERENCE_GROUP_UPDATES	@"Twitter Preferences"
+#define TWITTER_PREFERENCE_UPDATE_AFTER_SEND	@"Update After Send"
+#define TWITTER_PREFERENCE_UPDATE_INTERVAL		@"Update Interval In Minutes"
+#define TWITTER_PREFERENCE_DM_LAST_ID			@"Direct Messages Last ID"
+#define TWITTER_PREFERENCE_TIMELINE_LAST_ID		@"Followed Timeline Last ID"
+#define TWITTER_PREFERENCE_REPLIES_LAST_ID		@"Replies Last ID"
+#define TWITTER_PREFERENCE_GROUP_UPDATES		@"Twitter Preferences"
 
 // Status Updates
 #define TWITTER_STATUS_ID					@"id"
@@ -79,6 +80,8 @@ typedef enum {
 @interface AITwitterAccount : AIAccount <MGTwitterEngineDelegate> {
 	MGTwitterEngine		*twitterEngine;
 	NSTimer				*updateTimer;
+	
+	BOOL				updateAfterSend;
 	
 	BOOL				followedTimelineCompleted;
 	BOOL				repliesCompleted;
