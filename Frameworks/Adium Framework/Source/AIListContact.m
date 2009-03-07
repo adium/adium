@@ -716,7 +716,7 @@
 
 	if (targetAccount) {
 		if (self.account != account)
-			targetMessagingContact = [adium.contactController contactWithService:inContact.service account:account UID:inContact.UID];
+			targetMessagingContact = [adium.contactController contactWithService:self.service account:account UID:self.UID];
 
 		targetFileTransferContact = targetMessagingContact;
 	}
