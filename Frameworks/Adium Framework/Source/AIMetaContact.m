@@ -157,7 +157,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (AIMetaContact *)metaContact
 {
-	return self;
+	return nil;
 }
 
 - (NSSet *)remoteGroups
