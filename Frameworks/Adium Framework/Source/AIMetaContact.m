@@ -170,29 +170,27 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)restoreGrouping
 {
-	if ([adium.contactController useContactListGroups]) {
-		NSMutableSet *targetGroups = [NSMutableSet set];
+	NSMutableSet *targetGroups = [NSMutableSet set];
 
+	if ([adium.contactController useContactListGroups]) {
 		if (!self.online && adium.contactController.useOfflineGroup) {
 			[targetGroups addObject:adium.contactController.offlineGroup];
 		} else {
-				NSMutableSet *targetGroups = [NSMutableSet set];
-				for (AIListContact *containedContact in self.uniqueContainedObjects)
+			for (AIListContact *containedContact in self.uniqueContainedObjects)
+			{
+				for (NSString *groupName in containedContact.remoteGroupNames)
 				{
-					for (NSString *groupName in containedContact.remoteGroupNames)
-					{
-						[targetGroups addObject:[adium.contactController groupWithUID:groupName]];
-					}
+					[targetGroups addObject:[adium.contactController groupWithUID:groupName]];
 				}
-		}
-
-		if (targetGroups.count > 0) {
-			[adium.contactController _moveContactLocally:self
-				 toGroups:targetGroups];
+			}
 		}
 	} else {
+		[targetGroups addObject:adium.contactController.contactList];
+	}
+
+	if (targetGroups.count > 0) {
 		[adium.contactController _moveContactLocally:self
-				toGroups:[NSSet setWithObject:adium.contactController.contactList]];		
+											toGroups:targetGroups];
 	}
 }
 
