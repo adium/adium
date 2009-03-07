@@ -146,6 +146,11 @@ enum {
 
 }
 
+- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+{
+	//XXX does bonjour support groups?
+}
+
 #pragma mark Libezv Callbacks
 /*!
  * @brief Logged in, called on the main thread
