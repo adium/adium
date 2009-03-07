@@ -800,11 +800,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType
 {
 	if(requestType == AITwitterUpdateReplies || requestType == AITwitterUpdateFollowedTimeline) {
-		if([queuedUpdates count] == 0) {
+		if(!queuedUpdates.count) {
 			return;
 		}
 		
-		AILogWithSignature(@"Displaying %d updates", [queuedUpdates count]);
+		AILogWithSignature(@"Displaying %d updates", queuedUpdates.count);
 		
 		// Sort the queued updates (since we're intermingling pages of data from different souces)
 		NSArray *sortedQueuedUpdates = [queuedUpdates sortedArrayUsingFunction:queuedUpdatesSort context:nil];
@@ -853,11 +853,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		[queuedUpdates removeAllObjects];
 	} else if (requestType == AITwitterUpdateDirectMessage) {
-		if([queuedDM count] == 0) {
+		if(!queuedDM.count) {
 			return;
 		}
 		
-		AILogWithSignature(@"Displaying %d DMs", [queuedDM count]);
+		AILogWithSignature(@"Displaying %d DMs", queuedDM.count);
 		
 		NSArray *sortedQueuedDM = [queuedDM sortedArrayUsingFunction:queuedDMSort context:nil];
 		
@@ -1034,7 +1034,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
 			
-			if (followedTimelineCompleted && repliesCompleted && [queuedUpdates count] > 0) {
+			if (followedTimelineCompleted && repliesCompleted && queuedUpdates.count) {
 				// Set the "last pulled" for the timeline and replies, since we've completed both.
 				if(futureRepliesLastID) {
 					AILogWithSignature(@"futureRepliesLastID = %@", futureRepliesLastID);
@@ -1125,7 +1125,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				AILogWithSignature(@"Immediate DM pull fail");
 				[queuedDM removeAllObjects];
 			}
-		} else if([queuedDM count] > 0) {
+		} else if(queuedDM.count) {
 			AILogWithSignature(@"Largest DM pulled = %@", largestTweet);
 		
 			[self setPreference:largestTweet
@@ -1148,9 +1148,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		// The current amount of friends per page is 100. Use >= just in case this changes.
-		BOOL nextPageNecessary = ([userInfo count] >= 100);
+		BOOL nextPageNecessary = (userInfo.count >= 100);
 		
-		AILogWithSignature(@"Initial user info pull, Next page necessary: %d Count: %d", nextPageNecessary, [userInfo count]);
+		AILogWithSignature(@"Initial user info pull, Next page necessary: %d Count: %d", nextPageNecessary, userInfo.count);
 		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
@@ -1217,7 +1217,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSMutableArray *profileArray = [NSMutableArray array];
 			
-			for (NSUInteger index = 0; index < [keyNames count]; index++) {
+			for (NSUInteger index = 0; index < keyNames.count; index++) {
 				NSString			*unattributedValue = [thisUserInfo objectForKey:[keyNames objectAtIndex:index]];
 				
 				if(![unattributedValue isEqualToString:@""]) {
