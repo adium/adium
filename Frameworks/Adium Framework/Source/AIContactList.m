@@ -28,10 +28,11 @@
 
 - (BOOL)canContainObject:(id)obj
 {
-	if ([obj isKindOfClass:[AIListBookmark class]]) return YES;
-	if(adium.contactController.useContactListGroups)
-		return [obj isKindOfClass:[AIListGroup class]] && ![obj isKindOfClass:[AIContactList class]];
-	else
+	//if ([obj isKindOfClass:[AIListBookmark class]]) return YES;
+	//if(adium.contactController.useContactListGroups)
+	//	return [obj isKindOfClass:[AIListGroup class]] && ![obj isKindOfClass:[AIContactList class]];
+	//else
+//XXX because of - (NSString *)_mapIncomingGroupName:(NSString *)name in CBPurple Account, this doesn't work
 		return YES; //ARGH
 }
 
