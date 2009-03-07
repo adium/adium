@@ -678,7 +678,7 @@
 	requestID = [twitterEngine getFollowedTimelineFor:self.UID
 											  sinceID:lastID
 									   startingAtPage:1
-												count:TWITTER_UPDATE_TIMELINE_COUNT];
+												count:(lastID ? TWITTER_UPDATE_TIMELINE_COUNT : TWITTER_UPDATE_TIMELINE_COUNT_FIRST_RUN)];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterUpdateFollowedTimeline
