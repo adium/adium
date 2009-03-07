@@ -694,8 +694,8 @@
 	
 	message = [AITwitterURLParser linkifiedAttributedStringFromString:message];
 	
-	BOOL replyTweet = ([replyTweetID length]);
-	BOOL tweetLink = ([tweetID length] && [userID length]);
+	BOOL replyTweet = (replyTweetID.length);
+	BOOL tweetLink = (tweetID.length && userID.length);
 	
 	if (replyTweet || tweetLink) {
 		NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
@@ -709,7 +709,7 @@
 			NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[self.service.allowedCharacters invertedSet]];
 			
 			if(usernameRange.location == NSNotFound) {
-				usernameRange = NSMakeRange([replyUsername length], 0);
+				usernameRange = NSMakeRange(replyUsername.length, 0);
 			}
 			
 			replyUsername = [replyUsername substringToIndex:usernameRange.location];
