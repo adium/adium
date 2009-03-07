@@ -29,6 +29,7 @@
 - (void)localizeMenuTitles;
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray usingMenu:(NSMenu *)inMenu;
 - (void)addMenuItemsForContact:(AIListContact *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem;
+- (void)addMenuItemsForChat:(AIChat *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem;
 @end
 
 @implementation AIMenuController
@@ -247,20 +248,27 @@
 /*!
  * @brief Obtain an NSMenu of contextual menu items for a chat
  *
- * @param chat The chat for which menu items should be generated
+ * @param inLocationArray An NSArray of NSNumbers whose intValues are AIContextMenuLocation. The menu will be returned with these locations' items in order, separated by NSMenuItemSeparators.
+ * @param inChat The chat for which menu items should be generated
  */
-- (NSMenu *)contextualMenuForChat:(AIChat *)chat
+- (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray forChat:(AIChat *)inChat
 {
-	NSArray	*itemArray = [chat.account menuItemsForChat:chat];
-	NSMenu	*workingMenu = textViewContextualMenu;
+	NSMenu		*workingMenu;
+	BOOL		separatorItem;
 	
-	[workingMenu removeAllItems];
+	//Remember what our menu is configured for
+	[currentContextMenuObject release];
+	currentContextMenuObject = [inChat retain];
 	
-	if(itemArray && [itemArray count]) {
-		for(NSMenuItem *menuItem in itemArray) {
-			[workingMenu addItem:menuItem];
-		}
-	}
+	//Get the pre-created contextual menu items
+	workingMenu = [self contextualMenuWithLocations:inLocationArray usingMenu:contextualMenu];
+	
+	//Add any account-specific menu items
+	separatorItem = (workingMenu.numberOfItems != 0);
+
+	[self addMenuItemsForChat:inChat
+					   toMenu:workingMenu
+				separatorItem:&separatorItem];
 	
 	return workingMenu;
 }
@@ -291,6 +299,30 @@
 			*separatorItem = NO;
 		}
 
+		for (menuItem in itemArray) {
+			[workingMenu addItem:menuItem];
+		}
+	}
+}
+
+/*!
+ * @brief Add account-specific menuItems for a passed chat to a menu. 
+ * @param inChat The chat
+ * @param workingMenu The NSMenu, which must not be nil
+ * @param seperatorItem Pointer to a BOOL which can be YES to indicate that a separator item should be inserted before the menu items if any are added. It will then be set to NO.
+ */
+- (void)addMenuItemsForChat:(AIChat *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem
+{
+	NSArray			*itemArray = [inContact.account menuItemsForChat:inContact];
+	
+	if (itemArray && [itemArray count]) {
+		NSMenuItem		*menuItem;
+		
+		if (*separatorItem == YES) {
+			[workingMenu addItem:[NSMenuItem separatorItem]];
+			*separatorItem = NO;
+		}
+		
 		for (menuItem in itemArray) {
 			[workingMenu addItem:menuItem];
 		}
