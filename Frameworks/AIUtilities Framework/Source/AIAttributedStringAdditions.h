@@ -213,6 +213,27 @@ extern NSString *AIFontStyleAttributeName;
  */
 + (NSAttributedString *)stringWithString:(NSString *)inString;
 
+/*!	@brief	Create a new NSAttributedString from an NSString and a URL.
+ *
+ *	@param	inString	The string that will be the hot text.
+ *	@param	link	An NSURL or NSString representing an absolute URL. This method will convert the object to an NSURL if necessary.
+ *	@throws	NSInvalidArgumentException	\a inString or \a link is \c nil.
+ *	@return	An autoreleased \c NSAttributedString.
+ */
++ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)link;
+
+/*!	@brief	Create a new NSAttributedString containing a hyperlink.
+ *
+ *	@par	It is legal, though insensible, to pass an empty \a linkRange.
+ *
+ *	@param	inString	The string that will contain the hot text.
+ *	@param	linkRange	The range defining the substring of \a inString to linkify.
+ *	@param	link	An NSURL or NSString representing an absolute URL. This method will convert the object to an NSURL if necessary.
+ *	@throws	NSInvalidArgumentException	\a inString or \a link is \c nil, or \a linkRange falls outside the extent of \a inString.
+ *	@return	An autoreleased \c NSAttributedString.
+ */
++ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)link;
+
 @end
 
 
