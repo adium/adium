@@ -198,4 +198,6 @@
 	}
 }
 
+@dynamic delegate; //inherit this
+
 @end
