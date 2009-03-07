@@ -638,12 +638,19 @@
  */
 - (void)periodicUpdate
 {
+	if (pendingUpdateCount) {
+		AILogWithSignature(@"Update already in progress. Count = %d", pendingUpdateCount);
+		return;
+	}
+	
 	NSString	*requestID;
 	NSUInteger	lastID;
 	
-	// We haven't completed the timeline nor replies.
-	// This state information helps us know if we should display both or display none.
+	// We haven't completed the timeline nor replies. This lets us know if we should display statuses.
 	followedTimelineCompleted = repliesCompleted = NO;
+	
+	// Prevent triggering this update routine multiple times.
+	pendingUpdateCount = 3;
 	
 	[queuedUpdates removeAllObjects];
 	[queuedDM removeAllObjects];
@@ -660,6 +667,8 @@
 		[self setRequestType:AITwitterUpdateDirectMessage
 				forRequestID:requestID
 			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
+	} else {
+		--pendingUpdateCount;
 	}
 
 	// Pull followed timeline
@@ -675,6 +684,8 @@
 		[self setRequestType:AITwitterUpdateFollowedTimeline
 				forRequestID:requestID
 			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
+	} else {
+		--pendingUpdateCount;
 	}
 	
 	// Pull the replies feed	
@@ -687,6 +698,8 @@
 		[self setRequestType:AITwitterUpdateReplies
 				forRequestID:requestID
 			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:1], @"Page", nil]];
+	} else {
+		--pendingUpdateCount;
 	}
 }
 
@@ -967,6 +980,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		// Image pull failed, flag ourselves as needing to try again.
 		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline || 
+			   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies ||
+			   [self requestTypeForRequestID:identifier] == AITwitterUpdateDirectMessage) {
+		--pendingUpdateCount;
 	}
 	
 	AILogWithSignature(@"Request failed (%@ - %d) - %@", identifier, [self requestTypeForRequestID:identifier], error);
@@ -1033,6 +1050,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				} else {
 					// Gracefully fail: remove all stored objects.
 					AILogWithSignature(@"Immediate timeline fail");
+					--pendingUpdateCount;
 					[queuedUpdates removeAllObjects];
 				}
 				
@@ -1049,6 +1067,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				} else {
 					// Gracefully fail: remove all stored objects.
 					AILogWithSignature(@"Immediate reply fail");
+					--pendingUpdateCount;
 					[queuedUpdates removeAllObjects];
 				}
 			}
@@ -1060,6 +1079,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				repliesCompleted = YES;
 				futureRepliesLastID = [largestTweet retain];
 			}
+			
+			--pendingUpdateCount;
 			
 			AILogWithSignature(@"Followed completed: %d Replies completed: %d", followedTimelineCompleted, repliesCompleted);
 			
@@ -1154,19 +1175,25 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			} else {
 				// Gracefully fail: remove all stored objects.
 				AILogWithSignature(@"Immediate DM pull fail");
+				--pendingUpdateCount;
 				[queuedDM removeAllObjects];
 			}
-		} else if(queuedDM.count) {
-			AILogWithSignature(@"Largest DM pulled = %@", largestTweet);
+		} else {		
+			--pendingUpdateCount;
+			
+			if (largestTweet) {
+				AILogWithSignature(@"Largest DM pulled = %@", largestTweet);
+				
+				[self setPreference:largestTweet
+							 forKey:TWITTER_PREFERENCE_DM_LAST_ID
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+			}
 		
-			[self setPreference:largestTweet
-						 forKey:TWITTER_PREFERENCE_DM_LAST_ID
-						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-		
-			if (lastID) {
+			// On first load, don't display any direct messages. Just ge the largest ID.
+			if (queuedDM.count && lastID) {
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			} else {
-				[queuedDM removeAllObjects];
+					[queuedDM removeAllObjects];		
 			}
 		}
 	}
