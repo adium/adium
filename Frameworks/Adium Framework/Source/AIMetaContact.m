@@ -358,11 +358,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
-		if (self.containedObjectsCount == 0) {
-			for (AIListGroup *group in self.groups) {
-				[self removeContainingGroup:group];
-			}
-		}
+		if (self.containedObjectsCount == 0)
+			[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
 
 		/* Now that we're done reconfigured ourselves and the recently removed object,
 		 * tell the contactController about the change in the removed object.
@@ -386,11 +383,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[self containedObjectsOrOrderDidChange];
 
 	//If we remove our list object, don't continue to show up in the contact list
-	if (self.containedObjectsCount == 0) {
-		for (AIListGroup *group in self.groups) {
-			[self removeContainingGroup:group];
-		}
-	}
+	if (self.containedObjectsCount == 0)
+		[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
 	
 	[contact release];
 }
