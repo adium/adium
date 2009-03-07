@@ -393,6 +393,8 @@
 	//Protect with a retain while we are removing and adding the contact to our arrays
 	[listContact retain];
 	
+	[contactPropertiesObserverManager delayListObjectNotifications];
+	
 	//Remove this object from any local groups we have it in currently
 	for (AIListGroup *group in [[listContact.groups copy] autorelease]) {
 		[group removeObject:listContact];
@@ -401,6 +403,8 @@
 	
 	for (AIListGroup *group in groups)
 		[self _addContactLocally:listContact toGroup:group];
+	
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 	
 	[listContact release];
 }
