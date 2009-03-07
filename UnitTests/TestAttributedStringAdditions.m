@@ -55,7 +55,6 @@
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
 	NSAttributedString *attributedString;
-	NSRange attributedStringRange;
 
 	//First, try a string containing a URL.
 	STAssertNoThrow(attributedString = [NSAttributedString attributedStringWithString:linkLabel linkRange:intendedLinkRange linkDestination:linkURLString], @"attributedStringWithLinkLabel:linkDestination: threw an exception");
