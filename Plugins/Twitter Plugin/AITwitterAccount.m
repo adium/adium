@@ -1272,6 +1272,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
 		
 		if (thisUserInfo) {	
+			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			
 			NSArray *keyNames = [NSArray arrayWithObjects:@"screen_name", @"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
 			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"User name", nil), AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
 									  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
@@ -1280,17 +1282,31 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSMutableArray *profileArray = [NSMutableArray array];
 			
 			for (NSUInteger index = 0; index < keyNames.count; index++) {
-				NSString			*unattributedValue = [thisUserInfo objectForKey:[keyNames objectAtIndex:index]];
+				NSString			*keyName = [keyNames objectAtIndex:index];
+				NSString			*unattributedValue = [thisUserInfo objectForKey:keyName];
 				
 				if(![unattributedValue isEqualToString:@""]) {
 					NSString			*readableName = [readableNames objectAtIndex:index];
-					NSAttributedString	*value = [NSAttributedString stringWithString:unattributedValue];
+					NSDictionary		*attributes = nil;
+					
+					if([keyName isEqualToString:@"friends_count"]) {
+						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@/friends", listContact.UID]
+																 forKey:NSLinkAttributeName];
+					} else if ([keyName isEqualToString:@"followers_count"]) {
+						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@/followers", listContact.UID]
+																 forKey:NSLinkAttributeName];
+					} else if ([keyName
+								isEqualToString:@"statuses_count"]) {
+						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@", listContact.UID]
+																 forKey:NSLinkAttributeName];
+					}
+						
+					NSAttributedString *value = [[[NSAttributedString alloc] initWithString:unattributedValue
+																				attributes:attributes] autorelease];
 					
 					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
 				}
 			}
-			
-			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 			
 			AILogWithSignature(@"Updating profileArray for user %@", listContact);
 			
