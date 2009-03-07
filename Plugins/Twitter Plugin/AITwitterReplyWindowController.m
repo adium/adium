@@ -113,7 +113,8 @@ static AITwitterReplyWindowController *sharedController = nil;
 		if (twitterLocation.location != NSNotFound) {			
 			NSArray *components = [[value substringFromIndex:twitterLocation.location] pathComponents];
 
-			if (components.count == 4 && [[components objectAtIndex:2] isEqualToString:@"status"]) {
+			if (components.count == 4 && ([[components objectAtIndex:2] isEqualToString:@"status"] ||
+										  [[components objectAtIndex:2] isEqualToString:@"statuses"])) {
 				textField_usernameOrTweetURL.stringValue = [components objectAtIndex:1];
 				textField_statusID.stringValue = [components objectAtIndex:3];
 			}
