@@ -163,6 +163,7 @@
 																   group:OBJECT_STATUS_CACHE
 												  ]] &&
 		(inGroup != [adium.contactController offlineGroup])) {
+		
 		[self setPreference:inGroupInternalObjectID
 					 forKey:KEY_CONTAINING_OBJECT_ID
 					  group:OBJECT_STATUS_CACHE];
@@ -261,12 +262,6 @@
 	if ([keyPath isEqualToString:@"Online"] && object == self.account) {
 		[self setOnline:self.account.online notify:NotifyLater silently:YES];
 		[self notifyOfChangedPropertiesSilently:YES];
-		
-		if (self.account.online) {
-			[self restoreGrouping];
-		} else {
-			[adium.contactController _moveContactLocally:self toGroups:nil];
-		}
 	}
 }
 

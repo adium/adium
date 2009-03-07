@@ -476,7 +476,7 @@
 	}	
 	
 	// Update the participant list.
-	for (AIListContact *listContact in self.contacts) {
+	for (AIListContact *listContact in [[self.contacts copy] autorelease]) {
 		[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
 	}
 	
