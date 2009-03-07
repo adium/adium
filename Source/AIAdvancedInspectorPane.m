@@ -412,7 +412,7 @@
 				if (![group.UID isEqualToString:exactContact.remoteGroupNames.anyObject]) {
 					if (exactContact.remoteGroupNames.anyObject) {
 						//Move contact
-						[adium.contactController moveObject:exactContact intoObjects:[NSSet setWithObject:group]];
+						[adium.contactController moveContact:exactContact intoGroups:[NSSet setWithObject:group]];
 
 					} else {						
 						[exactContact.account addContact:exactContact toGroup:group];

@@ -148,7 +148,7 @@
 		
 		AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
 		
-		[adium.contactController moveObject:timelineBookmark intoObjects:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
+		[adium.contactController moveContact:timelineBookmark intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
 	}
 	
 	// Grab all of our real updates	

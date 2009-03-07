@@ -105,8 +105,7 @@ typedef enum {
 - (void)explodeMetaContact:(AIMetaContact *)metaContact; //Unpack contained contacts and then remove the meta
 - (void)removeListGroup:(AIListGroup *)listGroup;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
-- (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index;
-- (void)moveObject:(AIListObject *)listContact intoObjects:(NSSet *)containers;
+- (void)moveContact:(AIListObject *)listContact intoGroups:(NSSet *)containers;
 - (void)_moveContactLocally:(AIListContact *)listContact toGroups:(NSSet *)groups;
 @property (readonly, nonatomic) BOOL useContactListGroups;
 

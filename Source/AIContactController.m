@@ -89,8 +89,6 @@
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
-- (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group;
-- (void)_moveContactServerside:(AIListContact *)listContact toGroups:(NSSet *)groups;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;
@@ -1574,131 +1572,27 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 											userInfo:userInfo];
 }
 
-//XXX multiple containers , needs to a) handle indices properly, and b) handle add vs move properly, c) not do the silly rewrapping of groups into sets of 1
-- (void)moveListObjects:(NSArray *)objectArray intoObjects:(NSSet *)containers index:(NSUInteger)index
-{		
-	for (AIListObject<AIContainingObject> *group in containers) {
-		[contactPropertiesObserverManager delayListObjectNotifications];
-
-		if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
-			[(id)group setDelayContainedObjectSorting:YES];
-		}
-		
-		for (AIListObject *listObject in objectArray) {
-			[self moveObject:listObject intoObjects:[NSSet setWithObject:group]];
-			
-			//Set the new index / position of the object
-			[self _positionObject:listObject atIndex:index inObject:group];
-		}
-		
-		[contactPropertiesObserverManager endListObjectNotificationsDelay];
-		
-		if ([group respondsToSelector:@selector(setDelayContainedObjectSorting:)]) {
-			[(id)group setDelayContainedObjectSorting:NO];
-		}
-		
-		/*
-		 Resort the entire list if we are moving within or between AIListGroup objects
-		 (other containing objects such as metaContacts will handle their own sorting).
-		 */
-		if ([group isKindOfClass:[AIListGroup class]]) {
-			[self sortContactLists:[NSArray arrayWithObject:group]];
-		}
-	}
-}
-
-- (void)moveObject:(AIListObject *)listObject intoObjects:(NSSet *)containers
+- (void)moveContact:(AIListContact *)contact intoGroups:(NSSet *)groups
 {
-	//Move the object to the new group only if necessary
-	if ([listObject.groups isEqual:containers]) return;
-	AIListObject<AIContainingObject> *container = containers.anyObject;
+	if (contact.metaContact)
+		[self removeAllContactsMatching:contact fromMetaContact:contact.metaContact];
 	
-	if ([container isKindOfClass:[AIContactList class]] && [listObject isKindOfClass:[AIListGroup class]]) {
-		NSParameterAssert(containers.count == 1); //groups can't be in multiple contact lists
-		AIListGroup *group = (AIListGroup *)listObject;
-		// Move contact from one contact list to another
-		[group.contactList moveGroup:group to:(AIContactList *)containers.anyObject];
-
-	} else if ([container isKindOfClass:[AIListGroup class]]) {
-		//Move a contact into a new group
-		if ([listObject isKindOfClass:[AIListBookmark class]]) {
-			[self _moveContactLocally:(AIListBookmark *)listObject toGroups:containers];
-			
-		} else if ([listObject isKindOfClass:[AIMetaContact class]]) {
-			AIMetaContact *meta = (AIMetaContact *)listObject;
-			//Move the meta contact to these new groups
-			[self _moveContactLocally:meta toGroups:containers];
-			
-			//This is a meta contact, move the objects within it.  listContacts will give us a flat array of AIListContacts.
-			for (AIListContact *actualListContact in meta) {
-				//Only move the contact if it is actually listed on the account in question
-				if (!actualListContact.isStranger) {
-					[self _moveContactServerside:actualListContact toGroups:containers];
-				}
-			}
-		} else if ([listObject isKindOfClass:[AIListContact class]]) {
-			AIListContact *contact = (AIListContact *)listObject;
-			//Move the object
-			if (contact.metaContact) {
-				[self removeAllContactsMatching:contact fromMetaContact:contact.metaContact];
-			}
-			
-			[self _moveContactServerside:contact toGroups:containers];
-
-		} else {
-			AILogWithSignature(@"I don't know what to do with %@",listObject);
-		}
-	} else if ([container isKindOfClass:[AIMetaContact class]]) {
-		//Moving a contact into a meta contact
-		NSParameterAssert([listObject isKindOfClass:[AIListContact class]]);
-		NSParameterAssert(containers.count == 1);
-		AIListContact *contact = (AIListContact *)listObject;
-		if (contact.metaContact != container)
-			[self addContact:contact toMetaContact:(AIMetaContact *)container];
-	}
-}
-
-//Move an object to another group
-- (void)_moveContactServerside:(AIListContact *)listContact toGroups:(NSSet *)groups
-{
-	AIAccount	*account = listContact.account;
-	if (account.online) {
-		[account moveListObjects:[NSArray arrayWithObject:listContact] toGroups:groups];
-	}
-}
-
-//Position a list object within a group
-- (void)_positionObject:(AIListObject *)listObject atIndex:(NSInteger)index inObject:(AIListObject<AIContainingObject> *)group
-{
-	if (index == 0) {
-		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		listObject.orderIndex = group.smallestOrder / 2.0;
-		
-	} else if (index >= group.visibleCount) {
-		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		listObject.orderIndex = group.largestOrder + 1.0;
-		
+	if (contact.existsServerside) {
+		if (contact.account.online)
+			[contact.account moveListObjects:[NSArray arrayWithObject:contact] toGroups:groups];
 	} else {
-		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
-		AIListObject	*previousObject = [group.containedObjects objectAtIndex:index-1];
-		AIListObject	*nextObject = [group.containedObjects objectAtIndex:index];
-		CGFloat nextLowest = previousObject.orderIndex;
-		CGFloat nextHighest = nextObject.orderIndex;
+		[self _moveContactLocally:contact toGroups:groups];
 		
-		/* XXX - Fixme as per below
-		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
-		 * For example, a group sorted by status then manually could look like (status - ordering index):
-		 *
-		 * Away Contact - 100
-		 * Away Contact - 120
-		 * Offline Contact - 110
-		 * Offline Contact - 113
-		 * Offline Contact - 125
-		 * 
-		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
-		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
-		 */
-		listObject.orderIndex = (nextHighest + nextLowest) / 2.0;
+		if ([contact conformsToProtocol:@protocol(AIContainingObject)]) {
+			id<AIContainingObject> container = (id<AIContainingObject>)contact;
+			
+			//This is a meta contact, move the objects within it.
+			for (AIListContact *child in container) {
+				//Only move the contact if it is actually listed on the account in question
+				if (child.account.online && !child.isStranger)
+					[child.account moveListObjects:[NSArray arrayWithObject:child] toGroups:groups];
+			}
+		}		
 	}
 }
 

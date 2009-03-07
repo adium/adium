@@ -31,7 +31,7 @@
 
 - (id)initWithUID:(NSString *)inUID account:(AIAccount *)inAccount service:(AIService *)inService;
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
-@property (readonly, nonatomic) NSSet *remoteGroupNames;
+@property (readwrite, copy, nonatomic) NSSet *remoteGroupNames;
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;
 
@@ -49,6 +49,8 @@
 @property (readonly, nonatomic) NSString *serversideDisplayName;
 
 @property (readonly, nonatomic) BOOL canJoinMetaContacts;
+
+@property (readonly, nonatomic) BOOL existsServerside; //Metas and Bookmarks (among others?) have no serverside representation
 
 @property (readonly, nonatomic) BOOL isIntentionallyNotAStranger;
 
