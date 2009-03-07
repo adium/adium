@@ -80,6 +80,7 @@
 @end
 
 @interface AIContactController ()
+@property (readwrite, nonatomic) BOOL useOfflineGroup;
 - (void)saveContactList;
 - (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadBookmarks;
@@ -289,7 +290,7 @@
 				AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
 				
 				localGroup = (useContactListGroups ?
-							  (useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
+							  (self.useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
 							  contactList);
 				
 				[localGroup addObject:inContact.metaContact];
@@ -313,7 +314,7 @@
 			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
 			
 			localGroup = useContactListGroups ?
-				(useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
+				(self.useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
 				contactList;
 			
 			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
@@ -524,14 +525,11 @@
 								forClass:[self class]]];
 }
 
-- (BOOL)useOfflineGroup
-{
-	return useOfflineGroup;
-}
+@synthesize useOfflineGroup;
 
 - (AIListGroup *)offlineGroup
 {
-	if(!useOfflineGroup)
+	if(!self.useOfflineGroup)
 		return [groupDict objectForKey:[AILocalizedString(@"Offline", "Name of offline group") lowercaseString]];
 
 	return [self groupWithUID:AILocalizedString(@"Offline", "Name of offline group")];
@@ -1051,10 +1049,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 		BOOL newlyRegistered = NO;
 		
-		if (shouldUseOfflineGroup != useOfflineGroup) {
-			useOfflineGroup = shouldUseOfflineGroup;
+		if (shouldUseOfflineGroup != self.useOfflineGroup) {
+			self.useOfflineGroup = shouldUseOfflineGroup;
 			
-			if (useOfflineGroup) {
+			if (self.useOfflineGroup) {
 				[contactPropertiesObserverManager registerListObjectObserver:self];
 				newlyRegistered = YES;
 			} else {
@@ -1086,7 +1084,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	NSSet *groups = contact.groups;
 	
-	if (useOfflineGroup && useContactListGroups) {
+	if (self.useOfflineGroup && useContactListGroups) {
 		
 		if (inObject.online && [groups containsObject:self.offlineGroup]) {
 			[contact restoreGrouping];
