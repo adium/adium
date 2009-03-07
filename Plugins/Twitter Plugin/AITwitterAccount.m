@@ -224,7 +224,7 @@
  */
 - (BOOL)encrypted
 {
-	return [twitterEngine usesSecureConnection];
+	return (self.online && [twitterEngine usesSecureConnection]);
 }
 
 /*!
