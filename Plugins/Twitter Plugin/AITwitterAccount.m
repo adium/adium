@@ -983,18 +983,18 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 		NSNumber *lastID;
 		
-		BOOL nextPageNecessary = (lastID ? YES : NO);
+		BOOL nextPageNecessary = NO;
 		
 		if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 			
-			nextPageNecessary = (nextPageNecessary && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
+			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
 		} else {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 			
-			nextPageNecessary = (nextPageNecessary && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT);
+			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT);
 		}
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
