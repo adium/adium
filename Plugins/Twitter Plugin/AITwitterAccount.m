@@ -369,12 +369,16 @@
 		return;
 	}
 	
-	NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
-	
-	if(requestID) {
-		[self setRequestType:AITwitterProfileUserInfo
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
+	if ([inContact isKindOfClass:[AIListBookmark class]]) {
+		[inContact setProfileArray:[NSArray arrayWithObject:[NSDictionary dictionaryWithObjectsAndKeys:@"", KEY_VALUE, nil]] notify:NotifyNow];
+	} else {
+		NSString *requestID = [twitterEngine getUserInformationFor:inContact.UID];
+		
+		if(requestID) {
+			[self setRequestType:AITwitterProfileUserInfo
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObject:inContact forKey:@"ListContact"]];
+		}
 	}
 }
 
