@@ -602,28 +602,20 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
 {
 	NSMutableSet *groupNames = [NSMutableSet set];
+	NSMutableSet *mappedGroupNames = [NSMutableSet set];
 	for (AIListGroup* group in groups)
 	{
-		[groupNames addObject:[self _mapOutgoingGroupName:group.UID]];
+		[groupNames addObject:group.UID];
+		[mappedGroupNames addObject:[self _mapOutgoingGroupName:group.UID]];
 	}
 	
 	//Move the objects to it
-	for (AIListContact *listObject in objects) {
-		if ([listObject isKindOfClass:[AIListGroup class]]) {
-			//Since no protocol here supports nesting, a group move is really a re-name
-			
-		} else {
-			//			NSString	*oldGroupName = [self _mapOutgoingGroupName:[listObject remoteGroupName]];
-			
-			//Tell the purple thread to perform the serverside operation
-			[purpleAdapter moveUID:listObject.UID onAccount:self toGroups:groupNames];
+	for (AIListContact *contact in objects) {
+		//Tell the purple thread to perform the serverside operation
+		[purpleAdapter moveUID:contact.UID onAccount:self toGroups:mappedGroupNames];
 
-			//Use the non-mapped group name locally
-			for (AIListGroup* group in groups)
-			{
-				[listObject addRemoteGroupName:group.UID];
-			}
-		}
+		//Use the non-mapped group name locally
+		[contact setRemoteGroupNames:groupNames];
 	}		
 }
 
@@ -636,6 +628,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	//We must also update the remote grouping of all our contacts in that group
 	for (AIListContact *contact in [adium.contactController allContactsInObject:inGroup onAccount:self]) {
+		[contact removeRemoteGroupName:groupName];
 		//Evan: should we use groupName or newName here?
 		[contact addRemoteGroupName:newName];
 	}

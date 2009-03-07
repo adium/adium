@@ -125,6 +125,11 @@
 #warning TODO implement me
 }
 
+- (BOOL) existsServerside
+{
+	return NO; //TODO: protocols where this can be yes, like XMPP
+}
+
 /*!
  * @brief Set our display name
  *

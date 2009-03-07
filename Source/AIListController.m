@@ -696,11 +696,19 @@
 			//We will release this when the drag is completed
 			dragItems = [arrayOfDragItems retain];
 		}		
+		
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 		//Move the list object to its new location
 		if ([item isKindOfClass:[AIListGroup class]]) {
-			if (item != [adium.contactController offlineGroup]) {
-				[adium.contactController moveListObjects:dragItems intoObjects:[NSSet setWithObject:item] index:index];
+			if (item != adium.contactController.offlineGroup) {
+				AIListGroup *group = (AIListGroup *)item;
+				for (AIListObject *object in dragItems) {
+					NSAssert([object isKindOfClass:[AIListContact class]], @"BUG: Attempting to drop a non-AIListContact into an AIListGroup");
+					if (![group containsObject:object])
+						[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
+					[group moveContainedObject:object toIndex:index];
+				}
 				
 				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
 														  object:item
@@ -722,15 +730,17 @@
 				NSMutableSet *set = [NSMutableSet setWithArray:startingArray];
 				[set intersectSet:[NSSet setWithArray:[(AIMetaContact *)item containedObjects]]];
 
-				[adium.contactController moveListObjects:[set allObjects]
-									intoObjects:[NSSet setWithObject: item]
-													 index:index];
+				for (AIListObject *obj in set) {
+					[(AIMetaContact *)item moveContainedObject:(AIListContact *)obj toIndex:index];
+				}
 			}
 			[outlineView reloadData];
 
 		} else if ([item isKindOfClass:[AIListContact class]]) {
 			[self promptToCombineItems:dragItems withContact:item];
 		}
+				 
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 
 		
 	} else if ((availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:
@@ -857,9 +867,18 @@
 																	arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
 		//Position the metaContact in the group & index the drop point was before
-		[adium.contactController moveListObjects:[NSArray arrayWithObject:metaContact]
-										intoObjects:oldContainers
-											 index:oldIndex];
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+		
+		[adium.contactController moveContact:metaContact intoGroups:oldContainers];
+		
+		for (AIListGroup *group in oldContainers) {
+			[group moveContainedObject:metaContact toIndex:oldIndex];
+			[group sort];
+		}
+		
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+		
+		[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
 		
 		[oldContainers release];
 	}

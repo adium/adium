@@ -353,7 +353,8 @@
 
 - (id)moveContacts:(AIListObject *)contact toIndex:(int)index
 {
-	[adium.contactController moveListObjects:[NSArray arrayWithObject:contact] intoObjects:[NSSet setWithObject:self] index:index];
+	[self moveContainedObject:contact toIndex:index];
+	[adium.contactController sortContactList];
 	return nil;
 }
 

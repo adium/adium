@@ -219,6 +219,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return NO;
 }
 
+- (BOOL) existsServerside
+{
+	return NO;
+}
+
 /*!
  * @brief Are all the contacts in this meta blocked?
  *

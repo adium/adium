@@ -249,6 +249,40 @@
 	[self.containingObject listObject:self didSetOrderIndex:orderIndex];
 }
 
+- (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)index
+{
+	if (index == 0) {
+		//Moved to the top of a group.  New index is between 0 and the lowest current index
+		listObject.orderIndex = self.smallestOrder / 2.0;
+		
+	} else if (index >= [(AIListObject<AIContainingObject> *)self visibleCount]) {
+		//Moved to the bottom of a group.  New index is one higher than the highest current index
+		listObject.orderIndex = self.largestOrder + 1.0;
+		
+	} else {
+		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
+		AIListObject	*previousObject = [[(AIListObject<AIContainingObject> *)self containedObjects] objectAtIndex:index-1];
+		AIListObject	*nextObject = [[(AIListObject<AIContainingObject> *)self containedObjects] objectAtIndex:index];
+		CGFloat nextLowest = previousObject.orderIndex;
+		CGFloat nextHighest = nextObject.orderIndex;
+		
+		/* XXX - Fixme as per below
+		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
+		 * For example, a group sorted by status then manually could look like (status - ordering index):
+		 *
+		 * Away Contact - 100
+		 * Away Contact - 120
+		 * Offline Contact - 110
+		 * Offline Contact - 113
+		 * Offline Contact - 125
+		 * 
+		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
+		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
+		 */
+		listObject.orderIndex = (nextHighest + nextLowest) / 2.0;
+	}	
+}
+
 //Properties ------------------------------------------------------------------------------------------------------
 #pragma mark Properties
 /*!

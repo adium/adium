@@ -75,7 +75,7 @@
 	AIListBookmark *bookmark = [adium.contactController bookmarkForChat:chat];
 	[bookmark setDisplayName:name];
 	
-	[adium.contactController moveObject:bookmark intoObjects:[NSSet setWithObject:group]];
+	[adium.contactController moveContact:bookmark intoGroups:[NSSet setWithObject:group]];
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)inToolbarItem

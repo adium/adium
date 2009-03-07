@@ -47,6 +47,7 @@
 
 @interface AIListContact ()
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
+- (void) updateRemoteGrouping;
 @end
 
 @implementation AIListContact
@@ -122,23 +123,19 @@
 
 //Remote Grouping ------------------------------------------------------------------------------------------------------
 #pragma mark Remote Grouping
-//Set the desired group for this contact.  Pass nil to indicate this object is no longer listed.
-- (void)setRemoteGroupName:(NSString *)inName
+- (void)setRemoteGroupNames:(NSSet *)inNames
 {
-	}
+	[m_remoteGroupNames setSet:inNames];
+	[self updateRemoteGrouping];
+}
 
 - (void) addRemoteGroupName:(NSString *)inName
 {
 	NSParameterAssert(inName != nil);
 	if (![m_remoteGroupNames containsObject:inName]) {
-		if (m_remoteGroupNames.count == 0)
-			[AIUserIcons flushCacheForObject:self];
-
 		[m_remoteGroupNames addObject:inName];
-		
-		[adium.contactController contactRemoteGroupingChanged:self];
-		
-		[self.metaContact updateRemoteGroupingOfContact:self];
+
+		[self updateRemoteGrouping];
 	}
 }
 
@@ -146,15 +143,21 @@
 {
 	NSParameterAssert(inName != nil);
 	if ([m_remoteGroupNames containsObject:inName]) {
-		if (m_remoteGroupNames.count == 1)
-			[AIUserIcons flushCacheForObject:self];
 
 		[m_remoteGroupNames removeObject:inName];
 
-		[adium.contactController contactRemoteGroupingChanged:self];
-		
-		[self.metaContact updateRemoteGroupingOfContact:self];
+		[self updateRemoteGrouping];
 	}
+}
+
+- (void) updateRemoteGrouping
+{
+	if (m_remoteGroupNames.count == 0)
+		[AIUserIcons flushCacheForObject:self];
+	
+	[adium.contactController contactRemoteGroupingChanged:self];
+	
+	[self.metaContact updateRemoteGroupingOfContact:self];
 }
 
 - (NSSet *)remoteGroupNames
@@ -669,6 +672,11 @@
 {
 	metaContact = meta;
 	super.containingObject = nil;
+}
+
+- (BOOL) existsServerside
+{
+	return YES;
 }
 
 - (void) removeFromList
