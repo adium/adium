@@ -1287,23 +1287,21 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				if(![unattributedValue isEqualToString:@""]) {
 					NSString			*readableName = [readableNames objectAtIndex:index];
-					NSDictionary		*attributes = nil;
+					NSAttributedString	*value;
 					
 					if([keyName isEqualToString:@"friends_count"]) {
-						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@/friends", listContact.UID]
-																 forKey:NSLinkAttributeName];
+						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
+																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@/friends", listContact.UID]];
 					} else if ([keyName isEqualToString:@"followers_count"]) {
-						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@/followers", listContact.UID]
-																 forKey:NSLinkAttributeName];
-					} else if ([keyName
-								isEqualToString:@"statuses_count"]) {
-						attributes = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"https://twitter.com/%@", listContact.UID]
-																 forKey:NSLinkAttributeName];
+						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
+																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@/followers", listContact.UID]];
+					} else if ([keyName isEqualToString:@"statuses_count"]) {
+						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
+																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@", listContact.UID]];
+					} else {
+						value = [NSAttributedString stringWithString:unattributedValue];
 					}
 						
-					NSAttributedString *value = [[[NSAttributedString alloc] initWithString:unattributedValue
-																				attributes:attributes] autorelease];
-					
 					[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:readableName, KEY_KEY, value, KEY_VALUE, nil]];
 				}
 			}
