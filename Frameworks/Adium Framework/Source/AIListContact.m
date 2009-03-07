@@ -165,6 +165,15 @@
 	return m_remoteGroupNames;
 }
 
+- (NSSet *)remoteGroups
+{
+	NSMutableSet *groups = [NSMutableSet set];
+	for (NSString *remoteGroup in self.remoteGroupNames) {
+		[groups addObject:[adium.contactController groupWithUID:remoteGroup]];
+	}
+	return groups;
+}
+
 //An AIListContact normally groups based on its remoteGroupName (if it is not within a metaContact). 
 //Restore this grouping.
 - (void)restoreGrouping

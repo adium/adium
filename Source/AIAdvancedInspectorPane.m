@@ -365,7 +365,7 @@
 			AIListGroup	*group;
 			
 			//XXX multiple containers
-			if ((group = [adium.contactController remoteGroupsForContact:exactContact].anyObject)) {
+			if ((group = exactContact.remoteGroups.anyObject)) {
 				[cell selectItemWithRepresentedObject:group];
 			} else {
 				[cell selectItemAtIndex:0];			
