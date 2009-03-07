@@ -148,18 +148,16 @@ end:
 + (NSDictionary *)colorNamesDictionary
 {
 	if (!RGBColorValues) {
-		NSFileManager *mgr = [NSFileManager defaultManager];
-
-		NSEnumerator *middlePathEnum = [[mgr directoryContentsAtPath:defaultRGBTxtLocation1] objectEnumerator];
-		NSString *middlePath;
-		while ((!RGBColorValues) && (middlePath = [middlePathEnum nextObject])) {
+		NSArray *paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:defaultRGBTxtLocation1 error:NULL];
+		for (NSString *middlePath in paths) {
 			NSString *path = [defaultRGBTxtLocation1 stringByAppendingPathComponent:[middlePath stringByAppendingPathComponent:defaultRGBTxtLocation2]];
 			RGBColorValues = [[NSDictionary dictionaryWithContentsOfRGBTxtFile:path] retain];
-#if COLOR_DEBUG
 			if (RGBColorValues) {
+#if COLOR_DEBUG
 				NSLog(@"Got colour values from %@", path);
-			}
 #endif
+				break;
+			}
 		}
 		if (!RGBColorValues) {
 			RGBColorValues = [[NSDictionary alloc] initWithObjectsAndKeys:

@@ -13,6 +13,12 @@
  | write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  \------------------------------------------------------------------------------------------------------ */
 
+@protocol AIAlternatingRowTableViewDelegate <NSTableViewDelegate>
+@optional
+- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView;
+- (NSMenu *)tableView:(NSTableView *)inTableView menuForEvent:(NSEvent *)theEvent;
+@end
+
 /*!
  * @class AIAlternatingRowTableView
  * @brief An <tt>NSTableView</tt> subclass supporting gradient selection and notification of a delete keypress.
@@ -25,17 +31,10 @@
 	BOOL	drawsGradientSelection;
 }
 
+@property (readwrite, assign) id<AIAlternatingRowTableViewDelegate> delegate;
+
 @property (readwrite, nonatomic) BOOL acceptsFirstMouse;
 
 @property (readwrite, nonatomic) BOOL drawsGradientSelection;
 
-@end
-
-@interface NSObject (AITableViewDelegateDeleteSupport)
-- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView;
-@end
-
-
-@interface NSObject (AITableViewDelegateMenuSupport)
-- (NSMenu *)tableView:(NSTableView *)inTableView menuForEvent:(NSEvent *)theEvent;
 @end
