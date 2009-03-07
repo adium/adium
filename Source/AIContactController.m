@@ -1078,24 +1078,26 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (![inObject isKindOfClass:[AIListContact class]])
 		return nil;
 	
+	AIListContact *contact = (AIListContact *)inObject;
+	
 	//If this contact is in a meta, don't bother since we'll get an update for the parent if appropriate
-	if (((AIListContact *)inObject).metaContact)
+	if (contact.metaContact)
 		return nil;
 	
-	NSSet *groups = ((AIListContact *)inObject).groups;
+	NSSet *groups = contact.groups;
 	
 	if (useOfflineGroup && useContactListGroups) {
 		
 		if (inObject.online && [groups containsObject:self.offlineGroup]) {
-			[(AIListContact *)inObject restoreGrouping];
+			[contact restoreGrouping];
 			
 		} else if (!inObject.online && groups.count > 0 && ![groups containsObject:self.offlineGroup]) {
-			[self _moveContactLocally:(AIListContact *)inObject
+			[self _moveContactLocally:contact
 							 toGroups:[NSSet setWithObject:self.offlineGroup]];
 		}
 		
 	} else if ([groups containsObject:self.offlineGroup]) {
-		[(AIListContact *)inObject restoreGrouping];
+		[contact restoreGrouping];
 	}
 	
 	return nil;
