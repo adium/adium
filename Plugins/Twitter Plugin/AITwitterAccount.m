@@ -845,6 +845,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 											 chatCreationInfo:nil];
 		}
 		
+		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
+		
 		for (NSDictionary *status in sortedQueuedUpdates) {
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
@@ -872,6 +874,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			[adium.contentController receiveContentObject:contentMessage];
 		}
+		
+		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		[queuedUpdates removeAllObjects];
 	} else if (requestType == AITwitterUpdateDirectMessage) {
@@ -1159,7 +1163,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 						 forKey:TWITTER_PREFERENCE_DM_LAST_ID
 						  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
-			[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
+			if (lastID) {
+				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
+			} else {
+				[queuedDM removeAllObjects];
+			}
 		}
 	}
 	
