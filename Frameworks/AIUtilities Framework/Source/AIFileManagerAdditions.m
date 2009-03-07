@@ -18,6 +18,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#warning This wants modernizing: take NSURLs, provide NSErrors
+
 @implementation NSFileManager (AIFileManagerAdditions)
 
 - (BOOL)isFileVaultEnabled
@@ -46,23 +48,19 @@
 }
 
 - (void)removeFilesInDirectory:(NSString *)dirPath withPrefix:(NSString *)prefix movingToTrash:(BOOL)moveToTrash
-{
-	NSEnumerator	*enumerator;
-	NSString		*fileName;
-	
+{	
 	dirPath = [dirPath stringByExpandingTildeInPath];
 
 	if (!prefix) prefix = @"";
 
-	enumerator = [[self directoryContentsAtPath:dirPath] objectEnumerator];
-	while ((fileName = [enumerator nextObject])) {
+	for (NSString *fileName in [self contentsOfDirectoryAtPath:dirPath error:NULL]) {
 		if ([fileName hasPrefix:prefix]) {
-			NSString	*path = [dirPath stringByAppendingPathComponent:fileName];
+			NSString *path = [dirPath stringByAppendingPathComponent:fileName];
 			
 			if (moveToTrash) {
 				[self trashFileAtPath:path];
 			} else {
-				[self removeFileAtPath:path handler:nil];
+				[self removeItemAtURL:[NSURL URLWithString:path] error:NULL];
 			}
 		}
 	}	
