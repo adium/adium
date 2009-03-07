@@ -1274,8 +1274,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		if (thisUserInfo) {	
 			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 			
-			NSArray *keyNames = [NSArray arrayWithObjects:@"screen_name", @"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
-			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"User name", nil), AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
+			NSArray *keyNames = [NSArray arrayWithObjects:@"name", @"location", @"description", @"url", @"friends_count", @"followers_count", @"statuses_count", nil];
+			NSArray *readableNames = [NSArray arrayWithObjects:AILocalizedString(@"Name", nil), AILocalizedString(@"Location", nil),
 									  AILocalizedString(@"Biography", nil), AILocalizedString(@"Website", nil), AILocalizedString(@"Following", nil),
 									  AILocalizedString(@"Followers", nil), AILocalizedString(@"Updates", nil), nil];
 			
