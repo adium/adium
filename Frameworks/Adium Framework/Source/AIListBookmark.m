@@ -202,8 +202,7 @@
 		}
 	}
 
-	[adium.contactController _moveContactLocally:self
-	 toGroups:[NSSet setWithObject:(targetGroup ? targetGroup : adium.contactController.contactList)]];
+	[adium.contactController moveContact:self intoGroups:[NSSet setWithObject:(targetGroup ? targetGroup : adium.contactController.contactList)]];
 }
 
 - (void)openChat
