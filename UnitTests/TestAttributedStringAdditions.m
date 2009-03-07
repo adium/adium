@@ -114,5 +114,38 @@
 	attributedStringRange = (NSRange){ 0UL, [attributedString length] };
 	STAssertEquals(linkRange, attributedStringRange, @"Link range is not the entire range of the attributed string");
 }
+- (void) testAttributedStringWithLinkedEmptySubstring
+{
+	NSString *linkLabel = @"Download Adium now!";
+	NSString *linkURLString = @"http://adiumx.com/";
+	NSURL *linkURL = [NSURL URLWithString:linkURLString];
+	NSRange intendedLinkRange = { 9UL, 0UL }; //@""
+	NSRange linkRange = { 0UL, 0UL };
+	id linkValue;
+	NSAttributedString *attributedString;
+	NSRange attributedStringRange;
+
+	//First, try a string containing a URL.
+	STAssertNoThrow(attributedString = [NSAttributedString attributedStringWithString:linkLabel linkRange:intendedLinkRange linkDestination:linkURLString], @"attributedStringWithLinkLabel:linkDestination: threw an exception");
+	STAssertNotNil(attributedString, @"attributedStringWithLinkLabel:linkDestination: returned nil");
+	STAssertEqualObjects([attributedString string], linkLabel, @"Attributed string's text is not equal to the original string");
+	STAssertEquals([attributedString length], [linkLabel length], @"Attributed string is not the same length (%lu) as the original string (%lu)", [attributedString length], [linkLabel length]);
+	linkValue = [attributedString attribute:NSLinkAttributeName atIndex:intendedLinkRange.location effectiveRange:&linkRange];
+	STAssertNil(linkValue, @"Attributed string has a link");
+	//linkRange, at this point, should be the range that does not have a link, which should be the entire string.
+	attributedStringRange = (NSRange){ 0UL, [attributedString length] };
+	STAssertEquals(linkRange, attributedStringRange, @"Non-link range is not the entire string");
+
+	//Next, try an NSURL object.
+	STAssertNoThrow(attributedString = [NSAttributedString attributedStringWithString:linkLabel linkRange:intendedLinkRange linkDestination:linkURL], @"attributedStringWithLinkLabel:linkDestination: threw an exception");
+	STAssertNotNil(attributedString, @"attributedStringWithLinkLabel:linkDestination: returned nil");
+	STAssertEqualObjects([attributedString string], linkLabel, @"Attributed string's text is not equal to the original string");
+	STAssertEquals([attributedString length], [linkLabel length], @"Attributed string is not the same length (%lu) as the original string (%lu)", [attributedString length], [linkLabel length]);
+	linkValue = [attributedString attribute:NSLinkAttributeName atIndex:intendedLinkRange.location effectiveRange:&linkRange];
+	STAssertNil(linkValue, @"Attributed string has a link");
+	//linkRange, at this point, should be the range that does not have a link, which should be the entire string.
+	attributedStringRange = (NSRange){ 0UL, [attributedString length] };
+	STAssertEquals(linkRange, attributedStringRange, @"Non-link range is not the entire string");
+}
 
 @end
