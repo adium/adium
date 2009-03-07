@@ -83,6 +83,8 @@ typedef enum {
 	
 	BOOL				updateAfterSend;
 	
+	NSUInteger			pendingUpdateCount;
+	
 	BOOL				followedTimelineCompleted;
 	BOOL				repliesCompleted;
 	NSMutableArray		*queuedUpdates;
