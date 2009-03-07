@@ -829,7 +829,12 @@
 													 forListObject:selectedObject
 														   inChat:chat];
         
-    }
+    } else if (chat.isGroupChat) {
+		NSArray *locations = [NSArray arrayWithObjects:[NSNumber numberWithInteger:Context_Tab_Action], nil];
+		
+		tmp = [adium.menuController contextualMenuWithLocations:locations
+														forChat:chat];
+	}
 	
 	return tmp;
 }
