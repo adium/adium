@@ -711,12 +711,13 @@
 	AIAccount		*targetAccount = [evaluatedArguments objectForKey:@"account"];
 	NSString			*filePath = [evaluatedArguments objectForKey:@"filePath"];
 	
-	AIListContact   *targetMessagingContact = nil;
+	AIListContact   *targetMessagingContact = self;
 	AIListContact   *targetFileTransferContact = nil;
 
 	if (targetAccount) {
-		targetMessagingContact = [adium.contactController contactOnAccount:targetAccount
-															 fromListContact:self];
+		if (self.account != account)
+			targetMessagingContact = [adium.contactController contactWithService:inContact.service account:account UID:inContact.UID];
+
 		targetFileTransferContact = targetMessagingContact;
 	}
 	

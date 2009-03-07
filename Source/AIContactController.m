@@ -1438,16 +1438,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return nil;
 }
 
-//Retrieve a list contact matching the UID and serviceID of the passed contact but on the specified account.
-//In many cases this will be the same as inContact.
-- (AIListContact *)contactOnAccount:(AIAccount *)account fromListContact:(AIListContact *)inContact
-{
-	if (account && inContact.account != account)
-		return [self contactWithService:inContact.service account:account UID:inContact.UID];
-	
-	return inContact;
-}
-
 //XXX - This is ridiculous.
 - (AIListContact *)preferredContactWithUID:(NSString *)inUID andServiceID:(NSString *)inService forSendingContentType:(NSString *)inType
 {
