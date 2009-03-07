@@ -160,6 +160,11 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return self;
 }
 
+- (NSSet *)remoteGroups
+{
+	return self.groups;
+}
+
 - (void) setMetaContact:(AIMetaContact *)meta{ NSAssert(NO, @"Should not be reached"); }
 
 /*!
@@ -170,22 +175,20 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)restoreGrouping
 {
-	NSMutableSet *targetGroups = [NSMutableSet set];
+	NSMutableSet *targetGroups;
 
-	if ([adium.contactController useContactListGroups]) {
+	if (adium.contactController.useContactListGroups) {
 		if (!self.online && adium.contactController.useOfflineGroup) {
-			[targetGroups addObject:adium.contactController.offlineGroup];
+			targetGroups = [NSMutableSet setWithObject:adium.contactController.offlineGroup];
 		} else {
+			targetGroups = [NSMutableSet set];
 			for (AIListContact *containedContact in self.uniqueContainedObjects)
 			{
-				for (NSString *groupName in containedContact.remoteGroupNames)
-				{
-					[targetGroups addObject:[adium.contactController groupWithUID:groupName]];
-				}
+				[targetGroups unionSet:containedContact.remoteGroups];
 			}
 		}
 	} else {
-		[targetGroups addObject:adium.contactController.contactList];
+		targetGroups = [NSMutableSet setWithObject:adium.contactController.contactList];
 	}
 
 	if (targetGroups.count > 0) {

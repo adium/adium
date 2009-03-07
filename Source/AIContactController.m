@@ -406,24 +406,6 @@
 	[listContact release];
 }
 
-- (NSSet *)remoteGroupsForContact:(AIListContact *)inContact
-{
-	NSSet *groups;
-	
-	if ([inContact isKindOfClass:[AIMetaContact class]]) {
-		//For a metaContact, the closest we have to a remote group is the groups it is within locally
-		groups = inContact.groups;
-		
-	} else {
-		groups = [NSMutableSet set];
-		for (NSString *remoteGroup in inContact.remoteGroupNames) {
-			[(NSMutableSet *)groups addObject:[self groupWithUID:remoteGroup]];
-		}
-	}
-	
-	return groups;
-}
-
 //Post a list grouping changed notification for the object and containing object
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object
 {

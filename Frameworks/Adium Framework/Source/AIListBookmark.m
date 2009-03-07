@@ -82,6 +82,11 @@
 	return self;
 }
 
+- (NSSet *)remoteGroups
+{
+	return self.groups;
+}
+
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	[encoder encodeObject:self.UID forKey:@"UID"];
