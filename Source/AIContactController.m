@@ -604,20 +604,17 @@
 {
 	NSDictionary	*allMetaContactsDict = [adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																				 group:PREF_GROUP_CONTACT_LIST];
-	NSArray			*containedContactsArray = [allMetaContactsDict objectForKey:[metaContact internalObjectID]];
-	BOOL			restoredContacts;
+	NSArray			*containedContactsArray = [allMetaContactsDict objectForKey:metaContact.internalObjectID];
 	
-	if ([containedContactsArray count]) {
+	if (containedContactsArray.count) {
 		[self _restoreContactsToMetaContact:metaContact
 				 fromContainedContactsArray:containedContactsArray];
 		
-		restoredContacts = YES;
+		return YES;
 		
-	} else {
-		restoredContacts = NO;
 	}
 	
-	return restoredContacts;
+	return NO;
 }
 
 /*!
