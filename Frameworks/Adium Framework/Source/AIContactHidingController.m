@@ -135,13 +135,13 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return [self evaluatePredicateOnListObject:listObject withSearchString:searchString];
 	}
 	
+	if ([listObject isKindOfClass:[AIListBookmark class]])
+		return ((AIListBookmark *)listObject).account.online;
+	
 	if (!hideOfflineIdleOrMobileContacts)
 		return YES;
 	
 	BOOL online = listObject.online || [listObject boolValueForProperty:@"Signed Off"] || [listObject boolValueForProperty:@"New Object"];
-	
-	if ([listObject isKindOfClass:[AIListBookmark class]])
-		return online;
 	
 	if (!online) {
 		if (showOfflineContacts) {
