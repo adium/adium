@@ -59,6 +59,7 @@ typedef enum {
 
 // Status Updates
 #define TWITTER_STATUS_ID					@"id"
+#define TWITTER_STATUS_REPLY_UID			@"in_reply_to_screen_name"
 #define TWITTER_STATUS_REPLY_ID				@"in_reply_to_status_id"
 #define TWITTER_STATUS_CREATED				@"created_at"
 #define TWITTER_STATUS_USER					@"user"

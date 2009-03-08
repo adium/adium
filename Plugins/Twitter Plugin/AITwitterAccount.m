@@ -43,6 +43,7 @@
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
 							 tweetID:(NSString *)tweetID
 							  userID:(NSString *)userID
+					   inReplyToUser:(NSString *)replyUserID
 					inReplyToTweetID:(NSString *)replyTweetID;
 
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
@@ -758,6 +759,7 @@
 	return [self parseMessage:inMessage
 					  tweetID:nil
 					   userID:nil
+				inReplyToUser:nil
 			 inReplyToTweetID:nil];
 }
 
@@ -767,6 +769,7 @@
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
 							 tweetID:(NSString *)tweetID
 							  userID:(NSString *)userID
+					   inReplyToUser:(NSString *)replyUserID
 					inReplyToTweetID:(NSString *)replyTweetID
 {
 	NSAttributedString *message;
@@ -784,18 +787,8 @@
 		[mutableMessage appendString:@"  (" withAttributes:nil];
 	
 		// Append a link to the tweet this is in reply to
-		if (replyTweet) {
-			// Parse out the user this is in reply to. I really wish Twitter provided it on its own.
-			NSString *replyUsername = [inMessage substringFromIndex:1];
-			NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[self.service.allowedCharacters invertedSet]];
-			
-			if(usernameRange.location == NSNotFound) {
-				usernameRange = NSMakeRange(replyUsername.length, 0);
-			}
-			
-			replyUsername = [replyUsername substringToIndex:usernameRange.location];
-			
-			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUsername, replyTweetID];
+		if (replyTweet) {			
+			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUserID, replyTweetID];
 			
 			[mutableMessage appendString:AILocalizedString(@"original", "Link appended which goes to the permanent location of the status this tweet is in reply to")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
@@ -920,6 +913,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSAttributedString *message = [self parseMessage:text
 													 tweetID:[status objectForKey:TWITTER_STATUS_ID]
 													  userID:listContact.UID
+											   inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
 											inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
@@ -1164,6 +1158,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSAttributedString *message = [self parseMessage:[update objectForKey:TWITTER_STATUS_TEXT]
 													 tweetID:[update objectForKey:TWITTER_STATUS_ID]
 													  userID:listContact.UID
+											   inReplyToUser:[update objectForKey:TWITTER_STATUS_REPLY_UID]
 											inReplyToTweetID:[update objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
 			[profileArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:message, KEY_VALUE, nil]];
