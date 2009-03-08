@@ -110,8 +110,11 @@
 	
 	AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
 	
-	// Formatting doesn't matter; set the string to include the reply.
-	[textView setString:[NSString stringWithFormat:@"@%@ %@", inUser, textView.string]];
+	NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:[NSString stringWithFormat:@"@%@ ", inUser]] mutableCopy] autorelease];
+
+	[newString appendAttributedString:textView.attributedString];
+	
+	[textView setAttributedString:newString];
 	
 	// Make the text view have focus
 	[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
