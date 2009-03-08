@@ -109,12 +109,15 @@
 	AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
 	
 	AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
-	
-	NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:[NSString stringWithFormat:@"@%@ ", inUser]] mutableCopy] autorelease];
 
+	// Insert the @reply text
+	NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:[NSString stringWithFormat:@"@%@ ", inUser]] mutableCopy] autorelease];
 	[newString appendAttributedString:textView.attributedString];
-	
 	[textView setAttributedString:newString];
+	
+	// Shift the selected range over by the length of "@name "
+	NSRange selectedRange = textView.selectedRange;
+	[textView setSelectedRange:NSMakeRange(selectedRange.location + inUser.length + 2, selectedRange.length)];
 	
 	// Make the text view have focus
 	[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
