@@ -403,9 +403,14 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Display string for our list object
 - (NSString *)labelString
 {
-	return ([self shouldShowAlias] ? 
-			[listObject longDisplayName] :
-			(listObject.formattedUID ? listObject.formattedUID : [listObject longDisplayName]));
+	NSString *label =  ([self shouldShowAlias] ? 
+						[listObject longDisplayName] :
+						(listObject.formattedUID ? listObject.formattedUID : [listObject longDisplayName]));
+	if (!label) {
+		AILog(@"Couldn't get a labelString for contact %@", listObject);
+		return @"";
+	}
+	return label;
 }
 
 - (BOOL)shouldShowAlias
