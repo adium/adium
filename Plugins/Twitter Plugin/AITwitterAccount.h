@@ -22,6 +22,7 @@ typedef enum {
 	AITwitterValidateCredentials,
 	AITwitterDisconnect,
 	AITwitterInitialUserInfo,
+	AITwitterProfileSelf,
 	AITwitterProfileUserInfo,
 	AITwitterProfileStatusUpdates,
 	AITwitterUserIconPull,
@@ -99,5 +100,11 @@ typedef enum {
 }
 
 @property (readonly) NSString *timelineChatName;
+
+- (void)updateProfileInformation;
+- (void)setProfileName:(NSString *)name
+				   url:(NSString*)url
+			  location:(NSString *)location
+		   description:(NSString *)description;
 
 @end

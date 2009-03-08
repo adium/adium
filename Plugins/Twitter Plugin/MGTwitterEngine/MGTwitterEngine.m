@@ -1068,23 +1068,6 @@
                            responseType:MGTwitterStatuses];
 }
 
-- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum
-{
-	NSString *path = @"statuses/replies.xml";
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%d", updateID] forKey:@"since_id"];
-    }
-    if (pageNum > 0) {
-        [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
-    }
-    
-    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
-                            requestType:MGTwitterRepliesRequest 
-                           responseType:MGTwitterStatuses];
-}
-
 - (NSString *)getRepliesStartingAtPage:(int)pageNum
 {
     NSString *path = @"statuses/replies.xml";
@@ -1373,5 +1356,90 @@
                            responseType:MGTwitterGeneric];
 }
 
+#pragma mark Adium Additions
+
+#define MAX_NAME_LENGTH			20
+#define MAX_EMAIL_LENGTH		40
+#define MAX_URL_LENGTH			100
+#define MAX_DESCRIPTION_LENGTH	160
+
+- (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum
+{
+	NSString *path = @"statuses/replies.xml";
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    if (updateID > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", updateID] forKey:@"since_id"];
+    }
+    if (pageNum > 0) {
+        [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
+    }
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
+                            requestType:MGTwitterRepliesRequest 
+                           responseType:MGTwitterStatuses];
+}
+
+- (NSString *)updateProfileName:(NSString *)name
+						  email:(NSString *)email
+							url:(NSString *)url
+					   location:(NSString *)location
+					description:(NSString *)description
+{
+	if (!name && !email && !url && !location && !description) {
+        return nil;
+    }
+    
+    NSString *path = @"account/update_profile.xml";
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+	
+	if (name) {
+		if(name.length > MAX_NAME_LENGTH) {
+			name = [name substringToIndex:MAX_NAME_LENGTH];
+		}
+		
+		[params setObject:name forKey:@"name"];
+	}
+
+	if (email) {
+		if(email.length > MAX_EMAIL_LENGTH) {
+			email = [email substringToIndex:MAX_EMAIL_LENGTH];
+		}
+		
+		[params setObject:email forKey:@"email"];
+	}
+	
+	if (url) {
+		if(url.length > MAX_URL_LENGTH) {
+			url = [url substringToIndex:MAX_URL_LENGTH];
+		}
+		
+		[params setObject:url forKey:@"url"];
+	}
+	
+	if (location) {
+		if(location.length > MAX_LOCATION_LENGTH) {
+			location = [location substringToIndex:MAX_LOCATION_LENGTH];
+		}
+		
+		[params setObject:location forKey:@"location"];
+	}
+	
+	if (description) {
+		if(description.length > MAX_DESCRIPTION_LENGTH) {
+			description = [description substringToIndex:MAX_DESCRIPTION_LENGTH];
+		}
+		
+		[params setObject:description forKey:@"description"];
+	}
+
+    NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
+    
+    return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
+                        queryParameters:params body:body 
+                            requestType:MGTwitterAccountRequest 
+                           responseType:MGTwitterUser];
+}
 
 @end
