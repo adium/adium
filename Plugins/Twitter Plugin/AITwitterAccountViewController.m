@@ -141,12 +141,10 @@
  */
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if (object == account) {
+	if (object == account && account.online) {
 		NSString *value = nil;
 		
 		if ((value = [account valueForProperty:@"Profile Name"])) {
-			NSLog(@"value = %@", value);
-			
 			[textField_name setEnabled:YES];
 			textField_name.stringValue = value;
 		}
@@ -183,10 +181,12 @@
 					forKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
-	[(AITwitterAccount *)account setProfileName:(textField_name.isEnabled ? textField_name.stringValue : nil)
-											url:(textField_url.isEnabled ? textField_url.stringValue : nil)
-									   location:(textField_location.isEnabled ? textField_location.stringValue : nil)
-									description:(textField_description.isEnabled ? textField_description.stringValue : nil)];
+	if (account.online) {
+		[(AITwitterAccount *)account setProfileName:(textField_name.isEnabled ? textField_name.stringValue : nil)
+												url:(textField_url.isEnabled ? textField_url.stringValue : nil)
+										   location:(textField_location.isEnabled ? textField_location.stringValue : nil)
+										description:(textField_description.isEnabled ? textField_description.stringValue : nil)];
+	}
 }
 
 @end
