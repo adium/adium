@@ -145,7 +145,7 @@
 	[TARGET_CONTROL setFrame:newFrame];
 	[TARGET_CONTROL setNeedsDisplay:YES];
 	if ([TARGET_CONTROL respondsToSelector:@selector(superview)]) {
-		[[(id)TARGET_CONTROL superview] setNeedsDisplayInRect:oldFrame];
+		[[TARGET_CONTROL superview] setNeedsDisplayInRect:oldFrame];
 	}
 
 	//Resize the window to fit the contactNameLabel if the current size is not correct
