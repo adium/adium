@@ -60,7 +60,7 @@
 			if (moveToTrash) {
 				[self trashFileAtPath:path];
 			} else {
-				[self removeItemAtURL:[NSURL URLWithString:path] error:NULL];
+				[self removeItemAtPath:path error:NULL];
 			}
 		}
 	}	
