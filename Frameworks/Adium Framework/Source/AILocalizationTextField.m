@@ -60,6 +60,13 @@
 
 #include "AILocalizationControl.m"
 
+- (void)setFrame:(NSRect)inFrame
+{
+	originalFrame = inFrame;
+	
+	[super setFrame:inFrame];
+}
+
 @end
 
 @implementation NSTextField (AILocalizationAssistance)
