@@ -23,16 +23,21 @@
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
+	NSSet *returnSet = nil;
+	
 	if (!inModifiedKeys) {
 		if (([inObject.UID isEqualToString:@"twitter@twitter.com"] &&
 			 [inObject.service.serviceClass isEqualToString:@"Jabber"]) ||
 			([inObject.service.serviceClass isEqualToString:@"Twitter"])) {
 			
-			[inObject setValue:[NSNumber numberWithInteger:140] forProperty:@"Character Counter Max" notify:YES];
+			if (![inObject valueForProperty:@"Character Counter Max"]) {
+				[inObject setValue:[NSNumber numberWithInteger:140] forProperty:@"Character Counter Max" notify:YES];
+				returnSet = [NSSet setWithObjects:@"Character Counter Max", nil];
+			}
 		}
 	}
 	
-	return [NSSet setWithObject:@"Character Counter Max"];
+	return returnSet;
 }
 
 @end
