@@ -671,33 +671,18 @@
 
 - (AIStatusSummary)statusSummary
 {
-	if (self.online) {
-		AIStatusType	statusType = self.statusType;
+	if (self.online) {		
+		if (self.statusType == AIAwayStatusType || self.statusType == AIInvisibleStatusType)
+			return [self boolValueForProperty:@"IsIdle"] ? AIAwayAndIdleStatus : AIAwayStatus;
 		
-		if ((statusType == AIAwayStatusType) || (statusType == AIInvisibleStatusType)) {
-			if ([self boolValueForProperty:@"IsIdle"]) {
-				return AIAwayAndIdleStatus;
-			} else {
-				return AIAwayStatus;
-			}
-			
-		} else if ([self boolValueForProperty:@"IsIdle"]) {
+		if ([self boolValueForProperty:@"IsIdle"])
 			return AIIdleStatus;
-			
-		} else {
-			return AIAvailableStatus;
-			
-		}
-	} else {
-		//We don't know the status of an stranger who isn't showing up as online
-		if (self.isStranger) {
-			return AIUnknownStatus;
-			
-		} else {
-			return AIOfflineStatus;
-			
-		}
-	}
+		
+		return AIAvailableStatus;
+	} 
+	
+	//We don't know the status of an stranger who isn't showing up as online
+	return self.isStranger ? AIUnknownStatus : AIOfflineStatus;
 }
 
 - (void)notifyOfChangedPropertiesSilently:(BOOL)silent
