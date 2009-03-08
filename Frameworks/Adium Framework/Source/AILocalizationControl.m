@@ -54,13 +54,6 @@
 	alwaysMoveRightAnchoredWindow = inAlwaysMove;
 }
 
-- (void)setFrame:(NSRect)inFrame
-{
-	originalFrame = inFrame;
-	
-	[(id)super setFrame:inFrame];
-}
-
 /*!
  * @brief Handle automatic sizing and positioning
  *
