@@ -108,6 +108,12 @@
 - (NSString *)getFollowersIncludingCurrentStatus:(BOOL)flag;
 - (NSString *)getFeaturedUsers;
 
+- (NSString *)updateProfileName:(NSString *)name
+						  email:(NSString *)email
+							url:(NSString *)url
+					   location:(NSString *)location
+					description:(NSString *)description;
+
 // Sending and editing updates
 - (NSString *)sendUpdate:(NSString *)status;
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(int)updateID;

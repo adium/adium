@@ -19,6 +19,11 @@
 @interface AITwitterAccountViewController : AIAccountViewController {
 	IBOutlet	NSPopUpButton	*popUp_updateInterval;
 	IBOutlet	NSButton		*checkBox_updateAfterSend;
+	
+	IBOutlet	NSTextField		*textField_name;
+	IBOutlet	NSTextField		*textField_url;
+	IBOutlet	NSTextField		*textField_location;
+	IBOutlet	NSTextField		*textField_description;
 }
 
 @end

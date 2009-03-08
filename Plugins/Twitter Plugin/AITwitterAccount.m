@@ -390,6 +390,46 @@
 	return NO;
 }
 
+/*!
+ * @brief Update profile information
+ *
+ * Used in the profile information view in the account settings
+ */
+- (void)updateProfileInformation
+{
+	// Twitter caches the response, so don't bother updating unless we need the initial information.
+	if (![self valueForProperty:@"Profile Name"]) {
+		NSString *requestID = [twitterEngine getUserInformationFor:self.UID];
+		
+		if (requestID) {		
+			[self setRequestType:AITwitterProfileSelf
+					forRequestID:requestID
+				  withDictionary:nil];
+		}
+	}
+}
+
+/*!
+ * @brief Update the Twitter profile
+ */
+- (void)setProfileName:(NSString *)name
+				   url:(NSString*)url
+			  location:(NSString *)location
+		   description:(NSString *)description
+{
+	NSString *requestID = [twitterEngine updateProfileName:name
+													 email:nil
+													   url:url
+												  location:location
+											   description:description];
+	
+	if (requestID) {
+		[self setRequestType:AITwitterProfileSelf
+				forRequestID:requestID
+			  withDictionary:nil];
+	}
+}
+
 #pragma mark Menu Items
 /*!
  * @brief Menu items for chat
@@ -1322,6 +1362,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 						forRequestID:requestID
 					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
 			}
+		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
+		for (NSDictionary *info in userInfo) {
+			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
+			[self setValue:[info objectForKey:@"email"] forProperty:@"Profile Email" notify:NotifyLater];
+			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
+			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
+			[self setValue:[info objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
+			[self notifyOfChangedPropertiesSilently:NO];
 		}
 	}
 	
