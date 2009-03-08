@@ -582,6 +582,7 @@
 	} else {
 		[[textView textStorage] setAttributedString:[NSAttributedString stringWithString:@""]];	
 	}
+	[textView setInsertionPointColor:(backgroundColor ? backgroundColor : [NSColor whiteColor])];
 	[textView setBackgroundColor:(backgroundColor ? backgroundColor : [NSColor whiteColor])];
     [[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification object:textView];
 }
