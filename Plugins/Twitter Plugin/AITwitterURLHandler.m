@@ -101,21 +101,20 @@
 	}
 	
 	[adium.interfaceController setActiveChat:timelineChat];
-	
-	AIMessageTabViewItem *tabViewItem = [timelineChat valueForProperty:@"MessageTabViewItem"];
-	
-	AIMessageViewController *messageViewController = tabViewItem.messageViewController;
-
-	[messageViewController clearTextEntryView];
-	[messageViewController addToTextEntryView:[NSAttributedString stringWithString:[NSString stringWithFormat:@"@%@ ", inUser]]];
-	
+		
 	[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
 	[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
 	[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
 	
 	AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
 	
-	AIMessageEntryTextView *textView = [messageViewController textEntryView];
+	AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
+	
+	// Formatting doesn't matter; set the string to include the reply.
+	[textView setString:[NSString stringWithFormat:@"@%@ %@", inUser, textView.string]];
+	
+	// Make the text view have focus
+	[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
 	
 	//NSTextDidChangeNotification
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
