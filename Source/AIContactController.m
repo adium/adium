@@ -1520,11 +1520,13 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	if (contact.metaContact) {
+		AIMetaContact *meta = contact.metaContact;
 		//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
-		[contactToMetaContactLookupDict removeObjectForKey:inContact.internalObjectID];
+		[contactToMetaContactLookupDict removeObjectForKey:contact.internalObjectID];
 		
-		for (AIListContact *contact in [self allContactsWithService:inContact.service UID:inContact.UID]) {
-			[self removeContact:contact fromMetaContact:metaContact];
+		for (AIListContact *matchingContact in [self allContactsWithService:contact.service UID:contact.UID]) {
+			[self removeContact:matchingContact fromMetaContact:meta];
+		}
 	}
 	
 	if (contact.existsServerside) {
