@@ -94,7 +94,6 @@
 @interface AIContactController ()
 @property (readwrite, nonatomic) BOOL useOfflineGroup;
 - (void)saveContactList;
-- (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects;
 - (void)_loadBookmarks;
 - (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup;
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
@@ -263,22 +262,6 @@
 		[self metaContactWithObjectID:objectID];
 		[pool release];
 	}
-}
-
-//Flattened array of the contact list content
-- (NSArray *)_arrayRepresentationOfListObjects:(NSArray *)listObjects
-{
-	NSMutableArray	*array = [NSMutableArray array];
-	
-	for (AIListObject *object in listObjects) {
-		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-						  @"Group", @"Type",
-						  object.UID, UID_KEY,
-						  [NSNumber numberWithBool:[(AIListGroup *)object isExpanded]], @"Expanded",
-						  nil]];
-	}
-	
-	return array;
 }
 
 #pragma mark Contact Grouping
