@@ -189,7 +189,7 @@
 {
 	AIListGroup		*targetGroup = nil;
 
-	if ([adium.contactController useContactListGroups]) {
+	if (adium.contactController.useContactListGroups) {
 		NSString		*oldContainingObjectID;
 		AIListObject	*oldContainingObject;
 
@@ -205,9 +205,11 @@
 			//A previous grouping (to a non-root group) is saved; restore it
 			targetGroup = (AIListGroup *)oldContainingObject;
 		}
+	} else {
+		targetGroup = adium.contactController.contactList;
 	}
 
-	[adium.contactController moveContact:self intoGroups:[NSSet setWithObject:(targetGroup ? targetGroup : adium.contactController.contactList)]];
+	[adium.contactController moveContact:self intoGroups:targetGroup ? [NSSet setWithObject:targetGroup] : [NSSet set]];
 }
 
 - (void)openChat
