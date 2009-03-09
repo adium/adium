@@ -117,7 +117,7 @@
 {
     NSSet		*modifiedAttributes = nil;
 
-	if ([inObject isKindOfClass:[AIListContact class]]) {
+	if ([inObject isKindOfClass:[AIListContact class]] || [inObject isKindOfClass:[AIListBookmark class]]) {
 		if (inModifiedKeys == nil || [inModifiedKeys intersectsSet:interestedKeysSet]) {
 			//Update the contact's text color
 			[self _applyColorToContact:(AIListContact *)inObject];
