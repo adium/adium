@@ -19,19 +19,26 @@
 
 typedef enum {
 	AITwitterUnknownType = 0,
+	
 	AITwitterValidateCredentials,
 	AITwitterDisconnect,
+	
 	AITwitterInitialUserInfo,
+	AITwitterRemoveFollow,
+	
 	AITwitterProfileSelf,
+	AITwitterSelfUserIconPull,
+	
 	AITwitterProfileUserInfo,
 	AITwitterProfileStatusUpdates,
 	AITwitterUserIconPull,
+	
 	AITwitterDirectMessageSend,
 	AITwitterSendUpdate,
+	
 	AITwitterUpdateDirectMessage,
 	AITwitterUpdateFollowedTimeline,
-	AITwitterUpdateReplies,
-	AITwitterRemoveFollow
+	AITwitterUpdateReplies
 } AITwitterRequestType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences

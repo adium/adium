@@ -1304,6 +1304,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 			
 		} else {	
+			// Update our self information
+			[self updateProfileInformation];
+			
 			// Trigger our normal update routine.
 			[self periodicUpdate];
 		}
@@ -1360,6 +1363,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
 		for (NSDictionary *info in userInfo) {
+			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
+			
+			if (requestID) {
+				[self setRequestType:AITwitterSelfUserIconPull
+						forRequestID:requestID
+					  withDictionary:nil];
+			}
+			
 			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
@@ -1393,6 +1404,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									notify:NotifyLater];
 		
 		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+	} else if([self requestTypeForRequestID:identifier] == AITwitterSelfUserIconPull) {
+		AILogWithSignature(@"Updated self icon for %@", self);
+		
+		[self setPreference:[image TIFFRepresentation]
+					 forKey:KEY_USER_ICON
+					  group:GROUP_ACCOUNT_STATUS];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
