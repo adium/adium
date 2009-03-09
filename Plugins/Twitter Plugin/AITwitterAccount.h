@@ -21,6 +21,7 @@ typedef enum {
 	AITwitterUnknownType = 0,
 	
 	AITwitterValidateCredentials,
+	AITwitterRateLimitStatus,
 	AITwitterDisconnect,
 	
 	AITwitterInitialUserInfo,
@@ -83,10 +84,12 @@ typedef enum {
 // User Info
 #define TWITTER_INFO_STATUS					@"status"
 #define TWITTER_INFO_STATUS_TEXT			@"text"
-
 #define TWITTER_INFO_DISPLAY_NAME			@"name"
 #define TWITTER_INFO_UID					@"screen_name"
 #define TWITTER_INFO_ICON					@"profile_image_url"
+
+// Rate Limit
+#define TWITTER_RATE_LIMIT_REMAINING		@"remaining-hits"
 
 @interface AITwitterAccount : AIAccount <MGTwitterEngineDelegate> {
 	MGTwitterEngine		*twitterEngine;
