@@ -165,4 +165,12 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 		return [super closeChat:chat];
 }
 
+/*!
+ * @brief We always want to autocomplete the UID.
+ */
+- (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat
+{
+	return YES;
+}
+
 @end

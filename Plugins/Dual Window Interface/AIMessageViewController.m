@@ -950,6 +950,8 @@
 	if (self.chat.isGroupChat) {
 		NSString		*partialWord = [[textView.textStorage attributedSubstringFromRange:charRange] string];
 		
+		BOOL autoCompleteUID = [self.chat.account chatShouldAutocompleteUID:self.chat];
+		
 		NSString		*suffix;
 		if (charRange.location == 0) {
 			//At the start of a line, append ": "
@@ -961,15 +963,15 @@
 		completions = [NSMutableArray array];
 		for(AIListContact *listContact in self.chat) {
 			if ([listContact.displayName rangeOfString:partialWord
-												 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
-					 ||
-					[listContact.formattedUID rangeOfString:partialWord
-												  options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
-					 ||
+												 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
+				[listContact.formattedUID rangeOfString:partialWord
+												options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
 				[listContact.UID rangeOfString:partialWord
-										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound
-					) {
-				[completions addObject:(suffix ? [listContact.displayName stringByAppendingString:suffix] : listContact.displayName)];
+										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
+
+				NSString *displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+				
+				[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
 			}
 		}
 
