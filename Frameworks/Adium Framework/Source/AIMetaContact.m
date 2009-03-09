@@ -655,19 +655,15 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (void)_determineIfWeShouldAppearToContainOnlyOneContact
 {
 	BOOL oldOnlyOne = containsOnlyOneUniqueContact;
-	unsigned listContactsCount;
 
 	//Clear our preferred contact so the next call to it will update the preferred contact
 	[self containedObjectsOrOrderDidChange];
 
-	listContactsCount = self.uniqueContainedObjectsCount;
-
-	containsOnlyOneUniqueContact = (listContactsCount < 2);
+	containsOnlyOneUniqueContact = self.uniqueContainedObjectsCount < 2;
 
 	//If it changed, do stuff
-	if (oldOnlyOne != containsOnlyOneUniqueContact) {
+	if (oldOnlyOne != containsOnlyOneUniqueContact)
 		[self updateDisplayName];
-	}
 }
 
 - (void)updateRemoteGroupingOfContact:(AIListContact *)inListContact;
