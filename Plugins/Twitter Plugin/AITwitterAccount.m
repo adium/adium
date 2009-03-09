@@ -953,7 +953,17 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-		[self didConnect];
+		// Verify we're within the rate limit before proceeding at all.
+		NSString	*requestID = [twitterEngine getRateLimitStatus];
+		
+		if (requestID) {
+			[self setRequestType:AITwitterRateLimitStatus
+					forRequestID:requestID
+				  withDictionary:nil];
+		} else {
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
+			[self didDisconnect];
+		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterRemoveFollow) {
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
@@ -1366,7 +1376,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier
 {
-	AILogWithSignature(@"Got misc info: %@", miscInfo);
+	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
+		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
+		
+		AILogWithSignature(@"User has %d rate limit remaining", [[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue]);
+		
+		if ([[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue] < 4) {
+			[self setLastDisconnectionError:AILocalizedString(@"Rate limit too low, try again later", "Message displayed when a Twitter account has too few remaining hits in their rate limit")];
+			[self didDisconnect];
+		} else {
+			[self didConnect];
+		}
+	}
+	
+	[self clearRequestTypeForRequestID:identifier];
 }
 
 /*!
