@@ -109,7 +109,6 @@ typedef enum {
 
 @property (readonly) NSString *timelineChatName;
 
-- (void)updateProfileInformation;
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
 			  location:(NSString *)location

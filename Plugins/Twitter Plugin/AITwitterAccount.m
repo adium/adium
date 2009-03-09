@@ -392,25 +392,6 @@
 }
 
 /*!
- * @brief Update profile information
- *
- * Used in the profile information view in the account settings
- */
-- (void)updateProfileInformation
-{
-	// We update our profile information when we send the update; only ask for it if we lack it.
-	if (![self valueForProperty:@"Profile Name"]) {
-		NSString *requestID = [twitterEngine getUserInformationFor:self.UID];
-		
-		if (requestID) {		
-			[self setRequestType:AITwitterProfileSelf
-					forRequestID:requestID
-				  withDictionary:nil];
-		}
-	}
-}
-
-/*!
  * @brief Update the Twitter profile
  */
 - (void)setProfileName:(NSString *)name
@@ -1303,10 +1284,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[self didDisconnect];
 			}
 			
-		} else {	
-			// Update our self information
-			[self updateProfileInformation];
-			
+		} else {			
 			// Trigger our normal update routine.
 			[self periodicUpdate];
 		}
@@ -1361,7 +1339,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					  withDictionary:[NSDictionary dictionaryWithObject:listContact forKey:@"ListContact"]];
 			}
 		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials ||
+			   [self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
 		for (NSDictionary *info in userInfo) {
 			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
 			
