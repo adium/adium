@@ -362,9 +362,15 @@
 			}
 			
 			if ([inObject trackContent]) {
+				AIListObject *listObject = chat.listObject;
+				
+				if(chat.isGroupChat) {
+					listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
+				}
+				
 				//Did send content
 				[adium.contactAlertsController generateEvent:CONTENT_MESSAGE_SENT
-												 forListObject:chat.listObject
+												 forListObject:listObject
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
 								  previouslyPerformedActionIDs:nil];
 				
@@ -511,7 +517,11 @@
 		if (shouldPostContentReceivedEvents) {
 			NSSet			*previouslyPerformedActionIDs = nil;
 			AIListObject	*listObject = chat.listObject;
-
+			
+			if(chat.isGroupChat) {
+				listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
+			}
+			
 			if (![chat hasSentOrReceivedContent]) {
 				//If the chat wasn't open before, generate CONTENT_MESSAGE_RECEIVED_FIRST
 				if (!chat.isGroupChat) {

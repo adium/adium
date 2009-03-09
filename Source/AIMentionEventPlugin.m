@@ -16,6 +16,7 @@
 
 #import <Adium/AIContentControllerProtocol.h>
 #import "AIMentionEventPlugin.h"
+#import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIContentMessage.h>
@@ -65,7 +66,7 @@
 	
 	// XXX Include chat nickname
 	NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
-	
+
 	for(NSString *checkString in myNames) {
 		NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
 	
@@ -74,7 +75,7 @@
 		   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
 		{
 			[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
-											 forListObject:[message source]
+											 forListObject:(AIListObject *)[adium.contactController existingBookmarkForChat:chat]
 												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
 							  previouslyPerformedActionIDs:nil];
 			[message addDisplayClass:@"mention"];
