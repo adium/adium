@@ -751,13 +751,6 @@
 		[contactToMetaContactLookupDict setObject:metaContact forKey:[inContact internalObjectID]];
 		
 		[self _didChangeContainer:metaContact object:inContact];
-		//If the metaContact isn't in a group yet, use the group of the object we just added
-		if (metaContact.groups.count == 0) {
-			for (AIListGroup *group in contactGroups) {
-				[group addObject:metaContact];
-				[self _didChangeContainer:group object:metaContact];
-			}
-		}
 
 		//Ensure the metacontact ends up in the appropriate group
 		if (metaContact.groups.count == 0 || [metaContact.groups containsObject:self.offlineGroup])
