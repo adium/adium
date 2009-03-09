@@ -266,6 +266,11 @@ typedef enum {
 - (BOOL)canSendImagesForChat:(AIChat *)inChat;
 
 /*!
+ * @brief Should the chat autocomplete the UID instead of the Display Name?
+ */
+- (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat;
+
+/*!
  * @brief An authorization prompt closed, granting or denying a contact's request for authorization
  *
  * @param inWindowController The window controller which closed; an account may have kept track of what windows were showing its authorization prompts

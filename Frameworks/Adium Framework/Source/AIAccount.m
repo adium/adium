@@ -892,6 +892,14 @@ typedef enum
 {}
 
 #pragma mark Chat Commands
+/*!
+ * @brief Should the chat autocomplete the UID instead of the Display Name?
+ */
+- (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat
+{
+	return NO;
+}
+
 -(NSMenu*)actionsForChat:(AIChat*)chat
 {
 	return nil;

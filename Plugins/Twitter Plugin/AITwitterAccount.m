@@ -252,6 +252,16 @@
  */
 - (BOOL)rejoinChat:(AIChat *)inChat
 {	
+	[self displayYouHaveConnectedInChat:inChat];
+	
+	return YES;
+}
+
+/*!
+ * @brief We always want to autocomplete the UID.
+ */
+- (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat
+{
 	return YES;
 }
 
