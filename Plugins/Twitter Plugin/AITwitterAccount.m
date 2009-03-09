@@ -398,7 +398,7 @@
  */
 - (void)updateProfileInformation
 {
-	// Twitter caches the response, so don't bother updating unless we need the initial information.
+	// We update our profile information when we send the update; only ask for it if we lack it.
 	if (![self valueForProperty:@"Profile Name"]) {
 		NSString *requestID = [twitterEngine getUserInformationFor:self.UID];
 		
@@ -1361,7 +1361,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
 		for (NSDictionary *info in userInfo) {
 			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
-			[self setValue:[info objectForKey:@"email"] forProperty:@"Profile Email" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
