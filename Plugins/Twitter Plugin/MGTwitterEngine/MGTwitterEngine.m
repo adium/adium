@@ -13,17 +13,10 @@
 
 #define USE_LIBXML 0
 
-#if USE_LIBXML
-	#import "MGTwitterStatusesLibXMLParser.h"
-	#import "MGTwitterMessagesLibXMLParser.h"
-	#import "MGTwitterUsersLibXMLParser.h"
-	#import "MGTwitterMiscLibXMLParser.h"
-#else
-	#import "MGTwitterStatusesParser.h"
-	#import "MGTwitterUsersParser.h"
-	#import "MGTwitterMessagesParser.h"
-	#import "MGTwitterMiscParser.h"
-#endif
+#import "MGTwitterStatusesParser.h"
+#import "MGTwitterUsersParser.h"
+#import "MGTwitterMessagesParser.h"
+#import "MGTwitterMiscParser.h"
 
 #define TWITTER_DOMAIN          @"twitter.com"
 #define HTTP_POST_METHOD        @"POST"
