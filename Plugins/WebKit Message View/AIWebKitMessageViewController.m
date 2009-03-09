@@ -1005,7 +1005,7 @@ static NSArray *draggedTypes = nil;
 	}
 
 	//Remove the cache for any object no longer in the chat
-	for (AIListObject *listObject in [objectsWithUserIconsArray copy]) {
+	for (AIListObject *listObject in [[objectsWithUserIconsArray copy] autorelease]) {
 		if ((![listObject isKindOfClass:[AIMetaContact class]] || (![participatingListObjects firstObjectCommonWithArray:[(AIMetaContact *)listObject containedObjects]])) &&
 			(![listObject isKindOfClass:[AIListContact class]] || ![participatingListObjects containsObjectIdenticalTo:(AIListContact *)listObject]) &&
 			!(listObject == chat.account)) {
