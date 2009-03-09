@@ -728,17 +728,6 @@
 
 #pragma mark Account methods
 
-
-- (NSString *)checkUserCredentials
-{
-    NSString *path = @"account/verify_credentials.xml";
-    
-    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
-                            requestType:MGTwitterAccountRequest 
-                           responseType:MGTwitterGeneric];
-}
-
-
 - (NSString *)endUserSession
 {
     NSString *path = @"account/end_session"; // deliberately no format specified
@@ -1356,12 +1345,22 @@
                            responseType:MGTwitterGeneric];
 }
 
-#pragma mark Adium Additions
+#pragma mark Adium Additions/Changes
 
 #define MAX_NAME_LENGTH			20
 #define MAX_EMAIL_LENGTH		40
 #define MAX_URL_LENGTH			100
 #define MAX_DESCRIPTION_LENGTH	160
+
+- (NSString *)checkUserCredentials
+{
+    NSString *path = @"account/verify_credentials.xml";
+    
+    return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
+                            requestType:MGTwitterAccountRequest 
+                           responseType:MGTwitterUser];
+}
+
 
 - (NSString *)getRepliesSinceID:(int)updateID startingAtPage:(int)pageNum
 {

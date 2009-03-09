@@ -87,16 +87,6 @@
 	[popUp_updateInterval setMenu:intervalMenu];
 }
 
-- (void)dealloc
-{
-	[account removeObserver:self forKeyPath:@"Profile Name"];
-	[account removeObserver:self forKeyPath:@"Profile URL"];
-	[account removeObserver:self forKeyPath:@"Profile Location"];
-	[account removeObserver:self forKeyPath:@"Profile Description"];
-	
-	[super dealloc];
-}
-
 /*!
  * @brief Configure the account view
  */
@@ -108,62 +98,19 @@
 		
 		BOOL updateAfterSend = [[inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 		[checkBox_updateAfterSend setState:updateAfterSend];
-		
-		// Remove the old profile observer
-		[account removeObserver:self forKeyPath:@"Profile Name"];
-		[account removeObserver:self forKeyPath:@"Profile URL"];
-		[account removeObserver:self forKeyPath:@"Profile Location"];
-		[account removeObserver:self forKeyPath:@"Profile Description"];
-	
-		// Configure for account now, so that the KVO observations below fire correctly with account set
-		[super configureForAccount:inAccount];
-		
-		[textField_name setEnabled:NO];
-		[textField_url setEnabled:NO];
-		[textField_location setEnabled:NO];
-		[textField_description setEnabled:NO];
-		
-		// Add the new profile observer
-		[(AITwitterAccount *)account updateProfileInformation];
-		
-		NSKeyValueObservingOptions options = NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial;
-		[account addObserver:self forKeyPath:@"Profile Name" options:options context:NULL];
-		[account addObserver:self forKeyPath:@"Profile URL" options:options context:NULL];
-		[account addObserver:self forKeyPath:@"Profile Location" options:options context:NULL];
-		[account addObserver:self forKeyPath:@"Profile Description" options:options context:NULL];
-	} else {
-		[super configureForAccount:inAccount];	
-	}
-}
 
-/*!
- * @brief A keypath changed
- */
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if (object == account && account.online) {
-		NSString *value = nil;
+		textField_name.stringValue = [inAccount valueForProperty:@"Profile Name"];
+		textField_url.stringValue = [inAccount valueForProperty:@"Profile URL"];
+		textField_location.stringValue = [inAccount valueForProperty:@"Profile Location"];
+		textField_description.stringValue = [inAccount valueForProperty:@"Profile Description"];
 		
-		if ((value = [account valueForProperty:@"Profile Name"])) {
-			[textField_name setEnabled:YES];
-			textField_name.stringValue = value;
-		}
-		
-		if ((value = [account valueForProperty:@"Profile URL"])) {
-			[textField_url setEnabled:YES];
-			textField_url.stringValue = value;
-		}
-		
-		if ((value = [account valueForProperty:@"Profile Location"])) {
-			[textField_location setEnabled:YES];
-			textField_location.stringValue = value;
-		}
-		
-		if ((value = [account valueForProperty:@"Profile Description"])) {
-			[textField_description setEnabled:YES];
-			textField_description.stringValue = value;
-		}
+		[textField_name setEnabled:inAccount.online];
+		[textField_url setEnabled:inAccount.online];
+		[textField_location setEnabled:inAccount.online];
+		[textField_description setEnabled:inAccount.online];
 	}
+	
+	[super configureForAccount:inAccount];
 }
 
 /*!
