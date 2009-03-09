@@ -181,7 +181,13 @@ static int nextChatNumber = 0;
 	//apply the change to that object as well so it can be cleanly reflected in the contact list.
 	if ([key isEqualToString:KEY_UNVIEWED_CONTENT] ||
 		[key isEqualToString:KEY_TYPING]) {
-		AIListObject	*listObject = self.listObject;
+		AIListObject	*listObject = nil;
+		
+		if (self.isGroupChat) {
+			listObject = (AIListContact *)[adium.contactController existingBookmarkForChat:self];
+		} else {
+			listObject = self.listObject;
+		}
 		
 		if (listObject) [listObject setValue:[self valueForProperty:key] forProperty:key notify:notify];
 	}

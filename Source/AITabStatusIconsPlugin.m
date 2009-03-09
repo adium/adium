@@ -124,8 +124,17 @@
 				  notify:NotifyNever];
 		modifiedAttributes = [NSSet setWithObject:@"Tab State Icon"];
 
+		
+		if (inChat.isGroupChat) {
+			// If this is a group chat, and we have an AIListBookmark for it, apply the icon to it.
+			listContact = (AIListContact *)[adium.contactController existingBookmarkForChat:inChat];
+		} else {
+			// If this is a one-on-one chat, apply the icon to its target.
+			listContact = [[inChat listObject] parentContact];
+		}
+		
 		//Also apply the state icon to our contact if this is a one-on-one chat
-		if ((listContact = [[inChat listObject] parentContact])) {
+		if (listContact) {
 			NSImage	*listStateIcon;
 			
 			listStateIcon = [AIStatusIcons statusIconForChat:inChat
