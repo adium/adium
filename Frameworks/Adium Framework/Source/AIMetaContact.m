@@ -563,23 +563,15 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (NSDictionary *)dictionaryOfServiceClassesAndListContacts
 {
 	NSMutableDictionary *contactsDict = [NSMutableDictionary dictionary];
-	NSString			*serviceClass;
-	NSMutableArray		*contactArray;
-	NSArray				*listContacts = self.uniqueContainedObjects;
-	AIListObject		*listContact;
-	unsigned			i, listContactsCount;
-	
-	listContactsCount = [listContacts count];
-	for (i = 0; i < listContactsCount; i++) {
 
-		listContact = [listContacts objectAtIndex:i];
-		serviceClass = listContact.service.serviceClass;
+	for (AIListContact *listContact in self.uniqueContainedObjects) {
+		NSString *serviceClass = listContact.service.serviceClass;
 		
 		// Is there already an entry for this service?
-		if ((contactArray = [contactsDict objectForKey:serviceClass])) {
+		NSMutableArray *contactArray = [contactsDict objectForKey:serviceClass];
+		if (contactArray)
 			[contactArray addObject:listContact];
-			
-		} else {
+		else {
 			contactArray = [NSMutableArray arrayWithObject:listContact];
 			[contactsDict setObject:contactArray forKey:serviceClass];
 		}
@@ -602,7 +594,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (NSUInteger)uniqueContainedObjectsCount
 {
-	return [self.uniqueContainedObjects count];
+	return self.uniqueContainedObjects.count;
 }
 
 - (AIListObject *)uniqueObjectAtIndex:(int)index
