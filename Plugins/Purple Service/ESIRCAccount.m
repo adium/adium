@@ -42,8 +42,13 @@ void purple_account_set_bool(void *account, const char *name,
 	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
 																	 fromAccount:(AIAccount *)inContentMessage.source
 																		  inChat:inContentMessage.chat];	
+	
+	NSRange meRange = [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch];
 
-	if (!didCommand || [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch].location == 0) {
+	if (!didCommand || meRange.location == 0) {
+		if (meRange.location == 0) {
+			inContentMessage.sendContent = NO;
+		}
 		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
 		 * If we're sending a message normally, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
 		 */

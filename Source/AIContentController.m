@@ -349,45 +349,43 @@
 												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:inObject,@"Object",nil]];
     }
 	
-    //Send the object
-	if ([inObject sendContent]) {
-		if ([self processAndSendContentObject:inObject]) {
-			if ([inObject displayContent]) {
-				//Add the object
-				[self displayContentObject:inObject immediately:NO];
-
-			} else {
-				//We are no longer in the process of receiving this object
-				[objectsBeingReceived removeObject:inObject];
-			}
-			
-			if ([inObject trackContent]) {
-				AIListObject *listObject = chat.listObject;
-				
-				if(chat.isGroupChat) {
-					listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
-				}
-				
-				//Did send content
-				[adium.contactAlertsController generateEvent:CONTENT_MESSAGE_SENT
-												 forListObject:listObject
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
-								  previouslyPerformedActionIDs:nil];
-				
-				[chat setHasSentOrReceivedContent:YES];
-			}
+	//Send the object
+	if ([self processAndSendContentObject:inObject]) {
+		if ([inObject displayContent]) {
+			//Add the object
+			[self displayContentObject:inObject immediately:NO];
 
 		} else {
 			//We are no longer in the process of receiving this object
 			[objectsBeingReceived removeObject:inObject];
-			
-			NSString *message = [NSString stringWithFormat:AILocalizedString(@"Could not send from %@ to %@",nil),
-				[[inObject source] formattedUID],[[inObject destination] formattedUID]];
-
-			[self displayEvent:message
-						ofType:@"chat-error"
-						inChat:chat];			
 		}
+		
+		if ([inObject trackContent]) {
+			AIListObject *listObject = chat.listObject;
+			
+			if(chat.isGroupChat) {
+				listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
+			}
+			
+			//Did send content
+			[adium.contactAlertsController generateEvent:CONTENT_MESSAGE_SENT
+											 forListObject:listObject
+												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat,@"AIChat",inObject,@"AIContentObject",nil]
+							  previouslyPerformedActionIDs:nil];
+			
+			[chat setHasSentOrReceivedContent:YES];
+		}
+
+	} else {
+		//We are no longer in the process of receiving this object
+		[objectsBeingReceived removeObject:inObject];
+		
+		NSString *message = [NSString stringWithFormat:AILocalizedString(@"Could not send from %@ to %@",nil),
+			[[inObject source] formattedUID],[[inObject destination] formattedUID]];
+
+		[self displayEvent:message
+					ofType:@"chat-error"
+					inChat:chat];			
 	}
 	
 	//Let the chat know we finished sending
@@ -702,9 +700,10 @@
 				[contentMessage setEncodedMessage:encodedOutgoingMessage];
 				[adiumEncryptor willSendContentMessage:contentMessage];
 				
-				if ([contentMessage encodedMessage]) {
+				if (!contentMessage.sendContent)
+					success = YES;
+				else if ([contentMessage encodedMessage])
 					success = [sendingAccount sendMessageObject:contentMessage];
-				}
 			} else {
 				//If the account returns nil when encoding the attributed string, we shouldn't display it on-screen.
 				[contentMessage setDisplayContent:NO];

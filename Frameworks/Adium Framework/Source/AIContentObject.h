@@ -237,9 +237,9 @@
  */
 @property (nonatomic) BOOL displayContentImmediately;
 
-/*!	@brief	Return whether to allow sending the content.
+/*!	@brief	Return whether to allow sending the content over the network.
  *
- *	@par	The content controller will not send a content object's content if the content object's \c sendContent property is \c NO.
+ *	@par	The content controller will not send ask the account to send a content object's content if the content object's \c sendContent property is \c NO. The content will still be displayed locally.
  *
  *	@return	\c YES if this content is OK for the content controller to send; \c NO if it should not be sent.
  */
