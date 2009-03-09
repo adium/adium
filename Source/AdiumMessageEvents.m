@@ -325,7 +325,7 @@
 		} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] ||
 				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
 				   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND]) {
-			displayName = (listObject ? listObject.displayName : [[contentObject source] displayName]);
+			displayName = contentObject.source.displayName;
 			
 			if (messageText && [messageText length]) {
 				description = [NSString stringWithFormat:
