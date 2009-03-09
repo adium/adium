@@ -99,10 +99,10 @@
 		BOOL updateAfterSend = [[inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 		[checkBox_updateAfterSend setState:updateAfterSend];
 
-		textField_name.stringValue = [inAccount valueForProperty:@"Profile Name"];
-		textField_url.stringValue = [inAccount valueForProperty:@"Profile URL"];
-		textField_location.stringValue = [inAccount valueForProperty:@"Profile Location"];
-		textField_description.stringValue = [inAccount valueForProperty:@"Profile Description"];
+		textField_name.stringValue = [inAccount valueForProperty:@"Profile Name"] ?: @"";
+		textField_url.stringValue = [inAccount valueForProperty:@"Profile URL"] ?: @"";
+		textField_location.stringValue = [inAccount valueForProperty:@"Profile Location"] ?: @"";
+		textField_description.stringValue = [inAccount valueForProperty:@"Profile Description"] ?: @"";
 		
 		[textField_name setEnabled:inAccount.online];
 		[textField_url setEnabled:inAccount.online];
