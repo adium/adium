@@ -22,6 +22,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -53,6 +54,8 @@
 
 - (void)periodicUpdate;
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType;
+
+- (void)getRateLimitAmount;
 @end
 
 @implementation AITwitterAccount
@@ -466,6 +469,12 @@
 																	 action:@selector(replyToTweet)
 															  keyEquivalent:@""] autorelease];
 	[menuItemArray addObject:menuItem];
+
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Get Rate Limit Amount",nil)
+																	 target:self
+																	 action:@selector(getRateLimitAmount)
+															  keyEquivalent:@""] autorelease];
+	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	
 }
@@ -478,6 +487,21 @@
 - (void)replyToTweet
 {
 	[AITwitterReplyWindowController showReplyWindowForAccount:self];
+}
+
+/*!
+ * @brief Gets the current rate limit amount.
+ */
+- (void)getRateLimitAmount
+{
+	NSString *requestID = [twitterEngine getRateLimitStatus];
+	
+	if (requestID) {
+		[self setRequestType:AITwitterRateLimitStatus
+				forRequestID:requestID
+			  withDictionary:nil];
+	}
+	
 }
 
 #pragma mark Contact handling
@@ -957,7 +981,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		NSString	*requestID = [twitterEngine getRateLimitStatus];
 		
 		if (requestID) {
-			[self setRequestType:AITwitterRateLimitStatus
+			[self setRequestType:AITwitterRateLimitPreConnect
 					forRequestID:requestID
 				  withDictionary:nil];
 		} else {
@@ -1376,7 +1400,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier
 {
-	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
+	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitPreConnect) {
 		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
 		
 		AILogWithSignature(@"%@ User has %d rate limit remaining", self, [[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue]);
@@ -1387,6 +1411,19 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else {
 			[self didConnect];
 		}
+	} else if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
+		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
+		NSDate *resetDate = [NSDate dateWithTimeIntervalSince1970:[[rateLimit objectForKey:TWITTER_RATE_LIMIT_RESET_SECONDS] intValue]];
+		
+		[adium.interfaceController handleMessage:AILocalizedString(@"Current Twitter rate limit", "Message in the rate limit status window")
+								 withDescription:[NSString stringWithFormat:AILocalizedString(@"You have %d/%d more requests for %@.", "The first %d is the number of requests, the second is the total number of requests per hour. The %@ is the duration of time until the count resets."),
+													[[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue],
+													[[rateLimit objectForKey:TWITTER_RATE_LIMIT_HOURLY_LIMIT] intValue],
+													[NSDateFormatter stringForTimeInterval:[resetDate timeIntervalSinceNow]
+																			showingSeconds:YES
+																			   abbreviated:YES
+																			  approximated:NO]]
+								 withWindowTitle:AILocalizedString(@"Rate Limit Status", nil)];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
