@@ -74,7 +74,7 @@
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
 							 URL:@"http://www.adiumx.com"
-						   token:@""];
+						   token:@"adiumofficial"];
 	
 	[adium.notificationCenter addObserver:self
 							     selector:@selector(chatDidOpen:) 
