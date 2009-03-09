@@ -969,8 +969,8 @@
 - (void)explodeMetaContact:(AIMetaContact *)metaContact
 {
 	//Remove the objects within it from being inside it
+	[contactPropertiesObserverManager delayListObjectNotifications];
 	NSArray	*containedObjects = [metaContact.containedObjects copy];
-	NSSet	*groups = metaContact.groups;
 	
 	NSMutableDictionary *allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
@@ -988,10 +988,8 @@
 	//Protect!
 	[metaContact retain];
 	
-	//Remove it from its containing groups
-	for (AIListGroup *group in groups) {
-		[group removeObject:metaContact];
-	}
+	//Remove it from its containing groups (no contained contacts == present in no groups)
+	[metaContact restoreGrouping];
 	
 	NSString	*metaContactInternalObjectID = [metaContact internalObjectID];
 	
@@ -1001,15 +999,10 @@
 	//Remove it from the preferences dictionary
 	[allMetaContactsDict removeObjectForKey:metaContactInternalObjectID];
 	
-	//XXX - contactToMetaContactLookupDict
-	
-	//Post the list changed notification for the old containingObject
-	for (AIListGroup *group in groups) {
-		[self _didChangeContainer:group object:metaContact];
-	}
-	
 	//Save the updated allMetaContactsDict which no longer lists the metaContact
 	[self _saveMetaContacts:allMetaContactsDict];
+	
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 	
 	//Protection is overrated.
 	[metaContact release];
