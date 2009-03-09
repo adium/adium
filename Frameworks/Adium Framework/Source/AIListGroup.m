@@ -26,7 +26,7 @@
 #define PREF_GROUP_CONTACT_LIST_DISPLAY		@"Contact List Display"
 
 @interface AIListObject ()
-- (void) setContainingObject:(id<AIContainingObject>)obj;
+- (void) setContainingObject:(AIListObject<AIContainingObject>*)obj;
 @end
 
 @interface AIListGroup ()

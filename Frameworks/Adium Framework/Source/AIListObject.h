@@ -68,8 +68,6 @@ typedef enum {
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
 
-- (BOOL)addObject:(AIListObject *)inObject;
-- (void)removeObject:(AIListObject *)inObject;
 - (void)removeObjectAfterAccountStopsTracking:(AIListObject *)inObject;
 
 @property (readwrite, nonatomic, getter=isExpanded) BOOL expanded;

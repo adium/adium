@@ -317,7 +317,7 @@
 
 		//Create a new chat
 		chat = [AIChat chatForAccount:account];
-		[chat addObject:targetContact];
+		[chat addParticipatingListObject:targetContact notify:YES];
 		[openChats addObject:chat];
 		AILog(@"chatWithContact: Added <<%@>> [%@]",chat,openChats);
 
