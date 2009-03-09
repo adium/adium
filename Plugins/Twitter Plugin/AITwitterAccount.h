@@ -21,8 +21,10 @@ typedef enum {
 	AITwitterUnknownType = 0,
 	
 	AITwitterValidateCredentials,
-	AITwitterRateLimitStatus,
+	AITwitterRateLimitPreConnect,
 	AITwitterDisconnect,
+	
+	AITwitterRateLimitStatus,
 	
 	AITwitterInitialUserInfo,
 	AITwitterRemoveFollow,
@@ -89,7 +91,9 @@ typedef enum {
 #define TWITTER_INFO_ICON					@"profile_image_url"
 
 // Rate Limit
+#define TWITTER_RATE_LIMIT_HOURLY_LIMIT		@"hourly-limit"
 #define TWITTER_RATE_LIMIT_REMAINING		@"remaining-hits"
+#define TWITTER_RATE_LIMIT_RESET_SECONDS	@"reset-time-in-seconds"
 
 @interface AITwitterAccount : AIAccount <MGTwitterEngineDelegate> {
 	MGTwitterEngine		*twitterEngine;
