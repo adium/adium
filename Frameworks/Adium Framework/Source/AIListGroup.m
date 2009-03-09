@@ -125,9 +125,10 @@
 			[inModifiedKeys containsObject:@"IsMobile"] ||
 			[inModifiedKeys containsObject:@"IsBlocked"] ||
 			[inModifiedKeys containsObject:@"AlwaysVisible"]) {
-		
+				
 		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self];
 		BOOL isVisible = [_visibleObjects containsObject: inObject];
+		
 		if (shouldBeVisible != isVisible) {
 			if (shouldBeVisible) {
 				[_visibleObjects addObject: inObject];
@@ -135,15 +136,20 @@
 			}
 			else
 				[_visibleObjects removeObject: inObject];
+			
+			modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
 		}
-		modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
+	}
+	
+	if (modifiedProperties) {
+		[self didModifyProperties:modifiedProperties silent:NO];	
 	}
 
 	return modifiedProperties;
 }
 
 - (NSUInteger) visibleCount
-{
+{	
 	return _visibleObjects.count;
 }
 
