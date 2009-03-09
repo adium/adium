@@ -471,45 +471,33 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  * Same as self.preferredContact but only looks at contacts on the specified service
  */
 - (AIListContact *)preferredContactWithCompatibleService:(AIService *)inService
-{
-	AIListContact   *returnContact = nil;
+{	
+	if (!inService)
+		return self.preferredContact;
 	
-	if (inService) {
-		NSString	*serviceClass = inService.serviceClass;
-		
-		//Search for an available contact who is not mobile
-		for (AIListContact *thisContact in self.uniqueContainedObjects) {
-			if ([thisContact.service.serviceClass isEqualToString:serviceClass] &&
-				thisContact.statusSummary == AIAvailableStatus &&
-				!thisContact.isMobile) {
-				returnContact = thisContact;
-				break;
-			}
-		}			
-		
-		//If no available contacts, find the first online contact
-		if (!returnContact) {
-			for (AIListContact *thisContact in self.uniqueContainedObjects) {
-				if (thisContact.online && [thisContact.service.serviceClass isEqualToString:serviceClass]) {
-					returnContact = thisContact;
-					break;
-				}
-			}
+	NSString	*serviceClass = inService.serviceClass;
+	
+	//Search for an available contact who is not mobile
+	for (AIListContact *thisContact in self.uniqueContainedObjects) {
+		if ([thisContact.service.serviceClass isEqualToString:serviceClass] &&
+			thisContact.statusSummary == AIAvailableStatus &&
+			!thisContact.isMobile) {
+			return thisContact;
 		}
-		
-		if (!returnContact) {
-			for (AIListContact *thisContact in self.uniqueContainedObjects) {
-				if ([thisContact.service.serviceClass isEqualToString:serviceClass]) {
-					returnContact = thisContact;
-					break;
-				}
-			}
-		}
-	} else {
-		returnContact = self.preferredContact;
+	}			
+	
+	//If no available contacts, find the first online contact
+	for (AIListContact *thisContact in self.uniqueContainedObjects) {
+		if (thisContact.online && [thisContact.service.serviceClass isEqualToString:serviceClass])
+			return thisContact;
 	}
 	
-	return (returnContact);
+	for (AIListContact *thisContact in self.uniqueContainedObjects) {
+		if ([thisContact.service.serviceClass isEqualToString:serviceClass])
+			return thisContact;
+	}
+	
+	return nil;
 }
 
 /*!
