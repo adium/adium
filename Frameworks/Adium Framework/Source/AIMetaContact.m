@@ -35,7 +35,7 @@
 
 @interface AIListContact ()
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+- (void)setContainingObject:(AIListGroup *)inGroup;
 @end
 
 @interface AIMetaContact ()
@@ -168,10 +168,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (void) setMetaContact:(AIMetaContact *)meta{ NSAssert(NO, @"Should not be reached"); }
 
 /*!
- * @brief Restore the AIListGroup grouping into which this object was last manually placed
- *
- * If the contact is offline and we are using the offline group, place it there.
- * If no manual placement has been performed previously, use the first remote grouping of a contained contact.
+ * @brief Place this metacontact in all groups that its contained contacts are in
  */
 - (void)restoreGrouping
 {

@@ -37,7 +37,7 @@
 #define AlwaysVisible		@"AlwaysVisible"
 
 @interface AIListObject ()
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+- (void)setContainingObject:(AIListGroup *)inGroup;
 @end
 
 /*!

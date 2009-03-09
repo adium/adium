@@ -85,7 +85,6 @@ typedef enum {
 - (AIMetaContact *)metaContactWithObjectID:(NSNumber *)inObjectID;
 
 - (AIMetaContact *)groupContacts:(NSArray *)contactsToGroupArray;
-- (void)removeAllContactsMatching:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact;
 - (void)clearAllMetaContactData;
 
 //Contact status & Attributes

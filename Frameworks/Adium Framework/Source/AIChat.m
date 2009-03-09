@@ -317,7 +317,7 @@ static int nextChatNumber = 0;
 		if (self.containedObjectsCount) {
 			[participatingContacts removeObjectAtIndex:0];
 		}
-		[self addObject:inListObject];
+		[self addParticipatingListObject:inListObject notify:YES];
 
 		//Clear any local caches relying on the list object
 		[self clearListObjectStatuses];
@@ -500,17 +500,6 @@ static int nextChatNumber = 0;
 - (NSArray *)uniqueContainedObjects
 {
 	return self.containedObjects;
-}
-
-- (BOOL)addObject:(AIListObject *)inObject
-{
-	if ([self canContainObject:inObject]) {
-		[self addParticipatingListObject:(AIListContact *)inObject notify:YES];
-		
-		return YES;
-	}
-	
-	return NO;
 }
 
 - (void)removeObject:(AIListObject *)inObject

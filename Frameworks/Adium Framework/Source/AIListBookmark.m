@@ -24,7 +24,7 @@
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
 
 @interface AIListObject ()
-- (void)setContainingObject:(AIListObject <AIContainingObject> *)inGroup;
+- (void)setContainingObject:(AIListGroup *)inGroup;
 @end
 
 @interface AIListBookmark ()

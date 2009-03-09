@@ -20,6 +20,11 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
 
+@interface AIListGroup()
+- (void)removeObject:(AIListObject *)inObject;
+- (BOOL)addObject:(AIListObject *)inObject;
+@end
+
 @implementation AIContactList
 - (NSString *)contentsBasedIdentifier
 {
@@ -67,6 +72,7 @@
 	if(![self containsObject:group] || [toList containsObject:group])
 		return NO;
 	
+	//XXX is this right? we may need contact controller involvement here
 	[self removeObject:group];
 	[toList addObject:group];
 	

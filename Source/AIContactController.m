@@ -76,7 +76,19 @@
 @end
 
 @interface AIMetaContact ()
+- (void)removeObject:(AIListObject *)inObject;
+- (BOOL)addObject:(AIListObject *)inObject;
 - (AIListContact *)preferredContactForContentType:(NSString *)inType;
+@end
+
+@interface AIListGroup ()
+- (void)removeObject:(AIListObject *)inObject;
+- (BOOL)addObject:(AIListObject *)inObject;
+@end
+
+@interface AIContactList ()
+- (void)removeObject:(AIListObject *)inObject;
+- (BOOL)addObject:(AIListObject *)inObject;
 @end
 
 @interface AIContactController ()
