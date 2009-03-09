@@ -271,6 +271,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath isEqualToString:@"Online"] && object == self.account) {
+		// If an account is just initially signing on, a -setOnline:notify:silently will still broadcast an event for the contact.
+		// The initial delay an account (usually) sets is done after they're set as online, so these bookmarks would always fire.
+		// Thus, we have to use the secondary, silent notification so that the online gets propogated without the events.
 		[self setOnline:self.account.online notify:NotifyLater silently:YES];
 		[self notifyOfChangedPropertiesSilently:YES];
 	}
