@@ -658,6 +658,25 @@
 		return;
 	}
 	
+	if([group isEqualToString:GROUP_ACCOUNT_STATUS]) {
+		if([key isEqualToString:KEY_USER_ICON]) {
+			// Avoid pushing an icon update which we just downloaded.
+			if(![self boolValueForProperty:@"Pulling User Icon"]) {
+				NSString *requestID = [twitterEngine updateProfileImage:[prefDict objectForKey:KEY_USER_ICON]];
+			
+				if(requestID) {
+					AILogWithSignature(@"%@ Pushing self icon update", self);
+					
+					[self setRequestType:AITwitterProfileSelf
+							forRequestID:requestID
+						  withDictionary:nil];
+				}
+			}
+			
+			[self setValue:nil forProperty:@"Pulling User Icon" notify:NotifyNow];
+		}
+	}
+	
 	if([group isEqualToString:TWITTER_PREFERENCE_GROUP_UPDATES]) {
 		if(!firstTime && [key isEqualToString:TWITTER_PREFERENCE_UPDATE_INTERVAL]) {
 			NSTimeInterval timeInterval = [updateTimer timeInterval];
@@ -1004,7 +1023,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  * pretty terrible, so let's ignore errors for the most part.
  */
 - (void)requestFailed:(NSString *)identifier withError:(NSError *)error
-{		
+{			
 	if([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend || [self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
 		AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
 		
@@ -1445,6 +1464,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 	} else if([self requestTypeForRequestID:identifier] == AITwitterSelfUserIconPull) {
 		AILogWithSignature(@"Updated self icon for %@", self);
+
+		// Set a property so we don't re-send thie image we're just now downloading.
+		[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Pulling User Icon" notify:NotifyNow];
 		
 		[self setPreference:[image TIFFRepresentation]
 					 forKey:KEY_USER_ICON

@@ -20,6 +20,8 @@
 
 #define TWITTER_DOMAIN          @"twitter.com"
 #define HTTP_POST_METHOD        @"POST"
+#define HTTP_MULTIPART_METHOD	@"MULTIPART" //adium
+#define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96" //adium
 #define MAX_MESSAGE_LENGTH      140 // Twitter recommends tweets of max 140 chars
 #define MAX_LOCATION_LENGTH		31
 
@@ -45,7 +47,7 @@
 - (NSString *)_sendRequestWithMethod:(NSString *)method 
                                 path:(NSString *)path 
                      queryParameters:(NSDictionary *)params
-                                body:(NSString *)body 
+                                body:(id)body 
                          requestType:(MGTwitterRequestType)requestType 
                         responseType:(MGTwitterResponseType)responseType;
 
@@ -381,7 +383,7 @@
 - (NSString *)_sendRequestWithMethod:(NSString *)method 
                                 path:(NSString *)path 
                      queryParameters:(NSDictionary *)params 
-                                body:(NSString *)body 
+                                body:(id)body 
                          requestType:(MGTwitterRequestType)requestType 
                         responseType:(MGTwitterResponseType)responseType
 {
@@ -390,7 +392,7 @@
     if (params) {
         fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
     }
-
+	
 #if SET_AUTHORIZATION_IN_HEADER
     NSString *urlString = [NSString stringWithFormat:@"%@://%@/%@", 
                            (_secureConnection) ? @"https" : @"http",
@@ -411,11 +413,17 @@
     NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:finalURL 
                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                           timeoutInterval:URL_REQUEST_TIMEOUT];
+	if(method && [method isEqualToString:HTTP_MULTIPART_METHOD]) {
+		method = HTTP_POST_METHOD;
+		[theRequest setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY] forHTTPHeaderField:@"Content-type"];
+	}
+	
     if (method) {
         [theRequest setHTTPMethod:method];
     }
+
     [theRequest setHTTPShouldHandleCookies:NO];
-    
+	
     // Set headers for client information, for tracking purposes at Twitter.
     [theRequest setValue:_clientName    forHTTPHeaderField:@"X-Twitter-Client"];
     [theRequest setValue:_clientVersion forHTTPHeaderField:@"X-Twitter-Client-Version"];
@@ -433,21 +441,26 @@
 
     // Set the request body if this is a POST request.
     BOOL isPOST = (method && [method isEqualToString:HTTP_POST_METHOD]);
+	
     if (isPOST) {
         // Set request body, if specified (hopefully so), with 'source' parameter if appropriate.
-        NSString *finalBody = @"";
-		if (body) {
-			finalBody = [finalBody stringByAppendingString:body];
+		if([body isKindOfClass:[NSString class]]) {
+			NSString *finalBody = @"";
+			if (body) {
+				finalBody = [finalBody stringByAppendingString:body];
+			}
+			if (_clientSourceToken) {
+				finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
+																(body) ? @"&" : @"?" , 
+																_clientSourceToken]];
+			}
+			
+			if (finalBody) {
+				[theRequest setHTTPBody:[finalBody dataUsingEncoding:NSUTF8StringEncoding]];
+			}
+		} else if ([body isKindOfClass:[NSData class]]) {
+			[theRequest setHTTPBody:body];
 		}
-        if (_clientSourceToken) {
-            finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
-                                                            (body) ? @"&" : @"?" , 
-                                                            _clientSourceToken]];
-        }
-        
-        if (finalBody) {
-            [theRequest setHTTPBody:[finalBody dataUsingEncoding:NSUTF8StringEncoding]];
-        }
     }
     
     
@@ -1429,6 +1442,42 @@
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
+                        queryParameters:params body:body 
+                            requestType:MGTwitterAccountRequest 
+                           responseType:MGTwitterUser];
+}
+
+- (NSString *)updateProfileImage:(NSData *)profileImage
+{
+	if (!profileImage) {
+        return nil;
+    }
+    
+    NSString *path = @"account/update_profile_image.xml";
+	
+	NSMutableData *body = [NSMutableData data];
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+	
+	NSImage *image = [[[NSImage alloc] initWithData:profileImage] autorelease];
+	
+	NSBitmapImageRep *bitmapImageRep = nil;
+	for(NSImageRep *imageRep in image.representations) {
+		if([imageRep isKindOfClass:[NSBitmapImageRep class]]) {
+			bitmapImageRep = (NSBitmapImageRep *)imageRep;
+		}
+	}
+	
+	if(!bitmapImageRep) {
+		return nil;
+	}
+	
+	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[@"Content-Disposition: form-data; name=\"image\"; filename=\"adium_icon.png\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[bitmapImageRep representationUsingType:NSPNGFileType properties:nil]];
+	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    return [self _sendRequestWithMethod:HTTP_MULTIPART_METHOD path:path 
                         queryParameters:params body:body 
                             requestType:MGTwitterAccountRequest 
                            responseType:MGTwitterUser];
