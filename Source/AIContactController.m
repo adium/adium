@@ -646,7 +646,6 @@
 	}
 }
 
-
 //Add a list object to a meta contact, setting preferences and such
 //so the association is lasting across program launches.
 - (void)addContact:(AIListContact *)inContact toMetaContact:(AIMetaContact *)metaContact
@@ -758,18 +757,6 @@
 	}
 	
 	return success;
-}
-
-- (void)removeAllContactsMatching:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact
-{	
-	//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
-	[contactToMetaContactLookupDict removeObjectForKey:[inContact internalObjectID]];
-	
-	[contactPropertiesObserverManager delayListObjectNotifications];
-	for (AIListContact *contact in [self allContactsWithService:inContact.service UID:inContact.UID]) {
-		[self removeContact:contact fromMetaContact:metaContact];
-	}
-	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
 
 - (void)removeContact:(AIListContact *)inContact fromMetaContact:(AIMetaContact *)metaContact
@@ -1531,8 +1518,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (void)moveContact:(AIListContact *)contact intoGroups:(NSSet *)groups
 {
-	if (contact.metaContact)
-		[self removeAllContactsMatching:contact fromMetaContact:contact.metaContact];
+	[contactPropertiesObserverManager delayListObjectNotifications];
+	if (contact.metaContact) {
+		//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
+		[contactToMetaContactLookupDict removeObjectForKey:inContact.internalObjectID];
+		
+		for (AIListContact *contact in [self allContactsWithService:inContact.service UID:inContact.UID]) {
+			[self removeContact:contact fromMetaContact:metaContact];
+	}
 	
 	if (contact.existsServerside) {
 		if (contact.account.online)
@@ -1551,6 +1544,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			}
 		}		
 	}
+	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
 
 #pragma mark Detached Contact Lists
