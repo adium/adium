@@ -33,6 +33,7 @@
 #define KEY_RESOLVE_ALPHABETICALLY  @"Status:Resolve Alphabetically"
 #define KEY_SORT_ORDER				@"Status:Sort Order"
 #define KEY_RESOLVE_BY_LAST_NAME	@"Status:Resolve Alphabetically By Last Name"
+#define KEY_SORT_GROUPS_ALPHA		@"Status:Sort Groups Alphabetically"
 
 #define AVAILABLE					AILocalizedString(@"Available",nil)
 #define AWAY						AILocalizedString(@"Away",nil)
@@ -63,6 +64,7 @@ static BOOL	groupAway;
 static BOOL	groupIdle;
 static BOOL groupIdleAndAway;
 static BOOL	sortIdleTime;
+static BOOL sortGroupsAlphabetically;
 
 static BOOL	resolveAlphabetically;
 static BOOL resolveAlphabeticallyByLastName;
@@ -107,6 +109,8 @@ static NSInteger  sizeOfSortOrder;
 	groupIdleAndAway = [[prefDict objectForKey:KEY_GROUP_IDLE_AND_AWAY] boolValue];
 	
 	sortIdleTime = [[prefDict objectForKey:KEY_SORT_IDLE_TIME] boolValue];
+	sortGroupsAlphabetically = [[prefDict objectForKey:KEY_SORT_GROUPS_ALPHA] boolValue];
+	
 	resolveAlphabetically = [[prefDict objectForKey:KEY_RESOLVE_ALPHABETICALLY] boolValue];
 	resolveAlphabeticallyByLastName = [[prefDict objectForKey:KEY_RESOLVE_BY_LAST_NAME] boolValue];
 	
@@ -262,6 +266,8 @@ static NSInteger  sizeOfSortOrder;
 	[checkBox_groupIdle setState:groupIdle];
 	[checkBox_groupIdleAndAway setState:groupIdleAndAway];
 	[checkBox_sortIdleTime setState:sortIdleTime];
+	[checkBox_sortGroupsAlphabetically setState:sortGroupsAlphabetically];
+	
 	[checkBox_alphabeticallyByLastName setState:resolveAlphabeticallyByLastName];
 	
 	[buttonCell_alphabetically setState:(resolveAlphabetically ? NSOnState : NSOffState)];
@@ -334,6 +340,11 @@ static NSInteger  sizeOfSortOrder;
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortIdleTime]
                                              forKey:KEY_SORT_IDLE_TIME
                                               group:PREF_GROUP_CONTACT_SORTING];				
+ 	} else if (sender == checkBox_sortGroupsAlphabetically) {
+		sortGroupsAlphabetically = [sender state];
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortIdleTime]
+										   forKey:KEY_SORT_GROUPS_ALPHA
+											group:PREF_GROUP_CONTACT_SORTING];						
 	} else if (sender == matrix_resolution) {
 		id selectedCell = [sender selectedCell];
 		
@@ -559,11 +570,15 @@ static NSInteger  sizeOfSortOrder;
 NSInteger statusSort(id objectA, id objectB, BOOL groups)
 {
 	if (groups) {
-		//Keep groups in manual order
-		if ([objectA orderIndex] > [objectB orderIndex]) {
-			return NSOrderedDescending;
+		if (sortGroupsAlphabetically) {
+			return [((AIListObject *)objectA).displayName compare:((AIListObject *)objectB).displayName];
 		} else {
-			return NSOrderedAscending;
+			//Keep groups in manual order if set to do so.
+			if ([objectA orderIndex] > [objectB orderIndex]) {
+				return NSOrderedDescending;
+			} else {
+				return NSOrderedAscending;
+			}
 		}
 		
 	} else {
