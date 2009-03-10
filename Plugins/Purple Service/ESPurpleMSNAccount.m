@@ -216,10 +216,18 @@
  */
 - (void)updateFriendlyNameAfterConnect
 {
-	const char			*displayName = purple_connection_get_display_name(purple_account_get_connection(account));
+	const char			*displayName = NULL;
+	
+	if (account) {
+		PurpleConnection	*purpleConnection = purple_account_get_connection(account);
+		
+		if (purpleConnection) {
+			displayName = purple_connection_get_display_name(purpleConnection);
+		}
+	}
+	
 	NSAttributedString	*accountDisplayName = [[self preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
-														   group:GROUP_ACCOUNT_STATUS
-										  ] attributedString];
+														   group:GROUP_ACCOUNT_STATUS] attributedString];
 	NSAttributedString *globalPreference = [[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString];
 	BOOL				accountDisplayNameChanged = NO;
 	BOOL				shouldUpdateDisplayNameImmediately= NO;
