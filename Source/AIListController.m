@@ -519,23 +519,9 @@
 			([(AIListContact *)primaryDragItem parentContact] == [(AIListContact *)item parentContact])) {
 			return ((index != NSOutlineViewDropOnItemIndex) ? NSDragOperationMove : NSDragOperationNone);
 		}
-				
-		if (index != NSOutlineViewDropOnItemIndex && !canSortManually) {
-			/* We're attempting a reorder or containing object change,
-			 * and the sort controller says there is no manual sorting allowed. */
-			AIListObject<AIContainingObject> *actualTarget = (item ? item : adium.contactController.contactList);
-			NSInteger indexForInserting = [[AISortController activeSortController] indexForInserting:[dragItems objectAtIndex:0]
-																						 intoObjects:[actualTarget containedObjects]];
-			if (indexForInserting != index)
-				[outlineView setDropItem:item dropChildIndex:indexForInserting];
-
-			return indexForInserting == index && ![((AIListObject *)[dragItems objectAtIndex:0]).containingObjects containsObject:actualTarget] ?
-					NSDragOperationNone :
-					NSDragOperationMove;
-		}
 		
 		AIListObject *listItem = (AIListObject *)item;
-
+		
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
 			//Disallow dragging groups into or onto other objects
 			if (item != nil) {
@@ -549,30 +535,46 @@
 				}
 			}
 			
-		} else {
-			//We have one or more contacts. Don't allow them to drop on the contact list itself
-			if (!item && adium.contactController.useContactListGroups) {
-				/* The user is hovering on the contact list itself.
-				 * If groups are shown at all, assuming we have any items in the list at all, she is hovering near but not in a group.
-				 *   If (index > 0), the drag is below the end of a group. That group is at (index - 1) in the outline view's root.
-				 *   If (index == 0), the drag is at the very top of the contact list.
-				 * Do this right by shifting the drop to that group.
-				 *
-				 * 
-				 */
-				AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
-																			child:((index > 0) ? (index - 1) : 0)
-																		   ofItem:nil];
-				//XXX multiple containers
-				if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
-					itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
+			return NSDragOperationPrivate;
+		}
+				
+		if (index != NSOutlineViewDropOnItemIndex && !canSortManually) {
+			/* We're attempting a reorder or containing object change,
+			 * and the sort controller says there is no manual sorting allowed. */
+			AIListObject<AIContainingObject> *actualTarget = (item ? item : adium.contactController.contactList);
 
-				index = ((index > 0) ?
-						 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
-						 NSOutlineViewDropOnItemIndex);
-				[outlineView setDropItem:itemAboveProposedIndex
-						  dropChildIndex:index];
-			}
+			NSInteger indexForInserting = [[AISortController activeSortController] indexForInserting:[dragItems objectAtIndex:0]
+																						 intoObjects:[actualTarget containedObjects]];
+			if (indexForInserting != index)
+				[outlineView setDropItem:item dropChildIndex:indexForInserting];
+
+			return indexForInserting == index && ![((AIListObject *)[dragItems objectAtIndex:0]).containingObjects containsObject:actualTarget] ?
+					NSDragOperationNone :
+					NSDragOperationMove;
+		}
+
+		//We have one or more contacts. Don't allow them to drop on the contact list itself
+		if (!item && adium.contactController.useContactListGroups) {
+			/* The user is hovering on the contact list itself.
+			 * If groups are shown at all, assuming we have any items in the list at all, she is hovering near but not in a group.
+			 *   If (index > 0), the drag is below the end of a group. That group is at (index - 1) in the outline view's root.
+			 *   If (index == 0), the drag is at the very top of the contact list.
+			 * Do this right by shifting the drop to that group.
+			 *
+			 * 
+			 */
+			AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
+																		child:((index > 0) ? (index - 1) : 0)
+																	   ofItem:nil];
+			//XXX multiple containers
+			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
+				itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
+
+			index = ((index > 0) ?
+					 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
+					 NSOutlineViewDropOnItemIndex);
+			[outlineView setDropItem:itemAboveProposedIndex
+					  dropChildIndex:index];
 		}
 		
 		if ((index == NSOutlineViewDropOnItemIndex) && [item isKindOfClass:[AIListContact class]] && ([info draggingSource] == [self contactListView])) {
@@ -602,9 +604,6 @@
 				AISortController *sortController = [AISortController activeSortController];
 				//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
 				if (![sortController canSortManually]) {
-					//If we're dragging a group, force a drop onto the contact list itself, and determine the destination location accordingly
-					if ([primaryDragItem isKindOfClass:[AIListGroup class]]) item = nil;
-					
 					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
 																  intoObjects:(item ? [item containedObjects] : [adium.contactController.contactList containedObjects])];
 					/*
