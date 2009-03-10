@@ -754,7 +754,7 @@
 	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 								group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue];
 
-	requestID = [twitterEngine getFollowedTimelineFor:self.UID
+	requestID = [twitterEngine getFollowedTimelineFor:nil
 											  sinceID:lastID
 									   startingAtPage:1
 												count:(lastID ? TWITTER_UPDATE_TIMELINE_COUNT : TWITTER_UPDATE_TIMELINE_COUNT_FIRST_RUN)];
@@ -1128,7 +1128,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSString	*requestID;
 			
 			if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
-				requestID = [twitterEngine getFollowedTimelineFor:self.UID
+				requestID = [twitterEngine getFollowedTimelineFor:nil
 														  sinceID:[lastID intValue]
 												   startingAtPage:nextPage
 															count:TWITTER_UPDATE_TIMELINE_COUNT];
