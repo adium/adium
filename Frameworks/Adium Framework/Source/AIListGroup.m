@@ -299,6 +299,8 @@
 //Resort an object in this group (PRIVATE: For contact controller only)
 - (void)sortListObject:(AIListObject *)inObject
 {
+	NSAssert2([_containedObjects containsObject:inObject], @"Attempting to sort %@ in %@ but not contained.", inObject, self);
+	
 	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects]];
 	if ([_visibleObjects containsObject:inObject])
 		[_visibleObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_visibleObjects]];
