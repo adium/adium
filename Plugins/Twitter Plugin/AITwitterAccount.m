@@ -934,23 +934,32 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		for (NSDictionary *status in sortedQueuedUpdates) {
 			NSDate			*date = [status objectForKey:TWITTER_STATUS_CREATED];
 			NSString		*text = [status objectForKey:TWITTER_STATUS_TEXT];
-			AIListContact	*listContact = [self contactWithUID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]];
 			
-			// Update the user's status message
-			[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
-								   notify:NotifyNow];
+			NSString *contactUID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
-			[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+			id fromObject = nil;
 			
-			[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
-			
+			if(![contactUID isEqualToString:self.UID]) {
+				AIListContact *listContact = [self contactWithUID:contactUID];
+				
+				// Update the user's status message
+				[listContact setStatusMessage:[NSAttributedString stringWithString:[text stringByUnescapingFromXMLWithEntities:nil]]
+									   notify:NotifyNow];
+				
+				[self updateUserIcon:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_INFO_ICON] forContact:listContact];
+				
+				[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
+				
+				fromObject = (id)listContact;
+			} else {
+				fromObject = (id)self;
+			}
+
 			NSAttributedString *message = [self parseMessage:text
 													 tweetID:[status objectForKey:TWITTER_STATUS_ID]
-													  userID:listContact.UID
+													  userID:contactUID
 											   inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
 											inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
-			
-			id fromObject = [listContact.UID isEqualToString:self.UID] ? (id)self : (id)listContact;
 			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
 																	withSource:fromObject
