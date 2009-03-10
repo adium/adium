@@ -430,12 +430,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	theFont = [[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_FONT] representedFont];
 	[groupCell setFont:(theFont ? theFont : GROUP_FONT_IF_FONT_NOT_FOUND)];
 
-	//Standard special cases, add necessary spacing.
-	if (windowStyle == AIContactListWindowStyleStandard) {
-		[contactListView setDesiredHeightPadding:2];
-	} else {
-		[contactListView setDesiredHeightPadding:1];
-	}
+	[contactListView setDesiredHeightPadding:1];
 	
 	//Bubbles special cases
 	pillowsOrPillowsFittedWindowStyle = (windowStyle == AIContactListWindowStyleContactBubbles || windowStyle == AIContactListWindowStyleContactBubbles_Fitted);
