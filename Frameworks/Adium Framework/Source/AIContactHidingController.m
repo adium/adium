@@ -125,7 +125,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	
 	if ([listObject conformsToProtocol:@protocol(AIContainingObject)]) {
 		// A meta contact must meet the criteria for a contact to be visible and also have at least 1 contained contact
-		return ([(id<AIContainingObject>)listObject visibleCount] > 0);
+		return ([(id<AIContainingObject>)listObject visibleCount] > 0 || [listObject boolValueForProperty:@"New Object"]);
 	}
 	
 	if (searchString && [searchString length]) {
