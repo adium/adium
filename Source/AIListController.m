@@ -703,7 +703,7 @@
 			if (item != adium.contactController.offlineGroup) {
 				AIListGroup *group = (AIListGroup *)item;
 				for (AIListObject *object in dragItems) {
-					NSAssert([object isKindOfClass:[AIListContact class]], @"BUG: Attempting to drop a non-AIListContact into an AIListGroup");
+					NSAssert2([group canContainObject:object], @"BUG: Attempting to drop %@ into %@", object, group);
 					if (![group containsObject:object])
 						[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
 					[group moveContainedObject:object toIndex:index];
