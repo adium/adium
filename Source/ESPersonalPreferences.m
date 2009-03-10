@@ -141,7 +141,7 @@
 	if ([key isEqualToString:KEY_ACCOUNT_DISPLAY_NAME]) {
 		NSString *displayName = [textField_displayName stringValue];
 		NSString *newDisplayName = [[[prefDict objectForKey:KEY_ACCOUNT_DISPLAY_NAME] attributedString] string];
-		if (![displayName isEqualToString:newDisplayName]) {
+		if (newDisplayName && ![displayName isEqualToString:newDisplayName]) {
 			[textField_displayName setStringValue:newDisplayName];
 		}
 	}
