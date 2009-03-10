@@ -110,6 +110,12 @@
  * @brief We've been asked to connect.
  *
  * Sets our username and password for MGTwitterEngine, and validates credentials.
+ *
+ * Our connection procedure:
+ * 1. Validate credentials
+ * 2. Verify rate limit
+ * 3. Retrieve friends
+ * 4. Trigger "periodic" update - DM, replies, timeline
  */
 - (void)connect
 {
@@ -139,8 +145,6 @@
 	//Clear any previous disconnection error
 	[self setLastDisconnectionError:nil];
 	
-	[self silenceAllContactUpdatesForInterval:18.0];
-	
 	// Creating the fake timeline account.
 	if(![adium.contactController existingBookmarkForChatName:self.timelineChatName
 												   onAccount:self
@@ -153,18 +157,6 @@
 		AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
 		
 		[adium.contactController moveContact:timelineBookmark intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
-	}
-	
-	// Grab all of our real updates	
-	NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterInitialUserInfo
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
-	} else {
-		[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
-		[self didDisconnect];
 	}
 	
 	NSTimeInterval updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue] * 60;
@@ -1300,7 +1292,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {	
+	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		// The current amount of friends per page is 100. Use >= just in case this changes.
@@ -1360,6 +1352,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 		} else {			
 			// Trigger our normal update routine.
+			[self didConnect];
 			[self periodicUpdate];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
@@ -1449,7 +1442,19 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[self setLastDisconnectionError:AILocalizedString(@"Rate limit too low, try again later", "Message displayed when a Twitter account has too few remaining hits in their rate limit")];
 			[self didDisconnect];
 		} else {
-			[self didConnect];
+			// Delay updates on initial login.
+			[self silenceAllContactUpdatesForInterval:18.0];
+			// Grab our user list.
+			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
+			
+			if (requestID) {
+				[self setRequestType:AITwitterInitialUserInfo
+						forRequestID:requestID
+					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
+			} else {
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
+				[self didDisconnect];
+			}
 		}
 	} else if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
 		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
