@@ -843,7 +843,7 @@
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
-			[mutableMessage appendString:AILocalizedString(@"link", "Link appended which goes to the permanent location of this tweet")
+			[mutableMessage appendString:AILocalizedString(@"view", "Link appended which goes to the permanent location of this tweet")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];			
 
 		}
