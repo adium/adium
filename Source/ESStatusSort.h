@@ -30,6 +30,7 @@
 	IBOutlet	NSButton		*checkBox_groupIdleAndAway;
 	
 	IBOutlet	NSButton		*checkBox_sortIdleTime;
+	IBOutlet	NSButton		*checkBox_sortGroupsAlphabetically;
 	
 	IBOutlet	AILocalizationTextField	*label_sortWithinEachStatusGrouping;
 
