@@ -29,6 +29,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIContactList.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListOutlineView.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -436,7 +437,7 @@
 - (void)reloadListObject:(NSNotification *)notification
 {
 	id		object = [notification object];
-
+	
 	//Treat a nil object as equivalent to the whole contact list
 	if (!object || (object == contactList)) {
 		[contactListView reloadData];
@@ -704,14 +705,27 @@
 				AIListGroup *group = (AIListGroup *)item;
 				for (AIListObject *object in dragItems) {
 					NSAssert2([group canContainObject:object], @"BUG: Attempting to drop %@ into %@", object, group);
-					if (![group containsObject:object])
-						[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
+					
+					if (![group containsObject:object]) {
+						if([object isKindOfClass:[AIListContact class]]) {
+							// Contact being moved to a new group.
+							[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
+						} else if ([object isKindOfClass:[AIListGroup class]]) {							
+							// Group being moved to a new detached window.
+							NSAssert([object.containingObject isKindOfClass:[AIContactList class]], @"Original containing group not an AIContactList");
+							NSAssert([group isKindOfClass:[AIContactList class]], @"Target group not an AIContactList");
+							
+							[(AIContactList *)object.containingObject moveGroup:(AIListGroup *)object to:(AIContactList *)group];
+						}
+					}
+					
 					[group moveContainedObject:object toIndex:index];
+					[adium.contactController sortListObject:object];
 				}
 				
-				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
-														  object:item
-														userInfo:nil];
+				[adium.notificationCenter postNotificationName:Contact_OrderChanged
+														object:item
+													  userInfo:nil];
 			} else {
 				success = NO;
 			}
