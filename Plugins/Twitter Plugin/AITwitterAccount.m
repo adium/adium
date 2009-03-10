@@ -671,7 +671,7 @@
 	if([group isEqualToString:GROUP_ACCOUNT_STATUS]) {
 		if([key isEqualToString:KEY_USER_ICON]) {
 			// Avoid pushing an icon update which we just downloaded.
-			if(![self boolValueForProperty:@"Pulling User Icon"]) {
+			if(![self boolValueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON]) {
 				NSString *requestID = [twitterEngine updateProfileImage:[prefDict objectForKey:KEY_USER_ICON]];
 			
 				if(requestID) {
@@ -683,7 +683,7 @@
 				}
 			}
 			
-			[self setValue:nil forProperty:@"Pulling User Icon" notify:NotifyNow];
+			[self setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		}
 	}
 	
@@ -1487,7 +1487,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AILogWithSignature(@"Updated self icon for %@", self);
 
 		// Set a property so we don't re-send thie image we're just now downloading.
-		[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Pulling User Icon" notify:NotifyNow];
+		[self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
 		[self setPreference:[image TIFFRepresentation]
 					 forKey:KEY_USER_ICON
