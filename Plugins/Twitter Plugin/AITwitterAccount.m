@@ -950,8 +950,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 											   inReplyToUser:[status objectForKey:TWITTER_STATUS_REPLY_UID]
 											inReplyToTweetID:[status objectForKey:TWITTER_STATUS_REPLY_ID]];
 			
+			id fromObject = [listContact.UID isEqualToString:self.UID] ? (id)self : (id)listContact;
+			
 			AIContentMessage *contentMessage = [AIContentMessage messageInChat:timelineChat
-																	withSource:listContact
+																	withSource:fromObject
 																   destination:self
 																		  date:date
 																	   message:message
