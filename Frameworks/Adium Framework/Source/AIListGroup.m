@@ -132,17 +132,17 @@
 		if (shouldBeVisible != isVisible) {
 			if (shouldBeVisible) {
 				[_visibleObjects addObject: inObject];
-				[self sortListObject:inObject];
-			}
-			else
+				[adium.contactController sortListObject:inObject];
+			} else {
 				[_visibleObjects removeObject: inObject];
+			}
 			
 			modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
 		}
 	}
 	
 	if (modifiedProperties) {
-		[self didModifyProperties:modifiedProperties silent:NO];	
+		[self didModifyProperties:modifiedProperties silent:NO];
 	}
 
 	return modifiedProperties;
