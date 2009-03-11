@@ -915,8 +915,6 @@
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
-		
-		[oldContainers release];
 	}
 
 	[context release]; //We are responsible for retaining & releasing the context dict
