@@ -141,6 +141,7 @@
 					action:@selector(newGroup:)
 			 keyEquivalent:@""];
 
+	[popUp_group setMenu:menu];
 	[popUp_group selectItemAtIndex:0];
 }
 
