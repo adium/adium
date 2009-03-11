@@ -342,7 +342,7 @@ static NSInteger  sizeOfSortOrder;
                                               group:PREF_GROUP_CONTACT_SORTING];				
  	} else if (sender == checkBox_sortGroupsAlphabetically) {
 		sortGroupsAlphabetically = [sender state];
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortIdleTime]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:sortGroupsAlphabetically]
 										   forKey:KEY_SORT_GROUPS_ALPHA
 											group:PREF_GROUP_CONTACT_SORTING];						
 	} else if (sender == matrix_resolution) {
