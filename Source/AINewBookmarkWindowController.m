@@ -140,25 +140,8 @@
 					target:self
 					action:@selector(newGroup:)
 			 keyEquivalent:@""];
-	
-	//Select the group of the currently selected object on the contact list
-	//XXX multiple containers
-	selectedObject = adium.interfaceController.selectedListObject;
-	while (selectedObject && ![selectedObject isKindOfClass:[AIListGroup class]]) {
-		selectedObject = selectedObject.containingObject;
-	}
 
-	[popUp_group setMenu:menu];
-
-	//If there was no selected group, just select the first item
-	if (selectedObject) {
-		if (![popUp_group selectItemWithRepresentedObject:selectedObject]) {
-			[popUp_group selectItemAtIndex:0];			
-		}
-
-	} else {
-		[popUp_group selectItemAtIndex:0];
-	}
+	[popUp_group selectItemAtIndex:0];
 }
 
 /*!
