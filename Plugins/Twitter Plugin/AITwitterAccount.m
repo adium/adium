@@ -280,6 +280,31 @@
 }
 
 /*!
+ * @brief Move contacts
+ *
+ * Move existing contacts to a specific group on this account.  The passed contacts should already exist somewhere on
+ * this account.
+ * @param objects NSArray of AIListContact objects to remove
+ * @param group AIListGroup destination for contacts
+ */
+- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+{
+	// XXX do twitter grouping
+}
+
+/*!
+ * @brief Rename a group
+ *
+ * Rename a group on this account.
+ * @param group AIListGroup to rename
+ * @param newName NSString name for the group
+ */
+- (void)renameGroup:(AIListGroup *)group to:(NSString *)newName
+{
+	// XXX do twitter grouping
+}
+
+/*!
  * @brief Immediately retry for an incorrect password.
  */
 - (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
