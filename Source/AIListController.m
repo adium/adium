@@ -892,27 +892,12 @@
 	if (returnCode == 1) {
 		AIListObject	*item = [context objectForKey:@"item"];
 		NSArray			*draggedItems = [context objectForKey:@"dragitems"];
-		AIMetaContact	*metaContact;
 
-		//Keep track of where it was before
-		NSSet *oldContainers = item.containingObjects;
-		CGFloat oldIndex = item.orderIndex;
-		
 		//Group the destination and then the dragged items into a metaContact
-		metaContact = [adium.contactController groupContacts:[[NSArray arrayWithObject:item]
-																	arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
+		[adium.contactController groupContacts:[[NSArray arrayWithObject:item]
+								arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
-		//Position the metaContact in the group & index the drop point was before
-		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
-		
-		[adium.contactController moveContact:metaContact intoGroups:oldContainers];
-		
-		for (AIListGroup *group in oldContainers) {
-			[group moveContainedObject:metaContact toIndex:oldIndex];
-			[group sort];
-		}
-		
-		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
+		//XXX multiple groups: we need to make sure that the metacontacts respect manual ordering correctly
 		
 		[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
 	}
