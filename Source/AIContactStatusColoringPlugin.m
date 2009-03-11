@@ -28,6 +28,7 @@
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
+#import <Adium/AIListBookmark.h>
 
 @interface AIContactStatusColoringPlugin ()
 - (void)addToFlashSet:(AIListObject *)inObject;
