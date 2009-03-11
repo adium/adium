@@ -771,9 +771,21 @@
 			} else if ([availableType isEqualToString:AIiTunesTrackPboardType]) {
 				files = [[info draggingPasteboard] filesFromITunesDragPasteboard];
 			}
+			
+			NSString *title = [NSString stringWithFormat:AILocalizedString(@"Send File to %@", "Window title to the file transfer confirmation window"), targetFileTransferContact.displayName];
 
-			for (file in files) {
-				[adium.fileTransferController sendFile:file toListContact:targetFileTransferContact];
+			NSString *question = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to send %@ to %@?", "Question asked in the file transfer confirmation window"),
+								  (files.count == 1 ? [[files objectAtIndex:0] lastPathComponent] : [NSString stringWithFormat:AILocalizedString(@"%d files", nil), files.count]),
+								  targetFileTransferContact.displayName];
+			
+			if (NSRunAlertPanel(title,
+								question,
+								AILocalizedString(@"Send File", nil),
+								AILocalizedString(@"Cancel", nil),
+								nil) == NSAlertDefaultReturn) {
+				for (file in files) {
+					[adium.fileTransferController sendFile:file toListContact:targetFileTransferContact];
+				}
 			}
 
 		} else {
@@ -804,16 +816,27 @@
 			}
 			
 			if(messageAttributedString && [messageAttributedString length] !=0) {
-				chat = [adium.chatController openChatWithContact:(AIListContact *)item
-												onPreferredAccount:YES];
-				messageContent = [AIContentMessage messageInChat:chat
-													  withSource:chat.account
-													 destination:chat.listObject
-															date:nil
-														 message:messageAttributedString
-													   autoreply:NO];
-			
-				[adium.contentController sendContentObject:messageContent];
+				NSString *title = [NSString stringWithFormat:AILocalizedString(@"Send Text to %@", "Window title to the text send confirmation window"), ((AIListObject *)item).displayName];
+				
+				NSString *question = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to send the text to %@?", "Question asked in the file transfer confirmation window"),
+									  ((AIListObject *)item).displayName];
+				
+				if (NSRunAlertPanel(title,
+									question,
+									AILocalizedString(@"Send Text", nil),
+									AILocalizedString(@"Cancel", nil),
+									nil) == NSAlertDefaultReturn) {
+					chat = [adium.chatController openChatWithContact:(AIListContact *)item
+													onPreferredAccount:YES];
+					messageContent = [AIContentMessage messageInChat:chat
+														  withSource:chat.account
+														 destination:chat.listObject
+																date:nil
+															 message:messageAttributedString
+														   autoreply:NO];
+				
+					[adium.contentController sendContentObject:messageContent];
+				}
 			}
 			else {
 				success = NO;
