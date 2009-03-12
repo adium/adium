@@ -18,6 +18,9 @@
 
 @interface AIPurpleOscarAccountViewController : PurpleAccountViewController {
     IBOutlet        NSTextView                      *textView_textProfile;
+	
+	IBOutlet		NSButton						*checkBox_proxyServer;
+	IBOutlet		NSButton						*checkBox_SSL;
 }
 
 @end

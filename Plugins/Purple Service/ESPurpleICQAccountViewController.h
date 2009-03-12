@@ -19,6 +19,9 @@
 @interface ESPurpleICQAccountViewController : PurpleAccountViewController {
 	IBOutlet	NSPopUpButton	*popUp_encoding;
 	IBOutlet	NSButton		*checkBox_webAware;
+	
+	IBOutlet		NSButton						*checkBox_proxyServer;
+	IBOutlet		NSButton						*checkBox_SSL;
 }
 
 @end

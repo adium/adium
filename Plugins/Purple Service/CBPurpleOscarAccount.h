@@ -28,6 +28,9 @@
 #define OSCAR_STATUS_ID_FREE4CHAT	"free4chat"
 #define OSCAR_STATUS_ID_CUSTOM		"custom"
 
+#define PREFERENCE_FT_PROXY_SERVER	@"Always Use FT Proxy"
+#define PREFERENCE_SSL_CONNECTION	@"Connect Using SSL"
+
 @interface CBPurpleOscarAccount : CBPurpleAccount  <AIAccount_Files> {
 	NSTimer			*delayedSignonUpdateTimer;
 	NSMutableArray  *arrayOfContactsForDelayedUpdates;

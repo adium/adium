@@ -46,6 +46,8 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 
 @interface CBPurpleOscarAccount ()
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who;
+
+- (PurpleSslConnection *)secureConnection;
 @end
 
 @implementation CBPurpleOscarAccount
@@ -141,6 +143,29 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	}
 	
 	return contact;
+}
+
+- (void)configurePurpleAccount
+{
+	[super configurePurpleAccount];
+	
+	purple_account_set_bool(account, "always_use_rv_proxy", [[self preferenceForKey:PREFERENCE_FT_PROXY_SERVER
+																			  group:GROUP_ACCOUNT_STATUS] boolValue]);
+
+	purple_account_set_bool(account, "use_ssl", [[self preferenceForKey:PREFERENCE_SSL_CONNECTION
+																  group:GROUP_ACCOUNT_STATUS] boolValue]);
+	
+}
+
+- (BOOL)encrypted
+{
+	return self.online && [self secureConnection];
+}
+
+- (PurpleSslConnection *)secureConnection {
+	PurpleConnection *gc = purple_account_get_connection(self.purpleAccount);
+	
+	return ((gc && gc->proto_data) ? ((FlapConnection *)gc->proto_data)->gsc : NULL);
 }
 
 - (AIService *)_serviceForUID:(NSString *)contactUID
