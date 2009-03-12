@@ -122,7 +122,6 @@
  */
 - (void)buildGroupMenu
 {
-	AIListObject	*selectedObject;
 	NSMenu			*menu;
 	//Rebuild the menu
 	menu = [adium.contactController groupMenuWithTarget:nil];
