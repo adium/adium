@@ -46,8 +46,6 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 
 @interface CBPurpleOscarAccount ()
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who;
-
-- (PurpleSslConnection *)secureConnection;
 @end
 
 @implementation CBPurpleOscarAccount

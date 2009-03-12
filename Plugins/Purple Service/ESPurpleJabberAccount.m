@@ -41,10 +41,6 @@
 #import "AMPurpleJabberAdHocServer.h"
 #import "AMPurpleJabberAdHocPing.h"
 
-#ifdef HAVE_CDSA
-#import "AIPurpleCertificateViewer.h"
-#endif
-
 #define DEFAULT_JABBER_HOST @"@jabber.org"
 
 @interface ESPurpleJabberAccount ()
@@ -807,15 +803,6 @@
 	return [[self preferenceForKey:KEY_JABBER_VERIFY_CERTS group:GROUP_ACCOUNT_STATUS] boolValue];
 }
 
-#ifdef HAVE_CDSA
-- (IBAction)showServerCertificate:(id)sender {
-	CFArrayRef certificates = [[self purpleAdapter] copyServerCertificates:[self secureConnection]];
-	
-	[AIPurpleCertificateViewer displayCertificateChain:certificates forAccount:self];
-	CFRelease(certificates);
-}
-#endif
-
 - (NSArray *)accountActionMenuItems {
 	AILog(@"Getting accountActionMenuItems for %@",self);
 	NSMutableArray *menu = [[NSMutableArray alloc] init];
@@ -876,17 +863,6 @@
     [discoveryBrowserMenuItem setTarget:self];
     [menu addObject:discoveryBrowserMenuItem];
     [discoveryBrowserMenuItem release];
-	
-#ifdef HAVE_CDSA
-	if([self encrypted]) {
-		NSMenuItem *showCertificateMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show Server Certificate",nil)
-																		  action:@selector(showServerCertificate:) 
-																   keyEquivalent:@""];
-		[showCertificateMenuItem setTarget:self];
-		[menu addObject:showCertificateMenuItem];
-		[showCertificateMenuItem release];
-	}
-#endif
 	
     return [menu autorelease];
 }
