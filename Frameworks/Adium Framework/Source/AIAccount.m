@@ -414,16 +414,6 @@ typedef enum
 	return (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
 }
 
-#pragma mark Prefs
-//Accounts can't have containers, so we can explicitly only use self and global preferences
-- (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName
-{
-	id result = [super preferenceForKey:inKey group:groupName];
-	if(!result)
-		result = [adium.preferenceController preferenceForKey:inKey group:groupName];
-	return result;
-}
-
 //Status ---------------------------------------------------------------------------------------------------------------
 #pragma mark Status
 /*!

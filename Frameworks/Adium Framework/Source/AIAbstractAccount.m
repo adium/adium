@@ -858,10 +858,13 @@
 		originalValue = statusState.statusMessage;
 
 	} else {
-		if (isTemporary)
-			originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];	
-		else
+		// First look for an account-specific preference
+		originalValue = [[self preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];	
+		
+		// Failing that, if this account isn't temporary, try to get a global preference
+		if(!isTemporary && !originalValue) {
 			originalValue = [[adium.preferenceController preferenceForKey:key group:GROUP_ACCOUNT_STATUS] attributedString];
+		}
 	}
 
 	return originalValue;
