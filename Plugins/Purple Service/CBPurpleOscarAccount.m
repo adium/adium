@@ -165,7 +165,19 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 - (PurpleSslConnection *)secureConnection {
 	PurpleConnection *gc = purple_account_get_connection(self.purpleAccount);
 	
-	return ((gc && gc->proto_data) ? ((FlapConnection *)gc->proto_data)->gsc : NULL);
+	if(gc) {
+		OscarData *oscarData = (OscarData *)gc->proto_data;	
+		
+		if(oscarData) {
+			FlapConnection *flapConnection = (FlapConnection *)oscarData->oscar_connections->data;
+			
+			if(flapConnection) {
+				return flapConnection->gsc;
+			}
+		}
+	}
+	
+	return NULL;
 }
 
 - (AIService *)_serviceForUID:(NSString *)contactUID
