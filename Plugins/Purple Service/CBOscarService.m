@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIPurpleOscarAccountViewController.h"
+#import "AIPurpleAIMAccountViewController.h"
 #import "CBOscarService.h"
 #import "DCPurpleOscarJoinChatViewController.h"
 #import <Adium/AIStatusControllerProtocol.h>
