@@ -124,7 +124,8 @@
 			[inModifiedKeys containsObject:@"VisibleObjectCount"] ||
 			[inModifiedKeys containsObject:@"IsMobile"] ||
 			[inModifiedKeys containsObject:@"IsBlocked"] ||
-			[inModifiedKeys containsObject:@"AlwaysVisible"]) {
+			[inModifiedKeys containsObject:@"AlwaysVisible"] ||
+			[inModifiedKeys containsObject:@"StatusType"]) {
 				
 		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self];
 		BOOL isVisible = [_visibleObjects containsObject: inObject];

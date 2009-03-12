@@ -482,6 +482,8 @@
 	AIPreferenceContainer	*prefContainer = [self preferenceContainerForGroup:group object:object];
 
 	[prefContainer registerDefaults:defaultDict];
+	
+	[self informObserversOfChangedKey:nil inGroup:group object:object];
 }
 
 #pragma mark Preference Container

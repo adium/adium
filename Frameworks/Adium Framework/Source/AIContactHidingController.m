@@ -20,6 +20,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListBookmark.h>
+#import <Adium/AIService.h>
 #import "AIContactController.h"
 
 @interface AIContactHidingController ()
@@ -76,6 +77,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	showIdleContacts = [[prefDict objectForKey:KEY_SHOW_IDLE_CONTACTS] boolValue];
 	showMobileContacts = [[prefDict objectForKey:KEY_SHOW_MOBILE_CONTACTS] boolValue];
 	showBlockedContacts = [[prefDict objectForKey:KEY_SHOW_BLOCKED_CONTACTS] boolValue];
+	showAwayContacts = [[prefDict objectForKey:KEY_SHOW_AWAY_CONTACTS] boolValue];
+	showSocialContacts = [[prefDict objectForKey:KEY_SHOW_SOCIAL_CONTACTS] boolValue];
 	
 	useContactListGroups = ![[prefDict objectForKey:KEY_HIDE_CONTACT_LIST_GROUPS] boolValue];
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
@@ -151,7 +154,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		} else
 			return NO;
 	}
-	
+		
 	if (!showIdleContacts && [listObject valueForProperty:@"IdleSince"])
 		return NO;
 	
@@ -159,6 +162,12 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		return NO;
 	
 	if (!showBlockedContacts && listObject.isBlocked)
+		return NO;
+	
+	if (!showAwayContacts && listObject.statusType == AIAwayStatusType)
+		return NO;
+	
+	if (!showSocialContacts && listObject.service.isSocialNetworkingService)
 		return NO;
 	
 	return YES;
