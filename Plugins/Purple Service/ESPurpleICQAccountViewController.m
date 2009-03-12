@@ -47,9 +47,6 @@
 																		group:GROUP_ACCOUNT_STATUS]];
 	[checkBox_webAware setState:[[account preferenceForKey:KEY_ICQ_WEB_AWARE
 													 group:GROUP_ACCOUNT_STATUS] boolValue]];
-	
-	[checkBox_proxyServer setState:[[account preferenceForKey:PREFERENCE_FT_PROXY_SERVER group:GROUP_ACCOUNT_STATUS] boolValue]];
-	[checkBox_SSL setState:[[account preferenceForKey:PREFERENCE_SSL_CONNECTION group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 //Save controls
@@ -62,14 +59,6 @@
 	[account setPreference:[NSNumber numberWithBool:[checkBox_webAware state]]
 					forKey:KEY_ICQ_WEB_AWARE
 					 group:GROUP_ACCOUNT_STATUS];
-	
-	[account setPreference:[NSNumber numberWithBool:[checkBox_proxyServer state]]
-					forKey:PREFERENCE_FT_PROXY_SERVER
-					 group:GROUP_ACCOUNT_STATUS];
-	
-	[account setPreference:[NSNumber numberWithBool:[checkBox_SSL state]]
-					forKey:PREFERENCE_SSL_CONNECTION
-					 group:GROUP_ACCOUNT_STATUS];	
 }
 
 - (NSMenu *)encodingMenu

@@ -14,11 +14,10 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "PurpleAccountViewController.h"
+#import "AIPurpleOscarAccountViewController.h"
 
-@interface AIPurpleOscarAccountViewController : PurpleAccountViewController {
-	IBOutlet		NSButton						*checkBox_proxyServer;
-	IBOutlet		NSButton						*checkBox_SSL;
+@interface AIPurpleAIMAccountViewController : AIPurpleOscarAccountViewController {
+    IBOutlet        NSTextView                      *textView_textProfile;
 }
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright 2008 Adium X. All rights reserved.
 //
 
-#import "AIPurpleOscarAccountViewController.h"
+#import "AIPurpleAIMAccountViewController.h"
 
-@interface AIPurpleMobileMeAccountViewController : AIPurpleOscarAccountViewController {
+@interface AIPurpleMobileMeAccountViewController : AIPurpleAIMAccountViewController {
 
 }
 

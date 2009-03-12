@@ -16,8 +16,13 @@
 
 #import "ESAIMService.h"
 #import "ESPurpleAIMAccount.h"
+#import "AIPurpleAIMAccountViewController.h"
 
 @implementation ESAIMService
+//Account Creation
+- (AIAccountViewController *)accountViewController{
+    return [AIPurpleAIMAccountViewController accountViewController];
+}
 
 //Service Description
 - (Class)accountClass{
