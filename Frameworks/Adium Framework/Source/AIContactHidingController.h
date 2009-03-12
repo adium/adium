@@ -30,6 +30,8 @@
 	BOOL			showIdleContacts;
 	BOOL			showMobileContacts;
 	BOOL			showBlockedContacts;
+	BOOL			showAwayContacts;
+	BOOL			showSocialContacts;
 	BOOL			useOfflineGroup;
 	
 	BOOL			useContactListGroups;
