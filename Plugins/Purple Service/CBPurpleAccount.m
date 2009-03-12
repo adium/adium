@@ -88,7 +88,7 @@
 - (void)setAccountProfileTo:(NSAttributedString *)profile configurePurpleAccountContext:(NSInvocation *)inInvocation;
 - (void)performAccountMenuAction:(NSMenuItem *)sender;
 
-- (IBAction)showServerCertificate:(id)sender;
+- (void)showServerCertificate;
 @end
 
 @implementation CBPurpleAccount
@@ -1908,7 +1908,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 /*!
  * @brief Returns a PurpleSslConnection for a given account.
  */
-- (PurpleSslConnection *)secureConnection;
+- (PurpleSslConnection *)secureConnection
 {
 	return NULL;
 }

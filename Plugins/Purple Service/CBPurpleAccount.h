@@ -86,6 +86,7 @@
 - (PurpleConnectionError)lastDisconnectionReason;
 - (NSString *)connectionStringForStep:(int)step;
 - (void)configurePurpleAccount;
+- (PurpleSslConnection *)secureConnection;
 
 //Account status
 - (NSSet *)supportedPropertyKeys;
