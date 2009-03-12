@@ -169,10 +169,12 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		OscarData *oscarData = (OscarData *)gc->proto_data;	
 		
 		if(oscarData) {
-			FlapConnection *flapConnection = (FlapConnection *)oscarData->oscar_connections->data;
-			
-			if(flapConnection) {
-				return flapConnection->gsc;
+			for(GSList *oscarConnections = oscarData->oscar_connections; oscarConnections; oscarConnections = g_slist_next(oscarConnections)) {
+				FlapConnection *flapConnection = (FlapConnection *)oscarConnections->data;
+				
+				if(flapConnection->gsc) {
+					return flapConnection->gsc;
+				}
 			}
 		}
 	}
