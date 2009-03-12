@@ -61,6 +61,10 @@
 #import "adiumPurpleRequest.h"
 #import "AIDualWindowInterfacePlugin.h"
 
+#ifdef HAVE_CDSA
+#import "AIPurpleCertificateViewer.h"
+#endif
+
 #import "ESMSNService.h" //why oh why must the superclass know about MSN specific things!?
 
 #define NO_GROUP						@"__NoGroup__"
@@ -83,6 +87,8 @@
 - (void)promptForHostBeforeConnecting;
 - (void)setAccountProfileTo:(NSAttributedString *)profile configurePurpleAccountContext:(NSInvocation *)inInvocation;
 - (void)performAccountMenuAction:(NSMenuItem *)sender;
+
+- (IBAction)showServerCertificate:(id)sender;
 @end
 
 @implementation CBPurpleAccount
@@ -1899,6 +1905,14 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	}
 }
 
+/*!
+ * @brief Returns a PurpleSslConnection for a given account.
+ */
+- (PurpleSslConnection *)secureConnection;
+{
+	return NULL;
+}
+
 #pragma mark Disconnect
 
 /*!
@@ -2667,9 +2681,38 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			g_list_free(actions);
 		}
 	}
+	
+#ifdef HAVE_CDSA
+	if([self encrypted] && [self secureConnection]) {
+		if (menuItemArray.count) {
+			[menuItemArray addObject:[NSMenuItem separatorItem]];
+		}
+		
+		NSMenuItem *showCertificateMenuItem = [[[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show Server Certificate",nil)
+																		 target:self
+																		 action:@selector(showServerCertificate) 
+																  keyEquivalent:@""] autorelease];
+		
+		[menuItemArray addObject:showCertificateMenuItem];
+	}
+#endif
 
 	return menuItemArray;
 }
+
+#ifdef HAVE_CDSA
+/*!
+ * @brief Shows the SSL certificate for the connection.
+ */
+- (void)showServerCertificate
+{
+	CFArrayRef certificates = [[self purpleAdapter] copyServerCertificates:[self secureConnection]];
+	
+	[AIPurpleCertificateViewer displayCertificateChain:certificates forAccount:self];
+	
+	CFRelease(certificates);
+}
+#endif
 
 //Action of a dynamically-generated contact menu item
 - (void)performAccountMenuAction:(NSMenuItem *)sender

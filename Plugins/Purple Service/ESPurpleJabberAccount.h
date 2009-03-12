@@ -42,7 +42,6 @@
 - (NSString *)serverSuffix;
 - (NSString *)resourceName;
 - (AMPurpleJabberAdHocServer*)adhocServer;
-- (PurpleSslConnection*)secureConnection;
 - (void)setShouldVerifyCertificates:(BOOL)yesOrNo;
 - (BOOL)shouldVerifyCertificates;
 
