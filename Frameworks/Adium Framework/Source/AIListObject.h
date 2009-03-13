@@ -131,7 +131,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *pathToPreferences;
 
 - (void) setOrderIndex:(CGFloat)orderIndex inContainer:(id<AIContainingObject>)container;
-- (CGFloat) orderIndexInContainer:(id<AIContainingObject>)container;
 
 //Key-Value pairing
 @property (readonly, nonatomic) BOOL online;

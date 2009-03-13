@@ -575,7 +575,7 @@ NSInteger statusSort(id objectA, id objectB, BOOL groups, id<AIContainingObject>
 			return [((AIListObject *)objectA).displayName compare:((AIListObject *)objectB).displayName];
 		} else {
 			//Keep groups in manual order if set to do so.
-			if ([objectA orderIndexInContainer:container] > [objectB orderIndexInContainer:container]) {
+			if ([container orderIndexForObject:objectA] > [container orderIndexForObject:objectB]) {
 				return NSOrderedDescending;
 			} else {
 				return NSOrderedAscending;
@@ -701,8 +701,8 @@ NSInteger statusSort(id objectA, id objectB, BOOL groups, id<AIContainingObject>
 		
 		if (!resolveAlphabetically) {
 			//If we don't want to resolve alphabetically, we do want to resolve by manual ordering if possible
-			CGFloat orderIndexA = [objectA orderIndexInContainer:container];
-			CGFloat orderIndexB = [objectB orderIndexInContainer:container];
+			CGFloat orderIndexA = [container orderIndexForObject:objectA];
+			CGFloat orderIndexB = [container orderIndexForObject:objectB];
 			
 			if (orderIndexA > orderIndexB) {
 				return NSOrderedDescending;
