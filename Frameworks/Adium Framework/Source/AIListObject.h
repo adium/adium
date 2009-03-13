@@ -87,7 +87,6 @@ typedef enum {
 
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
-	CGFloat					orderIndex;				//Placement of this contact within a group
 	
 	//For AIContainingObject-compliant subclasses
 	CGFloat					largestOrder;
@@ -131,7 +130,8 @@ typedef enum {
 - (id)preferenceForKey:(NSString *)inKey group:(NSString *)groupName;
 @property (readonly, nonatomic) NSString *pathToPreferences;
 
-@property (readonly, nonatomic) CGFloat orderIndex;
+- (void) setOrderIndex:(CGFloat)orderIndex inContainer:(id<AIContainingObject>)container;
+- (CGFloat) orderIndexInContainer:(id<AIContainingObject>)container;
 
 //Key-Value pairing
 @property (readonly, nonatomic) BOOL online;

@@ -522,6 +522,15 @@
 	return prefContainer;	
 }
 
+- (void) removePreferenceCacheForObject:(AIListObject *)obj
+{
+	NSString *objID = obj.internalObjectID;
+	for (NSString *key in [[[objectPrefCache allKeys] copy] autorelease])
+	{
+		if ([key hasPrefix:objID])
+			[objectPrefCache removeObjectForKey:key];
+	}
+}
 
 //Default download locaiton --------------------------------------------------------------------------------------------
 #pragma mark Default download location

@@ -20,6 +20,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AILocalizationTextField.h>
+#import <Adium/AIContactList.h>
 
 #define STATUS_SORT_DEFAULT_PREFS   @"StatusSortDefaults"
 
@@ -567,14 +568,14 @@ static NSInteger  sizeOfSortOrder;
  *
  * It's magic... but it's efficient magic!
  */
-NSInteger statusSort(id objectA, id objectB, BOOL groups)
+NSInteger statusSort(id objectA, id objectB, BOOL groups, id<AIContainingObject> container)
 {
 	if (groups) {
 		if (sortGroupsAlphabetically) {
 			return [((AIListObject *)objectA).displayName compare:((AIListObject *)objectB).displayName];
 		} else {
 			//Keep groups in manual order if set to do so.
-			if ([objectA orderIndex] > [objectB orderIndex]) {
+			if ([objectA orderIndexInContainer:container] > [objectB orderIndexInContainer:container]) {
 				return NSOrderedDescending;
 			} else {
 				return NSOrderedAscending;
@@ -700,8 +701,8 @@ NSInteger statusSort(id objectA, id objectB, BOOL groups)
 		
 		if (!resolveAlphabetically) {
 			//If we don't want to resolve alphabetically, we do want to resolve by manual ordering if possible
-			CGFloat orderIndexA = [objectA orderIndex];
-			CGFloat orderIndexB = [objectB orderIndex];
+			CGFloat orderIndexA = [objectA orderIndexInContainer:container];
+			CGFloat orderIndexB = [objectB orderIndexInContainer:container];
 			
 			if (orderIndexA > orderIndexB) {
 				return NSOrderedDescending;

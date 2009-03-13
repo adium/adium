@@ -54,6 +54,8 @@ typedef enum {
 - (void)informObserversOfChangedKey:(NSString *)key inGroup:(NSString *)group object:(AIListObject *)object;
 - (void)delayPreferenceChangedNotifications:(BOOL)inDelay;
 
+- (void) removePreferenceCacheForObject:(AIListObject *)obj;
+
 //Setting Preferences
 - (void)setPreference:(id)value forKey:(NSString *)key group:(NSString *)group;
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)group object:(AIListObject *)object;

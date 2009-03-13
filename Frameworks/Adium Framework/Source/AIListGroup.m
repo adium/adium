@@ -302,16 +302,16 @@
 {
 	NSAssert2([_containedObjects containsObject:inObject], @"Attempting to sort %@ in %@ but not contained.", inObject, self);
 	
-	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects]];
+	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects inContainer:self]];
 	if ([_visibleObjects containsObject:inObject])
-		[_visibleObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_visibleObjects]];
+		[_visibleObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_visibleObjects inContainer:self]];
 }
 
 //Resorts the group contents (PRIVATE: For contact controller only)
 - (void)sort
 {	
-	[_containedObjects sortUsingActiveSortController];
-	[_visibleObjects sortUsingActiveSortController];
+	[_containedObjects sortUsingActiveSortControllerInContainer:self];
+	[_visibleObjects sortUsingActiveSortControllerInContainer:self];
 }
 
 #pragma mark Expanded State

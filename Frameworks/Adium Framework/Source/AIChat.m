@@ -290,7 +290,7 @@ static int nextChatNumber = 0;
 	if (![self containsObject:inObject]) {
 		//Add
 		[participatingContacts addObject:inObject];
-		[participatingContacts sortUsingActiveSortController];
+		[participatingContacts sortUsingActiveSortControllerInContainer:self];
 
 		[adium.chatController chat:self addedListContact:inObject notify:notify];
 	}

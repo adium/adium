@@ -58,8 +58,6 @@
 		UID = [inUID retain];	
 		service = inService;
 
-		orderIndex = 0;
-
 		largestOrder = 1.0;
 		smallestOrder = 1.0;
 
@@ -82,7 +80,7 @@
  */
 - (void)dealloc
 {
-	//
+	[adium.preferenceController removePreferenceCacheForObject:self];
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
 	[m_groups release]; m_groups = nil;
@@ -182,9 +180,6 @@
 		
 		if (inGroup)
 			[m_groups addObject:inGroup];
-		
-		//Reset then redetermine our order index	
-		orderIndex = 0;
 	}
 }
 
@@ -192,7 +187,6 @@
 {
 	NSParameterAssert(group != nil && [m_groups containsObject:group]);
 	[m_groups removeObject:group];
-	orderIndex = 0;
 }
 
 /*!
@@ -230,12 +224,9 @@
 /*!
  * @brief Returns our desired placement within a group
  */
-- (CGFloat)orderIndex
+- (CGFloat)orderIndexInContainer:(id<AIContainingObject>)container
 {
-	if (!orderIndex) 
-		orderIndex = [self.containingObject orderIndexForObject:self];
-	
-	return orderIndex;
+	return [container orderIndexForObject:self];
 }
 
 /*!
@@ -243,28 +234,28 @@
  *
  * PRIVATE: These are for AIListGroup ONLY
  */
-- (void)setOrderIndex:(CGFloat)inIndex
+- (void)setOrderIndex:(CGFloat)inIndex inContainer:(id<AIContainingObject>)container
 {
-	orderIndex = inIndex;
-	[self.containingObject listObject:self didSetOrderIndex:orderIndex];
+	[container listObject:self didSetOrderIndex:inIndex];
 }
 
 - (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)index
 {
+	AIListObject<AIContainingObject> *container = (AIListObject<AIContainingObject> *)self;
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		listObject.orderIndex = self.smallestOrder / 2.0;
+		[listObject setOrderIndex: self.smallestOrder / 2.0 inContainer:container];
 		
-	} else if (index >= [(AIListObject<AIContainingObject> *)self visibleCount]) {
+	} else if (index >= container.visibleCount) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		listObject.orderIndex = self.largestOrder + 1.0;
+		[listObject setOrderIndex: self.largestOrder + 1.0 inContainer:container];
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
-		AIListObject	*previousObject = [[(AIListObject<AIContainingObject> *)self containedObjects] objectAtIndex:index-1];
-		AIListObject	*nextObject = [[(AIListObject<AIContainingObject> *)self containedObjects] objectAtIndex:index];
-		CGFloat nextLowest = previousObject.orderIndex;
-		CGFloat nextHighest = nextObject.orderIndex;
+		AIListObject	*previousObject = [container.containedObjects objectAtIndex:index-1];
+		AIListObject	*nextObject = [container.containedObjects objectAtIndex:index];
+		CGFloat nextLowest = [previousObject orderIndexInContainer:container];
+		CGFloat nextHighest = [nextObject orderIndexInContainer:container];
 		
 		/* XXX - Fixme as per below
 		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
@@ -279,7 +270,7 @@
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
-		listObject.orderIndex = (nextHighest + nextLowest) / 2.0;
+		[listObject setOrderIndex: (nextHighest + nextLowest) / 2.0 inContainer:(id<AIContainingObject>)self];
 	}	
 }
 
@@ -711,8 +702,8 @@
 	
 	//Prevent setting an order index which we already have
 	NSArray *existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
-	while ([existingKeys count] && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
-		if ([existingKeys count] == 1) {
+	while (existingKeys.count && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
+		if (existingKeys.count == 1) {
 			AILogWithSignature(@"*** Warning: %@ had order index %f, but %@ already had an object with that order index. Setting to %f instead. Incrementing.",
 							   listObject, orderIndexForObject, self, (largestOrder + 1));
 
@@ -724,9 +715,7 @@
 			/* How could this happen? -evands */
 			AILogWithSignature(@"More than one object has %f! We'll grant it to %@", orderIndexForObject, listObject);
 
-			NSEnumerator *enumerator = [existingKeys objectEnumerator];
-			NSString *key;
-			while ((key = [enumerator nextObject])) {
+			for (NSString *key in [existingKeys objectEnumerator]) {
 				[newDict removeObjectForKey:key];
 			}
 
@@ -774,7 +763,7 @@
 	} else {
 		//Assign it to our current largest order + 1
 		orderIndexForObject = ++largestOrder;
-		[listObject setOrderIndex:orderIndexForObject];
+		[listObject setOrderIndex:orderIndexForObject inContainer:(AIListObject<AIContainingObject> *)self];
 	}
 	
 	return orderIndexForObject;

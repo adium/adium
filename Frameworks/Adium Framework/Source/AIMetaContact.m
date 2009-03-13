@@ -933,7 +933,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	//Sort the containedObjects if the flag tells us it's needed
 	if (containedObjectsNeedsSort && !delayContainedObjectSorting) {
 		containedObjectsNeedsSort = NO;
-		[_containedObjects sortUsingFunction:containedContactSort context:nil];
+		[_containedObjects sortUsingFunction:containedContactSort context:self];
 	}
 	
 	return _containedObjects;
@@ -1033,8 +1033,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context)
 {
-	float orderIndexA = [objectA orderIndex];
-	float orderIndexB = [objectB orderIndex];
+	float orderIndexA = [objectA orderIndexInContainer:(AIMetaContact *)context];
+	float orderIndexB = [objectB orderIndexInContainer:(AIMetaContact *)context];
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;
 		
