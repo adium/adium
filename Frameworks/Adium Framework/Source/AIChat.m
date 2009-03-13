@@ -84,6 +84,7 @@ static int nextChatNumber = 0;
 	AILog(@"[%@ dealloc]",self);
 
 	[account release];
+	[self removeAllParticipatingContactsSilently];
 	[participatingContacts release];
 	[dateOpened release];
 	[ignoredListContacts release];
