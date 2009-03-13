@@ -15,8 +15,13 @@
  */
 
 @class AIListObject, AIAdium;
+@protocol AIContainingObject;
 
-typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
+typedef NSComparisonResult(*sortfunc)(id, id, BOOL, id<AIContainingObject>);
+typedef struct {
+	sortfunc function;
+	id<AIContainingObject> container;
+} SortContext;
 
 #define PREF_GROUP_CONTACT_SORTING			@"Sorting"
 
@@ -40,7 +45,7 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 - (BOOL)shouldSortForModifiedStatusKeys:(NSSet *)inModifiedKeys;
 - (BOOL)shouldSortForModifiedAttributeKeys:(NSSet *)inModifiedKeys;
 @property (readonly, nonatomic) BOOL alwaysSortGroupsToTopByDefault;
-- (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects;
+- (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects inContainer:(id<AIContainingObject>)container;
 @property (readonly, nonatomic) NSView *configureView;
 - (void)forceIgnoringOfGroups:(BOOL)shouldForce;
 @property (readonly, nonatomic) BOOL canSortManually;
@@ -62,9 +67,9 @@ typedef NSComparisonResult(*sortfunc)(id, id, BOOL);
 @end
 
 @interface NSArray (AdiumSorting)
-- (NSArray *) sortedArrayUsingActiveSortController;
+- (NSArray *) sortedArrayUsingActiveSortControllerInContainer:(id<AIContainingObject>)container;
 @end
 
 @interface NSMutableArray (AdiumSorting)
-- (void) sortUsingActiveSortController;
+- (void) sortUsingActiveSortControllerInContainer:(id<AIContainingObject>)container;
 @end

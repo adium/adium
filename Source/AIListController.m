@@ -545,7 +545,7 @@
 			AIListObject<AIContainingObject> *actualTarget = (item ? item : adium.contactController.contactList);
 
 			NSInteger indexForInserting = [[AISortController activeSortController] indexForInserting:[dragItems objectAtIndex:0]
-																						 intoObjects:[actualTarget containedObjects]];
+																						 intoObjects:[actualTarget containedObjects] inContainer:actualTarget];
 			if (indexForInserting != index)
 				[outlineView setDropItem:item dropChildIndex:indexForInserting];
 
@@ -606,7 +606,7 @@
 				//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
 				if (![sortController canSortManually]) {
 					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
-																  intoObjects:(item ? [item containedObjects] : [adium.contactController.contactList containedObjects])];
+																		intoObjects:(item ? [item containedObjects] : [adium.contactController.contactList containedObjects]) inContainer:item ? item : adium.contactController.contactList];
 					/*
 					 For example, to specify a drop on an item I, you specify item as 1 and index as NSOutlineViewDropOnItemIndex.
 					 To specify a drop between child 2 and 3 of item I, you specify item as I and index as 3 (children are a zero-based index).

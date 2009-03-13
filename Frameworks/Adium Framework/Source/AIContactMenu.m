@@ -13,6 +13,7 @@
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
+#import <Adium/AIContactList.h>
 
 @interface AIContactMenu ()
 - (id)initWithDelegate:(id<AIContactMenuDelegate>)inDelegate forContactsInObject:(AIListObject *)inContainingObject;
@@ -171,7 +172,8 @@
 		}
 
 		// Sort what we're given
-		listObjects = [listObjects sortedArrayUsingActiveSortController];
+		//XXX is this container right?
+		listObjects = [listObjects sortedArrayUsingActiveSortControllerInContainer:adium.contactController.contactList];
 	} else {
 		// We can assume these are already sorted
 		listObjects = [self listObjectsForMenuFromArrayOfListObjects:([containingObject conformsToProtocol:@protocol(AIContainingObject)] ?

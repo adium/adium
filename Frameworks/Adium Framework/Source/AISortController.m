@@ -27,8 +27,8 @@ NSComparisonResult basicGroupSort(id objectA, id objectB, void *context);
 NSComparisonResult basicSort(id objectA, id objectB, void *context);
 
 @interface AISortController()
-- (NSArray *)sortedListObjects:(NSArray *)inObjects;
-- (void)sortListObjects:(NSMutableArray *)inObjects;
+- (NSArray *)sortedListObjects:(NSArray *)inObjects inContainer:(id<AIContainingObject>)container;
+- (void)sortListObjects:(NSMutableArray *)inObjects inContainer:(id<AIContainingObject>)container;
 @end
 
 @implementation AISortController
@@ -183,18 +183,23 @@ static NSMutableArray *sortControllers = nil;
  * @param inObjects An NSArray of AIListObject objects
  * @result The index for insertion
  */
-- (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects
+- (int)indexForInserting:(AIListObject *)inObject intoObjects:(NSArray *)inObjects inContainer:(id<AIContainingObject>)container
 {
 	NSEnumerator 	*enumerator = [inObjects objectEnumerator];
 	AIListObject	*object;
 	int				index = 0;
-
+	
+	SortContext context = {
+		sortFunction,
+		container
+	};
+	
 	if (alwaysSortGroupsToTop) {
 		while ((object = [enumerator nextObject]) && ((object == inObject) || 
-			  basicGroupSort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
+			  basicGroupSort(inObject, object, &context) == NSOrderedDescending)) index++;
 	} else {
 		while ((object = [enumerator nextObject]) && ((object == inObject) ||
-			  basicSort(inObject, object, sortFunction) == NSOrderedDescending)) index++;
+			  basicSort(inObject, object, &context) == NSOrderedDescending)) index++;
 	}
 	
 	return index;
@@ -211,16 +216,24 @@ static NSMutableArray *sortControllers = nil;
  * @param inObjects An NSArray of AIListObject instances to sort
  * @result A sorted NSArray containing the same AIListObjects from inObjects
  */
-- (NSArray *)sortedListObjects:(NSArray *)inObjects
+- (NSArray *)sortedListObjects:(NSArray *)inObjects inContainer:(id<AIContainingObject>)container
 {
+	SortContext context = {
+		sortFunction,
+		container
+	};
 	return [inObjects sortedArrayUsingFunction:(alwaysSortGroupsToTop ? basicGroupSort : basicSort)
-									   context:sortFunction
+									   context:&context
 										  hint:[inObjects sortedArrayHint]];
 }
 
-- (void) sortListObjects:(NSMutableArray *)inObjects
+- (void) sortListObjects:(NSMutableArray *)inObjects inContainer:(id<AIContainingObject>)container
 {
-	[inObjects sortUsingFunction:(alwaysSortGroupsToTop ? basicGroupSort : basicSort) context:sortFunction];
+	SortContext context = {
+		sortFunction,
+		container
+	};
+	[inObjects sortUsingFunction:(alwaysSortGroupsToTop ? basicGroupSort : basicSort) context:&context];
 }
 
 /*!
@@ -228,9 +241,9 @@ static NSMutableArray *sortControllers = nil;
  */
 NSComparisonResult basicSort(id objectA, id objectB, void *context)
 {
-	sortfunc	function = context;
+	SortContext ctx = *((SortContext*)context);
 	
-	return (function)(objectA, objectB, NO);
+	return (ctx.function)(objectA, objectB, NO, ctx.container);
 }
 
 /*!
@@ -246,9 +259,9 @@ NSComparisonResult basicGroupSort(id objectA, id objectB, void *context)
 	} else if (!groupA && groupB) {
 		return NSOrderedDescending;
 	} else {
-		sortfunc	function = context;
+		SortContext ctx = *((SortContext*)context);
 		
-		return (function)(objectA, objectB, groupA);
+		return (ctx.function)(objectA, objectB, groupA, ctx.container);
 	}
 }
 
@@ -316,7 +329,7 @@ NSComparisonResult basicGroupSort(id objectA, id objectB, void *context)
 /*!
  * @brief Sort function
  */
-- (NSComparisonResult (*)(id, id, BOOL))sortFunction{ return NULL; };
+- (sortfunc)sortFunction{ return NULL; };
 
 /*!
  * @brief Did become active first time
@@ -353,15 +366,15 @@ NSComparisonResult basicGroupSort(id objectA, id objectB, void *context)
 @end
 
 @implementation NSArray (AdiumSorting)
-- (NSArray *) sortedArrayUsingActiveSortController
+- (NSArray *) sortedArrayUsingActiveSortControllerInContainer:(id<AIContainingObject>)container
 {
-	return [[AISortController activeSortController] sortedListObjects:self];
+	return [[AISortController activeSortController] sortedListObjects:self inContainer:container];
 }
 @end
 
 @implementation NSMutableArray (AdiumSorting)
-- (void) sortUsingActiveSortController
+- (void) sortUsingActiveSortControllerInContainer:(id<AIContainingObject>)container
 {
-	[[AISortController activeSortController] sortListObjects:self];
+	[[AISortController activeSortController] sortListObjects:self inContainer:container];
 }
 @end
