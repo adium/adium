@@ -28,6 +28,7 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AISortController.h>
 
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
@@ -288,6 +289,7 @@ static int nextChatNumber = 0;
 	if (![self containsObject:inObject]) {
 		//Add
 		[participatingContacts addObject:inObject];
+		[participatingContacts sortUsingActiveSortController];
 
 		[adium.chatController chat:self addedListContact:inObject notify:notify];
 	}
