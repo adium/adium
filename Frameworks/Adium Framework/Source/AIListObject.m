@@ -251,7 +251,7 @@
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
-		[(id<AIContainingObject>)self listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0];
+		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0];
 	}	
 }
 
