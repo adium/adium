@@ -129,13 +129,26 @@
  */
 - (NSMenu *)contextualMenuForListObject:(AIListObject *)listObject
 {
-	NSArray			*locationsArray = [NSArray arrayWithObjects:
-		[NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
-		[NSNumber numberWithInteger:Context_Contact_Manage],
-		[NSNumber numberWithInteger:Context_Contact_Action],
-		[NSNumber numberWithInteger:Context_Contact_ListAction],
-		[NSNumber numberWithInteger:Context_Contact_NegativeAction],
-		[NSNumber numberWithInteger:Context_Contact_Additions], nil];
+	NSArray *locationsArray = nil;
+	
+	if (listObject.isStranger) {
+		locationsArray = [NSArray arrayWithObjects:
+						  [NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
+						  [NSNumber numberWithInteger:Context_Contact_Manage],
+						  [NSNumber numberWithInteger:Context_Contact_Action],
+						  [NSNumber numberWithInteger:Context_Contact_ListAction],
+						  [NSNumber numberWithInteger:Context_Contact_Stranger_ChatAction],
+						  [NSNumber numberWithInteger:Context_Contact_NegativeAction],
+						  [NSNumber numberWithInteger:Context_Contact_Additions], nil];
+	} else {
+		locationsArray = [NSArray arrayWithObjects:
+						  [NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
+						  [NSNumber numberWithInteger:Context_Contact_Manage],
+						  [NSNumber numberWithInteger:Context_Contact_Action],
+						  [NSNumber numberWithInteger:Context_Contact_ListAction],
+						  [NSNumber numberWithInteger:Context_Contact_NegativeAction],
+						  [NSNumber numberWithInteger:Context_Contact_Additions], nil];
+	}
 	
     return [adium.menuController contextualMenuWithLocations:locationsArray
 												 forListObject:listObject
