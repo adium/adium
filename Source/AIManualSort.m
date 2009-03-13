@@ -61,8 +61,8 @@
 NSInteger manualSort(id objectA, id objectB, BOOL groups, id<AIContainingObject>container)
 {
 	//Contacts and Groups in manual order
-	CGFloat orderIndexA = [objectA orderIndexInContainer:container];
-	CGFloat orderIndexB = [objectB orderIndexInContainer:container];
+	CGFloat orderIndexA = [container orderIndexForObject:objectA];
+	CGFloat orderIndexB = [container orderIndexForObject:objectB];
 	
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;

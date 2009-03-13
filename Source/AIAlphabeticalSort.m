@@ -161,7 +161,7 @@ NSInteger alphabeticalSort(id objectA, id objectB, BOOL groups, id<AIContainingO
 		//If sorting groups, do a caseInsesitiveCompare; otherwise, keep groups in manual order
 		if (sortGroups) {
 			return [[objectA longDisplayName] caseInsensitiveCompare:[objectB longDisplayName]];
-		} else if ([objectA orderIndexInContainer:container] > [objectB orderIndexInContainer:container]) {
+		} else if ([container orderIndexForObject:objectA] > [container orderIndexForObject:objectB]) {
 			return NSOrderedDescending;
 		} else {
 			return NSOrderedAscending;

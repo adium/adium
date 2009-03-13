@@ -219,14 +219,6 @@
 	if(inGroup)
 		[self addContainingGroup:inGroup];
 }
-	
-/*!
- * @brief Returns our desired placement within a group
- */
-- (CGFloat)orderIndexInContainer:(id<AIContainingObject>)container
-{
-	return [container orderIndexForObject:self];
-}
 
 /*!
  * @brief Alter the placement of this object in a group
@@ -253,8 +245,8 @@
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
 		AIListObject	*previousObject = [container.containedObjects objectAtIndex:index-1];
 		AIListObject	*nextObject = [container.containedObjects objectAtIndex:index];
-		CGFloat nextLowest = [previousObject orderIndexInContainer:container];
-		CGFloat nextHighest = [nextObject orderIndexInContainer:container];
+		CGFloat nextLowest = [container orderIndexForObject:previousObject];
+		CGFloat nextHighest = [container orderIndexForObject:nextObject];
 		
 		/* XXX - Fixme as per below
 		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.

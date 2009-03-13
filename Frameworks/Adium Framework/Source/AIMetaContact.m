@@ -1033,8 +1033,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context)
 {
-	float orderIndexA = [objectA orderIndexInContainer:(AIMetaContact *)context];
-	float orderIndexB = [objectB orderIndexInContainer:(AIMetaContact *)context];
+	float orderIndexA = [(AIMetaContact *)context orderIndexForObject:objectA];
+	float orderIndexB = [(AIMetaContact *)context orderIndexForObject:objectB];
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;
 		
