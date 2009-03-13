@@ -254,29 +254,10 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 
 static void adiumPurpleConvChatAddUsers(PurpleConversation *conv, GList *cbuddies, gboolean new_arrivals)
 {
-	if (purple_conversation_get_type(conv) == PURPLE_CONV_TYPE_CHAT) {
-		NSMutableArray	*usersArray = [NSMutableArray array];
-		NSMutableArray	*flagsArray = [NSMutableArray array];
-		NSMutableArray	*aliasesArray = [NSMutableArray array];
-		
-		GList *l;
-		for (l = cbuddies; l != NULL; l = l->next) {
-			PurpleConvChatBuddy *chatBuddy = (PurpleConvChatBuddy *)l->data;
-			
-			[usersArray addObject:[NSString stringWithUTF8String:chatBuddy->name]];
-			[aliasesArray addObject:(chatBuddy->alias ? [NSString stringWithUTF8String:chatBuddy->alias] : @"")];
-			[flagsArray addObject:[NSNumber numberWithInt:GPOINTER_TO_INT(chatBuddy->flags)]];
-		}
-
-		[accountLookup(purple_conversation_get_account(conv)) addUsersArray:usersArray
-										  withFlags:flagsArray
-										 andAliases:aliasesArray
-										newArrivals:[NSNumber numberWithBool:new_arrivals]
-											 toChat:groupChatLookupFromConv(conv)];
-		
-	} else {
+	if (purple_conversation_get_type(conv) == PURPLE_CONV_TYPE_CHAT)
+		[accountLookup(purple_conversation_get_account(conv)) updateUserListForChat: groupChatLookupFromConv(conv) users:cbuddies newlyAdded:new_arrivals];
+	else
 		AILog(@"adiumPurpleConvChatAddUsers: IM");
-	}
 }
 
 static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *oldName,

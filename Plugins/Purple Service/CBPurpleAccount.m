@@ -697,29 +697,30 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	PurpleConversation *conv = [[chat identifier] pointerValue];
 	if (conv) {
-		GList *l;
 		GList *users = purple_conv_chat_get_users(purple_conversation_get_chat_data(conv));
-		NSMutableArray *usersArray = [NSMutableArray array];
-		NSMutableArray *flagsArray = [NSMutableArray array];
-		NSMutableArray *aliasesArray = [NSMutableArray array];
+		[self updateUserListForChat:chat users:users newlyAdded:NO];
+	}
+}
+
+- (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded
+{
+	for (GList *l = users; l; l = l->next) {
+		PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
+		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name(cb)];
+		NSString *alias = cb->alias ? [NSString stringWithUTF8String:cb->alias] : @"";
+		PurpleConvChatBuddyFlags flags = cb->flags;
+		AIListContact *listContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
+		[listContact setFormattedUID:contactName notify:NotifyNow];
 		
-		for (l = users; l; l = l->next) {
-			PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
-			const char *name = purple_conv_chat_cb_get_name(cb);
-			const char *alias = cb->alias;
-			PurpleConvChatBuddyFlags flags = cb->flags;
-			
-			[usersArray addObject:[NSString stringWithUTF8String:name]];
-			[flagsArray addObject:[NSNumber numberWithInt:flags]];
-			[aliasesArray addObject:(alias ? [NSString stringWithUTF8String:alias] : @"")];
+		//XXX if purple's flags change this could stop working
+		listContact.groupChatFlags = (AIGroupChatFlags)flags;
+		
+		if (alias && [alias length] && ![alias isEqualToString:contactName]) {
+			[listContact setServersideAlias:alias silently:YES];
 		}
 		
-		[self addUsersArray:usersArray
-				  withFlags:flagsArray
-				 andAliases:aliasesArray
-				newArrivals:[NSNumber numberWithBool:NO]
-					 toChat:chat];
-	}	
+		[chat addParticipatingListObject:listContact notify:newlyAdded];
+	}
 }
 
 /*!
@@ -1208,41 +1209,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	//No change for the superclass; subclasses may wish to modify it
 	return inUID;
-}
-- (void)addUsersArray:(NSArray *)usersArray
-			withFlags:(NSArray *)flagsArray
-		   andAliases:(NSArray *)aliasesArray 
-		  newArrivals:(NSNumber *)newArrivals
-			   toChat:(AIChat *)chat
-{
-	int			i, count;
-	BOOL		isNewArrival = (newArrivals && [newArrivals boolValue]);
-
-	AILog(@"*** %@: addUsersArray:%@ toChat:%@",self,usersArray,chat);
-
-	count = [usersArray count];
-	for (i = 0; i < count; i++) {
-		NSString				*contactName;
-		NSString				*alias;
-		AIListContact			*listContact;
-		PurpleConvChatBuddyFlags	flags;
-
-		contactName = [usersArray objectAtIndex:i];
-		flags = [[flagsArray objectAtIndex:i] intValue];
-		alias = [aliasesArray objectAtIndex:i];
-
-		listContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
-		[listContact setFormattedUID:contactName notify:NotifyNow];
-		
-		//XXX if purple's flags change this could stop working
-		listContact.groupChatFlags = (AIGroupChatFlags)flags;
-
-		if (alias && [alias length] && ![alias isEqualToString:contactName]) {
-			[listContact setServersideAlias:alias silently:YES];
-		}
-
-		[chat addParticipatingListObject:listContact notify:isNewArrival];
-	}
 }
 
 - (void)renameRoomOccupant:(NSString *)contactName to:(NSString *)newName inChat:(AIChat *)chat
