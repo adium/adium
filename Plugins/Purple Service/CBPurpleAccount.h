@@ -189,11 +189,7 @@
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat;
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat;
 - (void)convUpdateForChat:(AIChat *)chat type:(NSNumber *)type;
-- (void)addUsersArray:(NSArray *)usersArray
-			withFlags:(NSArray *)flagsArray
-		   andAliases:(NSArray *)aliasesArray 
-		  newArrivals:(NSNumber *)newArrivals
-			   toChat:(AIChat *)chat;
+- (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 
