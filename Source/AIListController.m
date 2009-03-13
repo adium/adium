@@ -897,7 +897,7 @@
 		[adium.contactController groupContacts:[[NSArray arrayWithObject:item]
 								arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
-		//XXX multiple groups: we need to make sure that the metacontacts respect manual ordering correctly
+		//XXX multiple containers: we need to make sure that the metacontacts respect manual ordering correctly
 		
 		[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
 	}

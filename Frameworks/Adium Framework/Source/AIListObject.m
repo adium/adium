@@ -80,7 +80,6 @@
  */
 - (void)dealloc
 {
-	[adium.preferenceController removePreferenceCacheForObject:self];
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
 	[m_groups release]; m_groups = nil;
