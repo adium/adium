@@ -633,7 +633,7 @@
 - (BOOL)_performAddContact:(AIListContact *)inContact toMetaContact:(AIMetaContact *)metaContact
 {
 	//we only allow group->meta->contact, not group->meta->meta->contact
-	NSParameterAssert(![inContact conformsToProtocol:@protocol(AIContainingObject)]);
+	NSParameterAssert([metaContact canContainObject:inContact]);
 
 	BOOL								success;
 	
