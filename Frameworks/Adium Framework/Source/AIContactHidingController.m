@@ -50,7 +50,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	
 		hideAccounts = nil;
 		matchedContacts = [[NSMutableDictionary alloc] init];
-		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR statusMessageString contains[cd] $SEARCH_STRING"] retain];
+		
+		// contains[cd] - c = case insensitive, d = diacritic insensitive
+		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR uid contains[cd] $SEARCH_STRING"] retain];
 	}
 	return self;
 }
