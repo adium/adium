@@ -101,7 +101,6 @@
 - (void) rebuildVisibleCache
 {
 	[_visibleObjects removeAllObjects];
-	[self sort];
 	for (AIListObject *obj in self)
 	{
 		if ([[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
