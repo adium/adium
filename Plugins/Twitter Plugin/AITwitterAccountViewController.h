@@ -20,6 +20,9 @@
 	IBOutlet	NSPopUpButton	*popUp_updateInterval;
 	IBOutlet	NSButton		*checkBox_updateAfterSend;
 	
+	IBOutlet	NSButton		*checkBox_updateGlobalStatus;
+	IBOutlet	NSButton		*checkBox_updateGlobalIncludeReplies;
+	
 	IBOutlet	NSTextField		*textField_name;
 	IBOutlet	NSTextField		*textField_url;
 	IBOutlet	NSTextField		*textField_location;

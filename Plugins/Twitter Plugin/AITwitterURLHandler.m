@@ -143,7 +143,7 @@
 	BOOL keepTweetValues = YES;
 	NSString *contents = [textView string];
 	
-	if([contents length] && [contents characterAtIndex:0] == '@') {
+	if([contents hasPrefix:@"@"]) {
 		NSString *replyUsername = [contents substringFromIndex:1];
 		NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[account.service.allowedCharacters invertedSet]];
 		

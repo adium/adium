@@ -27,6 +27,7 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentMessage.h>
@@ -34,6 +35,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
+#import <Adium/AIStatus.h>
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
@@ -1237,6 +1239,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[listContact setProfileArray:profileArray notify:NotifyNow];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate && updateAfterSend) {
 		[self periodicUpdate];
+		
+		if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+			for(NSDictionary *update in statuses) {
+				NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+				
+				if(![text hasPrefix:@"@"] ||
+				   [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+					AIStatus *availableStatus = [[adium.statusController.availableStatus copy] autorelease];
+					
+					availableStatus.statusMessage = [NSAttributedString stringWithString:text];
+					[adium.statusController setActiveStatusState:availableStatus];
+				}
+			}
+		}
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
@@ -1302,7 +1318,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			if (queuedDM.count && lastID) {
 				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			} else {
-					[queuedDM removeAllObjects];		
+				[queuedDM removeAllObjects];		
 			}
 		}
 	}

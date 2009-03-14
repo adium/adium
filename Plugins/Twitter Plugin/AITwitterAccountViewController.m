@@ -88,29 +88,49 @@
 }
 
 /*!
+ * @brief A preference was changed
+ *
+ * Don't save here; merely update controls as necessary.
+ */
+- (IBAction)changedPreference:(id)sender
+{
+	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
+}
+
+/*!
  * @brief Configure the account view
  */
 - (void)configureForAccount:(AIAccount *)inAccount
 {
-	if(inAccount != account) {
-		NSNumber *updateInterval = [inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES];
-		[popUp_updateInterval selectItemAtIndex:[[popUp_updateInterval menu] indexOfItemWithRepresentedObject:updateInterval]];
-		
-		BOOL updateAfterSend = [[inAccount preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
-		[checkBox_updateAfterSend setState:updateAfterSend];
-
-		textField_name.stringValue = [inAccount valueForProperty:@"Profile Name"] ?: @"";
-		textField_url.stringValue = [inAccount valueForProperty:@"Profile URL"] ?: @"";
-		textField_location.stringValue = [inAccount valueForProperty:@"Profile Location"] ?: @"";
-		textField_description.stringValue = [inAccount valueForProperty:@"Profile Description"] ?: @"";
-		
-		[textField_name setEnabled:inAccount.online];
-		[textField_url setEnabled:inAccount.online];
-		[textField_location setEnabled:inAccount.online];
-		[textField_description setEnabled:inAccount.online];
-	}
-	
 	[super configureForAccount:inAccount];
+	
+	// Options
+	
+	NSNumber *updateInterval = [account preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	[popUp_updateInterval selectItemAtIndex:[[popUp_updateInterval menu] indexOfItemWithRepresentedObject:updateInterval]];
+	
+	BOOL updateAfterSend = [[account preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+	[checkBox_updateAfterSend setState:updateAfterSend];
+	
+	BOOL updateGlobal = [[account preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+	[checkBox_updateGlobalStatus setState:updateGlobal];
+
+	BOOL updateGlobalIncludesReplies = [[account preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+	[checkBox_updateGlobalIncludeReplies setState:updateGlobalIncludesReplies];
+	
+	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
+	
+	// Personal
+
+	textField_name.stringValue = [account valueForProperty:@"Profile Name"] ?: @"";
+	textField_url.stringValue = [account valueForProperty:@"Profile URL"] ?: @"";
+	textField_location.stringValue = [account valueForProperty:@"Profile Location"] ?: @"";
+	textField_description.stringValue = [account valueForProperty:@"Profile Description"] ?: @"";
+	
+	[textField_name setEnabled:account.online];
+	[textField_url setEnabled:account.online];
+	[textField_location setEnabled:account.online];
+	[textField_description setEnabled:account.online];
 }
 
 /*!
@@ -126,6 +146,14 @@
 	
 	[account setPreference:[NSNumber numberWithBool:[checkBox_updateAfterSend state]]
 					forKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND
+					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_updateGlobalStatus state]]
+					forKey:TWITTER_PREFERENCE_UPDATE_GLOBAL
+					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_updateGlobalIncludeReplies state]]
+					forKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
 	if (account.online) {

@@ -60,7 +60,10 @@ typedef enum {
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
-#define TWITTER_PREFERENCE_UPDATE_AFTER_SEND	@"Update After Send"
+#define TWITTER_PREFERENCE_UPDATE_AFTER_SEND		@"Update After Send"
+#define TWITTER_PREFERENCE_UPDATE_GLOBAL			@"Update Global Status"
+#define TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES	@"Update Global Status Includes Replies"
+
 #define TWITTER_PREFERENCE_UPDATE_INTERVAL		@"Update Interval In Minutes"
 #define TWITTER_PREFERENCE_DM_LAST_ID			@"Direct Messages Last ID"
 #define TWITTER_PREFERENCE_TIMELINE_LAST_ID		@"Followed Timeline Last ID"
