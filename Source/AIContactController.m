@@ -119,7 +119,6 @@
 		//
 		contactDict = [[NSMutableDictionary alloc] init];
 		groupDict = [[NSMutableDictionary alloc] init];
-		bookmarkDict = [[NSMutableDictionary alloc] init];
 		metaContactDict = [[NSMutableDictionary alloc] init];
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 		contactLists = [[NSMutableArray alloc] init];
@@ -168,7 +167,6 @@
 		
 	[contactDict release];
 	[groupDict release];
-	[bookmarkDict release];
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
 	[contactLists release];
@@ -1187,11 +1185,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat
 {
-	AIListBookmark *bookmark = [bookmarkDict objectForKey:inChat.uniqueChatID];
+	AIListBookmark *bookmark = [self existingBookmarkForChat:inChat];
 	
 	if (!bookmark) {
 		bookmark = [[[AIListBookmark alloc] initWithChat:inChat] autorelease];
-		[bookmarkDict setObject:bookmark forKey:inChat.uniqueChatID];
 		[self saveContactList];
 	}
 	
