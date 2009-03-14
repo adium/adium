@@ -816,6 +816,7 @@
 - (NSString *)addressForLinkType:(AITwitterLinkType)linkType
 						  userID:(NSString *)userID
 						statusID:(NSString *)statusID
+						 context:(NSString *)context
 {
 	NSString *address = nil;
 	
@@ -827,6 +828,8 @@
 		address = [NSString stringWithFormat:@"https://twitter.com/%@/followers", userID]; 
 	} else if (linkType == AITwitterLinkUserPage) {
 		address = [NSString stringWithFormat:@"https://twitter.com/%@", userID]; 
+	} else if (linkType == AITwitterLinkSearchHash) {
+		address = [NSString stringWithFormat:@"http://search.twitter.com/search?q=%%23%@", context];
 	}
 	
 	return address;
@@ -859,7 +862,7 @@
 	
 	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
 	
-	message = [AITwitterURLParser linkifiedAttributedStringFromString:message];
+	message = [AITwitterURLParser linkifiedAttributedStringFromString:message forAccount:self];
 	
 	BOOL replyTweet = (replyTweetID.length);
 	BOOL tweetLink = (tweetID.length && userID.length);
@@ -873,7 +876,8 @@
 		if (replyTweet) {			
 			NSString *linkAddress = [self addressForLinkType:AITwitterLinkStatus
 													  userID:replyUserID
-													statusID:replyTweetID];
+													statusID:replyTweetID
+													 context:nil];
 			
 			[mutableMessage appendString:AILocalizedString(@"original", "Link appended which goes to the permanent location of the status this tweet is in reply to")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
@@ -892,7 +896,8 @@
 			
 			linkAddress = [self addressForLinkType:AITwitterLinkStatus
 											userID:userID
-										  statusID:tweetID];
+										  statusID:tweetID
+										   context:nil];
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
@@ -1455,13 +1460,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					
 					if([keyName isEqualToString:@"friends_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkFriends userID:listContact.UID statusID:nil]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkFriends userID:listContact.UID statusID:nil context:nil]];
 					} else if ([keyName isEqualToString:@"followers_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkFollowers userID:listContact.UID statusID:nil]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkFollowers userID:listContact.UID statusID:nil context:nil]];
 					} else if ([keyName isEqualToString:@"statuses_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[self addressForLinkType:AITwitterLinkUserPage userID:listContact.UID statusID:nil]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkUserPage userID:listContact.UID statusID:nil context:nil]];
 					} else {
 						value = [NSAttributedString stringWithString:unattributedValue];
 					}

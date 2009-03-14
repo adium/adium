@@ -15,18 +15,21 @@
  */
 
 #import "AITwitterURLParser.h"
+#import "AITwitterAccount.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 @implementation AITwitterURLParser
 
 +(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
+												forAccount:(AITwitterAccount *)inAccount
 {	
 	NSAttributedString *attributedString;
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
 														  forPrefixCharacter:@"@"
-															   withURLFormat:@"https://twitter.com/%@"
+																   forLinkType:AITwitterLinkUserPage
+																	forAccount:inAccount
 															validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"]];
 	
 	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
@@ -34,7 +37,8 @@
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
 														   forPrefixCharacter:@"#"
-																withURLFormat:@"http://search.twitter.com/search?q=%%23%@"
+																  forLinkType:AITwitterLinkSearchHash
+																   forAccount:inAccount
 															validCharacterSet:[disallowedCharacters invertedSet]];
 	
 	return attributedString;
@@ -42,8 +46,9 @@
 
 +(NSAttributedString *)linkifiedStringFromAttributedString:(NSAttributedString *)inString
 										forPrefixCharacter:(NSString *)prefixCharacter
-												   withURLFormat:(NSString *)inURLFormat
-											   validCharacterSet:(NSCharacterSet *)validValues
+											   forLinkType:(AITwitterLinkType)linkType
+												forAccount:(AITwitterAccount *)account
+										 validCharacterSet:(NSCharacterSet *)validValues
 {
 	NSMutableAttributedString	*newString = [inString mutableCopy];
 	
@@ -77,9 +82,19 @@
 		BOOL scannedCharacters = [scanner scanCharactersFromSet:validValues intoString:&linkText];
 			
 		if(scannedCharacters) {
-			[newString addAttribute:NSLinkAttributeName
-							  value:[NSString stringWithFormat:inURLFormat, [linkText stringByEncodingURLEscapes]]
-							  range:NSMakeRange(startLocation + 1, [linkText length])];
+			NSString *linkURL = nil;
+			
+			if(linkType == AITwitterLinkUserPage) {
+				linkURL = [account addressForLinkType:linkType userID:[linkText stringByEncodingURLEscapes] statusID:nil context:nil];
+			} else if (linkType == AITwitterLinkSearchHash) {
+				linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
+			}
+			
+			if(linkURL) {
+				[newString addAttribute:NSLinkAttributeName
+								  value:linkURL
+								  range:NSMakeRange(startLocation + 1, [linkText length])];
+			}
 		} else {
 			[scanner setScanLocation:[scanner scanLocation]+1];
 		}

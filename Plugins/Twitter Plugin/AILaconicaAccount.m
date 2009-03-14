@@ -55,6 +55,7 @@
 - (NSString *)addressForLinkType:(AITwitterLinkType)linkType
 						  userID:(NSString *)userID
 						statusID:(NSString *)statusID
+						 context:(NSString *)context
 {
 	NSString *address = nil;
 	
@@ -66,6 +67,8 @@
 		address = [NSString stringWithFormat:@"https://%@/%@/subscribers", self.host, userID]; 
 	} else if (linkType == AITwitterLinkUserPage) {
 		address = [NSString stringWithFormat:@"https://%@/%@", self.host, userID]; 
+	} else if (linkType == AITwitterLinkSearchHash) {
+		address = [NSString stringWithFormat:@"http://%@/tag/%@", self.host, context];
 	}
 	
 	return address;

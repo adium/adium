@@ -47,7 +47,8 @@ typedef enum {
 	AITwitterLinkStatus,
 	AITwitterLinkFriends,
 	AITwitterLinkFollowers,
-	AITwitterLinkUserPage
+	AITwitterLinkUserPage,
+	AITwitterLinkSearchHash
 } AITwitterLinkType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
@@ -134,6 +135,7 @@ typedef enum {
 
 - (NSString *)addressForLinkType:(AITwitterLinkType)linkType
 						  userID:(NSString *)userID
-						statusID:(NSString *)statusID;
+						statusID:(NSString *)statusID
+						 context:(NSString *)context;
 
 @end
