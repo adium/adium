@@ -830,6 +830,8 @@
 		address = [NSString stringWithFormat:@"https://twitter.com/%@", userID]; 
 	} else if (linkType == AITwitterLinkSearchHash) {
 		address = [NSString stringWithFormat:@"http://search.twitter.com/search?q=%%23%@", context];
+	} else if (linkType == AITwitterLinkReply) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@", self.internalObjectID, userID, statusID];
 	}
 	
 	return address;
@@ -850,6 +852,31 @@
 }
 
 /*!
+ * @brief Parse an attributed string into a linkified version.
+ */
+- (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
+{	
+	NSAttributedString *attributedString;
+	
+	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
+															forPrefixCharacter:@"@"
+																   forLinkType:AITwitterLinkUserPage
+																	forAccount:self
+															 validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"]];
+	
+	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
+															forPrefixCharacter:@"#"
+																   forLinkType:AITwitterLinkSearchHash
+																	forAccount:self
+															 validCharacterSet:[disallowedCharacters invertedSet]];
+	
+	return attributedString;
+}
+
+/*!
  * @brief Parses a Twitter message into an attributed string
  */
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
@@ -862,7 +889,7 @@
 	
 	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
 	
-	message = [AITwitterURLParser linkifiedAttributedStringFromString:message forAccount:self];
+	message = [self linkifiedAttributedStringFromString:message];
 	
 	BOOL replyTweet = (replyTweetID.length);
 	BOOL tweetLink = (tweetID.length && userID.length);
@@ -885,7 +912,10 @@
 		
 		// Append a link to reply to this tweet
 		if (tweetLink) {
-			NSString *linkAddress = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@", self.UID, userID, tweetID];
+			NSString *linkAddress = [self addressForLinkType:AITwitterLinkReply
+													  userID:userID
+													statusID:tweetID
+													 context:nil];
 			
 			if(replyTweet) {
 				[mutableMessage appendString:@", " withAttributes:nil];

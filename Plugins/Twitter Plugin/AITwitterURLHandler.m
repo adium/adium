@@ -63,22 +63,37 @@
 	
 	AILogWithSignature(@"Twitter Reply requested: %@", url);
 	
-	AIService	*twitterService = [adium.accountController firstServiceWithServiceID:@"Twitter"];
-	NSArray		*accountArray = [adium.accountController accountsCompatibleWithService:twitterService];
+	NSArray		*accountArray = [adium.accountController accounts];
 	
 	AITwitterAccount	*account = nil;
 	
+	// Look for an account with the given internalObjectID
 	for(AIAccount *tempAccount in accountArray) {
 		if (![tempAccount isKindOfClass:[AITwitterAccount class]]) {
-			return;
+			continue;
 		}
 		
-		account = (AITwitterAccount *)tempAccount;
-		
-		if([tempAccount.UID isEqualToString:inAccount]) {
+		if([tempAccount.internalObjectID isEqualToString:inAccount]) {
+			account = (AITwitterAccount *)tempAccount;
 			break;
 		}
 	}
+	
+	if(!account) {
+		for(AIAccount *tempAccount in accountArray) {
+			if (![tempAccount isKindOfClass:[AITwitterAccount class]]) {
+				continue;
+			}
+			
+			account = (AITwitterAccount *)tempAccount;
+			
+			if([tempAccount.UID isEqualToString:inAccount]) {
+				break;
+			}
+		}
+	}
+	
+	// Next look for an account with the given username.
 	
 	if(!account) {
 		// No twitter accounts exist. Fail.
