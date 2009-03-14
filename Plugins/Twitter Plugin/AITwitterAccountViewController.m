@@ -132,10 +132,10 @@
 	[textField_location setEnabled:account.online];
 	[textField_description setEnabled:account.online];
 	
-	[textField_server setStringValue:account.host];
-	[textField_server setEnabled:NO];
+	textField_server.stringValue = account.host ?: @"";
+	textField_APIpath.stringValue = @"";
 	
-	[textField_APIpath setStringValue:@""];
+	[textField_server setEnabled:NO];
 	[textField_APIpath setEnabled:NO];
 }
 
