@@ -125,12 +125,14 @@
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
 	[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
 	
+	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.APIDomain);
+	
 	NSString *requestID = [twitterEngine checkUserCredentials];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterValidateCredentials forRequestID:requestID withDictionary:nil];
 	} else {
-		[self setLastDisconnectionError:AILocalizedString(@"Unable to Connect", nil)];
+		[self setLastDisconnectionError:AILocalizedString(@"Unable to connect to server", nil)];
 		[self didDisconnect];
 	}
 }
@@ -1125,7 +1127,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					forRequestID:requestID
 				  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
 		} else {
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
 			[self didDisconnect];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterRemoveFollow) {
@@ -1162,7 +1164,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
 			[self serverReportedInvalidPassword];
 		} else {
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to Connect", nil)];
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
 		}
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
