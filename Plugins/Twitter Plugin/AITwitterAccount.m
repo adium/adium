@@ -78,6 +78,8 @@
 							 URL:@"http://www.adiumx.com"
 						   token:@"adiumofficial"];
 	
+	[twitterEngine setAPIDomain:[self.host stringByAppendingString:self.apiPath]];
+	
 	[adium.notificationCenter addObserver:self
 							     selector:@selector(chatDidOpen:) 
 									 name:Chat_DidOpen
@@ -215,6 +217,16 @@
 - (NSString *)host
 {
 	return @"twitter.com";
+}
+
+/*!
+ * @brief API path
+ *
+ * The API path extension for the given host.
+ */
+- (NSString *)apiPath
+{
+	return nil;
 }
 
 /*!
@@ -1060,13 +1072,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-		// Verify we're within the rate limit before proceeding at all.
-		NSString	*requestID = [twitterEngine getRateLimitStatus];
+		// Delay updates on initial login.
+		[self silenceAllContactUpdatesForInterval:18.0];
+		// Grab our user list.
+		NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
 		
 		if (requestID) {
-			[self setRequestType:AITwitterRateLimitPreConnect
+			[self setRequestType:AITwitterInitialUserInfo
 					forRequestID:requestID
-				  withDictionary:nil];
+				  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
 		} else {
 			[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
 			[self didDisconnect];
@@ -1498,30 +1512,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)miscInfoReceived:(NSArray *)miscInfo forRequest:(NSString *)identifier
 {
-	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitPreConnect) {
-		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
-		
-		AILogWithSignature(@"%@ User has %d rate limit remaining", self, [[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue]);
-		
-		if ([[rateLimit objectForKey:TWITTER_RATE_LIMIT_REMAINING] intValue] < 4) {
-			[self setLastDisconnectionError:AILocalizedString(@"Rate limit too low, try again later", "Message displayed when a Twitter account has too few remaining hits in their rate limit")];
-			[self didDisconnect];
-		} else {
-			// Delay updates on initial login.
-			[self silenceAllContactUpdatesForInterval:18.0];
-			// Grab our user list.
-			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
-			
-			if (requestID) {
-				[self setRequestType:AITwitterInitialUserInfo
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
-			} else {
-				[self setLastDisconnectionError:AILocalizedString(@"Unable to connect", nil)];
-				[self didDisconnect];
-			}
-		}
-	} else if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
+	if([self requestTypeForRequestID:identifier] == AITwitterRateLimitStatus) {
 		NSDictionary *rateLimit = [miscInfo objectAtIndex:0];
 		NSDate *resetDate = [NSDate dateWithTimeIntervalSince1970:[[rateLimit objectForKey:TWITTER_RATE_LIMIT_RESET_SECONDS] intValue]];
 		
