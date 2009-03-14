@@ -84,25 +84,35 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 		return AIUserIconSourceDidNotFindIcon;
 		
 	} else {
-		NSString	*cachedImagePath = [[self class] _cachedImagePathForObject:inObject];
-		BOOL		gotCachedImage = NO;
+		NSData *iconData = [self cachedUserIconDataForObject:inObject];
 		
-		if ([[NSFileManager defaultManager] fileExistsAtPath:cachedImagePath]) {
-			NSImage				*cachedImage;
-			
-			if ((cachedImage = [[NSImage alloc] initWithContentsOfFile:cachedImagePath])) {
-				[AIUserIcons userIconSource:self
-					   didDetermineUserIcon:cachedImage
-							 asynchronously:NO
-								  forObject:inObject];
-				[cachedImage release];
-				
-				gotCachedImage = YES;
-			}
-		}	
+		[AIUserIcons userIconSource:self
+			   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
+					 asynchronously:NO
+						  forObject:inObject];
 
-		return (gotCachedImage ? AIUserIconSourceFoundIcon : AIUserIconSourceDidNotFindIcon);
+		return (iconData ? AIUserIconSourceFoundIcon : AIUserIconSourceDidNotFindIcon);
 	}
+}
+
+/*!
+ * @brief Returns the cached user icon for an object
+ *
+ * @result The NSData for a cached user icon or nil
+ */
+- (NSData *)cachedUserIconDataForObject:(AIListObject *)inObject
+{
+	NSString	*cachedImagePath = [[self class] _cachedImagePathForObject:inObject];
+	
+	if ([[NSFileManager defaultManager] fileExistsAtPath:cachedImagePath]) {
+		NSData				*cachedImage;
+		
+		if ((cachedImage = [[NSData alloc] initWithContentsOfFile:cachedImagePath])) {
+			return [cachedImage autorelease];
+		}
+	}	
+	
+	return nil;
 }
 
 /*!
