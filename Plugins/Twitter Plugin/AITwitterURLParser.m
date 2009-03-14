@@ -37,45 +37,48 @@
 	
 	[newString beginEditing];
 	
-	while(![scanner isAtEnd]) {
+	while(!scanner.isAtEnd) {
 		[scanner scanUpToString:prefixCharacter intoString:&trash];
 		
-		if([scanner isAtEnd]) {
+		if(scanner.isAtEnd) {
 			break;
 		}
 		
-		NSUInteger	startLocation = [scanner scanLocation];
+		NSUInteger	startLocation = scanner.scanLocation;
 		NSString	*linkText = nil;
 
 		// Advance to the start of the string we want.
 		// Check to make sure we aren't exceeding the string bounds.
-		if(startLocation + 1 < [[scanner string] length]) {
-			[scanner setScanLocation:[scanner scanLocation]+1];
+		if(startLocation + 1 < scanner.string.length) {
+			scanner.scanLocation++;
 		} else {
 			break;
 		}
 		
 		// Grab any valid characters we can.
 		BOOL scannedCharacters = [scanner scanCharactersFromSet:validValues intoString:&linkText];
-			
+		
 		if(scannedCharacters) {
-			NSString *linkURL = nil;
-			
-			if(linkType == AITwitterLinkUserPage) {
-				linkURL = [account addressForLinkType:linkType userID:[linkText stringByEncodingURLEscapes] statusID:nil context:nil];
-			} else if (linkType == AITwitterLinkSearchHash) {
-				linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
-			} else if (linkType == AITwitterLinkGroup) {
-				linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
-			}
-			
-			if(linkURL) {
-				[newString addAttribute:NSLinkAttributeName
-								  value:linkURL
-								  range:NSMakeRange(startLocation + 1, [linkText length])];
+			if((scanner.scanLocation - linkText.length) == prefixCharacter.length || 
+			   [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[scanner.string characterAtIndex:(scanner.scanLocation - linkText.length - prefixCharacter.length - 1)]]) {
+				
+				NSString *linkURL = nil;
+				if(linkType == AITwitterLinkUserPage) {
+					linkURL = [account addressForLinkType:linkType userID:[linkText stringByEncodingURLEscapes] statusID:nil context:nil];
+				} else if (linkType == AITwitterLinkSearchHash) {
+					linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
+				} else if (linkType == AITwitterLinkGroup) {
+					linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
+				}
+				
+				if(linkURL) {
+					[newString addAttribute:NSLinkAttributeName
+									  value:linkURL
+									  range:NSMakeRange(startLocation + 1, linkText.length)];
+				}
 			}
 		} else {
-			[scanner setScanLocation:[scanner scanLocation]+1];
+			scanner.scanLocation++;
 		}
 	}
 	
