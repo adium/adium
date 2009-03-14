@@ -21,7 +21,6 @@ typedef enum {
 	AITwitterUnknownType = 0,
 	
 	AITwitterValidateCredentials,
-	AITwitterRateLimitPreConnect,
 	AITwitterDisconnect,
 	
 	AITwitterRateLimitStatus,
@@ -125,6 +124,8 @@ typedef enum {
 }
 
 @property (readonly) NSString *timelineChatName;
+
+- (NSString *)apiPath;
 
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
