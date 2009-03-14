@@ -26,10 +26,10 @@
 {
 	[super configureForAccount:inAccount];
 	
-	textField_server.stringValue = account.host ?: @"";
+	textField_server.stringValue = [account preferenceForKey:LACONICA_PREFERENCE_HOST group:LACONICA_PREF_GROUP] ?: @"";
 	[textField_server setEnabled:YES];
 	
-	textField_APIpath.stringValue = ((AILaconicaAccount *)account).apiPath ?: @"";
+	textField_APIpath.stringValue = [account preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP] ?: @"";
 	[textField_APIpath setEnabled:YES];
 }
 
@@ -45,7 +45,7 @@
 					 group:LACONICA_PREF_GROUP];
 
 	[account setPreference:textField_APIpath.stringValue
-					forKey:LACONICA_PREFERENCE_APIPATH
+					forKey:LACONICA_PREFERENCE_PATH
 					 group:LACONICA_PREF_GROUP];
 	
 }
