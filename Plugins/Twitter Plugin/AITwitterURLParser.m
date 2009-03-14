@@ -21,29 +21,6 @@
 
 @implementation AITwitterURLParser
 
-+(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
-												forAccount:(AITwitterAccount *)inAccount
-{	
-	NSAttributedString *attributedString;
-	
-	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
-														  forPrefixCharacter:@"@"
-																   forLinkType:AITwitterLinkUserPage
-																	forAccount:inAccount
-															validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"]];
-	
-	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
-	
-	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
-														   forPrefixCharacter:@"#"
-																  forLinkType:AITwitterLinkSearchHash
-																   forAccount:inAccount
-															validCharacterSet:[disallowedCharacters invertedSet]];
-	
-	return attributedString;
-}
-
 +(NSAttributedString *)linkifiedStringFromAttributedString:(NSAttributedString *)inString
 										forPrefixCharacter:(NSString *)prefixCharacter
 											   forLinkType:(AITwitterLinkType)linkType
@@ -87,6 +64,8 @@
 			if(linkType == AITwitterLinkUserPage) {
 				linkURL = [account addressForLinkType:linkType userID:[linkText stringByEncodingURLEscapes] statusID:nil context:nil];
 			} else if (linkType == AITwitterLinkSearchHash) {
+				linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
+			} else if (linkType == AITwitterLinkGroup) {
 				linkURL = [account addressForLinkType:linkType userID:nil statusID:nil context:[linkText stringByEncodingURLEscapes]];
 			}
 			

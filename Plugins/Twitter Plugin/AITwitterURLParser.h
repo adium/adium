@@ -20,9 +20,6 @@
 
 }
 
-+(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
-												forAccount:(AITwitterAccount *)account;
-
 +(NSAttributedString *)linkifiedStringFromAttributedString:(NSAttributedString *)inString
 										forPrefixCharacter:(NSString *)prefixCharacter
 											   forLinkType:(AITwitterLinkType)linkType

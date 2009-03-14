@@ -15,6 +15,7 @@
  */
 
 #import "AILaconicaAccount.h"
+#import "AITwitterURLParser.h"
 
 @implementation AILaconicaAccount
 
@@ -57,7 +58,7 @@
 						statusID:(NSString *)statusID
 						 context:(NSString *)context
 {
-	NSString *address = nil;
+	NSString *address = [super addressForLinkType:linkType userID:userID statusID:statusID context:context];
 	
 	if (linkType == AITwitterLinkStatus) {
 		address = [NSString stringWithFormat:@"https://%@/notice/%@", self.host, statusID];
@@ -69,9 +70,30 @@
 		address = [NSString stringWithFormat:@"https://%@/%@", self.host, userID]; 
 	} else if (linkType == AITwitterLinkSearchHash) {
 		address = [NSString stringWithFormat:@"http://%@/tag/%@", self.host, context];
+	} else if (linkType == AITwitterLinkGroup) {
+		address = [NSString stringWithFormat:@"http://%@/group/%@", self.host, context];
 	}
 	
 	return address;
+}
+
+/*!
+ * @brief Parse an attributed string into a linkified version.
+ */
+- (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
+{	
+	NSAttributedString *attributedString = [super linkifiedAttributedStringFromString:inString];
+
+	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
+															forPrefixCharacter:@"!"
+																   forLinkType:AITwitterLinkGroup
+																	forAccount:self
+															 validCharacterSet:[disallowedCharacters invertedSet]];
+	
+	return attributedString;
 }
 
 @end
