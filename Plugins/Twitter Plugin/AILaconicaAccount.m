@@ -45,11 +45,7 @@
 - (NSString *)apiPath
 {
 	// We need to guarantee this is an NSString, so -stringByAppendingPathComponent works.
-	NSString *path = [self preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP];
-	
-	if (!path) {
-		path = @"";
-	}
+	NSString *path = [self preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP] ?: @"";
 	
 	return [path stringByAppendingPathComponent:@"api"];
 }
