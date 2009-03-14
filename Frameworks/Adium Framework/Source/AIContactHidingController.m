@@ -61,6 +61,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	[searchString release]; searchString = nil;
 	[filterPredicate release]; filterPredicate = nil;
 	[filterPredicateTemplate release]; filterPredicateTemplate = nil;
+	[hideAccounts release]; hideAccounts = nil;
 	[super dealloc];
 }
 
