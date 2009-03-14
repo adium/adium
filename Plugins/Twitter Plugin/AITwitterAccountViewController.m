@@ -131,6 +131,12 @@
 	[textField_url setEnabled:account.online];
 	[textField_location setEnabled:account.online];
 	[textField_description setEnabled:account.online];
+	
+	[textField_server setStringValue:account.host];
+	[textField_server setEnabled:NO];
+	
+	[textField_APIpath setStringValue:@""];
+	[textField_APIpath setEnabled:NO];
 }
 
 /*!

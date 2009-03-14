@@ -78,7 +78,7 @@
 							 URL:@"http://www.adiumx.com"
 						   token:@"adiumofficial"];
 	
-	[twitterEngine setAPIDomain:[self.host stringByAppendingString:self.apiPath]];
+	[twitterEngine setAPIDomain:[self.host stringByAppendingString:(self.apiPath ?: @"")]];
 	
 	[adium.notificationCenter addObserver:self
 							     selector:@selector(chatDidOpen:) 
