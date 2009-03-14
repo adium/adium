@@ -704,6 +704,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded
 {
+	NSMutableArray *adds = [NSMutableArray array];
 	for (GList *l = users; l; l = l->next) {
 		PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
 		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name(cb)];
@@ -719,8 +720,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			[listContact setServersideAlias:alias silently:YES];
 		}
 		
-		[chat addParticipatingListObject:listContact notify:newlyAdded];
+		[adds addObject:listContact];
 	}
+	[chat addParticipatingListObjects:adds notify:newlyAdded];
 }
 
 /*!

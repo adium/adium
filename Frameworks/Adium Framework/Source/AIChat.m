@@ -287,13 +287,21 @@ static int nextChatNumber = 0;
 
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify
 {
-	if (![self containsObject:inObject]) {
-		//Add
-		[participatingContacts addObject:inObject];
-		[participatingContacts sortUsingActiveSortControllerInContainer:self];
+	[self addParticipatingListObjects:[NSArray arrayWithObject:inObject] notify:notify];
+}
 
-		[adium.chatController chat:self addedListContact:inObject notify:notify];
+- (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify
+{
+	NSMutableArray *contacts = [[inObjects mutableCopy] autorelease];
+
+	for (AIListObject *obj in inObjects) {
+		if ([self containsObject:obj] || ![self canContainObject:obj])
+			[contacts removeObject:obj];
 	}
+	
+	[participatingContacts addObjectsFromArray:contacts];
+	[participatingContacts sortUsingActiveSortControllerInContainer:self];
+	[adium.chatController chat:self addedListContacts:contacts notify:notify];
 }
 
 // Invite a list object to join the chat. Returns YES if the chat joins, NO otherwise
