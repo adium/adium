@@ -24,6 +24,8 @@
 	NSPredicate *filterPredicate;
 	NSPredicate *filterPredicateTemplate;
 	
+	NSArray			*hideAccounts;
+	
 	BOOL			hideOfflineIdleOrMobileContacts;
 	
 	BOOL			showOfflineContacts;
@@ -31,7 +33,6 @@
 	BOOL			showMobileContacts;
 	BOOL			showBlockedContacts;
 	BOOL			showAwayContacts;
-	BOOL			showSocialContacts;
 	BOOL			useOfflineGroup;
 	
 	BOOL			useContactListGroups;

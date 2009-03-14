@@ -23,7 +23,7 @@
 #define	KEY_SHOW_IDLE_CONTACTS			@"Show Idle Contacts"
 #define KEY_SHOW_MOBILE_CONTACTS		@"Show Mobile Contacts"
 #define KEY_SHOW_AWAY_CONTACTS			@"Show Away Contacts"
-#define KEY_SHOW_SOCIAL_CONTACTS		@"Show Social Networking Contacts"
+#define KEY_HIDE_ACCOUNT_CONTACTS		@"Hide Account Contacts"
 
 #define	KEY_USE_OFFLINE_GROUP			@"Use Offline Group"
 #define	KEY_HIDE_CONTACT_LIST_GROUPS	@"Hide Contact List Groups"
