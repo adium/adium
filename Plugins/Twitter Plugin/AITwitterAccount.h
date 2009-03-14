@@ -126,10 +126,9 @@ typedef enum {
 	NSMutableDictionary	*pendingRequests;
 }
 
-@property (readonly) NSString *timelineChatName;
-
-- (NSString *)apiPath;
-- (NSString *)sourceToken;
+@property (readonly, nonatomic) NSString *timelineChatName;
+@property (readonly, nonatomic) NSString *apiPath;
+@property (readonly, nonatomic) NSString *sourceToken;
 
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
