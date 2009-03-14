@@ -111,13 +111,20 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	filterPredicate = nil;
 	[matchedContacts removeAllObjects];
 	
+	BOOL atLeastOneMatch = NO;
+	
 	for (AIListContact *listContact in [adium.contactController.allContacts arrayByAddingObjectsFromArray:adium.contactController.allBookmarks]) {
-			[matchedContacts setObject:[NSNumber numberWithBool:[self evaluatePredicateOnListObject:listContact withSearchString:inSearchString]] forKey:listContact.UID];
+		BOOL matched = [self evaluatePredicateOnListObject:listContact withSearchString:inSearchString];
+		
+		atLeastOneMatch = atLeastOneMatch || matched;
+		
+		[matchedContacts setObject:[NSNumber numberWithBool:matched] forKey:listContact.UID];
 	}
 	
 	[adium.notificationCenter postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 	[adium.contactController sortContactList];
-	return [matchedContacts count] > 0;
+	
+	return atLeastOneMatch;
 }
 
 /*!
