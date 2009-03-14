@@ -14,14 +14,19 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import "AITwitterAccount.h"
+
 @interface AITwitterURLParser : NSObject {
 
 }
 
-+(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString;
++(NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
+												forAccount:(AITwitterAccount *)account;
+
 +(NSAttributedString *)linkifiedStringFromAttributedString:(NSAttributedString *)inString
 										forPrefixCharacter:(NSString *)prefixCharacter
-											 withURLFormat:(NSString *)inURLFormat
+											   forLinkType:(AITwitterLinkType)linkType
+												forAccount:(AITwitterAccount *)account
 										 validCharacterSet:(NSCharacterSet *)validValues;
 
 @end
