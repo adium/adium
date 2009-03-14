@@ -74,10 +74,13 @@
 		   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
 		   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
 		{
-			[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
-											 forListObject:(AIListObject *)[adium.contactController existingBookmarkForChat:chat]
-												  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
-							  previouslyPerformedActionIDs:nil];
+			if(message.trackContent) {
+				[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
+												 forListObject:(AIListObject *)[adium.contactController existingBookmarkForChat:chat]
+													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
+								  previouslyPerformedActionIDs:nil];
+			}
+			
 			[message addDisplayClass:@"mention"];
 			
 			break;
