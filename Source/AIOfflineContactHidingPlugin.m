@@ -269,6 +269,14 @@
 }
 
 /*!
+ * @brief Include all accounts.
+ */
+- (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
+{
+	return YES;
+}
+
+/*!
  * @brief Update our account menu for current state information.
  */
 - (void)updateAccountMenu
