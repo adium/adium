@@ -86,11 +86,13 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 	} else {
 		NSData *iconData = [self cachedUserIconDataForObject:inObject];
 		
-		[AIUserIcons userIconSource:self
-			   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
-					 asynchronously:NO
-						  forObject:inObject];
-
+		if (iconData) {
+			[AIUserIcons userIconSource:self
+				   didDetermineUserIcon:[[[NSImage alloc] initWithData:iconData] autorelease]
+						 asynchronously:NO
+							  forObject:inObject];
+		}
+		
 		return (iconData ? AIUserIconSourceFoundIcon : AIUserIconSourceDidNotFindIcon);
 	}
 }
