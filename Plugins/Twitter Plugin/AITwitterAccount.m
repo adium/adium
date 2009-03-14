@@ -77,9 +77,7 @@
 						 version:[NSApp applicationVersion]
 							 URL:@"http://www.adiumx.com"
 						   token:@"adiumofficial"];
-	
-	[twitterEngine setAPIDomain:[self.host stringByAppendingString:(self.apiPath ?: @"")]];
-	
+
 	[adium.notificationCenter addObserver:self
 							     selector:@selector(chatDidOpen:) 
 									 name:Chat_DidOpen
@@ -117,14 +115,14 @@
  *
  * Our connection procedure:
  * 1. Validate credentials
- * 2. Verify rate limit
- * 3. Retrieve friends
- * 4. Trigger "periodic" update - DM, replies, timeline
+ * 2. Retrieve friends
+ * 3. Trigger "periodic" update - DM, replies, timeline
  */
 - (void)connect
 {
 	[super connect];
 	
+	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
 	[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
 	
 	NSString *requestID = [twitterEngine checkUserCredentials];

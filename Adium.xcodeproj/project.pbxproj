@@ -82,6 +82,12 @@
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112527730F5F9E63003FC58A /* AITwitterAccountView.nib */; };
+		113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891820F6B6AFF00A7D7DC /* AILaconicaService.m */; };
+		1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */; };
+		1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */; };
+		113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */; };
+		113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892250F6B70CA00A7D7DC /* laconica-small.png */; };
+		113892280F6B70CA00A7D7DC /* laconica.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892260F6B70CA00A7D7DC /* laconica.png */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
@@ -1776,6 +1782,16 @@
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
 		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
 		112527730F5F9E63003FC58A /* AITwitterAccountView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AITwitterAccountView.nib; path = "Plugins/Twitter Plugin/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		113891810F6B6AFF00A7D7DC /* AILaconicaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaService.h; path = "Plugins/Twitter Plugin/AILaconicaService.h"; sourceTree = "<group>"; };
+		113891820F6B6AFF00A7D7DC /* AILaconicaService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaService.m; path = "Plugins/Twitter Plugin/AILaconicaService.m"; sourceTree = "<group>"; };
+		113891880F6B6B2800A7D7DC /* AILaconicaAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaAccount.h; path = "Plugins/Twitter Plugin/AILaconicaAccount.h"; sourceTree = "<group>"; };
+		113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaAccount.m; path = "Plugins/Twitter Plugin/AILaconicaAccount.m"; sourceTree = "<group>"; };
+		1138918B0F6B6B3F00A7D7DC /* AILaconicaPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaPlugin.h; path = "Plugins/Twitter Plugin/AILaconicaPlugin.h"; sourceTree = "<group>"; };
+		1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaPlugin.m; path = "Plugins/Twitter Plugin/AILaconicaPlugin.m"; sourceTree = "<group>"; };
+		113891930F6B6B9C00A7D7DC /* AILaconicaAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaAccountViewController.h; path = "Plugins/Twitter Plugin/AILaconicaAccountViewController.h"; sourceTree = "<group>"; };
+		113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaAccountViewController.m; path = "Plugins/Twitter Plugin/AILaconicaAccountViewController.m"; sourceTree = "<group>"; };
+		113892250F6B70CA00A7D7DC /* laconica-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "laconica-small.png"; path = "Plugins/Twitter Plugin/laconica-small.png"; sourceTree = "<group>"; };
+		113892260F6B70CA00A7D7DC /* laconica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laconica.png; path = "Plugins/Twitter Plugin/laconica.png"; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
@@ -4543,6 +4559,23 @@
 			name = Localized;
 			sourceTree = "<group>";
 		};
+		113891850F6B6B0300A7D7DC /* Laconica */ = {
+			isa = PBXGroup;
+			children = (
+				113892250F6B70CA00A7D7DC /* laconica-small.png */,
+				113892260F6B70CA00A7D7DC /* laconica.png */,
+				113891810F6B6AFF00A7D7DC /* AILaconicaService.h */,
+				113891820F6B6AFF00A7D7DC /* AILaconicaService.m */,
+				113891880F6B6B2800A7D7DC /* AILaconicaAccount.h */,
+				113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */,
+				1138918B0F6B6B3F00A7D7DC /* AILaconicaPlugin.h */,
+				1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */,
+				113891930F6B6B9C00A7D7DC /* AILaconicaAccountViewController.h */,
+				113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */,
+			);
+			name = Laconica;
+			sourceTree = "<group>";
+		};
 		1172FCA10CDAA8DE00B8E233 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -4597,6 +4630,7 @@
 		11F738F40F58D15500B3285B /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				113891850F6B6B0300A7D7DC /* Laconica */,
 				11BD73D10F5A54BB007D438A /* twitter-small.png */,
 				11BD73D20F5A54BB007D438A /* twitter.png */,
 				113F269E0F5CC03F00954772 /* AITwitterURLParser.h */,
@@ -8967,6 +9001,8 @@
 				11BD73D40F5A54BB007D438A /* twitter.png in Resources */,
 				112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */,
 				1109634C0F61C1D00064CA0E /* AITwitterReplyWindow.nib in Resources */,
+				113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */,
+				113892280F6B70CA00A7D7DC /* laconica.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9618,6 +9654,10 @@
 				113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */,
 				112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */,
 				1109661A0F61D3E70064CA0E /* AITwitterReplyWindowController.m in Sources */,
+				113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */,
+				1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */,
+				1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */,
+				113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
