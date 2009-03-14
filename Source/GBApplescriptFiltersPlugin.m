@@ -200,7 +200,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 						//Assume "Prefix Only" is NO unless told otherwise or the keyword starts with '/'
 						prefixOnlyNumber = [scriptDict objectForKey:@"Prefix Only"];
 						if (!prefixOnlyNumber) {
-							prefixOnlyNumber = [NSNumber numberWithBool:([keyword characterAtIndex:0] == '/')];
+							prefixOnlyNumber = [NSNumber numberWithBool:[keyword hasPrefix:@"/"]];
 						}
 
 						infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
