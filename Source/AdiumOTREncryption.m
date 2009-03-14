@@ -287,7 +287,7 @@ static OtrlPolicy policyForContact(AIListContact *contact)
 	OtrlPolicy		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 	
 	//Force OTRL_POLICY_MANUAL when interacting with mobile numbers
-	if ([contact.UID characterAtIndex:0] == '+') {
+	if ([contact.UID hasPrefix:@"+"]) {
 		policy = OTRL_POLICY_MANUAL_AND_RESPOND_TO_WHITESPACE;
 		
 	} else {

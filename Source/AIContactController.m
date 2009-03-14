@@ -1118,7 +1118,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		}
 		
 		//Set the contact as mobile if it is a phone number
-		if ([inUID characterAtIndex:0] == '+') {
+		if ([inUID hasPrefix:@"+"]) {
 			[contact setIsMobile:YES notify:NotifyNever];
 		}
 		

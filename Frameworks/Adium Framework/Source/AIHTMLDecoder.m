@@ -559,7 +559,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				fullRange.length += (replacements * 18);
 
 				//If the first character is a space, replace that leading ' ' with "&nbsp;" to preserve formatting.
-				if ([chunk length] > 0 && [chunk characterAtIndex:0] == ' ') {
+				if ([chunk hasPrefix:@" "]) {
 					[chunk replaceCharactersInRange:NSMakeRange(0, 1)
 										 withString:@"&nbsp;"];
 					fullRange.length += 5;
