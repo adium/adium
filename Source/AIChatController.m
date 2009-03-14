@@ -801,15 +801,17 @@
  * @param inContact The contact
  * @param notify If YES, trigger the contact joined event if this is a group chat.  Ignored if this is not a group chat.
  */
-- (void)chat:(AIChat *)chat addedListContact:(AIListContact *)inContact notify:(BOOL)notify
+- (void)chat:(AIChat *)chat addedListContacts:(NSArray *)inObjects notify:(BOOL)notify
 {
 	if (notify && chat.isGroupChat) {
 		/* Prevent triggering of the event when we are informed that the chat's own account entered the chat
 		 * If the UID of a contact in a chat differs from a normal UID, such as is the case with Jabber where a chat
 		 * contact has the form "roomname@conferenceserver/handle" this will fail, but it's better than nothing.
 		 */
-		if (![inContact.account.UID isEqualToString:inContact.UID]) {
-			[adiumChatEvents chat:chat addedListContact:inContact];
+		for (AIListContact *inContact in inObjects) {
+			if (![inContact.account.UID isEqualToString:inContact.UID]) {
+				[adiumChatEvents chat:chat addedListContact:inContact];
+			}
 		}
 	}
 

@@ -50,7 +50,7 @@
 - (void)updateAllChatsForObserver:(id <AIChatObserver>)observer;
 
 	//Addition/removal of contacts to group chats
-- (void)chat:(AIChat *)chat addedListContact:(AIListContact *)inContact notify:(BOOL)notify;
+- (void)chat:(AIChat *)chat addedListContacts:(NSArray *)contacts notify:(BOOL)notify;
 - (void)chat:(AIChat *)chat removedListContact:(AIListContact *)inContact;
 
 - (NSString *)defaultInvitationMessageForRoom:(NSString *)room account:(AIAccount *)inAccount;

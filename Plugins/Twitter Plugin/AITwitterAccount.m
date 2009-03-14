@@ -553,9 +553,7 @@
 	}	
 	
 	// Update the participant list.
-	for (AIListContact *listContact in [[self.contacts copy] autorelease]) {
-		[timelineChat addParticipatingListObject:listContact notify:NotifyLater];
-	}
+	[timelineChat addParticipatingListObjects:self.contacts notify:NotifyLater];
 	
 	[timelineChat setValue:[NSNumber numberWithInt:140] forProperty:@"Character Counter Max" notify:NotifyNow];
 }
