@@ -597,7 +597,7 @@
  */
 - (NSData *)serversideIconDataForContact:(AIListContact *)listContact
 {
-	if (![AIUserIcons cachedUserIconDataForObject:listContact] && listContact.isStranger) {
+	if (listContact.isStranger && ![AIUserIcons cachedUserIconDataForObject:listContact]) {
 		return [[self.service defaultServiceIconOfType:AIServiceIconLarge] TIFFRepresentation];
 	} else {
 		return nil;
