@@ -66,15 +66,31 @@
 	//Default preferences
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"OfflineContactHidingDefaults" forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
-
+	
+	menu_hideAccounts = [[NSMenu alloc] init];
+	[menu_hideAccounts setDelegate:self];
+	
+	array_hideAccounts = [[NSMutableArray alloc] init];	
+	
+	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO] retain];
+	
 	//"Hide Contacts" menu item
 	menuItem_hideContacts = [[NSMenuItem alloc] initWithTitle:HIDE_CONTACTS_MENU_TITLE
 													   target:self
 													   action:@selector(toggleHide:)
 												keyEquivalent:@"H"];
 	[adium.menuController addMenuItem:menuItem_hideContacts toLocation:LOC_View_Toggles];
+	
+	//Hide Contacts for Account
+	menuItem_hideAccountContact = [[NSMenuItem alloc] initWithTitle:HIDE_ACCOUNT_CONTACT_MENU_TITLE
+															 target:self
+															 action:@selector(toggleHide:)
+													  keyEquivalent:@""];
+	[menuItem_hideAccountContact setIndentationLevel:1];
+	[menuItem_hideAccountContact setSubmenu:menu_hideAccounts];	
+	[adium.menuController addMenuItem:menuItem_hideAccountContact toLocation:LOC_View_Toggles];
 
-	//Show offline contacts menu item
+	//Hide Offline Contacts
     menuItem_hideOffline = [[NSMenuItem alloc] initWithTitle:HIDE_OFFLINE_MENU_TITLE
 													  target:self
 													  action:@selector(toggleHide:)
@@ -82,6 +98,7 @@
 	[menuItem_hideOffline setIndentationLevel:1];
 	[adium.menuController addMenuItem:menuItem_hideOffline toLocation:LOC_View_Toggles];
 
+	//Hide Idle Contacts
     menuItem_hideIdle = [[NSMenuItem alloc] initWithTitle:HIDE_IDLE_MENU_TITLE
 												   target:self
 												   action:@selector(toggleHide:)
@@ -89,6 +106,7 @@
 	[menuItem_hideIdle setIndentationLevel:1];
 	[adium.menuController addMenuItem:menuItem_hideIdle toLocation:LOC_View_Toggles];
 	
+	//Hide Away Contacts
 	menuItem_hideAway = [[NSMenuItem alloc] initWithTitle:HIDE_AWAY_MENU_TITLE
 													 target:self
 													 action:@selector(toggleHide:)
@@ -96,6 +114,7 @@
 	[menuItem_hideAway setIndentationLevel:1];
 	[adium.menuController addMenuItem:menuItem_hideAway toLocation:LOC_View_Toggles];
 
+	//Hide Mobile Contacts
     menuItem_hideMobile = [[NSMenuItem alloc] initWithTitle:HIDE_MOBILE_MENU_TITLE
 													 target:self
 													 action:@selector(toggleHide:)
@@ -103,6 +122,7 @@
 	[menuItem_hideMobile setIndentationLevel:1];
 	[adium.menuController addMenuItem:menuItem_hideMobile toLocation:LOC_View_Toggles];
 	
+	//Hide Blocked Contacts
 	menuItem_hideBlocked = [[NSMenuItem alloc] initWithTitle:HIDE_BLOCKED_MENU_TITLE
 													  target:self
 													  action:@selector(toggleHide:)
@@ -110,28 +130,13 @@
 	[menuItem_hideBlocked setIndentationLevel:1];
 	[adium.menuController addMenuItem:menuItem_hideBlocked toLocation:LOC_View_Toggles];
 	
-	menu_hideAccounts = [[NSMenu alloc] init];
-	[menu_hideAccounts setDelegate:self];
-	
-	menuItem_hideAccountContact = [[NSMenuItem alloc] initWithTitle:HIDE_ACCOUNT_CONTACT_MENU_TITLE
-															 target:self
-															 action:@selector(toggleHide:)
-													  keyEquivalent:@""];
-	
-	[menuItem_hideAccountContact setIndentationLevel:1];
-	[menuItem_hideAccountContact setSubmenu:menu_hideAccounts];
-	
-	[adium.menuController addMenuItem:menuItem_hideAccountContact toLocation:LOC_View_Toggles];
-	
+	//Hide Offline Contacts
 	menuItem_useOfflineGroup = [[NSMenuItem alloc] initWithTitle:SHOW_OFFLINE_GROUP_MENU_TITLE
 														  target:self
 														  action:@selector(toggleHide:)
 												   keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem_useOfflineGroup toLocation:LOC_View_Toggles];
 	
-	accountMenu = [[AIAccountMenu accountMenuWithDelegate:self submenuType:AIAccountNoSubmenu showTitleVerbs:NO] retain];
-	array_hideAccounts = [[NSMutableArray alloc] init];
-
 	//Register preference observer first so values will be correct for the following calls
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
 }
