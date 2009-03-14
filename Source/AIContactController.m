@@ -1351,7 +1351,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	AIContactList	*containingObject = group.contactList;
 	
 	//Remove all the contacts from this group
-	for (AIListContact *contact in group) {
+	for (AIListContact *contact in [[group.containedObjects copy] autorelease]) {
 		[group removeObject:contact];
 	}
 	
