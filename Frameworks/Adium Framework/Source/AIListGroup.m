@@ -128,15 +128,16 @@
 			[inModifiedKeys containsObject:@"StatusType"]) {
 				
 		BOOL shouldBeVisible = [[AIContactHidingController sharedController] visibilityOfListObject:inObject inContainer:self];
-		BOOL isVisible = [_visibleObjects containsObject: inObject];
+		BOOL isVisible = [_visibleObjects containsObject:inObject];
 		
 		if (shouldBeVisible != isVisible) {
 			if (shouldBeVisible) {
-				[_visibleObjects addObject: inObject];
-				[adium.contactController sortListObject:inObject];
+				[_visibleObjects addObject:inObject];
 			} else {
-				[_visibleObjects removeObject: inObject];
+				[_visibleObjects removeObject:inObject];
 			}
+			
+			[adium.contactController sortListObject:inObject];
 			
 			modifiedProperties = [NSSet setWithObjects:@"VisibleObjectCount", nil];
 		}
