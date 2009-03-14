@@ -807,15 +807,19 @@
 						  userID:(NSString *)userID
 						statusID:(NSString *)statusID
 {
+	NSString *address = nil;
+	
 	if (linkType == AITwitterLinkStatus) {
-		return [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, statusID];
+		address = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, statusID];
 	} else if (linkType == AITwitterLinkFriends) {
-		return [NSString stringWithFormat:@"https://twitter.com/%@/friends", userID];
+		address = [NSString stringWithFormat:@"https://twitter.com/%@/friends", userID];
 	} else if (linkType == AITwitterLinkFollowers) {
-		return [NSString stringWithFormat:@"https://twitter.com/%@/followers", userID]; 
+		address = [NSString stringWithFormat:@"https://twitter.com/%@/followers", userID]; 
 	} else if (linkType == AITwitterLinkUserPage) {
-		return [NSString stringWithFormat:@"https://twitter.com/%@", userID]; 
+		address = [NSString stringWithFormat:@"https://twitter.com/%@", userID]; 
 	}
+	
+	return address;
 }
 
 /*!
@@ -879,8 +883,6 @@
 			linkAddress = [self addressForLinkType:AITwitterLinkStatus
 											userID:userID
 										  statusID:tweetID];
-			
-			linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, tweetID];
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
