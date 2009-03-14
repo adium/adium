@@ -87,9 +87,6 @@ typedef enum {
 - (AIMetaContact *)groupContacts:(NSArray *)contactsToGroupArray;
 - (void)clearAllMetaContactData;
 
-//Contact status & Attributes
-- (void)contactRemoteGroupingChanged:(AIListContact *)inObject;
-
 //Contact list sorting
 - (void)sortContactList;
 - (void)sortListObject:(AIListObject *)inObject;

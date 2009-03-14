@@ -21,6 +21,7 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIContactList.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
@@ -155,7 +156,7 @@
 	if (m_remoteGroupNames.count == 0)
 		[AIUserIcons flushCacheForObject:self];
 	
-	[adium.contactController contactRemoteGroupingChanged:self];
+	[self restoreGrouping];
 	
 	[self.metaContact updateRemoteGroupingOfContact:self];
 }
@@ -178,7 +179,31 @@
 //Restore this grouping.
 - (void)restoreGrouping
 {
-	[adium.contactController contactRemoteGroupingChanged:self];
+	//Create a group for the contact even if contact list groups aren't on,
+	//otherwise requests for all the contact list groups will return nothing
+	NSMutableSet *groups = [NSMutableSet set];
+	for (NSString *remoteGroupName in self.remoteGroupNames) {
+		AIListGroup *localGroup = [adium.contactController groupWithUID:remoteGroupName];
+		
+		if (!adium.contactController.useContactListGroups)
+			localGroup = adium.contactController.contactList;
+		else if (adium.contactController.useOfflineGroup && !self.online)
+			localGroup = adium.contactController.offlineGroup;
+		
+		[groups addObject:localGroup];
+	}
+	[adium.contactController _moveContactLocally:self toGroups:groups];
+	
+	if (self.metaContact)
+		[self.metaContact restoreGrouping];
+	
+	BOOL	isCurrentlyAStranger = self.isStranger;
+	if ((isCurrentlyAStranger && self.remoteGroupNames.count > 0) || (!isCurrentlyAStranger && self.remoteGroupNames.count == 0)) {
+		[self setValue:(self.remoteGroupNames.count > 0 ? [NSNumber numberWithBool:YES] : nil)
+				forProperty:@"NotAStranger"
+					 notify:NotifyLater];
+		[self notifyOfChangedPropertiesSilently:YES];
+	}
 }
 
 #pragma mark Names

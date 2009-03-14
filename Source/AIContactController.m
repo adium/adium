@@ -266,77 +266,6 @@
 
 #pragma mark Contact Grouping
 
-//Redetermine the local grouping of a contact in response to server grouping information or an external change
-- (void)contactRemoteGroupingChanged:(AIListContact *)inContact
-{
-	NSSet *remoteGroupNames = inContact.remoteGroupNames;
-	[[inContact retain] autorelease];
-	
-	if (inContact.metaContact) {
-		
-		/* If inContact's containingObject is a metaContact, and that metaContact has no groups,
-		 * use inContact's remote grouping as the metaContact's grouping.
-		 */
-		if (inContact.metaContact.groups.count == 0 && remoteGroupNames.count > 0) {
-			//If no similar objects exist, we add this contact directly to the list
-			//Create a group for the contact even if contact list groups aren't on,
-			//otherwise requests for all the contact list groups will return nothing
-			for (NSString *remoteGroupName in remoteGroupNames) {
-				AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
-				
-				localGroup = (useContactListGroups ?
-							  (self.useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
-							  contactList);
-				
-				[localGroup addObject:inContact.metaContact];
-				
-				[self _didChangeContainer:localGroup object:inContact.metaContact];
-				
-				//todo: updating too frequently here
-				[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
-				 object:localGroup.contactList
-				 userInfo:nil];
-			}
-			
-			//NSLog(@"contactRemoteGroupingChanged: %@ is in %@, which was moved to %@",inContact,containingObject,localGroup);
-		}
-		
-	} else if (remoteGroupNames.count > 0) {
-		//Create a group for the contact even if contact list groups aren't on,
-		//otherwise requests for all the contact list groups will return nothing
-		NSMutableSet *groups = [NSMutableSet set];
-		for (NSString *remoteGroupName in remoteGroupNames) {
-			AIListGroup *localGroup, *contactGroup = [self groupWithUID:remoteGroupName];
-			
-			localGroup = useContactListGroups ?
-				(self.useOfflineGroup && !inContact.online ? self.offlineGroup : contactGroup) :
-				contactList;
-			
-			//NSLog(@"contactRemoteGroupingChanged: %@: remoteGroupName %@ --> %@",inContact,remoteGroupName,localGroup);
-			
-			[groups addObject:localGroup];
-		}
-		[self _moveContactLocally:inContact toGroups:groups];
-		
-	} else if (inContact.groups.count > 0) {
-		//If !remoteGroupName, remove the contact from any local groups
-		for (AIListGroup *group in [[inContact.groups copy] autorelease]) {
-			[group removeObject:inContact];
-			[self _didChangeContainer:group object:inContact];
-		}
-		
-		//NSLog(@"contactRemoteGroupingChanged: %@: -- !remoteGroupName so removed from %@",inContact,containingObject);
-	}
-	
-	BOOL	isCurrentlyAStranger = inContact.isStranger;
-	if ((isCurrentlyAStranger && remoteGroupNames.count > 0) || (!isCurrentlyAStranger && remoteGroupNames.count == 0)) {
-		[inContact setValue:(remoteGroupNames.count > 0 ? [NSNumber numberWithBool:YES] : nil)
-							forProperty:@"NotAStranger"
-							notify:NotifyLater];
-		[inContact notifyOfChangedPropertiesSilently:YES];
-	}
-}
-
 - (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
 {
 	AIListObject	*existingObject;
@@ -528,9 +457,6 @@
 
 - (AIListGroup *)offlineGroup
 {
-	if(!self.useOfflineGroup)
-		return [groupDict objectForKey:[AILocalizedString(@"Offline", "Name of offline group") lowercaseString]];
-
 	return [self groupWithUID:AILocalizedString(@"Offline", "Name of offline group")];
 }
 
@@ -746,9 +672,8 @@
 		
 		[self _didChangeContainer:metaContact object:inContact];
 
-		//Ensure the metacontact ends up in the appropriate group
-		if (metaContact.groups.count == 0 || [metaContact.groups containsObject:self.offlineGroup])
-			[metaContact restoreGrouping];
+		//Ensure the metacontact ends up in the appropriate groups
+		[metaContact restoreGrouping];
 	}
 	
 	return success;
@@ -1009,31 +934,28 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	if (!key ||
-		[key isEqualToString:KEY_HIDE_CONTACTS] ||
-		[key isEqualToString:KEY_SHOW_OFFLINE_CONTACTS] ||
-		[key isEqualToString:KEY_USE_OFFLINE_GROUP] ||
-		[key isEqualToString:KEY_HIDE_CONTACT_LIST_GROUPS]) {
+	if (key &&
+		![key isEqualToString:KEY_HIDE_CONTACTS] &&
+		![key isEqualToString:KEY_SHOW_OFFLINE_CONTACTS] &&
+		![key isEqualToString:KEY_USE_OFFLINE_GROUP] &&
+		![key isEqualToString:KEY_HIDE_CONTACT_LIST_GROUPS]) {
+		return;
+	}
 
-		BOOL shouldUseOfflineGroup = ((![[prefDict objectForKey:KEY_HIDE_CONTACTS] boolValue] ||
-									   [[prefDict objectForKey:KEY_SHOW_OFFLINE_CONTACTS] boolValue]) &&
-									  [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
-
-		BOOL newlyRegistered = NO;
+	BOOL shouldUseOfflineGroup = ((![[prefDict objectForKey:KEY_HIDE_CONTACTS] boolValue] ||
+								   [[prefDict objectForKey:KEY_SHOW_OFFLINE_CONTACTS] boolValue]) &&
+								  [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
+	
+	if (shouldUseOfflineGroup != self.useOfflineGroup || !key) {
+		self.useOfflineGroup = shouldUseOfflineGroup;
 		
-		if (shouldUseOfflineGroup != self.useOfflineGroup) {
-			self.useOfflineGroup = shouldUseOfflineGroup;
-			
-			if (self.useOfflineGroup) {
-				[contactPropertiesObserverManager registerListObjectObserver:self];
-				newlyRegistered = YES;
-			} else {
-				[contactPropertiesObserverManager unregisterListObjectObserver:self];    
-			}
-		}
+		if (self.useOfflineGroup)
+			[contactPropertiesObserverManager registerListObjectObserver:self];
 		
-		if (!newlyRegistered && key)
-			[contactPropertiesObserverManager updateAllListObjectsForObserver:self];	
+		[contactPropertiesObserverManager updateAllListObjectsForObserver:self];	
+		
+		if (!self.useOfflineGroup)
+			[contactPropertiesObserverManager unregisterListObjectObserver:self];    
 	}
 }
 
@@ -1042,19 +964,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if (inModifiedKeys && [inModifiedKeys containsObject:@"Online"])
-		return nil;
-		
-	if (![inObject isKindOfClass:[AIListContact class]])
-		return nil;
-	
-	AIListContact *contact = (AIListContact *)inObject;
-	
-	//If this contact is in a meta, don't bother since we'll get an update for the parent if appropriate
-	if (contact.metaContact)
-		return nil;
-
-	[contact restoreGrouping];
+	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject isKindOfClass:[AIListContact class]])
+		[(AIListContact *)inObject restoreGrouping];
 	
 	return nil;
 }
