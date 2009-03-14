@@ -586,7 +586,9 @@
  * @brief Update serverside icon
  *
  * This is called by AIUserIcons when it needs an icon update for a contact.
- * If we already have an icon set, ignore it. Otherwise return the Twitter service icon.
+ * If we already have an icon set (even a cached icon), ignore it.
+ * Otherwise return the Twitter service icon.
+ *
  * This is so that when an unknown contact appears, it has an actual image
  * to replace in the WKMV when an actual icon update is returned.
  *
@@ -595,7 +597,7 @@
  */
 - (NSData *)serversideIconDataForContact:(AIListContact *)listContact
 {
-	if (![AIUserIcons userIconSourceForObject:listContact] && [listContact isStranger]) {
+	if (![AIUserIcons cachedUserIconDataForObject:listContact] && listContact.isStranger) {
 		return [[self.service defaultServiceIconOfType:AIServiceIconLarge] TIFFRepresentation];
 	} else {
 		return nil;

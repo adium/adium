@@ -41,6 +41,7 @@ static NSSize				iconCacheSize;
 
 static AIServersideUserIconSource	*serversideUserIconSource = nil;
 static AIManuallySetUserIconSource	*manuallySetUserIconSource = nil;
+static AICachedUserIconSource		*cachedUserIconSource = nil;
 
 //#define AIUSERICON_DEBUG
 
@@ -68,7 +69,8 @@ static AIManuallySetUserIconSource	*manuallySetUserIconSource = nil;
 		manuallySetUserIconSource = [[AIManuallySetUserIconSource alloc] init];
 		[self registerUserIconSource:manuallySetUserIconSource];
 
-		[self registerUserIconSource:[[[AICachedUserIconSource alloc] init] autorelease]];
+		cachedUserIconSource = [[AICachedUserIconSource alloc] init];
+		[self registerUserIconSource:cachedUserIconSource];
 	}
 }
 
@@ -296,6 +298,14 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 + (NSData *)serversideUserIconDataForObject:(AIListObject *)inObject
 {
 	return [serversideUserIconSource serversideUserIconDataForObject:inObject];
+}
+
+/*!
+ * @brief Retreive the cached icon for an object, if there is one.
+ */
++ (NSData *)cachedUserIconDataForObject:(AIListObject *)inObject
+{
+	return [cachedUserIconSource cachedUserIconDataForObject:inObject];
 }
 
 /*!
