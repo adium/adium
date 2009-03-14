@@ -149,6 +149,8 @@
  */
 - (void)dealloc
 {
+	[menu_hideAccounts release]; menu_hideAccounts = nil;
+	[array_hideAccounts release]; array_hideAccounts = nil;
 	[accountMenu release]; accountMenu = nil;
 	[menuItem_hideOffline release]; menuItem_hideOffline = nil;
 	[menuItem_hideIdle release]; menuItem_hideIdle = nil;
