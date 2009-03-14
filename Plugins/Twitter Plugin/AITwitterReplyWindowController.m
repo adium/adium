@@ -15,6 +15,7 @@
  */
 
 #import "AITwitterReplyWindowController.h"
+#import "AITwitterAccount.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 
@@ -80,10 +81,13 @@ static AITwitterReplyWindowController *sharedController = nil;
 		(![[NSString stringWithFormat:@"%d", [textField_statusID.stringValue intValue]] isEqualToString:textField_statusID.stringValue])) {
 		NSBeep();
 	} else if (textField_usernameOrTweetURL.stringValue && textField_statusID.stringValue) {
-		NSURL *replyURL = [NSURL URLWithString:[NSString stringWithFormat:@"twitterreply://%@%@/?status=%@",
-												(account ? [account.UID stringByAppendingString:@"@"] : @""),
-												textField_usernameOrTweetURL.stringValue,
-												textField_statusID.stringValue]];
+
+		NSString *replyAddress = [(AITwitterAccount *)account addressForLinkType:AITwitterLinkReply
+																		  userID:textField_usernameOrTweetURL.stringValue
+																		statusID:textField_statusID.stringValue
+																		 context:nil];
+		
+		NSURL *replyURL = [NSURL URLWithString:replyAddress];
 		
 		[adium.notificationCenter postNotificationName:@"AITwitterReplyLinkClicked" object:replyURL];
 		
