@@ -784,8 +784,8 @@
 				/* If there is currently an object (or multiple objects) matching this internalObjectID
 				 * we should add immediately.
 				 */
-				NSAssert([existingObject isKindOfClass:[AIListContact class]], @"Attempting to add a non-AIListContact to an AIMetaContact");
-				[self addContact:(AIListContact *)existingObject
+				NSAssert([metaContact canContainObject:existingObject], @"Attempting to add something metacontacts can't hold to a metacontact");
+				[self addContact:(id)existingObject
 					  toMetaContact:metaContact];	
 			} else {
 				/* If no objects matching this internalObjectID exist, we can simply add to the 
@@ -943,8 +943,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject isKindOfClass:[AIListContact class]])
-		[(AIListContact *)inObject restoreGrouping];
+	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject respondsToSelector:@selector(restoreGrouping)])
+		[(id)inObject restoreGrouping];
 	
 	return nil;
 }
