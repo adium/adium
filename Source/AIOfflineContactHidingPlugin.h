@@ -19,17 +19,22 @@
 
 #import <Adium/AIPlugin.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIAccountMenu.h>
 
-
-@interface AIOfflineContactHidingPlugin : AIPlugin {
+@interface AIOfflineContactHidingPlugin : AIPlugin <AIAccountMenuDelegate> {
 	NSMenuItem		*menuItem_hideContacts;
 	NSMenuItem		*menuItem_hideOffline;
 	NSMenuItem		*menuItem_hideIdle;
 	NSMenuItem		*menuItem_hideMobile;
 	NSMenuItem		*menuItem_hideBlocked;
-	NSMenuItem		*menuItem_hideSocial;
+	NSMenuItem		*menuItem_hideAccountContact;
 	NSMenuItem		*menuItem_hideAway;
 	NSMenuItem		*menuItem_useOfflineGroup;
+	
+	AIAccountMenu	*accountMenu;
+	
+	NSMenu			*menu_hideAccounts;
+	NSMutableArray	*array_hideAccounts;
 
 	BOOL			hideContacts;
 	
@@ -38,7 +43,6 @@
 	BOOL			showMobileContacts;
 	BOOL			showBlockedContacts;
 	BOOL			showAwayContacts;
-	BOOL			showSocialContacts;
 	BOOL			useOfflineGroup;
 	
 	BOOL			useContactListGroups;

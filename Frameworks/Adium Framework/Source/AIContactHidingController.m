@@ -47,6 +47,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if ((self = [super init])) {
 		//Register preference observer first so values will be correct for the following calls
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	
+		hideAccounts = nil;
 		matchedContacts = [[NSMutableDictionary alloc] init];
 		filterPredicateTemplate = [[NSPredicate predicateWithFormat:@"displayName contains[cd] $SEARCH_STRING OR formattedUID contains[cd] $SEARCH_STRING OR statusMessageString contains[cd] $SEARCH_STRING"] retain];
 	}
@@ -78,7 +80,9 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	showMobileContacts = [[prefDict objectForKey:KEY_SHOW_MOBILE_CONTACTS] boolValue];
 	showBlockedContacts = [[prefDict objectForKey:KEY_SHOW_BLOCKED_CONTACTS] boolValue];
 	showAwayContacts = [[prefDict objectForKey:KEY_SHOW_AWAY_CONTACTS] boolValue];
-	showSocialContacts = [[prefDict objectForKey:KEY_SHOW_SOCIAL_CONTACTS] boolValue];
+	
+	[hideAccounts release];
+	hideAccounts = [[prefDict objectForKey:KEY_HIDE_ACCOUNT_CONTACTS] retain];
 	
 	useContactListGroups = ![[prefDict objectForKey:KEY_HIDE_CONTACT_LIST_GROUPS] boolValue];
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
@@ -167,7 +171,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	if (!showAwayContacts && listObject.statusType == AIAwayStatusType)
 		return NO;
 	
-	if (!showSocialContacts && listObject.service.isSocialNetworkingService)
+	if ([listObject isKindOfClass:[AIListContact class]] &&
+		[hideAccounts containsObject:((AIListContact *)listObject).account.internalObjectID])
 		return NO;
 	
 	return YES;
