@@ -231,10 +231,8 @@
 	}
 	
 	NSMutableArray *bookmarks = [NSMutableArray array];
-	for (AIListObject *listObject in self.allBookmarks) {
-		if ([listObject isKindOfClass:[AIListBookmark class]]) {
-			[bookmarks addObject:[NSKeyedArchiver archivedDataWithRootObject:listObject]];
-		}
+	for (AIListBookmark *bookmark in self.allBookmarks) {
+		[bookmarks addObject:[NSKeyedArchiver archivedDataWithRootObject:bookmark]];
 	}
 	
 	[adium.preferenceController setPreference:bookmarks
