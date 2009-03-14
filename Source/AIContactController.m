@@ -372,30 +372,11 @@
 	//Configure the sort controller to force ignoring of groups as appropriate
 	[[AISortController activeSortController] forceIgnoringOfGroups:(useContactListGroups ? NO : YES)];
 	
-	if (useContactListGroups) { /* We are now using contact list groups, but we weren't before. */
-		//Restore the grouping of all root-level contacts
-		for (AIListObject *listObject in [[[contactList containedObjects] copy] autorelease]) {
-			if ([listObject isKindOfClass:[AIListContact class]]) {
-				[(AIListContact *)listObject restoreGrouping];
-			}
-		}
-		
-	} else { /* We are no longer using contact list groups, but we were before. */
-		for (AIListObject *listObject in [[[contactList containedObjects] copy] autorelease]) {
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				
-				NSArray *containedObjects = [[(AIListGroup *)listObject containedObjects] copy];
-				for (AIListObject *containedListObject in containedObjects) {
-					if ([containedListObject isKindOfClass:[AIListContact class]]) {
-						[self _moveContactLocally:(AIListContact *)containedListObject
-										 toGroups:[NSSet setWithObject:contactList]];
-					}
-				}
-				[containedObjects release];
-			}
-		}
+	//Restore the grouping of all root-level contacts
+	for (AIListContact *contact in [self contactEnumerator]) {
+		[contact restoreGrouping];
 	}
-	
+
 	//Stop delaying object notifications; this will automatically resort the contact list, so we're done.
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
 }
