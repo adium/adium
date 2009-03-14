@@ -1156,19 +1156,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (AIListBookmark *)existingBookmarkForChat:(AIChat *)inChat
 {
-	AIListBookmark *existingBookmark = nil;
-	
-	for(AIListBookmark *listBookmark in self.allBookmarks) {
-		if([listBookmark.name isEqualToString:inChat.name] &&
-		   listBookmark.account == inChat.account &&
-		   ((!listBookmark.chatCreationDictionary && !inChat.chatCreationDictionary) ||
-			([listBookmark.chatCreationDictionary isEqualToDictionary:inChat.chatCreationDictionary]))) {
-			existingBookmark = listBookmark;
-			break;
-		}
-	}
-	
-	return existingBookmark;
+	return [self existingBookmarkForChatName:inChat.name
+								   onAccount:inChat.account
+							chatCreationInfo:inChat.chatCreationDictionary];
 }
 
 /*!
