@@ -801,6 +801,24 @@
 
 #pragma mark Message Display
 /*!
+ * @brief Returns the link URL for a specific type of link
+ */
+- (NSString *)addressForLinkType:(AITwitterLinkType)linkType
+						  userID:(NSString *)userID
+						statusID:(NSString *)statusID
+{
+	if (linkType == AITwitterLinkStatus) {
+		return [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, statusID];
+	} else if (linkType == AITwitterLinkFriends) {
+		return [NSString stringWithFormat:@"https://twitter.com/%@/friends", userID];
+	} else if (linkType == AITwitterLinkFollowers) {
+		return [NSString stringWithFormat:@"https://twitter.com/%@/followers", userID]; 
+	} else if (linkType == AITwitterLinkUserPage) {
+		return [NSString stringWithFormat:@"https://twitter.com/%@", userID]; 
+	}
+}
+
+/*!
  * @brief Parses a Twitter message into an attributed string
  *
  * This is a shortcut method if no additional information is provided
@@ -839,7 +857,9 @@
 	
 		// Append a link to the tweet this is in reply to
 		if (replyTweet) {			
-			NSString *linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", replyUserID, replyTweetID];
+			NSString *linkAddress = [self addressForLinkType:AITwitterLinkStatus
+													  userID:replyUserID
+													statusID:replyTweetID];
 			
 			[mutableMessage appendString:AILocalizedString(@"original", "Link appended which goes to the permanent location of the status this tweet is in reply to")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
@@ -855,6 +875,10 @@
 			
 			[mutableMessage appendString:AILocalizedString(@"reply", "Link appended to tweets to reply to *this* tweet")
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			
+			linkAddress = [self addressForLinkType:AITwitterLinkStatus
+											userID:userID
+										  statusID:tweetID];
 			
 			linkAddress = [NSString stringWithFormat:@"https://twitter.com/%@/status/%@", userID, tweetID];
 			
@@ -1417,13 +1441,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					
 					if([keyName isEqualToString:@"friends_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@/friends", listContact.UID]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkFriends userID:listContact.UID statusID:nil]];
 					} else if ([keyName isEqualToString:@"followers_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@/followers", listContact.UID]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkFollowers userID:listContact.UID statusID:nil]];
 					} else if ([keyName isEqualToString:@"statuses_count"]) {
 						value = [NSAttributedString attributedStringWithLinkLabel:unattributedValue
-																  linkDestination:[NSString stringWithFormat:@"https://twitter.com/%@", listContact.UID]];
+																  linkDestination:[self addressForLinkType:AITwitterLinkUserPage userID:listContact.UID statusID:nil]];
 					} else {
 						value = [NSAttributedString stringWithString:unattributedValue];
 					}
