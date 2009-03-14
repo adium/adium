@@ -637,13 +637,8 @@
 
 	BOOL								success;
 	
-	NSSet *contactGroups = inContact.groups;
-	
 	//Remove the object from its previous containing groups
-	for (AIListGroup *group in [[contactGroups copy] autorelease]) {
-		[group removeObject:inContact];
-		[self _didChangeContainer:group object:inContact];
-	}
+	[self _moveContactLocally:inContact toGroups:[NSSet set]];
 	
 	//AIMetaContact will handle reassigning the list object's grouping to being itself
 	if ((success = [metaContact addObject:inContact])) {
