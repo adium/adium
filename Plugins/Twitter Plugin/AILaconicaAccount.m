@@ -20,13 +20,10 @@
 @implementation AILaconicaAccount
 
 - (void)connect
-{
+{	
 	if (![self preferenceForKey:LACONICA_PREFERENCE_HOST group:LACONICA_PREF_GROUP]) {
 		[self setLastDisconnectionError:AILocalizedString(@"No Host set", nil)];
 		[self didDisconnect];
-	} else if (![self preferenceForKey:LACONICA_PREFERENCE_APIPATH group:LACONICA_PREF_GROUP]) {
-		[self setLastDisconnectionError:AILocalizedString(@"No API Path set", nil)];
-		[self didDisconnect];		
 	} else {
 		[super connect];
 	}
@@ -47,7 +44,24 @@
  */
 - (NSString *)apiPath
 {
-	return [self preferenceForKey:LACONICA_PREFERENCE_APIPATH group:LACONICA_PREF_GROUP];
+	// We need to guarantee this is an NSString, so -stringByAppendingPathComponent works.
+	NSString *path = [self preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP];
+	
+	if (!path) {
+		path = @"";
+	}
+	
+	return [path stringByAppendingPathComponent:@"api"];
+}
+
+/*!
+ * @brief Our source token
+ *
+ * On Laconica, our given source token is "adium".
+ */
+- (NSString *)sourceToken
+{
+	return @"adium";
 }
 
 /*!
@@ -60,18 +74,20 @@
 {
 	NSString *address = [super addressForLinkType:linkType userID:userID statusID:statusID context:context];
 	
+	NSString *fullAddress = [self.host stringByAppendingPathComponent:[self preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP]];
+	
 	if (linkType == AITwitterLinkStatus) {
-		address = [NSString stringWithFormat:@"https://%@/notice/%@", self.host, statusID];
+		address = [NSString stringWithFormat:@"https://%@/notice/%@", fullAddress, statusID];
 	} else if (linkType == AITwitterLinkFriends) {
-		address = [NSString stringWithFormat:@"https://%@/%@/subscriptions", self.host, userID];
+		address = [NSString stringWithFormat:@"https://%@/%@/subscriptions", fullAddress, userID];
 	} else if (linkType == AITwitterLinkFollowers) {
-		address = [NSString stringWithFormat:@"https://%@/%@/subscribers", self.host, userID]; 
+		address = [NSString stringWithFormat:@"https://%@/%@/subscribers", fullAddress, userID]; 
 	} else if (linkType == AITwitterLinkUserPage) {
-		address = [NSString stringWithFormat:@"https://%@/%@", self.host, userID]; 
+		address = [NSString stringWithFormat:@"https://%@/%@", fullAddress, userID]; 
 	} else if (linkType == AITwitterLinkSearchHash) {
-		address = [NSString stringWithFormat:@"http://%@/tag/%@", self.host, context];
+		address = [NSString stringWithFormat:@"http://%@/tag/%@", fullAddress, context];
 	} else if (linkType == AITwitterLinkGroup) {
-		address = [NSString stringWithFormat:@"http://%@/group/%@", self.host, context];
+		address = [NSString stringWithFormat:@"http://%@/group/%@", fullAddress, context];
 	}
 	
 	return address;

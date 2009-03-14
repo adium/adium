@@ -76,7 +76,7 @@
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
 							 URL:@"http://www.adiumx.com"
-						   token:@"adiumofficial"];
+						   token:self.sourceToken];
 
 	[adium.notificationCenter addObserver:self
 							     selector:@selector(chatDidOpen:) 
@@ -225,6 +225,16 @@
 - (NSString *)apiPath
 {
 	return nil;
+}
+
+/*!
+ * @brief Our source token
+ *
+ * On Twitter, our given source token is "adiumofficial".
+ */
+- (NSString *)sourceToken
+{
+	return @"adiumofficial";
 }
 
 /*!
