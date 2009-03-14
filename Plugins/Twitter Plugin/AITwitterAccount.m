@@ -1246,7 +1246,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				
 				if(![text hasPrefix:@"@"] ||
 				   [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
-					AIStatus *availableStatus = [[adium.statusController.availableStatus copy] autorelease];
+					AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
 					
 					availableStatus.statusMessage = [NSAttributedString stringWithString:text];
 					[adium.statusController setActiveStatusState:availableStatus];
