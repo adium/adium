@@ -598,8 +598,11 @@
 			} else if (![sortController canSortManually]) {
 				// We can't sort manually, but this container doesn't already have the item.
 				
-				// XXX INSERT INTO VISIBLE INDEX
-				[outlineView setDropItem:item dropChildIndex:0];
+				NSUInteger insertIndex = [sortController indexForInserting:[dragItems objectAtIndex:0]
+															   intoObjects:container.visibleContainedObjects
+															   inContainer:container];
+				
+				[outlineView setDropItem:item dropChildIndex:insertIndex];
 				
 				retVal = NSDragOperationPrivate;
 			} else {
