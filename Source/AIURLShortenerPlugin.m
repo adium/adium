@@ -38,7 +38,8 @@
 	menuItem = [[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
 										  target:self
 										  action:@selector(shortenLink:)
-								   keyEquivalent:@""];
+								   keyEquivalent:@"K"
+										 keyMask:NSCommandKeyMask];
 	
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Links];
 
