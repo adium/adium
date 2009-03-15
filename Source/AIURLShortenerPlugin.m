@@ -35,22 +35,21 @@
 	NSMenuItem *menuItem;
 	
 	// Edit menu
-	menuItem = [[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
-										  target:self
-										  action:@selector(shortenLink:)
-								   keyEquivalent:@"K"
-										 keyMask:NSCommandKeyMask];
+	menuItem = [[[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
+										   target:self
+										   action:@selector(shortenLink:)
+									keyEquivalent:@"K"
+										  keyMask:NSCommandKeyMask] autorelease];
 	
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Edit_Links];
-
+	
 	// Context menu
-	menuItem = [[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
-										  target:self
-										  action:@selector(shortenLink:)
-								   keyEquivalent:@""];
+	menuItem = [[[NSMenuItem alloc] initWithTitle:SHORTEN_LINK_TITLE
+										   target:self
+										   action:@selector(shortenLink:)
+									keyEquivalent:@""] autorelease];
 	
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_TextView_Edit];
-	
 }
 
 - (void)uninstallPlugin
