@@ -91,6 +91,14 @@
 }
 
 #pragma mark Menu Item
+/*!
+ * @brief Update our shortener list
+ *
+ * @param menu The NSMenu which needs to be recomputed
+ *
+ * We're dealing with two separate menus with the same contents and a changing value.
+ * Dynamically generate each time, since it's a short and simple operation.
+ */
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
 	NSDictionary *shorteners = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:AITinyURL], @"tinyurl.com",
@@ -113,6 +121,11 @@
 	}
 }
 
+/*!
+ * @brief Shortens the URL to the chosen service
+ *
+ * @param menuItem An NSMenuItem whose tag is a valid AIShortenLinkService
+ */
 - (void)setShortener:(NSMenuItem *)menuItem
 {
 	NSInteger shortenerTag = menuItem.tag;
@@ -124,6 +137,9 @@
 	[self shortenLink];
 }
 
+/*!
+ * @brief Our menu item is valid if we have a text view to replace in.
+ */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	NSResponder	*responder = [[[NSApplication sharedApplication] keyWindow] firstResponder];
@@ -131,6 +147,12 @@
 	return (responder && [responder isKindOfClass:[NSTextView class]]);
 }
 
+/*!
+ * @brief Shorten a URL
+ *
+ * In the current window, take the currently-selected URL, or the URL of the attributed range the
+ * cursor is on, and shorten it using the service the user has set.
+ */
 - (void)shortenLink
 {
 	NSWindow	*keyWindow = NSApplication.sharedApplication.keyWindow;
@@ -179,6 +201,13 @@
 }
 
 #pragma mark Shorten a URL
+/*!
+ * @brief Shorten the requested address
+ *
+ * @param address An NSString with the absolute address to shorten
+ * @param service An AIShortenLinkService value corresponding to the service used for shortening
+ * @param textView An NSTextView whose selected range will be replaced with the shortened value
+ */
 - (void)shortenAddress:(NSString *)address
 		   withService:(AIShortenLinkService)service
 			inTextView:(NSTextView *)textView
@@ -209,6 +238,15 @@
 }
 
 #pragma mark Simple shorteners
+/*!
+ * @brief Request a URL, insert into text view
+ *
+ * @param inURL The NSURL to request
+ * @param textView the NSTextView to insert the shortened URL itno
+ *
+ * Replaces the selected text in textView with the result of requesting
+ * the page at inURL if successful. Otherwise, beep.
+ */
 - (void)insertResultFromURL:(NSURL *)inURL intoTextView:(NSTextView *)textView
 {	
 	NSString *shortenedURL = [self resultFromURL:inURL];
@@ -223,6 +261,16 @@
 	}
 }
 
+/*!
+ * @brief Requests a URL, returns the contents
+ *
+ * @param inURL The NSURL to request
+ * @result An NSString of the page requested
+ *
+ * Synchronously requests the given URL. If the request is successful, i.e. the
+ * HTTP status code is 200 and there's no error, the contents of the page are returned.
+ 
+ */
 - (NSString *)resultFromURL:(NSURL *)inURL
 {
 	NSString *resultString = nil;
