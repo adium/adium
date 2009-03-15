@@ -105,6 +105,7 @@
 	NSDictionary *shorteners = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:AITinyURL], @"tinyurl.com",
 																		  [NSNumber numberWithInteger:AIisgd], @"is.gd",
 																		  [NSNumber numberWithInteger:AIMetamark], @"xrl.us",
+																		  [NSNumber numberWithInteger:AITrim], @"tr.im",
 																		  nil];
 
 	[menu removeAllItems];
@@ -245,6 +246,10 @@
 			request = [NSString stringWithFormat:@"http://metamark.net/api/rest/simple?long_url=%@", [address stringByEncodingURLEscapes]];
 			break;
 			
+		case AITrim:
+			request = [NSString stringWithFormat:@"http://api.tr.im/api/trim_simple?url=%@", [address stringByEncodingURLEscapes]];
+			break;
+			
 		default:
 			
 			break;
@@ -315,7 +320,7 @@
 	
 	// If the request was successful, replace the selected text with the shortened URL. Otherwise fail silently.
 	if(shortenedData && !errorResponse && ((NSHTTPURLResponse *)response).statusCode == 200) {
-		resultString = [NSString stringWithData:shortenedData encoding:NSUTF8StringEncoding];
+		resultString = [[NSString stringWithData:shortenedData encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 		AILogWithSignature(@"Shortened to %@", resultString);
 	} else {
 		AILogWithSignature(@"Unable to shorten: %@", errorResponse);
