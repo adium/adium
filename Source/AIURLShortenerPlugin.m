@@ -71,7 +71,7 @@
 
 - (void)uninstallPlugin
 {
-	
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 - (void)dealloc
@@ -265,11 +265,10 @@
  * @brief Requests a URL, returns the contents
  *
  * @param inURL The NSURL to request
- * @result An NSString of the page requested
+ * @result An NSString of the page requested or nil
  *
  * Synchronously requests the given URL. If the request is successful, i.e. the
  * HTTP status code is 200 and there's no error, the contents of the page are returned.
- 
  */
 - (NSString *)resultFromURL:(NSURL *)inURL
 {
