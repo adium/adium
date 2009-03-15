@@ -627,9 +627,10 @@
 					if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
 																numberOfChildrenOfItem:item])) ||
 						(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
-						//XXX multiple containers
-						[outlineView setDropItem:listItem.containingObject
-								  dropChildIndex:([listItem.containingObject visibleIndexOfObject:listItem] + 1)];
+						
+						id <AIContainingObject> parentObject = (id <AIContainingObject>)[outlineView parentForItem:listItem];
+
+						[outlineView setDropItem:parentObject dropChildIndex:[parentObject visibleIndexOfObject:listItem] + 1];
 					}
 				}
 				
