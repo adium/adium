@@ -315,7 +315,7 @@ static int nextChatNumber = 0;
 //If this chat only has one participating list object, it is returned.  Otherwise, nil is returned
 - (AIListContact *)listObject
 {
-	if (self.containedObjectsCount == 1 && !self.isGroupChat) {
+	if (self.countOfContainedObjects == 1 && !self.isGroupChat) {
 		return [self.containedObjects objectAtIndex:0];
 	}
 
@@ -325,7 +325,7 @@ static int nextChatNumber = 0;
 - (void)setListObject:(AIListContact *)inListObject
 {
 	if (inListObject != self.listObject) {
-		if (self.containedObjectsCount) {
+		if (self.countOfContainedObjects) {
 			[participatingContacts removeObjectAtIndex:0];
 		}
 		[self addParticipatingListObject:inListObject notify:YES];
@@ -474,10 +474,9 @@ static int nextChatNumber = 0;
 {
 	return [[participatingContacts copy] autorelease];
 }
-
-- (NSUInteger)containedObjectsCount
+- (NSUInteger)countOfContainedObjects
 {
-	return self.containedObjects.count;
+	return [participatingContacts count];
 }
 
 - (BOOL)containsObject:(AIListObject *)inObject
@@ -561,7 +560,7 @@ static int nextChatNumber = 0;
 
 - (NSUInteger)visibleCount
 {
-	return self.containedObjectsCount;
+	return self.countOfContainedObjects;
 }
 
 - (NSString *)contentsBasedIdentifier

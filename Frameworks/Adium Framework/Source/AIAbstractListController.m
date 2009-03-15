@@ -748,7 +748,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 	// Remove this contact list if from drag & drop operation took the last group away
 	// XXX what the heck? why does it want a cast here... that shouldn't be necessary
-	if (((id<AIContainingObject>)contactList).containedObjectsCount == 0) {
+	if (((id<AIContainingObject>)contactList).countOfContainedObjects == 0) {
 		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}

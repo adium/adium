@@ -354,7 +354,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
-		if (self.containedObjectsCount == 0)
+		if (self.countOfContainedObjects == 0)
 			[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
 
 		/* Now that we're done reconfigured ourselves and the recently removed object,
@@ -379,7 +379,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[self containedObjectsOrOrderDidChange];
 
 	//If we remove our list object, don't continue to show up in the contact list
-	if (self.containedObjectsCount == 0)
+	if (self.countOfContainedObjects == 0)
 		[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
 	
 	[contact release];
@@ -877,7 +877,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		longDisplayName = self.preferredContact.longDisplayName;
 	}
 
-	//    return [longDisplayName stringByAppendingString:[NSString stringWithFormat:@"-Meta-%i",[self containedObjectsCount]]];
+	//    return [longDisplayName stringByAppendingString:[NSString stringWithFormat:@"-Meta-%i",[self countOfContainedObjects]]];
 	return longDisplayName;
 }
 
@@ -938,11 +938,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	return [[_containedObjects copy] autorelease];
 }
-
-//Number of containd objects
-- (NSUInteger)containedObjectsCount
+- (NSUInteger)countOfContainedObjects
 {
-    return self.containedObjects.count;
+    return [_containedObjects count];
 }
 
 //Test for the presence of an object in our group

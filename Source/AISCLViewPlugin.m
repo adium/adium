@@ -430,7 +430,7 @@
 											userInfo:nil];
 	
 	// Post a notification that we've removed or changed the source group/window
-	if ([sourceList containedObjectsCount] == 0) { 
+	if ([sourceList countOfContainedObjects] == 0) { 
 		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
 												  object:sourceList
 												userInfo:nil];
@@ -455,14 +455,14 @@
 		currentCount++;
 		
 		// Only include up to an arbitrary number of group entries
-		if (currentCount == 4 || currentCount == [listGroup containedObjectsCount]) {
+		if (currentCount == 4 || currentCount == [listGroup countOfContainedObjects]) {
 			returnString = [returnString stringByAppendingString:listObject.displayName];
 		} else {
 			returnString = [returnString stringByAppendingFormat:@"%@, ", listObject.displayName];
 		}
 		
 		// Only include up to the first 4
-		if (currentCount == 4 && [listGroup containedObjectsCount] > 4) {
+		if (currentCount == 4 && [listGroup countOfContainedObjects] > 4) {
 			returnString = [returnString stringByAppendingEllipsis];
 			break;
 		}
@@ -483,7 +483,7 @@
 		(menuItem == attachMenuItem)) {
 		return [contactLists count] > 0;
 	} else if (menuItem == detachMenuItem) {
-		return ((AIListGroup *)adium.menuController.currentContextMenuObject).contactList.containedObjectsCount > 1;
+		return ((AIListGroup *)adium.menuController.currentContextMenuObject).contactList.countOfContainedObjects > 1;
 	}
 	
 	return YES;
