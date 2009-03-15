@@ -136,6 +136,8 @@
 																						 linkDestination:shortenedURL]];
 		
 	} else {
+		// Be as obscure as possible: roadrunner.
+		NSBeep();
 		AILogWithSignature(@"Unable to shorten: %@", errorResponse);
 	}
 }
