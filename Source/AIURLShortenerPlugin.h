@@ -14,10 +14,18 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
 #import <Adium/AIPlugin.h>
 
-@interface AIURLShortenerPlugin : AIPlugin {
+#define KEY_SHORTENER_PREFERENCE @"Shortener Service Preference"
+
+typedef enum {
+	AITinyURL = 0,
+	AIisgd,
+	AIMetamark
+} AIShortenLinkService;
+
+@interface AIURLShortenerPlugin : AIPlugin {	
+	NSUInteger	shortener;
 }
 
 @end
