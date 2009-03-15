@@ -23,9 +23,19 @@
 
 #define SHORTEN_LINK_TITLE	AILocalizedString(@"Replace with Shortened URL", nil)
 
+typedef enum {
+	AITinyURL = 0,
+	AIISGD,
+	AIMetamark
+} AIShortenLinkService;
+
 @interface AIURLShortenerPlugin()
-- (void)tinyURLShortenLink:(NSString *)link
-				inTextView:(NSTextView *)textView;
+- (void)shortenAddress:(NSString *)address
+		   withService:(AIShortenLinkService)service
+			inTextView:(NSTextView *)textView;
+
+- (void)insertResultFromURL:(NSURL *)inURL intoTextView:(NSTextView *)textView;
+- (NSString *)resultFromURL:(NSURL *)inURL;
 @end
 
 @implementation AIURLShortenerPlugin
@@ -109,44 +119,81 @@
 		}
 		
 		// Convert to a tiny URL
-		[self tinyURLShortenLink:linkURL
-					  inTextView:textView];
+		[self shortenAddress:linkURL
+				 withService:AITinyURL
+				  inTextView:textView];
 	} else {
 		NSBeep();
 	}
 }
 
-#pragma mark TinyURL
-
-- (void)tinyURLShortenLink:(NSString *)link
-				inTextView:(NSTextView *)textView
+#pragma mark Shorten a URL
+- (void)shortenAddress:(NSString *)address
+		   withService:(AIShortenLinkService)service
+			inTextView:(NSTextView *)textView
 {
-	NSString *requestURL = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@", [link stringByEncodingURLEscapes]];
+	NSString *request = nil;
+	
+	switch(service) {
+		case AITinyURL:
+			request = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@", [address stringByEncodingURLEscapes]];
+			break;
+			
+		case AIISGD:
+			request = [NSString stringWithFormat:@"http://is.gd/api.php?longurl=%@", [address stringByEncodingURLEscapes]];
+			break;
+			
+		case AIMetamark:
+			request = [NSString stringWithFormat:@"http://metamark.net/api/rest/simple?long_url=%@", [address stringByEncodingURLEscapes]];
+			break;
+			
+		default:
+			
+			break;
+	}
+	
+	if (request) {
+		[self insertResultFromURL:[NSURL URLWithString:request] intoTextView:textView];
+	}
+}
+
+#pragma mark Simple shorteners
+- (void)insertResultFromURL:(NSURL *)inURL intoTextView:(NSTextView *)textView
+{	
+	NSString *shortenedURL = [self resultFromURL:inURL];
+	
+	if(shortenedURL) {
+		[textView.textStorage replaceCharactersInRange:textView.selectedRange
+		 withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
+																linkDestination:shortenedURL]];
+	} else {
+		// Be as obscure as possible: roadrunner.
+		NSBeep();
+	}
+}
+
+- (NSString *)resultFromURL:(NSURL *)inURL
+{
+	NSString *resultString = nil;
 	
 	NSURLResponse *response = nil;
 	NSError *errorResponse = nil;
 	
-	NSData	*shortenedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:requestURL]]
+	NSData	*shortenedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:inURL]
 												  returningResponse:&response
 															  error:&errorResponse];
 	
-	AILogWithSignature(@"Attempting to shorten %@, requesting %@", link, requestURL);
+	AILogWithSignature(@"Requesting %@", inURL);
 	
 	// If the request was successful, replace the selected text with the shortened URL. Otherwise fail silently.
 	if(((NSHTTPURLResponse *)response).statusCode == 200) {
-		NSString *shortenedURL = [NSString stringWithData:shortenedData encoding:NSUTF8StringEncoding];
-		
-		AILogWithSignature(@"Shortened to %@", shortenedURL);
-
-		[textView.textStorage replaceCharactersInRange:textView.selectedRange
-								  withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
-																						 linkDestination:shortenedURL]];
-		
+		resultString = [NSString stringWithData:shortenedData encoding:NSUTF8StringEncoding];
+		AILogWithSignature(@"Shortened to %@", resultString);
 	} else {
-		// Be as obscure as possible: roadrunner.
-		NSBeep();
 		AILogWithSignature(@"Unable to shorten: %@", errorResponse);
 	}
+	
+	return resultString;
 }
 
 @end
