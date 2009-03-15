@@ -15,4 +15,6 @@
 - (void) testAttributedStringWithLinkedEntireStringUsingSubstringMethod;
 - (void) testAttributedStringWithLinkedEmptySubstring;
 
+- (void) testAttributedStringByConvertingLinksToStrings;
+
 @end
