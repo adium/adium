@@ -1059,7 +1059,8 @@
 {
 	NSRect visRect = [[self superview] bounds];
 
-	int currentCount = (maxCharacters - [[self textStorage] length]);
+	NSString *inputString = [self.chat.account encodedAttributedString:[self textStorage] forListObject:self.chat.listObject];
+	int currentCount = (maxCharacters - [inputString length]);
 	
 	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
 	
