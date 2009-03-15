@@ -150,15 +150,22 @@
 	[self setLastDisconnectionError:nil];
 	
 	// Creating the fake timeline account.
-	if(![adium.contactController existingBookmarkForChatName:self.timelineChatName
-												   onAccount:self
-											chatCreationInfo:nil]) {	
+	AIListBookmark *timelineBookmark = nil;
+	
+	if(!(timelineBookmark = [adium.contactController existingBookmarkForChatName:self.timelineChatName
+																	   onAccount:self
+																chatCreationInfo:nil])) {
 		AIChat *newTimelineChat = [adium.chatController chatWithName:self.timelineChatName
 														  identifier:nil
 														   onAccount:self 
 													chatCreationInfo:nil];
 		
-		AIListBookmark *timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
+		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
+	}
+	
+	// In case the timeline chat got lost somewhere.
+	if(!timelineBookmark.containingObjects.count) {	
+		AILogWithSignature(@"%@ lost, restoring to group.", timelineBookmark);
 		
 		[adium.contactController moveContact:timelineBookmark intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
 	}

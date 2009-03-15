@@ -161,25 +161,22 @@
 }
 
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
-- (void)setContainingObject:(AIListGroup *)inGroup
+- (void)addContainingGroup:(AIListGroup *)inGroup
 {
 	NSString	*inGroupInternalObjectID = inGroup.internalObjectID;
-
+	
 	//Save the change of containing object so it can be restored on launch next time if we are using groups.
 	//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
 	if ([adium.contactController useContactListGroups] &&
 		inGroupInternalObjectID &&
 		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-																   group:OBJECT_STATUS_CACHE
-												  ]] &&
-		(inGroup != [adium.contactController offlineGroup])) {
-		
+																   group:OBJECT_STATUS_CACHE]]) {
 		[self setPreference:inGroupInternalObjectID
 					 forKey:KEY_CONTAINING_OBJECT_ID
 					  group:OBJECT_STATUS_CACHE];
 	}
 	
-	super.containingObject = inGroup;
+	[super addContainingGroup:inGroup];
 }
 
 /*!
