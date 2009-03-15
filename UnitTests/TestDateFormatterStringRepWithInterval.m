@@ -747,24 +747,4 @@
 	AISimplifiedAssertEqualObjects([NSDateFormatter stringForTimeIntervalSinceDate:date showingSeconds:YES abbreviated:YES], @"65w 5d 10h 10m 10s", @"Unexpected string for time interval");
 }
 
-- (void)testDateFormatterStringRepWithInterval_weeksDaysHoursMinutes_abbreviated_knownDSTProblem {
-	//2009-03-15T00:45:39.177 PDT
-	NSCalendarDate *now = [[[NSCalendarDate alloc] initWithYear:2009
-														  month:3
-															day:15
-														   hour:0
-														 minute:45
-														 second:39.177
-													   timeZone:[NSTimeZone timeZoneWithName:@"America/Los_Angeles"]] autorelease];
-	NSCalendarDate *date = [now
-							dateByAddingYears:-0
-							months:-0
-							days:7 * -65 + -5
-							hours:-10
-							minutes:-10
-							seconds:-0];
-	date = [date dateByMatchingDSTOfDate:now];
-	AISimplifiedAssertEqualObjects([NSDateFormatter stringForTimeIntervalSinceDate:date showingSeconds:YES abbreviated:YES], @"65w 5d 10h 10m", @"Unexpected string for time interval");
-}
-
 @end
