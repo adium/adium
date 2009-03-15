@@ -376,6 +376,11 @@
 	for (AIListContact *contact in [self contactEnumerator]) {
 		[contact restoreGrouping];
 	}
+	
+	//Restore the grouping of all list bookmarks
+	for (AIListBookmark *bookmark in [self allBookmarks]) {
+		[bookmark restoreGrouping];
+	}
 
 	//Stop delaying object notifications; this will automatically resort the contact list, so we're done.
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
