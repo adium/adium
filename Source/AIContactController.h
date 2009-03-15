@@ -37,8 +37,10 @@
 	NSMutableDictionary		*metaContactDict;
 	NSMutableDictionary		*contactToMetaContactLookupDict;
 	
+	NSMutableArray			*bookmarksArray;
+	
 	//Contact List and Groups
-	AIContactList				*contactList;
+	AIContactList			*contactList;
 	NSMutableDictionary		*groupDict;
 	BOOL					useContactListGroups;
 	NSMenuItem				*menuItem_showGroups;

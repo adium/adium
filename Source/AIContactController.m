@@ -95,7 +95,6 @@
 @property (readwrite, nonatomic) BOOL useOfflineGroup;
 - (void)saveContactList;
 - (void)_loadBookmarks;
-- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup;
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
@@ -122,6 +121,7 @@
 		metaContactDict = [[NSMutableDictionary alloc] init];
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 		contactLists = [[NSMutableArray alloc] init];
+		bookmarksArray = [[NSMutableArray alloc] init];
 
 		contactPropertiesObserverManager = [AIContactObserverManager sharedManager];
 	}
@@ -170,6 +170,7 @@
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
 	[contactLists release];
+	[bookmarksArray release];
 	
 	[contactPropertiesObserverManager release];
 
@@ -234,17 +235,18 @@
 	}
 	
 	[adium.preferenceController setPreference:bookmarks
-										 forKey:KEY_BOOKMARKS
-										  group:PREF_GROUP_CONTACT_LIST];
+									   forKey:KEY_BOOKMARKS
+										group:PREF_GROUP_CONTACT_LIST];
 }
 
 - (void)_loadBookmarks
 {
 	for (NSData *data in [adium.preferenceController preferenceForKey:KEY_BOOKMARKS group:PREF_GROUP_CONTACT_LIST]) {
-		AIListBookmark	*bookmark;
 		//As a bookmark is initialized, it will add itself to the contact list in the right place
-		bookmark = [NSKeyedUnarchiver unarchiveObjectWithData:data];	
-		
+		AIListBookmark	*bookmark = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+		[bookmarksArray addObject:bookmark];
+
 		//It's a newly created object, so set its initial attributes
 		[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
 	}
@@ -1003,6 +1005,14 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 /*!
+ * @brief Returns a flat array of all bookmarks.
+ */
+- (NSArray *)allBookmarks
+{
+	return [[bookmarksArray copy] autorelease];
+}
+
+/*!
  * @brief Returns a flat array of all metacontacts
  */
 - (NSArray *)allMetaContacts
@@ -1026,36 +1036,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	}
 	
 	return contactArray;
-}
-
-//Return a flat array of all the bookmarks in a group on an account (and all subgroups, if desired)
-- (NSArray *)allBookmarksInObject:(AIListObject<AIContainingObject> *)inGroup
-{
-	NSParameterAssert(inGroup != nil);
-	
-	NSMutableArray	*bookmarkArray = [NSMutableArray array];    
-	
-	for (AIListObject *object in inGroup) {
-		if ([object conformsToProtocol:@protocol(AIContainingObject)]) {
-			[bookmarkArray addObjectsFromArray:[self allBookmarksInObject:(AIListObject<AIContainingObject> *)object]];
-		} else if ([object isKindOfClass:[AIListBookmark class]]) {
-			[bookmarkArray addObject:object];
-		}
-	}
-	
-	return bookmarkArray;
-}
-
-- (NSArray *)allBookmarks
-{
-	NSMutableArray *result = [NSMutableArray array];
-	
-	/** Could be perfected I'm sure */
-	for(AIContactList *clist in contactLists) {
-		[result addObjectsFromArray:[self allBookmarksInObject:clist]];
-	}
-	
-	return result;	
 }
 
 #pragma mark Contact List Menus
@@ -1188,6 +1168,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	if (!bookmark) {
 		bookmark = [[[AIListBookmark alloc] initWithChat:inChat] autorelease];
+		
+		[bookmarksArray addObject:bookmark];
+		
 		[self saveContactList];
 	}
 	
