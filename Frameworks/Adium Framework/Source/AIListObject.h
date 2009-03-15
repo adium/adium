@@ -111,7 +111,7 @@ typedef enum {
 @property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
 @property (readonly, nonatomic) NSSet *containingObjects;
-@property (readonly, nonatomic) NSSet *groups;
+@property (readonly, copy, nonatomic) NSSet *groups;
 - (void) removeContainingGroup:(AIListGroup *)group;
 - (void) addContainingGroup:(AIListGroup *)group;
 - (void) removeFromList;
