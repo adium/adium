@@ -371,6 +371,11 @@
 	}
 }
 
+- (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
+{
+	return [[inAttributedString attributedStringByConvertingLinksToURLStrings] string];
+}
+
 /*!
  * @brief Send a message
  *
@@ -385,7 +390,7 @@
 	if(inContentMessage.chat.isGroupChat) {
 		NSInteger replyID = [[inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"] integerValue];
 		
-		requestID = [twitterEngine sendUpdate:inContentMessage.messageString
+		requestID = [twitterEngine sendUpdate:inContentMessage.encodedMessage
 									inReplyTo:replyID];
 		
 		if(requestID) {
@@ -394,12 +399,12 @@
 				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
 															 forKey:@"Chat"]];
 			
-			AILogWithSignature(@"%@ Sending update [in reply to %d]: %@", self, replyID, inContentMessage.messageString);
+			AILogWithSignature(@"%@ Sending update [in reply to %d]: %@", self, replyID, inContentMessage.encodedMessage);
 		}
 		
 		inContentMessage.displayContent = NO;
 	} else {		
-		requestID = [twitterEngine sendDirectMessage:inContentMessage.messageString
+		requestID = [twitterEngine sendDirectMessage:inContentMessage.encodedMessage
 												  to:inContentMessage.destination.UID];
 		
 		if(requestID) {
@@ -408,7 +413,7 @@
 				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
 															 forKey:@"Chat"]];
 			
-			AILogWithSignature(@"%@ Sending DM to %@: %@", self, inContentMessage.destination.UID, inContentMessage.messageString);
+			AILogWithSignature(@"%@ Sending DM to %@: %@", self, inContentMessage.destination.UID, inContentMessage.encodedMessage);
 		}
 	}
 	
