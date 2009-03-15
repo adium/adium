@@ -19,6 +19,7 @@
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AutoHyperlinks/AHHyperlinkScanner.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
@@ -138,13 +139,28 @@
 }
 
 /*!
- * @brief Our menu item is valid if we have a text view to replace in.
+ * @brief Our menu item is valid if we have a text view to replace in, the text view has some selected text in it, and the selected text is a valid URL.
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	NSResponder	*responder = [[[NSApplication sharedApplication] keyWindow] firstResponder];
-	
-	return (responder && [responder isKindOfClass:[NSTextView class]]);
+	NSTextView	*textView = (NSTextView *)[[NSApp keyWindow] earliestResponderOfClass:[NSTextView class]];
+	if (textView) {
+		NSAttributedString *text = textView.textStorage;
+		NSRange selectedRange = textView.selectedRange;
+
+		//If we have some text and the start of the selection is not at the end of the string...
+		if ((text.length > 0) && (selectedRange.location < text.length)) {
+			if ([text attribute:NSLinkAttributeName atIndex:selectedRange.location effectiveRange:NULL])
+				return YES;
+
+			if (selectedRange.length > 0) {
+				//If the selected text is a URL (more or less), good enough for us.
+				return [AHHyperlinkScanner isStringValidURI:text.string usingStrict:NO fromIndex:NULL withStatus:NULL];
+			}
+		}
+	}
+
+	return NO;
 }
 
 /*!
