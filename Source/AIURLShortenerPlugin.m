@@ -20,7 +20,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <AutoHyperlinks/AutoHyperlinks.h>
 
 #define SHORTEN_LINK_TITLE	AILocalizedString(@"Replace with Shortened URL", nil)
 
@@ -76,6 +75,10 @@
 	NSWindow	*keyWindow = NSApplication.sharedApplication.keyWindow;
 	NSTextView	*textView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
 	
+	// Don't try and do anything on an empty input line.
+	if(!textView.textStorage.length)
+		return;
+	
 	NSRange selectedRange = textView.selectedRange;
 	NSRange	rangeOfLinkAttribute;
 	
@@ -91,13 +94,15 @@
 		selectedRange = rangeOfLinkAttribute;
 	} else {
 		linkURL = [[textView attributedSubstringFromRange:selectedRange] string];
-		
-		if (![AHHyperlinkScanner isStringValidURI:linkURL usingStrict:NO fromIndex:0U withStatus:nil]) {
-			linkURL = nil;
-		}
 	}
 	
 	if(linkURL) {
+		// Make sure the HTTP prefix is set.
+		if(![linkURL hasPrefix:@"http"]) {
+			linkURL = [@"http://" stringByAppendingString:linkURL];
+		}
+		
+		// Convert to a tiny URL
 		[self tinyURLShortenLink:linkURL
 					  inTextView:textView];
 	}
@@ -108,7 +113,7 @@
 - (void)tinyURLShortenLink:(NSString *)link
 				inTextView:(NSTextView *)textView
 {
-	NSString *requestURL = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@", link];
+	NSString *requestURL = [NSString stringWithFormat:@"http://tinyurl.com/api-create.php?url=%@", [link stringByEncodingURLEscapes]];
 	
 	NSURLResponse *response = nil;
 	NSError *errorResponse = nil;
@@ -117,14 +122,20 @@
 												  returningResponse:&response
 															  error:&errorResponse];
 	
+	AILogWithSignature(@"Attempting to shorten %@, requesting %@", link, requestURL);
+	
 	// If the request was successful, replace the selected text with the shortened URL. Otherwise fail silently.
 	if(((NSHTTPURLResponse *)response).statusCode == 200) {
 		NSString *shortenedURL = [NSString stringWithData:shortenedData encoding:NSUTF8StringEncoding];
+		
+		AILogWithSignature(@"Shortened to %@", shortenedURL);
 
 		[textView.textStorage replaceCharactersInRange:textView.selectedRange
 								  withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
 																						 linkDestination:shortenedURL]];
 		
+	} else {
+		AILogWithSignature(@"Unable to shorten: %@", errorResponse);
 	}
 }
 
