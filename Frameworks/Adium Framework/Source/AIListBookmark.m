@@ -18,7 +18,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContactList.h>
 
-#define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
+#define	KEY_CONTAINING_OBJECT_UID	@"ContainingObjectUID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
 
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
@@ -35,14 +35,12 @@
 @implementation AIListBookmark
 - (void)_initListBookmark
 {
+	[self restoreGrouping];
+	
 	[self.account addObserver:self
 					 forKeyPath:@"Online"
 						options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
 						context:NULL];
-	
-	[self observeValueForKeyPath:@"Online" ofObject:self.account change:nil context:NULL];
-	
-	[self restoreGrouping];
 	
 	[adium.notificationCenter addObserver:self
 								 selector:@selector(chatDidOpen:) 
@@ -165,20 +163,19 @@
 //When called, cache the internalObjectID of the new group so we can restore it immediately next time.
 - (void)addContainingGroup:(AIListGroup *)inGroup
 {
-	NSString	*inGroupInternalObjectID = inGroup.internalObjectID;
+	[super addContainingGroup:inGroup];
 	
-	//Save the change of containing object so it can be restored on launch next time if we are using groups.
-	//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
-	if ([adium.contactController useContactListGroups] &&
-		inGroupInternalObjectID &&
-		![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-																   group:OBJECT_STATUS_CACHE]]) {
-		[self setPreference:inGroupInternalObjectID
-					 forKey:KEY_CONTAINING_OBJECT_ID
+	NSString *groupUID = inGroup.UID;
+	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:OBJECT_STATUS_CACHE];
+	
+	if((!savedGroupUID || ![groupUID isEqualToString:savedGroupUID]) &&
+		(inGroup != adium.contactController.contactList)) {
+		// We either don't have a group, or this is a new, non-root-list group. Set our preference.
+		
+		[self setPreference:groupUID
+					 forKey:KEY_CONTAINING_OBJECT_UID
 					  group:OBJECT_STATUS_CACHE];
 	}
-	
-	[super addContainingGroup:inGroup];
 }
 
 /*!
@@ -188,22 +185,11 @@
 {
 	AIListGroup		*targetGroup = nil;
 
+	// In reality, it's extremely unlikely the saved group would be lost.
+	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:OBJECT_STATUS_CACHE] ?: AILocalizedString(@"Bookmarks", nil);
+
 	if (adium.contactController.useContactListGroups) {
-		NSString		*oldContainingObjectID;
-		AIListObject	*oldContainingObject;
-
-		oldContainingObjectID = [self preferenceForKey:KEY_CONTAINING_OBJECT_ID group:OBJECT_STATUS_CACHE];
-		//Get the group's UID out of the internal object ID by taking the substring after "Group."
-		oldContainingObject = ((oldContainingObjectID  && [oldContainingObjectID hasPrefix:@"Group."]) ?
-							   [adium.contactController groupWithUID:[oldContainingObjectID substringFromIndex:6]] :
-							   nil);
-
-		if (oldContainingObject &&
-			[oldContainingObject isKindOfClass:[AIListGroup class]] &&
-			![oldContainingObject isKindOfClass:[AIContactList class]]) {
-			//A previous grouping (to a non-root group) is saved; restore it
-			targetGroup = (AIListGroup *)oldContainingObject;
-		}
+		targetGroup = [adium.contactController groupWithUID:savedGroupUID];
 	} else {
 		targetGroup = adium.contactController.contactList;
 	}
@@ -222,7 +208,6 @@
 									   identifier:NULL 
 								        onAccount:self.account 
 							     chatCreationInfo:[self chatCreationDictionary]];
-		chat.displayName = self.displayName;
 	}	
 	
 	if(!chat.isOpen) {
