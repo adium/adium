@@ -147,4 +147,16 @@
 	STAssertEquals(linkRange, attributedStringRange, @"Non-link range is not the entire string");
 }
 
+- (void) testAttributedStringByConvertingLinksToStrings {
+	NSMutableAttributedString *input = [[[NSMutableAttributedString alloc] initWithString:@"Adium requires Growl."] autorelease];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
+
+	NSAttributedString *result;
+	STAssertNoThrow(result = [input attributedStringByConvertingLinksToStrings], @"-attributedStringByConvertingLinksToStrings threw an exception");
+	STAssertNotNil(result, @"-attributedStringByConvertingLinksToStrings returned nil");
+
+	STAssertEqualObjects([result string], @"Adium (http://adiumx.com/) requires Growl (http://growl.info/).", @"-attributedStringByConvertingLinksToStrings did not correctly expand the links");
+}
+
 @end
