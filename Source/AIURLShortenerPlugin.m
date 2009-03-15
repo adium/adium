@@ -84,19 +84,25 @@
 	
 	NSString *linkURL = nil;
 	
-	linkURL = [textView.textStorage attribute:NSLinkAttributeName
-									  atIndex:selectedRange.location
-							   effectiveRange:&rangeOfLinkAttribute];
+	id unknownLinkURL = [textView.textStorage attribute:NSLinkAttributeName
+												atIndex:selectedRange.location
+										 effectiveRange:&rangeOfLinkAttribute];
 	
-	if (linkURL) {
+	if (unknownLinkURL) {
 		//If a link exists at our selection, expand the selection to encompass that entire link
 		[textView setSelectedRange:rangeOfLinkAttribute];
 		selectedRange = rangeOfLinkAttribute;
+
+		if([unknownLinkURL isKindOfClass:[NSURL class]]) {
+			linkURL = [(NSURL *)unknownLinkURL absoluteString];
+		} else {
+			linkURL = unknownLinkURL;
+		}
 	} else {
 		linkURL = [[textView attributedSubstringFromRange:selectedRange] string];
 	}
 	
-	if(linkURL) {
+	if(linkURL.length) {
 		// Make sure the HTTP prefix is set.
 		if(![linkURL hasPrefix:@"http"]) {
 			linkURL = [@"http://" stringByAppendingString:linkURL];
@@ -105,6 +111,8 @@
 		// Convert to a tiny URL
 		[self tinyURLShortenLink:linkURL
 					  inTextView:textView];
+	} else {
+		NSBeep();
 	}
 }
 
