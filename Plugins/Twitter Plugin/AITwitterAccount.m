@@ -161,12 +161,7 @@
 													chatCreationInfo:nil];
 		
 		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
-	}
-	
-	// In case the timeline chat got lost somewhere.
-	if(!timelineBookmark.containingObjects.count) {	
-		AILogWithSignature(@"%@ lost, restoring to group.", timelineBookmark);
-		
+
 		[adium.contactController moveContact:timelineBookmark intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
 	}
 	
