@@ -88,6 +88,8 @@
 					hours:-0 minutes:-0 seconds:-0];
 	
 	then = [then dateByMatchingDSTOfDate:now];
+	NSLog(@"Now: %@", now);
+	NSLog(@"Then: %@", then);
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -105,6 +107,8 @@
 		dateByAddingYears:-0  months:-0    days:-8
 					hours:-0 minutes:-0 seconds:-0];
 	then = [then dateByMatchingDSTOfDate:now];
+	NSLog(@"Now: %@", now);
+	NSLog(@"Then: %@", then);
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -123,6 +127,8 @@
 		dateByAddingYears:-0  months:-0    days:-6
 					hours:-0 minutes:-0 seconds:-0];
 	then = [then dateByMatchingDSTOfDate:now];
+	NSLog(@"Now: %@", now);
+	NSLog(@"Then: %@", then);
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
