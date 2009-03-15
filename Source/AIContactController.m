@@ -1162,6 +1162,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	return existingBookmark;
 }
 
+
+/*!
+ * @brief Find or create a bookmark for a chat
+ */
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat
 {
 	AIListBookmark *bookmark = [self existingBookmarkForChat:inChat];
@@ -1178,6 +1182,19 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
 	
 	return bookmark;
+}
+
+/*!
+ * @brief Remove a bookmark
+ */
+- (void)removeBookmark:(AIListBookmark *)listBookmark
+{
+	[self moveContact:listBookmark intoGroups:[NSSet set]];
+	[bookmarksArray removeObject:listBookmark];
+	
+	[self saveContactList];
+	
+	[listBookmark release];
 }
 
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID

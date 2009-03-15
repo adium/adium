@@ -129,7 +129,7 @@
 
 - (void) removeFromList
 {
-#warning TODO implement me
+	[adium.contactController removeBookmark:self];
 }
 
 - (BOOL) existsServerside
