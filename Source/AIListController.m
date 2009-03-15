@@ -498,8 +498,6 @@
 	BOOL allowBetweenContactDrop = (index == NSOutlineViewDropOnItemIndex);
 
 	if ([types containsObject:@"AIListObject"]) {
-		BOOL canSortManually = [[AISortController activeSortController] canSortManually];
-		
 		id			 dragItem;
 		BOOL		 hasGroup = NO, hasNonGroup = NO;
 		for (dragItem in dragItems) {
@@ -538,21 +536,6 @@
 			
 			return NSDragOperationPrivate;
 		}
-				
-		if (index != NSOutlineViewDropOnItemIndex && !canSortManually) {
-			/* We're attempting a reorder or containing object change,
-			 * and the sort controller says there is no manual sorting allowed. */
-			AIListObject<AIContainingObject> *actualTarget = (item ? item : adium.contactController.contactList);
-
-			NSInteger indexForInserting = [[AISortController activeSortController] indexForInserting:[dragItems objectAtIndex:0]
-																						 intoObjects:[actualTarget containedObjects] inContainer:actualTarget];
-			if (indexForInserting != index)
-				[outlineView setDropItem:item dropChildIndex:indexForInserting];
-
-			return indexForInserting == index && ![((AIListObject *)[dragItems objectAtIndex:0]).containingObjects containsObject:actualTarget] ?
-					NSDragOperationNone :
-					NSDragOperationMove;
-		}
 
 		//We have one or more contacts. Don't allow them to drop on the contact list itself
 		if (!item && adium.contactController.useContactListGroups) {
@@ -565,8 +548,8 @@
 			 * 
 			 */
 			AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
-																		child:((index > 0) ? (index - 1) : 0)
-																	   ofItem:nil];
+																								   child:((index > 0) ? (index - 1) : 0)
+																								  ofItem:nil];
 			//XXX multiple containers
 			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
 				itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
@@ -574,8 +557,10 @@
 			index = ((index > 0) ?
 					 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
 					 NSOutlineViewDropOnItemIndex);
-			[outlineView setDropItem:itemAboveProposedIndex
-					  dropChildIndex:index];
+			
+			item = itemAboveProposedIndex;
+			
+			[outlineView setDropItem:item dropChildIndex:index];
 		}
 		
 		if ((index == NSOutlineViewDropOnItemIndex) && [item isKindOfClass:[AIListContact class]] && ([info draggingSource] == [self contactListView])) {
@@ -598,38 +583,45 @@
 				retVal = NSDragOperationMove;
 			}
 		
-		} else {
-			//Otherwise, it's either a move into a group or a manual reordering
-			if (!item || [outlineView isExpandable:item]) {
-				//Figure out where we would insert the dragged item if the sort controller manages the location and it's going into an expandable item
-				AISortController *sortController = [AISortController activeSortController];
-				//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
-				if (![sortController canSortManually]) {
-					NSInteger indexForInserting = [sortController indexForInserting:[dragItems objectAtIndex:0]
-																		intoObjects:(item ? [item containedObjects] : [adium.contactController.contactList containedObjects]) inContainer:item ? item : adium.contactController.contactList];
-					/*
-					 For example, to specify a drop on an item I, you specify item as 1 and index as NSOutlineViewDropOnItemIndex.
-					 To specify a drop between child 2 and 3 of item I, you specify item as I and index as 3 (children are a zero-based index).
-					 To specify a drop on an unexpandable item 1, you specify item as I and index as NSOutlineViewDropOnItemIndex.
-					 */
-					[outlineView setDropItem:item dropChildIndex:indexForInserting];
-				} else {
-					/* A drop just below a metacontact will appear to be in the group (and should be).
-					 * Adjust to fit reality accordingly.
-					 */
-					if (item && [item isKindOfClass:[AIMetaContact class]]) {
-						BOOL isExpanded = [outlineView isItemExpanded:item];
-						if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
-																	numberOfChildrenOfItem:item])) ||
-							(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
-							//XXX multiple containers
-							[outlineView setDropItem:listItem.containingObject
-									  dropChildIndex:([listItem.containingObject visibleIndexOfObject:listItem] + 1)];
-						}
+		} else if (!item || [outlineView isExpandable:item]) {
+			//Figure out where we would insert the dragged item if the sort controller manages the location and it's going into an expandable item
+			
+			//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
+			
+			AISortController *sortController = [AISortController activeSortController];
+			
+			id <AIContainingObject> container = item ?: adium.contactController.contactList;
+			
+			if (![sortController canSortManually] && [container containsObject:[dragItems objectAtIndex:0]]) {
+				// We can't sort manually, and the container already has this item. No operation will take place.
+				retVal = NSDragOperationNone;
+			} else if (![sortController canSortManually]) {
+				// We can't sort manually, but this container doesn't already have the item.
+				
+				// XXX INSERT INTO VISIBLE INDEX
+				[outlineView setDropItem:item dropChildIndex:0];
+				
+				retVal = NSDragOperationPrivate;
+			} else {
+				// We can sort manually.
+				
+				/* A drop just below a metacontact will appear to be in the group (and should be).
+				 * Adjust to fit reality accordingly.
+				 */
+				if (item && [item isKindOfClass:[AIMetaContact class]]) {
+					BOOL isExpanded = [outlineView isItemExpanded:item];
+					if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
+																numberOfChildrenOfItem:item])) ||
+						(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
+						//XXX multiple containers
+						[outlineView setDropItem:listItem.containingObject
+								  dropChildIndex:([listItem.containingObject visibleIndexOfObject:listItem] + 1)];
 					}
 				}
+				
+				retVal = NSDragOperationPrivate;
 			}
-			
+		} else {
 			retVal = NSDragOperationPrivate;
 		}
 
