@@ -194,7 +194,9 @@ extern NSString *AIFontStyleAttributeName;
 /*!
  * @brief Generate an NSAttributedString without links
  *
- * @return An autoreleased copy of the receiver with each link expanded to its URI.
+ * This method replaces each link from the receiver with Òtitle (URI)Ó in the result.
+ *
+ * @return An autoreleased copy of the receiver with each link expanded to the title followed by its URI.
  */
 - (NSAttributedString *)attributedStringByConvertingLinksToStrings;
 
