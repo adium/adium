@@ -255,6 +255,9 @@
 		[textView.textStorage replaceCharactersInRange:textView.selectedRange
 		 withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
 																linkDestination:shortenedURL]];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
+											  			    object:textView];
 	} else {
 		// Be as obscure as possible: roadrunner.
 		NSBeep();
