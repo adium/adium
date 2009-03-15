@@ -79,6 +79,7 @@ typedef enum {
 									  onAccount:(AIAccount *)inAccount
 							   chatCreationInfo:(NSDictionary *)inCreationInfo;
 - (AIListBookmark *)bookmarkForChat:(AIChat *)inChat;
+- (void)removeBookmark:(AIListBookmark *)listBookmark;
 
 - (AIMetaContact *)knownMetaContactForGroupingUIDs:(NSArray *)UIDsArray forServices:(NSArray *)servicesArray;
 - (AIMetaContact *)groupUIDs:(NSArray *)UIDsArray forServices:(NSArray *)servicesArray usingMetaContactHint:(AIMetaContact *)metaContactHint;
