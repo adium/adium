@@ -187,7 +187,10 @@
 
 #pragma mark Object Storage
 
-@synthesize containedObjects = _containedObjects;
+- (NSArray *)containedObjects
+{
+	return [[_containedObjects copy] autorelease];
+}
 - (NSUInteger)countOfContainedObjects
 {
     return [_containedObjects count];

@@ -170,7 +170,10 @@
 //Grouping / Ownership -------------------------------------------------------------------------------------------------
 #pragma mark Grouping / Ownership
 
-@synthesize groups = m_groups;
+- (NSSet *) groups
+{
+	return [[m_groups copy] autorelease];
+}
 
 - (void) addContainingGroup:(AIListGroup *)inGroup
 {
