@@ -522,18 +522,31 @@
 		AIListObject *listItem = (AIListObject *)item;
 		
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
+			NSUInteger dropIndex = index;
+			
 			//Disallow dragging groups into or onto other objects
 			if (item != nil) {
-				if ([item isKindOfClass:[AIListGroup class]]) {
-					// In between objects
-					[outlineView setDropItem:nil dropChildIndex:[((AIListGroup *)listItem).contactList visibleIndexOfObject:listItem]];
-				} else {
-					// On top of an object
-					//XXX multiple containers
-					[outlineView setDropItem:nil dropChildIndex:[listItem.containingObject.containingObject visibleIndexOfObject:listItem.containingObject]];
+				AIListObject *currentGroup = listItem;
+
+				// Iterate until we reach the highest level.
+				while ([outlineView parentForItem:currentGroup] != nil) {
+					currentGroup = (AIListObject *)[outlineView parentForItem:currentGroup];
+				}
+				
+				dropIndex = [((AIListGroup *)currentGroup).contactList visibleIndexOfObject:currentGroup];
+			}
+			
+			if([self.contactList containsObject:primaryDragItem]) {
+				NSUInteger visibleIndex = [self.contactList visibleIndexOfObject:primaryDragItem];
+				
+				// If this is a drop on or directly below, we're not moving anywhere.
+				if (visibleIndex == dropIndex || visibleIndex == dropIndex-1) {
+					return NSDragOperationNone;
 				}
 			}
 			
+			[outlineView setDropItem:nil dropChildIndex:dropIndex];
+				
 			return NSDragOperationPrivate;
 		}
 
@@ -543,9 +556,7 @@
 			 * If groups are shown at all, assuming we have any items in the list at all, she is hovering near but not in a group.
 			 *   If (index > 0), the drag is below the end of a group. That group is at (index - 1) in the outline view's root.
 			 *   If (index == 0), the drag is at the very top of the contact list.
-			 * Do this right by shifting the drop to that group.
-			 *
-			 * 
+			 * Do this right by shifting the drop to that group. 
 			 */
 			AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
 																								   child:((index > 0) ? (index - 1) : 0)
@@ -601,7 +612,7 @@
 				NSUInteger insertIndex = [sortController indexForInserting:[dragItems objectAtIndex:0]
 															   intoObjects:container.visibleContainedObjects
 															   inContainer:container];
-				
+
 				[outlineView setDropItem:item dropChildIndex:insertIndex];
 				
 				retVal = NSDragOperationPrivate;
@@ -713,6 +724,8 @@
 							[(AIContactList *)object.containingObject moveGroup:(AIListGroup *)object to:(AIContactList *)group];
 						}
 					}
+					
+					NSLog(@"moving %@ to %@", object, group);
 					
 					[group moveContainedObject:object toIndex:index];
 					[adium.contactController sortListObject:object];
