@@ -23,10 +23,6 @@
 
 #define KEY_ACCOUNT_INTERNAL_ID		@"AccountInternalObjectID"
 
-@interface AIListObject ()
-- (void)setContainingObject:(AIListGroup *)inGroup;
-@end
-
 @interface AIListBookmark ()
 - (BOOL)chatIsOurs:(AIChat *)chat;
 - (void)restoreGrouping;
@@ -36,54 +32,59 @@
 
 @synthesize name, password, chatCreationDictionary;
 
-- (void)_initListBookmark
+- (id)initWithUID:(NSString *)inUID
+		  account:(AIAccount *)inAccount
+		  service:(AIService *)inService
+	   dictionary:(NSDictionary *)inChatCreationDictionary
+			 name:(NSString *)inName
 {
-	[self restoreGrouping];
+	if ((self = [super initWithUID:inUID
+						   account:inAccount
+						   service:inService])) {
+		chatCreationDictionary = [inChatCreationDictionary copy];
+		name = [inName copy];
+		
+		[self restoreGrouping];
+		
+		[self.account addObserver:self
+					   forKeyPath:@"Online"
+						  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
+						  context:NULL];
+		
+		[adium.notificationCenter addObserver:self
+									 selector:@selector(chatDidOpen:) 
+										 name:Chat_DidOpen
+									   object:nil];
+	}
 	
-	[self.account addObserver:self
-					 forKeyPath:@"Online"
-						options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
-						context:NULL];
-	
-	[adium.notificationCenter addObserver:self
-								 selector:@selector(chatDidOpen:) 
-									 name:Chat_DidOpen
-								   object:nil];
+	return self;
 }
 
 -(id)initWithChat:(AIChat *)inChat
 {
-	if ((self = [self initWithUID:[NSString stringWithFormat:@"Bookmark:%@", inChat.uniqueChatID]
-						   account:inChat.account
-						   service:inChat.account.service])) {
-		chatCreationDictionary = [inChat.chatCreationDictionary copy];
-		name = [inChat.name copy];
-		[self _initListBookmark];
-		AILog(@"Created AIListBookmark %@", self);
-	}
-	return self;
+	return [self initWithUID:[NSString stringWithFormat:@"Bookmark:%@", inChat.uniqueChatID]
+					 account:inChat.account
+					 service:inChat.account.service
+				  dictionary:inChat.chatCreationDictionary
+						name:inChat.name];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
 	AIAccount *myAccount = [adium.accountController accountWithInternalObjectID:[decoder decodeObjectForKey:KEY_ACCOUNT_INTERNAL_ID]];
+	
 	if (!myAccount) {
 		[self release];
 		return nil;
 	}
-
-	if ((self = [self initWithUID:[decoder decodeObjectForKey:@"UID"]
-						  account:myAccount
-						  service:[adium.accountController firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]])) {
-		chatCreationDictionary = [[decoder decodeObjectForKey:@"chatCreationDictionary"] retain];
-		name = [[decoder decodeObjectForKey:@"name"] retain];
-		[self _initListBookmark];
-		AILog(@"Created AIListBookmark from coder with dict %@",chatCreationDictionary);
-		
-	}
 	
-	return self;
+	return [self initWithUID:[decoder decodeObjectForKey:@"UID"]
+					 account:myAccount
+					 service:[adium.accountController firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]
+				  dictionary:[decoder decodeObjectForKey:@"chatCreationDictionary"]
+						name:[decoder decodeObjectForKey:@"name"]];
 }
+
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
@@ -96,6 +97,10 @@
 
 - (void)dealloc
 {
+	[name release]; name = nil;
+	[chatCreationDictionary release]; chatCreationDictionary = nil;
+	[password release]; password = nil;
+	
 	[adium.notificationCenter removeObserver:self];
 	[self.account removeObserver:self forKeyPath:@"Online"];
 
