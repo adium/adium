@@ -10,15 +10,17 @@
 @class AIChat;
 
 @interface AIListBookmark : AIListContact <NSCoding> {
-	NSDictionary *chatCreationDictionary;
+	NSDictionary		*chatCreationDictionary;
 
 	NSString			*password;
 	NSString			*name;
 }
 
 - (id)initWithChat:(AIChat *)inChat;
-@property (readonly, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSDictionary *chatCreationDictionary;
+
+@property (retain, nonatomic)	NSString *password;
+@property (readonly, nonatomic)	NSString *name;
+@property (readonly, nonatomic)	NSDictionary *chatCreationDictionary;
 
 - (void)openChat;
 

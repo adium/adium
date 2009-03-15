@@ -33,6 +33,9 @@
 @end
 
 @implementation AIListBookmark
+
+@synthesize name, password, chatCreationDictionary;
+
 - (void)_initListBookmark
 {
 	[self restoreGrouping];
@@ -82,11 +85,6 @@
 	return self;
 }
 
-- (NSSet *)remoteGroups
-{
-	return self.groups;
-}
-
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
 	[encoder encodeObject:self.UID forKey:@"UID"];
@@ -103,31 +101,32 @@
 
 	[super dealloc];
 }
-- (NSString *)formattedUID
-{
-	//XXX should query chat for its name if we're in it
-	return name;
-}
 
-- (NSDictionary *)chatCreationDictionary
-{
-	return chatCreationDictionary;
-}
-
-- (NSString *)name
-{
-	return name;
-}
-
-//XXX how to handle passwords
--(NSString*)password
-{
-	return password;
-}
-
-- (void) removeFromList
+/*!
+ * @brief Remove ourself
+ *
+ * We've been asked to be removed. Ask the contact controller to do so.
+ */
+- (void)removeFromList
 {
 	[adium.contactController removeBookmark:self];
+}
+
+/*!
+ * @brief Our formatted UID
+ *
+ * If we're in an active chat, returns the name of the chat; otherwise, our UID.
+ */
+- (NSString *)formattedUID
+{
+	AIChat *chat = [adium.chatController existingChatWithName:[self name]
+													onAccount:self.account];
+	
+	if ([self chatIsOurs:chat]) {
+		return chat.name;
+	} else {
+		return self.name;
+	}
 }
 
 - (BOOL) existsServerside
@@ -152,15 +151,11 @@
 	}
 }
 
--(void)setPassword:(NSString*)newPassword
-{
-	if(password != newPassword) {
-		[password release];
-		password = [newPassword retain];
-	}
-}
-
-//When called, cache the internalObjectID of the new group so we can restore it immediately next time.
+/*!
+ * @brief Add a containing group
+ *
+ * When adding a containing group, save the group's UID so that we can rejoin the group next time.
+ */
 - (void)addContainingGroup:(AIListGroup *)inGroup
 {
 	[super addContainingGroup:inGroup];
@@ -179,7 +174,11 @@
 }
 
 /*!
- * @brief Restore the AIListGroup grouping into which this object was last manually placed
+ * @brief Restore grouping
+ *
+ * When asked to restore grouping, move ourselves to the appropriate AIListGroup:
+ * - The root contact list if contact list groups are disabled, or
+ * - The last saved group. If the last saved group is missing for some reason, we move to "Bookmarks".
  */
 - (void)restoreGrouping
 {
@@ -197,17 +196,23 @@
 	[adium.contactController moveContact:self intoGroups:targetGroup ? [NSSet setWithObject:targetGroup] : [NSSet set]];
 }
 
+/*!
+ * @brief Open our chat
+ *
+ * This is called when we are double-clicked in the contact list.
+ * Either find or create a chat appropriately, and activate it.
+ */
 - (void)openChat
 {
-	AIChat *chat = [adium.chatController existingChatWithName:[self name]
-													  onAccount:self.account];
+	AIChat *chat = [adium.chatController existingChatWithName:self.name
+													onAccount:self.account];
 	
 	if (![self chatIsOurs:chat]) {
 		//Open a new group chat (bookmarked chat)
-		chat = [adium.chatController chatWithName:[self name]
+		chat = [adium.chatController chatWithName:self.name
 									   identifier:NULL 
 								        onAccount:self.account 
-							     chatCreationInfo:[self chatCreationDictionary]];
+							     chatCreationInfo:self.chatCreationDictionary];
 	}	
 	
 	if(!chat.isOpen) {
@@ -217,6 +222,11 @@
 	[adium.interfaceController setActiveChat:chat];
 }
 
+/*!
+ * @brief A chat opened
+ *
+ * If this chat is our representation, set it up appropriately with our settings.
+ */
 - (void)chatDidOpen:(NSNotification *)notification
 {
 	AIChat *chat = [notification object];
@@ -230,7 +240,7 @@
 /*!
  * @brief Can this object be part of a metacontact?
  *
- * It makes no sense for a bookmark to be in a metacontact, I think.
+ * Bookmarks cannot join meta contacts.
  */
 - (BOOL)canJoinMetaContacts
 {
