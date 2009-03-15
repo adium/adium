@@ -472,7 +472,7 @@ static int nextChatNumber = 0;
 //AIContainingObject protocol
 - (NSArray *)containedObjects
 {
-	return participatingContacts;
+	return [[participatingContacts copy] autorelease];
 }
 
 - (NSUInteger)containedObjectsCount
