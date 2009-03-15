@@ -541,7 +541,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 	return [self attributedStringByConvertingAttachmentsToStrings];
 }
 
-- (NSAttributedString *)attributedStringByConvertingLinksToStrings
+- (NSAttributedString *)attributedStringByConvertingLinksToStringsWithTitles:(BOOL)includeTitles
 {
 	NSMutableAttributedString	*newAttributedString = nil;
 	unsigned					length = [self length];
@@ -568,8 +568,10 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 				if ([originalTitle caseInsensitiveCompare:absoluteString] == NSOrderedSame) {
 					replacementString = originalTitle;
 
-				} else {
+				} else if (includeTitles) {
 					replacementString = [NSString stringWithFormat:@"%@ (%@)", originalTitle, absoluteString];
+				} else {
+					replacementString = absoluteString;
 				}
 
 				[newAttributedString replaceCharactersInRange:searchRange 
@@ -588,6 +590,15 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 	}
 
 	return (newAttributedString ? newAttributedString : [[self copy] autorelease]);
+}
+
+- (NSAttributedString *)attributedStringByConvertingLinksToStrings
+{
+	return [self attributedStringByConvertingLinksToStringsWithTitles:YES];
+}
+- (NSAttributedString *)attributedStringByConvertingLinksToURLStrings
+{
+	return [self attributedStringByConvertingLinksToStringsWithTitles:NO];
 }
 
 - (NSAttributedString *)stringByAddingFormattingForLinks
