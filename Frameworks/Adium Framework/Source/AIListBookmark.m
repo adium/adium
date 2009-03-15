@@ -42,6 +42,8 @@
 	
 	[self observeValueForKeyPath:@"Online" ofObject:self.account change:nil context:NULL];
 	
+	[self restoreGrouping];
+	
 	[adium.notificationCenter addObserver:self
 								 selector:@selector(chatDidOpen:) 
 									 name:Chat_DidOpen
