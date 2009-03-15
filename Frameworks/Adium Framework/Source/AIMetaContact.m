@@ -936,7 +936,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[_containedObjects sortUsingFunction:containedContactSort context:self];
 	}
 	
-	return _containedObjects;
+	return [[_containedObjects copy] autorelease];
 }
 
 //Number of containd objects

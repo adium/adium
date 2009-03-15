@@ -558,7 +558,7 @@
 	
 	//If listObject contains other contacts, perform addContact:toMetaContact: recursively
 	if ([inContact conformsToProtocol:@protocol(AIContainingObject)]) {
-		for (AIListContact *someObject in [[[(AIListObject<AIContainingObject> *)inContact containedObjects] copy] autorelease]) {
+		for (AIListContact *someObject in ((AIListObject<AIContainingObject> *)inContact).containedObjects) {
 			[self addContact:someObject toMetaContact:metaContact];
 		}
 		
@@ -842,7 +842,7 @@
 {
 	//Remove the objects within it from being inside it
 	[contactPropertiesObserverManager delayListObjectNotifications];
-	NSArray	*containedObjects = [metaContact.containedObjects copy];
+	NSArray	*containedObjects = metaContact.containedObjects;
 	
 	NSMutableDictionary *allMetaContactsDict = [[adium.preferenceController preferenceForKey:KEY_METACONTACT_OWNERSHIP
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
@@ -878,7 +878,6 @@
 	
 	//Protection is overrated.
 	[metaContact release];
-	[containedObjects release];
 	[allMetaContactsDict release];
 }
 
@@ -1350,7 +1349,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	AIContactList	*containingObject = group.contactList;
 	
 	//Remove all the contacts from this group
-	for (AIListContact *contact in [[group.containedObjects copy] autorelease]) {
+	for (AIListContact *contact in group.containedObjects) {
 		[group removeObject:contact];
 	}
 	
