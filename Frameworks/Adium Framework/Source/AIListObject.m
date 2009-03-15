@@ -223,13 +223,14 @@
 - (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)index
 {
 	AIListObject<AIContainingObject> *container = (AIListObject<AIContainingObject> *)self;
+	
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		[container listObject:self didSetOrderIndex: self.smallestOrder / 2.0];
+		[container listObject:listObject didSetOrderIndex: self.smallestOrder / 2.0];
 		
 	} else if (index >= container.visibleCount) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		[container listObject:self didSetOrderIndex: self.largestOrder + 1.0];
+		[container listObject:listObject didSetOrderIndex: self.largestOrder + 1.0];
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
@@ -251,6 +252,7 @@
 		 * Dropping between Away Contact and Offline Contact should make an Away Contact be > 120 but an Offline Contact be < 110.
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
+		
 		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0];
 	}	
 }
@@ -676,8 +678,7 @@
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)orderIndexForObject
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
-										   group:ObjectStatusCache 
-						  ];
+												 group:ObjectStatusCache];
 	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
 	NSNumber *orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 	
