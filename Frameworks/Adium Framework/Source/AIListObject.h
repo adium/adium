@@ -42,6 +42,7 @@ typedef enum {
 
 @protocol AIContainingObject <NSObject, NSFastEnumeration>
 
+@property (readonly, copy, nonatomic) NSArray *visibleContainedObjects;
 @property (readonly, copy, nonatomic) NSArray *containedObjects;
 - (NSUInteger) countOfContainedObjects;
 @property (readonly, nonatomic) NSArray *uniqueContainedObjects;

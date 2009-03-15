@@ -470,6 +470,10 @@ static int nextChatNumber = 0;
 
 #pragma mark AIContainingObject protocol
 //AIContainingObject protocol
+- (NSArray *)visibleContainedObjects
+{
+	return self.containedObjects;
+}
 - (NSArray *)containedObjects
 {
 	return [[participatingContacts copy] autorelease];

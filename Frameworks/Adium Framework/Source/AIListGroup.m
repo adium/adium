@@ -186,6 +186,10 @@
 }
 
 #pragma mark Object Storage
+- (NSArray *)visibleContainedObjects
+{
+	return [[_visibleObjects copy] autorelease];
+}
 
 - (NSArray *)containedObjects
 {

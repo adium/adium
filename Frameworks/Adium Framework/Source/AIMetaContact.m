@@ -928,6 +928,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //Object Storage ---------------------------------------------------------------------------------------------
 #pragma mark Object Storage
 //Return our contained objects
+
+- (NSArray *)visibleContainedObjects
+{
+	return self.visibleListContacts;
+}
+
 - (NSArray *)containedObjects
 {
 	//Sort the containedObjects if the flag tells us it's needed
