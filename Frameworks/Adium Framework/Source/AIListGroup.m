@@ -188,11 +188,9 @@
 #pragma mark Object Storage
 
 @synthesize containedObjects = _containedObjects;
-
-//Number of contained objects
-- (NSUInteger)containedObjectsCount
+- (NSUInteger)countOfContainedObjects
 {
-    return self.containedObjects.count;
+    return [_containedObjects count];
 }
 
 //Test for the presence of an object in our group

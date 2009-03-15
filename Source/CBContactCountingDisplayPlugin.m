@@ -136,7 +136,7 @@
 		NSString		*countString = nil;
 		
 		NSUInteger visibleObjects = inGroup.visibleCount;
-		NSUInteger totalObjects = inGroup.containedObjectsCount;
+		NSUInteger totalObjects = inGroup.countOfContainedObjects;
 	
 		// Create our count string for displaying in the list group's cell
 		// If the number of visible objects is the same as the number of total objects, just display one number.

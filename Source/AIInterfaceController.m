@@ -1497,7 +1497,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	}
 		
     if ([object isKindOfClass:[AIListGroup class]]) {
-        [titleString appendString:[NSString stringWithFormat:@" (%ld/%ld)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object containedObjectsCount]] 
+        [titleString appendString:[NSString stringWithFormat:@" (%ld/%ld)",[(AIListGroup *)object visibleCount],[(AIListGroup *)object countOfContainedObjects]] 
                    withAttributes:titleDict];
     }
     

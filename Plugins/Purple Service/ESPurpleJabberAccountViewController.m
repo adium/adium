@@ -144,7 +144,7 @@
 }
 
 - (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
-	return [adium.contactController.contactList containedObjectsCount];
+	return [adium.contactController.contactList countOfContainedObjects];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index {
