@@ -28,7 +28,6 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIContactHidingController.h>
 
-#define	KEY_CONTAINING_OBJECT_ID	@"ContainingObjectInternalObjectID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
 
 #define	KEY_EXPANDED						@"IsExpanded"
@@ -123,31 +122,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (AIService *)service
 {
 	return self.preferredContact.service;
-}
-
-//When called, cache the internalObjectID of the new group so we can restore it immediately next time.
-- (void)setContainingObject:(AIListGroup *)inGroup
-{
-	if (inGroup) {
-		NSParameterAssert([inGroup canContainObject:self]);
-		NSString	*inGroupInternalObjectID = inGroup.internalObjectID;
-		
-		//Save the change of containing object so it can be restored on launch next time if we are using groups.
-		//We don't save if we are not using groups as this set will be for the contact list root and probably not desired permanently.
-		if (adium.contactController.useContactListGroups &&
-			inGroupInternalObjectID &&
-			![inGroupInternalObjectID isEqualToString:[self preferenceForKey:KEY_CONTAINING_OBJECT_ID
-																	   group:OBJECT_STATUS_CACHE
-													  ]] &&
-			(inGroup != adium.contactController.offlineGroup)) {
-
-			[self setPreference:inGroupInternalObjectID
-						 forKey:KEY_CONTAINING_OBJECT_ID
-						  group:OBJECT_STATUS_CACHE];
-		}
-	}
-
-	super.containingObject = inGroup;
 }
 
 - (AIListContact *)parentContact
