@@ -1193,8 +1193,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	[bookmarksArray removeObject:listBookmark];
 	
 	[self saveContactList];
-	
-	[listBookmark release];
 }
 
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
