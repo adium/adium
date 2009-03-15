@@ -533,7 +533,7 @@
 					currentGroup = (AIListObject *)[outlineView parentForItem:currentGroup];
 				}
 				
-				dropIndex = [((AIListGroup *)currentGroup).contactList visibleIndexOfObject:currentGroup];
+				dropIndex = [self.contactList visibleIndexOfObject:currentGroup];
 			}
 			
 			if([self.contactList containsObject:primaryDragItem]) {
@@ -561,9 +561,9 @@
 			AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
 																								   child:((index > 0) ? (index - 1) : 0)
 																								  ofItem:nil];
-			//XXX multiple containers
-			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]])
-				itemAboveProposedIndex = itemAboveProposedIndex.containingObject;
+			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]]) {
+				itemAboveProposedIndex = [outlineView parentForItem:itemAboveProposedIndex];
+			}
 
 			index = ((index > 0) ?
 					 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
