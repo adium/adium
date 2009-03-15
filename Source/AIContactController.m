@@ -245,7 +245,9 @@
 		//As a bookmark is initialized, it will add itself to the contact list in the right place
 		AIListBookmark	*bookmark = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
-		[bookmarksArray addObject:bookmark];
+		if(bookmark) {
+			[bookmarksArray addObject:bookmark];
+		}
 
 		//It's a newly created object, so set its initial attributes
 		[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
