@@ -725,8 +725,6 @@
 						}
 					}
 					
-					NSLog(@"moving %@ to %@", object, group);
-					
 					[group moveContainedObject:object toIndex:index];
 					[adium.contactController sortListObject:object];
 				}
