@@ -158,9 +158,11 @@
 	NSWindow	*keyWindow = NSApplication.sharedApplication.keyWindow;
 	NSTextView	*textView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
 	
-	// Don't try and do anything on an empty input line.
-	if(!textView.textStorage.length)
+	// Don't try and do anything on an empty input line or if we're at the end
+	if(!textView.textStorage.length || textView.selectedRange.location == textView.textStorage.length) {
+		NSBeep();
 		return;
+	}
 	
 	NSRange selectedRange = textView.selectedRange;
 	NSRange	rangeOfLinkAttribute;
@@ -252,10 +254,17 @@
 	NSString *shortenedURL = [self resultFromURL:inURL];
 	
 	if(shortenedURL) {
-		[textView.textStorage replaceCharactersInRange:textView.selectedRange
-		 withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
-																linkDestination:shortenedURL]];
+		NSRange selectedRange = textView.selectedRange;
 		
+		// Replace the current selection with the new URL
+		[textView.textStorage replaceCharactersInRange:selectedRange
+								  withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
+																						 linkDestination:shortenedURL]];
+		
+		// Select the inserted URL
+		textView.selectedRange = NSMakeRange(selectedRange.location, shortenedURL.length);
+		
+		// Post a notification that we've changed the text
 		[[NSNotificationCenter defaultCenter] postNotificationName:NSTextDidChangeNotification
 											  			    object:textView];
 	} else {
