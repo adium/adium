@@ -201,6 +201,15 @@ extern NSString *AIFontStyleAttributeName;
 - (NSAttributedString *)attributedStringByConvertingLinksToStrings;
 
 /*!
+ * @brief Generate an NSAttributedString without links
+ *
+ * This method replaces each link from the receiver with its URI in the result.
+ *
+ * @return An autoreleased copy of the receiver with each link expanded to its URI.
+ */
+- (NSAttributedString *)attributedStringByConvertingLinksToURLStrings;
+
+/*!
  * @brief Create a new NSAttributedString, apply link appearance attributes where appropriate
  *
  * Sets color and underline attributes for any areas with NSLinkAttributeName set and returns the resulting <tt>NSAttributedString</tt>

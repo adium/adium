@@ -159,4 +159,16 @@
 	STAssertEqualObjects([result string], @"Adium (http://adiumx.com/) requires Growl (http://growl.info/).", @"-attributedStringByConvertingLinksToStrings did not correctly expand the links");
 }
 
+- (void) testAttributedStringByConvertingLinksToURLStrings {
+	NSMutableAttributedString *input = [[[NSMutableAttributedString alloc] initWithString:@"Adium requires Growl."] autorelease];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
+	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
+
+	NSAttributedString *result;
+	STAssertNoThrow(result = [input attributedStringByConvertingLinksToURLStrings], @"-attributedStringByConvertingLinksToURLStrings threw an exception");
+	STAssertNotNil(result, @"-attributedStringByConvertingLinksToURLStrings returned nil");
+
+	STAssertEqualObjects([result string], @"http://adiumx.com/ requires http://growl.info/.", @"-attributedStringByConvertingLinksToURLStrings did not correctly expand the links");
+}
+
 @end
