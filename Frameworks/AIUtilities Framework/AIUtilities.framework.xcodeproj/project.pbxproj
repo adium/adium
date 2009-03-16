@@ -23,8 +23,6 @@
 		07C52D4807BD2F97006BE37C /* AIHostReachabilityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C52D4607BD2F97006BE37C /* AIHostReachabilityMonitor.m */; };
 		3113CCA60CE8CB4200B13AC0 /* AIDateAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3113CCA40CE8CB4200B13AC0 /* AIDateAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3113CCA70CE8CB4200B13AC0 /* AIDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3113CCA50CE8CB4200B13AC0 /* AIDateAdditions.m */; };
-		319EF07F0CE787E40070D159 /* AICalendarDateAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 319EF07D0CE787E40070D159 /* AICalendarDateAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		319EF0800CE787E40070D159 /* AICalendarDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 319EF07E0CE787E40070D159 /* AICalendarDateAdditions.m */; };
 		31FA7E8C0D4A6CF800ABE634 /* AIRichTextCoercer.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FA7E8A0D4A6CF800ABE634 /* AIRichTextCoercer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		31FA7E8D0D4A6CF800ABE634 /* AIRichTextCoercer.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FA7E8B0D4A6CF800ABE634 /* AIRichTextCoercer.m */; };
 		3402D33107CB043F0044F818 /* AIUtilities.framework_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 3402D33007CB043F0044F818 /* AIUtilities.framework_Prefix.pch */; settings = {ATTRIBUTES = (); }; };
@@ -241,8 +239,6 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		3113CCA40CE8CB4200B13AC0 /* AIDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDateAdditions.h; path = Source/AIDateAdditions.h; sourceTree = "<group>"; };
 		3113CCA50CE8CB4200B13AC0 /* AIDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDateAdditions.m; path = Source/AIDateAdditions.m; sourceTree = "<group>"; };
-		319EF07D0CE787E40070D159 /* AICalendarDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AICalendarDateAdditions.h; path = Source/AICalendarDateAdditions.h; sourceTree = "<group>"; };
-		319EF07E0CE787E40070D159 /* AICalendarDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICalendarDateAdditions.m; path = Source/AICalendarDateAdditions.m; sourceTree = "<group>"; };
 		31FA7E8A0D4A6CF800ABE634 /* AIRichTextCoercer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRichTextCoercer.h; path = Source/AIRichTextCoercer.h; sourceTree = "<group>"; };
 		31FA7E8B0D4A6CF800ABE634 /* AIRichTextCoercer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRichTextCoercer.m; path = Source/AIRichTextCoercer.m; sourceTree = "<group>"; };
 		3402D33007CB043F0044F818 /* AIUtilities.framework_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AIUtilities.framework_Prefix.pch; sourceTree = "<group>"; };
@@ -683,8 +679,6 @@
 				34486B4706D1DF0300DA778C /* AIBezierPathAdditions.m */,
 				34FFB288087DF1300000A517 /* AIBundleAdditions.h */,
 				34FFB28F087DF1300000A517 /* AIBundleAdditions.m */,
-				319EF07D0CE787E40070D159 /* AICalendarDateAdditions.h */,
-				319EF07E0CE787E40070D159 /* AICalendarDateAdditions.m */,
 				34235A6909D7B370009FF634 /* AICharacterSetAdditions.h */,
 				34235A6A09D7B370009FF634 /* AICharacterSetAdditions.m */,
 				34486B4A06D1DF0300DA778C /* AIColorAdditions.h */,
@@ -1253,7 +1247,6 @@
 				07B87B7F0A3A7A3B00A38283 /* AIShadowAdditions.h in Headers */,
 				639B3CA80ABC708700D618E9 /* AIWindowControllerAdditions.h in Headers */,
 				8D1D4DE90BD62FDB0091C3CE /* AIDividedAlternatingRowOutlineView.h in Headers */,
-				319EF07F0CE787E40070D159 /* AICalendarDateAdditions.h in Headers */,
 				3113CCA60CE8CB4200B13AC0 /* AIDateAdditions.h in Headers */,
 				346E5F400D60F87000ACD38C /* AIImageDrawingAdditions.h in Headers */,
 				34E6D03C0DEAED82002819F6 /* AIPasteboardAdditions.h in Headers */,
@@ -1449,7 +1442,6 @@
 				07B87B800A3A7A3B00A38283 /* AIShadowAdditions.m in Sources */,
 				639B3CA90ABC708700D618E9 /* AIWindowControllerAdditions.m in Sources */,
 				8D1D4DEA0BD62FDB0091C3CE /* AIDividedAlternatingRowOutlineView.m in Sources */,
-				319EF0800CE787E40070D159 /* AICalendarDateAdditions.m in Sources */,
 				3113CCA70CE8CB4200B13AC0 /* AIDateAdditions.m in Sources */,
 				31FA7E8D0D4A6CF800ABE634 /* AIRichTextCoercer.m in Sources */,
 				346E5F410D60F87000ACD38C /* AIImageDrawingAdditions.m in Sources */,
