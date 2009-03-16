@@ -79,7 +79,7 @@
  */
 - (NSString *)contentsBasedIdentifier
 {
-	NSArray *UIDArray = [[self.containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
+	NSArray *UIDArray = [[_containedObjects valueForKey:@"UID"] sortedArrayUsingSelector:@selector(compare:)];
 	NSString *contentsBasedIdentifier = [UIDArray componentsJoinedByString:@";"];
 	if (![contentsBasedIdentifier length]) contentsBasedIdentifier = self.UID;
 
@@ -203,13 +203,13 @@
 //Test for the presence of an object in our group
 - (BOOL)containsObject:(AIListObject *)inObject
 {
-	return [self.containedObjects containsObject:inObject];
+	return [_containedObjects containsObject:inObject];
 }
 
 //Retrieve an object by index
 - (id)objectAtIndex:(NSUInteger)index
 {
-    return [self.containedObjects objectAtIndex:index];
+    return [_containedObjects objectAtIndex:index];
 }
 
 - (NSArray *)uniqueContainedObjects
@@ -247,7 +247,7 @@
 	NSParameterAssert([self canContainObject:inObject]);
 	BOOL success = NO;
 	
-	if (![self.containedObjects containsObjectIdenticalTo:inObject]) {
+	if (![_containedObjects containsObjectIdenticalTo:inObject]) {
 		//Add the object (icky special casing :( )
 		if ([inObject isKindOfClass:[AIListContact class]])
 			[(AIListContact *)inObject addContainingGroup:self];
@@ -307,7 +307,7 @@
 {
 	NSAssert2([_containedObjects containsObject:inObject], @"Attempting to sort %@ in %@ but not contained.", inObject, self);
 	
-	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:self.containedObjects inContainer:self]];
+	[_containedObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_containedObjects inContainer:self]];
 	if ([_visibleObjects containsObject:inObject])
 		[_visibleObjects moveObject:inObject toIndex:[[AISortController activeSortController] indexForInserting:inObject intoObjects:_visibleObjects inContainer:self]];
 }
