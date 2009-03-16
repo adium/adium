@@ -28,6 +28,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListGroup.h>
@@ -230,7 +231,9 @@
 - (void)promptForNewContactOnWindow:(NSWindow *)inWindow selectedListObject:(AIListObject *)inListObject
 {
 	//We only autofill if the selected list object is a contact and a stranger
-	if (![inListObject isKindOfClass:[AIListContact class]] || [(AIListContact *)inListObject isIntentionallyNotAStranger] ||
+	if (![inListObject isKindOfClass:[AIListContact class]] ||
+		[inListObject isKindOfClass:[AIListBookmark class]] ||
+		[(AIListContact *)inListObject isIntentionallyNotAStranger] ||
 		[inListObject isKindOfClass:[AIMetaContact class]]) {
 		inListObject = nil;
 	}
