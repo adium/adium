@@ -60,6 +60,11 @@
 	return @"adium";
 }
 
+- (NSString *)formattedUID
+{
+	return [NSString stringWithFormat:@"%@ (%@)", self.UID, self.host];
+}
+
 /*!
  * @brief Returns the link URL for a specific type of link
  */
