@@ -402,7 +402,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  */
 - (NSString *)_titleForAccount:(AIAccount *)account
 {
-	NSString	*accountTitle = [account formattedUIDForListDisplay];
+	NSString	*accountTitle = [account explicitFormattedUID];
 	NSString	*titleFormat = nil;
 	
 	//If the account doesn't have a name, give it a generic one

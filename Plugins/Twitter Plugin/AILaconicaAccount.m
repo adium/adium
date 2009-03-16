@@ -60,9 +60,18 @@
 	return @"adium";
 }
 
-- (NSString *)formattedUID
+/*!
+ * @brief Our explicit formatted UID
+ * 
+ * This includes "additional necessary identifying information".
+ */
+- (NSString *)explicitFormattedUID
 {
-	return [NSString stringWithFormat:@"%@ (%@)", self.UID, self.host];
+	if (self.host) {
+		return [NSString stringWithFormat:@"%@ (%@)", self.UID, self.host];
+	} else {
+		return self.UID;
+	}
 }
 
 /*!

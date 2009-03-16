@@ -119,7 +119,7 @@ void purple_account_set_bool(void *account, const char *name,
 	return self.formattedUID;
 }
 
-- (NSString *)formattedUIDForListDisplay
+- (NSString *)explicitFormattedUID
 {
 	// on IRC, the nickname isn't that important for an account, the server is
 	// (I guess the number of IRC users that use the same server with different nicks is very low)

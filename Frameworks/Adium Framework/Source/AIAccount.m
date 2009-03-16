@@ -284,14 +284,6 @@ typedef enum
 	return self.formattedUID;
 }
 
-/*!
- * @brief A formatted UID which can be used for being displayed in a list of accounts
- */
-- (NSString *)formattedUIDForListDisplay
-{
-	return self.formattedUID;
-}
-
 //Properties -----------------------------------------------------------------------------------------------------------
 #pragma mark Properties
 /*!
