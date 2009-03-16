@@ -821,7 +821,7 @@
 																						 0.75)];
 
 	} else if ([identifier isEqualToString:@"name"]) {
-		return [[account formattedUIDForListDisplay] length] ? [account formattedUIDForListDisplay] : NEW_ACCOUNT_DISPLAY_TEXT;
+		return [[account explicitFormattedUID] length] ? [account explicitFormattedUID] : NEW_ACCOUNT_DISPLAY_TEXT;
 		
 	} else if ([identifier isEqualToString:@"status"]) {
 		NSString	*title;
