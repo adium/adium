@@ -312,7 +312,7 @@
 			// We want to reply to a specific status update.
 			// Broadcast the notification.
 
-			// XXX Should this be done differently?
+			// If you're modifying this, also modify the post in AIWebKitDelegate.m
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:url];
 		}
 	}
