@@ -93,22 +93,7 @@ static NSString	*prefsCategory;
 
 //Core Controllers -----------------------------------------------------------------------------------------------------
 #pragma mark Core Controllers
-@synthesize accountController;
-@synthesize chatController;
-@synthesize contactController;
-@synthesize contentController;
-@synthesize dockController;
-@synthesize emoticonController;
-@synthesize interfaceController;
-@synthesize loginController;
-@synthesize menuController;
-@synthesize preferenceController;
-@synthesize soundController;
-@synthesize statusController;
-@synthesize toolbarController;
-@synthesize contactAlertsController;
-@synthesize fileTransferController;
-@synthesize applescriptabilityController;
+@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController;
 
 #ifdef DEBUG_BUILD
 @synthesize debugController;
@@ -117,8 +102,7 @@ static NSString	*prefsCategory;
 //Loaders --------------------------------------------------------------------------------------------------------
 #pragma mark Loaders
 
-@synthesize componentLoader;
-@synthesize pluginLoader;
+@synthesize componentLoader, pluginLoader;
 
 //Notifications --------------------------------------------------------------------------------------------------------
 #pragma mark Notifications
