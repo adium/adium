@@ -136,6 +136,7 @@
 	characterCounter = nil;
 	characterCounterPrefix = nil;
 	maxCharacters = 0;
+	lastTextColor = nil;
 	
 	if ([self respondsToSelector:@selector(setAllowsUndo:)]) {
 		[self setAllowsUndo:YES];
@@ -1060,6 +1061,25 @@
 
 	NSString *inputString = [self.chat.account encodedAttributedString:[self textStorage] forListObject:self.chat.listObject];
 	int currentCount = (maxCharacters - [inputString length]);
+
+	if(currentCount < 0) {
+		lastTextColor = [[self textColor] retain];
+		
+		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
+													  saturation:0.43
+													  brightness:0.99
+														   alpha:1.0]];
+		
+		[self setTextColor:[NSColor blackColor]];
+		
+	} else {
+		if(lastTextColor) {
+			[self setTextColor:lastTextColor];	
+			[lastTextColor release]; lastTextColor = nil;
+		}
+		
+		[self setBackgroundColor:[NSColor controlBackgroundColor]];
+	}
 	
 	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
 	

@@ -65,6 +65,7 @@
 	AISimpleTextView	*characterCounter;
 	NSString			*characterCounterPrefix;
 	int					maxCharacters;
+	NSColor				*lastTextColor;
 }
 
 @property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
