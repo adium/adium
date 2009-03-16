@@ -26,6 +26,7 @@ typedef enum {
 	AITwitterRateLimitStatus,
 	
 	AITwitterInitialUserInfo,
+	AITwitterAddFollow,
 	AITwitterRemoveFollow,
 	
 	AITwitterProfileSelf,
