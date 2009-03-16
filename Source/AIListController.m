@@ -456,15 +456,15 @@
 	
 	[super listObjectAttributesChanged:notification];
 	
-    keys = [[notification userInfo] objectForKey:@"Keys"];
+	keys = [[notification userInfo] objectForKey:@"Keys"];
 
-    //Resize the contact list horizontally
-    if (autoResizeHorizontally) {
+	//Resize the contact list horizontally
+	if (autoResizeHorizontally) {
 		if ([keys containsObject:@"Display Name"] || [keys containsObject:@"Long Display Name"] ||
-			(autoresizeHorizontallyWithIdleTime && [keys containsObject:@"IdleReadable"])) {
+				(autoresizeHorizontallyWithIdleTime && [keys containsObject:@"IdleReadable"])) {
 			[self contactListDesiredSizeChanged];
 		}
-    }
+	}
 }
 
 /*!
