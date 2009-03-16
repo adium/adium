@@ -1215,12 +1215,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
 											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@, the user does not exist.", nil),
 															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
-															   self.UID]];
+															   self.explicitFormattedUID]];
 			} else {
 				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
 											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@. Error %d occured.",nil),
 															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
-															   self.UID,
+															   self.explicitFormattedUID,
 															   error.code]];
 			}
 			
