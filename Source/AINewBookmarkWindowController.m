@@ -154,7 +154,7 @@
 	newGroupWindowController = [AINewGroupWindowController promptForNewGroupOnWindow:[self window]];
 
 	//Observe for the New Group window to close
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(newGroupDidEnd:) 
 									   name:@"NewGroupWindowControllerDidEnd"
 									 object:[newGroupWindowController window]];	
@@ -187,7 +187,7 @@
 	}
 
 	//Stop observing
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:@"NewGroupWindowControllerDidEnd" 
 										object:window];
 }

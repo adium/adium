@@ -74,7 +74,7 @@
  */
 - (void)installPlugin
 {
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(adiumFinishedLaunching:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
@@ -100,7 +100,7 @@
 			   withObject:nil
 			   afterDelay:0];
 
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }

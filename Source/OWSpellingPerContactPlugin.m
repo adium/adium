@@ -35,7 +35,7 @@
  */
 - (void)installPlugin
 {
-	NSNotificationCenter *notificationCenter = adium.notificationCenter;
+	NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 	
 	[notificationCenter addObserver:self
 						   selector:@selector(chatBecameActive:)
@@ -68,7 +68,7 @@
 	[languageDict release]; languageDict = nil;
 	[preferredLanguage release]; preferredLanguage = nil;
 	
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!

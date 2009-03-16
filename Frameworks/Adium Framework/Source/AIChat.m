@@ -140,7 +140,7 @@ static int nextChatNumber = 0;
 		
 		//The uniqueChatID may depend upon the account, so clear it
 		[self clearUniqueChatID];
-		[adium.notificationCenter postNotificationName:Chat_SourceChanged object:self]; //Notify
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_SourceChanged object:self]; //Notify
 	}
 }
 
@@ -335,7 +335,7 @@ static int nextChatNumber = 0;
 		[self clearUniqueChatID];
 
 		//Notify once the destination has been changed
-		[adium.notificationCenter postNotificationName:Chat_DestinationChanged object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_DestinationChanged object:self];
 	}
 }
 
@@ -551,7 +551,7 @@ static int nextChatNumber = 0;
 
 	[participatingContacts removeAllObjects];
 
-	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:self];
 }
 

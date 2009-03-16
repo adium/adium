@@ -47,7 +47,7 @@
 	preferences = [[ESWebKitMessageViewPreferences preferencePaneForPlugin:self] retain];
 
 	//Observe for installation of new styles
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
@@ -64,7 +64,7 @@
 	[adium.interfaceController unregisterMessageDisplayPlugin:self];
 	[adium.preferenceController removePreferencePane:preferences];
 
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[styleDictionary release]; styleDictionary = nil;
 	[preferences release]; preferences = nil;

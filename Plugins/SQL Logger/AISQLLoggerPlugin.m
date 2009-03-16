@@ -95,10 +95,10 @@
 		observingContent = newLogValue;
 
 		if (!observingContent) { //Stop Logging
-			[adium.notificationCenter removeObserver:self name:Content_ContentObjectAdded object:nil];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
 
 		} else { //Start Logging
-			[adium.notificationCenter addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adiumSentOrReceivedContent:) name:Content_ContentObjectAdded object:nil];
 		}
 	}
 }

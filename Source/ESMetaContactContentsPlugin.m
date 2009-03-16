@@ -52,7 +52,7 @@
 	[adium.menuController addContextualMenuItem:contextualMenuItem
 									   toLocation:Context_Contact_ListAction];
 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(inspectedObjectDidChange:)
 									   name:AIContactInfoInspectorDidChangeInspectedObject
 									 object:nil];
@@ -175,7 +175,7 @@
 		[oldListObject setValue:nil
 					forProperty:@"TemporaryMetaContactExpansion"
 						 notify:NotifyNever];
-		[adium.notificationCenter postNotificationName:AIPerformCollapseItemNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIPerformCollapseItemNotification
 												  object:oldListObject];
 	}
 
@@ -184,7 +184,7 @@
 		[newListObject setValue:[NSNumber numberWithBool:YES]
 					forProperty:@"TemporaryMetaContactExpansion"
 						 notify:NotifyNever];
-		[adium.notificationCenter postNotificationName:AIPerformExpandItemNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIPerformExpandItemNotification
 												  object:newListObject];
 	}
 }
@@ -197,10 +197,10 @@
 		BOOL currentlyExpanded = [(AIMetaContact *)listObject isExpanded];
 		
 		if (currentlyExpanded) {
-			[adium.notificationCenter postNotificationName:AIPerformCollapseItemNotification
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIPerformCollapseItemNotification
 													 object:listObject];
 		} else {
-			[adium.notificationCenter postNotificationName:AIPerformExpandItemNotification
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIPerformExpandItemNotification
 													 object:listObject];
 		}
 	}

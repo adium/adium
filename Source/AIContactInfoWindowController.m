@@ -139,7 +139,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	[loadedContent release]; loadedContent = nil;
 	[contentController release]; contentController = nil;
 
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -164,7 +164,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	}
 	
 	//Monitor the selected contact
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(selectionChanged:)
 									   name:Interface_ContactSelectionChanged
 									 object:nil];
@@ -282,7 +282,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 			[self configureForDisplayedObject];
 		}
 		
-		[adium.notificationCenter postNotificationName:AIContactInfoInspectorDidChangeInspectedObject
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIContactInfoInspectorDidChangeInspectedObject
 												  object:nil
 												userInfo:notificationUserInfo];
 	}

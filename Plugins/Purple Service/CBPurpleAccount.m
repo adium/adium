@@ -1191,7 +1191,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 	
 	if (emoticon) {
-		[adium.notificationCenter postNotificationName:@"AICustomEmoticonUpdated"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AICustomEmoticonUpdated"
 												  object:inChat
 												userInfo:[NSDictionary dictionaryWithObject:emoticon
 																					 forKey:@"AIEmoticon"]];
@@ -1804,7 +1804,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	[super didConnect];
 	
-	[adium.notificationCenter addObserver:self selector:@selector(iTunesDidUpdate:) name:Adium_iTunesTrackChangedNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iTunesDidUpdate:) name:Adium_iTunesTrackChangedNotification object:nil];
 
 	//Silence updates
 	[self silenceAllContactUpdatesForInterval:18.0];
@@ -1940,7 +1940,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Adium_iTunesTrackChangedNotification
 										object:nil];
 	[tuneinfo release];
@@ -2035,7 +2035,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		NSString *username = (purple_account_get_username(account) ? [NSString stringWithUTF8String:purple_account_get_username(account)] : [NSNull null]);
 		NSString *pw = (purple_account_get_password(account) ? [NSString stringWithUTF8String:purple_account_get_password(account)] : [NSNull null]);
 
-		[adium.notificationCenter postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIAccountUsernameAndPasswordRegisteredNotification
 												  object:self
 												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 													username, @"username",

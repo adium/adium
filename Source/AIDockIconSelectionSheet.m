@@ -74,7 +74,7 @@
 	[imageGridView_icons setImageSize:NSMakeSize(64,64)];
 
     //Observe xtras changes
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
@@ -87,7 +87,7 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[iconArray release]; iconArray = nil;
 
 	[super dealloc];

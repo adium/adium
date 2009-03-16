@@ -59,8 +59,6 @@
 
 	AICoreComponentLoader		*componentLoader;
 	AICorePluginLoader			*pluginLoader;
-    
-	NSNotificationCenter			*notificationCenter;
 	
 	NSMutableArray					*queuedURLEvents;
 	NSString							*queuedLogPathToShow;

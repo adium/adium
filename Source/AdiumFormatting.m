@@ -65,7 +65,7 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[_defaultAttributes release]; _defaultAttributes = nil;
 	
 	[super dealloc];

@@ -38,27 +38,27 @@
 - (void)installPlugin
 {
 	//Install our observers
-    [adium.notificationCenter addObserver:self 
+    [[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_CANCELLED 
 									 object:nil];
 
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_COMPLETE 
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_WAITING_REMOTE 
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_BEGAN 
 									 object:nil];
 
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(handleFileTransferEvent:) 
 									   name:FILE_TRANSFER_FAILED 
 									 object:nil];
@@ -69,7 +69,7 @@
  */
 - (void)uninstallPlugin
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!

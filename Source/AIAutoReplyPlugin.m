@@ -50,13 +50,13 @@
 	receivedAutoReply = [[NSMutableSet alloc] init];
 	
 	//Add observers
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(didReceiveContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED object:nil];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(didSendContent:)
 									   name:CONTENT_MESSAGE_SENT object:nil];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(chatWillClose:)
 									   name:Chat_WillClose object:nil];
 	

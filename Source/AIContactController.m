@@ -145,7 +145,7 @@
 	[self prepareShowHideGroups];
 	
 	//Observe content (for preferredContactForContentType:forListContact:)
-    [adium.notificationCenter addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                    selector:@selector(didSendContent:)
                                        name:CONTENT_MESSAGE_SENT
                                      object:nil];
@@ -340,7 +340,7 @@
 		[contactPropertiesObserverManager noteContactChanged:object];
 
 	} else {
-		[adium.notificationCenter postNotificationName:Contact_ListChanged
+		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ListChanged
 												  object:inContainingObject
 												userInfo:nil];
 	}
@@ -963,7 +963,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	for(AIContactList *list in lists) {
 		[list sort];
 	}
-	[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged object:nil];
 }
 
 //Sort an individual object
@@ -976,7 +976,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		for (AIListGroup *group in inObject.groups) {
 			//Sort the groups containing this object
 			[group sortListObject:inObject];
-			[adium.notificationCenter postNotificationName:Contact_OrderChanged object:group];
+			[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged object:group];
 		}
 	}
 }
@@ -1380,7 +1380,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (inService) [userInfo setObject:inService forKey:@"AIService"];
 	if (inAccount) [userInfo setObject:inAccount forKey:@"AIAccount"];
 	
-	[adium.notificationCenter postNotificationName:Contact_AddNewContact
+	[[NSNotificationCenter defaultCenter] postNotificationName:Contact_AddNewContact
 											  object:nil
 											userInfo:userInfo];
 }

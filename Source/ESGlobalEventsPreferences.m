@@ -93,7 +93,7 @@
 	[contactAlertsViewController setShowEventsInEditSheet:NO];
 	
 	//Observe for installation of new sound sets and set up the sound set menu
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
@@ -137,7 +137,7 @@
 	[contactAlertsViewController release]; contactAlertsViewController = nil;
 
 	[adium.preferenceController unregisterPreferenceObserver:self];
-    [adium.notificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!

@@ -43,7 +43,7 @@
 	//Observe chat changes
 	[adium.chatController registerChatObserver:self];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(statusIconSetDidChange:)
 									   name:AIStatusIconSetDidChangeNotification
 									 object:nil];
@@ -56,7 +56,7 @@
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!

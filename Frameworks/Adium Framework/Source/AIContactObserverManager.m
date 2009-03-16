@@ -170,7 +170,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	}
 
 	//Post an attributes changed message
-	[adium.notificationCenter postNotificationName:ListObject_AttributesChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_AttributesChanged
 											  object:inObject
 											userInfo:(inModifiedKeys ?
 													  [NSDictionary dictionaryWithObject:inModifiedKeys
@@ -354,7 +354,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		}
 	}
 	//Send out the notification for other observers
-	[adium.notificationCenter postNotificationName:ListObject_StatusChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:ListObject_StatusChanged
 											  object:inObject
 											userInfo:(modifiedKeys ? [NSDictionary dictionaryWithObject:modifiedKeys
 																								 forKey:@"Keys"] : nil)];

@@ -137,8 +137,8 @@
 	if(chat != inChat){
 		if(chat){
 			//Stop observing the existing chat
-			[adium.notificationCenter removeObserver:self name:Chat_SourceChanged object:chat];
-			[adium.notificationCenter removeObserver:self name:Chat_DestinationChanged object:chat];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_SourceChanged object:chat];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_DestinationChanged object:chat];
 
 			//Remove our menus
 			[self _destroyAccountMenu];
@@ -153,11 +153,11 @@
 			chat = [inChat retain];
 			
 			//Observe changes to this chat's source and destination
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatSourceChanged:)
 											   name:Chat_SourceChanged
 											 object:chat];
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatDestinationChanged:)
 											   name:Chat_DestinationChanged
 											 object:chat];

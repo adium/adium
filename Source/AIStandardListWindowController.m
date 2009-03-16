@@ -82,7 +82,6 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[adium.notificationCenter removeObserver:self];
 
 	[super dealloc];
 }
@@ -111,22 +110,22 @@
 	statusMenu = [[AIStatusMenu statusMenuWithDelegate:self] retain];
 	
 	//Update the selections in our state menu when the active state changes
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateStatusMenuSelection:)
 									   name:AIStatusActiveStateChangedNotification
 									 object:nil];
 	//Update our state menus when the status icon set changes
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateStatusMenuSelection:)
 									   name:AIStatusIconSetDidChangeNotification
 									 object:nil];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateStatusMenuSelection:)
 									   name:@"AIStatusFilteredStatusMessageChanged"
 									 object:nil];
 	[self updateStatusMenuSelection:nil];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(listObjectAttributesChanged:)
 									   name:ListObject_AttributesChanged
 									 object:nil];
@@ -172,7 +171,7 @@
 		[self filterContacts:searchField];
 	}
 
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[statusMenu release];
 	
 	[super windowWillClose:notification];
@@ -965,7 +964,7 @@
 		[contactListView selectItemsInArray:filterBarPreviouslySelected];
 		
 		// Since this wasn't a user-initiated selection change, we need to post a notification for it.
-		[adium.notificationCenter postNotificationName:Interface_ContactSelectionChanged
+		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
 												  object:nil];
 		
 		[filterBarPreviouslySelected release]; filterBarPreviouslySelected = nil;
@@ -1119,7 +1118,7 @@
 					 byExtendingSelection:NO];
 		
 		// Since this wasn't a user-initiated selection change, we need to post a notification for it.
-		[adium.notificationCenter postNotificationName:Interface_ContactSelectionChanged
+		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
 												  object:nil];
 		
 		[[searchField cell] setTextColor:nil backgroundColor:nil];

@@ -38,7 +38,7 @@
  */
 - (void)installPlugin
 {
-	[adium.notificationCenter addObserver:self selector:@selector(urlRequest:) name:@"AITwitterReplyLinkClicked" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlRequest:) name:@"AITwitterReplyLinkClicked" object:nil];
 }
 
 /*!
@@ -46,7 +46,7 @@
  */
 - (void)uninstallPlugin
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!

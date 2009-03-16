@@ -78,7 +78,7 @@
 							 URL:@"http://www.adiumx.com"
 						   token:self.sourceToken];
 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 							     selector:@selector(chatDidOpen:) 
 									 name:Chat_DidOpen
 								   object:nil];
@@ -96,7 +96,7 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	[twitterEngine release];

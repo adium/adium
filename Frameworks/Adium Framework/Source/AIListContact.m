@@ -293,7 +293,7 @@
 	
 	if (displayNameChanges) {
 		//Request an alias change
-		[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
+		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
 												  object:self
 												userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																					 forKey:@"Notify"]];

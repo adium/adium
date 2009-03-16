@@ -31,7 +31,7 @@
 - (void)installPlugin
 {
     //Install our observers
-    [adium.notificationCenter addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(handleError:)
 									   name:Interface_ShouldDisplayErrorMessage 
 									 object:nil];

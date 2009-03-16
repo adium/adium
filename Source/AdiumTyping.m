@@ -42,11 +42,11 @@
  - (id)init
 {
 	if ((self = [super init])) {
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(didSendMessage:)
 										   name:Interface_DidSendEnteredMessage
 										 object:nil];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(chatWillClose:)
 										   name:Chat_WillClose
 										 object:nil];
@@ -57,7 +57,7 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }

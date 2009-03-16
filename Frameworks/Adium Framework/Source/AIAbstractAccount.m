@@ -101,13 +101,13 @@
 		disconnectedByFastUserSwitch = NO;
 
 		//Register to be notified of dynamic content updates
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(requestImmediateDynamicContentUpdate:)
 										   name:Adium_RequestImmediateDynamicContentUpdate
 										 object:nil];	
 
 		//Some actions must wait until Adium is finished loading so that all plugins are available
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(adiumDidLoad:)
 										   name:AIApplicationDidFinishLoadingNotification
 										 object:nil];
@@ -140,7 +140,7 @@
 	[self _stopAttributedRefreshTimer];
 	[autoRefreshingKeys release]; autoRefreshingKeys = nil;
 	
-    [adium.notificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
@@ -150,7 +150,7 @@
 {
 	[self updateStatusForKey:KEY_ACCOUNT_DISPLAY_NAME];
 
-	[adium.notificationCenter removeObserver:self 
+	[[NSNotificationCenter defaultCenter] removeObserver:self 
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }

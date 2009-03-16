@@ -129,7 +129,7 @@
 	//Hide the alpha component
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:NO];
 
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[previewListObjectsDict release]; previewListObjectsDict = nil;
 
 	[previewController release]; previewController = nil;
@@ -534,7 +534,7 @@
 		
 		//Display name
 		if ((alias = [participant objectForKey:@"Display Name"])) {
-			[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
+			[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
 													  object:listContact
 													userInfo:[NSDictionary dictionaryWithObject:alias forKey:@"Alias"]];
 		}
@@ -653,7 +653,7 @@
 	}
 
 	//We finished adding untracked content
-	[adium.notificationCenter postNotificationName:Content_ChatDidFinishAddingUntrackedContent
+	[[NSNotificationCenter defaultCenter] postNotificationName:Content_ChatDidFinishAddingUntrackedContent
 											  object:inChat];
 }
 

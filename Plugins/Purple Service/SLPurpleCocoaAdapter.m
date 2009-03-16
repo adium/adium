@@ -215,7 +215,7 @@ static void ZombieKiller_Signal(int i)
 	}
 	
 	//Observe for network changes to tell libpurple about it
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(networkDidChange:)
 									   name:AINetworkDidChangeNotification
 									 object:nil];

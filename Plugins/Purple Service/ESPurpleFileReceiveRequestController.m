@@ -30,7 +30,7 @@
 		
 		[account requestReceiveOfFileTransfer:fileTransfer];
 
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 																selector:@selector(cancel:)
 																	name:FILE_TRANSFER_CANCELLED
 																  object:nil];
@@ -40,9 +40,10 @@
 	return self;
 }
 
+
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }

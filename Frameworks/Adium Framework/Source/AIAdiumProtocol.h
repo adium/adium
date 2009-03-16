@@ -41,7 +41,6 @@ typedef enum {
 
 @property (readonly, nonatomic) NSObject<AIApplescriptabilityController> *applescriptabilityController;
 
-@property (readonly, nonatomic) NSNotificationCenter *notificationCenter;
 @property (readonly, nonatomic) AICoreComponentLoader *componentLoader;
 @property (readonly, nonatomic) AICorePluginLoader *pluginLoader;
 

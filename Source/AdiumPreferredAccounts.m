@@ -37,7 +37,7 @@
 {
 	if ((self = [super init])) {
 		//Observe content (for accountForSendingContentToContact)
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(didSendContent:)
 										   name:CONTENT_MESSAGE_SENT
 										 object:nil];		
@@ -51,7 +51,7 @@
  */
 - (void)dealloc
 {
-    [adium.notificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }

@@ -440,7 +440,7 @@
 		[self setPreference:alias forKey:@"Alias" group:PREF_GROUP_ALIASES];
 		
 		//XXX - There must be a cleaner way to do this alias stuff!  This works for now :)
-		[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
+		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
 												  object:self
 												userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																					 forKey:@"Notify"]];

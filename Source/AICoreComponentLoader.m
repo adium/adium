@@ -115,7 +115,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 	id <AIPlugin>	plugin;
 
 	while ((plugin = [enumerator nextObject])) {
-		[adium.notificationCenter removeObserver:plugin];
+		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
 	}

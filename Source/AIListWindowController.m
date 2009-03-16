@@ -226,7 +226,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 
     //Tell the interface to unload our window
-    NSNotificationCenter *adiumNotificationCenter = adium.notificationCenter;
+    NSNotificationCenter *adiumNotificationCenter = [NSNotificationCenter defaultCenter];
     [adiumNotificationCenter postNotificationName:Interface_ContactListDidResignMain object:self];
 	[adiumNotificationCenter postNotificationName:Interface_ContactListDidClose object:self];
 }
@@ -521,13 +521,13 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 //Contact list brought to front
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-    [adium.notificationCenter postNotificationName:Interface_ContactListDidBecomeMain object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactListDidBecomeMain object:self];
 }
 
 //Contact list sent back
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    [adium.notificationCenter postNotificationName:Interface_ContactListDidResignMain object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactListDidResignMain object:self];
 }
 
 //
@@ -1231,10 +1231,10 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 		
 		[from moveAllGroupsTo:to];
 		
-		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
+		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:from
 												userInfo:nil];
-		[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
 												  object:to
 												userInfo:nil]; 
 	}

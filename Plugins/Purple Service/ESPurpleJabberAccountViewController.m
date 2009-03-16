@@ -35,7 +35,7 @@
 	
 	[checkBox_checkMail setEnabled:NO];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(contactListChanged:)
 									   name:Contact_ListChanged
 									 object:nil];
@@ -130,7 +130,7 @@
 }
 
 - (void)dealloc {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[window_registerServer release];
 	[servers release];
 

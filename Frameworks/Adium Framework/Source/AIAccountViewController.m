@@ -99,7 +99,7 @@
 	[view_options release];
 	[changedPrefDict release];
 
-    [adium.notificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
@@ -246,10 +246,10 @@
 		[popUp_encryption selectItemWithTag:[[account preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 																		   group:GROUP_ENCRYPTION] intValue]];
 		
-		[adium.notificationCenter removeObserver:self
+		[[NSNotificationCenter defaultCenter] removeObserver:self
 											  name:AIAccountUsernameAndPasswordRegisteredNotification
 											object:nil];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(usernameAndPasswordRegistered:)
 										   name:AIAccountUsernameAndPasswordRegisteredNotification
 										 object:inAccount];

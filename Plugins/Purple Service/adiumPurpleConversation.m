@@ -115,7 +115,7 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 				type = @"notification";
 			}
 
-			[adium.notificationCenter postNotificationName:Chat_NudgeBuzzOccured
+			[[NSNotificationCenter defaultCenter] postNotificationName:Chat_NudgeBuzzOccured
 																			   object:chatLookupFromConv(conv)
 																			 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 																					   type, @"Type",

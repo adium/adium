@@ -35,11 +35,11 @@
 	
 	
 	//Observe video chat creation and destruction
-//	[adium.notificationCenter addObserver:self
+//	[[NSNotificationCenter defaultCenter] addObserver:self
 //								   selector:@selector(videoChatDidOpen:)
 //									   name:AIVideoChatDidOpenNotification
 //									 object:nil];
-//	[adium.notificationCenter addObserver:self
+//	[[NSNotificationCenter defaultCenter] addObserver:self
 //								   selector:@selector(videoChatWillClose:)
 //									   name:AIVideoChatWillCloseNotification
 //									 object:nil];

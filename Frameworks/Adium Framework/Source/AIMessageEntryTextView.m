@@ -154,11 +154,11 @@
 											 selector:@selector(frameDidChange:) 
 												 name:NSViewFrameDidChangeNotification 
 											   object:self];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 															selector:@selector(toggleMessageSending:)
 																name:@"AIChatDidChangeCanSendMessagesNotification"
 															  object:chat];
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 															selector:@selector(contentObjectAdded:) 
 																name:Content_ContentObjectAdded 
 															  object:nil];
@@ -194,9 +194,8 @@
 		[chat removeObserver:self forKeyPath:@"Character Counter Prefix"];
 	}
 	
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[adium.notificationCenter removeObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[characterCounterPrefix release];
