@@ -113,12 +113,12 @@
 	
 	
 	//Observe list closing
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(contactListDidClose:)
 									   name:Interface_ContactListDidClose
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(contactListIsEmpty:)
 									   name:DetachedContactListIsEmpty
 									 object:nil];
@@ -138,7 +138,7 @@
 
 - (void)uninstallPlugin
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
@@ -304,7 +304,7 @@
 
 		[adium.contactController removeDetachedContactList:(AIContactList *)[windowController contactList]];
 		
-		[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
 												  object:adium.contactController.contactList 
 												userInfo:nil];
 			
@@ -425,17 +425,17 @@
 	[sourceList moveGroup:listGroup to:destinationList];
 	
 	// Update contact list
-	[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
 											  object:destinationList
 											userInfo:nil];
 	
 	// Post a notification that we've removed or changed the source group/window
 	if ([sourceList countOfContainedObjects] == 0) { 
-		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
+		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:sourceList
 												userInfo:nil];
 	} else {
-		[adium.notificationCenter postNotificationName:@"Contact_ListChanged"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
 												  object:sourceList
 												userInfo:nil]; 
 	}

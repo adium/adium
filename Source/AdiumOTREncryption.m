@@ -81,7 +81,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 		adiumOTREncryption = self;
 
 		//Wait for Adium to finish launching to prepare encryption so that accounts will be loaded
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(adiumFinishedLaunching:)
 										   name:AIApplicationDidFinishLoadingNotification
 										 object:nil];
@@ -137,20 +137,20 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 	otrg_ui_update_fingerprint();
 	
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(adiumWillTerminate:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_SourceChanged
 									 object:nil];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_DestinationChanged
 									 object:nil];
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(updateSecurityDetails:) 
 									   name:Chat_DidOpen
 									 object:nil];
@@ -162,7 +162,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 - (void)dealloc
 {
 	[OTRPrefs release];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }

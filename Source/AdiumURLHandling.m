@@ -313,7 +313,7 @@
 			// Broadcast the notification.
 
 			// XXX Should this be done differently?
-			[adium.notificationCenter postNotificationName:@"AITwitterReplyLinkClicked" object:url];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:url];
 		}
 	}
 }

@@ -184,7 +184,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 						NSRunCriticalAlertPanel(AILocalizedString(@"Invalid status icon pack", nil),errorMessage,nil,nil,nil);
 						
 						//Post a notification so someone, somewhere can fix us :)
-						[adium.notificationCenter postNotificationName:AIStatusIconSetInvalidSetNotification
+						[[NSNotificationCenter defaultCenter] postNotificationName:AIStatusIconSetInvalidSetNotification
 																						   object:nil];
 				}
 			}
@@ -226,7 +226,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 		
 		statusIconsReady = YES;
 
-		[adium.notificationCenter postNotificationName:AIStatusIconSetDidChangeNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIStatusIconSetDidChangeNotification
 																		   object:nil];
 		
 		return YES;

@@ -82,7 +82,7 @@
     [adium.menuController addContextualMenuItem:blockContactContextualMenuItem toLocation:Context_Contact_NegativeAction];
 	
 	//we want to know when an account connects
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(accountConnected:)
 									   name:ACCOUNT_CONNECTED
 									 object:nil];
@@ -119,9 +119,8 @@
 
 - (void)uninstallPlugin
 {
-	[adium.notificationCenter removeObserver:self];
-	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[chatToolbarItems release];
 	[blockedToolbarIcons release];
 	[blockContactMenuItem release];
@@ -196,7 +195,7 @@
 				}
 			}
 			
-			[adium.notificationCenter postNotificationName:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
 													  object:nil];		
 		}
 	}
@@ -497,7 +496,7 @@
 		
 		//If this is the first item added, start observing for chats becoming visible so we can update the item
 		if ([chatToolbarItems count] == 0) {
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatDidBecomeVisible:)
 											   name:@"AIChatDidBecomeVisible"
 											 object:nil];
@@ -517,7 +516,7 @@
 	[chatToolbarItems removeObject:item];
 	
 	if ([chatToolbarItems count] == 0) {
-		[adium.notificationCenter removeObserver:self
+		[[NSNotificationCenter defaultCenter] removeObserver:self
 											  name:@"AIChatDidBecomeVisible"
 											object:nil];
 	}

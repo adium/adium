@@ -214,7 +214,7 @@
 			[personLists removeObject:personContacts];
 		[thisMetaContact release];
 	}
-	[adium.notificationCenter removeObserver:self name:ACCOUNT_CONNECTED object:acct];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ACCOUNT_CONNECTED object:acct];
 	[self autorelease];
 }
 
@@ -319,7 +319,7 @@
 		
 		[accountUIDtoAccount setObject:newAcct forKey:[account objectForKey:@"UniqueID"]];
 		[adium.accountController addAccount:newAcct];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(accountConnected:)
 										   name:ACCOUNT_CONNECTED
 										 object:newAcct];
@@ -587,7 +587,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 			
 			[accountUIDtoAccount setObject:newAcct forKey:[NSString stringWithFormat:@"%@-%@@%@", serviceName, accountName, connectHost]];
 			[adium.accountController addAccount:newAcct];
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(accountConnected:)
 											   name:ACCOUNT_CONNECTED
 											 object:newAcct];

@@ -32,7 +32,7 @@
 {
 	accountListPreferences = [[AIAccountListPreferences preferencePaneForPlugin:self] retain];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(editAccount:)
 									   name:@"AIEditAccount"
 									 object:nil];
@@ -40,7 +40,7 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[accountListPreferences release];
 
 	[super dealloc];

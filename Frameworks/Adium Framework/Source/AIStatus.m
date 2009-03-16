@@ -165,7 +165,7 @@
 		[filteredStatusMessage release];
 		filteredStatusMessage = [inFilteredStatusMessage retain];
 		
-		[adium.notificationCenter postNotificationName:@"AIStatusFilteredStatusMessageChanged"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AIStatusFilteredStatusMessageChanged"
 												  object:self];
 	}
 }

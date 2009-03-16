@@ -251,7 +251,7 @@
     }
 
 	//Broadcast an account list changed notification
-    [adium.notificationCenter postNotificationName:Account_ListChanged object:nil userInfo:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:Account_ListChanged object:nil userInfo:nil];
 }
 
 /*!
@@ -344,7 +344,7 @@
 
 	//Save and broadcast an account list changed notification
 	[adium.preferenceController setPreference:flatAccounts forKey:ACCOUNT_LIST group:PREF_GROUP_ACCOUNTS];
-	[adium.notificationCenter postNotificationName:Account_ListChanged object:nil userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Account_ListChanged object:nil userInfo:nil];
 }
 
 /*!

@@ -42,7 +42,7 @@
 		_containedObjects = [[NSMutableArray alloc] init];
 		expanded = YES;
 		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
-		[adium.notificationCenter addObserver:self selector:@selector(rebuildVisibleCache) name:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rebuildVisibleCache) name:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 	}
 	
 	return self;
@@ -53,7 +53,7 @@
 	[_visibleObjects release]; _visibleObjects = nil;
 	[_containedObjects release]; _containedObjects = nil;
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }

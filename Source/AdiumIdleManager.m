@@ -86,7 +86,7 @@
 			[self _setMachineIsIdle:NO];
 		} else {
 			//Periodically broadcast a 'MachineIdleUpdate' notification
-			[adium.notificationCenter postNotificationName:AIMachineIdleUpdateNotification
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIMachineIdleUpdateNotification
 													  object:nil
 													userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 														[NSNumber numberWithDouble:currentIdle], @"Duration",
@@ -114,9 +114,9 @@
 	
 	//Post the appropriate idle or active notification
 	if (machineIsIdle) {
-		[adium.notificationCenter postNotificationName:AIMachineIsIdleNotification object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIMachineIsIdleNotification object:nil];
 	} else {
-		[adium.notificationCenter postNotificationName:AIMachineIsActiveNotification object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIMachineIsActiveNotification object:nil];
 	}
 	
 	//Update our timer interval for either idle or active polling

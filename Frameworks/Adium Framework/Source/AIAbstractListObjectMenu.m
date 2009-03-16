@@ -26,12 +26,12 @@
 {
 	if((self = [super init])){
 		//Rebuild our menu when Adium's status or service icon set changes
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(rebuildMenu)
 										   name:AIStatusIconSetDidChangeNotification
 										 object:nil];
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(rebuildMenu)
 										   name:AIServiceIconSetDidChangeNotification
 										 object:nil];
@@ -42,8 +42,8 @@
 
 - (void)dealloc
 {
-	[adium.notificationCenter removeObserver:self name:AIStatusIconSetDidChangeNotification object:nil];
-	[adium.notificationCenter removeObserver:self name:AIServiceIconSetDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:AIStatusIconSetDidChangeNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:AIServiceIconSetDidChangeNotification object:nil];
 	[self _destroyMenuItems];
 
 	[super dealloc];

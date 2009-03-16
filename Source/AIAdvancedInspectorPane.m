@@ -58,12 +58,12 @@
 		contactsColumnIsInAccountsTableView = YES; //It's in the table view in the nib.
 		
 		//Observe contact list changes
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(contactListChanged)
 									   name:Contact_ListChanged
 									 object:nil];	
 		//Observe account changes
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(accountListChanged)
 									   name:Account_ListChanged
 									 object:nil];
@@ -87,7 +87,7 @@
     [displayedObject release]; displayedObject = nil;
 	[inspectorContentView release]; inspectorContentView = nil;
 
-	[adium.notificationCenter removeObserver:self]; 
+	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
 	[super dealloc];
 }
 

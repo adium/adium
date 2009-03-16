@@ -91,7 +91,7 @@
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
@@ -104,7 +104,7 @@
 		if (shouldDisplay && linesToDisplay > 0 && !isObserving) {
 			//Observe new message windows only if we aren't already observing them
 			isObserving = YES;
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(addContextDisplayToWindow:)
 											   name:Chat_DidOpen 
 											 object:nil];
@@ -112,7 +112,7 @@
 		} else if (isObserving && (!shouldDisplay || linesToDisplay <= 0)) {
 			//Remove observer
 			isObserving = NO;
-			[adium.notificationCenter removeObserver:self name:Chat_DidOpen object:nil];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_DidOpen object:nil];
 			
 		}
 	}
@@ -165,7 +165,7 @@
 			}
 
 			//We finished adding untracked content
-			[adium.notificationCenter postNotificationName:Content_ChatDidFinishAddingUntrackedContent
+			[[NSNotificationCenter defaultCenter] postNotificationName:Content_ChatDidFinishAddingUntrackedContent
 												  	  object:chat];
 		}
 	}

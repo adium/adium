@@ -52,7 +52,7 @@ typedef enum
 - (void)installPlugin
 {
     //Install our observers
-    [adium.notificationCenter addObserver:self
+    [[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(handleQuestion:)
 									   name:Interface_ShouldDisplayQuestion 
 									 object:nil];

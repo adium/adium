@@ -58,7 +58,7 @@
 - (void)installPlugin
 {
 	//Register our observers
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(listObjectAttributesChanged:)
 									   name:ListObject_AttributesChanged
 									 object:nil];
@@ -184,7 +184,7 @@
 
 		//If this is the first item added, start observing for chats becoming visible so we can update the icon
 		if ([toolbarItems count] == 0) {
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatDidBecomeVisible:)
 											   name:@"AIChatDidBecomeVisible"
 											 object:nil];
@@ -236,7 +236,7 @@
 		[validatedItems removeObject:item];
 
 		if ([toolbarItems count] == 0) {
-			[adium.notificationCenter removeObserver:self
+			[[NSNotificationCenter defaultCenter] removeObserver:self
 												  name:@"AIChatDidBecomeVisible"
 												object:nil];
 		}

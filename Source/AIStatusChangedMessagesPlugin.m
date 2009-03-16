@@ -60,18 +60,18 @@ static	NSDictionary	*statusTypeDict = nil;
 	previousStatusChangedMessages = [[NSMutableDictionary alloc] init];
 	
     //Observe contact status changes
-    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_ONLINE_YES object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_ONLINE_NO object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_YES object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_NO object:nil];
-	[adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_YES object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_NO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_ONLINE_YES object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_ONLINE_NO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_YES object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_IDLE_NO object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_YES object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactStatusChanged:) name:CONTACT_STATUS_MOBILE_NO object:nil];
 
-	[adium.notificationCenter addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_YES object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_NO object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(contact_statusMessage:) name:CONTACT_STATUS_MESSAGE object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_YES object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contactAwayChanged:) name:CONTACT_STATUS_AWAY_NO object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contact_statusMessage:) name:CONTACT_STATUS_MESSAGE object:nil];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(chatWillClose:)
 									   name:Chat_WillClose
 									 object:nil];	

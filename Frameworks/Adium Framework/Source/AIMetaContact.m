@@ -684,7 +684,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  */
 - (void)updateDisplayName
 {
-	[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
+	[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
 											  object:self
 											userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
 																				 forKey:@"Notify"]];

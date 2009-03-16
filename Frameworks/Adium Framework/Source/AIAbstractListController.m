@@ -83,30 +83,30 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		backgroundOpacity = 1.0;
 
 		//Watch for drags ending so we can clear any cached drag data
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(listControllerDragEnded:)
 										   name:@"AIListControllerDragEnded"
 										 object:nil];
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(listObjectAttributesChanged:)
 										   name:ListObject_AttributesChanged
 										 object:nil];
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(setDragItems:)
 										   name:@"AIListControllerDraggedItems"
 										 object:nil];
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(performExpandItem:)
 										   name:AIPerformExpandItemNotification
 										 object:nil];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(performCollapseItem:)
 										   name:AIPerformCollapseItemNotification
 										 object:nil];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(displayableContainedObjectsDidChange:)
 										   name:AIDisplayableContainedObjectsDidChange
 										 object:nil];
@@ -144,7 +144,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	[groupCell release];
 	[contentCell release];
 	
-	[adium.notificationCenter removeObserver:self]; 
+	[[NSNotificationCenter defaultCenter] removeObserver:self]; 
 
     [super dealloc];
 }
@@ -749,7 +749,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	// Remove this contact list if from drag & drop operation took the last group away
 	// XXX what the heck? why does it want a cast here... that shouldn't be necessary
 	if (((id<AIContainingObject>)contactList).countOfContainedObjects == 0) {
-		[adium.notificationCenter postNotificationName:DetachedContactListIsEmpty
+		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:contactListView];
 	}
 }
@@ -765,7 +765,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	if (pboard == [NSPasteboard pasteboardWithName:NSDragPboard]) {
 		//Begin the drag
-		[adium.notificationCenter postNotificationName:@"AIListControllerDraggedItems"
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AIListControllerDraggedItems"
 											  	  object:items];
 	}
 	
@@ -835,7 +835,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
 {	
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
-	[adium.notificationCenter postNotificationName:@"AIListControllerDragEnded"
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIListControllerDragEnded"
 											  object:nil];
 
 	return YES;
@@ -861,7 +861,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (void)outlineView:(NSOutlineView *)outlineView draggedImage:(NSImage *)image endedAt:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
-	[adium.notificationCenter postNotificationName:@"AIListControllerDragEnded"
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIListControllerDragEnded"
 											  object:nil];
 }
 

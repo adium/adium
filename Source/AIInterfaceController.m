@@ -191,19 +191,19 @@
 	[menuItem release];
 
     //Observe content so we can open chats as necessary
-    [adium.notificationCenter addObserver:self selector:@selector(didReceiveContent:) 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED object:nil];
-    [adium.notificationCenter addObserver:self selector:@selector(didReceiveContent:) 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED_GROUP object:nil];
 	
 	//Observe Adium finishing loading so we can do things which may require other components or plugins
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(adiumDidFinishLoading:)
 									   name:AIApplicationDidFinishLoadingNotification
 									 object:nil];
 	
 	//Observe quits so we can save containers.
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(saveContainersOnQuit:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
@@ -227,7 +227,7 @@
 	[tooltipBody release]; tooltipBody = nil;
 	[tooltipImage release]; tooltipImage = nil;
 	
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
     [super dealloc];
@@ -238,7 +238,7 @@
 	//Observe preference changes. This will also restore saved containers if appropriate.
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_INTERFACE];
 	
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:AIApplicationDidFinishLoadingNotification
 										object:nil];
 }
@@ -572,7 +572,7 @@
 		[inChat setIsOpen:YES];
 		
 		//Post the notification last, so observers receive a chat whose isOpen flag is yes.
-		[adium.notificationCenter postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
 	}
 }
 
@@ -595,7 +595,7 @@
 		[inChat setIsOpen:YES];
 		
 		//Post the notification last, so observers receive a chat whose isOpen flag is yes.
-		[adium.notificationCenter postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_DidOpen object:inChat userInfo:nil];
 	}
 	return tabViewItem;
 }
@@ -767,7 +767,7 @@
 		mostRecentActiveChat = [inChat retain];
 	}
 	
-	[adium.notificationCenter postNotificationName:Chat_BecameActive
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_BecameActive
 											  object:inChat 
 											userInfo:(previouslyActiveChat ?
 													  [NSDictionary dictionaryWithObject:previouslyActiveChat
@@ -795,7 +795,7 @@
  */
 - (void)chatDidBecomeVisible:(AIChat *)inChat inWindow:(NSWindow *)inWindow
 {
-	[adium.notificationCenter postNotificationName:@"AIChatDidBecomeVisible"
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIChatDidBecomeVisible"
 											  object:inChat
 											userInfo:[NSDictionary dictionaryWithObject:inWindow
 																				 forKey:@"NSWindow"]];
@@ -859,7 +859,7 @@
 		[self saveContainers];
 	}
 	
-	[adium.notificationCenter postNotificationName:Chat_OrderDidChange object:nil userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_OrderDidChange object:nil userInfo:nil];
 	
 }
 
@@ -1185,7 +1185,7 @@
     
     //Post a notification that an error was recieved
     errorDict = [NSDictionary dictionaryWithObjectsAndKeys:inTitle,@"Title",inDesc,@"Description",inWindowTitle,@"Window Title",nil];
-    [adium.notificationCenter postNotificationName:Interface_ShouldDisplayErrorMessage object:nil userInfo:errorDict];
+    [[NSNotificationCenter defaultCenter] postNotificationName:Interface_ShouldDisplayErrorMessage object:nil userInfo:errorDict];
 }
 
 //Display then clear the last disconnection error
@@ -1221,7 +1221,7 @@
 	if(inUserInfo != nil)
 		[questionDict setObject:inUserInfo forKey:@"Userinfo"];
 	
-	[adium.notificationCenter postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ShouldDisplayQuestion object:nil userInfo:questionDict];
 }
 
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle

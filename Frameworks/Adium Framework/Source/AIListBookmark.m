@@ -51,7 +51,7 @@
 						  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial)
 						  context:NULL];
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									 selector:@selector(chatDidOpen:) 
 										 name:Chat_DidOpen
 									   object:nil];
@@ -101,7 +101,7 @@
 	[chatCreationDictionary release]; chatCreationDictionary = nil;
 	[password release]; password = nil;
 	
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[self.account removeObserver:self forKeyPath:@"Online"];
 
 	[super dealloc];

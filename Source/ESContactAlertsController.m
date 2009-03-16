@@ -344,7 +344,7 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		}
 	}
 	
-	[adium.notificationCenter postNotificationName:eventID
+	[[NSNotificationCenter defaultCenter] postNotificationName:eventID
 											  object:listObject 
 											userInfo:userInfo];
 	

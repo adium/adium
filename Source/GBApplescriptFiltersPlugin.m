@@ -91,7 +91,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 												  direction:AIFilterOutgoing];
 	
 	//Observe for installation of new scripts
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
@@ -116,7 +116,6 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[adium.notificationCenter removeObserver:self];
 	
 	[scriptArray release]; scriptArray = nil;
     [flatScriptArray release]; flatScriptArray = nil;

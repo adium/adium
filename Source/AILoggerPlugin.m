@@ -185,7 +185,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	
 	[self reimportLogsToSpotlightIfNeeded];
 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(showLogNotification:)
 									   name:AIShowLogAtPathNotification
 									 object:nil];
@@ -199,7 +199,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
 
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
 }
 
@@ -247,27 +247,27 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		observingContent = newLogValue;
 				
 		if (!observingContent) { //Stop Logging
-			[adium.notificationCenter removeObserver:self name:Content_ContentObjectAdded object:nil];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Content_ContentObjectAdded object:nil];
 			
-			[adium.notificationCenter removeObserver:self name:Chat_DidOpen object:nil];			
-			[adium.notificationCenter removeObserver:self name:Chat_WillClose object:nil];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_DidOpen object:nil];			
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:Chat_WillClose object:nil];
 
 		} else { //Start Logging
-			[adium.notificationCenter addObserver:self 
+			[[NSNotificationCenter defaultCenter] addObserver:self 
 										   selector:@selector(contentObjectAdded:) 
 											   name:Content_ContentObjectAdded 
 											 object:nil];
 											 
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatOpened:)
 											   name:Chat_DidOpen
 											 object:nil];
 											 
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatClosed:)
 											   name:Chat_WillClose
 											 object:nil];
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatWillDelete:)
 											   name:ChatLog_WillDelete
 											 object:nil];

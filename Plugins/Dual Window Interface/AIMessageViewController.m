@@ -122,27 +122,27 @@
 		[NSBundle loadNibNamed:MESSAGE_VIEW_NIB owner:self];
 		
 		//Register for the various notification we need
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(sendMessage:) 
 										   name:Interface_SendEnteredMessage
 										 object:chat];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(didSendMessage:)
 										   name:Interface_DidSendEnteredMessage 
 										 object:chat];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(chatStatusChanged:) 
 										   name:Chat_StatusChanged
 										 object:chat];
-		[adium.notificationCenter addObserver:self 
+		[[NSNotificationCenter defaultCenter] addObserver:self 
 									   selector:@selector(chatParticipatingListObjectsChanged:)
 										   name:Chat_ParticipatingListObjectsChanged
 										 object:chat];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(redisplaySourceAndDestinationSelector:) 
 										   name:Chat_SourceChanged
 										 object:chat];
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(redisplaySourceAndDestinationSelector:) 
 										   name:Chat_DestinationChanged
 										 object:chat];
@@ -196,9 +196,8 @@
 
 	[chat release]; chat = nil;
 
-    //remove observers
-    [adium.notificationCenter removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	//remove observers
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     //Account selection view
 	[self _destroyAccountSelectionView];
@@ -440,7 +439,7 @@
 			NSAttributedString		*outgoingAttributedString;
 			AIAccount				*account = chat.account;
 			//Send the message
-			[adium.notificationCenter postNotificationName:Interface_WillSendEnteredMessage
+			[[NSNotificationCenter defaultCenter] postNotificationName:Interface_WillSendEnteredMessage
 													  object:chat
 													userInfo:nil];
 			
@@ -454,7 +453,7 @@
 			[outgoingAttributedString release];
 			
 			if ([adium.contentController sendContentObject:message]) {
-				[adium.notificationCenter postNotificationName:Interface_DidSendEnteredMessage 
+				[[NSNotificationCenter defaultCenter] postNotificationName:Interface_DidSendEnteredMessage 
 														  object:chat
 														userInfo:nil];
 			}

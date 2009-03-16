@@ -70,10 +70,10 @@
 		forcedWindowWidth = -1;
 		
 		//Observe contact list content and display changes
-		[adium.notificationCenter addObserver:self selector:@selector(reloadListObject:) 
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadListObject:) 
 										   name:Contact_ListChanged
 										 object:nil];
-		[adium.notificationCenter addObserver:self selector:@selector(reloadListObject:)
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadListObject:)
 										   name:Contact_OrderChanged 
 										 object:nil];
 		
@@ -112,9 +112,8 @@
 
 - (void)close
 {	
-    //Stop observing
-    [adium.notificationCenter removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	//Stop observing
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
 	[self autorelease];
@@ -478,7 +477,7 @@
  */
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {   
-	[adium.notificationCenter performSelector:@selector(postNotificationName:object:)
+	[[NSNotificationCenter defaultCenter] performSelector:@selector(postNotificationName:object:)
 									 withObject:Interface_ContactSelectionChanged
 									 withObject:nil
 									 afterDelay:0];
@@ -730,7 +729,7 @@
 					[adium.contactController sortListObject:object];
 				}
 				
-				[adium.notificationCenter postNotificationName:Contact_OrderChanged
+				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged
 														object:item
 													  userInfo:nil];
 			} else {
@@ -906,7 +905,7 @@
 
 		//XXX multiple containers: we need to make sure that the metacontacts respect manual ordering correctly
 		
-		[adium.notificationCenter postNotificationName:Contact_OrderChanged object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged object:nil];
 	}
 
 	[context release]; //We are responsible for retaining & releasing the context dict

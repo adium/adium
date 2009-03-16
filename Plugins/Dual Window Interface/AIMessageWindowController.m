@@ -133,7 +133,6 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[adium.notificationCenter removeObserver:self];
 
 	/* Ensure our window is quite clear we have no desire to ever hear from it again.  sendEvent: with a flags changed
 	 * event is being sent to this AIMessageWindowController instance by the window after dallocing, for some reason.

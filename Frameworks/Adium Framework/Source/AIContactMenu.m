@@ -49,7 +49,7 @@
 		[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 		
 		// Register for contact list order notifications (so we can update our sorting)
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(contactOrderChanged:)
 										   name:Contact_OrderChanged
 										 object:nil];
@@ -63,7 +63,7 @@
 - (void)dealloc
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[containingObject release]; containingObject = nil;
 	delegate = nil;

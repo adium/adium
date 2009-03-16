@@ -65,23 +65,23 @@
 		//groupchats don't have any concept of status beyond typing indicators, so we don't need to watch most of this
 		if(!chat.isGroupChat)
 		{
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatSourceOrDestinationChanged:)
 											   name:Chat_SourceChanged
 											 object:chat];
-			[adium.notificationCenter addObserver:self
+			[[NSNotificationCenter defaultCenter] addObserver:self
 										   selector:@selector(chatSourceOrDestinationChanged:)
 											   name:Chat_DestinationChanged
 											 object:chat];
-			[adium.notificationCenter addObserver:self selector:@selector(chatParticipatingListObjectsChanged:)
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatParticipatingListObjectsChanged:)
 											   name:Chat_ParticipatingListObjectsChanged
 											 object:chat];
-			[adium.notificationCenter addObserver:self selector:@selector(chatAttributesChanged:)
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAttributesChanged:)
 											   name:Chat_AttributesChanged
 											 object:chat];
 		}
 		
-		[adium.notificationCenter addObserver:self selector:@selector(chatStatusChanged:)
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
 										   name:Chat_StatusChanged
 										 object:chat];
 		
@@ -97,7 +97,7 @@
 //
 - (void)dealloc
 {
-    [adium.notificationCenter removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[tabViewItemImage release]; tabViewItemImage = nil;
     [messageViewController release]; messageViewController = nil;
@@ -150,11 +150,11 @@
 	AIListObject	*listObject;
 
 	//Remove the old observer
-    [adium.notificationCenter removeObserver:self name:ListObject_AttributesChanged object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:ListObject_AttributesChanged object:nil];
 
 	//If there is a single list object for this chat, observe its attribute changes
 	if ((listObject = [messageViewController listObject])) {
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(listObjectAttributesChanged:)
 										   name:ListObject_AttributesChanged
 										 object:nil];

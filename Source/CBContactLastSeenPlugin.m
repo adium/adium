@@ -39,17 +39,17 @@
     [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:NO];
 	
 	//Install our observers
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(statusUpdate:)
 									   name:CONTACT_SEEN_ONLINE_YES
 									 object:nil];
 									 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(statusUpdate:)
 									   name:CONTACT_STATUS_ONLINE_NO
 									 object:nil];
 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(statusUpdate:)
 									   name:CONTACT_SEEN_ONLINE_NO
 									 object:nil];

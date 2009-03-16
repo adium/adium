@@ -177,10 +177,10 @@
 - (void)fireUpdateiTunesInfo
 {
 	/* First, note that the track changed; code elsewhere cares, promise. */
-	[adium.notificationCenter postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Adium_iTunesTrackChangedNotification object:iTunesCurrentInfo];
 
 	/* Next, update any dynamic content which includes iTunes triggers, including the Now Playing status itself */
-	[adium.notificationCenter postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Adium_RequestImmediateDynamicContentUpdate object:nil];
 }
 
 #pragma mark -

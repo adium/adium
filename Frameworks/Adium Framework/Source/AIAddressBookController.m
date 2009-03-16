@@ -116,7 +116,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		[self installAddressBookActions];
 		
 		//Wait for Adium to finish launching before we build the address book so the contact list will be ready
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 					       selector:@selector(adiumFinishedLaunching:)
 						   name:AIApplicationDidFinishLoadingNotification
 						 object:nil];
@@ -179,7 +179,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:addressBookController];
 	[adium.preferenceController unregisterPreferenceObserver:addressBookController];
-	[adium.notificationCenter removeObserver:addressBookController];
+	[[NSNotificationCenter defaultCenter] removeObserver:addressBookController];
 
 	[addressBookController release]; addressBookController = nil;
 }
@@ -193,7 +193,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -239,7 +239,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 											   object:nil];
 
 	//Observe account changes
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 										selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
@@ -337,7 +337,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 			//If we changed anything, request an update of the alias / long display name
 			if (modifiedAttributes) {
-				[adium.notificationCenter postNotificationName:Contact_ApplyDisplayName
+				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ApplyDisplayName
 														  object:listContact
 														userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:silent]
 																							 forKey:@"Notify"]];
@@ -546,12 +546,12 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	}
 	
 	if (automaticUserIconSync) {
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(listObjectAttributesChanged:)
 										   name:ListObject_AttributesChanged
 										 object:nil];
 	} else {
-		[adium.notificationCenter removeObserver:self name:ListObject_AttributesChanged object:nil];
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:ListObject_AttributesChanged object:nil];
 	}
 }
 

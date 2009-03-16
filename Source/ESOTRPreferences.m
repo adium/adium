@@ -77,7 +77,7 @@
 	[fingerprintDictArray release]; fingerprintDictArray = nil;
 	[accountMenu release]; accountMenu = nil;
 	
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Account_ListChanged
 										object:nil];
 }
@@ -88,7 +88,7 @@
 - (void)dealloc
 {
 	[fingerprintDictArray release]; fingerprintDictArray = nil;
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }

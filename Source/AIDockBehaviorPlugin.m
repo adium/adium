@@ -117,12 +117,12 @@
  */
 - (void)observeToStopBouncingForChat:(AIChat *)chat
 {
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(stopBouncing:)
 									   name:Chat_WillClose
 									 object:chat];
 
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(stopBouncing:)
 									   name:Chat_BecameActive
 									 object:chat];
@@ -136,10 +136,10 @@
  */
 - (void)stopBouncing:(NSNotification *)inNotification
 {
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Chat_WillClose
 										object:nil];
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:Chat_BecameActive
 										object:nil];
 

@@ -59,22 +59,22 @@
 - (void)controllerDidLoad
 {	
 	//Observe content so we can update the most recent chat
-    [adium.notificationCenter addObserver:self 
+    [[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED
 									 object:nil];
 	
-    [adium.notificationCenter addObserver:self 
+    [[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_RECEIVED_GROUP
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self 
+	[[NSNotificationCenter defaultCenter] addObserver:self 
 								   selector:@selector(didExchangeContent:) 
 									   name:CONTENT_MESSAGE_SENT
 									 object:nil];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(adiumWillTerminate:)
 									   name:AIAppWillTerminateNotification
 									 object:nil];
@@ -118,7 +118,7 @@
 {
 	[openChats release]; openChats = nil;
 	[chatObserverArray release]; chatObserverArray = nil;
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -173,7 +173,7 @@
 - (void)chatAttributesChanged:(AIChat *)inChat modifiedKeys:(NSSet *)inModifiedKeys
 {
 	//Post an attributes changed message
-	[adium.notificationCenter postNotificationName:Chat_AttributesChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_AttributesChanged
 											  object:inChat
 											userInfo:(inModifiedKeys ? [NSDictionary dictionaryWithObject:inModifiedKeys 
 																								   forKey:@"Keys"] : nil)];
@@ -214,7 +214,7 @@
 	}
 	
 	//Send out the notification for other observers
-	[adium.notificationCenter postNotificationName:Chat_StatusChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_StatusChanged
 											  object:inChat
 											userInfo:(modifiedKeys ? [NSDictionary dictionaryWithObject:modifiedKeys 
 																								 forKey:@"Keys"] : nil)];
@@ -500,7 +500,7 @@
 	}
 	
 	//Send out the Chat_WillClose notification
-	[adium.notificationCenter postNotificationName:Chat_WillClose object:inChat userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_WillClose object:inChat userInfo:nil];
 
 	//Remove the chat
 	if (shouldRemove) {
@@ -816,7 +816,7 @@
 	}
 
 	//Always notify Adium that the list changed so it can be updated, caches can be modified, etc.
-	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:chat];
 }
 
@@ -832,7 +832,7 @@
 		[adiumChatEvents chat:chat removedListContact:inContact];
 	}
 
-	[adium.notificationCenter postNotificationName:Chat_ParticipatingListObjectsChanged
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:chat];
 }
 

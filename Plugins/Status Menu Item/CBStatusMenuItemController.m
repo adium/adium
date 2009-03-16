@@ -100,7 +100,7 @@
 		accountsMenuNeedsUpdate = YES;
 		optionsMenuNeedsUpdate = YES;
 		
-		NSNotificationCenter *notificationCenter = adium.notificationCenter;
+		NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
 		//Register to recieve chat opened and chat closed notifications
 		[notificationCenter addObserver:self
 		                       selector:@selector(updateOpenChats)
@@ -121,7 +121,7 @@
 								 object:nil];
 		
 		// Register for our menu bar icon set changing
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(updateMenuIconsBundle)
 										   name:AIMenuBarIconsDidChangeNotification
 										 object:nil];
@@ -174,7 +174,7 @@
 	//Unregister ourself
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
 	//Release our objects

@@ -104,26 +104,19 @@ static NSString	*prefsCategory;
 
 @synthesize componentLoader, pluginLoader;
 
-//Notifications --------------------------------------------------------------------------------------------------------
 #pragma mark Notifications
-//Return the shared Adium notification center
+//This is a compatibility alias to avoid breaking older plugins. It used to return a separate notification center
 - (NSNotificationCenter *)notificationCenter
 {
-    if (notificationCenter == nil) {
-        notificationCenter = [[NSNotificationCenter alloc] init];
-    }
-            
-    return notificationCenter;
+    return [NSNotificationCenter defaultCenter];
 }
-
 
 //Startup and Shutdown -------------------------------------------------------------------------------------------------
 #pragma mark Startup and Shutdown
 //Adium is almost done launching, init
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
 {
-    notificationCenter = nil;
-    completedApplicationLoad = NO;
+	completedApplicationLoad = NO;
 	advancedPrefsName = nil;
 	prefsCategory = nil;
 	queuedURLEvents = nil;
@@ -267,7 +260,7 @@ static NSString	*prefsCategory;
 	
 	//If we were asked to open a log at launch, do it now
 	if (queuedLogPathToShow) {
-		[[self notificationCenter] postNotificationName:AIShowLogAtPathNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
 												 object:queuedLogPathToShow];
 		[queuedLogPathToShow release];
 	}
@@ -286,7 +279,7 @@ static NSString	*prefsCategory;
 	[connection setRootObject:self];
 	[connection registerName:@"com.adiumX.adiumX"];
 
-	[[self notificationCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
 	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
 
 	[pool release];
@@ -363,7 +356,7 @@ static NSString	*prefsCategory;
 
 	isQuitting = YES;
 
-	[[self notificationCenter] postNotificationName:AIAppWillTerminateNotification object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIAppWillTerminateNotification object:nil];
 
 	//Close the preference window before we shut down the plugins that compose it
 	[preferenceController closePreferenceWindow:nil];
@@ -564,7 +557,7 @@ static NSString	*prefsCategory;
 		([extension caseInsensitiveCompare:@"chatlog"] == NSOrderedSame)) {
 		if (completedApplicationLoad) {
 			//Request display of the log immediately if Adium is ready
-			[[self notificationCenter] postNotificationName:AIShowLogAtPathNotification
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogAtPathNotification
 													 object:filename];
 		} else {
 			//Queue the request until Adium is done launching if Adium is not ready
@@ -735,7 +728,7 @@ static NSString	*prefsCategory;
 			}
 		}
 		
-		[[self notificationCenter] postNotificationName:AIXtrasDidChangeNotification
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIXtrasDidChangeNotification
 												 object:[[filename lastPathComponent] pathExtension]];
 		
         buttonPressed = NSRunInformationalAlertPanel(alertTitle,alertMsg,nil,prefsButton,nil);

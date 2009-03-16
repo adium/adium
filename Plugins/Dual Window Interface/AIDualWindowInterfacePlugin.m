@@ -67,13 +67,12 @@
 	//Close and unload our windows
 	[[containers allValues] makeObjectsPerformSelector:@selector(closeWindow:) withObject:nil];
 
-    //Stop observing
-    [adium.notificationCenter removeObserver:self];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	//Stop observing
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    //Cleanup
+	//Cleanup
 	[preferenceMessageAdvController release]; preferenceMessageAdvController = nil;
-    [containers release]; containers = nil;
+	[containers release]; containers = nil;
 	[delayedContainerShowArray release]; delayedContainerShowArray = nil;
 }	
 

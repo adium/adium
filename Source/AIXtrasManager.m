@@ -92,7 +92,7 @@ static AIXtrasManager *manager;
 		
 		showInfo = NO;
 		
-		[adium.notificationCenter addObserver:self
+		[[NSNotificationCenter defaultCenter] addObserver:self
 									   selector:@selector(xtrasChanged:)
 										   name:AIXtrasDidChangeNotification
 										 object:nil];
@@ -105,7 +105,7 @@ static AIXtrasManager *manager;
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:AIXtrasDidChangeNotification
 										object:nil];
 	
@@ -338,7 +338,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		 XXX this is ugly. We should use the AIXtraInfo's type instead of the path extension
 		*/
 		for (path in pathExtensions) { //usually this will only run once
-			[adium.notificationCenter postNotificationName:AIXtrasDidChangeNotification
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIXtrasDidChangeNotification
 													  object:path];
 		}
 	}

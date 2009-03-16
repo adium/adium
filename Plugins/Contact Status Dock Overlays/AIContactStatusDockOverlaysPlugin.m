@@ -62,7 +62,7 @@
 	//Register as a chat observer (for unviewed content)
 	[adium.chatController registerChatObserver:self];
 	
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(chatClosed:)
 									   name:Chat_WillClose
 									 object:nil];
@@ -83,7 +83,7 @@
 {
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 	[adium.chatController unregisterChatObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 

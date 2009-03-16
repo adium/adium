@@ -118,7 +118,7 @@
 	//update the location array
 	[locationArray replaceObjectAtIndex:location withObject:newItem];
 
-	[adium.notificationCenter postNotificationName:AIMenuDidChange object:[newItem menu] userInfo:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIMenuDidChange object:[newItem menu] userInfo:nil];
 }
 
 //Remove a menu item
@@ -168,7 +168,7 @@
 		 * It's not currently needed in that situation so this is a very small performance hack... it could move outside the
 		 * conditional if necessary. -evands
 		 */
-		[adium.notificationCenter postNotificationName:AIMenuDidChange object:targetMenu userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIMenuDidChange object:targetMenu userInfo:nil];
 	}
 }
 

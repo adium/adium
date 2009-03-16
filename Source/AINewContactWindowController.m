@@ -113,7 +113,7 @@
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 /*!
@@ -143,7 +143,7 @@
 	if (contactName) [textField_contactName setStringValue:contactName];	
 	
 	//Observe account list and status changes
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(accountListChanged:)
 									   name:Account_ListChanged
 									 object:nil];
@@ -159,7 +159,7 @@
 {
 	[super windowWillClose:sender];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
-	[adium.notificationCenter removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*!
@@ -459,7 +459,7 @@
 	newGroupWindowController = [AINewGroupWindowController promptForNewGroupOnWindow:[self window]];
 
 	//Observe for the New Group window to close
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(newGroupDidEnd:) 
 									   name:@"NewGroupWindowControllerDidEnd"
 									 object:[newGroupWindowController window]];	
@@ -488,7 +488,7 @@
 	}
 
 	//Stop observing
-	[adium.notificationCenter removeObserver:self
+	[[NSNotificationCenter defaultCenter] removeObserver:self
 										  name:@"NewGroupWindowControllerDidEnd" 
 										object:window];
 }

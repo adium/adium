@@ -91,7 +91,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
 	
 	if (!firstTime) {
-		[adium.notificationCenter postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 		[adium.contactController sortContactList];
 	}
 }
@@ -121,7 +121,7 @@ static AIContactHidingController *sharedControllerInstance = nil;
 		[matchedContacts setObject:[NSNumber numberWithBool:matched] forKey:listContact.UID];
 	}
 	
-	[adium.notificationCenter postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:CONTACT_VISIBILITY_OPTIONS_CHANGED_NOTIFICATION object:nil];
 	[adium.contactController sortContactList];
 	
 	return atLeastOneMatch;

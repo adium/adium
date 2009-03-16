@@ -233,7 +233,7 @@
 		if (![chat isListContactIgnored:[inObject source]] && ![[inObject source] isBlocked]) {
 			//Notify: Will Receive Content
 			if ([inObject trackContent]) {
-				[adium.notificationCenter postNotificationName:Content_WillReceiveContent
+				[[NSNotificationCenter defaultCenter] postNotificationName:Content_WillReceiveContent
 														  object:chat
 														userInfo:[NSDictionary dictionaryWithObjectsAndKeys:inObject,@"Object",nil]];
 			}
@@ -344,7 +344,7 @@
 	
 	//Notify: Will Send Content
     if ([inObject trackContent]) {
-        [adium.notificationCenter postNotificationName:Content_WillSendContent
+        [[NSNotificationCenter defaultCenter] postNotificationName:Content_WillSendContent
 												  object:chat 
 												userInfo:[NSDictionary dictionaryWithObjectsAndKeys:inObject,@"Object",nil]];
     }
@@ -508,7 +508,7 @@
 		userInfo = [NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", inObject, @"AIContentObject", nil];
 
 		//Notify: Content Object Added
-		[adium.notificationCenter postNotificationName:Content_ContentObjectAdded
+		[[NSNotificationCenter defaultCenter] postNotificationName:Content_ContentObjectAdded
 												  object:chat
 												userInfo:userInfo];		
 		

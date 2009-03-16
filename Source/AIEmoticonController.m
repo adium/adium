@@ -93,7 +93,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_EMOTICONS];
 	
 	//Observe for installation of new emoticon sets
-	[adium.notificationCenter addObserver:self
+	[[NSNotificationCenter defaultCenter] addObserver:self
 								   selector:@selector(xtrasChanged:)
 									   name:AIXtrasDidChangeNotification
 									 object:nil];
