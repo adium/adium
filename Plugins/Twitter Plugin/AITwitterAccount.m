@@ -28,6 +28,7 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentMessage.h>
@@ -663,7 +664,9 @@
 		NSString	*updateRequestID = [twitterEngine getUserInformationFor:contact.UID];
 		
 		if (updateRequestID) {
-			[self setRequestType:AITwitterInitialUserInfo forRequestID:updateRequestID withDictionary:nil];
+			[self setRequestType:AITwitterAddFollow
+					forRequestID:updateRequestID
+				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact.UID, @"UID", nil]];
 		}
 	}
 }
@@ -1156,42 +1159,79 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  * pretty terrible, so let's ignore errors for the most part.
  */
 - (void)requestFailed:(NSString *)identifier withError:(NSError *)error
-{			
-	if([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend || [self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
-		AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
-		
-		if (chat) {
-			[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
+{
+	switch ([self requestTypeForRequestID:identifier]) {
+		case AITwitterDirectMessageSend:
+		case AITwitterSendUpdate:
+		{
+			AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
 			
-			AILogWithSignature(@"%@ Chat send error on %@", self, chat);
+			if (chat) {
+				[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
+				
+				AILogWithSignature(@"%@ Chat send error on %@", self, chat);
+			}
+			break;
 		}
-		
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
-		[self didDisconnect];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-		// Error code 401 is an invalid password.
-		if([error code] == 401) {
-			[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
-			[self serverReportedInvalidPassword];
-		} else {
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
+			
+		case AITwitterDisconnect:
+			[self didDisconnect];
+			break;
+			
+		case AITwitterValidateCredentials:
+			// Error code 401 is an invalid password.
+			if([error code] == 401) {
+				[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
+				[self serverReportedInvalidPassword];
+			} else {
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
+			}
+			
+			[self didDisconnect];
+			break;
+			
+		case AITwitterInitialUserInfo:
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
+			[self didDisconnect];
+			break;
+			
+		case AITwitterUserIconPull:
+		{
+			AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			
+			// Image pull failed, flag ourselves as needing to try again.
+			[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
+			break;
 		}
-		[self didDisconnect];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
-		[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
-		[self didDisconnect];
-	} else if([self requestTypeForRequestID:identifier] == AITwitterUserIconPull) {
-		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
-		
-		// Image pull failed, flag ourselves as needing to try again.
-		[listContact setValue:nil forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline || 
-			   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies ||
-			   [self requestTypeForRequestID:identifier] == AITwitterUpdateDirectMessage) {
-		--pendingUpdateCount;
+			
+		case AITwitterUpdateFollowedTimeline:
+		case AITwitterUpdateReplies:
+		case AITwitterUpdateDirectMessage:
+			--pendingUpdateCount;
+			break;
+			
+		case AITwitterAddFollow:
+			if(error.code == 404) {
+				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
+											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@, the user does not exist.", nil),
+															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
+															   self.UID]];
+			} else {
+				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
+											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@. Error %d occured.",nil),
+															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
+															   self.UID,
+															   error.code]];
+			}
+			
+			break;
+			
+		default:
+			
+			break;
 	}
 	
-	AILogWithSignature(@"%@ Request failed (%@ - %d) - %@", self, identifier, [self requestTypeForRequestID:identifier], error);
+	AILogWithSignature(@"%@ Request failed (%@ - %u) - %@", self, identifier, [self requestTypeForRequestID:identifier], error);
 	
 	[self clearRequestTypeForRequestID:identifier];
 }
@@ -1426,13 +1466,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo) {
+	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo ||
+		[self requestTypeForRequestID:identifier] == AITwitterAddFollow) {
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		// The current amount of friends per page is 100. Use >= just in case this changes.
 		BOOL nextPageNecessary = (userInfo.count >= 100);
 		
-		AILogWithSignature(@"%@ Initial user info pull, Next page necessary: %d Count: %d", self, nextPageNecessary, userInfo.count);
+		AILogWithSignature(@"%@ User info pull, Next page necessary: %d Count: %d", self, nextPageNecessary, userInfo.count);
 		
 		for (NSDictionary *info in userInfo) {
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
@@ -1484,7 +1525,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[self didDisconnect];
 			}
 			
-		} else {			
+		} else if ([self valueForProperty:@"Connecting"]) {			
 			// Trigger our normal update routine.
 			[self didConnect];
 			[self periodicUpdate];
