@@ -1,7 +1,6 @@
 #import "TestDateAdditions.h"
 
 #import <AIUtilities/AIDateAdditions.h>
-#import <AIUtilities/AICalendarDateAdditions.h>
 
 @implementation TestDateAdditions
 

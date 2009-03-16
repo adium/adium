@@ -1,5 +1,5 @@
 #import "TestDateFormatterStringRepWithInterval.h"
-#import <AIUtilities/AICalendarDateAdditions.h>
+#import <AIUtilities/AIDateAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
 
 @implementation TestDateFormatterStringRepWithInterval
