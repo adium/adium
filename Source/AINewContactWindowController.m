@@ -212,7 +212,7 @@
 					[contact setDisplayName:alias];
 				
 				addedAtLeastOneContact = YES;
-				[contact.account addContact:contact toGroup:group];
+				[account addContact:contact toGroup:group];
 				
 				//Remember the ABPerson's unique ID associated with this contact
 				if (person)
