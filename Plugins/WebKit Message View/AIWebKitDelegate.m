@@ -87,6 +87,11 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
     NSInteger actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] integerValue];
     if (actionKey == WebNavigationTypeOther) {
 		[listener use];
+	} else if ([request.URL.scheme isEqualToString:@"twitterreply"]) {
+		// If you're modifying this, also modify the post in AdiumURLHandling.m
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:request.URL];
+		
+		[listener ignore];
     } else {
 		NSURL *url = [actionInformation objectForKey:WebActionOriginalURLKey];
 		
