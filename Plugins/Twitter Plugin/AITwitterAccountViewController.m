@@ -95,6 +95,12 @@
 	[popUp_updateInterval setMenu:intervalMenu];
 }
 
+- (void)dealloc
+{
+	[OAuthSetup release]; OAuthSetup = nil;
+	[super dealloc];
+}
+
 /*!
  * @brief A preference was changed
  *
