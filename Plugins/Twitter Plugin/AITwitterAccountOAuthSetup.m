@@ -35,6 +35,7 @@
 
 - (void)dealloc
 {
+	[requestToken release];
 	[consumer release];
 	[account release];
 	[super dealloc];
@@ -45,16 +46,16 @@
 {
 	[delegate OAuthSetup:self changedToStep:AIOAuthStepStart withToken:nil responseBody:nil];
 	
-	consumer = [[OAConsumer alloc] initWithKey:account.consumerKey
-										secret:account.secretKey];
+	consumer = [[[OAConsumer alloc] initWithKey:account.consumerKey
+										 secret:account.secretKey] autorelease];
 	
 	NSURL *url = [NSURL URLWithString:account.tokenRequestURL];
 	
     OAMutableURLRequest *request = [[OAMutableURLRequest alloc] initWithURL:url
-                                                                   consumer:consumer
-                                                                      token:nil
-                                                                      realm:nil
-                                                          signatureProvider:nil];
+																   consumer:consumer
+                                                                     token:nil
+                                                                     realm:nil
+                                                         signatureProvider:nil];
 	
     [request setHTTPMethod:@"POST"];
 	
@@ -64,6 +65,9 @@
                          delegate:self
                 didFinishSelector:@selector(requestTokenTicket:didFinishWithData:)
                   didFailSelector:@selector(requestTokenTicket:didFailWithError:)];
+	
+	[request release];
+	[fetcher release];
 }
 
 - (void)fetchAccessToken
@@ -88,6 +92,9 @@
                          delegate:self
                 didFinishSelector:@selector(accessTokenTicket:didFinishWithData:)
                   didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
+	
+	[request release];
+	[fetcher release];
 }
 
 #pragma mark Request token processing
