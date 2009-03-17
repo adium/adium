@@ -89,6 +89,11 @@
 												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND, nil]
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
+
+	// If we don't have a server set, set our default (if we have one)
+	if (!self.host && self.defaultServer) {
+		[self setPreference:self.defaultServer forKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
+	}
 	
 	updateAfterSend = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 	
@@ -106,6 +111,14 @@
 	[queuedDM release];
 	
 	[super dealloc];
+}
+
+/*!
+ * @brief Our default server if none is provided.
+ */
+- (NSString *)defaultServer
+{
+	return @"twitter.com";
 }
 
 #pragma mark AIAccount methods
@@ -210,16 +223,6 @@
 	[queuedUpdates removeAllObjects];
 	
 	[super didDisconnect];
-}
-
-/*!
- * @brief We connect to twitter.com
- *
- * This lets the network accessibility stuff understand where we're going.
- */
-- (NSString *)host
-{
-	return @"twitter.com";
 }
 
 /*!

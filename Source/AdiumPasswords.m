@@ -340,7 +340,11 @@
 	return [inAccount.UID compactedString];
 }
 - (NSString *)_serverNameForAccount:(AIAccount *)inAccount {
-	return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, [self _accountNameForAccount:inAccount]];
+	if(inAccount.useHostForPasswordServerName) {
+		return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, inAccount.host];
+	} else {
+		return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, [self _accountNameForAccount:inAccount]];
+	}
 }
 
 /*!

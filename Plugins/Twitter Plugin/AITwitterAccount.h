@@ -130,6 +130,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *timelineChatName;
 @property (readonly, nonatomic) NSString *apiPath;
 @property (readonly, nonatomic) NSString *sourceToken;
+@property (readonly, nonatomic) NSString *defaultServer;
 
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url

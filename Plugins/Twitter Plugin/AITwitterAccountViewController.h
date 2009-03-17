@@ -17,7 +17,6 @@
 #import <Adium/AIAccountViewController.h>
 
 @interface AITwitterAccountViewController : AIAccountViewController {
-	IBOutlet	NSTextField		*textField_server;
 	IBOutlet	NSTextField		*textField_APIpath;
 	
 	IBOutlet	NSPopUpButton	*popUp_updateInterval;
