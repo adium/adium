@@ -279,7 +279,7 @@
 					  withColor:[NSColor redColor]
 				  buttonEnabled:YES];
 			
-			button_OAuthStart.title = AILocalizedString(@"Authorize Account", nil);
+			button_OAuthStart.title = AILocalizedString(@"Authorize Access", nil);
 			
 			[self completedOAuthSetup];
 			
