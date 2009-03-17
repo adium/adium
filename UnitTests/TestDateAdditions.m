@@ -186,7 +186,7 @@
 	//Test 23 hours (almost, but not quite, one day) ago.
 	then = [now
 		dateByAddingYears:-0   months:-0    days:-0
-					hours:-24 minutes:-0 seconds:-0];
+					hours:-23 minutes:-0 seconds:-0];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -227,8 +227,8 @@
 
 	//Test one hour ago, expressed as minutes.
 	then = [now
-		dateByAddingYears:-0  months:-0    days:-0
-					hours:-1 minutes:-0 seconds:-0];
+		dateByAddingYears:-0  months:-0     days:-0
+					hours:-0 minutes:-60 seconds:-0];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
