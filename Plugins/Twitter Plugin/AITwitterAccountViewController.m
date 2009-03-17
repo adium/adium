@@ -138,7 +138,7 @@
 				  buttonEnabled:YES];
 		
 		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
-			[self setStatusText:AILocalizedString(@"Your account is already authorized with Twitter.", nil)
+			[self setStatusText:AILocalizedString(@"Adium already has access to your account", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
 		} else {
@@ -239,7 +239,7 @@
 	switch (OAuthSetupStep) {
 		case AIOAuthStepStart:
 			// Just starting, fetching a request token
-			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access.", nil), account.host]
+			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access", nil), account.host]
 					  withColor:nil
 				  buttonEnabled:YES];
 			break;
@@ -250,7 +250,7 @@
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			[self setStatusText:AILocalizedString(@"Your must authorize your account for access in Adium. When you have done so, click the 'Completed' button above.", nil)
+			[self setStatusText:AILocalizedString(@"You must authorize access for Adium to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
 					  withColor:nil
 				  buttonEnabled:YES];
 			
@@ -262,7 +262,7 @@
 			// We have an access token, hoorah!
 			textField_password.stringValue = responseBody;
 			
-			[self setStatusText:AILocalizedString(@"Success! Your account is now authorized. You may connect at will.", nil)
+			[self setStatusText:AILocalizedString(@"Success! Adium how has access to your account.", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
 			
