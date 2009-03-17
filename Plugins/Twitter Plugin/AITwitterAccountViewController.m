@@ -138,7 +138,7 @@
 				  buttonEnabled:YES];
 		
 		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
-			[self setStatusText:AILocalizedString(@"Adium already has access to your account", nil)
+			[self setStatusText:AILocalizedString(@"Adium already has access to your account.", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
 		} else {
@@ -262,7 +262,7 @@
 			// We have an access token, hoorah!
 			textField_password.stringValue = responseBody;
 			
-			[self setStatusText:AILocalizedString(@"Success! Adium how has access to your account.", nil)
+			[self setStatusText:AILocalizedString(@"Success! Adium now has access to your account.", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
 			
