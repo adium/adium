@@ -46,8 +46,8 @@
 {
 	[delegate OAuthSetup:self changedToStep:AIOAuthStepStart withToken:nil responseBody:nil];
 	
-	consumer = [[[OAConsumer alloc] initWithKey:account.consumerKey
-										 secret:account.secretKey] autorelease];
+	consumer = [[OAConsumer alloc] initWithKey:account.consumerKey
+										 secret:account.secretKey];
 	
 	NSURL *url = [NSURL URLWithString:account.tokenRequestURL];
 	
@@ -100,8 +100,8 @@
 #pragma mark Request token processing
 - (void)requestTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
 	if (ticket.didSucceed) {
-		NSString *responseBody = [[NSString alloc] initWithData:data
-													   encoding:NSUTF8StringEncoding];
+		NSString *responseBody = [[[NSString alloc] initWithData:data
+														encoding:NSUTF8StringEncoding] autorelease];
 		
 		requestToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
 		
@@ -120,8 +120,8 @@
 #pragma mark Access token processing
 - (void)accessTokenTicket:(OAServiceTicket *)ticket didFinishWithData:(NSData *)data {
 	if (ticket.didSucceed) {
-		NSString *responseBody = [[NSString alloc] initWithData:data
-													   encoding:NSUTF8StringEncoding];
+		NSString *responseBody = [[[NSString alloc] initWithData:data
+														encoding:NSUTF8StringEncoding] autorelease];
 
 		OAToken *accessToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
 		
