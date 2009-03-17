@@ -2,28 +2,38 @@
 
 #import <AIUtilities/AIDateAdditions.h>
 
+//2009-03-08T03:00:00.5 PDT - half a second after the start of Daylight Saving Time.
+#define TEST_DATE [NSDate dateWithTimeIntervalSinceReferenceDate:258199200.5]
+
+//We're testing converting intervals. If we use a time zone that supports DST, the DST changes screw us up. We need an invariant time zone, and UTC works well for this purpose.
+#define TEST_TIME_ZONE [NSTimeZone timeZoneWithName:@"UTC"]
+
 @implementation TestDateAdditions
 
 - (void)testConvertIntervalToWeeks
 {
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	NSCalendarDate *then;
+	NSDate *now = TEST_DATE;
+	NSDate *then;
+
+	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSTimeZone *tz = TEST_TIME_ZONE;
+	gregorianCalendar.timeZone = tz;
+	NSDateComponents *components;
 
 	int weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test exactly one week ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-7
-					hours:-0 minutes:-0 seconds:-0];
-	
-	then = [then dateByMatchingDSTOfDate:now];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.day = -7;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
+	NSLog(@"%s: seconds is %.15f", __PRETTY_FUNCTION__, seconds);
 	STAssertEquals(weeks, 1, @"Expected the difference between now and 7 days ago, which is %f seconds, to be 1 week; result was %iw, %id, %ih, %im, %fs", [now timeIntervalSinceDate:then], weeks, days, hours, minutes, seconds);
 	STAssertEquals( days, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(hours, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
@@ -31,10 +41,8 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 7 days ago to be 1 week, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test eight days ago. [Insert obligatory Beatles reference]
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-8
-					hours:-0 minutes:-0 seconds:-0];
-	then = [then dateByMatchingDSTOfDate:now];
+	components.day = -8;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -49,85 +57,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test six days (almost, but not quite, one week) ago. [Insert obligatory DJ Shadow reference]
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-6
-					hours:-0 minutes:-0 seconds:-0];
-	then = [then dateByMatchingDSTOfDate:now];
-	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
-						toWeeks:&weeks
-						   days:&days
-						  hours:&hours
-						minutes:&minutes
-						seconds:&seconds];
-	NSLog(@"%s: seconds is %.15f", __PRETTY_FUNCTION__, seconds);
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 6 days ago to be 0 weeks, 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 6, @"Expected the difference between now and 6 days ago to be 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 6 days ago to be 6 days, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 6 days ago to be 6 days, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 6 days ago to be 6 days, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-}
-- (void)testConvertIntervalToWeeksWithKnownDSTProblem
-{
-	//2009-03-15T02:00:55.5 EDT.
-	NSCalendarDate *now = [[[NSCalendarDate alloc] initWithYear:2009
-														  month:3
-															day:15
-														   hour:2
-														 minute:0
-														 second:55.5
-													   timeZone:[NSTimeZone timeZoneWithName:@"America/New_York"]] autorelease];
-	NSCalendarDate *then;
-
-	int weeks, days, hours, minutes;
-	NSTimeInterval seconds;
-
-	//Test exactly one week ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-7
-					hours:-0 minutes:-0 seconds:-0];
-	
-	then = [then dateByMatchingDSTOfDate:now];
-	NSLog(@"Now: %@", now);
-	NSLog(@"Then: %@", then);
-	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
-						toWeeks:&weeks
-						   days:&days
-						  hours:&hours
-						minutes:&minutes
-						seconds:&seconds];
-	STAssertEquals(weeks, 1, @"Expected the difference between now and 7 days ago, which is %f seconds, to be 1 week; result was %iw, %id, %ih, %im, %fs", [now timeIntervalSinceDate:then], weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 7 days ago to be 1 week, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-
-	//Test eight days ago. [Insert obligatory Beatles reference]
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-8
-					hours:-0 minutes:-0 seconds:-0];
-	then = [then dateByMatchingDSTOfDate:now];
-	NSLog(@"Now: %@", now);
-	NSLog(@"Then: %@", then);
-	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
-						toWeeks:&weeks
-						   days:&days
-						  hours:&hours
-						minutes:&minutes
-						seconds:&seconds];
-	NSLog(@"%s: seconds is %.15f", __PRETTY_FUNCTION__, seconds);
-	STAssertEquals(weeks, 1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-
-	//Test six days (almost, but not quite, one week) ago. [Insert obligatory DJ Shadow reference]
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-6
-					hours:-0 minutes:-0 seconds:-0];
-	then = [then dateByMatchingDSTOfDate:now];
-	NSLog(@"Now: %@", now);
-	NSLog(@"Then: %@", then);
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.day = -6;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -143,16 +75,21 @@
 }
 - (void)testConvertIntervalToDays
 {
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	NSCalendarDate *then;
+	NSDate *now = TEST_DATE;
+	NSDate *then;
+
+	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSTimeZone *tz = TEST_TIME_ZONE;
+	gregorianCalendar.timeZone = tz;
+	NSDateComponents *components;
 
 	int weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one day ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-1
-					hours:-0 minutes:-0 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.day = -1;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -167,9 +104,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 day ago to be 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test one day ago, expressed as hours.
-	then = [now
-		dateByAddingYears:-0   months:-0    days:-0
-					hours:-24 minutes:-0 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.hour = -24;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -184,9 +121,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 day ago to be 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	
 	//Test 23 hours (almost, but not quite, one day) ago.
-	then = [now
-		dateByAddingYears:-0   months:-0    days:-0
-					hours:-23 minutes:-0 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.hour = -23;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -194,24 +131,29 @@
 						minutes:&minutes
 						seconds:&seconds];
 	NSLog(@"%s: seconds is %.15f", __PRETTY_FUNCTION__, seconds);
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 day ago to be 0 weeks, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 1, @"Expected the difference between now and 1 day ago to be 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 day ago to be 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, 0, @"Expected the difference between now and 23 hours ago to be 0 weeks, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, 0, @"Expected the difference between now and 23 hours ago to be 0 days, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, 23, @"Expected the difference between now and 23 hours ago to be 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, 0, @"Expected the difference between now and 23 hours ago to be 23 hours, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 23 hours ago to be 23 hours, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 - (void)testConvertIntervalToHours
 {
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	NSCalendarDate *then;
+	NSDate *now = TEST_DATE;
+	NSDate *then;
+
+	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSTimeZone *tz = TEST_TIME_ZONE;
+	gregorianCalendar.timeZone = tz;
+	NSDateComponents *components;
 
 	int weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one hour ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-0
-					hours:-1 minutes:-0 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.hour = -1;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -226,9 +168,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test one hour ago, expressed as minutes.
-	then = [now
-		dateByAddingYears:-0  months:-0     days:-0
-					hours:-0 minutes:-60 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.minute = -60;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -243,9 +185,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test 59 minutes (almost, but not quite, one hour) ago.
-	then = [now
-		dateByAddingYears:-0  months:-0     days:-0
-					hours:-0 minutes:-59 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.minute = -59;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -261,16 +203,21 @@
 }
 - (void)testConvertIntervalToMinutes
 {
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	NSCalendarDate *then;
+	NSDate *now = TEST_DATE;
+	NSDate *then;
+
+	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSTimeZone *tz = TEST_TIME_ZONE;
+	gregorianCalendar.timeZone = tz;
+	NSDateComponents *components;
 
 	int weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one minute ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-0
-					hours:-0 minutes:-1 seconds:-0];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.minute = -1;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -285,9 +232,9 @@
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 minute ago to be 1 minute, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test 59 seconds (almost, but not quite, one minute) ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-0
-					hours:-0 minutes:-0 seconds:-59];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.second = -59;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
@@ -303,16 +250,21 @@
 }
 - (void)testConvertIntervalToSeconds
 {
-	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	NSCalendarDate *then;
+	NSDate *now = TEST_DATE;
+	NSDate *then;
+
+	NSCalendar *gregorianCalendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
+	NSTimeZone *tz = TEST_TIME_ZONE;
+	gregorianCalendar.timeZone = tz;
+	NSDateComponents *components;
 
 	int weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one second ago.
-	then = [now
-		dateByAddingYears:-0  months:-0    days:-0
-					hours:-0 minutes:-0 seconds:-1];
+	components = [[[NSDateComponents alloc] init] autorelease];
+	components.second = -1;
+	then = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	[NSDate convertTimeInterval:[now timeIntervalSinceDate:then]
 						toWeeks:&weeks
 						   days:&days
