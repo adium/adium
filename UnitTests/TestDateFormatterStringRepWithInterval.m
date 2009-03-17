@@ -230,6 +230,9 @@
 	components = [[[NSDateComponents alloc] init] autorelease];
 	components.week = -65;
 
+	//This delay will reveal whether the method under test is incorrectly testing for seconds. (This was a real intermittent failure.)
+	usleep(0.1 * 1000000.0);
+
 	NSDate *date = [gregorianCalendar dateByAddingComponents:components toDate:now options:0UL];
 	AISimplifiedAssertEqualObjects([NSDateFormatter stringForTimeIntervalSinceDate:date], @"65 weeks", @"Unexpected string for time interval");
 }
