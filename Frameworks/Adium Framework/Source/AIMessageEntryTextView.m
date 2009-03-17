@@ -35,6 +35,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
+#import <AIUtilities/AIBezierPathAdditions.h>
 #import <Adium/AIContactControllerProtocol.h>
 
 
@@ -49,8 +50,7 @@
 #define KEY_GRAMMAR_CHECKING					@"Grammar Checking Enabled"
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE		@"Dual Window Interface"
 
-#define INDICATOR_RIGHT_PADDING					10		// Padding between right side of the message view and the rightmost indicator
-#define INDICATOR_BOTTOM_PADDING				2		// Padding between the bottom of the message view and any indicator
+#define INDICATOR_RIGHT_PADDING					2		// Padding between right side of the message view and the rightmost indicator
 
 #define PREF_GROUP_CHARACTER_COUNTER			@"Character Counter"
 #define KEY_CHARACTER_COUNTER_ENABLED			@"Character Counter Enabled"
@@ -71,14 +71,8 @@
  */
 
 @implementation  AISimpleTextView
-- (void)setString:(NSAttributedString *)inString
-{
-	if (string != inString) {
-		[string release];
-		string = [inString copy];
-	}
-}
 
+@synthesize string;
 - (void)dealloc
 {
 	[string release];
@@ -87,7 +81,7 @@
 
 - (void)drawRect:(NSRect)rect 
 {
-	[string drawInRect:[self bounds]];
+	[string drawInRect:self.bounds];
 }
 @end
 
@@ -136,7 +130,7 @@
 	characterCounter = nil;
 	characterCounterPrefix = nil;
 	maxCharacters = 0;
-	lastTextColor = nil;
+	savedTextColor = nil;
 	
 	if ([self respondsToSelector:@selector(setAllowsUndo:)]) {
 		[self setAllowsUndo:YES];
@@ -199,6 +193,7 @@
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
+	[savedTextColor release];
 	[characterCounterPrefix release];
     [chat release];
     [associatedView release];
@@ -968,7 +963,7 @@
     NSRect indFrame = [pushIndicator frame];
 	float counterPadding = characterCounter ? NSWidth([characterCounter frame]) : 0;
 	[pushIndicator setFrameOrigin:NSMakePoint(NSMaxX(visRect) - NSWidth(indFrame) - INDICATOR_RIGHT_PADDING - counterPadding, 
-											  NSMaxY(visRect) - NSHeight(indFrame) - INDICATOR_BOTTOM_PADDING)];
+											  NSMidY([self frame]) - NSHeight(indFrame)/2)];
     [[self enclosingScrollView] setNeedsDisplay:YES];
 }
 
@@ -1058,27 +1053,30 @@
 - (void)updateCharacterCounter
 {
 	NSRect visRect = [[self superview] bounds];
-
+	
 	NSString *inputString = [self.chat.account encodedAttributedString:[self textStorage] forListObject:self.chat.listObject];
 	int currentCount = (maxCharacters - [inputString length]);
 
 	if(currentCount < 0) {
-		lastTextColor = [[self textColor] retain];
+		savedTextColor = [[self textColor] retain];
 		
 		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
 													  saturation:0.43
 													  brightness:0.99
 														   alpha:1.0]];
 		
-		[self setTextColor:[NSColor blackColor]];
-		
+		[self.enclosingScrollView setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
+																		  saturation:0.43
+																		  brightness:0.99
+																			   alpha:1.0]];
 	} else {
-		if(lastTextColor) {
-			[self setTextColor:lastTextColor];	
-			[lastTextColor release]; lastTextColor = nil;
+		if (savedTextColor) {
+			[self setTextColor:savedTextColor];
+			savedTextColor = nil;
 		}
 		
 		[self setBackgroundColor:[NSColor controlBackgroundColor]];
+		[self.enclosingScrollView setBackgroundColor:[NSColor controlBackgroundColor]];
 	}
 	
 	NSString *counterText = [NSString stringWithFormat:@"%d", currentCount];
@@ -1090,7 +1088,7 @@
 	NSAttributedString *label = [[NSAttributedString alloc] initWithString:counterText
 																attributes:[adium.contentController defaultFormattingAttributes]];
 	[characterCounter setString:label];
-	[characterCounter setFrameSize:[label size]];
+	[characterCounter setFrameSize:label.size];
 	[label release];
 
 	//Reposition the character counter.
@@ -1122,7 +1120,7 @@
 	
 	//NSMaxY([self frame]) is necessary because visRect's height changes after you start typing. No idea why.
 	[characterCounter setFrameOrigin:NSMakePoint(NSMaxX(visRect) - NSWidth(counterRect) - INDICATOR_RIGHT_PADDING,
-												 NSMaxY([self frame]) - NSHeight(counterRect) - INDICATOR_BOTTOM_PADDING)];
+												 NSMidY([self frame]) - NSHeight(counterRect)/2)];
 	[[self enclosingScrollView] setNeedsDisplay:YES];
 }
 

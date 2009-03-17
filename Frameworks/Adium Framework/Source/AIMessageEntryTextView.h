@@ -27,14 +27,14 @@
  * @brief Should the tab key trigger an autocomplete?
  */
 - (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView;
-
 - (void)textViewDidCancel:(NSTextView *)inTextView;
 @end
 
 @interface AISimpleTextView : NSView {
-	NSAttributedString *string;
+	NSAttributedString	*string;
 }
-- (void)setString:(NSAttributedString *)inString;
+
+@property (readwrite, retain, nonatomic) NSAttributedString *string;
 @end
 
 
@@ -65,7 +65,7 @@
 	AISimpleTextView	*characterCounter;
 	NSString			*characterCounterPrefix;
 	int					maxCharacters;
-	NSColor				*lastTextColor;
+	NSColor				*savedTextColor;
 }
 
 @property (readwrite, assign, nonatomic) id<AIMessageEntryTextViewDelegate> delegate;
