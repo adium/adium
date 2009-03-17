@@ -21,7 +21,7 @@
 
 - (void)connect
 {	
-	if (![self preferenceForKey:LACONICA_PREFERENCE_HOST group:LACONICA_PREF_GROUP]) {
+	if (!self.host) {
 		[self setLastDisconnectionError:AILocalizedString(@"No Host set", nil)];
 		[self didDisconnect];
 	} else {
@@ -30,11 +30,13 @@
 }
 
 /*!
- * @brief The Host set by the user.
+ * @brief Our default server if none is provided.
+ *
+ * Do not set a default server.
  */
-- (NSString *)host
+- (NSString *)defaultServer
 {
-	return [self preferenceForKey:LACONICA_PREFERENCE_HOST group:LACONICA_PREF_GROUP];
+	return nil;
 }
 
 /*!
@@ -72,6 +74,14 @@
 	} else {
 		return self.UID;
 	}
+}
+
+/*!
+ * @brief Use our host for the servername when storing password
+ */
+- (BOOL)useHostForPasswordServerName
+{
+	return YES;
 }
 
 /*!

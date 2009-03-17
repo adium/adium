@@ -284,6 +284,17 @@ typedef enum
 	return self.formattedUID;
 }
 
+/*!
+ * @brief Use our host for the servername when storing password
+ *
+ * This should be YES for services which depend upon server information. For example, a password for an IRC account
+ * is uniqued by what server it is on.
+ */
+- (BOOL)useHostForPasswordServerName
+{
+	return NO;
+}
+
 //Properties -----------------------------------------------------------------------------------------------------------
 #pragma mark Properties
 /*!

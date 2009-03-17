@@ -26,8 +26,7 @@
 {
 	[super configureForAccount:inAccount];
 	
-	textField_server.stringValue = [account preferenceForKey:LACONICA_PREFERENCE_HOST group:LACONICA_PREF_GROUP] ?: @"";
-	[textField_server setEnabled:YES];
+	[textField_connectHost setEnabled:YES];
 	
 	textField_APIpath.stringValue = [account preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP] ?: @"";
 	[textField_APIpath setEnabled:YES];
@@ -39,10 +38,6 @@
 - (void)saveConfiguration
 {
 	[super saveConfiguration];
-
-	[account setPreference:textField_server.stringValue
-					forKey:LACONICA_PREFERENCE_HOST
-					 group:LACONICA_PREF_GROUP];
 
 	[account setPreference:textField_APIpath.stringValue
 					forKey:LACONICA_PREFERENCE_PATH

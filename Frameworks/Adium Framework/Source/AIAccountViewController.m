@@ -271,6 +271,12 @@
 		[account filterAndSetUID:newUID];
 	}
 
+	//Connect Host - save first in case the account uses the server name for password storage.
+	NSString *connectHost = [textField_connectHost stringValue];
+	[account setPreference:((connectHost && [connectHost length]) ? connectHost : nil)
+					forKey:KEY_CONNECT_HOST
+					 group:GROUP_ACCOUNT_STATUS];	
+	
 	//Password
 	NSString		*password = [textField_password stringValue];
 	NSString		*oldPassword = [adium.accountController passwordForAccount:account];
@@ -282,13 +288,7 @@
 	} else if (oldPassword && [oldPassword length] != 0) {
 		[adium.accountController forgetPasswordForAccount:account];
 	}
-	
-	//Connect Host
-	NSString *connectHost = [textField_connectHost stringValue];
-	[account setPreference:((connectHost && [connectHost length]) ? connectHost : nil)
-					forKey:KEY_CONNECT_HOST
-					 group:GROUP_ACCOUNT_STATUS];	
-	
+
 	//Connect Port
 	[account setPreference:([textField_connectPort intValue] ? [NSNumber numberWithInt:[textField_connectPort intValue]] : nil)
 					forKey:KEY_CONNECT_PORT

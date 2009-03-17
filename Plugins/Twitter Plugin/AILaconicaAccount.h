@@ -16,7 +16,6 @@
 
 #import "AITwitterAccount.h"
 
-#define LACONICA_PREFERENCE_HOST		@"Host"
 #define LACONICA_PREFERENCE_PATH		@"Path"
 #define LACONICA_PREF_GROUP				@"Laconica Preferences"
 
