@@ -138,7 +138,7 @@
 				  buttonEnabled:YES];
 		
 		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
-			[self setStatusText:AILocalizedString(@"Adium already has access to your account.", nil)
+			[self setStatusText:AILocalizedString(@"Adium currently has access to your account.", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
 		} else {
