@@ -221,7 +221,7 @@ typedef enum {
 		}
 		else if (minutes)
 			[parts addObject:minutesString];
-		else if (showSeconds && (seconds >= 0.01))
+		else if (showSeconds && (seconds >= 0.5))
 			[parts addObject:secondsString];
 	} else {
 		//We want all of these that aren't zero.
@@ -233,7 +233,7 @@ typedef enum {
 			[parts addObject:hoursString];
 		if (minutes)
 			[parts addObject:minutesString];
-		if (showSeconds && (seconds >= 0.01))
+		if (showSeconds && (seconds >= 0.5))
 			[parts addObject:secondsString];
 	}
 
