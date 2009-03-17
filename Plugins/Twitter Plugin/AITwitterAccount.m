@@ -540,7 +540,7 @@
  */
 - (NSString *)tokenRequestURL
 {
-	return @"http://twitter.com/oauth/request_token";
+	return @"https://twitter.com/oauth/request_token";
 }
 
 /*!
@@ -548,7 +548,7 @@
  */
 - (NSString *)tokenAccessURL
 {
-	return @"http://twitter.com/oauth/access_token";	
+	return @"https://twitter.com/oauth/access_token";	
 }
 
 /*!
@@ -556,7 +556,7 @@
  */
 - (NSString *)tokenAuthorizeURL
 {
-	return @"http://twitter.com/oauth/authorize";
+	return @"https://twitter.com/oauth/authorize";
 }
 
 #pragma mark Menu Items
