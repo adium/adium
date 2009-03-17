@@ -122,9 +122,7 @@
 	if (ticket.didSucceed) {
 		NSString *responseBody = [[NSString alloc] initWithData:data
 													   encoding:NSUTF8StringEncoding];
-		
-		NSLog(@"response body = %@", responseBody);
-		
+
 		OAToken *accessToken = [[OAToken alloc] initWithHTTPResponseBody:responseBody];
 		
 		[delegate OAuthSetup:self
