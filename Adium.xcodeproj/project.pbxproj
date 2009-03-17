@@ -111,6 +111,9 @@
 		117866E20EC759B9003E9B97 /* FTProgressResendRollover_Selected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866DC0EC759B9003E9B97 /* FTProgressResendRollover_Selected.tif */; };
 		117866E30EC759B9003E9B97 /* FTProgressResendRollover.tif in Resources */ = {isa = PBXBuildFile; fileRef = 117866DD0EC759B9003E9B97 /* FTProgressResendRollover.tif */; };
 		117D6DC00BC5F0C40080D02B /* notify.png in Resources */ = {isa = PBXBuildFile; fileRef = 117D6DBF0BC5F0C40080D02B /* notify.png */; };
+		11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */; };
+		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
+		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11AA1EFA0BCAE9C3003DDA66 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */; };
 		11AE53610F68CE3300BE8077 /* AIPurpleOscarAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */; };
 		11AE53620F68CE3300BE8077 /* AIPurpleOscarAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */; };
@@ -1675,6 +1678,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in CopyFiles */,
 				34C6CFAB0DF4B41300651F70 /* RBSplitView.framework in CopyFiles */,
 				11EE1CCF0CDD01120097F246 /* libglib.framework in CopyFiles */,
 				346637690D415457006C9034 /* FriBidi.framework in CopyFiles */,
@@ -1812,6 +1816,9 @@
 		117866DC0EC759B9003E9B97 /* FTProgressResendRollover_Selected.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressResendRollover_Selected.tif; path = Resources/FTProgressResendRollover_Selected.tif; sourceTree = "<group>"; };
 		117866DD0EC759B9003E9B97 /* FTProgressResendRollover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressResendRollover.tif; path = Resources/FTProgressResendRollover.tif; sourceTree = "<group>"; };
 		117D6DBF0BC5F0C40080D02B /* notify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notify.png; path = Resources/notify.png; sourceTree = SOURCE_ROOT; };
+		11879C090F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterAccountOAuthSetup.h; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.h"; sourceTree = "<group>"; };
+		11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccountOAuthSetup.m; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.m"; sourceTree = "<group>"; };
+		11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthConsumer.framework; path = Frameworks/OAuthConsumer.framework; sourceTree = "<group>"; };
 		11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleOscarAccountViewController.h; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.h"; sourceTree = "<group>"; };
 		11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleOscarAccountViewController.m; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.m"; sourceTree = "<group>"; };
@@ -4470,6 +4477,7 @@
 				31918ED80C5E486C00717F0A /* QTKit.framework in Frameworks */,
 				31E0CD580C5EEEFA00271DB1 /* QuickTime.framework in Frameworks */,
 				31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */,
+				11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4636,6 +4644,8 @@
 		11F738F40F58D15500B3285B /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				11879C090F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.h */,
+				11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */,
 				113891850F6B6B0300A7D7DC /* Laconica */,
 				11BD73D10F5A54BB007D438A /* twitter-small.png */,
 				11BD73D20F5A54BB007D438A /* twitter.png */,
@@ -4744,6 +4754,7 @@
 		29B97323FDCFA39411CA2CEA /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
 				312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */,
 				31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */,
 				31918ED70C5E486C00717F0A /* QTKit.framework */,
@@ -9670,6 +9681,7 @@
 				1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */,
 				113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */,
 				1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */,
+				11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12005,6 +12017,10 @@
 		DADE8E23085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -12028,6 +12044,10 @@
 		DADE8E24085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -12051,6 +12071,10 @@
 		DADE8E25085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Frameworks\"",
+				);
 				GCC_DYNAMIC_NO_PIC = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",

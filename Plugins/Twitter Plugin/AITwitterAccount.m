@@ -137,7 +137,23 @@
 	[super connect];
 	
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
-	[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
+	
+	if (self.useOAuth) {
+		if (!self.passwordWhileConnected) {
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to connect, account not yet authorized", "Error presented when attempting to connect via OAuth when the account is not yet authenticated")];
+			[self didDisconnect];
+		} else {
+			twitterEngine.useOAuth = YES;
+			
+			OAToken *token = [[[OAToken alloc] initWithHTTPResponseBody:self.passwordWhileConnected] autorelease];
+			OAConsumer *consumer = [[[OAConsumer alloc] initWithKey:self.consumerKey secret:self.secretKey] autorelease];
+			
+			twitterEngine.accessToken = token;
+			twitterEngine.consumer = consumer;
+		}
+	} else {
+		[twitterEngine setUsername:self.UID password:self.passwordWhileConnected];
+	}
 	
 	AILogWithSignature(@"%@ connecting to %@", self, twitterEngine.APIDomain);
 	
@@ -475,6 +491,67 @@
 				forRequestID:requestID
 			  withDictionary:nil];
 	}
+}
+
+#pragma mark OAuth
+/*!
+ * @brief Should we store our password based on internal object ID?
+ *
+ * We only need to if we're using OAuth.
+ */
+- (BOOL)useInternalObjectIDForPasswordName
+{
+	return self.useOAuth;
+}
+
+/*!
+ * @brief Should we connect using OAuth?
+ *
+ * If enabled, the account view will display the OAuth setup. Basic authentication will not be used.
+ */
+- (BOOL)useOAuth
+{
+	return YES;
+}
+
+/*!
+ * @brief OAuth consumer key
+ */
+- (NSString *)consumerKey
+{
+	return @"amjYVOrzKpKkkHAsdEaClA";
+}
+
+/*!
+ * @brief OAuth secret key
+ */
+- (NSString *)secretKey
+{
+	return @"kvqM2CQsUO3J6NHctJVhTOzlKZ0k7FsTaR5NwakYU";
+}
+
+/*!
+ * @brief Token request URL
+ */
+- (NSString *)tokenRequestURL
+{
+	return @"http://twitter.com/oauth/request_token";
+}
+
+/*!
+ * @brief Token access URL
+ */
+- (NSString *)tokenAccessURL
+{
+	return @"http://twitter.com/oauth/access_token";	
+}
+
+/*!
+ * @brief Token authorize URL
+ */
+- (NSString *)tokenAuthorizeURL
+{
+	return @"http://twitter.com/oauth/authorize";
 }
 
 #pragma mark Menu Items
@@ -1132,20 +1209,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	// If a request succeeds and we think we're offline, call ourselves online.
 	if ([self requestTypeForRequestID:identifier] == AITwitterDisconnect) {
 		[self didDisconnect];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
-		// Delay updates on initial login.
-		[self silenceAllContactUpdatesForInterval:18.0];
-		// Grab our user list.
-		NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
-		
-		if (requestID) {
-			[self setRequestType:AITwitterInitialUserInfo
-					forRequestID:requestID
-				  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
-		} else {
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
-			[self didDisconnect];
-		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterRemoveFollow) {
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
@@ -1194,7 +1257,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			break;
 			
 		case AITwitterInitialUserInfo:
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
+			[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
 			[self didDisconnect];
 			break;
 			
@@ -1524,7 +1587,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:nextPage]
 																 forKey:@"Page"]];
 			} else { 
-				[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", "Message when a (vital) twitter request to retrieve the follow list fails")];
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list [additional fail]", "Message when a (vital) twitter request to retrieve the follow list fails")];
 				[self didDisconnect];
 			}
 			
@@ -1586,6 +1649,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials ||
 			   [self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
+		
+		NSLog(@"user info = %@", userInfo);
+		
 		for (NSDictionary *info in userInfo) {
 			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
 			
@@ -1594,12 +1660,33 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 						forRequestID:requestID
 					  withDictionary:nil];
 			}
+
+			[self filterAndSetUID:[info objectForKey:TWITTER_INFO_UID]];
 			
 			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"description"] forProperty:@"Profile Description" notify:NotifyLater];
 			[self notifyOfChangedPropertiesSilently:NO];
+		}
+		
+		
+		if([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
+			// Our UID is definitely set; grab our friends.
+			
+			// Delay updates on initial login.
+			[self silenceAllContactUpdatesForInterval:18.0];
+			// Grab our user list.
+			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
+			
+			if (requestID) {
+				[self setRequestType:AITwitterInitialUserInfo
+						forRequestID:requestID
+					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
+			} else {
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
+				[self didDisconnect];
+			}
 		}
 	}
 	
