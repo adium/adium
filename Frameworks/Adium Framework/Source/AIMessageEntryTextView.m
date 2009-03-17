@@ -1057,7 +1057,7 @@
 	NSString *inputString = [self.chat.account encodedAttributedString:[self textStorage] forListObject:self.chat.listObject];
 	int currentCount = (maxCharacters - [inputString length]);
 
-	if(currentCount < 0) {
+	if(maxCharacters && currentCount < 0) {
 		savedTextColor = [[self textColor] retain];
 		
 		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
