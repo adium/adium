@@ -1456,7 +1456,7 @@
 
 - (NSString *)updateProfileImage:(NSData *)profileImage
 {
-	if (!profileImage) {
+	if (!profileImage || _useOAuth) {
         return nil;
     }
     
