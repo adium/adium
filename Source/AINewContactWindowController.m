@@ -410,10 +410,8 @@
  */
 - (void)buildGroupMenu
 {
-	AIListObject	*selectedObject;
-	NSMenu			*menu;
 	//Rebuild the menu
-	menu = [adium.contactController groupMenuWithTarget:self];
+	NSMenu *menu = [adium.contactController groupMenuWithTarget:self];
 
 	//Add a default group name to the menu if there are no groups listed
 	if ([menu numberOfItems] == 0) {
@@ -428,25 +426,10 @@
 					target:self
 					action:@selector(newGroup:)
 			 keyEquivalent:@""];
-	
-	//Select the group of the currently selected object on the contact list
-	selectedObject = adium.interfaceController.selectedListObject;
-	while (selectedObject && ![selectedObject isKindOfClass:[AIListGroup class]]) {
-		//XXX multiple containers
-		selectedObject = selectedObject.containingObject;
-	}
 
 	[popUp_targetGroup setMenu:menu];
 
-	//If there was no selected group, just select the first item
-	if (selectedObject) {
-		if (![popUp_targetGroup selectItemWithRepresentedObject:selectedObject]) {
-			[popUp_targetGroup selectItemAtIndex:0];			
-		}
-
-	} else {
-		[popUp_targetGroup selectItemAtIndex:0];
-	}
+	[popUp_targetGroup selectItemAtIndex:0];
 }
 
 /*!

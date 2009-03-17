@@ -718,10 +718,9 @@
 							[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
 						} else if ([object isKindOfClass:[AIListGroup class]]) {							
 							// Group being moved to a new detached window.
-							NSAssert([object.containingObject isKindOfClass:[AIContactList class]], @"Original containing group not an AIContactList");
 							NSAssert([group isKindOfClass:[AIContactList class]], @"Target group not an AIContactList");
 							
-							[(AIContactList *)object.containingObject moveGroup:(AIListGroup *)object to:(AIContactList *)group];
+							[[(AIListGroup *)object contactList] moveGroup:(AIListGroup *)object to:(AIContactList *)group];
 						}
 					}
 					

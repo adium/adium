@@ -26,7 +26,7 @@
 #define PREF_GROUP_CONTACT_LIST_DISPLAY		@"Contact List Display"
 
 @interface AIListObject ()
-- (void) setContainingObject:(AIListObject<AIContainingObject>*)obj;
+- (void)setContainingGroup:(AIListGroup *)inGroup;
 @end
 
 @interface AIListGroup ()
@@ -252,7 +252,7 @@
 		if ([inObject isKindOfClass:[AIListContact class]])
 			[(AIListContact *)inObject addContainingGroup:self];
 		else
-			inObject.containingObject = self;
+			[inObject setContainingGroup: self];
 		
 		[_containedObjects addObject:inObject];
 		
