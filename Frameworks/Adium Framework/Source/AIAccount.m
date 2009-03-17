@@ -295,6 +295,17 @@ typedef enum
 	return NO;
 }
 
+/*!
+ * @brief Use our internal object ID for the username when storing password
+ *
+ * For accounts whose signup process may not be contingent upon the UID. For example, a Twitter account using OAuth might
+ * not know its UID when it wants to save itself.
+ */
+- (BOOL)useInternalObjectIDForPasswordName
+{
+	return NO;
+}
+
 //Properties -----------------------------------------------------------------------------------------------------------
 #pragma mark Properties
 /*!
