@@ -74,6 +74,11 @@
 	 forService:self];
 }
 
+- (BOOL)requiresPassword
+{
+	return NO;
+}
+
 - (BOOL)isSocialNetworkingService
 {
 	return YES;
