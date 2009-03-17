@@ -37,7 +37,7 @@
 #define AlwaysVisible		@"AlwaysVisible"
 
 @interface AIListObject ()
-- (void)setContainingObject:(AIListGroup *)inGroup;
+- (void)setContainingGroup:(AIListGroup *)inGroup;
 @end
 
 /*!
@@ -191,15 +191,6 @@
 	[m_groups removeObject:group];
 }
 
-/*!
- * @brief Containing object of this object
- */
-- (AIListObject<AIContainingObject> *)containingObject
-{
-	//XXX multiple containers
-	return self.containingObjects.anyObject;
-}
-
 - (NSSet *)containingObjects
 {
 	return self.groups;
@@ -216,7 +207,7 @@
  *
  * PRIVATE: This is only for use by AIListObjects conforming to the AIContainingObject protocol.
  */
-- (void)setContainingObject:(AIListGroup *)inGroup
+- (void)setContainingGroup:(AIListGroup *)inGroup
 {
 	[m_groups removeAllObjects];
 	if(inGroup)

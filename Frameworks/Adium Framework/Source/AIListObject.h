@@ -109,7 +109,6 @@ typedef enum {
 @property (readwrite, nonatomic) BOOL alwaysVisible;
 
 //Grouping
-@property (readonly, nonatomic) AIListObject <AIContainingObject> *containingObject;
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
 @property (readonly, nonatomic) NSSet *containingObjects;
 @property (readonly, copy, nonatomic) NSSet *groups;
