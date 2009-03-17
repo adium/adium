@@ -265,6 +265,8 @@
 			[self setStatusText:AILocalizedString(@"Success! Your account is now authorized. You may connect at will.", nil)
 					  withColor:nil
 				  buttonEnabled:NO];
+			
+			[account setLastDisconnectionError:nil];
 
 			[self completedOAuthSetup];			
 			
