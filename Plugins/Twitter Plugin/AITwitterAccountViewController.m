@@ -23,6 +23,7 @@
 
 @interface AITwitterAccountViewController()
 - (void)completedOAuthSetup;
+- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled;
 @end
 
 @implementation AITwitterAccountViewController
@@ -131,12 +132,19 @@
 	if (twitterAccount.useOAuth) {
 		[tabView_authenticationType selectTabViewItem:tabViewItem_OAuth];
 		
-		if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
-			[button_OAuthStart setEnabled:NO];
-			textField_OAuthStatus.stringValue = AILocalizedString(@"Your account is already authorized with Twitter.", nil);
+		if ([account.lastDisconnectionError isEqualToString:TWITTER_OAUTH_NOT_AUTHORIZED]) {
+			[self setStatusText:TWITTER_OAUTH_NOT_AUTHORIZED
+					  withColor:[NSColor redColor]
+				  buttonEnabled:YES];
+		
+		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
+			[self setStatusText:AILocalizedString(@"Your account is already authorized with Twitter.", nil)
+					  withColor:nil
+				  buttonEnabled:NO];
 		} else {
-			[button_OAuthStart setEnabled:YES];
-			textField_OAuthStatus.stringValue = @"";
+			[self setStatusText:nil
+					  withColor:nil
+				  buttonEnabled:YES];
 		}
 	} else {
 		[tabView_authenticationType selectTabViewItem:tabViewItem_basicAuthentication];
@@ -209,6 +217,14 @@
 	}
 }
 
+#pragma mark OAuth status text
+- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled
+{
+	textField_OAuthStatus.stringValue = text ?: @"";
+	textField_OAuthStatus.textColor = color ?: [NSColor controlTextColor];
+	[button_OAuthStart setEnabled:enabled];
+}
+
 #pragma mark OAuth setup delegate
 
 - (void)OAuthSetup:(AITwitterAccountOAuthSetup *)setup
@@ -223,7 +239,9 @@
 	switch (OAuthSetupStep) {
 		case AIOAuthStepStart:
 			// Just starting, fetching a request token
-			textField_OAuthStatus.stringValue = [NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access.", nil), account.host];
+			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access.", nil), account.host]
+					  withColor:nil
+				  buttonEnabled:YES];
 			break;
 			
 		case AIOAuthStepRequestToken:
@@ -232,7 +250,10 @@
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			textField_OAuthStatus.stringValue = AILocalizedString(@"Your must authorize your account for access in Adium. When you have done so, click the 'Completed' button above.", nil);
+			[self setStatusText:AILocalizedString(@"Your must authorize your account for access in Adium. When you have done so, click the 'Completed' button above.", nil)
+					  withColor:nil
+				  buttonEnabled:YES];
+			
 			button_OAuthStart.title = AILocalizedString(@"Completed", nil);
 			
 			break;
@@ -240,18 +261,22 @@
 		case AIOAuthStepAccessToken:
 			// We have an access token, hoorah!
 			textField_password.stringValue = responseBody;
-			textField_OAuthStatus.stringValue = AILocalizedString(@"Success! Your account is now authorized. You may connect at will.", nil);
+			
+			[self setStatusText:AILocalizedString(@"Success! Your account is now authorized. You may connect at will.", nil)
+					  withColor:nil
+				  buttonEnabled:NO];
 
 			[self completedOAuthSetup];			
-			
-			[button_OAuthStart setEnabled:NO];
 			
 			break;
 			
 		case AIOAuthStepFailure:
 			// Failed in some way. sad. :(
 
-			textField_OAuthStatus.stringValue = AILocalizedString(@"An error occured when trying to gain access. Please try again.", nil);
+			[self setStatusText:AILocalizedString(@"An error occured when trying to gain access. Please try again.", nil)
+					  withColor:[NSColor redColor]
+				  buttonEnabled:YES];
+			
 			button_OAuthStart.title = AILocalizedString(@"Authorize Account", nil);
 			
 			[self completedOAuthSetup];

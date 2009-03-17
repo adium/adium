@@ -64,6 +64,7 @@ typedef enum {
 #define TWITTER_UPDATE_USER_INFO_COUNT		10
 
 #define TWITTER_INCORRECT_PASSWORD_MESSAGE	AILocalizedString(@"Incorrect username or password","Error message displayed when the server reports username or password as being incorrect.")
+#define TWITTER_OAUTH_NOT_AUTHORIZED		AILocalizedString(@"Adium is no longer allowed access to your account. To connect, you must re-authorize the account.", "Error message displayed when the server reports that our access has been revoked.")
 
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
 #define TWITTER_TIMELINE_NAME				AILocalizedString(@"Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")

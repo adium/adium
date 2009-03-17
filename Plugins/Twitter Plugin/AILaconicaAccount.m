@@ -92,7 +92,6 @@
 	return NO;
 }
 
-
 /*!
  * @brief Returns the link URL for a specific type of link
  */

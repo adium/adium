@@ -18,6 +18,7 @@
 
 typedef enum {
 	AIReconnectNever = 0,
+	AIReconnectNeverNoMessage,
 	AIReconnectImmediately,
 	AIReconnectNormally
 } AIReconnectDelayType;

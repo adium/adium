@@ -29,6 +29,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentMessage.h>
@@ -213,14 +214,16 @@
  */
 - (void)disconnect
 {
-	NSString *requestID = [twitterEngine endUserSession];
-	
-	if (requestID) {
-		[self setRequestType:AITwitterDisconnect
-				forRequestID:requestID
-			  withDictionary:nil];
-	} else {
-		[self didDisconnect];
+	if(self.online) {
+		NSString *requestID = [twitterEngine endUserSession];
+		
+		if (requestID) {
+			[self setRequestType:AITwitterDisconnect
+					forRequestID:requestID
+				  withDictionary:nil];
+		} else {
+			[self didDisconnect];
+		}
 	}
 	
 	[super disconnect];
@@ -351,7 +354,7 @@
 }
 
 /*!
- * @brief Immediately retry for an incorrect password.
+ * @brief For an invalid password, fail but don't try and reconnect or report it. We do it ourself.
  */
 - (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError
 {
@@ -359,6 +362,8 @@
 	
 	if ([*disconnectionError isEqualToString:TWITTER_INCORRECT_PASSWORD_MESSAGE]) {
 		reconnectDelayType = AIReconnectImmediately;
+	} else if ([*disconnectionError isEqualToString:TWITTER_OAUTH_NOT_AUTHORIZED]) {
+		reconnectDelayType = AIReconnectNeverNoMessage;
 	}
 	
 	return reconnectDelayType;
@@ -1225,7 +1230,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  * pretty terrible, so let's ignore errors for the most part.
  */
 - (void)requestFailed:(NSString *)identifier withError:(NSError *)error
-{
+{	
 	switch ([self requestTypeForRequestID:identifier]) {
 		case AITwitterDirectMessageSend:
 		case AITwitterSendUpdate:
@@ -1241,18 +1246,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 			
 		case AITwitterDisconnect:
-			[self didDisconnect];
-			break;
-			
-		case AITwitterValidateCredentials:
-			// Error code 401 is an invalid password.
-			if([error code] == 401) {
-				[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
-				[self serverReportedInvalidPassword];
-			} else {
-				[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
-			}
-			
 			[self didDisconnect];
 			break;
 			
@@ -1290,6 +1283,27 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 															   error.code]];
 			}
 			
+			break;
+			
+		case AITwitterValidateCredentials:
+			if(error.code == 401) {	
+				if(self.useOAuth) {
+					[self setPasswordTemporarily:nil];
+					[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
+					
+					[[NSNotificationCenter defaultCenter] postNotificationName:@"AIEditAccount"
+																		object:self];
+					
+				} else {
+					[self setLastDisconnectionError:TWITTER_INCORRECT_PASSWORD_MESSAGE];
+					[self serverReportedInvalidPassword];
+				}
+				
+				[self didDisconnect];
+			} else {
+				[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
+				[self didDisconnect];
+			}
 			break;
 			
 		default:
