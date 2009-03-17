@@ -1663,9 +1663,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials ||
 			   [self requestTypeForRequestID:identifier] == AITwitterProfileSelf) {
-		
-		NSLog(@"user info = %@", userInfo);
-		
 		for (NSDictionary *info in userInfo) {
 			NSString *requestID = [twitterEngine getImageAtURL:[info objectForKey:TWITTER_INFO_ICON]];
 			
