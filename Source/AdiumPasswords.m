@@ -337,7 +337,11 @@
  * @brief New-style Keychain identifier for an account
  */
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount {
-	return [inAccount.UID compactedString];
+	if (inAccount.useInternalObjectIDForPasswordName) {
+		return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, inAccount.internalObjectID];
+	} else {
+		return [inAccount.UID compactedString];
+	}
 }
 - (NSString *)_serverNameForAccount:(AIAccount *)inAccount {
 	if(inAccount.useHostForPasswordServerName) {

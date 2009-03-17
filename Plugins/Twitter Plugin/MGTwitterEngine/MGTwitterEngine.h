@@ -11,6 +11,9 @@
 #import "MGTwitterEngineDelegate.h"
 #import "MGTwitterParserDelegate.h"
 
+#import <OAuthConsumer/OAConsumer.h>
+#import <OAuthConsumer/OAMutableURLRequest.h>
+
 @interface MGTwitterEngine : NSObject <MGTwitterParserDelegate> {
     __weak NSObject <MGTwitterEngineDelegate> *_delegate;
     NSString *_username;
@@ -23,6 +26,11 @@
 	NSString *_APIDomain;
     BOOL _secureConnection;
 	BOOL _clearsCookies;
+	
+	// Adium OAuth Additions
+	BOOL _useOAuth;
+	OAToken *_accessToken;
+	OAConsumer *_consumer;
 }
 
 // Constructors
@@ -125,4 +133,8 @@
 - (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username;
 - (NSString *)deleteDirectMessage:(int)updateID;          // this user must be the RECIPIENT
 
+// Adium OAuth additions
+@property (readwrite, nonatomic) BOOL useOAuth;
+@property (readwrite, nonatomic, retain) OAConsumer *consumer;
+@property (readwrite, nonatomic, retain) OAToken *accessToken;
 @end

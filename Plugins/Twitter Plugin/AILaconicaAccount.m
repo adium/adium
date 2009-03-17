@@ -85,6 +85,15 @@
 }
 
 /*!
+ * @brief Laconica does not yet support OAuth.
+ */
+- (BOOL)useOAuth
+{
+	return NO;
+}
+
+
+/*!
  * @brief Returns the link URL for a specific type of link
  */
 - (NSString *)addressForLinkType:(AITwitterLinkType)linkType

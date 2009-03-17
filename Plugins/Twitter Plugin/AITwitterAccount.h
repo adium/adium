@@ -132,6 +132,13 @@ typedef enum {
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
 
+@property (readonly, nonatomic) BOOL useOAuth;
+@property (readonly, nonatomic) NSString *consumerKey;
+@property (readonly, nonatomic) NSString *secretKey;
+@property (readonly, nonatomic) NSString *tokenRequestURL;
+@property (readonly, nonatomic) NSString *tokenAccessURL;
+@property (readonly, nonatomic) NSString *tokenAuthorizeURL;
+
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
 			  location:(NSString *)location

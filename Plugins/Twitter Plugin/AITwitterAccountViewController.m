@@ -17,6 +17,13 @@
 #import "AITwitterAccount.h"
 #import "AITwitterAccountViewController.h"
 #import <AIUtilities/AIMenuAdditions.h>
+#import <Adium/AIAccountControllerProtocol.h>
+
+#import "AITwitterAccountOAuthSetup.h"
+
+@interface AITwitterAccountViewController()
+- (void)completedOAuthSetup;
+@end
 
 @implementation AITwitterAccountViewController
 
@@ -95,6 +102,19 @@
 - (IBAction)changedPreference:(id)sender
 {
 	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
+	
+	if(sender == button_OAuthStart) {
+		if (OAuthSetupStep == AIOAuthStepRequestToken) {
+			[OAuthSetup fetchAccessToken];
+		} else {
+			[OAuthSetup release];
+			
+			OAuthSetup = [[AITwitterAccountOAuthSetup alloc] initWithDelegate:self
+																   forAccount:(AITwitterAccount *)account];
+			
+			[OAuthSetup beginSetup];
+		}
+	}
 }
 
 /*!
@@ -103,6 +123,24 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 {
 	[super configureForAccount:inAccount];
+	
+	// Setup - OAuth
+	
+	AITwitterAccount *twitterAccount = (AITwitterAccount *)account;
+	
+	if (twitterAccount.useOAuth) {
+		[tabView_authenticationType selectTabViewItem:tabViewItem_OAuth];
+		
+		if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
+			[button_OAuthStart setEnabled:NO];
+			textField_OAuthStatus.stringValue = AILocalizedString(@"Your account is already authorized with Twitter.", nil);
+		} else {
+			[button_OAuthStart setEnabled:YES];
+			textField_OAuthStatus.stringValue = @"";
+		}
+	} else {
+		[tabView_authenticationType selectTabViewItem:tabViewItem_basicAuthentication];
+	}
 	
 	// Options
 	
@@ -145,6 +183,8 @@
 {
 	[super saveConfiguration];
 	
+	[OAuthSetup release]; OAuthSetup = nil;
+	
 	[account setPreference:popUp_updateInterval.selectedItem.representedObject
 					forKey:TWITTER_PREFERENCE_UPDATE_INTERVAL
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
@@ -167,6 +207,63 @@
 										   location:(textField_location.isEnabled ? textField_location.stringValue : nil)
 										description:(textField_description.isEnabled ? textField_description.stringValue : nil)];
 	}
+}
+
+#pragma mark OAuth setup delegate
+
+- (void)OAuthSetup:(AITwitterAccountOAuthSetup *)setup
+	 changedToStep:(AIOAuthSetupStep)setupStep
+		 withToken:(OAToken *)token
+	  responseBody:(NSString *)responseBody
+{
+	AILocalizedString(@"Step %u", setupStep);
+	
+	OAuthSetupStep = setupStep;
+	
+	switch (OAuthSetupStep) {
+		case AIOAuthStepStart:
+			// Just starting, fetching a request token
+			textField_OAuthStatus.stringValue = [NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access.", nil), account.host];
+			break;
+			
+		case AIOAuthStepRequestToken:
+			// We have a request token, ask user to authorize.
+			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?oauth_token=%@",
+																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
+																		 token.key]]];
+
+			textField_OAuthStatus.stringValue = AILocalizedString(@"Your must authorize your account for access in Adium. When you have done so, click the 'Completed' button above.", nil);
+			button_OAuthStart.title = AILocalizedString(@"Completed", nil);
+			
+			break;
+			
+		case AIOAuthStepAccessToken:
+			// We have an access token, hoorah!
+			textField_password.stringValue = responseBody;
+			textField_OAuthStatus.stringValue = AILocalizedString(@"Success! Your account is now authorized. You may connect at will.", nil);
+
+			[self completedOAuthSetup];			
+			
+			[button_OAuthStart setEnabled:NO];
+			
+			break;
+			
+		case AIOAuthStepFailure:
+			// Failed in some way. sad. :(
+
+			textField_OAuthStatus.stringValue = AILocalizedString(@"An error occured when trying to gain access. Please try again.", nil);
+			button_OAuthStart.title = AILocalizedString(@"Authorize Account", nil);
+			
+			[self completedOAuthSetup];
+			
+			break;
+	}
+}
+
+- (void)completedOAuthSetup
+{
+	[OAuthSetup release]; OAuthSetup = nil;
+	OAuthSetupStep = AIOAuthStepFailure;	
 }
 
 @end

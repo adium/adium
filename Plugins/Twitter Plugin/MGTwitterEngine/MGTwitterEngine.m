@@ -84,6 +84,8 @@
 		_APIDomain = [TWITTER_DOMAIN retain];
         _secureConnection = YES;
 		_clearsCookies = NO;
+		_consumer = nil;
+		_accessToken = nil;
     }
     
     return self;
@@ -97,6 +99,9 @@
     [[_connections allValues] makeObjectsPerformSelector:@selector(cancel)];
     [_connections release];
     
+	[_accessToken release];
+	[_consumer release];
+	
     [_username release];
     [_password release];
     [_clientName release];
@@ -380,6 +385,8 @@
 
 #define SET_AUTHORIZATION_IN_HEADER 1
 
+/* See Adium Additions/Changes below—oauth support */
+#if 0
 - (NSString *)_sendRequestWithMethod:(NSString *)method 
                                 path:(NSString *)path 
                      queryParameters:(NSDictionary *)params 
@@ -481,7 +488,7 @@
     
     return [connection identifier];
 }
-
+#endif
 
 #pragma mark Parsing methods
 
@@ -610,7 +617,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-	if ([challenge previousFailureCount] == 0 && ![challenge proposedCredential]) {
+	if ([challenge previousFailureCount] == 0 && ![challenge proposedCredential] && !_useOAuth) {
 		NSURLCredential *credential = [NSURLCredential credentialWithUser:_username password:_password 
 															  persistence:NSURLCredentialPersistenceForSession];
 		[[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
@@ -1482,5 +1489,138 @@
                             requestType:MGTwitterAccountRequest 
                            responseType:MGTwitterUser];
 }
+
+#pragma mark Adium OAuth Changes
+
+- (NSString *)_sendRequestWithMethod:(NSString *)method 
+                                path:(NSString *)path 
+                     queryParameters:(NSDictionary *)params 
+                                body:(id)body 
+                         requestType:(MGTwitterRequestType)requestType 
+                        responseType:(MGTwitterResponseType)responseType
+{
+    // Construct appropriate URL string.
+    NSString *fullPath = path;
+    if (params) {
+        fullPath = [self _queryStringWithBase:fullPath parameters:params prefixed:YES];
+    }
+
+	NSString *urlString = nil;
+	
+	if (!_useOAuth) {
+		#if SET_AUTHORIZATION_IN_HEADER
+			urlString = [NSString stringWithFormat:@"%@://%@/%@", 
+						 (_secureConnection) ? @"https" : @"http",
+						 _APIDomain, fullPath];
+		#else 
+			urlString = [NSString stringWithFormat:@"%@://%@:%@@%@/%@", 
+						 (_secureConnection) ? @"https" : @"http", 
+						 [self _encodeString:_username], [self _encodeString:_password], 
+						 _APIDomain, fullPath];
+		#endif
+	} else {
+		urlString = [NSString stringWithFormat:@"%@://%@/%@", 
+					 (_secureConnection) ? @"https" : @"http",
+					 _APIDomain, fullPath];		
+	}
+    
+    NSURL *finalURL = [NSURL URLWithString:urlString];
+    if (!finalURL) {
+        return nil;
+    }
+	
+	NSMutableURLRequest *theRequest = nil;
+	
+	if (_useOAuth) {
+		if (!_consumer || !_accessToken) {
+			NSLog(@"No consumer or access token, fail.");
+			return nil;
+		}
+		
+		theRequest = [[[OAMutableURLRequest alloc] initWithURL:finalURL
+													  consumer:_consumer
+														 token:_accessToken
+														 realm:nil
+											 signatureProvider:nil] autorelease];
+	} else {
+		// Construct an NSMutableURLRequest for the URL and set appropriate request method.
+		theRequest = [NSMutableURLRequest requestWithURL:finalURL 
+											 cachePolicy:NSURLRequestReloadIgnoringCacheData 
+										 timeoutInterval:URL_REQUEST_TIMEOUT];
+	}
+		
+	if(method && [method isEqualToString:HTTP_MULTIPART_METHOD]) {
+		method = HTTP_POST_METHOD;
+		[theRequest setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY] forHTTPHeaderField:@"Content-type"];
+	}
+	
+    if (method) {
+        [theRequest setHTTPMethod:method];
+    }
+	
+    [theRequest setHTTPShouldHandleCookies:NO];
+	
+    // Set headers for client information, for tracking purposes at Twitter.
+    [theRequest setValue:_clientName    forHTTPHeaderField:@"X-Twitter-Client"];
+    [theRequest setValue:_clientVersion forHTTPHeaderField:@"X-Twitter-Client-Version"];
+    [theRequest setValue:_clientURL     forHTTPHeaderField:@"X-Twitter-Client-URL"];
+    
+#if SET_AUTHORIZATION_IN_HEADER
+	if (_useOAuth && [self username] && [self password]) {
+		// Set header for HTTP Basic authentication explicitly, to avoid problems with proxies and other intermediaries
+		NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self username], [self password]];
+		NSData *authData = [authStr dataUsingEncoding:NSASCIIStringEncoding];
+		NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodingWithLineLength:80]];
+		[theRequest setValue:authValue forHTTPHeaderField:@"Authorization"];
+	}
+#endif
+	
+    // Set the request body if this is a POST request.
+    BOOL isPOST = (method && [method isEqualToString:HTTP_POST_METHOD]);
+	
+    if (isPOST) {
+        // Set request body, if specified (hopefully so), with 'source' parameter if appropriate.
+		if([body isKindOfClass:[NSString class]]) {
+			NSString *finalBody = @"";
+			if (body) {
+				finalBody = [finalBody stringByAppendingString:body];
+			}
+			if (_clientSourceToken) {
+				finalBody = [finalBody stringByAppendingString:[NSString stringWithFormat:@"%@source=%@", 
+																(body) ? @"&" : @"?" , 
+																_clientSourceToken]];
+			}
+			
+			if (finalBody) {
+				[theRequest setHTTPBody:[finalBody dataUsingEncoding:NSUTF8StringEncoding]];
+			}
+		} else if ([body isKindOfClass:[NSData class]]) {
+			[theRequest setHTTPBody:body];
+		}
+    }
+	
+	if (_useOAuth) {
+		[(OAMutableURLRequest *)theRequest prepare];
+    }
+    
+    // Create a connection using this request, with the default timeout and caching policy, 
+    // and appropriate Twitter request and response types for parsing and error reporting.
+    MGTwitterHTTPURLConnection *connection;
+    connection = [[MGTwitterHTTPURLConnection alloc] initWithRequest:theRequest 
+                                                            delegate:self 
+                                                         requestType:requestType 
+                                                        responseType:responseType];
+    
+    if (!connection) {
+        return nil;
+    } else {
+        [_connections setObject:connection forKey:[connection identifier]];
+        [connection release];
+    }
+    
+    return [connection identifier];
+}
+
+@synthesize consumer = _consumer, accessToken = _accessToken, useOAuth = _useOAuth;
 
 @end
