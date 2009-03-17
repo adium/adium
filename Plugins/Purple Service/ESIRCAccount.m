@@ -79,7 +79,7 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (NSString *)UID
 {
-	return [NSString stringWithFormat:@"%@@%@", self.formattedUID, self.host];
+	return [super formattedUID];
 }
 
 - (const char *)purpleAccountName
@@ -116,13 +116,20 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (NSString *)displayName
 {
-	return self.formattedUID;
+	NSString *dName = self.formattedUID;
+	NSRange serversplit = [dName rangeOfString:@"@"];
+	
+	if(serversplit.location != NSNotFound)
+		return [dName substringToIndex:serversplit.location];
+	else
+		return dName;
 }
 
 - (NSString *)explicitFormattedUID
 {
 	// on IRC, the nickname isn't that important for an account, the server is
 	// (I guess the number of IRC users that use the same server with different nicks is very low)
+	
 	return [NSString stringWithFormat:@"%@ (%@)", self.host, self.displayName];
 }
 
