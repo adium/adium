@@ -31,6 +31,8 @@
 	
 	IBOutlet	NSTextField		*textField_APIpath;
 	
+	IBOutlet	NSButton		*checkBox_retweet;
+	
 	IBOutlet	NSPopUpButton	*popUp_updateInterval;
 	IBOutlet	NSButton		*checkBox_updateAfterSend;
 	

@@ -510,6 +510,14 @@
 	}
 }
 
+/*!
+ * @brief Should we show a retweet link?
+ */
+- (BOOL)retweetLink
+{
+	return [[self preferenceForKey:TWITTER_PREFERENCE_RETWEET_SPAM group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+}
+
 #pragma mark OAuth
 /*!
  * @brief Should we store our password based on internal object ID?
@@ -1053,24 +1061,31 @@
 			
 			if(commaNeeded) {
 				[mutableMessage appendString:@", " withAttributes:nil];
+				
+				commaNeeded = NO;
 			}
 			
-			
-			linkAddress = [self addressForLinkType:AITwitterLinkRetweet
-											userID:userID
-										  statusID:tweetID
-										   context:[inMessage stringByEncodingURLEscapes]];
-			
-			[mutableMessage appendString:@"RT"
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
-			
+			if (self.retweetLink) {
+				linkAddress = [self addressForLinkType:AITwitterLinkRetweet
+												userID:userID
+											  statusID:tweetID
+											   context:[inMessage stringByEncodingURLEscapes]];
+				
+				[mutableMessage appendString:@"RT"
+							  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+
+				commaNeeded = YES;
+			}
+				
 			
 			linkAddress = [self addressForLinkType:AITwitterLinkReply
 											userID:userID
 										  statusID:tweetID
 										   context:nil];
 			
-			[mutableMessage appendString:@", " withAttributes:nil];
+			if (commaNeeded) {
+				[mutableMessage appendString:@", " withAttributes:nil];
+			}
 			
 			[mutableMessage appendString:@"@"
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];

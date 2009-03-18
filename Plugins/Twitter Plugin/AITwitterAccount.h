@@ -75,6 +75,7 @@ typedef enum {
 #define TWITTER_PREFERENCE_UPDATE_AFTER_SEND		@"Update After Send"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL			@"Update Global Status"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES	@"Update Global Status Includes Replies"
+#define TWITTER_PREFERENCE_RETWEET_SPAM				@"Retweet Enabled"
 
 #define TWITTER_PREFERENCE_UPDATE_INTERVAL		@"Update Interval In Minutes"
 #define TWITTER_PREFERENCE_DM_LAST_ID			@"Direct Messages Last ID"
@@ -133,6 +134,8 @@ typedef enum {
 @property (readonly, nonatomic) NSString *apiPath;
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
+
+@property (readonly, nonatomic) BOOL retweetLink;
 
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) NSString *consumerKey;
