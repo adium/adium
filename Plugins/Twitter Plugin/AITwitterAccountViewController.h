@@ -22,6 +22,7 @@
 	IBOutlet	NSTabView		*tabView_authenticationType;
 	IBOutlet	NSTabViewItem	*tabViewItem_basicAuthentication;
 	IBOutlet	NSTabViewItem	*tabViewItem_OAuth;
+	IBOutlet	NSProgressIndicator *progressIndicator;
 	
 	IBOutlet	NSTextField		*textField_OAuthStatus;
 	IBOutlet	NSButton		*button_OAuthStart;

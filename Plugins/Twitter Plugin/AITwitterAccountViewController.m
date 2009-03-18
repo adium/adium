@@ -238,16 +238,21 @@
 		 withToken:(OAToken *)token
 	  responseBody:(NSString *)responseBody
 {
-	AILocalizedString(@"Step %u", setupStep);
+	AILogWithSignature(@"Step %u", setupStep);
 	
 	OAuthSetupStep = setupStep;
 	
 	switch (OAuthSetupStep) {
 		case AIOAuthStepStart:
-			// Just starting, fetching a request token
-			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@ for access", nil), account.host]
+		case AIOAuthStepVerifyingRequest:
+			// Just starting or verifying a token, fetching a request token
+			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@.", nil), account.host]
 					  withColor:nil
 				  buttonEnabled:YES];
+			
+			[progressIndicator setHidden:NO];
+			[progressIndicator startAnimation:nil];
+			
 			break;
 			
 		case AIOAuthStepRequestToken:
@@ -256,11 +261,14 @@
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			[self setStatusText:AILocalizedString(@"You must authorize access for Adium to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
+			[self setStatusText:AILocalizedString(@"You must authorize access for to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
 					  withColor:nil
 				  buttonEnabled:YES];
 			
 			button_OAuthStart.title = AILocalizedString(@"Completed", nil);
+			
+			[progressIndicator setHidden:YES];
+			[progressIndicator stopAnimation:nil];
 			
 			break;
 			
@@ -272,6 +280,10 @@
 					  withColor:nil
 				  buttonEnabled:NO];
 			
+			[progressIndicator setHidden:YES];
+			[progressIndicator stopAnimation:nil];
+			
+			// XXX Make it connect when this closes successfully.
 			[account setLastDisconnectionError:nil];
 
 			[self completedOAuthSetup];			
@@ -286,6 +298,9 @@
 				  buttonEnabled:YES];
 			
 			button_OAuthStart.title = AILocalizedString(@"Authorize Access", nil);
+			
+			[progressIndicator setHidden:YES];
+			[progressIndicator stopAnimation:nil];
 			
 			[self completedOAuthSetup];
 			
