@@ -64,7 +64,6 @@
 #define CONTACT_DEFAULT_PREFS			@"ContactPrefs"
 
 #define	SHOW_GROUPS_MENU_TITLE			AILocalizedString(@"Show Groups",nil)
-#define	HIDE_GROUPS_MENU_TITLE			AILocalizedString(@"Hide Groups",nil)
 
 #define SHOW_GROUPS_IDENTIFER			@"ShowGroups"
 
@@ -393,10 +392,13 @@
 																	  group:PREF_GROUP_CONTACT_LIST_DISPLAY] boolValue];
 	
 	//Show offline contacts menu item
-    menuItem_showGroups = [[NSMenuItem alloc] initWithTitle:(useContactListGroups ? HIDE_GROUPS_MENU_TITLE : SHOW_GROUPS_MENU_TITLE)
+    menuItem_showGroups = [[NSMenuItem alloc] initWithTitle:SHOW_GROUPS_MENU_TITLE
 													 target:self
 													 action:@selector(toggleShowGroups:)
 											  keyEquivalent:@""];
+	
+	[menuItem_showGroups setState:useContactListGroups];
+	
 	[adium.menuController addMenuItem:menuItem_showGroups toLocation:LOC_View_Toggles];
 	
 	//Toolbar
@@ -421,7 +423,7 @@
 {
 	//Flip-flop.
 	useContactListGroups = !useContactListGroups;
-	[menuItem_showGroups setTitle:(useContactListGroups ? HIDE_GROUPS_MENU_TITLE : SHOW_GROUPS_MENU_TITLE)];
+	[menuItem_showGroups setState:useContactListGroups];
 
 	//Update the contact list.  Do it on the next run loop for better menu responsiveness, as it may be a lengthy procedure.
 	[self performSelector:@selector(_performChangeOfUseContactListGroups)

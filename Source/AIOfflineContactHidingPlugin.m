@@ -28,21 +28,14 @@
 #import <Adium/AIMetaContact.h>
 #import "AIContactController.h"
 
-#define SHOW_CONTACTS_MENU_TITLE		AILocalizedString(@"Show All Contacts",nil)
 #define HIDE_CONTACTS_MENU_TITLE		AILocalizedString(@"Hide Certain Contacts",nil)
-#define SHOW_OFFLINE_MENU_TITLE			AILocalizedString(@"Show Offline Contacts",nil)
 #define HIDE_OFFLINE_MENU_TITLE			AILocalizedString(@"Hide Offline Contacts",nil)
-#define SHOW_IDLE_MENU_TITLE			AILocalizedString(@"Show Idle Contacts",nil)
 #define HIDE_IDLE_MENU_TITLE			AILocalizedString(@"Hide Idle Contacts",nil)
-#define SHOW_MOBILE_MENU_TITLE			AILocalizedString(@"Show Mobile Contacts",nil)
 #define HIDE_MOBILE_MENU_TITLE			AILocalizedString(@"Hide Mobile Contacts",nil)
-#define SHOW_BLOCKED_MENU_TITLE			AILocalizedString(@"Show Blocked Contacts",nil)
 #define HIDE_BLOCKED_MENU_TITLE			AILocalizedString(@"Hide Blocked Contacts",nil)
 #define HIDE_ACCOUNT_CONTACT_MENU_TITLE	AILocalizedString(@"Hide Contacts for Accounts",nil)
-#define SHOW_AWAY_MENU_TITLE			AILocalizedString(@"Show Away Contacts",nil)
 #define HIDE_AWAY_MENU_TITLE			AILocalizedString(@"Hide Away Contacts",nil)
-#define	SHOW_OFFLINE_GROUP_MENU_TITLE	AILocalizedString(@"Show Offline Group",nil)
-#define	HIDE_OFFLINE_GROUP_MENU_TITLE	AILocalizedString(@"Hide Offline Group",nil)
+#define	USE_OFFLINE_GROUP_MENU_TITLE	AILocalizedString(@"Use Offline Group",nil)
 
 #define OFFLINE_CONTACTS_IDENTIFER		@"OfflineContacts"
 
@@ -131,7 +124,7 @@
 	[adium.menuController addMenuItem:menuItem_hideBlocked toLocation:LOC_View_Toggles];
 	
 	//Hide Offline Contacts
-	menuItem_useOfflineGroup = [[NSMenuItem alloc] initWithTitle:SHOW_OFFLINE_GROUP_MENU_TITLE
+	menuItem_useOfflineGroup = [[NSMenuItem alloc] initWithTitle:USE_OFFLINE_GROUP_MENU_TITLE
 														  target:self
 														  action:@selector(toggleHide:)
 												   keyEquivalent:@""];
@@ -193,13 +186,13 @@
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
 
 	//Update our menu to reflect the current preferences
-	[menuItem_hideContacts setTitle:(hideContacts ? SHOW_CONTACTS_MENU_TITLE : HIDE_CONTACTS_MENU_TITLE)];
-	[menuItem_hideOffline setTitle:(showOfflineContacts ? HIDE_OFFLINE_MENU_TITLE : SHOW_OFFLINE_MENU_TITLE)];
-	[menuItem_hideIdle setTitle:(showIdleContacts ? HIDE_IDLE_MENU_TITLE : SHOW_IDLE_MENU_TITLE)];
-	[menuItem_hideMobile setTitle:(showMobileContacts ? HIDE_MOBILE_MENU_TITLE : SHOW_MOBILE_MENU_TITLE)];
-	[menuItem_hideBlocked setTitle:(showBlockedContacts ? HIDE_BLOCKED_MENU_TITLE : SHOW_BLOCKED_MENU_TITLE)];
-	[menuItem_useOfflineGroup setTitle:(useOfflineGroup ? HIDE_OFFLINE_GROUP_MENU_TITLE : SHOW_OFFLINE_GROUP_MENU_TITLE)];
-	[menuItem_hideAway setTitle:(showAwayContacts ? HIDE_AWAY_MENU_TITLE : SHOW_AWAY_MENU_TITLE)];
+	[menuItem_hideContacts setState:hideContacts];
+	[menuItem_hideOffline setState:showOfflineContacts];
+	[menuItem_hideIdle setState:showIdleContacts];
+	[menuItem_hideMobile setState:showMobileContacts];
+	[menuItem_hideBlocked setState:showBlockedContacts];
+	[menuItem_useOfflineGroup setState:useOfflineGroup];
+	[menuItem_hideAway setState:showAwayContacts];
 }
 
 /*!
