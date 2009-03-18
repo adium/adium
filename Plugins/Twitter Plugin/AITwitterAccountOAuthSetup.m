@@ -16,8 +16,7 @@
 
 #import "AITwitterAccountOAuthSetup.h"
 
-#import <OAuthConsumer/OAConsumer.h>
-#import <OAuthConsumer/OADataFetcher.h>
+#import <OAuthConsumer/OAuthConsumer.h>
 
 @implementation AITwitterAccountOAuthSetup
 
@@ -31,7 +30,7 @@
 	}
 	
 	return self;
-}
+}	
 
 - (void)dealloc
 {
@@ -60,15 +59,13 @@
 	
     [request setHTTPMethod:@"POST"];
 	
-    OADataFetcher *fetcher = [[OADataFetcher alloc] init];
+	OAAsynchronousDataFetcher *fetcher = [OAAsynchronousDataFetcher asynchronousFetcherWithRequest:request
+																						  delegate:self
+																				 didFinishSelector:@selector(requestTokenTicket:didFinishWithData:)
+																				   didFailSelector:@selector(requestTokenTicket:didFailWithError:)];
 	
-    [fetcher fetchDataWithRequest:request
-                         delegate:self
-                didFinishSelector:@selector(requestTokenTicket:didFinishWithData:)
-                  didFailSelector:@selector(requestTokenTicket:didFailWithError:)];
-	
+	[fetcher start];
 	[request release];
-	[fetcher release];
 }
 
 - (void)fetchAccessToken
@@ -76,6 +73,8 @@
 	if (!requestToken) {
 		[delegate OAuthSetup:self changedToStep:AIOAuthStepFailure withToken:nil responseBody:nil];
 	}
+	
+	[delegate OAuthSetup:self changedToStep:AIOAuthStepVerifyingRequest withToken:nil responseBody:nil];
 	
 	NSURL *url = [NSURL URLWithString:account.tokenAccessURL];
 	
@@ -86,16 +85,14 @@
                                                           signatureProvider:nil];
 	
     [request setHTTPMethod:@"POST"];
+
+    OAAsynchronousDataFetcher *fetcher  = [OAAsynchronousDataFetcher asynchronousFetcherWithRequest:request
+																						   delegate:self
+																				  didFinishSelector:@selector(accessTokenTicket:didFinishWithData:)
+																					didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
 	
-    OADataFetcher *fetcher = [[OADataFetcher alloc] init];
-	
-    [fetcher fetchDataWithRequest:request
-                         delegate:self
-                didFinishSelector:@selector(accessTokenTicket:didFinishWithData:)
-                  didFailSelector:@selector(accessTokenTicket:didFailWithError:)];
-	
+	[fetcher start];
 	[request release];
-	[fetcher release];
 }
 
 #pragma mark Request token processing
@@ -110,6 +107,9 @@
 			   changedToStep:AIOAuthStepRequestToken
 				   withToken:requestToken
 				responseBody:responseBody];
+	} else {
+		[delegate OAuthSetup:self changedToStep:AIOAuthStepFailure withToken:nil responseBody:nil];
+		AILogWithSignature(@"%@ failure in request token", account);	
 	}
 }
 
@@ -132,6 +132,9 @@
 				responseBody:responseBody];
 		
 		[accessToken release];
+	} else {
+		[delegate OAuthSetup:self changedToStep:AIOAuthStepFailure withToken:nil responseBody:nil];
+		AILogWithSignature(@"%@ failure in access token", account);	
 	}
 }
 

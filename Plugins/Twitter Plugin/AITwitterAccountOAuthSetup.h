@@ -21,6 +21,7 @@ typedef enum {
 	
 	AIOAuthStepStart,
 	AIOAuthStepRequestToken,
+	AIOAuthStepVerifyingRequest,
 	AIOAuthStepAccessToken,
 } AIOAuthSetupStep;
 
