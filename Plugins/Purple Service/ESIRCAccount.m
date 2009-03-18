@@ -185,4 +185,11 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
+- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
+{
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSString stringWithUTF8String:purple_conversation_get_name(conv)], @"channel",
+				nil];
+}
+
 @end
