@@ -125,7 +125,7 @@
 	NSString *prefix = nil;
 	
 	if (inMessage) {
-		prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [inMessage stringByDecodingURLEscapes]];
+		prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	} else {
 		prefix = [NSString stringWithFormat:@"@%@ ", inUser];
 	}

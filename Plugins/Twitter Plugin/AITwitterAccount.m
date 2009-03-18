@@ -95,10 +95,9 @@
 	if (!self.host && self.defaultServer) {
 		[self setPreference:self.defaultServer forKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
 	}
-	
-	updateAfterSend = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
-	
+
 	[adium.preferenceController registerPreferenceObserver:self forGroup:TWITTER_PREFERENCE_GROUP_UPDATES];
+	[adium.preferenceController informObserversOfChangedKey:nil inGroup:TWITTER_PREFERENCE_GROUP_UPDATES object:self];
 }
 
 - (void)dealloc
@@ -510,14 +509,6 @@
 	}
 }
 
-/*!
- * @brief Should we show a retweet link?
- */
-- (BOOL)retweetLink
-{
-	return [[self preferenceForKey:TWITTER_PREFERENCE_RETWEET_SPAM group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
-}
-
 #pragma mark OAuth
 /*!
  * @brief Should we store our password based on internal object ID?
@@ -822,6 +813,7 @@
 	
 	// We only care about our changes.
 	if (object != self) {
+		NSLog(@"object = %@", object);
 		return;
 	}
 	
@@ -862,9 +854,8 @@
 			}
 		}
 		
-		if ([key isEqualToString:TWITTER_PREFERENCE_UPDATE_AFTER_SEND]) {		
-			updateAfterSend = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND] boolValue];
-		}
+		updateAfterSend = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND] boolValue];
+		retweetLink = [[prefDict objectForKey:TWITTER_PREFERENCE_RETWEET_SPAM] boolValue];
 	}	
 }
 
@@ -1065,11 +1056,11 @@
 				commaNeeded = NO;
 			}
 			
-			if (self.retweetLink) {
+			if (retweetLink) {
 				linkAddress = [self addressForLinkType:AITwitterLinkRetweet
 												userID:userID
 											  statusID:tweetID
-											   context:[inMessage stringByEncodingURLEscapes]];
+											   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 				
 				[mutableMessage appendString:@"RT"
 							  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
