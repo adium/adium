@@ -813,7 +813,6 @@
 	
 	// We only care about our changes.
 	if (object != self) {
-		NSLog(@"object = %@", object);
 		return;
 	}
 	
