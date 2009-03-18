@@ -106,6 +106,8 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
+	[updateTimer invalidate];
+	
 	[twitterEngine release];
 	[pendingRequests release];
 	[queuedUpdates release];
@@ -226,7 +228,19 @@
 		}
 	}
 	
+	[updateTimer invalidate]; updateTimer = nil;
+	
 	[super disconnect];
+}
+
+/*!
+ * @brief Account will be deleted
+ */
+- (void)willBeDeleted
+{
+	[updateTimer invalidate]; updateTimer = nil;
+	
+	[super willBeDeleted];
 }
 
 /*!
