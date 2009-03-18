@@ -115,6 +115,7 @@ typedef enum {
 	MGTwitterEngine		*twitterEngine;
 	NSTimer				*updateTimer;
 	
+	BOOL				retweetLink;
 	BOOL				updateAfterSend;
 	
 	NSUInteger			pendingUpdateCount;
@@ -134,8 +135,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *apiPath;
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
-
-@property (readonly, nonatomic) BOOL retweetLink;
 
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) NSString *consumerKey;
