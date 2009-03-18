@@ -35,6 +35,7 @@
 
 - (void)dealloc
 {
+	[account release];
 	[requestToken release];
 	[consumer release];
 	[account release];
