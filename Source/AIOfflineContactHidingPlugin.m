@@ -186,6 +186,7 @@
 	useOfflineGroup = (useContactListGroups && [[prefDict objectForKey:KEY_USE_OFFLINE_GROUP] boolValue]);
 
 	//Update our menu to reflect the current preferences
+	[menuItem_hideAccountContact setState:(array_hideAccounts.count ? NSMixedState : NSOffState)];
 	[menuItem_hideContacts setState:hideContacts];
 	[menuItem_hideOffline setState:showOfflineContacts];
 	[menuItem_hideIdle setState:showIdleContacts];
