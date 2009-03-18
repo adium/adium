@@ -46,6 +46,7 @@ typedef enum {
 
 typedef enum {
 	AITwitterLinkReply,
+	AITwitterLinkRetweet,
 	AITwitterLinkStatus,
 	AITwitterLinkFriends,
 	AITwitterLinkFollowers,

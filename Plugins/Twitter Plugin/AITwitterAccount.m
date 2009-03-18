@@ -954,6 +954,8 @@
 		address = [NSString stringWithFormat:@"http://search.twitter.com/search?q=%%23%@", context];
 	} else if (linkType == AITwitterLinkReply) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@", self.internalObjectID, userID, statusID];
+	} else if (linkType == AITwitterLinkRetweet) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@&message=%@", self.internalObjectID, userID, statusID, context];
 	}
 	
 	return address;
@@ -1021,29 +1023,56 @@
 		
 		[mutableMessage appendString:@"  (" withAttributes:nil];
 	
+		BOOL commaNeeded = NO;
+		
 		// Append a link to the tweet this is in reply to
 		if (replyTweet) {			
 			NSString *linkAddress = [self addressForLinkType:AITwitterLinkStatus
 													  userID:replyUserID
 													statusID:replyTweetID
 													 context:nil];
-			
-			[mutableMessage appendString:AILocalizedString(@"original", "Link appended which goes to the permanent location of the status this tweet is in reply to")
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+
+			if([inMessage hasPrefix:@"@"]) {
+				// If the message has a "@" prefix, it's a proper in_reply_to_status_id; set the initial "@" to a link
+				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
+										range:NSMakeRange(0,1)];
+			} else {
+				// This probably shouldn't happen, but in case it does, we're set as in_reply_to_status_id a non-reply. link it at the ned.
+				
+				[mutableMessage appendString:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
+							  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+				
+				commaNeeded = YES;	
+			}
 		}
 		
 		// Append a link to reply to this tweet
 		if (tweetLink) {
-			NSString *linkAddress = [self addressForLinkType:AITwitterLinkReply
-													  userID:userID
-													statusID:tweetID
-													 context:nil];
 			
-			if(replyTweet) {
+			NSString *linkAddress = nil;
+			
+			if(commaNeeded) {
 				[mutableMessage appendString:@", " withAttributes:nil];
 			}
 			
-			[mutableMessage appendString:AILocalizedString(@"reply", "Link appended to tweets to reply to *this* tweet")
+			
+			linkAddress = [self addressForLinkType:AITwitterLinkRetweet
+											userID:userID
+										  statusID:tweetID
+										   context:[inMessage stringByEncodingURLEscapes]];
+			
+			[mutableMessage appendString:@"RT"
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			
+			
+			linkAddress = [self addressForLinkType:AITwitterLinkReply
+											userID:userID
+										  statusID:tweetID
+										   context:nil];
+			
+			[mutableMessage appendString:@", " withAttributes:nil];
+			
+			[mutableMessage appendString:@"@"
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
 			
 			linkAddress = [self addressForLinkType:AITwitterLinkStatus
@@ -1053,8 +1082,8 @@
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
-			[mutableMessage appendString:AILocalizedString(@"view", "Link appended which goes to the permanent location of this tweet")
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];			
+			[mutableMessage appendString:@"#"
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
 
 		}
 	
