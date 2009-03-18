@@ -30,10 +30,7 @@
 #define APPEARANCE_DEFAULT_PREFS 	@"AppearanceDefaults"
 
 #define SHOW_USER_ICONS_TITLE		AILocalizedString(@"Show User Icons", nil)
-#define HIDE_USER_ICONS_TITLE		AILocalizedString(@"Hide User Icons", nil)
-
 #define SHOW_STATUS_MESSAGES_TITLE	AILocalizedString(@"Show Status Messages", nil)
-#define HIDE_STATUS_MESSAGES_TITLE	AILocalizedString(@"Hide Status Messages", nil)
 
 @implementation AIAppearancePreferencesPlugin
 
@@ -171,12 +168,8 @@
 		if (firstTime || !key ||
 			[key isEqualToString:KEY_LIST_LAYOUT_SHOW_ICON] ||
 			[key isEqualToString:KEY_LIST_LAYOUT_SHOW_EXT_STATUS]) {
-			[menuItem_userIcons setTitle:([[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue] ?
-										  HIDE_USER_ICONS_TITLE :
-										  SHOW_USER_ICONS_TITLE)];
-			[menuItem_userStatusMessages setTitle:([[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_EXT_STATUS] boolValue] ?
-												   HIDE_STATUS_MESSAGES_TITLE :
-												   SHOW_STATUS_MESSAGES_TITLE)];
+			[menuItem_userIcons setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue]];
+			[menuItem_userStatusMessages setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_EXT_STATUS] boolValue]];
 		}
 	}
 }

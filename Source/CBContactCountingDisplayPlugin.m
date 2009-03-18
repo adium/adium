@@ -29,9 +29,7 @@
 #define CONTACT_COUNTING_DISPLAY_DEFAULT_PREFS  @"ContactCountingDisplayDefaults"
 
 #define SHOW_COUNT_VISIBLE_CONTACTS_TITLE				AILocalizedString(@"Show Group Visible Count", nil)
-#define HIDE_COUNT_VISIBLE_CONTACTS_TITLE				AILocalizedString(@"Hide Group Visible Count", nil)
 #define SHOW_COUNT_ALL_CONTACTS_TITLE				AILocalizedString(@"Show Group Total Count", nil)
-#define HIDE_COUNT_ALL_CONTACTS_TITLE				AILocalizedString(@"Hide Group Total Count", nil)
 
 #define PREF_GROUP_CONTACT_LIST					@"Contact List"
 #define KEY_COUNT_ALL_CONTACTS					@"Count All Contacts"
@@ -102,8 +100,8 @@
 		
 		[[AIContactObserverManager sharedManager] updateAllListObjectsForObserver:self];
 	
-		[menuItem_countVisibleObjects setTitle:(countVisibleObjects ? HIDE_COUNT_VISIBLE_CONTACTS_TITLE : SHOW_COUNT_VISIBLE_CONTACTS_TITLE)];
-		[menuItem_countAllObjects setTitle:(countAllObjects ? HIDE_COUNT_ALL_CONTACTS_TITLE : SHOW_COUNT_ALL_CONTACTS_TITLE)];
+		[menuItem_countVisibleObjects setState:countVisibleObjects];
+		[menuItem_countAllObjects setState:countAllObjects];
 
 	} else if (([group isEqualToString:PREF_GROUP_CONTACT_LIST_DISPLAY]) &&
 			   (!key || [key isEqualToString:KEY_HIDE_CONTACT_LIST_GROUPS])) {		
@@ -171,7 +169,6 @@
 		BOOL	newPref = !countVisibleObjects;
 
 		//Toggle and set, which will call back on preferencesChanged: above
-		[menuItem_countVisibleObjects setTitle:(newPref ? HIDE_COUNT_VISIBLE_CONTACTS_TITLE : SHOW_COUNT_VISIBLE_CONTACTS_TITLE)];
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
 											 forKey:KEY_COUNT_VISIBLE_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST];
@@ -180,7 +177,6 @@
 		BOOL	newPref = !countAllObjects;
 
 		//Toggle and set, which will call back on preferencesChanged: above
-		[menuItem_countAllObjects setTitle:(newPref ? HIDE_COUNT_ALL_CONTACTS_TITLE : SHOW_COUNT_ALL_CONTACTS_TITLE)];
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:newPref]
 											 forKey:KEY_COUNT_ALL_CONTACTS
 											  group:PREF_GROUP_CONTACT_LIST];
