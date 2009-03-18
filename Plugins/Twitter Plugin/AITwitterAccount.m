@@ -106,8 +106,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	
-	[updateTimer invalidate];
-	
 	[twitterEngine release];
 	[pendingRequests release];
 	[queuedUpdates release];
