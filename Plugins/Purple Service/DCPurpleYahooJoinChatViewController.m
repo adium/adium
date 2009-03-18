@@ -54,7 +54,6 @@
 - (void)joinChatWithAccount:(AIAccount *)inAccount
 {	
 	NSString		*room = [textField_roomName stringValue];
-	NSDictionary	*chatCreationInfo;
 	
 	/* Yahoo group chats always have a colon and then a number. If none is specified, add :1.  The server would do this for us
 	 * automagically... but then we have a spare AIChat lying around, and that's no good.
@@ -63,7 +62,7 @@
 		room = [room stringByAppendingString:@":1"];
 	}
 
-	chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:room,@"room",nil];
+	NSDictionary *chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:room,@"room",nil];
 	
 	[self doJoinChatWithName:room
 				   onAccount:inAccount

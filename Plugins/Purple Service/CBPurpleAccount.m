@@ -843,6 +843,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	return [chatCreationDict isEqualToDictionary:baseDict];
 }
 
+- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
+{
+	AILog(@"%@ needs an implementation of extractChatCreationDictionaryFromConversation to handle rejoins, bookmarks, and invitations properly", NSStringFromClass([self class]));
+	return nil;
+}
+
 - (AIChat *)chatWithContact:(AIListContact *)contact identifier:(id)identifier
 {
 	AIChat *chat = [adium.chatController chatWithContact:contact];

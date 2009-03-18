@@ -192,6 +192,7 @@
 - (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
+- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;
 
 #pragma mark Privacy
 - (void)privacyPermitListAdded:(NSString *)sourceUID;
