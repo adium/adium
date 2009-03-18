@@ -171,6 +171,9 @@
 	[checkBox_updateGlobalIncludeReplies setState:updateGlobalIncludesReplies];
 	
 	[checkBox_updateGlobalIncludeReplies setEnabled:[checkBox_updateGlobalStatus state]];
+
+	BOOL showRetweet = [[account preferenceForKey:TWITTER_PREFERENCE_RETWEET_SPAM group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+	[checkBox_retweet setState:showRetweet];
 	
 	// Personal
 
@@ -213,6 +216,10 @@
 	
 	[account setPreference:[NSNumber numberWithBool:[checkBox_updateGlobalIncludeReplies state]]
 					forKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES
+					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_retweet state]]
+					forKey:TWITTER_PREFERENCE_RETWEET_SPAM
 					 group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
 	if (account.online) {
