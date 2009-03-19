@@ -105,7 +105,11 @@
 //Content is similar if it's from the same source, of the same type, and sent within 5 minutes.
 - (BOOL)isSimilarToContent:(AIContentObject *)inContent
 {
-	if (source == [inContent source] && [[self type] compare:[inContent type]] == NSOrderedSame) {
+	if (
+			source == [inContent source] && 
+			[[self type] compare:[inContent type]] == NSOrderedSame &&
+			[[self displayClasses] containsObject:@"mention"] == [[inContent displayClasses] containsObject:@"mention"]
+	) {
 		NSTimeInterval	timeInterval = [date timeIntervalSinceDate:[inContent date]];
 		
 		return ((timeInterval > -300) && (timeInterval < 300));
