@@ -1059,10 +1059,12 @@
 													statusID:replyTweetID
 													 context:nil];
 
-			if([inMessage hasPrefix:@"@"] && [replyUserID isEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
+			if([inMessage hasPrefix:@"@"] &&
+			   inMessage.length >= replyUserID.length + 1 &&
+			   [replyUserID isEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
 				// If the message has a "@" prefix, it's a proper in_reply_to_status_id if the usernames match. Set a link appropriately.
 				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
-										range:NSMakeRange(0, replyUserID.length)];
+										range:NSMakeRange(0, replyUserID.length + 1)];
 			} else {
 				// This probably shouldn't happen, but in case it does, we're set as in_reply_to_status_id a non-reply. link it at the ned.
 				
