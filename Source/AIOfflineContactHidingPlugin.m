@@ -258,9 +258,11 @@
 	}
 	
 	// Save if necessary.
-	[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
-									   forKey:KEY_HIDE_ACCOUNT_CONTACTS
-										group:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	if(removedAnyAccounts) {
+		[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
+										   forKey:KEY_HIDE_ACCOUNT_CONTACTS
+											group:PREF_GROUP_CONTACT_LIST_DISPLAY];
+	}
 	
 	[self updateAccountMenu];
 }
