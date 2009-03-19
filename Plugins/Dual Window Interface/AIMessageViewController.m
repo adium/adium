@@ -155,7 +155,7 @@
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
 		 */
-		[self setUserListVisible:[self userListInitiallyVisible]];
+		[self setUserListVisible:(chat.isGroupChat && [self userListInitiallyVisible])];
 		
 		[self chatParticipatingListObjectsChanged:nil];
 		[self chatStatusChanged:nil];
