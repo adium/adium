@@ -18,6 +18,7 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import "AIOfflineContactHidingPlugin.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -242,9 +243,24 @@
 {
 	[menu_hideAccounts removeAllItems];
 	
+	// Add all the accounts as menu items.
 	for(NSMenuItem *menuItem in menuItems) {
 		[menu_hideAccounts addItem:menuItem];
 	}
+	
+	// Remove any dead accounts from the array.
+	BOOL removedAnyAccounts = NO;
+	for (NSString *internalID in [[array_hideAccounts copy] autorelease]) {
+		if(![adium.accountController accountWithInternalObjectID:internalID]) {
+			[array_hideAccounts removeObject:internalID];
+			removedAnyAccounts = YES;
+		}
+	}
+	
+	// Save if necessary.
+	[adium.preferenceController setPreference:[[array_hideAccounts copy] autorelease]
+									   forKey:KEY_HIDE_ACCOUNT_CONTACTS
+										group:PREF_GROUP_CONTACT_LIST_DISPLAY];
 	
 	[self updateAccountMenu];
 }
