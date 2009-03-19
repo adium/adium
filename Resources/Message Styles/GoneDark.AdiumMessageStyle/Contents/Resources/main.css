@@ -26,7 +26,7 @@ body {
 
 #headerChatStarted {
 	color: #ccc;
-	font: 10px "Trebuchet MS", TrebuchetMS;
+	font-size: 10px;
 	float: left;
 	margin-left: 10px;
 	margin-top: 6px;
@@ -45,7 +45,8 @@ body {
 }
 
 .userName {
-	font: bold 15px "Trebuchet MS", TrebuchetMS;
+	font-size: 1.4em;
+	font-weight: bold;
 	margin-left: 20px;
 	margin-right: 20px;
 	margin-bottom: -3px;
@@ -54,13 +55,11 @@ body {
 }
 
 .service {
-	float: right;
-	font-size: 9px;
-	margin-right: 20px;
-	line-height: 15px;
+	position: absolute;
+	right: 20px;
+	font-size: .8em;
 	color: #fff;
 	opacity: .4;
-	font-family: "Trebuchet MS", TrebuchetMS;
 }
 
 .message1 .userName, .message1 .date {
@@ -72,9 +71,7 @@ body {
 	border-top: 3px solid #86ce4c;
 	border-bottom: 1px solid #86ce4c;
 	color: #fff;
-	font-size: 11px;
 	line-height: 1.3em;
-	font-family: Arial, Helvetica, sans-serif;
 	background: url(images/transGrey.png);
 	word-wrap: break-word;
 }
@@ -97,7 +94,6 @@ body {
 	padding-bottom: 5px;
 	margin-right: 60px;
 	margin-left: 20px;
-	font-size: 11px;
 }
 
 .divider {
@@ -112,7 +108,7 @@ body {
 
 .date {
 	float: right;
-	font-size: 10px;
+	font-size: .9em;
 	margin-right: 20px;
 	padding-top: 5px;
 	text-shadow: #000 1px 1px 0px;
@@ -141,7 +137,8 @@ body {
 	text-align: center;
 	margin-bottom: .3em;
 	opacity: .7;
-	font: bold 10px "Trebuchet MS", TrebuchetMS;
+	font-size: .9em;
+	font-weight: bold;
 }
 
 #Chat {
