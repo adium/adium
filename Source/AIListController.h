@@ -29,7 +29,7 @@ typedef enum {
     NSSize					minWindowSize;
     BOOL					autoResizeVertically;
     BOOL					autoResizeHorizontally;
-	BOOL					autoresizeHorizontallyWithIdleTime;
+	BOOL					autoResizeHorizontallyWithIdleTime;
 	NSInteger						maxWindowWidth;
 	NSInteger						forcedWindowWidth;
 
@@ -43,8 +43,8 @@ typedef enum {
 			 inScrollView:(AIAutoScrollView *)inScrollView_contactList
 				 delegate:(id<AIListControllerDelegate>)inDelegate;
 
-- (AIListObject<AIContainingObject> *)contactList;
-- (AIListOutlineView *)contactListView;
+- (AIListObject<AIContainingObject> *) contactList;
+@property (readonly, nonatomic) AIListOutlineView *contactListView;
 
 //Call to close down and release the listController
 - (void)close;
@@ -52,12 +52,12 @@ typedef enum {
 - (void)contactListDesiredSizeChanged;
 - (void)contactListWillSlideOnScreen;
 
-- (void)setMinWindowSize:(NSSize)inSize;
-- (void)setMaxWindowWidth:(NSInteger)inWidth;
-- (void)setAutoresizeHorizontally:(BOOL)flag;
-- (void)setAutoresizeHorizontallyWithIdleTime:(BOOL)flag;
-- (void)setAutoresizeVertically:(BOOL)flag;
-- (void)setForcedWindowWidth:(NSInteger)inWidth;
+@property (nonatomic) BOOL autoResizeHorizontally;
+@property (nonatomic) BOOL autoResizeHorizontallyWithIdleTime;
+@property (nonatomic) BOOL autoResizeVertically;
+@property (nonatomic) NSInteger maxWindowWidth;
+@property (nonatomic) NSSize minWindowSize;
+@property (nonatomic) NSInteger forcedWindowWidth;
 
 - (NSRect)_desiredWindowFrameUsingDesiredWidth:(BOOL)useDesiredWidth desiredHeight:(BOOL)useDesiredHeight;
 

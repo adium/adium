@@ -843,7 +843,7 @@
 		return;
 	
 	// While the filter bar is shown, temporarily disable automatic horizontal resizing
-	[contactListController setAutoresizeHorizontally:NO];
+	contactListController.autoResizeHorizontally = NO;
 	
 	// Disable contact list animation while the filter bar is shown
 	[contactListView setEnableAnimation:NO];
@@ -867,8 +867,7 @@
 	[self filterContacts:searchField];
 	
 	// Restore the default settings which we temporarily disabled previously
-	[contactListController setAutoresizeHorizontally:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE
-																							   group:PREF_GROUP_APPEARANCE] boolValue]];
+	contactListController.autoResizeHorizontally = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE group:PREF_GROUP_APPEARANCE] boolValue];
 	
 	[contactListView setEnableAnimation:[[adium.preferenceController preferenceForKey:KEY_CL_ANIMATE_CHANGES
 																				  group:PREF_GROUP_CONTACT_LIST] boolValue]];

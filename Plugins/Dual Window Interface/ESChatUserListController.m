@@ -37,6 +37,17 @@
 	}
 }
 
+//Chat user lists never autoresize
+- (BOOL) autoresizeHorizontally
+{
+	return NO;
+}
+
+- (BOOL) autoresizeVertically
+{
+	return NO;
+}
+
 /*!
  * @brief We don't want to change text colors based on the user's status or state
  *

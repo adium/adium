@@ -187,9 +187,13 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSString stringWithUTF8String:purple_conversation_get_name(conv)], @"channel",
-				nil];
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+	[dict setObject:[NSString stringWithUTF8String:purple_conversation_get_name(conv)] forKey:@"channel"];
+	const char *pass = purple_conversation_get_data(conv, "password");
+	if (pass)
+		[dict setObject: [NSString stringWithUTF8String:pass] forKey:@"password"];
+
+	return dict;
 }
 
 @end

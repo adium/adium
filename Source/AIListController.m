@@ -64,8 +64,8 @@
 	if ((self = [self initWithContactListView:inContactListView inScrollView:inScrollView_contactList delegate:inDelegate])) {
 		[contactListView setDrawHighlightOnlyWhenMain:YES];
 		
-		autoResizeVertically = NO;
-		autoResizeHorizontally = NO;
+		self.autoResizeVertically = NO;
+		self.autoResizeHorizontally = NO;
 		maxWindowWidth = 10000;
 		forcedWindowWidth = -1;
 		
@@ -144,23 +144,23 @@
 {
 	NSWindow	*theWindow;
 
-    if ((autoResizeVertically || autoResizeHorizontally) &&
+    if ((self.autoResizeVertically || self.autoResizeHorizontally) &&
 		(theWindow = [contactListView window]) &&
 		[(AIListWindowController *)[theWindow windowController] windowSlidOffScreenEdgeMask] == AINoEdges) {
 		
 		NSRect  currentFrame = [theWindow frame];
-        NSRect	desiredFrame = [self _desiredWindowFrameUsingDesiredWidth:(autoResizeHorizontally || (forcedWindowWidth != -1))
-															desiredHeight:autoResizeVertically];
+        NSRect	desiredFrame = [self _desiredWindowFrameUsingDesiredWidth:(self.autoResizeHorizontally || (forcedWindowWidth != -1))
+															desiredHeight:self.autoResizeVertically];
 
 		if (!NSEqualRects(currentFrame, desiredFrame)) {
 			//We must set the min/max first, otherwise our setFrame will be restricted by them and not produce the
 			//expected results
-			CGFloat toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
+			CGFloat toolbarHeight = (self.autoResizeVertically ? [theWindow toolbarHeight] : 0);
 			
-			[theWindow setMinSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
-											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
-			[theWindow setMaxSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : 10000),
-											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : 10000))];
+			[theWindow setMinSize:NSMakeSize((self.autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
+											 (self.autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
+			[theWindow setMaxSize:NSMakeSize((self.autoResizeHorizontally ? desiredFrame.size.width : 10000),
+											 (self.autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : 10000))];
 
 			[theWindow setFrame:desiredFrame display:YES animate:NO];
 		}
@@ -178,7 +178,7 @@
 {
 	NSWindow	*theWindow;
 	
-    if ((autoResizeVertically || autoResizeHorizontally) &&
+    if ((self.autoResizeVertically || self.autoResizeHorizontally) &&
 		(theWindow = [contactListView window])) {
 		NSRect currentFrame, savedFrame, desiredFrame;
 		
@@ -190,19 +190,19 @@
 		savedFrame = [(AIListWindowController *)[theWindow windowController] savedFrame];
 		[theWindow setFrame:savedFrame display:NO animate:NO];
         
-		desiredFrame = [self _desiredWindowFrameUsingDesiredWidth:(autoResizeHorizontally || (forcedWindowWidth != -1))
-													desiredHeight:autoResizeVertically];
+		desiredFrame = [self _desiredWindowFrameUsingDesiredWidth:(self.autoResizeHorizontally || (forcedWindowWidth != -1))
+													desiredHeight:self.autoResizeVertically];
 
 		if (!NSEqualRects(savedFrame, desiredFrame)) {
 			/* We must set the min/max first, otherwise our setFrame will be restricted by them and not produce the
 			 * expected results
 			 */
-			CGFloat toolbarHeight = (autoResizeVertically ? [theWindow toolbarHeight] : 0);
+			CGFloat toolbarHeight = (self.autoResizeVertically ? [theWindow toolbarHeight] : 0);
 			NSRect offscreenFrame = desiredFrame;
-			[theWindow setMinSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
-											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
-			[theWindow setMaxSize:NSMakeSize((autoResizeHorizontally ? desiredFrame.size.width : 10000),
-											 (autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : 10000))];
+			[theWindow setMinSize:NSMakeSize((self.autoResizeHorizontally ? desiredFrame.size.width : minWindowSize.width),
+											 (self.autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : minWindowSize.height))];
+			[theWindow setMaxSize:NSMakeSize((self.autoResizeHorizontally ? desiredFrame.size.width : 10000),
+											 (self.autoResizeVertically ? (desiredFrame.size.height - toolbarHeight) : 10000))];
 
 			//Adjust the origin to remain offscreen
 			offscreenFrame.origin.x = NSMinX(currentFrame);
@@ -401,24 +401,7 @@
 	return newWindowFrame;
 }
 
-- (void)setMinWindowSize:(NSSize)inSize {
-	minWindowSize = inSize;
-}
-- (void)setMaxWindowWidth:(NSInteger)inWidth {
-	maxWindowWidth = inWidth;
-}
-- (void)setAutoresizeHorizontally:(BOOL)flag {
-	autoResizeHorizontally = flag;
-}
-- (void)setAutoresizeVertically:(BOOL)flag {
-	autoResizeVertically = flag;	
-}
-- (void)setForcedWindowWidth:(NSInteger)inWidth {
-	forcedWindowWidth = inWidth;
-}
-- (void)setAutoresizeHorizontallyWithIdleTime:(BOOL)flag {
-	autoresizeHorizontallyWithIdleTime = flag;
-}
+@synthesize autoResizeHorizontally, autoResizeVertically, autoResizeHorizontallyWithIdleTime, minWindowSize, maxWindowWidth, forcedWindowWidth;
 
 //Content Updating -----------------------------------------------------------------------------------------------------
 #pragma mark Content Updating
@@ -428,10 +411,7 @@
 	return (AIListObject<AIContainingObject> *)contactList;
 }
 
-- (AIListOutlineView *)contactListView
-{
-	return contactListView;
-}
+@synthesize contactListView;
 
 - (void)reloadListObject:(NSNotification *)notification
 {
@@ -459,9 +439,9 @@
 	keys = [[notification userInfo] objectForKey:@"Keys"];
 
 	//Resize the contact list horizontally
-	if (autoResizeHorizontally) {
+	if (self.autoResizeHorizontally) {
 		if ([keys containsObject:@"Display Name"] || [keys containsObject:@"Long Display Name"] ||
-				(autoresizeHorizontallyWithIdleTime && [keys containsObject:@"IdleReadable"])) {
+				(self.autoResizeHorizontallyWithIdleTime && [keys containsObject:@"IdleReadable"])) {
 			[self contactListDesiredSizeChanged];
 		}
 	}
