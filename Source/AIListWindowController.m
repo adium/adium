@@ -379,8 +379,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[[self window] setMinSize:thisMinimumSize];
 		[[self window] setMaxSize:thisMaximumSize];
 		
-		[contactListController setAutoresizeHorizontally:autoResizeHorizontally];
-		[contactListController setAutoresizeVertically:autoResizeVertically];
+		contactListController.autoResizeHorizontally = autoResizeHorizontally;
+		contactListController.autoResizeVertically = autoResizeVertically;
+
 		[contactListController setForcedWindowWidth:forcedWindowWidth];
 		[contactListController setMaxWindowWidth:maxWindowWidth];
 		
@@ -440,9 +441,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 		EXTENDED_STATUS_STYLE statusStyle = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue];
 		EXTENDED_STATUS_POSITION statusPosition = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue];
-		[contactListController setAutoresizeHorizontallyWithIdleTime:
+		contactListController.autoResizeHorizontallyWithIdleTime = 
 		 ((statusStyle == IDLE_ONLY || statusStyle == IDLE_AND_STATUS) &&
-		  (statusPosition == EXTENDED_STATUS_POSITION_BESIDE_NAME || statusPosition == EXTENDED_STATUS_POSITION_BOTH))];
+		  (statusPosition == EXTENDED_STATUS_POSITION_BESIDE_NAME || statusPosition == EXTENDED_STATUS_POSITION_BOTH));
 		[contactListController contactListDesiredSizeChanged];
 
 		//Both layout and theme
