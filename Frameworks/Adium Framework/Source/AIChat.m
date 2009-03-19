@@ -485,19 +485,19 @@ static int nextChatNumber = 0;
 
 - (BOOL)containsObject:(AIListObject *)inObject
 {
-	return [self.containedObjects containsObjectIdenticalTo:inObject];
+	return [participatingContacts containsObjectIdenticalTo:inObject];
 }
 
 - (id)visibleObjectAtIndex:(NSUInteger)index
 {
-	return [self.containedObjects objectAtIndex:index];
+	return [participatingContacts objectAtIndex:index];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
 {
 	if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
 		return NSNotFound;
-	return [self.containedObjects indexOfObject:obj];
+	return [participatingContacts indexOfObject:obj];
 }
 
 //Retrieve a specific object by service and UID
