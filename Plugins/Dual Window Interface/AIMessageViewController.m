@@ -68,6 +68,7 @@
 #define	USERLIST_LAYOUT						@"UserList Layout"		//File name of the user list layout
 #define	KEY_ENTRY_TEXTVIEW_MIN_HEIGHT		@"Minimum Text Height"	//Preference key for text entry height
 #define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Width"		//Preference key for user list width
+#define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:" //Preference key prefix for user list visibility
 
 #define TEXTVIEW_HEIGHT_DEBUG
 
@@ -88,6 +89,7 @@
 - (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum;
 - (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
+- (BOOL)userListInitiallyVisible;
 - (void)setUserListVisible:(BOOL)inVisible;
  -(void)setupShelfView;
 @end
@@ -153,7 +155,7 @@
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
 		 */
-		[self setUserListVisible:chat.isGroupChat];
+		[self setUserListVisible:[self userListInitiallyVisible]];
 		
 		[self chatParticipatingListObjectsChanged:nil];
 		[self chatStatusChanged:nil];
@@ -988,6 +990,19 @@
 //User List ------------------------------------------------------------------------------------------------------------
 #pragma mark User List
 /*!
+ * @brief Is the user list initially visible?
+ */
+- (BOOL)userListInitiallyVisible
+{
+	NSNumber *visibility = [adium.preferenceController preferenceForKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
+																		 chat.account.internalObjectID,
+																		 chat.name]
+																  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	
+	return visibility ? [visibility boolValue] : YES;
+}
+
+/*!
  * @brief Set visibility of the user list
  */
 - (void)setUserListVisible:(BOOL)inVisible
@@ -997,6 +1012,12 @@
 	} else {
 		[self _hideUserListView];
 	}
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:inVisible]
+									   forKey:[KEY_USER_LIST_VISIBLE_PREFIX stringByAppendingFormat:@"%@.%@",
+											   chat.account.internalObjectID,
+											   chat.name]
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
 /*!
