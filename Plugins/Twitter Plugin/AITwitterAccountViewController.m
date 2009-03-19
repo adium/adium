@@ -284,7 +284,7 @@
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
+			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, click the button above.", nil)
 					  withColor:nil
 				  buttonEnabled:YES
 					 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
