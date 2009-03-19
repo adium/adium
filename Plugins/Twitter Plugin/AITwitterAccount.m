@@ -198,6 +198,7 @@
 	NSTimeInterval updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue] * 60;
 	
 	if(updateInterval > 0) {
+		[updateTimer invalidate];
 		updateTimer = [NSTimer scheduledTimerWithTimeInterval:updateInterval
 													   target:self
 													 selector:@selector(periodicUpdate)
@@ -840,7 +841,7 @@
 			NSTimeInterval timeInterval = [updateTimer timeInterval];
 			NSTimeInterval newTimeInterval = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL] intValue] * 60;
 			
-			if (timeInterval != newTimeInterval) {
+			if (timeInterval != newTimeInterval && self.online) {
 				[updateTimer invalidate]; updateTimer = nil;
 				
 				if(newTimeInterval > 0) {
