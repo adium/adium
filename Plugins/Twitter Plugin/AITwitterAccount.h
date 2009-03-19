@@ -76,6 +76,7 @@ typedef enum {
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL			@"Update Global Status"
 #define TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES	@"Update Global Status Includes Replies"
 #define TWITTER_PREFERENCE_RETWEET_SPAM				@"Retweet Enabled"
+#define TWITTER_PREFERENCE_LOAD_CONTACTS			@"Load Follows as Contacts"
 
 #define TWITTER_PREFERENCE_UPDATE_INTERVAL		@"Update Interval In Minutes"
 #define TWITTER_PREFERENCE_DM_LAST_ID			@"Direct Messages Last ID"
