@@ -728,6 +728,10 @@
 {
 	// If we don't already have an icon for the user...
 	if(![[listContact valueForProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON] boolValue]) {
+		NSString *fileName = [[url lastPathComponent] stringByReplacingOccurrencesOfString:@"_normal." withString:@"_bigger."];
+		
+		url = [[url stringByDeletingLastPathComponent] stringByAppendingPathComponent:fileName];
+		
 		// Grab the user icon and set it as their serverside icon.
 		NSString *requestID = [twitterEngine getImageAtURL:url];
 		
