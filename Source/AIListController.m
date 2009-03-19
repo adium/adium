@@ -431,12 +431,20 @@
  * Resize horizontally if desired and the display name changed
  */
 - (void)listObjectAttributesChanged:(NSNotification *)notification
-{
-	NSSet	*keys;
-	
+{	
+	//Don't update for objects not on this list (groupchat occupants mostly)
+	AIListObject *obj = [notification object];
+	if ([obj isKindOfClass:[AIListContact class]]) {
+		for (AIListGroup *group in ((AIListContact *)obj).parentContact.groups) {
+			if (group.contactList == self.contactList)
+				break;
+		}
+		return;
+	}
+		
 	[super listObjectAttributesChanged:notification];
 	
-	keys = [[notification userInfo] objectForKey:@"Keys"];
+	NSSet *keys = [[notification userInfo] objectForKey:@"Keys"];
 
 	//Resize the contact list horizontally
 	if (self.autoResizeHorizontally) {
