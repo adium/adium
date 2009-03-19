@@ -139,9 +139,17 @@
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
 	
 	if (self.useOAuth) {
-		if (!self.passwordWhileConnected) {
-			[self setLastDisconnectionError:AILocalizedString(@"Unable to connect, account not yet authorized", "Error presented when attempting to connect via OAuth when the account is not yet authenticated")];
+		if (!self.passwordWhileConnected.length) {
+			[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"AIEditAccount"
+																object:self];
+			
 			[self didDisconnect];
+			
+			// Don't try and connect.
+			return;
+			
 		} else {
 			twitterEngine.useOAuth = YES;
 			
