@@ -21,9 +21,11 @@
 
 #import "AITwitterAccountOAuthSetup.h"
 
+#define BUTTON_TEXT_ALLOW_ACCESS		AILocalizedString(@"Allow Adium access", nil)
+
 @interface AITwitterAccountViewController()
 - (void)completedOAuthSetup;
-- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled;
+- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled buttonText:(NSString *)buttonText;
 @end
 
 @implementation AITwitterAccountViewController
@@ -93,6 +95,8 @@
 	[intervalMenu setAutoenablesItems:YES];
 	
 	[popUp_updateInterval setMenu:intervalMenu];
+	
+	[self setStatusText:@"" withColor:nil buttonEnabled:YES buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 }
 
 - (void)dealloc
@@ -141,16 +145,19 @@
 		if ([account.lastDisconnectionError isEqualToString:TWITTER_OAUTH_NOT_AUTHORIZED]) {
 			[self setStatusText:TWITTER_OAUTH_NOT_AUTHORIZED
 					  withColor:[NSColor redColor]
-				  buttonEnabled:YES];
+				  buttonEnabled:YES
+					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 		
 		} else if (account.UID && [[adium.accountController passwordForAccount:account] length]) {
 			[self setStatusText:AILocalizedString(@"Adium currently has access to your account.", nil)
 					  withColor:nil
-				  buttonEnabled:NO];
+				  buttonEnabled:NO
+					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 		} else {
 			[self setStatusText:nil
 					  withColor:nil
-				  buttonEnabled:YES];
+				  buttonEnabled:YES
+					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 		}
 	} else {
 		[tabView_authenticationType selectTabViewItem:tabViewItem_basicAuthentication];
@@ -231,11 +238,19 @@
 }
 
 #pragma mark OAuth status text
-- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled
+- (void)setStatusText:(NSString *)text withColor:(NSColor *)color buttonEnabled:(BOOL)enabled buttonText:(NSString *)buttonText
 {
 	textField_OAuthStatus.stringValue = text ?: @"";
 	textField_OAuthStatus.textColor = color ?: [NSColor controlTextColor];
+
 	[button_OAuthStart setEnabled:enabled];
+	
+	if(buttonText) {
+		button_OAuthStart.title = buttonText;
+		[button_OAuthStart sizeToFit];
+		[button_OAuthStart setFrameOrigin:NSMakePoint(NSMidX(button_OAuthStart.superview.frame) - NSWidth(button_OAuthStart.frame)/2.0,
+													  NSMinY(button_OAuthStart.frame))];
+	}
 }
 
 #pragma mark OAuth setup delegate
@@ -253,9 +268,10 @@
 		case AIOAuthStepStart:
 		case AIOAuthStepVerifyingRequest:
 			// Just starting or verifying a token, fetching a request token
-			[self setStatusText:[NSString stringWithFormat:AILocalizedString(@"Connecting to %@.", nil), account.host]
+			[self setStatusText:@""
 					  withColor:nil
-				  buttonEnabled:YES];
+				  buttonEnabled:YES
+					 buttonText:nil];
 			
 			[progressIndicator setHidden:NO];
 			[progressIndicator startAnimation:nil];
@@ -268,12 +284,11 @@
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			[self setStatusText:AILocalizedString(@"You must authorize access for to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
+			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, click the 'Completed' button above.", nil)
 					  withColor:nil
-				  buttonEnabled:YES];
-			
-			button_OAuthStart.title = AILocalizedString(@"Completed", nil);
-			
+				  buttonEnabled:YES
+					 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
+
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
 			
@@ -285,7 +300,8 @@
 			
 			[self setStatusText:AILocalizedString(@"Success! Adium now has access to your account.", nil)
 					  withColor:nil
-				  buttonEnabled:NO];
+				  buttonEnabled:NO
+					 buttonText:nil];
 			
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
@@ -300,11 +316,10 @@
 		case AIOAuthStepFailure:
 			// Failed in some way. sad. :(
 
-			[self setStatusText:AILocalizedString(@"An error occured when trying to gain access. Please try again.", nil)
+			[self setStatusText:AILocalizedString(@"An error occured while trying to gain access. Please try again.", nil)
 					  withColor:[NSColor redColor]
-				  buttonEnabled:YES];
-			
-			button_OAuthStart.title = AILocalizedString(@"Authorize Access", nil);
+				  buttonEnabled:YES
+					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 			
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
