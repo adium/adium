@@ -87,7 +87,8 @@
 	
 	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
 												  [NSNumber numberWithInt:TWITTER_UPDATE_INTERVAL_MINUTES], TWITTER_PREFERENCE_UPDATE_INTERVAL,
-												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND, nil]
+												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_UPDATE_AFTER_SEND,
+												  [NSNumber numberWithBool:YES], TWITTER_PREFERENCE_LOAD_CONTACTS, nil]
 										forGroup:TWITTER_PREFERENCE_GROUP_UPDATES
 										  object:self];
 
@@ -213,6 +214,8 @@
 													 userInfo:nil
 													  repeats:YES];
 	}
+	
+	[self periodicUpdate];
 }
 
 /*!
@@ -864,6 +867,23 @@
 		
 		updateAfterSend = [[prefDict objectForKey:TWITTER_PREFERENCE_UPDATE_AFTER_SEND] boolValue];
 		retweetLink = [[prefDict objectForKey:TWITTER_PREFERENCE_RETWEET_SPAM] boolValue];
+		
+		if ([key isEqualToString:TWITTER_PREFERENCE_LOAD_CONTACTS]) {
+			if ([[prefDict objectForKey:TWITTER_PREFERENCE_LOAD_CONTACTS] boolValue]) {
+				// Delay updates when loading our contacts list.
+				[self silenceAllContactUpdatesForInterval:18.0];
+				// Grab our user list.
+				NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
+				
+				if (requestID) {
+					[self setRequestType:AITwitterInitialUserInfo
+							forRequestID:requestID
+						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
+				}
+			} else {
+				[self removeAllContacts];
+			}
+		}
 	}	
 }
 
@@ -1601,8 +1621,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  */
 - (void)userInfoReceived:(NSArray *)userInfo forRequest:(NSString *)identifier
 {	
-	if ([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo ||
-		[self requestTypeForRequestID:identifier] == AITwitterAddFollow) {
+	if (([self requestTypeForRequestID:identifier] == AITwitterInitialUserInfo ||
+		 [self requestTypeForRequestID:identifier] == AITwitterAddFollow) &&
+		[[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
 		// The current amount of friends per page is 100. Use >= just in case this changes.
@@ -1663,7 +1684,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		} else if ([self valueForProperty:@"Connecting"]) {			
 			// Trigger our normal update routine.
 			[self didConnect];
-			[self periodicUpdate];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileUserInfo) {
 		NSDictionary *thisUserInfo = [userInfo objectAtIndex:0];
@@ -1740,18 +1760,25 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		if([self requestTypeForRequestID:identifier] == AITwitterValidateCredentials) {
 			// Our UID is definitely set; grab our friends.
 			
-			// Delay updates on initial login.
-			[self silenceAllContactUpdatesForInterval:18.0];
-			// Grab our user list.
-			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
-			
-			if (requestID) {
-				[self setRequestType:AITwitterInitialUserInfo
-						forRequestID:requestID
-					  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
+			if ([[self preferenceForKey:TWITTER_PREFERENCE_LOAD_CONTACTS group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
+				// If we load our follows as contacts, do so now.
+				
+				// Delay updates on initial login.
+				[self silenceAllContactUpdatesForInterval:18.0];
+				// Grab our user list.
+				NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:1];
+				
+				if (requestID) {
+					[self setRequestType:AITwitterInitialUserInfo
+							forRequestID:requestID
+						  withDictionary:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:1] forKey:@"Page"]];
+				} else {
+					[self setLastDisconnectionError:AILocalizedString(@"Unable to retrieve user list", nil)];
+					[self didDisconnect];
+				}
 			} else {
-				[self setLastDisconnectionError:AILocalizedString(@"Unable to validate credentials", nil)];
-				[self didDisconnect];
+				// If we don't load follows as contacts, we've finished connecting (fast, wasn't it?)
+				[self didConnect];
 			}
 		}
 	}
