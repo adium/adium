@@ -708,8 +708,14 @@ NSCalendarDate* getDateFromPath(NSString *path)
 
 NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
-	NSCalendarDate *date1 = getDateFromPath(path1);
-	NSCalendarDate *date2 = getDateFromPath(path2);
+	NSDictionary *cache = (NSDictionary *)context;
+	id date1 = [cache objectForKey:path1];
+	id date2 = [cache objectForKey:path2];
+	NSNull *n = [NSNull null];
+	if (date1 == n)
+		date1 = nil;
+	if (date2 == n)
+		date2 = nil;
 	
 	if(!date1 && !date2)
 		return NSOrderedSame;
@@ -722,8 +728,15 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 + (NSArray *)sortedArrayOfLogFilesForChat:(AIChat *)chat
 {
 	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self pathForLogsLikeChat:chat] error:NULL];
+	NSMutableArray *dates = [NSMutableArray arrayWithCapacity:files.count];
+	for (NSString *path in files) {
+		id date = getDateFromPath(path);
+		[dates addObject:date ?: [NSNull null]];
+	}
+	
+	NSDictionary *cache = [NSDictionary dictionaryWithObjects:dates forKeys:files];
 
-	return (files ? [files sortedArrayUsingFunction:&sortPaths context:NULL] : nil);
+	return (files ? [files sortedArrayUsingFunction:&sortPaths context:cache] : nil);
 }
 
 #pragma mark Upgrade code
