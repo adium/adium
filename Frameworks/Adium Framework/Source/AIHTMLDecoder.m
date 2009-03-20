@@ -999,11 +999,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			NSXMLElement *lastElement = [elementStack lastObject];
 			for (id obj in linesAndBRs) {
 				if ([obj isKindOfClass:[NSString class]]) {
-					if ([obj isEqualToString:@" "]) {
-						// This is a significant space. We replace it with the en-space, U+2002.
+					// If the string contains only whitespace-characters:
+					if ([obj rangeOfCharacterFromSet:[[NSCharacterSet whitespaceCharacterSet] invertedSet]].location == NSNotFound) {
+						// These are significant spaces. We replace it with the en-space, U+2002.
 						// This behaves similarly to a non-breaking space, and for the sake of XML
 						// doesn't cause it to be eliminated when between two elements.
-						obj = [NSString stringWithUTF8String:"\u2002"];
+						obj = [@"" stringByPaddingToLength:((NSString *)obj).length
+												withString:[NSString stringWithUTF8String:"\u2002"]
+										   startingAtIndex:0];
 					}
 					
 					[lastElement addChild:[NSXMLNode textWithStringValue:(NSString *)obj]];
