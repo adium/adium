@@ -86,6 +86,8 @@
 		_clearsCookies = NO;
 		_consumer = nil;
 		_accessToken = nil;
+		_username = nil;
+		_password = nil;
     }
     
     return self;
@@ -617,7 +619,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-	if ([challenge previousFailureCount] == 0 && ![challenge proposedCredential] && !_useOAuth) {
+	if ([challenge previousFailureCount] == 0 && ![challenge proposedCredential] && !_useOAuth && _password && _username) {
 		NSURLCredential *credential = [NSURLCredential credentialWithUser:_username password:_password 
 															  persistence:NSURLCredentialPersistenceForSession];
 		[[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];
