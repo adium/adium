@@ -984,12 +984,40 @@
 	} else if (linkType == AITwitterLinkSearchHash) {
 		address = [NSString stringWithFormat:@"http://search.twitter.com/search?q=%%23%@", context];
 	} else if (linkType == AITwitterLinkReply) {
-		address = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@", self.internalObjectID, userID, statusID];
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=reply&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkRetweet) {
-		address = [NSString stringWithFormat:@"twitterreply://%@@%@?status=%@&message=%@", self.internalObjectID, userID, statusID, context];
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=retweet&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
+	} else if (linkType == AITwitterLinkFavorite) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=favorite&status=%@", self.internalObjectID, userID, statusID];
 	}
 	
 	return address;
+}
+
+/*!
+ * @brief Toggle the favorite status for a tweet.
+ *
+ * Attempts to favorite a tweet. If that fails, it removes favorite status.
+ * Prints a status message in the chat on success/failure, since it's otherwise not obvious.
+ */
+- (void)toggleFavoriteTweet:(NSString *)tweetID
+{
+	NSString *requestID = [twitterEngine markUpdate:[tweetID intValue] asFavorite:YES];
+	
+	if (requestID) {
+		[self setRequestType:AITwitterFavoriteYes
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
+	} else {
+		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+								onAccount:self];
+
+		if(timelineChat) {
+			[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
+										   ofType:@"favorite"
+										   inChat:timelineChat];
+		}
+	}
 }
 
 /*!
@@ -1101,26 +1129,36 @@
 
 				commaNeeded = YES;
 			}
-				
+			
+			if (commaNeeded) {
+				[mutableMessage appendString:@", " withAttributes:nil];
+			}
+			
 			
 			linkAddress = [self addressForLinkType:AITwitterLinkReply
 											userID:userID
 										  statusID:tweetID
 										   context:nil];
 			
-			if (commaNeeded) {
-				[mutableMessage appendString:@", " withAttributes:nil];
-			}
-			
 			[mutableMessage appendString:@"@"
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			
+			[mutableMessage appendString:@", " withAttributes:nil];
+
+			linkAddress = [self addressForLinkType:AITwitterLinkFavorite
+											userID:userID
+										  statusID:tweetID
+										   context:nil];
+
+			[mutableMessage appendString:@"\u2606"
+						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+
+			[mutableMessage appendString:@", " withAttributes:nil];
 			
 			linkAddress = [self addressForLinkType:AITwitterLinkStatus
 											userID:userID
 										  statusID:tweetID
 										   context:nil];
-			
-			[mutableMessage appendString:@", " withAttributes:nil];
 			
 			[mutableMessage appendString:@"#"
 						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
@@ -1387,6 +1425,40 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 			break;
 			
+		case AITwitterFavoriteYes:
+		case AITwitterFavoriteNo:
+		{
+			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName onAccount:self];			
+			
+			BOOL displayFailure = (error.code != 403);
+			
+			if (error.code == 403) {
+				// We've attempted to add or remove when we already have it marked as such. Try the opposite.
+				BOOL addAsFavorite = ([self requestTypeForRequestID:identifier] == AITwitterFavoriteNo);
+				NSString *tweetID = [[self dictionaryForRequestID:identifier] objectForKey:@"tweetID"];
+				
+				NSString *requestID = [twitterEngine markUpdate:[tweetID intValue]
+													 asFavorite:addAsFavorite];
+				
+				if (requestID) {
+					[self setRequestType:(addAsFavorite ? AITwitterFavoriteYes : AITwitterFavoriteNo)
+							forRequestID:requestID
+						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
+				} else {
+					displayFailure = YES;
+				}
+				
+			}
+			
+			if(displayFailure && timelineChat) {
+				[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
+											   ofType:@"favorite"
+											   inChat:timelineChat];
+			}
+			
+			break;
+		}
+
 		default:
 			
 			break;
@@ -1548,6 +1620,28 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 					[adium.statusController setActiveStatusState:availableStatus];
 				}
 			}
+		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes ||
+			   [self requestTypeForRequestID:identifier] == AITwitterFavoriteNo) {
+		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+								onAccount:self];
+		
+		for (NSDictionary *status in statuses) {
+			NSString *message;
+			
+			if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes) {
+				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> was marked as a favorite.", nil);
+			} else {
+				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> was unmarked as a favorite.", nil);
+			}
+			
+			message = [NSString stringWithFormat:message,
+					   [self addressForLinkType:AITwitterLinkStatus
+										 userID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]
+									   statusID:[status objectForKey:TWITTER_STATUS_ID]
+								context:nil]];
+			
+			[adium.contentController displayEvent:message ofType:@"favorite" inChat:timelineChat];
 		}
 	}
 	

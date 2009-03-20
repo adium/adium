@@ -59,8 +59,8 @@
 {
 	NSURL *url = [notification object];
 	NSString *inUser = [url host];
+	NSString *inAction = [url queryArgumentForKey:@"action"] ?: @"reply";
 	NSString *inTweet = [url queryArgumentForKey:@"status"];
-	NSString *inMessage = [url queryArgumentForKey:@"message"];
 	NSString *inAccount = [url user];
 	
 	AILogWithSignature(@"Twitter Reply requested: %@", url);
@@ -102,55 +102,61 @@
 		return;
 	}
 	
-	AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
-															onAccount:account];
-	
-	if (!timelineChat) {
-		// Timeline chat isn't already open. Open it.
-		timelineChat = [adium.chatController chatWithName:account.timelineChatName
-											   identifier:nil
-												onAccount:account
-										 chatCreationInfo:nil];
-	}
-	
-	if (!timelineChat.isOpen) {
-		[adium.interfaceController openChat:timelineChat];
-	}
-	
-	[adium.interfaceController setActiveChat:timelineChat];
-	
-	AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
+	if ([inAction isEqualToString:@"reply"] || [inAction isEqualToString:@"retweet"]) {
+		AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
+																onAccount:account];
+		
+		if (!timelineChat) {
+			// Timeline chat isn't already open. Open it.
+			timelineChat = [adium.chatController chatWithName:account.timelineChatName
+												   identifier:nil
+													onAccount:account
+											 chatCreationInfo:nil];
+		}
+		
+		if (!timelineChat.isOpen) {
+			[adium.interfaceController openChat:timelineChat];
+		}
+		
+		[adium.interfaceController setActiveChat:timelineChat];
+		
+		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
 
-	// Insert the @reply text
-	NSString *prefix = nil;
-	
-	if (inMessage) {
-		prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	} else {
-		prefix = [NSString stringWithFormat:@"@%@ ", inUser];
-	}
-	
-	NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:prefix] mutableCopy] autorelease];
-	[newString appendAttributedString:textView.attributedString];
-	[textView setAttributedString:newString];
-	
-	// Shift the selected range over by the length of our prefix string
-	NSRange selectedRange = textView.selectedRange;
-	[textView setSelectedRange:NSMakeRange(selectedRange.location + prefix.length, selectedRange.length)];
-	
-	// Make the text view have focus
-	[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
-	
-	if(!inMessage) {
-		[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
-		[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
-		[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
+		// Insert the @reply text
+		NSString *prefix = nil;
 		
-		AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
+		NSString *inMessage = [url queryArgumentForKey:@"message"];
 		
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
+		if (inMessage) {
+			prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [[url queryArgumentForKey:@"message"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+		} else {
+			prefix = [NSString stringWithFormat:@"@%@ ", inUser];
+		}
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
+		NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:prefix] mutableCopy] autorelease];
+		[newString appendAttributedString:textView.attributedString];
+		[textView setAttributedString:newString];
+		
+		// Shift the selected range over by the length of our prefix string
+		NSRange selectedRange = textView.selectedRange;
+		[textView setSelectedRange:NSMakeRange(selectedRange.location + prefix.length, selectedRange.length)];
+		
+		// Make the text view have focus
+		[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
+		
+		if([inAction isEqualToString:@"reply"]) {
+			[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
+			[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
+			[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
+			
+			AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
+			
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
+			
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
+		}
+	} else if ([inAction isEqualToString:@"favorite"]) {
+		[account toggleFavoriteTweet:inTweet];
 	}
 }
 
@@ -166,8 +172,8 @@
 		return;
 	}
 	
-	BOOL keepTweetValues = YES;
 	NSString *contents = [textView string];
+	BOOL keepTweetValues = YES;
 	
 	if([contents hasPrefix:@"@"]) {
 		NSString *replyUsername = [contents substringFromIndex:1];
