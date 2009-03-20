@@ -1630,16 +1630,23 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			NSString *message;
 			
 			if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes) {
-				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> was marked as a favorite.", nil);
+				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is now a favorite.", nil);
 			} else {
-				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> was unmarked as a favorite.", nil);
+				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is no longer a favorite.", nil);
 			}
+			
+			NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
 			message = [NSString stringWithFormat:message,
 					   [self addressForLinkType:AITwitterLinkStatus
-										 userID:[[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID]
+										 userID:userID
 									   statusID:[status objectForKey:TWITTER_STATUS_ID]
-								context:nil]];
+										context:nil],
+					   [self addressForLinkType:AITwitterLinkUserPage
+										  userID:userID
+										statusID:nil
+										context:nil],
+					   userID];
 			
 			[adium.contentController displayEvent:message ofType:@"favorite" inChat:timelineChat];
 		}
