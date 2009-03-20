@@ -41,12 +41,16 @@ typedef enum {
 	
 	AITwitterUpdateDirectMessage,
 	AITwitterUpdateFollowedTimeline,
-	AITwitterUpdateReplies
+	AITwitterUpdateReplies,
+	
+	AITwitterFavoriteYes,
+	AITwitterFavoriteNo
 } AITwitterRequestType;
 
 typedef enum {
 	AITwitterLinkReply,
 	AITwitterLinkRetweet,
+	AITwitterLinkFavorite,
 	AITwitterLinkStatus,
 	AITwitterLinkFriends,
 	AITwitterLinkFollowers,
@@ -148,6 +152,8 @@ typedef enum {
 				   url:(NSString*)url
 			  location:(NSString *)location
 		   description:(NSString *)description;
+
+- (void)toggleFavoriteTweet:(NSString *)tweetID;
 
 - (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString;
 
