@@ -38,6 +38,8 @@
 #import <Adium/AIUserIcons.h>
 #import <Adium/AIService.h>
 #import <Adium/AIStatus.h>
+#import <Adium/AIHTMLDecoder.h>
+#import <Adium/AIContentEvent.h>
 
 @interface AITwitterAccount()
 - (void)updateUserIcon:(NSString *)url forContact:(AIListContact *)listContact;
@@ -1629,6 +1631,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		for (NSDictionary *status in statuses) {
 			NSString *message;
 			
+			// Use HTML for the status message since it's just easier to localize that way.
+			
 			if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes) {
 				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is now a favorite.", nil);
 			} else {
@@ -1637,18 +1641,30 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
+			
 			message = [NSString stringWithFormat:message,
 					   [self addressForLinkType:AITwitterLinkStatus
 										 userID:userID
 									   statusID:[status objectForKey:TWITTER_STATUS_ID]
 										context:nil],
 					   [self addressForLinkType:AITwitterLinkUserPage
-										  userID:userID
-										statusID:nil
+										 userID:userID
+									   statusID:nil
 										context:nil],
 					   userID];
 			
-			[adium.contentController displayEvent:message ofType:@"favorite" inChat:timelineChat];
+			NSAttributedString *attributedMessage = [[AIHTMLDecoder decoder] decodeHTML:message withDefaultAttributes:nil];
+			
+			AIContentStatus *content = [AIContentEvent statusInChat:timelineChat
+														 withSource:nil
+														destination:self
+															   date:[NSDate date]
+															message:attributedMessage
+														   withType:@"favorite"];
+			
+			content.coalescingKey = @"favorite";
+
+			[adium.contentController receiveContentObject:content];
 		}
 	}
 	
