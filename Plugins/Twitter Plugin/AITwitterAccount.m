@@ -605,7 +605,7 @@
 	
 	// XXX Enable if() when twitter sends extended user info for all requests.
 //	if(inContact.isStranger || ![inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable Notifications",nil)
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable Device Notifications",nil)
 																		 target:self
 																		 action:@selector(enableOrDisableNotifications:)
 																  keyEquivalent:@""] autorelease];
@@ -614,7 +614,7 @@
 		[menuItem setRepresentedObject:inContact];
 		[menuItemArray addObject:menuItem];
 //	} else if (inContact.isStranger || [inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable Notifications",nil)
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable Device Notifications",nil)
 																		 target:self
 																		 action:@selector(enableOrDisableNotifications:)
 																  keyEquivalent:@""] autorelease];
@@ -643,18 +643,32 @@
 	
 	NSString *requestID = nil;
 	
+	BOOL initialFailure = NO;
+	
 	if (enableNotification) {
 		requestID = [twitterEngine enableNotificationsFor:contact.UID];
+
+		if (requestID) {
+			[self setRequestType:AITwitterNotificationEnable
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact", nil]];
+		} else {
+			initialFailure = YES;
+		}
+	
 	} else {
 		requestID = [twitterEngine disableNotificationsFor:contact.UID];
+		
+		if (requestID) {
+			[self setRequestType:AITwitterNotificationDisable
+					forRequestID:requestID
+				  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact", nil]];
+		} else {
+			initialFailure = YES;
+		}
 	}
 	
-	if (requestID) {
-		[self setRequestType:AITwitterNotificationEnableOrDisable
-				forRequestID:requestID
-			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact",
-							  [NSNumber numberWithBool:enableNotification], @"EnableDisable", nil]];
-	} else {
+	if (initialFailure) {
 		[adium.interfaceController handleErrorMessage:(enableNotification ?
 														AILocalizedString(@"Unable to Enable Notifications", nil) :
 														AILocalizedString(@"Unable to Disable Notifications", nil))
@@ -1538,9 +1552,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			break;
 		}
 			
-		case AITwitterNotificationEnableOrDisable:
+		case AITwitterNotificationEnable:
+		case AITwitterNotificationDisable:
 		{
-			BOOL			enableNotification = [[[self dictionaryForRequestID:identifier] objectForKey:@"EnableDisable"] boolValue];
+			BOOL			enableNotification = ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable);
 			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 			
 			[adium.interfaceController handleErrorMessage:(enableNotification ?
@@ -1995,8 +2010,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[self didConnect];
 			}
 		}
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnableOrDisable) {
-		BOOL			enableNotification = [[[self dictionaryForRequestID:identifier] objectForKey:@"EnableDisable"] boolValue];
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable ||
+			   [self requestTypeForRequestID:identifier] == AITwitterNotificationDisable) {
+		BOOL			enableNotification = ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable);
 		AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
 		for (NSDictionary *info in userInfo) {
