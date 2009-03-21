@@ -603,9 +603,17 @@
 															type:AIServiceIconSmall
 													   direction:AIIconNormal];
 	
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Open %@'s user page",nil), inContact.UID]
+																	 target:self
+																	 action:@selector(openUserPage:)
+															  keyEquivalent:@""] autorelease];
+	[menuItem setImage:serviceIcon];
+	[menuItem setRepresentedObject:inContact];
+	[menuItemArray addObject:menuItem];	
+	
 	// XXX Enable if() when twitter sends extended user info for all requests.
 //	if(inContact.isStranger || ![inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable Device Notifications",nil)
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@",nil), inContact.UID]
 																		 target:self
 																		 action:@selector(enableOrDisableNotifications:)
 																  keyEquivalent:@""] autorelease];
@@ -614,7 +622,7 @@
 		[menuItem setRepresentedObject:inContact];
 		[menuItemArray addObject:menuItem];
 //	} else if (inContact.isStranger || [inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable Device Notifications",nil)
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@",nil), inContact.UID]
 																		 target:self
 																		 action:@selector(enableOrDisableNotifications:)
 																  keyEquivalent:@""] autorelease];
@@ -625,6 +633,17 @@
 //	}
 	
 	return menuItemArray;	
+}
+
+/*!
+ * @brief Open the represented objec'ts user page
+ */
+- (void)openUserPage:(NSMenuItem *)menuItem
+{
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[self addressForLinkType:AITwitterLinkUserPage
+																				  userID:((AIListContact *)menuItem.representedObject).UID
+																				statusID:nil
+																				 context:nil]]];
 }
 
 /*!
