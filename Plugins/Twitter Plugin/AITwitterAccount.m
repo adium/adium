@@ -1818,7 +1818,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes ||
 			   [self requestTypeForRequestID:identifier] == AITwitterFavoriteNo) {
 		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-								onAccount:self];
+																onAccount:self];
+		
+		if (!timelineChat) {
+			timelineChat = [adium.chatController chatWithName:self.timelineChatName
+												   identifier:nil
+													onAccount:self
+											 chatCreationInfo:nil];
+		}
 		
 		for (NSDictionary *status in statuses) {
 			NSString *message;
