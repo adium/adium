@@ -156,6 +156,8 @@ typedef enum {
 @property (readonly, nonatomic) NSString *tokenAccessURL;
 @property (readonly, nonatomic) NSString *tokenAuthorizeURL;
 
+@property (readonly, nonatomic) AIChat *timelineChat;
+
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
 			  location:(NSString *)location
