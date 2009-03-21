@@ -384,9 +384,8 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 		for (AIListObject<AIContainingObject> *container in listObject.containingObjects) {
 			events = [self appendEventsForObject:container eventID:eventID toArray:events];
 		}	
+		events = [self appendEventsForObject:nil eventID:eventID toArray:events];
 	}
-	
-	events = [self appendEventsForObject:nil eventID:eventID toArray:events];
 
 	return events;
 }
