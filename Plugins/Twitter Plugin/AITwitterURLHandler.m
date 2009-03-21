@@ -68,6 +68,7 @@
 	NSArray		*accountArray = [adium.accountController accounts];
 	
 	AITwitterAccount	*account = nil;
+	BOOL		exactMatchForInternalID = NO;
 	
 	// Look for an account with the given internalObjectID
 	for(AIAccount *tempAccount in accountArray) {
@@ -75,30 +76,16 @@
 			continue;
 		}
 		
+		account = (AITwitterAccount *)tempAccount;
+		
 		if([tempAccount.internalObjectID isEqualToString:inAccount]) {
-			account = (AITwitterAccount *)tempAccount;
+			exactMatchForInternalID = YES;
 			break;
 		}
 	}
-	
+
 	if(!account) {
-		for(AIAccount *tempAccount in accountArray) {
-			if (![tempAccount isKindOfClass:[AITwitterAccount class]]) {
-				continue;
-			}
-			
-			account = (AITwitterAccount *)tempAccount;
-			
-			if([tempAccount.UID isEqualToString:inAccount]) {
-				break;
-			}
-		}
-	}
-	
-	// Next look for an account with the given username.
-	
-	if(!account) {
-		// No twitter accounts exist. Fail.
+		// No exact match. Fail.
 		return;
 	}
 	
@@ -157,6 +144,16 @@
 		}
 	} else if ([inAction isEqualToString:@"favorite"]) {
 		[account toggleFavoriteTweet:inTweet];
+	} else if ([inAction isEqualToString:@"destroy"] && exactMatchForInternalID) {
+		if (inTweet && [url queryArgumentForKey:@"message"]) {
+			// Confirm if the user wants to delete this tweet.
+			if (NSRunAlertPanel(AILocalizedString(@"Delete Tweet?", nil),
+								AILocalizedString(@"Are you sure you want to delete the tweet:\n\n\"%@\"\n\nThis action cannot be undone.", nil),
+								AILocalizedString(@"Delete", nil), AILocalizedString(@"Cancel", nil), nil,
+								[[url queryArgumentForKey:@"message"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) == NSAlertDefaultReturn) {
+				[account destroyTweet:inTweet];
+			}
+		}
 	}
 }
 
