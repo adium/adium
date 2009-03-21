@@ -106,7 +106,6 @@
 	[self _configureChatPreview];
 
 	[self configurePreferencesForTab];
-	[self configureControlDimming];
 }
 
 /*!
@@ -187,7 +186,6 @@
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 	
 	[previewController setIsGroupChat:(self.currentTab == AIWebkitGroupChat)];
-		
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
@@ -276,6 +274,8 @@
 		[checkBox_showUserIcons setEnabled:[[previewController messageStyle] allowsUserIcons]];
 		
 		[checkBox_showMessageColors setEnabled:[[previewController messageStyle] allowsColors]];
+		
+		[self configureControlDimming];
 	}
 }
 
