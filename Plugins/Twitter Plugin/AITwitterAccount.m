@@ -1812,9 +1812,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			} else {
 				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is no longer a favorite.", nil);
 			}
-			
-			NSLog(@"happyface timeline chat is %@", timelineChat);
-			
+
 			NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
 			
