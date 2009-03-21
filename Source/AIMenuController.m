@@ -531,7 +531,7 @@
 						   separatorItem:&separatorItem];
 		}
 		
-	} else  if ([inObject isKindOfClass:[AIListContact class]]) {
+	} else if ([inObject isKindOfClass:[AIListContact class]]) {
 		[self addMenuItemsForContact:(AIListContact *)inObject
 							  toMenu:menu
 					   separatorItem:&separatorItem];
