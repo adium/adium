@@ -381,10 +381,12 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 
 	//Get all events from the contanining object if we have an object
 	if (listObject) {
-		for (AIListObject<AIContainingObject> *container in listObject.containingObjects) {
-			events = [self appendEventsForObject:container eventID:eventID toArray:events];
-		}	
-		events = [self appendEventsForObject:nil eventID:eventID toArray:events];
+		if (listObject.containingObjects.count > 0) {
+			for (AIListObject<AIContainingObject> *container in listObject.containingObjects) {
+				events = [self appendEventsForObject:container eventID:eventID toArray:events];
+			}
+		} else
+			events = [self appendEventsForObject:nil eventID:eventID toArray:events];
 	}
 
 	return events;
