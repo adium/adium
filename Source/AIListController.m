@@ -434,18 +434,19 @@
 {	
 	//Don't update for objects not on this list (groupchat occupants mostly)
 	AIListObject *obj = [notification object];
-	BOOL onList = NO;
 	if ([obj isKindOfClass:[AIListContact class]]) {
+		BOOL onList = NO;
+
 		for (AIListGroup *group in ((AIListContact *)obj).parentContact.groups) {
 			if (group.contactList == self.contactList) {
 				onList = YES;
 				break;
 			}
 		}
+		
+		if (!onList)
+			return;
 	}
-	
-	if (!onList)
-		return;
 		
 	[super listObjectAttributesChanged:notification];
 	
