@@ -586,6 +586,83 @@
 
 #pragma mark Menu Items
 /*!
+ * @brief Menu items for contact
+ *
+ * Returns an array of menu items for a contact on this account.  This is the best place to add protocol-specific
+ * actions that aren't otherwise supported by Adium.
+ * @param inContact AIListContact for menu items
+ * @return NSArray of NSMenuItem instances for the passed contact
+ */
+- (NSArray *)menuItemsForContact:(AIListContact *)inContact
+{
+	NSMutableArray *menuItemArray = [NSMutableArray array];
+	
+	NSMenuItem *menuItem;
+	
+	NSImage	*serviceIcon = [AIServiceIcons serviceIconForService:self.service
+															type:AIServiceIconSmall
+													   direction:AIIconNormal];
+	
+	// XXX Enable if() when twitter sends extended user info for all requests.
+//	if(inContact.isStranger || ![inContact boolValueForProperty:@"Twitter Notifications"]) {
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Enable Notifications",nil)
+																		 target:self
+																		 action:@selector(enableOrDisableNotifications:)
+																  keyEquivalent:@""] autorelease];
+		[menuItem setTag:YES];
+		[menuItem setImage:serviceIcon];
+		[menuItem setRepresentedObject:inContact];
+		[menuItemArray addObject:menuItem];
+//	} else if (inContact.isStranger || [inContact boolValueForProperty:@"Twitter Notifications"]) {
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disable Notifications",nil)
+																		 target:self
+																		 action:@selector(enableOrDisableNotifications:)
+																  keyEquivalent:@""] autorelease];
+		[menuItem setTag:NO];
+		[menuItem setImage:serviceIcon];
+		[menuItem setRepresentedObject:inContact];
+		[menuItemArray addObject:menuItem];
+//	}
+	
+	return menuItemArray;	
+}
+
+/*!
+ * @brief Enable or disable notifications for a contact.
+ *
+ * If the menuItem's tag is YES, we're adding. Otherwise we're removing.
+ */
+- (void)enableOrDisableNotifications:(NSMenuItem *)menuItem
+{
+	if(![menuItem.representedObject isKindOfClass:[AIListContact class]]) {
+		return;
+	}
+
+	BOOL enableNotification = menuItem.tag;
+	AIListContact *contact = menuItem.representedObject;
+	
+	NSString *requestID = nil;
+	
+	if (enableNotification) {
+		requestID = [twitterEngine enableNotificationsFor:contact.UID];
+	} else {
+		requestID = [twitterEngine disableNotificationsFor:contact.UID];
+	}
+	
+	if (requestID) {
+		[self setRequestType:AITwitterNotificationEnableOrDisable
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:contact, @"ListContact",
+							  [NSNumber numberWithBool:enableNotification], @"EnableDisable", nil]];
+	} else {
+		[adium.interfaceController handleErrorMessage:(enableNotification ?
+														AILocalizedString(@"Unable to Enable Notifications", nil) :
+														AILocalizedString(@"Unable to Disable Notifications", nil))
+									  withDescription:AILocalizedString(@"Unable to connect to the Twitter server.", nil)];
+	}
+}
+
+/*!
  * @brief Menu items for chat
  *
  * Returns an array of menu items for a chat on this account.  This is the best place to add protocol-specific
@@ -1460,6 +1537,18 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			break;
 		}
+			
+		case AITwitterNotificationEnableOrDisable:
+		{
+			BOOL			enableNotification = [[[self dictionaryForRequestID:identifier] objectForKey:@"EnableDisable"] boolValue];
+			AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+			
+			[adium.interfaceController handleErrorMessage:(enableNotification ?
+														   AILocalizedString(@"Unable to Enable Notifications", nil) :
+														   AILocalizedString(@"Unable to Disable Notifications", nil))
+										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change for %@. Received error %u from the server.", nil), listContact.UID, error.code]];
+			break;
+		}
 
 		default:
 			
@@ -1779,7 +1868,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			// Set the user's status message to their current twitter status text
 			[listContact setStatusMessage:[NSAttributedString stringWithString:[[[info objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil]]
 								   notify:NotifyLater];
-		
+
+			[listContact setValue:[info objectForKey:TWITTER_INFO_NOTIFICATION] forProperty:@"Twitter Notifications" notify:NotifyLater];
+			
 			// Set the user as online.
 			[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
 			
@@ -1903,6 +1994,24 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				// If we don't load follows as contacts, we've finished connecting (fast, wasn't it?)
 				[self didConnect];
 			}
+		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnableOrDisable) {
+		BOOL			enableNotification = [[[self dictionaryForRequestID:identifier] objectForKey:@"EnableDisable"] boolValue];
+		AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+		
+		for (NSDictionary *info in userInfo) {
+			[listContact setValue:[info objectForKey:TWITTER_INFO_NOTIFICATION] forProperty:@"Twitter Notifications" notify:NotifyLater];
+		
+			[adium.interfaceController handleMessage:(enableNotification ?
+													  AILocalizedString(@"Notifications Enabled", nil) :
+													  AILocalizedString(@"Notifications Disabled", nil))
+									 withDescription:[NSString stringWithFormat:(enableNotification ?
+																				 AILocalizedString(@"You will now receive device notifications for %@.", nil) :
+																				 AILocalizedString(@"You will no longer receive device notifications for %@.", nil)),
+													  listContact.UID]
+									 withWindowTitle:(enableNotification ?
+													  AILocalizedString(@"Notifications Enabled", nil) :
+													  AILocalizedString(@"Notifications Disabled", nil))];
 		}
 	}
 	
