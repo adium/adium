@@ -189,12 +189,12 @@
 	//Update our menu to reflect the current preferences
 	[menuItem_hideAccountContact setState:(array_hideAccounts.count ? NSMixedState : NSOffState)];
 	[menuItem_hideContacts setState:hideContacts];
-	[menuItem_hideOffline setState:showOfflineContacts];
-	[menuItem_hideIdle setState:showIdleContacts];
-	[menuItem_hideMobile setState:showMobileContacts];
-	[menuItem_hideBlocked setState:showBlockedContacts];
+	[menuItem_hideOffline setState:!showOfflineContacts];
+	[menuItem_hideIdle setState:!showIdleContacts];
+	[menuItem_hideAway setState:!showAwayContacts];
+	[menuItem_hideMobile setState:!showMobileContacts];
+	[menuItem_hideBlocked setState:!showBlockedContacts];
 	[menuItem_useOfflineGroup setState:useOfflineGroup];
-	[menuItem_hideAway setState:showAwayContacts];
 }
 
 /*!
