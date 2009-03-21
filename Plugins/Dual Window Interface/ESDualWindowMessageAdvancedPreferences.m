@@ -73,22 +73,37 @@
 	} else if (sender == checkBox_customNameFormatting) {
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_WEBKIT_USE_NAME_FORMAT
-											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+											  group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+											 forKey:KEY_WEBKIT_USE_NAME_FORMAT
+											  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
 		
 	} else if (sender == popUp_nameFormat) {
 		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_NAME_FORMAT
-											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+											  group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+											 forKey:KEY_WEBKIT_NAME_FORMAT
+											  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
 	} else if (sender == popUp_minimumFontSize) {
 		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
 											 forKey:KEY_WEBKIT_MIN_FONT_SIZE
-											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+											  group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
+		
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[sender selectedItem] tag]]
+											 forKey:KEY_WEBKIT_MIN_FONT_SIZE
+											  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
 		
 	} else if (sender == popUp_timeStampFormat) {
 		[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 											 forKey:KEY_WEBKIT_TIME_STAMP_FORMAT
-											  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+											  group:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 
+		[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
+										   forKey:KEY_WEBKIT_TIME_STAMP_FORMAT
+											group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
+		
 	} else if (sender == checkBox_animateDockIcon) {
 		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 											 forKey:KEY_ANIMATE_DOCK_ICON
@@ -138,7 +153,8 @@
 	[checkBox_hide setState:[[prefDict objectForKey:KEY_WINDOW_HIDE] boolValue]];
 	[checkBox_psychicOpen setState:[[prefDict objectForKey:KEY_PSYCHIC] boolValue]];
 
-	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+	// We load the regular preferences, since both group and regular are copies of each other for these.
+	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 	[popUp_nameFormat selectItemWithTag:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] integerValue]];
 	[checkBox_customNameFormatting setState:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 
@@ -153,7 +169,8 @@
 
 - (void)configureControlDimming
 {
-	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+	// We load the regular preferences, since both group and regular are copies of each other for these.
+	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 	
 	[popUp_nameFormat setEnabled:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
 }

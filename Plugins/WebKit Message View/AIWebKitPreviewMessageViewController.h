@@ -12,5 +12,6 @@
 }
 
 - (void)setPreferencesChangedDelegate:(id)inDelegate;
+- (void)setIsGroupChat:(BOOL)groupChat;
 
 @end

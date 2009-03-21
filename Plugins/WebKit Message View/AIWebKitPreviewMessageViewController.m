@@ -9,6 +9,7 @@
 #import "ESWebView.h"
 #import "AIWebKitMessageViewPlugin.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AIChat.h>
 
 @implementation AIWebKitPreviewMessageViewController
 
@@ -24,16 +25,27 @@
 	[super dealloc];
 }
 
+- (void)setIsGroupChat:(BOOL)groupChat
+{
+	chat.isGroupChat = groupChat;
+}
+
 - (void)setPreferencesChangedDelegate:(id)inDelegate
 {
 	if (inDelegate != preferencesChangedDelegate) {
 		[preferencesChangedDelegate release];
 		preferencesChangedDelegate = [inDelegate retain];
 		
-		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY
+		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY
 														   key:nil
 														object:nil
-												preferenceDict:[adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]
+												preferenceDict:[adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY]
+													 firstTime:YES];
+		
+		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY
+														   key:nil
+														object:nil
+												preferenceDict:[adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY]
 													 firstTime:YES];
 		
 		[preferencesChangedDelegate preferencesChangedForGroup:PREF_GROUP_WEBKIT_BACKGROUND_IMAGES

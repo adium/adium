@@ -15,6 +15,7 @@
  */
 
 #import <Adium/AIPreferencePane.h>
+#import "AIWebKitMessageViewPlugin.h"
 
 @class ESWebView, AIContentObject, AIAutoScrollView, AIWebKitPreviewMessageViewController;
 @class JVFontPreviewField, AIImageViewWithImagePicker;
@@ -24,6 +25,10 @@
  *	@brief Handles the messages preference pane
  */
 @interface ESWebKitMessageViewPreferences : AIPreferencePane {
+	IBOutlet	NSTabView			*tabView_messageType;
+	IBOutlet	NSTabViewItem		*tabViewItem_regularChat;
+	IBOutlet	NSTabViewItem		*tabViewItem_groupChat;
+	
 	IBOutlet	JVFontPreviewField  *fontPreviewField_currentFont;
 	IBOutlet	NSPopUpButton   	*popUp_styles;
 	IBOutlet	NSPopUpButton   	*popUp_variants;
@@ -54,5 +59,8 @@
  * @brief Reset display font to the default value
  */
 - (IBAction)resetDisplayFontToDefault:(id)sender;
+
+@property (readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
+@property (readonly, nonatomic) AIWebkitStyleType currentTab;
 
 @end
