@@ -27,6 +27,7 @@
 
 @interface AIMenuController ()
 - (void)localizeMenuTitles;
+- (void)updateAccountSpecificMenu:(NSMenu *)menu;
 - (NSMenu *)contextualMenuWithLocations:(NSArray *)inLocationArray usingMenu:(NSMenu *)inMenu;
 - (void)addMenuItemsForContact:(AIListContact *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem;
 - (void)addMenuItemsForChat:(AIChat *)inContact toMenu:(NSMenu *)workingMenu separatorItem:(BOOL *)separatorItem;
@@ -504,6 +505,46 @@
 		if ([target respondsToSelector:@selector(menu:needsUpdateForMenuItem:)])
 			[target menu:menu needsUpdateForMenuItem:menuItem];
 	}
+	
+	if (menu == menu_Contact_Manage) {
+		[self updateAccountSpecificMenu:menu];
+	}
+}
+
+/*!
+ * @brief Add account-specific menu items to the main Contact menu.
+ * 
+ * These begin at the menu item by the id menu_Contact_AccountSpecific.
+ */
+- (void)updateAccountSpecificMenu:(NSMenu *)menu
+{
+	NSInteger separatorIndex = [menu indexOfItem:menu_Contact_AccountSpecific];
+	NSUInteger totalCount = menu.numberOfItems;
+		
+	// Remove all items after the account-specific separator. i.e., those dynamically added.
+	while(--totalCount > separatorIndex) {
+		[menu removeItemAtIndex:totalCount];
+	}
+	
+	BOOL separatorItem = NO;
+	
+	// Add all items for this contact, if one exists.
+	AIListObject *inObject = adium.interfaceController.selectedListObject;
+	if ([inObject isKindOfClass:[AIMetaContact class]]) {
+		for (AIListContact *aListContact in ((AIMetaContact *)inObject).uniqueContainedObjects) {
+			[self addMenuItemsForContact:aListContact
+								  toMenu:menu
+						   separatorItem:&separatorItem];
+		}
+		
+	} else  if ([inObject isKindOfClass:[AIListContact class]]) {
+		[self addMenuItemsForContact:(AIListContact *)inObject
+							  toMenu:menu
+					   separatorItem:&separatorItem];
+	}
+	
+	// If no account specific items, hide the separator item.
+	[menu_Contact_AccountSpecific setHidden:(menu.numberOfItems <= separatorIndex+1)];
 }
 
 @end

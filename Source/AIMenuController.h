@@ -60,6 +60,7 @@
     IBOutlet	id		menu_Contact_Action;
     IBOutlet	id		menu_Contact_NegativeAction;
     IBOutlet	id		menu_Contact_Additions;
+	IBOutlet	id		menu_Contact_AccountSpecific;
     IBOutlet	id		menu_Dock_Status;
     IBOutlet    id  	menuItem_Format_Italics;
     
