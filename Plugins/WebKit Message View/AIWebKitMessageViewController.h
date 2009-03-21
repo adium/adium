@@ -41,7 +41,8 @@
 	AIWebkitMessageViewStyle	*messageStyle;
 	NSString					*activeStyle;
 	NSString					*activeVariant;
-
+	NSString					*preferenceGroup;
+	
 	//User icon masking
 	NSImage						*imageMask;
 	NSMutableArray				*objectsWithUserIconsArray;
@@ -100,8 +101,6 @@
  * @brief Get the HTML content for the "Chat" area.
  */
 - (NSString *)chatContentSource;
-
-@property (readonly, nonatomic) NSString *preferenceGroupForChat;
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
