@@ -790,6 +790,26 @@
 }
 
 /*!
+ * @brief Our timeline chat
+ *
+ * If the timeline chat is not already active, it is created.
+ */
+- (AIChat *)timelineChat
+{
+	AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+							onAccount:self];
+	
+	if (!timelineChat) {
+		timelineChat = [adium.chatController chatWithName:self.timelineChatName
+						identifier:nil
+						onAccount:self
+						chatCreationInfo:nil];
+	}
+
+	return timelineChat;	
+}
+
+/*!
  * @brief Update the timeline chat
  * 
  * Remove the userlist
@@ -1121,14 +1141,11 @@
 				forRequestID:requestID
 			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
 	} else {
-		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-								onAccount:self];
-
-		if(timelineChat) {
-			[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
-										   ofType:@"favorite"
-										   inChat:timelineChat];
-		}
+		AIChat *timelineChat = self.timelineChat;
+		
+		[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
+									   ofType:@"favorite"
+									   inChat:timelineChat];
 	}
 }
 
@@ -1146,14 +1163,11 @@
 				forRequestID:requestID
 			  withDictionary:nil];
 	} else {
-		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-								onAccount:self];
+		AIChat *timelineChat = self.timelineChat;
 		
-		if(timelineChat) {
-			[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
-										   ofType:@"delete"
-										   inChat:timelineChat];
-		}
+		[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
+									   ofType:@"delete"
+									   inChat:timelineChat];
 	}
 }
 
@@ -1380,15 +1394,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		sortedQueuedUpdates = [self arrayWithDuplicateTweetsRemoved:sortedQueuedUpdates];
 		
-		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-																onAccount:self];
-		
-		if (!timelineChat) {
-			timelineChat = [adium.chatController chatWithName:self.timelineChatName
-												   identifier:nil
-													onAccount:self
-											 chatCreationInfo:nil];
-		}
+		AIChat *timelineChat = self.timelineChat;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 		
@@ -1484,15 +1490,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[listContact removeRemoteGroupName:groupName];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyStatus) {
-		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-								onAccount:self];
-		
-		if (!timelineChat) {
-			timelineChat = [adium.chatController chatWithName:self.timelineChatName
-												   identifier:nil
-													onAccount:self
-											 chatCreationInfo:nil];	
-		}
+		AIChat *timelineChat = self.timelineChat;
 		
 		[adium.contentController displayEvent:AILocalizedString(@"Your tweet has been successfully deleted.", nil)
 									  ofType:@"delete"
@@ -1586,14 +1584,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		case AITwitterFavoriteYes:
 		case AITwitterFavoriteNo:
 		{
-			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName onAccount:self];			
-			
-			if (!timelineChat) {
-				timelineChat = [adium.chatController chatWithName:self.timelineChatName
-													   identifier:nil
-														onAccount:self
-												 chatCreationInfo:nil];	
-			}
+			AIChat *timelineChat = self.timelineChat;
 
 			if (error.code == 403) {
 				// We've attempted to add or remove when we already have it marked as such. Try the opposite.
@@ -1636,15 +1627,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 		case AITwitterDestroyStatus:
 		{
-			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-																	onAccount:self];
-			
-			if (!timelineChat) {
-				timelineChat = [adium.chatController chatWithName:self.timelineChatName
-													   identifier:nil
-														onAccount:self
-												 chatCreationInfo:nil];	
-			}
+			AIChat *timelineChat = self.timelineChat;
 			
 			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete (error %u).", nil), error.code]
 										   ofType:@"delete"
@@ -1817,16 +1800,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes ||
 			   [self requestTypeForRequestID:identifier] == AITwitterFavoriteNo) {
-		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
-																onAccount:self];
-		
-		if (!timelineChat) {
-			timelineChat = [adium.chatController chatWithName:self.timelineChatName
-												   identifier:nil
-													onAccount:self
-											 chatCreationInfo:nil];
-		}
-		
+		AIChat *timelineChat = self.timelineChat;
+
 		for (NSDictionary *status in statuses) {
 			NSString *message;
 			
@@ -1837,6 +1812,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			} else {
 				message = AILocalizedString(@"The <a href=\"%@\">requested tweet</a> by <a href=\"%@\">%@</a> is no longer a favorite.", nil);
 			}
+			
+			NSLog(@"happyface timeline chat is %@", timelineChat);
 			
 			NSString *userID = [[status objectForKey:TWITTER_STATUS_USER] objectForKey:TWITTER_STATUS_UID];
 			
