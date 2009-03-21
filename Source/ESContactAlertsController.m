@@ -385,6 +385,8 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 			events = [self appendEventsForObject:container eventID:eventID toArray:events];
 		}	
 	}
+	
+	events = [self appendEventsForObject:nil eventID:eventID toArray:events];
 
 	return events;
 }
