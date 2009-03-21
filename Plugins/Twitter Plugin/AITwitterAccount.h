@@ -46,11 +46,12 @@ typedef enum {
 	AITwitterFavoriteYes,
 	AITwitterFavoriteNo,
 	
-	AITwitterNotificationEnableOrDisable
+	AITwitterNotificationEnable,
+	AITwitterNotificationDisable
 } AITwitterRequestType;
 
 typedef enum {
-	AITwitterLinkReply,
+	AITwitterLinkReply = 0,
 	AITwitterLinkRetweet,
 	AITwitterLinkFavorite,
 	AITwitterLinkStatus,
