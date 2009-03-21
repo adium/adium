@@ -20,6 +20,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -237,7 +238,7 @@
 						   separatorItem:&separatorItem];
 		}
 
-	} else  if ([inObject isKindOfClass:[AIListContact class]]) {
+	} else if ([inObject isKindOfClass:[AIListContact class]] && ![inObject isKindOfClass:[AIListBookmark class]]) {
 		[self addMenuItemsForContact:(AIListContact *)inObject
 							  toMenu:workingMenu
 					   separatorItem:&separatorItem];
@@ -531,7 +532,7 @@
 						   separatorItem:&separatorItem];
 		}
 		
-	} else if ([inObject isKindOfClass:[AIListContact class]]) {
+	} else if ([inObject isKindOfClass:[AIListContact class]] && ![inObject isKindOfClass:[AIListBookmark class]]) {
 		[self addMenuItemsForContact:(AIListContact *)inObject
 							  toMenu:menu
 					   separatorItem:&separatorItem];
