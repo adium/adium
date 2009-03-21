@@ -84,10 +84,6 @@
 		_APIDomain = [TWITTER_DOMAIN retain];
         _secureConnection = YES;
 		_clearsCookies = NO;
-		_consumer = nil;
-		_accessToken = nil;
-		_username = nil;
-		_password = nil;
     }
     
     return self;
