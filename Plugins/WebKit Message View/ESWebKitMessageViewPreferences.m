@@ -49,6 +49,7 @@
 #define	PREF_GROUP_DISPLAYFORMAT			@"Display Format"  //To watch when the contact name display format changes
 
 @interface ESWebKitMessageViewPreferences ()
+- (void)configurePreferencesForTab;
 - (void)_setBackgroundImage:(NSImage *)image;
 - (NSMenu *)_stylesMenu;
 - (NSMenu *)_variantsMenu;
@@ -104,20 +105,7 @@
 	//Configure the chat preview
 	[self _configureChatPreview];
 
-	//Configure our controls to represent the global preferences
-	NSDictionary	*prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
-	[checkBox_showUserIcons setState:([[previewController messageStyle] allowsUserIcons] ?
-									  [[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue] :
-									  NSOffState)];
-	[checkBox_showHeader setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_HEADER] boolValue]];
-	[checkBox_showMessageColors setState:([[previewController messageStyle] allowsColors] ?
-										  [[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS] boolValue] :
-										  NSOffState)];
-	[checkBox_showMessageFonts setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
-
-	//Allow the alpha component to be set for our background color
-	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
-	
+	[self configurePreferencesForTab];
 	[self configureControlDimming];
 }
 
@@ -145,7 +133,7 @@
 - (void)messageStyleXtrasDidChange
 {
 	if (viewIsOpen) {
-		NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+		NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab];
 		
 		[popUp_styles setMenu:[self _stylesMenu]];
 		[popUp_styles selectItemWithRepresentedObject:[prefDict objectForKey:KEY_WEBKIT_STYLE]];
@@ -154,6 +142,66 @@
 
 //Preferences ----------------------------------------------------------------------------------------------------------
 #pragma mark Preferences
+- (AIWebkitStyleType)currentTab
+{
+	if (tabView_messageType.selectedTabViewItem == tabViewItem_regularChat) {
+		return AIWebkitRegularChat;
+	} else {
+		return AIWebkitGroupChat;
+	}
+}
+
+- (NSString *)preferenceGroupForCurrentTab
+{
+	NSString *prefGroup = nil;
+	
+	switch(self.currentTab) {
+		case AIWebkitRegularChat:
+			prefGroup = PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY;
+			break;
+			
+		case AIWebkitGroupChat:
+			prefGroup = PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY;
+			break;		
+	}
+	
+	return prefGroup;
+}
+
+- (void)configurePreferencesForTab
+{
+	//Configure our controls to represent the global preferences
+
+	NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab];
+	
+	[checkBox_showUserIcons setState:([[previewController messageStyle] allowsUserIcons] ?
+									  [[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue] :
+									  NSOffState)];
+	[checkBox_showHeader setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_HEADER] boolValue]];
+	[checkBox_showMessageColors setState:([[previewController messageStyle] allowsColors] ?
+										  [[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS] boolValue] :
+										  NSOffState)];
+	[checkBox_showMessageFonts setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
+	
+	//Allow the alpha component to be set for our background color
+	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
+	
+	[previewController setIsGroupChat:(self.currentTab == AIWebkitGroupChat)];
+		
+}
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
+{
+	[self configurePreferencesForTab];
+	
+	// The preview controller will send us a preferences changed message also.
+	[previewController preferencesChangedForGroup:self.preferenceGroupForCurrentTab
+											  key:nil
+										   object:nil
+								   preferenceDict:[adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab]
+										firstTime:NO];
+}
+
 /*!
  * @brief Update our preference view to reflect changed preferences
  */
@@ -162,7 +210,7 @@
 {
 	if (!viewIsOpen) return;
 
-	if ([group isEqualToString:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY]) {
+	if ([group isEqualToString:self.preferenceGroupForCurrentTab]) {
 		NSString	*style;
 		NSString	*variant;
 
@@ -240,53 +288,53 @@
 		if (sender == checkBox_showUserIcons) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_USER_ICONS
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == checkBox_showHeader) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_HEADER
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == checkBox_showMessageColors) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == checkBox_showMessageFonts) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == checkBox_useCustomBackground) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:[plugin styleSpecificKey:@"UseCustomBackground" 
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == colorWell_customBackgroundColor) {
 			[adium.preferenceController setPreference:[[colorWell_customBackgroundColor color] stringRepresentation]
 												 forKey:[plugin styleSpecificKey:@"BackgroundColor"
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == popUp_backgroundImageType) {
 			[adium.preferenceController setPreference:[NSNumber numberWithInteger:[[popUp_backgroundImageType selectedItem] tag]]
 												 forKey:[plugin styleSpecificKey:@"BackgroundType"
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];	
+												  group:self.preferenceGroupForCurrentTab];	
 			
 		} else if (sender == popUp_styles) {
 			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 												 forKey:KEY_WEBKIT_STYLE
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 			
 		} else if (sender == popUp_variants) {
 			NSString *activeStyle = [adium.preferenceController preferenceForKey:KEY_WEBKIT_STYLE
-																			 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+																		   group:self.preferenceGroupForCurrentTab];
 			
 			[adium.preferenceController setPreference:[[sender selectedItem] representedObject]
 												 forKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
-												  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+												  group:self.preferenceGroupForCurrentTab];
 		}
 		
 		[self configureControlDimming];
@@ -323,14 +371,14 @@
 - (void)_setDisplayFontFace:(NSString *)face size:(NSNumber *)size
 {
 	NSString *activeStyle = [adium.preferenceController preferenceForKey:KEY_WEBKIT_STYLE
-																	 group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+																	group:self.preferenceGroupForCurrentTab];
 	
 	[adium.preferenceController setPreference:face
 										 forKey:[plugin styleSpecificKey:@"FontFamily" forStyle:activeStyle]
-										  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+										  group:self.preferenceGroupForCurrentTab];
 	[adium.preferenceController setPreference:size
 										 forKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
-										  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY];
+										  group:self.preferenceGroupForCurrentTab];
 	
 }
 
@@ -488,7 +536,6 @@
 		[(ESWebView *)preview setShouldForwardEvents:NO];		
 	}	
 }
-
 
 - (AIChat *)previewChatWithDictionary:(NSDictionary *)previewDict fromPath:(NSString *)previewPath listObjects:(NSDictionary **)outListObjects
 {

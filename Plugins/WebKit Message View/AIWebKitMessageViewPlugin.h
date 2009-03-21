@@ -18,11 +18,17 @@
 #import <WebKit/WebKit.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 
+typedef enum {
+	AIWebkitRegularChat = 0,
+	AIWebkitGroupChat
+} AIWebkitStyleType;
+
 /*!
  *	@brief Preference group for webkit display prefs
  *	@see AIPreferencesController
  */
-#define PREF_GROUP_WEBKIT_MESSAGE_DISPLAY		@"WebKit Message Display"
+#define PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY	@"WebKit Message Display"
+#define PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY		@"WebKit Message Display (Group)"
 
 /*!
  *	@brief Preference group for custom images as background in the webkit message view
@@ -103,7 +109,8 @@
 @interface AIWebKitMessageViewPlugin : AIPlugin <AIMessageDisplayPlugin> {
 	ESWebKitMessageViewPreferences  *preferences;
 	NSMutableDictionary				*styleDictionary;
-	AIWebkitMessageViewStyle		*currentStyle;
+	AIWebkitMessageViewStyle		*currentGroupStyle;
+	AIWebkitMessageViewStyle		*currentRegularStyle;
 }
 
 /*!
@@ -132,8 +139,8 @@
 - (NSString *)styleSpecificKey:(NSString *)key forStyle:(NSString *)style;
 
 /*!
- *	@brief Returns the shared instance of the currently used message style
+ *	@brief Returns the shared instance of the currently used message style for a particular chat
  */
-- (AIWebkitMessageViewStyle *) currentMessageStyle;
+- (AIWebkitMessageViewStyle *) currentMessageStyleForChat:(AIChat *)chat;
 
 @end
