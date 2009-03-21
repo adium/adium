@@ -26,7 +26,6 @@
 	if ((self = [super init])) {
 		delegate = inDelegate;
 		account = [inAccount retain];
-		consumer = nil;
 	}
 	
 	return self;

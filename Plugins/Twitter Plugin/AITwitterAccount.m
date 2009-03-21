@@ -73,9 +73,6 @@
 	pendingRequests = [[NSMutableDictionary alloc] init];
 	queuedUpdates = [[NSMutableArray alloc] init];
 	queuedDM = [[NSMutableArray alloc] init];
-	updateTimer = nil;
-	
-	futureTimelineLastID = futureRepliesLastID = nil;
 	
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
@@ -1019,6 +1016,7 @@
 	
 	// We haven't completed the timeline nor replies. This lets us know if we should display statuses.
 	followedTimelineCompleted = repliesCompleted = NO;
+	futureTimelineLastID = futureRepliesLastID = nil;
 	
 	// Prevent triggering this update routine multiple times.
 	pendingUpdateCount = 3;
@@ -1101,6 +1099,8 @@
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=retweet&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
 	} else if (linkType == AITwitterLinkFavorite) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=favorite&status=%@", self.internalObjectID, userID, statusID];
+	} else if (linkType == AITwitterLinkDestroyStatus) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=destroy&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
 	}
 	
 	return address;
@@ -1127,6 +1127,31 @@
 		if(timelineChat) {
 			[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
 										   ofType:@"favorite"
+										   inChat:timelineChat];
+		}
+	}
+}
+
+/*!
+ * @brief Destroy the tweet.
+ *
+ * The user has already confirmed they want to destroy it; send the message.
+ */
+- (void)destroyTweet:(NSString *)tweetID
+{
+	NSString *requestID = [twitterEngine deleteUpdate:[tweetID intValue]];
+	
+	if(requestID) {
+		[self setRequestType:AITwitterDestroyStatus
+				forRequestID:requestID
+			  withDictionary:nil];
+	} else {
+		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+								onAccount:self];
+		
+		if(timelineChat) {
+			[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
+										   ofType:@"delete"
 										   inChat:timelineChat];
 		}
 	}
@@ -1197,7 +1222,7 @@
 		BOOL commaNeeded = NO;
 		
 		// Append a link to the tweet this is in reply to
-		if (replyTweet) {			
+		if (replyTweet) {
 			NSString *linkAddress = [self addressForLinkType:AITwitterLinkStatus
 													  userID:replyUserID
 													statusID:replyTweetID
@@ -1212,8 +1237,8 @@
 			} else {
 				// This probably shouldn't happen, but in case it does, we're set as in_reply_to_status_id a non-reply. link it at the ned.
 				
-				[mutableMessage appendString:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
-							  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
+																						 linkDestination:linkAddress]];
 				
 				commaNeeded = YES;	
 			}
@@ -1221,39 +1246,46 @@
 		
 		// Append a link to reply to this tweet
 		if (tweetLink) {
+			NSString *linkAddress;
 			
-			NSString *linkAddress = nil;
-			
-			if(commaNeeded) {
-				[mutableMessage appendString:@", " withAttributes:nil];
+			if(![self.UID isEqualToString:userID]) {
+				// A message from someone other than ourselves. RT and @ is permissible.
+				if (retweetLink) {				
+					if(commaNeeded) {
+						[mutableMessage appendString:@", " withAttributes:nil];
+					}
+					
+					linkAddress = [self addressForLinkType:AITwitterLinkRetweet
+													userID:userID
+												  statusID:tweetID
+												   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+					
+					[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"RT"
+																							 linkDestination:linkAddress]];
+					commaNeeded = YES;
+				}
 				
-				commaNeeded = NO;
-			}
-			
-			if (retweetLink) {
-				linkAddress = [self addressForLinkType:AITwitterLinkRetweet
+				if (commaNeeded) {
+					[mutableMessage appendString:@", " withAttributes:nil];
+				}			
+				
+				linkAddress = [self addressForLinkType:AITwitterLinkReply
+												userID:userID
+											  statusID:tweetID
+											   context:nil];
+				
+				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"@"
+																						 linkDestination:linkAddress]];
+			} else {
+				// Our own message. Display a destroy link.
+				linkAddress = [self addressForLinkType:AITwitterLinkDestroyStatus
 												userID:userID
 											  statusID:tweetID
 											   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 				
-				[mutableMessage appendString:@"RT"
-							  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
-
-				commaNeeded = YES;
+				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u232B"
+																						 linkDestination:linkAddress]];
 			}
-			
-			if (commaNeeded) {
-				[mutableMessage appendString:@", " withAttributes:nil];
-			}
-			
-			
-			linkAddress = [self addressForLinkType:AITwitterLinkReply
-											userID:userID
-										  statusID:tweetID
-										   context:nil];
-			
-			[mutableMessage appendString:@"@"
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
 
@@ -1262,8 +1294,8 @@
 										  statusID:tweetID
 										   context:nil];
 
-			[mutableMessage appendString:@"\u2606"
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u2606"
+																					 linkDestination:linkAddress]];
 
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
@@ -1272,8 +1304,8 @@
 										  statusID:tweetID
 										   context:nil];
 			
-			[mutableMessage appendString:@"#"
-						  withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]];
+			[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"#"
+																					 linkDestination:linkAddress]];
 
 		}
 	
@@ -1451,6 +1483,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		for (NSString *groupName in [[listContact.remoteGroupNames copy] autorelease]) {
 			[listContact removeRemoteGroupName:groupName];
 		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyStatus) {
+		AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+								onAccount:self];
+		
+		if (!timelineChat) {
+			timelineChat = [adium.chatController chatWithName:self.timelineChatName
+												   identifier:nil
+													onAccount:self
+											 chatCreationInfo:nil];	
+		}
+		
+		[adium.contentController displayEvent:AILocalizedString(@"Your tweet has been successfully deleted.", nil)
+									  ofType:@"delete"
+									  inChat:timelineChat];
 	}
 }
 
@@ -1542,8 +1588,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		{
 			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName onAccount:self];			
 			
-			BOOL displayFailure = (error.code != 403);
-			
+			if (!timelineChat) {
+				timelineChat = [adium.chatController chatWithName:self.timelineChatName
+													   identifier:nil
+														onAccount:self
+												 chatCreationInfo:nil];	
+			}
+
 			if (error.code == 403) {
 				// We've attempted to add or remove when we already have it marked as such. Try the opposite.
 				BOOL addAsFavorite = ([self requestTypeForRequestID:identifier] == AITwitterFavoriteNo);
@@ -1557,15 +1608,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 							forRequestID:requestID
 						  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
 				} else {
-					displayFailure = YES;
+					[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
+												   ofType:@"favorite"
+												   inChat:timelineChat];
 				}
-				
-			}
-			
-			if(displayFailure && timelineChat) {
-				[adium.contentController displayEvent:AILocalizedString(@"Attempt to favorite tweet failed to connect.", nil)
+			} else {
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Attempt to favorite tweet failed (error %u).", nil), error.code]
 											   ofType:@"favorite"
-											   inChat:timelineChat];
+											   inChat:timelineChat];				
 			}
 			
 			break;
@@ -1581,6 +1631,25 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 														   AILocalizedString(@"Unable to Enable Notifications", nil) :
 														   AILocalizedString(@"Unable to Disable Notifications", nil))
 										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change for %@. Received error %u from the server.", nil), listContact.UID, error.code]];
+			break;
+		}
+			
+		case AITwitterDestroyStatus:
+		{
+			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+																	onAccount:self];
+			
+			if (!timelineChat) {
+				timelineChat = [adium.chatController chatWithName:self.timelineChatName
+													   identifier:nil
+														onAccount:self
+												 chatCreationInfo:nil];	
+			}
+			
+			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete (error %u).", nil), error.code]
+										   ofType:@"delete"
+										   inChat:timelineChat];
+			
 			break;
 		}
 

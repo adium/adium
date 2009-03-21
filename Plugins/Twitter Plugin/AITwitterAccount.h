@@ -47,7 +47,10 @@ typedef enum {
 	AITwitterFavoriteNo,
 	
 	AITwitterNotificationEnable,
-	AITwitterNotificationDisable
+	AITwitterNotificationDisable,
+	
+	AITwitterDestroyStatus,
+	AITwitterDestroyDM
 } AITwitterRequestType;
 
 typedef enum {
@@ -59,7 +62,8 @@ typedef enum {
 	AITwitterLinkFollowers,
 	AITwitterLinkUserPage,
 	AITwitterLinkSearchHash,
-	AITwitterLinkGroup
+	AITwitterLinkGroup,
+	AITwitterLinkDestroyStatus
 } AITwitterLinkType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
@@ -158,6 +162,7 @@ typedef enum {
 		   description:(NSString *)description;
 
 - (void)toggleFavoriteTweet:(NSString *)tweetID;
+- (void)destroyTweet:(NSString *)tweetID;
 
 - (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString;
 
