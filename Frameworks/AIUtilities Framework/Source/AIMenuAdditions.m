@@ -68,6 +68,16 @@
 	}
 }
 
+- (void)removeAllItemsAfterIndex:(NSInteger)index
+{
+	NSParameterAssert(index < self.numberOfItems);
+	
+	NSInteger count = self.numberOfItems;
+	while (--count > index) {
+		[self removeItemAtIndex:count];
+	}
+}
+
 @end
 
 @implementation NSMenuItem (ItemCreationAdditions)

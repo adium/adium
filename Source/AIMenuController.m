@@ -519,15 +519,9 @@
 - (void)updateAccountSpecificMenu:(NSMenu *)menu
 {
 	NSInteger separatorIndex = [menu indexOfItem:menu_Contact_AccountSpecific];
-	NSUInteger totalCount = menu.numberOfItems;
-		
-	// Remove all items after the account-specific separator. i.e., those dynamically added.
-	while(--totalCount > separatorIndex) {
-		[menu removeItemAtIndex:totalCount];
-	}
+	[menu removeAllItemsAfterIndex:separatorIndex];
 	
-	BOOL separatorItem = NO;
-	
+	BOOL separatorItem = NO;	
 	// Add all items for this contact, if one exists.
 	AIListObject *inObject = adium.interfaceController.selectedListObject;
 	if ([inObject isKindOfClass:[AIMetaContact class]]) {
@@ -544,7 +538,7 @@
 	}
 	
 	// If no account specific items, hide the separator item.
-	[menu_Contact_AccountSpecific setHidden:(menu.numberOfItems <= separatorIndex+1)];
+	[menu_Contact_AccountSpecific setHidden:(menu.numberOfItems == separatorIndex+1)];
 }
 
 @end
