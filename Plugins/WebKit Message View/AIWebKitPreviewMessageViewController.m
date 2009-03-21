@@ -28,6 +28,7 @@
 - (void)setIsGroupChat:(BOOL)groupChat
 {
 	chat.isGroupChat = groupChat;
+	preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
 }
 
 - (void)setPreferencesChangedDelegate:(id)inDelegate

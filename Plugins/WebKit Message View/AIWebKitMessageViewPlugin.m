@@ -97,6 +97,10 @@
 			[self resetStylesForType:AIWebkitGroupChat];
 		}
 	}
+	
+	if ([group isEqualToString:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY]) {
+		useRegularForGroupChat = [[prefDict objectForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES] boolValue];
+	}
 }
 
 - (NSDictionary *)availableMessageStyles
@@ -168,7 +172,7 @@
 	NSString *loadFromGroup = nil;
 	AIWebkitMessageViewStyle **thisStyle = nil;
 	
-	if (!chat.isGroupChat) {
+	if (!chat.isGroupChat || useRegularForGroupChat) {
 		if (!currentRegularStyle) {
 			loadFromGroup = PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY;
 		}
@@ -227,6 +231,18 @@
 		[self resetStylesForType:AIWebkitRegularChat];
 		[self resetStylesForType:AIWebkitGroupChat];
 		[preferences messageStyleXtrasDidChange];
+	}
+}
+
+/*!
+ * @brief The preference group this chat should use.
+ */
+- (NSString *)preferenceGroupForChat:(AIChat *)chat
+{
+	if (useRegularForGroupChat || !chat.isGroupChat) {
+		return PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY;
+	} else {
+		return PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY;
 	}
 }
 

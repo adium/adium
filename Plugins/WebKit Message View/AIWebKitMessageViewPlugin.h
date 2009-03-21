@@ -97,6 +97,11 @@ typedef enum {
  */
 #define KEY_WEBKIT_MIN_FONT_SIZE				@"Min Font Size"
 
+/*!
+ * @brief Key for group chats to use the same preferences as regular.
+ */
+#define KEY_WEBKIT_USE_REGULAR_PREFERENCES		@"Use Regular Chat Preferences"
+
 #define NEW_CONTENT_RETRY_DELAY					0.01 
 
 @class ESWebKitMessageViewPreferences, AIChat, AIWebkitMessageViewStyle;
@@ -111,6 +116,8 @@ typedef enum {
 	NSMutableDictionary				*styleDictionary;
 	AIWebkitMessageViewStyle		*currentGroupStyle;
 	AIWebkitMessageViewStyle		*currentRegularStyle;
+	
+	BOOL							useRegularForGroupChat;
 }
 
 /*!
@@ -142,5 +149,7 @@ typedef enum {
  *	@brief Returns the shared instance of the currently used message style for a particular chat
  */
 - (AIWebkitMessageViewStyle *) currentMessageStyleForChat:(AIChat *)chat;
+
+- (NSString *)preferenceGroupForChat:(AIChat *)chat;
 
 @end
