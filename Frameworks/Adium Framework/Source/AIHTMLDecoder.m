@@ -998,19 +998,9 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Add these zero or more lines, with BRs between them, to the top element on the stack.
 			NSXMLElement *lastElement = [elementStack lastObject];
 			for (id obj in linesAndBRs) {
-				if ([obj isKindOfClass:[NSString class]]) {
-					// If the string contains only whitespace-characters:
-					if ([obj rangeOfCharacterFromSet:[[NSCharacterSet whitespaceCharacterSet] invertedSet]].location == NSNotFound) {
-						// These are significant spaces. We replace it with the en-space, U+2002.
-						// This behaves similarly to a non-breaking space, and for the sake of XML
-						// doesn't cause it to be eliminated when between two elements.
-						obj = [@"" stringByPaddingToLength:((NSString *)obj).length
-												withString:[NSString stringWithUTF8String:"\u2002"]
-										   startingAtIndex:0];
-					}
-					
+				if ([obj isKindOfClass:[NSString class]])
 					[lastElement addChild:[NSXMLNode textWithStringValue:(NSString *)obj]];
-				} else
+				else
 					[lastElement addChild:(NSXMLNode *)obj];
 			}
 		}
