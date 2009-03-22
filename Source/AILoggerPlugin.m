@@ -20,6 +20,7 @@
 #import "AILogToGroup.h"
 #import "AILogViewerWindowController.h"
 #import "AIXMLAppender.h"
+#import <Adium/AIXMLElement.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
@@ -451,13 +452,15 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 				[attributeValues addObject:[[content source] displayName]];				
 			}
 			
-			NSString *messageElementContents = [xhtmlDecoder encodeHTML:[content message]
-															 imagesPath:[appender.path stringByDeletingLastPathComponent]];
-			NSXMLElement *messageElement = [[[NSXMLElement alloc] initWithXMLString:[NSString stringWithFormat:@"<message>%@</message>", messageElementContents] error:NULL] autorelease];
-			[messageElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:attributeValues
-																				  forKeys:attributeKeys]];
+			AIXMLElement *messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];
+
+			[messageElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+														   imagesPath:[appender.path stringByDeletingLastPathComponent]]];
+			
+			[messageElement setAttributeNames:attributeKeys values:attributeValues];
 
 			[appender appendElement:messageElement];
+			
 			dirty = YES;
 		} else {
 			//XXX: Yucky hack. This is here because we get status and event updates for metas, not for individual contacts. Or something like that.
@@ -490,13 +493,16 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 							[attributeValues addObject:actualObject.displayName];				
 						}
 						
-						NSString *statusElementContents = [(AIContentStatus *)content loggedMessage] ? [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] : @"";
-						NSXMLElement *statusElement = [[[NSXMLElement alloc] initWithXMLString:[NSString stringWithFormat:@"<status>%@</status>", statusElementContents] error:NULL] autorelease];
-						[statusElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:attributeValues
-																							  forKeys:attributeKeys]];
-				
+						AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
+						
+						[statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
+														 [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
+														 @"")];
+						
+						[statusElement setAttributeNames:attributeKeys values:attributeValues];
 						
 						[[self appenderForChat:chat] appendElement:statusElement];
+						
 						dirty = YES;
 					}
 
@@ -511,12 +517,13 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 						[attributeKeys addObject:@"alias"];
 						[attributeValues addObject:[[content source] displayName]];				
 					}
+
+					AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
 					
-					NSString *statusElementContents = [xhtmlDecoder encodeHTML:[content message]
-																	 imagesPath:[[appender path] stringByDeletingLastPathComponent]];
-					NSXMLElement *statusElement = [[[NSXMLElement alloc] initWithXMLString:[NSString stringWithFormat:@"<status>%@</status>", statusElementContents] error:NULL] autorelease];
-					[statusElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:attributeValues
-																						 forKeys:attributeKeys]];
+					[statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+																  imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
+					
+					[statusElement setAttributeNames:attributeKeys values:attributeValues];
 					
 					[appender appendElement:statusElement];
 					dirty = YES;
@@ -551,9 +558,10 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 												 object:[self keyForChat:chat]];
 		
 		// Print the windowOpened event in the log
-		NSXMLElement *eventElement = [[[NSXMLElement alloc] initWithName:@"event"] autorelease];
-		[eventElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]
-																			forKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]]];
+		AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+
+		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 		
 		[appender appendElement:eventElement];
 
@@ -572,9 +580,12 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	
 	//If there is an appender, add the windowClose event
 	if (appender) {
-		NSXMLElement *eventElement = [[[NSXMLElement alloc] initWithName:@"event"] autorelease];
-		[eventElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"windowClosed", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]
-																			forKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]]];
+		AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+		
+		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+								 values:[NSArray arrayWithObjects:@"windowClosed", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
+		
+		
 		[appender appendElement:eventElement];
 		[self closeAppenderForChat:chat];
 
@@ -628,19 +639,22 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		NSDate			*chatDate = [chat dateOpened];
 		NSString		*fullPath = [AILoggerPlugin fullPathForLogOfChat:chat onDate:chatDate];
 
-		NSXMLElement *rootElement = [[[NSXMLElement alloc] initWithName:@"chat"] autorelease];
-		[rootElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:
-																					XML_LOGGING_NAMESPACE,
-																					chat.account.UID,
-																					chat.account.service.serviceID,
-																					nil]
-																			forKeys:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]]];
+		AIXMLElement *rootElement = [[[AIXMLElement alloc] initWithName:@"chat"] autorelease];
+		
+		[rootElement setAttributeNames:[NSArray arrayWithObjects:@"xmlns", @"account", @"service", nil]
+								values:[NSArray arrayWithObjects:
+										XML_LOGGING_NAMESPACE,
+										chat.account.UID,
+										chat.account.service.serviceID,
+										nil]];
+		
 		appender = [AIXMLAppender documentWithPath:fullPath rootElement:rootElement];
 		
 		//Add the window opened event now
-		NSXMLElement *eventElement = [[[NSXMLElement alloc] initWithName:@"event"] autorelease];
-		[eventElement setAttributesAsDictionary:[NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]
-																			forKeys:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]]];
+		AIXMLElement *eventElement = [[[AIXMLElement alloc] initWithName:@"event"] autorelease];
+		
+		[eventElement setAttributeNames:[NSArray arrayWithObjects:@"type", @"sender", @"time", nil]
+								 values:[NSArray arrayWithObjects:@"windowOpened", chat.account.UID, [[[NSDate date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString], nil]];
 		
 		[appender appendElement:eventElement];
 		

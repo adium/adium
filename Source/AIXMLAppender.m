@@ -46,6 +46,7 @@
  *****/
 
 #import "AIXMLAppender.h"
+#import <Adium/AIXMLElement.h>
 #import <AIUtilities/RAOperationQueue.h>
 #import <AIUtilities/RAOperation.h>
 #define BSD_LICENSE_ONLY 1
@@ -67,7 +68,7 @@ enum {
 - (NSString *)rootElementNameForFileAtPath:(NSString *)path;
 @property (readwrite, retain, nonatomic) NSFileHandle *fileHandle;
 @property (readwrite) BOOL initialized;
-@property (readwrite, copy, nonatomic) NSXMLElement *rootElement;
+@property (readwrite, copy, nonatomic) AIXMLElement *rootElement;
 @property (readwrite, copy, nonatomic) NSString *path;
 @end
 
@@ -179,7 +180,7 @@ enum {
 		//Get the root element name and set initialized
 		NSString *rootElementName = [appender rootElementNameForFileAtPath:appender.path];
 		if (rootElementName)
-			appender.rootElement = [[[NSXMLElement alloc] initWithName:rootElementName] autorelease];
+			appender.rootElement = [[[AIXMLElement alloc] initWithName:rootElementName] autorelease];
 		appender.initialized = (rootElementName != nil);				
 		
 	} else {
@@ -236,7 +237,7 @@ enum {
  *
  * @param path Path to the file where XML document will be stored
  */
-+ (id)documentWithPath:(NSString *)path rootElement:(NSXMLElement *)root
++ (id)documentWithPath:(NSString *)path rootElement:(AIXMLElement *)root
 {
 	return [[[self alloc] initWithPath:path rootElement:root] autorelease];
 }
@@ -246,7 +247,7 @@ enum {
  *
  * @param path 
  */
-- (id)initWithPath:(NSString *)inPath rootElement:(NSXMLElement *)root
+- (id)initWithPath:(NSString *)inPath rootElement:(AIXMLElement *)root
 {
 	if ((self = [super init])) {
 		//Set up our instance variables
@@ -312,7 +313,7 @@ static RAOperationQueue *writerQueue;
  * @param element The element to add
  */
 
-- (void)appendElement:(NSXMLElement *)element
+- (void)appendElement:(AIXMLElement *)element
 {
 	//Create our strings
 	NSString *elementString = [element XMLString];
