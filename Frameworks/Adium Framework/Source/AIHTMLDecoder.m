@@ -1001,8 +1001,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 			//Add these zero or more lines, with BRs between them, to the top element on the stack.
 			[[elementStack lastObject] addObjectsFromArray:linesAndBRs];
-			
-			NSLog(@"lines and brs: %@", linesAndBRs);
 		}
 
 		searchRange.location += runRange.length;
@@ -1019,8 +1017,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		NSString *doctype = @"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">";
 		output = [doctype stringByAppendingString:output];
 	}
-	
-	NSLog(@"output = %@", output);
 	
 	return output;
 }
