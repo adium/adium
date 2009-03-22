@@ -34,7 +34,7 @@ typedef enum {
 typedef enum {
     Context_Group_AttachDetach,Context_Contact_AttachDetach,Context_Group_Manage,Context_Contact_Manage,Context_Contact_Action, Context_Contact_NegativeAction,
     Context_Contact_Message, Context_Contact_Additions, Context_Contact_ChatAction, Context_Contact_Stranger_ChatAction, Context_Contact_ListAction,
-	Context_Contact_GroupChatAction,
+	Context_Contact_GroupChat_ParticipantAction, Context_GroupChat_Manage,
 	Context_Tab_Action,
 	Context_TextView_LinkEditing, Context_TextView_Edit
 } AIContextMenuLocation;
