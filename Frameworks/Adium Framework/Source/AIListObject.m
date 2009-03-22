@@ -62,10 +62,11 @@
 		smallestOrder = 1.0;
 
 		[adium.preferenceController addObserver:self
-									   forKeyPath:@"Always Visible.Visible"
-										 ofObject:self
-										  options:NSKeyValueObservingOptionNew
-										  context:NULL];
+									forKeyPath:@"Always Visible.Visible"
+									  ofObject:self
+									   options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+									   context:NULL];
+		
 		[self observeValueForKeyPath:@"Always Visible.Visible"
 							ofObject:nil
 							  change:nil
@@ -91,8 +92,12 @@
 {
 	if ([keyPath hasSuffix:@"Visible"]) {
 		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
-		if (!alwaysVisiblePrefValue && [self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact)
+		
+		// If we're in a meta contact, use the meta contact's preference for visibility.
+		if ([self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact) {
 			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
+		}
+		
 		alwaysVisible = [alwaysVisiblePrefValue boolValue];
 	}
 }
