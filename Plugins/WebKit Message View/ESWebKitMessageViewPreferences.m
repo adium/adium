@@ -227,9 +227,6 @@
 			[popUp_variants setMenu:[self _variantsMenu]];
 		}
 
-		//Only enable if there are multiple variant choices
-		[popUp_variants setEnabled:([popUp_variants numberOfItems] > 0)];
-
 		variant = [prefDict objectForKey:[plugin styleSpecificKey:@"Variant" forStyle:style]];
 		if (!variant || ![popUp_variants selectItemWithRepresentedObject:variant]) {
 			variant = [AIWebkitMessageViewStyle defaultVariantForBundle:[plugin messageStyleBundleWithIdentifier:style]];
@@ -262,21 +259,6 @@
 
 		[checkBox_useCustomBackground setState:[[prefDict objectForKey:[plugin styleSpecificKey:@"UseCustomBackground" forStyle:style]] boolValue]];
 		[popUp_backgroundImageType selectItemWithTag:[[prefDict objectForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:style]] integerValue]];
-
-		//Disable the custom background controls if the style doesn't support them
-		BOOL	allowCustomBackground = [[previewController messageStyle] allowsCustomBackground];
-		[checkBox_useCustomBackground setEnabled:allowCustomBackground];
-		[colorWell_customBackgroundColor setEnabled:allowCustomBackground];
-		[imageView_backgroundImage setEnabled:allowCustomBackground];
-		[popUp_backgroundImageType setEnabled:allowCustomBackground];
-		
-		//Disable the header control if this style doesn't have a header
-		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader]];
-
-		//Disable user icon toggling if the style doesn't support them
-		[checkBox_showUserIcons setEnabled:[[previewController messageStyle] allowsUserIcons]];
-		
-		[checkBox_showMessageColors setEnabled:[[previewController messageStyle] allowsColors]];
 		
 		[self configureControlDimming];
 	}
@@ -350,10 +332,38 @@
 
 - (void)configureControlDimming
 {	
-	BOOL customBackground = [checkBox_useCustomBackground state];
-	[popUp_backgroundImageType setEnabled:customBackground];
-	[imageView_backgroundImage setEnabled:customBackground];
-	[colorWell_customBackgroundColor setEnabled:customBackground];
+	// Controls are enabled if we're the regular chat tab, or we're not using regular preferences.
+	BOOL anyControlsEnabled = (self.currentTab == AIWebkitRegularChat || ![[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
+																			group:self.preferenceGroupForCurrentTab] boolValue]);
+	
+	// General controls with no other qualifiers.
+	[popUp_styles setEnabled:anyControlsEnabled];
+	[fontPreviewField_currentFont setEnabled:anyControlsEnabled];
+	[checkBox_showMessageFonts setEnabled:anyControlsEnabled];
+	[checkBox_showMessageColors setEnabled:anyControlsEnabled];
+	[button_setFont setEnabled:anyControlsEnabled];
+	[button_defaultFont setEnabled:anyControlsEnabled];
+	
+	//Only enable if there are multiple variant choices
+	[popUp_variants setEnabled:[popUp_variants numberOfItems] > 0 && anyControlsEnabled];
+	
+	//Disable the custom background controls if the style doesn't support them
+	BOOL	allowCustomBackground = [[previewController messageStyle] allowsCustomBackground] && anyControlsEnabled;
+	[checkBox_useCustomBackground setEnabled:allowCustomBackground];
+	[colorWell_customBackgroundColor setEnabled:allowCustomBackground];
+	[imageView_backgroundImage setEnabled:allowCustomBackground];
+	[popUp_backgroundImageType setEnabled:allowCustomBackground];
+	[popUp_backgroundImageType setEnabled:allowCustomBackground];
+	[imageView_backgroundImage setEnabled:allowCustomBackground];
+	[colorWell_customBackgroundColor setEnabled:allowCustomBackground];
+	
+	//Disable the header control if this style doesn't have a header
+	[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader] && anyControlsEnabled];
+	
+	//Disable user icon toggling if the style doesn't support them
+	[checkBox_showUserIcons setEnabled:[[previewController messageStyle] allowsUserIcons] && anyControlsEnabled];
+	
+	[checkBox_showMessageColors setEnabled:[[previewController messageStyle] allowsColors] && anyControlsEnabled];
 }
 
 /*!
