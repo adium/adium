@@ -100,8 +100,6 @@
 	
 	if ([group isEqualToString:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY]) {
 		useRegularForGroupChat = [[prefDict objectForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES] boolValue];
-		
-		NSLog(@"use regular = %d", useRegularForGroupChat);
 	}
 }
 
