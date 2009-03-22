@@ -182,22 +182,25 @@
 										  NSOffState)];
 	[checkBox_showMessageFonts setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
 	
+	[checkBox_useRegularChatForGroup setState:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
+																					  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY] boolValue]];
+	
 	//Allow the alpha component to be set for our background color
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 	
 	[previewController setIsGroupChat:(self.currentTab == AIWebkitGroupChat)];
+	
+	// The preview controller will send us a preferences changed message also.
+	[previewController preferencesChangedForGroup:self.preferenceGroupForCurrentTab
+											  key:KEY_CURRENT_WEBKIT_STYLE_PATH
+										   object:nil
+								   preferenceDict:[adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab]
+										firstTime:NO];
 }
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	[self configurePreferencesForTab];
-	
-	// The preview controller will send us a preferences changed message also.
-	[previewController preferencesChangedForGroup:self.preferenceGroupForCurrentTab
-											  key:nil
-										   object:nil
-								   preferenceDict:[adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab]
-										firstTime:NO];
 }
 
 /*!
@@ -304,13 +307,17 @@
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS
 												  group:self.preferenceGroupForCurrentTab];
-			
 		} else if (sender == checkBox_useCustomBackground) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:[plugin styleSpecificKey:@"UseCustomBackground" 
 																		forStyle:[[popUp_styles selectedItem] representedObject]]
 												  group:self.preferenceGroupForCurrentTab];
+		} else if (sender == checkBox_useRegularChatForGroup) {
+			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+												 forKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
+												  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];		
 			
+			[self configurePreferencesForTab];
 		} else if (sender == colorWell_customBackgroundColor) {
 			[adium.preferenceController setPreference:[[colorWell_customBackgroundColor color] stringRepresentation]
 												 forKey:[plugin styleSpecificKey:@"BackgroundColor"
@@ -342,7 +349,7 @@
 }
 
 - (void)configureControlDimming
-{
+{	
 	BOOL customBackground = [checkBox_useCustomBackground state];
 	[popUp_backgroundImageType setEnabled:customBackground];
 	[imageView_backgroundImage setEnabled:customBackground];

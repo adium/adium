@@ -29,6 +29,8 @@
 	IBOutlet	NSTabViewItem		*tabViewItem_regularChat;
 	IBOutlet	NSTabViewItem		*tabViewItem_groupChat;
 	
+	IBOutlet	NSButton			*checkBox_useRegularChatForGroup;
+	
 	IBOutlet	JVFontPreviewField  *fontPreviewField_currentFont;
 	IBOutlet	NSPopUpButton   	*popUp_styles;
 	IBOutlet	NSPopUpButton   	*popUp_variants;
