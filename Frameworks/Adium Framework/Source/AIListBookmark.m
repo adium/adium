@@ -275,6 +275,10 @@
 		// Thus, we have to use the secondary, silent notification so that the online gets propogated without the events.
 		[self setOnline:self.account.online notify:NotifyLater silently:YES];
 		[self notifyOfChangedPropertiesSilently:YES];
+		
+		if (self.account.online && [[self preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]) {
+			[self openChat];
+		}
 	}
 }
 

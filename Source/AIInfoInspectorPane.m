@@ -16,6 +16,7 @@
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
@@ -88,15 +89,8 @@
 	
 	displayedObject = inObject;
 	
-	if ([inObject isKindOfClass:[AIListContact class]]) {
-		[[AIContactObserverManager sharedManager] updateListContactStatus:(AIListContact *)inObject];
-	}
-	
 	[self updateProfile:nil
 				context:inObject];
-	
-	[profileProgress startAnimation:self];
-	[profileProgress setHidden:NO];
 	
 	[self updateUserIcon:inObject];
 	[self updateAccountName:inObject];
@@ -104,8 +98,15 @@
 	[self updateStatusIcon:inObject];
 	[self updateAlias:inObject];
 	
-	[self updateProfile:[self attributedStringProfileForListObject:inObject]
-				context:inObject];
+	if ([inObject isKindOfClass:[AIListContact class]] && ![inObject isKindOfClass:[AIListBookmark class]]) {
+		[[AIContactObserverManager sharedManager] updateListContactStatus:(AIListContact *)inObject];
+		
+		[profileProgress startAnimation:self];
+		[profileProgress setHidden:NO];
+		
+		[self updateProfile:[self attributedStringProfileForListObject:inObject]
+					context:inObject];
+	}
 }
 
 - (void)updateUserIcon:(AIListObject *)inObject

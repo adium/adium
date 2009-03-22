@@ -14,14 +14,6 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSTextField</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSControl</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>RBSplitView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -32,6 +24,14 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -110,6 +110,8 @@
 				<string>id</string>
 				<key>selectedEncryptionPreference</key>
 				<string>id</string>
+				<key>setAutoJoin</key>
+				<string>id</string>
 				<key>setVisible</key>
 				<string>id</string>
 			</dict>
@@ -122,6 +124,8 @@
 				<key>accountsTableView</key>
 				<string>AIAlternatingRowTableView</string>
 				<key>checkBox_alwaysShow</key>
+				<string>NSButton</string>
+				<key>checkBox_autoJoin</key>
 				<string>NSButton</string>
 				<key>contactsColumn</key>
 				<string>NSTableColumn</string>
@@ -137,7 +141,7 @@
 				<string>NSPopUpButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>AIObject</string>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -146,14 +150,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>AIObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
