@@ -283,24 +283,17 @@
 			}
 		}
 
-		if (numberOfItems > 1) {
-			NSString *message = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to delete %lu saved status items?",nil),
-				numberOfItems];
-			
-			//Warn if deleting a group containing status items
-			NSBeginAlertSheet(AILocalizedString(@"Status Deletion Confirmation",nil),
-							  AILocalizedString(@"Delete", nil),
-							  AILocalizedString(@"Cancel", nil), nil,
-							  [[self view] window], self,
-							  @selector(sheetDidEnd:returnCode:contextInfo:), NULL,
-							  [selectedItems retain],
-							  message);			
-		} else {
-			//Use an enumerator because we could be deleting multiple empty groups
-			for (AIStatusItem *statusItem in selectedItems) {
-				[[statusItem containingStatusGroup] removeStatusItem:statusItem];
-			}
-		}
+		NSString *message = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to delete %lu saved status items?",nil),
+							 numberOfItems];
+		
+		//Warn if deleting a group containing status items
+		NSBeginAlertSheet(AILocalizedString(@"Status Deletion Confirmation",nil),
+						  AILocalizedString(@"Delete", nil),
+						  AILocalizedString(@"Cancel", nil), nil,
+						  [[self view] window], self,
+						  @selector(sheetDidEnd:returnCode:contextInfo:), NULL,
+						  [selectedItems retain],
+						  message);
 	}
 }
 
