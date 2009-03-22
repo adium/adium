@@ -350,12 +350,12 @@
 	//Disable the custom background controls if the style doesn't support them
 	BOOL	allowCustomBackground = [[previewController messageStyle] allowsCustomBackground] && anyControlsEnabled;
 	[checkBox_useCustomBackground setEnabled:allowCustomBackground];
+	
+	allowCustomBackground = allowCustomBackground && checkBox_useCustomBackground.state;
+	
 	[colorWell_customBackgroundColor setEnabled:allowCustomBackground];
-	[imageView_backgroundImage setEnabled:allowCustomBackground];
-	[popUp_backgroundImageType setEnabled:allowCustomBackground];
 	[popUp_backgroundImageType setEnabled:allowCustomBackground];
 	[imageView_backgroundImage setEnabled:allowCustomBackground];
-	[colorWell_customBackgroundColor setEnabled:allowCustomBackground];
 	
 	//Disable the header control if this style doesn't have a header
 	[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader] && anyControlsEnabled];
