@@ -91,8 +91,6 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	[super configurePurpleAccount];
 
-	NSLog(@"password = %@", password);
-	
 	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
 	
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
