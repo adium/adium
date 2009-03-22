@@ -36,6 +36,7 @@
 
 //LMX
 #import <LMX/LMXParser.h>
+#import <Adium/AIXMLElement.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import "unistd.h"
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
@@ -350,11 +351,11 @@ static NSInteger linesLeftToFind = 0;
 - (void)parser:(LMXParser *)parser elementEnded:(NSString *)elementName
 {
 	if ([elementName isEqualToString:@"message"]) {
-		[elementStack insertObject:[NSXMLNode elementWithName:elementName] atIndex:0U];
+		[elementStack insertObject:[AIXMLElement elementWithName:elementName] atIndex:0U];
 	}
 	else if ([elementStack count]) {
-		NSXMLElement *element = [NSXMLNode elementWithName:elementName];
-		[(NSXMLElement *)[elementStack objectAtIndex:0U] insertChild:element atIndex:0U];
+		AIXMLElement *element = [AIXMLElement elementWithName:elementName];
+		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:element atIndex:0U];
 		[elementStack insertObject:element atIndex:0U];
 	}
 }
@@ -362,23 +363,23 @@ static NSInteger linesLeftToFind = 0;
 - (void)parser:(LMXParser *)parser foundCharacters:(NSString *)string
 {
 	if ([elementStack count])
-		[(NSXMLElement *)[elementStack objectAtIndex:0U] insertChild:[NSXMLNode textWithStringValue:string] atIndex:0U];
+		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:string atIndex:0U];
 }
 
 - (void)parser:(LMXParser *)parser elementStarted:(NSString *)elementName attributes:(NSDictionary *)attributes
 {
 	if ([elementStack count]) {
-		NSXMLElement *element = [elementStack objectAtIndex:0U];
+		AIXMLElement *element = [elementStack objectAtIndex:0U];
 		if (attributes) {
-			[element setAttributesAsDictionary:attributes];
+			[element setAttributeNames:[attributes allKeys] values:[attributes allValues]];
 		}
 		
 		NSMutableDictionary *contextInfo = [parser contextInfo];
 
 		if ([elementName isEqualToString:@"message"]) {
 			//A message element has started!
-			//This means that we have all of this message now, and therefore can create a single content object from the NSXMLElement tree and then throw away that tree.
-			//This saves memory when a message element contains many elements (since each one is represented by an NSXMLElement sub-tree in the NSXMLElement tree, as opposed to a simple NSAttributeRun in the NSAttributedString of the content object).
+			//This means that we have all of this message now, and therefore can create a single content object from the AIXMLElement tree and then throw away that tree.
+			//This saves memory when a message element contains many elements (since each one is represented by an AIXMLElement sub-tree in the AIXMLElement tree, as opposed to a simple NSAttributeRun in the NSAttributedString of the content object).
 
 			NSString     *serviceName = [contextInfo objectForKey:@"Service name"];
 			AIListObject *account     = [contextInfo objectForKey:@"Account"];
@@ -386,21 +387,15 @@ static NSInteger linesLeftToFind = 0;
 			AIChat       *chat        = [contextInfo objectForKey:@"Chat"];
 
 			//Set up some doohickers.
-			NSString		*timeString = [[element attributeForName:@"time"] stringValue];
+			NSDictionary	*attributes = [element attributes];
+			NSString		*timeString = [attributes objectForKey:@"time"];
 			//Create the context object
 			if (timeString) {
 				NSCalendarDate *time = [NSCalendarDate calendarDateWithString:timeString];
 
-				NSString		*autoreplyAttribute = [[element attributeForName:@"auto"] stringValue];
-				NSString		*sender = [NSString stringWithFormat:@"%@.%@", serviceName, [[element attributeForName:@"sender"] stringValue]];
-				BOOL			sentByMe = [sender isEqualToString:accountID];
-				
-				//XXX is there really no better way to get all the children of a node as an xml string?
-				NSMutableString *contents = [NSMutableString string];
-				for (NSXMLNode *child in [element children])
-				{
-					[contents appendString:[child XMLString]];
-				}
+				NSString		*autoreplyAttribute = [attributes objectForKey:@"auto"];
+				NSString		*sender = [NSString stringWithFormat:@"%@.%@", serviceName, [attributes objectForKey:@"sender"]];
+				BOOL			sentByMe = ([sender isEqualToString:accountID]);
 				
 				/*don't fade the messages if they're within the last 5 minutes
 				 *since that will be resuming a conversation, not starting a new one.
@@ -411,7 +406,7 @@ static NSInteger linesLeftToFind = 0;
 				AIListContact *listContact = nil;
 				
 				if (chat.isGroupChat) {
-					listContact = [chat.account contactWithUID:[[element attributeForName:@"sender"] stringValue]];
+					listContact = [chat.account contactWithUID:[attributes objectForKey:@"sender"]];
 				} else {
 					listContact = chat.listObject;
 				}
@@ -420,7 +415,7 @@ static NSInteger linesLeftToFind = 0;
 															 withSource:(sentByMe ? account : listContact)
 															destination:(sentByMe ? (chat.isGroupChat ? nil : chat.listObject) : account)
 																   date:time
-																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:contents]
+																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:[element contentsAsXMLString]]
 															  autoreply:(autoreplyAttribute && [autoreplyAttribute caseInsensitiveCompare:@"true"] == NSOrderedSame)];
 				
 				//Don't log this object
@@ -441,7 +436,7 @@ static NSInteger linesLeftToFind = 0;
 		} else {
 			//We're still looking for more messages in this file.
 			//Pop the current autorelease pool and start a new one.
-			//This frees the most recent tree of autoreleased NSXMLElements.
+			//This frees the most recent tree of autoreleased AIXMLElements.
 			[parsingAutoreleasePool release];
 			parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
 		}

@@ -13,6 +13,8 @@
  | write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  \------------------------------------------------------------------------------------------------------ */
 
+@class AIXMLElement;
+
 @interface AIHTMLDecoder : NSObject {
 	NSString *XMLNamespace;
 	NSString *baseURL;
@@ -99,7 +101,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 //Turn an attributed string into the root element of a strict XHTML (1.0) document.
 //Uses options: XMLNamespace, includeHeaders, attachmentsAsText.
-- (NSXMLElement *)rootStrictXHTMLElementForAttributedString:(NSAttributedString *)inMessage imagesPath:(NSString *)imagesSavePath;
+- (AIXMLElement *)rootStrictXHTMLElementForAttributedString:(NSAttributedString *)inMessage imagesPath:(NSString *)imagesSavePath;
 
 //pass a string containing all the attributes of a tag (for example,
 //  @"src=\"window.jp2\" alt=\"Window on the World\""). you will get back a

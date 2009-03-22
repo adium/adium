@@ -150,6 +150,8 @@
 		11F739850F58D4DD00B3285B /* MGTwitterXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F739750F58D4DC00B3285B /* MGTwitterXMLParser.m */; };
 		11F739860F58D4DD00B3285B /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F739770F58D4DC00B3285B /* NSData+Base64.m */; };
 		11F739870F58D4DD00B3285B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F739790F58D4DC00B3285B /* NSString+UUID.m */; };
+		11FC23C20F768C1600C1C906 /* AIXMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 11FC23BF0F768C0900C1C906 /* AIXMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11FC23C30F768C2900C1C906 /* AIXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FC23C00F768C0900C1C906 /* AIXMLElement.m */; };
 		31034EFF0C8142680003F5AA /* TestStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31034EFE0C8142680003F5AA /* TestStringAdditions.m */; };
 		31034F0C0C8142720003F5AA /* UTF8Snowman.txt in Resources */ = {isa = PBXBuildFile; fileRef = 31034F0B0C8142720003F5AA /* UTF8Snowman.txt */; };
 		3107D5250F63134F0051DDD5 /* TestAttributedStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3107D5240F63134F0051DDD5 /* TestAttributedStringAdditions.m */; };
@@ -1865,6 +1867,8 @@
 		11F739770F58D4DC00B3285B /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		11F739780F58D4DC00B3285B /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		11F739790F58D4DC00B3285B /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
+		11FC23BF0F768C0900C1C906 /* AIXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXMLElement.h; path = "Frameworks/Adium Framework/Source/AIXMLElement.h"; sourceTree = "<group>"; };
+		11FC23C00F768C0900C1C906 /* AIXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXMLElement.m; path = "Frameworks/Adium Framework/Source/AIXMLElement.m"; sourceTree = "<group>"; };
 		31034EFD0C8142680003F5AA /* TestStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestStringAdditions.h; path = UnitTests/TestStringAdditions.h; sourceTree = "<group>"; };
 		31034EFE0C8142680003F5AA /* TestStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestStringAdditions.m; path = UnitTests/TestStringAdditions.m; sourceTree = "<group>"; };
 		31034F0B0C8142720003F5AA /* UTF8Snowman.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = UTF8Snowman.txt; path = UnitTests/UTF8Snowman.txt; sourceTree = "<group>"; };
@@ -7461,6 +7465,8 @@
 		9ECB03D909F2A57E00996F44 /* XML Logging */ = {
 			isa = PBXGroup;
 			children = (
+				11FC23BF0F768C0900C1C906 /* AIXMLElement.h */,
+				11FC23C00F768C0900C1C906 /* AIXMLElement.m */,
 				9ECB03E409F2A9D800996F44 /* AIXMLAppender.h */,
 				9ECB03E509F2A9D800996F44 /* AIXMLAppender.m */,
 				34A1AB6A0DFC531000AC78CF /* AIXMLChatlogConverter.h */,
@@ -8076,6 +8082,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11FC23C20F768C1600C1C906 /* AIXMLElement.h in Headers */,
 				63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */,
 				636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */,
 				636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */,
@@ -9689,6 +9696,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11FC23C30F768C2900C1C906 /* AIXMLElement.m in Sources */,
 				636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */,
 				636D92BE0E4E97AA00E5F558 /* AIAddressBookUserIconSource.m in Sources */,
 				34DC8A580A7EEEF7003E1636 /* ESPresetManagementController.m in Sources */,
