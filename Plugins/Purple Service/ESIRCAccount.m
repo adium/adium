@@ -91,6 +91,8 @@ void purple_account_set_bool(void *account, const char *name,
 {
 	[super configurePurpleAccount];
 
+	NSLog(@"password = %@", password);
+	
 	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
 	
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
@@ -181,6 +183,16 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
  * @brief We always want to autocomplete the UID.
  */
 - (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat
+{
+	return YES;
+}
+
+/*!
+ * @brief Use the object ID for password name
+ *
+ * We mess around a lot with the UID. This lets it actually save right.
+ */
+- (BOOL)useInternalObjectIDForPasswordName
 {
 	return YES;
 }
