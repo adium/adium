@@ -86,6 +86,16 @@
 	return "prpl-msn";
 }
 
+/*!
+ * @brief Should set aliases serverside?
+ *
+ * MSN as of P15 supports serverside aliases.
+ */
+- (BOOL)shouldSetAliasesServerside
+{
+	return YES;
+}
+
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {
 	NSString	*encodedString;
