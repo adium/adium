@@ -32,6 +32,9 @@
 	IBOutlet	NSButton			*checkBox_useRegularChatForGroup;
 	
 	IBOutlet	JVFontPreviewField  *fontPreviewField_currentFont;
+	IBOutlet	NSButton			*button_setFont;
+	IBOutlet	NSButton			*button_defaultFont;
+	
 	IBOutlet	NSPopUpButton   	*popUp_styles;
 	IBOutlet	NSPopUpButton   	*popUp_variants;
 	IBOutlet	NSPopUpButton   	*popUp_backgroundImageType;
@@ -44,10 +47,10 @@
 	IBOutlet	NSButton			*checkBox_useCustomBackground;
 	
 	//Message preview
-	IBOutlet	NSView				*view_previewLocation;
-	NSMutableDictionary				*previewListObjectsDict;
+	IBOutlet	NSView						*view_previewLocation;
+	NSMutableDictionary						*previewListObjectsDict;
 	AIWebKitPreviewMessageViewController	*previewController;
-	ESWebView						*preview;
+	ESWebView								*preview;
 	
 	BOOL							viewIsOpen;
 }
