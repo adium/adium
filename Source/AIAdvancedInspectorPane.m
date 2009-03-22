@@ -17,6 +17,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <Adium/AIListGroup.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AILocalizationTextField.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -156,12 +157,13 @@
 	
 	[checkBox_alwaysShow setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 	[checkBox_alwaysShow setState:inObject.alwaysVisible];
+	
+	[checkBox_autoJoin setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
+	[checkBox_autoJoin setState:[[inObject preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]];
 }
 
 - (IBAction)selectedEncryptionPreference:(id)sender
 {
-	if(!displayedObject)
-		return;
 	[displayedObject setPreference:[NSNumber numberWithInteger:[sender tag]] 
 							forKey:KEY_ENCRYPTED_CHAT_PREFERENCE 
 							group:GROUP_ENCRYPTION];
@@ -169,10 +171,14 @@
 
 - (IBAction)setVisible:(id)sender
 {
-	if(!displayedObject)
-		return;
-	
 	[displayedObject setAlwaysVisible:[checkBox_alwaysShow state]];
+}
+
+- (IBAction)setAutoJoin:(id)sender
+{
+	[displayedObject setPreference:[NSNumber numberWithBool:[sender state]] 
+							forKey:KEY_AUTO_JOIN
+							 group:GROUP_LIST_BOOKMARK];
 }
 
 #pragma mark Accounts Table View methods

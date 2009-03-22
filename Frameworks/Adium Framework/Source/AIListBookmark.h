@@ -7,6 +7,9 @@
 
 #import "AIListContact.h"
 
+#define KEY_AUTO_JOIN			@"Automatically Join"
+#define GROUP_LIST_BOOKMARK		@"List Bookmark Settings"
+
 @class AIChat;
 
 @interface AIListBookmark : AIListContact <NSCoding> {

@@ -24,6 +24,7 @@
 	IBOutlet	NSPopUpButton					*popUp_encryption;
 	
 	IBOutlet	NSButton						*checkBox_alwaysShow;
+	IBOutlet	NSButton						*checkBox_autoJoin;
 	
 	AIAccountMenu	*accountMenu;
 	
@@ -41,5 +42,6 @@
 
 - (IBAction)selectedEncryptionPreference:(id)sender;
 - (IBAction)setVisible:(id)sender;
+- (IBAction)setAutoJoin:(id)sender;
 
 @end
