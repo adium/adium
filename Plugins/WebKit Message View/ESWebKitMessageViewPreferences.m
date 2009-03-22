@@ -104,6 +104,8 @@
 		
 	//Configure the chat preview
 	[self _configureChatPreview];
+	
+	[tabView_messageType selectTabViewItem:tabViewItem_regularChat];
 
 	[self configurePreferencesForTab];
 }
