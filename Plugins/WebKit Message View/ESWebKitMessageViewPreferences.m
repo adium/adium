@@ -192,7 +192,7 @@
 	
 	// The preview controller will send us a preferences changed message also.
 	[previewController preferencesChangedForGroup:self.preferenceGroupForCurrentTab
-											  key:KEY_CURRENT_WEBKIT_STYLE_PATH
+											  key:nil
 										   object:nil
 								   preferenceDict:[adium.preferenceController preferencesForGroup:self.preferenceGroupForCurrentTab]
 										firstTime:NO];
