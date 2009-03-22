@@ -107,9 +107,8 @@ static NSArray *draggedTypes = nil;
 		contentQueue = [[NSMutableArray alloc] init];
 		objectIconPathDict = [[NSMutableDictionary alloc] init];
 		objectsWithUserIconsArray = [[NSMutableArray alloc] init];
+		shouldReflectPreferenceChanges = NO;
 		storedContentObjects = nil;
-		
-		[self setShouldReflectPreferenceChanges:YES];
 
 		//Observe preference changes.
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
