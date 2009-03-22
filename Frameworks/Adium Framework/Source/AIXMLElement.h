@@ -53,6 +53,7 @@
 
 //NSString: Unescaped string data (will be escaped when making XML data).
 //AIXMLElement: Sub-element (e.g. span in a p).
+- (void) addEscapedObject:(id)obj;
 - (void) addObject:(id)obj;
 - (void) addObjectsFromArray:(NSArray *)array;
 - (void) insertObject:(id)obj atIndex:(unsigned)idx;

@@ -146,6 +146,16 @@
 
 //NSString: Unescaped string data (will be escaped for XMLification).
 //AIXMLElement: Sub-element (e.g. span in a p).
+- (void)addEscapedObject:(id)obj
+{
+	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.
+	if (!obj) NSLog(@"Warning: Attempted to add (null) to %@", obj);
+
+	NSAssert2(([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[AIXMLElement class]]), @"%@: addObject: %@ is of incorrect class",self,obj);
+	
+	[contents addObject:obj];
+}
+
 - (void) addObject:(id)obj
 {
 	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.

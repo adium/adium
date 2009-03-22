@@ -31,21 +31,21 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-@class AIAppendXMLOperation;
+@class AIAppendXMLOperation, AIXMLElement;
 
 @interface AIXMLAppender : NSObject {
 	NSFileHandle			*file;
 	NSString				*path;
 
-	NSXMLElement			*rootElement;
+	AIXMLElement			*rootElement;
 	AIAppendXMLOperation	*lastOp;
 	
 	BOOL					initialized;
 }
 
-+ (id)documentWithPath:(NSString *)path rootElement:(NSXMLElement *)root;
-- (id)initWithPath:(NSString *)path rootElement:(NSXMLElement *)elm;
++ (id)documentWithPath:(NSString *)path rootElement:(AIXMLElement *)root;
+- (id)initWithPath:(NSString *)path rootElement:(AIXMLElement *)elm;
 
 @property (readonly, copy, nonatomic) NSString *path;
-- (void)appendElement:(NSXMLElement *)element;
+- (void)appendElement:(AIXMLElement *)element;
 @end
