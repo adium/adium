@@ -183,7 +183,7 @@
 	[checkBox_showMessageFonts setState:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
 	
 	[checkBox_useRegularChatForGroup setState:[[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
-																					  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY] boolValue]];
+																					  group:self.preferenceGroupForCurrentTab] boolValue]];
 	
 	//Allow the alpha component to be set for our background color
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
@@ -315,7 +315,7 @@
 		} else if (sender == checkBox_useRegularChatForGroup) {
 			[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 												 forKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
-												  group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];		
+												  group:self.preferenceGroupForCurrentTab];		
 			
 			[self configurePreferencesForTab];
 		} else if (sender == colorWell_customBackgroundColor) {
