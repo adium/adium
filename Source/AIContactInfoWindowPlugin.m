@@ -54,7 +54,7 @@
 		listObject = adium.menuController.currentContextMenuObject;
 	}
 	
-	if (listObject) {
+	if ([listObject isKindOfClass:[AIListObject class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
 
 		[AIContactInfoWindowController showInfoWindowForListObject:listObject];
