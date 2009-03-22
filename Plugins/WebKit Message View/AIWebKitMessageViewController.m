@@ -107,8 +107,9 @@ static NSArray *draggedTypes = nil;
 		contentQueue = [[NSMutableArray alloc] init];
 		objectIconPathDict = [[NSMutableDictionary alloc] init];
 		objectsWithUserIconsArray = [[NSMutableArray alloc] init];
-		shouldReflectPreferenceChanges = NO;
 		storedContentObjects = nil;
+		
+		[self setShouldReflectPreferenceChanges:YES];
 
 		//Observe preference changes.
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
@@ -248,7 +249,9 @@ static NSArray *draggedTypes = nil;
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	// First time won't occur because preferenceGroup is not yet set.
+	// First time won't occur because preferenceGroup is not yet set. Don't run on the assumption that it is, end early.
+	if (!preferenceGroup)
+		return;
 	
 	if ([group isEqualToString:preferenceGroup]) {
 #if USE_FASTER_BUT_BUGGY_WEBKIT_PREFERENCE_CHANGE_HANDLING
