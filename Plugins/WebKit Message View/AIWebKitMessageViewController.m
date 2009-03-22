@@ -812,9 +812,10 @@ static NSArray *draggedTypes = nil;
 		}
 		
 		originalMenu = [adium.menuController contextualMenuWithLocations:locations
-																	  forListObject:chatListObject];
+														   forListObject:chatListObject];
 	} else if(chat.isGroupChat) {
-		originalMenu = [adium.menuController contextualMenuWithLocations:nil
+		originalMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
+																		  [NSNumber numberWithInteger:Context_GroupChat_Manage], nil]
 																 forChat:chat];
 	}
 	

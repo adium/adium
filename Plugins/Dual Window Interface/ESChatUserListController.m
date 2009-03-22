@@ -144,7 +144,7 @@
 	
 	if (listObject.isStranger) {
 		locationsArray = [NSArray arrayWithObjects:
-						  [NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
+						  [NSNumber numberWithInteger:Context_Contact_GroupChat_ParticipantAction],		
 						  [NSNumber numberWithInteger:Context_Contact_Manage],
 						  [NSNumber numberWithInteger:Context_Contact_Action],
 						  [NSNumber numberWithInteger:Context_Contact_ListAction],
@@ -153,7 +153,7 @@
 						  [NSNumber numberWithInteger:Context_Contact_Additions], nil];
 	} else {
 		locationsArray = [NSArray arrayWithObjects:
-						  [NSNumber numberWithInteger:Context_Contact_GroupChatAction],		
+						  [NSNumber numberWithInteger:Context_Contact_GroupChat_ParticipantAction],		
 						  [NSNumber numberWithInteger:Context_Contact_Manage],
 						  [NSNumber numberWithInteger:Context_Contact_Action],
 						  [NSNumber numberWithInteger:Context_Contact_ListAction],

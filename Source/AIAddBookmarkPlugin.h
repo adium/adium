@@ -11,6 +11,7 @@
 @interface AIAddBookmarkPlugin : AIPlugin {
 	NSToolbarItem		*addBookmarkToolbarItem;
 	NSMenuItem			*addBookmarkMenuItem;
+	NSMenuItem			*addBookmarkContextMenuItem;
 }
 
 @end
