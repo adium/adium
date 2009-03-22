@@ -233,6 +233,8 @@
 			[popUp_variants selectItemWithRepresentedObject:variant];
 		}
 		
+		[popUp_variants synchronizeTitleAndSelectedItem];
+		
 		//Configure our style-specific controls to represent the current style
 		NSString	*fontFamily = [prefDict objectForKey:[plugin styleSpecificKey:@"FontFamily" forStyle:style]];
 		if (!fontFamily) fontFamily = [[plugin messageStyleBundleWithIdentifier:style] objectForInfoDictionaryKey:KEY_WEBKIT_DEFAULT_FONT_FAMILY];
