@@ -115,35 +115,38 @@ typedef enum {
  */
 - (void)xtrasChanged:(NSNotification *)notification
 {
-	NSString		*type = [[notification object] lowercaseString];
+	NSString *filenameExtension = [notification object];
 
-	if (!type || [type isEqualToString:@"adiumemoticonset"]) {
+	//Convert our filename extension into a Uniform Type Identifier so that we can robustly determine what type of Xtra this is.
+	CFStringRef type = (CFStringRef)[(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)filenameExtension, /*inConformingToUTI*/ NULL) autorelease];
+
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.emoticonset"))) {
 		[self _rebuildEmoticonMenuAndSelectActivePack];
 	}
 	
-	if (!type || [type isEqualToString:@"adiumicon"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.dockicon"))) {
 		[self configureDockIconMenu];
 	}
 	
-	if (!type || [type isEqualToString:@"adiumserviceicons"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.serviceicons"))) {
 		[self configureServiceIconsMenu];
 	}
 	
-	if (!type || [type isEqualToString:@"adiumstatusicons"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.statusicons"))) {
 		[self configureStatusIconsMenu];
 	}
 	
-	if (!type || [type isEqualToString:@"adiummenubaricons"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.menubaricons"))) {
 		[self configureMenuBarIconsMenu];
 	}
 	
-	if (!type || [type isEqualToString:@"listtheme"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.contactlisttheme"))) {
 		[popUp_colorTheme setMenu:[self _colorThemeMenu]];
 		[popUp_colorTheme selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_THEME_NAME
 																								   group:PREF_GROUP_APPEARANCE]];
 	}
 
-	if (!type || [type isEqualToString:@"listlayout"]) {
+	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.contactlistlayout"))) {
 		[popUp_listLayout setMenu:[self _listLayoutMenu]];
 		[popUp_listLayout selectItemWithRepresentedObject:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
 																								   group:PREF_GROUP_APPEARANCE]];
