@@ -36,6 +36,7 @@
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
@@ -403,34 +404,54 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		AIChat *activeChat = adium.interfaceController.activeChat;
 		
 		if (activeChat.isGroupChat) {
-			[AILogViewerWindowController openForChat:activeChat plugin:self];
+			[AILogViewerWindowController openForChatName:activeChat.name withAccount:activeChat.account plugin:self];
 			openForSelectedObject = NO;
 		}
 	}
 	
 	if (openForSelectedObject) {
 		AIListObject   *selectedObject = adium.interfaceController.selectedListObject;
-		[AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
-													 (AIListContact *)selectedObject : 
-													 nil)  
-											 plugin:self];
+		
+		if ([selectedObject isKindOfClass:[AIListBookmark class]]) {
+			[AILogViewerWindowController openForChatName:((AIListBookmark *)selectedObject).name
+											 withAccount:((AIListBookmark *)selectedObject).account
+												  plugin:self];
+		} else {
+			[AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
+														 (AIListContact *)selectedObject : 
+														 nil)  
+												 plugin:self];
+		}
 	}
 }
 
+/*!
+ * @brief Show the log viewer for the active chat
+ *
+ * This is called when a chat is definitely in focus, i.e. the toolbar item.
+ */
 - (void)showLogViewerForActiveChat:(id)sender
 {
 	AIChat *activeChat = adium.interfaceController.activeChat;
 	
 	if(activeChat.isGroupChat) {
-		[AILogViewerWindowController openForChat:activeChat plugin:self];
+		[AILogViewerWindowController openForChatName:activeChat.name withAccount:activeChat.account plugin:self];
 	} else {
 		[AILogViewerWindowController openForContact:activeChat.listObject plugin:self];
 	}
 }
 
+/*!
+ * @brief Show the log viewer with the menu context chat
+ *
+ * Opens the log window for a specific AIChat which the context menu is currently referencing.
+ * This is called by the group chat's context menu to open its logs.
+ */
 - (void)showLogViewerForGroupChat:(id)sender
 {
-	[AILogViewerWindowController openForChat:adium.menuController.currentContextMenuChat plugin:self];
+	AIChat *contextChat = adium.menuController.currentContextMenuChat;
+	
+	[AILogViewerWindowController openForChatName:contextChat.name withAccount:contextChat.account plugin:self];
 }
 
 - (void)showLogViewerForLogAtPath:(NSString *)inPath
