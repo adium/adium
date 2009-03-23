@@ -1240,7 +1240,7 @@
 
 			if([inMessage hasPrefix:@"@"] &&
 			   inMessage.length >= replyUserID.length + 1 &&
-			   [replyUserID isEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
+			   [replyUserID.lowercaseString isEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)].lowercaseString]) {
 				// If the message has a "@" prefix, it's a proper in_reply_to_status_id if the usernames match. Set a link appropriately.
 				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
 										range:NSMakeRange(0, replyUserID.length + 1)];
@@ -1258,7 +1258,7 @@
 		if (tweetLink) {
 			NSString *linkAddress;
 			
-			if(![self.UID isEqualToString:userID]) {
+			if(![self.UID isEqualToString:userID.lowercaseString]) {
 				// A message from someone other than ourselves. RT and @ is permissible.
 				if (retweetLink) {				
 					if(commaNeeded) {
@@ -1402,7 +1402,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			id fromObject = nil;
 			
-			if(![contactUID isEqualToString:self.UID]) {
+			if(![self.UID isEqualToString:contactUID.lowercaseString]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
 				// Update the user's status message
@@ -2043,7 +2043,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 
 			[self filterAndSetUID:[info objectForKey:TWITTER_INFO_UID]];
-			
+
 			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
