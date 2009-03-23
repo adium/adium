@@ -1240,7 +1240,7 @@
 
 			if([inMessage hasPrefix:@"@"] &&
 			   inMessage.length >= replyUserID.length + 1 &&
-			   [replyUserID.lowercaseString isEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)].lowercaseString]) {
+			   [replyUserID isCaseInsensitivelyEqualToString:[inMessage substringWithRange:NSMakeRange(1, replyUserID.length)]]) {
 				// If the message has a "@" prefix, it's a proper in_reply_to_status_id if the usernames match. Set a link appropriately.
 				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
 										range:NSMakeRange(0, replyUserID.length + 1)];
@@ -1258,7 +1258,7 @@
 		if (tweetLink) {
 			NSString *linkAddress;
 			
-			if(![self.UID isEqualToString:userID.lowercaseString]) {
+			if(![self.UID isCaseInsensitivelyEqualToString:userID]) {
 				// A message from someone other than ourselves. RT and @ is permissible.
 				if (retweetLink) {				
 					if(commaNeeded) {
@@ -1402,7 +1402,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			id fromObject = nil;
 			
-			if(![self.UID isEqualToString:contactUID.lowercaseString]) {
+			if(![self.UID isCaseInsensitivelyEqualToString:contactUID]) {
 				AIListContact *listContact = [self contactWithUID:contactUID];
 				
 				// Update the user's status message
