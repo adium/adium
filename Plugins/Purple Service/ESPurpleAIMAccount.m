@@ -73,7 +73,7 @@
 	//Set our capitilization properly if necessary
 	formattedUID = self.formattedUID;
 	
-	if (![[formattedUID lowercaseString] isEqualToString:formattedUID]) {
+	if (![formattedUID isCaseInsensitivelyEqualToString:formattedUID]) {
 		
 		//Remove trailing and leading whitespace
 		formattedUID = [formattedUID stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
