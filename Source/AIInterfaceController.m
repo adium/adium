@@ -173,11 +173,16 @@
 	[menuItem_toggleUserlist setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
 	
 	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
+
+	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
+																				target:self
+																				action:@selector(toggleUserlistContext:)
+																		 keyEquivalent:@""] autorelease];
 	
-	[adium.menuController addContextualMenuItem:[menuItem_toggleUserlist copy] toLocation:Context_GroupChat_Action];
+	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_GroupChat_Action];
 																			  
 	//Contact list menu item
-	NSMenuItem* menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
+	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
 																				target:self
 																				action:@selector(toggleContactList:)
 																		 keyEquivalent:@"/"];
@@ -1907,6 +1912,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 {
 	[[[[self activeChat] chatContainer] chatViewController] toggleUserList]; 
 }	
+
+-(void)toggleUserlistContext:(id)sender
+{
+	[adium.menuController.currentContextMenuChat.chatContainer.chatViewController toggleUserList]; 	
+}
 
 
 @end

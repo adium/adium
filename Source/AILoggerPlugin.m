@@ -358,7 +358,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	
 	viewGroupLogsContextMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_LOGS_WITH_CONTACT
 																						 target:self
-																						 action:@selector(showLogViewerForActiveChat:) 
+																						 action:@selector(showLogViewerForGroupChat:) 
 																				  keyEquivalent:@""] autorelease];
     [adium.menuController addContextualMenuItem:viewGroupLogsContextMenuItem toLocation:Context_GroupChat_Manage];
 	
@@ -426,6 +426,11 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	} else {
 		[AILogViewerWindowController openForContact:activeChat.listObject plugin:self];
 	}
+}
+
+- (void)showLogViewerForGroupChat:(id)sender
+{
+	[AILogViewerWindowController openForChat:adium.menuController.currentContextMenuChat plugin:self];
 }
 
 - (void)showLogViewerForLogAtPath:(NSString *)inPath

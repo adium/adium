@@ -49,7 +49,7 @@
 
 	addBookmarkContextMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:ADD_BOOKMARK_CONTEXT_MENU
 																					  target:self
-																					  action:@selector(addBookmark:)
+																					  action:@selector(addBookmarkContext:)
 																			   keyEquivalent:@""];
 
 	
@@ -78,6 +78,18 @@
 												notifyingTarget:self];
 }
 
+/*!
+ * @brief Add a bookmark
+ *
+ * Uses the adium.menuController.currentContextMenuChat as the chat.
+ */
+- (void)addBookmarkContext:(id)sender
+{
+	[AINewBookmarkWindowController promptForNewBookmarkForChat:adium.menuController.currentContextMenuChat
+													  onWindow:[adium.menuController.currentContextMenuChat.chatContainer.windowController window]
+											   notifyingTarget:self];
+}
+
 // @brief: create a bookmark for the given chat with the given name in the given group
 - (void)createBookmarkForChat:(AIChat *)chat withName:(NSString *)name inGroup:(AIListGroup *)group
 {
@@ -99,10 +111,15 @@
 /*!
  * @brief The chat can be bookmarked if it is a group chat and not already a bookmark.
  */
-- (BOOL)validateMenuItem:(NSMenuItem *)inMenuItem
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	return (adium.interfaceController.activeChat.isGroupChat &&
-			![adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat]);
+	if ([menuItem.title isEqualToString:ADD_BOOKMARK_CONTEXT_MENU]) {
+		// WKMV's context menu makes a copy of menu items; check against title.
+		return (![adium.contactController existingBookmarkForChat:adium.menuController.currentContextMenuChat]);
+	} else {
+		return (adium.interfaceController.activeChat.isGroupChat &&
+				![adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat]);
+	}
 }
 
 @end

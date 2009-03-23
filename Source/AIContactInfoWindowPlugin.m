@@ -65,7 +65,7 @@
 
 - (IBAction)showBookmarkInfo:(id)sender
 {
-	AIListBookmark *bookmark = [adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat];
+	AIListBookmark *bookmark = [adium.contactController existingBookmarkForChat:adium.menuController.currentContextMenuChat];
 	
 	[NSApp activateIgnoringOtherApps:YES];
 	
@@ -169,8 +169,7 @@
 		return [adium.accountController oneOrMoreConnectedAccounts];
 	} else if ([menuItem.title isEqualToString:VIEW_BOOKMARK_GET_INFO]) {
 		// WKMV's context menu makes a copy of menu items; check against title.
-		return (adium.interfaceController.activeChat.isGroupChat &&
-				[adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat]);
+		return ([adium.contactController existingBookmarkForChat:adium.menuController.currentContextMenuChat] != nil);
 	}
 	
 	return YES;
