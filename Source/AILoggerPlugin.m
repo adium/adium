@@ -165,7 +165,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	                                                     target:self
 	                                            settingSelector:@selector(setImage:)
 	                                                itemContent:[NSImage imageNamed:@"LogViewer" forClass:[self class] loadLazily:YES]
-	                                                     action:@selector(showLogViewerForToolbar:)
+	                                                     action:@selector(showLogViewerForActiveChat:)
 	                                                       menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 
@@ -355,6 +355,13 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 																						   action:@selector(showLogViewerToSelectedContextContact:) 
 																					keyEquivalent:@""] autorelease];
     [adium.menuController addContextualMenuItem:viewContactLogsContextMenuItem toLocation:Context_Contact_Manage];
+	
+	viewGroupLogsContextMenuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_LOGS_WITH_CONTACT
+																						 target:self
+																						 action:@selector(showLogViewerForActiveChat:) 
+																				  keyEquivalent:@""] autorelease];
+    [adium.menuController addContextualMenuItem:viewGroupLogsContextMenuItem toLocation:Context_GroupChat_Manage];
+	
 }
 
 //Enable/Disable our view log menus
@@ -410,7 +417,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	}
 }
 
-- (void)showLogViewerForToolbar:(id)sender
+- (void)showLogViewerForActiveChat:(id)sender
 {
 	AIChat *activeChat = adium.interfaceController.activeChat;
 	

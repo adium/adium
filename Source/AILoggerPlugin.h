@@ -45,6 +45,7 @@
     NSMenuItem                          *logViewerMenuItem;
     NSMenuItem                          *viewContactLogsMenuItem;
     NSMenuItem                          *viewContactLogsContextMenuItem;
+	NSMenuItem							*viewGroupLogsContextMenuItem;
 
     //Log content search index
 	BOOL				logIndexingEnabled; //Does this system use log indexing?
