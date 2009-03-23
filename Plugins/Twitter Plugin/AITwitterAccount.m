@@ -46,12 +46,14 @@
 
 - (void)updateTimelineChat:(AIChat *)timelineChat;
 
-- (NSAttributedString *)parseMessage:(NSString *)message;
 - (NSAttributedString *)parseMessage:(NSString *)inMessage
 							 tweetID:(NSString *)tweetID
 							  userID:(NSString *)userID
 					   inReplyToUser:(NSString *)replyUserID
 					inReplyToTweetID:(NSString *)replyTweetID;
+- (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
+									withID:(NSString *)dmID
+								  fromUser:(NSString *)sourceUID;
 
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
 - (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
@@ -73,6 +75,7 @@
 	pendingRequests = [[NSMutableDictionary alloc] init];
 	queuedUpdates = [[NSMutableArray alloc] init];
 	queuedDM = [[NSMutableArray alloc] init];
+	queuedOutgoingDM = [[NSMutableArray alloc] init];
 	
 	[twitterEngine setClientName:@"Adium"
 						 version:[NSApp applicationVersion]
@@ -109,6 +112,7 @@
 	[pendingRequests release];
 	[queuedUpdates release];
 	[queuedDM release];
+	[queuedOutgoingDM release];
 	
 	[super dealloc];
 }
@@ -261,6 +265,7 @@
 	[updateTimer invalidate]; updateTimer = nil;
 	[pendingRequests removeAllObjects];
 	[queuedDM removeAllObjects];
+	[queuedOutgoingDM removeAllObjects];
 	[queuedUpdates removeAllObjects];
 	
 	[super didDisconnect];
@@ -441,10 +446,11 @@
 				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
 															 forKey:@"Chat"]];
 			
+			inContentMessage.displayContent = NO;
+			
 			AILogWithSignature(@"%@ Sending update [in reply to %d]: %@", self, replyID, inContentMessage.encodedMessage);
 		}
-		
-		inContentMessage.displayContent = NO;
+
 	} else {		
 		requestID = [twitterEngine sendDirectMessage:inContentMessage.encodedMessage
 												  to:inContentMessage.destination.UID];
@@ -454,6 +460,8 @@
 					forRequestID:requestID
 				  withDictionary:[NSDictionary dictionaryWithObject:inContentMessage.chat
 															 forKey:@"Chat"]];
+			
+			inContentMessage.displayContent = NO;
 			
 			AILogWithSignature(@"%@ Sending DM to %@: %@", self, inContentMessage.destination.UID, inContentMessage.encodedMessage);
 		}
@@ -1117,6 +1125,8 @@
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=favorite&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkDestroyStatus) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=destroy&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
+	} else if (linkType == AITwitterLinkDestroyDM) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=destroy&dm=%@&message=%@", self.internalObjectID, userID, statusID, context];		
 	}
 	
 	return address;
@@ -1168,17 +1178,27 @@
 }
 
 /*!
- * @brief Parses a Twitter message into an attributed string
+ * @brief Destroy the DM.
  *
- * This is a shortcut method if no additional information is provided
+ * The user has already confirmed they want to destroy it; send the message.
  */
-- (NSAttributedString *)parseMessage:(NSString *)inMessage
+- (void)destroyDirectMessage:(NSString *)messageID
+					 forUser:(NSString *)userID
 {
-	return [self parseMessage:inMessage
-					  tweetID:nil
-					   userID:nil
-				inReplyToUser:nil
-			 inReplyToTweetID:nil];
+	NSString *requestID = [twitterEngine deleteDirectMessage:[messageID intValue]];
+	AIListContact *contact = [self contactWithUID:userID];
+	
+	if(requestID) {
+		[self setRequestType:AITwitterDestroyDM
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObject:contact forKey:@"ListContact"]];
+	} else {
+		AIChat *chat = [adium.chatController chatWithContact:contact];
+		
+		[adium.contentController displayEvent:AILocalizedString(@"Attempt to delete tweet failed to connect.", nil)
+									   ofType:@"delete"
+									   inChat:chat];
+	}	
 }
 
 /*!
@@ -1328,6 +1348,37 @@
 }
 
 /*!
+ * @brief Parse a direct message
+ */
+- (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
+									withID:(NSString *)dmID
+								  fromUser:(NSString *)sourceUID
+{
+	NSAttributedString *message;
+	
+	message = [NSAttributedString stringWithString:[inMessage stringByUnescapingFromXMLWithEntities:nil]];
+	
+	message = [self linkifiedAttributedStringFromString:message];
+	
+	NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
+	
+	[mutableMessage appendString:@"  (" withAttributes:nil];
+	
+	NSString *linkAddress = [self addressForLinkType:AITwitterLinkDestroyDM
+											  userID:sourceUID
+											statusID:dmID
+											 context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	
+	[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u232B"
+																			 linkDestination:linkAddress]];
+	
+	[mutableMessage appendString:@")" withAttributes:nil];
+	
+	return mutableMessage;
+}
+
+
+/*!
  * @brief Sort status updates
  */
 NSInteger queuedUpdatesSort(id update1, id update2, void *context)
@@ -1437,34 +1488,52 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		[queuedUpdates removeAllObjects];
-	} else if (requestType == AITwitterUpdateDirectMessage) {
-		if(!queuedDM.count) {
+	} else if (requestType == AITwitterUpdateDirectMessage || requestType == AITwitterDirectMessageSend) {
+		NSMutableArray **unsortedArray = (requestType == AITwitterUpdateDirectMessage) ? &queuedDM : &queuedOutgoingDM;
+		
+		if (!(*unsortedArray).count) {
 			return;
 		}
 		
 		AILogWithSignature(@"%@ Displaying %d DMs", self, queuedDM.count);
 		
-		NSArray *sortedQueuedDM = [queuedDM sortedArrayUsingFunction:queuedDMSort context:nil];
+		NSArray *sortedQueuedDM = [*unsortedArray sortedArrayUsingFunction:queuedDMSort context:nil];
 		
 		for (NSDictionary *message in sortedQueuedDM) {
 			NSDate			*date = [message objectForKey:TWITTER_DM_CREATED];
 			NSString		*text = [message objectForKey:TWITTER_DM_TEXT];
-			AIListContact	*listContact = [self contactWithUID:[message objectForKey:TWITTER_DM_SENDER_UID]];
-			AIChat			*chat = [adium.chatController chatWithContact:listContact];
+			NSString		*fromUID = [message objectForKey:TWITTER_DM_SENDER_UID];
+			NSString		*toUID = [message objectForKey:TWITTER_DM_RECIPIENT_UID];
 			
-			if(chat) {
+			AIListObject *source = nil, *destination = nil;
+			AIChat *chat = nil;
+			
+			if([self.UID isCaseInsensitivelyEqualToString:fromUID]) {
+				// This is a message we sent; display as coming from us.
+				source = self;
+				destination = [self contactWithUID:toUID];
+				chat = [adium.chatController chatWithContact:(AIListContact *)destination];
+			} else {
+				source = [self contactWithUID:toUID];
+				destination = self;
+				chat = [adium.chatController chatWithContact:(AIListContact *)source];
+			}
+			
+			if(chat && source && destination) {
 				AIContentMessage *contentMessage = [AIContentMessage messageInChat:chat
-																		withSource:listContact
-																	   destination:self
+																		withSource:source
+																	   destination:destination
 																			  date:date
-																		   message:[self parseMessage:text]
+																		   message:[self parseDirectMessage:text
+																									 withID:[message objectForKey:TWITTER_DM_ID]
+																								   fromUser:chat.listObject.UID]
 																		 autoreply:NO];
 				
 				[adium.contentController receiveContentObject:contentMessage];
 			}
 		}
 		
-		[queuedDM removeAllObjects];
+		[*unsortedArray removeAllObjects];
 	}
 }
 
@@ -1491,6 +1560,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[adium.contentController displayEvent:AILocalizedString(@"Your tweet has been successfully deleted.", nil)
 									  ofType:@"delete"
 									  inChat:timelineChat];
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyDM) {
+		AIListContact *contact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+		AIChat *chat = [adium.chatController chatWithContact:contact];
+		
+		[adium.contentController displayEvent:AILocalizedString(@"The direct message has been successfully deleted.", nil)
+									   ofType:@"delete"
+									   inChat:chat];		
 	}
 }
 
@@ -1628,7 +1704,17 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete (error %u).", nil), error.code]
 										   ofType:@"delete"
 										   inChat:timelineChat];
+			break;
+		}
 			
+		case AITwitterDestroyDM:
+		{
+				AIListContact *contact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
+				AIChat *chat = [adium.chatController chatWithContact:contact];
+				
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"The direct message failed to delete (error %u).", nil), error.code]
+											   ofType:@"delete"
+											   inChat:chat];	
 			break;
 		}
 
@@ -1778,8 +1864,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		}
 		
 		[listContact setProfileArray:profileArray notify:NotifyNow];
-	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate && updateAfterSend) {
-		[self periodicUpdate];
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
+		if (updateAfterSend) {
+			[self periodicUpdate];
+		}
 		
 		if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
 			for(NSDictionary *update in statuses) {
@@ -1904,6 +1992,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				[queuedDM removeAllObjects];		
 			}
 		}
+	} else if ([self requestTypeForRequestID:identifier] == AITwitterDirectMessageSend) {
+		[queuedOutgoingDM addObjectsFromArray:messages];
+		[self displayQueuedUpdatesForRequestType:AITwitterDirectMessageSend];
 	}
 	
 	[self clearRequestTypeForRequestID:identifier];
