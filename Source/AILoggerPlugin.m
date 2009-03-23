@@ -451,6 +451,8 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 {
 	AIChat *contextChat = adium.menuController.currentContextMenuChat;
 	
+	[NSApp activateIgnoringOtherApps:YES];
+	
 	[AILogViewerWindowController openForChatName:contextChat.name withAccount:contextChat.account plugin:self];
 }
 
@@ -472,10 +474,21 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 - (void)showLogViewerToSelectedContextContact:(id)sender
 {
 	AIListObject* object = adium.menuController.currentContextMenuObject;
-	if ([object isKindOfClass:[AIListContact class]]) {
+	
+	AILogViewerWindowController *windowController = nil;
+	
+	if ([object isKindOfClass:[AIListBookmark class]]) {
+		windowController = [AILogViewerWindowController openForChatName:((AIListBookmark *)object).name
+															withAccount:((AIListBookmark *)object).account
+																 plugin:self];
+		
+	} else if ([object isKindOfClass:[AIListContact class]]) {
+		windowController = [AILogViewerWindowController openForContact:(AIListContact *)object plugin:self];
+	}
+	
+	if (windowController) {
 		[NSApp activateIgnoringOtherApps:YES];
-		[[[AILogViewerWindowController openForContact:(AIListContact *)object plugin:self] window]
-									 makeKeyAndOrderFront:nil];
+		[[windowController window] makeKeyAndOrderFront:nil];
 	}
 }
 
