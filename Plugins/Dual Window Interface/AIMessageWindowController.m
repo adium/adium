@@ -829,7 +829,10 @@
 														   inChat:chat];
         
     } else if (chat.isGroupChat) {
-		NSArray *locations = [NSArray arrayWithObjects:[NSNumber numberWithInteger:Context_Tab_Action], nil];
+		NSArray *locations = [NSArray arrayWithObjects:
+							  [NSNumber numberWithInteger:Context_GroupChat_Manage],
+							  [NSNumber numberWithInteger:Context_GroupChat_Action],
+							  [NSNumber numberWithInteger:Context_Tab_Action], nil];
 		
 		tmp = [adium.menuController contextualMenuWithLocations:locations
 														forChat:chat];
