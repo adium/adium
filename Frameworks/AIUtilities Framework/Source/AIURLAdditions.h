@@ -31,5 +31,6 @@
  *   be found in the query string.
  */
 - (NSString *)queryArgumentForKey:(NSString *)key;
+- (NSString *)queryArgumentForKey:(NSString *)key withDelimiter:(NSString *)delimiter;
 
 @end

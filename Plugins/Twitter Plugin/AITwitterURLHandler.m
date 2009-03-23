@@ -59,8 +59,9 @@
 {
 	NSURL *url = [notification object];
 	NSString *inUser = [url host];
-	NSString *inAction = [url queryArgumentForKey:@"action"] ?: @"reply";
-	NSString *inTweet = [url queryArgumentForKey:@"status"];
+	NSString *inAction = [url queryArgumentForKey:@"action" withDelimiter:@"&"] ?: @"reply";
+	NSString *inTweet = [url queryArgumentForKey:@"status" withDelimiter:@"&"];
+	NSString *inMessage = [url queryArgumentForKey:@"message" withDelimiter:@"&"];
 	NSString *inAccount = [url user];
 	
 	AILogWithSignature(@"Twitter Reply requested: %@", url);
@@ -88,7 +89,7 @@
 		// No exact match. Fail.
 		return;
 	}
-	
+
 	if ([inAction isEqualToString:@"reply"] || [inAction isEqualToString:@"retweet"]) {
 		AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
 																onAccount:account];
@@ -112,10 +113,8 @@
 		// Insert the @reply text
 		NSString *prefix = nil;
 		
-		NSString *inMessage = [url queryArgumentForKey:@"message"];
-		
 		if (inMessage) {
-			prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [[url queryArgumentForKey:@"message"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+			prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 		} else {
 			prefix = [NSString stringWithFormat:@"@%@ ", inUser];
 		}
@@ -145,12 +144,12 @@
 	} else if ([inAction isEqualToString:@"favorite"]) {
 		[account toggleFavoriteTweet:inTweet];
 	} else if ([inAction isEqualToString:@"destroy"] && exactMatchForInternalID) {
-		if (inTweet && [url queryArgumentForKey:@"message"]) {
+		if (inTweet && inMessage) {
 			// Confirm if the user wants to delete this tweet.
 			if (NSRunAlertPanel(AILocalizedString(@"Delete Tweet?", nil),
 								AILocalizedString(@"Are you sure you want to delete the tweet:\n\n\"%@\"\n\nThis action cannot be undone.", nil),
 								AILocalizedString(@"Delete", nil), AILocalizedString(@"Cancel", nil), nil,
-								[[url queryArgumentForKey:@"message"] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) == NSAlertDefaultReturn) {
+								[inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) == NSAlertDefaultReturn) {
 				[account destroyTweet:inTweet];
 			}
 		}
