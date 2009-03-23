@@ -416,4 +416,47 @@
 	AISimplifiedAssertEqualObjects(lines, expectedLines, @"allLines did not properly split the array");
 }
 
+- (void) testCaseInsensitivelyEqualToSameString {
+	NSString *str = @"Adium rocks!";
+	NSString *other = [NSMutableString stringWithString:str]; //Using NSMutableString guarantees that we won't simply get the same immutable string.
+	STAssertTrue([str isCaseInsensitivelyEqualToString:other], @"string should be equal to itself!");
+}
+- (void) testCaseInsensitivelyEqualToSameStringInUppercase {
+	NSString *str = @"Adium rocks!";
+	NSString *other = [str uppercaseString];
+	STAssertTrue([str isCaseInsensitivelyEqualToString:other], @"string should be case-insensitively equal to uppercase version of it");
+}
+- (void) testCaseInsensitivelyEqualToSameStringInLowercase {
+	NSString *str = @"Adium rocks!";
+	NSString *other = [str lowercaseString];
+	STAssertTrue([str isCaseInsensitivelyEqualToString:other], @"string should be case-insensitively equal to lowercase version of it");
+}
+- (void) testCaseInsensitivelyEqualToStringPlusPrefix {
+	NSString *str = @"Adium rocks!";
+	NSString *other = [@"Verily, " stringByAppendingString:str];
+	STAssertFalse([str isCaseInsensitivelyEqualToString:other], @"string should be inequal to prefixed version of it");
+}
+- (void) testCaseInsensitivelyEqualToStringPlusSuffix {
+	NSString *str = @"Adium rocks!";
+	NSString *other = [str stringByAppendingString:@" Yes it does!"];
+	STAssertFalse([str isCaseInsensitivelyEqualToString:other], @"string should be inequal to suffixed version of it");
+}
+- (void) testCaseInsensitivelyEqualToCompletelyDifferentString {
+	NSString *str = @"Adium rocks!";
+	NSString *other = @"I just use iChat.";
+	STAssertFalse([str isCaseInsensitivelyEqualToString:other], @"string should be inequal to completely different string");
+}
+- (void) testCaseInsensitivelyEqualToNil {
+	NSString *str = @"Adium rocks!";
+	STAssertThrows([str isCaseInsensitivelyEqualToString:nil], @"can't compare string to nil; this should have thrown");
+}
+- (void) testCaseInsensitivelyEqualToThingsThatAreNotStrings {
+	NSString *str = @"Adium rocks!";
+	STAssertThrows([str isCaseInsensitivelyEqualToString:[[[NSObject alloc] init] autorelease]], @"can't compare string to plain object; this should have thrown");
+	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSNumber numberWithInt:42]], @"can't compare string to number; this should have thrown");
+	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSValue valueWithRect:NSMakeRect(0.0, 0.0, 128.0, 128.0)]], @"can't compare string to rect value; this should have thrown");
+	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSImage imageNamed:@"NSDefaultApplicationIcon"]], @"can't compare string to image; this should have thrown");
+}
+
+
 @end

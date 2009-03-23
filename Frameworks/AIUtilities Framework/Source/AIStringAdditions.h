@@ -125,4 +125,6 @@
 - (NSArray *)allLinesWithSeparator:(NSObject *)separatorObj;
 - (NSArray *)allLines;
 
+- (BOOL) isCaseInsensitivelyEqualToString:(NSString *)other;
+
 @end

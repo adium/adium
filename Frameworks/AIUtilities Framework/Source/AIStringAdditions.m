@@ -814,4 +814,9 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 
 #endif //ndef BSD_LICENSE_ONLY
 
+- (BOOL) isCaseInsensitivelyEqualToString:(NSString *)other {
+	NSParameterAssert(other != nil);
+	return [self caseInsensitiveCompare:other] == NSOrderedSame;
+}
+
 @end
