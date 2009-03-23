@@ -165,7 +165,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	                                                     target:self
 	                                            settingSelector:@selector(setImage:)
 	                                                itemContent:[NSImage imageNamed:@"LogViewer" forClass:[self class] loadLazily:YES]
-	                                                     action:@selector(showLogViewerToSelectedContact:)
+	                                                     action:@selector(showLogViewerForToolbar:)
 	                                                       menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 
@@ -362,12 +362,11 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 {
     if (menuItem == viewContactLogsMenuItem) {
         AIListObject	*selectedObject = adium.interfaceController.selectedListObject;
-		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
+		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
 
     } else if (menuItem == viewContactLogsContextMenuItem) {
-        AIListObject	*selectedObject = adium.menuController.currentContextMenuObject;		
-		return selectedObject && [selectedObject isKindOfClass:[AIListContact class]];
-		
+        AIListObject	*selectedObject = adium.menuController.currentContextMenuObject;
+		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
     }
 	
     return YES;
@@ -391,11 +390,35 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
  */
 - (void)showLogViewerToSelectedContact:(id)sender
 {
-    AIListObject   *selectedObject = adium.interfaceController.selectedListObject;
-    [AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
-												 (AIListContact *)selectedObject : 
-												 nil)  
-										 plugin:self];
+	BOOL openForSelectedObject = YES;
+	
+	if (sender == viewContactLogsMenuItem) {
+		AIChat *activeChat = adium.interfaceController.activeChat;
+		
+		if (activeChat.isGroupChat) {
+			[AILogViewerWindowController openForChat:activeChat plugin:self];
+			openForSelectedObject = NO;
+		}
+	}
+	
+	if (openForSelectedObject) {
+		AIListObject   *selectedObject = adium.interfaceController.selectedListObject;
+		[AILogViewerWindowController openForContact:([selectedObject isKindOfClass:[AIListContact class]] ?
+													 (AIListContact *)selectedObject : 
+													 nil)  
+											 plugin:self];
+	}
+}
+
+- (void)showLogViewerForToolbar:(id)sender
+{
+	AIChat *activeChat = adium.interfaceController.activeChat;
+	
+	if(activeChat.isGroupChat) {
+		[AILogViewerWindowController openForChat:activeChat plugin:self];
+	} else {
+		[AILogViewerWindowController openForContact:activeChat.listObject plugin:self];
+	}
 }
 
 - (void)showLogViewerForLogAtPath:(NSString *)inPath
