@@ -56,7 +56,7 @@ typedef enum {
 	AIDateTypeAfter
 } AIDateType;
 
-@class AIListContact, AISplitView, KNShelfSplitView, AIChat;
+@class AIListContact, AISplitView, KNShelfSplitView, AIChat, AIAccount;
 
 @interface AILogViewerWindowController : AIWindowController {
 	AILoggerPlugin				*plugin;
@@ -157,7 +157,7 @@ typedef enum {
 
 + (id)openForPlugin:(id)inPlugin;
 + (id)openForContact:(AIListContact *)inContact plugin:(id)inPlugin;
-+ (id)openForChat:(AIChat *)inChat plugin:(id)inPlugin;
++ (id)openForChatName:(NSString *)inChatName withAccount:(AIAccount *)inAccount plugin:(id)inPlugin;
 + (id)openLogAtPath:(NSString *)inPath plugin:(id)inPlugin;
 + (id)existingWindowController;
 + (void)closeSharedInstance;

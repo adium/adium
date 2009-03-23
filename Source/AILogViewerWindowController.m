@@ -88,7 +88,7 @@
 - (void)openLogAtPath:(NSString *)inPath;
 - (void)rebuildContactsList;
 - (void)filterForContact:(AIListContact *)inContact;
-- (void)filterForChat:(AIChat *)chat;
+- (void)filterForChatName:(NSString *)chatName withAccount:(AIAccount *)account;
 - (void)selectCachedIndex;
 
 - (void)_willOpenForContact;
@@ -142,7 +142,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     return sharedLogViewerInstance;
 }
 
-+ (id)openForChat:(AIChat *)inChat plugin:(id)inPlugin
++ (id)openForChatName:(NSString *)inChatName withAccount:(AIAccount *)inAccount plugin:(id)inPlugin
 {
 	if (!sharedLogViewerInstance) {
 		sharedLogViewerInstance = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
@@ -150,7 +150,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	
 	[sharedLogViewerInstance _willOpenForContact];
 	[sharedLogViewerInstance showWindow:nil];
-	[sharedLogViewerInstance filterForChat:inChat];
+	[sharedLogViewerInstance filterForChatName:inChatName withAccount:inAccount];
 	[sharedLogViewerInstance _didOpenForContact];
 	
     return sharedLogViewerInstance;
@@ -1307,7 +1307,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 }
 
-- (void)filterForChat:(AIChat *)chat
+- (void)filterForChatName:(NSString *)chatName withAccount:(AIAccount *)account
 {
 	if (!isOpeningForContact) {
 		// See above.
@@ -1315,9 +1315,9 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 	
 	AILogToGroup *logToGroup = [logToGroupDict objectForKey:[[NSString stringWithFormat:@"%@.%@",
-															  chat.account.service.serviceID,
-															  chat.account.UID.safeFilenameString]
-															 stringByAppendingPathComponent:chat.name]];
+															  account.service.serviceID,
+															  account.UID.safeFilenameString]
+															 stringByAppendingPathComponent:chatName]];
 
 	//Changing the selection will start a new search
 	[outlineView_contacts selectItemsInArray:[NSArray arrayWithObject:(logToGroup ?: (id)allContactsIdentifier)]];
