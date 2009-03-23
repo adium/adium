@@ -63,7 +63,8 @@ typedef enum {
 	AITwitterLinkUserPage,
 	AITwitterLinkSearchHash,
 	AITwitterLinkGroup,
-	AITwitterLinkDestroyStatus
+	AITwitterLinkDestroyStatus,
+	AITwitterLinkDestroyDM
 } AITwitterLinkType;
 
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
@@ -109,6 +110,7 @@ typedef enum {
 #define TWITTER_DM_CREATED					@"created_at"
 #define TWITTER_DM_SENDER					@"sender"
 #define TWITTER_DM_SENDER_UID				@"sender_screen_name"
+#define TWITTER_DM_RECIPIENT_UID			@"recipient_screen_name"
 #define TWITTER_DM_TEXT						@"text"
 
 // User Info
@@ -137,6 +139,7 @@ typedef enum {
 	BOOL				repliesCompleted;
 	NSMutableArray		*queuedUpdates;
 	NSMutableArray		*queuedDM;
+	NSMutableArray		*queuedOutgoingDM;
 	
 	NSNumber			*futureTimelineLastID;
 	NSNumber			*futureRepliesLastID;
@@ -165,6 +168,8 @@ typedef enum {
 
 - (void)toggleFavoriteTweet:(NSString *)tweetID;
 - (void)destroyTweet:(NSString *)tweetID;
+- (void)destroyDirectMessage:(NSString *)messageID
+					 forUser:(NSString *)userID;
 
 - (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString;
 

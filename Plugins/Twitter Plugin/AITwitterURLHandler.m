@@ -61,6 +61,7 @@
 	NSString *inUser = [url host];
 	NSString *inAction = [url queryArgumentForKey:@"action" withDelimiter:@"&"] ?: @"reply";
 	NSString *inTweet = [url queryArgumentForKey:@"status" withDelimiter:@"&"];
+	NSString *inDM = [url queryArgumentForKey:@"dm" withDelimiter:@"&"];
 	NSString *inMessage = [url queryArgumentForKey:@"message" withDelimiter:@"&"];
 	NSString *inAccount = [url user];
 	
@@ -152,6 +153,14 @@
 								[inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) == NSAlertDefaultReturn) {
 				[account destroyTweet:inTweet];
 			}
+		} else if (inDM && inMessage) {
+			// Confirm if the user wants to delete this DM.
+			if (NSRunAlertPanel(AILocalizedString(@"Delete Direct Message?", nil),
+								AILocalizedString(@"Are you sure you want to delete the direct message:\n\n\"%@\"\n\nThis action cannot be undone.", nil),
+								AILocalizedString(@"Delete", nil), AILocalizedString(@"Cancel", nil), nil,
+								[inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]) == NSAlertDefaultReturn) {
+				[account destroyDirectMessage:inDM forUser:inUser];
+			}			
 		}
 	}
 }
