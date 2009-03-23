@@ -44,7 +44,7 @@
 	return @"Laconica";
 }
 - (NSString *)serviceClass{
-	return @"Twitter";
+	return @"Laconica";
 }
 - (NSString *)shortDescription{
 	return @"Laconica";
