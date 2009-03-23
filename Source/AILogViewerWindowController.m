@@ -88,6 +88,7 @@
 - (void)openLogAtPath:(NSString *)inPath;
 - (void)rebuildContactsList;
 - (void)filterForContact:(AIListContact *)inContact;
+- (void)filterForChat:(AIChat *)chat;
 - (void)selectCachedIndex;
 
 - (void)_willOpenForContact;
@@ -138,6 +139,20 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[sharedLogViewerInstance filterForContact:inContact];
 	[sharedLogViewerInstance _didOpenForContact];
 
+    return sharedLogViewerInstance;
+}
+
++ (id)openForChat:(AIChat *)inChat plugin:(id)inPlugin
+{
+	if (!sharedLogViewerInstance) {
+		sharedLogViewerInstance = [[self alloc] initWithWindowNibName:[self nibName] plugin:inPlugin];
+	}
+	
+	[sharedLogViewerInstance _willOpenForContact];
+	[sharedLogViewerInstance showWindow:nil];
+	[sharedLogViewerInstance filterForChat:inChat];
+	[sharedLogViewerInstance _didOpenForContact];
+	
     return sharedLogViewerInstance;
 }
 
@@ -1286,6 +1301,26 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 	//Changing the selection will start a new search
 	[outlineView_contacts selectItemsInArray:[NSArray arrayWithObject:(parentContact ? (id)parentContact : (id)allContactsIdentifier)]];
+	NSUInteger selectedRow = [[outlineView_contacts selectedRowIndexes] firstIndex];
+	if (selectedRow != NSNotFound) {
+		[outlineView_contacts scrollRowToVisible:selectedRow];
+	}
+}
+
+- (void)filterForChat:(AIChat *)chat
+{
+	if (!isOpeningForContact) {
+		// See above.
+		[self rebuildContactsList];
+	}
+	
+	AILogToGroup *logToGroup = [logToGroupDict objectForKey:[[NSString stringWithFormat:@"%@.%@",
+															  chat.account.service.serviceID,
+															  chat.account.UID.safeFilenameString]
+															 stringByAppendingPathComponent:chat.name]];
+
+	//Changing the selection will start a new search
+	[outlineView_contacts selectItemsInArray:[NSArray arrayWithObject:(logToGroup ?: (id)allContactsIdentifier)]];
 	NSUInteger selectedRow = [[outlineView_contacts selectedRowIndexes] firstIndex];
 	if (selectedRow != NSNotFound) {
 		[outlineView_contacts scrollRowToVisible:selectedRow];
