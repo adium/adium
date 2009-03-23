@@ -815,7 +815,8 @@ static NSArray *draggedTypes = nil;
 														   forListObject:chatListObject];
 	} else if(chat.isGroupChat) {
 		originalMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
-																		  [NSNumber numberWithInteger:Context_GroupChat_Manage], nil]
+																		  [NSNumber numberWithInteger:Context_GroupChat_Manage],
+																		  [NSNumber numberWithInteger:Context_GroupChat_Action], nil]
 																 forChat:chat];
 	}
 	

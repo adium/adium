@@ -173,6 +173,8 @@
 	[menuItem_toggleUserlist setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
 	
 	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
+	
+	[adium.menuController addContextualMenuItem:[menuItem_toggleUserlist copy] toLocation:Context_GroupChat_Action];
 																			  
 	//Contact list menu item
 	NSMenuItem* menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
