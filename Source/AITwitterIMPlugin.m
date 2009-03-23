@@ -28,7 +28,8 @@
 	if (!inModifiedKeys) {
 		if (([inObject.UID isEqualToString:@"twitter@twitter.com"] &&
 			 [inObject.service.serviceClass isEqualToString:@"Jabber"]) ||
-			([inObject.service.serviceClass isEqualToString:@"Twitter"])) {
+			([inObject.service.serviceClass isEqualToString:@"Twitter"] || 
+			 [inObject.service.serviceClass isEqualToString:@"Laconica"])) {
 			
 			if (![inObject valueForProperty:@"Character Counter Max"]) {
 				[inObject setValue:[NSNumber numberWithInteger:140] forProperty:@"Character Counter Max" notify:YES];
