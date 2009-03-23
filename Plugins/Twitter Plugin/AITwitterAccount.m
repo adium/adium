@@ -71,16 +71,10 @@
 {
 	[super initAccount];
 	
-	twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	pendingRequests = [[NSMutableDictionary alloc] init];
 	queuedUpdates = [[NSMutableArray alloc] init];
 	queuedDM = [[NSMutableArray alloc] init];
 	queuedOutgoingDM = [[NSMutableArray alloc] init];
-	
-	[twitterEngine setClientName:@"Adium"
-						 version:[NSApp applicationVersion]
-							 URL:@"http://www.adiumx.com"
-						   token:self.sourceToken];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 							     selector:@selector(chatDidOpen:) 
@@ -139,6 +133,15 @@
 - (void)connect
 {
 	[super connect];
+	
+	[twitterEngine release];
+	
+	twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
+	
+	[twitterEngine setClientName:@"Adium"
+						 version:[NSApp applicationVersion]
+							 URL:@"http://www.adiumx.com"
+						   token:self.sourceToken];	
 	
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
 	
@@ -228,21 +231,12 @@
  */
 - (void)disconnect
 {
-	if(self.online) {
-		NSString *requestID = [twitterEngine endUserSession];
-		
-		if (requestID) {
-			[self setRequestType:AITwitterDisconnect
-					forRequestID:requestID
-				  withDictionary:nil];
-		} else {
-			[self didDisconnect];
-		}
-	}
+	[super disconnect];
 	
+	[twitterEngine release]; twitterEngine = nil;
 	[updateTimer invalidate]; updateTimer = nil;
 	
-	[super disconnect];
+	[self didDisconnect];
 }
 
 /*!
