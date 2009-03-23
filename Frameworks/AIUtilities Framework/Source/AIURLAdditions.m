@@ -15,6 +15,19 @@
 	return [[self absoluteString] length];
 }
 
+- (NSString *)queryArgumentForKey:(NSString *)key withDelimiter:(NSString *)delimiter
+{
+	for (NSString *obj in [[self query] componentsSeparatedByString:delimiter]) {
+		NSArray *keyAndValue = [obj componentsSeparatedByString:@"="];
+		
+		if (([keyAndValue count] >= 2) && ([[keyAndValue objectAtIndex:0] caseInsensitiveCompare:key] == NSOrderedSame)) {
+			return [keyAndValue objectAtIndex:1];
+		}
+	}
+	
+	return nil;
+}
+
 - (NSString *)queryArgumentForKey:(NSString *)key
 {
 	NSString		*delimiter;
@@ -28,15 +41,7 @@
 		delimiter = @"&";
 	}
 	
-	for (NSString *obj in [[self query] componentsSeparatedByString:delimiter]) {
-		NSArray *keyAndValue = [obj componentsSeparatedByString:@"="];
-
-		if (([keyAndValue count] >= 2) && ([[keyAndValue objectAtIndex:0] caseInsensitiveCompare:key] == NSOrderedSame)) {
-			return [keyAndValue objectAtIndex:1];
-		}
-	}
-	
-	return nil;
+	return [self queryArgumentForKey:key withDelimiter:delimiter];
 }
 
 @end
