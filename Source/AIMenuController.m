@@ -259,8 +259,8 @@
 	BOOL		separatorItem;
 	
 	//Remember what our menu is configured for
-	[currentContextMenuObject release];
-	currentContextMenuObject = [inChat retain];
+	[currentContextMenuChat release];
+	currentContextMenuChat = [inChat retain];
 	
 	//Get the pre-created contextual menu items
 	workingMenu = [self contextualMenuWithLocations:inLocationArray usingMenu:contextualMenu];
