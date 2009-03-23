@@ -1980,9 +1980,9 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		[cell setImage:image];
 
 	} else if ([item isKindOfClass:[AILogToGroup class]]) {
-		[cell setImage:[AIServiceIcons serviceIconForServiceID:[(AILogToGroup *)item serviceClass]
-													   type:AIServiceIconSmall
-												  direction:AIIconFlipped]];
+		[cell setImage:[AIServiceIcons serviceIconForService:[adium.accountController firstServiceWithServiceID:[(AILogToGroup *)item serviceClass]]
+														type:AIServiceIconSmall
+												   direction:AIIconNormal]];
 		
 	} else if ([item isKindOfClass:[allContactsIdentifier class]]) {
 		if ([[outlineView arrayOfSelectedItems] containsObjectIdenticalTo:item] &&
