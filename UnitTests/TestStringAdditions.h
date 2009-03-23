@@ -26,4 +26,13 @@
 - (void)testAllLinesWithSeparator;
 - (void)testAllLines;
 
+- (void) testCaseInsensitivelyEqualToSameString;
+- (void) testCaseInsensitivelyEqualToSameStringInUppercase;
+- (void) testCaseInsensitivelyEqualToSameStringInLowercase;
+- (void) testCaseInsensitivelyEqualToStringPlusPrefix;
+- (void) testCaseInsensitivelyEqualToStringPlusSuffix;
+- (void) testCaseInsensitivelyEqualToCompletelyDifferentString;
+- (void) testCaseInsensitivelyEqualToNil;
+- (void) testCaseInsensitivelyEqualToThingsThatAreNotStrings;
+
 @end
