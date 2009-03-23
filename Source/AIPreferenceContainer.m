@@ -18,6 +18,11 @@
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject;
 - (void)emptyCache:(NSTimer *)inTimer;
 - (void)save;
+@property (readonly, nonatomic) NSMutableDictionary *prefs;
+- (void) loadGlobalPrefs;
+
+//Lazily sets up our pref dict if needed
+- (void) setPrefValue:(id)val forKey:(id)key;
 @end
 
 #define EMPTY_CACHE_DELAY		120.0
@@ -219,84 +224,96 @@ typedef enum {
 
 #pragma mark Get and set
 
+- (void) loadGlobalPrefs
+{
+	NSAssert(*myGlobalPrefs == nil, @"Attempting to load global prefs when they're already loaded");
+	NSString	*objectPrefsPath = [[adium.loginController.userDirectory stringByAppendingPathComponent:globalPrefsName] stringByAppendingPathExtension:@"plist"];
+	NSString	*errorString = nil;
+	NSError		*error = nil;
+	NSData		*data = [NSData dataWithContentsOfFile:objectPrefsPath
+										   options:NSUncachedRead
+											 error:&error];
+	
+	if (error) {
+		NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
+			  [error domain], [error code], [error userInfo]);
+		AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+						   [error domain], [error code], [error userInfo]);
+		if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
+			while (!data) {
+				AILogWithSignature(@"Preferences file %@'s attributes: %@. Reattempting to read the file...", globalPrefsName, [[NSFileManager defaultManager] fileAttributesAtPath:objectPrefsPath traverseLink:NO]);
+				data = [NSData dataWithContentsOfFile:objectPrefsPath
+											  options:NSUncachedRead
+												error:&error];
+				if (error) {
+					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
+									   [error domain], [error code], [error userInfo]);
+				}	
+			}
+		}
+	}
+	
+	//We want to load a mutable dictioanry of mutable dictionaries.
+	if (data) {
+		*myGlobalPrefs = [[NSPropertyListSerialization propertyListFromData:data 
+														   mutabilityOption:NSPropertyListMutableContainers 
+																	 format:NULL 
+														   errorDescription:&errorString] retain];
+	}
+	
+	/* Log any error */
+	if (errorString) {
+		NSLog(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
+		AILogWithSignature(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
+	}
+	
+#ifdef PREFERENCE_CONTAINER_DEBUG
+	AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
+#endif
+	
+	/* If we don't get a dictionary, create a new one */
+	if (!*myGlobalPrefs) {
+		/* This wouldn't be an error if this were a new Adium installation; the below is temporary debug logging. */
+		NSLog(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
+		AILogWithSignature(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
+		
+		*myGlobalPrefs = [[NSMutableDictionary alloc] init];
+	}
+}
+
+- (void) setPrefValue:(id)value forKey:(id)key
+{
+	NSMutableDictionary *prefDict = self.prefs;
+	if (object && !prefDict) {
+		//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
+		NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
+		@synchronized(*myGlobalPrefs) {
+			prefs = [[NSMutableDictionary alloc] init];
+			[*myGlobalPrefs setObject:prefs
+							   forKey:globalPrefsKey];
+		}
+		(*myUsersOfGlobalPrefs)++;
+	}
+	[self.prefs setValue:value forKey:key];
+}
+
 /*!
  * @brief Return a dictionary of our preferences, loading it from disk as needed
  */
 - (NSMutableDictionary *)prefs
 {
 	if (!prefs) {
-		NSString	*userDirectory = [adium.loginController userDirectory];
+		NSString	*userDirectory = adium.loginController.userDirectory;
 		
 		if (object) {
-			if (!(*myGlobalPrefs)) {
-				NSString	*objectPrefsPath = [[userDirectory stringByAppendingPathComponent:globalPrefsName] stringByAppendingPathExtension:@"plist"];
-				NSString	*errorString = nil;
-				NSError		*error = nil;
-				NSData		*data = [NSData dataWithContentsOfFile:objectPrefsPath
-													   options:NSUncachedRead
-														 error:&error];
-
-				if (error) {
-					NSLog(@"Error reading data for preferences file %@: %@ (%@ %ld: %@)", objectPrefsPath, error,
-						  [error domain], [error code], [error userInfo]);
-					AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
-									   [error domain], [error code], [error userInfo]);
-					if ([[NSFileManager defaultManager] fileExistsAtPath:objectPrefsPath]) {
-						while (!data) {
-							AILogWithSignature(@"Preferences file %@'s attributes: %@. Reattempting to read the file...", globalPrefsName, [[NSFileManager defaultManager] fileAttributesAtPath:objectPrefsPath traverseLink:NO]);
-							data = [NSData dataWithContentsOfFile:objectPrefsPath
-														  options:NSUncachedRead
-															error:&error];
-							if (error) {
-								AILogWithSignature(@"Error reading data for preferences file %@: %@ (%@ %i: %@)", objectPrefsPath, error,
-												   [error domain], [error code], [error userInfo]);
-							}	
-						}
-					}
-				}
-				
-				//We want to load a mutable dictioanry of mutable dictionaries.
-				if (data) {
-					*myGlobalPrefs = [[NSPropertyListSerialization propertyListFromData:data 
-																	   mutabilityOption:NSPropertyListMutableContainers 
-																				 format:NULL 
-																	   errorDescription:&errorString] retain];
-				}
-				
-				/* Log any error */
-				if (errorString) {
-					NSLog(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
-					AILogWithSignature(@"Error reading preferences file %@: %@", objectPrefsPath, errorString);
-				}
-				
-				#ifdef PREFERENCE_CONTAINER_DEBUG
-					AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
-				#endif
-
-				/* If we don't get a dictionary, create a new one */
-				if (!*myGlobalPrefs) {
-					/* This wouldn't be an error if this were a new Adium installation; the below is temporary debug logging. */
-					NSLog(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
-					AILogWithSignature(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
-
-					*myGlobalPrefs = [[NSMutableDictionary alloc] init];
-				}
-			}
+			if (!(*myGlobalPrefs))
+				[self loadGlobalPrefs];
 
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
-			if (!prefs) {
-				/* If this particular object has no dictionary within the global one,
-				 * create it and store it for future use.
-				 */
-				@synchronized(*myGlobalPrefs) {
-					prefs = [[NSMutableDictionary alloc] init];
-					[*myGlobalPrefs setObject:prefs
-									   forKey:globalPrefsKey];
-				}
-			}
-			(*myUsersOfGlobalPrefs)++;
+			if (prefs)
+				(*myUsersOfGlobalPrefs)++;
 
 		} else {
 			prefs = [[NSMutableDictionary dictionaryAtPath:userDirectory
@@ -319,10 +336,12 @@ typedef enum {
 		//Add our own preferences to the defaults dictionary to get a dict with the set keys overriding the default keys
 		if (defaults) {
 			prefsWithDefaults = [defaults mutableCopy];
-			[prefsWithDefaults addEntriesFromDictionary:[self prefs]];
+			NSDictionary *prefDict = self.prefs;
+			if (prefDict)
+				[prefsWithDefaults addEntriesFromDictionary:prefDict];
 
 		} else {
-			prefsWithDefaults = [[self prefs] retain];
+			prefsWithDefaults = [self.prefs retain];
 		}
 		
 		[self queueClearingOfCache];
@@ -338,20 +357,14 @@ typedef enum {
  */
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-	BOOL	valueChanged;
+	BOOL	valueChanged = YES;
 	/* Comparing pointers, numbers, and strings is far cheapear than writing out to disk;
 	 * check to see if we don't need to change anything at all. However, we still want to post notifications
 	 * for observers that we were set.
 	 */
-	id oldValue;
-	if ((!value && ![self valueForKey:key]) ||
-		((value && (oldValue = [self valueForKey:key])) && 
-		 (([value isKindOfClass:[NSNumber class]] && [(NSNumber *)value isEqualToNumber:oldValue]) ||
-		  ([value isKindOfClass:[NSString class]] && [(NSString *)value isEqualToString:oldValue])))) {
+	id oldValue = [self valueForKey:key];
+	if ((!value && !oldValue) || (value && oldValue && [value isEqual:oldValue]))
 		valueChanged = NO;
-	} else {
-		valueChanged = YES;
-	}
 
 	[self willChangeValueForKey:key];
 
@@ -365,10 +378,10 @@ typedef enum {
 		
 		if (object) {
 			@synchronized(*myGlobalPrefs) {
-				[[self prefs] setValue:value forKey:key];
+				[self setPrefValue:value forKey:key];
 			}
 		} else {
-			[[self prefs] setValue:value forKey:key];		
+			[self setPrefValue:value forKey:key];		
 		}
 	}
 
@@ -396,7 +409,7 @@ typedef enum {
 - (id)valueForKey:(NSString *)key ignoringDefaults:(BOOL)ignoreDefaults
 {
 	if (ignoreDefaults)
-		return [[self prefs] valueForKey:key];
+		return [self.prefs valueForKey:key];
 	else
 		return [self valueForKey:key];
 }
@@ -535,12 +548,7 @@ typedef enum {
 
 	} else {
 		//Save the preference change immediately
-		NSString	*userDirectory = [adium.loginController userDirectory];
-		
-		NSString	*path = (object ? [userDirectory stringByAppendingPathComponent:[object pathToPreferences]] : userDirectory);
-		NSString	*name = (object ? [object.internalObjectID safeFilenameString] : group);
-		
-		[[self prefs] writeToPath:path withName:name];
+		[self.prefs writeToPath:adium.loginController.userDirectory withName:group];
 	}
 }
 
