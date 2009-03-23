@@ -12,6 +12,7 @@
 	NSMenuItem				*menuItem_getInfo;
 	NSMenuItem				*menuItem_getInfoAlternate;
 	NSMenuItem				*menuItem_getInfoContextualContact;
+	NSMenuItem				*menuItem_getInfoContextualGroupChat;
 	NSMenuItem				*menuItem_getInfoContextualGroup;	
 	NSMenuItem				*menuItem_getInfoWithPrompt;
 }

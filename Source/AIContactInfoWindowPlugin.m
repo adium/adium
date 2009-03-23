@@ -16,6 +16,7 @@
 #import <Adium/AIToolbarControllerProtocol.h>
 
 #import <Adium/AIListObject.h>
+#import <Adium/AIChat.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -23,6 +24,7 @@
 
 #define VIEW_CONTACTS_INFO				AILocalizedString(@"Get Info",nil)
 #define VIEW_CONTACTS_INFO_WITH_PROMPT	[AILocalizedString(@"Get Info for Contact", nil) stringByAppendingEllipsis]
+#define VIEW_BOOKMARK_GET_INFO			AILocalizedString(@"Get Info for Bookmark", nil)
 #define GET_INFO_MASK					(NSCommandKeyMask | NSShiftKeyMask)
 #define ALTERNATE_GET_INFO_MASK			(NSCommandKeyMask | NSShiftKeyMask | NSControlKeyMask)
 
@@ -61,6 +63,15 @@
 	}
 }
 
+- (IBAction)showBookmarkInfo:(id)sender
+{
+	AIListBookmark *bookmark = [adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat];
+	
+	[NSApp activateIgnoringOtherApps:YES];
+	
+	[AIContactInfoWindowController showInfoWindowForListObject:(AIListObject *)bookmark];	
+}
+
 - (void)showSpecifiedContactInfo:(id)sender
 {
 	[ESShowContactInfoPromptController showPrompt];
@@ -83,6 +94,13 @@
 																					keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualGroup
 									   toLocation:Context_Group_Manage];
+	
+	menuItem_getInfoContextualGroupChat = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_BOOKMARK_GET_INFO
+																							   target:self
+																							   action:@selector(showBookmarkInfo:)
+																						keyEquivalent:@""];
+	[adium.menuController addContextualMenuItem:menuItem_getInfoContextualGroupChat toLocation:Context_GroupChat_Manage];
+	
 	
 	//Install the standard Get Info menu item which will always be command-shift-I
 	menuItem_getInfo = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:VIEW_CONTACTS_INFO
@@ -149,6 +167,10 @@
 		
 	} else if (menuItem == menuItem_getInfoWithPrompt) {
 		return [adium.accountController oneOrMoreConnectedAccounts];
+	} else if ([menuItem.title isEqualToString:VIEW_BOOKMARK_GET_INFO]) {
+		// WKMV's context menu makes a copy of menu items; check against title.
+		return (adium.interfaceController.activeChat.isGroupChat &&
+				[adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat]);
 	}
 	
 	return YES;
