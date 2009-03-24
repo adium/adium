@@ -24,6 +24,7 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <Adium/AIAuthorizationRequestsWindowController.h>
 #import "AdiumDisconnectionErrorController.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
@@ -195,6 +196,15 @@
 																	action:@selector(closeContextualChat:)
 															 keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_Tab_Action];
+	[menuItem release];
+	
+	// Authorization requests menu item
+	menuItem = [[NSMenuItem alloc] initWithTitle:AUTHORIZATION_REQUESTS
+													   target:self
+													   action:@selector(openAuthorizationWindow:)
+												keyEquivalent:@""];
+	
+	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Auxiliary];
 	[menuItem release];
 
     //Observe content so we can open chats as necessary
@@ -941,6 +951,14 @@
 
 //Window Menu ----------------------------------------------------------------------------------------------------------
 #pragma mark Window Menu
+
+/*!
+ * @brief Open the authorization requests window.
+ */
+- (void)openAuthorizationWindow:(id)sender
+{
+	[[AIAuthorizationRequestsWindowController sharedController] showWindow:nil];
+}
 
 /*!
  * @brief Make a chat window active

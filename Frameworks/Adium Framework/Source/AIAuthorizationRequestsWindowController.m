@@ -17,11 +17,6 @@
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
-#define GET_INFO					AILocalizedString(@"Get Info", nil)
-#define AUTHORIZE					AILocalizedStringFromTable(@"Authorize", @"Buttons", nil)
-#define AUTHORIZE_ADD				AILocalizedStringFromTable(@"Authorize and Add", @"Buttons", nil)
-#define DENY						AILocalizedStringFromTable(@"Deny", @"Buttons", nil)
-
 #define MINIMUM_ROW_HEIGHT				42.0 // It's, like, the answer.
 #define MAXIMUM_ROW_HEIGHT				300.0
 #define MINIMUM_CELL_SPACING			4
@@ -65,15 +60,15 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 {
 	[self configureToolbar];
 	
-	[self.window setTitle:AILocalizedString(@"Authorization Requests", nil)];
+	[self.window setTitle:AUTHORIZATION_REQUESTS];
 }
 
-- (void)windowWillClose:(id)sender
+- (void)windowWillClose:(id)sender 
 {
-	[tableView selectAll:nil];	
-	[self applyResponse:AIAuthorizationNoResponse];
-	
-	[sharedController autorelease]; sharedController = nil;
+	// Fade into oblivion only if we don't have any oustanding requests.
+	if (!requests.count) {
+		[sharedController autorelease]; sharedController = nil;
+	}
 	
 	[super windowWillClose:sender];
 }
