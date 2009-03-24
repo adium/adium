@@ -245,7 +245,7 @@
 	
 	// Add all the accounts as menu items.
 	for(NSMenuItem *menuItem in menuItems) {
-		[menu_hideAccounts addItem:menuItem];
+		[menu_hideAccounts addItem:[menuItem copy]];
 	}
 	
 	// Remove any dead accounts from the array.
