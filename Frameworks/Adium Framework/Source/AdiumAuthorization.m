@@ -11,6 +11,7 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <AIUtilities/AIImageAdditions.h>
+#import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 
 #define	CONTACT_REQUESTED_AUTHORIZATION @"Contact Requested Authorization"
@@ -43,6 +44,14 @@ static AdiumAuthorization *sharedInstance;
 																		 account:inAccount
 																			 UID:[inDict objectForKey:@"Remote Name"]];
 
+	if (listContact.isBlocked) {
+		// Always ignore requests from blocked contacts. Don't even show it to the user.
+		AILogWithSignature(@"Authorization request with dict %@ ignored due to %@ being blocked", inDict, listContact);
+		[inAccount authorizationWithDict:inDict response:AIAuthorizationNoResponse];
+		
+		return nil;
+	}
+	
 	[adium.contactAlertsController generateEvent:CONTACT_REQUESTED_AUTHORIZATION
 									 forListObject:(AIListObject *)listContact
 										  userInfo:nil

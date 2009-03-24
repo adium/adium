@@ -554,6 +554,18 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 					target:self
 					action:@selector(authorizeAdd:)
 			 keyEquivalent:@""];
+
+	[menu addItem:[NSMenuItem separatorItem]];
+
+	[menu addItemWithTitle:IGNORE
+					target:self
+					action:@selector(ignore:)
+			 keyEquivalent:@""];
+	
+	[menu addItemWithTitle:IGNORE_BLOCK
+					target:self
+					action:@selector(ignoreBlock:)
+			 keyEquivalent:@""];	
 	
 	[menu addItem:[NSMenuItem separatorItem]];
 	
