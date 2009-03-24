@@ -298,7 +298,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	[requests addObject:dict];
 	
 	[self showWindow:nil];
-	[[self window] orderFront:nil];
 	
 	[self reloadData];
 }
