@@ -69,12 +69,12 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 
 - (void)windowWillClose:(id)sender
 {
-	[super windowWillClose:sender];
-	
 	[tableView selectAll:nil];	
 	[self applyResponse:AIAuthorizationNoResponse];
 	
-	[self autorelease];
+	[sharedController autorelease]; sharedController = nil;
+	
+	[super windowWillClose:sender];
 }
 
 - (void)dealloc
