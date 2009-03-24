@@ -165,7 +165,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	// Ignore
 	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
 	
-	[button setImage:[NSImage imageForSSL]];
+	[button setImage:[NSImage imageNamed:@"Ignore" forClass:[self class]]];
 	
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
 									withIdentifier:@"ignore"
