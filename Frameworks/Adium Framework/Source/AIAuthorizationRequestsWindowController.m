@@ -25,6 +25,7 @@
 
 @interface AIAuthorizationRequestsWindowController()
 - (void)reloadData;
+- (void)rebuildHeights;
 
 - (void)configureToolbar;
 - (void)applyResponse:(AIAuthorizationResponse)response;
@@ -61,6 +62,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 - (void)windowDidLoad
 {
 	[self configureToolbar];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(rebuildHeights)
+												 name:NSWindowDidResizeNotification
+											   object:self.window];
 	
 	[self.window setTitle:AUTHORIZATION_REQUESTS];
 }
@@ -360,12 +366,19 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 /*!
  * @brief Reload data
  *
- * Also recalculates the height for the rows.
+ * Reloads the data and reformats accordingly.
  */
 - (void)reloadData
 {
-	[tableView reloadData];
-	
+	[self rebuildHeights];
+	[tableView reloadData];	
+}
+
+/*!
+ * @brief Rebuild the saved height information.
+ */
+- (void)rebuildHeights
+{
 	[requiredHeightDict removeAllObjects];
 	
 	for(NSInteger row = 0; row < requests.count; row++) {
@@ -394,7 +407,10 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 			
 			[subStringTitle release];
 		}
-
+		
+		[tableView setNeedsDisplayInRect:[tableView rectOfRow:row]];
+		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
+		
 		[requiredHeightDict setObject:[NSNumber numberWithDouble:MIN(MAXIMUM_ROW_HEIGHT, MAX(MINIMUM_ROW_HEIGHT, combinedHeight))]
 							   forKey:[NSNumber numberWithInteger:row]];
 	}
