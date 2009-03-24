@@ -11,6 +11,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIListContact.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -113,7 +114,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 									withIdentifier:@"authorizeAdd"
 											 label:AUTHORIZE_ADD
 									  paletteLabel:AUTHORIZE_ADD
-										   toolTip:AILocalizedString(@"Authorize And Add Selected",nil)
+										   toolTip:AILocalizedString(@"Authorize and Add Selected",nil)
 											target:self
 								   settingSelector:@selector(setImage:)
 									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
@@ -142,6 +143,17 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											action:@selector(deny:)
 											  menu:nil];
 	
+	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
+									withIdentifier:@"denyBlock"
+											 label:DENY_BLOCK
+									  paletteLabel:DENY_BLOCK
+										   toolTip:AILocalizedString(@"Deny and Block Selected",nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
+											action:@selector(denyBlock:)
+											  menu:nil];
+	
 	[[self window] setToolbar:toolbar];
 }
 
@@ -157,7 +169,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 			NSToolbarSeparatorItemIdentifier,
 			@"getInfo",
 			NSToolbarFlexibleSpaceItemIdentifier,
-			@"deny", nil];
+			@"denyBlock", @"deny", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
@@ -248,6 +260,22 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
  */
 - (void)deny:(id)sender
 {
+	[self applyResponse:AIAuthorizationDenied];
+}
+
+/*!
+ * @brief Block the contacts of selected requests, then deny them.
+ */
+- (void)denyBlock:(id)sender
+{
+	for (NSDictionary *dict in [requests objectsAtIndexes:[tableView selectedRowIndexes]]) {
+		AIAccount *account = [dict objectForKey:@"Account"];
+		
+		AIListContact *contact = [account contactWithUID:[dict objectForKey:@"Remote Name"]];
+		
+		[contact setIsBlocked:YES updateList:YES];
+	}
+	
 	[self applyResponse:AIAuthorizationDenied];
 }
 	
@@ -409,6 +437,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	[menu addItemWithTitle:DENY
 					target:self
 					action:@selector(deny:)
+			 keyEquivalent:@""]; 
+	
+	[menu addItemWithTitle:DENY_BLOCK
+					target:self
+					action:@selector(denyBlock:)
 			 keyEquivalent:@""]; 
 	
 	return menu;
