@@ -8,6 +8,12 @@
 
 #import <Adium/AIWindowController.h>
 
+#define AUTHORIZATION_REQUESTS		AILocalizedString(@"Authorization Requests", nil)
+#define GET_INFO					AILocalizedString(@"Get Info", nil)
+#define AUTHORIZE					AILocalizedStringFromTable(@"Authorize", @"Buttons", nil)
+#define AUTHORIZE_ADD				AILocalizedStringFromTable(@"Authorize and Add", @"Buttons", nil)
+#define DENY						AILocalizedStringFromTable(@"Deny", @"Buttons", nil)
+
 @class AIAccount;
 
 @interface AIAuthorizationRequestsWindowController : AIWindowController {
