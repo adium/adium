@@ -41,10 +41,6 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		sharedController = [[self alloc] initWithWindowNibName:@"AIAuthorizationRequestsWindow"];
 	}
 	
-	// Make sure our window loads.
-	[sharedController showWindow:nil];
-	[[sharedController window] makeKeyAndOrderFront:nil];
-	
 	return sharedController;
 }
 
@@ -300,6 +296,9 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	NSParameterAssert(![dict objectForKey:@"Reason"] || [[dict objectForKey:@"Reason"] isKindOfClass:[NSString class]]);
 	
 	[requests addObject:dict];
+	
+	[self showWindow:nil];
+	[[self window] orderFront:nil];
 	
 	[self reloadData];
 }

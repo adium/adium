@@ -676,7 +676,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 				break;
 		}
 		
-		//libpurple will remove its reference to the handle for this request, which is inWindowController, in response to this callback invocation
+		//libpurple will remove its reference to the handle for this request, which is inDict, in response to this callback invocation
 		if (callback) {
 			[purpleAdapter doAuthRequestCbValue:callback withUserDataValue:[[[infoDict objectForKey:@"userData"] retain] autorelease]];
 
