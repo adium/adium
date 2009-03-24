@@ -166,6 +166,26 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	
 	[button setToolbarItem:toolbarItem];
 	
+	// Ignore
+	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	
+	[button setImage:[NSImage imageForSSL]];
+	
+	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
+									withIdentifier:@"ignore"
+											 label:IGNORE
+									  paletteLabel:IGNORE
+										   toolTip:AILocalizedString(@"Ignore Selected",nil)
+											target:self
+								   settingSelector:@selector(setView:)
+									   itemContent:button
+											action:@selector(ignore:)
+											  menu:nil];
+	
+	toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"ignore"];
+	
+	[button setToolbarItem:toolbarItem];
+	
 	[[self window] setToolbar:toolbar];
 }
 
@@ -203,7 +223,22 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		
 		[[item view] setMenu:menu];
 		[menu release];	
-	}		
+	} else if ([[item itemIdentifier] isEqualToString:@"ignore"]) {
+		NSMenu *menu = [[NSMenu alloc] init];
+		
+		[menu addItemWithTitle:IGNORE
+						target:self
+						action:@selector(ignore:)
+				 keyEquivalent:@""];
+		
+		[menu addItemWithTitle:IGNORE_BLOCK
+						target:self
+						action:@selector(ignoreBlock:)
+				 keyEquivalent:@""];
+		
+		[[item view] setMenu:menu];
+		[menu release];	
+	}
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
@@ -218,7 +253,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 			NSToolbarSeparatorItemIdentifier,
 			@"getInfo",
 			NSToolbarFlexibleSpaceItemIdentifier,
-			@"deny", nil];
+			@"ignore", @"deny", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
@@ -332,7 +367,31 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	
 	[self applyResponse:AIAuthorizationDenied];
 }
-	
+
+/*!
+ * @brief Ignore the selected requests
+ */
+- (void)ignore:(id)sender
+{
+	[self applyResponse:AIAuthorizationNoResponse];
+}
+
+/*!
+ * @brief Block the contacts of selected requests, then ignore them.
+ */
+- (void)ignoreBlock:(id)sender
+{
+	for (NSDictionary *dict in [requests objectsAtIndexes:[tableView selectedRowIndexes]]) {
+		AIAccount *account = [dict objectForKey:@"Account"];
+		
+		AIListContact *contact = [account contactWithUID:[dict objectForKey:@"Remote Name"]];
+		
+		[contact setIsBlocked:YES updateList:YES];
+	}
+
+	[self applyResponse:AIAuthorizationNoResponse];
+}
+
 /*!
  * @brief Applies the given response to all selected requests
  */
@@ -509,6 +568,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 			 keyEquivalent:@""]; 
 	
 	return menu;
+}
+
+- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
+{
+	[self applyResponse:AIAuthorizationNoResponse];
 }
 
 @end
