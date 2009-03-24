@@ -17,6 +17,7 @@
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
+#define GET_INFO					AILocalizedString(@"Get Info", nil)
 #define AUTHORIZE					AILocalizedStringFromTable(@"Authorize", @"Buttons", nil)
 #define AUTHORIZE_ADD				AILocalizedStringFromTable(@"Authorize and Add", @"Buttons", nil)
 #define DENY						AILocalizedStringFromTable(@"Deny", @"Buttons", nil)
@@ -125,6 +126,17 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											  menu:nil];
 	
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
+									withIdentifier:@"getInfo"
+											 label:GET_INFO
+									  paletteLabel:GET_INFO
+										   toolTip:AILocalizedString(@"Get Info",nil)
+											target:self
+								   settingSelector:@selector(setImage:)
+									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
+											action:@selector(getInfo:)
+											  menu:nil];
+	
+	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
 									withIdentifier:@"deny"
 											 label:DENY
 									  paletteLabel:DENY
@@ -133,7 +145,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 								   settingSelector:@selector(setImage:)
 									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
 											action:@selector(deny:)
-											  menu:nil];	
+											  menu:nil];
 	
 	[[self window] setToolbar:toolbar];
 }
@@ -145,7 +157,12 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
-    return [NSArray arrayWithObjects:@"authorize", @"authorizeAdd", NSToolbarFlexibleSpaceItemIdentifier, @"deny", nil];
+    return [NSArray arrayWithObjects:
+			@"authorize", @"authorizeAdd",
+			NSToolbarSeparatorItemIdentifier,
+			@"getInfo",
+			NSToolbarFlexibleSpaceItemIdentifier,
+			@"deny", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
@@ -370,7 +387,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	
 	if (inTableView.selectedRowIndexes.count == 1) {
-		[menu addItemWithTitle:AILocalizedString(@"Get Info", nil)
+		[menu addItemWithTitle:GET_INFO
 						target:self
 						action:@selector(getInfo:)
 				 keyEquivalent:@""];
