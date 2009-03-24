@@ -6,7 +6,7 @@
 //
 
 #import "AdiumAuthorization.h"
-#import "ESAuthorizationRequestWindowController.h"
+#import <Adium/AIAuthorizationRequestsWindowController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIAccount.h>
@@ -46,9 +46,23 @@ static AdiumAuthorization *sharedInstance;
 	[adium.contactAlertsController generateEvent:CONTACT_REQUESTED_AUTHORIZATION
 									 forListObject:(AIListObject *)listContact
 										  userInfo:nil
-					  previouslyPerformedActionIDs:nil];				
+					  previouslyPerformedActionIDs:nil];
 	
-	return [ESAuthorizationRequestWindowController showAuthorizationRequestWithDict:inDict forAccount:inAccount];
+	NSMutableDictionary *dictWithAccount = [inDict mutableCopy];
+	
+	[dictWithAccount setObject:inAccount forKey:@"Account"];
+
+	[[AIAuthorizationRequestsWindowController sharedController] addRequestWithDict:dictWithAccount];
+
+	// We intentionally continue to retain the dictWithAccount so we can possibly remove it later.
+	return dictWithAccount;
+}
+
++ (void)closeAuthorizationForUIHandle:(id)handle
+{
+	[[AIAuthorizationRequestsWindowController sharedController] removeRequest:handle];
+	
+	[handle release];
 }
 
 #pragma mark Event descriptions

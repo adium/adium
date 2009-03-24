@@ -653,12 +653,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
     return self.online;
 }
 
-- (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict {
-	//We will release the returned window controller in -[self authorizationWindowController:authorizationWithDict:didAuthorize:]
+- (id)authorizationRequestWithDict:(NSDictionary*)dict
+{
+	// We retain this in case libpurple wants to close the request early. It is freed below.
 	return [[AdiumAuthorization showAuthorizationRequestWithDict:dict forAccount:self] retain];
 }
 
-- (void)authorizationWindowController:(NSWindowController *)inWindowController authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse
+- (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse
 {
 	if (account) {
 		NSValue	*callback = nil;
@@ -682,9 +683,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			/* Retained in -[self authorizationRequestWithDict:].  We kept it around before now in case libpurle wanted us to close it early, such as because the
 			 * account disconnected.
 			 */
-			[inWindowController autorelease];
+			[infoDict release];
 		} else {
-			[purpleAdapter closeAuthRequestWithHandle:inWindowController];
+			[purpleAdapter closeAuthRequestWithHandle:infoDict];
 			
 		}
 	}

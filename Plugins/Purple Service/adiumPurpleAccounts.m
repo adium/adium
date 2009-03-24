@@ -7,6 +7,7 @@
 
 #import "adiumPurpleAccounts.h"
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AdiumAuthorization.h>
 
 /* A buddy we already have added us to their buddy list. */
 static void adiumPurpleAccountNotifyAdded(PurpleAccount *account, const char *remote_user,
@@ -65,12 +66,8 @@ static void adiumPurpleAccountRequestClose(void *ui_handle)
 {
 	id	ourHandle = (id)ui_handle;
 
-	//Close the window
-	[ourHandle performSelector:@selector(closeWindow:)
-					withObject:nil];
-
-	//Then release our reference to the handle, since adiumPurpleAccountRequestAuthorize() returned a retained object
-	[ourHandle release];
+	// Remove the request; we're passing the pointer to it.
+	[AdiumAuthorization closeAuthorizationForUIHandle:ourHandle];
 }
 
 void adiumPurpleAccountRegisterCb(PurpleAccount *account, gboolean succeeded, void *user_data) {

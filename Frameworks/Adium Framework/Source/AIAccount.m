@@ -888,11 +888,10 @@ typedef enum
 /*!
  * @brief An authorization prompt closed, granting or denying a contact's request for authorization
  *
- * @param inWindowController The window controller which closed; an account may have kept track of what windows were showing its authorization prompts
- * @param inDict A dictionary of authorization information created by the account originally and possibly modified
+ * @param inDict A dictionary of authorization information created by the account originally and unmodified
  * @param authorizationResponse An AIAuthorizationResponse indicating if authorization was granted or denied or if there was no response
  */
-- (void)authorizationWindowController:(NSWindowController *)inWindowController authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
+- (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
 {}
 
 #pragma mark Chat Commands
