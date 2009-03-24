@@ -89,6 +89,9 @@
 		113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892250F6B70CA00A7D7DC /* laconica-small.png */; };
 		113892280F6B70CA00A7D7DC /* laconica.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892260F6B70CA00A7D7DC /* laconica.png */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
+		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
+		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */; };
 		1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
@@ -748,7 +751,6 @@
 		34DC88410A7EEE2E003E1636 /* AdiumPreferredAccounts.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE3AD1D085F3EDD005919E7 /* AdiumPreferredAccounts.m */; };
 		34DC88430A7EEE2E003E1636 /* AdiumServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B8741D20840D25600738987 /* AdiumServices.m */; };
 		34DC88450A7EEE2E003E1636 /* AdiumApplescriptRunner.m in Sources */ = {isa = PBXBuildFile; fileRef = 34E1EDF40A045AA2003C14F1 /* AdiumApplescriptRunner.m */; };
-		34DC884A0A7EEE2E003E1636 /* AuthorizationRequestWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */; };
 		34DC884C0A7EEE2E003E1636 /* AdiumContentFiltering.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC5418F08649CC6003CD69E /* AdiumContentFiltering.m */; };
 		34DC884E0A7EEE2E003E1636 /* AdiumFormatting.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC540B708648322003CD69E /* AdiumFormatting.m */; };
 		34DC884F0A7EEE2E003E1636 /* FormattingDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34A6FB8007D6FDCC00972830 /* FormattingDefaults.plist */; };
@@ -1185,10 +1187,7 @@
 		6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */ = {isa = PBXBuildFile; fileRef = 6311F46F0E340DD2004234B8 /* AISharedAdium.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6311F4720E340DD2004234B8 /* AISharedAdium.m in Sources */ = {isa = PBXBuildFile; fileRef = 6311F4700E340DD2004234B8 /* AISharedAdium.m */; };
 		63218C500E518A3D0008E0D0 /* AdiumAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486E8A5097F24A90044C496 /* AdiumAuthorization.m */; };
-		63218C610E518A560008E0D0 /* ESAuthorizationRequestWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */; };
-		63218C710E518A830008E0D0 /* AuthorizationRequestWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */; };
 		63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E8A4097F24A90044C496 /* AdiumAuthorization.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		63218C860E518ABB0008E0D0 /* ESAuthorizationRequestWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */; };
 		632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */; };
 		632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */; };
 		632D801708E7E0A40032C187 /* XtrasManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 632D801608E7E0A40032C187 /* XtrasManager.nib */; };
@@ -1802,6 +1801,9 @@
 		113892260F6B70CA00A7D7DC /* laconica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laconica.png; path = "Plugins/Twitter Plugin/laconica.png"; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
+		114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAuthorizationRequestsWindowController.h; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.h"; sourceTree = "<group>"; };
+		114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAuthorizationRequestsWindowController.m; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.m"; sourceTree = "<group>"; };
+		114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIAuthorizationRequestsWindow.nib; path = "Frameworks/Adium Framework/Resources/AIAuthorizationRequestsWindow.nib"; sourceTree = "<group>"; };
 		1163F0EA0F6C7A8300F12F5D /* AIURLShortenerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIURLShortenerPlugin.h; path = ../../Source/AIURLShortenerPlugin.h; sourceTree = "<group>"; };
 		1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLShortenerPlugin.m; path = ../../Source/AIURLShortenerPlugin.m; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
@@ -3033,9 +3035,6 @@
 		3485D68009EB416300232CC4 /* AdiumLibpurple.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdiumLibpurple.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3486E8A4097F24A90044C496 /* AdiumAuthorization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumAuthorization.h; path = "Frameworks/Adium Framework/Source/AdiumAuthorization.h"; sourceTree = "<group>"; };
 		3486E8A5097F24A90044C496 /* AdiumAuthorization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumAuthorization.m; path = "Frameworks/Adium Framework/Source/AdiumAuthorization.m"; sourceTree = "<group>"; };
-		3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AuthorizationRequestWindow.nib; path = "Frameworks/Adium Framework/Resources/AuthorizationRequestWindow.nib"; sourceTree = "<group>"; };
-		3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESAuthorizationRequestWindowController.m; path = "Frameworks/Adium Framework/Source/ESAuthorizationRequestWindowController.m"; sourceTree = "<group>"; };
-		3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESAuthorizationRequestWindowController.h; path = "Frameworks/Adium Framework/Source/ESAuthorizationRequestWindowController.h"; sourceTree = "<group>"; };
 		3488390F0BB0E770009C3F7C /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = Resources/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		348839130BB0E786009C3F7C /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = Resources/ca.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		348839140BB0E78C009C3F7C /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -4751,6 +4750,7 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				6341AEFE0E53A09C00AE1439 /* libexpat.dylib */,
 				6349AF1F0E823B58007B8BE9 /* Spotlight Importer-Info.plist */,
+				114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -7693,6 +7693,8 @@
 		F5300A2B032F760B01A8010A /* Contacts & Chats */ = {
 			isa = PBXGroup;
 			children = (
+				114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */,
+				114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */,
 				34111A5D06BE1B370005AF5C /* ESObjectWithProperties.h */,
 				34111A5E06BE1B370005AF5C /* ESObjectWithProperties.m */,
 				4B82138E049CA6CC00A8010A /* AIChat.h */,
@@ -7709,9 +7711,6 @@
 				4B09D5C105D5265800BC00F0 /* AIMetaContact.m */,
 				3486E8A4097F24A90044C496 /* AdiumAuthorization.h */,
 				3486E8A5097F24A90044C496 /* AdiumAuthorization.m */,
-				3486E9E1097F5FE20044C496 /* ESAuthorizationRequestWindowController.h */,
-				3486E9E0097F5FE20044C496 /* ESAuthorizationRequestWindowController.m */,
-				3486E9DA097F5FCE0044C496 /* AuthorizationRequestWindow.nib */,
 			);
 			name = "Contacts & Chats";
 			sourceTree = "<group>";
@@ -8205,8 +8204,8 @@
 				34A1A8CA0DFB246400AC78CF /* AISocialNetworkingStatusMenu.h in Headers */,
 				34A1A8ED0DFB27A800AC78CF /* AICustomSocialNetworkingStatusWindowController.h in Headers */,
 				6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */,
-				63218C860E518ABB0008E0D0 /* ESAuthorizationRequestWindowController.h in Headers */,
 				63DF5B230E52D77F00010E99 /* AIContactList.h in Headers */,
+				114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8946,7 +8945,6 @@
 				34F849530A4AEFA00002A017 /* LogFileUpgrade.nib in Resources */,
 				34382CEF0A50387A004BF6A2 /* MessageContextDisplayDefaults.plist in Resources */,
 				34DC883F0A7EEE2E003E1636 /* keys.png in Resources */,
-				34DC884A0A7EEE2E003E1636 /* AuthorizationRequestWindow.nib in Resources */,
 				34DC884F0A7EEE2E003E1636 /* FormattingDefaults.plist in Resources */,
 				34DC88580A7EEE2E003E1636 /* FileTransferRequestPrompt.nib in Resources */,
 				34DC88590A7EEE2E003E1636 /* FileTransferProgressWindow.nib in Resources */,
@@ -9045,7 +9043,6 @@
 				636D938C0E4EA23F00E5F558 /* AdiumAddressBookAction_Jabber.scpt in Resources */,
 				636D938D0E4EA23F00E5F558 /* AdiumAddressBookAction_ICQ.scpt in Resources */,
 				636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */,
-				63218C710E518A830008E0D0 /* AuthorizationRequestWindow.nib in Resources */,
 				34DC8A590A7EEEF7003E1636 /* PresetManagement.nib in Resources */,
 				34DC8A5C0A7EEEF7003E1636 /* PresetNameSheet.nib in Resources */,
 				34DC8A650A7EEEF7003E1636 /* AccountSetup.nib in Resources */,
@@ -9064,6 +9061,7 @@
 				340D859B0ADC82D100D05B3F /* sourceListBackground.png in Resources */,
 				34F144430BA8FF3C000473DE /* EmoticonNames.strings in Resources */,
 				34A1A8E70DFB276E00AC78CF /* SocialNetworkingCustomStatus.nib in Resources */,
+				114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9712,7 +9710,6 @@
 				34DC8A720A7EEEF7003E1636 /* AIStatus.m in Sources */,
 				34DC8A740A7EEEF7003E1636 /* AIStatusGroup.m in Sources */,
 				63218C500E518A3D0008E0D0 /* AdiumAuthorization.m in Sources */,
-				63218C610E518A560008E0D0 /* ESAuthorizationRequestWindowController.m in Sources */,
 				34DC8A760A7EEEF7003E1636 /* AIEditStateWindowController.m in Sources */,
 				34DC8A7A0A7EEEF7003E1636 /* AIAbstractListObjectMenu.m in Sources */,
 				34DC8A7C0A7EEEF7003E1636 /* AIAccountMenu.m in Sources */,
@@ -9799,6 +9796,7 @@
 				6311F4720E340DD2004234B8 /* AISharedAdium.m in Sources */,
 				636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */,
 				63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */,
+				114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11531,6 +11529,7 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -11566,6 +11565,7 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -11602,6 +11602,7 @@
 					"-lsasl2",
 				);
 				PRODUCT_NAME = AdiumLibpurple;
+				SKIP_INSTALL = YES;
 			};
 			name = "Release-Debug";
 		};

@@ -278,7 +278,7 @@ typedef enum {
  * @param infoDict A dictionary of authorization information created by the account originally and possibly modified
  * @param authorizationResponse An AIAuthorizationResponse indicating if authorization was granted or denied or if there was no response
  */
-- (void)authorizationWindowController:(NSWindowController *)inWindowController authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
+- (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
 
 - (NSMenu*)actionsForChat:(AIChat *)chat;
 

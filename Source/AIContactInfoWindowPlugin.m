@@ -41,8 +41,26 @@
 	[self prepareContactInfo];
 }
 
+- (void)uninstallPlugin
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 //Contact Info --------------------------------------------------------------------------------
 #pragma mark Contact Info
+/*!
+ * @brief Show the information for a contact
+ *
+ * Shows the information of a contact which is the object of the notification.
+ */
+- (void)showContactInfoForNotification:(NSNotification *)notification
+{
+	if (!notification.object)
+		return;
+	
+	[AIContactInfoWindowController showInfoWindowForListObject:notification.object];
+}
+
 //Show info for the selected contact
 - (IBAction)showContactInfo:(id)sender
 {
@@ -154,6 +172,11 @@
 																		action:@selector(showContactInfo:)
 																		  menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(showContactInfoForNotification:)
+												 name:@"AIShowContactInfo"
+											   object:nil];
 }
 
 //Always be able to show the inspector
