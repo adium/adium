@@ -704,16 +704,22 @@
 	
 	NSMenuItem *menuItem;
 	
+	NSImage	*serviceIcon = [AIServiceIcons serviceIconForService:self.service
+															type:AIServiceIconSmall
+													   direction:AIIconNormal];
+	
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Update Tweets",nil)
 																	 target:self
 																	 action:@selector(periodicUpdate)
 															  keyEquivalent:@""] autorelease];
+	[menuItem setImage:serviceIcon];
 	[menuItemArray addObject:menuItem];
 	
 	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Reply to a Tweet",nil)
 																	 target:self
 																	 action:@selector(replyToTweet)
 															  keyEquivalent:@""] autorelease];
+	[menuItem setImage:serviceIcon];
 	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	

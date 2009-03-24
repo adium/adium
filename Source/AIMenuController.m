@@ -536,6 +536,10 @@
 		[self addMenuItemsForContact:(AIListContact *)inObject
 							  toMenu:menu
 					   separatorItem:&separatorItem];
+	} else if (adium.interfaceController.activeChat.isGroupChat) {
+		[self addMenuItemsForChat:adium.interfaceController.activeChat
+						   toMenu:menu
+					separatorItem:&separatorItem];
 	}
 	
 	// If no account specific items, hide the separator item.
