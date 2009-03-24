@@ -52,6 +52,8 @@ static AdiumAuthorization *sharedInstance;
 		return nil;
 	}
 	
+	AILogWithSignature(@"Adding auth request with dict %@", inDict);
+	
 	[adium.contactAlertsController generateEvent:CONTACT_REQUESTED_AUTHORIZATION
 									 forListObject:(AIListObject *)listContact
 										  userInfo:nil
