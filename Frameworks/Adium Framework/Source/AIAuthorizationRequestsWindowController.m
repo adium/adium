@@ -379,6 +379,10 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		[inTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:mouseRow] byExtendingSelection:NO];
 	}
 	
+	if (!inTableView.selectedRowIndexes.count) {
+		return nil;
+	}
+	
 	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
 	
 	if (inTableView.selectedRowIndexes.count == 1) {
