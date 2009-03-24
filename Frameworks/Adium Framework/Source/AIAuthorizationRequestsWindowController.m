@@ -17,6 +17,7 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/MVMenuButton.h>
 
 #define MINIMUM_ROW_HEIGHT				42.0 // It's, like, the answer.
 #define MAXIMUM_ROW_HEIGHT				300.0
@@ -71,6 +72,8 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		[sharedController autorelease]; sharedController = nil;
 	}
 	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[super windowWillClose:sender];
 }
 
@@ -88,6 +91,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
  */
 - (void)configureToolbar
 {
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(toolbarWillAddItem:)
+												 name:NSToolbarWillAddItemNotification
+											   object:nil];
+	
 	NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:@"AdiumAuthorizeWindow"] autorelease];
 	
     [toolbar setDelegate:self];
@@ -99,28 +107,27 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 	
 	toolbarItems = [[NSMutableDictionary alloc] init];
 	
+	// Authorize
+	
+	MVMenuButton *button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	
+	[button setImage:[NSImage imageNamed:@"Authorize" forClass:[self class]]];
+	
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
 									withIdentifier:@"authorize"
 											 label:AUTHORIZE
 									  paletteLabel:AUTHORIZE
 										   toolTip:AILocalizedString(@"Authorize Selected",nil)
 											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
+								   settingSelector:@selector(setView:)
+									   itemContent:button
 											action:@selector(authorize:)
 											  menu:nil];
-
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"authorizeAdd"
-											 label:AUTHORIZE_ADD
-									  paletteLabel:AUTHORIZE_ADD
-										   toolTip:AILocalizedString(@"Authorize and Add Selected",nil)
-											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
-											action:@selector(authorizeAdd:)
-											  menu:nil];
 	
+	NSToolbarItem *toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"authorize"];
+
+	[button setToolbarItem:toolbarItem];
+
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
 									withIdentifier:@"getInfo"
 											 label:GET_INFO
@@ -128,9 +135,15 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 										   toolTip:AILocalizedString(@"Get Info",nil)
 											target:self
 								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
+									   itemContent:[NSImage imageNamed:@"GetInfo" forClass:[self class]]
 											action:@selector(getInfo:)
 											  menu:nil];
+	
+	// Deny
+	
+	button = [[[MVMenuButton alloc] initWithFrame:NSMakeRect(0, 0, 32, 32)] autorelease];
+	
+	[button setImage:[NSImage imageNamed:@"Deny" forClass:[self class]]];
 	
 	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
 									withIdentifier:@"deny"
@@ -138,23 +151,53 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 									  paletteLabel:DENY
 										   toolTip:AILocalizedString(@"Deny Selected",nil)
 											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
+								   settingSelector:@selector(setView:)
+									   itemContent:button
 											action:@selector(deny:)
 											  menu:nil];
+
+	toolbarItem = [AIToolbarUtilities toolbarItemFromDictionary:toolbarItems withIdentifier:@"deny"];
 	
-	[AIToolbarUtilities addToolbarItemToDictionary:toolbarItems
-									withIdentifier:@"denyBlock"
-											 label:DENY_BLOCK
-									  paletteLabel:DENY_BLOCK
-										   toolTip:AILocalizedString(@"Deny and Block Selected",nil)
-											target:self
-								   settingSelector:@selector(setImage:)
-									   itemContent:[NSImage imageForSSL]// just for the sake of having an image; [NSImage imageNamed:@"" forClass:[self class]]
-											action:@selector(denyBlock:)
-											  menu:nil];
+	[button setToolbarItem:toolbarItem];
 	
 	[[self window] setToolbar:toolbar];
+}
+
+- (void)toolbarWillAddItem:(NSNotification *)notification
+{
+	NSToolbarItem	*item = [[notification userInfo] objectForKey:@"item"];
+	
+	if ([[item itemIdentifier] isEqualToString:@"authorize"]) {
+		NSMenu *menu = [[NSMenu alloc] init];
+		
+		[menu addItemWithTitle:AUTHORIZE
+						target:self
+						action:@selector(authorize:)
+				 keyEquivalent:@""];
+		
+		[menu addItemWithTitle:AUTHORIZE_ADD
+						target:self
+						action:@selector(authorizeAdd:)
+				 keyEquivalent:@""];
+		
+		[[item view] setMenu:menu];
+		[menu release];
+	} else if ([[item itemIdentifier] isEqualToString:@"deny"]) {
+		NSMenu *menu = [[NSMenu alloc] init];
+		
+		[menu addItemWithTitle:DENY
+						target:self
+						action:@selector(deny:)
+				 keyEquivalent:@""];
+		
+		[menu addItemWithTitle:DENY_BLOCK
+						target:self
+						action:@selector(denyBlock:)
+				 keyEquivalent:@""];
+		
+		[[item view] setMenu:menu];
+		[menu release];	
+	}		
 }
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
@@ -165,11 +208,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:
-			@"authorize", @"authorizeAdd",
+			@"authorize",
 			NSToolbarSeparatorItemIdentifier,
 			@"getInfo",
 			NSToolbarFlexibleSpaceItemIdentifier,
-			@"denyBlock", @"deny", nil];
+			@"deny", nil];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
@@ -179,6 +222,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 			 NSToolbarSpaceItemIdentifier,
 			 NSToolbarFlexibleSpaceItemIdentifier,
 			 NSToolbarCustomizeToolbarItemIdentifier, nil]];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	return [tableView numberOfSelectedRows] > 0;
 }
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
