@@ -14,6 +14,8 @@
 #define AUTHORIZE_ADD				AILocalizedString(@"Authorize and Add", nil)
 #define DENY						AILocalizedString(@"Deny", nil)
 #define DENY_BLOCK					AILocalizedString(@"Deny and Block", nil)
+#define IGNORE						AILocalizedString(@"Ignore", nil)
+#define IGNORE_BLOCK				AILocalizedString(@"Ignore and Block", nil)
 
 @class AIAccount;
 
