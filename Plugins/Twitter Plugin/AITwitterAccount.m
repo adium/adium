@@ -2335,6 +2335,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		// Set a property so we don't re-send thie image we're just now downloading.
 		[self setValue:[NSNumber numberWithBool:YES] forProperty:TWITTER_PROPERTY_REQUESTED_USER_ICON notify:NotifyNever];
 		
+		[self setPreference:[NSNumber numberWithBool:YES]
+					 forKey:KEY_USE_USER_ICON
+					  group:GROUP_ACCOUNT_STATUS];
+		
+		
 		[self setPreference:[image TIFFRepresentation]
 					 forKey:KEY_USER_ICON
 					  group:GROUP_ACCOUNT_STATUS];
