@@ -67,7 +67,7 @@ Message Styles
 Messaging
  * Fix a longstanding bug in the emoticon controller which mishandled look-ahead emoticon parsing, and simplified the code in the process. There was some bizarre recursive pass-by-reference occurring, causing among other things the 'currentLocation' in the string to actually end up way beyond the end of the string by the time the recursivity finished. #6440
  * Validate the Block/Unblock toolbar item, disabling it if the account doesn't support privacy. Add a confirmation dialog when clicking the block/unblock icon in the toolbar. Fixes #10960.
- * Adds a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
+ * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
 
 Accounts 
  * Fixed setting a global user icon
