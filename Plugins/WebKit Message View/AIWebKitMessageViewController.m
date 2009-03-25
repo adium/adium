@@ -27,6 +27,7 @@
 #import <Adium/AIFileTransferControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentEvent.h>
@@ -480,6 +481,12 @@ static NSArray *draggedTypes = nil;
 	//Hack: this will re-set us for all the delegates, but that shouldn't matter
 	[delegateProxy addDelegate:self forView:webView];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateWithVariant:activeVariant chat:chat] baseURL:nil];
+	
+	if (chat.isGroupChat) {
+		DOMElement *topicElement = [[webView mainFrameDocument] getElementById:@"topic"];
+		// xxx do listener theEditableElement.addEventListener("keyup", function () { client.topicEdited(); } );
+
+	}
 
 	if (reprocessContent) {
 		NSArray	*currentContentQueue;
@@ -652,11 +659,17 @@ static NSArray *draggedTypes = nil;
 		replaceLastContent = YES;
 	}
 
-	//Add the content object
-	[self _appendContent:content 
-				 similar:similar
-	willAddMoreContentObjects:willAddMoreContentObjects
-	  replaceLastContent:replaceLastContent];
+	if ([content.type isEqualToString:CONTENT_TOPIC_TYPE]) {
+		DOMHTMLElement *topicElement = (DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"topic"];
+		
+		[topicElement setInnerHTML:[messageStyle completedTemplateForContent:content similar:similar]];
+	} else {
+		//Add the content object
+		[self _appendContent:content 
+					 similar:similar
+   willAddMoreContentObjects:willAddMoreContentObjects
+		  replaceLastContent:replaceLastContent];
+	}
 		
 	[previousContent release]; previousContent = [content retain];
 }

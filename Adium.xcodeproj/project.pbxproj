@@ -93,6 +93,9 @@
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
 		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */; };
 		1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */; };
+		1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = 1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1164A90E0F7AD4AB00110AE4 /* AIContentTopic.m in Resources */ = {isa = PBXBuildFile; fileRef = 1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */; };
+		1164A9270F7AD70700110AE4 /* AIContentTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
 		1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC50CDAA8D400B8E233 /* libgobject.framework */; };
@@ -1810,6 +1813,8 @@
 		114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIAuthorizationRequestsWindow.nib; path = "Frameworks/Adium Framework/Resources/AIAuthorizationRequestsWindow.nib"; sourceTree = "<group>"; };
 		1163F0EA0F6C7A8300F12F5D /* AIURLShortenerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIURLShortenerPlugin.h; path = ../../Source/AIURLShortenerPlugin.h; sourceTree = "<group>"; };
 		1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLShortenerPlugin.m; path = ../../Source/AIURLShortenerPlugin.m; sourceTree = "<group>"; };
+		1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentTopic.h; path = "Frameworks/Adium Framework/Source/AIContentTopic.h"; sourceTree = "<group>"; };
+		1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContentTopic.m; path = "Frameworks/Adium Framework/Source/AIContentTopic.m"; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
 		1172FBC40CDAA8D400B8E233 /* libgmodule.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgmodule.framework; path = Frameworks/libgmodule.framework; sourceTree = "<group>"; };
 		1172FBC50CDAA8D400B8E233 /* libgobject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgobject.framework; path = Frameworks/libgobject.framework; sourceTree = "<group>"; };
@@ -7730,6 +7735,8 @@
 		F5300A2C032F761101A8010A /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */,
+				1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */,
 				4B82139D049CC3A000A8010A /* AIContentObject.h */,
 				4B82139E049CC3A000A8010A /* AIContentObject.m */,
 				6ECFABC606223733001C7E93 /* AIContentContext.h */,
@@ -8093,6 +8100,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */,
 				11FC23C20F768C1600C1C906 /* AIXMLElement.h in Headers */,
 				63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */,
 				636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */,
@@ -9078,6 +9086,7 @@
 				11F5E7840F78A3AA00837A0B /* Deny.png in Resources */,
 				11F5E7910F78A41700837A0B /* GetInfo.png in Resources */,
 				11945F400F7935A2002A54B3 /* Ignore.png in Resources */,
+				1164A90E0F7AD4AB00110AE4 /* AIContentTopic.m in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9710,6 +9719,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1164A9270F7AD70700110AE4 /* AIContentTopic.m in Sources */,
 				11FC23C30F768C2900C1C906 /* AIXMLElement.m in Sources */,
 				636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */,
 				636D92BE0E4E97AA00E5F558 /* AIAddressBookUserIconSource.m in Sources */,

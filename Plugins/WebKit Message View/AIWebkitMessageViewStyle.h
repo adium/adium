@@ -96,6 +96,7 @@ typedef enum {
 	NSString			*nextContextOutHTML;
 	NSString			*statusHTML;
 	NSString			*fileTransferHTML;
+	NSString			*topicHTML;
 
 	//Style settings
 	BOOL				allowsCustomBackground;
@@ -159,6 +160,11 @@ typedef enum {
  *	Templates may be different for different content types and for content objects similar to the one preceding them.
  */
 - (NSString *)templateForContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar;
+
+/*!
+ * @brief Returns the template for the given content filled in with keywords substituted.
+ */
+- (NSString *)completedTemplateForContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar;
 
 /*!
  *	@brief Returns the BOM script for appending content

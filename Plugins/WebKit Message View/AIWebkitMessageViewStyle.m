@@ -21,6 +21,7 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIContentTopic.h>
 #import <Adium/AIContentContext.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
@@ -49,6 +50,8 @@
 #define APPEND_MESSAGE_NO_SCROLL		@"appendMessageNoScroll(\"%@\");"
 #define	APPEND_NEXT_MESSAGE_NO_SCROLL	@"appendNextMessageNoScroll(\"%@\");"
 #define REPLACE_LAST_MESSAGE			@"replaceLastMessage(\"%@\");"
+
+#define TOPIC_WRAPPER					@"<div id=\"topic\">%@</div>";
 
 #define VALID_SENDER_COLORS_ARRAY [[NSArray alloc] initWithObjects:@"aqua", @"aquamarine", @"blue", @"blueviolet", @"brown", @"burlywood", @"cadetblue", @"chartreuse", @"chocolate", @"coral", @"cornflowerblue", @"crimson", @"cyan", @"darkblue", @"darkcyan", @"darkgoldenrod", @"darkgreen", @"darkgrey", @"darkkhaki", @"darkmagenta", @"darkolivegreen", @"darkorange", @"darkorchid", @"darkred", @"darksalmon", @"darkseagreen", @"darkslateblue", @"darkslategrey", @"darkturquoise", @"darkviolet", @"deeppink", @"deepskyblue", @"dimgrey", @"dodgerblue", @"firebrick", @"forestgreen", @"fuchsia", @"gold", @"goldenrod", @"green", @"greenyellow", @"grey", @"hotpink", @"indianred", @"indigo", @"lawngreen", @"lightblue", @"lightcoral", @"lightgreen", @"lightgrey", @"lightpink", @"lightsalmon", @"lightseagreen", @"lightskyblue", @"lightslategrey", @"lightsteelblue", @"lime", @"limegreen", @"magenta", @"maroon", @"mediumaquamarine", @"mediumblue", @"mediumorchid", @"mediumpurple", @"mediumseagreen", @"mediumslateblue", @"mediumspringgreen", @"mediumturquoise", @"mediumvioletred", @"midnightblue", @"navy", @"olive", @"olivedrab", @"orange", @"orangered", @"orchid", @"palegreen", @"paleturquoise", @"palevioletred", @"peru", @"pink", @"plum", @"powderblue", @"purple", @"red", @"rosybrown", @"royalblue", @"saddlebrown", @"salmon", @"sandybrown", @"seagreen", @"sienna", @"silver", @"skyblue", @"slateblue", @"slategrey", @"springgreen", @"steelblue", @"tan", @"teal", @"thistle", @"tomato", @"turquoise", @"violet", @"yellowgreen", nil]
 
@@ -205,6 +208,7 @@ static NSArray *validSenderColors;
 	[nextContextOutHTML release];
 	[statusHTML release];	
 	[fileTransferHTML release];
+	[topicHTML release];
 
 	[timeStampFormatter release];
 
@@ -361,20 +365,29 @@ static NSArray *validSenderColors;
 {
 	NSMutableString	*templateHTML;
 
+	// If this is a group chat, we want to include a topic.
+	// Otherwise, if the header is shown, use it.
+	NSString *headerContent = @"";
+	if (chat.isGroupChat) {
+		headerContent = TOPIC_WRAPPER;
+	} else if (showHeader && headerHTML) {
+		headerContent = headerHTML;
+	}
+	
 	//Old styles may be using an old custom 4 parameter baseHTML.  Styles version 3 and higher should
 	//be using the bundled (or a custom) 5 parameter baseHTML.
 	if ((styleVersion < 3) && usingCustomTemplateHTML) {
 		templateHTML = [NSMutableString stringWithFormat:baseHTML,						//Template
 			[[NSURL fileURLWithPath:stylePath] absoluteString],							//Base path
 			[self pathForVariant:variant],												//Variant path
-			((showHeader && headerHTML) ? headerHTML : @""),
+			headerContent,
 			(footerHTML ? footerHTML : @"")];
 	} else {		
 		templateHTML = [NSMutableString stringWithFormat:baseHTML,						//Template
 			[[NSURL fileURLWithPath:stylePath] absoluteString],							//Base path
 			styleVersion < 3 ? @"" : @"@import url( \"main.css\" );",					//Import main.css for new enough styles
 			[self pathForVariant:variant],												//Variant path
-			((showHeader && headerHTML) ? headerHTML : @""),
+			headerContent,
 			(footerHTML ? footerHTML : @"")];
 	}
 
@@ -403,12 +416,23 @@ static NSArray *validSenderColors;
 
 	} else if([[content type] isEqualToString:CONTENT_FILE_TRANSFER_TYPE]) {
 		template = [[fileTransferHTML mutableCopy] autorelease];
+	} else if ([[content type] isEqualToString:CONTENT_TOPIC_TYPE]) {
+		template = topicHTML;
 	}
 	else {
 		template = statusHTML;
 	}
 	
 	return template;
+}
+
+- (NSString *)completedTemplateForContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar
+{
+	NSMutableString *mutableTemplate = [[self templateForContent:content similar:contentIsSimilar] mutableCopy];
+	
+	mutableTemplate = [self fillKeywords:mutableTemplate forContent:content similar:contentIsSimilar];
+	
+	return [mutableTemplate autorelease];
 }
 
 /*!
@@ -423,6 +447,7 @@ static NSArray *validSenderColors;
 	//(which varies by system) when read that way.  We want to always interpret the files as UTF8.
 	headerHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Header" ofType:@"html"]] retain];
 	footerHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Footer" ofType:@"html"]] retain];
+	topicHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Topic" ofType:@"html"]] retain];
 	baseHTML = [NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Template" ofType:@"html"]];
 	
 	//Starting with version 1, styles can choose to not include template.html.  If the template is not included 
@@ -576,8 +601,7 @@ static NSArray *validSenderColors;
 	if (!combineConsecutive) contentIsSimilar = NO;
 	
 	//Fetch the correct template and substitute keywords for the passed content
-	newHTML = [[[self templateForContent:content similar:contentIsSimilar] mutableCopy] autorelease];
-	newHTML = [self fillKeywords:newHTML forContent:content similar:contentIsSimilar];
+	newHTML = [[[self completedTemplateForContent:content similar:contentIsSimilar] mutableCopy] autorelease];
 	
 	//BOM scripts vary by style version
 	if (!usingCustomTemplateHTML || styleVersion >= 4) {
