@@ -90,6 +90,7 @@ typedef enum {
 #define TWITTER_PREFERENCE_RETWEET_SPAM				@"Retweet Enabled"
 #define TWITTER_PREFERENCE_LOAD_CONTACTS			@"Load Follows as Contacts"
 
+#define TWITTER_PREFERENCE_EVER_LOADED_TIMELINE	@"Ever Loaded Timeline"
 #define TWITTER_PREFERENCE_UPDATE_INTERVAL		@"Update Interval In Minutes"
 #define TWITTER_PREFERENCE_DM_LAST_ID			@"Direct Messages Last ID"
 #define TWITTER_PREFERENCE_TIMELINE_LAST_ID		@"Followed Timeline Last ID"

@@ -1441,6 +1441,9 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		sortedQueuedUpdates = [self arrayWithDuplicateTweetsRemoved:sortedQueuedUpdates];
 		
+		BOOL trackContent = [[self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
+		
+		
 		AIChat *timelineChat = self.timelineChat;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
@@ -1481,6 +1484,8 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 																		  date:date
 																	   message:message
 																	 autoreply:NO];
+			
+			contentMessage.trackContent = trackContent;
 			
 			[adium.contentController receiveContentObject:contentMessage];
 		}
@@ -1821,29 +1826,37 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			AILogWithSignature(@"%@ Followed completed: %d Replies completed: %d", self, followedTimelineCompleted, repliesCompleted);
 			
-			if (followedTimelineCompleted && repliesCompleted && queuedUpdates.count) {
-				// Set the "last pulled" for the timeline and replies, since we've completed both.
-				if(futureRepliesLastID) {
-					AILogWithSignature(@"%@ futureRepliesLastID = %@", self, futureRepliesLastID);
+			if (followedTimelineCompleted && repliesCompleted) {
+				if (queuedUpdates.count) {
+					// Set the "last pulled" for the timeline and replies, since we've completed both.
+					if(futureRepliesLastID) {
+						AILogWithSignature(@"%@ futureRepliesLastID = %@", self, futureRepliesLastID);
+						
+						[self setPreference:futureRepliesLastID
+									 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
+									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+						
+						[futureRepliesLastID release]; futureRepliesLastID = nil;
+					}
 					
-					[self setPreference:futureRepliesLastID
-								 forKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
-								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+					if(futureTimelineLastID) {
+						AILogWithSignature(@"%@ futureTimelineLastID = %@", self, futureTimelineLastID);
+						
+						[self setPreference:futureTimelineLastID
+									 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
+						
+						[futureTimelineLastID release]; futureTimelineLastID = nil;
+					}
 					
-					[futureRepliesLastID release]; futureRepliesLastID = nil;
+					[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 				}
-				
-				if(futureTimelineLastID) {
-					AILogWithSignature(@"%@ futureTimelineLastID = %@", self, futureTimelineLastID);
-					
-					[self setPreference:futureTimelineLastID
-								 forKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+
+				if (![self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES]) {
+					[self setPreference:[NSNumber numberWithBool:YES]
+								 forKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE
 								  group:TWITTER_PREFERENCE_GROUP_UPDATES];
-					
-					[futureTimelineLastID release]; futureTimelineLastID = nil;
 				}
-				
-				[self displayQueuedUpdatesForRequestType:[self requestTypeForRequestID:identifier]];
 			}
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileStatusUpdates) {
