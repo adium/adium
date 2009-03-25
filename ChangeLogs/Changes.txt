@@ -41,7 +41,7 @@ Contacts
  * Alter the way alwaysVisible is set: instead of pulling the meta contact preference if we lack one, always pull the meta contact preference if available. The info inspector doesn't allow us to toggle for an individual sub-contact the always visible preference, so this could lead to a stuck-state of always visible which the user couldn't change.
 
 Logging
- * AILoggerPlugin now checks whether the object at the usual Logs folder path is a file, and if it is, tries to dereference it as an alias. If it succeeds, it uses the destination of the alias as the new Logs folder. #992
+ * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). #992
  * Automatically make search terms wildcard-matching if they don't specify a wildcard pattern. Fixes #6364
  * Sped up writing log files in certain situations [25499]
  * Corrected some situations where the log viewer lacked icons
