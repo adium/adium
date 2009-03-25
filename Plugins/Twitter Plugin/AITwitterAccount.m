@@ -1045,6 +1045,9 @@
 	// Prevent triggering this update routine multiple times.
 	pendingUpdateCount = 3;
 	
+	// We haven't printed error messages for this set.
+	timelineErrorMessagePrinted = NO;
+	
 	[queuedUpdates removeAllObjects];
 	[queuedDM removeAllObjects];
 	
@@ -1097,6 +1100,52 @@
 }
 
 #pragma mark Message Display
+/*!
+ * @brief Returns a user-readable message for an error code.
+ */
+- (NSString *)errorMessageForError:(NSError *)error
+{
+	switch (error.code) {
+		case 400:
+			// Bad Request: your request is invalid, and we'll return an error message that tells you why.
+			// This is the status code returned if you've exceeded the rate limit. 
+			return AILocalizedString(@"You've exceeded the rate limit.", nil);
+			break;
+			
+		case 401:
+			// Not Authorized: either you need to provide authentication credentials, or the credentials provided aren't valid.
+			return AILocalizedString(@"Your credentials do not allow you access.", nil);
+			break;
+			
+		case 403:
+			// Forbidden: we understand your request, but are refusing to fulfill it.  An accompanying error message should explain why.
+			return AILocalizedString(@"Request refused by the server.", nil);
+			break;
+			
+		case 404:
+			// Not Found: either you're requesting an invalid URI or the resource in question doesn't exist (ex: no such user). 
+			return AILocalizedString(@"Requested resource not found.", nil);
+			break;
+			
+		case 500:
+			// Internal Server Error: we did something wrong.  Please post to the group about it and the Twitter team will investigate.
+			return AILocalizedString(@"The server reported an internal error.", nil);
+			break;
+			
+		case 502:
+			// Bad Gateway: returned if Twitter is down or being upgraded.
+			return AILocalizedString(@"The server is currently down or being upgraded.", nil);
+			break;
+			
+		case 503:
+			// Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
+			return AILocalizedString(@"The server is overloaded with requests.", nil);
+			break;
+	}
+	
+	return [NSString stringWithFormat:AILocalizedString(@"Unknown error: code %u", nil), error.code];
+}
+
 /*!
  * @brief Returns the link URL for a specific type of link
  */
@@ -1443,7 +1492,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		BOOL trackContent = [[self preferenceForKey:TWITTER_PREFERENCE_EVER_LOADED_TIMELINE group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue];
 		
-		
 		AIChat *timelineChat = self.timelineChat;
 		
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
@@ -1617,6 +1665,32 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 		case AITwitterUpdateFollowedTimeline:
 		case AITwitterUpdateReplies:
+		{
+			AIChat *timelineChat = [adium.chatController existingChatWithName:self.timelineChatName
+																	onAccount:self];
+			
+			// Only print an error if the user already has the timeline open. Beyond annoying if we pop it open just to say "lol error"
+			if (timelineChat && !timelineErrorMessagePrinted) {
+				AIContentStatus *content = [AIContentEvent statusInChat:timelineChat
+															 withSource:nil
+															destination:self
+																   date:[NSDate date]
+																message:[NSAttributedString stringWithString:[NSString stringWithFormat:AILocalizedString(@"An error occurred: %@", nil),
+																											  [self errorMessageForError:error]]]
+															   withType:@"error"];
+				
+				content.coalescingKey = @"error";
+				
+				[adium.contentController receiveContentObject:content];
+				
+				// This gets reset to NO the next a periodic update fires.
+				timelineErrorMessagePrinted = YES;
+			}
+			
+			--pendingUpdateCount;
+			break;
+		}
+			
 		case AITwitterUpdateDirectMessage:
 			--pendingUpdateCount;
 			break;
@@ -1629,12 +1703,19 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 															   self.explicitFormattedUID]];
 			} else {
 				[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Add Contact", nil)
-											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@. Error %d occured.",nil),
+											  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to add %@ to account %@. %@",nil),
 															   [[self dictionaryForRequestID:identifier] objectForKey:@"UID"],
 															   self.explicitFormattedUID,
-															   error.code]];
+															   [self errorMessageForError:error]]];
 			}
+			break;
 			
+		case AITwitterRemoveFollow:
+			[adium.interfaceController handleErrorMessage:AILocalizedString(@"Unable to Remove Contact", nil)
+										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Unable to remove %@ on account %@. %@", nil),
+														   ((AIListContact *)[[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"]).UID,
+														   self.explicitFormattedUID,
+														   [self errorMessageForError:error]]];
 			break;
 			
 		case AITwitterValidateCredentials:
@@ -1681,7 +1762,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 												   inChat:timelineChat];
 				}
 			} else {
-				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Attempt to favorite tweet failed (error %u).", nil), error.code]
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Attempt to favorite tweet failed. %@", nil), [self errorMessageForError:error]]
 											   ofType:@"favorite"
 											   inChat:timelineChat];				
 			}
@@ -1698,7 +1779,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			[adium.interfaceController handleErrorMessage:(enableNotification ?
 														   AILocalizedString(@"Unable to Enable Notifications", nil) :
 														   AILocalizedString(@"Unable to Disable Notifications", nil))
-										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change for %@. Received error %u from the server.", nil), listContact.UID, error.code]];
+										  withDescription:[NSString stringWithFormat:AILocalizedString(@"Cannot change notification setting for %@. %@", nil), listContact.UID, [self errorMessageForError:error]]];
 			break;
 		}
 			
@@ -1706,7 +1787,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		{
 			AIChat *timelineChat = self.timelineChat;
 			
-			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete (error %u).", nil), error.code]
+			[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"Your tweet failed to delete. %@", nil), [self errorMessageForError:error]]
 										   ofType:@"delete"
 										   inChat:timelineChat];
 			break;
@@ -1717,15 +1798,22 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				AIListContact *contact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 				AIChat *chat = [adium.chatController chatWithContact:contact];
 				
-				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"The direct message failed to delete (error %u).", nil), error.code]
+				[adium.contentController displayEvent:[NSString stringWithFormat:AILocalizedString(@"The direct message failed to delete. %@", nil), [self errorMessageForError:error]]
 											   ofType:@"delete"
 											   inChat:chat];	
 			break;
 		}
-
-		default:
 			
+		case AITwitterUnknownType:
+		case AITwitterRateLimitStatus:
+		case AITwitterProfileSelf:
+		case AITwitterSelfUserIconPull:
+		case AITwitterProfileUserInfo:
+		case AITwitterProfileStatusUpdates:
+			// While we don't handle the errors, it's a good idea to not have a "default" just to prevent accidentally letting something
+			// we should really handle slip through.
 			break;
+
 	}
 	
 	AILogWithSignature(@"%@ Request failed (%@ - %u) - %@", self, identifier, [self requestTypeForRequestID:identifier], error);

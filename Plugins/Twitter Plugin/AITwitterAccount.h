@@ -134,6 +134,7 @@ typedef enum {
 	BOOL				retweetLink;
 	BOOL				updateAfterSend;
 	
+	BOOL				timelineErrorMessagePrinted;
 	NSUInteger			pendingUpdateCount;
 	
 	BOOL				followedTimelineCompleted;
@@ -161,6 +162,8 @@ typedef enum {
 @property (readonly, nonatomic) NSString *tokenAuthorizeURL;
 
 @property (readonly, nonatomic) AIChat *timelineChat;
+
+- (NSString *)errorMessageForError:(NSError *)error;
 
 - (void)setProfileName:(NSString *)name
 				   url:(NSString*)url
