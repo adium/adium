@@ -186,7 +186,7 @@
 #pragma mark Chats
 - (void)errorForChat:(AIChat *)chat type:(NSNumber *)type;
 - (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat;
-- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat;
+- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source;
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat;
 - (void)convUpdateForChat:(AIChat *)chat type:(NSNumber *)type;
 - (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;

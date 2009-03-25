@@ -22,6 +22,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
+#import <Adium/AIContentTopic.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -885,9 +886,15 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AILogWithSignature(@"Chat left - something should happen here!");
 }
 
-- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat
-{
-	
+- (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
+{	
+	AIContentTopic *topic = [AIContentTopic topicInChat:chat
+											 withSource:[self contactWithUID:source]
+											destination:nil
+												   date:[NSDate date]
+												message:[NSAttributedString stringWithString:inTopic]];
+
+	[adium.contentController receiveContentObject:topic];
 }
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat
 {

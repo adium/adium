@@ -317,11 +317,20 @@ static void adiumPurpleConvUpdated(PurpleConversation *conv, PurpleConvUpdateTyp
 		
 		switch(type) {
 			case PURPLE_CONV_UPDATE_TOPIC:
+			{
+				NSString *who = nil;
+				
+				if (chat->who != NULL) {
+					who = [NSString stringWithUTF8String:chat->who];
+				}
+				
 				[accountLookup(purple_conversation_get_account(conv)) updateTopic:(purple_conv_chat_get_topic(chat) ?
-														   [NSString stringWithUTF8String:purple_conv_chat_get_topic(chat)] :
-														   nil)
-												  forChat:groupChatLookupFromConv(conv)];
+																				   [NSString stringWithUTF8String:purple_conv_chat_get_topic(chat)] :
+																				   nil)
+																		  forChat:groupChatLookupFromConv(conv)
+																	   withSource:who];
 				break;
+			}
 			case PURPLE_CONV_UPDATE_TITLE:
 				[accountLookup(purple_conversation_get_account(conv)) updateTitle:(purple_conversation_get_title(conv) ?
 														   [NSString stringWithUTF8String:purple_conversation_get_title(conv)] :
