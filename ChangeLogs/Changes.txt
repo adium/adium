@@ -15,7 +15,7 @@ Group Chats and Group Chat Bookmarks
  * No longer triggers an event for coming online
  * Tabs and window titles now reflect the aliases of list bookmarks for their chats #11756
  * Now only displayed when account is online
- * Set a shortcut of Command+Option+/ for the "Toggle User List" menu item. (cmd opt /)
+ * Set a shortcut of ⌘⌥/ for the "Toggle User List" menu item.
  * Double-clicking a contact in the user list opens a chat with them
  * When double-clicking the resize widget in the user list, actually hide it instead of resizing it down (thereby making a few-pixel-wide bar on the side).
  * Make context display plugin work with group chats by uncommenting the line where it says "don't display context for group chats" (and fixing a few targeting issues).
@@ -67,7 +67,7 @@ Message Styles
 Messaging
  * Fix a longstanding bug in the emoticon controller which mishandled look-ahead emoticon parsing, and simplified the code in the process. There was some bizarre recursive pass-by-reference occurring, causing among other things the 'currentLocation' in the string to actually end up way beyond the end of the string by the time the recursivity finished. #6440
  * Validate the Block/Unblock toolbar item, disabling it if the account doesn't support privacy. Add a confirmation dialog when clicking the block/unblock icon in the toolbar. Fixes #10960.
- * Adds a URL shortener. cmd+shift+k.  Either select the URL and do edit > replace with shortened, right click selected url, or right-click a link. Tinyurl, is.gd, tr.im, xrl.us
+ * Adds a URL shortener. ⇧⌘K.  Either select the URL and do edit > replace with shortened, right click selected url, or right-click a link. Tinyurl, is.gd, tr.im, xrl.us
 
 Accounts 
  * Fixed setting a global user icon
