@@ -196,20 +196,15 @@
 {
 	NSData	*userIconData = nil;
 
+	// If we locally have an icon set, or we're not temporary and a global one is set, use that.
 	if ([[self preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]
 		  || (!isTemporary && [[adium.preferenceController preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue])) {
 		
-		if (isTemporary)
-			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
-		else
-			userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
+		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		
 		if (!userIconData && !isTemporary) {
-			userIconData = [self preferenceForKey:KEY_DEFAULT_USER_ICON group:GROUP_ACCOUNT_STATUS];
+			userIconData = [adium.preferenceController preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];
 		}
-	} else {
-		//Globally, we're not using an icon; however, the account may specify its own, overriding that.
-		userIconData = [self preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS];		
 	}
 
 	return userIconData;
