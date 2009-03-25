@@ -1514,7 +1514,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				destination = [self contactWithUID:toUID];
 				chat = [adium.chatController chatWithContact:(AIListContact *)destination];
 			} else {
-				source = [self contactWithUID:toUID];
+				source = [self contactWithUID:fromUID];
 				destination = self;
 				chat = [adium.chatController chatWithContact:(AIListContact *)source];
 			}
