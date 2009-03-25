@@ -12,25 +12,26 @@ Twitter
  * details go here
 
 Group Chats and Group Chat Bookmarks
- * No longer triggers an event for coming online
- * Tabs and window titles now reflect the aliases of list bookmarks for their chats #11756
- * Now only displayed when account is online
+ * Bookmarks no longer trigger events when their account comes online.
+ * Message windows' tabs and titles now display the alias of the bookmark which represents the chat. (#11756)
+ * Bookmarks are only shown in the list when their accounts are online.
  * Set a shortcut of ⌘⌥/ for the "Toggle User List" menu item.
- * Double-clicking a contact in the user list opens a chat with them
- * When double-clicking the resize widget in the user list, actually hide it instead of resizing it down (thereby making a few-pixel-wide bar on the side).
- * Make context display plugin work with group chats by uncommenting the line where it says "don't display context for group chats" (and fixing a few targeting issues).
- * Prevent a duplicate separator item in group chat context menus. Fixes #11674.
- * Adds context menu items to group chats and their tabs: add bookmark, get info on bookmark, toggle user list, view logs
- * Echo /me on IRC. Patch from wixardy :)
- * Set appropriate icons and coloring for AIListBookmarks based on their associated chat information, such as the unviewed content background/flashing.
- * Fire a few events (mention, background group, normal group) against the AIListBookmark for a chat.
- * Add a menu item for user list participants to add them to the contact list
- * Sort user list
- * Fixed group bookmarks appearing when restoring grouping
- * Don't auto-fill-in the name of a bookmark when adding a contact with a bookmark selected in the list.
- * Only merge mention messages with other mentions
- * Add an info inspector (advanced) option to auto-join a group chat on connect. Also removes the info-pulling for list bookmarks, and the spinner for non-list-contact profiles which never get loaded.
- * Support opening logs for the current open group chat, both in the toolbar and the Contact menu.
+ * Double-clicking a contact in the group chat user list opens a chat with them.
+ * When double-clicking the resize widget in the user list, don't show a few pixels of it on the left of the chat.
+ * Respect the "show recent messages" preference for group chats.
+ * Prevent a duplicate separator item in group chat context menus. (#11674)
+ * Add context menus for group chats, including "Add Bookmark", "Get Info on Bookmark", "Toggle User List", and "View Chat Transcripts".
+ * Support opening chat transcripts for the group chats like a normal chat.
+ * Set appropriate icons and coloring for bookmarks based on their associated chat information, such as the unviewed content background or flashing.
+ * Group chat events such as "You are mentioned", "Message received" and join/leave events will use the events set on their bookmark.
+ * Add a menu item for group chat user lists to add as a contact.
+ * The group chat user list is now sorted like the contact list.
+ * Fixed bookmarks appearing in groups when groups are disabled, or disappearing.
+ * Bookmarks can now be removed.
+ * When opening the "Add Contact" window, don't fill in the username with the name of a bookmark if it selected.
+ * Messages which mention you are no longer grouped with messages from the same user which do not.
+ * Add an option to the Get Info window to auto-join a group chat on connect.
+ * Stops the "retrieving information" spinner from going off for bookmarks.
 
 Contacts
  * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
