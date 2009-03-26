@@ -55,8 +55,8 @@ RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
 ifeq ($(NIGHTLY),TRUE)
-	VERSION_ESCAPED:=$(VERSION_ESCAPED)\`date +%Y%m%d\`
-	VERSION:=$(VERSION)`date +%Y%m%d`
+	VERSION_ESCAPED:=$(VERSION_ESCAPED)\`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print $$_')`
+	VERSION:=$(VERSION)`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print $$_')`
 	BUILD_IN_DEBUG_MODE=TRUE
 	BUILDFLAGS+="ADIUM_CFLAGS=-DNIGHTLY_RELEASE"
 endif
@@ -182,11 +182,16 @@ diskimage:
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
-nightly: assertnochanges version clean compile release
+nightly: version clean compile createfolder tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
-	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/latest
-	perl -e "print -s \"$(RELEASE_NAME)\"" >>$(BUILD_DIR)/latest
+	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print $$_') >> $(BUILD_DIR)/latest
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
+	perl -e "print -s \"$(BUILD_DIR)/$(RELEASE_NAME)\".tgz" >>$(BUILD_DIR)/latest
+	echo $(VERSION) >> $(BUILD_DIR)/latest
+
+tarballapp:
+	rm $(BUILD_DIR)/$(RELEASE_NAME).tgz || true
+	tar zcf $(BUILD_DIR)/$(RELEASE_NAME).tgz build/Adium/ -C $(ADIUM_DIR)
 
 tarball:
 	svn export -q --non-interactive $(SRC_DIR) $(TARBALL_DIR)
