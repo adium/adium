@@ -9,6 +9,21 @@
 
 @implementation AIContentEvent
 
++ (id)eventInChat:(AIChat *)inChat
+	   withSource:(id)inSource
+	  destination:(id)inDest
+			 date:(NSDate *)inDate
+		  message:(NSAttributedString *)inMessage
+		 withType:(NSString *)inStatus
+{
+	return [super statusInChat:inChat
+					withSource:inSource
+				   destination:inDest 
+						  date:inDate 
+					   message:inMessage 
+					  withType:inStatus];
+}
+
 //Content Identifier
 - (NSString *)type
 {

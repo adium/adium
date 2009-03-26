@@ -1671,14 +1671,15 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			// Only print an error if the user already has the timeline open. Beyond annoying if we pop it open just to say "lol error"
 			if (timelineChat && !timelineErrorMessagePrinted) {
-				AIContentStatus *content = [AIContentEvent statusInChat:timelineChat
-															 withSource:nil
-															destination:self
-																   date:[NSDate date]
-																message:[NSAttributedString stringWithString:[NSString stringWithFormat:AILocalizedString(@"An error occurred: %@", nil),
-																											  [self errorMessageForError:error]]]
-															   withType:@"error"];
+				AIContentEvent *content = [AIContentEvent eventInChat:timelineChat
+														   withSource:nil
+														  destination:self
+																 date:[NSDate date]
+															  message:[NSAttributedString stringWithString:[NSString stringWithFormat:AILocalizedString(@"An error occurred: %@", nil),
+																											[self errorMessageForError:error]]]
+															 withType:@"error"];
 				
+				content.postProcessContent = NO;
 				content.coalescingKey = @"error";
 				
 				[adium.contentController receiveContentObject:content];
@@ -2014,13 +2015,14 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSAttributedString *attributedMessage = [[AIHTMLDecoder decoder] decodeHTML:message withDefaultAttributes:nil];
 			
-			AIContentStatus *content = [AIContentEvent statusInChat:timelineChat
-														 withSource:nil
-														destination:self
-															   date:[NSDate date]
-															message:attributedMessage
-														   withType:@"favorite"];
+			AIContentEvent *content = [AIContentEvent eventInChat:timelineChat
+													   withSource:nil
+													  destination:self
+															 date:[NSDate date]
+														  message:attributedMessage
+														 withType:@"favorite"];
 			
+			content.postProcessContent = NO;
 			content.coalescingKey = @"favorite";
 
 			[adium.contentController receiveContentObject:content];

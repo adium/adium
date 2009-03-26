@@ -20,7 +20,6 @@
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIContentStatus.h>
 #import <Adium/ESFileTransfer.h>
 
 static void buddy_status_changed_cb(PurpleBuddy *buddy, PurpleStatus *oldstatus, PurpleStatus *status, PurpleBuddyEvent event);

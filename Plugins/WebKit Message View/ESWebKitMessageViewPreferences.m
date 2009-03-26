@@ -28,7 +28,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
-#import <Adium/AIContentStatus.h>
+#import <Adium/AIContentEvent.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIService.h>
@@ -701,12 +701,12 @@
 			statusMessageType = [messageDict objectForKey:@"Status Message Type"];
 			
 			//Create our content object
-			content = [AIContentStatus statusInChat:inChat
-										 withSource:source
-										destination:nil
-											   date:[NSDate dateWithNaturalLanguageString:[messageDict objectForKey:@"Date"]]
-											message:message
-										   withType:statusMessageType];
+			content = [AIContentEvent eventInChat:inChat
+									   withSource:source
+									  destination:nil
+											 date:[NSDate dateWithNaturalLanguageString:[messageDict objectForKey:@"Date"]]
+										  message:message
+										 withType:statusMessageType];
 		}
 
 		if (content) {			

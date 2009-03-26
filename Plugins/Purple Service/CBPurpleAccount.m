@@ -23,6 +23,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentTopic.h>
+#import <Adium/AIContentEvent.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -43,7 +44,6 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
-#import <Adium/AIContentStatus.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -973,14 +973,14 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
 	if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM) {
-		AIContentStatus *statusObject = [AIContentStatus statusInChat:chat
-														   withSource:sourceContact
-														  destination:self
-																 date:date
-															  message:attributedMessage
-															 withType:@"purpleSystem"];
+		AIContentEvent *eventObject = [AIContentEvent eventInChat:chat
+													   withSource:nil
+													  destination:self
+															 date:date
+														  message:attributedMessage
+														 withType:@"purpleSystem"];
 		
-		[adium.contentController receiveContentObject:statusObject];
+		[adium.contentController receiveContentObject:eventObject];
 	} else {
 		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
 															   withSource:sourceContact
@@ -3024,12 +3024,16 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 			[forceString replaceOccurrencesOfString:@"..."
 										 withString:[NSString ellipsis]
 											options:NSLiteralSearch];
-			AIContentStatus *statusMessage = [AIContentStatus statusInChat:chat
-																withSource:chat.listObject
-															   destination:self
-																	  date:[NSDate date]
-																   message:[NSAttributedString stringWithString:forceString]
-																  withType:@"psychic"];
+			AIContentEvent *statusMessage = [AIContentEvent eventInChat:chat
+															 withSource:chat.listObject
+															destination:self
+																   date:[NSDate date]
+																message:[NSAttributedString stringWithString:forceString]
+															   withType:@"psychic"];
+			
+			// Don't log the psychic message.
+			statusMessage.postProcessContent = NO;
+			
 			[forceString release];
 
 			[adium.contentController receiveContentObject:statusMessage];
