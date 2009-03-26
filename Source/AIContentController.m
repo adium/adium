@@ -794,18 +794,18 @@
 
 - (void)displayEvent:(NSString *)message ofType:(NSString *)type inChat:(AIChat *)inChat
 {
-	AIContentStatus		*content;
+	AIContentEvent		*content;
 	NSAttributedString	*attributedMessage;
 	
 	//Create our content object
 	attributedMessage = [[AIHTMLDecoder decoder] decodeHTML:message withDefaultAttributes:[self defaultFormattingAttributes]];
 
-	content = [AIContentEvent statusInChat:inChat
-								withSource:[inChat listObject]
-							   destination:inChat.account
-									  date:[NSDate date]
-								   message:attributedMessage
-								  withType:type];
+	content = [AIContentEvent eventInChat:inChat
+							   withSource:[inChat listObject]
+							  destination:inChat.account
+									 date:[NSDate date]
+								  message:attributedMessage
+								 withType:type];
 
 	//Add the object
 	[self receiveContentObject:content];

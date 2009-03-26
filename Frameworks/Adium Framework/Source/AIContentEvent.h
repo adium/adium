@@ -15,4 +15,11 @@
 
 @property (readonly, nonatomic) NSString *eventType;
 
++ (id)eventInChat:(AIChat *)inChat
+	   withSource:(id)inSource
+	  destination:(id)inDest
+			 date:(NSDate *)inDate
+		  message:(NSAttributedString *)inMessage
+		 withType:(NSString *)inStatus;
+
 @end
