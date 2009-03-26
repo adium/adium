@@ -224,6 +224,8 @@ typedef enum {
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject;
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage;
 - (BOOL)rejoinChat:(AIChat*)chat;
+- (BOOL)groupChatsSupportTopic;
+- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat;
 /*!
  * @brief Should an autoreply be sent to this message?
  *
