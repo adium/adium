@@ -169,6 +169,8 @@ typedef enum {
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
 @property (readwrite, nonatomic) BOOL isGroupChat;
+
+@property (readonly, nonatomic) BOOL supportsTopic;
 @property (readwrite, retain, nonatomic) NSString *topic;
 @property (readwrite, retain, nonatomic) AIListContact *topicSetter;
 

@@ -484,7 +484,7 @@ static NSArray *draggedTypes = nil;
 	[delegateProxy addDelegate:self forView:webView];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateWithVariant:activeVariant chat:chat] baseURL:nil];
 
-	if(chat.isGroupChat && chat.account.groupChatsSupportTopic) {
+	if(chat.isGroupChat && chat.supportsTopic) {
 		// Force a topic update, so we set our topic appropriately.
 
 		AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
