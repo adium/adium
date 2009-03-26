@@ -366,7 +366,7 @@
 		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasTopic] && anyControlsEnabled];		
 		[checkBox_showHeader setTitle:AILocalizedString(@"Show Topic", nil)];
 	} else {
-		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader] && anyControlsEnabled];
+		[checkBox_showHeader setEnabled:([[previewController messageStyle] hasHeader] || [[previewController messageStyle] hasTopic]) && anyControlsEnabled];
 		[checkBox_showHeader setTitle:AILocalizedString(@"Show Header", nil)];
 	}
 	
