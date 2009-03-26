@@ -38,6 +38,7 @@
 #import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
+#import <Adium/AIHTMLDecoder.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
@@ -481,12 +482,6 @@ static NSArray *draggedTypes = nil;
 	//Hack: this will re-set us for all the delegates, but that shouldn't matter
 	[delegateProxy addDelegate:self forView:webView];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateWithVariant:activeVariant chat:chat] baseURL:nil];
-	
-	if (chat.isGroupChat) {
-		DOMElement *topicElement = [[webView mainFrameDocument] getElementById:@"topic"];
-		// xxx do listener theEditableElement.addEventListener("keyup", function () { client.topicEdited(); } );
-
-	}
 
 	if (reprocessContent) {
 		NSArray	*currentContentQueue;
@@ -1342,6 +1337,24 @@ static NSArray *draggedTypes = nil;
 		
 		[tc handleFileTransferAction:a];
 	}
+}
+
+#pragma mark Topic editing
+- (void)editingDidComplete:(DOMRange *)range
+{
+	DOMNode *node = range.startContainer;
+	DOMElement *topicElement = [[webView mainFrameDocument] getElementById:@"topic"];
+	
+	NSString *topicChange = nil;
+		
+	if (([node isKindOfClass:[DOMText class]] && node.parentNode.parentNode == topicElement) ||
+		([node isKindOfClass:[DOMHTMLElement class]] && node.parentNode == topicElement)) {
+		topicChange = [(DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"topicEdit"] innerHTML];
+		
+		topicChange = [[AIHTMLDecoder decodeHTML:topicChange] string];
+	}
+	
+	NSLog(@"new topic text = %@", topicChange);
 }
 
 #pragma mark JS Bridging

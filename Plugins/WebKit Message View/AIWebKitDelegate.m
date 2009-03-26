@@ -43,6 +43,7 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 	[webView setPolicyDelegate:self];
 	[webView setUIDelegate:self];
 	[webView setDraggingDelegate:self];
+	[webView setEditingDelegate:self];
 	
 //	[[webView windowScriptObject] setValue:self forKey:@"client"];
 }
@@ -178,6 +179,29 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
 	//AIWebKitMessageViewController *controller = [mapping objectForKey:[NSValue valueWithPointer:sender]];
 	//return controller ? [controller shouldHandleDragWithPasteboard:pasteboard] : NO;
 	return NO;
+}
+
+- (BOOL)webView:(ESWebView *)sender shouldInsertText:(NSString *)text replacingDOMRange:(DOMRange *)range givenAction:(WebViewInsertAction)action
+{
+	if ([text rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location != NSNotFound) {
+		AIWebKitMessageViewController *controller = [mapping objectForKey:[NSValue valueWithPointer:sender]];
+		if(controller)
+			[controller editingDidComplete:range];
+		
+		// The user pressed return; don't let it be entered into the text.
+		return NO;
+	} else {
+		return YES;
+	}
+}
+
+- (BOOL)webView:(ESWebView *)sender shouldEndEditingInDOMRange:(DOMRange *)range
+{
+	AIWebKitMessageViewController *controller = [mapping objectForKey:[NSValue valueWithPointer:sender]];
+	if(controller)
+		[controller editingDidComplete:range];
+	
+	return YES;
 }
 
 @end

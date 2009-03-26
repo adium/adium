@@ -16,7 +16,7 @@
 
 #import <Adium/AIInterfaceControllerProtocol.h>
 
-@class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;
+@class AIWebKitMessageViewPlugin, AIWebkitMessageViewStyle, AIContentObject, ESWebView, DOMDocument, DOMRange, AIMetaContact, AIChat, AIContentObject, AIWebKitDelegate;
 
 /*!
  *	@class AIWebKitMessageViewController AIWebKitMessageViewController.h
@@ -101,6 +101,12 @@
  * @brief Get the HTML content for the "Chat" area.
  */
 - (NSString *)chatContentSource;
+
+/*!
+ * @brief An editing operation ended, or the user pressed enter.
+ */
+- (void)editingDidComplete:(DOMRange *)range;
+
 
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
