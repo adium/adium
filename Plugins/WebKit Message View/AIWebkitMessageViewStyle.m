@@ -51,7 +51,7 @@
 #define	APPEND_NEXT_MESSAGE_NO_SCROLL	@"appendNextMessageNoScroll(\"%@\");"
 #define REPLACE_LAST_MESSAGE			@"replaceLastMessage(\"%@\");"
 
-#define TOPIC_MAIN_DIV					@"<div id=\"topic\"></div>";
+#define TOPIC_MAIN_DIV					@"<div id=\"topic\"></div>"
 #define TOPIC_INDIVIDUAL_WRAPPER		@"<span id=\"topicEdit\" contentEditable>%@</span>"
 
 #define VALID_SENDER_COLORS_ARRAY [[NSArray alloc] initWithObjects:@"aqua", @"aquamarine", @"blue", @"blueviolet", @"brown", @"burlywood", @"cadetblue", @"chartreuse", @"chocolate", @"coral", @"cornflowerblue", @"crimson", @"cyan", @"darkblue", @"darkcyan", @"darkgoldenrod", @"darkgreen", @"darkgrey", @"darkkhaki", @"darkmagenta", @"darkolivegreen", @"darkorange", @"darkorchid", @"darkred", @"darksalmon", @"darkseagreen", @"darkslateblue", @"darkslategrey", @"darkturquoise", @"darkviolet", @"deeppink", @"deepskyblue", @"dimgrey", @"dodgerblue", @"firebrick", @"forestgreen", @"fuchsia", @"gold", @"goldenrod", @"green", @"greenyellow", @"grey", @"hotpink", @"indianred", @"indigo", @"lawngreen", @"lightblue", @"lightcoral", @"lightgreen", @"lightgrey", @"lightpink", @"lightsalmon", @"lightseagreen", @"lightskyblue", @"lightslategrey", @"lightsteelblue", @"lime", @"limegreen", @"magenta", @"maroon", @"mediumaquamarine", @"mediumblue", @"mediumorchid", @"mediumpurple", @"mediumseagreen", @"mediumslateblue", @"mediumspringgreen", @"mediumturquoise", @"mediumvioletred", @"midnightblue", @"navy", @"olive", @"olivedrab", @"orange", @"orangered", @"orchid", @"palegreen", @"paleturquoise", @"palevioletred", @"peru", @"pink", @"plum", @"powderblue", @"purple", @"red", @"rosybrown", @"royalblue", @"saddlebrown", @"salmon", @"sandybrown", @"seagreen", @"sienna", @"silver", @"skyblue", @"slateblue", @"slategrey", @"springgreen", @"steelblue", @"tan", @"teal", @"thistle", @"tomato", @"turquoise", @"violet", @"yellowgreen", nil]
@@ -278,6 +278,11 @@ static NSArray *validSenderColors;
 	return headerHTML && [headerHTML length];
 }
 
+- (BOOL)hasTopic
+{
+	return topicHTML && [topicHTML length];
+}
+
 - (NSImage *)userIconMask
 {
 	return userIconMask;
@@ -369,10 +374,12 @@ static NSArray *validSenderColors;
 	// If this is a group chat, we want to include a topic.
 	// Otherwise, if the header is shown, use it.
 	NSString *headerContent = @"";
-	if (chat.isGroupChat) {
-		headerContent = TOPIC_MAIN_DIV;
-	} else if (showHeader && headerHTML) {
-		headerContent = headerHTML;
+	if (showHeader) {
+		if (chat.isGroupChat) {
+			headerContent = (chat.supportsTopic ? TOPIC_MAIN_DIV : @"");
+		} else if (headerHTML) {
+			headerContent = headerHTML;
+		}
 	}
 	
 	//Old styles may be using an old custom 4 parameter baseHTML.  Styles version 3 and higher should

@@ -362,7 +362,13 @@
 	[imageView_backgroundImage setEnabled:allowCustomBackground];
 	
 	//Disable the header control if this style doesn't have a header
-	[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader] && anyControlsEnabled];
+	if (self.currentTab == AIWebkitGroupChat) {
+		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasTopic] && anyControlsEnabled];		
+		[checkBox_showHeader setTitle:AILocalizedString(@"Show Topic", nil)];
+	} else {
+		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasHeader] && anyControlsEnabled];
+		[checkBox_showHeader setTitle:AILocalizedString(@"Show Header", nil)];
+	}
 	
 	//Disable user icon toggling if the style doesn't support them
 	[checkBox_showUserIcons setEnabled:[[previewController messageStyle] allowsUserIcons] && anyControlsEnabled];
