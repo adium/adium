@@ -955,42 +955,30 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
 	NSString			*source = [messageDict objectForKey:@"Source"];
 
-	if (source) {
+	if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM || !source) {
+		//If we didn't get a listContact,or this is a purple status message... display it as such.
+		[adium.contentController displayEvent:[attributedMessage string]
+									   ofType:@"purple"
+									   inChat:chat];
+	} else {
 		[self _receivedMessage:attributedMessage
 						inChat:chat 
 			   fromListContact:[self contactWithUID:source]
 						 flags:flags
 						  date:[messageDict objectForKey:@"Date"]];
-	} else {
-		//If we didn't get a listContact, this is a purple status message... display it as such.
-		[adium.contentController displayEvent:[attributedMessage string]
-										 ofType:@"purple"
-										 inChat:chat];
-		
 	}
 }
 
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
-	if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM) {
-		AIContentEvent *eventObject = [AIContentEvent eventInChat:chat
-													   withSource:nil
-													  destination:self
-															 date:date
-														  message:attributedMessage
-														 withType:@"purpleSystem"];
-		
-		[adium.contentController receiveContentObject:eventObject];
-	} else {
-		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
-															   withSource:sourceContact
-															  destination:self
-																	 date:date
-																  message:attributedMessage
-																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-		
-		[adium.contentController receiveContentObject:messageObject];
-	}
+	AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
+														   withSource:sourceContact
+														  destination:self
+																 date:date
+															  message:attributedMessage
+															autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
+	
+	[adium.contentController receiveContentObject:messageObject];
 }
 
 /*********************/
