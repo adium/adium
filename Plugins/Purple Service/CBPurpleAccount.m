@@ -977,14 +977,25 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
-	AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
+	if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM) {
+		AIContentStatus *statusObject = [AIContentStatus statusInChat:chat
 														   withSource:sourceContact
 														  destination:self
 																 date:date
 															  message:attributedMessage
-															autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-	
-	[adium.contentController receiveContentObject:messageObject];
+															 withType:@"purpleSystem"];
+		
+		[adium.contentController receiveContentObject:statusObject];
+	} else {
+		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
+															   withSource:sourceContact
+															  destination:self
+																	 date:date
+																  message:attributedMessage
+																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
+		
+		[adium.contentController receiveContentObject:messageObject];
+	}
 }
 
 /*********************/
