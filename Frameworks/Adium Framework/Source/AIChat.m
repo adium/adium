@@ -637,6 +637,14 @@ static int nextChatNumber = 0;
 @synthesize topic, topicSetter;
 
 /*!
+ * @brief Does this chat support topics?
+ */
+- (BOOL)supportsTopic
+{
+	return account.groupChatsSupportTopic;
+}
+
+/*!
  * @brief Update the topic.
  */
 - (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact
