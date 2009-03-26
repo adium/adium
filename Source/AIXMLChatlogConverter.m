@@ -337,12 +337,12 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 				//Note: I am diverging from what the AILoggerPlugin logs in this case.  It can't handle every case we can have here
 				if([message length])
 				{
-					if([status length])
+					if([statusLookup objectForKey:status])
 						displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@: %@", nil), [statusLookup objectForKey:status], message];
 					else
-						displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@", nil), message];
+						displayMessage = [NSString stringWithFormat:AILocalizedString(@"%@", nil), message];
 				}
-				else if([status length])
+				else if([status length] && [statusLookup objectForKey:status])
 					displayMessage = [NSString stringWithFormat:AILocalizedString(@"Changed status to %@", nil), [statusLookup objectForKey:status]];
 
 				if([displayMessage length])

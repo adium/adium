@@ -536,67 +536,75 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 			AIListObject	*retardedMetaObject = [content source];
 			AIListObject	*actualObject = nil;
 			
-			for(AIListContact *participatingListObject in chat) {
-				if ([participatingListObject parentContact] == retardedMetaObject) {
-					actualObject = participatingListObject;
-					break;
+			if (content.source) {
+				for(AIListContact *participatingListObject in chat) {
+					if ([participatingListObject parentContact] == retardedMetaObject) {
+						actualObject = participatingListObject;
+						break;
+					}
 				}
 			}
-			
-			//If we can't find it for some reason, we probably shouldn't attempt logging.
-			if (actualObject) {
-				if ([contentType isEqualToString:CONTENT_STATUS_TYPE]) {
-					NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
-					if (translatedStatus == nil) {
-						AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
-					} else {
-						NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
-						NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
-														   translatedStatus, 
-														   actualObject.UID, 
-														   date,
-														   nil];
 
-						if (![actualObject.UID isEqualToString:actualObject.displayName]) {
-							[attributeKeys addObject:@"alias"];
-							[attributeValues addObject:actualObject.displayName];				
-						}
-						
-						AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
-						
-						[statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
-														 [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
-														 @"")];
-						
-						[statusElement setAttributeNames:attributeKeys values:attributeValues];
-						
-						[[self appenderForChat:chat] appendElement:statusElement];
-						
-						dirty = YES;
-					}
-
-				} else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
-						   [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
+			//If we can't find it for some reason, we probably shouldn't attempt logging, unless source was nil.
+			if ([contentType isEqualToString:CONTENT_STATUS_TYPE] && actualObject) {
+				NSString *translatedStatus = [statusTranslation objectForKey:[(AIContentStatus *)content status]];
+				if (translatedStatus == nil) {
+					AILogWithSignature(@"AILogger: Don't know how to translate status: %@", [(AIContentStatus *)content status]);
+				} else {
 					NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
 					NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:
-													   [(AIContentEvent *)content eventType], [[content source] UID], date, nil];
-					AIXMLAppender  *appender = [self appenderForChat:chat];
+													   translatedStatus, 
+													   actualObject.UID, 
+													   date,
+													   nil];
 
-					if (![[[content source] UID] isEqualToString:[[content source] displayName]]) {
+					if (![actualObject.UID isEqualToString:actualObject.displayName]) {
 						[attributeKeys addObject:@"alias"];
-						[attributeValues addObject:[[content source] displayName]];				
+						[attributeValues addObject:actualObject.displayName];				
 					}
-
+					
 					AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
 					
-					[statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
-																  imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
+					[statusElement addEscapedObject:([(AIContentStatus *)content loggedMessage] ?
+													 [xhtmlDecoder encodeHTML:[(AIContentStatus *)content loggedMessage] imagesPath:nil] :
+													 @"")];
 					
 					[statusElement setAttributeNames:attributeKeys values:attributeValues];
 					
-					[appender appendElement:statusElement];
+					[[self appenderForChat:chat] appendElement:statusElement];
+					
 					dirty = YES;
 				}
+
+			} else if ([contentType isEqualToString:CONTENT_EVENT_TYPE] ||
+					   [contentType isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
+				NSMutableArray *attributeKeys = nil, *attributeValues = nil;
+				if (content.source) {
+					attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"sender", @"time", nil];
+					attributeValues = [NSMutableArray arrayWithObjects:
+													   [(AIContentEvent *)content eventType], [[content source] UID], date, nil];	
+				} else {
+					attributeKeys = [NSMutableArray arrayWithObjects:@"type", @"time", nil];
+					attributeValues = [NSMutableArray arrayWithObjects:
+													   [(AIContentEvent *)content eventType], date, nil];
+				}
+				
+				AIXMLAppender  *appender = [self appenderForChat:chat];
+
+				if (content.source && ![[[content source] UID] isEqualToString:[[content source] displayName]]) {
+					[attributeKeys addObject:@"alias"];
+					[attributeValues addObject:[[content source] displayName]];				
+				}
+
+				AIXMLElement *statusElement = [[[AIXMLElement alloc] initWithName:@"status"] autorelease];
+				
+				[statusElement addEscapedObject:[xhtmlDecoder encodeHTML:[content message]
+															  imagesPath:[[appender path] stringByDeletingLastPathComponent]]];
+				
+				[statusElement setAttributeNames:attributeKeys values:attributeValues];
+				
+				[appender appendElement:statusElement];
+				dirty = YES;
 			}
 		}
 		//Don't create a new one if not needed
