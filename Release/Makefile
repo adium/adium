@@ -186,7 +186,7 @@ nightly: version clean compile createfolder tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
 	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print $$_') >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
-	perl -e "print -s \"$(BUILD_DIR)/$(RELEASE_NAME)\".tgz" >>$(BUILD_DIR)/latest
+	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
 	echo $(VERSION) >> $(BUILD_DIR)/latest
 
 tarballapp:
