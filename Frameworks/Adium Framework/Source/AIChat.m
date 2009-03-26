@@ -670,7 +670,11 @@ static int nextChatNumber = 0;
 - (void)setTopic:(NSString *)inTopic
 {
 	if (account.groupChatsSupportTopic) {
-		[account setTopic:inTopic forChat:self];
+		if ([topic isEqualToString:inTopic]) {
+			AILogWithSignature(@"Not setting topic for %@, already the same.", self);
+		} else {
+			[account setTopic:inTopic forChat:self];
+		}
 		
 		AILogWithSignature(@"Setting %@ topic to: %@", self, topic);
 	} else {
