@@ -24,7 +24,17 @@
 
 - (BOOL)supportsTopic
 {
-	return NO;
+	return isGroupChat;
+}
+
+- (NSString *)topic
+{
+	return AILocalizedString(@"This is a sample topic for this chat. Enjoy!",nil);
+}
+
+- (void)setTopic:(NSString *)inTopic
+{
+	return;
 }
 
 @end
