@@ -1343,15 +1343,12 @@ static NSArray *draggedTypes = nil;
 - (void)editingDidComplete:(DOMRange *)range
 {
 	DOMNode *node = range.startContainer;
-	DOMElement *topicElement = [[webView mainFrameDocument] getElementById:@"topic"];
+	DOMHTMLElement *topicEdit = (DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"topicEdit"];
 	
 	NSString *topicChange = nil;
 		
-	if (([node isKindOfClass:[DOMText class]] && node.parentNode.parentNode == topicElement) ||
-		([node isKindOfClass:[DOMHTMLElement class]] && node.parentNode == topicElement)) {
-		topicChange = [(DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"topicEdit"] innerHTML];
-		
-		topicChange = [[AIHTMLDecoder decodeHTML:topicChange] string];
+	if (node == topicEdit || node.parentNode == topicEdit) {
+		topicChange = [[AIHTMLDecoder decodeHTML:[topicEdit innerHTML]] string];
 	}
 	
 	NSLog(@"new topic text = %@", topicChange);
