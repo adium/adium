@@ -1088,13 +1088,17 @@ static NSArray *validSenderColors;
 		//Message (must do last)
 		range = [inString rangeOfString:@"%message%"];
 		if (range.location != NSNotFound) {
-			if ([content isKindOfClass:[AIContentTopic class]]) {
-				[inString safeReplaceCharactersInRange:range withString:[NSString stringWithFormat:TOPIC_INDIVIDUAL_WRAPPER, htmlEncodedMessage]];
-			} else {
-				[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
-			}
+			[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
 		}
 		
+		// Topic replacement (if applicable)
+		if ([content isKindOfClass:[AIContentTopic class]]) {
+			range = [inString rangeOfString:@"%topic%"];
+			
+			if (range.location != NSNotFound) {
+				[inString safeReplaceCharactersInRange:range withString:[NSString stringWithFormat:TOPIC_INDIVIDUAL_WRAPPER, htmlEncodedMessage]];
+			}
+		}		
 	} else if ([content isKindOfClass:[AIContentStatus class]]) {
 		NSString	*statusPhrase;
 		BOOL		replacedStatusPhrase = NO;
