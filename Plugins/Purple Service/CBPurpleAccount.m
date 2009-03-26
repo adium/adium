@@ -888,13 +888,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
 {	
-	AIContentTopic *topic = [AIContentTopic topicInChat:chat
-											 withSource:[self contactWithUID:source]
-											destination:nil
-												   date:[NSDate date]
-												message:[NSAttributedString stringWithString:inTopic]];
-
-	[adium.contentController receiveContentObject:topic];
+	// Update (not set) the chat's topic
+	[chat updateTopic:inTopic withSource:[self contactWithUID:source]];
 }
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat
 {

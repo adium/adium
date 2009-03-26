@@ -16,6 +16,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
+#import <Adium/AIContentTopic.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import <Adium/ESFileTransfer.h>
@@ -32,6 +33,7 @@
 
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #import "AIMessageWindowController.h"
 #import "AIMessageWindow.h"
@@ -69,6 +71,8 @@ static int nextChatNumber = 0;
 		customEmoticons = nil;
 		hasSentOrReceivedContent = NO;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
+		
+		topic = [@"" retain];
 
 		AILog(@"[AIChat: %x initForAccount]",self);
 	}
@@ -91,7 +95,8 @@ static int nextChatNumber = 0;
 	[pendingOutgoingContentObjects release];
 	[uniqueChatID release]; uniqueChatID = nil;
 	[customEmoticons release]; customEmoticons = nil;
-
+	[topic release]; [topicSetter release];
+	
 	[super dealloc];
 }
 
@@ -625,7 +630,46 @@ static int nextChatNumber = 0;
 		(uniqueChatID ? uniqueChatID : @"<new>")];
 }
 
+#pragma mark Group Chats
+
 @synthesize isGroupChat;
+
+@synthesize topic, topicSetter;
+
+/*!
+ * @brief Update the topic.
+ */
+- (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact
+{
+	[topic release];
+	topic = [inTopic retain];
+	
+	self.topicSetter = contact;
+	
+	// Apply the new topic to the message view
+	AIContentTopic *contentTopic = [AIContentTopic topicInChat:self
+													withSource:contact
+												   destination:nil
+														  date:[NSDate date]
+													   message:[NSAttributedString stringWithString:topic]];
+	
+	[adium.contentController receiveContentObject:contentTopic];
+}
+
+/*!
+ * @brief Set the chat's topic, telling the account to update it.
+ */
+- (void)setTopic:(NSString *)inTopic
+{
+	if (account.groupChatsSupportTopic) {
+		[account setTopic:inTopic forChat:self];
+		
+		AILogWithSignature(@"Setting %@ topic to: %@", self, topic);
+	} else {
+		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
+	}
+}
+
 
 #pragma mark Custom emoticons
 

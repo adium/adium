@@ -13,6 +13,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import "SLPurpleCocoaAdapter.h"
 #import <Adium/AIListContact.h>
+#import <libpurple/irc.h>
 
 @interface SLPurpleCocoaAdapter ()
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
@@ -205,5 +206,49 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 
 	return dict;
 }
+
+/*!
+ * @brief Do group chats support topics?
+ */
+- (BOOL)groupChatsSupportTopic
+{
+	return YES;
+}
+
+/*!
+ * @brief Set a chat's topic
+ *
+ * This only has an effect on group chats.
+ */
+- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
+{
+	PurpleConnection *connection = purple_account_get_connection(account);
+	
+	if (!connection)
+		return;
+	
+#warning We should definitely use a purple API for this
+	/* problem is, I don't see a way to do it. We could send a command, but that wouldn't let us *unset* the topic. */
+	
+	char *buf;
+	const char *name = NULL;
+	struct irc_conn *irc;
+	
+	irc = connection->proto_data;
+	
+	PurpleConversation	*conv = convLookupFromChat(chat, nil);
+	
+	name = purple_conversation_get_name(conv);
+	
+	if (name == NULL)
+		return;
+	
+	AILogWithSignature(@"%@ setting %@ topic to %@", self, chat, topic);
+	
+	buf = irc_format(irc, "vt:", "TOPIC", name, [topic UTF8String]);
+	irc_send(irc, buf);
+	g_free(buf);
+}
+
 
 @end

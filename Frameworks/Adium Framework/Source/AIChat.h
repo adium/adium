@@ -96,23 +96,26 @@ typedef enum {
 @interface AIChat : ESObjectWithProperties <AIContainingObject> {
 	AIAccount			*account;
 	NSDate				*dateOpened;
-	BOOL					isOpen;
-	BOOL					isGroupChat;
-	BOOL					hasSentOrReceivedContent;
+	BOOL				isOpen;
+	BOOL				isGroupChat;
+	BOOL				hasSentOrReceivedContent;
 
 	NSMutableArray		*pendingOutgoingContentObjects;
 
+	NSString			*topic;
+	AIListContact		*topicSetter;
+	
 	NSMutableArray		*participatingContacts;
 	AIListContact		*preferredContact;
-	NSString				*name;
-	NSString				*uniqueChatID;
-	id						identifier;
+	NSString			*name;
+	NSString			*uniqueChatID;
+	id					identifier;
 	
 	NSMutableSet		*ignoredListContacts;
 	
-	BOOL					expanded;
+	BOOL				expanded;
 	
-	BOOL					enableTypingNotifications;
+	BOOL				enableTypingNotifications;
 	
 	NSMutableSet		*customEmoticons;
 }
@@ -166,6 +169,10 @@ typedef enum {
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
 @property (readwrite, nonatomic) BOOL isGroupChat;
+@property (readwrite, retain, nonatomic) NSString *topic;
+@property (readwrite, retain, nonatomic) AIListContact *topicSetter;
+
+- (void)updateTopic:(NSString *)inTopic withSource:(AIListContact *)contact;
 
 - (void)addCustomEmoticon:(AIEmoticon *)inEmoticon;
 @property (readonly, nonatomic) NSMutableSet *customEmoticons;

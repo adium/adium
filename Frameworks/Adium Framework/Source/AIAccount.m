@@ -152,6 +152,23 @@ typedef enum
 }	
 
 /*!
+ * @brief Do group chats support topics?
+ */
+- (BOOL)groupChatsSupportTopic
+{
+	return NO;
+}
+
+/*!
+ * @brief Set a chat's topic
+ *
+ * This only has an effect on group chats.
+ */
+- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
+{
+}
+
+/*!
  * @brief Disconnect
  *
  * Disconnect the account, transitioning it into an offline state.

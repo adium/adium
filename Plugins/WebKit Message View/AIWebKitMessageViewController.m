@@ -48,6 +48,7 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define KEY_WEBKIT_CHATS_USING_CACHED_ICON @"WebKit:Chats Using Cached Icon"
 
@@ -483,6 +484,18 @@ static NSArray *draggedTypes = nil;
 	[delegateProxy addDelegate:self forView:webView];
 	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateWithVariant:activeVariant chat:chat] baseURL:nil];
 
+	if(chat.isGroupChat && chat.account.groupChatsSupportTopic) {
+		// Force a topic update, so we set our topic appropriately.
+
+		AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
+														withSource:chat.topicSetter
+													   destination:nil
+															  date:[NSDate date]
+														   message:[NSAttributedString stringWithString:chat.topic]];
+		
+		[self enqueueContentObject:contentTopic];
+	}
+	
 	if (reprocessContent) {
 		NSArray	*currentContentQueue;
 		
@@ -1348,10 +1361,11 @@ static NSArray *draggedTypes = nil;
 	NSString *topicChange = nil;
 		
 	if (node == topicEdit || node.parentNode == topicEdit) {
-		topicChange = [[AIHTMLDecoder decodeHTML:[topicEdit innerHTML]] string];
+		topicChange = [[AIHTMLDecoder decodeHTML:[topicEdit innerHTML]] string];		
+		
+		// Tell the chat to set the topic.
+		[chat setTopic:topicChange];
 	}
-	
-	NSLog(@"new topic text = %@", topicChange);
 }
 
 #pragma mark JS Bridging
