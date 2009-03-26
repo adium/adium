@@ -212,6 +212,11 @@ typedef enum {
 - (BOOL)hasHeader;
 
 /*!
+ * @brief Style has a topic
+ */
+- (BOOL)hasTopic;
+
+/*!
  *	@brief Style's user icon mask
  */
 - (NSImage *)userIconMask;
