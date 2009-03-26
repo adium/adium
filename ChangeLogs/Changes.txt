@@ -36,72 +36,70 @@ Group Chats and Group Chat Bookmarks
 
 Contacts
  * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
- * Reduced complexity when determining what account is preferred for messaging a given contact. #10547
- * Added support for contacts in multiple groups (not yet working on trac entirely)
- * Corrected adding contacts to multiple accounts - the add contact window would only add to the existing account
- * Add account-specific menu items to the main Contact menu. When the menu needs updating, we pull a new set of items from the account.
- * Alter the way alwaysVisible is set: instead of pulling the meta contact preference if we lack one, always pull the meta contact preference if available. The info inspector doesn't allow us to toggle for an individual sub-contact the always visible preference, so this could lead to a stuck-state of always visible which the user couldn't change.
+ * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
+ * Added support for contacts in multiple groups (not yet working on trunk entirely)
+ * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
+ * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main Contact menu.
+ * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
 
 Logging
- * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). #992
- * Automatically make search terms wildcard-matching if they don't specify a wildcard pattern. Fixes #6364
- * Sped up writing log files in certain situations [25499]
- * Corrected some situations where the log viewer lacked icons
+ * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). (#992)
+ * Search terms in the Transcript Viewer now match any part of text unless a wildcard is used. (#6364)
+ * Sped up writing log files in certain situations. ([25499])
+ * Corrected some situations where the log viewer lacked icons for group chats.
 
 Contact List
- * Corrected visibility bugs
- * AIMetaContact now displays properties only for its preferred contact. This cleans up a fair amount of code and provides a more intuitive behavior in many cases. Fixes #11007
- * Improved speed of searching in contact list for larger lists
- * Fix the one pixel line at the top of the contact list when size to fit vertically is not enabled in standard contact lists. The window height was +1 the view height, and the view was 1px too low. (#11119)
+ * Corrected a few bugs where contacts were hidden as offline when online, or placed in the offline group incorrectly.
+ * Combined contacts now show the information in the contact list for the first available user. (#11007)
+ * Improved speed of searching in contact list for larger lists.
+ * Fix a small white line at the top of the contact list when "size to fit vertically" is set. (#11119)
  * Add "Sort Groups Alphabetically" option to the status sort.
- * Add "hide away contacts" and "hide contacts on accounts"
- * Fixed a buggy race condition where the view menu lied about what it was hiding if no customization was done
- * Status message is no longer searched when filtering the list
- * Fixed a lot of drag and drop bugs, like dragging groups into other groups
+ * Add "Hide Away Contacts" and "Hide Contacts for Account" to the view options.
+ * Fixed a bug where the view menu would show incorrect settings.
+ * Status message is no longer searched when searching the contact list.
+ * Fixed a lot of drag and drop bugs, such as being able to drag a group into another group.
 
 Message Styles
- * Allow the user to specify preferences for group chats independently of those for regular chats. This includes styles, etc. There are now two separate preference groups, though the old one is renamed its value is still the same (i.e., old preferences carry over). The one for group chats, however, will begin fresh. Fixes #87. Adds a "Use regular chat style settings" to the group chats tab, defaulting to YES.
- * Corrected sorting of message styles in their popup #9498
- * Patch from mathuaerknedam. Add fallbacks to root level files for Status.html and Content.html. Closes #10868.
- * AIHTMLDecoder now skips ul, /ul, and /li tags and converts li tags to bullets.  This is a simplistic implementation, as it doesn't know anything about hierarchies of bullet points, but it is better than nothing 
+ * You can now specify a different style for group chats, and customize all of the preferences independently of a regular chat. (#87)
+ * Messages containing unordered lists are now displayed using bullets.
+ * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
+ * Corrected sorting of message styles in their popup (#9498)
 
 Messaging
- * Fix a longstanding bug in the emoticon controller which mishandled look-ahead emoticon parsing, and simplified the code in the process. There was some bizarre recursive pass-by-reference occurring, causing among other things the 'currentLocation' in the string to actually end up way beyond the end of the string by the time the recursivity finished. #6440
- * Validate the Block/Unblock toolbar item, disabling it if the account doesn't support privacy. Add a confirmation dialog when clicking the block/unblock icon in the toolbar. Fixes #10960.
+ * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
+ * Fixed a bug where emoticons would be displayed improperly. (#6440)
+ * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
  * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
 
 Accounts 
- * Fixed setting a global user icon
+ * Fixed setting a global user icon. Previously, if you didn't have an account icon set but did set a global one, you would have no icon.
 
 Facebook
  * Fixed Facebook contacts showing up as numbers when offfline (#11676) - If 1.3.4 gets released before 1.4, remove this.
 
 Bonjour
- * Disconnect when we receive an error message
+ * Bonjour accounts now disconnect if we receive an error message.
 
 XMPP (Jabber, Google Talk, etc.)
  * Updated XMPP server list when registering
 
 MSN
- * Possibly fixed a crash on connect. #11508
- * Fixes setting account-specific display names (only global would be set)
- * MSN as of P15 (and our current libpurple implementation for sure) supports storing aliases on the server. Fixes #11802.
+ * Possibly fixed a crash on connect. (#11508)
+ * Fixes setting account-specific display names (only the global display name would be set).
+ * Enabled server-side storing of contact aliases. (#11802)
 
 AIM, ICQ, and MobileMe
- * Always use proxy server for FT/DIM (Fixes #11413)
- * Use SSL for connections (Fixes #9553)
- * Generalize the "show server certificate" logic from Purple Jabber accounts to all Purple accounts. Can now view the AIM certificate when connected.
+ * Added a preference to always use the AOL proxy server for file transfers and direct IM. (#11413)
+ * Added a preference to use SSL for connections. (#9553) You can get information on the certificate by right-clicking the account in the Accounts preferences.
 
 Miscellaneous
- * Patch from '''wixardy''' to make the about box scrollable. Fixes #9967.
- * Patch from '''wixardy''' to make the about box scrollable. Fixes #9967.
- * Patch from '''wixardy''' to clear unread count when clearing display. Fixes #10605.
- * Messages from blocked contacts are never displayed
- * This might implement PAC support for proxy configuration. Fixes #224 if so. Fixes #11364 if so.
- * "Show # recent messages in new chats" stays on when "Log messages" is off. #11359
+ * The about box credits are now scrollable. (#9967)
+ * The unread count is now cleared when clearing the display. (#10605)
+ * Possibly fixed support for a PAC proxy server. (#224, #11364)
+ * Disabled the "Show # recent messages in new chats" option when "Log messages" is off. (#11359)
  * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
- * Add "Contact went mobile" and "Contact returns from mobile" events. Fixes #3248.
- * AppleScript throws an error when creating a new status object #8863
+ * Add "Contact went mobile" and "Contact returns from mobile" events. (#3248)
+ * Fixed AppleScript erroring when creating a new status object. (#8863)
 
 Version 1.3.3 (2/19/2009)
  * Major changes
