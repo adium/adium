@@ -22,4 +22,9 @@
     }
 }
 
+- (BOOL)supportsTopic
+{
+	return NO;
+}
+
 @end
