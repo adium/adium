@@ -364,10 +364,8 @@
 	//Disable the header control if this style doesn't have a header
 	if (self.currentTab == AIWebkitGroupChat) {
 		[checkBox_showHeader setEnabled:[[previewController messageStyle] hasTopic] && anyControlsEnabled];		
-		[checkBox_showHeader setTitle:AILocalizedString(@"Show Topic", nil)];
 	} else {
 		[checkBox_showHeader setEnabled:([[previewController messageStyle] hasHeader] || [[previewController messageStyle] hasTopic]) && anyControlsEnabled];
-		[checkBox_showHeader setTitle:AILocalizedString(@"Show Header or Topic", nil)];
 	}
 	
 	//Disable user icon toggling if the style doesn't support them
