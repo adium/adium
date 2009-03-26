@@ -52,7 +52,7 @@ Contact List
  * Corrected visibility bugs
  * AIMetaContact now displays properties only for its preferred contact. This cleans up a fair amount of code and provides a more intuitive behavior in many cases. Fixes #11007
  * Improved speed of searching in contact list for larger lists
- * Fix the one pixel line at the top of the contact list when size to fit vertically is not enabled in standard contact lists. The window height was +1 the view height, and the view was 1px too low. #xxxx
+ * Fix the one pixel line at the top of the contact list when size to fit vertically is not enabled in standard contact lists. The window height was +1 the view height, and the view was 1px too low. (#11119)
  * Add "Sort Groups Alphabetically" option to the status sort.
  * Add "hide away contacts" and "hide contacts on accounts"
  * Fixed a buggy race condition where the view menu lied about what it was hiding if no customization was done
@@ -61,7 +61,6 @@ Contact List
 
 Message Styles
  * Allow the user to specify preferences for group chats independently of those for regular chats. This includes styles, etc. There are now two separate preference groups, though the old one is renamed its value is still the same (i.e., old preferences carry over). The one for group chats, however, will begin fresh. Fixes #87. Adds a "Use regular chat style settings" to the group chats tab, defaulting to YES.
- * Support calendar-style and unicode-style date format strings for %timeOpened% keywords in message styles. Fixes #10676.
  * Corrected sorting of message styles in their popup #9498
  * Patch from mathuaerknedam. Add fallbacks to root level files for Status.html and Content.html. Closes #10868.
  * AIHTMLDecoder now skips ul, /ul, and /li tags and converts li tags to bullets.  This is a simplistic implementation, as it doesn't know anything about hierarchies of bullet points, but it is better than nothing 
@@ -75,7 +74,7 @@ Accounts
  * Fixed setting a global user icon
 
 Facebook
- * Adium only showing Facebook User IDs #11676
+ * Fixed Facebook contacts showing up as numbers when offfline (#11676) - If 1.3.4 gets released before 1.4, remove this.
 
 Bonjour
  * Disconnect when we receive an error message
