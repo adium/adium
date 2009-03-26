@@ -185,7 +185,8 @@ diskimage:
 nightly: assertnochanges version clean compile release
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
 	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg > $(BUILD_DIR)/$(RELEASE_NAME).dmg.md5sum
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/latest
+	perl -e "print -s \"$(RELEASE_NAME)\"" >>$(BUILD_DIR)/latest
 
 tarball:
 	svn export -q --non-interactive $(SRC_DIR) $(TARBALL_DIR)
