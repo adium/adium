@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # You need to set NIGHTLY_HOST and NIGHTLY_USER in environment, and have your 
 # public key in the authorized_keys file on the nightly server.
