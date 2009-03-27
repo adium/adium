@@ -79,6 +79,11 @@
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatAttributesChanged:)
 											   name:Chat_AttributesChanged
 											 object:chat];
+		} else {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(updateTabStatusIcon)
+														 name:ListObject_StatusChanged
+													   object:chat.account];	
 		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chatStatusChanged:)
@@ -208,7 +213,7 @@
 	
 	if (!listObject || (listObject == messageViewContact) || listObject == [messageViewContact parentContact]) {
 		NSSet		 *keys = [[notification userInfo] objectForKey:@"Keys"];
-		
+
 		//Redraw if the icon has changed
 		if (!keys || [keys containsObject:@"Tab Status Icon"]) {
 			[self updateTabStatusIcon];
@@ -277,7 +282,14 @@
 	NSImage *image = self.stateIcon;
 	
 	//Multi-user chats won't have status icons
-	if (!image && ![messageViewController userListVisible]) image = [self statusIcon];
+	if (!image && messageViewController.chat.isGroupChat) {
+		BOOL accountOnline = messageViewController.chat.account.online;
+		
+		image = [AIStatusIcons statusIconForStatusName:nil
+											statusType:accountOnline ? AIAvailableStatusType : AIOfflineStatusType
+											  iconType:AIStatusIconTab
+											 direction:AIIconNormal];
+	}
 
 	if (!image) image = [AIStatusIcons statusIconForUnknownStatusWithIconType:AIStatusIconTab direction:AIIconNormal];
 
