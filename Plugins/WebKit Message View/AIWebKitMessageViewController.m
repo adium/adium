@@ -670,6 +670,8 @@ static NSArray *draggedTypes = nil;
 	if ([content.type isEqualToString:CONTENT_TOPIC_TYPE]) {
 		DOMHTMLElement *topicElement = (DOMHTMLElement *)[[webView mainFrameDocument] getElementById:@"topic"];
 		
+		[topicElement setTitle:content.message.string];
+		
 		[topicElement setInnerHTML:[messageStyle completedTemplateForContent:content similar:similar]];
 	} else {
 		//Add the content object
