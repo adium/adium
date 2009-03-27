@@ -87,7 +87,7 @@ ADIUM_PLIST=$(PLIST_DIR)/Info
 ###########
 # Targets
 ###########
-.PHONY: all all-withlocalchanges all-withlocalchanges-noclean all-nopackage-noclean all-nightly update assertnochanges assertnoconflicts version compile clean release source prepare-release-bundle createfolder diskimage nightly tarball
+.PHONY: all all-withlocalchanges all-withlocalchanges-noclean all-nopackage-noclean all-nightly update assertnochanges assertnoconflicts version compile clean release source prepare-release-bundle codesign createfolder diskimage nightly tarball
 
 all: update assertnochanges version clean compile release
 all-withlocalchanges: update assertnoconflicts version clean compile release
@@ -95,7 +95,7 @@ all-withlocalchanges-noclean: update assertnoconflicts version compile release
 
 #doesn't bother putting things in a dmg
 #useful for builds not intended for distribution
-all-nopackage-noclean: update assertnoconflicts version compile createfolder prepare-release-bundle
+all-nopackage-noclean: update assertnoconflicts version compile createfolder prepare-release-bundle codesign
 
 update:
 	svn update $(SRC_DIR)
@@ -128,7 +128,7 @@ clean:
 	rm -rf $(BUILD_DIR)
 	$(MAKE) $(BUILDFLAGS) -C $(SRC_DIR) clean
 
-release: createfolder prepare-release-bundle diskimage
+release: createfolder prepare-release-bundle codesign diskimage
 
 prepare-release-bundle:
 	@# Convert all nibs to the smaller binary format
@@ -145,6 +145,7 @@ endif
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
+codesign:
 	@# sign the executable
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	if [ -e ~/adium-password ]; then \
@@ -186,14 +187,16 @@ endif
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
-nightly: version clean compile createfolder tarballapp
+nightly: version clean compile createfolder codesign tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
 	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
 	echo $(VERSION) >> $(BUILD_DIR)/latest
+ifeq ($(OFFICIAL_BUILD),TRUE)
 	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest
+endif
 
 tarballapp:
 	rm $(BUILD_DIR)/Adium_temp.tgz || true
