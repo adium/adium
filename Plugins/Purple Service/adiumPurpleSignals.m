@@ -342,7 +342,7 @@ chat_joined_cb(PurpleConversation *conv, void *data) {
 		
 		AIChat *chat = groupChatLookupFromConv(conv);
 		
-		[accountLookup(purple_conversation_get_account(conv)) addChat:chat wasJoined:YES];
+		[accountLookup(purple_conversation_get_account(conv)) addChat:chat];
 	}	
 }
 
