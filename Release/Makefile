@@ -200,7 +200,7 @@ tarballapp:
 	# We have to make a temporary named once, since the `svn` command won't work
 	# in build/ for nightlies.
 	cd $(BUILD_DIR) && tar zcf Adium_temp.tgz Adium/ && cd ..
-	mv $(BUILD_DIR)/Adium_temp.tgz $(RELEASE_NAME).tgz
+	mv $(BUILD_DIR)/Adium_temp.tgz $(BUILD_DIR)/$(RELEASE_NAME).tgz
 
 tarball:
 	svn export -q --non-interactive $(SRC_DIR) $(TARBALL_DIR)
