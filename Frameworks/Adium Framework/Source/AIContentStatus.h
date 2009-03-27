@@ -31,6 +31,13 @@
 		   message:(NSAttributedString *)inMessage
 		  withType:(NSString *)inType;
 
+- (id)initWithChat:(AIChat *)inChat
+			source:(id)inSource
+	   destination:(id)inDest
+			  date:(NSDate *)inDate
+		   message:(NSAttributedString *)inMessage
+		  withType:(NSString *)inStatus;
+
 /*!
  * @brief A key on which multiple status messages should be consolidated if possible
  *

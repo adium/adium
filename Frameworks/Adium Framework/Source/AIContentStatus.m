@@ -17,15 +17,6 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentStatus.h>
 
-@interface AIContentStatus ()
-- (id)initWithChat:(AIChat *)inChat
-			source:(id)inSource
-	   destination:(id)inDest
-			  date:(NSDate *)inDate
-		   message:(NSAttributedString *)inMessage
-		  withType:(NSString *)inStatus;
-@end
-
 @implementation AIContentStatus
 
 //Create a new status content object

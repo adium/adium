@@ -5,7 +5,7 @@
 //  Created by Evan Schoenberg on 9/24/07.
 //
 
-#import <Adium/AIContentMessage.h>
+#import <Adium/AIContentEvent.h>
 
 #define CONTENT_NOTIFICATION_TYPE		@"Notification"		//Type ID for this content
 
@@ -13,7 +13,7 @@ typedef enum {
 	AIDefaultNotificationType = 0
 } AINotificationType;
 
-@interface AIContentNotification : AIContentMessage {
+@interface AIContentNotification : AIContentEvent {
 	AINotificationType notificationType;
 }
 
