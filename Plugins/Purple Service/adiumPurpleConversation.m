@@ -33,7 +33,7 @@ static void adiumPurpleConvCreate(PurpleConversation *conv)
 		
 		AIChat *chat = groupChatLookupFromConv(conv);
 		
-		[accountLookup(purple_conversation_get_account(conv)) addChat:chat];
+		[accountLookup(purple_conversation_get_account(conv)) addChat:chat wasJoined:NO];
 	}
 }
 

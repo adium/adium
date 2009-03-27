@@ -741,13 +741,16 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  *
  * This will ultimately call -[CBPurpleAccount openChat:] below if the chat was not previously open.
  */
-- (void)addChat:(AIChat *)chat
+- (void)addChat:(AIChat *)chat wasJoined:(BOOL)wasJoined
 {
 	AILogWithSignature(@"");
 
 	//Open the chat
 	if ([chat isOpen]) {
-		[self displayYouHaveConnectedInChat:chat];
+		// Don't display "you have connected" for chats being joined.
+		if (!wasJoined) {
+			[self displayYouHaveConnectedInChat:chat];
+		}
 		
 		if (chat.isGroupChat) {
 			[self performSelector:@selector(updateUserListForChat:)

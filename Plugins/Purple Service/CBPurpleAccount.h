@@ -134,7 +134,7 @@
 
 - (NSWindowController *)authorizationRequestWithDict:(NSDictionary*)dict;
 
-- (void)addChat:(AIChat *)chat;
+- (void)addChat:(AIChat *)chat wasJoined:(BOOL)wasJoined;
 - (void)typingUpdateForIMChat:(AIChat *)chat typing:(NSNumber *)typing;
 - (void)updateForChat:(AIChat *)chat type:(NSNumber *)type;
 - (AIChat *)chatWithContact:(AIListContact *)contact identifier:(id)identifier;
