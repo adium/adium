@@ -24,6 +24,7 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentTopic.h>
 #import <Adium/AIContentEvent.h>
+#import <Adium/AIContentContext.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -971,14 +972,30 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date
 {
-	AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
-														   withSource:sourceContact
-														  destination:self
-																 date:date
-															  message:attributedMessage
-															autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
-	
-	[adium.contentController receiveContentObject:messageObject];
+	if ((flags & PURPLE_MESSAGE_DELAYED) == PURPLE_MESSAGE_DELAYED) {
+		// Display delayed messages as context.
+
+		AIContentContext *messageObject = [AIContentContext messageInChat:chat
+															   withSource:sourceContact
+															  destination:self
+																	 date:date
+																  message:attributedMessage
+																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
+		
+		messageObject.trackContent = NO;
+		
+		[adium.contentController receiveContentObject:messageObject];
+		
+	} else {
+		AIContentMessage *messageObject = [AIContentMessage messageInChat:chat
+															   withSource:sourceContact
+															  destination:self
+																	 date:date
+																  message:attributedMessage
+																autoreply:(flags & PURPLE_MESSAGE_AUTO_RESP) != 0];
+		
+		[adium.contentController receiveContentObject:messageObject];	
+	}
 }
 
 /*********************/
