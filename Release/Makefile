@@ -180,7 +180,7 @@ diskimage:
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium X $(VERSION)" dmg_adium.scpt $(ART_DIR)
 	
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/.ssh/dsa_priv.pem`
+	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
 endif
 
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
@@ -193,11 +193,14 @@ nightly: version clean compile createfolder tarballapp
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
 	echo $(VERSION) >> $(BUILD_DIR)/latest
-	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/.ssh/dsa_priv.pem >> $(BUILD_DIR)/latest
+	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest
 
 tarballapp:
-	rm $(BUILD_DIR)/$(RELEASE_NAME).tgz || true
-	tar zcf $(BUILD_DIR)/$(RELEASE_NAME).tgz build/Adium/ -C $(ADIUM_DIR)
+	rm $(BUILD_DIR)/Adium_temp.tgz || true
+	# We have to make a temporary named once, since the `svn` command won't work
+	# in build/ for nightlies.
+	cd $(BUILD_DIR) && tar zcf Adium_temp.tgz Adium/ && cd ..
+	mv $(BUILD_DIR)/Adium_temp.tgz $(RELEASE_NAME).tgz
 
 tarball:
 	svn export -q --non-interactive $(SRC_DIR) $(TARBALL_DIR)
