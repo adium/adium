@@ -186,7 +186,7 @@ endif
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
-nightly: version compile createfolder tarballapp
+nightly: version clean compile createfolder tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
 	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
