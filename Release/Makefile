@@ -179,6 +179,10 @@ diskimage:
 	./ensureCustomIconsExtracted $(ART_DIR)
 	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium X $(VERSION)" dmg_adium.scpt $(ART_DIR)
 	
+ifeq ($(OFFICIAL_BUILD),TRUE)
+	@echo DSA for Sparkle: `ruby sign_update.rb "$(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg" "~/.ssh/dsa_priv.pem"`
+endif
+
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
@@ -188,6 +192,7 @@ nightly: version clean compile createfolder tarballapp
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
 	echo $(VERSION) >> $(BUILD_DIR)/latest
+	`ruby sign_update.rb "$(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg" "~/.ssh/dsa_priv.pem"` >> $(BUILD_DIR)/latest
 
 tarballapp:
 	rm $(BUILD_DIR)/$(RELEASE_NAME).tgz || true
