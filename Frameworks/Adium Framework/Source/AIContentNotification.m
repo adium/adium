@@ -6,6 +6,8 @@
 //
 
 #import "AIContentNotification.h"
+#import <Adium/AIContentEvent.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIAccount.h>
 
 @interface AIContentNotification ()
@@ -47,14 +49,13 @@
 									  [inSource displayName]] :
 						  AILocalizedString(@"Your attention is requested!", nil));
 	}
-
+	
 	if ((self = [super initWithChat:inChat
 							 source:inSource
 						destination:inDest
 							   date:inDate
-							message:[[[NSAttributedString alloc] initWithString:defaultMessage
-																	 attributes:nil] autorelease]
-						  autoreply:NO])) {
+							message:[NSAttributedString stringWithString:defaultMessage]
+						   withType:@"notification"])) {
 		notificationType = inNotificationType;
 	}
 	
@@ -73,12 +74,4 @@
 }
 
 @synthesize notificationType;
-
-- (NSMutableArray *)displayClasses
-{
-	NSMutableArray *classes = [super displayClasses];
-	[classes addObject:@"notification"];
-	return classes;
-}
-
 @end
