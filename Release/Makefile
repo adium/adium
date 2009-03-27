@@ -190,6 +190,7 @@ nightly: version compile createfolder tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
 	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
 	echo $(VERSION) >> $(BUILD_DIR)/latest
 	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/.ssh/dsa_priv.pem >> $(BUILD_DIR)/latest
