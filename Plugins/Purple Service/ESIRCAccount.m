@@ -24,6 +24,11 @@ void purple_account_set_username(void *account, const char *username);
 void purple_account_set_bool(void *account, const char *name,
 						   BOOL value);
 */
+
+@interface ESIRCAccount()
+- (void)sendRawCommand:(NSString *)command;
+@end
+
 @implementation ESIRCAccount
 
 - (const char *)protocolPlugin
@@ -70,7 +75,13 @@ void purple_account_set_bool(void *account, const char *name,
 							  allowJavascriptURLs:YES];
 	}
 	
-	return encodedString;
+	if (!didCommand && [inContentMessage.message.string hasPrefix:@"/"]) {
+		// Try to send it to the server, if we don't know what it is; definitely don't display.
+		[self sendRawCommand:[inContentMessage.message.string substringFromIndex:1]];
+		return nil;
+	} else {
+		return encodedString;
+	}
 }
 
 - (NSString *)serverSuffix
@@ -231,46 +242,26 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
  * This only has an effect on group chats.
  */
 - (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
-{
-	PurpleConnection *connection = purple_account_get_connection(account);
-	
-	if (!connection)
-		return;
-	
-#warning We should definitely use a purple API for this
-	/* problem is, I don't see a way to do it. We could send a command, but that wouldn't let us *unset* the topic. */
-	
-	char *buf;
-	const char *name = NULL;
-	struct irc_conn *irc;
-	
-	irc = connection->proto_data;
-	
-	PurpleConversation	*conv = convLookupFromChat(chat, nil);
-	
-	name = purple_conversation_get_name(conv);
-	
-	if (name == NULL)
-		return;
-	
-	AILogWithSignature(@"%@ setting %@ topic to %@", self, chat, topic);
-	
-	buf = irc_format(irc, "vt:", "TOPIC", name, [topic UTF8String]);
-	irc_send(irc, buf);
-	g_free(buf);
+{	
+	[self sendRawCommand:[NSString stringWithFormat:@"TOPIC %@ :%@", chat.name, topic ?: @""]];
 }
 
 #pragma mark NickServ
 - (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
 {
+	[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];
+}
+
+#pragma mark Command sending
+- (void)sendRawCommand:(NSString *)command
+{
 	PurpleConnection *connection = purple_account_get_connection(account);
 	
 	if (!connection)
 		return;
-
 	
-	const char *quote = [[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword] UTF8String];
-	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);
+	const char *quote = [command UTF8String];
+	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);	
 }
 
 @end
