@@ -24,6 +24,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <objc/objc-runtime.h>
 
+#import "AISpecialPasswordPromptController.h"
 #import "ESAccountPasswordPromptController.h"
 #import "ESProxyPasswordPromptController.h"
 
@@ -33,6 +34,7 @@
 - (NSString *)_oldStyleAccountNameForAccount:(AIAccount *)inAccount;
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount;
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount;
+- (NSString *)_accountNameForSpecialPassword:(AISpecialPasswordType)inType account:(AIAccount *)inAccount name:(NSString *)inName;
 - (NSString *)_serverNameForAccount:(AIAccount *)inAccount;
 - (NSString *)_accountNameForProxyServer:(NSString *)proxyServer userName:(NSString *)userName;
 - (NSString *)_passKeyForProxyServer:(NSString *)proxyServer;
@@ -301,7 +303,6 @@
 	
 	if (password && [password length] != 0) {
 		//Invoke the target right away
-		//Invoke the target right away
 		void (*targetMethodSender)(id, SEL, id, AIPasswordPromptReturn, id) = (void (*)(id, SEL, id, AIPasswordPromptReturn, id)) objc_msgSend;
 		targetMethodSender(inTarget, inSelector, password, AIPasswordPromptOKReturn, inContext);
 
@@ -315,6 +316,77 @@
 	}
 }
 
+#pragma mark Special passwords
+- (void)setPassword:(NSString *)inPassword forType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName 
+{
+	NSError *error = nil;
+	[[AIKeychain defaultKeychain_error:&error] setInternetPassword:inPassword
+														 forServer:[self _serverNameForAccount:inAccount]
+														   account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName]
+														  protocol:FOUR_CHAR_CODE('AdIM')
+															 error:&error];
+	if (error) {
+		OSStatus err = [error code];
+		/*errSecItemNotFound: no entry in the keychain. a harmless error.
+		 *we don't ignore it if we're trying to set the password, though (because that would be strange).
+		 *we don't get here at all for noErr (error will be nil).
+		 */
+		if (inPassword || (err != errSecItemNotFound)) {
+			NSDictionary *userInfo = [error userInfo];
+			NSLog(@"could not %@ password for special password %@: %@ returned %i (%@)",
+			      inPassword ? @"set" : @"remove",
+			      [self _accountNameForSpecialPassword:inType account:inAccount name:inName],
+				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
+				  err,
+				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+		}
+	}
+}
+
+- (NSString *)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName
+{
+	NSError		*error    = nil;
+	AIKeychain	*keychain = [AIKeychain defaultKeychain_error:&error];
+	NSString	*password = [keychain internetPasswordForServer:[self _serverNameForAccount:inAccount]
+														account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName]
+													   protocol:FOUR_CHAR_CODE('AdIM')
+														  error:&error];
+	if (error) {
+		OSStatus err = [error code];
+		/*errSecItemNotFound: no entry in the keychain. a harmless error.
+		 *we don't get here at all for noErr (error will be nil).
+		 */
+		if (err != errSecItemNotFound) {
+			NSDictionary *userInfo = [error userInfo];
+			NSLog(@"could not retrieve password for special password %@: %@ returned %i (%@)",
+				  [self _accountNameForSpecialPassword:inType account:inAccount name:inName],
+				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME],
+				  err,
+				  [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
+		}
+	}
+	return password;
+}
+
+- (void)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)inOption name:(NSString *)inName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
+{
+	NSString	*password = [self passwordForType:inType forAccount:inAccount name:inName];
+	
+	if (inOption != AIPromptAlways && password && [password length] != 0) {
+		//Invoke the target right away
+		void (*targetMethodSender)(id, SEL, id, AIPasswordPromptReturn, id) = (void (*)(id, SEL, id, AIPasswordPromptReturn, id)) objc_msgSend;
+		targetMethodSender(inTarget, inSelector, password, AIPasswordPromptOKReturn, inContext);
+	} else {
+		//Prompt the user for their password
+		[AISpecialPasswordPromptController showPasswordPromptForType:inType
+															 account:inAccount
+																name:inName
+															password:password
+													 notifyingTarget:inTarget
+															selector:inSelector
+															 context:inContext];
+	}	
+}
 
 //Password Keys --------------------------------------------------------------------------------------------------------
 #pragma mark Password Keys
@@ -349,6 +421,14 @@
 	} else {
 		return [NSString stringWithFormat:@"%@.%@", inAccount.service.serviceID, [self _accountNameForAccount:inAccount]];
 	}
+}
+
+/*!
+ * @brief Special password name
+ */
+- (NSString *)_accountNameForSpecialPassword:(AISpecialPasswordType)inType account:(AIAccount *)inAccount name:(NSString *)inName
+{
+	return [NSString stringWithFormat:@"%@.%d.%@", [self _accountNameForAccount:inAccount], inType, inName];
 }
 
 /*!

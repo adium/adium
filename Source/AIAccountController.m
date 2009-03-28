@@ -131,6 +131,15 @@
 - (void)passwordForProxyServer:(NSString *)server userName:(NSString *)userName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext {
 	[adiumPasswords passwordForProxyServer:server userName:userName notifyingTarget:inTarget selector:inSelector context:inContext];
 }
+- (void)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)inOption name:(NSString *)inName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext {
+	[adiumPasswords passwordForType:inType forAccount:inAccount promptOption:inOption name:inName notifyingTarget:inTarget selector:inSelector context:inContext];
+}
+- (NSString *)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName {
+	return [adiumPasswords passwordForType:inType forAccount:inAccount name:inName];
+}
+- (void)setPassword:(NSString *)inPassword forType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName {
+	[adiumPasswords setPassword:inPassword forType:inType forAccount:inAccount name:inName];
+}
 
 //Accounts
 #pragma mark Accounts

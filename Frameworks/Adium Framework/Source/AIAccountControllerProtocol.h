@@ -32,6 +32,11 @@ typedef enum {
 	AIPromptNever
 } AIPromptOption;
 
+typedef enum {
+	AINickServPassword,
+	AIChanServPassword
+} AISpecialPasswordType;
+
 @protocol AIAccountController <AIController>
 
 #pragma mark Services
@@ -141,6 +146,11 @@ typedef enum {
  * @param inContext context passed to target
  */
 - (void)passwordForProxyServer:(NSString *)server userName:(NSString *)userName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext;
+
+// document
+- (void)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)inOption name:(NSString *)inName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext;
+- (NSString *)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName;
+- (void)setPassword:(NSString *)inPassword forType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount name:(NSString *)inName;
 
 #pragma mark Accounts
 @property (nonatomic, readonly) NSArray *accounts;

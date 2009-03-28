@@ -16,10 +16,11 @@
 
 #import <Adium/AIPlugin.h>
 
-@class AMPurpleTuneTooltip;
+@class AMPurpleTuneTooltip, AIIRCServicesPasswordPlugin;
 
 @interface CBPurpleServicePlugin : AIPlugin{
 	AMPurpleTuneTooltip *tunetooltip;
+	AIIRCServicesPasswordPlugin *ircPasswordPlugin;
 }
 
 @end

@@ -260,5 +260,17 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	g_free(buf);
 }
 
+#pragma mark NickServ
+- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
+{
+	PurpleConnection *connection = purple_account_get_connection(account);
+	
+	if (!connection)
+		return;
+
+	
+	const char *quote = [[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword] UTF8String];
+	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);
+}
 
 @end
