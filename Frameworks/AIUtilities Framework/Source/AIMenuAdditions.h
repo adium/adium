@@ -20,7 +20,7 @@
 - (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode representedObject:(id)object;
 - (void)removeAllItems;
 - (void)removeAllItemsButFirst;
-- (void)removeAllItemsAfterIndex:(NSUInteger)index;
+- (void)removeAllItemsAfterIndex:(NSInteger)index;
 
 @end
 
