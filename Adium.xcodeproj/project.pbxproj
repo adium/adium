@@ -1048,7 +1048,6 @@
 		34FF12130DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */; };
 		377EC8940AE9525B00CB7BDF /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; };
 		377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; };
-		38399DCB0A95C9CF006C8EB1 /* AIVideoConfControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 383984700A94F780006C8EB1 /* AIVideoConfControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3872285E0A8BFCA4002CC4F4 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D836F307CBF960006466F2 /* QuickTime.framework */; };
 		38722C790A8CF682002CC4F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3448758D06D1EBDF00DA778C /* Cocoa.framework */; };
 		38725B580A912770002CC4F4 /* QTRTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38725B560A91276F002CC4F4 /* QTRTPConnection.m */; };
@@ -3762,11 +3761,6 @@
 		34FF12100DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleGTalkJoinChatViewController.h; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.h"; sourceTree = "<group>"; };
 		34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleGTalkJoinChatViewController.m; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.m"; sourceTree = "<group>"; };
 		377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Frameworks/PSMTabBarControl.framework; sourceTree = "<group>"; };
-		383984700A94F780006C8EB1 /* AIVideoConfControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIVideoConfControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIVideoConfControllerProtocol.h"; sourceTree = "<group>"; };
-		387226C40A8B7C83002CC4F4 /* AIVideoConfController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIVideoConfController.h; path = Source/AIVideoConfController.h; sourceTree = "<group>"; };
-		387226C50A8B7C84002CC4F4 /* AIVideoConfController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIVideoConfController.m; path = Source/AIVideoConfController.m; sourceTree = "<group>"; };
-		38722C8C0A8CFFA5002CC4F4 /* AIVideoConf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIVideoConf.h; path = "Frameworks/Adium Framework/Source/AIVideoConf.h"; sourceTree = "<group>"; };
-		38722C8D0A8CFFA5002CC4F4 /* AIVideoConf.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIVideoConf.m; path = "Frameworks/Adium Framework/Source/AIVideoConf.m"; sourceTree = "<group>"; };
 		38725B550A91276F002CC4F4 /* QTRTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTRTPConnection.h; path = Plugins/QuickTime/QTRTPConnection.h; sourceTree = "<group>"; };
 		38725B560A91276F002CC4F4 /* QTRTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTRTPConnection.m; path = Plugins/QuickTime/QTRTPConnection.m; sourceTree = "<group>"; };
 		38725B590A912800002CC4F4 /* QTConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTConnection.h; path = Plugins/QuickTime/QTConnection.h; sourceTree = "<group>"; };
@@ -6160,8 +6154,6 @@
 		3839845D0A94F2FD006C8EB1 /* VideoConf */ = {
 			isa = PBXGroup;
 			children = (
-				387226C40A8B7C83002CC4F4 /* AIVideoConfController.h */,
-				387226C50A8B7C84002CC4F4 /* AIVideoConfController.m */,
 			);
 			name = VideoConf;
 			sourceTree = "<group>";
@@ -6169,8 +6161,6 @@
 		38722DB00A9091F4002CC4F4 /* VideoConf */ = {
 			isa = PBXGroup;
 			children = (
-				38722C8C0A8CFFA5002CC4F4 /* AIVideoConf.h */,
-				38722C8D0A8CFFA5002CC4F4 /* AIVideoConf.m */,
 			);
 			name = VideoConf;
 			sourceTree = "<group>";
@@ -6610,7 +6600,6 @@
 				340D0EA90A7E826C0059A3AF /* AIStatusControllerProtocol.h */,
 				340D0EAF0A7E82F70059A3AF /* AIToolbarControllerProtocol.h */,
 				340D0EC20A7E84680059A3AF /* AIDebugControllerProtocol.h */,
-				383984700A94F780006C8EB1 /* AIVideoConfControllerProtocol.h */,
 				F53B9A1302CCEDCA01A8010A /* Adium.Framework */,
 				34D8342B07CBE6A4006466F2 /* External Sources */,
 			);
@@ -8063,7 +8052,6 @@
 				343700A70A9C1E170028604E /* AIAdvancedPreferencePane.h in Headers */,
 				3482E0F50AB5064E00471992 /* AIAdiumProtocol.h in Headers */,
 				34F312930ADC3FE800A4310E /* KNShelfSplitView.h in Headers */,
-				38399DCB0A95C9CF006C8EB1 /* AIVideoConfControllerProtocol.h in Headers */,
 				3470BF600BC6F18500388232 /* AIMessageHistoryPreferencesWindowController.h in Headers */,
 				11CA00100C35EC5100A6BB8D /* SS_PreferencePaneProtocol.h in Headers */,
 				11CA00110C35EC5200A6BB8D /* SS_PrefsController.h in Headers */,
