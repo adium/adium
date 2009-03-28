@@ -124,6 +124,10 @@ static int nextChatNumber = 0;
 	
 	if (listObject) {
 		chatMenuImage = [AIUserIcons menuUserIconForObject:listObject];
+	} else {
+		chatMenuImage = [AIServiceIcons serviceIconForObject:account
+														type:AIServiceIconSmall
+												   direction:AIIconNormal];
 	}
 
 	return chatMenuImage;
