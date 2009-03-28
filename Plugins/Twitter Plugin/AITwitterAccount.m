@@ -1143,7 +1143,7 @@
 			break;
 	}
 	
-	return [NSString stringWithFormat:AILocalizedString(@"Unknown error: code %u", nil), error.code];
+	return [NSString stringWithFormat:AILocalizedString(@"Unknown error: code %d, %@", nil), error.code, error.localizedDescription];
 }
 
 /*!
