@@ -267,32 +267,26 @@
 
 - (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
 {
-	AIListObject	*existingObject;
 	BOOL			performedGrouping = NO;
 	
 	//Protect with a retain while we are removing and adding the contact to our arrays
 	[listContact retain];
 	
-	//XXX
-	//	AILog(@"Adding %@ to %@",listContact,localGroup);
-	
 	if (listContact.canJoinMetaContacts) {
-		if ((existingObject = [localGroup objectWithService:listContact.service UID:listContact.UID])) {
+		AIListObject *existingObject = [localGroup objectWithService:listContact.service UID:listContact.UID];
+		if (existingObject) {
 			//If an object exists in this group with the same UID and serviceID, create a MetaContact
 			//for the two.
 			[self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
 			performedGrouping = YES;
 			
 		} else {
-			AIMetaContact	*metaContact;
+			AIMetaContact	*metaContact = [contactToMetaContactLookupDict objectForKey:listContact.internalObjectID];
 			
 			//If no object exists in this group which matches, we should check if there is already
 			//a MetaContact holding a matching ListContact, since we should include this contact in it
 			//If we found a metaContact to which we should add, do it.
-			if ((metaContact = [contactToMetaContactLookupDict objectForKey:[listContact internalObjectID]])) {
-				//XXX
-				//			AILog(@"Found an existing metacontact; adding %@ to %@",listContact,metaContact);
-				
+			if (metaContact) {
 				[self addContact:listContact toMetaContact:metaContact];
 				performedGrouping = YES;
 			}
