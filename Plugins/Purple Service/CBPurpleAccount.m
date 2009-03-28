@@ -892,6 +892,31 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	// Update (not set) the chat's topic
 	[chat updateTopic:inTopic withSource:[self contactWithUID:source]];
 }
+
+/*!
+ * @brief Set a chat's topic
+ *
+ * This only has an effect on group chats.
+ */
+- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
+{
+	if (!chat.isGroupChat) {
+		return;
+	}
+	
+	PurplePlugin				*prpl;
+	PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
+											PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
+											NULL);
+	
+	if (prpl_info && prpl_info->set_chat_topic) {
+		(prpl_info->set_chat_topic)(purple_account_get_connection(account),
+									purple_conv_chat_get_id(purple_conversation_get_chat_data(convLookupFromChat(chat, self))),
+									[topic UTF8String]);
+	}
+}
+
+
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat
 {
 	[[chat displayArrayForKey:@"Display Name"] setObject:inTitle

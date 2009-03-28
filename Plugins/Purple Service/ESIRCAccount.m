@@ -236,16 +236,6 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
-/*!
- * @brief Set a chat's topic
- *
- * This only has an effect on group chats.
- */
-- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
-{	
-	[self sendRawCommand:[NSString stringWithFormat:@"TOPIC %@ :%@", chat.name, topic ?: @""]];
-}
-
 #pragma mark NickServ
 - (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
 {
