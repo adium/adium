@@ -7,7 +7,8 @@
 
 #import <AdiumLibpurple/CBPurpleAccount.h>
 
-#define KEY_IRC_USE_SSL	@"IRC:Use SSL"
+#define KEY_IRC_USE_SSL		@"IRC:Use SSL"
+#define KEY_IRC_COMMANDS	@"IRC:Commands"
 
 @interface ESIRCAccount : CBPurpleAccount {
 
