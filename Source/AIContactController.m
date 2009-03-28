@@ -246,10 +246,10 @@
 
 		if(bookmark) {
 			[bookmarksArray addObject:bookmark];
+			
+			//It's a newly created object, so set its initial attributes
+			[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
 		}
-
-		//It's a newly created object, so set its initial attributes
-		[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
 	}
 }
 
