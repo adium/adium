@@ -95,6 +95,10 @@
 		1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */; };
 		1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = 1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1164A9270F7AD70700110AE4 /* AIContentTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */; };
+		117009A20F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */; };
+		117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */; };
+		11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11700A340F7E8BE80078D6AB /* AISpecialPasswordPromptController.m */; };
+		11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11700A430F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib */; };
 		1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC30CDAA8D400B8E233 /* libglib.framework */; };
 		1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC40CDAA8D400B8E233 /* libgmodule.framework */; };
 		1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC50CDAA8D400B8E233 /* libgobject.framework */; };
@@ -1759,6 +1763,11 @@
 		1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIURLShortenerPlugin.m; path = ../../Source/AIURLShortenerPlugin.m; sourceTree = "<group>"; };
 		1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentTopic.h; path = "Frameworks/Adium Framework/Source/AIContentTopic.h"; sourceTree = "<group>"; };
 		1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContentTopic.m; path = "Frameworks/Adium Framework/Source/AIContentTopic.m"; sourceTree = "<group>"; };
+		117009A00F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCServicesPasswordPlugin.h; path = "Plugins/Purple Service/AIIRCServicesPasswordPlugin.h"; sourceTree = "<group>"; };
+		117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCServicesPasswordPlugin.m; path = "Plugins/Purple Service/AIIRCServicesPasswordPlugin.m"; sourceTree = "<group>"; };
+		11700A330F7E8BE80078D6AB /* AISpecialPasswordPromptController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISpecialPasswordPromptController.h; path = Source/AISpecialPasswordPromptController.h; sourceTree = "<group>"; };
+		11700A340F7E8BE80078D6AB /* AISpecialPasswordPromptController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISpecialPasswordPromptController.m; path = Source/AISpecialPasswordPromptController.m; sourceTree = "<group>"; };
+		11700A430F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AISpecialPasswordPrompt.nib; path = Resources/AISpecialPasswordPrompt.nib; sourceTree = "<group>"; };
 		1172FBC30CDAA8D400B8E233 /* libglib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libglib.framework; path = Frameworks/libglib.framework; sourceTree = "<group>"; };
 		1172FBC40CDAA8D400B8E233 /* libgmodule.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgmodule.framework; path = Frameworks/libgmodule.framework; sourceTree = "<group>"; };
 		1172FBC50CDAA8D400B8E233 /* libgobject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgobject.framework; path = Frameworks/libgobject.framework; sourceTree = "<group>"; };
@@ -5553,6 +5562,8 @@
 		34B3241D09B9FF6900029361 /* IRC */ = {
 			isa = PBXGroup;
 			children = (
+				117009A00F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.h */,
+				117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */,
 				34E4CD4E0E68277D00D1B0DC /* ESIRCService.h */,
 				34E4CD570E68277D00D1B0DC /* ESIRCService.m */,
 				34E4CD560E68277D00D1B0DC /* ESIRCAccount.h */,
@@ -7609,6 +7620,9 @@
 				3402E02307CB0D1B0044F818 /* ProxyPasswordPrompt.nib */,
 				3402E02507CB0D1B0044F818 /* PasswordPrompt.nib */,
 				34D8328807CBD5D2006466F2 /* keys.png */,
+				11700A430F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib */,
+				11700A330F7E8BE80078D6AB /* AISpecialPasswordPromptController.h */,
+				11700A340F7E8BE80078D6AB /* AISpecialPasswordPromptController.m */,
 			);
 			name = Passwords;
 			sourceTree = "<group>";
@@ -8691,6 +8705,7 @@
 				113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */,
 				113892280F6B70CA00A7D7DC /* laconica.png in Resources */,
 				11C97DFD0F7D26C200E8DD37 /* dsa_pub.pem in Resources */,
+				11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8887,6 +8902,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
 				3485DB1909EBCE6500232CC4 /* SLPurpleCocoaAdapter.m in Sources */,
 				3485DB1B09EBCE6500232CC4 /* adiumPurpleBlist.m in Sources */,
 				6332879D0A769C18004D0F2B /* AIPurpleLiveJournalAccount.m in Sources */,
@@ -9314,6 +9330,8 @@
 				113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */,
 				1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */,
 				11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */,
+				117009A20F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
+				11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

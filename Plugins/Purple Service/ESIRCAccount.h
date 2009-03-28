@@ -13,4 +13,6 @@
 
 }
 
+- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword;
+
 @end

@@ -22,6 +22,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AMPurpleTuneTooltip.h"
+#import "AIIRCServicesPasswordPlugin.h"
 
 @implementation CBPurpleServicePlugin
 
@@ -63,6 +64,9 @@
 	//tooltip for tunes
 	tunetooltip = [[AMPurpleTuneTooltip alloc] init];
 	[adium.interfaceController registerContactListTooltipEntry:tunetooltip secondaryEntry:YES];
+	
+	ircPasswordPlugin = [[AIIRCServicesPasswordPlugin alloc] init];
+	[ircPasswordPlugin installPlugin];
 }
 
 - (void)uninstallPlugin
@@ -70,6 +74,9 @@
 	[adium.interfaceController unregisterContactListTooltipEntry:tunetooltip secondaryEntry:YES];
 	[tunetooltip release];
 	tunetooltip = nil;	
+	
+	[ircPasswordPlugin uninstallPlugin];
+	[ircPasswordPlugin release];
 }
 
 @end
