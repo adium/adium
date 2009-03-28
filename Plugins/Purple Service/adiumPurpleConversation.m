@@ -16,6 +16,7 @@
 
 #import "adiumPurpleConversation.h"
 #import <AIUtilities/AIObjectAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIHTMLDecoder.h>
@@ -75,23 +76,33 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 			  purple_conv_chat_get_nick(PURPLE_CONV_CHAT(conv)),
 			  messageString);
 
-		NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
-		NSNumber			*purpleMessageFlags = [NSNumber numberWithInt:flags];
 		NSDate				*date = [NSDate dateWithTimeIntervalSince1970:mtime];
 		
-		if (who && strlen(who)) {
-			messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
-						   [NSString stringWithUTF8String:who], @"Source",
-						   purpleMessageFlags, @"PurpleMessageFlags",
-						   date, @"Date",nil];
+		if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM || !who) {
+			CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
 			
+			[account receivedEventForChat:groupChatLookupFromConv(conv)
+								  message:messageString
+									 date:date
+									flags:flags];
 		} else {
-			messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
-						   purpleMessageFlags, @"PurpleMessageFlags",
-						   date, @"Date",nil];
-		}
+			NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
+			NSNumber			*purpleMessageFlags = [NSNumber numberWithInt:flags];
+			
+			if (who && strlen(who)) {
+				messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
+							   [NSString stringWithUTF8String:who], @"Source",
+							   purpleMessageFlags, @"PurpleMessageFlags",
+							   date, @"Date",nil];
+				
+			} else {
+				messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
+							   purpleMessageFlags, @"PurpleMessageFlags",
+							   date, @"Date",nil];
+			}
 
-		[accountLookup(purple_conversation_get_account(conv)) receivedMultiChatMessage:messageDict inChat:groupChatLookupFromConv(conv)];
+			[accountLookup(purple_conversation_get_account(conv)) receivedMultiChatMessage:messageDict inChat:groupChatLookupFromConv(conv)];
+		}
 	}
 }
 
@@ -181,8 +192,8 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 						if (strcmp(message, _("The remote user has closed the connection.")) != 0) {
 							//Display the message if it's not just the one for the other guy closing it...
 							[adium.contentController displayEvent:messageString
-																					  ofType:@"directIMDisconnected"
-																					  inChat:chat];
+														   ofType:@"directIMDisconnected"
+														   inChat:chat];
 						}
 						
 						[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_DISCONNECTED]];
@@ -191,9 +202,12 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 				}
 
 				if (shouldDisplayMessage) {
-					[adium.contentController displayEvent:messageString
-																			  ofType:@"libpurpleMessage"
-																			  inChat:chat];
+					CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
+					
+					[account receivedEventForChat:chat
+										  message:messageString
+											 date:[NSDate dateWithTimeIntervalSince1970:mtime]
+											flags:flags];
 				}
 			}
 	
