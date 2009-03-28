@@ -1137,10 +1137,13 @@
 			return AILocalizedString(@"The server is currently down or being upgraded.", nil);
 			break;
 			
+		case -1001:
+			// Timeout
 		case 503:
 			// Service Unavailable: the Twitter servers are up, but are overloaded with requests.  Try again later.
 			return AILocalizedString(@"The server is overloaded with requests.", nil);
 			break;
+			
 	}
 	
 	return [NSString stringWithFormat:AILocalizedString(@"Unknown error: code %d, %@", nil), error.code, error.localizedDescription];
