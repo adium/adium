@@ -1261,8 +1261,6 @@ static NSArray *draggedTypes = nil;
 
 		[objectIconPathDict setObject:webKitUserIconPath
 							   forKey:iconSourceObject.internalObjectID];
-	} else {
-		AILogWithSignature(@"Can't update %@ (%@), no user icon found", inObject, iconSourceObject);
 	}
 }
 
