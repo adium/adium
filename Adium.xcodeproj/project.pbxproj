@@ -1048,15 +1048,6 @@
 		34FF12130DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */; };
 		377EC8940AE9525B00CB7BDF /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; };
 		377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */; };
-		3872285E0A8BFCA4002CC4F4 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D836F307CBF960006466F2 /* QuickTime.framework */; };
-		38722C790A8CF682002CC4F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3448758D06D1EBDF00DA778C /* Cocoa.framework */; };
-		38725B580A912770002CC4F4 /* QTRTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38725B560A91276F002CC4F4 /* QTRTPConnection.m */; };
-		38725B5C0A912800002CC4F4 /* QTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 38725B5A0A912800002CC4F4 /* QTConnection.m */; };
-		38D8FAD70A8A4F350078E442 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34D834D207CBE7B2006466F2 /* AIUtilities.framework */; };
-		38D8FAD80A8A4F350078E442 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
-		38D8FAF40A8A4FCC0078E442 /* QTPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D8FA2A0A8A46600078E442 /* QTPlugin.m */; };
-		38D8FB8D0A8A5E520078E442 /* QTAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D8FB8B0A8A5E520078E442 /* QTAdvancedPreferences.m */; };
-		38D8FB950A8A603C0078E442 /* QT_Prefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 38D8FB940A8A603C0078E442 /* QT_Prefs.nib */; };
 		4947F5C70655E85200B791E5 /* Adium.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34BD9DE105314751000AB133 /* Adium.framework */; };
 		4947F60B0655E90D00B791E5 /* AWEzv.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947F5D30655E90C00B791E5 /* AWEzv.m */; };
 		4947F60D0655E90D00B791E5 /* AWEzvContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 4947F5D50655E90C00B791E5 /* AWEzvContact.m */; };
@@ -1531,13 +1522,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 34F3B9510BDF15F40011AB34;
 			remoteInfo = "Touch Framework Bundles to Executable Date";
-		};
-		38722DE90A909509002CC4F4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34BD9DAF05314751000AB133;
-			remoteInfo = Adium.Framework;
 		};
 		4B7845EB059B50820048A8BA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3765,10 +3749,8 @@
 		38725B560A91276F002CC4F4 /* QTRTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTRTPConnection.m; path = Plugins/QuickTime/QTRTPConnection.m; sourceTree = "<group>"; };
 		38725B590A912800002CC4F4 /* QTConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTConnection.h; path = Plugins/QuickTime/QTConnection.h; sourceTree = "<group>"; };
 		38725B5A0A912800002CC4F4 /* QTConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTConnection.m; path = Plugins/QuickTime/QTConnection.m; sourceTree = "<group>"; };
-		38BADCBE0A921ADB00D41C08 /* pref-quicktime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-quicktime.png"; path = "Plugins/QuickTime/pref-quicktime.png"; sourceTree = "<group>"; };
 		38D8FA290A8A46600078E442 /* QTPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTPlugin.h; path = Plugins/QuickTime/QTPlugin.h; sourceTree = "<group>"; };
 		38D8FA2A0A8A46600078E442 /* QTPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTPlugin.m; path = Plugins/QuickTime/QTPlugin.m; sourceTree = "<group>"; };
-		38D8FAE10A8A4F350078E442 /* QuickTime.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QuickTime.AdiumPlugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		38D8FB8A0A8A5E520078E442 /* QTAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QTAdvancedPreferences.h; path = Plugins/QuickTime/QTAdvancedPreferences.h; sourceTree = "<group>"; };
 		38D8FB8B0A8A5E520078E442 /* QTAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QTAdvancedPreferences.m; path = Plugins/QuickTime/QTAdvancedPreferences.m; sourceTree = "<group>"; };
 		38D8FB940A8A603C0078E442 /* QT_Prefs.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = QT_Prefs.nib; path = Plugins/QuickTime/QT_Prefs.nib; sourceTree = "<group>"; };
@@ -4429,17 +4411,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		38D8FAD60A8A4F350078E442 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				38D8FAD70A8A4F350078E442 /* AIUtilities.framework in Frameworks */,
-				38D8FAD80A8A4F350078E442 /* Adium.framework in Frameworks */,
-				38722C790A8CF682002CC4F4 /* Cocoa.framework in Frameworks */,
-				3872285E0A8BFCA4002CC4F4 /* QuickTime.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4947F5C60655E85200B791E5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -4630,7 +4601,6 @@
 				4947F5CB0655E85200B791E5 /* Bonjour.AdiumPlugin */,
 				349C2EFA0867AC97000BF883 /* AdiumApplescriptRunner */,
 				3485D68009EB416300232CC4 /* AdiumLibpurple.framework */,
-				38D8FAE10A8A4F350078E442 /* QuickTime.AdiumPlugin */,
 				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
 				7EC2E1990DF4390A008C86B4 /* Developer Links.AdiumPlugin */,
 			);
@@ -6168,7 +6138,6 @@
 		38D8FA240A8A45E00078E442 /* QuickTime */ = {
 			isa = PBXGroup;
 			children = (
-				38BADCBE0A921ADB00D41C08 /* pref-quicktime.png */,
 				38D8FA290A8A46600078E442 /* QTPlugin.h */,
 				38D8FA2A0A8A46600078E442 /* QTPlugin.m */,
 				38725B590A912800002CC4F4 /* QTConnection.h */,
@@ -8223,25 +8192,6 @@
 			productReference = 34BD9EF10531476E000AB133 /* Stress Test.AdiumPlugin */;
 			productType = "com.apple.product-type.bundle";
 		};
-		38D8FA9A0A8A4F350078E442 /* QuickTime Plugin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 38D8FADB0A8A4F350078E442 /* Build configuration list for PBXNativeTarget "QuickTime Plugin" */;
-			buildPhases = (
-				38D8FABE0A8A4F350078E442 /* Resources */,
-				38D8FAC10A8A4F350078E442 /* Sources */,
-				38D8FAD60A8A4F350078E442 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				38722DEA0A909509002CC4F4 /* PBXTargetDependency */,
-			);
-			name = "QuickTime Plugin";
-			productInstallPath = "$(USER_LIBRARY_DIR)/Bundles";
-			productName = Bonjour;
-			productReference = 38D8FAE10A8A4F350078E442 /* QuickTime.AdiumPlugin */;
-			productType = "com.apple.product-type.bundle";
-		};
 		4947F5BC0655E85200B791E5 /* Bonjour */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DADE8E0E085507450062B664 /* Build configuration list for PBXNativeTarget "Bonjour" */;
@@ -8381,7 +8331,6 @@
 				DACF3ED3085574D0006BFB18 /* External Frameworks */,
 				349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */,
 				F5B17CCF0A16C6AC004AE99E /* Plist Macros */,
-				38D8FA9A0A8A4F350078E442 /* QuickTime Plugin */,
 				F53C25AE0A2F95F100F7B73D /* Setup Build Directory */,
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
 				312ED3C90C7E875B00A6BDA9 /* Unit tests */,
@@ -8862,14 +8811,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EA3689706B73FE5009CA81A /* DCStressTestJoinChatView.nib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		38D8FABE0A8A4F350078E442 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				38D8FB950A8A603C0078E442 /* QT_Prefs.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9573,17 +9514,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		38D8FAC10A8A4F350078E442 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				38D8FAF40A8A4FCC0078E442 /* QTPlugin.m in Sources */,
-				38D8FB8D0A8A5E520078E442 /* QTAdvancedPreferences.m in Sources */,
-				38725B580A912770002CC4F4 /* QTRTPConnection.m in Sources */,
-				38725B5C0A912800002CC4F4 /* QTConnection.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4947F5C30655E85200B791E5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -9727,11 +9657,6 @@
 			isa = PBXTargetDependency;
 			target = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
 			targetProxy = 34F3B9AA0BDF177C0011AB34 /* PBXContainerItemProxy */;
-		};
-		38722DEA0A909509002CC4F4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
-			targetProxy = 38722DE90A909509002CC4F4 /* PBXContainerItemProxy */;
 		};
 		4947F5BD0655E85200B791E5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -11382,42 +11307,6 @@
 			};
 			name = "Release-Debug";
 		};
-		38D8FADC0A8A4F350078E442 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
-				INFOPLIST_FILE = Plists/QuickTimePlugin.plist;
-				PRODUCT_NAME = QuickTime;
-				WRAPPER_EXTENSION = AdiumPlugin;
-			};
-			name = Debug;
-		};
-		38D8FADE0A8A4F350078E442 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
-				INFOPLIST_FILE = Plists/QuickTimePlugin.plist;
-				PRODUCT_NAME = QuickTime;
-				WRAPPER_EXTENSION = AdiumPlugin;
-			};
-			name = Release;
-		};
-		38D8FADF0A8A4F350078E442 /* Release-Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = HAVE_EXPAT_CONFIG_H;
-				INFOPLIST_FILE = Plists/QuickTimePlugin.plist;
-				PRODUCT_NAME = QuickTime;
-				WRAPPER_EXTENSION = AdiumPlugin;
-			};
-			name = "Release-Debug";
-		};
 		7EC2E19B0DF4390C008C86B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12030,16 +11919,6 @@
 				34F3B95B0BDF16130011AB34 /* Debug */,
 				34F3B95C0BDF16130011AB34 /* Release */,
 				34F3B95D0BDF16130011AB34 /* Release-Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		38D8FADB0A8A4F350078E442 /* Build configuration list for PBXNativeTarget "QuickTime Plugin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				38D8FADC0A8A4F350078E442 /* Debug */,
-				38D8FADE0A8A4F350078E442 /* Release */,
-				38D8FADF0A8A4F350078E442 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
