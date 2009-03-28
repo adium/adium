@@ -16,6 +16,8 @@
 #import <Adium/AIToolbarControllerProtocol.h>
 
 #import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIChat.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
@@ -65,8 +67,24 @@
 - (IBAction)showContactInfo:(id)sender
 {
 	AIListObject *listObject = nil;
+	
+	if ([sender isKindOfClass:[NSToolbarItem class]]) {
+		for(NSWindow *currentWindow in [NSApp windows]) {
+			if (currentWindow.toolbar == ((NSToolbarItem *)sender).toolbar) {
+				AIChat *chat = [adium.interfaceController activeChatInWindow:currentWindow];
+				
+				if (chat.isGroupChat) {
+					listObject = [adium.contactController existingBookmarkForChat:chat];
+				} else {
+					listObject = chat.listObject;
+				}
+				
+				break;
+			}
+		}
+	}
 
-	if ((sender == menuItem_getInfoAlternate) || (sender == menuItem_getInfo) || ([sender isKindOfClass:[NSToolbarItem class]])) {
+	if (!listObject && (sender == menuItem_getInfoAlternate || sender == menuItem_getInfo)) {
 		listObject = adium.interfaceController.selectedListObject;
 	}
 	
@@ -87,7 +105,7 @@
 	
 	[NSApp activateIgnoringOtherApps:YES];
 	
-	[AIContactInfoWindowController showInfoWindowForListObject:(AIListObject *)bookmark];	
+	[AIContactInfoWindowController showInfoWindowForListObject:bookmark];	
 }
 
 - (void)showSpecifiedContactInfo:(id)sender
@@ -196,6 +214,23 @@
 	}
 	
 	return YES;
+}
+
+- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem
+{
+	for(NSWindow *currentWindow in [NSApp windows]) {
+		if (currentWindow.toolbar == toolbarItem.toolbar) {
+			AIChat *chat = [adium.interfaceController activeChatInWindow:currentWindow];
+
+			if (chat.isGroupChat && [adium.contactController existingBookmarkForChat:chat])
+				return YES;
+				
+			if (!chat.isGroupChat)
+				return YES;
+		}
+	}
+	
+	return NO;
 }
 
 - (void)contactListDidBecomeMain:(NSNotification *)notification
