@@ -253,6 +253,22 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 }
 
 #pragma mark Command sending
+- (void)didConnect
+{
+	[super didConnect];
+	
+	for (NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
+												group:GROUP_ACCOUNT_STATUS] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
+		if ([command hasPrefix:@"/"]) {
+			command = [command substringFromIndex:1];
+		}
+		
+		if (command.length) {
+			[self sendRawCommand:command];
+		}
+	}
+}
+
 - (void)sendRawCommand:(NSString *)command
 {
 	PurpleConnection *connection = purple_account_get_connection(account);
