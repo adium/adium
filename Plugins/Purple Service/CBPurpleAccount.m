@@ -923,31 +923,41 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {
 	PurpleMessageFlags		flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
+
+	NSAttributedString		*attributedMessage;
+	AIListContact			*listContact;
 	
-	if ((flags & PURPLE_MESSAGE_SEND) != 0) {
-        //Purple is telling us that our message was sent successfully.
+	listContact = chat.listObject;
 
-		//We would tell the other side that we're done typing, except that if we do this now, the typing notification icon in some clients (e.g., iChat) disappears before the message actually arrives.
-		//[purpleAdapter sendTyping:AINotTyping inChat:chat];
-    } else {
-		NSAttributedString		*attributedMessage;
-		AIListContact			*listContact;
-		
-		listContact = chat.listObject;
+	attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
+															  fromContact:listContact
+																onAccount:self];
+	
+	//Clear the typing flag of the chat since a message was just received
+	[self setTypingFlagOfChat:chat to:nil];
+	
+	[self _receivedMessage:attributedMessage
+					inChat:chat 
+		   fromListContact:listContact
+					 flags:flags
+					  date:[messageDict objectForKey:@"Date"]];
+}
 
-		attributedMessage = [adium.contentController decodedIncomingMessage:[messageDict objectForKey:@"Message"]
-																  fromContact:listContact
-																	onAccount:self];
-		
-		//Clear the typing flag of the chat since a message was just received
-		[self setTypingFlagOfChat:chat to:nil];
-		
-		[self _receivedMessage:attributedMessage
-						inChat:chat 
-			   fromListContact:listContact
-						 flags:flags
-						  date:[messageDict objectForKey:@"Date"]];
-	}
+- (void)receivedEventForChat:(AIChat *)chat
+					 message:(NSString *)message
+						date:(NSDate *)date
+					   flags:(PurpleMessageFlags)flags
+{
+	AIContentEvent *event = [AIContentEvent eventInChat:chat
+											 withSource:nil
+											destination:self
+												   date:date
+												message:[AIHTMLDecoder decodeHTML:message]
+											   withType:@"purple"];
+	
+	event.filterContent = (flags & PURPLE_MESSAGE_NO_LINKIFY) != PURPLE_MESSAGE_NO_LINKIFY;
+	
+	[adium.contentController receiveContentObject:event];
 }
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
@@ -955,19 +965,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurpleMessageFlags	flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
 	NSString			*source = [messageDict objectForKey:@"Source"];
-
-	if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM || !source) {
-		//If we didn't get a listContact,or this is a purple status message... display it as such.
-		[adium.contentController displayEvent:[attributedMessage string]
-									   ofType:@"purple"
-									   inChat:chat];
-	} else {
-		[self _receivedMessage:attributedMessage
-						inChat:chat 
-			   fromListContact:[self contactWithUID:source]
-						 flags:flags
-						  date:[messageDict objectForKey:@"Date"]];
-	}
+	
+	[self _receivedMessage:attributedMessage
+					inChat:chat 
+		   fromListContact:[self contactWithUID:source]
+					 flags:flags
+					  date:[messageDict objectForKey:@"Date"]];
 }
 
 - (void)_receivedMessage:(NSAttributedString *)attributedMessage inChat:(AIChat *)chat fromListContact:(AIListContact *)sourceContact flags:(PurpleMessageFlags)flags date:(NSDate *)date

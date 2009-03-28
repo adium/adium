@@ -141,6 +141,10 @@
 - (void)chatWasDestroyed:(AIChat *)chat;
 - (void)chatJoinDidFail:(AIChat *)chat;
 
+- (void)receivedEventForChat:(AIChat *)chat
+					 message:(NSString *)message
+						date:(NSDate *)date
+					   flags:(PurpleMessageFlags)flags;
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
 - (void)renameRoomOccupant:(NSString *)contactName to:(NSString *)newName inChat:(AIChat *)chat;
