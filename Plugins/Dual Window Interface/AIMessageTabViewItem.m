@@ -289,6 +289,8 @@
 											statusType:accountOnline ? AIAvailableStatusType : AIOfflineStatusType
 											  iconType:AIStatusIconTab
 											 direction:AIIconNormal];
+	} else if (!image) {
+		image = [self statusIcon];
 	}
 
 	if (!image) image = [AIStatusIcons statusIconForUnknownStatusWithIconType:AIStatusIconTab direction:AIIconNormal];
