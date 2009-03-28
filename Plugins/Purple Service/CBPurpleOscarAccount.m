@@ -767,7 +767,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 - (BOOL)isContactIntentionallyListed:(AIListContact *)contact
 {
 	//if the only group it's in is recent buddies, it's not intentionally listed
-	return !(contact.remoteGroupNames.count == 1 && [contact.remoteGroupNames containsObject:@"Recent Buddies"]);
+	return !(contact.countOfRemoteGroupNames == 1 && [contact.remoteGroupNames containsObject:@"Recent Buddies"]);
 }
 
 - (NSString *)localizedDateAndTimeFromString:(NSString *)inDateAndTime includeTimeWithDay:(BOOL)includeTimeWithDay

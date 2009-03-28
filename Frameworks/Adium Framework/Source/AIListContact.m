@@ -48,7 +48,7 @@
 
 @interface AIListContact ()
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
-- (void) updateRemoteGrouping;
+- (void) remoteGroupingChanged;
 @end
 
 @implementation AIListContact
@@ -75,7 +75,6 @@
 	return self;
 }
 
-//Dealloc
 - (void)dealloc
 {
 	[account release]; account = nil;
@@ -124,65 +123,82 @@
 
 //Remote Grouping ------------------------------------------------------------------------------------------------------
 #pragma mark Remote Grouping
-- (void)setRemoteGroupNames:(NSSet *)inNames
+
+- (NSSet *) remoteGroupNames
 {
-	[m_remoteGroupNames setSet:inNames];
-	[self updateRemoteGrouping];
+	return [[m_remoteGroupNames copy] autorelease];
+}
+
+- (void) setRemoteGroupNames:(NSSet *)inGroupNames
+{
+	NSParameterAssert(inGroupNames != nil);
+	[m_remoteGroupNames setSet:inGroupNames];
+	[self remoteGroupingChanged];
 }
 
 - (void) addRemoteGroupName:(NSString *)inName
 {
 	NSParameterAssert(inName != nil);
-	if (![m_remoteGroupNames containsObject:inName]) {
-		[m_remoteGroupNames addObject:inName];
-
-		[self updateRemoteGrouping];
-	}
+	if ([m_remoteGroupNames containsObject:inName])
+		return;
+	
+	[m_remoteGroupNames addObject:inName];
+	[self remoteGroupingChanged];
 }
 
 - (void) removeRemoteGroupName:(NSString *)inName
 {
 	NSParameterAssert(inName != nil);
-	if ([m_remoteGroupNames containsObject:inName]) {
-
-		[m_remoteGroupNames removeObject:inName];
-
-		[self updateRemoteGrouping];
-	}
+	if (![m_remoteGroupNames containsObject:inName])
+		return;
+	
+	[m_remoteGroupNames removeObject:inName];
+	[self remoteGroupingChanged];
 }
 
-- (void) updateRemoteGrouping
+- (NSUInteger) countOfRemoteGroupNames
 {
-	if (m_remoteGroupNames.count == 0)
-		[AIUserIcons flushCacheForObject:self];
-	
-	[self restoreGrouping];
-	
-	[self.metaContact updateRemoteGroupingOfContact:self];
-}
-
-- (NSSet *)remoteGroupNames
-{
-	return m_remoteGroupNames;
+	return m_remoteGroupNames.count;
 }
 
 - (NSSet *)remoteGroups
 {
 	NSMutableSet *groups = [NSMutableSet set];
-	for (NSString *remoteGroup in self.remoteGroupNames) {
+	for (NSString *remoteGroup in m_remoteGroupNames) {
 		[groups addObject:[adium.contactController groupWithUID:remoteGroup]];
 	}
 	return groups;
 }
 
-//An AIListContact normally groups based on its remoteGroupName (if it is not within a metaContact). 
+- (void) remoteGroupingChanged
+{
+	NSUInteger remoteGroupCount = m_remoteGroupNames.count;
+	if (remoteGroupCount == 0)
+		[AIUserIcons flushCacheForObject:self];
+	
+	[self restoreGrouping];
+	
+	if (self.isStranger != (remoteGroupCount == 0)) {
+		[self setValue:(remoteGroupCount > 0 ? [NSNumber numberWithBool:YES] : nil)
+		   forProperty:@"NotAStranger"
+				notify:NotifyLater];
+		[self notifyOfChangedPropertiesSilently:YES];
+	}
+}
+
+//An AIListContact normally groups based on its remoteGroupNames (if it is not within a metaContact). 
 //Restore this grouping.
 - (void)restoreGrouping
 {
+	if (self.metaContact) {
+		[self.metaContact updateRemoteGroupingOfContact:self];		
+		return;
+	}
+	
 	//Create a group for the contact even if contact list groups aren't on,
 	//otherwise requests for all the contact list groups will return nothing
 	NSMutableSet *groups = [NSMutableSet set];
-	for (NSString *remoteGroupName in self.remoteGroupNames) {
+	for (NSString *remoteGroupName in m_remoteGroupNames) {
 		AIListGroup *localGroup = [adium.contactController groupWithUID:remoteGroupName];
 		
 		if (!adium.contactController.useContactListGroups)
@@ -193,17 +209,6 @@
 		[groups addObject:localGroup];
 	}
 	[adium.contactController _moveContactLocally:self toGroups:groups];
-	
-	if (self.metaContact)
-		[self.metaContact restoreGrouping];
-	
-	BOOL	isCurrentlyAStranger = self.isStranger;
-	if ((isCurrentlyAStranger && self.remoteGroupNames.count > 0) || (!isCurrentlyAStranger && self.remoteGroupNames.count == 0)) {
-		[self setValue:(self.remoteGroupNames.count > 0 ? [NSNumber numberWithBool:YES] : nil)
-				forProperty:@"NotAStranger"
-					 notify:NotifyLater];
-		[self notifyOfChangedPropertiesSilently:YES];
-	}
 }
 
 #pragma mark Names

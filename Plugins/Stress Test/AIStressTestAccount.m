@@ -54,7 +54,7 @@
 
 - (void)disconnect
 {
-	for (NSString *name in [[commandContact.remoteGroupNames copy] autorelease])
+	for (NSString *name in commandContact.remoteGroupNames)
 		[commandContact removeRemoteGroupName:name];
 	[commandContact setValue:nil forProperty:@"Online" notify:YES];
 	[commandContact release]; commandContact = nil;

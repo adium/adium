@@ -946,8 +946,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject respondsToSelector:@selector(restoreGrouping)])
-		[(id)inObject restoreGrouping];
+	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject isKindOfClass:[AIListContact class]])
+		[((AIListContact *)inObject).parentContact restoreGrouping];
 	
 	return nil;
 }

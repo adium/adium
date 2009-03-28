@@ -576,7 +576,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)removeContacts:(NSArray *)objects
 {	
 	for (AIListContact *object in objects) {
-		for (NSString *remoteGroupName in [[object.remoteGroupNames copy] autorelease]) {
+		for (NSString *remoteGroupName in object.remoteGroupNames) {
 			NSString	*groupName = [self _mapOutgoingGroupName:remoteGroupName];
 			
 			//Have the purple thread perform the serverside actions
