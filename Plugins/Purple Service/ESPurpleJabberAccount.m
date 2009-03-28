@@ -615,16 +615,6 @@
 	return YES;
 }
 
-/*!
- * @brief Set a chat's topic
- *
- * This only has an effect on group chats.
- */
-- (void)setTopic:(NSString *)topic forChat:(AIChat *)chat
-{
-	// needs implementing
-}
-
 #pragma mark Status
 /*!
  * @brief Return the purple status type to be used for a status
