@@ -3745,15 +3745,6 @@
 		34FF12100DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleGTalkJoinChatViewController.h; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.h"; sourceTree = "<group>"; };
 		34FF12110DA52FB10054A872 /* AIPurpleGTalkJoinChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleGTalkJoinChatViewController.m; path = "Plugins/Purple Service/AIPurpleGTalkJoinChatViewController.m"; sourceTree = "<group>"; };
 		377EC8930AE9525B00CB7BDF /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PSMTabBarControl.framework; path = Frameworks/PSMTabBarControl.framework; sourceTree = "<group>"; };
-		38725B550A91276F002CC4F4 /* QTRTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTRTPConnection.h; path = Plugins/QuickTime/QTRTPConnection.h; sourceTree = "<group>"; };
-		38725B560A91276F002CC4F4 /* QTRTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTRTPConnection.m; path = Plugins/QuickTime/QTRTPConnection.m; sourceTree = "<group>"; };
-		38725B590A912800002CC4F4 /* QTConnection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTConnection.h; path = Plugins/QuickTime/QTConnection.h; sourceTree = "<group>"; };
-		38725B5A0A912800002CC4F4 /* QTConnection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTConnection.m; path = Plugins/QuickTime/QTConnection.m; sourceTree = "<group>"; };
-		38D8FA290A8A46600078E442 /* QTPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = QTPlugin.h; path = Plugins/QuickTime/QTPlugin.h; sourceTree = "<group>"; };
-		38D8FA2A0A8A46600078E442 /* QTPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = QTPlugin.m; path = Plugins/QuickTime/QTPlugin.m; sourceTree = "<group>"; };
-		38D8FB8A0A8A5E520078E442 /* QTAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QTAdvancedPreferences.h; path = Plugins/QuickTime/QTAdvancedPreferences.h; sourceTree = "<group>"; };
-		38D8FB8B0A8A5E520078E442 /* QTAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QTAdvancedPreferences.m; path = Plugins/QuickTime/QTAdvancedPreferences.m; sourceTree = "<group>"; };
-		38D8FB940A8A603C0078E442 /* QT_Prefs.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = QT_Prefs.nib; path = Plugins/QuickTime/QT_Prefs.nib; sourceTree = "<group>"; };
 		3C73F83E04D62A2900A80106 /* AIEmoticonPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIEmoticonPack.h; path = "Frameworks/Adium Framework/Source/AIEmoticonPack.h"; sourceTree = "<group>"; };
 		3C73F83F04D62A2900A80106 /* AIEmoticonPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIEmoticonPack.m; path = "Frameworks/Adium Framework/Source/AIEmoticonPack.m"; sourceTree = "<group>"; };
 		40AC0EEB03B5BF1000A80202 /* ErrorMessageHandlerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorMessageHandlerPlugin.h; path = "Plugins/Error Message Handler/ErrorMessageHandlerPlugin.h"; sourceTree = "<group>"; };
@@ -5871,7 +5862,6 @@
 			isa = PBXGroup;
 			children = (
 				7EC2E1BE0DF43A94008C86B4 /* Developer Links */,
-				38D8FA240A8A45E00078E442 /* QuickTime */,
 				4BA88A4C0524AFD700A8010A /* Stress Test */,
 			);
 			name = "Plugins (Not included in release)";
@@ -6133,22 +6123,6 @@
 			children = (
 			);
 			name = VideoConf;
-			sourceTree = "<group>";
-		};
-		38D8FA240A8A45E00078E442 /* QuickTime */ = {
-			isa = PBXGroup;
-			children = (
-				38D8FA290A8A46600078E442 /* QTPlugin.h */,
-				38D8FA2A0A8A46600078E442 /* QTPlugin.m */,
-				38725B590A912800002CC4F4 /* QTConnection.h */,
-				38725B5A0A912800002CC4F4 /* QTConnection.m */,
-				38725B550A91276F002CC4F4 /* QTRTPConnection.h */,
-				38725B560A91276F002CC4F4 /* QTRTPConnection.m */,
-				38D8FB940A8A603C0078E442 /* QT_Prefs.nib */,
-				38D8FB8A0A8A5E520078E442 /* QTAdvancedPreferences.h */,
-				38D8FB8B0A8A5E520078E442 /* QTAdvancedPreferences.m */,
-			);
-			name = QuickTime;
 			sourceTree = "<group>";
 		};
 		40AC0EEA03B5BEDB00A80202 /* Error Message Handler */ = {
