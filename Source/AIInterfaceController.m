@@ -25,7 +25,6 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAuthorizationRequestsWindowController.h>
-#import "AdiumDisconnectionErrorController.h"
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIFontAdditions.h>
@@ -1216,7 +1215,7 @@
 //Display then clear the last disconnection error
 - (void)account:(AIAccount *)inAccount disconnectedWithError:(NSString *)disconnectionError
 {
-//	[AdiumDisconnectionErrorController account:inAccount disconnectedWithError:disconnectionError];
+
 }
 
 //Question Display -----------------------------------------------------------------------------------------------------

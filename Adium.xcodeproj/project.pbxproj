@@ -770,7 +770,6 @@
 		34DC886E0A7EEE2F003E1636 /* FTProgressStopPressed_Selected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 34D8325107CBD53B006466F2 /* FTProgressStopPressed_Selected.tif */; };
 		34DC886F0A7EEE2F003E1636 /* FTProgressStopPressed.tif in Resources */ = {isa = PBXBuildFile; fileRef = 34D8325207CBD53B006466F2 /* FTProgressStopPressed.tif */; };
 		34DC88700A7EEE2F003E1636 /* FTProgressRevealPressed_Selected.tif in Resources */ = {isa = PBXBuildFile; fileRef = 34D8325307CBD53B006466F2 /* FTProgressRevealPressed_Selected.tif */; };
-		34DC88720A7EEE2F003E1636 /* AdiumDisconnectionErrorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34AA35DA095CCA4D003B56DB /* AdiumDisconnectionErrorController.m */; };
 		34DC88740A7EEE2F003E1636 /* AIPreferenceWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F57938BB033E739101A8010A /* AIPreferenceWindowController.m */; };
 		34DC88770A7EEE2F003E1636 /* AdiumSetupWizard.m in Sources */ = {isa = PBXBuildFile; fileRef = 344161BC0943E0D800BC26ED /* AdiumSetupWizard.m */; };
 		34DC88780A7EEE2F003E1636 /* AdiumyButler.png in Resources */ = {isa = PBXBuildFile; fileRef = 344161CF0943E20D00BC26ED /* AdiumyButler.png */; };
@@ -3226,8 +3225,6 @@
 		34A970790C96600700F46006 /* ChatPrompt.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ChatPrompt.nib; path = Resources/ChatPrompt.nib; sourceTree = "<group>"; };
 		34A9707B0C96601000F46006 /* BanPrompt.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = BanPrompt.nib; path = Resources/BanPrompt.nib; sourceTree = "<group>"; };
 		34A9707D0C96602200F46006 /* sidebarStatusAreaBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = sidebarStatusAreaBackground.png; path = Resources/sidebarStatusAreaBackground.png; sourceTree = "<group>"; };
-		34AA35D9095CCA4D003B56DB /* AdiumDisconnectionErrorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumDisconnectionErrorController.h; path = Source/AdiumDisconnectionErrorController.h; sourceTree = "<group>"; };
-		34AA35DA095CCA4D003B56DB /* AdiumDisconnectionErrorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumDisconnectionErrorController.m; path = Source/AdiumDisconnectionErrorController.m; sourceTree = "<group>"; };
 		34AA366A095CE124003B56DB /* AIStatusDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIStatusDefines.h; path = "Frameworks/Adium Framework/Source/AIStatusDefines.h"; sourceTree = "<group>"; };
 		34AC2E9F0934FAE100393D7A /* AIStatusMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIStatusMenu.h; path = "Frameworks/Adium Framework/Source/AIStatusMenu.h"; sourceTree = "<group>"; };
 		34AC2EA00934FAE100393D7A /* AIStatusMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIStatusMenu.m; path = "Frameworks/Adium Framework/Source/AIStatusMenu.m"; sourceTree = "<group>"; };
@@ -5915,15 +5912,6 @@
 			name = Interface;
 			sourceTree = "<group>";
 		};
-		34E104D60951E02300EBE478 /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				34AA35D9095CCA4D003B56DB /* AdiumDisconnectionErrorController.h */,
-				34AA35DA095CCA4D003B56DB /* AdiumDisconnectionErrorController.m */,
-			);
-			name = Interface;
-			sourceTree = "<group>";
-		};
 		34E1066A09536D7300EBE478 /* Borderless */ = {
 			isa = PBXGroup;
 			children = (
@@ -6647,7 +6635,6 @@
 				3486E88E097F24530044C496 /* Contacts */,
 				4BC4439A08612BD800B10F28 /* Content */,
 				347A2CEC09C26D3A0032764B /* File Transfer */,
-				34E104D60951E02300EBE478 /* Interface */,
 				34E6CB330A7938C60076D7F0 /* Preferences */,
 				344161B60943E0AF00BC26ED /* Setup Wizard */,
 				4B14CF1E085FBC4400C88949 /* Sound */,
@@ -9239,7 +9226,6 @@
 				34DC885F0A7EEE2E003E1636 /* ESFileTransferProgressView.m in Sources */,
 				34DC88620A7EEE2F003E1636 /* ESFileTransferProgressWindowController.m in Sources */,
 				34DC88640A7EEE2F003E1636 /* ESFileTransferPreferences.m in Sources */,
-				34DC88720A7EEE2F003E1636 /* AdiumDisconnectionErrorController.m in Sources */,
 				34DC88740A7EEE2F003E1636 /* AIPreferenceWindowController.m in Sources */,
 				34DC88770A7EEE2F003E1636 /* AdiumSetupWizard.m in Sources */,
 				34DC887B0A7EEE2F003E1636 /* SetupWizardBackgroundView.m in Sources */,
