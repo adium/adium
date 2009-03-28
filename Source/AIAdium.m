@@ -41,7 +41,6 @@
 #import "AdiumSetupWizard.h"
 #import "ESTextAndButtonsWindowController.h"
 #import "AIAppearancePreferences.h"
-#import "DiskImageUtilities.h"
 #import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
@@ -132,9 +131,6 @@ static NSString	*prefsCategory;
     //Ignore SIGPIPE, which is a harmless error signal
     //sent when write() or similar function calls fail due to a broken pipe in the network connection
     signal(SIGPIPE, SIG_IGN);
-	
-	//Check if we're running from the disk image; if we are, offer to copy to /Applications
-	[DiskImageUtilities handleApplicationLaunchFromReadOnlyDiskImage];
 	
 	[[NSAppleEventManager sharedAppleEventManager] setEventHandler:self 
 												   andSelector:@selector(handleURLEvent:withReplyEvent:)
