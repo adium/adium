@@ -254,6 +254,8 @@
 			} else {
 				[self finishReceiveContentObject:inObject];
 			}
+		} else {
+			AILogWithSignature(@"%@ Message from blocked/ignored message: %@ %@", inObject.destination, inObject.source, inObject.message);
 		}
     }
 }

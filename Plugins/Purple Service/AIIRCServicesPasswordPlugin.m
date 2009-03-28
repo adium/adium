@@ -53,6 +53,8 @@
 		// Needs updating for various implementations.
 		if ([message rangeOfString:@"This nickname is registered"].location != NSNotFound ||
 			[message rangeOfString:@"Invalid password"].location != NSNotFound) {
+			AILogWithSignature(@"%@ received challenge :%@", account.displayName, message);
+			
 			[adium.accountController passwordForType:AINickServPassword
 										  forAccount:account
 										promptOption:(([message rangeOfString:@"Invalid password"].location != NSNotFound) ? AIPromptAlways : AIPromptAsNeeded)
@@ -73,6 +75,8 @@
 {
 	ESIRCAccount *account = [inDict objectForKey:@"Account"];
 	NSString	 *displayName = [inDict objectForKey:@"Name"];
+	
+	AILogWithSignature(@"%@ password returned with any: %d", displayName, inPassword.length > 0);
 	
 	if (inPassword && inPassword.length) {
 		[(ESIRCAccount *)account identifyForNickServName:displayName password:inPassword];
