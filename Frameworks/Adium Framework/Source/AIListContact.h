@@ -33,6 +33,7 @@
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
 @property (readonly, nonatomic) AIListObject<AIContainingObject> *containingObject __attribute__((deprecated));
 @property (readwrite, copy, nonatomic) NSSet *remoteGroupNames;
+@property (readonly, nonatomic) NSUInteger countOfRemoteGroupNames;
 @property (readonly, nonatomic) NSSet *remoteGroups;
 - (void) addRemoteGroupName:(NSString *)name;
 - (void) removeRemoteGroupName:(NSString *)name;

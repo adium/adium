@@ -187,18 +187,17 @@
  */
 - (void)restoreGrouping
 {
-	AIListGroup		*targetGroup = nil;
-
+	NSSet *targetGroup = nil;
 	// In reality, it's extremely unlikely the saved group would be lost.
 	NSString *savedGroupUID = [self preferenceForKey:KEY_CONTAINING_OBJECT_UID group:OBJECT_STATUS_CACHE] ?: AILocalizedString(@"Bookmarks", nil);
 
 	if (adium.contactController.useContactListGroups) {
-		targetGroup = [adium.contactController groupWithUID:savedGroupUID];
+		targetGroup = [NSSet setWithObject:[adium.contactController groupWithUID:savedGroupUID]];
 	} else {
-		targetGroup = adium.contactController.contactList;
+		targetGroup = [NSSet setWithObject:adium.contactController.contactList];
 	}
 
-	[adium.contactController moveContact:self intoGroups:targetGroup ? [NSSet setWithObject:targetGroup] : [NSSet set]];
+	[adium.contactController moveContact:self intoGroups:targetGroup];
 }
 
 /*!

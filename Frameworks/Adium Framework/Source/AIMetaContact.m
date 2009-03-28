@@ -149,11 +149,10 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSMutableSet *targetGroups = [NSMutableSet set];
 
 	if (adium.contactController.useContactListGroups) {
-		if (!self.online && adium.contactController.useOfflineGroup) {
+		if (!self.online && adium.contactController.useOfflineGroup)
 			[targetGroups addObject:adium.contactController.offlineGroup];
-		} else {
-			for (AIListContact *containedContact in self.uniqueContainedObjects)
-			{
+		else {
+			for (AIListContact *containedContact in self.uniqueContainedObjects) {
 				[targetGroups unionSet:containedContact.remoteGroups];
 			}
 		}
@@ -161,10 +160,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[targetGroups addObject:adium.contactController.contactList];
 	}
 
-	if (targetGroups.count > 0) {
-		[adium.contactController _moveContactLocally:self
-											toGroups:targetGroups];
-	}
+	[adium.contactController _moveContactLocally:self toGroups:targetGroups];
 }
 
 - (void) removeFromList
@@ -256,11 +252,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 	if (![self.containedObjects containsObjectIdenticalTo:inObject]) {
 		NSParameterAssert([self canContainObject:inObject]);
-
-		//Before we add our first object, restore our grouping
-		if ([self.containedObjects count] == 0) {
-			[self restoreGrouping];	
-		}
 		
 		((AIListContact *)inObject).metaContact = self;
 		[_containedObjects addObject:inObject];
@@ -278,6 +269,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		if (inObject == [self preferredContact]) {
 			[self _updateAllPropertiesForObject:inObject];
 		}
+		
+		[self restoreGrouping];
 
 		//Force an immediate update of our visibileListContacts list, which will also update our visible count
 		[self visibleListContacts];
@@ -306,7 +299,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 		[_containedObjects removeObject:inObject];
 		
-		if (contact.remoteGroupNames.count > 0) {
+		if (contact.countOfRemoteGroupNames > 0) {
 			//Reset it to its remote group
 			contact.metaContact = nil;
 			noteRemoteGroupingChanged = YES;
@@ -328,8 +321,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			[self _updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
-		if (self.countOfContainedObjects == 0)
-			[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
+		[self restoreGrouping];
 
 		/* Now that we're done reconfigured ourselves and the recently removed object,
 		 * tell the contactController about the change in the removed object.
@@ -592,7 +584,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 			continue;
 		}
 
-		if ((listContact.remoteGroupNames.count > 0 || includeOfflineAccounts) && (!visibleOnly || [[AIContactHidingController sharedController] visibilityOfListObject:listContact inContainer:self])) {
+		if ((listContact.countOfRemoteGroupNames > 0 || includeOfflineAccounts) && (!visibleOnly || [[AIContactHidingController sharedController] visibilityOfListObject:listContact inContainer:self])) {
 			[listContacts addObject:listContact]; 
 		}
 	}
@@ -630,11 +622,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	//We therefore update our containsOnlyOneContact boolean.
 	[self _determineIfWeShouldAppearToContainOnlyOneContact];
 	
-	//It's possible we didn't know to be in a group before if all our contained contacts were also groupless.
-	if (self.groups.count == 0 ||
-		(!adium.contactController.useContactListGroups && ![self.groups.anyObject isKindOfClass:[AIContactList class]])) {
-		[self restoreGrouping];
-	}
+	[self restoreGrouping];
 
 	//Force an immediate update of our visibleListContacts list, which will also update our visible count
 	[self visibleListContacts];

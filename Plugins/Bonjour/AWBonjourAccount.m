@@ -203,12 +203,12 @@ enum {
 	                                                        UID:[self UIDForContact:contact]];  
 	if ([contact status] == AWEzvUndefined) {
 		AILogWithSignature(@"Warning: Received a status update for a contact with an undefined status. This shouldn't happen.");
-		for (NSString *groupName in [[listContact.remoteGroupNames copy] autorelease])
+		for (NSString *groupName in listContact.remoteGroupNames)
 			[listContact removeRemoteGroupName:groupName];
 		[listContact setOnline:NO notify:NotifyLater silently:silentAndDelayed];
 
 	} else {
-		if (listContact.remoteGroupNames.count == 0) {
+		if (listContact.countOfRemoteGroupNames == 0) {
 			[listContact addRemoteGroupName:@"Bonjour"];
 		}
 
@@ -278,7 +278,7 @@ enum {
 	                                                            account:self 
 	                                                                UID:inUID];
 
-	for (NSString *groupName in [[listContact.remoteGroupNames copy] autorelease])
+	for (NSString *groupName in listContact.remoteGroupNames)
 		[listContact removeRemoteGroupName:groupName];
 	[listContact setOnline:NO notify:NotifyNow silently:silentAndDelayed];
 }

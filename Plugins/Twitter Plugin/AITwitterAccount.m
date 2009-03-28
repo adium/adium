@@ -1607,7 +1607,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterRemoveFollow) {
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
-		for (NSString *groupName in [[listContact.remoteGroupNames copy] autorelease]) {
+		for (NSString *groupName in listContact.remoteGroupNames) {
 			[listContact removeRemoteGroupName:groupName];
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterDestroyStatus) {
@@ -2125,7 +2125,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			AIListContact *listContact = [self contactWithUID:[info objectForKey:TWITTER_INFO_UID]];
 			
 			// If the user isn't in a group, set them in the Twitter group.
-			if(listContact.remoteGroupNames.count == 0) {
+			if(listContact.countOfRemoteGroupNames == 0) {
 				[listContact addRemoteGroupName:TWITTER_REMOTE_GROUP_NAME];
 			}
 		
