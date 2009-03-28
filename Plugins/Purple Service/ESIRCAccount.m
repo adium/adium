@@ -117,6 +117,16 @@ void purple_account_set_bool(void *account, const char *name,
 
 - (NSString *)displayName
 {
+	// Try and get the purple display name, since it changes without telling us.
+	if (account) {
+		PurpleConnection	*purpleConnection = purple_account_get_connection(account);
+		
+		if (purpleConnection) {
+			return [NSString stringWithUTF8String:purple_connection_get_display_name(purpleConnection)];
+		}
+	}
+	
+	// Otherwise use our saved one.
 	NSString *dName = self.formattedUID;
 	NSRange serversplit = [dName rangeOfString:@"@"];
 	
