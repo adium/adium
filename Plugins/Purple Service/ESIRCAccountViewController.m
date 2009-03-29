@@ -50,8 +50,15 @@
 	
 	// Execute commands
 	NSString *commands = [account preferenceForKey:KEY_IRC_COMMANDS group:GROUP_ACCOUNT_STATUS] ?: @"";
-	
 	[textView_commands.textStorage setAttributedString:[NSAttributedString stringWithString:commands]];
+	
+	// Username
+	NSString *username = [account preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS] ?: @"";
+	[textField_username setStringValue:username];
+	
+	// Realname
+	NSString *realname = [account preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: @"";
+	[textField_realname setStringValue:realname];
 }
 
 - (void)saveConfiguration
@@ -70,6 +77,16 @@
 	
 	// Execute commands
 	[account setPreference:textView_commands.textStorage.string forKey:KEY_IRC_COMMANDS group:GROUP_ACCOUNT_STATUS];
+	
+	// Username
+	[account setPreference:(textField_username.stringValue.length ? textField_username.stringValue : nil)
+					forKey:KEY_IRC_USERNAME
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	// Realname
+	[account setPreference:(textField_realname.stringValue.length ? textField_realname.stringValue : nil)
+					forKey:KEY_IRC_REALNAME
+					 group:GROUP_ACCOUNT_STATUS];
 }	
 
 @end

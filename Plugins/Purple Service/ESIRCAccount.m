@@ -46,8 +46,8 @@ void purple_account_set_bool(void *account, const char *name,
 
 	NSString	*encodedString = nil;
 	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
-																	 fromAccount:(AIAccount *)inContentMessage.source
-																		  inChat:inContentMessage.chat];	
+																   fromAccount:(AIAccount *)inContentMessage.source
+																	    inChat:inContentMessage.chat];
 	
 	NSRange meRange = [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch];
 
@@ -108,6 +108,18 @@ void purple_account_set_bool(void *account, const char *name,
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
 	
 	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
+	
+	// Username (for connecting)
+	NSString *username = [self preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS];
+	if (username) {
+		purple_account_set_string(self.purpleAccount, "username", [username UTF8String]);
+	}
+	
+	// Realname (for connecting)
+	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS];
+	if (realname) {
+		purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
+	}
 }
 
 /*!
@@ -252,6 +264,8 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 		if ([command hasPrefix:@"/"]) {
 			command = [command substringFromIndex:1];
 		}
+		
+		command = [command stringByReplacingOccurrencesOfString:@"$me" withString:self.displayName];
 		
 		if (command.length) {
 			[self sendRawCommand:command];
