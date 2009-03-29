@@ -779,6 +779,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 		  purple_status_type_get_id(purple_account_get_status_type_with_primitive(account, PURPLE_STATUS_OFFLINE)));
 
 	purple_account_set_enabled(account, "Adium", NO);
+	purple_account_disconnect(account);
 }
 
 - (void)registerAccount:(id)adiumAccount
