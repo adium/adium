@@ -739,7 +739,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	[chat removeSavedValuesForContactUID:[self uidForContactWithUID:oldName inChat:chat]];
 	
-	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:oldName];
+	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:[self uidForContactWithUID:oldName inChat:chat]];
 	
 	if (contact) {
 		[adium.contactController setUID:[self uidForContactWithUID:newName inChat:chat] forContact:contact];
