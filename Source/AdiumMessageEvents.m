@@ -342,7 +342,11 @@
 		
 	} else {
 		if (messageText && [messageText length]) {
-			description = messageText;
+			if (contentObject.chat.isGroupChat) {
+				description = [NSString stringWithFormat:@"(%@) %@", contentObject.chat.displayName, messageText];
+			} else {
+				description = messageText;
+			}
 		} else {
 			if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] ||
 				[eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
