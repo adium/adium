@@ -60,6 +60,13 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return YES;
 }
 
+- (BOOL)openChat:(AIChat *)chat
+{
+	chat.hideUserIconAndStatus = YES;
+	
+	return [super openChat:chat];
+}
+
 #pragma mark Command handling
 /*!
  * @brief We've connected
