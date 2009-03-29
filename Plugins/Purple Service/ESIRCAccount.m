@@ -14,6 +14,7 @@
 #import "SLPurpleCocoaAdapter.h"
 #import <Adium/AIListContact.h>
 #import <libpurple/irc.h>
+#import <libpurple/cmds.h>
 
 @interface SLPurpleCocoaAdapter ()
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
@@ -28,6 +29,8 @@ void purple_account_set_bool(void *account, const char *name,
 @interface ESIRCAccount()
 - (void)sendRawCommand:(NSString *)command;
 @end
+
+static PurpleConversation *fakeConversation(PurpleAccount *account);
 
 @implementation ESIRCAccount
 
@@ -259,6 +262,8 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 {
 	[super didConnect];
 	
+	PurpleConversation *conv = fakeConversation(self.purpleAccount);
+	
 	for (NSString *command in [[self preferenceForKey:KEY_IRC_COMMANDS
 												group:GROUP_ACCOUNT_STATUS] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]]) {
 		if ([command hasPrefix:@"/"]) {
@@ -268,9 +273,21 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 		command = [command stringByReplacingOccurrencesOfString:@"$me" withString:self.displayName];
 		
 		if (command.length) {
-			[self sendRawCommand:command];
+			char *error;
+			PurpleCmdStatus cmdStatus = purple_cmd_do_command(conv, [command UTF8String], [command UTF8String], &error);
+			
+			if (cmdStatus == PURPLE_CMD_STATUS_NOT_FOUND) {
+				// If it's not found, send it as a raw command like we do in chats.
+				[self sendRawCommand:command];
+			} else if (cmdStatus != PURPLE_CMD_STATUS_OK) {
+				// The command failed with something other than "not found" - log it.
+				AILogWithSignature(@"Command (%@) failed: %d - %@", command, cmdStatus, [NSString stringWithUTF8String:error]);
+			}
 		}
 	}
+	
+	// The fakeConversation was allocated; now free it.
+	g_free(conv);
 }
 
 - (void)sendRawCommand:(NSString *)command
@@ -282,6 +299,30 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	
 	const char *quote = [command UTF8String];
 	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);	
+}
+
+/*!
+ * @brief This creates a fake PurpleConversation
+ *
+ * This fake conversation is used for sending purple_cmd_do_command() messages, which requires
+ * a conversation for the command to occur. Free this when finished.
+ *
+ * This is taken from irchelper.c, the pidgin plugin.
+ */
+static PurpleConversation *fakeConversation(PurpleAccount *account)
+{
+	PurpleConversation *conv;
+	
+	conv = g_new0(PurpleConversation, 1);
+	conv->type = PURPLE_CONV_TYPE_IM;
+	/* If we use this then the conversation updated signal is fired and
+	 * other plugins might start doing things to our conversation, such as
+	 * setting data on it which we would then need to free etc. It's easier
+	 * just to be more hacky by setting account directly. */
+	/* purple_conversation_set_account(conv, account); */
+	conv->account = account;
+	
+	return conv;
 }
 
 @end
