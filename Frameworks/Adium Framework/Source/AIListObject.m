@@ -671,8 +671,6 @@
 	return NO;
 }
 
-@synthesize groupChatFlags;
-
 #pragma mark Methods for AIContainingObject-compliant classes to inherit
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)orderIndexForObject
 {

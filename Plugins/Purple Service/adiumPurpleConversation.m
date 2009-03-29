@@ -280,11 +280,16 @@ static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *
 	AILog(@"adiumPurpleConvChatRenameUser: %s: oldName %s, newName %s, newAlias %s",
 			   purple_conversation_get_name(conv),
 			   oldName, newName, newAlias);
+	
 	if (purple_conversation_get_type(conv) == PURPLE_CONV_TYPE_CHAT) {
-
-		[accountLookup(purple_conversation_get_account(conv)) renameRoomOccupant:[NSString stringWithUTF8String:oldName]
-																			  to:[NSString stringWithUTF8String:newName] 
-																		  inChat:groupChatLookupFromConv(conv)];
+		PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
+		PurpleConvChatBuddy *cb = purple_conv_chat_cb_find(convChat, oldName);
+		
+		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:cb
+																		oldName:[NSString stringWithUTF8String:oldName]
+																		newName:[NSString stringWithUTF8String:newName]
+																	   newAlias:[NSString stringWithUTF8String:newAlias]
+																		 inChat:groupChatLookupFromConv(conv)];
 	}
 }
 
@@ -309,8 +314,8 @@ static void adiumPurpleConvChatRemoveUsers(PurpleConversation *conv, GList *user
 static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user)
 {
 	CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
-	AIListContact *contact = [account contactWithUID:[account uidForContactWithUID:[NSString stringWithUTF8String:user] inChat:groupChatLookupFromConv(conv)]];
-	contact.groupChatFlags = purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user);	
+	
+	[account updateUser:[NSString stringWithUTF8String:user] forChat:groupChatLookupFromConv(conv) flags:purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user)];
 }
 
 static void adiumPurpleConvPresent(PurpleConversation *conv)

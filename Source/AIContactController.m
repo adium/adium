@@ -1069,6 +1069,31 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 #pragma mark Retrieving Specific Contacts
 
+/*!
+ * @brief Change the UID for a contact
+ *
+ * @param UID The new UID to set
+ * @param contact The contact whose UID is going to be changed
+ *
+ * Preserves our reference to the contact as the UID changes, allowing us to continue 
+ * returning it when asked about the new UID in the future.
+ */
+- (void)setUID:(NSString *)UID forContact:(AIListContact *)contact
+{
+	[contact retain];
+	
+	// Remove the old value, its internal ID is going to change.
+	[contactDict removeObjectForKey:contact.internalUniqueObjectID];
+	
+	// Set the UID.
+	[contact setUID:UID];
+	
+	// Add it back int othe dict.
+	[contactDict setObject:contact forKey:contact.internalUniqueObjectID];
+	
+	[contact release];
+}
+
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID
 {
 	if (!(inUID && [inUID length] && inService)) return nil; //Ignore invalid requests

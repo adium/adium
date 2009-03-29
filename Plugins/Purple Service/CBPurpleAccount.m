@@ -705,27 +705,57 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
-- (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded
+- (void)updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded
 {
-	NSMutableArray *adds = [NSMutableArray array];
+	NSMutableArray	*adds = [NSMutableArray array];
+	
+	// Create and add any users as appropriate.
+	for (GList *l = users; l; l = l->next) {
+		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name((PurpleConvChatBuddy *)l->data)];
+		[adds addObject:[self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]]];
+	}
+	
+	[chat addParticipatingListObjects:adds notify:newlyAdded];
+	
+	// Go back through and update the flags.
 	for (GList *l = users; l; l = l->next) {
 		PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
+		
 		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name(cb)];
-		NSString *alias = cb->alias ? [NSString stringWithUTF8String:cb->alias] : @"";
-		PurpleConvChatBuddyFlags flags = cb->flags;
-		AIListContact *listContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
-		[listContact setFormattedUID:contactName notify:NotifyNow];
+		AIListContact *chatContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
 		
-		//XXX if purple's flags change this could stop working
-		listContact.groupChatFlags = (AIGroupChatFlags)flags;
-		
-		if (alias && [alias length] && ![alias isEqualToString:contactName]) {
-			[listContact setServersideAlias:alias silently:YES];
-		}
-		
-		[adds addObject:listContact];
+		[chat setFlags:(AIGroupChatFlags)cb->flags forContact:chatContact];
+		[chat setAlias:(cb->alias ? [NSString stringWithUTF8String:cb->alias] : @"") forContact:chatContact];
 	}
-	[chat addParticipatingListObjects:adds notify:newlyAdded];
+	
+	// Post an update notification now that we've modified the flags and names.
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+														object:chat];
+}
+
+- (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat
+{
+	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:oldName inChat:chat]];
+
+	[chat removeSavedValuesForContact:contact];
+	
+	[adium.contactController setUID:[self uidForContactWithUID:newName inChat:chat] forContact:contact];
+	
+	[chat setAlias:newAlias forContact:contact];
+	[chat setFlags:(AIGroupChatFlags)cb->flags forContact:contact];
+
+	// Post an update notification since we modified the user entirely.
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+														object:chat];
+}
+
+- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags
+{
+	[chat setFlags:flags forContact:[self contactWithUID:[self uidForContactWithUID:user inChat:chat]]];
+	
+	// Post an update notification since we modified the flags.
+	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+														object:chat];
 }
 
 /*!
@@ -1266,33 +1296,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	return inUID;
 }
 
-- (void)renameRoomOccupant:(NSString *)contactName to:(NSString *)newName inChat:(AIChat *)chat
-{
-	//XXX duplicate names. We're not given constant identifiers in many protocols (irc, xmpp, ???)
-	for (AIListContact *occupant in chat) {
-		if ([occupant.formattedUID isEqualToString:contactName]) {
-			[occupant setFormattedUID:newName notify:NotifyNow];
-			return;
-		}
-	}
-	
-	AILog(@"Couldn't find anyone called %@ to rename to %@ in %@", contactName, newName, chat);
-}
-
 - (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat
 {
 	if (!chat)
 		return;
 	
-	//XXX duplicate names. We're not given constant identifiers in many protocols (irc, xmpp, ???)
-	for (AIListContact *contact in chat) {
-		if ([contact.formattedUID isEqualToString:contactName]) {
-			AILogWithSignature(@"Removing %@ from %@", contact, chat);
-			
-			[chat removeObject:contact];
-			return;
-		}
-	}
+	AIListContact *chatContact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
+	[chat removeObject:chatContact];
 	
 	AILog(@"Couldn't find anyone called %@ to remove from %@", contactName, chat);
 }

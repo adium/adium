@@ -147,8 +147,6 @@
 					   flags:(PurpleMessageFlags)flags;
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
-- (void)renameRoomOccupant:(NSString *)contactName to:(NSString *)newName inChat:(AIChat *)chat;
-- (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat;
 - (void)leftChat:(AIChat *)chat;
 
 - (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer;
@@ -193,7 +191,10 @@
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source;
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat;
 - (void)convUpdateForChat:(AIChat *)chat type:(NSNumber *)type;
-- (void) updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;
+- (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat;
+- (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat;
+- (void)updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;
+- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;

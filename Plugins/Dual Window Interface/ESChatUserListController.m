@@ -18,6 +18,7 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
+#import <Adium/AIListContactGroupChatCell.h>
 #import "AIMessageTabViewItem.h"
 
 @implementation ESChatUserListController
@@ -164,6 +165,19 @@
     return [adium.menuController contextualMenuWithLocations:locationsArray
 												 forListObject:listObject
 														inChat:[self.delegate chat]];
+}
+
+#pragma mark Cell setup
+- (AIContactListWindowStyle)windowStyle
+{
+	return AIContactListWindowStyleGroupChat;
+}
+
+- (void)updateCellRelatedThemePreferencesFromDict:(NSDictionary *)prefDict
+{
+	[super updateCellRelatedThemePreferencesFromDict:prefDict];
+	
+	[(AIListContactGroupChatCell *)contentCell setChat:(AIChat *)contactList];
 }
 
 @end

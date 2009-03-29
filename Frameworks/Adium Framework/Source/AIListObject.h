@@ -33,10 +33,10 @@ typedef enum {
 
 typedef enum {
 		AIGroupChatNone						= 0x0000, /**< No flags                     */
-		AIGroupChatVoice						= 0x0001, /**< Voiced user or "Participant" */
+		AIGroupChatVoice					= 0x0001, /**< Voiced user or "Participant" */
 		AIGroupChatHalfOp					= 0x0002, /**< Half-op                      */
-		AIGroupChatOp								= 0x0004, /**< Channel Op or Moderator      */
-		AIGroupChatFounder				= 0x0008, /**< Channel Founder              */
+		AIGroupChatOp						= 0x0004, /**< Channel Op or Moderator      */
+		AIGroupChatFounder					= 0x0008, /**< Channel Founder              */
 		AIGroupChatTyping					= 0x0010, /**< Currently typing             */
 } AIGroupChatFlags;
 
@@ -83,8 +83,6 @@ typedef enum {
 	NSString				*UID;
 	NSString				*internalObjectID;
 	BOOL							alwaysVisible;
-	
-	AIGroupChatFlags groupChatFlags;
 
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
@@ -120,9 +118,6 @@ typedef enum {
 @property (readonly, nonatomic) NSString *formattedUID;
 - (void)setFormattedUID:(NSString *)inFormattedUID notify:(NotifyTiming)notify;
 @property (readonly, nonatomic) NSString *longDisplayName;
-
-//GroupChats
-@property (readwrite, nonatomic) AIGroupChatFlags groupChatFlags;
 
 //Prefs
 - (void)setPreference:(id)value forKey:(NSString *)inKey group:(NSString *)groupName;

@@ -22,6 +22,7 @@
 #import <Adium/AIListContactBubbleCell.h>
 #import <Adium/AIListContactBubbleToFitCell.h>
 #import <Adium/AIListContactCell.h>
+#import <Adium/AIListContactGroupChatCell.h>
 #import <Adium/AIListContactMockieCell.h>
 #import <Adium/AIListGroupBubbleCell.h>
 #import <Adium/AIListGroupBubbleToFitCell.h>
@@ -340,6 +341,10 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 			//Content can always be to-fit
 			contentCell = [[AIListContactBubbleToFitCell alloc] init];
 		break;
+		case AIContactListWindowStyleGroupChat:
+			groupCell = [[AIListGroupCell alloc] init];
+			contentCell = [[AIListContactGroupChatCell alloc] init];
+			break;
 	}
 	
 	//Re-apply opacity settings for the new cells
@@ -458,13 +463,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	//Mockie special cases.  For all other layouts we use fixed group spacing
 	if (windowStyle == AIContactListWindowStyleGroupBubbles) {
 		[groupCell setTopSpacing:[[prefDict objectForKey:KEY_LIST_LAYOUT_GROUP_TOP_SPACING] intValue]];
-	} /*else if (windowStyle == AIContactListWindowStyleStandard) {
-		Force some spacing and draw a bordeer around our groups (This doesn't look good in borderless)
-		[groupCell setTopSpacing:1];
-		[groupCell setLeftSpacing:1];
-		[groupCell setRightSpacing:1];
-		[groupCell setDrawsGradientEdges:YES];
-	}*/
+	}
 	
 	//Disable square row highlighting for bubble lists - the bubble cells handle this on their own
 	if ((windowStyle == AIContactListWindowStyleGroupBubbles) || pillowsOrPillowsFittedWindowStyle) {

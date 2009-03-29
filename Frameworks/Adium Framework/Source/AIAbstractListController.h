@@ -65,7 +65,8 @@ typedef enum {
     AIContactListWindowStyleBorderless,
     AIContactListWindowStyleGroupBubbles,
     AIContactListWindowStyleContactBubbles,
-    AIContactListWindowStyleContactBubbles_Fitted
+    AIContactListWindowStyleContactBubbles_Fitted,
+	AIContactListWindowStyleGroupChat
 } AIContactListWindowStyle;
 
 typedef enum {
