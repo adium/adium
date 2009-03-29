@@ -26,7 +26,6 @@
 #import "AIStatus.h"
 #import "AdiumAccounts.h"
 
-#import <AIChatCommandsController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
@@ -923,16 +922,6 @@ typedef enum
 -(NSMenu*)actionsForChat:(AIChat*)chat
 {
 	return nil;
-}
-
--(void)verifyCommand:(NSString*)commandName forChat:(AIChat*)chat
-{
-	[AIChatCommandsController showCommand:commandName forChat:chat];
-}
-
--(void)executeCommandWithParameters:(NSDictionary*)parameters
-{
-	//add stuff
 }
 
 #pragma mark Logging

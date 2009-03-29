@@ -577,7 +577,6 @@
 		348EE1B4080A57480015E0FC /* WebKitPreferencesView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 348EE1B3080A57480015E0FC /* WebKitPreferencesView.nib */; };
 		348F57940936F3CC00288E41 /* ESEditStatusGroupWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 348F57920936F3CC00288E41 /* ESEditStatusGroupWindowController.m */; };
 		348F579E0936FA6D00288E41 /* EditStatusGroup.nib in Resources */ = {isa = PBXBuildFile; fileRef = 348F579D0936FA6D00288E41 /* EditStatusGroup.nib */; };
-		349195580C96615C00595A04 /* AIChatCommandsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A96FF00C96564D00F46006 /* AIChatCommandsController.m */; };
 		349195660C9662AA00595A04 /* AIListBookmark.m in Sources */ = {isa = PBXBuildFile; fileRef = 349195640C9662AA00595A04 /* AIListBookmark.m */; };
 		349195670C9662AA00595A04 /* AIListBookmark.h in Headers */ = {isa = PBXBuildFile; fileRef = 349195650C9662AA00595A04 /* AIListBookmark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3496A8C207CE6B880055BBAB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3496A8C107CE6B880055BBAB /* InfoPlist.strings */; };
@@ -3224,8 +3223,6 @@
 		34A81DD2093CE92300B0E93D /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = "Plugins/Purple Service/pl.lproj/DCPurpleJabberJoinChatView.nib"; sourceTree = "<group>"; };
 		34A81DD3093CE92300B0E93D /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Resources/pl.lproj/AppearancePrefs.nib; sourceTree = "<group>"; };
 		34A81DD5093CE92400B0E93D /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = Resources/pl.lproj/AccountProxy.nib; sourceTree = "<group>"; };
-		34A96FF00C96564D00F46006 /* AIChatCommandsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIChatCommandsController.m; path = "Frameworks/Adium Framework/Source/AIChatCommandsController.m"; sourceTree = "<group>"; };
-		34A96FF10C96564D00F46006 /* AIChatCommandsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIChatCommandsController.h; path = "Frameworks/Adium Framework/Source/AIChatCommandsController.h"; sourceTree = "<group>"; };
 		34A970580C965F2400F46006 /* AISideSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISideSplitView.h; path = "Plugins/Dual Window Interface/AISideSplitView.h"; sourceTree = "<group>"; };
 		34A970590C965F2400F46006 /* AISideSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISideSplitView.m; path = "Plugins/Dual Window Interface/AISideSplitView.m"; sourceTree = "<group>"; };
 		34A970660C965F6900F46006 /* AINewBookmarkWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AINewBookmarkWindowController.h; path = Source/AINewBookmarkWindowController.h; sourceTree = "<group>"; };
@@ -5070,8 +5067,6 @@
 		3448055407AC5203006A7F7B /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				34A96FF10C96564D00F46006 /* AIChatCommandsController.h */,
-				34A96FF00C96564D00F46006 /* AIChatCommandsController.m */,
 				349195650C9662AA00595A04 /* AIListBookmark.h */,
 				349195640C9662AA00595A04 /* AIListBookmark.m */,
 				340BA84409EC593A000EC441 /* AICorePluginLoader.h */,
@@ -9437,7 +9432,6 @@
 				11CA00120C35EC5200A6BB8D /* SS_PrefsController.m in Sources */,
 				34A88E180C7A26E0006EB7D4 /* AIPasswordPromptController.m in Sources */,
 				347933F40C861017007ADCAA /* AIColorStringTransformer.m in Sources */,
-				349195580C96615C00595A04 /* AIChatCommandsController.m in Sources */,
 				349195660C9662AA00595A04 /* AIListBookmark.m in Sources */,
 				34C91BBC0CA8909700740974 /* AIContentNotification.m in Sources */,
 				3403F4D70D2EFE53006B08FB /* AICachedUserIconSource.m in Sources */,

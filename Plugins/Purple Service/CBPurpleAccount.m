@@ -2994,70 +2994,15 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #pragma mark Actions for chats
 
 /*!
- * @brief This method returns an NSMenu containing the  actions that are allowed for a given chat.
+ * @brief This method returns an NSMenu containing the actions that are allowed for a given chat.
  *
  * @param An AIChat for which the commands are fetched
  * result NSMenu with the proper commands
  */
 - (NSMenu*)actionsForChat:(AIChat*)chat
 {
-	NSMenu *actionsMenu = [[NSMenu alloc] initWithTitle:@"commandsmenu"];
-	PurpleConversation *conv = existingConvLookupFromChat(chat);
-
-	GList *list = purple_cmd_list(conv);
-	GList *l;
-
-	for (l = list; l != NULL; l = l->next) {
-		const char  *cmdName = l->data;
-
-		GList		*cmdDescription = purple_cmd_help(conv, cmdName);
-		NSString	*name = [NSString stringWithUTF8String:cmdName];
-		NSString *menuTitle;
-		if (cmdDescription && cmdDescription->data)
-			menuTitle = [[AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:cmdDescription->data]] string];
-		else
-			menuTitle = name;
-
-		[actionsMenu addItemWithTitle:menuTitle
-							   target:self
-							   action:@selector(doCommand:)
-						keyEquivalent:@""
-					representedObject:[NSDictionary dictionaryWithObjectsAndKeys:
-									   chat, @"associatedChat",
-									   name, @"commandName",
-									   nil]];
-	} 
-
-	g_list_free(list);
-
-	return [actionsMenu autorelease]; 
+	return [[[NSMenu alloc] init] autorelease];
 }
-
--(void)doCommand:(id)sender
-{
-	NSDictionary *dict = [sender representedObject];
-	[self verifyCommand:[dict objectForKey:@"commandName"]
-				forChat:[dict objectForKey:@"associatedChat"]];
-}
-
--(void)executeCommandWithParameters:(NSMutableDictionary*)parameters
-{
-	BOOL result = [purpleAdapter doCommand:[parameters objectForKey:@"totalCommandString"] fromAccount:self inChat:[parameters objectForKey:@"chat"]];
-	if(!result)	{
-#warning Incomplete
-		// Either choice should be taken into account for various actions
-		// or the panel should be modified to only present an OK button,
-		// so there is no real choice for the user
-		/* int choice = */NSRunAlertPanel(@"Command Failed!",@"command failed: %@ from Account: %@ in Chat: %@",@"Cancel",@"OK",nil,[parameters objectForKey:@"totalCommandString"],[parameters objectForKey:@"account"],[parameters objectForKey:@"chat"]); 
-	}
-}
-
-
-- (BOOL)validateMenuItem:(NSMenuItem *)item 
-{
-	return YES;
-}
-
 
 /***************************/
 /* Account private methods */

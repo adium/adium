@@ -1258,15 +1258,17 @@
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
 
-	// The action button, its menu, and most things about it aren't usable. Disable for now.
 	/*
-	[shelfView bind:@"contextButtonMenu" toObject:self.chat withKeyPath:@"actionMenu"
+	[shelfView bind:@"contextButtonMenu"
+		   toObject:self.chat
+		withKeyPath:@"actionMenu"
 			options:[NSDictionary dictionaryWithObjectsAndKeys:
 					 [NSNumber numberWithBool:YES], NSAllowsNullArgumentBindingOption,
 					 [NSNumber numberWithBool:YES], NSValidatesImmediatelyBindingOption,
 					 nil]];
+	
 	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget.png"]];
-	 */
+	*/
 	
 	[shelfView setShelfIsVisible:YES];
 }

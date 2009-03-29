@@ -210,8 +210,4 @@
 - (void)chat:(AIChat *)inChat setCustomEmoticon:(NSString *)emoticonEquivalent withImageData:(NSData *)inImageData;
 - (void)chat:(AIChat *)inChat closedCustomEmoticon:(NSString *)inEmoticon;
 
-#pragma mark Room Commands
--(void)doCommand:(id)sender;
--(void)executeCommandWithParameters:(NSMutableDictionary*)parameters;
-
 @end
