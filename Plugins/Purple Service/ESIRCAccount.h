@@ -9,6 +9,8 @@
 
 #define KEY_IRC_USE_SSL		@"IRC:Use SSL"
 #define KEY_IRC_COMMANDS	@"IRC:Commands"
+#define KEY_IRC_USERNAME	@"IRC:Username"
+#define KEY_IRC_REALNAME	@"IRC:Realname"
 
 @interface ESIRCAccount : CBPurpleAccount {
 
