@@ -975,6 +975,10 @@
 				[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
 			}
 		}
+		
+		if ([self.chat.name rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
+			[completions addObject:self.chat.name];
+		}
 
 		if ([completions count]) {			
 			*index = 0;
