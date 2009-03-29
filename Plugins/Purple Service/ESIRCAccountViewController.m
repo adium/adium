@@ -35,10 +35,12 @@
 	// Username
 	NSString *username = [account preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS] ?: @"";
 	[textField_username setStringValue:username];
+	[textField_username.cell setPlaceholderString:((ESIRCAccount *)account).defaultUsername];
 	
 	// Realname
 	NSString *realname = [account preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: @"";
 	[textField_realname setStringValue:realname];
+	[textField_realname.cell setPlaceholderString:((ESIRCAccount *)account).defaultRealname];
 }
 
 - (void)saveConfiguration
