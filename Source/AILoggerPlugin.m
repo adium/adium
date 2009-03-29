@@ -516,9 +516,12 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 				[attributeKeys addObject:@"auto"];
 				[attributeValues addObject:@"true"];
 			}
-			if (![[[content source] UID] isEqualToString:[[content source] displayName]]) {
+			
+			NSString *displayName = [chat displayNameForContact:content.source];
+			
+			if (![[[content source] UID] isEqualToString:displayName]) {
 				[attributeKeys addObject:@"alias"];
-				[attributeValues addObject:[[content source] displayName]];				
+				[attributeValues addObject:displayName];
 			}
 			
 			AIXMLElement *messageElement = [[[AIXMLElement alloc] initWithName:@"message"] autorelease];

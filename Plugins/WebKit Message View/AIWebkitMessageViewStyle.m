@@ -916,8 +916,15 @@ static NSArray *validSenderColors;
 		} while (range.location != NSNotFound);
 		
 		//Use [content source] directly rather than the potentially-metaContact theSource
-		NSString *formattedUID = contentSource.formattedUID;
-		NSString *displayName = contentSource.displayName;
+		NSString *formattedUID = nil;
+		if ([content.chat aliasForContact:contentSource]) {
+			formattedUID = [content.chat aliasForContact:contentSource];
+		} else {
+			formattedUID = contentSource.formattedUID;
+		}
+
+		NSString *displayName = [content.chat displayNameForContact:contentSource];
+		
 		[inString replaceKeyword:@"%senderScreenName%" 
 					  withString:[(formattedUID ?
 								   formattedUID :
@@ -964,7 +971,7 @@ static NSArray *validSenderColors;
 						}
 					}
 				} else {
-					senderDisplay = [theSource longDisplayName];
+					senderDisplay = displayName;
 				}
 				
 				if ([(AIContentMessage *)content isAutoreply]) {
