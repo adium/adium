@@ -424,10 +424,10 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  * Removes any values which are dependent upon the contact, such as
  * its flags or alias.
  */
-- (void)removeSavedValuesForContact:(AIListObject *)contact
+- (void)removeSavedValuesForContactUID:(NSString *)contactUID
 {
-	[participatingContactsFlags removeObjectForKey:contact.UID];
-	[participatingContactsAliases removeObjectForKey:contact.UID];
+	[participatingContactsFlags removeObjectForKey:contactUID];
+	[participatingContactsAliases removeObjectForKey:contactUID];
 }
 
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify
@@ -670,7 +670,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 		
 		[participatingContacts removeObject:inObject];
 		
-		[self removeSavedValuesForContact:inObject];
+		[self removeSavedValuesForContactUID:inObject.UID];
 
 		[adium.chatController chat:self removedListContact:contact];
 
