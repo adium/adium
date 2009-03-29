@@ -453,7 +453,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[theContact setProfileArray:profileContents
 					notify:NotifyLater];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+	if (![theContact boolValueForProperty:@"Do Not Display Info Inspector"]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+	}
+	
+	[theContact setValue:nil forProperty:@"Do Not Display Info Inspector" notify:NotifyNever];
 
 	//Apply any changes
 	[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
