@@ -26,16 +26,14 @@
 	[checkbox_useSSL setState:[[account preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue]];
 	
 	//UID
-	NSString *nick = @"";
-	NSString	*formattedUID = account.formattedUID;
-	
-	if(formattedUID) {
-		NSRange range = [formattedUID rangeOfString:@"@"];
+	if(account.UID) {
+		NSRange range = [account.UID rangeOfString:@"@"];
 		
-		if(range.location == NSNotFound)
-			nick = formattedUID;
-		else
-			nick = [formattedUID substringToIndex:range.location];
+		if (range.location == NSNotFound) {
+			nick = account.UID;
+		} else {
+			nick = [account.UID substringToIndex:range.location];
+		}
 	}
 	
 	[textfield_Nick setStringValue:nick];
@@ -47,6 +45,10 @@
 																		caseSensitive:[inAccount.service caseSensitive]
 																		 errorMessage:AILocalizedStringFromTableInBundle(@"The characters you're entering are not valid for an account name on this service.", nil, [NSBundle bundleForClass:[AIAccountViewController class]], nil)]];
 	[allowedCharacters release];
+	
+	// Disable the nick/server when online.
+	[textfield_Nick setEnabled:!account.online];
+	[textField_connectHost setEnabled:!account.online];
 	
 	// Execute commands
 	NSString *commands = [account preferenceForKey:KEY_IRC_COMMANDS group:GROUP_ACCOUNT_STATUS] ?: @"";
@@ -66,12 +68,12 @@
 	[super saveConfiguration];
 	
 	[account setPreference:[NSNumber numberWithBool:[checkbox_useSSL state]]
-					forKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS];
+					forKey:KEY_IRC_USE_SSL
+					 group:GROUP_ACCOUNT_STATUS];
 	
-	//UID - account 
+	//UID - account
 	NSString *newUID = [NSString stringWithFormat:@"%@@%@", [textfield_Nick stringValue], [textField_connectHost stringValue]];
-	if (![account.UID isEqualToString:newUID] ||
-		![account.formattedUID isEqualToString:newUID]) {
+	if (![account.UID isEqualToString:newUID]) {
 		[account filterAndSetUID:newUID];
 	}
 	
