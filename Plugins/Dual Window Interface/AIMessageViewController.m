@@ -1129,6 +1129,16 @@
     if ([self userListVisible]) {
 		[chat resortParticipants];
         [userListController reloadData];
+		
+		NSString *userCount = nil;
+		
+		if (self.chat.containedObjects.count == 1) {
+			userCount = AILocalizedString(@"1 user", nil);
+		} else {
+			userCount = AILocalizedString(@"%u users", nil);
+		}
+		
+		[shelfView setResizeThumbStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
     }
 }
 
@@ -1248,13 +1258,16 @@
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
 
+	// The action button, its menu, and most things about it aren't usable. Disable for now.
+	/*
 	[shelfView bind:@"contextButtonMenu" toObject:self.chat withKeyPath:@"actionMenu"
 			options:[NSDictionary dictionaryWithObjectsAndKeys:
 					 [NSNumber numberWithBool:YES], NSAllowsNullArgumentBindingOption,
 					 [NSNumber numberWithBool:YES], NSValidatesImmediatelyBindingOption,
 					 nil]];
 	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget.png"]];
-
+	 */
+	
 	[shelfView setShelfIsVisible:YES];
 }
 
