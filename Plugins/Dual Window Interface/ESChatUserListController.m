@@ -176,8 +176,12 @@
 - (void)updateCellRelatedThemePreferencesFromDict:(NSDictionary *)prefDict
 {
 	[super updateCellRelatedThemePreferencesFromDict:prefDict];
+
+	AIChat *chat = (AIChat *)contactList;
 	
-	[(AIListContactGroupChatCell *)contentCell setChat:(AIChat *)contactList];
+	[contentCell setExtendedStatusVisible:!chat.hideUserIconAndStatus];
+	[contentCell setUserIconVisible:!chat.hideUserIconAndStatus];
+	[(AIListContactGroupChatCell *)contentCell setChat:chat];
 }
 
 @end

@@ -105,6 +105,8 @@ typedef enum {
 	NSString			*topic;
 	AIListContact		*topicSetter;
 	
+	BOOL				hideUserIconAndStatus;
+	
 	NSMutableDictionary	*participatingContactsFlags;
 	NSMutableDictionary	*participatingContactsAliases;
 	NSMutableArray		*participatingContacts;
@@ -141,6 +143,7 @@ typedef enum {
 
 - (void)setDisplayName:(NSString *)inDisplayName;
 
+// Group chat participants.
 - (NSString *)displayNameForContact:(AIListObject *)contact;
 - (NSString *)stringForFlags:(AIGroupChatFlags)flags;
 - (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
@@ -156,6 +159,7 @@ typedef enum {
 - (void)removeAllParticipatingContactsSilently;
 - (void)removeObject:(AIListObject *)inObject;
 
+//
 @property (readwrite, nonatomic, retain) AIListContact *listObject;
 @property (readwrite, nonatomic, assign) AIListContact *preferredListObject;
 - (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
@@ -184,6 +188,7 @@ typedef enum {
 
 @property (readwrite, nonatomic) BOOL isGroupChat;
 
+@property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 @property (readonly, nonatomic) BOOL supportsTopic;
 @property (readwrite, retain, nonatomic) NSString *topic;
 @property (readwrite, retain, nonatomic) AIListContact *topicSetter;

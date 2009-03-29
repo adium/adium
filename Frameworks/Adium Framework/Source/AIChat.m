@@ -743,9 +743,7 @@ static int nextChatNumber = 0;
 
 #pragma mark Group Chats
 
-@synthesize isGroupChat;
-
-@synthesize topic, topicSetter;
+@synthesize isGroupChat, hideUserIconAndStatus, topic, topicSetter;
 
 /*!
  * @brief Does this chat support topics?
