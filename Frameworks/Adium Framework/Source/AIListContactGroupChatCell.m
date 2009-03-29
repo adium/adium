@@ -31,15 +31,15 @@
 	}
 		
 	if (([chat flagsForContact:listObject] & AIGroupChatOp) == AIGroupChatOp) {
-		return [NSColor purpleColor];
-	}
-	
-	if (([chat flagsForContact:listObject] & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
 		return [NSColor blueColor];
 	}
 	
+	if (([chat flagsForContact:listObject] & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
+		return [NSColor magentaColor];
+	}
+	
 	if (([chat flagsForContact:listObject] & AIGroupChatVoice) == AIGroupChatVoice) {
-		return [NSColor brownColor];
+		return [NSColor purpleColor];
 	}
 	
 	return [NSColor blackColor];
