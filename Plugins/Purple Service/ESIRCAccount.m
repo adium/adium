@@ -44,6 +44,16 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	[super dealloc];
 }
 
+/*!
+ * @brief Should the generic account view handle setting the UID?
+ *
+ * We split up and dice the UID too much for this.
+ */
+- (BOOL)accountViewShouldSetUID
+{
+	return NO;
+}
+
 - (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
 {
 
@@ -92,11 +102,6 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return @"irc.freenode.net";
 }
 
-- (NSString *)UID
-{
-	return [super formattedUID];
-}
-
 - (const char *)purpleAccountName
 {
 	return [self.UID UTF8String];
@@ -108,8 +113,8 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 
 	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
 	
+	// Use SSL
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
-	
 	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
 	
 	// Username (for connecting)
@@ -126,21 +131,8 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 }
 
 /*!
-* @brief Connect Host
- *
- * Convenience method for retrieving the connect host for this account
- *
- * Rather than having a separate server field, IRC uses the servername after the user name.
- * username@server.org
+ * @brief Our display name; either retrieve our current nickname, or return our stored one.
  */
-- (NSString *)host
-{
-	NSString *host = [self preferenceForKey:KEY_CONNECT_HOST group:GROUP_ACCOUNT_STATUS];
-	if(!host)
-		return self.serverSuffix;
-	return host;
-}
-
 - (NSString *)displayName
 {
 	// Try and get the purple display name, since it changes without telling us.
@@ -153,7 +145,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	}
 	
 	// Otherwise use our saved one.
-	NSString *dName = self.formattedUID;
+	NSString *dName = self.UID;
 	NSRange serversplit = [dName rangeOfString:@"@"];
 	
 	if(serversplit.location != NSNotFound)
@@ -162,14 +154,21 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 		return dName;
 }
 
+/*!
+ * @brief Our explicit formatted UID contains our hostname, so we can differentiate ourself.
+ */
 - (NSString *)explicitFormattedUID
 {
-	// on IRC, the nickname isn't that important for an account, the server is
-	// (I guess the number of IRC users that use the same server with different nicks is very low)
-	
-	return [NSString stringWithFormat:@"%@ (%@)", self.host, self.displayName];
+	if (self.host) {
+		return [NSString stringWithFormat:@"%@ (%@)", self.host, self.displayName];
+	} else {
+		return self.displayName;
+	}
 }
 
+/*!
+ * @brief Is this contact a server contact?
+ */
 BOOL contactUIDIsServerContact(NSString *contactUID)
 {
 	return (([contactUID caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
@@ -187,11 +186,17 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return contactUIDIsServerContact(inContact.UID);
 }
 
+/*!
+ * @brief Don't autoreply to server contacts (services) or FreeNode's stupidity.
+ */
 - (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
 {
 	return !contactUIDIsServerContact(message.source.UID);
 }
 
+/*!
+ * @brief Don't log server contacts (services) or FreeNode's stupidity.
+ */
 - (BOOL)shouldLogChat:(AIChat *)chat
 {
 	NSString *source = chat.listObject.UID;
@@ -206,6 +211,9 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return (shouldLog && [super shouldLogChat:chat]);
 }
 
+/*!
+ * @brief Allow the chat to close unless we're quitting.
+ */
 - (BOOL)closeChat:(AIChat*)chat
 {
 	if(adium.isQuitting)
@@ -232,6 +240,9 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
+/*!
+ * @brief Re-create the chat's join options.
+ */
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
 {
 	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -252,12 +263,20 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 }
 
 #pragma mark NickServ
+/*!
+ * @brief Sends a raw command to identify for the nickname
+ */
 - (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
 {
 	[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];
 }
 
 #pragma mark Command sending
+/*!
+ * @brief We've connected
+ *
+ * Send the commands the user wants sent when we do so. Creates a fake conversation to pipe them through.
+ */
 - (void)didConnect
 {
 	[super didConnect];
@@ -290,6 +309,9 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	g_free(conv);
 }
 
+/*!
+ * @brief Send a raw command to the IRC server.
+ */
 - (void)sendRawCommand:(NSString *)command
 {
 	PurpleConnection *connection = purple_account_get_connection(account);

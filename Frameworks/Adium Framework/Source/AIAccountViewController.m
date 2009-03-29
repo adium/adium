@@ -264,11 +264,13 @@
  */
 - (void)saveConfiguration
 {
-	//UID - account 
-	NSString	*newUID = [textField_accountUID stringValue];
-	if (![account.UID isEqualToString:newUID] ||
-	   ![account.formattedUID isEqualToString:newUID]) {
-		[account filterAndSetUID:newUID];
+	//UID - account; only set if the account doesn't handle setting its own UID based on a combination of fields.
+	if (account.accountViewShouldSetUID) {
+		NSString	*newUID = [textField_accountUID stringValue];
+		if (![account.UID isEqualToString:newUID] ||
+		   ![account.formattedUID isEqualToString:newUID]) {
+			[account filterAndSetUID:newUID];
+		}
 	}
 
 	//Connect Host - save first in case the account uses the server name for password storage.
