@@ -194,7 +194,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 
 - (const char *)purpleAccountName
 {
-	return [[NSString stringWithFormat:@"%@@%@", self.UID, self.host] UTF8String];
+	return [[NSString stringWithFormat:@"%@@%@", self.formattedUID, self.host] UTF8String];
 }
 
 - (void)configurePurpleAccount
@@ -234,7 +234,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 		}
 	}
 	
-	return self.UID;
+	return self.formattedUID;
 }
 
 
