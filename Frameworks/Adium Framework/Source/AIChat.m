@@ -376,6 +376,38 @@ static int nextChatNumber = 0;
 									 forKey:contact.UID];
 }
 
+AIGroupChatFlags highestFlag(AIGroupChatFlags flags)
+{
+	if ((flags & AIGroupChatFounder) == AIGroupChatFounder)
+		return AIGroupChatFounder;
+	
+	if ((flags & AIGroupChatOp) == AIGroupChatOp)
+		return AIGroupChatOp;
+	
+	if ((flags & AIGroupChatHalfOp) == AIGroupChatHalfOp)
+		return AIGroupChatHalfOp;
+	
+	if ((flags & AIGroupChatVoice) == AIGroupChatVoice)
+		return AIGroupChatVoice;
+	
+	return AIGroupChatNone;
+}
+
+NSComparisonResult userListSort (id objectA, id objectB, void *context)
+{
+	AIChat *chat = (AIChat *)context;
+	
+	AIGroupChatFlags flagA = highestFlag([chat flagsForContact:objectA]), flagB = highestFlag([chat flagsForContact:objectB]);
+	
+	if(flagA > flagB) {
+		return NSOrderedAscending;
+	} else if (flagA < flagB) {
+		return NSOrderedDescending;
+	} else {
+		return [[chat displayNameForContact:objectA] compare:[chat displayNameForContact:objectB]];
+	}
+}
+
 /*!
  * @brief Resorts our participants
  *
@@ -383,7 +415,7 @@ static int nextChatNumber = 0;
  */
 - (void)resortParticipants
 {
-	[participatingContacts sortUsingActiveSortControllerInContainer:self];
+	[participatingContacts sortUsingFunction:userListSort context:self];
 }
 
 /*!
