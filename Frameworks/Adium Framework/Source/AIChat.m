@@ -404,7 +404,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	} else if (flagA < flagB) {
 		return NSOrderedDescending;
 	} else {
-		return [[chat displayNameForContact:objectA] compare:[chat displayNameForContact:objectB]];
+		return [[chat displayNameForContact:objectA] caseInsensitiveCompare:[chat displayNameForContact:objectB]];
 	}
 }
 
