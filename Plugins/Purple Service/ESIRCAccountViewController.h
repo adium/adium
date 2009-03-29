@@ -9,7 +9,6 @@
 
 @interface ESIRCAccountViewController : AIAccountViewController {
 	IBOutlet	NSButton	*checkbox_useSSL;
-	IBOutlet	NSTextField *textfield_Nick;
 	
 	IBOutlet	NSTextField	*textField_username;
 	IBOutlet	NSTextField *textField_realname;

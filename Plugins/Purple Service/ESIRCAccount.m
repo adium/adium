@@ -20,12 +20,6 @@
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
 @end
 
-/*
-void purple_account_set_username(void *account, const char *username);
-void purple_account_set_bool(void *account, const char *name,
-						   BOOL value);
-*/
-
 @interface ESIRCAccount()
 - (void)sendRawCommand:(NSString *)command;
 @end
@@ -33,126 +27,6 @@ void purple_account_set_bool(void *account, const char *name,
 static PurpleConversation *fakeConversation(PurpleAccount *account);
 
 @implementation ESIRCAccount
-
-- (const char *)protocolPlugin
-{
-	return "prpl-irc";
-}
-
-- (void)dealloc
-{
-	[super dealloc];
-}
-
-/*!
- * @brief Should the generic account view handle setting the UID?
- *
- * We split up and dice the UID too much for this.
- */
-- (BOOL)accountViewShouldSetUID
-{
-	return NO;
-}
-
-- (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
-{
-
-	NSString	*encodedString = nil;
-	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
-																   fromAccount:(AIAccount *)inContentMessage.source
-																	    inChat:inContentMessage.chat];
-	
-	NSRange meRange = [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch];
-
-	if (!didCommand || meRange.location == 0) {
-		if (meRange.location == 0) {
-			inContentMessage.sendContent = NO;
-		}
-		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
-		 * If we're sending a message normally, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
-		 */
-		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? inContentMessage.message : [inContentMessage.message attributedStringByConvertingLinksToStrings])
-										  headers:NO
-										 fontTags:YES
-							   includingColorTags:YES
-									closeFontTags:YES
-										styleTags:YES
-					   closeStyleTagsOnFontChange:YES
-								   encodeNonASCII:NO
-									 encodeSpaces:NO
-									   imagesPath:nil
-								attachmentsAsText:YES
-						onlyIncludeOutgoingImages:NO
-								   simpleTagsOnly:YES
-								   bodyBackground:NO
-							  allowJavascriptURLs:YES];
-	}
-	
-	if (!didCommand && [inContentMessage.message.string hasPrefix:@"/"]) {
-		// Try to send it to the server, if we don't know what it is; definitely don't display.
-		[self sendRawCommand:[inContentMessage.message.string substringFromIndex:1]];
-		return nil;
-	} else {
-		return encodedString;
-	}
-}
-
-- (NSString *)serverSuffix
-{
-	return @"irc.freenode.net";
-}
-
-- (const char *)purpleAccountName
-{
-	return [self.UID UTF8String];
-}
-
-- (void)configurePurpleAccount
-{
-	[super configurePurpleAccount];
-
-	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
-	
-	// Use SSL
-	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
-	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
-	
-	// Username (for connecting)
-	NSString *username = [self preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS];
-	if (username) {
-		purple_account_set_string(self.purpleAccount, "username", [username UTF8String]);
-	}
-	
-	// Realname (for connecting)
-	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS];
-	if (realname) {
-		purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
-	}
-}
-
-/*!
- * @brief Our display name; either retrieve our current nickname, or return our stored one.
- */
-- (NSString *)displayName
-{
-	// Try and get the purple display name, since it changes without telling us.
-	if (account) {
-		PurpleConnection	*purpleConnection = purple_account_get_connection(account);
-		
-		if (purpleConnection) {
-			return [NSString stringWithUTF8String:purple_connection_get_display_name(purpleConnection)];
-		}
-	}
-	
-	// Otherwise use our saved one.
-	NSString *dName = self.UID;
-	NSRange serversplit = [dName rangeOfString:@"@"];
-	
-	if(serversplit.location != NSNotFound)
-		return [dName substringToIndex:serversplit.location];
-	else
-		return dName;
-}
 
 /*!
  * @brief Our explicit formatted UID contains our hostname, so we can differentiate ourself.
@@ -166,61 +40,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	}
 }
 
-/*!
- * @brief Is this contact a server contact?
- */
-BOOL contactUIDIsServerContact(NSString *contactUID)
-{
-	return (([contactUID caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
-			([contactUID caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
-			([contactUID rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound));
-}
-
-/*!
- * @brief Can we send an offline message to this contact?
- *
- * We can only send offline messages to the server contacts, since such a message might cause us to connect
- */
-- (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact
-{
-	return contactUIDIsServerContact(inContact.UID);
-}
-
-/*!
- * @brief Don't autoreply to server contacts (services) or FreeNode's stupidity.
- */
-- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
-{
-	return !contactUIDIsServerContact(message.source.UID);
-}
-
-/*!
- * @brief Don't log server contacts (services) or FreeNode's stupidity.
- */
-- (BOOL)shouldLogChat:(AIChat *)chat
-{
-	NSString *source = chat.listObject.UID;
-	BOOL shouldLog = YES;
-	
-	if (source && (([source caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
-				   ([source caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
-				   ([source rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound))) {
-		shouldLog = NO;	
-	}
-
-	return (shouldLog && [super shouldLogChat:chat]);
-}
-
-/*!
- * @brief Allow the chat to close unless we're quitting.
- */
-- (BOOL)closeChat:(AIChat*)chat
-{
-	if(adium.isQuitting)
-		return NO;
-	else
-		return [super closeChat:chat];
-}
+#pragma mark IRC-ism overloads
 
 /*!
  * @brief We always want to autocomplete the UID.
@@ -240,38 +60,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
-/*!
- * @brief Re-create the chat's join options.
- */
-- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
-{
-	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	[dict setObject:[NSString stringWithUTF8String:purple_conversation_get_name(conv)] forKey:@"channel"];
-	const char *pass = purple_conversation_get_data(conv, "password");
-	if (pass)
-		[dict setObject: [NSString stringWithUTF8String:pass] forKey:@"password"];
-
-	return dict;
-}
-
-/*!
- * @brief Do group chats support topics?
- */
-- (BOOL)groupChatsSupportTopic
-{
-	return YES;
-}
-
-#pragma mark NickServ
-/*!
- * @brief Sends a raw command to identify for the nickname
- */
-- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
-{
-	[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];
-}
-
-#pragma mark Command sending
+#pragma mark Command handling
 /*!
  * @brief We've connected
  *
@@ -345,6 +134,190 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	conv->account = account;
 	
 	return conv;
+}
+
+- (NSString *)encodedAttributedStringForSendingContentMessage:(AIContentMessage *)inContentMessage
+{
+
+	NSString	*encodedString = nil;
+	BOOL		didCommand = [self.purpleAdapter attemptPurpleCommandOnMessage:inContentMessage.message.string
+																   fromAccount:(AIAccount *)inContentMessage.source
+																	    inChat:inContentMessage.chat];
+	
+	NSRange meRange = [inContentMessage.message.string rangeOfString:@"/me " options:NSCaseInsensitiveSearch];
+
+	if (!didCommand || meRange.location == 0) {
+		if (meRange.location == 0) {
+			inContentMessage.sendContent = NO;
+		}
+		/* If we're sending a message on an encryption chat (can this even happen on irc?), we can encode the HTML normally, as links will go through fine.
+		 * If we're sending a message normally, IRC will drop the title of any link, so we preprocess it to be in the form "title (link)"
+		 */
+		encodedString = [AIHTMLDecoder encodeHTML:(inContentMessage.chat.isSecure ? inContentMessage.message : [inContentMessage.message attributedStringByConvertingLinksToStrings])
+										  headers:NO
+										 fontTags:YES
+							   includingColorTags:YES
+									closeFontTags:YES
+										styleTags:YES
+					   closeStyleTagsOnFontChange:YES
+								   encodeNonASCII:NO
+									 encodeSpaces:NO
+									   imagesPath:nil
+								attachmentsAsText:YES
+						onlyIncludeOutgoingImages:NO
+								   simpleTagsOnly:YES
+								   bodyBackground:NO
+							  allowJavascriptURLs:YES];
+	}
+	
+	if (!didCommand && [inContentMessage.message.string hasPrefix:@"/"]) {
+		// Try to send it to the server, if we don't know what it is; definitely don't display.
+		[self sendRawCommand:[inContentMessage.message.string substringFromIndex:1]];
+		return nil;
+	} else {
+		return encodedString;
+	}
+}
+
+#pragma mark Libpurple
+- (const char *)protocolPlugin
+{
+	return "prpl-irc";
+}
+
+- (const char *)purpleAccountName
+{
+	return [[NSString stringWithFormat:@"%@@%@", self.UID, self.host] UTF8String];
+}
+
+- (void)configurePurpleAccount
+{
+	[super configurePurpleAccount];
+
+	purple_account_set_username(self.purpleAccount, self.purpleAccountName);
+	
+	// Use SSL
+	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
+	
+	// Username (for connecting)
+	NSString *username = [self preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS];
+	if (username) {
+		purple_account_set_string(self.purpleAccount, "username", [username UTF8String]);
+	}
+	
+	// Realname (for connecting)
+	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS];
+	if (realname) {
+		purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
+	}
+}
+
+/*!
+ * @brief Our display name; either retrieve our current nickname, or return our stored one.
+ */
+- (NSString *)displayName
+{
+	// Try and get the purple display name, since it changes without telling us.
+	if (account) {
+		PurpleConnection	*purpleConnection = purple_account_get_connection(account);
+		
+		if (purpleConnection) {
+			return [NSString stringWithUTF8String:purple_connection_get_display_name(purpleConnection)];
+		}
+	}
+	
+	return self.UID;
+}
+
+
+/*!
+ * @brief Re-create the chat's join options.
+ */
+- (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv
+{
+	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+	[dict setObject:[NSString stringWithUTF8String:purple_conversation_get_name(conv)] forKey:@"channel"];
+	const char *pass = purple_conversation_get_data(conv, "password");
+	if (pass)
+		[dict setObject: [NSString stringWithUTF8String:pass] forKey:@"password"];
+	
+	return dict;
+}
+
+#pragma mark Server contacts (NickServ, ChanServ)
+/*!
+ * @brief Sends a raw command to identify for the nickname
+ */
+- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
+{
+	[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];
+}
+
+/*!
+ * @brief Is this contact a server contact?
+ */
+BOOL contactUIDIsServerContact(NSString *contactUID)
+{
+	return (([contactUID caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
+			([contactUID caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
+			([contactUID rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound));
+}
+
+/*!
+ * @brief Can we send an offline message to this contact?
+ *
+ * We can only send offline messages to the server contacts, since such a message might cause us to connect
+ */
+- (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact
+{
+	return contactUIDIsServerContact(inContact.UID);
+}
+
+/*!
+ * @brief Don't autoreply to server contacts (services) or FreeNode's stupidity.
+ */
+- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
+{
+	return !contactUIDIsServerContact(message.source.UID);
+}
+
+/*!
+ * @brief Don't log server contacts (services) or FreeNode's stupidity.
+ */
+- (BOOL)shouldLogChat:(AIChat *)chat
+{
+	NSString *source = chat.listObject.UID;
+	BOOL shouldLog = YES;
+	
+	if (source && (([source caseInsensitiveCompare:@"nickserv"] == NSOrderedSame) ||
+				   ([source caseInsensitiveCompare:@"chanserv"] == NSOrderedSame) ||
+				   ([source rangeOfString:@"-connect" options:(NSBackwardsSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound))) {
+		shouldLog = NO;	
+	}
+
+	return (shouldLog && [super shouldLogChat:chat]);
+}
+
+#pragma mark Chat handling
+
+/*!
+ * @brief Allow the chat to close unless we're quitting.
+ */
+- (BOOL)closeChat:(AIChat*)chat
+{
+	if(adium.isQuitting)
+		return NO;
+	else
+		return [super closeChat:chat];
+}
+
+/*!
+ * @brief Do group chats support topics?
+ */
+- (BOOL)groupChatsSupportTopic
+{
+	return YES;
 }
 
 @end

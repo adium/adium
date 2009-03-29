@@ -206,17 +206,6 @@ typedef enum
 }
 
 /*!
- * @brief Should the generic account view handle setting the UID?
- *
- * IRC, for example, uses a very specialized way of getting around the unique-UID requirement. Because of this,
- * its UID will change even if no changes were made.
- */
-- (BOOL)accountViewShouldSetUID
-{
-	return YES;
-}
-
-/*!
  * @brief The UID will be changed. The account has a chance to perform modifications
  *
  * For example, MSN adds \@hotmail.com to the proposedUID and returns the new value
