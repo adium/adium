@@ -197,6 +197,16 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	return [[NSString stringWithFormat:@"%@@%@", self.formattedUID, self.host] UTF8String];
 }
 
+- (NSString *)defaultUsername
+{
+	return @"Adium";
+}
+
+- (NSString *)defaultRealname
+{
+	return AILocalizedString(@"Adium User", nil);
+}
+
 - (void)configurePurpleAccount
 {
 	[super configurePurpleAccount];
@@ -208,16 +218,12 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
 	
 	// Username (for connecting)
-	NSString *username = [self preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS];
-	if (username) {
-		purple_account_set_string(self.purpleAccount, "username", [username UTF8String]);
-	}
+	NSString *username = [self preferenceForKey:KEY_IRC_USERNAME group:GROUP_ACCOUNT_STATUS] ?: self.defaultUsername;
+	purple_account_set_string(self.purpleAccount, "username", [username UTF8String]);
 	
 	// Realname (for connecting)
-	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS];
-	if (realname) {
-		purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
-	}
+	NSString *realname = [self preferenceForKey:KEY_IRC_REALNAME group:GROUP_ACCOUNT_STATUS] ?: self.defaultRealname;
+	purple_account_set_string(self.purpleAccount, "realname", [realname UTF8String]);
 }
 
 /*!
