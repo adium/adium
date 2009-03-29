@@ -62,6 +62,8 @@ static int nextChatNumber = 0;
 		name = nil;
 		account = [inAccount retain];
 		participatingContacts = [[NSMutableArray alloc] init];
+		participatingContactsFlags = [[NSMutableDictionary alloc] init];
+		participatingContactsAliases = [[NSMutableDictionary alloc] init];
 		dateOpened = [[NSDate date] retain];
 		uniqueChatID = nil;
 		ignoredListContacts = nil;
@@ -294,6 +296,108 @@ static int nextChatNumber = 0;
 //Participating ListObjects --------------------------------------------------------------------------------------------
 #pragma mark Participating ListObjects
 
+/*!
+ * @brief The display name for the contact in this chat.
+ *
+ * @param contact The AIListObject whose display name should be created
+ *
+ * If the user has flags which give a prefix, the previx is given.
+ * If the user has an alias set, the alias is used, otherwise the display name.
+ *
+ * @returns Display name
+ */
+- (NSString *)displayNameForContact:(AIListObject *)contact
+{
+	NSString *alias = [self aliasForContact:contact];
+	NSString *flagDisplay = [self stringForFlags:[self flagsForContact:contact]];
+	
+	NSString *displayName = [NSString stringWithFormat:@"%@%@",
+							 flagDisplay,
+							 alias ?: contact.displayName];
+	
+	return displayName;
+}
+
+/*!
+ * @brief A string value for the given flags.
+ *
+ * @param flags The AIGroupChatFlags to evaluate; only the highest is returned.
+ *
+ * @returns . for founder, @ for ops, % for halfop, + for voice.
+ */
+- (NSString *)stringForFlags:(AIGroupChatFlags)flags
+{
+	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
+		return @".";
+	} else if ((flags & AIGroupChatOp) == AIGroupChatOp) {
+		return @"@";
+	} else if ((flags & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
+		return @"%";
+	} else if ((flags & AIGroupChatVoice) == AIGroupChatVoice) {
+		return @"+";
+	}
+	
+	return @"";
+}
+
+/*!
+ * @brief The flags for a given contact.
+ */
+- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact
+{
+	return [[participatingContactsFlags objectForKey:contact.UID] integerValue];
+}
+
+/*!
+ * @brief The alias for a given contact
+ */
+- (NSString *)aliasForContact:(AIListObject *)contact
+{
+	return [participatingContactsAliases objectForKey:contact.UID];	
+}
+
+/*!
+ * @brief Set the flags for a contact
+ *
+ * Note that this doesn't set the bitwise or; this directly sets the value passed.
+ */
+- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact
+{
+	[participatingContactsFlags setObject:[NSNumber numberWithInteger:flags]
+								   forKey:contact.UID];
+}
+
+/*!
+ * @brief Set the alias for a contact.
+ */
+- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact
+{
+	[participatingContactsAliases setObject:alias
+									 forKey:contact.UID];
+}
+
+/*!
+ * @brief Resorts our participants
+ *
+ * This is called when our list objects change.
+ */
+- (void)resortParticipants
+{
+	[participatingContacts sortUsingActiveSortControllerInContainer:self];
+}
+
+/*!
+ * @brief Remove the saved values for a contact
+ *
+ * Removes any values which are dependent upon the contact, such as
+ * its flags or alias.
+ */
+- (void)removeSavedValuesForContact:(AIListObject *)contact
+{
+	[participatingContactsFlags removeObjectForKey:contact.UID];
+	[participatingContactsAliases removeObjectForKey:contact.UID];
+}
+
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify
 {
 	[self addParticipatingListObjects:[NSArray arrayWithObject:inObject] notify:notify];
@@ -309,7 +413,6 @@ static int nextChatNumber = 0;
 	}
 	
 	[participatingContacts addObjectsFromArray:contacts];
-	[participatingContacts sortUsingActiveSortControllerInContainer:self];
 	[adium.chatController chat:self addedListContacts:contacts notify:notify];
 }
 
@@ -534,6 +637,8 @@ static int nextChatNumber = 0;
 		[inObject retain];
 		
 		[participatingContacts removeObject:inObject];
+		
+		[self removeSavedValuesForContact:inObject];
 
 		[adium.chatController chat:self removedListContact:contact];
 
@@ -559,6 +664,8 @@ static int nextChatNumber = 0;
 	}
 
 	[participatingContacts removeAllObjects];
+	[participatingContactsFlags removeAllObjects];
+	[participatingContactsAliases removeAllObjects];
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 											  object:self];

@@ -79,6 +79,8 @@
 		11077B6F0DE647C100A4DD25 /* AIStatusItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 11077B6E0DE647C100A4DD25 /* AIStatusItemView.m */; };
 		1109634C0F61C1D00064CA0E /* AITwitterReplyWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1109634B0F61C1D00064CA0E /* AITwitterReplyWindow.nib */; };
 		1109661A0F61D3E70064CA0E /* AITwitterReplyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */; };
+		111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112527730F5F9E63003FC58A /* AITwitterAccountView.nib */; };
@@ -1739,6 +1741,8 @@
 		1109634B0F61C1D00064CA0E /* AITwitterReplyWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AITwitterReplyWindow.nib; path = "Plugins/Twitter Plugin/AITwitterReplyWindow.nib"; sourceTree = "<group>"; };
 		110966180F61D3E70064CA0E /* AITwitterReplyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterReplyWindowController.h; path = "Plugins/Twitter Plugin/AITwitterReplyWindowController.h"; sourceTree = "<group>"; };
 		110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterReplyWindowController.m; path = "Plugins/Twitter Plugin/AITwitterReplyWindowController.m"; sourceTree = "<group>"; };
+		111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIListContactGroupChatCell.h; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.h"; sourceTree = "<group>"; };
+		111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIListContactGroupChatCell.m; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.m"; sourceTree = "<group>"; };
 		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
 		111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutomaticStatus.m; path = Source/AIAutomaticStatus.m; sourceTree = "<group>"; };
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
@@ -6874,6 +6878,8 @@
 		4BF98D5506D1485100E8781D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */,
+				111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */,
 				340F485106DA5E060072E2FA /* AIListCell.h */,
 				340F485006DA5E060072E2FA /* AIListCell.m */,
 				4BF98DA606D1492C00E8781D /* Contact */,
@@ -7851,6 +7857,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */,
 				1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */,
 				11FC23C20F768C1600C1C906 /* AIXMLElement.h in Headers */,
 				63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */,
@@ -9442,6 +9449,7 @@
 				636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */,
 				63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */,
 				114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */,
+				111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

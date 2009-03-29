@@ -77,7 +77,7 @@
 	[classes addObject:@"message"];
 	if(isAutoreply) [classes addObject:@"autoreply"];
 	if(self.chat.isGroupChat) {
-		AIGroupChatFlags flags = ((AIListContact *)self.source).groupChatFlags;
+		AIGroupChatFlags flags = [self.chat flagsForContact:(AIListContact *)self.source];
 		if (flags & AIGroupChatOp)
 			[classes addObject:@"op"];
 		if (flags & AIGroupChatHalfOp)

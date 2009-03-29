@@ -58,6 +58,7 @@ typedef enum {
 //Contact list access
 @property (readonly, nonatomic) AIContactList *contactList;
 - (AIListContact *)contactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
+- (void)setUID:(NSString *)UID forContact:(AIListContact *)contact;
 - (AIListObject *)existingListObjectWithUniqueID:(NSString *)uniqueID;
 - (AIListContact *)existingContactWithService:(AIService *)inService account:(AIAccount *)inAccount UID:(NSString *)inUID;
 - (AIListGroup *)groupWithUID:(NSString *)groupUID;

@@ -1095,8 +1095,8 @@
 		userListController = [[ESChatUserListController alloc] initWithContactListView:userListView
 																		  inScrollView:scrollView_userList 
 																			  delegate:self];
-		[userListController updateLayoutFromPrefDict:layoutDict andThemeFromPrefDict:themeDict];
 		[userListController setContactListRoot:chat];
+		[userListController updateLayoutFromPrefDict:layoutDict andThemeFromPrefDict:themeDict];
 		[userListController setHideRoot:YES];
 
 		//User's choice of mininum width for their user list view
@@ -1119,6 +1119,7 @@
 	AILogWithSignature(@"%i, so %@ %@",[self userListVisible], ([self userListVisible] ? @"reloading" : @"not reloading"),
 					   userListController);
     if ([self userListVisible]) {
+		[chat resortParticipants];
         [userListController reloadData];
     }
 }

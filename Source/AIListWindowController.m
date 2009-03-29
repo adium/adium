@@ -308,6 +308,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		switch (windowStyle) {
 			case AIContactListWindowStyleStandard:
 			case AIContactListWindowStyleBorderless:
+			case AIContactListWindowStyleGroupChat:
 				//Standard and borderless don't have to vertically autosize, but they might
 				autoResizeVertically = [[prefDict objectForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE] boolValue];
 				break;
@@ -1347,6 +1348,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	switch (style) {
 		case AIContactListWindowStyleStandard:
 		case AIContactListWindowStyleBorderless:
+		case AIContactListWindowStyleGroupChat:
 			return NSMakePoint(0,0);
 		case AIContactListWindowStyleGroupBubbles:
 		case AIContactListWindowStyleContactBubbles:

@@ -105,7 +105,10 @@ typedef enum {
 	NSString			*topic;
 	AIListContact		*topicSetter;
 	
+	NSMutableDictionary	*participatingContactsFlags;
+	NSMutableDictionary	*participatingContactsAliases;
 	NSMutableArray		*participatingContacts;
+	
 	AIListContact		*preferredContact;
 	NSString			*name;
 	NSString			*uniqueChatID;
@@ -138,10 +141,21 @@ typedef enum {
 
 - (void)setDisplayName:(NSString *)inDisplayName;
 
+- (NSString *)displayNameForContact:(AIListObject *)contact;
+- (NSString *)stringForFlags:(AIGroupChatFlags)flags;
+- (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
+- (NSString *)aliasForContact:(AIListObject *)contact;
+- (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
+- (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
+- (void)removeSavedValuesForContact:(AIListObject *)contact;
+
+- (void)resortParticipants;
+
 - (void)addParticipatingListObject:(AIListContact *)inObject notify:(BOOL)notify;
 - (void)addParticipatingListObjects:(NSArray *)inObjects notify:(BOOL)notify;
 - (void)removeAllParticipatingContactsSilently;
 - (void)removeObject:(AIListObject *)inObject;
+
 @property (readwrite, nonatomic, retain) AIListContact *listObject;
 @property (readwrite, nonatomic, assign) AIListContact *preferredListObject;
 - (BOOL)inviteListContact:(AIListContact *)inObject withMessage:(NSString *)inviteMessage;
