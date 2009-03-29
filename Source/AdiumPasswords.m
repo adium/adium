@@ -322,7 +322,7 @@
 	NSError *error = nil;
 	[[AIKeychain defaultKeychain_error:&error] setInternetPassword:inPassword
 														 forServer:[self _serverNameForAccount:inAccount]
-														   account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName]
+														   account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName.lowercaseString]
 														  protocol:FOUR_CHAR_CODE('AdIM')
 															 error:&error];
 	if (error) {
@@ -348,7 +348,7 @@
 	NSError		*error    = nil;
 	AIKeychain	*keychain = [AIKeychain defaultKeychain_error:&error];
 	NSString	*password = [keychain internetPasswordForServer:[self _serverNameForAccount:inAccount]
-														account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName]
+														account:[self _accountNameForSpecialPassword:inType account:inAccount name:inName.lowercaseString]
 													   protocol:FOUR_CHAR_CODE('AdIM')
 														  error:&error];
 	if (error) {
@@ -370,7 +370,7 @@
 
 - (void)passwordForType:(AISpecialPasswordType)inType forAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)inOption name:(NSString *)inName notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
-	NSString	*password = [self passwordForType:inType forAccount:inAccount name:inName];
+	NSString	*password = [self passwordForType:inType forAccount:inAccount name:inName.lowercaseString];
 	
 	if (inOption != AIPromptAlways && password && [password length] != 0) {
 		//Invoke the target right away
