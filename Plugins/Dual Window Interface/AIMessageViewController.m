@@ -970,8 +970,12 @@
 				[listContact.UID rangeOfString:partialWord
 										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
 
-				NSString *displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+				NSString *displayName = [self.chat aliasForContact:listContact];
 				
+				if (!displayName) {
+					displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+				}
+
 				[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
 			}
 		}
