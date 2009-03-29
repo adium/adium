@@ -737,11 +737,15 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat
 {
-	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:oldName inChat:chat]];
-
-	[chat removeSavedValuesForContact:contact];
+	[chat removeSavedValuesForContactUID:[self uidForContactWithUID:oldName inChat:chat]];
 	
-	[adium.contactController setUID:[self uidForContactWithUID:newName inChat:chat] forContact:contact];
+	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:oldName];
+	
+	if (contact) {
+		[adium.contactController setUID:[self uidForContactWithUID:newName inChat:chat] forContact:contact];
+	} else {
+		contact = [self contactWithUID:[self uidForContactWithUID:newName inChat:chat]];
+	}
 	
 	[chat setAlias:newAlias forContact:contact];
 	[chat setFlags:(AIGroupChatFlags)cb->flags forContact:contact];

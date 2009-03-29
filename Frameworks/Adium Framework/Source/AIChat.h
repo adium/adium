@@ -150,7 +150,7 @@ typedef enum {
 - (NSString *)aliasForContact:(AIListObject *)contact;
 - (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;
 - (void)setAlias:(NSString *)alias forContact:(AIListObject *)contact;
-- (void)removeSavedValuesForContact:(AIListObject *)contact;
+- (void)removeSavedValuesForContactUID:(NSString *)contactUID;
 
 - (void)resortParticipants;
 
