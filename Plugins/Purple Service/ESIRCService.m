@@ -72,11 +72,18 @@
 	return AIServiceSecondary;
 }
 /*!
-* @brief Placeholder string for the UID field
+ * @brief Placeholder string for the UID field
  */
 - (NSString *)UIDPlaceholder
 {
-	return AILocalizedString(@"username@irc.server.com","Sample name and server for new IRC accounts");
+	return AILocalizedString(@"nickname","Sample name and server for new IRC accounts");
+}
+/*!
+ * @brief Username label
+ */
+- (NSString *)userNameLabel
+{
+	return AILocalizedString(@"Nickname", "Name for IRC user names");
 }
 
 /*!
