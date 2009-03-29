@@ -423,7 +423,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  *
  * Removes any values which are dependent upon the contact, such as
  * its flags or alias.
- */
+*/
 - (void)removeSavedValuesForContactUID:(NSString *)contactUID
 {
 	[participatingContactsFlags removeObjectForKey:contactUID];
