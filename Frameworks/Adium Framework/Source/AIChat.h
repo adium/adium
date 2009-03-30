@@ -145,7 +145,6 @@ typedef enum {
 
 // Group chat participants.
 - (NSString *)displayNameForContact:(AIListObject *)contact;
-- (NSString *)stringForFlags:(AIGroupChatFlags)flags;
 - (AIGroupChatFlags)flagsForContact:(AIListObject *)contact;
 - (NSString *)aliasForContact:(AIListObject *)contact;
 - (void)setFlags:(AIGroupChatFlags)flags forContact:(AIListObject *)contact;

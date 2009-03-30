@@ -301,43 +301,13 @@ static int nextChatNumber = 0;
  *
  * @param contact The AIListObject whose display name should be created
  *
- * If the user has flags which give a prefix, the previx is given.
  * If the user has an alias set, the alias is used, otherwise the display name.
  *
  * @returns Display name
  */
 - (NSString *)displayNameForContact:(AIListObject *)contact
 {
-	NSString *alias = [self aliasForContact:contact];
-	NSString *flagDisplay = [self stringForFlags:[self flagsForContact:contact]];
-	
-	NSString *displayName = [NSString stringWithFormat:@"%@%@",
-							 flagDisplay,
-							 alias ?: contact.displayName];
-	
-	return displayName;
-}
-
-/*!
- * @brief A string value for the given flags.
- *
- * @param flags The AIGroupChatFlags to evaluate; only the highest is returned.
- *
- * @returns . for founder, @ for ops, % for halfop, + for voice.
- */
-- (NSString *)stringForFlags:(AIGroupChatFlags)flags
-{
-	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
-		return @".";
-	} else if ((flags & AIGroupChatOp) == AIGroupChatOp) {
-		return @"@";
-	} else if ((flags & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
-		return @"%";
-	} else if ((flags & AIGroupChatVoice) == AIGroupChatVoice) {
-		return @"+";
-	}
-	
-	return @"";
+	return [self aliasForContact:contact] ?: contact.displayName;
 }
 
 /*!
