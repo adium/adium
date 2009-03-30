@@ -91,7 +91,8 @@
 - (void)saveUserListMinimumSize;
 - (BOOL)userListInitiallyVisible;
 - (void)setUserListVisible:(BOOL)inVisible;
- -(void)setupShelfView;
+- (void)setupShelfView;
+- (void)updateUserCount;
 @end
 
 @implementation AIMessageViewController
@@ -1054,6 +1055,7 @@
 
 	//Configure the user list
 	[self _configureUserList];
+	[self updateUserCount];
 
 	//Add the user list back to our window if it's missing
 	if (![self userListVisible]) {
@@ -1130,16 +1132,21 @@
 		[chat resortParticipants];
         [userListController reloadData];
 		
-		NSString *userCount = nil;
-		
-		if (self.chat.containedObjects.count == 1) {
-			userCount = AILocalizedString(@"1 user", nil);
-		} else {
-			userCount = AILocalizedString(@"%u users", nil);
-		}
-		
-		[shelfView setResizeThumbStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
+		[self updateUserCount];
     }
+}
+
+- (void)updateUserCount
+{
+	NSString *userCount = nil;
+	
+	if (self.chat.containedObjects.count == 1) {
+		userCount = AILocalizedString(@"1 user", nil);
+	} else {
+		userCount = AILocalizedString(@"%u users", nil);
+	}
+	
+	[shelfView setResizeThumbStringValue:[NSString stringWithFormat:userCount, self.chat.containedObjects.count]];
 }
 
 /*!
