@@ -718,13 +718,15 @@ static void parseKeypath(NSString *keyPath, NSString **outGroup, NSString **outK
  * @param key The group name
  */
 - (void) setValue:(id)value forKey:(NSString *)key {
-	NSRange prefixRange = [key rangeOfString:@"Group:" options:NSLiteralSearch | NSAnchoredSearch];
 	NSString *group = nil;
 	NSString *internalObjectID = nil;
 
 	parseKeypath(key, &group, NULL, &internalObjectID);
 
-	[[self preferenceContainerForGroup:group object:internalObjectID] setPreferences:value];
+	[[self preferenceContainerForGroup:group
+								object:(internalObjectID ?
+										[adium.contactController existingListObjectWithUniqueID:internalObjectID] :
+										nil)] setPreferences:value];
 }
 
 /* 
