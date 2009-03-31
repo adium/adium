@@ -823,6 +823,20 @@
     [[textView_outgoing window] makeFirstResponder:textView_outgoing];
 }
 
+- (void)didSelect
+{
+	[self makeTextEntryViewFirstResponder];
+	
+	/* When we're selected, it's as if the user list controller is back in the window */
+	[userListController contactListWasAddedBackToWindow];
+}
+
+- (void)willDeselect
+{
+	/* When we're deselected (backgrounded), the user list controller is effectively out of the window */
+	[userListController contactListWillBeRemovedFromWindow];
+}
+
 /*!
  * @brief Returns the Text Entry View
  *

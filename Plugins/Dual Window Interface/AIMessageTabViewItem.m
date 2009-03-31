@@ -262,7 +262,12 @@
 - (void)tabViewItemWasSelected
 {
     //Ensure our entry view is first responder
-    [messageViewController makeTextEntryViewFirstResponder];
+    [messageViewController didSelect];
+}
+
+- (void)tabViewItemWillDeselect
+{
+	[messageViewController willDeselect];
 }
 
 //

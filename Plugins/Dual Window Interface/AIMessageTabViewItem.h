@@ -30,6 +30,7 @@
 - (void)makeActive:(id)sender;
 - (void)close:(id)sender;
 - (void)tabViewItemWasSelected;
+- (void)tabViewItemWillDeselect;
 - (void)tabViewDidChangeVisibility;
 
 @property (readonly, nonatomic) NSString *label;
