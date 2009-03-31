@@ -708,7 +708,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	if (!chat)
 		return;
 	
-	AIListContact *contact = [self contactWithUID:[self.service normalizeUID:[self uidForContactWithUID:contactName inChat:chat] removeIgnoredCharacters:YES]];
+	AIListContact *contact = [self contactWithUID:contactName];
 	[chat removeObject:contact];
 }
 
@@ -734,8 +734,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	// Create and add any users as appropriate.
 	for (GList *l = users; l; l = l->next) {
-		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name((PurpleConvChatBuddy *)l->data)];
-		AIListContact *chatContact = [self contactWithUID:[self.service normalizeUID:[self uidForContactWithUID:contactName inChat:chat] removeIgnoredCharacters:YES]];
+		const char *normalizedUID = purple_normalize(self.purpleAccount, purple_conv_chat_cb_get_name((PurpleConvChatBuddy *)l->data));		
+		AIListContact *chatContact = [self contactWithUID:[NSString stringWithUTF8String:normalizedUID]];
 		
 		[adds addObject:chatContact];
 	}
@@ -746,8 +746,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	for (GList *l = users; l; l = l->next) {
 		PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
 		
-		NSString *contactName = [NSString stringWithUTF8String: purple_conv_chat_cb_get_name(cb)];
-		AIListContact *chatContact = [self contactWithUID:[self.service normalizeUID:[self uidForContactWithUID:contactName inChat:chat] removeIgnoredCharacters:YES]];
+		const char *normalizedUID = purple_normalize(self.purpleAccount, purple_conv_chat_cb_get_name(cb));
+		AIListContact *chatContact = [self contactWithUID:[NSString stringWithUTF8String:normalizedUID]];
 		
 		[chat setFlags:(AIGroupChatFlags)cb->flags forContact:chatContact];
 		[chat setAlias:(cb->alias ? [NSString stringWithUTF8String:cb->alias] : @"") forContact:chatContact];
@@ -760,8 +760,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat
 {
-	NSString *oldUID = [self.service normalizeUID:[self uidForContactWithUID:oldName inChat:chat] removeIgnoredCharacters:YES];
-	NSString *newUID = [self.service normalizeUID:[self uidForContactWithUID:newName inChat:chat] removeIgnoredCharacters:YES];
+	NSString *oldUID = [self uidForContactWithUID:oldName inChat:chat];
+	NSString *newUID = [self uidForContactWithUID:newName inChat:chat];
 	
 	[chat removeSavedValuesForContactUID:oldUID];
 	
@@ -783,7 +783,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags
 {
-	AIListContact *contact = [self contactWithUID:[self.service normalizeUID:[self uidForContactWithUID:user inChat:chat] removeIgnoredCharacters:YES]];
+	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:user inChat:chat]];
 	
 	[chat setFlags:flags forContact:contact];
 	
