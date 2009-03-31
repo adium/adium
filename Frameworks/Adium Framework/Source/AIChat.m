@@ -644,7 +644,9 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 		[adium.chatController chat:self removedListContact:contact];
 
-		if (contact.isStranger && ![adium.chatController existingChatWithContact:contact.parentContact]) {
+		if (contact.isStranger &&
+			![adium.chatController existingGroupChatContainingContact:contact.parentContact] &&
+			![adium.chatController existingChatWithContact:contact.parentContact]) {
 			[adium.contactController accountDidStopTrackingContact:contact];
 		}
 		

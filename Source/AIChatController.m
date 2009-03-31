@@ -358,6 +358,34 @@
 }
 
 /*!
+ * @brief Return a pre-existing group chat containing a contact.
+ *
+ * @result The chat, or nil if no chat with the contact exists
+ */
+- (AIChat *)existingGroupChatContainingContact:(AIListContact *)inContact
+{
+	AIChat			*chat = nil;
+	
+	//Search for a chat containing this AIListContact
+	if ([inContact isKindOfClass:[AIMetaContact class]]) {
+		//Search for a chat with any contact within this AIMetaContact
+		for (chat in openChats) {
+			for (AIListContact *contact in (AIMetaContact *)inContact) {
+				if([chat containsObject:contact]) break;
+			}
+		}
+		
+	} else {
+		//Search for a chat with this AIListContact
+		for (chat in openChats) {
+			if ([chat containsObject:inContact]) break;
+		}
+	}
+	
+	return chat;
+}
+
+/*!
  * @brief Open a group chat
  *
  * @param inName The name of the chat; in general, the chat room name

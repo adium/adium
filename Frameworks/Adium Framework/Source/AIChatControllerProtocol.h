@@ -22,6 +22,7 @@
 - (AIChat *)openChatWithContact:(AIListContact *)inContact onPreferredAccount:(BOOL)onPreferredAccount;
 - (AIChat *)chatWithContact:(AIListContact *)inContact;
 - (AIChat *)existingChatWithContact:(AIListContact *)inContact;
+- (AIChat *)existingGroupChatContainingContact:(AIListContact *)inContact;
 - (AIChat *)existingChatWithUniqueChatID:(NSString *)uniqueChatID;
 - (AIChat *)chatWithName:(NSString *)inName 
 			  identifier:(id)identifier
