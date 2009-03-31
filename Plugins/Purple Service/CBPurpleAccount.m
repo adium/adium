@@ -708,7 +708,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	if (!chat)
 		return;
 	
-	AIListContact *contact = [self contactWithUID:contactName];
+	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
 	[chat removeObject:contact];
 }
 
