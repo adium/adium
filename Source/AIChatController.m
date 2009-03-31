@@ -370,6 +370,9 @@
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//Search for a chat with any contact within this AIMetaContact
 		for (chat in openChats) {
+			if (!chat.isGroupChat)
+				continue;
+			
 			for (AIListContact *contact in (AIMetaContact *)inContact) {
 				if([chat containsObject:contact]) break;
 			}
@@ -378,7 +381,7 @@
 	} else {
 		//Search for a chat with this AIListContact
 		for (chat in openChats) {
-			if ([chat containsObject:inContact]) break;
+			if (chat.isGroupChat && [chat containsObject:inContact]) break;
 		}
 	}
 	
