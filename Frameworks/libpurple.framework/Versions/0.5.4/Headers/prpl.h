@@ -178,9 +178,11 @@ typedef enum
 	OPT_PROTO_USE_POINTSIZE = 0x00000100,
 
 	/**
-	 * Set the Register button active when screenname is not given.
+	 * Set the Register button active even when the username has not
+	 * been specified.
 	 *
-	 * Gadu-Gadu doesn't need a screenname to register new account.
+	 * Gadu-Gadu doesn't need a username to register new account (because
+	 * usernames are assigned by the server).
 	 */
 	OPT_PROTO_REGISTER_NOSCREENNAME = 0x00000200,
 
@@ -211,7 +213,7 @@ struct _PurplePluginProtocolInfo
 
 	/**
 	 * Returns the base icon name for the given buddy and account.
-	 * If buddy is NULL and the account is non-NULL, it will return the 
+	 * If buddy is NULL and the account is non-NULL, it will return the
 	 * name to use for the account's icon. If both are NULL, it will
 	 * return the name to use for the protocol's icon.
 	 *
@@ -294,6 +296,14 @@ struct _PurplePluginProtocolInfo
 	void (*set_idle)(PurpleConnection *, int idletime);
 	void (*change_passwd)(PurpleConnection *, const char *old_pass,
 						  const char *new_pass);
+	/**
+	 * Add a buddy to a group on the server.
+	 *
+	 * This PRPL function may be called in situations in which the buddy is
+	 * already in the specified group. If the protocol supports
+	 * authorization and the user is not already authorized to see the
+	 * status of \a buddy, \a add_buddy should request authorization.
+	 */
 	void (*add_buddy)(PurpleConnection *, PurpleBuddy *buddy, PurpleGroup *group);
 	void (*add_buddies)(PurpleConnection *, GList *buddies, GList *groups);
 	void (*remove_buddy)(PurpleConnection *, PurpleBuddy *buddy, PurpleGroup *group);
@@ -413,7 +423,7 @@ struct _PurplePluginProtocolInfo
 	 * reasons.
 	 */
 	void (*unregister_user)(PurpleAccount *, PurpleAccountUnregistrationCb cb, void *user_data);
-	
+
 	/* Attention API for sending & receiving zaps/nudges/buzzes etc. */
 	gboolean (*send_attention)(PurpleConnection *gc, const char *username, guint type);
 	GList *(*get_attention_types)(PurpleAccount *acct);
@@ -594,7 +604,7 @@ const char *purple_attention_type_get_unlocalized_name(const PurpleAttentionType
 /*@{*/
 
 /**
- * Notifies Purple that an account's idle state and time have changed.
+ * Notifies Purple that our account's idle state and time have changed.
  *
  * This is meant to be called from protocol plugins.
  *
@@ -606,7 +616,7 @@ void purple_prpl_got_account_idle(PurpleAccount *account, gboolean idle,
 								time_t idle_time);
 
 /**
- * Notifies Purple of an account's log-in time.
+ * Notifies Purple of our account's log-in time.
  *
  * This is meant to be called from protocol plugins.
  *
@@ -616,7 +626,7 @@ void purple_prpl_got_account_idle(PurpleAccount *account, gboolean idle,
 void purple_prpl_got_account_login_time(PurpleAccount *account, time_t login_time);
 
 /**
- * Notifies Purple that an account's status has changed.
+ * Notifies Purple that our account's status has changed.
  *
  * This is meant to be called from protocol plugins.
  *
@@ -627,13 +637,14 @@ void purple_prpl_got_account_login_time(PurpleAccount *account, time_t login_tim
  */
 void purple_prpl_got_account_status(PurpleAccount *account,
 								  const char *status_id, ...) G_GNUC_NULL_TERMINATED;
+
 /**
- * Notifies Purple that a user's idle state and time have changed.
+ * Notifies Purple that a buddy's idle state and time have changed.
  *
  * This is meant to be called from protocol plugins.
  *
  * @param account   The account the user is on.
- * @param name      The screen name of the user.
+ * @param name      The name of the buddy.
  * @param idle      The user's idle state.
  * @param idle_time The user's idle time.  This is the time at
  *                  which the user became idle, in seconds since
@@ -644,24 +655,24 @@ void purple_prpl_got_user_idle(PurpleAccount *account, const char *name,
 							 gboolean idle, time_t idle_time);
 
 /**
- * Notifies Purple of a user's log-in time.
+ * Notifies Purple of a buddy's log-in time.
  *
  * This is meant to be called from protocol plugins.
  *
  * @param account    The account the user is on.
- * @param name       The screen name of the user.
+ * @param name       The name of the buddy.
  * @param login_time The user's log-in time.
  */
 void purple_prpl_got_user_login_time(PurpleAccount *account, const char *name,
 								   time_t login_time);
 
 /**
- * Notifies Purple that a user's status has been activated.
+ * Notifies Purple that a buddy's status has been activated.
  *
  * This is meant to be called from protocol plugins.
  *
  * @param account   The account the user is on.
- * @param name      The screen name of the user.
+ * @param name      The name of the buddy.
  * @param status_id The status ID.
  * @param ...       A NULL-terminated list of attribute IDs and values,
  *                  beginning with the value for @a attr_id.
@@ -670,19 +681,19 @@ void purple_prpl_got_user_status(PurpleAccount *account, const char *name,
 							   const char *status_id, ...) G_GNUC_NULL_TERMINATED;
 
 /**
- * Notifies libpurple that a user's status has been deactivated
+ * Notifies libpurple that a buddy's status has been deactivated
  *
  * This is meant to be called from protocol plugins.
  *
  * @param account   The account the user is on.
- * @param name      The screen name of the user.
+ * @param name      The name of the buddy.
  * @param status_id The status ID.
  */
 void purple_prpl_got_user_status_deactive(PurpleAccount *account, const char *name,
 					const char *status_id);
- 
+
 /**
- * Informs the server that an account's status changed.
+ * Informs the server that our account's status changed.
  *
  * @param account    The account the user is on.
  * @param old_status The previous status.
@@ -703,37 +714,43 @@ void purple_prpl_change_account_status(PurpleAccount *account,
  */
 GList *purple_prpl_get_statuses(PurpleAccount *account, PurplePresence *presence);
 
-/** Send an attention request message.
+/**
+ * Send an attention request message.
  *
  * @param gc The connection to send the message on.
  * @param who Whose attention to request.
  * @param type_code An index into the prpl's attention_types list determining the type
- * 	of the attention request command to send. 0 if prpl only defines one
- * 	(for example, Yahoo and MSN), but some protocols define more (MySpaceIM).
+ *        of the attention request command to send. 0 if prpl only defines one
+ *        (for example, Yahoo and MSN), but some protocols define more (MySpaceIM).
  *
  * Note that you can't send arbitrary PurpleAttentionType's, because there is
  * only a fixed set of attention commands.
+ *
  * @since 2.5.0
  */
 void purple_prpl_send_attention(PurpleConnection *gc, const char *who, guint type_code);
 
-/** Process an incoming attention message. 
+/**
+ * Process an incoming attention message.
  *
  * @param gc The connection that received the attention message.
  * @param who Who requested your attention.
  * @param type_code An index into the prpl's attention_types list determining the type
- * 	of the attention request command to send.
+ *        of the attention request command to send.
+ *
  * @since 2.5.0
  */
 void purple_prpl_got_attention(PurpleConnection *gc, const char *who, guint type_code);
 
-/** Process an incoming attention message in a chat. 
+/**
+ * Process an incoming attention message in a chat.
  *
  * @param gc The connection that received the attention message.
  * @param id The chat id.
  * @param who Who requested your attention.
  * @param type_code An index into the prpl's attention_types list determining the type
- * 	of the attention request command to send. 
+ *        of the attention request command to send.
+ *
  * @since 2.5.0
  */
 void purple_prpl_got_attention_in_chat(PurpleConnection *gc, int id, const char *who, guint type_code);

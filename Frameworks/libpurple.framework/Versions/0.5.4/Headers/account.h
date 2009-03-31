@@ -27,7 +27,6 @@
 #ifndef _PURPLE_ACCOUNT_H_
 #define _PURPLE_ACCOUNT_H_
 
-#include <glib-object.h>
 #include <glib.h>
 #include <glib-object.h>
 
@@ -43,6 +42,7 @@ typedef void (*PurpleAccountUnregistrationCb)(PurpleAccount *account, gboolean s
 
 #include "connection.h"
 #include "log.h"
+#include "privacy.h"
 #include "proxy.h"
 #include "prpl.h"
 #include "status.h"
@@ -142,7 +142,7 @@ struct _PurpleAccount
 	 */
 	GSList *permit;             /**< Permit list.                           */
 	GSList *deny;               /**< Deny list.                             */
-	int perm_deny;              /**< The permit/deny setting.               */
+	PurplePrivacyType perm_deny;  /**< The permit/deny setting.               */
 
 	GList *status_types;        /**< Status types.                          */
 
@@ -261,7 +261,7 @@ void purple_account_request_add(PurpleAccount *account, const char *remote_user,
  * Notifies the user that a remote user has wants to add the local user
  * to his or her buddy list and requires authorization to do so.
  *
- * This will present a dialog informing the user of this and ask if the 
+ * This will present a dialog informing the user of this and ask if the
  * user authorizes or denies the remote user from adding him.
  *
  * @param account      The account that was added

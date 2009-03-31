@@ -75,11 +75,36 @@ typedef enum
 
 } PurpleBlistNodeFlags;
 
+/**
+ * @since 2.6.0
+ */
+#define PURPLE_BLIST_NODE(obj) ((PurpleBlistNode *)(obj))
+
 #define PURPLE_BLIST_NODE_HAS_FLAG(b, f) (purple_blist_node_get_flags((PurpleBlistNode*)(b)) & (f))
 #define PURPLE_BLIST_NODE_SHOULD_SAVE(b) (! PURPLE_BLIST_NODE_HAS_FLAG(b, PURPLE_BLIST_NODE_FLAG_NO_SAVE))
 
 #define PURPLE_BLIST_NODE_NAME(n) (purple_blist_node_get_type(n) == PURPLE_BLIST_CHAT_NODE  ? purple_chat_get_name((PurpleChat*)n) :        \
 				     purple_blist_node_get_type(n) == PURPLE_BLIST_BUDDY_NODE ? purple_buddy_get_name((PurpleBuddy*)n) : NULL)
+
+/**
+ * @since 2.6.0
+ */
+#define PURPLE_GROUP(obj) ((PurpleGroup *)(obj))
+
+/**
+ * @since 2.6.0
+ */
+#define PURPLE_CONTACT(obj) ((PurpleContact *)(obj))
+
+/**
+ * @since 2.6.0
+ */
+#define PURPLE_BUDDY(obj) ((PurpleBuddy *)(obj))
+
+/**
+ * @since 2.6.0
+ */
+#define PURPLE_CHAT(obj) ((PurpleChat *)(obj))
 
 #include "account.h"
 #include "buddyicon.h"
@@ -111,7 +136,7 @@ struct _PurpleBlistNode {
  */
 struct _PurpleBuddy {
 	PurpleBlistNode node;                     /**< The node that this buddy inherits from */
-	char *name;                             /**< The screenname of the buddy. */
+	char *name;                             /**< The name of the buddy. */
 	char *alias;                            /**< The user-set alias of the buddy */
 	char *server_alias;                     /**< The server-specified alias of the buddy.  (i.e. MSN "Friendly Names") */
 	void *proto_data;                       /**< This allows the prpl to associate whatever data it wants with a buddy */
@@ -156,9 +181,6 @@ struct _PurpleChat {
 	PurpleAccount *account; /**< The account this chat is attached to */
 };
 
-#endif /* PURPLE_HIDE_STRUCTS && PURPLE_BLIST_STRUCTS */
-
-
 /**
  * The Buddy List
  */
@@ -167,6 +189,8 @@ struct _PurpleBuddyList {
 	GHashTable *buddies;          /**< Every buddy in this list */
 	void *ui_data;                /**< UI-specific data. */
 };
+
+#endif /* PURPLE_HIDE_STRUCTS && PURPLE_BLIST_STRUCTS */
 
 /**
  * Buddy list UI operations.
@@ -236,6 +260,33 @@ PurpleBuddyList *purple_get_blist(void);
 PurpleBlistNode *purple_blist_get_root(void);
 
 /**
+ * Returns the hash table of every buddy in the list.
+ *
+ * @return The hash table of every buddy in the list.
+ *
+ * @since 2.6.0
+ */
+GHashTable *purple_blist_get_buddies(void);
+
+/**
+ * Returns the UI data for the list.
+ *
+ * @return The UI data for the list.
+ *
+ * @since 2.6.0
+ */
+void *purple_blist_get_ui_data(void);
+
+/**
+ * Sets the UI data for the list.
+ *
+ * @param ui_data The UI data for the list.
+ *
+ * @since 2.6.0
+ */
+void purple_blist_set_ui_data(void *ui_data);
+
+/**
  * Returns the next node of a given node. This function is to be used to iterate
  * over the tree returned by purple_get_blist.
  *
@@ -302,6 +353,25 @@ PurpleBlistNode *purple_blist_node_get_sibling_next(PurpleBlistNode *node);
 PurpleBlistNode *purple_blist_node_get_sibling_prev(PurpleBlistNode *node);
 
 /**
+ * Returns the UI data of a given node.
+ *
+ * @param node The node.
+ * @return The UI data.
+ * @since 2.6.0
+ */
+void *purple_blist_node_get_ui_data(const PurpleBlistNode *node);
+
+/**
+ * Sets the UI data of a given node.
+ *
+ * @param node The node.
+ * @param ui_data The UI data.
+ *
+ * @since 2.6.0
+ */
+void purple_blist_node_set_ui_data(PurpleBlistNode *node, void *ui_data);
+
+/**
  * Shows the buddy list, creating a new one if necessary.
  */
 void purple_blist_show(void);
@@ -331,6 +401,7 @@ void purple_blist_update_buddy_status(PurpleBuddy *buddy, PurpleStatus *old_stat
  * Updates a node's custom icon.
  *
  * @param node  The PurpleBlistNode whose custom icon has changed.
+ *
  * @since 2.5.0
  */
 void purple_blist_update_node_icon(PurpleBlistNode *node);
@@ -423,11 +494,11 @@ void purple_blist_add_chat(PurpleChat *chat, PurpleGroup *group, PurpleBlistNode
  * Creates a new buddy
  *
  * @param account    The account this buddy will get added to
- * @param screenname The screenname of the new buddy
+ * @param name       The name of the new buddy
  * @param alias      The alias of the new buddy (or NULL if unaliased)
  * @return           A newly allocated buddy
  */
-PurpleBuddy *purple_buddy_new(PurpleAccount *account, const char *screenname, const char *alias);
+PurpleBuddy *purple_buddy_new(PurpleAccount *account, const char *name, const char *alias);
 
 /**
  * Sets a buddy's icon.
@@ -470,6 +541,32 @@ const char *purple_buddy_get_name(const PurpleBuddy *buddy);
 PurpleBuddyIcon *purple_buddy_get_icon(const PurpleBuddy *buddy);
 
 /**
+ * Returns a buddy's protocol-specific data.
+ *
+ * This should only be called from the associated prpl.
+ *
+ * @param buddy The buddy.
+ * @return      The protocol data.
+ *
+ * @see purple_buddy_set_protocol_data()
+ * @since 2.6.0
+ */
+gpointer purple_buddy_get_protocol_data(const PurpleBuddy *buddy);
+
+/**
+ * Sets a buddy's protocol-specific data.
+ *
+ * This should only be called from the associated prpl.
+ *
+ * @param buddy The buddy.
+ * @param data  The data.
+ *
+ * @see purple_buddy_get_protocol_data()
+ * @since 2.6.0
+ */
+void purple_buddy_set_protocol_data(PurpleBuddy *buddy, gpointer data);
+
+/**
  * Returns a buddy's contact.
  *
  * @param buddy The buddy.
@@ -498,7 +595,7 @@ PurplePresence *purple_buddy_get_presence(const PurpleBuddy *buddy);
  * @param contact The optional contact to place the buddy in.
  * @param group   The group to add the new buddy to.
  * @param node    The insertion point.  Pass in NULL to add the node as
- *                the last child in the given group.
+ *                the first child in the given group.
  */
 void purple_blist_add_buddy(PurpleBuddy *buddy, PurpleContact *contact, PurpleGroup *group, PurpleBlistNode *node);
 
@@ -659,15 +756,18 @@ const char *purple_buddy_get_server_alias(PurpleBuddy *buddy);
  */
 const char *purple_buddy_get_contact_alias(PurpleBuddy *buddy);
 
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_BLIST_C_)
 /**
  * Returns the correct alias for this user, ignoring server aliases.  Used
  * when a user-recognizable name is required.  In order: buddy's alias; buddy's
  * contact alias; buddy's user name.
- * 
+ *
  * @param buddy  The buddy whose alias will be returned.
  * @return       The appropriate name or alias.
+ * @deprecated   Try purple_buddy_get_alias(), if server aliases are okay.
  */
 const char *purple_buddy_get_local_alias(PurpleBuddy *buddy);
+#endif
 
 /**
  * Returns the correct name to display for a buddy. In order of precedence:
@@ -680,6 +780,16 @@ const char *purple_buddy_get_local_alias(PurpleBuddy *buddy);
 const char *purple_buddy_get_alias(PurpleBuddy *buddy);
 
 /**
+ * Returns the local alias for the buddy, or @c NULL if none exists.
+ *
+ * @param buddy  The buddy
+ * @return       The local alias for the buddy
+ *
+ * @since 2.6.0
+ */
+const char *purple_buddy_get_local_buddy_alias(PurpleBuddy *buddy);
+
+/**
  * Returns the correct name to display for a blist chat.
  *
  * @param chat   The chat whose name will be returned.
@@ -688,19 +798,19 @@ const char *purple_buddy_get_alias(PurpleBuddy *buddy);
 const char *purple_chat_get_name(PurpleChat *chat);
 
 /**
- * Finds the buddy struct given a screenname and an account
+ * Finds the buddy struct given a name and an account
  *
  * @param account The account this buddy belongs to
- * @param name    The buddy's screenname
+ * @param name    The buddy's name
  * @return        The buddy or NULL if the buddy does not exist
  */
 PurpleBuddy *purple_find_buddy(PurpleAccount *account, const char *name);
 
 /**
- * Finds the buddy struct given a screenname, an account, and a group
+ * Finds the buddy struct given a name, an account, and a group
  *
  * @param account The account this buddy belongs to
- * @param name    The buddy's screenname
+ * @param name    The buddy's name
  * @param group   The group to look in
  * @return        The buddy or NULL if the buddy does not exist in the group
  */
@@ -708,10 +818,10 @@ PurpleBuddy *purple_find_buddy_in_group(PurpleAccount *account, const char *name
 		PurpleGroup *group);
 
 /**
- * Finds all PurpleBuddy structs given a screenname and an account
+ * Finds all PurpleBuddy structs given a name and an account
  *
  * @param account The account this buddy belongs to
- * @param name    The buddy's screenname (or NULL to return all buddies in the account)
+ * @param name    The buddy's name (or NULL to return all buddies in the account)
  *
  * @return        A GSList of buddies (which must be freed), or NULL if the buddy doesn't exist
  */
@@ -751,6 +861,7 @@ PurpleGroup *purple_chat_get_group(PurpleChat *chat);
  * @param chat  The chat.
  *
  * @return  The account the chat belongs to.
+ *
  * @since 2.4.0
  */
 PurpleAccount *purple_chat_get_account(PurpleChat *chat);
@@ -761,6 +872,7 @@ PurpleAccount *purple_chat_get_account(PurpleChat *chat);
  * @param chat  The chat.
  *
  * @constreturn  The hashtable.
+ *
  * @since 2.4.0
  */
 GHashTable *purple_chat_get_components(PurpleChat *chat);
@@ -979,6 +1091,7 @@ PurpleBlistNodeFlags purple_blist_node_get_flags(PurpleBlistNode *node);
  * @param node The node.
  *
  * @return The type of the node.
+ *
  * @since 2.1.0
  */
 PurpleBlistNodeType purple_blist_node_get_type(PurpleBlistNode *node);

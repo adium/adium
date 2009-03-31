@@ -39,6 +39,7 @@ typedef enum
 
 #define PURPLE_SSL_DEFAULT_PORT 443
 
+/** @copydoc _PurpleSslConnection */
 typedef struct _PurpleSslConnection PurpleSslConnection;
 
 typedef void (*PurpleSslInputFunction)(gpointer, PurpleSslConnection *,
@@ -65,7 +66,7 @@ struct _PurpleSslConnection
 
 	/** File descriptor used to refer to the socket */
 	int fd;
-	/** Glib event source ID; used to refer to the received data callback 
+	/** Glib event source ID; used to refer to the received data callback
 	 * in the glib eventloop */
 	guint inpa;
 	/** Data related to the underlying TCP connection */
@@ -133,7 +134,7 @@ typedef struct
 	 *              list can be guaranteed.
 	 */
 	GList * (* get_peer_certificates)(PurpleSslConnection * gsc);
-	
+
 	void (*_purple_reserved2)(void);
 	void (*_purple_reserved3)(void);
 	void (*_purple_reserved4)(void);

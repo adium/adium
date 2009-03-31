@@ -186,6 +186,14 @@ const char *purple_proxy_info_get_password(const PurpleProxyInfo *info);
  */
 PurpleProxyInfo *purple_global_proxy_get_info(void);
 
+/**
+ * Set purple's global proxy information.
+ *
+ * @param info     The proxy information.
+ * @since 2.6.0
+ */
+void purple_global_proxy_set_info(PurpleProxyInfo *info);
+
 /*@}*/
 
 /**************************************************************************/

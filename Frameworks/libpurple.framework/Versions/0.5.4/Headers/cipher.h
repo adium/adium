@@ -422,7 +422,7 @@ PurpleCipherBatchMode purple_cipher_context_get_batch_mode(PurpleCipherContext *
 size_t purple_cipher_context_get_block_size(PurpleCipherContext *context);
 
 /**
- * Sets the key with a given length on a context 
+ * Sets the key with a given length on a context
  *
  * @param context The context whose key to set
  * @param key     The key

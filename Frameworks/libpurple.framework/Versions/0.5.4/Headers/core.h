@@ -90,17 +90,17 @@ void purple_core_quit(void);
 
 /**
  * <p>
- * Calls purple_core_quit().  This can be used as the function 
- * passed to purple_timeout_add() when you want to shutdown Purple 
- * in a specified amount of time.  When shutting down Purple 
+ * Calls purple_core_quit().  This can be used as the function
+ * passed to purple_timeout_add() when you want to shutdown Purple
+ * in a specified amount of time.  When shutting down Purple
  * from a plugin, you must use this instead of purple_core_quit();
- * for an immediate exit, use a timeout value of 0: 
+ * for an immediate exit, use a timeout value of 0:
  * </p>
  *
  * <code>purple_timeout_add(0, purple_core_quitcb, NULL);</code>
  *
  * <p>
- * This is ensures that code from your plugin is not being 
+ * This is ensures that code from your plugin is not being
  * executed when purple_core_quit() is called.  If the plugin
  * called purple_core_quit() directly, you would get a core dump
  * after purple_core_quit() executes and control returns to your

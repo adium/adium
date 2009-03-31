@@ -397,27 +397,17 @@
 
 #define MSN_MEMBER_PASSPORT_XML	\
 	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"%s\">"\
-		"<Type>Passport</Type>"\
+		"<Type>%s</Type>"\
 		"<State>Accepted</State>"\
-		"<PassportName>%s</PassportName>"\
-		"%s"\
+		"<%s>%s</%s>"\
 	"</Member>"
 
 #define MSN_MEMBER_MEMBERSHIPID_XML	\
 	"<Member xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"%s\">"\
-		"<Type>Passport</Type>"\
+		"<Type>%s</Type>"\
 		"<MembershipId>%u</MembershipId>"\
 		"<State>Accepted</State>"\
-		"%s"\
 	"</Member>"
-
-#define MSN_MEMBER_FEDERATED_ANNOTATION_XML \
-	"<Annotations>"\
-		"<Annotation>"\
-			"<Name>MSN.IM.BuddyType</Name>"\
-			"<Value>%02d:</Value>"\
-		"</Annotation>"\
-	"</Annotations>"
 
 /* first delete contact from allow list */
 

@@ -95,7 +95,7 @@ void msn_userlist_add_buddy(MsnUserList *userlist,
 void msn_userlist_save_pending_buddy(MsnUserList *userlist,
                                      const char *who,
                                      const char *group_name);
-void msn_userlist_add_pending_buddy(MsnUserList *userlist,
+void msn_userlist_add_pending_buddy(MsnSession *session,
                                     const char *who,
                                     /*MsnNetwork*/ int network);
 void msn_userlist_move_buddy(MsnUserList *userlist, const char *who,

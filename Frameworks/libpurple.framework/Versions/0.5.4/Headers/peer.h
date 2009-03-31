@@ -83,7 +83,7 @@ struct _OdcFrame
 	/* Unknown */
 	guint16 flags;                /* 38 */
 	/* Unknown */
-	guchar sn[32];                /* 44 */
+	guchar bn[32];                /* 44 */
 	/* Unknown */
 	ByteStream payload;           /* 76 */
 };
@@ -137,7 +137,7 @@ struct _PeerConnection
 {
 	OscarData *od;
 	OscarCapability type;
-	char *sn;
+	char *bn;
 	guchar magic[4];
 	guchar cookie[8];
 	guint16 lastrequestnumber;
@@ -228,12 +228,12 @@ struct _PeerConnection
  * @param type The type of the peer connection.  One of
  *        OSCAR_CAPABILITY_DIRECTIM or OSCAR_CAPABILITY_SENDFILE.
  */
-PeerConnection *peer_connection_new(OscarData *od, OscarCapability type, const char *sn);
+PeerConnection *peer_connection_new(OscarData *od, OscarCapability type, const char *bn);
 
 void peer_connection_destroy(PeerConnection *conn, OscarDisconnectReason reason, const gchar *error_message);
 void peer_connection_schedule_destroy(PeerConnection *conn, OscarDisconnectReason reason, const gchar *error_message);
-PeerConnection *peer_connection_find_by_type(OscarData *od, const char *sn, OscarCapability type);
-PeerConnection *peer_connection_find_by_cookie(OscarData *od, const char *sn, const guchar *cookie);
+PeerConnection *peer_connection_find_by_type(OscarData *od, const char *bn, OscarCapability type);
+PeerConnection *peer_connection_find_by_cookie(OscarData *od, const char *bn, const guchar *cookie);
 
 void peer_connection_listen_cb(gpointer data, gint source, PurpleInputCondition cond);
 void peer_connection_recv_cb(gpointer data, gint source, PurpleInputCondition cond);
@@ -241,8 +241,8 @@ void peer_connection_send(PeerConnection *conn, ByteStream *bs);
 
 void peer_connection_trynext(PeerConnection *conn);
 void peer_connection_finalize_connection(PeerConnection *conn);
-void peer_connection_propose(OscarData *od, OscarCapability type, const char *sn);
-void peer_connection_got_proposition(OscarData *od, const gchar *sn, const gchar *message, IcbmArgsCh2 *args);
+void peer_connection_propose(OscarData *od, OscarCapability type, const char *bn);
+void peer_connection_got_proposition(OscarData *od, const gchar *bn, const gchar *message, IcbmArgsCh2 *args);
 
 /*
  * For ODC

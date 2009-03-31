@@ -75,7 +75,7 @@ extern "C" {
 #define FAIM_SNAC_HASH_SIZE 16
 
 /*
- * Current Maximum Length for Screen Names (not including NULL)
+ * Current Maximum Length for usernames (not including NULL)
  *
  * Currently only names up to 16 characters can be registered
  * however it is apparently legal for them to be larger.
@@ -479,7 +479,7 @@ struct _OscarData
 	gboolean setemail;
 	char *email;
 	gboolean setnick;
-	char *newsn;
+	char *newformatting;
 	gboolean chpass;
 	char *oldp;
 	char *newp;
@@ -582,7 +582,7 @@ struct aim_clientrelease
 
 struct aim_authresp_info
 {
-	char *sn;
+	char *bn;
 	guint16 errorcode;
 	char *errorurl;
 	guint16 regstatus;
@@ -611,8 +611,8 @@ struct aim_redirect_data
 	} chat;
 };
 
-int aim_request_login(OscarData *od, FlapConnection *conn, const char *sn);
-int aim_send_login(OscarData *od, FlapConnection *conn, const char *sn, const char *password, gboolean truncate_pass, ClientInfo *ci, const char *key, gboolean allow_multiple_logins);
+int aim_request_login(OscarData *od, FlapConnection *conn, const char *bn);
+int aim_send_login(OscarData *od, FlapConnection *conn, const char *bn, const char *password, gboolean truncate_pass, ClientInfo *ci, const char *key, gboolean allow_multiple_logins);
 /* 0x000b */ int aim_auth_securid_send(OscarData *od, const char *securid);
 
 void oscar_data_addhandler(OscarData *od, guint16 family, guint16 subtype, aim_rxcallback_t newhandler, guint16 flags);
@@ -665,7 +665,7 @@ void oscar_data_destroy(OscarData *);
 /* 0x0014 */ void aim_srv_setprivacyflags(OscarData *od, FlapConnection *conn, guint32);
 /* 0x0016 */ void aim_srv_nop(OscarData *od, FlapConnection *conn);
 /* 0x0017 */ void aim_srv_setversions(OscarData *od, FlapConnection *conn);
-/* 0x001e */ int aim_srv_setextrainfo(OscarData *od, gboolean seticqstatus, guint32 icqstatus, gboolean setavailmsg, const char *availmsg, const char *itmsurl);
+/* 0x001e */ int aim_srv_setextrainfo(OscarData *od, gboolean seticqstatus, guint32 icqstatus, gboolean setstatusmsg, const char *statusmsg, const char *itmsurl);
 
 
 void aim_bos_reqrights(OscarData *od, FlapConnection *conn);
@@ -811,7 +811,7 @@ struct aim_sendimext_args
 {
 
 	/* These are _required_ */
-	const char *destsn;
+	const char *destbn;
 	guint32 flags; /* often 0 */
 
 	/* Only required if not using multipart messages */
@@ -840,7 +840,7 @@ struct aim_sendimext_args
  */
 struct aim_sendrtfmsg_args
 {
-	const char *destsn;
+	const char *destbn;
 	guint32 fgcolor;
 	guint32 bgcolor;
 	const char *rtfmsg; /* must be in RTF */
@@ -954,28 +954,28 @@ struct aim_incomingim_ch4_args
 /* 0x0002 */ int aim_im_setparams(OscarData *od, struct aim_icbmparameters *params);
 /* 0x0004 */ int aim_im_reqparams(OscarData *od);
 /* 0x0006 */ int aim_im_sendch1_ext(OscarData *od, struct aim_sendimext_args *args);
-/* 0x0006 */ int aim_im_sendch1(OscarData *, const char *destsn, guint16 flags, const char *msg);
-/* 0x0006 */ int aim_im_sendch2_chatinvite(OscarData *od, const char *sn, const char *msg, guint16 exchange, const char *roomname, guint16 instance);
-/* 0x0006 */ int aim_im_sendch2_icon(OscarData *od, const char *sn, const guint8 *icon, int iconlen, time_t stamp, guint16 iconsum);
+/* 0x0006 */ int aim_im_sendch1(OscarData *, const char *destbn, guint16 flags, const char *msg);
+/* 0x0006 */ int aim_im_sendch2_chatinvite(OscarData *od, const char *bn, const char *msg, guint16 exchange, const char *roomname, guint16 instance);
+/* 0x0006 */ int aim_im_sendch2_icon(OscarData *od, const char *bn, const guint8 *icon, int iconlen, time_t stamp, guint16 iconsum);
 /* 0x0006 */ int aim_im_sendch2_rtfmsg(OscarData *od, struct aim_sendrtfmsg_args *args);
 
 /* 0x0006 */ void aim_im_sendch2_cancel(PeerConnection *peer_conn);
 /* 0x0006 */ void aim_im_sendch2_connected(PeerConnection *peer_conn);
-/* 0x0006 */ void aim_im_sendch2_odc_requestdirect(OscarData *od, guchar *cookie, const char *sn, const guint8 *ip, guint16 port, guint16 requestnumber);
-/* 0x0006 */ void aim_im_sendch2_odc_requestproxy(OscarData *od, guchar *cookie, const char *sn, const guint8 *ip, guint16 pin, guint16 requestnumber);
-/* 0x0006 */ void aim_im_sendch2_sendfile_requestdirect(OscarData *od, guchar *cookie, const char *sn, const guint8 *ip, guint16 port, guint16 requestnumber, const gchar *filename, guint32 size, guint16 numfiles);
-/* 0x0006 */ void aim_im_sendch2_sendfile_requestproxy(OscarData *od, guchar *cookie, const char *sn, const guint8 *ip, guint16 pin, guint16 requestnumber, const gchar *filename, guint32 size, guint16 numfiles);
+/* 0x0006 */ void aim_im_sendch2_odc_requestdirect(OscarData *od, guchar *cookie, const char *bn, const guint8 *ip, guint16 port, guint16 requestnumber);
+/* 0x0006 */ void aim_im_sendch2_odc_requestproxy(OscarData *od, guchar *cookie, const char *bn, const guint8 *ip, guint16 pin, guint16 requestnumber);
+/* 0x0006 */ void aim_im_sendch2_sendfile_requestdirect(OscarData *od, guchar *cookie, const char *bn, const guint8 *ip, guint16 port, guint16 requestnumber, const gchar *filename, guint32 size, guint16 numfiles);
+/* 0x0006 */ void aim_im_sendch2_sendfile_requestproxy(OscarData *od, guchar *cookie, const char *bn, const guint8 *ip, guint16 pin, guint16 requestnumber, const gchar *filename, guint32 size, guint16 numfiles);
 
-/* 0x0006 */ int aim_im_sendch2_geticqaway(OscarData *od, const char *sn, int type);
-/* 0x0006 */ int aim_im_sendch4(OscarData *od, const char *sn, guint16 type, const char *message);
-/* 0x0008 */ int aim_im_warn(OscarData *od, FlapConnection *conn, const char *destsn, guint32 flags);
-/* 0x000b */ int aim_im_denytransfer(OscarData *od, const char *sn, const guchar *cookie, guint16 code);
+/* 0x0006 */ int aim_im_sendch2_geticqaway(OscarData *od, const char *bn, int type);
+/* 0x0006 */ int aim_im_sendch4(OscarData *od, const char *bn, guint16 type, const char *message);
+/* 0x0008 */ int aim_im_warn(OscarData *od, FlapConnection *conn, const char *destbn, guint32 flags);
+/* 0x000b */ int aim_im_denytransfer(OscarData *od, const char *bn, const guchar *cookie, guint16 code);
 /* 0x0010 */ int aim_im_reqofflinemsgs(OscarData *od);
-/* 0x0014 */ int aim_im_sendmtn(OscarData *od, guint16 type1, const char *sn, guint16 type2);
+/* 0x0014 */ int aim_im_sendmtn(OscarData *od, guint16 type1, const char *bn, guint16 type2);
 void aim_icbm_makecookie(guchar* cookie);
 gchar *oscar_encoding_extract(const char *encoding);
 gchar *oscar_encoding_to_utf8(PurpleAccount *account, const char *encoding, const char *text, int textlen);
-gchar *purple_plugin_oscar_decode_im_part(PurpleAccount *account, const char *sourcesn, guint16 charset, guint16 charsubset, const gchar *data, gsize datalen);
+gchar *purple_plugin_oscar_decode_im_part(PurpleAccount *account, const char *sourcebn, guint16 charset, guint16 charsubset, const gchar *data, gsize datalen);
 
 
 /* 0x0002 - family_locate.c */
@@ -1010,13 +1010,13 @@ gchar *purple_plugin_oscar_decode_im_part(PurpleAccount *account, const char *so
 
 struct userinfo_node
 {
-	char *sn;
+	char *bn;
 	struct userinfo_node *next;
 };
 
 typedef struct aim_userinfo_s
 {
-	char *sn;
+	char *bn;
 	guint16 warnlevel; /* evil percent * 10 (999 = 99.9%) */
 	guint16 idletime; /* in seconds */
 	guint16 flags;
@@ -1062,7 +1062,7 @@ int aim_sendmemblock(OscarData *od, FlapConnection *conn, guint32 offset, guint3
 
 struct aim_invite_priv
 {
-	char *sn;
+	char *bn;
 	char *roomname;
 	guint16 exchange;
 	guint16 instance;
@@ -1085,7 +1085,7 @@ struct aim_invite_priv
 #define AIM_COOKIETYPE_OFTIMAGE 0x14
 #define AIM_COOKIETYPE_OFTICON  0x15
 
-aim_userinfo_t *aim_locate_finduserinfo(OscarData *od, const char *sn);
+aim_userinfo_t *aim_locate_finduserinfo(OscarData *od, const char *bn);
 void aim_locate_dorequest(OscarData *od);
 
 /* 0x0002 */ int aim_locate_reqrights(OscarData *od);
@@ -1093,11 +1093,11 @@ void aim_locate_dorequest(OscarData *od);
 /* 0x0004 */ int aim_locate_setprofile(OscarData *od, const char *profile_encoding, const gchar *profile, const int profile_len, const char *awaymsg_encoding, const gchar *awaymsg, const int awaymsg_len);
 /* 0x0005 */ int aim_locate_getinfo(OscarData *od, const char *, guint16);
 /* 0x0009 */ int aim_locate_setdirinfo(OscarData *od, const char *first, const char *middle, const char *last, const char *maiden, const char *nickname, const char *street, const char *city, const char *state, const char *zip, int country, guint16 privacy);
-/* 0x000b */ int aim_locate_000b(OscarData *od, const char *sn);
+/* 0x000b */ int aim_locate_000b(OscarData *od, const char *bn);
 /* 0x000f */ int aim_locate_setinterests(OscarData *od, const char *interest1, const char *interest2, const char *interest3, const char *interest4, const char *interest5, guint16 privacy);
-/* 0x0015 */ int aim_locate_getinfoshort(OscarData *od, const char *sn, guint32 flags);
+/* 0x0015 */ int aim_locate_getinfoshort(OscarData *od, const char *bn, guint32 flags);
 
-void aim_locate_autofetch_away_message(OscarData *od, const char *sn);
+void aim_locate_autofetch_away_message(OscarData *od, const char *bn);
 guint32 aim_locate_getcaps(OscarData *od, ByteStream *bs, int len);
 guint32 aim_locate_getcaps_short(OscarData *od, ByteStream *bs, int len);
 void aim_info_free(aim_userinfo_t *);
@@ -1164,7 +1164,7 @@ struct aim_odir
 	char *country;
 	char *state;
 	char *city;
-	char *sn;
+	char *bn;
 	char *interest;
 	char *nick;
 	char *zip;
@@ -1181,7 +1181,7 @@ int aim_odir_interest(OscarData *, const char *, const char *);
 
 /* 0x0010 - family_bart.c */
 int aim_bart_upload(OscarData *od, const guint8 *icon, guint16 iconlen);
-int aim_bart_request(OscarData *od, const char *sn, guint8 iconcsumtype, const guint8 *iconstr, guint16 iconstrlen);
+int aim_bart_request(OscarData *od, const char *bn, guint8 iconcsumtype, const guint8 *iconstr, guint16 iconstrlen);
 
 
 
@@ -1231,20 +1231,20 @@ struct aim_ssi_tmp
 /* 0x0007 */ int aim_ssi_enable(OscarData *od);
 /* 0x0011 */ int aim_ssi_modbegin(OscarData *od);
 /* 0x0012 */ int aim_ssi_modend(OscarData *od);
-/* 0x0014 */ int aim_ssi_sendauth(OscarData *od, char *sn, char *msg);
-/* 0x0018 */ int aim_ssi_sendauthrequest(OscarData *od, char *sn, const char *msg);
-/* 0x001a */ int aim_ssi_sendauthreply(OscarData *od, char *sn, guint8 reply, const char *msg);
+/* 0x0014 */ int aim_ssi_sendauth(OscarData *od, char *bn, char *msg);
+/* 0x0018 */ int aim_ssi_sendauthrequest(OscarData *od, char *bn, const char *msg);
+/* 0x001a */ int aim_ssi_sendauthreply(OscarData *od, char *bn, guint8 reply, const char *msg);
 
 /* Client functions for retrieving SSI data */
 struct aim_ssi_item *aim_ssi_itemlist_find(struct aim_ssi_item *list, guint16 gid, guint16 bid);
-struct aim_ssi_item *aim_ssi_itemlist_finditem(struct aim_ssi_item *list, const char *gn, const char *sn, guint16 type);
-struct aim_ssi_item *aim_ssi_itemlist_exists(struct aim_ssi_item *list, const char *sn);
-char *aim_ssi_itemlist_findparentname(struct aim_ssi_item *list, const char *sn);
+struct aim_ssi_item *aim_ssi_itemlist_finditem(struct aim_ssi_item *list, const char *gn, const char *bn, guint16 type);
+struct aim_ssi_item *aim_ssi_itemlist_exists(struct aim_ssi_item *list, const char *bn);
+char *aim_ssi_itemlist_findparentname(struct aim_ssi_item *list, const char *bn);
 int aim_ssi_getpermdeny(struct aim_ssi_item *list);
 guint32 aim_ssi_getpresence(struct aim_ssi_item *list);
-char *aim_ssi_getalias(struct aim_ssi_item *list, const char *gn, const char *sn);
-char *aim_ssi_getcomment(struct aim_ssi_item *list, const char *gn, const char *sn);
-gboolean aim_ssi_waitingforauth(struct aim_ssi_item *list, const char *gn, const char *sn);
+char *aim_ssi_getalias(struct aim_ssi_item *list, const char *gn, const char *bn);
+char *aim_ssi_getcomment(struct aim_ssi_item *list, const char *gn, const char *bn);
+gboolean aim_ssi_waitingforauth(struct aim_ssi_item *list, const char *gn, const char *bn);
 
 /* Client functions for changing SSI data */
 int aim_ssi_addbuddy(OscarData *od, const char *name, const char *group, GSList *tlvlist, const char *alias, const char *comment, const char *smsnum, gboolean needauth);
@@ -1254,9 +1254,9 @@ int aim_ssi_delbuddy(OscarData *od, const char *name, const char *group);
 int aim_ssi_delgroup(OscarData *od, const char *group);
 int aim_ssi_delpermit(OscarData *od, const char *name);
 int aim_ssi_deldeny(OscarData *od, const char *name);
-int aim_ssi_movebuddy(OscarData *od, const char *oldgn, const char *newgn, const char *sn);
-int aim_ssi_aliasbuddy(OscarData *od, const char *gn, const char *sn, const char *alias);
-int aim_ssi_editcomment(OscarData *od, const char *gn, const char *sn, const char *alias);
+int aim_ssi_movebuddy(OscarData *od, const char *oldgn, const char *newgn, const char *bn);
+int aim_ssi_aliasbuddy(OscarData *od, const char *gn, const char *bn, const char *alias);
+int aim_ssi_editcomment(OscarData *od, const char *gn, const char *bn, const char *alias);
 int aim_ssi_rename_group(OscarData *od, const char *oldgn, const char *newgn);
 int aim_ssi_cleanlist(OscarData *od);
 int aim_ssi_deletelist(OscarData *od);
@@ -1501,11 +1501,10 @@ int aimutil_tokslen(char *toSearch, int theindex, char dl);
 int aimutil_itemcnt(char *toSearch, char dl);
 char *aimutil_itemindex(char *toSearch, int theindex, char dl);
 
-gboolean aim_snvalid(const char *sn);
-gboolean aim_snvalid_icq(const char *sn);
-gboolean aim_snvalid_sms(const char *sn);
-int aim_snlen(const char *sn);
-int aim_sncmp(const char *sn1, const char *sn2);
+gboolean oscar_util_valid_name(const char *bn);
+gboolean oscar_util_valid_name_icq(const char *bn);
+gboolean oscar_util_valid_name_sms(const char *bn);
+int oscar_util_name_compare(const char *bn1, const char *bn2);
 
 
 
@@ -1594,6 +1593,18 @@ int byte_stream_putstr(ByteStream *bs, const char *str);
 int byte_stream_putbs(ByteStream *bs, ByteStream *srcbs, int len);
 int byte_stream_putuid(ByteStream *bs, OscarData *od);
 int byte_stream_putcaps(ByteStream *bs, guint32 caps);
+
+/**
+ * Inserts a BART asset block into the given byte stream.  The flags
+ * and length are set appropriately based on the value of data.
+ */
+void byte_stream_put_bart_asset(ByteStream *bs, guint16 type, ByteStream *data);
+
+/**
+ * A helper function that calls byte_stream_put_bart_asset with the
+ * appropriate data ByteStream given the datastr.
+ */
+void byte_stream_put_bart_asset_str(ByteStream *bs, guint16 type, const char *datastr);
 
 /*
  * Generic SNAC structure.  Rarely if ever used.

@@ -98,15 +98,18 @@ enum yahoo_service { /* these are easier to see in hex */
 	YAHOO_SERVICE_AVATAR_UPDATE = 0xc7,
 	YAHOO_SERVICE_VERIFY_ID_EXISTS = 0xc8,
 	YAHOO_SERVICE_AUDIBLE = 0xd0,
+	/* YAHOO_SERVICE_CHAT_SESSION = 0xd4,?? Reports start of chat session, gets an id from server */
 	YAHOO_SERVICE_AUTH_REQ_15 = 0xd6,
-	YAHOO_SERVICE_CHGRP_15 = 0xe7,
-	YAHOO_SERVICE_STATUS_15 = 0xf0,
-	YAHOO_SERVICE_LIST_15 = 0xf1,
 	YAHOO_SERVICE_FILETRANS_15 = 0xdc,
 	YAHOO_SERVICE_FILETRANS_INFO_15 = 0xdd,
 	YAHOO_SERVICE_FILETRANS_ACC_15 = 0xde,
+	/* photo sharing services ?? - 0xd2, 0xd7, 0xd8, 0xda */
+	YAHOO_SERVICE_CHGRP_15 = 0xe7,
+	YAHOO_SERVICE_STATUS_15 = 0xf0,
+	YAHOO_SERVICE_LIST_15 = 0xf1,
 	YAHOO_SERVICE_WEBLOGIN = 0x0226,
 	YAHOO_SERVICE_SMS_MSG = 0x02ea
+	/* YAHOO_SERVICE_DISCONNECT = 0x07d1 Server forces us to disconnect. Is sent with TCP FIN flag set */
 };
 
 struct yahoo_pair {

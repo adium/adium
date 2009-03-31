@@ -125,7 +125,7 @@ gboolean purple_privacy_deny_remove(PurpleAccount *account, const char *name,
  *									changed to PURPLE_PRIVACY_ALLOW_USERS, all the
  *									buddies are added to the allow-list, and the
  *									user is also added to the allow-list.
- * 
+ *
  * @param account	The account.
  * @param who		The name of the user.
  * @param local		Whether the change is local-only.
