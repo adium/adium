@@ -347,7 +347,6 @@
 	[super updateSignon:theContact withData:data];
 	
 	//We only get user icons in Jabber when we request info. Do that now!
-	[theContact setValue:[NSNumber numberWithBool:YES] forProperty:@"Do Not Display Info Inspector" notify:NotifyNever];
 	[self delayedUpdateContactStatus:theContact];
 }
 
