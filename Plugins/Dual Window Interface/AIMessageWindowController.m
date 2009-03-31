@@ -765,6 +765,15 @@
 	return NO;
 }
 
+- (void)tabView:(NSTabView *)tabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem
+{
+	AIMessageTabViewItem *selectedTabViewItem = (AIMessageTabViewItem *)[tabView_messages selectedTabViewItem];
+	
+	if ([selectedTabViewItem isKindOfClass:[AIMessageTabViewItem class]]) {
+        [selectedTabViewItem tabViewItemWillDeselect];
+	}
+}
+
 //Our selected tab has changed, update the active chat
 - (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {

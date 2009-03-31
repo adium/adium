@@ -100,6 +100,8 @@
 - (void)addDraggedDataToTextEntryView:(id <NSDraggingInfo>)draggingInfo;
  
 - (void)tabViewDidChangeVisibility;
+- (void)didSelect;
+- (void)willDeselect;
 
 @end
 
