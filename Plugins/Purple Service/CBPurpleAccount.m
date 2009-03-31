@@ -453,7 +453,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[theContact setProfileArray:profileContents
 					notify:NotifyLater];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+	//[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
 	
 	//Apply any changes
 	[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
