@@ -119,8 +119,8 @@ struct _PurpleEventLoopUiOps
 	 * @see purple_input_remove
 	 */
 	gboolean (*input_remove)(guint handle);
-	
-	
+
+
 	/**
 	 * If implemented, should get the current error status for an input.
 	 *
@@ -161,7 +161,7 @@ struct _PurpleEventLoopUiOps
 /*@{*/
 /**
  * Creates a callback timer.
- * 
+ *
  * The timer will repeat until the function returns @c FALSE. The
  * first call will be at the end of the first interval.
  *
@@ -185,12 +185,12 @@ guint purple_timeout_add(guint interval, GSourceFunc function, gpointer data);
  *
  * This function allows UIs to group timers for better power efficiency.  For
  * this reason, @a interval may be rounded by up to a second.
- * 
+ *
  * @param interval	The time between calls of the function, in
  *                      seconds.
  * @param function	The function to call.
  * @param data		data to pass to @a function.
- * @return A handle to the timer which can be passed to 
+ * @return A handle to the timer which can be passed to
  *         purple_timeout_remove() to remove the timer.
  *
  * @since 2.1.0

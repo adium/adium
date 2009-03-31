@@ -137,7 +137,7 @@ gulong purple_signal_connect_priority(void *instance, const char *signal,
 /**
  * Connects a signal handler to a signal for a particular object.
  * (Its priority defaults to 0, aka #PURPLE_SIGNAL_PRIORITY_DEFAULT.)
- * 
+ *
  * Take care not to register a handler function twice. Purple will
  * not correct any mistakes for you in this area.
  *

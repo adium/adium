@@ -775,6 +775,21 @@ char *purple_fd_get_ip(int fd);
 /*@{*/
 
 /**
+ * Tests two strings for equality.
+ *
+ * Unlike strcmp(), this function will not crash if one or both of the
+ * strings are @c NULL.
+ *
+ * @param left	A string
+ * @param right A string to compare with left
+ *
+ * @return @c TRUE if the strings are the same, else @c FALSE.
+ *
+ * @since 2.6.0
+ */
+gboolean purple_strequal(const gchar *left, const gchar *right);
+
+/**
  * Normalizes a string, so that it is suitable for comparison.
  *
  * The returned string will point to a static buffer, so if the

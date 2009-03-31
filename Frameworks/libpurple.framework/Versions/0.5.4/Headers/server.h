@@ -55,8 +55,8 @@ unsigned int serv_send_typing(PurpleConnection *gc, const char *name, PurpleTypi
 void serv_move_buddy(PurpleBuddy *, PurpleGroup *, PurpleGroup *);
 int  serv_send_im(PurpleConnection *, const char *, const char *, PurpleMessageFlags flags);
 
-/** Get information about an account's attention commands, from the prpl. 
- * 
+/** Get information about an account's attention commands, from the prpl.
+ *
  * @return The attention command numbered 'code' from the prpl's attention_types, or NULL.
  */
 PurpleAttentionType *purple_get_attention_type_from_code(PurpleAccount *account, guint type_code);
@@ -76,14 +76,14 @@ PurpleAttentionType *purple_get_attention_type_from_code(PurpleAccount *account,
  */
 void serv_send_attention(PurpleConnection *gc, const char *who, guint type_code);
 
-/** Process an incoming attention message. 
+/** Process an incoming attention message.
  *
  * @deprecated Use purple_prpl_got_attention() instead.
  *
  * @param gc The connection that received the attention message.
  * @param who Who requested your attention.
  * @param type_code An index into the prpl's attention_types list determining the type
- * 	of the attention request command to send. 
+ * 	of the attention request command to send.
  */
 void serv_got_attention(PurpleConnection *gc, const char *who, guint type_code);
 
@@ -108,7 +108,7 @@ void serv_got_alias(PurpleConnection *gc, const char *who, const char *alias);
  * aliases are the aliases or display names that buddies set for themselves.
  *
  * @param gc The connection on which the alias was received.
- * @param who The screen name of the buddy whose alias was received.
+ * @param who The name of the buddy whose alias was received.
  * @param alias The alias that was received.
  */
 void purple_serv_got_private_alias(PurpleConnection *gc, const char *who, const char *alias);
@@ -180,7 +180,7 @@ PurpleConversation *serv_got_joined_chat(PurpleConnection *gc,
  *                function should be g_str_equal().
  */
 void purple_serv_got_join_chat_failed(PurpleConnection *gc, GHashTable *data);
-	
+
 void serv_got_chat_left(PurpleConnection *g, int id);
 void serv_got_chat_in(PurpleConnection *g, int id, const char *who,
 					  PurpleMessageFlags flags, const char *message, time_t mtime);

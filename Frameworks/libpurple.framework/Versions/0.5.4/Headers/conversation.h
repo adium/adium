@@ -1350,7 +1350,7 @@ void purple_conv_chat_cb_destroy(PurpleConvChatBuddy *cb);
  * Retrieves the extended menu items for the conversation.
  *
  * @param conv The conversation.
- * 
+ *
  * @return  A list of PurpleMenuAction items, harvested by the
  *          chat-extended-menu signal. The list and the menuaction
  *          items should be freed by the caller.

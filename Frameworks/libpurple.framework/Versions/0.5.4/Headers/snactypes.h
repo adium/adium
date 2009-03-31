@@ -252,7 +252,6 @@
  * SNAC Family: Authorizer
  *
  * Used only in protocol versions three and above.
- *
  */
 #define SNAC_SUBTYPE_AUTH_ERROR 0x0001
 #define SNAC_SUBTYPE_AUTH_LOGINREQEST 0x0002
@@ -266,8 +265,7 @@
  * SNAC Family: Email
  *
  * Used for getting information on the email address
- * associated with your screen name.
- *
+ * associated with your username.
  */
 #define SNAC_SUBTYPE_ALERT_ERROR 0x0001
 #define SNAC_SUBTYPE_ALERT_SENDCOOKIES 0x0006
@@ -280,7 +278,6 @@
  * This isn't truly a SNAC family either, but using
  * these, we can integrated non-SNAC services into
  * the SNAC-centered libfaim callback structure.
- *
  */
 #define AIM_CB_SPECIAL_CONNERR 0x0003
 #define AIM_CB_SPECIAL_CONNINITDONE 0x0006

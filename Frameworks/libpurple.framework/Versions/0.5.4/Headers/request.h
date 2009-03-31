@@ -30,6 +30,9 @@
 #include <glib-object.h>
 #include <glib.h>
 
+/** @copydoc _PurpleRequestField */
+typedef struct _PurpleRequestField PurpleRequestField;
+
 #include "account.h"
 
 #define PURPLE_DEFAULT_ACTION_NONE	-1
@@ -93,10 +96,11 @@ typedef struct
 
 } PurpleRequestFieldGroup;
 
+#if !(defined PURPLE_DISABLE_DEPRECATED) || (defined _PURPLE_REQUEST_C_)
 /**
  * A request field.
  */
-typedef struct
+struct _PurpleRequestField
 {
 	PurpleRequestFieldType type;
 	PurpleRequestFieldGroup *group;
@@ -176,7 +180,8 @@ typedef struct
 
 	void *ui_data;
 
-} PurpleRequestField;
+};
+#endif
 
 /**
  * Request UI operations.
@@ -521,6 +526,17 @@ void purple_request_field_set_required(PurpleRequestField *field,
 PurpleRequestFieldType purple_request_field_get_type(const PurpleRequestField *field);
 
 /**
+ * Returns the group for the field.
+ *
+ * @param field The field.
+ *
+ * @return The UI data.
+ *
+ * @since 2.6.0
+ */
+PurpleRequestFieldGroup *purple_request_field_get_group(const PurpleRequestField *field);
+
+/**
  * Returns the ID of a field.
  *
  * @param field The field.
@@ -564,6 +580,30 @@ const char *purple_request_field_get_type_hint(const PurpleRequestField *field);
  * @return TRUE if the field is required, or FALSE.
  */
 gboolean purple_request_field_is_required(const PurpleRequestField *field);
+
+/**
+ * Returns the ui_data for a field.
+ *
+ * @param field The field.
+ *
+ * @return The UI data.
+ *
+ * @since 2.6.0
+ */
+gpointer purple_request_field_get_ui_data(const PurpleRequestField *field);
+
+/**
+ * Sets the ui_data for a field.
+ *
+ * @param field The field.
+ * @param ui_data The UI data.
+ *
+ * @return The UI data.
+ *
+ * @since 2.6.0
+ */
+void purple_request_field_set_ui_data(PurpleRequestField *field,
+                                      gpointer ui_data);
 
 /*@}*/
 

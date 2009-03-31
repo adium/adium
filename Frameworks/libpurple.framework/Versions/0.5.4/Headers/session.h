@@ -90,6 +90,7 @@ struct _MsnSession
 
 	gboolean connected;
 	gboolean logged_in; /**< A temporal flag to ignore local buddy list adds. */
+	int      adl_fqy; /**< A count of ADL/FQY so status is only changed once. */
 	gboolean destroying; /**< A flag that states if the session is being destroyed. */
 	gboolean http_method;
 

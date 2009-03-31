@@ -208,6 +208,17 @@ unsigned short purple_network_get_port_from_fd(int fd);
 gboolean purple_network_is_available(void);
 
 /**
+ * Makes purple_network_is_available() always return @c TRUE.
+ *
+ * This is what backs the --force-online command line argument in Pidgin,
+ * for example.  This is useful for offline testing, especially when
+ * combined with nullprpl.
+ *
+ * @since 2.6.0
+ */
+void purple_network_force_online(void);
+
+/**
  * Get the handle for the network system
  *
  * @return the handle to the network system

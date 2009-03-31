@@ -194,7 +194,7 @@ extern "C" {
  * Creates a new log
  *
  * @param type        The type of log this is.
- * @param name        The name of this conversation (screenname, chat name,
+ * @param name        The name of this conversation (buddy name, chat name,
  *                    etc.)
  * @param account     The account the conversation is occurring on
  * @param conv        The conversation being logged
@@ -292,6 +292,19 @@ int purple_log_get_size(PurpleLog *log);
  * @return                    The size in bytes
  */
 int purple_log_get_total_size(PurpleLogType type, const char *name, PurpleAccount *account);
+
+/**
+ * Returns the activity score of a log, based on total size in bytes,
+ * which is then decayed based on age
+ *
+ * @param type                The type of the log
+ * @param name                The name of the log
+ * @param account             The account
+ * @return                    The activity score
+ *
+ * @since 2.6.0
+ */
+int purple_log_get_activity_score(PurpleLogType type, const char *name, PurpleAccount *account);
 
 /**
  * Tests whether a log is deletable
