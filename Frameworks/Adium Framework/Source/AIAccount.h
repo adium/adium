@@ -283,6 +283,10 @@ typedef enum {
 
 - (NSMenu*)actionsForChat:(AIChat *)chat;
 
+- (BOOL)accountManagesGroupChatIgnore;
+- (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)chat;
+- (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)chat;
+
 /*!
  * @brief Should transcripts be stored for a given chat?
  *
