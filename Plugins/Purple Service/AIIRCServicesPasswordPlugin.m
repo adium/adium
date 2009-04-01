@@ -67,6 +67,11 @@
 			contentObject.displayContent = NO;
 		} else if ([message rangeOfString:@"before it is changed"].location != NSNotFound) {
 			contentObject.displayContent = NO;
+		} else if ([message rangeOfString:@"now identified for"].location != NSNotFound) {
+			if ([account boolValueForProperty:@"Identifying"]) {
+				[account setValue:nil forProperty:@"Identifying" notify:NotifyNever];
+				contentObject.displayContent = NO;
+			}
 		}
 	} else if ([contentObject.source.UID isCaseInsensitivelyEqualToString:@"freenode-connect"] &&
 			   [contentObject.chat.account.host rangeOfString:@"freenode.net"].location != NSNotFound) {
@@ -84,6 +89,7 @@
 	AILogWithSignature(@"%@ password returned with any: %d", displayName, inPassword.length > 0);
 	
 	if (inPassword && inPassword.length) {
+		[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Identifying" notify:NotifyNever];
 		[(ESIRCAccount *)account identifyForNickServName:displayName password:inPassword];
 	}
 }
