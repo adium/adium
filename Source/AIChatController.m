@@ -358,43 +358,6 @@
 }
 
 /*!
- * @brief Find all open chats with a contact
- *
- * @param inContact The contact. If inContact is an AIMetaContact, all chats with all contacts within the metaContact will be returned.
- * @result An NSSet with all chats with the contact.
- */
-- (NSSet *)allGroupChatsContainingContact:(AIListContact *)inContact
-{
-	NSMutableSet *groupChats = [NSMutableSet set];
-
-	//Search for a chat containing this AIListContact
-	if ([inContact isKindOfClass:[AIMetaContact class]]) {
-		//Search for a chat with any contact within this AIMetaContact
-		for (AIChat *chat in openChats) {
-			if (!chat.isGroupChat)
-				continue;
-			
-			for (AIListContact *contact in (AIMetaContact *)inContact) {
-				if([chat containsObject:contact]) {
-					[groupChats addObject:chat];
-					break;
-				}
-			}
-		}
-		
-	} else {
-		//Search for a chat with this AIListContact
-		for (AIChat *chat in openChats) {
-			if (chat.isGroupChat && [chat containsObject:inContact]) {
-				[groupChats addObject:chat];
-			}
-		}
-	}
-	
-	return (groupChats.count ? groupChats : nil);
-}
-
-/*!
  * @brief Open a group chat
  *
  * @param inName The name of the chat; in general, the chat room name
@@ -652,17 +615,13 @@
  */
 - (NSSet *)allChatsWithContact:(AIListContact *)inContact
 {
-    NSMutableSet	*foundChats = nil;
+    NSMutableSet	*foundChats = [NSMutableSet set];
 	
 	//Scan the objects participating in each chat, looking for the requested object
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		if ([openChats count]) {
 			for (AIListContact *listContact in ((AIMetaContact *)inContact).uniqueContainedObjects) {
-				NSSet		*listContactChats;
-				if ((listContactChats = [self allChatsWithContact:listContact])) {
-					if (!foundChats) foundChats = [NSMutableSet set];
-					[foundChats unionSet:listContactChats];
-				}
+				[foundChats unionSet:[self allChatsWithContact:listContact]];
 			}
 		}
 		
@@ -671,13 +630,49 @@
 			if (!chat.isGroupChat &&
 				[chat.listObject.internalObjectID isEqualToString:inContact.internalObjectID] &&
 				chat.isOpen) {
-				if (!foundChats) foundChats = [NSMutableSet set];
 				[foundChats addObject:chat];
 			}
 		}
 	}
 
     return foundChats;
+}
+
+/*!
+ * @brief Find all open chats with a contact
+ *
+ * @param inContact The contact. If inContact is an AIMetaContact, all chats with all contacts within the metaContact will be returned.
+ * @result An NSSet with all chats with the contact.
+ */
+- (NSSet *)allGroupChatsContainingContact:(AIListContact *)inContact
+{
+	NSMutableSet *groupChats = [NSMutableSet set];
+	
+	//Search for a chat containing this AIListContact
+	if ([inContact isKindOfClass:[AIMetaContact class]]) {
+		//Search for a chat with any contact within this AIMetaContact
+		for (AIChat *chat in openChats) {
+			if (!chat.isGroupChat)
+				continue;
+			
+			for (AIListContact *contact in (AIMetaContact *)inContact) {
+				if([chat containsObject:contact]) {
+					[groupChats addObject:chat];
+					break;
+				}
+			}
+		}
+		
+	} else {
+		//Search for a chat with this AIListContact
+		for (AIChat *chat in openChats) {
+			if (chat.isGroupChat && [chat containsObject:inContact]) {
+				[groupChats addObject:chat];
+			}
+		}
+	}
+	
+	return groupChats;
 }
 
 /*!
