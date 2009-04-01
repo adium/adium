@@ -438,7 +438,7 @@
 		BOOL onList = NO;
 
 		for (AIListGroup *group in ((AIListContact *)obj).parentContact.groups) {
-			if (group.contactList == self.contactList) {
+			if (group == self.contactList || group.contactList == self.contactList) {
 				onList = YES;
 				break;
 			}
