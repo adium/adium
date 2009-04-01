@@ -845,7 +845,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	//Open the chat
 	if ([chat isOpen]) {
-		[self displayYouHaveConnectedInChat:chat];
+		if ([chat boolValueForProperty:@"Rejoining Chat"]) {
+			[self displayYouHaveConnectedInChat:chat];
+			
+			[chat setValue:nil forProperty:@"Rejoining Chat" notify:NotifyNever];
+		}
 		
 		if (chat.isGroupChat) {
 			[self performSelector:@selector(updateUserListForChat:)
@@ -919,6 +923,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	 * Clear the identifier so a new PurpleConversation will be made. The ChatCreationInfo for the chat is still around, so it can join.
 	 */
 	[chat setIdentifier:nil];
+	
+	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"Rejoining Chat" notify:NotifyNever];
+	
 	[purpleAdapter openChat:chat onAccount:self];
 
 	[chat autorelease];
