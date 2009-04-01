@@ -11,6 +11,7 @@
 #define KEY_IRC_COMMANDS	@"IRC:Commands"
 #define KEY_IRC_USERNAME	@"IRC:Username"
 #define KEY_IRC_REALNAME	@"IRC:Realname"
+#define KEY_IRC_ENCODING	@"IRC:Encoding"
 
 @interface ESIRCAccount : CBPurpleAccount {
 

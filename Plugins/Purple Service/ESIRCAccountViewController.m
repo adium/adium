@@ -11,6 +11,7 @@
 #import "AIService.h"
 #import <AIUtilities/AIStringFormatter.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/AIPopUpButtonAdditions.h>
 
 @implementation ESIRCAccountViewController
 
@@ -18,11 +19,22 @@
     return @"ESIRCAccountView";
 }
 
+- (void)awakeFromNib
+{
+	[super awakeFromNib];
+	
+	[popUp_encoding setMenu:[self encodingMenu]];
+}
+
 - (void)configureForAccount:(AIAccount *)inAccount
 {
     [super configureForAccount:inAccount];
 	
-	//Connection security
+	// Encoding
+	[popUp_encoding selectItemWithRepresentedObject:[account preferenceForKey:KEY_IRC_ENCODING
+																		group:GROUP_ACCOUNT_STATUS]];
+	
+	// Connection SSL
 	[checkbox_useSSL setState:[[account preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue]];
 
 	// Disable the server field when online, since this will change our Purple account name
@@ -47,6 +59,12 @@
 {
 	[super saveConfiguration];
 	
+	// Encoding
+	[account setPreference:[[popUp_encoding selectedItem] representedObject]
+					forKey:KEY_IRC_ENCODING
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	// Connection SSL
 	[account setPreference:[NSNumber numberWithBool:[checkbox_useSSL state]]
 					forKey:KEY_IRC_USE_SSL
 					 group:GROUP_ACCOUNT_STATUS];

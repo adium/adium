@@ -11,4 +11,6 @@
 	IBOutlet	NSButton *checkBox_broadcastMusic;
 }
 
+- (NSMenu *)encodingMenu;
+
 @end
