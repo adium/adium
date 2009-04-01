@@ -6,9 +6,11 @@
 //
 
 #import <Adium/AIAccountViewController.h>
+#import "PurpleAccountViewController.h"
 
-@interface ESIRCAccountViewController : AIAccountViewController {
-	IBOutlet	NSButton	*checkbox_useSSL;
+@interface ESIRCAccountViewController : PurpleAccountViewController {
+	IBOutlet	NSButton		*checkbox_useSSL;
+	IBOutlet	NSPopUpButton	*popUp_encoding;
 	
 	IBOutlet	NSTextField	*textField_username;
 	IBOutlet	NSTextField *textField_realname;
