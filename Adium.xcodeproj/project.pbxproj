@@ -84,6 +84,11 @@
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112527730F5F9E63003FC58A /* AITwitterAccountView.nib */; };
+		112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */; };
+		112B47250F82DC2300690E84 /* AIGroupChatStatusIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B47230F82DC2300690E84 /* AIGroupChatStatusIcons.m */; };
+		112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47650F82E0FC00690E84 /* AIXtraInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B47660F82E0FC00690E84 /* AIXtraInfo.m */; };
+		112B483F0F82E91200690E84 /* Group Chat Status Icons in Resources */ = {isa = PBXBuildFile; fileRef = 112B483E0F82E91200690E84 /* Group Chat Status Icons */; };
 		113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891820F6B6AFF00A7D7DC /* AILaconicaService.m */; };
 		1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */; };
 		1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */; };
@@ -1179,7 +1184,6 @@
 		6333699409497DB000970871 /* EmoticonPreviewView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6333699309497DB000970871 /* EmoticonPreviewView.nib */; };
 		63336B060949908300970871 /* DockIconPreviewView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 63336B050949908300970871 /* DockIconPreviewView.nib */; };
 		63336E15094AB81300970871 /* XtraInfoView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 63336E14094AB81300970871 /* XtraInfoView.nib */; };
-		633F175B08F905A700C76383 /* AIXtraInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F175708F905A700C76383 /* AIXtraInfo.m */; };
 		633F175D08F905A800C76383 /* AIXtrasManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F175908F905A700C76383 /* AIXtrasManager.m */; };
 		6341AEFF0E53A09C00AE1439 /* libexpat.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6341AEFE0E53A09C00AE1439 /* libexpat.dylib */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
@@ -1744,6 +1748,11 @@
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
 		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
 		112527730F5F9E63003FC58A /* AITwitterAccountView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AITwitterAccountView.nib; path = "Plugins/Twitter Plugin/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChatStatusIcons.h; path = "Frameworks/Adium Framework/Source/AIGroupChatStatusIcons.h"; sourceTree = "<group>"; };
+		112B47230F82DC2300690E84 /* AIGroupChatStatusIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChatStatusIcons.m; path = "Frameworks/Adium Framework/Source/AIGroupChatStatusIcons.m"; sourceTree = "<group>"; };
+		112B47650F82E0FC00690E84 /* AIXtraInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXtraInfo.h; path = "Frameworks/Adium Framework/Source/AIXtraInfo.h"; sourceTree = "<group>"; };
+		112B47660F82E0FC00690E84 /* AIXtraInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIXtraInfo.m; path = "Frameworks/Adium Framework/Source/AIXtraInfo.m"; sourceTree = "<group>"; };
+		112B483E0F82E91200690E84 /* Group Chat Status Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Group Chat Status Icons"; path = "Resources/Group Chat Status Icons"; sourceTree = "<group>"; };
 		113891810F6B6AFF00A7D7DC /* AILaconicaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaService.h; path = "Plugins/Twitter Plugin/AILaconicaService.h"; sourceTree = "<group>"; };
 		113891820F6B6AFF00A7D7DC /* AILaconicaService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaService.m; path = "Plugins/Twitter Plugin/AILaconicaService.m"; sourceTree = "<group>"; };
 		113891880F6B6B2800A7D7DC /* AILaconicaAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaAccount.h; path = "Plugins/Twitter Plugin/AILaconicaAccount.h"; sourceTree = "<group>"; };
@@ -4036,8 +4045,6 @@
 		63336B050949908300970871 /* DockIconPreviewView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DockIconPreviewView.nib; path = Resources/DockIconPreviewView.nib; sourceTree = "<group>"; };
 		63336B3F094994A800970871 /* StatusIconPreviewView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = StatusIconPreviewView.nib; path = Resources/StatusIconPreviewView.nib; sourceTree = "<group>"; };
 		63336E14094AB81300970871 /* XtraInfoView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = XtraInfoView.nib; path = Resources/XtraInfoView.nib; sourceTree = "<group>"; };
-		633F175608F905A700C76383 /* AIXtraInfo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraInfo.h; path = Source/AIXtraInfo.h; sourceTree = "<group>"; };
-		633F175708F905A700C76383 /* AIXtraInfo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtraInfo.m; path = Source/AIXtraInfo.m; sourceTree = "<group>"; };
 		633F175808F905A700C76383 /* AIXtrasManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtrasManager.h; path = Source/AIXtrasManager.h; sourceTree = "<group>"; };
 		633F175908F905A700C76383 /* AIXtrasManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtrasManager.m; path = Source/AIXtrasManager.m; sourceTree = "<group>"; };
 		6341AEFE0E53A09C00AE1439 /* libexpat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.dylib; path = usr/lib/libexpat.dylib; sourceTree = SDKROOT; };
@@ -6800,6 +6807,7 @@
 		4BF2E6BE067CB72400743318 /* Xtras (Built In) */ = {
 			isa = PBXGroup;
 			children = (
+				112B483E0F82E91200690E84 /* Group Chat Status Icons */,
 				34A29D9406ED68BF00E1366C /* Contact List */,
 				3408254D075B078B00703011 /* Dock Icons */,
 				4BF2E194067CAE9200743318 /* Emoticons */,
@@ -6864,6 +6872,8 @@
 		4BF98D5506D1485100E8781D /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */,
+				112B47230F82DC2300690E84 /* AIGroupChatStatusIcons.m */,
 				111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */,
 				111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */,
 				340F485106DA5E060072E2FA /* AIListCell.h */,
@@ -6934,10 +6944,10 @@
 			isa = PBXGroup;
 			children = (
 				635647B2093F64A400563BEE /* Xtras Preview Views */,
-				633F175608F905A700C76383 /* AIXtraInfo.h */,
-				633F175708F905A700C76383 /* AIXtraInfo.m */,
 				633F175808F905A700C76383 /* AIXtrasManager.h */,
 				633F175908F905A700C76383 /* AIXtrasManager.m */,
+				112B47650F82E0FC00690E84 /* AIXtraInfo.h */,
+				112B47660F82E0FC00690E84 /* AIXtraInfo.m */,
 				34F312BC0ADC43CA00A4310E /* xtras_duck.png */,
 				632D801608E7E0A40032C187 /* XtrasManager.nib */,
 			);
@@ -7968,6 +7978,8 @@
 				6311F4710E340DD2004234B8 /* AISharedAdium.h in Headers */,
 				63DF5B230E52D77F00010E99 /* AIContactList.h in Headers */,
 				114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */,
+				112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */,
+				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -8696,6 +8708,7 @@
 				113892280F6B70CA00A7D7DC /* laconica.png in Resources */,
 				11C97DFD0F7D26C200E8DD37 /* dsa_pub.pem in Resources */,
 				11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */,
+				112B483F0F82E91200690E84 /* Group Chat Status Icons in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9144,7 +9157,6 @@
 				110763F808676CC9005987A5 /* RAFBlockEditorWindowController.m in Sources */,
 				63FBAA480887779D00026246 /* AIDockBadger.m in Sources */,
 				EE147A800896B33400A21377 /* OWABSearchWindowController.m in Sources */,
-				633F175B08F905A700C76383 /* AIXtraInfo.m in Sources */,
 				633F175D08F905A800C76383 /* AIXtrasManager.m in Sources */,
 				348F57940936F3CC00288E41 /* ESEditStatusGroupWindowController.m in Sources */,
 				632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */,
@@ -9432,6 +9444,8 @@
 				63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */,
 				114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */,
 				111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */,
+				112B47250F82DC2300690E84 /* AIGroupChatStatusIcons.m in Sources */,
+				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

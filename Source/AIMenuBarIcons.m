@@ -15,7 +15,7 @@
  */
  
 #import "AIMenuBarIcons.h"
-#import <AIXtraInfo.h>
+#import <Adium/AIXtraInfo.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <QuartzCore/CoreImage.h>
 

@@ -1,10 +1,7 @@
 
 #import "AIListContactGroupChatCell.h"
 #import <Adium/AIChat.h>
-
-@interface AIListContactGroupChatCell()
-- (NSString *)stringForFlags:(AIGroupChatFlags)flags;
-@end
+#import <Adium/AIGroupChatStatusIcons.h>
 
 @implementation AIListContactGroupChatCell
 
@@ -15,39 +12,22 @@
 	[super dealloc];
 }
 
-/*! 
- * @brief A string value for the given flags. 
- * 
- * @param flags The AIGroupChatFlags to evaluate; only the highest is returned. 
- * 
- * @returns . for founder, @ for ops, % for halfop, + for voice. 
- */ 
-- (NSString *)stringForFlags:(AIGroupChatFlags)flags 
-{ 
-	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) { 
-		return @"."; 
-	} else if ((flags & AIGroupChatOp) == AIGroupChatOp) { 
-		return @"@"; 
-	} else if ((flags & AIGroupChatHalfOp) == AIGroupChatHalfOp) { 
-		return @"%"; 
-	} else if ((flags & AIGroupChatVoice) == AIGroupChatVoice) { 
-		return @"+"; 
-	} 
-	
-	return @""; 
-}
-
 - (NSString *)labelString
 {
 	NSString *label;
 	
 	if (chat && [chat displayNameForContact:listObject]) {
-		label = [NSString stringWithFormat:@"%@%@", [self stringForFlags:[chat flagsForContact:listObject]], [chat displayNameForContact:listObject]];
+		label = [chat displayNameForContact:listObject];
 	} else {
 		label = [super labelString];
 	}
 	
 	return label;
+}
+
+- (NSImage *)statusImage
+{
+	return [[AIGroupChatStatusIcons sharedIcons] imageForFlag:[chat flagsForContact:listObject]];
 }
 
 - (NSColor *)textColor
