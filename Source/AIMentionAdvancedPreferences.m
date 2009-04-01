@@ -76,16 +76,6 @@
 	[tableView deselectAll:nil];
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
-{
-	NSString *identifier = tableColumn.identifier;
-	
-	if ([identifier isEqualToString:@"text"]) {
-		[mentionTerms setObject:object atIndex:row];
-		[self saveTerms];
-	}
-}
-
 /*!
  * @brief The view loaded
  */
@@ -101,6 +91,8 @@
 - (void)viewWillClose
 {
 	[mentionTerms release]; mentionTerms = nil;
+	
+	[super viewWillClose];
 }
 
 #pragma mark Table view Delegate
@@ -118,6 +110,16 @@
 	}
 	
 	return nil;
+}
+
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+{
+	NSString *identifier = tableColumn.identifier;
+	
+	if ([identifier isEqualToString:@"text"]) {
+		[mentionTerms setObject:object atIndex:row];
+		[self saveTerms];
+	}
 }
 
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
