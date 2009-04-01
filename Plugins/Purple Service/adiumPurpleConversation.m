@@ -266,12 +266,55 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 	}
 }
 
+NSString *get_real_name_for_account_conv_buddy(PurpleAccount *account, PurpleConversation *conv, char *who)
+{
+	PurplePlugin *prpl = purple_find_prpl(purple_account_get_protocol_id(account));
+	PurplePluginProtocolInfo  *prpl_info = (prpl ? PURPLE_PLUGIN_PROTOCOL_INFO(prpl) : NULL);
+	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
+	
+	NSString *normalizedUID;
+	
+	if (prpl_info && prpl_info->get_cb_real_name) {
+		// Get the real name of the buddy for use as a UID, if available.
+		char *uid = prpl_info->get_cb_real_name(purple_account_get_connection(account),
+												purple_conv_chat_get_id(convChat),
+												who);
+		
+		normalizedUID = [NSString stringWithUTF8String:purple_normalize(account, uid)];
+		
+		// We have to free the result of get_cb_real_name.
+		g_free(uid);
+	} else {
+		// Otherwise use the normalized name for the UID.
+		normalizedUID = [NSString stringWithUTF8String:purple_normalize(account, who)];
+	}
+	
+	return normalizedUID;
+}
+
 static void adiumPurpleConvChatAddUsers(PurpleConversation *conv, GList *cbuddies, gboolean new_arrivals)
 {
 	if (purple_conversation_get_type(conv) == PURPLE_CONV_TYPE_CHAT) {
-		[accountLookup(purple_conversation_get_account(conv)) updateUserListForChat:groupChatLookupFromConv(conv)
-																			  users:cbuddies
-																		 newlyAdded:new_arrivals];
+		PurpleAccount *account = purple_conversation_get_account(conv);
+
+		NSMutableArray *users = [NSMutableArray array];
+		
+		for (GList *l = cbuddies; l; l = l->next) {
+			PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
+			
+			NSMutableDictionary *user = [NSMutableDictionary dictionary];
+			[user setObject:get_real_name_for_account_conv_buddy(account, conv, cb->name) forKey:@"UID"];
+			[user setObject:[NSNumber numberWithInteger:cb->flags] forKey:@"Flags"];
+			if (cb->alias) {
+				[user setObject:[NSString stringWithUTF8String:cb->alias] forKey:@"Alias"];
+			}
+			
+			[users addObject:user];
+		}
+
+		[accountLookup(account) updateUserListForChat:groupChatLookupFromConv(conv)
+												users:users
+										   newlyAdded:new_arrivals];
 	} else
 		AILog(@"adiumPurpleConvChatAddUsers: IM");
 }
@@ -289,10 +332,10 @@ static void adiumPurpleConvChatRenameUser(PurpleConversation *conv, const char *
 		
 		PurpleAccount *account = purple_conversation_get_account(conv);
 		
-		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:cb
-																		oldName:[NSString stringWithUTF8String:purple_normalize(account, oldName)]
-																		newName:[NSString stringWithUTF8String:purple_normalize(account, newName)]
+		[accountLookup(purple_conversation_get_account(conv)) renameParticipant:get_real_name_for_account_conv_buddy(account, conv, (char *)oldName)
+																		newName:get_real_name_for_account_conv_buddy(account, conv, (char *)newName)
 																	   newAlias:[NSString stringWithUTF8String:newAlias]
+																		  flags:cb->flags
 																		 inChat:groupChatLookupFromConv(conv)];
 	}
 }
@@ -305,9 +348,8 @@ static void adiumPurpleConvChatRemoveUsers(PurpleConversation *conv, GList *user
 
 		GList *l;
 		for (l = users; l != NULL; l = l->next) {
-			const char *normalizedUID = purple_normalize(account, l->data);
-			
-			[usersArray addObject:[NSString stringWithUTF8String:normalizedUID]];
+			NSString *normalizedUID = get_real_name_for_account_conv_buddy(account, conv, (char *)l->data);
+			[usersArray addObject:normalizedUID];
 		}
 
 		[accountLookup(account) removeUsersArray:usersArray
@@ -323,7 +365,7 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	PurpleAccount *account = purple_conversation_get_account(conv);
 	CBPurpleAccount *adiumAccount = accountLookup(account);
 	
-	[adiumAccount updateUser:[NSString stringWithUTF8String:purple_normalize(account, user)]
+	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
 					   flags:purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user)];
 }

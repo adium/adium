@@ -176,7 +176,6 @@
 - (NSString *)titleForAccountActionMenuLabel:(const char *)label;
 
 - (NSString *)_UIDForAddingObject:(AIListContact *)object;
-- (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat;
 
 #pragma mark Contacts
 - (void)renameContact:(AIListContact *)theContact toUID:(NSString *)newUID;
@@ -192,10 +191,10 @@
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source;
 - (void)updateTitle:(NSString *)inTitle forChat:(AIChat *)chat;
 - (void)convUpdateForChat:(AIChat *)chat type:(NSNumber *)type;
-- (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat;
+- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(AIGroupChatFlags)flags inChat:(AIChat *)chat;
 - (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat;
-- (void)updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded;
-- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags;
+- (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded;
+- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(AIGroupChatFlags)flags;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;

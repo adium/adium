@@ -578,13 +578,6 @@
 }
 
 #pragma mark Multiuser chat
-
-//Multiuser chats come in with just the contact's name as contactName, but we want to actually do it right.
-- (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat
-{
-	return [NSString stringWithFormat:@"%@/%@",chat.name,inUID];
-}
-
 /*!
  * @brief A chat will be joined
  *
