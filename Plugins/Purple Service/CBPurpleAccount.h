@@ -184,6 +184,7 @@
 - (void)updateIdleReturn:(AIListContact *)theContact withData:(void *)data;
 - (NSMutableArray *)arrayOfDictionariesFromPurpleNotifyUserInfo:(PurpleNotifyUserInfo *)user_info forContact:(AIListContact *)contact;
 - (void)updateUserInfo:(AIListContact *)theContact withData:(PurpleNotifyUserInfo *)user_info;
+- (void)openInspectorForContactInfo:(AIListContact *)theContact;
 
 #pragma mark Chats
 - (void)errorForChat:(AIChat *)chat type:(NSNumber *)type;

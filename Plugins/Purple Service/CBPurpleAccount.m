@@ -450,13 +450,25 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)updateUserInfo:(AIListContact *)theContact withData:(PurpleNotifyUserInfo *)user_info
 {
 	NSArray		*profileContents = [self arrayOfDictionariesFromPurpleNotifyUserInfo:user_info forContact:theContact];
+
 	[theContact setProfileArray:profileContents
 					notify:NotifyLater];
 	
-	//[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+	[self openInspectorForContactInfo:theContact];
 	
 	//Apply any changes
 	[theContact notifyOfChangedPropertiesSilently:silentAndDelayed];
+}
+
+/*!
+ * @brief Open the info inspector when getting info
+ *
+ * Subclasses, such as Jabber which pulls the information on its own,
+ * can override to prevent this behavior.
+ */
+- (void)openInspectorForContactInfo:(AIListContact *)theContact
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
 }
 
 /*!

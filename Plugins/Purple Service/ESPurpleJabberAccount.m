@@ -350,6 +350,16 @@
 	[self delayedUpdateContactStatus:theContact];
 }
 
+/*!
+ * @brief Because of the above, we poll user information a lot.
+ * 
+ * Do not open the inspector unless the user opened it.
+ */
+- (void)openInspectorForContactInfo:(AIListContact *)theContact
+{
+	// Noop.
+}
+
 #pragma mark Status
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
