@@ -217,6 +217,10 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	NSString *encoding = [self preferenceForKey:KEY_IRC_ENCODING group:GROUP_ACCOUNT_STATUS] ?: @"UTF-8";
 	purple_account_set_string(self.purpleAccount, "encoding", [encoding UTF8String]);
 	
+	if (![encoding isEqualToString:@"UTF-8"]) {
+		purple_account_set_bool(self.purpleAccount, "autodetect_utf8", TRUE);
+	}
+	
 	// Use SSL
 	BOOL useSSL = [[self preferenceForKey:KEY_IRC_USE_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
 	purple_account_set_bool(self.purpleAccount, "ssl", useSSL);
