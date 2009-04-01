@@ -298,7 +298,31 @@
 				<string>com.adiumx.htmllog</string>
 			</array>
 			<key>LSTypeIsPackage</key>
-			<false/>
+			<true/>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>Binary</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>AdiumGroupChatStatusIcons</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Adium.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>Adium Group Chat Status Icons</string>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>AIGc</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.adiumx.groupchatstatusicons</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
 			<key>NSPersistentStoreTypeKey</key>
 			<string>Binary</string>
 		</dict>
@@ -428,12 +452,12 @@
 	<string>AIApplication</string>
 	<key>OSAScriptingDefinition</key>
 	<string>Adium.sdef</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
 	<key>SUCheckAtStartup</key>
 	<true/>
 	<key>SUFeedURL</key>
 	<string>http://www.adiumx.com/sparkle/update.php</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 	<key>SUScheduledCheckInterval</key>
 	<integer>86400</integer>
 	<key>SmartCrashReports_CompanyName</key>

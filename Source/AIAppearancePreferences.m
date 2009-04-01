@@ -205,6 +205,7 @@ typedef enum {
 			switch (windowStyle) {
 				case AIContactListWindowStyleStandard:
 				case AIContactListWindowStyleBorderless:
+				case AIContactListWindowStyleGroupChat:
 					//Standard and borderless don't have to vertically autosize
 					[checkBox_verticalAutosizing setEnabled:YES];
 					[checkBox_verticalAutosizing setState:[[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_VERTICAL_AUTOSIZE
