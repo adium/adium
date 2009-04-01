@@ -90,6 +90,8 @@
 		112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B47660F82E0FC00690E84 /* AIXtraInfo.m */; };
 		112B483F0F82E91200690E84 /* Group Chat Status Icons in Resources */ = {isa = PBXBuildFile; fileRef = 112B483E0F82E91200690E84 /* Group Chat Status Icons */; };
 		112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B49090F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m */; };
+		112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B4A240F83194700690E84 /* AIMentionAdvancedPreferences.m */; };
+		112B4A3E0F831A4400690E84 /* AIMentionAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112B4A3D0F831A4400690E84 /* AIMentionAdvancedPreferences.nib */; };
 		113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891820F6B6AFF00A7D7DC /* AILaconicaService.m */; };
 		1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */; };
 		1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */; };
@@ -1755,6 +1757,9 @@
 		112B483E0F82E91200690E84 /* Group Chat Status Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Group Chat Status Icons"; path = "Resources/Group Chat Status Icons"; sourceTree = "<group>"; };
 		112B49080F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChatStatusTooltipPlugin.h; path = Source/AIGroupChatStatusTooltipPlugin.h; sourceTree = "<group>"; };
 		112B49090F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChatStatusTooltipPlugin.m; path = Source/AIGroupChatStatusTooltipPlugin.m; sourceTree = "<group>"; };
+		112B4A230F83194700690E84 /* AIMentionAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMentionAdvancedPreferences.h; path = Source/AIMentionAdvancedPreferences.h; sourceTree = "<group>"; };
+		112B4A240F83194700690E84 /* AIMentionAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMentionAdvancedPreferences.m; path = Source/AIMentionAdvancedPreferences.m; sourceTree = "<group>"; };
+		112B4A3D0F831A4400690E84 /* AIMentionAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMentionAdvancedPreferences.nib; path = Resources/AIMentionAdvancedPreferences.nib; sourceTree = "<group>"; };
 		113891810F6B6AFF00A7D7DC /* AILaconicaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaService.h; path = "Plugins/Twitter Plugin/AILaconicaService.h"; sourceTree = "<group>"; };
 		113891820F6B6AFF00A7D7DC /* AILaconicaService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaService.m; path = "Plugins/Twitter Plugin/AILaconicaService.m"; sourceTree = "<group>"; };
 		113891880F6B6B2800A7D7DC /* AILaconicaAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaAccount.h; path = "Plugins/Twitter Plugin/AILaconicaAccount.h"; sourceTree = "<group>"; };
@@ -4457,6 +4462,18 @@
 			name = Localized;
 			sourceTree = "<group>";
 		};
+		112B4A0B0F83192500690E84 /* Mentions */ = {
+			isa = PBXGroup;
+			children = (
+				112B4A3D0F831A4400690E84 /* AIMentionAdvancedPreferences.nib */,
+				632D859C0DB70FC800040EC7 /* AIMentionEventPlugin.h */,
+				632D859D0DB70FC800040EC7 /* AIMentionEventPlugin.m */,
+				112B4A230F83194700690E84 /* AIMentionAdvancedPreferences.h */,
+				112B4A240F83194700690E84 /* AIMentionAdvancedPreferences.m */,
+			);
+			name = Mentions;
+			sourceTree = "<group>";
+		};
 		113891850F6B6B0300A7D7DC /* Laconica */ = {
 			isa = PBXGroup;
 			children = (
@@ -5423,8 +5440,7 @@
 				342DC48A05783B8D000E1D83 /* Send Message Contact Alert */,
 				F5AAD085039BA0D301A8010A /* Sound */,
 				11C7CAEF0BB58F4100296D7F /* Nudge and Buzz Handler */,
-				632D859C0DB70FC800040EC7 /* AIMentionEventPlugin.h */,
-				632D859D0DB70FC800040EC7 /* AIMentionEventPlugin.m */,
+				112B4A0B0F83192500690E84 /* Mentions */,
 			);
 			name = "Events and Actions";
 			sourceTree = "<group>";
@@ -8709,6 +8725,7 @@
 				11C97DFD0F7D26C200E8DD37 /* dsa_pub.pem in Resources */,
 				11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */,
 				112B483F0F82E91200690E84 /* Group Chat Status Icons in Resources */,
+				112B4A3E0F831A4400690E84 /* AIMentionAdvancedPreferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9334,6 +9351,7 @@
 				117009A20F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
 				11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */,
 				112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */,
+				112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

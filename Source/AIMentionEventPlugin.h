@@ -17,5 +17,10 @@
 #import <Adium/AIPlugin.h>
 #import <Adium/AIContentControllerProtocol.h>
 
-@interface AIMentionEventPlugin : AIPlugin <AIContentFilter>{}
+#import "AIMentionAdvancedPreferences.h"
+
+@interface AIMentionEventPlugin : AIPlugin <AIContentFilter> {
+	AIMentionAdvancedPreferences *advancedPreferences;
+}
+
 @end

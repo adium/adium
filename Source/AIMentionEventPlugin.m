@@ -22,6 +22,9 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
+
+#define PREF_KEY_MENTIONS		@"Saved Mentions"
 
 /*!
  * @class AIMentionEventPlugin
@@ -37,6 +40,8 @@
 	[adium.contentController registerContentFilter:self
 											  ofType:AIFilterContent 
 										   direction:AIFilterIncoming];
+
+	advancedPreferences = [[AIMentionAdvancedPreferences preferencePaneForPlugin:self] retain];
 }
 
 - (void)uninstallPlugin
@@ -66,6 +71,8 @@
 	
 	// XXX Include chat nickname
 	NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
+	
+	myNames = [myNames arrayByAddingObjectsFromArray:[adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL]];
 
 	for(NSString *checkString in myNames) {
 		NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
