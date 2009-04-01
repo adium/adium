@@ -219,9 +219,9 @@
 													 selector:@selector(periodicUpdate)
 													 userInfo:nil
 													  repeats:YES];
+		
+		[self periodicUpdate];
 	}
-	
-	[self periodicUpdate];
 }
 
 /*!
