@@ -1101,12 +1101,11 @@ static NSArray *validSenderColors;
 		}
 
 		//Message (must do last)
-		do{
-			range = [inString rangeOfString:@"%message%"];
-			if (range.location != NSNotFound) {
-				[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
-			}
-		} while(range.location != NSNotFound);
+		range = [inString rangeOfString:@"%message%"];
+		while(range.location != NSNotFound) {
+			[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
+			range = [inString rangeOfString:@"%message%" options:NSLiteralSearch range:NSMakeRange(NSMaxRange(range), inString.length - NSMaxRange(range))];
+		} 
 		
 		// Topic replacement (if applicable)
 		if ([content isKindOfClass:[AIContentTopic class]]) {
