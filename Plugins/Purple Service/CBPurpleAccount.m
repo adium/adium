@@ -731,18 +731,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 //Chats ------------------------------------------------------------
 #pragma mark Chats
-- (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat
-{
-	//No change for the superclass; subclasses may wish to modify it
-	return inUID;
-}
-
 - (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat
 {
 	if (!chat)
 		return;
 	
-	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:contactName inChat:chat]];
+	AIListContact *contact = [self contactWithUID:contactName];
 	[chat removeObject:contact];
 }
 
@@ -753,50 +747,34 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
-- (void)updateUserListForChat:(AIChat *)chat
+- (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded
 {
-	PurpleConversation *conv = [[chat identifier] pointerValue];
-	if (conv) {
-		GList *users = purple_conv_chat_get_users(purple_conversation_get_chat_data(conv));
-		[self updateUserListForChat:chat users:users newlyAdded:NO];
+	NSMutableArray *newListObjects = [NSMutableArray array];
+	
+	for (NSDictionary *user in users) {
+		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
+		
+		[newListObjects addObject:contact];
 	}
-}
+	
+	[chat addParticipatingListObjects:newListObjects notify:newlyAdded];
+	
+	for (NSDictionary *user in users) {
+		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
+		
+		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
+		if ([user objectForKey:@"Alias"]) {
+			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
+		}
+	}
 
-- (void)updateUserListForChat:(AIChat *)chat users:(GList *)users newlyAdded:(BOOL)newlyAdded
-{
-	NSMutableArray	*adds = [NSMutableArray array];
-	
-	// Create and add any users as appropriate.
-	for (GList *l = users; l; l = l->next) {
-		const char *normalizedUID = purple_normalize(self.purpleAccount, purple_conv_chat_cb_get_name((PurpleConvChatBuddy *)l->data));		
-		AIListContact *chatContact = [self contactWithUID:[NSString stringWithUTF8String:normalizedUID]];
-		
-		[adds addObject:chatContact];
-	}
-	
-	[chat addParticipatingListObjects:adds notify:newlyAdded];
-	
-	// Go back through and update the flags.
-	for (GList *l = users; l; l = l->next) {
-		PurpleConvChatBuddy *cb = (PurpleConvChatBuddy *)l->data;
-		
-		const char *normalizedUID = purple_normalize(self.purpleAccount, purple_conv_chat_cb_get_name(cb));
-		AIListContact *chatContact = [self contactWithUID:[NSString stringWithUTF8String:normalizedUID]];
-		
-		[chat setFlags:(AIGroupChatFlags)cb->flags forContact:chatContact];
-		[chat setAlias:(cb->alias ? [NSString stringWithUTF8String:cb->alias] : @"") forContact:chatContact];
-	}
-	
 	// Post an update notification now that we've modified the flags and names.
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 														object:chat];
 }
 
-- (void)renameParticipant:(PurpleConvChatBuddy *)cb oldName:(NSString *)oldName newName:(NSString *)newName newAlias:(NSString *)newAlias inChat:(AIChat *)chat
+- (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(AIGroupChatFlags)flags inChat:(AIChat *)chat
 {
-	NSString *oldUID = [self uidForContactWithUID:oldName inChat:chat];
-	NSString *newUID = [self uidForContactWithUID:newName inChat:chat];
-	
 	[chat removeSavedValuesForContactUID:oldUID];
 	
 	AIListContact *contact = [adium.contactController existingContactWithService:self.service account:self UID:oldUID];
@@ -808,16 +786,16 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 
 	[chat setAlias:newAlias forContact:contact];
-	[chat setFlags:(AIGroupChatFlags)cb->flags forContact:contact];
+	[chat setFlags:flags forContact:contact];
 
 	// Post an update notification since we modified the user entirely.
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 														object:chat];
 }
 
-- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(PurpleConvChatBuddyFlags)flags
+- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(AIGroupChatFlags)flags
 {
-	AIListContact *contact = [self contactWithUID:[self uidForContactWithUID:user inChat:chat]];
+	AIListContact *contact = [self contactWithUID:user];
 	
 	[chat setFlags:flags forContact:contact];
 	
@@ -849,12 +827,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			[self displayYouHaveConnectedInChat:chat];
 			
 			[chat setValue:nil forProperty:@"Rejoining Chat" notify:NotifyNever];
-		}
-		
-		if (chat.isGroupChat) {
-			[self performSelector:@selector(updateUserListForChat:)
-					   withObject:chat
-					   afterDelay:0];
 		}
 	}
 
