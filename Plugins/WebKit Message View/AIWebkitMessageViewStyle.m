@@ -889,31 +889,32 @@ static NSArray *validSenderColors;
 		}
 	} while (range.location != NSNotFound);
 	
+	do{
+		range = [inString rangeOfString:@"%userIconPath%"];
+		if (range.location != NSNotFound) {
+			NSString    *userIconPath;
+			NSString	*replacementString;
+			
+			userIconPath = [theSource valueForProperty:KEY_WEBKIT_USER_ICON];
+			if (!userIconPath) {
+				userIconPath = [theSource valueForProperty:@"UserIconPath"];
+			}
+			
+			if (showUserIcons && userIconPath) {
+				replacementString = [NSString stringWithFormat:@"file://%@", userIconPath];
+				
+			} else {
+				replacementString = ([content isOutgoing]
+									 ? @"Outgoing/buddy_icon.png" 
+									 : @"Incoming/buddy_icon.png");
+			}
+			
+			[inString safeReplaceCharactersInRange:range withString:replacementString];
+		}
+	} while (range.location != NSNotFound);
+	
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
-		do{
-			range = [inString rangeOfString:@"%userIconPath%"];
-			if (range.location != NSNotFound) {
-				NSString    *userIconPath;
-				NSString	*replacementString;
-				
-				userIconPath = [theSource valueForProperty:KEY_WEBKIT_USER_ICON];
-				if (!userIconPath) {
-					userIconPath = [theSource valueForProperty:@"UserIconPath"];
-				}
-					
-				if (showUserIcons && userIconPath) {
-					replacementString = [NSString stringWithFormat:@"file://%@", userIconPath];
-					
-				} else {
-					replacementString = ([content isOutgoing]
-										 ? @"Outgoing/buddy_icon.png" 
-										 : @"Incoming/buddy_icon.png");
-				}
-				
-				[inString safeReplaceCharactersInRange:range withString:replacementString];
-			}
-		} while (range.location != NSNotFound);
 		
 		//Use [content source] directly rather than the potentially-metaContact theSource
 		NSString *formattedUID = nil;
