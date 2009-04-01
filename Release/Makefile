@@ -55,6 +55,7 @@ RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
 ifeq ($(NIGHTLY),TRUE)
+	ADIUM_DIR:=$(ADIUM_DIR)\ `(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
 	VERSION_ESCAPED:=$(VERSION_ESCAPED)\`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
 	VERSION:=$(VERSION)`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
 	BUILD_IN_DEBUG_MODE=TRUE
@@ -199,9 +200,9 @@ endif
 
 tarballapp:
 	rm $(BUILD_DIR)/Adium_temp.tgz || true
-	# We have to make a temporary named once, since the `svn` command won't work
-	# in build/ for nightlies.
-	cd $(BUILD_DIR) && tar zcf Adium_temp.tgz Adium/ && cd ..
+	@# We have to make a temporary named once, since the `svn` command won't work
+	@# in build/ for nightlies.
+	cd $(BUILD_DIR) && tar zcf Adium_temp.tgz Adium*/ && cd ..
 	mv $(BUILD_DIR)/Adium_temp.tgz $(BUILD_DIR)/$(RELEASE_NAME).tgz
 
 tarball:
