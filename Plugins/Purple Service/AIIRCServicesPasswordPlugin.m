@@ -7,6 +7,7 @@
 
 #import "AIIRCServicesPasswordPlugin.h"
 #import "ESIRCAccount.h"
+#import <AIUtilities/AIStringAdditions.h>
 #import <Adium/AIPasswordPromptController.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
@@ -67,6 +68,10 @@
 		} else if ([message rangeOfString:@"before it is changed"].location != NSNotFound) {
 			contentObject.displayContent = NO;
 		}
+	} else if ([contentObject.source.UID isCaseInsensitivelyEqualToString:@"freenode-connect"] &&
+			   [contentObject.chat.account.host rangeOfString:@"freenode.net"].location != NSNotFound) {
+		// As a side benefit of having this huge construct here, SHUT UP FREENODE PLEASE.
+		contentObject.displayContent = NO; // NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO
 	}
 }
 
