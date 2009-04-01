@@ -230,7 +230,7 @@
 		AIChat			*chat = inObject.chat;
 
 		//Only proceed if the contact is not ignored or blocked
-		if (![chat isListContactIgnored:[inObject source]] && ![[inObject source] isBlocked]) {
+		if (!inObject.source || (![chat isListContactIgnored:[inObject source]] && ![[inObject source] isBlocked])) {
 			//Notify: Will Receive Content
 			if ([inObject trackContent]) {
 				[[NSNotificationCenter defaultCenter] postNotificationName:Content_WillReceiveContent
