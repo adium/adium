@@ -407,8 +407,7 @@ static NSArray *validSenderColors;
 	NSString	*template;
 	
 	//Get the correct template for what we're inserting
-	if ([[content type] isEqualToString:CONTENT_MESSAGE_TYPE] || 
-		[[content type] isEqualToString:CONTENT_NOTIFICATION_TYPE]) {
+	if ([[content type] isEqualToString:CONTENT_MESSAGE_TYPE]) {
 		if ([content isOutgoing]) {
 			template = (contentIsSimilar ? nextContentOutHTML : contentOutHTML);
 		} else {
