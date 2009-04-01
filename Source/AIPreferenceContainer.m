@@ -513,11 +513,20 @@ typedef enum {
 
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
+	NSString *userDir = adium.loginController.userDirectory;
+	//userDir should only be nil if we haven't finished logging in yet. We'll just wait until next time and it should be fine.
+	if (!userDir) {
+#ifdef DEBUG_BUILD
+		NSLog(@"adium.loginController.userDirectory returned nil. If this happens twice for one launch of Adium, something is probably wrong");
+#endif
+		return;
+	}
+	
 	[NSThread detachNewThreadSelector:@selector(threadedSavePrefs:)
 							 toTarget:self
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
 									   [inTimer userInfo], @"PrefsToSave",
-									   [adium.loginController userDirectory], @"DestinationDirectory",
+									   userDir, @"DestinationDirectory",
 										globalPrefsName, @"PrefsName",
 									    inTimer, @"NSTimer",
 									   nil]];
