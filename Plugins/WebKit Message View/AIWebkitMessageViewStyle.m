@@ -1100,10 +1100,12 @@ static NSArray *validSenderColors;
 		}
 
 		//Message (must do last)
-		range = [inString rangeOfString:@"%message%"];
-		if (range.location != NSNotFound) {
-			[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
-		}
+		do{
+			range = [inString rangeOfString:@"%message%"];
+			if (range.location != NSNotFound) {
+				[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
+			}
+		} while(range.location != NSNotFound);
 		
 		// Topic replacement (if applicable)
 		if ([content isKindOfClass:[AIContentTopic class]]) {
