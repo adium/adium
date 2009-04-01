@@ -139,7 +139,9 @@ void updateSocketForSourceInfo(SourceInfo *sourceInfo)
 }
 
 gboolean adium_source_remove(guint tag) {
-    SourceInfo *sourceInfo = (SourceInfo *)[sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:tag]];
+	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:tag];
+    SourceInfo *sourceInfo = (SourceInfo *)[sourceInfoDict objectForKey:tagNumber];
+	BOOL didRemove;
 
     if (sourceInfo) {
 #ifdef PURPLE_SOCKET_DEBUG
@@ -193,12 +195,17 @@ gboolean adium_source_remove(guint tag) {
 			}
 		}
 		
-		[sourceInfoDict removeObjectForKey:[NSNumber numberWithUnsignedInt:tag]];
+		[sourceInfoDict removeObjectForKey:tagNumber];
 
-		return TRUE;
+		didRemove = TRUE;
+
+	} else {
+		didRemove = FALSE;
 	}
-	
-	return FALSE;
+
+	[tagNumber release];
+
+	return didRemove;
 }
 
 //Like g_source_remove, return TRUE if successful, FALSE if not
@@ -243,8 +250,10 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 	info->timer_user_data = data;	
 	info->timer_tag = timer_tag;
 
+	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:timer_tag];
 	[sourceInfoDict setObject:info
-					   forKey:[NSNumber numberWithUnsignedInt:timer_tag]];
+					   forKey:tagNumber];
+	[tagNumber release];
 
 	CFRunLoopAddTimer(purpleRunLoop, runLoopTimer, kCFRunLoopCommonModes);
 	[info release];
@@ -299,16 +308,20 @@ guint adium_input_add(int fd, PurpleInputCondition condition,
 		info->read_ioFunction = func;
 		info->read_user_data = user_data;
 		
+		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:info->read_tag];
 		[sourceInfoDict setObject:info
-						   forKey:[NSNumber numberWithUnsignedInt:info->read_tag]];
+						   forKey:tagNumber];
+		[tagNumber release];
 		
 	} else {
 		info->write_tag = ++sourceId;
 		info->write_ioFunction = func;
 		info->write_user_data = user_data;
 		
+		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:info->write_tag];
 		[sourceInfoDict setObject:info
-						   forKey:[NSNumber numberWithUnsignedInt:info->write_tag]];		
+						   forKey:tagNumber];
+		[tagNumber release];
 	}
 	
 	updateSocketForSourceInfo(info);
