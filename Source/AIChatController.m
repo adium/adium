@@ -358,34 +358,40 @@
 }
 
 /*!
- * @brief Return a pre-existing group chat containing a contact.
+ * @brief Find all open chats with a contact
  *
- * @result The chat, or nil if no chat with the contact exists
+ * @param inContact The contact. If inContact is an AIMetaContact, all chats with all contacts within the metaContact will be returned.
+ * @result An NSSet with all chats with the contact.
  */
-- (AIChat *)existingGroupChatContainingContact:(AIListContact *)inContact
+- (NSSet *)allGroupChatsContainingContact:(AIListContact *)inContact
 {
-	AIChat			*chat = nil;
-	
+	NSMutableSet *groupChats = [NSMutableSet set];
+
 	//Search for a chat containing this AIListContact
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//Search for a chat with any contact within this AIMetaContact
-		for (chat in openChats) {
+		for (AIChat *chat in openChats) {
 			if (!chat.isGroupChat)
 				continue;
 			
 			for (AIListContact *contact in (AIMetaContact *)inContact) {
-				if([chat containsObject:contact]) break;
+				if([chat containsObject:contact]) {
+					[groupChats addObject:chat];
+					break;
+				}
 			}
 		}
 		
 	} else {
 		//Search for a chat with this AIListContact
-		for (chat in openChats) {
-			if (chat.isGroupChat && [chat containsObject:inContact]) break;
+		for (AIChat *chat in openChats) {
+			if (chat.isGroupChat && [chat containsObject:inContact]) {
+				[groupChats addObject:chat];
+			}
 		}
 	}
 	
-	return chat;
+	return (groupChats.count ? groupChats : nil);
 }
 
 /*!
