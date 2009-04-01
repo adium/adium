@@ -1154,6 +1154,26 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	[self inviteContact:contact toChat:chat withMessage:nil];
 }
 
+- (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)inChat
+{
+	PurpleConversation *conv = convLookupFromChat(inChat, inChat.account);
+	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
+
+	return (purple_conv_chat_is_user_ignored(convChat, [inContact.UID UTF8String]) ? YES : NO);
+}
+
+- (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)inChat
+{
+	PurpleConversation *conv = convLookupFromChat(inChat, inChat.account);
+	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
+	
+	if ([self contact:inContact isIgnoredInChat:inChat]) {
+		purple_conv_chat_unignore(convChat, [inContact.UID UTF8String]);
+	} else {
+		purple_conv_chat_ignore(convChat, [inContact.UID UTF8String]);
+	}
+}
+
 #pragma mark Account Status
 GList *createListFromDictionary(NSDictionary *arguments)
 {

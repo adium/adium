@@ -910,7 +910,7 @@ typedef enum
 - (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
 {}
 
-#pragma mark Chat Commands
+#pragma mark Group Chats
 /*!
  * @brief Should the chat autocomplete the UID instead of the Display Name?
  */
@@ -922,6 +922,41 @@ typedef enum
 -(NSMenu*)actionsForChat:(AIChat*)chat
 {
 	return nil;
+}
+
+/*!
+ * @brief Does the account manage group chat ignoring?
+ *
+ * If it doesn't, the AIChat will handle ignoring itself.
+ */
+- (BOOL)accountManagesGroupChatIgnore
+{
+	return NO;
+}
+
+/*!
+ * @brief Return if a contact is ignored
+ *
+ * @param inContact The AIListContact
+ * @param chat The AIChat the inContact is a member of.
+ *
+ * @return YES if ignored, NO otherwise.
+ */
+- (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)chat
+{
+	return NO;
+}
+
+/*!
+ * @brief Ignore a contact
+ *
+ * @param inContact The AIListContact
+ * @param inIgnored YES if the contact should be ignored, NO otherwise.
+ * @param chat The AIChat the inContact is a member of.
+ */
+- (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)chat
+{
+	
 }
 
 #pragma mark Logging

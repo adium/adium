@@ -699,7 +699,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex {};
 
 
-#pragma mark	
+#pragma mark Ignoring
 /*!
  * @brief Set the ignored state of a contact
  *
@@ -708,16 +708,20 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  */
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored
 {
-	//Create ignoredListContacts if needed
-	if (isIgnored && !ignoredListContacts) {
-		ignoredListContacts = [[NSMutableSet alloc] init];	
-	}
-
-	if (isIgnored) {
-		[ignoredListContacts addObject:inContact];
+	if (self.account.accountManagesGroupChatIgnore) {
+		[self.account setContact:inContact ignored:isIgnored inChat:self];
 	} else {
-		[ignoredListContacts removeObject:inContact];		
-	}	
+		//Create ignoredListContacts if needed
+		if (isIgnored && !ignoredListContacts) {
+			ignoredListContacts = [[NSMutableSet alloc] init];	
+		}
+
+		if (isIgnored) {
+			[ignoredListContacts addObject:inContact];
+		} else {
+			[ignoredListContacts removeObject:inContact];		
+		}	
+	}
 }
 
 /*!
@@ -728,7 +732,11 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
  */
 - (BOOL)isListContactIgnored:(AIListObject *)inContact
 {
-	return [ignoredListContacts containsObject:inContact];
+	if (self.account.accountManagesGroupChatIgnore) {
+		return [self.account contact:(AIListContact *)inContact isIgnoredInChat:self];
+	} else {
+		return [ignoredListContacts containsObject:inContact];
+	}
 }
 
 #pragma mark Comparison

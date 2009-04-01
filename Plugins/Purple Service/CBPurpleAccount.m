@@ -707,6 +707,28 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
+#pragma mark Group chat ignore
+- (BOOL)accountManagesGroupChatIgnore
+{
+	return YES;
+}
+
+- (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)chat
+{
+	if (chat.isGroupChat) {
+		return [purpleAdapter contact:inContact isIgnoredInChat:chat];
+	} else {
+		return NO;
+	}
+}
+
+- (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)chat
+{
+	if (chat.isGroupChat) {
+		[purpleAdapter setContact:inContact ignored:inIgnored inChat:chat];
+	}
+}
+
 //Chats ------------------------------------------------------------
 #pragma mark Chats
 - (NSString *)uidForContactWithUID:(NSString *)inUID inChat:(AIChat *)chat

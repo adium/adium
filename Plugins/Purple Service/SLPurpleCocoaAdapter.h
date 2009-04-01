@@ -60,6 +60,8 @@
 
 - (void)openChat:(AIChat *)chat onAccount:(id)adiumAccount;
 - (void)inviteContact:(AIListContact *)contact toChat:(AIChat *)chat withMessage:(NSString *)inviteMessage;
+- (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)inChat;
+- (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)inChat;
 
 - (void)closeChat:(AIChat *)chat;
 - (void)disconnectAccount:(id)adiumAccount;
