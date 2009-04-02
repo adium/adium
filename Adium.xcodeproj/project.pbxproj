@@ -100,6 +100,7 @@
 		113891950F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */; };
 		113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892250F6B70CA00A7D7DC /* laconica-small.png */; };
 		113892280F6B70CA00A7D7DC /* laconica.png in Resources */ = {isa = PBXBuildFile; fileRef = 113892260F6B70CA00A7D7DC /* laconica.png */; };
+		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
 		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
@@ -1775,6 +1776,8 @@
 		113891940F6B6B9C00A7D7DC /* AILaconicaAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaAccountViewController.m; path = "Plugins/Twitter Plugin/AILaconicaAccountViewController.m"; sourceTree = "<group>"; };
 		113892250F6B70CA00A7D7DC /* laconica-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "laconica-small.png"; path = "Plugins/Twitter Plugin/laconica-small.png"; sourceTree = "<group>"; };
 		113892260F6B70CA00A7D7DC /* laconica.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laconica.png; path = "Plugins/Twitter Plugin/laconica.png"; sourceTree = "<group>"; };
+		1139FFA80F85260E0081A418 /* AIIRCChannelLinker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIIRCChannelLinker.h; path = Source/AIIRCChannelLinker.h; sourceTree = "<group>"; };
+		1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCChannelLinker.m; path = Source/AIIRCChannelLinker.m; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
 		114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAuthorizationRequestsWindowController.h; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.h"; sourceTree = "<group>"; };
@@ -5580,6 +5583,8 @@
 		34B3241D09B9FF6900029361 /* IRC */ = {
 			isa = PBXGroup;
 			children = (
+				1139FFA80F85260E0081A418 /* AIIRCChannelLinker.h */,
+				1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */,
 				117009A00F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.h */,
 				117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */,
 				34E4CD4E0E68277D00D1B0DC /* ESIRCService.h */,
@@ -9362,6 +9367,7 @@
 				112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */,
 				112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */,
 				1111B2680F847CAD0068CE51 /* AIFilterBarView.m in Sources */,
+				1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
