@@ -37,7 +37,7 @@
 #define KEY_COMPLETED_FIRST_LAUNCH	@"AdiumURLHandling:CompletedFirstLaunch"
 
 #define ADIUM_BUNDLE_ID				@"com.adiumX.adiumX"
-#define SUPPORTED_MESSAGING_SCHEMES_ARRAY		[NSArray arrayWithObjects:@"aim", @"ymsgr", @"yahoo", @"xmpp", @"jabber", @"msn", nil]
+#define SUPPORTED_MESSAGING_SCHEMES_ARRAY		[NSArray arrayWithObjects:@"aim", @"ymsgr", @"yahoo", @"xmpp", @"jabber", @"msn", @"irc", nil]
 
 @interface AdiumURLHandling()
 + (void)registerAsDefaultIMClient;
@@ -46,6 +46,7 @@
 + (void)_openChatToContactWithName:(NSString *)name onService:(NSString *)serviceIdentifier withMessage:(NSString *)body;
 + (void)_openAIMGroupChat:(NSString *)roomname onExchange:(NSInteger)exchange;
 + (void)_openXMPPGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)inPassword;
++ (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)password;
 - (void)promptUser;
 @end
 
@@ -65,6 +66,7 @@
 	if (!alreadySet) {
 		//Ask the user
 		AdiumURLHandling *instance = [[AdiumURLHandling alloc] init];
+	
 		[instance promptUser];
 		[instance release];
 	}
@@ -133,6 +135,7 @@
 				@"Jabber", @"xmpp",
  			    @"GTalk",  @"gtalk",
 				@"MSN",    @"msn",
+				@"IRC",	   @"irc",
 				nil];
 		}
 		
@@ -244,37 +247,37 @@
 				}
 				
 			//Jabber additions
-			} else if ([query rangeOfString:@"message"].location == 0) {
-				//xmpp:johndoe@jabber.org?message;subject=Subject;body=Body
-				NSString *msg = [[url queryArgumentForKey:@"body"] stringByDecodingURLEscapes];
-				
-				[self _openChatToContactWithName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-				                       onService:serviceID
-				                     withMessage:msg];
-			} else if ([query rangeOfString:@"roster"].location == 0
-			           || [query rangeOfString:@"subscribe"].location == 0) {
-				//xmpp:johndoe@jabber.org?roster;name=John%20Doe;group=Friends
-				//xmpp:johndoe@jabber.org?subscribe
-				
-				//Group specification and name specification is currently ignored,
-				//due to limitations in the AINewContactWindowController API.
+			} else if ([scheme isEqualToString:@"xmpp"]) {
+				if ([query rangeOfString:@"message"].location == 0) {
+					//xmpp:johndoe@jabber.org?message;subject=Subject;body=Body
+					NSString *msg = [[url queryArgumentForKey:@"body"] stringByDecodingURLEscapes];
+					
+					[self _openChatToContactWithName:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+										   onService:serviceID
+										 withMessage:msg];
+				} else if ([query rangeOfString:@"roster"].location == 0
+						   || [query rangeOfString:@"subscribe"].location == 0) {
+					//xmpp:johndoe@jabber.org?roster;name=John%20Doe;group=Friends
+					//xmpp:johndoe@jabber.org?subscribe
+					
+					//Group specification and name specification is currently ignored,
+					//due to limitations in the AINewContactWindowController API.
 
-				AIService *jabberService;
+					AIService *jabberService;
 
-				jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
+					jabberService = [adium.accountController firstServiceWithServiceID:@"Jabber"];
 
-				[AINewContactWindowController promptForNewContactOnWindow:nil
-				                                                     name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
-				                                                  service:jabberService
-																  account:nil];
-			} else if ([query rangeOfString:@"remove"].location == 0
-			           || [query rangeOfString:@"unsubscribe"].location == 0) {
-				// xmpp:johndoe@jabber.org?remove
-				// xmpp:johndoe@jabber.org?unsubscribe
-				
-			} else {
-				if (([query caseInsensitiveCompare:@"join"] == NSOrderedSame) &&
-					([scheme caseInsensitiveCompare:@"xmpp"] == NSOrderedSame)) {
+					[AINewContactWindowController promptForNewContactOnWindow:nil
+																		 name:[NSString stringWithFormat:@"%@@%@", [url user], [url host]]
+																	  service:jabberService
+																	  account:nil];
+				} else if ([query rangeOfString:@"remove"].location == 0
+						   || [query rangeOfString:@"unsubscribe"].location == 0) {
+					// xmpp:johndoe@jabber.org?remove
+					// xmpp:johndoe@jabber.org?unsubscribe
+					
+				} else if (([query caseInsensitiveCompare:@"join"] == NSOrderedSame) &&
+						   ([scheme caseInsensitiveCompare:@"xmpp"] == NSOrderedSame)) {
 					NSString *password = [[url queryArgumentForKey:@"password"] stringByDecodingURLEscapes];
 					//TODO: password support: xmpp:darkcave@macbeth.shakespeare.lit?join;password=cauldronburn
 
@@ -283,24 +286,39 @@
 								withPassword:password];
 
 					//TODO: 
-				} else {
-					//Default to opening the host as a name.
-					NSString	*user = [url user];
-					NSString	*host = [url host];
-					NSString	*name;
-					if (user && [user length]) {
-						//jabber://tekjew@jabber.org
-						//msn://jdoe@hotmail.com
-						name = [NSString stringWithFormat:@"%@@%@",[url user],[url host]];
-					} else {
-						//aim://tekjew
-						name = host;
-					}
-					
-					[self _openChatToContactWithName:[name compactedString]
-										   onService:serviceID
-										 withMessage:nil];
 				}
+			} else if ([scheme caseInsensitiveCompare:@"irc"] == NSOrderedSame) {
+				// irc://server/channel?password
+				NSString *channelName = [url fragment];
+				
+				if (!channelName.length && [url.path.lastPathComponent isEqualToString:@"/"]) {
+					channelName = @"#";
+				} else if (!channelName.length) {
+					channelName = url.path.lastPathComponent;
+				} else {
+					channelName = [@"#" stringByAppendingString:channelName];
+				}
+				
+				channelName = [channelName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+				[self _openIRCGroupChat:channelName onServer:[url host] withPassword:[url query]];
+			} else {
+				//Default to opening the host as a name.
+				NSString	*user = [url user];
+				NSString	*host = [url host];
+				NSString	*name;
+				if (user && [user length]) {
+					//jabber://tekjew@jabber.org
+					//msn://jdoe@hotmail.com
+					name = [NSString stringWithFormat:@"%@@%@",[url user],[url host]];
+				} else {
+					//aim://tekjew
+					name = host;
+				}
+
+				[self _openChatToContactWithName:[name compactedString]
+									   onService:serviceID
+									 withMessage:nil];
 			}
 			
 		} else if ([scheme isEqualToString:@"adiumxtra"]) {
@@ -349,6 +367,38 @@
 			[responder insertText:message];
 		}
 
+	} else {
+		NSBeep();
+	}
+}
+
++ (void)_openIRCGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)password
+{
+	AIAccount *ircAccount = nil;
+	
+	for (AIAccount *account in adium.accountController.accounts) {
+		if ([account.service.serviceClass isEqualToString:@"IRC"] && [account.host isEqualToString:server]) {
+			ircAccount = account;
+			break;
+		}
+	}
+	
+	if (!ircAccount) {
+		NSRunAlertPanel(AILocalizedString(@"Unable to Join Channel", nil),
+						AILocalizedString(@"Unable to join the channel %@, no account exists for server %@.", nil),
+						AILocalizedStringFromTable(@"OK", @"Buttons", "Verb 'OK' on a button"),
+						nil,
+						nil,
+						name,
+						server);
+	} else if (name) {
+		[adium.chatController chatWithName:name
+								identifier:nil
+								 onAccount:ircAccount
+						  chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+											name, @"channel",
+											password, @"password", /* may be nil, so should be last */
+											nil]];
 	} else {
 		NSBeep();
 	}
@@ -432,7 +482,7 @@
 - (void)promptUser
 {
 	if ([[adium.preferenceController preferenceForKey:KEY_COMPLETED_FIRST_LAUNCH group:GROUP_URL_HANDLING] boolValue]) {
-		if(![adium.preferenceController preferenceForKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING])
+		if(![adium.preferenceController preferenceForKey:KEY_DONT_PROMPT_FOR_URL group:GROUP_URL_HANDLING]) {
 			[adium.interfaceController displayQuestion:AILocalizedString(@"Change default messaging client?", nil)
 										 withDescription:AILocalizedString(@"Adium is not your default Instant Messaging client. The default client is loaded when you click messaging URLs in web pages. Would you like Adium to become the default?", nil)
 										 withWindowTitle:nil
@@ -442,6 +492,7 @@
 												  target:self
 												selector:@selector(URLQuestion:info:)
 												userInfo:nil];
+		}
 	} else {
 		//On the first launch, simply register. If the user uses another IM client which takes control of the protocols again, we'll prompt for what to do.
 		[AdiumURLHandling registerAsDefaultIMClient];
