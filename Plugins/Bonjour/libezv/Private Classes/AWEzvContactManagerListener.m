@@ -132,7 +132,7 @@
 	/* we have to ask it to keep accepting connections now */
 	[[aNotification object] acceptConnectionInBackgroundAndNotify];
 
-	ipAddr = [NSString stringWithCString:inet_ntoa((&remoteAddress)->sin_addr)];
+	ipAddr = [NSString stringWithUTF8String:inet_ntoa((&remoteAddress)->sin_addr)];
 
 	AILog(@"%s: Remote IP address (basis of contactIdentifier) is %@", __PRETTY_FUNCTION__, ipAddr);
 	contactIdentifier = [[ipAddr mutableCopy] autorelease];
