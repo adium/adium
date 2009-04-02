@@ -287,7 +287,7 @@ static NSString	*prefsCategory;
 										   group:@"Confirmations"] boolValue]) {
 		return NSTerminateNow;
 	}
-	
+		
 	AIQuitConfirmationType		confirmationType = [[preferenceController preferenceForKey:@"Confirm Quit Type"
 																							group:@"Confirmations"] integerValue];
 	BOOL confirmUnreadMessages	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for Unread Messages"
@@ -866,28 +866,21 @@ static NSString	*prefsCategory;
  */
 - (NSArray *)resourcePathsForName:(NSString *)name
 {
-	NSArray			*librarySearchPaths;
-	NSString		*adiumFolderName;
 	NSMutableArray  *pathArray = [NSMutableArray arrayWithCapacity:4];
 	NSFileManager	*defaultManager = [NSFileManager defaultManager];
 	BOOL			isDir;
 			
-	adiumFolderName = (name ?
-					   [[@"Application Support" stringByAppendingPathComponent:@"Adium 2.0"] stringByAppendingPathComponent:name] :
-					   [@"Application Support" stringByAppendingPathComponent:@"Adium 2.0"]);
+	NSString *adiumFolderName = [@"Application Support" stringByAppendingPathComponent:@"Adium 2.0"];
+	if (name)
+		adiumFolderName = [adiumFolderName stringByAppendingPathComponent:name];
 
 	//Find Library directories in all domains except /System (as of Panther, that's ~/Library, /Library, and /Network/Library)
-	librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
+	NSArray *librarySearchPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask - NSSystemDomainMask, YES);
 
 	//Copy each discovered path into the pathArray after adding our subfolder path
-	NSString *path = nil;
-	for (path in librarySearchPaths) {
-		NSString	*fullPath;
-		
-		fullPath = [path stringByAppendingPathComponent:adiumFolderName];
-		if (([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir]) &&
-			(isDir)) {
-			
+	for (NSString *path in librarySearchPaths) {
+		NSString	*fullPath = [path stringByAppendingPathComponent:adiumFolderName];
+		if ([defaultManager fileExistsAtPath:fullPath isDirectory:&isDir] && isDir) {
 			[pathArray addObject:fullPath];
 		}
 	}
@@ -895,9 +888,9 @@ static NSString	*prefsCategory;
 	/* Check our application support directory directly. It may have been covered by the NSSearchPathForDirectoriesInDomains() search,
 	 * or it may be distinct via the Portable Adium preference.
 	 */
-	path = (name ?
-			[[self applicationSupportDirectory] stringByAppendingPathComponent:name] :
-			[self applicationSupportDirectory]);
+	NSString *path = [self applicationSupportDirectory];
+	if (name)
+		path = [path stringByAppendingPathComponent:name];
 	if (![pathArray containsObject:path] &&
 		([defaultManager fileExistsAtPath:path isDirectory:&isDir]) &&
 		(isDir)) {
