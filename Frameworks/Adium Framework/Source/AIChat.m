@@ -662,7 +662,9 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 - (void)removeAllParticipatingContactsSilently
 {
 	for (AIListContact *listContact in self) {
-		if (listContact.isStranger && ![adium.chatController existingChatWithContact:listContact.parentContact]) {
+		if (listContact.isStranger &&
+			![adium.chatController existingChatWithContact:listContact.parentContact] &&
+			![adium.chatController allGroupChatsContainingContact:listContact.parentContact].count) {
 			[adium.contactController accountDidStopTrackingContact:listContact];
 		}
 	}
