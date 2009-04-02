@@ -1142,8 +1142,10 @@
     //Update the user list
 	AILogWithSignature(@"%i, so %@ %@",[self userListVisible], ([self userListVisible] ? @"reloading" : @"not reloading"),
 					   userListController);
+	
+	[chat resortParticipants];
+	
     if ([self userListVisible]) {
-		[chat resortParticipants];
         [userListController reloadData];
 		
 		[self updateUserCount];
