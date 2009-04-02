@@ -493,7 +493,7 @@ static NSArray *draggedTypes = nil;
 															  date:[NSDate date]
 														   message:[NSAttributedString stringWithString:chat.topic]];
 		
-		[self enqueueContentObject:contentTopic];
+		[adium.contentController receiveContentObject:contentTopic];
 	}
 	
 	if (reprocessContent) {
@@ -1375,7 +1375,7 @@ static NSArray *draggedTypes = nil;
 															  date:[NSDate date]
 														   message:[NSAttributedString stringWithString:chat.topic]];
 		
-		[self enqueueContentObject:contentTopic];
+		[adium.contentController receiveContentObject:contentTopic];
 		
 		// Tell the chat to set the topic.
 		[chat setTopic:topicChange];
