@@ -11,7 +11,7 @@
 
 @implementation AIFilterBarView
 
-@synthesize backgroundColor, backgroundIsRounded, drawBackground;
+@synthesize backgroundColor, backgroundIsRounded, drawsBackground;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -24,11 +24,11 @@
 
 - (void)drawRect:(NSRect)rect
 {	
-	if (drawBackground && backgroundColor) {
+	if (drawsBackground && backgroundColor) {
 		NSBezierPath *bezierPath;
 		
 		if (backgroundIsRounded) {
-			bezierPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds];
+			bezierPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds radius:6];
 		} else {
 			bezierPath = [NSBezierPath bezierPathWithRect:self.bounds];
 		}
