@@ -48,43 +48,29 @@
 }
 
 - (void)setListObject:(AIListObject *)inObject;
-- (BOOL)isGroup;
-- (void)setControlView:(AIListOutlineView *)inControlView;
+@property (readonly, nonatomic) BOOL isGroup;
+@property (readwrite, assign, nonatomic) AIListOutlineView *controlView;
 
-//Display options 
-- (void)setFont:(NSFont *)inFont;
-- (NSFont *)font;
-- (void)setTextAlignment:(NSTextAlignment)inAlignment;
-- (NSTextAlignment)textAlignment;
-- (void)setTextColor:(NSColor *)inColor;
-- (NSColor *)textColor;
-- (void)setInvertedTextColor:(NSColor *)inColor;
-- (NSColor *)invertedTextColor;
+//Display options
+@property (readwrite, retain, nonatomic) NSFont *font;
+@property (readwrite, nonatomic) NSTextAlignment textAlignment;
+@property (readwrite, retain, nonatomic) NSColor *textColor;
+@property (readwrite, retain, nonatomic) NSColor *invertedTextColor;
 
 //Cell sizing and padding
-- (NSSize)cellSize;
-- (int)cellWidth;
-- (void)setSplitVerticalSpacing:(int)inSpacing;
-- (void)setTopSpacing:(int)inSpacing;
-- (int)topSpacing;
-- (void)setBottomSpacing:(int)inSpacing;
-- (int)bottomSpacing;
-- (void)setLeftSpacing:(int)inSpacing;
-- (int)leftSpacing;
-- (void)setRightSpacing:(int)inSpacing;
-- (int)rightSpacing;
-- (void)setSplitVerticalPadding:(int)inPadding;
-- (void)setTopPadding:(int)inPadding;
-- (void)setBottomPadding:(int)inPadding;
-- (int)topPadding;
-- (int)bottomPadding;
-- (void)setLeftPadding:(int)inPadding;
-- (int)leftPadding;
-- (void)setRightPadding:(int)inPadding;
-- (int)rightPadding;
-
-- (void)setIndentation:(int)inIndentation;
-- (int)indentation;
+- (void) setSplitVerticalSpacing:(int) inSpacing;
+- (void) setSplitVerticalPadding:(int) inPadding;
+@property (readonly, nonatomic) NSSize cellSize;
+@property (readonly, nonatomic) int cellWidth;
+@property (readwrite, nonatomic) int rightSpacing;
+@property (readwrite, nonatomic) int leftSpacing;
+@property (readwrite, nonatomic) int topSpacing;
+@property (readwrite, nonatomic) int bottomSpacing;
+@property (readwrite, nonatomic) int rightPadding;
+@property (readwrite, nonatomic) int leftPadding;
+@property (readwrite, nonatomic) int topPadding;
+@property (readwrite, nonatomic) int bottomPadding;
+@property (readwrite, nonatomic) int indentation;
 
 //Drawing
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
@@ -104,9 +90,6 @@
 - (BOOL)drawGridBehindCell;
 - (NSColor *)backgroundColor;
 
-- (BOOL)shouldShowAlias;
-
-//Control over whether the cell will respect aliases and long display names
-- (void)setUseAliasesAsRequested:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL shouldShowAlias;
 
 @end

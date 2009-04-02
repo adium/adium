@@ -103,15 +103,8 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 		isGroup = [listObject isKindOfClass:[AIListGroup class]];
 	}
 }
-- (BOOL)isGroup{
-	return isGroup;
-}
 
-//Set our control view (Better than passing this around like crazy)
-- (void)setControlView:(AIListOutlineView *)inControlView
-{
-	controlView = inControlView;
-}
+@synthesize isGroup, controlView;
 
 //Return that this cell is draggable
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
@@ -136,38 +129,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	return font;
 }
 
-//Alignment of label text
-- (void)setTextAlignment:(NSTextAlignment)inAlignment
-{
-	textAlignment = inAlignment;
-}
-- (NSTextAlignment)textAlignment{
-	return textAlignment;
-}
-
-//Text color
-- (void)setTextColor:(NSColor *)inColor
-{
-	if (inColor != textColor) {
-		[textColor release];
-		textColor = [inColor retain];
-	}
-}
-- (NSColor *)textColor{
-	return textColor;
-}
-
-- (void)setInvertedTextColor:(NSColor *)inColor
-{
-	if (inColor != invertedTextColor) {
-		[invertedTextColor release];
-		invertedTextColor = [inColor retain];
-	}
-}
-- (NSColor *)invertedTextColor{
-	return invertedTextColor;
-}
-
+@synthesize textAlignment, textColor, invertedTextColor;
 
 //Cell sizing and padding ----------------------------------------------------------------------------------------------
 #pragma mark Cell sizing and padding
@@ -185,71 +147,18 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //User-defined spacing offsets.  A cell may adjust these values to to obtain a more desirable default. 
 //These are offsets, they may be negative!  Spacing is the distance between cells (Spacing gaps are not filled).
 - (void)setSplitVerticalSpacing:(int)inSpacing{
-	topSpacing = inSpacing / 2;
-	bottomSpacing = (inSpacing + 1) / 2;
-}
-- (void)setTopSpacing:(int)inSpacing{
-	topSpacing = inSpacing;
-}
-- (int)topSpacing{
-	return topSpacing;
-}
-- (void)setBottomSpacing:(int)inSpacing{
-	bottomSpacing = inSpacing;
-}
-- (int)bottomSpacing{
-	return bottomSpacing;
-}
-- (void)setLeftSpacing:(int)inSpacing{
-	leftSpacing = inSpacing;
-}
-- (int)leftSpacing{
-	return leftSpacing;
-}
-- (void)setRightSpacing:(int)inSpacing{
-	rightSpacing = inSpacing;
-}
-- (int)rightSpacing{
-	return rightSpacing;
+	self.topSpacing = inSpacing / 2;
+	self.bottomSpacing = (inSpacing + 1) / 2;
 }
 
 //User-defined padding offsets.  A cell may adjust these values to to obtain a more desirable default.
 //These are offsets, they may be negative!  Padding is the distance between cell edges and their content.
 - (void)setSplitVerticalPadding:(int)inPadding{
-	topPadding = inPadding / 2;
-	bottomPadding = (inPadding + 1) / 2;
-}
-- (void)setTopPadding:(int)inPadding{
-	topPadding = inPadding;
-}
-- (void)setBottomPadding:(int)inPadding{
-	bottomPadding = inPadding;
-}
-- (int)topPadding{
-	return topPadding;
-}
-- (int)bottomPadding{
-	return bottomPadding;
-}
-- (void)setLeftPadding:(int)inPadding{
-	leftPadding = inPadding;
-}
-- (int)leftPadding{
-	return leftPadding;
-}
-- (void)setRightPadding:(int)inPadding{
-	rightPadding = inPadding;
-}
-- (int)rightPadding{
-	return rightPadding;
+	self.topPadding = inPadding / 2;
+	self.bottomPadding = (inPadding + 1) / 2;
 }
 
-- (void)setIndentation:(int)inIndentation{
-	indentation = inIndentation;
-}
-- (int)indentation{
-	return indentation;
-}
+@synthesize rightPadding, leftPadding, topPadding, bottomPadding, indentation, rightSpacing, leftSpacing, topSpacing, bottomSpacing;
 
 //Drawing --------------------------------------------------------------------------------------------------------------
 #pragma mark Drawing
@@ -304,16 +213,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 }
 
 //Draw Selection
-- (void)drawSelectionWithFrame:(NSRect)rect
-{
-	//
-}
+- (void)drawSelectionWithFrame:(NSRect)rect {}
 	
 //Draw the background of our cell
-- (void)drawBackgroundWithFrame:(NSRect)rect
-{
-	//
-}
+- (void)drawBackgroundWithFrame:(NSRect)rect {}
 
 //Draw content of our cell
 - (void)drawContentWithFrame:(NSRect)rect
@@ -413,15 +316,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	return label;
 }
 
-- (BOOL)shouldShowAlias
-{
-	return useAliasesAsRequested;
-}
-
-- (void)setUseAliasesAsRequested:(BOOL)inFlag
-{
-	useAliasesAsRequested = inFlag;
-}
+@synthesize shouldShowAlias = useAliasesAsRequested;
 
 //Attributes for displaying the label string
 - (NSDictionary *)labelAttributes
