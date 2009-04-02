@@ -30,7 +30,7 @@ typedef enum {
 	ContactListImagePickerHiddenOnRight,
 } ContactListImagePickerPosition;
 
-@interface AIStandardListWindowController : AIListWindowController <AIRolloverButtonDelegate, AIStatusMenuDelegate> {
+@interface AIStandardListWindowController : AIListWindowController <AIStatusMenuDelegate> {
 	IBOutlet	NSView						*view_statusAndImage;
 	
 	IBOutlet	NSView						*view_nameAndStatusMenu;
@@ -39,17 +39,7 @@ typedef enum {
 	IBOutlet	NSImageView					*imageView_status;
 	
 	IBOutlet	AIContactListImagePicker	*imagePicker;
-	
-	IBOutlet	NSView						*filterBarView;
-	IBOutlet	NSSearchField				*searchField;
-	IBOutlet	AIRolloverButton			*button_cancelFilterBar;
 
-	BOOL									filterBarExpandedGroups;
-	BOOL									filterBarIsVisible;
-	BOOL									filterBarShownAutomatically;
-	NSViewAnimation							*filterBarAnimation;
-	NSArray									*filterBarPreviouslySelected;
-	
 	ContactListImagePickerPosition			imagePickerPosition;
 	
 	NSDictionary				*toolbarItems;
@@ -63,10 +53,4 @@ typedef enum {
 										  ownIconAccounts:(NSMutableSet *)ownIconAccounts;
 + (AIAccount *)activeAccountForDisplayNameGettingOnlineAccounts:(NSMutableSet *)onlineAccounts
 										 ownDisplayNameAccounts:(NSMutableSet *)ownDisplayNameAccounts;
-
-- (void)toggleFindPanel:(id)sender;
-- (IBAction)hideFilterBar:(id)sender;
-- (IBAction)filterContacts:(id)sender;
-
-@property (nonatomic, retain ) NSViewAnimation *filterBarAnimation;
 @end
