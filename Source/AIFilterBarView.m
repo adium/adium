@@ -28,9 +28,9 @@
 		NSBezierPath *bezierPath;
 		
 		if (backgroundIsRounded) {
-			bezierPath = [NSBezierPath bezierPathWithRoundedRect:rect];
+			bezierPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds];
 		} else {
-			bezierPath = [NSBezierPath bezierPathWithRect:rect];
+			bezierPath = [NSBezierPath bezierPathWithRect:self.bounds];
 		}
 		
 		[backgroundColor set];
