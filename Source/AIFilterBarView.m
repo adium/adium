@@ -28,7 +28,7 @@
 		NSBezierPath *bezierPath;
 		
 		if (backgroundIsRounded) {
-			bezierPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds radius:6];
+			bezierPath = [NSBezierPath bezierPathWithRoundedRect:self.bounds];
 		} else {
 			bezierPath = [NSBezierPath bezierPathWithRect:self.bounds];
 		}
