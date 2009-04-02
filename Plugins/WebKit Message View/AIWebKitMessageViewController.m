@@ -1363,6 +1363,20 @@ static NSArray *draggedTypes = nil;
 	if (node == topicEdit || node.parentNode == topicEdit) {
 		topicChange = [[AIHTMLDecoder decodeHTML:[topicEdit innerHTML]] string];		
 		
+		NSTextView *textView = [self textView];
+		if (textView) {
+			[[webView window] makeFirstResponder:textView]; //Make it first responder
+		}
+		
+		// Update the topic div in case the user doesn't have permission to change it.
+		AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
+														withSource:chat.topicSetter
+													   destination:nil
+															  date:[NSDate date]
+														   message:[NSAttributedString stringWithString:chat.topic]];
+		
+		[self enqueueContentObject:contentTopic];
+		
 		// Tell the chat to set the topic.
 		[chat setTopic:topicChange];
 	}

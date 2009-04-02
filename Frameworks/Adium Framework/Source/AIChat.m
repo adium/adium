@@ -791,13 +791,14 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 - (void)setTopic:(NSString *)inTopic
 {
 	if (self.supportsTopic) {
-		if ([topic isEqualToString:inTopic]) {
+		// We mess with the topic, replacing nbsp with spaces; make sure we're not setting an identical one other than this.
+		NSString *tempTopic = [topic stringByReplacingOccurrencesOfString:@"\u00A0" withString:@" "];
+		if ([tempTopic isEqualToString:inTopic]) {
 			AILogWithSignature(@"Not setting topic for %@, already the same.", self);
 		} else {
+			AILogWithSignature(@"Setting %@ topic to: %@", self, topic);
 			[account setTopic:inTopic forChat:self];
 		}
-		
-		AILogWithSignature(@"Setting %@ topic to: %@", self, topic);
 	} else {
 		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
 	}
