@@ -18,7 +18,7 @@
 
 - (void)installPlugin
 {
-    //Register us as a filter - don't register as outgoing since we'll end up sending #channel (irc://…)
+    //Register us as a filter
 	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterIncoming];
 	[adium.contentController registerContentFilter:self ofType:AIFilterMessageDisplay direction:AIFilterOutgoing];
 	
