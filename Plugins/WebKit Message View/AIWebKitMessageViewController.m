@@ -73,6 +73,7 @@
 - (void)updateUserIconForObject:(AIListObject *)inObject;
 - (void)userIconForObjectDidChange:(AIListObject *)inObject;
 - (void)updateServiceIcon;
+- (void)updateTopic;
 
 - (void)participatingListObjectsChanged:(NSNotification *)notification;
 - (void)sourceOrDestinationChanged:(NSNotification *)notification;
@@ -486,14 +487,7 @@ static NSArray *draggedTypes = nil;
 
 	if(chat.isGroupChat && chat.supportsTopic) {
 		// Force a topic update, so we set our topic appropriately.
-
-		AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
-														withSource:chat.topicSetter
-													   destination:nil
-															  date:[NSDate date]
-														   message:[NSAttributedString stringWithString:chat.topic]];
-		
-		[adium.contentController receiveContentObject:contentTopic];
+		[self updateTopic];
 	}
 	
 	if (reprocessContent) {
@@ -697,6 +691,27 @@ static NSArray *draggedTypes = nil;
 	NSAccessibilityPostNotification(webView, NSAccessibilityValueChangedNotification);
 }
 
+#pragma mark Topics
+/*!
+ * @brief Force a topic update.
+ *
+ * We have to filter this ourself because, if the topic is blank, the content controller will never show it to us.
+ */
+- (void)updateTopic
+{
+	NSAttributedString *topic = [NSAttributedString stringWithString:chat.topic];
+	
+	AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
+													withSource:chat.topicSetter
+												   destination:nil
+														  date:[NSDate date]
+													   message:topic];
+	
+	// In case this topic is blank, we have to filter this ourself; the content controller will drop it.
+	contentTopic.message = [adium.contentController filterAttributedString:topic usingFilterType:AIFilterDisplay direction:AIFilterIncoming context:contentTopic];
+	
+	[self enqueueContentObject:contentTopic];
+}
 
 //WebView Delegates ----------------------------------------------------------------------------------------------------
 #pragma mark Webview delegates
@@ -1369,13 +1384,7 @@ static NSArray *draggedTypes = nil;
 		}
 		
 		// Update the topic div in case the user doesn't have permission to change it.
-		AIContentTopic *contentTopic = [AIContentTopic topicInChat:chat
-														withSource:chat.topicSetter
-													   destination:nil
-															  date:[NSDate date]
-														   message:[NSAttributedString stringWithString:chat.topic]];
-		
-		[adium.contentController receiveContentObject:contentTopic];
+		[self updateTopic];
 		
 		// Tell the chat to set the topic.
 		[chat setTopic:topicChange];
