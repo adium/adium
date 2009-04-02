@@ -18,8 +18,11 @@
 
 #define CONTENT_TOPIC_TYPE		@"Topic"		//Type ID for this content
 
-@interface AIContentTopic : AIContentMessage {
 
+#define CONTENT_TOPIC_MESSAGE_ACTUALLY_EMPTY [NSAttributedString stringWithString:@"This Topic Intentionally Left Blank"]
+
+@interface AIContentTopic : AIContentMessage {
+	BOOL actuallyBlank;
 }
 
 + (id)topicInChat:(AIChat *)inChat
@@ -27,5 +30,7 @@
 	  destination:(id)inDest
 			 date:(NSDate *)inDate 
 		  message:(NSAttributedString *)inMessage;
+
+@property (nonatomic) BOOL actuallyBlank;
 
 @end
