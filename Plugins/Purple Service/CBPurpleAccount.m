@@ -765,6 +765,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
 		if ([user objectForKey:@"Alias"]) {
 			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
+			
+			if (contact.isStranger) {
+				[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
+			}
 		}
 	}
 
@@ -785,8 +789,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		contact = [self contactWithUID:newUID];
 	}
 
-	[chat setAlias:newAlias forContact:contact];
 	[chat setFlags:flags forContact:contact];
+	[chat setAlias:newAlias forContact:contact];
+	
+	if (contact.isStranger) {
+		[contact setServersideAlias:newAlias silently:NO];
+	}
 
 	// Post an update notification since we modified the user entirely.
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
