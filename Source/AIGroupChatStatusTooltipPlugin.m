@@ -88,7 +88,7 @@
 			
 			[entry appendString:chat.name withAttributes:nil];
 			
-			if ([chat aliasForContact:inObject]) {
+			if (![[chat aliasForContact:inObject] isEqualToString:inObject.displayName]) {
 				[entry appendString:@" (" withAttributes:nil];
 				[entry appendString:[chat aliasForContact:inObject] withAttributes:nil];
 				[entry appendString:@")" withAttributes:nil];
