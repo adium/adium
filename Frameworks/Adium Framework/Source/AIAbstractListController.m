@@ -351,7 +351,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	[self setBackgroundOpacity:backgroundOpacity];
 	
 	//"Preferences" determined by the subclass of AIAbstractListController
-	[contentCell setUseAliasesAsRequested:[self useAliasesInContactListAsRequested]];
+	contentCell.shouldShowAlias = [self useAliasesInContactListAsRequested];
 	[contentCell setUseAliasesOnNonParentContacts:NO];
 	[contentCell setShouldUseContactTextColors:[self shouldUseContactTextColors]];
 	[contentCell setUseStatusMessageAsExtendedStatus:[self useStatusMessageAsExtendedStatus]];
