@@ -32,23 +32,7 @@
 
 - (NSColor *)textColor
 {
-	if (([chat flagsForContact:listObject] & AIGroupChatFounder) == AIGroupChatFounder) {
-		return [NSColor redColor];
-	}
-		
-	if (([chat flagsForContact:listObject] & AIGroupChatOp) == AIGroupChatOp) {
-		return [NSColor blueColor];
-	}
-	
-	if (([chat flagsForContact:listObject] & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
-		return [NSColor magentaColor];
-	}
-	
-	if (([chat flagsForContact:listObject] & AIGroupChatVoice) == AIGroupChatVoice) {
-		return [NSColor purpleColor];
-	}
-	
-	return [NSColor blackColor];
+	return [[AIGroupChatStatusIcons sharedIcons] colorForFlag:[chat flagsForContact:listObject]];
 }
 
 @end

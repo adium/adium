@@ -8,11 +8,13 @@
 #import "AIGroupChatStatusIcons.h"
 
 #import <Adium/AIPreferenceControllerProtocol.h>
+#import <AIUtilities/AIColorAdditions.h>
 
 @interface AIGroupChatStatusIcons()
 + (NSURL *)currentPackURL;
-- (NSString *)imageKeyForFlags:(AIGroupChatFlags)flags;
+- (NSString *)keyForFlags:(AIGroupChatFlags)flags;
 - (NSImage *)imageForKey:(NSString *)key;
+- (NSColor *)colorForKey:(NSString *)key;
 @end
 
 @implementation AIGroupChatStatusIcons
@@ -42,7 +44,10 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 	if ((self = [super initWithURL:inURL])) {
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
 		iconInfo = [xtraBundle objectForInfoDictionaryKey:KEY_ICONS_DICT];
+		colorInfo = [xtraBundle objectForInfoDictionaryKey:KEY_COLORS_DICT];
+		
 		icons = [[NSMutableDictionary alloc] init];
+		colors = [[NSMutableDictionary alloc] init];
 	}
 	
 	return self;
@@ -54,6 +59,8 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 - (void)dealloc
 {
 	sharedIconsInstance = nil;
+	[icons release]; [colors release];
+	[iconInfo release]; [colorInfo release];
 	
 	[adium.preferenceController unregisterPreferenceObserver:self];
 	[super dealloc];
@@ -72,7 +79,7 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
  */
 - (NSImage *)imageForFlag:(AIGroupChatFlags)flags
 {
-	NSString *key = [self imageKeyForFlags:flags];
+	NSString *key = [self keyForFlags:flags];
 	NSImage *image = [icons objectForKey:key];
 	
 	// If we don't have it already saved, try to get the image from the pack.
@@ -111,13 +118,61 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
 	return [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
 }
 
+#pragma mark Color retrieval
+
+/*!
+ * @brief Returns the color of the highest level of flag
+ *
+ * The color is used when drawing the name of the contact in the user list.
+ * It should match or be similar to the icon color, but this is not a requirement.
+ *
+ * @param flags An integer composed of AIGroupChatFlags
+ * @returns A color representing the highest flag present in the flags.
+ */
+- (NSColor *)colorForFlag:(AIGroupChatFlags)flags
+{
+	NSString	*key = [self keyForFlags:flags];
+	NSColor		*color = [colors objectForKey:key];
+	
+	if (!color) {
+		color = [self colorForKey:key];
+		
+		if (color) {
+			[colors setObject:color forKey:key];
+		} else {
+			color = [self colorForKey:NONE];
+		}
+	}
+	
+	return color;
+}
+
+/*!
+ * @brief The color ofr a given key
+ *
+ * Retrieve's the color from the Colors dictionary of the bundle's Info
+ *
+ * @param key The key in the dictionary of the bundle's colors to retrieve
+ * @returns The color from the bundle
+ */
+- (NSColor *)colorForKey:(NSString *)key
+{
+	if (!colorInfo || ![colorInfo objectForKey:key]) {
+		return nil;
+	}
+	
+	return [[colorInfo objectForKey:key] representedColor];
+}
+
+#pragma mark Flags -> Keys
+
 /*!
  * @brief The key for a given set of flags
  *
  * @param flags An integer composed of AIGroupChatFlags
- * @returns The key for use in the icon dictionary for storing an image of this type.
+ * @returns The key for use in the dictionary for storing information of this type.
  */
-- (NSString *)imageKeyForFlags:(AIGroupChatFlags)flags
+- (NSString *)keyForFlags:(AIGroupChatFlags)flags
 {
 	if ((flags & AIGroupChatFounder) == AIGroupChatFounder)
 		return FOUNDER;
