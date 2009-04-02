@@ -80,6 +80,7 @@
 		1109634C0F61C1D00064CA0E /* AITwitterReplyWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1109634B0F61C1D00064CA0E /* AITwitterReplyWindow.nib */; };
 		1109661A0F61D3E70064CA0E /* AITwitterReplyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */; };
 		1111B2300F8478500068CE51 /* Filter Bar.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1111B22F0F8478500068CE51 /* Filter Bar.nib */; };
+		1111B2680F847CAD0068CE51 /* AIFilterBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1111B2670F847CAD0068CE51 /* AIFilterBarView.m */; };
 		111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
@@ -1745,6 +1746,8 @@
 		110966180F61D3E70064CA0E /* AITwitterReplyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterReplyWindowController.h; path = "Plugins/Twitter Plugin/AITwitterReplyWindowController.h"; sourceTree = "<group>"; };
 		110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterReplyWindowController.m; path = "Plugins/Twitter Plugin/AITwitterReplyWindowController.m"; sourceTree = "<group>"; };
 		1111B22F0F8478500068CE51 /* Filter Bar.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = "Filter Bar.nib"; path = "Resources/Filter Bar.nib"; sourceTree = "<group>"; };
+		1111B2660F847CAD0068CE51 /* AIFilterBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFilterBarView.h; path = Source/AIFilterBarView.h; sourceTree = "<group>"; };
+		1111B2670F847CAD0068CE51 /* AIFilterBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIFilterBarView.m; path = Source/AIFilterBarView.m; sourceTree = "<group>"; };
 		111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIListContactGroupChatCell.h; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.h"; sourceTree = "<group>"; };
 		111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIListContactGroupChatCell.m; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.m"; sourceTree = "<group>"; };
 		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
@@ -6730,6 +6733,8 @@
 		4BD388C306B5899E000A346A /* Contact List */ = {
 			isa = PBXGroup;
 			children = (
+				1111B2660F847CAD0068CE51 /* AIFilterBarView.h */,
+				1111B2670F847CAD0068CE51 /* AIFilterBarView.m */,
 				1111B22F0F8478500068CE51 /* Filter Bar.nib */,
 				34A489F206F64359002C7C5F /* AISCLViewPlugin.h */,
 				34A489F106F64359002C7C5F /* AISCLViewPlugin.m */,
@@ -9356,6 +9361,7 @@
 				11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */,
 				112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */,
 				112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */,
+				1111B2680F847CAD0068CE51 /* AIFilterBarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

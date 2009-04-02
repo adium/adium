@@ -27,6 +27,7 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIAnimatingListOutlineView.h"
 #import <AIUtilities/AIRolloverButton.h>
+#import "AIFilterBarView.h"
 
 typedef enum {
 	AIContactListWindowHidingStyleNone = 0,
@@ -93,7 +94,7 @@ typedef enum {
 	NSViewAnimation							*filterBarAnimation;
 	NSArray									*filterBarPreviouslySelected;
 	
-	IBOutlet	NSView						*filterBarView;
+	IBOutlet	AIFilterBarView				*filterBarView;
 	IBOutlet	NSSearchField				*searchField;
 	IBOutlet	AIRolloverButton			*button_cancelFilterBar;
 }
