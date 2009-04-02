@@ -101,7 +101,6 @@ typedef enum {
 
 // Create additional windows
 + (AIListWindowController *)listWindowControllerForContactList:(AIListObject<AIContainingObject> *)contactList;
-+ (AIListWindowController *)listWindowController;
 
 - (AIListController *)listController;
 - (AIListOutlineView *)contactListView;

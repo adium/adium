@@ -86,12 +86,6 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	}
 }
 
-//Return a new contact list window controller
-+ (AIListWindowController *)listWindowController
-{
-    return [[[self alloc] initWithContactList:nil] autorelease];
-}
-
 + (AIListWindowController *)listWindowControllerForContactList:(AIListObject<AIContainingObject> *)contactList
 {
 	return [[[self alloc] initWithContactList:contactList] autorelease];

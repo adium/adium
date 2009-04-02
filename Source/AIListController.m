@@ -61,6 +61,7 @@
 			 inScrollView:(AIAutoScrollView *)inScrollView_contactList
 				 delegate:(id<AIListControllerDelegate>)inDelegate
 {
+	NSParameterAssert(aContactList != nil);
 	if ((self = [self initWithContactListView:inContactListView inScrollView:inScrollView_contactList delegate:inDelegate])) {
 		[contactListView setDrawHighlightOnlyWhenMain:YES];
 		
@@ -81,9 +82,6 @@
 						  forKeyPath:@"desiredHeight" 
 							 options:(NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew) 
 							 context:NULL];
-		
-		if(!aContactList)
-			aContactList = (AIListObject *)(adium.contactController.contactList);
 		
 		[self setContactListRoot:aContactList];
 

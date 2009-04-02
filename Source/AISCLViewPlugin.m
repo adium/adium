@@ -568,9 +568,9 @@
 - (void)loadDetachedGroups
 {
 	if (!defaultController && windowStyle == AIContactListWindowStyleStandard) {
-		defaultController = [[AIStandardListWindowController listWindowController] retain];
+		defaultController = [[AIStandardListWindowController listWindowControllerForContactList:adium.contactController.contactList] retain];
 	} else if (!defaultController) {
-		defaultController = [[AIBorderlessListWindowController listWindowController] retain];
+		defaultController = [[AIBorderlessListWindowController listWindowControllerForContactList:adium.contactController.contactList] retain];
 	}
 	
 	if (!hasLoaded) {
