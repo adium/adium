@@ -1527,7 +1527,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	NSDictionary *targetViewDict, *filterBarDict;
 	
 	// Contact list resizing
-	if (filterBarIsVisible) {			
+	if (filterBarIsVisible) {
 		targetFrame.size.height = NSHeight(targetFrame) + NSHeight([filterBarView bounds]);
 		
 	} else {

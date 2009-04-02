@@ -17,6 +17,12 @@
 #import "AIBorderlessListWindowController.h"
 #import "AIBorderlessListController.h"
 
+#import <Adium/AIListOutlineView.h>
+#import <Adium/AIAbstractListController.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
+
+#define PREF_GROUP_APPEARANCE		@"Appearance"
+
 @implementation AIBorderlessListWindowController
 
 //Borderless nib
@@ -34,7 +40,16 @@
 {
 	//Clear the minimum size before our window restores its position and size; a borderless window can be any size it wants
 	[[self window] setMinSize:NSZeroSize];
-
+	
+	AIContactListWindowStyle style = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
+																			 group:PREF_GROUP_APPEARANCE] integerValue];
+	
+	filterBarView.drawBackground = YES;
+	filterBarView.backgroundColor = [NSColor whiteColor];
+	filterBarView.backgroundIsRounded = (style == AIContactListWindowStyleContactBubbles ||
+										 style == AIContactListWindowStyleContactBubbles_Fitted ||
+										 style == AIContactListWindowStyleGroupBubbles);
+	
 	[super windowDidLoad];
 }
 
