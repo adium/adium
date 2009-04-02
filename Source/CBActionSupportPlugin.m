@@ -72,7 +72,7 @@
  */
 - (NSString *)filterHTMLString:(NSString *)inHTMLString content:(AIContentObject*)content;
 {	
-	if ( [content isKindOfClass:[AIContentMessage class]] ) {
+	if ( [content isKindOfClass:[AIContentMessage class]] && content.message.length > 0) {
 		AIContentMessage *message = (AIContentMessage *)content;
 		if([[[message message] attribute:AIActionMessageAttributeName atIndex:0 effectiveRange:NULL] boolValue]) {
 
