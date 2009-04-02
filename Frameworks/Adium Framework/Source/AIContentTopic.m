@@ -38,5 +38,6 @@
     return CONTENT_TOPIC_TYPE;
 }
 
+@synthesize actuallyBlank;
 
 @end

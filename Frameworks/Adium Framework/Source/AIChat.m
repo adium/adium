@@ -782,6 +782,12 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 														  date:[NSDate date]
 													   message:[NSAttributedString stringWithString:topic]];
 	
+	// The content controller has huge problems with blank messages being let through.
+	if (!topic.length) {
+		contentTopic.message = CONTENT_TOPIC_MESSAGE_ACTUALLY_EMPTY;
+		contentTopic.actuallyBlank = YES;
+	}
+	
 	[adium.contentController receiveContentObject:contentTopic];
 }
 
