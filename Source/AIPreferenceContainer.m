@@ -522,6 +522,8 @@ typedef enum {
 		return;
 	}
 	
+	AILogWithSignature(@"Detaching to save: PrefsToSave-non-nil=%d Destination=%@ PrefsName=%@ Timer=%@", ([inTimer userInfo] != nil), userDir, globalPrefsName, inTimer);
+	
 	[NSThread detachNewThreadSelector:@selector(threadedSavePrefs:)
 							 toTarget:self
 						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
