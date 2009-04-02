@@ -645,16 +645,12 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		person = (ABPerson *)record;
 	} else {
 		if ([inObject isKindOfClass:[AIMetaContact class]]) {
-			NSEnumerator	*enumerator;
-			AIListContact	*listContact;
-			
-			//Search for an ABPerson for each listContact within the metaContact; first one we find is
-			//the lucky winner.
-			enumerator = [[(AIMetaContact *)inObject listContactsIncludingOfflineAccounts] objectEnumerator];
-			while ((listContact = [enumerator nextObject]) && (person == nil)) {
+			//Search for the first ABPerson for a listContact within the metaContact
+			for (AIListContact *listContact in [(AIMetaContact *)inObject listContactsIncludingOfflineAccounts]) {
 				person = [self personForListObject:listContact];
+				if (person)
+					break;
 			}
-			
 		} else {
 			NSString		*UID = inObject.UID;
 			NSString		*serviceID = inObject.service.serviceID;
