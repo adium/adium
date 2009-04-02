@@ -53,6 +53,7 @@ Logging
  * Events such as Direct IM status, joins and parts, and other information are now logged and displayed in the log viewer.
 
 Contact List
+ * Contact list filtering is now present on all window styles: regular, borderless, etc. (#10489)
  * Corrected a few bugs where contacts were hidden as offline when online, or placed in the offline group incorrectly.
  * Combined contacts now show the information in the contact list for the first available user. (#11007)
  * Improved speed of searching in contact list for larger lists.
@@ -68,6 +69,8 @@ Message Styles
  * Messages containing unordered lists are now displayed using bullets.
  * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
  * Corrected sorting of message styles in their popup (#9498)
+ * %message% is now replaced in a loop as we do other keywords. (#9672)
+ * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
 
 Messaging
  * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
@@ -89,6 +92,7 @@ Bonjour
 XMPP (Jabber, Google Talk, etc.)
  * Updated XMPP server list when registering
  * History from persistent group chats is now displayed as such and does not trigger events. (#6787)
+ * Group chats which are not anonymous now display the actual contact in the user list. (#11841)
 
 MSN
  * Possibly fixed a crash on connect. (#11508)
