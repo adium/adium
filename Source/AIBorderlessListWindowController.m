@@ -44,7 +44,7 @@
 	AIContactListWindowStyle style = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
 																			 group:PREF_GROUP_APPEARANCE] integerValue];
 	
-	filterBarView.drawBackground = YES;
+	filterBarView.drawsBackground = YES;
 	filterBarView.backgroundColor = [NSColor whiteColor];
 	filterBarView.backgroundIsRounded = (style == AIContactListWindowStyleContactBubbles ||
 										 style == AIContactListWindowStyleContactBubbles_Fitted ||

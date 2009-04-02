@@ -9,11 +9,11 @@
 	NSColor *backgroundColor;
 	BOOL	backgroundIsRounded;
 	
-	BOOL drawBackground;
+	BOOL drawsBackground;
 }
 
 @property (readwrite, nonatomic, retain) NSColor *backgroundColor;
 @property (readwrite, nonatomic) BOOL backgroundIsRounded;
-@property (readwrite, nonatomic) BOOL drawBackground;
+@property (readwrite, nonatomic) BOOL drawsBackground;
 
 @end

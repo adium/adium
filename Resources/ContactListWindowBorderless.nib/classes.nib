@@ -75,19 +75,19 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>AIBorderlessListOutlineView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>AIAnimatingListOutlineView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>NSWindow</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIBorderlessListOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIAnimatingListOutlineView</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -114,7 +114,7 @@
 				<key>contactListView</key>
 				<string>AIAnimatingListOutlineView</string>
 				<key>filterBarView</key>
-				<string>NSView</string>
+				<string>AIFilterBarView</string>
 				<key>scrollView_contactList</key>
 				<string>AIAutoScrollView</string>
 				<key>searchField</key>
@@ -130,6 +130,14 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>AIListWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIFilterBarView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
