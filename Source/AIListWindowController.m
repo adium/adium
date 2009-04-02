@@ -102,6 +102,9 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	if ((self = [self initWithWindowNibName:[[self class] nibName]])) {
 		preventHiding = NO;
 		previousAlpha = 0;
+		
+		[NSBundle loadNibNamed:@"Filter Bar" owner:self];
+		
 		[self setContactList:contactList];
 	}
 	
@@ -1541,7 +1544,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 								  display:NO
 								  animate:NO];
 			
-			targetFrame = [targetView frame];			
+			targetFrame = [targetView frame];
 		}
 		
 		targetFrame.size.height = NSHeight(targetFrame) - NSHeight([filterBarView bounds]);
