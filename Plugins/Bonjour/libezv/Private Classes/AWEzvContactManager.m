@@ -48,32 +48,25 @@
 }
 
 - (AWEzvContact *)contactForIdentifier:(NSString *)uniqueID {
-    AWEzvContact *contact;
-    contact = [contacts objectForKey:uniqueID];
+    AWEzvContact *contact = [contacts objectForKey:uniqueID];
     /* try a case insensitive search if not found */
-    if (contact == nil) {
-	NSEnumerator *enumerator = [contacts objectEnumerator];
-
-	while ((contact = [enumerator nextObject])) {
-	    if ([contact.uniqueID caseInsensitiveCompare:uniqueID] == NSOrderedSame)
-		break;
+    if (!contact) {
+		for (contact in contacts) {
+			if ([contact.uniqueID caseInsensitiveCompare:uniqueID] == NSOrderedSame)
+				break;
+		}
 	}
-    }
     return contact;
 }
-- (void)closeConnections{
-	NSEnumerator *enumerator = [contacts objectEnumerator];
-    AWEzvContact *contact;
 
-	while ((contact = [enumerator nextObject])) {
-		if ([contact stream] != NULL)
-			[[contact stream] endConnection];
+- (void)closeConnections {
+	for (AWEzvContact *contact in contacts) {
+		if (contact.stream)
+			[contact.stream endConnection];
 	}
 }
 
-- (AWEzv *)client {
-    return client;
-}
+@synthesize client;
 
 - (void)dealloc {
 	/* AWEzvContactManagerListener adds an observer; remove it */
