@@ -21,7 +21,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIUtilities/AIRolloverButton.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
 
 #import <Adium/AIListGroup.h>
@@ -44,42 +43,26 @@
 #import "AIContactListImagePicker.h"
 #import "AIContactListNameButton.h"
 #import "AIContactController.h"
-#import <Adium/AIContactHidingController.h>
-
-#import "AISearchFieldCell.h"
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 
 #define TOOLBAR_CONTACT_LIST				@"ContactList:1.0"				//Toolbar identifier
 
 @interface AIStandardListWindowController ()
-- (void)showFilterBarWithAnimation:(BOOL)flag;
-- (void)hideFilterBarWithAnimation:(BOOL)flag;
 - (void)_configureToolbar;
 - (void)updateStatusMenuSelection:(NSNotification *)notification;
 - (void)updateImagePicker;
 - (void)updateNameView;
-- (void)animateFilterBarWithDuration:(CGFloat)duration;
 - (void)repositionImagePickerToPosition:(ContactListImagePickerPosition)desiredImagePickerPosition;
 @end
 
 @implementation AIStandardListWindowController
-
-@synthesize filterBarAnimation;
 
 /*!
  * @brief Deallocate
  */
 - (void)dealloc
 {
-	[searchField setDelegate:nil];
-	
-	[filterBarAnimation stopAnimation];
-	[filterBarAnimation setDelegate:nil];
-	self.filterBarAnimation = nil;
-
-	[filterBarPreviouslySelected release];
-	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
@@ -136,28 +119,6 @@
 	[[self window] setMinSize:NSMakeSize(135, 60)];
 	
 	[self _configureToolbar];
-	
-	filterBarExpandedGroups = NO;
-	filterBarIsVisible = NO;
-	filterBarShownAutomatically = NO;
-	self.filterBarAnimation = nil;
-	filterBarPreviouslySelected = nil;
-	[searchField setDelegate:self];
-
-	//Substitute an otherwise identical copy of the search field for one of our class. We don't want to globally pose as class; we just want it here.
-	[NSKeyedArchiver setClassName:@"AISearchFieldCell" forClass:[NSSearchFieldCell class]];
-	[searchField setCell:[NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:[searchField cell]]]];	
-	[NSKeyedArchiver setClassName:@"NSSearchFieldCell" forClass:[NSSearchFieldCell class]];
-
-	/* Get rid of the "x" button in the search field that would clear the search.
-	 * It conflicts with the other "x" button that hides the entire bar, and clearing a few characters is probably not necessary.
-	 */
-	[[searchField cell] setCancelButtonCell:nil];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(windowDidResignMain:)
-												 name:NSWindowDidResignMainNotification
-											   object:[self window]];
 }
 
 /*!
@@ -165,12 +126,6 @@
  */
 - (void)windowWillClose:(NSNotification *)notification
 {
-	// When closing the contact list while a search is in progress, reset visibility first.
-	if (![[searchField stringValue] isEqualToString:@""]) {
-		[searchField setStringValue:@""];
-		[self filterContacts:searchField];
-	}
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[statusMenu release];
 	
@@ -805,339 +760,4 @@
 	return [contactListController _desiredWindowFrameUsingDesiredWidth:YES
 														 desiredHeight:YES];
 }
-
-#pragma mark Filtering
-/*!
- * @brief Toggles the find bar on, or brings it into focus if it is already visible
- */
-- (void)toggleFindPanel:(id)sender;
-{
-	if (filterBarIsVisible) {
-		[[self window] makeFirstResponder:searchField]; 
-
-	} else if ([contactListView numberOfRows] > 0) {
-		filterBarShownAutomatically = NO;
-		[self showFilterBarWithAnimation:YES];
-
-	} else {
-		NSBeep();
-	}
-}
-
-/*!
- * @brief Hide the filter bar
- */
-- (IBAction)hideFilterBar:(id)sender;
-{
-	[self hideFilterBarWithAnimation:YES];
-}
-
-/*!
- * @brief Show the filter bar
- *
- * @param useAnimation If YES, the filter bar will scroll into view, otherwise it appears immediately
- */
-- (void)showFilterBarWithAnimation:(BOOL)useAnimation
-{
-	if (filterBarIsVisible || filterBarAnimation)
-		return;
-	
-	// While the filter bar is shown, temporarily disable automatic horizontal resizing
-	contactListController.autoResizeHorizontally = NO;
-	
-	// Disable contact list animation while the filter bar is shown
-	[contactListView setEnableAnimation:NO];
-	
-	// Animate the filter bar into view	
-	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0)];
-}
-
-/*!
- * @brief Hide the filter bar
- *
- * @param useAnimation If YES, the filter bar will scroll out of view, otherwise it disappears immediately
- */
-- (void)hideFilterBarWithAnimation:(BOOL)useAnimation
-{
-	if (!filterBarIsVisible || filterBarAnimation)
-		return;
-	
-	// Clear the search field so that visibility is reset
-	[searchField setStringValue:@""];
-	[self filterContacts:searchField];
-	
-	// Restore the default settings which we temporarily disabled previously
-	contactListController.autoResizeHorizontally = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE group:PREF_GROUP_APPEARANCE] boolValue];
-	
-	[contactListView setEnableAnimation:[[adium.preferenceController preferenceForKey:KEY_CL_ANIMATE_CHANGES
-																				  group:PREF_GROUP_CONTACT_LIST] boolValue]];
-	
-	// Animate the filter bar out of view
-	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0)];
-}
-
-/*!
- * @brief Animates the filter bar in and out of view
- *
- * @param duration The duration the animation will last
- */
-- (void)animateFilterBarWithDuration:(CGFloat)duration
-{
-	NSView *targetView = ([contactListView enclosingScrollView] ? (NSView *)[contactListView enclosingScrollView] : contactListView);
-	NSRect targetFrame = [targetView frame];
-	NSDictionary *targetViewDict, *filterBarDict;
-
-	// Contact list resizing
-	if (filterBarIsVisible) {			
-		targetFrame.size.height = NSHeight(targetFrame) + NSHeight([filterBarView bounds]);
-
-	} else {
-		/* We can only have a height less than the filter bar view if we are autosizing vertically, as
-		 * there is a minimum height otherwise which is larger.  We can therefore increase our window size to allow space
-		 * for the filter bar with impunity and without undoing this when hiding the bar, as the autosizing of the contact
-		 * list will get us back to the right size later.
-		 */
-		if (NSHeight(targetFrame) < (NSHeight([filterBarView bounds]) * 2)) {
-			NSRect windowFrame = [[targetView window] frame];
-			
-			[[targetView window] setFrame:NSMakeRect(NSMinX(windowFrame), NSMinY(windowFrame) - NSHeight([filterBarView bounds]),
-													 NSWidth(windowFrame), NSHeight(windowFrame) + NSHeight([filterBarView bounds]))
-								  display:NO
-								  animate:NO];
-			
-			targetFrame = [targetView frame];			
-		}
-			
-		targetFrame.size.height = NSHeight(targetFrame) - NSHeight([filterBarView bounds]);
-	}
-	
-	// Filter bar resizing
-	if (!filterBarIsVisible) {
-		// If the filter bar isn't already visible
-		[filterBarView setFrame:NSMakeRect(NSMinX(targetFrame),
-										   NSHeight([targetView frame]),
-										   NSWidth(targetFrame),
-										   NSHeight([filterBarView bounds]))];
-
-		// Attach the filter bar to the window
-		[[[self window] contentView] addSubview:filterBarView];
-	}
-	
-	filterBarDict = [NSDictionary dictionaryWithObjectsAndKeys:filterBarView, NSViewAnimationTargetKey,
-					 [NSValue valueWithRect:NSMakeRect(NSMinX(targetFrame), NSHeight(targetFrame),
-													   NSWidth(targetFrame), NSHeight([filterBarView bounds]))], NSViewAnimationEndFrameKey, nil];
-	
-	targetViewDict = [NSDictionary dictionaryWithObjectsAndKeys:targetView, NSViewAnimationTargetKey,
-					  [NSValue valueWithRect:targetFrame], NSViewAnimationEndFrameKey, nil];
-
-	self.filterBarAnimation = [[[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:
-																				targetViewDict,
-																				filterBarDict,
-																				nil]] autorelease];
-	[filterBarAnimation setDuration:duration];
-	[filterBarAnimation setAnimationBlockingMode:NSAnimationBlocking];
-	[filterBarAnimation setDelegate:self];
-	
-	// Start the animation
-	[filterBarAnimation startAnimation];
-}
-
-/*!
- * @brief Called when an animation finishes
- */
-- (void)animationDidEnd:(NSAnimation*)animation
-{
-	// If this isn't a filter bar animation, let our superclass handle it
-	if (animation != filterBarAnimation) {
-		[super animationDidEnd:animation];
-		return;
-	}
-
-	if (filterBarIsVisible) {
-		// If the filter bar is already visible, remove it from its superview.
-		[filterBarView removeFromSuperview];
-
-		// Set the first responder back to the contact list view.
-		[[self window] makeFirstResponder:contactListView];
-
-		[contactListView selectItemsInArray:filterBarPreviouslySelected];
-		
-		// Since this wasn't a user-initiated selection change, we need to post a notification for it.
-		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
-												  object:nil];
-		
-		[filterBarPreviouslySelected release]; filterBarPreviouslySelected = nil;
-		
-		filterBarIsVisible = NO;
-	} else {
-		// If the filter bar wasn't visible, make it the first responder.
-		[[self window] makeFirstResponder:searchField]; 
-
-		// Set the filter bar as the next responder so the chain works for things like the info inspector
-		[filterBarView setNextResponder:contactListView];
-
-		// Bring the contact list to front, in case the find command was triggered from another window like the info inspector
-		[[self window] makeKeyAndOrderFront:nil];
-		
-		filterBarPreviouslySelected = [[contactListView arrayOfSelectedItems] retain];
-		
-		filterBarIsVisible = YES;
-	}
-
-	// Let the contact list controller know that our size has changed.
-	[contactListController contactListDesiredSizeChanged];
-	
-	// We're no longer animating.
-	self.filterBarAnimation = nil;
-}
-
-/*!
- * @brief Called when the window loses focus
- */
-- (void)windowDidResignMain:(NSNotification *)sender
-{
-	/* If the filter bar was shown by type-to-find (but not by command-F), and the window is no longer main,
-	 * assume the user is done and hide the filter bar.
-	 */
-	if (filterBarIsVisible && filterBarShownAutomatically)
-		[self hideFilterBarWithAnimation:NO];
-}
-
-/*!
- * @brief Forward typing events from the contact list to the filter bar
- */
-- (BOOL)forwardKeyEventToFindPanel:(NSEvent *)theEvent;
-{
-	//if we were not searching something before, we need to show the filter bar first without animation
-	NSString	*charString = [theEvent charactersIgnoringModifiers];
-	unichar		pressedChar = 0;
-
-	//Get the pressed character
-	if ([charString length] == 1) pressedChar = [charString characterAtIndex:0];
-
-#define NSEscapeFunctionKey 27
-	/* Hitting escape once should clear any existing selection. Keys with functional modifiers pressed should not be passed.
-	 * Home and End should be passed to the find panel only  if it is already visible.
-	 */
-	if (((pressedChar == NSEscapeFunctionKey) && ([contactListView selectedRow] != -1 || !filterBarIsVisible)) ||
-		(([theEvent modifierFlags] & NSCommandKeyMask) || ([theEvent modifierFlags] & NSAlternateKeyMask) || ([theEvent modifierFlags] & NSControlKeyMask)) ||
-		((pressedChar == NSPageUpFunctionKey) || (pressedChar == NSPageDownFunctionKey) || (pressedChar == NSMenuFunctionKey)) ||
-		(!filterBarIsVisible && ((pressedChar == NSHomeFunctionKey) || (pressedChar == NSEndFunctionKey)))) {
-		return NO;
-
-	} else {
-		if (!filterBarIsVisible) {
-			/* Typing caused the filter bar ot be shown automatically */
-			filterBarShownAutomatically = YES;
-			[self showFilterBarWithAnimation:NO];
-		}
-
-		[[self window] makeFirstResponder:searchField];
-		[[[self window] fieldEditor:YES forObject:searchField] keyDown:theEvent];
-		
-		return YES;
-	}
-}
-
-/*!
- * @brief Process text commands while on the search field
- */
-- (BOOL)control:(NSControl *)control textView:(NSTextView *)textView doCommandBySelector:(SEL)command
-{
-	// Only process commands when we're in the search field.
-	if (control != searchField)
-		return NO;
-	
-	if (command == @selector(insertNewline:)) {
-		// If we have a search term, open a chat with the first contact
-		if (![[textView string] isEqualToString:@""])
-			[self performDefaultActionOnSelectedObject:[contactListView itemAtRow:[contactListView indexOfFirstVisibleListContact]]
-												sender:contactListView];
-		// Hide the filter bar
-		[self hideFilterBarWithAnimation:YES];		
-	} else if(command == @selector(moveDown:)) {
-		// The down arrow functions to move into the contact list view
-		[[self window] makeFirstResponder:contactListView];		
-	} else if(command == @selector(cancelOperation:)) {
-		// Escape hides the filter bar.
-		[self hideFilterBarWithAnimation:YES];
-	} else {
-		// If we didn't process a command, return NO.
-		return NO;
-	}
-	
-	// We processed a command, return YES.
-	return YES;
-}
-
-/*!
- * @brief Filter contacts from the search field
- *
- * This method will expand or contract groups as necessary, as well as handle forwarding the search term to
- * the contact hiding controller.
- */
-- (IBAction)filterContacts:(id)sender;
-{
-	if (![sender isKindOfClass:[NSSearchField class]])
-		return;
-
-	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
-		// Temporarily expand all groups when performing a search.
-		for (AIListObject *listObject in adium.contactController.contactList) {
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				// Force the listgroup to save its expanded status
-				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject isExpanded]]
-								  forKey:@"IsExpanded"
-								   group:@"Contact List"];
-
-				// Set the group as expanded
-				[contactListView expandItem:listObject];
-			}
-		}
-
-		filterBarExpandedGroups = YES;
-	} else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
-		// Restore saved expansion status when returning to no search.
-		for (AIListObject *listObject in adium.contactController.contactList) {
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				// If this group's stored status is to be collapsed, collapse it
-				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
-					[contactListView collapseItem:listObject];
-				}
-			}
-		}
-		
-		filterBarExpandedGroups = NO;
-	}
-
-	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
-		
-		// Select the first contact; we're guaranteed at least one visible contact.
-		[contactListView selectRowIndexes:[NSIndexSet indexSetWithIndex:[contactListView indexOfFirstVisibleListContact]]
-					 byExtendingSelection:NO];
-		
-		// Since this wasn't a user-initiated selection change, we need to post a notification for it.
-		[[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactSelectionChanged
-												  object:nil];
-		
-		[[searchField cell] setTextColor:nil backgroundColor:nil];
-	
-	} else {
-		//White on light red (like Firefox!)
-		[[searchField cell] setTextColor:[NSColor whiteColor] backgroundColor:[NSColor colorWithCalibratedHue:0.983
-																								   saturation:0.43
-																								   brightness:0.99
-																										alpha:1.0]];
-	}
-}
-
-/*!
- * @brief Delegate method for the search field's close button
- */
-- (void)rolloverButton:(AIRolloverButton *)inButton mouseChangedToInsideButton:(BOOL)isInside
-{
-	[button_cancelFilterBar setImage:[NSImage imageNamed:(isInside ? @"FTProgressStopRollover" : @"FTProgressStop")
-												forClass:[self class]]];
-}
-
 @end

@@ -26,6 +26,7 @@
 #import <AIUtilities/AIFunctions.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "AIAnimatingListOutlineView.h"
+#import <AIUtilities/AIRolloverButton.h>
 
 typedef enum {
 	AIContactListWindowHidingStyleNone = 0,
@@ -44,7 +45,7 @@ typedef enum {
 
 @protocol AIContactListViewController, AIInterfaceContainer;
 
-@interface AIListWindowController : AIWindowController <AIInterfaceContainer, AIListControllerDelegate> {
+@interface AIListWindowController : AIWindowController <AIInterfaceContainer, AIListControllerDelegate, AIRolloverButtonDelegate> {
 	BOOL                                borderless;
 	
 	NSSize								minWindowSize;
@@ -65,7 +66,7 @@ typedef enum {
 	// from hiding during the amount of time it is to be shown
 	BOOL								preventHiding;
 	BOOL								overrodeWindowLevel;
-	NSInteger									previousWindowLevel;
+	NSInteger							previousWindowLevel;
 
 	//this needs to be stored because we turn the shadow off when the window slides offscreen
 	BOOL								listHasShadow; 
@@ -84,6 +85,17 @@ typedef enum {
 	CGFloat								previousAlpha;
 	
 	AIListWindowController				*attachToBottom;
+	
+	// Filter bar
+	BOOL									filterBarExpandedGroups;
+	BOOL									filterBarIsVisible;
+	BOOL									filterBarShownAutomatically;
+	NSViewAnimation							*filterBarAnimation;
+	NSArray									*filterBarPreviouslySelected;
+	
+	IBOutlet	NSView						*filterBarView;
+	IBOutlet	NSSearchField				*searchField;
+	IBOutlet	AIRolloverButton			*button_cancelFilterBar;
 }
 
 // Create additional windows
@@ -127,5 +139,13 @@ typedef enum {
 								 NSPoint targetPoint,
 								 AIRectEdgeMask windowSlidOffScreenEdgeMask,
 								 BOOL keepOnScreen);
+
+// Contact Filtering
+
+- (void)toggleFindPanel:(id)sender;
+- (IBAction)hideFilterBar:(id)sender;
+- (IBAction)filterContacts:(id)sender;
+
+@property (nonatomic, retain ) NSViewAnimation *filterBarAnimation;
 
 @end

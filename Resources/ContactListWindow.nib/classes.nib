@@ -136,7 +136,13 @@
 			<dict>
 				<key>close</key>
 				<string>id</string>
+				<key>filterContacts</key>
+				<string>id</string>
+				<key>hideFilterBar</key>
+				<string>id</string>
 				<key>makeActive</key>
+				<string>id</string>
+				<key>toggleFindPanel</key>
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
@@ -145,10 +151,16 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>button_cancelFilterBar</key>
+				<string>AIRolloverButton</string>
 				<key>contactListView</key>
 				<string>AIAnimatingListOutlineView</string>
+				<key>filterBarView</key>
+				<string>NSView</string>
 				<key>scrollView_contactList</key>
 				<string>AIAutoScrollView</string>
+				<key>searchField</key>
+				<string>NSSearchField</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>AIWindowController</string>
