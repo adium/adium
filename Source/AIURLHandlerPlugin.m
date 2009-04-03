@@ -152,7 +152,7 @@
 - (NSArray *)allSchemesLikeScheme:(NSString *)scheme
 {
 	if ([scheme isEqualToString:@"ymsgr"]) {
-		return [NSArray arrayWithObjects:@"yahoo", @"ymsgr", nil];
+		return [NSArray arrayWithObjects:@"yahoo", @"ymsgr", @"gtalk", nil];
 	} else if ([scheme isEqualToString:@"xmpp"]) {
 		return [NSArray arrayWithObjects:@"xmpp", @"jabber", nil];
 	} else {
@@ -287,27 +287,6 @@
 						 account:nil];
 					}
 				}
-				
-			} else if ([host caseInsensitiveCompare:@"sendim"] == NSOrderedSame) {
-				// ymsgr://sendim?tekjew
-				NSString *name = [[[url query] stringByDecodingURLEscapes] compactedString];
-				
-				if (name) {
-					[self _openChatToContactWithName:name
-										   onService:serviceID
-										 withMessage:nil];
-				}
-				
-			} else if ([host caseInsensitiveCompare:@"im"] == NSOrderedSame) {
-				// ymsgr://im?to=tekjew
-				NSString *name = [[[url queryArgumentForKey:@"to"] stringByDecodingURLEscapes] compactedString];
-				
-				if (name) {
-					[self _openChatToContactWithName:name
-										   onService:serviceID
-										 withMessage:nil];
-				}
-				
 			} else if ([host caseInsensitiveCompare:@"gochat"]  == NSOrderedSame) {
 				// aim://gochat?RoomName=AdiumRocks
 				NSString	*roomname = [[url queryArgumentForKey:@"roomname"] stringByDecodingURLEscapes];
@@ -331,16 +310,6 @@
 										 withMessage:nil];
 				}
 				
-			} else if ([url queryArgumentForKey:@"openChatToScreenName"]) {
-				// gtalk:chat?jid=foo@gmail.com&from_jid=bar@gmail.com
-				NSString *name = [[[url queryArgumentForKey:@"jid"] stringByDecodingURLEscapes] compactedString];
-				
-				if (name) {
-					[self _openChatToContactWithName:name
-										   onService:serviceID
-										 withMessage:nil];
-				}
-				
 			} else if ([host caseInsensitiveCompare:@"BuddyIcon"] == NSOrderedSame) {
 				//aim:BuddyIcon?src=http://www.nbc.com//Heroes/images/wallpapers/heroes-downloads-icon-single-48x48-07.gif
 				NSString *urlString = [url queryArgumentForKey:@"src"];
@@ -357,6 +326,38 @@
 						 forKey:KEY_USER_ICON
 						 group:GROUP_ACCOUNT_STATUS];
 					}
+				}
+			}
+		} else if ([scheme isEqualToString:@"ymsgr"]) {
+			if ([host caseInsensitiveCompare:@"sendim"] == NSOrderedSame) {
+				// ymsgr://sendim?tekjew
+				NSString *name = [[[url query] stringByDecodingURLEscapes] compactedString];
+				
+				if (name) {
+					[self _openChatToContactWithName:name
+										   onService:serviceID
+										 withMessage:nil];
+				}
+				
+			} else if ([host caseInsensitiveCompare:@"im"] == NSOrderedSame) {
+				// ymsgr://im?to=tekjew
+				NSString *name = [[[url queryArgumentForKey:@"to"] stringByDecodingURLEscapes] compactedString];
+				
+				if (name) {
+					[self _openChatToContactWithName:name
+										   onService:serviceID
+										 withMessage:nil];
+				}
+			}
+		} else if ([scheme isEqualToString:@"gtalk"]) {
+			if ([url queryArgumentForKey:@"openChatToScreenName"]) {
+				// gtalk:chat?jid=foo@gmail.com&from_jid=bar@gmail.com
+				NSString *name = [[[url queryArgumentForKey:@"jid"] stringByDecodingURLEscapes] compactedString];
+				
+				if (name) {
+					[self _openChatToContactWithName:name
+										   onService:serviceID
+										 withMessage:nil];
 				}
 			}
 		} else if ([scheme isEqualToString:@"xmpp"]) {
