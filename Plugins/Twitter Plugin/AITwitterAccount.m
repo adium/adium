@@ -2240,7 +2240,13 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			}
 
 			[self filterAndSetUID:[info objectForKey:TWITTER_INFO_UID]];
-
+			
+			if ([info objectForKey:@"name"]) {
+				[self setPreference:[[NSAttributedString stringWithString:[info objectForKey:@"name"]] dataRepresentation]
+								forKey:KEY_ACCOUNT_DISPLAY_NAME
+								 group:GROUP_ACCOUNT_STATUS];		
+			}
+			
 			[self setValue:[info objectForKey:@"name"] forProperty:@"Profile Name" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"url"] forProperty:@"Profile URL" notify:NotifyLater];
 			[self setValue:[info objectForKey:@"location"] forProperty:@"Profile Location" notify:NotifyLater];
