@@ -32,8 +32,7 @@
     return @"AIMentionAdvancedPreferences";
 }
 - (NSImage *)image{
-//#warning WE REALLY NEED SOMEONE WHO CAN DO ICONS FOR US YES WE DO YES WE DO
-	return [NSImage imageNamed:@"pref-status" forClass:[AIPreferenceWindowController class]];
+	return [NSImage imageNamed:@"pref-events" forClass:[AIPreferenceWindowController class]];
 }
 
 - (void)saveTerms
