@@ -120,14 +120,16 @@
 			prefix = [NSString stringWithFormat:@"@%@ ", inUser];
 		}
 		
-		NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:prefix] mutableCopy] autorelease];
-		[newString appendAttributedString:textView.attributedString];
-		[textView setAttributedString:newString];
-		
-		// Shift the selected range over by the length of our prefix string
-		NSRange selectedRange = textView.selectedRange;
-		[textView setSelectedRange:NSMakeRange(selectedRange.location + prefix.length, selectedRange.length)];
-		
+		if (![textView.string hasPrefix:prefix]) {
+			NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:prefix] mutableCopy] autorelease];
+			[newString appendAttributedString:textView.attributedString];
+			[textView setAttributedString:newString];
+			
+			// Shift the selected range over by the length of our prefix string
+			NSRange selectedRange = textView.selectedRange;
+			[textView setSelectedRange:NSMakeRange(selectedRange.location + prefix.length, selectedRange.length)];
+		}
+			
 		// Make the text view have focus
 		[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
 		
