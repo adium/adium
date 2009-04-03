@@ -152,9 +152,9 @@
 - (NSArray *)allSchemesLikeScheme:(NSString *)scheme
 {
 	if ([scheme isEqualToString:@"ymsgr"]) {
-		return [NSArray arrayWithObjects:@"yahoo", @"ymsgr", @"gtalk", nil];
+		return [NSArray arrayWithObjects:@"yahoo", @"ymsgr", nil];
 	} else if ([scheme isEqualToString:@"xmpp"]) {
-		return [NSArray arrayWithObjects:@"xmpp", @"jabber", nil];
+		return [NSArray arrayWithObjects:@"xmpp", @"jabber", @"gtalk", nil];
 	} else {
 		return [NSArray arrayWithObject:scheme];
 	}
