@@ -9,6 +9,7 @@
 #import <Adium/AIDockControllerProtocol.h>
 #import <Adium/AIAdiumProtocol.h>
 #import "AIMessageWindow.h"
+#import "AIURLHandlerPlugin.h"
 #import "AIAccountControllerProtocol.h"
 #import "AIUtilities/AIArrayAdditions.h"
 #import "AIInterfaceControllerProtocol.h"
@@ -17,7 +18,6 @@
 #import "AIStatusControllerProtocol.h"
 #import "AIChatControllerProtocol.h"
 #import "AIContactControllerProtocol.h"
-#import "AdiumURLHandling.h"
 #import <Adium/AIListContact.h>
 
 @implementation AIApplication
@@ -219,7 +219,7 @@
 - (id)scriptingGetURL:(NSScriptCommand *)command
 {
 	NSString *url = [command directParameter];
-	[AdiumURLHandling handleURLEvent:url];
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:url];
 	return nil;
 }
 

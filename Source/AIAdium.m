@@ -15,7 +15,7 @@
  */
 
 #import "AIAdium.h"
-#import "AdiumURLHandling.h"
+#import "AIURLHandlerPlugin.h"
 #import "AIAccountController.h"
 #import "AIChatController.h"
 #import "AIContactController.h"
@@ -146,7 +146,7 @@ static NSString	*prefsCategory;
 		}
 		[queuedURLEvents addObject:[[event descriptorAtIndex:1] stringValue]];
 	} else {
-		[AdiumURLHandling handleURLEvent:[[event descriptorAtIndex:1] stringValue]];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:[[event descriptorAtIndex:1] stringValue]];
 	}
 }
 
@@ -212,7 +212,6 @@ static NSString	*prefsCategory;
 
 	//Finish initing
 	pool = [[NSAutoreleasePool alloc] init];
-	[AdiumURLHandling registerURLTypes];		//Asks the user questions so must load after components
 	[menuController controllerDidLoad];			//Loaded by nib
 	[accountController controllerDidLoad];		//** Before contactController so accounts and services are available for contact creation
 	
@@ -249,7 +248,7 @@ static NSString	*prefsCategory;
 	//Process any delayed URL events 
 	if (queuedURLEvents) {
 		for (NSString *eventString in queuedURLEvents) {
-			[AdiumURLHandling handleURLEvent:eventString];
+			[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:eventString];
 		}
 		[queuedURLEvents release]; queuedURLEvents = nil;
 	}
