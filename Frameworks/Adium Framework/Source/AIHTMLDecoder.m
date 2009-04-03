@@ -1566,31 +1566,33 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				[textAttributes setTextColor:[NSColor grayColor]];
 			}
 		} else if ([arg caseInsensitiveCompare:@"style"] == NSOrderedSame) {
-			NSString	*style = [inArgs objectForKey:arg];
-			int			styleLength = [style length];
+			NSString	*styleList = [inArgs objectForKey:arg];
 			NSRange		attributeRange;
+			
+			NSScanner	*styleScanner = [NSScanner scannerWithString:styleList];
+			NSString	*style;
 
-			attributeRange = [style rangeOfString:@"font-family: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";"
-													  options:NSLiteralSearch
-														range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *fontFamily = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange),
-																				 nextSemicolon.location - NSMaxRange(attributeRange))];
+			while([styleScanner scanUpToString:@";" intoString:&style])
+			{
+				[styleScanner scanString:@";" intoString:nil];
+				
+				int styleLength = [style length];
+
+				attributeRange = [style rangeOfString:@"font-family:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *fontFamily = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+												 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
 					[originalAttributes setObject:([textAttributes fontFamily] ? (id)[textAttributes fontFamily] : (id)[NSNull null])
 										   forKey:@"setFontFamily:"];
+					
 					[textAttributes setFontFamily:fontFamily];
 				}
-			}
-			
-			attributeRange = [style rangeOfString:@"font-size: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";"
-													  options:NSLiteralSearch
-														range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *fontSize = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
+				
+				attributeRange = [style rangeOfString:@"font-size:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *fontSize = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength-NSMaxRange(attributeRange))]
+											 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 					
 					static int stylePointSizes[] = { 9, 10, 12, 14, 18, 24 };
 					int size = 12;
@@ -1612,21 +1614,24 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						
 					} else if ([fontSize caseInsensitiveCompare:@"x-large"] == NSOrderedSame) {
 						size = stylePointSizes[5];
+					} else {
+						NSRange	 pixelUnits = [fontSize	rangeOfString:@"px"
+														options:NSLiteralSearch];
+						if (pixelUnits.location != NSNotFound) {
+							size = [[fontSize substringWithRange:NSMakeRange(0,pixelUnits.location)] intValue];
+						}
 					}
 					
 					[originalAttributes setObject:[NSNumber numberWithInt:[textAttributes fontSize]]
 										   forKey:@"setFontSizeFromNumber:"];
 					[textAttributes setFontSize:size];
 				}
-			}
 
-			attributeRange = [style rangeOfString:@"font-weight: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";"
-													  options:NSLiteralSearch
-														range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *fontWeight = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
+				attributeRange = [style rangeOfString:@"font-weight:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *fontWeight = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+												stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
 					[originalAttributes setObject:[NSNumber numberWithUnsignedInt:[textAttributes traits]]
 										   forKey:@"setTraits:"];
 					if (([fontWeight caseInsensitiveCompare:@"bold"] == NSOrderedSame) ||
@@ -1637,15 +1642,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						[textAttributes disableTrait:NSBoldFontMask];						
 					}
 				}
-			}
-			
-			attributeRange = [style rangeOfString:@"font-style: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange nextSemicolon = [style rangeOfString:@";"
-													 options:NSLiteralSearch 
-													   range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *fontStyle = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
+				
+				attributeRange = [style rangeOfString:@"font-style:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *fontStyle = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+											 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
 					[originalAttributes setObject:[NSNumber numberWithUnsignedInt:[textAttributes traits]]
 																 forKey:@"setTraits:"];
 					if (([fontStyle caseInsensitiveCompare:@"italic"] == NSOrderedSame) ||
@@ -1655,70 +1657,59 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						[textAttributes disableTrait:NSItalicFontMask];
 					}
 				}
-			}
 
-			attributeRange = [style rangeOfString:@"font: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";"
-													  options:NSLiteralSearch
-														range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *fontString = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange),
-																				 nextSemicolon.location - NSMaxRange(attributeRange))];
-					
-                    NSScanner *fontStringScanner = [NSScanner scannerWithString:fontString];
-                    float fontSize;
-                    if([fontStringScanner scanFloat:&fontSize])
-                        [textAttributes setFontSize:fontSize];
-                    [fontStringScanner scanUpToString:@" " intoString:nil];
-                    [fontStringScanner setScanLocation:[fontStringScanner scanLocation] + 1];
-                    NSString *font = [fontString substringFromIndex:[fontStringScanner scanLocation]];
-                    if ([font length]) {
+				attributeRange = [style rangeOfString:@"font:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *fontString = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+												 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+					NSScanner *fontStringScanner = [NSScanner scannerWithString:fontString];
+					float fontSize;
+					if([fontStringScanner scanFloat:&fontSize])
+						[textAttributes setFontSize:fontSize];
+					[fontStringScanner scanUpToString:@" " intoString:nil];
+					[fontStringScanner setScanLocation:[fontStringScanner scanLocation] + 1];
+					NSString *font = [fontString substringFromIndex:[fontStringScanner scanLocation]];
+					if ([font length]) {
 						[originalAttributes setObject:([textAttributes fontFamily] ? (id)[textAttributes fontFamily] : (id)[NSNull null])
 											   forKey:@"setFontFamily:"];
-                        [textAttributes setFontFamily:font];
+						[textAttributes setFontFamily:font];
 					}
 				}
-			}
 
-			attributeRange = [style rangeOfString:@"background-color: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";" options:NSLiteralSearch range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *hexColor = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
-					
+				attributeRange = [style rangeOfString:@"background-color:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *hexColor = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+											 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
 					[originalAttributes setObject:([textAttributes backgroundColor] ? (id)[textAttributes backgroundColor] : (id)[NSNull null])
 										   forKey:@"setBackgroundColor:"];
 					[textAttributes setBackgroundColor:[NSColor colorWithHTMLString:hexColor
 																	   defaultColor:[NSColor blackColor]]];
+
+					//Take out the background-color attribute, so that the following search for color: does not match it.
+					NSMutableString *mStyle = [[style mutableCopy] autorelease];
+					[mStyle replaceCharactersInRange:attributeRange
+										  withString:@"onpxtebhaq-pbybe:"]; //ROT13('background-color: ')
+					style = mStyle;
 				}
 
-				//Take out the background-color attribute, so that the following search for color: does not match it.
-				NSMutableString *mStyle = [[style mutableCopy] autorelease];
-				[mStyle replaceCharactersInRange:attributeRange
-				                      withString:@"onpxtebhaq-pbybe: "]; //ROT13('background-color: ')
-				style = mStyle;
-			}
+				attributeRange = [style rangeOfString:@"color:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *hexColor = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+											 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-			attributeRange = [style rangeOfString:@"color: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";" options:NSLiteralSearch range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *hexColor = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
-					
 					[originalAttributes setObject:([textAttributes textColor] ? (id)[textAttributes textColor] : (id)[NSNull null])
 										   forKey:@"setTextColor:"];
 					[textAttributes setTextColor:[NSColor colorWithHTMLString:hexColor
 																 defaultColor:[NSColor blackColor]]];
 				}
-			}
-			
-			attributeRange = [style rangeOfString:@"text-decoration: " options:NSCaseInsensitiveSearch];
-			if (attributeRange.location != NSNotFound) {
-				NSRange	 nextSemicolon = [style rangeOfString:@";" options:NSLiteralSearch range:NSMakeRange(attributeRange.location, styleLength - attributeRange.location)];
-				if (nextSemicolon.location != NSNotFound) {
-					NSString *decoration = [style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), nextSemicolon.location - NSMaxRange(attributeRange))];
-					
+				
+				attributeRange = [style rangeOfString:@"text-decoration:" options:NSCaseInsensitiveSearch];
+				if (attributeRange.location != NSNotFound) {
+					NSString *decoration = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
+												 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
 					if ([decoration caseInsensitiveCompare:@"none"] == NSOrderedSame){
 						[originalAttributes setObject:([textAttributes underline] ? [NSNumber numberWithBool:[textAttributes underline]] : (id)[NSNull null]) forKey:@"setUnderline:"];
 						[textAttributes setUnderline: NO];
