@@ -97,6 +97,11 @@
 			// Only append if we have text.
 			if (linkText.length) {
 				channelName = [channelName stringByAppendingString:linkText];
+				
+				// If the last character is a punctuation character, drop it.
+				if ([[NSCharacterSet punctuationCharacterSet] characterIsMember:[channelName characterAtIndex:channelName.length-1]]) {
+					channelName = [channelName substringToIndex:channelName.length-1];
+				}
 			}
 			
 			NSString *linkURL = [NSString stringWithFormat:@"irc://%@/%@",
@@ -105,7 +110,7 @@
 
 			[newString addAttribute:NSLinkAttributeName
 							  value:linkURL
-							  range:NSMakeRange(startLocation, linkText.length + 1)];
+							  range:NSMakeRange(startLocation, channelName.length)];
 		}
 		
 		// If we didn't read any characters in following the channel start, advance.
