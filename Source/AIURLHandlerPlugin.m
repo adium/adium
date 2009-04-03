@@ -125,14 +125,15 @@
 	static NSDictionary	*schemeToServiceDict = nil;
 	if (!schemeToServiceDict) {
 		schemeToServiceDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-							   @"AIM",    @"aim",
-							   @"Yahoo!", @"ymsgr",
-							   @"Yahoo!", @"yahoo",
-							   @"Jabber", @"xmpp",
-							   @"Jabber", @"jabber",
-							   @"GTalk",  @"gtalk",
-							   @"MSN",    @"msn",
+							   @"AIM",     @"aim",
+							   @"Yahoo!",  @"ymsgr",
+							   @"Yahoo!",  @"yahoo",
+							   @"Jabber",  @"xmpp",
+							   @"Jabber",  @"jabber",
+							   @"GTalk",   @"gtalk",
+							   @"MSN",     @"msn",
 							   @"IRC",	   @"irc",
+							   @"MySpace", @"msim",
 							   nil];
 	}
 	
@@ -167,7 +168,7 @@
  */
 - (NSArray *)uniqueSchemes
 {
-	return [NSArray arrayWithObjects:@"aim", @"irc", @"xmpp", @"msn", @"ymsgr", nil];
+	return [NSArray arrayWithObjects:@"aim", @"irc", @"xmpp", @"msn", @"msim", @"ymsgr", nil];
 }
 
 /*!
@@ -415,6 +416,21 @@
 			channelName = [channelName stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 			
 			[self _openIRCGroupChat:channelName onServer:[url host] withPassword:[url query]];
+		} else if ([scheme caseInsensitiveCompare:@"msim"] == NSOrderedSame) {
+			NSString *contactName = [url queryArgumentForKey:@"cID"];
+			
+			if (contactName.length) {
+				if ([host isEqualToString:@"addContact"]) {
+					[AINewContactWindowController promptForNewContactOnWindow:nil
+																		 name:contactName
+																	  service:[adium.accountController firstServiceWithServiceID:serviceID]
+																	  account:nil];
+				} else if ([host isEqualToString:@"sendIM"]) {
+					[self _openChatToContactWithName:contactName
+										   onService:serviceID
+										 withMessage:nil];
+				}
+			}
 		} else {
 			//Default to opening the host as a name.
 			NSString	*user = [url user];
