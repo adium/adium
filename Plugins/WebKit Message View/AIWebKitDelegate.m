@@ -8,6 +8,7 @@
 #import "AIWebKitDelegate.h"
 #import "AIWebKitMessageViewController.h"
 #import "ESWebView.h"
+#import "AIURLHandlerPlugin.h"
 
 static AIWebKitDelegate *AISharedWebKitDelegate;
 
@@ -88,9 +89,9 @@ static AIWebKitDelegate *AISharedWebKitDelegate;
     NSInteger actionKey = [[actionInformation objectForKey: WebActionNavigationTypeKey] integerValue];
     if (actionKey == WebNavigationTypeOther) {
 		[listener use];
-	} else if ([request.URL.scheme isEqualToString:@"twitterreply"]) {
-		// If you're modifying this, also modify the post in AdiumURLHandling.m
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:request.URL];
+	} else if ([((NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)request.URL.scheme)).lowercaseString isEqualToString:@"com.adiumx.adiumx"]) {
+		// We're the default for this URL, let's open it ourself.
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"AIURLHandleNotification" object:request.URL.absoluteString];
 		
 		[listener ignore];
     } else {
