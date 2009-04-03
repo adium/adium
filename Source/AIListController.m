@@ -431,20 +431,8 @@
 - (void)listObjectAttributesChanged:(NSNotification *)notification
 {	
 	//Don't update for objects not on this list (groupchat occupants mostly)
-	AIListObject *obj = [notification object];
-	if ([obj isKindOfClass:[AIListContact class]]) {
-		BOOL onList = NO;
-
-		for (AIListGroup *group in ((AIListContact *)obj).parentContact.groups) {
-			if (group == self.contactList || group.contactList == self.contactList) {
-				onList = YES;
-				break;
-			}
-		}
-		
-		if (!onList)
-			return;
-	}
+	if ([self.contactListView rowForItem:notification.object] == -1)
+		return;
 		
 	[super listObjectAttributesChanged:notification];
 	
