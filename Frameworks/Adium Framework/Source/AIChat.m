@@ -562,6 +562,11 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	return [self integerValueForProperty:KEY_UNVIEWED_CONTENT];
 }
 
+- (NSUInteger)unviewedMentionCount
+{
+	return [self integerValueForProperty:KEY_UNVIEWED_MENTION];	
+}
+
 - (void)incrementUnviewedContentCount
 {
 	int currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_CONTENT];
@@ -570,8 +575,18 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 					 notify:NotifyNow];
 }
 
+- (void)incrementUnviewedMentionCount
+{
+	int currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_MENTION];
+	[self setValue:[NSNumber numberWithInt:(currentUnviewed+1)]
+	   forProperty:KEY_UNVIEWED_MENTION
+			notify:NotifyNow];
+}
+
 - (void)clearUnviewedContentCount
 {
+	// We also want to clear mention for the same situations we clear normal content.
+	[self setValue:nil forProperty:KEY_UNVIEWED_MENTION notify:NotifyNow];
 	[self setValue:nil forProperty:KEY_UNVIEWED_CONTENT notify:NotifyNow];
 }
 

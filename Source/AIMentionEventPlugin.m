@@ -86,6 +86,8 @@
 												 forListObject:(AIListObject *)[adium.contactController existingBookmarkForChat:chat]
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
 								  previouslyPerformedActionIDs:nil];
+				
+				[chat incrementUnviewedMentionCount];
 			}
 			
 			[message addDisplayClass:@"mention"];

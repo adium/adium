@@ -32,6 +32,7 @@
 #define Chat_DestinationChanged 				@"Chat_DestinationChanged"
 
 #define KEY_UNVIEWED_CONTENT	@"UnviewedContent"
+#define KEY_UNVIEWED_MENTION	@"UnviewedMention"
 #define KEY_TYPING				@"Typing"
 
 #define	KEY_CHAT_TIMED_OUT		@"Timed Out"
@@ -138,7 +139,11 @@ typedef enum {
 @property (readwrite, nonatomic) BOOL hasSentOrReceivedContent;
 
 @property (readonly, nonatomic) NSUInteger unviewedContentCount;
+@property (readonly, nonatomic) NSUInteger unviewedMentionCount;
+
 - (void)incrementUnviewedContentCount;
+- (void)incrementUnviewedMentionCount;
+
 - (void)clearUnviewedContentCount;
 
 - (void)setDisplayName:(NSString *)inDisplayName;
