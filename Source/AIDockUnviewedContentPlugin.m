@@ -40,7 +40,6 @@
 - (void)installPlugin
 {
     //init
-    unviewedObjectsArray = [[NSMutableArray alloc] init];
     unviewedState = NO;
 
 	//Register our default preferences
@@ -99,8 +98,7 @@
 - (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
     if ([inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT]) {
-		
-        if ([inChat unviewedContentCount]) {
+        if (adium.chatController.unviewedContentCount) {
             //If this is the first contact with unviewed content, animate the dock
             if (!unviewedState) {
 				NSString *iconState;
@@ -115,18 +113,9 @@
                 [adium.dockController setIconStateNamed:iconState];
                 unviewedState = YES;
             }
-
-            [unviewedObjectsArray addObject:inChat];
-
-        } else {
-            if ([unviewedObjectsArray containsObjectIdenticalTo:inChat]) {
-                [unviewedObjectsArray removeObject:inChat];
-
-                //If there are no more contacts with unviewed content, stop animating the dock
-                if ([unviewedObjectsArray count] == 0 && unviewedState) {
-					[self removeAlert];
-                }
-            }
+        } else if (unviewedState) {
+			//If there are no more contacts with unviewed content, stop animating the dock
+			[self removeAlert];
         }
     }
 
@@ -150,15 +139,9 @@
  */
 - (void)chatWillClose:(NSNotification *)notification
 {
-	AIChat	*inChat = [notification object];
-
-	if ([unviewedObjectsArray containsObjectIdenticalTo:inChat]) {
-		[unviewedObjectsArray removeObject:inChat];
-		
+	if (!adium.chatController.unviewedContentCount && unviewedState) {
 		//If there are no more contacts with unviewed content, stop animating the dock
-		if ([unviewedObjectsArray count] == 0 && unviewedState) {
-			[self removeAlert];
-		}
+		[self removeAlert];
 	}
 }
 

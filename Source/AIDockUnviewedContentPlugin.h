@@ -18,9 +18,7 @@
 #import <Adium/AIChatControllerProtocol.h>
 
 @interface AIDockUnviewedContentPlugin : AIPlugin <AIChatObserver> {
-    NSMutableArray		*unviewedObjectsArray;
     BOOL				unviewedState;
-	
 	BOOL				animateDockIcon;
 }
 
