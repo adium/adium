@@ -1242,8 +1242,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Custom emoticons
 - (void)chat:(AIChat *)inChat isWaitingOnCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
-												  group:PREF_GROUP_MSN_SERVICE] boolValue])
+	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	AIEmoticon *emoticon;
 
@@ -1281,8 +1281,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat setCustomEmoticon:(NSString *)emoticonEquivalent withImageData:(NSData *)inImageData
 {
-	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
-												  group:PREF_GROUP_MSN_SERVICE] boolValue])
+	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	/* XXX Note: If we can set outgoing emoticons, this method needs to be updated to mark emoticons as incoming
 	 * and AIEmoticonController needs to be able to handle that.
@@ -1317,8 +1317,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat closedCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[adium.preferenceController preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
-												  group:PREF_GROUP_MSN_SERVICE] boolValue])
+	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	AIEmoticon	*emoticon;
 

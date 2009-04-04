@@ -522,8 +522,6 @@
 		3485DB8909EBCE7400232CC4 /* ESPurpleMSNAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344159B4059F97800019246B /* ESPurpleMSNAccountViewController.m */; };
 		3485DB8A09EBCE7400232CC4 /* ESPurpleMSNAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 343EB40508086D9000E27095 /* ESPurpleMSNAccountView.nib */; };
 		3485DB8B09EBCE7400232CC4 /* PurpleDefaultsMSN.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4B7644DD07A05E7E0021CCD7 /* PurpleDefaultsMSN.plist */; };
-		3485DB8C09EBCE7400232CC4 /* AIMSNServicePreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B388E0D0719C376004DE713 /* AIMSNServicePreferences.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3485DB8D09EBCE7400232CC4 /* AIMSNServicePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B388E0E0719C376004DE713 /* AIMSNServicePreferences.m */; };
 		3485DB8E09EBCE7400232CC4 /* MSNServicePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4B388E4C0719C445004DE713 /* MSNServicePrefs.nib */; };
 		3485DB8F09EBCE7400232CC4 /* ESNovellService.h in Headers */ = {isa = PBXBuildFile; fileRef = 34C2EA180634DB5E0018E5D2 /* ESNovellService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3485DB9009EBCE7400232CC4 /* ESNovellService.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C2EA190634DB5E0018E5D2 /* ESNovellService.m */; };
@@ -3841,8 +3839,6 @@
 		4B31E8C404C46A9100A8010A /* ContactStatusColoringDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = ContactStatusColoringDefaults.plist; path = Resources/ContactStatusColoringDefaults.plist; sourceTree = "<group>"; };
 		4B387EB707199FE5004DE713 /* ESPurpleDotMacAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESPurpleDotMacAccountViewController.h; path = "Plugins/Purple Service/ESPurpleDotMacAccountViewController.h"; sourceTree = "<group>"; };
 		4B387EB807199FE5004DE713 /* ESPurpleDotMacAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESPurpleDotMacAccountViewController.m; path = "Plugins/Purple Service/ESPurpleDotMacAccountViewController.m"; sourceTree = "<group>"; };
-		4B388E0D0719C376004DE713 /* AIMSNServicePreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMSNServicePreferences.h; path = "Plugins/Purple Service/AIMSNServicePreferences.h"; sourceTree = "<group>"; };
-		4B388E0E0719C376004DE713 /* AIMSNServicePreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMSNServicePreferences.m; path = "Plugins/Purple Service/AIMSNServicePreferences.m"; sourceTree = "<group>"; };
 		4B388E4C0719C445004DE713 /* MSNServicePrefs.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MSNServicePrefs.nib; path = "Plugins/Purple Service/MSNServicePrefs.nib"; sourceTree = "<group>"; };
 		4B422C0905ACB248005E720B /* AISortController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AISortController.h; path = "Frameworks/Adium Framework/Source/AISortController.h"; sourceTree = "<group>"; };
 		4B422C0A05ACB248005E720B /* AISortController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AISortController.m; path = "Frameworks/Adium Framework/Source/AISortController.m"; sourceTree = "<group>"; };
@@ -6343,8 +6339,6 @@
 		4B388E080719C351004DE713 /* MSN Service Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				4B388E0D0719C376004DE713 /* AIMSNServicePreferences.h */,
-				4B388E0E0719C376004DE713 /* AIMSNServicePreferences.m */,
 				4B388E4C0719C445004DE713 /* MSNServicePrefs.nib */,
 			);
 			name = "MSN Service Preferences";
@@ -7808,7 +7802,6 @@
 				3485DB8309EBCE7400232CC4 /* ESPurpleMSNAccount.h in Headers */,
 				3485DB8509EBCE7400232CC4 /* DCPurpleMSNJoinChatViewController.h in Headers */,
 				3485DB8809EBCE7400232CC4 /* ESPurpleMSNAccountViewController.h in Headers */,
-				3485DB8C09EBCE7400232CC4 /* AIMSNServicePreferences.h in Headers */,
 				3485DB8F09EBCE7400232CC4 /* ESNovellService.h in Headers */,
 				3485DB9109EBCE7400232CC4 /* ESPurpleNovellAccount.h in Headers */,
 				3485DB9309EBCE7400232CC4 /* DCPurpleNovellJoinChatViewController.h in Headers */,
@@ -8982,7 +8975,6 @@
 				3485DB8409EBCE7400232CC4 /* ESPurpleMSNAccount.m in Sources */,
 				3485DB8609EBCE7400232CC4 /* DCPurpleMSNJoinChatViewController.m in Sources */,
 				3485DB8909EBCE7400232CC4 /* ESPurpleMSNAccountViewController.m in Sources */,
-				3485DB8D09EBCE7400232CC4 /* AIMSNServicePreferences.m in Sources */,
 				3485DB9009EBCE7400232CC4 /* ESNovellService.m in Sources */,
 				3485DB9209EBCE7400232CC4 /* ESPurpleNovellAccount.m in Sources */,
 				3485DB9409EBCE7400232CC4 /* DCPurpleNovellJoinChatViewController.m in Sources */,
