@@ -17,6 +17,10 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIAccount.h>
 
+@interface AIIRCServicesPasswordPlugin()
+- (BOOL)message:(NSString *)message containsFragments:(NSArray *)fragments;
+@end
+
 @implementation AIIRCServicesPasswordPlugin
 - (void)installPlugin
 {
@@ -45,43 +49,97 @@
 		return;
 	}
 	
-	// Some servers, such as DALnet, send the messages from things like "NickServ@…", so let's check the prefix.
-	// We don't send a *response* to this user, so it's okay to not care if it's an imposter.
-	if ([contentObject.source.UID.lowercaseString hasPrefix:@"nickserv"]) {
+	NSString *nick = contentObject.source.UID;
+	NSString *server = contentObject.chat.account.host;
+	NSString *identNick;
+
+	BOOL validService = NO;
+	AISpecialPasswordType serviceType;
+	
+	AIAccount *account = contentObject.chat.account;
+	
+	if ([nick isCaseInsensitivelyEqualToString:@"NickServ"]) {
+		validService = YES;
+		serviceType = AINickServPassword;
+		identNick = account.displayName;
+	} else if ([nick isCaseInsensitivelyEqualToString:@"Q"] && [server rangeOfString:@"quakenet" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		validService = YES;
+		serviceType = AIQPassword;
+		identNick = account.UID;
+	} else if ([nick isCaseInsensitivelyEqualToString:@"X"] && [server rangeOfString:@"undernet" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		validService = YES;
+		serviceType = AIXPassword;
+		identNick = account.UID;
+	} else if ([nick isCaseInsensitivelyEqualToString:@"AuthServ"] && [server rangeOfString:@"gamesurge" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		validService = YES;
+		serviceType = AIAuthServPassword;
+		identNick = account.UID;
+	}
+
+	if (validService) {
 		NSString *message = contentObject.message.string;
-		AIAccount *account = contentObject.chat.account;
 		
-		// Needs updating for various implementations.
-		if ([message rangeOfString:@"This nickname is registered"].location != NSNotFound ||
-			[message rangeOfString:@"Invalid password"].location != NSNotFound) {
-			AILogWithSignature(@"%@ received challenge :%@", account.displayName, message);
+		if(([message rangeOfString:@"NickServ" options:NSCaseInsensitiveSearch].location != NSNotFound
+			&& [message rangeOfString:@"ID" options:NSCaseInsensitiveSearch].location != NSNotFound) ||
+		   [self message:message containsFragments:[NSArray arrayWithObjects:
+														  @"identify yourself",
+														  @"authentication required",
+														  @"nickname is registered",
+														  @"nickname is owned",
+														  @"nick belongs to another user",
+														  @"invalid",
+														  @"incorrect", nil]]) {
 			
-			[adium.accountController passwordForType:AINickServPassword
+			[account setValue:nil forProperty:@"Identifying" notify:NotifyNever];
+			
+			AILogWithSignature(@"%@ received challenge from %@ :%@", account.displayName, nick, message);
+			
+			BOOL forcePrompt = [self message:message containsFragments:[NSArray arrayWithObjects:@"invalid", @"incorrect", nil]];
+			[adium.accountController passwordForType:serviceType
 										  forAccount:account
-										promptOption:(([message rangeOfString:@"Invalid password"].location != NSNotFound) ? AIPromptAlways : AIPromptAsNeeded)
+										promptOption:(forcePrompt ? AIPromptAlways : AIPromptAsNeeded)
 												name:account.displayName
 									 notifyingTarget:self
-											selector:@selector(nickservPasswordReturned:returnCode:context:)
-											 context:[NSDictionary dictionaryWithObjectsAndKeys:account, @"Account", account.displayName, @"Name", nil]];
+											selector:@selector(passwordReturned:returnCode:context:)
+											 context:[NSDictionary dictionaryWithObjectsAndKeys:account, @"Account",
+													  account.displayName, @"Name", nil]];
 
 			contentObject.displayContent = NO;
-		} else if ([message rangeOfString:@"before it is changed"].location != NSNotFound) {
-			contentObject.displayContent = NO;
-		} else if ([message rangeOfString:@"now identified for"].location != NSNotFound) {
+		} else if ([self message:message containsFragments:[NSArray arrayWithObjects:
+															@"password accepted",
+															@"you are now identified",
+															@"you are now logged in",
+															@"you are already logged in",
+															@"authentication successful",
+															@"i recognize you", nil]]) {
 			if ([account boolValueForProperty:@"Identifying"]) {
 				[account setValue:nil forProperty:@"Identifying" notify:NotifyNever];
 				contentObject.displayContent = NO;
 			}
+		} else if ([self message:message containsFragments:[NSArray arrayWithObjects:
+															@"before it is changed",
+															@"Remember: Nobody from CService will ever ask you for your password, do NOT give out your password to anyone claiming to be CService.",
+															@"you are seeking their assistance. See",
+															@"REMINDER: Do not share your password with anyone. DALnet staff will not ask for your password unless",
+															@"You have been invited to", nil]]) {
+			contentObject.displayContent = NO;
 		}
-	} else if ([contentObject.source.UID isCaseInsensitivelyEqualToString:@"freenode-connect"] &&
-			   [contentObject.chat.account.host rangeOfString:@"freenode.net"].location != NSNotFound) {
-		// As a side benefit of having this huge construct here, SHUT UP FREENODE PLEASE.
-		contentObject.displayContent = NO; // NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO NO
 	}
 }
 
-#pragma mark NickServ passwords
-- (void)nickservPasswordReturned:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(NSDictionary *)inDict
+- (BOOL)message:(NSString *)message containsFragments:(NSArray *)fragments
+{
+	for (NSString *fragment in fragments) {
+		if ([message rangeOfString:fragment options:NSCaseInsensitiveSearch].location != NSNotFound) {
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+#pragma mark Password Return
+- (void)passwordReturned:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(NSDictionary *)inDict
 {
 	ESIRCAccount *account = [inDict objectForKey:@"Account"];
 	NSString	 *displayName = [inDict objectForKey:@"Name"];
@@ -90,10 +148,8 @@
 	
 	if (inPassword && inPassword.length) {
 		[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Identifying" notify:NotifyNever];
-		[(ESIRCAccount *)account identifyForNickServName:displayName password:inPassword];
+		[(ESIRCAccount *)account identifyForName:displayName password:inPassword];
 	}
 }
-
-#pragma mark ChanServ passwords
 
 @end

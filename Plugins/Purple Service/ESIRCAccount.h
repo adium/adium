@@ -20,6 +20,6 @@
 @property (readonly, nonatomic) NSString *defaultUsername;
 @property (readonly, nonatomic) NSString *defaultRealname;
 
-- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword;
+- (void)identifyForName:(NSString *)name password:(NSString *)inPassword;
 
 @end

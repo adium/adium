@@ -11,11 +11,9 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIServiceIcons.h>
 
-#define TITLE_NICKSERV_PASSWORD		AILocalizedString(@"NickServ Password", nil)
-#define TITLE_CHANSERV_PASSWORD		AILocalizedString(@"ChanServ Password", nil)
+#define TITLE_IRC_SERVICE_PASSWORD		AILocalizedString(@"%@ Password", "%@ is the name of the authentication service.")
 
-#define MESSAGE_NICKSERV			AILocalizedString(@"Please enter your NickServ password.", nil)
-#define MESSAGE_CHANSERV			AILocalizedString(@"Please enter your ChanServ password.", nil)
+#define MESSAGE_IRC_SERVICE				AILocalizedString(@"Please enter your %@ password.", "%@ is the name of the authentication service.")
 
 #define SPECIAL_ACCOUNT_PASSWORD_PROMPT @"AISpecialPasswordPrompt"
 
@@ -126,17 +124,32 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
  */
 - (void)windowDidLoad
 {
+	NSString *title = nil, *label = nil;
+	
 	switch (type) {
 		case AINickServPassword:
-			[[self window] setTitle:TITLE_NICKSERV_PASSWORD];
-			[label_pleaseEnter setStringValue:MESSAGE_NICKSERV];
+			title = [NSString stringWithFormat:TITLE_IRC_SERVICE_PASSWORD, @"NickServ"];
+			label = [NSString stringWithFormat:MESSAGE_IRC_SERVICE, @"NickServ"];
 			break;
 			
-		case AIChanServPassword:
-			[[self window] setTitle:TITLE_CHANSERV_PASSWORD];
-			[label_pleaseEnter setStringValue:MESSAGE_CHANSERV];
+		case AIQPassword:
+			title = [NSString stringWithFormat:TITLE_IRC_SERVICE_PASSWORD, @"Q"];
+			label = [NSString stringWithFormat:MESSAGE_IRC_SERVICE, @"Q"];
+			break;
+			
+		case AIXPassword:
+			title = [NSString stringWithFormat:TITLE_IRC_SERVICE_PASSWORD, @"X"];
+			label = [NSString stringWithFormat:MESSAGE_IRC_SERVICE, @"X"];
+			break;
+			
+		case AIAuthServPassword:
+			title = [NSString stringWithFormat:TITLE_IRC_SERVICE_PASSWORD, @"AuthServ"];
+			label = [NSString stringWithFormat:MESSAGE_IRC_SERVICE, @"AuthServ"];
 			break;
 	}
+	
+	[[self window] setTitle:title];
+	[label_pleaseEnter setStringValue:label];
 	
 	[label_server setStringValue:account.host];
 	[label_username setStringValue:name];
