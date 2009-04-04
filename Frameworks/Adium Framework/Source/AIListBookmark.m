@@ -17,6 +17,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContactList.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define	KEY_CONTAINING_OBJECT_UID	@"ContainingObjectUID"
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
@@ -45,6 +46,8 @@
 		name = [inName copy];
 		
 		[self restoreGrouping];
+		
+		[adium.chatController registerChatObserver:self];
 		
 		[self.account addObserver:self
 					   forKeyPath:@"Online"
@@ -102,6 +105,7 @@
 	[password release]; password = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[adium.chatController unregisterChatObserver:self];
 	[self.account removeObserver:self forKeyPath:@"Online"];
 
 	[super dealloc];
@@ -279,6 +283,38 @@
 			[self openChat];
 		}
 	}
+}
+
+- (NSSet *)updateChat:(AIChat *)inChat keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
+{
+	if ([self chatIsOurs:inChat] && ([inModifiedKeys containsObject:KEY_UNVIEWED_CONTENT] || [inModifiedKeys containsObject:KEY_UNVIEWED_MENTION])) {
+		NSString *statusMessage = nil;
+		
+		if (inChat.unviewedMentionCount) {
+			// We contain mentions; display both this and the content count.
+			if (inChat.unviewedMentionCount > 1) {
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d mentions, %d unread messages", "Status message for a bookmark (>1 mention, >1 messages)"),
+								 inChat.unviewedMentionCount, inChat.unviewedContentCount];
+			} else if (inChat.unviewedContentCount > 1) {
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"1 mention, %d unread messages", "Status message for a bookmark (1 mention, >1 messages)"),
+								 inChat.unviewedContentCount];
+			} else {
+				statusMessage = AILocalizedString(@"1 mention, 1 unread message", "Status message for a bookmark (1 mention, 1 message)");
+			}
+		} else if (inChat.unviewedContentCount) {
+			// We don't contain mentions; display the content count.
+			if (inChat.unviewedContentCount > 1) {
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d unread messages", "Status message for a bookmark (>1 messages)"),
+								 inChat.unviewedContentCount];
+			} else {
+				statusMessage = AILocalizedString(@"1 unread message", "Status message for a bookmark (1 message)");
+			}
+		}
+
+		[self setStatusMessage:[NSAttributedString stringWithString:statusMessage] notify:NotifyNow];
+	}
+	
+	return nil;
 }
 
 #pragma mark -
