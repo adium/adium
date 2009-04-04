@@ -85,12 +85,10 @@
 	
 	[scanner setCharactersToBeSkipped:nil];
 	
-	NSString *trash;
-	
 	[newString beginEditing];
 	
 	while(!scanner.isAtEnd) {
-		[scanner scanUpToCharactersFromSet:channelStart intoString:&trash];
+		[scanner scanUpToCharactersFromSet:channelStart intoString:nil];
 		
 		if(scanner.isAtEnd) {
 			break;
