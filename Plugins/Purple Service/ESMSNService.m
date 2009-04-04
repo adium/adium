@@ -14,7 +14,6 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import "AIMSNServicePreferences.h"
 #import <Adium/AIStatusControllerProtocol.h>
 #import "DCPurpleMSNJoinChatViewController.h"
 #import "ESPurpleMSNAccount.h"
@@ -22,16 +21,6 @@
 #import "ESMSNService.h"
 
 @implementation ESMSNService
-
-//Service specific preferences
-- (id)init
-{
-	if ((self = [super init])) {
-		MSNServicePrefs = [[AIMSNServicePreferences preferencePane] retain];
-	}
-
-	return self;
-}
 
 //Account Creation
 - (Class)accountClass{

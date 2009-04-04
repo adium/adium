@@ -29,8 +29,12 @@
 - (void)configureForAccount:(AIAccount *)inAccount
 {
     [super configureForAccount:inAccount];
+	
 	[checkBox_HTTPConnectMethod setState:[[account preferenceForKey:KEY_MSN_HTTP_CONNECT_METHOD 
 															  group:GROUP_ACCOUNT_STATUS] boolValue]];
+	
+	[checkBox_displayCustomEmoticons setState:[[account preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+																   group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 //Save controls
@@ -38,6 +42,9 @@
 {
 	[account setPreference:[NSNumber numberWithBool:[checkBox_HTTPConnectMethod state]] 
 					forKey:KEY_MSN_HTTP_CONNECT_METHOD group:GROUP_ACCOUNT_STATUS];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_displayCustomEmoticons state]] 
+					forKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS group:GROUP_ACCOUNT_STATUS];
 	
 	//Alias
 	if (!account.online &&

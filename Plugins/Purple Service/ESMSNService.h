@@ -15,14 +15,10 @@
  */
 
 #import "PurpleService.h"
-#import <Adium/AIPreferencePane.h>
 
-#define PREF_GROUP_MSN_SERVICE				@"MSN"
 #define KEY_MSN_DISPLAY_CUSTOM_EMOTICONS	@"Display Custom Emoticons"
 
-@class AIPreferencePane;
-
 @interface ESMSNService : PurpleService {
-	AIPreferencePane	*MSNServicePrefs;
+
 }
 @end
