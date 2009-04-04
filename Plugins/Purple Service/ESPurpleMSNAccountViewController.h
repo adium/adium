@@ -20,8 +20,6 @@
     IBOutlet		NSTextField		*textField_friendlyName;
 	
 	IBOutlet		NSButton		*checkBox_HTTPConnectMethod;
-
-	IBOutlet		NSButton		*checkBox_displayCustomEmoticons;
 }
 
 @end

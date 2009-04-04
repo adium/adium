@@ -8,7 +8,8 @@
 #import <Adium/AIAccountViewController.h>
 
 @interface PurpleAccountViewController : AIAccountViewController {
-	IBOutlet	NSButton *checkBox_broadcastMusic;
+	IBOutlet	NSButton	*checkBox_broadcastMusic;
+	IBOutlet	NSButton	*checkBox_displayCustomEmoticons;
 }
 
 - (NSMenu *)encodingMenu;

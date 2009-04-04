@@ -17,7 +17,8 @@
 #import <Adium/AIAccount.h>
 #import <AdiumLibpurple/PurpleCommon.h>
 
-#define KEY_BROADCAST_MUSIC_INFO @"Broadcast Music Information"
+#define KEY_DISPLAY_CUSTOM_EMOTICONS	@"Display Custom Emoticons"
+#define KEY_BROADCAST_MUSIC_INFO		@"Broadcast Music Information"
 
 #define KEY_KEY		@"Key"
 #define KEY_VALUE	@"Value"
