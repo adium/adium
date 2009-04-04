@@ -57,7 +57,7 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
-	[label_dockMenuBarIconCounts setLocalizedString:AILocalizedString(@"Dock and Menu Bar Icon Counts", nil)];
+	[label_dockMenuBarIconCounts setLocalizedString:AILocalizedString(@"Dock Icon and Status Menu Item Counts", nil)];
 	[checkBox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
 	[checkBox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of unread mentions for group chats", nil)];
 	
