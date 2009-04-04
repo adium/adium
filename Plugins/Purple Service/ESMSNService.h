@@ -16,8 +16,6 @@
 
 #import "PurpleService.h"
 
-#define KEY_MSN_DISPLAY_CUSTOM_EMOTICONS	@"Display Custom Emoticons"
-
 @interface ESMSNService : PurpleService {
 
 }

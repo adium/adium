@@ -23,6 +23,7 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -238,6 +239,7 @@
 	
 	NSAttributedString	*accountDisplayName = [[self preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 														   group:GROUP_ACCOUNT_STATUS] attributedString];
+	
 	NSAttributedString *globalPreference = [[adium.preferenceController preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME group:GROUP_ACCOUNT_STATUS] attributedString];
 	BOOL				accountDisplayNameChanged = NO;
 	BOOL				shouldUpdateDisplayNameImmediately= NO;
