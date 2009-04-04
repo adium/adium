@@ -35,19 +35,19 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>RBSplitSubview</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>AIAdvancedPreferencePane</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>AIModularPane</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -121,7 +121,7 @@
 				<string>NSView</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>AIObject</string>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -156,8 +156,12 @@
 				<string>NSButton</string>
 				<key>checkBox_statusWindowHideInBackground</key>
 				<string>NSButton</string>
+				<key>checkBox_unreadContentMention</key>
+				<string>NSButton</string>
 				<key>checkBox_unreadConversations</key>
 				<string>NSButton</string>
+				<key>label_dockMenuBarIconCounts</key>
+				<string>NSTextField</string>
 				<key>label_quitConfirmation</key>
 				<string>NSTextField</string>
 				<key>label_statusMenuItem</key>
@@ -169,14 +173,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>AIAdvancedPreferencePane</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>AIObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

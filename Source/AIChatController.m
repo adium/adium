@@ -11,6 +11,8 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
+#import <Adium/AIStatusControllerProtocol.h>
+#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AdiumChatEvents.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
@@ -717,7 +719,13 @@
 	NSUInteger	count = 0;
 
 	for (AIChat *chat in self.openChats) {
-		count += [chat unviewedContentCount];
+		if (chat.isGroupChat &&
+			[[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT
+													group:PREF_GROUP_STATUS_PREFERENCES] boolValue]) {
+			count += [chat unviewedMentionCount];
+		} else {
+			count += [chat unviewedContentCount];
+		}
 	}
 	return count;
 }
@@ -732,8 +740,15 @@
 	NSUInteger count = 0;
 
 	for (AIChat *chat in self.openChats) {
-		if ([chat unviewedContentCount] > 0)
+		if (chat.isGroupChat &&
+			[[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT
+													group:PREF_GROUP_STATUS_PREFERENCES] boolValue]) {
+			if (chat.unviewedMentionCount) {
+				count++;
+			}
+		} else if (chat.unviewedContentCount) {
 			count++;
+		}
 	}
 	return count;
 }

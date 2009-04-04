@@ -34,6 +34,13 @@
 	if (sender == matrix_quitConfirmation || sender == checkBox_quitConfirmEnabled) {
 		[self configureControlDimming];
 	}
+	
+	if (sender == checkBox_unreadContentMention) {
+		// "key paths cannot contain spaces" yeah, wonderful. The only element in this entire preference that needs a toggle now.
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+										   forKey:KEY_STATUS_MENTION_COUNT
+											group:PREF_GROUP_STATUS_PREFERENCES];
+	}
 }
 
 - (void)configureControlDimming
@@ -50,7 +57,9 @@
 //Configure the preference view
 - (void)viewDidLoad
 {
+	[label_dockMenuBarIconCounts setLocalizedString:AILocalizedString(@"Dock and Menu Bar Icon Counts", nil)];
 	[checkBox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
+	[checkBox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of unread mentions for group chats", nil)];
 	
 	[label_statusWindow setLocalizedString:AILocalizedString(@"Away Status Window", nil)];
 	[checkBox_statusWindowHideInBackground setLocalizedString:AILocalizedString(@"Hide the status window when Adium is not active", nil)];

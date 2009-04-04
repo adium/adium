@@ -31,6 +31,7 @@
 
 #define PREF_GROUP_STATUS_PREFERENCES			@"Status Preferences"
 #define KEY_STATUS_CONVERSATION_COUNT			@"Unread Conversations"
+#define KEY_STATUS_MENTION_COUNT				@"Unread Mentions"
 #define KEY_STATUS_REPORT_IDLE					@"Report Idle"
 #define KEY_STATUS_REPORT_IDLE_INTERVAL			@"Report Idle Interval"
 #define	KEY_STATUS_AUTO_AWAY					@"Auto Away"
