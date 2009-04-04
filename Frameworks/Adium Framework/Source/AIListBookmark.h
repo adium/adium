@@ -7,12 +7,14 @@
 
 #import "AIListContact.h"
 
+#import <Adium/AIChatControllerProtocol.h>
+
 #define KEY_AUTO_JOIN			@"Automatically Join"
 #define GROUP_LIST_BOOKMARK		@"List Bookmark Settings"
 
 @class AIChat;
 
-@interface AIListBookmark : AIListContact <NSCoding> {
+@interface AIListBookmark : AIListContact <AIChatObserver, NSCoding> {
 	NSDictionary		*chatCreationDictionary;
 
 	NSString			*password;
