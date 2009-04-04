@@ -34,7 +34,9 @@ typedef enum {
 
 typedef enum {
 	AINickServPassword,
-	AIChanServPassword
+	AIQPassword,
+	AIXPassword,
+	AIAuthServPassword
 } AISpecialPasswordType;
 
 @protocol AIAccountController <AIController>

@@ -270,9 +270,17 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 /*!
  * @brief Sends a raw command to identify for the nickname
  */
-- (void)identifyForNickServName:(NSString *)name password:(NSString *)inPassword
+- (void)identifyForName:(NSString *)name password:(NSString *)inPassword
 {
-	[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];
+	if ([self.host rangeOfString:@"quakenet" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		[self sendRawCommand:[NSString stringWithFormat:@"PRIVMSG Q@CServe.quakenet.org :AUTH %@ %@", name, inPassword]];
+	} else if ([self.host rangeOfString:@"undernet" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		[self sendRawCommand:[NSString stringWithFormat:@"PRIVMSG X@channels.undernet.org :LOGIN %@ %@", name, inPassword]];
+	} else if ([self.host rangeOfString:@"gamesurge" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+		[self sendRawCommand:[NSString stringWithFormat:@"PRIVMSG AuthServ@Services.GameSurge.net :AUTH %@ %@", name, inPassword]];
+	} else {
+		[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];	
+	}
 }
 
 /*!
