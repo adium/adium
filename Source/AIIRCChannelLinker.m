@@ -51,7 +51,7 @@
 	}
 	
 	if (!account || ![account.service.serviceClass isEqualToString:@"IRC"]) {
-		return nil;
+		return inAttributedString;
 	}
 
 	NSScanner					*scanner = [NSScanner scannerWithString:[inAttributedString string]];
