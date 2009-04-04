@@ -20,7 +20,12 @@
 {
     [super configureForAccount:inAccount];
 	
-	[checkBox_broadcastMusic setState:[[inAccount preferenceForKey:KEY_BROADCAST_MUSIC_INFO group:GROUP_ACCOUNT_STATUS] boolValue]];
+	[checkBox_broadcastMusic setState:[[account preferenceForKey:KEY_BROADCAST_MUSIC_INFO
+														   group:GROUP_ACCOUNT_STATUS] boolValue]];
+	
+	
+	[checkBox_displayCustomEmoticons setState:[[account preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
+																   group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
 //Save controls
@@ -30,6 +35,11 @@
 	
 	[account setPreference:[NSNumber numberWithBool:[checkBox_broadcastMusic state]]
 					forKey:KEY_BROADCAST_MUSIC_INFO
+					 group:GROUP_ACCOUNT_STATUS];
+	
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_displayCustomEmoticons state]] 
+					forKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 					 group:GROUP_ACCOUNT_STATUS];
 }
 

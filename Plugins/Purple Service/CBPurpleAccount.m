@@ -1242,9 +1242,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Custom emoticons
 - (void)chat:(AIChat *)inChat isWaitingOnCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
-						  group:GROUP_ACCOUNT_STATUS] boolValue])
-		return;
 	AIEmoticon *emoticon;
 
 	//Look for an existing emoticon with this equivalent
@@ -1281,9 +1278,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat setCustomEmoticon:(NSString *)emoticonEquivalent withImageData:(NSData *)inImageData
 {
-	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
-						  group:GROUP_ACCOUNT_STATUS] boolValue])
-		return;
 	/* XXX Note: If we can set outgoing emoticons, this method needs to be updated to mark emoticons as incoming
 	 * and AIEmoticonController needs to be able to handle that.
 	 */
@@ -1317,9 +1311,6 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat closedCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
-						  group:GROUP_ACCOUNT_STATUS] boolValue])
-		return;
 	AIEmoticon	*emoticon;
 
 	//Look for an existing emoticon with this equivalent
@@ -1799,6 +1790,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	
 	//E-mail checking
 	purple_account_set_check_mail(account, [[self shouldCheckMail] boolValue]);
+	
+	//Custom Emoticons
+	BOOL customEmoticons = [[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS group:GROUP_ACCOUNT_STATUS] boolValue];
+	purple_account_set_bool(account, "custom_smileys", customEmoticons);
 	
 	//Update a few properties before we begin connecting.  Libpurple will send these automatically
     [self updateStatusForKey:KEY_USER_ICON];
