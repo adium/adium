@@ -12,6 +12,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
+#import <Adium/AIListContact.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 
 @implementation AIIRCChannelLinker
@@ -42,26 +43,47 @@
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
 {
-	if (![context isKindOfClass:[AIContentObject class]] ||
-		![((AIContentObject *)context).chat.account.service.serviceClass isEqualToString:@"IRC"]) {
-		return inAttributedString;
+	AIAccount	*account = nil;
+	if ([context isKindOfClass:[AIContentObject class]]) {
+		account = ((AIContentObject *)context).chat.account;
+	} else if ([context isKindOfClass:[AIListContact class]]) {
+		account = ((AIListContact *)context).account;
 	}
 	
+	if (!account || ![account.service.serviceClass isEqualToString:@"IRC"]) {
+		return nil;
+	}
+
 	NSScanner					*scanner = [NSScanner scannerWithString:[inAttributedString string]];
 	NSMutableAttributedString	*newString = [inAttributedString mutableCopy];
-	NSCharacterSet				*channelStart = [NSCharacterSet characterSetWithCharactersInString:@"&#"];
-	NSMutableCharacterSet		*validValues;
+
+	// Set our character sets static, since we do this _a lot_.
+	static NSMutableCharacterSet	*validPrefix = nil;
+	static NSCharacterSet			*channelStart = nil;
+	static NSMutableCharacterSet	*validValues = nil;
+	
+	if (!validPrefix) {
+		// Characters valid before a channel's start character are all of the mode flags.
+		validPrefix = [[NSCharacterSet characterSetWithCharactersInString:@"@+%."] mutableCopy];
+		[validPrefix formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	}
+	
+	if (!channelStart) {
+		channelStart = [[NSCharacterSet characterSetWithCharactersInString:@"&#"] retain];
+	}
+	
+	if (!validValues) {
+		// Start out with newline and whitespace characters.
+		validValues = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
+		// Add in comma and space
+		[validValues addCharactersInString:@", "];
+		// Add in all control characters.
+		[validValues formUnionWithCharacterSet:[NSCharacterSet controlCharacterSet]];
+		// Now invert.
+		[validValues invert];
+	}
 	
 	[scanner setCharactersToBeSkipped:nil];
-	
-	// Start out with newline and whitespace characters.
-	validValues = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
-	// Add in comma and space
-	[validValues addCharactersInString:@", "];
-	// Add in all control characters.
-	[validValues formUnionWithCharacterSet:[NSCharacterSet controlCharacterSet]];
-	// Now invert.
-	[validValues invert];
 	
 	NSString *trash;
 	
@@ -90,7 +112,7 @@
 
 		// If we're at the start *or* the channel name begins after a space or newline, this is a valid link.
 		if((scanner.scanLocation - linkText.length) == 1 || 
-		   [[NSCharacterSet whitespaceAndNewlineCharacterSet] characterIsMember:[scanner.string characterAtIndex:(scanner.scanLocation - linkText.length - 2)]]) {
+		   [validPrefix characterIsMember:[scanner.string characterAtIndex:(scanner.scanLocation - linkText.length - 2)]]) {
 			
 			NSString *channelName = [scanner.string substringWithRange:NSMakeRange(startLocation, 1)];
 			
@@ -105,7 +127,7 @@
 			}
 			
 			NSString *linkURL = [NSString stringWithFormat:@"irc://%@/%@",
-								 ((AIContentObject *)context).chat.account.host,
+								 account.host,
 								 channelName];
 
 			[newString addAttribute:NSLinkAttributeName
