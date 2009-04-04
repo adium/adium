@@ -941,8 +941,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
 	if ((!inModifiedKeys || [inModifiedKeys containsObject:@"Online"]) && [inObject isKindOfClass:[AIListContact class]]) {
-		NSLog(@"Restoring %@", ((AIListContact *)inObject).parentContact);
-		
 		[((AIListContact *)inObject).parentContact restoreGrouping];
 	}
 	
