@@ -87,7 +87,9 @@
 													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
 								  previouslyPerformedActionIDs:nil];
 				
-				[chat incrementUnviewedMentionCount];
+				if (adium.interfaceController.activeChat != chat) {
+					[chat incrementUnviewedMentionCount];
+				}
 			}
 			
 			[message addDisplayClass:@"mention"];
