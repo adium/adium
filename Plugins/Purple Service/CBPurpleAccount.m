@@ -16,6 +16,8 @@
 
 #import "CBPurpleAccount.h"
 
+#import "PurpleService.h"
+
 #import <libpurple/notify.h>
 #import <libpurple/cmds.h>
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
@@ -66,8 +68,6 @@
 #ifdef HAVE_CDSA
 #import "AIPurpleCertificateViewer.h"
 #endif
-
-#import "ESMSNService.h" //why oh why must the superclass know about MSN specific things!?
 
 #define NO_GROUP						@"__NoGroup__"
 
@@ -1242,7 +1242,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 #pragma mark Custom emoticons
 - (void)chat:(AIChat *)inChat isWaitingOnCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	AIEmoticon *emoticon;
@@ -1281,7 +1281,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat setCustomEmoticon:(NSString *)emoticonEquivalent withImageData:(NSData *)inImageData
 {
-	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	/* XXX Note: If we can set outgoing emoticons, this method needs to be updated to mark emoticons as incoming
@@ -1317,7 +1317,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)chat:(AIChat *)inChat closedCustomEmoticon:(NSString *)emoticonEquivalent
 {
-	if(![[self preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	if(![[self preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 						  group:GROUP_ACCOUNT_STATUS] boolValue])
 		return;
 	AIEmoticon	*emoticon;

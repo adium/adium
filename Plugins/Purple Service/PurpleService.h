@@ -16,6 +16,8 @@
 
 #import <Adium/AIService.h>
 
+#define KEY_DISPLAY_CUSTOM_EMOTICONS	@"Display Custom Emoticons"
+
 @interface PurpleService : AIService {
 
 }

@@ -33,7 +33,7 @@
 	[checkBox_HTTPConnectMethod setState:[[account preferenceForKey:KEY_MSN_HTTP_CONNECT_METHOD 
 															  group:GROUP_ACCOUNT_STATUS] boolValue]];
 	
-	[checkBox_displayCustomEmoticons setState:[[account preferenceForKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS
+	[checkBox_displayCustomEmoticons setState:[[account preferenceForKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 																   group:GROUP_ACCOUNT_STATUS] boolValue]];
 }
 
@@ -44,14 +44,14 @@
 					forKey:KEY_MSN_HTTP_CONNECT_METHOD group:GROUP_ACCOUNT_STATUS];
 	
 	[account setPreference:[NSNumber numberWithBool:[checkBox_displayCustomEmoticons state]] 
-					forKey:KEY_MSN_DISPLAY_CUSTOM_EMOTICONS group:GROUP_ACCOUNT_STATUS];
+					forKey:KEY_DISPLAY_CUSTOM_EMOTICONS group:GROUP_ACCOUNT_STATUS];
 	
 	//Alias
 	if (!account.online &&
 		![[textField_alias stringValue] isEqualToString:[[NSAttributedString stringWithData:[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME
 																											   group:GROUP_ACCOUNT_STATUS]] string]]) {
 		[account setPreference:[NSNumber numberWithBool:YES]
-						forKey:KEY_MSN_DISPLAY_NAMED_CHANGED
+						forKey:KEY_DISPLAY_CUSTOM_EMOTICONS
 						 group:GROUP_ACCOUNT_STATUS];
 	}
 
