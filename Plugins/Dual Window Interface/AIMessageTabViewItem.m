@@ -183,6 +183,7 @@
 		[self setLabel:[self label]];
     } else if ([keys containsObject:@"UnviewedContent"]) {
 		[self setValue:nil forKeyPath:@"objectCount"];
+		[self setValue:nil forKeyPath:@"countColor"];
 	}
 }
 
@@ -347,6 +348,16 @@
 	//return 0 to disable the badge
     return ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?
 			self.chat.unviewedContentCount : 0);
+}
+
+- (void)setCountColor:(NSColor *)color
+{
+	//method does nothing; force the tab bindings to reload -countColor	
+}
+
+- (NSColor *)countColor
+{
+	return self.chat.unviewedMentionCount ? [NSColor colorWithCalibratedRed:1.0 green:0.3 blue:0.3 alpha:0.6] : [NSColor colorWithCalibratedWhite:0.3 alpha:0.6];
 }
 
 - (void)tabViewDidChangeVisibility
