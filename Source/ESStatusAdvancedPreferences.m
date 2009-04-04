@@ -61,6 +61,8 @@
 	[checkBox_unreadConversations setLocalizedString:AILocalizedString(@"Count unread conversations instead of unread messages", nil)];
 	[checkBox_unreadContentMention setLocalizedString:AILocalizedString(@"Only count number of unread mentions for group chats", nil)];
 	
+	[checkBox_unreadContentMention setState:[[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT group:PREF_GROUP_STATUS_PREFERENCES] boolValue]];
+	
 	[label_statusWindow setLocalizedString:AILocalizedString(@"Away Status Window", nil)];
 	[checkBox_statusWindowHideInBackground setLocalizedString:AILocalizedString(@"Hide the status window when Adium is not active", nil)];
 	[checkBox_statusWindowAlwaysOnTop setLocalizedString:AILocalizedString(@"Show the status window above other windows", nil)];
