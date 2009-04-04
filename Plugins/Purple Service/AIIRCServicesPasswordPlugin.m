@@ -98,11 +98,10 @@
 			[adium.accountController passwordForType:serviceType
 										  forAccount:account
 										promptOption:(forcePrompt ? AIPromptAlways : AIPromptAsNeeded)
-												name:account.displayName
+												name:identNick
 									 notifyingTarget:self
 											selector:@selector(passwordReturned:returnCode:context:)
-											 context:[NSDictionary dictionaryWithObjectsAndKeys:account, @"Account",
-													  account.displayName, @"Name", nil]];
+											 context:[NSDictionary dictionaryWithObjectsAndKeys:account, @"Account", identNick, @"Name", nil]];
 
 			contentObject.displayContent = NO;
 		} else if ([self message:message containsFragments:[NSArray arrayWithObjects:
