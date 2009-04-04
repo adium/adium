@@ -293,21 +293,21 @@
 		if (inChat.unviewedMentionCount) {
 			// We contain mentions; display both this and the content count.
 			if (inChat.unviewedMentionCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d mentions, %d unread messages", "Status message for a bookmark (>1 mention, >1 messages)"),
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d mentions, %d messages", "Status message for a bookmark (>1 mention, >1 messages)"),
 								 inChat.unviewedMentionCount, inChat.unviewedContentCount];
 			} else if (inChat.unviewedContentCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"1 mention, %d unread messages", "Status message for a bookmark (1 mention, >1 messages)"),
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"1 mention, %d messages", "Status message for a bookmark (1 mention, >1 messages)"),
 								 inChat.unviewedContentCount];
 			} else {
-				statusMessage = AILocalizedString(@"1 mention, 1 unread message", "Status message for a bookmark (1 mention, 1 message)");
+				statusMessage = AILocalizedString(@"1 mention, 1 message", "Status message for a bookmark (1 mention, 1 message)");
 			}
 		} else if (inChat.unviewedContentCount) {
 			// We don't contain mentions; display the content count.
 			if (inChat.unviewedContentCount > 1) {
-				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d unread messages", "Status message for a bookmark (>1 messages)"),
+				statusMessage = [NSString stringWithFormat:AILocalizedString(@"%d messages", "Status message for a bookmark (>1 messages)"),
 								 inChat.unviewedContentCount];
 			} else {
-				statusMessage = AILocalizedString(@"1 unread message", "Status message for a bookmark (1 message)");
+				statusMessage = AILocalizedString(@"1 message", "Status message for a bookmark (1 message)");
 			}
 		}
 
