@@ -311,7 +311,11 @@
 			}
 		}
 
-		[self setStatusMessage:[NSAttributedString stringWithString:statusMessage] notify:NotifyNow];
+		if (statusMessage) {
+			[self setStatusMessage:[NSAttributedString stringWithString:statusMessage] notify:NotifyNow];
+		} else {
+			[self setStatusMessage:nil notify:NotifyNow];
+		}
 	}
 	
 	return nil;
