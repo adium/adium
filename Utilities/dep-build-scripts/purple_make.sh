@@ -158,7 +158,7 @@ for ARCH in ${ARCHES[@]} ; do
 				--disable-gstreamer \
 				--disable-avahi \
 				--disable-dbus \
-				--enable-gnutls=no --enable-nss=no --enable-openssl=no $@
+				--enable-gnutls=no --enable-nss=no $@
 		else
 			echo "Restoring files from previous build"
 			for file in ${AUTOGEN_GREMLINS[@]} ; do
