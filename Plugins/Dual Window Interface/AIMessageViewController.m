@@ -828,6 +828,8 @@
 {
 	[self makeTextEntryViewFirstResponder];
 	
+	[[shelfView contentView] setNeedsDisplay:YES];
+	
 	/* When we're selected, it's as if the user list controller is back in the window */
 	[userListController contactListWasAddedBackToWindow];
 }
