@@ -94,10 +94,6 @@
 - (DOMNodeList *)getElementsByClassName:(NSString *)className;
 @end
 
-@interface NSScrollView (NSScrollViewWebKitPrivate)
-- (void) setAllowsHorizontalScrolling:(BOOL) allow;
-@end
-
 static NSArray *draggedTypes = nil;
 
 @implementation AIWebKitMessageViewController
