@@ -678,7 +678,7 @@ static NSArray *draggedTypes = nil;
 		[topicElement setInnerHTML:[messageStyle completedTemplateForContent:content similar:similar]];
 	} else {
 		// Mark the current location (the start of this element) if it's a mention.
-		if ([content.displayClasses containsObject:@"mention"]) {
+		if (content.trackContent && [content.displayClasses containsObject:@"mention"]) {
 			[self markCurrentLocation];
 		}
 		
