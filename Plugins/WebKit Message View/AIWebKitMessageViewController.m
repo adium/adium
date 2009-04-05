@@ -1436,9 +1436,18 @@ static NSArray *draggedTypes = nil;
 - (void)markCurrentLocation
 {
 	JVMarkedScroller *scroller = self.markedScroller;
-	// This next element is likely our new insert point; we want to grab the one right before it, on the same level.
+	// We use the current Chat element's height to determine our mark location.
 	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
 	[scroller addMarkAt:[[element valueForKey:@"offsetHeight"] integerValue]];
+}
+
+- (void)markForFocusChange
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	// We use the current Chat element's height to determine our mark location.
+	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
+	[scroller removeMarkWithIdentifier:@"focus"];
+	[scroller addMarkAt:[[element valueForKey:@"offsetHeight"] integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
 }
 
 #pragma mark JS Bridging

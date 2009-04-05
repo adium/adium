@@ -601,6 +601,7 @@
 //Our selected tab is no longer the active chat
 - (void)windowDidResignKey:(NSNotification *)notification
 {
+	[((AIMessageTabViewItem *)tabView_messages.selectedTabViewItem).messageViewController.messageDisplayController markForFocusChange];
 	[adium.interfaceController chatDidBecomeActive:nil];
 }
 
