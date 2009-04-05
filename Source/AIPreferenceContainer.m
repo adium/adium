@@ -538,22 +538,22 @@ typedef enum {
 		} else {
 			@synchronized(*myGlobalPrefs) {
 				(*myUsersOfGlobalPrefs)++;
+			}
 				
 #ifdef PREFERENCE_CONTAINER_DEBUG
-				// This shouldn't happen now that *myUsersOfGlobalPrefs is synchronized.
-				// Let's just log it for now.
-				if (!*myGlobalPrefs) {
-					NSLog(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
-					AILogWithSignature(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
-				}
+			// This shouldn't happen now that *myUsersOfGlobalPrefs is synchronized.
+			// Let's just log it for now.
+			if (!*myGlobalPrefs) {
+				NSLog(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
+				AILogWithSignature(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
+			}
 #endif
 
-				*myTimerForSavingGlobalPrefs = [[NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
-																				 target:self
-																			   selector:@selector(performObjectPrefsSave:)
-																			   userInfo:*myGlobalPrefs
-																				repeats:NO] retain];
-			}
+			*myTimerForSavingGlobalPrefs = [[NSTimer scheduledTimerWithTimeInterval:SAVE_OBJECT_PREFS_DELAY
+																			 target:self
+																		   selector:@selector(performObjectPrefsSave:)
+																		   userInfo:*myGlobalPrefs
+																			repeats:NO] retain];
 		}
 
 
