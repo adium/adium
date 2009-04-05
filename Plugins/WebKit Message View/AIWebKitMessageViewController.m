@@ -472,6 +472,7 @@ static NSArray *draggedTypes = nil;
 - (void)clearView
 {
 	[self _primeWebViewAndReprocessContent:NO];
+	[self.markedScroller removeAllMarks];
 	[previousContent release];
 	previousContent = nil;
 	[chat clearUnviewedContentCount];
