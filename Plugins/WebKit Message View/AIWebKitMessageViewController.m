@@ -677,17 +677,18 @@ static NSArray *draggedTypes = nil;
 		
 		[topicElement setInnerHTML:[messageStyle completedTemplateForContent:content similar:similar]];
 	} else {
+		// Mark the current location (the start of this element) if it's a mention.
+		if ([content.displayClasses containsObject:@"mention"]) {
+			[self markCurrentLocation];
+		}
+		
 		//Add the content object
 		[self _appendContent:content 
 					 similar:similar
    willAddMoreContentObjects:willAddMoreContentObjects
 		  replaceLastContent:replaceLastContent];
 	}
-	
-	if ([content.displayClasses containsObject:@"mention"]) {
-		[self markCurrentLocation];
-	}
-		
+
 	[previousContent release]; previousContent = [content retain];
 }
 
@@ -1436,8 +1437,8 @@ static NSArray *draggedTypes = nil;
 {
 	JVMarkedScroller *scroller = self.markedScroller;
 	// This next element is likely our new insert point; we want to grab the one right before it, on the same level.
-	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"].lastChild.previousSibling;
-	[scroller addMarkAt:[[element valueForKey:@"offsetTop"] integerValue]];
+	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
+	[scroller addMarkAt:[[element valueForKey:@"offsetHeight"] integerValue]];
 }
 
 #pragma mark JS Bridging
