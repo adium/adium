@@ -74,11 +74,14 @@ Message Styles
 
 Messaging
  * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
+ * Added marking to the scroll bar like in [http://colloquy.info Colloquy]:
+  * When your name (or what you decide to highlight) is mentioned in a chat, a grey line is added.
+  * When the window or tab loses focus, a red line is added and you can "Jump to Focus Mark" to easily go to it.
+ * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
  * Fixed a bug where emoticons would be displayed improperly. (#6440)
  * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
  * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
  * Nudge and buzz messages now appear as events in the window instead of messages from the contact.
- * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
  * Added an option to only count mentions for group chats when badging the dock or status menu item. (#11850)
 
 Accounts 
