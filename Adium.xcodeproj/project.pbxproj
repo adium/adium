@@ -84,6 +84,7 @@
 		111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
+		1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112527730F5F9E63003FC58A /* AITwitterAccountView.nib */; };
 		112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1123,7 +1124,6 @@
 		4BD62D8107CE8F240099EBA2 /* AIWebkitMessageViewStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BD62D7F07CE8F240099EBA2 /* AIWebkitMessageViewStyle.m */; };
 		4BD6737406001BF00049CAF7 /* AIAccountListPreferencesPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F55B413C03AB895501A8010A /* AIAccountListPreferencesPlugin.m */; };
 		4BD673B706001C5F0049CAF7 /* AIContactStatusColoringPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B31E8C104C46A9100A8010A /* AIContactStatusColoringPlugin.m */; };
-		4BD673CE06001C960049CAF7 /* AIOfflineContactHidingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F5793990033E759C01A8010A /* AIOfflineContactHidingPlugin.m */; };
 		4BD6741C06001CEF0049CAF7 /* AIMessageAliasPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F11B9622051CDB3B0000000E /* AIMessageAliasPlugin.m */; };
 		4BD6742E06001D1D0049CAF7 /* AIEmoticonPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F0FE9D04B12CAC01A80106 /* AIEmoticonPreferences.m */; };
 		4BD6742F06001D1D0049CAF7 /* EmoticonPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = F5F0FEA004B1336C01A80106 /* EmoticonPrefs.nib */; };
@@ -1754,6 +1754,8 @@
 		111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIListContactGroupChatCell.m; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.m"; sourceTree = "<group>"; };
 		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
 		111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutomaticStatus.m; path = Source/AIAutomaticStatus.m; sourceTree = "<group>"; };
+		1121B2980F896A720047EC66 /* AIContactVisibilityControlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactVisibilityControlPlugin.h; path = Source/AIContactVisibilityControlPlugin.h; sourceTree = "<group>"; };
+		1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactVisibilityControlPlugin.m; path = Source/AIContactVisibilityControlPlugin.m; sourceTree = "<group>"; };
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
 		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
 		112527730F5F9E63003FC58A /* AITwitterAccountView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AITwitterAccountView.nib; path = "Plugins/Twitter Plugin/AITwitterAccountView.nib"; sourceTree = "<group>"; };
@@ -4309,8 +4311,6 @@
 		F5793981033E756E01A8010A /* AIMessageWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMessageWindowController.h; path = "Plugins/Dual Window Interface/AIMessageWindowController.h"; sourceTree = "<group>"; };
 		F5793982033E756E01A8010A /* AIMessageWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMessageWindowController.m; path = "Plugins/Dual Window Interface/AIMessageWindowController.m"; sourceTree = "<group>"; };
 		F5793984033E756E01A8010A /* MessageView.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = MessageView.nib; path = "Plugins/Dual Window Interface/MessageView.nib"; sourceTree = "<group>"; };
-		F579398F033E759C01A8010A /* AIOfflineContactHidingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIOfflineContactHidingPlugin.h; path = Source/AIOfflineContactHidingPlugin.h; sourceTree = "<group>"; };
-		F5793990033E759C01A8010A /* AIOfflineContactHidingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIOfflineContactHidingPlugin.m; path = Source/AIOfflineContactHidingPlugin.m; sourceTree = "<group>"; };
 		F5819CE9032124CE01A8010A /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		F59DB3D6033EA9CD01A8010A /* AIAdium.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIAdium.h; path = Source/AIAdium.h; sourceTree = "<group>"; };
 		F59DB3D7033EA9CD01A8010A /* AIAdium.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAdium.m; path = Source/AIAdium.m; sourceTree = "<group>"; };
@@ -5558,7 +5558,7 @@
 				4BD388C306B5899E000A346A /* Contact List */,
 				F50CD61C03603BE201A8010A /* Contact List Editor */,
 				4BB5CBB006EDF04D009B4517 /* Extended Status */,
-				F53B9AC502CD12AB01A8010A /* Offline Contact Hiding */,
+				F53B9AC502CD12AB01A8010A /* Contact Visibility */,
 				347E77CE07CA93B200350507 /* Sorting */,
 				B079F761082808790058B452 /* Source */,
 				3479A83B05DC9F2400998B3D /* Tooltips */,
@@ -7576,16 +7576,16 @@
 			name = Adium.Framework;
 			sourceTree = "<group>";
 		};
-		F53B9AC502CD12AB01A8010A /* Offline Contact Hiding */ = {
+		F53B9AC502CD12AB01A8010A /* Contact Visibility */ = {
 			isa = PBXGroup;
 			children = (
-				F579398F033E759C01A8010A /* AIOfflineContactHidingPlugin.h */,
-				F5793990033E759C01A8010A /* AIOfflineContactHidingPlugin.m */,
+				1121B2980F896A720047EC66 /* AIContactVisibilityControlPlugin.h */,
+				1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */,
 				345F58EB0819967A001F733C /* offlinecontacts.png */,
 				345F58EC0819967A001F733C /* offlinecontacts_transparent.png */,
 				343EC9800970C29400349098 /* OfflineContactHidingDefaults.plist */,
 			);
-			name = "Offline Contact Hiding";
+			name = "Contact Visibility";
 			sourceTree = "<group>";
 		};
 		F549EF1C036B1A0A01A8010A /* Messages */ = {
@@ -9075,7 +9075,6 @@
 				34BD9D56053146CC000AB133 /* LNAboutBoxController.m in Sources */,
 				4BD6737406001BF00049CAF7 /* AIAccountListPreferencesPlugin.m in Sources */,
 				4BD673B706001C5F0049CAF7 /* AIContactStatusColoringPlugin.m in Sources */,
-				4BD673CE06001C960049CAF7 /* AIOfflineContactHidingPlugin.m in Sources */,
 				4BD6741C06001CEF0049CAF7 /* AIMessageAliasPlugin.m in Sources */,
 				4BD6742E06001D1D0049CAF7 /* AIEmoticonPreferences.m in Sources */,
 				4BD6744506001D430049CAF7 /* AIContactStatusDockOverlaysPlugin.m in Sources */,
@@ -9376,6 +9375,7 @@
 				113900B40F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m in Sources */,
 				1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */,
 				11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */,
+				1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
