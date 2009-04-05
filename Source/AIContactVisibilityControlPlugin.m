@@ -16,7 +16,7 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import "AIOfflineContactHidingPlugin.h"
+#import "AIContactVisibilityControlPlugin.h"
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
@@ -40,17 +40,17 @@
 
 #define OFFLINE_CONTACTS_IDENTIFER		@"OfflineContacts"
 
-@interface AIOfflineContactHidingPlugin()
+@interface AIContactVisibilityControlPlugin()
 - (void)updateAccountMenu;
 @end
 
 /*!
- * @class AIOfflineContactHidingPlugin
+ * @class AIContactVisibilityControlPlugin
  * @brief Component to handle showing or hiding offline contacts and hiding empty groups.
  *
- * Only manages menu items and preferences. The actaual hiding is done by AIContactHidingController
+ * Only manages menu items and preferences. The actaual hiding is done by their containing objects.
  */
-@implementation AIOfflineContactHidingPlugin
+@implementation AIContactVisibilityControlPlugin
 
 /*!
  * @brief Install
