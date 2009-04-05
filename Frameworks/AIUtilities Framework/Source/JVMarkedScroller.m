@@ -200,14 +200,16 @@ struct _mark {
 	
 	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Previous Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to previous mark contextual menu") 
 									   action:@selector( jumpToPreviousMark: ) 
-								keyEquivalent:@""] autorelease];
+								keyEquivalent:@"["] autorelease];
 	[item setTarget:self];
+	[item setKeyEquivalentModifierMask:NSAlternateKeyMask | NSCommandKeyMask];
 	[menu addItem:item];
 	
 	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Next Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to next mark contextual menu")
 									   action:@selector( jumpToNextMark: )
-								keyEquivalent:@""] autorelease];
+								keyEquivalent:@"]"] autorelease];
 	[item setTarget:self];
+	[item setKeyEquivalentModifierMask:NSAlternateKeyMask | NSCommandKeyMask];
 	[menu addItem:item];
 	
 	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Focus Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to the mark where the last content the user saw ends")

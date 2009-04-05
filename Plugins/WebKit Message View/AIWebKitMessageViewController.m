@@ -87,6 +87,7 @@
 
 - (void)setupMarkedScroller;
 - (JVMarkedScroller *)markedScroller;
+- (NSNumber *)currentOffsetHeight;
 - (void)markCurrentLocation;
 @end
 
@@ -1433,21 +1434,50 @@ static NSArray *draggedTypes = nil;
 	}
 }
 
+- (NSNumber *)currentOffsetHeight
+{
+	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
+	// We use the current Chat element's height to determine our mark location.
+	return [element valueForKey:@"offsetHeight"];
+}
+
 - (void)markCurrentLocation
 {
 	JVMarkedScroller *scroller = self.markedScroller;
-	// We use the current Chat element's height to determine our mark location.
-	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
-	[scroller addMarkAt:[[element valueForKey:@"offsetHeight"] integerValue]];
+	[scroller addMarkAt:[self.currentOffsetHeight integerValue]];
 }
 
 - (void)markForFocusChange
 {
 	JVMarkedScroller *scroller = self.markedScroller;
 	// We use the current Chat element's height to determine our mark location.
-	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
 	[scroller removeMarkWithIdentifier:@"focus"];
-	[scroller addMarkAt:[[element valueForKey:@"offsetHeight"] integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
+	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
+}
+
+
+- (void)addMark
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withColor:[NSColor greenColor]];
+}
+
+- (void)jumpToPreviousMark
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	[scroller jumpToPreviousMark:nil];
+}
+
+- (void)jumpToNextMark
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	[scroller jumpToNextMark:nil];	
+}
+
+- (void)jumpToFocusMark
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	[scroller jumpToMarkWithIdentifier:@"focus"];
 }
 
 #pragma mark JS Bridging

@@ -424,6 +424,10 @@ typedef enum {
 - (NSView *)messageScrollView;
 - (void)messageViewIsClosing;
 - (void)clearView;
+- (void)jumpToPreviousMark;
+- (void)jumpToNextMark;
+- (void)jumpToFocusMark;
+- (void)addMark;
 - (void)markForFocusChange;
 @end
 

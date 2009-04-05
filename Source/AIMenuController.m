@@ -57,15 +57,16 @@
 {
 	//Build the array of menu locations
 	locationArray = [[NSMutableArray alloc] initWithObjects:menu_Adium_About, menu_Adium_Preferences, menu_Adium_Other,
-		menu_File_New, menu_File_Close, menu_File_Save, menu_File_Accounts, menu_File_Additions,	
-		menu_Edit_Bottom, menu_Edit_Links, menu_Edit_Additions,
-		menu_View_General, menu_View_Sorting, menu_View_Toggles, menu_View_Counting_Toggles, menu_View_Appearance_Toggles, menu_View_Additions, 
-		menu_Contact_Manage, menu_Contact_Info, menu_Contact_Action, menu_Contact_NegativeAction, menu_Contact_Additions,
-		menu_Status_State, menu_Status_SocialNetworking, menu_Status_Accounts, menu_Status_Additions,
-		menu_Format_Styles, menu_Format_Palettes, menu_Format_Additions,
-		menu_Window_Top, menu_Window_Commands, menu_Window_Auxiliary, menu_Window_Fixed,
-		menu_Help_Local, menu_Help_Web, menu_Help_Additions,
-		menu_Dock_Status, nil];
+					 menu_File_New, menu_File_Close, menu_File_Save, menu_File_Accounts, menu_File_Additions,	
+					 menu_Edit_Bottom, menu_Edit_Links, menu_Edit_Additions,
+					 menu_View_General, menu_View_Sorting, menu_View_Toggles, menu_View_Counting_Toggles, menu_View_Appearance_Toggles, menu_View_Additions, 
+					 menu_Display_General, menu_Display_Jump,
+					 menu_Contact_Manage, menu_Contact_Info, menu_Contact_Action, menu_Contact_NegativeAction, menu_Contact_Additions,
+					 menu_Status_State, menu_Status_SocialNetworking, menu_Status_Accounts, menu_Status_Additions,
+					 menu_Format_Styles, menu_Format_Palettes, menu_Format_Additions,
+					 menu_Window_Top, menu_Window_Commands, menu_Window_Auxiliary, menu_Window_Fixed,
+					 menu_Help_Local, menu_Help_Web, menu_Help_Additions,
+					 menu_Dock_Status, nil];
 }
 
 - (void)controllerDidLoad
@@ -396,6 +397,7 @@
 	[menuItem_file setTitle:AILocalizedString(@"File","Title of the File menu")];
 	[menuItem_edit setTitle:AILocalizedString(@"Edit","Title of the Edit menu")];
 	[menuItem_view setTitle:AILocalizedString(@"View","Title of the View menu")];
+	[menuItem_display setTitle:AILocalizedString(@"Display", "Title of the Display menu")];
 	[menuItem_status setTitle:AILocalizedString(@"Status","Title of the Status menu")];
 	[menuItem_contact setTitle:AILocalizedString(@"Contact","Title of the Contact menu")];
 	[menuItem_format setTitle:AILocalizedString(@"Format","Title of the Format menu")];
@@ -406,6 +408,7 @@
 	[[menuItem_file submenu] setTitle:AILocalizedString(@"File","Title of the File menu")];
 	[[menuItem_edit submenu] setTitle:AILocalizedString(@"Edit","Title of the Edit menu")];
 	[[menuItem_view submenu] setTitle:AILocalizedString(@"View","Title of the View menu")];
+	[[menuItem_display submenu] setTitle:AILocalizedString(@"Display", "Title of the Display menu")];
 	[[menuItem_status submenu] setTitle:AILocalizedString(@"Status","Title of the Status menu")];
 	[[menuItem_contact submenu] setTitle:AILocalizedString(@"Contact","Title of the Contact menu")];
 	[[menuItem_format submenu] setTitle:AILocalizedString(@"Format","Title of the Format menu")];

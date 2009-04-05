@@ -172,7 +172,7 @@
 																					  keyEquivalent:@"/"];
 	[menuItem_toggleUserlist setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
 	
-	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_View_General];
+	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_Display_General];
 
 	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																				target:self
