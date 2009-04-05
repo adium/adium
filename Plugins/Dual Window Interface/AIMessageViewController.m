@@ -50,7 +50,6 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISplitView.h>
 
-
 #import <PSMTabBarControl/NSBezierPath_AMShading.h>
 
 #import "RBSplitView.h"
@@ -169,7 +168,7 @@
 		if (contact) {
 			initialBaseWritingDirection = [contact baseWritingDirection];
 			[textView_outgoing setBaseWritingDirection:initialBaseWritingDirection];
-		}		
+		}
 	}
 
 	return self;
@@ -369,6 +368,8 @@
 	//Technically, it could be set in MessageView.nib, too
 	[scrollView_messages setBackgroundColor:[NSColor clearColor]];
 
+	[textView_outgoing setNextResponder:nil];
+	
 	[controllerView_messages setNextResponder:textView_outgoing];
 }
 
