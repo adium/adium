@@ -368,7 +368,7 @@
 	//Technically, it could be set in MessageView.nib, too
 	[scrollView_messages setBackgroundColor:[NSColor clearColor]];
 
-	[textView_outgoing setNextResponder:nil];
+	[textView_outgoing setNextResponder:userListView];
 	
 	[controllerView_messages setNextResponder:textView_outgoing];
 }
