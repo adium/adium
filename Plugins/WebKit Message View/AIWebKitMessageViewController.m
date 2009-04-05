@@ -49,6 +49,7 @@
 #import <AIUtilities/AIPasteboardAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
+#import <AIUtilities/JVMarkedScroller.h>
 
 #define KEY_WEBKIT_CHATS_USING_CACHED_ICON @"WebKit:Chats Using Cached Icon"
 
@@ -83,10 +84,18 @@
 - (void)processQueuedContent;
 - (NSString *)webviewSource;
 - (void) setIsGroupChat:(BOOL) flag;
+
+- (void)setupMarkedScroller;
+- (JVMarkedScroller *)markedScroller;
+- (void)markCurrentLocation;
 @end
 
 @interface DOMDocument (FutureWebKitPublicMethodsIKnow)
 - (DOMNodeList *)getElementsByClassName:(NSString *)className;
+@end
+
+@interface NSScrollView (NSScrollViewWebKitPrivate)
+- (void) setAllowsHorizontalScrolling:(BOOL) allow;
 @end
 
 static NSArray *draggedTypes = nil;
@@ -678,6 +687,10 @@ static NSArray *draggedTypes = nil;
    willAddMoreContentObjects:willAddMoreContentObjects
 		  replaceLastContent:replaceLastContent];
 	}
+	
+	if ([content.displayClasses containsObject:@"mention"]) {
+		[self markCurrentLocation];
+	}
 		
 	[previousContent release]; previousContent = [content retain];
 }
@@ -722,6 +735,7 @@ static NSArray *draggedTypes = nil;
 
 - (void)webViewIsReady{
 	webViewIsReady = YES;
+	[self setupMarkedScroller];
 	[self setIsGroupChat:chat.isGroupChat];
 	[self processQueuedContent];
 }
@@ -1393,6 +1407,41 @@ static NSArray *draggedTypes = nil;
 		// Tell the chat to set the topic.
 		[chat setTopic:topicChange];
 	}
+}
+
+#pragma mark Marked Scroller
+- (JVMarkedScroller *)markedScroller
+{
+	WebFrame *contentFrame = [webView.mainFrame findFrameNamed:@"_current"];
+	NSScrollView *scrollView = contentFrame.frameView.documentView.enclosingScrollView;
+	
+	JVMarkedScroller *scroller = (JVMarkedScroller *)scrollView.verticalScroller;
+	return ([scroller isKindOfClass:[JVMarkedScroller class]]) ? scroller : nil;
+}
+
+- (void)setupMarkedScroller
+{
+	WebFrame *contentFrame = [[webView mainFrame] findFrameNamed:@"_current"];
+	NSScrollView *scrollView = [[[contentFrame frameView] documentView] enclosingScrollView];
+	
+	[scrollView setHasHorizontalScroller:NO];
+
+	JVMarkedScroller *scroller = (JVMarkedScroller *)[scrollView verticalScroller];
+	if( scroller && ! [scroller isMemberOfClass:[JVMarkedScroller class]] ) {
+		NSRect scrollerFrame = [[scrollView verticalScroller] frame];
+		NSScroller *oldScroller = scroller;
+		scroller = [[[JVMarkedScroller alloc] initWithFrame:scrollerFrame] autorelease];
+		[scroller setFloatValue:[oldScroller floatValue] knobProportion:[oldScroller knobProportion]];
+		[scrollView setVerticalScroller:scroller];
+	}
+}
+
+- (void)markCurrentLocation
+{
+	JVMarkedScroller *scroller = self.markedScroller;
+	// This next element is likely our new insert point; we want to grab the one right before it, on the same level.
+	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"].lastChild.previousSibling;
+	[scroller addMarkAt:[[element valueForKey:@"offsetTop"] integerValue]];
 }
 
 #pragma mark JS Bridging

@@ -21,6 +21,8 @@
 		07B87B800A3A7A3B00A38283 /* AIShadowAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 07B87B7C0A3A7A3B00A38283 /* AIShadowAdditions.m */; };
 		07C52D4707BD2F97006BE37C /* AIHostReachabilityMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 07C52D4507BD2F97006BE37C /* AIHostReachabilityMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07C52D4807BD2F97006BE37C /* AIHostReachabilityMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 07C52D4607BD2F97006BE37C /* AIHostReachabilityMonitor.m */; };
+		11E784960F882E510014612E /* JVMarkedScroller.h in Headers */ = {isa = PBXBuildFile; fileRef = 11E784940F882E510014612E /* JVMarkedScroller.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11E784970F882E510014612E /* JVMarkedScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E784950F882E510014612E /* JVMarkedScroller.m */; };
 		3113CCA60CE8CB4200B13AC0 /* AIDateAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3113CCA40CE8CB4200B13AC0 /* AIDateAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3113CCA70CE8CB4200B13AC0 /* AIDateAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3113CCA50CE8CB4200B13AC0 /* AIDateAdditions.m */; };
 		31FA7E8C0D4A6CF800ABE634 /* AIRichTextCoercer.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FA7E8A0D4A6CF800ABE634 /* AIRichTextCoercer.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -237,6 +239,8 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		11E784940F882E510014612E /* JVMarkedScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JVMarkedScroller.h; path = Source/JVMarkedScroller.h; sourceTree = "<group>"; };
+		11E784950F882E510014612E /* JVMarkedScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JVMarkedScroller.m; path = Source/JVMarkedScroller.m; sourceTree = "<group>"; };
 		3113CCA40CE8CB4200B13AC0 /* AIDateAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDateAdditions.h; path = Source/AIDateAdditions.h; sourceTree = "<group>"; };
 		3113CCA50CE8CB4200B13AC0 /* AIDateAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDateAdditions.m; path = Source/AIDateAdditions.m; sourceTree = "<group>"; };
 		31FA7E8A0D4A6CF800ABE634 /* AIRichTextCoercer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRichTextCoercer.h; path = Source/AIRichTextCoercer.h; sourceTree = "<group>"; };
@@ -549,6 +553,8 @@
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				11E784940F882E510014612E /* JVMarkedScroller.h */,
+				11E784950F882E510014612E /* JVMarkedScroller.m */,
 			);
 			name = AIUtilities.framework;
 			sourceTree = "<group>";
@@ -1157,6 +1163,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E784960F882E510014612E /* JVMarkedScroller.h in Headers */,
 				076CAD6F0785B64000250504 /* AIFunctions.h in Headers */,
 				34486C3806D1DF0400DA778C /* AIAlternatingRowOutlineView.h in Headers */,
 				34486C3A06D1DF0400DA778C /* AIAlternatingRowTableView.h in Headers */,
@@ -1355,6 +1362,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11E784970F882E510014612E /* JVMarkedScroller.m in Sources */,
 				34486C3906D1DF0400DA778C /* AIAlternatingRowOutlineView.m in Sources */,
 				34486C3B06D1DF0400DA778C /* AIAlternatingRowTableView.m in Sources */,
 				34486C4106D1DF0400DA778C /* AIAppleScriptAdditions.m in Sources */,
