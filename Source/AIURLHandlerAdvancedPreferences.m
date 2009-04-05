@@ -79,6 +79,10 @@
 	[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 									   forKey:PREF_KEY_ENFORCE_DEFAULT
 										group:GROUP_URL_HANDLING];
+	
+	if ([sender state]) {
+		[plugin setAdiumAsDefault];
+	}
 }
 
 #pragma mark Scheme information
