@@ -14,6 +14,14 @@ GADU=libgadu-1.7.1
 INTLTOOL=intltool-0.36.2
 GPG_ERROR=libgpg-error-1.6
 GCRYPT=libgcrypt-1.4.1
+LIBXML2=libxml2-2.7.3
+GSTREAMER=gstreamer-0.10.22
+LIBOIL=liboil-0.3.16
+GST_PLUGINS_BASE=gst-plugins-base-0.10.22
+GST_PLUGINS_GOOD=gst-plugins-good-0.10.14
+GST_PLUGINS_BAD=gst-plugins-bad-0.10.11
+GST_PLUGINS_FARSIGHT=gst-plugins-farsight-0.12.11
+FARSIGHT=farsight2-0.0.8
 
 # Directories
 BASEDIR="$PWD"
