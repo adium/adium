@@ -23,6 +23,7 @@ typedef enum {
     LOC_File_New, LOC_File_Close, LOC_File_Save, LOC_File_Accounts, LOC_File_Additions,
     LOC_Edit_Bottom, LOC_Edit_Links, LOC_Edit_Additions,
 	LOC_View_General, LOC_View_Sorting, LOC_View_Toggles, LOC_View_Counting_Toggles, LOC_View_Appearance_Toggles, LOC_View_Additions, 
+	LOC_Display_General, LOC_Display_Jump,
     LOC_Contact_Manage, LOC_Contact_Info, LOC_Contact_Action, LOC_Contact_NegativeAction, LOC_Contact_Additions,
 	LOC_Status_State, LOC_Status_SocialNetworking, LOC_Status_Accounts, LOC_Status_Additions,
     LOC_Format_Styles, LOC_Format_Palettes, LOC_Format_Additions, 

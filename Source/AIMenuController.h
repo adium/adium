@@ -41,6 +41,8 @@
     IBOutlet	id		menu_View_Counting_Toggles;
     IBOutlet	id		menu_View_Appearance_Toggles;
     IBOutlet	id		menu_View_Additions;
+	IBOutlet	id		menu_Display_General;
+	IBOutlet	id		menu_Display_Jump;
 	IBOutlet	id		menu_Status_State;
 	IBOutlet	id		menu_Status_SocialNetworking;
     IBOutlet	id		menu_Status_Accounts;
@@ -68,6 +70,7 @@
 	IBOutlet	NSMenuItem	*menuItem_file;
 	IBOutlet	NSMenuItem	*menuItem_edit;
 	IBOutlet	NSMenuItem	*menuItem_view;
+	IBOutlet	NSMenuItem	*menuItem_display;
 	IBOutlet	NSMenuItem	*menuItem_status;
 	IBOutlet	NSMenuItem	*menuItem_contact;
 	IBOutlet	NSMenuItem	*menuItem_format;

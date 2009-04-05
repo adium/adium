@@ -151,6 +151,7 @@
 		11CA00100C35EC5100A6BB8D /* SS_PreferencePaneProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 344836910BC8510B0083723B /* SS_PreferencePaneProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11CA00110C35EC5200A6BB8D /* SS_PrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 344836920BC8510B0083723B /* SS_PrefsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11CA00120C35EC5200A6BB8D /* SS_PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344836900BC8510B0083723B /* SS_PrefsController.m */; };
+		11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E7867F0F8860210014612E /* AIJumpControlPlugin.m */; };
 		11EE1B4D0CDCFAF40097F246 /* oscar-adium.c in Sources */ = {isa = PBXBuildFile; fileRef = 11EE1B490CDCFAF40097F246 /* oscar-adium.c */; };
 		11EE1B4E0CDCFAF40097F246 /* oscar-adium.h in Headers */ = {isa = PBXBuildFile; fileRef = 11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */; };
 		11EE1B4F0CDCFAF40097F246 /* ssl-openssl.c in Sources */ = {isa = PBXBuildFile; fileRef = 11EE1B4B0CDCFAF40097F246 /* ssl-openssl.c */; };
@@ -1825,6 +1826,8 @@
 		11C7CAF00BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AINudgeBuzzHandlerPlugin.h; sourceTree = "<group>"; };
 		11C7CAF10BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AINudgeBuzzHandlerPlugin.m; sourceTree = "<group>"; };
 		11C97DFC0F7D26C200E8DD37 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		11E7867F0F8860210014612E /* AIJumpControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIJumpControlPlugin.m; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.m"; sourceTree = "<group>"; };
+		11E786800F8860210014612E /* AIJumpControlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIJumpControlPlugin.h; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.h"; sourceTree = "<group>"; };
 		11EE1B490CDCFAF40097F246 /* oscar-adium.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "oscar-adium.c"; sourceTree = "<group>"; };
 		11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "oscar-adium.h"; sourceTree = "<group>"; };
 		11EE1B4B0CDCFAF40097F246 /* ssl-openssl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-openssl.c"; sourceTree = "<group>"; };
@@ -7621,6 +7624,8 @@
 			children = (
 				F579397F033E756E01A8010A /* AIDualWindowInterfacePlugin.h */,
 				F5793980033E756E01A8010A /* AIDualWindowInterfacePlugin.m */,
+				11E7867F0F8860210014612E /* AIJumpControlPlugin.m */,
+				11E786800F8860210014612E /* AIJumpControlPlugin.h */,
 				F549EF1C036B1A0A01A8010A /* Messages */,
 				4BA12FFC04C0A12900A8010A /* Preferences */,
 				4BCFEC5803F5718700A8010A /* Other */,
@@ -9370,6 +9375,7 @@
 				1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */,
 				113900B40F85BF880081A418 /* AIURLHandlerAdvancedPreferences.m in Sources */,
 				1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */,
+				11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
