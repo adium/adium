@@ -1294,39 +1294,37 @@
 {
 	//If we were online, display a status message in all of our open chats noting our disconnection
 	if ([self boolValueForProperty:@"Online"]) {
-		AIChat			*chat = nil;
-		NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
-		
-		while ((chat = [enumerator nextObject])) {
-			if (chat.account == self && [chat isOpen]) {
-				//Display a connected message in all open chats
-				AIContentEvent *statusMessage = [AIContentEvent eventInChat:chat
-																 withSource:chat.account
-																destination:chat.account
-																	   date:[NSDate date]
-																	message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have disconnected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
-																   withType:@"disconnected"];
-				
-				[statusMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
+		for (AIChat *chat in adium.interfaceController.openChats) {
+			if (chat.account != self || !chat.isOpen)
+				continue;
+			
+			//Display a connected message in all open chats
+			AIContentEvent *statusMessage = [AIContentEvent eventInChat:chat
+															 withSource:chat.account
+															destination:chat.account
+																   date:[NSDate date]
+																message:[[[NSAttributedString alloc] initWithString:AILocalizedStringFromTableInBundle(@"You have disconnected", nil, [NSBundle bundleForClass:[AIAccount class]], "Displayed in an open chat when its account has been connected")] autorelease]
+															   withType:@"disconnected"];
+			
+			[statusMessage setCoalescingKey:ACCOUNT_STATUS_UPDATE_COALESCING_KEY];
 
-				[adium.contentController receiveContentObject:statusMessage];
-				
-				if (chat.isGroupChat)
-					[chat removeAllParticipatingContactsSilently];
-			}
+			[adium.contentController receiveContentObject:statusMessage];
+			
+			if (chat.isGroupChat)
+				[chat removeAllParticipatingContactsSilently];
 		}
 	}
 	
 	//We are now offline
-    [self setValue:nil forProperty:@"Disconnecting" notify:NotifyLater];
-    [self setValue:nil forProperty:@"Connecting" notify:NotifyLater];
-    [self setValue:nil forProperty:@"Online" notify:NotifyLater];
+	[self setValue:nil forProperty:@"Disconnecting" notify:NotifyLater];
+	[self setValue:nil forProperty:@"Connecting" notify:NotifyLater];
+	[self setValue:nil forProperty:@"Online" notify:NotifyLater];
 	
 	//Stop all autorefreshing keys
 	[self stopAutoRefreshingStatusKey:nil];
 
 	//Apply any changes
-    [self notifyOfChangedPropertiesSilently:NO];
+	[self notifyOfChangedPropertiesSilently:NO];
 
 	//Remove all contacts
 	[self removeAllContacts];
