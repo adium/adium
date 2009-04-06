@@ -213,7 +213,7 @@ struct _mark {
 	[menu addItem:item];
 	
 	item = [[[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle( @"Jump to Focus Mark", nil, [NSBundle bundleWithIdentifier:AIUTILITIES_BUNDLE_ID], "jump to the mark where the last content the user saw ends")
-									   action:@selector( jumpToFocusLine: ) 
+									   action:@selector( jumpToFocusMark: ) 
 								keyEquivalent:@""] autorelease];
 	[item setTarget:self];
 	[menu addItem:item];	
@@ -283,6 +283,11 @@ struct _mark {
 
 #pragma mark -
 
+- (BOOL)previousMarkExists
+{
+	return _nearestPreviousMark != NSNotFound;
+}
+
 - (IBAction) jumpToPreviousMark:(id) sender {
 	if( _nearestPreviousMark != NSNotFound ) {
 		_currentMark = _nearestPreviousMark;
@@ -293,6 +298,11 @@ struct _mark {
 		
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 	}
+}
+
+- (BOOL)nextMarkExists
+{
+	return _nearestNextMark != NSNotFound;
 }
 
 - (IBAction) jumpToNextMark:(id) sender {
@@ -307,7 +317,26 @@ struct _mark {
 	}
 }
 
-- (IBAction)jumpToFocusLine:(id)sender
+- (BOOL)focusMarkExists
+{
+	NSEnumerator *e = [_marks objectEnumerator];
+	NSValue *obj = nil;
+	BOOL foundMark = NO;
+	
+	while( ( obj = [e nextObject] ) ) {
+		struct _mark mark;
+		[obj getValue:&mark];
+		if( [mark.identifier isEqualToString:@"focus"] ) {
+			_currentMark = mark.location;
+			foundMark = YES;
+			break;
+		}
+	}
+	
+	return foundMark;
+}
+
+- (IBAction)jumpToFocusMark:(id)sender
 {
 	[self jumpToMarkWithIdentifier:@"focus"];
 }

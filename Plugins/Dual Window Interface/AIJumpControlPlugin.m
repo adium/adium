@@ -15,55 +15,66 @@
 #import "AIMessageViewController.h"
 #import "AIMessageTabViewItem.h"
 
+@interface AIJumpControlPlugin()
+- (NSObject<AIMessageDisplayController> *)currentController;
+@end
+
 @implementation AIJumpControlPlugin
 - (void)installPlugin
 {
-	NSMenuItem *menuItem;
+	menuItem_previous = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Previous Mark", "Jump to the previous mark in the message window")
+															   target:self
+															   action:@selector(jumpToPrevious)
+														keyEquivalent:@"["
+															  keyMask:NSAlternateKeyMask | NSCommandKeyMask];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Previous Mark", "Jump to the previous mark in the message window")
-										  target:self
-										  action:@selector(jumpToPrevious)
-								   keyEquivalent:@"["
-										 keyMask:NSAlternateKeyMask | NSCommandKeyMask];
+	[adium.menuController addMenuItem:menuItem_previous toLocation:LOC_Display_Jump];
 	
-	[adium.menuController addMenuItem:menuItem toLocation:LOC_Display_Jump];
-	[menuItem release];
-
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Next Mark", "Jump to the next mark in the message window")
-										  target:self
-										  action:@selector(jumpToNext)
-								   keyEquivalent:@"]"
-										 keyMask:NSAlternateKeyMask | NSCommandKeyMask];
+	menuItem_next = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Next Mark", "Jump to the next mark in the message window")
+														   target:self
+														   action:@selector(jumpToNext)
+													keyEquivalent:@"]"
+														  keyMask:NSAlternateKeyMask | NSCommandKeyMask];
 	
-	[adium.menuController addMenuItem:menuItem toLocation:LOC_Display_Jump];
-	[menuItem release];
+	[adium.menuController addMenuItem:menuItem_next toLocation:LOC_Display_Jump];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Focus Mark", "Jump to the next location in the message window where the user last saw content")
-										  target:self
-										  action:@selector(jumpToFocus)
-								   keyEquivalent:@""];
+	menuItem_focus = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Jump to Focus Mark", "Jump to the next location in the message window where the user last saw content")
+															target:self
+															action:@selector(jumpToFocus)
+													 keyEquivalent:@""];
 	
-	[adium.menuController addMenuItem:menuItem toLocation:LOC_Display_Jump];
-	[menuItem release];
+	[adium.menuController addMenuItem:menuItem_focus toLocation:LOC_Display_Jump];
 	
-	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Add Mark", "Inserts a custom mark into the message window")
-										  target:self
-										  action:@selector(addMark)
-								   keyEquivalent:@""];
+	menuItem_add = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Add Mark", "Inserts a custom mark into the message window")
+														  target:self
+														  action:@selector(addMark)
+												   keyEquivalent:@""];
 	
-	[adium.menuController addMenuItem:menuItem toLocation:LOC_Display_Jump];
-	[menuItem release];
+	[adium.menuController addMenuItem:menuItem_add toLocation:LOC_Display_Jump];
 }
 
 - (void)uninstallPlugin
 {
-	
+	[adium.menuController removeMenuItem:menuItem_previous];
+	[adium.menuController removeMenuItem:menuItem_next];
+	[adium.menuController removeMenuItem:menuItem_focus];
+	[adium.menuController removeMenuItem:menuItem_add];
 }
 
 #pragma mark Jump handling
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	return (nil != adium.interfaceController.activeChat);
+	if (menuItem == menuItem_previous) {
+		return [self.currentController previousMarkExists];
+	} else if (menuItem == menuItem_next) {
+		return [self.currentController nextMarkExists];
+	} else if (menuItem == menuItem_focus) {
+		return [self.currentController focusMarkExists];
+	} else {
+		return (nil != adium.interfaceController.activeChat);
+	}
+	
+	return NO;
 }
 
 - (NSObject<AIMessageDisplayController> *)currentController
