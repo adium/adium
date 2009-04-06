@@ -61,6 +61,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	BOOL						delegateHasValidateWidth;
 	
+	BOOL						shelfOnRight;
+	
 	NSString	*stringValue;
 	NSAttributedString *attributedStringValue;
 	CGFloat		stringHeight;
@@ -86,6 +88,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(NSView *)shelfView;
 -(void)setContentView:(NSView *)aView;
 -(NSView *)contentView;
+
+-(void)setShelfOnRight:(BOOL)inRight;
+-(BOOL)shelfOnRight;
 
 -(void)setShelfWidth:(CGFloat)aWidth;
 -(CGFloat)shelfWidth;

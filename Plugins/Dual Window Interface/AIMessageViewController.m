@@ -1278,7 +1278,8 @@
  -(void)setupShelfView
 {
 	[shelfView setShelfWidth:200];
-
+	[shelfView setShelfOnRight:YES];
+	
 	AILogWithSignature(@"ShelfView %@ (content view is %@) --> superview %@, in window %@; frame %@; content view %@ shelf view %@ in window %@",
 					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),
 					   splitView_textEntryHorizontal,
