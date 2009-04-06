@@ -12,8 +12,15 @@
 - (void) setLocationOfCurrentMark:(unsigned long long) location;
 - (unsigned long long) locationOfCurrentMark;
 
+- (BOOL)previousMarkExists;
 - (IBAction) jumpToPreviousMark:(id) sender;
+
+- (BOOL)nextMarkExists;
 - (IBAction) jumpToNextMark:(id) sender;
+
+- (BOOL)focusMarkExists;
+- (IBAction)jumpToFocusMark:(id)sender;
+
 - (void) jumpToMarkWithIdentifier:(NSString *) identifier;
 
 - (void) shiftMarksAndShadedAreasBy:(long long) displacement;
