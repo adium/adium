@@ -39,6 +39,7 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentTyping.h>
+#import <Adium/ESFileTransfer.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
@@ -49,17 +50,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 #import <Adium/AIFileTransferControllerProtocol.h>
-
-static	NSConditionLock     *threadPreparednessLock = nil;
-static	NDRunLoopMessenger  *bonjourThreadMessenger = nil;
-static	AWEzv               *_libezvThreadProxy = nil;
-
-enum {
-	AIThreadPreparing = 0,
-	AIThreadReady
-};
-
-#define	AUTORELEASE_POOL_REFRESH	5.0
 
 @interface AWBonjourAccount ()
 - (NSString *)UIDForContact:(AWEzvContact *)contact;
@@ -101,33 +91,14 @@ enum {
 	return NO;
 }
 
-- (AWEzv *)libezvThreadProxy
-{
-	if (!_libezvThreadProxy) {
-		//Obtain the lock
-		threadPreparednessLock = [[NSConditionLock alloc] initWithCondition:AIThreadPreparing];
-
-		//Detach the thread, which will unlock threadPreparednessLock when it is ready
-		[NSThread detachNewThreadSelector:@selector(prepareBonjourThread)
-		                         toTarget:self
-		                       withObject:nil];
-
-		//Obtain the lock - this will spinlock until the thread is ready
-		[threadPreparednessLock lockWhenCondition:AIThreadReady];
-		[threadPreparednessLock unlock];
-		[threadPreparednessLock release]; threadPreparednessLock = nil;
-	}
-
-	return _libezvThreadProxy;
-}
 - (void)connect
 {
 	[super connect];
 
 	NSString *displayName = self.displayName;
-	[[self libezvThreadProxy] setName:displayName];
-	AILog(@"%@: Logging in using libezvThreadProxy %@",self, [self libezvThreadProxy]);
-	[[self libezvThreadProxy] login];
+	[libezv setName:displayName];
+	AILog(@"%@: Logging in using libezvThreadProxy %@",self, libezv);
+	[libezv login];
 }
 
 - (void)disconnect
@@ -138,7 +109,7 @@ enum {
 	// Say we're disconnecting...
 	[self setValue:[NSNumber numberWithBool:YES] forProperty:@"Disconnecting" notify:YES];
 
-	[[self libezvThreadProxy] logout];
+	[libezv logout];
 }
 
 - (void)removeContacts:(NSArray *)objects
@@ -152,21 +123,6 @@ enum {
 }
 
 #pragma mark Libezv Callbacks
-/*!
- * @brief Logged in, called on the main thread
- */
-- (void)mainThreadReportLoggedIn
-{
-	[self didConnect];
-	[self setLastDisconnectionError:nil];
-
-	//Silence updates
-	[self silenceAllContactUpdatesForInterval:18.0];
-	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
-
-	//We need to set our user icon after connecting
-	[self updateStatusForKey:KEY_USER_ICON];	
-}
 
 /*!
  * @brief libezv: we logged in
@@ -176,7 +132,15 @@ enum {
 - (void)reportLoggedIn
 {
 	AILog(@"%@: reportLoggedIn",self);
-	[self mainPerformSelector:@selector(mainThreadReportLoggedIn)];
+	[self didConnect];
+	[self setLastDisconnectionError:nil];
+	
+	//Silence updates
+	[self silenceAllContactUpdatesForInterval:18.0];
+	[[AIContactObserverManager sharedManager] delayListObjectNotificationsUntilInactivity];
+	
+	//We need to set our user icon after connecting
+	[self updateStatusForKey:KEY_USER_ICON];	
 }
 
 /*!
@@ -189,56 +153,7 @@ enum {
 	AILog(@"%@: reportLoggedOut",self);
 	[libezvContacts removeAllObjects];
 
-	[self mainPerformSelector:@selector(didDisconnect)];
-}
-
-- (void)mainThreadUserChangedState:(AWEzvContact *)contact
-{
-	AIListContact   *listContact;
-	NSString        *contactName, *statusMessage;
-	NSDate          *idleSinceDate;
-	
-	listContact = [adium.contactController contactWithService:service
-	                                                    account:self
-	                                                        UID:[self UIDForContact:contact]];  
-	if ([contact status] == AWEzvUndefined) {
-		AILogWithSignature(@"Warning: Received a status update for a contact with an undefined status. This shouldn't happen.");
-		for (NSString *groupName in listContact.remoteGroupNames)
-			[listContact removeRemoteGroupName:groupName];
-		[listContact setOnline:NO notify:NotifyLater silently:silentAndDelayed];
-
-	} else {
-		if (listContact.countOfRemoteGroupNames == 0) {
-			[listContact addRemoteGroupName:@"Bonjour"];
-		}
-
-		//We only get state change updates on Online contacts
-		[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
-	}
-
-	[listContact setStatusWithName:nil
-	                    statusType:(([contact status] == AWEzvAway) ? AIAwayStatusType : AIAvailableStatusType)
-	                        notify:NotifyLater];
-
-	statusMessage = contact.statusMessage;
-	[listContact setStatusMessage:(statusMessage ? [[[NSAttributedString alloc] initWithString:statusMessage] autorelease] : nil)
-	                       notify:NotifyLater];
-	
-	idleSinceDate = [contact idleSinceDate];
-	[listContact setIdle:(idleSinceDate != nil)
-	           sinceDate:idleSinceDate
-	              notify:NotifyLater];
-
-	//Use the contact alias as the serverside display name
-	contactName = contact.name;
-
-	if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:contactName]) {
-		[listContact setServersideAlias:contactName
-		                       silently:silentAndDelayed];
-	}
-
-	//Apply any changes
-	[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];	
+	[self didDisconnect];
 }
 
 /*!
@@ -248,137 +163,126 @@ enum {
  */
 - (void)userChangedState:(AWEzvContact *)contact
 {
-	[self mainPerformSelector:@selector(mainThreadUserChangedState:)
-	               withObject:contact];
+	AIListContact   *listContact;
+	NSString        *contactName, *statusMessage;
+	NSDate          *idleSinceDate;
+	
+	listContact = [adium.contactController contactWithService:service
+				   account:self
+				   UID:[self UIDForContact:contact]];  
+	if ([contact status] == AWEzvUndefined) {
+		AILogWithSignature(@"Warning: Received a status update for a contact with an undefined status. This shouldn't happen.");
+		for (NSString *groupName in listContact.remoteGroupNames)
+			[listContact removeRemoteGroupName:groupName];
+		[listContact setOnline:NO notify:NotifyLater silently:silentAndDelayed];
+		
+	} else {
+		if (listContact.countOfRemoteGroupNames == 0) {
+			[listContact addRemoteGroupName:@"Bonjour"];
+		}
+		
+		//We only get state change updates on Online contacts
+		[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
+	}
+	
+	[listContact setStatusWithName:nil
+	                    statusType:(([contact status] == AWEzvAway) ? AIAwayStatusType : AIAvailableStatusType)
+	                        notify:NotifyLater];
+	
+	statusMessage = contact.statusMessage;
+	[listContact setStatusMessage:(statusMessage ? [[[NSAttributedString alloc] initWithString:statusMessage] autorelease] : nil)
+	                       notify:NotifyLater];
+	
+	idleSinceDate = [contact idleSinceDate];
+	[listContact setIdle:(idleSinceDate != nil)
+	           sinceDate:idleSinceDate
+	              notify:NotifyLater];
+	
+	//Use the contact alias as the serverside display name
+	contactName = contact.name;
+	
+	if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:contactName]) {
+		[listContact setServersideAlias:contactName
+		                       silently:silentAndDelayed];
+	}
+	
+	//Apply any changes
+	[listContact notifyOfChangedPropertiesSilently:silentAndDelayed];	
 
 	//Adding an existing object to a set has no effect, so just ensure it is added
 	[libezvContacts addObject:contact];
 }
-
-- (void)mainThreadUserChangedImage:(AWEzvContact *)contact
-{
-	AIListContact *listContact = [adium.contactController contactWithService:service
-																	   account:self
-																		   UID:[self UIDForContact:contact]];  
-
-	[listContact setServersideIconData:[contact contactImageData] notify:NotifyNow];
-}
 		 
 - (void)userChangedImage:(AWEzvContact *)contact
 {
-	[self mainPerformSelector:@selector(mainThreadUserChangedImage:)
-				   withObject:contact];
-}
-
-- (void)mainThreadUserWithUIDLoggedOut:(NSString *)inUID
-{
-	AIListContact *listContact;
-
-	listContact = [adium.contactController existingContactWithService:service
-	                                                            account:self 
-	                                                                UID:inUID];
-
-	for (NSString *groupName in listContact.remoteGroupNames)
-		[listContact removeRemoteGroupName:groupName];
-	[listContact setOnline:NO notify:NotifyNow silently:silentAndDelayed];
+	AIListContact *listContact = [adium.contactController contactWithService:service
+								  account:self
+								  UID:[self UIDForContact:contact]];  
+	
+	[listContact setServersideIconData:[contact contactImageData] notify:NotifyNow];
 }
 
 - (void)userLoggedOut:(AWEzvContact *)contact
-{
-	[self mainPerformSelector:@selector(mainThreadUserWithUIDLoggedOut:)
-	               withObject:contact.uniqueID];
+{	
+	AIListContact *listContact = [adium.contactController existingContactWithService:service
+				   account:self 
+				   UID:contact.uniqueID];
+	
+	for (NSString *groupName in listContact.remoteGroupNames)
+		[listContact removeRemoteGroupName:groupName];
+	[listContact setOnline:NO notify:NotifyNow silently:silentAndDelayed];
 
 	[libezvContacts removeObject:contact];
 }
 
-- (void)mainThreadUserWithUID:(NSString *)inUID sentMessage:(NSString *)message withHtml:(NSString *)html
+//We received a message from an AWEzvContact
+- (void)user:(AWEzvContact *)contact sentMessage:(NSString *)message withHtml:(NSString *)html
 {
 	AIListContact       *listContact;
 	AIContentMessage    *msgObj;
 	AIChat              *chat;
 	NSAttributedString  *attributedMessage;
-
+	
 	listContact = [adium.contactController existingContactWithService:service
-	                                                            account:self
-	                                                               UID:inUID];
+				   account:self
+				   UID:contact.uniqueID];
 	chat = [adium.chatController chatWithContact:listContact];
 	
 	if (html)
 		attributedMessage = [adium.contentController decodedIncomingMessage:html
-		                                                          fromContact:listContact
-		                                                            onAccount:self];
+							 fromContact:listContact
+							 onAccount:self];
 	else
 		attributedMessage = [[[NSAttributedString alloc] initWithString:
-		    [adium.contentController decryptedIncomingMessage:message
-		                                            fromContact:listContact
-		                                              onAccount:self]] autorelease];
-
+							  [adium.contentController decryptedIncomingMessage:message
+							   fromContact:listContact
+							   onAccount:self]] autorelease];
+	
 	msgObj = [AIContentMessage messageInChat:chat
 	                              withSource:listContact
 	                             destination:self
 	                                    date:nil
 	                                 message:attributedMessage
 	                               autoreply:NO];
-
+	
 	[adium.contentController receiveContentObject:msgObj];
-
+	
 	//Clear the typing flag
 	[chat setValue:nil
-	               forProperty:KEY_TYPING
-	               notify:YES];	
-}
-
-//We received a message from an AWEzvContact
-- (void)user:(AWEzvContact *)contact sentMessage:(NSString *)message withHtml:(NSString *)html
-{
-	[self mainPerformSelector:@selector(mainThreadUserWithUID:sentMessage:withHtml:)
-	               withObject:contact.uniqueID
-	               withObject:message
-	               withObject:html];
-}
-
-- (void)mainThreadUserWithUID:(NSString *)inUID typingNotificationNumber:(NSNumber *)typingNumber
-{
-	AIListContact   *listContact;
-	AIChat          *chat;
-	listContact = [adium.contactController existingContactWithService:service
-	                                                            account:self
-	                                                                UID:inUID];
-	chat = [adium.chatController existingChatWithContact:listContact];
-
-	[chat setValue:typingNumber
-	               forProperty:KEY_TYPING
-	               notify:YES];	
+	   forProperty:KEY_TYPING
+			notify:YES];	
 }
 
 - (void)user:(AWEzvContact *)contact typingNotification:(AWEzvTyping)typingStatus
 {
-	[self mainPerformSelector:@selector(mainThreadUserWithUID:typingNotificationNumber:)
-	               withObject:contact.uniqueID
-	               withObject:((typingStatus == AWEzvIsTyping) ? [NSNumber numberWithInt:AITyping] : nil)];
-}
-
-/*!
- * @brief A message could not be sent
- *
- * @param inContactUniqueID Unique ID of the contact to whom the message could not be sent
- */
-- (void)mainThreadCouldNotSendToUserWithUID:(NSString *)inContactUniqueID
-{
-	AIListContact   *listContact;
-	AIChat          *chat;
-
-	listContact = [adium.contactController existingContactWithService:service
-	                                                            account:self
-	                                                                UID:inContactUniqueID];
-	chat = [adium.chatController existingChatWithContact:listContact];
-
-	[chat setValue:[NSNumber numberWithInt:AIChatMessageSendingUserNotAvailable]
-	               forProperty:KEY_CHAT_ERROR
-	               notify:NotifyNow];
-	[chat setValue:nil
-	               forProperty:KEY_CHAT_ERROR
-	               notify:NotifyNever];
+	AIListContact *listContact = [adium.contactController existingContactWithService:service
+				   account:self
+				   UID:contact.uniqueID];
+	AIChat *chat = [adium.chatController existingChatWithContact:listContact];
+	
+	[chat setValue:((typingStatus == AWEzvIsTyping) ? [NSNumber numberWithInt:AITyping] : nil)
+	   forProperty:KEY_TYPING
+			notify:YES];	
 }
 
 - (void)user:(AWEzvContact *)contact typeAhead:(NSString *)message withHtml:(NSString *)html {
@@ -388,9 +292,8 @@ enum {
 - (void)reportError:(NSString *)error ofLevel:(AWEzvErrorSeverity)severity
 {
 	if (severity == AWEzvConnectionError) {
-		[self mainPerformSelector:@selector(setLastDisconnectionError:)
-					   withObject:error];
-		[self mainPerformSelector:@selector(disconnect)];
+		[self setLastDisconnectionError:error];
+		[self disconnect];
 	}
 	NSLog(@"Bonjour Error (%i): %@", severity, error);
 	AILog(@"Bonjour Error (%i): %@", severity, error);
@@ -399,9 +302,18 @@ enum {
 - (void)reportError:(NSString *)error ofLevel:(AWEzvErrorSeverity)severity forUser:(NSString *)contactUniqueID
 {
 	if ([error isEqualToString:@"Could Not Send"]) {
-		[self mainPerformSelector:@selector(mainThreadCouldNotSendToUserWithUID:)
-		               withObject:contactUniqueID];
-
+		
+		AIListContact *listContact = [adium.contactController existingContactWithService:service
+					   account:self
+					   UID:contactUniqueID];
+		AIChat *chat = [adium.chatController existingChatWithContact:listContact];
+		
+		[chat setValue:[NSNumber numberWithInt:AIChatMessageSendingUserNotAvailable]
+		   forProperty:KEY_CHAT_ERROR
+				notify:NotifyNow];
+		[chat setValue:nil
+		   forProperty:KEY_CHAT_ERROR
+				notify:NotifyNever];
 	} else {
 		NSLog(@"Bonjour Error (%i): %@", severity, error);
 		AILog(@"Bonjour Error (%i): %@", severity, error);
@@ -417,13 +329,13 @@ enum {
 	AIListObject     *listObject = chat.listObject;
 	NSString         *to = listObject.UID;
 
-	[[self libezvThreadProxy] sendTypingNotification:(inContentTyping.typingState == AITyping ? AWEzvIsTyping : AWEzvNotTyping)
+	[libezv sendTypingNotification:(inContentTyping.typingState == AITyping ? AWEzvIsTyping : AWEzvNotTyping)
 	                                              to:to];
 }
 
 - (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
 {
-	[[self libezvThreadProxy] sendMessage:inContentMessage.messageString 
+	[libezv sendMessage:inContentMessage.messageString 
 	                                   to:inContentMessage.destination.UID
 	                             withHtml:inContentMessage.encodedMessage];
 
@@ -481,7 +393,7 @@ enum {
 	if (areOnline) {
 		if ([key isEqualToString:@"IdleSince"]) {
 			NSDate	*idleSince = [self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
-			[[self libezvThreadProxy] setStatus:AWEzvIdle
+			[libezv setStatus:AWEzvIdle
 			                        withMessage:[self.statusMessage string]];
 			[self setAccountIdleTo:idleSince];
 		}
@@ -515,14 +427,14 @@ enum {
 }
 - (void)setStatus:(AWEzvStatus)status withMessage:(NSAttributedString *)message
 {
-	[[self libezvThreadProxy] setStatus:status withMessage:[message string]];
+	[libezv setStatus:status withMessage:[message string]];
 
 	[self setValue:message forProperty:@"StatusMessage" notify:YES];
 	[self setValue:[NSNumber numberWithBool:(status == AWEzvAway)] forProperty:@"Away" notify:YES];
 }
 - (void)setAccountIdleTo:(NSDate *)idle
 {
-	[[self libezvThreadProxy] setIdleTime:idle];
+	[libezv setIdleTime:idle];
 
 	//We are now idle
 	[self setValue:idle forProperty:@"IdleSince" notify:YES];
@@ -541,7 +453,7 @@ enum {
 	NSImage *bonjourImage = [image imageByScalingToSize:MAX_BONJOUR_IMAGE_SIZE];
 	NSData	*bonjourImageData = [bonjourImage JPEGRepresentationWithMaximumByteSize:MAX_BONJOUR_IMAGE_BYTES];
 
-	[[self libezvThreadProxy] setContactImageData:bonjourImageData];	
+	[libezv setContactImageData:bonjourImageData];	
 
 	[super setAccountUserImage:image withData:originalData];
 }
@@ -583,76 +495,47 @@ enum {
 	return YES;
 }
 
-- (void)mainThreadUpdateProgressForFileTransfer:(ESFileTransfer *)transfer percent:(NSNumber *)percent bytesSent:(NSNumber *)bytesSent
-{
-	[transfer setPercentDone:percent bytes:bytesSent];
-}
-
 - (void)updateProgressForFileTransfer:(EKEzvFileTransfer *)fileTransfer percent:(NSNumber *)percent bytesSent:(NSNumber *)bytesSent
 {
-	/* Lookup ESFileTransfer */
-	ESFileTransfer *transfer = [ESFileTransfer existingFileTransferWithID: [fileTransfer uniqueID]];
-	[self mainPerformSelector:@selector(mainThreadUpdateProgressForFileTransfer:percent:bytesSent:)
-	               withObject:transfer
-	               withObject:percent
-	               withObject:bytesSent];
-}
-
-- (void)mainThreadCancelFileTransferRemotely:(ESFileTransfer *)transfer
-{
-	if (![transfer isStopped]) {
-		[transfer setStatus:Cancelled_Remote_FileTransfer];
-	}
+	[[ESFileTransfer existingFileTransferWithID: [fileTransfer uniqueID]] setPercentDone:[percent floatValue] bytesSent:[bytesSent unsignedLongLongValue]];
 }
 
 - (void)remoteCanceledFileTransfer:(EKEzvFileTransfer *)fileTransfer
 {
 	ESFileTransfer *transfer = [ESFileTransfer existingFileTransferWithID: [fileTransfer uniqueID]];
-	[[self libezvThreadProxy] transferCancelled:fileTransfer];
-	[self mainPerformSelector:@selector(mainThreadCancelFileTransferRemotely:)
-	               withObject:transfer];
-}
-
-- (void)mainThreadLocalCanceledFileTransfer:(ESFileTransfer *)fileTransfer
-{
-	if (![fileTransfer isStopped]) {
-		[fileTransfer setStatus:Cancelled_Local_FileTransfer];
+	[libezv transferCancelled:fileTransfer];
+	if (!transfer.isStopped) {
+		[transfer setStatus:Cancelled_Remote_FileTransfer];
 	}
 }
+
 //Instructs the account to cancel a file ransfer in progress
 - (void)cancelFileTransfer:(ESFileTransfer *)fileTransfer
 {
 	AWEzvLog(@"Cancel file transfer %@",fileTransfer);
 
 	EKEzvFileTransfer *transfer = [fileTransfer accountData];
-	[[self libezvThreadProxy] transferCancelled:transfer];
+	[libezv transferCancelled:transfer];
 
-	[self mainPerformSelector:@selector(mainThreadLocalCanceledFileTransfer:)
-	               withObject:fileTransfer];
-}
-
-- (void)mainThreadTransferFailed:(ESFileTransfer *)fileTransfer
-{
-	if (![fileTransfer isStopped]) {
-		[fileTransfer setStatus:Failed_FileTransfer];
+	if (!fileTransfer.isStopped) {
+		[fileTransfer setStatus:Cancelled_Local_FileTransfer];
 	}
 }
+
 //Instructs the account to cancel a file ransfer in progress
 - (void)transferFailed:(EKEzvFileTransfer *)fileTransfer
 {
 	ESFileTransfer *transfer = [ESFileTransfer existingFileTransferWithID: [fileTransfer uniqueID]];
 	[transfer cancel];
-	[self mainPerformSelector:@selector(mainThreadTransferFailed:)
-	               withObject:transfer];
-	
+	if (!transfer.isStopped) {
+		[fileTransfer setStatus:Failed_FileTransfer];
+	}
 }
 #pragma mark Incoming File Transfer 
 
-- (void)mainThreadUserWithUID:(NSString *)inUID sentFile:(EKEzvFileTransfer *)file
+- (void)user:(AWEzvContact *)contact sentFile:(EKEzvFileTransfer *)file
 {
-	AIListContact   *listContact;
-
-	listContact = [adium.contactController existingContactWithService:service account:self UID:inUID];
+	AIListContact *listContact = [adium.contactController existingContactWithService:service account:self UID:contact.uniqueID];
 	/* Set up the file transfer */
 	ESFileTransfer *fileTransfer = [adium.fileTransferController newFileTransferWithContact:listContact forAccount:self type:Incoming_FileTransfer];
 	[fileTransfer setRemoteFilename: [file remoteFilename]];
@@ -662,13 +545,6 @@ enum {
 		[fileTransfer setIsDirectory: YES];
 	}
 	[self requestReceiveOfFileTransfer: fileTransfer];
-}
-
-- (void)user:(AWEzvContact *)contact sentFile:(EKEzvFileTransfer *)fileTransfer
-{
-	[self mainPerformSelector:@selector(mainThreadUserWithUID:sentFile:)
-	               withObject:contact.uniqueID
-	               withObject:fileTransfer];
 }
 
 - (void)requestReceiveOfFileTransfer:(ESFileTransfer *)fileTransfer
@@ -686,7 +562,7 @@ enum {
 	[transfer setUniqueID: [fileTransfer uniqueID]];
 	[fileTransfer setStatus:Accepted_FileTransfer];
 
-	[[self libezvThreadProxy] transferAccepted:transfer withFileName:[fileTransfer localFilename]];    
+	[libezv transferAccepted:transfer withFileName:[fileTransfer localFilename]];    
 }
 
 //Instructs the account to reject a file receive request
@@ -712,79 +588,21 @@ enum {
 	/* Now store the EKEzvOutgoingFileTransfer in the ESFileTransfer */
 	[fileTransfer setAccountData:ezvFileTransfer];
 	
-	[[self libezvThreadProxy] startOutgoingFileTransfer:ezvFileTransfer];
+	[libezv startOutgoingFileTransfer:ezvFileTransfer];
 	[fileTransfer setStatus:Waiting_on_Remote_User_FileTransfer];
 	[ezvFileTransfer release];
 }
 
 #pragma  mark Outgoing file transfer status updates
-- (void)mainThreadRemoteUserBeganDownload:(EKEzvOutgoingFileTransfer *)transfer
+
+- (void)remoteUserBeganDownload:(EKEzvOutgoingFileTransfer *)transfer
 {
 	[[ESFileTransfer existingFileTransferWithID:[transfer uniqueID]] setStatus:Accepted_FileTransfer];
 }
-- (void)remoteUserBeganDownload:(EKEzvOutgoingFileTransfer *)fileTransfer
-{
-	[self mainPerformSelector:@selector(mainThreadRemoteUserBeganDownload:) withObject:fileTransfer];
-}
 
-- (void)mainThreadRemoteUserFinishedDownload:(EKEzvOutgoingFileTransfer *)transfer
+- (void)remoteUserFinishedDownload:(EKEzvOutgoingFileTransfer *)transfer
 {
 	[[ESFileTransfer existingFileTransferWithID:[transfer uniqueID]] setStatus:Complete_FileTransfer];
-}
-- (void)remoteUserFinishedDownload:(EKEzvOutgoingFileTransfer *)fileTransfer
-{
-	[self mainPerformSelector:@selector(mainThreadRemoteUserFinishedDownload:) withObject:fileTransfer];
-}
-
-#pragma mark Bonjour Thread
-
-- (void)clearBonjourThreadInfo
-{
-	[_libezvThreadProxy release]; _libezvThreadProxy = nil;
-	[bonjourThreadMessenger release]; bonjourThreadMessenger = nil;
-}
-
-- (void)prepareBonjourThread
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	[threadPreparednessLock lock];
-
-	bonjourThreadMessenger = [[NDRunLoopMessenger runLoopMessengerForCurrentRunLoop] retain];
-	_libezvThreadProxy = [[bonjourThreadMessenger target:libezv] retain];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-	                                         selector:@selector(threadWillExit:) 
-	                                             name:NSThreadWillExitNotification
-	                                           object:[NSThread currentThread]];
-
-	//We're good to go; release that lock
-	[threadPreparednessLock unlockWithCondition:AIThreadReady];
-	
-	while(true) {
-		[[NSRunLoop currentRunLoop] runUntilDate:[NSDate dateWithTimeIntervalSinceNow:AUTORELEASE_POOL_REFRESH]];
-		[pool release];
-		pool = [[NSAutoreleasePool alloc] init];
-	}
-
-	[self clearBonjourThreadInfo];
-	[pool release];
-}
-
-/*!
- * @brief The bonjour thread is about to exit for some reason...
- *
- * I have no idea why the thread might exit, but it does.  Messaging the libezvThreadProxy after it exits throws an
- * NDRunLoopMessengerConnectionNoLongerExistsException exception.  If we clear out our data, perhaps we can recover fairly gracefully.
- *
- * It will be recreated when next needed.
- */
-- (void)threadWillExit:(NSNotification *)inNotification
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self
-																																	name:NSThreadWillExitNotification
-	                                              object:[inNotification object]];
-
-	[self clearBonjourThreadInfo];
 }
 
 @end
