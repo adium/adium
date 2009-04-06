@@ -61,6 +61,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	
 	BOOL						delegateHasValidateWidth;
 	
+	BOOL						drawLine;
 	BOOL						shelfOnRight;
 	
 	NSString	*stringValue;
@@ -91,6 +92,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 -(void)setShelfOnRight:(BOOL)inRight;
 -(BOOL)shelfOnRight;
+
+-(void)setDrawShelfLine:(BOOL)inDraw;
+-(BOOL)drawShelfLine;
 
 -(void)setShelfWidth:(CGFloat)aWidth;
 -(CGFloat)shelfWidth;
