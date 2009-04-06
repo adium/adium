@@ -1490,13 +1490,13 @@ static NSArray *draggedTypes = nil;
 - (void)jumpToFocusMark
 {
 	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller jumpToFocusMark];
+	[scroller jumpToFocusMark:nil];
 }
 
 - (BOOL)focusMarkExists
 {
 	JVMarkedScroller *scroller = self.markedScroller;
-	return [scroller jumpMarkExists];
+	return [scroller focusMarkExists];
 }
 
 #pragma mark JS Bridging
