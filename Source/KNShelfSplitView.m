@@ -221,6 +221,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return contentView;
 }
 
+- (void)setShelfOnRight:(BOOL)inRight
+{
+	shelfOnRight = inRight;
+}
+
+- (BOOL)shelfOnRight
+{
+	return shelfOnRight;
+}
+
 -(void)setShelfWidthNoConstraints:(CGFloat)aWidth
 {
 	currentShelfWidth = aWidth;
@@ -272,35 +282,64 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return autosaveName;
 }
 
--(void)recalculateSizes{	
-	if( isShelfVisible ){
-		controlRect = NSMakeRect( 0, 0, currentShelfWidth, CONTROL_HEIGHT );
+-(void)recalculateSizes
+{
+	CGFloat leftShelfX = shelfOnRight ? NSWidth(self.bounds) - currentShelfWidth : 0;
+	
+	if (isShelfVisible) {
+		controlRect = NSMakeRect(leftShelfX, 0, currentShelfWidth, CONTROL_HEIGHT);
+
+		// Resize control
+		if (shelfOnRight) {
+			resizeThumbRect = NSMakeRect(leftShelfX, 0, THUMB_WIDTH, CONTROL_HEIGHT);
+		} else {
+			resizeThumbRect = NSMakeRect(leftShelfX + currentShelfWidth - THUMB_WIDTH, 0, THUMB_WIDTH, CONTROL_HEIGHT);
+		}
 		
-		resizeThumbRect = NSMakeRect( (controlRect.size.width - THUMB_WIDTH), 0, THUMB_WIDTH, CONTROL_HEIGHT );
-		resizeBarRect = NSMakeRect( currentShelfWidth - (RESIZE_BAR_EFFECTIVE_WIDTH / 2), 0, RESIZE_BAR_EFFECTIVE_WIDTH, [self frame].size.height );
+		// Resize bar
+		if (shelfOnRight) {
+			resizeBarRect = NSMakeRect(leftShelfX - RESIZE_BAR_EFFECTIVE_WIDTH/2.0, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
+		} else {
+			resizeBarRect = NSMakeRect(leftShelfX + currentShelfWidth - RESIZE_BAR_EFFECTIVE_WIDTH/2.0, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
+		}
+		
+		// Action button
+		if (target && action && controlRect.size.width) {
+			shouldDrawActionButton = YES;
+			if (shelfOnRight) {
+				actionButtonRect = NSMakeRect(leftShelfX + THUMB_WIDTH, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			} else {
+				actionButtonRect = NSMakeRect(leftShelfX, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			}
+		}
 		
 		CGFloat availableSpace = controlRect.size.width - THUMB_WIDTH;
 		
-		if( target && action && (availableSpace > BUTTON_WIDTH) ){
-			shouldDrawActionButton = YES;
-			actionButtonRect = NSMakeRect( 0, 0, BUTTON_WIDTH, CONTROL_HEIGHT );
-			availableSpace -= BUTTON_WIDTH;
-		}
-		
-		if( contextButtonMenu && [contextButtonMenu numberOfItems] && (availableSpace > BUTTON_WIDTH) ){
+		// Context button
+		if (contextButtonMenu && contextButtonMenu.numberOfItems && availableSpace > BUTTON_WIDTH) {
 			shouldDrawContextButton = YES;
-			contextButtonRect = NSMakeRect(controlRect.size.width - (THUMB_WIDTH + availableSpace), 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			contextButtonRect = NSMakeRect(leftShelfX + controlRect.size.width - (THUMB_WIDTH + availableSpace), 0, BUTTON_WIDTH, CONTROL_HEIGHT);
 		}
 	}
 	
-	if( shelfView ){
-		[shelfView setFrame: NSMakeRect( 0, CONTROL_HEIGHT + 1, currentShelfWidth, [self bounds].size.height - (CONTROL_HEIGHT + 1) )];
+	if (shelfView) {
+		[shelfView setFrame:NSMakeRect(leftShelfX, CONTROL_HEIGHT + 1, currentShelfWidth, self.bounds.size.height - (CONTROL_HEIGHT + 1))];
 	}
-	
-	if( contentView ){
-		CGFloat contentViewX = (isShelfVisible ? (currentShelfWidth + 1) : 0);
-		NSRect newRect = NSMakeRect(contentViewX, 0, NSWidth([self bounds]) - contentViewX, NSHeight([self bounds]));
-		if (!NSEqualRects(newRect, [contentView frame])){
+
+	if(contentView) {
+		CGFloat leftContentX, width;
+		
+		if (isShelfVisible) {
+			leftContentX = shelfOnRight ? 0 : currentShelfWidth + 1;
+			width = NSWidth(self.bounds) - currentShelfWidth - 1;
+		} else {
+			leftContentX = 0;
+			width = NSWidth(self.bounds);
+		}
+
+		NSRect newRect = NSMakeRect(leftContentX, 0, width, NSHeight(self.bounds));
+		
+		if (!NSEqualRects(newRect, contentView.frame)){
 			[contentView setFrame:newRect];
 		}
 	}
@@ -447,7 +486,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			switch( [anEvent type] ){
 				case NSLeftMouseDragged:
 					if( (activeControlPart == CONTROL_PART_RESIZE_THUMB) || (activeControlPart == CONTROL_PART_RESIZE_BAR) ){
-						[self setShelfWidth: currentLocation.x];
+						[self setShelfWidth:(shelfOnRight ? self.bounds.size.width - currentLocation.x : currentLocation.x)];
 					}else{
 						[self setNeedsDisplayInRect: controlRect];
 					}
@@ -480,96 +519,94 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 - (void)drawRect:(NSRect)rect {
 #pragma unused( rect )
 	
-		if( isShelfVisible ){
-		//NSLog(@"Drawing Control( %f, %f) (%f, %f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+	if(isShelfVisible) {
+		CGFloat leftShelfX = shelfOnRight ? NSWidth(self.bounds) - currentShelfWidth : 0;
 		
-		CGFloat remainderStart = 0.0;
-		
+		[self drawControlBackgroundInRect:NSMakeRect(leftShelfX, 0, controlRect.size.width, controlRect.size.height)
+								   active:NO];
+
 		// action button
-		if( shouldDrawActionButton  == YES){
-			[self drawControlBackgroundInRect: actionButtonRect
-				active: (activeControlPart == CONTROL_PART_ACTION_BUTTON) && shouldHilite
-			];
-			[[NSColor windowFrameColor] set];
-		//	NSRectFill( NSMakeRect( (actionButtonRect.origin.x + actionButtonRect.size.width) - 1, 0, 1, controlRect.size.height ) );
-			remainderStart += actionButtonRect.size.width;
+		if(shouldDrawActionButton) {
+			[self drawControlBackgroundInRect:actionButtonRect
+									   active:(activeControlPart == CONTROL_PART_ACTION_BUTTON) && shouldHilite];
 			
-			if( actionButtonImage ){
-				
+			[[NSColor windowFrameColor] set];
+
+			if(actionButtonImage) {				
 				NSRect			targetRect = NSMakeRect(actionButtonRect.origin.x,
 														actionButtonRect.origin.y,
 														[actionButtonImage size].width, 
-														[actionButtonImage size].height
-											);
+														[actionButtonImage size].height);
 				
 				if( targetRect.size.width > actionButtonRect.size.width ){
 					targetRect.size.width = actionButtonRect.size.width;
 				}
+				
 				if( targetRect.size.width < actionButtonRect.size.width ){
 					targetRect.origin.x += (actionButtonRect.size.width - targetRect.size.width) / 2.0;
 				}
+				
 				if( targetRect.size.height > actionButtonRect.size.height ){
 					targetRect.size.height = actionButtonRect.size.height;
 				}
+				
 				if( targetRect.size.height < actionButtonRect.size.height ){
 					targetRect.origin.y += (actionButtonRect.size.height - targetRect.size.height) / 2.0;
 				}
 				
 				[actionButtonImage compositeToPoint:NSMakePoint(actionButtonRect.origin.x,
-														actionButtonRect.origin.y) operation:NSCompositeDestinationAtop];
-
-	
+																actionButtonRect.origin.y) operation:NSCompositeDestinationAtop];
 			}
 		}
 		
 		// context button
-		
-		if( shouldDrawContextButton ){
-			[self drawControlBackgroundInRect: contextButtonRect
-				active: (activeControlPart == CONTROL_PART_CONTEXT_BUTTON ) && shouldHilite
-			];
-			[[NSColor windowFrameColor] set];
-			NSRectFill( NSMakeRect( (contextButtonRect.origin.x + contextButtonRect.size.width) - 1, 0, 1, controlRect.size.height ) );
-			remainderStart += contextButtonRect.size.width;
+		if (shouldDrawContextButton) {
+			[self drawControlBackgroundInRect:contextButtonRect
+									   active:(activeControlPart == CONTROL_PART_CONTEXT_BUTTON ) && shouldHilite];
 			
-			if( contextButtonImage ){
-		
+			[[NSColor windowFrameColor] set];
+			
+			NSRectFill( NSMakeRect( (contextButtonRect.origin.x + contextButtonRect.size.width) - 1, 0, 1, controlRect.size.height ) );
+			
+			if(contextButtonImage) {		
 				NSRect			targetRect = NSMakeRect(contextButtonRect.origin.x,
 														contextButtonRect.origin.y,
 														[contextButtonImage size].width, 
-														[contextButtonImage size].height
-											);
+														[contextButtonImage size].height);
 				
 				if( targetRect.size.width > contextButtonRect.size.width ){
 					targetRect.size.width = contextButtonRect.size.width;
 				}
+				
 				if( targetRect.size.width < contextButtonRect.size.width ){
 					targetRect.origin.x += (contextButtonRect.size.width - targetRect.size.width) / 2.0;
 				}
+				
 				if( targetRect.size.height > contextButtonRect.size.height ){
 					targetRect.size.height = contextButtonRect.size.height;
 				}
+				
 				if( targetRect.size.height < contextButtonRect.size.height ){
 					targetRect.origin.y += (contextButtonRect.size.height - targetRect.size.height) / 2.0;
 				}
-				[contextButtonImage drawInRect: targetRect
-					fromRect: NSMakeRect( 0, 0, [contextButtonImage size].width, [contextButtonImage size].height )
-					operation: NSCompositeSourceOver
-					fraction: 1.0f
-				]; 
+				
+				[contextButtonImage drawInRect:targetRect
+									  fromRect:NSMakeRect( 0, 0, [contextButtonImage size].width, [contextButtonImage size].height )
+									 operation:NSCompositeSourceOver
+									  fraction:1.0f];
 			}
 		}
-		
-		//remainder and thumb
-		[self drawControlBackgroundInRect:NSMakeRect( remainderStart, 0, (controlRect.size.width - remainderStart), controlRect.size.height )
-								   active:NO];
 
 		[[NSColor windowFrameColor] set];
-		NSRectFill( NSMakeRect( 0, CONTROL_HEIGHT, currentShelfWidth, 1 ) );
+		NSRectFill( NSMakeRect( leftShelfX, CONTROL_HEIGHT, currentShelfWidth, 1 ) );
 		
 		// Draw our split line
 		[[NSColor windowFrameColor] set];
-		NSRectFill( NSMakeRect( currentShelfWidth, 0, 1, [self frame].size.height ) );
+		if (shelfOnRight) {
+			NSRectFill( NSMakeRect( leftShelfX - 1, 0, 1, [self frame].size.height ) );
+		} else {
+			NSRectFill( NSMakeRect( leftShelfX + currentShelfWidth, 0, 1, [self frame].size.height ) );
+		}
 		
 		// Draw our thumb lines
 		[[NSColor disabledControlTextColor] set];
@@ -587,12 +624,18 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		if( shelfBackgroundColor ){
 			[shelfBackgroundColor set];
-			NSRectFill( NSMakeRect( 0, CONTROL_HEIGHT+1, currentShelfWidth, [self frame].size.height ) );
+			NSRectFill( NSMakeRect( leftShelfX, CONTROL_HEIGHT+1, currentShelfWidth, [self frame].size.height ) );
 		}
 		
 		//Draw the string
 		if (attributedStringValue && !shouldDrawContextButton && !shouldDrawActionButton) {
-			NSRect	textRect = NSMakeRect(6, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 8, stringHeight);
+			NSRect textRect;
+			
+			if (shelfOnRight) {
+				textRect = NSMakeRect(leftShelfX + resizeThumbRect.size.width, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 2, stringHeight);
+			} else {
+				textRect = NSMakeRect(leftShelfX + 6, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 8, stringHeight);
+			}
 			
 			[attributedStringValue drawInRect:textRect];
 		} 
