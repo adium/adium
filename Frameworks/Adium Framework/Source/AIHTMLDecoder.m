@@ -81,6 +81,12 @@ static NSString			*horizontalRule = nil;
 	}	
 }
 
+- (void) dealloc {
+	[XMLNamespace release]; XMLNamespace = nil;
+	[baseURL release]; baseURL = nil;
+	[super dealloc];
+}
+
 + (AIHTMLDecoder *)decoder
 {
 	return [[[self alloc] init] autorelease];
