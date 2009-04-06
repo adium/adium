@@ -236,9 +236,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	NSArray			*xtras;
 	
 	if (!(xtras = [xtrasDict objectForKey:@"Xtras"])) {
-		xtras = [self arrayOfXtrasAtPaths:AISearchPathForDirectoriesInDomains([[xtrasDict objectForKey:@"Directory"] integerValue],
-																			  AIAllDomainsMask & ~AIInternalDomainMask,
-																			  YES)];
+		xtras = [self arrayOfXtrasAtPaths:AISearchPathForDirectories([[xtrasDict objectForKey:@"Directory"] integerValue])];
 		NSMutableDictionary *newDictionary = [xtrasDict mutableCopy];
 		[newDictionary setObject:xtras forKey:@"Xtras"];
 		[categories replaceObjectAtIndex:inIndex

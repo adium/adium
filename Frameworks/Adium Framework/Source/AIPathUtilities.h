@@ -33,4 +33,5 @@ enum {
 	AIAllDomainsMask = NSAllDomainsMask | AIInternalDomainMask,
 };
 
-NSArray *AISearchPathForDirectoriesInDomains(unsigned directory, unsigned domainMask, BOOL expandTilde);
+NSArray *AISearchPathForDirectories(NSUInteger directory);
+NSArray *AISearchPathForDirectoriesInDomainsExpanding(NSUInteger directory, NSUInteger domainMask, BOOL expandTilde);

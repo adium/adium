@@ -36,6 +36,12 @@
 #define STATUS_ICONS_DIRECTORY		@"Status Icons"
 #define MENU_BAR_ICONS_DIRECTORY	@"Menu Bar Icons"
 
+
+NSArray *AISearchPathForDirectories(NSUInteger directory)
+{
+	return AISearchPathForDirectoriesInDomainsExpanding(directory, AIAllDomainsMask & ~AIInternalDomainMask, YES);
+}
+
 /*!
  * @brief Function to search for Adium resources
  *
@@ -47,8 +53,7 @@
  * @param expandTilde If true, expand the ~ in home directory paths.
  * @result NSArray of search paths, like NSSearchPathForDirectoriesInDomains.
  */
-NSArray *
-AISearchPathForDirectoriesInDomains(unsigned directory, unsigned domainMask, BOOL expandTilde)
+NSArray *AISearchPathForDirectoriesInDomainsExpanding(NSUInteger directory, NSUInteger domainMask, BOOL expandTilde)
 {
 	NSMutableArray *dirs = [[NSMutableArray alloc] init];
 	NSString *adiumResourceName = nil;
