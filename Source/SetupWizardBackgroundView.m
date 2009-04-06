@@ -30,6 +30,10 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (void) dealloc {
+	[backgroundImage release]; backgroundImage = nil;
+}
+
 - (void)setTransparentRect:(NSRect)inTransparentRect
 {
 	transparentRect = inTransparentRect;
