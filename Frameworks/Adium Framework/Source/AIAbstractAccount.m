@@ -1226,7 +1226,7 @@
  *
  * Called for each contact to reduce our memory footprint after a contact signs off or an account disconnects.
  */
-- (void)removePropetyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent
+- (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent
 {
 	NSEnumerator	*enumerator = [[self contactProperties] objectEnumerator];
 	NSString		*key;
@@ -1255,7 +1255,7 @@
 	for (AIListContact *listContact in myContacts) {
 		for (NSString *groupName in listContact.remoteGroupNames)
 			[listContact removeRemoteGroupName:groupName];
-		[self removePropetyValuesFromContact:listContact silently:YES];
+		[self removePropertyValuesFromContact:listContact silently:YES];
 	}
 
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
