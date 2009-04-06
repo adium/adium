@@ -294,7 +294,7 @@ static RAOperationQueue *writerQueue;
 		writerQueue = [[RAOperationQueue alloc] init];
 		//[writerQueue setMaxConcurrentOperationCount:1];
 	}
-	AIAppendXMLOperation *op = [[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self];
+	AIAppendXMLOperation *op = [[[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self] autorelease];
 	[writerQueue addOperation:op];
 }
 
