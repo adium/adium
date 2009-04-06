@@ -230,8 +230,6 @@
 
 - (void)saveUserListMinimumSize
 {
-	NSLog(@"saving width %d", userListMinWidth);
-	
 	[adium.preferenceController setPreference:[NSNumber numberWithInteger:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
