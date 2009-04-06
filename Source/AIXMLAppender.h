@@ -38,7 +38,6 @@
 	NSString				*path;
 
 	AIXMLElement			*rootElement;
-	AIAppendXMLOperation	*lastOp;
 	
 	BOOL					initialized;
 }
