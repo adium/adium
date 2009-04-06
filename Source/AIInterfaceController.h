@@ -74,6 +74,7 @@
 	BOOL						saveContainers;
 	
 	NSMenuItem					*menuItem_toggleUserlist;
+	NSMenuItem					*menuItem_toggleUserlistSide;
 
 	IBOutlet NSView				*fontPanelAccessoryView;
 	IBOutlet NSButton			*button_fontPanelSetAsDefault;

@@ -525,6 +525,12 @@ typedef enum {
  * @brief Is the user list visible for a group chat?
  */
 - (BOOL)userListVisible;
+
+/*!
+ * @brief Swap the side the user list is on for a group chat.
+ * Does nothing if not in a group chat.
+ */
+- (void)toggleUserListSide;
 @end
 
 /*!

@@ -68,6 +68,7 @@
 #define	KEY_ENTRY_TEXTVIEW_MIN_HEIGHT		@"Minimum Text Height"	//Preference key for text entry height
 #define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Width"		//Preference key for user list width
 #define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:" //Preference key prefix for user list visibility
+#define KEY_USER_LIST_ON_RIGHT				@"UserList On Right"	// Preference key for user list being on the right
 
 #define TEXTVIEW_HEIGHT_DEBUG
 
@@ -777,12 +778,21 @@
 		[textView_outgoing setSendOnReturn:[[prefDict objectForKey:SEND_ON_RETURN] boolValue]];
 		[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
 	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
-		NSInteger oldWidth = userListMinWidth;
 		
-		userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] integerValue];
+		if (firstTime || [key isEqualToString:KEY_ENTRY_USER_LIST_MIN_WIDTH]) {
+			NSInteger oldWidth = userListMinWidth;
+			
+			userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] integerValue];
+			
+			if (oldWidth != userListMinWidth) {
+				[shelfView setShelfWidth:userListMinWidth];
+			}
+		}
 		
-		if (oldWidth != userListMinWidth) {
-			[shelfView setShelfWidth:userListMinWidth];
+		if (firstTime || [key isEqualToString:KEY_USER_LIST_ON_RIGHT]) {
+			userListOnRight = [[prefDict objectForKey:KEY_USER_LIST_ON_RIGHT] boolValue];
+
+			[shelfView setShelfOnRight:userListOnRight];
 		}
 	}
 }
@@ -1074,6 +1084,18 @@
 		[self setUserListVisible:![self userListVisible]];
 }
 
+- (void)toggleUserListSide
+{
+	if(chat.isGroupChat) {
+		userListOnRight = !userListOnRight;
+		
+		// We'll update the actual side when this preference change is told to us.
+		[adium.preferenceController setPreference:[NSNumber numberWithInteger:userListOnRight]
+										   forKey:KEY_USER_LIST_ON_RIGHT
+											group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+	}
+}
+
 /*!
  * @brief Show the user list
  */
@@ -1081,7 +1103,6 @@
 {	
 	[self setupShelfView];
 	
-	[shelfView setShelfOnRight:YES];
 	[shelfView setDrawShelfLine:NO];
 
 	//Configure the user list

@@ -173,6 +173,13 @@
 	[menuItem_toggleUserlist setKeyEquivalentModifierMask:(NSCommandKeyMask | NSAlternateKeyMask)];
 	
 	[adium.menuController addMenuItem:menuItem_toggleUserlist toLocation:LOC_Display_General];
+	
+	menuItem_toggleUserlistSide = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List Side", nil)
+																				   target:self
+																				   action:@selector(toggleUserlistSide:)
+																			keyEquivalent:@""];
+	
+	[adium.menuController addMenuItem:menuItem_toggleUserlistSide toLocation:LOC_Display_General];
 
 	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																				target:self
@@ -1880,7 +1887,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 									  AILocalizedString(@"Hide Fonts",nil) :
 									  AILocalizedString(@"Show Fonts",nil))];
 		return YES;
-	} else if (menuItem == menuItem_toggleUserlist) {
+	} else if (menuItem == menuItem_toggleUserlist || menuItem == menuItem_toggleUserlistSide) {
 			return self.activeChat.isGroupChat;
 	} else {
 		return YES;
@@ -1928,12 +1935,11 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 -(void)toggleUserlist:(id)sender
 {
 	[[[[self activeChat] chatContainer] chatViewController] toggleUserList]; 
-}	
-
--(void)toggleUserlistContext:(id)sender
-{
-	[adium.menuController.currentContextMenuChat.chatContainer.chatViewController toggleUserList]; 	
 }
 
+-(void)toggleUserlistSide:(id)sender
+{
+	[[[[self activeChat] chatContainer] chatViewController] toggleUserListSide]; 
+}
 
 @end
