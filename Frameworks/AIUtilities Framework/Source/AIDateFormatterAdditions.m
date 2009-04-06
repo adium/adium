@@ -82,7 +82,7 @@ typedef enum {
 	
 	[formatter release];
 	
-    return formatString;
+	return [formatString autorelease];
 }
 
 
