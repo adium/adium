@@ -96,6 +96,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		actionButtonImage = nil;
 		contextButtonImage = nil;
 		
+		drawLine = YES;
+		
 		background = [[NSImage imageNamed:@"sourceListBackground" forClass:[self class]] retain];
 		backgroundSize = [background size];
 
@@ -221,6 +223,16 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return contentView;
 }
 
+-(void)setDrawShelfLine:(BOOL)inDraw
+{
+	drawLine = inDraw;
+}
+
+-(BOOL)drawShelfLine
+{
+	return drawLine;
+}
+
 - (void)setShelfOnRight:(BOOL)inRight
 {
 	shelfOnRight = inRight;
@@ -330,8 +342,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		CGFloat leftContentX, width;
 		
 		if (isShelfVisible) {
-			leftContentX = shelfOnRight ? 0 : currentShelfWidth + 1;
-			width = NSWidth(self.bounds) - currentShelfWidth - 1;
+			leftContentX = shelfOnRight ? 0 : currentShelfWidth + (self.drawShelfLine ? 1 : 0);
+			width = NSWidth(self.bounds) - currentShelfWidth - (self.drawShelfLine ? 1 : 0);
 		} else {
 			leftContentX = 0;
 			width = NSWidth(self.bounds);
@@ -601,11 +613,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		NSRectFill( NSMakeRect( leftShelfX, CONTROL_HEIGHT, currentShelfWidth, 1 ) );
 		
 		// Draw our split line
-		[[NSColor windowFrameColor] set];
-		if (shelfOnRight) {
-			NSRectFill( NSMakeRect( leftShelfX - 1, 0, 1, [self frame].size.height ) );
-		} else {
-			NSRectFill( NSMakeRect( leftShelfX + currentShelfWidth, 0, 1, [self frame].size.height ) );
+		if (self.drawShelfLine) {
+			[[NSColor windowFrameColor] set];
+			if (shelfOnRight) {
+				NSRectFill( NSMakeRect( leftShelfX - 1, 0, 1, [self frame].size.height ) );
+			} else {
+				NSRectFill( NSMakeRect( leftShelfX + currentShelfWidth, 0, 1, [self frame].size.height ) );
+			}
 		}
 		
 		// Draw our thumb lines

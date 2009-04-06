@@ -1069,6 +1069,9 @@
 - (void)_showUserListView
 {	
 	[self setupShelfView];
+	
+	[shelfView setShelfOnRight:YES];
+	[shelfView setDrawShelfLine:NO];
 
 	//Configure the user list
 	[self _configureUserList];
@@ -1278,7 +1281,6 @@
  -(void)setupShelfView
 {
 	[shelfView setShelfWidth:200];
-	[shelfView setShelfOnRight:YES];
 	
 	AILogWithSignature(@"ShelfView %@ (content view is %@) --> superview %@, in window %@; frame %@; content view %@ shelf view %@ in window %@",
 					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),
