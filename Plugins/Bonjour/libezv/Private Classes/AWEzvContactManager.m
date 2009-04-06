@@ -51,7 +51,7 @@
     AWEzvContact *contact = [contacts objectForKey:uniqueID];
     /* try a case insensitive search if not found */
     if (!contact) {
-		for (contact in contacts) {
+		for (contact in [contacts allValues]) {
 			if ([contact.uniqueID caseInsensitiveCompare:uniqueID] == NSOrderedSame)
 				break;
 		}
@@ -60,7 +60,7 @@
 }
 
 - (void)closeConnections {
-	for (AWEzvContact *contact in contacts) {
+	for (AWEzvContact *contact in [contacts allValues]) {
 		if (contact.stream)
 			[contact.stream endConnection];
 	}
