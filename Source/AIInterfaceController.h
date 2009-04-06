@@ -75,6 +75,7 @@
 	
 	NSMenuItem					*menuItem_toggleUserlist;
 	NSMenuItem					*menuItem_toggleUserlistSide;
+	NSMenuItem					*menuItem_clearDisplay;
 
 	IBOutlet NSView				*fontPanelAccessoryView;
 	IBOutlet NSButton			*button_fontPanelSetAsDefault;

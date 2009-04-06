@@ -60,7 +60,7 @@
 					 menu_File_New, menu_File_Close, menu_File_Save, menu_File_Accounts, menu_File_Additions,	
 					 menu_Edit_Bottom, menu_Edit_Links, menu_Edit_Additions,
 					 menu_View_General, menu_View_Sorting, menu_View_Toggles, menu_View_Counting_Toggles, menu_View_Appearance_Toggles, menu_View_Additions, 
-					 menu_Display_General, menu_Display_Jump,
+					 menu_Display_General, menu_Display_Jump, menu_Display_MessageControl,
 					 menu_Contact_Manage, menu_Contact_Info, menu_Contact_Action, menu_Contact_NegativeAction, menu_Contact_Additions,
 					 menu_Status_State, menu_Status_SocialNetworking, menu_Status_Accounts, menu_Status_Additions,
 					 menu_Format_Styles, menu_Format_Palettes, menu_Format_Additions,

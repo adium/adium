@@ -187,6 +187,13 @@
 																		 keyEquivalent:@""] autorelease];
 	
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_GroupChat_Action];
+	
+	// Clear display
+	menuItem_clearDisplay = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Clear Display", nil)
+																				 target:self
+																				 action:@selector(clearDisplay:)
+																		  keyEquivalent:@""];
+	[adium.menuController addMenuItem:menuItem_clearDisplay toLocation:LOC_Display_MessageControl];
 																			  
 	//Contact list menu item
 	menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Contact List","Name of the window which lists contacts")
@@ -1869,7 +1876,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 							  ([[keyWindow windowController] respondsToSelector:@selector(windowPermitsClose)] &&
 							   [[keyWindow windowController] windowPermitsClose])));
 		
-	} else if (menuItem == menuItem_closeChat) {
+	} else if (menuItem == menuItem_closeChat || menuItem == menuItem_clearDisplay) {
 		return activeChat != nil;
 		
 	} else if( menuItem == menuItem_closeAllChats) {
@@ -1934,12 +1941,17 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 
 -(void)toggleUserlist:(id)sender
 {
-	[[[[self activeChat] chatContainer] chatViewController] toggleUserList]; 
+	[self.activeChat.chatContainer.chatViewController toggleUserList];
 }
 
 -(void)toggleUserlistSide:(id)sender
 {
-	[[[[self activeChat] chatContainer] chatViewController] toggleUserListSide]; 
+	[self.activeChat.chatContainer.chatViewController toggleUserListSide];
+}
+
+-(void)clearDisplay:(id)sender
+{
+	[self.activeChat.chatContainer.messageViewController.messageDisplayController clearView];
 }
 
 @end

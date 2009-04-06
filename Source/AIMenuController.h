@@ -43,6 +43,7 @@
     IBOutlet	id		menu_View_Additions;
 	IBOutlet	id		menu_Display_General;
 	IBOutlet	id		menu_Display_Jump;
+	IBOutlet	id		menu_Display_MessageControl;
 	IBOutlet	id		menu_Status_State;
 	IBOutlet	id		menu_Status_SocialNetworking;
     IBOutlet	id		menu_Status_Accounts;

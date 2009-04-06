@@ -62,7 +62,7 @@ typedef enum {
 @protocol AIInterfaceComponent, AIContactListComponent, AIMessageDisplayController, AIMessageDisplayPlugin;
 @protocol AIContactListTooltipEntry, AIFlashObserver;
 
-@class AIListWindowController, AIMessageWindowController;
+@class AIListWindowController, AIMessageWindowController, AIMessageViewController;
 
 @class AIChat, AIListObject, AIListGroup, AIContactList;
 
@@ -547,6 +547,11 @@ typedef enum {
  * @brief Get the view controller for this AIChatContainer
  */
 @property (readonly, nonatomic) id <AIChatViewController> chatViewController;
+
+/*!
+ * @brief Get the message view controller for this AIChatContainer
+ */
+@property (readonly, nonatomic) AIMessageViewController *messageViewController;
 @end
 
 @protocol AIContactListComponent <NSObject>

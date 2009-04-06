@@ -79,7 +79,7 @@
 
 - (NSObject<AIMessageDisplayController> *)currentController
 {
-	return ((AIMessageTabViewItem *)adium.interfaceController.activeChat.chatContainer).messageViewController.messageDisplayController;	
+	return adium.interfaceController.activeChat.chatContainer.messageViewController.messageDisplayController;
 }
 
 - (void)jumpToPrevious
