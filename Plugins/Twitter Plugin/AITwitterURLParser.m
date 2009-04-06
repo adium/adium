@@ -33,12 +33,10 @@
 	
 	[scanner setCharactersToBeSkipped:nil];
 	
-	NSString *trash;
-	
 	[newString beginEditing];
 	
 	while(!scanner.isAtEnd) {
-		[scanner scanUpToString:prefixCharacter intoString:&trash];
+		[scanner scanUpToString:prefixCharacter intoString:NULL];
 		
 		if(scanner.isAtEnd) {
 			break;

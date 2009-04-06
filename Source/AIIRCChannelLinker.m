@@ -88,7 +88,7 @@
 	[newString beginEditing];
 	
 	while(!scanner.isAtEnd) {
-		[scanner scanUpToCharactersFromSet:channelStart intoString:nil];
+		[scanner scanUpToCharactersFromSet:channelStart intoString:NULL];
 		
 		if(scanner.isAtEnd) {
 			break;
