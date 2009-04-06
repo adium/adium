@@ -41,8 +41,7 @@
 /*****
  IMPORTANT NOTE if we ever switch back to NSOperationQueue:
  
- The invariant that no two operations from the same AIXMLAppender are executing concurrently is extremely important. NSOperation's dependency mechanism should prevent this.
- 
+ The invariant that no two operations from the same AIXMLAppender are executing concurrently is extremely important. The writer queue should never allow more than one operation at a time 
  *****/
 
 #import "AIXMLAppender.h"
@@ -80,7 +79,6 @@ enum {
 }
 - (AIAppendXMLOperation *)initWithData:(NSData *)d 
 						seekBackLength:(NSInteger)s 
-						 lastOperation:(AIAppendXMLOperation *)o 
 							  appender:(AIXMLAppender *)a;
 
 - (void) prepareFileHandle;
@@ -89,7 +87,6 @@ enum {
 @implementation AIAppendXMLOperation
 - (AIAppendXMLOperation *)initWithData:(NSData *)d 
 						seekBackLength:(NSInteger)s 
-						 lastOperation:(AIAppendXMLOperation *)o 
 							  appender:(AIXMLAppender *)a
 {
 	if ((self = [super init]))
@@ -97,8 +94,6 @@ enum {
 		data = [d retain];
 		seekBackLength = s;
 		appender = [a retain];
-	//	if (o && ![o isFinished])
-	//		[self addDependency:o];
 	}
 	
 	return self;
@@ -299,12 +294,8 @@ static RAOperationQueue *writerQueue;
 		writerQueue = [[RAOperationQueue alloc] init];
 		//[writerQueue setMaxConcurrentOperationCount:1];
 	}
-	[lastOp autorelease];
-	lastOp = [[AIAppendXMLOperation alloc] initWithData:data
-										 seekBackLength:seekBackLength
-										  lastOperation:lastOp
-											   appender:self];
-	[writerQueue addOperation:lastOp];
+	AIAppendXMLOperation *op = [[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self];
+	[writerQueue addOperation:op];
 }
 
 /*!
