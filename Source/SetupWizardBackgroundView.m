@@ -32,6 +32,7 @@
 
 - (void) dealloc {
 	[backgroundImage release]; backgroundImage = nil;
+	[super dealloc];
 }
 
 - (void)setTransparentRect:(NSRect)inTransparentRect
