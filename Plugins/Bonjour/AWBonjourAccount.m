@@ -161,12 +161,8 @@
  * Sent on the libezv thread
  */
 - (void)userChangedState:(AWEzvContact *)contact
-{
-	AIListContact   *listContact;
-	NSString        *contactName, *statusMessage;
-	NSDate          *idleSinceDate;
-	
-	listContact = [adium.contactController contactWithService:service
+{	
+	AIListContact *listContact = [adium.contactController contactWithService:service
 				   account:self
 				   UID:[self UIDForContact:contact]];  
 	if ([contact status] == AWEzvUndefined) {
@@ -188,17 +184,17 @@
 	                    statusType:(([contact status] == AWEzvAway) ? AIAwayStatusType : AIAvailableStatusType)
 	                        notify:NotifyLater];
 	
-	statusMessage = contact.statusMessage;
+	NSString *statusMessage = contact.statusMessage;
 	[listContact setStatusMessage:(statusMessage ? [[[NSAttributedString alloc] initWithString:statusMessage] autorelease] : nil)
 	                       notify:NotifyLater];
 	
-	idleSinceDate = [contact idleSinceDate];
+	NSDate *idleSinceDate = [contact idleSinceDate];
 	[listContact setIdle:(idleSinceDate != nil)
 	           sinceDate:idleSinceDate
 	              notify:NotifyLater];
 	
 	//Use the contact alias as the serverside display name
-	contactName = contact.name;
+	NSString *contactName = contact.name;
 	
 	if (![[listContact valueForProperty:@"Server Display Name"] isEqualToString:contactName]) {
 		[listContact setServersideAlias:contactName
