@@ -85,7 +85,7 @@
 - (void)_hideUserListView;
 - (void)_configureUserList;
 - (void)_updateUserListViewWidth;
-- (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum;
+- (NSInteger)_userListViewProperWidth;
 - (void)updateFramesForAccountSelectionView;
 - (void)saveUserListMinimumSize;
 - (BOOL)userListInitiallyVisible;
@@ -151,6 +151,7 @@
 
 		//Observe general preferences for sending keys
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_GENERAL];
+		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 
 		/* Update chat status and participating list objects to configure the user list if necessary
 		 * Call chatParticipatingListObjectsChanged first, which will set up the user list. This allows other sizing to match.
@@ -229,6 +230,8 @@
 
 - (void)saveUserListMinimumSize
 {
+	NSLog(@"saving width %d", userListMinWidth);
+	
 	[adium.preferenceController setPreference:[NSNumber numberWithInteger:userListMinWidth]
 										 forKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
@@ -772,8 +775,18 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
 					preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	[textView_outgoing setSendOnReturn:[[prefDict objectForKey:SEND_ON_RETURN] boolValue]];
-	[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
+	if ([group isEqualToString:PREF_GROUP_GENERAL]) {
+		[textView_outgoing setSendOnReturn:[[prefDict objectForKey:SEND_ON_RETURN] boolValue]];
+		[textView_outgoing setSendOnEnter:[[prefDict objectForKey:SEND_ON_ENTER] boolValue]];
+	} else if ([group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
+		NSInteger oldWidth = userListMinWidth;
+		
+		userListMinWidth = [[prefDict objectForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH] integerValue];
+		
+		if (oldWidth != userListMinWidth) {
+			[shelfView setShelfWidth:userListMinWidth];
+		}
+	}
 }
 
 /*!
@@ -1128,12 +1141,6 @@
 		[userListController setContactListRoot:chat];
 		[userListController updateLayoutFromPrefDict:layoutDict andThemeFromPrefDict:themeDict];
 		[userListController setHideRoot:YES];
-
-		//User's choice of mininum width for their user list view
-		userListMinWidth = [[adium.preferenceController preferenceForKey:KEY_ENTRY_USER_LIST_MIN_WIDTH
-																	 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] integerValue];
-		if (userListMinWidth < USER_LIST_MIN_WIDTH) userListMinWidth = USER_LIST_DEFAULT_WIDTH;
-		[shelfView setShelfWidth:[userListView bounds].size.width];
 	}
 }
 
@@ -1206,7 +1213,7 @@
  */
 - (void)_updateUserListViewWidth
 {
-	NSInteger		width = [self _userListViewProperWidthIgnoringUserMininum:NO];
+	NSInteger		width = [self _userListViewProperWidth];
 	NSInteger		widthWithDivider = 1 + width;	//resize bar effective width  
 	NSRect	tempFrame;
 
@@ -1233,20 +1240,31 @@
  *
  * This method takes into account user preference and the current window size to return a width which is most
  * ideal for the user list view.
- *
- * @param ignoreUserMininum If YES, the user's preference for mininum width will be ignored
  */
-- (NSInteger)_userListViewProperWidthIgnoringUserMininum:(BOOL)ignoreUserMininum
+- (NSInteger)_userListViewProperWidth
 {
-	NSInteger dividerThickness = 1; //[shelfView dividerThickness];
+	NSInteger dividerThickness = 1;
 	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0) - dividerThickness;
-	NSInteger	width = USER_LIST_MIN_WIDTH;
+	NSInteger width = USER_LIST_MIN_WIDTH;
 	
 	//We must never fall below the user's prefered mininum or above the allowed width
-	if (!ignoreUserMininum && width < userListMinWidth) width = userListMinWidth;
+	if (width < userListMinWidth) width = userListMinWidth;
 	if (width > allowedWidth) width = allowedWidth;
 
 	return width;
+}
+
+-(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth
+{
+	userListMinWidth = proposedWidth;
+	
+	if (proposedWidth < USER_LIST_MIN_WIDTH) {
+		userListMinWidth = USER_LIST_MIN_WIDTH;
+	}
+	
+	[self saveUserListMinimumSize];
+	
+	return userListMinWidth;
 }
 
 //Split Views --------------------------------------------------------------------------------------------------
@@ -1269,7 +1287,7 @@
 	}
 }
 
-- (void)splitViewDidHaveResizeDoubleClick:(RBSplitView *)sender
+- (void)splitViewDidHaveResizeDoubleClick:(KNShelfSplitView *)sender
 {
 	[self toggleUserList];
 }
@@ -1280,7 +1298,7 @@
  */
  -(void)setupShelfView
 {
-	[shelfView setShelfWidth:200];
+	[shelfView setShelfWidth:userListMinWidth];
 	
 	AILogWithSignature(@"ShelfView %@ (content view is %@) --> superview %@, in window %@; frame %@; content view %@ shelf view %@ in window %@",
 					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),

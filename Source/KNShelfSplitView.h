@@ -124,4 +124,5 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 @interface NSObject (KNShelfSplitViewDelegate)
 -(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth;
+-(void)splitViewDidHaveResizeDoubleClick:(KNShelfSplitView *)shelfSplitView;
 @end
