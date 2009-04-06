@@ -22,8 +22,20 @@
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#import <Adium/IconFamily.h>
-#import <Adium/NSString+CarbonFSRefCreation.h>
+#import "IconFamily.h"
+
+@interface NSString (CarbonFSRefCreation)
+// Fills in the given FSRef struct so it specifies the file whose path is in this string.
+// The caller should ensure that the directory the file is to be placed in already exists.
+- (BOOL) getFSRef:(FSRefPtr)fsRef;
+@end
+
+@implementation NSString (CarbonFSRefCreation)
+- (BOOL) getFSRef:(FSRefPtr)fsRef
+{
+	return FSPathMakeRef( (const UInt8 *)[self fileSystemRepresentation], fsRef, NULL ) == noErr;
+}
+@end
 
 @interface IconFamily (Internals)
 
@@ -105,7 +117,7 @@
             DisposeHandle( (Handle)hIconFamily );
             hIconFamily = NULL;
         }
-		if (![path getFSRef:&ref createFileIfNecessary:NO]) {
+		if (![path getFSRef:&ref]) {
 			[self autorelease];
 			return nil;
 		}
@@ -149,7 +161,7 @@
             hIconFamily = NULL;
         }
 
-        if( ![path getFSRef:&ref createFileIfNecessary:NO] )
+        if( ![path getFSRef:&ref] )
         {
             [self autorelease];
             return nil;
@@ -541,7 +553,7 @@
 	
     // Get an FSRef for the target file's parent directory that we can use in
     // the FSCreateResFile() and FNNotify() calls below.
-    if (![parentDirectory getFSRef:&parentDirectoryFSRef createFileIfNecessary:NO])
+    if (![parentDirectory getFSRef:&parentDirectoryFSRef])
 		return NO;
 	
 	// Get the name of the file, for FSCreateResFile.
@@ -567,7 +579,7 @@
 	result = ResError();
 	if (result == dupFNErr) {
         // If the call to FSCreateResFile() returned dupFNErr, targetFileFSRef will not have been set, so create it from the path.
-        if (![path getFSRef:&targetFileFSRef createFileIfNecessary:NO])
+        if (![path getFSRef:&targetFileFSRef])
             return NO;
     } else if (result != noErr) {
 		return NO;
@@ -669,7 +681,7 @@
     Handle hExistingCustomIcon;
 
     // Get an FSRef for the target file.
-    if (![path getFSRef:&targetFileFSRef createFileIfNecessary:NO])
+    if (![path getFSRef:&targetFileFSRef])
         return NO;
 	
     // Open the file's resource fork, if it has one.
@@ -743,7 +755,7 @@
         return NO;
 
     // Get an FSRef for the folder.
-    if( ![path getFSRef:&targetFolderFSRef createFileIfNecessary:NO] )
+    if( ![path getFSRef:&targetFolderFSRef] )
         return NO;
 
     // Remove and re-create any existing "Icon\r" file in the directory, and get an FSRef for it.
@@ -753,7 +765,11 @@
         if( ![fm removeItemAtPath:iconrPath error:NULL] )
             return NO;
     }
-    if( ![iconrPath getFSRef:&iconrFSRef createFileIfNecessary:YES] )
+	
+    if (![@"" writeToFile:iconrPath atomically:YES encoding:NSUTF8StringEncoding error:NULL])
+        return NO;
+	
+    if( ![iconrPath getFSRef:&iconrFSRef] )
         return NO;
 
     // Get type and creator information for the Icon file.
