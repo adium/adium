@@ -365,7 +365,7 @@
 			
 		} else {
 			//Will always notify
-			[self.account removePropetyValuesFromContact:self
+			[self.account removePropertyValuesFromContact:self
 												  silently:silent];	
 		}
 	}

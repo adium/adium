@@ -79,7 +79,7 @@ typedef enum {
 - (NSArray *)contacts;
 - (AIListContact *)contactWithUID:(NSString *)sourceUID;
 - (void)removeAllContacts;
-- (void)removePropetyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent;
+- (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent;
 
 //Connectivity
 - (BOOL)shouldBeOnline;
