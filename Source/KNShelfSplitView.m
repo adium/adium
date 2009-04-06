@@ -226,6 +226,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(void)setDrawShelfLine:(BOOL)inDraw
 {
 	drawLine = inDraw;
+	[self recalculateSizes];
 }
 
 -(BOOL)drawShelfLine
@@ -236,6 +237,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 - (void)setShelfOnRight:(BOOL)inRight
 {
 	shelfOnRight = inRight;
+	[self recalculateSizes];
 }
 
 - (BOOL)shelfOnRight
