@@ -43,7 +43,6 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
-#import <Adium/NDRunLoopMessenger.h>
 #import <Adium/ESFileTransfer.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIObjectAdditions.h>
