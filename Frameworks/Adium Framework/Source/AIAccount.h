@@ -203,6 +203,8 @@ typedef enum {
 @property (readonly, nonatomic) BOOL sendOfflineMessagesWithoutPrompting;
 @property (readonly, nonatomic) BOOL accountDisplaysFileTransferMessages;
 @property (readonly, nonatomic) BOOL managesOwnContactIconCache;
+//Temporary Accounts
+@property (readwrite, nonatomic) BOOL isTemporary;
 
 //Status
 @property (readonly, nonatomic) NSSet *supportedPropertyKeys;

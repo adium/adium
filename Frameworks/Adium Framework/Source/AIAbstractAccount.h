@@ -26,13 +26,11 @@ typedef enum {
 @interface AIAccount (Abstract)
 
 - (id)initWithUID:(NSString *)inUID internalObjectID:(NSString *)inInternalObjectID service:(AIService *)inService;
-- (NSData *)userIconData;
-- (void)setUserIconData:(NSData *)inData;
-- (NSString *)host;
-- (int)port;
+@property (readwrite, retain, nonatomic) NSData *userIconData;
+@property (readwrite, nonatomic) BOOL enabled;
+@property (readonly, nonatomic) NSString *host;
+@property (readonly, nonatomic) int port;
 - (void)filterAndSetUID:(NSString *)inUID;
-- (BOOL)enabled;
-- (void)setEnabled:(BOOL)inEnabled;
 
 //Status
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object
@@ -40,13 +38,9 @@ typedef enum {
 - (void)silenceAllContactUpdatesForInterval:(NSTimeInterval)interval;
 - (void)updateContactStatus:(AIListContact *)inContact;
 - (void)updateCommonStatusForKey:(NSString *)key;
-- (AIStatus *)statusState;
-- (AIStatus *)actualStatusState;
-- (void)setStatusState:(AIStatus *)statusState;
+@property (readwrite, retain, nonatomic) AIStatus *statusState;
+@property (readonly, nonatomic) AIStatus *actualStatusState;
 - (void)setStatusStateAndRemainOffline:(AIStatus *)statusState;
-
-//Properties
-- (NSString *)currentDisplayName;
 
 /*!
  * @brief Sent by an account to itself to update its user icon
@@ -73,20 +67,19 @@ typedef enum {
 - (void)_stopAttributedRefreshTimer;
 - (void)gotFilteredStatusMessage:(NSAttributedString *)statusMessage forStatusState:(AIStatus *)statusState;
 - (void)updateLocalDisplayNameTo:(NSAttributedString *)displayName;
-- (NSString *)currentDisplayName;
+@property (readonly, nonatomic) NSString *currentDisplayName;
 
 //Contacts
-- (NSArray *)contacts;
+@property (readonly, nonatomic) NSArray *contacts;
 - (AIListContact *)contactWithUID:(NSString *)sourceUID;
 - (void)removeAllContacts;
 - (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent;
 
 //Connectivity
-- (BOOL)shouldBeOnline;
-- (void)setShouldBeOnline:(BOOL)inShouldBeOnline;
+@property (readwrite, nonatomic) BOOL shouldBeOnline;
 - (void)toggleOnline;
 - (void)didConnect;
-- (NSSet *)contactProperties;
+@property (readonly, nonatomic) NSSet *contactProperties;
 - (void)didDisconnect;
 - (void)connectScriptCommand:(NSScriptCommand *)command;
 - (void)disconnectScriptCommand:(NSScriptCommand *)command;
@@ -95,16 +88,12 @@ typedef enum {
 - (NSString *)lastDisconnectionError;
 - (void)setLastDisconnectionError:(NSString *)inError;
 - (AIReconnectDelayType)shouldAttemptReconnectAfterDisconnectionError:(NSString **)disconnectionError;
-- (BOOL)encrypted;
+@property (readonly, nonatomic) BOOL encrypted;
 
 //FUS Disconnecting
 - (void)autoReconnectAfterDelay:(NSTimeInterval)delay;
 - (void)cancelAutoReconnect;
 - (void)initFUSDisconnecting;
-
-//Temporary Accounts
-- (BOOL)isTemporary;
-- (void)setIsTemporary:(BOOL)inIsTemporary;
 
 - (void)setPasswordTemporarily:(NSString *)inPassword;
 /*!
