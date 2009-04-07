@@ -1632,15 +1632,4 @@
 	}
 }
 
-#pragma mark Temporary Accounts
-
-- (BOOL)isTemporary
-{
-	return isTemporary;
-}
-- (void)setIsTemporary:(BOOL)inIsTemporary;
-{
-	isTemporary = inIsTemporary;
-}
-
 @end

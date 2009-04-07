@@ -435,6 +435,8 @@ typedef enum
 	return (iconData ? [[[NSImage alloc] initWithData:iconData] autorelease] : nil);
 }
 
+@synthesize isTemporary;
+
 //Status ---------------------------------------------------------------------------------------------------------------
 #pragma mark Status
 /*!
