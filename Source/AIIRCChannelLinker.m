@@ -112,25 +112,27 @@
 		if((scanner.scanLocation - linkText.length) == 1 || 
 		   [validPrefix characterIsMember:[scanner.string characterAtIndex:(scanner.scanLocation - linkText.length - 2)]]) {
 			
-			NSString *channelName = [scanner.string substringWithRange:NSMakeRange(startLocation, 1)];
-			
-			// Only append if we have text.
-			if (linkText.length) {
-				channelName = [channelName stringByAppendingString:linkText];
+			if (![inAttributedString attribute:NSLinkAttributeName atIndex:startLocation effectiveRange:NULL]) {
+				NSString *channelName = [scanner.string substringWithRange:NSMakeRange(startLocation, 1)];
 				
-				// If the last character is a punctuation character, drop it.
-				if ([[NSCharacterSet punctuationCharacterSet] characterIsMember:[channelName characterAtIndex:channelName.length-1]]) {
-					channelName = [channelName substringToIndex:channelName.length-1];
+				// Only append if we have text.
+				if (linkText.length) {
+					channelName = [channelName stringByAppendingString:linkText];
+					
+					// If the last character is a punctuation character, drop it.
+					if ([[NSCharacterSet punctuationCharacterSet] characterIsMember:[channelName characterAtIndex:channelName.length-1]]) {
+						channelName = [channelName substringToIndex:channelName.length-1];
+					}
 				}
-			}
-			
-			NSString *linkURL = [NSString stringWithFormat:@"irc://%@/%@",
-								 account.host,
-								 channelName];
+				
+				NSString *linkURL = [NSString stringWithFormat:@"irc://%@/%@",
+									 account.host,
+									 channelName];
 
-			[newString addAttribute:NSLinkAttributeName
-							  value:linkURL
-							  range:NSMakeRange(startLocation, channelName.length)];
+				[newString addAttribute:NSLinkAttributeName
+								  value:linkURL
+								  range:NSMakeRange(startLocation, channelName.length)];
+			}
 		}
 		
 		// If we didn't read any characters in following the channel start, advance.
