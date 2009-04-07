@@ -857,7 +857,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 #pragma mark Room commands
 - (NSMenu *)actionMenu
 {	
-	return [self.account actionsForChat:self];
+	return [self.account actionMenuForChat:self];
 }
 - (void)setActionMenu:(NSMenu *)inMenu {};
 

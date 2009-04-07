@@ -283,7 +283,7 @@ typedef enum {
  */
 - (void)authorizationWithDict:(NSDictionary *)infoDict response:(AIAuthorizationResponse)authorizationResponse;
 
-- (NSMenu*)actionsForChat:(AIChat *)chat;
+-(NSMenu*)actionMenuForChat:(AIChat*)chat;
 
 - (BOOL)accountManagesGroupChatIgnore;
 - (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)chat;
