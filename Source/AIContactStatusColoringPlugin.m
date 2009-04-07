@@ -240,7 +240,7 @@
 	[inContact setValue:[NSNumber numberWithDouble:opacity]
 			forProperty:@"Image Opacity"
 				 notify:NotifyNever];
-	[inContact setValue:(isEvent ? [NSNumber numberWithBool:YES] : nil)
+	[inContact setValue:[NSNumber numberWithBool:isEvent]
 			forProperty:@"Is Event"
 				 notify:NotifyNever];
 }
