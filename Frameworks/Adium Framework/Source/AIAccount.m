@@ -912,7 +912,7 @@ typedef enum
 	return NO;
 }
 
--(NSMenu*)actionsForChat:(AIChat*)chat
+-(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
 	return nil;
 }

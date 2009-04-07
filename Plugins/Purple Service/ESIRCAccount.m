@@ -350,7 +350,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 }
 
 #pragma mark Action Menu
-- (NSMenu *)actionsForChat:(AIChat *)chat
+-(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
 	NSMenu *menu = [[NSMenu alloc] init];
 	

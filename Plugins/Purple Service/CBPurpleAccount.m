@@ -3005,17 +3005,6 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 #pragma mark Actions for chats
 
-/*!
- * @brief This method returns an NSMenu containing the actions that are allowed for a given chat.
- *
- * @param An AIChat for which the commands are fetched
- * result NSMenu with the proper commands
- */
-- (NSMenu*)actionsForChat:(AIChat*)chat
-{
-	return [[[NSMenu alloc] init] autorelease];
-}
-
 /***************************/
 /* Account private methods */
 /***************************/
