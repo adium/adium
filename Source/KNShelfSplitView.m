@@ -660,7 +660,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		//Draw the string
 		if (attributedStringValue) {
-			NSRect textRect;
+			NSPoint textPoint;
 			
 			CGFloat leftShiftX = leftShelfX;
 			
@@ -673,12 +673,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			}
 			
 			if (shelfOnRight) {
-				textRect = NSMakeRect(leftShiftX + resizeThumbRect.size.width + 4, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 4, stringHeight);
+				textPoint = NSMakePoint(leftShiftX + resizeThumbRect.size.width + 4, (NSHeight(controlRect) - stringHeight)/2);
 			} else {
-				textRect = NSMakeRect(leftShiftX + 6, (NSHeight(controlRect) - stringHeight)/2 + 1, NSMinX(resizeThumbRect) - 8, stringHeight);
+				textPoint = NSMakePoint(leftShiftX + 6, (NSHeight(controlRect) - stringHeight)/2 + 1);
 			}
 			
-			[attributedStringValue drawInRect:textRect];
+			[attributedStringValue drawAtPoint:textPoint];
 		} 
 	}
 }
