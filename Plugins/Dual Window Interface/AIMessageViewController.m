@@ -1324,7 +1324,6 @@
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
 
-	/*
 	[shelfView bind:@"contextButtonMenu"
 		   toObject:self.chat
 		withKeyPath:@"actionMenu"
@@ -1334,7 +1333,6 @@
 					 nil]];
 	
 	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget.png"]];
-	*/
 	
 	[shelfView setShelfIsVisible:YES];
 }

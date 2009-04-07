@@ -349,4 +349,14 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
+#pragma mark Action Menu
+- (NSMenu *)actionsForChat:(AIChat *)chat
+{
+	NSMenu *menu = [[NSMenu alloc] init];
+	
+	[menu addItemWithTitle:@"Coming Soon" action:@selector(dummy) keyEquivalent:@""];
+	
+	return [menu autorelease];
+}
+
 @end
