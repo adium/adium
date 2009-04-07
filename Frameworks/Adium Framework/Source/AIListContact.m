@@ -444,7 +444,7 @@
  */
 - (void)setWarningLevel:(int)warningLevel notify:(NotifyTiming)notify
 {
-	if (warningLevel != [self warningLevel]) {
+	if (warningLevel != self.warningLevel) {
 		[self setValue:[NSNumber numberWithInt:warningLevel]
 					   forProperty:@"Warning"
 					   notify:notify];
@@ -528,7 +528,7 @@
  */
 - (void)setIsMobile:(BOOL)isMobile notify:(NotifyTiming)notify
 {
-	[self setValue:(isMobile ? [NSNumber numberWithBool:isMobile] : nil)
+	[self setValue:[NSNumber numberWithBool:isMobile]
 				   forProperty:@"IsMobile"
 				   notify:notify];
 }
@@ -556,65 +556,57 @@
 /*!
  * @brief Set if this contact is on the privacy list
  */
-- (void)setIsOnPrivacyList:(BOOL)yesOrNo updateList:(BOOL)addToPrivacyLists privacyType:(AIPrivacyType)privType
+- (void)setIsOnPrivacyList:(BOOL)shouldBeBlocked updateList:(BOOL)addToPrivacyLists privacyType:(AIPrivacyType)privType
 {
-	if (addToPrivacyLists) {
-		//caller of this method wants to block the contact
-		AIAccount	*contactAccount = self.account;
+	if (addToPrivacyLists) {		//caller of this method wants to actually block or unblock the contact, rather than just update the property
 		
-		if ([contactAccount conformsToProtocol:@protocol(AIAccount_Privacy)]) {
-			BOOL	result = NO;
-			NSArray	*privacyList = [(AIAccount <AIAccount_Privacy> *)contactAccount listObjectsOnPrivacyList:privType];
-			
-			if (yesOrNo == YES) {
-				//we want to block the contact
-				if (![privacyList containsObject:self]) {
-					result = [(AIAccount <AIAccount_Privacy> *)contactAccount addListObject:self toPrivacyList:privType];
-				}
-			} else {
-				//unblock contact
-				if ([privacyList containsObject:self]) {
-					result = [(AIAccount <AIAccount_Privacy> *)contactAccount removeListObject:self fromPrivacyList:privType];
-				}
-			}
-			
-			//update property
-			if (result) {
-				[self setValue:((privType == AIPrivacyTypeDeny) == yesOrNo) ? [NSNumber numberWithBool:YES] : nil
-							   forProperty:KEY_IS_BLOCKED 
-							   notify:NotifyNow];
-			}
-		} else {
-			NSLog(@"Privacy is not supported on contacts for the account: %@", contactAccount);
+		if (![self.account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+			NSLog(@"Privacy is not supported on contacts for the account: %@", self.account);
+			return;
 		}
-	} else {
-		//caller of this method just wants to update the property
-		[self setValue:((privType == AIPrivacyTypeDeny) == yesOrNo) ? [NSNumber numberWithBool:YES] : [NSNumber numberWithBool:NO]
-					   forProperty:KEY_IS_BLOCKED
-					   notify:NotifyNow];
-	}
+		
+		id<AIAccount_Privacy> contactAccount = (id<AIAccount_Privacy>)self.account;
+		
+		BOOL isBlocked = [[contactAccount listObjectsOnPrivacyList:privType] containsObject:self];
+		
+		if (shouldBeBlocked == isBlocked)
+			return;
+		
+		BOOL	result = NO;
+
+		if (shouldBeBlocked)
+			result = [contactAccount addListObject:self toPrivacyList:privType];
+		else
+			result = [contactAccount removeListObject:self fromPrivacyList:privType];
+		
+		//Don't update the property if we didn't change anything
+		if (!result)
+			return;
+	} 
+
+	[self setValue:[NSNumber numberWithBool:((privType == AIPrivacyTypeDeny) == shouldBeBlocked)]
+				   forProperty:KEY_IS_BLOCKED
+				   notify:NotifyNow];
 }
 
 - (AIEncryptedChatPreference)encryptedChatPreferences {
-	NSNumber					*prefNumber;
 	AIEncryptedChatPreference	pref = EncryptedChat_Default;
 	
 	//Get the contact's preference (or metacontact's)
-	prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
+	NSNumber *prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
 	
 	//If that turned up nothing, check all the groups it's in
 	if (!prefNumber) {
 		for (AIListGroup *group in self.parentContact.groups)
 		{
 			if ((prefNumber = [group preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION]))
-			break;
+				break;
 		}	
 	}
 	
 	//If that turned up nothing, check global prefs
-	if (!prefNumber) {
+	if (!prefNumber)
 		prefNumber = [adium.preferenceController preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
-	}
 	
 	//If no contact preference or the contact is set to use the default, use the account preference
 	if (!prefNumber || ([prefNumber integerValue] == EncryptedChat_Default)) {
@@ -642,15 +634,14 @@
 	NSAttributedString	*contactListStatusMessage = self.statusMessage;
 
 	if (!contactListStatusMessage) {
-		NSString			*statusName;
+		NSString			*statusName = self.statusName;
 		
-		if ((statusName = self.statusName)) {
-			NSString *descriptionOfStatus;
+		if (statusName) {
+			NSString *descriptionOfStatus = [adium.statusController localizedDescriptionForStatusName:statusName
+											 statusType:self.statusType];
 			
-			if ((descriptionOfStatus = [adium.statusController localizedDescriptionForStatusName:statusName
-																						statusType:self.statusType])) {
+			if (descriptionOfStatus)
 				contactListStatusMessage = [[[NSAttributedString alloc] initWithString:descriptionOfStatus] autorelease];			
-			}
 		}
 	}
 
@@ -677,10 +668,7 @@
  */
 - (AIListContact *)parentContact
 {
-	if (self.metaContact)
-		return self.metaContact;
-	
-	return self;
+	return self.metaContact ?: self;
 }
 
 - (BOOL)containsObject:(AIListObject*)object
@@ -856,10 +844,7 @@
 
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
-	//get my account
-	AIAccount *theAccount = self.account;
-	
-	NSScriptObjectSpecifier *containerRef = [theAccount objectSpecifier];
+	NSScriptObjectSpecifier *containerRef = self.account.objectSpecifier;
 	return [[[NSNameSpecifier allocWithZone:[self zone]]
 		initWithContainerClassDescription:[containerRef keyClassDescription]
 		containerSpecifier:containerRef key:@"contacts" name:self.UID] autorelease];

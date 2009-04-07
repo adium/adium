@@ -222,7 +222,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	}
 	
 	//update property if we are completely blocked
-	[self setValue:(self.isBlocked ? [NSNumber numberWithBool:YES] : nil)
+	[self setValue:[NSNumber numberWithBool:self.isBlocked]
 				   forProperty:KEY_IS_BLOCKED 
 				   notify:NotifyNow];
 }
