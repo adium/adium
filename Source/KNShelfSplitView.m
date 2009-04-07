@@ -485,54 +485,64 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			}
 
 		} else {
-		while( stillMouseDown ){
-			anEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
-			currentLocation = [self convertPoint: [anEvent locationInWindow] fromView: nil];
-			shouldHilite = NO;
 			
-			if( (activeControlPart == CONTROL_PART_ACTION_BUTTON) && NSPointInRect( currentLocation, actionButtonRect ) ){
-				shouldHilite = YES;
-			}else if( (activeControlPart == CONTROL_PART_CONTEXT_BUTTON) && NSPointInRect( currentLocation, contextButtonRect ) ){
-				shouldHilite = YES;
+			NSPoint startLocation = currentLocation = [self convertPoint: [anEvent locationInWindow] fromView: nil];
+			CGFloat initialDifference;
+			
+			if (shelfOnRight ) {
+				initialDifference = startLocation.x - NSMinX(controlRect);
+			} else {
+				initialDifference = NSMaxX(controlRect) - startLocation.x;
 			}
-			
-			switch( [anEvent type] ){
-				case NSLeftMouseDragged:
-					if( (activeControlPart == CONTROL_PART_RESIZE_THUMB) || (activeControlPart == CONTROL_PART_RESIZE_BAR) ){
-						CGFloat width;
-						
-						if (shelfOnRight) {
-							width = self.bounds.size.width - currentLocation.x;
-						} else {
-							width = currentLocation.x;
+				
+			while( stillMouseDown ){
+				anEvent = [[self window] nextEventMatchingMask: NSLeftMouseUpMask | NSLeftMouseDraggedMask];
+				currentLocation = [self convertPoint: [anEvent locationInWindow] fromView: nil];
+				shouldHilite = NO;
+				
+				if( (activeControlPart == CONTROL_PART_ACTION_BUTTON) && NSPointInRect( currentLocation, actionButtonRect ) ){
+					shouldHilite = YES;
+				}else if( (activeControlPart == CONTROL_PART_CONTEXT_BUTTON) && NSPointInRect( currentLocation, contextButtonRect ) ){
+					shouldHilite = YES;
+				}
+				
+				switch( [anEvent type] ){
+					case NSLeftMouseDragged:
+						if( (activeControlPart == CONTROL_PART_RESIZE_THUMB) || (activeControlPart == CONTROL_PART_RESIZE_BAR) ){
+							CGFloat width;
+							
+							if (shelfOnRight) {
+								width = self.bounds.size.width - currentLocation.x + initialDifference;
+							} else {
+								width = currentLocation.x + initialDifference;
+							}
+							
+							[self setShelfWidth:width];
+						}else{
+							[self setNeedsDisplayInRect: controlRect];
 						}
+						break;
 						
-						[self setShelfWidth:width];
-					}else{
+					case NSLeftMouseUp:
+						shouldHilite = NO;
 						[self setNeedsDisplayInRect: controlRect];
-					}
-					break;
-					
-				case NSLeftMouseUp:
-					shouldHilite = NO;
-					[self setNeedsDisplayInRect: controlRect];
-					
-					if( (activeControlPart == CONTROL_PART_ACTION_BUTTON) && NSPointInRect( currentLocation, actionButtonRect ) ){
-						// trigger an action
-						if( target && action && [target respondsToSelector:action]){
-							[target performSelector: action withObject: self];
-						}
-					}					
-					stillMouseDown = NO;
-					
-					break;
-					
-				default:
-					break;
+						
+						if( (activeControlPart == CONTROL_PART_ACTION_BUTTON) && NSPointInRect( currentLocation, actionButtonRect ) ){
+							// trigger an action
+							if( target && action && [target respondsToSelector:action]){
+								[target performSelector: action withObject: self];
+							}
+						}					
+						stillMouseDown = NO;
+						
+						break;
+						
+					default:
+						break;
+				}
 			}
 		}
-	}
-	}else{
+	} else {
 		[super mouseDown:anEvent];
 	}
 }
