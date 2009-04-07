@@ -43,11 +43,12 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIAdium.h>
 
-#define DEFAULT_SHELF_WIDTH 200
-#define CONTROL_HEIGHT 22
-#define BUTTON_WIDTH 30
-#define THUMB_WIDTH 15
+#define DEFAULT_SHELF_WIDTH 200.0
+#define CONTROL_HEIGHT 22.0
+#define BUTTON_WIDTH 30.0
 #define THUMB_LINE_SPACING 2.0
+#define THUMB_LINE_COUNT 3
+#define THUMB_WIDTH 13
 #define RESIZE_BAR_EFFECTIVE_WIDTH 0.0
 
 #define CONTROL_PART_NONE 0
@@ -326,13 +327,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				actionButtonRect = NSMakeRect(leftShelfX, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
 			}
 		}
-		
-		CGFloat availableSpace = controlRect.size.width - THUMB_WIDTH;
-		
+
 		// Context button
-		if (contextButtonMenu && contextButtonMenu.numberOfItems && availableSpace > BUTTON_WIDTH) {
+		if (contextButtonMenu && contextButtonMenu.numberOfItems) {
 			shouldDrawContextButton = YES;
-			contextButtonRect = NSMakeRect(leftShelfX + controlRect.size.width - (THUMB_WIDTH + availableSpace), 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			contextButtonRect = NSMakeRect(leftShelfX + THUMB_WIDTH + 2, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
 		}
 	}
 	
@@ -500,7 +499,17 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			switch( [anEvent type] ){
 				case NSLeftMouseDragged:
 					if( (activeControlPart == CONTROL_PART_RESIZE_THUMB) || (activeControlPart == CONTROL_PART_RESIZE_BAR) ){
-						[self setShelfWidth:(shelfOnRight ? self.bounds.size.width - currentLocation.x : currentLocation.x)];
+						CGFloat width;
+						
+						if (shelfOnRight) {
+							width = self.bounds.size.width - currentLocation.x;
+						} else {
+							width = currentLocation.x;
+						}
+						
+						NSLog(@"set width to %f", width);
+						
+						[self setShelfWidth:width];
 					}else{
 						[self setNeedsDisplayInRect: controlRect];
 					}
@@ -579,7 +588,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 									   active:(activeControlPart == CONTROL_PART_CONTEXT_BUTTON ) && shouldHilite];
 			
 			[[NSColor windowFrameColor] set];
-			
 			NSRectFill( NSMakeRect( (contextButtonRect.origin.x + contextButtonRect.size.width) - 1, 0, 1, controlRect.size.height ) );
 			
 			if(contextButtonImage) {		
@@ -614,6 +622,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[[NSColor windowFrameColor] set];
 		NSRectFill( NSMakeRect( leftShelfX, CONTROL_HEIGHT, currentShelfWidth, 1 ) );
 		
+		if (!drawLine) {
+			NSRectFill( NSMakeRect( leftShelfX, 0, currentShelfWidth, 1 ) );
+		}
+		
 		// Draw our split line
 		if (self.drawShelfLine) {
 			[[NSColor windowFrameColor] set];
@@ -627,13 +639,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		// Draw our thumb lines
 		[[NSColor disabledControlTextColor] set];
 		NSRect			thumbLineRect = NSMakeRect( 
-											resizeThumbRect.origin.x + (resizeThumbRect.size.width - ((2*THUMB_LINE_SPACING) + 3.0)) / 2.0, 
+											resizeThumbRect.origin.x + THUMB_LINE_SPACING*2, 
 											resizeThumbRect.size.height / 4.0, 
 											1.0, 
 											resizeThumbRect.size.height / 2.0
 										);
 		NSInteger i;
-		for( i=0; i<3; i++ ){
+		for( i=0; i<THUMB_LINE_COUNT; i++ ){
 			NSRectFill( thumbLineRect );
 			thumbLineRect.origin.x += (1+THUMB_LINE_SPACING);
 		}
@@ -643,14 +655,29 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			NSRectFill( NSMakeRect( leftShelfX, CONTROL_HEIGHT+1, currentShelfWidth, [self frame].size.height ) );
 		}
 		
+		if (shelfOnRight) {
+			[[NSColor windowFrameColor] set];
+			NSRectFill( NSMakeRect( resizeThumbRect.origin.x + resizeThumbRect.size.width + 1, 0, 1, resizeThumbRect.size.height ) );
+		}
+		
 		//Draw the string
-		if (attributedStringValue && !shouldDrawContextButton && !shouldDrawActionButton) {
+		if (attributedStringValue) {
 			NSRect textRect;
 			
+			CGFloat leftShiftX = leftShelfX;
+			
+			if (shouldDrawActionButton) {
+				leftShiftX += NSWidth(actionButtonRect) + 2;
+			}
+			
+			if (shouldDrawContextButton) {
+				leftShiftX += NSWidth(contextButtonRect) + 2;
+			}
+			
 			if (shelfOnRight) {
-				textRect = NSMakeRect(leftShelfX + resizeThumbRect.size.width, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 2, stringHeight);
+				textRect = NSMakeRect(leftShiftX + resizeThumbRect.size.width + 4, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 4, stringHeight);
 			} else {
-				textRect = NSMakeRect(leftShelfX + 6, (NSHeight(controlRect) - stringHeight)/2, NSMinX(resizeThumbRect) - 8, stringHeight);
+				textRect = NSMakeRect(leftShiftX + 6, (NSHeight(controlRect) - stringHeight)/2 + 1, NSMinX(resizeThumbRect) - 8, stringHeight);
 			}
 			
 			[attributedStringValue drawInRect:textRect];
@@ -672,8 +699,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
         [background drawInRect:destRect
 					  fromRect:sourceRect
-					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+					 operation:(isActive ? NSCompositeSourceIn : NSCompositeSourceOver)
+					  fraction:(isActive ? 0.75 : 1.0)];
+		
         destRect.origin.x += destRect.size.width;
     }
 }
