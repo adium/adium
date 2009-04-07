@@ -507,8 +507,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 							width = currentLocation.x;
 						}
 						
-						NSLog(@"set width to %f", width);
-						
 						[self setShelfWidth:width];
 					}else{
 						[self setNeedsDisplayInRect: controlRect];
