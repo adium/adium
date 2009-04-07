@@ -43,13 +43,12 @@
 @interface AIAccountDeletionDialog : NSObject <AIAccountControllerRemoveConfirmationDialog> {
 	AIAccount *account;
 	NSAlert *alert;
-	id userdata;
+	id userData;
 }
 
 - (id)initWithAccount:(AIAccount*)ac alert:(NSAlert*)al;
 
-- (void)setUserData:(id)ud;
-- (id)userData;
+@property (readwrite, retain, nonatomic) id userData;
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
@@ -67,19 +66,11 @@
 
 - (void)dealloc {
 	[alert release];
-	[userdata release];
+	[userData release];
 	[super dealloc];
 }
 
-- (void)setUserData:(id)ud {
-	id old = userdata;
-	userdata = [ud retain];
-	[old release];
-}
-
-- (id)userData {
-	return [[userdata retain] autorelease];
-}
+@synthesize userData;
 
 - (void)runModal {
 	[self alertDidEnd:alert returnCode:[alert runModal] contextInfo:NULL];
