@@ -331,7 +331,11 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		// Context button
 		if (contextButtonMenu && contextButtonMenu.numberOfItems) {
 			shouldDrawContextButton = YES;
-			contextButtonRect = NSMakeRect(leftShelfX + THUMB_WIDTH + 2, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			if (shelfOnRight) {
+				contextButtonRect = NSMakeRect(leftShelfX + THUMB_WIDTH + 2, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			} else {
+				contextButtonRect = NSMakeRect(leftShelfX, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
+			}
 		}
 	}
 	
@@ -685,7 +689,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 			if (shelfOnRight) {
 				textPoint = NSMakePoint(leftShiftX + resizeThumbRect.size.width + 4, (NSHeight(controlRect) - stringHeight)/2);
 			} else {
-				textPoint = NSMakePoint(leftShiftX + 6, (NSHeight(controlRect) - stringHeight)/2 + 1);
+				textPoint = NSMakePoint(leftShiftX + 4, (NSHeight(controlRect) - stringHeight)/2 + 1);
 			}
 			
 			[attributedStringValue drawAtPoint:textPoint];
