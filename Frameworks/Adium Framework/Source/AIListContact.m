@@ -179,7 +179,7 @@
 	[self restoreGrouping];
 	
 	if (self.isStranger != (remoteGroupCount == 0)) {
-		[self setValue:(remoteGroupCount > 0 ? [NSNumber numberWithBool:YES] : nil)
+		[self setValue:[NSNumber numberWithBool:remoteGroupCount > 0]
 		   forProperty:@"NotAStranger"
 				notify:NotifyLater];
 		[self notifyOfChangedPropertiesSilently:YES];
@@ -342,7 +342,7 @@
 - (void)setOnline:(BOOL)online notify:(NotifyTiming)notify silently:(BOOL)silent
 {
 	if (online != self.online) {
-		[self setValue:(online ? [NSNumber numberWithBool:YES] : nil)
+		[self setValue:[NSNumber numberWithBool:online]
 					   forProperty:@"Online"
 					   notify:notify];
 		
@@ -421,7 +421,7 @@
 	* to perform an action when the contact becomes/comes back from idle, regardless of whether an IdleSince is available,
 	* without having to do that action every minute for other contacts.
 	*/
-	[self setValue:(isIdle ? [NSNumber numberWithBool:YES] : nil)
+	[self setValue:[NSNumber numberWithBool:isIdle]
 				   forProperty:@"IsIdle"
 				   notify:NotifyLater];
 	

@@ -150,7 +150,7 @@
 		[inObject setValue:countString
 			   forProperty:@"Count Text"
 					notify:NotifyNever];
-		[inObject setValue:((countVisibleObjects || countAllObjects) ? [NSNumber numberWithBool:YES] : nil)
+		[inObject setValue:[NSNumber numberWithBool:(countVisibleObjects || countAllObjects)]
 			   forProperty:@"Show Count"
 					notify:NotifyNever];
 	
