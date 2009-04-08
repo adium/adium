@@ -118,9 +118,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	
 	if (!connection)
 		return;
-	
-	AILogWithSignature(@"Sending raw command: %@", command);
-	
+
 	const char *quote = [command UTF8String];
 	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);	
 }
