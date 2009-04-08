@@ -10,11 +10,14 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
-#import <AIUtilities/AIAttributedStringAdditions.h>
-#import "SLPurpleCocoaAdapter.h"
 #import <Adium/AIListContact.h>
+#import <Adium/AIMenuControllerProtocol.h>
+#import "AIMessageViewController.h"
+#import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 #import <libpurple/irc.h>
 #import <libpurple/cmds.h>
+#import "SLPurpleCocoaAdapter.h"
 
 @interface SLPurpleCocoaAdapter ()
 - (BOOL)attemptPurpleCommandOnMessage:(NSString *)originalMessage fromAccount:(AIAccount *)sourceAccount inChat:(AIChat *)chat;
@@ -22,6 +25,7 @@
 
 @interface ESIRCAccount()
 - (void)sendRawCommand:(NSString *)command;
+- (void)apply:(BOOL)apply operation:(NSString *)operation flag:(NSString *)flag;
 @end
 
 static PurpleConversation *fakeConversation(PurpleAccount *account);
@@ -114,6 +118,8 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	
 	if (!connection)
 		return;
+	
+	AILogWithSignature(@"Sending raw command: %@", command);
 	
 	const char *quote = [command UTF8String];
 	irc_cmd_quote(connection->proto_data, NULL, NULL, &quote);	
@@ -349,14 +355,171 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return YES;
 }
 
+/*!
+ * @brief Our flags in a chat
+ */
+- (AIGroupChatFlags)flagsInChat:(AIChat *)chat
+{
+	NSString *ourUID = [NSString stringWithUTF8String:purple_normalize(self.purpleAccount, [self.displayName UTF8String])];
+	
+	// XXX Once we don't create a fake contact for ourself, we should do this the right way.
+	return [chat flagsForContact:[self contactWithUID:ourUID]];
+}
+
 #pragma mark Action Menu
 -(NSMenu*)actionMenuForChat:(AIChat*)chat
 {
-	NSMenu *menu = [[NSMenu alloc] init];
+	NSMenu *menu;
 	
-	[menu addItemWithTitle:@"Coming Soon" action:@selector(dummy) keyEquivalent:@""];
+	NSArray *listObjects = chat.chatContainer.messageViewController.selectedListObjects;
+	AIListObject *listObject = nil;
 	
-	return [menu autorelease];
+	if (listObjects.count) {
+		listObject = [listObjects objectAtIndex:0];
+	}
+	
+	menu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
+															   [NSNumber numberWithInteger:Context_Contact_GroupChat_ParticipantAction],		
+															   [NSNumber numberWithInteger:Context_Contact_Manage],
+															   nil]
+												forListObject:listObject
+													   inChat:chat];
+	
+	
+	
+	[menu addItem:[NSMenuItem separatorItem]];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Op", nil)
+					target:self
+					action:@selector(op)
+			 keyEquivalent:@""
+					   tag:AIRequiresOp];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Deop", nil)
+					target:self
+					action:@selector(deop)
+			 keyEquivalent:@""
+					   tag:AIRequiresOp];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Voice", nil)
+					target:self
+					action:@selector(voice)
+			 keyEquivalent:@""
+					   tag:AIRequiresOp];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Devoice", nil)
+					target:self
+					action:@selector(devoice)
+			 keyEquivalent:@""
+					   tag:AIRequiresOp];
+
+	[menu addItem:[NSMenuItem separatorItem]];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Kick", nil)
+					target:self
+					action:@selector(kick)
+			 keyEquivalent:@""
+					   tag:AIRequiresHalfop];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Ban", nil)
+					target:self
+					action:@selector(ban)
+			 keyEquivalent:@""
+					   tag:AIRequiresHalfop];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Bankick", nil)
+					target:self
+					action:@selector(bankick)
+			 keyEquivalent:@""
+					   tag:AIRequiresHalfop];
+	
+	return menu;
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	AIOperationRequirement req = menuItem.tag;
+	AIGroupChatFlags flags = [self flagsInChat:adium.interfaceController.activeChat];
+	
+	switch (req) {
+		case AIRequiresHalfop:
+			return ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatOp) == AIGroupChatHalfOp);
+			break;
+			
+		case AIRequiresOp:
+			return ((flags & AIGroupChatOp) == AIGroupChatOp);
+			break;
+	}
+	
+	return NO;
+}
+
+#pragma mark Action Menu's Actions
+- (void)apply:(BOOL)apply operation:(NSString *)operation flag:(NSString *)flag
+{
+	AIChat *chat = adium.interfaceController.activeChat;
+	NSArray *objects = chat.chatContainer.messageViewController.selectedListObjects;
+	
+	NSMutableString *names = [@"" mutableCopy];
+	
+	for (NSInteger x = 0; x < objects.count; x++) {
+		[names appendString:((AIListObject *)[objects objectAtIndex:x]).UID];
+		[names appendString:@" "];
+		
+		if ((x+1) % 4 == 0 || x+1 == objects.count) {
+			if ([operation isEqualToString:@"MODE"]) {
+				[self sendRawCommand:[NSString stringWithFormat:@"MODE %@ %@%@ %@",
+									  chat.name,
+									  (apply ? @"+" : @"-"),
+									  [@"" stringByPaddingToLength:(x + 1) % 4 ?: 4
+														withString:flag 
+												   startingAtIndex:0],
+									  names]];
+			} else if ([operation isEqualToString:@"KICK"]) {
+				[self sendRawCommand:[NSString stringWithFormat:@"KICK %@ %@",
+									  chat.name,
+									  [names stringByReplacingOccurrencesOfString:@" " withString:@","]]];
+			}
+			
+			[names setString:@""];
+		}
+	}
+}
+
+- (void)op
+{
+	[self apply:YES operation:@"MODE" flag:@"o"];
+}
+
+- (void)deop
+{
+	[self apply:NO operation:@"MODE" flag:@"o"];
+}
+
+- (void)voice
+{
+	[self apply:YES operation:@"MODE" flag:@"v"];
+}
+
+- (void)devoice
+{
+	[self apply:NO operation:@"MODE" flag:@"v"];
+}
+
+- (void)kick
+{
+	[self apply:NO operation:@"KICK" flag:nil];
+}
+
+- (void)ban
+{
+	[self apply:YES operation:@"MODE" flag:@"b"];
+}
+
+- (void)bankick
+{
+	[self ban];
+	[self kick];
 }
 
 @end

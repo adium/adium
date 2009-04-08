@@ -60,6 +60,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	BOOL						shouldHilite;
 	
 	BOOL						delegateHasValidateWidth;
+	BOOL						delegateHasContextMenu;
 	
 	BOOL						drawLine;
 	BOOL						shelfOnRight;
@@ -82,8 +83,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 -(id)target;
 -(void)setAction:(SEL)aSelector;
 -(SEL)action;
--(void)setContextButtonMenu:(NSMenu *)aMenu;
--(NSMenu *)contextButtonMenu;
 
 -(void)setShelfView:(NSView *)aView;
 -(NSView *)shelfView;
@@ -123,6 +122,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 @end
 
 @interface NSObject (KNShelfSplitViewDelegate)
+// These are all optional.
 -(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth;
 -(void)splitViewDidHaveResizeDoubleClick:(KNShelfSplitView *)shelfSplitView;
+-(NSMenu *)contextMenuForShelfSplitView:(KNShelfSplitView *)shelfSplitView;
 @end

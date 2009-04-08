@@ -1037,6 +1037,16 @@
 //User List ------------------------------------------------------------------------------------------------------------
 #pragma mark User List
 /*!
+ * @brief Selected list objects
+ *
+ * An array of the list objects selected in the user list.
+ */
+- (NSArray *)selectedListObjects
+{
+	return [userListView arrayOfListObjects];
+}
+
+/*!
  * @brief Is the user list initially visible?
  */
 - (BOOL)userListInitiallyVisible
@@ -1323,18 +1333,14 @@
 					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
-
-	[shelfView bind:@"contextButtonMenu"
-		   toObject:self.chat
-		withKeyPath:@"actionMenu"
-			options:[NSDictionary dictionaryWithObjectsAndKeys:
-					 [NSNumber numberWithBool:YES], NSAllowsNullArgumentBindingOption,
-					 [NSNumber numberWithBool:YES], NSValidatesImmediatelyBindingOption,
-					 nil]];
-	
 	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget.png"]];
 	
 	[shelfView setShelfIsVisible:YES];
+}
+
+-(NSMenu *)contextMenuForShelfSplitView:(KNShelfSplitView *)shelfSplitView
+{
+	return chat.actionMenu;
 }
 
 #pragma mark Undo

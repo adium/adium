@@ -79,6 +79,7 @@
 
 - (AIListContact *)listObject;
 - (AIListObject *)preferredListObject;
+- (NSArray *)selectedListObjects;
 
 //Message Display
 - (NSObject<AIMessageDisplayController> *)messageDisplayController;

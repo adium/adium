@@ -13,6 +13,11 @@
 #define KEY_IRC_REALNAME	@"IRC:Realname"
 #define KEY_IRC_ENCODING	@"IRC:Encoding"
 
+typedef enum {
+	AIRequiresOp,
+	AIRequiresHalfop
+} AIOperationRequirement;
+
 @interface ESIRCAccount : CBPurpleAccount {
 
 }
@@ -21,5 +26,6 @@
 @property (readonly, nonatomic) NSString *defaultRealname;
 
 - (void)identifyForName:(NSString *)name password:(NSString *)inPassword;
+- (AIGroupChatFlags)flagsInChat:(AIChat *)chat;
 
 @end
