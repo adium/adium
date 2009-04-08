@@ -482,6 +482,8 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 			[names setString:@""];
 		}
 	}
+	
+	[names release];
 }
 
 - (void)op
