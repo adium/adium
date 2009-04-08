@@ -61,14 +61,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #define TOGGLESHELF @"Toggle Shelf"
 @implementation KNShelfSplitView
 
-+ (void)initialize
-{
-	if ((self == [KNShelfSplitView class])) {
-		[self exposeBinding:@"contextButtonMenu"];
-	}
-}
-
-
 -(IBAction)toggleShelf:(id)sender
 {
 	#pragma unused(sender)
@@ -89,7 +81,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		isShelfVisible = YES;
 		shouldHilite = NO;
 		activeControlPart = CONTROL_PART_NONE;
-		contextButtonMenu = nil;
 		[self recalculateSizes];
 		
 		autosaveName = nil;
@@ -118,10 +109,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	if( contextButtonImage ){ [contextButtonImage release]; }
 	if( actionButtonImage ){ [actionButtonImage release]; }
 	if( shelfBackgroundColor ){ [shelfBackgroundColor release]; }
-	if( contextButtonMenu ){ [contextButtonMenu release]; }
 	if( background ){ [background release]; }
-	
-	[self unbind:@"contextButtonMenu"];
 
 	[super dealloc];
 }
@@ -130,10 +118,15 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	delegate = aDelegate;
 	
 	delegateHasValidateWidth = NO;
+	delegateHasContextMenu = NO;
 	
 	if( delegate ){
 		if( [delegate respondsToSelector:@selector(shelfSplitView:validateWidth:)] ){
 			delegateHasValidateWidth = YES;
+		}
+		
+		if ([delegate respondsToSelector:@selector(contextMenuForShelfSplitView:)]) {
+			delegateHasContextMenu = YES;
 		}
 	}
 }
@@ -160,33 +153,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	return action;
 }
 
--(void)setContextButtonMenu:(NSMenu *)aMenu{
-	if( contextButtonMenu ){
-		[contextButtonMenu autorelease];
-		[[NSNotificationCenter defaultCenter] removeObserver: self];
-	}
-	
-	contextButtonMenu = [aMenu retain];
-	
-	if( contextButtonMenu ){
-		[contextButtonMenu setDelegate: self];
-		[[NSNotificationCenter defaultCenter] addObserver: self
-			selector: @selector(didEndContextMenuTracking)
-			name: NSMenuDidEndTrackingNotification
-			object: contextButtonMenu
-		];
-	}
-
-	[self recalculateSizes];
-}
-
--(void)didEndContextMenuTracking{
+-(void)didEndContextMenuTracking:(NSNotification *)notification
+{
 	shouldHilite = NO;
 	[self setNeedsDisplayInRect: controlRect];
-}
-
--(NSMenu *)contextButtonMenu{
-	return contextButtonMenu;
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSMenuDidEndTrackingNotification object:notification.object];
+	
 }
 
 -(void)setShelfView:(NSView *)aView{
@@ -329,7 +302,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		}
 
 		// Context button
-		if (contextButtonMenu && contextButtonMenu.numberOfItems) {
+		if (delegateHasContextMenu && [delegate contextMenuForShelfSplitView:self].numberOfItems) {
 			shouldDrawContextButton = YES;
 			if (shelfOnRight) {
 				contextButtonRect = NSMakeRect(leftShelfX + THUMB_WIDTH + 2, 0, BUTTON_WIDTH, CONTROL_HEIGHT);
@@ -447,20 +420,28 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	}else if( shouldDrawContextButton && NSPointInRect( currentLocation, contextButtonRect ) ){
 		activeControlPart = CONTROL_PART_CONTEXT_BUTTON;
 		shouldHilite = YES;
-		
-		NSEvent *			contextEvent = [NSEvent mouseEventWithType: [anEvent type]
-												location: NSMakePoint( contextButtonRect.origin.x + (contextButtonRect.size.width / 2) , contextButtonRect.origin.y + (contextButtonRect.size.height / 2) )
-												modifierFlags: [anEvent modifierFlags]
-												timestamp: [anEvent timestamp]
-												windowNumber: [anEvent windowNumber]
-												context: [anEvent context]
-												eventNumber: [anEvent eventNumber]
-												clickCount: [anEvent clickCount]
-												pressure: [anEvent pressure]
+
+		NSEvent *			contextEvent = [NSEvent mouseEventWithType:[anEvent type]
+															  location:NSMakePoint( contextButtonRect.origin.x + (contextButtonRect.size.width / 2) , contextButtonRect.origin.y + (contextButtonRect.size.height / 2) )
+														 modifierFlags:[anEvent modifierFlags]
+															 timestamp:[anEvent timestamp]
+														  windowNumber:[anEvent windowNumber]
+															   context:[anEvent context]
+														   eventNumber:[anEvent eventNumber]
+															clickCount:[anEvent clickCount]
+															  pressure:[anEvent pressure]
 											];
-		[self setNeedsDisplayInRect: controlRect];
-		[NSMenu popUpContextMenu: contextButtonMenu withEvent: contextEvent forView: self];
-		[super mouseDown: contextEvent];
+		[self setNeedsDisplayInRect:controlRect];
+		
+		NSMenu *contextMenu = [delegate contextMenuForShelfSplitView:self];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self
+												 selector:@selector(didEndContextMenuTracking:)
+													 name:NSMenuDidEndTrackingNotification
+												   object:contextMenu];
+		
+		[NSMenu popUpContextMenu:contextMenu withEvent: contextEvent forView: self];
+		[super mouseDown:contextEvent];
 		return;
 		
 	}else if( NSPointInRect( currentLocation, resizeThumbRect ) ){
