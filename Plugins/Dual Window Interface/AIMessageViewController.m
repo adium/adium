@@ -1132,7 +1132,6 @@
 		[scrollView_userList removeFromSuperview];
 		retainingScrollViewUserList = YES;
 		
-		[self saveUserListMinimumSize];
 		[userListController release];
 		userListController = nil;
 	
@@ -1281,7 +1280,8 @@
 		userListMinWidth = USER_LIST_MIN_WIDTH;
 	}
 	
-	[self saveUserListMinimumSize];
+	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+	[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 	
 	return userListMinWidth;
 }
