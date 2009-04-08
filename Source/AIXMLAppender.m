@@ -200,7 +200,7 @@ enum {
 		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
 			  appender.path, pathCString, (pathCString ? strlen(pathCString) : 0));
 	} else {
-		appender.fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+		appender.fileHandle = [[[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES] autorelease];
 		if (appender.initialized) {
 			struct stat sb;
 			fstat(fd, &sb);
