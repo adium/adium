@@ -441,7 +441,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	
 	switch (req) {
 		case AIRequiresHalfop:
-			return ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatOp) == AIGroupChatHalfOp);
+			return ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatHalfOp) == AIGroupChatHalfOp);
 			break;
 			
 		case AIRequiresOp:
@@ -458,9 +458,9 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	AIChat *chat = adium.interfaceController.activeChat;
 	NSArray *objects = chat.chatContainer.messageViewController.selectedListObjects;
 	
-	NSMutableString *names = [@"" mutableCopy];
+	NSMutableString *names = [NSMutableString string];
 	
-	for (NSInteger x = 0; x < objects.count; x++) {
+	for (NSUInteger x = 0; x < objects.count; x++) {
 		[names appendString:((AIListObject *)[objects objectAtIndex:x]).UID];
 		[names appendString:@" "];
 		
@@ -482,8 +482,6 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 			[names setString:@""];
 		}
 	}
-	
-	[names release];
 }
 
 - (void)op
