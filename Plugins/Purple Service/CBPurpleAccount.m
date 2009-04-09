@@ -715,7 +715,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)chat
 {
-	if (chat.isGroupChat) {
+	if (self.online && chat.isGroupChat) {
 		return [purpleAdapter contact:inContact isIgnoredInChat:chat];
 	} else {
 		return NO;
@@ -724,7 +724,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)chat
 {
-	if (chat.isGroupChat) {
+	if (self.online && chat.isGroupChat) {
 		[purpleAdapter setContact:inContact ignored:inIgnored inChat:chat];
 	}
 }
