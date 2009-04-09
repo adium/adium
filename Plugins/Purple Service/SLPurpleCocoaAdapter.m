@@ -815,6 +815,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	//cmd+1 will be the cmd without the leading character, which should be "/"
 	markup = g_markup_escape_text(cmd+1, -1);
 	status = purple_cmd_do_command(conv, cmd+1, markup, &error);
+	g_free(markup);
 	
 	//The only error status which is possible now is either 
 	switch (status) {
