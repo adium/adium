@@ -207,7 +207,7 @@
  */
 - (NSString *)defaultApplicationBundleIDForScheme:(NSString *)scheme
 {
-	return ((NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)scheme)).lowercaseString;
+	return [[(NSString *)LSCopyDefaultHandlerForURLScheme((CFStringRef)scheme) autorelease] lowercaseString];
 }
 
 #pragma mark URL Handling
