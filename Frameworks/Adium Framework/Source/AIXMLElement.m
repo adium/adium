@@ -25,6 +25,11 @@
 
 #import <AIUtilities/AIStringAdditions.h>
 
+@interface AIXMLElement()
+@property (readwrite, retain, nonatomic) NSMutableArray *attributeNames;
+@property (readwrite, retain, nonatomic) NSMutableArray *attributeValues;
+@end
+
 @implementation AIXMLElement
 
 + (id) elementWithNamespaceName:(NSString *)namespace elementName:(NSString *)newName
@@ -49,8 +54,8 @@
 
 	if ((self = [super init])) {
 		name = [newName copy];
-		attributeNames  = [[NSMutableArray alloc] init];
-		attributeValues = [[NSMutableArray alloc] init];
+		self.attributeNames  = [NSMutableArray array];
+		self.attributeValues = [NSMutableArray array];
 		contents = [[NSMutableArray alloc] init];
 
 		//If a list of self-closing tags exists, this could change to a lookup into a static NSSet
@@ -58,6 +63,9 @@
 	}
 	return self;
 }
+
+@synthesize attributeNames, attributeValues;
+
 - (id) init
 {
 	NSException *exc = [NSException exceptionWithName:@"Can't init AIXMLElement"
@@ -66,6 +74,7 @@
 	[exc raise];
 	return nil;
 }
+
 - (void) dealloc
 {
 	[name release];
@@ -78,14 +87,10 @@
 
 - (id) copyWithZone:(NSZone *)zone {
 	AIXMLElement *other = [[AIXMLElement allocWithZone:zone] initWithName:name];
-	other->attributeNames  = [attributeNames  mutableCopy];
-	other->attributeValues = [attributeValues mutableCopy];
-	other->selfCloses = selfCloses;
-	other->contents = [[NSMutableArray alloc] initWithCapacity:[contents count]];
-	NSEnumerator *contentsEnum = [contents objectEnumerator];
-	id obj;
-	while((obj = [contentsEnum nextObject]))
-		[other->contents addObject:obj];
+	other.attributeNames  = [NSMutableArray arrayWithArray:attributeNames];
+	other.attributeValues = [NSMutableArray arrayWithArray:attributeValues];
+	other.selfCloses = selfCloses;
+	other.contents = self.contents; //uses setArray, so this copies
 
 	return other;
 }
@@ -133,14 +138,7 @@
 	return nil;
 }
 
-- (BOOL) selfCloses
-{
-	return selfCloses;
-}
-- (void) setSelfCloses:(BOOL)flag
-{
-	selfCloses = flag;
-}
+@synthesize selfCloses;
 
 #pragma mark -
 
