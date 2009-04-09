@@ -512,6 +512,8 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 								if (!value) {
 									AILog(@"Danger, Will Robinson! %s is in the proto_info but can't be found in %@",identifier,chatCreationInfo);
 								}
+								
+								g_free(identifier);
 							}
 						}
 					}
