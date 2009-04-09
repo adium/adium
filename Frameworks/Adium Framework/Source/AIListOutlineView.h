@@ -17,6 +17,7 @@
 #import <AIUtilities/AIMultiCellOutlineView.h>
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIContactControllerProtocol.h>
+#import <Adium/AIListOutlineView+Drawing.h>
 
 @class AIListObject;
 
@@ -57,11 +58,6 @@ typedef enum {
 - (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth;
 - (void)setDesiredHeightPadding:(int)inPadding;
 
-//Selection Hiding
-- (void)configureSelectionHidingForNewSuperview:(NSView *)newSuperview;
-- (void)windowBecameMain:(NSNotification *)notification;
-- (void)windowResignedMain:(NSNotification *)notification;
-
 //Contact menu
 @property (readonly, nonatomic) AIListObject *listObject;
 @property (readonly, nonatomic) NSArray *arrayOfListObjects;
@@ -74,6 +70,10 @@ typedef enum {
  */
 @property (readonly, nonatomic) int indexOfFirstVisibleListContact;
 
+@end
+
+@interface AIListOutlineView (AIListOutlineView_Drawing)
+
 //Shadows
 - (void)setUpdateShadowsWhileDrawing:(BOOL)update;
 
@@ -85,4 +85,5 @@ typedef enum {
 @property (readwrite, nonatomic, retain) NSColor *backgroundColor;
 @property (readwrite, nonatomic, retain) NSColor *highlightColor;
 @property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
+
 @end

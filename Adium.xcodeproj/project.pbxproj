@@ -1038,6 +1038,8 @@
 		34EF9A320E2EB637003E5DC7 /* MobileMe-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 34EF9A300E2EB637003E5DC7 /* MobileMe-large.png */; };
 		34EF9A330E2EB637003E5DC7 /* MobileMe-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 34EF9A310E2EB637003E5DC7 /* MobileMe-small.png */; };
 		34F144430BA8FF3C000473DE /* EmoticonNames.strings in Resources */ = {isa = PBXBuildFile; fileRef = 34F144420BA8FF3B000473DE /* EmoticonNames.strings */; };
+		34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */ = {isa = PBXBuildFile; fileRef = 34F17FCC0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */ = {isa = PBXBuildFile; fileRef = 34F17FCD0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m */; };
 		34F312930ADC3FE800A4310E /* KNShelfSplitView.h in Headers */ = {isa = PBXBuildFile; fileRef = 348B25C70A50FBF300B2B972 /* KNShelfSplitView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34F312BD0ADC43CA00A4310E /* xtras_duck.png in Resources */ = {isa = PBXBuildFile; fileRef = 34F312BC0ADC43CA00A4310E /* xtras_duck.png */; };
 		34F312F00ADC476300A4310E /* KNShelfSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 348B25C60A50FBF300B2B972 /* KNShelfSplitView.m */; };
@@ -3642,6 +3644,8 @@
 		34F13F510BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = "Plugins/WebKit Message View/pt_BR.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		34F144460BA8FF46000473DE /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = "Frameworks/Adium Framework/Resources/en.lproj/EmoticonNames.strings"; sourceTree = "<group>"; };
 		34F1529405E9FDDB00B32FD7 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/en.lproj/ESPurpleMSNAccountView.nib"; sourceTree = "<group>"; };
+		34F17FCC0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AIListOutlineView+Drawing.h"; path = "Frameworks/Adium Framework/Source/AIListOutlineView+Drawing.h"; sourceTree = "<group>"; };
+		34F17FCD0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AIListOutlineView+Drawing.m"; path = "Frameworks/Adium Framework/Source/AIListOutlineView+Drawing.m"; sourceTree = "<group>"; };
 		34F2E80F07C2CD5E007EAAAB /* AIHTMLDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIHTMLDecoder.m; path = "Frameworks/Adium Framework/Source/AIHTMLDecoder.m"; sourceTree = "<group>"; };
 		34F2E81007C2CD5E007EAAAB /* AIHTMLDecoder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIHTMLDecoder.h; path = "Frameworks/Adium Framework/Source/AIHTMLDecoder.h"; sourceTree = "<group>"; };
 		34F2E81807C2CD6B007EAAAB /* AITextAttachmentExtension.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AITextAttachmentExtension.h; path = "Frameworks/Adium Framework/Source/AITextAttachmentExtension.h"; sourceTree = "<group>"; };
@@ -4643,6 +4647,8 @@
 				340F440406D8202A0072E2FA /* AIAbstractListController.m */,
 				34A48AD206F647FD002C7C5F /* AIListOutlineView.h */,
 				34A48AD106F647FD002C7C5F /* AIListOutlineView.m */,
+				34F17FCC0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h */,
+				34F17FCD0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m */,
 				4B93587906DBC6D3007977AA /* Icons */,
 				4BF98D5506D1485100E8781D /* Cells */,
 			);
@@ -7905,6 +7911,7 @@
 				114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */,
 				112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */,
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
+				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9328,6 +9335,7 @@
 				111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */,
 				112B47250F82DC2300690E84 /* AIGroupChatStatusIcons.m in Sources */,
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
+				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
