@@ -1264,7 +1264,7 @@
 	static NSCharacterSet *hashCharacters = nil;
 	
 	if (!usernameCharacters) {
-		usernameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
+		usernameCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"] retain];
 	}
 	
 	if (!hashCharacters) {
