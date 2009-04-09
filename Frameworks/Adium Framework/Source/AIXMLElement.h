@@ -46,8 +46,7 @@
 - (void)setValue:(NSString *)attrVal forAttribute:(NSString *)attrName;
 - (NSString *)valueForAttribute:(NSString *)attrName;
 
-- (BOOL) selfCloses;
-- (void) setSelfCloses:(BOOL)flag;
+@property (readwrite, nonatomic) BOOL selfCloses;
 
 #pragma mark Contents
 
