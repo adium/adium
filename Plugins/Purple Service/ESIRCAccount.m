@@ -437,7 +437,13 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	AIOperationRequirement req = menuItem.tag;
-	AIGroupChatFlags flags = [self flagsInChat:adium.interfaceController.activeChat];
+	AIChat *chat = adium.interfaceController.activeChat;
+	
+	if (!chat.chatContainer.messageViewController.selectedListObjects.count) {
+		return NO;
+	}
+	
+	AIGroupChatFlags flags = [self flagsInChat:chat];
 	
 	switch (req) {
 		case AIRequiresHalfop:
