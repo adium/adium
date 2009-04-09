@@ -1,7 +1,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h> 
 #import "GetMetadataForHTMLLog.h"
-#import "NSCalendarDate+ISO8601Parsing.h"
+#import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 
 /*
  Relevant keys from MDItem.h we use or may want to use:
