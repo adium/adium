@@ -207,12 +207,13 @@
 																			 account:account
 																				 UID:UID];
 			
-			if (contact) {
-				if (alias && [alias length]) 
-					[contact setDisplayName:alias];
-				
+			if (contact) {				
 				addedAtLeastOneContact = YES;
 				[account addContact:contact toGroup:group];
+				
+				// Set the alias (after adding to the account, so it gets set remotely)
+				if (alias && [alias length]) 
+					[contact setDisplayName:alias];
 				
 				//Remember the ABPerson's unique ID associated with this contact
 				if (person)
