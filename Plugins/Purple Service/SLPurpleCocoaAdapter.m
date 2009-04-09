@@ -1021,7 +1021,6 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 		
 		buddyUTF8String = [objectUID UTF8String];
 		/* If we support contacts in multiple groups at once this should change */
-#warning Need to free this
 		GSList *buddies = purple_find_buddies(account, buddyUTF8String);
 		
 		if (buddies) {
@@ -1030,6 +1029,7 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 				/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
 				purple_blist_add_buddy(cur->data, NULL, group, NULL);			
 			}
+			g_free(buddies);
 			
 		} else {
 			/* If we can't find a buddy, something's gone wrong... we shouldn't be moving a buddy we don't have.
