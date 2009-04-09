@@ -18,6 +18,7 @@
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListCell.h>
 #import <Adium/AIListOutlineView.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIListContact.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
