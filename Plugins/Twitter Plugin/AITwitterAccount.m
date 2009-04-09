@@ -1260,20 +1260,33 @@
 {	
 	NSAttributedString *attributedString;
 	
+	static NSCharacterSet *usernameCharacters = nil;
+	static NSCharacterSet *hashCharacters = nil;
+	
+	if (!usernameCharacters) {
+		usernameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
+	}
+	
+	if (!hashCharacters) {
+		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+		
+		hashCharacters = [[disallowedCharacters invertedSet] retain];
+		
+		[disallowedCharacters release];
+	}
+	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:inString
 															forPrefixCharacter:@"@"
 																   forLinkType:AITwitterLinkUserPage
 																	forAccount:self
-															 validCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"]];
-	
-	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+															 validCharacterSet:usernameCharacters];
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
 															forPrefixCharacter:@"#"
 																   forLinkType:AITwitterLinkSearchHash
 																	forAccount:self
-															 validCharacterSet:[disallowedCharacters invertedSet]];
+															 validCharacterSet:hashCharacters];
 	
 	return attributedString;
 }
