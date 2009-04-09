@@ -79,8 +79,7 @@
 
 	groupsHaveBackground = NO;
 	
-	[adium.preferenceController registerPreferenceObserver:self
-																			 forGroup:PREF_GROUP_LIST_THEME];
+	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(setUnlockGroup:)
@@ -102,15 +101,13 @@
 	[super dealloc];
 }
 
+
 - (void)preferencesChangedForGroup:(NSString *)group 
 							   key:(NSString *)key
 							object:(AIListObject *)object 
 					preferenceDict:(NSDictionary *)prefDict 
 						 firstTime:(BOOL)firstTime
 {
-	if (object != nil)
-		return;
-	
 	groupsHaveBackground = [[prefDict objectForKey:KEY_LIST_THEME_GROUP_GRADIENT] boolValue];
 }
 
@@ -127,7 +124,8 @@
 	[self sizeLastColumnToFit];
 }
 
-//Selection Hiding -----------------------------------------------------------------------------------------------------
+#pragma mark Selection Hiding
+
 //If our window isn't in the foreground, we're not displaying a selection.  So override this method to pass NO for
 //selected in that situation
 - (void)_drawRowInRect:(NSRect)rect colored:(BOOL)colored selected:(BOOL)selected
