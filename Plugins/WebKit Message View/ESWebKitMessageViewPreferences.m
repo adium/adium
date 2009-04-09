@@ -352,7 +352,8 @@
 	[popUp_variants setEnabled:[popUp_variants numberOfItems] > 0 && anyControlsEnabled];
 	
 	//Disable the custom background controls if the style doesn't support them
-	BOOL	allowCustomBackground = [[previewController messageStyle] allowsCustomBackground] && anyControlsEnabled;
+	AIWebkitMessageViewStyle *messageStyle = [previewController messageStyle];
+	BOOL	allowCustomBackground = [messageStyle allowsCustomBackground] && anyControlsEnabled;
 	[checkBox_useCustomBackground setEnabled:allowCustomBackground];
 	
 	allowCustomBackground = allowCustomBackground && checkBox_useCustomBackground.state;
@@ -362,12 +363,12 @@
 	[imageView_backgroundImage setEnabled:allowCustomBackground];
 	
 	//Disable the header control if this style doesn't have a header or topic
-	[checkBox_showHeader setEnabled:([[previewController messageStyle] hasHeader] || [[previewController messageStyle] hasTopic]) && anyControlsEnabled];
+	[checkBox_showHeader setEnabled:([messageStyle hasHeader] || [messageStyle hasTopic]) && anyControlsEnabled];
 	
 	//Disable user icon toggling if the style doesn't support them
-	[checkBox_showUserIcons setEnabled:[[previewController messageStyle] allowsUserIcons] && anyControlsEnabled];
+	[checkBox_showUserIcons setEnabled:[messageStyle allowsUserIcons] && anyControlsEnabled];
 	
-	[checkBox_showMessageColors setEnabled:[[previewController messageStyle] allowsColors] && anyControlsEnabled];
+	[checkBox_showMessageColors setEnabled:[messageStyle allowsColors] && anyControlsEnabled];
 }
 
 /*!
