@@ -80,11 +80,6 @@
 	groupsHaveBackground = NO;
 	
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_THEME];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(setUnlockGroup:)
-												 name:@"AIListOutlineViewUnlockGroup" 
-											   object:nil];
 }
 
 - (void)dealloc
