@@ -85,8 +85,6 @@
 											 selector:@selector(setUnlockGroup:)
 												 name:@"AIListOutlineViewUnlockGroup" 
 											   object:nil];
-
-
 }
 
 - (void)dealloc
@@ -124,6 +122,16 @@
 	[self sizeLastColumnToFit];
 }
 
+/*!
+ * @brief Should we perform type select next/previous on find?
+ *
+ * @return YES to switch between type-select results. NO to to switch within the responder chain.
+ */
+- (BOOL)tabPerformsTypeSelectFind
+{
+	return YES;
+}
+
 #pragma mark Selection Hiding
 
 //If our window isn't in the foreground, we're not displaying a selection.  So override this method to pass NO for
@@ -159,13 +167,30 @@
 	[self deselectAll:nil];
 }
 
-//Sizing -----------------------------------------------------------------------------------------------------
-// Returns our desired size
+#pragma mark Sizing
+/*!
+ * @brief Get the desired height for the outline view
+ *
+ * This includes content and desiredHeightPadding
+ */
 - (NSInteger)desiredHeight
 {
 	return ([self totalHeight] + desiredHeightPadding);
 }
 
+/*!
+ * @brief Add padding to the desired height
+ */
+- (void)setDesiredHeightPadding:(int)inPadding
+{
+	desiredHeightPadding = inPadding;
+}
+
+/*!
+ * @brief Get the desired width for the outline view
+ *
+ * This includes content; minimumDesiredWidth is respected
+ */
 - (NSInteger)desiredWidth
 {
 	unsigned	row;
@@ -185,19 +210,19 @@
 	return ((widestCell > minimumDesiredWidth) ? widestCell : minimumDesiredWidth);
 }
 
+/*!
+ * @brief Set the minimum desired width reported by -[self desiredWidth]
+ */
 - (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth
 {
 	minimumDesiredWidth = inMinimumDesiredWidth;
 }
 
-//Add padding to the desired height
-- (void)setDesiredHeightPadding:(int)inPadding
-{
-	desiredHeightPadding = inPadding;
-}
+#pragma mark Background image
 
-//Background image ---------------------------------------------------------------
-//Draw our background image or color with transparency
+/*!
+ * @brief Draw our background image or color, with transparency as appropriate
+ */
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
 	if ([self drawsBackground]) {
@@ -225,8 +250,10 @@
 				case AIFillProportionatelyBackground: {
 					//Background image proportional stretch
 					
-					//Make the width change by the same proportion as the height will change
-					//visRect.size.width = imageSize.width * (visRect.size.height / imageSize.height);
+					/*
+					 Alternately: Make the width change by the same proportion as the height will change
+							visRect.size.width = imageSize.width * (visRect.size.height / imageSize.height);
+					 */
 					
 					//Make the height change by the same proportion as the width will change
 					visRect.size.height = imageSize.height * (visRect.size.width / imageSize.width);
@@ -465,7 +492,7 @@
 	updateShadowsWhileDrawing = update;
 }
 
-//Contact menu ---------------------------------------------------------------
+#pragma mark List object access
 //Return the selected object (to auto-configure the contact menu)
 - (AIListObject *)listObject
 {
@@ -703,6 +730,7 @@
 	return YES;
 }
 
+#pragma mark Copying selected objects via the data source 
 - (IBAction)copy:(id)sender
 {
 	id dataSource = [self dataSource];
@@ -721,22 +749,13 @@
 	}
 }
 
+#pragma mark Menu items
 - (BOOL) validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
 	if ([anItem action] == @selector(copy:))
 		return [self numberOfSelectedRows] > 0;
 	else
 		return [super validateUserInterfaceItem:anItem];
-}
-
-/*!
- * @brief Should we perform type select next/previous on find?
- *
- * @return YES to switch between type-select results. NO to to switch within the responder chain.
- */
-- (BOOL)tabPerformsTypeSelectFind
-{
-	return YES;
 }
 
 #pragma mark Accessibility
