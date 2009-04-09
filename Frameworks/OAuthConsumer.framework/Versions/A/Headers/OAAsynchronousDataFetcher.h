@@ -40,5 +40,6 @@
 - (id)initWithRequest:(OAMutableURLRequest *)aRequest delegate:(id)aDelegate didFinishSelector:(SEL)finishSelector didFailSelector:(SEL)failSelector;
 
 - (void)start;
+- (void)cancel;
 
 @end
