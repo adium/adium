@@ -27,7 +27,7 @@
 				F53C25E20A2F997700F7B73D /* PBXTargetDependency */,
 				34F3B9AB0BDF177C0011AB34 /* PBXTargetDependency */,
 				4B8E0BD8086A16D4009A7A4D /* PBXTargetDependency */,
-				4B8E0BDA086A16D4009A7A4D /* PBXTargetDependency */,
+				11E738620F8DAE9B00D763D4 /* PBXTargetDependency */,
 				34611CCF09B67ABC00870036 /* PBXTargetDependency */,
 				346637760D41547F006C9034 /* PBXTargetDependency */,
 				34D1AC840D69958000470520 /* PBXTargetDependency */,
@@ -1307,19 +1307,19 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		11E738610F8DAE9B00D763D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AutoHyperlinks.framework */;
+			remoteInfo = AutoHyperlinks.framework;
+		};
 		312ED4280C7E964400A6BDA9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AIUtilities;
-		};
-		317D83AD0E89F91D00298BDB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D5E002A007328E1100594182;
-			remoteInfo = Framework;
 		};
 		31A763FA0DA570E9000AC729 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1509,13 +1509,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AIUtilities;
-		};
-		4B8E0BD9086A16D4009A7A4D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AutoHyperlinks.framework;
 		};
 		6309B74F0EA966FC000F8386 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -7999,7 +7992,6 @@
 				4B7845EC059B50820048A8BA /* PBXTargetDependency */,
 				349C31630867D199000BF883 /* PBXTargetDependency */,
 				F5B17CDF0A16C767004AE99E /* PBXTargetDependency */,
-				317D83AE0E89F91D00298BDB /* PBXTargetDependency */,
 			);
 			name = Adium;
 			productInstallPath = /;
@@ -9371,15 +9363,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		11E738620F8DAE9B00D763D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AutoHyperlinks.framework;
+			targetProxy = 11E738610F8DAE9B00D763D4 /* PBXContainerItemProxy */;
+		};
 		312ED4290C7E964400A6BDA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AIUtilities;
 			targetProxy = 312ED4280C7E964400A6BDA9 /* PBXContainerItemProxy */;
-		};
-		317D83AE0E89F91D00298BDB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Framework;
-			targetProxy = 317D83AD0E89F91D00298BDB /* PBXContainerItemProxy */;
 		};
 		31A763FB0DA570E9000AC729 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -9460,11 +9452,6 @@
 			isa = PBXTargetDependency;
 			name = AIUtilities;
 			targetProxy = 4B8E0BD7086A16D4009A7A4D /* PBXContainerItemProxy */;
-		};
-		4B8E0BDA086A16D4009A7A4D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AutoHyperlinks.framework;
-			targetProxy = 4B8E0BD9086A16D4009A7A4D /* PBXContainerItemProxy */;
 		};
 		6309B7500EA966FC000F8386 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
