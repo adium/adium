@@ -46,6 +46,8 @@
 
 - (void)viewDidLoad
 {
+	[servicesList release];
+	
 	servicesList = [((AIURLHandlerPlugin *)plugin).uniqueSchemes retain];
 	
 	[self configureTableView];
@@ -88,7 +90,7 @@
 #pragma mark Scheme information
 - (void)initializeServiceInformationForSchemes:(NSArray *)schemes
 {
-	services = [[NSMutableDictionary alloc] init];
+	[services release]; services = [[NSMutableDictionary alloc] init];
 	
 	for (NSString *scheme in schemes) {
 		[services setObject:[NSMutableDictionary dictionary] forKey:scheme];
@@ -101,7 +103,7 @@
 	NSMenu					*menu = [servicesInformation objectForKey:@"applicationsMenu"];
 	
 	if (!menu) {
-		menu = [[NSMenu alloc] init];
+		menu = [[[NSMenu alloc] init] autorelease];
 		
 		for (NSDictionary *application in [self applicationDictionaryArrayForScheme:scheme]) {
 			NSMenuItem *menuItem = [menu addItemWithTitle:[application objectForKey:@"ApplicationName"]
@@ -114,8 +116,6 @@
 		}
 		
 		[servicesInformation setObject:menu forKey:@"applicationsMenu"];
-		
-		[menu autorelease];
 	}
 	
 	return menu;
@@ -127,8 +127,8 @@
 	NSArray					*applications = [servicesInformation objectForKey:@"applications"];
 	
 	if (!applications) {
-		NSArray					*applicationArray = (NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme);
-		NSMutableArray			*mutableApplications = [[NSMutableArray alloc] init];
+		NSArray					*applicationArray = [(NSArray *)LSCopyAllHandlersForURLScheme((CFStringRef)scheme) autorelease];
+		NSMutableArray			*mutableApplications = [NSMutableArray array];
 		
 		for (NSString *bundleID in applicationArray) {
 			// File System Ref for this bundle ID
@@ -161,7 +161,7 @@
 											applicationName, @"ApplicationName",
 											image, @"ApplicationImage", nil]];
 		}
-		
+
 		[servicesInformation setObject:mutableApplications forKey:@"applications"];
 		
 		applications = mutableApplications;
