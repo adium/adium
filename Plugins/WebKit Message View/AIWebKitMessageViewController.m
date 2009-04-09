@@ -209,6 +209,9 @@ static NSArray *draggedTypes = nil;
 
 	//Release the chat
 	[chat release]; chat = nil;
+	
+	//Release the marked scroller
+	[self.markedScroller release];
 
 	[super dealloc];
 }
