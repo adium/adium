@@ -127,15 +127,23 @@
 - (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
 {	
 	NSAttributedString *attributedString = [super linkifiedAttributedStringFromString:inString];
-
-	NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
-	[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	static NSCharacterSet *groupCharacters = nil;
+	
+	if (!groupCharacters) {
+		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
+		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+		
+		groupCharacters = [[disallowedCharacters invertedSet] retain];
+		
+		[disallowedCharacters release];	
+	}
 	
 	attributedString = [AITwitterURLParser linkifiedStringFromAttributedString:attributedString
 															forPrefixCharacter:@"!"
 																   forLinkType:AITwitterLinkGroup
 																	forAccount:self
-															 validCharacterSet:[disallowedCharacters invertedSet]];
+															 validCharacterSet:groupCharacters];
 	
 	return attributedString;
 }
