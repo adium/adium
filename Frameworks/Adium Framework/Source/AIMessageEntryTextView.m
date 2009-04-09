@@ -194,6 +194,7 @@
 	[[AIContactObserverManager sharedManager] unregisterListObjectObserver:self];
 
 	[savedTextColor release];
+	[characterCounter release];
 	[characterCounterPrefix release];
     [chat release];
     [associatedView release];
