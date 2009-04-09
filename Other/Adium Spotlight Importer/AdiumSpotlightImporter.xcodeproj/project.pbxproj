@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		11E737960F8DA80300D763D4 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11E737950F8DA7FE00D763D4 /* AIUtilities.framework */; };
 		2C05A19C06CAA52B00D84F6F /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
 		3459CBBB0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3459CBB90A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h */; };
 		3459CBBC0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
@@ -33,28 +32,10 @@
 		F52060100A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		11E737940F8DA7FE00D763D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 11E737900F8DA7FE00D763D4 /* AIUtilities.framework.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* AIUtilities.framework */;
-			remoteInfo = AIUtilities;
-		};
-		11E738300F8DAB6600D763D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 11E737900F8DA7FE00D763D4 /* AIUtilities.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AIUtilities */;
-			remoteInfo = AIUtilities;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
-		11E737900F8DA7FE00D763D4 /* AIUtilities.framework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AIUtilities.framework.xcodeproj; path = "../../Frameworks/AIUtilities Framework/AIUtilities.framework.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
 		3450766C0E106DF400BF0883 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/schema.strings; sourceTree = "<group>"; };
 		3450766D0E106DF600BF0883 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/schema.strings; sourceTree = "<group>"; };
@@ -124,7 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				11E737960F8DA80300D763D4 /* AIUtilities.framework in Frameworks */,
 				8D576314048677EA00EA77CD /* CoreFoundation.framework in Frameworks */,
 				C86B05270671AA6E00DD9006 /* CoreServices.framework in Frameworks */,
 				34611BF009B662FF00870036 /* Foundation.framework in Frameworks */,
@@ -149,7 +129,6 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				11E737900F8DA7FE00D763D4 /* AIUtilities.framework.xcodeproj */,
 				34611BEF09B662FF00870036 /* Foundation.framework */,
 				C86B05260671AA6E00DD9006 /* CoreServices.framework */,
 				0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */,
@@ -177,14 +156,6 @@
 				345AF91F0A5D560600D7DA6F /* maintest.m */,
 			);
 			name = Source;
-			sourceTree = "<group>";
-		};
-		11E737910F8DA7FE00D763D4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				11E737950F8DA7FE00D763D4 /* AIUtilities.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		19C28FB6FE9D52B211CA2CBB /* Products */ = {
@@ -270,7 +241,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				11E738310F8DAB6600D763D4 /* PBXTargetDependency */,
 			);
 			name = AdiumSpotlightImporter;
 			productInstallPath = /Library/Spotlight;
@@ -318,12 +288,6 @@
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* AdiumSpotlightImporter */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 11E737910F8DA7FE00D763D4 /* Products */;
-					ProjectRef = 11E737900F8DA7FE00D763D4 /* AIUtilities.framework.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */,
@@ -331,16 +295,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		11E737950F8DA7FE00D763D4 /* AIUtilities.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AIUtilities.framework;
-			remoteRef = 11E737940F8DA7FE00D763D4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D57630F048677EA00EA77CD /* Resources */ = {
@@ -381,14 +335,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		11E738310F8DAB6600D763D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AIUtilities;
-			targetProxy = 11E738300F8DAB6600D763D4 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8D5B49A704867FD3000E48DA /* InfoPlist.strings */ = {
