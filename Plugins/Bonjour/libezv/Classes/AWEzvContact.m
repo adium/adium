@@ -515,14 +515,12 @@
 	 <url type="directory" size="90048908" nfiles="3456" posixflags="000001ED">http://192.168.1.101:34570/A26F7D11E2EDC3D9/folder/</url>
 	 */
 	
-	NSEnumerator	*objs = [[node attributes] keyEnumerator];
 	NSString		*key;
 	
 	
 	/* We have a url, so let's determine what type it is */
 	NSString *type = nil, *sizeString = nil, *nfiles = nil, *posixflags = nil, *mimeType = nil;
-	objs = [[node attributes] keyEnumerator];
-	while ((key = [objs nextObject])) {
+	for (key in [node.attributes keyEnumerator]) {
 		if ([key isEqualToString:@"type"]) {
 			type = [[node attributes] objectForKey:key];
 		} else if ([key isEqualToString:@"size"]) {
@@ -537,9 +535,8 @@
 	}
 	
 	/*Find the url */
-	NSEnumerator	*childs = [node.children objectEnumerator];
 	NSString *url = nil;
-	while ((node = [childs nextObject])) {
+	for (node in [node.children objectEnumerator]) {
 		if (node.type == AWEzvXMLText) {
 			url = node.name;
 		}

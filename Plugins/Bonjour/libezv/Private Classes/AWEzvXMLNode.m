@@ -88,7 +88,6 @@
 
 - (NSString *)xmlString {
     NSMutableString	*string;
-    NSEnumerator	*enumerator = [attributes keyEnumerator];
     NSString		*key;
     AWEzvXMLNode	*node;
     
@@ -109,7 +108,7 @@
     string = [NSMutableString stringWithString:@"<"];
     [string appendString:name];
     
-    while ((key = [enumerator nextObject])) {
+		for (key in [attributes keyEnumerator]) {
         [string appendFormat:@" %@=\"%@\"", key, [attributes objectForKey:key]];
     }
     
@@ -130,13 +129,11 @@
 - (NSString *)description
 {
 	NSMutableString *string, *key;
-	NSEnumerator	*enumerator;
 	AWEzvXMLNode	*node;
 	string = [NSMutableString stringWithString:@"<"];
 	[string appendString:name];
 	
-	enumerator = [attributes keyEnumerator];
-	while ((key = [enumerator nextObject])) {
+	for (key in [attributes keyEnumerator]) {
 		[string appendFormat:@" %@=\"%@\"", key, [attributes objectForKey:key]];
 	}
 	
