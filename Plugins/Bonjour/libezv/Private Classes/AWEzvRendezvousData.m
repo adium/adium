@@ -355,7 +355,6 @@ NSString	*endn = @"\x00\x00\x00\x00";
     UInt16	    fieldlen;		/* a 16-bit integer, length of field being added to data */
     UInt16	    fieldlenBE;		/* fieldlen as converted to network byte order */
     UInt32      serialBE = htonl(serial); /* serial as converted to network byte order */
-    NSEnumerator    *enumerator;	/* enumerator to loop dict */
 
     /* allocate NSData to create data in */
     data = [[NSMutableData alloc] init];
@@ -369,11 +368,8 @@ NSString	*endn = @"\x00\x00\x00\x00";
     keycount = htonl(keycount);
     [data appendBytes:&keycount length:4];
 
-    /* enumerator to loop through fields for announcement */
-    enumerator = [keys keyEnumerator];
-
     /* loop through fields to be added and add them to data */
-    while ((key = [enumerator nextObject])) {	    
+		for (key in keys) {	    
         /* add length of field name, then field name */
 		const char *field;
 		field = [key UTF8String];
@@ -446,17 +442,14 @@ NSString	*endn = @"\x00\x00\x00\x00";
 /* ichat AV style TXT record */
 -(NSString *)avDataAsDNSTXT {
     NSMutableString *infoData = [NSMutableString string];
-    NSEnumerator    *enumerator;
     id value;
     NSString	    *key;
     
     [infoData appendString:@"\001txtvers=1"];
     [infoData appendString:@"\001version=1"];
     
-    /* enumerator to loop through fields for announcement */
-    enumerator = [keys keyEnumerator];
-    
-    while ((key = [enumerator nextObject])) {	    
+    /* enumerate through fields for announcement */    
+		for (key in keys) {	    
 	[infoData appendString:@"\001"];	
 	[infoData appendString:key];
 	[infoData appendString:@"="];
@@ -556,7 +549,6 @@ NSString	*endn = @"\x00\x00\x00\x00";
 /* ichat AV style TXT record */
 -(NSData *)avDataAsPackedPString {
     NSMutableString *infoData = [NSMutableString string];
-    NSEnumerator    *enumerator;
     id value;
     NSString	    *key;
     const char *data;
@@ -564,10 +556,8 @@ NSString	*endn = @"\x00\x00\x00\x00";
     [infoData appendString:@"\x09txtvers=1"];
     [infoData appendString:@"\x09version=1"];
     
-    /* enumerator to loop through fields for announcement */
-    enumerator = [keys keyEnumerator];
-    
-    while ((key = [enumerator nextObject])) {
+    /* enumerate through fields for announcement */    
+		for (key in keys) {
 		/* convert binary to hex */
 		char *hexdata;
 		int i;
