@@ -1433,7 +1433,8 @@ static NSArray *draggedTypes = nil;
 		NSRect scrollerFrame = [[scrollView verticalScroller] frame];
 		NSScroller *oldScroller = scroller;
 		scroller = [[[JVMarkedScroller alloc] initWithFrame:scrollerFrame] autorelease];
-		[scroller setFloatValue:[oldScroller floatValue] knobProportion:[oldScroller knobProportion]];
+		[scroller setFloatValue:oldScroller.floatValue];
+		[scroller setKnobProportion:oldScroller.knobProportion];
 		[scrollView setVerticalScroller:scroller];
 	}
 }
