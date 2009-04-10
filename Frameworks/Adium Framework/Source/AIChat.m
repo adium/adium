@@ -476,6 +476,12 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	[uniqueChatID release]; uniqueChatID = nil;
 }
 
+- (NSString *)internalObjectID
+{
+	return self.uniqueChatID;
+}
+
+
 //Content --------------------------------------------------------------------------------------------------------------
 #pragma mark Content
 
