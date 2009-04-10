@@ -1204,6 +1204,8 @@
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
 		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */; };
+		63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */; };
 		63C120750910A0DD00C9DB57 /* DefaultXtraReadme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */; };
 		63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DF5B200E52D77F00010E99 /* AIContactList.m */; };
 		63DF5B230E52D77F00010E99 /* AIContactList.h in Headers */ = {isa = PBXBuildFile; fileRef = 63DF5B210E52D77F00010E99 /* AIContactList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4011,6 +4013,8 @@
 		636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_ICQ.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_ICQ.scpt"; sourceTree = "<group>"; };
 		636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_AIM.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_AIM.scpt"; sourceTree = "<group>"; };
 		638392F609D4D67A0067B9B7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
+		63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIProxyListObject.m; path = "Frameworks/Adium Framework/Source/AIProxyListObject.m"; sourceTree = "<group>"; };
+		63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIProxyListObject.h; path = "Frameworks/Adium Framework/Source/AIProxyListObject.h"; sourceTree = "<group>"; };
 		63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = DefaultXtraReadme.rtf; path = Resources/DefaultXtraReadme.rtf; sourceTree = "<group>"; };
 		63DEB88D09BD3FEC0026DC69 /* AIXtraPreviewImageController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewImageController.h; path = Source/AIXtraPreviewImageController.h; sourceTree = "<group>"; };
 		63DEB88E09BD3FEC0026DC69 /* AIXtraPreviewImageController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtraPreviewImageController.m; path = Source/AIXtraPreviewImageController.m; sourceTree = "<group>"; };
@@ -7401,6 +7405,8 @@
 				4B82138F049CA6CC00A8010A /* AIChat.m */,
 				4BF5BA14042F3CB200A8010A /* AIListObject.h */,
 				4BF5BA15042F3CB200A8010A /* AIListObject.m */,
+				63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */,
+				63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */,
 				4BF5BA12042F3CB200A8010A /* AIListGroup.h */,
 				4BF5BA13042F3CB200A8010A /* AIListGroup.m */,
 				63DF5B210E52D77F00010E99 /* AIContactList.h */,
@@ -7912,6 +7918,7 @@
 				112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */,
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
+				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9336,6 +9343,7 @@
 				112B47250F82DC2300690E84 /* AIGroupChatStatusIcons.m in Sources */,
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
+				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
