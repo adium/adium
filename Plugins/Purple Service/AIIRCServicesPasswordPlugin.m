@@ -86,6 +86,7 @@
 														  @"authentication required",
 														  @"nickname is registered",
 														  @"nickname is owned",
+														  @"nick is owned",
 														  @"nick belongs to another user",
 														  @"invalid",
 														  @"incorrect", nil]]) {
@@ -117,6 +118,7 @@
 			}
 		} else if ([self message:message containsFragments:[NSArray arrayWithObjects:
 															@"before it is changed",
+															@"changed in 60 seconds",
 															@"Remember: Nobody from CService will ever ask you for your password, do NOT give out your password to anyone claiming to be CService.",
 															@"you are seeking their assistance. See",
 															@"REMINDER: Do not share your password with anyone. DALnet staff will not ask for your password unless",
