@@ -1215,7 +1215,7 @@ typedef enum
  */
 - (void)setScriptingStatusMessageWithAttributedString:(id)message
 {
-	AIStatus *currentStatus = [self mutableCopyOfCurrentStatusIfBuiltIn];
+	AIStatus *currentStatus = [[self mutableCopyOfCurrentStatusIfBuiltIn] autorelease];
 	if ([message isKindOfClass:[NSAttributedString class]])
 		[currentStatus setStatusMessage:(NSAttributedString *)message];
 	else
