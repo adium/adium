@@ -673,6 +673,8 @@
  */
 - (void)redisplaySourceAndDestinationSelector:(NSNotification *)notification
 {
+	// Update the textView's chat source, in case any attributes it monitors changed.
+	[textView_outgoing setChat:chat];
 	[self setAccountSelectionMenuVisibleIfNeeded:YES];
 }
 
