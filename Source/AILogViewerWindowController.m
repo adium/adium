@@ -855,6 +855,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 					[searchWordsArray addObject:quotedString];
 				}
 			}
+			
+			[pool release];
 
 			BOOL shouldScrollToWord = NO;
 			scrollRange = NSMakeRange([displayText length],0);
