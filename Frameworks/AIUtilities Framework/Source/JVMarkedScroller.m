@@ -153,22 +153,20 @@ struct _mark {
 		[self drawKnob];
 }
 
-- (void) setFloatValue:(float) position knobProportion:(float) percent {
-	if( ! _jumpingToMark ) _currentMark = NSNotFound;
-	if( ( [self floatValue] != position || [self knobProportion] != percent ) && ( [_marks count] || [_shades count] ) )
-		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
-	[super setFloatValue:position];
-	[super setKnobProportion:percent];
-}
-
 - (void) setFloatValue:(float) position
 {
-	[self setFloatValue:position knobProportion:self.knobProportion];
+	if( ! _jumpingToMark ) _currentMark = NSNotFound;
+	if( ( [self floatValue] != position) && ( [_marks count] || [_shades count] ) )
+		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
+	[self setFloatValue:position];
 }
 
 - (void) setKnobProportion:(float)percent 
 {
-	[self setFloatValue:self.floatValue knobProportion:percent];
+	if( ! _jumpingToMark ) _currentMark = NSNotFound;
+	if(([self knobProportion] != percent ) && ( [_marks count] || [_shades count] ) )
+		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
+	[self setKnobProportion:percent];
 }
 
 - (NSMenu *) menuForEvent:(NSEvent *) event {
