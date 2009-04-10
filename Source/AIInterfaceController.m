@@ -183,7 +183,7 @@
 
 	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Toggle User List", nil)
 																				target:self
-																				action:@selector(toggleUserlistContext:)
+																				action:@selector(toggleUserlist:)
 																		 keyEquivalent:@""] autorelease];
 	
 	[adium.menuController addContextualMenuItem:menuItem toLocation:Context_GroupChat_Action];
