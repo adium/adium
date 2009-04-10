@@ -24,6 +24,8 @@
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
+#define SHOW_JOIN_LEAVE_TITLE		AILocalizedString(@"Show Join/Leave Messages", nil)
+
 @interface AIChatController ()
 - (NSSet *)_informObserversOfChatStatusChange:(AIChat *)inChat withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent;
 - (void)chatAttributesChanged:(AIChat *)inChat modifiedKeys:(NSSet *)inModifiedKeys;
@@ -88,6 +90,14 @@
 																	keyEquivalent:@""];
 	[adium.menuController addContextualMenuItem:menuItem_ignore toLocation:Context_Contact_GroupChat_ParticipantAction];
 	
+	menuItem_joinLeave = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_JOIN_LEAVE_TITLE
+																				target:self
+																			  action:@selector(toggleShowJoinLeave:)
+																		 keyEquivalent:@""];
+	
+	[adium.menuController addMenuItem:menuItem_joinLeave toLocation:LOC_Display_MessageControl];
+	[adium.menuController addContextualMenuItem:[[menuItem_joinLeave copy] autorelease] toLocation:Context_GroupChat_Action];
+
 	[adiumChatEvents controllerDidLoad];
 }
 
@@ -795,7 +805,7 @@
 	}
 }
 
-#pragma mark Ignore
+#pragma mark Menu Items
 /*!
  * @brief Toggle ignoring of a contact
  *
@@ -810,6 +820,24 @@
 		BOOL			isIgnored = [chat isListContactIgnored:(AIListContact *)listObject];
 		[chat setListContact:(AIListContact *)listObject isIgnored:!isIgnored];
 	}
+}
+
+/*!
+ * @brief Toggle displaying of show/part messages for a chat
+ *
+ * Effects the currently active chat.
+ */
+- (void)toggleShowJoinLeave:(id)sender
+{
+	AIChat *chat = nil;
+	
+	if (sender == menuItem_joinLeave) {
+		chat = adium.interfaceController.activeChat;
+	} else {
+		chat = adium.menuController.currentContextMenuChat;
+	}
+
+	chat.showJoinLeave = !chat.showJoinLeave;
 }
 
 /*!
@@ -834,6 +862,22 @@
 			[menuItem setTitle:AILocalizedString(@"Ignore","Ignore means no longer receive messages from this contact in a chat")];
 			return NO;
 		}
+	} else if ([menuItem.title isEqualToString:SHOW_JOIN_LEAVE_TITLE]) {
+		// We're using multiple menu items for the same goal, and WKMV makes a copy of the contextual ones.
+		// Validate based on the title.
+		AIChat *chat = nil;
+		if (menuItem == menuItem_joinLeave) {
+			chat = adium.interfaceController.activeChat;
+		} else {
+			chat = adium.menuController.currentContextMenuChat;
+		}
+			
+		if (chat.isGroupChat) {
+			[menuItem setState:chat.showJoinLeave];
+			return YES;
+		}
+		
+		return NO;		
 	}
 	
 	return YES;

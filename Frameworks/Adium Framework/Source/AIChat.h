@@ -107,6 +107,7 @@ typedef enum {
 	AIListContact		*topicSetter;
 	
 	BOOL				hideUserIconAndStatus;
+	BOOL				showJoinLeave;
 	
 	NSMutableDictionary	*participatingContactsFlags;
 	NSMutableDictionary	*participatingContactsAliases;
@@ -191,6 +192,7 @@ typedef enum {
 - (void)setListContact:(AIListContact *)inContact isIgnored:(BOOL)isIgnored;
 
 @property (readwrite, nonatomic) BOOL isGroupChat;
+@property (readwrite, nonatomic) BOOL showJoinLeave;
 
 @property (readwrite, nonatomic) BOOL hideUserIconAndStatus;
 @property (readonly, nonatomic) BOOL supportsTopic;

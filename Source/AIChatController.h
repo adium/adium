@@ -16,6 +16,7 @@
     AIChat					*mostRecentChat;	
 	
 	NSMenuItem				*menuItem_ignore;
+	NSMenuItem				*menuItem_joinLeave;
 	
 	AdiumChatEvents			*adiumChatEvents;
 }

@@ -506,6 +506,25 @@ void adiumPurpleConvCustomSmileyClose(PurpleConversation *conv, const char *smil
 				  closedCustomEmoticon:[NSString stringWithUTF8String:smile]];
 }
 
+static gboolean adiumPurpleConvJoin(PurpleConversation *conv, const char *name,
+									PurpleConvChatBuddyFlags flags,
+									GHashTable *users)
+{
+	AIChat *chat = groupChatLookupFromConv(conv);
+
+	// We return TRUE if we want to hide it.
+	return !chat.showJoinLeave;
+}
+
+static gboolean adiumPurpleConvLeave(PurpleConversation *conv, const char *name,
+									 const char *reason, GHashTable *users)
+{
+	AIChat *chat = groupChatLookupFromConv(conv);
+	
+	// We return TRUE if we want to hide it.
+	return !chat.showJoinLeave;	
+}
+
 static PurpleConversationUiOps adiumPurpleConversationOps = {
 	adiumPurpleConvCreate,
     adiumPurpleConvDestroy,
@@ -541,5 +560,11 @@ void adiumPurpleConversation_init(void)
 	purple_signal_connect_priority(purple_conversations_get_handle(), "conversation-updated", adium_purple_get_handle(),
 								 PURPLE_CALLBACK(adiumPurpleConvUpdated), NULL,
 								 PURPLE_SIGNAL_PRIORITY_LOWEST);
+	
+	purple_signal_connect(purple_conversations_get_handle(), "chat-buddy-joining", adium_purple_get_handle(),
+						  PURPLE_CALLBACK(adiumPurpleConvJoin), NULL);
+	
+	purple_signal_connect(purple_conversations_get_handle(), "chat-buddy-leaving", adium_purple_get_handle(),
+						  PURPLE_CALLBACK(adiumPurpleConvLeave), NULL);
 	
 }
