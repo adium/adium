@@ -848,7 +848,7 @@
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
-                        queryParameters:params body:body 
+                        queryParameters:nil body:body 
                             requestType:MGTwitterAccountRequest 
                            responseType:MGTwitterGeneric];
 }
@@ -868,7 +868,7 @@
         [params setObject:deliveryMethod forKey:@"device"];
     }
     
-    return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:params body:nil 
+    return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest
                            responseType:MGTwitterGeneric];
 }
@@ -1291,7 +1291,7 @@
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
-                        queryParameters:params body:body 
+                        queryParameters:nil body:body 
                             requestType:MGTwitterStatusSend 
                            responseType:MGTwitterStatus];
 }
@@ -1341,7 +1341,7 @@
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
-                        queryParameters:params body:body 
+                        queryParameters:nil body:body 
                             requestType:MGTwitterDirectMessageSend 
                            responseType:MGTwitterDirectMessage];
 }
@@ -1447,7 +1447,7 @@
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
-                        queryParameters:params body:body 
+                        queryParameters:nil body:body 
                             requestType:MGTwitterAccountRequest 
                            responseType:MGTwitterUser];
 }
