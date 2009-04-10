@@ -432,19 +432,6 @@
  */
 - (void)listObjectAttributesChanged:(NSNotification *)notification
 {	
-	//Don't update for objects not on this list (groupchat occupants mostly)
-	
-	BOOL objectInList = NO;
-	for (AIProxyListObject *proxyObject in ((AIListObject *)notification.object).proxyObjects) {
-		if ([self.contactListView rowForItem:proxyObject] != -1) {
-			objectInList = YES;
-			break;
-		}
-	}
-
-	if (!objectInList)
-		return;
-		
 	[super listObjectAttributesChanged:notification];
 	
 	NSSet *keys = [[notification userInfo] objectForKey:@"Keys"];
