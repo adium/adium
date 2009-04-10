@@ -72,9 +72,8 @@ static int nextChatNumber = 0;
 		expanded = YES;
 		customEmoticons = nil;
 		hasSentOrReceivedContent = NO;
+		showJoinLeave = YES;
 		pendingOutgoingContentObjects = [[NSMutableArray alloc] init];
-		
-		topic = [@"" retain];
 
 		AILog(@"[AIChat: %x initForAccount]",self);
 	}
@@ -778,7 +777,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 #pragma mark Group Chats
 
-@synthesize isGroupChat, hideUserIconAndStatus, topic, topicSetter;
+@synthesize isGroupChat, showJoinLeave, hideUserIconAndStatus, topic, topicSetter;
 
 /*!
  * @brief Does this chat support topics?
@@ -832,7 +831,6 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 		AILogWithSignature(@"Attempt to set %@ topic when account doesn't support it.");
 	}
 }
-
 
 #pragma mark Custom emoticons
 
