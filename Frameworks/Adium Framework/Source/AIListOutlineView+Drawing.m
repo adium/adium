@@ -257,7 +257,6 @@
 // Don't consider list groups when highlighting
 - (BOOL)shouldResetAlternating:(int)row
 {
-#warning AIListGroup used directly
 	return ([[self itemAtRow:row] isKindOfClass:[AIListGroup class]] && groupsHaveBackground);
 }
 
