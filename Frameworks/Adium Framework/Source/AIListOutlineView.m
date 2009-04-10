@@ -217,7 +217,6 @@
 	
 	// Let super handle it if it's not a group, or the command key is down (dealing with selection)
 	// Allow clickthroughs for triangle disclosure only.
-#warning AIListGroup used directly
 	if (![item isKindOfClass:[AIListGroup class]] || [NSEvent cmdKey] || ![[self window] isKeyWindow]) {
 		[super mouseDown:theEvent];
 		return;
