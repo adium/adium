@@ -260,7 +260,7 @@ typedef enum {
 	// Scan across the format string, building the strftime-style format
 	NSMutableString *newFormat = [[NSMutableString alloc] initWithCapacity:[format length]];
 	
-	NSScanner *scanner = [[NSScanner alloc] initWithString:format];
+	NSScanner *scanner = [[[NSScanner alloc] initWithString:format] autorelease];
 	[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithRange:NSMakeRange(0, 0)]];
 	
 	NSCharacterSet *t354symbols = [NSCharacterSet characterSetWithCharactersInString:@"GyYuMwWdDFgEeahHKkmsSAzZ'%"];
@@ -475,7 +475,7 @@ typedef enum {
 	// Scan across the format string, building the strftime-style format
 	NSMutableString *newFormat = [[NSMutableString alloc] initWithCapacity:[format length]];
 	
-	NSScanner *scanner = [[NSScanner alloc] initWithString:format];
+	NSScanner *scanner = [[[NSScanner alloc] initWithString:format] autorelease];
 	[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithRange:NSMakeRange(0, 0)]];
 		
 	while(![scanner isAtEnd]) {		
