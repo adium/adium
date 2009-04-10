@@ -667,12 +667,9 @@
 		}
 		
         [chat release];
-        chat = [inChat retain];
+        chat = [inChat retain];	
 		
-		//Observe preferences changes for typing enable/disable
-		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
-
-		//Set up the character counter for this chat. If this changes, we'll get notified as a list object observer.
+		// We only need to update our observation state for group chats.
 		if(chat.isGroupChat) {
 			[chat addObserver:self
 				   forKeyPath:@"Character Counter Max"
@@ -683,14 +680,21 @@
 				   forKeyPath:@"Character Counter Prefix"
 					  options:(NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionInitial)
 					  context:NULL];
-		} else {
-			[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
-			[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
-			[self setCharacterCounterPrefix:[chat.listObject valueForProperty:@"Character Counter Prefix"]];
-			
-			[self updateCharacterCounter];
 		}
+		
+		//Observe preferences changes for typing enable/disable
+		[adium.preferenceController registerPreferenceObserver:self forGroup:GROUP_ACCOUNT_STATUS];
     }
+	
+	//Set up the character counter for this chat's list object.
+	//This is done regardless of a chat changing because destination changes need to trigger this.
+	if(!chat.isGroupChat) {
+		[self setCharacterCounterMaximum:[chat.listObject integerValueForProperty:@"Character Counter Max"]];
+		[self setCharacterCounterVisible:([chat.listObject valueForProperty:@"Character Counter Max"] != nil)];
+		[self setCharacterCounterPrefix:[chat.listObject valueForProperty:@"Character Counter Prefix"]];
+		
+		[self updateCharacterCounter];
+	}
 }
 - (AIChat *)chat{
     return chat;
