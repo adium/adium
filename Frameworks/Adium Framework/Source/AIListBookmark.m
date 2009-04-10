@@ -26,6 +26,7 @@
 
 @interface AIListBookmark ()
 - (BOOL)chatIsOurs:(AIChat *)chat;
+- (AIChat *)openChatWithoutActivating;
 - (void)restoreGrouping;
 @end
 
@@ -212,22 +213,35 @@
  */
 - (void)openChat
 {
-	AIChat *chat = [adium.chatController existingChatWithName:self.name
-													onAccount:self.account];
-	
-	if (![self chatIsOurs:chat]) {
-		//Open a new group chat (bookmarked chat)
-		chat = [adium.chatController chatWithName:self.name
-									   identifier:NULL 
-								        onAccount:self.account 
-							     chatCreationInfo:self.chatCreationDictionary];
-	}	
+	AIChat *chat = [self openChatWithoutActivating];
 	
 	if(!chat.isOpen) {
 		[adium.interfaceController openChat:chat];
 	}
 	
 	[adium.interfaceController setActiveChat:chat];
+}
+
+/*!
+ * @brief Open our chat without activating it
+ *
+ * This is called when joining automatically on connect, and within the
+ * method which opens on double click.
+ */
+- (AIChat *)openChatWithoutActivating
+{
+	AIChat *chat = [adium.chatController existingChatWithName:self.name
+					onAccount:self.account];
+	
+	if (![self chatIsOurs:chat]) {
+		//Open a new group chat (bookmarked chat)
+		chat = [adium.chatController chatWithName:self.name
+				identifier:NULL 
+				onAccount:self.account 
+				chatCreationInfo:self.chatCreationDictionary];
+	}
+	
+	return chat;
 }
 
 /*!
@@ -280,7 +294,7 @@
 		[self notifyOfChangedPropertiesSilently:YES];
 		
 		if (self.account.online && [[self preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]) {
-			[self openChat];
+			[self openChatWithoutActivating];
 		}
 	}
 }
