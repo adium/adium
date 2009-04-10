@@ -58,7 +58,6 @@
 #define MESSAGE_VIEW_MIN_HEIGHT_RATIO		.50						//Mininum height ratio of the message view
 #define MESSAGE_VIEW_MIN_WIDTH_RATIO		.50						//Mininum width ratio of the message view
 #define ENTRY_TEXTVIEW_MIN_HEIGHT			20						//Mininum height of the text entry view
-#define USER_LIST_MIN_WIDTH					24						//Mininum width of the user list
 #define USER_LIST_DEFAULT_WIDTH				120						//Default width of the user list
 
 //Preferences and files
@@ -1273,10 +1272,9 @@
 {
 	NSInteger dividerThickness = 1;
 	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0) - dividerThickness;
-	NSInteger width = USER_LIST_MIN_WIDTH;
+	NSInteger width = userListMinWidth;
 	
 	//We must never fall below the user's prefered mininum or above the allowed width
-	if (width < userListMinWidth) width = userListMinWidth;
 	if (width > allowedWidth) width = allowedWidth;
 
 	return width;
@@ -1284,14 +1282,12 @@
 
 -(CGFloat)shelfSplitView:(KNShelfSplitView *)shelfSplitView validateWidth:(CGFloat)proposedWidth
 {
-	userListMinWidth = proposedWidth;
-	
-	if (proposedWidth < USER_LIST_MIN_WIDTH) {
-		userListMinWidth = USER_LIST_MIN_WIDTH;
+	if (userListMinWidth != proposedWidth) {
+		[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
+		[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
 	}
 	
-	[NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(saveUserListMinimumSize) object:nil];
-	[self performSelector:@selector(saveUserListMinimumSize) withObject:nil afterDelay:0.5];
+	userListMinWidth = proposedWidth;
 	
 	return userListMinWidth;
 }
