@@ -1137,6 +1137,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	
 					} else if ([chunkString caseInsensitiveCompare:@"/HTML"] == NSOrderedSame) {
 						//We are done
+						[pool release]; pool = nil;
 						break;
 
 					//PRE -- ignore attributes for logViewer
