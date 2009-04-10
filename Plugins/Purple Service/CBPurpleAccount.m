@@ -429,7 +429,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		NSString *value = [dict objectForKey:KEY_VALUE];
 		if (value &&
 			[value rangeOfString:webProfileValue options:(NSBackwardsSearch | NSAnchoredSearch | NSLiteralSearch)].location != NSNotFound) {
-			NSMutableString *newValue = [value mutableCopy];
+			NSMutableString *newValue = [[value mutableCopy] autorelease];
 			[newValue replaceOccurrencesOfString:webProfileValue
 									  withString:[self webProfileStringForContact:contact]
 										 options:(NSBackwardsSearch | NSAnchoredSearch | NSLiteralSearch)];
