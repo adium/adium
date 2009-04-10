@@ -87,7 +87,7 @@
 	//Enable scrolling and show the scrollbar
 	[[self enclosingScrollView] setLineScroll:10.0];
 	[[self enclosingScrollView] setPageScroll:10.0];
-	[[self enclosingScrollView] setVerticalScroller:[[NSScroller alloc] init]];
+	[[self enclosingScrollView] setVerticalScroller:[[[NSScroller alloc] init] autorelease]];
 	[[self enclosingScrollView] setHasVerticalScroller:YES];
 }
 
