@@ -28,10 +28,10 @@
 - (NSScriptObjectSpecifier *)objectSpecifier
 {
 	NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSApp class]];
-	return [[NSUniqueIDSpecifier alloc]
+	return [[[NSUniqueIDSpecifier alloc]
 			initWithContainerClassDescription:containerClassDesc
 			containerSpecifier:nil key:@"chatWindows"
-			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]];
+			uniqueID:[NSNumber numberWithUnsignedInteger:[self hash]]] autorelease];
 }
 
 - (NSArray *)chats
