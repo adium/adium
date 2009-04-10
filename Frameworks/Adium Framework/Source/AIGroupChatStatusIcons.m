@@ -198,7 +198,7 @@ static AIGroupChatStatusIcons *sharedIconsInstance = nil;
  */
 + (NSURL *)currentPackURL
 {
-	NSString *packName = nil, *path;
+	NSString *packName = nil, *path = nil;
 	
 	packName = [adium.preferenceController preferenceForKey:KEY_GROUP_CHAT_STATUS_ICONS
 													  group:PREF_GROUP_APPEARANCE
