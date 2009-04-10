@@ -75,6 +75,9 @@ typedef enum {
 @property (readonly, nonatomic, getter=isExpandable) BOOL expandable;
 @property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
+
+@property (readonly, nonatomic) NSString *internalObjectID;
+
 @end
 
 @interface AIListObject : ESObjectWithProperties {
@@ -86,6 +89,8 @@ typedef enum {
 
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
+	
+	NSMutableSet *proxyObjects;
 	
 	//For AIContainingObject-compliant subclasses
 	CGFloat					largestOrder;
@@ -176,4 +181,8 @@ typedef enum {
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
 - (float)orderIndexForObject:(AIListObject *)listObject;
 - (void) moveContainedObject:(AIListObject *)object toIndex:(NSInteger)index;
+
+- (NSSet *)proxyObjects;
+- (void)noteProxyObject:(id)proxyObject;
+
 @end
