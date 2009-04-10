@@ -32,6 +32,7 @@
 #import <Adium/AIContactList.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListOutlineView.h>
+#import <Adium/AIProxyListObject.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
@@ -413,13 +414,14 @@
 
 - (void)reloadListObject:(NSNotification *)notification
 {
-	id		object = [notification object];
+	AIListObject *object = notification.object;
 	
 	//Treat a nil object as equivalent to the whole contact list
 	if (!object || (object == contactList)) {
 		[contactListView reloadData];
 	} else {
-		[contactListView reloadItem:object reloadChildren:YES];
+		for (AIProxyListObject *proxyObject in object.proxyObjects)
+			[contactListView reloadItem:proxyObject reloadChildren:YES];
 	}
 }
 
@@ -431,7 +433,16 @@
 - (void)listObjectAttributesChanged:(NSNotification *)notification
 {	
 	//Don't update for objects not on this list (groupchat occupants mostly)
-	if ([self.contactListView rowForItem:notification.object] == -1)
+	
+	BOOL objectInList = NO;
+	for (AIProxyListObject *proxyObject in ((AIListObject *)notification.object).proxyObjects) {
+		if ([self.contactListView rowForItem:proxyObject] != -1) {
+			objectInList = YES;
+			break;
+		}
+	}
+
+	if (!objectInList)
 		return;
 		
 	[super listObjectAttributesChanged:notification];
