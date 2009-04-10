@@ -815,7 +815,10 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 				[scanner scanUpToString:@"\"" intoString:NULL];
 				
 				//Scan past the quote
-				if (![scanner scanString:@"\"" intoString:NULL]) continue;
+				if (![scanner scanString:@"\"" intoString:NULL]) {
+					[pool release]; pool = nil;
+					continue;
+				}
 				
 				NSString *quotedString;
 				//And a closing one
@@ -855,8 +858,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 					[searchWordsArray addObject:quotedString];
 				}
 			}
-			
-			[pool release];
 
 			BOOL shouldScrollToWord = NO;
 			scrollRange = NSMakeRange([displayText length],0);
