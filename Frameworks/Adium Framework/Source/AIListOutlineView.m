@@ -256,7 +256,7 @@
 	}	
 }
 
-#pragma Drag & Drop
+#pragma mark Drag & Drop
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender
 {	
