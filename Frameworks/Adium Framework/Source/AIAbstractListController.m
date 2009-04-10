@@ -49,6 +49,8 @@
 #import "AISCLViewPlugin.h"
 #import "AICoreComponentLoader.h"
 
+#import "AIProxyListObject.h"
+
 #define CONTENT_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
 #define STATUS_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
 #define GROUP_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
@@ -589,11 +591,13 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (item) {
-		return [item visibleObjectAtIndex:index];
+		return [AIProxyListObject proxyListObjectForListObject:[item visibleObjectAtIndex:index]
+												  inListObject:item];
 	}
 	
 	if (hideRoot) {
-		return [contactList visibleObjectAtIndex:index];
+		return [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:index]
+												  inListObject:contactList];
 	}
 	
 	return contactList;
