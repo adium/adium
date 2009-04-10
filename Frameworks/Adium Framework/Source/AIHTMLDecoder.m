@@ -1805,7 +1805,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 - (NSAttributedString *)processImgTagArgs:(NSDictionary *)inArgs attributes:(AITextAttributes *)textAttributes baseURL:(NSString *)inBaseURL
 {
 	NSAttributedString			*attachString;
-	AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
+	AITextAttachmentExtension   *attachment = [[[AITextAttachmentExtension alloc] init] autorelease];
 
 	for (NSString *arg in inArgs) {
 		if ([arg caseInsensitiveCompare:@"src"] == NSOrderedSame) {
@@ -1860,7 +1860,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		[cell release];
 		
 		attachString = [NSAttributedString attributedStringWithAttachment:attachment];
-		[attachment release];
 	} else {
 		attachString = nil;
 	}
