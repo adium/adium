@@ -451,7 +451,7 @@ typedef enum {
 	}
 
 	// Make it immutable
-	NSString *result = [newFormat copy];
+	NSString *result = [[newFormat copy] autorelease];
 	[newFormat release];
 	return result;
 
@@ -651,7 +651,7 @@ typedef enum {
 	}
 	
 	// Make it immutable
-	NSString *result = [newFormat copy];
+	NSString *result = [[newFormat copy] autorelease];
 	[newFormat release];
 	return result;
 	
