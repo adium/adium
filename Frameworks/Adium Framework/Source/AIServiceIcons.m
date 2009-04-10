@@ -242,7 +242,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			if ((thisServiceIconImageName = [defaultServiceIconNames objectForKey:serviceID])) {
 				NSString		*iconPath = [defaultPath stringByAppendingPathComponent:thisServiceIconImageName];
 				
-				defaultServiceIcon = [[NSImage alloc] initWithContentsOfFile:iconPath];
+				defaultServiceIcon = [[[NSImage alloc] initWithContentsOfFile:iconPath] autorelease];
 			}
 		}
 	}
