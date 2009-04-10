@@ -9,6 +9,10 @@
 #import "AIProxyListObject.h"
 #import <Adium/AIListObject.h>
 
+@interface NSObject (PublicAPIMissingFromHeadersAndDocsButInTheReleaseNotesGoshDarnit)
+- (id)forwardingTargetForSelector:(SEL)aSelector;
+@end
+
 @implementation AIProxyListObject
 
 @synthesize listObject, key;
@@ -82,24 +86,9 @@ static NSMutableDictionary *proxyDict;
 	return [listObject isEqual:inObject];
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+- (id)forwardingTargetForSelector:(SEL)aSelector;
 {
-	if (aSelector == @selector(init)) {
-		return [super methodSignatureForSelector:aSelector];
-
-	} else {
-		return [listObject methodSignatureForSelector:aSelector];
-	}
-}
-
-- (void)forwardInvocation:(NSInvocation *)invocation
-{
-    SEL aSelector = [invocation selector];
-
-    if ([listObject respondsToSelector:aSelector])
-        [invocation invokeWithTarget:listObject];
-    else
-        [self doesNotRecognizeSelector:aSelector];
+	return listObject;
 }
 
 @end
