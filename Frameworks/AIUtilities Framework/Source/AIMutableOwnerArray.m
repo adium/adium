@@ -234,7 +234,7 @@
 			for (index = 0;index < count;index++) {
 				NSDate	*value = [contentArray objectAtIndex:index];
 				
-				if ([currentMax timeIntervalSinceDate:value] > 0) {
+				if (!currentMax || [currentMax timeIntervalSinceDate:value] > 0) {
 					currentMax = value;
 					indexOfMax = index;
 				}
