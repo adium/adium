@@ -190,7 +190,7 @@
 	NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
 	NSPoint			center = NSMakePoint(rect.origin.x + rect.size.height*.4, rect.origin.y + (rect.size.height/2.0));
 
-	if ([controlView isItemExpanded:listObject]) {
+	if ([controlView isItemExpanded:proxyObject]) {
 		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*.3, center.y - rect.size.height*.15)];
 		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*.6, 0)];
 		[arrowPath relativeLineToPoint:NSMakePoint(-rect.size.height*.3, rect.size.height*.4)];		
