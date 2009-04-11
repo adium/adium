@@ -95,7 +95,7 @@
 		[inObject setValue:icon
 			   forProperty:@"List Status Icon"
 					notify:NotifyNever];
-		
+
 		modifiedAttributes = [NSSet setWithObjects:@"Tab Status Icon", @"List Status Icon", nil];
 	}
 	

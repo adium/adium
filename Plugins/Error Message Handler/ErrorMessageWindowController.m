@@ -18,6 +18,7 @@
 #import <AIUtilities/AIApplicationAdditions.h>
 
 #define MAX_ERRORS			80				//The max # of errors to display
+#define MAX_ERROR_FRAME_HEIGHT	300
 #define	ERROR_WINDOW_NIB	@"ErrorWindow"	//Filename of the error window nib
 
 @interface ErrorMessageWindowController ()
@@ -139,6 +140,11 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 	int errorInfoChange = [textView_errorInfo frame].size.height - [scrollView_errorInfo documentVisibleRect].size.height;
 
 	NSRect errorInfoFrame = [scrollView_errorInfo frame];
+	
+	if (errorInfoChange + NSHeight(errorInfoFrame) > MAX_ERROR_FRAME_HEIGHT) {
+		errorInfoChange = MAX_ERROR_FRAME_HEIGHT - NSHeight(errorInfoFrame);
+	}
+	
 	errorInfoFrame.size.height += errorInfoChange;
 	errorInfoFrame.origin.y -= errorInfoChange;
 	//Also move it down to keep it from overlapping the title
@@ -166,7 +172,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 		[[self window] makeFirstResponder:button_dismissAll];
     }
 
-    [[self window] orderFront:nil];
+    [[self window] makeKeyAndOrderFront:nil];
 }
 
 // called after the about window loads, so we can set up the window before it's displayed
