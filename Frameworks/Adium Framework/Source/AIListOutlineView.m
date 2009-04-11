@@ -20,6 +20,7 @@
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIProxyListObject.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
@@ -182,7 +183,7 @@
     int selectedRow = [self selectedRow];
 
     if (selectedRow >= 0 && selectedRow < [self numberOfRows]) {
-        return [self itemAtRow:selectedRow];
+        return ((AIProxyListObject *)[self itemAtRow:selectedRow]).listObject;
     } else {
         return nil;
     }
@@ -190,7 +191,25 @@
 
 - (NSArray *)arrayOfListObjects
 {
-	return [self arrayOfSelectedItems];
+	NSMutableArray *array = [NSMutableArray array];
+	for (AIProxyListObject *proxyObject in self.arrayOfSelectedItems) {
+		[array addObject:proxyObject.listObject];
+	}
+	
+	return array;
+}
+
+- (AIListContact *)firstVisibleListContact
+{
+	unsigned int numberOfRows = [self numberOfRows];
+	for (unsigned i = 0; i <numberOfRows ; i++) {
+		AIProxyListObject *item = [self itemAtRow:i];
+		if ([item isKindOfClass:[AIListContact class]]) {
+			return item.listObject;
+		}
+	}
+
+	return nil;
 }
 
 - (int)indexOfFirstVisibleListContact
