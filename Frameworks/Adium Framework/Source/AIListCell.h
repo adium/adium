@@ -14,13 +14,14 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-@class AIListObject, AIListOutlineView, AIAdium;
+@class AIListObject, AIListOutlineView, AIAdium, AIProxyListObject;
 
 #define DROP_HIGHLIGHT_WIDTH_MARGIN 5.0
 #define DROP_HIGHLIGHT_HEIGHT_MARGIN 1.0
 
 @interface AIListCell : NSCell {
 	AIListOutlineView	*controlView;
+    AIProxyListObject	*proxyObject;
     AIListObject		*listObject;
     BOOL				isGroup;
 	
@@ -47,7 +48,7 @@
 	BOOL				useAliasesAsRequested;
 }
 
-- (void)setListObject:(AIListObject *)inObject;
+- (void)setProxyListObject:(AIProxyListObject *)inObject;
 @property (readonly, nonatomic) BOOL isGroup;
 @property (readwrite, assign, nonatomic) AIListOutlineView *controlView;
 
