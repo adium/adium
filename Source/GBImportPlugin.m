@@ -20,6 +20,7 @@
 #import "GBFireImporter.h"
 #import "GBFireLogImporter.h"
 #import "BGICImportController.h"
+#import "AILoggerPlugin.h"
 
 @implementation GBImportPlugin
 
@@ -50,6 +51,12 @@
 					   action:@selector(importFireLogs:)
 				keyEquivalent:@""];
 	
+	[subMenu addItem:[NSMenuItem separatorItem]];
+	
+	[subMenu addItemWithTitle:AILocalizedString(@"Reindex Adium Logs", "Menu item titel under the 'Import' submenu. This causes existing Adium logs to be reindexed.")
+					   target:self
+					   action:@selector(reindexAdiumLogs:)
+				keyEquivalent:@""];
 	
 	[importMenuRoot setSubmenu:subMenu];
 	[subMenu release];
@@ -74,4 +81,10 @@
 {
 	[BGICImportController importIChatConfiguration];
 }
+
+- (void)reindexAdiumLogs:(id)sender
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIShowLogViewerAndReindexNotification object:nil];
+}
+
 @end
