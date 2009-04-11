@@ -61,6 +61,7 @@ static NSMutableDictionary *proxyDict;
 
 - (void)dealloc
 {
+	NSLog(@"Dealloc %@", self);
 	self.key = nil;
 
 	[super dealloc];

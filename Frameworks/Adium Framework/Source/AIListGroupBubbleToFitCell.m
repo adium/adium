@@ -28,7 +28,7 @@
 {
 	NSString *countText;
 
-	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) &&
+	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:proxyObject])) &&
 		(countText = [listObject valueForProperty:@"Count Text"])) {
 		return [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ (%@)", [self labelString], countText]
 												attributes:[self labelAttributes]] autorelease];
@@ -47,7 +47,7 @@
 {
 	int width = [super cellWidth];
 
-	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:listObject])) && 
+	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:proxyObject])) && 
 		[listObject valueForProperty:@"Count Text"]) {
 		//We'll be added a space and parenthesis to the group count if it's displayed
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:@" ()"

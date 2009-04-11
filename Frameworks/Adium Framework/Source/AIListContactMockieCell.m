@@ -53,7 +53,7 @@
 - (NSBezierPath *)bezierPathForDrawingInRect:(NSRect)rect
 {
 	NSBezierPath *bezierPath;
-	int			 row = [controlView rowForItem:listObject];
+	int			 row = [controlView rowForItem:proxyObject];
 	unsigned	 numberOfRows = [controlView numberOfRows];
 
 	if (row == 0) {

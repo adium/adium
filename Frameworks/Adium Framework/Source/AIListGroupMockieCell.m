@@ -62,7 +62,7 @@
 	} else {
 		if (![self cellIsSelected]) {
 			[[self backgroundColor] set];
-			if ([controlView isItemExpanded:listObject]) {
+			if ([controlView isItemExpanded:proxyObject]) {
 				[[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS] fill];
 			} else {
 				[[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS] fill];
@@ -80,7 +80,7 @@
 								 [[[NSGradient alloc] initWithStartingColor:highlightColor	endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
 								 [NSGradient selectedControlGradient]);
 
-		if ([controlView isItemExpanded:listObject]) {
+		if ([controlView isItemExpanded:proxyObject]) {
 			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
 		} else {
 			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
@@ -91,7 +91,7 @@
 //Remake of the cachedGradient method in AIListGroupCell, except supporting 2 gradients depending on group state
 - (NSImage *)cachedGradient:(NSSize)inSize
 {
-	AIGroupState state = ([controlView isItemExpanded:listObject] ? AIGroupExpanded : AIGroupCollapsed);
+	AIGroupState state = ([controlView isItemExpanded:proxyObject] ? AIGroupExpanded : AIGroupCollapsed);
 
 	if (!_mockieGradient[state] || !NSEqualSizes(inSize,_mockieGradientSize[state])) {
 		[_mockieGradient[state] release];
@@ -119,7 +119,7 @@
 //upper corners so the group smoothly transitions to the contact below it.
 - (void)drawBackgroundGradientInRect:(NSRect)rect
 {
-	if ([controlView isItemExpanded:listObject]) {
+	if ([controlView isItemExpanded:proxyObject]) {
 		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS] angle:90.0];
 	} else {
 		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS] angle:90.0];
@@ -147,7 +147,7 @@
 	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0;
 
 	NSBezierPath	*path;
-	if ([controlView isItemExpanded:listObject]) {
+	if ([controlView isItemExpanded:proxyObject]) {
 		path = [NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS];
 	} else {
 		path = [NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS];

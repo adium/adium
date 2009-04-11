@@ -18,6 +18,7 @@
 
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIProxyListObject.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIListOutlineView.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -70,8 +71,9 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 {
 	AIListCell *newCell = [super copyWithZone:zone];
 
+	newCell->proxyObject = nil;
 	newCell->listObject = nil;
-	[newCell setListObject:listObject];
+	[newCell setProxyListObject:proxyObject];
 
 	[newCell->font retain];
 	[newCell->textColor retain];
@@ -94,14 +96,17 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 }
 
 //Set the list object being drawn
-- (void)setListObject:(AIListObject *)inObject
+- (void)setProxyListObject:(AIProxyListObject *)inProxyObject
 {
-	if (inObject != listObject) {
+	if (proxyObject != inProxyObject) {
+		[proxyObject release];
+		proxyObject = [inProxyObject retain];
+		
 		[listObject release];
-		listObject = [inObject retain];
-
-		isGroup = [listObject isKindOfClass:[AIListGroup class]];
+		listObject = [proxyObject.listObject retain];
 	}
+
+	isGroup = [listObject isKindOfClass:[AIListGroup class]];
 }
 
 @synthesize isGroup, controlView;
@@ -371,7 +376,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 {
 	//We could just call backgroundColorForRow: but it's best to avoid doing a rowForItem lookup if there is no grid
 	if ([controlView drawsAlternatingRows]) {
-		return [controlView backgroundColorForRow:[controlView rowForItem:listObject]];
+		return [controlView backgroundColorForRow:[controlView rowForItem:proxyObject]];
 	} else {
 		return [controlView backgroundColor];
 	}
