@@ -95,8 +95,14 @@
 
 - (NSMutableArray *)displayClasses
 {
-	NSMutableArray *classes = customDisplayClasses ? customDisplayClasses : [NSMutableArray array];
+	NSMutableArray *classes = [NSMutableArray array];
+	
+	if (customDisplayClasses) {
+		[classes addObjectsFromArray:customDisplayClasses];
+	}
+
 	[classes addObject:(outgoing) ? @"outgoing" : @"incoming"];
+
 	return classes;
 }
 
