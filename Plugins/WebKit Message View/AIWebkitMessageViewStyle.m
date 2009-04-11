@@ -935,6 +935,9 @@ static NSArray *validSenderColors;
 								   displayName) stringByEscapingForXMLWithEntities:nil]];
 		 
         
+		[inString replaceKeyword:@"%senderPrefix%"
+					  withString:((AIContentMessage *)content).senderPrefix];
+		
 		do{
 			range = [inString rangeOfString:@"%sender%"];
 			if (range.location != NSNotFound) {
