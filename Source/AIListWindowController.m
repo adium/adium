@@ -33,6 +33,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIProxyListObject.h>
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>
 #import <AIUtilities/AIEventAdditions.h>
@@ -1635,7 +1636,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	if (command == @selector(insertNewline:)) {
 		// If we have a search term, open a chat with the first contact
 		if (![[textView string] isEqualToString:@""])
-			[self performDefaultActionOnSelectedObject:[contactListView itemAtRow:[contactListView indexOfFirstVisibleListContact]]
+			[self performDefaultActionOnSelectedObject:[contactListView firstVisibleListContact]
 												sender:contactListView];
 		// Hide the filter bar
 		[self hideFilterBarWithAnimation:YES];		
@@ -1667,35 +1668,55 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	
 	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
 		// Temporarily expand all groups when performing a search.
-		for (AIListObject *listObject in adium.contactController.contactList) {
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
+		NSMutableArray *groupsToExpand = [NSMutableArray array];
+		NSUInteger rows = [contactListView numberOfRows];
+		for (int i = 0; i < rows; i++) {
+			AIProxyListObject *proxyObject = [contactListView itemAtRow:i];
+			if ([proxyObject isKindOfClass:[AIListGroup class]] && ((AIListGroup *)proxyObject).expanded == NO)
+				[groupsToExpand addObject:proxyObject];
+		}
+		
+		if (groupsToExpand.count) {
+			for (AIProxyListObject *proxyObject in groupsToExpand) {
 				// Force the listgroup to save its expanded status
-				[listObject setPreference:[NSNumber numberWithBool:[(AIListGroup *)listObject isExpanded]]
-								   forKey:@"IsExpanded"
-									group:@"Contact List"];
+				AIListGroup *proxiedObject = (AIListGroup *)proxyObject;
+				
+				[proxiedObject setPreference:[NSNumber numberWithBool:proxiedObject.expanded]
+									  forKey:@"IsExpanded"
+									   group:@"Contact List"];
 				
 				// Set the group as expanded
-				[contactListView expandItem:listObject];
-			}
+				[contactListView expandItem:proxyObject];
+			}			
 		}
 		
 		filterBarExpandedGroups = YES;
+		
 	} else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
 		// Restore saved expansion status when returning to no search.
-		for (AIListObject *listObject in adium.contactController.contactList) {
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				// If this group's stored status is to be collapsed, collapse it
-				if (![[listObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
-					[contactListView collapseItem:listObject];
-				}
+		
+		// Temporarily expand all groups when performing a search.
+		NSMutableArray *groupsToCollapse = [NSMutableArray array];
+		NSUInteger rows = [contactListView numberOfRows];
+		for (int i = 0; i < rows; i++) {
+			AIProxyListObject *proxyObject = [contactListView itemAtRow:i];
+			
+			if ([proxyObject isKindOfClass:[AIListGroup class]] &&
+				![[(AIListGroup *)proxyObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
+				[groupsToCollapse addObject:proxyObject];
 			}
+		}
+		
+		if (groupsToCollapse.count) {
+			for (AIProxyListObject *proxyObject in groupsToCollapse) {
+				[contactListView collapseItem:proxyObject];
+			}			
 		}
 		
 		filterBarExpandedGroups = NO;
 	}
 	
 	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
-		
 		// Select the first contact; we're guaranteed at least one visible contact.
 		[contactListView selectRowIndexes:[NSIndexSet indexSetWithIndex:[contactListView indexOfFirstVisibleListContact]]
 					 byExtendingSelection:NO];
