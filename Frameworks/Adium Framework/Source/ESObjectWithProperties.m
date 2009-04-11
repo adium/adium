@@ -16,6 +16,7 @@
 
 #import <Adium/ESObjectWithProperties.h>
 #import <AIUtilities/AIMutableOwnerArray.h>
+#import <Adium/AIProxyListObject.h>
 
 /*!
  * @class ESObjectWithProperties
@@ -53,6 +54,10 @@
 	[changedProperties release]; changedProperties = nil;
 	[displayDictionary release]; displayDictionary = nil;
 	
+	for (AIProxyListObject *proxy in proxyObjects)
+		[AIProxyListObject releaseProxyObject:proxy];
+	[proxyObjects release]; proxyObjects = nil;
+
 	[super dealloc];
 }
 
@@ -291,6 +296,31 @@
 - (NSString *)displayName
 {
 	return @"";
+}
+
+//Subclasses should override this to provide an ID suitable for comparing using isEqual:
+- (NSString *)internalObjectID
+{
+	return @"";
+}
+
+#pragma mark Proxy objects
+
+/*!
+ * @brief Return a set of all proxy objects currently alive for this object
+ */
+- (NSSet *)proxyObjects
+{
+	return proxyObjects;
+}
+
+/*!
+ * @brief Note that a proxy object has been created for this object
+ */
+- (void)noteProxyObject:(id)proxyObject
+{
+	if (!proxyObjects) proxyObjects = [[NSMutableSet alloc] init];
+	[proxyObjects addObject:proxyObject];
 }
 
 @end

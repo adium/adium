@@ -8,19 +8,21 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class AIListObject;
+@class ESObjectWithProperties;
 @protocol AIContainingObject;
 
 @interface AIProxyListObject : NSObject {
-	AIListObject *listObject;
+	id listObject;
+	id <AIContainingObject> containingObject;
 	NSString *key;
 }
 
-@property (nonatomic, assign) AIListObject *listObject;
+@property (nonatomic, assign) id listObject;
+@property (nonatomic, assign) id <AIContainingObject> containingObject;
 @property (nonatomic, retain) NSString *key;
 
-+ (AIProxyListObject *)proxyListObjectForListObject:(AIListObject *)inListObject
-									   inListObject:(id<AIContainingObject>)containingObject;
++ (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
+									   inListObject:(ESObjectWithProperties<AIContainingObject> *)containingObject;
 + (void)releaseProxyObject:(AIProxyListObject *)proxyObject;
 
 @end
