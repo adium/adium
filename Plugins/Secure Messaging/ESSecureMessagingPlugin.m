@@ -87,18 +87,17 @@
 	NSMenu		*menu = [self _secureMessagingMenu];
 	
 	//Add menu to toolbar item (for text mode)
-	NSMenuItem	*menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Encryption", nil)
-																				  target:self
-																				  action:@selector(dummyAction:) 
-																		   keyEquivalent:@""] autorelease];
-	[menuItem setSubmenu:menu];
-	[menuItem setTag:AISecureMessagingMenu_Root];
+	menuItem_encryption = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Encryption", nil)
+																			   target:self
+																			   action:@selector(dummyAction:) 
+																		keyEquivalent:@""];
+	[menuItem_encryption setSubmenu:menu];
+	[menuItem_encryption setTag:AISecureMessagingMenu_Root];
 
-	[adium.menuController addMenuItem:menuItem 
-							 toLocation:LOC_Contact_Additions];
+	[adium.menuController addMenuItem:menuItem_encryption
+						   toLocation:LOC_Contact_Additions];
 
-	menuItem = [[menuItem copy] autorelease];
-	[adium.menuController addContextualMenuItem:menuItem
+	[adium.menuController addContextualMenuItem:[[menuItem_encryption copy] autorelease]
 									   toLocation:Context_Contact_ChatAction];
 }
 
@@ -348,7 +347,13 @@
 //Disable the insertion if a text field is not active
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIChat					*chat = adium.interfaceController.activeChat;
+	AIChat *chat;
+	
+	if (menuItem == menuItem_encryption) {
+		chat = adium.interfaceController.activeChat;
+	} else {
+		chat = adium.menuController.currentContextMenuChat;
+	}
 
 	if (!chat) return NO;
 
