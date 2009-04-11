@@ -26,7 +26,6 @@
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIContactHidingController.h>
 #import <Adium/AIStatus.h>
-#import <Adium/AIProxyListObject.h>
 
 #define ObjectStatusCache	@"Object Status Cache"
 #define DisplayName			@"Display Name"
@@ -56,7 +55,6 @@
 {
 	if ((self = [super init])) {
 		m_groups = [[NSMutableSet alloc] initWithCapacity:1];
-		proxyObjects = [[NSMutableSet alloc] initWithCapacity:1];
 
 		UID = [inUID retain];	
 		service = inService;
@@ -87,10 +85,6 @@
 	[UID release]; UID = nil;
 	[internalObjectID release]; internalObjectID = nil;
 	[m_groups release]; m_groups = nil;
-
-	for (AIProxyListObject *proxy in proxyObjects)
-		[AIProxyListObject releaseProxyObject:proxy];
-	[proxyObjects release]; proxyObjects = nil;
 
 	[super dealloc];
 }
@@ -262,23 +256,6 @@
 		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0];
 	}	
 }
-
-/*!
- * @brief Return a set of all proxy objects currently alive for this object
- */
-- (NSSet *)proxyObjects
-{
-	return proxyObjects;
-}
-
-/*!
- * @brief Note that a proxy object has been created for this object
- */
-- (void)noteProxyObject:(id)proxyObject
-{
-	[proxyObjects addObject:proxyObject];
-}
-
 
 //Properties ------------------------------------------------------------------------------------------------------
 #pragma mark Properties

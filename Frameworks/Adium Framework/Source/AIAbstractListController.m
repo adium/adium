@@ -256,12 +256,9 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 //Double click in outline view
 - (IBAction)performDefaultActionOnSelectedItem:(NSOutlineView *)sender
-{
-	NSEnumerator	*enumerator = [[sender arrayOfSelectedItems] objectEnumerator];
-	AIListObject	*selectedObject;
-	while ((selectedObject = [enumerator nextObject])) {
-		[delegate performDefaultActionOnSelectedObject:selectedObject sender:sender];
-	}
+{	
+	for (AIProxyListObject	*selectedProxyObject in sender.arrayOfSelectedItems)
+		[delegate performDefaultActionOnSelectedObject:(AIListObject *)selectedProxyObject.listObject sender:sender];
 }
 
 - (void)reloadData
@@ -593,32 +590,39 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //Outline View data source ---------------------------------------------------------------------------------------------
 #pragma mark Outline View data source
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(AIProxyListObject *)item
 {
+	AIProxyListObject *proxyListObject;
+
 	if (item) {
-		return [AIProxyListObject proxyListObjectForListObject:[item visibleObjectAtIndex:index]
-												  inListObject:item];
-	}
+		AIListObject<AIContainingObject> *listObject = item.listObject;
+		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:index]
+															 inListObject:listObject];
+
+	} else if (hideRoot)
+		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:index]
+															 inListObject:contactList];
+	else
+		proxyListObject = [AIProxyListObject proxyListObjectForListObject:contactList
+															 inListObject:nil];
 	
-	if (hideRoot) {
-		return [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:index]
-												  inListObject:contactList];
-	}
-	
-	return contactList;
+	return proxyListObject;
 }
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(AIProxyListObject *)item
 {
+	NSInteger children;
+
 	if (item) {
-		return ((AIListObject<AIContainingObject> *)item).visibleCount;
-	}
-		
-	if (hideRoot) {
-		return ((AIListObject<AIContainingObject> *)contactList).visibleCount;
-	}
+		AIListObject<AIContainingObject> *listObject = item.listObject;
+
+		children = listObject.visibleCount;
+	} else if (hideRoot)
+		children = ((id<AIContainingObject>)contactList).visibleCount;
+	else
+		children = 1;
 	
-	return 1;
+	return children;
 }
 
 /*!
@@ -629,10 +633,10 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  * @param tableColumn (Ignored)
  * @param item The AIListObject which will be drawn by the cell
  */
-- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(AIProxyListObject *)item
 {
 	if ([outlineView isKindOfClass:[AIListOutlineView class]]) {
-		[(AIListCell *)cell setListObject:item];
+		[(AIListCell *)cell setListObject:item.listObject];
 		[(AIListCell *)cell setControlView:(AIListOutlineView *)outlineView];
 		
 		[(AIListCell *)cell setIndentation:indentationPerLevel[[outlineView levelForItem:item]]];
@@ -640,32 +644,34 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 }
 
 //
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(AIProxyListObject *)item
 {
     return @"";
 }
 
 //
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(AIProxyListObject *)item
 {
-	return (!item || ([item conformsToProtocol:@protocol(AIContainingObject)] && [item isExpandable]));
+	return (!item || ([item.listObject conformsToProtocol:@protocol(AIContainingObject)] && 
+					  ((id<AIContainingObject>)(item.listObject)).isExpandable));
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isGroup:(id)item
+- (BOOL)outlineView:(NSOutlineView *)outlineView isGroup:(AIProxyListObject *)item
 {
-	return (!item || ([item isKindOfClass:[AIListGroup class]]));
-}
-
-//
-- (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(id)item
-{
-    [item setExpanded:state];
+	return (!item || ([item.listObject isKindOfClass:[AIListGroup class]]));
 }
 
 //
-- (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(id)item
+- (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(AIProxyListObject *)item
 {
-    return !item || ((AIListObject<AIContainingObject> *)item).expanded;
+	/* XXX Should note the combination of item and item's parent for expansion tracking */
+    [(id<AIContainingObject>)(item.listObject) setExpanded:state];
+}
+
+//
+- (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(AIProxyListObject *)item
+{
+    return !item || ((id<AIContainingObject>)(item.listObject)).expanded;
 }
 
 /*!
@@ -707,12 +713,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
     [self hideTooltip];
 	
     //Return the context menu
-	AIListObject	*listObject = (AIListObject *)[outlineView firstSelectedItem];
+	AIListObject	*listObject = ((AIProxyListObject *)outlineView.firstSelectedItem).listObject;
 
 	return [self contextualMenuForListObject:listObject];
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(AIProxyListObject *)item
 {
 	return ([self outlineView:outlineView isGroup:item] ? [groupCell cellSize].height : [contentCell cellSize].height);
 }
@@ -720,16 +726,15 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 /*!
  * @brief Return the string value used for type selection
  */
-- (NSString *)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+- (NSString *)outlineView:(NSOutlineView *)outlineView typeSelectStringForTableColumn:(NSTableColumn *)tableColumn item:(AIProxyListObject *)item
 {
     NSString *stringValue = @"";
     
     if (outlineView == contactListView) {        
-        AIListCell *cell;
-        if ([item isKindOfClass:[AIListGroup class]])
-            cell = groupCell;
-        else
-            cell = contentCell;
+		AIListObject *listObject = item.listObject;
+        AIListCell	 *cell;
+
+		cell = ([listObject isKindOfClass:[AIListGroup class]] ? (AIListCell *)groupCell : (AIListCell *)contentCell);
  
         [self outlineView:contactListView 
           willDisplayCell:cell
@@ -769,7 +774,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  * We promise @"AIListObjectUniqueIDs" which will be generated as needed as an array of uniqueObjectIDs corresponding to
  * the drag items array.
  */
-- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray*)items toPasteboard:(NSPasteboard*)pboard
+- (BOOL)outlineView:(NSOutlineView *)outlineView writeItems:(NSArray *)items toPasteboard:(NSPasteboard*)pboard
 {
 	if (pboard == [NSPasteboard pasteboardWithName:NSDragPboard]) {
 		//Begin the drag
@@ -801,27 +806,29 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 			nil];
 
 		NSEnumerator *itemsEnum = [items objectEnumerator];
-		for (AIListContact *contact = [itemsEnum nextObject]; contact; contact = [itemsEnum nextObject]) {
+		for (AIProxyListObject *proxyListObject = [itemsEnum nextObject]; proxyListObject; proxyListObject = [itemsEnum nextObject]) {
+			AIListObject *listObject = proxyListObject.listObject;
 			NSString *format;
 
 			//Check AIMetaContact first, because it is a kind of AIListContact. The else, thus, serves to implicitly say “is a list contact +and is not a metacontact+”.
-			if ([contact isKindOfClass:[AIMetaContact class]]) {
+			if ([listObject isKindOfClass:[AIMetaContact class]]) {
 				//Process each contact in the metacontact.
-				for (AIListContact *subcontact in (AIMetaContact *)contact) {
+				for (AIListContact *subcontact in (AIMetaContact *)listObject) {
 					format = [URLFormats objectForKey:subcontact.service.serviceID];
 					if (format) {
 						[URLStrings addObject:[NSString stringWithFormat:format, [subcontact.UID stringByEncodingURLEscapes]]];
 						[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, subcontact.UID, [subcontact.service longDescription]]];
 					}
 				}
-			} else if ([contact isKindOfClass:[AIListContact class]]) {
-				format = [URLFormats objectForKey:contact.service.serviceID];
+			} else if ([listObject isKindOfClass:[AIListContact class]]) {
+				format = [URLFormats objectForKey:listObject.service.serviceID];
 				if (!format) {
-					AILogWithSignature(@"Can't copy contact %@ of service %@ because there's no URL scheme associated with that service - skipping", contact, contact.service.serviceID);
+					AILogWithSignature(@"Can't copy contact %@ of service %@ because there's no URL scheme associated with that service - skipping",
+									   listObject, listObject.service.serviceID);
 
 				} else {
-					[URLStrings addObject:[NSString stringWithFormat:format, [contact.UID stringByEncodingURLEscapes]]];
-					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, contact.UID, [contact.service longDescription]]];
+					[URLStrings addObject:[NSString stringWithFormat:format, [listObject.UID stringByEncodingURLEscapes]]];
+					[linkTitles addObject:[NSString stringWithFormat:LINK_TITLE_FORMAT, listObject.UID, listObject.service.longDescription]];
 				}
 			}
 			//We ignore groups.
@@ -840,7 +847,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return YES;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)index
 {	
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIListControllerDragEnded"
@@ -860,7 +867,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  * @param index The index within item into which the drag would currently drop. It may be a 0-based index inside item or may be NSOutlineViewDropOnItemIndex.
  * @result The drag operation we will allow
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(AIProxyListObject *)item proposedChildIndex:(NSInteger)index
 {	
 	return NSDragOperationMove;
 }
@@ -917,7 +924,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		
 		//Be sure that screen points outside our view return nil, since no contact is being hovered.
 		if (viewPoint.x > NSMinX(contactListFrame) && viewPoint.x < NSMaxX(contactListFrame)) {
-			listObject = [contactListView itemAtRow:[contactListView rowAtPoint:viewPoint]];
+			listObject = ((AIProxyListObject *)[contactListView itemAtRow:[contactListView rowAtPoint:viewPoint]]).listObject;
 		}
 	}
 	

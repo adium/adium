@@ -7,6 +7,7 @@
 //
 
 #import "AIProxyListObject.h"
+#import <Adium/ESObjectWithProperties.h>
 #import <Adium/AIListObject.h>
 
 @interface NSObject (PublicAPIMissingFromHeadersAndDocsButInTheReleaseNotesGoshDarnit)
@@ -15,7 +16,7 @@
 
 @implementation AIProxyListObject
 
-@synthesize listObject, key;
+@synthesize listObject, containingObject, key;
 
 static NSMutableDictionary *proxyDict;
 
@@ -24,17 +25,19 @@ static NSMutableDictionary *proxyDict;
 	proxyDict = [[NSMutableDictionary alloc] init];
 }
 
-+ (AIProxyListObject *)proxyListObjectForListObject:(AIListObject *)inListObject inListObject:(id<AIContainingObject>)containingObject
++ (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
+									   inListObject:(ESObjectWithProperties <AIContainingObject>*)inContainingObject
 {
 	AIProxyListObject *proxy;
-	NSString *key = (containingObject ? 
-					 [NSString stringWithFormat:@"%@-%@", inListObject.internalObjectID, containingObject.internalObjectID] :
+	NSString *key = (inContainingObject ? 
+					 [NSString stringWithFormat:@"%@-%@", inListObject.internalObjectID, inContainingObject.internalObjectID] :
 					 inListObject.internalObjectID);
 
 	proxy = [proxyDict objectForKey:key];
 	if (!proxy) {
 		proxy = [[AIProxyListObject alloc] init];
 		proxy.listObject = inListObject;
+		proxy.containingObject = inContainingObject;
 		proxy.key = key;
 		[inListObject noteProxyObject:proxy];
 
@@ -88,6 +91,7 @@ static NSMutableDictionary *proxyDict;
 
 - (id)forwardingTargetForSelector:(SEL)aSelector;
 {
+	NSLog(@"XXX forwarding %@; break on -[AIProxyListObject forwardingTargetForSelector:]", NSStringFromSelector(aSelector));
 	return listObject;
 }
 

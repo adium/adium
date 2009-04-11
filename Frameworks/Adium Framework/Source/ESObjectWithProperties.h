@@ -28,9 +28,11 @@ typedef enum {
 
 @interface ESObjectWithProperties : NSObject {
 	NSMutableDictionary		*propertiesDictionary;
-	NSMutableSet						*changedProperties;		//Properties that have changed since the last notification
+	NSMutableSet			*changedProperties;		//Properties that have changed since the last notification
 	
 	NSMutableDictionary		*displayDictionary;		//A dictionary of values affecting this object's display
+	
+	NSMutableSet *proxyObjects;
 }
 
 //Setting properties
@@ -58,7 +60,12 @@ typedef enum {
 //Name
 @property (readonly, nonatomic, retain) NSString *displayName;
 
+@property (readonly, nonatomic) NSString *internalObjectID;
+
 //Mutable owner array delegate method
 - (void)mutableOwnerArray:(AIMutableOwnerArray *)inArray didSetObject:(id)anObject withOwner:(id)inOwner priorityLevel:(float)priority;
+
+- (NSSet *)proxyObjects;
+- (void)noteProxyObject:(id)proxyObject;
 
 @end

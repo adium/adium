@@ -466,15 +466,20 @@
 /*! 
  * @brief Method to check if operations need to be performed
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView 
+				  validateDrop:(id <NSDraggingInfo>)info
+				  proposedItem:(AIProxyListObject *)item
+			proposedChildIndex:(NSInteger)index
 {
     NSArray			*types = [[info draggingPasteboard] types];
 	NSDragOperation retVal = NSDragOperationNone;
 	
 	//No dropping into contacts
 	BOOL allowBetweenContactDrop = (index == NSOutlineViewDropOnItemIndex);
+	AIListObject *proposedListObject = item.listObject;
 
 	if ([types containsObject:@"AIListObject"]) {
+		
 		id			 dragItem;
 		BOOL		 hasGroup = NO, hasNonGroup = NO;
 		for (dragItem in dragItems) {
@@ -491,29 +496,27 @@
 		id	primaryDragItem = [dragItems objectAtIndex:0];
 
 		/* If this is a reorder within a metacontact, allow it in all cases. */
-		if (([primaryDragItem isKindOfClass:[AIListContact class]] && [item isKindOfClass:[AIListContact class]]) &&
-			([(AIListContact *)primaryDragItem parentContact] == [(AIListContact *)item parentContact])) {
+		if (([primaryDragItem isKindOfClass:[AIListContact class]] && [proposedListObject isKindOfClass:[AIListContact class]]) &&
+			([(AIListContact *)primaryDragItem parentContact] == [(AIListContact *)proposedListObject parentContact])) {
 			return ((index != NSOutlineViewDropOnItemIndex) ? NSDragOperationMove : NSDragOperationNone);
 		}
-		
-		AIListObject *listItem = (AIListObject *)item;
 		
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
 			NSUInteger dropIndex = index;
 			
 			//Disallow dragging groups into or onto other objects
 			if (item != nil) {
-				AIListObject *currentGroup = listItem;
+				AIProxyListObject *currentGroupProxy = item;
 
 				// Iterate until we reach the highest level.
-				while ([outlineView parentForItem:currentGroup] != nil) {
-					currentGroup = (AIListObject *)[outlineView parentForItem:currentGroup];
+				while ([outlineView parentForItem:currentGroupProxy] != nil) {
+					currentGroupProxy = (AIProxyListObject *)[outlineView parentForItem:currentGroupProxy];
 				}
-				
-				dropIndex = [self.contactList visibleIndexOfObject:currentGroup];
+
+				dropIndex = [self.contactList visibleIndexOfObject:currentGroupProxy.listObject];
 			}
 			
-			if([self.contactList containsObject:primaryDragItem]) {
+			if ([self.contactList containsObject:primaryDragItem]) {
 				NSUInteger visibleIndex = [self.contactList visibleIndexOfObject:primaryDragItem];
 				
 				// If this is a drop on or directly below, we're not moving anywhere.
@@ -535,9 +538,9 @@
 			 *   If (index == 0), the drag is at the very top of the contact list.
 			 * Do this right by shifting the drop to that group. 
 			 */
-			AIListObject* itemAboveProposedIndex = (AIListObject *)[[outlineView dataSource] outlineView:outlineView
-																								   child:((index > 0) ? (index - 1) : 0)
-																								  ofItem:nil];
+			AIProxyListObject *itemAboveProposedIndex = (AIProxyListObject *)[[outlineView dataSource] outlineView:outlineView
+																											 child:((index > 0) ? (index - 1) : 0)
+																											ofItem:nil];
 			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]]) {
 				itemAboveProposedIndex = [outlineView parentForItem:itemAboveProposedIndex];
 			}
@@ -547,23 +550,26 @@
 					 NSOutlineViewDropOnItemIndex);
 			
 			item = itemAboveProposedIndex;
-			
+			proposedListObject = item.listObject;
+
 			[outlineView setDropItem:item dropChildIndex:index];
 		}
-		
-		if ((index == NSOutlineViewDropOnItemIndex) && [item isKindOfClass:[AIListContact class]] && ([info draggingSource] == [self contactListView])) {
+
+		if ((index == NSOutlineViewDropOnItemIndex) && [proposedListObject isKindOfClass:[AIListContact class]] &&
+			([info draggingSource] == [self contactListView])) {
 			//Dropping into a contact or attaching groups: Copy
 			if (([contactListView rowForItem:primaryDragItem] == -1) ||
 				[primaryDragItem isKindOfClass:[AIListContact class]]) {
 				retVal = NSDragOperationCopy;
 
 				if ([primaryDragItem isKindOfClass:[AIListContact class]] &&
-					[item isKindOfClass:[AIListContact class]] &&
-					[[(AIListContact *)item parentContact] isKindOfClass:[AIMetaContact class]]) {
+					[proposedListObject isKindOfClass:[AIListContact class]] &&
+					[[(AIListContact *)proposedListObject parentContact] isKindOfClass:[AIMetaContact class]]) {
 					/* Dragging a contact into a contact which is already within a metacontact.
 					 * This should retarget to combine the dragged contact with the metacontact.
 					 */
-					[outlineView setDropItem:[(AIListContact *)item parentContact]
+					[outlineView setDropItem:[AIProxyListObject proxyListObjectForListObject:[(AIListContact *)item parentContact]
+																				inListObject:[(AIListContact *)item parentContact].containingObjects.anyObject]
 							  dropChildIndex:NSOutlineViewDropOnItemIndex];
 				}
 
@@ -577,10 +583,9 @@
 			//XXX If we can sort manually but the sort controller also has some control (e.g. status sort with manual ordering), we should get a hint and make use of it.
 			
 			AISortController *sortController = [AISortController activeSortController];
-			
-			id <AIContainingObject> container = item ?: adium.contactController.contactList;
-			
-			if (![sortController canSortManually] && [container containsObject:[dragItems objectAtIndex:0]]) {
+			AIListObject<AIContainingObject> *container = proposedListObject ? proposedListObject : adium.contactController.contactList;
+
+			if (!sortController.canSortManually && [container containsObject:[dragItems objectAtIndex:0]]) {
 				// We can't sort manually, and the container already has this item. No operation will take place.
 				retVal = NSDragOperationNone;
 			} else if (![sortController canSortManually]) {
@@ -599,15 +604,15 @@
 				/* A drop just below a metacontact will appear to be in the group (and should be).
 				 * Adjust to fit reality accordingly.
 				 */
-				if (item && [item isKindOfClass:[AIMetaContact class]]) {
+				if (proposedListObject && [proposedListObject isKindOfClass:[AIMetaContact class]]) {
 					BOOL isExpanded = [outlineView isItemExpanded:item];
 					if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
 																numberOfChildrenOfItem:item])) ||
 						(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
 						
-						id <AIContainingObject> parentObject = (id <AIContainingObject>)[outlineView parentForItem:listItem];
+						AIProxyListObject<AIContainingObject> *parentObject = [outlineView parentForItem:item];
 
-						[outlineView setDropItem:parentObject dropChildIndex:[parentObject visibleIndexOfObject:listItem] + 1];
+						[outlineView setDropItem:parentObject dropChildIndex:[parentObject visibleIndexOfObject:proposedListObject] + 1];
 					}
 				}
 				
@@ -622,7 +627,7 @@
 			   [types containsObject:NSURLPboardType] ||
 			   [types containsObject:NSStringPboardType] ||
 			   [types containsObject:AIiTunesTrackPboardType]) {
-		retVal = ((item && [item isKindOfClass:[AIListContact class]]) ? NSDragOperationLink : NSDragOperationNone);
+		retVal = ((proposedListObject && [proposedListObject isKindOfClass:[AIListContact class]]) ? NSDragOperationLink : NSDragOperationNone);
 
 	} else if (!allowBetweenContactDrop) {
 		retVal = NSDragOperationNone;
@@ -642,14 +647,14 @@
 		} else if ([aDragItem isKindOfClass:[AIListContact class]]) {
 			//For listContacts, add all contacts with the same service and UID (on all accounts)
 			[realDragItems addObjectsFromArray:[[adium.contactController allContactsWithService:aDragItem.service 
-																							  UID:aDragItem.UID] allObjects]];
+																							UID:aDragItem.UID] allObjects]];
 		}
 	}
 	
 	return realDragItems;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)index
 {
 	BOOL		success = YES;
 	NSPasteboard *draggingPasteboard = [info draggingPasteboard];
@@ -660,8 +665,9 @@
 		[outlineView deselectAll:nil];
 
 		//The tree root is not associated with our root contact list group, so we need to make that association here
+		//XXX The contactList is actually an ESObjectWithProperties because it could also be an AIChat.  Confusing.
 		if (item == nil) 
-			item = contactList;
+			item = [AIProxyListObject proxyListObjectForListObject:(AIListObject *)contactList inListObject:nil];
 
 		//If we don't have drag items, we are dragging from another instance; build our own dragItems array
 		//using the supplied internalObjectIDs
@@ -673,8 +679,13 @@
 			dragItemsUniqueIDs = [draggingPasteboard propertyListForType:@"AIListObjectUniqueIDs"];
 			arrayOfDragItems = [NSMutableArray array];
 			
+			/* XXX We need to know which source group these drag items came from such that we
+			 * 1) use the right proxy object
+			 * 2) can remove from that source group if moving into a new group
+			 */
 			for (uniqueID in dragItemsUniqueIDs) {
-				[arrayOfDragItems addObject:[adium.contactController existingListObjectWithUniqueID:uniqueID]];
+				[arrayOfDragItems addObject:[AIProxyListObject proxyListObjectForListObject:[adium.contactController existingListObjectWithUniqueID:uniqueID]
+																			   inListObject:nil]];
 			}
 			
 			//We will release this when the drag is completed
@@ -684,26 +695,34 @@
 		[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 		//Move the list object to its new location
-		if ([item isKindOfClass:[AIListGroup class]]) {
-			if (item != adium.contactController.offlineGroup) {
-				AIListGroup *group = (AIListGroup *)item;
-				for (AIListObject *object in dragItems) {
-					NSAssert2([group canContainObject:object], @"BUG: Attempting to drop %@ into %@", object, group);
+		if ([item.listObject isKindOfClass:[AIListGroup class]]) {
+			/* Can't drop into the offline group */
+			if (item.listObject != adium.contactController.offlineGroup) {
+				AIListGroup *group = (AIListGroup *)(item.listObject);
+				
+				for (AIProxyListObject *proxyObject in dragItems) {
+					AIListObject *listObject = proxyObject.listObject;
 					
-					if (![group containsObject:object]) {
-						if([object isKindOfClass:[AIListContact class]]) {
+					NSAssert2([group canContainObject:listObject], @"BUG: Attempting to drop %@ into %@", listObject, group);
+					
+					if (![group containsObject:listObject]) {
+						if([listObject isKindOfClass:[AIListContact class]]) {
 							// Contact being moved to a new group.
-							[adium.contactController moveContact:(AIListContact *)object intoGroups:[NSSet setWithObject:group]];
-						} else if ([object isKindOfClass:[AIListGroup class]]) {							
+							/* XXX This call needs to be moveContact:fromGroup:intoGroup: such that we remove it from
+							 * the originating group and send it to the right group, leaving other groups alone.
+							 */
+							[adium.contactController moveContact:(AIListContact *)listObject intoGroups:[NSSet setWithObject:group]];
+
+						} else if ([listObject isKindOfClass:[AIListGroup class]]) {							
 							// Group being moved to a new detached window.
 							NSAssert([group isKindOfClass:[AIContactList class]], @"Target group not an AIContactList");
 							
-							[[(AIListGroup *)object contactList] moveGroup:(AIListGroup *)object to:(AIContactList *)group];
+							[[(AIListGroup *)listObject contactList] moveGroup:(AIListGroup *)listObject to:(AIContactList *)group];
 						}
 					}
 					
-					[group moveContainedObject:object toIndex:index];
-					[adium.contactController sortListObject:object];
+					[group moveContainedObject:listObject toIndex:index];
+					[adium.contactController sortListObject:listObject];
 				}
 				
 				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged
@@ -715,16 +734,16 @@
 			
 		} else if ([item isKindOfClass:[AIMetaContact class]]) {
 			if ([[dragItems objectAtIndex:0] isKindOfClass:[AIListContact class]] &&
-				([(AIListContact *)[dragItems objectAtIndex:0] parentContact] != item)) {
+				([(AIListContact *)[dragItems objectAtIndex:0] parentContact] != item.listObject)) {
 				/* We are dragging a contact into a metacontact, and that contact isn't already part
 				 * of that metacontact. This needs confirmation! */
-				[self promptToCombineItems:dragItems withContact:item];
+				[self promptToCombineItems:dragItems withContact:(AIListContact *)(item.listObject)];
 
 			} else {
 				/* We're moving things around within a metacontact. Only get the contacts which are actually within it. */
 				NSArray *startingArray = [self arrayOfAllContactsFromArray:dragItems];
 				NSMutableSet *set = [NSMutableSet setWithArray:startingArray];
-				[set intersectSet:[NSSet setWithArray:[(AIMetaContact *)item containedObjects]]];
+				[set intersectSet:[NSSet setWithArray:((AIMetaContact *)item).containedObjects]];
 
 				for (AIListObject *obj in set) {
 					[(AIMetaContact *)item moveContainedObject:(AIListContact *)obj toIndex:index];
@@ -733,7 +752,7 @@
 			[outlineView reloadData];
 
 		} else if ([item isKindOfClass:[AIListContact class]]) {
-			[self promptToCombineItems:dragItems withContact:item];
+			[self promptToCombineItems:dragItems withContact:(AIListContact *)(item.listObject)];
 		}
 				 
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
@@ -743,7 +762,7 @@
 																				   NSFilenamesPboardType, AIiTunesTrackPboardType, nil]])) {
 		//Drag and Drop file transfer for the contact list.
 		AIListContact	*targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
-																							  forListContact:item];
+																							  forListContact:(AIListContact *)(item.listObject)];
 		if (targetFileTransferContact) {
 			NSArray			*files = nil;
 			NSString		*file;
@@ -809,7 +828,7 @@
 									AILocalizedString(@"Send Text", nil),
 									AILocalizedString(@"Cancel", nil),
 									nil) == NSAlertDefaultReturn) {
-					chat = [adium.chatController openChatWithContact:(AIListContact *)item
+					chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
 													onPreferredAccount:YES];
 					messageContent = [AIContentMessage messageInChat:chat
 														  withSource:chat.account
@@ -853,7 +872,7 @@
 	
 	//Metacontact creation, prompt the user
 	NSDictionary	*context = [NSDictionary dictionaryWithObjectsAndKeys:
-								inContact, @"item",
+								inContact, @"destinationListContact",
 								items, @"dragitems", nil];
 	
 	NSBeginInformationalAlertSheet(promptTitle,
@@ -873,11 +892,11 @@
 	NSDictionary	*context = (NSDictionary *)contextInfo;
 
 	if (returnCode == 1) {
-		AIListObject	*item = [context objectForKey:@"item"];
+		AIListObject	*destinationListContact = [context objectForKey:@"destinationListContact"];
 		NSArray			*draggedItems = [context objectForKey:@"dragitems"];
 
 		//Group the destination and then the dragged items into a metaContact
-		[adium.contactController groupContacts:[[NSArray arrayWithObject:item]
+		[adium.contactController groupContacts:[[NSArray arrayWithObject:destinationListContact]
 								arrayByAddingObjectsFromArray:[self arrayOfAllContactsFromArray:draggedItems]]];
 
 		//XXX multiple containers: we need to make sure that the metacontacts respect manual ordering correctly
