@@ -113,4 +113,5 @@ typedef enum {
 #define AIApplicationDidFinishLoadingNotification	@"AIApplicationDidFinishLoading"
 #define AIAppWillTerminateNotification				@"AIAppWillTerminate"
 #define AIShowLogAtPathNotification					@"AIShowLogAtPath"
+#define AIShowLogViewerAndReindexNotification		@"AIShowLogViewerAndReindex"
 #define AINetworkDidChangeNotification				@"AINetworkDidChange"

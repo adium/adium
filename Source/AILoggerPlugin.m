@@ -191,6 +191,11 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 								   selector:@selector(showLogNotification:)
 									   name:AIShowLogAtPathNotification
 									 object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(showLogViewerAndReindex:)
+												 name:AIShowLogViewerAndReindexNotification
+											   object:nil];
 }
 
 - (void)uninstallPlugin
@@ -389,6 +394,19 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 {
     [AILogViewerWindowController openForContact:nil  
 										 plugin:self];	
+}
+
+/*!
+ * @brief Reimport all logs and open the log viewer
+ *
+ * Invoked from the Import menu to clear the current set of logs.
+ * This is useful after a user adds more chats to the Logs folder.
+ */
+- (void)showLogViewerAndReindex:(id)sender
+{
+	[self dirtyAllLogs];
+	
+	[AILogViewerWindowController openForContact:nil plugin:self];
 }
 
 /*!

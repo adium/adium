@@ -81,6 +81,7 @@
 + (NSArray *)sortedArrayOfLogFilesForChat:(AIChat *)chat;
 
 //Log viewer
+- (void)showLogViewerAndReindex:(id)sender;
 - (void)showLogViewerToSelectedContact:(id)sender;
 - (void)showLogViewerToSelectedContextContact:(id)sender;
 
