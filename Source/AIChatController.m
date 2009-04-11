@@ -704,14 +704,17 @@
  */
 - (AIChat *)mostRecentUnviewedChat
 {
-	if (mostRecentChat && mostRecentChat.unviewedContentCount) {
+	BOOL onlyMentions = [[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT
+																group:PREF_GROUP_STATUS_PREFERENCES] boolValue];
+	
+	if (mostRecentChat && mostRecentChat.unviewedContentCount && (!mostRecentChat.isGroupChat || !onlyMentions || mostRecentChat.unviewedMentionCount)) {
 		//First choice: switch to the chat which received chat most recently if it has unviewed content
 		return mostRecentChat;
 		
 	} else {
 		//Second choice: switch to the first chat we can find which has unviewed content
 		for (AIChat *chat in openChats) {
-			if (chat.unviewedContentCount)
+			if (chat.unviewedContentCount && (!chat.isGroupChat || !onlyMentions || chat.unviewedMentionCount))
 				return chat;
 		}
 	}
