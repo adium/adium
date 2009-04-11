@@ -913,6 +913,9 @@ static NSArray *validSenderColors;
 		}
 	} while (range.location != NSNotFound);
 	
+	[inString replaceKeyword:@"%service%" 
+				  withString:[content.chat.account.service shortDescription]];
+	
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
 		
@@ -997,9 +1000,6 @@ static NSArray *validSenderColors;
 											withString:[serversideDisplayName stringByEscapingForXMLWithEntities:nil]];
 			}
 		} while (range.location != NSNotFound);
-		
-		[inString replaceKeyword:@"%service%" 
-					  withString:[contentSource.service shortDescription]];
 
 		//Blatantly stealing the date code for the background color script.
 		do{
