@@ -78,7 +78,10 @@ Message Styles
  * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
  * Corrected sorting of message styles in their popup (#9498)
  * %message% is now replaced in a loop as we do other keywords. (#9672)
+ * %service% is now replaced in all templates, not just messages. (#11872)
+ * %senderPrefix% now contains a textual representation (., @, %, +, or an empty string) of the user's status in a group chat. (#11882)
  * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
+ * Added "action" to the %messageClasses% of /me messages. (#11894)
 
 Messaging
  * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
