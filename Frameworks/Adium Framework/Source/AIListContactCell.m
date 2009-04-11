@@ -641,8 +641,15 @@
 
 - (BOOL)shouldShowAlias
 {
-	return (useAliasesAsRequested && (useAliasesOnNonParentContacts ||
-									  (!useAliasesOnNonParentContacts && [(AIListContact *)listObject parentContact] == listObject)));	
+	// If we use aliases...
+	if (useAliasesAsRequested) {
+		// If we use aliases on non-parents OR this is a parent...
+		if (useAliasesOnNonParentContacts || ![((AIListContact *)listObject).containingObjects containsObject:((AIListContact *)listObject).parentContact]) {
+			return YES;
+		}
+	}
+	
+	return NO;
 }
 
 //Contact label color
