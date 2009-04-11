@@ -90,6 +90,28 @@
 	return classes;
 }
 
+- (NSString *)senderPrefix
+{
+	AIGroupChatFlags flags = [self.chat flagsForContact:(AIListContact *)self.source];
+	
+	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
+		return @".";
+	}
+	
+	if ((flags & AIGroupChatOp) == AIGroupChatOp) {
+		return @"@";
+	}
+	
+	if ((flags & AIGroupChatHalfOp) == AIGroupChatHalfOp) {
+		return @"%";
+	}
+	
+	if ((flags & AIGroupChatVoice) == AIGroupChatVoice) {
+		return @"+";
+	}
+	
+	return @"";
+}
 
 //This message was automatically generated
 @synthesize isAutoreply;

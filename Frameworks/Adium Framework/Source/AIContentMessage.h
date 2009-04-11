@@ -84,4 +84,13 @@
  */
 @property (readwrite, nonatomic, retain) id encodedMessageAccountData;
 
+/*!
+ * @brief The prefix string for the sender of this message.
+ *
+ * @return A textual representation of the highest level of flags the sender has in a chat.
+ *
+ * This is returned based on the user's flags in a group chat. For a normal chat, this is an empty string.
+ */
+@property (readonly, nonatomic) NSString *senderPrefix;
+
 @end
