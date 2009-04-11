@@ -19,6 +19,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <Adium/AIListContactGroupChatCell.h>
+#import <Adium/AIProxyListObject.h>
 #import "AIMessageTabViewItem.h"
 
 @implementation ESChatUserListController
@@ -82,9 +83,10 @@
 	BOOL			success = NO;
 	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = activeChat.account;
-	AIListObject	*listObject;
 	
-	for (listObject in dragItems) {
+	for (AIProxyListObject *proxyObject in dragItems) {
+		AIListObject *listObject = proxyObject.listObject;
+		
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];
 		}
@@ -114,17 +116,19 @@
  */
 - (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
 {
-	AIListObject	*listObject;
 	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = activeChat.account;
 
-	for (listObject in dragItems) {
+	for (AIProxyListObject *proxyObject in dragItems) {
+		AIListObject *listObject = proxyObject.listObject;
+		
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];
 		}
 
 		if ([listObject isKindOfClass:[AIListContact class]] &&
-			[listObject.service.serviceClass isEqualToString:activeChatAccount.service.serviceClass]) {
+			[listObject.service.serviceClass isEqualToString:activeChatAccount.service.serviceClass] &&
+			![activeChat containsObject:listObject]) {
 			return NSDragOperationCopy;
 		}
 	}
