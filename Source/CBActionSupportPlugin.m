@@ -62,6 +62,11 @@
 		[ourAttributedString addAttribute:AIActionMessageAttributeName
 									value:[NSNumber numberWithBool:YES]
 									range:NSMakeRange(0, [ourAttributedString length])];
+
+		if ([context isKindOfClass:[AIContentMessage class]]) {
+			[context addDisplayClass:@"action"];
+		}
+		
 		return ourAttributedString;
 	}
 	return inAttributedString;
