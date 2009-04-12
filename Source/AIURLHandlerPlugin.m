@@ -13,6 +13,7 @@
 
 #import <AIUtilities/AIURLAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIWindowAdditions.h>
 
 #import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -458,8 +459,6 @@
 	} else if ([scheme isEqualToString:@"twitterreply"]) {
 		// We want to reply to a specific status update.
 		// Broadcast the notification.
-		
-		// If you're modifying this, also modify the post in AIWebKitDelegate.m
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:url];
 	}
 }
@@ -475,9 +474,9 @@
 		//Open the chat and set it as active
 		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:contact
 												  onPreferredAccount:YES]];
-		
+
 		//Insert the message text as if the user had typed it after opening the chat
-		NSResponder *responder = [[[NSApplication sharedApplication] keyWindow] firstResponder];
+		NSResponder *responder = [[NSApp keyWindow] earliestResponderOfClass:[NSTextView class]];
 		if (message && [responder isKindOfClass:[NSTextView class]] && [(NSTextView *)responder isEditable]) {
 			[responder insertText:message];
 		}
