@@ -271,13 +271,16 @@
 	} else if (existingAccount && successful && [inAccount enabled]) {
 		//If the user edited an account that is "reconnecting" or "connecting", disconnect it and try to reconnect.
 		if ([inAccount boolValueForProperty:@"Connecting"] ||
-			[inAccount valueForProperty:@"Waiting to Reconnect"]) {
+			[inAccount boolValueForProperty:@"Waiting to Reconnect"] ||
+			[inAccount boolValueForProperty:@"Reconnect After Edit"]) {
 			// Stop connecting or stop waiting to reconnect.
 			[inAccount setShouldBeOnline:NO];
 			// Connect it.
 			[inAccount setShouldBeOnline:YES];
 		}
-	}	
+	}
+	
+	[inAccount setValue:nil forProperty:@"Reconnect After Edit" notify:NotifyNever];
 }
 
 /*!
