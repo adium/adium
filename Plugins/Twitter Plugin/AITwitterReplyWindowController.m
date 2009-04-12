@@ -16,6 +16,7 @@
 
 #import "AITwitterReplyWindowController.h"
 #import "AITwitterAccount.h"
+#import "AIURLHandlerPlugin.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 
@@ -89,7 +90,7 @@ static AITwitterReplyWindowController *sharedController = nil;
 		
 		NSURL *replyURL = [NSURL URLWithString:replyAddress];
 		
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:replyURL];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:replyURL];
 		
 		[self closeWindow:nil];
 	}
