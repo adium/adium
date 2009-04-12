@@ -653,6 +653,22 @@ typedef enum
 }
 
 /*!
+ * @brief Does the account support sending notifications?
+ */
+- (BOOL)supportsSendingNotifications
+{
+	return NO;
+}
+
+/*!
+ * @brief Send a notification
+ */
+- (BOOL)sendNotificationObject:(AIContentNotification *)inContentNotification
+{
+	return NO;
+}
+
+/*!
  * @brief Encode attributed string (generic)
  *
  * Encode an NSAttributedString into a NSString for this account.  Accounts that support formatted text or require

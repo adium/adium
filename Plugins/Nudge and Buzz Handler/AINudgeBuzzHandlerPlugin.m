@@ -203,23 +203,17 @@
 		return NO;
 	}
 	
-	// Meta Contacts.
 	if ([object isKindOfClass:[AIMetaContact class]]) {
 		for (AIListContact *contact in [(AIMetaContact *)object uniqueContainedObjects]) {
-			// If this contact is Yahoo or MSN, we're good to go.
-			if ([contact.service.serviceID isEqualToString:@"MSN"] || [contact.service.serviceID isEqualToString:@"Yahoo!"] ||
-				[contact.service.serviceID isEqualToString:@"Jabber"]) {
+			if (contact.account.supportsSendingNotifications) {
 				return YES;
 			}
 		}
-		// Normal Contacts, if Yahoo or MSN, valid.
-	} else if ([object.service.serviceID isEqualToString:@"MSN"] || [object.service.serviceID isEqualToString:@"Yahoo!"] ||
-			   [object.service.serviceID isEqualToString:@"Jabber"]) {
-		return YES;
+		
+		return NO;
+	} else {
+		return ((AIListContact *)object).account.supportsSendingNotifications;
 	}
-	
-	// Default to no.
-	return NO;	
 }
 
 #pragma mark Nudge/Buzz Handling
@@ -261,7 +255,7 @@
 	if ([object isKindOfClass:[AIMetaContact class]]) {
 		NSEnumerator	*enumerator = [[(AIMetaContact *)object uniqueContainedObjects] objectEnumerator];
 		AIListContact	*contact = nil;		
-		// Loop until the first MSN or Yahoo service.
+		// Loop until the first contact supporting notifications
 		while ((contact = [enumerator nextObject])) {
 			if ([self contactDoesSupportNotification:contact]) {
 				sendChoice = contact;

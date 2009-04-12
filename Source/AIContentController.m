@@ -34,6 +34,7 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentObject.h>
+#import <Adium/AIContentNotification.h>
 #import <Adium/AIContentEvent.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
@@ -723,6 +724,9 @@
 	} else if ([inContentObject isKindOfClass:[ESFileTransfer class]]) {
 		success = YES;
 
+	} else if ([inContentObject isKindOfClass:[AIContentNotification class]]) {
+		success = [sendingAccount sendNotificationObject:(AIContentNotification *)inContentObject];
+		
 	} else {
 		/* Eating a tasty sandwich */
 		success = NO;
