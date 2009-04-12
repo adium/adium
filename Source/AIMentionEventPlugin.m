@@ -19,6 +19,8 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIAccount.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
@@ -50,7 +52,6 @@
 }
 
 #pragma mark -
-
 /*!
  * @brief Filter
  */
@@ -67,10 +68,14 @@
 		
 	NSString *messageString = [inAttributedString string];
 			
-	AIListObject *account = [message destination];
+	AIAccount *account = (AIAccount *)message.destination;
 	
-	// XXX Include chat nickname
-	NSArray *myNames = [NSArray arrayWithObjects:account.UID, account.displayName, nil];
+	// XXX When we fix user lists to contain accounts, fix this too.
+	NSArray *myNames = [NSArray arrayWithObjects:
+						account.UID, 
+						account.displayName, 
+						/* can be nil */ [chat aliasForContact:[account contactWithUID:account.UID]],
+						nil];
 	
 	myNames = [myNames arrayByAddingObjectsFromArray:[adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL]];
 
@@ -81,15 +86,8 @@
 		   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
 		   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
 		{
-			if(message.trackContent) {
-				[adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
-												 forListObject:(AIListObject *)[adium.contactController existingBookmarkForChat:chat]
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:chat, @"AIChat", message, @"AIContentObject", nil]
-								  previouslyPerformedActionIDs:nil];
-				
-				if (adium.interfaceController.activeChat != chat) {
-					[chat incrementUnviewedMentionCount];
-				}
+			if(message.trackContent && adium.interfaceController.activeChat != chat) {
+				[chat incrementUnviewedMentionCount];
 			}
 			
 			[message addDisplayClass:@"mention"];
