@@ -313,8 +313,8 @@
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
 			
-			// XXX Make it connect when this closes successfully.
 			[account setLastDisconnectionError:nil];
+			[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Reconnect After Edit" notify:NotifyNever];
 
 			[self completedOAuthSetup];			
 			
