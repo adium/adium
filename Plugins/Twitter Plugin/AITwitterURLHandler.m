@@ -19,6 +19,7 @@
 #import "AITwitterAccount.h"
 
 #import "AITwitterURLHandler.h"
+#import "AIURLHandlerPlugin.h"
 #import <AIUtilities/AIURLAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
@@ -39,7 +40,7 @@
  */
 - (void)installPlugin
 {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlRequest:) name:@"AITwitterReplyLinkClicked" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(urlRequest:) name:AIURLHandleNotification object:nil];
 }
 
 /*!
@@ -57,7 +58,13 @@
  */
 - (void)urlRequest:(NSNotification *)notification
 {
-	NSURL *url = [notification object];
+	NSString *urlString = notification.object;
+	NSURL *url = [NSURL URLWithString:urlString];
+	
+	if (![url.scheme isEqualToString:@"twitterreply"]) {
+		return;
+	}
+	
 	NSString *inUser = [url host];
 	NSString *inAction = [url queryArgumentForKey:@"action" withDelimiter:@"&"] ?: @"reply";
 	NSString *inTweet = [url queryArgumentForKey:@"status" withDelimiter:@"&"];

@@ -456,10 +456,6 @@
 		// adiumxtra://www.adiumxtras.com/path/to/xtra.zip
 		
 		[[XtrasInstaller installer] installXtraAtURL:url];
-	} else if ([scheme isEqualToString:@"twitterreply"]) {
-		// We want to reply to a specific status update.
-		// Broadcast the notification.
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"AITwitterReplyLinkClicked" object:url];
 	}
 }
 
