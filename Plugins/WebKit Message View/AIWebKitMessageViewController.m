@@ -840,6 +840,11 @@ static NSArray *draggedTypes = nil;
 	}
 
 	if (webViewMenuItems) {
+		// If the first item is a separator item, remove it.
+		if ([[webViewMenuItems objectAtIndex:0] isSeparatorItem]) {
+			[webViewMenuItems removeObjectAtIndex:0];
+		}
+		
 		//Add a separator item if items already exist in webViewMenuItems
 		if ([webViewMenuItems count]) {
 			[webViewMenuItems addObject:[NSMenuItem separatorItem]];
