@@ -1845,7 +1845,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 {		
 	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline ||
 	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-		NSNumber *lastID;
+		NSString *lastID;
 		
 		BOOL nextPageNecessary = NO;
 		
@@ -1853,21 +1853,21 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 			
-			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT);
+			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_TIMELINE_COUNT - 5);
 		} else {
 			lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
 									  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 			
-			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT);
+			nextPageNecessary = (lastID && statuses.count >= TWITTER_UPDATE_REPLIES_COUNT - 5);
 		}
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
-		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
+		NSString *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
 		// The largest ID is first, compare.
 		if (statuses.count) {
-			NSNumber *tweetID = [[statuses objectAtIndex:0] objectForKey:TWITTER_STATUS_ID];
-			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
+			NSString *tweetID = [[statuses objectAtIndex:0] objectForKey:TWITTER_STATUS_ID];
+			if (!largestTweet || [largestTweet compare:tweetID options:NSNumericSearch] == NSOrderedAscending) {
 				largestTweet = tweetID;
 			}
 		}
