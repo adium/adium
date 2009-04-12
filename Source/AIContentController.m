@@ -520,6 +520,14 @@
 			
 			if(chat.isGroupChat) {
 				listObject = (AIListObject *)[adium.contactController existingBookmarkForChat:chat];
+				
+				if ([inObject.displayClasses containsObject:@"mention"]) {
+					previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTENT_GROUP_CHAT_MENTION
+																				  forListObject:listObject
+																					   userInfo:userInfo
+																   previouslyPerformedActionIDs:previouslyPerformedActionIDs];
+
+				}
 			}
 			
 			if (![chat hasSentOrReceivedContent]) {
@@ -528,7 +536,7 @@
 					previouslyPerformedActionIDs = [adium.contactAlertsController generateEvent:CONTENT_MESSAGE_RECEIVED_FIRST
 																				forListObject:listObject
 																					 userInfo:userInfo
-																 previouslyPerformedActionIDs:nil];
+																 previouslyPerformedActionIDs:previouslyPerformedActionIDs];
 				}
 				[chat setHasSentOrReceivedContent:YES];
 			}
