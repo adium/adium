@@ -12,6 +12,8 @@
 	NSMenuItem		*menuItem_next;
 	NSMenuItem		*menuItem_focus;
 	NSMenuItem		*menuItem_add;
+	
+	NSMenuItem		*menuItem_focusLine;
 }
 
 @end

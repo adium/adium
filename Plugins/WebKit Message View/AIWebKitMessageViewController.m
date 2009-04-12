@@ -1448,7 +1448,7 @@ static NSArray *draggedTypes = nil;
 {
 	DOMElement *element = (DOMElement *)[(DOMHTMLDocument *)webView.mainFrameDocument body];
 	// We use the body's height to determine our mark location.
-	return [element valueForKey:@"offsetHeight"];
+	return [element valueForKey:@"scrollHeight"];
 }
 
 - (void)markCurrentLocation
@@ -1456,6 +1456,8 @@ static NSArray *draggedTypes = nil;
 	JVMarkedScroller *scroller = self.markedScroller;
 	[scroller addMarkAt:[self.currentOffsetHeight integerValue]];
 }
+
+#define PREF_KEY_FOCUS_LINE	@"Draw Focus Lines"
 
 - (void)markForFocusChange
 {
@@ -1472,11 +1474,13 @@ static NSArray *draggedTypes = nil;
 		[element.parentNode removeChild:element];
 	}
 	
-	element = [webView.mainFrameDocument createElement:@"hr"];
-	[element setAttribute:@"id" value:@"focus"];
+	if ([[adium.preferenceController preferenceForKey:PREF_KEY_FOCUS_LINE group:PREF_GROUP_GENERAL] boolValue]) {
+		element = [webView.mainFrameDocument createElement:@"hr"];
+		[element setAttribute:@"id" value:@"focus"];
 
-	[element setAttribute:@"style" value:[NSString stringWithFormat:@"position: absolute; top: %dpx;", self.currentOffsetHeight.integerValue - 1]];
-	[[(DOMHTMLDocument *)webView.mainFrameDocument body] appendChild:element];	
+		[element setAttribute:@"style" value:[NSString stringWithFormat:@"position: absolute; top: %dpx;", self.currentOffsetHeight.integerValue - 1]];
+		[[(DOMHTMLDocument *)webView.mainFrameDocument body] appendChild:element];
+	}
 }
 
 - (void)addMark
