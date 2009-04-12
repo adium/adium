@@ -16,7 +16,7 @@
 
 #import <Adium/AIListObject.h>
 
-@class AIListContact, AIChat, AIContentObject, ESFileTransfer, AIStatus, AIContentMessage, AIContentTyping;
+@class AIListContact, AIChat, AIContentObject, ESFileTransfer, AIStatus, AIContentMessage, AIContentNotification, AIContentTyping;
 
 #define GROUP_ACCOUNT_STATUS   @"Account Status"
 
@@ -273,6 +273,12 @@ typedef enum {
  * @brief Should the chat autocomplete the UID instead of the Display Name?
  */
 - (BOOL)chatShouldAutocompleteUID:(AIChat *)inChat;
+
+/*!
+ * @brief Does the account support sending notifications?
+ */
+- (BOOL)supportsSendingNotifications;
+- (BOOL)sendNotificationObject:(AIContentNotification *)inContentNotification;
 
 /*!
  * @brief An authorization prompt closed, granting or denying a contact's request for authorization

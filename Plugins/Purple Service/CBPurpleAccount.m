@@ -1124,32 +1124,32 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	}
 }
 
+- (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
+{
+	PurpleMessageFlags		flags = PURPLE_MESSAGE_RAW;
+	
+	if ([inContentMessage isAutoreply]) {
+		flags |= PURPLE_MESSAGE_AUTO_RESP;
+	}
+
+	[purpleAdapter sendEncodedMessage:[inContentMessage encodedMessage]
+						 fromAccount:self
+							  inChat:inContentMessage.chat
+						   withFlags:flags];
+
+	return YES;
+}
+
 - (BOOL)supportsSendingNotifications
 {
 	return (account ? ((PURPLE_PLUGIN_PROTOCOL_INFO(purple_find_prpl(purple_account_get_protocol_id(account)))->send_attention) != NULL) : NO);
 }
 
-- (BOOL)sendMessageObject:(AIContentMessage *)inContentMessage
+- (BOOL)sendNotificationObject:(AIContentNotification *)inContentNotification
 {
-	PurpleMessageFlags		flags = PURPLE_MESSAGE_RAW;
-	
-	if ([inContentMessage isKindOfClass:[AIContentNotification class]] &&
-		[self supportsSendingNotifications]) {
-		//Send a notification directly if possible
-		[purpleAdapter sendNotificationOfType:[(AIContentNotification *)inContentMessage notificationType]
-								 fromAccount:self
-									  inChat:inContentMessage.chat];
-
-	} else {
-		if ([inContentMessage isAutoreply]) {
-			flags |= PURPLE_MESSAGE_AUTO_RESP;
-		}
-
-		[purpleAdapter sendEncodedMessage:[inContentMessage encodedMessage]
-							 fromAccount:self
-								  inChat:inContentMessage.chat
-							   withFlags:flags];
-	}
+	[purpleAdapter sendNotificationOfType:[inContentNotification notificationType]
+							  fromAccount:self
+								   inChat:inContentNotification.chat];	
 	
 	return YES;
 }
