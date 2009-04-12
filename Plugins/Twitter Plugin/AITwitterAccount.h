@@ -143,8 +143,8 @@ typedef enum {
 	NSMutableArray		*queuedDM;
 	NSMutableArray		*queuedOutgoingDM;
 	
-	NSNumber			*futureTimelineLastID;
-	NSNumber			*futureRepliesLastID;
+	NSString			*futureTimelineLastID;
+	NSString			*futureRepliesLastID;
 	
 	NSMutableDictionary	*pendingRequests;
 }
