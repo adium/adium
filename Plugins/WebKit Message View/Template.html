@@ -4,6 +4,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<base href="%@">
 	<script type="text/ecmascript" defer="defer">
+		// NOTE:
+		// Any percent signs in this file must be escaped!
+		// Use two escape signs (%%) to display it, this is passed through a format call!
 
 		//Appending new content to the message view
 		function appendMessage(html) {
@@ -173,8 +176,9 @@
 		.actionMessageUserName { display:none; }
 		.actionMessageBody:before { content:"*"; }
 		.actionMessageBody:after { content:"*"; }
-		*{ word-wrap:break-word; }
-		img.scaledToFitImage { height:auto; width:100%; }
+		hr#focus { border: 0; border-bottom: 1px solid red; width: 25%%; margin: 0 auto 0 auto; }
+		* { word-wrap:break-word; }
+		img.scaledToFitImage { height: auto; width: 100%%; }
 	</style>
 
 	<!-- This style is shared by all variants. !-->

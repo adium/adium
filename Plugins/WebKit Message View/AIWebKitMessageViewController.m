@@ -1446,8 +1446,8 @@ static NSArray *draggedTypes = nil;
 
 - (NSNumber *)currentOffsetHeight
 {
-	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"Chat"];
-	// We use the current Chat element's height to determine our mark location.
+	DOMElement *element = (DOMElement *)[(DOMHTMLDocument *)webView.mainFrameDocument body];
+	// We use the body's height to determine our mark location.
 	return [element valueForKey:@"offsetHeight"];
 }
 
@@ -1460,11 +1460,24 @@ static NSArray *draggedTypes = nil;
 - (void)markForFocusChange
 {
 	JVMarkedScroller *scroller = self.markedScroller;
+	
 	// We use the current Chat element's height to determine our mark location.
 	[scroller removeMarkWithIdentifier:@"focus"];
 	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
-}
+	
+	DOMElement *element;
+		
+	element = (DOMElement *)[webView.mainFrameDocument getElementById:@"focus"];
+	if (element) {
+		[element.parentNode removeChild:element];
+	}
+	
+	element = [webView.mainFrameDocument createElement:@"hr"];
+	[element setAttribute:@"id" value:@"focus"];
 
+	[element setAttribute:@"style" value:[NSString stringWithFormat:@"position: absolute; top: %dpx;", self.currentOffsetHeight.integerValue - 1]];
+	[[(DOMHTMLDocument *)webView.mainFrameDocument body] appendChild:element];	
+}
 
 - (void)addMark
 {
