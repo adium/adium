@@ -858,8 +858,10 @@
 {
 	/* When we're deselected (backgrounded), the user list controller is effectively out of the window */
 	[userListController contactListWillBeRemovedFromWindow];
-	// Mark the current location in the message display for this change.
-	[messageDisplayController markForFocusChange];
+	// Mark the current location in the message display for this change, if it's not an inactive-switch.
+	if (messageWindowController.window.isKeyWindow) {
+		[messageDisplayController markForFocusChange];
+	}
 }
 
 /*!
