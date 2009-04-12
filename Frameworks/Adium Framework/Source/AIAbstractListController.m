@@ -572,8 +572,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
     AIListObject	*object = [notification object];
 	
 	//Redraw the modified object (or the whole list, if object is nil)
-	for (AIProxyListObject *proxyObject in object.proxyObjects) {
-		[contactListView redisplayItem:proxyObject];
+	if (object) {
+		for (AIProxyListObject *proxyObject in object.proxyObjects) {
+			[contactListView redisplayItem:proxyObject];
+		}
+	} else {
+		[contactListView redisplayItem:nil];
 	}
 	
 	/* Also redraw the modified object's parent contact if it exists and isn't the same
