@@ -46,6 +46,7 @@
 	NSFont				*font;
 	
 	BOOL				useAliasesAsRequested;
+	NSMutableDictionary *labelAttributes;
 }
 
 - (void)setProxyListObject:(AIProxyListObject *)inObject;
