@@ -2157,8 +2157,11 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 									notify:NotifyLater];
 			
 			// Set the user's status message to their current twitter status text
-			[listContact setStatusMessage:[NSAttributedString stringWithString:[[[info objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil]]
-								   notify:NotifyLater];
+			NSString *statusText = [[info objectForKey:TWITTER_INFO_STATUS] objectForKey:TWITTER_INFO_STATUS_TEXT];
+			if (!statusText) //nil if they've never tweeted
+				statusText = @"";
+			[listContact setStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]] notify:NotifyLater];
+			
 
 			[listContact setValue:[info objectForKey:TWITTER_INFO_NOTIFICATION] forProperty:@"Twitter Notifications" notify:NotifyLater];
 			
