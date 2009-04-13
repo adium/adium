@@ -802,7 +802,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 													withSource:contact
 												   destination:nil
 														  date:[NSDate date]
-													   message:[NSAttributedString stringWithString:topic]];
+													   message:[NSAttributedString stringWithString:topic ?: @""]];
 	
 	// The content controller has huge problems with blank messages being let through.
 	if (!topic.length) {
