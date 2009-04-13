@@ -369,9 +369,19 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	PurpleAccount *account = purple_conversation_get_account(conv);
 	CBPurpleAccount *adiumAccount = accountLookup(account);
 	
+	PurpleConvChatBuddy *cb = purple_conv_chat_cb_find(PURPLE_CONV_CHAT(conv), user);
+	
+	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+	
+	for (GList *attribute = purple_conv_chat_cb_get_attribute_keys(cb); attribute != NULL; attribute = g_list_next(attribute)) {
+		[attributes setObject:[NSString stringWithUTF8String:purple_conv_chat_cb_get_attribute(cb, attribute->data)]
+					   forKey:[NSString stringWithUTF8String:attribute->data]];
+	}
+	
 	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
-					   flags:purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user)];
+					   flags:purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user)
+				  attributes:attributes];
 }
 
 static void adiumPurpleConvPresent(PurpleConversation *conv)

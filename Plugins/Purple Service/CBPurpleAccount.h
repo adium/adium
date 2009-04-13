@@ -179,6 +179,7 @@
 - (NSString *)_UIDForAddingObject:(AIListContact *)object;
 
 #pragma mark Contacts
+- (void)setAttribute:(NSString *)name value:(NSString *)value forContact:(AIListContact *)contact;
 - (void)renameContact:(AIListContact *)theContact toUID:(NSString *)newUID;
 - (void)updateWentIdle:(AIListContact *)theContact withData:(NSDate *)idleSinceDate;
 - (void)updateIdleReturn:(AIListContact *)theContact withData:(void *)data;
@@ -195,7 +196,7 @@
 - (void)renameParticipant:(NSString *)oldUID newName:(NSString *)newUID newAlias:(NSString *)newAlias flags:(AIGroupChatFlags)flags inChat:(AIChat *)chat;
 - (void)removeUser:(NSString *)contactName fromChat:(AIChat *)chat;
 - (void)updateUserListForChat:(AIChat *)chat users:(NSArray *)users newlyAdded:(BOOL)newlyAdded;
-- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(AIGroupChatFlags)flags;
+- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(AIGroupChatFlags)flags attributes:(NSDictionary *)attributes;
 - (NSDictionary *)willJoinChatUsingDictionary:(NSDictionary *)chatCreationDictionary;
 - (BOOL)chatCreationDictionary:(NSDictionary *)chatCreationDict isEqualToDictionary:(NSDictionary *)baseDict;
 - (NSDictionary *)extractChatCreationDictionaryFromConversation:(PurpleConversation *)conv;
