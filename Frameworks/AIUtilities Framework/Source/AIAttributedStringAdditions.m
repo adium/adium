@@ -420,6 +420,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 + (NSAttributedString *)stringWithString:(NSString *)inString
 {
+	NSParameterAssert(inString != nil);
 	return [[[NSAttributedString alloc] initWithString:inString] autorelease];
 }
 
