@@ -94,9 +94,7 @@
 - (BOOL)validateAsPropertyList
 {
 	BOOL validated = YES;
-	NSEnumerator *enumerator = [self keyEnumerator];
-	NSString	 *key;
-	while ((key = [enumerator nextObject])) {
+	for (NSString *key in self) {
 		if (![key isKindOfClass:[NSString class]]) {
 			NSLog(@"** Dictionary failed validation: %@: Key %@ is a %@ but must be an NSString",
 				  self, key, NSStringFromClass([key class]));
@@ -219,9 +217,7 @@ static RAOperationQueue *dictWriterQueue;
 			removedKeys = [NSMutableSet setWithCapacity:capacity];
 		}
 
-		NSEnumerator *keysEnum = [self keyEnumerator];
-		NSString *key;
-		while ((key = [keysEnum nextObject])) {
+		for (NSString *key in self) {
 			id otherObj = [other objectForKey:key];
 			if (!otherObj) {
 				//Not in other, but is in self: Added.
@@ -235,8 +231,7 @@ static RAOperationQueue *dictWriterQueue;
 		if (outAddedKeys) *outAddedKeys = [NSSet setWithSet:addedKeys];
 
 		if (outRemovedKeys) {
-			keysEnum = [other keyEnumerator];
-			while ((key = [keysEnum nextObject])) {
+			for (NSString *key in other) {
 				if (![self objectForKey:key]) {
 					//In other, but not in self: Removed.
 					[removedKeys addObject:key];
@@ -269,9 +264,7 @@ static RAOperationQueue *dictWriterQueue;
 {
 	NSMutableArray *properties = [NSMutableArray arrayWithCapacity:[self count]];
 
-	NSEnumerator *keysEnum = [self keyEnumerator];
-	NSString *key;
-	while ((key = [keysEnum nextObject])) {
+	for (NSString *key in self) {
 		[properties addObject:[NSString stringWithFormat:@"%@: %@;", key, [self objectForKey:key]]];
 	}
 
@@ -312,10 +305,8 @@ static RAOperationQueue *dictWriterQueue;
 	//only do work if we have work to do.
 	if (translation || addition || removal) {
 		NSDictionary *selfCopy = [self copy];
-		NSEnumerator *keyEnum = [selfCopy keyEnumerator];
-		NSString *key;
 
-		while ((key = [keyEnum nextObject])) {
+		for (NSString *key in selfCopy) {
 			NSString *newKey = [translation objectForKey:key];
 			if (newKey) {
 				[self setObject:[selfCopy objectForKey:key] forKey:newKey];
@@ -329,8 +320,7 @@ static RAOperationQueue *dictWriterQueue;
 		[selfCopy release];
 
 		//Add items that aren't in the removal set.
-		keyEnum = [addition keyEnumerator];
-		while ((key = [keyEnum nextObject])) {
+		for (NSString *key in addition) {
 			if (!(removal && [removal containsObject:key])) {
 				[self setObject:[addition objectForKey:key] forKey:key];
 			}
@@ -341,23 +331,18 @@ static RAOperationQueue *dictWriterQueue;
 - (void)intersectSetOfKeys:(NSSet *)keys
 {
 	NSMutableArray *keysToRemove = [NSMutableArray array];
-	NSEnumerator *myKeysEnum = [self keyEnumerator];
-	NSString *key;
-	while ((key = [myKeysEnum nextObject])) {
-		if (![keys containsObject:key]) {
+	for (NSString *key in self) {
+		if (![keys containsObject:key])
 			[keysToRemove addObject:key];
-		}
 	}
-	NSEnumerator *deadKeysEnum = [keysToRemove objectEnumerator];
-	while ((key = [deadKeysEnum nextObject])) {
-		[self removeObjectForKey:key];
+	for (NSString *deadKey in keysToRemove) {
+		[self removeObjectForKey:deadKey];
 	}
 }
+
 - (void)minusSetOfKeys:(NSSet *)keys
 {
-	NSEnumerator *keysEnum = [keys objectEnumerator];
-	NSString *key;
-	while ((key = [keysEnum nextObject])) {
+	for (NSString *key in keys) {
 		[self removeObjectForKey:key];
 	}
 }
