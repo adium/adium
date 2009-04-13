@@ -79,6 +79,7 @@
 		[shadowColor release];
 		shadowColor = [inColor retain];
 	}
+	[labelAttributes release]; labelAttributes = nil;
 }
 - (NSColor *)shadowColor{
 	return shadowColor;

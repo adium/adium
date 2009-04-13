@@ -91,6 +91,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	[font release];
 	
 	[listObject release];
+	[labelAttributes release];
 
 	[super dealloc];
 }
@@ -129,6 +130,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 	//Calculate and cache the height of this font
 	labelFontHeight = [[[[NSLayoutManager alloc] init] autorelease] defaultLineHeightForFont:[self font]]; 
+	[labelAttributes release]; labelAttributes = nil;
 }
 - (NSFont *)font{
 	return font;
@@ -324,20 +326,24 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 @synthesize shouldShowAlias = useAliasesAsRequested;
 
 //Attributes for displaying the label string
+//Cache is invalidated on font changes, 
 - (NSDictionary *)labelAttributes
 {
-	NSDictionary		*additionalAttributes = [self additionalLabelAttributes];
+	if (!labelAttributes) {
+		NSDictionary		*additionalAttributes = [self additionalLabelAttributes];
+		labelAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+												leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
+												[self font], NSFontAttributeName,
+												nil] retain];
+		
+		[leftParagraphStyleWithTruncatingTail setMaximumLineHeight:(float)labelFontHeight];
+		
+		if (additionalAttributes)
+			[labelAttributes addEntriesFromDictionary:additionalAttributes];
+	}
+	
 	NSColor				*currentTextColor = ([self cellIsSelected] ? [self invertedTextColor] : [self textColor]);
-	NSMutableDictionary	*labelAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-											currentTextColor, NSForegroundColorAttributeName,
-											leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
-											[self font], NSFontAttributeName,
-											nil];
-
-	[leftParagraphStyleWithTruncatingTail setMaximumLineHeight:(float)labelFontHeight];
-
-	if (additionalAttributes)
-		[labelAttributes addEntriesFromDictionary:additionalAttributes];
+	[labelAttributes setObject:currentTextColor forKey:NSForegroundColorAttributeName];
 	
 	return labelAttributes;
 }
