@@ -266,17 +266,15 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Draw our display name
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect
 {
-	NSTextAlignment alignment = self.textAlignment;
 	NSAttributedString	*displayName = self.displayName;
-	//We can avoid calculating the size for left aligned text
-	NSSize				nameSize = (alignment != NSLeftTextAlignment) ? [displayName size] : NSZeroSize;
+	NSSize				nameSize = [displayName size];
 	NSRect				rect = inRect;
 
 	if (nameSize.width > rect.size.width) nameSize.width = rect.size.width;
 	if (nameSize.height > rect.size.height) nameSize.height = rect.size.height;
 
 	//Alignment
-	switch (alignment) {
+	switch ([self textAlignment]) {
 		case NSCenterTextAlignment:
 			rect.origin.x += (rect.size.width - nameSize.width) / 2.0;
 		break;
@@ -289,17 +287,13 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 	//Draw (centered vertical)
 	int half = ceil((rect.size.height - labelFontHeight) / 2.0);
-	if (alignment != NSLeftTextAlignment) {
-		[displayName drawInRect:NSMakeRect(rect.origin.x,
-										   rect.origin.y + half,
-										   rect.size.width,
-										   nameSize.height)];
-	} else {
-		[displayName drawAtPoint:NSMakePoint(rect.origin.x, rect.origin.y + half)];
-	}
+	[displayName drawInRect:NSMakeRect(rect.origin.x,
+									   rect.origin.y + half,
+									   rect.size.width,
+									   nameSize.height)];
 
 	//Adjust the drawing rect
-	switch (alignment) {
+	switch ([self textAlignment]) {
 		case NSRightTextAlignment:
 			inRect.size.width -= nameSize.width;
 		break;
