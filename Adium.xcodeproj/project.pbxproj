@@ -108,6 +108,8 @@
 		111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 111D581F0F7FC1B900883487 /* AIListContactGroupChatCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		111D58220F7FC1B900883487 /* AIListContactGroupChatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */; };
 		111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */; };
+		111E89010F93FE3900A5F18B /* AIRealNameTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 111E88FE0F93FE3900A5F18B /* AIRealNameTooltip.m */; };
+		111E89020F93FE3900A5F18B /* AIUserHostTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 111E89000F93FE3900A5F18B /* AIUserHostTooltip.m */; };
 		1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
 		112527740F5F9E63003FC58A /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112527730F5F9E63003FC58A /* AITwitterAccountView.nib */; };
@@ -1690,6 +1692,10 @@
 		111D58200F7FC1B900883487 /* AIListContactGroupChatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIListContactGroupChatCell.m; path = "Frameworks/Adium Framework/Source/AIListContactGroupChatCell.m"; sourceTree = "<group>"; };
 		111DDF380E8E7D2F00114FCA /* AIAutomaticStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutomaticStatus.h; path = Source/AIAutomaticStatus.h; sourceTree = "<group>"; };
 		111DDF390E8E7D2F00114FCA /* AIAutomaticStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAutomaticStatus.m; path = Source/AIAutomaticStatus.m; sourceTree = "<group>"; };
+		111E88FD0F93FE3900A5F18B /* AIRealNameTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIRealNameTooltip.h; path = Source/AIRealNameTooltip.h; sourceTree = "<group>"; };
+		111E88FE0F93FE3900A5F18B /* AIRealNameTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIRealNameTooltip.m; path = Source/AIRealNameTooltip.m; sourceTree = "<group>"; };
+		111E88FF0F93FE3900A5F18B /* AIUserHostTooltip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIUserHostTooltip.h; path = Source/AIUserHostTooltip.h; sourceTree = "<group>"; };
+		111E89000F93FE3900A5F18B /* AIUserHostTooltip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIUserHostTooltip.m; path = Source/AIUserHostTooltip.m; sourceTree = "<group>"; };
 		1121B2980F896A720047EC66 /* AIContactVisibilityControlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContactVisibilityControlPlugin.h; path = Source/AIContactVisibilityControlPlugin.h; sourceTree = "<group>"; };
 		1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactVisibilityControlPlugin.m; path = Source/AIContactVisibilityControlPlugin.m; sourceTree = "<group>"; };
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
@@ -4384,6 +4390,17 @@
 			name = Localized;
 			sourceTree = "<group>";
 		};
+		111E89030F93FE3B00A5F18B /* IRC */ = {
+			isa = PBXGroup;
+			children = (
+				111E88FD0F93FE3900A5F18B /* AIRealNameTooltip.h */,
+				111E88FE0F93FE3900A5F18B /* AIRealNameTooltip.m */,
+				111E88FF0F93FE3900A5F18B /* AIUserHostTooltip.h */,
+				111E89000F93FE3900A5F18B /* AIUserHostTooltip.m */,
+			);
+			name = IRC;
+			sourceTree = "<group>";
+		};
 		112B4A0B0F83192500690E84 /* Mentions */ = {
 			isa = PBXGroup;
 			children = (
@@ -5233,6 +5250,7 @@
 		3479A83B05DC9F2400998B3D /* Tooltips */ = {
 			isa = PBXGroup;
 			children = (
+				111E89030F93FE3B00A5F18B /* IRC */,
 				347E7A8D07CAF88200350507 /* AIContactAwayPlugin.h */,
 				347E7A8E07CAF88200350507 /* AIContactAwayPlugin.m */,
 				347E7A9807CAF8AF00350507 /* AIContactIdlePlugin.h */,
@@ -8896,6 +8914,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				111E89010F93FE3900A5F18B /* AIRealNameTooltip.m in Sources */,
+				111E89020F93FE3900A5F18B /* AIUserHostTooltip.m in Sources */,
 				111256070F8DA2BF00E76177 /* AWEzv.m in Sources */,
 				111256080F8DA2BF00E76177 /* AWEzvContact.m in Sources */,
 				111256090F8DA2BF00E76177 /* AWEzvSupportRoutines.m in Sources */,

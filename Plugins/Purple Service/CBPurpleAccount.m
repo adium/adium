@@ -765,6 +765,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
 		if ([user objectForKey:@"Alias"]) {
 			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
+			
+			if (contact.isStranger) {
+				[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
+			}
 		}
 	}
 	
@@ -797,15 +801,47 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 														object:chat];
 }
 
-- (void)updateUser:(NSString *)user forChat:(AIChat *)chat flags:(AIGroupChatFlags)flags
+- (void)setAttribute:(NSString *)name value:(NSString *)value forContact:(AIListContact *)contact
+{
+	NSString *property = nil;
+	
+	if ([name isEqualToString:@"userhost"]) {
+		property = @"User Host";
+	} else if ([name isEqualToString:@"realname"]) {
+		property = @"Real Name";
+	} else {
+		AILog(@"Unknown attribute: %@ value %@", name, value);
+	}
+	
+	if (property) {
+		// Callsite should notify.
+		[contact setValue:value forProperty:property notify:NotifyLater];
+	}
+}
+
+
+- (void)updateUser:(NSString *)user
+		   forChat:(AIChat *)chat
+			 flags:(AIGroupChatFlags)flags
+		attributes:(NSDictionary *)attributes
 {
 	AIListContact *contact = [self contactWithUID:user];
 	
+	AIGroupChatFlags oldFlags = [chat flagsForContact:contact];
+	
 	[chat setFlags:flags forContact:contact];
 	
-	// Post an update notification since we modified the flags.
-	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
-														object:chat];
+	for (NSString *key in attributes.allKeys) {
+		[self setAttribute:key value:[attributes objectForKey:key] forContact:contact];
+	}
+	
+	[contact notifyOfChangedPropertiesSilently:silentAndDelayed];
+	
+	// Post an update notification if we modified the flags.
+	if (flags != oldFlags) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
+															object:chat];
+	}
 }
 
 /*!
