@@ -765,13 +765,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
 		if ([user objectForKey:@"Alias"]) {
 			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
-			
-			if (contact.isStranger) {
-				[contact setServersideAlias:[user objectForKey:@"Alias"] silently:NO];
-			}
 		}
 	}
-
+	
 	// Post an update notification now that we've modified the flags and names.
 	[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 														object:chat];
