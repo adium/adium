@@ -326,27 +326,18 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Attributes for displaying the label string
 - (NSDictionary *)labelAttributes
 {
-	NSMutableDictionary	*labelAttributes;
 	NSDictionary		*additionalAttributes = [self additionalLabelAttributes];
 	NSColor				*currentTextColor = ([self cellIsSelected] ? [self invertedTextColor] : [self textColor]);
+	NSMutableDictionary	*labelAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+											currentTextColor, NSForegroundColorAttributeName,
+											leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
+											[self font], NSFontAttributeName,
+											nil];
 
 	[leftParagraphStyleWithTruncatingTail setMaximumLineHeight:(float)labelFontHeight];
 
-	if (additionalAttributes) {
-		labelAttributes = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			currentTextColor, NSForegroundColorAttributeName,
-			leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
-			[self font], NSFontAttributeName,
-			nil];
+	if (additionalAttributes)
 		[labelAttributes addEntriesFromDictionary:additionalAttributes];
-
-	} else {
-		labelAttributes = (NSMutableDictionary *)[NSDictionary dictionaryWithObjectsAndKeys:
-			currentTextColor, NSForegroundColorAttributeName,
-			leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
-			[self font], NSFontAttributeName,
-			nil];
-	}
 	
 	return labelAttributes;
 }
