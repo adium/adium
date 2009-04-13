@@ -69,14 +69,12 @@
  */
 - (NSMenu *)menu
 {
-	if(!menu){
-		NSEnumerator	*enumerator = [[self menuItems] objectEnumerator];
-		NSMenuItem		*menuItem;
-		
+	if(!menu) {
 		menu = [[NSMenu allocWithZone:[NSMenu zone]] init];
 		
 		[menu setMenuChangedMessagesEnabled:NO];
-		while((menuItem = [enumerator nextObject])) [menu addItem:menuItem];
+		for (NSMenuItem *menuItem in self.menuItems)
+			[menu addItem:menuItem];
 		[menu setMenuChangedMessagesEnabled:YES];
 	}
 	
@@ -91,20 +89,13 @@
  */
 - (NSMenuItem *)menuItemWithRepresentedObject:(id)object
 {
-	NSEnumerator	*enumerator = [[self menuItems] objectEnumerator];
-	NSMenuItem		*menuItem;
-
-	while ((menuItem = [enumerator nextObject])) {
+	for (NSMenuItem *menuItem in self.menuItems) {
 		if ([menuItem representedObject] == object) {
 			return [[menuItem retain] autorelease];
 		} else if ([menuItem submenu]) {
-			NSEnumerator	*submenuEnumerator = [[[menuItem submenu] itemArray] objectEnumerator];
-			NSMenuItem		*submenuItem;
-			
-			while ((submenuItem = [submenuEnumerator nextObject])) {
-				if ([submenuItem representedObject] == object) {
+			for (NSMenuItem *submenuItem in menuItem.submenu.itemArray) {
+				if ([submenuItem representedObject] == object)
 					return [[submenuItem retain] autorelease];
-				}
 			}
 		}
 	}
