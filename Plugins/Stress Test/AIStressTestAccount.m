@@ -24,6 +24,7 @@
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIContentObject.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIStatus.h>
 #import <Adium/AIContactObserverManager.h>
 
 @implementation AIStressTestAccount
@@ -388,7 +389,7 @@
 		
 	}
 	
-	[groupChat addObject:[listObjectArray objectAtIndex:i]];
+	[groupChat addParticipatingListObject:[listObjectArray objectAtIndex:i] notify:YES];
 	messageObject = [AIContentMessage messageInChat:groupChat
 										 withSource:[listObjectArray objectAtIndex:i]
 										destination:nil
