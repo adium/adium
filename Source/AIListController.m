@@ -434,6 +434,9 @@
 {	
 	[super listObjectAttributesChanged:notification];
 	
+	if (((AIListObject *)notification.object).isStranger)
+		return;
+	
 	NSSet *keys = [[notification userInfo] objectForKey:@"Keys"];
 
 	//Resize the contact list horizontally
