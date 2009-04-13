@@ -63,10 +63,8 @@
 - (BOOL)validateAsPropertyList
 {
 	BOOL validated = YES;
-	NSEnumerator *enumerator = [self objectEnumerator];
-	id	value;
 
-	while ((value = [enumerator nextObject])) {
+	for (id value in self) {
 		Class valueClass = [value class];
 		if (![value isKindOfClass:[NSString class]] &&
 			![value isKindOfClass:[NSData class]] &&
@@ -94,11 +92,8 @@
 
 - (void)addObjectsFromArrayIgnoringDuplicates:(NSArray *)inArray
 {
-	NSEnumerator	*enumerator = [inArray objectEnumerator];
-	id				object;
-	
-	while ((object = [enumerator nextObject])) {
-		if (![self containsObject:object]) [self addObject:object];
+	for (id obj in inArray) {
+		if ([!self containsObject:obj]) [self addObject:obj];
 	}
 }
 
