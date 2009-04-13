@@ -93,7 +93,7 @@
 - (void)addObjectsFromArrayIgnoringDuplicates:(NSArray *)inArray
 {
 	for (id obj in inArray) {
-		if ([!self containsObject:obj]) [self addObject:obj];
+		if (![self containsObject:obj]) [self addObject:obj];
 	}
 }
 
