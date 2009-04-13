@@ -48,7 +48,7 @@
 - (NSCharacterSet *)allowedCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyz0123456789@."];
 }
-- (int)allowedLength{
+- (NSUInteger)allowedLength{
 	return 20;
 }
 - (BOOL)caseSensitive{
