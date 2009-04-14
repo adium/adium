@@ -845,7 +845,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		[self setAttribute:key value:[attributes objectForKey:key] forContact:contact];
 	}
 	
-	[contact notifyOfChangedPropertiesSilently:silentAndDelayed];
+	[contact notifyOfChangedPropertiesSilently:YES];
 	
 	// Post an update notification if we modified the flags.
 	if (flags != oldFlags) {
