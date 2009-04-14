@@ -139,8 +139,8 @@ typedef enum
 	PURPLE_CBFLAGS_HALFOP        = 0x0002, /**< Half-op                      */
 	PURPLE_CBFLAGS_OP            = 0x0004, /**< Channel Op or Moderator      */
 	PURPLE_CBFLAGS_FOUNDER       = 0x0008, /**< Channel Founder              */
-	PURPLE_CBFLAGS_TYPING        = 0x0010  /**< Currently typing             */
-
+	PURPLE_CBFLAGS_TYPING        = 0x0010, /**< Currently typing             */
+	PURPLE_CBFLAGS_AWAY			 = 0x0020  /**< Currently away				 */
 } PurpleConvChatBuddyFlags;
 
 #include "account.h"
