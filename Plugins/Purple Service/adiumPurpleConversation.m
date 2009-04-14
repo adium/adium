@@ -373,10 +373,14 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	
 	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
 	
-	for (GList *attribute = purple_conv_chat_cb_get_attribute_keys(cb); attribute != NULL; attribute = g_list_next(attribute)) {
+	GList *attribute = purple_conv_chat_cb_get_attribute_keys(cb);
+	
+	for (; attribute != NULL; attribute = g_list_next(attribute)) {
 		[attributes setObject:[NSString stringWithUTF8String:purple_conv_chat_cb_get_attribute(cb, attribute->data)]
 					   forKey:[NSString stringWithUTF8String:attribute->data]];
 	}
+	
+	g_free(attribute);
 	
 	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
