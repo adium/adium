@@ -44,4 +44,9 @@
 	return [[AIGroupChatStatusIcons sharedIcons] colorForFlag:[chat flagsForContact:listObject]];
 }
 
+- (float)imageOpacityForDrawing
+{
+	return 1.0;
+}
+
 @end
