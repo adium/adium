@@ -72,12 +72,6 @@ static NSMutableDictionary *proxyDict;
 	[super release];	
 }
 
-- (id)autorelease
-{
-	[listObject autorelease];
-	return [super autorelease];	
-}
-
 - (void)dealloc
 {
 	NSLog(@"Dealloc %@", self);
