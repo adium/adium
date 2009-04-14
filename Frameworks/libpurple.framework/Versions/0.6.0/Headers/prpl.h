@@ -65,6 +65,7 @@ typedef struct _PurpleBuddyIconSpec PurpleBuddyIconSpec;
 #include "conversation.h"
 #include "ft.h"
 #include "imgstore.h"
+#include "media.h"
 #include "notify.h"
 #include "proxy.h"
 #include "plugin.h"
@@ -459,6 +460,27 @@ struct _PurplePluginProtocolInfo
 	 *         destroyed by the caller when it's no longer needed.
 	 */
 	GHashTable *(*get_account_text_table)(PurpleAccount *account);
+
+	/**
+	 * Initiate a media session with the given contact.
+	 *
+	 * @param account The account to initiate the media session on.
+	 * @param who The remote user to initiate the session with.
+	 * @param type The type of media session to initiate.
+	 * @return TRUE if the call succeeded else FALSE. (Doesn't imply the media session or stream will be successfully created)
+	 */
+	gboolean (*initiate_media)(PurpleAccount *account, const char *who,
+					PurpleMediaSessionType type);
+
+	/**
+	 * Checks to see if the given contact supports the given type of media session.
+	 *
+	 * @param account The account the contact is on.
+	 * @param who The remote user to check for media capability with.
+	 * @return The media caps the contact supports.
+	 */
+	PurpleMediaCaps (*get_media_caps)(PurpleAccount *account,
+					  const char *who);
 };
 
 #define PURPLE_PROTOCOL_PLUGIN_HAS_FUNC(prpl, member) \
@@ -754,6 +776,30 @@ void purple_prpl_got_attention(PurpleConnection *gc, const char *who, guint type
  * @since 2.5.0
  */
 void purple_prpl_got_attention_in_chat(PurpleConnection *gc, int id, const char *who, guint type_code);
+
+/**
+ * Determines if the contact supports the given media session type.
+ *
+ * @param account The account the user is on.
+ * @param who The name of the contact to check capabilities for.
+ *
+ * @return The media caps the contact supports.
+ */
+PurpleMediaCaps purple_prpl_get_media_caps(PurpleAccount *account,
+				  const char *who);
+
+/**
+ * Initiates a media session with the given contact.
+ *
+ * @param account The account the user is on.
+ * @param who The name of the contact to start a session with.
+ * @param type The type of media session to start.
+ *
+ * @return TRUE if the call succeeded else FALSE. (Doesn't imply the media session or stream will be successfully created)
+ */
+gboolean purple_prpl_initiate_media(PurpleAccount *account,
+					const char *who,
+					PurpleMediaSessionType type);
 
 /*@}*/
 

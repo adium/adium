@@ -19,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#ifndef _PURPLE_JABBER_H_
-#define _PURPLE_JABBER_H_
+#ifndef PURPLE_JABBER_H_
+#define PURPLE_JABBER_H_
 
 typedef enum {
 	JABBER_CAP_NONE           = 0,
@@ -54,9 +54,13 @@ typedef struct _JabberStream JabberStream;
 #include "circbuffer.h"
 #include "connection.h"
 #include "dnssrv.h"
+#include "media.h"
+#include "mediamanager.h"
 #include "roomlist.h"
 #include "sslconn.h"
+#include "dnsquery.h"
 
+#include "iq.h"
 #include "jutil.h"
 #include "xmlnode.h"
 #include "buddy.h"
@@ -242,6 +246,15 @@ struct _JabberStream
 	 * for when we lookup buddy icons from a url
 	 */
 	GSList *url_datas;
+
+	/* keep a hash table of JingleSessions */
+	GHashTable *sessions;
+
+	/* maybe this should only be present when USE_VV? */
+	gchar *stun_ip;
+	int stun_port;
+	PurpleDnsQueryData *stun_query;
+	/* later add stuff to handle TURN relays... */
 };
 
 typedef gboolean (JabberFeatureEnabled)(JabberStream *js, const gchar *shortname, const gchar *namespace);
@@ -269,7 +282,8 @@ void jabber_send_raw(JabberStream *js, const char *data, int len);
 
 void jabber_stream_set_state(JabberStream *js, JabberStreamState state);
 
-void jabber_register_parse(JabberStream *js, xmlnode *packet);
+void jabber_register_parse(JabberStream *js, const char *from,
+                           JabberIqType type, const char *id, xmlnode *query);
 void jabber_register_start(JabberStream *js);
 
 char *jabber_get_next_id(JabberStream *js);
@@ -309,7 +323,10 @@ PurpleChat *jabber_find_blist_chat(PurpleAccount *account, const char *name);
 gboolean jabber_offline_message(const PurpleBuddy *buddy);
 int jabber_prpl_send_raw(PurpleConnection *gc, const char *buf, int len);
 GList *jabber_actions(PurplePlugin *plugin, gpointer context);
+gboolean jabber_initiate_media(PurpleAccount *account, const char *who,
+		PurpleMediaSessionType type);
+PurpleMediaCaps jabber_get_media_caps(PurpleAccount *account, const char *who);
 void jabber_register_commands(void);
 void jabber_init_plugin(PurplePlugin *plugin);
 
-#endif /* _PURPLE_JABBER_H_ */
+#endif /* PURPLE_JABBER_H_ */

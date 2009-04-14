@@ -19,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#ifndef _PURPLE_JABBER_BUDDY_H_
-#define _PURPLE_JABBER_BUDDY_H_
+#ifndef PURPLE_JABBER_BUDDY_H_
+#define PURPLE_JABBER_BUDDY_H_
 
 typedef enum {
 	JABBER_BUDDY_STATE_UNKNOWN = -2,
@@ -81,6 +81,8 @@ typedef struct _JabberBuddyResource {
 		char *name;
 		char *os;
 	} client;
+	/* tz_off == PURPLE_NO_TZ_OFF when unset */
+	long tz_off;
 	JabberCapsClientInfo *caps;
 	GList *commands;
 } JabberBuddyResource;
@@ -121,4 +123,4 @@ gboolean jabber_resource_has_capability(const JabberBuddyResource *jbr,
 										const gchar *cap);
 gboolean jabber_buddy_has_capability(const JabberBuddy *jb, const gchar *cap);
 
-#endif /* _PURPLE_JABBER_BUDDY_H_ */
+#endif /* PURPLE_JABBER_BUDDY_H_ */

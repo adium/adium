@@ -19,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#ifndef _PURPLE_JABBER_PRESENCE_H_
-#define _PURPLE_JABBER_PRESENCE_H_
+#ifndef PURPLE_JABBER_PRESENCE_H_
+#define PURPLE_JABBER_PRESENCE_H_
 
 #include "buddy.h"
 #include "jabber.h"
@@ -35,4 +35,4 @@ void jabber_presence_subscription_set(JabberStream *js, const char *who,
 void jabber_presence_fake_to_self(JabberStream *js, const PurpleStatus *status);
 void purple_status_to_jabber(const PurpleStatus *status, JabberBuddyState *state, char **msg, int *priority);
 
-#endif /* _PURPLE_JABBER_PRESENCE_H_ */
+#endif /* PURPLE_JABBER_PRESENCE_H_ */

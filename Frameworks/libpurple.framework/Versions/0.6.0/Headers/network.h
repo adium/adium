@@ -225,6 +225,41 @@ void purple_network_force_online(void);
  */
 void *purple_network_get_handle(void);
 
+/**	
+ * Update the STUN server IP given the host name
+ * Will result in a DNS query being executed asynchronous
+ * 
+ * @param stun_server The host name of the STUN server to set
+ * @since 2.6.0
+ */
+void purple_network_set_stun_server(const gchar *stun_server);
+	
+/**
+ * Get the IP address of the STUN server as a string representation
+ *
+ * @return the IP address
+ * @since 2.6.0
+ */
+const gchar *purple_network_get_stun_ip(void);
+	
+/**	
+ * Update the TURN server IP given the host name
+ * Will result in a DNS query being executed asynchronous
+ * 
+ * @param stun_server The host name of the STUN server to set
+ * @since 2.6.0
+ */
+void purple_network_set_turn_server(const gchar *stun_server);
+	
+/**
+ * Get the IP address of the STUN server as a string representation
+ *
+ * @return the IP address
+ * @since 2.6.0
+ */
+const gchar *purple_network_get_turn_ip(void);
+		
+	
 /**
  * Initializes the network subsystem.
  */
