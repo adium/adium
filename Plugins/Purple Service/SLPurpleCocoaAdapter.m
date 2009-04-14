@@ -1178,34 +1178,41 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 }
 
 #pragma mark Account Status
+/*!
+ * @brief Generate a GList from a dictionary
+ *
+ * @param arguments An NSDictionary, whose keys and values will be used to form alternating key-value items in the GList 
+ *
+ * @result A GList, which the caller is responsible for freeing
+ */
 GList *createListFromDictionary(NSDictionary *arguments)
 {
-	//Generate a GList of attrs from arguments
 	GList *attrs = NULL;
 
 	if ([arguments count]) {
 		for (NSString *key in arguments) {
-			const char *value = NULL;
-			id	 valueObject;
-			
-			valueObject = [arguments objectForKey:key];
-			
-			if ([valueObject isKindOfClass:[NSNumber class]]) {
-				value = GINT_TO_POINTER([valueObject intValue]);
-				
-			} else if ([valueObject isKindOfClass:[NSString class]]) {
-				value = [valueObject UTF8String];
-			}				
-			
-			if (value) {
+			id	valueObject;
+
+			if ((valueObject = [arguments objectForKey:key])) {
+				const char *value = NULL;
+
+				if ([valueObject isKindOfClass:[NSNumber class]])
+					value = GINT_TO_POINTER([valueObject intValue]);
+				else if ([valueObject isKindOfClass:[NSString class]])
+					value = [valueObject UTF8String];
+				else
+					AILogWithSignature(@"Warning: unknown class %@ (%@) for key %@",
+									   NSStringFromClass([valueObject class]), valueObject, key);
+
 				//Append the key
 				attrs = g_list_append(attrs, (gpointer)[key UTF8String]);
-				
+
 				//Now append the value
 				attrs = g_list_append(attrs, (gpointer)value);
-				
+
 			} else {
-				AILogWithSignature(@"Warning; could not determine value of %@ for key %@",valueObject,key);
+				AILogWithSignature(@"Warning: could not determine value of %@ for key %@",
+								   valueObject, key);
 			}
 		}
 	}
