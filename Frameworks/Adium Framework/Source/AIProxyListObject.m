@@ -56,6 +56,7 @@ static NSMutableDictionary *proxyDict;
  */
 + (void)releaseProxyObject:(AIProxyListObject *)proxyObject
 {
+	[[proxyObject retain] autorelease];
 	[proxyDict removeObjectForKey:proxyObject.key];
 }
 
