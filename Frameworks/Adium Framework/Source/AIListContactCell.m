@@ -111,7 +111,7 @@
 	int		width = [super cellWidth];
 	
 	//Name
-	NSMutableAttributedString	*displayName = [[NSMutableAttributedString alloc] initWithString:[self labelString] attributes:[self labelAttributes]];
+	width += ceil(self.displayNameSize.width);
 	
 	// Also account for idle times.
 	if (extendedStatusVisible && idleTimeVisible && !idleTimeIsBelow && [listObject valueForProperty:@"IdleReadable"]) {
@@ -122,12 +122,11 @@
 			idleTimeString = [idleTimeString stringByAppendingEllipsis];
 		}
 		
-		[displayName appendString:idleTimeString withAttributes:self.statusAttributes];
+		NSAttributedString *idleAttString = [[NSAttributedString alloc] initWithString:idleTimeString attributes:self.statusAttributes];
+		width += ceil([idleAttString size].width);
 		width += NAME_STATUS_PAD;
+		[idleAttString release];
 	}
-
-	width += ceil([displayName size].width);
-	[displayName release];
 		
 	//User icon
 	if (userIconVisible) {

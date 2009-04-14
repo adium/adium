@@ -82,15 +82,15 @@
 - (void)drawBackgroundWithFrame:(NSRect)rect;
 - (void)drawContentWithFrame:(NSRect)rect;
 - (void)drawDropHighlightWithFrame:(NSRect)rect;
-- (NSAttributedString *)displayName;
+@property (readonly, nonatomic) NSAttributedString *displayName;
+@property (readonly, nonatomic) NSSize displayNameSize;
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect;
-- (NSString *)labelString;
-- (NSDictionary *)labelAttributes;
-- (NSDictionary *)additionalLabelAttributes;
-- (NSColor *)textColor;
-- (BOOL)cellIsSelected;
-- (BOOL)drawGridBehindCell;
-- (NSColor *)backgroundColor;
+@property (readonly, nonatomic) NSString *labelString;
+@property (readonly, nonatomic) NSMutableDictionary *labelAttributes;
+@property (readonly, nonatomic) NSDictionary *additionalLabelAttributes;
+@property (readonly, nonatomic) BOOL cellIsSelected;
+@property (readonly, nonatomic) BOOL drawGridBehindCell;
+@property (readonly, nonatomic) NSColor *backgroundColor;
 
 @property (readwrite, nonatomic) BOOL shouldShowAlias;
 

@@ -261,15 +261,35 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
  */
 - (NSAttributedString *)displayName
 {
-	return [[[NSAttributedString alloc] initWithString:[self labelString]
-											attributes:[self labelAttributes]] autorelease];
+	NSDictionary *attributes = self.labelAttributes;
+	NSString *labelString = self.labelString;
+	if (![labelAttributes isEqualToDictionary:proxyObject.cachedLabelAttributes] || ![labelString isEqualToString:proxyObject.cachedDisplayNameString]) {
+		proxyObject.cachedDisplayName = [[[NSAttributedString alloc] initWithString:labelString
+																		 attributes:attributes] autorelease];
+		proxyObject.cachedDisplayNameString = labelString;
+		proxyObject.cachedLabelAttributes = attributes;
+		proxyObject.cachedDisplayNameSize = NSZeroSize;
+	}
+	
+	return proxyObject.cachedDisplayName;
+}
+
+- (NSSize) displayNameSize
+{
+	NSSize size = proxyObject.cachedDisplayNameSize;
+	if(NSEqualSizes(size, NSZeroSize)) {
+		size = [self.displayName size];
+		proxyObject.cachedDisplayNameSize = size; 
+	}
+
+	return size;
 }
 
 //Draw our display name
 - (NSRect)drawDisplayNameWithFrame:(NSRect)inRect
 {
 	NSAttributedString	*displayName = self.displayName;
-	NSSize				nameSize = [displayName size];
+	NSSize				nameSize = self.displayNameSize;
 	NSRect				rect = inRect;
 
 	if (nameSize.width > rect.size.width) nameSize.width = rect.size.width;
@@ -330,18 +350,14 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (NSDictionary *)labelAttributes
 {
 	if (!labelAttributes) {
-		NSDictionary		*additionalAttributes = [self additionalLabelAttributes];
 		labelAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
 												leftParagraphStyleWithTruncatingTail, NSParagraphStyleAttributeName,
 												[self font], NSFontAttributeName,
 												nil] retain];
 		
-		[leftParagraphStyleWithTruncatingTail setMaximumLineHeight:(float)labelFontHeight];
-		
-		if (additionalAttributes)
-			[labelAttributes addEntriesFromDictionary:additionalAttributes];
 	}
 	
+	[leftParagraphStyleWithTruncatingTail setMaximumLineHeight:(float)labelFontHeight];
 	NSColor				*currentTextColor = ([self cellIsSelected] ? [self invertedTextColor] : [self textColor]);
 	[labelAttributes setObject:currentTextColor forKey:NSForegroundColorAttributeName];
 	

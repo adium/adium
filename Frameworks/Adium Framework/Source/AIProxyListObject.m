@@ -16,7 +16,7 @@
 
 @implementation AIProxyListObject
 
-@synthesize listObject, containingObject, key;
+@synthesize listObject, containingObject, key, cachedDisplayName, cachedDisplayNameString, cachedLabelAttributes, cachedDisplayNameSize;
 
 static NSMutableDictionary *proxyDict;
 
@@ -63,7 +63,10 @@ static NSMutableDictionary *proxyDict;
 {
 	NSLog(@"Dealloc %@", self);
 	self.key = nil;
-
+	self.cachedDisplayName = nil;
+	self.cachedDisplayNameString = nil;
+	self.cachedLabelAttributes = nil;
+	
 	[super dealloc];
 }
 
