@@ -754,6 +754,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	for (NSDictionary *user in users) {
 		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
 		
+		[contact setOnline:YES notify:NotifyNever silently:YES];
+		
 		[newListObjects addObject:contact];
 	}
 	
@@ -763,6 +765,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		AIListContact *contact = [self contactWithUID:[user objectForKey:@"UID"]];
 		
 		[chat setFlags:(AIGroupChatFlags)[[user objectForKey:@"Flags"] integerValue] forContact:contact];
+		
 		if ([user objectForKey:@"Alias"]) {
 			[chat setAlias:[user objectForKey:@"Alias"] forContact:contact];
 			
@@ -831,6 +834,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	[chat setFlags:flags forContact:contact];
 	
+	// Away changes only come in after the initial one, so we're safe in only updating it here.
+	[contact setStatusWithName:nil
+					statusType:((flags & AIGroupChatAway) == AIGroupChatAway) ? AIAwayStatusType : AIAvailableStatusType
+						notify:NotifyLater];
+
 	for (NSString *key in attributes.allKeys) {
 		[self setAttribute:key value:[attributes objectForKey:key] forContact:contact];
 	}
