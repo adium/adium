@@ -8,7 +8,7 @@ set -e
 # Package Versions - if a package is changed also update urls.txt
 PKGCONFIG=pkg-config-0.22
 GETTEXT=gettext-0.16.1
-GLIB=glib-2.15.4
+GLIB=glib-2.20.1
 MEANWHILE=meanwhile-1.0.2
 GADU=libgadu-1.7.1
 INTLTOOL=intltool-0.36.2
