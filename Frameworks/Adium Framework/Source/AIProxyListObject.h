@@ -15,8 +15,15 @@
 	id listObject;
 	id <AIContainingObject> containingObject;
 	NSString *key;
+	NSString *cachedDisplayNameString;
+	NSAttributedString *cachedDisplayName;
+	NSDictionary *cachedLabelAttributes;
+	NSSize cachedDisplayNameSize;
 }
-
+@property (nonatomic, copy) NSDictionary *cachedLabelAttributes;
+@property (nonatomic, retain) NSString *cachedDisplayNameString;
+@property (nonatomic, retain) NSAttributedString *cachedDisplayName;
+@property (nonatomic) NSSize cachedDisplayNameSize;
 @property (nonatomic, assign) id listObject;
 @property (nonatomic, assign) id <AIContainingObject> containingObject;
 @property (nonatomic, retain) NSString *key;

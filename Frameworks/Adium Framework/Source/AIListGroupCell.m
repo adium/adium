@@ -144,13 +144,10 @@
 }
 - (int)cellWidth
 {
-	NSAttributedString	*displayName;
 	unsigned			width = [super cellWidth] + [self flippyIndent] + GROUP_COUNT_PADDING;
 	
 	//Get the size of our display name
-	displayName = [[NSAttributedString alloc] initWithString:[self labelString] attributes:[self labelAttributes]];
-	width += ceil([displayName size].width) + 1;
-	[displayName release];
+	width += ceil(self.displayNameSize.width) + 1;
 	
 	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:proxyObject])) && 
 		[listObject valueForProperty:@"Count Text"]) {
@@ -273,18 +270,20 @@
  * We override the paragraph style to be truncating middle.
  * The user's layout preferences may have indicated to add a shadow to the text.
  */
-- (NSDictionary *)additionalLabelAttributes
+- (NSDictionary *)labelAttributes
 {
-	NSMutableDictionary *additionalLabelAttributes = [NSMutableDictionary dictionary];
-	
-	if (shadowColor) {
-		NSShadow	*shadow = [[[NSShadow alloc] init] autorelease];
+	if (!labelAttributes) {
+		labelAttributes = super.labelAttributes;
 		
-		[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-		[shadow setShadowBlurRadius:2.0];
-		[shadow setShadowColor:shadowColor];
-		
-		[additionalLabelAttributes setObject:shadow forKey:NSShadowAttributeName];
+		if (shadowColor) {
+			NSShadow	*shadow = [[[NSShadow alloc] init] autorelease];
+			
+			[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+			[shadow setShadowBlurRadius:2.0];
+			[shadow setShadowColor:shadowColor];
+			
+			[labelAttributes setObject:shadow forKey:NSShadowAttributeName];
+		}
 	}
 	
 	static NSMutableParagraphStyle *leftParagraphStyleWithTruncatingMiddle = nil;
@@ -295,10 +294,10 @@
 
 	[leftParagraphStyleWithTruncatingMiddle setMaximumLineHeight:(float)labelFontHeight];
 
-	[additionalLabelAttributes setObject:leftParagraphStyleWithTruncatingMiddle
+	[labelAttributes setObject:leftParagraphStyleWithTruncatingMiddle
 								  forKey:NSParagraphStyleAttributeName];
 	
-	return additionalLabelAttributes;
+	return labelAttributes;
 }
 
 
