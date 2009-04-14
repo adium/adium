@@ -23,6 +23,8 @@ GType g_file_query_info_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_FILE_QUERY_INFO_FLAGS (g_file_query_info_flags_get_type ())
 GType g_file_create_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_FILE_CREATE_FLAGS (g_file_create_flags_get_type ())
+GType g_mount_mount_flags_get_type (void) G_GNUC_CONST;
+#define G_TYPE_MOUNT_MOUNT_FLAGS (g_mount_mount_flags_get_type ())
 GType g_mount_unmount_flags_get_type (void) G_GNUC_CONST;
 #define G_TYPE_MOUNT_UNMOUNT_FLAGS (g_mount_unmount_flags_get_type ())
 GType g_file_copy_flags_get_type (void) G_GNUC_CONST;
@@ -41,6 +43,8 @@ GType g_file_attribute_status_get_type (void) G_GNUC_CONST;
 /* enumerations from "gfileinfo.h" */
 GType g_file_type_get_type (void) G_GNUC_CONST;
 #define G_TYPE_FILE_TYPE (g_file_type_get_type ())
+GType g_filesystem_preview_type_get_type (void) G_GNUC_CONST;
+#define G_TYPE_FILESYSTEM_PREVIEW_TYPE (g_filesystem_preview_type_get_type ())
 
 /* enumerations from "gfilemonitor.h" */
 GType g_file_monitor_event_get_type (void) G_GNUC_CONST;

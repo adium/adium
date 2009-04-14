@@ -33,6 +33,7 @@
 #include <gio/gfileinputstream.h>
 #include <gio/gfileoutputstream.h>
 #include <gio/gmountoperation.h>
+#include <gio/gappinfo.h>
 
 G_BEGIN_DECLS
 
@@ -66,13 +67,25 @@ typedef enum  {
   G_FILE_CREATE_PRIVATE = (1<<0)
 } GFileCreateFlags;
 
+
+/**
+ * GMountMountFlags:
+ * @G_MOUNT_MOUNT_NONE: No flags set.
+ * 
+ * Flags used when mounting a mount.
+ */
+typedef enum  {
+  G_MOUNT_MOUNT_NONE = 0
+} GMountMountFlags;
+
+
 /**
  * GMountUnmountFlags:
  * @G_MOUNT_UNMOUNT_NONE: No flags set.
  * @G_MOUNT_UNMOUNT_FORCE: Unmount even if there are outstanding
  *  file operations on the mount.
  * 
- * Flags used when an operation may create a file.
+ * Flags used when an unmounting a mount.
  */
 typedef enum  {
   G_MOUNT_UNMOUNT_NONE = 0,
@@ -174,7 +187,7 @@ typedef gboolean (* GFileReadMoreCallback) (const char *file_contents,
  * @get_uri: Gets a URI for the path within a #GFile.
  * @get_parse_name: Gets the parsed name for the #GFile.
  * @get_parent: Gets the parent directory for the #GFile.
- * @contains_file: Checks whether a #GFile contains a specified file.
+ * @prefix_matches: Checks whether a #GFile contains a specified file.
  * @get_relative_path: Gets the path for a #GFile relative to a given path.
  * @resolve_relative_path: Resolves a relative path for a #GFile to an absolute path.
  * @get_child_for_display_name: Gets the child #GFile for a given display name.
@@ -185,8 +198,8 @@ typedef gboolean (* GFileReadMoreCallback) (const char *file_contents,
  * @query_info_async: Asynchronously gets the #GFileInfo for a #GFile.
  * @query_info_finish: Finishes an asynchronous query info operation.
  * @query_filesystem_info: Gets a #GFileInfo for the file system #GFile is on.
- * @_query_filesystem_info_async: Asynchronously gets a #GFileInfo for the file system #GFile is on.
- * @_query_filesystem_info_finish: Finishes asynchronously getting the file system info.
+ * @query_filesystem_info_async: Asynchronously gets a #GFileInfo for the file system #GFile is on.
+ * @query_filesystem_info_finish: Finishes asynchronously getting the file system info.
  * @find_enclosing_mount: Gets a #GMount for the #GFile.
  * @find_enclosing_mount_async: Asynchronously gets the #GMount for a #GFile.
  * @find_enclosing_mount_finish: Finishes asynchronously getting the volume.
@@ -265,8 +278,8 @@ struct _GFileIface
   char *              (*get_uri)                    (GFile         *file);
   char *              (*get_parse_name)             (GFile         *file);
   GFile *             (*get_parent)                 (GFile         *file);
-  gboolean            (*contains_file)              (GFile         *parent,
-						     GFile         *descendant);
+  gboolean            (*prefix_matches)             (GFile         *prefix,
+						     GFile         *file);
   char *              (*get_relative_path)          (GFile         *parent,
 						     GFile         *descendant);
   GFile *             (*resolve_relative_path)      (GFile        *file,
@@ -311,8 +324,15 @@ struct _GFileIface
 					     const char           *attributes,
 					     GCancellable         *cancellable,
 					     GError              **error);
-  void                (*_query_filesystem_info_async) (void);
-  void                (*_query_filesystem_info_finish) (void);
+  void                (*query_filesystem_info_async) (GFile                *file,
+                                                      const char           *attributes,
+                                                      int                   io_priority,
+                                                      GCancellable         *cancellable,
+                                                      GAsyncReadyCallback   callback,
+                                                      gpointer              user_data);
+  GFileInfo *         (*query_filesystem_info_finish) (GFile                *file,
+                                                       GAsyncResult         *res,
+                                                       GError              **error);
   
   GMount *            (*find_enclosing_mount)(GFile              *file,
 					       GCancellable       *cancellable,
@@ -492,6 +512,7 @@ struct _GFileIface
 
 
   void                (*mount_mountable)           (GFile               *file,
+						    GMountMountFlags     flags,
 						    GMountOperation     *mount_operation,
 						    GCancellable         *cancellable,
 						    GAsyncReadyCallback  callback,
@@ -518,6 +539,7 @@ struct _GFileIface
 
 
   void     (*mount_enclosing_volume)        (GFile *location,
+					     GMountMountFlags flags,
 					     GMountOperation *mount_operation,
 					     GCancellable *cancellable,
 					     GAsyncReadyCallback callback,
@@ -558,8 +580,8 @@ GFile *                 g_file_get_child                  (GFile                
 GFile *                 g_file_get_child_for_display_name (GFile                      *file,
 							   const char                 *display_name,
 							   GError                    **error);
-gboolean                g_file_contains_file              (GFile                      *parent,
-							   GFile                      *descendant);
+gboolean                g_file_has_prefix                 (GFile                      *file,
+							   GFile                      *prefix);
 char *                  g_file_get_relative_path          (GFile                      *parent,
 							   GFile                      *descendant);
 GFile *                 g_file_resolve_relative_path      (GFile                      *file,
@@ -642,6 +664,15 @@ GFileInfo *             g_file_query_info_finish          (GFile                
 GFileInfo *             g_file_query_filesystem_info      (GFile                      *file,
 							   const char                 *attributes,
 							   GCancellable               *cancellable,
+							   GError                    **error);
+void                    g_file_query_filesystem_info_async (GFile                      *file,
+							   const char                 *attributes,
+							   int                         io_priority,
+							   GCancellable               *cancellable,
+							   GAsyncReadyCallback         callback,
+							   gpointer                    user_data);
+GFileInfo *             g_file_query_filesystem_info_finish (GFile                      *file,
+                                                           GAsyncResult               *res,
 							   GError                    **error);
 GMount *                g_file_find_enclosing_mount       (GFile                      *file,
                                                            GCancellable               *cancellable,
@@ -787,6 +818,7 @@ gboolean                g_file_set_attribute_int64        (GFile                
 							   GCancellable               *cancellable,
 							   GError                    **error);
 void                    g_file_mount_enclosing_volume     (GFile                      *location,
+							   GMountMountFlags            flags,
 							   GMountOperation            *mount_operation,
 							   GCancellable               *cancellable,
 							   GAsyncReadyCallback         callback,
@@ -795,6 +827,7 @@ gboolean                g_file_mount_enclosing_volume_finish (GFile             
 							   GAsyncResult               *result,
 							   GError                    **error);
 void                    g_file_mount_mountable            (GFile                      *file,
+							   GMountMountFlags            flags,
 							   GMountOperation            *mount_operation,
 							   GCancellable               *cancellable,
 							   GAsyncReadyCallback         callback,
@@ -838,6 +871,9 @@ GFileMonitor*           g_file_monitor_file               (GFile                
 
 /* Utilities */
 
+GAppInfo *g_file_query_default_handler       (GFile                  *file,
+					      GCancellable           *cancellable,
+					      GError                **error);
 gboolean g_file_load_contents                (GFile                  *file,
 					      GCancellable           *cancellable,
 					      char                  **contents,

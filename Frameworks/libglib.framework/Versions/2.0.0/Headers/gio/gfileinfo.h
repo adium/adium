@@ -80,6 +80,22 @@ typedef enum {
   G_FILE_TYPE_MOUNTABLE
 } GFileType;
 
+/**
+ * GFilesystemPreviewType:
+ * @G_FILESYSTEM_PREVIEW_TYPE_IF_ALWAYS: Only preview files if user has explicitly requested it.
+ * @G_FILESYSTEM_PREVIEW_TYPE_IF_LOCAL: Preview files if user has requested preview of "local" files.
+ * @G_FILESYSTEM_PREVIEW_TYPE_NEVER: Never preview files.
+ * 
+ * Indicates a hint from the file system whether files should be
+ * previewed in a file manager. Returned as the value of the key
+ * #G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW.
+ **/
+typedef enum {
+  G_FILESYSTEM_PREVIEW_TYPE_IF_ALWAYS = 0,
+  G_FILESYSTEM_PREVIEW_TYPE_IF_LOCAL,
+  G_FILESYSTEM_PREVIEW_TYPE_NEVER
+} GFilesystemPreviewType;
+
 /* Common Attributes:  */
 /**
  * G_FILE_ATTRIBUTE_STANDARD_TYPE:
@@ -172,6 +188,20 @@ typedef enum {
  * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_STRING.
  **/
 #define G_FILE_ATTRIBUTE_STANDARD_COPY_NAME "standard::copy-name"           /* string */
+
+/**
+ * G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION:
+ * 
+ * A key in the "standard" namespace for getting the description of the file.
+ * The description is a utf8 string that describes the file, generally containing
+ * the filename, but can also contain furter information. Example descriptions
+ * could be "filename (on hostname)" for a remote file or "filename (in trash)"
+ * for a file in the trash. This is useful for instance as the window title
+ * when displaying a directory or for a bookmarks menu.
+ * 
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_STRING.
+ **/
+#define G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION "standard::description"        /* string */
 
 /**
  * G_FILE_ATTRIBUTE_STANDARD_ICON:
@@ -393,7 +423,7 @@ typedef enum {
 /**
  * G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC:
  * 
- * A key in the "time" namespace for getting the milliseconds of the time
+ * A key in the "time" namespace for getting the miliseconds of the time
  * the file was last modified. This should be used in conjunction with 
  * #G_FILE_ATTRIBUTE_TIME_MODIFIED. Corresponding #GFileAttributeType is 
  * %G_FILE_ATTRIBUTE_TYPE_UINT32.
@@ -413,7 +443,7 @@ typedef enum {
 /**
  * G_FILE_ATTRIBUTE_TIME_ACCESS_USEC:
  * 
- * A key in the "time" namespace for getting the milliseconds of the time
+ * A key in the "time" namespace for getting the microseconds of the time
  * the file was last accessed. This should be used in conjunction with
  * #G_FILE_ATTRIBUTE_TIME_ACCESS. Corresponding #GFileAttributeType is 
  * %G_FILE_ATTRIBUTE_TYPE_UINT32.
@@ -434,7 +464,7 @@ typedef enum {
 /**
  * G_FILE_ATTRIBUTE_TIME_CHANGED_USEC:
  * 
- * A key in the "time" namespace for getting the milliseconds of the time
+ * A key in the "time" namespace for getting the microseconds of the time
  * the file was last changed. This should be used in conjunction with
  * #G_FILE_ATTRIBUTE_TIME_CHANGED. Corresponding #GFileAttributeType is 
  * %G_FILE_ATTRIBUTE_TYPE_UINT32. 
@@ -455,7 +485,7 @@ typedef enum {
 /**
  * G_FILE_ATTRIBUTE_TIME_CREATED_USEC:
  * 
- * A key in the "time" namespace for getting the milliseconds of the time
+ * A key in the "time" namespace for getting the microseconds of the time
  * the file was created. This should be used in conjunction with
  * #G_FILE_ATTRIBUTE_TIME_CREATED. Corresponding #GFileAttributeType is 
  * %G_FILE_ATTRIBUTE_TYPE_UINT32. 
@@ -666,6 +696,16 @@ typedef enum {
 #define G_FILE_ATTRIBUTE_FILESYSTEM_READONLY "filesystem::readonly"               /* boolean */
 
 /**
+ * G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW:
+ *
+ * A key in the "filesystem" namespace for hinting a file manager
+ * application whether it should preview (e.g. thumbnail) files on the
+ * file system. The value for this key contain a
+ * #GFilesystemPreviewType.
+ **/
+#define G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW "filesystem::use-preview"        /* uint32 (GFilesystemPreviewType) */
+
+/**
  * G_FILE_ATTRIBUTE_GVFS_BACKEND:
  * 
  * A key in the "gvfs" namespace that gets the name of the current
@@ -683,6 +723,15 @@ typedef enum {
  * available if GLib has been built with SELinux support.
  **/
 #define G_FILE_ATTRIBUTE_SELINUX_CONTEXT "selinux::context"       /* string */
+
+/**
+ * G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT:
+ *
+ * A key in the "trash" namespace.  When requested against 
+ * "trash:///" returns the number of (toplevel) items in the trash folder.
+ * Corresponding #GFileAttributeType is %G_FILE_ATTRIBUTE_TYPE_UINT32.
+ **/
+#define G_FILE_ATTRIBUTE_TRASH_ITEM_COUNT "trash::item-count"     /* uint32 */
 
 GType g_file_info_get_type (void) G_GNUC_CONST;
 
