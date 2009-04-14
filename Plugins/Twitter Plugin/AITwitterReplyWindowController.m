@@ -88,9 +88,7 @@ static AITwitterReplyWindowController *sharedController = nil;
 																		statusID:textField_statusID.stringValue
 																		 context:nil];
 		
-		NSURL *replyURL = [NSURL URLWithString:replyAddress];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:replyURL];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AIURLHandleNotification object:replyAddress];
 		
 		[self closeWindow:nil];
 	}
