@@ -410,7 +410,9 @@
 				channelName = @"#";
 			} else if (!channelName.length) {
 				channelName = url.path.lastPathComponent;
-			} else {
+			}
+			
+			if (![channelName hasPrefix:@"#"] && ![channelName hasPrefix:@"&"]) {
 				channelName = [@"#" stringByAppendingString:channelName];
 			}
 			
