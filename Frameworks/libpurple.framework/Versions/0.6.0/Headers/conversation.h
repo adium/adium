@@ -1370,6 +1370,18 @@ GList *purple_conv_chat_cb_get_attribute_keys(PurpleConvChatBuddy *cb);
  * @param value	The value of the attribute.
  */
 void purple_conv_chat_cb_set_attribute(PurpleConvChat *chat, PurpleConvChatBuddy *cb, const char *key, const char *value);
+
+/**
+ * Set attributes of a chat buddy
+ *
+ * @param chat	The chat.
+ * @param cb	The chat buddy.
+ * @param keys	A GList of the keys.
+ * @param values A GList of the values.
+ */
+void
+purple_conv_chat_cb_set_attributes(PurpleConvChat *chat, PurpleConvChatBuddy *cb, GList *keys, GList *values);
+
 	
 /**
  * Destroys a chat buddy
