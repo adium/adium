@@ -380,7 +380,7 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 	
 	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
-					   flags:purple_conv_chat_user_get_flags(PURPLE_CONV_CHAT(conv), user)
+					   flags:cb->flags
 				  attributes:attributes];
 }
 
