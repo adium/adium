@@ -467,7 +467,14 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	NSMutableString *names = [NSMutableString string];
 	
 	for (NSUInteger x = 0; x < objects.count; x++) {
-		[names appendString:((AIListObject *)[objects objectAtIndex:x]).UID];
+		AIListObject *listObject = [objects objectAtIndex:x];
+		
+		if ([flag isEqualToString:@"b"] && [listObject valueForProperty:@"User Host"]) {
+			[names appendString:[NSString stringWithFormat:@"*!%@", [listObject valueForProperty:@"User Host"]]];
+		} else {
+			[names appendString:listObject.UID];
+		}
+		
 		[names appendString:@" "];
 		
 		if ((x+1) % 4 == 0 || x+1 == objects.count) {
