@@ -43,7 +43,7 @@ mtn.pidgin.im "im.pidgin.*" && mtn -d pidgin.mtn co -b im.pidgin.adium .; cd \
 
 To update the Pidgin source tree, just run
 
-$ cd source/im.pidgin.adium; mtn pull; cd ../..
+$ pushd source/im.pidgin.adium; mtn pull; mtn update; popd
 
 
 ==== MOVING ====
