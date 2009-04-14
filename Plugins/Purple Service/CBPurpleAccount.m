@@ -847,8 +847,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	[contact notifyOfChangedPropertiesSilently:YES];
 	
-	// Post an update notification if we modified the flags.
-	if (flags != oldFlags) {
+	// Post an update notification if we modified the flags; don't resort for away changes.
+	if ((flags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 															object:chat];
 	}
