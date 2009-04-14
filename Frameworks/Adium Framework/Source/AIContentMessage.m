@@ -95,7 +95,7 @@
 	AIGroupChatFlags flags = [self.chat flagsForContact:(AIListContact *)self.source];
 	
 	if ((flags & AIGroupChatFounder) == AIGroupChatFounder) {
-		return @".";
+		return @"~";
 	}
 	
 	if ((flags & AIGroupChatOp) == AIGroupChatOp) {
