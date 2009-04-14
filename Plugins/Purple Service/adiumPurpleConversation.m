@@ -380,7 +380,7 @@ static void adiumPurpleConvUpdateUser(PurpleConversation *conv, const char *user
 					   forKey:[NSString stringWithUTF8String:attribute->data]];
 	}
 	
-	g_free(attribute);
+	g_list_free(attribute);
 	
 	[adiumAccount updateUser:get_real_name_for_account_conv_buddy(account, conv, (char *)user)
 					 forChat:groupChatLookupFromConv(conv)
