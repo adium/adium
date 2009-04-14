@@ -19,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#ifndef _PURPLE_JABBER_JUTIL_H_
-#define _PURPLE_JABBER_JUTIL_H_
+#ifndef PURPLE_JABBER_JUTIL_H_
+#define PURPLE_JABBER_JUTIL_H_
 
 typedef struct _JabberID {
 	char *node;
@@ -43,4 +43,4 @@ gboolean jabber_resourceprep_validate(const char *);
 PurpleConversation *jabber_find_unnormalized_conv(const char *name, PurpleAccount *account);
 
 char *jabber_calculate_data_sha1sum(gconstpointer data, size_t len);
-#endif /* _PURPLE_JABBER_JUTIL_H_ */
+#endif /* PURPLE_JABBER_JUTIL_H_ */

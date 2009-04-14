@@ -29,7 +29,7 @@
 #ifndef _PURPLE_PLUGIN_H_
 #define _PURPLE_PLUGIN_H_
 
-#include <glib/glist.h>
+#include <glib.h>
 #include <gmodule.h>
 #include "signals.h"
 #include "value.h"
@@ -501,6 +501,11 @@ void purple_plugins_add_search_path(const char *path);
  * Unloads all loaded plugins.
  */
 void purple_plugins_unload_all(void);
+
+/**
+ * Unloads all plugins of a specific type.
+ */
+void purple_plugins_unload(PurplePluginType type);
 
 /**
  * Destroys all registered plugins.

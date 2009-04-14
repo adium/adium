@@ -31,23 +31,26 @@
 
 #include <stdio.h>
 
+typedef struct _PurpleUtilFetchUrlData PurpleUtilFetchUrlData;
+typedef struct _PurpleMenuAction PurpleMenuAction;
+typedef struct _PurpleKeyValuePair PurpleKeyValuePair;
+
 #include "account.h"
 #include "xmlnode.h"
 #include "notify.h"
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct _PurpleUtilFetchUrlData PurpleUtilFetchUrlData;
-
-typedef struct _PurpleMenuAction
+struct _PurpleMenuAction
 {
 	char *label;
 	PurpleCallback callback;
 	gpointer data;
 	GList *children;
-} PurpleMenuAction;
+};
 
 typedef char *(*PurpleInfoFieldFormatCallback)(const char *field, size_t len);
 
@@ -57,12 +60,12 @@ typedef char *(*PurpleInfoFieldFormatCallback)(const char *field, size_t len);
  * This is used by, among other things, purple_gtk_combo* functions to pass in a
  * list of key-value pairs so it can display a user-friendly value.
  */
-typedef struct _PurpleKeyValuePair
+struct _PurpleKeyValuePair
 {
 	gchar *key;
 	void *value;
 
-} PurpleKeyValuePair;
+};
 
 /**
  * Creates a new PurpleMenuAction.
