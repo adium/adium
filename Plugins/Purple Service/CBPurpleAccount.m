@@ -835,9 +835,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[chat setFlags:flags forContact:contact];
 	
 	// Away changes only come in after the initial one, so we're safe in only updating it here.
-	[contact setStatusWithName:nil
-					statusType:((flags & AIGroupChatAway) == AIGroupChatAway) ? AIAwayStatusType : AIAvailableStatusType
-						notify:NotifyLater];
+	if (contact.isStranger) {
+		[contact setStatusWithName:nil
+						statusType:((flags & AIGroupChatAway) == AIGroupChatAway) ? AIAwayStatusType : AIAvailableStatusType
+							notify:NotifyLater];
+	}
 
 	for (NSString *key in attributes.allKeys) {
 		[self setAttribute:key value:[attributes objectForKey:key] forContact:contact];
