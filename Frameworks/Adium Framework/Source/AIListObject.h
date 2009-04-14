@@ -38,6 +38,7 @@ typedef enum {
 		AIGroupChatOp						= 0x0004, /**< Channel Op or Moderator      */
 		AIGroupChatFounder					= 0x0008, /**< Channel Founder              */
 		AIGroupChatTyping					= 0x0010, /**< Currently typing             */
+		AIGroupChatAway						= 0x0020 /**< Currently away				*/
 } AIGroupChatFlags;
 
 @protocol AIContainingObject <NSObject, NSFastEnumeration>
