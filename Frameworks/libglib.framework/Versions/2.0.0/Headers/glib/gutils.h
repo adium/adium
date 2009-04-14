@@ -97,7 +97,11 @@ G_BEGIN_DECLS
 #  define G_INLINE_FUNC
 #  undef  G_CAN_INLINE
 #elif defined (__GNUC__) 
-#  define G_INLINE_FUNC static __inline __attribute__ ((unused))
+#  if defined (__GNUC_STDC_INLINE__) || defined (__GNUC_GNU_INLINE__)
+#   define G_INLINE_FUNC extern inline __attribute__ ((__gnu_inline__))
+#  else
+#   define G_INLINE_FUNC extern inline
+#  endif
 #elif defined (G_CAN_INLINE) 
 #  define G_INLINE_FUNC static inline
 #else /* can't inline */
@@ -427,6 +431,12 @@ const gchar * glib_check_version (guint required_major,
 G_END_DECLS
 
 /*
+ * This macro will be deprecated in the future. This DllMain() is too
+ * complex. It is recommended to have a DLlMain() that just saves the
+ * handle to the DLL and then use that handle in normal code instead,
+ * for instance passing it to
+ * g_win32_get_package_installation_directory_of_module().
+ *
  * On Windows, this macro defines a DllMain function that stores the
  * actual DLL name that the code being compiled will be included in.
  * STATIC should be empty or 'static'. DLL_NAME is the name of the
