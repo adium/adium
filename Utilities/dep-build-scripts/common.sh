@@ -24,12 +24,17 @@ GST_PLUGINS_FARSIGHT=gst-plugins-farsight-0.12.11
 FARSIGHT=farsight2-0.0.8
 
 # Directories
-BASEDIR="$PWD"
-PATCHDIR="$PWD/patches"
-SOURCEDIR="$PWD/source"
-BUILDDIR="$PWD/build"
+if [ "x$ADIUM_BUILD_BASEDIR" = "x" ]; then
+	BASEDIR="$PWD"
+else
+	BASEDIR="$ADIUM_BUILD_BASEDIR"
+fi
+
+PATCHDIR="$BASEDIR/patches"
+SOURCEDIR="$BASEDIR/source"
+BUILDDIR="$BASEDIR/build"
 UNIVERSAL_DIR="$BUILDDIR/universal"
-LOGDIR="$PWD/build"
+LOGDIR="$BUILDDIR"
 
 if [ "x$PIDGIN_SOURCE" = "x" ] ; then
 	export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
