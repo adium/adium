@@ -170,6 +170,7 @@ typedef enum {
 			[prefsWithDefaults release]; prefsWithDefaults = nil;
 			
 			if ((*myUsersOfGlobalPrefs) == 0) {
+				NSLog(@"Clearing *myGlobalPrefs");
 				[*myGlobalPrefs release]; *myGlobalPrefs = nil;
 			}
 		}
