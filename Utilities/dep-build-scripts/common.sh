@@ -30,7 +30,10 @@ SOURCEDIR="$PWD/source"
 BUILDDIR="$PWD/build"
 UNIVERSAL_DIR="$BUILDDIR/universal"
 LOGDIR="$PWD/build"
-export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
+
+if [ "x$PIDGIN_SOURCE" = "x" ] ; then
+	export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
+fi
 
 # Compiler options
 export CC=/usr/bin/gcc-4.2
