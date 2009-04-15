@@ -25,8 +25,6 @@ PURPLE_VERSION=0.6.0
 LIBPURPLE=libpurple.$PURPLE_VERSION
 PURPLE_FOLDER=libpurple-$PURPLE_VERSION
 
-SCRIPT_DIR=$BASEDIR
-
 # Copy the headers to the universal dir so that we can put them in the frameworks 
 # once they are built. We stick the required headers for each framework into its own folder
 # named after the project to keep the frameworkize script library independent.
