@@ -313,6 +313,7 @@ typedef enum {
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
+#warning This looks like it needs synchronization. Investigation in progress.
 			if (prefs)
 				(*myUsersOfGlobalPrefs)++;
 
