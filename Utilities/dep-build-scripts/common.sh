@@ -35,6 +35,7 @@ SOURCEDIR="$BASEDIR/source"
 BUILDDIR="$BASEDIR/build"
 UNIVERSAL_DIR="$BUILDDIR/universal"
 LOGDIR="$BUILDDIR"
+SCRIPT_DIR="$PWD"
 
 if [ "x$PIDGIN_SOURCE" = "x" ] ; then
 	export PIDGIN_SOURCE="$SOURCEDIR/im.pidgin.adium"
