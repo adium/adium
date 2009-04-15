@@ -18,7 +18,7 @@ typedef enum {
 	AIRequiresHalfop
 } AIOperationRequirement;
 
-@interface ESIRCAccount : CBPurpleAccount {
+@interface ESIRCAccount : CBPurpleAccount <AIAccount_Files> {
 
 }
 

@@ -533,4 +533,30 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	[self kick];
 }
 
+#pragma mark File transfer
+- (BOOL)canSendFolders
+{
+	return NO;
+}
+
+- (void)beginSendOfFileTransfer:(ESFileTransfer *)fileTransfer
+{
+	[super _beginSendOfFileTransfer:fileTransfer];
+}
+
+- (void)acceptFileTransferRequest:(ESFileTransfer *)fileTransfer
+{
+    [super acceptFileTransferRequest:fileTransfer];    
+}
+
+- (void)rejectFileReceiveRequest:(ESFileTransfer *)fileTransfer
+{
+    [super rejectFileReceiveRequest:fileTransfer];    
+}
+
+- (void)cancelFileTransfer:(ESFileTransfer *)fileTransfer
+{
+	[super cancelFileTransfer:fileTransfer];
+}
+
 @end
