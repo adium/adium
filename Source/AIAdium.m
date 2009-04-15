@@ -278,6 +278,9 @@ static NSString	*prefsCategory;
 	[[NSDistributedNotificationCenter defaultCenter]  postNotificationName:AIApplicationDidFinishLoadingNotification object:nil];
 
 	[pool release];
+	
+	//When no events are coming in (i.e. the user is away from their computer), the runloop doesn't iterate, and we accumulate autoreleased objects
+	[[NSTimer scheduledTimerWithTimeInterval:60.0f target:self selector:@selector(kickRunLoop:) userInfo:nil repeats:YES] retain];
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -1003,6 +1006,11 @@ static NSString	*prefsCategory;
 - (NSApplication *)application
 {
 	return [NSApplication sharedApplication];
+}
+
+- (void) kickRunLoop:(NSTimer *)dummy
+{
+	[NSApp postEvent:[[[NSEvent alloc] init] autorelease] atStart:NO];
 }
 
 #pragma mark Scripting
