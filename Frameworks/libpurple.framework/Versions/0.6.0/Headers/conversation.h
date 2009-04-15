@@ -286,6 +286,7 @@ struct _PurpleConvChat
 struct _PurpleConvChatBuddy
 {
 	char *name;                      /**< The chat participant's name in the chat. */
+	char *collate_key;				 /**< A string by which this buddy can be compared with other collate keys. */
 	char *alias;                     /**< The chat participant's alias, if known;
 	                                  *   @a NULL otherwise.
 	                                  */
