@@ -8012,8 +8012,8 @@
 				34BD9D5F053146CC000AB133 /* CopyFiles */,
 				4BF2E91F067CB76300743318 /* Copy Built-in Xtras */,
 				34BD9D6A053146CC000AB133 /* Copy AdiumPlugins */,
-				6C15E63106DF3BB600E5A50E /* ShellScript */,
-				345DFF4A05564DB200CEE7B3 /* ShellScript */,
+				6C15E63106DF3BB600E5A50E /* Run Delete Headers Script */,
+				345DFF4A05564DB200CEE7B3 /* Run Generate Buildnum File Script */,
 			);
 			buildRules = (
 				81F9D1DF0A7F81A5004A35BD /* PBXBuildRule */,
@@ -8696,7 +8696,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# otool -L \"$SCRIPT_INPUT_FILE_0\" | grep libpurple.framework | \n# install_name_tool -change @executable_path/../Frameworks/libpurple.framework/Versions/0.5.0/libpurple @executable_path/../Frameworks/libpurple.framework/Versions/Current/libpurple";
 		};
-		345DFF4A05564DB200CEE7B3 /* ShellScript */ = {
+		345DFF4A05564DB200CEE7B3 /* Run Generate Buildnum File Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -8705,6 +8705,7 @@
 				$TARGET_BUILD_DIR/include/PlistMacros.h,
 				"$(SRCROOT)/Plists/buildnum",
 			);
+			name = "Run Generate Buildnum File Script";
 			outputPaths = (
 				"$(BUILT_PRODUCTS_DIR)/Adium.app/Contents/Resources/buildnum",
 			);
@@ -8725,13 +8726,14 @@
 			shellPath = /bin/sh;
 			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch -r \"$SRCROOT/Frameworks/libpurple.framework/Versions/Current/libpurple\" \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch -r \"$SRCROOT/Frameworks/Growl-WithInstaller.framework/Versions/A/Growl-WithInstaller\" \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch -r \"$SRCROOT/Frameworks/LMX.framework/Versions/A/LMX\" \"$SRCROOT/Frameworks/LMX.framework\"\ntouch -r \"$SRCROOT/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl\" \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch -r \"$SRCROOT/Frameworks/Sparkle.framework/Versions/A/Sparkle\" \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch -r \"$SRCROOT/Frameworks/OTR.framework/Versions/A/OTR\" \"$SRCROOT/Frameworks/OTR.framework\"\n";
 		};
-		6C15E63106DF3BB600E5A50E /* ShellScript */ = {
+		6C15E63106DF3BB600E5A50E /* Run Delete Headers Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Delete Headers Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
