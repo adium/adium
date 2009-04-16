@@ -1355,13 +1355,6 @@
 			remoteGlobalIDString = 7ED4FDD00E002653004C5F4B;
 			remoteInfo = ThreadedStressTester;
 		};
-		340BAB4609EC6F8C000EC441 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AIUtilities;
-		};
 		340BAB4E09EC6FA7000EC441 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1432,21 +1425,7 @@
 			remoteGlobalIDString = 349C2EF90867AC97000BF883;
 			remoteInfo = AdiumApplescriptRunner;
 		};
-		34B9E664085B7C74006216DF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DACF3ED3085574D0006BFB18;
-			remoteInfo = "External Frameworks";
-		};
 		34BD98D10531467B000AB133 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34BD9DAF05314751000AB133;
-			remoteInfo = Adium.Framework;
-		};
-		34BD992B0531467C000AB133 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
@@ -1515,20 +1494,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AIUtilities;
-		};
-		6309B74F0EA966FC000F8386 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AIUtilities;
-		};
-		6C3E0151054445C000A4AE2E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34BD9DAF05314751000AB133;
-			remoteInfo = Adium.Framework;
 		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -7978,7 +7943,6 @@
 			);
 			dependencies = (
 				340BAB4F09EC6FA7000EC441 /* PBXTargetDependency */,
-				6309B7500EA966FC000F8386 /* PBXTargetDependency */,
 			);
 			name = AdiumLibpurple;
 			productName = AdiumLibpurple;
@@ -8019,8 +7983,6 @@
 				81F9D1DF0A7F81A5004A35BD /* PBXBuildRule */,
 			);
 			dependencies = (
-				34B9E665085B7C74006216DF /* PBXTargetDependency */,
-				34BD9CD2053146CC000AB133 /* PBXTargetDependency */,
 				4B7845EC059B50820048A8BA /* PBXTargetDependency */,
 				349C31630867D199000BF883 /* PBXTargetDependency */,
 				F5B17CDF0A16C767004AE99E /* PBXTargetDependency */,
@@ -8082,8 +8044,6 @@
 			);
 			dependencies = (
 				3485D69309EB41D700232CC4 /* PBXTargetDependency */,
-				6C3E0152054445C000A4AE2E /* PBXTargetDependency */,
-				340BAB4709EC6F8C000EC441 /* PBXTargetDependency */,
 			);
 			name = Purple;
 			productName = Purple;
@@ -8114,7 +8074,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = NO;
+				BuildIndependentTargetsInParallel = YES;
 			};
 			buildConfigurationList = DADE8E3A085507450062B664 /* Build configuration list for PBXProject "Adium" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -9426,11 +9386,6 @@
 			name = UnitTests;
 			targetProxy = 31D8974C0DE6DB7000A1C6A6 /* PBXContainerItemProxy */;
 		};
-		340BAB4709EC6F8C000EC441 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AIUtilities;
-			targetProxy = 340BAB4609EC6F8C000EC441 /* PBXContainerItemProxy */;
-		};
 		340BAB4F09EC6FA7000EC441 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
@@ -9456,16 +9411,6 @@
 			target = 349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */;
 			targetProxy = 349C31620867D199000BF883 /* PBXContainerItemProxy */;
 		};
-		34B9E665085B7C74006216DF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DACF3ED3085574D0006BFB18 /* External Frameworks */;
-			targetProxy = 34B9E664085B7C74006216DF /* PBXContainerItemProxy */;
-		};
-		34BD9CD2053146CC000AB133 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
-			targetProxy = 34BD992B0531467C000AB133 /* PBXContainerItemProxy */;
-		};
 		34BD9EE10531476D000AB133 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
@@ -9490,16 +9435,6 @@
 			isa = PBXTargetDependency;
 			name = AIUtilities;
 			targetProxy = 4B8E0BD7086A16D4009A7A4D /* PBXContainerItemProxy */;
-		};
-		6309B7500EA966FC000F8386 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AIUtilities;
-			targetProxy = 6309B74F0EA966FC000F8386 /* PBXContainerItemProxy */;
-		};
-		6C3E0152054445C000A4AE2E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
-			targetProxy = 6C3E0151054445C000A4AE2E /* PBXContainerItemProxy */;
 		};
 		7EC2E1A70DF43928008C86B4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
