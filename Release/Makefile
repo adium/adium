@@ -24,6 +24,7 @@ OFFICIAL_BUILD?=FALSE
 
 # Always builds in debug mode.
 NIGHTLY?=FALSE
+MERCURIAL?=FALSE
 
 ###########
 # To release!
@@ -54,10 +55,18 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
+ifeq ($(MERCURIAL),TRUE)
+	REVISION=`(hg identify --num)`
+else
+	REVISION=`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
+endif
+
+echo "Revision = $(REVISION)"
+
 ifeq ($(NIGHTLY),TRUE)
-	ADIUM_DIR:=$(ADIUM_DIR)\ `(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
-	VERSION_ESCAPED:=$(VERSION_ESCAPED)\`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
-	VERSION:=$(VERSION)`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
+	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
+	VERSION_ESCAPED:=$(VERSION_ESCAPED)\ $(REVISION)
+	VERSION:=$(VERSION)$(REVISION)
 	BUILD_IN_DEBUG_MODE=TRUE
 	BUILDFLAGS+="ADIUM_CFLAGS=-DNIGHTLY_RELEASE"
 endif
@@ -99,7 +108,11 @@ all-withlocalchanges-noclean: update assertnoconflicts version compile release
 all-nopackage-noclean: update assertnoconflicts version compile createfolder prepare-release-bundle
 
 update:
+ifeq ($(MERCURIAL),TRUE)
+	hg pull -u
+else
 	svn update $(SRC_DIR)
+endif
 
 assertnochanges: assertnoconflicts
 	if [[ 0 -ne `svn st $(SRC_DIR) | egrep --invert-match '\?|Info\.plist' | wc -l` ]]; then \
@@ -144,6 +157,7 @@ endif
 	
 	@# delete svn  and backup files
 	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
+	find $(BUILD_DIR) -name ".hg" -type d -exec rm -rf {} \; -prune
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
 	@# sign the executable
@@ -189,7 +203,7 @@ endif
 #This is what nightly builds use. Does not update because buildbot does.
 nightly: version clean compile createfolder prepare-release-bundle tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
-	(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_') >> $(BUILD_DIR)/latest
+	$(REVISION) >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
