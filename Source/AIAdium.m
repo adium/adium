@@ -1010,7 +1010,17 @@ static NSString	*prefsCategory;
 
 - (void) kickRunLoop:(NSTimer *)dummy
 {
-	[NSApp postEvent:[[[NSEvent alloc] init] autorelease] atStart:NO];
+	// Send a fake event to wake the loop up.
+	[NSApp postEvent:[NSEvent otherEventWithType:NSApplicationDefined
+										location:NSMakePoint(0,0)
+								   modifierFlags:0
+									   timestamp:0
+									windowNumber:0
+										 context:NULL
+										 subtype:0
+										   data1:0
+										   data2:0]
+			 atStart:NO];
 }
 
 #pragma mark Scripting
