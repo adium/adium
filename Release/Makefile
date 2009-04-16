@@ -17,14 +17,13 @@
 # - make all
 ###########
 
-VERSION=1.4svn
+VERSION=1.4hg
 BUILD_IN_DEBUG_MODE?=TRUE
 BETA?=FALSE
 OFFICIAL_BUILD?=FALSE
 
 # Always builds in debug mode.
 NIGHTLY?=FALSE
-MERCURIAL?=FALSE
 
 ###########
 # To release!
@@ -55,13 +54,7 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
-ifeq ($(MERCURIAL),TRUE)
-	REVISION=`(hg identify --num)`
-else
-	REVISION=`(svn info | perl -nle 's/Revision: ([0-9]+)/$$1/g and print "r".$$_')`
-endif
-
-echo "Revision = $(REVISION)"
+REVISION=`(hg identify --num)`
 
 ifeq ($(NIGHTLY),TRUE)
 	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
@@ -108,20 +101,16 @@ all-withlocalchanges-noclean: update assertnoconflicts version compile release
 all-nopackage-noclean: update assertnoconflicts version compile createfolder prepare-release-bundle
 
 update:
-ifeq ($(MERCURIAL),TRUE)
-	hg pull -u
-else
-	svn update $(SRC_DIR)
-endif
+	hg pull -uf
 
 assertnochanges: assertnoconflicts
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep --invert-match '\?|Info\.plist' | wc -l` ]]; then \
+	if [[ 0 -ne `hg st $(SRC_DIR) | egrep --invert-match '\?|Info\.plist' | wc -l` ]]; then \
 		echo 'You have local changes. Please do not build releases from an unclean checkout. You must revert the changes, commit them, or check out another working copy and build from that.' 1>&2; \
 		exit 1; \
 	fi
 assertnoconflicts:
-	if [[ 0 -ne `svn st $(SRC_DIR) | egrep '^C' | wc -l` ]]; then \
-		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "svn resolved"; otherwise, svn will still believe the files are conflicted.' 1>&2; \
+	if [[ 0 -ne `hg st $(SRC_DIR) | egrep '^C' | wc -l` ]]; then \
+		echo 'You have conflicts in your checkout. You will not be able to build until these are resolved. Also, remember that even after you have fixed all conflict marks, you must use "hg resolve"; otherwise, hg will still believe the files are conflicted.' 1>&2; \
 		exit 2; \
 	fi
 
@@ -155,9 +144,7 @@ ifeq ($(BUILD_IN_DEBUG_MODE),FALSE)
 	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib \) -type f -delete
 endif
 	
-	@# delete svn  and backup files
-	find $(BUILD_DIR) -name ".svn" -type d -exec rm -rf {} \; -prune
-	find $(BUILD_DIR) -name ".hg" -type d -exec rm -rf {} \; -prune
+	@# delete backup files
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
 
 	@# sign the executable
@@ -214,12 +201,7 @@ endif
 
 tarballapp:
 	rm $(BUILD_DIR)/Adium_temp.tgz || true
-	@# We have to make a temporary named once, since the `svn` command won't work
-	@# in build/ for nightlies.
-	cd $(BUILD_DIR) && tar zcf Adium_temp.tgz Adium*/ && cd ..
-	mv $(BUILD_DIR)/Adium_temp.tgz $(BUILD_DIR)/$(RELEASE_NAME).tgz
+	cd $(BUILD_DIR) && tar zcf $(RELEASE_NAME).tgz Adium*/ && cd ..
 
 tarball:
-	svn export -q --non-interactive $(SRC_DIR) $(TARBALL_DIR)
-	tar zcf $(TARBALL_DIR).tgz $(TARBALL_DIR)
-	rm -rf $(TARBALL_DIR)
+	hg archive -t tgz ($TARBALL_DIR).tgz
