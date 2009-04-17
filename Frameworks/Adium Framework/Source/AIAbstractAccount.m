@@ -1171,7 +1171,7 @@
 		/* If our account thinks it's still in an offline status, that means it went offline previously via an offline status.
 		 * Set to the status being used by other accounts if possible; otherwise, set to our default initial status.
 		 */
-		AIStatus *newStatus = [adium.statusController activeStatusState];
+		AIStatus *newStatus = adium.statusController.activeStatusState;
 		if (newStatus.statusType == AIOfflineStatusType) {
 			newStatus = [adium.statusController defaultInitialStatusState];
 		}
