@@ -282,7 +282,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 {
 	[self delayListObjectNotifications];
 	
-	NSEnumerator *en = contacts ? [contacts objectEnumerator] : [(AIContactController *)adium.contactController contactEnumerator];
+	id <NSFastEnumeration> en = contacts ?: [(AIContactController *)adium.contactController contactEnumerator];
 	
 	for (AIListObject *listObject in en) {
 		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

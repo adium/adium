@@ -132,8 +132,6 @@ NSString* serviceIDForJabberUID(NSString *UID);
 	NSNumber		*installedActions = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_ADDRESS_BOOK_ACTIONS_INSTALLED];
 	
 	if (!installedActions || ![installedActions boolValue]) {
-		NSEnumerator  *enumerator = [[NSArray arrayWithObjects:@"AIM", @"MSN", @"Yahoo", @"ICQ", @"Jabber", @"SMS", nil] objectEnumerator];
-		NSString	  *name;
 		NSFileManager *fileManager = [NSFileManager defaultManager];
 		NSArray		  *libraryDirectoryArray;
 		NSString	  *libraryDirectory, *pluginDirectory;
@@ -151,7 +149,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 		pluginDirectory = [[libraryDirectory stringByAppendingPathComponent:@"Address Book Plug-Ins"] stringByAppendingPathComponent:@"/"];
 		[fileManager createDirectoryAtPath:pluginDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
 		
-		while ((name = [enumerator nextObject])) {
+		for (NSString *name in [NSArray arrayWithObjects:@"AIM", @"MSN", @"Yahoo", @"ICQ", @"Jabber", @"SMS", nil]) {
 			NSString *fullName = [NSString stringWithFormat:@"AdiumAddressBookAction_%@",name];
 			NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:fullName ofType:@"scpt"];
 
@@ -935,14 +933,10 @@ NSString* serviceIDForJabberUID(NSString *UID);
 			
 			//Set account display names
 			if (enableImport) {
-				NSString		*myDisplayName, *myPhonetic = nil;
+				NSString		*myPhonetic = nil;
+				NSString *myDisplayName = [self nameForPerson:me phonetic:&myPhonetic];
 				
-				myDisplayName = [self nameForPerson:me phonetic:&myPhonetic];
-				
-				NSEnumerator	*accountsArray = [[adium.accountController accounts] objectEnumerator];
-				AIAccount		*account;
-				
-				while ((account = [accountsArray nextObject])) {
+				for (AIAccount *account in adium.accountController.accounts) {
 					if (![account isTemporary]) {
 						[[account displayArrayForKey:@"Display Name"] setObject:myDisplayName
 																	  withOwner:self
@@ -1220,23 +1214,15 @@ NSString* serviceIDForJabberUID(NSString *UID)
  */
 - (void)removeFromAddressBookDict:(NSArray *)uniqueIDs
 {
-	NSArray				*allServiceKeys = [serviceDict allKeys];
-	NSString			*uniqueID;
-	
-	for (uniqueID in uniqueIDs) {
-		NSString			*serviceID;
-		NSMutableDictionary	*dict;
+	for (NSString *uniqueID in uniqueIDs) {
 		
 		//The same person may have multiple services; iterate through them and remove each one.
-		for (serviceID in allServiceKeys) {
-			NSEnumerator *keysEnumerator;
-			NSString *key;
+		for (NSString *serviceID in [serviceDict allKeys]) {
 			
-			dict = [addressBookDict objectForKey:serviceID];
-			keysEnumerator = [[dict allKeysForObject:uniqueID] objectEnumerator];
+			NSMutableDictionary *dict = [addressBookDict objectForKey:serviceID];
 			
 			//The same person may have multiple accounts from the same service; we should remove them all.
-			while ((key = [keysEnumerator nextObject])) {
+			for (NSString *key in [dict allKeysForObject:uniqueID]) {
 				[dict removeObjectForKey:key];
 			}
 		}

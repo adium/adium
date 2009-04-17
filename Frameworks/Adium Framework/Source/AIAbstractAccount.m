@@ -1138,11 +1138,9 @@
 - (void)didConnect
 {
 	//Display a status message in all open chats for this account.
-	AIChat			*chat = nil;
-	NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 	
-	while ((chat = [enumerator nextObject])) {
-		if (chat.account == self && [chat isOpen]) {
+	for (AIChat *chat in adium.interfaceController.openChats) {
+		if (chat.account == self && chat.isOpen) {
 			if (chat.isGroupChat) {
 				// Returns BOOL result, however since there is no callback from
 				// libpurple if the chat failed, the result of rejoining will 
@@ -1228,10 +1226,7 @@
  */
 - (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent
 {
-	NSEnumerator	*enumerator = [[self contactProperties] objectEnumerator];
-	NSString		*key;
-	
-	while ((key = [enumerator nextObject])) {
+	for (NSString *key in self.contactProperties) {
 		[listContact setValue:nil forProperty:key notify:NotifyLater];
 	}
 	
