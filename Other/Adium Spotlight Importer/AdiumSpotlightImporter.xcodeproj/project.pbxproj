@@ -408,10 +408,13 @@
 		11BD7C1B09BBCD01006B26FD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(NATIVE_ARCH)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = xml;
 				ONLY_ACTIVE_ARCH = YES;
+				PLIST_FILE_OUTPUT_FORMAT = xml;
 				SDKROOT = macosx10.5;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
@@ -493,9 +496,12 @@
 		34611CEF09B67B4500870036 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = xml;
+				PLIST_FILE_OUTPUT_FORMAT = xml;
 				SDKROOT = macosx10.5;
 			};
 			name = "Release-Debug";
@@ -516,9 +522,12 @@
 		70138C8A0896BE9A00968C2F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = xml;
+				PLIST_FILE_OUTPUT_FORMAT = xml;
 				SDKROOT = macosx10.5;
 			};
 			name = Release;
