@@ -1073,6 +1073,7 @@
 			includeDestination = YES;
 		}
 
+		NSUInteger onlineAccounts = 0;
 		for (AIAccount *account in adium.accountController.accounts) {
 			if (onlineAccounts >= 2) break;
 			if (account.online) onlineAccounts++;
