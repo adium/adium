@@ -1074,7 +1074,7 @@
 		}
 
 		AIAccount	*account;
-		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
+		NSEnumerator *enumerator = [adium.accountController.accounts objectEnumerator];
 		NSInteger onlineAccounts = 0;
 		while ((account = [enumerator nextObject]) && onlineAccounts < 2) {
 			if (account.online) onlineAccounts++;

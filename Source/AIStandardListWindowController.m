@@ -324,7 +324,7 @@
 {
 	AIAccount			*activeAccount = nil;
 	BOOL					atLeastOneOwnIconAccount = NO;
-	NSArray				*accounts = [adium.accountController accounts];
+	NSArray				*accounts = adium.accountController.accounts;
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownIconAccounts) ownIconAccounts = [NSMutableSet set];
@@ -647,7 +647,7 @@
 			/* No online accounts... look for an enabled account using the global preference
 			 * 'cause we still want to use displayName if possible
 			 */
-			NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
+			NSEnumerator	*enumerator = [adium.accountController.accounts objectEnumerator];
 			AIAccount		*account = nil;
 			
 			while ((account = [enumerator nextObject])) {
