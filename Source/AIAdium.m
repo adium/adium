@@ -1204,11 +1204,22 @@ typedef enum {
 
 - (NSComparisonResult)compareVersion:(NSString *)appVersion toVersion:(NSString *)appcastVersion;
 {
-    /*********** Adium Changes **********/
-    NSRange debugRange;
-    if ((debugRange = [appVersion rangeOfString:@"-debug"]).location != NSNotFound)
-	 appVersion = [appVersion substringToIndex:debugRange.location];
-    /*********** End Adium Changes *******/
+	/*********** Adium Changes **********/
+	NSRange debugRange = [appVersion rangeOfString:@"-debug"];
+	if (debugRange.location != NSNotFound)
+		appVersion = [appVersion substringToIndex:debugRange.location];
+	
+	NSRange hgOurs = [appVersion rangeOfString:@"hg"];
+	NSRange hgTheirs = [appcastVersion rangeOfString:@"hg"];
+	NSRange svnOurs = [appVersion rangeOfString:@"svn"];
+	NSRange svnTheirs = [appcastVersion rangeOfString:@"svn"];
+	
+	if (hgOurs.location != NSNotFound && svnTheirs.location != NSNotFound)
+		return NSOrderedDescending;
+	if (hgTheirs.location != NSNotFound && svnOurs.location != NSNotFound)
+		return NSOrderedAscending;
+		
+	/*********** End Adium Changes *******/
     
     NSArray *partsA = [self splitVersionString:appVersion];
     NSArray *partsB = [self splitVersionString:appcastVersion];
