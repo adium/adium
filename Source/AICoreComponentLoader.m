@@ -111,11 +111,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
  */
 - (void)controllerWillClose
 {
-	NSEnumerator	*enumerator = [components objectEnumerator];
-	id <AIPlugin>	plugin;
-
-	while ((plugin = [enumerator nextObject])) {
-		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
+	for (id <AIPlugin> plugin in components) {
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
 	}
