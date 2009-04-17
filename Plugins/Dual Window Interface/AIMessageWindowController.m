@@ -1073,16 +1073,14 @@
 			includeDestination = YES;
 		}
 
-		AIAccount	*account;
-		NSEnumerator *enumerator = [adium.accountController.accounts objectEnumerator];
-		NSInteger onlineAccounts = 0;
-		while ((account = [enumerator nextObject]) && onlineAccounts < 2) {
+		for (AIAccount *account in adium.accountController.accounts) {
+			if (onlineAccounts >= 2) break;
 			if (account.online) onlineAccounts++;
 		}
 
-		if (onlineAccounts >=2) {
+		if (onlineAccounts >= 2)
 			includeSource = YES;
-		}
+
 		AILog(@"Displaying tooltip for %@ --> %@ (%@) --> %@ (%@)", chat, chat.account, chat.account.formattedUID, destination, destinationFormattedUID);
 		if (includeDestination && includeSource) {
 			tooltip = [NSString stringWithFormat:AILocalizedString(@"%@ talking to %@","AccountName talking to Username"), chat.account.formattedUID, destinationFormattedUID];

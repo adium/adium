@@ -647,17 +647,16 @@
 			/* No online accounts... look for an enabled account using the global preference
 			 * 'cause we still want to use displayName if possible
 			 */
-			NSEnumerator	*enumerator = [adium.accountController.accounts objectEnumerator];
-			AIAccount		*account = nil;
 			
-			while ((account = [enumerator nextObject])) {
+			for (AIAccount *account in adium.accountController.accounts) {
 				if (account.enabled && 
 					![[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME 
 										   group:GROUP_ACCOUNT_STATUS
-						  ] attributedString] length]) break;
+						] attributedString] length]) {
+					alias = account.displayName;
+					break;
+				}
 			}
-			
-			alias = account.displayName;
 		}
 		
 		[onlineAccountsUsingGlobalPreference release];
