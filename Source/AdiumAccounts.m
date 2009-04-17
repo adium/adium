@@ -241,7 +241,7 @@
         } else {
 			if ([accountUID length]) {
 				NSLog(@"Available services are %@: could not load account %@ on service %@ (service %@)",
-					  [adium.accountController services], accountDict, serviceID, service);
+					  adium.accountController.services, accountDict, serviceID, service);
 				[unloadableAccounts addObject:accountDict];
 			} else {
 				AILog(@"Ignored an account with a 0 length accountUID: %@", accountDict);

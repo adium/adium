@@ -111,7 +111,7 @@
 	NSDictionary *rawPrefsFile = [NSDictionary dictionaryWithContentsOfFile:[[NSString stringWithFormat:@"~/Library/Preferences/com.apple.iChat.%@.plist", serviceName] stringByExpandingTildeInPath]];
 	NSArray *accountsFromRaw = [[rawPrefsFile valueForKey:@"Accounts"] allValues];
 		
-	NSEnumerator *serviceEnum = [[adium.accountController services] objectEnumerator];
+	NSEnumerator *serviceEnum = [adium.accountController.services objectEnumerator];
 	AIService *service = nil;
 	
 	// we'll grab these momentarily and use judiciously afterwards, Bonjour is external to this to method, unlike the others
