@@ -258,6 +258,9 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	NSString *appVersion = [NSApp applicationVersion];
 	if ([appVersion rangeOfString:@"svn"].location != NSNotFound)
 		appVersion = [appVersion substringToIndex:[appVersion rangeOfString:@"svn"].location];
+	
+	if ([appVersion rangeOfString:@"hg"].location != NSNotFound)
+		appVersion = [appVersion substringToIndex:[appVersion rangeOfString:@"hg"].location];
 
 	NSComparisonResult versionComparison = [adium compareVersion:appVersion
 													   toVersion:minimumVersionOfPlugin];
