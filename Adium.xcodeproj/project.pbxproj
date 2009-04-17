@@ -1404,49 +1404,49 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3485D67F09EB416300232CC4 /* AdiumLibpurple */;
+			remoteGlobalIDString = 3485D67F09EB416300232CC4;
 			remoteInfo = AdiumLibpurple;
 		};
 		639DFB4D0F981EBA003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
 			remoteInfo = AdiumSpotlightImporter;
 		};
 		639DFB530F981F6B003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AIUtilities */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AIUtilities;
 		};
 		639DFB550F981F7A003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AutoHyperlinks.framework */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AutoHyperlinks.framework;
 		};
 		639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* FriBidi */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = FriBidi;
 		};
 		639DFB610F981FBD003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D5E002A007328E1100594182 /* Framework */;
+			remoteGlobalIDString = D5E002A007328E1100594182;
 			remoteInfo = Framework;
 		};
 		639DFB630F981FCB003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
+			remoteGlobalIDString = 34F3B9510BDF15F40011AB34;
 			remoteInfo = "Touch Framework Bundles to Executable Date";
 		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
@@ -8638,7 +8638,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "PATH=$PATH:/usr/local/bin:/usr/bin:/sw/bin:/opt/local/bin\nbuildid=\"r`LC_ALL=C svn info | awk '/^Revision:/ {print $2}'`\"\n\necho \"#define BUILDID $buildid\" > $SCRIPT_OUTPUT_FILE_0\necho \"#define BUILDDATE `date +%s`\" >> $SCRIPT_OUTPUT_FILE_0\necho \"#define WHOAMI `whoami`\" >> $SCRIPT_OUTPUT_FILE_0\n\n# Delete the intermediate Info.plist so that Xcode re-preprocesses the Info.plist with our updated macros.\n# Use -f because after a clean build, this file doesn't exist yet, so a plain rm would fail and stop the build.\nrm -f \"${CONFIGURATION_TEMP_DIR}/Adium.build/Preprocessed-Info.plist\"\n";
+			shellScript = "PATH=$PATH:/usr/local/bin:/usr/bin:/sw/bin:/opt/local/bin\nbuildid=\"revision id: `hg identify --id`\"\n\necho \"#define BUILDID $buildid\" > $SCRIPT_OUTPUT_FILE_0\necho \"#define BUILDDATE `date +%s`\" >> $SCRIPT_OUTPUT_FILE_0\necho \"#define WHOAMI `whoami`\" >> $SCRIPT_OUTPUT_FILE_0\n\n# Delete the intermediate Info.plist so that Xcode re-preprocesses the Info.plist with our updated macros.\n# Use -f because after a clean build, this file doesn't exist yet, so a plain rm would fail and stop the build.\nrm -f \"${CONFIGURATION_TEMP_DIR}/Adium.build/Preprocessed-Info.plist\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
