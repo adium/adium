@@ -207,7 +207,7 @@
 }
 - (AIStatus *)globalStatus
 {
-	return [adium.statusController activeStatusState];
+	return adium.statusController.activeStatusState;
 }
 - (void)setGlobalStatus:(AIStatus *)inGlobalStatus
 {

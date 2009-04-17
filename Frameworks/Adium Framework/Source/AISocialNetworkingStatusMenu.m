@@ -53,7 +53,7 @@
 	AIAccount *account = [sender representedObject];
 	NSAttributedString *currentStatusMessage = (account ?
 												account.statusMessage :
-												[[adium.statusController activeStatusState] statusMessage]);
+												[adium.statusController.activeStatusState statusMessage]);
 
 	[AICustomSocialNetworkingStatusWindowController showCustomSocialNetworkingStatusWindowWithInitialMessage:currentStatusMessage
 																								  forAccount:account
@@ -88,7 +88,7 @@
 + (void)setToCurrentAdiumStatus:(NSMenuItem *)sender
 {
 	AIAccount *account = [sender representedObject];
-	NSAttributedString *currentStatusMessage = [[adium.statusController activeStatusState] statusMessage];
+	NSAttributedString *currentStatusMessage = [adium.statusController.activeStatusState statusMessage];
 
 	[self setSocialNetworkingStatus:currentStatusMessage
 						 forAccount:account];

@@ -326,10 +326,10 @@
 		imageName = IMAGE_TYPE_CONTENT;
 	} else {
 		// Get the correct icon for our current state.
-		switch([[adium.statusController activeStatusState] statusType]) {
+		switch([adium.statusController.activeStatusState statusType]) {
 			case AIAwayStatusType:
 				if (showBadge) {
-					badge = [[adium.statusController activeStatusState] icon];
+					badge = [adium.statusController.activeStatusState icon];
 				}
 				
 				imageName = IMAGE_TYPE_AWAY;
@@ -337,7 +337,7 @@
 			
 			case AIInvisibleStatusType:
 				if (showBadge) {
-					badge = [[adium.statusController activeStatusState] icon];
+					badge = [adium.statusController.activeStatusState icon];
 				}
 				
 				imageName = IMAGE_TYPE_INVISIBLE;
@@ -385,7 +385,7 @@
 				// If we already haven't chosen a badge (for example, offline for a reconnecting account)
 				// and we have a status message set on any online account, use an online badge
 				if (showBadge && !badge && anyAccountHasStatusMessage) {
-					badge = [[adium.statusController activeStatusState] icon];
+					badge = [adium.statusController.activeStatusState icon];
 				}
 
 				break;

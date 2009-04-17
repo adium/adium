@@ -440,7 +440,7 @@
  */
 - (void)updateStatusMenuSelection:(NSNotification *)notification
 {
-	AIStatus	*activeStatus = [adium.statusController activeStatusState];
+	AIStatus	*activeStatus = adium.statusController.activeStatusState;
 	NSString	*title = [activeStatus title];
 	if (!title) NSLog(@"Warning: Title for %@ is (null)",activeStatus);
 	
