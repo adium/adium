@@ -91,8 +91,8 @@
 	chatToolbarItems = [[NSMutableSet alloc] init];
 	//cache toolbar icons
 	blockedToolbarIcons = [[NSDictionary alloc] initWithObjectsAndKeys:
-								[NSImage imageNamed:@"block.png" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
-								[NSImage imageNamed:@"unblock.png" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"block" forClass:[self class]], TOOLBAR_BLOCK_ICON_KEY, 
+								[NSImage imageNamed:@"unblock" forClass:[self class]], TOOLBAR_UNBLOCK_ICON_KEY, 
 								nil];
 	NSToolbarItem	*chatItem = [AIToolbarUtilities toolbarItemWithIdentifier:TOOLBAR_ITEM_IDENTIFIER
 																		label:BLOCK
