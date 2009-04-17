@@ -87,15 +87,8 @@
 
 - (void)validateEnteredText
 {
-	NSString *roomName = [textField_roomName stringValue];
-	BOOL enabled = NO;
-	
-	if (roomName && [roomName length]) {
-		enabled = YES;
-	}
-	
 	if (delegate) {
-		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:enabled];
+		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:[textField_roomName stringValue].length > 0];
 	}
 }
 
