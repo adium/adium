@@ -1200,10 +1200,7 @@ static NSArray *draggedTypes = nil;
  */
 - (void)releaseAllCachedIcons
 {
-	NSEnumerator *enumerator = [[[objectsWithUserIconsArray copy] autorelease] objectEnumerator];
-	AIListObject *listObject;
-
-	while ((listObject = [enumerator nextObject])) {
+	for (AIListObject *listObject in [[objectsWithUserIconsArray copy] autorelease]) {
 		[self releaseCurrentWebKitUserIconForObject:listObject];
 	}
 }
