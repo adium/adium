@@ -35,7 +35,7 @@
 
 - (NSArray *)services
 {
-	return [adium.accountController services];
+	return adium.accountController.services;
 }
 
 - (NSArray *)orderedWindows
