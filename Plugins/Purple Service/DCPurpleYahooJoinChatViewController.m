@@ -87,9 +87,8 @@
 
 - (void)validateEnteredText
 {
-	if (delegate) {
+	if (delegate)
 		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:[textField_roomName stringValue].length > 0];
-	}
 }
 
 - (NSString *)impliedCompletion:(NSString *)aString

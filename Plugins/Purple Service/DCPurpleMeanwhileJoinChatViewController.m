@@ -90,11 +90,8 @@
 
 - (void)validateEnteredText
 {
-	NSString	*topic = [textField_topic stringValue];
-	BOOL		enabled = (topic && [topic length]);
-	
 	if (delegate)
-		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:enabled];
+		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:[textField_topic stringValue].length > 0];
 }
 
 - (NSString *)impliedCompletion:(NSString *)aString
