@@ -28,7 +28,7 @@
  */
 - (NSImage *)applicationIconImage
 {
-	return adium.dockController.baseApplicationIconImage ?: [super applicationIconImage];
+	return [adium.dockController baseApplicationIconImage] ?: [super applicationIconImage];
 }
 
 - (NSArray *)services
