@@ -42,5 +42,5 @@ localizable-strings:
 	rmdir tmp || true
 
 latest:
-	svn up
+	hg pull -u
 	make adium
