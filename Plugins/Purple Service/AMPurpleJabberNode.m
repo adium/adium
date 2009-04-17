@@ -65,7 +65,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		self->identities = identities;
 		self->features = features;
 
-		for (id delegate in delegates) {
+		for (id delegate in self->delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotInfo:)])
 				[delegate jabberNodeGotInfo:self];
 		}
@@ -127,7 +127,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 						[items addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
-							for (NSDictionary *identity in self.identities) {
+							NSDictionary *identity = nil;
+							for (identity in self.identities) {
 								if ([[identity objectForKey:@"category"] isEqualToString:@"conference"]) {
 									// since we're a conference service, assume that our children are conferences
 									newnode->identities = [[NSArray arrayWithObject:identity] retain];

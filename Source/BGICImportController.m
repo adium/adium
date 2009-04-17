@@ -70,7 +70,7 @@
 	else
 		[accountsArray removeAllObjects];
 	
-	NSArray *accountsAvailable = [adium.accountController accounts];
+	NSArray *accountsAvailable = adium.accountController.accounts;
 	
 	if ([accountsAvailable count] > 0) {
 		[accountSelectionPopup setHidden:NO];

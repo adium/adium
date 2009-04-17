@@ -518,12 +518,10 @@
 
 - (void)_openXMPPGroupChat:(NSString *)name onServer:(NSString *)server withPassword:(NSString *)password
 {
-	AIAccount		*account;
-	NSEnumerator	*enumerator;
+	AIAccount		*account = nil;
 	
 	//Find an XMPP-compatible online account which can create group chats
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in adium.accountController.accounts) {
 		if (account.online &&
 			[account.service.serviceClass isEqualToString:@"Jabber"] &&
 			[account.service canCreateGroupChats]) {
@@ -549,11 +547,9 @@
 - (void)_openAIMGroupChat:(NSString *)roomname onExchange:(NSInteger)exchange
 {
 	AIAccount		*account;
-	NSEnumerator	*enumerator;
 	
 	//Find an AIM-compatible online account which can create group chats
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject])) {
+	for (account in adium.accountController.accounts) {
 		if (account.online &&
 			[account.service.serviceClass isEqualToString:@"AIM-compatible"] &&
 			[account.service canCreateGroupChats]) {

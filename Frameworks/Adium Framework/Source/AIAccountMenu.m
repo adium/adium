@@ -203,13 +203,9 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
  */
 - (void)connectAllAccounts:(NSMenuItem *)menuItem
 {
-	NSEnumerator		*enumerator = [[adium.accountController accounts] objectEnumerator];
-	AIAccount			*account;
-	
-	while ((account = [enumerator nextObject])) {
-		if (account.enabled && !account.online) {
+	for (AIAccount *account in adium.accountController.accounts) {
+		if (account.enabled && !account.online)
 			[account setShouldBeOnline:YES];
-		}
 	}
 }
 
@@ -222,7 +218,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 - (NSArray *)buildMenuItems
 {
 	NSMutableArray	*menuItemArray = [NSMutableArray array];
-	NSArray			*accounts = [adium.accountController accounts];
+	NSArray			*accounts = adium.accountController.accounts;
 	
 	if (includeConnectAllMenuItem) {
 		NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Connect All Accounts",nil)
