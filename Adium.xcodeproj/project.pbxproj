@@ -8609,8 +8609,20 @@
 			files = (
 			);
 			inputPaths = (
+				"$(SRCROOT)/Frameworks/libpurple.framework/Versions/Current/libpurple",
+				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework/Versions/A/Growl-WithInstaller",
+				"$(SRCROOT)/Frameworks/LMX.framework/Versions/A/LMX",
+				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl",
+				"$(SRCROOT)/Frameworks/Sparkle.framework/Versions/A/Sparkle",
+				"$(SRCROOT)/Frameworks/OTR.framework/Versions/A/OTR",
 			);
 			outputPaths = (
+				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework",
+				"$(SRCROOT)/Frameworks/libpurple.framework",
+				"$(SRCROOT)/Frameworks/LMX.framework",
+				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework",
+				"$(SRCROOT)/Frameworks/Sparkle.framework",
+				"$(SRCROOT)/Frameworks/OTR.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
