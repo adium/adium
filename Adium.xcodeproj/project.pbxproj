@@ -7905,7 +7905,6 @@
 				34BD9D5F053146CC000AB133 /* Copy Frameworks */,
 				4BF2E91F067CB76300743318 /* Copy Built-in Xtras */,
 				34BD9D6A053146CC000AB133 /* Copy AdiumPlugins */,
-				6C15E63106DF3BB600E5A50E /* Run Delete Headers Script */,
 				345DFF4A05564DB200CEE7B3 /* Run Generate Buildnum File Script */,
 			);
 			buildRules = (
@@ -8610,20 +8609,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/OTR.framework\"\n";
-		};
-		6C15E63106DF3BB600E5A50E /* Run Delete Headers Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Delete Headers Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Delete .h files\nfind \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -print0 | xargs -0 rm -f\n";
 		};
 		F5B17CCE0A16C6AC004AE99E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

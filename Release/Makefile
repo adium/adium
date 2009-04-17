@@ -146,6 +146,9 @@ endif
 	
 	@# delete backup files
 	find $(BUILD_DIR) \( -name "*~" -or -name .DS_Store \) -type f -delete
+	
+	@# delete header files
+	find $(BUILD_DIR) \( -name "*.h \) -type f -delete
 
 	@# sign the executable
 ifeq ($(OFFICIAL_BUILD),TRUE)
