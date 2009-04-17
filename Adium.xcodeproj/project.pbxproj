@@ -18,21 +18,6 @@
 			name = "Touch Framework Bundles to Executable Date";
 			productName = "Touch Framework Bundles to Executable Date";
 		};
-		DACF3ED3085574D0006BFB18 /* External Frameworks */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = DACF3EDE085574F6006BFB18 /* Build configuration list for PBXAggregateTarget "External Frameworks" */;
-			buildPhases = (
-			);
-			dependencies = (
-				34F3B9AB0BDF177C0011AB34 /* PBXTargetDependency */,
-				4B8E0BD8086A16D4009A7A4D /* PBXTargetDependency */,
-				11E738620F8DAE9B00D763D4 /* PBXTargetDependency */,
-				346637760D41547F006C9034 /* PBXTargetDependency */,
-				34D1AC840D69958000470520 /* PBXTargetDependency */,
-			);
-			name = "External Frameworks";
-			productName = "External Frameworks";
-		};
 		F5B17CCF0A16C6AC004AE99E /* Plist Macros */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = F5B17CD70A16C6BA004AE99E /* Build configuration list for PBXAggregateTarget "Plist Macros" */;
@@ -1296,13 +1281,6 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		11E738610F8DAE9B00D763D4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AutoHyperlinks.framework;
-		};
 		312ED4280C7E964400A6BDA9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
@@ -1338,13 +1316,6 @@
 			remoteGlobalIDString = 34BD9DAF05314751000AB133;
 			remoteInfo = Adium.Framework;
 		};
-		340BAB5D09EC70F2000EC441 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = DACF3ED3085574D0006BFB18;
-			remoteInfo = "External Frameworks";
-		};
 		3416394C0DE58A1A009E9550 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -1371,13 +1342,6 @@
 			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = FriBidi;
-		};
-		346637750D41547F006C9034 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = FriBidi;
 		};
 		3496A8ED07CE6CCB0055BBAB /* PBXContainerItemProxy */ = {
@@ -1429,32 +1393,11 @@
 			remoteGlobalIDString = D5EA8A09074CF5AB00AE807E;
 			remoteInfo = SampleApp;
 		};
-		34D1AC830D69958000470520 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D5E002A007328E1100594182;
-			remoteInfo = Framework;
-		};
 		34D834DC07CBE7BB006466F2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = AIUtilities;
-		};
-		34F3B9AA0BDF177C0011AB34 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34F3B9510BDF15F40011AB34;
-			remoteInfo = "Touch Framework Bundles to Executable Date";
-		};
-		4B8E0BD7086A16D4009A7A4D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = AIUtilities;
 		};
 		639DF9E20F97E687003C9A32 /* PBXContainerItemProxy */ = {
@@ -1470,6 +1413,41 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */;
 			remoteInfo = AdiumSpotlightImporter;
+		};
+		639DFB530F981F6B003C9A32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3448717006D1E57700DA778C /* AIUtilities.framework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AIUtilities */;
+			remoteInfo = AIUtilities;
+		};
+		639DFB550F981F7A003C9A32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* AutoHyperlinks.framework */;
+			remoteInfo = AutoHyperlinks.framework;
+		};
+		639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* FriBidi */;
+			remoteInfo = FriBidi;
+		};
+		639DFB610F981FBD003C9A32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E002A007328E1100594182 /* Framework */;
+			remoteInfo = Framework;
+		};
+		639DFB630F981FCB003C9A32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
+			remoteInfo = "Touch Framework Bundles to Executable Date";
 		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -7957,7 +7935,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				340BAB5E09EC70F2000EC441 /* PBXTargetDependency */,
+				639DFB540F981F6B003C9A32 /* PBXTargetDependency */,
+				639DFB560F981F7A003C9A32 /* PBXTargetDependency */,
+				639DFB600F981FA8003C9A32 /* PBXTargetDependency */,
+				639DFB620F981FBD003C9A32 /* PBXTargetDependency */,
+				639DFB640F981FCB003C9A32 /* PBXTargetDependency */,
 			);
 			name = Adium.Framework;
 			productInstallPath = "@executable_path/../Frameworks";
@@ -8077,7 +8059,6 @@
 				34BD9DAF05314751000AB133 /* Adium.Framework */,
 				3485D67F09EB416300232CC4 /* AdiumLibpurple */,
 				34BD9EE00531476D000AB133 /* Stress Test */,
-				DACF3ED3085574D0006BFB18 /* External Frameworks */,
 				349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */,
 				F5B17CCF0A16C6AC004AE99E /* Plist Macros */,
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
@@ -9285,11 +9266,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		11E738620F8DAE9B00D763D4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AutoHyperlinks.framework;
-			targetProxy = 11E738610F8DAE9B00D763D4 /* PBXContainerItemProxy */;
-		};
 		312ED4290C7E964400A6BDA9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AIUtilities;
@@ -9310,16 +9286,6 @@
 			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
 			targetProxy = 340BAB4E09EC6FA7000EC441 /* PBXContainerItemProxy */;
 		};
-		340BAB5E09EC70F2000EC441 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = DACF3ED3085574D0006BFB18 /* External Frameworks */;
-			targetProxy = 340BAB5D09EC70F2000EC441 /* PBXContainerItemProxy */;
-		};
-		346637760D41547F006C9034 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = FriBidi;
-			targetProxy = 346637750D41547F006C9034 /* PBXContainerItemProxy */;
-		};
 		349C31630867D199000BF883 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */;
@@ -9330,21 +9296,6 @@
 			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
 			targetProxy = 34BD98D10531467B000AB133 /* PBXContainerItemProxy */;
 		};
-		34D1AC840D69958000470520 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Framework;
-			targetProxy = 34D1AC830D69958000470520 /* PBXContainerItemProxy */;
-		};
-		34F3B9AB0BDF177C0011AB34 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
-			targetProxy = 34F3B9AA0BDF177C0011AB34 /* PBXContainerItemProxy */;
-		};
-		4B8E0BD8086A16D4009A7A4D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AIUtilities;
-			targetProxy = 4B8E0BD7086A16D4009A7A4D /* PBXContainerItemProxy */;
-		};
 		639DF9E30F97E687003C9A32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 3485D67F09EB416300232CC4 /* AdiumLibpurple */;
@@ -9354,6 +9305,31 @@
 			isa = PBXTargetDependency;
 			name = AdiumSpotlightImporter;
 			targetProxy = 639DFB4D0F981EBA003C9A32 /* PBXContainerItemProxy */;
+		};
+		639DFB540F981F6B003C9A32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AIUtilities;
+			targetProxy = 639DFB530F981F6B003C9A32 /* PBXContainerItemProxy */;
+		};
+		639DFB560F981F7A003C9A32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AutoHyperlinks.framework;
+			targetProxy = 639DFB550F981F7A003C9A32 /* PBXContainerItemProxy */;
+		};
+		639DFB600F981FA8003C9A32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FriBidi;
+			targetProxy = 639DFB5F0F981FA8003C9A32 /* PBXContainerItemProxy */;
+		};
+		639DFB620F981FBD003C9A32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Framework;
+			targetProxy = 639DFB610F981FBD003C9A32 /* PBXContainerItemProxy */;
+		};
+		639DFB640F981FCB003C9A32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */;
+			targetProxy = 639DFB630F981FCB003C9A32 /* PBXContainerItemProxy */;
 		};
 		7EC2E1A70DF43928008C86B4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -11029,45 +11005,6 @@
 			};
 			name = "Release-Debug";
 		};
-		DACF3EDF085574F6006BFB18 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Debug;
-		};
-		DACF3EE0085574F6006BFB18 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = Release;
-		};
-		DACF3EE1085574F6006BFB18 /* Release-Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "External Frameworks";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-			};
-			name = "Release-Debug";
-		};
 		DADE8E00085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -11420,16 +11357,6 @@
 				7EC2E19B0DF4390C008C86B4 /* Debug */,
 				7EC2E19C0DF4390C008C86B4 /* Release */,
 				7EC2E19D0DF4390C008C86B4 /* Release-Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		DACF3EDE085574F6006BFB18 /* Build configuration list for PBXAggregateTarget "External Frameworks" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				DACF3EDF085574F6006BFB18 /* Debug */,
-				DACF3EE0085574F6006BFB18 /* Release */,
-				DACF3EE1085574F6006BFB18 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
