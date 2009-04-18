@@ -1,24 +1,17 @@
 /*
- * Adium is the legal property of its developers,
-whose names are listed in the copyright file included
+ * Adium is the legal property of its developers, whose names are listed in the copyright file included
  * with this source distribution.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program; if not,
- * write to the Free Software Foundation,
-Inc.,
-59 Temple Place - Suite 330,
-Boston,
-MA  02111-1307,
-USA.
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
 /*!
@@ -183,9 +176,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		if (className && (class = NSClassFromString(className))) {
 			id <AIPlugin>	object = [[class alloc] init];
 
-			NSAssert1(object,
-@"Failed to load %@",
-className);
+			NSAssert1(object, @"Failed to load %@", className);
 
 			[object installPlugin];
 
@@ -196,14 +187,11 @@ className);
 #ifdef COMPONENT_LOAD_TIMING
 		NSTimeInterval t = -[start timeIntervalSinceNow];
 		aggregateComponentLoadingTime += t;
-		AILog(@"Loaded component: %@ in %f seconds",
-className,
-t);
+		AILog(@"Loaded component: %@ in %f seconds", className, t);
 #endif
 	}
 #ifdef COMPONENT_LOAD_TIMING
-	AILog(@"Total time spent loading components: %f",
-aggregateComponentLoadingTime);
+	AILog(@"Total time spent loading components: %f", aggregateComponentLoadingTime);
 #endif
 }
 
