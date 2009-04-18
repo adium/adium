@@ -54,7 +54,7 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
-REVISION=r`(hg identify --num)`
+REVISION = $(subst +,,$(shell hg id -n))
 
 ifeq ($(NIGHTLY),TRUE)
 	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
@@ -203,7 +203,7 @@ ifeq ($(OFFICIAL_BUILD),TRUE)
 endif
 
 tarballapp:
-	rm $(BUILD_DIR)/Adium_temp.tgz || true
+	rm $(BUILD_DIR)/$(RELEASE_NAME).tgz || true
 	cd $(BUILD_DIR) && tar zcf $(RELEASE_NAME).tgz Adium*/ && cd ..
 
 tarball:
