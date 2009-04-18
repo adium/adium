@@ -193,7 +193,7 @@ endif
 #This is what nightly builds use. Does not update because buildbot does.
 nightly: version clean compile createfolder prepare-release-bundle tarballapp
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest
-	$(REVISION) >> $(BUILD_DIR)/latest
+	echo $(REVISION) >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest
 	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
 	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest
