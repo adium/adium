@@ -54,7 +54,7 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
-REVISION = $(subst +,,$(shell hg id -n))
+REVISION = $(subst +,,r$(shell hg id -n))
 
 ifeq ($(NIGHTLY),TRUE)
 	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
