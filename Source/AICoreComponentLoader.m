@@ -1,17 +1,24 @@
 /*
- * Adium is the legal property of its developers, whose names are listed in the copyright file included
+ * Adium is the legal property of its developers,
+whose names are listed in the copyright file included
  * with this source distribution.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
  * General Public License as published by the Free Software Foundation; either version 2 of the License,
  * or (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even
  * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
  * Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along with this program; if not,
- * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ * write to the Free Software Foundation,
+Inc.,
+59 Temple Place - Suite 330,
+Boston,
+MA  02111-1307,
+USA.
  */
 
 /*!
@@ -66,7 +73,104 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 - (void)loadComponents
 {
 	//Fetch the list of components to load
-	NSArray *componentClassNames = [NSArray arrayWithObjects: @"AIAccountListPreferencesPlugin", @"AIAccountMenuAccessPlugin", @"AIAliasSupportPlugin", @"AIAppearancePreferencesPlugin", @"AIAutoLinkingPlugin", @"AIAutoReplyPlugin", @"AIChatConsolidationPlugin", @"AIChatCyclingPlugin", @"AIContactAwayPlugin", @"AIContactIdlePlugin", @"AIContactInfoWindowPlugin", @"AIContactListEditorPlugin", @"AIContactOnlineSincePlugin", @"AIContactSortSelectionPlugin", @"AIContactStatusColoringPlugin", @"AIContactStatusDockOverlaysPlugin", @"AIContactStatusEventsPlugin", @"AIDefaultFormattingPlugin", @"AIDockAccountStatusPlugin", @"AIDockBehaviorPlugin", @"AIDockUnviewedContentPlugin", @"AIDualWindowInterfacePlugin", @"AIEventSoundsPlugin", @"AIExtendedStatusPlugin", @"AILoggerPlugin", @"AIMessageAliasPlugin", @"AINewMessagePanelPlugin", @"AINudgeBuzzHandlerPlugin", @"AIContactVisibilityControlPlugin", @"AISCLViewPlugin", @"AIStandardToolbarItemsPlugin", @"AIStateMenuPlugin", @"AIStatusChangedMessagesPlugin", @"AITabStatusIconsPlugin", @"BGContactNotesPlugin", @"BGEmoticonMenuPlugin", @"CBActionSupportPlugin", @"CBContactCountingDisplayPlugin", @"CBContactLastSeenPlugin", @"CBStatusMenuItemPlugin", @"DCInviteToChatPlugin", @"DCJoinChatPanelPlugin", @"DCMessageContextDisplayPlugin", @"AIAddBookmarkPlugin", @"ESAccountEvents", @"ESAccountNetworkConnectivityPlugin", @"ESAnnouncerPlugin", @"ESApplescriptContactAlertPlugin", @"ESBlockingPlugin", @"ESContactClientPlugin", @"ESContactServersideDisplayName", @"ESFileTransferMessagesPlugin", @"ESMetaContactContentsPlugin", @"ESOpenMessageWindowContactAlertPlugin", @"ESSafariLinkToolbarItemPlugin", @"ESSendMessageContactAlertPlugin", @"ESUserIconHandlingPlugin", @"ErrorMessageHandlerPlugin", @"GBApplescriptFiltersPlugin", @"SAContactOnlineForPlugin", @"SHLinkManagementPlugin", @"ESGlobalEventsPreferencesPlugin", @"ESGeneralPreferencesPlugin", @"NEHGrowlPlugin", @"ESSecureMessagingPlugin", @"ESStatusPreferencesPlugin", @"AIAutomaticStatus", @"ESAwayStatusWindowPlugin", @"RAFBlockEditorPlugin", @"SMContactListShowBehaviorPlugin", @"ESiTunesPlugin", @"AIDockBadger", @"ESPersonalPreferencesPlugin", @"AIXtrasManager", @"OWSpellingPerContactPlugin", @"GBQuestionHandlerPlugin", @"AINulRemovalPlugin", @"AIAdvancedPreferencesPlugin", @"GBImportPlugin", @"AIContactVisibilityPlugin", @"AIMentionEventPlugin", @"AITwitterIMPlugin", @"AITwitterPlugin", @"AILaconicaPlugin", @"AITwitterURLHandler", @"AIURLShortenerPlugin", @"AIGroupChatStatusTooltipPlugin", @"AIRealNameTooltip", @"AIUserHostTooltip", @"AIIRCChannelLinker", @"AIURLHandlerPlugin", @"AIJumpControlPlugin", @"AIWebKitMessageViewPlugin", @"AWBonjourPlugin", @"CBPurpleServicePlugin", nil];
+	NSArray *componentClassNames = [NSArray arrayWithObjects: 
+		@"AIAccountListPreferencesPlugin",
+		@"AIAccountMenuAccessPlugin",
+		@"AIAliasSupportPlugin",
+		@"AIAppearancePreferencesPlugin",
+		@"AIAutoLinkingPlugin",
+		@"AIAutoReplyPlugin",
+		@"AIChatConsolidationPlugin",
+		@"AIChatCyclingPlugin",
+		@"AIContactAwayPlugin",
+		@"AIContactIdlePlugin",
+		@"AIContactInfoWindowPlugin",
+		@"AIContactListEditorPlugin",
+		@"AIContactOnlineSincePlugin",
+		@"AIContactSortSelectionPlugin",
+		@"AIContactStatusColoringPlugin",
+		@"AIContactStatusDockOverlaysPlugin",
+		@"AIContactStatusEventsPlugin",
+		@"AIDefaultFormattingPlugin",
+		@"AIDockAccountStatusPlugin",
+		@"AIDockBehaviorPlugin",
+		@"AIDockUnviewedContentPlugin",
+		@"AIDualWindowInterfacePlugin",
+		@"AIEventSoundsPlugin",
+		@"AIExtendedStatusPlugin",
+		@"AILoggerPlugin",
+		@"AIMessageAliasPlugin",
+		@"AINewMessagePanelPlugin",
+		@"AINudgeBuzzHandlerPlugin",
+		@"AIContactVisibilityControlPlugin",
+		@"AISCLViewPlugin",
+		@"AIStandardToolbarItemsPlugin",
+		@"AIStateMenuPlugin",
+		@"AIStatusChangedMessagesPlugin",
+		@"AITabStatusIconsPlugin",
+		@"BGContactNotesPlugin",
+		@"BGEmoticonMenuPlugin",
+		@"CBActionSupportPlugin",
+		@"CBContactCountingDisplayPlugin",
+		@"CBContactLastSeenPlugin",
+		@"CBStatusMenuItemPlugin",
+		@"DCInviteToChatPlugin",
+		@"DCJoinChatPanelPlugin",
+		@"DCMessageContextDisplayPlugin",
+		@"AIAddBookmarkPlugin",
+		@"ESAccountEvents",
+		@"ESAccountNetworkConnectivityPlugin",
+		@"ESAnnouncerPlugin",
+		@"ESApplescriptContactAlertPlugin",
+		@"ESBlockingPlugin",
+		@"ESContactClientPlugin",
+		@"ESContactServersideDisplayName",
+		@"ESFileTransferMessagesPlugin",
+		@"ESMetaContactContentsPlugin",
+		@"ESOpenMessageWindowContactAlertPlugin",
+		@"ESSafariLinkToolbarItemPlugin",
+		@"ESSendMessageContactAlertPlugin",
+		@"ESUserIconHandlingPlugin",
+		@"ErrorMessageHandlerPlugin",
+		@"GBApplescriptFiltersPlugin",
+		@"SAContactOnlineForPlugin",
+		@"SHLinkManagementPlugin",
+		@"ESGlobalEventsPreferencesPlugin",
+		@"ESGeneralPreferencesPlugin",
+		@"NEHGrowlPlugin",
+		@"ESSecureMessagingPlugin",
+		@"ESStatusPreferencesPlugin",
+		@"AIAutomaticStatus",
+		@"ESAwayStatusWindowPlugin",
+		@"RAFBlockEditorPlugin",
+		@"SMContactListShowBehaviorPlugin",
+		@"ESiTunesPlugin",
+		@"AIDockBadger",
+		@"ESPersonalPreferencesPlugin",
+		@"AIXtrasManager",
+		@"OWSpellingPerContactPlugin",
+		@"GBQuestionHandlerPlugin",
+		@"AINulRemovalPlugin",
+		@"AIAdvancedPreferencesPlugin",
+		@"GBImportPlugin",
+		@"AIContactVisibilityPlugin",
+		@"AIMentionEventPlugin",
+		@"AITwitterIMPlugin",
+		@"AITwitterPlugin",
+		@"AILaconicaPlugin",
+		@"AITwitterURLHandler",
+		@"AIURLShortenerPlugin",
+		@"AIGroupChatStatusTooltipPlugin",
+		@"AIRealNameTooltip",
+		@"AIUserHostTooltip",
+		@"AIIRCChannelLinker",
+		@"AIURLHandlerPlugin",
+		@"AIJumpControlPlugin",
+		@"AIWebKitMessageViewPlugin",
+		@"AWBonjourPlugin",
+		@"CBPurpleServicePlugin",
+		nil
+	];
 	//Load each component
 	for (NSString *className in componentClassNames) {
 			
@@ -79,7 +183,9 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		if (className && (class = NSClassFromString(className))) {
 			id <AIPlugin>	object = [[class alloc] init];
 
-			NSAssert1(object, @"Failed to load %@", className);
+			NSAssert1(object,
+@"Failed to load %@",
+className);
 
 			[object installPlugin];
 
@@ -90,11 +196,14 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 #ifdef COMPONENT_LOAD_TIMING
 		NSTimeInterval t = -[start timeIntervalSinceNow];
 		aggregateComponentLoadingTime += t;
-		AILog(@"Loaded component: %@ in %f seconds", className, t);
+		AILog(@"Loaded component: %@ in %f seconds",
+className,
+t);
 #endif
 	}
 #ifdef COMPONENT_LOAD_TIMING
-	AILog(@"Total time spent loading components: %f", aggregateComponentLoadingTime);
+	AILog(@"Total time spent loading components: %f",
+aggregateComponentLoadingTime);
 #endif
 }
 
