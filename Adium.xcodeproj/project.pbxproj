@@ -1134,6 +1134,9 @@
 		6318DBC20F8D943A00C5E584 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C103FAE057127A500F3C158 /* WebKit.framework */; };
 		63218C500E518A3D0008E0D0 /* AdiumAuthorization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3486E8A5097F24A90044C496 /* AdiumAuthorization.m */; };
 		63218C720E518A940008E0D0 /* AdiumAuthorization.h in Headers */ = {isa = PBXBuildFile; fileRef = 3486E8A4097F24A90044C496 /* AdiumAuthorization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6329EF000F9D333B00112489 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EEFF0F9D333B00112489 /* CoreFoundation.framework */; };
+		6329EF040F9D334D00112489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EF030F9D334D00112489 /* Foundation.framework */; };
+		6329EF080F9D335800112489 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EF070F9D335800112489 /* CoreServices.framework */; };
 		632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */; };
 		632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */; };
 		632D801708E7E0A40032C187 /* XtrasManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 632D801608E7E0A40032C187 /* XtrasManager.nib */; };
@@ -1353,6 +1356,14 @@
 		633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		633405A90F9C2C7D003C77A9 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		6334FFFF0F9C14C2003C77A9 /* AIFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF030F9C14BF003C77A9 /* AIFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		633D4FB60F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FAE0F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.m */; };
+		633D4FB70F9D30E3004F491E /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB10F9D30E3004F491E /* GetMetadataForFile.m */; };
+		633D4FB80F9D30E3004F491E /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB30F9D30E3004F491E /* GetMetadataForHTMLLog.m */; };
+		633D4FB90F9D30E3004F491E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FB40F9D30E3004F491E /* main.c */; };
+		633D4FBE0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = 633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */; };
+		633D4FC20F9D3116004F491E /* schema.xml in Resources */ = {isa = PBXBuildFile; fileRef = 633D4FC00F9D3116004F491E /* schema.xml */; };
+		633D514F0F9D31BE004F491E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 633D50ED0F9D31BD004F491E /* InfoPlist.strings */; };
+		633D51500F9D31BE004F491E /* schema.strings in Resources */ = {isa = PBXBuildFile; fileRef = 633D50EF0F9D31BD004F491E /* schema.strings */; };
 		633F175D08F905A800C76383 /* AIXtrasManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F175908F905A700C76383 /* AIXtrasManager.m */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
 		634DC2920F9C3685007B6479 /* PlasticButtonNormal_Middle.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF650F9C14C0003C77A9 /* PlasticButtonNormal_Middle.png */; };
@@ -1470,7 +1481,6 @@
 		EEC461B6096D68580028632F /* OWSpellingPerContactPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC461B4096D68580028632F /* OWSpellingPerContactPlugin.m */; };
 		EFB1C3140DDBDA3100B3973D /* AITwitterIMPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB1C3130DDBDA3100B3973D /* AITwitterIMPlugin.m */; };
 		F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
-		F51BCE390A156312000FDC06 /* AdiumSpotlightImporter.mdimporter in Copy Spotlight Importer */ = {isa = PBXBuildFile; fileRef = 34611C8309B6756D00870036 /* AdiumSpotlightImporter.mdimporter */; };
 		F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F551B1000B8F5130007D3A3C /* FireLogImporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = F56E0DAF0A4CDF9C008D1EB5 /* FireLogImporter.nib */; };
 		F58904F20A7828B9001F0ADC /* OTR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BDBBA0968BC9A00CF83F5 /* OTR.framework */; };
@@ -1526,20 +1536,6 @@
 			remoteGlobalIDString = 31C460380DE1D17100C4265B;
 			remoteInfo = StressTester;
 		};
-		345AF7D30A5D559B00D7DA6F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 345AF7D00A5D559900D7DA6F;
-			remoteInfo = AISpotlightImporterTest;
-		};
-		34611C8209B6756D00870036 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D576316048677EA00EA77CD;
-			remoteInfo = AdiumSpotlightImporter;
-		};
 		3466368A0D41541A006C9034 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 346636860D41541A006C9034 /* FriBidi.xcodeproj */;
@@ -1589,6 +1585,13 @@
 			remoteGlobalIDString = D5EA8A09074CF5AB00AE807E;
 			remoteInfo = SampleApp;
 		};
+		6329EFB40F9D33A600112489 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 633D4FA30F9D3073004F491E;
+			remoteInfo = "Spotlight Importer";
+		};
 		6334045D0F9C1899003C77A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -1609,13 +1612,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3485D67F09EB416300232CC4;
 			remoteInfo = AdiumLibpurple;
-		};
-		639DFB4D0F981EBA003C9A32 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
-			remoteInfo = AdiumSpotlightImporter;
 		};
 		639DFB550F981F7A003C9A32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1750,7 +1746,6 @@
 			dstPath = Contents/Library/Spotlight;
 			dstSubfolderSpec = 1;
 			files = (
-				F51BCE390A156312000FDC06 /* AdiumSpotlightImporter.mdimporter in Copy Spotlight Importer */,
 			);
 			name = "Copy Spotlight Importer";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2779,7 +2774,6 @@
 		34607F0D09B2296A000DB3D2 /* AIHoveringPopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIHoveringPopUpButtonCell.h; path = Source/AIHoveringPopUpButtonCell.h; sourceTree = "<group>"; };
 		34607F0E09B2296A000DB3D2 /* AIHoveringPopUpButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIHoveringPopUpButton.m; path = Source/AIHoveringPopUpButton.m; sourceTree = "<group>"; };
 		34607F0F09B2296A000DB3D2 /* AIHoveringPopUpButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIHoveringPopUpButton.h; path = Source/AIHoveringPopUpButton.h; sourceTree = "<group>"; };
-		34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdiumSpotlightImporter.xcodeproj; path = "Other/Adium Spotlight Importer/AdiumSpotlightImporter.xcodeproj"; sourceTree = "<group>"; };
 		3461621006FB482C009181D8 /* UserList Theme.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = "UserList Theme.plist"; path = "Plugins/Dual Window Interface/UserList Theme.plist"; sourceTree = "<group>"; };
 		3461621106FB482C009181D8 /* ESChatUserListController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESChatUserListController.h; path = "Plugins/Dual Window Interface/ESChatUserListController.h"; sourceTree = "<group>"; };
 		3461621206FB482C009181D8 /* ESChatUserListController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESChatUserListController.m; path = "Plugins/Dual Window Interface/ESChatUserListController.m"; sourceTree = "<group>"; };
@@ -4084,6 +4078,9 @@
 		63125D970A75ECE400303EE9 /* AILiveJournalService.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AILiveJournalService.h; path = "Plugins/Purple Service/AILiveJournalService.h"; sourceTree = "<group>"; };
 		63125D980A75ECE400303EE9 /* AILiveJournalService.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AILiveJournalService.m; path = "Plugins/Purple Service/AILiveJournalService.m"; sourceTree = "<group>"; };
 		63125D990A75ECE400303EE9 /* PurpleDefaultsLiveJournal.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = PurpleDefaultsLiveJournal.plist; path = "Plugins/Purple Service/PurpleDefaultsLiveJournal.plist"; sourceTree = "<group>"; };
+		6329EEFF0F9D333B00112489 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		6329EF030F9D334D00112489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6329EF070F9D335800112489 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = Source/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
 		632ADC140E9EDDCA00AB6817 /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = Source/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
 		632D608D094B7EEB003A9786 /* AIXtraPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewController.h; path = Source/AIXtraPreviewController.h; sourceTree = "<group>"; };
@@ -4309,6 +4306,60 @@
 		6334FFFB0F9C14C1003C77A9 /* AIWindowControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWindowControllerAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIWindowControllerAdditions.m"; sourceTree = "<group>"; };
 		6334FFFC0F9C14C1003C77A9 /* AIPasteboardAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPasteboardAdditions.h; path = "Frameworks/AIUtilities Framework/Source/AIPasteboardAdditions.h"; sourceTree = "<group>"; };
 		6334FFFD0F9C14C1003C77A9 /* AIPasteboardAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPasteboardAdditions.m; path = "Frameworks/AIUtilities Framework/Source/AIPasteboardAdditions.m"; sourceTree = "<group>"; };
+		633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdiumSpotlightImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		633D4FA50F9D3073004F491E /* Spotlight Importer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Spotlight Importer-Info.plist"; sourceTree = "<group>"; };
+		633D4FAD0F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "GetMetadataForHTMLLog-Additions.h"; path = "Other/Adium Spotlight Importer/GetMetadataForHTMLLog-Additions.h"; sourceTree = "<group>"; };
+		633D4FAE0F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "GetMetadataForHTMLLog-Additions.m"; path = "Other/Adium Spotlight Importer/GetMetadataForHTMLLog-Additions.m"; sourceTree = "<group>"; };
+		633D4FB00F9D30E3004F491E /* AdiumSpotlightImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumSpotlightImporter.h; path = "Other/Adium Spotlight Importer/AdiumSpotlightImporter.h"; sourceTree = "<group>"; };
+		633D4FB10F9D30E3004F491E /* GetMetadataForFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetMetadataForFile.m; path = "Other/Adium Spotlight Importer/GetMetadataForFile.m"; sourceTree = "<group>"; };
+		633D4FB20F9D30E3004F491E /* GetMetadataForHTMLLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GetMetadataForHTMLLog.h; path = "Other/Adium Spotlight Importer/GetMetadataForHTMLLog.h"; sourceTree = "<group>"; };
+		633D4FB30F9D30E3004F491E /* GetMetadataForHTMLLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GetMetadataForHTMLLog.m; path = "Other/Adium Spotlight Importer/GetMetadataForHTMLLog.m"; sourceTree = "<group>"; };
+		633D4FB40F9D30E3004F491E /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = main.c; path = "Other/Adium Spotlight Importer/main.c"; sourceTree = "<group>"; };
+		633D4FB50F9D30E3004F491E /* maintest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = maintest.m; path = "Other/Adium Spotlight Importer/maintest.m"; sourceTree = "<group>"; };
+		633D4FBC0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
+		633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSCalendarDate+ISO8601Parsing.m"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.m"; sourceTree = "<group>"; };
+		633D4FC00F9D3116004F491E /* schema.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = schema.xml; path = "Other/Adium Spotlight Importer/schema.xml"; sourceTree = "<group>"; };
+		633D4FC10F9D3116004F491E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Other/Adium Spotlight Importer/Info.plist"; sourceTree = "<group>"; };
+		633D50550F9D31B8004F491E /* AdiumSpotlightImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumSpotlightImporter.h; path = "Other/Adium Spotlight Importer/AdiumSpotlightImporter.h"; sourceTree = "<group>"; };
+		633D50EE0F9D31BD004F491E /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50F00F9D31BD004F491E /* cs */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50F10F9D31BD004F491E /* da */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50F20F9D31BD004F491E /* da */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50F30F9D31BD004F491E /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50F40F9D31BD004F491E /* de */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50F50F9D31BD004F491E /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50F60F9D31BD004F491E /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50F70F9D31BD004F491E /* fi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50F80F9D31BD004F491E /* fi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50F90F9D31BD004F491E /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50FA0F9D31BD004F491E /* fr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/schema.strings; sourceTree = "<group>"; };
+		633D50FB0F9D31BD004F491E /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr_CA; path = fr_CA.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D50FC0F9D31BD004F491E /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = fr_CA; path = fr_CA.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51020F9D31BD004F491E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "Other/Adium Spotlight Importer/Info.plist"; sourceTree = "<group>"; };
+		633D51030F9D31BD004F491E /* is */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51040F9D31BD004F491E /* is */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51050F9D31BD004F491E /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51060F9D31BD004F491E /* it */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51070F9D31BD004F491E /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51080F9D31BD004F491E /* ja */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/schema.strings; sourceTree = "<group>"; };
+		633D510B0F9D31BD004F491E /* nb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D510C0F9D31BD004F491E /* nb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/schema.strings; sourceTree = "<group>"; };
+		633D510D0F9D31BD004F491E /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D510E0F9D31BD004F491E /* nl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/schema.strings; sourceTree = "<group>"; };
+		633D510F0F9D31BD004F491E /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51100F9D31BD004F491E /* pl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51110F9D31BD004F491E /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51120F9D31BD004F491E /* pt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51130F9D31BD004F491E /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51140F9D31BD004F491E /* ru */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51160F9D31BD004F491E /* sl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51170F9D31BD004F491E /* sl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/schema.strings; sourceTree = "<group>"; };
+		633D51180F9D31BD004F491E /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D51190F9D31BD004F491E /* sv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/schema.strings; sourceTree = "<group>"; };
+		633D511A0F9D31BD004F491E /* tr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D511B0F9D31BD004F491E /* tr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/schema.strings; sourceTree = "<group>"; };
+		633D511E0F9D31BE004F491E /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		633D511F0F9D31BE004F491E /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/schema.strings; sourceTree = "<group>"; };
 		633F175808F905A700C76383 /* AIXtrasManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtrasManager.h; path = Source/AIXtrasManager.h; sourceTree = "<group>"; };
 		633F175908F905A700C76383 /* AIXtrasManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtrasManager.m; path = Source/AIXtrasManager.m; sourceTree = "<group>"; };
 		6341AEFE0E53A09C00AE1439 /* libexpat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.dylib; path = usr/lib/libexpat.dylib; sourceTree = SDKROOT; };
@@ -4698,6 +4749,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		633D4FA20F9D3073004F491E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6329EF000F9D333B00112489 /* CoreFoundation.framework in Frameworks */,
+				6329EF040F9D334D00112489 /* Foundation.framework in Frameworks */,
+				6329EF080F9D335800112489 /* CoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -4866,6 +4927,7 @@
 				3485D68009EB416300232CC4 /* AdiumLibpurple.framework */,
 				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
 				6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */,
+				633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4879,17 +4941,21 @@
 				4B873F330840D14A00738987 /* Public Interface */,
 				34DC842E0A7EA94C003E1636 /* Adium UI and Components */,
 				6334FBED0F9C116D003C77A9 /* AIUtilities */,
+				633D4F950F9D2F62004F491E /* Spotlight Importer */,
 				4BD6720906001B2C0049CAF7 /* Plugins (Built In) */,
 				4BF2E6BE067CB72400743318 /* Xtras (Built In) */,
 				344458F3070B5BF500D8E932 /* Debugging */,
 				9EB3C52304F94DB7001D1F74 /* Source */,
 				F50A325A03B5798301A8010A /* Resources */,
 				340C1A210BD58E7E00D09235 /* Other */,
-				34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */,
 				349C2F310867ACF7000BF883 /* ApplescriptRunner */,
 				312ED3D80C7E89CC00A6BDA9 /* Unit tests */,
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				633D4FA50F9D3073004F491E /* Spotlight Importer-Info.plist */,
+				6329EEFF0F9D333B00112489 /* CoreFoundation.framework */,
+				6329EF030F9D334D00112489 /* Foundation.framework */,
+				6329EF070F9D335800112489 /* CoreServices.framework */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -5436,15 +5502,6 @@
 				34D000C50957918000DCB678 /* ContactListRecentImages.nib */,
 			);
 			name = "User Icon Changing";
-			sourceTree = "<group>";
-		};
-		34611C7E09B6756D00870036 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				34611C8309B6756D00870036 /* AdiumSpotlightImporter.mdimporter */,
-				345AF7D40A5D559B00D7DA6F /* AISpotlightImporterTest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		3461980C0D3175C700763051 /* Icons */ = {
@@ -7849,6 +7906,69 @@
 			name = "External Sources";
 			sourceTree = "<group>";
 		};
+		633D4F950F9D2F62004F491E /* Spotlight Importer */ = {
+			isa = PBXGroup;
+			children = (
+				633D51020F9D31BD004F491E /* Info.plist */,
+				633D4FBF0F9D3116004F491E /* Resources */,
+				633D4FBB0F9D30FA004F491E /* External Sources */,
+				633D4FAB0F9D30E3004F491E /* Source */,
+			);
+			name = "Spotlight Importer";
+			sourceTree = "<group>";
+		};
+		633D4FAB0F9D30E3004F491E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				633D50550F9D31B8004F491E /* AdiumSpotlightImporter.h */,
+				633D4FB40F9D30E3004F491E /* main.c */,
+				633D4FB50F9D30E3004F491E /* maintest.m */,
+				633D4FAF0F9D30E3004F491E /* Log Importing */,
+				633D4FAC0F9D30E3004F491E /* Additions */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		633D4FAC0F9D30E3004F491E /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				633D4FAD0F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.h */,
+				633D4FAE0F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.m */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
+		633D4FAF0F9D30E3004F491E /* Log Importing */ = {
+			isa = PBXGroup;
+			children = (
+				633D4FB00F9D30E3004F491E /* AdiumSpotlightImporter.h */,
+				633D4FB10F9D30E3004F491E /* GetMetadataForFile.m */,
+				633D4FB20F9D30E3004F491E /* GetMetadataForHTMLLog.h */,
+				633D4FB30F9D30E3004F491E /* GetMetadataForHTMLLog.m */,
+			);
+			name = "Log Importing";
+			sourceTree = "<group>";
+		};
+		633D4FBB0F9D30FA004F491E /* External Sources */ = {
+			isa = PBXGroup;
+			children = (
+				633D4FBC0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.h */,
+				633D4FBD0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m */,
+			);
+			name = "External Sources";
+			sourceTree = "<group>";
+		};
+		633D4FBF0F9D3116004F491E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				633D50ED0F9D31BD004F491E /* InfoPlist.strings */,
+				633D50EF0F9D31BD004F491E /* schema.strings */,
+				633D4FC00F9D3116004F491E /* schema.xml */,
+				633D4FC10F9D3116004F491E /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		635647B2093F64A400563BEE /* Xtras Preview Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -9069,8 +9189,8 @@
 			dependencies = (
 				639DF9E30F97E687003C9A32 /* PBXTargetDependency */,
 				349C31630867D199000BF883 /* PBXTargetDependency */,
+				6329EFB50F9D33A600112489 /* PBXTargetDependency */,
 				F5B17CDF0A16C767004AE99E /* PBXTargetDependency */,
-				639DFB4E0F981EBA003C9A32 /* PBXTargetDependency */,
 			);
 			name = Adium;
 			productInstallPath = /;
@@ -9121,6 +9241,23 @@
 			productReference = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		633D4FA30F9D3073004F491E /* Spotlight Importer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 633D4FA90F9D3077004F491E /* Build configuration list for PBXNativeTarget "Spotlight Importer" */;
+			buildPhases = (
+				633D4FA00F9D3073004F491E /* Resources */,
+				633D4FA10F9D3073004F491E /* Sources */,
+				633D4FA20F9D3073004F491E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Spotlight Importer";
+			productName = "Spotlight Importer";
+			productReference = 633D4FA40F9D3073004F491E /* AdiumSpotlightImporter.mdimporter */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -9165,14 +9302,11 @@
 				pt,
 				hu,
 				el_GR,
+				English,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocAIMe2 */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 34611C7E09B6756D00870036 /* Products */;
-					ProjectRef = 34611C7D09B6756D00870036 /* AdiumSpotlightImporter.xcodeproj */;
-				},
 				{
 					ProductGroup = 3496A8E807CE6CA30055BBAB /* Products */;
 					ProjectRef = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -9197,6 +9331,7 @@
 				F53C25AE0A2F95F100F7B73D /* Setup Build Directory */,
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
 				312ED3C90C7E875B00A6BDA9 /* Unit tests */,
+				633D4FA30F9D3073004F491E /* Spotlight Importer */,
 			);
 		};
 /* End PBXProject section */
@@ -9214,20 +9349,6 @@
 			fileType = "compiled.mach-o.executable";
 			path = AHStressTester;
 			remoteRef = 3416394C0DE58A1A009E9550 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		345AF7D40A5D559B00D7DA6F /* AISpotlightImporterTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = AISpotlightImporterTest;
-			remoteRef = 345AF7D30A5D559B00D7DA6F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		34611C8309B6756D00870036 /* AdiumSpotlightImporter.mdimporter */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AdiumSpotlightImporter.mdimporter;
-			remoteRef = 34611C8209B6756D00870036 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3466368B0D41541A006C9034 /* FriBidi.framework */ = {
@@ -9668,6 +9789,16 @@
 				634DC2980F9C3685007B6479 /* plus.png in Resources */,
 				634DC2990F9C3685007B6479 /* minus.png in Resources */,
 				63A3A98E0F9C35D3006C9CB0 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		633D4FA00F9D3073004F491E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				633D4FC20F9D3116004F491E /* schema.xml in Resources */,
+				633D514F0F9D31BE004F491E /* InfoPlist.strings in Resources */,
+				633D51500F9D31BE004F491E /* schema.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10474,6 +10605,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		633D4FA10F9D3073004F491E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				633D4FB60F9D30E3004F491E /* GetMetadataForHTMLLog-Additions.m in Sources */,
+				633D4FB70F9D30E3004F491E /* GetMetadataForFile.m in Sources */,
+				633D4FB80F9D30E3004F491E /* GetMetadataForHTMLLog.m in Sources */,
+				633D4FB90F9D30E3004F491E /* main.c in Sources */,
+				633D4FBE0F9D30FA004F491E /* NSCalendarDate+ISO8601Parsing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -10497,6 +10640,11 @@
 			target = 349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */;
 			targetProxy = 349C31620867D199000BF883 /* PBXContainerItemProxy */;
 		};
+		6329EFB50F9D33A600112489 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 633D4FA30F9D3073004F491E /* Spotlight Importer */;
+			targetProxy = 6329EFB40F9D33A600112489 /* PBXContainerItemProxy */;
+		};
 		6334045E0F9C1899003C77A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6334FBFB0F9C11DC003C77A9 /* AIUtilities.framework */;
@@ -10511,11 +10659,6 @@
 			isa = PBXTargetDependency;
 			target = 3485D67F09EB416300232CC4 /* AdiumLibpurple */;
 			targetProxy = 639DF9E20F97E687003C9A32 /* PBXContainerItemProxy */;
-		};
-		639DFB4E0F981EBA003C9A32 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AdiumSpotlightImporter;
-			targetProxy = 639DFB4D0F981EBA003C9A32 /* PBXContainerItemProxy */;
 		};
 		639DFB560F981F7A003C9A32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -11907,6 +12050,60 @@
 			name = EmoticonNames.strings;
 			sourceTree = "<group>";
 		};
+		633D50ED0F9D31BD004F491E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				633D50EE0F9D31BD004F491E /* cs */,
+				633D50F10F9D31BD004F491E /* da */,
+				633D50F30F9D31BD004F491E /* de */,
+				633D50F50F9D31BD004F491E /* English */,
+				633D50F70F9D31BD004F491E /* fi */,
+				633D50F90F9D31BD004F491E /* fr */,
+				633D50FB0F9D31BD004F491E /* fr_CA */,
+				633D51030F9D31BD004F491E /* is */,
+				633D51050F9D31BD004F491E /* it */,
+				633D51070F9D31BD004F491E /* ja */,
+				633D510B0F9D31BD004F491E /* nb */,
+				633D510D0F9D31BD004F491E /* nl */,
+				633D510F0F9D31BD004F491E /* pl */,
+				633D51110F9D31BD004F491E /* pt */,
+				633D51130F9D31BD004F491E /* ru */,
+				633D51160F9D31BD004F491E /* sl */,
+				633D51180F9D31BD004F491E /* sv */,
+				633D511A0F9D31BD004F491E /* tr */,
+				633D511E0F9D31BE004F491E /* zh_CN */,
+			);
+			name = InfoPlist.strings;
+			path = "Other/Adium Spotlight Importer";
+			sourceTree = "<group>";
+		};
+		633D50EF0F9D31BD004F491E /* schema.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				633D50F00F9D31BD004F491E /* cs */,
+				633D50F20F9D31BD004F491E /* da */,
+				633D50F40F9D31BD004F491E /* de */,
+				633D50F60F9D31BD004F491E /* English */,
+				633D50F80F9D31BD004F491E /* fi */,
+				633D50FA0F9D31BD004F491E /* fr */,
+				633D50FC0F9D31BD004F491E /* fr_CA */,
+				633D51040F9D31BD004F491E /* is */,
+				633D51060F9D31BD004F491E /* it */,
+				633D51080F9D31BD004F491E /* ja */,
+				633D510C0F9D31BD004F491E /* nb */,
+				633D510E0F9D31BD004F491E /* nl */,
+				633D51100F9D31BD004F491E /* pl */,
+				633D51120F9D31BD004F491E /* pt */,
+				633D51140F9D31BD004F491E /* ru */,
+				633D51170F9D31BD004F491E /* sl */,
+				633D51190F9D31BD004F491E /* sv */,
+				633D511B0F9D31BD004F491E /* tr */,
+				633D511F0F9D31BE004F491E /* zh_CN */,
+			);
+			name = schema.strings;
+			path = "Other/Adium Spotlight Importer";
+			sourceTree = "<group>";
+		};
 		63A3A9680F9C35D3006C9CB0 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -12220,6 +12417,48 @@
 				INFOPLIST_FILE = "Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist";
 				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PRODUCT_NAME = AIUtilities;
+			};
+			name = "Release-Debug";
+		};
+		633D4FA60F9D3077004F491E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Debug;
+		};
+		633D4FA70F9D3077004F491E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
+			};
+			name = Release;
+		};
+		633D4FA80F9D3077004F491E /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
+				INSTALL_PATH = /Library/Spotlight;
+				LIBRARY_STYLE = bundle;
+				PRODUCT_NAME = AdiumSpotlightImporter;
+				WRAPPER_EXTENSION = mdimporter;
 			};
 			name = "Release-Debug";
 		};
@@ -12581,6 +12820,16 @@
 				6334FC030F9C11E0003C77A9 /* Debug */,
 				6334FC040F9C11E0003C77A9 /* Release */,
 				6334FC050F9C11E0003C77A9 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		633D4FA90F9D3077004F491E /* Build configuration list for PBXNativeTarget "Spotlight Importer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				633D4FA60F9D3077004F491E /* Debug */,
+				633D4FA70F9D3077004F491E /* Release */,
+				633D4FA80F9D3077004F491E /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
