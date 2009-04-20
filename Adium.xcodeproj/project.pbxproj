@@ -24,6 +24,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				F53C25E20A2F997700F7B73D /* PBXTargetDependency */,
 				34F3B9AB0BDF177C0011AB34 /* PBXTargetDependency */,
 				4B8E0BD8086A16D4009A7A4D /* PBXTargetDependency */,
 				11E738620F8DAE9B00D763D4 /* PBXTargetDependency */,
@@ -33,6 +34,17 @@
 			);
 			name = "External Frameworks";
 			productName = "External Frameworks";
+		};
+		F53C25AE0A2F95F100F7B73D /* Setup Build Directory */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F53C25AF0A2F95F600F7B73D /* Build configuration list for PBXAggregateTarget "Setup Build Directory" */;
+			buildPhases = (
+				F53C25AD0A2F95F100F7B73D /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Setup Build Directory";
+			productName = "Setup Build Directory";
 		};
 		F5B17CCF0A16C6AC004AE99E /* Plist Macros */ = {
 			isa = PBXAggregateTarget;
@@ -1499,6 +1511,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7EB550100DDC80DB000DC0D6;
 			remoteInfo = LinkDriver;
+		};
+		F53C25E10A2F997700F7B73D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D;
+			remoteInfo = "Setup Build Directory";
 		};
 		F5B17CDE0A16C767004AE99E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -8078,6 +8097,7 @@
 				DACF3ED3085574D0006BFB18 /* External Frameworks */,
 				349C2EF90867AC97000BF883 /* AdiumApplescriptRunner */,
 				F5B17CCF0A16C6AC004AE99E /* Plist Macros */,
+				F53C25AE0A2F95F100F7B73D /* Setup Build Directory */,
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
 				312ED3C90C7E875B00A6BDA9 /* Unit tests */,
 				7EC2E1980DF4390A008C86B4 /* Developer links */,
@@ -8629,6 +8649,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Delete .h files\nfind \"$BUILT_PRODUCTS_DIR/$WRAPPER_NAME\" -name '*.h' -print0 | xargs -0 rm -f\n";
+		};
+		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "SOURCE=\"$SRCROOT/build\"\nif [ \"$SOURCE\" != \"$SYMROOT\" ] ; then\n\tif [ -d \"$SOURCE\" ] ; then\n\t\t/bin/rm -Rf \"$SOURCE\"\n\tfi\n\t/bin/ln -fs \"$SYMROOT\" \"$SOURCE\"\nfi";
 		};
 		F5B17CCE0A16C6AC004AE99E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -9350,6 +9383,11 @@
 			isa = PBXTargetDependency;
 			name = AutoHyperlinks.framework;
 			targetProxy = 7EC2E2710DF451C3008C86B4 /* PBXContainerItemProxy */;
+		};
+		F53C25E20A2F997700F7B73D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
+			targetProxy = F53C25E10A2F997700F7B73D /* PBXContainerItemProxy */;
 		};
 		F5B17CDF0A16C767004AE99E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -11336,6 +11374,27 @@
 			};
 			name = "Release-Debug";
 		};
+		F53C25B00A2F95F600F7B73D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Setup Build Directory";
+			};
+			name = Debug;
+		};
+		F53C25B10A2F95F600F7B73D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Setup Build Directory";
+			};
+			name = Release;
+		};
+		F53C25B20A2F95F600F7B73D /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Setup Build Directory";
+			};
+			name = "Release-Debug";
+		};
 		F5B17CD80A16C6BA004AE99E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -11456,6 +11515,16 @@
 				DADE8E3B085507450062B664 /* Debug */,
 				DADE8E3C085507450062B664 /* Release */,
 				DADE8E3D085507450062B664 /* Release-Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F53C25AF0A2F95F600F7B73D /* Build configuration list for PBXAggregateTarget "Setup Build Directory" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F53C25B00A2F95F600F7B73D /* Debug */,
+				F53C25B10A2F95F600F7B73D /* Release */,
+				F53C25B20A2F95F600F7B73D /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
