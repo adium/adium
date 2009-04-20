@@ -19,6 +19,7 @@
 @class AdiumSound, AdiumSpeech, AdiumSoundSets;
 
 @interface AISoundController : NSObject <AISoundController> {
+@private
 	AdiumSound			*adiumSound;
 	AdiumSpeech 		*adiumSpeech;
 	AdiumSoundSets 		*adiumSoundSets;

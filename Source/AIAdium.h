@@ -34,6 +34,7 @@
 			AIDockController;
 
 @interface AIAdium : NSObject <AIAdium, SUVersionComparison> {
+@private
 	IBOutlet	NSObject <AIMenuController>			*menuController;
 	IBOutlet	NSObject <AIInterfaceController>		*interfaceController;
 	IBOutlet	SUUpdater									*updater;

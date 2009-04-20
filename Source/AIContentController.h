@@ -21,6 +21,7 @@
 @class AdiumMessageEvents, AdiumTyping, AdiumFormatting, AdiumContentFiltering;
 
 @interface AIContentController : NSObject <AIContentController> {
+@private
 	AdiumTyping					*adiumTyping;
 	AdiumFormatting				*adiumFormatting;
 	AdiumContentFiltering		*adiumContentFiltering;

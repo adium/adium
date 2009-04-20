@@ -10,6 +10,7 @@
 @class AIChat, AdiumChatEvents;
 
 @interface AIChatController : NSObject <AIChatController> {
+@private
     NSMutableSet			*openChats;
 	NSMutableArray			*chatObserverArray;
 	

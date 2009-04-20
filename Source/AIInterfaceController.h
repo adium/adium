@@ -19,6 +19,7 @@
 @class AIMenuController, AIChat, AIListObject, AIMessageViewController;
 
 @interface AIInterfaceController : NSObject <AIInterfaceController> {
+@private
     IBOutlet	NSMenuItem		*menuItem_close;
     IBOutlet	NSMenuItem		*menuItem_closeChat;
 	IBOutlet	NSMenuItem		*menuItem_closeAllChats;

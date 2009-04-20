@@ -19,6 +19,7 @@
 @class AILoginWindowController;
 
 @interface AILoginController : NSObject <AILoginController> {
+@private
     NSString					*currentUser;			//The current logged in username
     NSString					*userDirectory;			//The current user's Adium home directory
     AILoginWindowController		*loginWindowController;	//The login select window

@@ -32,6 +32,7 @@
 @class AISortController, AdiumAuthorization, AIContactHidingController, AIContactObserverManager;
 
 @interface AIContactController : NSObject <AIContactController, AIListObjectObserver> {
+@private
 	//Contacts and metaContacts
 	NSMutableDictionary		*contactDict;
 	NSMutableDictionary		*metaContactDict;

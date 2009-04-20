@@ -20,6 +20,7 @@
 #define	GROUP_DEBUG				@"Debug Group"
 
 @interface ESDebugController : NSObject <AIDebugController> {
+@private
 	NSMutableArray			*debugLogArray;
 	NSFileHandle			*debugLogFile;
 }

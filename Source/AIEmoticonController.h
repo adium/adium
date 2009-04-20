@@ -20,6 +20,7 @@
 @class AIEmoticonPreferences;
 
 @interface AIEmoticonController : NSObject <AIEmoticonController, AIContentFilter> {
+@private
     AIEmoticonPreferences		*prefs;
     BOOL                        observingContent;
 
