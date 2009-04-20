@@ -1162,6 +1162,8 @@
 		636D938E0E4EA23F00E5F558 /* AdiumAddressBookAction_AIM.scpt in Resources */ = {isa = PBXBuildFile; fileRef = 636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */; };
 		636D93F40E4EAB7500E5F558 /* AIContactObserverManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 34555C5E0DB6BCE500649CD4 /* AIContactObserverManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */; };
+		637864540F9BE1A70040DEDA /* AIUtilities.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34D834D207CBE7B2006466F2 /* AIUtilities.framework */; };
+		637864550F9BE1AB0040DEDA /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
 		639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
 		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1539,6 +1541,18 @@
 				4BB1E493067F2EAC00D1DB86 /* Scripts in Copy Built-in Xtras */,
 			);
 			name = "Copy Built-in Xtras";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637864600F9BE1B70040DEDA /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				637864550F9BE1AB0040DEDA /* AutoHyperlinks.framework in Copy Frameworks */,
+				637864540F9BE1A70040DEDA /* AIUtilities.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F51BCD3E0A156281000FDC06 /* Copy Spotlight Importer */ = {
@@ -7828,6 +7842,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 312ED3CC0C7E875C00A6BDA9 /* Build configuration list for PBXNativeTarget "Unit tests" */;
 			buildPhases = (
+				637864600F9BE1B70040DEDA /* Copy Frameworks */,
 				312ED3C50C7E875B00A6BDA9 /* Resources */,
 				312ED3C60C7E875B00A6BDA9 /* Sources */,
 				312ED3C70C7E875B00A6BDA9 /* Frameworks */,
@@ -10689,7 +10704,7 @@
 				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
 				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				PREBINDING = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -10706,7 +10721,7 @@
 				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
 				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				PREBINDING = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -10723,7 +10738,7 @@
 				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
 				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				PREBINDING = NO;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PRODUCT_NAME = "Unit tests";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -10752,6 +10767,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
 				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -10788,6 +10804,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
 				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -10825,6 +10842,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
 				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -10984,6 +11002,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
 				INFOPLIST_FILE = Plists/Adium_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_NAME = Adium;
 				SKIP_INSTALL = YES;
 			};
@@ -10999,6 +11018,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
 				INFOPLIST_FILE = Plists/Adium_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_NAME = Adium;
 				SKIP_INSTALL = YES;
 			};
@@ -11014,6 +11034,7 @@
 				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
 				INFOPLIST_FILE = Plists/Adium_Framework.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_NAME = Adium;
 				SKIP_INSTALL = YES;
 			};
@@ -11041,6 +11062,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
 				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "$(CFLAGS)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Adium;
@@ -11070,6 +11092,7 @@
 				INFOPLIST_OUTPUT_FORMAT = binary;
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
 				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "$(CFLAGS)";
 				OTHER_LDFLAGS = "";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
@@ -11099,6 +11122,7 @@
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
 				INFOPLIST_PREPROCESS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				OTHER_CFLAGS = "$(CFLAGS)";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Adium;
@@ -11140,10 +11164,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)/**",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -11183,10 +11207,10 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)/**",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = used;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
@@ -11226,10 +11250,10 @@
 				DEPLOYMENT_POSTPROCESSING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)/**",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
