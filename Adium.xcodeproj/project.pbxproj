@@ -1357,6 +1357,7 @@
 		634DC2970F9C3685007B6479 /* PlasticButtonPressed_Caps.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6A0F9C14C0003C77A9 /* PlasticButtonPressed_Caps.png */; };
 		634DC2980F9C3685007B6479 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6B0F9C14C0003C77A9 /* plus.png */; };
 		634DC2990F9C3685007B6479 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6C0F9C14C0003C77A9 /* minus.png */; };
+		634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
 		636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E2A2EE07B018B1006735BC /* AIAddressBookController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D92840E4E968A00E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
@@ -4325,6 +4326,7 @@
 		6341AEFE0E53A09C00AE1439 /* libexpat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libexpat.dylib; path = usr/lib/libexpat.dylib; sourceTree = SDKROOT; };
 		634BCD1D0DDC1542005AF1C2 /* TestMutableStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestMutableStringAdditions.h; path = UnitTests/TestMutableStringAdditions.h; sourceTree = "<group>"; };
 		634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestMutableStringAdditions.m; path = UnitTests/TestMutableStringAdditions.m; sourceTree = "<group>"; };
+		634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIStringUtilities.h; path = "Frameworks/AIUtilities Framework/Source/AIStringUtilities.h"; sourceTree = "<group>"; };
 		6360B2580BF2EB93004CD99B /* AIWebKitDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIWebKitDelegate.h; path = "Plugins/WebKit Message View/AIWebKitDelegate.h"; sourceTree = "<group>"; };
 		6360B2590BF2EB93004CD99B /* AIWebKitDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIWebKitDelegate.m; path = "Plugins/WebKit Message View/AIWebKitDelegate.m"; sourceTree = "<group>"; };
 		636AB7F1087E2B6700A87670 /* AIDockBadger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIDockBadger.h; sourceTree = "<group>"; };
@@ -4627,11 +4629,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				811034050CDE216F00EC6038 /* Security.framework in Frameworks */,
 				81E45D760C15BFF800B7381B /* SystemConfiguration.framework in Frameworks */,
 				3485D8EA09EB446900232CC4 /* Cocoa.framework in Frameworks */,
-				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
 				1172FBCB0CDAA8D400B8E233 /* libglib.framework in Frameworks */,
 				1172FBCC0CDAA8D400B8E233 /* libgmodule.framework in Frameworks */,
 				1172FBCD0CDAA8D400B8E233 /* libgobject.framework in Frameworks */,
@@ -4640,6 +4640,8 @@
 				1172FBD00CDAA8D400B8E233 /* libmeanwhile.framework in Frameworks */,
 				1172FBD10CDAA8D400B8E233 /* libpurple.framework in Frameworks */,
 				811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */,
+				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
+				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7296,6 +7298,7 @@
 		6334FBED0F9C116D003C77A9 /* AIUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */,
 				63A3A9660F9C35D3006C9CB0 /* Resources */,
 				633400D10F9C1501003C77A9 /* External Frameworks and Libraries */,
 				633400CE0F9C14E0003C77A9 /* Other Sources */,
@@ -9064,6 +9067,7 @@
 				633400C50F9C14C2003C77A9 /* AIWindowControllerAdditions.h in Headers */,
 				633400C70F9C14C2003C77A9 /* AIPasteboardAdditions.h in Headers */,
 				633400D00F9C14E0003C77A9 /* AIUtilities.framework_Prefix.pch in Headers */,
+				634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12484,11 +12488,7 @@
 		DADE8E23085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
-				GCC_DYNAMIC_NO_PIC = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
