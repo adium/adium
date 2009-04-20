@@ -1354,6 +1354,7 @@
 		633405230F9C2B37003C77A9 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		633405A90F9C2C7D003C77A9 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
+		6334066D0F9C3106003C77A9 /* AIUtilities_Framework.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6334066C0F9C3106003C77A9 /* AIUtilities_Framework.plist */; };
 		6334FFFF0F9C14C2003C77A9 /* AIFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF030F9C14BF003C77A9 /* AIFunctions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		633F175D08F905A800C76383 /* AIXtrasManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 633F175908F905A700C76383 /* AIXtrasManager.m */; };
 		634BCD1F0DDC1542005AF1C2 /* TestMutableStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 634BCD1E0DDC1542005AF1C2 /* TestMutableStringAdditions.m */; };
@@ -4116,6 +4117,7 @@
 		633400D90F9C1501003C77A9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		633400DA0F9C1501003C77A9 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		633400DB0F9C1501003C77A9 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		6334066C0F9C3106003C77A9 /* AIUtilities_Framework.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AIUtilities_Framework.plist; path = "Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist"; sourceTree = "<group>"; };
 		6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AIUtilities.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6334FC020F9C11DD003C77A9 /* AIUtilities-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AIUtilities-Info.plist"; sourceTree = "<group>"; };
 		6334FF030F9C14BF003C77A9 /* AIFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIFunctions.h; path = "Frameworks/AIUtilities Framework/Source/AIFunctions.h"; sourceTree = "<group>"; };
@@ -7278,6 +7280,7 @@
 		6334FF010F9C1476003C77A9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6334066C0F9C3106003C77A9 /* AIUtilities_Framework.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -9742,6 +9745,7 @@
 				6334004A0F9C14C2003C77A9 /* PlasticButtonPressed_Caps.png in Resources */,
 				6334004B0F9C14C2003C77A9 /* plus.png in Resources */,
 				6334004C0F9C14C2003C77A9 /* minus.png in Resources */,
+				6334066D0F9C3106003C77A9 /* AIUtilities_Framework.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -12233,7 +12237,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "AIUtilities-Info.plist";
+				INFOPLIST_FILE = AIUtilities_Framework.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PRODUCT_NAME = AIUtilities;
 			};
@@ -12251,7 +12255,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "AIUtilities-Info.plist";
+				INFOPLIST_FILE = AIUtilities_Framework.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PRODUCT_NAME = AIUtilities;
 			};
@@ -12269,7 +12273,7 @@
 				FRAMEWORK_VERSION = A;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "AIUtilities-Info.plist";
+				INFOPLIST_FILE = AIUtilities_Framework.plist;
 				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PRODUCT_NAME = AIUtilities;
 			};
