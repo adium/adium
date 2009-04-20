@@ -48,6 +48,7 @@ typedef enum {
 } AIAddressBookContextMenuTag;
 
 @interface AIAddressBookController : NSObject <AIListObjectObserver, ABImageClient> {
+@private
 	NSMenuItem			*showInABContextualMenuItem;
 	NSMenuItem			*editInABContextualMenuItem;
 	NSMenuItem			*addToABContexualMenuItem;

@@ -20,6 +20,7 @@
 @class AIStatus, AIService, AdiumIdleManager, AIStatusGroup;
 
 @interface AIStatusController : NSObject <AIStatusController, AIListObjectObserver> {
+@private
 	//Status states
 	AIStatusGroup			*_rootStateGroup;
 	NSMutableSet			*_flatStatusSet;

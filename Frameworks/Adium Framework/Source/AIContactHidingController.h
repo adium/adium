@@ -19,6 +19,7 @@
 @class AIListContact;
 @protocol AIContainingObject;
 @interface AIContactHidingController : NSObject {
+@private
 	NSString		*searchString;
 	NSMutableDictionary *matchedContacts;
 	NSPredicate *filterPredicate;

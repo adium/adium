@@ -19,6 +19,7 @@
 @class AIListObject;
 
 @interface AIPreferenceController : NSObject <AIPreferenceController> {
+@private
 	NSMutableArray			*paneArray;						//Loaded preference panes
 	NSMutableArray			*advancedPaneArray;
 	NSMutableDictionary		*observers;						//Preference change observers

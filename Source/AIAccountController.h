@@ -19,6 +19,7 @@
 @class AdiumServices, AdiumPasswords, AdiumAccounts, AdiumPreferredAccounts;
 
 @interface AIAccountController : NSObject <AIAccountController> {
+@private
 	AdiumServices			*adiumServices;
 	AdiumPasswords			*adiumPasswords;
 	AdiumAccounts			*adiumAccounts;
