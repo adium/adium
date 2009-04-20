@@ -5,7 +5,7 @@
 //  Created by Erich Kreutzer on 8/10/07.
 //
 
-#import <EKEzvFileTransfer.h>
+#import "EKEzvFileTransfer.h"
 #import "HTTPServer.h"
 
 @interface EKEzvOutgoingFileTransfer : EKEzvFileTransfer{

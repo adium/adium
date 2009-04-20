@@ -25,7 +25,7 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITextAttributes.h>
-#import <AIContactInfoImageViewWithImagePicker.h>;
+#import "AIContactInfoImageViewWithImagePicker.h"
 #import <AIUtilities/AIDelayedTextField.h>
 
 #define WIDTH_PROFILE_HEADER	 100.0f

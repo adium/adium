@@ -30,7 +30,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AWEzvDefines.h>
+#import "AWEzvDefines.h"
 #import "EKEzvOutgoingFileTransfer.h"
 
 @class AWEzvContact, AWEzvContactManager;

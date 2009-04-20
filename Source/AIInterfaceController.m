@@ -44,7 +44,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AISortController.h>
 #import "AIMessageTabViewItem.h"
-#import <KNShelfSplitview.h>
+#import "KNShelfSplitview.h"
 #import <Adium/AIContactList.h>
 
 #import "AIMessageViewController.h"

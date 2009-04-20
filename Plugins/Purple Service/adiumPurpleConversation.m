@@ -22,7 +22,7 @@
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <AINudgeBuzzHandlerPlugin.h>
+#import "AINudgeBuzzHandlerPlugin.h"
 
 #pragma mark Purple Images
 

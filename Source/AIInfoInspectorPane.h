@@ -6,7 +6,7 @@
 //  Copyright 2008 The Adium Team. All rights reserved.
 //
 
-#import <AIContactInfoContentController.h>
+#import "AIContactInfoContentController.h"
 #import <Adium/AIContactObserverManager.h>
 
 @class AIContactInfoImageViewWithImagePicker, AIDelayedTextField;
