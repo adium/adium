@@ -1333,7 +1333,7 @@
 					   shelfView, [shelfView contentView], [shelfView superview], [shelfView window], NSStringFromRect([[shelfView superview] frame]),
 					   splitView_textEntryHorizontal,
 					   scrollView_userList, [scrollView_userList window]);
-	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget.png"]];
+	[shelfView setContextButtonImage:[NSImage imageNamed:@"sidebarActionWidget"]];
 	
 	[shelfView setShelfIsVisible:YES];
 }

@@ -32,18 +32,12 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	BOOL		 retVal = NO;
-	AIAccount	 *account;
-	NSEnumerator *enumerator;
-
-	enumerator = [[adium.accountController accounts] objectEnumerator];
-	while ((account = [enumerator nextObject]) && !retVal) {
-		if([account boolValueForProperty:@"Online"] &&
-		   [account conformsToProtocol:@protocol(AIAccount_Privacy)])
-			retVal = YES;
+	for (AIAccount *account in adium.accountController.accounts) {
+		if(account.online && [account conformsToProtocol:@protocol(AIAccount_Privacy)])
+			return YES;
 	}
 
-	return retVal;
+	return NO;
 }
 
 - (IBAction)showEditor:(id)sender

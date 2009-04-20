@@ -298,7 +298,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
+				BuildIndependentTargetsInParallel = NO;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "FriBidi" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -366,7 +366,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -382,7 +382,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -404,9 +404,12 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
@@ -415,9 +418,12 @@
 		346637AD0D415806006C9034 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_PREPROCESSOR_DEFINITIONS = HAVE_CONFIG_H;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
@@ -433,7 +439,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FriBidi_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				LD_DYLIB_INSTALL_NAME = "@rpath/FriBidi.framework/Versions/A/FriBidi";
 				PRODUCT_NAME = FriBidi;
 				WRAPPER_EXTENSION = framework;
 			};

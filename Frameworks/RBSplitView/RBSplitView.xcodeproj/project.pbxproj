@@ -388,7 +388,7 @@
 		0259C573FE90428111CA0C5A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
+				BuildIndependentTargetsInParallel = NO;
 			};
 			buildConfigurationList = D50F206F08A01A630073A261 /* Build configuration list for PBXProject "RBSplitView" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -578,10 +578,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				PRODUCT_NAME = RBSplitView;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
@@ -776,6 +779,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;

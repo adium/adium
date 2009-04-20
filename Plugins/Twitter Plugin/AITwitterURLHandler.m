@@ -74,7 +74,7 @@
 	
 	AILogWithSignature(@"Twitter Reply requested: %@", url);
 	
-	NSArray		*accountArray = [adium.accountController accounts];
+	NSArray		*accountArray = adium.accountController.accounts;
 	
 	AITwitterAccount	*account = nil;
 	BOOL		exactMatchForInternalID = NO;

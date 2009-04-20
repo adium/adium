@@ -86,15 +86,8 @@
 
 - (void)validateEnteredText
 {
-	NSString *class = [textField_class stringValue];
-	BOOL enabled = NO;
-	
-	if (class && [class length]) {
-		enabled = YES;
-	}
-	
 	if (delegate)
-		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:enabled];
+		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:[textField_class stringValue].length > 0];
 }
 
 @end

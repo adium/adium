@@ -279,10 +279,8 @@ static BOOL							hideInBackground = NO;
 - (NSArray *)awayAccounts
 {	
 	NSMutableArray	*awayAccounts = [NSMutableArray array];	
-	NSEnumerator	*enumerator = [adium.accountController.accounts objectEnumerator];
-	AIAccount		*account;
-	
-	while ((account = [enumerator nextObject])) {
+
+	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.online || [account boolValueForProperty:@"Connecting"]) {
 			AIStatus	*statusState = account.statusState;
 			if (statusState.statusType != AIAvailableStatusType) {

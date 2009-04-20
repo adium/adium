@@ -118,13 +118,10 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
  */
 - (NSString *)multiscreenKeyWithAutosaveName:(NSString *)key
 {
-	NSEnumerator	*enumerator = [[NSScreen screens] objectEnumerator];
 	NSMutableString	*multiscreenKey = [key mutableCopy];
-	NSScreen		*screen;
 	
-	while ((screen = [enumerator nextObject])) {
+	for (NSScreen *screen in [NSScreen screens])
 		[multiscreenKey appendFormat:@"-%@", NSStringFromRect([screen frame])];
-	}
 	
 	return [multiscreenKey autorelease];
 }

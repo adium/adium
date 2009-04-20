@@ -517,11 +517,8 @@
  */
 - (NSArray *)accounts
 {
-	NSArray *accounts = [adium.accountController accounts];
-	
 	NSMutableArray *accountsForThisService = [[[NSMutableArray alloc] init] autorelease];
-	for (int i=0;i<[accounts count];i++) {
-		AIAccount *account = [accounts objectAtIndex:i];
+	for (AIAccount *account in adium.accountController.accounts) {
 		if (account.service == self)
 			[accountsForThisService addObject:account];
 	}

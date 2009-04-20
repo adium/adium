@@ -180,7 +180,7 @@
 	NSString			*identifier = nil;
 	
 	// Don't show growl notifications if we're silencing growl.
-	if ([[adium.statusController activeStatusState] silencesGrowl]) {
+	if ([adium.statusController.activeStatusState silencesGrowl]) {
 		return NO;
 	}
 

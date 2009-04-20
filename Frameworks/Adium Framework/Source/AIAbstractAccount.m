@@ -1138,11 +1138,9 @@
 - (void)didConnect
 {
 	//Display a status message in all open chats for this account.
-	AIChat			*chat = nil;
-	NSEnumerator	*enumerator = [[adium.interfaceController openChats] objectEnumerator];
 	
-	while ((chat = [enumerator nextObject])) {
-		if (chat.account == self && [chat isOpen]) {
+	for (AIChat *chat in adium.interfaceController.openChats) {
+		if (chat.account == self && chat.isOpen) {
 			if (chat.isGroupChat) {
 				// Returns BOOL result, however since there is no callback from
 				// libpurple if the chat failed, the result of rejoining will 
@@ -1173,7 +1171,7 @@
 		/* If our account thinks it's still in an offline status, that means it went offline previously via an offline status.
 		 * Set to the status being used by other accounts if possible; otherwise, set to our default initial status.
 		 */
-		AIStatus *newStatus = [adium.statusController activeStatusState];
+		AIStatus *newStatus = adium.statusController.activeStatusState;
 		if (newStatus.statusType == AIOfflineStatusType) {
 			newStatus = [adium.statusController defaultInitialStatusState];
 		}
@@ -1228,10 +1226,7 @@
  */
 - (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent
 {
-	NSEnumerator	*enumerator = [[self contactProperties] objectEnumerator];
-	NSString		*key;
-	
-	while ((key = [enumerator nextObject])) {
+	for (NSString *key in self.contactProperties) {
 		[listContact setValue:nil forProperty:key notify:NotifyLater];
 	}
 	

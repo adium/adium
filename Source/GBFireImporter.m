@@ -180,17 +180,11 @@
 	id <AIContactController> contactController = adium.contactController;
 	AIAccount *acct = [notification object];
 	
-	NSEnumerator *personEnum = [[NSArray arrayWithArray:personLists] objectEnumerator];
-	NSArray *personContacts = nil;
-	while((personContacts = [personEnum nextObject]) != nil)
-	{
+	for (NSArray *personContacts in [NSArray arrayWithArray:personLists]) {
 		BOOL aBuddyNotCreated = NO;
 		BOOL aBuddyCreated = NO;
-		NSEnumerator *contactEnum = [personContacts objectEnumerator];
-		GBFireImportedBuddy *buddy = nil;
 		NSMutableArray *thisMetaContact = [[NSMutableArray alloc] init];
-		while((buddy = [contactEnum nextObject]) != nil)
-		{
+		for (GBFireImportedBuddy *buddy in personContacts) {
 			AIListContact *contact = [buddy contact];
 			if(contact != nil)
 			{
@@ -391,20 +385,17 @@ NSComparisonResult groupSort(id left, id right, void *context)
 {
 	id <AIContactController> contactController = adium.contactController;
 
-	//First itterate through the groups and create an array we can sort
-	NSEnumerator *groupEnum = [groupList keyEnumerator];
-	NSString *groupName = nil;
+	//First iterate through the groups and create an array we can sort
 	NSMutableArray *groupArray = [NSMutableArray array];
-	while((groupName = [groupEnum nextObject]) != nil)
-	{
+	for (NSString *groupName in groupList) {
 		NSMutableDictionary *groupDict = [[groupList objectForKey:groupName] mutableCopy];
 		[groupDict setObject:groupName forKey:@"Name"];
 		[groupArray addObject:groupDict];
 		[groupDict release];
 	}
 	[groupArray sortUsingFunction:groupSort context:NULL];
-	NSDictionary *group = nil;
-	for(group in groupArray)
+
+	for(NSDictionary *group in groupArray)
 	{
 		AIListGroup *newGroup = [contactController groupWithUID:[group objectForKey:@"Name"]];
 		NSNumber *expanded = [group objectForKey:@"groupexpanded"];
@@ -483,11 +474,8 @@ NSComparisonResult groupSort(id left, id right, void *context)
 			//Empty meta-contact; don't bother
 			continue;
 
-		NSEnumerator *buddyEnum = [buddyArray objectEnumerator];
-		NSDictionary *buddyInfo = nil;
 		NSMutableArray *buddies = [NSMutableArray array];
-		while ((buddyInfo = [buddyEnum nextObject]) != nil)
-		{
+		for (NSDictionary *buddyInfo in buddyArray) {
 			NSNumber *buddyAccount = [buddyInfo objectForKey:@"BuddyAccount"];
 			NSString *buddySN = [buddyInfo objectForKey:@"BuddyName"];
 			
@@ -507,9 +495,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)createMetaContacts
 {
-	NSEnumerator *metaContantEnum = [aliasToContacts objectEnumerator];
-	NSArray *contacts = nil;
-	while ((contacts = [metaContantEnum nextObject]) != nil)
+	for (NSArray *contacts in [aliasToContacts objectEnumerator])
 		[personLists addObject:contacts];
 }
 
@@ -548,10 +534,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 
 - (void)importAccounts1:(NSDictionary *)accountsDict
 {
-	NSEnumerator *serviceNameEnum = [accountsDict keyEnumerator];
-	NSString *serviceName = nil;
-	while ((serviceName = [serviceNameEnum nextObject]) != nil)
-	{
+	for (NSString *serviceName in accountsDict) {
 		if(![serviceName length])
 			continue;
 		
@@ -651,10 +634,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		NSMutableArray *accounts = [NSMutableArray array];
 		if(permissionsDict != nil)
 		{
-			NSEnumerator *permissionsEnum = [permissionsDict keyEnumerator];
-			NSString *accountKey = nil;
-			while ((accountKey = [permissionsEnum nextObject]) != nil)
-			{
+			for (NSString *accountKey in permissionsDict) {
 				AIAccount *acct = [accountUIDtoAccount objectForKey:accountKey];
 				if(acct != nil && [[[permissionsDict objectForKey:accountKey] objectForKey:@"BuddyinList"] boolValue])
 					[accounts addObject:acct];
@@ -669,10 +649,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 			}
 		}
 		
-		NSEnumerator *accountEnum = [accounts objectEnumerator];
-		AIAccount *account = nil;
-		while ((account = [accountEnum nextObject]) != nil)
-		{
+		for (AIAccount *account in accounts) {
 			GBFireImportedBuddy *newContact = [[GBFireImportedBuddy alloc] initScreenname:buddyName forAccount:account];
 			if(newContact == nil)
 				continue;
@@ -701,12 +678,9 @@ NSComparisonResult groupSort(id left, id right, void *context)
 {
 	id <AIContactController> contactController = adium.contactController;
 	
-	//First itterate through the groups and create an array we can sort
-	NSEnumerator *groupEnum = [groupList keyEnumerator];
-	NSString *groupName = nil;
+	//First iterate through the groups and create an array we can sort
 	NSMutableArray *groupArray = [NSMutableArray array];
-	while((groupName = [groupEnum nextObject]) != nil)
-	{
+	for (NSString *groupName in groupList)	{
 		NSMutableDictionary *groupDict = [[groupList objectForKey:groupName] mutableCopy];
 		[groupDict setObject:groupName forKey:@"Name"];
 		[groupArray addObject:groupDict];

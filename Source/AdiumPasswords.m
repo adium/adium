@@ -455,12 +455,9 @@
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:KEY_PERFORMED_ACCOUNT_PASSWORD_UPGRADE]) {
 		NSError			*error;
 		AIKeychain		*keychain = [AIKeychain defaultKeychain_error:&error];
-		NSArray			*accounts = [adium.accountController accounts];
-		AIAccount		*account;
-		NSString		*password;
 		
-		for (account in accounts) {
-			password = [keychain internetPasswordForServer:[self _passKeyForAccount:account]
+		for (AIAccount *account in adium.accountController.accounts) {
+			NSString *password = [keychain internetPasswordForServer:[self _passKeyForAccount:account]
 												   account:[self _oldStyleAccountNameForAccount:account]
 												  protocol:FOUR_CHAR_CODE('AdIM')
 													 error:&error];

@@ -398,7 +398,7 @@
 	if (account) {
 		baseStatusState = account.statusState;
 	} else {
-		baseStatusState = [adium.statusController activeStatusState];
+		baseStatusState = adium.statusController.activeStatusState;
 	}
 	
 #ifdef USE_LAST_STATUS_OF_THIS_TYPE

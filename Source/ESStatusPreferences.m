@@ -222,11 +222,7 @@
 		 */
 		[newState setUniqueStatusID:[originalState uniqueStatusID]];
 		
-		NSEnumerator	*enumerator;
-		AIAccount		*account;
-		
-		enumerator = [[adium.accountController accounts] objectEnumerator];
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in adium.accountController.accounts) {
 			if (account.statusState == originalState) {
 				[account setStatusStateAndRemainOffline:newState];
 				
@@ -606,11 +602,8 @@
 	
 	if (uniqueID) {
 		NSInteger			 targetUniqueStatusID= [uniqueID integerValue];
-		NSEnumerator *enumerator;
 
-		enumerator = [[self addItemsFromMenu:[inPopUpButton menu] toArray:nil] objectEnumerator];
-
-		while ((menuItem = [enumerator nextObject])) {
+		for (menuItem in [self addItemsFromMenu:[inPopUpButton menu] toArray:nil]) {
 			AIStatusItem	*statusState;
 			
 			statusState = [[menuItem representedObject] objectForKey:@"AIStatus"];

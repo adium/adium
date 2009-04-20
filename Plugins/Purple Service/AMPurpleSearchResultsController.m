@@ -158,11 +158,8 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification {
 	BOOL enabled = [tableview numberOfSelectedRows] > 0;
-	NSEnumerator *e = [searchButtons keyEnumerator];
-	NSValue *buttonval;
-	while((buttonval = [e nextObject])) {
-		NSButton *button = [buttonval nonretainedObjectValue];
-		[button setEnabled:enabled];
+	for (NSValue *buttonval in searchButtons) {
+		[(NSButton *)[buttonval nonretainedObjectValue] setEnabled:enabled];
 	}
 }
 

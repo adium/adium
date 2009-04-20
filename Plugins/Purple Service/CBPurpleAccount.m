@@ -1287,8 +1287,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIEmoticon *emoticon;
 
 	//Look for an existing emoticon with this equivalent
-	NSEnumerator *enumerator = [[inChat customEmoticons] objectEnumerator];
-	while ((emoticon = [enumerator nextObject])) {
+	for (emoticon in inChat.customEmoticons) {
 		if ([[emoticon textEquivalents] containsObject:emoticonEquivalent]) break;
 	}
 	
@@ -1326,8 +1325,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIEmoticon	*emoticon;
 
 	//Look for an existing emoticon with this equivalent
-	NSEnumerator *enumerator = [[inChat customEmoticons] objectEnumerator];
-	while ((emoticon = [enumerator nextObject])) {
+	for (emoticon in inChat.customEmoticons) {
 		if ([[emoticon textEquivalents] containsObject:emoticonEquivalent]) break;
 	}
 	
@@ -1356,8 +1354,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	AIEmoticon	*emoticon;
 
 	//Look for an existing emoticon with this equivalent
-	NSEnumerator *enumerator = [[inChat customEmoticons] objectEnumerator];
-	while ((emoticon = [enumerator nextObject])) {
+	for (emoticon in inChat.customEmoticons) {
 		if ([[emoticon textEquivalents] containsObject:emoticonEquivalent]) break;
 	}
 	

@@ -64,12 +64,12 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		
 		self->identities = identities;
 		self->features = features;
-		
-		NSEnumerator *e = [self->delegates objectEnumerator];
-		id delegate;
-		while ((delegate = [e nextObject]))
+
+		for (id delegate in self->delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotInfo:)])
 				[delegate jabberNodeGotInfo:self];
+		}
+			
 		if ([features containsObject:@"http://jabber.org/protocol/commands"]) {
 			// in order to avoid endless loops, check if the current node isn't a command by itself (which can't contain other commands)
 			BOOL isCommand = NO;
@@ -127,9 +127,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 						[items addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
-							NSEnumerator *e = [[self identities] objectEnumerator];
-							NSDictionary *identity;
-							while ((identity = [e nextObject])) {
+							NSDictionary *identity = nil;
+							for (identity in self.identities) {
 								if ([[identity objectForKey:@"category"] isEqualToString:@"conference"]) {
 									// since we're a conference service, assume that our children are conferences
 									newnode->identities = [[NSArray arrayWithObject:identity] retain];
@@ -147,11 +146,10 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		}
 		self->items = items;
 		
-		NSEnumerator *e = [self->delegates objectEnumerator];
-		id delegate;
-		while ((delegate = [e nextObject]))
+		for (id delegate in self->delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotItems:)])
 				[delegate jabberNodeGotItems:self];
+		}
 	}
 }
 
