@@ -14,9 +14,6 @@
 #include <libpurple/jabber.h>
 
 #import "AIAdium.h"
-#import <AIUtilities/AIStringUtilities.h>
-
-//#include "xmlnode.h"
 
 @implementation AMPurpleJabberServiceDiscoveryBrowsing
 

@@ -87,16 +87,8 @@
 
 - (void)validateEnteredText
 {
-	NSString *roomName = [textField_roomName stringValue];
-	BOOL enabled = NO;
-	
-	if (roomName && [roomName length]) {
-		enabled = YES;
-	}
-	
-	if (delegate) {
-		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:enabled];
-	}
+	if (delegate)
+		[(DCJoinChatWindowController *)delegate setJoinChatEnabled:[textField_roomName stringValue].length > 0];
 }
 
 - (NSString *)impliedCompletion:(NSString *)aString
@@ -106,23 +98,18 @@
 
 - (void)_configureTextField
 {
-	NSEnumerator		*enumerator;
-    AIListContact		*contact;
-	
 	//Clear the completing strings
 	[textField_inviteUsers setCompletingStrings:nil];
 	
 	//Configure the auto-complete view to autocomplete for contacts matching the selected account's service
-    enumerator = [adium.contactController.allContacts objectEnumerator];
-    while ((contact = [enumerator nextObject])) {
+	for (AIListContact *contact in adium.contactController.allContacts) {
 		if (contact.service == account.service) {
 			NSString *UID = contact.UID;
 			[textField_inviteUsers addCompletionString:contact.formattedUID withImpliedCompletion:UID];
 			[textField_inviteUsers addCompletionString:contact.displayName withImpliedCompletion:UID];
 			[textField_inviteUsers addCompletionString:UID];
 		}
-    }
-	
+	}
 }
 
 #pragma mark Dragging Delegate

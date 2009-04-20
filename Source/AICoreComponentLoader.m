@@ -66,14 +66,107 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 - (void)loadComponents
 {
 	//Fetch the list of components to load
-	NSString	*propertyList = [[NSBundle mainBundle] pathForResource:@"CoreComponents" ofType:@"plist"];
-	NSArray 	*componentArray = [NSArray arrayWithContentsOfFile:propertyList];
-	NSParameterAssert(componentArray != nil);
-
+	NSArray *componentClassNames = [NSArray arrayWithObjects: 
+		@"AIAccountListPreferencesPlugin",
+		@"AIAccountMenuAccessPlugin",
+		@"AIAliasSupportPlugin",
+		@"AIAppearancePreferencesPlugin",
+		@"AIAutoLinkingPlugin",
+		@"AIAutoReplyPlugin",
+		@"AIChatConsolidationPlugin",
+		@"AIChatCyclingPlugin",
+		@"AIContactAwayPlugin",
+		@"AIContactIdlePlugin",
+		@"AIContactInfoWindowPlugin",
+		@"AIContactListEditorPlugin",
+		@"AIContactOnlineSincePlugin",
+		@"AIContactSortSelectionPlugin",
+		@"AIContactStatusColoringPlugin",
+		@"AIContactStatusDockOverlaysPlugin",
+		@"AIContactStatusEventsPlugin",
+		@"AIDefaultFormattingPlugin",
+		@"AIDockAccountStatusPlugin",
+		@"AIDockBehaviorPlugin",
+		@"AIDockUnviewedContentPlugin",
+		@"AIDualWindowInterfacePlugin",
+		@"AIEventSoundsPlugin",
+		@"AIExtendedStatusPlugin",
+		@"AILoggerPlugin",
+		@"AIMessageAliasPlugin",
+		@"AINewMessagePanelPlugin",
+		@"AINudgeBuzzHandlerPlugin",
+		@"AIContactVisibilityControlPlugin",
+		@"AISCLViewPlugin",
+		@"AIStandardToolbarItemsPlugin",
+		@"AIStateMenuPlugin",
+		@"AIStatusChangedMessagesPlugin",
+		@"AITabStatusIconsPlugin",
+		@"BGContactNotesPlugin",
+		@"BGEmoticonMenuPlugin",
+		@"CBActionSupportPlugin",
+		@"CBContactCountingDisplayPlugin",
+		@"CBContactLastSeenPlugin",
+		@"CBStatusMenuItemPlugin",
+		@"DCInviteToChatPlugin",
+		@"DCJoinChatPanelPlugin",
+		@"DCMessageContextDisplayPlugin",
+		@"AIAddBookmarkPlugin",
+		@"ESAccountEvents",
+		@"ESAccountNetworkConnectivityPlugin",
+		@"ESAnnouncerPlugin",
+		@"ESApplescriptContactAlertPlugin",
+		@"ESBlockingPlugin",
+		@"ESContactClientPlugin",
+		@"ESContactServersideDisplayName",
+		@"ESFileTransferMessagesPlugin",
+		@"ESMetaContactContentsPlugin",
+		@"ESOpenMessageWindowContactAlertPlugin",
+		@"ESSafariLinkToolbarItemPlugin",
+		@"ESSendMessageContactAlertPlugin",
+		@"ESUserIconHandlingPlugin",
+		@"ErrorMessageHandlerPlugin",
+		@"GBApplescriptFiltersPlugin",
+		@"SAContactOnlineForPlugin",
+		@"SHLinkManagementPlugin",
+		@"ESGlobalEventsPreferencesPlugin",
+		@"ESGeneralPreferencesPlugin",
+		@"NEHGrowlPlugin",
+		@"ESSecureMessagingPlugin",
+		@"ESStatusPreferencesPlugin",
+		@"AIAutomaticStatus",
+		@"ESAwayStatusWindowPlugin",
+		@"RAFBlockEditorPlugin",
+		@"SMContactListShowBehaviorPlugin",
+		@"ESiTunesPlugin",
+		@"AIDockBadger",
+		@"ESPersonalPreferencesPlugin",
+		@"AIXtrasManager",
+		@"OWSpellingPerContactPlugin",
+		@"GBQuestionHandlerPlugin",
+		@"AINulRemovalPlugin",
+		@"AIAdvancedPreferencesPlugin",
+		@"GBImportPlugin",
+		@"AIContactVisibilityPlugin",
+		@"AIMentionEventPlugin",
+		@"AITwitterIMPlugin",
+		@"AITwitterPlugin",
+		@"AILaconicaPlugin",
+		@"AITwitterURLHandler",
+		@"AIURLShortenerPlugin",
+		@"AIGroupChatStatusTooltipPlugin",
+		@"AIRealNameTooltip",
+		@"AIUserHostTooltip",
+		@"AIIRCChannelLinker",
+		@"AIURLHandlerPlugin",
+		@"AIJumpControlPlugin",
+		@"AIWebKitMessageViewPlugin",
+		@"AWBonjourPlugin",
+		@"CBPurpleServicePlugin",
+		nil
+	];
 	//Load each component
-	NSString	 *className;
-
-	for (className in componentArray) {
+	for (NSString *className in componentClassNames) {
+			
 #ifdef COMPONENT_LOAD_TIMING
 		NSDate *start = [NSDate date];
 #endif
@@ -111,11 +204,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
  */
 - (void)controllerWillClose
 {
-	NSEnumerator	*enumerator = [components objectEnumerator];
-	id <AIPlugin>	plugin;
-
-	while ((plugin = [enumerator nextObject])) {
-		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
+	for (id <AIPlugin> plugin in [components objectEnumerator]) {
 		[[NSNotificationCenter defaultCenter] removeObserver:plugin];
 		[plugin uninstallPlugin];
 	}

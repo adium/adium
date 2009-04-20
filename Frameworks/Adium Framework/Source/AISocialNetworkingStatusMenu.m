@@ -53,7 +53,7 @@
 	AIAccount *account = [sender representedObject];
 	NSAttributedString *currentStatusMessage = (account ?
 												account.statusMessage :
-												[[adium.statusController activeStatusState] statusMessage]);
+												[adium.statusController.activeStatusState statusMessage]);
 
 	[AICustomSocialNetworkingStatusWindowController showCustomSocialNetworkingStatusWindowWithInitialMessage:currentStatusMessage
 																								  forAccount:account
@@ -66,9 +66,7 @@
 	if (inAccount)
 		[inAccount setSocialNetworkingStatusMessage:inStatusMessage];
 	else {
-		NSEnumerator *enumerator = [[adium.accountController accounts] objectEnumerator];
-		AIAccount *account;
-		while ((account = [enumerator nextObject])) {
+		for (AIAccount *account in adium.accountController.accounts) {
 			if ([account.service isSocialNetworkingService] && account.online)
 				[account setSocialNetworkingStatusMessage:inStatusMessage];
 		}
@@ -90,7 +88,7 @@
 + (void)setToCurrentAdiumStatus:(NSMenuItem *)sender
 {
 	AIAccount *account = [sender representedObject];
-	NSAttributedString *currentStatusMessage = [[adium.statusController activeStatusState] statusMessage];
+	NSAttributedString *currentStatusMessage = [adium.statusController.activeStatusState statusMessage];
 
 	[self setSocialNetworkingStatus:currentStatusMessage
 						 forAccount:account];

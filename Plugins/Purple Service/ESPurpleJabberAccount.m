@@ -701,15 +701,15 @@
 	if(atsign.location != NSNotFound)
 		[super addContact:theContact toGroupName:groupName contactName:contactName];
 	else {
-		NSEnumerator *e = [gateways objectEnumerator];
 		NSDictionary *gatewaydict;
 		// avoid duplicates!
-		while((gatewaydict = [e nextObject])) {
-			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:theContact.UID]) {
-				[gateways removeObjectIdenticalTo:gatewaydict];
+		for (gatewaydict in gateways) {
+			if([[[gatewaydict objectForKey:@"contact"] UID] isEqualToString:theContact.UID])
 				break;
-			}
 		}
+		
+		if (gatewaydict)
+			[gateways removeObjectIdenticalTo:gatewaydict];
 
 		[gateways addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 							 theContact, @"contact",

@@ -15,7 +15,6 @@
  */
 
 #import "AITextColorPreviewView.h"
-#import <AIUtilities/AIStringUtilities.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 

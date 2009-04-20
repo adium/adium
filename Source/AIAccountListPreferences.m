@@ -257,7 +257,7 @@
  */
 - (void)editAccountSheetDidEndForAccount:(AIAccount *)inAccount withSuccess:(BOOL)successful
 {
-	BOOL existingAccount = ([[adium.accountController accounts] containsObject:inAccount]);
+	BOOL existingAccount = ([adium.accountController.accounts containsObject:inAccount]);
 	
 	if (!existingAccount && successful) {
 		//New accounts need to be added to our account list once they're configured
@@ -397,7 +397,7 @@
 {
     //Update our list of accounts
     [accountArray release];
-	accountArray = [[adium.accountController accounts] retain];
+	accountArray = [adium.accountController.accounts retain];
 
 	//Refresh the account table
 	[tableView_accountList reloadData];

@@ -28,14 +28,12 @@
  */
 - (NSImage *)applicationIconImage
 {
-	NSImage *applicationIconImage = [adium.dockController baseApplicationIconImage];
-
-	return (applicationIconImage ? applicationIconImage : [super applicationIconImage]);
+	return [adium.dockController baseApplicationIconImage] ?: [super applicationIconImage];
 }
 
 - (NSArray *)services
 {
-	return [adium.accountController services];
+	return adium.accountController.services;
 }
 
 - (NSArray *)orderedWindows
@@ -209,7 +207,7 @@
 }
 - (AIStatus *)globalStatus
 {
-	return [adium.statusController activeStatusState];
+	return adium.statusController.activeStatusState;
 }
 - (void)setGlobalStatus:(AIStatus *)inGlobalStatus
 {

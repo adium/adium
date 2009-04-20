@@ -324,7 +324,7 @@
 {
 	AIAccount			*activeAccount = nil;
 	BOOL					atLeastOneOwnIconAccount = NO;
-	NSArray				*accounts = [adium.accountController accounts];
+	NSArray				*accounts = adium.accountController.accounts;
 	
 	if (!onlineAccounts) onlineAccounts = [NSMutableSet set];
 	if (!ownIconAccounts) ownIconAccounts = [NSMutableSet set];
@@ -440,7 +440,7 @@
  */
 - (void)updateStatusMenuSelection:(NSNotification *)notification
 {
-	AIStatus	*activeStatus = [adium.statusController activeStatusState];
+	AIStatus	*activeStatus = adium.statusController.activeStatusState;
 	NSString	*title = [activeStatus title];
 	if (!title) NSLog(@"Warning: Title for %@ is (null)",activeStatus);
 	
@@ -647,17 +647,16 @@
 			/* No online accounts... look for an enabled account using the global preference
 			 * 'cause we still want to use displayName if possible
 			 */
-			NSEnumerator	*enumerator = [[adium.accountController accounts] objectEnumerator];
-			AIAccount		*account = nil;
 			
-			while ((account = [enumerator nextObject])) {
+			for (AIAccount *account in adium.accountController.accounts) {
 				if (account.enabled && 
 					![[[account preferenceForKey:KEY_ACCOUNT_DISPLAY_NAME 
 										   group:GROUP_ACCOUNT_STATUS
-						  ] attributedString] length]) break;
+						] attributedString] length]) {
+					alias = account.displayName;
+					break;
+				}
 			}
-			
-			alias = account.displayName;
 		}
 		
 		[onlineAccountsUsingGlobalPreference release];

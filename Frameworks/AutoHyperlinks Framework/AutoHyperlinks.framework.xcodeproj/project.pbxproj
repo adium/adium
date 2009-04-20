@@ -381,7 +381,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = YES;
+				BuildIndependentTargetsInParallel = NO;
 			};
 			buildConfigurationList = DA8A8087085549EE00F24BB3 /* Build configuration list for PBXProject "AutoHyperlinks.framework" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -617,9 +617,13 @@
 		34C57364093E5E6E00829508 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};
@@ -919,6 +923,7 @@
 				ARCHS = "$(NATIVE_ARCH)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
@@ -929,9 +934,13 @@
 		DA8A8089085549EE00F24BB3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLY_RULES_IN_COPY_FILES = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = 4.2;
+				INFOPLIST_OUTPUT_FORMAT = binary;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AutoHyperlinks.framework/Versions/A/AutoHyperlinks";
+				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 			};

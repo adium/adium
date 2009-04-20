@@ -475,7 +475,7 @@ static 	NSMutableSet			*temporaryStateArray = nil;
 	//Apply the state to our accounts and notify (delay to the next run loop to improve perceived speed)
 	[self performSelector:@selector(applyState:toAccounts:)
 			   withObject:statusState
-			   withObject:[adium.accountController accounts]
+			   withObject:adium.accountController.accounts
 			   afterDelay:0];
 }
 /*!

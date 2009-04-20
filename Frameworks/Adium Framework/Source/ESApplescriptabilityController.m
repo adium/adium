@@ -46,7 +46,7 @@
 #pragma mark Convenience
 - (NSArray *)accounts
 {
-	return ([adium.accountController accounts]);
+	return (adium.accountController.accounts);
 }
 - (NSArray *)contacts
 {
@@ -86,7 +86,7 @@
 
 - (AIStatus *)myStatus
 {
-	return [adium.statusController activeStatusState];
+	return adium.statusController.activeStatusState;
 }
 
 //Incomplete - make AIStatus scriptable, pass that in

@@ -70,7 +70,7 @@
 	else
 		[accountsArray removeAllObjects];
 	
-	NSArray *accountsAvailable = [adium.accountController accounts];
+	NSArray *accountsAvailable = adium.accountController.accounts;
 	
 	if ([accountsAvailable count] > 0) {
 		[accountSelectionPopup setHidden:NO];
@@ -110,9 +110,6 @@
 	// com.apple.iChat.AIM.plist -> accounts on AIM
 	NSDictionary *rawPrefsFile = [NSDictionary dictionaryWithContentsOfFile:[[NSString stringWithFormat:@"~/Library/Preferences/com.apple.iChat.%@.plist", serviceName] stringByExpandingTildeInPath]];
 	NSArray *accountsFromRaw = [[rawPrefsFile valueForKey:@"Accounts"] allValues];
-		
-	NSEnumerator *serviceEnum = [[adium.accountController services] objectEnumerator];
-	AIService *service = nil;
 	
 	// we'll grab these momentarily and use judiciously afterwards, Bonjour is external to this to method, unlike the others
 	ESAIMService *aimService = nil;
@@ -120,7 +117,7 @@
 	ESJabberService *jabberService = nil;	
 	
 #warning iChat Import needs to be updated for MobileMe
-	while ((service = [serviceEnum nextObject])) {
+	for (AIService *service in adium.accountController.services) {
 		if ([service.serviceID isEqual:@"AIM"])
 			aimService = (ESAIMService *)service;
 		else if ([service.serviceID isEqual:@"Mac"])
