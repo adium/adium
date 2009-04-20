@@ -1213,8 +1213,6 @@
 		8181EEBE0C30673E00E802F7 /* AMPurpleSearchResultsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 8181EEBD0C30673E00E802F7 /* AMPurpleSearchResultsWindow.nib */; };
 		8181EEC30C3067B500E802F7 /* AMPurpleSearchResultsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 8181EEC10C3067B500E802F7 /* AMPurpleSearchResultsController.h */; };
 		8181EEC40C3067B500E802F7 /* AMPurpleSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8181EEC20C3067B500E802F7 /* AMPurpleSearchResultsController.m */; };
-		8181F6B30C321D0600E802F7 /* AIWindowShaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8181F6B10C321D0600E802F7 /* AIWindowShaker.m */; };
-		8181F6DA0C321DC400E802F7 /* AWRippler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8181F6D80C321DC400E802F7 /* AWRippler.m */; };
 		8181F7480C32BD2500E802F7 /* AMPurpleJabberFormGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8181F6F80C32209100E802F7 /* AMPurpleJabberFormGenerator.m */; };
 		8181F7490C32BD2500E802F7 /* AMPurpleJabberFormGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = 8181F6F70C32209100E802F7 /* AMPurpleJabberFormGenerator.h */; };
 		8181F88E0C35B70F00E802F7 /* AMPurpleJabberAdHocServer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8181F88C0C35B70F00E802F7 /* AMPurpleJabberAdHocServer.h */; };
@@ -4025,10 +4023,6 @@
 		8181EEBD0C30673E00E802F7 /* AMPurpleSearchResultsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AMPurpleSearchResultsWindow.nib; path = "Plugins/Purple Service/AMPurpleSearchResultsWindow.nib"; sourceTree = "<group>"; };
 		8181EEC10C3067B500E802F7 /* AMPurpleSearchResultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleSearchResultsController.h; path = "Plugins/Purple Service/AMPurpleSearchResultsController.h"; sourceTree = "<group>"; };
 		8181EEC20C3067B500E802F7 /* AMPurpleSearchResultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleSearchResultsController.m; path = "Plugins/Purple Service/AMPurpleSearchResultsController.m"; sourceTree = "<group>"; };
-		8181F6B00C321D0600E802F7 /* AIWindowShaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIWindowShaker.h; sourceTree = "<group>"; };
-		8181F6B10C321D0600E802F7 /* AIWindowShaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIWindowShaker.m; sourceTree = "<group>"; };
-		8181F6D70C321DC400E802F7 /* AWRippler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWRippler.h; sourceTree = "<group>"; };
-		8181F6D80C321DC400E802F7 /* AWRippler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWRippler.m; sourceTree = "<group>"; };
 		8181F6F70C32209100E802F7 /* AMPurpleJabberFormGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleJabberFormGenerator.h; path = "Plugins/Purple Service/AMPurpleJabberFormGenerator.h"; sourceTree = "<group>"; };
 		8181F6F80C32209100E802F7 /* AMPurpleJabberFormGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AMPurpleJabberFormGenerator.m; path = "Plugins/Purple Service/AMPurpleJabberFormGenerator.m"; sourceTree = "<group>"; };
 		8181F88C0C35B70F00E802F7 /* AMPurpleJabberAdHocServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AMPurpleJabberAdHocServer.h; path = "Plugins/Purple Service/AMPurpleJabberAdHocServer.h"; sourceTree = "<group>"; };
@@ -4351,10 +4345,6 @@
 				117D6DBF0BC5F0C40080D02B /* notify.png */,
 				11C7CAF00BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.h */,
 				11C7CAF10BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.m */,
-				8181F6B00C321D0600E802F7 /* AIWindowShaker.h */,
-				8181F6B10C321D0600E802F7 /* AIWindowShaker.m */,
-				8181F6D70C321DC400E802F7 /* AWRippler.h */,
-				8181F6D80C321DC400E802F7 /* AWRippler.m */,
 			);
 			name = "Nudge and Buzz Handler";
 			path = "Plugins/Nudge and Buzz Handler";
@@ -9050,8 +9040,6 @@
 				344D974F0C3C442600498CA1 /* InstantMessage.m in Sources */,
 				344D97510C3C442600498CA1 /* Person.m in Sources */,
 				344D97530C3C442600498CA1 /* Presentity.m in Sources */,
-				8181F6B30C321D0600E802F7 /* AIWindowShaker.m in Sources */,
-				8181F6DA0C321DC400E802F7 /* AWRippler.m in Sources */,
 				0C79A2D90C5E633F005AE6FA /* AIMoveCommand.m in Sources */,
 				0C27C8650C75A23F002AA363 /* NSStringScriptingAdditions.m in Sources */,
 				34A9705A0C965F2400F46006 /* AISideSplitView.m in Sources */,
