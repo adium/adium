@@ -1370,7 +1370,6 @@
 		634DC2990F9C3685007B6479 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6C0F9C14C0003C77A9 /* minus.png */; };
 		634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		634DC6020F9C43BB007B6479 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
-		634DC6160F9C44FD007B6479 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
 		636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E2A2EE07B018B1006735BC /* AIAddressBookController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D92840E4E968A00E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
@@ -1421,9 +1420,6 @@
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
 		7E824CEB06387FAF00813072 /* SHLinkManagementPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */; };
-		7EC2E1C30DF43B6A008C86B4 /* AIDeveloperLinksPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2E1C20DF43B6A008C86B4 /* AIDeveloperLinksPlugin.m */; };
-		7EC2E1CE0DF43DE7008C86B4 /* AIDLLexer.l in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2E1CD0DF43DE7008C86B4 /* AIDLLexer.l */; };
-		7EC2E1E10DF44225008C86B4 /* AIDLLinkScanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2E1E00DF44224008C86B4 /* AIDLLinkScanner.m */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1667,7 +1663,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
+			remoteGlobalIDString = F53C25AE0A2F95F100F7B73D;
 			remoteInfo = "Setup Build Directory";
 		};
 		7E78DA9B0DD135DE00B9388F /* PBXContainerItemProxy */ = {
@@ -1676,20 +1672,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7EA3B0440DD1153F002A18D1;
 			remoteInfo = Test;
-		};
-		7EC2E1A60DF43928008C86B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 34BD9DAF05314751000AB133;
-			remoteInfo = Adium.Framework;
-		};
-		7EC2E2710DF451C3008C86B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = AutoHyperlinks.framework;
 		};
 		EFB1C3D70DDCA0A900B3973D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -4486,15 +4468,6 @@
 		7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkEditorWindowController.m; sourceTree = "<group>"; };
 		7E824CDB06387FAF00813072 /* SHLinkManagementPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHLinkManagementPlugin.h; sourceTree = "<group>"; };
 		7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkManagementPlugin.m; sourceTree = "<group>"; };
-		7EC2E1990DF4390A008C86B4 /* Developer Links.AdiumPlugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Developer Links.AdiumPlugin"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7EC2E1BF0DF43AC8008C86B4 /* Developer_Links.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Developer_Links.plist; path = Plists/Developer_Links.plist; sourceTree = "<group>"; };
-		7EC2E1C10DF43B6A008C86B4 /* AIDeveloperLinksPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDeveloperLinksPlugin.h; path = "Plugins/Developer Links/AIDeveloperLinksPlugin.h"; sourceTree = "<group>"; };
-		7EC2E1C20DF43B6A008C86B4 /* AIDeveloperLinksPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDeveloperLinksPlugin.m; path = "Plugins/Developer Links/AIDeveloperLinksPlugin.m"; sourceTree = "<group>"; };
-		7EC2E1CD0DF43DE7008C86B4 /* AIDLLexer.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; name = AIDLLexer.l; path = "Plugins/Developer Links/AIDLLexer.l"; sourceTree = "<group>"; };
-		7EC2E1D10DF440DE008C86B4 /* AIDLLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDLLexer.h; path = "Plugins/Developer Links/AIDLLexer.h"; sourceTree = "<group>"; };
-		7EC2E1DF0DF44224008C86B4 /* AIDLLinkScanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDLLinkScanner.h; path = "Plugins/Developer Links/AIDLLinkScanner.h"; sourceTree = "<group>"; };
-		7EC2E1E00DF44224008C86B4 /* AIDLLinkScanner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDLLinkScanner.m; path = "Plugins/Developer Links/AIDLLinkScanner.m"; sourceTree = "<group>"; };
-		7EC2E1E90DF447C6008C86B4 /* AIDeveloperLinksPlugin.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDeveloperLinksPlugin.pch; path = "Plugins/Developer Links/AIDeveloperLinksPlugin.pch"; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
@@ -4758,14 +4731,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EC2E1970DF4390A008C86B4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				634DC6160F9C44FD007B6479 /* AutoHyperlinks.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -4934,7 +4899,6 @@
 				349C2EFA0867AC97000BF883 /* AdiumApplescriptRunner */,
 				3485D68009EB416300232CC4 /* AdiumLibpurple.framework */,
 				312ED3CA0C7E875B00A6BDA9 /* Unit tests.octest */,
-				7EC2E1990DF4390A008C86B4 /* Developer Links.AdiumPlugin */,
 				6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */,
 			);
 			name = Products;
@@ -6186,7 +6150,6 @@
 		34DC84380A7EAA21003E1636 /* Plugins (Not included in release) */ = {
 			isa = PBXGroup;
 			children = (
-				7EC2E1BE0DF43A94008C86B4 /* Developer Links */,
 				4BA88A4C0524AFD700A8010A /* Stress Test */,
 			);
 			name = "Plugins (Not included in release)";
@@ -8088,21 +8051,6 @@
 			path = "Plugins/Link Management";
 			sourceTree = "<group>";
 		};
-		7EC2E1BE0DF43A94008C86B4 /* Developer Links */ = {
-			isa = PBXGroup;
-			children = (
-				7EC2E1E90DF447C6008C86B4 /* AIDeveloperLinksPlugin.pch */,
-				7EC2E1BF0DF43AC8008C86B4 /* Developer_Links.plist */,
-				7EC2E1C10DF43B6A008C86B4 /* AIDeveloperLinksPlugin.h */,
-				7EC2E1C20DF43B6A008C86B4 /* AIDeveloperLinksPlugin.m */,
-				7EC2E1D10DF440DE008C86B4 /* AIDLLexer.h */,
-				7EC2E1CD0DF43DE7008C86B4 /* AIDLLexer.l */,
-				7EC2E1DF0DF44224008C86B4 /* AIDLLinkScanner.h */,
-				7EC2E1E00DF44224008C86B4 /* AIDLLinkScanner.m */,
-			);
-			name = "Developer Links";
-			sourceTree = "<group>";
-		};
 		8110354B0CDE7EFF00EC6038 /* Certificate Viewer */ = {
 			isa = PBXGroup;
 			children = (
@@ -9251,24 +9199,6 @@
 			productReference = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		7EC2E1980DF4390A008C86B4 /* Developer links */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 7EC2E19F0DF4390E008C86B4 /* Build configuration list for PBXNativeTarget "Developer links" */;
-			buildPhases = (
-				7EC2E1960DF4390A008C86B4 /* Sources */,
-				7EC2E1970DF4390A008C86B4 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				7EC2E1A70DF43928008C86B4 /* PBXTargetDependency */,
-				7EC2E2720DF451C3008C86B4 /* PBXTargetDependency */,
-			);
-			name = "Developer links";
-			productName = "Developer links";
-			productReference = 7EC2E1990DF4390A008C86B4 /* Developer Links.AdiumPlugin */;
-			productType = "com.apple.product-type.bundle";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -9346,7 +9276,6 @@
 				F53C25AE0A2F95F100F7B73D /* Setup Build Directory */,
 				34F3B9510BDF15F40011AB34 /* Touch Framework Bundles to Executable Date */,
 				312ED3C90C7E875B00A6BDA9 /* Unit tests */,
-				7EC2E1980DF4390A008C86B4 /* Developer links */,
 			);
 		};
 /* End PBXProject section */
@@ -10643,16 +10572,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7EC2E1960DF4390A008C86B4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7EC2E1C30DF43B6A008C86B4 /* AIDeveloperLinksPlugin.m in Sources */,
-				7EC2E1CE0DF43DE7008C86B4 /* AIDLLexer.l in Sources */,
-				7EC2E1E10DF44225008C86B4 /* AIDLLinkScanner.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -10725,16 +10644,6 @@
 			isa = PBXTargetDependency;
 			target = F53C25AE0A2F95F100F7B73D /* Setup Build Directory */;
 			targetProxy = 63DE4C520F9C77D50034ED3A /* PBXContainerItemProxy */;
-		};
-		7EC2E1A70DF43928008C86B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
-			targetProxy = 7EC2E1A60DF43928008C86B4 /* PBXContainerItemProxy */;
-		};
-		7EC2E2720DF451C3008C86B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = AutoHyperlinks.framework;
-			targetProxy = 7EC2E2710DF451C3008C86B4 /* PBXContainerItemProxy */;
 		};
 		F5B17CDF0A16C767004AE99E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -12417,81 +12326,6 @@
 			};
 			name = "Release-Debug";
 		};
-		7EC2E19B0DF4390C008C86B4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Developer Links/AIDeveloperLinksPlugin.pch";
-				INFOPLIST_FILE = Plists/Developer_Links.plist;
-				INSTALL_PATH = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					AutoHyperlinks,
-					"-framework",
-					Adium,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Developer Links";
-				WRAPPER_EXTENSION = AdiumPlugin;
-				ZERO_LINK = YES;
-			};
-			name = Debug;
-		};
-		7EC2E19C0DF4390C008C86B4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Developer Links/AIDeveloperLinksPlugin.pch";
-				INFOPLIST_FILE = Plists/Developer_Links.plist;
-				INSTALL_PATH = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					AutoHyperlinks,
-					"-framework",
-					Adium,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Developer Links";
-				WRAPPER_EXTENSION = AdiumPlugin;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		7EC2E19D0DF4390C008C86B4 /* Release-Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Plugins/Developer Links/AIDeveloperLinksPlugin.pch";
-				INFOPLIST_FILE = Plists/Developer_Links.plist;
-				INSTALL_PATH = "";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-					"-framework",
-					AutoHyperlinks,
-					"-framework",
-					Adium,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "Developer Links";
-				WRAPPER_EXTENSION = AdiumPlugin;
-				ZERO_LINK = YES;
-			};
-			name = "Release-Debug";
-		};
 		DADE8E00085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -12874,16 +12708,6 @@
 				6334FC030F9C11E0003C77A9 /* Debug */,
 				6334FC040F9C11E0003C77A9 /* Release */,
 				6334FC050F9C11E0003C77A9 /* Release-Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		7EC2E19F0DF4390E008C86B4 /* Build configuration list for PBXNativeTarget "Developer links" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				7EC2E19B0DF4390C008C86B4 /* Debug */,
-				7EC2E19C0DF4390C008C86B4 /* Release */,
-				7EC2E19D0DF4390C008C86B4 /* Release-Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
