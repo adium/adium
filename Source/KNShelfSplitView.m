@@ -41,7 +41,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIToolbarUtilities.h>
-#import <AIAdium.h>
+#import "AIAdium.h"
 
 #define DEFAULT_SHELF_WIDTH 200.0
 #define CONTROL_HEIGHT 22.0

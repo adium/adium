@@ -4,7 +4,7 @@
 //
 //  Created by Elliott Harris on 1/17/08.
 //
-#import <AIContactInfoContentController.h>
+#import "AIContactInfoContentController.h"
 
 @class ESContactAlertsViewController;
 

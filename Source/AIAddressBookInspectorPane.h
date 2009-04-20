@@ -6,7 +6,7 @@
 //  Copyright 2008 Adium. All rights reserved.
 //
 
-#import <AIContactInfoContentController.h>
+#import "AIContactInfoContentController.h"
 
 @class AIDelayedTextField;
 

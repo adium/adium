@@ -30,7 +30,7 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AWEzvContact.h>
+#import "AWEzvContact.h"
 
 @class AWEzvXMLNode;
 

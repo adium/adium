@@ -16,7 +16,7 @@
  
 #import <Adium/AIWindowController.h>
 #import <Adium/AIAbstractListController.h>
-#import <AIContactInfoContentController.h>
+#import "AIContactInfoContentController.h"
 
 @class ESContactInfoListController, AIModularPaneCategoryView, AIContactInfoImageViewWithImagePicker, AIAutoScrollView,
 	   AIListOutlineView, AIListObject;

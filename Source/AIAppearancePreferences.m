@@ -34,7 +34,7 @@
 #import <Adium/AIStatusIcons.h>
 #import <Adium/ESPresetManagementController.h>
 #import <Adium/ESPresetNameSheetController.h>
-#import <AIMenuBarIcons.h>
+#import "AIMenuBarIcons.h"
 
 typedef enum {
 	AIEmoticonMenuNone = 1,

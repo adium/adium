@@ -38,9 +38,9 @@
 #import "EKEzvOutgoingFileTransfer.h"
 
 /* Private classes - libezv use only */
-#import <AWEzvContactManager.h>
-#import <AWEzvContactManagerRendezvous.h>
-#import <AWEzvContactManagerListener.h>
+#import "AWEzvContactManager.h"
+#import "AWEzvContactManagerRendezvous.h"
+#import "AWEzvContactManagerListener.h"
 
 #import "AWEzvSupportRoutines.h"
 

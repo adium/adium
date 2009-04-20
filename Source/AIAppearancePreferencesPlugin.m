@@ -21,7 +21,7 @@
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIServiceIcons.h>
-#import <AIMenuBarIcons.h>
+#import "AIMenuBarIcons.h"
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
