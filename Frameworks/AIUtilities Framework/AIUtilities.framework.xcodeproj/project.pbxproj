@@ -1544,6 +1544,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_VERSION = 4.2;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 			};
@@ -1614,6 +1615,7 @@
 			buildSettings = {
 				ARCHS = "$(NATIVE_ARCH)";
 				GCC_VERSION = 4.2;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.5;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
@@ -1627,6 +1629,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_VERSION = 4.2;
 				INFOPLIST_OUTPUT_FORMAT = binary;
+				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
 				PLIST_FILE_OUTPUT_FORMAT = binary;
 				SDKROOT = macosx10.5;
 			};
