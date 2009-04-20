@@ -1358,6 +1358,7 @@
 		634DC2980F9C3685007B6479 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6B0F9C14C0003C77A9 /* plus.png */; };
 		634DC2990F9C3685007B6479 /* minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 6334FF6C0F9C14C0003C77A9 /* minus.png */; };
 		634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 634DC5560F9C3B2F007B6479 /* AIStringUtilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		634DC6020F9C43BB007B6479 /* AIUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6334FBFC0F9C11DC003C77A9 /* AIUtilities.framework */; };
 		636D8C980E4E95A500E5F558 /* AIAddressBookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 636D8C970E4E95A500E5F558 /* AIAddressBookController.m */; };
 		636D92790E4E95CE00E5F558 /* AIAddressBookController.h in Headers */ = {isa = PBXBuildFile; fileRef = 34E2A2EE07B018B1006735BC /* AIAddressBookController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		636D92840E4E968A00E5F558 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 348E5ACA06D2A74C004C051C /* AddressBook.framework */; };
@@ -1599,6 +1600,13 @@
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 6334FBFB0F9C11DC003C77A9;
+			remoteInfo = AIUtilities.framework;
+		};
+		634DC6000F9C43A4007B6479 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6334FBFB0F9C11DC003C77A9 /* AIUtilities.framework */;
 			remoteInfo = AIUtilities.framework;
 		};
 		639DF9E20F97E687003C9A32 /* PBXContainerItemProxy */ = {
@@ -4622,6 +4630,7 @@
 				312ED3D30C7E876E00A6BDA9 /* Cocoa.framework in Frameworks */,
 				312ED3D50C7E878300A6BDA9 /* SenTestingKit.framework in Frameworks */,
 				31A764B90DA572B8000AC729 /* AutoHyperlinks.framework in Frameworks */,
+				634DC6020F9C43BB007B6479 /* AIUtilities.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9089,6 +9098,7 @@
 			dependencies = (
 				31A763FB0DA570E9000AC729 /* PBXTargetDependency */,
 				31D8974D0DE6DB7000A1C6A6 /* PBXTargetDependency */,
+				634DC6010F9C43A4007B6479 /* PBXTargetDependency */,
 			);
 			name = "Unit tests";
 			productName = "Unit tests";
@@ -10640,6 +10650,11 @@
 			isa = PBXTargetDependency;
 			target = 6334FBFB0F9C11DC003C77A9 /* AIUtilities.framework */;
 			targetProxy = 6334045D0F9C1899003C77A9 /* PBXContainerItemProxy */;
+		};
+		634DC6010F9C43A4007B6479 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6334FBFB0F9C11DC003C77A9 /* AIUtilities.framework */;
+			targetProxy = 634DC6000F9C43A4007B6479 /* PBXContainerItemProxy */;
 		};
 		639DF9E30F97E687003C9A32 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
