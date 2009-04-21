@@ -25,7 +25,7 @@ static const float ONE_THIRD = 1.0/3.0;
 static const float ONE_SIXTH = 1.0/6.0;
 static const float TWO_THIRD = 2.0/3.0;
 
-static NSDictionary *RGBColorValues = nil;
+static NSMutableDictionary *RGBColorValues = nil;
 
 //two parts of a single path:
 //	defaultRGBTxtLocation1/VERSION/defaultRGBTxtLocation2
@@ -148,37 +148,36 @@ end:
 + (NSDictionary *)colorNamesDictionary
 {
 	if (!RGBColorValues) {
+		RGBColorValues = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+						  [NSColor colorWithHTMLString:@"#000"],    @"black",
+						  [NSColor colorWithHTMLString:@"#c0c0c0"], @"silver",
+						  [NSColor colorWithHTMLString:@"#808080"], @"gray",
+						  [NSColor colorWithHTMLString:@"#808080"], @"grey",
+						  [NSColor colorWithHTMLString:@"#fff"],    @"white",
+						  [NSColor colorWithHTMLString:@"#800000"], @"maroon",
+						  [NSColor colorWithHTMLString:@"#f00"],    @"red",
+						  [NSColor colorWithHTMLString:@"#800080"], @"purple",
+						  [NSColor colorWithHTMLString:@"#f0f"],    @"fuchsia",
+						  [NSColor colorWithHTMLString:@"#008000"], @"green",
+						  [NSColor colorWithHTMLString:@"#0f0"],    @"lime",
+						  [NSColor colorWithHTMLString:@"#808000"], @"olive",
+						  [NSColor colorWithHTMLString:@"#ff0"],    @"yellow",
+						  [NSColor colorWithHTMLString:@"#000080"], @"navy",
+						  [NSColor colorWithHTMLString:@"#00f"],    @"blue",
+						  [NSColor colorWithHTMLString:@"#008080"], @"teal",
+						  [NSColor colorWithHTMLString:@"#0ff"],    @"aqua",
+						  nil];
 		NSArray *paths = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:defaultRGBTxtLocation1 error:NULL];
 		for (NSString *middlePath in paths) {
 			NSString *path = [defaultRGBTxtLocation1 stringByAppendingPathComponent:[middlePath stringByAppendingPathComponent:defaultRGBTxtLocation2]];
-			RGBColorValues = [[NSDictionary dictionaryWithContentsOfRGBTxtFile:path] retain];
-			if (RGBColorValues) {
+			NSDictionary *extraColors = [NSDictionary dictionaryWithContentsOfRGBTxtFile:path];
+			[RGBColorValues addEntriesFromDictionary:extraColors];
+			if (extraColors) {
 #if COLOR_DEBUG
 				NSLog(@"Got colour values from %@", path);
 #endif
 				break;
 			}
-		}
-		if (!RGBColorValues) {
-			RGBColorValues = [[NSDictionary alloc] initWithObjectsAndKeys:
-				[NSColor colorWithHTMLString:@"#000"],    @"black",
-				[NSColor colorWithHTMLString:@"#c0c0c0"], @"silver",
-				[NSColor colorWithHTMLString:@"#808080"], @"gray",
-				[NSColor colorWithHTMLString:@"#808080"], @"grey",
-				[NSColor colorWithHTMLString:@"#fff"],    @"white",
-				[NSColor colorWithHTMLString:@"#800000"], @"maroon",
-				[NSColor colorWithHTMLString:@"#f00"],    @"red",
-				[NSColor colorWithHTMLString:@"#800080"], @"purple",
-				[NSColor colorWithHTMLString:@"#f0f"],    @"fuchsia",
-				[NSColor colorWithHTMLString:@"#008000"], @"green",
-				[NSColor colorWithHTMLString:@"#0f0"],    @"lime",
-				[NSColor colorWithHTMLString:@"#808000"], @"olive",
-				[NSColor colorWithHTMLString:@"#ff0"],    @"yellow",
-				[NSColor colorWithHTMLString:@"#000080"], @"navy",
-				[NSColor colorWithHTMLString:@"#00f"],    @"blue",
-				[NSColor colorWithHTMLString:@"#008080"], @"teal",
-				[NSColor colorWithHTMLString:@"#0ff"],    @"aqua",
-				nil];
 		}
 	}
 	return RGBColorValues;
