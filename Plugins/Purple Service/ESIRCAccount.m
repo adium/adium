@@ -71,6 +71,16 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	return [super openChat:chat];
 }
 
+/*!
+ * @brief Open the info inspector when getting info
+ *
+ * A user can /whois; we want to display info for this case.
+ */
+- (void)openInspectorForContactInfo:(AIListContact *)theContact
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+}
+
 #pragma mark Command handling
 /*!
  * @brief We've connected
