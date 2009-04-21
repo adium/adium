@@ -462,13 +462,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 /*!
  * @brief Open the info inspector when getting info
- *
- * Subclasses, such as Jabber which pulls the information on its own,
- * can override to prevent this behavior.
  */
 - (void)openInspectorForContactInfo:(AIListContact *)theContact
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIShowContactInfo" object:theContact];
+
 }
 
 /*!
