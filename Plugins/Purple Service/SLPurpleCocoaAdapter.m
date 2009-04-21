@@ -315,7 +315,10 @@ AIChat* groupChatLookupFromConv(PurpleConversation *conv)
 		
 		CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
 		chat = [account chatWithName:name identifier:[NSValue valueWithPointer:conv]];
-		chat.chatCreationDictionary = [account extractChatCreationDictionaryFromConversation: conv];
+		if (!chat.chatCreationDictionary) {
+			// If we don't have a chat creation dictionary (i.e., we didn't initiate the join), create one.
+			chat.chatCreationDictionary = [account extractChatCreationDictionaryFromConversation: conv];
+		}
 		conv->ui_data = [chat retain];
 		AILog(@"group chat lookup assigned %@ to %p (%s)",chat,conv, purple_conversation_get_name(conv));
 	}
