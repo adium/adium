@@ -121,8 +121,8 @@
 	[[matrix_userIcon cellWithTag:1] setTitle:AILocalizedString(@"Use this icon:", "Radio button in the Personal tab of Account preferences; an image is shown beneath it to select the account's icon.  This -must- be a short string of 20 characters or less.")];
 	
 	//User icon
-	if ([account preferenceForKey:KEY_USER_ICON group:GROUP_ACCOUNT_STATUS]) {
-		//If this account has a icon set directly on it, then it has its own icon
+	if ([[account preferenceForKey:KEY_USE_USER_ICON group:GROUP_ACCOUNT_STATUS] boolValue]) {
+		//If this account has the preference set, use its user icon.
 		[matrix_userIcon selectCellWithTag:1];
 
 	} else {
@@ -230,6 +230,10 @@
 						forKey:KEY_USER_ICON
 						 group:GROUP_ACCOUNT_STATUS];
 	}
+	
+	[account setPreference:[NSNumber numberWithBool:[[matrix_userIcon selectedCell] tag]]
+					forKey:KEY_USE_USER_ICON
+					 group:GROUP_ACCOUNT_STATUS];
 
 	[account setPreference:[NSNumber numberWithBool:[checkbox_autoconnect state]]
 					forKey:KEY_AUTOCONNECT
