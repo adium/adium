@@ -131,9 +131,6 @@ typedef enum {
 				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
 				globalPrefsName = [@"ByObjectPrefs" retain];
 			}
-			//myGlobalPrefs *must* be non-nil before we attempt to @synchronize() on it
-			if (*myGlobalPrefs == nil)
-				*myGlobalPrefs = [[NSMutableDictionary alloc] init];
 		}
 	}
 
@@ -173,7 +170,8 @@ typedef enum {
 			[prefsWithDefaults release]; prefsWithDefaults = nil;
 			
 			if ((*myUsersOfGlobalPrefs) == 0) {
-				[*myGlobalPrefs removeAllObjects];
+				NSLog(@"Clearing *myGlobalPrefs");
+				[*myGlobalPrefs release]; *myGlobalPrefs = nil;
 			}
 		}
 
@@ -229,8 +227,7 @@ typedef enum {
 
 - (void) loadGlobalPrefs
 {
-	NSAssert(*myGlobalPrefs != nil, @"Attempting to load global prefs before initializing the dictionary");
-	NSAssert([*myGlobalPrefs count] == 0, @"Attempting to load global prefs when they're already loaded");
+	NSAssert(*myGlobalPrefs == nil, @"Attempting to load global prefs when they're already loaded");
 	NSString	*objectPrefsPath = [[adium.loginController.userDirectory stringByAppendingPathComponent:globalPrefsName] stringByAppendingPathExtension:@"plist"];
 	NSString	*errorString = nil;
 	NSError		*error = nil;
@@ -257,13 +254,12 @@ typedef enum {
 		}
 	}
 	
-	//We want to load a mutable dictionary of mutable dictionaries.
+	//We want to load a mutable dictioanry of mutable dictionaries.
 	if (data) {
-		NSMutableDictionary *loadedPrefs = [NSPropertyListSerialization propertyListFromData:data 
-																								   mutabilityOption:NSPropertyListMutableContainers 
-																											 format:NULL 
-																								   errorDescription:&errorString];
-		[*myGlobalPrefs setDictionary:loadedPrefs];
+		*myGlobalPrefs = [[NSPropertyListSerialization propertyListFromData:data 
+														   mutabilityOption:NSPropertyListMutableContainers 
+																	 format:NULL 
+														   errorDescription:&errorString] retain];
 	}
 	
 	/* Log any error */
@@ -275,6 +271,15 @@ typedef enum {
 #ifdef PREFERENCE_CONTAINER_DEBUG
 	AILogWithSignature(@"I read in %@ with %i items", globalPrefsName, [*myGlobalPrefs count]);
 #endif
+	
+	/* If we don't get a dictionary, create a new one */
+	if (!*myGlobalPrefs) {
+		/* This wouldn't be an error if this were a new Adium installation; the below is temporary debug logging. */
+		NSLog(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
+		AILogWithSignature(@"WARNING: Unable to parse preference file %@ (data was %@)", objectPrefsPath, data);
+		
+		*myGlobalPrefs = [[NSMutableDictionary alloc] init];
+	}
 }
 
 - (void) setPrefValue:(id)value forKey:(id)key
@@ -302,18 +307,15 @@ typedef enum {
 		NSString	*userDirectory = adium.loginController.userDirectory;
 		
 		if (object) {
-			@synchronized(*myGlobalPrefs) {
-				if ((*myUsersOfGlobalPrefs) == 0) {
-					[self loadGlobalPrefs];
-				}
+			if (!(*myGlobalPrefs))
+				[self loadGlobalPrefs];
 
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
+#warning This looks like it needs synchronization. Investigation in progress.
 			if (prefs)
 				(*myUsersOfGlobalPrefs)++;
-				
-			}
 
 		} else {
 			prefs = [[NSMutableDictionary dictionaryAtPath:userDirectory
