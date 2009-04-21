@@ -120,20 +120,23 @@ typedef enum {
 		if (!writingLock) writingLock = [[NSConditionLock alloc] initWithCondition:AIReadyToWrite];
 		if (object) {
 			if ([object isKindOfClass:[AIAccount class]]) {
+				//myGlobalPrefs *must* be non-nil before we attempt to @synchronize() on it
+				if (!accountPrefs)
+					accountPrefs = [[NSMutableDictionary alloc] init];
 				myGlobalPrefs = &accountPrefs;
 				myUsersOfGlobalPrefs = &usersOfAccountPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfAccountCache;
 				globalPrefsName = [@"AccountPrefs" retain];
 				
 			} else {
+				//myGlobalPrefs *must* be non-nil before we attempt to @synchronize() on it
+				if (!objectPrefs)
+					objectPrefs = [[NSMutableDictionary alloc] init];
 				myGlobalPrefs = &objectPrefs;
 				myUsersOfGlobalPrefs = &usersOfObjectPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
 				globalPrefsName = [@"ByObjectPrefs" retain];
 			}
-			//myGlobalPrefs *must* be non-nil before we attempt to @synchronize() on it
-			if (*myGlobalPrefs == nil)
-				*myGlobalPrefs = [[NSMutableDictionary alloc] init];
 		}
 	}
 
