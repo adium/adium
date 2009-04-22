@@ -40,7 +40,7 @@ static NSMutableDictionary *proxyDict;
 		// we end up with an old list object as our proxied object. Correct this by getting rid of the old one.
 		
 		[proxy.listObject removeProxyObject:proxy];
-		[proxyDict removeObjectForKey:key];
+		[self releaseProxyObject:proxy];
 		
 		proxy = nil;
 	}
