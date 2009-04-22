@@ -47,7 +47,6 @@
 #import "AIXMLAppender.h"
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AISharedWriterQueue.h>
-#import <AIUtilities/RAOperation.h>
 #define BSD_LICENSE_ONLY 1
 #import <AIUtilities/AIStringAdditions.h>
 #import <sys/stat.h>
@@ -288,7 +287,7 @@ enum {
 - (void)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength
 {
 	AIAppendXMLOperation *op = [[[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self] autorelease];
-	[[AISharedWriterQueue queue] addOperation:op];
+	[AISharedWriterQueue addOperation:op];
 }
 
 /*!

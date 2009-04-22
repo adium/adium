@@ -45,6 +45,7 @@
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AISharedWriterQueue.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>
 #import "AIAddressBookController.h"
@@ -380,6 +381,8 @@ static NSString	*prefsCategory;
 	[debugController controllerWillClose];
 #endif
 	[toolbarController controllerWillClose];
+	
+	[AISharedWriterQueue waitUntilAllOperationsAreFinished];
 	[preferenceController controllerWillClose];			//** Last since other controllers may want to write preferences as they close
 	
 	[self deleteTemporaryFiles];

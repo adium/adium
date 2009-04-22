@@ -20,7 +20,6 @@
 #import "AIDictionaryAdditions.h"
 #import "AIFileManagerAdditions.h"
 #import "AISharedWriterQueue.h"
-#import "RAOperation.h"
 
 @interface AIWriteDictionaryOperation : RAOperation 
 {
@@ -160,7 +159,7 @@ return validated;
 	NSParameterAssert(name != nil); NSParameterAssert([name length] != 0);
 
 	AIWriteDictionaryOperation *op = [[[AIWriteDictionaryOperation alloc] initWithPath:path name:name dictionary:self] autorelease];
-	[[AISharedWriterQueue queue] addOperation:op];
+	[AISharedWriterQueue addOperation:op];
 }
 
 - (NSDictionary *)dictionaryByTranslating:(NSDictionary *)translation adding:(NSDictionary *)addition removing:(NSSet *)removal
