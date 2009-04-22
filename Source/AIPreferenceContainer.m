@@ -147,7 +147,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		[prefsWithDefaults release]; prefsWithDefaults = nil;
 		
 		if ((*myUsersOfGlobalPrefs) == 0) {
-			NSLog(@"Clearing *myGlobalPrefs");
 			[*myGlobalPrefs release]; *myGlobalPrefs = nil;
 		}
 
