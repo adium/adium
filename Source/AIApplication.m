@@ -7,7 +7,6 @@
 
 #import "AIApplication.h"
 #import <Adium/AIDockControllerProtocol.h>
-#import <Adium/AIAdiumProtocol.h>
 #import "AIMessageWindow.h"
 #import "AIURLHandlerPlugin.h"
 #import "AIAccountControllerProtocol.h"
