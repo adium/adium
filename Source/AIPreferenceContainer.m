@@ -40,13 +40,6 @@ static NSTimer				*timer_savingOfObjectCache = nil;
 static NSMutableDictionary	*accountPrefs = nil;
 static NSInteger					usersOfAccountPrefs = 0;
 static NSTimer				*timer_savingOfAccountCache = nil;
-
-static NSConditionLock		*writingLock;
-
-typedef enum {
-	AIReadyToWrite,
-	AIWriting,
-} AIWritingLockState;
 	
 /*!
  * @brief Preference Container
@@ -103,7 +96,6 @@ typedef enum {
 	if ((self = [super init])) {
 		group = [inGroup retain];
 		object = [inObject retain];
-		if (!writingLock) writingLock = [[NSConditionLock alloc] initWithCondition:AIReadyToWrite];
 		if (object) {
 			if ([object isKindOfClass:[AIAccount class]]) {
 				myGlobalPrefs = &accountPrefs;
