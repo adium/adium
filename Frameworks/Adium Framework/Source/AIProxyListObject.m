@@ -35,12 +35,18 @@ static NSMutableDictionary *proxyDict;
 
 	proxy = [proxyDict objectForKey:key];
 	
-	if (proxy.listObject != inListObject) {
+	if (proxy && proxy.listObject != inListObject) {
 		// If the old list object is for some reason invalid (released in contact controller, but not fully released)
 		// we end up with an old list object as our proxied object. Correct this by getting rid of the old one.
+
+		// ESObjectWithProperties is going to release it; prepare.
+		[proxy retain];
 		
 		[proxy.listObject removeProxyObject:proxy];
 		[self releaseProxyObject:proxy];
+		
+		// We retained it, so now throw it away.
+		[proxy release];
 		
 		proxy = nil;
 	}
