@@ -69,21 +69,8 @@ static NSMutableDictionary *proxyDict;
 	[proxyDict removeObjectForKey:proxyObject.key];
 }
 
-- (id)retain
-{
-	[listObject retain];
-	return [super retain];
-}
-
-- (oneway void)release
-{
-	[listObject release];
-	[super release];	
-}
-
 - (void)dealloc
 {
-	NSLog(@"Dealloc %@", self);
 	self.key = nil;
 	self.cachedDisplayName = nil;
 	self.cachedDisplayNameString = nil;
