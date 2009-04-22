@@ -191,10 +191,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		sortDirection = YES;
 		searchMode = LOG_SEARCH_CONTENT;
 
-		headerDateFormatter = [[NSDateFormatter alloc] init];
-		[headerDateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-		[headerDateFormatter setDateStyle:NSDateFormatterFullStyle];
-		[headerDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+		headerDateFormatter = [[NSDateFormatter localizedDateFormatter] retain];
 
 		currentSearchResults = [[NSMutableArray alloc] init];
 		fromArray = [[NSMutableArray alloc] init];

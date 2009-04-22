@@ -172,11 +172,7 @@
 	//Current Date
 	if ([self string:str containsValidKeyword:@"%d"]) {
 		NSCalendarDate	*currentDate = [NSCalendarDate calendarDate];
-		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-		[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-		[dateFormatter setLocale:[NSLocale currentLocale]];
-		[dateFormatter setDateStyle:kCFDateFormatterShortStyle];	// short date
-		[dateFormatter setTimeStyle:kCFDateFormatterNoStyle];	// no time
+		NSDateFormatter *dateFormatter = [NSDateFormatter localizedShortDateFormatter];
 		NSString *calendarFormat = [dateFormatter dateFormat];
 
 		if (!newAttributedString) newAttributedString = [[attributedString mutableCopy] autorelease];
