@@ -5,7 +5,6 @@
 //  Created by Zachary West on 2008-05-22.
 //
 
-#import <Adium/AIAdiumProtocol.h>
 #import "AIImageTextCellView.h"
 
 @interface AIStatusItemView : AIImageTextCellView {

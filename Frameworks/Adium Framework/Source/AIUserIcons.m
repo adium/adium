@@ -18,7 +18,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIUserIcons.h>
-#import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 
