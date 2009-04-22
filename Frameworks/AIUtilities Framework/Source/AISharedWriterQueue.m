@@ -14,28 +14,27 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "AISharedWriterQueue.h"
+#import "RAOperationQueue.h"
 
 @interface AISharedWriterQueue()
-+ (NSOperationQueue *)queue;
++ (RAOperationQueue *)queue;
 @end
 
 @implementation AISharedWriterQueue
 
-+ (void) addOperation:(NSOperation *)op {
++ (void) addOperation:(RAOperation *)op {
 	[[self queue] addOperation:op];
 }
 
 + (void) waitUntilAllOperationsAreFinished {
-	[[self queue] waitUntilAllOperationsAreFinished];
+#warning FIXME need a way to do this on RAOperationQueue (or switch to NSOperationQueue)
 }
 
-+ (NSOperationQueue *)queue {
++ (RAOperationQueue *)queue {
 	NSAssert([NSThread currentThread] == [NSThread mainThread], @"Do not try to use AISharedWriterQueue from non-main threads");
-	static NSOperationQueue *sharedWriterQueue = nil;
-	if (!sharedWriterQueue) {
-		sharedWriterQueue = [[NSOperationQueue alloc] init];
-		[sharedWriterQueue setMaxConcurrentOperationCount:1];
-	}
+	static RAOperationQueue *sharedWriterQueue = nil;
+	if (!sharedWriterQueue)
+		sharedWriterQueue = [[RAOperationQueue alloc] init];
 	return sharedWriterQueue;
 }
 

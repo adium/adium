@@ -14,7 +14,9 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+#import "RAOperation.h"
+
 @interface AISharedWriterQueue : NSObject {}
-+ (void) addOperation:(NSOperation *)op;
++ (void) addOperation:(RAOperation *)op;
 + (void) waitUntilAllOperationsAreFinished;
 @end

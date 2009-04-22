@@ -21,7 +21,7 @@
 #import "AIFileManagerAdditions.h"
 #import "AISharedWriterQueue.h"
 
-@interface AIWriteDictionaryOperation : NSOperation 
+@interface AIWriteDictionaryOperation : RAOperation 
 {
 	NSString *path;
 	NSString *name;
@@ -52,7 +52,7 @@
 	[super dealloc];
 }
 
-- (void) main
+- (void) run
 {
 	[dict writeToPath:path withName:name];
 }
