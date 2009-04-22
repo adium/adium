@@ -34,7 +34,7 @@
 - (void)setPreferences:(NSDictionary *)inPreferences;
 
 //Return a dictionary of just the defaults
-- (NSDictionary *)defaults;
+@property (readonly, nonatomic) NSDictionary *defaults;
 - (void)registerDefaults:(NSDictionary *)inDefaults;
 
 - (id)valueForKey:(NSString *)key ignoringDefaults:(BOOL)ignoreDefaults;

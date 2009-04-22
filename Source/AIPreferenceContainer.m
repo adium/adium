@@ -101,13 +101,13 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 				myGlobalPrefs = &accountPrefs;
 				myUsersOfGlobalPrefs = &usersOfAccountPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfAccountCache;
-				globalPrefsName = [@"AccountPrefs" retain];
+				globalPrefsName = @"AccountPrefs";
 				
 			} else {
 				myGlobalPrefs = &objectPrefs;
 				myUsersOfGlobalPrefs = &usersOfObjectPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
-				globalPrefsName = [@"ByObjectPrefs" retain];
+				globalPrefsName = @"ByObjectPrefs";
 			}
 		}
 	}
@@ -179,10 +179,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 
 #pragma mark Defaults
 
-- (NSDictionary *)defaults
-{
-	return defaults;
-}
+@synthesize defaults;
 
 /*!
  * @brief Register defaults
