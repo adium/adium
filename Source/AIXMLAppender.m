@@ -70,7 +70,7 @@ enum {
 @property (readwrite, copy, nonatomic) NSString *path;
 @end
 
-@interface AIAppendXMLOperation : RAOperation
+@interface AIAppendXMLOperation : NSOperation
 {
 	NSData *data;
 	NSInteger seekBackLength;
@@ -105,7 +105,7 @@ enum {
 	[super dealloc];
 }
 
-- (void) run
+- (void) main
 {
 	BOOL success = YES;
 	if (!appender.fileHandle)
