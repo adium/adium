@@ -6,8 +6,6 @@
 //  Copyright 2005 The Adium Team. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface NSArray (AIArrayAdditions)
 - (BOOL)containsObjectIdenticalTo:(id)obj;
 + (NSArray *)arrayNamed:(NSString *)name forClass:(Class)inClass;

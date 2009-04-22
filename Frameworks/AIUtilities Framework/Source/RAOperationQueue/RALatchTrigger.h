@@ -6,9 +6,7 @@
 //  Copyright 2008 Rogue Amoeba Software, LLC. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import <mach/port.h>
-
 
 /*
  

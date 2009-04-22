@@ -7,9 +7,6 @@
 //
 //
 
-#import <Cocoa/Cocoa.h>
-
-
 @interface NSTextView (AITextViewAdditions)
 
 @end

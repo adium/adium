@@ -6,5 +6,4 @@
 //  Copyright 2009 Adium X / Saltatory Software. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import <Adium/AIListOutlineView.h>
