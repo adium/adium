@@ -43,11 +43,12 @@ Group Chats and Group Chat Bookmarks
  * A group bookmark's status message now reflects how many unread mentions or messages are in the chat.
  * Added an Advanced Status preference to "Only count number of unread mentions for group chats" (for the Status Menu Item and Dock icon)
  * Added an option for group chats to hide their join and leave messages.
+ * Joining large groupchats is much faster
 
 Contacts
  * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
  * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
- * Added support for contacts in multiple groups (not yet working on trunk entirely)
+ * Added support for contacts in multiple groups (no UI for putting contacts in multiple groups yet)
  * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
  * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main Contact menu.
  * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
@@ -139,6 +140,8 @@ Miscellaneous
  * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
  * Add "Contact went mobile" and "Contact returns from mobile" events. (#3248)
  * Fixed AppleScript erroring when creating a new status object. (#8863)
+ * Greatly reduced memory usage when receiving lots of messages while Adium is not being interacted with
+ * Idle contacts now resort immediately
 
 Version 1.3.3 (2/19/2009)
  * Major changes
