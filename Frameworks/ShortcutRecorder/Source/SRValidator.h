@@ -11,8 +11,6 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
-#import <Cocoa/Cocoa.h>
-
 @interface SRValidator : NSObject {
     id              delegate;
 }
