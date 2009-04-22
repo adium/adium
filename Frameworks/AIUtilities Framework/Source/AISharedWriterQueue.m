@@ -27,8 +27,12 @@
 }
 
 + (void) waitUntilAllOperationsAreFinished {
-#warning FIXME need a way to do this on RAOperationQueue (or switch to NSOperationQueue)
+	RAWaitableSelectorOperation *nop = [[[RAWaitableSelectorOperation alloc] initWithTarget:self selector:@selector(dummy) object:nil] autorelease];
+	[self addOperation:nop];
+	[nop waitUntilDone];
 }
+
++ (void) dummy {}
 
 + (RAOperationQueue *)queue {
 	NSAssert([NSThread currentThread] == [NSThread mainThread], @"Do not try to use AISharedWriterQueue from non-main threads");
