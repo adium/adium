@@ -1407,6 +1407,8 @@
 		63A3A98E0F9C35D3006C9CB0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63A3A9680F9C35D3006C9CB0 /* Localizable.strings */; };
 		63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */; };
 		63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63BB1CB90F9EDD2B00424B80 /* AISharedWriterQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 63BB1CB80F9EDD2B00424B80 /* AISharedWriterQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BB1CC80F9EDDB600424B80 /* AISharedWriterQueue.m */; };
 		63C120750910A0DD00C9DB57 /* DefaultXtraReadme.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */; };
 		63DF5B220E52D77F00010E99 /* AIContactList.m in Sources */ = {isa = PBXBuildFile; fileRef = 63DF5B200E52D77F00010E99 /* AIContactList.m */; };
 		63DF5B230E52D77F00010E99 /* AIContactList.h in Headers */ = {isa = PBXBuildFile; fileRef = 63DF5B210E52D77F00010E99 /* AIContactList.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4419,6 +4421,8 @@
 		63A3A98C0F9C35D3006C9CB0 /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
 		63B0EC9A0F8FBB660062476B /* AIProxyListObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIProxyListObject.m; path = "Frameworks/Adium Framework/Source/AIProxyListObject.m"; sourceTree = "<group>"; };
 		63B0EC9B0F8FBB660062476B /* AIProxyListObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIProxyListObject.h; path = "Frameworks/Adium Framework/Source/AIProxyListObject.h"; sourceTree = "<group>"; };
+		63BB1CB80F9EDD2B00424B80 /* AISharedWriterQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISharedWriterQueue.h; path = "Frameworks/AIUtilities Framework/Source/AISharedWriterQueue.h"; sourceTree = "<group>"; };
+		63BB1CC80F9EDDB600424B80 /* AISharedWriterQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISharedWriterQueue.m; path = "Frameworks/AIUtilities Framework/Source/AISharedWriterQueue.m"; sourceTree = "<group>"; };
 		63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = DefaultXtraReadme.rtf; path = Resources/DefaultXtraReadme.rtf; sourceTree = "<group>"; };
 		63DEB88D09BD3FEC0026DC69 /* AIXtraPreviewImageController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewImageController.h; path = Source/AIXtraPreviewImageController.h; sourceTree = "<group>"; };
 		63DEB88E09BD3FEC0026DC69 /* AIXtraPreviewImageController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtraPreviewImageController.m; path = Source/AIXtraPreviewImageController.m; sourceTree = "<group>"; };
@@ -7902,6 +7906,8 @@
 				6334FFFB0F9C14C1003C77A9 /* AIWindowControllerAdditions.m */,
 				6334FFFC0F9C14C1003C77A9 /* AIPasteboardAdditions.h */,
 				6334FFFD0F9C14C1003C77A9 /* AIPasteboardAdditions.m */,
+				63BB1CB80F9EDD2B00424B80 /* AISharedWriterQueue.h */,
+				63BB1CC80F9EDDB600424B80 /* AISharedWriterQueue.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -9114,6 +9120,7 @@
 				633400C70F9C14C2003C77A9 /* AIPasteboardAdditions.h in Headers */,
 				633400D00F9C14E0003C77A9 /* AIUtilities.framework_Prefix.pch in Headers */,
 				634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */,
+				63BB1CB90F9EDD2B00424B80 /* AISharedWriterQueue.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10610,6 +10617,7 @@
 				633400C40F9C14C2003C77A9 /* NSCalendarDate+ISO8601Unparsing.m in Sources */,
 				633400C60F9C14C2003C77A9 /* AIWindowControllerAdditions.m in Sources */,
 				633400C80F9C14C2003C77A9 /* AIPasteboardAdditions.m in Sources */,
+				63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
