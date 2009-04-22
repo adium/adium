@@ -46,7 +46,7 @@
 
 #import "AIXMLAppender.h"
 #import <Adium/AIXMLElement.h>
-#import <AIUtilities/RAOperationQueue.h>
+#import <AIUtilities/AISharedWriterQueue.h>
 #import <AIUtilities/RAOperation.h>
 #define BSD_LICENSE_ONLY 1
 #import <AIUtilities/AIStringAdditions.h>
@@ -285,17 +285,10 @@ enum {
 
 #pragma mark -
 
-static RAOperationQueue *writerQueue;
-
 - (void)writeData:(NSData *)data seekBackLength:(NSInteger)seekBackLength
 {
-	if (!writerQueue)
-	{
-		writerQueue = [[RAOperationQueue alloc] init];
-		//[writerQueue setMaxConcurrentOperationCount:1];
-	}
 	AIAppendXMLOperation *op = [[[AIAppendXMLOperation alloc] initWithData:data seekBackLength:seekBackLength appender:self] autorelease];
-	[writerQueue addOperation:op];
+	[[AISharedWriterQueue queue] addOperation:op];
 }
 
 /*!
