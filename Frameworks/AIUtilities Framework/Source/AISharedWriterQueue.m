@@ -18,6 +18,7 @@
 
 @interface AISharedWriterQueue()
 + (RAOperationQueue *)queue;
++ (void) dummy;
 @end
 
 @implementation AISharedWriterQueue
