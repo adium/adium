@@ -798,9 +798,7 @@ static NSArray *validSenderColors;
 				  withString:(date ? [timeStampFormatter stringFromDate:date] : @"")];
 
 	[inString replaceKeyword:@"%shortTime%"
-				  withString:(date ?
-							  [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] :
-							  @"")];
+				  withString:(date ? [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] : @"")];
 
 	if ([inString rangeOfString:@"%senderStatusIcon%"].location != NSNotFound) {
 		//Only cache the status icon to disk if the message style will actually use it

@@ -28,48 +28,135 @@ typedef enum {
     BOTH
 } StringType;
 
+@interface AIDateFormatterCache : NSObject
+{
+	NSDateFormatter *localizedDateFormatter;
+	NSDateFormatter *localizedShortDateFormatter;
+	NSDateFormatter *localizedDateFormatterShowingSecondsAndAMPM;
+	NSDateFormatter *localizedDateFormatterShowingAMPM;
+	NSDateFormatter *localizedDateFormatterShowingSeconds;
+}
+
++ (AIDateFormatterCache *)sharedInstance;
+- (void) flushFormatterCache:(NSNotification *)dnc;
+- (NSDateFormatter **)formatterShowingSeconds:(BOOL)sec showingAMorPM:(BOOL)ampm;
+- (NSDateFormatter **)formatter;
+- (NSDateFormatter **)shortFormatter;
+@end
+
+static AIDateFormatterCache *sharedFormatterCache = nil;
+
+@implementation AIDateFormatterCache
+- (id) init {
+	if ((self = [super init])) {
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(flushFormatterCache:) name:@"AppleDatePreferencesChangedNotification" object:nil];
+		[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(flushFormatterCache:) name:@"AppleTimePreferencesChangedNotification" object:nil];
+	}
+	return self;
+}
+
+- (void) flushFormatterCache:(NSNotification *)dnc
+{
+	[sharedFormatterCache release]; sharedFormatterCache = nil;
+}
+
++ (AIDateFormatterCache *)sharedInstance
+{
+	if (!sharedFormatterCache)
+		sharedFormatterCache = [[AIDateFormatterCache alloc] init];
+	return sharedFormatterCache;
+}
+
+- (NSDateFormatter **)formatterShowingSeconds:(BOOL)sec showingAMorPM:(BOOL)ampm
+{
+	if (sec && ampm)
+		return &localizedDateFormatterShowingSecondsAndAMPM;
+	if (sec)
+		return &localizedDateFormatterShowingSeconds;
+	return &localizedDateFormatterShowingAMPM;
+}
+
+- (NSDateFormatter **)formatter
+{
+	return &localizedDateFormatter;
+}
+
+- (NSDateFormatter **)shortFormatter
+{
+	return &localizedShortDateFormatter;
+}
+
+- (void) dealloc
+{
+	[[NSDistributedNotificationCenter defaultCenter] removeObserver: self];
+	[localizedDateFormatter release];
+	[localizedShortDateFormatter release];
+	[localizedDateFormatterShowingSecondsAndAMPM release];
+	[localizedDateFormatterShowingAMPM release];
+	[localizedDateFormatterShowingSeconds release];
+	[super dealloc];
+}
+@end
+
 @implementation NSDateFormatter (AIDateFormatterAdditions)
 
 + (NSDateFormatter *)localizedDateFormatter
 {
 	// Thursday, July 31, 2008
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateStyle:NSDateFormatterFullStyle];
-	[formatter setTimeStyle:NSDateFormatterNoStyle];
-	return [formatter autorelease];
+	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatter];
+	
+	if (!(*cachePointer)) {
+		*cachePointer = [[NSDateFormatter alloc] init];
+		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[*cachePointer setDateStyle:NSDateFormatterFullStyle];
+		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
+	}
+	
+	return *cachePointer;
 }
 
 + (NSDateFormatter *)localizedShortDateFormatter
 {
 	// 7/31/08
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateStyle:NSDateFormatterShortStyle];
-	[formatter setTimeStyle:NSDateFormatterNoStyle];
-	return [formatter autorelease];
+	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] shortFormatter];
+	
+	if (!(*cachePointer)) {
+		*cachePointer = [[NSDateFormatter alloc] init];
+		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[*cachePointer setDateStyle:NSDateFormatterShortStyle];
+		[*cachePointer setTimeStyle:NSDateFormatterNoStyle];
+	}
+	
+	return *cachePointer;
 }
 
 + (NSDateFormatter *)localizedDateFormatterShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
-	NSDateFormatter	*formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateFormat:[self localizedDateFormatStringShowingSeconds:seconds showingAMorPM:showAmPm]];
-	return [formatter autorelease];
+	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
+
+	if (!(*cachePointer)) {
+		[self localizedDateFormatStringShowingSeconds:seconds showingAMorPM:showAmPm];
+	}
+	
+	return *cachePointer; //this is initialized in localizedDateFormatStringShowingSeconds:showingAMorPM:
 }
 
 + (NSString *)localizedDateFormatStringShowingSeconds:(BOOL)seconds showingAMorPM:(BOOL)showAmPm
 {
 	NSString *formatString;
 	
-	// Get the current time format string
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-	[formatter setFormatterBehavior:NSDateFormatterBehavior10_4];
-	[formatter setDateStyle:NSDateFormatterNoStyle];
-	[formatter setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
+	NSDateFormatter **cachePointer = [[AIDateFormatterCache sharedInstance] formatterShowingSeconds:seconds showingAMorPM:showAmPm];
 	
+	if (!(*cachePointer)) {
+		// Get the current time format string
+		*cachePointer = [[NSDateFormatter alloc] init];
+		[*cachePointer setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[*cachePointer setDateStyle:NSDateFormatterNoStyle];
+		[*cachePointer setTimeStyle:(seconds) ? NSDateFormatterMediumStyle : NSDateFormatterShortStyle];
+	}
+
 	if(!showAmPm) {
-		NSMutableString *newFormat = [[NSMutableString alloc] initWithString:[formatter dateFormat]];
+		NSMutableString *newFormat = [[NSMutableString alloc] initWithString:[*cachePointer dateFormat]];
 		[newFormat replaceOccurrencesOfString:@" a"
 								   withString:@""
 									  options:NSBackwardsSearch | NSLiteralSearch
@@ -77,16 +164,11 @@ typedef enum {
 		formatString = [newFormat copy];
 		[newFormat release];
 	} else {
-		formatString = [[formatter dateFormat] retain];
+		formatString = [[*cachePointer dateFormat] retain];
 	}
-	
-	[formatter release];
 	
 	return [formatString autorelease];
 }
-
-
-
 
 + (NSString *)stringForTimeIntervalSinceDate:(NSDate *)inDate
 {
