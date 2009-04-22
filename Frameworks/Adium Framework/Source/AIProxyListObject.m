@@ -34,6 +34,17 @@ static NSMutableDictionary *proxyDict;
 					 inListObject.internalObjectID);
 
 	proxy = [proxyDict objectForKey:key];
+	
+	if (proxy.listObject != inListObject) {
+		// If the old list object is for some reason invalid (released in contact controller, but not fully released)
+		// we end up with an old list object as our proxied object. Correct this by getting rid of the old one.
+		
+		[proxy.listObject removeProxyObject:proxy];
+		[proxyDict removeObjectForKey:key];
+		
+		proxy = nil;
+	}
+	
 	if (!proxy) {
 		proxy = [[AIProxyListObject alloc] init];
 		proxy.listObject = inListObject;
