@@ -75,41 +75,27 @@ typedef enum {
 
 + (void)preferenceControllerWillClose
 {
-	//Wait until any threaded save is complete
-	[writingLock lockWhenCondition:AIReadyToWrite];
-
 	//If a save of the object prefs is pending, perform it immediately since we are quitting
 	if (timer_savingOfObjectCache) {
-		@synchronized(objectPrefs) {
 			[objectPrefs writeToPath:[adium.loginController userDirectory]
 							withName:@"ByObjectPrefs"];
-		}
 		/* There's no guarantee that 'will close' is called in the same run loop as the actual program termination.
 		 * We've done our final save, though; don't let the timer fire again.
 		 */
-		@synchronized(timer_savingOfObjectCache) {
-			[timer_savingOfObjectCache invalidate];
-			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
-		}		
+		[timer_savingOfObjectCache invalidate];
+		[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
 	}
 
 	//If a save of the account prefs is pending, perform it immediately since we are quitting
 	if (timer_savingOfAccountCache) {
-		@synchronized(accountPrefs) {
-			[accountPrefs writeToPath:[adium.loginController userDirectory]
-							 withName:@"AccountPrefs"];
-		}
+		[accountPrefs writeToPath:[adium.loginController userDirectory]
+						 withName:@"AccountPrefs"];
 		/* There's no guarantee that 'will close' is called in the same run loop as the actual program termination.
 		 * We've done our final save, though; don't let the timer fire again.
 		 */		
-		@synchronized(timer_savingOfAccountCache) {
-			[timer_savingOfAccountCache invalidate];
-			[timer_savingOfAccountCache release]; timer_savingOfObjectCache = nil;
-		}		
+		[timer_savingOfAccountCache invalidate];
+		[timer_savingOfAccountCache release]; timer_savingOfObjectCache = nil;
 	}
-
-	//Relinguish the lock
-	[writingLock unlockWithCondition:AIReadyToWrite];
 }
 
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject
@@ -163,16 +149,14 @@ typedef enum {
 - (void)emptyCache:(NSTimer *)inTimer
 {
 	if (object) {
-		@synchronized(*myGlobalPrefs) {
-			(*myUsersOfGlobalPrefs)--;
-			
-			[prefs release]; prefs = nil;
-			[prefsWithDefaults release]; prefsWithDefaults = nil;
-			
-			if ((*myUsersOfGlobalPrefs) == 0) {
-				NSLog(@"Clearing *myGlobalPrefs");
-				[*myGlobalPrefs release]; *myGlobalPrefs = nil;
-			}
+		(*myUsersOfGlobalPrefs)--;
+		
+		[prefs release]; prefs = nil;
+		[prefsWithDefaults release]; prefsWithDefaults = nil;
+		
+		if ((*myUsersOfGlobalPrefs) == 0) {
+			NSLog(@"Clearing *myGlobalPrefs");
+			[*myGlobalPrefs release]; *myGlobalPrefs = nil;
 		}
 
 	} else {
@@ -284,16 +268,15 @@ typedef enum {
 
 - (void) setPrefValue:(id)value forKey:(id)key
 {
+	NSAssert([NSThread currentThread] == [NSThread mainThread], @"AIPreferenceContainer is not threadsafe! Don't set prefs from non-main threads");
 	NSMutableDictionary *prefDict = self.prefs;
 	if (object && !prefDict) {
 		//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 		NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
-		@synchronized(*myGlobalPrefs) {
-			prefs = [[NSMutableDictionary alloc] init];
-			[*myGlobalPrefs setObject:prefs
-							   forKey:globalPrefsKey];
-			(*myUsersOfGlobalPrefs)++;
-		}
+		prefs = [[NSMutableDictionary alloc] init];
+		[*myGlobalPrefs setObject:prefs
+						   forKey:globalPrefsKey];
+		(*myUsersOfGlobalPrefs)++;
 	}
 	[self.prefs setValue:value forKey:key];
 }
@@ -313,7 +296,6 @@ typedef enum {
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
-#warning This looks like it needs synchronization. Investigation in progress.
 			if (prefs)
 				(*myUsersOfGlobalPrefs)++;
 
@@ -378,13 +360,7 @@ typedef enum {
 			[prefsWithDefaults autorelease]; prefsWithDefaults = nil;
 		}
 		
-		if (object) {
-			@synchronized(*myGlobalPrefs) {
-				[self setPrefValue:value forKey:key];
-			}
-		} else {
-			[self setPrefValue:value forKey:key];		
-		}
+		[self setPrefValue:value forKey:key];		
 	}
 
 	[self didChangeValueForKey:key];
@@ -449,80 +425,17 @@ typedef enum {
 }
 
 #pragma mark Saving
-- (void)threadedSavePrefs:(NSDictionary *)info
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-	//Obtain the lock when no save operations are being performed
-	[writingLock lockWhenCondition:AIReadyToWrite];
-
-	//Set the lock's condition to saving so that other threads (including the main one) know what we're up to
-	[writingLock unlockWithCondition:AIWriting];
-	
-	NSDictionary *sourcePrefsToSave = [info objectForKey:@"PrefsToSave"];
-	NSDictionary *dictToSave;
-	//Don't allow modification of the dictionary while we're copying it...
-	@synchronized(sourcePrefsToSave) {
-		#ifdef PREFERENCE_CONTAINER_DEBUG
-			AILogWithSignature(@"Beginning to save %@ with %i items", [info objectForKey:@"PrefsName"], [sourcePrefsToSave count]);
-		#endif
-		dictToSave = [[NSDictionary alloc] initWithDictionary:sourcePrefsToSave copyItems:YES];
-	}
-	//...and now it's safe to write it out, which may take a little while.
-	[dictToSave writeToPath:[info objectForKey:@"DestinationDirectory"]
-				   withName:[info objectForKey:@"PrefsName"]];
-
-	/* Data verification */
-#ifdef PREFERENCE_CONTAINER_DEBUG
-	{
-		NSData		 *data = [NSData dataWithContentsOfFile:[[info objectForKey:@"DestinationDirectory"] stringByAppendingPathComponent:
-															 [[info objectForKey:@"PrefsName"] stringByAppendingPathExtension:@"plist"]]];
-		NSString	 *errorString = nil;
-		NSDictionary *theDict = [NSPropertyListSerialization propertyListFromData:data 
-																 mutabilityOption:NSPropertyListMutableContainers 
-																		   format:NULL 
-																 errorDescription:&errorString];
-		AILogWithSignature(@"I just wrote out %@ with %i items (%@) length of data was %i",
-						   [info objectForKey:@"PrefsName"], [theDict count], errorString, [data length]);
-	}
-#endif
-
-	[dictToSave release];
-
-	//The timer is not a repeating one, so we can just release it
-	NSTimer *inTimer = [info objectForKey:@"NSTimer"];
-	if (inTimer == timer_savingOfObjectCache) {
-		@synchronized(timer_savingOfObjectCache) {
-			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
-		}
-	} else if (inTimer == timer_savingOfAccountCache) {
-		@synchronized(timer_savingOfAccountCache) {
-			[timer_savingOfAccountCache release]; timer_savingOfAccountCache = nil;
-		}
-	}
-
-	//We're no longer using global prefs; if nobody is, the main thread will release its in-memory cache later
-	@synchronized(sourcePrefsToSave) {
-		(*myUsersOfGlobalPrefs)--;
-	}
-	
-	//Unlock and note that we're ready to quit
-	[writingLock lockWhenCondition:AIWriting];
-	[writingLock unlockWithCondition:AIReadyToWrite];
-
-	[pool release];
-}
 
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
-	[NSThread detachNewThreadSelector:@selector(threadedSavePrefs:)
-							 toTarget:self
-						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-									   [inTimer userInfo], @"PrefsToSave",
-									   adium.loginController.userDirectory, @"DestinationDirectory",
-										globalPrefsName, @"PrefsName",
-									    inTimer, @"NSTimer",
-									   nil]];
+	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
+	[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
+	if (inTimer == timer_savingOfObjectCache) {
+			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
+	} else if (inTimer == timer_savingOfAccountCache) {
+			[timer_savingOfAccountCache release]; timer_savingOfAccountCache = nil;
+	}
+	(*myUsersOfGlobalPrefs)--;
 }
 
 /*!
@@ -533,14 +446,9 @@ typedef enum {
 	if (object) {
 		//For an object's pref changes, batch all changes in a SAVE_OBJECT_PREFS_DELAY second period. We'll force an immediate save if Adium quits.
 		if (*myTimerForSavingGlobalPrefs) {
-			@synchronized(*myTimerForSavingGlobalPrefs) {
 				[*myTimerForSavingGlobalPrefs setFireDate:[NSDate dateWithTimeIntervalSinceNow:SAVE_OBJECT_PREFS_DELAY]];
-			}
-
 		} else {
-			@synchronized(*myGlobalPrefs) {
 				(*myUsersOfGlobalPrefs)++;
-			}
 				
 #ifdef PREFERENCE_CONTAINER_DEBUG
 			// This shouldn't happen now that *myUsersOfGlobalPrefs is synchronized.
