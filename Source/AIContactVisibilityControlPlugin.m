@@ -17,7 +17,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import "AIContactVisibilityControlPlugin.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>

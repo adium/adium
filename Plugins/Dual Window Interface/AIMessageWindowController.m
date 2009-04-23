@@ -21,7 +21,6 @@
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
 #import "AIDockController.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>

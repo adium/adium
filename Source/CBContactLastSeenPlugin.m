@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "CBContactLastSeenPlugin.h"
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIListObject.h>

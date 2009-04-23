@@ -7,7 +7,6 @@
 
 #import "AIGroupChatStatusIcons.h"
 
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIColorAdditions.h>
 
 @interface AIGroupChatStatusIcons()

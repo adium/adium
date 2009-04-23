@@ -17,7 +17,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListObject.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/CSNewContactAlertWindowController.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/ESContactAlertsViewController.h>

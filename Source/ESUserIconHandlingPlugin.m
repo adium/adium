@@ -18,7 +18,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import "ESUserIconHandlingPlugin.h"
 #import <AIUtilities/AIApplicationAdditions.h>

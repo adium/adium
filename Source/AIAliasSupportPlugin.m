@@ -19,7 +19,6 @@
 #import "AIContactInfoWindowController.h"
 #import "AIContactListEditorPlugin.h"
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIMutableOwnerArray.h>

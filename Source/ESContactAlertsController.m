@@ -16,7 +16,6 @@
 
 #import "ESContactAlertsController.h"
 
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListObject.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>

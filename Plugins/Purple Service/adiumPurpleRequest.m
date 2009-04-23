@@ -23,7 +23,6 @@
 #import "AMPurpleRequestFieldsController.h"
 
 #import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/ESFileTransfer.h>
 #import <Adium/AIListContact.h>
 #import <AIUtilities/AIObjectAdditions.h>

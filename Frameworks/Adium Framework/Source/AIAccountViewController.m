@@ -21,7 +21,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIPopUpButtonAdditions.h>

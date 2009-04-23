@@ -25,7 +25,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIStatusIcons.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define BACK_CELL_LEFT_INDENT	-1
 #define BACK_CELL_RIGHT_INDENT	3

@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIWebKitMessageViewController.h"
 #import "AIWebKitMessageViewPlugin.h"
 #import "ESWebKitMessageViewPreferences.h"

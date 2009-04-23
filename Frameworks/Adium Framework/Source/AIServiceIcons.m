@@ -17,7 +17,6 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 static NSMutableDictionary	*serviceIcons[NUMBER_OF_SERVICE_ICON_TYPES][NUMBER_OF_ICON_DIRECTIONS];
 

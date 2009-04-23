@@ -16,7 +16,6 @@
 
 #import "AIAutomaticStatus.h"
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/ESTextAndButtonsWindowController.h>
