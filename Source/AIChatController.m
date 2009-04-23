@@ -384,9 +384,11 @@
 
  	if (identifier) {
  		chat = [self existingChatWithIdentifier:identifier onAccount:account];
+
 		if (!chat) {
 			//See if a chat was made with this name but which doesn't yet have an identifier. If so, take ownership!
 			chat = [self existingChatWithName:name onAccount:account];
+
 			if (chat && ![chat identifier])
                 [chat setIdentifier:identifier];
             // If existingChatWithName:onAccount: finds a chat, make sure it has the right identifier. 
@@ -403,14 +405,16 @@
 	if (!chat) {
 		//Create a new chat
 		chat = [AIChat chatForAccount:account];
-		[chat setName:name];
-		[chat setIdentifier:identifier];
-		[chat setIsGroupChat:YES];
-		[chat setChatCreationDictionary:chatCreationInfo];
+		
+		chat.name = [account.service normalizeChatName:name];
+		chat.displayName = name;
+		chat.identifier = identifier;
+		chat.isGroupChat = YES;
+		chat.chatCreationDictionary = chatCreationInfo;
 					
 		[openChats addObject:chat];
-		AILog(@"chatWithName:%@ identifier:%@ onAccount:%@ added <<%@>> [%@]",name,identifier,account,chat,openChats);
-
+		
+		AILog(@"chatWithName:%@ identifier:%@ onAccount:%@ added <<%@>> [%@] [%@]",name,identifier,account,chat,openChats,chatCreationInfo);
 
 		//Inform the account of its creation
 		if (![account openChat:chat]) {
@@ -434,7 +438,6 @@
 	AIChat			*chat = nil;
 	
 	name = [account.service normalizeChatName:name];
-
 	
 	for (chat in openChats) {
 		if ((chat.account == account) &&
