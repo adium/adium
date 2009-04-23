@@ -105,6 +105,20 @@ struct _PurplePluginInfo
 	void *ui_info; /**< Used only by UI-specific plugins to build a preference screen with a custom UI */
 	void *extra_info;
 	PurplePluginUiInfo *prefs_info; /**< Used by any plugin to display preferences.  If #ui_info has been specified, this will be ignored. */
+
+	/**
+	 * This callback has a different use depending on whether this
+	 * plugin type is PURPLE_PLUGIN_STANDARD or PURPLE_PLUGIN_PROTOCOL.
+	 *
+	 * If PURPLE_PLUGIN_STANDARD then the list of actions will show up
+	 * in the Tools menu, under a submenu with the name of the plugin.
+	 * context will be NULL.
+	 *
+	 * If PURPLE_PLUGIN_PROTOCOL then the list of actions will show up
+	 * in the Accounts menu, under a submenu with the name of the
+	 * account.  context will be set to the PurpleConnection for that
+	 * account.  This callback will only be called for online accounts.
+	 */
 	GList *(*actions)(PurplePlugin *plugin, gpointer context);
 
 	void (*_purple_reserved1)(void);
