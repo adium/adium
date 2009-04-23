@@ -488,11 +488,11 @@
 /*!
  * @brief Normalize a chat name
  *
- * The default implementation makes no changes
+ * The default implementation only lowercases the name.
  */
 - (NSString *)normalizeChatName:(NSString *)inChatName
 {
-	return inChatName;
+	return [inChatName lowercaseString];
 }
 
 /*!

@@ -59,6 +59,9 @@
 									 selector:@selector(chatDidOpen:) 
 										 name:Chat_DidOpen
 									   object:nil];
+		
+		AILog(@"Created %@", self);
+		
 	}
 	
 	return self;

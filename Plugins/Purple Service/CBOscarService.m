@@ -67,7 +67,7 @@
 
 - (NSString *)normalizeChatName:(NSString *)inChatName
 {
-	return [inChatName compactedString];
+	return [[inChatName compactedString] lowercaseString];
 }
 
 #pragma mark Statuses
