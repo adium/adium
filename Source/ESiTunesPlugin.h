@@ -4,7 +4,6 @@
 //  Started by Evan Schoenberg on 6/11/05.
 //	Assigned to Kiel Gillard (Trac Ticket #316)
 	
-#import <Adium/AIPlugin.h>
 #import <Adium/AIContentControllerProtocol.h>
 
 typedef enum {
