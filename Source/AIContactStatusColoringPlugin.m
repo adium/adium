@@ -18,7 +18,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactStatusColoringPlugin.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIListThemeWindowController.h"
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>

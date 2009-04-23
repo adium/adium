@@ -19,7 +19,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIStatusController.h"
 #import "ESApplescriptabilityController.h"
 #import "AdiumApplescriptRunner.h"

@@ -18,7 +18,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIService.h>
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIMutableOwnerArray.h>

@@ -19,7 +19,6 @@
 #import "AIStandardListWindowController.h"
 #import "AIListOutlineView.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListContact.h>

@@ -24,7 +24,6 @@
 
 #import "AIDockController.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIPreferenceWindowController.h"
 
 #import "AIWebKitMessageViewPlugin.h"

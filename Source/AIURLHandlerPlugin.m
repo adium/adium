@@ -15,7 +15,6 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>

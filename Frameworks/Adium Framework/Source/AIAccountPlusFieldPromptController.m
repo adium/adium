@@ -18,7 +18,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIAccountPlusFieldPromptController.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIService.h>

@@ -6,7 +6,6 @@
 //
 
 #import "AIMessageHistoryPreferencesWindowController.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 typedef enum {
 AIMessageHistory_Always = 0,

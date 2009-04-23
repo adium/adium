@@ -16,7 +16,6 @@
 
 #import "AdiumAccounts.h"
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIArrayAdditions.h>

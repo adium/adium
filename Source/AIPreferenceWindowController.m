@@ -18,7 +18,6 @@
 #import "AIPreferencePane.h"
 #import <Adium/SS_PrefsController.h>
 
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIModularPaneCategoryView.h>
 #import <AIUtilities/AIAlternatingRowTableView.h>

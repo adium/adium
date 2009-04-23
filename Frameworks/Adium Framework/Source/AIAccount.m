@@ -29,7 +29,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #import "DCJoinChatViewController.h"
 #import "AIChatControllerProtocol.h"

@@ -6,7 +6,6 @@
 //
 
 #import "AIAdvancedPreferencePane.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 @implementation AIAdvancedPreferencePane
 //Return a new preference pane

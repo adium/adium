@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import "AdiumFormatting.h"
 #import <AIUtilities/AIColorAdditions.h>

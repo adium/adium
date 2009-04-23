@@ -16,7 +16,6 @@
 
 #import "ESDebugController.h"
 #import "ESDebugWindowController.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIAutoScrollView.h>
 
 #define	KEY_DEBUG_WINDOW_FRAME	@"Debug Window Frame"
