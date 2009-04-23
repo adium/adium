@@ -15,7 +15,6 @@
  */
 #import "AIContactController.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListCell.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIListGroup.h>

@@ -12,7 +12,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AILoginControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>

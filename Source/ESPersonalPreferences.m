@@ -9,7 +9,6 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIMessageEntryTextView.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIDelayedTextField.h>

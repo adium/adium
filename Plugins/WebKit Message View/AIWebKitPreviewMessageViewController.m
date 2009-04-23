@@ -8,7 +8,6 @@
 #import "AIWebKitPreviewMessageViewController.h"
 #import "ESWebView.h"
 #import "AIWebKitMessageViewPlugin.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChat.h>
 
 @implementation AIWebKitPreviewMessageViewController

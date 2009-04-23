@@ -20,7 +20,6 @@
 #import "AIMessageViewController.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIChatControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "ESDualWindowMessageAdvancedPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>

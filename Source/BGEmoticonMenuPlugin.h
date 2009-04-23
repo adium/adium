@@ -15,7 +15,6 @@
  */
 
 #import "AIEmoticonPack.h"
-#import <Adium/AIPlugin.h>
 
 @interface BGEmoticonMenuPlugin : AIPlugin
 {

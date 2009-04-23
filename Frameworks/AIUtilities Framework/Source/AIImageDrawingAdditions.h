@@ -5,8 +5,6 @@
 //  Created by Evan Schoenberg on 2/11/08.
 //
 
-#import <Cocoa/Cocoa.h>
-
 typedef enum {
 	IMAGE_POSITION_LEFT = 0,
 	IMAGE_POSITION_RIGHT,

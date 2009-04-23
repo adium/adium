@@ -17,7 +17,6 @@
 #import "AIContactInfoWindowController.h"
 #import "AIContactInfoImageViewWithImagePicker.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/AIListGroup.h>

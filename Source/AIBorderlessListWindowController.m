@@ -19,7 +19,6 @@
 
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIAbstractListController.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define PREF_GROUP_APPEARANCE		@"Appearance"
 

@@ -16,7 +16,6 @@
 
 #import "GBFireImporter.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
 
 #import <AIUtilities/AIFileManagerAdditions.h>

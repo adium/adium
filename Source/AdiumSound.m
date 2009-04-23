@@ -16,7 +16,6 @@
 
 #import "AdiumSound.h"
 #import "AISoundController.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISleepNotification.h>
 #import <QTKit/QTKit.h>

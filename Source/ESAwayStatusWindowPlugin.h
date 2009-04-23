@@ -6,7 +6,6 @@
 //  Copyright 2006 The Adium Team. All rights reserved.
 //
 
-#import <Adium/AIPlugin.h>
 #import <Adium/AIContactObserverManager.h>
 
 

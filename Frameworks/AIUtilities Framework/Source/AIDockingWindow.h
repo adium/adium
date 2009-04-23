@@ -18,8 +18,6 @@
 
 #define AIWindowToolbarDidToggleVisibility @"AIWindowToolbarDidToggleVisibility"
 
-#import <Cocoa/Cocoa.h>
-
 @interface AIDockingWindow : NSWindow {
 	NSRect			oldWindowFrame;
 	unsigned int	resisted_XMotion;

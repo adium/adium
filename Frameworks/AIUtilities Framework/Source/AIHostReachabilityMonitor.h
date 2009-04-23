@@ -5,8 +5,6 @@
 //  Created by Mac-arena the Bored Zo on 2005-02-11.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @class AIHostReachabilityMonitor;
 
 @protocol AIHostReachabilityObserver <NSObject>

@@ -6,9 +6,6 @@
 //  Copyright 2008 Rogue Amoeba Software, LLC. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
-
 // thread safe linked list utilities
 // a NULL list is considered empty
 typedef struct RAAtomicListNode *RAAtomicListRef;

@@ -6,7 +6,6 @@
 //  Copyright 2009 Adium X. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "PurpleAccountViewController.h"
 
 @interface PurpleFacebookAccountViewController : PurpleAccountViewController {

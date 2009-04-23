@@ -18,7 +18,6 @@
 #import "ESFileTransferController.h"
 #import "ESFileTransfer.h"
 #import "ESTextAndButtonsWindowController.h"
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <AIUtilities/AIApplicationAdditions.h>

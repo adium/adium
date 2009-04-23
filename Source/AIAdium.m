@@ -41,7 +41,6 @@
 #import "AdiumSetupWizard.h"
 #import "ESTextAndButtonsWindowController.h"
 #import "AIAppearancePreferences.h"
-#import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIPathUtilities.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>

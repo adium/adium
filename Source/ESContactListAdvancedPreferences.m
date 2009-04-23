@@ -11,7 +11,6 @@
 #import "AIPreferenceWindowController.h"
 #import "AIListWindowController.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIImageAdditions.h>
 

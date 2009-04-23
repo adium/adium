@@ -17,7 +17,6 @@
 #import <Adium/AIAbstractListController.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIListCell.h>
 #import <Adium/AIListContactBubbleCell.h>
 #import <Adium/AIListContactBubbleToFitCell.h>

@@ -1,5 +1,3 @@
-#import <Cocoa/Cocoa.h>
-
 
 @protocol SS_PreferencePaneProtocol
 

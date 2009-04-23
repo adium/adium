@@ -5,7 +5,6 @@
 //  Created by Evan Schoenberg on 7/27/06.
 //
 
-#import <Adium/AIPlugin.h>
 
 @interface AIContactInfoWindowPlugin : AIPlugin {
 	//Contact Info Menu Items

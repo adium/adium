@@ -1,5 +1,3 @@
-#import <Cocoa/Cocoa.h>
-
 
 @interface HTTPAuthenticationRequest : NSObject
 {

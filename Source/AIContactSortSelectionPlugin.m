@@ -16,7 +16,6 @@
 
 #import "AIContactSortSelectionPlugin.h"
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "ESContactSortConfigurationWindowController.h"
 #import "AIAlphabeticalSort.h"
 #import "ESStatusSort.h"

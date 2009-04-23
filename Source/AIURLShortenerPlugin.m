@@ -22,7 +22,6 @@
 #import <AutoHyperlinks/AHHyperlinkScanner.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define SHORTEN_LINK_TITLE	AILocalizedString(@"Replace with Shortened URL", nil)
 

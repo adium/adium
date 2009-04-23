@@ -17,7 +17,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AISortController.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 

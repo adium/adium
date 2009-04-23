@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "ESStatusSort.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIListObject.h>

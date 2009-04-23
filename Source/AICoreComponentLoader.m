@@ -22,7 +22,6 @@
  */
 
 #import "AICoreComponentLoader.h"
-#import "AIPlugin.h"
 
 //#define COMPONENT_LOAD_TIMING
 #ifdef COMPONENT_LOAD_TIMING

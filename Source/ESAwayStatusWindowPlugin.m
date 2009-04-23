@@ -9,7 +9,6 @@
 #import "ESAwayStatusWindowPlugin.h"
 #import "ESAwayStatusWindowController.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AISoundController.h"
 #import "AIStatusController.h"
 #import <Adium/AIAccount.h>

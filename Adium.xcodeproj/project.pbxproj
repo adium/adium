@@ -3826,7 +3826,6 @@
 		4947F5ED0655E90C00B791E5 /* AWEzvDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvDefines.h; sourceTree = "<group>"; };
 		4947F5EE0655E90C00B791E5 /* AWEzvSupportRoutines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvSupportRoutines.h; sourceTree = "<group>"; };
 		4947F5EF0655E90D00B791E5 /* AWEzvSupportRoutines.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvSupportRoutines.m; sourceTree = "<group>"; };
-		4947F5F00655E90D00B791E5 /* libezv_Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libezv_Prefix.h; sourceTree = "<group>"; };
 		4947F5F20655E90D00B791E5 /* AWEzvContactManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactManager.h; sourceTree = "<group>"; };
 		4947F5F30655E90D00B791E5 /* AWEzvContactManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWEzvContactManager.m; sourceTree = "<group>"; };
 		4947F5F40655E90D00B791E5 /* AWEzvContactManagerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWEzvContactManagerListener.h; sourceTree = "<group>"; };
@@ -6474,7 +6473,6 @@
 				4947F5ED0655E90C00B791E5 /* AWEzvDefines.h */,
 				4947F5EE0655E90C00B791E5 /* AWEzvSupportRoutines.h */,
 				4947F5EF0655E90D00B791E5 /* AWEzvSupportRoutines.m */,
-				4947F5F00655E90D00B791E5 /* libezv_Prefix.h */,
 			);
 			path = "Other Sources";
 			sourceTree = "<group>";
@@ -12325,12 +12323,6 @@
 		349C2F230867ACA9000BF883 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = Debug;
@@ -12338,12 +12330,6 @@
 		349C2F240867ACA9000BF883 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = Release;
@@ -12351,12 +12337,6 @@
 		349C2F250867ACA9000BF883 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = "Release-Debug";
@@ -12558,7 +12538,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
@@ -12589,7 +12568,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Frameworks\"",
 				);
-				GCC_DYNAMIC_NO_PIC = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
@@ -12623,7 +12601,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -12667,7 +12645,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = used;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
@@ -12711,7 +12689,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks/**\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = default;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;

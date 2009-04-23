@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
-#import <Adium/AIPlugin.h>
 
 @interface AICoreComponentLoader : NSObject <AIController> {
 	NSMutableDictionary	*components;

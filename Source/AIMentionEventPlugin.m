@@ -24,7 +24,6 @@
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define PREF_KEY_MENTIONS		@"Saved Mentions"
 
