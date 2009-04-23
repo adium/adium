@@ -35,7 +35,6 @@
 #import <Adium/AIContactHidingController.h>
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 // For the KEY_SHOW_OFFLINE_CONTACTS and PREF_GROUP_CONTACT_LIST_DISPLAY
 #import "AIContactController.h"
 

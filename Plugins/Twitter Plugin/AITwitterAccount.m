@@ -23,7 +23,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDateFormatterAdditions.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>

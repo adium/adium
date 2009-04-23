@@ -21,7 +21,6 @@
 #import <Adium/AIContactList.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIContactHidingController.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define PREF_GROUP_CONTACT_LIST_DISPLAY		@"Contact List Display"
 

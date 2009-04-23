@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIModularPane.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/SS_PreferencePaneProtocol.h>
 
 

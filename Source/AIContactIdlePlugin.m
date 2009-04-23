@@ -121,19 +121,15 @@
  */
 - (void)updateIdleObjectsTimer:(NSTimer *)inTimer
 {
-    AIListObject	*object;
-
 	//There's actually no reason to re-sort in response to these status changes, but there is no way for us to
 	//let the Adium core know that.  The best we can do is delay updates so only a single sort occurs
 	//of course, smart sorting controllers should be watching IdleSince, not Idle, since that's the important bit
 	[[AIContactObserverManager sharedManager] delayListObjectNotifications];
 
 	//Update everyone's idle time
-    for (object in idleObjectArray) {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-        [self setIdleForObject:object silent:YES];
-		[pool release];
-    }
+	for (AIListObject *object in idleObjectArray) {
+		[self setIdleForObject:object silent:YES];
+	}
 	
 	[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 }

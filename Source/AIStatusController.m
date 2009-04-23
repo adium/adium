@@ -20,7 +20,6 @@
 #import <Adium/AISoundControllerProtocol.h>
 
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AdiumIdleManager.h"
 
 #import <AIUtilities/AIMenuAdditions.h>

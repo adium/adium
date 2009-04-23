@@ -9,7 +9,6 @@
 #import <Adium/AIAdvancedPreferencePane.h>
 #import <Adium/KNShelfSplitView.h>
 #import <Adium/AIModularPaneCategoryView.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIViewAdditions.h>
 #import <AIUtilities/AIAlternatingRowTableView.h>

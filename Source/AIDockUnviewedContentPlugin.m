@@ -19,7 +19,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIDockControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <Adium/AIChat.h>

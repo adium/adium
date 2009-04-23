@@ -23,7 +23,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>

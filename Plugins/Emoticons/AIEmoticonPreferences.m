@@ -27,7 +27,6 @@
 #import <AIUtilities/AIVerticallyCenteredTextCell.h>
 
 #import <Adium/AIListObject.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define	EMOTICON_PACK_DRAG_TYPE         @"AIEmoticonPack"
 #define EMOTICON_MIN_ROW_HEIGHT         17

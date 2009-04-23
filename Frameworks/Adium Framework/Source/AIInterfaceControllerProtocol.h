@@ -7,7 +7,6 @@
  */
 
 #import <Adium/AIControllerProtocol.h>
-#import <Adium/AIPlugin.h>
 
 #define Interface_ContactSelectionChanged				@"Interface_ContactSelectionChanged"
 

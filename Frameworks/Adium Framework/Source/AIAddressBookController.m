@@ -17,7 +17,6 @@
 #import "AIAddressBookController.h"
 #import <Adium/AIControllerProtocol.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>

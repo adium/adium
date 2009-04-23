@@ -15,7 +15,6 @@
  */
 
 #import <AIUtilities/AISendingTextView.h>
-#import <Adium/AIAdiumProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 

@@ -8,7 +8,6 @@
 
 #import "ESPurpleAIMAccount.h"
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIHTMLDecoder.h>

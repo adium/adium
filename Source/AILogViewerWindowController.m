@@ -15,7 +15,6 @@
 #import "AILogDateFormatter.h"
 
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>

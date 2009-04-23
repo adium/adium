@@ -10,7 +10,6 @@
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 
 /*!

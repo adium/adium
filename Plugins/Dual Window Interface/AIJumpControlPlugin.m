@@ -11,7 +11,6 @@
 #import <AIUtilities/AIWindowAdditions.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIChat.h>
 #import "AIMessageViewController.h"
 #import "AIMessageTabViewItem.h"

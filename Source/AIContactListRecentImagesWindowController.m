@@ -8,7 +8,6 @@
 #import "AIContactListRecentImagesWindowController.h"
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIStandardListWindowController.h"
 #import "AIContactListImagePicker.h"
 #import "AIMenuItemView.h"

@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIAdiumProtocol.h>
 
 @class AIListObject, AIChat;
 

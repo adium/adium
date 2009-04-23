@@ -15,7 +15,6 @@
  */
 
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "DCMessageContextDisplayPlugin.h"
 #import "DCMessageContextDisplayPreferences.h"
 #import <AIUtilities/AIDictionaryAdditions.h>

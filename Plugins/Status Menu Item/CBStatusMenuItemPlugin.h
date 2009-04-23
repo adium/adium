@@ -15,7 +15,6 @@
  */
 
 #import "CBStatusMenuItemController.h"
-#import <Adium/AIPlugin.h>
 
 #define STATUS_MENU_ITEM_DEFAULT_PREFS  @"StatusMenuItemDefaultPrefs"
 #define PREF_GROUP_STATUS_MENU_ITEM     @"Status Menu Item"

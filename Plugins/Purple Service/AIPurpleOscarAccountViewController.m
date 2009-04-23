@@ -17,7 +17,6 @@
 #import "AIPurpleOscarAccountViewController.h"
 #import "CBPurpleAccount.h"
 #import "CBPurpleOscarAccount.h"
-#import	<Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIAccount.h>
 
 @implementation AIPurpleOscarAccountViewController

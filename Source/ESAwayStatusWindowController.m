@@ -8,7 +8,6 @@
 
 #import "ESAwayStatusWindowController.h"
 #import <Adium/AIAccountControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIStatusControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIStatus.h>

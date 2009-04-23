@@ -11,7 +11,6 @@
 //      Jesper
 //      Jamie Kirkpatrick
 
-#import <Cocoa/Cocoa.h>
 #import "SRCommon.h"
 
 #define SRMinWidth 50

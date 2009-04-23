@@ -17,7 +17,6 @@
 #import "AIAutoReplyPlugin.h"
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIStatusController.h"
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAccount.h>

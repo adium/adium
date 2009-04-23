@@ -10,7 +10,6 @@
 
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define PREF_KEY_MENTIONS		@"Saved Mentions"
 

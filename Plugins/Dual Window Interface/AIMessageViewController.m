@@ -32,7 +32,6 @@
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import <Adium/AIToolbarControllerProtocol.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>

@@ -17,7 +17,6 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import "AIAccountProxySettings.h"
 #import <Adium/AIContactControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "AIEditAccountWindowController.h"
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AITabViewAdditions.h>

@@ -17,7 +17,6 @@
 #import "OWSpellingPerContactPlugin.h"
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 
 #define GROUP_LAST_USED_SPELLING	@"Last Used Spelling"
 #define KEY_LAST_USED_SPELLING		@"Last Used Spelling Languge"

@@ -40,13 +40,6 @@ static NSTimer				*timer_savingOfObjectCache = nil;
 static NSMutableDictionary	*accountPrefs = nil;
 static NSInteger					usersOfAccountPrefs = 0;
 static NSTimer				*timer_savingOfAccountCache = nil;
-
-static NSConditionLock		*writingLock;
-
-typedef enum {
-	AIReadyToWrite,
-	AIWriting,
-} AIWritingLockState;
 	
 /*!
  * @brief Preference Container
@@ -103,19 +96,18 @@ typedef enum {
 	if ((self = [super init])) {
 		group = [inGroup retain];
 		object = [inObject retain];
-		if (!writingLock) writingLock = [[NSConditionLock alloc] initWithCondition:AIReadyToWrite];
 		if (object) {
 			if ([object isKindOfClass:[AIAccount class]]) {
 				myGlobalPrefs = &accountPrefs;
 				myUsersOfGlobalPrefs = &usersOfAccountPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfAccountCache;
-				globalPrefsName = [@"AccountPrefs" retain];
+				globalPrefsName = @"AccountPrefs";
 				
 			} else {
 				myGlobalPrefs = &objectPrefs;
 				myUsersOfGlobalPrefs = &usersOfObjectPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
-				globalPrefsName = [@"ByObjectPrefs" retain];
+				globalPrefsName = @"ByObjectPrefs";
 			}
 		}
 	}
@@ -155,7 +147,6 @@ typedef enum {
 		[prefsWithDefaults release]; prefsWithDefaults = nil;
 		
 		if ((*myUsersOfGlobalPrefs) == 0) {
-			NSLog(@"Clearing *myGlobalPrefs");
 			[*myGlobalPrefs release]; *myGlobalPrefs = nil;
 		}
 
@@ -187,10 +178,7 @@ typedef enum {
 
 #pragma mark Defaults
 
-- (NSDictionary *)defaults
-{
-	return defaults;
-}
+@synthesize defaults;
 
 /*!
  * @brief Register defaults

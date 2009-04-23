@@ -16,7 +16,6 @@
 
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIMenuControllerProtocol.h>
-#import <Adium/AIPreferenceControllerProtocol.h>
 #import "CBContactCountingDisplayPlugin.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>

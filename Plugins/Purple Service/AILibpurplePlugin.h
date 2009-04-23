@@ -1,4 +1,3 @@
-#import <Adium/AIPlugin.h>
 
 @protocol AILibpurplePlugin <AIPlugin>
 /*!
