@@ -1048,21 +1048,46 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 //- The menu items represented object is the group it represents
 - (NSMenu *)groupMenuWithTarget:(id)target
 {
-	NSMenu	*menu = [[NSMenu alloc] initWithTitle:@""];
-	
+	NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
 	[menu setAutoenablesItems:NO];
-	
-	for(AIListGroup *group in self.allGroups) {
+	    
+    // Separate groups by the contact list they're on.
+    NSMutableDictionary *groupsByList = [NSMutableDictionary dictionaryWithCapacity:contactLists.count];
+	for (AIListGroup *group in self.allGroups) {
 		if (group != self.offlineGroup) {
-			NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:group.displayName
-													target:target
-													action:@selector(selectGroup:)
-												 keyEquivalent:@""];
-			[menuItem setRepresentedObject:group];
-			[menu addItem:menuItem];
-			[menuItem release];
+            NSMutableArray *groups = [groupsByList objectForKey:group.contactList.UID];
+            if (!groups) {
+                groups = [NSMutableArray array];
+                [groupsByList setObject:groups forKey:group.contactList.UID];
+            }
+            [groups addObject:group];
 		}
 	}
+    
+    // Now traverse the contactLists array in order and build a menu showing the groups in each list with separators in between.
+    NSInteger i = 0;
+    for (AIContactList *list in contactLists) {
+        NSMutableArray *groups = [groupsByList objectForKey:list.UID];
+        [groups sortUsingActiveSortControllerInContainer:list];
+        for (AIListGroup *group in groups) {
+            NSMenuItem	*menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:group.displayName
+                                                                                        target:target
+                                                                                        action:@selector(selectGroup:)
+                                                                                 keyEquivalent:@""];
+            [menuItem setRepresentedObject:group];
+            [menu addItem:menuItem];
+            [menuItem release];
+        }
+                
+        i++;
+
+        // Add the separator unless this is the last list.
+        if (i < contactLists.count) {
+            [menu addItem:[NSMenuItem separatorItem]];
+        }
+
+    }
+    
 	
 	return [menu autorelease];
 }
