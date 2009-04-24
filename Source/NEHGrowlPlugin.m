@@ -81,14 +81,6 @@
 }
 
 /*!
- * @brief Deallocate
- */
-- (void)dealloc
-{
-	[super dealloc];
-}
-
-/*!
  * @brief Adium finished launching
  *
  * Delays one more run loop so any events which are registered on this notification are guaranteed to be complete
