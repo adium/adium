@@ -125,6 +125,7 @@ webcal:\/\/             |
 svn(\+ssh)?:\/\/        |
 notes:\/\/              |
 gopher:\/\/             |
+git:\/\/				|
 x-man-page:\/\/         {yyextra = yyleng; BEGIN CANONICAL;}
 
 mailto:{mailSpec}       {return AH_MAILTO_VALID;}
