@@ -37,6 +37,7 @@
 
 @interface AIListObject ()
 - (void)setContainingGroup:(AIListGroup *)inGroup;
+- (void)setupObservedValues;
 @end
 
 /*!
@@ -60,17 +61,9 @@
 
 		largestOrder = 1.0;
 		smallestOrder = 1.0;
-
-		[adium.preferenceController addObserver:self
-									forKeyPath:@"Always Visible.Visible"
-									  ofObject:self
-									   options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-									   context:NULL];
 		
-		[self observeValueForKeyPath:@"Always Visible.Visible"
-							ofObject:nil
-							  change:nil
-							 context:NULL];
+		// Delay until the next run loop so bookmarks can instantiate their values first.
+		[self performSelector:@selector(setupObservedValues) withObject:nil afterDelay:0.0];
 	}
 
 	return self;
@@ -86,6 +79,20 @@
 	[m_groups release]; m_groups = nil;
 
 	[super dealloc];
+}
+
+- (void)setupObservedValues
+{
+	[adium.preferenceController addObserver:self
+	 forKeyPath:@"Always Visible.Visible"
+	 ofObject:self
+	 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
+	 context:NULL];
+	
+	[self observeValueForKeyPath:@"Always Visible.Visible"
+						ofObject:nil
+						  change:nil
+						 context:NULL];	
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
