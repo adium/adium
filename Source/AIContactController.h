@@ -37,8 +37,7 @@
 	NSMutableDictionary		*contactDict;
 	NSMutableDictionary		*metaContactDict;
 	NSMutableDictionary		*contactToMetaContactLookupDict;
-	
-	NSMutableArray			*bookmarksArray;
+	NSMutableDictionary		*bookmarkDict;
 	
 	//Contact List and Groups
 	AIContactList			*contactList;

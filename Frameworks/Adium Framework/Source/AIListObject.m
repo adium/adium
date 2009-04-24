@@ -144,7 +144,6 @@
 	return [NSString stringWithFormat:@"%@.%@",inServiceID, inUID];
 }
 
-
 //Visibility -----------------------------------------------------------------------------------------------------------
 #pragma mark Visibility
 

@@ -117,9 +117,9 @@
 		contactDict = [[NSMutableDictionary alloc] init];
 		groupDict = [[NSMutableDictionary alloc] init];
 		metaContactDict = [[NSMutableDictionary alloc] init];
+		bookmarkDict = [[NSMutableDictionary alloc] init];
 		contactToMetaContactLookupDict = [[NSMutableDictionary alloc] init];
 		contactLists = [[NSMutableArray alloc] init];
-		bookmarksArray = [[NSMutableArray alloc] init];
 
 		contactPropertiesObserverManager = [AIContactObserverManager sharedManager];
 	}
@@ -168,7 +168,7 @@
 	[metaContactDict release];
 	[contactToMetaContactLookupDict release];
 	[contactLists release];
-	[bookmarksArray release];
+	[bookmarkDict release];
 	
 	[contactPropertiesObserverManager release];
 
@@ -244,7 +244,12 @@
 		AIListBookmark	*bookmark = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
 		if(bookmark) {
-			[bookmarksArray addObject:bookmark];
+			if ([bookmarkDict objectForKey:bookmark.internalObjectID]) {
+				// In case we end up with two bookmarks with the same internalObjectID; this should be almost impossible.
+				[self removeBookmark:[bookmarkDict objectForKey:bookmark.internalObjectID]];
+			}
+			
+			[bookmarkDict setObject:bookmark forKey:bookmark.internalObjectID];
 			
 			//It's a newly created object, so set its initial attributes
 			[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
@@ -1012,7 +1017,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (NSArray *)allBookmarks
 {
-	return [[bookmarksArray copy] autorelease];
+	return [[[bookmarkDict allValues] copy] autorelease];
 }
 
 /*!
@@ -1203,7 +1208,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	AIListBookmark *existingBookmark = nil;
 	
 	for(AIListBookmark *listBookmark in self.allBookmarks) {
-		if([listBookmark.name isEqualToString:inName] &&
+		if([listBookmark.name isEqualToString:[inAccount.service normalizeChatName:inName]] &&
 			listBookmark.account == inAccount &&
 			((!listBookmark.chatCreationDictionary && !inCreationInfo) ||
 			 ([listBookmark.chatCreationDictionary isEqualToDictionary:inCreationInfo]))) {
@@ -1226,7 +1231,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	if (!bookmark) {
 		bookmark = [[[AIListBookmark alloc] initWithChat:inChat] autorelease];
 		
-		[bookmarksArray addObject:bookmark];
+		if ([bookmarkDict objectForKey:bookmark.internalObjectID]) {
+			// In case we end up with two bookmarks with the same internalObjectID; this should be almost impossible.
+			[self removeBookmark:[bookmarkDict objectForKey:bookmark.internalObjectID]];
+		}
+		
+		[bookmarkDict setObject:bookmark forKey:bookmark.internalObjectID];
 		
 		[self saveContactList];
 	}
@@ -1243,7 +1253,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 - (void)removeBookmark:(AIListBookmark *)listBookmark
 {
 	[self moveContact:listBookmark intoGroups:[NSSet set]];
-	[bookmarksArray removeObject:listBookmark];
+	[bookmarkDict removeObjectForKey:listBookmark.internalObjectID];
 	
 	[self saveContactList];
 }
