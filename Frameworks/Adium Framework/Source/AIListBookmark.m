@@ -280,7 +280,7 @@
 - (BOOL)chatIsOurs:(AIChat *)chat
 {
 	return (chat &&
-			[chat.name isEqualToString:self.name] &&
+			[chat.name isEqualToString:[self.account.service normalizeChatName:self.name]] &&
 			chat.account == self.account &&
 			((!chat.chatCreationDictionary && !self.chatCreationDictionary) ||
 			 ([chat.chatCreationDictionary isEqualToDictionary:self.chatCreationDictionary])));
