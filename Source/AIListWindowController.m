@@ -1666,54 +1666,34 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 		return;
 	
 	if (!filterBarExpandedGroups && ![[sender stringValue] isEqualToString:@""]) {
-		// Temporarily expand all groups when performing a search.
-		NSMutableArray *groupsToExpand = [NSMutableArray array];
-		NSUInteger rows = [contactListView numberOfRows];
-		for (int i = 0; i < rows; i++) {
-			AIProxyListObject *proxyObject = [contactListView itemAtRow:i];
-			if ([proxyObject isKindOfClass:[AIListGroup class]] && ((AIListGroup *)proxyObject).expanded == NO)
-				[groupsToExpand addObject:proxyObject];
-		}
-		
-		if (groupsToExpand.count) {
-			for (AIProxyListObject *proxyObject in groupsToExpand) {
-				// Force the listgroup to save its expanded status
-				AIListGroup *proxiedObject = (AIListGroup *)proxyObject;
-				
-				[proxiedObject setPreference:[NSNumber numberWithBool:proxiedObject.expanded]
-									  forKey:@"IsExpanded"
-									   group:@"Contact List"];
-				
-				// Set the group as expanded
-				[contactListView expandItem:proxyObject];
-			}			
-		}
-		
-		filterBarExpandedGroups = YES;
-		
-	} else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
-		// Restore saved expansion status when returning to no search.
-		
-		// Temporarily expand all groups when performing a search.
-		NSMutableArray *groupsToCollapse = [NSMutableArray array];
-		NSUInteger rows = [contactListView numberOfRows];
-		for (int i = 0; i < rows; i++) {
-			AIProxyListObject *proxyObject = [contactListView itemAtRow:i];
-			
-			if ([proxyObject isKindOfClass:[AIListGroup class]] &&
-				![[(AIListGroup *)proxyObject preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue]) {
-				[groupsToCollapse addObject:proxyObject];
-			}
-		}
-		
-		if (groupsToCollapse.count) {
-			for (AIProxyListObject *proxyObject in groupsToCollapse) {
-				[contactListView collapseItem:proxyObject];
-			}			
-		}
-		
-		filterBarExpandedGroups = NO;
-	}
+        BOOL modified = NO;
+        for (AIListObject *listObject in [self.contactList containedObjects]) {
+            if ([listObject isKindOfClass:[AIListGroup class]] && [(AIListGroup *)listObject isExpanded] == NO) {
+                [listObject setValue:[NSNumber numberWithBool:YES] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
+                modified = YES;
+            }
+        }
+        
+        filterBarExpandedGroups = YES;
+        
+        if (modified) {
+            [contactListView reloadData];
+        }
+    } else if (filterBarExpandedGroups && [[sender stringValue] isEqualToString:@""]) {
+        BOOL modified = NO;
+        for (AIListObject *listObject in [self.contactList containedObjects]) {
+            if ([listObject isKindOfClass:[AIListGroup class]] && [listObject boolValueForProperty:@"ExpandedByFiltering"]) {
+                [listObject setValue:[NSNumber numberWithBool:NO] forProperty:@"ExpandedByFiltering" notify:NotifyNever];
+                modified = YES;
+            }
+        }
+        
+        filterBarExpandedGroups = NO;
+        
+        if (modified) {
+            [contactListView reloadData];
+        }
+    }
 	
 	if ([[AIContactHidingController sharedController] filterContacts:[sender stringValue]]) {
 		// Select the first contact; we're guaranteed at least one visible contact.

@@ -673,7 +673,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(AIProxyListObject *)item
 {
-    return !item || ((id<AIContainingObject>)(item.listObject)).expanded;
+    return !item || ((id<AIContainingObject>)(item.listObject)).expanded || [item.listObject boolValueForProperty:@"ExpandedByFiltering"];
 }
 
 /*!
