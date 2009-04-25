@@ -15,7 +15,7 @@ grep = subprocess.Popen(['grep', '-RhF', '#define', 'Frameworks', 'Plugins', 'So
 sed = subprocess.Popen(['sed', '-nE', 's/^#define[ \\t]*([A-Za-z_0-9]+)[ \\t]*.*/\\1/p'], stdin=grep.stdout, stdout=PIPE)
 # Reduce to one instance of each macro name.
 sort = subprocess.Popen(['sort'], env={ 'LC_ALL': 'C' }, stdin=sed.stdout, stdout=PIPE)
-uniq = subprocess.Popen(['uniq'], stdin=sort.stdout, stdout=PIPE)
+uniq = subprocess.Popen(['uniq'], env={ 'LC_ALL': 'C' }, stdin=sort.stdout, stdout=PIPE)
 
 # I tried both grep and the re module for searching for quoted macros, but the resulting regular expression is too long. --boredzo
 macros_in_quotes = ['"%s"' % (line.rstrip('\n'),) for line in uniq.stdout]
