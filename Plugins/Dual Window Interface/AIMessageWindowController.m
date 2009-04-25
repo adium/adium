@@ -342,6 +342,9 @@
 						[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
 						
 					} else {
+						// This arbitrary sizedown is so that top tabs look visually connected to their content below.
+						tabBarFrame.size.height -= 3;
+						
 						tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
 						tabViewMessagesFrame.origin.y = NSMinY(contentRect);
 						tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame);
