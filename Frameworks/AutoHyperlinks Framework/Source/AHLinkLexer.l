@@ -126,6 +126,7 @@ svn(\+ssh)?:\/\/        |
 notes:\/\/              |
 gopher:\/\/             |
 git:\/\/                |
+vnc:\/\/                |
 x-man-page:\/\/         {yyextra = yyleng; BEGIN CANONICAL;}
 
 mailto:{mailSpec}       {return AH_MAILTO_VALID;}
