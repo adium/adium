@@ -60,6 +60,9 @@
 		[fileTransfer setFileTransferRequestPromptController:self];
 		AILog(@"%@: Requeseting file transfer %@", self, fileTransfer);
 		[adium.contentController receiveContentObject:fileTransfer];
+		
+		// We don't want it to be a normal event, but we DO want to increment the unviewed content count.
+		[fileTransfer.chat incrementUnviewedContentCount];
 	}
 
 	return self;
