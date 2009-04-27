@@ -347,7 +347,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 //Attributes for displaying the label string
 //Cache is invalidated on font changes, 
-- (NSDictionary *)labelAttributes
+- (NSMutableDictionary *)labelAttributes
 {
 	if (!labelAttributes) {
 		labelAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
