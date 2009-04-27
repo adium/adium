@@ -1543,22 +1543,30 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 		
 		targetFrame.size.height = NSHeight(targetFrame) - NSHeight([filterBarView bounds]);
 	}
+    
+    // Filter bar resizing
+    // Create a new variable here, because we want the bar's view to be based, visually, on the location of the contact list, not its enclosing super view.
+    NSRect barTargetFrame = contactListView.frame;
+    if (filterBarIsVisible) {
+        barTargetFrame.size.height = NSHeight(barTargetFrame) + NSHeight(filterBarView.bounds);
+    } else {
+        barTargetFrame.size.height = NSHeight(barTargetFrame) - NSHeight(filterBarView.bounds);
+    }
 	
-	// Filter bar resizing
 	if (!filterBarIsVisible) {
-		// If the filter bar isn't already visible
-		[filterBarView setFrame:NSMakeRect(NSMinX(targetFrame),
-										   NSHeight([targetView frame]),
-										   NSWidth(targetFrame),
+		// If the filter bar isn't already visible        
+		[filterBarView setFrame:NSMakeRect(NSMinX(barTargetFrame),
+										   NSHeight([contactListView frame]),
+										   NSWidth(barTargetFrame),
 										   NSHeight([filterBarView bounds]))];
-		
+        
 		// Attach the filter bar to the window
 		[[[self window] contentView] addSubview:filterBarView];
 	}
 	
 	filterBarDict = [NSDictionary dictionaryWithObjectsAndKeys:filterBarView, NSViewAnimationTargetKey,
-					 [NSValue valueWithRect:NSMakeRect(NSMinX(targetFrame), NSHeight(targetFrame),
-													   NSWidth(targetFrame), NSHeight([filterBarView bounds]))], NSViewAnimationEndFrameKey, nil];
+					 [NSValue valueWithRect:NSMakeRect(NSMinX(barTargetFrame), NSHeight(barTargetFrame),
+													   NSWidth(barTargetFrame), NSHeight([filterBarView bounds]))], NSViewAnimationEndFrameKey, nil];
 	
 	targetViewDict = [NSDictionary dictionaryWithObjectsAndKeys:targetView, NSViewAnimationTargetKey,
 					  [NSValue valueWithRect:targetFrame], NSViewAnimationEndFrameKey, nil];
