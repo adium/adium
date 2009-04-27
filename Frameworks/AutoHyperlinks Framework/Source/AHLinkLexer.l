@@ -125,6 +125,8 @@ webcal:\/\/             |
 svn(\+ssh)?:\/\/        |
 notes:\/\/              |
 gopher:\/\/             |
+git:\/\/                |
+vnc:\/\/                |
 x-man-page:\/\/         {yyextra = yyleng; BEGIN CANONICAL;}
 
 mailto:{mailSpec}       {return AH_MAILTO_VALID;}
@@ -141,7 +143,7 @@ sip:{mailSpec}          |
 {yahooIMSpec}           |
 {rdarSpec}              |
 {msnSpec}               |
-{dictSpec}				|
+{dictSpec}              |
 {spotifySpec}           {return AH_URL_VALID;}
 
 .                       {return AH_URL_INVALID;}

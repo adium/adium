@@ -330,7 +330,7 @@
 			switch (orientation) {
 				case PSMTabBarHorizontalOrientation:
 				{
-					tabBarFrame.size.height = [tabView_tabBar isTabBarHidden] ? 1 : 22;
+					tabBarFrame.size.height = [tabView_tabBar isTabBarHidden] ? 1 : kPSMTabBarControlHeight;
 					tabBarFrame.size.width = contentRect.size.width + 1;
 					
 					//set the position of the tab bar (top/bottom)
@@ -342,9 +342,12 @@
 						[tabView_tabBar setAutoresizingMask:(NSViewMaxYMargin | NSViewWidthSizable)];
 						
 					} else {
+						// This arbitrary sizedown is so that top tabs look visually connected to their content below.
+						tabBarFrame.size.height -= 3;
+						
 						tabBarFrame.origin.y = NSMaxY(contentRect) - NSHeight(tabBarFrame);
 						tabViewMessagesFrame.origin.y = NSMinY(contentRect);
-						tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame) + 2;
+						tabViewMessagesFrame.size.height = NSHeight(contentRect) - NSHeight(tabBarFrame);
 						[tabView_tabBar setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
 					}
 					/* If the cell is less than 60, icon + title + unread message count may overlap */

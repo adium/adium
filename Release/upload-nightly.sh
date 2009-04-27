@@ -8,7 +8,7 @@
 PARENT=$(dirname $0)
 cd ${PARENT:-.}
 
-ADIUM_RELEASE_NAME=`head -n 1 build/latest | tail -n 1`
-scp build/latest build/${ADIUM_RELEASE_NAME}.tgz.md5 build/${ADIUM_RELEASE_NAME}.tgz ${NIGHTLY_USER}@${NIGHTLY_HOST}:
-ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} chmod go+r ${ADIUM_RELEASE_NAME}.tgz latest ${ADIUM_RELEASE_NAME}.tgz.md5
+ADIUM_RELEASE_NAME=`head -n 1 build/latest.info | tail -n 1`
+scp build/latest.info build/${ADIUM_RELEASE_NAME}.tgz.md5 build/${ADIUM_RELEASE_NAME}.tgz ${NIGHTLY_USER}@${NIGHTLY_HOST}:
+ssh ${NIGHTLY_USER}@${NIGHTLY_HOST} chmod go+r ${ADIUM_RELEASE_NAME}.tgz latest.info ${ADIUM_RELEASE_NAME}.tgz.md5
 
