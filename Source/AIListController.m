@@ -376,10 +376,9 @@
 
 	if (useDesiredWidth) {
 		/* If the desired height plus any toolbar height exceeds the height we determined, we will be showing a scroller; 
-		 * expand horizontally to take that into account.  The magic number 2 fixes this method for use with our borderless
-		 * windows... I'm not sure why it's needed, but it doesn't hurt anything.
+		 * expand horizontally to take that into account.
 		 */
-		if (desiredHeight + (NSHeight(windowFrame) - NSHeight(viewFrame)) > NSHeight(newWindowFrame) + 2) {
+		if (desiredHeight + (NSHeight(windowFrame) - NSHeight(viewFrame)) > NSHeight(newWindowFrame)) {
 			CGFloat scrollerWidth = [NSScroller scrollerWidthForControlSize:[[scrollView_contactList verticalScroller] controlSize]];
 			newWindowFrame.size.width += scrollerWidth;
 			
