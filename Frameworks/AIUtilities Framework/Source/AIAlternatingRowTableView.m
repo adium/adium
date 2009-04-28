@@ -67,14 +67,7 @@
     [super dealloc];
 }
 
-
 //Configuring ----------------------------------------------------------------------
-- (void)setDrawsAlternatingRows:(BOOL)flag
-{
-	[self setUsesAlternatingRowBackgroundColors:flag];
-
-    [self setNeedsDisplay:YES];
-}
 
 //Filter keydowns looking for the delete key (to delete the current selection)
 - (void)keyDown:(NSEvent *)theEvent

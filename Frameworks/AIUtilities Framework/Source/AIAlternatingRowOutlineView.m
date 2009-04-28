@@ -55,7 +55,7 @@
 
 - (void)initAlternatingRowOutlineView
 {
-	drawsAlternatingRows = NO;
+	[self setUsesAlternatingRowBackgroundColors:NO];
 	drawsBackground = YES;
 	drawsGradientSelection = NO;
 	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0/255.0) green:(243.0/255.0) blue:(254.0/255.0) alpha:1.0] retain];
@@ -76,15 +76,6 @@
 
 
 //Configuring ----------------------------------------------------------------------
-//Toggle the drawing of alternating rows
-- (void)setDrawsAlternatingRows:(BOOL)flag
-{
-	drawsAlternatingRows = flag;
-	[self setNeedsDisplay:YES];
-}
-- (BOOL)drawsAlternatingRows{
-	return drawsAlternatingRows;
-}
 
 - (void)setDrawsGradientSelection:(BOOL)inDrawsGradientSelection
 {
@@ -132,7 +123,7 @@
 //Draw the alternating colors and grid below the "bottom" of the outlineview
 - (void)drawAlternatingRowsInRect:(NSRect)rect
 {
-	if (!drawsBackground || !drawsAlternatingRows) 
+	if (!drawsBackground || ![self usesAlternatingRowBackgroundColors]) 
 	    return;
 
 	unsigned	rectNumber = 0;
@@ -163,7 +154,7 @@
 {
 	[super drawRect:rect];
 
-	if (drawsBackground && drawsAlternatingRows && [self gridStyleMask] != NSTableViewGridNone) {
+	if (drawsBackground && [self usesAlternatingRowBackgroundColors] && [self gridStyleMask] != NSTableViewGridNone) {
 		[self _drawGridInClipRect:rect];
 	}
 }
@@ -250,7 +241,7 @@
 
 - (void)drawGridInClipRect:(NSRect)rect
 {
-    if (drawsBackground && drawsAlternatingRows) {
+    if (drawsBackground && [self usesAlternatingRowBackgroundColors]) {
 		//We do our grid drawing later
 	} else {
 		[super drawGridInClipRect:rect];

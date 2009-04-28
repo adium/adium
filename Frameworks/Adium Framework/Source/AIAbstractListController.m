@@ -483,7 +483,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 	
 	//Background
-	[contactListView setDrawsAlternatingRows:[[themeDict objectForKey:KEY_LIST_THEME_GRID_ENABLED] boolValue]];
+	[contactListView setUsesAlternatingRowBackgroundColors:[[themeDict objectForKey:KEY_LIST_THEME_GRID_ENABLED] boolValue]];
 	[contactListView setBackgroundFade:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_FADE] floatValue]];
 	[contactListView setBackgroundColor:[[themeDict objectForKey:KEY_LIST_THEME_BACKGROUND_COLOR] representedColor]];
 	[contactListView setAlternatingRowColor:[[themeDict objectForKey:KEY_LIST_THEME_GRID_COLOR] representedColor]];

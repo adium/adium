@@ -138,7 +138,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	[outlineView sizeLastColumnToFit];
 	[outlineView setAutoresizesSubviews:YES];
 	[outlineView setColumnAutoresizingStyle:NSTableViewUniformColumnAutoresizingStyle];
-	[outlineView setDrawsAlternatingRows:YES];
+	[outlineView setUsesAlternatingRowBackgroundColors:YES];
 	[outlineView setDataSource:self];
 	[outlineView setDelegate:self];
 
