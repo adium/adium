@@ -27,12 +27,3 @@
 @property (readwrite, nonatomic) BOOL drawsGradientSelection;
 
 @end
-
-@interface NSObject (AITableViewDelegateDeleteSupport)
-- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView;
-@end
-
-
-@interface NSObject (AITableViewDelegateMenuSupport)
-- (NSMenu *)tableView:(NSTableView *)inTableView menuForEvent:(NSEvent *)theEvent;
-@end
