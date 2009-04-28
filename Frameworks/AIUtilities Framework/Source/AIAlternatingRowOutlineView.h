@@ -24,22 +24,14 @@
 @interface AIAlternatingRowOutlineView : AIOutlineView {
 	NSColor		*alternatingRowColor;
 	
-	BOOL		drawsAlternatingRows;
 	BOOL		drawsBackground;
 	BOOL		drawsGradientSelection;
 }
 
 /*!
- * @brief Whether the outline view draws a grid, alternating by rows.
- *
- * The grid will be drawn alternating between the background color and the color specified by setAlternatingRowColor:, which has a sane, light blue default.
- */
-@property (readwrite, nonatomic) BOOL drawsAlternatingRows;
-
-/*!
  * @brief The color used for drawing alternating row backgrounds.
  *
- * Ignored if drawsAlternatingRows is NO.
+ * Ignored if usesAlternatingRowBackgroundColors is NO.
  */
 @property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;
 

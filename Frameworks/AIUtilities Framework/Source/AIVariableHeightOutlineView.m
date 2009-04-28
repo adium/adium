@@ -202,7 +202,7 @@
 	/* Draw the alternating rows.  If we draw alternating rows, the cell in the first column
 	 * can optionally suppress drawing.
 	 */
-	if ([self drawsAlternatingRows]) {
+	if ([self usesAlternatingRowBackgroundColors]) {
 		BOOL alternateColor = YES;
 		int numberOfRows = [self numberOfRows], rectNumber = 0;
 		NSTableColumn *tableColumn = [[self tableColumns] objectAtIndex:0];

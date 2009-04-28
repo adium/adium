@@ -388,7 +388,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 - (NSColor *)backgroundColor
 {
 	//We could just call backgroundColorForRow: but it's best to avoid doing a rowForItem lookup if there is no grid
-	if ([controlView drawsAlternatingRows]) {
+	if ([controlView usesAlternatingRowBackgroundColors]) {
 		return [controlView backgroundColorForRow:[controlView rowForItem:proxyObject]];
 	} else {
 		return [controlView backgroundColor];
