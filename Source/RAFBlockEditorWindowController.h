@@ -7,7 +7,6 @@
 //
 
 #import <Adium/AIWindowController.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIAccountMenu.h>
 

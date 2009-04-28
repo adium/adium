@@ -21,7 +21,6 @@
 #import <Adium/AIPathUtilities.h>
 #import <Adium/KNShelfSplitView.h>
 #import <AIUtilities/AIArrayAdditions.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -58,12 +57,7 @@ static AIXtrasManager *manager;
 
 	[self installToolbar];
 
-	//This is the Mail.app source list background color... which differs from the iTunes one.
-	[tableView_categories setBackgroundColor:[NSColor colorWithCalibratedRed:.9059
-																	   green:.9294
-																		blue:.9647
-																	   alpha:1.0]];
-	[tableView_categories setDrawsGradientSelection:YES];
+	[tableView_categories setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 	
 	AIImageTextCell			*cell;
 	//Configure our tableViews

@@ -15,7 +15,7 @@
  */
 #import "AIXtraPreviewController.h"
 
-@class AIXtraInfo, AIAlternatingRowTableView;
+@class AIXtraInfo;
 
 #define AIXtraTypeDockIcon			@"adiumicon"
 #define AIXtraTypeStatusIcons		@"adiumstatusicons"
@@ -32,7 +32,7 @@
 	NSMutableArray							*categories;
 	NSMutableArray							*selectedCategory;
 	IBOutlet NSWindow						*window;
-	IBOutlet AIAlternatingRowTableView		*tableView_categories;;
+	IBOutlet NSTableView		*tableView_categories;;
 	IBOutlet NSTableView					*xtraList;
 	IBOutlet NSTextView						*infoView;
 	IBOutlet NSScrollView					*previewContainerView;

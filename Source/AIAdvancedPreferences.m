@@ -119,11 +119,7 @@
 	
 	[[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
 	
-	//This is the Mail.app source list background color... which differs from the iTunes one.
-	[tableView_categories setBackgroundColor:[NSColor colorWithCalibratedRed:.9059
-																	   green:.9294
-																		blue:.9647
-																	   alpha:1.0]];
+	[tableView_categories setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 	
 	//Select the previously selected row
 	NSInteger row = [[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW

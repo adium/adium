@@ -403,11 +403,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	//Toolbar
 	[self installToolbar];	
 
-	//This is the Mail.app source list background color... which differs from the iTunes one.
-	[outlineView_contacts setBackgroundColor:[NSColor colorWithCalibratedRed:.9059
-																	   green:.9294
-																		blue:.9647
-																	   alpha:1.0]];
+	[outlineView_contacts setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
 
 	AIImageTextCell	*dataCell = [[AIImageTextCell alloc] init];
 	NSTableColumn	*tableColumn = [[outlineView_contacts tableColumns] objectAtIndex:0];
@@ -416,7 +412,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	[dataCell setFont:[NSFont systemFontOfSize:[NSFont smallSystemFontSize]]];
 	[dataCell release];
 
-	[outlineView_contacts setDrawsGradientSelection:YES];
 	// Set the selector for doubleAction
 	[outlineView_contacts setDoubleAction:@selector(openChatOnDoubleAction:)];
 	

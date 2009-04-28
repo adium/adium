@@ -132,7 +132,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 
 	//Configure the outline view
-	[outlineView setDrawsGradientSelection:YES];
 	[[[outlineView tableColumns] objectAtIndex:0] setDataCell:[[[AIGenericViewCell alloc] init] autorelease]];
 
 	[outlineView sizeLastColumnToFit];

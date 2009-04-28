@@ -8,8 +8,6 @@
 
 #import <Adium/AIWindowController.h>
 
-@class AIAlternatingRowTableView;
-
 @interface ESAwayStatusWindowController : AIWindowController {
 	IBOutlet	NSButton					*button_return;
 	IBOutlet	NSTabView					*tabView_configuration;
@@ -18,7 +16,7 @@
 	IBOutlet	NSTextView					*textView_singleStatus;
 	
 	//Multiple statuses tab
-	IBOutlet	AIAlternatingRowTableView	*tableView_multiStatus;
+	IBOutlet NSTableView	*tableView_multiStatus;
 	
 	NSMutableArray							*_awayAccounts;
 }
