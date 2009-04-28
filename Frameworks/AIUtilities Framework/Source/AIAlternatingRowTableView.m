@@ -22,7 +22,6 @@
  A subclass of table view that adds:
 
  - Alternating row colors
- - Delete key handling
  */
 
 @interface AIAlternatingRowTableView ()
@@ -68,25 +67,6 @@
 
 //Configuring ----------------------------------------------------------------------
 
-//Filter keydowns looking for the delete key (to delete the current selection)
-- (void)keyDown:(NSEvent *)theEvent
-{
-    NSString	*charString = [theEvent charactersIgnoringModifiers];
-    unichar		pressedChar = 0;
-
-    //Get the pressed character
-    if ([charString length] == 1) pressedChar = [charString characterAtIndex:0];
-
-    //Check if 'delete' was pressed
-    if (pressedChar == NSDeleteFunctionKey || pressedChar == NSBackspaceCharacter || pressedChar == NSDeleteCharacter) { //Delete
-        if ([[self delegate] respondsToSelector:@selector(tableViewDeleteSelectedRows:)]) {
-			[[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
-		}
-    } else {
-        [super keyDown:theEvent]; //Pass the key event on
-    }
-}
-
 - (void)setDrawsGradientSelection:(BOOL)inDrawsGradientSelection
 {
 	drawsGradientSelection = inDrawsGradientSelection;
@@ -96,16 +76,6 @@
 - (BOOL)drawsGradientSelection
 {
 	return drawsGradientSelection;
-}
-
-//Allow our delegate to specify context menus
-- (NSMenu *)menuForEvent:(NSEvent *)theEvent
-{
-    if ([[self delegate] respondsToSelector:@selector(tableView:menuForEvent:)]) {
-        return [[self delegate] tableView:self menuForEvent:theEvent];
-    } else {
-        return [super menuForEvent:theEvent];
-    }
 }
 
 // Scrolling ----------------------------------------------------------------------

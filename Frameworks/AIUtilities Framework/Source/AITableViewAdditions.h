@@ -17,3 +17,9 @@
 - (NSArray *)arrayOfSelectedItemsUsingSourceArray:(NSArray *)sourceArray;
 - (void)selectItemsInArray:(NSArray *)selectedItems usingSourceArray:(NSArray *)sourceArray;
 @end
+
+@protocol AITableViewDelegate
+@optional
+- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView;
+- (NSMenu *)tableView:(NSTableView *)inTableView menuForEvent:(NSEvent *)theEvent;
+@end

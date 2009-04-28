@@ -15,6 +15,7 @@
 
 #import "AITableViewAdditions.h"
 #import "AIApplicationAdditions.h"
+#import <objc/objc-class.h>
 
 @implementation NSTableView (AITableViewAdditions)
 
@@ -65,6 +66,54 @@
 	}
 	
 	[self selectRowIndexes:indexes byExtendingSelection:NO];
+}
+
+@end
+
+@interface AITableView : NSTableView {}
+@end
+
+@implementation AITableView
+
+/* 
+ * @brief Load
+ *
+ * Install ourself to intercept keyDown: calls so we can stick our delete handling in, and menuForEvent: calls so we can ask our delegate
+ */
++ (void)load
+{
+	//Anything you can do, I can do better...
+	method_exchangeImplementations(class_getInstanceMethod([NSTableView class], @selector(keyDown:)), class_getInstanceMethod(self, @selector(keyDown:)));
+	
+	method_exchangeImplementations(class_getInstanceMethod([NSTableView class], @selector(menuForEvent:)), class_getInstanceMethod(self, @selector(menuForEvent:)));
+}
+
+//Filter keydowns looking for the delete key (to delete the current selection)
+- (void)keyDown:(NSEvent *)theEvent
+{
+	NSString	*charString = [theEvent charactersIgnoringModifiers];
+	unichar		pressedChar = 0;
+
+	//Get the pressed character
+	if ([charString length] == 1) pressedChar = [charString characterAtIndex:0];
+
+	//Check if 'delete' was pressed
+	if (pressedChar == NSDeleteFunctionKey || pressedChar == NSBackspaceCharacter || pressedChar == NSDeleteCharacter) { //Delete
+		if ([[self delegate] respondsToSelector:@selector(tableViewDeleteSelectedRows:)])
+			[[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
+	} else {
+		//Pass the key event on to the unswizzled impl
+		method_invoke(self, class_getInstanceMethod([NSTableView class], @selector(keyDown:)), theEvent);
+	}
+}
+
+//Allow our delegate to specify context menus
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+	if ([[self delegate] respondsToSelector:@selector(tableView:menuForEvent:)])
+		return [(id<AITableViewDelegate>)[self delegate] tableView:self menuForEvent:theEvent];
+        
+	return method_invoke(self, class_getInstanceMethod([NSTableView class], @selector(menuForEvent:)), theEvent);
 }
 
 @end
