@@ -115,7 +115,7 @@
 	NSSet *modifiedProperties = nil;
 	if (inModifiedKeys == nil ||
 			[inModifiedKeys containsObject:@"Online"] ||
-			[inModifiedKeys containsObject:@"IdleSince"] ||
+			[inModifiedKeys containsObject:@"IsIdle"] ||
 			[inModifiedKeys containsObject:@"Signed Off"] ||
 			[inModifiedKeys containsObject:@"Signed On"] ||
 			[inModifiedKeys containsObject:@"New Object"] ||
