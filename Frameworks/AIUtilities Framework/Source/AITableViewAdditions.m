@@ -103,7 +103,7 @@
 			[[self delegate] tableViewDeleteSelectedRows:self]; //Delete the selection
 	} else {
 		//Pass the key event on to the unswizzled impl
-		method_invoke(self, class_getInstanceMethod([NSTableView class], @selector(keyDown:)), theEvent);
+		method_invoke(self, class_getInstanceMethod([AITableView class], @selector(keyDown:)), theEvent);
 	}
 }
 
@@ -113,7 +113,7 @@
 	if ([[self delegate] respondsToSelector:@selector(tableView:menuForEvent:)])
 		return [(id<AITableViewDelegate>)[self delegate] tableView:self menuForEvent:theEvent];
         
-	return method_invoke(self, class_getInstanceMethod([NSTableView class], @selector(menuForEvent:)), theEvent);
+	return method_invoke(self, class_getInstanceMethod([AITableView class], @selector(menuForEvent:)), theEvent);
 }
 
 @end
