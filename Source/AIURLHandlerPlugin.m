@@ -533,7 +533,7 @@
 						  chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
 											name, @"room",
 											server, @"server",
-											account.formattedUID, @"handle",
+											account.displayName, @"handle",
 											password, @"password", /* may be nil, so should be last */
 											nil]];
 	} else {
