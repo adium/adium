@@ -53,7 +53,6 @@
 
 - (void)_initAlternatingRowTableView
 {
-	self.acceptsFirstMouse = NO;
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(alternatingRowTableViewSelectionDidChange:)
 												 name:NSTableViewSelectionDidChangeNotification
@@ -97,14 +96,6 @@
 - (BOOL)drawsGradientSelection
 {
 	return drawsGradientSelection;
-}
-
-// First mouse ----------------------------------------------------------------------
-@synthesize acceptsFirstMouse;
-
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
-{
-	return self.acceptsFirstMouse;
 }
 
 //Allow our delegate to specify context menus

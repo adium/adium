@@ -21,11 +21,8 @@
  *
  */
 @interface AIAlternatingRowTableView : NSTableView {
-	BOOL	acceptsFirstMouse;
 	BOOL	drawsGradientSelection;
 }
-
-@property (readwrite, nonatomic) BOOL acceptsFirstMouse;
 
 @property (readwrite, nonatomic) BOOL drawsGradientSelection;
 

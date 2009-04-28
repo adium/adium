@@ -42,6 +42,14 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>adiumPrint</key>
@@ -97,6 +105,22 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>NSView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -122,7 +146,7 @@
 			<key>OUTLETS</key>
 			<dict>
 				<key>accountsTableView</key>
-				<string>AIAlternatingRowTableView</string>
+				<string>NSTableView</string>
 				<key>checkBox_alwaysShow</key>
 				<string>NSButton</string>
 				<key>checkBox_autoJoin</key>
@@ -145,6 +169,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>NSCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSButton</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -153,11 +185,19 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>AIAlternatingRowTableView</string>
+			<string>NSPopUpButton</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
-			<string>NSTableView</string>
+			<string>NSButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPopUpButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSMenuItemCell</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -198,6 +238,14 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
