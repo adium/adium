@@ -51,7 +51,6 @@
 
 		//Configure Table view
 		[accountsTableView setUsesAlternatingRowBackgroundColors:YES];
-		[accountsTableView setAcceptsFirstMouse:YES];
 
 		//[[[accountsTableView tableColumnWithIdentifier:@"account"] headerCell] setTitle:AILocalizedString(@"Account",nil)];
 		[[[accountsTableView tableColumnWithIdentifier:@"contact"] headerCell] setTitle:AILocalizedString(@"Contact","This header for the table in the Accounts tab of the Get Info window indicates the name of the contact within a metacontact")];
