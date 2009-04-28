@@ -72,8 +72,8 @@
 //- (void)viewDidLoad
 - (void)windowDidLoad
 {
-    //Pack table
-    [table_emoticonPacks registerForDraggedTypes:[NSArray arrayWithObject:EMOTICON_PACK_DRAG_TYPE]];
+	//Pack table
+	[table_emoticonPacks registerForDraggedTypes:[NSArray arrayWithObject:EMOTICON_PACK_DRAG_TYPE]];
 	
 	//Configure the outline view
 	[[table_emoticonPacks tableColumnWithIdentifier:@"Emoticons"] setDataCell:[[[AIGenericViewCell alloc] init] autorelease]];
@@ -85,12 +85,12 @@
 
     //Emoticons table
 	selectedEmoticonPack = nil;
-    checkCell = [[NSButtonCell alloc] init];
-    [checkCell setButtonType:NSSwitchButton];
-    [checkCell setControlSize:NSSmallControlSize];
-    [checkCell setTitle:@""];
-    [checkCell setRefusesFirstResponder:YES];
-    [[table_emoticons tableColumnWithIdentifier:@"Enabled"] setDataCell:checkCell];
+	checkCell = [[NSButtonCell alloc] init];
+	[checkCell setButtonType:NSSwitchButton];
+	[checkCell setControlSize:NSSmallControlSize];
+	[checkCell setTitle:@""];
+	[checkCell setRefusesFirstResponder:YES];
+	[[table_emoticons tableColumnWithIdentifier:@"Enabled"] setDataCell:checkCell];
 	[checkCell release];
 
 	NSImageCell *imageCell = [[NSImageCell alloc] initImageCell:nil];

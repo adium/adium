@@ -6,11 +6,10 @@
 //
 
 #import <Adium/AIAdvancedPreferencePane.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import "AIURLHandlerPlugin.h"
 
 @interface AIURLHandlerAdvancedPreferences : AIAdvancedPreferencePane {
-	IBOutlet		AIAlternatingRowTableView	*tableView;
+	IBOutlet		NSTableView			*tableView;
 	
 	IBOutlet		NSButton					*button_setDefault;
 	IBOutlet		NSButton					*checkBox_enforceDefault;
