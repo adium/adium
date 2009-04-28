@@ -906,7 +906,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	AIListObject	*hoveredObject = [self contactListItemAtScreenPoint:screenPoint];
 	
-	if ([hoveredObject isKindOfClass:[AIListContact class]]) {
+	if ([hoveredObject isKindOfClass:[AIListContact class]] || ([hoveredObject isKindOfClass:[AIListGroup class]] && ![(id<AIContainingObject>)hoveredObject isExpanded])) {
 		[adium.interfaceController showTooltipForListObject:hoveredObject
 												atScreenPoint:screenPoint
 													 onWindow:contactListView.window];
