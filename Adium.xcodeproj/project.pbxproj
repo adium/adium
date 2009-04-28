@@ -416,7 +416,7 @@
 		347E7AAA07CAF8EE00350507 /* SAContactOnlineForPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E7AA807CAF8EE00350507 /* SAContactOnlineForPlugin.m */; };
 		347E7AB307CAF93700350507 /* AIContactOnlineSincePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E7AB107CAF93700350507 /* AIContactOnlineSincePlugin.m */; };
 		347E7ABC07CAF94A00350507 /* ESContactServersideDisplayName.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E7ABA07CAF94A00350507 /* ESContactServersideDisplayName.m */; };
-		347E7ACF07CAF98500350507 /* ESMetaContactContentsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E7ACD07CAF98400350507 /* ESMetaContactContentsPlugin.m */; };
+		347E7ACF07CAF98500350507 /* AIListObjectContentsPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 347E7ACD07CAF98400350507 /* AIListObjectContentsPlugin.m */; };
 		347EAB2D09721D490090EA6E /* pref-personal.png in Resources */ = {isa = PBXBuildFile; fileRef = 347EAB2C09721D490090EA6E /* pref-personal.png */; };
 		347F4B810D340F16006D5A56 /* AIPreferenceContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 347F4B800D340F16006D5A56 /* AIPreferenceContainer.m */; };
 		3482E0F50AB5064E00471992 /* AIAdiumProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 3482E0EB0AB5063300471992 /* AIAdiumProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -3046,8 +3046,8 @@
 		347E7AB207CAF93700350507 /* AIContactOnlineSincePlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIContactOnlineSincePlugin.h; path = Source/AIContactOnlineSincePlugin.h; sourceTree = "<group>"; };
 		347E7AB907CAF94A00350507 /* ESContactServersideDisplayName.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESContactServersideDisplayName.h; path = Source/ESContactServersideDisplayName.h; sourceTree = "<group>"; };
 		347E7ABA07CAF94A00350507 /* ESContactServersideDisplayName.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESContactServersideDisplayName.m; path = Source/ESContactServersideDisplayName.m; sourceTree = "<group>"; };
-		347E7ACD07CAF98400350507 /* ESMetaContactContentsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESMetaContactContentsPlugin.m; path = Source/ESMetaContactContentsPlugin.m; sourceTree = "<group>"; };
-		347E7ACE07CAF98500350507 /* ESMetaContactContentsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESMetaContactContentsPlugin.h; path = Source/ESMetaContactContentsPlugin.h; sourceTree = "<group>"; };
+		347E7ACD07CAF98400350507 /* AIListObjectContentsPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIListObjectContentsPlugin.m; path = Source/AIListObjectContentsPlugin.m; sourceTree = "<group>"; };
+		347E7ACE07CAF98500350507 /* AIListObjectContentsPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIListObjectContentsPlugin.h; path = Source/AIListObjectContentsPlugin.h; sourceTree = "<group>"; };
 		347EAB2C09721D490090EA6E /* pref-personal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pref-personal.png"; path = "Resources/pref-personal.png"; sourceTree = "<group>"; };
 		347F4B7F0D340F16006D5A56 /* AIPreferenceContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPreferenceContainer.h; path = Source/AIPreferenceContainer.h; sourceTree = "<group>"; };
 		347F4B800D340F16006D5A56 /* AIPreferenceContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPreferenceContainer.m; path = Source/AIPreferenceContainer.m; sourceTree = "<group>"; };
@@ -5637,8 +5637,8 @@
 				347E7A9407CAF8AE00350507 /* ESContactClientPlugin.m */,
 				347E7AB907CAF94A00350507 /* ESContactServersideDisplayName.h */,
 				347E7ABA07CAF94A00350507 /* ESContactServersideDisplayName.m */,
-				347E7ACE07CAF98500350507 /* ESMetaContactContentsPlugin.h */,
-				347E7ACD07CAF98400350507 /* ESMetaContactContentsPlugin.m */,
+				347E7ACE07CAF98500350507 /* AIListObjectContentsPlugin.h */,
+				347E7ACD07CAF98400350507 /* AIListObjectContentsPlugin.m */,
 				347E7AA907CAF8EE00350507 /* SAContactOnlineForPlugin.h */,
 				347E7AA807CAF8EE00350507 /* SAContactOnlineForPlugin.m */,
 				112B49080F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.h */,
@@ -10182,7 +10182,7 @@
 				347E7AAA07CAF8EE00350507 /* SAContactOnlineForPlugin.m in Sources */,
 				347E7AB307CAF93700350507 /* AIContactOnlineSincePlugin.m in Sources */,
 				347E7ABC07CAF94A00350507 /* ESContactServersideDisplayName.m in Sources */,
-				347E7ACF07CAF98500350507 /* ESMetaContactContentsPlugin.m in Sources */,
+				347E7ACF07CAF98500350507 /* AIListObjectContentsPlugin.m in Sources */,
 				074DDB5D07CB413F0033AFF7 /* CBContactLastSeenPlugin.m in Sources */,
 				34D8333B07CBD758006466F2 /* ESApplescriptContactAlertPlugin.m in Sources */,
 				34D8333C07CBD758006466F2 /* ESPanelApplescriptDetailPane.m in Sources */,
