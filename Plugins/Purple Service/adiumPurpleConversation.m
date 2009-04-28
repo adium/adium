@@ -276,23 +276,27 @@ NSString *get_real_name_for_account_conv_buddy(PurpleAccount *account, PurpleCon
 	PurplePluginProtocolInfo  *prpl_info = (prpl ? PURPLE_PLUGIN_PROTOCOL_INFO(prpl) : NULL);
 	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
 	
+	char *uid = NULL;
+	
 	NSString *normalizedUID;
 	
 	if (prpl_info && prpl_info->get_cb_real_name) {
 		// Get the real name of the buddy for use as a UID, if available.
-		char *uid = prpl_info->get_cb_real_name(purple_account_get_connection(account),
-												purple_conv_chat_get_id(convChat),
-												who);
-		
-		normalizedUID = [NSString stringWithUTF8String:purple_normalize(account, uid)];
-		
-		// We have to free the result of get_cb_real_name.
-		g_free(uid);
-	} else {
-		// Otherwise use the normalized name for the UID.
-		normalizedUID = [NSString stringWithUTF8String:purple_normalize(account, who)];
+		uid = prpl_info->get_cb_real_name(purple_account_get_connection(account),
+										  purple_conv_chat_get_id(convChat),
+										  who);
 	}
 	
+	if (!uid) {
+		// strdup it, mostly so the free below won't have to be cased out.
+		uid = g_strdup(who);
+	}
+		
+	normalizedUID = [NSString stringWithUTF8String:purple_normalize(account, uid)];
+		
+	// We have to free the result of get_cb_real_name.
+	g_free(uid);
+
 	return normalizedUID;
 }
 
