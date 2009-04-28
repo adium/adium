@@ -20,7 +20,6 @@
 #import "AIEmoticonPackPreviewView.h"
 #import "AIEmoticonPreferences.h"
 #import "AIEmoticonController.h"
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AITableViewAdditions.h>
 #import <AIUtilities/AIGenericViewCell.h>
 #import <AIUtilities/AIImageAdditions.h>

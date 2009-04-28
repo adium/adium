@@ -6,8 +6,6 @@
 //
 
 #import <Adium/AIAdvancedPreferencePane.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
-
 
 @interface AIMentionAdvancedPreferences : AIAdvancedPreferencePane {
 	IBOutlet		NSTextField			*label_explanation;

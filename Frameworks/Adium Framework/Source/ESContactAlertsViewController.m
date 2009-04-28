@@ -20,7 +20,6 @@
 #import <Adium/CSNewContactAlertWindowController.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 #import <Adium/ESContactAlertsViewController.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>

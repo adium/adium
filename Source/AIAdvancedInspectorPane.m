@@ -12,7 +12,6 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIAccountControllerProtocol.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AIArrayAdditions.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>

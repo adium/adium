@@ -24,7 +24,7 @@
  * @class AIEmoticonPackPreviewTableView
  * @brief Table view subclass for the emoticon pack preview
  *
- * This AIAlternatingRowTableView subclass draws images for AIGenericViewCell-using columns.  It only draws the image
+ * This NSTableView subclass draws images for AIGenericViewCell-using columns.  It only draws the image
  * for the first column so is not suitable for general use.
  */
 @implementation AIEmoticonPackPreviewTableView

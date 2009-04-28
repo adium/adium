@@ -15,15 +15,11 @@
 
 /*!
  * @class AIAlternatingRowTableView
- * @brief An <tt>NSTableView</tt> subclass supporting gradient selection and notification of a delete keypress.
  *
  * The name is currently AIAlternatingRowTableView for Adium legacy regions. This class should be renamed.
  *
  */
 @interface AIAlternatingRowTableView : NSTableView {
-	BOOL	drawsGradientSelection;
 }
-
-@property (readwrite, nonatomic) BOOL drawsGradientSelection;
 
 @end
