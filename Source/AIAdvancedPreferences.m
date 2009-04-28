@@ -11,7 +11,6 @@
 #import <Adium/AIModularPaneCategoryView.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIViewAdditions.h>
-#import <AIUtilities/AIAlternatingRowTableView.h>
 
 #define KEY_ADVANCED_PREFERENCE_SELECTED_ROW    @"Preference Advanced Selected Row"
 #define KEY_ADVANCED_PREFERENCE_SHELF_WIDTH		@"AdvancedPrefs:ShelfWidth"
@@ -111,17 +110,14 @@
 * @brief Configure the advanced preference category table view
  */
 - (void)_configureAdvancedPreferencesTable
-{
-    AIImageTextCell			*cell;
-	
-    //Configure our tableView
-    cell = [[AIImageTextCell alloc] init];
-    [cell setFont:[NSFont systemFontOfSize:12]];
-    [[tableView_categories tableColumnWithIdentifier:@"description"] setDataCell:cell];
+{	
+	//Configure our tableView
+	AIImageTextCell *cell = [[AIImageTextCell alloc] init];
+	[cell setFont:[NSFont systemFontOfSize:12]];
+	[[tableView_categories tableColumnWithIdentifier:@"description"] setDataCell:cell];
 	[cell release];
 	
-    [[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
-	[tableView_categories setDrawsGradientSelection:YES];
+	[[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
 	
 	//This is the Mail.app source list background color... which differs from the iTunes one.
 	[tableView_categories setBackgroundColor:[NSColor colorWithCalibratedRed:.9059

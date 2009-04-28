@@ -7,12 +7,12 @@
 
 #import <Adium/AIPreferencePane.h>
 
-@class KNShelfSplitView, AIAlternatingRowTableView, AIModularPaneCategoryView;
+@class KNShelfSplitView, AIModularPaneCategoryView;
 
 @interface AIAdvancedPreferences : AIPreferencePane {
 	IBOutlet KNShelfSplitView			*shelf_splitView;
 	
-	IBOutlet AIAlternatingRowTableView	*tableView_categories;
+	IBOutlet NSTableView	*tableView_categories;
 	IBOutlet AIModularPaneCategoryView	*modularPane;
 	
 	NSMutableArray		    *loadedAdvancedPanes;

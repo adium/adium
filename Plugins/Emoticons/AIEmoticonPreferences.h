@@ -14,29 +14,28 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#import <AIUtilities/AIAlternatingRowTableView.h>
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIParagraphStyleAdditions.h>
 #import <Adium/AIWindowController.h>
 
-@class AIEmoticonPack, AIAlternatingRowTableView;
+@class AIEmoticonPack;
 
 @interface AIEmoticonPreferences : AIWindowController
 {
-    IBOutlet    AIAlternatingRowTableView   *table_emoticonPacks;
-    NSMutableArray							*emoticonPackPreviewControllers;
+	IBOutlet    NSTableView		*table_emoticonPacks;
+	NSMutableArray								*emoticonPackPreviewControllers;
 
-	IBOutlet    AIAlternatingRowTableView   *table_emoticons;
-    IBOutlet    NSTextField                 *textField_packTitle;
-	IBOutlet	NSButton					*button_OK;
+	IBOutlet    NSTableView		*table_emoticons;
+	IBOutlet    NSTextField		*textField_packTitle;
+	IBOutlet			NSButton				*button_OK;
 		
-    NSButtonCell                            *checkCell;
-    AIEmoticonPack                          *selectedEmoticonPack;
-	NSMutableDictionary						*emoticonImageCache;
+	NSButtonCell									*checkCell;
+	AIEmoticonPack								*selectedEmoticonPack;
+	NSMutableDictionary					*emoticonImageCache;
 
-    NSArray                                 *dragRows;
+	NSArray													*dragRows;
 	
-	BOOL									viewIsOpen;
+	BOOL															viewIsOpen;
 }
 
 + (void)showEmoticionCustomizationOnWindow:(NSWindow *)parentWindow;
