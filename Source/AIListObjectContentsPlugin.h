@@ -16,7 +16,7 @@
 
 #import <Adium/AIInterfaceControllerProtocol.h>
 
-@interface ESMetaContactContentsPlugin : AIPlugin <AIContactListTooltipEntry> {
+@interface AIListObjectContentsPlugin : AIPlugin <AIContactListTooltipEntry> {
 	NSMenuItem *contextualMenuItem;
 }
 
