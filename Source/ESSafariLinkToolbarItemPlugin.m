@@ -20,7 +20,6 @@
 #import "ESSafariLinkToolbarItemPlugin.h"
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <AIUtilities/AIImageAdditions.h>
-#import <AIUtilities/AIAppleScriptAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
 #import <Adium/AIHTMLDecoder.h>
 
