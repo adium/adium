@@ -26,6 +26,8 @@
 #include <errno.h>  //errno
 #include <string.h> //strerror(3)
 
+#import <objc/objc-runtime.h>
+
 #define	CACHED_DEBUG_LOGS		100		//Number of logs to keep at any given time
 #define	KEY_DEBUG_WINDOW_OPEN	@"Debug Window Open"
 
@@ -33,12 +35,20 @@
 
 static ESDebugController	*sharedDebugController = nil;
 
+//Throwing an exception isn't enough, we need to die completely.
+void AIExplodeOnEnumerationMutation(id dummy) {
+	NSLog(@"Attempted to mutate collection %@ of class %@ while enumerating", dummy, [dummy class]);
+	*((int*)0xdeadbeef) = 42;
+}
+
 - (id)init
 {
 	if (sharedDebugController)
 		self = sharedDebugController;
 	else {	
 		if ((self = [super init])) {
+			objc_setEnumerationMutationHandler(AIExplodeOnEnumerationMutation);
+
 			sharedDebugController = self;
 
 			debugLogArray = [[NSMutableArray alloc] init];		
