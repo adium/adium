@@ -14,18 +14,14 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-@class SUSpeaker;
-
 @interface AdiumSpeech : NSObject {
-    NSMutableArray 		*speechArray;
-    NSMutableArray		*voiceArray;
+	NSMutableArray 		*speechArray;
 
-    SUSpeaker			*_variableVoice;
-    SUSpeaker			*_defaultVoice;
-	CGFloat				_defaultRate;
-	CGFloat				_defaultPitch;
-	CGFloat				customVolume;
+	NSSpeechSynthesizer			*_variableVoice;
+	NSSpeechSynthesizer			*_defaultVoice;
+	float				_defaultRate;
+	float			_defaultPitch;
+	float				customVolume;
 
 	BOOL				workspaceSessionIsActive;
 	BOOL				speaking;
@@ -34,11 +30,10 @@
 - (void)controllerDidLoad;
 
 - (void)speakText:(NSString *)text;
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(float)rate;
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(float)rate;
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate;
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate;
 
-- (NSArray *)voices;
-- (CGFloat)defaultRate;
-- (CGFloat)defaultPitch;
+- (float)defaultRate;
+- (float)defaultPitch;
 
 @end

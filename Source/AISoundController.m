@@ -53,11 +53,6 @@
 	[adiumSound stopPlayingSoundAtPath:inPath];
 }
 
-//Speech
-- (NSArray *)voices{
-	return [adiumSpeech voices];
-}
-
 /*!
  * @brief Speak the demonstration text for a voice
  *
@@ -65,19 +60,19 @@
  * @param pitch The pitch to use, or 0.0 to use the default pitch
  * @param rate The rate to use, 0.0 to use the default rate
  */
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(CGFloat)rate{
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate{
 	[adiumSpeech speakDemoTextForVoice:voiceString withPitch:pitch andRate:rate];
 }
-- (CGFloat)defaultRate{
+- (float)defaultRate{
 	return [adiumSpeech defaultRate];
 }
-- (CGFloat)defaultPitch{
+- (float)defaultPitch{
 	return [adiumSpeech defaultPitch];
 }
 - (void)speakText:(NSString *)text{
 	[adiumSpeech speakText:text];
 }
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(CGFloat)rate{
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate{
 	[adiumSpeech speakText:text withVoice:voiceString pitch:pitch rate:rate];
 }
 
