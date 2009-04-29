@@ -18,7 +18,7 @@
     NSImageView			*staticView;
     NSPanel				*panel;
     BOOL                windowIsVisible;
-    NSTimer             *visibilityTimer;
+    NSViewAnimation     *fadeAnimation;
     float               maxOpacity;
 }
 
