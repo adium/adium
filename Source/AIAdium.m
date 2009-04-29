@@ -51,8 +51,6 @@
 #import <Adium/AIContactHidingController.h>
 #import <Sparkle/Sparkle.h>
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
-//For Apple Help
-#import <Carbon/Carbon.h>
 #import <Adium/AdiumAuthorization.h>
 
 #ifdef DEBUG_BUILD
@@ -74,7 +72,6 @@ static NSString	*prefsCategory;
 @interface AIAdium ()
 - (void)completeLogin;
 - (void)openAppropriatePreferencesIfNeeded;
-- (void)configureHelp;
 - (void)deleteTemporaryFiles;
 @end
 
@@ -261,8 +258,6 @@ static NSString	*prefsCategory;
 	}
 	
 	completedApplicationLoad = YES;
-
-	[self configureHelp];
 	
 	[[NSDistributedNotificationCenter defaultCenter] addObserver:self
 														selector:@selector(systemTimeZoneDidChange:)
@@ -1036,23 +1031,6 @@ static NSString	*prefsCategory;
 	}
 	
 	return handleKey;
-}
-
-#pragma mark Help
-- (void)configureHelp
-{
-	CFBundleRef myApplicationBundle;
-	FSRef myBundleRef;
-
-	if ((myApplicationBundle = CFBundleGetMainBundle())) {
-		CFURLRef myBundleURL = CFBundleCopyBundleURL(myApplicationBundle);
-
-		if (CFURLGetFSRef(myBundleURL, &myBundleRef)) {
-			AHRegisterHelpBook(&myBundleRef);
-		}
-		
-		CFRelease(myBundleURL);
-	}
 }
 
 #pragma mark Sparkle Delegate Methods
