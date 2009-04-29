@@ -33,33 +33,17 @@
 
 #ifdef DEBUG_BUILD
 #import <objc/objc-class.h>
-
-@interface AIDictionaryDebug ()
-+ (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass;
-@end
-
 #endif
 
 @implementation AIDictionaryDebug
 
 #ifdef DEBUG_BUILD
 
-typedef void (*SetObjectForKeyIMP)(id, SEL, id, id);
-SetObjectForKeyIMP	originalSetObjectForKey = nil;
-
-typedef void (*RemoveObjectForKeyIMP)(id, SEL, id);
-RemoveObjectForKeyIMP	originalRemoveObjectForKey = nil;
-
-extern void _objc_flush_caches(Class);
-
 + (void)load
 {
-	originalSetObjectForKey = (SetObjectForKeyIMP)[AIDictionaryDebug replaceSelector:@selector(setObject:forKey:)
-																			 ofClass:NSClassFromString(@"NSCFDictionary")
-																		   withClass:[AIDictionaryDebug class]];
-	originalRemoveObjectForKey = (RemoveObjectForKeyIMP)[AIDictionaryDebug replaceSelector:@selector(removeObjectForKey:)
-																				ofClass:NSClassFromString(@"NSCFDictionary")
-																			  withClass:[AIDictionaryDebug class]];
+	Class NSCFDictionaryClass = NSClassFromString(@"NSCFDictionary");
+	method_exchangeImplementations(class_getInstanceMethod(self, @selector(setObject:forKey:)), class_getInstanceMethod(NSCFDictionaryClass, @selector(setObject:forKey:)));
+	method_exchangeImplementations(class_getInstanceMethod(self, @selector(removeObjectForKey:)), class_getInstanceMethod(NSCFDictionaryClass, @selector(removeObjectForKey:)));
 }
 
 + (void)breakpoint
@@ -73,7 +57,7 @@ extern void _objc_flush_caches(Class);
 	NSAssert3(object != nil, @"%@: Attempted to set %@ for %@",self,object,key);
 	NSAssert3(key != nil, @"%@: Attempted to set %@ for %@",self,object,key);
 
-	originalSetObjectForKey(self, @selector(setObject:forKey:),object,key);
+	method_invoke(self, class_getInstanceMethod([AIDictionaryDebug class], @selector(setObject:forKey:)), object, key);
 }
 
 - (void)removeObjectForKey:(id)key
@@ -81,42 +65,7 @@ extern void _objc_flush_caches(Class);
 	if (!key) [AIDictionaryDebug breakpoint];
 	NSAssert1(key != nil, @"%@: Attempted to remove a nil key",self);
 
-	originalRemoveObjectForKey(self, @selector(removeObjectForKey:),key);
-}
-
-+ (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass
-{
-	IMP original = [oldClass instanceMethodForSelector:sel];
-
-	if (!original) {
-		NSLog(@"Cannot find implementation for '%@' in %@",
-		      NSStringFromSelector(sel),
-		      NSStringFromClass(oldClass));
-		return NULL;
-	}
-
-	Method method = class_getInstanceMethod(oldClass, sel); 
-
-	// original to change
-	if (!method) {
-		NSLog(@"Cannot find method for '%@' in %@",
-		      NSStringFromSelector(sel),
-		      NSStringFromClass(oldClass));
-		return NULL;
-	}
-
-	IMP new = class_getMethodImplementation(newClass, sel); // new method to use
-	if (!new) {
-		NSLog(@"Cannot find implementation for '%@' in %@",
-		      NSStringFromSelector(sel),
-		      NSStringFromClass(newClass));
-		return NULL;
-	}
-
-	method_setImplementation(method, new);
-	_objc_flush_caches(oldClass);
-
-	return original;
+	method_invoke(self, class_getInstanceMethod([AIDictionaryDebug class], @selector(removeObjectForKey:)), key);
 }
 
 #endif
