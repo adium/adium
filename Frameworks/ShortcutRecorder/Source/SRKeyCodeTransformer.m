@@ -12,8 +12,6 @@
 //      Jamie Kirkpatrick
 
 #import "SRKeyCodeTransformer.h"
-#import <Carbon/Carbon.h>
-#import <CoreServices/CoreServices.h>
 #import "SRCommon.h"
 #import "PTKeyCodeTranslator.h"
 

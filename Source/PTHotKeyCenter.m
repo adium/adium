@@ -15,9 +15,7 @@
 #import "PTNSObjectAdditions.h"
 #endif
 
-@interface PTHotKeyCenter (Private)
-- (BOOL)_hasCarbonEventSupport;
-
+@interface PTHotKeyCenter ()
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey;
 - (EventHotKeyRef)_carbonHotKeyForHotKey: (PTHotKey*)hotKey;
 
@@ -146,11 +144,6 @@ static PTHotKeyCenter* _sharedHotKeyCenter = nil;
 
 #pragma mark -
 
-- (BOOL)_hasCarbonEventSupport
-{
-	return floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_1;
-}
-
 - (PTHotKey*)_hotKeyForCarbonHotKey: (EventHotKeyRef)carbonHotKey
 {
 	NSValue* key = [NSValue valueWithPointer: carbonHotKey];
@@ -172,9 +165,6 @@ static PTHotKeyCenter* _sharedHotKeyCenter = nil;
 
 - (void)_updateEventHandler
 {
-	if( [self _hasCarbonEventSupport] == NO ) //Don't use event handler on these systems
-		return;
-
 	if( [mHotKeys count] && mEventHandlerInstalled == NO )
 	{
 		EventTypeSpec eventSpec[2] = {
@@ -199,47 +189,12 @@ static PTHotKeyCenter* _sharedHotKeyCenter = nil;
 {
 }
 
-- (void)sendEvent: (NSEvent*)event
-{
-	long subType;
-	EventHotKeyRef carbonHotKey;
-	
-	//We only have to intercept sendEvent to do hot keys on old system versions
-	if( [self _hasCarbonEventSupport] )
-		return;
-	
-	if( [event type] == NSSystemDefined )
-	{
-		subType = [event subtype];
-		
-		if( subType == 6 ) //6 is hot key down
-		{
-			carbonHotKey= (EventHotKeyRef)[event data1]; //data1 is our hot key ref
-			if( carbonHotKey != nil )
-			{
-				PTHotKey* hotKey = [self _hotKeyForCarbonHotKey: carbonHotKey];
-				[self _hotKeyDown: hotKey];
-			}
-		}
-		else if( subType == 9 ) //9 is hot key up
-		{
-			carbonHotKey= (EventHotKeyRef)[event data1];
-			if( carbonHotKey != nil )
-			{
-				PTHotKey* hotKey = [self _hotKeyForCarbonHotKey: carbonHotKey];
-				[self _hotKeyUp: hotKey];
-			}
-		}
-	}
-}
-
 - (OSStatus)sendCarbonEvent: (EventRef)event
 {
 	OSStatus err;
 	EventHotKeyID hotKeyID;
 	PTHotKey* hotKey;
 
-	NSAssert( [self _hasCarbonEventSupport], @"" );
 	NSAssert( GetEventClass( event ) == kEventClassKeyboard, @"Unknown event class" );
 
 	err = GetEventParameter(	event,

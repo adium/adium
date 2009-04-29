@@ -10,8 +10,6 @@
 //      Finlay Dobbie
 //      Vincent Pottier
 
-#import <AppKit/AppKit.h>
-
 @class PTHotKey;
 
 @interface PTHotKeyCenter : NSObject
@@ -27,7 +25,5 @@
 
 - (NSArray*)allHotKeys;
 - (PTHotKey*)hotKeyWithIdentifier: (id)ident;
-
-- (void)sendEvent: (NSEvent*)event;
 
 @end
