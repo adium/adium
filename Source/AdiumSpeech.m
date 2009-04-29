@@ -188,7 +188,12 @@
 { 
 	if (!_defaultPitch) { //Cache this, since the calculation may be slow
 		NSNumber *pitchNumber = [[self defaultVoice] objectForProperty:NSSpeechPitchBaseProperty error:NULL];
-		_defaultPitch = pitchNumber ? [pitchNumber floatValue] : 0.0f; //XXX what to default to?
+		if (pitchNumber) {
+			_defaultPitch = [pitchNumber floatValue];
+		} else {
+			NSLog(@"Couldn't get a pitch from the default voice. How strange.");
+			_defaultPitch = 0.0f;
+		}
 	}
 	return _defaultPitch;
 }
