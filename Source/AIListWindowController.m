@@ -1545,8 +1545,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	}
     
     // Filter bar resizing
-    // Create a new variable here, because we want the bar's view to be based, visually, on the location of the contact list, not its enclosing super view.
-    NSRect barTargetFrame = contactListView.frame;
+    NSRect barTargetFrame = contactListView.enclosingScrollView.frame;
     if (filterBarIsVisible) {
         barTargetFrame.size.height = NSHeight(barTargetFrame) + NSHeight(filterBarView.bounds);
     } else {
