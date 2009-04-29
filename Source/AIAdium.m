@@ -52,6 +52,7 @@
 #import <Sparkle/Sparkle.h>
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
 #import <Adium/AdiumAuthorization.h>
+#import <sys/sysctl.h>
 
 #ifdef DEBUG_BUILD
 #import "ESDebugController.h"
