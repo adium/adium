@@ -17,7 +17,6 @@
 
 #ifndef BSD_LICENSE_ONLY
 
-#import <Carbon/Carbon.h>
 #import "AIColorAdditions.h"
 #import "AIScannerAdditions.h"
 #import "AIFunctions.h"
