@@ -162,10 +162,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
  */
 - (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume
 {
-	NSEnumerator 		*enumerator = [soundCacheDict objectEnumerator];
-	NSSound *sound;
-
-	while((sound = [enumerator nextObject])){
+	for (NSSound *sound in [soundCacheDict objectEnumerator]) {
 		[sound setVolume:inVolume];
 	}
 }
