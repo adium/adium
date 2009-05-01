@@ -1373,6 +1373,10 @@
 				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"@"
 																						 linkDestination:linkAddress]];
 			} else {
+				if(commaNeeded) {
+					[mutableMessage appendString:@", " withAttributes:nil];
+				}
+				
 				// Our own message. Display a destroy link.
 				linkAddress = [self addressForLinkType:AITwitterLinkDestroyStatus
 												userID:userID

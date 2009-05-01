@@ -140,17 +140,15 @@
 		// Make the text view have focus
 		[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
 		
-		if([inAction isEqualToString:@"reply"]) {
-			[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
-			[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
-			[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
-			
-			AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
-			
-			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
-			
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
-		}
+		[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
+		[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
+		[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
+		
+		AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
+		
+		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
 	} else if ([inAction isEqualToString:@"favorite"]) {
 		[account toggleFavoriteTweet:inTweet];
 	} else if ([inAction isEqualToString:@"destroy"] && exactMatchForInternalID) {
@@ -179,7 +177,6 @@
 	AIMessageEntryTextView *textView = [notification object];
 
 	AIChat *chat = textView.chat;
-	AIAccount *account = chat.account;
 	
 	if(![chat valueForProperty:@"TweetInReplyToStatusID"] || ![chat valueForProperty:@"TweetInReplyToUserID"]) {
 		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
@@ -189,20 +186,9 @@
 	NSString *contents = [textView string];
 	BOOL keepTweetValues = YES;
 	
-	if([contents hasPrefix:@"@"]) {
-		NSString *replyUsername = [contents substringFromIndex:1];
-		NSRange usernameRange = [replyUsername rangeOfCharacterFromSet:[account.service.allowedCharacters invertedSet]];
-		
-		if(usernameRange.location == NSNotFound) {
-			usernameRange = NSMakeRange([replyUsername length], 0);
-		}
-		
-		replyUsername = [replyUsername substringToIndex:usernameRange.location];
-		
-		if (![replyUsername isEqualToString:[chat valueForProperty:@"TweetInReplyToUserID"]]) {
-			keepTweetValues = NO;
-		}
-	} else {
+	NSRange usernameRange = [contents rangeOfString:[NSString stringWithFormat:@"@%@", [chat valueForProperty:@"TweetInReplyToUserID"]]];
+	
+	if (usernameRange.location == NSNotFound) {
 		keepTweetValues = NO;
 	}
 	
