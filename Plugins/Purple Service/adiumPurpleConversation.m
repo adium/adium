@@ -77,9 +77,10 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 			  messageString);
 
 		NSDate				*date = [NSDate dateWithTimeIntervalSince1970:mtime];
+		PurpleAccount		*purpleAccount = purple_conversation_get_account(conv);
 		
 		if ((flags & PURPLE_MESSAGE_SYSTEM) == PURPLE_MESSAGE_SYSTEM || !who) {
-			CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
+			CBPurpleAccount *account = accountLookup(purpleAccount);
 			
 			[account receivedEventForChat:groupChatLookupFromConv(conv)
 								  message:messageString
@@ -88,10 +89,11 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 		} else {
 			NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
 			NSNumber			*purpleMessageFlags = [NSNumber numberWithInt:flags];
+			NSString			*normalizedUID = get_real_name_for_account_conv_buddy(purpleAccount, conv, (char *)who);
 			
-			if (who && strlen(who)) {
+			if (normalizedUID.length) {
 				messageDict = [NSDictionary dictionaryWithObjectsAndKeys:attributedMessage, @"AttributedMessage",
-							   [NSString stringWithUTF8String:who], @"Source",
+							   normalizedUID, @"Source",
 							   purpleMessageFlags, @"PurpleMessageFlags",
 							   date, @"Date",nil];
 				
@@ -272,6 +274,8 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 
 NSString *get_real_name_for_account_conv_buddy(PurpleAccount *account, PurpleConversation *conv, char *who)
 {
+	g_return_val_if_fail(who != NULL && strlen(who), nil);
+	
 	PurplePlugin *prpl = purple_find_prpl(purple_account_get_protocol_id(account));
 	PurplePluginProtocolInfo  *prpl_info = (prpl ? PURPLE_PLUGIN_PROTOCOL_INFO(prpl) : NULL);
 	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
