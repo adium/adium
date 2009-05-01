@@ -14,7 +14,7 @@ echo "Using Pidgin source from: $PIDGIN_SOURCE"
 
 # Read in our parameters
 USER_REGENERATE=FALSE
-ARCHES=(ppc i386)
+ARCHES=(ppc i386 x86_64)
 while [ $# -gt 0 ] ; do
 	case $1 in
 		--regenerate)
@@ -27,6 +27,10 @@ while [ $# -gt 0 ] ; do
 			;;
 		--i386)
 			ARCHES=(i386)
+			shift 1
+			;;
+		--x86-64)
+			ARCHES=(x86-64)
 			shift 1
 			;;
 		*)
@@ -79,6 +83,13 @@ for ARCH in ${ARCHES[@]} ; do
 			export ACLOCAL_FLAGS="-I $TARGET_DIR_I386/share/aclocal"
 			export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig"
 			TARGET_DIR=$TARGET_DIR_I386
+			;;
+		i386)
+			export HOST=x86_64-apple-darwin9
+			export PATH="$PATH_X86_64"
+			export ACLOCAL_FLAGS="-I $TARGET_DIR_X86_64/share/aclocal"
+			export PKG_CONFIG_PATH="$TARGET_DIR_X86_64/lib/pkgconfig"
+			TARGET_DIR=$TARGET_DIR_X86_64
 			;;
 	esac
 	
