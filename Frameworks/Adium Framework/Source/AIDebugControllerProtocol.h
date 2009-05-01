@@ -9,9 +9,7 @@
 #import <Adium/AIControllerProtocol.h>
 
 @protocol AIDebugController <AIController>
-#ifdef DEBUG_BUILD
 	- (void)addMessage:(NSString *)actualMessage;
 @property (nonatomic, readonly) NSArray *debugLogArray;
 	- (void)clearDebugLogArray;
-#endif
 @end

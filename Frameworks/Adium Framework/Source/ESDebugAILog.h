@@ -14,16 +14,14 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#ifdef DEBUG_BUILD
-/* For a debug build, declare the AILog() function */
-	void AILogWithPrefix (const char *signature, NSString *format, ...) __attribute__((format(__NSString__, 2, 3)));
-	#define AILogWithSignature(fmt, args...) AILogWithPrefix(__PRETTY_FUNCTION__, fmt, ##args);
-	void AILog (NSString *format, ...) __attribute__((format(__NSString__, 1, 2)));
-	void AILogBacktrace();
-#else
-/* For a non-debug build, define it to be a comment so there is no overhead in using it liberally */
-	#define AILog(fmt, ...) /**/
-	#define AILogWithSignature(fmt, ...) /**/
-	#define AILogWithPrefix(sig, fmt, ...) /**/
-	#define AILogBacktrace() /**/
-#endif
+extern NSString *const AIDebugLoggingEnabledNotification;
+extern BOOL AIDebugLoggingEnabled;
+
+#define AILog(fmt, args...) do { if (__builtin_expect(AIDebugLoggingEnabled, 0)) AILog_impl(fmt, ##args); } while(0)
+#define AILogWithPrefix(sig, fmt, args...) do { if(__builtin_expect(AIDebugLoggingEnabled, 0)) AILogWithPrefix_impl(sig, fmt, ##args); } while(0)
+#define AILogBacktrace() do { if(__builtin_expect(AIDebugLoggingEnabled, 0)) AILogBacktrace_impl(); } while(0)
+#define AILogWithSignature(fmt, args...) AILogWithPrefix(__PRETTY_FUNCTION__, fmt, ##args);
+void AIEnableDebugLogging();
+void AILogWithPrefix_impl (const char *signature, NSString *format, ...) __attribute__((format(__NSString__, 2, 3)));
+void AILog_impl (NSString *format, ...) __attribute__((format(__NSString__, 1, 2)));
+void AILogBacktrace_impl();

@@ -1328,7 +1328,6 @@
 		// If we know this connection is waiting for the network to return, don't bother continuing to reconnect.
 		// Let it try for 2 times and then cancel and wait for the network to return.
 		[self cancelAutoReconnect];
-
 		AILog(@"%@: Disconnected (\"%@\"): Waiting until network returns.", self, lastDisconnectionError);
 
 	} else if ([self shouldBeOnline] && lastDisconnectionError) {

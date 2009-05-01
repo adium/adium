@@ -29,7 +29,6 @@
 	NSString						*filter;
 }
 
-#ifdef DEBUG_BUILD
 + (id)showDebugWindow;
 + (void)closeDebugWindow;
 + (BOOL)debugWindowIsOpen;
@@ -38,7 +37,5 @@
 - (IBAction)clearLog:(id)sender;
 
 - (void)setFilter:(NSString *)inFilter;
-#endif
-
 
 @end
