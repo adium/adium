@@ -53,10 +53,7 @@
 #import "ESAddressBookIntegrationAdvancedPreferences.h"
 #import <Adium/AdiumAuthorization.h>
 #import <sys/sysctl.h>
-
-#ifdef DEBUG_BUILD
 #import "ESDebugController.h"
-#endif
 
 #define ADIUM_TRAC_PAGE						@"http://trac.adiumx.com/"
 #define ADIUM_REPORT_BUG_PAGE				@"http://trac.adiumx.com/wiki/ReportingBugs"
@@ -90,11 +87,7 @@ static NSString	*prefsCategory;
 
 //Core Controllers -----------------------------------------------------------------------------------------------------
 #pragma mark Core Controllers
-@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController;
-
-#ifdef DEBUG_BUILD
-@synthesize debugController;
-#endif
+@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController, debugController;
 
 //Loaders --------------------------------------------------------------------------------------------------------
 #pragma mark Loaders
@@ -167,20 +160,16 @@ static NSString	*prefsCategory;
 //Called by the login controller when a user has been selected, continue logging in
 - (void)completeLogin
 {
-	NSAutoreleasePool *pool;
-
-	pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	/* Init the controllers.
 	 * Menu and interface controllers are created by MainMenu.nib when it loads.
 	 */
 	preferenceController = [[AIPreferenceController alloc] init];
 	toolbarController = [[AIToolbarController alloc] init];
-
-#ifdef DEBUG_BUILD
 	debugController = [[ESDebugController alloc] init];
-#endif
-
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"AIEnableDebugLogging"])
+		AIEnableDebugLogging();
 	contactAlertsController = [[ESContactAlertsController alloc] init];
 	soundController = [[AISoundController alloc] init];
 	emoticonController = [[AIEmoticonController alloc] init];
@@ -197,9 +186,7 @@ static NSString	*prefsCategory;
 
 	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
 	[preferenceController controllerDidLoad];
-#ifdef DEBUG_BUILD
 	[debugController controllerDidLoad];
-#endif
 	[pool release];
 
 	//Plugins and components should always init last, since they rely on everything else.
@@ -372,9 +359,7 @@ static NSString	*prefsCategory;
 	[soundController controllerWillClose];
 	[menuController controllerWillClose];
 	[applescriptabilityController controllerWillClose];
-#ifdef DEBUG_BUILD
 	[debugController controllerWillClose];
-#endif
 	[toolbarController controllerWillClose];
 	
 	[AISharedWriterQueue waitUntilAllOperationsAreFinished];
@@ -390,10 +375,7 @@ static NSString	*prefsCategory;
 											 movingToTrash:NO];
 }
 
-- (BOOL)isQuitting
-{
-	return isQuitting;
-}
+@synthesize isQuitting;
 
 //Menu Item Hooks ------------------------------------------------------------------------------------------------------
 #pragma mark Menu Item Hooks

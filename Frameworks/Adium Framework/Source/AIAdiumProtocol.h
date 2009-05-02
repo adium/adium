@@ -42,11 +42,7 @@ typedef enum {
 @property (readonly, nonatomic) NSObject<AIToolbarController> *toolbarController;
 @property (readonly, nonatomic) NSObject<AIContactAlertsController> *contactAlertsController;
 @property (readonly, nonatomic) NSObject<AIFileTransferController> *fileTransferController;
-
-#ifdef DEBUG_BUILD
 @property (readonly, nonatomic) NSObject<AIDebugController> *debugController;
-#endif
-
 @property (readonly, nonatomic) NSObject<AIApplescriptabilityController> *applescriptabilityController;
 
 @property (readonly, nonatomic) AICoreComponentLoader *componentLoader;

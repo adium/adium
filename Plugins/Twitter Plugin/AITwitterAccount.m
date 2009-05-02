@@ -1331,7 +1331,7 @@
 				[mutableMessage setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:linkAddress, NSLinkAttributeName, nil]
 										range:NSMakeRange(0, replyUserID.length + 1)];
 			} else {
-				// This probably shouldn't happen, but in case it does, we're set as in_reply_to_status_id a non-reply. link it at the ned.
+				// This happens for mentions which are in_reply_to_status_id but the @target isn't the first part of the message.
 				
 				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
 																						 linkDestination:linkAddress]];
@@ -1373,6 +1373,10 @@
 				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"@"
 																						 linkDestination:linkAddress]];
 			} else {
+				if(commaNeeded) {
+					[mutableMessage appendString:@", " withAttributes:nil];
+				}
+				
 				// Our own message. Display a destroy link.
 				linkAddress = [self addressForLinkType:AITwitterLinkDestroyStatus
 												userID:userID

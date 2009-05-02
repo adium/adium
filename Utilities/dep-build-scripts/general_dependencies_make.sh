@@ -79,7 +79,8 @@ for ARCH in ppc i386; do
 	export PKG_CONFIG="$LOCAL_BIN_DIR/pkg-config"
 	export MSGFMT="$LOCAL_BIN_DIR/msgfmt"
 	
-	export CFLAGS="$LOCAL_FLAGS $BASE_CFLAGS -arch $ARCH"
+	#Defining USE_LIBICONV_GNU here is a hack to avoid what *appears* to be a mistaken #error in gconvert.c
+	export CFLAGS="$LOCAL_FLAGS $BASE_CFLAGS -arch $ARCH -DUSE_LIBICONV_GNU"
 	export CPPFLAGS="$CFLAGS"
 	export LDFLAGS="$LOCAL_FLAGS $BASE_LDFLAGS -arch $ARCH"
 	
