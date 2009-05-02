@@ -23,7 +23,7 @@ pushd "$SOURCEDIR/$MEANWHILE" > /dev/null 2>&1
     done
 popd > /dev/null 2>&1
 
-for ARCH in ppc i386 x86_64 ; do
+for ARCH in ppc i386 ; do
 	echo "Building Meanwhile for $ARCH"
 
     export CFLAGS="$BASE_CFLAGS -arch $ARCH"
@@ -34,11 +34,8 @@ for ARCH in ppc i386 x86_64 ; do
 			 export PATH="$PATH_PPC"
 			 export PKG_CONFIG_PATH="$TARGET_DIR_PPC/lib/pkgconfig";;
 		i386) TARGET_DIR="$TARGET_DIR_I386"
-			 export PATH="$PATH_I386"
-			 export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig";;
-		x86_64) TARGET_DIR="$TARGET_DIR_X86_64"
-			 export PATH="$PATH_X86_64"
-			 export PKG_CONFIG_PATH="$TARGET_DIR_X86_64/lib/pkgconfig";;
+			  export PATH="$PATH_I386"
+			  export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig";;
 	esac
 
     mkdir meanwhile-$ARCH || true
@@ -71,7 +68,7 @@ pushd "$SOURCEDIR/$MEANWHILE" > /dev/null 2>&1
 popd > /dev/null 2>&1
 
 # Gadu-gadu
-for ARCH in ppc i386 x86_64 ; do
+for ARCH in ppc i386 ; do
 	echo "Building Gadu-Gadu for $ARCH"
 
 	export CFLAGS="$BASE_CFLAGS -arch $ARCH"
@@ -87,10 +84,6 @@ for ARCH in ppc i386 x86_64 ; do
   		      TARGET_DIR="$TARGET_DIR_I386"
 			  export PATH="$PATH_I386"
 			  export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig";;
-		x86_64) HOST=x86_64-apple-darwin9
-			 TARGET_DIR="$TARGET_DIR_X86_64"
-			 export PATH="$PATH_X86_64"
-			 export PKG_CONFIG_PATH="$TARGET_DIR_X86_64/lib/pkgconfig";;
 	esac
 	
 	mkdir gadu-$ARCH || true
@@ -109,7 +102,7 @@ done
 
 # intltool so pidgin will configure
 # need a native intltool in both ppc and i386
-for ARCH in ppc i386 x86_64 ; do
+for ARCH in ppc i386 ; do
 	echo "Building intltool for $ARCH"
 
     mkdir intltool-$ARCH || true
@@ -118,7 +111,6 @@ for ARCH in ppc i386 x86_64 ; do
     case $ARCH in
         ppc) TARGET_DIR="$TARGET_DIR_PPC" ;;
         i386) TARGET_DIR="$TARGET_DIR_I386" ;;
-        x86_64) TARGET_DIR="$TARGET_DIR_X86_64" ;;
     esac
 
 	echo '  Configuring...'   

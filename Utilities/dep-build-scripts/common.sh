@@ -45,13 +45,11 @@ fi
 export CC=/usr/bin/gcc-4.2
 TARGET_DIR_PPC="$BUILDDIR/root-ppc"
 TARGET_DIR_I386="$BUILDDIR/root-i386"
-TARGET_DIR_X86_64="$BUILDDIR/root-x86_64"
 TARGET_DIR_ARMV6="$BUILDDIR/root-armv6"
 
 TARGET_DIR_BASE="$BUILDDIR/root"
 export PATH_PPC="$TARGET_DIR_PPC/bin:$PATH"
 export PATH_I386="$TARGET_DIR_I386/bin:$PATH"
-export PATH_X86_64="$TARGET_DIR_X86_64/root-x86_64:$PATH"
 export PATH_ARMV6="$TARGET_DIR_ARMV6/bin:$PATH"
 
 if [ "$1" = "-iphone" ]; then
