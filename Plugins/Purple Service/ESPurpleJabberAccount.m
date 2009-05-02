@@ -476,34 +476,6 @@
 }
 
 #pragma mark Status Messages
-- (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)b
-{
-	NSAttributedString  *statusMessage = nil;
-
-	if (purple_account_is_connected(account)) {		
-		char	*normalized = g_strdup(purple_normalize(purple_buddy_get_account(b), purple_buddy_get_name(b)));
-		JabberBuddy	*jb;
-		
-		if ((jb = jabber_buddy_find(purple_account_get_connection(account)->proto_data, normalized, FALSE))) {
-			NSString	*statusMessageString = nil;
-			const char	*msg = jabber_buddy_get_status_msg(jb);
-			
-			if (msg) {
-				//Get the custom jabber status message if one is set
-				statusMessageString = [NSString stringWithUTF8String:msg];
-			}
-			
-			if (statusMessageString && [statusMessageString length]) {
-				statusMessage = [AIHTMLDecoder decodeHTML:statusMessageString];
-			}
-		}
-		
-		g_free(normalized);
-	}
-	
-	return statusMessage;
-}
-
 - (NSString *)statusNameForPurpleBuddy:(PurpleBuddy *)buddy
 {
 	NSString		*statusName = nil;
