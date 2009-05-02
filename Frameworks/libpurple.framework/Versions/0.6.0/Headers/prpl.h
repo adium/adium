@@ -661,6 +661,20 @@ void purple_prpl_got_account_status(PurpleAccount *account,
 								  const char *status_id, ...) G_GNUC_NULL_TERMINATED;
 
 /**
+ * Notifies Purple that our account's actions have changed. This is only
+ * called after the initial connection. Emits the account-actions-changed
+ * signal.
+ *
+ * This is meant to be called from protocol plugins.
+ *
+ * @param account   The account.
+ *
+ * @see account-actions-changed
+ * @since 2.6.0
+ */
+void purple_prpl_got_account_actions(PurpleAccount *account);
+
+/**
  * Notifies Purple that a buddy's idle state and time have changed.
  *
  * This is meant to be called from protocol plugins.

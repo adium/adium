@@ -82,7 +82,8 @@ const gchar *purple_theme_loader_get_type_string(PurpleThemeLoader *self);
 /**
  * Creates a new PurpleTheme
  *
- * @param dir The directory containing the theme
+ * @param loader The theme loader
+ * @param dir    The directory containing the theme
  *
  * @returns A PurpleTheme containing the information from the directory
  */
