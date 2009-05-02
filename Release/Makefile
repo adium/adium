@@ -191,15 +191,15 @@ endif
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
-nightly: version clean compile createfolder prepare-release-bundle tarballapp
+nightly: version clean compile createfolder prepare-release-bundle diskimage
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest.info
 	echo $(REVISION) >> $(BUILD_DIR)/latest.info
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest.info
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
-	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest.info
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/latest.info
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/$(RELEASE_NAME).dmg.md5
+	ls -l $(BUILD_DIR)/$(RELEASE_NAME).dmg | awk '{print $$5}' >>$(BUILD_DIR)/latest.info
 	echo $(VERSION) >> $(BUILD_DIR)/latest.info
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest.info
+	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).dmg ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest.info
 endif
 
 tarballapp:
