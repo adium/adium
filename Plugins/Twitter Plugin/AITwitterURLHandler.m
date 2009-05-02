@@ -30,6 +30,7 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
+#import <Adium/AIContentControllerProtocol.h>
 
 @implementation AITwitterURLHandler
 
@@ -128,7 +129,14 @@
 		}
 		
 		if (![textView.string hasPrefix:prefix]) {
-			NSMutableAttributedString *newString = [[[NSAttributedString stringWithString:prefix] mutableCopy] autorelease];
+			NSMutableAttributedString *newString;
+			if (textView.attributedString.length > 0){
+				newString = [[[textView.attributedString attributedSubstringFromRange:NSMakeRange(0, 1)] mutableCopy] autorelease];
+				[newString replaceCharactersInRange:NSMakeRange(0, 1) withString:prefix];
+			}
+			else
+				newString = [[[NSMutableAttributedString alloc] initWithString:prefix attributes:[adium.contentController defaultFormattingAttributes]] autorelease];
+			
 			[newString appendAttributedString:textView.attributedString];
 			[textView setAttributedString:newString];
 			
