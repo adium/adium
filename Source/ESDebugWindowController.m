@@ -22,7 +22,6 @@
 #define	DEBUG_WINDOW_NIB		@"DebugWindow"
 
 @implementation ESDebugWindowController
-#ifdef DEBUG_BUILD
 
 static ESDebugWindowController *sharedDebugWindowInstance = nil;
 
@@ -176,7 +175,5 @@ static ESDebugWindowController *sharedDebugWindowInstance = nil;
 		[self performFilter];
 	}
 }
-
-#endif
 
 @end
