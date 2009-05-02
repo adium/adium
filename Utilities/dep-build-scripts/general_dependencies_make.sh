@@ -11,13 +11,12 @@ echo "Beginning build at" `date` > $LOG_FILE 2>&1
 # We only need a native pkg-config, it's not a runtime dependency,
 # but we need a native one in both directories
 #unset CFLAGS
-for ARCH in ppc i386 x86_64 ; do
+for ARCH in ppc i386 ; do
 	echo "Building pkg-config for $ARCH"
 	
 	case $ARCH in
 		ppc) TARGET_DIR=$TARGET_DIR_PPC;;
 		i386) TARGET_DIR=$TARGET_DIR_I386;;
-		x86_64) TARGET_DIR=$TARGET_DIR_X86_64;;
 	esac
 	
 	mkdir pkg-config-`arch` >/dev/null 2>&1 || true
@@ -32,7 +31,7 @@ done
 #gettext
 # caveat - some of the build files in gettext appear to not respect CFLAGS
 # and are compiling to `arch` instead of $ARCH. Lame.
-for ARCH in ppc i386 x86_64 ; do
+for ARCH in ppc i386 ; do
 	echo "Building gettext for $ARCH"
 	export CFLAGS="$BASE_CFLAGS -arch $ARCH"
 	export CXXFLAGS="$CFLAGS"
@@ -42,9 +41,7 @@ for ARCH in ppc i386 x86_64 ; do
 		ppc) HOST=powerpc-apple-darwin9
 			 export PATH=$PATH_PPC;;
 		i386) HOST=i686-apple-darwin9
-			 export PATH=$PATH_I386;;
-		x86_64) HOST=x86_64-apple-darwin9
-			 export PATH=$PATH_X86_64;;
+			  export PATH=$PATH_I386;;
 	esac
 	
 	mkdir gettext-$ARCH >/dev/null 2>&1 || true
@@ -72,24 +69,24 @@ done
 # done
 # popd > /dev/null 2>&1
 
-for ARCH in ppc i386 x86_64; do
+for ARCH in ppc i386; do
 	echo "Building glib for $ARCH"
 	LOCAL_BIN_DIR="$TARGET_DIR_BASE-$ARCH/bin"
 	LOCAL_LIB_DIR="$TARGET_DIR_BASE-$ARCH/lib"
 	LOCAL_INCLUDE_DIR="$TARGET_DIR_BASE-$ARCH/include"
-	LOCAL_FLAGS="-L$LOCAL_LIB_DIR -I$LOCAL_INCLUDE_DIR -lintl"
+	LOCAL_FLAGS="-L$LOCAL_LIB_DIR -I$LOCAL_INCLUDE_DIR -lintl -liconv"
 	
 	export PKG_CONFIG="$LOCAL_BIN_DIR/pkg-config"
 	export MSGFMT="$LOCAL_BIN_DIR/msgfmt"
 	
-	export CFLAGS="$LOCAL_FLAGS $BASE_CFLAGS -arch $ARCH"
+	#Defining USE_LIBICONV_GNU here is a hack to avoid what *appears* to be a mistaken #error in gconvert.c
+	export CFLAGS="$LOCAL_FLAGS $BASE_CFLAGS -arch $ARCH -DUSE_LIBICONV_GNU"
 	export CPPFLAGS="$CFLAGS"
 	export LDFLAGS="$LOCAL_FLAGS $BASE_LDFLAGS -arch $ARCH"
 	
 	case $ARCH in
 		ppc) HOST=powerpc-apple-darwin9;;
 		i386) HOST=i686-apple-darwin9;;
-		x86_64) HOST=x86_64-apple-darwin9;;
 	esac
 	
 	mkdir glib-$ARCH >/dev/null 2>&1 || true
@@ -98,7 +95,7 @@ for ARCH in ppc i386 x86_64; do
 	echo '  Configuring...'
 	"$SOURCEDIR/$GLIB/configure" \
 	   --prefix=$TARGET_DIR \
-	   --with-libiconv=native \
+	   --with-libiconv \
 	   --disable-static --enable-shared \
 	   --host=$HOST >> $LOG_FILE 2>&1
 	echo '  make && make install'

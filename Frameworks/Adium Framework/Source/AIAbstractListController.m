@@ -572,7 +572,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	
 	//Redraw the modified object (or the whole list, if object is nil)
 	if (object) {
-		for (AIProxyListObject *proxyObject in object.proxyObjects) {
+		for (AIProxyListObject *proxyObject in [[object.proxyObjects copy] autorelease]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	} else {
@@ -583,7 +583,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	 * For example, when a contact changes, redraw the metacontact which represents it if appropriate.
 	 */
 	if (object && [object isKindOfClass:[AIListContact class]] && ([(AIListContact *)object parentContact] != object)) {
-		for (AIProxyListObject *proxyObject in [(AIListContact *)object parentContact].proxyObjects) {
+		for (AIProxyListObject *proxyObject in [[[(AIListContact *)object parentContact].proxyObjects copy] autorelease]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	}
