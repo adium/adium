@@ -182,7 +182,7 @@ diskimage:
 	cp $(ART_DIR)/dmgBackground.png $(ADIUM_DIR)/.background
 
 	./ensureCustomIconsExtracted $(ART_DIR)
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium X $(VERSION)" dmg_adium.scpt $(ART_DIR)
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg "$(ADIUM_DIR)" "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
 	
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
