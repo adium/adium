@@ -41,8 +41,6 @@ cp $TARGET_DIR_I386/lib/glib-2.0/include/glibconfig.h \
     $UNIVERSAL_DIR/include/libglib-2.0.0/glib-2.0/glibconfig-i386.h
 cp $TARGET_DIR_PPC/lib/glib-2.0/include/glibconfig.h \
     $UNIVERSAL_DIR/include/libglib-2.0.0/glib-2.0/glibconfig-ppc.h
-cp $TARGET_DIR_X86_64/lib/glib-2.0/include/glibconfig.h \
-	$UNIVERSAL_DIR/include/libglib-2.0.0/glib-2.0/glibconfig-x86_64.h
 cp $SCRIPT_DIR/glibconfig.h $UNIVERSAL_DIR/include/libglib-2.0.0/glib-2.0
 
 mkdir libgmodule-2.0.0 || true
@@ -61,7 +59,6 @@ cp -R $TARGET_DIR_I386/include/libpurple $UNIVERSAL_DIR/include/$PURPLE_FOLDER
 # Another hack: we need libgadu.h
 cp $TARGET_DIR_I386/include/libgadu.h $UNIVERSAL_DIR/include/$PURPLE_FOLDER/libgadu-i386.h
 cp $TARGET_DIR_PPC/include/libgadu.h $UNIVERSAL_DIR/include/$PURPLE_FOLDER/libgadu-ppc.h
-cp $TARGET_DIR_X86_64/include/libgadu.h $UNIVERSAL_DIR/include/$PURPLE_FOLDER/libgadu-x86_64.h
 cp $SCRIPT_DIR/libgadu.h $UNIVERSAL_DIR/include/$PURPLE_FOLDER/
 cd ..
 
