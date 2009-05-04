@@ -355,13 +355,15 @@
 	if ([inContact isKindOfClass:[AIMetaContact class]]) {
 		//Search for a chat with any contact within this AIMetaContact
 		for (chat in openChats) {
-			if ([[(AIMetaContact *)inContact containedObjects] containsObjectIdenticalTo:chat.listObject]) break;
+			if (!chat.isGroupChat &&
+				[[(AIMetaContact *)inContact containedObjects] containsObjectIdenticalTo:chat.listObject]) break;
 		}
 
 	} else {
 		//Search for a chat with this AIListContact
 		for (chat in openChats) {
-			if (chat.listObject == inContact) break;
+			if (!chat.isGroupChat &&
+				chat.listObject == inContact) break;
 		}
 	}
 	
