@@ -3046,6 +3046,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #pragma mark Private
 - (void)setTypingFlagOfChat:(AIChat *)chat to:(NSNumber *)typingStateNumber
 {
+	NSAssert(!chat.isGroupChat, @"Chat cannot be a group chat for typing.");
+	
     AITypingState currentTypingState = [chat integerValueForProperty:KEY_TYPING];
 	AITypingState newTypingState = [typingStateNumber intValue];
 	
