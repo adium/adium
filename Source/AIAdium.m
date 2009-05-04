@@ -55,10 +55,10 @@
 #import <sys/sysctl.h>
 #import "ESDebugController.h"
 
-#define ADIUM_TRAC_PAGE						@"http://trac.adiumx.com/"
-#define ADIUM_REPORT_BUG_PAGE				@"http://trac.adiumx.com/wiki/ReportingBugs"
-#define ADIUM_FORUM_PAGE					AILocalizedString(@"http://forum.adiumx.com/","Adium forums page. Localized only if a translated version exists.")
-#define ADIUM_FEEDBACK_PAGE					@"mailto:feedback@adiumx.com"
+#define ADIUM_TRAC_PAGE						@"http://trac.adium.im/"
+#define ADIUM_REPORT_BUG_PAGE				@"http://trac.adium.im/wiki/ReportingBugs"
+#define ADIUM_FORUM_PAGE					AILocalizedString(@"http://forum.adium.im/","Adium forums page. Localized only if a translated version exists.")
+#define ADIUM_FEEDBACK_PAGE					@"mailto:feedback@adium.im"
 
 //Portable Adium prefs key
 #define PORTABLE_ADIUM_KEY					@"Preference Folder Location"
