@@ -4412,6 +4412,20 @@
 		63BB1CB80F9EDD2B00424B80 /* AISharedWriterQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISharedWriterQueue.h; path = "Frameworks/AIUtilities Framework/Source/AISharedWriterQueue.h"; sourceTree = "<group>"; };
 		63BB1CC80F9EDDB600424B80 /* AISharedWriterQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISharedWriterQueue.m; path = "Frameworks/AIUtilities Framework/Source/AISharedWriterQueue.m"; sourceTree = "<group>"; };
 		63C120740910A0DD00C9DB57 /* DefaultXtraReadme.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = DefaultXtraReadme.rtf; path = Resources/DefaultXtraReadme.rtf; sourceTree = "<group>"; };
+		63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		63C7E02B0FAF9BA800B310AC /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Debug.xcconfig"; sourceTree = "<group>"; };
+		63C7E02D0FAF9BA800B310AC /* Base.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Touch Framework Bundles to Executable Date.xcconfig"; sourceTree = "<group>"; };
+		63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Plist Macros.xcconfig"; sourceTree = "<group>"; };
+		63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Setup Build Directory.xcconfig"; sourceTree = "<group>"; };
+		63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AdiumApplescriptRunner.xcconfig; sourceTree = "<group>"; };
+		63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AIUtilities.framework.xcconfig; sourceTree = "<group>"; };
+		63C7E2040FAFAA4700B310AC /* Adium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Adium.xcconfig; sourceTree = "<group>"; };
+		63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Unit tests.xcconfig"; sourceTree = "<group>"; };
+		63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = AdiumLibpurple.xcconfig; sourceTree = "<group>"; };
+		63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Adium.framework.xcconfig; sourceTree = "<group>"; };
+		63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Spotlight Importer.xcconfig"; sourceTree = "<group>"; };
 		63DEB88D09BD3FEC0026DC69 /* AIXtraPreviewImageController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewImageController.h; path = Source/AIXtraPreviewImageController.h; sourceTree = "<group>"; };
 		63DEB88E09BD3FEC0026DC69 /* AIXtraPreviewImageController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIXtraPreviewImageController.m; path = Source/AIXtraPreviewImageController.m; sourceTree = "<group>"; };
 		63DF5B200E52D77F00010E99 /* AIContactList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactList.m; path = "Frameworks/Adium Framework/Source/AIContactList.m"; sourceTree = "<group>"; };
@@ -4940,6 +4954,7 @@
 				349C2F310867ACF7000BF883 /* ApplescriptRunner */,
 				312ED3D80C7E89CC00A6BDA9 /* Unit tests */,
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
+				63C7E0280FAF9B7D00B310AC /* xcconfigs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = CocAIMe2;
@@ -8030,6 +8045,27 @@
 			);
 			name = Resources;
 			path = "Frameworks/AIUtilities Framework/Resources";
+			sourceTree = "<group>";
+		};
+		63C7E0280FAF9B7D00B310AC /* xcconfigs */ = {
+			isa = PBXGroup;
+			children = (
+				63C7E02D0FAF9BA800B310AC /* Base.xcconfig */,
+				63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */,
+				63C7E02B0FAF9BA800B310AC /* Release.xcconfig */,
+				63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */,
+				63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */,
+				63C7E2040FAFAA4700B310AC /* Adium.xcconfig */,
+				63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */,
+				63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */,
+				63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */,
+				63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */,
+				63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */,
+				63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */,
+				63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */,
+				63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */,
+			);
+			path = xcconfigs;
 			sourceTree = "<group>";
 		};
 		661561620D84AEB0004B7946 /* Contact Hiding */ = {
@@ -12134,570 +12170,197 @@
 /* Begin XCBuildConfiguration section */
 		312ED3CD0C7E875C00A6BDA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(value)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
-				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_NAME = "Unit tests";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
 		312ED3CE0C7E875C00A6BDA9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(value)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
-				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_NAME = "Unit tests";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
 		312ED3CF0C7E875C00A6BDA9 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2050FAFAA4700B310AC /* Unit tests.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(value)",
-					"$(DEVELOPER_FRAMEWORKS_DIR_QUOTED)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = UnitTests/UnitTests_Prefix.pch;
-				INFOPLIST_FILE = "Plists/UnitTests-Info.plist";
-				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				PRODUCT_NAME = "Unit tests";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = "Release-Debug";
 		};
 		3485D68309EB416500232CC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					ENABLE_NLS,
-					HAVE_CDSA,
-					DEBUG_BUILD,
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib\"";
-				OTHER_LDFLAGS = (
-					"-header-pad_max_install_names",
-					"-lsasl2",
-				);
-				PRODUCT_NAME = AdiumLibpurple;
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		3485D68409EB416500232CC4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					ENABLE_NLS,
-					HAVE_CDSA,
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib\"";
-				OTHER_LDFLAGS = (
-					"-header-pad_max_install_names",
-					"-lsasl2",
-				);
-				PRODUCT_NAME = AdiumLibpurple;
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		3485D68509EB416500232CC4 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2060FAFAA4700B310AC /* AdiumLibpurple.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					ENABLE_NLS,
-					HAVE_CDSA,
-					DEBUG_BUILD,
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/libpurple.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libintl.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/AdiumLibpurple.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-				);
-				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SDKROOT)/usr/lib\"";
-				OTHER_LDFLAGS = (
-					"-header-pad_max_install_names",
-					"-lsasl2",
-				);
-				PRODUCT_NAME = AdiumLibpurple;
-				SKIP_INSTALL = YES;
 			};
 			name = "Release-Debug";
 		};
 		349C2F230867ACA9000BF883 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = Debug;
 		};
 		349C2F240867ACA9000BF883 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = Release;
 		};
 		349C2F250867ACA9000BF883 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E11A0FAFA35E00B310AC /* AdiumApplescriptRunner.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = AdiumApplescriptRunner;
 			};
 			name = "Release-Debug";
 		};
 		34F3B95B0BDF16130011AB34 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
 			name = Debug;
 		};
 		34F3B95C0BDF16130011AB34 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
 			name = Release;
 		};
 		34F3B95D0BDF16130011AB34 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1150FAFA35E00B310AC /* Touch Framework Bundles to Executable Date.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Touch Framework Bundles to Executable Date";
 			};
 			name = "Release-Debug";
 		};
 		6334FC030F9C11E0003C77A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
-				);
-				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist";
-				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
-				PRODUCT_NAME = AIUtilities;
 			};
 			name = Debug;
 		};
 		6334FC040F9C11E0003C77A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
-				);
-				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist";
-				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
-				PRODUCT_NAME = AIUtilities;
 			};
 			name = Release;
 		};
 		6334FC050F9C11E0003C77A9 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2030FAFAA4700B310AC /* AIUtilities.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
-				);
-				FRAMEWORK_VERSION = A;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Frameworks/AIUtilities Framework/AIUtilities.framework_Prefix.pch";
-				INFOPLIST_FILE = "Frameworks/AIUtilities Framework/Resources/AIUtilities_Framework.plist";
-				LD_DYLIB_INSTALL_NAME = "@rpath/AIUtilities.framework/Versions/A/AIUtilities";
-				PRODUCT_NAME = AIUtilities;
 			};
 			name = "Release-Debug";
 		};
 		633D4FA60F9D3077004F491E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
-				INSTALL_PATH = /Library/Spotlight;
-				LIBRARY_STYLE = bundle;
-				PRODUCT_NAME = AdiumSpotlightImporter;
-				WRAPPER_EXTENSION = mdimporter;
 			};
 			name = Debug;
 		};
 		633D4FA70F9D3077004F491E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
-				INSTALL_PATH = /Library/Spotlight;
-				LIBRARY_STYLE = bundle;
-				PRODUCT_NAME = AdiumSpotlightImporter;
-				WRAPPER_EXTENSION = mdimporter;
 			};
 			name = Release;
 		};
 		633D4FA80F9D3077004F491E /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2080FAFAA4700B310AC /* Spotlight Importer.xcconfig */;
 			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_PREFIX_HEADER = "";
-				INFOPLIST_FILE = "Other/Adium Spotlight Importer/Info.plist";
-				INSTALL_PATH = /Library/Spotlight;
-				LIBRARY_STYLE = bundle;
-				PRODUCT_NAME = AdiumSpotlightImporter;
-				WRAPPER_EXTENSION = mdimporter;
 			};
 			name = "Release-Debug";
 		};
 		DADE8E00085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_4)";
-				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
-				INFOPLIST_FILE = Plists/Adium_Framework.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				PRODUCT_NAME = Adium;
-				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
 		DADE8E01085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_4)";
-				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
-				INFOPLIST_FILE = Plists/Adium_Framework.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				PRODUCT_NAME = Adium;
-				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
 		DADE8E02085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2070FAFAA4700B310AC /* Adium.framework.xcconfig */;
 			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_VERSION = A;
-				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS_QUOTED_4)";
-				HEADER_SEARCH_PATHS_QUOTED_4 = "Plugins/Purple\\ Service/Include/";
-				INFOPLIST_FILE = Plists/Adium_Framework.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				PRODUCT_NAME = Adium;
-				SKIP_INSTALL = YES;
 			};
 			name = "Release-Debug";
 		};
 		DADE8E23085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/RBSplitView/Source\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/OTR.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
-				INFOPLIST_PREPROCESS = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_CFLAGS = "$(CFLAGS)";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Adium;
 			};
 			name = Debug;
 		};
 		DADE8E24085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/RBSplitView/Source\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/OTR.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
-				INFOPLIST_OUTPUT_FORMAT = binary;
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
-				INFOPLIST_PREPROCESS = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_CFLAGS = "$(CFLAGS)";
-				OTHER_LDFLAGS = "";
-				PLIST_FILE_OUTPUT_FORMAT = binary;
-				PRODUCT_NAME = Adium;
 			};
 			name = Release;
 		};
 		DADE8E25085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E2040FAFAA4700B310AC /* Adium.xcconfig */;
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Frameworks\"",
-				);
-				HEADER_SEARCH_PATHS = (
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
-					"$(HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4)",
-				);
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/Frameworks/RBSplitView/Source\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/Frameworks/OTR.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/Frameworks/libglib.framework/Headers\"";
-				HEADER_SEARCH_PATHS_QUOTED_FOR_TARGET_4 = "\"$(SDKROOT)/usr/include/libxml2\"";
-				INFOPLIST_FILE = Plists/Info.plist;
-				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
-				INFOPLIST_PREFIX_HEADER = "$(TARGET_BUILD_DIR)/include/PlistMacros.h";
-				INFOPLIST_PREPROCESS = YES;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
-				OTHER_CFLAGS = "$(CFLAGS)";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = Adium;
 			};
 			name = "Release-Debug";
 		};
 		DADE8E3B085507450062B664 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E02A0FAF9BA800B310AC /* Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(NATIVE_ARCH)";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_CPP_EXCEPTIONS = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_SYMBOL_SEPARATION = YES;
-				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = DEBUG_BUILD;
-				GCC_VERSION = 4.2;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-				STRIP_INSTALLED_PRODUCT = NO;
-				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
 		DADE8E3C085507450062B664 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E02B0FAF9BA800B310AC /* Release.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = used;
-				GCC_ENABLE_CPP_EXCEPTIONS = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_SYMBOL_SEPARATION = YES;
-				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = CRASH_REPORTER;
-				GCC_VERSION = 4.2;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_OUTPUT_FORMAT = binary;
 				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				PLIST_FILE_OUTPUT_FORMAT = binary;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
 		DADE8E3D085507450062B664 /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E02C0FAF9BA800B310AC /* Release-Debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEPLOYMENT_POSTPROCESSING = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1)",
-					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2)",
-				);
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_1 = "\"$(BUILT_PRODUCTS_DIR)\"";
-				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_PROJECT_2 = "\"$(SRCROOT)/Frameworks\"";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DEBUGGING_SYMBOLS = default;
-				GCC_ENABLE_CPP_EXCEPTIONS = NO;
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_SYMBOL_SEPARATION = YES;
-				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = Adium.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					CRASH_REPORTER,
-					DEBUG_BUILD,
-				);
-				GCC_VERSION = 4.2;
-				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
-				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
-				GCC_WARN_MISSING_PARENTHESES = YES;
-				GCC_WARN_SHADOW = NO;
-				GCC_WARN_TYPECHECK_CALLS_TO_PRINTF = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_OUTPUT_FORMAT = binary;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
-				PLIST_FILE_OUTPUT_FORMAT = binary;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
-				STRIP_INSTALLED_PRODUCT = NO;
-				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
-				WARNING_CFLAGS = "-Wall";
 			};
 			name = "Release-Debug";
 		};
 		F53C25B00A2F95F600F7B73D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
@@ -12705,6 +12368,7 @@
 		};
 		F53C25B10A2F95F600F7B73D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
@@ -12712,6 +12376,7 @@
 		};
 		F53C25B20A2F95F600F7B73D /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1170FAFA35E00B310AC /* Setup Build Directory.xcconfig */;
 			buildSettings = {
 				PRODUCT_NAME = "Setup Build Directory";
 			};
@@ -12719,22 +12384,22 @@
 		};
 		F5B17CD80A16C6BA004AE99E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Plist Macros";
 			};
 			name = Debug;
 		};
 		F5B17CD90A16C6BA004AE99E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Plist Macros";
 			};
 			name = Release;
 		};
 		F5B17CDA0A16C6BA004AE99E /* Release-Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63C7E1160FAFA35E00B310AC /* Plist Macros.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "Plist Macros";
 			};
 			name = "Release-Debug";
 		};
