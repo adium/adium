@@ -1,6 +1,7 @@
 #import "ESPurpleJabberAccount.h"
 
 @class AMPurpleJabberAdHocCommand;
+@protocol AMPurpleJabberAdHocServerDelegate;
 
 @interface AMPurpleJabberAdHocServer : NSObject {
 	ESPurpleJabberAccount *account;
@@ -8,12 +9,13 @@
 }
 
 - (id)initWithAccount:(ESPurpleJabberAccount *)_account;
-- (void)addCommand:(NSString *)node delegate:(id)delegate name:(NSString *)name;
+- (void)addCommand:(NSString *)node delegate:(id<AMPurpleJabberAdHocServerDelegate>)delegate name:(NSString *)name;
 - (ESPurpleJabberAccount *)account;
 
 @end
 
-@interface NSObject (AMPurpleJabberAdHocServerDelegate)
+@protocol AMPurpleJabberAdHocServerDelegate <NSObject>
+@optional
 - (void)adHocServer:(AMPurpleJabberAdHocServer *)server executeCommand:(AMPurpleJabberAdHocCommand *)command;
 @end
 
