@@ -744,7 +744,7 @@
 
 	[adhocServer release];
 	adhocServer = [[AMPurpleJabberAdHocServer alloc] initWithAccount:self];
-	[adhocServer addCommand:@"ping" delegate:[AMPurpleJabberAdHocPing class] name:@"Ping"];
+	[adhocServer addCommand:@"ping" delegate:(id<AMPurpleJabberAdHocServerDelegate>)[AMPurpleJabberAdHocPing class] name:@"Ping"];
 	
     [super didConnect];
 	

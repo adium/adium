@@ -95,7 +95,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 	[super dealloc];
 }
 
-- (void)addCommand:(NSString*)node delegate:(id)delegate name:(NSString*)name {
+- (void)addCommand:(NSString*)node delegate:(id<AMPurpleJabberAdHocServerDelegate>)delegate name:(NSString*)name {
 	[commands setObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithNonretainedObject:delegate],@"delegate",
 				name, @"name",
