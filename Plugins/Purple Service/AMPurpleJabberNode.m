@@ -289,12 +289,12 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 
 @synthesize commandsNode = commands, itemsArray = items, identities, features, node, jid, name, gc, delegates;
 
-- (void)addDelegate:(id)delegate {
+- (void)addDelegate:(id<AMPurpleJabberNodeDelegate>)delegate {
 	[delegates addObject:delegate];
 }
 
-- (void)removeDelegate:(id)delegate {
-	[delegate removeObjectIdenticalTo:delegate];
+- (void)removeDelegate:(id<AMPurpleJabberNodeDelegate>)delegate {
+	[delegates removeObjectIdenticalTo:delegate];
 }
 
 @end
