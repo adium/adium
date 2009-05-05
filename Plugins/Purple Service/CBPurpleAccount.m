@@ -907,8 +907,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	[purpleAdapter closeChat:chat];
 	
-	//Be sure any remaining typing flag is cleared as the chat closes
-	[self setTypingFlagOfChat:chat to:nil];
+	if (!chat.isGroupChat) {
+		//Be sure any remaining typing flag is cleared as the chat closes
+		[self setTypingFlagOfChat:chat to:nil];
+	}
+	
 	AILog(@"purple closeChat:%@",chat.uniqueChatID);
 	
     return YES;
