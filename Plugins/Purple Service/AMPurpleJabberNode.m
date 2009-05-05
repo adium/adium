@@ -9,6 +9,18 @@
 
 static unsigned iqCounter = 0;
 
+@interface AMPurpleJabberNode()
+@property (readwrite, copy, nonatomic) NSString *name;
+@property (readwrite, copy, nonatomic) NSString *jid;
+@property (readwrite, copy, nonatomic) NSString *node;
+@property (readwrite, retain, nonatomic) NSSet *features;
+@property (readwrite, retain, nonatomic) NSArray *identities;
+@property (readwrite, retain, nonatomic) AMPurpleJabberNode *commandsNode;
+@property (readwrite, assign, nonatomic) PurpleConnection *gc;
+@property (readwrite, copy, nonatomic) NSMutableArray *delegates;
+@property (readwrite, retain, nonatomic) NSArray *itemsArray;
+@end
+
 @implementation AMPurpleJabberNode
 
 static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
@@ -25,17 +37,17 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		return;
 	if (strcmp((*packet)->name, "iq"))
 		return;
-	if (![[NSString stringWithUTF8String:from] isEqualToString:self->jid])
+	if (![[NSString stringWithUTF8String:from] isEqualToString:self.jid])
 		return;
 	xmlnode *query = xmlnode_get_child_with_namespace(*packet,"query","http://jabber.org/protocol/disco#info");
 	if (query) {
-		if (self->features || self->identities)
+		if (self.features || self.identities)
 			return; // we already have that information
 		
 		const char *node = xmlnode_get_attrib(query,"node");
-		if ((self->node && !node) || (!self->node && node))
+		if ((self.node && !node) || (!self.node && node))
 			return;
-		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self->node])
+		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self.node])
 			return;
 		
 		// it's us, fill in features and identities
@@ -62,10 +74,10 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 			}
 		}
 		
-		self->identities = identities;
-		self->features = features;
+		self.identities = identities;
+		self.features = features;
 
-		for (id delegate in self->delegates) {
+		for (id delegate in self.delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotInfo:)])
 				[delegate jabberNodeGotInfo:self];
 		}
@@ -83,13 +95,11 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 			
 			if (!isCommand) {
 				// commands have to be prefetched to be available when the user tries to access the context menu
-				if (self->commands)
-					[self->commands release];
-				self->commands = [[AMPurpleJabberNode alloc] initWithJID:self->jid
+				self.commandsNode = [[AMPurpleJabberNode alloc] initWithJID:self.jid
 																	node:@"http://jabber.org/protocol/commands"
 																	name:nil
-															  connection:self->gc];
-				[self->commands fetchItems];
+															  connection:self.gc];
+				[self.commandsNode fetchItems];
 			}
 		}
 		return;
@@ -97,13 +107,13 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	
 	query = xmlnode_get_child_with_namespace(*packet,"query","http://jabber.org/protocol/disco#items");
 	if (query) {
-		if (self->items)
+		if (self.itemsArray)
 			return; // we already have that info
 		
 		const char *node = xmlnode_get_attrib(query,"node");
-		if ((self->node && !node) || (!self->node && node))
+		if ((self.node && !node) || (!self.node && node))
 			return;
-		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self->node])
+		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self.node])
 			return;
 		
 		// it's us, create the subnodes
@@ -120,10 +130,9 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 						AMPurpleJabberNode *newnode = [[AMPurpleJabberNode alloc] initWithJID:[NSString stringWithUTF8String:jid]
 																						 node:node?[NSString stringWithUTF8String:node]:nil
 																						 name:name?[NSString stringWithUTF8String:name]:nil
-																				   connection:self->gc];
+																				   connection:self.gc];
 						// propagate delegates
-						[newnode->delegates release];
-						newnode->delegates = [self->delegates retain];
+						newnode.delegates = self.delegates;
 						[items addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
@@ -131,7 +140,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 							for (identity in self.identities) {
 								if ([[identity objectForKey:@"category"] isEqualToString:@"conference"]) {
 									// since we're a conference service, assume that our children are conferences
-									newnode->identities = [[NSArray arrayWithObject:identity] retain];
+									newnode.identities = [NSArray arrayWithObject:identity];
 									break;
 								}
 							}
@@ -144,9 +153,9 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 				}
 			}
 		}
-		self->items = items;
+		self.itemsArray = items;
 		
-		for (id delegate in self->delegates) {
+		for (id delegate in self.delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotItems:)])
 				[delegate jabberNodeGotItems:self];
 		}
@@ -161,10 +170,10 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
             [self release];
             return nil;
         }
-		jid = [_jid copy];
-		node = [_node copy];
-		name = [_name copy];
-		gc = _gc;
+		self.jid = _jid;
+		self.node = _node;
+		self.name = _name;
+		self.gc = _gc;
 		delegates = [[NSMutableArray alloc] init];
 		
 		purple_signal_connect(jabber, "jabber-receiving-xmlnode", self,
@@ -184,14 +193,15 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	
 	// share the items, identities and features between copies
 	// copy the rest, keep delegates separate
-	copy->jid = [jid copy];
-	copy->node = [node copy];
-	copy->name = [name copy];
-	copy->gc = gc;
-	copy->delegates = [[NSMutableArray alloc] init];
-	copy->items = [items retain];
-	copy->features = [features retain];
-	copy->identities = [identities retain];
+	copy.jid = self.jid;
+	copy.node = self.node;
+	copy.name = self.name;
+	copy.gc = self.gc;
+
+	copy.delegates = [[[NSMutableArray alloc] init] autorelease];
+	copy.features = self.features;
+	copy.identities = self.identities;
+	copy.itemsArray = self.itemsArray;
 	
 	purple_signal_connect(jabber, "jabber-receiving-xmlnode", copy,
 						  PURPLE_CALLBACK(AMPurpleJabberNode_received_data_cb), copy);
@@ -213,10 +223,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 }
 
 - (void)fetchItems {
-	if (items) {
-		[items release];
-		items = nil;
-	}
+	self.itemsArray = nil;
 	
 	NSXMLElement *iq = [NSXMLNode elementWithName:@"iq"];
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
@@ -237,14 +244,8 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 }
 
 - (void)fetchInfo {
-	if (features) {
-		[features release];
-		features = nil;
-	}
-	if (identities) {
-		[identities release];
-		identities = nil;
-	}
+	self.features = nil;
+	self.identities = nil;
 	
 	NSXMLElement *iq = [NSXMLNode elementWithName:@"iq"];
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
@@ -264,15 +265,6 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		(PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)(gc, [xmlData bytes], [xmlData length]);
 }
 
-- (NSString*)name {
-	return name;
-}
-- (NSString*)jid {
-	return jid;
-}
-- (NSString*)node {
-	return node;
-}
 - (NSArray*)items {
 	if (!items) {
 		BOOL isCommand = NO;
@@ -292,15 +284,12 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	
 	return items;
 }
-- (NSSet*)features {
-	return features;
-}
-- (NSArray*)identities {
-	return identities;
-}
+
 - (NSArray*)commands {
 	return [commands items];
 }
+
+@synthesize commandsNode = commands, itemsArray = items, identities, features, node, jid, name, gc, delegates;
 
 - (void)addDelegate:(id)delegate {
 	[delegates addObject:delegate];
