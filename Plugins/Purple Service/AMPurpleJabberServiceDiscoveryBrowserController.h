@@ -6,11 +6,12 @@
 //
 
 #import <Adium/AIWindowController.h>
-#include <libpurple/libpurple.h>
+#import <libpurple/libpurple.h>
+#import "AMPurpleJabberNode.h"
 
-@class AIAccount, AMPurpleJabberNode;
+@class AIAccount;
 
-@interface AMPurpleJabberServiceDiscoveryBrowserController : AIWindowController
+@interface AMPurpleJabberServiceDiscoveryBrowserController : AIWindowController <AMPurpleJabberNodeDelegate>
 {
 	AIAccount *account;
     PurpleConnection *gc;

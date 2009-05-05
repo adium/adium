@@ -9,7 +9,8 @@
 
 @class AMPurpleJabberNode;
 
-@interface NSObject (AMPurpleJabberNodeDelegate)
+@protocol AMPurpleJabberNodeDelegate <NSObject>
+@optional
 - (void)jabberNodeGotItems:(AMPurpleJabberNode *)node;
 - (void)jabberNodeGotInfo:(AMPurpleJabberNode *)node;
 @end
@@ -43,8 +44,8 @@
 @property (readonly, retain, nonatomic) NSArray *identities;
 @property (readonly, nonatomic) NSArray *commands;
 
-- (void)addDelegate:(id)delegate;
-- (void)removeDelegate:(id)delegate;
+- (void)addDelegate:(id<AMPurpleJabberNodeDelegate>)delegate;
+- (void)removeDelegate:(id<AMPurpleJabberNodeDelegate>)delegate;
 
 @end
 
