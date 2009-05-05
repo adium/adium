@@ -198,7 +198,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	copy.name = self.name;
 	copy.gc = self.gc;
 
-	copy.delegates = [[[NSMutableArray alloc] init] autorelease];
+	copy.delegates = [NSMutableArray array];
 	copy.features = self.features;
 	copy.identities = self.identities;
 	copy.itemsArray = self.itemsArray;
