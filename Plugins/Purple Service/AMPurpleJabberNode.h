@@ -15,7 +15,7 @@
 @end
 
 @interface AMPurpleJabberNode : NSObject <NSCopying> {
-    PurpleConnection *gc;
+	PurpleConnection *gc;
 	
 	NSString *jid;
 	NSString *node;
@@ -35,13 +35,13 @@
 - (void)fetchItems;
 - (void)fetchInfo;
 
-- (NSString*)name;
-- (NSString*)jid;
-- (NSString*)node;
-- (NSArray*)items;
-- (NSSet*)features;
-- (NSArray*)identities;
-- (NSArray*)commands;
+@property (readonly, copy, nonatomic) NSString *name;
+@property (readonly, copy, nonatomic) NSString *jid;
+@property (readonly, copy, nonatomic) NSString *node;
+@property (readonly, nonatomic) NSArray *items;
+@property (readonly, retain, nonatomic) NSSet *features;
+@property (readonly, retain, nonatomic) NSArray *identities;
+@property (readonly, nonatomic) NSArray *commands;
 
 - (void)addDelegate:(id)delegate;
 - (void)removeDelegate:(id)delegate;
