@@ -44,15 +44,15 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		if (self.features || self.identities)
 			return; // we already have that information
 		
-		const char *node = xmlnode_get_attrib(query,"node");
-		if ((self.node && !node) || (!self.node && node))
+		const char *queryNode = xmlnode_get_attrib(query,"node");
+		if ((self.node && !queryNode) || (!self.node && queryNode))
 			return;
-		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self.node])
+		if (queryNode && ![[NSString stringWithUTF8String:queryNode] isEqualToString:self.node])
 			return;
 		
 		// it's us, fill in features and identities
-		NSMutableArray *identities = [[NSMutableArray alloc] init];
-		NSMutableSet *features = [[NSMutableSet alloc] init];
+		NSMutableArray *identities = [NSMutableArray array];
+		NSMutableSet *features = [NSMutableSet set];
 		
 		xmlnode *item;
 		for(item = query->child; item; item = item->next) {
@@ -60,11 +60,11 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 				if (!strcmp(item->name, "identity")) {
 					const char *category = xmlnode_get_attrib(item,"category");
 					const char *type = xmlnode_get_attrib(item, "type");
-					const char *name = xmlnode_get_attrib(item, "name");
+					const char *queryName = xmlnode_get_attrib(item, "name");
 					[identities addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 										   category?[NSString stringWithUTF8String:category]:[NSNull null], @"category",
 										   type?[NSString stringWithUTF8String:type]:[NSNull null], @"type",
-										   name?[NSString stringWithUTF8String:name]:[NSNull null], @"name",
+										   queryName?[NSString stringWithUTF8String:queryName]:[NSNull null], @"name",
 										   nil]];
 				} else if (!strcmp(item->name, "feature")) {
 					const char *var = xmlnode_get_attrib(item, "var");
@@ -110,30 +110,29 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		if (self.itemsArray)
 			return; // we already have that info
 		
-		const char *node = xmlnode_get_attrib(query,"node");
-		if ((self.node && !node) || (!self.node && node))
+		const char *checkNode = xmlnode_get_attrib(query,"node");
+		if ((self.node && !checkNode) || (!self.node && checkNode))
 			return;
-		if (node && ![[NSString stringWithUTF8String:node] isEqualToString:self.node])
+		if (checkNode && ![[NSString stringWithUTF8String:checkNode] isEqualToString:self.node])
 			return;
 		
 		// it's us, create the subnodes
-		NSMutableArray *items = [[NSMutableArray alloc] init];
-		xmlnode *item;
-		for(item = query->child; item; item = item->next) {
+		NSMutableArray *newItems = [NSMutableArray array];
+		for(xmlnode *item = query->child; item; item = item->next) {
 			if (item->type == XMLNODE_TYPE_TAG) {
 				if (!strcmp(item->name, "item")) {
-					const char *jid = xmlnode_get_attrib(item,"jid");
-					const char *node = xmlnode_get_attrib(item,"node");
-					const char *name = xmlnode_get_attrib(item,"name");
+					const char *queryJID = xmlnode_get_attrib(item,"jid");
+					const char *queryNode = xmlnode_get_attrib(item,"node");
+					const char *queryName = xmlnode_get_attrib(item,"name");
 					
-					if (jid) {
-						AMPurpleJabberNode *newnode = [[AMPurpleJabberNode alloc] initWithJID:[NSString stringWithUTF8String:jid]
-																						 node:node?[NSString stringWithUTF8String:node]:nil
-																						 name:name?[NSString stringWithUTF8String:name]:nil
+					if (queryJID) {
+						AMPurpleJabberNode *newnode = [[AMPurpleJabberNode alloc] initWithJID:[NSString stringWithUTF8String:queryJID]
+																						 node:queryNode ? [NSString stringWithUTF8String:queryNode] : nil
+																						 name:queryName ? [NSString stringWithUTF8String:queryName] : nil
 																				   connection:self.gc];
 						// propagate delegates
 						newnode.delegates = self.delegates;
-						[items addObject:newnode];
+						[newItems addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
 							NSDictionary *identity = nil;
@@ -153,7 +152,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 				}
 			}
 		}
-		self.itemsArray = items;
+		self.itemsArray = newItems;
 		
 		for (id delegate in self.delegates) {
 			if ([delegate respondsToSelector:@selector(jabberNodeGotItems:)])
@@ -174,7 +173,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		self.node = _node;
 		self.name = _name;
 		self.gc = _gc;
-		delegates = [[NSMutableArray alloc] init];
+		self.delegates = [NSMutableArray array];
 		
 		purple_signal_connect(jabber, "jabber-receiving-xmlnode", self,
                               PURPLE_CALLBACK(AMPurpleJabberNode_received_data_cb), self);
@@ -268,8 +267,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 - (NSArray*)items {
 	if (!items) {
 		BOOL isCommand = NO;
-		NSDictionary *identity;
-		for (identity in identities) {
+		for (NSDictionary *identity in identities) {
 			if ([[identity objectForKey:@"type"] isEqualToString:@"command-node"]) {
 				isCommand = YES;
 				break;
@@ -277,7 +275,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		}
 		// commands don't contain any other nodes
 		if (isCommand) {
-			items = [[NSArray alloc] init];
+			self.itemsArray = [NSArray array];
 			return items;
 		}
 	}
