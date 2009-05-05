@@ -95,7 +95,7 @@
 /*!
  * @brief Set our contact menu delegate
  */
-- (void)setDelegate:(id)inDelegate
+- (void)setDelegate:(id<AIContactMenuDelegate>	)inDelegate
 {
 	delegate = inDelegate;
 	
@@ -117,7 +117,7 @@
 	shouldSetTooltip = ([delegate respondsToSelector:@selector(contactMenuShouldSetTooltip:)] &&
 								 [delegate contactMenuShouldSetTooltip:self]);	
 }
-- (id)delegate
+- (id<AIContactMenuDelegate>	)delegate
 {
 	return delegate;
 }
