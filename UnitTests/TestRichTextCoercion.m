@@ -4,9 +4,9 @@
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIRichTextCoercer.h>
 
-#include <unistd.h>
-#include <sysexits.h>
-#include <sys/wait.h>
+#import <unistd.h>
+#import <sysexits.h>
+#import <sys/wait.h>
 
 @implementation TestRichTextCoercion
 

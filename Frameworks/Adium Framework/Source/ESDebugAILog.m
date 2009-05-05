@@ -15,8 +15,8 @@
  */
 
 #import <Adium/AIDebugControllerProtocol.h>
-#include <stdarg.h>
-#include <execinfo.h>
+#import <stdarg.h>
+#import <execinfo.h>
 
 #ifdef DEBUG_BUILD
 BOOL AIDebugLoggingEnabled = YES;

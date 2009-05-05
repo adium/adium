@@ -9,7 +9,7 @@
 #import "AIPlasticButtonCell.h"
 #import "AIImageAdditions.h"
 
-#include <Carbon/Carbon.h>
+#import <Carbon/Carbon.h>
 
 #define LABEL_OFFSET_X	1
 #define LABEL_OFFSET_Y	-1

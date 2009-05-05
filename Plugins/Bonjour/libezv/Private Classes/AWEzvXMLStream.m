@@ -39,7 +39,7 @@
 #import "AWEzvContactManager.h"
 
 #define XMLCALL
-#include <expat.h> 
+#import <expat.h> 
 
 /* XML Function prototypes */
 void xml_start_element	(void *userData,

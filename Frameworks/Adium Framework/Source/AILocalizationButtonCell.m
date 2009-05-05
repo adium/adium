@@ -42,7 +42,7 @@
 	[self _handleSizingWithOldFrame:oldFrame stringValue:inTitle];
 }
 
-#include "AILocalizationControl.m"
+#import "AILocalizationControl.m"
 
 @end
 

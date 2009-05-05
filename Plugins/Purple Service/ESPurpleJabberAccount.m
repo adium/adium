@@ -32,9 +32,9 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#include <libpurple/presence.h>
-#include <libpurple/si.h>
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <libpurple/presence.h>
+#import <libpurple/si.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "AMXMLConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
 #import "ESPurpleJabberAccountViewController.h"

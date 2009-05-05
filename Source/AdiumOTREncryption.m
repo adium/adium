@@ -28,7 +28,7 @@
 #import "ESOTRUnknownFingerprintController.h"
 #import "OTRCommon.h"
 
-#include <stdlib.h>
+#import <stdlib.h>
 
 #define PRIVKEY_PATH [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.private_key"] UTF8String]
 #define STORE_PATH	 [[[adium.loginController userDirectory] stringByAppendingPathComponent:@"otr.fingerprints"] UTF8String]
