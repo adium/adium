@@ -19,10 +19,10 @@
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-#include <fcntl.h>  //open(2)
-#include <unistd.h> //close(2)
-#include <errno.h>  //errno
-#include <string.h> //strerror(3)
+#import <fcntl.h>  //open(2)
+#import <unistd.h> //close(2)
+#import <errno.h>  //errno
+#import <string.h> //strerror(3)
 
 #import <objc/objc-runtime.h>
 

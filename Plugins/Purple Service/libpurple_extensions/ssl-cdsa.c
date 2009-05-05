@@ -16,12 +16,12 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <libpurple/internal.h>
-#include <libpurple/debug.h>
-#include <libpurple/plugin.h>
-#include <libpurple/sslconn.h>
-#include <libpurple/version.h>
-#include <libpurple/signals.h>
+#import <libpurple/internal.h>
+#import <libpurple/debug.h>
+#import <libpurple/plugin.h>
+#import <libpurple/sslconn.h>
+#import <libpurple/version.h>
+#import <libpurple/signals.h>
 
 #define SSL_CDSA_PLUGIN_ID "ssl-cdsa"
 
@@ -29,8 +29,8 @@
 
 //#define CDSA_DEBUG
 
-#include <Security/Security.h>
-#include <unistd.h>
+#import <Security/Security.h>
+#import <unistd.h>
 
 typedef struct
 {

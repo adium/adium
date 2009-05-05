@@ -19,7 +19,7 @@
 
 #import "AIColorAdditions.h"
 #import "AIStringAdditions.h"
-#include <string.h>
+#import <string.h>
 
 static const float ONE_THIRD = 1.0/3.0;
 static const float ONE_SIXTH = 1.0/6.0;

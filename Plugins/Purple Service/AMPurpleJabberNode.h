@@ -5,7 +5,7 @@
 //  Created by Evan Schoenberg on 9/5/07.
 //
 
-#include <libpurple/libpurple.h>
+#import <libpurple/libpurple.h>
 
 @class AMPurpleJabberNode;
 

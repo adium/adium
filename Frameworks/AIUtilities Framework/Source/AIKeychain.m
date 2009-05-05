@@ -19,9 +19,9 @@
 
 #import "AIKeychain.h"
 #import "AIStringAdditions.h"
-#include <CoreServices/CoreServices.h>
-#include <CoreFoundation/CoreFoundation.h>
-#include <Security/Security.h>
+#import <CoreServices/CoreServices.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <Security/Security.h>
 
 static AIKeychain *lastKnownDefaultKeychain = nil;
 

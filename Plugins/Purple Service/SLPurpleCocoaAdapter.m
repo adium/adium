@@ -35,9 +35,9 @@
 #import <AIUtilities/AIImageAdditions.h>
 
 #import <CoreFoundation/CoreFoundation.h>
-#include <libpurple/libpurple.h>
-#include <glib.h>
-#include <stdlib.h>
+#import <libpurple/libpurple.h>
+#import <glib.h>
+#import <stdlib.h>
 
 #import "ESPurpleAIMAccount.h"
 #import "CBPurpleOscarAccount.h"
@@ -47,9 +47,9 @@
 #import "adiumPurpleAccounts.h"
 
 //Purple slash command interface
-#include <libpurple/cmds.h>
+#import <libpurple/cmds.h>
 
-#include "libpurple_extensions/oscar-adium.h"
+#import "libpurple_extensions/oscar-adium.h"
 
 @interface SLPurpleCocoaAdapter ()
 - (void)initLibPurple;

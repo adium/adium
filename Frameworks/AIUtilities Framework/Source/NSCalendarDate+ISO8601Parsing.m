@@ -4,8 +4,8 @@
  *Copyright 2006 Peter Hosey. All rights reserved.
  */
 
-#include <ctype.h>
-#include <string.h>
+#import <ctype.h>
+#import <string.h>
 
 #import "NSCalendarDate+ISO8601Parsing.h"
 

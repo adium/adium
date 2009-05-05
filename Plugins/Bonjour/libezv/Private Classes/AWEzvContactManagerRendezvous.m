@@ -40,9 +40,9 @@
 
 #import "AWEzvSupportRoutines.h"
 
-#include <dns_sd.h>
+#import <dns_sd.h>
 
-#include <openssl/sha.h>
+#import <openssl/sha.h>
 
 /* One of the stupidest things I've ever met. Doing DNS lookups using the standard
  * functions does not for mDNS records work unless you're in BIND 8 compatibility
@@ -51,19 +51,19 @@
  * have to implement our own DNS packet parser. What were people thinking here?
  */
 #define BIND_8_COMPAT 1
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/nameser.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <resolv.h>
-#include <errno.h>
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
+#import <sys/types.h>
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <arpa/nameser.h>
+#import <arpa/inet.h>
+#import <netdb.h>
+#import <resolv.h>
+#import <errno.h>
+#import <ctype.h>
+#import <string.h>
+#import <stdlib.h>
 
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 // The ServiceController manages cleanup of DNSServiceRef & runloop info for an outstanding request
 @interface ServiceController : NSObject
 {

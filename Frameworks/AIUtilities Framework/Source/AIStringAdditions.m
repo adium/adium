@@ -22,8 +22,8 @@
 #import "AIFunctions.h"
 #import "AIApplicationAdditions.h"
 
-#include <unistd.h>
-#include <limits.h>
+#import <unistd.h>
+#import <limits.h>
 
 #endif //ndef BSD_LICENSE_ONLY
 
@@ -38,7 +38,7 @@ enum {
 	numberOfLineBreakCharacters = 6U
 };
 
-#include <wctype.h>
+#import <wctype.h>
 
 @implementation NSString (AIStringAdditions)
 

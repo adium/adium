@@ -32,7 +32,7 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 
-#include <AvailabilityMacros.h>
+#import <AvailabilityMacros.h>
 
 #import "AIAddressBookController.h"
 

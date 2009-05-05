@@ -6,7 +6,7 @@
 //  Copyright (c) 2003 Cliché Software. All rights reserved.
 //
 
-#include <Carbon/Carbon.h>
+#import <Carbon/Carbon.h>
 
 @interface PTKeyCodeTranslator : NSObject
 {

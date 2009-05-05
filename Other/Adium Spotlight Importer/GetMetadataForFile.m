@@ -1,5 +1,5 @@
-#include <CoreFoundation/CoreFoundation.h>
-#include <CoreServices/CoreServices.h> 
+#import <CoreFoundation/CoreFoundation.h>
+#import <CoreServices/CoreServices.h> 
 #import "GetMetadataForHTMLLog.h"
 #import "NSCalendarDate+ISO8601Parsing.h"
 
