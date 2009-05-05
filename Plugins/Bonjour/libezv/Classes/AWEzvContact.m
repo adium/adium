@@ -34,7 +34,6 @@
 #import "AWEzvContact.h"
 #import "AWEzvContactPrivate.h"
 #import "AWEzvXMLNode.h"
-#import "AWEzvXMLStream.h"
 #import "AWEzvRendezvousData.h"
 #import "AWEzvContactManager.h"
 #import "AWEzvContactManagerRendezvous.h"
