@@ -1234,7 +1234,7 @@
 //Question Display -----------------------------------------------------------------------------------------------------
 #pragma mark Question Display
 - (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
-		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
 {
 	NSMutableDictionary *questionDict = [NSMutableDictionary dictionary];
@@ -1251,6 +1251,8 @@
 		[questionDict setObject:inAlternateButton forKey:@"Alternate Button"];
 	if(inOtherButton != nil)
 		[questionDict setObject:inOtherButton forKey:@"Other Button"];
+	if(inSuppression != nil)
+		[questionDict setObject:inSuppression forKey:@"Suppression Checkbox"];
 	if(inTarget != nil)
 		[questionDict setObject:inTarget forKey:@"Target"];
 	if(inSelector != NULL)
@@ -1262,7 +1264,7 @@
 }
 
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
-		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo
 {
 	[self displayQuestion:inTitle
@@ -1273,6 +1275,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 			defaultButton:inDefaultButton
 		  alternateButton:inAlternateButton
 			  otherButton:inOtherButton
+			  suppression:inSuppression
 				   target:inTarget
 				 selector:inSelector
 				 userInfo:inUserInfo];

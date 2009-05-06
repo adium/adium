@@ -17,6 +17,7 @@
 #import "GBQuestionHandlerPlugin.h"
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import "ESTextAndButtonsWindowController.h"
+#import <AIUtilities/AIObjectAdditions.h>
 
 typedef enum
 {
@@ -82,14 +83,10 @@ typedef enum
 
 - (void)handleQuestion:(NSNotification *)notification
 {
-	NSDictionary	*userInfo;
-    
-    //Get the error info
-    userInfo = [notification userInfo];
-	[self handleType:ALERT_TYPE_QUESTION userInfo:userInfo];
+	[self handleType:ALERT_TYPE_QUESTION userInfo:notification.userInfo];
 }
 
-- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode userInfo:(id)userInfo
+- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	NSString *selectorString = [userInfo objectForKey:@"Selector"];
 	id target = [userInfo objectForKey:@"Target"];
@@ -100,7 +97,7 @@ typedef enum
 		SEL selector = NSSelectorFromString(selectorString);
 		if([target respondsToSelector:selector])
 		{
-			[target performSelector:selector withObject:[NSNumber numberWithInteger:returnCode] withObject:[userInfo objectForKey:@"Userinfo"]];
+			[target performSelector:selector withObject:[NSNumber numberWithInteger:returnCode] withObject:[userInfo objectForKey:@"Userinfo"] withObject:[NSNumber numberWithBool:suppression]];
 		}
 	}
 	if([self displayNextAlert])
@@ -126,6 +123,7 @@ typedef enum
 							defaultButton:AILocalizedString(@"Next", @"Next Button")
 						  alternateButton:AILocalizedString(@"Dismiss All", @"Dismiss All Button")
 							  otherButton:nil
+							  suppression:nil
 						withMessageHeader:[info objectForKey:@"Title"]
 							   andMessage:[info objectForKey:@"Description"]
 									image:nil
@@ -144,6 +142,7 @@ typedef enum
 							defaultButton:[info objectForKey:@"Default Button"]
 						  alternateButton:[info objectForKey:@"Alternate Button"]
 							  otherButton:[info objectForKey:@"Other Button"]
+							  suppression:[info objectForKey:@"Suppression Checkbox"]
 						withMessageHeader:[info objectForKey:@"Title"]
 							   andMessage:[info objectForKey:@"Description"]
 									image:nil
