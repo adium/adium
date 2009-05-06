@@ -289,7 +289,7 @@ static NSString	*prefsCategory;
 	
 	switch (confirmationType) {
 		case AIQuitConfirmAlways:
-			questionSelector = @selector(confirmQuitQuestion:userInfo:);
+			questionSelector = @selector(confirmQuitQuestion:userInfo:suppression:);
 			
 			allowQuit = NSTerminateLater;
 			break;
@@ -297,15 +297,15 @@ static NSString	*prefsCategory;
 		case AIQuitConfirmSelective:
 			if ([chatController unviewedContentCount] > 0 && confirmUnreadMessages) {
 				questionToAsk = AILocalizedString(@"You have unread messages.",@"Quit Confirmation");
-				questionSelector = @selector(unreadQuitQuestion:userInfo:);
+				questionSelector = @selector(unreadQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			} else if ([fileTransferController activeTransferCount] > 0 && confirmFileTransfers) {
 				questionToAsk = AILocalizedString(@"You have file transfers in progress.",@"Quit Confirmation");
-				questionSelector = @selector(fileTransferQuitQuestion:userInfo:);
+				questionSelector = @selector(fileTransferQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			} else if ([[chatController openChats] count] > 0 && confirmOpenChats) {
 				questionToAsk = AILocalizedString(@"You have open chats.",@"Quit Confirmation");
-				questionSelector = @selector(openChatQuitQuestion:userInfo:);
+				questionSelector = @selector(openChatQuitQuestion:userInfo:suppression:);
 				allowQuit = NSTerminateLater;
 			}
 
@@ -313,14 +313,15 @@ static NSString	*prefsCategory;
 	}
 	
 	if (allowQuit == NSTerminateLater) {
-		[[self interfaceController] displayQuestion:AILocalizedString(@"Confirm Quit", nil)
+		[self.interfaceController displayQuestion:AILocalizedString(@"Confirm Quit", nil)
 									withDescription:[questionToAsk stringByAppendingFormat:@"%@%@",
 														([questionToAsk length] > 0 ? @"\n" : @""),
 														AILocalizedString(@"Are you sure you want to quit Adium?",@"Quit Confirmation")]
 									withWindowTitle:nil
 									  defaultButton:AILocalizedString(@"Quit", nil)
 									alternateButton:AILocalizedString(@"Cancel", nil)
-										otherButton:AILocalizedString(@"Don't ask again", nil)
+										otherButton:nil
+										 suppression:AILocalizedString(@"Don't ask again", nil)
 											 target:self
 										   selector:questionSelector
 										   userInfo:nil];
@@ -407,8 +408,15 @@ static NSString	*prefsCategory;
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&submit.x=57&submit.y=8&encrypted=-----BEGIN+PKCS7-----%0D%0AMIIHFgYJKoZIhvcNAQcEoIIHBzCCBwMCAQExggEwMIIBLAIBADCBlDCBjjELMAkG%0D%0AA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQw%0D%0AEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UE%0D%0AAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJ%0D%0AKoZIhvcNAQEBBQAEgYAFR5tF%2BRKUV3BS49vJraDG%2BIoWDoZMieUT%2FJJ1Fzjsr511%0D%0Au7hS1F2piJuHuqmm%2F0r8Kf8oaycOo74K3zLmUQ6T6hUS6%2Bh6lZAoIlhI3A1YmqIP%0D%0AdrdY%2FtfKRbWfolDumJ9Mdv%2FzJxPnpdQiTN5K1PMrPYE6GgPWE9WC4V9lqstSmTEL%0D%0AMAkGBSsOAwIaBQAwgZMGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIjtd%2BN9o4ZB6A%0D%0AcIbH8ZjOLmE35xBQ%2F93chtzIcRXHhIQJVpBRCkyJkdTD3libP3F7TgkrLij1DBxg%0D%0AfFlE0V%2FGTk29Ys%2FwsPO7hNs3YSNuSz0HT5F6sa8aXwFtMCE%2FgB1Ha4qdtYY%2BNETJ%0D%0AEETwNMLefjhaBfI%2BnRxl2K2gggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0B%0D%0AAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3Vu%0D%0AdGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9j%0D%0AZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBh%0D%0AbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UE%0D%0ABhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYD%0D%0AVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQI%0D%0AbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZI%0D%0AhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS%2BNdl72T7oKJ4u4uw%2B6aw%0D%0AntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe%2FhJl66%2FRGqrj%0D%0A5rFb08sAABNTzDTiqqNpJeBsYs%2Fc2aiGozptX2RlnBktH%2BSUNpAajW724Nv2Wvhi%0D%0Af6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7%0D%0ABgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYD%0D%0AVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDAS%0D%0ABgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQD%0D%0AFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNV%0D%0AHRMEBTADAQH%2FMA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71%2Bjq6OKidbWFSE%2B%0D%0AQ4FqROvdgIONth%2B8kSK%2F%2FY%2F4ihuE4Ymvzn5ceE3S%2FiBSQQMjyvb%2Bs2TWbQYDwcp1%0D%0A29OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa%2Bu4qect%0D%0AsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYD%0D%0AVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFs%0D%0AIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRww%0D%0AGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkq%0D%0AhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0wNDAzMjUwNDQ0%0D%0AMzRaMCMGCSqGSIb3DQEJBDEWBBRzTAS6zk5cmMeC49IorY8CM%2BkX0TANBgkqhkiG%0D%0A9w0BAQEFAASBgBsyRfMv9mSyoYq00wIB7BmUHFGq5x%2Ffnr8M24XbKjhkyeULk2NC%0D%0As4jbCgaWNg6grvccJtjbvmDskMKt%2BdS%2BEAkeWwm1Zf%2F%2B5u1fMyb5vo1NNcRIs5oq%0D%0A7SvXiLTPRzVqzQdhVs7PoZG0i0RRIb0tMeo1IssZeB2GE5Nsg0D8PwpB%0D%0A-----END+PKCS7-----"]];
 }
 
-- (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info
+- (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
 {
+	if ([suppressed boolValue]){
+		//Don't Ask Again
+		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
+											forKey:@"Suppress Quit Confirmation for Unread Messages"
+											 group:@"Confirmations"];
+	}
+	
 	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
@@ -417,13 +425,6 @@ static NSString	*prefsCategory;
 			//Should we ask about File Transfers here?????
 			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
 			break;
-		case AITextAndButtonsOtherReturn:
-			//Don't Ask Again
-			[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-												 forKey:@"Suppress Quit Confirmation for Unread Messages"
-												  group:@"Confirmations"];
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
 		default:
 			//Cancel
 			[NSApp replyToApplicationShouldTerminate:NSTerminateCancel];
@@ -431,8 +432,15 @@ static NSString	*prefsCategory;
 	}
 }
 
-- (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info
+- (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
 {
+	if ([suppressed boolValue]){
+		//Don't Ask Again
+		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
+											forKey:@"Suppress Quit Confirmation for Open Chats"
+											 group:@"Confirmations"];
+	}
+	
 	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
@@ -441,11 +449,27 @@ static NSString	*prefsCategory;
 			//Should we ask about File Transfers here?????
 			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
 			break;
-		case AITextAndButtonsOtherReturn:
-			//Don't Ask Again
-			[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-												forKey:@"Suppress Quit Confirmation for Open Chats"
-												 group:@"Confirmations"];
+		default:
+			//Cancel
+			[NSApp replyToApplicationShouldTerminate:NSTerminateCancel];
+			break;
+	}
+}
+
+- (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
+{
+	if ([suppressed boolValue]){
+		//Don't Ask Again
+		[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
+											forKey:@"Suppress Quit Confirmation for File Transfers"
+											 group:@"Confirmations"];
+	}
+	
+	AITextAndButtonsReturnCode result = [number integerValue];
+	switch(result)
+	{
+		case AITextAndButtonsDefaultReturn:
+			//Quit
 			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
 			break;
 		default:
@@ -455,43 +479,20 @@ static NSString	*prefsCategory;
 	}
 }
 
-- (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info
+- (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed
 {
-	AITextAndButtonsReturnCode result = [number integerValue];
-	switch(result)
-	{
-		case AITextAndButtonsDefaultReturn:
-			//Quit
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
-		case AITextAndButtonsOtherReturn:
-			//Don't Ask Again
-			[[self preferenceController] setPreference:[NSNumber numberWithBool:YES]
-												 forKey:@"Suppress Quit Confirmation for File Transfers"
-												  group:@"Confirmations"];
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
-		default:
-			//Cancel
-			[NSApp replyToApplicationShouldTerminate:NSTerminateCancel];
-			break;
+	if ([suppressed boolValue]){
+		//Don't Ask Again
+		[[self preferenceController] setPreference:[NSNumber numberWithBool:NO]
+											forKey:@"Confirm Quit"
+											 group:@"Confirmations"];
 	}
-}
-
-- (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info
-{
+	
 	AITextAndButtonsReturnCode result = [number integerValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
 			//Quit
-			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
-			break;
-		case AITextAndButtonsOtherReturn:
-			//Don't Ask Again
-			[[self preferenceController] setPreference:[NSNumber numberWithBool:NO]
-												forKey:@"Confirm Quit"
-												 group:@"Confirmations"];
 			[NSApp replyToApplicationShouldTerminate:NSTerminateNow];
 			break;
 		default:

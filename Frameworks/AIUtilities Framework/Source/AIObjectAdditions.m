@@ -247,6 +247,20 @@
 	[self performSelector:@selector(handleInvocation:) withObject:invocation afterDelay:delay];	
 }
 
+- (void)performSelector:(SEL)aSelector withObject:(id)argument1 withObject:(id)argument2 withObject:(id)argument3
+{
+	NSInvocation *invocation;
+	invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:aSelector]];
+	
+	[invocation setSelector:aSelector];
+	[invocation setArgument:&argument1 atIndex:2];
+	[invocation setArgument:&argument2 atIndex:3];
+	[invocation setArgument:&argument3 atIndex:4];
+	[invocation retainArguments];
+	
+	[self performSelector:@selector(handleInvocation:) withObject:invocation];	
+}
+
 - (void)handleInvocation:(NSInvocation *)anInvocation
 {
 	[anInvocation invokeWithTarget:self];
