@@ -35,8 +35,9 @@ typedef enum {
 	NSMutableSet	*toolbarItems;
 	NSMutableSet	*validatedItems;
 
-	NSMenu	*_secureMessagingMenu;
+	NSMenu			*_secureMessagingMenu;
 	NSMenuItem		*menuItem_encryption;
+	NSMenuItem		*menuItem_encryptionContext;
 }
 
 @end
