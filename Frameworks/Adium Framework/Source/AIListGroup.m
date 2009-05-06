@@ -158,25 +158,7 @@
  */
 - (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
 {
-	AIListObject *obj = nil;
-	@try
-	{
-	 obj = [_visibleObjects objectAtIndex:index];
-	}
-	@catch(...)
-	{
-		if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self]) {
-			AILog(@"Attempted to get visible object at index %i of %@, but %@ is not visible. With contained objects %@, visibility count is %i", index, self, obj, self.containedObjects, self.visibleCount);
-			[self rebuildVisibleCache];
-			AIListObject *obj = [_visibleObjects objectAtIndex:index];
-			if(![[AIContactHidingController sharedController] visibilityOfListObject:obj inContainer:self])
-				AILog(@"Failed to correct for messed up visibleObjectAtIndex by recaching");
-			else
-				AILog(@"Successfully corrected for messed up visibleObjectAtIndex by recaching");
-		}
-	}
-	
-	return obj;
+	return [_visibleObjects objectAtIndex:index];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
