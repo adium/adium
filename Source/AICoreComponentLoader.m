@@ -179,9 +179,9 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 
 			[components setObject:object forKey:className];
 			[object release];
-        } else {
-            NSAssert1(NO, @"Failed to load %@", className);
-        }
+		} else {
+			NSAssert1(NO, @"Failed to load %@", className);
+		}
 		[pool release];
 #ifdef COMPONENT_LOAD_TIMING
 		NSTimeInterval t = -[start timeIntervalSinceNow];
