@@ -255,7 +255,22 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurpleStatus		*status = (presence ? purple_presence_get_active_status(presence) : NULL);
 	const char			*message = (status ? purple_status_get_attr_string(status, "message") : NULL);
 	
-	return (message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil);
+	// Get the plugin's status message for this buddy if they don't have a status message
+	if (!message) {
+		PurplePlugin				*prpl;
+		PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
+												PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
+												NULL);
+		
+		if (prpl_info && prpl_info->status_text) {
+			message = (prpl_info->status_text)(buddy);
+		}
+		
+		// These are HTML-stripped messages.
+		return message ? [NSAttributedString stringWithString:[NSString stringWithUTF8String:message]] : nil;
+	} else {
+		return [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]];
+	}
 }
 
 /*!

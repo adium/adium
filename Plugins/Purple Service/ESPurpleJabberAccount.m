@@ -476,38 +476,6 @@
 }
 
 #pragma mark Status Messages
-- (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)b
-{
-	NSAttributedString *statusMessage = nil;
-	
-	JabberBuddy *jb = NULL;
-	PurpleConnection *gc = purple_account_get_connection(account);
-	const char *msg = NULL;
-	
-	if (gc && gc->proto_data) {
-		jb = jabber_buddy_find(gc->proto_data, purple_buddy_get_name(b), FALSE);
-	
-		if(jb && !PURPLE_BUDDY_IS_ONLINE(b) && (jb->subscription & JABBER_SUB_PENDING || !(jb->subscription & JABBER_SUB_TO))) {
-			msg = _("Not Authorized");
-		} else if(jb && !PURPLE_BUDDY_IS_ONLINE(b) && jb->error_msg) {
-			msg = jb->error_msg;
-		}
-	}
-	
-	if (msg) {
-		NSString *statusMessageString = [NSString stringWithUTF8String:msg];
-		
-		if (statusMessageString.length) {
-			statusMessage = [NSAttributedString stringWithString:statusMessageString];
-		}
-		
-	} else {
-		statusMessage = [super statusMessageForPurpleBuddy:b];
-	}
-	
-	return statusMessage;
-}
-
 - (NSString *)statusNameForPurpleBuddy:(PurpleBuddy *)buddy
 {
 	NSString		*statusName = nil;
