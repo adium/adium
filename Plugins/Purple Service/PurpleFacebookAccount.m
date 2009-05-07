@@ -70,26 +70,6 @@
 	purple_account_set_bool(account, "facebook_set_status_through_pidgin", FALSE);
 }
 
-/*!
- * @brief Status message for a contact
- */
-- (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)buddy
-{
-	PurplePluginProtocolInfo *prpl_info = NULL;
-	const char *message;
-
-	if (account && purple_account_get_connection(account) && purple_account_get_connection(account)->prpl)
-		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(purple_account_get_connection(account)->prpl);
-	
-	if (prpl_info && prpl_info->status_text)
-		message = prpl_info->status_text(buddy);
-	else
-		message = NULL;
-
-	return (message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil);
-}
-
-
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
 {
 	return [AIHTMLDecoder encodeHTML:inAttributedString
