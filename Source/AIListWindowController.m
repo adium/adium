@@ -868,9 +868,10 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 - (NSScreen *)screenForPoint:(NSPoint)point
 {
 	for (NSScreen *pointScreen in [NSScreen screens]) {
-		if (NSPointInRect(point, NSInsetRect([screen frame], -1, -1)))
+		if (NSPointInRect(point, NSInsetRect([pointScreen frame], -1, -1)))
 			return pointScreen;
 	}
+	return nil;
 }	
 
 - (NSRect)squareRectWithCenter:(NSPoint)point sideLength:(CGFloat)sideLength
