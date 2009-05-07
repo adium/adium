@@ -54,7 +54,7 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
-REVISION = $(subst +,,r$(shell hg id -n))
+REVISION = r$(shell hg parent --template {rev})
 
 ifeq ($(NIGHTLY),TRUE)
 	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
