@@ -197,7 +197,6 @@ enum {
 }
 
 #define BUNDLE_STRING	@"$$BundlePath$$"
-//
 - (NSString *)stringByExpandingBundlePath
 {
     if ([self hasPrefix:BUNDLE_STRING]) {
@@ -207,7 +206,6 @@ enum {
     }
 }
 
-//
 - (NSString *)stringByCollapsingBundlePath
 {
     NSString *bundlePath = [[[NSBundle mainBundle] bundlePath] stringByExpandingTildeInPath];

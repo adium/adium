@@ -98,7 +98,6 @@
     return self;
 }
 
-//
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -172,7 +171,6 @@
 	[self listObjectAttributesChanged:notification];
 }
 
-//
 - (void)chatStatusChanged:(NSNotification *)notification
 {
     NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
@@ -205,7 +203,6 @@
 	[self updateTabContactIcon];
 }
 
-//
 - (void)listObjectAttributesChanged:(NSNotification *)notification
 {
 	AIListObject *listObject = [notification object];
@@ -270,7 +267,6 @@
 	[messageViewController willDeselect];
 }
 
-//
 - (NSString *)label
 {
 	return messageViewController.chat.displayName;

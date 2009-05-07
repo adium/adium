@@ -184,7 +184,6 @@
 // NOTE: Black & White images fail miserably
 // So we must get their data and blast that into a deeper cache
 // Yucky, so we wrap this all up inside this object...
-//
 - (NSBitmapImageRep *)bitmapRepForGIFRepresentation
 {
 	NSArray *reps = [self representations];

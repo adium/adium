@@ -645,13 +645,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 }
 
-//
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(AIProxyListObject *)item
 {
     return @"";
 }
 
-//
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(AIProxyListObject *)item
 {
 	return (!item || ([item.listObject conformsToProtocol:@protocol(AIContainingObject)] && 
@@ -663,14 +661,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return (!item || ([item.listObject isKindOfClass:[AIListGroup class]]));
 }
 
-//
 - (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(AIProxyListObject *)item
 {
 	/* XXX Should note the combination of item and item's parent for expansion tracking */
     [(id<AIContainingObject>)(item.listObject) setExpanded:state];
 }
 
-//
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(AIProxyListObject *)item
 {
     return !item || ((id<AIContainingObject>)(item.listObject)).expanded || [item.listObject boolValueForProperty:@"ExpandedByFiltering"];
@@ -695,7 +691,6 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 												 forListObject:listObject];
 }
 
-//
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent
 {
     NSPoint	location;

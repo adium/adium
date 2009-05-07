@@ -47,7 +47,6 @@
     [super dealloc];
 }
 
-//
 - (NSString *)fromUID
 {
     return fromUID;

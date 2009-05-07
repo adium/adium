@@ -112,7 +112,6 @@
 	[super dealloc];
 }
 
-//
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
     NSSet		*modifiedAttributes = nil;
@@ -288,7 +287,6 @@
     }
 }
 
-//
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {

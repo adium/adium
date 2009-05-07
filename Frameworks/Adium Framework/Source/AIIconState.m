@@ -22,7 +22,6 @@
 
 @implementation AIIconState
 
-//
 - (id)initWithImages:(NSArray *)inImages delay:(float)inDelay looping:(BOOL)inLooping overlay:(BOOL)inOverlay
 {
     //init

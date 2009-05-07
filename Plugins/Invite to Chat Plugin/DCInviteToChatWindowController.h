@@ -42,7 +42,6 @@
 - (IBAction)invite:(id)sender;
 - (IBAction)cancel:(id)sender;
 
-//
 -(void)inviteToChat:(AIListContact*)contact;
 - (id)initWithWindowNibName:(NSString *)windowNibName;
 @end

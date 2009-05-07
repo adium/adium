@@ -25,7 +25,6 @@
 	return [ESPurpleDotMacAccount class];
 }
 
-//
 - (AIAccountViewController *)accountViewController{
     return [ESPurpleDotMacAccountViewController accountViewController];
 }

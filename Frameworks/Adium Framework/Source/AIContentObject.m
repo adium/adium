@@ -26,7 +26,6 @@
 @synthesize source, destination, date, isOutgoing = outgoing, chat, message, userInfo;
 @synthesize filterContent, trackContent, displayContent, displayContentImmediately, sendContent, postProcessContent;
 
-//
 - (id)initWithChat:(AIChat *)inChat
 			source:(AIListObject *)inSource
 	   destination:(AIListObject *)inDest

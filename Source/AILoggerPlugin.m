@@ -103,7 +103,6 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 @implementation AILoggerPlugin
 
-//
 - (void)installPlugin
 {
 	observingContent = NO;

@@ -350,7 +350,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	return KEY_LOG_VIEWER_WINDOW_FRAME;
@@ -1721,7 +1720,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	}
 }
 
-//
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString	*identifier = [tableColumn identifier];

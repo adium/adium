@@ -105,7 +105,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
     [super dealloc];
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	return KEY_TRANSFER_PROGRESS_WINDOW_FRAME;

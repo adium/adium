@@ -27,7 +27,6 @@
     return [[self alloc] initWithImage:inImage styleMask:styleMask];
 }
 
-//
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask
 {
 	if ((self = [super init])) {
@@ -58,14 +57,12 @@
 	return self;
 }
 
-//
 - (void)moveFloaterToPoint:(NSPoint)inPoint
 {
     [panel setFrameOrigin:inPoint];
     [panel orderFront:nil];
 }
 
-//
 - (void)setImage:(NSImage *)inImage
 {
     NSRect frame = [panel frame];
@@ -74,19 +71,16 @@
     [panel setFrame:frame display:YES animate:NO];
 }
 
-//
 - (NSImage *)image
 {
     return [staticView image];
 }
 
-//
 - (void)endFloater
 {
     [self close:nil];   
 }
 
-//
 - (IBAction)close:(id)sender
 {
     [fadeAnimation stopAnimation]; [fadeAnimation release]; fadeAnimation = nil;
@@ -96,7 +90,6 @@
     [self release];
 }
 
-//
 - (void)setMaxOpacity:(float)inMaxOpacity
 {
     maxOpacity = inMaxOpacity;

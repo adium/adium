@@ -92,7 +92,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return objectID;
 }
 
-//
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
