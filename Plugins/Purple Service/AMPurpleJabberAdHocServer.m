@@ -111,12 +111,10 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 }
 
 - (void)addCommandsToXML:(xmlnode*)xml {
-	NSEnumerator *e = [commands keyEnumerator];
-	NSString *node;
 	JabberStream *js = purple_account_get_connection([self.account purpleAccount])->proto_data;
 	char *jid = g_strdup_printf("%s@%s/%s", js->user->node, js->user->domain, js->user->resource);
 	
-	while((node = [e nextObject])) {
+	for (NSString *node in commands) {
 		xmlnode *item = xmlnode_new_child(xml, "item");
 		xmlnode_set_attrib(item,"jid",jid);
 		xmlnode_set_attrib(item,"name",[[[commands objectForKey:node] objectForKey:@"name"] UTF8String]);
