@@ -1247,8 +1247,6 @@
 		6334006C0F9C14C2003C77A9 /* RALatchTrigger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF9C0F9C14C0003C77A9 /* RALatchTrigger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6334006D0F9C14C2003C77A9 /* RAAtomicList.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FF9D0F9C14C0003C77A9 /* RAAtomicList.m */; };
 		6334006E0F9C14C2003C77A9 /* RAAtomicList.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FF9E0F9C14C0003C77A9 /* RAAtomicList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6334006F0F9C14C2003C77A9 /* AISmartStepper.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFA00F9C14C0003C77A9 /* AISmartStepper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		633400700F9C14C2003C77A9 /* AISmartStepper.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFA10F9C14C0003C77A9 /* AISmartStepper.m */; };
 		633400710F9C14C2003C77A9 /* AISendingTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFA30F9C14C0003C77A9 /* AISendingTextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		633400720F9C14C2003C77A9 /* AISendingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6334FFA40F9C14C0003C77A9 /* AISendingTextView.m */; };
 		633400730F9C14C2003C77A9 /* AIAutoScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6334FFA70F9C14C0003C77A9 /* AIAutoScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -4208,8 +4206,6 @@
 		6334FF9C0F9C14C0003C77A9 /* RALatchTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RALatchTrigger.h; path = "Frameworks/AIUtilities Framework/Source/RAOperationQueue/RALatchTrigger.h"; sourceTree = "<group>"; };
 		6334FF9D0F9C14C0003C77A9 /* RAAtomicList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RAAtomicList.m; path = "Frameworks/AIUtilities Framework/Source/RAOperationQueue/RAAtomicList.m"; sourceTree = "<group>"; };
 		6334FF9E0F9C14C0003C77A9 /* RAAtomicList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAAtomicList.h; path = "Frameworks/AIUtilities Framework/Source/RAOperationQueue/RAAtomicList.h"; sourceTree = "<group>"; };
-		6334FFA00F9C14C0003C77A9 /* AISmartStepper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISmartStepper.h; path = "Frameworks/AIUtilities Framework/Source/AISmartStepper.h"; sourceTree = "<group>"; };
-		6334FFA10F9C14C0003C77A9 /* AISmartStepper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISmartStepper.m; path = "Frameworks/AIUtilities Framework/Source/AISmartStepper.m"; sourceTree = "<group>"; };
 		6334FFA30F9C14C0003C77A9 /* AISendingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AISendingTextView.h; path = "Frameworks/AIUtilities Framework/Source/AISendingTextView.h"; sourceTree = "<group>"; };
 		6334FFA40F9C14C0003C77A9 /* AISendingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AISendingTextView.m; path = "Frameworks/AIUtilities Framework/Source/AISendingTextView.m"; sourceTree = "<group>"; };
 		6334FFA70F9C14C0003C77A9 /* AIAutoScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAutoScrollView.h; path = "Frameworks/AIUtilities Framework/Source/AIAutoScrollView.h"; sourceTree = "<group>"; };
@@ -7300,7 +7296,7 @@
 				633400CE0F9C14E0003C77A9 /* Other Sources */,
 				6334FFFE0F9C14C1003C77A9 /* External Sources */,
 				6334FFA90F9C14C1003C77A9 /* Additions */,
-				6334FFA50F9C14C0003C77A9 /* 10.2 Compatibility */,
+				6334FFA60F9C14C0003C77A9 /* Scrollbar auto-hiding */,
 				6334FF950F9C14C0003C77A9 /* Working Around System Bugs */,
 				6334FF880F9C14C0003C77A9 /* Cells */,
 				6334FF300F9C14BF003C77A9 /* Fun New Controls */,
@@ -7758,7 +7754,6 @@
 			isa = PBXGroup;
 			children = (
 				6334FFA20F9C14C0003C77A9 /* Text view observing return & enter */,
-				6334FF9F0F9C14C0003C77A9 /* Stepper control focus issues */,
 				6334FF960F9C14C0003C77A9 /* Operation queue that doesn't crash so much */,
 			);
 			name = "Working Around System Bugs";
@@ -7779,15 +7774,6 @@
 			name = "Operation queue that doesn't crash so much";
 			sourceTree = "<group>";
 		};
-		6334FF9F0F9C14C0003C77A9 /* Stepper control focus issues */ = {
-			isa = PBXGroup;
-			children = (
-				6334FFA00F9C14C0003C77A9 /* AISmartStepper.h */,
-				6334FFA10F9C14C0003C77A9 /* AISmartStepper.m */,
-			);
-			name = "Stepper control focus issues";
-			sourceTree = "<group>";
-		};
 		6334FFA20F9C14C0003C77A9 /* Text view observing return & enter */ = {
 			isa = PBXGroup;
 			children = (
@@ -7795,14 +7781,6 @@
 				6334FFA40F9C14C0003C77A9 /* AISendingTextView.m */,
 			);
 			name = "Text view observing return & enter";
-			sourceTree = "<group>";
-		};
-		6334FFA50F9C14C0003C77A9 /* 10.2 Compatibility */ = {
-			isa = PBXGroup;
-			children = (
-				6334FFA60F9C14C0003C77A9 /* Scrollbar auto-hiding */,
-			);
-			name = "10.2 Compatibility";
 			sourceTree = "<group>";
 		};
 		6334FFA60F9C14C0003C77A9 /* Scrollbar auto-hiding */ = {
@@ -9086,7 +9064,6 @@
 				6334006A0F9C14C2003C77A9 /* RAOperation.h in Headers */,
 				6334006C0F9C14C2003C77A9 /* RALatchTrigger.h in Headers */,
 				6334006E0F9C14C2003C77A9 /* RAAtomicList.h in Headers */,
-				6334006F0F9C14C2003C77A9 /* AISmartStepper.h in Headers */,
 				633400710F9C14C2003C77A9 /* AISendingTextView.h in Headers */,
 				633400730F9C14C2003C77A9 /* AIAutoScrollView.h in Headers */,
 				633400770F9C14C2003C77A9 /* AIApplicationAdditions.h in Headers */,
@@ -10584,7 +10561,6 @@
 				633400690F9C14C2003C77A9 /* RAOperation.m in Sources */,
 				6334006B0F9C14C2003C77A9 /* RALatchTrigger.m in Sources */,
 				6334006D0F9C14C2003C77A9 /* RAAtomicList.m in Sources */,
-				633400700F9C14C2003C77A9 /* AISmartStepper.m in Sources */,
 				633400720F9C14C2003C77A9 /* AISendingTextView.m in Sources */,
 				633400740F9C14C2003C77A9 /* AIAutoScrollView.m in Sources */,
 				633400780F9C14C2003C77A9 /* AIApplicationAdditions.m in Sources */,
