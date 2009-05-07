@@ -103,8 +103,7 @@
 	NSArray *stateArrayCopy = [[activeIconStateArray copy] autorelease]; //Work with a copy, since this array will change as we remove states
 	NSEnumerator *enumerator = [stateArrayCopy objectEnumerator];
 	[enumerator nextObject]; //Skip the first icon
-	NSString *iconState = nil;
-	while ((iconState = [enumerator nextObject])) {
+	for (NSString *iconState in enumerator) {
 		[self removeIconStateNamed:iconState];
 	}
 
