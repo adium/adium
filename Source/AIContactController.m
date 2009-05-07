@@ -223,7 +223,7 @@
 {
 	for (AIListGroup *listGroup in [groupDict objectEnumerator]) {
 		[listGroup setPreference:[NSNumber numberWithBool:[listGroup isExpanded]]
-						  forKey:@"IsExpanded"
+						  forKey:KEY_EXPANDED
 						   group:PREF_GROUP_CONTACT_LIST];
 	}
 	

@@ -30,8 +30,6 @@
 
 #define	OBJECT_STATUS_CACHE			@"Object Status Cache"
 
-#define	KEY_EXPANDED						@"IsExpanded"
-
 @interface AIListContact ()
 @property (readwrite, nonatomic, assign) AIMetaContact *metaContact;
 - (void)setContainingObject:(AIListGroup *)inGroup;

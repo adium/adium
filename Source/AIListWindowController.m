@@ -41,8 +41,6 @@
 
 #import "AISearchFieldCell.h"
 
-#define PREF_GROUP_CONTACT_LIST					@"Contact List"
-
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
 
 #define SLIDE_ALLOWED_RECT_EDGE_MASK			(AIMinXEdgeMask | AIMaxXEdgeMask) /* Screen edges on which sliding is allowde */
