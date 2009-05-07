@@ -1280,14 +1280,9 @@ NSString* serviceIDForJabberUID(NSString *UID)
 			[person setValue:[contact phoneticName] forKey:kABFirstNamePhoneticProperty];
 
 		NSString				*UID = contact.formattedUID;
-	
-		NSEnumerator * containedContactEnu = [contact isKindOfClass:[AIMetaContact class]] ? [[(AIMetaContact *)contact uniqueContainedObjects] objectEnumerator] : [[NSArray arrayWithObject:contact] objectEnumerator];
-		AIListObject *c;
-		ABMutableMultiValue		*multiValue;
-		
-		while((c = [containedContactEnu nextObject]))
-		{
-			multiValue = [[ABMutableMultiValue alloc] init];
+			
+		for (AIListObject *c in [contact isKindOfClass:[AIMetaContact class]] ? [(AIMetaContact *)contact uniqueContainedObjects] : [NSArray arrayWithObject:contact])	{
+			ABMutableMultiValue *multiValue = [[ABMutableMultiValue alloc] init];
 			UID = c.formattedUID;
 			serviceProperty = [AIAddressBookController propertyFromService:c.service];
 			

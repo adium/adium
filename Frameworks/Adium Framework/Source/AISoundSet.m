@@ -145,27 +145,21 @@
 		NSDictionary 	*soundSet = [NSDictionary dictionaryWithContentsOfFile:soundPlistPath];	
 		int				version = [[soundSet objectForKey:SOUNDSET_VERSION] intValue];
 		
-		if (version == 1) {
-			NSEnumerator	*enumerator;
-			NSString		*key;
-			NSArray			*locations;
-			NSDictionary	*localSounds;
-			
+		if (version == 1) {			
 			//Retrieve the set name and information
 			if(!name) //this will have been set from info.plist if it's a new-format xtra
 				name = [[[inPath lastPathComponent] stringByDeletingPathExtension] retain];
 			info = [[soundSet objectForKey:SOUNDSET_INFO] retain];
 			
 			//Search locations.  If none are provided, search within the soundset folder.
-			locations = [soundSet objectForKey:SOUNDSET_SOUND_LOCATIONS];
+			NSArray *locations = [soundSet objectForKey:SOUNDSET_SOUND_LOCATIONS];
 			if(!locations) locations = [NSArray arrayWithObject:inPath];
 			
 			//Retrieve the sound keys and paths, converting local paths to full paths
-			localSounds = [soundSet objectForKey:SOUNDSET_SOUNDS];
+			NSDictionary *localSounds = [soundSet objectForKey:SOUNDSET_SOUNDS];
 			sounds = [[NSMutableDictionary alloc] init];
 			
-			enumerator = [localSounds keyEnumerator];
-			while((key = [enumerator nextObject])){
+			for (NSString *key in [localSounds keyEnumerator]) {
 				[(NSMutableDictionary *)sounds setObject:[[self _fullPathForSoundAtLocalPath:[localSounds objectForKey:key]
 													  searchLocations:locations] stringByCollapsingBundlePath]
 						   forKey:key];

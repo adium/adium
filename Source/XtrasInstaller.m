@@ -261,11 +261,9 @@
 	fileEnumerator = [fileManager enumeratorAtPath:dest];
 
 	if (decompressionSuccess && fileEnumerator) {
-		NSString		*xtraPath;
-		NSString		*nextFile;
 		NSSet			*supportedDocumentExtensions = [[NSBundle mainBundle] supportedDocumentExtensions];
 
-		while((nextFile = [fileEnumerator nextObject])) {
+		for (NSString *nextFile in fileEnumerator) {
 			/* Ignore hidden files and the __MACOSX folder which some compression engines stick into the archive but
 			 * /usr/bin/unzip doesn't handle properly.
 			 */
@@ -284,7 +282,7 @@
 				}
 
 				if (isSupported) {
-					xtraPath = [dest stringByAppendingPathComponent:nextFile];
+					NSString *xtraPath = [dest stringByAppendingPathComponent:nextFile];
 
 					//Open the file directly
 					AILogWithSignature(@"Installing %@",xtraPath);

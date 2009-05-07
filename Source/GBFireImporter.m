@@ -537,10 +537,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		if(![serviceName length])
 			continue;
 		
-		NSEnumerator *accountEnum = [[accountsDict objectForKey:serviceName] objectEnumerator];
-		NSDictionary *account = nil;
-		
-		while((account = [accountEnum nextObject]) != nil)
+		for (NSDictionary *account in [accountsDict objectForKey:serviceName])
 		{
 			NSString *accountName = [account objectForKey:@"userName"];
 			if(![accountName length])

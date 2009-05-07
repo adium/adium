@@ -215,20 +215,16 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 								   otherButton:nil
 					 informativeTextWithFormat:[NSString stringWithFormat:
 												AILocalizedString(@"Unable to parse the server list at %@. Please try again later.",nil), SERVERFEEDRSSURL]] runModal];
-			} else {
-				float longitude, latitude;
-				
+			} else {				
 				MachineLocation loc;
 				ReadLocation(&loc);
 				
-				latitude = FractToFloat(loc.latitude)*(M_PI/2.0f);
-				longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
+				float latitude = FractToFloat(loc.latitude)*(M_PI/2.0f);
+				float longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
 				
 				servers = [[NSMutableArray alloc] init];
-				NSEnumerator *enumer = [items objectEnumerator];
-				NSXMLElement *item;
 				
-				while((item = [enumer nextObject])) {
+				for (NSXMLElement *item in items) {
 					NSXMLElement *title = [[item elementsForName:@"name"] lastObject];
 					if(!title)
 						continue;

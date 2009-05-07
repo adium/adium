@@ -820,9 +820,7 @@
 			NSMenu *submenu = [[NSMenu alloc] initWithTitle:gateway.UID];
 			
 			NSArray *menuitemarray = [self menuItemsForContact:gateway];
-			NSEnumerator *e2 = [menuitemarray objectEnumerator];
-			NSMenuItem *m2item;
-			while((m2item = [e2 nextObject]))
+			for (NSMenuItem *m2item in menuitemarray)
 				[submenu addItem:m2item];
 			
 			if([submenu numberOfItems] > 0)
@@ -893,9 +891,7 @@
 		NSString *jid = gateway.UID;
 		NSString *pattern = [@"@" stringByAppendingString:jid];
 		NSMutableArray *gatewayContacts = [[NSMutableArray alloc] init];
-		NSEnumerator *e = [[self contacts] objectEnumerator];
-		AIListContact *contact;
-		while((contact = [e nextObject])) {
+		for (AIListContact *contact in self.contacts) {
 			if([contact.UID hasSuffix:pattern])
 				[gatewayContacts addObject:contact];
 		}
