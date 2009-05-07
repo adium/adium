@@ -314,7 +314,7 @@
 {
 	if (!loadedExpanded) {
 		loadedExpanded = YES;
-		expanded = [[self preferenceForKey:@"IsExpanded" group:@"Contact List"] boolValue];
+		expanded = [[self preferenceForKey:KEY_EXPANDED group:PREF_GROUP_CONTACT_LIST] boolValue];
 	}
 
 	return expanded;

@@ -123,7 +123,7 @@
 									 object:nil];
 	
 	//Now register our other defaults
-    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTACT_LIST_DEFAULTS
+    [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:@"ContactListDefaults"
 																		forClass:[self class]]
 										  forGroup:PREF_GROUP_CONTACT_LIST];										  
 											  

@@ -36,7 +36,6 @@
 #define KEY_SAVE_CONTAINERS				@"Save Containers On Quit"
 #define KEY_CONTAINERS					@"Containers"
 
-#define PREF_GROUP_CONTACT_LIST				@"Contact List"
 #define KEY_CL_WINDOW_LEVEL					@"Window Level"
 #define KEY_CL_HIDE							@"Hide While in Background"
 #define KEY_CL_EDGE_SLIDE					@"Hide On Screen Edges"

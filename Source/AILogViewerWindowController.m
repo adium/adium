@@ -43,7 +43,6 @@
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
 
 #define KEY_LOG_VIEWER_WINDOW_FRAME		@"Log Viewer Frame"
-#define	PREF_GROUP_CONTACT_LIST			@"Contact List"
 #define KEY_LOG_VIEWER_GROUP_STATE		@"Log Viewer Group State"	//Expand/Collapse state of groups
 #define TOOLBAR_LOG_VIEWER				@"Log Viewer Toolbar"
 
