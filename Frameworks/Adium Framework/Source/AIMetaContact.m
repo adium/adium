@@ -779,12 +779,10 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	if (!userIcon) {
 		NSArray		*theContainedObjects = self.uniqueContainedObjects;
 
-		unsigned int count = [theContainedObjects count];
-		unsigned int i = 0;
-		while ((i < count) && !userIcon) {
+		NSUInteger count = [theContainedObjects count];
+		for (NSUInteger i = 0; i < count && !userIcon; i++) {
 			sourceListObject = [theContainedObjects objectAtIndex:i];
 			userIcon = [sourceListObject userIcon];
-			i++;
 		}
 	}
 

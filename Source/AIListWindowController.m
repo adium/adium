@@ -867,18 +867,10 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 // note: may be inaccurate when mouse is up against an edge 
 - (NSScreen *)screenForPoint:(NSPoint)point
 {
-	NSScreen *pointScreen = nil;
-	
-	NSEnumerator *screenEnumerator = [[NSScreen screens] objectEnumerator];
-	NSScreen *screen;
-	while ((screen = [screenEnumerator nextObject]) != nil) {
-		if (NSPointInRect(point, NSInsetRect([screen frame], -1, -1))) {
-			pointScreen = screen;
-			break;
-		}		
+	for (NSScreen *pointScreen in [NSScreen screens]) {
+		if (NSPointInRect(point, NSInsetRect([screen frame], -1, -1)))
+			return pointScreen;
 	}
-	
-	return pointScreen;
 }	
 
 - (NSRect)squareRectWithCenter:(NSPoint)point sideLength:(CGFloat)sideLength
