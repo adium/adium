@@ -1,94 +1,250 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                confirmQuit = id; 
-                reportABug = id; 
-                sendFeedback = id; 
-                showAboutBox = id; 
-                showForums = id; 
-                showHelp = id; 
-            }; 
-            CLASS = AIAdium; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                accountController = AIAccountController; 
-                activityWindowController = BZActivityWindowController; 
-                contactAlertsController = ESContactAlertsController; 
-                contactController = AIContactController; 
-                contentController = AIContentController; 
-                dockController = AIDockController; 
-                fileTransferController = ESFileTransferController; 
-                interfaceController = AIInterfaceController; 
-                loginController = AILoginController; 
-                menuController = AIMenuController; 
-                pluginController = AIPluginController; 
-                preferenceController = AIPreferenceController; 
-                soundController = AISoundController; 
-                toolbarController = AIToolbarController; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = AIAlternatingRowOutlineView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = AIOutlineView; 
-        }, 
-        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
-        {
-            CLASS = AIFileTransferProgressOutlineView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = AIVariableHeightOutlineView; 
-        }, 
-        {
-            ACTIONS = {pasteAsRichText = id; scrollPageDown = id; scrollPageUp = id; }; 
-            CLASS = AIMessageEntryTextView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = AISendingTextView; 
-        }, 
-        {CLASS = AIOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {CLASS = AIPlasticButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
-        {
-            ACTIONS = {sendContent = id; }; 
-            CLASS = AISendingTextView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {target = id; }; 
-            SUPERCLASS = NSTextView; 
-        }, 
-        {
-            CLASS = AIVariableHeightOutlineView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = AIAlternatingRowOutlineView; 
-        }, 
-        {
-            CLASS = AIWindowController; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {CLASS = BZGenericViewCell; LANGUAGE = ObjC; SUPERCLASS = NSCell; }, 
-        {CLASS = BZGenericViewCell1; LANGUAGE = ObjC; SUPERCLASS = NSTableColumn; }, 
-        {
-            ACTIONS = {clearAllCompleteTransfers = id; }; 
-            CLASS = ESFileTransferProgressWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "button_clear" = NSButton; 
-                outlineView = AIVariableHeightOutlineView; 
-                scrollView = NSScrollView; 
-                "textField_statusBar" = NSTextField; 
-            }; 
-            SUPERCLASS = AIWindowController; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSArray; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSMutableArray; LANGUAGE = ObjC; SUPERCLASS = NSArray; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {
-            ACTIONS = {runCustomizationPalette = id; }; 
-            CLASS = NSToolbar; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>AIAlternatingRowOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>adiumPrint</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>prefsWindowWillClose</key>
+				<string>SS_PrefsController</string>
+				<key>toggleFindPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSScrollView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTableView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIVariableHeightOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIAlternatingRowOutlineView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>performFindPanelAction</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSOutlineView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>closeWindow</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>clearAllCompleteTransfers</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>ESFileTransferProgressWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>button_clear</key>
+				<string>NSButton</string>
+				<key>outlineView</key>
+				<string>AIVariableHeightOutlineView</string>
+				<key>scrollView</key>
+				<string>NSScrollView</string>
+				<key>textField_statusBar</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SS_PrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIAutoScrollView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSScrollView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIFileTransferProgressOutlineView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIVariableHeightOutlineView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTableView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
