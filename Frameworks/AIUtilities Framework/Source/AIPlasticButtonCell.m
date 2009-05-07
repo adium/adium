@@ -27,7 +27,6 @@
 
 #pragma mark Birth and Death
 
-//
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIPlasticButtonCell	*newCell = [[self class] allocWithZone:zone];

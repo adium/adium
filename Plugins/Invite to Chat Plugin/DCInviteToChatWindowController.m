@@ -180,7 +180,6 @@ static DCInviteToChatWindowController *sharedInviteToChatInstance = nil;
 			(!contact.online || inContact.online));
 }
 
-//
 -(void)inviteToChat:(AIListContact*)inContact
 {
 	// Sanity check: is there really a list object and a chat?

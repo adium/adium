@@ -118,7 +118,6 @@
 	return YES;
 }
 
-//
 - (void)cancelOperation:(id)sender
 {
 	[self deselectAll:nil];

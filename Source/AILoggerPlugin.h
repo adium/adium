@@ -93,7 +93,6 @@
 - (void)markLogDirtyAtPath:(NSString *)path;
 - (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
-//
 - (void)stopIndexingThreads;
 - (void)dirtyAllLogs;
 - (void)cleanDirtyLogs;

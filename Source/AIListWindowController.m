@@ -161,7 +161,6 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[super dealloc];
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	AILogWithSignature(@"My autosave name is %@",[NSString stringWithFormat:@"Contact List:%@", [[self contactList] contentsBasedIdentifier]]);
@@ -575,7 +574,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
     [[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactListDidResignMain object:self];
 }
 
-//
 - (void)showWindowInFrontIfAllowed:(BOOL)inFront
 {
 	//Always show for three seconds at least if we're told to show

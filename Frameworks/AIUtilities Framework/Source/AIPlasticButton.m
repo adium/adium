@@ -18,7 +18,6 @@
 	[self setCellClass:[AIPlasticButtonCell class]];
 }
 
-//
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIPlasticButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];

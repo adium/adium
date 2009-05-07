@@ -128,7 +128,6 @@
 	if (insertText) [super insertText:aString];
 }
 
-//
 - (void)interpretKeyEvents:(NSArray *)eventArray
 {
 	unsigned 	index = 0;
