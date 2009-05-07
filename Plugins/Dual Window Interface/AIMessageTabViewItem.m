@@ -178,6 +178,7 @@
     //If the display name changed, we resize the tabs
     if (notification == nil || [keys containsObject:@"Display Name"]) {
 		[self setLabel:[self label]];
+		[self updateTabStatusIcon];
     } else if ([keys containsObject:@"UnviewedContent"]) {
 		[self setValue:nil forKeyPath:@"objectCount"];
 		[self setValue:nil forKeyPath:@"countColor"];
@@ -222,6 +223,7 @@
 		//If the list object's display name changed, we resize the tabs
 		if (!keys || [keys containsObject:@"Display Name"]) {
 			[self setLabel:[self label]];
+			[self updateTabStatusIcon];
 		}
 	}
 }
