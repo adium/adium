@@ -264,6 +264,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		
 		if (prpl_info && prpl_info->status_text) {
 			message = (prpl_info->status_text)(buddy);
+			
+			// Don't display "Offline" as a status message.
+			if (message && !strcmp(message, _("Offline"))) {
+				message = NULL;
+			}
 		}
 		
 		// These are HTML-stripped messages.
