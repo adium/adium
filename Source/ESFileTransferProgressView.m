@@ -341,7 +341,7 @@
 
 			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressResendPressed" forClass:[self class]]];
 		}
-	} else {		
+	} else {	
 		if (isSelected) {
 			[button_stopResume setKeyEquivalent:@"."];
 			[button_stopResume setKeyEquivalentModifierMask:NSCommandKeyMask];
@@ -352,6 +352,8 @@
 			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed_Selected" forClass:[self class]]];
 
 		} else {
+			[button_stopResume setKeyEquivalent:@""];
+			
 			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover" : @"FTProgressStop")
 													forClass:[self class]]];
 
