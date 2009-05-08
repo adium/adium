@@ -466,8 +466,11 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 
 	//If they tried to delete a row that isn't finished, or we got here with no valid selection, sound the system beep
-	if (!didDelete)
+	if (!didDelete) {
 		NSBeep();
+	} else {
+		[inOutlineView deselectAll:nil];
+	}
 }
 
 - (NSMenu *)outlineView:(NSOutlineView *)inOutlineView menuForEvent:(NSEvent *)inEvent
