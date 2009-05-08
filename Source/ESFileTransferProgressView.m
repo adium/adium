@@ -280,6 +280,9 @@
 	[textField_destination setTextColor:newColor];		
 	[textField_fileName setTextColor:newColor];
 	
+	[textField_detailsLabel setTextColor:newColor];
+	
+	
 	[self updateButtonStopResume];
 	[self updateButtonReveal];
 	[self setNeedsDisplay:YES];
@@ -316,6 +319,7 @@
 	if (isSelected != flag) {
 		isSelected = flag;
 		
+		[self updateButtonStopResume];
 		[self updateColors];
 	}
 }
@@ -337,11 +341,11 @@
 
 			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressResendPressed" forClass:[self class]]];
 		}
-	} else {
-		[button_stopResume setKeyEquivalent:@"."];
-		[button_stopResume setKeyEquivalentModifierMask:NSCommandKeyMask];
-		
+	} else {		
 		if (isSelected) {
+			[button_stopResume setKeyEquivalent:@"."];
+			[button_stopResume setKeyEquivalentModifierMask:NSCommandKeyMask];
+			
 			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover_Selected" : @"FTProgressStop_Selected")
 													forClass:[self class]]];
 
