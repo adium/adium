@@ -36,9 +36,9 @@
 @end
 
 @interface AIMetaContact ()
-- (void)_updateAllPropertiesForObject:(AIListObject *)inObject;
+- (void)updateAllPropertiesForObject:(AIListObject *)inObject;
 
-- (void)_determineIfWeShouldAppearToContainOnlyOneContact;
+- (void)determineIfWeShouldAppearToContainOnlyOneContact;
 
 - (NSArray *)uniqueContainedListContactsIncludingOfflineAccounts:(BOOL)includeOfflineAccounts visibleOnly:(BOOL)visibleOnly;
 
@@ -51,12 +51,10 @@
 
 NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *objectB, void *context);
 
-//init
 - (id)initWithObjectID:(NSNumber *)inObjectID
 {
-	objectID = [inObjectID retain];
-
 	if ((self = [super initWithUID:[inObjectID stringValue] service:nil])) {
+		objectID = [inObjectID retain];
 		_preferredContact = nil;
 		_listContacts = nil;
 		_listContactsIncludingOfflineAccounts = nil;
@@ -85,10 +83,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[super dealloc];
 }
 
-- (NSNumber *)objectID
-{
-	return objectID;
-}
+@synthesize objectID;
 
 - (NSString *)internalObjectID
 {
@@ -100,7 +95,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 + (NSString *)internalObjectIDFromObjectID:(NSNumber *)inObjectID
 {
-	return ([NSString stringWithFormat:@"MetaContact-%i",[inObjectID intValue]]);
+	return [NSString stringWithFormat:@"MetaContact-%i", [inObjectID intValue]];
 }
 
 //A metaContact's internalObjectID is completely unique to it, so return that for interalUniqueObjectID
@@ -260,12 +255,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		//If we were unique before, check if we will still be unique after adding this contact.
 		//If we were not, no checking needed.
 		if (containsOnlyOneUniqueContact) {
-			[self _determineIfWeShouldAppearToContainOnlyOneContact];
+			[self determineIfWeShouldAppearToContainOnlyOneContact];
 		}
 
 		//Add the object from our status cache, notifying of the changes (silently) as appropriate
 		if (inObject == [self preferredContact]) {
-			[self _updateAllPropertiesForObject:inObject];
+			[self updateAllPropertiesForObject:inObject];
 		}
 		
 		[self restoreGrouping];
@@ -311,12 +306,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		//Only need to check if we are now unique if we weren't unique before, since we've either become
 		//unique are stayed the same.
 		if (!containsOnlyOneUniqueContact) {
-			[self _determineIfWeShouldAppearToContainOnlyOneContact];
+			[self determineIfWeShouldAppearToContainOnlyOneContact];
 		}
 
 		//Remove all references to the object from our status cache; notifying of the changes as appropriate
 		if (wasPreferredContact)
-			[self _updateAllPropertiesForObject:inObject];
+			[self updateAllPropertiesForObject:inObject];
 
 		//If we remove our list object, don't continue to show up in the contact list
 		[self restoreGrouping];
@@ -596,7 +591,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 }
 
 //When the listContacts array has a single member, we only contain one unique contact.
-- (void)_determineIfWeShouldAppearToContainOnlyOneContact
+- (void)determineIfWeShouldAppearToContainOnlyOneContact
 {
 	BOOL oldOnlyOne = containsOnlyOneUniqueContact;
 
@@ -618,7 +613,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	
 	//When a contact has its remote grouping changed, this may mean it is now listed on an online account.
 	//We therefore update our containsOnlyOneContact boolean.
-	[self _determineIfWeShouldAppearToContainOnlyOneContact];
+	[self determineIfWeShouldAppearToContainOnlyOneContact];
 	
 	[self restoreGrouping];
 
@@ -641,7 +636,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	 */
 	if ([key isEqualToString:@"Online"]) {
 		_preferredContact = nil;
-		[self _determineIfWeShouldAppearToContainOnlyOneContact];
+		[self determineIfWeShouldAppearToContainOnlyOneContact];
 
 	} else  if ([key isEqualToString:@"StatusType"] ||
 		[key isEqualToString:@"IdleSince"] ||
@@ -656,12 +651,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (id)valueForProperty:(NSString *)key
 {
-	id result;
-
-	if (!(result = [super valueForProperty:key]))
-		result = [self.preferredContact valueForProperty:key];
-
-	return result;
+	return [super valueForProperty:key] ?: [self.preferredContact valueForProperty:key];
 }
 
 #pragma mark Attribute arrays
@@ -704,7 +694,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
  *
  * @param inObject The object for which we will notify
  */
-- (void)_updateAllPropertiesForObject:(AIListObject *)inObject
+- (void)updateAllPropertiesForObject:(AIListObject *)inObject
 {
 	for (NSString *key in inObject.properties) {
 		[super object:self didChangeValueForProperty:key notify:NotifyLater];
@@ -801,24 +791,12 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (NSString *)displayName
 {
-	NSString	*displayName = [self displayArrayObjectForKey:@"Display Name"];
-	
-	if (!displayName) {
-		displayName = self.preferredContact.ownDisplayName;
-	}
-
-	return displayName;
+	return [self displayArrayObjectForKey:@"Display Name"] ?: self.preferredContact.ownDisplayName;
 }
 
 - (NSString *)phoneticName
-{
-	NSString	*phoneticName = [self displayArrayObjectForKey:@"Phonetic Name"];
-	
-	if (!phoneticName) {
-		phoneticName = self.preferredContact.ownPhoneticName;
-	}
-	
-	return phoneticName;
+{	
+	return [self displayArrayObjectForKey:@"Phonetic Name"] ?: self.preferredContact.ownPhoneticName;
 }
 
 //FormattedUID will return nil if we have multiple different UIDs contained within us
@@ -829,14 +807,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 - (NSString *)longDisplayName
 {
-	NSString	*longDisplayName = [self displayArrayObjectForKey:@"Long Display Name"];
-
-	if (!longDisplayName) {
-		longDisplayName = self.preferredContact.longDisplayName;
-	}
-
-	//    return [longDisplayName stringByAppendingString:[NSString stringWithFormat:@"-Meta-%i",[self countOfContainedObjects]]];
-	return longDisplayName;
+	return [self displayArrayObjectForKey:@"Long Display Name"] ?: self.preferredContact.longDisplayName;
 }
 
 #pragma mark Status

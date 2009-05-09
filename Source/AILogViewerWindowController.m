@@ -1794,7 +1794,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		automaticSearch = NO;
 		
 		[resultsLock lock];
-		selectedLogs = [tableView_results arrayOfSelectedItemsUsingSourceArray:currentSearchResults];
+		selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
 		[resultsLock unlock];
 		
 		[self displayLogs:selectedLogs];
@@ -2708,7 +2708,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		
 	} else {
 		[resultsLock lock];
-		NSArray *selectedLogs = [tableView_results arrayOfSelectedItemsUsingSourceArray:currentSearchResults];
+		NSArray *selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
 		[resultsLock unlock];
 		
 		[self deleteLogs:selectedLogs];

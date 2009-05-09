@@ -6,11 +6,6 @@
 //  Copyright (c) 2003-2005 The Adium Team. All rights reserved.
 //
 
-
-@interface NSObject (HashingAdditions)
-- (NSUInteger)hash;
-@end
-
 @interface NSObject (RunLoopMessenger)
 - (void)mainPerformSelector:(SEL)aSelector;
 - (id)mainPerformSelector:(SEL)aSelector returnValue:(BOOL)flag;
