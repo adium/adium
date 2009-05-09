@@ -21,7 +21,7 @@
 
 //Return an array of items which are currently selected. SourceArray should be an array from which to pull the items;
 //its count must be the same as the number of rows
-- (NSArray *)arrayOfSelectedItemsUsingSourceArray:(NSArray *)sourceArray
+- (NSArray *)selectedItemsFromArray:(NSArray *)sourceArray
 {
 	NSParameterAssert([sourceArray count] >= [self numberOfRows]);
 
