@@ -1049,6 +1049,19 @@
 													 UID:sourceUID];
 }
 
+/*!
+ * @brief The fallback alias for a chat participant
+ *
+ * A fallback alias for a chat participant. This returns nil if a chat-specific alias is inappropriate.
+ *
+ * @param contact the AIListContact
+ * @param chat the AIChat
+ * @return An alias for the contact in the chat, otherwise nil.
+ */
+- (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat
+{
+	return nil;
+}
 
 //Connectivity ---------------------------------------------------------------------------------------------------------
 #pragma mark Connectivity
