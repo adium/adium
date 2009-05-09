@@ -37,4 +37,9 @@
 	return;
 }
 
+- (NSString *)aliasForContact:(AIListObject *)contact
+{
+	return contact.displayName;
+}
+
 @end

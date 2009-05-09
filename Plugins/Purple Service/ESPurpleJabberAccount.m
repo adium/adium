@@ -579,6 +579,22 @@
 	return YES;
 }
 
+/*!
+ * @brief Return the "nickname" part of a MUC JID
+ *
+ * @param contact The AIListContact
+ * @param chat the AIChat
+ * @return The nickname for a chat participant
+ */
+- (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat
+{
+	if (contact.isStranger && [contact.UID.lowercaseString rangeOfString:chat.name.lowercaseString].location != NSNotFound) {
+		return [contact.UID substringFromIndex:[contact.UID rangeOfString:@"/"].location + 1];		
+	} else {
+		return [super fallbackAliasForContact:contact inChat:chat];
+	}
+}
+
 #pragma mark Status
 /*!
  * @brief Return the purple status type to be used for a status
