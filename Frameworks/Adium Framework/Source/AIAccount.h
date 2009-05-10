@@ -241,7 +241,7 @@ typedef enum {
 - (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group;
 - (void)removeContacts:(NSArray *)objects;
 - (void)deleteGroup:(AIListGroup *)group;
-- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups;
+- (void)moveListObjects:(NSArray *)objects fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups;
 - (void)renameGroup:(AIListGroup *)group to:(NSString *)newName;
 - (BOOL)isContactIntentionallyListed:(AIListContact *)contact;
 

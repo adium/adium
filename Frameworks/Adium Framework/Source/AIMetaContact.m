@@ -157,7 +157,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[targetGroups addObject:adium.contactController.contactList];
 	}
 
-	[adium.contactController _moveContactLocally:self toGroups:targetGroups];
+	[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:targetGroups];
 }
 
 - (void) removeFromList
@@ -343,7 +343,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 
 	//If we remove our list object, don't continue to show up in the contact list
 	if (self.countOfContainedObjects == 0)
-		[adium.contactController _moveContactLocally:self toGroups:[NSSet set]];
+		[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:[NSSet set]];
 	
 	[contact release];
 }

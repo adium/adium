@@ -78,7 +78,7 @@
 
 - (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
 {
-	[super moveListObjects:objects toGroups:groups];
+	[super moveListObjects:objects fromGroups:[NSSet set] toGroups:groups];
 	
 	[self uploadContactListToServer];
 }

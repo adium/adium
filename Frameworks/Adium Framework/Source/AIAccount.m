@@ -753,9 +753,10 @@ typedef enum
  * Move existing contacts to a specific group on this account.  The passed contacts should already exist somewhere on
  * this account.
  * @param objects NSArray of AIListContact objects to remove
- * @param group AIListGroup destination for contacts
+ * @param oldGroups NSSet of AIListGroup source for contacts
+ * @param group NSSet of AIListGroup destination for contacts
  */
-- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+- (void)moveListObjects:(NSArray *)objects fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	NSAssert(NO, @"Should not be reached");
 }

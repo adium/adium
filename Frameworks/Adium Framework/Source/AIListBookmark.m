@@ -226,7 +226,7 @@
 		targetGroup = [NSSet setWithObject:adium.contactController.contactList];
 	}
 
-	[adium.contactController moveContact:self intoGroups:targetGroup];
+	[adium.contactController moveContact:self fromGroups:self.groups intoGroups:targetGroup];
 }
 
 /*!
