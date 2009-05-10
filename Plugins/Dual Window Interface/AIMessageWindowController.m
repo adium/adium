@@ -809,7 +809,7 @@
 - (NSMenu *)tabView:(NSTabView *)tabView menuForTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	AIChat			*chat = [(AIMessageTabViewItem *)tabViewItem chat];
-    AIListContact	*selectedObject = chat.listObject;
+    AIListContact	*selectedObject = chat.listObject.parentContact;
     NSMenu			*tmp = nil;
 
     if (selectedObject) {
