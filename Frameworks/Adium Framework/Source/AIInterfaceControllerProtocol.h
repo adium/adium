@@ -296,6 +296,18 @@ typedef enum {
  */
 @property (readonly, nonatomic) NSArray *arrayOfSelectedListObjectsInContactList;
 
+/*!
+ * @brief Get the list objects currently selected in the contact list with their groups
+ *
+ * Each entry in the NSArray is an NSDictionary of the following layout:
+ *
+ * @"ListObject" => the AIListObject
+ * @"ContainingObject" => the containing object
+ *
+ * @result An NSArray of selected objects
+ */
+@property (readonly, nonatomic) NSArray *arrayOfSelectedListObjectsWithGroupsInContactList;
+
 #pragma mark Message View
 /*!
  * @brief Register an object which can handle displaying messages

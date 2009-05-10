@@ -603,12 +603,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 /*********************/
 #pragma mark Contact List Editing
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {	
-	for (AIListContact *object in objects) {
-		for (NSString *remoteGroupName in object.remoteGroupNames) {
-			NSString	*groupName = [self _mapOutgoingGroupName:remoteGroupName];
-			
+	for (AIListGroup *group in groups) {
+		NSString *groupName = [self _mapOutgoingGroupName:group.UID];
+	
+		for (AIListContact *object in objects) {
 			//Have the purple thread perform the serverside actions
 			[purpleAdapter removeUID:object.UID onAccount:self fromGroup:groupName];
 			

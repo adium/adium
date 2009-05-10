@@ -374,12 +374,25 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	}
 }
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {
-	//Stop any pending delayed updates for these objects
-	[arrayOfContactsForDelayedUpdates removeObjectsInArray:objects];
+	for (AIListObject *object in objects) {
+		BOOL completelyRemoving = YES;
+		
+		for (AIListGroup *group in object.groups) {
+			if (![groups containsObject:group]) {
+				completelyRemoving = NO;
+				break;
+			}
+		}
+		
+		if (completelyRemoving) {
+			//Stop any pending delayed updates for these objects
+			[arrayOfContactsForDelayedUpdates removeObjectsInArray:objects];
+		}
+	}
 
-	[super removeContacts:objects];
+	[super removeContacts:objects fromGroups:groups];
 }
 
 #pragma mark File transfer

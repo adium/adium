@@ -90,9 +90,9 @@
 	[self uploadContactListToServer];
 }
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {
-	[super removeContacts:objects];
+	[super removeContacts:objects fromGroups:groups];
 	
 	[self uploadContactListToServer];
 }

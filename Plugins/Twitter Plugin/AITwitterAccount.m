@@ -882,7 +882,7 @@
 /*!
  * @brief Unfollow the requested contacts.
  */
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {	
 	for (AIListContact *object in objects) {
 		NSString *requestID = [twitterEngine disableUpdatesFor:object.UID];

@@ -111,7 +111,7 @@
 	[libezv logout];
 }
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {
 
 }

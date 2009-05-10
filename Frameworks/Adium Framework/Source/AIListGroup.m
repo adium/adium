@@ -90,7 +90,7 @@
 	return self.groups.anyObject; //can only have one containing group, its contact list
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
 	[adium.contactController removeListGroup:self];
 }

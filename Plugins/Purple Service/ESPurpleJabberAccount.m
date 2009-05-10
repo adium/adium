@@ -874,12 +874,17 @@
 		NSString *jid = gateway.UID;
 		NSString *pattern = [@"@" stringByAppendingString:jid];
 		NSMutableArray *gatewayContacts = [[NSMutableArray alloc] init];
+		NSMutableSet *removeGroups = [NSMutableSet set];
 		for (AIListContact *contact in self.contacts) {
-			if([contact.UID hasSuffix:pattern])
+			if([contact.UID hasSuffix:pattern]) {
 				[gatewayContacts addObject:contact];
+				[removeGroups unionSet:contact.groups];
+			}
 		}
 		// now, remove them from the roster
-		[self removeContacts:gatewayContacts];
+		[self removeContacts:gatewayContacts
+				  fromGroups:removeGroups.allObjects];
+		
 		[gatewayContacts release];
 		
 		// finally, remove the gateway itself
