@@ -124,7 +124,7 @@
  *
  * We've been asked to be removed. Ask the contact controller to do so.
  */
-- (void)removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
 	[adium.contactController removeBookmark:self];
 }

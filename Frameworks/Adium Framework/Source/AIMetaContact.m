@@ -160,7 +160,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:targetGroups];
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
 	NSSet	*objectsToRemove = nil;
 	
@@ -169,8 +169,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		AIListContact	*listContact = [self.uniqueContainedObjects objectAtIndex:0];
 		
 		objectsToRemove = [adium.contactController allContactsWithService:listContact.service UID:listContact.UID];
-		for (AIListContact *contact in objectsToRemove)
-			[contact removeFromList];
+		for (AIListContact *contact in objectsToRemove) {
+			[contact removeFromGroup:group];
+		}
 	}
 	
 	//Now break the metaContact down, taking out all contacts and putting them back in the main list

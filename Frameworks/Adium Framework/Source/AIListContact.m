@@ -705,10 +705,12 @@
 	return YES;
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
-	if (self.account.online)
-		[self.account removeContacts:[NSArray arrayWithObject:self]];
+	if (self.account.online) {
+		[self.account removeContacts:[NSArray arrayWithObject:self]
+						  fromGroups:[NSArray arrayWithObject:group]];
+	}
 }
 
 #pragma mark Equality

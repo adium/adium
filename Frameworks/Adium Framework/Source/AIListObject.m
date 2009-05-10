@@ -207,9 +207,9 @@
 	return self.groups;
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
-	NSString *error = [NSString stringWithFormat:@"%@ needs an implementation of -removeFromList", NSStringFromClass([self class])];
+	NSString *error = [NSString stringWithFormat:@"%@ needs an implementation of -removeFromGroup:", NSStringFromClass([self class])];
 	NSAssert(NO, error);
 }
 

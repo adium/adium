@@ -426,7 +426,8 @@
 
 			} else {
 				//User selected not listed, so we'll remove that contact
-				[exactContact removeFromList];
+				// XXX multiple containers
+				//[exactContact removeFromList];
 			}
 		}
 	}

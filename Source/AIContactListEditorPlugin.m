@@ -277,7 +277,7 @@
  */
 - (IBAction)deleteSelection:(id)sender
 {	
-	[self deleteFromArray:[adium.interfaceController arrayOfSelectedListObjectsInContactList]];
+	[self deleteFromArray:[adium.interfaceController arrayOfSelectedListObjectsWithGroupsInContactList]];
 }
 
 /*!
@@ -285,68 +285,90 @@
  */
 - (IBAction)deleteSelectionFromTab:(id)sender
 {
-	AIListObject   *currentContextMenuObject;
-	if ((currentContextMenuObject = adium.menuController.currentContextMenuObject)) {
-		[self deleteFromArray:[NSArray arrayWithObject:currentContextMenuObject]];
+	NSArray *selectedObjects = [adium.interfaceController arrayOfSelectedListObjectsWithGroupsInContactList];
+	
+	if (selectedObjects) {
+		[self deleteFromArray:selectedObjects];
+	} else {
+		AIListObject   *currentContextMenuObject;
+		if ((currentContextMenuObject = adium.menuController.currentContextMenuObject)) {
+			NSMutableArray *contactInstances = [NSMutableArray array];
+			
+			for (AIListGroup *group in currentContextMenuObject.groups) {
+				[contactInstances addObject:[NSDictionary dictionaryWithObjectsAndKeys:currentContextMenuObject, @"ListObject",
+											 group, @"ContainingObject", nil]];
+			}
+
+			[self deleteFromArray:contactInstances];
+		}
 	}
 }
 
 /*!
- * @brief Delete an array of <tt>AIListObject</tt>s
+ * @brief Delete an array of contacts
  *
  * After a modal confirmation prompt, the objects in the array are deleted.
  *
- * @param array An <tt>NSArray</tt> of <tt>AIListObject</tt>s.
+ * @param array An NSArray of NSDictionarys describing the AIListObjects
  */
 - (void)deleteFromArray:(NSArray *)array
 {
-	if (array) {
-		NSString	*message;
-		NSUInteger count = array.count;
+	if (!array) {
+		NSBeep();
+		return;
+	}
+	
+	NSString *message = nil;
 
-		if (count == 1) {
-			AIListObject	*listObject = [array objectAtIndex:0];
-			NSString		*name = listObject.displayName;
-			if ([listObject isKindOfClass:[AIListGroup class]]) {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove the group \"%@\" from the contact lists of your online accounts. The %lu contacts within this group will also be removed.\n\nThis action can not be undone.",nil),
-					name,
-					[(AIListGroup *)listObject countOfContainedObjects]];
-				
-			} else {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %@ from the contact lists of your online accounts.",nil), name];
-			}
+	if (array.count == 1) {
+		AIListObject *listObject = [[array objectAtIndex:0] objectForKey:@"ListObject"];
+		AIListObject <AIContainingObject> *containingObject = [[array objectAtIndex:0] objectForKey:@"ContainingObject"];
+		
+		if ([listObject isKindOfClass:[AIListGroup class]]) {
+			message = [NSString stringWithFormat:AILocalizedString(@"This will remove the group \"%@\" from the contact lists of your online accounts. The %lu contacts within this group will also be removed.\n\nThis action can not be undone.", nil),
+					   listObject.displayName,
+					   ((AIListGroup *)listObject).countOfContainedObjects];
 		} else {
-			BOOL		containsGroup = NO;
-			
-			for (AIListObject *obj in array)
-			{
-				if([obj isKindOfClass:[AIListGroup class]]) {
-					containsGroup = YES;
-					break;
-				}
-			}
-
-			if (containsGroup) {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu items from the contact lists of your online accounts. Contacts in any deleted groups will also be removed.\n\nThis action can not be undone.",nil), count];
+			if (listObject.containingObjects.count == 1) {
+				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %@ from the contact lists of your online accounts.",nil), listObject.displayName];
 			} else {
-				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu contacts from the contact lists of your online accounts.",nil), count];
+				message = [NSString stringWithFormat:AILocalizedString(@"This will remove %@ from the group \"%@\" of your online accounts.",nil),
+						   listObject.displayName,
+						   containingObject.displayName];
+			}
+		}
+	} else {
+		BOOL		containsGroup = NO;
+		
+		for (NSDictionary *dict in array) {
+			if ([[dict objectForKey:@"ListObject"] isKindOfClass:[AIListGroup class]]) {
+				containsGroup = YES;
+				break;
 			}
 		}
 		
-		//Make sure we're in the front so our prompt is visible
-		[NSApp activateIgnoringOtherApps:YES];
-		
-		//Guard deletion with a warning prompt		
-		NSInteger result = NSRunAlertPanel(AILocalizedString(@"Remove from list?",nil),
-									 @"%@",
-									 AILocalizedString(@"Remove",nil),
-									 AILocalizedString(@"Cancel",nil),
-									 nil, message);
+		if (containsGroup) {
+			message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu items from the contact lists of your online accounts. Contacts in any deleted groups will also be removed.\n\nThis action can not be undone.",nil), array.count];
+		} else {
+			message = [NSString stringWithFormat:AILocalizedString(@"This will remove %lu contacts from the contact lists of your online accounts.\n\nThis action cannot be undone.",nil), array.count];
+		}	
+	}
 
-		if (result == NSAlertDefaultReturn) {
-			[array makeObjectsPerformSelector:@selector(removeFromList)];
+	//Make sure we're in the front so our prompt is visible
+	[NSApp activateIgnoringOtherApps:YES];
+	
+	//Guard deletion with a warning prompt		
+	NSInteger result = NSRunAlertPanel(AILocalizedString(@"Remove from list?",nil),
+								 AILocalizedString(@"Removing any contacts from their last group will permanently remove them from your contact list.\n\n%@", nil),
+								 AILocalizedString(@"Remove",nil),
+								 AILocalizedString(@"Cancel",nil),
+								 nil, message);
+
+	if (result == NSAlertDefaultReturn) {
+		for (NSDictionary *dict in array) {
+			[[dict objectForKey:@"ListObject"] removeFromGroup:[dict objectForKey:@"ContainingObject"]];
 		}
-	}	
+	}
 }
 
 @end

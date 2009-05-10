@@ -17,6 +17,7 @@
 #import <Adium/AIAbstractAccount.h>
 #import <Adium/AIAccount.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIService.h>
@@ -730,8 +731,9 @@ typedef enum
  *
  * Remove contacts from this account.
  * @param objects NSArray of AIListContact objects to remove
+ * @param groups NSArray of AIListGroup objects to remove from.
  */
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {
 	
 }
@@ -1055,9 +1057,13 @@ typedef enum
 {
 	//Intentially unimplemented. This should never be called (contacts are created a different way), but is required for KVC-compliance.
 }
-- (void)removeObjectFromContactsAtIndex:(int)index
+- (void)removeObjectFromContactsAtIndex:(NSInteger)index
 {
-	[[self.contacts objectAtIndex:index] removeFromList];
+	AIListObject *object = [self.contacts objectAtIndex:index];
+	
+	for (AIListGroup *group in object.groups) {
+		[object removeFromGroup:group];
+	}
 }
 
 /**

@@ -1178,6 +1178,10 @@
 {
 	return [self _performSelectorOnFirstAvailableResponder:@selector(arrayOfListObjects) conformingToProtocol:@protocol(ContactListOutlineView)];
 }
+- (NSArray *)arrayOfSelectedListObjectsWithGroupsInContactList
+{
+	return [self _performSelectorOnFirstAvailableResponder:@selector(arrayOfListObjectsWithGroups) conformingToProtocol:@protocol(ContactListOutlineView)];
+}
 
 //Message View ---------------------------------------------------------------------------------------------------------
 //Message view is abstracted from the containing interface, since they're not directly related to eachother
