@@ -323,7 +323,7 @@ static int nextChatNumber = 0;
 {
 	NSString *alias = [participatingContactsAliases objectForKey:contact.UID];
 	
-	if (!alias) {
+	if (!alias && self.isGroupChat) {
 		alias = [self.account fallbackAliasForContact:(AIListContact *)contact inChat:self];
 	}
 	
