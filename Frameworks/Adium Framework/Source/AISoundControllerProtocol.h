@@ -13,8 +13,8 @@
 
 @protocol AISoundController <AIController>
 //Sound
-- (void)playSoundAtPath:(NSString *)inPath;
-- (void)stopPlayingSoundAtPath:(NSString *)inPath;
+- (void)playSoundAtURL:(NSURL *)url;
+- (void)stopCurrentlyPlayingSounds;
 
 //Speech
 - (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate;
