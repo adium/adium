@@ -17,10 +17,9 @@
 #import "AISoundController.h"
 
 @interface AdiumSound : NSObject {
-    NSMutableDictionary	*soundCacheDict;
-    NSMutableArray		*soundCacheArray;
-	NSTimer				*soundCacheCleanupTimer;
-
+	NSMutableSet		*currentlyPlayingSounds;
+	NSString			*outputDeviceUID;
+	
     CGFloat				customVolume;
 	
 	NSUInteger			soundsAreMuted;
@@ -39,9 +38,10 @@
 /*!
  * @brief Play a sound
  * 
- * @param inPath path to the sound file
+ * @param inURL url to the sound file
  */
-- (void)playSoundAtPath:(NSString *)inPath;
+- (void)playSoundAtURL:(NSURL *)inURL;
+
 /*!
  * @brief Stop playing a sound
  *
@@ -49,7 +49,7 @@
  * 
  * @param inPath path to the sound file
  */
-- (void)stopPlayingSoundAtPath:(NSString *)inPath;
+- (void)stopCurrentlyPlayingSounds;
 
 /*!	@brief	Mute or unmute sounds.
  *
