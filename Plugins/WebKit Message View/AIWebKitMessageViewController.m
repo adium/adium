@@ -781,7 +781,7 @@ static NSArray *draggedTypes = nil;
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
 	NSMutableArray *webViewMenuItems = [[defaultMenuItems mutableCopy] autorelease];
-	AIListContact	*chatListObject = chat.listObject;
+	AIListContact	*chatListObject = chat.listObject.parentContact;
 	NSMenuItem		*menuItem;
 
 	//Remove default items we don't want
