@@ -207,7 +207,7 @@
 		
 		[groups addObject:localGroup];
 	}
-	[adium.contactController _moveContactLocally:self toGroups:groups];
+	[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:groups];
 }
 
 #pragma mark Names

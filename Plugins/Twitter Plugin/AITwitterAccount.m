@@ -208,7 +208,7 @@
 		
 		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat];
 
-		[adium.contactController moveContact:timelineBookmark intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
+		[adium.contactController moveContact:timelineBookmark fromGroups:[NSSet set] intoGroups:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
 	}
 	
 	NSTimeInterval updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] intValue] * 60;
@@ -358,7 +358,7 @@
  * @param objects NSArray of AIListContact objects to remove
  * @param group AIListGroup destination for contacts
  */
-- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+- (void)moveListObjects:(NSArray *)objects oldGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	// XXX do twitter grouping
 }
