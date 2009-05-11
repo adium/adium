@@ -31,7 +31,8 @@
 #define ADVANCED_NIB_NAME (@"AIAdvancedInspectorPane")
 
 @interface AIAdvancedInspectorPane()
--(void)reloadPopup;
+- (void)reloadPopup;
+- (void)configureControlDimming;
 @end
 
 @implementation AIAdvancedInspectorPane
@@ -87,6 +88,11 @@
 -(NSView *)inspectorContentView
 {
 	return inspectorContentView;
+}
+
+- (void)configureControlDimming
+{
+	[button_removeGroup setEnabled:[tableView_groups numberOfSelectedRows]];	
 }
 
 -(void)updateForListObject:(AIListObject *)inObject
@@ -169,15 +175,8 @@
 	[accountMenu rebuildMenu];
 	
 	[button_addGroup setMenu:[adium.contactController groupMenuWithTarget:self]];
-}
-
-- (void)selectGroup:(id)sender
-{
-	AIListGroup *group = [sender representedObject];
 	
-	[currentSelectedAccount addContact:currentSelectedContact toGroup:group];
-	
-	[tableView_groups reloadData];
+	[self configureControlDimming];
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
@@ -251,12 +250,23 @@
 }
 
 #pragma mark Group control
+- (void)selectGroup:(id)sender
+{
+	AIListGroup *group = [sender representedObject];
+	
+	[currentSelectedAccount addContact:currentSelectedContact toGroup:group];
+	
+	[tableView_groups deselectAll:nil];
+	[tableView_groups reloadData];
+}
+
 - (void)removeSelectedGroups:(id)sender
 {
 	for (AIListGroup *group in [currentSelectedContact.remoteGroups.allObjects objectsAtIndexes:tableView_groups.selectedRowIndexes]) {
 		[currentSelectedContact removeFromGroup:group];
 	}
 	
+	[tableView_groups deselectAll:nil];
 	[tableView_groups reloadData];
 }
 
@@ -283,6 +293,11 @@
 	}
 	
 	return nil;
+}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
+{
+	[self configureControlDimming];
 }
 
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
