@@ -8,8 +8,10 @@
 
 #import "AIContactInfoContentController.h"
 
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
+
 @class AIAccountMenu, AIContactMenu, AIAccount, AIListContact;
-@protocol AIContactMenuDelegate, AIAccountMenuDelegate;
 
 @interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane, AIAccountMenuDelegate, AIContactMenuDelegate> {
 	IBOutlet	NSView							*inspectorContentView;
