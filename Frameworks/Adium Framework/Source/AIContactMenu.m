@@ -72,6 +72,18 @@
 }
 
 /*!
+ * @brief Set the containing object
+ *
+ * Updates the containing object, and rebuilds the menu items.
+ */
+- (void)setContainingObject:(AIListObject *)inContainingObject
+{
+	containingObject = [inContainingObject retain];
+	
+	[self rebuildMenu];
+}
+
+/*!
  * @brief Returns the existing menu item for a specific contact
  *
  * @param contact AIListContact whose menu item to return
