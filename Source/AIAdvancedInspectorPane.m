@@ -144,10 +144,7 @@
 
 #pragma mark Menus
 -(void)reloadPopup
-{
-	[contactMenu release]; contactMenu = nil;
-	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
-	
+{	
 	[accountMenu rebuildMenu];
 	
 	[button_addGroup setMenu:[adium.contactController groupMenuWithTarget:self]];
@@ -159,7 +156,13 @@
 {
 	currentSelectedAccount = inAccount;
 	
-	[contactMenu rebuildMenu];
+	if (!contactMenu) {
+		// Instantiate here so we don't end up creating a massive menu for all contacts.
+		contactMenu = [[AIContactMenu contactMenuWithDelegate:self
+										  forContactsInObject:displayedObject] retain];	
+	} else {
+		[contactMenu setContainingObject:displayedObject];
+	}
 }
 
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
