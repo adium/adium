@@ -145,8 +145,6 @@
 #pragma mark Menus
 -(void)reloadPopup
 {
-	rebuildingContacts = YES;
-	
 	[contactMenu release]; contactMenu = nil;
 	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
 	
@@ -203,8 +201,6 @@
 	currentSelectedContact = [adium.contactController contactWithService:inContact.service
 																 account:currentSelectedAccount
 																	 UID:inContact.UID];
-
-	rebuildingContacts = NO;
 	
 	// Update the groups.
 	[tableView_groups reloadData];

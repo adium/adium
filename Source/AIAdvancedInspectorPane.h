@@ -39,8 +39,6 @@
 	AIListContact								*currentSelectedContact;
 	
 	AIListObject								*displayedObject;
-
-	BOOL										rebuildingContacts;
 }
 
 -(NSString *)nibName;
