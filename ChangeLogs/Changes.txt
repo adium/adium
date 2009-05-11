@@ -49,7 +49,9 @@ Group Chats and Group Chat Bookmarks
 Contacts
  * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
  * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
- * Added support for contacts in multiple groups (no UI for putting contacts in multiple groups yet)
+ * Added support for contacts in multiple groups
+   * Hold option when dragging to add a contact to a secondary group.
+   * (info inspector stuff here)
  * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
  * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main Contact menu.
  * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
