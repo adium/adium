@@ -17,7 +17,7 @@ static unsigned iqCounter = 0;
 @property (readwrite, retain, nonatomic) NSArray *identities;
 @property (readwrite, retain, nonatomic) AMPurpleJabberNode *commandsNode;
 @property (readwrite, assign, nonatomic) PurpleConnection *gc;
-@property (readwrite, copy, nonatomic) NSMutableArray *delegates;
+@property (readwrite, retain, nonatomic) NSMutableArray *delegates;
 @property (readwrite, retain, nonatomic) NSArray *itemsArray;
 @end
 
@@ -131,7 +131,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 																						 name:queryName ? [NSString stringWithUTF8String:queryName] : nil
 																				   connection:self.gc];
 						// propagate delegates
-						newnode.delegates = self.delegates;
+						newnode.delegates = [[self.delegates mutableCopy] autorelease];
 						[newItems addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
