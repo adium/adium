@@ -49,12 +49,12 @@
 		
 		//Observe contact list changes
 		[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(contactListChanged)
+								   selector:@selector(reloadPopup)
 									   name:Contact_ListChanged
 									 object:nil];	
 		//Observe account changes
 		[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(accountListChanged)
+								   selector:@selector(reloadPopup)
 									   name:Account_ListChanged
 									 object:nil];
 
@@ -230,23 +230,6 @@
 - (NSControlSize)controlSizeForAccountMenu:(AIAccountMenu *)inAccountMenu
 {
 	return NSSmallControlSize;
-}
-
-- (void)accountListChanged
-{
-	[self reloadPopup];
-}
-
-- (void)contactListChanged
-{
-	/* Prevent reentry, as Heisenberg knows out that observing contacts may change them. */
-	if (!rebuildingContacts) {
-		rebuildingContacts = YES;
-		[self accountMenu:accountMenu didSelectAccount:([popUp_accounts numberOfItems] ?
-														[[popUp_accounts selectedItem] representedObject] :
-														nil)];
-		rebuildingContacts = NO;
-	}
 }
 
 #pragma mark Group control
