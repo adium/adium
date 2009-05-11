@@ -78,6 +78,8 @@
  */
 - (void)setContainingObject:(AIListObject *)inContainingObject
 {
+	[containingObject release];
+	
 	containingObject = [inContainingObject retain];
 	
 	[self rebuildMenu];
