@@ -98,14 +98,15 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath hasSuffix:@"Visible"]) {
-		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
+		BOOL alwaysVisibleSelf = [[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
 		
+#warning AIListObject should not know of its subclass
 		// If we're in a meta contact, use the meta contact's preference for visibility.
-		if ([self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact) {
-			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
+		if ([self isKindOfClass:[AIListContact class]]) {
+			alwaysVisibleSelf = alwaysVisibleSelf || [[((AIListContact *)self).parentContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
 		}
-		
-		alwaysVisible = [alwaysVisiblePrefValue boolValue];
+
+		alwaysVisible = alwaysVisibleSelf;
 	}
 }
 
