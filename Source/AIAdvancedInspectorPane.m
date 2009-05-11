@@ -157,28 +157,7 @@
 	}
 }
 
-- (NSArray *)contactsForCurrentObjectCompatibleWithAccount:(AIAccount *)inAccount
-{
-	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
-		NSMutableArray *array = [NSMutableArray array];
-		for (AIListContact *contact in (((AIMetaContact *)displayedObject).uniqueContainedObjects)) {
-			if ([contact.service.serviceClass isEqualToString:inAccount.service.serviceClass]) {
-				[array addObject:[adium.contactController contactWithService:contact.service account:inAccount UID:contact.UID]];
-			}
-		}
-		
-		return array;
-
-	} else 	if ([displayedObject isKindOfClass:[AIListContact class]]) {
-		return [NSArray arrayWithObject:displayedObject];
-		
-	} else {
-		return nil;
-	}
-}
-
-#pragma mark Account/Contact Menu
-
+#pragma mark Menus
 -(void)reloadPopup
 {
 	[contactMenu release]; contactMenu = nil;
@@ -188,6 +167,17 @@
 	accounts = [[self accountsForCurrentObject] retain];
 	
 	[accountMenu rebuildMenu];
+	
+	[button_addGroup setMenu:[adium.contactController groupMenuWithTarget:self]];
+}
+
+- (void)selectGroup:(id)sender
+{
+	AIListGroup *group = [sender representedObject];
+	
+	[currentSelectedAccount addContact:currentSelectedContact toGroup:group];
+	
+	[tableView_groups reloadData];
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
