@@ -103,7 +103,7 @@
 #warning AIListObject should not know of its subclass
 		// If we're in a meta contact, use the meta contact's preference for visibility.
 		if ([self isKindOfClass:[AIListContact class]]) {
-			alwaysVisibleSelf = alwaysVisibleSelf || [[((AIListContact *)self).parentContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
+			alwaysVisibleSelf = [[((AIListContact *)self).parentContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
 		}
 
 		alwaysVisible = alwaysVisibleSelf;
