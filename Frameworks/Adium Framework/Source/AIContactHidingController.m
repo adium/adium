@@ -160,13 +160,8 @@ static AIContactHidingController *sharedControllerInstance = nil;
 	
 	BOOL online = listObject.online || [listObject boolValueForProperty:@"Signed Off"] || [listObject boolValueForProperty:@"New Object"];
 	
-	if (!online) {
-		if (showOfflineContacts) {
-			if (useOfflineGroup && container != adium.contactController.offlineGroup)
-				return NO;
-		} else
-			return NO;
-	}
+	if (!showOfflineContacts && !online)
+		return NO;
 		
 	if (!showIdleContacts && [listObject boolValueForProperty:@"IsIdle"])
 		return NO;
