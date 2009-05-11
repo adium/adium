@@ -70,8 +70,6 @@
 {
 	[accountMenu release]; accountMenu = nil;
 	[contactMenu release]; contactMenu = nil;
-	[accounts release]; accounts = nil;
-	[contacts release]; contacts = nil;
     [displayedObject release]; displayedObject = nil;
 	[inspectorContentView release]; inspectorContentView = nil;
 
@@ -144,33 +142,13 @@
 							 group:GROUP_LIST_BOOKMARK];
 }
 
-#pragma mark Accounts Table View methods
-- (NSArray *)accountsForCurrentObject
-{
-	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
-		NSMutableSet *set = [NSMutableSet set];
-		for (AIService *service in [((AIMetaContact *)displayedObject).uniqueContainedObjects valueForKey:@"service"]) {
-			[set addObjectsFromArray:[adium.accountController accountsCompatibleWithService:service]];
-		}
-
-		return [set allObjects];
-
-	} else 	if ([displayedObject isKindOfClass:[AIListContact class]]) {
-		return [adium.accountController accountsCompatibleWithService:displayedObject.service];
-
-	} else {
-		return nil;
-	}
-}
-
 #pragma mark Menus
 -(void)reloadPopup
 {
+	rebuildingContacts = YES;
+	
 	[contactMenu release]; contactMenu = nil;
 	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
-	
-	[accounts release]; accounts = nil;
-	accounts = [[self accountsForCurrentObject] retain];
 	
 	[accountMenu rebuildMenu];
 	
@@ -188,7 +166,18 @@
 
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
 {
-	return [accounts containsObject:inAccount];
+	if (!inAccount.online) {
+		return NO;
+	}
+	
+	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
+		NSArray *services = [((AIMetaContact *)displayedObject).uniqueContainedObjects valueForKeyPath:@"service.serviceClass"];
+		return [services containsObject:inAccount.service.serviceClass];
+	} else 	if ([displayedObject isKindOfClass:[AIListContact class]]) {
+		return [displayedObject.service.serviceClass isEqualToString:inAccount.service.serviceClass];
+	}
+	
+	return NO;
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didRebuildMenuItems:(NSArray *)menuItems
@@ -215,6 +204,8 @@
 																 account:currentSelectedAccount
 																	 UID:inContact.UID];
 
+	rebuildingContacts = NO;
+	
 	// Update the groups.
 	[tableView_groups reloadData];
 }
