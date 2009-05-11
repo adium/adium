@@ -730,8 +730,8 @@
 				}
 				
 				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged
-														object:item
-													  userInfo:nil];
+																	object:(dragItems.count > 1 ? nil : item.listObject)
+																  userInfo:nil];
 			} else {
 				success = NO;
 			}
@@ -854,9 +854,6 @@
 	}
 	
 	[super outlineView:outlineView acceptDrop:info item:item childIndex:index];
-
-	//XXX Is this actually needed?
-	[self reloadListObject:nil];
 	
     return success;
 }
