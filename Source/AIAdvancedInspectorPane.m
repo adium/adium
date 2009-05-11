@@ -226,7 +226,9 @@
 
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
-	currentSelectedContact = inContact;
+	currentSelectedContact = [adium.contactController contactWithService:inContact.service
+																 account:currentSelectedAccount
+																	 UID:inContact.UID];
 	
 	// Update the groups.
 	[tableView_groups reloadData];
