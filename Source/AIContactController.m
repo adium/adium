@@ -89,6 +89,11 @@
 - (BOOL)addObject:(AIListObject *)inObject;
 @end
 
+@interface AIListBookmark ()
+//Freshly minted bookmarks don't know where to restore to, since they have no serverside counterpart. This tells them.
+- (void)setInitialGroup:(AIListGroup *)inGroup;
+@end
+
 @interface AIContactController ()
 @property (readwrite, nonatomic) BOOL useOfflineGroup;
 - (void)saveContactList;
@@ -1224,7 +1229,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @brief Find or create a bookmark for a chat
  */
-- (AIListBookmark *)bookmarkForChat:(AIChat *)inChat
+- (AIListBookmark *)bookmarkForChat:(AIChat *)inChat inGroup:(AIListGroup *)group
 {
 	AIListBookmark *bookmark = [self existingBookmarkForChat:inChat];
 	
@@ -1238,8 +1243,12 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		
 		[bookmarkDict setObject:bookmark forKey:bookmark.internalObjectID];
 		
+		[bookmark setInitialGroup:group];
+		
 		[self saveContactList];
 	}
+	
+	[bookmark restoreGrouping];
 	
 	//Do the update thing
 	[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];

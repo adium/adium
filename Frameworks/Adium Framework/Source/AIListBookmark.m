@@ -46,8 +46,6 @@
 		chatCreationDictionary = [inChatCreationDictionary copy];
 		name = [inName copy];
 		
-		[self restoreGrouping];
-		
 		[adium.chatController registerChatObserver:self];
 		
 		[self.account addObserver:self
@@ -89,11 +87,14 @@
 		return nil;
 	}
 	
-	return [self initWithUID:[decoder decodeObjectForKey:@"UID"]
-					 account:myAccount
-					 service:[adium.accountController firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]
-				  dictionary:[decoder decodeObjectForKey:@"chatCreationDictionary"]
-						name:[decoder decodeObjectForKey:@"name"]];
+	if ((self = [self initWithUID:[decoder decodeObjectForKey:@"UID"]
+						  account:myAccount
+						  service:[adium.accountController firstServiceWithServiceID:[decoder decodeObjectForKey:@"ServiceID"]]
+					   dictionary:[decoder decodeObjectForKey:@"chatCreationDictionary"]
+							 name:[decoder decodeObjectForKey:@"name"]])) {
+		[self restoreGrouping];
+	}
+	return self;
 }
 
 
@@ -185,6 +186,16 @@
 	if ([self chatIsOurs:chat]) {
 		chat.displayName = self.displayName;
 	}
+}
+
+/*!
+ * @brief For a newly created bookmark, set the group that -restoreGrouping will move us to. This is saved, so has no use on existing bookmarks
+ */
+- (void)setInitialGroup:(AIListGroup *)inGroup
+{
+	[self setPreference:inGroup.UID
+				 forKey:KEY_CONTAINING_OBJECT_UID
+				  group:OBJECT_STATUS_CACHE];	
 }
 
 /*!
