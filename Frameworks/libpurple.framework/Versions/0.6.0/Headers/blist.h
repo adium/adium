@@ -260,11 +260,14 @@ PurpleBuddyList *purple_get_blist(void);
 PurpleBlistNode *purple_blist_get_root(void);
 
 /**
- * Returns a list of every buddy in the list.
+ * Returns a list of every buddy in the list.  Use of this function is
+ * discouraged if you do not actually need every buddy in the list.  Use
+ * purple_find_buddies instead.
  *
  * @return A list of every buddy in the list. Caller is responsible for
  *         freeing the list.
  *
+ * @see purple_find_buddies
  * @since 2.6.0
  */
 GSList *purple_blist_get_buddies(void);
