@@ -1411,7 +1411,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	//Remove all the contacts from this group
 	for (AIListContact *contact in group.containedObjects) {
-		[group removeObject:contact];
+		[contact removeFromGroup:group];
 	}
 	
 	//Delete the group from all active accounts
