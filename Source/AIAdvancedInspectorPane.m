@@ -119,6 +119,10 @@
 	
 	[checkBox_autoJoin setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
 	[checkBox_autoJoin setState:[[inObject preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]];
+	
+	[popUp_accounts setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
+	[popUp_contact setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
+	[button_addGroup setEnabled:![inObject isKindOfClass:[AIListGroup class]]];
 }
 
 #pragma mark Preference callbacks
