@@ -51,4 +51,5 @@
 - (IBAction)setVisible:(id)sender;
 - (IBAction)setAutoJoin:(id)sender;
 
+- (void)removeSelectedGroups:(id)sender;
 @end

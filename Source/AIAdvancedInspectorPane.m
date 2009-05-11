@@ -34,10 +34,6 @@
 -(void)reloadPopup;
 @end
 
-@interface NSMenuItem (NSMenItem_AdvancedInspectorPane)
-- (void)setAttributes:(NSDictionary *)attributes;
-@end
-
 @implementation AIAdvancedInspectorPane
 
 - (id) init
@@ -185,13 +181,13 @@
 
 -(void)reloadPopup
 {
+	[contactMenu release]; contactMenu = nil;
+	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
+	
 	[accounts release]; accounts = nil;
 	accounts = [[self accountsForCurrentObject] retain];
 	
 	[accountMenu rebuildMenu];
-	
-	[contactMenu release]; contactMenu = nil;
-	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
@@ -229,7 +225,7 @@
 	currentSelectedContact = [adium.contactController contactWithService:inContact.service
 																 account:currentSelectedAccount
 																	 UID:inContact.UID];
-	
+
 	// Update the groups.
 	[tableView_groups reloadData];
 }
@@ -264,8 +260,17 @@
 	}
 }
 
-#pragma mark Accounts Table View Data Sources
+#pragma mark Group control
+- (void)removeSelectedGroups:(id)sender
+{
+	for (AIListGroup *group in [currentSelectedContact.remoteGroups.allObjects objectsAtIndexes:tableView_groups.selectedRowIndexes]) {
+		[currentSelectedContact removeFromGroup:group];
+	}
+	
+	[tableView_groups reloadData];
+}
 
+#pragma mark Accounts Table View Data Sources
 /*!
  * @brief Number of table view rows
  */
@@ -290,12 +295,9 @@
 	return nil;
 }
 
-@end
-
-@implementation NSMenuItem (NSMenItem_AdvancedInspectorPane)
-- (void)setAttributes:(NSDictionary *)attributes
+- (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
-	[self setAttributedTitle:[[[NSAttributedString alloc] initWithString:[self title]
-															  attributes:attributes] autorelease]];
+	[self removeSelectedGroups:nil];
 }
+
 @end
