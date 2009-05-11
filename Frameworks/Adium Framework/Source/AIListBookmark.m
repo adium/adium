@@ -161,7 +161,7 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
-		NSAssert(self.account != NULL, @"Null list bookmark account - make sure you didn't try to touch the internalObjectID before it was loaded.");
+		NSAssert(self.account != nil, @"Null list bookmark account - make sure you didn't try to touch the internalObjectID before it was loaded.");
 		
 		// We're not like any other bookmarks by the same name.
 		internalObjectID = [[NSString stringWithFormat:@"%@.%@.%@", self.service.serviceID, self.UID, self.account.UID] retain];
