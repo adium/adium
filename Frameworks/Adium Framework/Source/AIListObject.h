@@ -88,10 +88,6 @@ typedef enum {
 
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
-	
-	//For AIContainingObject-compliant subclasses
-	CGFloat					largestOrder;
-	CGFloat					smallestOrder;
 }
 
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;

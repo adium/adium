@@ -58,9 +58,6 @@
 
 		UID = [inUID retain];	
 		service = inService;
-
-		largestOrder = 1.0;
-		smallestOrder = 1.0;
 		
 		// Delay until the next run loop so bookmarks can instantiate their values first.
 		[self performSelector:@selector(setupObservedValues) withObject:nil afterDelay:0.0];
@@ -691,9 +688,9 @@
 	while (existingKeys.count && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
 		if (existingKeys.count == 1) {
 			AILogWithSignature(@"*** Warning: %@ had order index %f, but %@ already had an object with that order index. Setting to %f instead. Incrementing.",
-							   listObject, orderIndexForObject, self, (largestOrder + 1));
+							   listObject, orderIndexForObject, self, (self.largestOrder + 1));
 
-			orderIndexForObject = ++largestOrder;
+			orderIndexForObject = self.largestOrder + 1;
 			orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 			existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
 			
@@ -715,13 +712,6 @@
 	[self setPreference:newDict
 				 forKey:@"OrderIndexDictionary"
 				  group:ObjectStatusCache];
-	
-	//Keep track of our largest and smallest order indexes for quick access
-	if (orderIndexForObject > largestOrder) {
-		largestOrder = orderIndexForObject;
-	} else if (orderIndexForObject < smallestOrder) {
-		smallestOrder = orderIndexForObject;
-	}
 }
 
 //Order index
@@ -738,25 +728,38 @@
 	//XXX is this still needed?
 	if  (!(orderIndexForObject < INFINITY)) orderIndexForObject = 0;
 
-	if (orderIndexForObject) {
-		//Keep track of our largest and smallest order indexes for quick access
-		if (orderIndexForObject > largestOrder) {
-			largestOrder = orderIndexForObject;
-		} else if (orderIndexForObject < smallestOrder) {
-			smallestOrder = orderIndexForObject;
-		}
-		
-	} else {
-		//Assign it to our current largest order + 1
-		orderIndexForObject = ++largestOrder;
+	if (!orderIndexForObject) {
+		orderIndexForObject = self.largestOrder + 1;
 		[(AIListObject<AIContainingObject> *)self listObject:listObject didSetOrderIndex: orderIndexForObject];
 	}
 	
 	return orderIndexForObject;
 }
 
-@synthesize smallestOrder;
-@synthesize largestOrder;
+- (float)smallestOrder
+{
+	float smallest = INFINITY;
+	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
+	
+	for (NSNumber *index in orderIndex.allValues) {
+		smallest = MIN(smallest, index.floatValue);
+	}
+	
+	return smallest;
+}
+
+- (float)largestOrder
+{
+	float largest = 0;
+	
+	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
+	
+	for (NSNumber *index in orderIndex.allValues) {
+		largest = MAX(largest, index.floatValue);
+	}
+	
+	return largest;
+}
 
 #pragma mark Comparison
 /*
