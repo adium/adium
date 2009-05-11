@@ -30,7 +30,7 @@
 #define DEFAULT_CLIENT_URL      @"http://mattgemmell.com/source"
 #define DEFAULT_CLIENT_TOKEN	@"mgtwitterengine"
 
-#define URL_REQUEST_TIMEOUT     25.0 // Twitter usually fails quickly if it's going to fail at all.
+#define URL_REQUEST_TIMEOUT     50.0 // Twitter usually fails quickly if it's going to fail at all.
 #define DEFAULT_TWEET_COUNT		20
 
 
