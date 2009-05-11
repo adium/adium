@@ -1,5 +1,5 @@
 /**
- * @file jutil.h utility functions
+ * @file si.h SI transfer functions
  *
  * purple
  *

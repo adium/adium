@@ -30,11 +30,19 @@ typedef struct _JabberCapsClientInfo JabberCapsClientInfo;
 
 typedef struct _JabberCapsNodeExts JabberCapsNodeExts;
 
+typedef struct _JabberCapsTuple {
+	const char *node;
+	const char *ver;
+	const char *hash;
+} JabberCapsTuple;
+
 struct _JabberCapsClientInfo {
 	GList *identities; /* JabberIdentity */
 	GList *features; /* char * */
 	GList *forms; /* xmlnode * */
 	JabberCapsNodeExts *exts;
+
+	const JabberCapsTuple tuple;
 };
 
 /*
@@ -60,7 +68,10 @@ typedef void (*jabber_caps_get_info_cb)(JabberCapsClientInfo *info, GList *exts,
 void jabber_caps_init(void);
 void jabber_caps_uninit(void);
 
-void jabber_caps_destroy_key(gpointer value);
+/**
+ * Check whether all of the exts in a char* array are known to the given info.
+ */
+gboolean jabber_caps_exts_known(const JabberCapsClientInfo *info, char **exts);
 
 /**
  * Main entity capabilites function to get the capabilities of a contact.
@@ -68,10 +79,13 @@ void jabber_caps_destroy_key(gpointer value);
  * The callback will be called synchronously if we already have the
  * capabilities for the specified (node,ver,hash) (and, if exts are specified,
  * if we know what each means)
+ *
+ * @param exts A g_strsplit'd (NULL-terminated) array of strings. This
+ *             function is responsible for freeing it.
  */
 void jabber_caps_get_info(JabberStream *js, const char *who, const char *node,
                           const char *ver, const char *hash,
-                          const char *ext, jabber_caps_get_info_cb cb,
+                          char **exts, jabber_caps_get_info_cb cb,
                           gpointer user_data);
 
 /**

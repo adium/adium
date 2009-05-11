@@ -86,6 +86,7 @@ typedef struct _JabberBuddyResource {
 		GList *exts;
 	} caps;
 	GList *commands;
+	gboolean commands_fetched;
 } JabberBuddyResource;
 
 void jabber_buddy_free(JabberBuddy *jb);
