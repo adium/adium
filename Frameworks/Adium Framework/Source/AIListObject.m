@@ -38,6 +38,7 @@
 @interface AIListObject ()
 - (void)setContainingGroup:(AIListGroup *)inGroup;
 - (void)setupObservedValues;
+- (void)updateOrderCache;
 @end
 
 /*!
@@ -712,6 +713,8 @@
 	[self setPreference:newDict
 				 forKey:@"OrderIndexDictionary"
 				  group:ObjectStatusCache];
+	
+	[self updateOrderCache];
 }
 
 //Order index
@@ -736,29 +739,37 @@
 	return orderIndexForObject;
 }
 
-- (float)smallestOrder
+- (CGFloat)smallestOrder
 {
-	float smallest = INFINITY;
+	if (!cachedSmallestOrder) {
+		[self updateOrderCache];
+	}
+
+	return cachedSmallestOrder;
+}
+
+- (CGFloat)largestOrder
+{
+	if (!cachedLargestOrder) {
+		[self updateOrderCache];
+	}
+	
+	return cachedLargestOrder;	
+}
+
+- (void)updateOrderCache
+{
+	CGFloat smallest = INFINITY, largest = 0;
+	
 	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
 	
 	for (NSNumber *index in orderIndex.allValues) {
 		smallest = MIN(smallest, index.floatValue);
-	}
-	
-	return smallest;
-}
-
-- (float)largestOrder
-{
-	float largest = 0;
-	
-	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
-	
-	for (NSNumber *index in orderIndex.allValues) {
 		largest = MAX(largest, index.floatValue);
 	}
 	
-	return largest;
+	cachedSmallestOrder = smallest;
+	cachedLargestOrder = largest;
 }
 
 #pragma mark Comparison
