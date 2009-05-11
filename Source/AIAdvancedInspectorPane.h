@@ -39,8 +39,6 @@
 	AIListContact								*currentSelectedContact;
 	
 	AIListObject								*displayedObject;
-	NSArray										*accounts;
-	NSArray										*contacts;
 
 	BOOL										rebuildingContacts;
 }
