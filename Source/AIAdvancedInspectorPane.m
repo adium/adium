@@ -25,10 +25,12 @@
 #import <AIUtilities/AIPopUpButtonAdditions.h>
 #import <AIUtilities/AIStringFormatter.h>
 
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
+
 #define ADVANCED_NIB_NAME (@"AIAdvancedInspectorPane")
 
 @interface AIAdvancedInspectorPane()
-- (void)updateGroupList;
 -(void)reloadPopup;
 @end
 
@@ -47,14 +49,6 @@
 		//Load Encryption menus
 		[popUp_encryption setMenu:[adium.contentController encryptionMenuNotifyingTarget:self withDefault:YES]];
 		[[popUp_encryption menu] setAutoenablesItems:NO];
-
-		//Configure Table view
-		[accountsTableView setUsesAlternatingRowBackgroundColors:YES];
-
-		//[[[accountsTableView tableColumnWithIdentifier:@"account"] headerCell] setTitle:AILocalizedString(@"Account",nil)];
-		[[[accountsTableView tableColumnWithIdentifier:@"contact"] headerCell] setTitle:AILocalizedString(@"Contact","This header for the table in the Accounts tab of the Get Info window indicates the name of the contact within a metacontact")];
-		[[[accountsTableView tableColumnWithIdentifier:@"group"] headerCell] setTitle:AILocalizedString(@"Group",nil)];
-		contactsColumnIsInAccountsTableView = YES; //It's in the table view in the nib.
 		
 		//Observe contact list changes
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -67,12 +61,9 @@
 									   name:Account_ListChanged
 									 object:nil];
 
-		[self updateGroupList];
 		accountMenu = [[AIAccountMenu accountMenuWithDelegate:self
 												  submenuType:AIAccountNoSubmenu
 											   showTitleVerbs:NO] retain];
-	
-		[accountsTableView sizeToFit];
 	}
 	
 	return self;
@@ -81,6 +72,7 @@
 - (void) dealloc
 {
 	[accountMenu release]; accountMenu = nil;
+	[contactMenu release]; contactMenu = nil;
 	[accounts release]; accounts = nil;
 	[contacts release]; contacts = nil;
     [displayedObject release]; displayedObject = nil;
@@ -104,46 +96,15 @@
 -(void)updateForListObject:(AIListObject *)inObject
 {
 	if (displayedObject != inObject) {
-		//Update the table view to have or not have the "Individual Contact" column, as appropriate.
-		//It should have the column when our list object is a metacontact.
-		if ([inObject isKindOfClass:[AIMetaContact class]]) {
-			if (!contactsColumnIsInAccountsTableView) {
-				//Add the column.
-				[accountsTableView addTableColumn:contactsColumn];
-				//It was added as last; move to the middle.
-				[accountsTableView moveColumn:1 toColumn:0];
-				//Set all of the table view's columns to be the same width.
-				CGFloat columnWidth = [accountsTableView frame].size.width / 2.0;
-				//NSLog(@"Setting columnWidth to: %f / 2.0 == %f", [accountsTableView frame].size.width, columnWidth);
-				[[accountsTableView tableColumns] setValue:[NSNumber numberWithDouble:columnWidth] forKey:@"width"];
-				[accountsTableView sizeToFit];
-				//We don't need it retained anymore.
-				[contactsColumn release];
-
-				contactsColumnIsInAccountsTableView = YES;
-			}
-		} else if(contactsColumnIsInAccountsTableView) {
-			//Remove the column.
-			//Note that the column is in the table in the nib, so it is in the table view before we have been configured for the first time.
-			//And be sure to retain it before removing it from the view.
-			[contactsColumn retain];
-			[accountsTableView removeTableColumn:contactsColumn];
-			//Set both of the table view's columns to be the same width.
-			CGFloat columnWidth = [accountsTableView frame].size.width;
-			//NSLog(@"Setting columnWidth to: %f", [accountsTableView frame].size.width);
-			[[accountsTableView tableColumns] setValue:[NSNumber numberWithDouble:columnWidth] forKey:@"width"];
-			[accountsTableView sizeToFit];
-
-			contactsColumnIsInAccountsTableView = NO;
-		}
-	
 		[displayedObject release];
+		
 		displayedObject = ([inObject isKindOfClass:[AIListContact class]] ?
-					[(AIListContact *)inObject parentContact] :
-					inObject);
+						   [(AIListContact *)inObject parentContact] :
+						   inObject);
+		
 		[displayedObject retain];
 		
-		//Rebuild the account list
+		//Rebuild the account and contacts lists
 		[self reloadPopup];
 	}
 	
@@ -159,6 +120,8 @@
 	[checkBox_autoJoin setEnabled:[inObject isKindOfClass:[AIListBookmark class]]];
 	[checkBox_autoJoin setState:[[inObject preferenceForKey:KEY_AUTO_JOIN group:GROUP_LIST_BOOKMARK] boolValue]];
 }
+
+#pragma mark Preference callbacks
 
 - (IBAction)selectedEncryptionPreference:(id)sender
 {
@@ -180,36 +143,6 @@
 }
 
 #pragma mark Accounts Table View methods
-
-/*!
- * @brief Update our list of groups
- */
-- (void)updateGroupList
-{
-	//Get the new groups
-	NSMenu		*groupMenu = [adium.contactController groupMenuWithTarget:self];
-	NSMenuItem  *notListedMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"(Not Listed)", nil)
-																						 target:self
-																action:@selector(selectGroup:)
-														 keyEquivalent:@""
-													 representedObject:nil];
-	[groupMenu insertItem:notListedMenuItem atIndex:0];
-	[notListedMenuItem release];
-	[groupMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
-
-	[[groupMenu itemArray] makeObjectsPerformSelector:@selector(setAttributes:)
-										   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-													   [NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]], NSFontAttributeName,
-													   [NSParagraphStyle styleWithAlignment:NSLeftTextAlignment
-																			  lineBreakMode:NSLineBreakByTruncatingTail], NSParagraphStyleAttributeName,
-													   nil]];
-	 
-	[[[accountsTableView tableColumnWithIdentifier:@"group"] dataCell] setMenu:groupMenu];
-	
-	//Refresh our table
-	[accountsTableView reloadData];
-}
-
 - (NSArray *)accountsForCurrentObject
 {
 	if ([displayedObject isKindOfClass:[AIMetaContact class]]) {
@@ -248,22 +181,24 @@
 	}
 }
 
+#pragma mark Account/Contact Menu
+
 -(void)reloadPopup
 {
 	[accounts release]; accounts = nil;
 	accounts = [[self accountsForCurrentObject] retain];
 	
 	[accountMenu rebuildMenu];
+	
+	[contactMenu release]; contactMenu = nil;
+	contactMenu = [[AIContactMenu contactMenuWithDelegate:self forContactsInObject:displayedObject] retain];
 }
 
 - (void)accountMenu:(AIAccountMenu *)inAccountMenu didSelectAccount:(AIAccount *)inAccount
 {
-	[contacts release]; contacts = nil;
-	if (inAccount)
-		contacts = [[self contactsForCurrentObjectCompatibleWithAccount:inAccount] retain];
-
-	//Refresh our table
-	[accountsTableView reloadData];
+	currentSelectedAccount = inAccount;
+	
+	[contactMenu rebuildMenu];
 }
 
 - (BOOL)accountMenu:(AIAccountMenu *)inAccountMenu shouldIncludeAccount:(AIAccount *)inAccount
@@ -275,10 +210,34 @@
 {
 	[popUp_accounts setMenu:[inAccountMenu menu]];
 
-	//Select an account and redisplay
 	[self accountMenu:inAccountMenu didSelectAccount:([popUp_accounts numberOfItems] ?
 													  [[popUp_accounts selectedItem] representedObject] :
 													  nil)];
+}
+
+- (void)contactMenu:(AIContactMenu *)inContactMenu didRebuildMenuItems:(NSArray *)menuItems
+{
+	[popUp_contact setMenu:inContactMenu.menu];
+	
+	[self contactMenu:inContactMenu didSelectContact:([popUp_contact numberOfItems] ?
+													  [[popUp_contact selectedItem] representedObject] :
+													  nil)];
+}
+
+- (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
+{
+	currentSelectedContact = inContact;
+	
+	// Update the groups.
+	[tableView_groups reloadData];
+}
+
+- (BOOL)contactMenu:(AIContactMenu *)inContactMenu shouldIncludeContact:(AIListContact *)inContact
+{
+	AIAccount *selectedAccount = currentSelectedAccount;
+	
+	// Include this contact if it's the same as the selected account.
+	return [selectedAccount.service.serviceClass isEqualToString:inContact.service.serviceClass];
 }
 
 - (NSControlSize)controlSizeForAccountMenu:(AIAccountMenu *)inAccountMenu
@@ -310,127 +269,23 @@
  */
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-	return [contacts count];
+	return currentSelectedContact.remoteGroups.count;
 }
-
-/*!
- * @brief Table view object value
- */
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	id result = @"";
-
-	NSString		*identifier = [tableColumn identifier];
-
-	//if ([identifier isEqualToString:@"account"]) {
-//		AIAccount		*account = [accounts objectAtIndex:row];
-//		NSString	*accountFormattedUID = account.formattedUID;
-//		
-//		if (account.online) {
-//			result = accountFormattedUID;
-//			
-//		} else {
-//			//Gray the names of offline accounts
-//			NSDictionary		*attributes = [NSDictionary dictionaryWithObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
-//			NSAttributedString	*string = [[NSAttributedString alloc] initWithString:accountFormattedUID attributes:attributes];
-//			result = [string autorelease];
-//		}
-		
-	/*} else*/ if ([identifier isEqualToString:@"contact"]) {
-		AIListObject *contact = [contacts objectAtIndex:row];
-		result = contact.formattedUID;
-	}
-	
-	return result;
-}
-
-/*!
- * @brief Table view will display a cell
- */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	NSString		*identifier = [tableColumn identifier];
-	AIAccount		*account;
-	AIListContact	*exactContact;
-	BOOL			accountOnline;
-		
-	//account =  [accounts objectAtIndex:row];
-	account = [[popUp_accounts selectedItem] representedObject];
-	accountOnline = account.online;
-
-	exactContact = [contacts objectAtIndex:row];				
-
-	//Disable cells for offline accounts
-	[cell setEnabled:accountOnline];
-	
-	//Select active group
-	if ([identifier isEqualToString:@"group"]) {
-		if (accountOnline) {
-			AIListGroup	*group;
-			
-			//XXX multiple containers
-			if ((group = exactContact.remoteGroups.anyObject)) {
-				[cell selectItemWithRepresentedObject:group];
-			} else {
-				[cell selectItemAtIndex:0];			
-			}
-		} else {
-			NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-										[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]], NSFontAttributeName,
-										[NSParagraphStyle styleWithAlignment:NSLeftTextAlignment lineBreakMode:NSLineBreakByTruncatingTail], NSParagraphStyleAttributeName,
-										nil];
-			NSAttributedString *attTitle = [[[NSAttributedString alloc] initWithString:AILocalizedString(@"(Unavailable)",nil) attributes:attributes] autorelease];
-			[cell setAttributedTitle:attTitle];
-		}
-	}
-}
-
-/*!
- * @brief Empty.  This method is the target of our menus, and needed for menu validation.
- */
-- (void)selectGroup:(id)sender {};
 
 /*!
  * @brief Table view set object value
  */
-- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString		*identifier = [tableColumn identifier];
 	
 	if ([identifier isEqualToString:@"group"]) {
-		NSMenu		*menu = [[tableColumn dataCell] menu];
-		NSInteger			menuIndex = [object integerValue];
+		NSArray *contactGroups = currentSelectedContact.remoteGroups.allObjects;
 		
-		if (menuIndex >= 0 && menuIndex < [menu numberOfItems]) {
-			AIListGroup		*group = [[menu itemAtIndex:menuIndex] representedObject];
-			AIListContact	*contactOnClickedRow = [contacts objectAtIndex:row];
-			AIListContact	*exactContact;
-
-			//Retrieve an AIListContact on this account
-			exactContact = [adium.contactController contactWithService:contactOnClickedRow.service
-																 account:[[popUp_accounts selectedItem] representedObject]
-																	 UID:contactOnClickedRow.UID];
-
-			if (group) {				
-				//XXX multiple containers
-				if (![group.UID isEqualToString:exactContact.remoteGroupNames.anyObject]) {
-					if (exactContact.remoteGroupNames.anyObject) {
-						//Move contact
-						// XXX Multiple containers
-						[adium.contactController moveContact:exactContact fromGroups:[NSSet set] intoGroups:[NSSet setWithObject:group]];
-
-					} else {						
-						[exactContact.account addContact:exactContact toGroup:group];
-					}
-				}
-
-			} else {
-				//User selected not listed, so we'll remove that contact
-				// XXX multiple containers
-				//[exactContact removeFromList];
-			}
-		}
+		return ((AIListGroup *)[contactGroups objectAtIndex:row]).displayName;
 	}
+	
+	return nil;
 }
 
 @end
