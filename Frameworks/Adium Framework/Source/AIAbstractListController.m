@@ -267,23 +267,33 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (void)performExpandItem:(NSNotification *)notification
 {
-	id item = [notification object];
-	if ([contactListView rowForItem:item] != -1) {
-		[contactListView expandItem:item];
-	} else {
+	AIListObject *listObject = [notification object];
+	
+	NSAssert([listObject conformsToProtocol:@protocol(AIContainingObject)], @"Attempted to expand a non-containing object.");
+	
+	if (!listObject.proxyObjects.count) {
 		//The item is not visible in the list, but we want it to be expanded next time that it is
-		[item setExpanded:YES];	
+		[(id <AIContainingObject>)listObject setExpanded:YES];	
+	}
+	
+	for (AIProxyListObject *item in listObject.proxyObjects) {
+		[contactListView expandItem:item];
 	}
 }
 
 - (void)performCollapseItem:(NSNotification *)notification
 {
-	id item = [notification object];
-	if ([contactListView rowForItem:item] != -1) {
-		[contactListView collapseItem:item];
-	} else {
+	AIListObject *listObject = [notification object];
+
+	NSAssert([listObject conformsToProtocol:@protocol(AIContainingObject)], @"Attempted to collapse a non-containing object.");
+	
+	if (!listObject.proxyObjects.count) {
 		//The item is not visible in the list, but we want it to be collapsed next time that it is
-		[item setExpanded:NO];	
+		[(id <AIContainingObject>)listObject setExpanded:NO];	
+	}
+		
+	for (AIProxyListObject *item in listObject.proxyObjects) {
+		[contactListView collapseItem:item];
 	}
 }
 
