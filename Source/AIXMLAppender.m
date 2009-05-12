@@ -38,12 +38,6 @@
 - Instead of just testing for ' ' in -rootElementNameForFileAtPath:, use NSCharacterSet and be more general.
 */
 
-/*****
- IMPORTANT NOTE if we ever switch back to NSOperationQueue:
- 
- The invariant that no two operations from the same AIXMLAppender are executing concurrently is extremely important. The writer queue should never allow more than one operation at a time 
- *****/
-
 #import "AIXMLAppender.h"
 #import <Adium/AIXMLElement.h>
 #import <AIUtilities/AISharedWriterQueue.h>
@@ -70,7 +64,7 @@ enum {
 @property (readwrite, copy, nonatomic) NSString *path;
 @end
 
-@interface AIAppendXMLOperation : RAOperation
+@interface AIAppendXMLOperation : NSOperation
 {
 	NSData *data;
 	NSInteger seekBackLength;
@@ -105,7 +99,7 @@ enum {
 	[super dealloc];
 }
 
-- (void) run
+- (void) main
 {
 	BOOL success = YES;
 	if (!appender.fileHandle)

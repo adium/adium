@@ -14,32 +14,28 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "AISharedWriterQueue.h"
-#import "RAOperationQueue.h"
 
 @interface AISharedWriterQueue()
-+ (RAOperationQueue *)queue;
-+ (void) dummy;
++ (NSOperationQueue *)queue;
 @end
 
 @implementation AISharedWriterQueue
 
-+ (void) addOperation:(RAOperation *)op {
++ (void) addOperation:(NSOperation *)op {
 	[[self queue] addOperation:op];
 }
 
 + (void) waitUntilAllOperationsAreFinished {
-	RAWaitableSelectorOperation *nop = [[[RAWaitableSelectorOperation alloc] initWithTarget:self selector:@selector(dummy) object:nil] autorelease];
-	[self addOperation:nop];
-	[nop waitUntilDone];
+	[[self queue] waitUntilAllOperationsAreFinished];
 }
 
-+ (void) dummy {}
-
-+ (RAOperationQueue *)queue {
++ (NSOperationQueue *)queue {
 	NSAssert([NSThread currentThread] == [NSThread mainThread], @"Do not try to use AISharedWriterQueue from non-main threads");
-	static RAOperationQueue *sharedWriterQueue = nil;
-	if (!sharedWriterQueue)
-		sharedWriterQueue = [[RAOperationQueue alloc] init];
+	static NSOperationQueue *sharedWriterQueue = nil;
+	if (!sharedWriterQueue) {
+		sharedWriterQueue = [[NSOperationQueue alloc] init];
+		[sharedWriterQueue setMaxConcurrentOperationCount:1];
+	}
 	return sharedWriterQueue;
 }
 
