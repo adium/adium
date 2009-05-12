@@ -510,11 +510,13 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 {	
     if ([selectedObject isKindOfClass:[AIListGroup class]]) {
         //Expand or collapse the group
-        if ([sender isItemExpanded:selectedObject]) {
-            [sender collapseItem:selectedObject];
-        } else {
-            [sender expandItem:selectedObject];
-        }
+		for (AIProxyListObject *proxyObject in selectedObject.proxyObjects) {
+			if ([sender isItemExpanded:proxyObject]) {
+				[sender collapseItem:proxyObject];
+			} else {
+				[sender expandItem:proxyObject];					
+			}
+		}
 
 	} else if ([selectedObject isMemberOfClass:[AIListBookmark class]]) {
 		//Hide any tooltip the contactListController is currently showing
