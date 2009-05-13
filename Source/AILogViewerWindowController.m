@@ -200,12 +200,14 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		logToGroupDict = [[NSMutableDictionary alloc] init];
 		resultsLock = [[NSRecursiveLock alloc] init];
 		searchingLock = [[NSLock alloc] init];
+		[searchingLock setName:@"LogSearchingLock"];
 		contactIDsToFilter = [[NSMutableSet alloc] initWithCapacity:1];
 
 		allContactsIdentifier = [[NSNumber numberWithInteger:-1] retain];
 
 		undoManager = [[NSUndoManager alloc] init];
 		currentSearchLock = [[NSLock alloc] init];
+		[currentSearchLock setName:@"CurrentLogSearchLock"];
 	}
 	
 	return self;
