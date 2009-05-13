@@ -180,7 +180,11 @@
 //Preferred Accounts
 #pragma mark Preferred Accounts
 - (AIAccount *)preferredAccountForSendingContentType:(NSString *)inType toContact:(AIListContact *)inContact {
-	return [adiumPreferredAccounts preferredAccountForSendingContentType:inType toContact:inContact];
+	AIAccount *account = [adiumPreferredAccounts preferredAccountForSendingContentType:inType toContact:inContact];
+	
+	NSAssert([account.service.serviceClass isEqualToString:inContact.service.serviceClass], @"Wrong account for the contact; differing services.");
+	
+	return account;
 }
 
 - (void)disconnectAllAccounts

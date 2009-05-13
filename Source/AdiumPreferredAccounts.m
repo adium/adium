@@ -105,7 +105,8 @@
 		
 		
 		if ((account = [adium.accountController accountWithInternalObjectID:accountID])) {
-			if ([account availableForSendingContentType:inType toContact:inContact] || !strictChecking) {
+			if ([account.service.serviceClass isEqualToString:inContact.service.serviceClass] &&
+				([account availableForSendingContentType:inType toContact:inContact] || !strictChecking)) {
 				return account;
 			}
 		}
