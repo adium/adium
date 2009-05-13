@@ -417,7 +417,12 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
 	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
-	[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
+#warning figure this out
+	if ([immutablePrefsToWrite count] > 0) {
+		[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
+	} else {
+		NSLog(@"Attempted to write an empty ByObject Prefs. Uh oh!");
+	}
 	if (inTimer == timer_savingOfObjectCache) {
 			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
 	} else if (inTimer == timer_savingOfAccountCache) {
