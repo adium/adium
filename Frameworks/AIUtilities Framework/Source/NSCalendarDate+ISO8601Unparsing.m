@@ -40,7 +40,7 @@ static BOOL is_leap_year(unsigned year) {
 		if(offset == 0)
 			str = [str stringByAppendingString:@"Z"];
 		if(offset < 0)
-			str = [str stringByAppendingFormat:@"-%02d:%02d", -offset / 60, offset % 60];
+			str = [str stringByAppendingFormat:@"-%02d:%02d", -offset / 60, -offset % 60];
 		else
 			str = [str stringByAppendingFormat:@"+%02d:%02d", offset / 60, offset % 60];
 	}
