@@ -55,6 +55,7 @@ static AIHostReachabilityMonitor *singleton = nil;
 {
 	if ((self = [super init])) {
 		hostAndObserverListLock = [[NSLock alloc] init];
+		[hostAndObserverListLock setName:@"HostAndObserverListLock"];
 
 		[hostAndObserverListLock lock];
 		hosts          = [[NSMutableArray alloc] init];

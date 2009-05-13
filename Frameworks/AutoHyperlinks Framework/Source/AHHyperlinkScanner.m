@@ -75,7 +75,7 @@
 #pragma mark Initialization
 + (void)initialize
 {
-	if ((self = [AHHyperlinkScanner class])) {
+	if ((self == [AHHyperlinkScanner class])) {
 		if (!skipSet) {
 			NSMutableCharacterSet *mutableSkipSet = [[NSMutableCharacterSet alloc] init];
 			[mutableSkipSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];

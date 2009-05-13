@@ -173,7 +173,9 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	stopIndexingThreads = NO;
 	suspendDirtyArraySave = NO;		
 	indexingThreadLock = [[NSLock alloc] init];
+	[indexingThreadLock setName:@"LogIndexingThreadLock"];
 	dirtyLogLock = [[NSLock alloc] init];
+	[dirtyLogLock setName:@"DirtyLogLock"];
 	logWritingLock = [[NSConditionLock alloc] initWithCondition:AIIndexFileAvailable];
 	logClosingLock = [[NSConditionLock alloc] initWithCondition:AIIndexFileAvailable];
 
