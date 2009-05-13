@@ -417,6 +417,18 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 - (void)performObjectPrefsSave:(NSTimer *)inTimer
 {
 	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
+	/* Data verification */
+#ifdef PREFERENCE_CONTAINER_DEBUG
+	{
+		NSData		 *data = [NSData dataWithContentsOfFile:[adium.loginController.userDirectory stringByAppendingPathComponent:[globalPrefsName stringByAppendingPathExtension:@"plist"]]];
+		NSString	 *errorString = nil;
+		NSDictionary *theDict = [NSPropertyListSerialization propertyListFromData:data 
+																 mutabilityOption:NSPropertyListMutableContainers 
+																		   format:NULL 
+																 errorDescription:&errorString];
+		NSAssert(!theDict || [theDict count] == 0 || [immutablePrefsToWrite count] > 0, @"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
+	}
+#endif
 #warning figure this out
 	if ([immutablePrefsToWrite count] > 0) {
 		[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
