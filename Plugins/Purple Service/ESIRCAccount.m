@@ -117,6 +117,11 @@ static PurpleConversation *fakeConversation(PurpleAccount *account);
 	
 	// The fakeConversation was allocated; now free it.
 	g_free(conv);
+	
+	// Set a fake display name preference since we differ from global always.
+	[self setPreference:[[NSAttributedString stringWithString:@"Adium"] dataRepresentation]
+				 forKey:KEY_ACCOUNT_DISPLAY_NAME
+				  group:GROUP_ACCOUNT_STATUS];
 }
 
 /*!
