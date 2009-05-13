@@ -890,7 +890,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 																toPath:newFile
 																 error:&err];
 						if (err)
-							AILogWithSignature([err localizedDescription]);
+							AILogWithSignature(@"%@", [err localizedDescription]);
 					}
 				}
 				
