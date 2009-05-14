@@ -362,13 +362,19 @@
 	if ([[[menuItem menu] title] isEqualToString:ENCRYPTION_MENU_TITLE]) {
 		/* Options submenu */
 		AIEncryptedChatPreference tag = [menuItem tag];
+		
+		AIListContact	*listContact = chat.listObject.parentContact;
+		
+		AIEncryptedChatPreference userPreference = [[listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
+																			group:GROUP_ENCRYPTION] integerValue];
+		
 		switch (tag) {
 			case EncryptedChat_Default:
 			{
-				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
 					//Set the state (checked or unchecked) as appropriate. Default = no pref or the actual 'default' value.
-					[menuItem setState:listContact.encryptedChatPreferences];
+					[menuItem setState:(tag == userPreference || ![listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
+																						  group:GROUP_ENCRYPTION])];
 				}
 				return YES;
 				break;
@@ -378,10 +384,9 @@
 			case EncryptedChat_Automatically:
 			case EncryptedChat_RejectUnencryptedMessages:
 			{
-				AIListContact	*listContact = chat.listObject.parentContact;
 				if (listContact) {
 					//Set the state (checked or unchecked) as appropriate
-					[menuItem setState:listContact.encryptedChatPreferences];
+					[menuItem setState:(tag == userPreference)];
 				}
 				return YES;
 				break;

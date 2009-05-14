@@ -595,7 +595,7 @@
 	NSNumber *prefNumber = [self.parentContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION];
 	
 	//If that turned up nothing, check all the groups it's in
-	if (!prefNumber) {
+	if (!prefNumber || [prefNumber integerValue] == EncryptedChat_Default) {
 		for (AIListGroup *group in self.parentContact.groups)
 		{
 			if ((prefNumber = [group preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE group:GROUP_ENCRYPTION]))
