@@ -84,7 +84,6 @@ typedef enum {
 	
 	NSString			*UID;
 	NSString			*internalObjectID;
-	BOOL				alwaysVisible;
 
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1

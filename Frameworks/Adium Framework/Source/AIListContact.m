@@ -619,6 +619,15 @@
 	return pref;
 }
 
+- (BOOL)alwaysVisible
+{
+	if (self.metaContact) {
+		return self.metaContact.alwaysVisible;
+	}
+	
+	return [super alwaysVisible];
+}
+
 #pragma mark Status
 
 /*!
