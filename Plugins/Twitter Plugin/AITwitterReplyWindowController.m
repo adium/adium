@@ -19,6 +19,7 @@
 #import "AIURLHandlerPlugin.h"
 #import <Adium/AIAccount.h>
 #import <Adium/AIService.h>
+#import <AIUtilities/AIStringAdditions.h>
 
 @implementation AITwitterReplyWindowController
 
@@ -79,7 +80,7 @@ static AITwitterReplyWindowController *sharedController = nil;
 - (IBAction)reply:(id)sender
 {
 	if (([textField_usernameOrTweetURL.stringValue rangeOfCharacterFromSet:[account.service.allowedCharacters invertedSet]].location != NSNotFound) ||
-		(![[NSString stringWithFormat:@"%d", [textField_statusID.stringValue intValue]] isEqualToString:textField_statusID.stringValue])) {
+		(![[NSString stringWithFormat:@"%qu", [textField_statusID.stringValue unsignedLongLongValue]] isEqualToString:textField_statusID.stringValue])) {
 		NSBeep();
 	} else if (textField_usernameOrTweetURL.stringValue && textField_statusID.stringValue) {
 

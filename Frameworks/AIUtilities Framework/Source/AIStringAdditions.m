@@ -816,4 +816,9 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	return [self caseInsensitiveCompare:other] == NSOrderedSame;
 }
 
+- (unsigned long long)unsignedLongLongValue
+{
+	return [[NSDecimalNumber decimalNumberWithString:self] unsignedLongLongValue];
+}
+
 @end
