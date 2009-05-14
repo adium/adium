@@ -81,31 +81,9 @@
 
 - (void)setupObservedValues
 {
-	[adium.preferenceController addObserver:self
-	 forKeyPath:@"Always Visible.Visible"
-	 ofObject:self
-	 options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionInitial
-	 context:NULL];
-	
-	[self observeValueForKeyPath:@"Always Visible.Visible"
-						ofObject:nil
-						  change:nil
-						 context:NULL];	
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-	if ([keyPath hasSuffix:@"Visible"]) {
-		BOOL alwaysVisibleSelf = [[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
-		
-#warning AIListObject should not know of its subclass
-		// If we're in a meta contact, use the meta contact's preference for visibility.
-		if ([self isKindOfClass:[AIListContact class]]) {
-			alwaysVisibleSelf = [[((AIListContact *)self).parentContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
-		}
-
-		alwaysVisible = alwaysVisibleSelf;
-	}
+	[self setValue:[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE]
+	   forProperty:AlwaysVisible
+			notify:NotifyNow];
 }
 
 //Identification -------------------------------------------------------------------------------------------------------
@@ -156,25 +134,26 @@
 /*!
  * @brief Sets if list object should always be visible
  */
-- (void)setAlwaysVisible:(BOOL)inVisible {
-	if (inVisible != alwaysVisible) {
-		[self setPreference:[NSNumber numberWithBool:inVisible] 
-					 forKey:@"Visible" 
-					  group:PREF_GROUP_ALWAYS_VISIBLE];
-		
-		[self setValue:[NSNumber numberWithBool:alwaysVisible]
-					   forProperty:AlwaysVisible
-					   notify:NotifyNow];
-		
-		[adium.contactController sortListObject:self];
-	}
+- (void)setAlwaysVisible:(BOOL)inVisible
+{
+	[self setPreference:[NSNumber numberWithBool:inVisible] 
+				 forKey:@"Visible" 
+				  group:PREF_GROUP_ALWAYS_VISIBLE];
+	
+	// This causes our container to update our visibility.
+	[self setValue:[NSNumber numberWithBool:inVisible]
+				   forProperty:AlwaysVisible
+				   notify:NotifyNow];
 }
 
 /*!
+ * @brief Should this object ignore visibility settings?
+ *
  * @returns If object should always be visible
  */
-- (BOOL)alwaysVisible {
-	return alwaysVisible;
+- (BOOL)alwaysVisible
+{
+	return [self boolValueForProperty:AlwaysVisible];
 }
 
 //Grouping / Ownership -------------------------------------------------------------------------------------------------
