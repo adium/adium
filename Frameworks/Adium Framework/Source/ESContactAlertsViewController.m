@@ -844,7 +844,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	NSDictionary	*eventDict;
 
 	[adium.preferenceController delayPreferenceChangedNotifications:YES];
-	for (eventDict in contactEventArray) {
+	for (eventDict in [[contactEventArray copy] autorelease]) {
 		[adium.contactAlertsController removeAlert:eventDict fromListObject:listObject];
 	}
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
