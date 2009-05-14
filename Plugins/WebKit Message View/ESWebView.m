@@ -63,6 +63,7 @@
 		[win setOpaque:!transparentBackground];
 		[win _setContentHasShadow:NO];
 	}
+	[super viewDidMoveToWindow];
 }
 
 //Font Family ----------------------------------------------------------------------------------------------------------
