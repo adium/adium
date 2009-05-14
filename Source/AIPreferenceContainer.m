@@ -426,7 +426,11 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 																 mutabilityOption:NSPropertyListMutableContainers 
 																		   format:NULL 
 																 errorDescription:&errorString];
-		NSAssert(!theDict || [theDict count] == 0 || [immutablePrefsToWrite count] > 0, @"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
+		if (theDict && [theDict count] > 0 && [immutablePrefsToWrite count] == 0)
+		{
+			NSLog(@"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
+			*((int*)0xdeadbeef) = 42;
+		}
 	}
 #endif
 #warning figure this out
