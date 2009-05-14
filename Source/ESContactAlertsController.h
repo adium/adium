@@ -17,6 +17,7 @@
 #import <Adium/AIContactAlertsControllerProtocol.h>
 
 @interface ESContactAlertsController : NSObject <AIContactAlertsController> {
+@private
 	NSMutableDictionary			*globalOnlyEventHandlers;
 	NSMutableDictionary			*eventHandlers;
 	NSMutableDictionary			*actionHandlers;

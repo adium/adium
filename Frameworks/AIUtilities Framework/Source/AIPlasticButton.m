@@ -15,7 +15,8 @@
 @implementation AIPlasticButton
 
 + (void)initialize {
-	[self setCellClass:[AIPlasticButtonCell class]];
+	if (self == [AIPlasticButton class])
+		[self setCellClass:[AIPlasticButtonCell class]];
 }
 
 - (id)copyWithZone:(NSZone *)zone

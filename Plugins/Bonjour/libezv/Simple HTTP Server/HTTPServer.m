@@ -256,6 +256,8 @@
 **/
 + (void)initialize
 {
+	if (self != [HTTPConnection class])
+		return;
 	static BOOL initialized = NO;
 	if (!initialized)
 	{

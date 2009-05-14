@@ -66,7 +66,8 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 }
 
 + (void)initialize {
-	jabber_add_feature("http://jabber.org/protocol/commands", NULL);
+	if (self == [AMPurpleJabberAdHocServer class])
+		jabber_add_feature("http://jabber.org/protocol/commands", NULL);
 }
 
 - (id)initWithAccount:(ESPurpleJabberAccount*)_account {

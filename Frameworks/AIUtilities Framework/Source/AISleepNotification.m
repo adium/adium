@@ -52,6 +52,9 @@ static void powerServiceInterestCallback(void *refcon, io_service_t y, natural_t
  */
 + (void)initialize
 {
+	if (self != [AISleepNotification class])
+		return;
+	
     IONotificationPortRef	notificationPort;
     io_object_t				notifier;
 	NSNotificationCenter	*defaultCenter = [NSNotificationCenter defaultCenter];

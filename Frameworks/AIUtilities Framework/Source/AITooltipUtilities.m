@@ -54,6 +54,8 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 
 + (void)initialize
 {
+	if (self != [AITooltipUtilities class])
+		return;
 	if (!titleAndBodyMarginLineColor) {
 		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7] retain];
 	}
