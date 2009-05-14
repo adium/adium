@@ -11,7 +11,8 @@
 @implementation AIHoveringPopUpButton
 
 + (void)initialize {
-	[self setCellClass:[AIHoveringPopUpButtonCell class]];
+	if (self == [AIHoveringPopUpButton class])
+		[self setCellClass:[AIHoveringPopUpButtonCell class]];
 }
 
 - (void)initHoveringPopUpButton

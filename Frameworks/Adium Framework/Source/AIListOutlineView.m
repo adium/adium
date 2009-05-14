@@ -35,6 +35,8 @@
 
 + (void)initialize
 {
+	if (self != [AIListOutlineView class])
+		return;
 	[self exposeBinding:@"desiredHeight"];
 	[self exposeBinding:@"totalHeight"];
 }

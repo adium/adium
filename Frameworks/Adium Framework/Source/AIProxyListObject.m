@@ -22,7 +22,8 @@ static NSMutableDictionary *proxyDict;
 
 + (void)initialize
 {
-	proxyDict = [[NSMutableDictionary alloc] init];
+	if (self == [AIProxyListObject class])
+		proxyDict = [[NSMutableDictionary alloc] init];
 }
 
 + (AIProxyListObject *)proxyListObjectForListObject:(ESObjectWithProperties *)inListObject
