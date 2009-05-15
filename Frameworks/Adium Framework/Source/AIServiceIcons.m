@@ -89,6 +89,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 			if (serviceIcon) {
 				if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
 				[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
+				[serviceIcon release];
 			} else {
 				//Attempt to load the default service icon
 				serviceIcon = [self defaultServiceIconForType:iconType serviceID:serviceID];
@@ -98,8 +99,6 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 					[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
 				}
 			}
-
-			[serviceIcon release];
 		}
 	}
 
