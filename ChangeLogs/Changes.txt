@@ -1,160 +1,173 @@
 				Adium Version History
 				-----------------------
 Version 1.4 (X/X/XXX)
-* Requires Mac OS X 10.5 or later
-* Added Twitter
-* Added IRC
-* Greatly improved group chats and group chat bookmarks
-
-Twitter 
- * details go here
+ * Requires Mac OS X 10.5 or later
+ * Added Twitter
+ * Added IRC
+ * Greatly improved group chats and group chat bookmarks
  
-IRC
- * details go here
-
-Group Chats and Group Chat Bookmarks
- * When you are mentioned in a group chat, the color of the tab's message count changes to red.
- * Bookmarks no longer trigger events when their account comes online.
- * Message windows' tabs and titles now display the alias of the bookmark which represents the chat. (#11756)
- * Bookmarks are only shown in the list when their accounts are online.
- * Set a shortcut of ⌘⌥/ for the "Toggle User List" menu item.
- * Added a "Swap User List Side" menu item, defaulting to the user list being on the right.	(#8689)
- * Double-clicking a contact in the group chat user list opens a chat with them.
- * When double-clicking the resize widget in the user list, don't show a few pixels of it on the left of the chat.
- * Respect the "show recent messages" preference for group chats.
- * Prevent a duplicate separator item in group chat context menus. (#11674)
- * Add context menus for group chats, including "Add Bookmark", "Get Info on Bookmark", "Toggle User List", and "View Chat Transcripts".
- * Support opening chat transcripts for the group chats like a normal chat.
- * Set appropriate icons and coloring for bookmarks based on their associated chat information, such as the unviewed content background or flashing.
- * Group chat events such as "You are mentioned", "Message received" and join/leave events will use the events set on their bookmark.
- * Add a menu item for group chat user lists to add as a contact.
- * The group chat user list is now sorted by, and displays, operator status in the channels.
- * The user list remembers its open or closed status per room.
- * Fixed bookmarks appearing in groups when groups are disabled, or disappearing.
- * Bookmarks can now be removed.
- * When opening the "Add Contact" window, don't fill in the username with the name of a bookmark if it selected.
- * Messages which mention you are no longer grouped with messages from the same user which do not.
- * Add an option to the Get Info window to auto-join a group chat on connect.
- * Add support for chat topics. Note that message styles must support the feature for them to show up.
- * Stops the "retrieving information" spinner from going off for bookmarks.
- * Group chats now display online or offline based on their account's status.
- * Growl notifications for group chats are now prefixed by the chat's name.
- * A group bookmark's status message now reflects how many unread mentions or messages are in the chat.
- * Added an Advanced Status preference to "Only count number of unread mentions for group chats" (for the Status Menu Item and Dock icon)
- * Added an option for group chats to hide their join and leave messages.
- * Joining large group chats is much faster.
- * Correctly sorted the groups list in the "Add Bookmark" window.
- * Fixed bookmarking group chats whose names vary in case.
-
-Contacts
- * Added support for contacts in multiple groups
-   * Hold option when dragging to add a contact to a secondary group.
-   * Contact info inspector is now more focused on groups per contact than before.
- * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
- * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
- * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
- * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main Contact menu.
- * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
- * Fixed deleting a group not removing its contents.
-
-Logging
- * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). (#992)
- * Search terms in the Transcript Viewer now match any part of text unless a wildcard is used. (#6364)
- * Sped up writing log files in certain situations. ([25499])
- * Corrected some situations where the log viewer lacked icons for group chats.
- * Events such as Direct IM status, joins and parts, and other information are now logged and displayed in the log viewer.
- * Increased the maximum amount of recent messages you can display for chats from 100 to 400.
- * Added an Import option to reindex the logs folder in case you manually add logs. (#9554)
-
-Contact List
- * Contact list filtering is now present on all window styles: regular, borderless, etc. (#10489)
- * Corrected a few bugs where contacts were hidden as offline when online, or placed in the offline group incorrectly.
- * Combined contacts now show the information in the contact list for the first available user. (#11007)
- * Improved speed of searching in contact list for larger lists.
- * Fix a small white line at the top of the contact list when "size to fit vertically" is set. (#11119)
- * Add "Sort Groups Alphabetically" option to the status sort.
- * Add "Hide Away Contacts" and "Hide Contacts for Account" to the view options.
- * Fixed a bug where the view menu would show incorrect settings.
- * Status message is no longer searched when searching the contact list.
- * Fixed a lot of drag and drop bugs, such as being able to drag a group into another group.
- * Tooltips now display for collapsed groups. (#11951)
-
-Message Styles
- * You can now specify a different style for group chats, and customize all of the preferences independently of a regular chat. (#87)
- * Messages containing unordered lists are now displayed using bullets.
- * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
- * Corrected sorting of message styles in their popup (#9498)
- * %message% is now replaced in a loop as we do other keywords. (#9672)
- * %service% is now replaced in all templates, not just messages. (#11872)
- * %senderPrefix% now contains a textual representation (., @, %, +, or an empty string) of the user's status in a group chat. (#11882)
- * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
- * Added "action" to the %messageClasses% of /me messages. (#11894)
-
-Messaging
- * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
- * Added marking to the scroll bar like in [http://colloquy.info Colloquy]:
-  * When your name (or what you decide to highlight) is mentioned in a chat, a grey line is added.
-  * When the window or tab loses focus, a red line is added and you can "Jump to Focus Mark" to easily go to it.
-  * You can access the "Jump to Previous Mark", "Jump to Next Mark" and "Jump to Focus Mark" by right-clicking the scroll bar, or from the new Display menu.
- * Added "Clear Display" to the new Display menu.
- * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
- * Fixed a bug where emoticons would be displayed improperly. (#6440)
- * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
- * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
- * Nudge and buzz messages now appear as events in the window instead of messages from the contact.
- * Added an option to only count mentions for group chats when badging the dock or status menu item. (#11850)
- * Fixed clicking service links with message text when the link appears in the window it would open.
- * When a new file transfer arrives which requires confirmation, the chat's unviewed content count is increased.
- * A new message no longer unminimizes the chat window. (#52)
- * Fixed logging in St. John's Newfoundland's time zone. (#9557)
-
-Accounts 
- * Fixed setting a global user icon. Previously, if you didn't have an account icon set but did set a global one, you would have no icon.
-
-Facebook
- * Fixed Facebook contacts showing up as numbers when offfline (#11676) - If 1.3.4 gets released before 1.4, remove this.
-
-Bonjour
- * Bonjour accounts now disconnect if we receive an error message.
-
-XMPP (Jabber, Google Talk, etc.)
- * Updated XMPP server list when registering
- * History from persistent group chats is now displayed as such and does not trigger events. (#6787)
- * Group chats which are not anonymous now display the actual contact in the user list. (#11841)
- * Fixed receiving colors and fonts from iChat. (#1323)
- * Enabled support for custom emoticons as an account option defaulting to on.
- * Fixed joining a group chat from an xmpp URL. (#11785)
- * "Not Authorized" is now displayed for contacts for whom you need to request authoriation.
- * Contacts are no longer told when you close their chat ("…has left the conversation"). (#8082)
-
-MSN
- * Possibly fixed a crash on connect. (#11508)
- * Fixes setting account-specific display names (only the global display name would be set).
- * Enabled server-side storing of contact aliases. (#11802)
- * Fixed displaying what message was unable to be sent when an error occurs. (#11796)
- * Moved the "display custom emoticons" to an account preference from the advanced preferences window.
-
-AIM, ICQ, and MobileMe
- * Added a preference to always use the AOL proxy server for file transfers and direct IM. (#11413)
- * Added a preference to use SSL for connections. (#9553) You can get information on the certificate by right-clicking the account in the Accounts preferences.
+ Twitter 
+  * Timeline messages appear in a group chat, direct messages as a one-on-one chat with a contact.
+  * Adding and removing contact list buddies follows and unfollows them, respectively.
+  * Can customize profile settings (name, location, etc.) from the account edit window.
+  * Settings to customize: Update interval, Adium status updating, retweet links, and contact display in the contact list.
+  * Getting info on a Twitter contact displays all of their information and their latest 20 tweets.
+  * "Reply to a Tweet" window allows for pasting twitter.com URLs to easily respond to a tweet.
  
-MySpace IM
- * Added support for msim links. (#8036)
-
-Miscellaneous
- * You can now define which applications should be the default for different services in the Advanced preferences. (#158)
- * Updated the look of the file transfer window. Added a keyboard shortcut of CMD+. to stop the selected transfer.
- * The about box credits are now scrollable. (#9967)
- * The unread count is now cleared when clearing the display. (#10605)
- * Error and information display windows no longer exceed their maximum height, and take focus when opening. (#11793).
- * Possibly fixed support for a PAC proxy server. (#224, #11364)
- * Disabled the "Show # recent messages in new chats" option when "Log messages" is off. (#11359)
- * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
- * Add "Contact went mobile" and "Contact returns from mobile" events. (#3248)
- * Fixed AppleScript erroring when creating a new status object. (#8863)
- * Greatly reduced memory usage when receiving lots of messages while Adium is not being interacted with
- * Idle contacts now resort immediately
- * Updated to Sparkle 1.5
+  * Also includes support for Laconi.ca servers, such as Identi.ca
+  
+ IRC
+  * Execute commands on connect.
+  * Display of operator status in chats, as well as user's /away status.
+  * Mass-modify attributes of user list members from the group chat's action widget below the user list.
+ 
+ Group Chats
+  * When you are mentioned in a group chat, the color of the tab's message count changes to red.
+  * Set a shortcut of ⌘⌥/ for the "Toggle User List" menu item.
+  * Added a "Swap User List Side" menu item, defaulting to the user list being on the right.	(#8689)
+  * Double-clicking a contact in the group chat user list opens a chat with them.
+  * When double-clicking the resize widget in the user list, don't show a few pixels of it on the left of the chat.
+  * Respect the "show recent messages" preference for group chats.
+  * Prevent a duplicate separator item in group chat context menus. (#11674)
+  * Add context menus for group chats, including "Add Bookmark", "Get Info on Bookmark", "Toggle User List", and "View Chat Transcripts".
+  * Support opening chat transcripts for the group chats like a normal chat.
+  * Add a menu item for group chat user lists to add as a contact.
+  * The group chat user list is now sorted by, and displays, operator status in the channels.
+  * The user list remembers its open or closed status per room.
+  * Messages which mention you are no longer grouped with messages from the same user which do not.
+  * Add support for chat topics. Note that message styles must support the feature for them to show up.
+  * Group chats now display online or offline based on their account's status.
+  * Growl notifications for group chats are now prefixed by the chat's name.
+  * Added an Advanced Status preference to "Only count number of unread mentions for group chats" (for the Status Menu Item and Dock icon)
+  * Added an option for group chats to hide their join and leave messages.
+  * Joining large group chats is much faster.
+ 
+ Group Chat Bookmarks
+  * Bookmarks no longer trigger events when their account comes online.
+  * Message windows' tabs and titles now display the alias of the bookmark which represents the chat. (#11756)
+  * Bookmarks are only shown in the list when their accounts are online.
+  * Group chat events such as "You are mentioned", "Message received" and join/leave events will use the events set on their bookmark.
+  * Set appropriate icons and coloring for bookmarks based on their associated chat information, such as the unviewed content background or flashing.
+  * Fixed bookmarks appearing in groups when groups are disabled, or disappearing.
+  * Bookmarks can now be removed.
+  * Add an option to the Get Info window to auto-join a group chat bookmark when its account connects.
+  * When opening the "Add Contact" window, don't fill in the username with the name of a bookmark if it selected.
+  * Stops the "retrieving information" spinner from going off for bookmarks.
+  * A group bookmark's status message now reflects how many unread mentions or messages are in the chat.
+  * Correctly sorted the groups list in the "Add Bookmark" window.
+  * Fixed bookmarking group chats whose names vary in case.
+ 
+ Contacts
+  * Added support for contacts in multiple groups
+    * Hold option when dragging to add a contact to a secondary group.
+    * Contact info inspector is now more focused on groups per contact than before.
+  * Created a new Authorization Requests window
+    * Authorization requests no longer create one alert panel per request
+    * The authorization requests window has add, ignore, and deny toolbar and context menu items.
+  * Fixed deleting a group not removing its contents.
+  * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
+  * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main menu's Contact menu.
+  * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
+  * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
+ 
+ Logging
+  * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). (#992)
+  * Search terms in the Transcript Viewer now match any part of text unless a wildcard is used. (#6364)
+  * Sped up writing log files in certain situations.
+  * Corrected some situations where the log viewer lacked icons for group chats.
+  * Events such as Direct IM status, joins and parts, and other information are now logged and displayed in the log viewer.
+  * Increased the maximum amount of recent messages you can display for chats from 100 to 400.
+  * Added an Import option to reindex the logs folder in case you manually add logs. (#9554)
+ 
+ Contact List
+  * Contact list filtering is now present on all window styles: regular, borderless, etc. (#10489)
+  * Corrected a few bugs where contacts were hidden as offline when online, or placed in the offline group incorrectly.
+  * Combined contacts now show the information in the contact list for the first available user. (#11007)
+  * Improved speed of searching in contact list for larger lists.
+  * Fix a small white line at the top of the contact list when "size to fit vertically" is set. (#11119)
+  * Add "Sort Groups Alphabetically" option to the status sort.
+  * Add "Hide Away Contacts" and "Hide Contacts for Account" to the view options.
+  * Fixed a bug where the view menu would show incorrect settings.
+  * Status message is no longer searched when searching the contact list.
+  * Fixed a lot of drag and drop bugs, such as being able to drag a group into another group.
+  * Tooltips now display for collapsed groups. (#11951)
+ 
+ Message Styles
+  * You can now specify a different style for group chats, and customize all of the preferences independently of a regular chat. (#87)
+  * Messages containing unordered lists are now displayed using bullets.
+  * Styles now fall backs to root level files for Status.html and Content.html. (#10868)
+  * Corrected sorting of message styles in their popup (#9498)
+  * %message% is now replaced in a loop as we do other keywords. (#9672)
+  * %service% is now replaced in all templates, not just messages. (#11872)
+  * %senderPrefix% now contains a textual representation (., @, %, +, or an empty string) of the user's status in a group chat. (#11882)
+  * %userIconPath% is now a valid replacement keyword in Status.html (#7508)
+  * Added "action" to the %messageClasses% of /me messages. (#11894)
+ 
+ Messaging
+  * Messages from blocked contacts are now never displayed, even if the protocol allows them to send the message.
+  * Added marking to the scroll bar like in [http://colloquy.info Colloquy]:
+   * When your name (or what you decide to highlight) is mentioned in a chat, a grey line is added.
+   * When the window or tab loses focus, a red line is added and you can "Jump to Focus Mark" to easily go to it.
+   * You can access the "Jump to Previous Mark", "Jump to Next Mark" and "Jump to Focus Mark" by right-clicking the scroll bar, or from the new Display menu.
+  * Added "Clear Display" to the new Display menu.
+  * You can now customize the text which causes the "You are mentioned" event to fire from the advanced preferences.
+  * Fixed a bug where emoticons would be displayed improperly. (#6440)
+  * Added a confirmation dialog when clicking the block/unblock icon in the toolbar. (#10960)
+  * Added a URL shortener.  Select the URL, then either choose “Replace with Shortened URL” from the Edit menu, right-click the URL and choose it from that menu, right-click a link and choose it from that menu, or press ⇧⌘K. Supports TinyURL, is.gd, tr.im, and Metamark (xrl.us).
+  * Nudge and buzz messages now appear as events in the window instead of messages from the contact.
+  * Added an option to only count mentions for group chats when badging the dock or status menu item. (#11850)
+  * Fixed clicking service links with message text when the link appears in the window it would open.
+  * When a new file transfer arrives which requires confirmation, the chat's unviewed content count is increased.
+  * A new message no longer unminimizes the chat window. (#52)
+  * Fixed logging in St. John's Newfoundland's time zone. (#9557)
+ 
+ Accounts 
+  * Fixed setting a global user icon. Previously, if you didn't have an account icon set but did set a global one, you would have no icon.
+ 
+ Facebook
+  * Fixed Facebook contacts showing up as numbers when offfline (#11676) - If 1.3.4 gets released before 1.4, remove this.
+ 
+ Bonjour
+  * Bonjour accounts now disconnect if we receive an error message.
+ 
+ XMPP (Jabber, Google Talk, etc.)
+  * Updated XMPP server list when registering
+  * History from persistent group chats is now displayed as such and does not trigger events. (#6787)
+  * Group chats which are not anonymous now display the actual contact in the user list. (#11841)
+  * Fixed receiving colors and fonts from iChat. (#1323)
+  * Enabled support for custom emoticons as an account option defaulting to on.
+  * Fixed joining a group chat from an xmpp URL. (#11785)
+  * "Not Authorized" is now displayed for contacts for whom you need to request authoriation.
+  * Contacts are no longer told when you close their chat ("…has left the conversation"). (#8082)
+ 
+ MSN
+  * Possibly fixed a crash on connect. (#11508)
+  * Fixes setting account-specific display names (only the global display name would be set).
+  * Enabled server-side storing of contact aliases. (#11802)
+  * Fixed displaying what message was unable to be sent when an error occurs. (#11796)
+  * Moved the "display custom emoticons" to an account preference from the advanced preferences window.
+ 
+ AIM, ICQ, and MobileMe
+  * Added a preference to always use the AOL proxy server for file transfers and direct IM. (#11413)
+  * Added a preference to use SSL for connections. (#9553) You can get information on the certificate by right-clicking the account in the Accounts preferences.
+  
+ MySpace IM
+  * Added support for msim links. (#8036)
+ 
+ Miscellaneous
+  * You can now define which applications should be the default for different services in the Advanced preferences. (#158)
+  * Updated the look of the file transfer window. Added a keyboard shortcut of CMD+. to stop the selected transfer.
+  * The about box credits are now scrollable. (#9967)
+  * The unread count is now cleared when clearing the display. (#10605)
+  * Error and information display windows no longer exceed their maximum height, and take focus when opening. (#11793).
+  * Possibly fixed support for a PAC proxy server. (#224, #11364)
+  * Disabled the "Show # recent messages in new chats" option when "Log messages" is off. (#11359)
+  * Menu items such as “Show Offline Contacts” now always use the “Show” verb, with a checkbox indicating that they're currently shown. Previous versions indicated that by changing the verb to “Hide”. #4740.
+  * Add "Contact went mobile" and "Contact returns from mobile" events. (#3248)
+  * Fixed AppleScript erroring when creating a new status object. (#8863)
+  * Greatly reduced memory usage when receiving lots of messages while Adium is not being interacted with
+  * Idle contacts now resort immediately
+  * Updated to Sparkle 1.5
 
 Version 1.3.3 (2/19/2009)
  * Major changes
