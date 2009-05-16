@@ -16,6 +16,10 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>button_defaultFont</key>
+				<string>NSButton</string>
+				<key>button_setFont</key>
+				<string>NSButton</string>
 				<key>checkBox_showHeader</key>
 				<string>NSButton</string>
 				<key>checkBox_showMessageColors</key>
@@ -25,6 +29,8 @@
 				<key>checkBox_showUserIcons</key>
 				<string>NSButton</string>
 				<key>checkBox_useCustomBackground</key>
+				<string>NSButton</string>
+				<key>checkBox_useRegularChatForGroup</key>
 				<string>NSButton</string>
 				<key>colorWell_customBackgroundColor</key>
 				<string>NSColorWell</string>
@@ -38,6 +44,12 @@
 				<string>NSPopUpButton</string>
 				<key>popUp_variants</key>
 				<string>NSPopUpButton</string>
+				<key>tabViewItem_groupChat</key>
+				<string>NSTabViewItem</string>
+				<key>tabViewItem_regularChat</key>
+				<string>NSTabViewItem</string>
+				<key>tabView_messageType</key>
+				<string>NSTabView</string>
 				<key>view_previewLocation</key>
 				<string>NSView</string>
 			</dict>
@@ -46,11 +58,69 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>AIObject</string>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTextField</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>adiumPrint</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>prefsWindowWillClose</key>
+				<string>SS_PrefsController</string>
+				<key>toggleFindPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
 			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showImagePicker</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIImageViewWithImagePicker</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSImageView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -59,12 +129,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -103,25 +167,15 @@
 				<string>NSView</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>AIObject</string>
+			<string>NSObject</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>showImagePicker</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
-			<string>AIImageViewWithImagePicker</string>
+			<string>NSButton</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>delegate</key>
-				<string>id</string>
-			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSImageView</string>
+			<string>NSControl</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -137,6 +191,27 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SS_PrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
