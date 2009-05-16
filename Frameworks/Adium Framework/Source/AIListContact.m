@@ -202,7 +202,7 @@
 		
 		if (!adium.contactController.useContactListGroups)
 			localGroup = adium.contactController.contactList;
-		else if (adium.contactController.useOfflineGroup && !self.online)
+		else if (adium.contactController.useOfflineGroup && !self.online && !self.alwaysVisible)
 			localGroup = adium.contactController.offlineGroup;
 		
 		[groups addObject:localGroup];
@@ -617,6 +617,13 @@
 		pref = [prefNumber integerValue];
 	
 	return pref;
+}
+
+- (void)setAlwaysVisible:(BOOL)inVisible
+{
+	[super setAlwaysVisible:inVisible];
+	
+	[self restoreGrouping];
 }
 
 - (BOOL)alwaysVisible
