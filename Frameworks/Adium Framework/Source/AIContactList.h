@@ -21,7 +21,4 @@
 	
 }
 
-- (void)moveAllGroupsTo:(AIContactList *)toContactList;
-- (BOOL)moveGroup:(AIListGroup *)group to:(AIContactList *)toList;
-
 @end
