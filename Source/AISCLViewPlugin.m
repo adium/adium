@@ -301,7 +301,7 @@
 		//Return the groups in this detached contact list to the main contact list
 		for (AIListGroup *group in windowController.contactList) {
 			[adium.contactController moveGroup:group 
-							   fromContactList:windowController.contactList
+							   fromContactList:(AIContactList *)windowController.contactList
 								 toContactList:adium.contactController.contactList];
 		}
 		
