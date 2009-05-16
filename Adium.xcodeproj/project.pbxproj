@@ -114,7 +114,6 @@
 		1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139011B0F85C9450081A418 /* AIURLHandlerPlugin.m */; };
 		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
-		11449E010FBE433C00DB7C63 /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11449E000FBE433C00DB7C63 /* AITwitterAccountView.nib */; };
 		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
 		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */; };
@@ -154,6 +153,7 @@
 		11CA00100C35EC5100A6BB8D /* SS_PreferencePaneProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 344836910BC8510B0083723B /* SS_PreferencePaneProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11CA00110C35EC5200A6BB8D /* SS_PrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 344836920BC8510B0083723B /* SS_PrefsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11CA00120C35EC5200A6BB8D /* SS_PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344836900BC8510B0083723B /* SS_PrefsController.m */; };
+		11D135D90FBE4C65000B0A5E /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11D135D80FBE4C65000B0A5E /* AITwitterAccountView.nib */; };
 		11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E7867F0F8860210014612E /* AIJumpControlPlugin.m */; };
 		11EE1B4D0CDCFAF40097F246 /* oscar-adium.c in Sources */ = {isa = PBXBuildFile; fileRef = 11EE1B490CDCFAF40097F246 /* oscar-adium.c */; };
 		11EE1B4E0CDCFAF40097F246 /* oscar-adium.h in Headers */ = {isa = PBXBuildFile; fileRef = 11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */; };
@@ -1814,7 +1814,6 @@
 		1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIIRCChannelLinker.m; path = Source/AIIRCChannelLinker.m; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
-		11449E0C0FBE435700DB7C63 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Twitter Plugin/en.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
 		114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAuthorizationRequestsWindowController.h; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.h"; sourceTree = "<group>"; };
 		114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAuthorizationRequestsWindowController.m; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.m"; sourceTree = "<group>"; };
 		114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIAuthorizationRequestsWindow.nib; path = "Frameworks/Adium Framework/Resources/AIAuthorizationRequestsWindow.nib"; sourceTree = "<group>"; };
@@ -1881,6 +1880,32 @@
 		11C7CAF00BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AINudgeBuzzHandlerPlugin.h; sourceTree = "<group>"; };
 		11C7CAF10BB58F4100296D7F /* AINudgeBuzzHandlerPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AINudgeBuzzHandlerPlugin.m; sourceTree = "<group>"; };
 		11C97DFC0F7D26C200E8DD37 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dsa_pub.pem; path = Resources/dsa_pub.pem; sourceTree = "<group>"; };
+		11D135DA0FBE4C69000B0A5E /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = "Plugins/Twitter Plugin/ca.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135DB0FBE4C6C000B0A5E /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = "Plugins/Twitter Plugin/cs.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135DC0FBE4C6E000B0A5E /* da */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = da; path = "Plugins/Twitter Plugin/da.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135DD0FBE4C70000B0A5E /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = "Plugins/Twitter Plugin/de.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135DE0FBE4C73000B0A5E /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = el_GR; path = "Plugins/Twitter Plugin/el_GR.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135DF0FBE4C76000B0A5E /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en_GB; path = "Plugins/Twitter Plugin/en_GB.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E00FBE4C82000B0A5E /* es */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = es; path = "Plugins/Twitter Plugin/es.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E10FBE4C84000B0A5E /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = "Plugins/Twitter Plugin/fi.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E20FBE4C86000B0A5E /* fr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr; path = "Plugins/Twitter Plugin/fr.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E30FBE4C88000B0A5E /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr_CA; path = "Plugins/Twitter Plugin/fr_CA.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E40FBE4C8A000B0A5E /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = "Plugins/Twitter Plugin/hu.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E50FBE4C8D000B0A5E /* is */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = is; path = "Plugins/Twitter Plugin/is.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E60FBE4C8F000B0A5E /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Twitter Plugin/it.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E70FBE4C91000B0A5E /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Plugins/Twitter Plugin/ja.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E80FBE4C93000B0A5E /* nb */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb; path = "Plugins/Twitter Plugin/nb.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135E90FBE4C95000B0A5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nl; path = "Plugins/Twitter Plugin/nl.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135EA0FBE4C98000B0A5E /* pl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pl; path = "Plugins/Twitter Plugin/pl.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135EB0FBE4C9A000B0A5E /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = "Plugins/Twitter Plugin/pt.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135EC0FBE4C9C000B0A5E /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = "Plugins/Twitter Plugin/pt_BR.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135ED0FBE4C9E000B0A5E /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = "Plugins/Twitter Plugin/ru.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135EE0FBE4CA1000B0A5E /* sl */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sl; path = "Plugins/Twitter Plugin/sl.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135EF0FBE4CA2000B0A5E /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = "Plugins/Twitter Plugin/sv.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135F00FBE4CA4000B0A5E /* tr */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = tr; path = "Plugins/Twitter Plugin/tr.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135F10FBE4CA6000B0A5E /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = "Plugins/Twitter Plugin/zh_CN.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135F20FBE4CA9000B0A5E /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = "Plugins/Twitter Plugin/zh_TW.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D135F30FBE4CB6000B0A5E /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Twitter Plugin/en.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
 		11E7867F0F8860210014612E /* AIJumpControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIJumpControlPlugin.m; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.m"; sourceTree = "<group>"; };
 		11E786800F8860210014612E /* AIJumpControlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIJumpControlPlugin.h; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.h"; sourceTree = "<group>"; };
 		11EE1B490CDCFAF40097F246 /* oscar-adium.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "oscar-adium.c"; sourceTree = "<group>"; };
@@ -4871,10 +4896,10 @@
 				1109634B0F61C1D00064CA0E /* AITwitterReplyWindow.nib */,
 				110966180F61D3E70064CA0E /* AITwitterReplyWindowController.h */,
 				110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */,
-				11449E000FBE433C00DB7C63 /* AITwitterAccountView.nib */,
 				11F739000F58D1C300B3285B /* AITwitterAccountViewController.h */,
 				11F739010F58D1C400B3285B /* AITwitterAccountViewController.m */,
 				11879C090F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.h */,
+				11D135D80FBE4C65000B0A5E /* AITwitterAccountView.nib */,
 				11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */,
 				11BD73D10F5A54BB007D438A /* twitter-small.png */,
 				11BD73D20F5A54BB007D438A /* twitter.png */,
@@ -9715,7 +9740,6 @@
 				11BD73AE0F5A53EA007D438A /* facebook.png in Resources */,
 				11BD73D30F5A54BB007D438A /* twitter-small.png in Resources */,
 				11BD73D40F5A54BB007D438A /* twitter.png in Resources */,
-				11449E010FBE433C00DB7C63 /* AITwitterAccountView.nib in Resources */,
 				1109634C0F61C1D00064CA0E /* AITwitterReplyWindow.nib in Resources */,
 				113892270F6B70CA00A7D7DC /* laconica-small.png in Resources */,
 				113892280F6B70CA00A7D7DC /* laconica.png in Resources */,
@@ -9725,6 +9749,7 @@
 				112B4A3E0F831A4400690E84 /* AIMentionAdvancedPreferences.nib in Resources */,
 				1111B2300F8478500068CE51 /* Filter Bar.nib in Resources */,
 				113900B10F85BEF60081A418 /* AIURLHandlerPreferences.nib in Resources */,
+				11D135D90FBE4C65000B0A5E /* AITwitterAccountView.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10701,14 +10726,6 @@
 			name = "Shared Dock Icon Images";
 			sourceTree = "<group>";
 		};
-		11449E000FBE433C00DB7C63 /* AITwitterAccountView.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				11449E0C0FBE435700DB7C63 /* en */,
-			);
-			name = AITwitterAccountView.nib;
-			sourceTree = "<group>";
-		};
 		1150A9950FBE48D600E0BD31 /* ESIRCAccountView.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -10740,6 +10757,39 @@
 				1150A9B00FBE491700E0BD31 /* zh_TW */,
 			);
 			name = ESIRCAccountView.nib;
+			sourceTree = "<group>";
+		};
+		11D135D80FBE4C65000B0A5E /* AITwitterAccountView.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				11D135DA0FBE4C69000B0A5E /* ca */,
+				11D135DB0FBE4C6C000B0A5E /* cs */,
+				11D135DC0FBE4C6E000B0A5E /* da */,
+				11D135DD0FBE4C70000B0A5E /* de */,
+				11D135DE0FBE4C73000B0A5E /* el_GR */,
+				11D135DF0FBE4C76000B0A5E /* en_GB */,
+				11D135E00FBE4C82000B0A5E /* es */,
+				11D135E10FBE4C84000B0A5E /* fi */,
+				11D135E20FBE4C86000B0A5E /* fr */,
+				11D135E30FBE4C88000B0A5E /* fr_CA */,
+				11D135E40FBE4C8A000B0A5E /* hu */,
+				11D135E50FBE4C8D000B0A5E /* is */,
+				11D135E60FBE4C8F000B0A5E /* it */,
+				11D135E70FBE4C91000B0A5E /* ja */,
+				11D135E80FBE4C93000B0A5E /* nb */,
+				11D135E90FBE4C95000B0A5E /* nl */,
+				11D135EA0FBE4C98000B0A5E /* pl */,
+				11D135EB0FBE4C9A000B0A5E /* pt */,
+				11D135EC0FBE4C9C000B0A5E /* pt_BR */,
+				11D135ED0FBE4C9E000B0A5E /* ru */,
+				11D135EE0FBE4CA1000B0A5E /* sl */,
+				11D135EF0FBE4CA2000B0A5E /* sv */,
+				11D135F00FBE4CA4000B0A5E /* tr */,
+				11D135F10FBE4CA6000B0A5E /* zh_CN */,
+				11D135F20FBE4CA9000B0A5E /* zh_TW */,
+				11D135F30FBE4CB6000B0A5E /* en */,
+			);
+			name = AITwitterAccountView.nib;
 			sourceTree = "<group>";
 		};
 		3402E01A07CB0CEC0044F818 /* ESFileTransferProgressView.nib */ = {
