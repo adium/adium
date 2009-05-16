@@ -419,25 +419,26 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	NSDictionary *immutablePrefsToWrite = [[[NSDictionary alloc] initWithDictionary:inTimer.userInfo copyItems:YES] autorelease];
 	/* Data verification */
 #ifdef PREFERENCE_CONTAINER_DEBUG
-	{
-		NSData		 *data = [NSData dataWithContentsOfFile:[adium.loginController.userDirectory stringByAppendingPathComponent:[globalPrefsName stringByAppendingPathExtension:@"plist"]]];
-		NSString	 *errorString = nil;
-		NSDictionary *theDict = [NSPropertyListSerialization propertyListFromData:data 
-																 mutabilityOption:NSPropertyListMutableContainers 
-																		   format:NULL 
-																 errorDescription:&errorString];
-		if (theDict && [theDict count] > 0 && [immutablePrefsToWrite count] == 0)
-		{
-			NSLog(@"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
-			*((int*)0xdeadbeef) = 42;
-		}
-	}
+//	{
+//		NSData		 *data = [NSData dataWithContentsOfFile:[adium.loginController.userDirectory stringByAppendingPathComponent:[globalPrefsName stringByAppendingPathExtension:@"plist"]]];
+//		NSString	 *errorString = nil;
+//		NSDictionary *theDict = [NSPropertyListSerialization propertyListFromData:data 
+//																 mutabilityOption:NSPropertyListMutableContainers 
+//																		   format:NULL 
+//																 errorDescription:&errorString];
+//		if (theDict && [theDict count] > 0 && [immutablePrefsToWrite count] == 0)
+//		{
+//			NSLog(@"Writing out an empty ByObjectPrefs when we have an existing non-empty one!");
+//			*((int*)0xdeadbeef) = 42;
+//		}
+//	}
 #endif
 #warning figure this out
 	if ([immutablePrefsToWrite count] > 0) {
 		[immutablePrefsToWrite asyncWriteToPath:adium.loginController.userDirectory withName:globalPrefsName];
 	} else {
 		NSLog(@"Attempted to write an empty ByObject Prefs. Uh oh!");
+		*((int*)0xdeadbeef) = 42;
 	}
 	if (inTimer == timer_savingOfObjectCache) {
 			[timer_savingOfObjectCache release]; timer_savingOfObjectCache = nil;
