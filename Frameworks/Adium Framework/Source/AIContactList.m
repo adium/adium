@@ -57,26 +57,4 @@
 	[super sort];
 }
 
-- (void)moveAllGroupsTo:(AIContactList *)toContactList 
-{
-	for (AIListObject *object in self) {
-		if ([object isKindOfClass:[AIListGroup class]]) {
-			[self moveGroup:(AIListGroup *)object to:toContactList];
-		}
-	}
-}
-
-- (BOOL)moveGroup:(AIListGroup *)group to:(AIContactList *)toList
-{
-	// Check if group is not already there
-	if(![self containsObject:group] || [toList containsObject:group])
-		return NO;
-	
-	//XXX is this right? we may need contact controller involvement here
-	[self removeObject:group];
-	[toList addObject:group];
-	
-	return YES;
-}
-
 @end

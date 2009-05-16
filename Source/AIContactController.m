@@ -1484,6 +1484,29 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 }
 
 #pragma mark Detached Contact Lists
+- (void)moveGroup:(AIListGroup *)group fromContactList:(AIContactList *)oldContactList toContactList:(AIContactList *)newContactList
+{
+	if (![oldContactList containsObject:group] || [newContactList containsObject:group]) {
+		return;
+	}
+	
+	[oldContactList removeObject:group];
+	[newContactList addObject:group];
+
+	[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ListChanged
+														object:newContactList
+													  userInfo:nil];
+	
+	if (!oldContactList.containedObjects.count) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
+															object:oldContactList
+														  userInfo:nil];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:Contact_ListChanged
+															object:oldContactList
+														  userInfo:nil];
+	}
+}
 
 /*!
  * @returns Empty contact list

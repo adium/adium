@@ -299,8 +299,12 @@
 		defaultController = nil;
 	} else {
 		//Return the groups in this detached contact list to the main contact list
-		[(AIContactList *)[windowController contactList] moveAllGroupsTo:adium.contactController.contactList];
-
+		for (AIListGroup *group in windowController.contactList) {
+			[adium.contactController moveGroup:group 
+							   fromContactList:windowController.contactList
+								 toContactList:adium.contactController.contactList];
+		}
+		
 		[adium.contactController removeDetachedContactList:(AIContactList *)[windowController contactList]];
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
@@ -419,25 +423,7 @@
  */
 - (void)moveListGroup:(AIListGroup *)listGroup toContactList:(AIContactList *)destinationList
 {
-	AIContactList *sourceList = listGroup.contactList;
-
-	[sourceList moveGroup:listGroup to:destinationList];
-	
-	// Update contact list
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
-											  object:destinationList
-											userInfo:nil];
-	
-	// Post a notification that we've removed or changed the source group/window
-	if ([sourceList countOfContainedObjects] == 0) { 
-		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
-												  object:sourceList
-												userInfo:nil];
-	} else {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"Contact_ListChanged"
-												  object:sourceList
-												userInfo:nil]; 
-	}
+	[adium.contactController moveGroup:listGroup fromContactList:listGroup.contactList toContactList:destinationList];
 }
 
 /*!

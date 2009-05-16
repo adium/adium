@@ -720,8 +720,10 @@
 						} else if ([listObject isKindOfClass:[AIListGroup class]]) {							
 							// Group being moved to a new detached window.
 							NSAssert([group isKindOfClass:[AIContactList class]], @"Target group not an AIContactList");
-							
-							[[(AIListGroup *)listObject contactList] moveGroup:(AIListGroup *)listObject to:(AIContactList *)group];
+
+							[adium.contactController moveGroup:(AIListGroup *)listObject
+											   fromContactList:((AIListGroup *)listObject).contactList 
+												 toContactList:(AIContactList *)group];
 						}
 					}
 					
