@@ -135,6 +135,12 @@
 														[connectServer UTF8String] :
 														""));
 	
+	// FT proxies
+	NSString *ftProxies = [self preferenceForKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
+	if (ftProxies.length) {
+		purple_account_set_string(account, "ft_proxies", [ftProxies UTF8String]);
+	}
+	
 	//Force old SSL usage? (off by default)
 	forceOldSSL = [[self preferenceForKey:KEY_JABBER_FORCE_OLD_SSL group:GROUP_ACCOUNT_STATUS] boolValue];
 	purple_account_set_bool(account, "old_ssl", forceOldSSL);

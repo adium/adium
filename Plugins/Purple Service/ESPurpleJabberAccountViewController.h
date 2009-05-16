@@ -22,6 +22,7 @@
 	IBOutlet	NSTextField		*textField_resource;
 	IBOutlet	NSTextField		*textField_priorityAvailable;
 	IBOutlet	NSTextField		*textField_priorityAway;
+	IBOutlet	NSTextField		*textField_ftProxies;
 	IBOutlet	NSButton		*checkBox_useTLS;
 	IBOutlet	NSButton		*checkBox_forceOldSSL;
 	IBOutlet	NSButton		*checkBox_requireTLS;
