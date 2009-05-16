@@ -146,7 +146,7 @@
 	/* Discover the appropriate record if required */
 	if ([contact rendezvous] == nil) {
 
-		for (contact in contacts) {
+		for (contact in [contacts allValues]) {
 			AILog(@"%s: Searching contacts; rendezvous is %@ and ipaddr is %@", __PRETTY_FUNCTION__, contact.rendezvous, contact.ipAddr);
 			if ([contact rendezvous] != nil && [contact.ipAddr isEqualToString:ipAddr])
 				break;
