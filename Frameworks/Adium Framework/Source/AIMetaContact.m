@@ -141,7 +141,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	NSMutableSet *targetGroups = [NSMutableSet set];
 
 	if (adium.contactController.useContactListGroups) {
-		if (!self.online && adium.contactController.useOfflineGroup)
+		if (adium.contactController.useOfflineGroup && !self.online && !self.alwaysVisible)
 			[targetGroups addObject:adium.contactController.offlineGroup];
 		else {
 			for (AIListContact *containedContact in self.uniqueContainedObjects) {
