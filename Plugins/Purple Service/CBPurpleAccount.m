@@ -254,6 +254,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurplePresence		*presence = purple_buddy_get_presence(buddy);
 	PurpleStatus		*status = (presence ? purple_presence_get_active_status(presence) : NULL);
 	const char			*message = (status ? purple_status_get_attr_string(status, "message") : NULL);
+	NSString			*statusMessage = nil;
 	
 	// Get the plugin's status message for this buddy if they don't have a status message
 	if (!message) {
@@ -263,16 +264,20 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 												NULL);
 		
 		if (prpl_info && prpl_info->status_text) {
-			message = (prpl_info->status_text)(buddy);
+			char *status_text = (prpl_info->status_text)(buddy);
 			
 			// Don't display "Offline" as a status message.
-			if (message && !strcmp(message, _("Offline"))) {
-				message = NULL;
+			if (status_text && strcmp(status_text, _("Offline")) != 0) {
+				statusMessage = [NSString stringWithUTF8String:status_text];				
 			}
+			
+			g_free(status_text);
 		}
+	} else {
+		statusMessage = [NSString stringWithUTF8String:message];
 	}
 	
-	return message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil;
+	return statusMessage ? [AIHTMLDecoder decodeHTML:statusMessage] : nil;
 }
 
 /*!
