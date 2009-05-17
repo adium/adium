@@ -31,7 +31,7 @@
 #define SHOW_COUNT_ALL_CONTACTS_TITLE				AILocalizedString(@"Show Group Total Count", nil)
 
 #define KEY_COUNT_ALL_CONTACTS					@"Count All Contacts"
-#define KEY_COUNT_ONLINE_CONTACTS				@"Count Online Contacts" //Kept as "Online" to preserve preferences
+#define KEY_COUNT_ONLINE_CONTACTS				@"Count Online Contacts"
 
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
 
