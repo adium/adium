@@ -111,13 +111,6 @@
 	drawsGradientEdges = inValue;
 }
 
-- (void)setShowCollapsedCount:(BOOL)inValue
-{
-	showCollapsedCount = inValue;
-}
-
-
-
 //Sizing & Padding -----------------------------------------------------------------------------------------------------
 #pragma mark Sizing & Padding
 //Padding.  Gives our cell a bit of extra padding for the group name and flippy triangle (disclosure triangle)
@@ -147,7 +140,7 @@
 	//Get the size of our display name
 	width += ceil(self.displayNameSize.width) + 1;
 	
-	if (([listObject boolValueForProperty:@"Show Count"] || (showCollapsedCount && ![controlView isItemExpanded:proxyObject])) && 
+	if ([listObject boolValueForProperty:@"Show Count"] && 
 		[listObject valueForProperty:@"Count Text"]) {
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"Count Text"]
 																		attributes:[self labelAttributes]];
@@ -204,8 +197,7 @@
 		rect.size.width -= rect.size.height*.4 + rect.size.height*.2 + FLIPPY_TEXT_PADDING;
 //	}
 	
-	if ([listObject boolValueForProperty:@"Show Count"] ||
-		(showCollapsedCount && ![controlView isItemExpanded:proxyObject])) {
+	if ([listObject boolValueForProperty:@"Show Count"]) {
 		rect = [self drawGroupCountWithFrame:rect];
 	}
 	rect = [self drawDisplayNameWithFrame:rect];
