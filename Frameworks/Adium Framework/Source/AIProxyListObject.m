@@ -105,7 +105,6 @@ static NSMutableDictionary *proxyDict;
 
 - (id)forwardingTargetForSelector:(SEL)aSelector;
 {
-	NSLog(@"XXX forwarding %@; break on -[AIProxyListObject forwardingTargetForSelector:]", NSStringFromSelector(aSelector));
 	return listObject;
 }
 
