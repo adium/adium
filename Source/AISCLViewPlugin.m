@@ -586,7 +586,8 @@
 
 	for (NSString *groupUID in groups) {
 		AIListGroup		*group = [adium.contactController groupWithUID:groupUID];
-		[group.contactList moveGroup:group to:contactList];
+		
+		[adium.contactController moveGroup:group fromContactList:group.contactList toContactList:contactList];
 	}
 	
 	[self detachContactList:contactList];

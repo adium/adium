@@ -1303,7 +1303,9 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 		AIContactList *from = (AIContactList *)[self contactList];
 		AIContactList *to = (AIContactList *)[attachToBottom contactList];
 		
-		[from moveAllGroupsTo:to];
+		for (AIListGroup *group in from) {
+			[adium.contactController moveGroup:group fromContactList:from toContactList:to];
+		}
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:DetachedContactListIsEmpty
 												  object:from
