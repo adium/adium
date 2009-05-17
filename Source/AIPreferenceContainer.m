@@ -140,6 +140,9 @@ static NSTimer				*timer_savingOfAccountCache = nil;
  */
 - (void)emptyCache:(NSTimer *)inTimer
 {
+	AILogWithSignature(@"Would be clearing the prefs cache, but that's disabled for debugging");
+	return;
+	
 	if (object) {
 		(*myUsersOfGlobalPrefs)--;
 		
