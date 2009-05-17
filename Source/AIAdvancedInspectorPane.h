@@ -32,6 +32,8 @@
 	IBOutlet	NSButton						*checkBox_alwaysShow;
 	IBOutlet	NSButton						*checkBox_autoJoin;
 	
+	BOOL										switchingContacts;
+	
 	AIAccountMenu								*accountMenu;
 	AIContactMenu								*contactMenu;
 	
