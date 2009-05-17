@@ -1775,6 +1775,18 @@
 
 #pragma mark -
 
+- (void) testColorWithRGBAString
+{
+	NSString *string = @"rgba(255, 255, 0, 0.75)";
+	NSColor *color = [NSColor colorWithHTMLString:string];
+	STAssertEquals([color redComponent], 1.0f, @"Red component of color should be 1.0");
+	STAssertEquals([color greenComponent], 1.0f, @"Green component of color should be 1.0");
+	STAssertEquals([color blueComponent], 0.0f, @"Blue component of color should be 0.0");
+	STAssertEquals([color alphaComponent], 0.75f, @"Alpha component of color should be 0.75");
+}
+
+#pragma mark -
+
 - (void)testColorWithHTMLStringWithNil
 {
 	NSColor *noColor = [NSColor colorWithHTMLString:nil];
