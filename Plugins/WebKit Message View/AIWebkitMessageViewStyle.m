@@ -797,8 +797,12 @@ static NSArray *validSenderColors;
 	[inString replaceKeyword:@"%time%" 
 				  withString:(date ? [timeStampFormatter stringFromDate:date] : @"")];
 
+	NSString *shortTimeString = (date ? [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] : @"");
+#warning working around http://trac.adium.im/ticket/11981
+	if ([shortTimeString hasSuffix:@" "])
+		shortTimeString = [shortTimeString substringToIndex:shortTimeString.length - 1];
 	[inString replaceKeyword:@"%shortTime%"
-				  withString:(date ? [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] : @"")];
+				  withString:shortTimeString];
 
 	if ([inString rangeOfString:@"%senderStatusIcon%"].location != NSNotFound) {
 		//Only cache the status icon to disk if the message style will actually use it
