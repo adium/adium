@@ -497,8 +497,34 @@ static float hexCharsToFloat(char firstChar, char secondChar)
 	if (!str) return defaultColor;
 
 	unsigned strLength = [str length];
-
+	
 	NSString *colorValue = str;
+	
+	if ([str hasPrefix:@"rgb"]) {
+		NSUInteger leftParIndex = [colorValue rangeOfString:@"("].location;
+		NSUInteger rightParIndex = [colorValue rangeOfString:@")"].location;
+		if (leftParIndex == NSNotFound || rightParIndex == NSNotFound)
+		{
+			NSLog(@"+[NSColor(AIColorAdditions) colorWithHTMLString:] called with unrecognised color function (str is %@); returning %@", str, defaultColor);
+			return defaultColor;
+		}
+		leftParIndex++;
+		NSRange substrRange = NSMakeRange(leftParIndex, rightParIndex - leftParIndex);
+		colorValue = [colorValue substringWithRange:substrRange];
+		NSArray *colorComponents = [colorValue componentsSeparatedByString:@","];
+		if ([colorComponents count] < 3 || [colorComponents count] > 4) {
+			NSLog(@"+[NSColor(AIColorAdditions) colorWithHTMLString:] called with a color function with the wrong number of arguments (str is %@); returning %@", str, defaultColor);
+			return defaultColor;
+		}
+		float red, green, blue, alpha = 1.0f;
+		red = [[colorComponents objectAtIndex:0] floatValue];
+		green = [[colorComponents objectAtIndex:1] floatValue];
+		blue = [[colorComponents objectAtIndex:2] floatValue];
+		if ([colorComponents count] == 4)
+			alpha = [[colorComponents objectAtIndex:3] floatValue];
+		return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:alpha];
+	}
+	
 	if ((!strLength) || ([str characterAtIndex:0] != '#')) {
 		//look it up; it's a colour name
 		NSDictionary *colorValues = [self colorNamesDictionary];
