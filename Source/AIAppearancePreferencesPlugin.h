@@ -26,9 +26,6 @@
 
 @interface AIAppearancePreferencesPlugin : AIPlugin {
 	AIAppearancePreferences		*preferences;
-	
-	NSMenuItem					*menuItem_userIcons;
-	NSMenuItem					*menuItem_userStatusMessages;
 }
 
 //Themes and Layouts
