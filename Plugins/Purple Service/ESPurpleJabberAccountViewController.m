@@ -111,7 +111,7 @@
 					forKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
 	
 	//FT proxies
-	[account setPreference:([[textField_ftProxies stringValue] length] ? [textField_ftProxies stringValue] : nil)
+	[account setPreference:[textField_ftProxies stringValue]
 					forKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
 	
 	//Priority
