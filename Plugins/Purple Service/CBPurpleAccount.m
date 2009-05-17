@@ -855,12 +855,25 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)updateUser:(NSString *)user
 		   forChat:(AIChat *)chat
 			 flags:(AIGroupChatFlags)flags
+			 alias:(NSString *)alias
 		attributes:(NSDictionary *)attributes
 {
+	BOOL triggerUserlistUpdate = NO;
+	
 	AIListContact *contact = [self contactWithUID:user];
 	
 	AIGroupChatFlags oldFlags = [chat flagsForContact:contact];
+	NSString *oldAlias = [chat aliasForContact:contact];
 	
+	// Trigger an update if the alias or flags (ignoring away state) changes.
+	if ((alias && !oldAlias)
+		|| (!alias && oldAlias)
+		|| ![[chat aliasForContact:contact] isEqualToString:alias]
+		|| (flags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
+		triggerUserlistUpdate = YES;
+	}
+
+	[chat setAlias:alias forContact:contact];
 	[chat setFlags:flags forContact:contact];
 	
 	// Away changes only come in after the initial one, so we're safe in only updating it here.
@@ -877,7 +890,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	[contact notifyOfChangedPropertiesSilently:YES];
 	
 	// Post an update notification if we modified the flags; don't resort for away changes.
-	if ((flags & ~AIGroupChatAway) != (oldFlags & ~AIGroupChatAway)) {
+	if (triggerUserlistUpdate) {
 		[[NSNotificationCenter defaultCenter] postNotificationName:Chat_ParticipatingListObjectsChanged
 															object:chat];
 	}
