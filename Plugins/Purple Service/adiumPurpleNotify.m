@@ -36,6 +36,10 @@ static void *adiumPurpleNotifyMessage(PurpleNotifyMsgType type, const char *titl
 
 static void *adiumPurpleNotifyEmails(PurpleConnection *gc, size_t count, gboolean detailed, const char **subjects, const char **froms, const char **tos, const char **urls)
 {
+	// Don't notify that 0 emails are present.
+	if (!count)
+		return NULL;
+	
     //Values passed can be null
 	AIAccount	*account = (PURPLE_CONNECTION_IS_VALID(gc) ?
 							accountLookup(purple_connection_get_account(gc)) :
