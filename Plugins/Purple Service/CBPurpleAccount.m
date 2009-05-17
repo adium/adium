@@ -270,12 +270,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 				message = NULL;
 			}
 		}
-		
-		// These are HTML-stripped messages.
-		return message ? [NSAttributedString stringWithString:[NSString stringWithUTF8String:message]] : nil;
-	} else {
-		return [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]];
 	}
+	
+	return message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil;
 }
 
 /*!
