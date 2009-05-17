@@ -498,6 +498,9 @@ static ESFileTransferPreferences *preferences;
 				[fileTransfer openFile];
 			}
 			
+			[[NSDistributedNotificationCenter defaultCenter] postNotificationName:@"com.apple.DownloadFileFinished"
+																		   object:fileTransfer.localFilename];
+			
 			break;
 		case Cancelled_Remote_FileTransfer:
 			[adium.contactAlertsController generateEvent:FILE_TRANSFER_CANCELLED
