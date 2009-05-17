@@ -357,11 +357,11 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			}
 			
 			if (color != currentColor) {
-				[currentColor release]; currentColor = [color retain];
+				currentColor = color;
 			}
 			
 			if (backColor != currentBackColor) {
-				[currentBackColor release]; currentBackColor = [backColor retain];
+				currentBackColor = backColor;
 			}
 
 			//Close the font tag if necessary
@@ -649,7 +649,6 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	}
 
 	[currentFamily release];
-	[currentColor release];
 
 	//Finish off the HTML
 	if (thingsToInclude.styleTags) {
