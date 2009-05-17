@@ -24,7 +24,6 @@
 	NSColor		*gradientColor;
 	BOOL		drawsBackground;
 	BOOL		drawsGradientEdges;
-	BOOL		showCollapsedCount;
 	NSLayoutManager	*layoutManager;
 	
 	NSImage		*_gradient;
@@ -32,7 +31,6 @@
 }
 
 - (int)flippyIndent;
-- (void)setShowCollapsedCount:(BOOL)inValue;
 - (void)setShadowColor:(NSColor *)inColor;
 - (NSColor *)shadowColor;
 - (NSRect)drawGroupCountWithFrame:(NSRect)inRect;
