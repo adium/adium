@@ -269,6 +269,10 @@
 		[tableView_groups deselectAll:nil];
 		[tableView_groups reloadData];
 	}
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:@"NewGroupWindowControllerDidEnd"
+												  object:notification.object];
 }
 
 - (void)selectGroup:(id)sender
