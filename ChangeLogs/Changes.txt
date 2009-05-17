@@ -172,6 +172,15 @@ Version 1.4 (X/X/XXX)
   * The Downloads stack now bounces when a file transfer completes.
   * Updated to Sparkle 1.5
 
+Version 1.3.4 (5/7/2009)
+ * Facebook fixes
+   * Updated to pidgin-facebook 1.5.0, fixing a major bug in which massive amounts of data could be continuously sent and received under certain situations as well as several minor bugs
+   * Fixed a bug in which the Facebook numeric ID rather than name could be shown in the contact list (#11676)
+   * Improved proxy support.
+ * Fixed a crash when loading Jabber/XMPP account preferences when the computer's host name is not set (#11246)
+ * Fixed a display issue in message windows when running Safari 4.
+ * Updated to libpurple 2.5.6
+
 Version 1.3.3 (2/19/2009)
  * Major changes
     * Fixed a crash when using XMPP gateways and removing contacts
@@ -218,7 +227,6 @@ Version 1.3.3 (2/19/2009)
     * Updated the Russian localization (#11590, #11220)
     * Updated the Slovenian localization
 
-
 Version 1.3.2 (10/9/2008)
  * Updated to MSNp15 via libpurple (from MSNp12 via msn-pecan)
    * Display pictures on MSN now work again
@@ -264,7 +272,6 @@ Version 1.3.1 (9/7/2008)
  * Edges between multiple displays no longer trigger showing hidden contact list (#10204)
  * Removed $$ emoticon (#10949)
  * Update Danish, German, and Hungarian localizations
-
 
 Version 1.3 (8/25/2008)
 == Major Changes ==
