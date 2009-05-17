@@ -29,9 +29,6 @@
 
 #define APPEARANCE_DEFAULT_PREFS 	@"AppearanceDefaults"
 
-#define SHOW_USER_ICONS_TITLE		AILocalizedString(@"Show User Icons", nil)
-#define SHOW_STATUS_MESSAGES_TITLE	AILocalizedString(@"Show Status Messages", nil)
-
 @implementation AIAppearancePreferencesPlugin
 
 - (void)installPlugin
@@ -53,36 +50,12 @@
 									   name:AIStatusIconSetInvalidSetNotification
 									 object:nil];
 	
-	//Add the menu item for configuring the sort
-	menuItem_userIcons = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_USER_ICONS_TITLE
-																			  target:self
-																			  action:@selector(toggleAppearancePreference:)
-																	   keyEquivalent:@"i"];
-	[menuItem_userIcons setKeyEquivalentModifierMask:(NSControlKeyMask | NSCommandKeyMask)];
-	[adium.menuController addMenuItem:menuItem_userIcons toLocation:LOC_View_Appearance_Toggles];
-	
-	menuItem_userStatusMessages = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:SHOW_STATUS_MESSAGES_TITLE
-																					   target:self
-																					   action:@selector(toggleAppearancePreference:)
-																				keyEquivalent:@"s"];
-	[menuItem_userStatusMessages setKeyEquivalentModifierMask:(NSControlKeyMask | NSCommandKeyMask)];
-	[adium.menuController addMenuItem:menuItem_userStatusMessages toLocation:LOC_View_Appearance_Toggles];
-	
 	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_APPEARANCE];
-	[preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_LIST_LAYOUT];	
 }	
 
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-}
-
-- (void)dealloc
-{
-	[menuItem_userIcons release];
-	[menuItem_userStatusMessages release];
-
-	[super dealloc];
 }
 
 /*!
@@ -162,16 +135,6 @@
 				 toPreferenceGroup:PREF_GROUP_LIST_LAYOUT];
 		}		
 	}
-
-	//Layout
-	if ([group isEqualToString:PREF_GROUP_LIST_LAYOUT]) {
-		if (firstTime || !key ||
-			[key isEqualToString:KEY_LIST_LAYOUT_SHOW_ICON] ||
-			[key isEqualToString:KEY_LIST_LAYOUT_SHOW_EXT_STATUS]) {
-			[menuItem_userIcons setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_ICON] boolValue]];
-			[menuItem_userStatusMessages setState:[[prefDict objectForKey:KEY_LIST_LAYOUT_SHOW_EXT_STATUS] boolValue]];
-		}
-	}
 }
 
 /*!
@@ -187,37 +150,6 @@
 	
 	//Tell the preferences to update
 	[preferences xtrasChanged:nil];
-}
-
-- (void)toggleAppearancePreference:(NSMenuItem *)sender
-{
-	NSString *key;
-
-	if (sender == menuItem_userIcons) {
-		key = KEY_LIST_LAYOUT_SHOW_ICON;
-		
-	} else if (sender == menuItem_userStatusMessages) {
-		key = KEY_LIST_LAYOUT_SHOW_EXT_STATUS;
-
-	} else {
-		key = nil;
-	}
-	
-	if (key) {
-		BOOL	 oldValue = [[adium.preferenceController preferenceForKey:key
-																   group:PREF_GROUP_LIST_LAYOUT] boolValue];
-
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:!oldValue]
-											 forKey:key
-											  group:PREF_GROUP_LIST_LAYOUT];
-
-		//Save the updated layout
-		[self createSetFromPreferenceGroup:PREF_GROUP_LIST_LAYOUT
-								  withName:[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_NAME
-																					group:PREF_GROUP_APPEARANCE]
-								 extension:LIST_LAYOUT_EXTENSION
-								  inFolder:LIST_LAYOUT_FOLDER];
-	}
 }
 
 #pragma mark ListLayout and ListTheme preference management
