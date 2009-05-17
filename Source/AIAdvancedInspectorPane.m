@@ -149,6 +149,9 @@
 #pragma mark Menus
 -(void)reloadPopup
 {	
+	if (switchingContacts)
+		return;
+	
 	[accountMenu rebuildMenu];
 	
 	[button_addGroup setMenu:[adium.contactController groupMenuWithTarget:self]];
@@ -205,9 +208,14 @@
 
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
+	// Avoid triggering a full reload when this ends up creating a new contact.
+	switchingContacts = YES;
+	
 	currentSelectedContact = [adium.contactController contactWithService:inContact.service
-																 account:currentSelectedAccount
-																	 UID:inContact.UID];
+																  account:currentSelectedAccount
+																	  UID:inContact.UID];
+	
+	switchingContacts = NO;
 	
 	// Update the groups.
 	[tableView_groups reloadData];
