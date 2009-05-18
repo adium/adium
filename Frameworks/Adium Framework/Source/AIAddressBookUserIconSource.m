@@ -155,7 +155,7 @@
 			
 		} else /*if ([setOrObject isKindOfClass:[NSSet class]])*/{
 			//Apply the image to each listObject at the appropriate priority
-			for (AIListObject *listObject in (NSSet *)setOrObject) {
+			for (AIListObject *listObject in [[(NSSet *)setOrObject copy] autorelease]) {
 				[AIUserIcons userIconSource:self
 					   didDetermineUserIcon:image
 							 asynchronously:YES
