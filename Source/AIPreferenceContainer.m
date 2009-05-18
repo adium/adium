@@ -16,7 +16,6 @@
 
 @interface AIPreferenceContainer ()
 - (id)initForGroup:(NSString *)inGroup object:(AIListObject *)inObject;
-- (void)emptyCache:(NSTimer *)inTimer;
 - (void)save;
 @property (readonly, nonatomic) NSMutableDictionary *prefs;
 - (void) loadGlobalPrefs;
@@ -25,7 +24,6 @@
 - (void) setPrefValue:(id)val forKey:(id)key;
 @end
 
-#define EMPTY_CACHE_DELAY		120.0
 #define	SAVE_OBJECT_PREFS_DELAY	10.0
 
 /* XXX Remove me */
@@ -34,11 +32,11 @@
 #endif
 
 static NSMutableDictionary	*objectPrefs = nil;
-static NSInteger					usersOfObjectPrefs = 0;
+static NSInteger			usersOfObjectPrefs = 0;
 static NSTimer				*timer_savingOfObjectCache = nil;
 
 static NSMutableDictionary	*accountPrefs = nil;
-static NSInteger					usersOfAccountPrefs = 0;
+static NSInteger			usersOfAccountPrefs = 0;
 static NSTimer				*timer_savingOfAccountCache = nil;
 	
 /*!
@@ -120,10 +118,7 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	[defaults release]; defaults = nil;
 	[group release];
 	[object release];
-	[timer_clearingOfCache release]; timer_clearingOfCache = nil;
 	[globalPrefsName release]; globalPrefsName = nil;
-
-	[self emptyCache:nil];
 	
 	[super dealloc];
 }
@@ -131,52 +126,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString *)theKey
 {
 	return NO;
-}
-
-#pragma mark Cache
-
-/*!
- * @brief Empty our cache
- */
-- (void)emptyCache:(NSTimer *)inTimer
-{
-	AILogWithSignature(@"Would be clearing the prefs cache, but that's disabled for debugging");
-	return;
-	
-	if (object) {
-		(*myUsersOfGlobalPrefs)--;
-		
-		[prefs release]; prefs = nil;
-		[prefsWithDefaults release]; prefsWithDefaults = nil;
-		
-		if ((*myUsersOfGlobalPrefs) == 0) {
-			[*myGlobalPrefs release]; *myGlobalPrefs = nil;
-		}
-
-	} else {
-		[prefs release]; prefs = nil;
-		[prefsWithDefaults release]; prefsWithDefaults = nil;
-	}
-	
-	[timer_clearingOfCache release]; timer_clearingOfCache = nil;
-}
-
-/*!
- * @brief Queue clearing of the cache
- *
- * If this method isn't called again within 30 seconds, the passed key will be removed from the passed cache dictionary.
- */
-- (void)queueClearingOfCache
-{
-	if (!timer_clearingOfCache) {
-		timer_clearingOfCache = [[NSTimer scheduledTimerWithTimeInterval:EMPTY_CACHE_DELAY
-																  target:self
-																selector:@selector(emptyCache:)
-																userInfo:nil
-																 repeats:NO] retain];
-	} else {
-		[timer_clearingOfCache setFireDate:[NSDate dateWithTimeIntervalSinceNow:EMPTY_CACHE_DELAY]];
-	}
 }
 
 #pragma mark Defaults
@@ -295,8 +244,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 												  withName:group
 													create:YES] retain];
 		}
-		
-		[self queueClearingOfCache];
 	}
 	
 	return prefs;
@@ -318,8 +265,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		} else {
 			prefsWithDefaults = [self.prefs retain];
 		}
-		
-		[self queueClearingOfCache];
 	}
 
 	return prefsWithDefaults;
