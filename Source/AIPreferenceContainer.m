@@ -32,11 +32,9 @@
 #endif
 
 static NSMutableDictionary	*objectPrefs = nil;
-static NSInteger			usersOfObjectPrefs = 0;
 static NSTimer				*timer_savingOfObjectCache = nil;
 
 static NSMutableDictionary	*accountPrefs = nil;
-static NSInteger			usersOfAccountPrefs = 0;
 static NSTimer				*timer_savingOfAccountCache = nil;
 	
 /*!
@@ -97,13 +95,11 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		if (object) {
 			if ([object isKindOfClass:[AIAccount class]]) {
 				myGlobalPrefs = &accountPrefs;
-				myUsersOfGlobalPrefs = &usersOfAccountPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfAccountCache;
 				globalPrefsName = @"AccountPrefs";
 				
 			} else {
 				myGlobalPrefs = &objectPrefs;
-				myUsersOfGlobalPrefs = &usersOfObjectPrefs;
 				myTimerForSavingGlobalPrefs = &timer_savingOfObjectCache;
 				globalPrefsName = @"ByObjectPrefs";
 			}
@@ -216,7 +212,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		prefs = [[NSMutableDictionary alloc] init];
 		[*myGlobalPrefs setObject:prefs
 						   forKey:globalPrefsKey];
-		(*myUsersOfGlobalPrefs)++;
 	}
 	[self.prefs setValue:value forKey:key];
 }
@@ -236,8 +231,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 			//For compatibility with having loaded individual object prefs from previous version of Adium, we key by the safe filename string
 			NSString *globalPrefsKey = [object.internalObjectID safeFilenameString];
 			prefs = [[*myGlobalPrefs objectForKey:globalPrefsKey] retain];
-			if (prefs)
-				(*myUsersOfGlobalPrefs)++;
 
 		} else {
 			prefs = [[NSMutableDictionary dictionaryAtPath:userDirectory
@@ -393,7 +386,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 	} else if (inTimer == timer_savingOfAccountCache) {
 			[timer_savingOfAccountCache release]; timer_savingOfAccountCache = nil;
 	}
-	(*myUsersOfGlobalPrefs)--;
 }
 
 /*!
@@ -406,11 +398,9 @@ static NSTimer				*timer_savingOfAccountCache = nil;
 		if (*myTimerForSavingGlobalPrefs) {
 				[*myTimerForSavingGlobalPrefs setFireDate:[NSDate dateWithTimeIntervalSinceNow:SAVE_OBJECT_PREFS_DELAY]];
 		} else {
-				(*myUsersOfGlobalPrefs)++;
 				
 #ifdef PREFERENCE_CONTAINER_DEBUG
-			// This shouldn't happen now that *myUsersOfGlobalPrefs is synchronized.
-			// Let's just log it for now.
+			// This shouldn't be happening at all.
 			if (!*myGlobalPrefs) {
 				NSLog(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
 				AILogWithSignature(@"Attempted to detach to save for %@ [%@], but info was nil.", self, globalPrefsName);
