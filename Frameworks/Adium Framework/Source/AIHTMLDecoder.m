@@ -1821,17 +1821,13 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 											  src)];
 			}
 			
-			if (url && ![url isFileURL]) {
-				NSData *data = [NSData dataWithContentsOfURL:url];
-				//Arbitrary image extension; it just needs to have one.
-				src = [[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString randomStringOfLength:8]] stringByAppendingPathExtension:@"png"];
-				[data writeToFile:src
-					   atomically:YES];
-			} else {
+			if (url && [url isFileURL]) {
 				src = [url path];
 				
 				if (inBaseURL && ![[NSFileManager defaultManager] fileExistsAtPath:src])
 					src = [inBaseURL stringByAppendingPathComponent:src];
+			} else {
+				return [NSAttributedString attributedStringWithLinkLabel:src linkDestination:src];
 			}
 
 			[attachment setPath:src];
