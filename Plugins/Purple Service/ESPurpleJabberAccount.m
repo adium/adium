@@ -346,15 +346,6 @@
 	}
 }
 
-#pragma mark Contacts
-- (void)updateSignon:(AIListContact *)theContact withData:(void *)data
-{
-	[super updateSignon:theContact withData:data];
-	
-	//We only get user icons in Jabber when we request info. Do that now!
-	[self delayedUpdateContactStatus:theContact];
-}
-
 #pragma mark Status
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
