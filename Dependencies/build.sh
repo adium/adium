@@ -287,7 +287,7 @@ build_glib() {
 #
 build_meanwhile() {
 	prereq "meanwhile" \
-		"http://dl.sourceforge.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
+		"http://dl.sf.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/meanwhile"
 	
@@ -328,7 +328,7 @@ build_meanwhile() {
 	fi
 	
 	status "Building and installing Meanwhile"
-	make
+	CFLAGS="$FLAGS" LDFLAGS="$FLAGS" make
 	make install
 	
 	# Undo all the patches
@@ -476,7 +476,7 @@ build_libpurple() {
 				--disable-avahi \
 				--disable-dbus \
 				--enable-gnutls=no \
-				--enable-nss=no --disable-meanwhile
+				--enable-nss=no
 				
 		# I disabled Kerberos support since 10.5's 64-bit Kerberos framework is
 		# missing some stuff.
