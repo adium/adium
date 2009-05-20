@@ -627,7 +627,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	if(![group containsObject:contact]) {
 		AILogWithSignature(@"%@ adding %@ to %@", self, [self _UIDForAddingObject:contact], groupName);
 		
-		[purpleAdapter addUID:[self _UIDForAddingObject:contact] onAccount:self toGroup:groupName];
+		NSString *alias = [contact.parentContact preferenceForKey:@"Alias"
+						   group:PREF_GROUP_ALIASES];
+		
+		[purpleAdapter addUID:[self _UIDForAddingObject:contact] onAccount:self toGroup:groupName withAlias:alias];
 		
 		//Add it to Adium's list
 		[contact addRemoteGroupName:group.UID]; //Use the non-mapped group name locally
@@ -657,8 +660,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	//Move the objects to it
 	for (AIListContact *contact in objects) {
+		NSString *alias = [contact.parentContact preferenceForKey:@"Alias"
+						   group:PREF_GROUP_ALIASES];
+		
 		//Tell the purple thread to perform the serverside operation
-		[purpleAdapter moveUID:contact.UID onAccount:self fromGroups:sourceMappedNames toGroups:destinationMappedNames];
+		[purpleAdapter moveUID:contact.UID onAccount:self fromGroups:sourceMappedNames toGroups:destinationMappedNames withAlias:alias];
 
 		for (AIListGroup *group in oldGroups) {
 			[contact removeRemoteGroupName:group.UID];

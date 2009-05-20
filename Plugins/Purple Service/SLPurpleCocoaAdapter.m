@@ -953,10 +953,10 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	}	
 }
 
-- (void)addUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroup:(NSString *)groupName
+- (void)addUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroup:(NSString *)groupName withAlias:(NSString *)alias
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
-	const char	*groupUTF8String, *buddyUTF8String;
+	const char	*groupUTF8String, *buddyUTF8String, *aliasUTF8String;
 	PurpleGroup	*group;
 	PurpleBuddy	*buddy;
 	
@@ -968,12 +968,13 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	}
 	
 	buddyUTF8String = [objectUID UTF8String];
+	aliasUTF8String = alias.length ? [alias UTF8String] : NULL;
 	
 	// Find an existing buddy in the group.
 	buddy = purple_find_buddy_in_group(account, buddyUTF8String, group);
-	if (!buddy) buddy = purple_buddy_new(account, buddyUTF8String, NULL);
+	if (!buddy) buddy = purple_buddy_new(account, buddyUTF8String, aliasUTF8String);
 
-	AILog(@"Adding buddy %s to group %s",purple_buddy_get_name(buddy), group->name);
+	AILog(@"Adding buddy %s to group %s with alias %s",purple_buddy_get_name(buddy), group->name, aliasUTF8String);
 
 	/* purple_blist_add_buddy() will move an existing contact serverside, but will not add a buddy serverside.
 	 * We're working with a new contact, hopefully, so we want to call serv_add_buddy() after modifying the purple list.
@@ -1009,18 +1010,18 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 	}
 }
 
-- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groupNames;
+- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groupNames withAlias:(NSString *)alias;
 {
 	for (NSString *groupName in groupNames) {
 		if (!oldGroups.count) {
 			// If we don't have any source groups, silently turn this into an add.
-			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName];
+			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName withAlias:alias];
 			continue;
 		}
 		
 		for (NSString *sourceGroupName in oldGroups) {
 			// Add the contact to the new group; first so we don't cause a full removal
-			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName];
+			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName withAlias:alias];
 
 			// Remove the contact from the old group.
 			[self removeUID:objectUID onAccount:adiumAccount fromGroup:sourceGroupName];
