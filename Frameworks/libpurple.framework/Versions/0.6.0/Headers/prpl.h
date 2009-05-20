@@ -126,10 +126,10 @@ struct _PurpleAttentionType
 typedef enum
 {
 	/**
-	 * Use a unique name, not an alias, for chat rooms.
+	 * User names are unique to a chat and are not shared between rooms.
 	 *
-	 * XMPP lets you choose what name you want for chat.
-	 * So it shouldn't be pulling the alias for when you're in chat;
+	 * XMPP lets you choose what name you want in chats, so it shouldn't
+	 * be pulling the aliases from the buddy list for the chat list;
 	 * it gets annoying.
 	 */
 	OPT_PROTO_UNIQUE_CHATNAME = 0x00000004,
