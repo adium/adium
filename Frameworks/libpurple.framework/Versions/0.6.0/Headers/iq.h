@@ -31,6 +31,7 @@ typedef enum {
 } JabberIqType;
 
 #include "jabber.h"
+#include "connection.h"
 
 typedef struct _JabberIq JabberIq;
 
@@ -105,5 +106,9 @@ void jabber_iq_uninit(void);
 
 void jabber_iq_register_handler(const char *node, const char *xmlns,
                                 JabberIqHandler *func);
+
+/* Connected to namespace-handler registration signals */
+void jabber_iq_signal_register(const gchar *node, const gchar *xmlns);
+void jabber_iq_signal_unregister(const gchar *node, const gchar *xmlns);
 
 #endif /* PURPLE_JABBER_IQ_H_ */

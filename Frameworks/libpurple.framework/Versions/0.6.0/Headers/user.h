@@ -105,6 +105,8 @@ struct _MsnUser
 
 	guint membership_id[5];	/**< The membershipId sent by the contacts server,
 				     indexed by the list it belongs to		*/
+
+	char *invite_message;   /**< Invite message of user request */
 };
 
 /**************************************************************************
@@ -290,6 +292,14 @@ void msn_user_set_object(MsnUser *user, MsnObject *obj);
  */
 void msn_user_set_client_caps(MsnUser *user, GHashTable *info);
 
+/**
+ * Sets the invite message for a user.
+ *
+ * @param user    The user.
+ * @param message The invite message for a user.
+ */
+void msn_user_set_invite_message(MsnUser *user, const char *message);
+
 
 /**
  * Returns the passport account for a user.
@@ -371,6 +381,15 @@ MsnObject *msn_user_get_object(const MsnUser *user);
  * @return The client information.
  */
 GHashTable *msn_user_get_client_caps(const MsnUser *user);
+
+/**
+ * Returns the invite message for a user.
+ *
+ * @param user The user.
+ *
+ * @return The user's invite message.
+ */
+const char *msn_user_get_invite_message(const MsnUser *user);
 
 /**
  * check to see if user is online
