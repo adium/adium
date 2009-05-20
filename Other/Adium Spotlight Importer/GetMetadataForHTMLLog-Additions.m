@@ -63,38 +63,6 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 //From AIUtilities
 @implementation NSString (AdiumSpotlightImporterAdditions)
 
-BOOL AIGetSurrogates(UTF32Char in, UTF16Char *outHigh, UTF16Char *outLow)
-{
-	if (in < 0x10000) {
-		if (outHigh) *outHigh = 0;
-		if (outLow)  *outLow  = in;
-		return NO;
-	} else {
-		enum {
-			UTF32LowShiftToUTF16High = 10,
-			UTF32HighShiftToUTF16High,
-			UTF16HighMask = 31,  //0b0000 0111 1100 0000
-			UTF16LowMask  = 63,  //0b0000 0000 0011 1111
-			UTF32LowMask = 1023, //0b0000 0011 1111 1111
-			UTF16HighAdditiveMask = 55296, //0b1101 1000 0000 0000
-			UTF16LowAdditiveMask  = 56320, //0b1101 1100 0000 0000
-		};
-		
-		if (outHigh) {
-			*outHigh = \
-			((in >> UTF32HighShiftToUTF16High) & UTF16HighMask) \
-			| ((in >> UTF32LowShiftToUTF16High) & UTF16LowMask) \
-			| UTF16HighAdditiveMask;
-		}
-		
-		if (outLow) {
-			*outLow = (in & UTF32LowMask) | UTF16LowAdditiveMask;
-		}
-		
-		return YES;
-	}
-}
-
 /*
  * @brief Read a string from a file, assuming it to be UTF8
  *

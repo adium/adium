@@ -13,14 +13,6 @@
  | write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  \------------------------------------------------------------------------------------------------------ */
 
-/*!	@brief Obtains the high and low surrogate for a Unicode code-point.
- *
- *	If \a in is lower than U+10FFF (which means it would not require surrogates to construct), \c *outHigh will be 0, and \c *outLow will be \a in.
- *
- *	@return The high and low surrogate (if applicable), or 0 and the input character.
- */
-BOOL AIGetSurrogates(UTF32Char in, UTF16Char *outHigh, UTF16Char *outLow);
-
 #pragma mark Rect utilities
 /*!	@defgroup AIRectUtilities Rectangle utilities
  *
