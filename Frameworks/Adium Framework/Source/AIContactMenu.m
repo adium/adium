@@ -288,6 +288,10 @@
 			[menuItem setImage:[self imageForListObject:listObject usingUserIcon:shouldUseUserIcon]];
 		}
 		
+		if (!(shouldUseDisplayName ? listObject.displayName : listObject.formattedUID)) {
+			NSLog(@"%@ nil? sUDN = %d, dN = %@, fUID = %@", listObject, shouldUseDisplayName, listObject.displayName, listObject.formattedUID);
+		}
+		
 		[menuItem setTitle:(shouldUseDisplayName ? listObject.displayName : listObject.formattedUID)];
 		[menuItem setToolTip:(shouldSetTooltip ? [listObject.statusMessage string] : nil)];
 
