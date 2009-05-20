@@ -444,6 +444,17 @@ build_libpurple() {
 	PROTOCOLS="bonjour,facebook,gg,irc,jabber,msn,myspace,novell,oscar,qq,"
 	PROTOCOLS+="sametime,simple,yahoo,zephyr"
 	
+	# Leopard's 64-bit Kerberos library is missing symbols, as evidenced by
+	#    $ nm -arch x86_64 /usr/lib/libkrb4.dylib | grep krb_rd_req
+	# So, only enable it on Snow Leopard
+	if [ "$(sysctl -b kern.osrelease | awk -F '.' '{ print $1}')" -ge 10 ]; then
+		KERBEROS="--with-krb4"
+	else
+		warning "Kerberos support is disabled."
+		KERBEROS=""
+	fi
+		
+	
 	if needsconfigure $@; then
 		status "Configuring libpurple"
 		CFLAGS="$FLAGS -I/usr/include/kerberosIV \
@@ -476,10 +487,8 @@ build_libpurple() {
 				--disable-avahi \
 				--disable-dbus \
 				--enable-gnutls=no \
-				--enable-nss=no
-				
-		# I disabled Kerberos support since 10.5's 64-bit Kerberos framework is
-		# missing some stuff.
+				--enable-nss=no \
+				"$KERBEROS"
 	fi
 	
 	status "Building and installing libpurple"
