@@ -17,6 +17,7 @@
 #import "AIListController.h"
 #import "AIAnimatingListOutlineView.h"
 #import "AIListWindowController.h"
+#import "AIMessageViewController.h"
 #import <Adium/AIChat.h>
 #import <Adium/AIChatControllerProtocol.h>
 #import <Adium/AIContactControllerProtocol.h>
@@ -807,7 +808,6 @@
 		if ([item isKindOfClass:[AIListContact class]]) {
 			/* This will send the message. Alternately, we could just insert it into the text view... */
 			AIChat							*chat;
-			AIContentMessage				*messageContent;
 			NSAttributedString				*messageAttributedString = nil;
 			
 			if ([availableType isEqualToString:NSRTFPboardType]) {
@@ -824,27 +824,10 @@
 			}
 			
 			if(messageAttributedString && [messageAttributedString length] !=0) {
-				NSString *title = [NSString stringWithFormat:AILocalizedString(@"Send Text to %@", "Window title to the text send confirmation window"), ((AIListObject *)item).displayName];
+				chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
+												onPreferredAccount:YES];
 				
-				NSString *question = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to send the text to %@?", "Question asked in the file transfer confirmation window"),
-									  ((AIListObject *)item).displayName];
-				
-				if (NSRunAlertPanel(title,
-									question,
-									AILocalizedString(@"Send Text", nil),
-									AILocalizedString(@"Cancel", nil),
-									nil) == NSAlertDefaultReturn) {
-					chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
-													onPreferredAccount:YES];
-					messageContent = [AIContentMessage messageInChat:chat
-														  withSource:chat.account
-														 destination:chat.listObject
-																date:nil
-															 message:messageAttributedString
-														   autoreply:NO];
-				
-					[adium.contentController sendContentObject:messageContent];
-				}
+				[chat.chatContainer.messageViewController addToTextEntryView:messageAttributedString];
 			}
 			else {
 				success = NO;
