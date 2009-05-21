@@ -858,6 +858,19 @@
 
 - (void)promptToCombineItems:(NSArray *)items withContact:(AIListContact *)inContact
 {
+	for (AIListContact *listContact in [items arrayByAddingObject:inContact]) {
+		// Make sure all of the items can join the contact.
+		if (!listContact.canJoinMetaContacts) {
+			NSRunAlertPanel(AILocalizedString(@"Unable to Combine", nil),
+							AILocalizedString(@"%@ is not able to be combined into a meta contact.", nil),
+							AILocalizedStringFromTable(@"OK", @"Buttons", "Verb 'OK' on a button"),
+							nil,
+							nil,
+							listContact.displayName);
+			return;
+		}
+	}
+	
 	NSString	*promptTitle;
 	
 	//Appropriate prompt
