@@ -31,6 +31,7 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIContactHidingController.h>
 #import <AIUtilities/AIColorAdditions.h>
@@ -530,8 +531,13 @@
  */
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
-	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
+	if ([inContact isMemberOfClass:[AIListBookmark class]]) {
+		[(AIListBookmark *)inContact openChat];
+	} else {
+		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
 																		onPreferredAccount:YES]];
+	}
+	
 	[self activateAdium];
 }
 
