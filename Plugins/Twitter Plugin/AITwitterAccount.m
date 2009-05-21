@@ -206,7 +206,7 @@
 		
 		[newTimelineChat setDisplayName:self.timelineChatName];
 		
-		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat inGroup:[NSSet setWithObject:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]]];
+		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat inGroup:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]];
 
 	}
 	
