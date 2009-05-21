@@ -770,9 +770,7 @@
 	} else if ((availableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObjects:
 																				   NSFilenamesPboardType, AIiTunesTrackPboardType, nil]])) {
 		//Drag and Drop file transfer for the contact list.
-		AIListContact	*targetFileTransferContact = [adium.contactController preferredContactForContentType:CONTENT_FILE_TRANSFER_TYPE
-																							  forListContact:(AIListContact *)(item.listObject)];
-		if (targetFileTransferContact) {
+		if ([item isKindOfClass:[AIListContact class]]) {
 			NSArray			*files = nil;
 			NSString		*file;
 			
