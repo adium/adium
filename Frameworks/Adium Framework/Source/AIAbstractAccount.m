@@ -1002,7 +1002,7 @@
 	if ([dynamicKeys count]) {
 		NSString        *key;
 		
-		for (key in dynamicKeys) {
+		for (key in [[dynamicKeys copy] autorelease]) {
 			[self updateStatusForKey:key];
 		}
 		
