@@ -801,6 +801,10 @@
 												  onPreferredAccount:YES];
 			
 			[chat.chatContainer.messageViewController addToTextEntryView:mutableString];
+			
+			[adium.interfaceController setActiveChat:chat];
+			[NSApp activateIgnoringOtherApps:YES];
+			[NSApp arrangeInFront:nil];
 
 		} else {
 			AILogWithSignature(@"No contact available to receive files");
@@ -833,6 +837,10 @@
 												onPreferredAccount:YES];
 				
 				[chat.chatContainer.messageViewController addToTextEntryView:messageAttributedString];
+				
+				[adium.interfaceController setActiveChat:chat];
+				[NSApp activateIgnoringOtherApps:YES];
+				[NSApp arrangeInFront:nil];
 			}
 			else {
 				success = NO;
