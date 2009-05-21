@@ -660,6 +660,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	//Move the objects to it
 	for (AIListContact *contact in objects) {
+		if (![contact.remoteGroups intersectsSet:oldGroups] && oldGroups.count) {
+			continue;
+		}
+		
 		NSString *alias = [contact.parentContact preferenceForKey:@"Alias"
 						   group:PREF_GROUP_ALIASES];
 		
