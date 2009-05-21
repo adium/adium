@@ -89,16 +89,13 @@ prereq() {
 	status "Extracting source for package $1"
 	case "$ext" in
 		\.tar\.gz|\.tgz)
-			quiet mkdir "$1"
-			tar xzf "$1$ext" --strip-components 1 -C "$1"
+			tarflags=z
 			;;
 		\.tar\.bz2|\.tbz)
-			quiet mkdir "$1"
-			tar xjf "$1$ext" --strip-components 1 -C "$1"
+			tarflags=j
 			;;
 		\.tar)
-			quiet mkdir "$1"
-			tar xf "$1$ext" --strip-components 1 -C "$1"
+			tarflags=
 			;;
 		\.zip)
 			# Zip is a pain in the ass. We have to decide whether to make a
@@ -108,6 +105,14 @@ prereq() {
 			exit 1
 			;;
 	esac
+	
+	# Count the number of parent directories there are
+	IFS="/" read -a firstfile < <(tar t${tarflags}f "$1$ext" | head -n 1)
+	levels=(${#firstfile[@]} - 1)
+	
+	# Extract to the source directory
+	quiet mkdir "$1"
+	tar x${tarflags}f "$1$ext" --strip-components $levels -C "$1"
 	
 	# Clean up and resume previous operation
 	if [ -f "$1$ext" ]; then rm -f "$1$ext"; fi
@@ -367,6 +372,67 @@ build_gadugadu() {
 }
 
 ##
+# SIPE
+#
+build_sipe() {
+	# I'm not sure how to build this yet... first, it looks like it expects
+	# libpurple to already be built, and second it's requiring a FreeBSD package
+	# called "com_err" which I can't find the source to.
+	warning "I don't know how to build SIPE yet."
+	return 0
+	
+	prereq "sipe" \
+		"http://dl.sf.net/sourceforge/sipe/pidgin-sipe-1.4.0.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/sipe"
+	
+	if needsconfigure $@; then
+		status "Configuring SIPE"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			./configure \
+				--prefix="$ROOTDIR/build"
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing SIPE"
+	make
+	make install
+	
+	quiet popd
+}
+
+##
+# Gfire
+#
+build_gfire() {
+	# I'm not sure how to build this yet... it expects Pidgin to be built, and
+	# since no pidgin.pc file is made, we can't satisfy that requirement.
+	warning "I don't know how to build Gfire yet."
+	return 0
+	
+	prereq "gfire" \
+		"http://dl.sf.net/gfire/gfire-0.8.1.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gfire"
+	
+	if needsconfigure $@; then
+		status "Configuring Gfire"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing Gfire"
+	make
+	make install
+	
+	quiet popd
+}
+
+##
 # intltool
 #
 build_intltool() {
@@ -453,7 +519,6 @@ build_libpurple() {
 		warning "Kerberos support is disabled."
 		KERBEROS=""
 	fi
-		
 	
 	if needsconfigure $@; then
 		status "Configuring libpurple"
@@ -463,6 +528,7 @@ build_libpurple() {
 				PATH="$ROOTDIR/build/bin:$PATH" \
 			LDFLAGS="$FLAGS -lsasl2" \
 			PATH="$ROOTDIR/build/bin:$PATH" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
 			LIBXML_CFLAGS="-I/usr/include/libxml2" \
 			LIBXML_LIBS="-lxml2" \
 			GADU_CFLAGS="-I$ROOTDIR/build/include" \
@@ -520,6 +586,35 @@ build_libpurple() {
 }
 
 ##
+# gstreamer
+#
+build_gstreamer() {
+	prereq "gstreamer" \
+		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.23.tar.gz"
+	prereq "gstreamer-plugins-base" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gstreamer"
+	
+	if needsconfigure $@; then
+		status "Configuring gstreamer"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gstreamer"
+	warning "Building too much! Patch the Makefile"
+	make
+	make install
+	
+	quiet popd
+}
+
+##
 # make_po_files
 #
 make_po_files() {
@@ -554,9 +649,17 @@ quiet mkdir "build"
 build_pkgconfig $@
 build_gettext $@
 build_glib $@
+
 build_meanwhile $@
 build_gadugadu $@
+
 build_intltool $@
 build_libpurple $@
-make_po_files $@
-make_framework $@
+
+#build_gstreamer $@
+
+#build_sipe $@
+#build_gfire $@
+
+#make_po_files $@
+#make_framework $@
