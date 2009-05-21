@@ -28,7 +28,6 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/AIContactHidingController.h>
-#import <Adium/AISortController.h>
 
 #define META_TOOLTIP_ICON_SIZE NSMakeSize(11,11)
 
@@ -98,7 +97,7 @@
 	
 	if ([inObject conformsToProtocol:@protocol(AIContainingObject)]) {
         id<AIContainingObject> containingObject = (id<AIContainingObject>)inObject;
-		NSArray *listContacts = [[containingObject uniqueContainedObjects] sortedArrayUsingActiveSortControllerInContainer:containingObject];
+		NSArray *listContacts = [containingObject uniqueContainedObjects];
 		
 		//Only display the contents of a meta if it has more than one contact within it.
 		if ([inObject isKindOfClass:[AIListGroup class]] || [listContacts count] > 1) {
