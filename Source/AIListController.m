@@ -33,6 +33,7 @@
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListOutlineView.h>
 #import <Adium/AIProxyListObject.h>
+#import <Adium/AITextAttachmentExtension.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIPasteboardAdditions.h>
@@ -41,6 +42,7 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIFunctions.h>
 #import <AIUtilities/AIEventAdditions.h>
+#import <AIUtilities/AIAttributedStringAdditions.h>
 
 #define EDGE_CATCH_X						40.0f
 #define EDGE_CATCH_Y						40.0f
@@ -780,22 +782,27 @@
 			} else if ([availableType isEqualToString:AIiTunesTrackPboardType]) {
 				files = [[info draggingPasteboard] filesFromITunesDragPasteboard];
 			}
-			
-			NSString *title = [NSString stringWithFormat:AILocalizedString(@"Send File to %@", "Window title to the file transfer confirmation window"), targetFileTransferContact.displayName];
 
-			NSString *question = [NSString stringWithFormat:AILocalizedString(@"Are you sure you want to send %@ to %@?", "Question asked in the file transfer confirmation window"),
-								  (files.count == 1 ? [[files objectAtIndex:0] lastPathComponent] : [NSString stringWithFormat:AILocalizedString(@"%d files", nil), files.count]),
-								  targetFileTransferContact.displayName];
+			NSMutableAttributedString *mutableString = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 			
-			if (NSRunAlertPanel(title,
-								question,
-								AILocalizedString(@"Send File", nil),
-								AILocalizedString(@"Cancel", nil),
-								nil) == NSAlertDefaultReturn) {
-				for (file in files) {
-					[adium.fileTransferController sendFile:file toListContact:targetFileTransferContact];
-				}
+			for (file in files) {
+				AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
+				[attachment setPath:file];
+				[attachment setString:[file lastPathComponent]];
+				
+				NSTextAttachmentCell		*cell = [[NSTextAttachmentCell alloc] initImageCell:[attachment iconImage]];
+				[attachment setHasAlternate:NO];
+				[attachment setAttachmentCell:cell];
+				[cell release];
+				
+				[mutableString appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+				[attachment release];
 			}
+			
+			AIChat *chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
+												  onPreferredAccount:YES];
+			
+			[chat.chatContainer.messageViewController addToTextEntryView:mutableString];
 
 		} else {
 			AILogWithSignature(@"No contact available to receive files");
