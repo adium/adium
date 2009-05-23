@@ -245,7 +245,7 @@ struct _JabberStream
 
 	/* A purple timeout tag for the keepalive */
 	int keepalive_timeout;
-	
+
 	PurpleSrvResponse *srv_rec;
 	guint srv_rec_idx;
 	guint max_srv_rec_idx;
@@ -322,7 +322,7 @@ char *jabber_parse_error(JabberStream *js, xmlnode *packet, PurpleConnectionErro
 void jabber_add_feature(const gchar *namespace, JabberFeatureEnabled cb); /* cb may be NULL */
 void jabber_remove_feature(const gchar *namespace);
 
-/** Adds an identitiy to this jabber library instance. For list of valid values vistit the 
+/** Adds an identitiy to this jabber library instance. For list of valid values vistit the
  *	webiste of the XMPP Registrar ( http://www.xmpp.org/registrar/disco-categories.html#client ).
  *  @param category the category of the identity.
  *  @param type the type of the identity.
