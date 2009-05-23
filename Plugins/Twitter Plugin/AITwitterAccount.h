@@ -75,6 +75,8 @@ typedef enum {
 #define AITwitterFavoriteClassName		@"twitter_favorite"
 #define AITwitterStatusLinkClassName	@"twitter_status"
 
+#define AITwitterActionLinksAttributeName	@"AITwitterActionLinks"
+
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
 
 #define TWITTER_UPDATE_TIMELINE_COUNT_FIRST_RUN		50

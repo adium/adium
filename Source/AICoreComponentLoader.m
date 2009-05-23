@@ -149,6 +149,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AITwitterPlugin",
 		@"AILaconicaPlugin",
 		@"AITwitterURLHandler",
+		@"AITwitterActionsHTMLFilter",
 		@"AIURLShortenerPlugin",
 		@"AIGroupChatStatusTooltipPlugin",
 		@"AIRealNameTooltip",

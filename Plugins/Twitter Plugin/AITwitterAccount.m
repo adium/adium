@@ -1334,6 +1334,8 @@
 	if (replyTweet || tweetLink) {
 		NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
 		
+		NSUInteger startIndex = message.length;
+		
 		[mutableMessage appendString:@"  (" withAttributes:nil];
 	
 		BOOL commaNeeded = NO;
@@ -1437,6 +1439,10 @@
 		}
 	
 		[mutableMessage appendString:@")" withAttributes:nil];
+		
+		[mutableMessage addAttribute:AITwitterActionLinksAttributeName
+							   value:[NSNumber numberWithBool:YES]
+							   range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 	
 		return mutableMessage;
 	} else {
