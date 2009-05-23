@@ -19,6 +19,9 @@
 #define KEY_FORMATTING_TEXT_COLOR			@"Default Text Color"
 #define KEY_FORMATTING_BACKGROUND_COLOR		@"Default Background Color"
 
+// Used to hide from events' descriptions parts of messages
+#define AIHiddenMessagePartAttributeName	@"AIHiddenMessagePart"
+
 //Not displayed, but used for internal identification of the encryption menu
 #define ENCRYPTION_MENU_TITLE						@"Encryption Menu"
 
