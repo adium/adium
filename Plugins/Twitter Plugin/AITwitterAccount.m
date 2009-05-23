@@ -1465,6 +1465,8 @@
 	
 	NSMutableAttributedString *mutableMessage = [[message mutableCopy] autorelease];
 	
+	NSUInteger startIndex = message.length;
+	
 	[mutableMessage appendString:@"  (" withAttributes:nil];
 	
 	NSString *linkAddress = [self addressForLinkType:AITwitterLinkDestroyDM
@@ -1477,6 +1479,10 @@
 																	 linkClass:AITwitterDeleteClassName]];
 	
 	[mutableMessage appendString:@")" withAttributes:nil];
+	
+	[mutableMessage addAttribute:AITwitterActionLinksAttributeName
+						   value:[NSNumber numberWithBool:YES]
+						   range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 	
 	return mutableMessage;
 }
