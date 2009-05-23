@@ -298,7 +298,7 @@ static PurpleConversation *fakeConversation(PurpleAccount *account)
 	} else if ([self.host rangeOfString:@"gamesurge" options:NSCaseInsensitiveSearch].location != NSNotFound) {
 		[self sendRawCommand:[NSString stringWithFormat:@"PRIVMSG AuthServ@Services.GameSurge.net :AUTH %@ %@", name, inPassword]];
 	} else {
-		[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@ %@", name, inPassword]];	
+		[self sendRawCommand:[NSString stringWithFormat:@"NICKSERV identify %@", inPassword]];	
 	}
 }
 
