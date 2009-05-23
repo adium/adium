@@ -67,6 +67,14 @@ typedef enum {
 	AITwitterLinkDestroyDM
 } AITwitterLinkType;
 
+// HTML class names
+#define AITwitterInReplyToClassName		@"twitter_inReplyTo"
+#define AITwitterRetweetClassName		@"twitter_reTweet"
+#define AITwitterReplyClassName			@"twitter_reply"
+#define AITwitterDeleteClassName		@"twitter_delete"
+#define AITwitterFavoriteClassName		@"twitter_favorite"
+#define AITwitterStatusLinkClassName	@"twitter_status"
+
 #define TWITTER_UPDATE_INTERVAL_MINUTES		10 // Used as the default Preferences
 
 #define TWITTER_UPDATE_TIMELINE_COUNT_FIRST_RUN		50

@@ -437,6 +437,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					[string appendString:@"\" title=\""];
 					[string appendString:linkString];
 				}
+				
+				NSString *classString = [attributes objectForKey:AIElementClassAttributeName];
+				
+				if (!thingsToInclude.simpleTagsOnly && classString) {
+					[string appendString:@"\" class=\""];
+					[string appendString:classString];
+				}
+				
 				[string appendString:@"\">"];
 				
 				oldLink = linkString;

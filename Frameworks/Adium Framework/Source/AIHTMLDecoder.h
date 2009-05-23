@@ -52,6 +52,8 @@
 	BOOL inLogSpan;	
 }
 
+#define AIElementClassAttributeName		@"AIElementClass"
+
 #pragma mark Creation
 
 //+decoder, +new, and -init all return an instance with all flags set to 0.

@@ -53,6 +53,9 @@
 - (NSAttributedString *)parseDirectMessage:(NSString *)inMessage
 									withID:(NSString *)dmID
 								  fromUser:(NSString *)sourceUID;
+- (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)label
+									  linkDestination:(NSString *)destination
+											linkClass:(NSString *)attributeName;
 
 - (void)setRequestType:(AITwitterRequestType)type forRequestID:(NSString *)requestID withDictionary:(NSDictionary *)info;
 - (AITwitterRequestType)requestTypeForRequestID:(NSString *)requestID;
@@ -1254,6 +1257,25 @@
 }
 
 /*!
+ * @brief Convert a link URL and name into an attributed link
+ *
+ * @param label The text to display for the link.
+ * @param destination The destination address for the link.
+ * @param attributeName The name of the twitter link attribute for HTML processing.
+ */
+- (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)label
+									  linkDestination:(NSString *)destination
+											linkClass:(NSString *)className
+{
+	NSURL *url = [NSURL URLWithString:destination];
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								url, NSLinkAttributeName,
+								className, AIElementClassAttributeName, nil];
+	
+	return [[[NSAttributedString alloc] initWithString:label attributes:attributes] autorelease];
+}
+
+/*!
  * @brief Parse an attributed string into a linkified version.
  */
 - (NSAttributedString *)linkifiedAttributedStringFromString:(NSAttributedString *)inString
@@ -1332,8 +1354,9 @@
 			} else {
 				// This happens for mentions which are in_reply_to_status_id but the @target isn't the first part of the message.
 				
-				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
-																						 linkDestination:linkAddress]];
+				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:AILocalizedString(@"IRT", "An abbreviation for 'in reply to' - placed at the beginning of the tweet tools for those which are directly in reply to another")
+																		   linkDestination:linkAddress
+																				 linkClass:AITwitterInReplyToClassName]];
 				
 				commaNeeded = YES;	
 			}
@@ -1355,8 +1378,9 @@
 												  statusID:tweetID
 												   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 					
-					[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"RT"
-																							 linkDestination:linkAddress]];
+					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
+																			   linkDestination:linkAddress
+																					 linkClass:AITwitterRetweetClassName]];
 					commaNeeded = YES;
 				}
 				
@@ -1369,8 +1393,9 @@
 											  statusID:tweetID
 											   context:nil];
 				
-				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"@"
-																						 linkDestination:linkAddress]];
+				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"@"
+																		   linkDestination:linkAddress
+																				 linkClass:AITwitterReplyClassName]];
 			} else {
 				if(commaNeeded) {
 					[mutableMessage appendString:@", " withAttributes:nil];
@@ -1382,8 +1407,9 @@
 											  statusID:tweetID
 											   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 				
-				[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u232B"
-																						 linkDestination:linkAddress]];
+				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
+																		   linkDestination:linkAddress
+																				 linkClass:AITwitterDeleteClassName]];
 			}
 			
 			[mutableMessage appendString:@", " withAttributes:nil];
@@ -1393,8 +1419,9 @@
 										  statusID:tweetID
 										   context:nil];
 
-			[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u2606"
-																					 linkDestination:linkAddress]];
+			[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u2606"
+																	   linkDestination:linkAddress
+																			 linkClass:AITwitterFavoriteClassName]];
 
 			[mutableMessage appendString:@", " withAttributes:nil];
 			
@@ -1403,8 +1430,9 @@
 										  statusID:tweetID
 										   context:nil];
 			
-			[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"#"
-																					 linkDestination:linkAddress]];
+			[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"#"
+																	   linkDestination:linkAddress
+																			 linkClass:AITwitterStatusLinkClassName]];
 
 		}
 	
@@ -1438,8 +1466,9 @@
 											statusID:dmID
 											 context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	
-	[mutableMessage appendAttributedString:[NSAttributedString attributedStringWithLinkLabel:@"\u232B"
-																			 linkDestination:linkAddress]];
+	[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
+															   linkDestination:linkAddress
+																	 linkClass:AITwitterDeleteClassName]];
 	
 	[mutableMessage appendString:@")" withAttributes:nil];
 	
