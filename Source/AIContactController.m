@@ -1401,7 +1401,8 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 		group = [[AIListGroup alloc] initWithUID:groupUID];
 		
 		//Add
-		[contactPropertiesObserverManager _updateAllAttributesOfObject:group];
+		//Update afterwards, in case it's being called inside updateListObject already.
+		[contactPropertiesObserverManager performSelector:@selector(_updateAllAttributesOfObject:) withObject:group afterDelay:0.0];
 		[groupDict setObject:group forKey:[groupUID lowercaseString]];
 		
 		//Add to the contact list
