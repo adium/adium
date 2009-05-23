@@ -40,17 +40,21 @@
 			
 			NSMutableString *mutableHTML = [inHTMLString mutableCopy];
 			
+			NSRange startRange = [mutableHTML rangeOfString:@" (" options:NSBackwardsSearch];
+			
 			// Replace the start with <span class="twitter_actions"><span class="twitter_actionStart>(</span>
 			// This overall span will be ended next.
 			[mutableHTML replaceOccurrencesOfString:@"("
 										 withString:@"<span class=\"twitter_actions\"><span class=\"twitter_actionStart\">(</span>"
-											options:NSBackwardsSearch];
+											options:NSBackwardsSearch
+											  range:startRange];
 			
 			// Replace the end with <span class="twitter_actionEnd">)</span></span>
 			// The second </span> finishes off the overall actions links span.
 			[mutableHTML replaceOccurrencesOfString:@")"
 										 withString:@"<span class=\"twitter_actionEnd\">)</span></span>"
-											options:NSBackwardsSearch];
+											options:NSBackwardsSearch
+											  range:NSMakeRange(mutableHTML.length - 1, 1)];
 			
 			return [mutableHTML autorelease];
 		}
