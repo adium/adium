@@ -103,6 +103,7 @@
 		112B490A0F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B49090F82FB1700690E84 /* AIGroupChatStatusTooltipPlugin.m */; };
 		112B4A250F83194700690E84 /* AIMentionAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B4A240F83194700690E84 /* AIMentionAdvancedPreferences.m */; };
 		112B4A3E0F831A4400690E84 /* AIMentionAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112B4A3D0F831A4400690E84 /* AIMentionAdvancedPreferences.nib */; };
+		112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 112E7FA50FC86BB400657119 /* AITwitterActionsHTMLFilter.m */; };
 		113891830F6B6AFF00A7D7DC /* AILaconicaService.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891820F6B6AFF00A7D7DC /* AILaconicaService.m */; };
 		1138918A0F6B6B2800A7D7DC /* AILaconicaAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 113891890F6B6B2800A7D7DC /* AILaconicaAccount.m */; };
 		1138918D0F6B6B3F00A7D7DC /* AILaconicaPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1138918C0F6B6B3F00A7D7DC /* AILaconicaPlugin.m */; };
@@ -1795,6 +1796,8 @@
 		112B4A230F83194700690E84 /* AIMentionAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMentionAdvancedPreferences.h; path = Source/AIMentionAdvancedPreferences.h; sourceTree = "<group>"; };
 		112B4A240F83194700690E84 /* AIMentionAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMentionAdvancedPreferences.m; path = Source/AIMentionAdvancedPreferences.m; sourceTree = "<group>"; };
 		112B4A3D0F831A4400690E84 /* AIMentionAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMentionAdvancedPreferences.nib; path = Resources/AIMentionAdvancedPreferences.nib; sourceTree = "<group>"; };
+		112E7FA40FC86BB400657119 /* AITwitterActionsHTMLFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterActionsHTMLFilter.h; path = "Plugins/Twitter Plugin/AITwitterActionsHTMLFilter.h"; sourceTree = "<group>"; };
+		112E7FA50FC86BB400657119 /* AITwitterActionsHTMLFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterActionsHTMLFilter.m; path = "Plugins/Twitter Plugin/AITwitterActionsHTMLFilter.m"; sourceTree = "<group>"; };
 		113891810F6B6AFF00A7D7DC /* AILaconicaService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaService.h; path = "Plugins/Twitter Plugin/AILaconicaService.h"; sourceTree = "<group>"; };
 		113891820F6B6AFF00A7D7DC /* AILaconicaService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AILaconicaService.m; path = "Plugins/Twitter Plugin/AILaconicaService.m"; sourceTree = "<group>"; };
 		113891880F6B6B2800A7D7DC /* AILaconicaAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AILaconicaAccount.h; path = "Plugins/Twitter Plugin/AILaconicaAccount.h"; sourceTree = "<group>"; };
@@ -4915,6 +4918,8 @@
 				11F738F80F58D18700B3285B /* AITwitterService.m */,
 				11F738F00F58D12200B3285B /* AITwitterAccount.h */,
 				11F738F10F58D12200B3285B /* AITwitterAccount.m */,
+				112E7FA40FC86BB400657119 /* AITwitterActionsHTMLFilter.h */,
+				112E7FA50FC86BB400657119 /* AITwitterActionsHTMLFilter.m */,
 			);
 			name = Twitter;
 			sourceTree = "<group>";
@@ -10402,6 +10407,7 @@
 				1139011C0F85C9450081A418 /* AIURLHandlerPlugin.m in Sources */,
 				11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */,
 				1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */,
+				112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
