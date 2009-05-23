@@ -1440,9 +1440,10 @@
 	
 		[mutableMessage appendString:@")" withAttributes:nil];
 		
-		[mutableMessage addAttribute:AITwitterActionLinksAttributeName
-							   value:[NSNumber numberWithBool:YES]
-							   range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
+		[mutableMessage addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+									   [NSNumber numberWithBool:YES], AITwitterActionLinksAttributeName,
+									   [NSNumber numberWithBool:YES], AIHiddenMessagePartAttributeName, nil]
+								range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 	
 		return mutableMessage;
 	} else {
@@ -1480,9 +1481,10 @@
 	
 	[mutableMessage appendString:@")" withAttributes:nil];
 	
-	[mutableMessage addAttribute:AITwitterActionLinksAttributeName
-						   value:[NSNumber numberWithBool:YES]
-						   range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
+	[mutableMessage addAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+								   [NSNumber numberWithBool:YES], AITwitterActionLinksAttributeName,
+								   [NSNumber numberWithBool:YES], AIHiddenMessagePartAttributeName, nil]
+							range:NSMakeRange(startIndex, mutableMessage.length - startIndex)];
 	
 	return mutableMessage;
 }
