@@ -287,6 +287,8 @@ static NSString *statusNameForChat(AIChat *inChat)
 		} else if (statusSummary == AIIdleStatus) {
 			/* Note: AIIdleStatus, but not AIAwayAndIdleStatus, which implies an away state */
 			statusName = @"Idle";
+		} else if (statusSummary == AIAwayAndIdleStatus) {
+			statusName = @"Idle And Away";
 		} else {
 			statusName = listObject.statusName;
 			
