@@ -1377,6 +1377,7 @@
 		636D94090E4EAB9D00E5F558 /* AIContactObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 34555C5F0DB6BCE500649CD4 /* AIContactObserverManager.m */; };
 		637864550F9BE1AB0040DEDA /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 638392F609D4D67A0067B9B7 /* Sparkle.framework */; };
+		638BC1FC0FC932E000CE7600 /* AIObjectDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */; };
 		639484590EB13DFE008CB6DE /* AIContactHidingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 661561640D84AEEC004B7946 /* AIContactHidingController.m */; };
 		6394845B0EB13E04008CB6DE /* AIContactHidingController.h in Headers */ = {isa = PBXBuildFile; fileRef = 661561630D84AEEC004B7946 /* AIContactHidingController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		639DF7710F97E61D003C9A32 /* CBPurpleServicePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B7F278A05440C8D00CDFC90 /* CBPurpleServicePlugin.m */; };
@@ -4405,6 +4406,8 @@
 		636D936A0E4E9FD300E5F558 /* AdiumAddressBookAction_ICQ.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_ICQ.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_ICQ.scpt"; sourceTree = "<group>"; };
 		636D936B0E4E9FD300E5F558 /* AdiumAddressBookAction_AIM.scpt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.scpt; name = AdiumAddressBookAction_AIM.scpt; path = "Frameworks/Adium Framework/Resources/AdiumAddressBookAction_AIM.scpt"; sourceTree = "<group>"; };
 		638392F609D4D67A0067B9B7 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Frameworks/Sparkle.framework; sourceTree = "<group>"; };
+		638BC1FA0FC932E000CE7600 /* AIObjectDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIObjectDebug.h; path = Source/AIObjectDebug.h; sourceTree = "<group>"; };
+		638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIObjectDebug.m; path = Source/AIObjectDebug.m; sourceTree = "<group>"; };
 		639DFB440F981C7C003C9A32 /* NSCalendarDate+ISO8601Parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSCalendarDate+ISO8601Parsing.h"; path = "Frameworks/AIUtilities Framework/Source/NSCalendarDate+ISO8601Parsing.h"; sourceTree = "<group>"; };
 		63A3A9670F9C35D3006C9CB0 /* AIUtilities_Framework.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AIUtilities_Framework.plist; sourceTree = "<group>"; };
 		63A3A9690F9C35D3006C9CB0 /* ca */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -5416,6 +5419,8 @@
 				9ECB03E309F2A9D800996F44 /* AIDictionaryDebug.m */,
 				34A1B2C10DFDBA1200AC78CF /* AIStringDebug.h */,
 				34A1B2C20DFDBA1200AC78CF /* AIStringDebug.m */,
+				638BC1FA0FC932E000CE7600 /* AIObjectDebug.h */,
+				638BC1FB0FC932E000CE7600 /* AIObjectDebug.m */,
 				34BC8F780ACA3AAC00562745 /* AIScannerDebug.h */,
 				34BC8F790ACA3AAC00562745 /* AIScannerDebug.m */,
 				34575E3607CBA874004A4FFF /* DebugWindow.nib */,
@@ -10418,6 +10423,7 @@
 				1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */,
 				112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */,
 				11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */,
+				638BC1FC0FC932E000CE7600 /* AIObjectDebug.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
