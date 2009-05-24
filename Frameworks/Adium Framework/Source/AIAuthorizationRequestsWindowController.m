@@ -9,6 +9,7 @@
 #import "AIAuthorizationRequestsWindowController.h"
 #import <AIUtilities/AIToolbarUtilities.h>
 #import <Adium/AIAccount.h>
+#import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
@@ -63,6 +64,9 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											 selector:@selector(rebuildHeights)
 												 name:NSWindowDidResizeNotification
 											   object:self.window];
+	
+	[tableView accessibilitySetOverrideValue:AILocalizedString(@"Authorization Requests", nil)
+								forAttribute:NSAccessibilityRoleDescriptionAttribute];
 	
 	[self.window setTitle:AUTHORIZATION_REQUESTS];
 }
@@ -501,9 +505,16 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex
 {
 	NSString *identifier = tableColumn.identifier;
+	NSDictionary *request = [requests objectAtIndex:rowIndex];
 	
 	if ([identifier isEqualToString:@"request"]) {
-		[(AIImageTextCell *)cell setSubString:[[requests objectAtIndex:rowIndex] objectForKey:@"Reason"]];
+		[(AIImageTextCell *)cell setSubString:[request objectForKey:@"Reason"]];
+	} else if ([identifier isEqualToString:@"icon"]) {
+		[cell accessibilitySetOverrideValue:[[[request objectForKey:@"Account"] service] longDescription]
+							   forAttribute:NSAccessibilityTitleAttribute];
+		
+		[cell accessibilitySetOverrideValue:@" "
+							   forAttribute:NSAccessibilityRoleDescriptionAttribute];		 
 	}
 }
 
