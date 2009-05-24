@@ -209,11 +209,12 @@
 			
 			if (contact) {				
 				addedAtLeastOneContact = YES;
-				[account addContact:contact toGroup:group];
 				
-				// Set the alias (after adding to the account, so it gets set remotely)
+				// Set the alias. When adding to libpurple, we set the alias in the add, so we're fine adding it here.
 				if (alias && [alias length]) 
 					[contact setDisplayName:alias];
+				
+				[account addContact:contact toGroup:group];
 				
 				//Remember the ABPerson's unique ID associated with this contact
 				if (person)
