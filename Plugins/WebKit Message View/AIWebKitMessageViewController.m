@@ -50,6 +50,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/JVMarkedScroller.h>
+#import <objc/objc-runtime.h>
 
 #define KEY_WEBKIT_CHATS_USING_CACHED_ICON @"WebKit:Chats Using Cached Icon"
 
@@ -1525,9 +1526,13 @@ static NSArray *draggedTypes = nil;
 
 + (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector
 {
-	if(aSelector == @selector(handleAction:forFileTransfer:)) return NO;
-	if(aSelector == @selector(debugLog:)) return NO;
-	if(aSelector == @selector(zoomImage:)) return NO;
+	if (
+		sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:)) ||
+		sel_isEqual(aSelector, @selector(debugLog:)) ||
+		sel_isEqual(aSelector, @selector(zoomImage:))
+	)
+		return NO;
+	
 	return YES;
 }
 
@@ -1542,9 +1547,9 @@ static NSArray *draggedTypes = nil;
  */
 + (NSString *)webScriptNameForSelector:(SEL)aSelector
 {
-	if(aSelector == @selector(handleAction:forFileTransfer:)) return @"handleFileTransfer";
-	if(aSelector == @selector(debugLog:)) return @"debugLog";
-	if(aSelector == @selector(zoomImage:)) return @"zoomImage";
+	if (sel_isEqual(aSelector, @selector(handleAction:forFileTransfer:))) return @"handleFileTransfer";
+	if (sel_isEqual(aSelector, @selector(debugLog:))) return @"debugLog";
+	if (sel_isEqual(aSelector, @selector(zoomImage:))) return @"zoomImage";
 	return @"";
 }
 
