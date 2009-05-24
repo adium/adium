@@ -30,20 +30,12 @@
  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifdef DEBUG_BUILD
+
 #import "AIObjectDebug.h"
+#import <objc/objc-runtime.h>
 
-#ifdef DEBUG_BUILD
-#import <objc/objc-class.h>
-#endif
-
-@implementation AIObjectDebug
-
-#ifdef DEBUG_BUILD
-
-+ (void)load
-{
-	method_exchangeImplementations(class_getInstanceMethod(self, @selector(doesNotRecognizeSelector:)), class_getInstanceMethod([NSObject class], @selector(doesNotRecognizeSelector:)));
-}
+@implementation NSObject (AIObjectDebug)
 
 - (void)doesNotRecognizeSelector:(SEL)aSelector
 {
@@ -56,5 +48,5 @@
 	*((int*)0xdeadbeef) = 42;
 }
 
-#endif
 @end
+#endif
