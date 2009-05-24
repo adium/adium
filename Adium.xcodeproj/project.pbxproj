@@ -143,6 +143,8 @@
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11945F400F7935A2002A54B3 /* Ignore.png in Resources */ = {isa = PBXBuildFile; fileRef = 11945F3F0F7935A2002A54B3 /* Ignore.png */; };
+		11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */; };
+		11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */; };
 		11AA1EFA0BCAE9C3003DDA66 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */; };
 		11AE53610F68CE3300BE8077 /* AIPurpleOscarAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */; };
 		11AE53620F68CE3300BE8077 /* AIPurpleOscarAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */; };
@@ -1873,6 +1875,9 @@
 		11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccountOAuthSetup.m; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.m"; sourceTree = "<group>"; };
 		11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthConsumer.framework; path = Frameworks/OAuthConsumer.framework; sourceTree = "<group>"; };
 		11945F3F0F7935A2002A54B3 /* Ignore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ignore.png; path = "Frameworks/Adium Framework/Resources/Ignore.png"; sourceTree = "<group>"; };
+		11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMessageAlertsAdvancedPreferences.nib; path = Resources/AIMessageAlertsAdvancedPreferences.nib; sourceTree = "<group>"; };
+		11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageAlertsAdvancedPreferences.h; path = Source/AIMessageAlertsAdvancedPreferences.h; sourceTree = "<group>"; };
+		11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageAlertsAdvancedPreferences.m; path = Source/AIMessageAlertsAdvancedPreferences.m; sourceTree = "<group>"; };
 		11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleOscarAccountViewController.h; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.h"; sourceTree = "<group>"; };
 		11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleOscarAccountViewController.m; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.m"; sourceTree = "<group>"; };
@@ -4989,6 +4994,7 @@
 				29B97323FDCFA39411CA2CEA /* Linked Frameworks */,
 				63C7E0280FAF9B7D00B310AC /* xcconfigs */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */,
 			);
 			name = CocAIMe2;
 			sourceTree = "<group>";
@@ -5124,6 +5130,8 @@
 		3428328307D263F0004F01C9 /* Status Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */,
+				11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */,
 				3428328407D2643E004F01C9 /* ESStatusPreferencesPlugin.h */,
 				3428328707D2643F004F01C9 /* ESStatusPreferencesPlugin.m */,
 				3428328607D2643F004F01C9 /* ESStatusPreferences.h */,
@@ -9755,6 +9763,7 @@
 				1111B2300F8478500068CE51 /* Filter Bar.nib in Resources */,
 				113900B10F85BEF60081A418 /* AIURLHandlerPreferences.nib in Resources */,
 				11D135D90FBE4C65000B0A5E /* AITwitterAccountView.nib in Resources */,
+				11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10408,6 +10417,7 @@
 				11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */,
 				1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */,
 				112E7FA60FC86BB400657119 /* AITwitterActionsHTMLFilter.m in Sources */,
+				11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
