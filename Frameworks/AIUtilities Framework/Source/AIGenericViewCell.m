@@ -100,6 +100,11 @@
 			 fraction:1.0];	
 }
 
+- (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
+{	
+	return NSCellHitContentArea;
+}
+
 - (BOOL)drawGridBehindCell
 {
 	return YES;
