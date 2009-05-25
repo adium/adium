@@ -625,7 +625,10 @@ static	NSMutableDictionary	*controllerDict = nil;
 	//Idle start
 	double	idleStart = [statusState forcedInitialIdleTime];
 	[textField_idleMinutes setIntValue:(int)((((int)idleStart)%3600)/60)];
+	[stepper_idleMinutes setIntValue:(int)((((int)idleStart)%3600)/60)];
+	
 	[textField_idleHours setIntValue:(int)(idleStart/3600)];
+	[stepper_idleHours setIntValue:(int)(idleStart/3600)];
 
 	//Update visiblity and size
 	[self updateControlVisibilityAndResizeWindow];
