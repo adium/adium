@@ -2258,7 +2258,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		AILog(@"%@: Updating status for key: %@",self, key);
 
 		if ([key isEqualToString:@"IdleSince"]) {
-			NSDate	*idleSince = [self preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
+			NSDate	*idleSince = [adium.preferenceController preferenceForKey:@"IdleSince" group:GROUP_ACCOUNT_STATUS];
 			[self setAccountIdleSinceTo:idleSince];
 							
 		} else if ([key isEqualToString:@"TextProfile"]) {
