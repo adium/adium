@@ -123,7 +123,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	PurplePlugin				*prpl;
 	
-	if (prpl = prpl = purple_find_prpl(purple_account_get_protocol_id(account))) {
+	if ((prpl = purple_find_prpl(purple_account_get_protocol_id(account)))) {
 		return PURPLE_PLUGIN_PROTOCOL_INFO(prpl);
 	}
 	
