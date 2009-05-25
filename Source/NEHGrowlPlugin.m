@@ -277,6 +277,9 @@
 			  title,
 			  description);
 	
+	AILog(@"Posting Growl notification: Event ID: %@, listObject: %@, chat: %@, description: %@",
+		  eventID, listObject, chat, description);
+	
 	[GrowlApplicationBridge notifyWithTitle:title
 								description:description
 						   notificationName:eventID
