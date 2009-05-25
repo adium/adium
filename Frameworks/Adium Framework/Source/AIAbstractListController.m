@@ -50,6 +50,10 @@
 
 #import "AIProxyListObject.h"
 
+#ifdef DEBUG_BUILD
+#import <Foundation/NSDebug.h>
+#endif
+
 #define CONTENT_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
 #define STATUS_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
 #define GROUP_FONT_IF_FONT_NOT_FOUND	[NSFont systemFontOfSize:10]
@@ -658,6 +662,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(AIProxyListObject *)item
 {
+#ifdef DEBUG_BUILD
+	if (NSIsFreedObject(item)) {
+		NSLog(@"Attempting to use a freed listobject proxy in %@", NSStringFromSelector(_cmd));
+	}
+#endif
 	return (!item || ([item.listObject conformsToProtocol:@protocol(AIContainingObject)] && 
 					  ((id<AIContainingObject>)(item.listObject)).isExpandable));
 }
