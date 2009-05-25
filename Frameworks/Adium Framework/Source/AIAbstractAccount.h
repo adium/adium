@@ -56,6 +56,11 @@ typedef enum {
  */
 - (void)setAccountUserImage:(NSImage *)image withData:(NSData *)originalData;
 
+/*!
+ * @brief Called when the account was edited.
+ */
+- (void)accountEdited;
+
 //Auto-Refreshing Status String
 - (NSAttributedString *)autoRefreshingOutgoingContentForStatusKey:(NSString *)key;
 - (void)autoRefreshingOutgoingContentForStatusKey:(NSString *)key selector:(SEL)selector context:(id)originalContext;

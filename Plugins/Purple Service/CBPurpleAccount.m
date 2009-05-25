@@ -3102,6 +3102,18 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	}
 }
 
+/*!
+ * @brief When the account is edited, update our libpurple preferences.
+ */
+- (void)accountEdited
+{
+	// We only need to re-configure if we're online or connecting. If we're offline, our next connect will do this.
+	if (self.online || [self boolValueForProperty:@"Connecting"]) {
+		AILog(@"Re-configuring purple account due to preference changes.");
+		[self configurePurpleAccount];
+	}
+}
+
 #pragma mark Actions for chats
 
 /***************************/

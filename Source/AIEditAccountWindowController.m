@@ -203,6 +203,8 @@
 	[self saveConfiguration];
 	[accountViewController saveConfiguration];
 	[accountProxyController saveConfiguration];
+	
+	[account accountEdited];
 
 	if (notifyTarget) [notifyTarget editAccountSheetDidEndForAccount:account withSuccess:YES];
 	[self closeWindow:nil];
