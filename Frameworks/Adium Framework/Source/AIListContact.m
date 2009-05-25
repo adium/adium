@@ -724,7 +724,8 @@
 - (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
 	if (self.account.online) {
-		if (group == adium.contactController.contactList) {
+		if (group == adium.contactController.contactList
+			|| group == adium.contactController.offlineGroup) {
 			[self.account removeContacts:[NSArray arrayWithObject:self]
 							  fromGroups:[self.remoteGroups allObjects]];	
 		} else {			
