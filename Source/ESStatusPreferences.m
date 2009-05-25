@@ -520,9 +520,11 @@
 	
 	[checkBox_idle setState:[[prefDict objectForKey:KEY_STATUS_REPORT_IDLE] boolValue]];
 	[textField_idleMinutes setDoubleValue:([[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue] / 60.0)];
+	[stepper_idleMinutes setDoubleValue:([[prefDict objectForKey:KEY_STATUS_REPORT_IDLE_INTERVAL] doubleValue] / 60.0)];
 
 	[checkBox_autoAway setState:[[prefDict objectForKey:KEY_STATUS_AUTO_AWAY] boolValue]];
 	[textField_autoAwayMinutes setDoubleValue:([[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue] / 60.0)];
+	[stepper_autoAwayMinutes setDoubleValue:([[prefDict objectForKey:KEY_STATUS_AUTO_AWAY_INTERVAL] doubleValue] / 60.0)];
 
 	[checkBox_fastUserSwitching setState:[[prefDict objectForKey:KEY_STATUS_FUS] boolValue]];
 	[checkBox_screenSaver setState:[[prefDict objectForKey:KEY_STATUS_SS] boolValue]];
