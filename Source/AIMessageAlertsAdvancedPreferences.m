@@ -8,6 +8,7 @@
 
 #import "AIMessageAlertsAdvancedPreferences.h"
 #import "AIStatusController.h"
+#import "AIDockController.h"
 #import <AIUtilities/AIImageAdditions.h>
 
 
@@ -59,6 +60,18 @@
 								   forKey:KEY_STATUS_MENU_ITEM_COUNT
 									group:PREF_GROUP_STATUS_MENU_ITEM];
 	}
+	
+	if (sender == checkBox_animateDockIcon) {
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+										   forKey:KEY_ANIMATE_DOCK_ICON
+											group:PREF_GROUP_APPEARANCE];
+	}
+	
+	if (sender == checkBox_badgeDockIcon) {
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+										   forKey:KEY_BADGE_DOCK_ICON
+											group:PREF_GROUP_APPEARANCE];
+	}
 }
 
 #pragma mark Display
@@ -85,6 +98,16 @@
 	[checkBox_statusMenuItemBadge setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_BADGE] boolValue]];
 	[checkBox_statusMenuItemFlash setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_FLASH] boolValue]];
 	[checkBox_statusMenuItemCount setState:[[menuItemPreferences objectForKey:KEY_STATUS_MENU_ITEM_COUNT] boolValue]];	
+	
+	[label_dockIcon setLocalizedString:AILocalizedString(@"Dock Icon", nil)];
+	[label_dockIconWhenUnread setLocalizedString:AILocalizedString(@"When there are unread messages:", nil)];
+	[checkBox_animateDockIcon setLocalizedString:AILocalizedString(@"Animate the dock icon", nil)];
+	[checkBox_badgeDockIcon setLocalizedString:AILocalizedString(@"Display a message count badge", nil)];
+	
+	NSDictionary *appearancePreferences = [adium.preferenceController preferencesForGroup:PREF_GROUP_APPEARANCE];
+	
+	[checkBox_animateDockIcon setState:[[appearancePreferences objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue]];
+	[checkBox_badgeDockIcon setState:[[appearancePreferences objectForKey:KEY_BADGE_DOCK_ICON] boolValue]];
 	
 	[self configureControlDimming];
 	[super viewDidLoad];

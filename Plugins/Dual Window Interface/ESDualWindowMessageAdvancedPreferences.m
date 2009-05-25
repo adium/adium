@@ -103,16 +103,6 @@
 										   forKey:KEY_WEBKIT_TIME_STAMP_FORMAT
 											group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
 		
-	} else if (sender == checkBox_animateDockIcon) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_ANIMATE_DOCK_ICON
-											  group:PREF_GROUP_APPEARANCE];
-		
-	}  else if (sender == checkBox_badgeDockIcon) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
-											 forKey:KEY_BADGE_DOCK_ICON
-											  group:PREF_GROUP_APPEARANCE];
-		
 	}
 	
 	[self configureControlDimming];
@@ -133,10 +123,6 @@
 {
     NSDictionary	*prefDict;
 	NSInteger				menuIndex;
-
-	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_APPEARANCE];
-	[checkBox_animateDockIcon setState:[[prefDict objectForKey:KEY_ANIMATE_DOCK_ICON] boolValue]];
-	[checkBox_badgeDockIcon setState:[[prefDict objectForKey:KEY_BADGE_DOCK_ICON] boolValue]];
 
 	prefDict = [adium.preferenceController preferencesForGroup:PREF_GROUP_DUAL_WINDOW_INTERFACE];
     [autohide_tabBar setState:![[prefDict objectForKey:KEY_AUTOHIDE_TABBAR] boolValue]];

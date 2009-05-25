@@ -23,6 +23,11 @@
 	IBOutlet	NSButton	*checkBox_statusMenuItemBadge;
 	IBOutlet	NSButton	*checkBox_statusMenuItemFlash;
 	IBOutlet	NSButton	*checkBox_statusMenuItemCount;
+	
+	IBOutlet	NSTextField	*label_dockIcon;
+	IBOutlet	NSTextField	*label_dockIconWhenUnread;
+    IBOutlet	NSButton	*checkBox_animateDockIcon;
+    IBOutlet    NSButton	*checkBox_badgeDockIcon;
 }
 
 @end
