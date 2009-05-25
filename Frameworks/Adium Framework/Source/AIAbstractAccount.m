@@ -305,6 +305,14 @@
 	}
 }
 
+/*!
+ * @brief Called when the account was edited.
+ */
+- (void)accountEdited
+{
+	// Do nothing by default.
+}
+
 //Status ---------------------------------------------------------------------------------------------------------------
 #pragma mark Status
 - (NSString *)effectiveStatusKeyForKey:(NSString *)key
