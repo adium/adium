@@ -130,7 +130,6 @@ typedef enum {
 + (id)chatForAccount:(AIAccount *)inAccount;
 
 @property (readwrite, nonatomic, retain) AIAccount *account;
-- (void)accountDidJoinChat;
 
 @property (readonly, nonatomic) NSDate *dateOpened;
 @property (readwrite, nonatomic, retain) NSDictionary *chatCreationDictionary;

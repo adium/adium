@@ -168,12 +168,6 @@ static int nextChatNumber = 0;
 				   notify:NotifyNever];
 }
 
-- (void)accountDidJoinChat
-{
-	[self willChangeValueForKey:@"actionMenu"];
-	[self didChangeValueForKey:@"actionMenu"];
-}
-
 @synthesize hasSentOrReceivedContent, isOpen, dateOpened;
 
 //Status ---------------------------------------------------------------------------------------------------------------

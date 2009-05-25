@@ -934,7 +934,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	[adium.interfaceController openChat:chat];
 	
-	[chat accountDidJoinChat];
+	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"Account Joined" notify:NotifyNow];
 }
 
 //Open a chat for Adium
@@ -1066,7 +1066,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  */
 - (void)leftChat:(AIChat *)chat
 {
-	AILogWithSignature(@"Chat left - something should happen here!");
+	[chat setValue:nil forProperty:@"Account Joined" notify:NotifyNow];
 }
 
 - (void)updateTopic:(NSString *)inTopic forChat:(AIChat *)chat withSource:(NSString *)source
