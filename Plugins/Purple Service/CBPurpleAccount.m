@@ -119,6 +119,17 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 // Subclasses must override this
 - (const char*)protocolPlugin { return NULL; }
 
+- (PurplePluginProtocolInfo *)protocolInfo
+{
+	PurplePlugin				*prpl;
+	
+	if (prpl = prpl = purple_find_prpl(purple_account_get_protocol_id(account))) {
+		return PURPLE_PLUGIN_PROTOCOL_INFO(prpl);
+	}
+	
+	return NULL;
+}
+
 // Contacts ------------------------------------------------------------------------------------------------
 #pragma mark Contacts
 - (void)newContact:(AIListContact *)theContact withName:(NSString *)inName
@@ -258,10 +269,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	// Get the plugin's status message for this buddy if they don't have a status message
 	if (!message) {
-		PurplePlugin				*prpl;
-		PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
-												PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-												NULL);
+		PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 		
 		if (prpl_info && prpl_info->status_text) {
 			char *status_text = (prpl_info->status_text)(buddy);
@@ -1086,10 +1094,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 		return;
 	}
 	
-	PurplePlugin				*prpl;
-	PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
-											PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-											NULL);
+	PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 	
 	if (prpl_info && prpl_info->set_chat_topic) {
 		(prpl_info->set_chat_topic)(purple_account_get_connection(account),
@@ -1300,11 +1305,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (BOOL)allowFileTransferWithListObject:(AIListObject *)inListObject
 {
-	PurplePluginProtocolInfo *prpl_info = NULL;
+	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
 
-	if (account && purple_account_get_connection(account) && purple_account_get_connection(account)->prpl)
-		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(purple_account_get_connection(account)->prpl);
-	
 	if (prpl_info && prpl_info->send_file)
 		return (!prpl_info->can_receive_file || prpl_info->can_receive_file(purple_account_get_connection(account), [inListObject.UID UTF8String]));
 	else
@@ -1322,11 +1324,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (BOOL)canSendOfflineMessageToContact:(AIListContact *)inContact
 {
-	PurplePluginProtocolInfo *prpl_info = NULL;
+	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
 
-	if (account && purple_account_get_connection(account) && purple_account_get_connection(account)->prpl)
-		prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(purple_account_get_connection(account)->prpl);
-	
 	if (prpl_info && prpl_info->offline_message) {
 		
 		return (prpl_info->offline_message(purple_find_buddy(account, [inContact.UID UTF8String])));
@@ -1625,10 +1624,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurpleXfer				*newPurpleXfer = NULL;
 
 	if (account && purple_account_get_connection(account)) {
-		PurplePlugin				*prpl;
-		PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
-												PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-												NULL);
+		PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 
 		if (prpl_info && prpl_info->new_xfer) {
 			char *destsn = (char *)[[[fileTransfer contact] UID] UTF8String];
@@ -2523,10 +2519,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		/* Now pass libpurple the new icon. Check to be sure our image doesn't have an NSZeroSize size,
 		 * which would indicate currupt data */
 		if (image && !NSEqualSizes(NSZeroSize, imageSize)) {
-			PurplePlugin				*prpl;
-			PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
-												  PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-												  NULL);
+			PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 
 			AILog(@"Original image of size %f %f",imageSize.width,imageSize.height);
 
@@ -2726,10 +2719,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	NSMutableArray			*menuItemArray = nil;
 
 	if (account && purple_account_is_connected(account)) {
-		PurplePlugin				*prpl;
-		PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
-											  PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
-											  NULL);
+		PurplePluginProtocolInfo  *prpl_info = self.protocolInfo;
 		GList					*l, *ll;
 		PurpleBuddy				*buddy;
 		
@@ -2929,15 +2919,13 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (NSAlert*)alertForAccountDeletion
 {
-	PurplePlugin *prpl;
-	PurplePluginProtocolInfo *prpl_info;
+	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
 
 	//Ensure libpurple has been loaded, since we need to know whether we can unregister this account
 	[self purpleAdapter];
 
-	if ((prpl = purple_find_prpl([self protocolPlugin])) &&
-		(prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(prpl)) &&
-		(prpl_info->unregister_user) &&
+	if (prpl_info && 
+		prpl_info->unregister_user &&
 		[self allowAccountUnregistrationIfSupportedByLibpurple]) {
 		return [NSAlert alertWithMessageText:AILocalizedString(@"Delete Account",nil)
 							   defaultButton:AILocalizedString(@"Delete",nil)
@@ -2952,12 +2940,10 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(int)returnCode
 {
-	PurplePlugin *prpl;
-	PurplePluginProtocolInfo *prpl_info;
+	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
 	
-	if ((prpl = purple_find_prpl([self protocolPlugin])) &&
-		(prpl_info = PURPLE_PLUGIN_PROTOCOL_INFO(prpl)) &&
-		(prpl_info->unregister_user)) {
+	if (prpl_info && 
+		prpl_info->unregister_user) {
 		switch (returnCode) {
 			case NSAlertOtherReturn:
 				// delete & unregister
