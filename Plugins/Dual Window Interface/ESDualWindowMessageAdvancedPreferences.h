@@ -17,9 +17,6 @@
 #import <Adium/AIAdvancedPreferencePane.h>
 
 @interface ESDualWindowMessageAdvancedPreferences : AIAdvancedPreferencePane {
-    IBOutlet	NSButton		*checkBox_animateDockIcon;
-    IBOutlet    NSButton		*checkBox_badgeDockIcon;
-
     IBOutlet	NSButton		*autohide_tabBar;
     IBOutlet    NSButton		*checkBox_allowInactiveClosing;
 	
