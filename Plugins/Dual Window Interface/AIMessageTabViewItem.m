@@ -176,7 +176,7 @@
     NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
 
     //If the display name changed, we resize the tabs
-    if (notification == nil || [keys containsObject:@"Display Name"]) {
+    if (notification == nil || [keys containsObject:@"Display Name"] || [keys containsObject:@"Account Joined"]) {
 		[self setLabel:[self label]];
 		[self updateTabStatusIcon];
     } else if ([keys containsObject:@"UnviewedContent"]) {
@@ -286,10 +286,10 @@
 	
 	//Multi-user chats won't have status icons
 	if (!image && messageViewController.chat.isGroupChat) {
-		BOOL accountOnline = messageViewController.chat.account.online;
+		BOOL displayOnline = messageViewController.chat.account.online && [messageViewController.chat boolValueForProperty:@"Account Joined"];
 		
 		image = [AIStatusIcons statusIconForStatusName:nil
-											statusType:accountOnline ? AIAvailableStatusType : AIOfflineStatusType
+											statusType:displayOnline ? AIAvailableStatusType : AIOfflineStatusType
 											  iconType:AIStatusIconTab
 											 direction:AIIconNormal];
 	} else if (!image) {

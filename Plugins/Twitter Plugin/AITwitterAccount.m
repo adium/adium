@@ -301,6 +301,8 @@
  */
 - (BOOL)openChat:(AIChat *)chat
 {	
+	[chat setValue:[NSNumber numberWithBool:YES] forProperty:@"Account Joined" notify:NotifyNow];
+	
 	return YES;
 }
 
