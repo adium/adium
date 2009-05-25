@@ -49,6 +49,7 @@
 
 - (const char*)protocolPlugin;
 - (PurpleAccount*)purpleAccount;
+- (PurplePluginProtocolInfo *)protocolInfo;
 - (void)setPurpleAccount:(PurpleAccount *)inAccount;
 - (const char *)purpleAccountName;
 
