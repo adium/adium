@@ -149,7 +149,9 @@
 	
 	if (inPassword && inPassword.length) {
 		[account setValue:[NSNumber numberWithBool:YES] forProperty:@"Identifying" notify:NotifyNever];
-		[(ESIRCAccount *)account identifyForName:displayName password:inPassword];
+		[(ESIRCAccount *)account identifyForName:displayName
+										password:[inPassword stringByReplacingOccurrencesOfString:@" "
+																					   withString:@""]];
 	}
 }
 
