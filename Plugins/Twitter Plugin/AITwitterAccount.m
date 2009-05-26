@@ -1380,7 +1380,7 @@
 					linkAddress = [self addressForLinkType:AITwitterLinkRetweet
 													userID:userID
 												  statusID:tweetID
-												   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+												   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
 					
 					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
 																			   linkDestination:linkAddress
@@ -1409,7 +1409,7 @@
 				linkAddress = [self addressForLinkType:AITwitterLinkDestroyStatus
 												userID:userID
 											  statusID:tweetID
-											   context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+											   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
 				
 				[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
 																		   linkDestination:linkAddress
@@ -1475,7 +1475,7 @@
 	NSString *linkAddress = [self addressForLinkType:AITwitterLinkDestroyDM
 											  userID:sourceUID
 											statusID:dmID
-											 context:[inMessage stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+											 context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
 	
 	[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"\u232B"
 															   linkDestination:linkAddress

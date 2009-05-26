@@ -55,6 +55,8 @@
 - (NSString *)stringByEscapingForShell;
 //- (BOOL)isURLEncoded;
 
+- (NSString *)stringByAddingPercentEscapesForAllCharacters;
+
 /*examples:
  *	receiver                            result
  *	========                            ======
