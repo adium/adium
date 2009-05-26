@@ -714,10 +714,23 @@
 					// if the group isn't containing -this- proxy.
 					if (!([group containsObject:listObject] && proxyObject.containingObject == group)) {
 						if([listObject isKindOfClass:[AIListContact class]]) {
+							NSSet *sourceGroups = nil;
+							
+							if ([NSEvent optionKey]) {
+								sourceGroups = [NSSet set];
+							} else {
+								if ([proxyObject.containingObject isKindOfClass:[AIMetaContact class]]) {
+									// If we're dragging -from- a meta contact, just do an add; the move performs the removal from the meta.
+									sourceGroups = [NSSet set];
+								} else {
+									sourceGroups = [NSSet setWithObject:proxyObject.containingObject];
+								}
+							}
+
 							// Contact being moved to a new group.
 							// Holding option copies into the new group (like in Finder)
 							[adium.contactController moveContact:(AIListContact *)listObject
-													  fromGroups:([NSEvent optionKey] ? [NSSet set] : [NSSet setWithObject:proxyObject.containingObject])
+													  fromGroups:sourceGroups
 													  intoGroups:[NSSet setWithObject:group]];
 
 						} else if ([listObject isKindOfClass:[AIListGroup class]]) {							
