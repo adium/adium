@@ -40,7 +40,7 @@ static NSMutableDictionary *proxyDict;
 		// If the old list object is for some reason invalid (released in contact controller, but not fully released)
 		// we end up with an old list object as our proxied object. Correct this by getting rid of the old one.
 #ifdef DEBUG_BUILD
-		NSLog(@"Attempting to correct for old proxy listobject");
+		NSLog(@"Attempting to correct for old proxy listobject, keyed %@", key);
 #endif
 		[proxy.listObject removeProxyObject:proxy];
 		[self releaseProxyObject:proxy];
