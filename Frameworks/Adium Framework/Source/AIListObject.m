@@ -207,6 +207,8 @@
 {
 	AIListObject<AIContainingObject> *container = (AIListObject<AIContainingObject> *)self;
 	
+	NSAssert([container.containedObjects containsObject:listObject], @"Asked to set an index for an object which doesn't exist.");
+	
 	if (index == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
 		[container listObject:listObject didSetOrderIndex: self.smallestOrder / 2.0];
