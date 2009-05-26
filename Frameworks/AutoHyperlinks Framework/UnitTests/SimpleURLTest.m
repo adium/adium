@@ -457,6 +457,7 @@
 	//Variants with '&' instead of ';': Adium accepts these, although the XEP does not specify them.
 	testHyperlink(@"xmpp:romeo@montague.net?message&body=Here%27s%20a%20test%20message");
 	testHyperlink(@"xmpp:romeo@montague.net?message&subject=Test%20Message&body=Here%27s%20a%20test%20message");
+	testHyperlink(@"xmpp:foo@conference.example.com?join");
 	testHyperlink(@"aim:goim?screenname=adiumx");
 	testHyperlink(@"aim:goim?screenname=adiumx&message=Hey!+Does+this+work?");
 	testHyperlink(@"ymsgr:sendim?adiumy");

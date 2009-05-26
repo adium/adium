@@ -71,7 +71,7 @@ ipv6URL         \[{ipv6Address}](:[0-9]+)?{urlPath}?
 
 userAtDomain	[^:@\/[:space:]]+\@{singleDomain}(\.{singleDomain})*
 mailSpec        {userAtDomain}\.{TLDs}
-jabberSpec      xmpp:{mailSpec}{urlPath}?(\?[[:alnum:]]+[;&][^[:space:]]*)?
+jabberSpec      xmpp:{mailSpec}{urlPath}?(\?[^[:space:]]+)?
 aolIMSpec       aim:goim\?screenname=[^\ \t\n&]+(&message=.+)?
 aolChatSpec     aim:gochat\?roomname=[^\ \t\n&]+
 yahooIMSpecOld  (ymsgr|yahoo):sendim\?.+
