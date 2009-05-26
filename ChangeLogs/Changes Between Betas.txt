@@ -1,16 +1,5 @@
-Adium 1.4 b3
- * Changed behavior for account options: a lot were only changing when reconnecting, now all that are able to (i.e., non-connect options) take effect immediately.
- * Added "Idle And Away" as a possible status icon pack item to use for contacts. (#872)
- * Moved the Status Menu Item and Dock preferences to a new "Message Alerts" advanced preference, from "Status" and "Messages".
- * Changed the wording for the "only count the number of highlights/mentions in the dock/status menu item" in Message Alerts. (#12080)
- * Changed the status icon for group chats to be Available when joined, and Offline when parted. (#12064)
- * Fixed idle time not being sent to the server.
- * Fixed dragging and dropping emoticon packs to reorder them. (#12099)
- * Fixed removing contacts when groups are disabled or the contact is in the offline group. (#12136)
- * Fixed the stepper values in the Status preferences and Status Edit window always starting at 10. (#12188)
- * Fixed the voiceover for certain fields in the authorization requests window.
-Updated Libpurple
- * Fixed a security issue where "Require SSL/TLS" for XMPP was being ignored. (#11822)
- * Fixed being disconnected from MSN when adding/removing contacts. (#11978)
- * Proxy information is no longer saved in accounts.xml (#11838)
- * Updated the default Yahoo! server.
+Adium 1.4b5
+ * Fixed a crash due to debug code accidentally left in b4.
+ * Fixed a crash/hang when moving a contact from a meta contact into a group.
+ * Changed behavior when moving a contact into a meta contact: the contact is moved into the meta contact's groups.
+ 
