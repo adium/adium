@@ -1216,17 +1216,21 @@ typedef enum
 }
 
 /**
- * @brief Returns current status (or mutable copy if built in)
+ * @brief Returns a mutable status
  *
  * If the current status is built in, we create a temporary copy of the current status and set that.
+ *
+ * @return An AIStatus fit for being modified.
  */
-- (AIStatus *)mutableCopyOfCurrentStatusIfBuiltIn
+- (AIStatus *)modifyableCurrentStatus
 {
 	AIStatus *currentStatus = self.statusState;
+	
 	if ([currentStatus mutabilityType] != AITemporaryEditableStatusState) {
 		currentStatus = [[currentStatus mutableCopy] autorelease];
 		[currentStatus setMutabilityType:AITemporaryEditableStatusState];
 	}	
+	
 	return currentStatus;
 }
 
@@ -1237,11 +1241,13 @@ typedef enum
  */
 - (void)setScriptingStatusMessageWithAttributedString:(id)message
 {
-	AIStatus *currentStatus = [[self mutableCopyOfCurrentStatusIfBuiltIn] autorelease];
+	AIStatus *currentStatus = [self modifyableCurrentStatus];
+	
 	if ([message isKindOfClass:[NSAttributedString class]])
 		[currentStatus setStatusMessage:(NSAttributedString *)message];
 	else
 		[currentStatus setStatusMessageString:message];
+	
 	[adium.statusController setActiveStatusState:currentStatus forAccount:self];
 }
 
