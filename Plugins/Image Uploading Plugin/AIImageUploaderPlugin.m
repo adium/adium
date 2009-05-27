@@ -44,7 +44,7 @@
 	menuItem = [[[NSMenuItem alloc] initWithTitle:IMAGE_UPLOAD_MENU_TITLE
 										   target:self
 										   action:@selector(uploadImage)
-									keyEquivalent:@"K"
+									keyEquivalent:@"k"
 										  keyMask:NSCommandKeyMask | NSAlternateKeyMask] autorelease];
 	
 	[menuItem setSubmenu:subMenu];
