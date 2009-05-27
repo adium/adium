@@ -131,8 +131,19 @@
 						// that is required by CFNetworkCopyProxiesForAutoConfigurationScript.
 						CFRelease(CFNetworkCopyProxiesForURL(url, NULL));
 						
-						proxies = [(NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((CFStringRef)scriptStr, url, NULL) autorelease];
-						if (proxies && proxies.count) {
+						CFErrorRef error = NULL;
+						proxies = [(NSArray *)CFNetworkCopyProxiesForAutoConfigurationScript((CFStringRef)scriptStr, url, &error) autorelease];						
+						if (error) {
+							CFStringRef description = CFErrorCopyDescription(error);
+							
+							NSLog(@"Tried to get PAC, but got error: %@ %d %@",
+								  CFErrorGetDomain(error),
+								  CFErrorGetCode(error),
+								  description);
+							
+							CFRelease(description);
+							CFRelease(error);
+						} else if (proxies && proxies.count) {
 							proxyDict = [proxies objectAtIndex:0];
 							
 							systemProxySettingsDictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
