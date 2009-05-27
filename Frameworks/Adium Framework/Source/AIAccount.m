@@ -1222,7 +1222,7 @@ typedef enum
  *
  * @return An AIStatus fit for being modified.
  */
-- (AIStatus *)modifyableCurrentStatus
+- (AIStatus *)modifiableCurrentStatus
 {
 	AIStatus *currentStatus = self.statusState;
 	
@@ -1241,7 +1241,7 @@ typedef enum
  */
 - (void)setScriptingStatusMessageWithAttributedString:(id)message
 {
-	AIStatus *currentStatus = [self modifyableCurrentStatus];
+	AIStatus *currentStatus = [self modifiableCurrentStatus];
 	
 	if ([message isKindOfClass:[NSAttributedString class]])
 		[currentStatus setStatusMessage:(NSAttributedString *)message];
