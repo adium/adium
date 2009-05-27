@@ -160,6 +160,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AIWebKitMessageViewPlugin",
 		@"AWBonjourPlugin",
 		@"CBPurpleServicePlugin",
+		@"AIImageUploaderPlugin",
 		nil
 	];
 	//Load each component
