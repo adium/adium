@@ -246,7 +246,7 @@
 			break;
 			
 		case AITrim:
-			request = [NSString stringWithFormat:@"http://api.tr.im/api/trim_simple?url=%@", [address stringByEncodingURLEscapes]];
+			request = [NSString stringWithFormat:@"http://api.tr.im/api/trim_simple?api_key=zghQN6sv5y0FkLPNlQAopm7qDQz6ItO33ENU21OBsy3dL1Kl&url=%@", [address stringByEncodingURLEscapes]];
 			break;
 			
 		default:
