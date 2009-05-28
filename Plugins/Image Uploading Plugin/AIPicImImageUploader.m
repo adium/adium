@@ -186,8 +186,6 @@ didStartElement:(NSString *)elementName
 	NSDictionary *trim = [response objectForKey:@"trim"];
 	NSDictionary *status = [trim objectForKey:@"status"];
 	
-	NSLog(@"trim = %@", trim);
-	
 	if ([[status objectForKey:@"result"] isCaseInsensitivelyEqualToString:@"error"]) {
 		[uploader errorWithMessage:[status objectForKey:@"message"] forChat:chat];
 	} else if ([[status objectForKey:@"result"] isCaseInsensitivelyEqualToString:@"ok"]) {
