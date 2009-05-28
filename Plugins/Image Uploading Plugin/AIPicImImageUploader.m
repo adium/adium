@@ -21,7 +21,6 @@
 			   chat:(AIChat *)inChat;
 - (void)uploadImage;
 - (void)parseResponse:(NSData *)data;
-- (void)finishResponse;
 @end
 
 @implementation AIPicImImageUploader
@@ -187,13 +186,6 @@ didStartElement:(NSString *)elementName
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
-{	
-	[responseParser release]; responseParser = nil;
-	
-	[self finishResponse];
-}
-
-- (void)finishResponse
 {
 	NSDictionary *status = [[response objectForKey:@"trim"] objectForKey:@"status"];
 	
