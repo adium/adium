@@ -836,7 +836,6 @@
 		//Drag and drop text sending via the contact list.
 		if ([item isKindOfClass:[AIListContact class]]) {
 			/* This will send the message. Alternately, we could just insert it into the text view... */
-			AIChat							*chat;
 			NSAttributedString				*messageAttributedString = nil;
 			
 			if ([availableType isEqualToString:NSRTFPboardType]) {
