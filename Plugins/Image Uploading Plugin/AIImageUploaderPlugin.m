@@ -211,6 +211,8 @@
  */
 - (void)insertImageAddress:(NSString *)inAddress intoTextView:(NSTextView *)textView
 {	
+	NSParameterAssert(inAddress.length);
+	
 	NSRange selectedRange = textView.selectedRange;
 	
 	AILogWithSignature(@"Inserting %@ into text view", inAddress);

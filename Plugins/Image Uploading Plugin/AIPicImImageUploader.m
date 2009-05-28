@@ -13,7 +13,7 @@
 #import <AIUtilities/AIProgressDataUploader.h>
 
 #define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96"
-#define PIC_IM_URL				@"http://api.tr.im/api/picim_url.xml"
+#define PIC_IM_URL				@"http://api.tr.im/api/picim_url.xml?api_key=zghQN6sv5y0FkLPNlQAopm7qDQz6ItO33ENU21OBsy3dL1Kl"
 
 @interface AIPicImImageUploader()
 - (id)initWithImage:(NSImage *)inImage
@@ -183,12 +183,17 @@ didStartElement:(NSString *)elementName
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser
 {
-	NSDictionary *status = [[response objectForKey:@"trim"] objectForKey:@"status"];
+	NSDictionary *trim = [response objectForKey:@"trim"];
+	NSDictionary *status = [trim objectForKey:@"status"];
+	
+	NSLog(@"trim = %@", trim);
 	
 	if ([[status objectForKey:@"result"] isCaseInsensitivelyEqualToString:@"error"]) {
 		[uploader errorWithMessage:[status objectForKey:@"message"] forChat:chat];
+	} else if ([[status objectForKey:@"result"] isCaseInsensitivelyEqualToString:@"ok"]) {
+		[uploader uploadedURL:[[trim objectForKey:@"url"] objectForKey:@"value"] forChat:chat];
 	} else {
-		// TODO when api key :(
+		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
 	}
 }
 
