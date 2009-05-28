@@ -750,7 +750,7 @@
 		largest = MAX(largest, index.floatValue);
 	}
 	
-	cachedSmallestOrder = smallest;
+	cachedSmallestOrder = (smallest == INFINITY ? 1 : smallest);
 	cachedLargestOrder = largest;
 }
 
