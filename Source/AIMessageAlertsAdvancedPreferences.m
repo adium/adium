@@ -32,31 +32,31 @@
 - (IBAction)changePreference:(id)sender
 {
 	if (sender == checkBox_unreadConversations) {
-		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 								   forKey:KEY_STATUS_CONVERSATION_COUNT
 									group:PREF_GROUP_STATUS_PREFERENCES];
 	}
 	
 	if (sender == checkBox_unreadContentMention) {
-		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 										   forKey:KEY_STATUS_MENTION_COUNT
 											group:PREF_GROUP_STATUS_PREFERENCES];
 	}
 	
 	if (sender == checkBox_statusMenuItemBadge) {
-		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 								   forKey:KEY_STATUS_MENU_ITEM_BADGE
 									group:PREF_GROUP_STATUS_MENU_ITEM];
 	}
 
 	if (sender == checkBox_statusMenuItemFlash) {
-		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 								   forKey:KEY_STATUS_MENU_ITEM_FLASH
 									group:PREF_GROUP_STATUS_MENU_ITEM];
 	}
 	
 	if (sender == checkBox_statusMenuItemCount) {
-		[adium.preferenceController setPreference:[NSNumber numberWithInteger:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
 								   forKey:KEY_STATUS_MENU_ITEM_COUNT
 									group:PREF_GROUP_STATUS_MENU_ITEM];
 	}
