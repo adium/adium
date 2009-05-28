@@ -278,6 +278,9 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
  */
 - (void)errorDidOccur
 {
+	[periodicTimer invalidate]; periodicTimer = nil;
+	[timeoutTimer invalidate]; timeoutTimer = nil;
+	
 	[delegate uploadFailed:context];
 }
 
