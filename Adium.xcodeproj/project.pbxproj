@@ -145,6 +145,8 @@
 		11945F400F7935A2002A54B3 /* Ignore.png in Resources */ = {isa = PBXBuildFile; fileRef = 11945F3F0F7935A2002A54B3 /* Ignore.png */; };
 		11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */; };
 		11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */; };
+		11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AA10110FCE0969003908B6 /* AIProgressDataUploader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11AA10140FCE0969003908B6 /* AIProgressDataUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AA10120FCE0969003908B6 /* AIProgressDataUploader.m */; };
 		11AA1EFA0BCAE9C3003DDA66 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */; };
 		11AE53610F68CE3300BE8077 /* AIPurpleOscarAccountViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */; };
 		11AE53620F68CE3300BE8077 /* AIPurpleOscarAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */; };
@@ -1883,6 +1885,8 @@
 		11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMessageAlertsAdvancedPreferences.nib; path = Resources/AIMessageAlertsAdvancedPreferences.nib; sourceTree = "<group>"; };
 		11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageAlertsAdvancedPreferences.h; path = Source/AIMessageAlertsAdvancedPreferences.h; sourceTree = "<group>"; };
 		11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageAlertsAdvancedPreferences.m; path = Source/AIMessageAlertsAdvancedPreferences.m; sourceTree = "<group>"; };
+		11AA10110FCE0969003908B6 /* AIProgressDataUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIProgressDataUploader.h; path = "Frameworks/AIUtilities Framework/Source/AIProgressDataUploader.h"; sourceTree = "<group>"; };
+		11AA10120FCE0969003908B6 /* AIProgressDataUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIProgressDataUploader.m; path = "Frameworks/AIUtilities Framework/Source/AIProgressDataUploader.m"; sourceTree = "<group>"; };
 		11AA1EF90BCAE9C3003DDA66 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
 		11AE52000F68CA5000BE8077 /* AIPurpleOscarAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleOscarAccountViewController.h; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.h"; sourceTree = "<group>"; };
 		11AE52010F68CA5000BE8077 /* AIPurpleOscarAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIPurpleOscarAccountViewController.m; path = "Plugins/Purple Service/AIPurpleOscarAccountViewController.m"; sourceTree = "<group>"; };
@@ -7393,6 +7397,8 @@
 		6334FF050F9C14BF003C77A9 /* Fun New Classes */ = {
 			isa = PBXGroup;
 			children = (
+				11AA10110FCE0969003908B6 /* AIProgressDataUploader.h */,
+				11AA10120FCE0969003908B6 /* AIProgressDataUploader.m */,
 				6334FF2D0F9C14BF003C77A9 /* Tooltip Display */,
 				6334FF2A0F9C14BF003C77A9 /* System network and proxy settings */,
 				6334FF270F9C14BF003C77A9 /* Smooth tracking tooltips */,
@@ -9165,6 +9171,7 @@
 				633400D00F9C14E0003C77A9 /* AIUtilities.framework_Prefix.pch in Headers */,
 				634DC5570F9C3B2F007B6479 /* AIStringUtilities.h in Headers */,
 				63BB1CB90F9EDD2B00424B80 /* AISharedWriterQueue.h in Headers */,
+				11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10662,6 +10669,7 @@
 				633400C60F9C14C2003C77A9 /* AIWindowControllerAdditions.m in Sources */,
 				633400C80F9C14C2003C77A9 /* AIPasteboardAdditions.m in Sources */,
 				63BB1CC90F9EDDB600424B80 /* AISharedWriterQueue.m in Sources */,
+				11AA10140FCE0969003908B6 /* AIProgressDataUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

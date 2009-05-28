@@ -8,13 +8,15 @@
 
 #import "AIImageUploaderPlugin.h"
 
-@interface AIPicImImageUploader : NSObject <AIImageUploader> {
+#import <AIUtilities/AIProgressDataUploader.h>
+
+@interface AIPicImImageUploader : NSObject <AIImageUploader, AIProgressDataUploaderDelegate> {
 	AIChat						*chat;
 	NSImage						*image;
 	AIImageUploaderPlugin		*uploader;
 	
-	NSMutableData				*receivedData;
-	NSURLConnection				*connection;
+	AIProgressDataUploader		*dataUploader;
+	
 	NSXMLParser					*responseParser;
 	
 	// Parsing
