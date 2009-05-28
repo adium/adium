@@ -17,6 +17,7 @@
 	
 	AIProgressDataUploader		*dataUploader;
 	
+	NSData						*resultData;
 	NSXMLParser					*responseParser;
 	
 	// Parsing

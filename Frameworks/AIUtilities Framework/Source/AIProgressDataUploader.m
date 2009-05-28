@@ -72,10 +72,10 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 
 - (void)dealloc
 {
-	[url release];
-	[headers release];
-	[uploadData release];
-	[returnedData release];
+	[url release]; url = nil;
+	[headers release]; headers = nil;
+	[uploadData release]; uploadData = nil;
+	[returnedData release]; returnedData = nil;
 	
 	[super dealloc];
 }
@@ -291,6 +291,8 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
  */
 - (void)uploadSucceeded
 {
+	NSLog(@"Calling success");
+	
 	stream = NULL;
 	
 	[periodicTimer invalidate]; periodicTimer = nil;

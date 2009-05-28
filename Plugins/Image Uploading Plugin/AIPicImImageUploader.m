@@ -20,6 +20,7 @@
 		   uploader:(AIImageUploaderPlugin *)inUploader
 			   chat:(AIChat *)inChat;
 - (void)uploadImage;
+- (void)parseResponse:(NSData *)data;
 - (void)finishResponse;
 @end
 
@@ -51,9 +52,11 @@
 
 - (void)dealloc
 {
-	[response release];
-	[responseParser release];
-	[image release];
+	[dataUploader release]; dataUploader = nil;
+	[resultData release]; resultData = nil;
+	[response release]; response = nil;
+	[responseParser release]; responseParser = nil;
+	[image release]; image = nil;
 	
 	[super dealloc];
 }
@@ -67,23 +70,18 @@
 - (void)uploadCompleted:(id)context result:(NSData *)result
 {
 	if (result.length) {
-		response = [[NSMutableDictionary alloc] init];
-		
-		responseParser = [[NSXMLParser alloc] initWithData:result];
-		
-		[dataUploader release]; dataUploader = nil;
-		
-		[responseParser setDelegate:self];
-		[responseParser parse];
+		[self parseResponse:result];
 	} else {
 		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
 	}
+	
+	[dataUploader release]; dataUploader = nil;
 }
 
 - (void)uploadFailed:(id)context
 {
 	[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
-	[dataUploader release];
+	[dataUploader release]; dataUploader = nil;
 }
 
 #pragma mark Image upload
@@ -128,10 +126,19 @@
 - (void)cancel
 {
 	[dataUploader cancel];
-	[dataUploader release];
+	[dataUploader release]; dataUploader = nil;
 }
 
 #pragma mark Response parsing
+- (void)parseResponse:(NSData *)data
+{
+	response = [[NSMutableDictionary alloc] init];
+	resultData = [data copy];
+	
+	responseParser = [[NSXMLParser alloc] initWithData:resultData];
+	[responseParser setDelegate:self];
+	[responseParser parse];
+}
 
 - (void)parserDidStartDocument:(NSXMLParser *)parser
 {
