@@ -245,10 +245,12 @@
 /*!
  * @brief Open our chat
  *
+ * @return A chat for the bookmark
+ *
  * This is called when we are double-clicked in the contact list.
  * Either find or create a chat appropriately, and activate it.
  */
-- (void)openChat
+- (AIChat *)openChat
 {
 	AIChat *chat = [self openChatWithoutActivating];
 	
@@ -257,6 +259,8 @@
 	}
 	
 	[adium.interfaceController setActiveChat:chat];
+	
+	return chat;
 }
 
 /*!

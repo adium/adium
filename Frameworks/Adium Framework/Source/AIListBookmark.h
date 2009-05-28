@@ -27,6 +27,6 @@
 @property (readonly, nonatomic)	NSString *name;
 @property (readonly, nonatomic)	NSDictionary *chatCreationDictionary;
 
-- (void)openChat;
+- (AIChat *)openChat;
 
 @end

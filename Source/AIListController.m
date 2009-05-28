@@ -29,6 +29,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIListGroup.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIListOutlineView.h>
@@ -810,8 +811,14 @@
 				[attachment release];
 			}
 			
-			AIChat *chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
-												  onPreferredAccount:YES];
+			AIChat *chat = nil;
+			
+			if ([item.listObject isKindOfClass:[AIListBookmark class]]) {
+				chat = [item.listObject openChat];
+			} else {
+				chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
+											  onPreferredAccount:YES];
+			}
 			
 			[chat.chatContainer.messageViewController addToTextEntryView:mutableString];
 			
@@ -846,8 +853,14 @@
 			}
 			
 			if(messageAttributedString && [messageAttributedString length] !=0) {
-				chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
-												onPreferredAccount:YES];
+				AIChat *chat = nil;
+				
+				if ([item.listObject isKindOfClass:[AIListBookmark class]]) {
+					chat = [item.listObject openChat];
+				} else {
+					chat = [adium.chatController openChatWithContact:(AIListContact *)(item.listObject)
+							onPreferredAccount:YES];
+				}
 				
 				[chat.chatContainer.messageViewController addToTextEntryView:messageAttributedString];
 				
