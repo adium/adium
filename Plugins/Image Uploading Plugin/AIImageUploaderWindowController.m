@@ -48,6 +48,12 @@
 	return self;
 }
 
+- (void)dealloc
+{
+	NSLog(@"Dealloc");
+	[super dealloc];
+}
+
 - (void)windowDidLoad
 {
 	[super windowDidLoad];

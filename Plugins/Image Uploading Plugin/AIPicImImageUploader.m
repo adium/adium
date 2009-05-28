@@ -10,6 +10,7 @@
 
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
+#import <AIUtilities/AIProgressDataUploader.h>
 
 #define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96"
 #define PIC_IM_URL				@"http://api.tr.im/api/picim_url.xml"
@@ -53,10 +54,36 @@
 	[response release];
 	[responseParser release];
 	[image release];
-	[connection release];
-	[receivedData release];
 	
 	[super dealloc];
+}
+
+#pragma mark Data uploader delegate
+- (void)updateUploadPercent:(CGFloat)percent context:(id)context
+{
+	[uploader updateProgressPercent:percent forChat:chat];
+}
+
+- (void)uploadCompleted:(id)context result:(NSData *)result
+{
+	if (result.length) {
+		response = [[NSMutableDictionary alloc] init];
+		
+		responseParser = [[NSXMLParser alloc] initWithData:result];
+		
+		[dataUploader release]; dataUploader = nil;
+		
+		[responseParser setDelegate:self];
+		[responseParser parse];
+	} else {
+		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
+	}
+}
+
+- (void)uploadFailed:(id)context
+{
+	[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
+	[dataUploader release];
 }
 
 #pragma mark Image upload
@@ -86,60 +113,22 @@
 	[body appendData:[bitmapImageRep representationUsingType:NSPNGFileType properties:nil]];
 	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
 	
-	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:PIC_IM_URL]];
+	NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY], @"Content-type", nil];
 	
-	[request setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY] forHTTPHeaderField:@"Content-type"];
-	[request setHTTPMethod:@"POST"];
-	[request setHTTPBody:body];
-
-	connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+	dataUploader = [[AIProgressDataUploader dataUploaderWithData:body
+															 URL:[NSURL URLWithString:PIC_IM_URL]
+														 headers:headers
+														delegate:self
+														 context:nil] retain];
 	
-	if (connection) {
-		receivedData = [[NSMutableData data] retain];
-	} else {
-		[uploader errorWithMessage:AILocalizedString(@"Unable to connect", nil) forChat:chat];
-	}
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    [receivedData setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [receivedData appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)inConnection
-  didFailWithError:(NSError *)error
-{
-    [connection release]; connection = nil;
-    [receivedData release]; receivedData = nil;
-	
-	[uploader errorWithMessage:error.localizedDescription forChat:chat];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)inConnection
-{	
-	AILogWithSignature(@"%@", [NSString stringWithData:receivedData encoding:NSUTF8StringEncoding]);
-	
-	response = [[NSMutableDictionary alloc] init];
-	
-	responseParser = [[NSXMLParser alloc] initWithData:receivedData];
-	[responseParser setDelegate:self];
-	[responseParser parse];
-	
-    [connection release]; connection = nil;
-    [receivedData release]; receivedData = nil;
+	[dataUploader upload];
 }
 
 - (void)cancel
 {
-	[connection cancel];
-	
-	[connection release]; connection = nil;
-    [receivedData release]; receivedData = nil;
+	[dataUploader cancel];
+	[dataUploader release];
 }
 
 #pragma mark Response parsing
@@ -208,8 +197,6 @@ didStartElement:(NSString *)elementName
 	} else {
 		// TODO when api key :(
 	}
-	
-	NSLog(@"%@", response);
 }
 
 @end
