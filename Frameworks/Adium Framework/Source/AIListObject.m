@@ -671,9 +671,9 @@
 	while (existingKeys.count && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
 		if (existingKeys.count == 1) {
 			AILogWithSignature(@"*** Warning: %@ had order index %f, but %@ already had an object with that order index. Setting to %f instead. Incrementing.",
-							   listObject, orderIndexForObject, self, (self.largestOrder + 1));
+							   listObject, orderIndexForObject, self, orderIndexForObject+1);
 
-			orderIndexForObject = self.largestOrder + 1;
+			orderIndexForObject++;
 			orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 			existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
 			
