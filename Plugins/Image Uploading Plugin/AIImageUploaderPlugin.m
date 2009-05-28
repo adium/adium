@@ -186,9 +186,7 @@
 	
 	AIChat *chat = adium.interfaceController.activeChat;
 	NSImage *currentImage = [self currentImage];
-	
-	AILogWithSignature(@"Beginning upload for %@ to %@", currentImage, [uploader serviceName]);
-	
+
 	AILogWithSignature(@"Beginning upload for %@ to %@", currentImage, [uploader serviceName]);
 	
 	AIImageUploaderWindowController *controller = [AIImageUploaderWindowController displayProgressInWindow:[NSApp keyWindow]
@@ -288,10 +286,10 @@
  */
 - (void)cancelForChat:(AIChat *)chat
 {
-	[[uploadInstances objectForKey:chat.internalObjectID] cancel];
-	
 	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
 	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
+	
+	[imageUploader cancel];
 
 	[[windowController retain] autorelease];
 	[[imageUploader retain] autorelease];
