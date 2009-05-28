@@ -79,17 +79,15 @@
 	if (validService) {
 		NSString *message = contentObject.message.string;
 		
-		if(([message rangeOfString:@"NickServ" options:NSCaseInsensitiveSearch].location != NSNotFound
-			&& [message rangeOfString:@"ID" options:NSCaseInsensitiveSearch].location != NSNotFound) ||
-		   [self message:message containsFragments:[NSArray arrayWithObjects:
-														  @"identify yourself",
-														  @"authentication required",
-														  @"nickname is registered",
-														  @"nickname is owned",
-														  @"nick is owned",
-														  @"nick belongs to another user",
-														  @"invalid",
-														  @"incorrect", nil]]) {
+		if([self message:message containsFragments:[NSArray arrayWithObjects:
+													@"identify yourself",
+													@"authentication required",
+													@"nickname is registered",
+													@"nickname is owned",
+													@"nick is owned",
+													@"nick belongs to another user",
+													@"invalid password",
+													@"incorrect password", nil]]) {
 			
 			[account setValue:nil forProperty:@"Identifying" notify:NotifyNever];
 			
