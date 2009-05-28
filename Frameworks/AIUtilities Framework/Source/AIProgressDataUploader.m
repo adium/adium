@@ -291,8 +291,6 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
  */
 - (void)uploadSucceeded
 {
-	NSLog(@"Calling success");
-	
 	stream = NULL;
 	
 	[periodicTimer invalidate]; periodicTimer = nil;
