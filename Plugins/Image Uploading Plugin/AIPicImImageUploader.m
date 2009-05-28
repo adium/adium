@@ -150,8 +150,6 @@ parseErrorOccurred:(NSError *)error
 {
 	AILogWithSignature(@"%@", [error localizedDescription]);
 	
-	[responseParser release]; responseParser = nil;
-	
 	[uploader errorWithMessage:[error localizedDescription] forChat:chat];
 }
 
