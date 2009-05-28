@@ -145,15 +145,14 @@
 		 * If the number of online objects is the same as the number of total objects, just display one number.
 		 * If the group is the offline group, just display the number of total objects if we should.
 		 */
-		if (countOnlineObjects && countAllObjects && (onlineObjects != totalObjects) && (inGroup!=adium.contactController.offlineGroup)) {
+		if (countOnlineObjects && countAllObjects && (onlineObjects != totalObjects) && (inGroup != adium.contactController.offlineGroup)) {
 			countString = [NSString stringWithFormat:AILocalizedString(@"%lu of %lu", "Used in the display for the contact list for the number of online contacts out of the number of total contacts"),
 													onlineObjects, totalObjects];
 		} else if (countAllObjects) {
 			countString = [NSString stringWithFormat:@"%lu", totalObjects];
-		} else if (inGroup!=adium.contactController.offlineGroup) {
+		} else if (inGroup != adium.contactController.offlineGroup) {
 			countString = [NSString stringWithFormat:@"%lu", onlineObjects];
-		}
-		else {
+		} else {
 			countString = [NSString stringWithString:@""];
 		}
 
