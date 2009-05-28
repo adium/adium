@@ -67,11 +67,16 @@
 - (void)uninstallPlugin
 {
 	[adium.preferenceController unregisterPreferenceObserver:self];
-	
+}
+
+- (void)dealloc
+{
 	[defaultService release];
 	[windowControllers release];
 	[uploadInstances release];
 	[uploaders release];
+	
+	[super dealloc];
 }
 
 #pragma mark Preferences

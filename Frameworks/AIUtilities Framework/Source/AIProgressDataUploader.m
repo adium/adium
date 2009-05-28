@@ -60,7 +60,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 		   context:(id)inContext
 {
 	if ((self = [super init])) {
-		uploadData = inUploadData;
+		uploadData = [inUploadData retain];
 		delegate = inDelegate;
 		context = inContext;
 		url = [inURL retain];
@@ -74,6 +74,7 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 {
 	[url release];
 	[headers release];
+	[uploadData release];
 	[returnedData release];
 	
 	[super dealloc];
