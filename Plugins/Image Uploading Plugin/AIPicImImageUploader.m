@@ -73,14 +73,11 @@
 	} else {
 		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
 	}
-	
-	[dataUploader release]; dataUploader = nil;
 }
 
 - (void)uploadFailed:(id)context
 {
 	[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
-	[dataUploader release]; dataUploader = nil;
 }
 
 #pragma mark Image upload
@@ -125,7 +122,6 @@
 - (void)cancel
 {
 	[dataUploader cancel];
-	[dataUploader release]; dataUploader = nil;
 }
 
 #pragma mark Response parsing
