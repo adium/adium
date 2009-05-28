@@ -248,7 +248,13 @@
 */
 - (void)uploadedURL:(NSString *)url forChat:(AIChat *)chat
 {
-	[[windowControllers objectForKey:chat.internalObjectID] closeWindow:nil];
+	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
+	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
+	
+	[windowController closeWindow:nil];
+	
+	[[windowController retain] autorelease];
+	[[imageUploader retain] autorelease];
 	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
 	[uploadInstances setValue:nil forKey:chat.internalObjectID];
@@ -283,8 +289,15 @@
 - (void)cancelForChat:(AIChat *)chat
 {
 	[[uploadInstances objectForKey:chat.internalObjectID] cancel];
-	[uploadInstances setValue:nil forKey:chat.internalObjectID];
+	
+	AIImageUploaderWindowController *windowController = [windowControllers objectForKey:chat.internalObjectID];
+	NSObject <AIImageUploader> *imageUploader = [uploadInstances objectForKey:chat.internalObjectID];
+
+	[[windowController retain] autorelease];
+	[[imageUploader retain] autorelease];
+	
 	[windowControllers setValue:nil forKey:chat.internalObjectID];
+	[uploadInstances setValue:nil forKey:chat.internalObjectID];
 
 	AILogWithSignature(@"Cancelled image upload for %@", chat);
 }
