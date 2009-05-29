@@ -887,7 +887,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 //Test for the presence of an object in our group
 - (BOOL)containsObject:(AIListObject *)inObject
 {
-	return [self.containedObjects containsObject:inObject];
+	return [_containedObjects containsObject:inObject];
 }
 
 //Retrieve an object by index
