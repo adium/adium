@@ -14,6 +14,7 @@
 
 @interface AITwitterStatusFollowup()
 - (void)twitterStatusPosted:(NSNotification *)notification;
+- (void)imageAdded:(NSNotification *)notification;
 - (void)linkTweetID:(NSString *)tweetID
 			  tweet:(NSString *)tweetText
 		   username:(NSString *)username
@@ -24,10 +25,17 @@
 @implementation AITwitterStatusFollowup
 - (void)installPlugin
 {
+	references = [[NSMutableDictionary alloc] init];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(twitterStatusPosted:)
 												 name:AITwitterNotificationPostedStatus
 											   object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(imageAdded:)
+												 name:@"AIPicImImageAdded"
+											   object:nil];	
 }
 
 - (void)uninstallPlugin
@@ -35,12 +43,26 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)dealloc
+{
+	[references release];
+	
+	[super dealloc];
+}
+
+- (void)imageAdded:(NSNotification *)notification
+{
+	NSDictionary *trim = notification.object;
+	
+	[references setObject:[[trim objectForKey:@"reference"] objectForKey:@"value"] 
+				   forKey:[[trim objectForKey:@"url"] objectForKey:@"value"]];
+}
+
 - (void)twitterStatusPosted:(NSNotification *)notification
 {
 	NSDictionary	*update = notification.object;
 	AIChat			*chat = [[notification userInfo] objectForKey:@"AIChat"];
 	NSString		*updateText = [update objectForKey:TWITTER_STATUS_TEXT];
-	NSDictionary	*references = [chat valueForProperty:@"PicImReferences"];
 	
 	// Don't link direct messages.
 	if ([updateText hasPrefix:@"d "]) {
