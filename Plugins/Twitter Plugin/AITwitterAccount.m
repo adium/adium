@@ -610,27 +610,24 @@
 	[menuItem setImage:serviceIcon];
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];	
-	
-	// XXX Enable if() when twitter sends extended user info for all requests.
-//	if(inContact.isStranger || ![inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@",nil), inContact.UID]
-																		 target:self
-																		 action:@selector(enableOrDisableNotifications:)
-																  keyEquivalent:@""] autorelease];
-		[menuItem setTag:YES];
-		[menuItem setImage:serviceIcon];
-		[menuItem setRepresentedObject:inContact];
-		[menuItemArray addObject:menuItem];
-//	} else if (inContact.isStranger || [inContact boolValueForProperty:@"Twitter Notifications"]) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@",nil), inContact.UID]
-																		 target:self
-																		 action:@selector(enableOrDisableNotifications:)
-																  keyEquivalent:@""] autorelease];
-		[menuItem setTag:NO];
-		[menuItem setImage:serviceIcon];
-		[menuItem setRepresentedObject:inContact];
-		[menuItemArray addObject:menuItem];
-//	}
+
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@",nil), inContact.UID]
+																	 target:self
+																	 action:@selector(enableOrDisableNotifications:)
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:YES];
+	[menuItem setImage:serviceIcon];
+	[menuItem setRepresentedObject:inContact];
+	[menuItemArray addObject:menuItem];
+
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@",nil), inContact.UID]
+																	 target:self
+																	 action:@selector(enableOrDisableNotifications:)
+															  keyEquivalent:@""] autorelease];
+	[menuItem setTag:NO];
+	[menuItem setImage:serviceIcon];
+	[menuItem setRepresentedObject:inContact];
+	[menuItemArray addObject:menuItem];
 	
 	return menuItemArray;	
 }
@@ -2211,9 +2208,6 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				statusText = @"";
 			[listContact setStatusMessage:[NSAttributedString stringWithString:[statusText stringByUnescapingFromXMLWithEntities:nil]] notify:NotifyLater];
 			
-
-			[listContact setValue:[info objectForKey:TWITTER_INFO_NOTIFICATION] forProperty:@"Twitter Notifications" notify:NotifyLater];
-			
 			// Set the user as online.
 			[listContact setOnline:YES notify:NotifyLater silently:silentAndDelayed];
 			
@@ -2349,9 +2343,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		BOOL			enableNotification = ([self requestTypeForRequestID:identifier] == AITwitterNotificationEnable);
 		AIListContact	*listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 		
-		for (NSDictionary *info in userInfo) {
-			[listContact setValue:[info objectForKey:TWITTER_INFO_NOTIFICATION] forProperty:@"Twitter Notifications" notify:NotifyLater];
-		
+		for (NSDictionary *info in userInfo) {		
 			[adium.interfaceController handleMessage:(enableNotification ?
 													  AILocalizedString(@"Notifications Enabled", nil) :
 													  AILocalizedString(@"Notifications Disabled", nil))
