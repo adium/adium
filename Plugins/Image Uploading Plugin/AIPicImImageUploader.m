@@ -131,6 +131,8 @@
 	response = [[NSMutableDictionary alloc] init];
 	resultData = [data copy];
 	
+	AILogWithSignature(@"%@", [NSString stringWithData:data encoding:NSUTF8StringEncoding]);
+	
 	responseParser = [[NSXMLParser alloc] initWithData:resultData];
 	[responseParser setDelegate:self];
 	[responseParser parse];
