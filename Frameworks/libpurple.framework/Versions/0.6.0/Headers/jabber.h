@@ -347,6 +347,9 @@ GList *jabber_status_types(PurpleAccount *account);
 void jabber_login(PurpleAccount *account);
 void jabber_close(PurpleConnection *gc);
 void jabber_idle_set(PurpleConnection *gc, int idle);
+void jabber_blocklist_parse_push(JabberStream *js, const char *from,
+                                 JabberIqType type, const char *id,
+                                 xmlnode *child);
 void jabber_request_block_list(JabberStream *js);
 void jabber_add_deny(PurpleConnection *gc, const char *who);
 void jabber_rem_deny(PurpleConnection *gc, const char *who);
