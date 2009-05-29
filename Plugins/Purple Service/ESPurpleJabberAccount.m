@@ -512,6 +512,10 @@
 
 	} else if (strcmp(label,  "Cancel Presence Notification") == 0) {
 		return [NSString stringWithFormat:AILocalizedString(@"Cancel Presence Notification to %@",nil),inContact.formattedUID];	
+		
+	} else if (strcmp(label,  _("Ping")) == 0) {
+		return [NSString stringWithFormat:AILocalizedString(@"Ping %@",nil),inContact.formattedUID];	
+		
 	}
 	
 	return [super titleForContactMenuLabel:label forContact:inContact];
