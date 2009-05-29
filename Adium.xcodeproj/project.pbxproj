@@ -143,6 +143,7 @@
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11945F400F7935A2002A54B3 /* Ignore.png in Resources */ = {isa = PBXBuildFile; fileRef = 11945F3F0F7935A2002A54B3 /* Ignore.png */; };
+		1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */ = {isa = PBXBuildFile; fileRef = 1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */; };
 		11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */; };
 		11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */; };
 		11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AA10110FCE0969003908B6 /* AIProgressDataUploader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1882,6 +1883,8 @@
 		11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccountOAuthSetup.m; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.m"; sourceTree = "<group>"; };
 		11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthConsumer.framework; path = Frameworks/OAuthConsumer.framework; sourceTree = "<group>"; };
 		11945F3F0F7935A2002A54B3 /* Ignore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ignore.png; path = "Frameworks/Adium Framework/Resources/Ignore.png"; sourceTree = "<group>"; };
+		1197F66F0FCF8D180032F19B /* AITwitterStatusFollowup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterStatusFollowup.h; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.h"; sourceTree = "<group>"; };
+		1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterStatusFollowup.m; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.m"; sourceTree = "<group>"; };
 		11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMessageAlertsAdvancedPreferences.nib; path = Resources/AIMessageAlertsAdvancedPreferences.nib; sourceTree = "<group>"; };
 		11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageAlertsAdvancedPreferences.h; path = Source/AIMessageAlertsAdvancedPreferences.h; sourceTree = "<group>"; };
 		11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageAlertsAdvancedPreferences.m; path = Source/AIMessageAlertsAdvancedPreferences.m; sourceTree = "<group>"; };
@@ -4942,6 +4945,8 @@
 			children = (
 				11F739590F58D4DC00B3285B /* MGTwitterEngine */,
 				113891850F6B6B0300A7D7DC /* Laconica */,
+				1197F66F0FCF8D180032F19B /* AITwitterStatusFollowup.h */,
+				1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */,
 				1109634B0F61C1D00064CA0E /* AITwitterReplyWindow.nib */,
 				110966180F61D3E70064CA0E /* AITwitterReplyWindowController.h */,
 				110966190F61D3E70064CA0E /* AITwitterReplyWindowController.m */,
@@ -10469,6 +10474,7 @@
 				11BE289A0FCC7C13000E6A10 /* AIPicImImageUploader.m in Sources */,
 				11BE28DF0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m in Sources */,
 				11BE29680FCCA9E3000E6A10 /* AIImageUploaderWindowController.m in Sources */,
+				1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

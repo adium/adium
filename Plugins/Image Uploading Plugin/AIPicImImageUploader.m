@@ -8,6 +8,7 @@
 
 #import "AIPicImImageUploader.h"
 
+#import <Adium/AIChat.h>
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIProgressDataUploader.h>
@@ -190,6 +191,10 @@ didStartElement:(NSString *)elementName
 		[uploader errorWithMessage:[status objectForKey:@"message"] forChat:chat];
 	} else if ([[status objectForKey:@"result"] isCaseInsensitivelyEqualToString:@"ok"]) {
 		[uploader uploadedURL:[[trim objectForKey:@"url"] objectForKey:@"value"] forChat:chat];
+		
+		NSMutableDictionary *dict = [chat valueForProperty:@"PicImReferences"] ?: [NSMutableDictionary dictionary];
+		[dict setObject:[[trim objectForKey:@"reference"] objectForKey:@"value"] forKey:[[trim objectForKey:@"url"] objectForKey:@"value"]];
+		[chat setValue:dict forProperty:@"PicImReferences" notify:NotifyNever];
 	} else {
 		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
 	}
