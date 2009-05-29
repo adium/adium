@@ -577,11 +577,6 @@
 		}
 		
 	} else {
-		// Move the contact from all of its groups into the meta contact's groups.
-		if (metaContact.groups) {
-			[self moveContact:inContact fromGroups:inContact.remoteGroups intoGroups:metaContact.groups];
-		}
-		
 		//Obtain any metaContact this listObject is currently within, so we can remove it later
 		AIMetaContact *oldMetaContact = [contactToMetaContactLookupDict objectForKey:[inContact internalObjectID]];
 		
