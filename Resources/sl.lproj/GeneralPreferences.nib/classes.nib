@@ -42,6 +42,14 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>adiumPrint</key>
@@ -88,6 +96,22 @@
 			<string>NSResponder</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>NSView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>configureMessageHistory</key>
@@ -114,6 +138,8 @@
 				<key>label_messagesSendOn</key>
 				<string>NSTextField</string>
 				<key>label_messagesTabs</key>
+				<string>NSTextField</string>
+				<key>label_shortcutRecorder</key>
 				<string>NSTextField</string>
 				<key>label_switchTabsWith</key>
 				<string>NSTextField</string>
@@ -144,6 +170,14 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>AIModularPane</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -188,11 +222,11 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>AISmartStepper</string>
+			<string>NSPopUpButton</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
-			<string>NSStepper</string>
+			<string>NSButton</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -206,6 +240,14 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSActionCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSPopUpButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSMenuItemCell</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

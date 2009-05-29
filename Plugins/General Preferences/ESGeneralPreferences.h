@@ -33,6 +33,8 @@
 	IBOutlet	NSTextField		*label_messagesSendOn;
 	IBOutlet	NSTextField		*label_messagesTabs;
 	IBOutlet	NSTextField		*label_switchTabsWith;	
+	
+	IBOutlet	NSTextField		*label_shortcutRecorder;
 
     IBOutlet	SRRecorderControl	*shortcutRecorder;		
 }
