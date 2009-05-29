@@ -30,7 +30,6 @@
 
 	NSMutableArray	*_containedObjects;			//Manually ordered array of contents
 	BOOL								containedObjectsNeedsSort;
-	BOOL								delayContainedObjectSorting;
 	BOOL								saveGroupingChanges;
 	
 	BOOL								expanded;			//Exanded/Collapsed state of this object
@@ -62,8 +61,5 @@
  * Contacts from all accounts, including offline ones, will be included.
  */
 - (NSArray *)listContactsIncludingOfflineAccounts;
-
-//Delay sorting the contained object list; this should only be used by the contactController. Be sure to set it back to YES when operations are done
-- (void)setDelayContainedObjectSorting:(BOOL)flag;
 
 @end
