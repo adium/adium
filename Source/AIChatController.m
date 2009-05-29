@@ -245,14 +245,15 @@
  */
 - (AIChat *)openChatWithContact:(AIListContact *)inContact onPreferredAccount:(BOOL)onPreferredAccount
 {
-	AIChat	*chat;
+	if ([inContact isKindOfClass:[AIListBookmark class]])
+		return [(AIListBookmark *)inContact openChat];
 
 	if (onPreferredAccount) {
 		inContact = [adium.contactController preferredContactForContentType:CONTENT_MESSAGE_TYPE
 															   forListContact:inContact];
 	}
 
-	chat = [self chatWithContact:inContact];
+	AIChat *chat = [self chatWithContact:inContact];
 	if (chat) [adium.interfaceController openChat:chat]; 
 
 	return chat;

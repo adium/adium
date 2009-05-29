@@ -531,12 +531,8 @@
  */
 - (void)contactMenu:(AIContactMenu *)inContactMenu didSelectContact:(AIListContact *)inContact
 {
-	if ([inContact isMemberOfClass:[AIListBookmark class]]) {
-		[(AIListBookmark *)inContact openChat];
-	} else {
-		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
-																		onPreferredAccount:YES]];
-	}
+	[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:inContact
+																	onPreferredAccount:YES]];
 	
 	[self activateAdium];
 }
