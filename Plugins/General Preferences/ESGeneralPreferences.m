@@ -116,11 +116,20 @@
 	//																			group:PREF_GROUP_CONFIRMATIONS] boolValue]];
 	
 	//Global hotkey
-	PTKeyCombo *keyCombo = [[[PTKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
-																													 group:PREF_GROUP_GENERAL]] autorelease];
-	[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
-	[shortcutRecorder setAnimates:YES];
-	[shortcutRecorder setStyle:SRGreyStyle];
+	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
+	
+	if (TISGetInputSourceProperty(currentLayout, kTISPropertyUnicodeKeyLayoutData)) {
+		PTKeyCombo *keyCombo = [[[PTKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
+																														 group:PREF_GROUP_GENERAL]] autorelease];
+		[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
+		[shortcutRecorder setAnimates:YES];
+		[shortcutRecorder setStyle:SRGreyStyle];
+		
+		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"When pressed, this key combination will bring Adium to the front", nil)];
+	} else {
+		[shortcutRecorder setEnabled:NO];
+		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"You are using an old-style (rsrc) keyboard layout which Adium does not support.", nil)];
+	}
 
     [self configureControlDimming];
 }
