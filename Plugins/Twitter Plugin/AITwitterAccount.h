@@ -107,6 +107,8 @@ typedef enum {
 #define TWITTER_PREFERENCE_REPLIES_LAST_ID		@"Replies Last ID"
 #define TWITTER_PREFERENCE_GROUP_UPDATES		@"Twitter Preferences"
 
+#define AITwitterNotificationPostedStatus		@"AITwitterNotificationPostedStatus"
+
 // Status Updates
 #define TWITTER_STATUS_ID					@"id"
 #define TWITTER_STATUS_REPLY_UID			@"in_reply_to_screen_name"

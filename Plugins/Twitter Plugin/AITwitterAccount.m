@@ -2032,18 +2032,20 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		if (updateAfterSend) {
 			[self periodicUpdate];
 		}
-		
-		if ([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
-			for(NSDictionary *update in statuses) {
-				NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
 				
-				if(![text hasPrefix:@"@"] ||
-				   [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue]) {
-					AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
-					
-					availableStatus.statusMessage = [NSAttributedString stringWithString:text];
-					[adium.statusController setActiveStatusState:availableStatus];
-				}
+		for(NSDictionary *update in statuses) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:AITwitterNotificationPostedStatus
+																object:update
+															  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.timelineChat, @"AIChat", nil]];
+			
+			NSString *text = [[update objectForKey:TWITTER_STATUS_TEXT] stringByUnescapingFromXMLWithEntities:nil];
+			
+			if([[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue] &&
+			   (![text hasPrefix:@"@"] || [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_GLOBAL_REPLIES group:TWITTER_PREFERENCE_GROUP_UPDATES] boolValue])) {
+				AIStatus *availableStatus = [AIStatus statusOfType:AIAvailableStatusType];
+				
+				availableStatus.statusMessage = [NSAttributedString stringWithString:text];
+				[adium.statusController setActiveStatusState:availableStatus];
 			}
 		}
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterFavoriteYes ||

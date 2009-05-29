@@ -161,6 +161,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AWBonjourPlugin",
 		@"CBPurpleServicePlugin",
 		@"AIImageUploaderPlugin",
+		@"AITwitterStatusFollowup",
 		nil
 	];
 	//Load each component
