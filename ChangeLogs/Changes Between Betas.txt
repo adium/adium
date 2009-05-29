@@ -1,14 +1,16 @@
 Adium 1.4b5
  * Added a "Replace with Uploaded Image" function to the Edit menu and input area contextual menu. 
+   * Right click an image, or select it and use Edit > Replace with Uploaded Image.
    * Similar to the "Replace with Shortened URL", this feature uploads the image to an image hosting service and inserts the new URL.
- * Fixed a crash due to debug code accidentally left in b4.
- * Fixed a crash/hang when moving a contact from a meta contact into a group.
+ * Fixed a crash due to debug code accidentally left in b4 when opening the Xtras Manager.
  * Fixed a crash caused by setting the status message via AppleScript (#12219).
  * Fixed a crash when using a Proxy Auto-Config (PAC) file. (#12199)
  * Fixed indeterminate errors if you provide a space in an IRC account's NickServ password.
  * Fixed retweeting or deleting tweets featuring any of: ;/?:@&=+$, (#12217)
  * Fixed a hang when moving contacts/bookmarks into a new group.
  * Fixed bug causing speech actions with custom pitch to have really high pitch (#12251).
+ * Fixed a crash caused by using OS 9 keyboard layouts. Unfortunately, global shortcuts cannot be set when using these (due to API changes in 10.5). (#12192)
  * Changed behavior when moving a contact between groups, fixing a bug in protocols which don't support multiple groups.
  * Changed behavior when moving a contact into a meta contact: the contact is moved into the meta contact's groups.
  * Changed default setting for "only count unread highlights and mentions for group chats" to be enabled.
+ * Changed the default URL shortener from tinyurl.com to tr.im.
