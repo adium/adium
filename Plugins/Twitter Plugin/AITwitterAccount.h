@@ -130,7 +130,6 @@ typedef enum {
 #define TWITTER_INFO_DISPLAY_NAME			@"name"
 #define TWITTER_INFO_UID					@"screen_name"
 #define TWITTER_INFO_ICON					@"profile_image_url"
-#define TWITTER_INFO_NOTIFICATION			@"notifications"
 
 // Rate Limit
 #define TWITTER_RATE_LIMIT_HOURLY_LIMIT		@"hourly-limit"
