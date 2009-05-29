@@ -128,8 +128,11 @@
 		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"When pressed, this key combination will bring Adium to the front", nil)];
 	} else {
 		[shortcutRecorder setEnabled:NO];
+		
 		[label_shortcutRecorder setLocalizedString:AILocalizedString(@"You are using an old-style (rsrc) keyboard layout which Adium does not support.", nil)];
 	}
+	
+	CFRelease(currentLayout);
 
     [self configureControlDimming];
 }

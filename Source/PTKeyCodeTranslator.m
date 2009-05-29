@@ -22,6 +22,7 @@
         [current release];
         current = [[PTKeyCodeTranslator alloc] initWithKeyboardLayout:currentLayout];
     }
+	
     return current;
 }
 
@@ -34,6 +35,13 @@
     }
     
     return self;
+}
+
+- (void)dealloc
+{
+	CFRelease(keyboardLayout);
+
+	[super dealloc];
 }
 
 - (NSString *)translateKeyCode:(short)keyCode {
