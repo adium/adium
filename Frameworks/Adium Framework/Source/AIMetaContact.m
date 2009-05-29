@@ -66,7 +66,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		containsOnlyOneUniqueContact = NO;
 		containsOnlyOneService = YES;
 		containedObjectsNeedsSort = NO;
-		delayContainedObjectSorting = NO;
 		saveGroupingChanges = YES;
 	}
 	return self;
@@ -873,7 +872,7 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 - (NSArray *)containedObjects
 {
 	//Sort the containedObjects if the flag tells us it's needed
-	if (containedObjectsNeedsSort && !delayContainedObjectSorting) {
+	if (containedObjectsNeedsSort) {
 		containedObjectsNeedsSort = NO;
 		[_containedObjects sortUsingFunction:containedContactSort context:self];
 	}
@@ -958,15 +957,6 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 }
 
 #pragma mark Contained Contact sorting
-
-- (void)setDelayContainedObjectSorting:(BOOL)flag
-{
-	delayContainedObjectSorting = flag;
-	
-	if (!delayContainedObjectSorting) {
-		[self containedObjectsOrOrderDidChange];		
-	}
-}
 
 /*!
  * @brief Sort contained contacts, first by order index and then by internalUniqueObjectID
