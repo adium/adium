@@ -7,7 +7,7 @@
 //
 
 @interface AITwitterStatusFollowup : AIPlugin {
-	
+	NSMutableDictionary			*references;
 }
 
 @end
