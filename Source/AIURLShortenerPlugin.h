@@ -21,7 +21,8 @@ typedef enum {
 	AITinyURL = 0,
 	AIisgd,
 	AIMetamark,
-	AITrim
+	AITrim,
+	AIBitly
 } AIShortenLinkService;
 
 @interface AIURLShortenerPlugin : AIPlugin {	
