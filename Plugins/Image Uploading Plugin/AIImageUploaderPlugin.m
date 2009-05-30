@@ -18,6 +18,7 @@
 
 #import <AIUtilities/AIWindowAdditions.h>
 #import <AIUtilities/AIMenuAdditions.h>
+#import <AIUtilities/AIImageAdditions.h>
 
 @interface AIImageUploaderPlugin()
 - (NSImage *)currentImage;

@@ -52,6 +52,8 @@ typedef enum {
 - (NSData *)GIFRepresentation;
 - (NSData *)BMPRepresentation;
 - (NSBitmapImageRep *)largestBitmapImageRep;
+- (NSData *)representationWithFileType:(NSBitmapImageFileType)fileType
+					   maximumFileSize:(NSUInteger)maximumSize;
 
 @end
 

@@ -279,4 +279,67 @@
 	return extension;
 }
 
+
+/*!
+ * @brief Retrieve an image rep with a maximum size
+ *
+ * Returns the NSData of an image representation.
+ *
+ * @param fileType The NSBitmapImageFileType to be outputted for sizing
+ * @param maximumSize The maximum size in bytes for the image
+ *
+ * @return the NSData representation using fileType
+ */
+- (NSData *)representationWithFileType:(NSBitmapImageFileType)fileType
+					   maximumFileSize:(NSUInteger)maximumSize
+{
+	NSBitmapImageRep *imageRep = [self largestBitmapImageRep];
+	
+	// If no rep is found, return nil.
+	if (!imageRep)
+		return nil;
+	
+	NSData *data = [imageRep representationUsingType:fileType properties:nil];
+	
+	// If no maximum size, return the base representation.
+	if (!maximumSize)
+		return data;
+	
+	// Ratio of height/width
+	CGFloat ratio = (CGFloat)imageRep.pixelsHigh / (CGFloat)imageRep.pixelsWide;
+	
+	// Loop until we're small enough to fit into our max size
+	while (data.length > maximumSize) {
+		// New width/height using our ratio
+		NSUInteger width = (imageRep.pixelsWide - 100);
+		NSUInteger height = ((CGFloat)imageRep.pixelsWide - 100.0)*ratio;
+		
+		// Create a new rep with the lowered size
+		NSBitmapImageRep *newImageRep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+																				 pixelsWide:width
+																				 pixelsHigh:height
+																			  bitsPerSample:imageRep.bitsPerSample
+																			samplesPerPixel:imageRep.samplesPerPixel
+																				   hasAlpha:imageRep.hasAlpha
+																				   isPlanar:imageRep.isPlanar
+																			 colorSpaceName:NSCalibratedRGBColorSpace
+																				bytesPerRow:imageRep.bytesPerRow
+																			   bitsPerPixel:imageRep.bitsPerPixel] autorelease];
+		
+		// Draw the old rep into the new rep
+		[NSGraphicsContext saveGraphicsState];
+		[NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithBitmapImageRep:newImageRep]];
+		[imageRep drawInRect:NSMakeRect(0, 0, width, height)];
+		[NSGraphicsContext restoreGraphicsState];
+		
+		// Override the old rep
+		imageRep = newImageRep;
+		
+		// Grab a new representation
+		data = [imageRep representationUsingType:fileType properties:nil];
+	}
+	
+	return nil;
+}
+
 @end
