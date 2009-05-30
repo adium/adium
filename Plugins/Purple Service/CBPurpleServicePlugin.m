@@ -55,7 +55,7 @@
 	[ESJabberService registerService];
 	[ESYahooService registerService];
 	[ESYahooJapanService registerService];	
-	[ESZephyrService registerService];
+	//[ESZephyrService registerService];
 	[ESMeanwhileService registerService];
 	
 	[SLPurpleCocoaAdapter pluginDidLoad];
