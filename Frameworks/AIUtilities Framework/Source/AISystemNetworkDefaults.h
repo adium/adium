@@ -35,10 +35,12 @@ typedef enum
 /*!
  * @brief Retrieve systemwide proxy settings for a type of proxy
  *
- * Retrieve systemwide proxy settings for <b>proxyType</b>.
+ * Retrieve systemwide proxy settings for <b>proxyType</b> using optional hostname <b>hostName</b> (for PAC files).
  * @param proxyType The type of proxy for which to retrieve settings.  ProxyType should be one of Proxy_None, Proxy_HTTP, Proxy_HTTPS, Proxy_SOCKS4, Proxy_SOCKS5, Proxy_FTP, Proxy_RTSP, or Proxy_Gopher.
+ * @param hostName An NSString of the hostname to connect to, or nil
  * @result An <tt>NSDictionary</tt> containing the settings for that proxy type, or nil if no proxy is configured for that type.  The dictionary has the host as an NSString in the key @"Host", the port as an NSNumber in the key @"Port", and, if they are present, the username and password as NSStrings in @"Username" and @"Password" respectively.
 */
-+ (NSDictionary *)systemProxySettingsDictionaryForType:(ProxyType)proxyType;
++ (NSDictionary *)systemProxySettingsDictionaryForType:(ProxyType)proxyType
+											 forServer:(NSString *)hostName;
 
 @end
