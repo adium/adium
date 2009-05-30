@@ -12,9 +12,11 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIProgressDataUploader.h>
+#import <AIUtilities/AIImageAdditions.h>
 
 #define MULTIPART_FORM_BOUNDARY	@"bf5faadd239c17e35f91e6dafe1d2f96"
 #define PIC_IM_URL				@"http://api.tr.im/api/picim_url.xml?api_key=zghQN6sv5y0FkLPNlQAopm7qDQz6ItO33ENU21OBsy3dL1Kl"
+#define PIC_IM_MAX_SIZE			2500000
 
 @interface AIPicImImageUploader()
 - (id)initWithImage:(NSImage *)inImage
@@ -85,29 +87,21 @@
 
 - (void)uploadImage
 {
-	NSBitmapImageRep *bitmapImageRep = nil;
+	NSMutableData *body = [NSMutableData data];
 	
-	for (NSImageRep *rep in image.representations) {
-		if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
-			bitmapImageRep = (NSBitmapImageRep *)rep;
-			break;
-		}
-	}
+	NSData *imageRepresentation = [image representationWithFileType:NSPNGFileType maximumFileSize:PIC_IM_MAX_SIZE];
 	
-	// This probably won't happen.
-	if (!bitmapImageRep) {
-		[uploader errorWithMessage:AILocalizedString(@"Unknown image type", nil) forChat:chat];
+	if (!imageRepresentation) {
+		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
 		return;
 	}
-	
-	NSMutableData *body = [NSMutableData data];
 	
 	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
 	[body appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"image.png\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
 	[body appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[body appendData:[bitmapImageRep representationUsingType:NSPNGFileType properties:nil]];
+	[body appendData:imageRepresentation];
 	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-	
+
 	NSDictionary *headers = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY], @"Content-type", nil];
 	
