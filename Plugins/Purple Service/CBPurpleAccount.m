@@ -785,6 +785,23 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	
 	AIListContact *contact = [self contactWithUID:contactName];
 	[chat removeObject:contact];
+	
+	if (contact.isStranger && 
+		![adium.chatController allGroupChatsContainingContact:contact.parentContact].count &&
+		[adium.chatController existingChatWithContact:contact.parentContact]) {
+		// The contact is a stranger, not in any more group chats, but we have a message with them open.
+		// Set their status to unknown.
+		
+		[contact setStatusWithName:nil
+						statusType:AIUnknownStatus
+							notify:NotifyLater];
+		
+		[contact setValue:nil
+			  forProperty:@"Online"
+				   notify:NotifyLater];
+		
+		[contact notifyOfChangedPropertiesSilently:NO];
+	}
 }
 
 - (void)removeUsersArray:(NSArray *)usersArray fromChat:(AIChat *)chat
