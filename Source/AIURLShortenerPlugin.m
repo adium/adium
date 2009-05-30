@@ -105,7 +105,6 @@
 																		  [NSNumber numberWithInteger:AIisgd], @"is.gd",
 																		  [NSNumber numberWithInteger:AIMetamark], @"xrl.us",
 																		  [NSNumber numberWithInteger:AITrim], @"tr.im",
-																		  [NSNumber numberWithInteger:AIBitly], @"bit.ly",
 																		  nil];
 
 	[menu removeAllItems];
@@ -248,10 +247,6 @@
 			
 		case AITrim:
 			request = [NSString stringWithFormat:@"http://api.tr.im/api/trim_simple?api_key=zghQN6sv5y0FkLPNlQAopm7qDQz6ItO33ENU21OBsy3dL1Kl&url=%@", [address stringByAddingPercentEscapesForAllCharacters]];
-			break;
-			
-		case AIBitly:
-			request = [NSString stringWithFormat:@"http://api.bit.ly/shorten?version=2.0.1&format=text&longUrl=%@&login=adiumofficial&apiKey=R_3a9f4affdf9181536d5536f67e02a59c", [address stringByAddingPercentEscapesForAllCharacters]];
 			break;
 			
 		default:
