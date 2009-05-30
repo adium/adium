@@ -18,6 +18,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListBookmark.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIArrayAdditions.h>
