@@ -18,7 +18,7 @@
 #import <Growl-WithInstaller/GrowlApplicationBridge.h>
 
 #define KEY_GROWL_ALERT_STICKY	@"Growl Sticky"
-#define GROWL_QUEUE_WAIT		0.5 // Seconds to wait before clearing an event type's queue
+#define GROWL_QUEUE_WAIT		1.0 // Seconds to wait before clearing an event type's queue
 
 @protocol GrowlApplicationBridgeDelegate;
 
