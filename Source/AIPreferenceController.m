@@ -296,7 +296,7 @@
         [delayedNotificationGroups addObject:group];
     } else {
 		NSDictionary	*preferenceDict = [[[self preferenceContainerForGroup:group object:object] dictionary] retain];
-		for (NSValue *observerValue in [observers objectForKey:group]) {
+		for (NSValue *observerValue in [[[observers objectForKey:group] copy] autorelease]) {
 			id observer = observerValue.nonretainedObjectValue;
 			[observer preferencesChangedForGroup:group
 											 key:key
