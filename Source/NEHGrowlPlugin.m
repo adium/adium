@@ -279,7 +279,7 @@
 		return;
 	}
 	
-	if (events.count <= 2) {
+	if (events.count <= 5) {
 		// If we only have a few events, just post them individually.
 		
 		for (NSDictionary *event in events) {
@@ -290,7 +290,7 @@
 		}
 		
 	} else {
-		// We have multiple events; let's combine them.
+		// We have a bunch of events; let's combine them.
 		AIListObject *overallListObject = nil;
 
 		// If all events are from the same listObject, let's use that one in the message.
