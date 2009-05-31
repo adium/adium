@@ -390,8 +390,6 @@ static NSTimer				*timer_savingOfAccountCache = nil;
  */
 - (void)save
 {
-	return;
-	
 	if (object) {
 		//For an object's pref changes, batch all changes in a SAVE_OBJECT_PREFS_DELAY second period. We'll force an immediate save if Adium quits.
 		if (*myTimerForSavingGlobalPrefs) {
