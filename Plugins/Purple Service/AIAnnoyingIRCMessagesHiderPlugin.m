@@ -7,6 +7,7 @@
 //
 
 #import "AIAnnoyingIRCMessagesHiderPlugin.h"
+#import "ESIRCAccount.h"
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIContentObject.h>
 
@@ -14,6 +15,7 @@
 #import <Adium/AIContentObject.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIChat.h>
 
 @implementation AIAnnoyingIRCMessagesHiderPlugin
 - (void)installPlugin
@@ -33,12 +35,14 @@
 - (void)willReceiveContent:(NSNotification *)notification
 {	
 	AIContentObject		*contentObject = [[notification userInfo] objectForKey:@"Object"];
-	BOOL				hidden;
 	
-	if (![contentObject isKindOfClass:[AIContentMessage class]]) {
+	if (![contentObject isKindOfClass:[AIContentMessage class]] ||
+		![contentObject.chat.account isKindOfClass:[ESIRCAccount class]]) {
 		return;
 	}
 
+	BOOL				hidden = NO;
+	
 	NSArray *serverMessages = [NSArray arrayWithObjects:
 							   @"highest connection count",
 							   @"your host is",
