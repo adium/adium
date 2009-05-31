@@ -339,7 +339,7 @@
 		data = [imageRep representationUsingType:fileType properties:nil];
 	}
 	
-	return nil;
+	return data;
 }
 
 @end
