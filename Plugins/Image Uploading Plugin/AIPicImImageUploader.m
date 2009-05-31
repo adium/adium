@@ -64,9 +64,9 @@
 }
 
 #pragma mark Data uploader delegate
-- (void)updateUploadPercent:(CGFloat)percent context:(id)context
+- (void)updateUploadProgress:(NSUInteger)uploaded total:(NSUInteger)total context:(id)context
 {
-	[uploader updateProgressPercent:percent forChat:chat];
+	[uploader updateProgress:uploaded total:total forChat:chat];
 }
 
 - (void)uploadCompleted:(id)context result:(NSData *)result
@@ -89,7 +89,18 @@
 {
 	NSMutableData *body = [NSMutableData data];
 	
-	NSData *imageRepresentation = [image representationWithFileType:NSPNGFileType maximumFileSize:PIC_IM_MAX_SIZE];
+	NSBitmapImageFileType bestType;
+	
+	NSData *pngRepresentation = [[image largestBitmapImageRep] representationUsingType:NSPNGFileType properties:nil];
+	NSData *jpgRepresentation = [[image largestBitmapImageRep] representationUsingType:NSJPEGFileType properties:nil];
+
+	if (pngRepresentation.length > jpgRepresentation.length) {
+		bestType = NSJPEGFileType;
+	} else {
+		bestType = NSPNGFileType;
+	}
+	
+	NSData *imageRepresentation = [image representationWithFileType:bestType maximumFileSize:PIC_IM_MAX_SIZE];
 	
 	if (!imageRepresentation) {
 		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
@@ -98,7 +109,7 @@
 	
 	[body appendData:[[NSString stringWithFormat:@"--%@\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
 	[body appendData:[@"Content-Disposition: form-data; name=\"media\"; filename=\"image.png\"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-	[body appendData:[@"Content-Type: image/png\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+	[body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n\r\n", (bestType == NSJPEGFileType) ? @"image/jpeg" : @"image/png"] dataUsingEncoding:NSUTF8StringEncoding]];
 	[body appendData:imageRepresentation];
 	[body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", MULTIPART_FORM_BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
 

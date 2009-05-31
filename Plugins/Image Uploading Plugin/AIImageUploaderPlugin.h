@@ -29,7 +29,7 @@ typedef enum {
 
 - (void)errorWithMessage:(NSString *)message forChat:(AIChat *)chat;
 - (void)uploadedURL:(NSString *)url forChat:(AIChat *)chat;
-- (void)updateProgressPercent:(CGFloat)percent forChat:(AIChat *)chat;
+- (void)updateProgress:(NSUInteger)uploaded total:(NSUInteger)total forChat:(AIChat *)chat;
 - (void)cancelForChat:(AIChat *)chat;
 
 @end

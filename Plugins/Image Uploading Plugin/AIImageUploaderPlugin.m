@@ -273,13 +273,14 @@
 /*!
  * @brief Update the progress's percent
  *
- * @param percent The percent value, between 0.0-1.0, of the upload.
+ * @param uploaded The uploaded amount in bytes
+ * @param total The total amount in bytes
  * @param chat The AIChat for the upload
  */
-- (void)updateProgressPercent:(CGFloat)percent forChat:(AIChat *)chat
+- (void)updateProgress:(NSUInteger)uploaded total:(NSUInteger)total forChat:(AIChat *)chat;
 {
 	[[windowControllers objectForKey:chat.internalObjectID] setIndeterminate:NO];
-	[[windowControllers objectForKey:chat.internalObjectID] setProgress:percent];
+	[[windowControllers objectForKey:chat.internalObjectID] updateProgress:uploaded total:total];
 }
 
 /*!
