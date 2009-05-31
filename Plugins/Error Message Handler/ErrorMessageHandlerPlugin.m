@@ -210,7 +210,7 @@
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	return [NSString stringWithFormat:AILocalizedString(@"%u events", nil), count];
+	return [NSString stringWithFormat:AILocalizedString(@"%u errors", nil), count];
 }
 
 @end
