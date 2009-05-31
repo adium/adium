@@ -174,4 +174,12 @@ static AdiumAuthorization *sharedInstance;
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	return [NSString stringWithFormat:AILocalizedString(@"%u authorization requests", nil), count];
+}
+
 @end

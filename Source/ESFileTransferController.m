@@ -832,6 +832,32 @@ static ESFileTransferPreferences *preferences;
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	NSString *format = nil;
+	
+	if ([eventID isEqualToString:FILE_TRANSFER_REQUEST]) {
+		format = AILocalizedString(@"%u incoming file transfers",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_CHECKSUMMING]) {
+		format = AILocalizedString(@"%u files being checksummed prior to sending",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_WAITING_REMOTE]) {
+		format = AILocalizedString(@"%u files offered to send",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_BEGAN]) {
+		format = AILocalizedString(@"%u files began transferring",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_CANCELLED]) {
+		format = AILocalizedString(@"%u files cancelled remotely",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_COMPLETE]) {
+		format = AILocalizedString(@"%u files completed successfully",nil);
+	} else if ([eventID isEqualToString:FILE_TRANSFER_FAILED]) {
+		format = AILocalizedString(@"%u file transfers failed",nil);
+	}	
+	
+	return format ? [NSString stringWithFormat:format, count] : @"";
+}
+
 #pragma mark Strings for sizes
 
 #define	ZERO_BYTES			AILocalizedString(@"Zero bytes", "no file size")

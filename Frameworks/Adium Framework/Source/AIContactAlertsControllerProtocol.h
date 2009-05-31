@@ -8,7 +8,7 @@
 
 #import <Adium/AIControllerProtocol.h>
 
-@class AIListObject, AIModularPane;
+@class AIListObject, AIChat, AIModularPane;
 
 @protocol AIEventHandler, AIActionHandler;
 
@@ -138,6 +138,22 @@ typedef enum {
  * @brief Return the image associated with an event
  */
 - (NSImage *)imageForEventID:(NSString *)eventID;
+
+/*!
+ * @brief The description for multiple combined events.
+ *
+ * @param eventID The event
+ * @param listObject The object for which the event references
+ * @param chat The chat for which the event references
+ * @param count The count of combined events
+ *
+ * @return The description of the event
+ *
+ */
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count;
 
 #pragma mark Event types
 /*!
@@ -310,6 +326,23 @@ typedef enum {
  * @brief Return an image icon for the specified eventID.
  */
 - (NSImage *)imageForEventID:(NSString *)eventID;
+
+/*!
+ * @brief The description for multiple combined events.
+ *
+ * @param eventID The event
+ * @param listObject The object for which the event references
+ * @param chat The chat for which the event references
+ * @param count The count of combined events
+ *
+ * @return The description of the event
+ *
+ */
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count;
+
 @end
 
 /*!

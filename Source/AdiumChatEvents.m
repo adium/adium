@@ -227,4 +227,22 @@
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	NSString *format = nil;
+	
+	if ([eventID isEqualToString:CONTENT_CONTACT_JOINED_CHAT]) {
+		format = AILocalizedString(@"%u contacts joined", nil);
+	} else if ([eventID isEqualToString:CONTENT_CONTACT_LEFT_CHAT]) {
+		format = AILocalizedString(@"%u contacts left", nil);
+	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_INVITE]) {
+		format = AILocalizedString(@"%u invites to a group chat", nil);
+	}
+	
+	return format ? [NSString stringWithFormat:format, count] : @"";
+}
+
 @end

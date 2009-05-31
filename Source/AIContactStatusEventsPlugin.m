@@ -309,6 +309,38 @@
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	NSString *format = nil;
+	
+	if ([eventID isEqualToString:CONTACT_STATUS_ONLINE_YES]) {
+		format = AILocalizedString(@"%u contacts connected", nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_ONLINE_NO]) {
+		format = AILocalizedString(@"%u contacts disconnected", nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_AWAY_YES]) {
+		format = AILocalizedString(@"%u contacts went away", nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_AWAY_NO]) {
+		format = AILocalizedString(@"%u contacts came back", nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_IDLE_YES]) {
+		format = AILocalizedString(@"%u contacts went idle", nil);
+	} else if ([eventID isEqualToString:CONTACT_STATUS_IDLE_NO]) {
+		format = AILocalizedString(@"%u contacts became active", nil);
+	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_YES]) {
+		format = AILocalizedString(@"%u contacts are seen", nil);
+	} else if ([eventID isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
+		format = AILocalizedString(@"%u contacts are no longer seen", nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_YES]) {
+		format = AILocalizedString(@"%u contacts went mobile", nil);
+	} else if([eventID isEqualToString:CONTACT_STATUS_MOBILE_NO]) {
+		format = AILocalizedString(@"%u contacts returned from mobile", nil);
+	}
+	
+	return format ? [NSString stringWithFormat:format, count] : @"";
+}
+
 #pragma mark Caching and event generation
 /*!
  * @brief Cache list object updates
