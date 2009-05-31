@@ -93,14 +93,19 @@
 	
 	NSData *pngRepresentation = [[image largestBitmapImageRep] representationUsingType:NSPNGFileType properties:nil];
 	NSData *jpgRepresentation = [[image largestBitmapImageRep] representationUsingType:NSJPEGFileType properties:nil];
-
+	NSData *imageRepresentation;
+	
 	if (pngRepresentation.length > jpgRepresentation.length) {
 		bestType = NSJPEGFileType;
+		imageRepresentation = jpgRepresentation;
 	} else {
 		bestType = NSPNGFileType;
+		imageRepresentation = pngRepresentation;
 	}
 	
-	NSData *imageRepresentation = [image representationWithFileType:bestType maximumFileSize:PIC_IM_MAX_SIZE];
+	if (imageRepresentation.length > PIC_IM_MAX_SIZE) {
+		imageRepresentation = [image representationWithFileType:bestType maximumFileSize:PIC_IM_MAX_SIZE];
+	}
 	
 	if (!imageRepresentation) {
 		[uploader errorWithMessage:AILocalizedString(@"Unable to upload", nil) forChat:chat];
