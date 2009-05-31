@@ -479,6 +479,25 @@ NSInteger eventIDSort(id objectA, id objectB, void *context) {
 	return @"";
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	id <AIEventHandler>	eventHandler;
+	
+	eventHandler = [eventHandlers objectForKey:eventID];
+	if (!eventHandler) eventHandler = [globalOnlyEventHandlers objectForKey:eventID];
+	
+	if (eventHandler) {
+		return [eventHandler descriptionForCombinedEventID:eventID
+											 forListObject:listObject
+												   forChat:chat
+												 withCount:count];
+	}
+	
+	return @"";	
+}
 
 //Actions --------------------------------------------------------------------------------------------------------------
 #pragma mark Actions

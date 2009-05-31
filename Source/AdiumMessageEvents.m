@@ -404,4 +404,26 @@
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	NSString *format = nil;
+	
+	if ([eventID isEqualToString:CONTENT_MESSAGE_SENT]) {
+		format = AILocalizedString(@"%u messages sent",nil);
+	} else if ([eventID isEqualToString:CONTENT_MESSAGE_RECEIVED] || 
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_FIRST] ||
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND] ||
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_GROUP] ||
+			   [eventID isEqualToString:CONTENT_MESSAGE_RECEIVED_BACKGROUND_GROUP]) {
+		format = AILocalizedString(@"%u messages received", nil);
+	} else if ([eventID isEqualToString:CONTENT_GROUP_CHAT_MENTION]) {
+		format = AILocalizedString(@"%u mentions received", nil);
+	}
+	
+	return format ? [NSString stringWithFormat:format, count] : @"";
+}
+
 @end

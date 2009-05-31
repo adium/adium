@@ -176,6 +176,24 @@
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	NSString *format;
+	
+	if ([eventID isEqualToString:ACCOUNT_CONNECTED]) {
+		format = AILocalizedString(@"%u accounts connected",nil);
+	} else if ([eventID isEqualToString:ACCOUNT_DISCONNECTED]) {
+		format = AILocalizedString(@"%u accounts disconnected",nil);
+	} else if ([eventID isEqualToString:ACCOUNT_RECEIVED_EMAIL]) {
+		format = AILocalizedString(@"%u accounts received new email",nil);
+	}
+	
+	return format ? [NSString stringWithFormat:format, count] : @"";
+}
+
 #pragma mark Aggregation and event generation
 /*!
  * @brief Update list object

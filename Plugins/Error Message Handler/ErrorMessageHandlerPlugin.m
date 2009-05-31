@@ -205,4 +205,12 @@
 	return eventImage;
 }
 
+- (NSString *)descriptionForCombinedEventID:(NSString *)eventID
+							  forListObject:(AIListObject *)listObject
+									forChat:(AIChat *)chat
+								  withCount:(NSUInteger)count
+{
+	return [NSString stringWithFormat:AILocalizedString(@"%u events", nil), count];
+}
+
 @end
