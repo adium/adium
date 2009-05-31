@@ -1,5 +1,6 @@
 Adium 1.4b6
  * Disabled Zephyr. As an unsupported protocol, we require patches to maintain it in working order. At this point in time, it just crashes.
+ * Changed image upload behavior—it will now upload the smaller of a JPG or a PNG representation of the image. Images will be sized down if they exceed the service's maximum size. (2.5MB for pic.im)
  * Fixed using a PAC-specified proxy for the hostname of the account. (#224)
 Updated Libpurple
  * Fixed connecting to Yahoo! behind a proxy server. (#12231)
