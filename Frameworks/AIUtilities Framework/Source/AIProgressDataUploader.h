@@ -66,7 +66,7 @@
 @end
 
 @protocol AIProgressDataUploaderDelegate
-- (void)updateUploadPercent:(CGFloat)percent context:(id)context;
+- (void)updateUploadProgress:(NSUInteger)uploaded total:(NSUInteger)total context:(id)context;
 - (void)uploadCompleted:(id)context result:(NSData *)result;
 - (void)uploadFailed:(id)context;
 @end

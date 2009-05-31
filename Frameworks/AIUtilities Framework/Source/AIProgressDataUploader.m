@@ -230,7 +230,8 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 	if (bytesWritten > bytesSent) {		
 		bytesSent = bytesWritten;
 
-		[delegate updateUploadPercent:(CGFloat)bytesSent/(CGFloat)totalSize
+		[delegate updateUploadProgress:bytesSent
+								 total:totalSize
 							  context:context];
 		
 		[timeoutTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:TIMEOUT_INTERVAL]];

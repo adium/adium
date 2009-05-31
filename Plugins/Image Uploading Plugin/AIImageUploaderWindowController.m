@@ -57,6 +57,7 @@
 {
 	[super windowDidLoad];
 	
+	[label_uploadProgress setLocalizedString:[AILocalizedString(@"Preparing", nil) stringByAppendingEllipsis]];
 	[label_uploadingImage setLocalizedString:[AILocalizedString(@"Uploading image to server", nil) stringByAppendingEllipsis]];
 	[button_cancel setLocalizedString:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)];
 }
@@ -82,14 +83,11 @@
 	[progressIndicator setIndeterminate:indeterminate];
 }
 
-- (CGFloat)progress
+- (void)updateProgress:(NSUInteger)uploaded total:(NSUInteger)total
 {
-	return progressIndicator.doubleValue;
-}
-
-- (void)setProgress:(CGFloat)percent
-{
-	[progressIndicator setDoubleValue:percent];
+	progressIndicator.doubleValue = (CGFloat)uploaded/(CGFloat)total;
+	
+	[label_uploadProgress setLocalizedString:[NSString stringWithFormat:AILocalizedString(@"%.1f KB of %.1f KB", nil), (CGFloat)uploaded/1024.0, (CGFloat)total/1024.0]];
 }
 
 @end

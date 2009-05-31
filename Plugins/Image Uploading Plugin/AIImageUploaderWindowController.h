@@ -11,6 +11,7 @@
 
 @interface AIImageUploaderWindowController : AIWindowController {
 	IBOutlet NSTextField			*label_uploadingImage;
+	IBOutlet NSTextField			*label_uploadProgress;
 	IBOutlet NSProgressIndicator	*progressIndicator;
 	IBOutlet NSButton				*button_cancel;
 	
@@ -19,11 +20,11 @@
 }
 
 @property (nonatomic) BOOL indeterminate;
-@property (nonatomic) CGFloat progress;
 
 + (id)displayProgressInWindow:(NSWindow *)window
 					 delegate:(id)inDelegate
 						 chat:(AIChat *)inChat;
 - (IBAction)cancel:(id)sender;
+- (void)updateProgress:(NSUInteger)uploaded total:(NSUInteger)total;
 
 @end
