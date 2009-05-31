@@ -303,7 +303,7 @@
 			}
 		}
 		
-		AILog(@"Posting multiple event - %@ %@ %@ %d", eventID, overallListObject, chat);
+		AILog(@"Posting multiple event - %@ %@ %@ %d", eventID, overallListObject, chat, events.count);
 		
 		// Use any random event for sticky.
 		BOOL sticky = [[[[events objectAtIndex:0] objectForKey:@"Details"] objectForKey:KEY_GROWL_ALERT_STICKY] boolValue];
