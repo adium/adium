@@ -142,6 +142,8 @@
 		11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */; };
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
+		1192E6D90FD3056F003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */; };
+		1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */; };
 		11945F400F7935A2002A54B3 /* Ignore.png in Resources */ = {isa = PBXBuildFile; fileRef = 11945F3F0F7935A2002A54B3 /* Ignore.png */; };
 		1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */ = {isa = PBXBuildFile; fileRef = 1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */; };
 		11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */; };
@@ -1882,6 +1884,8 @@
 		11879C090F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterAccountOAuthSetup.h; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.h"; sourceTree = "<group>"; };
 		11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccountOAuthSetup.m; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.m"; sourceTree = "<group>"; };
 		11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthConsumer.framework; path = Frameworks/OAuthConsumer.framework; sourceTree = "<group>"; };
+		1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAnnoyingIRCMessagesHiderPlugin.h; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.h"; sourceTree = "<group>"; };
+		1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAnnoyingIRCMessagesHiderPlugin.m; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.m"; sourceTree = "<group>"; };
 		11945F3F0F7935A2002A54B3 /* Ignore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ignore.png; path = "Frameworks/Adium Framework/Resources/Ignore.png"; sourceTree = "<group>"; };
 		1197F66F0FCF8D180032F19B /* AITwitterStatusFollowup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterStatusFollowup.h; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.h"; sourceTree = "<group>"; };
 		1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterStatusFollowup.m; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.m"; sourceTree = "<group>"; };
@@ -5972,6 +5976,8 @@
 		34B3241D09B9FF6900029361 /* IRC */ = {
 			isa = PBXGroup;
 			children = (
+				1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */,
+				1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */,
 				1150A9950FBE48D600E0BD31 /* ESIRCAccountView.nib */,
 				1139FFA80F85260E0081A418 /* AIIRCChannelLinker.h */,
 				1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */,
@@ -8841,6 +8847,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1192E6D90FD3056F003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h in Headers */,
 				6332879B0A769BF3004D0F2B /* AIPurpleLiveJournalAccount.h in Headers */,
 				6332879C0A769BF3004D0F2B /* AILiveJournalService.h in Headers */,
 				3485DB1809EBCE6500232CC4 /* SLPurpleCocoaAdapter.h in Headers */,
@@ -10005,6 +10012,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */,
 				117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */,
 				3485DB1909EBCE6500232CC4 /* SLPurpleCocoaAdapter.m in Sources */,
 				3485DB1B09EBCE6500232CC4 /* adiumPurpleBlist.m in Sources */,

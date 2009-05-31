@@ -15,11 +15,12 @@
  */
 
 
-@class AMPurpleTuneTooltip, AIIRCServicesPasswordPlugin;
+@class AMPurpleTuneTooltip, AIIRCServicesPasswordPlugin, AIAnnoyingIRCMessagesHiderPlugin;
 
 @interface CBPurpleServicePlugin : AIPlugin{
 	AMPurpleTuneTooltip *tunetooltip;
 	AIIRCServicesPasswordPlugin *ircPasswordPlugin;
+	AIAnnoyingIRCMessagesHiderPlugin *messageHiderPlugin;
 }
 
 @end
