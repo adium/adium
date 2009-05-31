@@ -111,16 +111,8 @@
  */
 - (void)_configureAdvancedPreferencesTable
 {	
-	//Configure our tableView
-	AIImageTextCell *cell = [[AIImageTextCell alloc] init];
-	[cell setFont:[NSFont systemFontOfSize:12]];
-	[[tableView_categories tableColumnWithIdentifier:@"description"] setDataCell:cell];
-	[cell release];
-	
 	[[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
-	
-	[tableView_categories setSelectionHighlightStyle:NSTableViewSelectionHighlightStyleSourceList];
-	
+
 	//Select the previously selected row
 	NSInteger row = [[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
 														group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
@@ -143,16 +135,15 @@
  */
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-	return [[[self advancedCategoryArray] objectAtIndex:row] label];
-}
-
-/*!
-* @brief Set the category image before the cell is displayed
- */
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
-{
-	[cell setImage:[[[self advancedCategoryArray] objectAtIndex:row] image]];
-	[cell setSubString:nil];
+	NSString *identifier = tableColumn.identifier;
+	
+	if ([identifier isEqualToString:@"description"]) {
+		return [[[self advancedCategoryArray] objectAtIndex:row] label];
+	} else if ([identifier isEqualToString:@"image"]) {
+		return [[[self advancedCategoryArray] objectAtIndex:row] image];
+	}
+	
+	return nil;
 }
 
 /*!
