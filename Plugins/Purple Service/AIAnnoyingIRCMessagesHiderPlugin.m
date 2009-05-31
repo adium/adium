@@ -37,7 +37,8 @@
 	AIContentObject		*contentObject = [[notification userInfo] objectForKey:@"Object"];
 	
 	if (![contentObject isKindOfClass:[AIContentMessage class]] ||
-		![contentObject.chat.account isKindOfClass:[ESIRCAccount class]]) {
+		![contentObject.chat.account isKindOfClass:[ESIRCAccount class]] ||
+		!contentObject.source) {
 		return;
 	}
 
