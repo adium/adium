@@ -148,6 +148,7 @@
 
 	//Help menu
 	IBOutlet	NSMenuItem	*menuItem_adiumHelp;
+	IBOutlet	NSMenuItem	*menuItem_contribute;
 	IBOutlet	NSMenuItem	*menuItem_reportABug;
 	IBOutlet	NSMenuItem	*menuItem_sendFeedback;
 	IBOutlet	NSMenuItem	*menuItem_adiumForums;

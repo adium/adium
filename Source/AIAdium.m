@@ -56,6 +56,7 @@
 #import "ESDebugController.h"
 
 #define ADIUM_TRAC_PAGE						@"http://trac.adium.im/"
+#define ADIUM_CONTRIBUTE_PAGE				@"http://trac.adium.im/wiki/Development"
 #define ADIUM_REPORT_BUG_PAGE				@"http://trac.adium.im/wiki/ReportingBugs"
 #define ADIUM_FORUM_PAGE					AILocalizedString(@"http://forum.adium.im/","Adium forums page. Localized only if a translated version exists.")
 #define ADIUM_FEEDBACK_PAGE					@"mailto:feedback@adium.im"
@@ -401,7 +402,7 @@ static NSString	*prefsCategory;
 
 - (IBAction)contibutingToAdium:(id)sender
 {
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://trac.adiumx.com/wiki/ContributingToAdium"]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:ADIUM_CONTRIBUTE_PAGE]];
 }
 - (IBAction)donate:(id)sender
 {
