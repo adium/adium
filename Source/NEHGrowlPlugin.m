@@ -212,20 +212,29 @@
 	if (!events)
 		events = [NSMutableArray array];
 	
-	[events addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-						  listObject, @"AIListObject",
-						  details, @"Details",
-						  userInfo, @"UserInfo", nil]];
+	NSMutableDictionary *eventDetails = [NSMutableDictionary dictionary];
+	
+	if (listObject)
+		[eventDetails setValue:listObject forKey:@"AIListObject"];
+	
+	if (userInfo)
+		[eventDetails setValue:userInfo forKey:@"UserInfo"];
+	
+	if (details)
+		[eventDetails setValue:details forKey:@"Details"];
+	
+	[events addObject:eventDetails];
 	
 	[queuedEvents setValue:events forKey:queueKey];
 	
 	// wtb cancelPreviousPerformRequestsWithTarget:selector:object:object:
+	// chat may be nil
 	NSDictionary *queueCall = [NSDictionary dictionaryWithObjectsAndKeys:eventID, @"EventID", chat, @"AIChat", nil];
 	
 	// Trigger the queue to be cleared in GROWL_QUEUE_WAIT seconds.
 	[NSObject cancelPreviousPerformRequestsWithTarget:self
 											 selector:@selector(clearQueue:)
-											   object:[NSDictionary dictionaryWithObjectsAndKeys:eventID, @"EventID", chat, @"AIChat", nil]];
+											   object:queueCall];
 	
 	[self performSelector:@selector(clearQueue:)
 			   withObject:queueCall
