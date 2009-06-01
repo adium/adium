@@ -115,6 +115,7 @@ typedef enum {
 	NSMutableDictionary				*styleDictionary;
 	AIWebkitMessageViewStyle		*currentGroupStyle;
 	AIWebkitMessageViewStyle		*currentRegularStyle;
+	NSDate							*lastStyleLoadDate;
 	
 	BOOL							useRegularForGroupChat;
 }

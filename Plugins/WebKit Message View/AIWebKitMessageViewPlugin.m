@@ -75,6 +75,7 @@
 	[preferences release]; preferences = nil;
 	[currentRegularStyle release]; currentRegularStyle = nil;
 	[currentGroupStyle release]; currentGroupStyle = nil;
+	[lastStyleLoadDate release]; lastStyleLoadDate = nil;
 	[super uninstallPlugin];
 }
 
@@ -199,6 +200,16 @@
 		[*thisStyle retain];
 	}
 
+	NSDictionary *fileAttrs = [[NSFileManager defaultManager] fileAttributesAtPath:[[*thisStyle bundle] bundlePath]
+																	  traverseLink:YES];
+	NSDate *modDate = [fileAttrs objectForKey:NSFileModificationDate];
+	if (lastStyleLoadDate && [modDate timeIntervalSinceDate:lastStyleLoadDate] > 0) {
+		[currentGroupStyle reloadStyle];
+		[currentRegularStyle reloadStyle];
+	}
+	[lastStyleLoadDate release];
+	lastStyleLoadDate = [[NSDate date] retain];
+	
 	return *thisStyle;
 }	
 

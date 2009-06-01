@@ -113,6 +113,7 @@ static NSArray *validSenderColors;
 @interface AIWebkitMessageViewStyle ()
 - (id)initWithBundle:(NSBundle *)inBundle;
 - (void)_loadTemplates;
+- (void)releaseResources;
 - (NSMutableString *)_escapeStringForPassingToScript:(NSMutableString *)inString;
 - (NSString *)noVariantName;
 - (NSString *)iconPathForFileTransfer:(ESFileTransfer *)inObject;
@@ -142,59 +143,62 @@ static NSArray *validSenderColors;
 	if ((self = [super init])) {
 		styleBundle = [inBundle retain];
 		stylePath = [[styleBundle resourcePath] retain];
-
-		//Default behavior
-		allowTextBackgrounds = YES;
-
-		/* Our styles are versioned so we can change how they work without breaking compatibility.
-		 *
-		 * Version 0: Initial Webkit Version
-		 * Version 1: Template.html now handles all scroll-to-bottom functionality.  It is no longer required to call the
-		 *            scrollToBottom functions when inserting content.
-		 * Version 2: No significant changes
-		 * Version 3: main.css is no longer a separate style, it now serves as the base stylesheet and is imported by default.
-		 *            The default variant is now a separate file in /variants like all other variants.
-		 *			  Template.html now includes appendMessageNoScroll() and appendNextMessageNoScroll() which behave
-		 *				the same as appendMessage() and appendNextMessage() in Versions 1 and 2 but without scrolling.
-		 * Version 4: Template.html now includes replaceLastMessage()
-		 *            Template.html now defines actionMessageUserName and actionMessageBody for display of /me (actions).
-		 *				 If the style provides a custom Template.html, these classes must be defined.
-		 *				 CSS can be used to customize the appearance of actions.
-		 *			  HTML filters in are now supported in Adium's content filter system; filters can assume Version 4 or later.
-		 */
-		styleVersion = [[styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue];
-
-		//Pre-fetch our templates
-		[self _loadTemplates];
-
-		//Style flags
-		allowsCustomBackground = ![[styleBundle objectForInfoDictionaryKey:@"DisableCustomBackground"] boolValue];
-		transparentDefaultBackground = [[styleBundle objectForInfoDictionaryKey:@"DefaultBackgroundIsTransparent"] boolValue];
-
-		combineConsecutive = ![[styleBundle objectForInfoDictionaryKey:@"DisableCombineConsecutive"] boolValue];
-
-		NSNumber *tmpNum = [styleBundle objectForInfoDictionaryKey:@"ShowsUserIcons"];
-		allowsUserIcons = (tmpNum ? [tmpNum boolValue] : YES);
-		
-		//User icon masking
-		NSString *tmpName = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_USER_ICON_MASK];
-		if (tmpName) userIconMask = [[NSImage alloc] initWithContentsOfFile:[stylePath stringByAppendingPathComponent:tmpName]];
-		
-		NSNumber *allowsColorsNumber = [styleBundle objectForInfoDictionaryKey:@"AllowTextColors"];
-		allowsColors = (allowsColorsNumber ? [allowsColorsNumber boolValue] : YES);
+		[self reloadStyle];
 	}
 
 	return self;
 }
 
-/*!
- *	@brief Deallocate
- */
-- (void)dealloc
-{	
-	[styleBundle release];
-	[stylePath release];
+- (void) reloadStyle
+{
+	[self releaseResources];
+	
+	//Default behavior
+	allowTextBackgrounds = YES;
+	
+	/* Our styles are versioned so we can change how they work without breaking compatibility.
+	 *
+	 * Version 0: Initial Webkit Version
+	 * Version 1: Template.html now handles all scroll-to-bottom functionality.  It is no longer required to call the
+	 *            scrollToBottom functions when inserting content.
+	 * Version 2: No significant changes
+	 * Version 3: main.css is no longer a separate style, it now serves as the base stylesheet and is imported by default.
+	 *            The default variant is now a separate file in /variants like all other variants.
+	 *			  Template.html now includes appendMessageNoScroll() and appendNextMessageNoScroll() which behave
+	 *				the same as appendMessage() and appendNextMessage() in Versions 1 and 2 but without scrolling.
+	 * Version 4: Template.html now includes replaceLastMessage()
+	 *            Template.html now defines actionMessageUserName and actionMessageBody for display of /me (actions).
+	 *				 If the style provides a custom Template.html, these classes must be defined.
+	 *				 CSS can be used to customize the appearance of actions.
+	 *			  HTML filters in are now supported in Adium's content filter system; filters can assume Version 4 or later.
+	 */
+	styleVersion = [[styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_VERSION] integerValue];
+	
+	//Pre-fetch our templates
+	[self _loadTemplates];
+	
+	//Style flags
+	allowsCustomBackground = ![[styleBundle objectForInfoDictionaryKey:@"DisableCustomBackground"] boolValue];
+	transparentDefaultBackground = [[styleBundle objectForInfoDictionaryKey:@"DefaultBackgroundIsTransparent"] boolValue];
+	
+	combineConsecutive = ![[styleBundle objectForInfoDictionaryKey:@"DisableCombineConsecutive"] boolValue];
+	
+	NSNumber *tmpNum = [styleBundle objectForInfoDictionaryKey:@"ShowsUserIcons"];
+	allowsUserIcons = (tmpNum ? [tmpNum boolValue] : YES);
+	
+	//User icon masking
+	NSString *tmpName = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_USER_ICON_MASK];
+	if (tmpName) userIconMask = [[NSImage alloc] initWithContentsOfFile:[stylePath stringByAppendingPathComponent:tmpName]];
+	
+	NSNumber *allowsColorsNumber = [styleBundle objectForInfoDictionaryKey:@"AllowTextColors"];
+	allowsColors = (allowsColorsNumber ? [allowsColorsNumber boolValue] : YES);
+}
 
+/*!
+ *  @brief release everything we loaded from the style bundle
+ */
+- (void)releaseResources
+{
 	//Templates
 	[headerHTML release];
 	[footerHTML release];
@@ -211,13 +215,23 @@ static NSArray *validSenderColors;
 	[statusHTML release];	
 	[fileTransferHTML release];
 	[topicHTML release];
-
-	[timeStampFormatter release];
-
+		
 	[customBackgroundPath release];
 	[customBackgroundColor release];
 	
 	[userIconMask release];
+}
+
+/*!
+ *	@brief Deallocate
+ */
+- (void)dealloc
+{	
+	[styleBundle release];
+	[stylePath release];
+
+	[self releaseResources];
+	[timeStampFormatter release];
 	
 	[statusIconPathCache release];
 	
@@ -229,17 +243,14 @@ static NSArray *validSenderColors;
 	return styleBundle;
 }
 
-
 - (BOOL)isLegacy
 {
 	return styleVersion < LEGACY_VERSION_THRESHOLD;
 }
 
 #pragma mark Settings
-- (BOOL)allowsCustomBackground
-{
-	return allowsCustomBackground;
-}
+
+@synthesize allowsCustomBackground, allowsUserIcons, allowsColors, userIconMask;
 
 - (BOOL)isBackgroundTransparent
 {
@@ -248,15 +259,6 @@ static NSArray *validSenderColors;
 		   (customBackgroundColor && [customBackgroundColor alphaComponent] < 0.99));
 }
 
-- (BOOL)allowsUserIcons
-{
-	return allowsUserIcons;
-}
-
-- (BOOL)allowsColors;
-{
-	return allowsColors;
-}
 - (NSString *)defaultFontFamily
 {
 	NSString *defaultFontFamily = [styleBundle objectForInfoDictionaryKey:KEY_WEBKIT_DEFAULT_FONT_FAMILY];
@@ -282,11 +284,6 @@ static NSArray *validSenderColors;
 - (BOOL)hasTopic
 {
 	return topicHTML && [topicHTML length];
-}
-
-- (NSImage *)userIconMask
-{
-	return userIconMask;
 }
 
 #pragma mark Behavior
