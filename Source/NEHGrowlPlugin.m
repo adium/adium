@@ -303,13 +303,10 @@
 		AIListObject *overallListObject = nil;
 
 		// If all events are from the same listObject, let's use that one in the message.
-		for (AIListObject *listObject in [events valueForKeyPath:@"@unionOfObjects.AIListObject"]) {
-			if (!overallListObject) {
-				overallListObject = listObject;
-			} else if (overallListObject != listObject) {
-				overallListObject = nil;
-				break;
-			}
+		NSArray *listObjects = [events valueForKeyPath:@"@distinctUnionOfObjects.AIListObject"];
+		
+		if (listObjects.count == 1) {
+			overallListObject = [listObjects objectAtIndex:0];
 		}
 		
 		AILog(@"Posting multiple event - %@ %@ %@ %d", eventID, overallListObject, chat, events.count);
