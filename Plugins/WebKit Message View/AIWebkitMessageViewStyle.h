@@ -140,6 +140,11 @@ typedef enum {
 - (NSBundle *)bundle;
 
 /*!
+ *  @brief Reloads the content of the style, useful for style authors and updates
+ */
+- (void) reloadStyle;
+
+/*!
  *	Returns YES if this style is considered legacy
  *
  *	Legacy/outdated styles may perform sub-optimally because they lack beneficial changes made in modern styles.
@@ -187,12 +192,12 @@ typedef enum {
 /*!
  *	@brief Style supports custom backgrounds
  */
-- (BOOL)allowsCustomBackground;
+@property (readonly) BOOL allowsCustomBackground;
 
 /*!
  *	@brief Style has a transparent background
  */
-- (BOOL)isBackgroundTransparent;
+@property (readonly) BOOL isBackgroundTransparent;
 
 
 /*!
@@ -209,27 +214,27 @@ typedef enum {
 /*!
  *	@brief Style has a header
  */
-- (BOOL)hasHeader;
+@property (readonly) BOOL hasHeader;
 
 /*!
  * @brief Style has a topic
  */
-- (BOOL)hasTopic;
+@property (readonly) BOOL hasTopic;
 
 /*!
  *	@brief Style's user icon mask
  */
-- (NSImage *)userIconMask;
+@property (readonly) NSImage *userIconMask;
 
 /*!
  *	@brief Style supports user icons
  */
-- (BOOL)allowsUserIcons;
+@property (readonly) BOOL allowsUserIcons;
 
 /*!
  * @brief Style supports display of text colors
  */
-- (BOOL)allowsColors;
+@property (readonly) BOOL allowsColors;
 
 //Behavior
 /*!
