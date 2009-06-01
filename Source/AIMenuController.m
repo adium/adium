@@ -488,6 +488,7 @@
 
 	//Help menu
 	[menuItem_adiumHelp setTitle:AILocalizedString(@"Adium Help",nil)];
+	[menuItem_contribute setTitle:AILocalizedString(@"Contribute",nil)];
 	[menuItem_reportABug setTitle:AILocalizedString(@"Report a Bug",nil)];
 	[menuItem_sendFeedback setTitle:AILocalizedString(@"Send Feedback",nil)];
 	[menuItem_adiumForums setTitle:AILocalizedString(@"Adium Forums",nil)];
