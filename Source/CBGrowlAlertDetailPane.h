@@ -17,7 +17,10 @@
 #import <Adium/AIActionDetailsPane.h>
 
 @interface CBGrowlAlertDetailPane : AIActionDetailsPane {
-	IBOutlet	NSButton	*checkBox_sticky;
+	IBOutlet	NSButton		*checkBox_sticky;
+	
+	IBOutlet	NSTextField		*label_priority;
+	IBOutlet	NSPopUpButton	*popUp_priority;
 }
 
 @end

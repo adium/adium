@@ -17,6 +17,12 @@
 #import "CBGrowlAlertDetailPane.h"
 #import "NEHGrowlPlugin.h"
 
+#import <AIUtilities/AIMenuAdditions.h>
+
+@interface CBGrowlAlertDetailPane()
+- (NSMenu *)priorityMenu;
+@end
+
 /*!
  * @class CBGrowlAlertDetailPane
  * @brief Provide and manage custom controls for configuring the Growl contact alert
@@ -52,7 +58,57 @@
 	[super viewDidLoad];
 	
 	[checkBox_sticky setLocalizedString:AILocalizedString(@"Sticky","Growl contact alert label")];
+	[label_priority setLocalizedString:AILocalizedString(@"Priority:", "Priority label for Growl")];
+	
+	[popUp_priority setMenu:[self priorityMenu]];
 }
+
+/*!
+ * @brief The priority menu
+ *
+ * @return A menu of elements with Name (Tag) as follows: Very Low (-2), Moderate (-1), Normal (0), High (1), Emergency (2).
+ */
+- (NSMenu *)priorityMenu
+{
+	NSMenu *menu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Very Low", "Growl priority")
+					target:self
+					action:@selector(dummyAction)
+			 keyEquivalent:@""
+					   tag:-2];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Moderate", "Growl priority")
+					target:self
+					action:@selector(dummyAction)
+			 keyEquivalent:@""
+					   tag:-1];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Normal", "Growl priority")
+					target:self
+					action:@selector(dummyAction)
+			 keyEquivalent:@""
+					   tag:0];
+	
+	[menu addItemWithTitle:AILocalizedString(@"High", "Growl priority")
+					target:self
+					action:@selector(dummyAction)
+			 keyEquivalent:@""
+					   tag:1];
+	
+	[menu addItemWithTitle:AILocalizedString(@"Emergency", "Growl priority")
+					target:self
+					action:@selector(dummyAction)
+			 keyEquivalent:@""
+					   tag:2];
+	
+	return [menu autorelease];
+}
+
+/*!
+ * @brief Does nothing.
+ */
+- (void)dummyAction {}
 
 /*!
  * @brief Load the state of our controls
@@ -60,6 +116,7 @@
 - (void)configureForActionDetails:(NSDictionary *)inDetails listObject:(AIListObject *)inObject
 {
 	[checkBox_sticky setState:([[inDetails objectForKey:KEY_GROWL_ALERT_STICKY] boolValue] ? NSOnState : NSOffState)];
+	[popUp_priority selectItemWithTag:[[inDetails objectForKey:KEY_GROWL_PRIORITY] integerValue]];
 }
 
 /*!
@@ -67,8 +124,9 @@
  */
 - (NSDictionary *)actionDetails
 {
-	return [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:([checkBox_sticky state] == NSOnState)]
-									   forKey:KEY_GROWL_ALERT_STICKY];
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithBool:([checkBox_sticky state] == NSOnState)], KEY_GROWL_ALERT_STICKY,
+			[NSNumber numberWithInteger:[popUp_priority selectedItem].tag], KEY_GROWL_PRIORITY, nil];
 }
 
 /*!
