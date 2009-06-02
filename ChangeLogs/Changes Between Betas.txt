@@ -1,5 +1,7 @@
 Adium 1.4b6
  * Added throttling to Growl messages. Instead of, for example, posting 296 messages, Adium will Growl "296 messages". (#12133)
+ * Added an "only count number of unread mentions" for group chat tabs in the Messages advanced preferences. (#12033)
+ * Separated group chat and regular chat preferences in the Messages advanced preferences.
  * Disabled Zephyr. As an unsupported protocol, we require patches to maintain it in working order. At this point in time, it just crashes.
  * Changed image upload behavior—it will now upload the smaller of a JPG or a PNG representation of the image. Images will be sized down if they exceed the service's maximum size. (2.5MB for pic.im)
  * Fixed using a PAC-specified proxy for the hostname of the account. (#224)
