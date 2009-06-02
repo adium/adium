@@ -342,9 +342,25 @@
 
 - (NSInteger)objectCount
 {
-	//return 0 to disable the badge
-    return ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue] ?
-			self.chat.unviewedContentCount : 0);
+	if (self.chat.isGroupChat) {
+		if ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT_GROUP
+													group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue]) {
+			if ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_MENTION_ONLYGROUP
+														group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue]) {
+				return self.chat.unviewedMentionCount;
+			} else {
+				return self.chat.unviewedContentCount;
+			}
+		}
+	} else {
+		if ([[adium.preferenceController preferenceForKey:KEY_TABBAR_SHOW_UNREAD_COUNT
+													group:PREF_GROUP_DUAL_WINDOW_INTERFACE] boolValue]) {
+			return self.chat.unviewedContentCount;
+		}
+	}
+	
+	// Returning 0 disables it.
+	return 0;
 }
 
 - (void)setCountColor:(NSColor *)color
