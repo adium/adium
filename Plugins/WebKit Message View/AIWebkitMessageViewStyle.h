@@ -115,7 +115,7 @@ typedef enum {
 	BOOL				allowsColors;
 	BOOL				showIncomingFonts;
 	BOOL				showIncomingColors;
-	NSInteger		customBackgroundType;
+	AIWebkitBackgroundType		customBackgroundType;
 	NSString			*customBackgroundPath;
 	NSColor			*customBackgroundColor;
 	NSImage			*userIconMask;
@@ -137,7 +137,7 @@ typedef enum {
 /*!
  *	@brief The NSBundle for this style
  */
-- (NSBundle *)bundle;
+@property (readonly, nonatomic) NSBundle *bundle;
 
 /*!
  *  @brief Reloads the content of the style, useful for style authors and updates
@@ -214,84 +214,83 @@ typedef enum {
 /*!
  *	@brief Style has a header
  */
-@property (readonly) BOOL hasHeader;
+@property (readonly, nonatomic) BOOL hasHeader;
 
 /*!
  * @brief Style has a topic
  */
-@property (readonly) BOOL hasTopic;
+@property (readonly, nonatomic) BOOL hasTopic;
 
 /*!
  *	@brief Style's user icon mask
  */
-@property (readonly) NSImage *userIconMask;
+@property (readonly, nonatomic) NSImage *userIconMask;
 
 /*!
  *	@brief Style supports user icons
  */
-@property (readonly) BOOL allowsUserIcons;
+@property (readonly, nonatomic) BOOL allowsUserIcons;
 
 /*!
  * @brief Style supports display of text colors
  */
-@property (readonly) BOOL allowsColors;
+@property (readonly, nonatomic) BOOL allowsColors;
 
 //Behavior
 /*!
- *	@brief Set format of dates/time stamps
+ *	@brief Set the format of dates/time stamps
  */
-- (void)setDateFormat:(NSString *)format;
+- (void ) setDateFormat:(NSString *)inDateFormat;
 
 /*!
- *	@brief Set visibility of user icons
+ *	@brief The visibility of user icons
  */
-- (void)setShowUserIcons:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL showUserIcons;
 
 /*!
- *	@brief Set visibility of header
+ *	@brief The visibility of the chat header
  */
-- (void)setShowHeader:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL showHeader;
 
 /*!
  *	@brief Toggle use of a custom name format
  */
-- (void)setUseCustomNameFormat:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL useCustomNameFormat;
 
 /*!
- *	@brief Set the custom name format being used
+ *	@brief The custom name format being used
  */
-- (void)setNameFormat:(AINameFormat)inValue;
+@property (readwrite, nonatomic) AINameFormat nameFormat;
 
 /*!
- *	@brief Set visibility of message background colors
+ *	@brief The visibility of message background colors
  */
-- (void)setAllowTextBackgrounds:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL allowTextBackgrounds;
 
 /*!
- *	@brief Set the custom background image
- *	@param inPath the path to the backgroun image to use
+ *	@brief The path to the custom background image
  */
-- (void)setCustomBackgroundPath:(NSString *)inPath;
+@property (readwrite, copy, nonatomic) NSString *customBackgroundPath;
 
 /*!
  *	@brief Set the custom background image type (How it is displayed - stretched, tiled, centered, etc)
  */
-- (void)setCustomBackgroundType:(AIWebkitBackgroundType)inType;
+@property (readwrite, nonatomic) AIWebkitBackgroundType customBackgroundType;
 
 /*!
  *	@brief Set the custom background color
  */
-- (void)setCustomBackgroundColor:(NSColor *)inColor;
+@property (readwrite, retain, nonatomic) NSColor *customBackgroundColor;
 
 /*!
  *	@brief Toggle visibility of received coloring
  */
-- (void)setShowIncomingMessageColors:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL showIncomingMessageColors;
 
 /*!
  *	@brief Toggle visibility of received fonts
  */
-- (void)setShowIncomingMessageFonts:(BOOL)inValue;
+@property (readwrite, nonatomic) BOOL showIncomingMessageFonts;
 
 #pragma mark Variants
 /*!
