@@ -241,19 +241,12 @@ static NSArray *draggedTypes = nil;
 
 //WebView --------------------------------------------------------------------------------------------------
 #pragma mark WebView
-- (NSView *)messageView
-{
-	return webView;
-}
+
+@synthesize messageStyle, messageView = webView;
 
 - (NSView *)messageScrollView
 {
 	return [[webView mainFrame] frameView];
-}
-
-- (AIWebkitMessageViewStyle *)messageStyle
-{
-	return messageStyle;
 }
 
 /*!
@@ -1441,15 +1434,13 @@ static NSArray *draggedTypes = nil;
 
 - (NSNumber *)currentOffsetHeight
 {
-	DOMElement *element = (DOMElement *)[(DOMHTMLDocument *)webView.mainFrameDocument body];
 	// We use the body's height to determine our mark location.
-	return [element valueForKey:@"scrollHeight"];
+	return [(DOMElement *)[(DOMHTMLDocument *)webView.mainFrameDocument body] valueForKey:@"scrollHeight"];
 }
 
 - (void)markCurrentLocation
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller addMarkAt:[self.currentOffsetHeight integerValue]];
+	[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue]];
 }
 
 #define PREF_KEY_FOCUS_LINE	@"Draw Focus Lines"
@@ -1462,9 +1453,7 @@ static NSArray *draggedTypes = nil;
 	[scroller removeMarkWithIdentifier:@"focus"];
 	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
 	
-	DOMElement *element;
-		
-	element = (DOMElement *)[webView.mainFrameDocument getElementById:@"focus"];
+	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"focus"];
 	if (element) {
 		[element.parentNode removeChild:element];
 	}
@@ -1480,44 +1469,37 @@ static NSArray *draggedTypes = nil;
 
 - (void)addMark
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withColor:[NSColor greenColor]];
+	[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withColor:[NSColor greenColor]];
 }
 
 - (void)jumpToPreviousMark
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller jumpToPreviousMark:nil];
+	[self.markedScroller jumpToPreviousMark:nil];
 }
 
 - (BOOL)previousMarkExists
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	return [scroller previousMarkExists];
+	return [self.markedScroller previousMarkExists];
 }
 
 - (void)jumpToNextMark
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller jumpToNextMark:nil];	
+	[self.markedScroller jumpToNextMark:nil];	
 }
 
 - (BOOL)nextMarkExists
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	return [scroller nextMarkExists];	
+	return [self.markedScroller nextMarkExists];	
 }
 
 - (void)jumpToFocusMark
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	[scroller jumpToFocusMark:nil];
+	[self.markedScroller jumpToFocusMark:nil];
 }
 
 - (BOOL)focusMarkExists
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	return [scroller focusMarkExists];
+	return [self.markedScroller focusMarkExists];
 }
 
 #pragma mark JS Bridging

@@ -238,10 +238,7 @@ static NSArray *validSenderColors;
 	[super dealloc];
 }
 
-- (NSBundle *)bundle
-{
-	return styleBundle;
-}
+@synthesize bundle = styleBundle;
 
 - (BOOL)isLegacy
 {
@@ -306,62 +303,7 @@ static NSArray *validSenderColors;
 	}
 }
 
-- (void)setShowUserIcons:(BOOL)inValue
-{
-	showUserIcons = inValue;
-}
-
-- (void)setShowHeader:(BOOL)inValue
-{
-	showHeader = inValue;
-}
-
-- (void)setUseCustomNameFormat:(BOOL)inValue
-{
-	useCustomNameFormat = inValue;
-}
-
-- (void)setNameFormat:(AINameFormat)inValue
-{
-	nameFormat = inValue;
-}
-
-- (void)setAllowTextBackgrounds:(BOOL)inValue
-{
-	allowTextBackgrounds = inValue;
-}
-
-- (void)setCustomBackgroundPath:(NSString *)inPath
-{
-	if (customBackgroundPath != inPath) {
-		[customBackgroundPath release];
-		customBackgroundPath = [inPath retain];
-	}
-}
-
-- (void)setCustomBackgroundType:(AIWebkitBackgroundType)inType
-{
-	customBackgroundType = inType;
-}
-
-- (void)setCustomBackgroundColor:(NSColor *)inColor
-{
-	if (customBackgroundColor != inColor) {
-		[customBackgroundColor release];
-		customBackgroundColor = [inColor retain];
-	}
-}
-
-- (void)setShowIncomingMessageColors:(BOOL)inValue
-{
-	showIncomingColors = inValue;
-}
-
-- (void)setShowIncomingMessageFonts:(BOOL)inValue
-{
-	showIncomingFonts = inValue;
-}
-
+@synthesize allowTextBackgrounds, customBackgroundType, customBackgroundColor, showIncomingMessageColors=showIncomingColors, showIncomingMessageFonts=showIncomingFonts, customBackgroundPath, nameFormat, useCustomNameFormat, showHeader, showUserIcons;
 
 //Templates ------------------------------------------------------------------------------------------------------------
 #pragma mark Templates

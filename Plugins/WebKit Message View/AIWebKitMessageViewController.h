@@ -66,17 +66,9 @@
 /*!
  *	@return  the ESWebView which should be inserted into the message window 
  */
-- (NSView *)messageView;
-
-/*!
- *	@return our scroll view
- */
-- (NSView *)messageScrollView;
-
-/*!
- *	@return our message style controller
- */
-- (AIWebkitMessageViewStyle *)messageStyle;
+@property (readonly, nonatomic) ESWebView *messageView;
+@property (readonly, nonatomic) NSView *messageScrollView;
+@property (readonly, nonatomic) AIWebkitMessageViewStyle *messageStyle;
 
 /*!
  *	@brief Clears the view from displayed messages
@@ -93,14 +85,9 @@
 - (void)setShouldReflectPreferenceChanges:(BOOL)inValue;
 
 /*!
- * @brief Set the HTML content for the "Chat" area.
+ * @brief The HTML content for the "Chat" area.
  */
-- (void)setChatContentSource:(NSString *)source;
-
-/*!
- * @brief Get the HTML content for the "Chat" area.
- */
-- (NSString *)chatContentSource;
+@property (readwrite, copy, nonatomic) NSString *chatContentSource;
 
 /*!
  * @brief An editing operation ended, or the user pressed enter.
