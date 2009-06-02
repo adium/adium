@@ -698,6 +698,8 @@ static NSArray *validSenderColors;
 								  [(AIListContact *)contentSource parentContact] :
 								  contentSource);
 
+	NSLog(@"Message = %@", content.message);
+	
 	/*
 		htmlEncodedMessage is only encoded correctly for AIContentMessages
 		but we do it up here so that we can check for RTL/LTR text below without
@@ -722,6 +724,8 @@ static NSArray *validSenderColors;
 													 simpleTagsOnly:NO
 													 bodyBackground:NO
 										        allowJavascriptURLs:NO];
+	
+	NSLog(@"html encoded msg = %@", htmlEncodedMessage);
 	
 	if (styleVersion >= 4)
 		htmlEncodedMessage = [adium.contentController filterHTMLString:htmlEncodedMessage
@@ -1048,7 +1052,10 @@ static NSArray *validSenderColors;
 		range = [inString rangeOfString:@"%message%"];
 		while(range.location != NSNotFound) {
 			[inString safeReplaceCharactersInRange:range withString:htmlEncodedMessage];
-			range = [inString rangeOfString:@"%message%" options:NSLiteralSearch range:NSMakeRange(NSMaxRange(range), inString.length - NSMaxRange(range))];
+			range = [inString rangeOfString:@"%message%"
+									options:NSLiteralSearch
+									  range:NSMakeRange(range.location + htmlEncodedMessage.length,
+														inString.length - range.location - htmlEncodedMessage.length)];
 		} 
 		
 		// Topic replacement (if applicable)
