@@ -21,6 +21,11 @@ typedef enum {
 	AIQuitConfirmSelective
 } AIQuitConfirmationType;
 
+typedef enum {
+	AIMessageCloseAlways = 0,
+	AIMessageCloseUnread
+} AIMessageCloseConfirmationType;
+
 @protocol AIAccountController, AIChatController, AIContactAlertsController, AIDebugController, AIEmoticonController,
 		AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
 		AIContentController, AIToolbarController, AISoundController, AIDockController,

@@ -95,6 +95,8 @@
 		111E89020F93FE3900A5F18B /* AIUserHostTooltip.m in Sources */ = {isa = PBXBuildFile; fileRef = 111E89000F93FE3900A5F18B /* AIUserHostTooltip.m */; };
 		1121B29A0F896A720047EC66 /* AIContactVisibilityControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */; };
 		112523190F5F7F86003FC58A /* AITwitterURLHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 112523180F5F7F86003FC58A /* AITwitterURLHandler.m */; };
+		112939020FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 112939010FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib */; };
+		112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1129390F0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m */; };
 		112B47240F82DC2300690E84 /* AIGroupChatStatusIcons.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		112B47250F82DC2300690E84 /* AIGroupChatStatusIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 112B47230F82DC2300690E84 /* AIGroupChatStatusIcons.m */; };
 		112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 112B47650F82E0FC00690E84 /* AIXtraInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1798,6 +1800,9 @@
 		1121B2990F896A720047EC66 /* AIContactVisibilityControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIContactVisibilityControlPlugin.m; path = Source/AIContactVisibilityControlPlugin.m; sourceTree = "<group>"; };
 		112523170F5F7F86003FC58A /* AITwitterURLHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLHandler.h; path = "Plugins/Twitter Plugin/AITwitterURLHandler.h"; sourceTree = "<group>"; };
 		112523180F5F7F86003FC58A /* AITwitterURLHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLHandler.m; path = "Plugins/Twitter Plugin/AITwitterURLHandler.m"; sourceTree = "<group>"; };
+		112939010FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIConfirmationsAdvancedPreferences.nib; path = Resources/AIConfirmationsAdvancedPreferences.nib; sourceTree = "<group>"; };
+		1129390E0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIConfirmationsAdvancedPreferences.h; path = Source/AIConfirmationsAdvancedPreferences.h; sourceTree = "<group>"; };
+		1129390F0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIConfirmationsAdvancedPreferences.m; path = Source/AIConfirmationsAdvancedPreferences.m; sourceTree = "<group>"; };
 		112B47220F82DC2300690E84 /* AIGroupChatStatusIcons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGroupChatStatusIcons.h; path = "Frameworks/Adium Framework/Source/AIGroupChatStatusIcons.h"; sourceTree = "<group>"; };
 		112B47230F82DC2300690E84 /* AIGroupChatStatusIcons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGroupChatStatusIcons.m; path = "Frameworks/Adium Framework/Source/AIGroupChatStatusIcons.m"; sourceTree = "<group>"; };
 		112B47650F82E0FC00690E84 /* AIXtraInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIXtraInfo.h; path = "Frameworks/Adium Framework/Source/AIXtraInfo.h"; sourceTree = "<group>"; };
@@ -5179,6 +5184,9 @@
 		3428328307D263F0004F01C9 /* Status Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				112939010FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib */,
+				1129390E0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.h */,
+				1129390F0FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m */,
 				11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */,
 				11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */,
 				11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */,
@@ -9823,6 +9831,7 @@
 				11D135D90FBE4C65000B0A5E /* AITwitterAccountView.nib in Resources */,
 				11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */,
 				11BE29640FCCA8DA000E6A10 /* ImageUploaderProgress.nib in Resources */,
+				112939020FD5AC1B00FA8F53 /* AIConfirmationsAdvancedPreferences.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10483,6 +10492,7 @@
 				11BE28DF0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m in Sources */,
 				11BE29680FCCA9E3000E6A10 /* AIImageUploaderWindowController.m in Sources */,
 				1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */,
+				112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

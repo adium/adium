@@ -104,20 +104,46 @@
 			<string>NSResponder</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changePreference</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIConfirmationsAdvancedPreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_confirmBeforeClosing</key>
+				<string>NSButton</string>
+				<key>checkBox_confirmBeforeQuitting</key>
+				<string>NSButton</string>
+				<key>checkBox_quitConfirmFT</key>
+				<string>NSButton</string>
+				<key>checkBox_quitConfirmOpenChats</key>
+				<string>NSButton</string>
+				<key>checkBox_quitConfirmUnread</key>
+				<string>NSButton</string>
+				<key>label_messageCloseConfirmation</key>
+				<string>NSTextField</string>
+				<key>label_quitConfirmation</key>
+				<string>NSTextField</string>
+				<key>matrix_closeConfirmType</key>
+				<string>NSMatrix</string>
+				<key>matrix_quitConfirmType</key>
+				<string>NSMatrix</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIAdvancedPreferencePane</string>
+		</dict>
+		<dict>
 			<key>CLASS</key>
 			<string>NSView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -154,23 +180,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>ESStatusAdvancedPreferences</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>checkBox_statusWindowAlwaysOnTop</key>
-				<string>NSButton</string>
-				<key>checkBox_statusWindowHideInBackground</key>
-				<string>NSButton</string>
-				<key>label_statusWindow</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>AIAdvancedPreferencePane</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

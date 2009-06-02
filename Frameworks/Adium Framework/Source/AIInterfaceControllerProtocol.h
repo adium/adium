@@ -45,6 +45,15 @@
 #define KEY_CL_SHOW_TOOLTIPS_IN_BACKGROUND	@"Show Tooltips in Background"
 #define KEY_CL_WINDOW_HAS_SHADOW			@"Window Has Shadow"
 
+#define PREF_GROUP_CONFIRMATIONS		@"Confirmations"
+#define KEY_CONFIRM_QUIT				@"Confirm Quit"
+#define KEY_CONFIRM_QUIT_TYPE			@"Confirm Quit Type"
+#define KEY_CONFIRM_QUIT_FT				@"Suppress Quit Confirmation for File Transfers"
+#define KEY_CONFIRM_QUIT_OPEN			@"Suppress Quit Confirmation for Open Chats"
+#define KEY_CONFIRM_QUIT_UNREAD			@"Suppress Quit Confirmation for Unread Messages"
+#define KEY_CONFIRM_MSG_CLOSE			@"Confirm Message Window Close"
+#define KEY_CONFIRM_MSG_CLOSE_TYPE		@"Confirm Message Window Close Type"
+
 typedef enum {
 	AINormalWindowLevel = 0,
 	AIFloatingWindowLevel = 1,
