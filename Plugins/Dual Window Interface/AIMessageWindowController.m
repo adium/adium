@@ -237,8 +237,94 @@
 - (IBAction)closeWindow:(id)sender
 {
 	windowIsClosing = YES;
-
+	
 	[[self window] performClose:nil];
+}
+
+/*!
+ * @brief Confirm if we should close the window.
+ */
+- (BOOL)windowShouldClose:(id)window
+{
+	if (!windowIsClosing
+		&& self.containedChats.count > 1
+		&& [[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE group:PREF_GROUP_CONFIRMATIONS] boolValue]) {
+		NSString *suppressionText = nil;
+		
+		NSInteger unreadCount = 0;
+		
+		for (AIChat *chat in self.containedChats) {
+			if (chat.unviewedContentCount) {
+				unreadCount++;
+			}
+		}
+		
+		switch ([[adium.preferenceController preferenceForKey:KEY_CONFIRM_MSG_CLOSE_TYPE group:PREF_GROUP_CONFIRMATIONS] integerValue]) {
+			case AIMessageCloseAlways:
+				suppressionText = AILocalizedString(@"Do not warn when closing multiple chats", nil);
+				break;
+				
+			case AIMessageCloseUnread:
+				if (unreadCount) {
+					suppressionText = AILocalizedString(@"Do not warn when closing unread chats", nil);
+				}
+				break;
+		}
+		
+		NSString *question = nil;
+		if (unreadCount) {
+			if (unreadCount == 1) {
+				question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window, 1 of which has unviewed messages. Do you want to close this window anyway?",nil),
+							self.containedChats.count];
+			} else {
+				question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window, %u of which have unviewed messages. Do you want to close this window anyway?",nil),
+							self.containedChats.count,
+							unreadCount];	
+			}
+		} else {
+			question = [NSString stringWithFormat:AILocalizedString(@"%u chats are open in this window. Do you want to close this window anyway?",nil),
+						self.containedChats.count];
+		}
+		
+		if (suppressionText) {
+			NSAlert *alert = [NSAlert alertWithMessageText:AILocalizedString(@"Are you sure you want to close this window?", nil)
+											 defaultButton:AILocalizedString(@"Close", nil)
+										   alternateButton:AILocalizedStringFromTable(@"Cancel", @"Buttons", nil)
+											   otherButton:nil
+								 informativeTextWithFormat:question];
+			
+			[alert setShowsSuppressionButton:YES];
+			[[alert suppressionButton] setTitle:suppressionText];
+			
+			[alert beginSheetModalForWindow:self.window 
+							  modalDelegate:self 
+							 didEndSelector:@selector(closeAlertDidEnd:returnCode:contextInfo:) 
+								contextInfo:nil];
+			
+			return NO;
+		}
+	}
+	
+	return YES;
+}
+
+- (void)closeAlertDidEnd:(NSAlert *)alert returnCode:(int)result contextInfo:(void *)contextInfo;
+{
+	
+	if ([alert suppressionButton].state == NSOnState) {
+		[adium.preferenceController setPreference:nil
+										   forKey:KEY_CONFIRM_MSG_CLOSE
+											group:PREF_GROUP_CONFIRMATIONS];
+	}
+
+	if (result == NSAlertDefaultReturn) {
+		// Dismiss the alert sheet.
+		[self.window orderOut:nil];
+		// Don't prompt again.
+		windowIsClosing = YES;
+		// Close the window.
+		[self closeWindow:nil];
+	}
 }
 
 /*!

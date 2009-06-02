@@ -11,14 +11,6 @@
 	IBOutlet	NSTextField	*label_statusWindow;
 	IBOutlet	NSButton	*checkBox_statusWindowHideInBackground;
 	IBOutlet	NSButton	*checkBox_statusWindowAlwaysOnTop;	
-	
-	IBOutlet	NSTextField	*label_quitConfirmation;
-
-	IBOutlet	NSButton	*checkBox_quitConfirmEnabled;
-	IBOutlet	NSMatrix	*matrix_quitConfirmation;
-	IBOutlet	NSButton	*checkBox_quitConfirmFT;
-	IBOutlet	NSButton	*checkBox_quitConfirmUnread;
-	IBOutlet	NSButton	*checkBox_quitConfirmOpenChats;
 }
 
 @end
