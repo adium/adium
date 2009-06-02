@@ -33,6 +33,8 @@
 #define KEY_ARRANGE_TABS_BY_GROUP			@"Arrange Tabs By Group"
 #define KEY_TABBAR_POSITION					@"Tab Bar Position"
 #define KEY_TABBAR_SHOW_UNREAD_COUNT		@"Show Unread Message Count in Tabs"
+#define KEY_TABBAR_SHOW_UNREAD_COUNT_GROUP	@"Show Unread Message Count in Group Chat Tabs"
+#define KEY_TABBAR_SHOW_UNREAD_MENTION_ONLYGROUP	@"Show Unread Mention Count Only in Group Chat Tabs"
 
 #define KEY_ALWAYS_CREATE_NEW_WINDOWS 		@"Always Create New Windows"
 #define KEY_USE_LAST_WINDOW					@"Use Last Window"

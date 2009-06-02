@@ -15,20 +15,34 @@
  */
 
 #import <Adium/AIAdvancedPreferencePane.h>
+#import "AIWebKitMessageViewPlugin.h"
 
 @interface ESDualWindowMessageAdvancedPreferences : AIAdvancedPreferencePane {
-    IBOutlet	NSButton		*autohide_tabBar;
-    IBOutlet    NSButton		*checkBox_allowInactiveClosing;
+	IBOutlet	NSTabView		*tabView_messageType;
+	IBOutlet	NSTabViewItem	*tabViewItem_regular;
+	IBOutlet	NSTabViewItem	*tabViewItem_group;
 	
+	// Regular/Group Chat false tabs
 	IBOutlet	NSButton		*checkBox_customNameFormatting;
 	IBOutlet	NSPopUpButton   *popUp_nameFormat;
 	
-	IBOutlet	NSPopUpButton	*popUp_minimumFontSize;
 	IBOutlet	NSPopUpButton	*popUp_timeStampFormat;
 	
+	IBOutlet	NSPopUpButton	*popUp_minimumFontSize;	
+	
+	IBOutlet	NSButton		*checkBox_showTabCount;
+	IBOutlet	NSButton		*checkBox_unreadMentionCount;
+	
+	// Tabs
+	IBOutlet	NSButton		*autohide_tabBar;	
+	
+	// Window Handling
 	IBOutlet	NSButton		*checkBox_hide;
 	IBOutlet	NSButton		*checkBox_psychicOpen;
 	IBOutlet	NSPopUpButton	*popUp_windowPosition;
 }
+
+@property (readonly, nonatomic) NSString *preferenceGroupForCurrentTab;
+@property (readonly, nonatomic) AIWebkitStyleType currentTab;
 
 @end
