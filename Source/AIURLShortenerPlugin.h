@@ -22,6 +22,7 @@ typedef enum {
 	AIisgd,
 	AIMetamark,
 	AITrim,
+	AIKlam,
 	AINumberOfShortenLinkServices
 } AIShortenLinkService;
 
