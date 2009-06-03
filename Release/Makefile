@@ -76,7 +76,7 @@ ifeq ($(BETA),TRUE)
 	BUILDFLAGS+="ADIUM_CFLAGS=-DBETA_RELEASE"
 endif
 
-PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXProductDirectory 2> /dev/null)
+PRODUCT_DIR=$(shell defaults read com.apple.Xcode PBXApplicationwideBuildSettings 2> /dev/null > XcodeBuildSettings.plist && defaults read $PWD/XcodeBuildSettings SYMROOT 2> /dev/null; rm XcodeBuildSettings.plist)
 
 ifeq ($(strip $(PRODUCT_DIR)),)
 	ADIUM_BUILD_DIR=$(SRC_DIR)/build/$(BUILDSTYLE)
