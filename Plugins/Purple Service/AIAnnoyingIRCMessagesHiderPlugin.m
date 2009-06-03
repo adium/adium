@@ -53,6 +53,7 @@
 							   @"if you see",
 							   @"please disregard them, as they are",
 							   @"for more information please visit",
+							   @"runs an open proxy monitor to prevent abuse",
 							   nil];
 	
 	if ([contentObject.source.UID rangeOfString:@"."].location != NSNotFound) {
