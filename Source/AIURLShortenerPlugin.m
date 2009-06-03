@@ -105,6 +105,7 @@
 																		  [NSNumber numberWithInteger:AIisgd], @"is.gd",
 																		  [NSNumber numberWithInteger:AIMetamark], @"xrl.us",
 																		  [NSNumber numberWithInteger:AITrim], @"tr.im",
+																		  [NSNumber numberWithInteger:AIKlam], @"kl.am",
 																		  nil];
 
 	[menu removeAllItems];
@@ -247,6 +248,10 @@
 			
 		case AITrim:
 			request = [NSString stringWithFormat:@"http://api.tr.im/api/trim_simple?api_key=zghQN6sv5y0FkLPNlQAopm7qDQz6ItO33ENU21OBsy3dL1Kl&url=%@", [address stringByAddingPercentEscapesForAllCharacters]];
+			break;
+			
+		case AIKlam:
+			request = [NSString stringWithFormat:@"http://kl.am/api/shorten?url=%@&format=text", [address stringByAddingPercentEscapesForAllCharacters]];
 			break;
 			
 		default:
