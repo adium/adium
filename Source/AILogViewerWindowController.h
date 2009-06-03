@@ -174,7 +174,6 @@ typedef enum {
 - (void)searchComplete;
 - (void)startSearchingClearingCurrentResults:(BOOL)clearCurrentResults;
 
-- (void)refreshResults;
 - (void)resortLogs;
 - (void)selectFirstLog;
 - (void)selectDisplayedLog;
