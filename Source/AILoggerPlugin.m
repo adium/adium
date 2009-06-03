@@ -54,11 +54,11 @@
 #import "AdiumSpotlightImporter.h"
 
 #define LOG_INDEX_NAME				@"Logs.index"
-#define DIRTY_LOG_ARRAY_NAME		@"DirtyLogs.plist"
+#define DIRTY_LOG_SET_NAME			@"DirtyLogs.plist"
 #define KEY_LOG_INDEX_VERSION		@"Log Index Version"
 
 #define LOG_INDEX_STATUS_INTERVAL	20      //Interval before updating the log indexing status
-#define LOG_CLEAN_SAVE_INTERVAL		500     //Number of logs to index continuously before saving the dirty array and index
+#define LOG_CLEAN_SAVE_INTERVAL		500     //Number of logs to index continuously before saving the dirty set and index
 
 #define LOG_VIEWER					AILocalizedString(@"Chat Transcript Viewer",nil)
 #define VIEW_LOGS_WITH_CONTACT		AILocalizedString(@"View Chat Transcripts",nil)
@@ -84,9 +84,9 @@ enum {
 - (void)cancelClosingLogIndex;
 - (void)resetLogIndex;
 - (NSString *)_logIndexPath;
-- (void)loadDirtyLogArray;
-- (void)_saveDirtyLogArray;
-- (NSString *)_dirtyLogArrayPath;
+- (void)loadDirtyLogSet;
+- (void)_saveDirtyLogSet;
+- (NSString *)_dirtyLogSetPath;
 - (void)_dirtyAllLogsThread;
 - (void)upgradeLogExtensions;
 - (void)upgradeLogPermissions;
@@ -168,10 +168,10 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	                                                       menu:nil];
 	[adium.toolbarController registerToolbarItem:toolbarItem forToolbarType:@"ListObject"];
 
-	dirtyLogArray = nil;
+	dirtyLogSet = [[NSMutableSet alloc] init];
 	index_Content = nil;
 	stopIndexingThreads = NO;
-	suspendDirtyArraySave = NO;		
+	suspendDirtySetSaving = NO;		
 	indexingThreadLock = [[NSLock alloc] init];
 	[indexingThreadLock setName:@"LogIndexingThreadLock"];
 	dirtyLogLock = [[NSLock alloc] init];
@@ -1028,9 +1028,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 /* For the log content searching, we are required to re-index a log whenever it changes.  The solution below to
  * this problem is along the lines of:
- *		- Keep an array of logs that need to be re-indexed
- *		- Whenever a log is changed, add it to this array
- *		- When the log viewer is opened, re-index all the logs in the array
+ *		- Keep a set of logs that need to be re-indexed
+ *		- Whenever a log is changed, add it to this set
+ *		- When the log viewer is opened, re-index all the logs in the set
  */
 
 /*!
@@ -1039,7 +1039,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)initLogIndexing
 {
 	//Load the list of logs that need re-indexing
-	[self loadDirtyLogArray];
+	[self loadDirtyLogSet];
 }
 
 /*!
@@ -1053,15 +1053,16 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	 * If we're going to need to re-index all our logs from scratch, it will make
 	 * things faster if we start with a fresh log index as well.
 	 */
-	if (!dirtyLogArray) {
+	BOOL reindex = ![[NSFileManager defaultManager] fileExistsAtPath:[self _dirtyLogSetPath]];
+	if (reindex) {
 		[self resetLogIndex];
 	}
 
-	//Load the contentIndex immediately; this will clear dirtyLogArray if necessary
+	//Load the contentIndex immediately; this will clear dirtyLogSet if necessary
 	[self logContentIndex];
 
 	stopIndexingThreads = NO;
-	if (!dirtyLogArray) {
+	if (reindex) {
 		[self dirtyAllLogs];
 	} else {
 		[self cleanDirtyLogs];
@@ -1100,45 +1101,28 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 //Mark a log as needing a re-index
 - (void)markLogDirtyAtPath:(NSString *)path forChat:(AIChat *)chat
-{
-	NSString    *dirtyKey = [@"LogIsDirty_" stringByAppendingString:path];
-	
-	if (![chat boolValueForProperty:dirtyKey]) {
-		//Add to dirty array (Lock to ensure that no one changes its content while we are)
-		[dirtyLogLock lock];
-		if (path != nil) {
-			if (!dirtyLogArray) {
-				dirtyLogArray = [[NSMutableArray alloc] init];
-				AILogWithSignature(@"Initialized a new dirty log array");
-			}
-
-			if (![dirtyLogArray containsObject:path]) {
-				[dirtyLogArray addObject:path];
-			}
-		}
+{	
+	NSParameterAssert(path != nil);
+	NSParameterAssert(chat != nil);
+	[dirtyLogLock lock];
+	if (![dirtyLogSet containsObject:path]) {
+		//Add to dirty set (Lock to ensure that no one changes its content while we are)
+		[dirtyLogSet addObject:path];
 		[dirtyLogLock unlock];
 
-		//Save the dirty array immedientally
-		[self _saveDirtyLogArray];
-		
-		//Flag the chat with 'LogIsDirty' for this filename.  On the next message we can quickly check this flag.
-		[chat setValue:[NSNumber numberWithBool:YES]
-					   forProperty:dirtyKey
-					   notify:NotifyNever];
-	}	
+		//Save the dirty set immediately
+		[self _saveDirtyLogSet];
+	} else {
+		[dirtyLogLock unlock];
+	}
 }
 
 - (void)markLogDirtyAtPath:(NSString *)path
 {
 	if(!path) return;
 	[dirtyLogLock lock];
-	if (!dirtyLogArray) {
-		dirtyLogArray = [[NSMutableArray alloc] init];
-		AILogWithSignature(@"Initialized a new dirty log array");
-	}
-	
-	if (![dirtyLogArray containsObject:path]) {
-		[dirtyLogArray addObject:path];
+	if (![dirtyLogSet containsObject:path]) {
+		[dirtyLogSet addObject:path];
 	}
 	[dirtyLogLock unlock];	
 }
@@ -1198,9 +1182,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 										(CFDictionaryRef)textAnalysisProperties);
 		if (newIndex) {
 			AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",newIndex,logIndexPathURL,textAnalysisProperties);
-			//Clear the dirty log array in case it was loaded (this can happen if the user mucks with the cache directory)
-			[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogArrayPath] error:NULL];
-			[dirtyLogArray release]; dirtyLogArray = nil;
+			//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
+			[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogSetPath] error:NULL];
+			[dirtyLogSet removeAllObjects];
 		} else {
 			AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
 		}
@@ -1300,8 +1284,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		[[NSFileManager defaultManager] removeItemAtPath:[self _logIndexPath] error:NULL];
 	}	
 
-	if ([[NSFileManager defaultManager] fileExistsAtPath:[self _dirtyLogArrayPath]]) {
-		[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogArrayPath] error:NULL];
+	if ([[NSFileManager defaultManager] fileExistsAtPath:[self _dirtyLogSetPath]]) {
+		[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogSetPath] error:NULL];
 	}
 }
 
@@ -1314,19 +1298,19 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 //Dirty Log Array ------------------------------------------------------------------------------------------------------
 //Stores the absolute paths of logs that need to be re-indexed
-#pragma mark Dirty Log Array
-//Load the dirty log array
-- (void)loadDirtyLogArray
+#pragma mark Dirty Log Set
+//Load the dirty log set
+- (void)loadDirtyLogSet
 {
-	if (!dirtyLogArray) {
+	if ([dirtyLogSet count] == 0) {
 		NSInteger logVersion = [[adium.preferenceController preferenceForKey:KEY_LOG_INDEX_VERSION
 																   group:PREF_GROUP_LOGGING] integerValue];
 
-		//If the log version has changed, we reset the index and don't load the dirty array (So all the logs are marked dirty)
+		//If the log version has changed, we reset the index and don't load the dirty set (So all the logs are marked dirty)
 		if (logVersion >= CURRENT_LOG_VERSION) {
 			[dirtyLogLock lock];
-			dirtyLogArray = [[NSMutableArray alloc] initWithContentsOfFile:[self _dirtyLogArrayPath]];
-			AILogWithSignature(@"Loaded dirty log array with %i logs",[dirtyLogArray count]);
+			[dirtyLogSet addObjectsFromArray:[NSArray arrayWithContentsOfFile:[self _dirtyLogSetPath]]];
+			AILogWithSignature(@"Loaded dirty log set with %i logs",[dirtyLogSet count]);
 			[dirtyLogLock unlock];
 		} else {
 			AILogWithSignature(@"**** Log version upgrade. Resetting");
@@ -1338,20 +1322,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 }
 
-//Save the dirty lod array
-- (void)_saveDirtyLogArray
+//Save the dirty lod set
+- (void)_saveDirtyLogSet
 {
-    if (dirtyLogArray && !suspendDirtyArraySave) {
+    if ([dirtyLogSet count] > 0 && !suspendDirtySetSaving) {
 		[dirtyLogLock lock];
-		[dirtyLogArray writeToFile:[self _dirtyLogArrayPath] atomically:NO];
+		[[dirtyLogSet allObjects] writeToFile:[self _dirtyLogSetPath] atomically:NO];
 		[dirtyLogLock unlock];
     }
 }
 
-//Path of the dirty log array file
-- (NSString *)_dirtyLogArrayPath
+//Path of the dirty log set file
+- (NSString *)_dirtyLogSetPath
 {
-    return [[adium cachesPath] stringByAppendingPathComponent:DIRTY_LOG_ARRAY_NAME];
+    return [[adium cachesPath] stringByAppendingPathComponent:DIRTY_LOG_SET_NAME];
 }
 
 
@@ -1368,8 +1352,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 //THREAD: Flag every log as dirty (Do this when there is no log index)
 - (void)dirtyAllLogs
 {
-    //Reset and rebuild the dirty array
-    [dirtyLogArray release]; dirtyLogArray = [[NSMutableArray alloc] init];
+    //Reset and rebuild the dirty set
+	[dirtyLogLock lock];
+    [dirtyLogSet removeAllObjects];
+	[dirtyLogLock unlock];
 	//[self _dirtyAllLogsThread];
 	[NSThread detachNewThreadSelector:@selector(_dirtyAllLogsThread) toTarget:self withObject:nil];
 }
@@ -1378,11 +1364,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 
     [indexingThreadLock lock];
-    suspendDirtyArraySave = YES;    //Prevent saving of the dirty array until we're finished building it
+    suspendDirtySetSaving = YES;    //Prevent saving of the dirty set until we're finished building it
     
-    //Create a fresh dirty log array
+    //Create a fresh dirty log set
     [dirtyLogLock lock];
-    [dirtyLogArray release]; dirtyLogArray = [[NSMutableArray alloc] init];
+    [dirtyLogSet removeAllObjects];
 	AILogWithSignature(@"Dirtying all logs.");
     [dirtyLogLock unlock];
 	
@@ -1398,11 +1384,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 			//Walk through every log
 			for (AIChatLog *theLog in [toGroup logEnumerator]) {
-				//Add this log's path to our dirty array.  The dirty array is guarded with a lock
+				//Add this log's path to our dirty set.  The dirty set is guarded with a lock
 				//since it will be accessed from outside this thread as well
 				[dirtyLogLock lock];
 				if (theLog != nil) {
-					[dirtyLogArray addObject:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+					[dirtyLogSet addObject:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
 				}
 				[dirtyLogLock unlock];
 			}
@@ -1414,11 +1400,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		[fromGroup release];
     }
 	
-	AILogWithSignature(@"Finished dritying all logs");
+	AILogWithSignature(@"Finished dirtying all logs");
 	
-    //Save the dirty array we just built
-	[self _saveDirtyLogArray];
-	suspendDirtyArraySave = NO; //Re-allow saving of the dirty array
+    //Save the dirty set we just built
+	[self _saveDirtyLogSet];
+	suspendDirtySetSaving = NO; //Re-allow saving of the dirty set
     
     //Begin cleaning the logs (If the log viewer is open)
     if (!stopIndexingThreads && [AILogViewerWindowController existingWindowController]) {
@@ -1441,7 +1427,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
     //Reset the cleaning progress
     [dirtyLogLock lock];
-    logsToIndex = [dirtyLogArray count];
+    logsToIndex = [dirtyLogSet count];
     [dirtyLogLock unlock];
     logsIndexed = 0;
 	AILogWithSignature(@"cleanDirtyLogs: logsToIndex is %i",logsToIndex);
@@ -1453,7 +1439,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)didCleanDirtyLogs
 {
 	[dirtyLogLock lock];
-    logsToIndex = [dirtyLogArray count];
+    logsToIndex = [dirtyLogSet count];
     [dirtyLogLock unlock];
 
 	[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
@@ -1526,7 +1512,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		UInt32	lastUpdate = TickCount();
 		NSInteger		unsavedChanges = 0;
 
-		AILogWithSignature(@"Cleaning %i dirty logs", [dirtyLogArray count]);
+		AILogWithSignature(@"Cleaning %i dirty logs", [dirtyLogSet count]);
 
 		//Scan until we're done or told to stop
 		while (!stopIndexingThreads) {
@@ -1534,9 +1520,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			
 			//Get the next dirty log
 			[dirtyLogLock lock];
-			if ([dirtyLogArray count]) {
-				logPath = [[[dirtyLogArray lastObject] retain] autorelease]; //retain to prevent deallocation when removing from the array
-				[dirtyLogArray removeLastObject];
+			if ([dirtyLogSet count]) {
+				logPath = [[[dirtyLogSet anyObject] retain] autorelease]; //retain to prevent deallocation when removing from the set
+				[dirtyLogSet removeObject:logPath];
 			}
 			[dirtyLogLock unlock];
 
@@ -1575,9 +1561,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					lastUpdate = TickCount();
 				}
 				
-				//Save the dirty array
+				//Save the dirty set
 				if (unsavedChanges++ > LOG_CLEAN_SAVE_INTERVAL) {
-					[self _saveDirtyLogArray];
+					[self _saveDirtyLogSet];
 
 					unsavedChanges = 0;
 
@@ -1590,9 +1576,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			}
 		}
 		
-		//Save the slimmed down dirty log array
+		//Save the slimmed down dirty log set
 		if (unsavedChanges) {
-			[self _saveDirtyLogArray];
+			[self _saveDirtyLogSet];
 		}
 
 		isFlushingIndex = YES;
