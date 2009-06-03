@@ -21,7 +21,7 @@
 #import <Adium/AIContactList.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-#define SERVERFEEDRSSURL @"http://www.jabber.org/full_servers.xml"
+#define SERVERFEEDRSSURL @"http://xmpp.org/services/services-full.xml"
 
 @implementation ESPurpleJabberAccountViewController
 
@@ -233,7 +233,7 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 				servers = [[NSMutableArray alloc] init];
 				
 				for (NSXMLElement *item in items) {
-					NSXMLElement *title = [[item elementsForName:@"name"] lastObject];
+					NSXMLElement *title = [[item elementsForName:@"domain"] lastObject];
 					if(!title)
 						continue;
 					NSXMLElement *description = [[item elementsForName:@"description"] lastObject];
