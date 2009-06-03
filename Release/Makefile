@@ -167,7 +167,7 @@ createfolder:
 	mkdir $(ADIUM_DIR)
 	
 	@# copy the app
-	cp -R $(ADIUM_BUILD_DIR)/Adium.app $(ADIUM_DIR)
+	cp -R "$(ADIUM_BUILD_DIR)/Adium.app" $(ADIUM_DIR)
 
 	@# copy the text files
 	cp $(SRC_DIR)/ChangeLogs/Changes.txt $(ADIUM_DIR)
