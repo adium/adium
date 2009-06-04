@@ -1,0 +1,201 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<base href="%@">
+	<script type="text/ecmascript" defer="defer">
+		// NOTE:
+		// Any percent signs in this file must be escaped!
+		// Use two escape signs (%%) to display it, this is passed through a format call!
+
+		//Appending new content to the message view
+		function appendMessage(html) {
+			var shouldScroll = nearBottom();
+
+			//Remove any existing insertion point
+			var insert = document.getElementById("insert");
+			if(insert) 
+				insert.parentNode.removeChild(insert);
+
+			//Append the new message to the bottom of our chat block
+			var chat = document.getElementById("Chat");
+			var range = document.createRange();
+			range.selectNode(chat);
+			var documentFragment = range.createContextualFragment(html);
+			chat.appendChild(documentFragment);
+
+			alignChat(shouldScroll);
+		}
+		function appendMessageNoScroll(html) {
+			//Remove any existing insertion point
+			var insert = document.getElementById("insert");
+			if(insert) 
+				insert.parentNode.removeChild(insert);
+
+			//Append the new message to the bottom of our chat block
+			var chat = document.getElementById("Chat");
+			var range = document.createRange();
+			range.selectNode(chat);
+			var documentFragment = range.createContextualFragment(html);
+			chat.appendChild(documentFragment);
+		}
+		function appendNextMessage(html){
+			var shouldScroll = nearBottom();
+
+			//Locate the insertion point
+			var insert = document.getElementById("insert");
+			if(insert){
+				//make new node
+				var range = document.createRange();
+				range.selectNode(insert.parentNode);
+				var newNode = range.createContextualFragment(html);
+
+				//swap
+				insert.parentNode.replaceChild(newNode,insert);
+
+				alignChat(shouldScroll);
+			} else {
+				appendMessage(html);
+			}
+		}
+		function appendNextMessageNoScroll(html){
+			//Locate the insertion point
+			var insert = document.getElementById("insert");
+			if(insert){
+				//make new node
+				var range = document.createRange();
+				range.selectNode(insert.parentNode);
+				var newNode = range.createContextualFragment(html);
+
+				//swap
+				insert.parentNode.replaceChild(newNode,insert);
+			} else {
+				appendMessageNoScroll(html);
+			}
+		}
+		function replaceLastMessage(html){
+			shouldScroll = nearBottom();
+
+			//Retrieve the current insertion point, then remove it
+			//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
+			var insert = document.getElementById("insert");
+			if(insert){
+				var parentNode = insert.parentNode;
+				var lastMessage = insert.previousSibling;
+				parentNode.removeChild(insert);
+				parentNode.removeChild(lastMessage);
+			}
+
+			//Now append the message itself
+			var range = document.createRange();
+			var chat = document.getElementById("Chat");
+			range.selectNode(chat);
+			documentFragment = range.createContextualFragment(html);
+			chat.appendChild(documentFragment);
+
+			alignChat(shouldScroll);
+		}
+		//Auto-scroll to bottom.  Use nearBottom to determine if a scrollToBottom is desired.
+		function nearBottom() {
+			return ( document.body.scrollTop >= ( document.body.offsetHeight - ( window.innerHeight * 1.2 ) ) );
+		}
+		function scrollToBottom() {
+			document.body.scrollTop = document.body.offsetHeight;
+		}
+
+		//Dynamically exchange the active stylesheet
+		function setStylesheet( id, url ) {
+			var code = "<style id=\"" + id + "\" type=\"text/css\" media=\"screen,print\">";
+			if( url.length ) 
+				code += "@import url( \"" + url + "\" );";
+			code += "</style>";
+			var range = document.createRange();
+			var head = document.getElementsByTagName( "head" ).item(0);
+			range.selectNode( head );
+			var documentFragment = range.createContextualFragment( code );
+			head.removeChild( document.getElementById( id ) );
+			head.appendChild( documentFragment );
+		}
+
+		//Swap an image with its alt-tag text on click, or expand/unexpand an attached image
+		document.onclick = imageCheck;
+		function imageCheck() {
+			var shouldScroll = nearBottom();
+			var node = event.target;
+			if(node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt) {
+				var a = document.createElement('a');
+				a.setAttribute('onclick', 'imageSwap(this)');
+				a.setAttribute('src', node.getAttribute('src'));
+				a.className = node.className;
+				var text = document.createTextNode(node.alt);
+				a.appendChild(text);
+				node.parentNode.replaceChild(a, node);
+			}
+			alignChat(shouldScroll);
+		}
+
+		function imageSwap(node) {
+			var shouldScroll = nearBottom();
+
+			//Swap the image/text
+			var img = document.createElement('img');
+			img.setAttribute('src', node.getAttribute('src'));
+			img.setAttribute('alt', node.firstChild.nodeValue);
+			img.className = node.className;
+			node.parentNode.replaceChild(img, node);
+
+			alignChat(shouldScroll);
+		}
+
+		//Align our chat to the bottom of the window.  If true is passed, view will also be scrolled down
+		function alignChat(shouldScroll) {
+			var windowHeight = window.innerHeight;
+
+			if (windowHeight > 0) {
+				var contentElement = document.getElementById('Chat');
+				var contentHeight = contentElement.offsetHeight;
+				if (windowHeight - contentHeight > 0) {
+					contentElement.style.position = 'relative';
+					contentElement.style.top = (windowHeight - contentHeight) + 'px';
+				} else {
+					contentElement.style.position = 'static';
+				}
+			}
+
+			if (shouldScroll) scrollToBottom();
+		}
+
+		function windowDidResize(){
+			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
+		}
+
+		window.onresize = windowDidResize;
+	</script>
+
+	<style type="text/css">
+		.actionMessageUserName { display:none; }
+		.actionMessageBody:before { content:"*"; }
+		.actionMessageBody:after { content:"*"; }
+		hr#focus { border: 0; border-bottom: 1px solid red; width: 25%%; margin: 0 auto 0 auto; }
+		* { word-wrap:break-word; }
+		img.scaledToFitImage { height: auto; width: 100%%; }
+	</style>
+
+	<!-- This style is shared by all variants. !-->
+	<style id="baseStyle" type="text/css" media="screen,print">
+		%@
+	</style>
+
+	<!-- Although we call this mainStyle for legacy reasons, it's actually the variant style !-->
+	<style id="mainStyle" type="text/css" media="screen,print">
+		@import url( "%@" );
+	</style>
+
+</head>
+<body onload="alignChat(true);" style="==bodyBackground==">
+%@
+<div id="Chat">
+</div>
+%@
+</body>
+</html>

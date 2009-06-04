@@ -1,0 +1,86 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = AIOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSOutlineView;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+            };
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            ACTIONS =             {
+                changeServiceName = id;
+                openService = id;
+            };
+            CLASS = AMPurpleJabberServiceDiscoveryBrowserController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "label_node" = NSTextField;
+                "label_service" = NSTextField;
+                nodename = NSTextField;
+                outlineview = NSOutlineView;
+                servicename = NSTextField;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                prefsWindowWillClose = "SS_PrefsController";
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

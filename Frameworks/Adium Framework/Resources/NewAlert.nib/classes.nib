@@ -1,0 +1,59 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {CLASS = AIImageTextCellView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {cancel = id; save = id; }; 
+            CLASS = CSNewContactAlertWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_OK" = NSButton; 
+                "button_cancel" = NSButton; 
+                "checkbox_oneTime" = NSButton; 
+                delegate = id; 
+                headerView = AIImageTextCellView; 
+                "label_Action" = NSTextField; 
+                "label_Event" = NSTextField; 
+                "popUp_action" = NSPopUpButton; 
+                "popUp_event" = NSPopUpButton; 
+                target = id; 
+                "view_auxiliary" = NSView; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

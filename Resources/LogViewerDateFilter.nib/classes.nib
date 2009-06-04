@@ -1,0 +1,68 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {selectDate = id; updateSearch = id; }; 
+            CLASS = AIAbstractLogViewerWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "button_deleteLogs" = NSButton; 
+                datePicker = NSDatePicker; 
+                "outlineView_contacts" = NSOutlineView; 
+                "popUp_dateFilter" = NSPopUpButton; 
+                progressIndicator = NSProgressIndicator; 
+                "searchField_logs" = NSSearchField; 
+                "splitView_contacts_results" = AISplitView; 
+                "tableView_results" = NSTableView; 
+                "textField_progress" = NSTextField; 
+                "textView_content" = NSTextView; 
+                "view_DatePicker" = NSView; 
+                "view_SearchField" = NSView; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {
+            CLASS = AIAlternatingRowOutlineView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSOutlineView; 
+        }, 
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {CLASS = AIAutoScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
+        {
+            CLASS = AILogViewerWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AIAbstractLogViewerWindowController; 
+        }, 
+        {
+            CLASS = AIMDLogViewerWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {datePicker = NSDatePicker; }; 
+            SUPERCLASS = AIAbstractLogViewerWindowController; 
+        }, 
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = AISplitView; LANGUAGE = ObjC; SUPERCLASS = NSSplitView; }, 
+        {
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {switchTable = id; }; 
+            CLASS = BGContactsTable; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "controller_LogViewer" = AILogViewerWindowController; 
+                "popup_filterType" = NSPopUpButton; 
+                "table_filterList" = AIAlternatingRowTableView; 
+            }; 
+            SUPERCLASS = AIObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSDatePicker; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSWindow; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }
+    ); 
+    IBVersion = 1; 
+}
