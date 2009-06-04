@@ -208,7 +208,6 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 //Custom highlighting (This is a private cell method we're overriding that handles selection drawing)
 - (void)_drawHighlightWithFrame:(NSRect)cellFrame inView:(NSView *)inControlView
 {
-	AILogWithSignature(@"");
 	//Cell spacing
 	cellFrame.origin.y += [self topSpacing];
 	cellFrame.size.height -= [self bottomSpacing] + [self topSpacing];
