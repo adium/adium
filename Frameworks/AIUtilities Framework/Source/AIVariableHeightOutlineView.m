@@ -211,11 +211,7 @@
 		for (int row = 0; row < numberOfRows; row++) {
 			id 	cell = [self cellForTableColumn:tableColumn item:[self itemAtRow:row]];
 			
-			if (![self shouldResetAlternating:row]) {
-				alternateColor = !alternateColor;
-			} else {
-				alternateColor = YES;
-			}
+			alternateColor = [self shouldResetAlternating:row] ? YES : !alternateColor;
 			
 			if (alternateColor &&
 				(![cell respondsToSelector:@selector(drawGridBehindCell)] || [cell drawGridBehindCell])) {
