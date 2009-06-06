@@ -240,6 +240,14 @@
 	[self performSelector:@selector(clearQueue:)
 			   withObject:queueCall
 			   afterDelay:GROWL_QUEUE_WAIT];
+	
+	// If the queue has <GROWL_QUEUE_POST_COUNT entries already, post this one immediately.
+	if (events.count < GROWL_QUEUE_POST_COUNT) {
+		[self postSingleEventID:eventID
+				  forListObject:listObject
+					withDetails:details
+					   userInfo:userInfo];
+	}
 
 	return YES;
 }
@@ -289,17 +297,23 @@
 		return;
 	}
 	
-	if (events.count <= 5) {
-		// If we only have a few events, just post them individually.
+	// Remove the first GROWL_QUEUE_POST_COUNT entries, since we've already posted about them.
+	NSRange removeRange = NSMakeRange(0,
+									  (events.count > GROWL_QUEUE_POST_COUNT ? GROWL_QUEUE_POST_COUNT : events.count));
+
+	[events removeObjectsInRange:removeRange];
+	
+	if (events.count == 1) {
+		// Seeing "1 message" is just silly!
 		
-		for (NSDictionary *event in events) {
-			[self postSingleEventID:eventID
-					  forListObject:[event objectForKey:@"AIListObject"]
-						withDetails:[event objectForKey:@"Details"]
-						   userInfo:[event objectForKey:@"UserInfo"]];
-		}
+		NSDictionary *event = [events objectAtIndex:0];
 		
-	} else {
+		[self postSingleEventID:eventID
+				  forListObject:[event objectForKey:@"AIListObject"]
+					withDetails:[event objectForKey:@"Details"]
+					   userInfo:[event objectForKey:@"UserInfo"]];
+		
+	} else if(events.count) {		
 		// We have a bunch of events; let's combine them.
 		AIListObject *overallListObject = nil;
 
