@@ -322,13 +322,12 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 
 - (IBAction)registerRequestAccount:(id)sender {
 	[[sender window] makeFirstResponder:nil]; // apply all changes
+	
 	if([[textField_registerServerName stringValue] length] == 0) {
 		NSBeep();
 		return;
 	}
-//	[account setUID:[NSString stringWithFormat:@"unknown@%@", [textField_registerServerName stringValue]]];
-	[account setPreference:[textField_registerServerName stringValue]
-					forKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
+	
 	[account setPreference:[NSNumber numberWithInt:[textField_registerServerPort intValue]]
 					forKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS];
 
