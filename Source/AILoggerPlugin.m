@@ -33,6 +33,7 @@
 #import <Adium/AIContentNotification.h>
 #import <Adium/AIContentStatus.h>
 #import <Adium/AIContentEvent.h>
+#import <Adium/AIContentContext.h>
 #import <Adium/AIHTMLDecoder.h>
 #import <Adium/AIListContact.h>
 #import <Adium/AIListBookmark.h>
@@ -526,7 +527,8 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		NSString		*contentType = [content type];
 		NSString		*date = [[[content date] dateWithCalendarFormat:nil timeZone:nil] ISO8601DateString];
 
-		if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE]) {
+		if ([contentType isEqualToString:CONTENT_MESSAGE_TYPE] ||
+			[contentType isEqualToString:CONTENT_CONTEXT_TYPE]) {
 			NSMutableArray *attributeKeys = [NSMutableArray arrayWithObjects:@"sender", @"time", nil];
 			NSMutableArray *attributeValues = [NSMutableArray arrayWithObjects:[[content source] UID], date, nil];
 			AIXMLAppender  *appender = [self appenderForChat:chat];
