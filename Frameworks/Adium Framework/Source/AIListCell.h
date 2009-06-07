@@ -77,6 +77,7 @@
 //Drawing
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
+- (void)_drawHighlightWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
 - (void)drawSelectionWithFrame:(NSRect)rect;
 - (void)drawBackgroundWithFrame:(NSRect)rect;
 - (void)drawContentWithFrame:(NSRect)rect;
