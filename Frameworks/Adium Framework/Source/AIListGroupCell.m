@@ -260,7 +260,7 @@
  * We override the paragraph style to be truncating middle.
  * The user's layout preferences may have indicated to add a shadow to the text.
  */
-- (NSDictionary *)labelAttributes
+- (NSMutableDictionary *)labelAttributes
 {
 	if (!labelAttributes) {
 		labelAttributes = super.labelAttributes;

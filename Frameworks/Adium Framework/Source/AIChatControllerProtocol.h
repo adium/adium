@@ -35,8 +35,7 @@
 - (BOOL)closeChat:(AIChat *)inChat;
 - (void)accountDidCloseChat:(AIChat *)inChat;
 
-//XXX Don't modify openChats. Why do we have to have its type match the ivar's type? Ugh.
-@property (nonatomic, readonly) NSMutableSet *openChats;
+@property (nonatomic, readonly) NSSet *openChats;
 @property (nonatomic, readonly) AIChat *mostRecentUnviewedChat;
 @property (nonatomic, readonly) NSUInteger unviewedContentCount;
 @property (nonatomic, readonly) NSUInteger unviewedConversationCount;
