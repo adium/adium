@@ -101,7 +101,7 @@
 {
 	[menu removeAllItems];
 
-	for (Class <AIImageUploader> service in uploaders) {
+	for (Class service in uploaders) {
 		NSMenuItem *newItem = [menu addItemWithTitle:[service serviceName]
 											  target:self 
 											  action:@selector(setImageUploader:)
@@ -175,9 +175,9 @@
  */
 - (void)uploadImage
 {
-	Class <AIImageUploader> uploader = nil;
+	Class uploader = nil;
 	
-	for (Class <AIImageUploader> service in uploaders) {
+	for (Class service in uploaders) {
 		uploader = service;
 		
 		if ([[service serviceName] isEqualToString:defaultService]) {
