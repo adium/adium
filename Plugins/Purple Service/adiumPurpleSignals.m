@@ -279,7 +279,7 @@ static void chat_join_failed_cb(PurpleConnection *gc, GHashTable *components)
 	CBPurpleAccount	*account = accountLookup(purple_connection_get_account(gc));
 	NSDictionary *componentDict = dictionaryFromHashTable(components);
 
-	for (AIChat *chat in [[adium.chatController.openChats copy] autorelease]) {
+	for (AIChat *chat in adium.chatController.openChats) {
 		if ((chat.account == account) &&
 			[account chatCreationDictionary:chat.chatCreationDictionary isEqualToDictionary:componentDict]) {
 			[account chatJoinDidFail:chat];
