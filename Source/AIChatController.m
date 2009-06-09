@@ -197,10 +197,8 @@
  * This lets an observer use its normal update mechanism to update every chat in some manner
  */
 - (void)updateAllChatsForObserver:(id <AIChatObserver>)observer
-{
-	AIChat			*chat;
-	
-	for (chat in openChats) {
+{	
+	for (AIChat *chat in openChats) {
 		[self chatStatusChanged:chat modifiedStatusKeys:nil silent:NO];
 	}
 }
@@ -275,8 +273,8 @@
  */
 - (AIChat *)chatWithContact:(AIListContact *)inContact
 {
-	AIChat			*chat = nil;
 	AIListContact	*targetContact = inContact;
+	AIChat			*chat = nil;
 
 	/*
 	 If we're dealing with a meta contact, open a chat with the preferred contact for this meta contact
@@ -700,7 +698,7 @@
  */
 - (NSSet *)openChats
 {
-    return openChats;
+    return [[openChats copy] autorelease];
 }
 
 /*!
@@ -737,7 +735,7 @@
 {
 	NSUInteger	count = 0;
 
-	for (AIChat *chat in self.openChats) {
+	for (AIChat *chat in openChats) {
 		if (chat.isGroupChat &&
 			[[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT
 													group:PREF_GROUP_STATUS_PREFERENCES] boolValue]) {
@@ -758,7 +756,7 @@
 {
 	NSUInteger count = 0;
 
-	for (AIChat *chat in self.openChats) {
+	for (AIChat *chat in openChats) {
 		if (chat.isGroupChat &&
 			[[adium.preferenceController preferenceForKey:KEY_STATUS_MENTION_COUNT
 													group:PREF_GROUP_STATUS_PREFERENCES] boolValue]) {
@@ -779,10 +777,9 @@
  */
 - (BOOL)contactIsInGroupChat:(AIListContact *)listContact
 {
-	AIChat			*chat;
 	BOOL			contactIsInGroupChat = NO;
 	
-	for (chat in openChats) {
+	for (AIChat *chat in openChats) {
 		if (chat.isGroupChat &&
 			[chat containsObject:listContact]) {
 			
