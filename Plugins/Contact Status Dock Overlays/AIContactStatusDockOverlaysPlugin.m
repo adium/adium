@@ -256,22 +256,23 @@
 
 - (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	//When an account signs on or off, force an overlay update as it may have silently changed
-	//contacts' statuses
-	if ([inObject isKindOfClass:[AIAccount class]] && [inModifiedKeys containsObject:@"Online"]) {
-		
-		BOOL			madeChanges = NO;
-		
-		for (AIListObject *listObject in [[overlayObjectsArray copy] autorelease]) {
-			if (([listObject respondsToSelector:@selector(account)]) &&
-				([(id)listObject account] == inObject) &&
-				([overlayObjectsArray containsObjectIdenticalTo:listObject])) {
-				[overlayObjectsArray removeObject:listObject];
-				madeChanges = YES;
+	if ([inObject isKindOfClass:[AIAccount class]]) {
+		//When an account signs on or off, force an overlay update as it may have silently changed
+		//contacts' statuses
+		if ([inModifiedKeys containsObject:@"Online"]) {
+			BOOL			madeChanges = NO;
+			
+			for (AIListObject *listObject in [[overlayObjectsArray copy] autorelease]) {
+				if (([listObject respondsToSelector:@selector(account)]) &&
+				   ([(id)listObject account] == inObject) &&
+				   ([overlayObjectsArray containsObjectIdenticalTo:listObject])) {
+					[overlayObjectsArray removeObject:listObject];
+					madeChanges = YES;
+				}
 			}
+			
+			if (madeChanges) [self _setOverlay];
 		}
-		
-		if (madeChanges) [self _setOverlay];
 	}
 	
 	return nil;
