@@ -342,8 +342,8 @@
 {
 	if (online != self.online) {
 		[self setValue:[NSNumber numberWithBool:online]
-					   forProperty:@"Online"
-					   notify:notify];
+		   forProperty:@"Online"
+				notify:notify];
 		
 		if (!silent) {
 			[self setValue:[NSNumber numberWithBool:YES] 

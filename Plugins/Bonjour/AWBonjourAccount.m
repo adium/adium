@@ -382,7 +382,7 @@
 - (void)updateStatusForKey:(NSString *)key
 {
 	[super updateStatusForKey:key];
-	BOOL areOnline = [[self valueForProperty:@"Online"] boolValue];
+	BOOL areOnline = self.online;
 
 	//Now look at keys which only make sense while online
 	if (areOnline) {

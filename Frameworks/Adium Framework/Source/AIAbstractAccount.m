@@ -463,7 +463,7 @@
  */
 - (void)updateCommonStatusForKey:(NSString *)key
 {
-    BOOL    areOnline = [self boolValueForProperty:@"Online"];
+    BOOL    areOnline = self.online;
     
     //Online status changed
     //Call connect or disconnect as appropriate
@@ -651,7 +651,7 @@
 
 - (AIStatus *)statusState
 {
-	if ([self boolValueForProperty:@"Online"]) {
+	if (self.online) {
 		AIStatus	*statusState = [self valueForProperty:@"StatusState"];
 		if (!statusState) {
 			statusState = [adium.statusController defaultInitialStatusState];
@@ -742,7 +742,7 @@
 					   forProperty:@"Prompt For Password On Next Connect"
 					   notify:NotifyNever];
 
-		if (![self boolValueForProperty:@"Online"] && ![self valueForProperty:@"Connecting"]) {
+		if (!self.online && ![self valueForProperty:@"Connecting"]) {
 			[self setPasswordTemporarily:inPassword];
 
 			//Time to connect!
@@ -1308,7 +1308,7 @@
 - (void)didDisconnect
 {
 	//If we were online, display a status message in all of our open chats noting our disconnection
-	if ([self boolValueForProperty:@"Online"]) {
+	if (self.online) {
 		for (AIChat *chat in adium.interfaceController.openChats) {
 			if (chat.account != self || !chat.isOpen)
 				continue;

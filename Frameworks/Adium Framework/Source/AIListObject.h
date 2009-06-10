@@ -90,6 +90,8 @@ typedef enum {
 	
 	CGFloat				cachedSmallestOrder;
 	CGFloat				cachedLargestOrder;
+	
+	BOOL				m_online;
 }
 
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
