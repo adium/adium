@@ -151,7 +151,7 @@ typedef enum {
 
 @property (readwrite, nonatomic, retain) NSString *notes;
 
-@property (readonly, nonatomic) NSInteger *idleTime;
+@property (readonly, nonatomic) NSInteger idleTime;
 
 @property (readonly, nonatomic) NSImage *userIcon;
 @property (readonly, nonatomic) NSImage *menuIcon;
