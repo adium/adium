@@ -398,7 +398,7 @@
 		/* Events which are irrelevent if the contact is not online - these changes occur when we are
 		 * just doing bookkeeping e.g. an away contact signs off, we clear the away flag, but they didn't actually
 		 * come back from away. */
-		if (inObject.online) {
+		if ([[inObject numberValueForProperty:@"Online"] boolValue]) {
 			if ([inModifiedKeys containsObject:@"StatusMessage"] || [inModifiedKeys containsObject:@"StatusType"]) {
 				NSNumber	*newAwayNumber;
 				NSString	*newStatusMessage;

@@ -624,16 +624,9 @@
 	if (notify) [self notifyOfChangedPropertiesSilently:NO];
 }
 
-- (void) setValue:(id)value forProperty:(NSString *)key notify:(NotifyTiming)notify
-{
-	if ([key isEqualToString:@"Online"])
-		m_online = value ? [value boolValue] : NO;
-	[super setValue:value forProperty:key notify:notify];
-}
-
 - (BOOL)online
 {
-	return m_online;
+	return [self boolValueForProperty:@"Online"];
 }
 
 - (AIStatusSummary)statusSummary
