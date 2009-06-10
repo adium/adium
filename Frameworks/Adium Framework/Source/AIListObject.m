@@ -450,10 +450,9 @@
 	[AIUserIcons setManuallySetUserIconData:inData forObject:self];
 }
 
-- (NSNumber *)idleTime
+- (NSInteger)idleTime
 {
-	NSNumber *idleNumber = [self valueForProperty:@"Idle"];
-	return (idleNumber ? idleNumber : [NSNumber numberWithInt:0]);
+	return [self integerValueForProperty:@"Idle"];
 }
 
 //A standard listObject is never a stranger
