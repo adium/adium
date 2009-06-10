@@ -86,7 +86,7 @@ typedef enum {
 	NSString			*internalObjectID;
 
 	//Grouping, Manual ordering
-	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
+	NSMutableSet *m_groups; //The AIContainingObjects that this object is in
 	
 	CGFloat				cachedSmallestOrder;
 	CGFloat				cachedLargestOrder;
@@ -149,7 +149,7 @@ typedef enum {
 
 @property (readwrite, nonatomic, retain) NSString *notes;
 
-@property (readonly, nonatomic) NSNumber *idleTime;
+@property (readonly, nonatomic) NSInteger idleTime;
 
 @property (readonly, nonatomic) NSImage *userIcon;
 @property (readonly, nonatomic) NSImage *menuIcon;
