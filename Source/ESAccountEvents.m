@@ -205,7 +205,7 @@
 	if ([inObject isKindOfClass:[AIAccount class]]) { //We only care about accounts
 		if ([inModifiedKeys containsObject:@"Online"]) {
 			
-			if ([[inObject numberValueForProperty:@"Online"] boolValue]) {
+			if (inObject.online) {
 				if (accountConnectionStatusGroupingOnlineTimer) {
 					[accountConnectionStatusGroupingOnlineTimer invalidate]; [accountConnectionStatusGroupingOnlineTimer release];
 				}

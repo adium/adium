@@ -694,7 +694,7 @@
 	if ([account valueForProperty:@"ConnectionProgressString"] && [account boolValueForProperty:@"Connecting"]) {
 		// Connection status if we're currently connecting, with the percent at the end
 		statusMessage = [[account valueForProperty:@"ConnectionProgressString"] stringByAppendingFormat:@" (%2.f%%)", [[account valueForProperty:@"ConnectionProgressPercent"] doubleValue]*100.0];
-	} else if ([account lastDisconnectionError] && ![account boolValueForProperty:@"Online"] && ![account boolValueForProperty:@"Connecting"]) {
+	} else if ([account lastDisconnectionError] && !account.online && ![account boolValueForProperty:@"Connecting"]) {
 		// If there's an error and we're not online and not connecting
 		NSMutableString *returnedMessage = [[[account lastDisconnectionError] mutableCopy] autorelease];
 		
@@ -834,7 +834,7 @@
 				title = AILocalizedString(@"Connecting",nil);
 			} else if ([account boolValueForProperty:@"Disconnecting"]) {
 				title = AILocalizedString(@"Disconnecting",nil);
-			} else if ([account boolValueForProperty:@"Online"]) {
+			} else if (account.online) {
 				title = AILocalizedString(@"Online",nil);
 				
 				//XXX: why is this valueForProperty instead of boolValueForProperty?
@@ -931,7 +931,7 @@
 		[cell setEnabled:([account boolValueForProperty:@"Connecting"] ||
 						  [account valueForProperty:@"Waiting to Reconnect"] ||
 						  [account boolValueForProperty:@"Disconnecting"] ||
-						  [account boolValueForProperty:@"Online"])];
+						  account.online)];
 
 	} else if ([identifier isEqualToString:@"statusicon"]) {
 		[cell accessibilitySetOverrideValue:@" "
