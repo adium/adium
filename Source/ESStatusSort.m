@@ -567,8 +567,10 @@ static NSInteger  sizeOfSortOrder;
  *
  * It's magic... but it's efficient magic!
  */
-NSInteger statusSort(id objectA, id objectB, BOOL groups, id<AIContainingObject> container)
+NSInteger statusSort(id objA, id objB, BOOL groups, id<AIContainingObject> container)
 {
+	AIListObject *objectA = (AIListObject *)objA;
+	AIListObject *objectB = (AIListObject *)objB;
 	if (groups) {
 		if (sortGroupsAlphabetically) {
 			return [((AIListObject *)objectA).displayName compare:((AIListObject *)objectB).displayName];
