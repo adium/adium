@@ -631,10 +631,7 @@
 	[super setValue:value forProperty:key notify:notify];
 }
 
-- (BOOL)online
-{
-	return m_online;
-}
+@synthesize online = m_online;
 
 - (AIStatusSummary)statusSummary
 {
