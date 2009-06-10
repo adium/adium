@@ -86,7 +86,7 @@ typedef enum {
 	NSString			*internalObjectID;
 
 	//Grouping, Manual ordering
-	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
+	NSMutableSet *m_groups; //The AIContainingObjects that this object is in
 	
 	CGFloat				cachedSmallestOrder;
 	CGFloat				cachedLargestOrder;
