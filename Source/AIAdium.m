@@ -254,7 +254,7 @@ static NSString	*prefsCategory;
 														  object:nil];
 	
 	//Broadcast our presence
-	NSConnection *connection = [NSConnection defaultConnection];
+	NSConnection *connection = [[NSConnection alloc] init];
 	[connection setRootObject:self];
 	[connection registerName:@"com.adiumX.adiumX"];
 
