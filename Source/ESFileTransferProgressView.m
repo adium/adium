@@ -121,10 +121,7 @@
 			[progressIndicator setDisplayedWhenStopped:NO];
 			[progressIndicator setIndeterminate:YES];
 			[progressIndicator stopAnimation:self];
-
-			//I don't trust setDisplayedWhenStopped... call me crazy.
-			[progressIndicator setFrame:NSZeroRect];
-			[progressIndicator setNeedsDisplay:YES];
+			[progressIndicator setHidden:YES];
 			
 			//Top objects moving down
 			{
@@ -152,9 +149,6 @@
 				[box_transferStatusFrame setFrame:frame];
 			}
 		}
-		
-		//Display immediately
-		[[self window] display];
 	}
 }
 
