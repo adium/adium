@@ -171,7 +171,7 @@
  */
 - (NSString *)labelForObject:(AIListObject *)inObject
 {
-	NSInteger 		idle = [inObject integerValueForProperty:@"Idle"];
+	NSInteger 		idle = inObject.idleTime;
 	NSString	*entry = nil;
 
 	if ((idle > 599400) || (idle == -1)) { //Cap idle at 999 Hours (999*60*60 seconds)

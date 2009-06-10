@@ -127,7 +127,7 @@
 			[statusMessage convertNewlinesToSlashes];	
 		}
 
-		idle = (showIdle ? [inObject integerValueForProperty:@"Idle"] : 0);
+		idle = (showIdle ? inObject.idleTime : 0);
 
 		//
 		NSString *idleString = ((idle > 0) ? [self idleStringForMinutes:idle] : nil);
