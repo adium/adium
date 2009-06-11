@@ -67,6 +67,8 @@
 	[request release];
 }
 
+@synthesize verifier;
+
 - (void)fetchAccessToken
 {
 	if (!requestToken) {
@@ -82,8 +84,13 @@
                                                                       token:requestToken
                                                                       realm:nil
                                                           signatureProvider:nil];
-	
     [request setHTTPMethod:@"POST"];
+	
+	if (verifier) {
+		NSString *verifierString = [NSString stringWithFormat:@"oauth_verifier=%@", verifier];
+		
+		[request setHTTPBody:[verifierString dataUsingEncoding:NSUTF8StringEncoding]];
+	}
 
     OAAsynchronousDataFetcher *fetcher  = [OAAsynchronousDataFetcher asynchronousFetcherWithRequest:request
 																						   delegate:self

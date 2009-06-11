@@ -116,6 +116,9 @@
 	
 	if(sender == button_OAuthStart) {
 		if (OAuthSetupStep == AIOAuthStepRequestToken) {
+			OAuthSetup.verifier = textField_OAuthVerifier.stringValue;
+			textField_OAuthVerifier.stringValue = @"";
+			
 			[OAuthSetup fetchAccessToken];
 		} else {
 			[OAuthSetup release];
@@ -162,6 +165,8 @@
 	} else {
 		[tabView_authenticationType selectTabViewItem:tabViewItem_basicAuthentication];
 	}
+	
+	[textField_OAuthVerifier setHidden:YES];
 	
 	// Options
 	
@@ -280,22 +285,24 @@
 				  buttonEnabled:YES
 					 buttonText:nil];
 			
+			[textField_OAuthVerifier setHidden:YES];
 			[progressIndicator setHidden:NO];
 			[progressIndicator startAnimation:nil];
 			
 			break;
 			
 		case AIOAuthStepRequestToken:
-			// We have a request token, ask user to authorize.
+			// We have a request token, ask user to authorize.			
 			[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?oauth_token=%@",
 																		 ((AITwitterAccount *)account).tokenAuthorizeURL,
 																		 token.key]]];
 
-			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, click the button above.", nil)
+			[self setStatusText:AILocalizedString(@"You must allow Adium access to your account in the browser window which just opened. When you have done so, enter the PIN code in the field above.", nil)
 					  withColor:nil
 				  buttonEnabled:YES
 					 buttonText:AILocalizedString(@"I've allowed Adium access", nil)];
 
+			[textField_OAuthVerifier setHidden:NO];
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
 			
@@ -305,11 +312,12 @@
 			// We have an access token, hoorah!
 			textField_password.stringValue = responseBody;
 			
-			[self setStatusText:AILocalizedString(@"Success! Adium now has access to your account.", nil)
+			[self setStatusText:AILocalizedString(@"Success! Adium now has access to your account. Click OK below.", nil)
 					  withColor:nil
 				  buttonEnabled:NO
 					 buttonText:nil];
 			
+			[textField_OAuthVerifier setHidden:YES];
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
 			
@@ -328,6 +336,7 @@
 				  buttonEnabled:YES
 					 buttonText:BUTTON_TEXT_ALLOW_ACCESS];
 			
+			[textField_OAuthVerifier setHidden:YES];
 			[progressIndicator setHidden:YES];
 			[progressIndicator stopAnimation:nil];
 			
