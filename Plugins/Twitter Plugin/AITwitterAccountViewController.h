@@ -25,6 +25,7 @@
 	IBOutlet	NSProgressIndicator *progressIndicator;
 	
 	IBOutlet	NSTextField		*textField_OAuthStatus;
+	IBOutlet	NSTextField		*textField_OAuthVerifier;
 	IBOutlet	NSButton		*button_OAuthStart;
 	
 	// Options
