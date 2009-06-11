@@ -494,7 +494,8 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 			[contactAlertsEvents addObject:eventID];
 			
 			//XXX
-			[contactAlertsActions addObject:[NSArray array]];
+			//This is explicitly a mutable array because Foundation optimizes all zero-count NSArrays to be the same object, and we need it to be different
+			[contactAlertsActions addObject:[NSMutableArray array]];
 		}
 	}
 
