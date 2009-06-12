@@ -76,7 +76,6 @@ static NSString	*prefsCategory;
 
 @implementation AIAdium
 
-//Init
 - (id)init
 {
 	if ((self = [super init])) {
@@ -86,11 +85,9 @@ static NSString	*prefsCategory;
 	return self;
 }
 
-//Core Controllers -----------------------------------------------------------------------------------------------------
 #pragma mark Core Controllers
 @synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController, debugController;
 
-//Loaders --------------------------------------------------------------------------------------------------------
 #pragma mark Loaders
 
 @synthesize componentLoader, pluginLoader;
@@ -102,7 +99,6 @@ static NSString	*prefsCategory;
     return [NSNotificationCenter defaultCenter];
 }
 
-//Startup and Shutdown -------------------------------------------------------------------------------------------------
 #pragma mark Startup and Shutdown
 //Adium is almost done launching, init
 - (void)applicationWillFinishLaunching:(NSNotification *)notification
@@ -227,7 +223,7 @@ static NSString	*prefsCategory;
 	[self openAppropriatePreferencesIfNeeded];
 
 	//If no accounts are setup, run the setup wizard
-	if (([[accountController accounts] count] == 0) || ALWAYS_RUN_SETUP_WIZARD) {
+	if (accountController.accounts.count == 0 || ALWAYS_RUN_SETUP_WIZARD) {
 		[AdiumSetupWizard runWizard];
 	}
 
@@ -379,9 +375,8 @@ static NSString	*prefsCategory;
 
 @synthesize isQuitting;
 
-//Menu Item Hooks ------------------------------------------------------------------------------------------------------
 #pragma mark Menu Item Hooks
-//Show the about box
+
 - (IBAction)showAboutBox:(id)sender
 {
     [[LNAboutBoxController aboutBoxController] showWindow:nil];
@@ -519,7 +514,6 @@ static NSString	*prefsCategory;
 			   afterDelay:0];
 }
 
-//Other -------------------------------------------------------------------------------------------------------
 #pragma mark Other
 //If Adium was launched by double-clicking an associated file, we get this call after willFinishLaunching but before
 //didFinishLaunching
