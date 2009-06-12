@@ -44,6 +44,8 @@ typedef enum {
 	JABBER_CAP_ADHOC		  = 1 << 12,
 	JABBER_CAP_BLOCKING       = 1 << 13,
 
+	JABBER_CAP_ITEMS          = 1 << 14,
+
 	JABBER_CAP_RETRIEVED      = 1 << 31
 } JabberCapabilities;
 
@@ -53,12 +55,12 @@ typedef struct _JabberStream JabberStream;
 #include <glib.h>
 #include "circbuffer.h"
 #include "connection.h"
+#include "dnsquery.h"
 #include "dnssrv.h"
 #include "media.h"
 #include "mediamanager.h"
 #include "roomlist.h"
 #include "sslconn.h"
-#include "dnsquery.h"
 
 #include "iq.h"
 #include "jutil.h"
@@ -153,7 +155,6 @@ struct _JabberStream
 	GList *user_directories;
 
 	GHashTable *iq_callbacks;
-	GHashTable *disco_callbacks;
 	int next_id;
 
 	GList *bs_proxies;
@@ -244,7 +245,7 @@ struct _JabberStream
 	char *certificate_CN;
 
 	/* A purple timeout tag for the keepalive */
-	int keepalive_timeout;
+	guint keepalive_timeout;
 
 	PurpleSrvResponse *srv_rec;
 	guint srv_rec_idx;
@@ -301,6 +302,8 @@ void jabber_stream_features_parse(JabberStream *js, xmlnode *packet);
 void jabber_process_packet(JabberStream *js, xmlnode **packet);
 void jabber_send(JabberStream *js, xmlnode *data);
 void jabber_send_raw(JabberStream *js, const char *data, int len);
+void jabber_send_signal_cb(PurpleConnection *pc, xmlnode **packet,
+                           gpointer unused);
 
 void jabber_stream_set_state(JabberStream *js, JabberStreamState state);
 
@@ -366,6 +369,7 @@ int jabber_prpl_send_raw(PurpleConnection *gc, const char *buf, int len);
 GList *jabber_actions(PurplePlugin *plugin, gpointer context);
 
 gboolean jabber_audio_enabled(JabberStream *js, const char *unused);
+gboolean jabber_video_enabled(JabberStream *js, const char *unused);
 gboolean jabber_initiate_media(PurpleAccount *account, const char *who,
 		PurpleMediaSessionType type);
 PurpleMediaCaps jabber_get_media_caps(PurpleAccount *account, const char *who);

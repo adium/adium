@@ -31,7 +31,7 @@ void
 ggp_buddylist_send(PurpleConnection *gc);
 
 /**
- * Load buddylist from server into the rooster.
+ * Load buddylist from server into the roster.
  *
  * @param gc PurpleConnection
  * @param buddylist Pointer to the buddylist that will be loaded.
@@ -39,14 +39,6 @@ ggp_buddylist_send(PurpleConnection *gc);
 /* void ggp_buddylist_load(PurpleConnection *gc, char *buddylist) {{{ */
 void
 ggp_buddylist_load(PurpleConnection *gc, char *buddylist);
-
-/**
- * Set offline status for all buddies.
- *
- * @param gc Connection handler
- */
-void
-ggp_buddylist_offline(PurpleConnection *gc);
 
 /**
  * Get all the buddies in the current account.

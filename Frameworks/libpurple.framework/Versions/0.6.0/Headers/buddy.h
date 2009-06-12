@@ -123,4 +123,8 @@ gboolean jabber_resource_has_capability(const JabberBuddyResource *jbr,
 										const gchar *cap);
 gboolean jabber_buddy_has_capability(const JabberBuddy *jb, const gchar *cap);
 
+const gchar *
+jabber_resource_get_identity_category_type(const JabberBuddyResource *jbr,
+	const gchar *category);
+
 #endif /* PURPLE_JABBER_BUDDY_H_ */
