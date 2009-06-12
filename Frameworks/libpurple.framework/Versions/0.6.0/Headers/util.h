@@ -506,8 +506,6 @@ char *purple_markup_linkify(const char *str);
  *
  * @return The text with HTML entities literalized.  You must g_free
  *         this string when finished with it.
- *
- * @see purple_escape_html
  */
 char *purple_unescape_html(const char *html);
 
@@ -581,6 +579,16 @@ const char * purple_markup_unescape_entity(const char *text, int *length);
  */
 char * purple_markup_get_css_property(const gchar *style, const gchar *opt);
 
+/**
+ * Check if the given HTML contains RTL text.
+ *
+ * @param html  The HTML text.
+ *
+ * @return  TRUE if the text contains RTL text, FALSE otherwise.
+ *
+ * @since 2.6.0
+ */
+gboolean purple_markup_is_rtl(const char *html);
 
 /*@}*/
 
@@ -1238,6 +1246,22 @@ gchar *purple_utf8_try_convert(const char *str);
  * @return A valid UTF-8 string.
  */
 gchar *purple_utf8_salvage(const char *str);
+
+/**
+ * Removes unprintable characters from a UTF-8 string. These characters
+ * (in particular low-ASCII characters) are invalid in XML 1.0 and thus
+ * are not allowed in XMPP and are rejected by libxml2 by default. This
+ * function uses g_unichar_isprint to determine what characters should
+ * be stripped. The returned string must be freed by the caller.
+ *
+ * @param str A valid UTF-8 string.
+ *
+ * @return A newly allocated UTF-8 string without the unprintable characters.
+ * @since 2.6.0
+ *
+ * @see g_unichar_isprint
+ */
+gchar *purple_utf8_strip_unprintables(const gchar *str);
 
 /**
  * Return the UTF-8 version of gai_strerror().  It calls gai_strerror()
