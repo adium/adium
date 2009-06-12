@@ -58,7 +58,7 @@ struct _MsnNotification
 	gboolean in_use;
 };
 
-typedef void (*MsnFqyCb)(MsnSession *session, const char *passport, MsnNetwork network);
+typedef void (*MsnFqyCb)(MsnSession *session, const char *passport, MsnNetwork network, gpointer data);
 
 #include "state.h"
 void uum_send_msg(MsnSession *session,MsnMessage *msg);
@@ -73,7 +73,7 @@ void msn_notification_rem_buddy_from_list(MsnNotification *notification,
 
 void msn_notification_send_fqy(MsnSession *session,
                                const char *payload, int payload_len,
-                               MsnFqyCb cb);
+                               MsnFqyCb cb, gpointer cb_data);
 
 MsnNotification *msn_notification_new(MsnSession *session);
 void msn_notification_destroy(MsnNotification *notification);
