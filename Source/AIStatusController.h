@@ -44,7 +44,6 @@
 	NSInteger						statusMenuRebuildDelays;
 
 	NSArray					*_sortedFullStateArray;
-	NSArray					*_flatStateArray;
 
 	NSMutableSet			*stateMenuItemsNeedingUpdating;
 	
