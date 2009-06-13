@@ -51,8 +51,9 @@
 
 - (void)dealloc
 {
-	[children release];
-	[attributes release];
+	[children release]; children = nil;
+	[attributes release]; attributes = nil;
+	[name release]; name = nil;
 	
 	[super dealloc];
 }
