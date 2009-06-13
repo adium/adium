@@ -37,7 +37,7 @@ enum types {
 };
 
 @interface AWEzvXMLNode : NSObject {
-    NSString	*name;
+    NSString		*name;
     int			type;
     NSMutableDictionary	*attributes;
     NSMutableArray	*children;
@@ -45,12 +45,13 @@ enum types {
 }
 
 - (id) initWithType:(int)type name:(NSString *)name;
-@property (readonly, nonatomic) int type;
-@property (readonly, nonatomic) NSArray *children;
-@property (readonly, nonatomic) NSDictionary *attributes;
-@property (readwrite, copy, nonatomic) NSString *name;
-@property (readonly, nonatomic) NSString *xmlString;
+- (int) type;
+- (NSArray *)children;
 - (void) addChild:(AWEzvXMLNode *)node;
+- (NSDictionary *)attributes;
 - (void) addAttribute:(NSString *)property withValue:(NSString *)value;
+- (NSString *)name;
+- (void) setName:(NSString *)name;
+- (NSString *)xmlString;
 
 @end
