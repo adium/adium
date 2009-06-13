@@ -58,9 +58,8 @@
 	[super dealloc];
 }
 
-- (int) type {
-    return type;
-}
+@synthesize type, name;
+
 - (NSArray *)children {
     return [[children copy] autorelease];
 }
@@ -74,17 +73,6 @@
 
 - (void) addAttribute:(NSString *)property withValue:(NSString *)value {
     [attributes setObject:value forKey:property];
-}
-
-- (NSString *)name {
-    return name;
-}
-
-- (void) setName:(NSString *)theName {
-	if (name != theName) {
-        [name release];
-		name = [theName retain];
-	}
 }
 
 - (NSString *)xmlString {
