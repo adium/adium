@@ -958,13 +958,13 @@
 }
 
 
-- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(unsigned long long)updateID startingAtPage:(int)pageNum count:(int)count
+- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(NSString *)updateID startingAtPage:(int)pageNum count:(int)count
 {
 	NSString *path = @"statuses/friends_timeline.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1015,13 +1015,13 @@
 }
 
 
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(unsigned long long)updateID startingAtPage:(int)pageNum count:(int)numUpdates
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(NSString *)updateID startingAtPage:(int)pageNum count:(int)numUpdates
 {
 	NSString *path = @"statuses/user_timeline.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
 	if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1054,13 +1054,13 @@
 }
 
 
-- (NSString *)getPublicTimelineSinceID:(unsigned long long)updateID
+- (NSString *)getPublicTimelineSinceID:(NSString *)updateID
 {
     NSString *path = @"statuses/public_timeline.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
@@ -1101,9 +1101,9 @@
 }
 
 
-- (NSString *)getUpdate:(unsigned long long)updateID
+- (NSString *)getUpdate:(NSString *)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"statuses/show/%qu.xml", updateID];
+    NSString *path = [NSString stringWithFormat:@"statuses/show/%@.xml", updateID];
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:nil body:nil 
                             requestType:MGTwitterStatusesRequest 
@@ -1132,13 +1132,13 @@
 }
 
 
-- (NSString *)getDirectMessagesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum
+- (NSString *)getDirectMessagesSinceID:(NSString *)updateID startingAtPage:(int)pageNum
 {
     NSString *path = @"direct_messages.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1168,13 +1168,13 @@
 }
 
 
-- (NSString *)getSentDirectMessagesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum
+- (NSString *)getSentDirectMessagesSinceID:(NSString *)updateID startingAtPage:(int)pageNum
 {
     NSString *path = @"direct_messages/sent.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1270,7 +1270,7 @@
 }
 
 
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(unsigned long long)updateID
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(NSString *)updateID
 {
     if (!status) {
         return nil;
@@ -1286,7 +1286,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:trimmedText forKey:@"status"];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"in_reply_to_status_id"];
+        [params setObject:updateID forKey:@"in_reply_to_status_id"];
     }
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
@@ -1297,9 +1297,9 @@
 }
 
 
-- (NSString *)deleteUpdate:(unsigned long long)updateID
+- (NSString *)deleteUpdate:(NSString *)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"statuses/destroy/%qu.xml", updateID];
+    NSString *path = [NSString stringWithFormat:@"statuses/destroy/%@.xml", updateID];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
@@ -1307,9 +1307,9 @@
 }
 
 
-- (NSString *)markUpdate:(unsigned long long)updateID asFavorite:(BOOL)flag
+- (NSString *)markUpdate:(NSString *)updateID asFavorite:(BOOL)flag
 {
-    NSString *path = [NSString stringWithFormat:@"favorites/%@/%qu.xml", 
+    NSString *path = [NSString stringWithFormat:@"favorites/%@/%@.xml", 
                       (flag) ? @"create" : @"destroy" ,
                       updateID];
     
@@ -1347,9 +1347,9 @@
 }
 
 
-- (NSString *)deleteDirectMessage:(unsigned long long)updateID
+- (NSString *)deleteDirectMessage:(NSString *)updateID
 {
-    NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%qu.xml", updateID];
+    NSString *path = [NSString stringWithFormat:@"direct_messages/destroy/%@.xml", updateID];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path queryParameters:nil body:nil 
                             requestType:MGTwitterAccountRequest 
@@ -1373,13 +1373,13 @@
 }
 
 
-- (NSString *)getRepliesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum
+- (NSString *)getRepliesSinceID:(NSString *)updateID startingAtPage:(int)pageNum
 {
 	NSString *path = @"statuses/replies.xml";
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%qu", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
