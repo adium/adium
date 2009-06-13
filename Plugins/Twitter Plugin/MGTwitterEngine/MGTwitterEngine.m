@@ -964,7 +964,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1021,7 +1021,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
 	if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1060,7 +1060,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     
     return [self _sendRequestWithMethod:nil path:path queryParameters:params body:nil 
@@ -1138,7 +1138,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1174,7 +1174,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
@@ -1286,7 +1286,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     [params setObject:trimmedText forKey:@"status"];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"in_reply_to_status_id"];
+        [params setObject:updateID forKey:@"in_reply_to_status_id"];
     }
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
@@ -1379,7 +1379,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params setObject:[NSString stringWithFormat:@"%@", updateID] forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
