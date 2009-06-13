@@ -964,7 +964,7 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     if (updateID > 0) {
-        [params updateID forKey:@"since_id"];
+        [params setObject:updateID forKey:@"since_id"];
     }
     if (pageNum > 0) {
         [params setObject:[NSString stringWithFormat:@"%d", pageNum] forKey:@"page"];
