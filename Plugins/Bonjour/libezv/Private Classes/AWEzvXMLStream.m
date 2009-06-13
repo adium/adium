@@ -155,16 +155,14 @@ void xml_char_data	(void *userData,
 @synthesize delegate;
 
 - (void) xmlStartElement:(const XML_Char *)name attributes:(const XML_Char **)attributes {
-    AWEzvXMLNode    *node;
-    NSString	    *attribute, *value, *nodeName;
     
-    nodeName = [NSString stringWithUTF8String:name];
+    NSString *nodeName = [NSString stringWithUTF8String:name];
     
-    node = [[[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:nodeName] autorelease];
+    AWEzvXMLNode *node = [[[AWEzvXMLNode alloc] initWithType:AWEzvXMLElement name:nodeName] autorelease];
     
     while (*attributes != NULL) {
-        attribute = [NSString stringWithUTF8String:*attributes++];
-        value = [NSString stringWithUTF8String:*attributes++];
+        NSString *attribute = [NSString stringWithUTF8String:*attributes++];
+        NSString *value = [NSString stringWithUTF8String:*attributes++];
         [node addAttribute:attribute withValue:value];
     }
     
