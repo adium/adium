@@ -302,7 +302,7 @@
 
 - (NSArray *) participants
 {
-	NSMutableSet *participantSet = [[NSMutableSet alloc] init];
+	NSMutableSet *participantSet = [[[NSMutableSet alloc] init] autorelease];
 	
     for (unsigned int i=0; i < [instantMessages count]; i++)
 	{
