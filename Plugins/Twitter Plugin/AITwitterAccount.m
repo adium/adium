@@ -434,10 +434,8 @@
 	NSString *requestID;
 	
 	if(inContentMessage.chat.isGroupChat) {
-		NSInteger replyID = [[inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"] unsignedLongLongValue];
-		
 		requestID = [twitterEngine sendUpdate:inContentMessage.encodedMessage
-									inReplyTo:replyID];
+									inReplyTo:[inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"]];
 		
 		if(requestID) {
 			[self setRequestType:AITwitterSendUpdate
@@ -447,7 +445,7 @@
 			
 			inContentMessage.displayContent = NO;
 			
-			AILogWithSignature(@"%@ Sending update [in reply to %d]: %@", self, replyID, inContentMessage.encodedMessage);
+			AILogWithSignature(@"%@ Sending update [in reply to %@]: %@", self, [inContentMessage.chat valueForProperty:@"TweetInReplyToStatusID"], inContentMessage.encodedMessage);
 		}
 
 	} else {		
@@ -1038,7 +1036,7 @@
 	}
 	
 	NSString	*requestID;
-	NSUInteger	lastID;
+	NSString	*lastID;
 	
 	// We haven't completed the timeline nor replies. This lets us know if we should display statuses.
 	followedTimelineCompleted = repliesCompleted = NO;
@@ -1056,8 +1054,8 @@
 	AILogWithSignature(@"%@ Periodic update fire", self);
 	
 	// Pull direct messages	
-	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
-								group:TWITTER_PREFERENCE_GROUP_UPDATES] unsignedLongLongValue];
+	lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
 	requestID = [twitterEngine getDirectMessagesSinceID:lastID startingAtPage:1];
 	
@@ -1070,8 +1068,8 @@
 	}
 
 	// Pull followed timeline
-	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
-								group:TWITTER_PREFERENCE_GROUP_UPDATES] unsignedLongLongValue];
+	lastID = [self preferenceForKey:TWITTER_PREFERENCE_TIMELINE_LAST_ID
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 
 	requestID = [twitterEngine getFollowedTimelineFor:nil
 											  sinceID:lastID
@@ -1087,8 +1085,8 @@
 	}
 	
 	// Pull the replies feed	
-	lastID = [[self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
-							   group:TWITTER_PREFERENCE_GROUP_UPDATES] unsignedLongLongValue];
+	lastID = [self preferenceForKey:TWITTER_PREFERENCE_REPLIES_LAST_ID
+							  group:TWITTER_PREFERENCE_GROUP_UPDATES];
 	
 	requestID = [twitterEngine getRepliesSinceID:lastID startingAtPage:1];
 	
@@ -1194,7 +1192,7 @@
  */
 - (void)toggleFavoriteTweet:(NSString *)tweetID
 {
-	NSString *requestID = [twitterEngine markUpdate:[tweetID unsignedLongLongValue] asFavorite:YES];
+	NSString *requestID = [twitterEngine markUpdate:tweetID asFavorite:YES];
 	
 	if (requestID) {
 		[self setRequestType:AITwitterFavoriteYes
@@ -1216,7 +1214,7 @@
  */
 - (void)destroyTweet:(NSString *)tweetID
 {
-	NSString *requestID = [twitterEngine deleteUpdate:[tweetID unsignedLongLongValue]];
+	NSString *requestID = [twitterEngine deleteUpdate:tweetID];
 	
 	if(requestID) {
 		[self setRequestType:AITwitterDestroyStatus
@@ -1239,7 +1237,7 @@
 - (void)destroyDirectMessage:(NSString *)messageID
 					 forUser:(NSString *)userID
 {
-	NSString *requestID = [twitterEngine deleteDirectMessage:[messageID unsignedLongLongValue]];
+	NSString *requestID = [twitterEngine deleteDirectMessage:messageID];
 	AIListContact *contact = [self contactWithUID:userID];
 	
 	if(requestID) {
@@ -1812,7 +1810,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				BOOL addAsFavorite = ([self requestTypeForRequestID:identifier] == AITwitterFavoriteNo);
 				NSString *tweetID = [[self dictionaryForRequestID:identifier] objectForKey:@"tweetID"];
 				
-				NSString *requestID = [twitterEngine markUpdate:[tweetID unsignedLongLongValue]
+				NSString *requestID = [twitterEngine markUpdate:tweetID
 													 asFavorite:addAsFavorite];
 				
 				if (requestID) {
@@ -1929,7 +1927,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
 				requestID = [twitterEngine getFollowedTimelineFor:nil
-														  sinceID:[lastID unsignedLongLongValue]
+														  sinceID:lastID
 												   startingAtPage:nextPage
 															count:TWITTER_UPDATE_TIMELINE_COUNT];
 				
@@ -1948,7 +1946,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 				}
 				
 			} else if ([self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
-				requestID = [twitterEngine getRepliesSinceID:[lastID unsignedLongLongValue] startingAtPage:nextPage];
+				requestID = [twitterEngine getRepliesSinceID:lastID startingAtPage:nextPage];
 				
 				AILogWithSignature(@"%@ Pulling additional replies page %d", self, nextPage);
 				
@@ -2102,17 +2100,17 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 - (void)directMessagesReceived:(NSArray *)messages forRequest:(NSString *)identifier
 {	
 	if ([self requestTypeForRequestID:identifier] == AITwitterUpdateDirectMessage) {		
-		NSNumber *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
+		NSString *lastID = [self preferenceForKey:TWITTER_PREFERENCE_DM_LAST_ID
 											group:TWITTER_PREFERENCE_GROUP_UPDATES];
 		
 		BOOL nextPageNecessary = (lastID && messages.count >= TWITTER_UPDATE_DM_COUNT);
 		
 		// Store the largest tweet ID we find; this will be our "last ID" the next time we run.
-		NSNumber *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
+		NSString *largestTweet = [[self dictionaryForRequestID:identifier] objectForKey:@"LargestTweet"];
 		
 		// The largest ID is first, compare.
 		if (messages.count) {
-			NSNumber *tweetID = [[messages objectAtIndex:0] objectForKey:TWITTER_DM_ID];
+			NSString *tweetID = [[messages objectAtIndex:0] objectForKey:TWITTER_DM_ID];
 			if (!largestTweet || [largestTweet compare:tweetID] == NSOrderedAscending) {
 				largestTweet = tweetID;
 			}
@@ -2125,7 +2123,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		if(nextPageNecessary) {
 			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			
-			NSString	*requestID = [twitterEngine getDirectMessagesSinceID:[lastID unsignedLongLongValue] 
+			NSString	*requestID = [twitterEngine getDirectMessagesSinceID:lastID
 														      startingAtPage:nextPage];
 			
 			AILogWithSignature(@"%@ Pulling additional DM page %d", self, nextPage);

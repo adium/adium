@@ -92,22 +92,22 @@
 // Retrieving updates
 - (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum;
 - (NSString *)getFollowedTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)count;		// max 200
-- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(unsigned long long)updateID startingAtPage:(int)pageNum count:(int)count;		// max 200
+- (NSString *)getFollowedTimelineFor:(NSString *)username sinceID:(NSString *)updateID startingAtPage:(int)pageNum count:(int)count;		// max 200
 - (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date count:(int)numUpdates;									// max 200
 - (NSString *)getUserTimelineFor:(NSString *)username since:(NSDate *)date startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
-- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(unsigned long long)updateID startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
+- (NSString *)getUserTimelineFor:(NSString *)username sinceID:(NSString *)updateID startingAtPage:(int)pageNum count:(int)numUpdates;		// max 200
 - (NSString *)getUserUpdatesArchiveStartingAtPage:(int)pageNum;																		// 80 per page
-- (NSString *)getPublicTimelineSinceID:(unsigned long long)updateID;
-- (NSString *)getRepliesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum;
+- (NSString *)getPublicTimelineSinceID:(NSString *)updateID;
+- (NSString *)getRepliesSinceID:(NSString *)updateID startingAtPage:(int)pageNum;
 - (NSString *)getRepliesStartingAtPage:(int)pageNum;                                          // sent TO this user
 - (NSString *)getFavoriteUpdatesFor:(NSString *)username startingAtPage:(int)pageNum;
-- (NSString *)getUpdate:(unsigned long long)updateID;
+- (NSString *)getUpdate:(NSString *)updateID;
 
 // Retrieving direct messages
 - (NSString *)getDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum;              // sent TO this user
-- (NSString *)getDirectMessagesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum;             // sent TO this user
+- (NSString *)getDirectMessagesSinceID:(NSString *)updateID startingAtPage:(int)pageNum;             // sent TO this user
 - (NSString *)getSentDirectMessagesSince:(NSDate *)date startingAtPage:(int)pageNum;          // sent BY this user
-- (NSString *)getSentDirectMessagesSinceID:(unsigned long long)updateID startingAtPage:(int)pageNum;         // sent BY this user
+- (NSString *)getSentDirectMessagesSinceID:(NSString *)updateID startingAtPage:(int)pageNum;         // sent BY this user
 
 // Retrieving user information
 - (NSString *)getUserInformationFor:(NSString *)username;
@@ -125,13 +125,13 @@
 
 // Sending and editing updates
 - (NSString *)sendUpdate:(NSString *)status;
-- (NSString *)sendUpdate:(NSString *)status inReplyTo:(unsigned long long)updateID;
-- (NSString *)deleteUpdate:(unsigned long long)updateID;                 // this user must be the AUTHOR
-- (NSString *)markUpdate:(unsigned long long)updateID asFavorite:(BOOL)flag;
+- (NSString *)sendUpdate:(NSString *)status inReplyTo:(NSString *)updateID;
+- (NSString *)deleteUpdate:(NSString *)updateID;                 // this user must be the AUTHOR
+- (NSString *)markUpdate:(NSString *)updateID asFavorite:(BOOL)flag;
 
 // Sending and editing direct messages
 - (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username;
-- (NSString *)deleteDirectMessage:(unsigned long long)updateID;          // this user must be the RECIPIENT
+- (NSString *)deleteDirectMessage:(NSString *)updateID;          // this user must be the RECIPIENT
 
 // Adium OAuth additions
 @property (readwrite, nonatomic) BOOL useOAuth;
