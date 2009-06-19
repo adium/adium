@@ -560,6 +560,9 @@ GList *purple_connections_get_connecting(void);
  * Checks if gc is still a valid pointer to a gc.
  *
  * @return @c TRUE if gc is valid.
+ *
+ * @deprecated Do not use this.  Instead, cancel your asynchronous request
+ *             when the PurpleConnection is destroyed.
  */
 /*
  * TODO: Eventually this bad boy will be removed, because it is

@@ -325,8 +325,8 @@ char *jabber_parse_error(JabberStream *js, xmlnode *packet, PurpleConnectionErro
 void jabber_add_feature(const gchar *namespace, JabberFeatureEnabled cb); /* cb may be NULL */
 void jabber_remove_feature(const gchar *namespace);
 
-/** Adds an identitiy to this jabber library instance. For list of valid values vistit the
- *	webiste of the XMPP Registrar ( http://www.xmpp.org/registrar/disco-categories.html#client ).
+/** Adds an identity to this jabber library instance. For list of valid values visit the
+ *	website of the XMPP Registrar ( http://www.xmpp.org/registrar/disco-categories.html#client ).
  *  @param category the category of the identity.
  *  @param type the type of the identity.
  *  @param language the language localization of the name. Can be NULL.

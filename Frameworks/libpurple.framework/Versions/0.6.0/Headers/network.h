@@ -259,7 +259,14 @@ void purple_network_set_turn_server(const gchar *stun_server);
  */
 const gchar *purple_network_get_turn_ip(void);
 		
-	
+/**
+ * Remove a port mapping (UPnP or NAT-PMP) associated with listening socket
+ *
+ * @param fd Socket to remove the port mapping for
+ * @since 2.6.0
+ */
+void purple_network_remove_port_mapping(gint fd);	
+
 /**
  * Initializes the network subsystem.
  */
