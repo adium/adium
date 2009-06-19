@@ -427,7 +427,9 @@ void *purple_notify_email(void *handle, const char *subject,
  * Displays a notification for multiple emails to the user.
  *
  * @param handle    The plugin or connection handle.
- * @param count     The number of emails.
+ * @param count     The number of emails.  '0' can be used to signify that
+ *                  the user has no unread emails and the UI should remove
+ *                  the mail notification.
  * @param detailed  @c TRUE if there is information for each email in the
  *                  arrays.
  * @param subjects  The array of subjects.

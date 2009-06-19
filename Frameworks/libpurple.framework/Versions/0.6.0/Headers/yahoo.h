@@ -53,7 +53,7 @@
 #define YAHOOJP_XFER_HOST "filetransfer.msg.yahoo.co.jp"
 #define YAHOOJP_WEBCAM_HOST "wc.yahoo.co.jp"
 /* not sure, must test: */
-#define YAHOOJP_XFER_RELAY_HOST "relay.msg.yahoo.co.jp" 
+#define YAHOOJP_XFER_RELAY_HOST "relay.msg.yahoo.co.jp"
 #define YAHOOJP_XFER_RELAY_PORT 80
 #define YAHOOJP_ROOMLIST_URL "http://insider.msg.yahoo.co.jp/ycontent/"
 #define YAHOOJP_ROOMLIST_LOCALE "ja"
@@ -201,7 +201,7 @@ struct yahoo_data {
 	GSList *url_datas;
 	GHashTable *xfer_peer_idstring_map;/* Hey, i dont know, but putting this HashTable next to friends gives a run time fault... */
 	GSList *cookies;/* contains all cookies, including _y and _t */
-	
+
 	/**
 	 * We may receive a list15 in multiple packets with no prior warning as to how many we'll be getting;
 	 * the server expects us to keep track of the group for which it is sending us contact names.

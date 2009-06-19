@@ -136,7 +136,7 @@ void xmlnode_insert_data(xmlnode *node, const char *data, gssize size);
  * @return The data from the node or NULL. This data is in raw escaped format.
  *         You must g_free this string when finished using it.
  */
-char *xmlnode_get_data(xmlnode *node);
+char *xmlnode_get_data(const xmlnode *node);
 
 /**
  * Gets unescaped data from a node.
@@ -146,7 +146,7 @@ char *xmlnode_get_data(xmlnode *node);
  * @return The data from the node, in unescaped form.   You must g_free
  *         this string when finished using it.
  */
-char *xmlnode_get_data_unescaped(xmlnode *node);
+char *xmlnode_get_data_unescaped(const xmlnode *node);
 
 /**
  * Sets an attribute for a node.
