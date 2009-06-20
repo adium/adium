@@ -497,6 +497,9 @@ static NSArray *validSenderColors;
 	contextOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Context" ofType:@"html" inDirectory:@"Outgoing"]] retain];
 	nextContextOutHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"NextContext" ofType:@"html" inDirectory:@"Outgoing"]] retain];
 	
+	//Fall back to Resources/Content.html if Incoming isn't present
+	if (!contentInHTML) contentInHTML = [contentHTML retain];
+	
 	//Fall back to Content if NextContent doesn't need to use different HTML
 	if (!nextContentInHTML) nextContentInHTML = [contentInHTML retain];
 	
@@ -515,9 +518,6 @@ static NSArray *validSenderColors;
 	//Fall back to Incoming if Outgoing doesn't need to be different
 	if (!contentOutHTML) contentOutHTML = [contentInHTML retain];
 	if (!nextContentOutHTML) nextContentOutHTML = [nextContentInHTML retain];
-	
-	//Fall back to Resources/Content.html if Incoming isn't present
-	if (!contentInHTML) contentInHTML = [contentHTML retain];
 	
 	//Status
 	statusHTML = [[NSString stringWithContentsOfUTF8File:[styleBundle semiCaseInsensitivePathForResource:@"Status" ofType:@"html"]] retain];
