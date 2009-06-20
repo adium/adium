@@ -55,8 +55,6 @@
 // We set back, when the user finishes editing, the correct topic, which wipes out the existance of the span before. We don't need to undo the dbl click action.
 #define TOPIC_INDIVIDUAL_WRAPPER		@"<span id=\"topicEdit\" ondblclick=\"this.setAttribute('contentEditable', true); this.focus();\">%@</span>"
 
-#define VALID_SENDER_COLORS_ARRAY [[NSArray alloc] initWithObjects:@"aqua", @"aquamarine", @"blue", @"blueviolet", @"brown", @"burlywood", @"cadetblue", @"chartreuse", @"chocolate", @"coral", @"cornflowerblue", @"crimson", @"cyan", @"darkblue", @"darkcyan", @"darkgoldenrod", @"darkgreen", @"darkgrey", @"darkkhaki", @"darkmagenta", @"darkolivegreen", @"darkorange", @"darkorchid", @"darkred", @"darksalmon", @"darkseagreen", @"darkslateblue", @"darkslategrey", @"darkturquoise", @"darkviolet", @"deeppink", @"deepskyblue", @"dimgrey", @"dodgerblue", @"firebrick", @"forestgreen", @"fuchsia", @"gold", @"goldenrod", @"green", @"greenyellow", @"grey", @"hotpink", @"indianred", @"indigo", @"lawngreen", @"lightblue", @"lightcoral", @"lightgreen", @"lightgrey", @"lightpink", @"lightsalmon", @"lightseagreen", @"lightskyblue", @"lightslategrey", @"lightsteelblue", @"lime", @"limegreen", @"magenta", @"maroon", @"mediumaquamarine", @"mediumblue", @"mediumorchid", @"mediumpurple", @"mediumseagreen", @"mediumslateblue", @"mediumspringgreen", @"mediumturquoise", @"mediumvioletred", @"midnightblue", @"navy", @"olive", @"olivedrab", @"orange", @"orangered", @"orchid", @"palegreen", @"paleturquoise", @"palevioletred", @"peru", @"pink", @"plum", @"powderblue", @"purple", @"red", @"rosybrown", @"royalblue", @"saddlebrown", @"salmon", @"sandybrown", @"seagreen", @"sienna", @"silver", @"skyblue", @"slateblue", @"slategrey", @"springgreen", @"steelblue", @"tan", @"teal", @"thistle", @"tomato", @"turquoise", @"violet", @"yellowgreen", nil]
-
 static NSArray *validSenderColors;
 
 @interface NSMutableString (AIKeywordReplacementAdditions)
@@ -788,11 +786,9 @@ static NSArray *validSenderColors;
 		
 		if(senderColorsFile)
 			validSenderColors = [[senderColorsFile componentsSeparatedByString:@":"] retain];
-		if(!validSenderColors || [validSenderColors count] == 0)
-			validSenderColors = VALID_SENDER_COLORS_ARRAY;
 	}
 	[inString replaceKeyword:@"%senderColor%"
-				  withString:[validSenderColors objectAtIndex:([contentSource.UID hash] % ([validSenderColors count]))]];
+				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:validSenderColors]];
 	
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
 	[inString replaceKeyword:@"%messageDirection%"
