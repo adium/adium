@@ -307,3 +307,16 @@ char intToHex(int digit);
 + (id)colorWithHTMLString:(NSString *)str defaultColor:(NSColor *)defaultColor;
 
 @end
+
+@interface NSColor (AIColorAdditions_ObjectColor)
+
+/*!	@brief	Compute a colour for an object based on it's hash, represnted in an HTML color name from within a list of valid colours.
+ *
+ *	@param	anObject an object for which to compute a matching colour.
+ *	@param	validColors an NSArray containing a list of valid colours to return. If nil or empty, the colour will be chosen from a default list.
+ *
+ *	@return	An NSString containing an HTML colour name.
+ */
++ (NSString *)representedColorForObject: (id)anObject withValidColors: (NSArray *)validColors;
+
+@end
