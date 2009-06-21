@@ -81,7 +81,7 @@ function downloadSources {
 	mkdir "$SOURCEDIR" > /dev/null 2>&1 || true
 	
 	pushd "$SOURCEDIR"
-		python "$BASEDIR/download.py" -f "$BASEDIR/urls.txt"
+		python "$SCRIPT_DIR/download.py" -f "$SCRIPT_DIR/urls.txt"
 	popd
 }
 
