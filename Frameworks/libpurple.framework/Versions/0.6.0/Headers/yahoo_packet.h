@@ -107,6 +107,7 @@ enum yahoo_service { /* these are easier to see in hex */
 	YAHOO_SERVICE_CHGRP_15 = 0xe7,
 	YAHOO_SERVICE_STATUS_15 = 0xf0,
 	YAHOO_SERVICE_LIST_15 = 0xf1,
+	YAHOO_SERVICE_MESSAGE_ACK = 0xfb,
 	YAHOO_SERVICE_WEBLOGIN = 0x0226,
 	YAHOO_SERVICE_SMS_MSG = 0x02ea
 	/* YAHOO_SERVICE_DISCONNECT = 0x07d1 Server forces us to disconnect. Is sent with TCP FIN flag set */
