@@ -87,13 +87,13 @@ for ARCH in ${ARCHES[@]} ; do
 	cp $SOURCEDIR/cyrus-sasl-2.1.18/include/*.h $TARGET_DIR/include/sasl
 	
 	#Note that whether we use openssl or cdsa the same underlying workarounds (as seen in jabber.c, only usage at present 12/07) are needed
-	export CFLAGS="$BASE_CFLAGS -arch $ARCH -I$TARGET_DIR/include -I$SDK_ROOT/usr/include/kerberosIV -DHAVE_SSL -DHAVE_OPENSSL -fno-common "
+	export CFLAGS="$BASE_CFLAGS -arch $ARCH -I$TARGET_DIR/include  -I$TARGET_DIR/include/json-glib-1.0 -I$SDK_ROOT/usr/include/kerberosIV -DHAVE_SSL -DHAVE_OPENSSL -fno-common "
 	
 	if [ "$DEBUG_SYMBOLS" = "TRUE" ] ; then
 		export CFLAGS="$CFLAGS -gdwarf-2 -g3" 
 	fi
 	
-	export LDFLAGS="$BASE_LDFLAGS -L$TARGET_DIR/lib -arch $ARCH -lsasl2"
+	export LDFLAGS="$BASE_LDFLAGS -L$TARGET_DIR/lib -arch $ARCH -lsasl2 -ljson-glib-1.0"
 	export PKG_CONFIG="$TARGET_DIR_BASE-$ARCH/bin/pkg-config"
 	export MSGFMT="`which msgfmt`"
 	

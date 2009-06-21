@@ -121,4 +121,32 @@ for ARCH in ppc i386 ; do
     cd ..
 done
 
+# json-glib for the facebook prpl
+for ARCH in ppc i386 ; do
+	echo "Building json-glib for $ARCH"
+
+	export CFLAGS="$BASE_CFLAGS -arch $ARCH"
+	export CXXFLAGS="$CFLAGS"
+	export LDFLAGS="$BASE_LDFLAGS -arch $ARCH"
+
+    mkdir json-glib-$ARCH || true
+    cd json-glib-$ARCH
+
+	case $ARCH in
+		ppc) TARGET_DIR="$TARGET_DIR_PPC"
+    		export PATH="$PATH_PPC"
+            export PKG_CONFIG_PATH="$TARGET_DIR_PPC/lib/pkgconfig";;
+		i386) TARGET_DIR="$TARGET_DIR_I386"
+            export PATH="$PATH_I386"
+            export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig";;
+	esac
+
+	echo '  Configuring...'   
+    "$SOURCEDIR/$JSONLIB/configure" --prefix=$TARGET_DIR #>> $LOG_FILE 2>&1
+    
+	echo '  make && make install'
+    make -j $NUMBER_OF_CORES && make install #>> $LOG_FILE 2>&1
+    cd ..
+done
+
 echo "Done - now run ./purple_make.sh"

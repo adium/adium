@@ -16,6 +16,7 @@ LIBGMODULE=libgmodule-2.0.0
 MEANWHILE=libmeanwhile.1
 GADU=libgadu.3.7.0
 SASL=libsasl2.2
+JSONGLIB=libjson-glib-1.0.0
 
 # vv
 # I'm not sure what to do to universalize the vv libs, especially the gst-plugins
@@ -54,6 +55,9 @@ mkdir libgthread-2.0.0 || true
 # no headers to copy, make an empty file so that rtool isn't sad
 touch libgthread-2.0.0/no_headers_here.txt
 
+mkdir libjson-glib-1.0.0 || true
+cp -R $TARGET_DIR_I386/include/json-glib-1.0/ $UNIVERSAL_DIR/include/libjson-glib-1.0.0/
+
 rm -rf $UNIVERSAL_DIR/include/$PURPLE_FOLDER
 cp -R $TARGET_DIR_I386/include/libpurple $UNIVERSAL_DIR/include/$PURPLE_FOLDER
 # Another hack: we need libgadu.h
@@ -64,7 +68,7 @@ cd ..
 
 cd $UNIVERSAL_DIR
 
-for lib in $LIBINTL $LIBGLIB $LIBGOBJECT $LIBGTHREAD $LIBGMODULE $MEANWHILE \
+for lib in $LIBINTL $LIBGLIB $LIBGOBJECT $LIBGTHREAD $LIBGMODULE $MEANWHILE $JSONGLIB \
            $GADU $LIBPURPLE; do
 	echo "Making $lib universal..."
 	python $SCRIPT_DIR/framework_maker/universalize.py \
