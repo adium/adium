@@ -73,28 +73,30 @@
 				appendMessageNoScroll(html);
 			}
 		}
+
 		function replaceLastMessage(html){
 			shouldScroll = nearBottom();
 
 			//Retrieve the current insertion point, then remove it
 			//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
 			var insert = document.getElementById("insert");
+			var chat = document.getElementById("Chat");
 			if(insert){
 				var parentNode = insert.parentNode;
-				var lastMessage = insert.previousSibling;
 				parentNode.removeChild(insert);
-				parentNode.removeChild(lastMessage);
+				var lastMessage = chat.lastChild;
+				chat.removeChild(lastMessage);
 			}
 
 			//Now append the message itself
 			var range = document.createRange();
-			var chat = document.getElementById("Chat");
 			range.selectNode(chat);
 			documentFragment = range.createContextualFragment(html);
 			chat.appendChild(documentFragment);
 
 			alignChat(shouldScroll);
 		}
+
 		//Auto-scroll to bottom.  Use nearBottom to determine if a scrollToBottom is desired.
 		function nearBottom() {
 			return ( document.body.scrollTop >= ( document.body.offsetHeight - ( window.innerHeight * 1.2 ) ) );
