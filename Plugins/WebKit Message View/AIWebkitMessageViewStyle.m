@@ -551,7 +551,7 @@ static NSArray *validSenderColors;
 	newHTML = [[[self completedTemplateForContent:content similar:contentIsSimilar] mutableCopy] autorelease];
 	
 	//BOM scripts vary by style version
-	if (!usingCustomTemplateHTML || styleVersion >= 4) {
+	if (!usingCustomTemplateHTML && styleVersion >= 4) {
 		/* If we're using the built-in template HTML, we know that it supports our most modern scripts */
 		if (replaceLastContent)
 			script = REPLACE_LAST_MESSAGE;
