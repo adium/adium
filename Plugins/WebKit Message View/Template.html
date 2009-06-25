@@ -125,24 +125,28 @@
 		function imageCheck() {
 			var shouldScroll = nearBottom();
 			var node = event.target;
+			if (node.tagName.toLowerCase() != 'img' && node.tagName.toLowerCase() != 'a')
+				return;
 
 			if (!event.altKey)
 			{
-				if (node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt) {
+				if (!client.zoomImage(node) && node.alt) {
 					 imageToText(node);
 				}
 			}
 			else
 			{
-				var parentNode = node.parentNode;
-				var aImgChilds = parentNode.getElementsByTagName('img');
-				for (i = 0; i < aImgChilds.length; ) {
+				var chatElement = document.getElementById("Chat");
+				while (node != chatElement && node.parentNode != chatElement)
+					node = node.parentNode;
+				var aImgChilds = node.getElementsByTagName('img');
+				//The odd i++/continue usage is due to getElementsByTagName returning a live NodeList
+				for (i = 0; i < aImgChilds.length;) {
 					var child = aImgChilds[i];
-					if (child.tagName.toLowerCase() == 'img' && !client.zoomImage(child) && child.alt) {
+					if (!client.zoomImage(child) && child.alt) {
 						 imageToText(child);
-						continue;
+						 continue;
 					}
-
 					i++;
 				}
 			}
@@ -172,8 +176,11 @@
 			}
 			else
 			{
-				var parentNode = node.parentNode;
-				var aImgChilds = parentNode.getElementsByTagName('a');
+				var chatElement = document.getElementById("Chat");
+				while (node != chatElement && node.parentNode != chatElement)
+					node = node.parentNode;
+				var aImgChilds = node.getElementsByTagName('a');
+				//The odd i++/continue usage is due to getElementsByTagName returning a live NodeList
 				for (i = 0; i < aImgChilds.length; ) {
 					var child = aImgChilds[i];
 					if (child.getAttribute('isEmoticon')) {
