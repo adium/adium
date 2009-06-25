@@ -338,8 +338,6 @@ static AIContactObserverManager *sharedObserverManager = nil;
 	NSMutableSet	*attrChange = nil;
 
 	for (NSValue *observerValue in [[contactObservers copy] autorelease]) {
-		id <AIListObjectObserver>	observer;
-		NSSet						*newKeys;
 		
 		/* Skip any observer which has been removed while we were iterating over observers,
 		 * as we don't retain observers and therefore risk messaging a released object.
@@ -347,7 +345,7 @@ static AIContactObserverManager *sharedObserverManager = nil;
 		if (removedContactObservers && [removedContactObservers containsObject:observerValue])
 			continue;
 		
-		observer = [observerValue nonretainedObjectValue];
+		id <AIListObjectObserver> observer = [observerValue nonretainedObjectValue];
 #ifdef CONTACT_OBSERVER_MEMORY_MANAGEMENT_DEBUG
 		/* This will log a warning in 10.4 about +[Object allocWithZone:] being a compatibility method.
 		 * It is only used in debug builds, so that's fine.
@@ -357,7 +355,9 @@ static AIContactObserverManager *sharedObserverManager = nil;
 			NSAssert1(FALSE, @"%p is a released observer. Please check the Adium Debug Log. If it wasn't logging to file, do that next time.", observer);
 		}
 #endif		
-		if ((newKeys = [observer updateListObject:inObject keys:modifiedKeys silent:silent])) {
+		
+		NSSet *newKeys = [observer updateListObject:inObject keys:modifiedKeys silent:silent];
+		if (newKeys) {
 			if (!attrChange) attrChange = [[NSMutableSet alloc] init];
 			[attrChange unionSet:newKeys];
 		}
