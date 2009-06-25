@@ -119,34 +119,81 @@
 			head.appendChild( documentFragment );
 		}
 
-		//Swap an image with its alt-tag text on click, or expand/unexpand an attached image
+		/* Swap an images with its alt-tag text on click, or expand/unexpand an attached image.
+		Combined the click with the alt key and all the image in the parent node are swapped. */
 		document.onclick = imageCheck;
 		function imageCheck() {
 			var shouldScroll = nearBottom();
 			var node = event.target;
-			if(node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt) {
-				var a = document.createElement('a');
-				a.setAttribute('onclick', 'imageSwap(this)');
-				a.setAttribute('src', node.getAttribute('src'));
-				a.className = node.className;
-				var text = document.createTextNode(node.alt);
-				a.appendChild(text);
-				node.parentNode.replaceChild(a, node);
+
+			if (!event.altKey)
+			{
+				if (node.tagName.toLowerCase() == 'img' && !client.zoomImage(node) && node.alt) {
+					 imageToText(node);
+				}
+			}
+			else
+			{
+				var parentNode = node.parentNode;
+				var aImgChilds = parentNode.getElementsByTagName('img');
+				for (i = 0; i < aImgChilds.length; ) {
+					var child = aImgChilds[i];
+					if (child.tagName.toLowerCase() == 'img' && !client.zoomImage(child) && child.alt) {
+						 imageToText(child);
+						continue;
+					}
+
+					i++;
+				}
 			}
 			alignChat(shouldScroll);
 		}
 
+		function imageToText(node)
+		{
+			var a = document.createElement('a');
+			a.setAttribute('onclick', 'imageSwap(this)');
+			a.setAttribute('src', node.getAttribute('src'));
+			a.setAttribute('isEmoticon', true);
+			a.className = node.className;
+			var text = document.createTextNode(node.alt);
+			a.appendChild(text);
+			node.parentNode.replaceChild(a, node);
+		}
+		
+		/* Swap the emoticon text in images.
+		Combined the click with the alt key and all emoticons in text mode in the message are swapped. */
 		function imageSwap(node) {
 			var shouldScroll = nearBottom();
 
+			if (!event.altKey)
+			{
+				textToImage(node);
+			}
+			else
+			{
+				var parentNode = node.parentNode;
+				var aImgChilds = parentNode.getElementsByTagName('a');
+				for (i = 0; i < aImgChilds.length; ) {
+					var child = aImgChilds[i];
+					if (child.getAttribute('isEmoticon')) {
+						 textToImage(child);
+						continue;
+					}
+
+					i++;
+				}
+			}
+			alignChat(shouldScroll);
+		}
+
+		function textToImage(node) {
 			//Swap the image/text
 			var img = document.createElement('img');
 			img.setAttribute('src', node.getAttribute('src'));
 			img.setAttribute('alt', node.firstChild.nodeValue);
 			img.className = node.className;
 			node.parentNode.replaceChild(img, node);
-
-			alignChat(shouldScroll);
 		}
 
 		//Align our chat to the bottom of the window.  If true is passed, view will also be scrolled down
