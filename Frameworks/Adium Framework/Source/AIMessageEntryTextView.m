@@ -996,7 +996,7 @@
 {
 	if (visible && !characterCounter) {
 		characterCounter = [[AISimpleTextView alloc] initWithFrame:NSZeroRect];
-		[characterCounter setAutoresizingMask:(NSViewMinXMargin)];
+		[characterCounter setAutoresizingMask:(NSViewMinXMargin|NSViewWidthSizable)];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:) name:NSViewBoundsDidChangeNotification object:[self superview]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(positionIndicators:) name:NSViewFrameDidChangeNotification object:[self superview]];		
