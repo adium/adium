@@ -95,10 +95,8 @@
 			head.appendChild( documentFragment );
 		}
 
-		/* Swap an images with its alt-tag text on click, or expand/unexpand an attached image.
-		Combined the click with the alt key and all the image in the parent node are swapped. */
-		document.onclick = imageCheck;
-		function imageCheck() {
+		/* Converts emoticon images to textual emoticons; all emoticons in message if alt is held */
+		document.onclick = function imageCheck() {
 			var node = event.target;
 			if (node.tagName.toLowerCase() != 'img')
 				return;
@@ -106,8 +104,7 @@
 			imageSwap(node, false);
 		}
 		
-		/* Swap the emoticon text in images.
-		Combined the click with the alt key and all emoticons in text mode in the message are swapped. */
+		/* Converts textual emoticons to images if textToImagesFlag is true, otherwise vice versa */
 		function imageSwap(node, textToImagesFlag) {
 			var shouldScroll = nearBottom();
 			
@@ -168,11 +165,9 @@
 			if (shouldScroll) scrollToBottom();
 		}
 
-		function windowDidResize(){
+		window.onresize = function windowDidResize(){
 			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
 		}
-
-		window.onresize = windowDidResize;
 	</script>
 
 	<style type="text/css">
