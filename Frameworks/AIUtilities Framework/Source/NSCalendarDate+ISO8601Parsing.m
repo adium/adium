@@ -233,7 +233,6 @@ static BOOL is_leap_year(unsigned year) {
 			month_or_week = [now monthOfYear];
 			day = [now dayOfMonth];
 		} else {
-			segment = 0U;
 
 			while(*ch == '-') {
 				++num_leading_hyphens;
