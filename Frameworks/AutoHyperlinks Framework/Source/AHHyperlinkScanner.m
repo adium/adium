@@ -62,7 +62,6 @@
 	return [[[[self class] alloc] initWithString:inString usingStrictChecking:YES] autorelease];
 }
 
-#if !TARGET_OS_IPHONE
 + (id)hyperlinkScannerWithAttributedString:(NSAttributedString *)inString
 {
 	return [[[[self class] alloc] initWithAttributedString:inString usingStrictChecking:NO] autorelease];
@@ -72,7 +71,6 @@
 {
 	return [[[[self class] alloc] initWithAttributedString:inString usingStrictChecking:NO] autorelease];
 }
-#endif
 
 #pragma mark Initialization
 + (void)initialize
@@ -144,7 +142,6 @@
 	return self;
 }
 
-#if !TARGET_OS_IPHONE
 - (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag
 {
 	if((self = [self init])){
@@ -159,7 +156,6 @@
 	}
 	return self;
 }
-#endif
 
 - (void)dealloc
 {
@@ -363,8 +359,7 @@
 	return rangeArray;
 }
 
-#if !TARGET_OS_IPHONE
-- (NSAttributedString *)linkifiedString
+-(NSAttributedString *)linkifiedString
 {
 	NSMutableAttributedString	*linkifiedString;
 	AHMarkedHyperlink			*markedLink;
@@ -394,47 +389,6 @@
 		
 	return _didFindLinks? linkifiedString :
 						  m_scanAttrString ? [[m_scanAttrString retain] autorelease] : [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
-}
-#endif
-
-- (NSString *)linkifiedHTML
-{
-	// Scan for links
-	NSArray *links = [self allURIs];
-	
-	
-	// Convert each link into an <a> tag
-	NSString *unlinkifiedString = m_scanString;
-	if (!unlinkifiedString)
-	{
-		unlinkifiedString = [m_scanAttrString string];	// We MUST copy this according to the docs
-	}
-	
-	NSMutableString *buffer = [unlinkifiedString mutableCopy];
-	
-	NSEnumerator *linksEnumerator = [links reverseObjectEnumerator];
-	AHMarkedHyperlink *aHyperlink;
-	while ((aHyperlink = [linksEnumerator nextObject]))
-	{
-		NSURL *aURL = [aHyperlink URL];
-		if (aURL)
-		{
-			NSRange hyperlinkRange = [aHyperlink range];
-			
-			[buffer insertString:@"</a>" atIndex:(hyperlinkRange.location + hyperlinkRange.length)];
-			
-			[buffer insertString:@"\">" atIndex:hyperlinkRange.location];
-			[buffer insertString:[aURL absoluteString] atIndex:hyperlinkRange.location];
-			[buffer insertString:@"<a href=\"" atIndex:hyperlinkRange.location];
-		}
-	}
-	
-	
-	// Tidy up
-	NSString *result = [[buffer copy] autorelease];
-	[buffer release];
-	
-	return result;
 }
 
 -(unsigned long)scanLocation
