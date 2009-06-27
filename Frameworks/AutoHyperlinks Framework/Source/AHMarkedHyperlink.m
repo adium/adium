@@ -140,12 +140,6 @@
 }
 
 #pragma mark NSComparisonMethods
-
-#if !TARGET_OS_IPHONE
-/*	None of these comparison methods are valid on the iPhone as the Foundation framework no longer has
- *	them. If compiled for the iPhone they generate lots of warnings, so there's no point inluding them.
- */
-
 - (BOOL)doesContain:(id)object
 {
 	if([object isKindOfClass:[NSURL class]])
@@ -206,7 +200,4 @@
 {
 	return [self isLessThan:object] || [self isEqualTo:object];
 }
-
-#endif
-
 @end

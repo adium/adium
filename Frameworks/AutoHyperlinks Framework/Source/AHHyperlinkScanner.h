@@ -69,7 +69,6 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 + (id)strictHyperlinkScannerWithString:(NSString *)inString;
 
-#if !TARGET_OS_IPHONE
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given attributed string
  *
@@ -85,7 +84,6 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @return a new AHHyperlinkScanner
  */
 + (id)strictHyperlinkScannerWithAttributedString:(NSAttributedString *)inString;
-#endif
 
 /*!
  * @brief Determine the validity of a given string with a custom strictness
@@ -108,7 +106,6 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (id)initWithString:(NSString *)inString usingStrictChecking:(BOOL)flag;
 
-#if !TARGET_OS_IPHONE
 /*!
  * @brief Init
  *
@@ -119,7 +116,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @return A new AHHyperlinkScanner.
  */
  - (id)initWithAttributedString:(NSAttributedString *)inString usingStrictChecking:(BOOL)flag;
-#endif
+
 
 /*!
  * @brief Determine the validity of the scanner's string using the set strictness
@@ -142,20 +139,12 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  */
 - (NSArray *)allURIs;
 
-#if !TARGET_OS_IPHONE
 /*!
  * @brief Scans an attributed string for URIs then adds the link attribs and objects.
  * @param inString The NSAttributedString to be linkified
  * @return An autoreleased NSAttributedString.
  */
 - (NSAttributedString *)linkifiedString;
-#endif
-
-/*!
- * @brief Scans a string for URIs then adds the link attribs as HTML tags.
- * @return An HTML fragment as a string.
- */
-- (NSString *)linkifiedHTML;
 
 - (unsigned long)scanLocation;
 - (void)setScanLocation:(unsigned int)location;
