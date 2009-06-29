@@ -576,20 +576,20 @@ static NSArray *draggedTypes = nil;
  */
 - (void)processQueuedContent
 {
-	NSUInteger	contentQueueCount, objectsAdded = 0;
-	BOOL		willAddMoreContentObjects = NO;
+	/* If the webview isn't ready, assume we have at least one piece of content left to display */
+	NSUInteger	contentQueueCount = 1;
+	NSUInteger	objectsAdded = 0;
 	
 	if (webViewIsReady) {
-		contentQueueCount = [contentQueue count];
+		contentQueueCount = contentQueue.count;
 
 		while (contentQueueCount > 0) {
-			AIContentObject *content;
-
-			willAddMoreContentObjects = (contentQueueCount > 1);
+			BOOL willAddMoreContent = (contentQueueCount > 1);
 			
 			//Display the content
-			content = [contentQueue objectAtIndex:0];
-			[self _processContentObject:content willAddMoreContentObjects:willAddMoreContentObjects];
+			AIContentObject *content = [contentQueue objectAtIndex:0];
+			[self _processContentObject:content 
+			  willAddMoreContentObjects:willAddMoreContent];
 
 			//If we are going to reflect preference changes, store this content object
 			if (shouldReflectPreferenceChanges) {
@@ -601,18 +601,15 @@ static NSArray *draggedTypes = nil;
 			objectsAdded++;
 			contentQueueCount--;
 		}
-	} else {
-		/* If the webview isn't ready, assume we have at least one piece of content left to display */
-		contentQueueCount = 1;
 	}
 	
 	/* If we added two or more objects, we may want to scroll to the bottom now, having not done it as each object
 	 * was added.
 	 */
 	if (objectsAdded > 1) {
-		NSString	*scrollToBottomScript;
+		NSString	*scrollToBottomScript = [messageStyle scriptForScrollingAfterAddingMultipleContentObjects];
 		
-		if ((scrollToBottomScript = [messageStyle scriptForScrollingAfterAddingMultipleContentObjects])) {
+		if (scrollToBottomScript) {
 			[webView stringByEvaluatingJavaScriptFromString:scrollToBottomScript];
 		}
 	}
