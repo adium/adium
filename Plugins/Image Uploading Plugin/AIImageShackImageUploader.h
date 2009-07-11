@@ -1,14 +1,14 @@
 //
-//  AIPicImImageUploader.h
+//  AIImageShackImageUploader.h
 //  Adium
 //
-//  Created by Zachary West on 2009-05-26.
-//  Copyright 2009 Adium. All rights reserved.
+//  Created by Zachary West on 2009-07-01.
+//  Copyright 2009  . All rights reserved.
 //
 
 #import "AIGenericMultipartImageUploader.h"
 
-@interface AIPicImImageUploader : AIGenericMultipartImageUploader {
+@interface AIImageShackImageUploader : AIGenericMultipartImageUploader {
 	NSData						*resultData;
 	NSXMLParser					*responseParser;
 	
@@ -16,7 +16,8 @@
 	NSMutableDictionary			*lastElement;
 	NSString					*currentElementName;
 	NSMutableDictionary			*currentElement;
-	NSMutableDictionary			*response;
+
+	NSMutableDictionary			*links;
 }
 
 @end
