@@ -172,6 +172,8 @@
 		11CA00110C35EC5200A6BB8D /* SS_PrefsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 344836920BC8510B0083723B /* SS_PrefsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11CA00120C35EC5200A6BB8D /* SS_PrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 344836900BC8510B0083723B /* SS_PrefsController.m */; };
 		11D135D90FBE4C65000B0A5E /* AITwitterAccountView.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11D135D80FBE4C65000B0A5E /* AITwitterAccountView.nib */; };
+		11D9156F0FFC0FEB00B39713 /* AIImageShackImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D915580FFC0E9C00B39713 /* AIImageShackImageUploader.m */; };
+		11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 11D915710FFC100700B39713 /* AIGenericMultipartImageUploader.m */; };
 		11E786810F8860210014612E /* AIJumpControlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 11E7867F0F8860210014612E /* AIJumpControlPlugin.m */; };
 		11EE1B4D0CDCFAF40097F246 /* oscar-adium.c in Sources */ = {isa = PBXBuildFile; fileRef = 11EE1B490CDCFAF40097F246 /* oscar-adium.c */; };
 		11EE1B4E0CDCFAF40097F246 /* oscar-adium.h in Headers */ = {isa = PBXBuildFile; fileRef = 11EE1B4A0CDCFAF40097F246 /* oscar-adium.h */; };
@@ -1974,6 +1976,10 @@
 		11D135F10FBE4CA6000B0A5E /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_CN; path = "Plugins/Twitter Plugin/zh_CN.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
 		11D135F20FBE4CA9000B0A5E /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = "Plugins/Twitter Plugin/zh_TW.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
 		11D135F30FBE4CB6000B0A5E /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Twitter Plugin/en.lproj/AITwitterAccountView.nib"; sourceTree = "<group>"; };
+		11D915570FFC0E9C00B39713 /* AIImageShackImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageShackImageUploader.h; path = "Plugins/Image Uploading Plugin/AIImageShackImageUploader.h"; sourceTree = "<group>"; };
+		11D915580FFC0E9C00B39713 /* AIImageShackImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageShackImageUploader.m; path = "Plugins/Image Uploading Plugin/AIImageShackImageUploader.m"; sourceTree = "<group>"; };
+		11D915700FFC100700B39713 /* AIGenericMultipartImageUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIGenericMultipartImageUploader.h; path = "Plugins/Image Uploading Plugin/AIGenericMultipartImageUploader.h"; sourceTree = "<group>"; };
+		11D915710FFC100700B39713 /* AIGenericMultipartImageUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIGenericMultipartImageUploader.m; path = "Plugins/Image Uploading Plugin/AIGenericMultipartImageUploader.m"; sourceTree = "<group>"; };
 		11E7867F0F8860210014612E /* AIJumpControlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIJumpControlPlugin.m; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.m"; sourceTree = "<group>"; };
 		11E786800F8860210014612E /* AIJumpControlPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIJumpControlPlugin.h; path = "Plugins/Dual Window Interface/AIJumpControlPlugin.h"; sourceTree = "<group>"; };
 		11EE1B490CDCFAF40097F246 /* oscar-adium.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "oscar-adium.c"; sourceTree = "<group>"; };
@@ -4947,6 +4953,10 @@
 				11BE28DE0FCC7D2B000E6A10 /* AIImageUploaderPlugin.m */,
 				11BE28980FCC7C13000E6A10 /* AIPicImImageUploader.h */,
 				11BE28990FCC7C13000E6A10 /* AIPicImImageUploader.m */,
+				11D915570FFC0E9C00B39713 /* AIImageShackImageUploader.h */,
+				11D915580FFC0E9C00B39713 /* AIImageShackImageUploader.m */,
+				11D915700FFC100700B39713 /* AIGenericMultipartImageUploader.h */,
+				11D915710FFC100700B39713 /* AIGenericMultipartImageUploader.m */,
 			);
 			name = "Image Uploading";
 			sourceTree = "<group>";
@@ -10185,6 +10195,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11D9156F0FFC0FEB00B39713 /* AIImageShackImageUploader.m in Sources */,
 				111E89010F93FE3900A5F18B /* AIRealNameTooltip.m in Sources */,
 				111E89020F93FE3900A5F18B /* AIUserHostTooltip.m in Sources */,
 				111256070F8DA2BF00E76177 /* AWEzv.m in Sources */,
@@ -10530,6 +10541,7 @@
 				11BE29680FCCA9E3000E6A10 /* AIImageUploaderWindowController.m in Sources */,
 				1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */,
 				112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */,
+				11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
