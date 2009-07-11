@@ -127,5 +127,13 @@ void purple_theme_manager_unregister_type(PurpleThemeLoader *loader);
  */
 void purple_theme_manager_for_each_theme(PTFunc func);
 
+/**
+ * Loads a theme of the given type without adding it to the manager
+ *
+ * @param theme_dir	the directory of the theme to load
+ * @param type		the type of theme to load
+ */
+PurpleTheme *purple_theme_manager_load_theme(const gchar *theme_dir, const gchar *type);
+
 G_END_DECLS
 #endif /* PURPLE_THEME_MANAGER_H */
