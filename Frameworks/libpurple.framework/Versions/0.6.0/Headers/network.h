@@ -246,10 +246,10 @@ const gchar *purple_network_get_stun_ip(void);
  * Update the TURN server IP given the host name
  * Will result in a DNS query being executed asynchronous
  * 
- * @param stun_server The host name of the STUN server to set
+ * @param turn_server The host name of the STUN server to set
  * @since 2.6.0
  */
-void purple_network_set_turn_server(const gchar *stun_server);
+void purple_network_set_turn_server(const gchar *turn_server);
 	
 /**
  * Get the IP address of the STUN server as a string representation

@@ -23,7 +23,7 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatus.h>
 #import <Adium/ESFileTransfer.h>
-#import <libpurple/yahoo.h>
+#import <libpurple/libymsg.h>
 #import <libpurple/yahoo_friend.h>
 
 @implementation ESPurpleYahooAccount
@@ -39,9 +39,6 @@
 
 	purple_account_set_string(account, "room_list_locale", [[self preferenceForKey:KEY_YAHOO_ROOM_LIST_LOCALE
 																		   group:GROUP_ACCOUNT_STATUS] UTF8String]);
-
-	//Make sure we're not turning japanese oh no not turning japanese I really think so
-	purple_account_set_bool(account, "yahoojp", FALSE);
 }
 
 - (NSString *)stringByRemovingYahooSuffix:(NSString *)inString

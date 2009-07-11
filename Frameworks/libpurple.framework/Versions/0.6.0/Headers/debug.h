@@ -151,9 +151,49 @@ void purple_debug_set_enabled(gboolean enabled);
 /**
  * Check if console debug output is enabled.
  *
- * @return TRUE if debuggin is enabled, FALSE if it is not.
+ * @return TRUE if debugging is enabled, FALSE if it is not.
  */
 gboolean purple_debug_is_enabled(void);
+
+/**
+ * Enable or disable verbose debugging.  This ordinarily should only be called
+ * by #purple_debug_init, but there are cases where this can be useful for
+ * plugins.
+ *
+ * @param verbose TRUE to enable verbose debugging or FALSE to disable it.
+ *
+ * @since 2.6.0
+ */
+void purple_debug_set_verbose(gboolean verbose);
+
+/**
+ * Check if verbose logging is enabled.
+ *
+ * @return TRUE if verbose debugging is enabled, FALSE if it is not.
+ *
+ * @since 2.6.0
+ */
+gboolean purple_debug_is_verbose(void);
+
+/**
+ * Enable or disable verbose debugging.  This ordinarily should only be called
+ * by #purple_debug_init, but there are cases where this can be useful for
+ * plugins.
+ *
+ * @param unsafe  TRUE to enable verbose debugging or FALSE to disable it.
+ *
+ * @since 2.6.0
+ */
+void purple_debug_set_unsafe(gboolean unsafe);
+
+/**
+ * Check if unsafe debugging is enabled.
+ *
+ * @return TRUE if verbose debugging is enabled, FALSE if it is not.
+ *
+ * @since 2.6.0
+ */
+gboolean purple_debug_is_unsafe(void);
 
 /*@}*/
 

@@ -68,10 +68,8 @@ struct _MsnSlpMessage
 	MsnMessage *msg; /**< The temporary real message that will be sent. */
 #endif
 
-#ifdef MSN_DEBUG_SLP
-	char *info;
+	const char *info;
 	gboolean text_body;
-#endif
 };
 
 /**
@@ -100,8 +98,6 @@ MsnSlpMessage * msn_slpmsg_sip_new(MsnSlpCall *slpcall, int cseq,
 								   const char *content_type,
 								   const char *content);
 
-#ifdef MSN_DEBUG_SLP
 void msn_slpmsg_show(MsnMessage *msg);
-#endif
 
 #endif /* _MSN_SLPMSG_H_ */

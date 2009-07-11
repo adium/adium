@@ -189,8 +189,6 @@ char *purple_buddy_icon_get_full_path(PurpleBuddyIcon *icon);
  *                  takes ownership of and will free.
  * @param icon_len  The length of the icon data.
  * @param checksum  A protocol checksum from the prpl or @c NULL.
- *
- * @return The buddy icon set, or NULL if no icon was set.
  */
 void
 purple_buddy_icons_set_for_user(PurpleAccount *account, const char *username,

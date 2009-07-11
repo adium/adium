@@ -18,19 +18,9 @@
 
 @implementation ESPurpleYahooJapanAccount
 
-- (void)configurePurpleAccount
+- (const char*)protocolPlugin
 {
-	[super configurePurpleAccount];
-	
-	NSString	*hostName;
-	
-	//Host (server) - Yahoo! Japan uses a different server preference key than other accounts, so set that here
-	hostName = self.host;
-	if (hostName && [hostName length]) {
-		purple_account_set_string(account, "serverjp", [hostName UTF8String]);
-	}
-
-	purple_account_set_bool(account, "yahoojp", TRUE);
+    return "prpl-yahoojp";
 }
 
 @end
