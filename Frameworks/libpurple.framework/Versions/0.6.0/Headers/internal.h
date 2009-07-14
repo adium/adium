@@ -148,6 +148,14 @@
 #	endif
 #endif
 
+#ifndef G_MAXSSIZE
+#	if GLIB_SIZEOF_LONG == 8
+#		define G_MAXSSIZE ((gssize) 0x7fffffffffffffff)
+#	else
+#		define G_MAXSSIZE ((gssize) 0x7fffffff)
+#	endif
+#endif
+
 #if GLIB_CHECK_VERSION(2,6,0)
 #	include <glib/gstdio.h>
 #endif
@@ -220,6 +228,16 @@
 #	else
 #		define G_GNUC_NULL_TERMINATED
 #	endif
+#endif
+
+#ifdef HAVE_CONFIG_H
+#if SIZEOF_TIME_T == 4
+#	define PURPLE_TIME_T_MODIFIER "lu"
+#elif SIZEOF_TIME_T == 8
+#	define PURPLE_TIME_T_MODIFIER "zu"
+#else
+#error Unknown size of time_t
+#endif
 #endif
 
 #include <glib-object.h>

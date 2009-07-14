@@ -42,7 +42,7 @@ xmlnode *jabber_presence_create_js(JabberStream *js, JabberBuddyState state, con
 void jabber_presence_parse(JabberStream *js, xmlnode *packet);
 void jabber_presence_subscription_set(JabberStream *js, const char *who,
 		const char *type);
-void jabber_presence_fake_to_self(JabberStream *js, const PurpleStatus *status);
+void jabber_presence_fake_to_self(JabberStream *js, PurpleStatus *status);
 void purple_status_to_jabber(const PurpleStatus *status, JabberBuddyState *state, char **msg, int *priority);
 
 #endif /* PURPLE_JABBER_PRESENCE_H_ */

@@ -1134,7 +1134,7 @@
 			
 		case 502:
 			// Bad Gateway: returned if Twitter is down or being upgraded.
-			return AILocalizedString(@"The server is currently down or being upgraded.", nil);
+			return AILocalizedString(@"The server is currently down.", nil);
 			break;
 			
 		case -1001:
@@ -1735,7 +1735,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 														   withSource:nil
 														  destination:self
 																 date:[NSDate date]
-															  message:[NSAttributedString stringWithString:[NSString stringWithFormat:AILocalizedString(@"An error occurred: %@", nil),
+															  message:[NSAttributedString stringWithString:[NSString stringWithFormat:AILocalizedString(@"Unable to update timeline: %@", nil),
 																											[self errorMessageForError:error]]]
 															 withType:@"error"];
 				
@@ -2029,6 +2029,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterSendUpdate) {
 		if (updateAfterSend) {
 			[self periodicUpdate];
+		}
+		
+		if (statuses.count) {
+			[adium.contentController displayEvent:AILocalizedString(@"Tweet successfully sent.", nil)
+										   ofType:@"tweet"
+										  inChat:self.timelineChat];
 		}
 				
 		for(NSDictionary *update in statuses) {

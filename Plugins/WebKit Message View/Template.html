@@ -3,61 +3,41 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<base href="%@">
-	<script type="text/ecmascript" defer="defer">
+	<script type="text/javascript" defer="defer">
 		// NOTE:
 		// Any percent signs in this file must be escaped!
 		// Use two escape signs (%%) to display it, this is passed through a format call!
+		
+		function appendHTML(html) {
+			var node = document.getElementById("Chat");
+			var range = document.createRange();
+			range.selectNode(node);
+			var documentFragment = range.createContextualFragment(html);
+			node.appendChild(documentFragment);
+		}
 
 		//Appending new content to the message view
 		function appendMessage(html) {
 			var shouldScroll = nearBottom();
-
-			//Remove any existing insertion point
-			var insert = document.getElementById("insert");
-			if(insert) 
-				insert.parentNode.removeChild(insert);
-
-			//Append the new message to the bottom of our chat block
-			var chat = document.getElementById("Chat");
-			var range = document.createRange();
-			range.selectNode(chat);
-			var documentFragment = range.createContextualFragment(html);
-			chat.appendChild(documentFragment);
-
+			appendMessageNoScroll(html);
 			alignChat(shouldScroll);
 		}
-		function appendMessageNoScroll(html) {
-			//Remove any existing insertion point
+		
+		function appendMessageNoScroll(html) {			
+			//Remove the current insertion point
 			var insert = document.getElementById("insert");
 			if(insert) 
 				insert.parentNode.removeChild(insert);
-
-			//Append the new message to the bottom of our chat block
-			var chat = document.getElementById("Chat");
-			var range = document.createRange();
-			range.selectNode(chat);
-			var documentFragment = range.createContextualFragment(html);
-			chat.appendChild(documentFragment);
+			
+			appendHTML(html);
 		}
+		
 		function appendNextMessage(html){
 			var shouldScroll = nearBottom();
-
-			//Locate the insertion point
-			var insert = document.getElementById("insert");
-			if(insert){
-				//make new node
-				var range = document.createRange();
-				range.selectNode(insert.parentNode);
-				var newNode = range.createContextualFragment(html);
-
-				//swap
-				insert.parentNode.replaceChild(newNode,insert);
-
-				alignChat(shouldScroll);
-			} else {
-				appendMessage(html);
-			}
+			appendNextMessageNoScroll(html);
+			alignChat(shouldScroll);
 		}
+		
 		function appendNextMessageNoScroll(html){
 			//Locate the insertion point
 			var insert = document.getElementById("insert");
@@ -80,19 +60,15 @@
 			//Retrieve the current insertion point, then remove it
 			//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
 			var insert = document.getElementById("insert");
-			var chat = document.getElementById("Chat");
 			if(insert){
 				var parentNode = insert.parentNode;
 				parentNode.removeChild(insert);
-				var lastMessage = chat.lastChild;
-				chat.removeChild(lastMessage);
+				var lastMessage = document.getElementById("Chat").lastChild;
+				document.getElementById("Chat").removeChild(lastMessage);
 			}
 
 			//Now append the message itself
-			var range = document.createRange();
-			range.selectNode(chat);
-			documentFragment = range.createContextualFragment(html);
-			chat.appendChild(documentFragment);
+			appendHTML(html);
 
 			alignChat(shouldScroll);
 		}
@@ -119,44 +95,50 @@
 			head.appendChild( documentFragment );
 		}
 
-		/* Swap an images with its alt-tag text on click, or expand/unexpand an attached image.
-		Combined the click with the alt key and all the image in the parent node are swapped. */
-		document.onclick = imageCheck;
-		function imageCheck() {
-			var shouldScroll = nearBottom();
+		/* Converts emoticon images to textual emoticons; all emoticons in message if alt is held */
+		document.onclick = function imageCheck() {
 			var node = event.target;
-			if (node.tagName.toLowerCase() != 'img' && node.tagName.toLowerCase() != 'a')
+			if (node.tagName.toLowerCase() != 'img')
 				return;
-
-			if (!event.altKey)
-			{
-				if (!client.zoomImage(node) && node.alt) {
-					 imageToText(node);
-				}
-			}
-			else
-			{
-				var chatElement = document.getElementById("Chat");
-				while (node != chatElement && node.parentNode != chatElement)
+				
+			imageSwap(node, false);
+		}
+		
+		/* Converts textual emoticons to images if textToImagesFlag is true, otherwise vice versa */
+		function imageSwap(node, textToImagesFlag) {
+			var shouldScroll = nearBottom();
+			
+			var images = [node];
+			if (event.altKey) {
+				while (node.id != "Chat" && node.parentNode.id != "Chat")
 					node = node.parentNode;
-				var aImgChilds = node.getElementsByTagName('img');
-				//The odd i++/continue usage is due to getElementsByTagName returning a live NodeList
-				for (i = 0; i < aImgChilds.length;) {
-					var child = aImgChilds[i];
-					if (!client.zoomImage(child) && child.alt) {
-						 imageToText(child);
-						 continue;
-					}
-					i++;
-				}
+				images = node.querySelectorAll(textToImagesFlag ? "a" : "img");
 			}
+			
+			for (var i = 0; i < images.length; i++) {
+				textToImagesFlag ? textToImage(images[i]) : imageToText(images[i]);
+			}
+			
 			alignChat(shouldScroll);
 		}
 
+		function textToImage(node) {
+			if (!node.getAttribute("isEmoticon"))
+				return;
+			//Swap the image/text
+			var img = document.createElement('img');
+			img.setAttribute('src', node.getAttribute('src'));
+			img.setAttribute('alt', node.firstChild.nodeValue);
+			img.className = node.className;
+			node.parentNode.replaceChild(img, node);
+		}
+		
 		function imageToText(node)
 		{
+			if (client.zoomImage(node) || !node.alt)
+				return;
 			var a = document.createElement('a');
-			a.setAttribute('onclick', 'imageSwap(this)');
+			a.setAttribute('onclick', 'imageSwap(this, true)');
 			a.setAttribute('src', node.getAttribute('src'));
 			a.setAttribute('isEmoticon', true);
 			a.className = node.className;
@@ -165,44 +147,6 @@
 			node.parentNode.replaceChild(a, node);
 		}
 		
-		/* Swap the emoticon text in images.
-		Combined the click with the alt key and all emoticons in text mode in the message are swapped. */
-		function imageSwap(node) {
-			var shouldScroll = nearBottom();
-
-			if (!event.altKey)
-			{
-				textToImage(node);
-			}
-			else
-			{
-				var chatElement = document.getElementById("Chat");
-				while (node != chatElement && node.parentNode != chatElement)
-					node = node.parentNode;
-				var aImgChilds = node.getElementsByTagName('a');
-				//The odd i++/continue usage is due to getElementsByTagName returning a live NodeList
-				for (i = 0; i < aImgChilds.length; ) {
-					var child = aImgChilds[i];
-					if (child.getAttribute('isEmoticon')) {
-						 textToImage(child);
-						continue;
-					}
-
-					i++;
-				}
-			}
-			alignChat(shouldScroll);
-		}
-
-		function textToImage(node) {
-			//Swap the image/text
-			var img = document.createElement('img');
-			img.setAttribute('src', node.getAttribute('src'));
-			img.setAttribute('alt', node.firstChild.nodeValue);
-			img.className = node.className;
-			node.parentNode.replaceChild(img, node);
-		}
-
 		//Align our chat to the bottom of the window.  If true is passed, view will also be scrolled down
 		function alignChat(shouldScroll) {
 			var windowHeight = window.innerHeight;
@@ -221,11 +165,9 @@
 			if (shouldScroll) scrollToBottom();
 		}
 
-		function windowDidResize(){
+		window.onresize = function windowDidResize(){
 			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
 		}
-
-		window.onresize = windowDidResize;
 	</script>
 
 	<style type="text/css">
