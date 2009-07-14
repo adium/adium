@@ -254,8 +254,8 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 				 *		so is immediately acceptable. The second should be acceptable because it is to the right of an emoticon and
 				 *		the left of a space.
 				 */
-				char	previousCharacter = [messageString characterAtIndex:(originalEmoticonLocation)] ;
-				char	nextCharacter = [messageString characterAtIndex:(originalEmoticonLocation + textLength - 1)] ;
+				char	previousCharacter = [messageString characterAtIndex:(originalEmoticonLocation - 1)] ;
+				char	nextCharacter = [messageString characterAtIndex:(originalEmoticonLocation + textLength)] ;
 
 				if ((callingRecursively || (previousCharacter == ' ') || (previousCharacter == '\t') ||
 					 (previousCharacter == '\n') || (previousCharacter == '\r') || (previousCharacter == '.') || (previousCharacter == '?') || (previousCharacter == '!') ||
