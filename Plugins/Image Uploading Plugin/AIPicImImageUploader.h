@@ -6,17 +6,9 @@
 //  Copyright 2009 Adium. All rights reserved.
 //
 
-#import "AIImageUploaderPlugin.h"
+#import "AIGenericMultipartImageUploader.h"
 
-#import <AIUtilities/AIProgressDataUploader.h>
-
-@interface AIPicImImageUploader : NSObject <AIImageUploader, AIProgressDataUploaderDelegate> {
-	AIChat						*chat;
-	NSImage						*image;
-	AIImageUploaderPlugin		*uploader;
-	
-	AIProgressDataUploader		*dataUploader;
-	
+@interface AIPicImImageUploader : AIGenericMultipartImageUploader {
 	NSData						*resultData;
 	NSXMLParser					*responseParser;
 	

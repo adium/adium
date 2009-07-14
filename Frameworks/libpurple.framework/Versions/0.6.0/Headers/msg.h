@@ -345,4 +345,6 @@ void msn_control_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
 void msn_datacast_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
+void msn_handwritten_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
+
 #endif /* _MSN_MSG_H_ */

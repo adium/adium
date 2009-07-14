@@ -24,17 +24,6 @@
 #ifndef _MSN_H_
 #define _MSN_H_
 
-/* #define MSN_DEBUG_MSG 1 */
-/* #define MSN_DEBUG_SLPMSG 1 */
-/* #define MSN_DEBUG_HTTP 1 */
-
-/* #define MSN_DEBUG_SLP 1 */
-/* #define MSN_DEBUG_SLP_VERBOSE 1 */
-/* #define MSN_DEBUG_SLP_FILES 1 */
-
-/* #define MSN_DEBUG_NS 1 */
-/* #define MSN_DEBUG_SB 1 */
-
 #include "internal.h"
 
 #include "account.h"
@@ -138,7 +127,7 @@ typedef enum
 } MsnClientVerId;
 
 #define MSN_CLIENT_ID_VERSION      MSN_CLIENT_VER_7_0
-#define MSN_CLIENT_ID_CAPABILITIES MSN_CLIENT_CAP_PACKET
+#define MSN_CLIENT_ID_CAPABILITIES (MSN_CLIENT_CAP_PACKET|MSN_CLIENT_CAP_INK_GIF|MSN_CLIENT_CAP_VOICEIM|MSN_CLIENT_CAP_WINKS)
 
 #define MSN_CLIENT_ID \
 	((MSN_CLIENT_ID_VERSION    << 24) | \

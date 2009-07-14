@@ -28,6 +28,8 @@ typedef struct _JabberID {
 	char *resource;
 } JabberID;
 
+#include "jabber.h"
+
 JabberID* jabber_id_new(const char *str);
 void jabber_id_free(JabberID *jid);
 
@@ -43,7 +45,7 @@ gboolean jabber_is_own_server(JabberStream *js, const char *jid);
 gboolean jabber_is_own_account(JabberStream *js, const char *jid);
 
 gboolean jabber_nodeprep_validate(const char *);
-gboolean jabber_nameprep_validate(const char *);
+gboolean jabber_domain_validate(const char *);
 gboolean jabber_resourceprep_validate(const char *);
 
 PurpleConversation *jabber_find_unnormalized_conv(const char *name, PurpleAccount *account);

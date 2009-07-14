@@ -280,4 +280,14 @@ void msn_emoticon_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
  */
 void msn_invite_msg(MsnCmdProc *cmdproc, MsnMessage *msg);
 
+/**
+ * Shows an ink message from this switchboard.
+ *
+ * @param swboard  The switchboard.
+ * @param passport The user that sent the ink.
+ * @param data     The ink data.
+ */
+void msn_switchboard_show_ink(MsnSwitchBoard *swboard, const char *passport,
+                              const char *data);
+
 #endif /* _MSN_SWITCHBOARD_H_ */

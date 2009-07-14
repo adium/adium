@@ -41,15 +41,21 @@ struct _PurpleSrvResponse {
 	int pref;
 };
 
+/**
+ * @param resp An array of PurpleSrvResponse of size results.  The array
+ *        is sorted based on the order described in the DNS SRV RFC.
+ *        Users of this API should try each record in resp in order,
+ *        starting at the beginning.
+ */
 typedef void (*PurpleSrvCallback)(PurpleSrvResponse *resp, int results, gpointer data);
 
 /**
  * Callback that returns the data retrieved from a DNS TXT lookup.
  *
- * @param responses   A GSList of PurpleTxtResponse objects.
+ * @param responses   A GList of PurpleTxtResponse objects.
  * @param data        The extra data passed to purple_txt_resolve.
  */
-typedef void (*PurpleTxtCallback)(GSList *responses, gpointer data);
+typedef void (*PurpleTxtCallback)(GList *responses, gpointer data);
 
 /**
  * Queries an SRV record.

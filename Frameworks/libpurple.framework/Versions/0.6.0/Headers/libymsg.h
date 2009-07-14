@@ -1,5 +1,5 @@
 /**
- * @file yahoo.h The Yahoo! protocol plugin
+ * @file libymsg.h The Yahoo! and Yahoo! JAPAN Protocol Plugins
  *
  * purple
  *
@@ -22,10 +22,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
 
-#ifndef _YAHOO_H_
-#define _YAHOO_H_
+#ifndef _LIBYMSG_H_
+#define _LIBYMSG_H_
 
 #include "circbuffer.h"
+#include "cmds.h"
 #include "prpl.h"
 
 #define YAHOO_PAGER_HOST "scsa.msg.yahoo.com"
@@ -64,6 +65,9 @@
 
 #define YAHOO_SMS_CARRIER_URL "http://lookup.msg.vip.mud.yahoo.com"
 
+#define YAHOO_USERINFO_URL "http://address.yahoo.com/yab/us?v=XM&sync=1&tags=short&useutf8=1&noclear=1&legenc=codepage-1252"
+#define YAHOOJP_USERINFO_URL "http://address.yahoo.co.jp/yab/jp?v=XM&sync=1&tags=short&useutf8=1&noclear=1&legenc=codepage-1252"
+
 #define YAHOO_PICURL_SETTING "picture_url"
 #define YAHOO_PICCKSUM_SETTING "picture_checksum"
 #define YAHOO_PICEXPIRE_SETTING "picture_expire"
@@ -89,7 +93,7 @@
 #define YAHOOJP_CLIENT_VERSION_ID "4194239"
 #define YAHOOJP_CLIENT_VERSION "9.0.0.2152"
 
-#define YAHOO_CLIENT_USERAGENT "Mozilla/4.0 (compatible; MSIE 5.5)"
+#define YAHOO_CLIENT_USERAGENT "Mozilla/5.0"
 
 /* Index into attention types list. */
 #define YAHOO_BUZZ 0
@@ -146,6 +150,23 @@ struct yahoo_p2p_data	{
 
 struct _YchtConn;
 
+typedef struct _YahooPersonalDetails {
+	char *id;
+
+	struct {
+		char *first;
+		char *last;
+		char *middle;
+		char *nick;
+	} names;
+
+	struct {
+		char *work;
+		char *home;
+		char *mobile;
+	} phone;
+} YahooPersonalDetails;
+
 struct yahoo_data {
 	PurpleConnection *gc;
 	int fd;
@@ -154,6 +175,9 @@ struct yahoo_data {
 	PurpleCircBuffer *txbuf;
 	guint txhandler;
 	GHashTable *friends;
+
+	char **profiles;  /* Multiple profiles can be associated with an account */
+	YahooPersonalDetails ypd;
 
 	/**
 	 * This is used to keep track of the IMVironment chosen
@@ -287,22 +311,49 @@ char *yahoo_string_decode(PurpleConnection *gc, const char *str, gboolean utf8);
 
 char *yahoo_convert_to_numeric(const char *str);
 
-/* previously-static functions, now needed for yahoo_profile.c */
-void yahoo_tooltip_text(PurpleBuddy *b, PurpleNotifyUserInfo *user_info, gboolean full);
 
 /* yahoo_profile.c */
 void yahoo_get_info(PurpleConnection *gc, const char *name);
 
+/* libymsg.h  - these functions were formerly static but need not to be for the
+ * new two-prpl model. */
+const char *yahoo_list_icon(PurpleAccount *a, PurpleBuddy *b);
+const char *yahoo_list_emblem(PurpleBuddy *b);
+char *yahoo_status_text(PurpleBuddy *b);
+void yahoo_tooltip_text(PurpleBuddy *b, PurpleNotifyUserInfo *user_info, gboolean full);
+GList *yahoo_status_types(PurpleAccount *account);
+GList *yahoo_blist_node_menu(PurpleBlistNode *node);
+void yahoo_login(PurpleAccount *account);
+void yahoo_close(PurpleConnection *gc);
+int yahoo_send_im(PurpleConnection *gc, const char *who, const char *what, PurpleMessageFlags flags);
+unsigned int yahoo_send_typing(PurpleConnection *gc, const char *who, PurpleTypingState state);
+void yahoo_set_status(PurpleAccount *account, PurpleStatus *status);
+void yahoo_set_idle(PurpleConnection *gc, int idle);
+void yahoo_add_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *g);
+void yahoo_remove_buddy(PurpleConnection *gc, PurpleBuddy *buddy, PurpleGroup *group);
+void yahoo_add_deny(PurpleConnection *gc, const char *who);
+void yahoo_rem_deny(PurpleConnection *gc, const char *who);
+void yahoo_set_permit_deny(PurpleConnection *gc);
+void yahoo_keepalive(PurpleConnection *gc);
+void yahoo_change_buddys_group(PurpleConnection *gc, const char *who, const char *old_group, const char *new_group);
+void yahoo_rename_group(PurpleConnection *gc, const char *old_name, PurpleGroup *group, GList *moved_buddies);
+gboolean yahoo_offline_message(const PurpleBuddy *buddy);
+gboolean yahoo_send_attention(PurpleConnection *gc, const char *username, guint type);
+GList *yahoo_attention_types(PurpleAccount *account);
+
+GList *yahoo_actions(PurplePlugin *plugin, gpointer context);
+void yahoopurple_register_commands(void);
+
+PurpleCmdRet yahoopurple_cmd_buzz(PurpleConversation *c, const gchar *cmd, gchar **args, gchar **error, void *data);
+PurpleCmdRet yahoopurple_cmd_chat_join(PurpleConversation *conv, const char *cmd, char **args, char **error, void *data);
+PurpleCmdRet yahoopurple_cmd_chat_list(PurpleConversation *conv, const char *cmd, char **args, char **error, void *data);
 /* needed for xfer, thought theyd be useful for other enhancements later on
    Returns list of cookies stored in yahoo_data formatted as a single null terminated string
    returned value must be g_freed
 */
 gchar* yahoo_get_cookies(PurpleConnection *gc);
 
-gboolean yahoo_send_attention(PurpleConnection *gc, const char *username, guint type);
-GList *yahoo_attention_types(PurpleAccount *account);
-
 /* send p2p pkt containing our encoded ip, asking peer to connect to us */
 void yahoo_send_p2p_pkt(PurpleConnection *gc, const char *who, int val_13);
 
-#endif /* _YAHOO_H_ */
+#endif /* _LIBYMSG_H_ */

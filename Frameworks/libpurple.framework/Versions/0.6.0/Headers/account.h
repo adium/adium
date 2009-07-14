@@ -459,6 +459,16 @@ void purple_account_set_status_list(PurpleAccount *account,
 void purple_account_clear_settings(PurpleAccount *account);
 
 /**
+ * Removes an account-specific setting by name.
+ *
+ * @param account The account.
+ * @param setting The setting to remove.
+ *
+ * @since 2.6.0
+ */
+void purple_account_remove_setting(PurpleAccount *account, const char *setting);
+
+/**
  * Sets a protocol-specific integer setting for an account.
  *
  * @param account The account.

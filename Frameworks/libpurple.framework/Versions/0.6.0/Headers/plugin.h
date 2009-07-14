@@ -512,6 +512,15 @@ void *purple_plugin_ipc_call(PurplePlugin *plugin, const char *command,
 void purple_plugins_add_search_path(const char *path);
 
 /**
+ * Returns a list of plugin search paths.
+ *
+ * @constreturn A list of searched paths.
+ *
+ * @since 2.6.0
+ */
+GList *purple_plugins_get_search_paths(void);
+
+/**
  * Unloads all loaded plugins.
  */
 void purple_plugins_unload_all(void);

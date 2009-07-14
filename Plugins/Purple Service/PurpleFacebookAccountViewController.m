@@ -9,9 +9,10 @@
 #import "PurpleFacebookAccountViewController.h"
 
 @implementation PurpleFacebookAccountViewController
-//Options view
-- (NSView *)optionsView
+
+- (NSString *)nibName
 {
-    return nil;
+	return @"PurpleFacebookAccountView";
 }
+
 @end

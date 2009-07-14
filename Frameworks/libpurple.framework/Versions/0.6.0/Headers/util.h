@@ -415,6 +415,19 @@ time_t purple_str_to_time(const char *timestamp, gboolean utc,
 /*@{*/
 
 /**
+ * Escapes special characters in a plain-text string so they display
+ * correctly as HTML.  For example, & is replaced with &amp; and < is
+ * replaced with &lt;
+ *
+ * This is exactly the same as g_markup_escape_text(), except that it
+ * does not change ' to &apos; because &apos; is not a valid HTML 4 entity,
+ * and is displayed literally in IE7.
+ *
+ * @since 2.6.0
+ */
+gchar *purple_markup_escape_text(const gchar *text, gssize length);
+
+/**
  * Finds an HTML tag matching the given name.
  *
  * This locates an HTML tag's start and end, and stores its attributes
@@ -1190,8 +1203,31 @@ gboolean purple_email_is_valid(const char *address);
  * @param ip The IP address to validate.
  *
  * @return True if the IP address is syntactically correct.
+ * @deprecated This function will be replaced with one that validates
+ *             as either IPv4 or IPv6 in 3.0.0. If you don't want this,
+ *             behavior, use one of the more specific functions.
  */
 gboolean purple_ip_address_is_valid(const char *ip);
+
+/**
+ * Checks if the given IP address is a syntactically valid IPv4 address.
+ *
+ * @param ip The IP address to validate.
+ *
+ * @return True if the IP address is syntactically correct.
+ * @since 2.6.0
+ */
+gboolean purple_ipv4_address_is_valid(const char *ip);
+
+/**
+ * Checks if the given IP address is a syntactically valid IPv6 address.
+ *
+ * @param ip The IP address to validate.
+ *
+ * @return True if the IP address is syntactically correct.
+ * @since 2.6.0
+ */
+gboolean purple_ipv6_address_is_valid(const char *ip);
 
 /**
  * This function extracts a list of URIs from the a "text/uri-list"

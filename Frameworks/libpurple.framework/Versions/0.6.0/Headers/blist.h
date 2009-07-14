@@ -235,6 +235,7 @@ extern "C" {
  * Creates a new buddy list
  *
  * @return The new buddy list.
+ * @deprecated In 3.0.0, this will be handled by purple_blist_init()
  */
 PurpleBuddyList *purple_blist_new(void);
 
@@ -242,6 +243,7 @@ PurpleBuddyList *purple_blist_new(void);
  * Sets the main buddy list.
  *
  * @param blist The buddy list you want to use.
+ * @deprecated In 3.0.0, this will be handled by purple_blist_init()
  */
 void purple_set_blist(PurpleBuddyList *blist);
 
@@ -383,6 +385,10 @@ void purple_blist_show(void);
 
 /**
  * Destroys the buddy list window.
+ *
+ * @deprecated The UI is responsible for cleaning up the
+ *             PurpleBuddyList->ui_data. purple_blist_uninit() will free the
+ *             PurpleBuddyList* itself.
  */
 void purple_blist_destroy(void);
 
