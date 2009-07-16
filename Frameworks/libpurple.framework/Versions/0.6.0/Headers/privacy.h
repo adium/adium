@@ -26,8 +26,6 @@
 #ifndef _PURPLE_PRIVACY_H_
 #define _PURPLE_PRIVACY_H_
 
-#include "account.h"
-
 /**
  * Privacy data types.
  */
@@ -39,6 +37,8 @@ typedef enum _PurplePrivacyType
 	PURPLE_PRIVACY_DENY_USERS,
 	PURPLE_PRIVACY_ALLOW_BUDDYLIST
 } PurplePrivacyType;
+
+#include "account.h"
 
 #ifdef __cplusplus
 extern "C" {
