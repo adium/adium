@@ -315,6 +315,15 @@ GList *purple_prefs_get_children_names(const char *name);
 
 /**
  * Add a callback to a pref (and its children)
+ *
+ * @param handle   The handle of the receiver.
+ * @param name     The name of the preference
+ * @param cb       The callback function
+ * @param data     The data to pass to the callback function.
+ *
+ * @return An id to disconnect the callback
+ *
+ * @see purple_prefs_disconnect_callback
  */
 guint purple_prefs_connect_callback(void *handle, const char *name, PurplePrefCallback cb,
 		gpointer data);

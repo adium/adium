@@ -98,6 +98,7 @@ enum yahoo_service { /* these are easier to see in hex */
 	YAHOO_SERVICE_AVATAR_UPDATE = 0xc7,
 	YAHOO_SERVICE_VERIFY_ID_EXISTS = 0xc8,
 	YAHOO_SERVICE_AUDIBLE = 0xd0,
+	YAHOO_SERVICE_CONTACT_DETAILS = 0xd3,
 	/* YAHOO_SERVICE_CHAT_SESSION = 0xd4,?? Reports start of chat session, gets an id from server */
 	YAHOO_SERVICE_AUTH_REQ_15 = 0xd6,
 	YAHOO_SERVICE_FILETRANS_15 = 0xdc,

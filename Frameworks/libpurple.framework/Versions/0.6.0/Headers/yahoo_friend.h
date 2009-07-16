@@ -56,7 +56,7 @@ typedef struct _YahooFriend {
 	YahooPresenceVisibility presence;
 	int protocol; /* 1=LCS, 2=MSN*/
 	long int version_id;
-	gchar *alias_id;		/* XXX: stick in a YahooPersonalDetails instead? */
+	YahooPersonalDetails ypd;
 	YahooP2PStatus p2p_status;
 	gboolean p2p_packet_sent;	/* 0:not sent, 1=sent */
 	gint session_id;	/* session id of friend */

@@ -36,5 +36,6 @@
 void yahoo_update_alias(PurpleConnection *gc, const char *who, const char *alias);
 void yahoo_fetch_aliases(PurpleConnection *gc);
 void yahoo_set_userinfo(PurpleConnection *gc);
-void yahoo_personal_details_reset(YahooPersonalDetails *ypd);
-
+void yahoo_set_userinfo_for_buddy(PurpleConnection *gc, PurpleBuddy *buddy);
+void yahoo_personal_details_reset(YahooPersonalDetails *ypd, gboolean all);
+void yahoo_process_contact_details(PurpleConnection *gc, struct yahoo_packet *pkt);
