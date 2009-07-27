@@ -18,7 +18,7 @@
 #import "AISoundController.h"
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISleepNotification.h>
-#import <CoreAudio/AudioHardware.h>
+#import <QTKit/QTKit.h>
 #import <CoreServices/CoreServices.h>
 #import <sys/sysctl.h>
 
@@ -30,8 +30,8 @@
 - (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume;
 - (void)cachedPlaySound:(NSString *)inPath;
 - (void)_uncacheLeastRecentlyUsedSound;
-- (NSString *)systemAudioDeviceID;
-- (void)configureAudioContextForSound:(NSSound *)sound;
+- (QTAudioContextRef)createAudioContextWithSystemOutputDevice;
+- (void)configureAudioContextForMovie:(QTMovie *)movie;
 - (NSArray *)allSounds;
 @end
 
@@ -124,9 +124,9 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 
 - (void)stopPlayingSoundAtPath:(NSString *)inPath
 {
-	NSSound *sound = [soundCacheDict objectForKey:inPath];
-	if (sound) {
-		[sound stop];
+    QTMovie *movie = [soundCacheDict objectForKey:inPath];
+    if (movie) {
+		[movie stop];
 	}
 }
 
@@ -163,24 +163,24 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 - (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume
 {
 	NSEnumerator 		*enumerator = [soundCacheDict objectEnumerator];
-	NSSound *sound;
+	QTMovie *movie;
 
-	while((sound = [enumerator nextObject])){
-		[sound setVolume:inVolume];
+	while((movie = [enumerator nextObject])){
+		[movie setVolume:inVolume];
 	}
 }
 
 /*!
- * @brief Play an NSSound, possibly cached
+ * @brief Play a QTMovie, possibly cached
  * 
  * @param inPath path to the sound file
  */
 - (void)cachedPlaySound:(NSString *)inPath
 {
-	NSSound *sound = [soundCacheDict objectForKey:inPath];
+    QTMovie *movie = [soundCacheDict objectForKey:inPath];
 
 	//Load the sound if necessary
-	if (!sound) {
+    if (!movie) {
 		//If the cache is full, remove the least recently used cached sound
 		if ([soundCacheDict count] >= MAX_CACHED_SOUNDS) {
 			[self _uncacheLeastRecentlyUsedSound];
@@ -188,39 +188,46 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 
 		//Load and cache the sound
 		NSError *error = nil;
-		sound = [[NSSound alloc] initWithContentsOfFile:inPath byReference:NO];
-		if (sound) {
+		movie = [[QTMovie alloc] initWithFile:inPath
+		                                error:&error];
+		if (movie) {
 			//Insert the player at the front of our cache
 			[soundCacheArray insertObject:inPath atIndex:0];
-			[soundCacheDict setObject:sound forKey:inPath];
-			[sound release];
+			[soundCacheDict setObject:movie forKey:inPath];
+			[movie release];
 
 			//Set the volume (otherwise #2283 happens)
-			[sound setVolume:customVolume];
+			[movie setVolume:customVolume];
 
-			[self configureAudioContextForSound:sound];
+			[self configureAudioContextForMovie:movie];
 		} else {
 			AILogWithSignature(@"Error loading %@: %@", inPath, error);
 		}
 
-	} else {
+    } else {
 		//Move this sound to the front of the cache (This will naturally move lesser used sounds to the back for removal)
 		[soundCacheArray removeObject:inPath];
 		[soundCacheArray insertObject:inPath atIndex:0];
 		
 		if (reconfigureAudioContextBeforeEachPlay) {
-			[sound stop];
-			[self configureAudioContextForSound:sound];
+			[movie stop];
+			[self configureAudioContextForMovie:movie];
 		}
-	}
+    }
 
-	//Engage!
-	if (sound) {
-		[sound setCurrentTime:0.0];
+    //Engage!
+    if (movie) {
+		//Ensure the sound is starting from the beginning; necessary for cached sounds that have already been played
+		QTTime startOfMovie = {
+			.timeValue = 0LL,
+			.timeScale = [[movie attributeForKey:QTMovieTimeScaleAttribute] longValue],
+			.flags = 0,
+		};
+		[movie setCurrentTime:startOfMovie];
 
-		//This only has an effect if the sound is not already playing. It won't stop it, and it won't start it over (the latter is what setCurrentTime: is for).
-		[sound play];
-	}
+		//This only has an effect if the movie is not already playing. It won't stop it, and it won't start it over (the latter is what setCurrentTime: is for).
+		[movie play];
+    }
 }
 
 /*!
@@ -229,17 +236,18 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 - (void)_uncacheLeastRecentlyUsedSound
 {
 	NSString			*lastCachedPath = [soundCacheArray lastObject];
-	NSSound *sound = [soundCacheDict objectForKey:lastCachedPath];
+	QTMovie *movie = [soundCacheDict objectForKey:lastCachedPath];
 
-	//Remove it from the cache only if it is not playing.
-	if (![sound isPlaying]) {
+	//If a movie is stopped, then its rate is zero. Thus, this tests whether the movie is playing. We remove it from the cache only if it is not playing.
+	if ([movie rate] == 0.0) {
 		[soundCacheDict removeObjectForKey:lastCachedPath];
 		[soundCacheArray removeLastObject];
 	}
 }
 
-- (NSString *)systemAudioDeviceID
+- (QTAudioContextRef)createAudioContextWithSystemOutputDevice
 {
+	QTAudioContextRef newAudioContext = NULL;
 	OSStatus err;
 	UInt32 dataSize;
 
@@ -260,22 +268,41 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 		NSLog(@"%s: Could not get the device UID for device %p: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
 		return NULL;
 	}
-	[(NSString *)deviceUID autorelease];
-	
-	return (NSString *)deviceUID;
+	[(NSObject *)deviceUID autorelease];
+
+	//Create an audio context for this device so that our movies can play into it.
+	err = QTAudioContextCreateForAudioDevice(kCFAllocatorDefault, deviceUID, /*options*/ NULL, &newAudioContext);
+	if (err != noErr) {
+		NSLog(@"%s: QTAudioContextCreateForAudioDevice with device UID %@ returned error %i", __PRETTY_FUNCTION__, deviceUID, err);
+		return NULL;
+	}
+
+	return newAudioContext;
 }
 
-- (void)configureAudioContextForSound:(NSSound *)sound
+- (void)configureAudioContextForMovie:(QTMovie *)movie
 {
-	[sound pause];
+	//QTMovie gets confused if we're playing when we do this, so pause momentarily.
+	CGFloat savedRate = [movie rate];
+	[movie setRate:0.0];
 	
 	//Exchange the audio context for a new one with the new device.
-	NSString *deviceUID = [self systemAudioDeviceID];
+	QTAudioContextRef newAudioContext = [self createAudioContextWithSystemOutputDevice];
 	
-	[sound setPlaybackDeviceIdentifier:deviceUID];
+	if (newAudioContext) {
+		OSStatus err = SetMovieAudioContext([movie quickTimeMovie], newAudioContext);
+		if (err != noErr) {
+			NSLog(@"%s: Could not set audio context of movie %@ to %p: SetMovieAudioContext returned error %i. Sounds may be routed to the default audio device instead of the system alert audio device.", __PRETTY_FUNCTION__, movie, newAudioContext, err);
+		}
+		
+		//We created it, so we must release it.
+		QTAudioContextRelease(newAudioContext);
+	} else {
+		NSLog(@"%s: Could not set audio context because -[AdiumSound createAudioContextWithSystemOutputDevice] returned NULL", __PRETTY_FUNCTION__);
+	}
 	
 	//Resume playback, now on the new device.
-	[sound resume];
+	[movie setRate:savedRate];
 }
 
 - (NSArray *)allSounds
@@ -318,8 +345,11 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 
 - (void)systemOutputDeviceDidChange
 {
-	for (NSSound *sound in [self allSounds]) {
-		[self configureAudioContextForSound:sound];
+	NSEnumerator	*soundsEnum = [[self allSounds] objectEnumerator];
+	QTMovie			*movie;
+
+	while ((movie = [soundsEnum nextObject])) {
+		[self configureAudioContextForMovie:movie];
 	}
 }
 
