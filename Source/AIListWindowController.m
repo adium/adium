@@ -1536,6 +1536,13 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 		
 		targetFrame.size.height = NSHeight(targetFrame) - NSHeight([filterBarView bounds]);
 	}
+	
+	/* Setting a frame's height to 0 can permanently destroy its ability to display properly.
+	 * This is the case with an NSOutlineView. If our contact list was invisibile (because no contacts
+	 * were visible), create a 1 pixel border rather than traumatizing it for life.
+	 */
+	if (targetFrame.size.height == 0)
+		targetFrame.size.height = 1;
     
     // Filter bar resizing
     NSRect barTargetFrame = contactListView.enclosingScrollView.frame;
