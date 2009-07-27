@@ -140,6 +140,7 @@
 	if ([identifier isEqualToString:@"description"]) {
 		return [[[self advancedCategoryArray] objectAtIndex:row] label];
 	} else if ([identifier isEqualToString:@"image"]) {
+		[[tableColumn dataCell] setImageAlignment:NSImageAlignRight];
 		return [[[self advancedCategoryArray] objectAtIndex:row] image];
 	}
 	
