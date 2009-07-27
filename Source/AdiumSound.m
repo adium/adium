@@ -19,12 +19,20 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AISleepNotification.h>
 #import <CoreAudio/AudioHardware.h>
+#import <CoreServices/CoreServices.h>
 #import <sys/sysctl.h>
 
 #define SOUND_DEFAULT_PREFS				@"SoundPrefs"
+#define MAX_CACHED_SOUNDS				4			//Max cached sounds
 
 @interface AdiumSound ()
-@property (readonly, nonatomic) NSString *systemAudioDeviceID;
+- (void)_stopAndReleaseAllSounds;
+- (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume;
+- (void)cachedPlaySound:(NSString *)inPath;
+- (void)_uncacheLeastRecentlyUsedSound;
+- (NSString *)systemAudioDeviceID;
+- (void)configureAudioContextForSound:(NSSound *)sound;
+- (NSArray *)allSounds;
 @end
 
 @interface NSProcessInfo (AIProcessorInfoAdditions)
@@ -41,7 +49,9 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 - (id)init
 {
 	if ((self = [super init])) {
-		currentlyPlayingSounds = [[NSMutableSet alloc] init];
+		soundCacheDict = [[NSMutableDictionary alloc] init];
+		soundCacheArray = [[NSMutableArray alloc] init];
+		soundCacheCleanupTimer = nil;
 		soundsAreMuted = NO;
 
 		//Observe workspace activity changes so we can mute sounds as necessary
@@ -96,24 +106,41 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[currentlyPlayingSounds release]; currentlyPlayingSounds = nil;
+	[self _stopAndReleaseAllSounds];
+
+	[soundCacheDict release]; soundCacheDict = nil;
+	[soundCacheArray release]; soundCacheArray = nil;
+	[soundCacheCleanupTimer invalidate]; [soundCacheCleanupTimer release]; soundCacheCleanupTimer = nil;
 
 	[super dealloc];
+}
+
+- (void)playSoundAtPath:(NSString *)inPath
+{
+	if (inPath && customVolume != 0.0 && !soundsAreMuted) {
+		[self cachedPlaySound:inPath];
+	}
+}
+
+- (void)stopPlayingSoundAtPath:(NSString *)inPath
+{
+	NSSound *sound = [soundCacheDict objectForKey:inPath];
+	if (sound) {
+		[sound stop];
+	}
 }
 
 /*!
  * @brief Preferences changed, adjust to the new values
  */
-- (void)preferencesChangedForGroup:(NSString *)group 
-							   key:(NSString *)key
-							object:(AIListObject *)object 
-					preferenceDict:(NSDictionary *)prefDict 
-						 firstTime:(BOOL)firstTime
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
+							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	CGFloat newVolume = [[prefDict objectForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL] doubleValue];
 
-	for (NSSound *sound in currentlyPlayingSounds) {
-		[sound setVolume:newVolume];
+	//If sound volume has changed, we must update all existing sounds to the new volume
+	if (customVolume != newVolume) {
+		[self _setVolumeOfAllSoundsTo:newVolume];
 	}
 
 	//Load the new preferences
@@ -123,72 +150,134 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 /*!
  * @brief Stop and release all cached sounds
  */
-- (void)stopCurrentlyPlayingSounds
+- (void)_stopAndReleaseAllSounds
 {
-	[currentlyPlayingSounds removeAllObjects];
+	[[soundCacheDict allValues] makeObjectsPerformSelector:@selector(stop)];
+	[soundCacheDict removeAllObjects];
+	[soundCacheArray removeAllObjects];
+}
+
+/*!
+ * @brief Update the volume of all cached sounds
+ */
+- (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume
+{
+	for (NSSound *sound in [soundCacheDict objectEnumerator]) {
+		[sound setVolume:inVolume];
+	}
 }
 
 /*!
  * @brief Play an NSSound, possibly cached
  * 
- * @param inURL file url to the sound file
+ * @param inPath path to the sound file
  */
-- (void)playSoundAtURL:(NSURL *)inURL
+- (void)cachedPlaySound:(NSString *)inPath
 {
-	if (!inURL || customVolume == 0.0 || soundsAreMuted > 0)
-		return;
+	NSSound *sound = [soundCacheDict objectForKey:inPath];
 
-	//Load the sound
-	NSSound *sound = [[[NSSound alloc] initWithContentsOfURL:inURL byReference:YES] autorelease];
+	//Load the sound if necessary
+	if (!sound) {
+		//If the cache is full, remove the least recently used cached sound
+		if ([soundCacheDict count] >= MAX_CACHED_SOUNDS) {
+			[self _uncacheLeastRecentlyUsedSound];
+		}
+
+		//Load and cache the sound
+		NSError *error = nil;
+		sound = [[NSSound alloc] initWithContentsOfFile:inPath byReference:NO];
+		if (sound) {
+			//Insert the player at the front of our cache
+			[soundCacheArray insertObject:inPath atIndex:0];
+			[soundCacheDict setObject:sound forKey:inPath];
+			[sound release];
+
+			//Set the volume (otherwise #2283 happens)
+			[sound setVolume:customVolume];
+
+			[self configureAudioContextForSound:sound];
+		} else {
+			AILogWithSignature(@"Error loading %@: %@", inPath, error);
+		}
+
+	} else {
+		//Move this sound to the front of the cache (This will naturally move lesser used sounds to the back for removal)
+		[soundCacheArray removeObject:inPath];
+		[soundCacheArray insertObject:inPath atIndex:0];
+		
+		if (reconfigureAudioContextBeforeEachPlay) {
+			[sound stop];
+			[self configureAudioContextForSound:sound];
+		}
+	}
 
 	//Engage!
 	if (sound) {
-		[sound setVolume:customVolume];
-		[sound setPlaybackDeviceIdentifier:self.systemAudioDeviceID];
-		[currentlyPlayingSounds addObject:sound];
-		[sound setDelegate:self];
 		[sound setCurrentTime:0.0];
+
+		//This only has an effect if the sound is not already playing. It won't stop it, and it won't start it over (the latter is what setCurrentTime: is for).
 		[sound play];
 	}
 }
 
-- (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying
+/*!
+ * @brief Remove the least recently used sound from the cache
+ */
+- (void)_uncacheLeastRecentlyUsedSound
 {
-	[currentlyPlayingSounds removeObject:sound];
+	NSString			*lastCachedPath = [soundCacheArray lastObject];
+	NSSound *sound = [soundCacheDict objectForKey:lastCachedPath];
+
+	//Remove it from the cache only if it is not playing.
+	if (![sound isPlaying]) {
+		[soundCacheDict removeObjectForKey:lastCachedPath];
+		[soundCacheArray removeLastObject];
+	}
 }
 
 - (NSString *)systemAudioDeviceID
 {
-	if (reconfigureAudioContextBeforeEachPlay) {
-		[outputDeviceUID release];
-		outputDeviceUID = nil;
+	OSStatus err;
+	UInt32 dataSize;
+
+	//First, obtain the device itself.
+	AudioDeviceID systemOutputDevice = 0;
+	dataSize = sizeof(systemOutputDevice);
+	err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultSystemOutputDevice, &dataSize, &systemOutputDevice);
+	if (err != noErr) {
+		NSLog(@"%s: Could not get the system output device: AudioHardwareGetProperty returned error %i", __PRETTY_FUNCTION__, err);
+		return NULL;
 	}
-	if (!outputDeviceUID) {
-		OSStatus err;
-		UInt32 dataSize;
-		
-		//First, obtain the device itself.
-		AudioDeviceID systemOutputDevice = 0;
-		dataSize = sizeof(systemOutputDevice);
-		err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultSystemOutputDevice, &dataSize, &systemOutputDevice);
-		if (err != noErr) {
-			NSLog(@"%s: Could not get the system output device: AudioHardwareGetProperty returned error %i", __PRETTY_FUNCTION__, err);
-			return NULL;
-		}
-		
-		//Now get its UID. We'll need to release this.
-		CFStringRef deviceUID = NULL;
-		dataSize = sizeof(deviceUID);
-		err = AudioDeviceGetProperty(systemOutputDevice, /*channel*/ 0, /*isInput*/ false, kAudioDevicePropertyDeviceUID, &dataSize, &deviceUID);
-		if (err != noErr) {
-			NSLog(@"%s: Could not get the device UID for device %p: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
-			return NULL;
-		}
-		outputDeviceUID = (NSString *)deviceUID;
+
+	//Now get its UID. We'll need to release this.
+	CFStringRef deviceUID = NULL;
+	dataSize = sizeof(deviceUID);
+	err = AudioDeviceGetProperty(systemOutputDevice, /*channel*/ 0, /*isInput*/ false, kAudioDevicePropertyDeviceUID, &dataSize, &deviceUID);
+	if (err != noErr) {
+		NSLog(@"%s: Could not get the device UID for device %p: AudioDeviceGetProperty returned error %i", __PRETTY_FUNCTION__, systemOutputDevice, err);
+		return NULL;
 	}
+	[(NSString *)deviceUID autorelease];
 	
+	return (NSString *)deviceUID;
+}
+
+- (void)configureAudioContextForSound:(NSSound *)sound
+{
+	[sound pause];
 	
-	return outputDeviceUID;
+	//Exchange the audio context for a new one with the new device.
+	NSString *deviceUID = [self systemAudioDeviceID];
+	
+	[sound setPlaybackDeviceIdentifier:deviceUID];
+	
+	//Resume playback, now on the new device.
+	[sound resume];
+}
+
+- (NSArray *)allSounds
+{
+	return [soundCacheDict allValues];
 }
 
 /*!
@@ -209,7 +298,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 
 - (void)systemWillSleep:(NSNotification *)notification
 {
-	[self stopCurrentlyPlayingSounds];
+	[self _stopAndReleaseAllSounds];
 }
 
 - (void)setSoundsAreMuted:(BOOL)mute
@@ -221,16 +310,13 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 		soundsAreMuted++;
 
 	if (soundsAreMuted == 1)
-		[self stopCurrentlyPlayingSounds];
+		[self _stopAndReleaseAllSounds];
 }
 
 - (void)systemOutputDeviceDidChange
 {
-	[outputDeviceUID release]; outputDeviceUID = nil; //clear our cache
-	for (NSSound *sound in currentlyPlayingSounds) {
-		[sound pause];
-		[sound setPlaybackDeviceIdentifier:self.systemAudioDeviceID];
-		[sound resume];
+	for (NSSound *sound in [self allSounds]) {
+		[self configureAudioContextForSound:sound];
 	}
 }
 
