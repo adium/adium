@@ -33,12 +33,12 @@
 	[self reloadListObject:nil];
 }
 /*!
- * @brief When the contact order changes, check to ensure we have 1 or more visible rows
+ * @brief When asked to reload a list object, check to ensure we have 1 or more visible rows
  *
  * If we have no rows visible, hide the contact list, redisplaying it when rows are visible again.
  * orderOut: doesn't appear to work for borderless windows, so we just go to an alpha value of 0.
  */
-- (void)contactOrderChanged:(NSNotification *)notification
+- (void)reloadListObject:(NSNotification *)notification
 {
 	[super reloadListObject:notification];
 
