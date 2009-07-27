@@ -45,14 +45,12 @@
 }
 
 //Sound
-- (void)playSoundAtURL:(NSURL *)inURL 
-{
-	[adiumSound playSoundAtURL:inURL];
+- (void)playSoundAtPath:(NSString *)inPath{
+	[adiumSound playSoundAtPath:inPath];
 }
-
-- (void)stopCurrentlyPlayingSounds
+- (void)stopPlayingSoundAtPath:(NSString *)inPath
 {
-	[adiumSound stopCurrentlyPlayingSounds];
+	[adiumSound stopPlayingSoundAtPath:inPath];
 }
 
 /*!

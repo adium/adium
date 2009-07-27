@@ -67,7 +67,8 @@
 - (void)viewWillClose
 {
 	//The user probably does not want the sound to continue playing (especially if it's long), so stop it.
-	[adium.soundController stopCurrentlyPlayingSounds];
+	NSString		*soundPath = [[popUp_actionDetails selectedItem] representedObject];
+	[adium.soundController stopPlayingSoundAtPath:soundPath];
 
 	[soundFileIcon release]; soundFileIcon = nil;
 	[super viewWillClose];
@@ -230,7 +231,7 @@
     NSString	*soundPath = [sender representedObject];
     
     if (soundPath != nil && [soundPath length] != 0) {
-        [adium.soundController playSoundAtURL:[NSURL fileURLWithPath:[soundPath stringByExpandingBundlePath]]]; //Play the sound
+        [adium.soundController playSoundAtPath:[soundPath stringByExpandingBundlePath]]; //Play the sound
 
 		//Update the menu and and the selection
 		[self addAndSelectSoundPath:soundPath];
@@ -261,7 +262,7 @@
     if (returnCode == NSOKButton) {
         NSString *soundPath = [[panel filenames] objectAtIndex:0];
         
-        [adium.soundController playSoundAtURL:[NSURL fileURLWithPath:soundPath]]; //Play the sound
+        [adium.soundController playSoundAtPath:soundPath]; //Play the sound
 
         //Update the menu and and the selection
 		[self addAndSelectSoundPath:[soundPath stringByCollapsingBundlePath]];

@@ -37,6 +37,13 @@
 #define CUSTOM_TITLE				AILocalizedString(@"Custom",nil)
 #define COPY_IN_PARENTHESIS			AILocalizedString(@"(Copy)","Copy, in parenthesis, as a noun indicating that the preceding item is a duplicate")
 
+#define VOLUME_SOUND_PATH   [NSString pathWithComponents:[NSArray arrayWithObjects: \
+	@"/", @"System", @"Library", @"LoginPlugins", \
+	[@"BezelServices" stringByAppendingPathExtension:@"loginPlugin"], \
+	@"Contents", @"Resources", \
+	[@"volume" stringByAppendingPathExtension:@"aiff"], \
+	nil]]
+
 @interface ESGlobalEventsPreferences ()
 - (void)popUp:(NSPopUpButton *)inPopUp shouldShowCustom:(BOOL)showCustom;
 - (void)xtrasChanged:(NSNotification *)notification;
@@ -603,13 +610,7 @@
                                               group:PREF_GROUP_SOUNDS];
 		
 		//Play a sample sound
-		NSURL *volumeSoundURL = [NSURL fileURLWithPath:[NSString pathWithComponents:[NSArray arrayWithObjects:
-																					 @"/", @"System", @"Library", @"LoginPlugins",
-																					 [@"BezelServices" stringByAppendingPathExtension:@"loginPlugin"],
-																					 @"Contents", @"Resources",
-																					 [@"volume" stringByAppendingPathExtension:@"aiff"],
-																					 nil]]];
-        [adium.soundController playSoundAtURL:volumeSoundURL];
+        [adium.soundController playSoundAtPath:VOLUME_SOUND_PATH];
     }
 }
 
