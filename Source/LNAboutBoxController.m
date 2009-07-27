@@ -162,9 +162,9 @@ LNAboutBoxController *sharedAboutBoxInstance = nil;
 
 	if (numberOfDuckClicks == 10) {
 		numberOfDuckClicks = -1;            
-		[adium.soundController playSoundAtURL:[NSURL fileURLWithPath:[PATH_TO_SOUNDS stringByAppendingPathComponent:@"Feather Ruffle.aif"]]];
+		[adium.soundController playSoundAtPath:[PATH_TO_SOUNDS stringByAppendingPathComponent:@"Feather Ruffle.aif"]];
 	} else {
-		[adium.soundController playSoundAtURL:[NSURL fileURLWithPath:[PATH_TO_SOUNDS stringByAppendingPathComponent:@"Quack.aif"]]];
+		[adium.soundController playSoundAtPath:[PATH_TO_SOUNDS stringByAppendingPathComponent:@"Quack.aif"]];
 	}
 	
 }
