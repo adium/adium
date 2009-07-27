@@ -99,8 +99,8 @@
 {
 	BOOL shouldPlay = ![listObject soundsAreMuted];
 	if (shouldPlay) {
-		NSURL *soundURL = [NSURL fileURLWithPath:[[details objectForKey:KEY_ALERT_SOUND_PATH] stringByExpandingBundlePath]];
-		[adium.soundController playSoundAtURL:soundURL];
+		NSString	*soundPath = [[details objectForKey:KEY_ALERT_SOUND_PATH] stringByExpandingBundlePath];
+		[adium.soundController playSoundAtPath:soundPath];
 	}
 	
 	return shouldPlay;
@@ -126,8 +126,8 @@
  */
 - (void)performPreviewForAlert:(NSDictionary *)alert
 {
-	NSURL *soundURL = [NSURL fileURLWithPath:[[[alert objectForKey:KEY_ACTION_DETAILS] objectForKey:KEY_ALERT_SOUND_PATH] stringByExpandingBundlePath]];
-	[adium.soundController playSoundAtURL:soundURL];
+	NSString	*soundPath = [[[alert objectForKey:KEY_ACTION_DETAILS] objectForKey:KEY_ALERT_SOUND_PATH] stringByExpandingBundlePath];
+	[adium.soundController playSoundAtPath:soundPath];
 }
 
 @end
