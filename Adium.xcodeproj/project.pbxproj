@@ -668,6 +668,8 @@
 		34C6A3BC077A8CB500EB423C /* AppearanceDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C6A3BB077A8CB500EB423C /* AppearanceDefaults.plist */; };
 		34C6CFAB0DF4B41300651F70 /* RBSplitView.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34D1AB5C0D693DEB00470520 /* RBSplitView.framework */; };
 		34C7C62809EC4E890060FB4A /* AILibpurplePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 34B3244309BA003C00029361 /* AILibpurplePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34C846AF101E515900140B4B /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C846AE101E515900140B4B /* QTKit.framework */; };
+		34C846E6101E518F00140B4B /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34C846E5101E518F00140B4B /* QuickTime.framework */; };
 		34C899AC07E51B18009357F6 /* BuiltInEventPresets.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34C899AB07E51B18009357F6 /* BuiltInEventPresets.plist */; };
 		34C91BBB0CA8909700740974 /* AIContentNotification.h in Headers */ = {isa = PBXBuildFile; fileRef = 34C91BB90CA8909700740974 /* AIContentNotification.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		34C91BBC0CA8909700740974 /* AIContentNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 34C91BBA0CA8909700740974 /* AIContentNotification.m */; };
@@ -3614,6 +3616,8 @@
 		34C69E6D07794B9200EB423C /* AIImageTextCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIImageTextCellView.h; path = "Frameworks/Adium Framework/Source/AIImageTextCellView.h"; sourceTree = "<group>"; };
 		34C69E6E07794B9200EB423C /* AIImageTextCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIImageTextCellView.m; path = "Frameworks/Adium Framework/Source/AIImageTextCellView.m"; sourceTree = "<group>"; };
 		34C6A3BB077A8CB500EB423C /* AppearanceDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppearanceDefaults.plist; path = Resources/AppearanceDefaults.plist; sourceTree = "<group>"; };
+		34C846AE101E515900140B4B /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = /System/Library/Frameworks/QTKit.framework; sourceTree = "<absolute>"; };
+		34C846E5101E518F00140B4B /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
 		34C898C2089297B00046AD38 /* ja */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ja; path = "Resources/ja.lproj/Shared Dock Icon Images"; sourceTree = "<group>"; };
 		34C899AB07E51B18009357F6 /* BuiltInEventPresets.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist; name = BuiltInEventPresets.plist; path = Resources/BuiltInEventPresets.plist; sourceTree = "<group>"; };
 		34C91BB90CA8909700740974 /* AIContentNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIContentNotification.h; path = "Frameworks/Adium Framework/Source/AIContentNotification.h"; sourceTree = "<group>"; };
@@ -4828,6 +4832,8 @@
 				31E0CD810C5EEF5200271DB1 /* CoreAudio.framework in Frameworks */,
 				11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */,
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
+				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
+				34C846E6101E518F00140B4B /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5101,6 +5107,8 @@
 		29B97323FDCFA39411CA2CEA /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				34C846E5101E518F00140B4B /* QuickTime.framework */,
+				34C846AE101E515900140B4B /* QTKit.framework */,
 				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
 				312ED3D40C7E878300A6BDA9 /* SenTestingKit.framework */,
 				31E0CD800C5EEF5200271DB1 /* CoreAudio.framework */,
