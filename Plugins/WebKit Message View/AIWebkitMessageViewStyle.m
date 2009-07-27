@@ -1161,7 +1161,7 @@ static NSArray *validSenderColors;
 	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:account.service.serviceID
 																		  type:AIServiceIconLarge];
 	
-	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"@\" alt=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [account.service shortDescription]];
+	NSString *serviceIconTag = [NSString stringWithFormat:@"<img class=\"serviceIcon\" src=\"%@\" alt=\"%@\" title=\"%@\">", serviceIconPath ? serviceIconPath : @"outgoing_icon.png", [account.service shortDescription], [account.service shortDescription]];
 	
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];
