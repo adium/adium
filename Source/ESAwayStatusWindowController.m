@@ -309,7 +309,7 @@ static BOOL							hideInBackground = NO;
 		//Multistatus
 		NSArray	*selectedAccounts;
 		
-		selectedAccounts = [[tableView_multiStatus arrayOfSelectedItemsUsingSourceArray:_awayAccounts] copy];
+		selectedAccounts = [[tableView_multiStatus selectedItemsFromArray:_awayAccounts] copy];
 		
 		if ([selectedAccounts count]) {
 			//Apply the available status state to only the selected accounts

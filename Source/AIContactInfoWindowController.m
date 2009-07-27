@@ -298,10 +298,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 	}
 	
 	//Configure each pane for this contact.
-	id<AIContentInspectorPane> pane = nil;
-	NSEnumerator *paneEnumerator = [loadedContent objectEnumerator];
-	
-	while((pane = [paneEnumerator nextObject])) {
+	for (id<AIContentInspectorPane> pane in loadedContent) {
 		[pane updateForListObject:displayedObject];
 	}
 }

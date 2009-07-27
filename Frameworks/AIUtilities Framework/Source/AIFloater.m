@@ -27,13 +27,12 @@
     return [[self alloc] initWithImage:inImage styleMask:styleMask];
 }
 
-//
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask
 {
 	if ((self = [super init])) {
 		NSRect  frame;
 		windowIsVisible = NO;
-		visibilityTimer = nil;
+		fadeAnimation = nil;
 		maxOpacity = WINDOW_FADE_MAX;
 
 		//Set up the panel
@@ -58,14 +57,12 @@
 	return self;
 }
 
-//
 - (void)moveFloaterToPoint:(NSPoint)inPoint
 {
     [panel setFrameOrigin:inPoint];
     [panel orderFront:nil];
 }
 
-//
 - (void)setImage:(NSImage *)inImage
 {
     NSRect frame = [panel frame];
@@ -74,29 +71,25 @@
     [panel setFrame:frame display:YES animate:NO];
 }
 
-//
 - (NSImage *)image
 {
     return [staticView image];
 }
 
-//
 - (void)endFloater
 {
     [self close:nil];   
 }
 
-//
 - (IBAction)close:(id)sender
 {
-    [visibilityTimer invalidate]; [visibilityTimer release]; visibilityTimer = nil;
+    [fadeAnimation stopAnimation]; [fadeAnimation release]; fadeAnimation = nil;
     [panel orderOut:nil];
     [panel release]; panel = nil;
 
     [self release];
 }
 
-//
 - (void)setMaxOpacity:(float)inMaxOpacity
 {
     maxOpacity = inMaxOpacity;
@@ -111,8 +104,20 @@
         windowIsVisible = inVisible;
         
         if (animate) {
-            if (!visibilityTimer) {
-                visibilityTimer = [[NSTimer scheduledTimerWithTimeInterval:(1.0/WINDOW_FADE_FPS) target:self selector:@selector(_updateWindowVisiblityTimer:) userInfo:nil repeats:YES] retain];
+            if (!fadeAnimation) {
+				NSDictionary *animDict = [NSDictionary dictionaryWithObjectsAndKeys:
+					panel, NSViewAnimationTargetKey,
+					inVisible ? NSViewAnimationFadeInEffect : NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
+					nil];
+                fadeAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:animDict]];
+
+				//1.0 / FPS = duration per step
+				//1.0 / step = number of steps (e.g.: If step = 0.1, 1.0 / step = 10 steps)
+				//duration per step * number of steps = total duration
+				NSTimeInterval step = [[NSApp currentEvent] shiftKey] ? WINDOW_FADE_SLOW_STEP : WINDOW_FADE_STEP;
+				fadeAnimation.duration = (1.0 / step) * (1.0 / WINDOW_FADE_FPS);
+
+				[fadeAnimation startAnimation];
             }
         } else {
             [self _setWindowOpacity:(windowIsVisible ? maxOpacity : WINDOW_FADE_MIN)];
@@ -120,30 +125,9 @@
     }
 }
 
-//Smoothly 
-- (void)_updateWindowVisiblityTimer:(NSTimer *)inTimer
-{
-    float   alphaValue = [panel alphaValue];
-    
-    if (windowIsVisible) {
-        alphaValue += (maxOpacity - alphaValue) * ([NSEvent shiftKey] ? WINDOW_FADE_SLOW_STEP : WINDOW_FADE_STEP);
-        if (alphaValue > maxOpacity - WINDOW_FADE_SNAP) alphaValue = maxOpacity;
-    } else {
-        alphaValue -= (alphaValue - WINDOW_FADE_MIN) * ([NSEvent shiftKey] ? WINDOW_FADE_SLOW_STEP : WINDOW_FADE_STEP);
-        if (alphaValue < WINDOW_FADE_MIN + WINDOW_FADE_SNAP) alphaValue = WINDOW_FADE_MIN;
-    }
-    [self _setWindowOpacity:alphaValue];
-    
-    //
-    if (alphaValue == maxOpacity || alphaValue == WINDOW_FADE_MIN) {
-        [visibilityTimer invalidate]; [visibilityTimer release]; visibilityTimer = nil;
-    }
-}
-
 - (void)_setWindowOpacity:(float)opacity
 {
     [panel setAlphaValue:opacity];
-    [panel setOpaque:(opacity == 1.0)];
 }
 
 

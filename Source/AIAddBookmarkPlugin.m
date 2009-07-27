@@ -96,7 +96,7 @@
 	AIListBookmark *bookmark = [adium.contactController bookmarkForChat:chat];
 	[bookmark setDisplayName:name];
 	
-	[adium.contactController moveContact:bookmark intoGroups:[NSSet setWithObject:group]];
+	[adium.contactController moveContact:bookmark fromGroups:[NSSet set] intoGroups:[NSSet setWithObject:group]];
 }
 
 /*!

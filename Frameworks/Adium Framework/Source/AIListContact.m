@@ -32,7 +32,7 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 
-#include <AvailabilityMacros.h>
+#import <AvailabilityMacros.h>
 
 #import "AIAddressBookController.h"
 
@@ -207,7 +207,7 @@
 		
 		[groups addObject:localGroup];
 	}
-	[adium.contactController _moveContactLocally:self toGroups:groups];
+	[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:groups];
 }
 
 #pragma mark Names
@@ -705,10 +705,12 @@
 	return YES;
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
-	if (self.account.online)
-		[self.account removeContacts:[NSArray arrayWithObject:self]];
+	if (self.account.online) {
+		[self.account removeContacts:[NSArray arrayWithObject:self]
+						  fromGroups:[NSArray arrayWithObject:group]];
+	}
 }
 
 #pragma mark Equality

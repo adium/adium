@@ -781,7 +781,7 @@ static NSArray *draggedTypes = nil;
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems
 {
 	NSMutableArray *webViewMenuItems = [[defaultMenuItems mutableCopy] autorelease];
-	AIListContact	*chatListObject = chat.listObject;
+	AIListContact	*chatListObject = chat.listObject.parentContact;
 	NSMenuItem		*menuItem;
 
 	//Remove default items we don't want
@@ -875,7 +875,8 @@ static NSArray *draggedTypes = nil;
 		}
 		
 		originalMenu = [adium.menuController contextualMenuWithLocations:locations
-														   forListObject:chatListObject];
+														   forListObject:chatListObject
+																  inChat:chat];
 	} else if(chat.isGroupChat) {
 		originalMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObjects:
 																		  [NSNumber numberWithInteger:Context_GroupChat_Manage],
@@ -883,11 +884,8 @@ static NSArray *draggedTypes = nil;
 																 forChat:chat];
 	}
 	
-	for(menuItem in [originalMenu itemArray]) {
-		NSMenuItem	*webViewMenuItem = [menuItem copy];
-		[webViewMenuItems addObject:webViewMenuItem];
-		[webViewMenuItem release];
-	}
+	[webViewMenuItems addObjectsFromArray:originalMenu.itemArray];
+	[originalMenu removeAllItems];
 
 	if (webViewMenuItems.count > 0 && ![[webViewMenuItems objectAtIndex:webViewMenuItems.count-1] isSeparatorItem])
 		[webViewMenuItems addObject:[NSMenuItem separatorItem]];

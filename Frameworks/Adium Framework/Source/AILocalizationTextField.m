@@ -58,7 +58,7 @@
 	return self;
 }
 
-#include "AILocalizationControl.m"
+#import "AILocalizationControl.m"
 
 - (void)setFrame:(NSRect)inFrame
 {

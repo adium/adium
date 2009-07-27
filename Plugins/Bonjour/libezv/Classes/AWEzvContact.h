@@ -31,10 +31,11 @@
  */
 
 #import "AWEzvDefines.h"
+#import "AWEzvXMLStream.h"
 
 @class AWEzvXMLStream, AWEzvRendezvousData, AWEzvContactManager, NSImage, ServiceController, EKEzvOutgoingFileTransfer;
 
-@interface AWEzvContact : NSObject {
+@interface AWEzvContact : NSObject <AWEzvXMLStreamProtocol> {
 	NSString *name;
 	NSString *uniqueID;
 	NSData *contactImageData;
@@ -51,7 +52,7 @@
 	ServiceController *addressServiceController;
 }
 
-@property (readwrite, retain, nonatomic) NSString *uniqueID;
+@property (readwrite, copy, nonatomic) NSString *uniqueID;
 @property (readwrite, retain, nonatomic) NSData *contactImageData;
 @property (readwrite, retain, nonatomic) NSString *imageHash;
 @property (readonly, nonatomic) AWEzvStatus status;

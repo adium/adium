@@ -7,7 +7,7 @@
  *
  */
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <libpurple/libpurple.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <libpurple/libpurple.h>
 
 void adium_query_cert_chain(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata);

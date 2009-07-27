@@ -17,14 +17,13 @@
 
 #ifndef BSD_LICENSE_ONLY
 
-#import <Carbon/Carbon.h>
 #import "AIColorAdditions.h"
 #import "AIScannerAdditions.h"
 #import "AIFunctions.h"
 #import "AIApplicationAdditions.h"
 
-#include <unistd.h>
-#include <limits.h>
+#import <unistd.h>
+#import <limits.h>
 
 #endif //ndef BSD_LICENSE_ONLY
 
@@ -39,7 +38,7 @@ enum {
 	numberOfLineBreakCharacters = 6U
 };
 
-#include <wctype.h>
+#import <wctype.h>
 
 @implementation NSString (AIStringAdditions)
 
@@ -198,7 +197,6 @@ enum {
 }
 
 #define BUNDLE_STRING	@"$$BundlePath$$"
-//
 - (NSString *)stringByExpandingBundlePath
 {
     if ([self hasPrefix:BUNDLE_STRING]) {
@@ -208,7 +206,6 @@ enum {
     }
 }
 
-//
 - (NSString *)stringByCollapsingBundlePath
 {
     NSString *bundlePath = [[[NSBundle mainBundle] bundlePath] stringByExpandingTildeInPath];

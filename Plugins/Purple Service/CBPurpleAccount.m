@@ -255,7 +255,27 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	PurpleStatus		*status = (presence ? purple_presence_get_active_status(presence) : NULL);
 	const char			*message = (status ? purple_status_get_attr_string(status, "message") : NULL);
 	
-	return (message ? [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]] : nil);
+	// Get the plugin's status message for this buddy if they don't have a status message
+	if (!message) {
+		PurplePlugin				*prpl;
+		PurplePluginProtocolInfo  *prpl_info = ((prpl = purple_find_prpl(purple_account_get_protocol_id(account))) ?
+												PURPLE_PLUGIN_PROTOCOL_INFO(prpl) :
+												NULL);
+		
+		if (prpl_info && prpl_info->status_text) {
+			message = (prpl_info->status_text)(buddy);
+			
+			// Don't display "Offline" as a status message.
+			if (message && !strcmp(message, _("Offline"))) {
+				message = NULL;
+			}
+		}
+		
+		// These are HTML-stripped messages.
+		return message ? [NSAttributedString stringWithString:[NSString stringWithUTF8String:message]] : nil;
+	} else {
+		return [AIHTMLDecoder decodeHTML:[NSString stringWithUTF8String:message]];
+	}
 }
 
 /*!
@@ -583,12 +603,12 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 /*********************/
 #pragma mark Contact List Editing
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {	
-	for (AIListContact *object in objects) {
-		for (NSString *remoteGroupName in object.remoteGroupNames) {
-			NSString	*groupName = [self _mapOutgoingGroupName:remoteGroupName];
-			
+	for (AIListGroup *group in groups) {
+		NSString *groupName = [self _mapOutgoingGroupName:group.UID];
+	
+		for (AIListContact *object in objects) {
 			//Have the purple thread perform the serverside actions
 			[purpleAdapter removeUID:object.UID onAccount:self fromGroup:groupName];
 			
@@ -617,23 +637,34 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	return object.UID;
 }
 
-- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+- (NSSet *)mappedGroupNamesFromGroups:(NSSet *)groups
 {
-	NSMutableSet *groupNames = [NSMutableSet set];
-	NSMutableSet *mappedGroupNames = [NSMutableSet set];
-	for (AIListGroup* group in groups)
-	{
-		[groupNames addObject:group.UID];
-		[mappedGroupNames addObject:[self _mapOutgoingGroupName:group.UID]];
+	NSMutableSet *mappedNames = [NSMutableSet set];
+	
+	for (AIListGroup *group in groups) {
+		[mappedNames addObject:[self _mapOutgoingGroupName:group.UID]];
 	}
 	
+	return mappedNames;
+}
+
+- (void)moveListObjects:(NSArray *)objects fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
+{
+	NSSet *sourceMappedNames = [self mappedGroupNamesFromGroups:oldGroups];
+	NSSet *destinationMappedNames = [self mappedGroupNamesFromGroups:groups];
+
 	//Move the objects to it
 	for (AIListContact *contact in objects) {
 		//Tell the purple thread to perform the serverside operation
-		[purpleAdapter moveUID:contact.UID onAccount:self toGroups:mappedGroupNames];
+		[purpleAdapter moveUID:contact.UID onAccount:self fromGroups:sourceMappedNames toGroups:destinationMappedNames];
 
-		//Use the non-mapped group name locally
-		[contact setRemoteGroupNames:groupNames];
+		for (AIListGroup *group in oldGroups) {
+			[contact removeRemoteGroupName:group.UID];
+		}
+		
+		for (AIListGroup *group in groups) {
+			[contact addRemoteGroupName:group.UID];
+		}
 	}		
 }
 
@@ -907,8 +938,11 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	[purpleAdapter closeChat:chat];
 	
-	//Be sure any remaining typing flag is cleared as the chat closes
-	[self setTypingFlagOfChat:chat to:nil];
+	if (!chat.isGroupChat) {
+		//Be sure any remaining typing flag is cleared as the chat closes
+		[self setTypingFlagOfChat:chat to:nil];
+	}
+	
 	AILog(@"purple closeChat:%@",chat.uniqueChatID);
 	
     return YES;
@@ -3046,6 +3080,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 #pragma mark Private
 - (void)setTypingFlagOfChat:(AIChat *)chat to:(NSNumber *)typingStateNumber
 {
+	NSAssert(!chat.isGroupChat, @"Chat cannot be a group chat for typing.");
+	
     AITypingState currentTypingState = [chat integerValueForProperty:KEY_TYPING];
 	AITypingState newTypingState = [typingStateNumber intValue];
 	

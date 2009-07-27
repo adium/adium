@@ -14,10 +14,10 @@
  \------------------------------------------------------------------------------------------------------ */
 
 #import "AIFunctions.h"
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <malloc/malloc.h>
-#include <stdlib.h>
+#import <sys/types.h>
+#import <sys/mman.h>
+#import <malloc/malloc.h>
+#import <stdlib.h>
 
 BOOL AIGetSurrogates(UTF32Char in, UTF16Char *outHigh, UTF16Char *outLow)
 {

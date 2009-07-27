@@ -8,9 +8,9 @@
 #import "AIHostReachabilityMonitor.h"
 #import "AISleepNotification.h"
 #import <SystemConfiguration/SystemConfiguration.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <netinet/in.h>
+#import <arpa/inet.h>
+#import <netdb.h>
+#import <netinet/in.h>
 
 #define CONNECTIVITY_DEBUG FALSE
 

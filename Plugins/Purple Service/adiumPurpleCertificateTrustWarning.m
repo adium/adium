@@ -15,12 +15,8 @@
 #import "ESPurpleJabberAccount.h"
 
 void adium_query_cert_chain(PurpleSslConnection *gsc, const char *hostname, CFArrayRef certs, void (*query_cert_cb)(gboolean trusted, void *userdata), void *userdata) {
-	NSObject<AIAccountController> *accountController = adium.accountController;
 	// only the jabber service supports this right now
-	NSEnumerator *e = [[accountController accountsCompatibleWithService:[accountController firstServiceWithServiceID:@"Jabber"]] objectEnumerator];
-	ESPurpleJabberAccount *account;
-	
-	while((account = [e nextObject])) {
+	for (ESPurpleJabberAccount *account in [adium.accountController accountsCompatibleWithService:[adium.accountController firstServiceWithServiceID:@"Jabber"]]) {
 		if([account secureConnection] == gsc) {
 			if([account shouldVerifyCertificates])
 				[AIPurpleCertificateTrustWarningAlert displayTrustWarningAlertWithAccount:account

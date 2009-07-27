@@ -15,22 +15,31 @@
  */
 
 #import <Adium/AIDebugControllerProtocol.h>
-#include <stdarg.h>
+#import <stdarg.h>
+#import <execinfo.h>
 
-extern CFRunLoopRef CFRunLoopGetMain(void);
+#ifdef DEBUG_BUILD
+BOOL AIDebugLoggingEnabled = YES;
+#else
+BOOL AIDebugLoggingEnabled = NO;
+#endif
+
+NSString *const AIDebugLoggingEnabledNotification = @"AIDebugLoggingEnabledNotification";
+
+void AIEnableDebugLogging()
+{
+	AIDebugLoggingEnabled = YES;
+	[[NSNotificationCenter defaultCenter] postNotificationName:AIDebugLoggingEnabledNotification object:nil];
+}
 
 /*!
  * @brief Adium debug log function
  *
- * Prints a message to the Adium debug window, which is only enabled in Debug builds.  
- * In Release builds, this function is replaced by a #define which is just a comment, so there is no cost to
- * Release to use it.
+ * Prints a message to the Adium debug window, which is only enabled in Debug builds or by a hidden preference.  
  *
  * @param format A printf-style format string
  * @param ... 0 or more arguments to the format string
  */
-#ifdef DEBUG_BUILD
-#include <execinfo.h>
 void AIAddDebugMessage(NSString *debugMessage)
 {
 	NSString *actualMessage = [[[NSDate date] descriptionWithCalendarFormat:@"%H:%M:%S: "
@@ -38,7 +47,7 @@ void AIAddDebugMessage(NSString *debugMessage)
 																	 locale:nil] stringByAppendingString:debugMessage];
 	
 	/* Be careful; we should only modify debugLogArray and the windowController's view on the main thread. */
-	if (CFRunLoopGetCurrent() == CFRunLoopGetMain()) {
+	if ([NSRunLoop currentRunLoop] == [NSRunLoop mainRunLoop]) {
 		[adium.debugController addMessage:actualMessage];
 
 	} else {
@@ -48,7 +57,7 @@ void AIAddDebugMessage(NSString *debugMessage)
 	}
 }
 
-void AILog (NSString *format, ...) {
+void AILog_impl (NSString *format, ...) {
 	va_list		ap; /* Points to each unamed argument in turn */
 	NSString	*debugMessage;
 	
@@ -62,7 +71,7 @@ void AILog (NSString *format, ...) {
 	va_end(ap); /* clean up when done */
 }
 
-void AILogWithPrefix (const char *prefix, NSString *format, ...) {
+void AILogWithPrefix_impl (const char *prefix, NSString *format, ...) {
 	va_list		ap; /* Points to each unamed argument in turn */
 	NSString	*debugMessage, *actualMessage;
 	
@@ -77,7 +86,7 @@ void AILogWithPrefix (const char *prefix, NSString *format, ...) {
 	va_end(ap); /* clean up when done */
 }
 
-void AILogBacktrace() {
+void AILogBacktrace_impl() {
 	void* callstack[128];
 	int i, frames = backtrace(callstack, 128);
 	char** strs = backtrace_symbols(callstack, frames);
@@ -86,15 +95,13 @@ void AILogBacktrace() {
 		[str appendFormat:@"%s\n", strs[i]];
 	}
 	free(strs);	
-	AILog(@"%@", str);
+	AILog_impl(@"%@", str);
 };
 
-#else
-//Insert a fake symbol so that plugins using AILog() don't crash.
+//For compatibility with plugins that expect these symbols to exist
 #undef AILog
-void AILog (NSString *format, ...) {};
 #undef AILogWithPrefix
-void AILogWithPrefix (char *sig, NSString *format, ...) {};
-#undef AILogBacktrace
-void AILogBacktrace() {};
-#endif
+#undef AILogWithBacktrace
+void AILog(NSString *fmt, ...) {}
+void AILogWithPrefix(const char *signature, NSString *fmt, ...) {}
+void AILogWithBacktrace() {}

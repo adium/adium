@@ -25,7 +25,7 @@
 //#define MEANWHILE_NOT_AVAILABLE
 
 //Purple includes
-#include <libpurple/libpurple.h>
+#import <libpurple/libpurple.h>
 
 #define PACKAGE "pidgin"
 

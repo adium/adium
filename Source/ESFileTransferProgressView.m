@@ -280,6 +280,9 @@
 	[textField_destination setTextColor:newColor];		
 	[textField_fileName setTextColor:newColor];
 	
+	[textField_detailsLabel setTextColor:newColor];
+	
+	
 	[self updateButtonStopResume];
 	[self updateButtonReveal];
 	[self setNeedsDisplay:YES];
@@ -316,6 +319,7 @@
 	if (isSelected != flag) {
 		isSelected = flag;
 		
+		[self updateButtonStopResume];
 		[self updateColors];
 	}
 }
@@ -323,7 +327,9 @@
 - (void)updateButtonStopResume
 {
 	if (buttonStopResumeIsResend) {
-	    if (isSelected) {
+	    [button_stopResume setKeyEquivalent:@""];
+		
+		if (isSelected) {
 			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressResendRollover_Selected" : @"FTProgressResend_Selected")
 												   forClass:[self class]]];
 
@@ -335,14 +341,19 @@
 
 			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressResendPressed" forClass:[self class]]];
 		}
-	} else {
+	} else {	
 		if (isSelected) {
+			[button_stopResume setKeyEquivalent:@"."];
+			[button_stopResume setKeyEquivalentModifierMask:NSCommandKeyMask];
+			
 			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover_Selected" : @"FTProgressStop_Selected")
 													forClass:[self class]]];
 
 			[button_stopResume setAlternateImage:[NSImage imageNamed:@"FTProgressStopPressed_Selected" forClass:[self class]]];
 
 		} else {
+			[button_stopResume setKeyEquivalent:@""];
+			
 			[button_stopResume setImage:[NSImage imageNamed:(buttonStopResumeIsHovered ? @"FTProgressStopRollover" : @"FTProgressStop")
 													forClass:[self class]]];
 

@@ -37,10 +37,10 @@
 #import "AWEzv.h"
 
 /* socket functions */
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <arpa/inet.h>
+#import <unistd.h>
 
 #define	MAXBACKLOG	5
 

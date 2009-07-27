@@ -47,12 +47,15 @@ Group Chats and Group Chat Bookmarks
  * Fixed bookmarking group chats whose names vary in case.
 
 Contacts
+ * Added support for contacts in multiple groups
+   * Hold option when dragging to add a contact to a secondary group.
+   * Contact info inspector is now more focused on groups per contact than before.
  * Authorization requests no longer create one alert panel per request; instead, Adium collects them in a single window, listing all pending requests with add, ignore, and deny buttons.
  * Reduced complexity when determining what account is preferred for messaging a given contact. (#10547)
- * Added support for contacts in multiple groups (no UI for putting contacts in multiple groups yet)
  * Corrected adding contacts to multiple accounts. The "Add Contact" window was only adding to the existing account.
  * Add account-specific menu items (such as "Initiate Multi-User Chat" or "Initiate Direct IM") to the main Contact menu.
  * Corrected a bug where a combined contact would be "always visible" and toggling the preference would not unset it.
+ * Fixed deleting a group not removing its contents.
 
 Logging
  * You can now replace Logs folder with an alias to another folder (on, say, an encrypted disk image). (#992)
@@ -74,6 +77,7 @@ Contact List
  * Fixed a bug where the view menu would show incorrect settings.
  * Status message is no longer searched when searching the contact list.
  * Fixed a lot of drag and drop bugs, such as being able to drag a group into another group.
+ * Tooltips now display for collapsed groups. (#11951)
 
 Message Styles
  * You can now specify a different style for group chats, and customize all of the preferences independently of a regular chat. (#87)
@@ -117,6 +121,9 @@ XMPP (Jabber, Google Talk, etc.)
  * Group chats which are not anonymous now display the actual contact in the user list. (#11841)
  * Fixed receiving colors and fonts from iChat. (#1323)
  * Enabled support for custom emoticons as an account option defaulting to on.
+ * Fixed joining a group chat from an xmpp URL. (#11785)
+ * "Not Authorized" is now displayed for contacts for whom you need to request authoriation.
+ * Contacts are no longer told when you close their chat ("…has left the conversation"). (#8082)
 
 MSN
  * Possibly fixed a crash on connect. (#11508)
@@ -134,6 +141,7 @@ MySpace IM
 
 Miscellaneous
  * You can now define which applications should be the default for different services in the Advanced preferences. (#158)
+ * Updated the look of the file transfer window. Added a keyboard shortcut of CMD+. to stop the selected transfer.
  * The about box credits are now scrollable. (#9967)
  * The unread count is now cleared when clearing the display. (#10605)
  * Error and information display windows no longer exceed their maximum height, and take focus when opening. (#11793).

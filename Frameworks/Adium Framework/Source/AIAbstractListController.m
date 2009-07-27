@@ -267,23 +267,33 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 - (void)performExpandItem:(NSNotification *)notification
 {
-	id item = [notification object];
-	if ([contactListView rowForItem:item] != -1) {
-		[contactListView expandItem:item];
-	} else {
+	AIListObject *listObject = [notification object];
+	
+	NSAssert([listObject conformsToProtocol:@protocol(AIContainingObject)], @"Attempted to expand a non-containing object.");
+	
+	if (!listObject.proxyObjects.count) {
 		//The item is not visible in the list, but we want it to be expanded next time that it is
-		[item setExpanded:YES];	
+		[(id <AIContainingObject>)listObject setExpanded:YES];	
+	}
+	
+	for (AIProxyListObject *item in listObject.proxyObjects) {
+		[contactListView expandItem:item];
 	}
 }
 
 - (void)performCollapseItem:(NSNotification *)notification
 {
-	id item = [notification object];
-	if ([contactListView rowForItem:item] != -1) {
-		[contactListView collapseItem:item];
-	} else {
+	AIListObject *listObject = [notification object];
+
+	NSAssert([listObject conformsToProtocol:@protocol(AIContainingObject)], @"Attempted to collapse a non-containing object.");
+	
+	if (!listObject.proxyObjects.count) {
 		//The item is not visible in the list, but we want it to be collapsed next time that it is
-		[item setExpanded:NO];	
+		[(id <AIContainingObject>)listObject setExpanded:NO];	
+	}
+		
+	for (AIProxyListObject *item in listObject.proxyObjects) {
+		[contactListView collapseItem:item];
 	}
 }
 
@@ -572,7 +582,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	
 	//Redraw the modified object (or the whole list, if object is nil)
 	if (object) {
-		for (AIProxyListObject *proxyObject in object.proxyObjects) {
+		for (AIProxyListObject *proxyObject in [[object.proxyObjects copy] autorelease]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	} else {
@@ -583,7 +593,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	 * For example, when a contact changes, redraw the metacontact which represents it if appropriate.
 	 */
 	if (object && [object isKindOfClass:[AIListContact class]] && ([(AIListContact *)object parentContact] != object)) {
-		for (AIProxyListObject *proxyObject in [(AIListContact *)object parentContact].proxyObjects) {
+		for (AIProxyListObject *proxyObject in [[[(AIListContact *)object parentContact].proxyObjects copy] autorelease]) {
 			[contactListView redisplayItem:proxyObject];
 		}
 	}
@@ -645,13 +655,11 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	}
 }
 
-//
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(AIProxyListObject *)item
 {
     return @"";
 }
 
-//
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(AIProxyListObject *)item
 {
 	return (!item || ([item.listObject conformsToProtocol:@protocol(AIContainingObject)] && 
@@ -663,14 +671,12 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return (!item || ([item.listObject isKindOfClass:[AIListGroup class]]));
 }
 
-//
 - (void)outlineView:(NSOutlineView *)outlineView setExpandState:(BOOL)state ofItem:(AIProxyListObject *)item
 {
 	/* XXX Should note the combination of item and item's parent for expansion tracking */
     [(id<AIContainingObject>)(item.listObject) setExpanded:state];
 }
 
-//
 - (BOOL)outlineView:(NSOutlineView *)outlineView expandStateOfItem:(AIProxyListObject *)item
 {
     return !item || ((id<AIContainingObject>)(item.listObject)).expanded || [item.listObject boolValueForProperty:@"ExpandedByFiltering"];
@@ -695,7 +701,6 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 												 forListObject:listObject];
 }
 
-//
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent
 {
     NSPoint	location;

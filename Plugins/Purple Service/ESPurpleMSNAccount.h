@@ -16,7 +16,7 @@
 
 #import "CBPurpleAccount.h"
 #import "ESMSNService.h"
-#include <libpurple/msn.h>
+#import <libpurple/msn.h>
 
 #define KEY_MSN_HTTP_CONNECT_METHOD		@"MSN:HTTP Connect Method"
 #define KEY_MSN_DISPLAY_NAMED_CHANGED	@"MSN:Display Name Changed"

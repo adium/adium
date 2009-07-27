@@ -89,9 +89,8 @@ typedef enum {
 	//Grouping, Manual ordering
 	NSMutableSet *m_groups; //The AIContainingObjects that this object is in; currently always has only 1
 	
-	//For AIContainingObject-compliant subclasses
-	CGFloat					largestOrder;
-	CGFloat					smallestOrder;
+	CGFloat				cachedSmallestOrder;
+	CGFloat				cachedLargestOrder;
 }
 
 - (id)initWithUID:(NSString *)inUID service:(AIService *)inService;
@@ -112,9 +111,9 @@ typedef enum {
 //Not recommended for most uses. Use -groups and -metaContact instead unless you really need both
 @property (readonly, nonatomic) NSSet *containingObjects;
 @property (readonly, copy, nonatomic) NSSet *groups;
-- (void) removeContainingGroup:(AIListGroup *)group;
-- (void) addContainingGroup:(AIListGroup *)group;
-- (void) removeFromList;
+- (void)removeContainingGroup:(AIListGroup *)group;
+- (void)addContainingGroup:(AIListGroup *)group;
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group;
 
 //Display
 @property (readonly, nonatomic) NSString *formattedUID;

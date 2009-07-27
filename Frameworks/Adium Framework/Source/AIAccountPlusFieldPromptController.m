@@ -169,7 +169,6 @@
     [[self window] center];
 }
 
-//
 - (void)windowWillClose:(id)sender
 {
 	[super windowWillClose:sender];

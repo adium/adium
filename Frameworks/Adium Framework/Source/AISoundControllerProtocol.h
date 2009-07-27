@@ -17,12 +17,11 @@
 - (void)stopPlayingSoundAtPath:(NSString *)inPath;
 
 //Speech
-@property (nonatomic, readonly) NSArray *voices;
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(CGFloat)rate;
-@property (nonatomic, readonly) CGFloat defaultRate;
-@property (nonatomic, readonly) CGFloat defaultPitch;
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate;
+@property (nonatomic, readonly) float defaultRate;
+@property (nonatomic, readonly) float defaultPitch;
 - (void)speakText:(NSString *)text;
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(CGFloat)rate;
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate;
 
 //Soundsets
 @property (nonatomic, readonly) NSArray *soundSets;

@@ -98,7 +98,6 @@
     return self;
 }
 
-//
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -172,7 +171,6 @@
 	[self listObjectAttributesChanged:notification];
 }
 
-//
 - (void)chatStatusChanged:(NSNotification *)notification
 {
     NSArray	*keys = [[notification userInfo] objectForKey:@"Keys"];
@@ -180,6 +178,7 @@
     //If the display name changed, we resize the tabs
     if (notification == nil || [keys containsObject:@"Display Name"]) {
 		[self setLabel:[self label]];
+		[self updateTabStatusIcon];
     } else if ([keys containsObject:@"UnviewedContent"]) {
 		[self setValue:nil forKeyPath:@"objectCount"];
 		[self setValue:nil forKeyPath:@"countColor"];
@@ -205,7 +204,6 @@
 	[self updateTabContactIcon];
 }
 
-//
 - (void)listObjectAttributesChanged:(NSNotification *)notification
 {
 	AIListObject *listObject = [notification object];
@@ -225,6 +223,7 @@
 		//If the list object's display name changed, we resize the tabs
 		if (!keys || [keys containsObject:@"Display Name"]) {
 			[self setLabel:[self label]];
+			[self updateTabStatusIcon];
 		}
 	}
 }
@@ -270,7 +269,6 @@
 	[messageViewController willDeselect];
 }
 
-//
 - (NSString *)label
 {
 	return messageViewController.chat.displayName;

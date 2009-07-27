@@ -25,7 +25,6 @@
     return @"ESPurpleICQAccountView";
 }
 
-//
 - (void)awakeFromNib
 {
 	[super awakeFromNib];

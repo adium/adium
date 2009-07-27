@@ -135,7 +135,6 @@
 	[self setNeedsDisplay:YES];
 }
 
-//
 - (void)setBackgroundOpacity:(float)opacity forWindowStyle:(AIContactListWindowStyle)inWindowStyle
 {
 	backgroundOpacity = opacity;

@@ -62,25 +62,25 @@
 	speakTime = [[inDetails objectForKey:KEY_ANNOUNCER_TIME] boolValue];
 	speakContactName = [[inDetails objectForKey:KEY_ANNOUNCER_SENDER] boolValue];
 
-    if ((voice = [inDetails objectForKey:KEY_VOICE_STRING])) {
-        [popUp_voices selectItemWithTitle:voice];
-    } else {
-        [popUp_voices selectItemAtIndex:0]; //"Default"
-    }
-	
-    if ((pitchNumber = [inDetails objectForKey:KEY_PITCH])) {
-		[slider_pitch setDoubleValue:[pitchNumber doubleValue]];
-    } else {
-		[slider_pitch setDoubleValue:[adium.soundController defaultPitch]];
-    }
+	if ((voice = [inDetails objectForKey:KEY_VOICE_STRING])) {
+		[popUp_voices selectItemWithTitle:voice];
+	} else {
+		[popUp_voices selectItemAtIndex:0]; //"Default"
+	}
+
+	if ((pitchNumber = [inDetails objectForKey:KEY_PITCH])) {
+		[slider_pitch setFloatValue:[pitchNumber floatValue]];
+	} else {
+		[slider_pitch setFloatValue:[adium.soundController defaultPitch]];
+	}
 	
 	[checkBox_customPitch setState:[[inDetails objectForKey:KEY_PITCH_CUSTOM] boolValue]];
 	
-    if ((rateNumber = [inDetails objectForKey:KEY_RATE])) {
-		[slider_rate setDoubleValue:[rateNumber doubleValue]];
-    } else {
-		[slider_rate setDoubleValue:[adium.soundController defaultRate]];
-    }
+	if ((rateNumber = [inDetails objectForKey:KEY_RATE])) {
+		[slider_rate setFloatValue:[rateNumber floatValue]];
+	} else {
+		[slider_rate setFloatValue:[adium.soundController defaultRate]];
+	}
 
 	[checkBox_customRate setState:[[inDetails objectForKey:KEY_RATE_CUSTOM] boolValue]];
 
@@ -145,20 +145,20 @@
 	speakContactName = [NSNumber numberWithBool:([checkBox_speakContactName state] == NSOnState)];
 
 	voice = [[popUp_voices selectedItem] representedObject];	
-	pitch = [NSNumber numberWithDouble:[slider_pitch doubleValue]];
-	rate = [NSNumber numberWithDouble:[slider_rate doubleValue]];
+	pitch = [NSNumber numberWithFloat:[slider_pitch floatValue]];
+	rate = [NSNumber numberWithFloat:[slider_rate floatValue]];
 	
 	if (voice) {
 		[actionDetails setObject:voice
 						  forKey:KEY_VOICE_STRING];
 	}
 
-	if ([pitch doubleValue] != [adium.soundController defaultPitch]) {
+	if ([pitch floatValue] != [adium.soundController defaultPitch]) {
 		[actionDetails setObject:pitch
 						  forKey:KEY_PITCH];
 	}
 	
-	if ([rate doubleValue] != [adium.soundController defaultRate]) {
+	if ([rate floatValue] != [adium.soundController defaultRate]) {
 		[actionDetails setObject:rate
 						  forKey:KEY_RATE];
 	}
@@ -190,25 +190,26 @@
  */
 - (NSMenu *)voicesMenu
 {
-	NSArray			*voicesArray;
 	NSMenu			*voicesMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
-	NSMenuItem		*menuItem;
-	NSString		*voice;
 	
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Use System Default",nil)
+	NSMenuItem *menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Use System Default",nil)
 																	 target:nil
 																	 action:nil
 															  keyEquivalent:@""] autorelease];
 	[voicesMenu addItem:menuItem];
 	[voicesMenu addItem:[NSMenuItem separatorItem]];
 
-	voicesArray = [[adium.soundController voices] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-	for (voice in voicesArray) {
-		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:voice
+	NSMutableDictionary *voices = [NSMutableDictionary dictionary];
+	NSArray *rawVoices = [[NSSpeechSynthesizer availableVoices] sortedArrayUsingSelector:@selector(compare:)];
+	for (NSString *voiceID in rawVoices) {
+		[voices setObject:[[NSSpeechSynthesizer attributesForVoice:voiceID] objectForKey:NSVoiceName] forKey:voiceID];
+	}
+	for (NSString *voiceID in rawVoices) {
+		menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[voices objectForKey:voiceID]
 																					  target:nil
 																					  action:nil
 																			   keyEquivalent:@""] autorelease];
-		[menuItem setRepresentedObject:voice];
+		[menuItem setRepresentedObject:voiceID];
 		[voicesMenu addItem:menuItem];
 	}
 	
@@ -220,20 +221,22 @@
  */
 -(IBAction)changePreference:(id)sender
 {
+	NSString *voice = [[popUp_voices selectedItem] representedObject];
 	//If the Default voice is selected, also set the pitch and rate to defaults
 	if (sender == popUp_voices) {
-		if (![[popUp_voices selectedItem] representedObject]) {
-			[slider_pitch setDoubleValue:[adium.soundController defaultPitch]];
-			[slider_rate setDoubleValue:[adium.soundController defaultRate]];
+		if (!voice) {
+			[slider_pitch setFloatValue:[adium.soundController defaultPitch]];
+			[slider_rate setFloatValue:[adium.soundController defaultRate]];
+			voice = [NSSpeechSynthesizer defaultVoice];
 		}
 	}
 
 	if (sender == popUp_voices ||
 	   (sender == slider_pitch || sender == checkBox_customPitch) ||
 	   (sender == slider_rate ||  sender == checkBox_customRate)) {
-		[adium.soundController speakDemoTextForVoice:[[popUp_voices selectedItem] representedObject]
-											 withPitch:([checkBox_customPitch state] ? [slider_pitch doubleValue] : 0.0)
-											   andRate:([checkBox_customRate state] ? [slider_rate doubleValue] : 0.0)];
+		[adium.soundController speakDemoTextForVoice:voice
+											 withPitch:([checkBox_customPitch state] ? [slider_pitch floatValue] : 0.0)
+											   andRate:([checkBox_customRate state] ? [slider_rate floatValue] : 0.0)];
 	}
 	
 	[super changePreference:sender];

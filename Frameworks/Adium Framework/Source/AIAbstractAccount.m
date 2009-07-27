@@ -1049,6 +1049,19 @@
 													 UID:sourceUID];
 }
 
+/*!
+ * @brief The fallback alias for a chat participant
+ *
+ * A fallback alias for a chat participant. This returns nil if a chat-specific alias is inappropriate.
+ *
+ * @param contact the AIListContact
+ * @param chat the AIChat
+ * @return An alias for the contact in the chat, otherwise nil.
+ */
+- (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat
+{
+	return nil;
+}
 
 //Connectivity ---------------------------------------------------------------------------------------------------------
 #pragma mark Connectivity
@@ -1328,7 +1341,6 @@
 		// If we know this connection is waiting for the network to return, don't bother continuing to reconnect.
 		// Let it try for 2 times and then cancel and wait for the network to return.
 		[self cancelAutoReconnect];
-
 		AILog(@"%@: Disconnected (\"%@\"): Waiting until network returns.", self, lastDisconnectionError);
 
 	} else if ([self shouldBeOnline] && lastDisconnectionError) {

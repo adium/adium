@@ -2,7 +2,7 @@
 #import "ESPurpleJabberAccount.h"
 #import "AMPurpleJabberFormGenerator.h"
 #import "AMPurpleJabberAdHocCommand.h"
-#include <libpurple/jabber.h>
+#import <libpurple/jabber.h>
 
 @interface AMPurpleJabberAdHocServer ()
 - (BOOL)receivedCommand:(xmlnode*)command from:(NSString*)jid iqid:(NSString*)iqid;
@@ -66,7 +66,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 }
 
 + (void)initialize {
-	jabber_add_feature("adiumcmd", "http://jabber.org/protocol/commands", NULL);
+	jabber_add_feature("http://jabber.org/protocol/commands", NULL);
 }
 
 - (id)initWithAccount:(ESPurpleJabberAccount*)_account {
@@ -95,7 +95,7 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 	[super dealloc];
 }
 
-- (void)addCommand:(NSString*)node delegate:(id)delegate name:(NSString*)name {
+- (void)addCommand:(NSString*)node delegate:(id<AMPurpleJabberAdHocServerDelegate>)delegate name:(NSString*)name {
 	[commands setObject:[NSDictionary dictionaryWithObjectsAndKeys:
 				[NSValue valueWithNonretainedObject:delegate],@"delegate",
 				name, @"name",
@@ -111,12 +111,10 @@ static void xmlnode_sent_cb(PurpleConnection *gc, xmlnode **packet, gpointer thi
 }
 
 - (void)addCommandsToXML:(xmlnode*)xml {
-	NSEnumerator *e = [commands keyEnumerator];
-	NSString *node;
 	JabberStream *js = purple_account_get_connection([self.account purpleAccount])->proto_data;
 	char *jid = g_strdup_printf("%s@%s/%s", js->user->node, js->user->domain, js->user->resource);
 	
-	while((node = [e nextObject])) {
+	for (NSString *node in commands) {
 		xmlnode *item = xmlnode_new_child(xml, "item");
 		xmlnode_set_attrib(item,"jid",jid);
 		xmlnode_set_attrib(item,"name",[[[commands objectForKey:node] objectForKey:@"name"] UTF8String]);

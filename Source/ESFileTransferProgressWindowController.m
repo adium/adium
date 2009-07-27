@@ -92,7 +92,11 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 {
     if ((self = [super initWithWindowNibName:windowNibName])) {
 		progressRows = [[NSMutableArray alloc] init];
+		
+		[self.window setAutorecalculatesContentBorderThickness:YES forEdge:NSMinYEdge];
+		[self.window setContentBorderThickness:24.0 forEdge: NSMinYEdge];
 	}
+	
 	return self;
 }
 
@@ -105,7 +109,6 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
     [super dealloc];
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	return KEY_TRANSFER_PROGRESS_WINDOW_FRAME;
@@ -463,8 +466,11 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	}
 
 	//If they tried to delete a row that isn't finished, or we got here with no valid selection, sound the system beep
-	if (!didDelete)
+	if (!didDelete) {
 		NSBeep();
+	} else {
+		[inOutlineView deselectAll:nil];
+	}
 }
 
 - (NSMenu *)outlineView:(NSOutlineView *)inOutlineView menuForEvent:(NSEvent *)inEvent

@@ -54,7 +54,7 @@ VERSION_ESCAPED=$(VERSION)
 RELEASE_NAME_ESCAPED=Adium_$(VERSION_ESCAPED)
 TARBALL_DIR=adium-$(VERSION)
 
-REVISION = $(subst +,,r$(shell hg id -n))
+REVISION = r$(shell hg parent --template {rev})
 
 ifeq ($(NIGHTLY),TRUE)
 	ADIUM_DIR:=$(ADIUM_DIR)\ $(REVISION)
@@ -182,7 +182,7 @@ diskimage:
 	cp $(ART_DIR)/dmgBackground.png $(ADIUM_DIR)/.background
 
 	./ensureCustomIconsExtracted $(ART_DIR)
-	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium X $(VERSION)" dmg_adium.scpt $(ART_DIR)
+	./make-diskimage.sh $(BUILD_DIR)/$(RELEASE_NAME).dmg $(ADIUM_DIR) "Adium $(VERSION)" dmg_adium.scpt $(ART_DIR)
 	
 ifeq ($(OFFICIAL_BUILD),TRUE)
 	@echo DSA for Sparkle: `ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg ~/adium-dsa-sign/dsa_priv.pem`
@@ -191,15 +191,15 @@ endif
 	@echo Build finished. `md5 $(BUILD_DIR)/$(RELEASE_NAME_ESCAPED).dmg`
 
 #This is what nightly builds use. Does not update because buildbot does.
-nightly: version clean compile createfolder prepare-release-bundle tarballapp
+nightly: version clean compile createfolder prepare-release-bundle diskimage
 	echo $(RELEASE_NAME) > $(BUILD_DIR)/latest.info
 	echo $(REVISION) >> $(BUILD_DIR)/latest.info
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/latest.info
-	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).tgz >> $(BUILD_DIR)/$(RELEASE_NAME).tgz.md5
-	ls -l $(BUILD_DIR)/$(RELEASE_NAME).tgz | awk '{print $$5}' >>$(BUILD_DIR)/latest.info
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/latest.info
+	md5 -q $(BUILD_DIR)/$(RELEASE_NAME).dmg >> $(BUILD_DIR)/$(RELEASE_NAME).dmg.md5
+	ls -l $(BUILD_DIR)/$(RELEASE_NAME).dmg | awk '{print $$5}' >>$(BUILD_DIR)/latest.info
 	echo $(VERSION) >> $(BUILD_DIR)/latest.info
 ifeq ($(OFFICIAL_BUILD),TRUE)
-	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).tgz ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest.info
+	ruby sign_update.rb $(BUILD_DIR)/$(RELEASE_NAME).dmg ~/adium-dsa-sign/dsa_priv.pem >> $(BUILD_DIR)/latest.info
 endif
 
 tarballapp:

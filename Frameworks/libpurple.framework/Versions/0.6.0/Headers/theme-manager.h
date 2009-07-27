@@ -1,5 +1,5 @@
 /**
- * @file thememanager.h  Theme Manager API
+ * @file theme-manager.h  Theme Manager API
  */
 
 /*

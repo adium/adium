@@ -46,7 +46,6 @@
 	[self initHoveringPopUpButton];
 }
 
-//
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIHoveringPopUpButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];

@@ -111,12 +111,12 @@
 	[libezv logout];
 }
 
-- (void)removeContacts:(NSArray *)objects
+- (void)removeContacts:(NSArray *)objects fromGroups:(NSArray *)groups
 {
 
 }
 
-- (void)moveListObjects:(NSArray *)objects toGroups:(NSSet *)groups
+- (void)moveListObjects:(NSArray *)objects fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	//XXX does bonjour support groups?
 }

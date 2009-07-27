@@ -39,7 +39,7 @@
 #import "AWEzvContactManager.h"
 
 #define XMLCALL
-#include <expat.h> 
+#import <expat.h> 
 
 /* XML Function prototypes */
 void xml_start_element	(void *userData,
@@ -59,7 +59,7 @@ void xml_char_data	(void *userData,
 
 - (id) initWithFileHandle:(NSFileHandle *)myConnection initiator:(int)myInitiator 
 {
-    if ((self = [super init])) {
+	if ((self = [super init])) {
 		connection = [myConnection retain];
 		delegate = nil;
 		nodeStack = [[AWEzvStack alloc] init];
@@ -67,7 +67,7 @@ void xml_char_data	(void *userData,
 		negotiated = 0;
 	}	
     
-    return self;
+	return self;
 }
 
 - (void)dealloc
@@ -83,9 +83,7 @@ void xml_char_data	(void *userData,
 	[super dealloc];
 }
 
-- (NSFileHandle *)fileHandle {
-    return connection;
-}
+@synthesize fileHandle = connection;
 
 - (void) readAndParse {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -154,12 +152,7 @@ void xml_char_data	(void *userData,
     [[aNotification object] readInBackgroundAndNotify];
 }
 
-- (void) setDelegate:(id)myDelegate {
-    delegate = myDelegate;
-}
-- (id) delegate {
-    return delegate;
-}
+@synthesize delegate;
 
 - (void) xmlStartElement:(const XML_Char *)name attributes:(const XML_Char **)attributes {
     AWEzvXMLNode    *node;

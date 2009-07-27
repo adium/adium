@@ -103,7 +103,6 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 @implementation AILoggerPlugin
 
-//
 - (void)installPlugin
 {
 	observingContent = NO;
@@ -371,14 +370,14 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 //Enable/Disable our view log menus
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
+{	
     if (menuItem == viewContactLogsMenuItem) {
         AIListObject	*selectedObject = adium.interfaceController.selectedListObject;
 		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
 
     } else if (menuItem == viewContactLogsContextMenuItem) {
         AIListObject	*selectedObject = adium.menuController.currentContextMenuObject;
-		return adium.interfaceController.activeChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
+		return !adium.interfaceController.activeChat.isGroupChat || (selectedObject && [selectedObject isKindOfClass:[AIListContact class]]);
     }
 	
     return YES;

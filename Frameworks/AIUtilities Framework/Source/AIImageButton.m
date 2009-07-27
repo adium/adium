@@ -11,7 +11,6 @@
 
 @implementation AIImageButton
 
-//
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
