@@ -1649,7 +1649,6 @@ static inline float fMAX(float a,float b) {
 	RBSplitSubview* last = nil;
 // And we make a note if there's any nested RBSplitView.
 	NSInteger nested = NSNotFound;
-	newsize = DIM(bounds.size)-divcount*divt;
 	for (i=0;i<subcount;i++) {
 		curr = &caches[i];
 // If we have a nested split view store its index.
