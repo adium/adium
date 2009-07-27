@@ -684,7 +684,6 @@ static animationData* currentAnimation = NULL;
 		BOOL ishor = [sv isHorizontal];
 // Continuing animation only makes sense if we still have at least FRAMETIME available.
 		if (remain>=FRAMETIME) {
-			float dim = DIM(frame.size);
 			float avg = anim->elapsedTime;
 // We try to keep a record of how long it takes, on the average, to resize and adjust
 // one animation frame.
@@ -693,7 +692,7 @@ static animationData* currentAnimation = NULL;
 			}
 			NSTimeInterval delay = MIN(0.0,FRAMETIME-avg);
 // We adjust the new dimension proportionally to how much of the designated time has passed.
-			dim = floorf(anim->dimension*(remain-avg)/anim->totalTime);
+			float dim = floorf(anim->dimension*(remain-avg)/anim->totalTime);
 			if (dim>4.0) {
 				if (!anim->collapsing) {
 					dim = anim->dimension-dim;
