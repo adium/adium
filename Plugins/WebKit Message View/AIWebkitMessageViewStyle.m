@@ -777,6 +777,9 @@ static NSArray *validSenderColors;
 		}
 	} while (range.location != NSNotFound);
 
+	[inString replaceKeyword:@"%userIcons%"
+				  withString:(showUserIcons ? @"showIcons" : @"hideIcons")];
+
 	[inString replaceKeyword:@"%messageClasses%"
 				  withString:[(contentIsSimilar ? @"consecutive " : @"") stringByAppendingString:[[content displayClasses] componentsJoinedByString:@" "]]];
 	
