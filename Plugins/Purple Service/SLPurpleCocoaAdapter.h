@@ -14,7 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-#include <libpurple/libpurple.h>
+#import <libpurple/libpurple.h>
 #import <Adium/AIContentTyping.h>
 #import <Adium/AIContentNotification.h>
 #import <AdiumLibpurple/PurpleCommon.h>
@@ -52,7 +52,7 @@
 
 - (void)addUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroup:(NSString *)groupName;
 - (void)removeUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroup:(NSString *)groupName;
-- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroups:(NSSet *)groupNames;
+- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroups:(NSSet *)groupNames toGroups:(NSSet *)groupNames;
 - (void)renameGroup:(NSString *)oldGroupName onAccount:(id)adiumAccount to:(NSString *)newGroupName;
 - (void)deleteGroup:(NSString *)groupName onAccount:(id)adiumAccount;
 

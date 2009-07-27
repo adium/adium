@@ -39,6 +39,9 @@
  * <channel>    ::= ('#' | '&') <chstring>
  * <chstring>   ::= <any 8bit code except SPACE, BELL, NUL, CR, LF and comma (',')>
  *
+ * We ignore &channels (local channels) since & is commonly used in text, and we do not
+ * consider channels with quotes in their name since it will mess up linking.
+ *
  * Valid channel names are converted into irc://(account host)/(channel name)
  */
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
@@ -69,14 +72,14 @@
 	}
 	
 	if (!channelStart) {
-		channelStart = [[NSCharacterSet characterSetWithCharactersInString:@"&#"] retain];
+		channelStart = [[NSCharacterSet characterSetWithCharactersInString:@"#"] retain];
 	}
 	
 	if (!validValues) {
 		// Start out with newline and whitespace characters.
 		validValues = [[NSCharacterSet whitespaceAndNewlineCharacterSet] mutableCopy];
-		// Add in comma and space
-		[validValues addCharactersInString:@", "];
+		// Add in comma, space and quotation marks (technically valid but messes up linking).
+		[validValues addCharactersInString:@", \""];
 		// Add in all control characters.
 		[validValues formUnionWithCharacterSet:[NSCharacterSet controlCharacterSet]];
 		// Now invert.
@@ -105,7 +108,7 @@
 			break;
 		}
 		
-		// Grab any valid characters we can - # and & are both valid channel names.
+		// Grab any valid characters we can - # is a valid channel names.
 		BOOL anyCharacters = [scanner scanCharactersFromSet:validValues intoString:&linkText];
 
 		// If we're at the start *or* the channel name begins after a space or newline, this is a valid link.

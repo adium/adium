@@ -13,7 +13,7 @@ DMG_DIRNAME=`dirname $1`
 DMG_DIR=`cd $DMG_DIRNAME > /dev/null; pwd`
 DMG_NAME=`basename $1`
 DMG_TEMP_NAME=${DMG_DIR}/rw.${DMG_NAME}
-SRC_FOLDER=`cd $2 > /dev/null; pwd`
+SRC_FOLDER=`cd "$2" > /dev/null; pwd`
 VOLUME_NAME=$3
 
 # optional arguments
@@ -63,7 +63,7 @@ hdiutil detach "${DEV_NAME}"
 
 # compress image
 echo "Compressing disk image..."
-hdiutil convert "${DMG_TEMP_NAME}" -format UDZO -imagekey zlib-level=9 -o "${DMG_DIR}/${DMG_NAME}"
+hdiutil convert "${DMG_TEMP_NAME}" -format UDBZ -o "${DMG_DIR}/${DMG_NAME}"
 rm -f "${DMG_TEMP_NAME}"
 
 # adding EULA resources

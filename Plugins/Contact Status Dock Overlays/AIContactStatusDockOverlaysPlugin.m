@@ -296,7 +296,6 @@
 	return nil;
 }
 
-//
 - (void)_setOverlay
 {
     //Remove & release the current overlay state
@@ -322,7 +321,6 @@
     }   
 }
 
-//
 - (NSImage *)overlayImageFlash:(BOOL)flash
 {
     NSEnumerator		*enumerator;

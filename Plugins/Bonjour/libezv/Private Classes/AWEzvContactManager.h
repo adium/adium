@@ -30,8 +30,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
  
-#include <DNSServiceDiscovery/DNSServiceDiscovery.h>
-#include <dns_sd.h>
+#import <DNSServiceDiscovery/DNSServiceDiscovery.h>
+#import <dns_sd.h>
 
 
 @class AWEzv, AWEzvContact, AWEzvRendezvousData, ServiceController;

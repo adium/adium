@@ -35,9 +35,9 @@
 #import <AIUtilities/AIImageAdditions.h>
 
 #import <CoreFoundation/CoreFoundation.h>
-#include <libpurple/libpurple.h>
-#include <glib.h>
-#include <stdlib.h>
+#import <libpurple/libpurple.h>
+#import <glib.h>
+#import <stdlib.h>
 
 #import "ESPurpleAIMAccount.h"
 #import "CBPurpleOscarAccount.h"
@@ -47,9 +47,9 @@
 #import "adiumPurpleAccounts.h"
 
 //Purple slash command interface
-#include <libpurple/cmds.h>
+#import <libpurple/cmds.h>
 
-#include "libpurple_extensions/oscar-adium.h"
+#import "libpurple_extensions/oscar-adium.h"
 
 @interface SLPurpleCocoaAdapter ()
 - (void)initLibPurple;
@@ -967,9 +967,10 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 		purple_blist_add_group(group, NULL);
 	}
 	
-	//Find the buddy (Create if necessary)
 	buddyUTF8String = [objectUID UTF8String];
-	buddy = purple_find_buddy(account, buddyUTF8String);
+	
+	// Find an existing buddy in the group.
+	buddy = purple_find_buddy_in_group(account, buddyUTF8String, group);
 	if (!buddy) buddy = purple_buddy_new(account, buddyUTF8String, NULL);
 
 	AILog(@"Adding buddy %s to group %s",purple_buddy_get_name(buddy), group->name);
@@ -983,70 +984,46 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 
 - (void)removeUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroup:(NSString *)groupName
 {
-	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
-	PurpleBuddy 	*buddy;
+	const char	*groupUTF8String;
+	PurpleGroup	*group;
 	
-	if ((buddy = purple_find_buddy(account, [objectUID UTF8String]))) {
-		const char	*groupUTF8String;
-		PurpleGroup	*group;
-
-		groupUTF8String = (groupName ? [groupName UTF8String] : "Buddies");
-		if ((group = purple_find_group(groupUTF8String))) {
+	// Find the right buddy; group -> buddy in group -> remove that buddy
+	
+	groupUTF8String = (groupName ? [groupName UTF8String] : "Buddies");
+	if ((group = purple_find_group(groupUTF8String))) {
+		PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
+		PurpleBuddy 	*buddy;
+		
+		if ((buddy = purple_find_buddy_in_group(account, [objectUID UTF8String], group))) {
 			/* Remove this contact from the server-side and purple-side lists. 
 			 * Updating purpleside does not change the server.
 			 *
 			 * Purple has a commented XXX as to whether this order or the reverse (blist, then serv) is correct.
 			 * We'll use the order which purple uses as of purple 1.1.4. */
+			
+			AILog(@"Removing buddy %s from group %s", purple_buddy_get_name(buddy), purple_group_get_name(purple_buddy_get_group(buddy)));
+			
 			purple_account_remove_buddy(account, buddy, group);
 			purple_blist_remove_buddy(buddy);
 		}
 	}
 }
 
-- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount toGroups:(NSSet *)groupNames;
+- (void)moveUID:(NSString *)objectUID onAccount:(id)adiumAccount fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groupNames;
 {
-	PurpleAccount *account;
-	PurpleBuddy	*buddy;
-	PurpleGroup 	*group;
-	const char	*buddyUTF8String;
-	const char	*groupUTF8String;
-
-	account = accountLookupFromAdiumAccount(adiumAccount);
-
 	for (NSString *groupName in groupNames) {
-		//Get the destination group (creating if necessary)
-		groupUTF8String = (groupName ? [groupName UTF8String] : "Buddies");
-		group = purple_find_group(groupUTF8String);
-		if (!group) {
-			/* If we can't find the group, something's gone wrong... we shouldn't be using a group we don't have.
-			 * We'll just silently turn this into an add operation. */
-			group = purple_group_new(groupUTF8String);
-			purple_blist_add_group(group, NULL);
+		if (!oldGroups.count) {
+			// If we don't have any source groups, silently turn this into an add.
+			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName];
+			continue;
 		}
 		
-		buddyUTF8String = [objectUID UTF8String];
-		/* If we support contacts in multiple groups at once this should change */
-		GSList *buddies = purple_find_buddies(account, buddyUTF8String);
-		
-		if (buddies) {
-			GSList *cur;
-			for (cur = buddies; cur; cur = cur->next) {
-				/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
-				purple_blist_add_buddy(cur->data, NULL, group, NULL);			
-			}
-			g_slist_free(buddies);
-			
-		} else {
-			/* If we can't find a buddy, something's gone wrong... we shouldn't be moving a buddy we don't have.
-			 * As with the group, we'll just silently turn this into an add operation. */
-			buddy = purple_buddy_new(account, buddyUTF8String, NULL);
-			
-			/* purple_blist_add_buddy() will update the local list and perform a serverside move as necessary */
-			purple_blist_add_buddy(buddy, NULL, group, NULL);
-			
-			/* purple_blist_add_buddy() won't perform a serverside add, however.  Add if necessary. */
-			purple_account_add_buddy(account, buddy);
-			
+		for (NSString *sourceGroupName in oldGroups) {
+			// Add the contact to the new group; first so we don't cause a full removal
+			[self addUID:objectUID onAccount:adiumAccount toGroup:groupName];
+
+			// Remove the contact from the old group.
+			[self removeUID:objectUID onAccount:adiumAccount fromGroup:sourceGroupName];
 		}
 	}
 }
@@ -1162,7 +1139,11 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 
 - (BOOL)contact:(AIListContact *)inContact isIgnoredInChat:(AIChat *)inChat
 {
-	PurpleConversation *conv = convLookupFromChat(inChat, inChat.account);
+	PurpleConversation *conv = existingConvLookupFromChat(inChat);
+	
+	if (!conv)
+		return NO;
+	
 	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
 
 	return (purple_conv_chat_is_user_ignored(convChat, [inContact.UID UTF8String]) ? YES : NO);
@@ -1170,7 +1151,11 @@ static void purpleUnregisterCb(PurpleAccount *account, gboolean success, void *u
 
 - (void)setContact:(AIListContact *)inContact ignored:(BOOL)inIgnored inChat:(AIChat *)inChat
 {
-	PurpleConversation *conv = convLookupFromChat(inChat, inChat.account);
+	PurpleConversation *conv = existingConvLookupFromChat(inChat);
+	
+	if (!conv)
+		return;
+	
 	PurpleConvChat *convChat = purple_conversation_get_chat_data(conv);
 	
 	if ([self contact:inContact isIgnoredInChat:inChat]) {

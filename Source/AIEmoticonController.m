@@ -104,7 +104,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
-//
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {

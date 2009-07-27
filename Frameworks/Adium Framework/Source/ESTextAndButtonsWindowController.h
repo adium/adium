@@ -38,6 +38,7 @@ typedef enum {
 	IBOutlet	NSButton		*button_default;
 	IBOutlet	NSButton		*button_alternate;
 	IBOutlet	NSButton		*button_other;
+	IBOutlet	NSButton		*checkbox_suppression;
 
 	IBOutlet	NSImageView		*imageView;
 
@@ -45,6 +46,7 @@ typedef enum {
 	NSString			*defaultButton;
 	NSString			*alternateButton;
 	NSString			*otherButton;
+	NSString			*suppression;
 	NSString			*messageHeader;
 	NSAttributedString	*message;
 	NSImage				*image;
@@ -59,6 +61,7 @@ typedef enum {
 						  defaultButton:(NSString *)inDefaultButton
 						alternateButton:(NSString *)inAlternateButton
 							otherButton:(NSString *)inOtherButton
+							suppression:(NSString *)inSuppression
 							   onWindow:(NSWindow *)parentWindow
 					  withMessageHeader:(NSString *)inMessageHeader
 							 andMessage:(NSAttributedString *)inMessage
@@ -81,6 +84,7 @@ typedef enum {
 			  defaultButton:(NSString *)inDefaultButton
 			alternateButton:(NSString *)inAlternateButton
 				otherButton:(NSString *)inOtherButton
+				suppression:(NSString *)inSuppression
 		  withMessageHeader:(NSString *)inMessageHeader
 				 andMessage:(NSAttributedString *)inMessage
 					  image:(NSImage *)inImage
@@ -98,6 +102,6 @@ typedef enum {
 
 @interface NSObject (ESTextAndButtonsTarget)
 //Return YES to let the window close; NO not to let it close
-- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode userInfo:(id)userInfo;
+- (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo;
 @end
 

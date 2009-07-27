@@ -31,6 +31,20 @@
 #define PREF_GROUP_ADDRESSBOOK                  @"Address Book"
 #define PREF_GROUP_ALWAYS_VISIBLE				@"Always Visible"
 
+#define	KEY_EXPANDED							@"IsExpanded"
+
+#define	KEY_HIDE_CONTACTS				@"Hide Contacts"
+#define KEY_SHOW_OFFLINE_CONTACTS		@"Show Offline Contacts"
+#define KEY_SHOW_BLOCKED_CONTACTS		@"Show Blocked Contacts"
+#define	KEY_SHOW_IDLE_CONTACTS			@"Show Idle Contacts"
+#define KEY_SHOW_MOBILE_CONTACTS		@"Show Mobile Contacts"
+#define KEY_SHOW_AWAY_CONTACTS			@"Show Away Contacts"
+#define KEY_HIDE_ACCOUNT_CONTACTS		@"Hide Account Contacts"
+
+#define	KEY_USE_OFFLINE_GROUP			@"Use Offline Group"
+#define	KEY_HIDE_CONTACT_LIST_GROUPS	@"Hide Contact List Groups"
+#define	PREF_GROUP_CONTACT_LIST_DISPLAY	@"Contact List Display"
+#define PREF_GROUP_CONTACT_LIST			@"Contact List"
 
 typedef enum {
 	AIUserInfoLabelValuePair = 0 /* default */,
@@ -101,8 +115,8 @@ typedef enum {
 - (void)explodeMetaContact:(AIMetaContact *)metaContact; //Unpack contained contacts and then remove the meta
 - (void)removeListGroup:(AIListGroup *)listGroup;
 - (void)requestAddContactWithUID:(NSString *)contactUID service:(AIService *)inService account:(AIAccount *)inAccount;
-- (void)moveContact:(AIListObject *)listContact intoGroups:(NSSet *)containers;
-- (void)_moveContactLocally:(AIListContact *)listContact toGroups:(NSSet *)groups;
+- (void)moveContact:(AIListObject *)listContact fromGroups:(NSSet *)oldGroups intoGroups:(NSSet *)groups;
+- (void)_moveContactLocally:(AIListContact *)listContact fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups;
 @property (readonly, nonatomic) BOOL useContactListGroups;
 
 //For Accounts

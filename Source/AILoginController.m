@@ -137,7 +137,6 @@
     return userDirectory;
 }
 
-//
 - (NSString *)currentUser
 {
     return currentUser;

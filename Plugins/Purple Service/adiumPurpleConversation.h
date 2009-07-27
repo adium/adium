@@ -18,3 +18,4 @@
 
 PurpleConversationUiOps *adium_purple_conversation_get_ui_ops(void);
 void adiumPurpleConversation_init(void);
+NSString *get_real_name_for_account_conv_buddy(PurpleAccount *account, PurpleConversation *conv, char *who);

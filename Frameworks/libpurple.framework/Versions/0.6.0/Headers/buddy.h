@@ -36,9 +36,6 @@ typedef enum {
 #include "jabber.h"
 #include "caps.h"
 
-#define AVATARNAMESPACEDATA "http://www.xmpp.org/extensions/xep-0084.html#ns-data"
-#define AVATARNAMESPACEMETA "http://www.xmpp.org/extensions/xep-0084.html#ns-metadata"
-
 typedef struct _JabberBuddy {
 	GList *resources;
 	char *error_msg;
@@ -69,6 +66,7 @@ typedef struct _JabberBuddyResource {
 	int priority;
 	JabberBuddyState state;
 	char *status;
+	time_t idle;
 	JabberCapabilities capabilities;
 	char *thread_id;
 	enum {
@@ -83,8 +81,12 @@ typedef struct _JabberBuddyResource {
 	} client;
 	/* tz_off == PURPLE_NO_TZ_OFF when unset */
 	long tz_off;
-	JabberCapsClientInfo *caps;
+	struct {
+		JabberCapsClientInfo *info;
+		GList *exts;
+	} caps;
 	GList *commands;
+	gboolean commands_fetched;
 } JabberBuddyResource;
 
 void jabber_buddy_free(JabberBuddy *jb);
@@ -96,7 +98,6 @@ JabberBuddyResource *jabber_buddy_track_resource(JabberBuddy *jb, const char *re
 		int priority, JabberBuddyState state, const char *status);
 void jabber_buddy_resource_free(JabberBuddyResource *jbr);
 void jabber_buddy_remove_resource(JabberBuddy *jb, const char *resource);
-const char *jabber_buddy_get_status_msg(JabberBuddy *jb);
 void jabber_buddy_get_info(PurpleConnection *gc, const char *who);
 
 GList *jabber_blist_node_menu(PurpleBlistNode *node);
@@ -104,7 +105,6 @@ GList *jabber_blist_node_menu(PurpleBlistNode *node);
 void jabber_set_info(PurpleConnection *gc, const char *info);
 void jabber_setup_set_info(PurplePluginAction *action);
 void jabber_set_buddy_icon(PurpleConnection *gc, PurpleStoredImage *img);
-void jabber_buddy_avatar_update_metadata(JabberStream *js, const char *from, xmlnode *items);
 
 const char *jabber_buddy_state_get_name(JabberBuddyState state);
 const char *jabber_buddy_state_get_status_id(JabberBuddyState state);

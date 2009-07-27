@@ -65,7 +65,6 @@
 	return from;
 }
 
-//
 - (NSString *)to
 {
     return to;

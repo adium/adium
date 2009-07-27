@@ -13,53 +13,67 @@
  * You should have received a copy of the GNU General Public License along with this program; if not,
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-#ifdef DEBUG_BUILD
-
 #import "ESDebugController.h"
 #import "ESDebugWindowController.h"
 
 #import <Adium/AIMenuControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 
-#include <fcntl.h>  //open(2)
-#include <unistd.h> //close(2)
-#include <errno.h>  //errno
-#include <string.h> //strerror(3)
+#import <fcntl.h>  //open(2)
+#import <unistd.h> //close(2)
+#import <errno.h>  //errno
+#import <string.h> //strerror(3)
+
+#import <objc/objc-runtime.h>
 
 #define	CACHED_DEBUG_LOGS		100		//Number of logs to keep at any given time
 #define	KEY_DEBUG_WINDOW_OPEN	@"Debug Window Open"
 
+@interface ESDebugController()
+- (void) start:(NSNotification *)dummy;
+@end
+
 @implementation ESDebugController
 
-static ESDebugController	*sharedDebugController = nil;
+//Throwing an exception isn't enough, we need to die completely.
+void AIExplodeOnEnumerationMutation(id dummy) {
+	NSLog(@"Attempted to mutate collection %@ of class %@ while enumerating", dummy, [dummy class]);
+	*((int*)0xdeadbeef) = 42;
+}
 
 - (id)init
 {
-	if (sharedDebugController)
-		self = sharedDebugController;
-	else {	
-		if ((self = [super init])) {
-			sharedDebugController = self;
+	if ((self = [super init])) {
+#ifdef DEBUG_BUILD
+		objc_setEnumerationMutationHandler(AIExplodeOnEnumerationMutation);
+#endif
 
-			debugLogArray = [[NSMutableArray alloc] init];		
-		}
+		debugLogArray = [[NSMutableArray alloc] init];		
 	}
 	return self;
 }
 
 - (void)controllerDidLoad
 {
-	//Contact list menu tem
+	if (AIDebugLoggingEnabled) {
+		[self start:nil];
+	} else {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(start:) name:AIDebugLoggingEnabledNotification object:nil];
+	}
+}
+
+- (void) start:(NSNotification *)dummy {
+	//Contact list menu item
 	NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Debug Window",nil)
 																				target:self
 																				action:@selector(showDebugWindow:)
 																		 keyEquivalent:@""];
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Adium_About];
 	[menuItem release];
-
+	
 	//Restore the debug window if it was open when we quit last time
 	if ([[adium.preferenceController preferenceForKey:KEY_DEBUG_WINDOW_OPEN
-												  group:GROUP_DEBUG] boolValue]) {
+		  group:GROUP_DEBUG] boolValue]) {
 		[ESDebugWindowController showDebugWindow];
 	}
 	
@@ -68,6 +82,7 @@ static ESDebugController	*sharedDebugController = nil;
 
 - (void)controllerWillClose
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	//Save the open state of the debug window
 	[adium.preferenceController setPreference:([ESDebugWindowController debugWindowIsOpen] ?
 												 [NSNumber numberWithBool:YES] :
@@ -77,18 +92,11 @@ static ESDebugController	*sharedDebugController = nil;
 	[ESDebugWindowController closeDebugWindow];
 }
 
-+ (ESDebugController *)sharedDebugController
-{
-	return sharedDebugController;
-}
-
 - (void)dealloc
 {
 	[debugLogArray release];
 	[debugLogFile closeFile];
 	[debugLogFile release];
-
-	sharedDebugController = nil;
 
 	[super dealloc];
 }
@@ -191,5 +199,3 @@ static ESDebugController	*sharedDebugController = nil;
 }
 
 @end
-
-#endif

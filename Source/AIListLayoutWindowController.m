@@ -343,7 +343,6 @@
 	}
 }
 
-//
 - (void)updateSliderValues
 {
 	NSInteger	iconSize = [slider_userIconSize integerValue];

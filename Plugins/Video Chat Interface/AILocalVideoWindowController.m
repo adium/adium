@@ -29,7 +29,6 @@ AILocalVideoWindowController	*sharedLocalVideoWindowInstance = nil;
 	}
 }
 
-//
 - (id)initWithWindowNibName:(NSString *)windowNibName
 {
 	[super initWithWindowNibName:windowNibName];
@@ -43,7 +42,6 @@ AILocalVideoWindowController	*sharedLocalVideoWindowInstance = nil;
 	return self;
 }
 
-//
 - (void)dealloc
 {
 	[localVideo stopCapturingVideo];

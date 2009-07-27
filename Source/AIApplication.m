@@ -18,6 +18,7 @@
 #import "AIChatControllerProtocol.h"
 #import "AIContactControllerProtocol.h"
 #import <Adium/AIListContact.h>
+#import <Adium/AIListGroup.h>
 
 @implementation AIApplication
 /*!
@@ -94,7 +95,11 @@
 }
 - (void)removeObjectFromContactsAtIndex:(NSInteger)index
 {
-	[[self.contacts objectAtIndex:index] removeFromList];
+	AIListObject *object = [self.contacts objectAtIndex:index];
+	
+	for (AIListGroup *group in object.groups) {
+		[object removeFromGroup:group];
+	}
 }
 
 - (NSArray *)statuses

@@ -31,7 +31,7 @@
  */
 
 #define XMLCALL
-#include <expat.h> 
+#import <expat.h> 
 
 @class AWEzvStack, AWEzvXMLNode, AWEzvContactManager;
 @protocol AWEzvXMLStreamProtocol;
@@ -45,13 +45,12 @@
 }
 
 - (id) initWithFileHandle:(NSFileHandle *)connection initiator:(int)initiator;
-- (NSFileHandle *)fileHandle;
+@property (readonly, nonatomic) NSFileHandle *fileHandle;
 - (void) readAndParse;
 - (void) sendData:(NSData *)data;
 - (void) sendString:(NSString *)string;
 - (void) endConnection;
-- (void) setDelegate:(id)delegate;
-- (id) delegate;
+@property (assign, readwrite, nonatomic) id<AWEzvXMLStreamProtocol> delegate;
 
 /* Private methods: used by private implementation, do NOT use these methods */
 - (void) xmlStartElement:(const XML_Char *)name attributes:(const XML_Char **)attributes;
@@ -66,6 +65,6 @@
 @protocol AWEzvXMLStreamProtocol
 - (void) XMLConnectionClosed;
 - (void) XMLReceived:(AWEzvXMLNode *)root;
-- (NSString *) uniqueID;
-- (AWEzvContactManager *) manager;
+@property (readonly, copy, nonatomic) NSString *uniqueID;
+@property (readonly, retain, nonatomic) AWEzvContactManager *manager;
 @end

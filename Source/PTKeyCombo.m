@@ -7,10 +7,7 @@
 //
 
 #import "PTKeyCombo.h"
-
 #import "PTKeyCodeTranslator.h"
-
-#import <Carbon/Carbon.h>
 
 @implementation PTKeyCombo
 

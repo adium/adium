@@ -277,9 +277,11 @@
 		NSRange selectedRange = textView.selectedRange;
 		
 		// Replace the current selection with the new URL
+		NSMutableDictionary *attrs = [NSMutableDictionary dictionaryWithDictionary:[textView.attributedString attributesAtIndex:selectedRange.location effectiveRange:nil]];
+		[attrs setObject:shortenedURL forKey:NSLinkAttributeName];
+		
 		[textView.textStorage replaceCharactersInRange:selectedRange
-								  withAttributedString:[NSAttributedString attributedStringWithLinkLabel:shortenedURL
-																						 linkDestination:shortenedURL]];
+								  withAttributedString:[[[NSAttributedString alloc] initWithString:shortenedURL attributes:attrs] autorelease]];
 		
 		// Select the inserted URL
 		textView.selectedRange = NSMakeRange(selectedRange.location, shortenedURL.length);

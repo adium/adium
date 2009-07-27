@@ -390,10 +390,8 @@
 				// xmpp:johndoe@jabber.org?remove
 				// xmpp:johndoe@jabber.org?unsubscribe
 				
-			} else if (([query caseInsensitiveCompare:@"join"] == NSOrderedSame) &&
-					   ([scheme caseInsensitiveCompare:@"xmpp"] == NSOrderedSame)) {
+			} else if ([query rangeOfString:@"join"].location == 0) {
 				NSString *password = [[url queryArgumentForKey:@"password"] stringByDecodingURLEscapes];
-				//TODO: password support: xmpp:darkcave@macbeth.shakespeare.lit?join;password=cauldronburn
 				
 				[self _openXMPPGroupChat:[url user]
 								onServer:[url host]
@@ -529,15 +527,15 @@
 	}
 	
 	if (name && account) {
-		[adium.chatController chatWithName:name
-		 identifier:nil
-		 onAccount:account
-		 chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-						   name, @"room",
-						   server, @"server",
-						   account.formattedUID, @"handle",
-						   password, @"password", /* may be nil, so should be last */
-						   nil]];
+		[adium.chatController chatWithName:[NSString stringWithFormat:@"%@@%@", name, server]
+								identifier:nil
+								 onAccount:account
+						  chatCreationInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+											name, @"room",
+											server, @"server",
+											account.displayName, @"handle",
+											password, @"password", /* may be nil, so should be last */
+											nil]];
 	} else {
 		NSBeep();
 	}

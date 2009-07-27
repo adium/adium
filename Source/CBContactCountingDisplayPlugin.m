@@ -30,12 +30,10 @@
 #define SHOW_COUNT_VISIBLE_CONTACTS_TITLE				AILocalizedString(@"Show Group Visible Count", nil)
 #define SHOW_COUNT_ALL_CONTACTS_TITLE				AILocalizedString(@"Show Group Total Count", nil)
 
-#define PREF_GROUP_CONTACT_LIST					@"Contact List"
 #define KEY_COUNT_ALL_CONTACTS					@"Count All Contacts"
 #define KEY_COUNT_VISIBLE_CONTACTS				@"Count Online Contacts" //Kept as "Online" to preserve preferences
 
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
-#define	PREF_GROUP_CONTACT_LIST_DISPLAY			@"Contact List Display"
 
 /*!
  * @class CBContactCountingDisplayPlugin

@@ -53,6 +53,7 @@
 						  defaultButton:(NSString *)inDefaultButton
 						alternateButton:(NSString *)inAlternateButton
 							otherButton:(NSString *)inOtherButton
+							suppression:(NSString *)inSuppression
 							   onWindow:(NSWindow *)parentWindow
 					  withMessageHeader:(NSString *)inMessageHeader
 							 andMessage:(NSAttributedString *)inMessage
@@ -67,6 +68,7 @@
 					  defaultButton:inDefaultButton
 					alternateButton:inAlternateButton
 						otherButton:inOtherButton
+						suppression:inSuppression
 				  withMessageHeader:inMessageHeader
 						 andMessage:inMessage
 							  image:inImage
@@ -101,6 +103,7 @@
 									 defaultButton:inDefaultButton
 								   alternateButton:inAlternateButton
 									   otherButton:inOtherButton
+									   suppression:nil
 										  onWindow:parentWindow
 								 withMessageHeader:inMessageHeader
 										andMessage:inMessage
@@ -140,6 +143,7 @@
 			  defaultButton:(NSString *)inDefaultButton
 			alternateButton:(NSString *)inAlternateButton
 				otherButton:(NSString *)inOtherButton
+				suppression:(NSString *)inSuppression
 		  withMessageHeader:(NSString *)inMessageHeader
 				 andMessage:(NSAttributedString *)inMessage
 					  image:(NSImage *)inImage
@@ -150,6 +154,7 @@
 	[defaultButton release];
 	[alternateButton release];
 	[otherButton release];
+	[suppression release];
 	[messageHeader release];
 	[message release];
 	[target release];
@@ -160,6 +165,7 @@
 	defaultButton = [inDefaultButton retain];
 	alternateButton = ([inAlternateButton length] ? [inAlternateButton retain] : nil);
 	otherButton = ([inOtherButton length] ? [inOtherButton retain] : nil);
+	suppression = ([inSuppression length] ? [inSuppression retain] : nil);
 	messageHeader = ([inMessageHeader length] ? [inMessageHeader retain] : nil);
 	message = [inMessage retain];
 	target = [inTarget retain];
@@ -230,6 +236,7 @@
 			//Notify the target that the window closed with no response
 			[target textAndButtonsWindowDidEnd:[self window]
 									returnCode:AITextAndButtonsClosedWithoutResponse
+								   suppression:checkbox_suppression.state
 									  userInfo:userInfo];
 		} else {
 			//Don't allow the close
@@ -346,14 +353,6 @@
 		messageHeightChange = [textView_message frame].size.height - [scrollView_message documentVisibleRect].size.height;
 		heightChange += messageHeightChange;
 
-		/* distanceFromBottomOfMessageToButtons pixels from the original bottom of scrollView_message to the
-		 * proper positioning above the buttons; after that, the window needs to expand.
-		 */
-		if (heightChange > distanceFromBottomOfMessageToButtons) {
-			windowFrame.size.height += (heightChange - distanceFromBottomOfMessageToButtons);
-			windowFrame.origin.y -= (heightChange - distanceFromBottomOfMessageToButtons);
-		}			
-
 		NSRect	messageFrame = [scrollView_message frame];
 		messageFrame.origin.y -= heightChange;
 		if (messageHeightChange > 0) {
@@ -362,6 +361,26 @@
 		
 		[scrollView_message setFrame:messageFrame];
 		[scrollView_message setNeedsDisplay:YES];
+	}
+	
+	if (suppression) {
+		NSRect	optionFrame = [checkbox_suppression frame];
+		optionFrame.origin.y -= heightChange;
+		heightChange += optionFrame.size.height;
+		
+		[checkbox_suppression setFrame:optionFrame];
+		[checkbox_suppression setLocalizedString:suppression];
+		[checkbox_suppression setState:NSOffState];
+	} else {
+		[checkbox_suppression setHidden:YES];
+	}
+	
+	/* distanceFromBottomOfMessageToButtons pixels from the original bottom of scrollView_message to the
+	 * proper positioning above the buttons; after that, the window needs to expand.
+	 */
+	if (heightChange > distanceFromBottomOfMessageToButtons) {
+		windowFrame.size.height += (heightChange - distanceFromBottomOfMessageToButtons);
+		windowFrame.origin.y -= (heightChange - distanceFromBottomOfMessageToButtons);
 	}
 	
 	//Set the default button
@@ -467,8 +486,9 @@
 
 	//Notify the target
 	if ([target textAndButtonsWindowDidEnd:[self window]
-							   returnCode:returnCode
-								 userInfo:userInfo]) {
+								returnCode:returnCode
+							   suppression:checkbox_suppression.state
+								  userInfo:userInfo]) {
 		
 		//Close the window if the target returns YES
 		[self closeWindow:nil];

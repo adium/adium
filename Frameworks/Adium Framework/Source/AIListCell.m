@@ -169,7 +169,6 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 //Drawing --------------------------------------------------------------------------------------------------------------
 #pragma mark Drawing
-//
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)inControlView{
     [self drawInteriorWithFrame:cellFrame inView:inControlView];
 }

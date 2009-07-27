@@ -39,6 +39,7 @@
 #import <AIUtilities/AIOutlineViewAdditions.h>
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIFunctions.h>
+#import <AIUtilities/AIEventAdditions.h>
 
 #define EDGE_CATCH_X						40.0f
 #define EDGE_CATCH_Y						40.0f
@@ -558,10 +559,10 @@
 
 		if ((index == NSOutlineViewDropOnItemIndex) && [proposedListObject isKindOfClass:[AIListContact class]] &&
 			([info draggingSource] == [self contactListView])) {
-			//Dropping into a contact or attaching groups: Copy
+			//Dropping into a contact or attaching groups: "link"
 			if (([contactListView rowForItem:primaryDragItem] == -1) ||
 				[primaryDragItem isKindOfClass:[AIListContact class]]) {
-				retVal = NSDragOperationCopy;
+				retVal = NSDragOperationLink;
 
 				if ([primaryDragItem isKindOfClass:[AIListContact class]] &&
 					[proposedListObject isKindOfClass:[AIListContact class]] &&
@@ -598,7 +599,7 @@
 
 				[outlineView setDropItem:item dropChildIndex:insertIndex];
 				
-				retVal = NSDragOperationPrivate;
+				retVal = ([NSEvent optionKey] ? NSDragOperationCopy : NSDragOperationPrivate);
 			} else {
 				// We can sort manually.
 				
@@ -617,7 +618,7 @@
 					}
 				}
 				
-				retVal = NSDragOperationPrivate;
+				retVal = ([NSEvent optionKey] ? NSDragOperationCopy : NSDragOperationPrivate);
 			}
 		} else {
 			retVal = NSDragOperationPrivate;
@@ -706,13 +707,15 @@
 					
 					NSAssert2([group canContainObject:listObject], @"BUG: Attempting to drop %@ into %@", listObject, group);
 					
-					if (![group containsObject:listObject]) {
+					// Allow a drag into a group already containing the list object
+					// if the group isn't containing -this- proxy.
+					if (!([group containsObject:listObject] && proxyObject.containingObject == group)) {
 						if([listObject isKindOfClass:[AIListContact class]]) {
 							// Contact being moved to a new group.
-							/* XXX This call needs to be moveContact:fromGroup:intoGroup: such that we remove it from
-							 * the originating group and send it to the right group, leaving other groups alone.
-							 */
-							[adium.contactController moveContact:(AIListContact *)listObject intoGroups:[NSSet setWithObject:group]];
+							// Holding option copies into the new group (like in Finder)
+							[adium.contactController moveContact:(AIListContact *)listObject
+													  fromGroups:([NSEvent optionKey] ? [NSSet set] : [NSSet setWithObject:proxyObject.containingObject])
+													  intoGroups:[NSSet setWithObject:group]];
 
 						} else if ([listObject isKindOfClass:[AIListGroup class]]) {							
 							// Group being moved to a new detached window.
@@ -727,8 +730,8 @@
 				}
 				
 				[[NSNotificationCenter defaultCenter] postNotificationName:Contact_OrderChanged
-														object:item
-													  userInfo:nil];
+																	object:(dragItems.count > 1 ? nil : item.listObject)
+																  userInfo:nil];
 			} else {
 				success = NO;
 			}
@@ -851,9 +854,6 @@
 	}
 	
 	[super outlineView:outlineView acceptDrop:info item:item childIndex:index];
-
-	//XXX Is this actually needed?
-	[self reloadListObject:nil];
 	
     return success;
 }

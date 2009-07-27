@@ -26,7 +26,6 @@
 	return [AIPurpleGTalkAccount class];
 }
 
-//
 - (AIAccountViewController *)accountViewController{
     return [AIPurpleGTalkAccountViewController accountViewController];
 }

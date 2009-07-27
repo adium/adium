@@ -104,6 +104,7 @@
 																			 defaultButton:acceptButton
 																		   alternateButton:denyButton
 																			   otherButton:AILocalizedString(@"Help", nil)
+																			   suppression:nil
 																				  onWindow:nil
 																		 withMessageHeader:nil
 																				andMessage:[AIHTMLDecoder decodeHTML:messageString]
@@ -115,7 +116,7 @@
 /*!
 * @brief Window was closed, either by a button being clicked or the user closing it
  */
-+ (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode userInfo:(id)userInfo
++ (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	BOOL	shouldCloseWindow = YES;
 	

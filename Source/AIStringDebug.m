@@ -33,27 +33,15 @@
 
 #ifdef DEBUG_BUILD
 #import <objc/objc-class.h>
-
-@interface AIStringDebug ()
-+ (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass;
-@end
-
 #endif
 
 @implementation AIStringDebug
 
 #ifdef DEBUG_BUILD
 
-typedef id (*StringByAppendingStringIMP)(id, SEL, id);
-StringByAppendingStringIMP	originalStringByAppendingString = nil;
-
-extern void _objc_flush_caches(Class);
-
 + (void)load
 {
-	originalStringByAppendingString = (StringByAppendingStringIMP)[AIStringDebug replaceSelector:@selector(stringByAppendingString:)
-																						 ofClass:NSClassFromString(@"NSCFString")
-																					   withClass:[AIStringDebug class]];
+	method_exchangeImplementations(class_getInstanceMethod(self, @selector(stringByAppendingString:)), class_getInstanceMethod(NSClassFromString(@"NSCFDictionary"), @selector(stringByAppendingString:)));
 }
 
 + (void)breakpoint
@@ -64,44 +52,7 @@ extern void _objc_flush_caches(Class);
 - (NSString *)stringByAppendingString:(NSString *)string
 {
 	if (!string) [AIStringDebug breakpoint];
-	return originalStringByAppendingString(self, @selector(stringByAppendingString:),string);
-}
-
-+ (IMP)replaceSelector:(SEL)sel ofClass:(Class)oldClass withClass:(Class)newClass
-{
-    IMP original = [oldClass instanceMethodForSelector:sel];
-	
-	if (!original) {
-		NSLog(@"Cannot find implementation for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(oldClass));
-		return NULL;
-	}
-	
-	Method method = class_getInstanceMethod(oldClass, sel); 
-	
-	// original to change
-    if (!method) {
-        NSLog(@"Cannot find method for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(oldClass));
-        return NULL;
-    }
-	
-	// new method to use
-    IMP new = class_getMethodImplementation(newClass, sel);
-	if (!new) {
-		NSLog(@"Cannot find implementation for '%@' in %@",
-			  NSStringFromSelector(sel),
-			  NSStringFromClass(newClass));
-		return NULL;
-	}
-
-	method_setImplementation(method, new);
-	
-    _objc_flush_caches(oldClass);
-	
-    return original;
+	return method_invoke(self, class_getInstanceMethod([AIStringDebug class], @selector(stringByAppendingString:)), string);
 }
 
 #endif

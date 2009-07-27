@@ -226,8 +226,8 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 										g_free, g_free);
 		g_hash_table_insert(ui_info, g_strdup("name"), g_strdup("Adium"));
 		g_hash_table_insert(ui_info, g_strdup("version"), g_strdup([[NSApp applicationVersion] UTF8String]));
-		g_hash_table_insert(ui_info, g_strdup("website"), g_strdup("http://adiumx.com"));
-		g_hash_table_insert(ui_info, g_strdup("dev_website"), g_strdup("http://trac.adiumx.com"));
+		g_hash_table_insert(ui_info, g_strdup("website"), g_strdup("http://adium.im"));
+		g_hash_table_insert(ui_info, g_strdup("dev_website"), g_strdup("http://trac.adium.im"));
 	}
 
 	return ui_info;

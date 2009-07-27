@@ -6,8 +6,8 @@
 //  Copyright 2007 Andreas Monitzer. All rights reserved.
 //
 
-#include "glib.h"
-#include "xmlnode.h"
+#import "glib.h"
+#import "xmlnode.h"
 
 enum AMPurpleJabberFormType {
 	form = 0,

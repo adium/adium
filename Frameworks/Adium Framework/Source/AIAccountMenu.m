@@ -156,7 +156,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 /*!
  * @brief Set our account menu delegate
  */
-- (void)setDelegate:(id)inDelegate
+- (void)setDelegate:(id<AIAccountMenuDelegate>)inDelegate
 {
 	delegate = inDelegate;
 	
@@ -174,7 +174,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	includeConnectAllMenuItem = ([delegate respondsToSelector:@selector(accountMenuShouldIncludeConnectAllMenuItem:)] &&
 								 [delegate accountMenuShouldIncludeConnectAllMenuItem:self]);
 }
-- (id)delegate
+- (id<AIAccountMenuDelegate>)delegate
 {
 	return delegate;
 }

@@ -16,10 +16,10 @@
 
 #import "adiumPurpleEventloop.h"
 #import <AIUtilities/AIApplicationAdditions.h>
-#include <poll.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <sys/select.h>
+#import <poll.h>
+#import <unistd.h>
+#import <sys/socket.h>
+#import <sys/select.h>
 
 //#define PURPLE_SOCKET_DEBUG
 

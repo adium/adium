@@ -223,7 +223,7 @@
 {
 	for (AIListGroup *listGroup in [groupDict objectEnumerator]) {
 		[listGroup setPreference:[NSNumber numberWithBool:[listGroup isExpanded]]
-						  forKey:@"IsExpanded"
+						  forKey:KEY_EXPANDED
 						   group:PREF_GROUP_CONTACT_LIST];
 	}
 	
@@ -309,7 +309,7 @@
 	[listContact release];
 }
 
-- (void)_moveContactLocally:(AIListContact *)listContact toGroups:(NSSet *)groups
+- (void)_moveContactLocally:(AIListContact *)listContact fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	//Protect with a retain while we are removing and adding the contact to our arrays
 	[listContact retain];
@@ -317,7 +317,7 @@
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	
 	//Remove this object from any local groups we have it in currently
-	for (AIListGroup *group in listContact.groups) {
+	for (AIListGroup *group in oldGroups) {
 		[group removeObject:listContact];
 		[self _didChangeContainer:group object:listContact];
 	}
@@ -645,7 +645,7 @@
 	BOOL								success;
 	
 	//Remove the object from its previous containing groups
-	[self _moveContactLocally:inContact toGroups:[NSSet set]];
+	[self _moveContactLocally:inContact fromGroups:inContact.groups toGroups:[NSSet set]];
 	
 	//AIMetaContact will handle reassigning the list object's grouping to being itself
 	if ((success = [metaContact addObject:inContact])) {
@@ -1252,7 +1252,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
  */
 - (void)removeBookmark:(AIListBookmark *)listBookmark
 {
-	[self moveContact:listBookmark intoGroups:[NSSet set]];
+	[self moveContact:listBookmark fromGroups:listBookmark.groups intoGroups:[NSSet set]];
 	[bookmarkDict removeObjectForKey:listBookmark.internalObjectID];
 	
 	[self saveContactList];
@@ -1411,7 +1411,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	//Remove all the contacts from this group
 	for (AIListContact *contact in group.containedObjects) {
-		[group removeObject:contact];
+		[contact removeFromGroup:group];
 	}
 	
 	//Delete the group from all active accounts
@@ -1441,7 +1441,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 											userInfo:userInfo];
 }
 
-- (void)moveContact:(AIListContact *)contact intoGroups:(NSSet *)groups
+- (void)moveContact:(AIListContact *)contact fromGroups:(NSSet *)oldGroups intoGroups:(NSSet *)groups
 {
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	if (contact.metaContact) {
@@ -1456,9 +1456,9 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 	
 	if (contact.existsServerside) {
 		if (contact.account.online)
-			[contact.account moveListObjects:[NSArray arrayWithObject:contact] toGroups:groups];
+			[contact.account moveListObjects:[NSArray arrayWithObject:contact] fromGroups:oldGroups toGroups:groups];
 	} else {
-		[self _moveContactLocally:contact toGroups:groups];
+		[self _moveContactLocally:contact fromGroups:oldGroups toGroups:groups];
 		
 		if ([contact conformsToProtocol:@protocol(AIContainingObject)]) {
 			id<AIContainingObject> container = (id<AIContainingObject>)contact;
@@ -1467,7 +1467,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 			for (AIListContact *child in container) {
 				//Only move the contact if it is actually listed on the account in question
 				if (child.account.online && !child.isStranger)
-					[child.account moveListObjects:[NSArray arrayWithObject:child] toGroups:groups];
+					[child.account moveListObjects:[NSArray arrayWithObject:child] fromGroups:oldGroups toGroups:groups];
 			}
 		}		
 	}

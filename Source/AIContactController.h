@@ -17,18 +17,6 @@
 #import <Adium/AIContactControllerProtocol.h>
 #import "AIContactObserverManager.h"
 
-#define	KEY_HIDE_CONTACTS				@"Hide Contacts"
-#define KEY_SHOW_OFFLINE_CONTACTS		@"Show Offline Contacts"
-#define KEY_SHOW_BLOCKED_CONTACTS		@"Show Blocked Contacts"
-#define	KEY_SHOW_IDLE_CONTACTS			@"Show Idle Contacts"
-#define KEY_SHOW_MOBILE_CONTACTS		@"Show Mobile Contacts"
-#define KEY_SHOW_AWAY_CONTACTS			@"Show Away Contacts"
-#define KEY_HIDE_ACCOUNT_CONTACTS		@"Hide Account Contacts"
-
-#define	KEY_USE_OFFLINE_GROUP			@"Use Offline Group"
-#define	KEY_HIDE_CONTACT_LIST_GROUPS	@"Hide Contact List Groups"
-#define	PREF_GROUP_CONTACT_LIST_DISPLAY	@"Contact List Display"
-
 @class AISortController, AdiumAuthorization, AIContactHidingController, AIContactObserverManager;
 
 @interface AIContactController : NSObject <AIContactController, AIListObjectObserver> {

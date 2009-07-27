@@ -50,6 +50,14 @@
 			<string>NSObject</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>AIPlasticPlusButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIPlasticButton</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>adiumPrint</key>
@@ -105,6 +113,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>AIPlasticMinusButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIPlasticButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -130,6 +146,8 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>removeSelectedGroups</key>
+				<string>id</string>
 				<key>selectAccount</key>
 				<string>id</string>
 				<key>selectedEncryptionPreference</key>
@@ -145,24 +163,30 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>accountsTableView</key>
-				<string>NSTableView</string>
+				<key>button_addGroup</key>
+				<string>NSButton</string>
+				<key>button_removeGroup</key>
+				<string>NSButton</string>
 				<key>checkBox_alwaysShow</key>
 				<string>NSButton</string>
 				<key>checkBox_autoJoin</key>
 				<string>NSButton</string>
-				<key>contactsColumn</key>
-				<string>NSTableColumn</string>
 				<key>inspectorContentView</key>
 				<string>NSView</string>
 				<key>label_account</key>
+				<string>NSTextField</string>
+				<key>label_contact</key>
 				<string>NSTextField</string>
 				<key>label_encryption</key>
 				<string>NSTextField</string>
 				<key>popUp_accounts</key>
 				<string>NSPopUpButton</string>
+				<key>popUp_contact</key>
+				<string>NSPopUpButton</string>
 				<key>popUp_encryption</key>
 				<string>NSPopUpButton</string>
+				<key>tableView_groups</key>
+				<string>NSTableView</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
@@ -182,6 +206,14 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIPlasticButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSButton</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>

@@ -191,7 +191,7 @@
 /*!
  * @brief Window was closed, either by a button being clicked or the user closing it
  */
-+ (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode userInfo:(id)userInfo
++ (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	switch (returnCode) {
 		case AITextAndButtonsAlternateReturn:

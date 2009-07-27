@@ -16,7 +16,6 @@
 
 #import "AdiumSpeech.h"
 #import "AISoundController.h"
-#import "SUSpeaker.h"
 #import <Adium/AIListObject.h>
 
 #define TEXT_TO_SPEAK			@"Text"
@@ -24,19 +23,12 @@
 #define PITCH					@"Pitch"
 #define RATE					@"Rate"
 
-/* Text to Speech  
- * We use SUSpeaker to provide maximum flexibility over speech.  NSSpeechSynthesizer does not gives us pitch/rate controls.  
- * The only significant bug in SUSpeaker is that it does not reset to the system default voice when it is asked to. We  
- * therefore use 2 instances of SUSpeaker: one for default settings, and one for custom settings.  
- */  
-
 @interface AdiumSpeech ()
-- (SUSpeaker *)defaultVoice;
-- (SUSpeaker *)variableVoice;
+- (NSSpeechSynthesizer *)defaultVoice;
+- (NSSpeechSynthesizer *)variableVoice;
 - (void)_speakNext;
 - (void)_stopSpeaking;
-- (SUSpeaker *)_speakerForVoice:(NSString *)voiceString index:(NSInteger *)voiceIndex;
-- (void)_setVolumeOfVoicesTo:(CGFloat)newVolume;
+- (void)_setVolumeOfVoicesTo:(float)newVolume;
 @end
 
 @implementation AdiumSpeech
@@ -69,21 +61,6 @@
 }
 
 /*!
- * @brief Load the array of voices
- */
-- (void)loadVoices
-{
-	//Load voices
-	//Vicki, a new voice in 10.3, returns an invalid name to SUSpeaker, Vicki3Smallurrent. If we see that name,
-	//replace it with just Vicki.  If this gets fixed in a future release of OS X, this code will simply do nothing.
-	voiceArray = [[SUSpeaker voiceNames] mutableCopy];
-	NSInteger messedUpIndex = [voiceArray indexOfObject:@"Vicki3Smallurrent"];
-	if (messedUpIndex != NSNotFound) {
-		[voiceArray replaceObjectAtIndex:messedUpIndex withObject:@"Vicki"];
-	}
-}
-
-/*!
  * @brief Close
  */
 - (void)dealloc
@@ -91,14 +68,8 @@
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 	[adium.preferenceController unregisterPreferenceObserver:self];
 
-	[self _stopSpeaking];
-
 	[speechArray release]; speechArray = nil;
-	if(voiceArray)
-	{
-		[voiceArray release]; 
-		voiceArray = nil;
-	}
+	[self _stopSpeaking];
 	
 	[super dealloc];
 }
@@ -123,7 +94,7 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	CGFloat newVolume = [[prefDict objectForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL] doubleValue];
+	float newVolume = [[prefDict objectForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL] floatValue];
 	
 	//If sound volume has changed, we must update all existing sounds to the new volume
 	if (customVolume != newVolume) {
@@ -134,7 +105,7 @@
 	customVolume = newVolume;
 }
 
-- (void)_setVolumeOfVoicesTo:(CGFloat)newVolume
+- (void)_setVolumeOfVoicesTo:(float)newVolume
 {
 	if (_defaultVoice) [_defaultVoice setVolume:newVolume];
 	if (_variableVoice) [_variableVoice setVolume:newVolume]; 
@@ -161,12 +132,10 @@
  * @param pitch Speaking pitch
  * @param rate Speaking rate
  */
-- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(CGFloat)pitch rate:(float)rate
+- (void)speakText:(NSString *)text withVoice:(NSString *)voiceString pitch:(float)pitch rate:(float)rate
 {
-    if (text && [text length] && workspaceSessionIsActive) {
-		NSMutableDictionary *dict;
-		
-		dict = [[NSMutableDictionary alloc] init];
+	if (text && [text length] && workspaceSessionIsActive) {
+		NSMutableDictionary *dict = [NSMutableDictionary dictionary];
 		
 		if (text) {
 			[dict setObject:text forKey:TEXT_TO_SPEAK];
@@ -177,10 +146,9 @@
 		if (rate  > FLT_EPSILON) [dict setObject:[NSNumber numberWithDouble:rate]  forKey:RATE];
 		AILog(@"AdiumSpeech: %@",dict);
 		[speechArray addObject:dict];
-		[dict release];
 		
 		[self _speakNext];
-    }
+	}
 }
 
 /*!
@@ -190,34 +158,22 @@
  * @param pitch Speaking pitch
  * @param rate Speaking rate
  */
-- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(CGFloat)pitch andRate:(float)rate
+- (void)speakDemoTextForVoice:(NSString *)voiceString withPitch:(float)pitch andRate:(float)rate
 {
-	if(workspaceSessionIsActive){
-		NSInteger			voiceIndex;
-		SUSpeaker	*theSpeaker = [self _speakerForVoice:voiceString index:&voiceIndex];
-		NSString	*demoText = [theSpeaker demoTextForVoiceAtIndex:((voiceIndex != NSNotFound) ? voiceIndex : -1)];
-		
+	if(workspaceSessionIsActive) {		
 		[self _stopSpeaking];
-		[self speakText:demoText withVoice:voiceString pitch:pitch rate:rate];
+		[self speakText:[[NSSpeechSynthesizer attributesForVoice:voiceString] objectForKey:NSVoiceDemoText] withVoice:voiceString pitch:pitch rate:rate];
 	}
 }
 
 
 //Voices ---------------------------------------------------------------------------------------------------------------
 #pragma mark Voices
-/*!
- * @brief Returns an array of available voices
- */
-- (NSArray *)voices
-{
-	if(!voiceArray) [self loadVoices];
-    return voiceArray;
-}
 
 /*!
  * @brief Returns the systemwide default rate
  */
-- (CGFloat)defaultRate
+- (float)defaultRate
 {
 	if (!_defaultRate) { //Cache this, since the calculation may be slow
 		_defaultRate = [[self defaultVoice] rate];
@@ -228,10 +184,16 @@
 /*!
  * @brief Returns the systemwide default pitch
  */
-- (CGFloat)defaultPitch
+- (float)defaultPitch
 { 
 	if (!_defaultPitch) { //Cache this, since the calculation may be slow
-		_defaultPitch = [[self defaultVoice] pitch];
+		NSNumber *pitchNumber = [[self defaultVoice] objectForProperty:NSSpeechPitchBaseProperty error:NULL];
+		if (pitchNumber) {
+			_defaultPitch = [pitchNumber floatValue];
+		} else {
+			NSLog(@"Couldn't get a pitch from the default voice. How strange.");
+			_defaultPitch = 0.0f;
+		}
 	}
 	return _defaultPitch;
 }
@@ -239,26 +201,26 @@
 /*!
  * @brief Returns the default voice, creating if necessary
  */
-- (SUSpeaker *)defaultVoice
+- (NSSpeechSynthesizer *)defaultVoice
 {
-    if (!_defaultVoice) {
-		_defaultVoice = [[SUSpeaker alloc] init];
+	if (!_defaultVoice) {
+		_defaultVoice = [[NSSpeechSynthesizer alloc] init];
 		[_defaultVoice setDelegate:self];
 		[_defaultVoice setVolume:customVolume];
-    }
+	}
 	return _defaultVoice;
 }
 
 /*!
  * @brief Returns the variable voice, creating if necessary
  */
-- (SUSpeaker *)variableVoice
+- (NSSpeechSynthesizer *)variableVoice
 {
-    if (!_variableVoice) {
-		_variableVoice = [[SUSpeaker alloc] init];
+	if (!_variableVoice) {
+		_variableVoice = [[NSSpeechSynthesizer alloc] init];
 		[_variableVoice setDelegate:self];
 		[_variableVoice setVolume:customVolume];
-    }
+	}
 	return _variableVoice;
 }
 
@@ -270,10 +232,10 @@
  */
 - (void)_speakNext
 {
-    //we have items left to speak and aren't already speaking
-    if ([speechArray count] && !speaking) {
+	//we have items left to speak and aren't already speaking
+	if ([speechArray count] && !speaking) {
 		//Don't speak on top of other apps; instead, wait 1 second and try again
-		if (SpeechBusySystemWide() > 0) {
+		if ([NSSpeechSynthesizer isAnyApplicationSpeaking]) {
 			[self performSelector:@selector(_speakNext)
 					   withObject:nil
 					   afterDelay:1.0];
@@ -285,13 +247,16 @@
 			NSString 			*text = [dict objectForKey:TEXT_TO_SPEAK];
 			NSNumber 			*pitchNumber = [dict objectForKey:PITCH];
 			NSNumber 			*rateNumber = [dict objectForKey:RATE];
-			SUSpeaker 			*theSpeaker = [self _speakerForVoice:[dict objectForKey:VOICE] index:NULL];
+			NSSpeechSynthesizer *theSpeaker = [self variableVoice];
+			[theSpeaker setVoice:[dict objectForKey:VOICE]];
 
-			[theSpeaker setPitch:(pitchNumber ? [pitchNumber doubleValue] : [self defaultPitch])];
-			[theSpeaker setRate:  (rateNumber ?  [rateNumber doubleValue] : [self defaultRate])];
+			if (!pitchNumber)
+				pitchNumber = [NSNumber numberWithFloat:[self defaultPitch]];
+			[theSpeaker setObject:pitchNumber forProperty:NSSpeechPitchBaseProperty error:NULL];
+			[theSpeaker setRate:(rateNumber ?  [rateNumber floatValue] : [self defaultRate])];
 			[theSpeaker setVolume:customVolume];
 
-			[theSpeaker speakText:text];
+			[theSpeaker startSpeakingString:text];
 			[speechArray removeObjectAtIndex:0];
 		}
 	}
@@ -300,10 +265,10 @@
 /*!
  * @brief Speaking has finished, begin speaking the next item in our queue
  */
-- (IBAction)didFinishSpeaking:(SUSpeaker *)theSpeaker
+- (void)speechSynthesizer:(NSSpeechSynthesizer *)sender didFinishSpeaking:(BOOL)success
 {
 	speaking = NO;
-    [self _speakNext];
+	[self _speakNext];
 }
 
 /*!
@@ -315,36 +280,6 @@
 
 	[_defaultVoice stopSpeaking];
 	[_variableVoice stopSpeaking];
-}
-
-/*!
- * @brief Return the SUSpeaker which should be used for a given voice name, configured for that voice.
- * Optionally, return the index of that voice in our array by reference.
- */
-- (SUSpeaker *)_speakerForVoice:(NSString *)voiceString index:(NSInteger *)voiceIndex
-{
-	SUSpeaker	*speaker;
-	NSInteger 		theIndex;
-	if(voiceString)
-	{
-		if(!voiceArray) [self loadVoices];
-		theIndex = [voiceArray indexOfObject:voiceString];
-	}
-	else
-		theIndex = NSNotFound;
-
-	//Return the voice index by reference
-	if (voiceIndex) *voiceIndex = theIndex;
-
-	//Configure and return the voice
-	if (theIndex != NSNotFound) {
-		speaker = [self variableVoice];
-		[speaker setVoiceUsingIndex:theIndex];		
-	} else {
-		speaker = [self defaultVoice];
-	}
-	
-	return speaker;
 }
 
 

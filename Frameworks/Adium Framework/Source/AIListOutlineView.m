@@ -118,7 +118,6 @@
 	return YES;
 }
 
-//
 - (void)cancelOperation:(id)sender
 {
 	[self deselectAll:nil];
@@ -193,6 +192,17 @@
 	NSMutableArray *array = [NSMutableArray array];
 	for (AIProxyListObject *proxyObject in self.arrayOfSelectedItems) {
 		[array addObject:proxyObject.listObject];
+	}
+	
+	return array;
+}
+
+- (NSArray *)arrayOfListObjectsWithGroups
+{
+	NSMutableArray *array = [NSMutableArray array];
+	for (AIProxyListObject *proxyObject in self.arrayOfSelectedItems) {
+		[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:proxyObject.listObject, @"ListObject",
+						  proxyObject.containingObject, @"ContainingObject", nil]];
 	}
 	
 	return array;

@@ -7,8 +7,8 @@
 //
 
 #import <Adium/AIAccount.h>
-#include <Security/SecTrust.h>
-#include <libpurple/libpurple.h>
+#import <Security/SecTrust.h>
+#import <libpurple/libpurple.h>
 
 @interface AIPurpleCertificateTrustWarningAlert : NSObject {
 	CFArrayRef certificates;

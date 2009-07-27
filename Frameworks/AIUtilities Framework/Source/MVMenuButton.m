@@ -9,7 +9,6 @@
 
 @implementation MVMenuButton
 
-//
 - (id)initWithFrame:(NSRect)frame
 {
 	if ((self = [super initWithFrame:frame])) {
@@ -26,7 +25,6 @@
 	return self;
 }
 
-//
 - (id)copyWithZone:(NSZone *)zone
 {
 	MVMenuButton	*newButton = [[[self class] allocWithZone:zone] initWithFrame:[self frame]];
@@ -42,7 +40,6 @@
 	return newButton;
 }
 
-//
 - (void)dealloc
 {
 	[bigImage release];

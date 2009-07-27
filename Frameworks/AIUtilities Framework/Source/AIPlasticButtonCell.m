@@ -9,7 +9,7 @@
 #import "AIPlasticButtonCell.h"
 #import "AIImageAdditions.h"
 
-#include <Carbon/Carbon.h>
+#import <Carbon/Carbon.h>
 
 #define LABEL_OFFSET_X	1
 #define LABEL_OFFSET_Y	-1
@@ -27,7 +27,6 @@
 
 #pragma mark Birth and Death
 
-//
 - (id)copyWithZone:(NSZone *)zone
 {
 	AIPlasticButtonCell	*newCell = [[self class] allocWithZone:zone];

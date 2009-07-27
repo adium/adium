@@ -41,8 +41,6 @@
 
 #import "AISearchFieldCell.h"
 
-#define PREF_GROUP_CONTACT_LIST					@"Contact List"
-
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
 
 #define SLIDE_ALLOWED_RECT_EDGE_MASK			(AIMinXEdgeMask | AIMaxXEdgeMask) /* Screen edges on which sliding is allowde */
@@ -161,7 +159,6 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	[super dealloc];
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	AILogWithSignature(@"My autosave name is %@",[NSString stringWithFormat:@"Contact List:%@", [[self contactList] contentsBasedIdentifier]]);
@@ -513,11 +510,13 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 {	
     if ([selectedObject isKindOfClass:[AIListGroup class]]) {
         //Expand or collapse the group
-        if ([sender isItemExpanded:selectedObject]) {
-            [sender collapseItem:selectedObject];
-        } else {
-            [sender expandItem:selectedObject];
-        }
+		for (AIProxyListObject *proxyObject in selectedObject.proxyObjects) {
+			if ([sender isItemExpanded:proxyObject]) {
+				[sender collapseItem:proxyObject];
+			} else {
+				[sender expandItem:proxyObject];					
+			}
+		}
 
 	} else if ([selectedObject isMemberOfClass:[AIListBookmark class]]) {
 		//Hide any tooltip the contactListController is currently showing
@@ -575,7 +574,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
     [[NSNotificationCenter defaultCenter] postNotificationName:Interface_ContactListDidResignMain object:self];
 }
 
-//
 - (void)showWindowInFrontIfAllowed:(BOOL)inFront
 {
 	//Always show for three seconds at least if we're told to show
@@ -869,18 +867,11 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 // note: may be inaccurate when mouse is up against an edge 
 - (NSScreen *)screenForPoint:(NSPoint)point
 {
-	NSScreen *pointScreen = nil;
-	
-	NSEnumerator *screenEnumerator = [[NSScreen screens] objectEnumerator];
-	NSScreen *screen;
-	while ((screen = [screenEnumerator nextObject]) != nil) {
-		if (NSPointInRect(point, NSInsetRect([screen frame], -1, -1))) {
-			pointScreen = screen;
-			break;
-		}		
+	for (NSScreen *pointScreen in [NSScreen screens]) {
+		if (NSPointInRect(point, NSInsetRect([pointScreen frame], -1, -1)))
+			return pointScreen;
 	}
-	
-	return pointScreen;
+	return nil;
 }	
 
 - (NSRect)squareRectWithCenter:(NSPoint)point sideLength:(CGFloat)sideLength
@@ -1545,8 +1536,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	}
     
     // Filter bar resizing
-    // Create a new variable here, because we want the bar's view to be based, visually, on the location of the contact list, not its enclosing super view.
-    NSRect barTargetFrame = contactListView.frame;
+    NSRect barTargetFrame = contactListView.enclosingScrollView.frame;
     if (filterBarIsVisible) {
         barTargetFrame.size.height = NSHeight(barTargetFrame) + NSHeight(filterBarView.bounds);
     } else {

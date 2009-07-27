@@ -19,11 +19,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02111-1301  USA
  */
-#include <libpurple/internal.h>
-#include <libpurple/debug.h>
-#include <libpurple/plugin.h>
-#include <libpurple/sslconn.h>
-#include <libpurple/version.h>
+#import <libpurple/internal.h>
+#import <libpurple/debug.h>
+#import <libpurple/plugin.h>
+#import <libpurple/sslconn.h>
+#import <libpurple/version.h>
 
 #define SSL_PLUGIN_ID "core-ssl"
 

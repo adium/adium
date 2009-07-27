@@ -34,7 +34,6 @@
 #import "AWEzvContact.h"
 #import "AWEzvContactPrivate.h"
 #import "AWEzvXMLNode.h"
-#import "AWEzvXMLStream.h"
 #import "AWEzvRendezvousData.h"
 #import "AWEzvContactManager.h"
 #import "AWEzvContactManagerRendezvous.h"
@@ -42,10 +41,10 @@
 #import "EKEzvFileTransfer.h"
 #import "EKEzvIncomingFileTransfer.h"
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
+#import <sys/types.h>
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <arpa/inet.h>
 
 @implementation AWEzvContact
 

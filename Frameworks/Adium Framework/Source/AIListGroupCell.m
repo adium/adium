@@ -85,7 +85,6 @@
 	return shadowColor;
 }
 
-//
 - (void)setDrawsBackground:(BOOL)inValue
 {
 	drawsBackground = inValue;
@@ -107,7 +106,6 @@
 	[self flushGradientCache];
 }
 
-//
 - (void)setDrawsGradientEdges:(BOOL)inValue
 {
 	drawsGradientEdges = inValue;

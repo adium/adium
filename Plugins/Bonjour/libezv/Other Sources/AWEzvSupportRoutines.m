@@ -30,8 +30,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "AWEzvSupportRoutines.h"
-#include <stdarg.h>
+#import "AWEzvSupportRoutines.h"
+#import <stdarg.h>
 
 void AWEzvLog (NSString *format, ...) {
     va_list ap;

@@ -50,7 +50,7 @@
 #define BSD_LICENSE_ONLY 1
 #import <AIUtilities/AIStringAdditions.h>
 #import <sys/stat.h>
-#include <unistd.h>
+#import <unistd.h>
 
 #define XML_APPENDER_BLOCK_SIZE 4096
 

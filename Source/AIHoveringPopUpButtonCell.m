@@ -11,8 +11,6 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
-#include <Carbon/Carbon.h>
-
 #define LEFT_MARGIN		5
 #define IMAGE_MARGIN	4
 #define ARROW_WIDTH		8

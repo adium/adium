@@ -34,7 +34,6 @@
 	}
 }
 
-//
 - (NSArray *)arrayOfSelectedItems
 {
 	NSMutableArray 	*itemArray = [NSMutableArray array];
@@ -60,7 +59,6 @@
 	return itemArray;
 }
 
-//
 - (void)selectItemsInArray:(NSArray *)selectedItems
 {
 	NSEnumerator	*enumerator = [selectedItems objectEnumerator];

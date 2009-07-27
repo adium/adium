@@ -36,7 +36,6 @@
 #define KEY_SAVE_CONTAINERS				@"Save Containers On Quit"
 #define KEY_CONTAINERS					@"Containers"
 
-#define PREF_GROUP_CONTACT_LIST				@"Contact List"
 #define KEY_CL_WINDOW_LEVEL					@"Window Level"
 #define KEY_CL_HIDE							@"Hide While in Background"
 #define KEY_CL_EDGE_SLIDE					@"Hide On Screen Edges"
@@ -297,6 +296,18 @@ typedef enum {
  */
 @property (readonly, nonatomic) NSArray *arrayOfSelectedListObjectsInContactList;
 
+/*!
+ * @brief Get the list objects currently selected in the contact list with their groups
+ *
+ * Each entry in the NSArray is an NSDictionary of the following layout:
+ *
+ * @"ListObject" => the AIListObject
+ * @"ContainingObject" => the containing object
+ *
+ * @result An NSArray of selected objects
+ */
+@property (readonly, nonatomic) NSArray *arrayOfSelectedListObjectsWithGroupsInContactList;
+
 #pragma mark Message View
 /*!
  * @brief Register an object which can handle displaying messages
@@ -325,10 +336,10 @@ typedef enum {
 
 #pragma mark Question Display
 - (void)displayQuestion:(NSString *)inTitle withAttributedDescription:(NSAttributedString *)inDesc withWindowTitle:(NSString *)inWindowTitle
-		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
 - (void)displayQuestion:(NSString *)inTitle withDescription:(NSString *)inDesc withWindowTitle:(NSString *)inWindowTitle
-		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton
+		  defaultButton:(NSString *)inDefaultButton alternateButton:(NSString *)inAlternateButton otherButton:(NSString *)inOtherButton suppression:(NSString *)inSuppression
 				 target:(id)inTarget selector:(SEL)inSelector userInfo:(id)inUserInfo;
 
 #pragma mark Synchronized Flashing

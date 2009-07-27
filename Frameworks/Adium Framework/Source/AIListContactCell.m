@@ -334,7 +334,6 @@
 	return backgroundOpacity;
 }
 
-//
 - (void)setBackgroundColorIsStatus:(BOOL)isStatus
 {
 	backgroundColorIsStatus = isStatus;
@@ -702,7 +701,6 @@
 	return [AIServiceIcons serviceIconForObject:listObject type:AIServiceIconList direction:AIIconFlipped];
 }
 
-//
 - (float)imageOpacityForDrawing
 {
 	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"Image Opacity"];

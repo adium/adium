@@ -25,7 +25,6 @@
 	return [AIPurpleLiveJournalAccount class];
 }
 
-//
 - (AIAccountViewController *)accountViewController{
     return [ESPurpleJabberAccountViewController accountViewController];
 }

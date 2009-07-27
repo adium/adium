@@ -124,7 +124,7 @@
  *
  * We've been asked to be removed. Ask the contact controller to do so.
  */
-- (void)removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
 	[adium.contactController removeBookmark:self];
 }
@@ -161,6 +161,8 @@
 - (NSString *)internalObjectID
 {
 	if (!internalObjectID) {
+		NSAssert(self.account != nil, @"Null list bookmark account - make sure you didn't try to touch the internalObjectID before it was loaded.");
+		
 		// We're not like any other bookmarks by the same name.
 		internalObjectID = [[NSString stringWithFormat:@"%@.%@.%@", self.service.serviceID, self.UID, self.account.UID] retain];
 	}
@@ -226,7 +228,7 @@
 		targetGroup = [NSSet setWithObject:adium.contactController.contactList];
 	}
 
-	[adium.contactController moveContact:self intoGroups:targetGroup];
+	[adium.contactController moveContact:self fromGroups:self.groups intoGroups:targetGroup];
 }
 
 /*!

@@ -38,6 +38,7 @@
 @interface AIListObject ()
 - (void)setContainingGroup:(AIListGroup *)inGroup;
 - (void)setupObservedValues;
+- (void)updateOrderCache;
 @end
 
 /*!
@@ -58,9 +59,6 @@
 
 		UID = [inUID retain];	
 		service = inService;
-
-		largestOrder = 1.0;
-		smallestOrder = 1.0;
 		
 		// Delay until the next run loop so bookmarks can instantiate their values first.
 		[self performSelector:@selector(setupObservedValues) withObject:nil afterDelay:0.0];
@@ -98,14 +96,15 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if ([keyPath hasSuffix:@"Visible"]) {
-		NSNumber *alwaysVisiblePrefValue = [self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
+		BOOL alwaysVisibleSelf = [[self preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
 		
+#warning AIListObject should not know of its subclass
 		// If we're in a meta contact, use the meta contact's preference for visibility.
-		if ([self isKindOfClass:[AIListContact class]] && ((AIListContact *)self).metaContact) {
-			alwaysVisiblePrefValue = [((AIListContact *)self).metaContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE];
+		if ([self isKindOfClass:[AIListContact class]]) {
+			alwaysVisibleSelf = [[((AIListContact *)self).parentContact preferenceForKey:@"Visible" group:PREF_GROUP_ALWAYS_VISIBLE] boolValue];
 		}
-		
-		alwaysVisible = [alwaysVisiblePrefValue boolValue];
+
+		alwaysVisible = alwaysVisibleSelf;
 	}
 }
 
@@ -207,9 +206,9 @@
 	return self.groups;
 }
 
-- (void) removeFromList
+- (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
 {
-	NSString *error = [NSString stringWithFormat:@"%@ needs an implementation of -removeFromList", NSStringFromClass([self class])];
+	NSString *error = [NSString stringWithFormat:@"%@ needs an implementation of -removeFromGroup:", NSStringFromClass([self class])];
 	NSAssert(NO, error);
 }
 
@@ -690,9 +689,9 @@
 	while (existingKeys.count && ![existingKeys isEqualToArray:[NSArray arrayWithObject:listObject.internalObjectID]]) {
 		if (existingKeys.count == 1) {
 			AILogWithSignature(@"*** Warning: %@ had order index %f, but %@ already had an object with that order index. Setting to %f instead. Incrementing.",
-							   listObject, orderIndexForObject, self, (largestOrder + 1));
+							   listObject, orderIndexForObject, self, (self.largestOrder + 1));
 
-			orderIndexForObject = ++largestOrder;
+			orderIndexForObject = self.largestOrder + 1;
 			orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 			existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
 			
@@ -715,12 +714,7 @@
 				 forKey:@"OrderIndexDictionary"
 				  group:ObjectStatusCache];
 	
-	//Keep track of our largest and smallest order indexes for quick access
-	if (orderIndexForObject > largestOrder) {
-		largestOrder = orderIndexForObject;
-	} else if (orderIndexForObject < smallestOrder) {
-		smallestOrder = orderIndexForObject;
-	}
+	[self updateOrderCache];
 }
 
 //Order index
@@ -737,25 +731,46 @@
 	//XXX is this still needed?
 	if  (!(orderIndexForObject < INFINITY)) orderIndexForObject = 0;
 
-	if (orderIndexForObject) {
-		//Keep track of our largest and smallest order indexes for quick access
-		if (orderIndexForObject > largestOrder) {
-			largestOrder = orderIndexForObject;
-		} else if (orderIndexForObject < smallestOrder) {
-			smallestOrder = orderIndexForObject;
-		}
-		
-	} else {
-		//Assign it to our current largest order + 1
-		orderIndexForObject = ++largestOrder;
+	if (!orderIndexForObject) {
+		orderIndexForObject = self.largestOrder + 1;
 		[(AIListObject<AIContainingObject> *)self listObject:listObject didSetOrderIndex: orderIndexForObject];
 	}
 	
 	return orderIndexForObject;
 }
 
-@synthesize smallestOrder;
-@synthesize largestOrder;
+- (CGFloat)smallestOrder
+{
+	if (!cachedSmallestOrder) {
+		[self updateOrderCache];
+	}
+
+	return cachedSmallestOrder;
+}
+
+- (CGFloat)largestOrder
+{
+	if (!cachedLargestOrder) {
+		[self updateOrderCache];
+	}
+	
+	return cachedLargestOrder;	
+}
+
+- (void)updateOrderCache
+{
+	CGFloat smallest = INFINITY, largest = 0;
+	
+	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
+	
+	for (NSNumber *index in orderIndex.allValues) {
+		smallest = MIN(smallest, index.floatValue);
+		largest = MAX(largest, index.floatValue);
+	}
+	
+	cachedSmallestOrder = smallest;
+	cachedLargestOrder = largest;
+}
 
 #pragma mark Comparison
 /*

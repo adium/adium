@@ -26,15 +26,14 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIStatusIcons.h>
 #import <Adium/ESFileTransfer.h>
-#import <Adium/ESTextAndButtonsWindowController.h>
 #import <Adium/AIService.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
-#include <libpurple/presence.h>
-#include <libpurple/si.h>
-#include <SystemConfiguration/SystemConfiguration.h>
+#import <libpurple/presence.h>
+#import <libpurple/si.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 #import "AMXMLConsoleController.h"
 #import "AMPurpleJabberServiceDiscoveryBrowsing.h"
 #import "ESPurpleJabberAccountViewController.h"
@@ -476,34 +475,6 @@
 }
 
 #pragma mark Status Messages
-- (NSAttributedString *)statusMessageForPurpleBuddy:(PurpleBuddy *)b
-{
-	NSAttributedString  *statusMessage = nil;
-
-	if (purple_account_is_connected(account)) {		
-		char	*normalized = g_strdup(purple_normalize(purple_buddy_get_account(b), purple_buddy_get_name(b)));
-		JabberBuddy	*jb;
-		
-		if ((jb = jabber_buddy_find(purple_account_get_connection(account)->proto_data, normalized, FALSE))) {
-			NSString	*statusMessageString = nil;
-			const char	*msg = jabber_buddy_get_status_msg(jb);
-			
-			if (msg) {
-				//Get the custom jabber status message if one is set
-				statusMessageString = [NSString stringWithUTF8String:msg];
-			}
-			
-			if (statusMessageString && [statusMessageString length]) {
-				statusMessage = [AIHTMLDecoder decodeHTML:statusMessageString];
-			}
-		}
-		
-		g_free(normalized);
-	}
-	
-	return statusMessage;
-}
-
 - (NSString *)statusNameForPurpleBuddy:(PurpleBuddy *)buddy
 {
 	NSString		*statusName = nil;
@@ -606,6 +577,22 @@
 - (BOOL)groupChatsSupportTopic
 {
 	return YES;
+}
+
+/*!
+ * @brief Return the "nickname" part of a MUC JID
+ *
+ * @param contact The AIListContact
+ * @param chat the AIChat
+ * @return The nickname for a chat participant
+ */
+- (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat
+{
+	if (contact.isStranger && [contact.UID.lowercaseString rangeOfString:chat.name.lowercaseString].location != NSNotFound) {
+		return [contact.UID substringFromIndex:[contact.UID rangeOfString:@"/"].location + 1];		
+	} else {
+		return [super fallbackAliasForContact:contact inChat:chat];
+	}
 }
 
 #pragma mark Status
@@ -740,7 +727,7 @@
 
 	[adhocServer release];
 	adhocServer = [[AMPurpleJabberAdHocServer alloc] initWithAccount:self];
-	[adhocServer addCommand:@"ping" delegate:[AMPurpleJabberAdHocPing class] name:@"Ping"];
+	[adhocServer addCommand:@"ping" delegate:(id<AMPurpleJabberAdHocServerDelegate>)[AMPurpleJabberAdHocPing class] name:@"Ping"];
 	
     [super didConnect];
 	
@@ -816,9 +803,7 @@
 			NSMenu *submenu = [[NSMenu alloc] initWithTitle:gateway.UID];
 			
 			NSArray *menuitemarray = [self menuItemsForContact:gateway];
-			NSEnumerator *e2 = [menuitemarray objectEnumerator];
-			NSMenuItem *m2item;
-			while((m2item = [e2 nextObject]))
+			for (NSMenuItem *m2item in menuitemarray)
 				[submenu addItem:m2item];
 			
 			if([submenu numberOfItems] > 0)
@@ -889,14 +874,17 @@
 		NSString *jid = gateway.UID;
 		NSString *pattern = [@"@" stringByAppendingString:jid];
 		NSMutableArray *gatewayContacts = [[NSMutableArray alloc] init];
-		NSEnumerator *e = [[self contacts] objectEnumerator];
-		AIListContact *contact;
-		while((contact = [e nextObject])) {
-			if([contact.UID hasSuffix:pattern])
+		NSMutableSet *removeGroups = [NSMutableSet set];
+		for (AIListContact *contact in self.contacts) {
+			if([contact.UID hasSuffix:pattern]) {
 				[gatewayContacts addObject:contact];
+				[removeGroups unionSet:contact.groups];
+			}
 		}
 		// now, remove them from the roster
-		[self removeContacts:gatewayContacts];
+		[self removeContacts:gatewayContacts
+				  fromGroups:removeGroups.allObjects];
+		
 		[gatewayContacts release];
 		
 		// finally, remove the gateway itself

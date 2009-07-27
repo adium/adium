@@ -173,7 +173,6 @@
 	return tabView_tabBar;
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	return [self _frameSaveKey];
@@ -284,7 +283,6 @@
     return;
 }
 
-//
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
@@ -552,7 +550,6 @@
 	}
 }
 
-//
 - (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index
 {
 	AIChat	*chat = inTabViewItem.chat;
@@ -812,7 +809,7 @@
 - (NSMenu *)tabView:(NSTabView *)tabView menuForTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	AIChat			*chat = [(AIMessageTabViewItem *)tabViewItem chat];
-    AIListContact	*selectedObject = chat.listObject;
+    AIListContact	*selectedObject = chat.listObject.parentContact;
     NSMenu			*tmp = nil;
 
     if (selectedObject) {

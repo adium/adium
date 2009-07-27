@@ -59,7 +59,6 @@
 	[popUp_messageFrom setMenu:[accountMenu menu]];
 }
 
-//
 - (void)viewWillClose
 {
 	[toContact release]; toContact = nil;

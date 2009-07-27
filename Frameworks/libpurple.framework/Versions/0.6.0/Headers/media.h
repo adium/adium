@@ -351,15 +351,15 @@ GList *purple_media_codec_list_copy(GList *codecs);
 void purple_media_codec_list_free(GList *codecs);
 
 /**
- * Gets a list of session names.
+ * Gets a list of session IDs.
  *
- * @param media The media session to retrieve session names from.
+ * @param media The media session from which to retrieve session IDs.
  *
- * @return GList of session names.
+ * @return GList of session IDs. The caller must free the list.
  *
  * @since 2.6.0
  */
-GList *purple_media_get_session_names(PurpleMedia *media);
+GList *purple_media_get_session_ids(PurpleMedia *media);
 
 /**
  * Gets the PurpleAccount this media session is on.
@@ -495,14 +495,14 @@ GList *purple_media_get_codecs(PurpleMedia *media, const gchar *sess_id);
  *
  * @param media The media object to find the session in.
  * @param sess_id The session id of the session find the stream in.
- * @param name The name of the remote user to add the candidates for.
+ * @param participant The name of the remote user to add the candidates for.
  * @param remote_candidates The remote candidates to add.
  *
  * @since 2.6.0
  */
 void purple_media_add_remote_candidates(PurpleMedia *media,
 					const gchar *sess_id,
-					const gchar *name,
+					const gchar *participant,
 					GList *remote_candidates);
 
 /**
@@ -510,13 +510,13 @@ void purple_media_add_remote_candidates(PurpleMedia *media,
  *
  * @param media The media object to find the session in.
  * @param sess_id The session id of the session to find the stream in.
- * @param name The name of the remote user to get the candidates from.
+ * @param participant The name of the remote user to get the candidates from.
  *
  * @since 2.6.0
  */
 GList *purple_media_get_local_candidates(PurpleMedia *media,
 					 const gchar *sess_id,
-					 const gchar *name);
+					 const gchar *participant);
 
 #if 0
 /*
@@ -529,24 +529,26 @@ GList *purple_media_get_local_candidates(PurpleMedia *media,
  *
  * @param media The media object to find the session in.
  * @param sess_id The session id of the session to find the stream in.
- * @param name The name of the remote user to get the active candidate from.
+ * @param participant The name of the remote user to get the active candidate
+ *                    from.
  *
  * @return The active candidates retrieved.
  */
 GList *purple_media_get_active_local_candidates(PurpleMedia *media,
-		const gchar *sess_id, const gchar *name);
+		const gchar *sess_id, const gchar *participant);
 
 /**
  * Gets the active remote candidates for the stream.
  *
  * @param media The media object to find the session in.
  * @param sess_id The session id of the session to find the stream in.
- * @param name The name of the remote user to get the remote candidate from.
+ * @param participant The name of the remote user to get the remote candidate
+ *                    from.
  *
  * @return The remote candidates retrieved.
  */
 GList *purple_media_get_active_remote_candidates(PurpleMedia *media,
-		const gchar *sess_id, const gchar *name);
+		const gchar *sess_id, const gchar *participant);
 #endif
 
 /**
@@ -554,14 +556,14 @@ GList *purple_media_get_active_remote_candidates(PurpleMedia *media,
  *
  * @param media The media object to find the session in.
  * @param sess_id The session id of the session find the stream in.
- * @param name The name of the remote user to get the candidates from.
+ * @param participant The name of the remote user to set the candidates from.
  *
  * @return @c TRUE The codecs were set successfully, or @c FALSE otherwise.
  *
  * @since 2.6.0
  */
 gboolean purple_media_set_remote_codecs(PurpleMedia *media, const gchar *sess_id,
-					const gchar *name, GList *codecs);
+					const gchar *participant, GList *codecs);
 
 /**
  * Returns whether or not the candidates for set of streams are prepared

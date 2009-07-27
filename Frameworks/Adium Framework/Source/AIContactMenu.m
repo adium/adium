@@ -72,6 +72,20 @@
 }
 
 /*!
+ * @brief Set the containing object
+ *
+ * Updates the containing object, and rebuilds the menu items.
+ */
+- (void)setContainingObject:(AIListObject *)inContainingObject
+{
+	[containingObject release];
+	
+	containingObject = [inContainingObject retain];
+	
+	[self rebuildMenu];
+}
+
+/*!
  * @brief Returns the existing menu item for a specific contact
  *
  * @param contact AIListContact whose menu item to return
@@ -95,7 +109,7 @@
 /*!
  * @brief Set our contact menu delegate
  */
-- (void)setDelegate:(id)inDelegate
+- (void)setDelegate:(id<AIContactMenuDelegate>	)inDelegate
 {
 	delegate = inDelegate;
 	
@@ -117,7 +131,7 @@
 	shouldSetTooltip = ([delegate respondsToSelector:@selector(contactMenuShouldSetTooltip:)] &&
 								 [delegate contactMenuShouldSetTooltip:self]);	
 }
-- (id)delegate
+- (id<AIContactMenuDelegate>	)delegate
 {
 	return delegate;
 }

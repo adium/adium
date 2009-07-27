@@ -7,16 +7,24 @@
 //
 
 #import "AIContactInfoContentController.h"
-#import <Adium/AIAccountMenu.h>
 
-@interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane, AIAccountMenuDelegate> {
+#import <Adium/AIAccountMenu.h>
+#import <Adium/AIContactMenu.h>
+
+@class AIAccountMenu, AIContactMenu, AIAccount, AIListContact;
+
+@interface AIAdvancedInspectorPane : NSObject <AIContentInspectorPane, AIAccountMenuDelegate, AIContactMenuDelegate> {
 	IBOutlet	NSView							*inspectorContentView;
-	
-	IBOutlet	NSTableView		*accountsTableView;
-	IBOutlet	NSTableColumn					*contactsColumn;
 	
 	IBOutlet	NSTextField						*label_account;
 	IBOutlet	NSPopUpButton					*popUp_accounts;
+	
+	IBOutlet	NSTextField						*label_contact;
+	IBOutlet	NSPopUpButton					*popUp_contact;
+	
+	IBOutlet	NSTableView						*tableView_groups;
+	IBOutlet	NSButton						*button_addGroup;
+	IBOutlet	NSButton						*button_removeGroup;
 	
 	IBOutlet	NSTextField						*label_encryption;
 	IBOutlet	NSPopUpButton					*popUp_encryption;
@@ -24,14 +32,13 @@
 	IBOutlet	NSButton						*checkBox_alwaysShow;
 	IBOutlet	NSButton						*checkBox_autoJoin;
 	
-	AIAccountMenu	*accountMenu;
+	AIAccountMenu								*accountMenu;
+	AIContactMenu								*contactMenu;
 	
-	AIListObject					*displayedObject;
-	NSArray							*accounts;
-	NSArray							*contacts;
-	BOOL							contactsColumnIsInAccountsTableView;
+	AIAccount									*currentSelectedAccount;
+	AIListContact								*currentSelectedContact;
 	
-	BOOL							rebuildingContacts;
+	AIListObject								*displayedObject;
 }
 
 -(NSString *)nibName;
@@ -42,4 +49,5 @@
 - (IBAction)setVisible:(id)sender;
 - (IBAction)setAutoJoin:(id)sender;
 
+- (void)removeSelectedGroups:(id)sender;
 @end

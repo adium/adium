@@ -83,7 +83,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AIContactStatusColoringPlugin",
 		@"AIContactStatusDockOverlaysPlugin",
 		@"AIContactStatusEventsPlugin",
-		@"AIDefaultFormattingPlugin",
 		@"AIDockAccountStatusPlugin",
 		@"AIDockBehaviorPlugin",
 		@"AIDockUnviewedContentPlugin",
@@ -118,7 +117,7 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"ESContactClientPlugin",
 		@"ESContactServersideDisplayName",
 		@"ESFileTransferMessagesPlugin",
-		@"ESMetaContactContentsPlugin",
+		@"AIListObjectContentsPlugin",
 		@"ESOpenMessageWindowContactAlertPlugin",
 		@"ESSafariLinkToolbarItemPlugin",
 		@"ESSendMessageContactAlertPlugin",
@@ -145,7 +144,6 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 		@"AINulRemovalPlugin",
 		@"AIAdvancedPreferencesPlugin",
 		@"GBImportPlugin",
-		@"AIContactVisibilityPlugin",
 		@"AIMentionEventPlugin",
 		@"AITwitterIMPlugin",
 		@"AITwitterPlugin",
@@ -181,6 +179,8 @@ NSTimeInterval aggregateComponentLoadingTime = 0.0;
 
 			[components setObject:object forKey:className];
 			[object release];
+		} else {
+			NSAssert1(NO, @"Failed to load %@", className);
 		}
 		[pool release];
 #ifdef COMPONENT_LOAD_TIMING

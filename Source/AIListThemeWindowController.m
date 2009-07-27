@@ -104,7 +104,6 @@
     [self closeWindow:sender];
 }
 
-//
 - (IBAction)okay:(id)sender
 {
 	[target listThemeEditorWillCloseWithChanges:YES forThemeNamed:themeName];
@@ -466,7 +465,6 @@
 	}
 }
 
-//
 - (void)updateSliderValues
 {
 	[textField_backgroundFade setStringValue:[NSString stringWithFormat:@"%ld%%", (NSInteger)([slider_backgroundFade doubleValue] * 100.0)]];

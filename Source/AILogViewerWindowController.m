@@ -43,7 +43,6 @@
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
 
 #define KEY_LOG_VIEWER_WINDOW_FRAME		@"Log Viewer Frame"
-#define	PREF_GROUP_CONTACT_LIST			@"Contact List"
 #define KEY_LOG_VIEWER_GROUP_STATE		@"Log Viewer Group State"	//Expand/Collapse state of groups
 #define TOOLBAR_LOG_VIEWER				@"Log Viewer Toolbar"
 
@@ -350,7 +349,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 }
 
-//
 - (NSString *)adiumFrameAutosaveName
 {
 	return KEY_LOG_VIEWER_WINDOW_FRAME;
@@ -1721,7 +1719,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	}
 }
 
-//
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     NSString	*identifier = [tableColumn identifier];
@@ -1797,7 +1794,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		automaticSearch = NO;
 		
 		[resultsLock lock];
-		selectedLogs = [tableView_results arrayOfSelectedItemsUsingSourceArray:currentSearchResults];
+		selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
 		[resultsLock unlock];
 		
 		[self displayLogs:selectedLogs];
@@ -2711,7 +2708,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
 		
 	} else {
 		[resultsLock lock];
-		NSArray *selectedLogs = [tableView_results arrayOfSelectedItemsUsingSourceArray:currentSearchResults];
+		NSArray *selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
 		[resultsLock unlock];
 		
 		[self deleteLogs:selectedLogs];

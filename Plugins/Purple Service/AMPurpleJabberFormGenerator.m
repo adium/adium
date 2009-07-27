@@ -546,9 +546,7 @@
 	
 	xmlnode_set_attrib(result,"type","text-multi");
 	if(value) {
-		NSEnumerator *e = [[value componentsSeparatedByString:@"\n"] objectEnumerator];
-		NSString *line;
-		while((line = [e nextObject]))
+		for (NSString *line in [value componentsSeparatedByString:@"\n"])
 			xmlnode_insert_data(xmlnode_new_child(result,"value"),[line UTF8String],-1);
 	}
 	

@@ -23,8 +23,6 @@
 #define KEY_LIST_THEME_NAME				@"List Theme Name"
 #define KEY_LIST_DETACHABLE				@"List Detachable"
 
-#define	CONTACT_LIST_DEFAULTS			@"ContactListDefaults"
-
 #define DetachedContactListIsEmpty		@"DetachedContactListIsEmpty"
 
 @class AIListWindowController, AICLPreferences, AIListContact, ESContactListAdvancedPreferences;

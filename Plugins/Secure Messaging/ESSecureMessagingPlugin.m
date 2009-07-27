@@ -96,9 +96,11 @@
 
 	[adium.menuController addMenuItem:menuItem_encryption
 						   toLocation:LOC_Contact_Additions];
+	
+	menuItem_encryptionContext = [menuItem_encryption copy];
 
-	[adium.menuController addContextualMenuItem:[[menuItem_encryption copy] autorelease]
-									   toLocation:Context_Contact_ChatAction];
+	[adium.menuController addContextualMenuItem:menuItem_encryptionContext
+									 toLocation:Context_Contact_ChatAction];
 }
 
 - (void)registerToolbarItem
@@ -349,10 +351,10 @@
 {
 	AIChat *chat;
 	
-	if (menuItem == menuItem_encryption) {
-		chat = adium.interfaceController.activeChat;
-	} else {
+	if (menuItem == menuItem_encryptionContext) {
 		chat = adium.menuController.currentContextMenuChat;
+	} else {
+		chat = adium.interfaceController.activeChat;
 	}
 
 	if (!chat) return NO;

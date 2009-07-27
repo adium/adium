@@ -296,7 +296,6 @@
 	return success;
 }
 
-//
 - (BOOL)renameSetWithName:(NSString *)setName extension:(NSString *)extension inFolder:(NSString *)folder toName:(NSString *)newName
 {
 	BOOL		success;
@@ -316,7 +315,6 @@
 	return success;
 }
 
-//
 - (BOOL)duplicateSetWithName:(NSString *)setName extension:(NSString *)extension inFolder:(NSString *)folder newName:(NSString *)newName
 {
 	BOOL		success;
@@ -342,7 +340,6 @@ NSInteger availableSetSort(NSDictionary *objectA, NSDictionary *objectB, void *c
 	return [[objectA objectForKey:@"name"] caseInsensitiveCompare:[objectB objectForKey:@"name"]];
 }
 
-//
 - (NSArray *)availableSetsWithExtension:(NSString *)extension fromFolder:(NSString *)folder
 {
 	NSMutableArray	*setArray = [NSMutableArray array];

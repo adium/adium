@@ -17,18 +17,18 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <libpurple/internal.h>
-#include <libpurple/debug.h>
-#include <libpurple/plugin.h>
-#include <libpurple/sslconn.h>
-#include <libpurple/version.h>
+#import <libpurple/internal.h>
+#import <libpurple/debug.h>
+#import <libpurple/plugin.h>
+#import <libpurple/sslconn.h>
+#import <libpurple/version.h>
 
 #define SSL_OPENSSL_PLUGIN_ID "ssl-openssl"
 
 #ifdef HAVE_OPENSSL
 
-#include <openssl/ssl.h>
-#include <openssl/err.h>
+#import <openssl/ssl.h>
+#import <openssl/err.h>
 
 typedef struct
 {

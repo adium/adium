@@ -55,14 +55,15 @@
 - (void)askBeforeImport
 {
 	[adium.interfaceController displayQuestion:AILocalizedString(@"Import Fire Logs?",nil)
-								 withDescription:AILocalizedString(@"For some older log formats, the importer cannot properly determine which account was used for conversation.  In such cases, the importer will guess which account to use based upon the order of the accounts.  Before importing Fire's logs, arrange your account order within the Preferences.",nil)
-								 withWindowTitle:nil
-								   defaultButton:AILocalizedString(@"Import", nil)
-								 alternateButton:AILocalizedString(@"Cancel", nil)
-									 otherButton:nil
-										  target:self
-										selector:@selector(importQuestionResponse:userInfo:)
-										userInfo:nil];
+							   withDescription:AILocalizedString(@"For some older log formats, the importer cannot properly determine which account was used for conversation.  In such cases, the importer will guess which account to use based upon the order of the accounts.  Before importing Fire's logs, arrange your account order within the Preferences.",nil)
+							   withWindowTitle:nil
+								 defaultButton:AILocalizedString(@"Import", nil)
+							   alternateButton:AILocalizedString(@"Cancel", nil)
+								   otherButton:nil
+								   suppression:nil
+										target:self
+									  selector:@selector(importQuestionResponse:userInfo:)
+									  userInfo:nil];
 }
 
 - (void)importQuestionResponse:(NSNumber *)response userInfo:(id)info

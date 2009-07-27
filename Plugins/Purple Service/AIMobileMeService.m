@@ -26,7 +26,6 @@
 	return [AIPurpleMobileMeAccount class];
 }
 
-//
 - (AIAccountViewController *)accountViewController{
     return [AIPurpleMobileMeAccountViewController accountViewController];
 }

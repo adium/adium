@@ -23,9 +23,9 @@
 
 
 
-#include <CoreFoundation/CoreFoundation.h>
-#include <CoreFoundation/CFPlugInCOM.h>
-#include <CoreServices/CoreServices.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <CoreFoundation/CFPlugInCOM.h>
+#import <CoreServices/CoreServices.h>
 
 // -----------------------------------------------------------------------------
 //	constants

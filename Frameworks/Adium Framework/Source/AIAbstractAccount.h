@@ -74,6 +74,7 @@ typedef enum {
 - (AIListContact *)contactWithUID:(NSString *)sourceUID;
 - (void)removeAllContacts;
 - (void)removePropertyValuesFromContact:(AIListContact *)listContact silently:(BOOL)silent;
+- (NSString *)fallbackAliasForContact:(AIListContact *)contact inChat:(AIChat *)chat;
 
 //Connectivity
 @property (readwrite, nonatomic) BOOL shouldBeOnline;

@@ -15,8 +15,8 @@
 
 #import "AIFileManagerAdditions.h"
 #import "AIStringAdditions.h"
-#include <sys/types.h>
-#include <unistd.h>
+#import <sys/types.h>
+#import <unistd.h>
 
 #warning This wants modernizing: take NSURLs, provide NSErrors
 

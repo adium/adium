@@ -35,7 +35,7 @@
 
 #import <FriBidi/NSString-FBAdditions.h>
 
-#include <CoreServices/CoreServices.h>
+#import <CoreServices/CoreServices.h>
 
 int HTMLEquivalentForFontSize(int fontSize);
 
