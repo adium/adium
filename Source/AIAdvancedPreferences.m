@@ -112,6 +112,12 @@
 - (void)_configureAdvancedPreferencesTable
 {	
 	[[tableView_categories enclosingScrollView] setAutohidesScrollers:YES];
+	
+	AIImageTextCell *cell = [[[AIImageTextCell alloc] initTextCell:@""] autorelease];
+	[cell setFont:[NSFont systemFontOfSize:11]];
+	[cell setLineBreakMode:NSLineBreakByTruncatingTail];
+	
+	[[tableView_categories tableColumnWithIdentifier:@"description"] setDataCell:cell];
 
 	//Select the previously selected row
 	NSInteger row = [[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SELECTED_ROW
