@@ -443,6 +443,28 @@ gboolean
 purple_certificate_signed_by(PurpleCertificate *crt, PurpleCertificate *issuer);
 
 /**
+ * Check that a certificate chain is valid and, if not, the failing certificate.
+ *
+ * Uses purple_certificate_signed_by() to verify that each PurpleCertificate
+ * in the chain carries a valid signature from the next. A single-certificate
+ * chain is considered to be valid.
+ *
+ * @param chain      List of PurpleCertificate instances comprising the chain,
+ *                   in the order certificate, issuer, issuer's issuer, etc.
+ * @param failing    A pointer to a PurpleCertificate*. If not NULL, if the
+ *                   chain fails to validate, this will be set to the
+ *                   certificate whose signature could not be validated.
+ * @return TRUE if the chain is valid. See description.
+ *
+ * @since 2.6.0
+ * @deprecated  This function will become
+ *              purple_certificate_check_signature_chain in 3.0.0
+ */
+gboolean
+purple_certificate_check_signature_chain_with_failing(GList *chain,
+		PurpleCertificate **failing);
+
+/**
  * Check that a certificate chain is valid
  *
  * Uses purple_certificate_signed_by() to verify that each PurpleCertificate
@@ -453,6 +475,8 @@ purple_certificate_signed_by(PurpleCertificate *crt, PurpleCertificate *issuer);
  *                   in the order certificate, issuer, issuer's issuer, etc.
  * @return TRUE if the chain is valid. See description.
  * @todo Specify which certificate in the chain caused a failure
+ * @deprecated  This function will be removed in 3.0.0 and replaced with
+ *              purple_certificate_check_signature_chain_with_failing
  */
 gboolean
 purple_certificate_check_signature_chain(GList *chain);

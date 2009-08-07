@@ -33,10 +33,12 @@ typedef enum {
 	JABBER_BUDDY_STATE_DND
 } JabberBuddyState;
 
+typedef struct _JabberBuddy JabberBuddy;
+
 #include "jabber.h"
 #include "caps.h"
 
-typedef struct _JabberBuddy {
+struct _JabberBuddy {
 	GList *resources;
 	char *error_msg;
 	enum {
@@ -52,7 +54,7 @@ typedef struct _JabberBuddy {
 		JABBER_SUB_BOTH    = (JABBER_SUB_TO | JABBER_SUB_FROM),
 		JABBER_SUB_REMOVE  = 1 << 4
 	} subscription;
-} JabberBuddy;
+};
 
 typedef struct _JabberAdHocCommands {
 	char *jid;
