@@ -158,6 +158,7 @@ for ARCH in ${ARCHES[@]} ; do
 				--host=$HOST \
 				--disable-avahi \
 				--disable-dbus \
+				--disable-idn \
 				--enable-gnutls=no --enable-nss=no $@
 		else
 			echo "Restoring files from previous build"
