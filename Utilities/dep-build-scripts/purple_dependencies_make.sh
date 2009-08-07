@@ -149,4 +149,4 @@ for ARCH in ppc i386 ; do
     cd ..
 done
 
-echo "Done - now run ./purple_make.sh"
+echo "Done - now run ./vv_dependencies_make.sh"
