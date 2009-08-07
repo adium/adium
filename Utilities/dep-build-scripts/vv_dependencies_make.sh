@@ -28,7 +28,8 @@ for ARCH in ppc i386 ; do
 	pushd libxml2-$ARCH
     	echo "  Configuring..."
     	"$SOURCEDIR/$LIBXML2/configure" \
-	       --prefix=$TARGET_DIR
+	       --prefix=$TARGET_DIR \
+	       --with-python=no
         echo "  Making and installing..."
     	make -j $NUMBER_OF_CORES && make install
 	popd
@@ -150,6 +151,43 @@ for ARCH in ppc i386 ; do
 	popd
 done
 
+
+for ARCH in ppc i386 ; do
+    #libNICE
+	echo "Building nice for $ARCH"
+	
+	TARGET_DIR=$TARGET_DIR_BASE-$ARCH
+
+	case $ARCH in
+		ppc) TARGET_DIR="$TARGET_DIR_PPC"
+			 export PATH="$PATH_PPC"
+			 export PKG_CONFIG_PATH="$TARGET_DIR_PPC/lib/pkgconfig"
+             export HOST="powerpc-apple-darwin"
+             export NM="nm -arch ppc "
+             export LOCAL_CFLAGS="";;
+		i386) TARGET_DIR="$TARGET_DIR_I386"
+			  export PATH="$PATH_I386"
+			  export PKG_CONFIG_PATH="$TARGET_DIR_I386/lib/pkgconfig"
+              export HOST="i386-apple-darwin9.6.0"
+              export NM="nm -arch i386 "
+              export LOCAL_CFLAGS="";;
+	esac
+
+	export CFLAGS="$LOCAL_CFLAGS $BASE_CFLAGS -arch $ARCH"
+	export LDFLAGS="$BASE_LDFLAGS -arch $ARCH"	
+	export CPPFLAGS="$CFLAGS"
+
+	mkdir nice-$ARCH >/dev/null 2>&1 || true
+    pushd nice-$ARCH
+    	echo "  Configuring nice for $ARCH..."
+        "$SOURCEDIR/$NICE/configure" \
+	       --prefix=$TARGET_DIR \
+	       --host=$HOST
+        echo "  Making and installing farsight for $ARCH..."
+    	make -j $NUMBER_OF_CORES && make install
+	popd
+done
+
 for ARCH in ppc i386 ; do
     #farsight
 	echo "Building farsight for $ARCH"
@@ -187,6 +225,7 @@ for ARCH in ppc i386 ; do
 	popd
 done
 
+
 #Do we need any of these?
 #libpng
 #libjpeg
@@ -195,3 +234,5 @@ done
 #libspeex
 #libtheora
 #taglib
+
+echo "Done - now run ./purple_make.sh"
