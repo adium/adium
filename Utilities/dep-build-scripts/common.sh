@@ -16,13 +16,14 @@ JSONLIB=json-glib-0.6.2
 GPG_ERROR=libgpg-error-1.6
 GCRYPT=libgcrypt-1.4.1
 LIBXML2=libxml2-2.7.3
-GSTREAMER=gstreamer-0.10.22
+GSTREAMER=gstreamer-0.10.24
 LIBOIL=liboil-0.3.16
-GST_PLUGINS_BASE=gst-plugins-base-0.10.22
-GST_PLUGINS_GOOD=gst-plugins-good-0.10.14
-GST_PLUGINS_BAD=gst-plugins-bad-0.10.11
+GST_PLUGINS_BASE=gst-plugins-base-0.10.23
+GST_PLUGINS_GOOD=gst-plugins-good-0.10.15
+GST_PLUGINS_BAD=gst-plugins-bad-0.10.13
 GST_PLUGINS_FARSIGHT=gst-plugins-farsight-0.12.11
-FARSIGHT=farsight2-0.0.8
+FARSIGHT=farsight2-0.0.14
+NICE=libnice-0.0.9
 
 # Directories
 if [ "x$ADIUM_BUILD_BASEDIR" = "x" ]; then
