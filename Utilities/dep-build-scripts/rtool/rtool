@@ -1,0 +1,489 @@
+#!/bin/sh
+
+#
+# Copyright (c) 2008 plumber <OpenSpecies@gnu-darwin.org>
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+#
+
+#
+#  rtool
+#  rtool - relocation tool.
+#
+#  Created by plumber on 01/01/03.
+#  Copyright 2008 OpenSpecies. All rights reserved.
+#
+#
+
+declare -r RTOOL_VERSION="1.2.5"
+
+# bool is_macho(
+#	string $file)
+function is_macho () {
+	if ! test "$1" = "" ;
+	then
+		if file $1 | grep "Mach-O" 1>/dev/null ; 
+		then
+			return 1;
+		else
+			return 0;
+		fi
+	fi
+	
+	return 0;
+}
+
+# bool is_link(
+#	string $link, string $file)
+function is_link () {
+	if ! test "$1" = "" && ! test "$2" = "" ;
+	then
+		grepLink=`otool -arch all -L $2 | grep $1 | cut -d" "  -f 1`
+		
+		if ! test "$grepLink" = "" ;
+		then
+			return 1;	
+		else
+			return 0;
+		fi
+	fi
+		
+	return 0;
+}
+
+# void link_transform(
+#	string $link2search, string $link2replace, string $binary)
+function link_transform () {
+	s="${1}"
+	r="${2}"
+	x="${3}"
+	
+	is_macho "$x"
+
+	if test "$(echo $?)" = "1" ;
+	then
+		is_link "$s" "$x"
+		
+		if test "$(echo $?)" = "1" ;
+		then
+			install_name_tool -change "$s" "$r" "$x"
+		fi
+	fi
+}
+
+# void links_exchange(
+#	list $search_links,list $replace_links , string $binary)
+function links_exchange () {
+		s_l="${1}"
+		r_l="${2}"
+		x="${3}"
+
+		if [ $(echo $s_l  | wc -w) = $(echo $r_l | wc -w) ] ;
+		then
+			i=1
+			for s in $s_l; do
+				r=$(echo $r_l | cut -d" " -f $i );
+				link_transform $s $r $x
+				let i=$i+1
+			done
+		fi
+}
+
+# void relocate_lib(
+#	string $id, string $lib)
+function relocate_lib () {
+	is_macho "${2}"
+
+	if test "$(echo $?)" = "1" ;
+	then
+		echo "${1}" "${2}"
+		install_name_tool -id "${1}" "${2}"
+	fi
+}
+
+# void frameworkize_lib(
+#	string $framework_full_root, string $framework_name, string $library)
+function frameworkize_lib () {
+	relocate_lib "${1}/${2}" "${3}"
+}
+
+# void mk_info_plist(
+#	string $path, string $name, string $version, string $str_version)
+function mk_info_plist () {
+	a="${1}"
+
+	if test "${a:0:1}" = "/" ;
+	then
+		info_plist="${a}/Info"
+	else
+		info_plist="${PWD}/${a}/Info"
+	fi
+	
+	defaults write "${info_plist}"  CFBundleDevelopmentRegion -string "English"
+	defaults write "${info_plist}"  CFBundleExecutable -string "${2}"
+	defaults write "${info_plist}"  CFBundleIdentifier -string "com.googlepages.openspecies.rtool.${2}"
+	defaults write "${info_plist}"  CFBundleInfoDictionaryVersion -string "6.0"
+	defaults write "${info_plist}"  CFBundlePackageType -string "FMWK"
+	defaults write "${info_plist}"  CFBundleShortVersionString -string "${4}"
+	defaults write "${info_plist}"  CFBundleSignature -string "????"
+	defaults write "${info_plist}"  CFBundleVersion -string "${3}"
+	defaults write "${info_plist}"  CSResourcesFileMapped -bool true
+}
+
+# void add_line_to_file(
+#	string $row, string $filename)
+function add_line_to_file () {
+	if ! test -f "${2}" ;
+	then
+		echo "${1}" > ${2}
+	else
+		echo "${1}" >> ${2}
+	fi
+}
+
+# void mk_default_lproj(
+#	string $path, string $name)
+function mk_default_lproj () {
+	english_lproj="${1}/English.lproj"
+	mkdir -p $english_lproj
+	add_line_to_file "/* Localized versions of Info.plist keys */" "${english_lproj}/InfoPlist.strings"
+	add_line_to_file "" "${english_lproj}/InfoPlist.strings"
+	add_line_to_file "CFBundleName = \"${2}\";" "${english_lproj}/InfoPlist.strings"
+	
+	chmod 644 "${english_lproj}/InfoPlist.strings"
+}
+
+# &getlib_name ()
+getlib_name () {
+	lib=$(basename $library)
+	lib_name=$(echo $lib | sed "s/[0-9]\.*//g" | sed "s/dylib//g" | tr -d '.')
+}
+
+# &getlib_version ()
+getlib_version () {
+	vers=$(echo $lib | sed "s/$lib_name//g" | sed "s/.dylib//g")
+	
+	if test "${vers:0:1}" = "." ;
+	then
+		lib_version="${vers:1:${#vers} -1}"
+	else
+		lib_version="${vers}"
+	fi
+}
+
+# &getproj_name ()
+getproj_name () {
+	proj_name="${framework_name}.subproj"
+}
+
+# &lib_id ()
+getlib_id () {
+	lib_id=$(otool -D $library | grep $lib_name | cut -d:  -f 2)
+}
+
+# void usage()
+usage() {
+	cat <<EOF
+Usage: rtool [--version|--short_version|--help|[options]]
+
+options:
+	--framework_root
+	--framework_name
+	--framework_version
+	--library
+	--rlinks_binaries (optional)   [\$LIST_SEARCH_ID(S)]:[\$LIST_REPLACE_ID(S)]
+	--rlinks_framework (optional)  [\$LIST_SEARCH_ID(S)]:[\$LIST_REPLACE_ID(S)]
+	--headers (optional)           \$LIST_OF_HEADER(S) OR \$DIR_OF_HEADER(S)
+	--headers_no_root (optional)   copy the content of a directory not the directory itself.
+	--headers_create_common (optional)
+	--builddir (optional)
+	--binaries (optional)          \$LIST_OF_BINARIE(S)
+	--manuals (optional)           \$LIST_OF_MANFILE(S)
+	
+EOF
+	exit $1
+}
+
+if test $# -eq 0 ; then
+  usage 1 1>&2
+fi
+
+while test $# -gt 0 ; do
+	case "$1" in
+		-*=*)
+		optarg=$(echo "$1" | sed 's/[-_a-zA-Z0-9]*=//')
+	;;
+	*)
+	optarg=
+	;;
+	esac
+	case $1 in
+	--framework_root=*)
+		if ! test "$optarg" = "" ;
+		then
+			framework_root=$optarg
+			framework_root_set=yes
+		fi
+	;;
+	--framework_name=*)
+		if ! test "$optarg" = "" ;
+		then
+			framework_name=$optarg
+			framework_name_set=yes
+		fi
+	;;
+	--framework_version=*)
+		if ! test "$optarg" = "" ;
+		then
+			framework_version=$optarg
+			framework_version_set=yes
+		fi
+	;;
+	--library=*)
+		if ! test "$optarg" = "" ;
+		then
+			library=$optarg
+			library_set=yes
+		fi
+	;;
+	--rlinks_framework=*)
+		if ! test "$optarg" = "" ;
+		then
+			rlinks_framework=$optarg
+			rlinks_framework_set=yes
+		fi
+	;;
+	--rlinks_binaries=*)
+		if ! test "$optarg" = "" ;
+		then
+			rlinks_binaries=$optarg
+			rlinks_binaries_set=yes
+		fi
+	;;
+	--builddir=*)
+		if ! test "$optarg" = "" ;
+		then
+			builddir=$optarg
+		else
+			builddir="build"
+		fi
+		builddir_set=yes
+	;;
+	--binaries=*)
+		if ! test "$optarg" = "" ;
+		then
+			binaries=$optarg
+			binaries_set=yes
+		fi
+	;;
+	--headers=*)
+		if ! test "$optarg" = "" ;
+		then
+			headers=$optarg
+			headers_set=yes
+		fi
+	;;
+	--headers_no_root)
+		headers_no_root_set=yes
+	;;
+	--headers_create_common)
+		headers_create_common_set=yes
+	;;
+	--manuals=*)
+		if ! test "$optarg" = "" ;
+		then
+			manuals=$optarg
+			manuals_set=yes
+		fi
+	;;
+	--short_version)
+		echo "${RTOOL_VERSION}"
+		exit 0
+	;;
+	--version)
+		cat <<EOF
+rtool ${RTOOL_VERSION}, Copyright 2008 MM Weiss. All rights reserved.
+
+This is free software; see the source for copying conditions.
+There is no warranty; not even for merchantability or fitness
+for a particular purpose.
+	
+EOF
+		exit 0
+	;;
+	--help)
+		usage 1 1>&2
+	;;
+	-h)
+		usage 1 1>&2
+	;;
+	*)
+		usage 1 1>&2
+	;;
+	esac
+	shift
+done
+
+if test "$framework_root_set" = "yes" \
+&& test "$framework_name_set" = "yes" \
+&& test "$library_set" = "yes" \
+&& test "$builddir_set" = "yes" ; then
+	
+	if ! test -f "${library}" ;
+	then
+		echo "Error: file not found : --library=${library}"
+		echo ""
+		exit 1
+	fi
+	
+	if test -L "${library}" ;
+	then
+		echo "Error: file is a symbolic link : --library=${library}"
+		echo ""
+		exit 1
+	fi
+	
+	is_macho "${library}"
+
+	if ! test "$(echo $?)" = "1" ;
+	then
+		echo "Error: file is not a Mach-O binary : --library=${library}"
+		echo ""
+		exit 1
+	fi
+	
+	getlib_name 1 1>&2
+	getlib_version 1 1>&2
+	getproj_name 1 1>&2
+	getlib_id 1 1>&2
+	
+	if ! test "$framework_version_set" = "yes" ; then
+		framework_version=${lib_version}
+	fi
+	
+	framework_bundle="${framework_name}.framework/Versions/${framework_version}"
+	framework_full_root="${framework_root}/${framework_bundle}"
+	
+	rm -Rf "${builddir}/$proj_name"
+	
+	framework_resources="${builddir}/$proj_name/${framework_bundle}/Resources"
+	mkdir -p "${framework_resources}"
+	
+	mk_info_plist "${framework_resources}" "${framework_name}" "${lib_version}" "${lib_version}"
+	mk_default_lproj "${framework_resources}" "${framework_name}"
+	
+	framework_framework="${builddir}/$proj_name/${framework_bundle}"	
+	mkdir -p "${framework_framework}" 
+	
+	cp -f "$library" "${framework_framework}/${framework_name}"
+	chmod -f 755 "${framework_framework}/${framework_name}"
+	
+	frameworkize_lib "${framework_full_root}" "${framework_name}" "${builddir}/${proj_name}/${framework_bundle}/${framework_name}"
+	
+	if test "$rlinks_framework_set" = "yes" ;
+	then
+		s=$(echo $rlinks_framework | cut -d:  -f 1 | sed "s/\[//g" | sed "s/\]//g")
+		r=$(echo $rlinks_framework | cut -d:  -f 2 | sed "s/\[//g" | sed "s/\]//g")
+		
+		links_exchange "$s" "$r" "${builddir}/${proj_name}/${framework_bundle}/${framework_name}"
+	fi
+	
+	if test "$binaries_set" = "yes" ;
+	then
+		framework_utilities="${framework_resources}/Utilities"
+		mkdir -p "${framework_utilities}" 
+		
+		for bin in $binaries; do
+			cp "$bin" "${framework_utilities}/$(basename $bin)"
+			chmod -f 755 "${framework_utilities}/$(basename $bin)"
+			
+			link_transform "${lib_id}" "${framework_full_root}/${framework_name}" "${framework_utilities}/$(basename $bin)"
+			
+			if test "$rlinks_binaries_set" = "yes" ;
+			then
+				s=$(echo $rlinks_binaries | cut -d:  -f 1 | sed "s/\[//g" | sed "s/\]//g")
+				r=$(echo $rlinks_binaries | cut -d:  -f 2 | sed "s/\[//g" | sed "s/\]//g")
+				
+				links_exchange "$s" "$r" "${framework_utilities}/$(basename $bin)"
+			fi
+		done
+	fi
+	
+	if test "$headers_set" = "yes" ;
+	then
+		framework_headers="${builddir}/$proj_name/${framework_bundle}/Headers"
+		mkdir -p "${framework_headers}" 
+		
+		for header in $headers; do
+			if test "$headers_no_root_set" = "yes" && test -d "$header" ;
+			then
+				cp -PR "$header"/* "${framework_headers}"
+			elif test -d "$header" ;
+			then
+				cp -PR "$header" "${framework_headers}/$(basename $header)"
+			else
+				cp -P "$header" "${framework_headers}/$(basename $header)"
+			fi
+		done
+		
+		if test "$headers_create_common_set" = "yes" ;
+		then
+			touch "${framework_headers}/${framework_name}.h"
+			
+			(cd ${framework_headers} && for f in `find "." | grep ".h"`; do
+				if ! test "./${framework_name}.h" = "${f}" ;
+				then
+					echo "#include <${framework_name}/${f:2:${#f}}>" >> "${framework_name}.h"
+				fi
+			done)
+		fi
+		
+		chmod -f 755 `find "${framework_headers}" -type d`
+		chmod -f 644 `find "${framework_headers}" -type f`
+	fi
+	
+	if test "$manuals_set" = "yes" ;
+	then
+		framework_documentation="${framework_resources}/Documentation"
+		mkdir -p "${framework_documentation}"
+		rm -Rf "${framework_documentation}/"*
+		
+		for manual in $manuals; do
+			if test -x /usr/X11R6/bin/rman ;
+			then
+				/usr/X11R6/bin/rman -f HTML "$manual" > "${framework_documentation}/$(basename $manual).html" 2>/dev/null
+			elif test -x rman ;
+			then
+				rman -f HTML "$manual" > "${framework_documentation}/$(basename $manual).html"  2>/dev/null
+			else
+				cp "$manual" "${framework_documentation}/$(basename $manual)"
+			fi
+		done
+		
+		chmod -f 644 `find ${framework_documentation} -type file`
+	fi
+	
+	tolinks=$(ls ${framework_framework})
+	
+	for tolink in $tolinks; do
+		if test -d "${framework_framework}/$tolink" || test "$tolink" = "$framework_name" ;
+		then
+			(cd "${builddir}/$proj_name/${framework_name}.framework" && ln -s "Versions/${framework_version}/$(basename $tolink)")
+		fi
+	done
+	(cd "${builddir}/$proj_name/${framework_name}.framework/Versions" && ln -s "${framework_version}" Current)
+else
+	usage 1 1>&2
+fi
+
+# EOF

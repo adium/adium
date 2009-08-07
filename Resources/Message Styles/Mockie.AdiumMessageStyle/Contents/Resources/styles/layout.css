@@ -1,0 +1,103 @@
+body {
+	margin: 0px 0px 0px 0px;
+}
+
+#Chat {
+	overflow: hidden;
+	padding: 0px 10px 0px 10px;
+}
+
+.incoming {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	clear: both;
+}
+  
+.outgoing {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	clear: both;
+}
+
+.topleft {
+	height: 14px;
+	float: left;
+	width: 4px;
+}
+
+.sender {
+	height: 14px;
+	margin-right: 4px;
+	overflow: hidden;
+	padding-right: 30px;
+}
+
+.buddyicon {
+	display: block;
+	width: 32px;
+	height: 32px;
+	padding: 0px;
+	text-align: center;
+}
+
+.mask {
+	width: 32px;
+	height: 32px;
+	padding: 0px;
+}
+
+.protocol {
+	float: right;
+	position: relative;
+	height: 14px;
+	top: -14px;
+	padding-right: 4px;
+	right: 0px;
+	margin-bottom: -14px;
+	word-wrap: normal;
+}
+
+.time_initial, .time_consecutive {
+	float: right;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 4px;
+}
+
+.message {
+	overflow: auto;
+	margin: 0;
+	padding: 0;
+}
+.message-next{
+}
+
+.text {
+	padding: 2px 4px;
+}
+
+.status_container {
+	padding-left: 5px;
+	padding-right: 5px;
+	clear: both;
+	margin-bottom: 5px;
+}
+
+.status_container + .status_container {
+	margin-top: -5px;
+	padding-top: 5px;
+}
+
+.status_time {
+	float: right;
+	margin: 2px 2px 0 2px;
+}
+
+.bottomdivider {
+	width: 100%;
+	position: fixed;
+	bottom: 0px;
+	margin: 0px;
+	padding: 0px;
+	left: 0px;
+}

@@ -1,0 +1,72 @@
+{
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                cancel = id;
+                okay = id;
+                preferenceChanged = id;
+            };
+            CLASS = AIListLayoutWindowController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "checkBox_drawContactBubblesWithGraadient" = NSButton;
+                "checkBox_extendedStatusVisible" = NSButton;
+                "checkBox_outlineBubbles" = NSButton;
+                "checkBox_serviceIconsVisible" = NSButton;
+                "checkBox_showGroupBubbles" = NSButton;
+                "checkBox_statusIconsVisible" = NSButton;
+                "checkBox_userIconVisible" = NSButton;
+                "fontField_contact" = JVFontPreviewField;
+                "fontField_group" = JVFontPreviewField;
+                "fontField_status" = JVFontPreviewField;
+                "popUp_contactTextAlignment" = NSPopUpButton;
+                "popUp_extendedStatusPosition" = NSPopUpButton;
+                "popUp_extendedStatusStyle" = NSPopUpButton;
+                "popUp_groupTextAlignment" = NSPopUpButton;
+                "popUp_serviceIconPosition" = NSPopUpButton;
+                "popUp_statusIconPosition" = NSPopUpButton;
+                "popUp_userIconPosition" = NSPopUpButton;
+                "slider_contactLeftIndent" = NSSlider;
+                "slider_contactRightIndent" = NSSlider;
+                "slider_contactSpacing" = NSSlider;
+                "slider_groupTopSpacing" = NSSlider;
+                "slider_outlineWidth" = NSSlider;
+                "slider_userIconSize" = NSSlider;
+                "tabViewItem_advancedContactBubbles" = NSTabViewItem;
+                "tabView_preferences" = NSTabView;
+                "textField_contactLeftIndent" = NSTextField;
+                "textField_contactRightIndent" = NSTextField;
+                "textField_contactSpacing" = NSTextField;
+                "textField_groupTopSpacing" = NSTextField;
+                "textField_layoutName" = NSTextField;
+                "textField_outlineWidthIndicator" = NSTextField;
+                "textField_userIconSize" = NSTextField;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                chooseFontWithFontPanel = id;
+                selectFont = id;
+            };
+            CLASS = JVFontPreviewField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTextField;
+        },
+                {
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        }
+    );
+    IBVersion = 1;
+}

@@ -1,0 +1,80 @@
+body {
+	top: -10px;
+}
+		
+.incoming {
+	color: black;
+}
+  
+.outgoing {
+	color: black;
+}
+             
+.sender {
+	color: white;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+.mask {
+	background-color: rgba(128,128,128,0.2);
+}
+
+.protocol {
+	color: rgba(255,255,255,0.5);
+	font-weight: bold;
+	font-size: 11px;
+}
+            
+.time {
+	font-weight: normal;
+}
+
+.status_container {
+	color: black;
+}
+
+.bottomdivider {
+	border-bottom: 1px solid #BEBEBE;
+}
+
+a, a:link {
+	text-decoration: none;
+}
+
+.context .message {
+	background: rgba(255,255,255,0.6);
+	color: rgba(0,0,0,0.6);
+}
+
+.context .time_consecutive, .context .time_initial {
+	color: rgba(0,0,0,0.6);
+}
+
+.context .time_consecutive + div {
+	border-top: 1px solid rgba(0,0,0,0.2);
+}
+
+.context .buddyicon {
+	background: rgba(0,0,0,0.2);
+}
+
+.context .topleft {
+	background: no-repeat url(../images/context/topleft.png);
+}
+
+.context .sender {
+	background: rgba(0,0,0,0.2);
+}
+
+.context .protocol
+{
+	background: no-repeat url(../images/context/topright.png) right;
+}
+
+.context + .actual {
+	border-top: 4px solid rgba(0,0,0,0.2);
+	padding-top: 5px;
+}
+
+img.scaledToFitImage{ width:auto; }

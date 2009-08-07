@@ -1,0 +1,94 @@
+{
+    IBClasses = (
+        {
+            CLASS = AIAlternatingRowTableView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSTableView; 
+        }, 
+        {
+            CLASS = AICompletingTextField; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = AITextFieldWithDraggingDelegate; 
+        }, 
+        {
+            CLASS = AILocalizationButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            CLASS = AILocalizationTextField; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "view_anchorToLeftSide" = NSView; 
+                "view_anchorToRightSide" = NSView; 
+                "window_anchorOnLeftSide" = NSWindow; 
+                "window_anchorOnRightSide" = NSWindow; 
+            }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {CLASS = AIPlasticButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = AIPlasticMinusButton; LANGUAGE = ObjC; SUPERCLASS = AIPlasticButton; }, 
+        {CLASS = AIPlasticPlusButton; LANGUAGE = ObjC; SUPERCLASS = AIPlasticButton; }, 
+        {
+            CLASS = AITextFieldWithDraggingDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dragDelegate = id; }; 
+            SUPERCLASS = NSTextField; 
+        }, 
+        {
+            ACTIONS = {closeWindow = id; }; 
+            CLASS = AIWindowController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSButton; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {CLASS = NSTextField; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
+        {CLASS = NSWindow; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
+        {
+            ACTIONS = {
+                cancelBlockSheet = id; 
+                didBlockSheet = id; 
+                removeSelection = id; 
+                runBlockSheet = id; 
+                setPrivacyOption = id; 
+            }; 
+            CLASS = RAFBlockEditorWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                accountCaption = NSTextField; 
+                accountCol = NSTableColumn; 
+                accountText = NSTextField; 
+                blockButton = NSButton; 
+                buddyCol = NSTableColumn; 
+                buddyText = NSTextField; 
+                cancelButton = NSButton; 
+                field = AICompletingTextField; 
+                "label_account" = NSTextField; 
+                "label_privacyLevel" = NSTextField; 
+                "popUp_accounts" = NSPopUpButton; 
+                "popUp_sheetAccounts" = NSPopUpButton; 
+                sheet = NSWindow; 
+                stateChooser = NSPopUpButton; 
+                "tabView_contactList" = NSTabView; 
+                table = NSTableView; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = AIWindowController; 
+        }, 
+        {
+            CLASS = RAFDragArrayController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {tableView = NSTableView; }; 
+            SUPERCLASS = NSArrayController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

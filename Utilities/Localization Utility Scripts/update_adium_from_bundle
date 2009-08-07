@@ -1,0 +1,204 @@
+#!/bin/sh
+###############
+#
+# Usage: update_adium_from_bundle SOURCE_BUNDLE_PATH LANGUAGE_NAME
+#        for example:
+#            ~/bin/update_adium_from_bundle Desktop/Adium_French.app French
+#
+# Set REPO to your Adium repository
+#
+# This script does not cover new localizations initially; they must first be
+# added via Xcode
+################
+REPO=~/adium
+
+SOURCE=$1
+
+########
+# Functions
+########
+
+# Update a nib. First argument is the name of the nib,
+# with the .nib extension. Second argument is the destination folder.
+# The nib must already exist in the destination.
+update_nib()
+{
+    for file in $1/*.nib ; do
+        cp $file $2/$1
+    done
+}
+
+# Copy all nibs and other files in the current directory to a given destination
+loc_copy()
+{
+    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';'
+    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/keyedobjects.nib" "$1/{}" ';'
+    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/objects.xib" "$1/{}" ';'
+
+    for file in * ; do
+        if [ -f  "$file" ] ; then
+            cp "$file" "$1"
+        fi
+    done
+}
+
+silent_pushd()
+{
+    pushd "$1" >/dev/null
+}
+
+silent_popd()
+{
+    popd >/dev/null
+}
+
+#####
+# Begin!
+#####
+
+update_language()
+{
+    #first parameter to update_language is the language
+    LANG=$1.lproj
+    DEST_LANG=$LANG
+    
+    echo "+++++ Updating $LANG"
+
+    silent_pushd "$SOURCE/Contents"
+	
+	silent_pushd "Resources"
+		# Main resources
+		silent_pushd $LANG
+			loc_copy "$REPO/Resources/$DEST_LANG"
+		silent_popd
+    
+		# Emoticons
+       if [ -e  "Emoticons" ] ; then
+		echo "Emoticons"
+         silent_pushd Emoticons
+			silent_pushd Default.AdiumEmoticonset
+				if [ -e  "Resources/$LANG" ] ; then
+				    silent_pushd Resources/$LANG
+					cp InfoPlist.strings "$REPO/Resources/Emoticons/Default.AdiumEmoticonSet/Resources/$DEST_LANG"
+				    silent_popd
+				fi
+			silent_popd
+		  silent_popd
+	    else
+	      echo "No Emoticons found for $LANG"
+	    fi
+	
+		# Scripts
+       if [ -e "Scripts" ] ; then
+		 echo "Scripts"
+		 silent_pushd Scripts
+			silent_pushd "System Statistics.AdiumScripts"
+		        if [ -e  "Resources/$LANG" ] ; then
+    				silent_pushd Resources/$LANG
+	   				    cp InfoPlist.strings "$REPO/Resources/Scripts/System Statistics.AdiumScripts/Resources/$DEST_LANG"
+				    silent_popd
+				fi
+			silent_popd
+		 silent_popd
+        else
+          echo "No Scripts found for $LANG"
+        fi
+	silent_popd
+
+	#back to Contents
+		
+	silent_pushd Frameworks
+	   echo "Adium Framework"
+	       if [ -e  "Adium.framework/Versions/A/Resources/$LANG" ] ; then
+		      silent_pushd Adium.framework/Versions/A/Resources/$LANG
+			     loc_copy "$REPO/Frameworks/Adium Framework/Resources/$DEST_LANG"
+		      silent_popd
+		fi
+		
+		#No localized resources
+		#silent_pushd AIHyperlinks.framework/Versions/A/Resources/$LANG
+		#	loc_copy "$REPO/Frameworks/AIHyperlinks Framework/Resources/$LANG"
+		#silent_popd
+		
+		echo "AIUtilities.framework"
+        if [ -e  "AIUtilities.framework/Versions/A/Resources/$LANG" ] ; then
+		  silent_pushd AIUtilities.framework/Versions/A/Resources/$LANG
+			loc_copy "$REPO/Frameworks/AIUtilities Framework/Resources/$DEST_LANG"
+		  silent_popd
+        fi
+        
+#warning: This needs to go upstream...
+        if [ -e  "Growl-WithInstaller.framework/Versions/A/Resources/$LANG" ] ; then
+    		silent_pushd Growl-WithInstaller.framework/Versions/A/Resources/$LANG
+	   		  loc_copy "$REPO/Frameworks/Growl-WithInstaller.framework/Resources/$DEST_LANG"
+		    silent_popd
+        fi
+
+#warning: This needs to go upstream...		
+        if [ -e  "Sparkle.framework/Versions/A/Resources/$LANG" ] ; then
+    		silent_pushd Sparkle.framework/Versions/A/Resources/$LANG
+	   		  loc_copy "$REPO/Frameworks/Sparkle.framework/Resources/$DEST_LANG"
+    		silent_popd
+		fi
+	silent_popd
+
+	#back to Contents
+	
+	# Plugins
+	silent_pushd PlugIns
+		if [ -e  "Purple.AdiumPlugin/Contents/Frameworks/AdiumLibpurple.framework/Versions/A/Resources/$LANG" ] ; then
+		silent_pushd Purple.AdiumPlugin/Contents/Frameworks/AdiumLibpurple.framework/Versions/A/Resources/$LANG
+			loc_copy "$REPO/Plugins/Purple Service/$DEST_LANG"
+		silent_popd
+		fi
+		
+		if [ -e "WebKit Message View.AdiumPlugin/Contents/Resources/$LANG" ] ; then
+		silent_pushd "WebKit Message View.AdiumPlugin/Contents/Resources/$LANG"
+			loc_copy "$REPO/Plugins/WebKit Message View/$DEST_LANG"
+		silent_popd
+		fi
+		
+	silent_popd
+    
+	#back to Contents
+
+	silent_pushd Library/Spotlight
+        if [ -e  "AdiumSpotlightImporter.mdimporter/Contents/Resources/$LANG" ] ; then
+		  silent_pushd AdiumSpotlightImporter.mdimporter/Contents/Resources/$LANG
+			 loc_copy "$REPO/Other/Adium Spotlight Importer/$DEST_LANG"
+		  silent_popd
+		fi
+	silent_popd
+}
+
+if [ "$2" = "all" ]  ; then
+# fr_CA not included
+
+    for lang in \
+        ca \
+        cs \
+        da \
+        de \
+        en_AU \
+        en_CA \
+        es \
+        fi \
+        fr \
+        is \
+        it \
+        ja \
+        nb \
+        nl \
+        pl \
+        pt_BR \
+        ru \
+        sv \
+        tr \
+        zh_CN \
+        zh_TW \
+    ; do
+        update_language $lang
+    done
+else
+    update_language $2
+fi

@@ -1,0 +1,223 @@
+/*
+---------------------------------------------------------------------------
+  PROJECT: 	Adium Message Style
+
+FILE NAME: 	minimal_mod.AdiumMessageStyle    
+
+     NAME: 	minimal_mod
+           	[http://caenim.com/public/minimal_mod.AdiumMessageStyle.zip]
+
+ DESIGNER: 	John Muhl [http://caenim.com/]
+
+  CREATED: 	2005.04.25 [first local version]
+
+REVISIONS: 	1.0.2005.05.03 [first public version]
+           	new image background image [back_l.png]
+           	changed default font to Lucida Grande
+           	removed all existing color variants
+           	created 67 new color variants (lots contributed by amy b.)
+           	removed consecutive message timestamp
+           	changed sender name to ALL CAPS
+           	changed all colors to "web safe"
+           	increased user icons to 36x36 px
+           	adjusted line height in messages
+           	adjusted line height between sender and initial message
+           	minor adjustments to text padding in messages
+           
+           	1.1.2005.09.18
+           	very (VERY!) minor changes to the line height & hyperlink decoration
+           	corrected a few errors in the variants (fixes contributed by amy b.)
+           
+           	1.2.2005.10.04
+           	corrected zany user icon placement throughout:
+           	fixed problem where user icons appeared diagonally
+           	fixed vertical alignment problems with user icons
+           	decreased user icon size to 24x24 px
+           	removed forceable capitalization of user names
+           	fixed vertical alignment problem in the status message
+           
+           	1.3.2005.11.18
+           	added service indicator to initial time stamp
+           	lightened the dotted line between messages
+           	removed all reference to specific typefaces; improves compatibility with Adium and user selected fonts
+           	more minor changes to hyperlink decoration
+           	updated: Black vs ... color variants
+           	updated: Blue vs ... color variants
+           	updated: Green vs ... color variants
+           	updated: Grey vs ... color variants
+           	updated: Orange vs ... color variants
+           	updated: Pink vs ... color variants
+           	updated: Purple vs ... color variants
+           	updated: Red vs ... color variants
+           	updated: White vs ... color variants
+           	updated: Yellow vs ... color variants
+           	added a "Conversation started at ... " header
+
+			1.4.2006.06.06
+			fixed problem with six digit time stamps
+			removed a bunch of cruft; thanks to Catfish_Man for the catch
+                
+     TODO: 	wait for new issues to arise via users or personal use.
+           	update for user with XtrasManager [currently does not work with message styles].
+           	hyperlink decoration tweaks [?].
+                                 
+ BASED ON: 	Minimal Adium Message Style [default package 0.8 b12 version]
+           	check http://www.adiumxtras.com/index.php?a=xtras&xtra_id=1576 for full credits
+---------------------------------------------------------------------------*/
+body
+{
+	color: #333333;
+	background-color: #ffffff;
+	background-image: url("images/back_l.png");
+	margin: 0;
+	background-repeat: repeat-y;
+	line-height: 1.4em;
+}
+
+p
+{
+	margin: 0;
+	padding: 0;
+}
+
+a { 
+	border-bottom: 1px dashed;
+	text-decoration: none; }
+a:hover{
+	border-bottom: 1px solid;
+}
+
+.convo_container
+{
+	width: 100%;
+	padding-bottom: 6px;
+}
+
+.container
+{
+	padding-top: 4px;
+	border-top: 1px dotted #ccc;
+}
+
+.container_next { padding-top: 2px; }
+
+.container, .container_next
+{
+	padding-left: 16px;
+	padding-right: 8px;
+	padding-bottom: 0px;
+	margin-left: 0px;
+	padding-bottom: 5px;
+}
+
+.fromstatus
+{
+	float: left;
+	padding-right: 7px;
+	position: relative;
+	top: 2px;
+}
+
+.next_label
+{
+	font-size: 16px;
+	font-family: Helvetica;
+	font-weight: normal;
+	position: relative;
+	top: 0px;
+	left: -12px;
+	text-align: right;
+	width: 10px;
+	float: left;
+	margin-right: -10px;
+}
+
+.sender { text-align: left; }
+
+.sender, .fromstatus
+{
+	font-size: 11px;
+	font-family: Helvetica;
+	font-weight: bold;
+}
+
+.sender, .next_label { overflow: hidden; }
+
+.time_initial
+{
+	color: #9F9F9F;
+	float: right;
+	text-align: right;
+	padding-left: 6px;
+	font-size: 9px;
+	font-family: Helvetica;
+}
+
+.message {
+	overflow: auto;
+}
+.context_message { color: #999; }
+
+.message, .context_message
+{
+	width: auto;
+	text-align: left;
+}
+
+.indent { text-indent: 12px; }
+.clear { clear: both; }
+
+.buddyicon img
+{
+	float: left;
+	margin-top: 2px;
+	margin-right: 6px;
+	width: 24px;
+	height: 24px;
+	border-color: #CCCCCC;
+	border-width: 1px;
+}
+
+.buddyicon img[src="Incoming/buddy_icon.png"], .buddyicon img[src="Outgoing/buddy_icon.png"] { display: none; }
+
+.placeholder {
+	margin-left: 30px;
+}
+
+.placeholder[visible="Incoming/buddy_icon.png"], .placeholder[visible="Outgoing/buddy_icon.png"] {
+	margin-left: 0;
+}
+
+.placeholder_next {
+	margin-left: 30px;
+}
+
+.placeholder_next[visible="Incoming/buddy_icon.png"], .placeholder_next[visible="Outgoing/buddy_icon.png"] {
+	margin-left: 0;
+}
+
+img
+{
+	vertical-align: middle;
+	top: -3px;
+}
+
+#Chat { overflow: hidden; }
+
+img.scaledToFitImage{ width:auto; }
+
+#header{ 
+    position: fixed; 
+    	top: 0px; 
+    	left: 0px; 
+    	right: 0px; 
+    margin: 0; 
+    padding: 5px; 
+    overflow: auto; 
+    color: white; 
+    font-family: sans-serif; 
+    text-align: center; 
+    font-size: 10px;
+    background: rgba(0,0,0,.85); 
+    z-index: 999; 
+}

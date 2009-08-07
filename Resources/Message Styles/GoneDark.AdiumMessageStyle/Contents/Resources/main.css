@@ -1,0 +1,155 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: url(images/background.jpg) repeat-y center top #000 fixed;
+}
+
+#header {
+	display: block;
+	height: 50px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background: url(images/backgroundHeader.png) repeat-x  top;
+	z-index: 100;
+}
+
+#headerImage {
+	background: url(images/backgroundUserImage.png) no-repeat;
+	width: 32px;
+	height: 32px;
+	margin-left: 20px;
+	margin-top: 4px;
+	padding: 3px;
+	float: left;
+}
+
+#headerChatStarted {
+	color: #ccc;
+	font-size: 10px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 6px;
+}
+
+#headerChatStarted h2 {
+	color: #86ce4c;
+	font-size: 19px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+
+#headerSpace {
+	height: 50px;
+}
+
+.userName {
+	font-size: 1.4em;
+	font-weight: bold;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: -3px;
+	/*text-shadow: 1px 0px 0px #000*/
+	text-shadow: 0px -1px 5px #000;	
+}
+
+.service {
+	position: absolute;
+	right: 20px;
+	font-size: .8em;
+	color: #fff;
+	opacity: .4;
+}
+
+.message1 .userName, .message1 .date {
+	color: #86ce4c;
+	
+}
+
+.content {
+	border-top: 3px solid #86ce4c;
+	border-bottom: 1px solid #86ce4c;
+	color: #fff;
+	line-height: 1.3em;
+	background: url(images/transGrey.png);
+	word-wrap: break-word;
+}
+
+.message1 a {
+	color: #b4fe2b;
+	text-decoration: underline;
+}
+
+.message1 a:hover {
+	color: #f2fd0d;
+}
+
+.gloss {
+	background: url(images/gloss.png) no-repeat center 4px;
+}
+
+.contentText {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 60px;
+	margin-left: 20px;
+}
+
+.divider {
+	background: url(images/divider.png) repeat-x  center;
+	height: 2px;
+}
+
+.shadow {
+	background: url(images/messageShadow.png) repeat-x  top;
+	height: 9px;
+}
+
+.date {
+	float: right;
+	font-size: .9em;
+	margin-right: 20px;
+	padding-top: 5px;
+	text-shadow: #000 1px 1px 0px;
+}
+
+.message2 .userName, .message2 .date {
+	color: #42b6ff;
+}
+
+.message2 a {
+	color: #42b6ff;
+	text-decoration: underline;
+}
+
+.message2 a:hover {
+	color: #73ddfe;
+}
+
+.message2 .content {
+	border-top: 3px solid #42b6ff;
+	border-bottom: 1px solid #42b6ff;
+}
+
+.status {
+	color: #fff;
+	text-align: center;
+	margin-bottom: .3em;
+	opacity: .7;
+	font-size: .9em;
+	font-weight: bold;
+}
+
+#Chat {
+	overflow: hidden;
+	padding-top: 50px;
+	padding-bottom: 6px;
+	margin-bottom: 0px;
+}
+
+.context {
+	opacity: .6;
+}
+
+img.scaledToFitImage{ width:auto; }
