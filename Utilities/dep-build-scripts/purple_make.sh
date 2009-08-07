@@ -150,12 +150,12 @@ for ARCH in ${ARCHES[@]} ; do
 				--disable-perl \
 				--enable-debug \
 				--disable-static --enable-shared \
+				--enable-vv=yes \
 				--with-krb4 \
 				--enable-cyrus-sasl \
 				--prefix=$TARGET_DIR \
 				--with-static-prpls="$PROTOCOLS" --disable-plugins \
 				--host=$HOST \
-				--disable-gstreamer \
 				--disable-avahi \
 				--disable-dbus \
 				--enable-gnutls=no --enable-nss=no $@
