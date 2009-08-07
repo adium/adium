@@ -88,10 +88,10 @@
 #define YAHOO_STATUS_TYPE_MOBILE "mobile"
 
 #define YAHOO_CLIENT_VERSION_ID "4194239"
-#define YAHOO_CLIENT_VERSION "9.0.0.2152"
+#define YAHOO_CLIENT_VERSION "9.0.0.2162"
 
 #define YAHOOJP_CLIENT_VERSION_ID "4194239"
-#define YAHOOJP_CLIENT_VERSION "9.0.0.2152"
+#define YAHOOJP_CLIENT_VERSION "9.0.0.2162"
 
 #define YAHOO_CLIENT_USERAGENT "Mozilla/5.0"
 
@@ -167,7 +167,7 @@ typedef struct _YahooPersonalDetails {
 	} phone;
 } YahooPersonalDetails;
 
-struct yahoo_data {
+typedef struct {
 	PurpleConnection *gc;
 	int fd;
 	guchar *rxqueue;
@@ -239,7 +239,7 @@ struct yahoo_data {
 	int yahoo_p2p_server_watcher;
 	GHashTable *sms_carrier;	/* sms carrier data */
 	guint yahoo_p2p_server_timeout_handle;
-};
+} YahooData;
 
 #define YAHOO_MAX_STATUS_MESSAGE_LENGTH (255)
 

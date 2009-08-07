@@ -50,7 +50,7 @@ void yahoo_c_join(PurpleConnection *gc, GHashTable *data);
 char *yahoo_get_chat_name(GHashTable *data);
 void yahoo_c_invite(PurpleConnection *gc, int id, const char *msg, const char *name);
 
-void yahoo_conf_leave(struct yahoo_data *yd, const char *room, const char *dn, GList *who);
+void yahoo_conf_leave(YahooData *yd, const char *room, const char *dn, GList *who);
 
 void yahoo_chat_goto(PurpleConnection *gc, const char *name);
 
