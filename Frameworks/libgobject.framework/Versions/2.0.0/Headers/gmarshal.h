@@ -3,7 +3,7 @@
 
 G_BEGIN_DECLS
 
-/* VOID:VOID (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:26) */
+/* VOID:VOID (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:26) */
 extern void g_cclosure_marshal_VOID__VOID (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -11,7 +11,7 @@ extern void g_cclosure_marshal_VOID__VOID (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-/* VOID:BOOLEAN (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:27) */
+/* VOID:BOOLEAN (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:27) */
 extern void g_cclosure_marshal_VOID__BOOLEAN (GClosure     *closure,
                                               GValue       *return_value,
                                               guint         n_param_values,
@@ -19,7 +19,7 @@ extern void g_cclosure_marshal_VOID__BOOLEAN (GClosure     *closure,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
 
-/* VOID:CHAR (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:28) */
+/* VOID:CHAR (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:28) */
 extern void g_cclosure_marshal_VOID__CHAR (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -27,7 +27,7 @@ extern void g_cclosure_marshal_VOID__CHAR (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-/* VOID:UCHAR (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:29) */
+/* VOID:UCHAR (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:29) */
 extern void g_cclosure_marshal_VOID__UCHAR (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -35,7 +35,7 @@ extern void g_cclosure_marshal_VOID__UCHAR (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:INT (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:30) */
+/* VOID:INT (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:30) */
 extern void g_cclosure_marshal_VOID__INT (GClosure     *closure,
                                           GValue       *return_value,
                                           guint         n_param_values,
@@ -43,7 +43,7 @@ extern void g_cclosure_marshal_VOID__INT (GClosure     *closure,
                                           gpointer      invocation_hint,
                                           gpointer      marshal_data);
 
-/* VOID:UINT (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:31) */
+/* VOID:UINT (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:31) */
 extern void g_cclosure_marshal_VOID__UINT (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -51,7 +51,7 @@ extern void g_cclosure_marshal_VOID__UINT (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-/* VOID:LONG (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:32) */
+/* VOID:LONG (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:32) */
 extern void g_cclosure_marshal_VOID__LONG (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -59,7 +59,7 @@ extern void g_cclosure_marshal_VOID__LONG (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-/* VOID:ULONG (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:33) */
+/* VOID:ULONG (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:33) */
 extern void g_cclosure_marshal_VOID__ULONG (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -67,7 +67,7 @@ extern void g_cclosure_marshal_VOID__ULONG (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:ENUM (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:34) */
+/* VOID:ENUM (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:34) */
 extern void g_cclosure_marshal_VOID__ENUM (GClosure     *closure,
                                            GValue       *return_value,
                                            guint         n_param_values,
@@ -75,7 +75,7 @@ extern void g_cclosure_marshal_VOID__ENUM (GClosure     *closure,
                                            gpointer      invocation_hint,
                                            gpointer      marshal_data);
 
-/* VOID:FLAGS (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:35) */
+/* VOID:FLAGS (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:35) */
 extern void g_cclosure_marshal_VOID__FLAGS (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -83,7 +83,7 @@ extern void g_cclosure_marshal_VOID__FLAGS (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:FLOAT (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:36) */
+/* VOID:FLOAT (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:36) */
 extern void g_cclosure_marshal_VOID__FLOAT (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -91,7 +91,7 @@ extern void g_cclosure_marshal_VOID__FLOAT (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:DOUBLE (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:37) */
+/* VOID:DOUBLE (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:37) */
 extern void g_cclosure_marshal_VOID__DOUBLE (GClosure     *closure,
                                              GValue       *return_value,
                                              guint         n_param_values,
@@ -99,7 +99,7 @@ extern void g_cclosure_marshal_VOID__DOUBLE (GClosure     *closure,
                                              gpointer      invocation_hint,
                                              gpointer      marshal_data);
 
-/* VOID:STRING (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:38) */
+/* VOID:STRING (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:38) */
 extern void g_cclosure_marshal_VOID__STRING (GClosure     *closure,
                                              GValue       *return_value,
                                              guint         n_param_values,
@@ -107,7 +107,7 @@ extern void g_cclosure_marshal_VOID__STRING (GClosure     *closure,
                                              gpointer      invocation_hint,
                                              gpointer      marshal_data);
 
-/* VOID:PARAM (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:39) */
+/* VOID:PARAM (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:39) */
 extern void g_cclosure_marshal_VOID__PARAM (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -115,7 +115,7 @@ extern void g_cclosure_marshal_VOID__PARAM (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:BOXED (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:40) */
+/* VOID:BOXED (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:40) */
 extern void g_cclosure_marshal_VOID__BOXED (GClosure     *closure,
                                             GValue       *return_value,
                                             guint         n_param_values,
@@ -123,7 +123,7 @@ extern void g_cclosure_marshal_VOID__BOXED (GClosure     *closure,
                                             gpointer      invocation_hint,
                                             gpointer      marshal_data);
 
-/* VOID:POINTER (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:41) */
+/* VOID:POINTER (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:41) */
 extern void g_cclosure_marshal_VOID__POINTER (GClosure     *closure,
                                               GValue       *return_value,
                                               guint         n_param_values,
@@ -131,7 +131,7 @@ extern void g_cclosure_marshal_VOID__POINTER (GClosure     *closure,
                                               gpointer      invocation_hint,
                                               gpointer      marshal_data);
 
-/* VOID:OBJECT (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:42) */
+/* VOID:OBJECT (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:42) */
 extern void g_cclosure_marshal_VOID__OBJECT (GClosure     *closure,
                                              GValue       *return_value,
                                              guint         n_param_values,
@@ -139,7 +139,7 @@ extern void g_cclosure_marshal_VOID__OBJECT (GClosure     *closure,
                                              gpointer      invocation_hint,
                                              gpointer      marshal_data);
 
-/* VOID:UINT,POINTER (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:45) */
+/* VOID:UINT,POINTER (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:45) */
 extern void g_cclosure_marshal_VOID__UINT_POINTER (GClosure     *closure,
                                                    GValue       *return_value,
                                                    guint         n_param_values,
@@ -147,7 +147,7 @@ extern void g_cclosure_marshal_VOID__UINT_POINTER (GClosure     *closure,
                                                    gpointer      invocation_hint,
                                                    gpointer      marshal_data);
 
-/* BOOL:FLAGS (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:46) */
+/* BOOL:FLAGS (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:46) */
 extern void g_cclosure_marshal_BOOLEAN__FLAGS (GClosure     *closure,
                                                GValue       *return_value,
                                                guint         n_param_values,
@@ -156,7 +156,7 @@ extern void g_cclosure_marshal_BOOLEAN__FLAGS (GClosure     *closure,
                                                gpointer      marshal_data);
 #define g_cclosure_marshal_BOOL__FLAGS	g_cclosure_marshal_BOOLEAN__FLAGS
 
-/* STRING:OBJECT,POINTER (/Sources/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:47) */
+/* STRING:OBJECT,POINTER (/Users/evands/adium/Utilities/dep-build-scripts/source/glib-2.16.6/gobject/gmarshal.list:47) */
 extern void g_cclosure_marshal_STRING__OBJECT_POINTER (GClosure     *closure,
                                                        GValue       *return_value,
                                                        guint         n_param_values,
