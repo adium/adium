@@ -644,6 +644,16 @@
 		34B4B5A40708B049002C4C6D /* ESDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B4B5A20708B049002C4C6D /* ESDebugController.m */; };
 		34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B588A0058D833A00E7EF0D /* ExceptionHandling.framework */; };
 		34B5E2600A7C94D3005186E6 /* AILogDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 34B5E25E0A7C94D3005186E6 /* AILogDateFormatter.m */; };
+		34B8936B102BCDAB000ABB8E /* libxml.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89366102BCDAB000ABB8E /* libxml.framework */; };
+		34B8936C102BCDAB000ABB8E /* libgstreamer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89367102BCDAB000ABB8E /* libgstreamer.framework */; };
+		34B8936D102BCDAB000ABB8E /* libgstinterfaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */; };
+		34B8936E102BCDAB000ABB8E /* libgstfarsight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89369102BCDAB000ABB8E /* libgstfarsight.framework */; };
+		34B8936F102BCDAB000ABB8E /* libgstbase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B8936A102BCDAB000ABB8E /* libgstbase.framework */; };
+		34B89477102BCDB4000ABB8E /* libxml.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89366102BCDAB000ABB8E /* libxml.framework */; };
+		34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89367102BCDAB000ABB8E /* libgstreamer.framework */; };
+		34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */; };
+		34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B89369102BCDAB000ABB8E /* libgstfarsight.framework */; };
+		34B8947B102BCDB4000ABB8E /* libgstbase.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 34B8936A102BCDAB000ABB8E /* libgstbase.framework */; };
 		34B9C7920A255DCE00CEA8AE /* LogViewerDateFilter.nib in Resources */ = {isa = PBXBuildFile; fileRef = 34B9C7910A255DCE00CEA8AE /* LogViewerDateFilter.nib */; };
 		34BC8F7B0ACA3AAC00562745 /* AIScannerDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 34BC8F790ACA3AAC00562745 /* AIScannerDebug.m */; };
 		34BD9D4A053146CC000AB133 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F59DB6AD033EB74801A8010A /* main.m */; };
@@ -1687,6 +1697,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				34B89477102BCDB4000ABB8E /* libxml.framework in Copy Frameworks */,
+				34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */,
+				34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */,
+				34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */,
+				34B8947B102BCDB4000ABB8E /* libgstbase.framework in Copy Frameworks */,
 				118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */,
 				633404710F9C18EF003C77A9 /* AIUtilities.framework in Copy Frameworks */,
 				639DF9D80F97E678003C9A32 /* AdiumLibpurple.framework in Copy Frameworks */,
@@ -3513,6 +3528,11 @@
 		34B82C80085A85D800864531 /* AIChatController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIChatController.m; path = Source/AIChatController.m; sourceTree = "<group>"; };
 		34B82C89085A87B000864531 /* AdiumMessageEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AdiumMessageEvents.h; path = Source/AdiumMessageEvents.h; sourceTree = "<group>"; };
 		34B82C8A085A87B000864531 /* AdiumMessageEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AdiumMessageEvents.m; path = Source/AdiumMessageEvents.m; sourceTree = "<group>"; };
+		34B89366102BCDAB000ABB8E /* libxml.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libxml.framework; path = Frameworks/libxml.framework; sourceTree = "<group>"; };
+		34B89367102BCDAB000ABB8E /* libgstreamer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstreamer.framework; path = Frameworks/libgstreamer.framework; sourceTree = "<group>"; };
+		34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstinterfaces.framework; path = Frameworks/libgstinterfaces.framework; sourceTree = "<group>"; };
+		34B89369102BCDAB000ABB8E /* libgstfarsight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstfarsight.framework; path = Frameworks/libgstfarsight.framework; sourceTree = "<group>"; };
+		34B8936A102BCDAB000ABB8E /* libgstbase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstbase.framework; path = Frameworks/libgstbase.framework; sourceTree = "<group>"; };
 		34B9194A062DEC29004F1223 /* AIPurpleAIMAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIPurpleAIMAccountViewController.m; path = "Plugins/Purple Service/AIPurpleAIMAccountViewController.m"; sourceTree = "<group>"; };
 		34B9194B062DEC29004F1223 /* AIPurpleAIMAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIPurpleAIMAccountViewController.h; path = "Plugins/Purple Service/AIPurpleAIMAccountViewController.h"; sourceTree = "<group>"; };
 		34B9197F062DEC99004F1223 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = "Plugins/Purple Service/en.lproj/ESPurpleAIMAccountView.nib"; sourceTree = "<group>"; };
@@ -4785,6 +4805,11 @@
 				633405990F9C2C00003C77A9 /* AIUtilities.framework in Frameworks */,
 				3485D8EB09EB446900232CC4 /* Adium.framework in Frameworks */,
 				118A44500FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
+				34B8936B102BCDAB000ABB8E /* libxml.framework in Frameworks */,
+				34B8936C102BCDAB000ABB8E /* libgstreamer.framework in Frameworks */,
+				34B8936D102BCDAB000ABB8E /* libgstinterfaces.framework in Frameworks */,
+				34B8936E102BCDAB000ABB8E /* libgstfarsight.framework in Frameworks */,
+				34B8936F102BCDAB000ABB8E /* libgstbase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4928,6 +4953,11 @@
 		1172FCA10CDAA8DE00B8E233 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				34B89366102BCDAB000ABB8E /* libxml.framework */,
+				34B89367102BCDAB000ABB8E /* libgstreamer.framework */,
+				34B89368102BCDAB000ABB8E /* libgstinterfaces.framework */,
+				34B89369102BCDAB000ABB8E /* libgstfarsight.framework */,
+				34B8936A102BCDAB000ABB8E /* libgstbase.framework */,
 				118A444F0FEEA828008153C0 /* libjson-glib.framework */,
 				1172FBC30CDAA8D400B8E233 /* libglib.framework */,
 				1172FBC40CDAA8D400B8E233 /* libgmodule.framework */,
