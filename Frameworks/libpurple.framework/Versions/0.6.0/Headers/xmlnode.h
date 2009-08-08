@@ -53,10 +53,10 @@ struct _xmlnode
 	XMLNodeType type;		/**< The type of the node. */
 	char *data;			/**< The data for the node. */
 	size_t data_sz;			/**< The size of the data. */
-	struct _xmlnode *parent;	/**< The parent node or @c NULL.*/
-	struct _xmlnode *child;		/**< The child node or @c NULL.*/
-	struct _xmlnode *lastchild;	/**< The last child node or @c NULL.*/
-	struct _xmlnode *next;		/**< The next node or @c NULL. */
+	xmlnode *parent;            /**< The parent node or @c NULL.*/
+	xmlnode *child;             /**< The child node or @c NULL.*/
+	xmlnode *lastchild;         /**< The last child node or @c NULL.*/
+	xmlnode *next;              /**< The next node or @c NULL. */
 	char *prefix;               /**< The namespace prefix if any. */
 	GHashTable *namespace_map;  /**< The namespace map. */
 };

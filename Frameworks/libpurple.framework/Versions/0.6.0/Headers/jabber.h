@@ -164,6 +164,8 @@ struct _JabberStream
 	time_t old_idle;
 
 	JabberID *user;
+	JabberBuddy *user_jb;
+
 	PurpleConnection *gc;
 	PurpleSslConnection *gsc;
 
@@ -214,6 +216,8 @@ struct _JabberStream
 	void *unregistration_user_data;
 
 	gboolean vcard_fetched;
+	/* Timer at login to push updated avatar */
+	guint vcard_timer;
 
 	/* Entity Capabilities hash */
 	char *caps_hash;
@@ -251,7 +255,6 @@ struct _JabberStream
 	guint max_srv_rec_idx;
 
 	/* BOSH stuff */
-	gboolean use_bosh;
 	PurpleBOSHConnection *bosh;
 
 	/**

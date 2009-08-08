@@ -37,5 +37,4 @@ gboolean jabber_bosh_connection_is_ssl(PurpleBOSHConnection *conn);
 void jabber_bosh_connection_connect(PurpleBOSHConnection *conn);
 void jabber_bosh_connection_close(PurpleBOSHConnection *conn);
 void jabber_bosh_connection_send_raw(PurpleBOSHConnection *conn, const char *data);
-void jabber_bosh_connection_refresh(PurpleBOSHConnection *conn);
 #endif /* PURPLE_JABBER_BOSH_H_ */
