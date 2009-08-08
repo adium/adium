@@ -216,10 +216,49 @@ struct _PurpleBlistUiOps
 							 const char *alias, const char *name);
 	void (*request_add_group)(void);
 
+	/**
+	 * This is called when a node has been modified and should be saved.
+	 *
+	 * Implementation of this UI op is OPTIONAL. If not implemented, it will
+	 * be set to a fallback function that saves data to blist.xml like in
+	 * previous libpurple versions.
+	 *
+	 * @attrib node    The node which has been modified.
+	 *
+	 * @since 2.6.0.
+	 */
+	void (*save_node)(PurpleBlistNode *node);
+
+	/**
+	 * Called when a node is about to be removed from the buddy list.
+	 * The UI op should update the relevant data structures to remove this
+	 * node (for example, removing a buddy from the group this node is in).
+	 *
+	 * Implementation of this UI op is OPTIONAL. If not implemented, it will
+	 * be set to a fallback function that saves data to blist.xml like in
+	 * previous libpurple versions.
+	 *
+	 * @attrib node  The node which has been modified.
+	 * @since 2.6.0.
+	 */
+	void (*remove_node)(PurpleBlistNode *node);
+
+	/**
+	 * Called to save all the data for an account. If the UI sets this,
+	 * the callback must save the privacy and buddy list data for an account.
+	 * If the account is NULL, save the data for all accounts.
+	 *
+	 * Implementation of this UI op is OPTIONAL. If not implemented, it will
+	 * be set to a fallback function that saves data to blist.xml like in
+	 * previous libpurple versions.
+	 *
+	 * @attrib account  The account whose data to save. If NULL, save all data
+	 *                  for all accounts.
+	 * @since 2.6.0.
+	 */
+	void (*save_account)(PurpleAccount *account);
+
 	void (*_purple_reserved1)(void);
-	void (*_purple_reserved2)(void);
-	void (*_purple_reserved3)(void);
-	void (*_purple_reserved4)(void);
 };
 
 #ifdef __cplusplus
