@@ -193,7 +193,14 @@ static void ZombieKiller_Signal(int i)
 		[[NSUserDefaults standardUserDefaults] setBool:YES
 												forKey:@"Adium 1.2.4 deleted blist.xml"];
 	}
-
+	
+	//Set the gstreamer plugin path
+	setenv("GST_PLUGIN_PATH", 
+		   [[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation],
+		   1);
+	AILog(@"Set GST plugin path to %s",
+		  [[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation]);
+	
 	purple_core_set_ui_ops(adium_purple_core_get_ops());
 	purple_eventloop_set_ui_ops(adium_purple_eventloop_get_ui_ops());
 
