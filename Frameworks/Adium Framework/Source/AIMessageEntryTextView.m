@@ -1120,11 +1120,12 @@
 - (void)positionCharacterCounter
 {
 	NSRect visRect = [[self superview] bounds];
-	NSRect counterRect = [characterCounter frame];
+	NSSize counterSize = characterCounter.string.size;
 	
 	//NSMaxY([self frame]) is necessary because visRect's height changes after you start typing. No idea why.
-	[characterCounter setFrameOrigin:NSMakePoint(NSMaxX(visRect) - NSWidth(counterRect) - INDICATOR_RIGHT_PADDING,
-												 NSMidY([self frame]) - NSHeight(counterRect)/2)];
+	[characterCounter setFrameOrigin:NSMakePoint(NSMaxX(visRect) - counterSize.width - INDICATOR_RIGHT_PADDING,
+												 NSMidY([self frame]) - (counterSize.height)/2)];
+	[characterCounter setFrameSize:counterSize];
 	[[self enclosingScrollView] setNeedsDisplay:YES];
 }
 
