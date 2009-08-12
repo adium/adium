@@ -72,7 +72,7 @@
 
 @property (readwrite, nonatomic, retain) id accountData;
 
-@property (readwrite, nonatomic, retain) id <FileTransferDelegate> delegate;
+@property (readwrite, nonatomic, assign) id <FileTransferDelegate> delegate;
 
 @property (readonly, nonatomic) BOOL isStopped;
 
