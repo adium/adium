@@ -64,6 +64,8 @@
 
 - (void)testURIBorder:(NSString *)URIString {
 	[self testLaxContext:@":%@" withURI:URIString];
+	[self testLaxContext:@"—%@" withURI:URIString];
+	[self testLaxContext:@"–%@" withURI:URIString];
 	[self testLaxContext:@"check it out:%@" withURI:URIString];
 	[self testLaxContext:@"%@:" withURI:URIString];
 	[self testLaxContext:@"%@." withURI:URIString];
