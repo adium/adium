@@ -368,7 +368,6 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		//Always increment the loop
 		if (currentLocationNeedsUpdate) {
 			*currentLocation += 1;
-			originalEmoticonLocation = *currentLocation;
 		}
 		
 		[candidateEmoticons release];
