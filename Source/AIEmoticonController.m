@@ -276,19 +276,29 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 				/* If the emoticon would end the string except for whitespace, newlines, or punctionation at the end, or it begins the string after removing
 				 * whitespace, newlines, or punctuation at the beginning, it is acceptable even if the previous conditions weren't met.
 				 */
-				static NSCharacterSet *endingTrimSet = nil;
-				if (!endingTrimSet) {
+				NSCharacterSet *endingTrimSet = nil;
+				static NSMutableDictionary *endingSetDict = nil;
+				if(!endingSetDict) {
+					endingSetDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+				}
+				if (!(endingTrimSet = [endingSetDict objectForKey:replacementString])) {
 					NSMutableCharacterSet *tempSet = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 					[tempSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					endingTrimSet = [tempSet immutableCopy];
+					[tempSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+					//remove any characters *in* the replacement string from the trimming set
+					[tempSet removeCharactersInString:replacementString];
+					[endingSetDict setObject:[tempSet immutableCopy] forKey:replacementString];
 					[tempSet release];
+					endingTrimSet = [endingSetDict objectForKey:replacementString];
 				}
 
 				NSString	*trimmedString = [messageString stringByTrimmingCharactersInSet:endingTrimSet];
 				NSUInteger trimmedLength = [trimmedString length];
 				if (trimmedLength == (originalEmoticonLocation + textLength)) {
+					// Replace at end of string
 					acceptable = YES;
-				} else if ((originalEmoticonLocation - (messageStringLength - trimmedLength)) == 0) {
+				} else if ([trimmedString characterAtIndex:0] == [replacementString characterAtIndex:0]) {
+					// Replace at start of string
 					acceptable = YES;					
 				}
 			}
@@ -358,6 +368,7 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 		//Always increment the loop
 		if (currentLocationNeedsUpdate) {
 			*currentLocation += 1;
+			originalEmoticonLocation = *currentLocation;
 		}
 		
 		[candidateEmoticons release];
