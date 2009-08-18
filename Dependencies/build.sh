@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+NUMBER_OF_CORES=`sysctl -n hw.activecpu`
+
 ##
 # status <string>
 #
@@ -206,7 +208,7 @@ build_pkgconfig() {
 	fi
 	
 	status "Building and installing pkg-config"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
@@ -234,7 +236,7 @@ build_gettext() {
 	fi
 	
 	status "Building and installing gettext"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 
 	# Undo all of our patches... goodbye!
@@ -277,7 +279,7 @@ build_glib() {
 	fi
 	
 	status "Building and installing glib"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	# Revert the patches
@@ -333,7 +335,7 @@ build_meanwhile() {
 	fi
 	
 	status "Building and installing Meanwhile"
-	CFLAGS="$FLAGS" LDFLAGS="$FLAGS" make
+	CFLAGS="$FLAGS" LDFLAGS="$FLAGS" make -j $NUMBER_OF_CORES
 	make install
 	
 	# Undo all the patches
@@ -365,7 +367,7 @@ build_gadugadu() {
 	fi
 	
 	status "Building and installing Gadu-Gadu"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
@@ -396,7 +398,7 @@ build_sipe() {
 	fi
 	
 	status "Building and installing SIPE"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
@@ -426,7 +428,7 @@ build_gfire() {
 	fi
 	
 	status "Building and installing Gfire"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
@@ -448,7 +450,7 @@ build_intltool() {
 	fi
 	
 	status "Building and installing intltool"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
@@ -558,7 +560,7 @@ build_libpurple() {
 	fi
 	
 	status "Building and installing libpurple"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	status "Copying internal libpurple headers"
@@ -585,14 +587,74 @@ build_libpurple() {
 	quiet popd
 }
 
+build_libxml2() {
+	prereq "xml2" \
+		"ftp://xmlsoft.org:21//libxml2/libxml2-sources-2.7.3.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/xml2"
+	
+	if needsconfigure $@; then
+		status "Configuring xml2"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--with-python=no \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing xml2"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# gstreamer plugins
+#
+build_gst_plugins() {
+	prereq "oil" \
+		"http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz"
+	prereq "gst-plugins-base" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
+	prereq "gst-plugins-good" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-good-0.10.15.tar.gz"
+	prereq "gst-plugins-bad" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-bad-0.10.13.tar.gz"
+	prereq "gst-plugins-farsight" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-farsight-0.12.11.tar.gz"
+
+	quiet pushd "$ROOTDIR/source/oil"
+	
+	if needsconfigure $@; then
+		status "Configuring oil"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gstreamer"
+	warning "Building too much! Patch the Makefile"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+
 ##
 # gstreamer
 #
 build_gstreamer() {
+    build_libxml2 $@
+
 	prereq "gstreamer" \
-		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.23.tar.gz"
-	prereq "gstreamer-plugins-base" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.24.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gstreamer"
 	
@@ -608,11 +670,14 @@ build_gstreamer() {
 	
 	status "Building and installing gstreamer"
 	warning "Building too much! Patch the Makefile"
-	make
+	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
+	
+	build_gst_plugins
 }
+
 
 ##
 # make_po_files
