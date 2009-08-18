@@ -230,7 +230,7 @@
 			} else if ([value respondsToSelector:@selector(absoluteString)]) {
 				value = [(NSURL *)value absoluteString];
 			}
-			[string appendFormat:@" %@=%@", key, [self quotedXMLAttributeValueStringForString:value]];
+			[string appendFormat:@" %@=\"%@\"", key, value];
 		}
 	}
 	if ((![contents count]) && (selfCloses)) {

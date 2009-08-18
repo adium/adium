@@ -246,7 +246,6 @@
 	}
 
 	g_free(normalized);
-#endif
 	
 	//Yahoo doesn't have an explicit mobile state; instead the status message is automatically set to indicate mobility.
 	if (statusMessageString && ([statusMessageString isEqualToString:@"I'm on SMS"] ||

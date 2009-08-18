@@ -432,10 +432,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					linkString = fixedLinkString;
 				}
 				
-				[string appendString:linkString];
+				[string appendString:[linkString stringByEscapingForXMLWithEntities:nil]];
 				if (!thingsToInclude.simpleTagsOnly) {
 					[string appendString:@"\" title=\""];
-					[string appendString:linkString];
+					[string appendString:[linkString stringByEscapingForXMLWithEntities:nil]];
 				}
 				
 				NSString *classString = [attributes objectForKey:AIElementClassAttributeName];
