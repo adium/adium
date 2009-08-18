@@ -93,7 +93,7 @@
 		if (!startSet) {
 			NSMutableCharacterSet *mutableStartSet = [[NSMutableCharacterSet alloc] init];
 			[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:@"\"'.,:;<?!-@"]];
+			[mutableStartSet formUnionWithCharacterSet:[NSCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"\"'.,:;<?!-@%C%C", 0x2014, 0x2013]]];
 			startSet = [[NSCharacterSet characterSetWithBitmapRepresentation:[mutableStartSet bitmapRepresentation]] retain];
 			[mutableStartSet release];
 		}
@@ -245,7 +245,7 @@
 	unsigned long scannedLocation = m_scanLocation;
 	
     // scan upto the next whitespace char so that we don't unnecessarity confuse flex
-    // otherwise we end up validating urls that look like this "http://www.adiumx.com/ <--cool"
+    // otherwise we end up validating urls that look like this "http://www.adium.im/ <--cool"
 	[self _scanString:m_scanString charactersFromSet:startSet intoRange:nil fromIndex:&scannedLocation];
 
 	// main scanning loop
@@ -375,10 +375,10 @@
 	}
 
 	//for each SHMarkedHyperlink, add the proper URL to the proper range in the string.
-	while((markedLink = [self nextURI])) {
+	for(markedLink in self) {
 		NSURL *markedLinkURL;
 		_didFindLinks = YES;
-		if((markedLinkURL = [markedLink URL])){
+		if((markedLinkURL = [markedLink URL])) {
 			[linkifiedString addAttribute:NSLinkAttributeName
 									value:markedLinkURL
 									range:[markedLink range]];
@@ -399,6 +399,24 @@
 - (void)setScanLocation:(unsigned int)location
 {
 	m_scanLocation = location;
+}
+
+#pragma mark NSFastEnumeration
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
+{
+	AHMarkedHyperlink	*currentLink;
+	
+	NSUInteger fastEnumCount = 0;
+	while (fastEnumCount < len && nil != (currentLink = [self nextURI])) {
+		stackbuf[fastEnumCount] = currentLink;
+		++fastEnumCount;
+	}
+	
+	state->state = (nil == currentLink)? (NSUInteger)currentLink : NSNotFound;
+	state->itemsPtr = stackbuf;
+	state->mutationsPtr = (unsigned long *)self;
+	
+	return fastEnumCount;
 }
 
 #pragma mark Below Here There Be Private Methods

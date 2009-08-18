@@ -42,7 +42,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 
 @class AHMarkedHyperlink;
 
-@interface AHHyperlinkScanner : NSObject
+@interface AHHyperlinkScanner : NSObject <NSFastEnumeration>
 {
 	NSDictionary				*m_urlSchemes;
 	NSString					*m_scanString;

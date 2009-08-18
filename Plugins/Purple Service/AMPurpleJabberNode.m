@@ -21,6 +21,12 @@ static unsigned iqCounter = 0;
 @property (readwrite, retain, nonatomic) NSArray *itemsArray;
 @end
 
+static CFArrayCallBacks nonretainingArrayCallbacks = {
+	.version = 0,
+	.copyDescription = (CFArrayCopyDescriptionCallBack)CFCopyDescription,
+	.equal = (CFArrayEqualCallBack)CFEqual,
+};
+
 @implementation AMPurpleJabberNode
 
 static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **packet, gpointer this) {
@@ -131,7 +137,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 																						 name:queryName ? [NSString stringWithUTF8String:queryName] : nil
 																				   connection:self.gc];
 						// propagate delegates
-						newnode.delegates = [[self.delegates mutableCopy] autorelease];
+						newnode.delegates = [NSMakeCollectable(CFArrayCreateMutableCopy(kCFAllocatorDefault, /*capacity*/ 0, (CFArrayRef)self.delegates)) autorelease];
 						[newItems addObject:newnode];
 						// check if we're a conference service
 						if ([[self jid] rangeOfString:@"@"].location == NSNotFound) { // we can't be one when we have an @
@@ -173,7 +179,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 		self.node = _node;
 		self.name = _name;
 		self.gc = _gc;
-		self.delegates = [NSMutableArray array];
+		self.delegates = [NSMakeCollectable(CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &nonretainingArrayCallbacks)) autorelease];
 		
 		purple_signal_connect(jabber, "jabber-receiving-xmlnode", self,
                               PURPLE_CALLBACK(AMPurpleJabberNode_received_data_cb), self);
@@ -197,7 +203,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	copy.name = self.name;
 	copy.gc = self.gc;
 
-	copy.delegates = [NSMutableArray array];
+	copy.delegates = [NSMakeCollectable(CFArrayCreateMutable(kCFAllocatorDefault, /*capacity*/ 0, &nonretainingArrayCallbacks)) autorelease];
 	copy.features = self.features;
 	copy.identities = self.identities;
 	copy.itemsArray = self.itemsArray;
