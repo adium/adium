@@ -40,9 +40,9 @@ def lib_path_to_framework_and_version(library_path):
     return (library_name, 'A')
   # Note: these styles are named after where I noticed them, not necessarily
   # where they originate. -RAF
-  regexes = [r'([A-Za-z0-9_-]*)-([0-9.]*)$', #apr style
-             r'([A-Za-z0-9_-]*[a-zA-Z])\.([0-9.]*)$', #gnu style
-             r'([A-Za-z0-9_-]*[a-zA-Z])([0-9.]*)$', #sqlite style
+  regexes = [r'([A-Za-z0-9_-]*)-([0-9\.]*)$', #apr style
+             r'([A-Za-z0-9_-]*[a-zA-Z])\.([0-9\.]*)$', #gnu style
+             r'([A-Za-z0-9_-]*[a-zA-Z])([0-9\.]*)$', #sqlite style
              ]
   for regex in regexes:
     match = re.match(regex, library_name)
