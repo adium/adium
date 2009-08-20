@@ -1,0 +1,161 @@
+{
+    IBClasses =     (
+                {
+            CLASS = AIAutoScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScrollView;
+        },
+                {
+            ACTIONS =             {
+                cancel = id;
+                okay = id;
+                statusControlChanged = id;
+            };
+            CLASS = AIEditStateWindowController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "box_idle" = NSBox;
+                "box_separatorLine" = NSBox;
+                "box_state" = NSBox;
+                "box_statusMessage" = NSBox;
+                "box_title" = NSBox;
+                "checkBox_cancel" = NSButton;
+                "checkBox_muteSounds" = NSButton;
+                "checkBox_okay" = NSButton;
+                "checkBox_save" = NSButton;
+                "checkBox_silenceGrowl" = NSButton;
+                "checkbox_autoReply" = NSButton;
+                "checkbox_customAutoReply" = NSButton;
+                "checkbox_idle" = NSButton;
+                "label_state" = NSTextField;
+                "label_statusMessage" = NSTextField;
+                "label_title" = NSTextField;
+                "popUp_state" = NSPopUpButton;
+                "scrollView_autoReply" = AIAutoScrollView;
+                "scrollView_statusMessage" = AIAutoScrollView;
+                "stepper_idleHours" = NSStepper;
+                "stepper_idleMinutes" = NSStepper;
+                target = id;
+                "textField_idleHours" = NSTextField;
+                "textField_idleMinutes" = NSTextField;
+                "textField_title" = NSTextField;
+                "textView_autoReply" = AISendingTextView;
+                "textView_statusMessage" = AISendingTextView;
+            };
+            SUPERCLASS = AIWindowController;
+        },
+                {
+            CLASS = AILocalizationTextField;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "view_anchorToLeftSide" = NSView;
+                "view_anchorToRightSide" = NSView;
+                "window_anchorOnLeftSide" = NSWindow;
+                "window_anchorOnRightSide" = NSWindow;
+            };
+            SUPERCLASS = NSTextField;
+        },
+                {
+            ACTIONS =             {
+                pasteAsRichText = id;
+                scrollPageDown = id;
+                scrollPageUp = id;
+            };
+            CLASS = AIMessageEntryTextView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = AISendingTextView;
+        },
+                {
+            ACTIONS =             {
+                sendContent = id;
+            };
+            CLASS = AISendingTextView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                target = id;
+            };
+            SUPERCLASS = NSTextView;
+        },
+                {
+            CLASS = AISmartStepper;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSStepper;
+        },
+                {
+            ACTIONS =             {
+                closeWindow = id;
+            };
+            CLASS = AIWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSButtonCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSActionCell;
+        },
+                {
+            ACTIONS =             {
+                adiumPrint = id;
+                didAdjustSubviews = RBSplitView;
+                prefsWindowWillClose = "SS_PrefsController";
+                toggleFindPanel = id;
+                willAdjustSubviews = RBSplitView;
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSTextField;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSWindowController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = RBSplitSubview;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = RBSplitView;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = RBSplitSubview;
+        },
+                {
+            CLASS = "SS_PrefsController";
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                delegate = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

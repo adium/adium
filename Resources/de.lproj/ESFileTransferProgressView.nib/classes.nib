@@ -1,0 +1,50 @@
+{
+    IBClasses = (
+        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = AIRolloverButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {delegate = id; }; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {
+            ACTIONS = {openFileAction = id; revealAction = id; stopResumeAction = id; }; 
+            CLASS = ESFileTransferProgressRow; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {owner = id; view = ESFileTransferProgressView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {toggleDetails = id; }; 
+            CLASS = ESFileTransferProgressView; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "box_primaryControls" = NSBox; 
+                "box_transferStatusFrame" = NSBox; 
+                "button_icon" = NSButton; 
+                "button_reveal" = AIRolloverButton; 
+                "button_stopResume" = AIRolloverButton; 
+                "imageView_destination" = NSButton; 
+                "imageView_source" = NSButton; 
+                owner = ESFileTransferProgressRow; 
+                progressIndicator = NSProgressIndicator; 
+                "textField_destination" = NSTextField; 
+                "textField_detailsLabel" = NSTextField; 
+                "textField_fileName" = NSTextField; 
+                "textField_rate" = NSTextField; 
+                "textField_source" = NSTextField; 
+                "twiddle_details" = NSButton; 
+                "view_details" = NSView; 
+            }; 
+            SUPERCLASS = NSView; 
+        }, 
+        {
+            ACTIONS = {reveal = id; stopResume = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }
+    ); 
+    IBVersion = 1; 
+}

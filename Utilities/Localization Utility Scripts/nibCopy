@@ -1,0 +1,10 @@
+#!/bin/sh
+#
+#################################
+# Copies the contents of all nibs in the current directory to $1
+#################################
+#
+destination="$1"
+find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';'
+find . '(' -name "*.nib" ')' -prune -execdir cp "{}/keyedobjects.nib" "$1/{}" ';'
+

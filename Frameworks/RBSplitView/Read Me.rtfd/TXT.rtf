@@ -1,0 +1,272 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fswiss\fcharset77 Helvetica-Bold;\f2\fswiss\fcharset77 Helvetica-Oblique;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue255;\red255\green0\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+
+\f0\fs24 \cf0 {{\NeXTGraphic rb.png \width2560 \height2560
+}¬}\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+\cf0 \
+Rainer Brockerhoff\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\qc
+
+\f1\b \cf0 RBSplitView version 1.1.4 \'d1 September 1st, 2006
+\f0\b0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What is RBSplitView?\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 \
+It's a replacement for NSSplitView. There are some serious limitations with NSSplitView if you need to limit subview's sizes, expand or collapse subviews programmatically or by double-clicking, or resize the split view frequently. IMHO the general structure and delegate calls of NSSplitView, a legacy from NeXTstep, are at the root of these problems. So RBSplitView is 
+\f2\i not
+\f0\i0  a drop-in replacement for NSSplitView, although some methods are similar.\
+\
+RBSplitView has special content views \'d1 RBSplitSubviews \'d1 that handle details of subview limitations and properties. So there's less or no work to be done by the delegate. RBSplitView also has built-in support for nesting any number of levels, and automatically generates a two-axis thumb to resize in two dimensions.\
+\
+The IB palette for RBSplitView isn't the best, as many details of writing palettes for container views aren't properly documented... still, it mostly works and gets a little better with each release. Be especially careful with Undo, Copy, and Paste. I recommend 
+\f2\i always
+\f0\i0  working in outline view. This will change in Leopard, with the new Interface Builder, at the cost of backwards compatibility...\
+\
+You can use RBSplitView\'d5s object or source code in any form for no fee provided some conditions are met; see details at the end of this document.\
+\
+RBSplitView has been tested on Mac OS X 10.3.9 and 10.4.7 but may not work correctly (or at all) with earlier versions. It seems to work correctly on the Leopard preview, but I'll certainly release a Leopard-only version as soon as it comes out officially.\
+\
+Thanks to Dan Wood, Steve Gehrman, Brad Miller, Mike Ash and several others for helping with debugging and/or making lots of excellent feature requests!\
+The growing list of adopters can be seen at {\field{\*\fldinst{HYPERLINK "http://www.brockerhoff.net/src/rbs.html"}}{\fldrslt http://www.brockerhoff.net/src/rbs.html}}. Be sure to e-mail me when you adopt RBSplitView, and I'll include you.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 How to use:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - If you have used an older version before, run IB, go to the Tool->Palette->Palette Preferences window, and Remove the previous RBSplitView palette. Then quit IB.\
+- Rebuild (if you have changed anything).\
+- The recommended way:\
+	- Include the entire RBSplitView project as a subproject in your own project\
+	- Add the libRBSplitView.a static library to the appropriate target\
+	- Add the libRBSplitView.a static library as a dependency in your target\
+	- Add the RBSplitView\'d5s project \'d2source\'d3\'cafolder to your user headers search path.\
+- Alternatively, you could also:\
+	- include the prebuilt libRBSplitView.a static library into your project (be sure to use the Release version), as well as the RBSplitView/RBSplitSubview.h files, or\
+	- include the RBSplitView/RBSplitSubview.h and .m files, as well as the RBSplitViewPrivateDefines.h file, in your project (not really recommended), or\
+	- include the prebuilt RBSplitView.framework framework into your project (only if you really like frameworks; I don\'d4t). The framework is meant to be included within applications, it\'d5s not set up to work in the standard /Frameworks folders.\
+- Double-click on the RBSplitView.palette item in \'d2Products\'d3 (this will let IB know about the palette). Alternatively, you can copy it to ~/Library/Palettes.\
+- Read the documentation! Then read it again! Both of them; reading the comments in the header files is also recommended.\
+- Check out the Sample App code and nib file.\
+- Ask me if you don't understand something :-). My AIM is rainerbrockerhoff@mac.com. My e-mail is {\field{\*\fldinst{HYPERLINK "mailto:rainer@brockerhoff.net"}}{\fldrslt \cf2 \ul \ulc2 rainer@brockerhoff.net}}. There's also a support forum on my website: {\field{\*\fldinst{HYPERLINK "http://www.brockerhoff.net/"}}{\fldrslt \cf2 \ul \ulc2 http://www.brockerhoff.net/bb/viewforum.php?f=9}}.\
+- Please report all bugs promptly; see my contact info above. If I don\'d5t know about it, I can't fix it. Don\'d5t hesitate to send in suggestions.\
+- If you thought it necessary to subclass RBSplitView, or to change anything in the source, please tell me why.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 Tips, tricks and FAQs:
+\f0\b0 \
+- Look at the end of the \'d2Programming Topics\'d3 file! All these items have been moved there.\
+\
+==========================================\
+
+\f1\b New in 1.1.4:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Various small optimizations, bug and documentation fixes.\
+- The Creative Commons license version was upgraded from 2.0 to 2.5.\
+- The framework and library are now universal.\
+- The project is now set up for optimum use with Xcode 2.4. Global build options are now in a .xcconfig file, and all options have been optimized and tweaked. Warnings are now more restrictive and several variable names have been changed to avoid hiding global declarations. Both debug and release versions are now prebuilt, to make it easier to include RBSplitView as a subproject within your project.\
+- The sample app now shows the recommended way to restore divider settings; the logic to do so is now more robust.\
+- The sample app now shows how to expand/collapse with animation when double-clicking a divider.\
+- New -[RBSplitSubview canShrink] and -[RBSplitSubview canExpand] methods.\
+- If you move a divider and several immediately adjacent subviews in that direction are collapsed or already at their minimum, these will now be pushed aside.\
+- RBSplitViews should now behave correctly when inside an NSScrollView. There's a new -[RBSplitView isInScrollView] method to check for that.\
+- The IB palette now shows proper version information.\
+- Everything now behaves correctly if the RBSplitView and any scrollbar inside it overlap the window's grow box. To make that possible, the -[RBSplitSubview  changeDimensionBy:mayCollapse:] method (which was previously - and incorrectly - documented as having an extra setToMinimum: argument) now has an extra leads: argument.\
+- Dragging a divider by an auxiliary drag view now works even if that view is inside a nested RBSplitView.\
+- Dragging a metal window by the background now works correctly; or rather, it now 
+\f2\i doesn\'d5t
+\f0\i0  drag if you mouse-down on an opaque subview.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.1.3:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Small bug and documentation fixes.\
+- Fixed a crashing bug when dragging dividers under certain conditions.\
+- Fixed a bug which happened only when expanding the leading subview and the window simultaneously while the trailing subview had a minimum size which was larger than the distance to the right screen edge and if the name for the current phase of the moon in Egyptian had an odd number of hieroglyphs... well, something like that.\
+- A new method, -[RBSplitView drawDivider:inRect:betweenView:andView:] is now available for subclassers.\
+- A new delegate method, splitView:willDrawSubview:inRect: makes it easier to draw a frame inside subviews.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.1.2:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - The splitView:changedFrameOf:from:to: delegate method wasn't being called for all subviews when opening a new window; this has been fixed.\
+- You no longer need to restore RBSplitView state explicitly if you set an autosaveName in Interface Builder, it will be restored automatically.\
+- Nested RBSplitViews are now restored correctly when calling restoreState:YES, if you have implemented splitView:wasResizedFrom:to: in the delegate.\
+- Small optimizations here and there, including in the license.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.1.1:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Expanded the documentation and documented some 1.1 methods that had been omitted.\
+- A new delegate method, splitView:shouldHandleEvent:inDivider:betweenView:andView:, allows the delegate to selectively handle mouse-down events in dividers.; another new delegate method, splitView:cursorRect:forDivider: allows the delegate to selectively change cursor rects for dividers. These should allow you to have more complex dividers.\
+- A new delegate method, splitView:shouldResizeWindowForDivider:betweenView:andView:willGrow:, allows the delegate to decide whether, while a divider is being dragged, it should resize the trailing subview or the containing window.\
+- The parameters passed to the splitView:changedFrameOf:from:to: delegate method are now more reliable, and the method is called only when the frame actually changes.\
+- The splitView:dividerForPoint: delegate method gained an extra parameter, the signature is now splitView:dividerForPoint:inSubview:. See the sample app for an example.\
+- A new -[RBSplitView isDragging] method allows you to check if a divider is being dragged, or if an animation is in progress. You could use this to postpone complex view updates.\
+- Fixed a bug where the actual divider count didn\'d5t take hidden subviews into account.\
+- Fixed a bug in -[RBSplitView adjustSubviewsExcepting:] where the excepted subview was incorrectly collapsed.\
+- Adjusting subviews should now give more consistent results in unfavorable circumstances.\
+- Reduced flicker for complex subviews during divider dragging.\
+- The RBSplitView state was being saved continuously while dragging a divider or animating a subview, now it\'d5s saved only after concluding the action. This should be faster for complex nested views.\
+- You now can select both 8x8 and 9x9 pixels as divider images in Interface Builder, and the previous 8x8 image has been sharpened to be more similar to the 9x9 image, which is the same used by NSSplitView. You must re-select the 8x8 divider in IB for all your RBSplitViews to get the new image.\
+- Restored a disclaimer in the licensing terms which was inadvertently removed in 1.1.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.1:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Revised and expanded the documentation.\
+- Project files have been reorganized into folders.\
+- Reorganized target dependencies to reduce bundle sizes and download size.\
+- A new pair of RBSplitView methods, arrayWithStates and restoreStatesFromArray:, allows you to take a snapshot of a view\'d5s state (including nested subviews) and restore it later.\
+- You can now globally alter the cursors used by calling +[RBSplitView setCursor:toCursor:]. \
+- A new delegate method, splitView:dividerForPoint:, makes it possible to implement alternate drag views (like the dragging tab in Tiger Mail). See the sample app for an example.\
+- A new delegate method, splitView:changedFrameOf:from:to:, makes it easier to keep auxiliary views aligned with certain RBSplitSubviews. See the sample app for an example.\
+- There are two new delegate methods, willAdjustSubviews: and didAdjustSubviews:, which unsurprisingly are called just before and after adjusting subviews.\
+- A new -[RBSplitView addSubview:atPosition:] method makes it easier to insert subviews.\
+- You can now hide and unhide RBSplitSubviews. Hiding a subview makes it vanish as far as redrawing is considered. This is different from collapsing in that one of the adjacent dividers also vanishes, and no delegate methods are called. Hiding is not available from the Interface Builder inspector though. See the sample app for an example.\
+- If a RBSplitSubview is collapsed while one of its subviews is the current first responder, it will now try to set the first responder to nil. This will avoid leaking focus rings outside the RBSplitView.\
+- A RBSplitView nested inside another as the single subview is now adjusted correctly.\
+- Nested RBSplitViews will now also inform the delegate of a size change; previously, only the outer RBSplitView would do that.\
+- A crashing bug in nib files saved in pre-10.2 format has been fixed.\
+- There are new methods to collapse/expand subviews with animation while keeping their contents static.\
+- All changes to RBSplitViews and RBSplitSubviews in Interface Builder are now undoable.\
+- Tabbing to the next key view in the Interface Builder inspectors now works correctly for all fields.\
+- There's a new option to set a transparent, 1x1 pixel divider image in Interface Builder.\
+- RBSplitSubview, RBSplitView and their outlets and actions are now shown correctly in Interface Builder\'d5s class outline view.\
+- Fixed a bug where the dimension could be incorrectly displayed for horizontal RBSplitViews in Interface Builder.\
+- You can now set the identifier for non-nested RBSplitView in the Interface Builder palette; this may help with debugging.\
+- There are new \'d2Current\'d3 buttons in the RBSplitSubview inspector panel, to set minimum or maximum dimensions to the current dimension.\
+- Prebinding is no longer turned off for the framework, so you can now use it with both prebound and non-prebound applications without getting a warning.\
+- The license is now changed from a modified BSD license to the equivalent Creative Commons Attribution License, Version 2.0. Makes little or no difference in practice but I get to display the cool CC logo ;-).\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.0.4:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Version numbers in source files are again correct; I forgot to bump them for 1.0.3.\
+- You can now collapse and expand subviews with animation, although only a single subview may be animated at a time. There are several new RBSplitSubview and RBSplitView methods, mostly related to this, and a new RBSplitView delegate method.\
+- The SampleApp now demonstrates animation and some of the subviews were tweaked to test or demonstrate more features.\
+- Fixed a bug in the IBPalette where clicking \'d2Adjust enclosed view\'d3 and some other actions could mangle nested enclosed views. This bug and several others fixed in previous versions may have mangled your nib file. Check out already saved nib files: switch to outline mode and see if there are any spurious subviews (like NSCornerViews) or incorrect sizes. You may have to completely redo the subviews in such a case; sorry for the mix-up.\
+- Fixed a bug in -[RBSplitView adjustSubviews] which could resize subviews inaccurately under rare circumstances.\
+- In the IBPalette, clicking \'d2Adjust enclosed view\'d3 is now undoable.\
+- In the IBPalette, dragging a RBSplitView divider is now undoable, marks the document as changed, and subviews should now be properly resized when doing so.  \
+- Both RBSplitViews and RBSplitSubviews now include more information in their - description methods, to make debugging easier.\
+- Documentation and source code comments have been revised and updated.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.0.3:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - The IBPalette now appears to work correctly in the Tiger betas, some visual glitches excepted. I\'d5m still working on this whenever possible.\
+- The -[RBSplitSubview setDimension:] method now works correctly.\
+- RBSplitSubview dimensions are now more carefully controlled when collapsing and expanding, even in nested RBSplitViews.\
+- Collapsing and expanding RBSplitSubviews with equal maximum and minimum dimensions now doesn\'d5t mess up contained views.\
+- Encoding a RBSplitView with a collapsed subview now works correctly.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.0.2:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - The RBSplitView inspector palette now has a drop-down menu to manipulate the divider image. You can clear it entirely, use the default thumb, or paste in any image from the clipboard.\
+- The RBSplitView inspector palette now has a \'d2Use image dim.\'d3 checkbox to use the divider image dimensions for the divider thickness. \
+- The RBSplitSubview inspector palette now has a \'d2Adjust enclosed view\'d3 button that will adjust the enclosed view (if there\'d5s just one) to cover the RBSplitSubview, and also set the resizing springs accordingly. You\'d5ll want to use this immediately after dropping a NSTextView in, for instance.\
+- The RBSplitSubview size inspector palette now has a \'d2Collapse\'d3 check box that allows you to collapse or expand the subview.\
+- Clearing the divider image (or calling setDivider:nil) will make the RBSplitView stop responding to mouse events, that is, the splits will be able to be adjusted only programmatically. This may be convenient if you want the subviews to always maintain their relative size, for instance. You\'d4ll still be able to drag the divider in IB, however. \
+- Setting the divider thickness to zero now means that the divider image\'d5s dimensions should be used. Setting any positive value will use that value, even if the divider image is larger than that, in which case the results may not be what you wanted.\
+- There is a new -[RBSplitView adjustSubviewsExcepting:] method, to allow keeping one subview static while resizing.\
+- There is a new -[RBSplitSubview isSplitViewHorizontal] convenience method.\
+- Fixed a bug where the IBPalette was mangling NSTabViews (and perhaps other complex views) contained inside RBSplitSubviews when reopening a nib file.\
+- The way RBSplitSubviews were collapsed has been changed completely; before, they were moved completely off the visible part of the RBSplitView; now, they\'d5re actually collapsed to zero dimension, but the subview resizing mechanism is disabled while they\'d5re smaller than the minimum dimension.\
+- The -[RBSplitSubview description] method now shows the view\'d5s identifier if present, to make debugging easier.\
+- Several small potential bugs have been fixed.\
+- The limit case of having only a single RBSplitSubview now works, and the IB palette will allow you to generate such a RBSplitView. The single subview will always occupy the entire RBSplitView and can\'d5t be collapsed. It also won\'d5t obey the dimension limits.\
+\
+If you already have a project built with older versions, you must open your nib files that contain RBSplitViews, set the divider thickness or click on \'d2Use image dim.\'d3, and resave them.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.0.1:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 - Several redrawing bugs were fixed, and in most cases adjustSubviews doesn\'d5t need to be called explicitly anymore.\
+- The - collapse method no longer has a parameter, and collapsing/expanding subviews programmatically now always returns the subview to its former size. If the RBSplitView has changed size while the subview was collapsed, the subview will expand to occupy the same proportion it occupied before.\
+- The - dimension method now has a different behavior when called for collapsed subviews. Formerly it returned 0.0, now it returns the dimension the subview would normally have when expanded.\
+- Nested RBSplitViews now can be uncoupled from each other, suppressing the two-axis thumb and allowing different backgrounds and thumb images to be used. The IB palette has been redesigned accordingly.\
+\
+If you already have a project built with version 1.0, it's advisable to open your nib files that contain RBSplitViews, toggle the \'d2coupled\'d3 box twice, and resave them. Also be sure to check all calls to - collapse and remove the parameter.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 What was new in 1.0:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 This was the first public release. If you had previously downloaded one of the beta releases, these were the main fixes:\
+- Several small bugs have been fixed, in both the source code and the documentation.\
+- Previously, only RBSplitSubviews could be programmatically added to RBSplitViews. Now, a containing RBSplitSubview is automatically created and the added view has its frame and resizing mask set to always occupy the entire \'d2split\'d3.\
+- Previously, a minimum size was forced if you created RBSplitViews programmatically. This is no longer done, but creating RBSplitViews with too-small frames will still give unreliable results.\
+\
+==========================================\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 Legal Mumbo-Jumbo:\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 RBSplitView and the corresponding palette for Interface Builder are Copyright\'a92004-2006 by Rainer Brockerhoff. Some rights reserved as described below. Check {\field{\*\fldinst{HYPERLINK "http://www.brockerhoff.net/"}}{\fldrslt \cf2 \ul \ulc2 http://www.brockerhoff.net/}} for similar items and other products, papers and whatnot by Rainer Brockerhoff.\
+\
+You may choose whichever of the licensed below you deem more appropriate for your specific case.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sa320\ql\qnatural
+\cf0 This work is licensed under the Creative Commons Attribution License, version 2.5. To view a copy of the Creative Commons Attribution License, version 2.5, visit {\field{\*\fldinst{HYPERLINK "http://creativecommons.org/licenses/by/2.0/legalcode"}}{\fldrslt \cf2 \ul \ulc2 http://creativecommons.org/licenses/by/2.5/}} or send a letter to Creative Commons, 543 Howard Street, 5th Floor, San Francisco, CA 94105-3013, USA.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 This is a summary of the Legal Code (the full license) for your convenience, but is not itself a legal document. You are free:\
+- to copy, distribute, display, and execute the work, either in source or binary form\
+- to make derivative works\
+- to make commercial use of the work\
+Under the following conditions:\
+- Attribution. You must give the original author credit in some place where the end user can see it.\
+- For any reuse or distribution, you must make clear to others the license terms of this work.\
+- Any of these conditions can be waived if you get permission from the copyright holder.\
+- Your fair use and other rights are in no way affected by the above.\
+\
+In addition, RBSplitView is also licensed under the {\field{\*\fldinst{HYPERLINK "http://www.opensource.org/licenses/mit-license.php"}}{\fldrslt MIT license}}, approved by the {\field{\*\fldinst{HYPERLINK "http://www.opensource.org/index.php"}}{\fldrslt Open Source Initiative}}.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\sa260\ql\qnatural
+\cf0 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\
+RBSplitView is provided "
+\f1\b\fs36 \cf3 AS IS
+\f0\b0\fs24 \cf0 ", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 To comply with any of these licenses, I suggest that published products \'d1 be they commercial, \'d2shareware\'d3 or freeware \'d1 should, somewhere in the \'d2About Box\'d3 or its equivalent, say \'d2RBSplitView by Rainer Brockerhoff\'d3, with a link to {\field{\*\fldinst{HYPERLINK "http://www.brockerhoff.net/"}}{\fldrslt \cf2 \ul \ulc2 http://www.brockerhoff.net/}} if possible. A copy of the software itself would also be appreciated, and/or an e-mail telling me where you used it. If you make a significant modification to the source code, or find some bug, please e-mail me at <{\field{\*\fldinst{HYPERLINK "mailto:rainer@brockerhoff.net"}}{\fldrslt \cf2 \ul \ulc2 rainer@brockerhoff.net}}>.\
+}
