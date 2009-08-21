@@ -11,8 +11,6 @@
 #import <AIUtilities/AIImageAdditions.h>
 #import <AIUtilities/AIArrayAdditions.h>
 
-#define PREF_KEY_MENTIONS		@"Saved Mentions"
-
 @interface AIMentionAdvancedPreferences()
 - (void)saveTerms;
 @end
