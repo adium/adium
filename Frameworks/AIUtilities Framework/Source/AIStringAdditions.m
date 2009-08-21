@@ -527,6 +527,7 @@ enum {
 enum characterNatureMask {
 	whitespaceNature = 0x1, //space + \t\n\r\f\a 
 	shellUnsafeNature, //backslash + !$`"'
+	regexpUnsafeNature, //blakslash + |.*+?{}()$^
 };
 static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	//this array is initialised such that the space character (0x20)
@@ -647,6 +648,96 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	NSString *result = [NSString stringWithCharacters:buf length:i];
 	free(buf);
 
+	return result;
+}
+
+- (NSString *)stringByEscapingForRegexp
+{
+	if (!(characterNature[' '] & whitespaceNature)) {
+		//if space doesn't have the whitespace nature, clearly we need to build the nature array.
+		
+		//first, set all characters to zero.
+		bzero(&characterNature, sizeof(characterNature));
+		
+		//then memorise which characters have the whitespace nature.
+		characterNature[' ']  = whitespaceNature;
+		//NOTE: if you give more characters the whitespace nature, be sure to
+		//	update escapeNames below.
+		
+		//finally, memorise which characters have the unsafe (for regexp) nature.
+		characterNature['\\'] = regexpUnsafeNature;
+		characterNature['/']  = regexpUnsafeNature;
+		characterNature['|']  = regexpUnsafeNature;
+		characterNature['.']  = regexpUnsafeNature;
+		characterNature['*']  = regexpUnsafeNature;
+		characterNature['+']  = regexpUnsafeNature;
+		characterNature['?']  = regexpUnsafeNature;
+		characterNature['{']  = regexpUnsafeNature;
+		characterNature['}']  = regexpUnsafeNature;
+		characterNature['(']  = regexpUnsafeNature;
+		characterNature[')']  = regexpUnsafeNature;
+		characterNature['[']  = regexpUnsafeNature;
+		characterNature['$']  = regexpUnsafeNature;
+		characterNature['^']  = regexpUnsafeNature;
+	}
+	
+	unsigned myLength = [self length];
+	unichar *myBuf = malloc(sizeof(unichar) * myLength);
+	if (!myBuf) return nil;
+	[self getCharacters:myBuf];
+	const unichar *myBufPtr = myBuf;
+	
+	size_t buflen = 0;
+	unichar *buf = NULL;
+	
+	const size_t buflenIncrement = getpagesize() / sizeof(unichar);
+	
+	/*the boundary guard happens everywhere that i increases, and MUST happen
+	 *	at the beginning of the loop.
+	 *
+	 *initialising buflen to 0 and buf to NULL as we have done above means that
+	 *	realloc will act as malloc:
+	 *	-	i is 0 at the beginning of the loop
+	 *	-	so is buflen
+	 *	-	and buf is NULL
+	 *	-	realloc(NULL, ...) == malloc(...)
+	 *
+	 *oh, and 'SBEFR' stands for String By Escaping For Regexp
+	 *	(the name of this method).
+	 */
+#define SBEFR_BOUNDARY_GUARD \
+do { \
+if (i == buflen) { \
+buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+if (!buf) { \
+NSLog(@"in stringByEscapingForRegexp: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
+free(myBuf); \
+return nil; \
+} \
+} \
+} while (0)
+	
+	unsigned i = 0;
+	for (; myLength--; ++i) {
+		SBEFR_BOUNDARY_GUARD;
+		
+		if (characterNature[*myBufPtr] & regexpUnsafeNature) {
+			//escape this character
+			buf[i++] = '\\';
+			SBEFR_BOUNDARY_GUARD;
+		}
+		
+		buf[i] = *myBufPtr;
+		++myBufPtr;
+	}
+	
+#undef SBEFR_BOUNDARY_GUARD
+	
+	free(myBuf);
+	
+	NSString *result = [NSString stringWithCharacters:buf length:i];
+	free(buf);
+	
 	return result;
 }
 

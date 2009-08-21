@@ -53,6 +53,8 @@
 - (NSString *)stringByUnescapingFromXMLWithEntities:(NSDictionary *)entities;
 
 - (NSString *)stringByEscapingForShell;
+- (NSString *)stringByEscapingForRegexp;
+
 //- (BOOL)isURLEncoded;
 
 - (NSString *)stringByAddingPercentEscapesForAllCharacters;
