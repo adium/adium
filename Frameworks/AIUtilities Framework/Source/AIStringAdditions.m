@@ -525,9 +525,9 @@ enum {
 #ifndef BSD_LICENSE_ONLY
 
 enum characterNatureMask {
-	whitespaceNature = 0x1, //space + \t\n\r\f\a 
-	shellUnsafeNature, //backslash + !$`"'
-	regexpUnsafeNature, //blakslash + |.*+?{}()$^
+	whitespaceNature = (1 << 0), //space + \t\n\r\f\a 
+	shellUnsafeNature = (1 << 1), //backslash + !$`"'
+	regexpUnsafeNature = (1 << 2), //blakslash + |.*+?{}()$^
 };
 static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	//this array is initialised such that the space character (0x20)
