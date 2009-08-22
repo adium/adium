@@ -118,6 +118,7 @@
 	linkURL = [[NSURL alloc] initWithString:linkString];
 
 	[linkString release];
+	if(preString) [preString release];
 }
 
 - (void)setValidationStatus:(AH_URI_VERIFICATION_STATUS)status
