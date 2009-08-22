@@ -27,6 +27,43 @@
 
 #endif //ndef BSD_LICENSE_ONLY
 
+enum characterNatureMask {
+	whitespaceNature = (1 << 0), //space + \t\n\r\f\a 
+	shellUnsafeNature = (1 << 1), //backslash + !$`"'
+	regexpUnsafeNature = (1 << 2), //backslash + |.*+?{}()$^
+};
+static enum characterNatureMask characterNature[USHRT_MAX+1] = {
+	['\a'] = whitespaceNature,
+	['\t'] = whitespaceNature,
+	['\n'] = whitespaceNature,
+	['\v'] = whitespaceNature,
+	['\f'] = whitespaceNature,
+	['\r'] = whitespaceNature,
+	[' ']  = whitespaceNature,
+
+	['\''] = shellUnsafeNature,
+	['"']  = shellUnsafeNature,
+	['`']  = shellUnsafeNature,
+	['!']  = shellUnsafeNature,
+	['&']  = shellUnsafeNature,
+
+	['\\'] = shellUnsafeNature | regexpUnsafeNature,
+	['$']  = shellUnsafeNature | regexpUnsafeNature,
+	['|']  = shellUnsafeNature | regexpUnsafeNature,
+			
+	['/']  = regexpUnsafeNature,
+	['.']  = regexpUnsafeNature,
+	['*']  = regexpUnsafeNature,
+	['+']  = regexpUnsafeNature,
+	['?']  = regexpUnsafeNature,
+	['{']  = regexpUnsafeNature,
+	['}']  = regexpUnsafeNature,
+	['(']  = regexpUnsafeNature,
+	[')']  = regexpUnsafeNature,
+	['[']  = regexpUnsafeNature,
+	['^']  = regexpUnsafeNature,
+};
+
 enum {
 	LINE_FEED = '\n',
 	FORM_FEED = '\f',
@@ -524,52 +561,8 @@ enum {
 
 #ifndef BSD_LICENSE_ONLY
 
-enum characterNatureMask {
-	whitespaceNature = (1 << 0), //space + \t\n\r\f\a 
-	shellUnsafeNature = (1 << 1), //backslash + !$`"'
-	regexpUnsafeNature = (1 << 2), //backslash + |.*+?{}()$^
-};
-static enum characterNatureMask characterNature[USHRT_MAX+1] = {
-	//this array is initialised such that the space character (0x20)
-	//	does not have the whitespace nature.
-	//this was done for brevity, as the entire array is bzeroed and then
-	//	properly initialised in -stringByEscapingForShell below.
-	0,0,0,0, 0,0,0,0, //0x00..0x07
-	0,0,0,0, 0,0,0,0, //0x08..0x0f
-	0,0,0,0, 0,0,0,0, //0x10..0x17
-	0,0,0, //0x18..0x20
-};
-
 - (NSString *)stringByEscapingForShell
 {
-	if (!(characterNature[' '] & whitespaceNature)) {
-		//if space doesn't have the whitespace nature, clearly we need to build the nature array.
-
-		//first, set all characters to zero.
-		bzero(&characterNature, sizeof(characterNature));
-
-		//then memorise which characters have the whitespace nature.
-		characterNature['\a'] = whitespaceNature;
-		characterNature['\t'] = whitespaceNature;
-		characterNature['\n'] = whitespaceNature;
-		characterNature['\v'] = whitespaceNature;
-		characterNature['\f'] = whitespaceNature;
-		characterNature['\r'] = whitespaceNature;
-		characterNature[' ']  = whitespaceNature;
-		//NOTE: if you give more characters the whitespace nature, be sure to
-		//	update escapeNames below.
-
-		//finally, memorise which characters have the unsafe (for shells) nature.
-		characterNature['\\'] = shellUnsafeNature;
-		characterNature['\''] = shellUnsafeNature;
-		characterNature['"']  = shellUnsafeNature;
-		characterNature['`']  = shellUnsafeNature;
-		characterNature['!']  = shellUnsafeNature;
-		characterNature['$']  = shellUnsafeNature;
-		characterNature['&']  = shellUnsafeNature;
-		characterNature['|']  = shellUnsafeNature;
-	}
-
 	unsigned myLength = [self length];
 	unichar *myBuf = malloc(sizeof(unichar) * myLength);
 	if (!myBuf) return nil;
@@ -651,46 +644,8 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	return result;
 }
 
-static enum characterNatureMask regexpCharacterNature[USHRT_MAX+1] = {
-//this array is initialised such that the space character (0x20)
-//	does not have the whitespace nature.
-//this was done for brevity, as the entire array is bzeroed and then
-//	properly initialised in -stringByEscapingForShell below.
-0,0,0,0, 0,0,0,0, //0x00..0x07
-0,0,0,0, 0,0,0,0, //0x08..0x0f
-0,0,0,0, 0,0,0,0, //0x10..0x17
-0,0,0, //0x18..0x20
-};
 - (NSString *)stringByEscapingForRegexp
 {
-	if (!(regexpCharacterNature[' '] & whitespaceNature)) {
-		//if space doesn't have the whitespace nature, clearly we need to build the nature array.
-		
-		//first, set all characters to zero.
-		bzero(&regexpCharacterNature, sizeof(regexpCharacterNature));
-		
-		//then memorise which characters have the whitespace nature.
-		regexpCharacterNature[' ']  = whitespaceNature;
-		//NOTE: if you give more characters the whitespace nature, be sure to
-		//	update escapeNames below.
-		
-		//finally, memorise which characters have the unsafe (for regexp) nature.
-		regexpCharacterNature['\\'] = regexpUnsafeNature;
-		regexpCharacterNature['/']  = regexpUnsafeNature;
-		regexpCharacterNature['|']  = regexpUnsafeNature;
-		regexpCharacterNature['.']  = regexpUnsafeNature;
-		regexpCharacterNature['*']  = regexpUnsafeNature;
-		regexpCharacterNature['+']  = regexpUnsafeNature;
-		regexpCharacterNature['?']  = regexpUnsafeNature;
-		regexpCharacterNature['{']  = regexpUnsafeNature;
-		regexpCharacterNature['}']  = regexpUnsafeNature;
-		regexpCharacterNature['(']  = regexpUnsafeNature;
-		regexpCharacterNature[')']  = regexpUnsafeNature;
-		regexpCharacterNature['[']  = regexpUnsafeNature;
-		regexpCharacterNature['$']  = regexpUnsafeNature;
-		regexpCharacterNature['^']  = regexpUnsafeNature;
-	}
-	
 	unsigned myLength = [self length];
 	unichar *myBuf = malloc(sizeof(unichar) * myLength);
 	if (!myBuf) return nil;
@@ -731,7 +686,7 @@ return nil; \
 	for (; myLength--; ++i) {
 		SBEFR_BOUNDARY_GUARD;
 		
-		if (regexpCharacterNature[*myBufPtr] & regexpUnsafeNature) {
+		if (characterNature[*myBufPtr] & regexpUnsafeNature) {
 			//escape this character
 			buf[i++] = '\\';
 			SBEFR_BOUNDARY_GUARD;
