@@ -651,34 +651,44 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	return result;
 }
 
+static enum characterNatureMask regexpCharacterNature[USHRT_MAX+1] = {
+//this array is initialised such that the space character (0x20)
+//	does not have the whitespace nature.
+//this was done for brevity, as the entire array is bzeroed and then
+//	properly initialised in -stringByEscapingForShell below.
+0,0,0,0, 0,0,0,0, //0x00..0x07
+0,0,0,0, 0,0,0,0, //0x08..0x0f
+0,0,0,0, 0,0,0,0, //0x10..0x17
+0,0,0, //0x18..0x20
+};
 - (NSString *)stringByEscapingForRegexp
 {
-	if (!(characterNature[' '] & whitespaceNature)) {
+	if (!(regexpCharacterNature[' '] & whitespaceNature)) {
 		//if space doesn't have the whitespace nature, clearly we need to build the nature array.
 		
 		//first, set all characters to zero.
-		bzero(&characterNature, sizeof(characterNature));
+		bzero(&regexpCharacterNature, sizeof(regexpCharacterNature));
 		
 		//then memorise which characters have the whitespace nature.
-		characterNature[' ']  = whitespaceNature;
+		regexpCharacterNature[' ']  = whitespaceNature;
 		//NOTE: if you give more characters the whitespace nature, be sure to
 		//	update escapeNames below.
 		
 		//finally, memorise which characters have the unsafe (for regexp) nature.
-		characterNature['\\'] = regexpUnsafeNature;
-		characterNature['/']  = regexpUnsafeNature;
-		characterNature['|']  = regexpUnsafeNature;
-		characterNature['.']  = regexpUnsafeNature;
-		characterNature['*']  = regexpUnsafeNature;
-		characterNature['+']  = regexpUnsafeNature;
-		characterNature['?']  = regexpUnsafeNature;
-		characterNature['{']  = regexpUnsafeNature;
-		characterNature['}']  = regexpUnsafeNature;
-		characterNature['(']  = regexpUnsafeNature;
-		characterNature[')']  = regexpUnsafeNature;
-		characterNature['[']  = regexpUnsafeNature;
-		characterNature['$']  = regexpUnsafeNature;
-		characterNature['^']  = regexpUnsafeNature;
+		regexpCharacterNature['\\'] = regexpUnsafeNature;
+		regexpCharacterNature['/']  = regexpUnsafeNature;
+		regexpCharacterNature['|']  = regexpUnsafeNature;
+		regexpCharacterNature['.']  = regexpUnsafeNature;
+		regexpCharacterNature['*']  = regexpUnsafeNature;
+		regexpCharacterNature['+']  = regexpUnsafeNature;
+		regexpCharacterNature['?']  = regexpUnsafeNature;
+		regexpCharacterNature['{']  = regexpUnsafeNature;
+		regexpCharacterNature['}']  = regexpUnsafeNature;
+		regexpCharacterNature['(']  = regexpUnsafeNature;
+		regexpCharacterNature[')']  = regexpUnsafeNature;
+		regexpCharacterNature['[']  = regexpUnsafeNature;
+		regexpCharacterNature['$']  = regexpUnsafeNature;
+		regexpCharacterNature['^']  = regexpUnsafeNature;
 	}
 	
 	unsigned myLength = [self length];
@@ -721,7 +731,7 @@ return nil; \
 	for (; myLength--; ++i) {
 		SBEFR_BOUNDARY_GUARD;
 		
-		if (characterNature[*myBufPtr] & regexpUnsafeNature) {
+		if (regexpCharacterNature[*myBufPtr] & regexpUnsafeNature) {
 			//escape this character
 			buf[i++] = '\\';
 			SBEFR_BOUNDARY_GUARD;
