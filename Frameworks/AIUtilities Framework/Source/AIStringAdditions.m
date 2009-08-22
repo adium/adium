@@ -527,7 +527,7 @@ enum {
 enum characterNatureMask {
 	whitespaceNature = (1 << 0), //space + \t\n\r\f\a 
 	shellUnsafeNature = (1 << 1), //backslash + !$`"'
-	regexpUnsafeNature = (1 << 2), //blakslash + |.*+?{}()$^
+	regexpUnsafeNature = (1 << 2), //backslash + |.*+?{}()$^
 };
 static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	//this array is initialised such that the space character (0x20)
