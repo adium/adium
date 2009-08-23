@@ -133,18 +133,11 @@ enum {
 		if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
 			int		errorCode = [error code];
 
-			//XXX - I'm sure these constants are defined somewhere, but I can't find them. -eds
-			if (errorCode == 260) {
-				//File not found.
+			if (errorCode == NSFileReadNoSuchFileError) {
 				string = nil;
 				handled = YES;
 
-			} else if (errorCode == 261) {
-				/* Reason: File could not be opened using text encoding Unicode (UTF-8).
-				 * Description: Text encoding Unicode (UTF-8) is not applicable.
-				 *
-				 * We couldn't read the file as UTF8.  Let the system try to determine the encoding.
-				 */
+			} else if (errorCode == NSFileReadInapplicableStringEncodingError) {
 				NSError				*newError = nil;
 
 				string = [self stringWithContentsOfFile:path
