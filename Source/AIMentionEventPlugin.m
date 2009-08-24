@@ -52,6 +52,7 @@
 - (void)uninstallPlugin
 {
 	[adium.contentController unregisterContentFilter:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 #pragma mark -
