@@ -90,7 +90,6 @@
 				[chat incrementUnviewedMentionCount];
 			}
 			[message addDisplayClass:@"mention"];
-			AILog(@"MENTIONED!");
 			break;
 		}
 	}
@@ -113,7 +112,6 @@
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
 	if(firstTime || [key isEqualToString:PREF_KEY_MENTIONS]) {
-		AILog(@"building mentions...");
 		NSArray *allMentions = [adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL];
 		NSMutableArray *predicates = [NSMutableArray arrayWithCapacity:[allMentions count]];
 		NSPredicate *regexPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES '/.*/'"];
@@ -122,7 +120,6 @@
 			if([regexPredicate evaluateWithObject:mention]) {
 				[predicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*%@.*", [mention substringWithRange:NSMakeRange(1, [mention length]-2)]]]];
 			} else {
-				AILog(@"%@ -> %@", mention, [mention stringByEscapingForRegexp]);
 				[predicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [mention stringByEscapingForRegexp]]]];
 			}
 		}
