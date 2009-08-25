@@ -79,7 +79,7 @@ enum {
     BOOL                        _useOverflowMenu;
 	BOOL						_alwaysShowActiveTab;
 	BOOL						_allowsScrubbing;
-	int							_resizeAreaCompensation;
+	NSInteger							_resizeAreaCompensation;
 	PSMTabBarOrientation		_orientation;
 	BOOL						_automaticallyAnimates;
 	NSTimer						*_animationTimer;
@@ -94,16 +94,16 @@ enum {
 	BOOL						_resizing;
 	
     // cell width
-    int                         _cellMinWidth;
-    int                         _cellMaxWidth;
-    int                         _cellOptimumWidth;
+    NSInteger                         _cellMinWidth;
+    NSInteger                         _cellMaxWidth;
+    NSInteger                         _cellOptimumWidth;
     
     // animation for hide/show
-    int                         _currentStep;
+    NSInteger                         _currentStep;
     BOOL                        _isHidden;
     IBOutlet id                 partnerView;                // gets resized when hide/show
     BOOL                        _awakenedFromNib;
-	int							_tabBarWidth;
+	NSInteger							_tabBarWidth;
     NSTimer						*_showHideAnimationTimer;
 
     // drag and drop
@@ -117,7 +117,7 @@ enum {
 
 // control characteristics
 + (NSBundle *)bundle;
-- (float)availableCellWidth;
+- (CGFloat)availableCellWidth;
 - (NSRect)genericCellRect;
 
 // control configuration
@@ -135,12 +135,12 @@ enum {
 - (void)setHideForSingleTab:(BOOL)value;
 - (BOOL)showAddTabButton;
 - (void)setShowAddTabButton:(BOOL)value;
-- (int)cellMinWidth;
-- (void)setCellMinWidth:(int)value;
-- (int)cellMaxWidth;
-- (void)setCellMaxWidth:(int)value;
-- (int)cellOptimumWidth;
-- (void)setCellOptimumWidth:(int)value;
+- (NSInteger)cellMinWidth;
+- (void)setCellMinWidth:(NSInteger)value;
+- (NSInteger)cellMaxWidth;
+- (void)setCellMaxWidth:(NSInteger)value;
+- (NSInteger)cellOptimumWidth;
+- (void)setCellOptimumWidth:(NSInteger)value;
 - (BOOL)sizeCellsToFit;
 - (void)setSizeCellsToFit:(BOOL)value;
 - (BOOL)useOverflowMenu;
@@ -174,7 +174,7 @@ enum {
 
 // tab information
 - (NSMutableArray *)representedTabViewItems;
-- (int)numberOfVisibleTabs;
+- (NSInteger)numberOfVisibleTabs;
 - (PSMTabBarCell *)lastVisibleTab;
 
 // special effects
@@ -210,18 +210,18 @@ enum {
 
 
 //Tear-off tabs methods
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask;
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask;
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point;
 - (void)tabView:(NSTabView *)aTabView closeWindowForLastTabViewItem:(NSTabViewItem *)tabViewItem;
 
 //Overflow menu validation
-- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(id <NSMenuItem>)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem;
+- (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem;
 - (void)tabView:(NSTabView *)aTabView tabViewItem:(NSTabViewItem *)tabViewItem isInOverflowMenu:(BOOL)inOverflowMenu;
 
 //tab bar hiding methods
 - (void)tabView:(NSTabView *)aTabView tabBarDidHide:(PSMTabBarControl *)tabBarControl;
 - (void)tabView:(NSTabView *)aTabView tabBarDidUnhide:(PSMTabBarControl *)tabBarControl;
-- (float)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl;
+- (CGFloat)desiredWidthForVerticalTabBar:(PSMTabBarControl *)tabBarControl;
 
 //closing
 - (BOOL)tabView:(NSTabView *)aTabView disableTabCloseForTabViewItem:(NSTabViewItem *)tabViewItem;
@@ -230,6 +230,6 @@ enum {
 - (NSString *)tabView:(NSTabView *)aTabView toolTipForTabViewItem:(NSTabViewItem *)tabViewItem;
 
 //accessibility
-- (NSString *)accessibilityStringForTabView:(NSTabView *)aTabView objectCount:(int)objectCount;
+- (NSString *)accessibilityStringForTabView:(NSTabView *)aTabView objectCount:(NSInteger)objectCount;
 
 @end
