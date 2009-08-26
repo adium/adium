@@ -32,7 +32,7 @@ enum characterNatureMask {
 	shellUnsafeNature = (1 << 1), //backslash + !$`"'
 	regexpUnsafeNature = (1 << 2), //backslash + |.*+?{}()$^
 };
-static enum characterNatureMask characterNature[USHRT_MAX+1] = {
+static const enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	['\a'] = whitespaceNature,
 	['\t'] = whitespaceNature,
 	['\n'] = whitespaceNature,
