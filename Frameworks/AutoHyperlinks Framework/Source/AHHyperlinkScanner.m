@@ -404,7 +404,7 @@
 #pragma mark NSFastEnumeration
 - (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len
 {
-	AHMarkedHyperlink	*currentLink;
+	AHMarkedHyperlink	*currentLink = nil;
 	
 	NSUInteger fastEnumCount = 0;
 	while (fastEnumCount < len && nil != (currentLink = [self nextURI])) {
