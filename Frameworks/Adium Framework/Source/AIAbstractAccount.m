@@ -235,7 +235,7 @@
  */
 - (int)port
 {
-	return [[self preferenceForKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS] intValue];
+	return [[self preferenceForKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS] integerValue];
 }
 
 /*!
