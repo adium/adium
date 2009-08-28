@@ -40,25 +40,25 @@ extern enum LMXParseResult LMXParseResultFromString(NSString *result);
 	NSString *attributeValue;
 	off_t charactersRunStartIndex, tokenRunStartIndex, entityNameRunStartIndex, commentRunStartIndex;
 	off_t greaterThanIndex;
-	unsigned reserved:       22;
-	unsigned inComment:       1;
+	unsigned reserved:22;
+	unsigned inComment:1;
 	//Start of a comment: <!--
 	//  End of a comment:   -->
-	unsigned hasBang:         1; //With has{First,Second}Hyphen, indicates a comment may be about to start (if a < is encountered)
-	unsigned hasSecondHyphen: 1; //With hasGreaterThan and hasFirstHyphen, part of the start of a comment
-	unsigned hasFirstHyphen:  1; //With hasGreaterThan, 1/3 of the end of a comment; else, 1/3 of the start of a comment
-	unsigned hasEqualSign:    1; //An attribute value has been recorded, and a = encountered
-	unsigned couldBeEndTag:   1; //A / has been encountered
-	unsigned isEmptyTag:      1; //A / was encountered immediately after a >
-	unsigned inEntity:        1; //In between & and ;
-	unsigned hasHashMark:     1; //A # was just encountered (if this is 1 when the & is encountered, it's a numeric entity; otherwise, the entity ends)
-	unsigned noNonWhitespaceSinceTagEnd: 1; //Used by / to check for a <blah/> tag
-	unsigned inTag:           1; //In between < and >
-	unsigned parsing:         1; //Set to 0 by -pause
+	unsigned hasBang:1; //With has{First,Second}Hyphen, indicates a comment may be about to start (if a < is encountered)
+	unsigned hasSecondHyphen:1; //With hasGreaterThan and hasFirstHyphen, part of the start of a comment
+	unsigned hasFirstHyphen:1; //With hasGreaterThan, 1/3 of the end of a comment; else, 1/3 of the start of a comment
+	unsigned hasEqualSign:1; //An attribute value has been recorded, and a = encountered
+	unsigned couldBeEndTag:1; //A / has been encountered
+	unsigned isEmptyTag:1; //A / was encountered immediately after a >
+	unsigned inEntity:1; //In between & and ;
+	unsigned hasHashMark:1; //A # was just encountered (if this is 1 when the & is encountered, it's a numeric entity; otherwise, the entity ends)
+	unsigned noNonWhitespaceSinceTagEnd:1; //Used by / to check for a <blah/> tag
+	unsigned inTag:1; //In between < and >
+	unsigned parsing:1; //Set to 0 by -pause
 	char attributeQuoteChar; //One of '"', '\'', or '\0'
 }
 
-//How to get autoreleased parser in only one message instead of three:
+//How to get an autoreleased parser in only one message instead of three:
 + parser;
 
 - initWithData:(NSData *)data;
