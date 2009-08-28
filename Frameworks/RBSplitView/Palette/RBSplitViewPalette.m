@@ -69,18 +69,18 @@ static NSImage* thumb9 = nil;
 	RBSplitView* sv = [suv splitView];
 	[collapseButton setState:[suv canCollapse]];
 	[[identifierValue cellAtIndex:0] setStringValue:[suv identifier]];
-	[[minimumValue cellAtIndex:0] setFloatValue:[suv minDimension]];
+	[[minimumValue cellAtIndex:0] setDoubleValue:[suv minDimension]];
 // No max limit is indicated by a blank value; don't want to confuse the user with 1000000.0
-	float dimension = [suv maxDimension];
+	CGFloat dimension = [suv maxDimension];
 	if (dimension<WAYOUT) {
-		[[maximumValue cellAtIndex:0] setFloatValue:dimension];
+		[[maximumValue cellAtIndex:0] setDoubleValue:dimension];
 	} else {
 		[[maximumValue cellAtIndex:0] setStringValue:@""];
 	}
-	unsigned position = [suv position];
-	[[positionValue cellAtIndex:0] setIntValue:position];
-	[positionStepper setIntValue:position];
-	[[tagValue cellAtIndex:0] setIntValue:[suv tag]];
+	NSUInteger position = [suv position];
+	[[positionValue cellAtIndex:0] setIntegerValue:position];
+	[positionStepper setIntegerValue:position];
+	[[tagValue cellAtIndex:0] setIntegerValue:[suv tag]];
 	[adjustButton setEnabled:([[suv subviews] count]==1)];
 	[sv adjustSubviews];
 	[[self inspectedDocument] drawObject:sv];
@@ -88,7 +88,7 @@ static NSImage* thumb9 = nil;
 }
 
 // Adjust enclosed subview with undo support.
-- (void)setSubview:(NSView*)subview withUndo:(NSUndoManager*)undo frame:(NSRect)frame andAutoresizingMask:(unsigned int)autoresizingMask {
+- (void)setSubview:(NSView*)subview withUndo:(NSUndoManager*)undo frame:(NSRect)frame andAutoresizingMask:(NSUInteger)autoresizingMask {
 	if (undo) {
 		[[undo prepareWithInvocationTarget:self] setSubview:subview withUndo:undo frame:[subview frame] andAutoresizingMask:[subview autoresizingMask]];
 		[undo setActionName:@"Adjust Enclosed"];
@@ -123,36 +123,36 @@ static NSImage* thumb9 = nil;
 	} else if (sender==identifierValue) {
 		[suv setIdentifier:[[identifierValue cellAtIndex:0] stringValue]];
 	} else if ((sender==minimumValue)||(sender==maximumValue)) {
-		[suv setMinDimension:[[minimumValue cellAtIndex:0] floatValue] andMaxDimension:[[maximumValue cellAtIndex:0] floatValue]];
+		[suv setMinDimension:[[minimumValue cellAtIndex:0] doubleValue] andMaxDimension:[[maximumValue cellAtIndex:0] doubleValue]];
 // No max limit is indicated by a blank value; don't want to confuse the user with 1000000.0
-		float dimension = [suv maxDimension];
+		CGFloat dimension = [suv maxDimension];
 		if (dimension<WAYOUT) {
-			[[maximumValue cellAtIndex:0] setFloatValue:dimension];
+			[[maximumValue cellAtIndex:0] setDoubleValue:dimension];
 		} else {
 			[[maximumValue cellAtIndex:0] setStringValue:@""];
 		}
 	} else if (sender==currentMinButton) {
-		float dim = [suv dimension];
+		CGFloat dim = [suv dimension];
 		[suv setMinDimension:dim andMaxDimension:[suv maxDimension]];
-		[[minimumValue cellAtIndex:0] setFloatValue:dim];
+		[[minimumValue cellAtIndex:0] setDoubleValue:dim];
 	} else if (sender==currentMaxButton) {
-		float dim = [suv dimension];
+		CGFloat dim = [suv dimension];
 		[suv setMinDimension:[suv minDimension] andMaxDimension:dim];
-		[[maximumValue cellAtIndex:0] setFloatValue:dim];
+		[[maximumValue cellAtIndex:0] setDoubleValue:dim];
 	} else if (sender==positionValue) {
-		unsigned position = [[positionValue cellAtIndex:0] intValue];
+		NSUInteger position = [[positionValue cellAtIndex:0] integerValue];
 		[suv setPosition:position];
 		position = [suv position];
-		[[positionValue cellAtIndex:0] setIntValue:position];
-		[positionStepper setIntValue:position];
+		[[positionValue cellAtIndex:0] setIntegerValue:position];
+		[positionStepper setIntegerValue:position];
 	} else if (sender==positionStepper) {
-		unsigned position = [positionStepper intValue];
+		NSUInteger position = [positionStepper integerValue];
 		[suv setPosition:position];
 		position = [suv position];
-		[[positionValue cellAtIndex:0] setIntValue:position];
-		[positionStepper setIntValue:position];
+		[[positionValue cellAtIndex:0] setIntegerValue:position];
+		[positionStepper setIntegerValue:position];
 	} else if (sender==tagValue) {
-		[suv setTag:[[tagValue cellAtIndex:0] intValue]];
+		[suv setTag:[[tagValue cellAtIndex:0] integerValue]];
 	}
 	[sv adjustSubviews];
 	[[self inspectedDocument] drawObject:sv];
@@ -176,12 +176,14 @@ static NSImage* thumb9 = nil;
 - (void)revert:(id)sender {
 	RBSplitSubview* suv = (RBSplitSubview*)[self object];
 	RBSplitView* sv = [suv ibSplitView];
-	[[sizeValue cellAtIndex:0] setFloatValue:[suv dimension]];
+	[[sizeValue cellAtIndex:0] setDoubleValue:[suv dimension]];
 // As a convenience, we show the minimum and (if present) maximum dimensions.
-	float limit = [suv maxDimension];
+	CGFloat limit = [suv maxDimension];
 	if (limit>=WAYOUT) {
+#warning 64BIT: Check formatting arguments
 		[sizeLimits setStringValue:[NSString stringWithFormat:@"Minimum %g",[suv minDimension]]];
 	} else {
+#warning 64BIT: Check formatting arguments
 		[sizeLimits setStringValue:[NSString stringWithFormat:@"Minimum %g\nMaximum %g",[suv minDimension],[suv maxDimension]]];
 	}
 	[collapsedButton setEnabled:[suv canCollapse]];
@@ -198,8 +200,8 @@ static NSImage* thumb9 = nil;
     [self beginUndoGrouping];
     [self noteAttributesWillChangeForObject:suv];
 	if (sender==sizeValue) {
-		[suv setDimension:[[sizeValue cellAtIndex:0] floatValue]];
-		[[sizeValue cellAtIndex:0] setFloatValue:[suv dimension]];
+		[suv setDimension:[[sizeValue cellAtIndex:0] doubleValue]];
+		[[sizeValue cellAtIndex:0] setDoubleValue:[suv dimension]];
 	} else if (sender==collapsedButton) {
 		if ([sender state]) {
 			[suv collapse];
@@ -229,14 +231,14 @@ static NSImage* thumb9 = nil;
 	[[autosaveName cellAtIndex:0] setStringValue:[sv autosaveName]];
 // Show clearColor if background is nil.
 	[hiddenButton setState:[sv isHidden]];
-	int count = [[sv subviews] count];
-	[[subviewCount cellAtIndex:0] setIntValue:count];
-	[subviewStepper setIntValue:count];
-	[[tagValue cellAtIndex:0] setIntValue:[sv tag]];
-	float divt = [sv RB___dividerThickness];
+	NSInteger count = [[sv subviews] count];
+	[[subviewCount cellAtIndex:0] setIntegerValue:count];
+	[subviewStepper setIntegerValue:count];
+	[[tagValue cellAtIndex:0] setIntegerValue:[sv tag]];
+	CGFloat divt = [sv RB___dividerThickness];
 	[thicknessValue setEnabled:(divt>0.0)||![sv divider]];
 	[useButton setState:divt<1.0];
-	[[thicknessValue cellAtIndex:0] setFloatValue:[sv dividerThickness]];
+	[[thicknessValue cellAtIndex:0] setDoubleValue:[sv dividerThickness]];
 	RBSplitView* suv = [sv ibSplitView];
 	BOOL notc = ![sv isCoupled];
 	[coupledButton setState:!notc];
@@ -247,17 +249,17 @@ static NSImage* thumb9 = nil;
 	[autosaveName setNextKeyView:suv?positionValue:subviewCount];
 	[collapseButton setState:[sv canCollapse]];
 	[[identifierValue cellAtIndex:0] setStringValue:[sv identifier]];
-	[[minimumValue cellAtIndex:0] setFloatValue:[sv minDimension]];
+	[[minimumValue cellAtIndex:0] setDoubleValue:[sv minDimension]];
 // No max limit is indicated by a blank value; don't want to confuse the user with 1000000.0
-	float dimension = [sv maxDimension];
+	CGFloat dimension = [sv maxDimension];
 	if (dimension<WAYOUT) {
-		[[maximumValue cellAtIndex:0] setFloatValue:dimension];
+		[[maximumValue cellAtIndex:0] setDoubleValue:dimension];
 	} else {
 		[[maximumValue cellAtIndex:0] setStringValue:@""];
 	}
-	unsigned position = [sv position];
-	[[positionValue cellAtIndex:0] setIntValue:position];
-	[positionStepper setIntValue:position];
+	NSUInteger position = [sv position];
+	[[positionValue cellAtIndex:0] setIntegerValue:position];
+	[positionStepper setIntegerValue:position];
 	[orientation selectCellWithTag:[sv isVertical]];
 	NSColor* background = [sv background];
 	[backgroundWell setColor:background?background:[NSColor clearColor]];
@@ -267,6 +269,7 @@ static NSImage* thumb9 = nil;
 	[[[dividerImage menu] itemAtIndex:0] setImage:divider];
 	[dividerImage setEnabled:notc];
 	NSSize size = divider?[divider size]:NSZeroSize;
+#warning 64BIT: Check formatting arguments
 	[dividerSize setStringValue:notc?[NSString stringWithFormat:@"(%g x %g)",size.width,size.height]:
 		@"(from containing view)"];
 	[sv adjustSubviews];
@@ -301,9 +304,9 @@ static NSImage* thumb9 = nil;
 		} else {
 			[sv setDividerThickness:[sv dividerThickness]];
 		}
-		float divt = [sv RB___dividerThickness];
+		CGFloat divt = [sv RB___dividerThickness];
 		[thicknessValue setEnabled:(divt>0.0)||![sv divider]];
-		[[thicknessValue cellAtIndex:0] setFloatValue:[sv dividerThickness]];
+		[[thicknessValue cellAtIndex:0] setDoubleValue:[sv dividerThickness]];
 		[useButton setState:divt<1.0];	
 	} else if (sender==coupledButton) {
 		[sv setCoupled:[coupledButton state]];
@@ -316,34 +319,35 @@ static NSImage* thumb9 = nil;
 		[[[dividerImage menu] itemAtIndex:0] setImage:divider];
 		[dividerImage setEnabled:notc];
 		NSSize size = divider?[divider size]:NSZeroSize;
+#warning 64BIT: Check formatting arguments
 		[dividerSize setStringValue:notc?[NSString stringWithFormat:@"(%g x %g)",size.width,size.height]:
 			@"(from containing view)"];
 	} else if (sender==identifierValue) {
 		[sv setIdentifier:[[identifierValue cellAtIndex:0] stringValue]];
 	} else if ((sender==minimumValue)||(sender==maximumValue)) {
-		[sv setMinDimension:[[minimumValue cellAtIndex:0] floatValue] andMaxDimension:[[maximumValue cellAtIndex:0] floatValue]];
+		[sv setMinDimension:[[minimumValue cellAtIndex:0] doubleValue] andMaxDimension:[[maximumValue cellAtIndex:0] doubleValue]];
 // No max limit is indicated by a blank value; don't want to confuse the user with 1000000.0
-		float dimension = [sv maxDimension];
+		CGFloat dimension = [sv maxDimension];
 		if (dimension<WAYOUT) {
-			[[maximumValue cellAtIndex:0] setFloatValue:dimension];
+			[[maximumValue cellAtIndex:0] setDoubleValue:dimension];
 		} else {
 			[[maximumValue cellAtIndex:0] setStringValue:@""];
 		}
 	} else if (sender==positionValue) {
-		unsigned position = [[positionValue cellAtIndex:0] intValue];
+		NSUInteger position = [[positionValue cellAtIndex:0] integerValue];
 		[sv setPosition:position];
 		position = [sv position];
-		[[positionValue cellAtIndex:0] setIntValue:position];
-		[positionStepper setIntValue:position];
+		[[positionValue cellAtIndex:0] setIntegerValue:position];
+		[positionStepper setIntegerValue:position];
 	} else if (sender==positionStepper) {
-		unsigned position = [positionStepper intValue];
+		NSUInteger position = [positionStepper integerValue];
 		[sv setPosition:position];
 		position = [sv position];
-		[[positionValue cellAtIndex:0] setIntValue:position];
-		[positionStepper setIntValue:position];
+		[[positionValue cellAtIndex:0] setIntegerValue:position];
+		[positionStepper setIntegerValue:position];
 	} else if (sender==thicknessValue) {
-		[sv setDividerThickness:[[thicknessValue cellAtIndex:0] floatValue]];
-		[[thicknessValue cellAtIndex:0] setFloatValue:[sv dividerThickness]];
+		[sv setDividerThickness:[[thicknessValue cellAtIndex:0] doubleValue]];
+		[[thicknessValue cellAtIndex:0] setDoubleValue:[sv dividerThickness]];
 	} else if (sender==autosaveName) {
 		[sv setAutosaveName:[[autosaveName cellAtIndex:0] stringValue] recursively:YES];
 	} else if (sender==backgroundWell) {
@@ -380,19 +384,19 @@ static NSImage* thumb9 = nil;
 	} else if (sender==orientation) {
 		[sv setVertical:[[orientation selectedCell] tag]];
 	} else if (sender==subviewCount) {
-		int count = [[subviewCount cellAtIndex:0] intValue];
+		NSInteger count = [[subviewCount cellAtIndex:0] integerValue];
 		[sv ibSetNumberOfSubviews:count];
 		count = [sv numberOfSubviews];
-		[subviewStepper setIntValue:count];
-		[[subviewCount cellAtIndex:0] setIntValue:count];
+		[subviewStepper setIntegerValue:count];
+		[[subviewCount cellAtIndex:0] setIntegerValue:count];
 	} else if (sender==subviewStepper) {
-		int count = [subviewStepper intValue];
+		NSInteger count = [subviewStepper integerValue];
 		[sv ibSetNumberOfSubviews:count];
 		count = [sv numberOfSubviews];
-		[subviewStepper setIntValue:count];
-		[[subviewCount cellAtIndex:0] setIntValue:count];
+		[subviewStepper setIntegerValue:count];
+		[[subviewCount cellAtIndex:0] setIntegerValue:count];
 	} else if (sender==tagValue) {
-		[sv setTag:[[tagValue cellAtIndex:0] intValue]];
+		[sv setTag:[[tagValue cellAtIndex:0] integerValue]];
 	}
 // If we're nested, adjust and redraw the containing RBSplitView.
 	RBSplitView* svv = [sv splitView];
@@ -438,7 +442,7 @@ static NSImage* thumb9 = nil;
 			rect = [self bounds];
 // Draws the bezel around the subview.
 			static NSRectEdge mySides[] = {NSMinXEdge,NSMaxYEdge,NSMinXEdge,NSMinYEdge,NSMaxXEdge,NSMaxYEdge,NSMaxXEdge,NSMinYEdge};
-			static float myGrays[] = {0.5,0.5,1.0,1.0,1.0,1.0,0.5,0.5};
+			static CGFloat myGrays[] = {0.5,0.5,1.0,1.0,1.0,1.0,0.5,0.5};
 			rect = NSDrawTiledRects(rect,rect,mySides,myGrays,8);
 			static NSColor* brown = nil;
 			if (!brown) {
@@ -452,6 +456,7 @@ static NSImage* thumb9 = nil;
 				attributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSColor whiteColor],NSForegroundColorAttributeName,[NSFont systemFontOfSize:12.0],NSFontAttributeName,nil];
 			}
 // Sets up the "nnnpx" string and draws it centered into the subview.
+#warning 64BIT: Check formatting arguments
 			NSAttributedString* label = [[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%gpx",[self dimension]] attributes:attributes] autorelease];
 			NSSize labelSize = [label size];
 			rect.origin.y += floorf((rect.size.height-labelSize.height)/2.0);
@@ -529,8 +534,8 @@ static NSImage* thumb9 = nil;
 - (NSSize)minimumFrameSizeFromKnobPosition:(IBKnobPosition)position {
 	RBSplitView* sv = [self asSplitView];
 	if (sv) {
-		unsigned count = [sv numberOfSubviews];
-		float size = 16.0*count+[sv dividerThickness]*(count-1);
+		NSUInteger count = [sv numberOfSubviews];
+		CGFloat size = 16.0*count+[sv dividerThickness]*(count-1);
 		return [sv isHorizontal]?NSMakeSize(16.0,size):NSMakeSize(size,16.0);
 	}
 	return NSMakeSize(16.0,16.0);
@@ -691,8 +696,8 @@ static NSImage* thumb9 = nil;
 
 // This is called when setting the number of subviews from the inspector. There's some IB stuff
 // interleaved to tweak the outline hierarchy.
-- (void)ibSetNumberOfSubviews:(unsigned)count {
-	unsigned now = [self numberOfSubviews];
+- (void)ibSetNumberOfSubviews:(NSUInteger)count {
+	NSUInteger now = [self numberOfSubviews];
 	NSRect frame = NSZeroRect;
 	id<IBDocuments> document = nil;
 	if (now<count) {
@@ -729,9 +734,9 @@ static NSImage* thumb9 = nil;
 	}
 	NSPoint where = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	NSArray* subviews = [self subviews];
-	int subcount = [subviews count];
+	NSInteger subcount = [subviews count];
 	if (subcount>1) {
-		int i;
+		NSInteger i;
 		NSPoint base = NSZeroPoint;
 // Strangely enough, when this is called the view hierarchy isn't inserted into a window at all, but rather
 // into a (non-visible) container view, so we have to account for its frame offset.
@@ -764,7 +769,7 @@ static NSImage* thumb9 = nil;
 				NSRect* divi = &dividers[i];
 				if ([self mouse:where inRect:*divi]) {
 // Found one; record the offset within the divider rectangle and show the cursor.
-					float offset = DIM(where)-DIM(divi->origin);
+					CGFloat offset = DIM(where)-DIM(divi->origin);
 					[[NSCursor closedHandCursor] push];
 // Save state for undoing the divider drag.
 					NSUndoManager* undo = [viewEditor undoManager];
