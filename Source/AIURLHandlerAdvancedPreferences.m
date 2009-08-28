@@ -246,7 +246,7 @@
 	return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(int)row
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
 	NSString *identifier = tableColumn.identifier;
 	NSString *scheme = [servicesList objectAtIndex:row];

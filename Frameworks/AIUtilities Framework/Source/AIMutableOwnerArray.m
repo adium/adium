@@ -166,7 +166,7 @@
 			
 			//Find the object with the largest int value
 			for (index = 0;index < count;index++) {
-				int	value = [[contentArray objectAtIndex:index] intValue];
+				int	value = [[contentArray objectAtIndex:index] integerValue];
 				
 				if (value > currentMax) {
 					currentMax = value;
@@ -179,7 +179,7 @@
 			
 			return currentMax;
 		} else {
-			return [[contentArray objectAtIndex:0] intValue];
+			return [[contentArray objectAtIndex:0] integerValue];
 		}
 	}
 	return 0;

@@ -29,7 +29,7 @@
  * Returns the total height needed to display all rows of the outline view
  * @return The total required height
  */
-- (int)totalHeight;
+- (NSInteger)totalHeight;
 
 /*!
  * @brief Set if the selection highlight should only be drawn when the outlineView is the main (active) view.
