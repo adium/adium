@@ -32,7 +32,7 @@
 	IBOutlet NSButton* currentMinButton;
 	IBOutlet NSButton* currentMaxButton;
 }
-- (void)setSubview:(NSView*)subview withUndo:(NSUndoManager*)undo frame:(NSRect)frame andAutoresizingMask:(unsigned int)autoresizingMask;
+- (void)setSubview:(NSView*)subview withUndo:(NSUndoManager*)undo frame:(NSRect)frame andAutoresizingMask:(NSUInteger)autoresizingMask;
 @end
 
 // This class implements the RBSplitSubview size inspector.
@@ -81,7 +81,7 @@
 // This category adds some functionality to RBSplitView to support Interface Builder stuff.
 
 @interface RBSplitView (RBSVIBAdditions)
-- (void)ibSetNumberOfSubviews:(unsigned)count;
+- (void)ibSetNumberOfSubviews:(NSUInteger)count;
 - (BOOL)ibHandleMouseDown:(NSEvent*)theEvent in:(NSView<IBEditors>*)viewEditor;
 - (void)ibRestoreState:(NSString*)string in:(NSView<IBEditors>*)viewEditor;
 @end
