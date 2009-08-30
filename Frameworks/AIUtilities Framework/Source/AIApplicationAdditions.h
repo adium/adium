@@ -9,5 +9,6 @@
 @interface NSApplication (AIApplicationAdditions)
 
 - (NSString *)applicationVersion;
+- (BOOL)isOnSnowLeopardOrBetter;
 
 @end
