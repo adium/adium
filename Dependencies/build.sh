@@ -191,6 +191,58 @@ revpatch() {
 }
 
 ##
+# xconfigure <CFLAGS> <LDFLAGS> <configure command> <headers to mux>
+#
+# Cycles through supported host configurations and muxes platform-dependant
+# headers.
+# This ensures that we don't have type mismatches and compile time overflows.
+xconfigure() {
+	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
+		status "...for ${HOSTS[i]}"
+		export CFLAGS="${1} -arch ${ARCHS[i]}"
+		export LDFLAGS="${2} -arch ${ARCHS[i]}"
+		CONFIG_CMD="${3} --host=${HOSTS[i]}"
+		${CONFIG_CMD}
+		
+		for FILE in ${@:4} ; do
+			local ext=${FILE##*.}
+			local base=${FILE:0:${#FILE}-${#ext}-1}
+			mv ${FILE} ${base}-${ARCHS[i]}.${ext}
+		done
+	done
+	
+	# reconfigure *again* to set C and LD Flags right
+	# Yes, it's an ugly hack, and should probably be replaced with
+	# find and a sed script.
+	status "...for universal build"
+	export CFLAGS="${1} ${ARCH_FLAGS}"
+	export LDFLAGS="${2} ${ARCH_FLAGS}"
+	local self_host=`gcc -dumpmachine`
+	${3}
+	
+	# mux headers
+	for FILE in ${@:4} ; do
+		status "Muxing ${FILE}..."
+		local ext=${FILE##*.}
+		local base=${FILE:0:${#FILE}-${#ext}-1}
+		quiet rm ${FILE}
+		for (( i=0; i<${#ARCHS[@]}; i++ )) ; do
+			status "...for ${ARCHS[i]}"
+			if [[ $i == 0 ]] ; then
+				echo "#if defined (__${ARCHS[i]}__)" > ${FILE}
+			else
+				echo "#elif defined (__${ARCHS[i]}__)" >> ${FILE}
+			fi
+			cat ${base}-${ARCHS[i]}.${ext} >> ${FILE}
+		done
+		echo "#else" >> ${FILE}
+		echo "#error This isn't a recognized platform." >> ${FILE}
+		echo "#endif" >> ${FILE} 
+		status "...${FILE} muxed"
+	done	
+}
+
+##
 # pkg-config
 #
 # We only need a native pkg-config, so no worries about making it a Universal
@@ -228,11 +280,16 @@ build_gettext() {
 	
 	if needsconfigure $@; then
 		status "Configuring gettext"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" ./configure \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
 			--prefix="$ROOTDIR/build" \
+			--disable-java \
 			--disable-static \
 			--enable-shared \
 			--disable-dependency-tracking
+		#xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		#	"${ROOTDIR}/source/gettext/gettext-tools/config.h" \
+		#	"${ROOTDIR}/source/gettext/gettext-runtime/config.h" \
+		#	"${ROOTDIR}/source/gettext/gettext-runtime/libasprintf/config.h"
 	fi
 	
 	status "Building and installing gettext"
@@ -267,14 +324,18 @@ build_glib() {
 	
 	if needsconfigure $@; then
 		status "Configuring glib"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS -lintl" \
-			MSGFMT="$ROOTDIR/build/bin/msgfmt" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
+		export MSGFMT="${ROOTDIR}/build/bin/msgfmt"
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
 				--disable-static \
 				--enable-shared \
 				--with-libiconv=native \
-				--disable-dependency-tracking
+				--disable-fam \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/glib/config.h" \
+			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
+			"${ROOTDIR}/source/glib/glibconfig.h"
 	fi
 	
 	status "Building and installing glib"
@@ -319,7 +380,7 @@ build_meanwhile() {
 		rm -f libtool
 		
 		status "Configuring Meanwhile"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			GLIB_LIBS="$ROOTDIR/build/lib" \
 			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
 			             -I$ROOTDIR/build/lib/glib-2.0/include" \
@@ -333,7 +394,7 @@ build_meanwhile() {
 	fi
 	
 	status "Building and installing Meanwhile"
-	CFLAGS="$FLAGS" LDFLAGS="$FLAGS" make -j $NUMBER_OF_CORES
+	CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" make -j $NUMBER_OF_CORES
 	make install
 	
 	# Undo all the patches
@@ -357,7 +418,7 @@ build_gadugadu() {
 	
 	if needsconfigure $@; then
 		status "Configuring Gadu-Gadu"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" ./configure \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
 			--prefix="$ROOTDIR/build" \
 			--disable-static \
 			--enable-shared \
@@ -388,7 +449,7 @@ build_sipe() {
 	
 	if needsconfigure $@; then
 		status "Configuring SIPE"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build"
 				--disable-dependency-tracking
@@ -417,7 +478,7 @@ build_gfire() {
 	
 	if needsconfigure $@; then
 		status "Configuring Gfire"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -463,7 +524,7 @@ build_jsonglib() {
 	
 	if needsconfigure $@; then
 		status "Configuring json-glib"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			GLIB_LIBS="$ROOTDIR/build/lib" \
 			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
 			             -I$ROOTDIR/build/lib/glib-2.0/include" \
@@ -552,10 +613,10 @@ build_libpurple() {
 	
 	if needsconfigure $@; then
 		status "Configuring libpurple"
-		CFLAGS="$FLAGS -I/usr/include/kerberosIV \
+		CFLAGS="$ARCH_CFLAGS -I/usr/include/kerberosIV \
 		       -DHAVE_SSL -DHAVE_OPENSSL -fno-common" \
 			ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal" \
-			LDFLAGS="$FLAGS -lsasl2 -ljson-glib-1.0" \
+			LDFLAGS="$ARCH_LDFLAGS -lsasl2 -ljson-glib-1.0" \
 			LIBXML_CFLAGS="-I/usr/include/libxml2" \
 			LIBXML_LIBS="-lxml2" \
 			GADU_CFLAGS="-I$ROOTDIR/build/include" \
@@ -622,7 +683,7 @@ build_libxml2() {
 	
 	if needsconfigure $@; then
 		status "Configuring xml2"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--with-python=no \
@@ -655,7 +716,7 @@ build_gst_plugins() {
 	
 	if needsconfigure $@; then
 		status "Configuring oil"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -683,7 +744,7 @@ build_gstreamer() {
 	
 	if needsconfigure $@; then
 		status "Configuring gstreamer"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -721,17 +782,37 @@ if ! expr "$ROOTDIR" : '.*/Dependencies$' &> /dev/null; then
 	exit 1
 fi
 
+TARGET_BASE="apple-darwin10"
+
+# Arrays for archs and host systems, sometimes an -arch just isnt enough!
+ARCHS=( "x86_64" "i386" "ppc" )
+HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" "powerpc-${TARGET_BASE}" )
+
+SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
+MIN_OS_VERSION="10.5"
 # The basic linker/compiler flags we'll be referring to
-FLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk \
-       -arch i386 -arch x86_64 -arch ppc \
-       -I$ROOTDIR/build/include \
-       -L$ROOTDIR/build/lib"
+BASE_CFLAGS="-isysroot $SDK_ROOT \
+	-mmacosx-version-min=$MIN_OS_VERSION \
+	-I$ROOTDIR/build/include \
+	-L$ROOTDIR/build/lib"
+BASE_LDFLAGS="-mmacosx-version-min=$MIN_OS_VERSION \
+	-Wl,-syslibroot,$SDK_ROOT \
+	-I$ROOTDIR/build/include \
+	-L$ROOTDIR/build/lib"
+
+ARCH_FLAGS=""
+for ARCH in ${ARCHS[@]} ; do
+	ARCH_FLAGS="${ARCH_FLAGS} -arch ${ARCH}"
+done
+
+ARCH_CFLAGS="${BASE_CFLAGS} ${ARCH_FLAGS}"
+ARCH_LDFLAGS="${BASE_LDFLAGS} ${ARCH_FLAGS}"
 
 # Ok, so we keep running into issues where MacPorts will volunteer to supply
 # dependencies that we want to build ourselves. On the other hand, maybe we
 # rely on MacPorts for stuff like monotone.
 MTN=`which mtn`
-export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Developer/usr/bin:/Developer/usr/sbin
 export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
 export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 
