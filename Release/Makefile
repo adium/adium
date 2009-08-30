@@ -17,7 +17,7 @@
 # - make all
 ###########
 
-VERSION=1.4hg
+VERSION=1.5hg
 BUILD_IN_DEBUG_MODE?=TRUE
 BETA?=TRUE
 OFFICIAL_BUILD?=TRUE
