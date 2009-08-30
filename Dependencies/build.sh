@@ -418,11 +418,14 @@ build_gadugadu() {
 	
 	if needsconfigure $@; then
 		status "Configuring Gadu-Gadu"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
-			--prefix="$ROOTDIR/build" \
+		CONFIG_CMD="./configure \
+			--prefix=$ROOTDIR/build \
 			--disable-static \
 			--enable-shared \
-			--disable-dependency-tracking
+			--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gadu-gadu/config.h" \
+			"${ROOTDIR}/source/gadu-gadu/include/libgadu.h"
 	fi
 	
 	status "Building and installing Gadu-Gadu"
