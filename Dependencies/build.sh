@@ -616,19 +616,16 @@ build_libpurple() {
 	
 	if needsconfigure $@; then
 		status "Configuring libpurple"
-		CFLAGS="$ARCH_CFLAGS -I/usr/include/kerberosIV \
-		       -DHAVE_SSL -DHAVE_OPENSSL -fno-common" \
-			ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal" \
-			LDFLAGS="$ARCH_LDFLAGS -lsasl2 -ljson-glib-1.0" \
-			LIBXML_CFLAGS="-I/usr/include/libxml2" \
-			LIBXML_LIBS="-lxml2" \
-			GADU_CFLAGS="-I$ROOTDIR/build/include" \
-			GADU_LIBS="-lgadu" \
-			MEANWHILE_CFLAGS="-I$ROOTDIR/build/include/meanwhile \
-			                  -I$ROOTDIR/build/include/glib-2.0 \
-			                  -I$ROOTDIR/build/lib/glib-2.0/include" \
-			MEANWHILE_LIBS="-lmeanwhile -lglib-2.0 -liconv" \
-			./autogen.sh \
+		export ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal"
+		export LIBXML_CFLAGS="-I/usr/include/libxml2"
+		export LIBXML_LIBS="-lxml2"
+		export GADU_CFLAGS="-I$ROOTDIR/build/include"
+		export GADU_LIBS="-lgadu"
+		export MEANWHILE_CFLAGS="-I$ROOTDIR/build/include/meanwhile \
+			-I$ROOTDIR/build/include/glib-2.0 \
+			-I$ROOTDIR/build/lib/glib-2.0/include"
+		export MEANWHILE_LIBS="-lmeanwhile -lglib-2.0 -liconv"
+		CONFIG_CMD="./autogen.sh \
 				--disable-dependency-tracking \
 				--disable-gtkui \
 				--disable-consoleui \
@@ -637,8 +634,8 @@ build_libpurple() {
 				--disable-static \
 				--enable-shared \
 				--enable-cyrus-sasl \
-				--prefix="$ROOTDIR/build" \
-				--with-static-prpls="$PROTOCOLS" \
+				--prefix=$ROOTDIR/build \
+				--with-static-prpls=$PROTOCOLS \
 				--disable-plugins \
 				--disable-gstreamer \
 				--disable-avahi \
@@ -647,7 +644,13 @@ build_libpurple() {
 				--enable-nss=no \
 				--disable-vv \
 				--disable-idn \
-				"$KERBEROS"
+				$KERBEROS"
+		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
+			        -DHAVE_OPENSSL -fno-common" \
+			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0" \
+			"${CONFIG_CMD}" \
+			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
+			"${ROOTDIR}/source/im.pidgin.adium/config.h"
 	fi
 	
 	status "Building and installing libpurple"
