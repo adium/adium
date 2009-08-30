@@ -269,7 +269,6 @@ build_glib() {
 		status "Configuring glib"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS -lintl" \
 			MSGFMT="$ROOTDIR/build/bin/msgfmt" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-static \
@@ -294,7 +293,7 @@ build_glib() {
 #
 build_meanwhile() {
 	prereq "meanwhile" \
-		"http://dl.sf.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
+		"http://dl.sourceforge.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/meanwhile"
 	
@@ -321,7 +320,6 @@ build_meanwhile() {
 		
 		status "Configuring Meanwhile"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
 			GLIB_LIBS="$ROOTDIR/build/lib" \
 			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
 			             -I$ROOTDIR/build/lib/glib-2.0/include" \
@@ -391,7 +389,6 @@ build_sipe() {
 	if needsconfigure $@; then
 		status "Configuring SIPE"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
 			./configure \
 				--prefix="$ROOTDIR/build"
 				--disable-dependency-tracking
@@ -421,7 +418,6 @@ build_gfire() {
 	if needsconfigure $@; then
 		status "Configuring Gfire"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -457,6 +453,37 @@ build_intltool() {
 }
 
 ##
+# json-glib
+#
+build_jsonglib() {
+	prereq "json-glib" \
+		"http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/json-glib"
+	
+	if needsconfigure $@; then
+		status "Configuring json-glib"
+		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
+			GLIB_LIBS="$ROOTDIR/build/lib" \
+			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			             -I$ROOTDIR/build/lib/glib-2.0/include" \
+			./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-dependency-tracking
+	fi
+	
+	status "Building and installing json-glib"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	# C'mon, why do you make me do this?
+	ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+		"$ROOTDIR/build/include/json-glib"
+	
+	quiet popd
+}
+
+##
 # fetch_libpurple
 #
 fetch_libpurple() {
@@ -466,8 +493,8 @@ fetch_libpurple() {
 		
 		status "Pulling latest changes to libpurple"
 		cd "im.pidgin.adium"
-		mtn pull
-		mtn update
+		$MTN pull
+		$MTN update
 		
 	else
 		
@@ -481,13 +508,13 @@ fetch_libpurple() {
 		bzip2 -d "pidgin.mtn.bz2"
 	
 		status "Migrating database to new schema"
-		mtn db -d "pidgin.mtn" migrate
+		$MTN db -d "pidgin.mtn" migrate
 	
 		status "Pulling updates to monotone database"
-		mtn -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
+		$MTN -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
 	
-		status "Checking out im.pidgin.adium branch"
-		mtn -d "pidgin.mtn" co -b "im.pidgin.adium" .
+		status "Checking out im.pidgin.adium.1-4 branch"
+		$MTN -d "pidgin.mtn" co -b "im.pidgin.adium.1-4" .
 	
 	fi
 	
@@ -516,7 +543,8 @@ build_libpurple() {
 	#    $ nm -arch x86_64 /usr/lib/libkrb4.dylib | grep krb_rd_req
 	# So, only enable it on Snow Leopard
 	if [ "$(sysctl -b kern.osrelease | awk -F '.' '{ print $1}')" -ge 10 ]; then
-		KERBEROS="--with-krb4"
+		#KERBEROS="--with-krb4"
+		KERBEROS=""
 	else
 		warning "Kerberos support is disabled."
 		KERBEROS=""
@@ -527,10 +555,7 @@ build_libpurple() {
 		CFLAGS="$FLAGS -I/usr/include/kerberosIV \
 		       -DHAVE_SSL -DHAVE_OPENSSL -fno-common" \
 			ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal" \
-				PATH="$ROOTDIR/build/bin:$PATH" \
-			LDFLAGS="$FLAGS -lsasl2" \
-			PATH="$ROOTDIR/build/bin:$PATH" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+			LDFLAGS="$FLAGS -lsasl2 -ljson-glib-1.0" \
 			LIBXML_CFLAGS="-I/usr/include/libxml2" \
 			LIBXML_LIBS="-lxml2" \
 			GADU_CFLAGS="-I$ROOTDIR/build/include" \
@@ -556,6 +581,8 @@ build_libpurple() {
 				--disable-dbus \
 				--enable-gnutls=no \
 				--enable-nss=no \
+				--disable-vv \
+				--disable-idn \
 				"$KERBEROS"
 	fi
 	
@@ -596,8 +623,6 @@ build_libxml2() {
 	if needsconfigure $@; then
 		status "Configuring xml2"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--with-python=no \
@@ -631,8 +656,6 @@ build_gst_plugins() {
 	if needsconfigure $@; then
 		status "Configuring oil"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -661,8 +684,6 @@ build_gstreamer() {
 	if needsconfigure $@; then
 		status "Configuring gstreamer"
 		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -701,10 +722,18 @@ if ! expr "$ROOTDIR" : '.*/Dependencies$' &> /dev/null; then
 fi
 
 # The basic linker/compiler flags we'll be referring to
-FLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk \
+FLAGS="-isysroot /Developer/SDKs/MacOSX10.6.sdk \
        -arch i386 -arch x86_64 -arch ppc \
        -I$ROOTDIR/build/include \
        -L$ROOTDIR/build/lib"
+
+# Ok, so we keep running into issues where MacPorts will volunteer to supply
+# dependencies that we want to build ourselves. On the other hand, maybe we
+# rely on MacPorts for stuff like monotone.
+MTN=`which mtn`
+export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
+export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 
 # Make the source and build directories while we're here
 quiet mkdir "source"
@@ -719,6 +748,7 @@ build_meanwhile $@
 build_gadugadu $@
 
 build_intltool $@
+build_jsonglib $@
 build_libpurple $@
 
 #build_gstreamer $@
