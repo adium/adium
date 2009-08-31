@@ -191,6 +191,105 @@ revpatch() {
 }
 
 ##
+# xcompile <CFLAGS> <LDFLAGS> <configure command> <files to combine>
+#
+# Cycles through supported host configurations and builds, then lipo-ing them all together.
+xcompile() {
+	quiet mkdir "${ROOTDIR}/sandbox"
+	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
+		status "...configuring for ${HOSTS[i]}"
+		quiet mkdir "${ROOTDIR}/sandbox/root-${ARCHS[i]}"
+		export CFLAGS="${1} -arch ${ARCHS[i]} -DHAVE_SYMBOL_UNDERSCORE"
+		export LDFLAGS="${2} -arch ${ARCHS[i]}"
+		
+		${3} --host="${HOSTS[i]}" --build="${HOSTS[i]}" \
+			--prefix="${ROOTDIR}/sandbox/root-${ARCHS[i]}"
+		
+		status "...making and installing for ${HOSTS[i]}"
+		make -j $NUMBER_OF_CORES
+		make install
+		make clean
+	done
+	
+	# create universal
+	for FILE in ${@:4} ; do
+		local lipoFiles=""
+		for ARCH in ${ARCHS[@]} ; do
+			lipoFiles="${lipoFiles} -arch ${ARCH} ${ROOTDIR}/sandbox/root-${ARCH}/${FILE}"
+		done
+		status "combine ${lipoFiles} to build/${FILE}"
+		lipo -create ${lipoFiles} -output "${ROOTDIR}/build/${FILE}"
+	done
+	
+	#copy headers and pkgconf files
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/*"
+	for f in ${files} ; do
+		cp -R ${f} "${ROOTDIR}/build/include"
+	done
+	
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
+	for f in ${files} ; do
+		status "patching pkgconfig file: ${f}"
+		local basename=`basename ${f}`
+		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
+		local SEDPAT="s/prefix=.*/prefix=${SEDREP}\\/build/"
+		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/pkgconfig/${basename}"
+	done
+	quiet rm -rf "${ROOTDIR}/sandbox"
+}
+##
+# xconfigure <CFLAGS> <LDFLAGS> <configure command> <headers to mux>
+#
+# Cycles through supported host configurations and muxes platform-dependant
+# headers.
+# This ensures that we don't have type mismatches and compile time overflows.
+xconfigure() {
+	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
+		status "...for ${HOSTS[i]}"
+		export CFLAGS="${1} -arch ${ARCHS[i]}"
+		export LDFLAGS="${2} -arch ${ARCHS[i]}"
+		CONFIG_CMD="${3} --host=${HOSTS[i]}"
+		${CONFIG_CMD}
+		
+		for FILE in ${@:4} ; do
+			local ext=${FILE##*.}
+			local base=${FILE:0:${#FILE}-${#ext}-1}
+			mv ${FILE} ${base}-${ARCHS[i]}.${ext}
+		done
+	done
+	
+	# reconfigure *again* to set C and LD Flags right
+	# Yes, it's an ugly hack, and should probably be replaced with
+	# find and a sed script.
+	status "...for universal build"
+	export CFLAGS="${1} ${ARCH_FLAGS}"
+	export LDFLAGS="${2} ${ARCH_FLAGS}"
+	local self_host=`gcc -dumpmachine`
+	${3}
+	
+	# mux headers
+	for FILE in ${@:4} ; do
+		status "Muxing ${FILE}..."
+		local ext=${FILE##*.}
+		local base=${FILE:0:${#FILE}-${#ext}-1}
+		quiet rm ${FILE}
+		for (( i=0; i<${#ARCHS[@]}; i++ )) ; do
+			status "...for ${ARCHS[i]}"
+			if [[ $i == 0 ]] ; then
+				echo "#if defined (__${ARCHS[i]}__)" > ${FILE}
+			else
+				echo "#elif defined (__${ARCHS[i]}__)" >> ${FILE}
+			fi
+			cat ${base}-${ARCHS[i]}.${ext} >> ${FILE}
+		done
+		echo "#else" >> ${FILE}
+		echo "#error This isn't a recognized platform." >> ${FILE}
+		echo "#endif" >> ${FILE} 
+		status "...${FILE} muxed"
+	done	
+}
+
+##
 # pkg-config
 #
 # We only need a native pkg-config, so no worries about making it a Universal
@@ -228,11 +327,16 @@ build_gettext() {
 	
 	if needsconfigure $@; then
 		status "Configuring gettext"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" ./configure \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
 			--prefix="$ROOTDIR/build" \
+			--disable-java \
 			--disable-static \
 			--enable-shared \
 			--disable-dependency-tracking
+		#xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		#	"${ROOTDIR}/source/gettext/gettext-tools/config.h" \
+		#	"${ROOTDIR}/source/gettext/gettext-runtime/config.h" \
+		#	"${ROOTDIR}/source/gettext/gettext-runtime/libasprintf/config.h"
 	fi
 	
 	status "Building and installing gettext"
@@ -267,15 +371,18 @@ build_glib() {
 	
 	if needsconfigure $@; then
 		status "Configuring glib"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS -lintl" \
-			MSGFMT="$ROOTDIR/build/bin/msgfmt" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
+		export MSGFMT="${ROOTDIR}/build/bin/msgfmt"
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
 				--disable-static \
 				--enable-shared \
 				--with-libiconv=native \
-				--disable-dependency-tracking
+				--disable-fam \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/glib/config.h" \
+			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
+			"${ROOTDIR}/source/glib/glibconfig.h"
 	fi
 	
 	status "Building and installing glib"
@@ -294,7 +401,7 @@ build_glib() {
 #
 build_meanwhile() {
 	prereq "meanwhile" \
-		"http://dl.sf.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
+		"http://dl.sourceforge.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/meanwhile"
 	
@@ -320,8 +427,7 @@ build_meanwhile() {
 		rm -f libtool
 		
 		status "Configuring Meanwhile"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			GLIB_LIBS="$ROOTDIR/build/lib" \
 			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
 			             -I$ROOTDIR/build/lib/glib-2.0/include" \
@@ -335,7 +441,7 @@ build_meanwhile() {
 	fi
 	
 	status "Building and installing Meanwhile"
-	CFLAGS="$FLAGS" LDFLAGS="$FLAGS" make -j $NUMBER_OF_CORES
+	CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" make -j $NUMBER_OF_CORES
 	make install
 	
 	# Undo all the patches
@@ -359,11 +465,14 @@ build_gadugadu() {
 	
 	if needsconfigure $@; then
 		status "Configuring Gadu-Gadu"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" ./configure \
-			--prefix="$ROOTDIR/build" \
+		CONFIG_CMD="./configure \
+			--prefix=$ROOTDIR/build \
 			--disable-static \
 			--enable-shared \
-			--disable-dependency-tracking
+			--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gadu-gadu/config.h" \
+			"${ROOTDIR}/source/gadu-gadu/include/libgadu.h"
 	fi
 	
 	status "Building and installing Gadu-Gadu"
@@ -390,8 +499,7 @@ build_sipe() {
 	
 	if needsconfigure $@; then
 		status "Configuring SIPE"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build"
 				--disable-dependency-tracking
@@ -420,8 +528,7 @@ build_gfire() {
 	
 	if needsconfigure $@; then
 		status "Configuring Gfire"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
@@ -457,6 +564,37 @@ build_intltool() {
 }
 
 ##
+# json-glib
+#
+build_jsonglib() {
+	prereq "json-glib" \
+		"http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/json-glib"
+	
+	if needsconfigure $@; then
+		status "Configuring json-glib"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			GLIB_LIBS="$ROOTDIR/build/lib" \
+			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			             -I$ROOTDIR/build/lib/glib-2.0/include" \
+			./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-dependency-tracking
+	fi
+	
+	status "Building and installing json-glib"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	# C'mon, why do you make me do this?
+	ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+		"$ROOTDIR/build/include/json-glib"
+	
+	quiet popd
+}
+
+##
 # fetch_libpurple
 #
 fetch_libpurple() {
@@ -466,8 +604,8 @@ fetch_libpurple() {
 		
 		status "Pulling latest changes to libpurple"
 		cd "im.pidgin.adium"
-		mtn pull
-		mtn update
+		$MTN pull
+		$MTN update
 		
 	else
 		
@@ -481,13 +619,13 @@ fetch_libpurple() {
 		bzip2 -d "pidgin.mtn.bz2"
 	
 		status "Migrating database to new schema"
-		mtn db -d "pidgin.mtn" migrate
+		$MTN db -d "pidgin.mtn" migrate
 	
 		status "Pulling updates to monotone database"
-		mtn -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
+		$MTN -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
 	
-		status "Checking out im.pidgin.adium branch"
-		mtn -d "pidgin.mtn" co -b "im.pidgin.adium" .
+		status "Checking out im.pidgin.adium.1-4 branch"
+		$MTN -d "pidgin.mtn" co -b "im.pidgin.adium.1-4" .
 	
 	fi
 	
@@ -516,7 +654,8 @@ build_libpurple() {
 	#    $ nm -arch x86_64 /usr/lib/libkrb4.dylib | grep krb_rd_req
 	# So, only enable it on Snow Leopard
 	if [ "$(sysctl -b kern.osrelease | awk -F '.' '{ print $1}')" -ge 10 ]; then
-		KERBEROS="--with-krb4"
+		#KERBEROS="--with-krb4"
+		KERBEROS=""
 	else
 		warning "Kerberos support is disabled."
 		KERBEROS=""
@@ -524,22 +663,16 @@ build_libpurple() {
 	
 	if needsconfigure $@; then
 		status "Configuring libpurple"
-		CFLAGS="$FLAGS -I/usr/include/kerberosIV \
-		       -DHAVE_SSL -DHAVE_OPENSSL -fno-common" \
-			ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal" \
-				PATH="$ROOTDIR/build/bin:$PATH" \
-			LDFLAGS="$FLAGS -lsasl2" \
-			PATH="$ROOTDIR/build/bin:$PATH" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			LIBXML_CFLAGS="-I/usr/include/libxml2" \
-			LIBXML_LIBS="-lxml2" \
-			GADU_CFLAGS="-I$ROOTDIR/build/include" \
-			GADU_LIBS="-lgadu" \
-			MEANWHILE_CFLAGS="-I$ROOTDIR/build/include/meanwhile \
-			                  -I$ROOTDIR/build/include/glib-2.0 \
-			                  -I$ROOTDIR/build/lib/glib-2.0/include" \
-			MEANWHILE_LIBS="-lmeanwhile -lglib-2.0 -liconv" \
-			./autogen.sh \
+		export ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal"
+		export LIBXML_CFLAGS="-I/usr/include/libxml2"
+		export LIBXML_LIBS="-lxml2"
+		export GADU_CFLAGS="-I$ROOTDIR/build/include"
+		export GADU_LIBS="-lgadu"
+		export MEANWHILE_CFLAGS="-I$ROOTDIR/build/include/meanwhile \
+			-I$ROOTDIR/build/include/glib-2.0 \
+			-I$ROOTDIR/build/lib/glib-2.0/include"
+		export MEANWHILE_LIBS="-lmeanwhile -lglib-2.0 -liconv"
+		CONFIG_CMD="./autogen.sh \
 				--disable-dependency-tracking \
 				--disable-gtkui \
 				--disable-consoleui \
@@ -548,15 +681,23 @@ build_libpurple() {
 				--disable-static \
 				--enable-shared \
 				--enable-cyrus-sasl \
-				--prefix="$ROOTDIR/build" \
-				--with-static-prpls="$PROTOCOLS" \
+				--prefix=$ROOTDIR/build \
+				--with-static-prpls=$PROTOCOLS \
 				--disable-plugins \
 				--disable-gstreamer \
 				--disable-avahi \
 				--disable-dbus \
 				--enable-gnutls=no \
 				--enable-nss=no \
-				"$KERBEROS"
+				--disable-vv \
+				--disable-idn \
+				$KERBEROS"
+		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
+			        -DHAVE_OPENSSL -fno-common" \
+			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0" \
+			"${CONFIG_CMD}" \
+			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
+			"${ROOTDIR}/source/im.pidgin.adium/config.h"
 	fi
 	
 	status "Building and installing libpurple"
@@ -587,6 +728,9 @@ build_libpurple() {
 	quiet popd
 }
 
+##
+# xml2
+#
 build_libxml2() {
 	prereq "xml2" \
 		"ftp://xmlsoft.org:21//libxml2/libxml2-sources-2.7.3.tar.gz"
@@ -595,9 +739,7 @@ build_libxml2() {
 	
 	if needsconfigure $@; then
 		status "Configuring xml2"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--with-python=no \
@@ -611,41 +753,138 @@ build_libxml2() {
 	quiet popd
 }
 
+
 ##
-# gstreamer plugins
-#
-build_gst_plugins() {
+# liboil
+# liboil needs special threatment.  Rather than placing platform specific code
+# in a ifdef, it sequesters it by directory and invokes a makefile.  woowoo.
+build_liboil() {
 	prereq "oil" \
 		"http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz"
-	prereq "gst-plugins-base" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
-	prereq "gst-plugins-good" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-good-0.10.15.tar.gz"
-	prereq "gst-plugins-bad" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-bad-0.10.13.tar.gz"
-	prereq "gst-plugins-farsight" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-farsight-0.12.11.tar.gz"
-
+	
 	quiet pushd "$ROOTDIR/source/oil"
 	
+	status "Cross-comiling oil..."
+	CONFIG_CMD="./configure \
+				--disable-dependency-tracking"
+	xcompile "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		"lib/liboil-0.3.0.dylib" \
+		"lib/liboil-0.3.a" \
+		"lib/liboil-0.3.la" \
+		"bin/oil-bugreport"
+
+	status "...done cross-compiling oil"
+	
+	quiet popd
+}
+
+##
+# gst-plugins-base
+#
+build_gst_plugins_base() {
+	prereq "gst-plugins-base" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gst-plugins-base"
+	
 	if needsconfigure $@; then
-		status "Configuring oil"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
+		status "Configuring gst-plugins-base"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
 	fi
 	
-	status "Building and installing gstreamer"
-	warning "Building too much! Patch the Makefile"
+	status "Building and installing gst-plugins-base"
 	make -j $NUMBER_OF_CORES
 	make install
 	
 	quiet popd
 }
 
+##
+# gst-plugins-good
+#
+build_gst_plugins_good() {
+	prereq "gst-plugins-good" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-good-0.10.15.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gst-plugins-good"
+	
+	if needsconfigure $@; then
+		status "Configuring gst-plugins-good"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-aalib \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gst-plugins-good"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# gst-plugins-bad
+#
+build_gst_plugins_bad() {
+	prereq "gst-plugins-bad" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-bad-0.10.13.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gst-plugins-bad"
+	
+	if needsconfigure $@; then
+		status "Configuring gst-plugins-bad"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gst-plugins-bad"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# gst-plugins-farsight
+#
+build_gst_plugins_farsight() {
+	prereq "gst-plugins-farsight" \
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-farsight-0.12.11.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gst-plugins-farsight"
+	
+	if needsconfigure $@; then
+		status "Configuring gst-plugins-farsight"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gst-plugins-farsight"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# gstreamer plugins
+#
+build_gst_plugins() {
+	build_liboil $@
+#	build_gst_plugins_base $@
+#	build_gst_plugins_good $@
+#	build_gst_plugins_bad $@
+#	build_gst_plugins_farsight $@
+}
 
 ##
 # gstreamer
@@ -660,12 +899,12 @@ build_gstreamer() {
 	
 	if needsconfigure $@; then
 		status "Configuring gstreamer"
-		CFLAGS="$FLAGS" LDFLAGS="$FLAGS" \
-			PKG_CONFIG="$ROOTDIR/build/bin/pkg-config" \
-			PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \
+			"$ROOTDIR/source/gstreamer/config.h"
 	fi
 	
 	status "Building and installing gstreamer"
@@ -675,9 +914,8 @@ build_gstreamer() {
 	
 	quiet popd
 	
-	build_gst_plugins
+	build_gst_plugins $@
 }
-
 
 ##
 # make_po_files
@@ -700,11 +938,40 @@ if ! expr "$ROOTDIR" : '.*/Dependencies$' &> /dev/null; then
 	exit 1
 fi
 
+TARGET_BASE="apple-darwin10"
+
+# Arrays for archs and host systems, sometimes an -arch just isnt enough!
+ARCHS=( "x86_64" "i386" "ppc" )
+HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" "powerpc-${TARGET_BASE}" )
+
+SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
+MIN_OS_VERSION="10.5"
 # The basic linker/compiler flags we'll be referring to
-FLAGS="-isysroot /Developer/SDKs/MacOSX10.5.sdk \
-       -arch i386 -arch x86_64 -arch ppc \
-       -I$ROOTDIR/build/include \
-       -L$ROOTDIR/build/lib"
+BASE_CFLAGS="-isysroot $SDK_ROOT \
+	-mmacosx-version-min=$MIN_OS_VERSION \
+	-I$ROOTDIR/build/include \
+	-L$ROOTDIR/build/lib"
+BASE_LDFLAGS="-mmacosx-version-min=$MIN_OS_VERSION \
+	-Wl,-syslibroot,$SDK_ROOT \
+	-Wl,-headerpad_max_install_names \
+	-I$ROOTDIR/build/include \
+	-L$ROOTDIR/build/lib"
+
+ARCH_FLAGS=""
+for ARCH in ${ARCHS[@]} ; do
+	ARCH_FLAGS="${ARCH_FLAGS} -arch ${ARCH}"
+done
+
+ARCH_CFLAGS="${BASE_CFLAGS} ${ARCH_FLAGS}"
+ARCH_LDFLAGS="${BASE_LDFLAGS} ${ARCH_FLAGS}"
+
+# Ok, so we keep running into issues where MacPorts will volunteer to supply
+# dependencies that we want to build ourselves. On the other hand, maybe we
+# rely on MacPorts for stuff like monotone.
+MTN=`which mtn`
+export PATH=$ROOTDIR/build/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/Developer/usr/bin:/Developer/usr/sbin
+export PKG_CONFIG="$ROOTDIR/build/bin/pkg-config"
+export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 
 # Make the source and build directories while we're here
 quiet mkdir "source"
@@ -719,9 +986,11 @@ build_meanwhile $@
 build_gadugadu $@
 
 build_intltool $@
-build_libpurple $@
+build_jsonglib $@
 
-#build_gstreamer $@
+build_gstreamer $@
+
+#build_libpurple $@
 
 #build_sipe $@
 #build_gfire $@

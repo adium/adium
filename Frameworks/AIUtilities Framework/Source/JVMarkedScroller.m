@@ -161,7 +161,7 @@ struct _mark {
 	[super setFloatValue:position];
 }
 
-- (void) setKnobProportion:(float)percent 
+- (void) setKnobProportion:(CGFloat)percent 
 {
 	if( ! _jumpingToMark ) _currentMark = NSNotFound;
 	if(([self knobProportion] != percent ) && ( [_marks count] || [_shades count] ) )

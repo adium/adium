@@ -37,8 +37,9 @@
 #import <AIUtilities/AIBezierPathAdditions.h>
 #import <Adium/AIContactControllerProtocol.h>
 
-
 #import <FriBidi/NSString-FBAdditions.h>
+
+#import <AIUtilities/AILeopardCompatibility.h>
 
 #define MAX_HISTORY					25		//Number of messages to remember in history
 #define ENTRY_TEXTVIEW_PADDING		6		//Padding for auto-sizing
@@ -48,6 +49,14 @@
 #define KEY_SPELL_CHECKING						@"Spell Checking Enabled"
 #define KEY_GRAMMAR_CHECKING					@"Grammar Checking Enabled"
 #define	PREF_GROUP_DUAL_WINDOW_INTERFACE		@"Dual Window Interface"
+
+#define KEY_SUBSTITUTION_DASH					@"Smart Dash Substitutions"
+#define KEY_SUBSTITUTION_DATA_DETECTORS			@"Smart Data Detectors Substitutions"
+#define KEY_SUBSTITUTION_REPLACEMENT			@"Text Replacement Substitutions"
+#define KEY_SUBSTITUTION_SPELLING				@"Spelling Substitutions"
+#define KEY_SUBSTITUTION_COPY_PASTE				@"Smart Copy Paste Substitutions"
+#define KEY_SUBSTITUTION_QUOTE					@"Smart Quote Substitutions"
+#define KEY_SUBSTITUTION_LINK					@"Smart Links Substitutions"
 
 #define INDICATOR_RIGHT_PADDING					2		// Padding between right side of the message view and the rightmost indicator
 
@@ -392,16 +401,44 @@
 																 group:GROUP_ACCOUNT_STATUS] boolValue];
 	}
 	
-	if (!object &&
-		[group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE] &&
-		(!key || [key isEqualToString:KEY_SPELL_CHECKING])) {
-		[self setContinuousSpellCheckingEnabled:[[prefDict objectForKey:KEY_SPELL_CHECKING] boolValue]];
-	}
+	if (!object && [group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE]) {
+		if (!key || [key isEqualToString:KEY_GRAMMAR_CHECKING]) {
+			[self setGrammarCheckingEnabled:[[prefDict objectForKey:KEY_GRAMMAR_CHECKING] boolValue]];
+		}
 
-	if (!object &&
-		[group isEqualToString:PREF_GROUP_DUAL_WINDOW_INTERFACE] &&
-		(!key || [key isEqualToString:KEY_GRAMMAR_CHECKING])) {
-		[self setGrammarCheckingEnabled:[[prefDict objectForKey:KEY_GRAMMAR_CHECKING] boolValue]];
+		if (!key || [key isEqualToString:KEY_SPELL_CHECKING]) {
+			[self setContinuousSpellCheckingEnabled:[[prefDict objectForKey:KEY_SPELL_CHECKING] boolValue]];
+		}
+		
+		if ([NSApp isOnSnowLeopardOrBetter]) {
+			if (!key || [key isEqualToString:KEY_SUBSTITUTION_DASH]) {
+				[self setAutomaticDashSubstitutionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_DASH] boolValue]];
+			}
+		
+			if (!key || [key isEqualToString:KEY_SUBSTITUTION_DATA_DETECTORS]) {
+				[self setAutomaticDataDetectionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_DATA_DETECTORS] boolValue]];
+			}
+		
+			if (!key || [key isEqualToString:KEY_SUBSTITUTION_REPLACEMENT]) {
+				[self setAutomaticTextReplacementEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_REPLACEMENT] boolValue]];
+			}
+		
+			if (!key || [key isEqualToString:KEY_SUBSTITUTION_SPELLING]) {
+				[self setAutomaticSpellingCorrectionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_SPELLING] boolValue]];
+			}
+		}
+		
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_COPY_PASTE]) {
+			[self setSmartInsertDeleteEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_COPY_PASTE] boolValue]];
+		}
+		
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_QUOTE]) {
+			[self setAutomaticQuoteSubstitutionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_QUOTE] boolValue]];
+		}
+		
+		if (!key || [key isEqualToString:KEY_SUBSTITUTION_LINK]) {
+			[self setAutomaticLinkDetectionEnabled:[[prefDict objectForKey:KEY_SUBSTITUTION_LINK] boolValue]];
+		}
 	}
 }
 
@@ -1382,6 +1419,90 @@
 										  group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
+#pragma mark Substitutions
+/*!
+ * @brief Dash substitution was toggled
+ */
+- (void)toggleAutomaticDashSubstitution:(id)sender
+{
+	[super toggleAutomaticDashSubstitution:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticDashSubstitutionEnabled]]
+									   forKey:KEY_SUBSTITUTION_DASH
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Data Detector substitution was toggled
+ */
+- (void)toggleAutomaticDataDetection:(id)sender
+{
+	[super toggleAutomaticDataDetection:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticDataDetectionEnabled]]
+									   forKey:KEY_SUBSTITUTION_DATA_DETECTORS
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Text Replacement substitution was toggled
+ */
+- (void)toggleAutomaticTextReplacement:(id)sender
+{
+	[super toggleAutomaticTextReplacement:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticTextReplacementEnabled]]
+									   forKey:KEY_SUBSTITUTION_REPLACEMENT
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Spelling replacement substitution was toggled
+ */
+- (void)toggleAutomaticSpellingCorrection:(id)sender
+{
+	[super toggleAutomaticSpellingCorrection:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticSpellingCorrectionEnabled]]
+									   forKey:KEY_SUBSTITUTION_SPELLING
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Smart insert delete was toggled
+ */
+- (void)toggleSmartInsertDelete:(id)sender
+{
+	[super toggleSmartInsertDelete:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self smartInsertDeleteEnabled]]
+									   forKey:KEY_SUBSTITUTION_COPY_PASTE
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Smart quote substitution was toggled
+ */
+- (void)toggleAutomaticQuoteSubstitution:(id)sender
+{
+	[super toggleAutomaticQuoteSubstitution:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticQuoteSubstitutionEnabled]]
+									   forKey:KEY_SUBSTITUTION_QUOTE
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
+
+/*!
+ * @brief Smart link substitution was toggled
+ */
+- (void)toggleAutomaticLinkDetection:(id)sender
+{
+	[super toggleAutomaticLinkDetection:sender];
+	
+	[adium.preferenceController setPreference:[NSNumber numberWithBool:[self isAutomaticLinkDetectionEnabled]]
+									   forKey:KEY_SUBSTITUTION_LINK
+										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
+}
 
 #pragma mark Writing Direction
 - (void)toggleBaseWritingDirection:(id)sender

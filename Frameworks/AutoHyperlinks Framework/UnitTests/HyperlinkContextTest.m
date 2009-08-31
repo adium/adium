@@ -27,6 +27,16 @@
 	STAssertEqualObjects([[link parentString] substringWithRange:[link range]], nil, @"in context: '%@'", testString);
 }
 
+- (void)testURIEscaping:(NSString *)URIString
+{
+	NSString	*testString = [NSString stringWithFormat:@"%@", URIString];
+	AHHyperlinkScanner	*scanner = [AHHyperlinkScanner hyperlinkScannerWithString:URIString];
+	AHMarkedHyperlink	*link = [scanner nextURI];
+	
+	STAssertNotNil(link, @"-[SHHyperlinkScanner nextURL] found no URI in \"%@\"", URIString);
+	STAssertEqualObjects([[link URL] absoluteString], URIString, @"in context: '%@'", URIString);
+}
+
 #pragma mark positive tests
 - (void)testEnclosedURI:(NSString *)URIString {
 	[self testLaxContext:@"<%@>" withURI:URIString];
@@ -218,6 +228,8 @@
 	[self testLaxContext:@"foo (bar) %@" withURI:@"http://example.com/path/to/url.html"];
 	
 	[self testLaxContext:@"%@" withURI:[NSString stringWithFormat:@"%@",@"http://example.com/hi%uthere"]]; //#11160
+	
+	[self testURIEscaping:[NSString stringWithFormat:@"%@",@"http://www.google.com/search?q=foo%20bar"]]; //#12850
 }
 
 - (void)testCompositeContext {

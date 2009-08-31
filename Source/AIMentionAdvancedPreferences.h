@@ -7,6 +7,8 @@
 
 #import <Adium/AIAdvancedPreferencePane.h>
 
+#define PREF_KEY_MENTIONS		@"Saved Mentions"
+
 @interface AIMentionAdvancedPreferences : AIAdvancedPreferencePane {
 	IBOutlet		NSTextField			*label_explanation;
 	

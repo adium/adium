@@ -27,6 +27,43 @@
 
 #endif //ndef BSD_LICENSE_ONLY
 
+enum characterNatureMask {
+	whitespaceNature = (1 << 0), //space + \t\n\r\f\a 
+	shellUnsafeNature = (1 << 1), //backslash + !$`"'
+	regexpUnsafeNature = (1 << 2), //backslash + |.*+?{}()$^
+};
+static const enum characterNatureMask characterNature[USHRT_MAX+1] = {
+	['\a'] = whitespaceNature,
+	['\t'] = whitespaceNature,
+	['\n'] = whitespaceNature,
+	['\v'] = whitespaceNature,
+	['\f'] = whitespaceNature,
+	['\r'] = whitespaceNature,
+	[' ']  = whitespaceNature,
+
+	['\''] = shellUnsafeNature,
+	['"']  = shellUnsafeNature,
+	['`']  = shellUnsafeNature,
+	['!']  = shellUnsafeNature,
+	['&']  = shellUnsafeNature,
+
+	['\\'] = shellUnsafeNature | regexpUnsafeNature,
+	['$']  = shellUnsafeNature | regexpUnsafeNature,
+	['|']  = shellUnsafeNature | regexpUnsafeNature,
+			
+	['/']  = regexpUnsafeNature,
+	['.']  = regexpUnsafeNature,
+	['*']  = regexpUnsafeNature,
+	['+']  = regexpUnsafeNature,
+	['?']  = regexpUnsafeNature,
+	['{']  = regexpUnsafeNature,
+	['}']  = regexpUnsafeNature,
+	['(']  = regexpUnsafeNature,
+	[')']  = regexpUnsafeNature,
+	['[']  = regexpUnsafeNature,
+	['^']  = regexpUnsafeNature,
+};
+
 enum {
 	LINE_FEED = '\n',
 	FORM_FEED = '\f',
@@ -96,18 +133,11 @@ enum {
 		if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
 			int		errorCode = [error code];
 
-			//XXX - I'm sure these constants are defined somewhere, but I can't find them. -eds
-			if (errorCode == 260) {
-				//File not found.
+			if (errorCode == NSFileReadNoSuchFileError) {
 				string = nil;
 				handled = YES;
 
-			} else if (errorCode == 261) {
-				/* Reason: File could not be opened using text encoding Unicode (UTF-8).
-				 * Description: Text encoding Unicode (UTF-8) is not applicable.
-				 *
-				 * We couldn't read the file as UTF8.  Let the system try to determine the encoding.
-				 */
+			} else if (errorCode == NSFileReadInapplicableStringEncodingError) {
 				NSError				*newError = nil;
 
 				string = [self stringWithContentsOfFile:path
@@ -524,51 +554,8 @@ enum {
 
 #ifndef BSD_LICENSE_ONLY
 
-enum characterNatureMask {
-	whitespaceNature = 0x1, //space + \t\n\r\f\a 
-	shellUnsafeNature, //backslash + !$`"'
-};
-static enum characterNatureMask characterNature[USHRT_MAX+1] = {
-	//this array is initialised such that the space character (0x20)
-	//	does not have the whitespace nature.
-	//this was done for brevity, as the entire array is bzeroed and then
-	//	properly initialised in -stringByEscapingForShell below.
-	0,0,0,0, 0,0,0,0, //0x00..0x07
-	0,0,0,0, 0,0,0,0, //0x08..0x0f
-	0,0,0,0, 0,0,0,0, //0x10..0x17
-	0,0,0, //0x18..0x20
-};
-
 - (NSString *)stringByEscapingForShell
 {
-	if (!(characterNature[' '] & whitespaceNature)) {
-		//if space doesn't have the whitespace nature, clearly we need to build the nature array.
-
-		//first, set all characters to zero.
-		bzero(&characterNature, sizeof(characterNature));
-
-		//then memorise which characters have the whitespace nature.
-		characterNature['\a'] = whitespaceNature;
-		characterNature['\t'] = whitespaceNature;
-		characterNature['\n'] = whitespaceNature;
-		characterNature['\v'] = whitespaceNature;
-		characterNature['\f'] = whitespaceNature;
-		characterNature['\r'] = whitespaceNature;
-		characterNature[' ']  = whitespaceNature;
-		//NOTE: if you give more characters the whitespace nature, be sure to
-		//	update escapeNames below.
-
-		//finally, memorise which characters have the unsafe (for shells) nature.
-		characterNature['\\'] = shellUnsafeNature;
-		characterNature['\''] = shellUnsafeNature;
-		characterNature['"']  = shellUnsafeNature;
-		characterNature['`']  = shellUnsafeNature;
-		characterNature['!']  = shellUnsafeNature;
-		characterNature['$']  = shellUnsafeNature;
-		characterNature['&']  = shellUnsafeNature;
-		characterNature['|']  = shellUnsafeNature;
-	}
-
 	unsigned myLength = [self length];
 	unichar *myBuf = malloc(sizeof(unichar) * myLength);
 	if (!myBuf) return nil;
@@ -647,6 +634,68 @@ static enum characterNatureMask characterNature[USHRT_MAX+1] = {
 	NSString *result = [NSString stringWithCharacters:buf length:i];
 	free(buf);
 
+	return result;
+}
+
+- (NSString *)stringByEscapingForRegexp
+{
+	unsigned myLength = [self length];
+	unichar *myBuf = malloc(sizeof(unichar) * myLength);
+	if (!myBuf) return nil;
+	[self getCharacters:myBuf];
+	const unichar *myBufPtr = myBuf;
+	
+	size_t buflen = 0;
+	unichar *buf = NULL;
+	
+	const size_t buflenIncrement = getpagesize() / sizeof(unichar);
+	
+	/*the boundary guard happens everywhere that i increases, and MUST happen
+	 *	at the beginning of the loop.
+	 *
+	 *initialising buflen to 0 and buf to NULL as we have done above means that
+	 *	realloc will act as malloc:
+	 *	-	i is 0 at the beginning of the loop
+	 *	-	so is buflen
+	 *	-	and buf is NULL
+	 *	-	realloc(NULL, ...) == malloc(...)
+	 *
+	 *oh, and 'SBEFR' stands for String By Escaping For Regexp
+	 *	(the name of this method).
+	 */
+#define SBEFR_BOUNDARY_GUARD \
+do { \
+if (i == buflen) { \
+buf = realloc(buf, sizeof(unichar) * (buflen += buflenIncrement)); \
+if (!buf) { \
+NSLog(@"in stringByEscapingForRegexp: could not allocate %lu bytes", (unsigned long)(sizeof(unichar) * buflen)); \
+free(myBuf); \
+return nil; \
+} \
+} \
+} while (0)
+	
+	unsigned i = 0;
+	for (; myLength--; ++i) {
+		SBEFR_BOUNDARY_GUARD;
+		
+		if (characterNature[*myBufPtr] & regexpUnsafeNature) {
+			//escape this character
+			buf[i++] = '\\';
+			SBEFR_BOUNDARY_GUARD;
+		}
+		
+		buf[i] = *myBufPtr;
+		++myBufPtr;
+	}
+	
+#undef SBEFR_BOUNDARY_GUARD
+	
+	free(myBuf);
+	
+	NSString *result = [NSString stringWithCharacters:buf length:i];
+	free(buf);
+	
 	return result;
 }
 

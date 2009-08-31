@@ -144,15 +144,15 @@
 	[tableview sizeToFit];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 	return [searchResults count];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	return [[searchResults objectAtIndex:row] objectForKey:[tableColumn identifier]];
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	return NO;
 }
 

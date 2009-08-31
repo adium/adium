@@ -110,14 +110,14 @@
 	STAssertEqualObjects([@" "  stringByEscapingForShell], @"\\ ", @"-stringByEscapingForShell didn't properly escape the space character");
 
 	//Other unsafe characters are simply backslash-escaped.
-	STAssertEqualObjects([@"\\" stringByEscapingForShell], @"\\\\", @"-stringByEscapingForShell didn't properly escape the alert (bell) character");
-	STAssertEqualObjects([@"'" stringByEscapingForShell], @"\\'", @"-stringByEscapingForShell didn't properly escape the horizontal tab character");
-	STAssertEqualObjects([@"\"" stringByEscapingForShell], @"\\\"", @"-stringByEscapingForShell didn't properly escape the line-feed character");
-	STAssertEqualObjects([@"`" stringByEscapingForShell], @"\\`", @"-stringByEscapingForShell didn't properly escape the vertical tab character");
-	STAssertEqualObjects([@"!" stringByEscapingForShell], @"\\!", @"-stringByEscapingForShell didn't properly escape the form-feed character");
-	STAssertEqualObjects([@"$" stringByEscapingForShell], @"\\$", @"-stringByEscapingForShell didn't properly escape the carriage-return character");
-	STAssertEqualObjects([@"&"  stringByEscapingForShell], @"\\&", @"-stringByEscapingForShell didn't properly escape the space character");
-	STAssertEqualObjects([@"|"  stringByEscapingForShell], @"\\|", @"-stringByEscapingForShell didn't properly escape the space character");
+	STAssertEqualObjects([@"\\" stringByEscapingForShell], @"\\\\", @"-stringByEscapingForShell didn't properly escape the backslash character");
+	STAssertEqualObjects([@"'" stringByEscapingForShell], @"\\'", @"-stringByEscapingForShell didn't properly escape the apostrophe/single-quotation-mark character");
+	STAssertEqualObjects([@"\"" stringByEscapingForShell], @"\\\"", @"-stringByEscapingForShell didn't properly escape the quotation-mark character");
+	STAssertEqualObjects([@"`" stringByEscapingForShell], @"\\`", @"-stringByEscapingForShell didn't properly escape the backquote character");
+	STAssertEqualObjects([@"!" stringByEscapingForShell], @"\\!", @"-stringByEscapingForShell didn't properly escape the bang character");
+	STAssertEqualObjects([@"$" stringByEscapingForShell], @"\\$", @"-stringByEscapingForShell didn't properly escape the dollar-sign character");
+	STAssertEqualObjects([@"&"  stringByEscapingForShell], @"\\&", @"-stringByEscapingForShell didn't properly escape the ampersand character");
+	STAssertEqualObjects([@"|"  stringByEscapingForShell], @"\\|", @"-stringByEscapingForShell didn't properly escape the pipe character");
 }
 - (void)testVolumePath
 {

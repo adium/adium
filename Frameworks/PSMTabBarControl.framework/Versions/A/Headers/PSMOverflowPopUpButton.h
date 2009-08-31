@@ -15,7 +15,7 @@
     BOOL            _down;
 	BOOL			_animatingAlternateImage;
 	NSTimer			*_animationTimer;
-	float			_animationValue;
+	CGFloat			_animationValue;
 }
 
 //alternate image display
