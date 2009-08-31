@@ -199,7 +199,7 @@ xcompile() {
 	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
 		status "...configuring for ${HOSTS[i]}"
 		quiet mkdir "${ROOTDIR}/sandbox/root-${ARCHS[i]}"
-		export CFLAGS="${1} -arch ${ARCHS[i]} -DHAVE_SYMBOL_UNDERSCORE"
+		export CFLAGS="${1} -arch ${ARCHS[i]}"
 		export LDFLAGS="${2} -arch ${ARCHS[i]}"
 		
 		${3} --host="${HOSTS[i]}" --build="${HOSTS[i]}" \
@@ -213,16 +213,18 @@ xcompile() {
 	
 	# create universal
 	for FILE in ${@:4} ; do
+		# change library location and 
+		local ext=${FILE##*.}
 		local lipoFiles=""
 		for ARCH in ${ARCHS[@]} ; do
-			lipoFiles="${lipoFiles} -arch ${ARCH} ${ROOTDIR}/sandbox/root-${ARCH}/${FILE}"
+			if [[ ${ext} == 'dylib' ]] ; then
+				install_name_tool -id "${ROOTDIR}/build/${FILE}" \
+					"${ROOTDIR}/sandbox/root-${ARCH}/${FILE}"
+			fi
+			lipoFiles="${lipoFiles} ${ROOTDIR}/sandbox/root-${ARCH}/${FILE}"
 		done
 		status "combine ${lipoFiles} to build/${FILE}"
 		lipo -create ${lipoFiles} -output "${ROOTDIR}/build/${FILE}"
-		local ext=${FILE##*.}
-		if [[ ${ext} == 'a' ]] ; then
-			ranlib "${ROOTDIR}/build/${FILE}"
-		fi
 	done
 	
 	#copy headers
@@ -247,10 +249,17 @@ xcompile() {
 		status "patching pkgconfig file: ${f}"
 		local basename=`basename ${f}`
 		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
-		local SEDPAT="s/^libdir=.*/prefix=\'${SEDREP}\\/build\\/lib\'/"
+		local SEDPAT="s/^libdir=.*/libdir=\'${SEDREP}\\/build\\/lib\'/"
 		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/${basename}"
 	done
 	
+	#copy symlinks in lib
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/*"
+	for f in ${files} ; do
+		if [ -h ${f} ] ; then
+			cp -a ${f} "${ROOTDIR}/build/lib"
+		fi
+	done
 	quiet rm -rf "${ROOTDIR}/sandbox"
 }
 ##
@@ -783,7 +792,7 @@ build_liboil() {
 	status "Cross-comiling oil..."
 	CONFIG_CMD="./configure \
 				--disable-dependency-tracking"
-	xcompile "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+	xcompile "${BASE_CFLAGS}  -DHAVE_SYMBOL_UNDERSCORE" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 		"lib/liboil-0.3.0.dylib" \
 		"lib/liboil-0.3.a"
 
