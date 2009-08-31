@@ -191,6 +191,39 @@ revpatch() {
 }
 
 ##
+# xcompile <CFLAGS> <LDFLAGS> <configure command> <files to combine>
+#
+# Cycles through supported host configurations and builds, then lipo-ing them all together.
+xcompile() {
+	quiet mkdir "${ROOTDIR}/sandbox"
+	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
+		status "...configuring for ${HOSTS[i]}"
+		quiet mkdir "${ROOTDIR}/sandbox/root-${ARCHS[i]}"
+		export CFLAGS="${1} -arch ${ARCHS[i]} -DHAVE_SYMBOL_UNDERSCORE"
+		export LDFLAGS="${2} -arch ${ARCHS[i]}"
+		
+		${3} --host="${HOSTS[i]}" --build="${HOSTS[i]}" \
+			--prefix="${ROOTDIR}/sandbox/root-${ARCHS[i]}"
+		
+		status "...making and installing for ${HOSTS[i]}"
+		make -j $NUMBER_OF_CORES
+		make install
+		make clean
+	done
+	
+	# create universal
+	for FILE in ${@:4} ; do
+		local lipoFiles=""
+		for ARCH in ${ARCHS[@]} ; do
+			lipoFiles="${lipoFiles} -arch ${ARCH} ${ROOTDIR}/sandbox/root-${ARCH}/${FILE}"
+		done
+		status "combine ${lipoFiles} to build/${FILE}"
+		lipo -create ${lipoFiles} -output "${ROOTDIR}/build/${FILE}"
+	done
+	cp -vR "${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/liboil-0.3" "${ROOTDIR}/build/include"
+	quiet rm -rf "${ROOTDIR}/sandbox"
+}
+##
 # xconfigure <CFLAGS> <LDFLAGS> <configure command> <headers to mux>
 #
 # Cycles through supported host configurations and muxes platform-dependant
@@ -709,24 +742,25 @@ build_libxml2() {
 
 ##
 # liboil
-#
+# liboil needs special threatment.  Rather than placing platform specific code
+# in a ifdef, it sequesters it by directory and invokes a makefile.  woowoo.
 build_liboil() {
 	prereq "oil" \
 		"http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/oil"
 	
-	if needsconfigure $@; then
-		status "Configuring oil"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
-	fi
+	status "Cross-comiling oil..."
+	CONFIG_CMD="./configure \
+				--disable-dependency-tracking"
+	xcompile "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		"lib/liboil-0.3.0.dylib" \
+		"lib/liboil-0.3.a" \
+		"lib/liboil-0.3.la" \
+		"bin/oil-bugreport"
+
 	
-	status "Building and installing oil"
-	make -j $NUMBER_OF_CORES
-	make install
+	status "...done cross-compiling oil"
 	
 	quiet popd
 }
@@ -832,7 +866,7 @@ build_gst_plugins_farsight() {
 # gstreamer plugins
 #
 build_gst_plugins() {
-#	build_liboil $@
+	build_liboil $@
 #	build_gst_plugins_base $@
 #	build_gst_plugins_good $@
 #	build_gst_plugins_bad $@
@@ -906,6 +940,7 @@ BASE_CFLAGS="-isysroot $SDK_ROOT \
 	-L$ROOTDIR/build/lib"
 BASE_LDFLAGS="-mmacosx-version-min=$MIN_OS_VERSION \
 	-Wl,-syslibroot,$SDK_ROOT \
+	-Wl,-headerpad_max_install_names \
 	-I$ROOTDIR/build/include \
 	-L$ROOTDIR/build/lib"
 
