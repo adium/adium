@@ -366,7 +366,7 @@
 	return image;
 }
 
-- (int)totalHeight
+- (NSInteger)totalHeight
 {
 	if (totalHeight == -1) {
 		int	numberOfRows = [self numberOfRows];

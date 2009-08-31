@@ -19,7 +19,7 @@ LIBGMODULE=libgmodule-2.0.0
 MEANWHILE=libmeanwhile.1
 GADU=libgadu.3.7.0
 SASL=libsasl2.2
-JSONGLIB=libjson-glib-1.0.0
+JSONGLIB=libjson-glib-1.0
 
 # vv
 GSTREAMER=libgstreamer-0.10.0
@@ -67,7 +67,7 @@ touch libmeanwhile-1/no_headers_here.txt
 
 
 mkdir libjson-glib-1.0.0 || true
-cp -R $TARGET_DIR_I386/include/json-glib-1.0/ $UNIVERSAL_DIR/include/libjson-glib-1.0.0/
+cp -R $TARGET_DIR_I386/include/json-glib-1.0/json-glib $UNIVERSAL_DIR/include/libjson-glib-1.0.0
 
 
 ####

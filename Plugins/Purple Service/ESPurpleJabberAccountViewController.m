@@ -151,11 +151,11 @@
 	[comboBox_subscriptionGroup reloadData];
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 	return [adium.contactController.contactList countOfContainedObjects];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(int)index {
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
 	return [[adium.contactController.contactList.containedObjects objectAtIndex:index] formattedUID];
 }
 
@@ -290,11 +290,11 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 	return [servers count];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	id objectValue = [[servers objectAtIndex:row] objectForKey:[tableColumn identifier]];
 	return ((objectValue && ![objectValue isKindOfClass:[NSNull class]]) ? objectValue : @"");
 }

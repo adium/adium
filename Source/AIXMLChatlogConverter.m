@@ -260,6 +260,11 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 													withString:@"&"
 													   options:NSLiteralSearch
 														 range:NSMakeRange(0, [mutableMessage length])];
+					// Escape anchor tags
+					[mutableMessage replaceOccurrencesOfString:@"#"
+													withString:@"&#x23;"
+													   options:NSLiteralSearch
+														 range:NSMakeRange(0, [mutableMessage length])];
 					message = [mutableMessage autorelease];
 				}
 				NSString *shownSender = (senderAlias ? senderAlias : sender);

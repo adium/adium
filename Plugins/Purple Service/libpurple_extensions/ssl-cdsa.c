@@ -240,7 +240,7 @@ static OSStatus SocketWrite(
                      {
     UInt32    bytesSent = 0;
     int      sock = (int)connection;
-    int     length;
+    UInt32     length;
     UInt32    dataLen = *dataLength;
     const UInt8 *dataPtr = (UInt8 *)data;
     OSStatus  ortn;
@@ -319,7 +319,7 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
     /*
      * Pass the connection information to the connection to be used by our callbacks
      */
-    err = SSLSetConnection(cdsa_data->ssl_ctx,(SSLConnectionRef)gsc->fd);
+    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx,(SSLConnectionRef)gsc->fd);
     if (err != noErr) {
 		purple_debug_error("cdsa", "SSLSetConnection failed\n");
 		if (gsc->error_cb != NULL)

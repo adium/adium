@@ -101,18 +101,24 @@
 
 - (void)setURLFromString:(NSString *)inString
 {
-	NSString	*linkString;
+	NSString	*linkString, *preString;
 
+	preString = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, 
+																					(CFStringRef)inString, 
+																					CFSTR(""), 
+																					kCFStringEncodingUTF8);
+	
 	linkString = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-	                                        (CFStringRef)inString,
-	                                        (CFStringRef)@"#[]",
-	                                        NULL,
-	                                        kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
+																	 preString? (CFStringRef)preString : (CFStringRef)inString,
+																	 (CFStringRef)@"#[]",
+																	 NULL,
+																	 kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
 
 	[linkURL release];
 	linkURL = [[NSURL alloc] initWithString:linkString];
 
 	[linkString release];
+	if(preString) [preString release];
 }
 
 - (void)setValidationStatus:(AH_URI_VERIFICATION_STATUS)status

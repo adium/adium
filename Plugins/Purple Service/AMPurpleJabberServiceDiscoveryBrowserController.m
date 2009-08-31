@@ -181,7 +181,7 @@ static NSImage *det_triangle_closed = nil;
 
 #pragma mark Outline View
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
 	if (!item)
 		return node;
@@ -212,7 +212,7 @@ static NSImage *det_triangle_closed = nil;
 	}
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
 	if (!item)
 		return 1;

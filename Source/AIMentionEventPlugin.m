@@ -25,13 +25,14 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIContactAlertsControllerProtocol.h>
 
-#define PREF_KEY_MENTIONS		@"Saved Mentions"
 
 /*!
  * @class AIMentionEventPlugin
  * @brief Simple content filter to generate events when incoming messages mention the user, and tag them with a special display class
  */
 @implementation AIMentionEventPlugin
+
+@synthesize mentionPredicates;
 
 /*!
  * @brief Install
@@ -41,6 +42,9 @@
 	[adium.contentController registerContentFilter:self
 											  ofType:AIFilterContent 
 										   direction:AIFilterIncoming];
+	
+	[adium.preferenceController registerPreferenceObserver:self 
+												  forGroup:PREF_GROUP_GENERAL];
 
 	advancedPreferences = [[AIMentionAdvancedPreferences preferencePaneForPlugin:self] retain];
 }
@@ -48,6 +52,7 @@
 - (void)uninstallPlugin
 {
 	[adium.contentController unregisterContentFilter:self];
+	[adium.preferenceController unregisterPreferenceObserver:self];
 }
 
 #pragma mark -
@@ -68,33 +73,27 @@
 	NSString *messageString = [inAttributedString string];
 			
 	AIAccount *account = (AIAccount *)message.destination;
+	NSString *contactAlias = [chat aliasForContact:[account contactWithUID:account.UID]];
 	
 	// XXX When we fix user lists to contain accounts, fix this too.
-	NSArray *myNames = [NSArray arrayWithObjects:
-						account.UID, 
-						account.displayName, 
-						/* can be nil */ [chat aliasForContact:[account contactWithUID:account.UID]],
-						nil];
+	NSArray *myPredicates = [NSArray arrayWithObjects:
+							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.UID stringByEscapingForRegexp]]], 
+							 [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [account.displayName stringByEscapingForRegexp]]], 
+							 /* can be nil */ contactAlias? [NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [contactAlias stringByEscapingForRegexp]]] : nil,
+							 nil];
 	
-	myNames = [myNames arrayByAddingObjectsFromArray:[adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL]];
-
-	for(NSString *checkString in myNames) {
-		NSRange range = [messageString rangeOfString:checkString options:NSCaseInsensitiveSearch];
+	myPredicates = [myPredicates arrayByAddingObjectsFromArray:self.mentionPredicates];
 	
-		if(range.location != NSNotFound &&
-		   (range.location == 0 || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location-1]]) &&
-		   (range.location + range.length >= [messageString length] || ![[NSCharacterSet alphanumericCharacterSet] characterIsMember:[messageString characterAtIndex:range.location+range.length]]))
-		{
+	for(NSPredicate *predicate in myPredicates) {
+		if([predicate evaluateWithObject:messageString]) {
 			if(message.trackContent && adium.interfaceController.activeChat != chat) {
 				[chat incrementUnviewedMentionCount];
 			}
-			
 			[message addDisplayClass:@"mention"];
-			
 			break;
 		}
 	}
-	
+
 	return inAttributedString;
 }
 
@@ -104,6 +103,28 @@
 - (CGFloat)filterPriority
 {
 	return LOWEST_FILTER_PRIORITY;
+}
+
+/*!
+ * @brief Rebuild predicates on preference saves.
+ */
+#pragma mark Preference Observing
+- (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
+{
+	if(firstTime || [key isEqualToString:PREF_KEY_MENTIONS]) {
+		NSArray *allMentions = [adium.preferenceController preferenceForKey:PREF_KEY_MENTIONS group:PREF_GROUP_GENERAL];
+		NSMutableArray *predicates = [NSMutableArray arrayWithCapacity:[allMentions count]];
+		NSPredicate *regexPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES '/.*/'"];
+		
+		for (NSString *mention in allMentions) {
+			if([regexPredicate evaluateWithObject:mention]) {
+				[predicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*%@.*", [mention substringWithRange:NSMakeRange(1, [mention length]-2)]]]];
+			} else {
+				[predicates addObject:[NSPredicate predicateWithFormat:@"SELF MATCHES[cd] %@", [NSString stringWithFormat:@".*\\b%@\\b.*", [mention stringByEscapingForRegexp]]]];
+			}
+		}
+		self.mentionPredicates = predicates;
+	}
 }
 
 @end
