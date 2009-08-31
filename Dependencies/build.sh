@@ -839,6 +839,7 @@ build_gst_plugins_good() {
 	
 	if needsconfigure $@; then
 		status "Configuring gst-plugins-good"
+		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-aalib \
@@ -863,16 +864,22 @@ build_gst_plugins_good() {
 #
 build_gst_plugins_bad() {
 	prereq "gst-plugins-bad" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-bad-0.10.13.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-0.10.13.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-bad"
 	
 	if needsconfigure $@; then
 		status "Configuring gst-plugins-bad"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
+		export NM="nm -arch all"
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
+				--disable-real \
+				--disable-osx_video \
+				--disable-quicktime \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gst-plugins-bad/config.h" \
+			"${ROOTDIR}/source/gst-plugins-bad/_stdint.h"
 	fi
 	
 	status "Building and installing gst-plugins-bad"
@@ -893,6 +900,7 @@ build_gst_plugins_farsight() {
 	
 	if needsconfigure $@; then
 		status "Configuring gst-plugins-farsight"
+		export NM="nm -arch all"
 		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
 			./configure \
 				--prefix="$ROOTDIR/build" \
@@ -913,7 +921,7 @@ build_gst_plugins() {
 	build_liboil $@
 	build_gst_plugins_base $@
 	build_gst_plugins_good $@
-#	build_gst_plugins_bad $@
+	build_gst_plugins_bad $@
 #	build_gst_plugins_farsight $@
 }
 
