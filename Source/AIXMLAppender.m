@@ -293,7 +293,7 @@ enum {
 - (void)appendElement:(AIXMLElement *)element
 {
 	//Create our strings
-	NSString *elementString = [element XMLString];
+	NSString *elementString = [NSString stringWithFormat:@"\n%@", [element XMLString]];
 	NSString *closingTag = [NSString stringWithFormat:@"</%@>", self.rootElement.name];
 	
 	if (elementString != nil) {
