@@ -220,7 +220,21 @@ xcompile() {
 		status "combine ${lipoFiles} to build/${FILE}"
 		lipo -create ${lipoFiles} -output "${ROOTDIR}/build/${FILE}"
 	done
-	cp -vR "${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/liboil-0.3" "${ROOTDIR}/build/include"
+	
+	#copy headers and pkgconf files
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/*"
+	for f in ${files} ; do
+		cp -R ${f} "${ROOTDIR}/build/include"
+	done
+	
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
+	for f in ${files} ; do
+		status "patching pkgconfig file: ${f}"
+		local basename=`basename ${f}`
+		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
+		local SEDPAT="s/prefix=.*/prefix=${SEDREP}\\/build/"
+		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/pkgconfig/${basename}"
+	done
 	quiet rm -rf "${ROOTDIR}/sandbox"
 }
 ##
@@ -759,7 +773,6 @@ build_liboil() {
 		"lib/liboil-0.3.la" \
 		"bin/oil-bugreport"
 
-	
 	status "...done cross-compiling oil"
 	
 	quiet popd
