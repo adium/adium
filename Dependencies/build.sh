@@ -219,22 +219,38 @@ xcompile() {
 		done
 		status "combine ${lipoFiles} to build/${FILE}"
 		lipo -create ${lipoFiles} -output "${ROOTDIR}/build/${FILE}"
+		local ext=${FILE##*.}
+		if [[ ${ext} == 'a' ]] ; then
+			ranlib "${ROOTDIR}/build/${FILE}"
+		fi
 	done
 	
-	#copy headers and pkgconf files
+	#copy headers
 	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/*"
 	for f in ${files} ; do
 		cp -R ${f} "${ROOTDIR}/build/include"
 	done
 	
+	#copy pkgconfig files and modify prefix
 	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
 	for f in ${files} ; do
 		status "patching pkgconfig file: ${f}"
 		local basename=`basename ${f}`
 		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
-		local SEDPAT="s/prefix=.*/prefix=${SEDREP}\\/build/"
+		local SEDPAT="s/^prefix=.*/prefix=${SEDREP}\\/build/"
 		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/pkgconfig/${basename}"
 	done
+	
+	#copy .la files and modify
+	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/*.la"
+	for f in ${files} ; do
+		status "patching pkgconfig file: ${f}"
+		local basename=`basename ${f}`
+		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
+		local SEDPAT="s/^libdir=.*/prefix=\'${SEDREP}\\/build\\/lib\'/"
+		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/${basename}"
+	done
+	
 	quiet rm -rf "${ROOTDIR}/sandbox"
 }
 ##
@@ -769,9 +785,7 @@ build_liboil() {
 				--disable-dependency-tracking"
 	xcompile "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 		"lib/liboil-0.3.0.dylib" \
-		"lib/liboil-0.3.a" \
-		"lib/liboil-0.3.la" \
-		"bin/oil-bugreport"
+		"lib/liboil-0.3.a"
 
 	status "...done cross-compiling oil"
 	
