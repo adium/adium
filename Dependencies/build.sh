@@ -833,17 +833,22 @@ build_gst_plugins_base() {
 #
 build_gst_plugins_good() {
 	prereq "gst-plugins-good" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-good-0.10.15.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.15.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-good"
 	
 	if needsconfigure $@; then
 		status "Configuring gst-plugins-good"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
 				--disable-aalib \
-				--disable-dependency-tracking
+				--disable-examples \
+				--disable-goom \
+				--disable-goom2k1 \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gst-plugins-good/config.h" \
+			"${ROOTDIR}/source/gst-plugins-good/_stdint.h"
 	fi
 	
 	status "Building and installing gst-plugins-good"
@@ -907,7 +912,7 @@ build_gst_plugins_farsight() {
 build_gst_plugins() {
 	build_liboil $@
 	build_gst_plugins_base $@
-#	build_gst_plugins_good $@
+	build_gst_plugins_good $@
 #	build_gst_plugins_bad $@
 #	build_gst_plugins_farsight $@
 }
