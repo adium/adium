@@ -1009,13 +1009,6 @@ build_farsight() {
 }
 
 ##
-# make_po_files
-#
-make_po_files() {
-	warning "Not yet implemented."
-}
-
-##
 # prep_headers
 #
 prep_headers() {
@@ -1136,7 +1129,33 @@ make_framework() {
 	cp "${ROOTDIR}/Libpurple-Info.plist" \
 		"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
 	
-	status "Done."
+	status "Done!"
+}
+
+##
+# make_po_files
+#
+make_po_files() {
+	PURPLE_RSRC_DIR="${ROOTDIR}/Frameworks/libpurple.subproj/libpurple.framework/Resources"
+	
+	status "Building libpurple po files"
+	quiet pushd "${ROOTDIR}/source/im.pidgin.adium/po"
+		make all
+		make install
+	quiet popd
+	
+	status "Copy po files to frameowrk"
+	quiet pushd "${ROOTDIR}/build/share/locale"
+		quiet mkdir "${PURPLE_RSRC_DIR}" || true
+		cp -v -r * "${PURPLE_RSRC_DIR}"
+	quiet popd
+	
+	status "Trimming the fat..."
+	quiet pushd "${PURPLE_RSRC_DIR}"
+		find . \( -name gettext-runtime.mo -or -name gettext-tools.mo -or -name glib20.mo \) -type f -delete
+	quiet popd
+	
+	status "libpurple po files built!"
 }
 
 # Check that we're in the Dependencies directory
@@ -1201,8 +1220,7 @@ build_farsight $@
 
 build_libpurple $@
 make_framework $@
+make_po_files $@
 
 #build_sipe $@
 #build_gfire $@
-
-#make_po_files $@
