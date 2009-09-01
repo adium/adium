@@ -894,7 +894,7 @@ build_gst_plugins_bad() {
 #
 build_gst_plugins_farsight() {
 	prereq "gst-plugins-farsight" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-farsight-0.12.11.tar.gz"
+		"http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.11.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-farsight"
 	
@@ -922,7 +922,7 @@ build_gst_plugins() {
 	build_gst_plugins_base $@
 	build_gst_plugins_good $@
 	build_gst_plugins_bad $@
-#	build_gst_plugins_farsight $@
+	build_gst_plugins_farsight $@
 }
 
 ##
