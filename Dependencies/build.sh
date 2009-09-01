@@ -709,12 +709,11 @@ build_libpurple() {
 				--prefix=$ROOTDIR/build \
 				--with-static-prpls=$PROTOCOLS \
 				--disable-plugins \
-				--disable-gstreamer \
 				--disable-avahi \
 				--disable-dbus \
 				--enable-gnutls=no \
 				--enable-nss=no \
-				--disable-vv \
+				--enable-vv=yes \
 				--disable-idn \
 				$KERBEROS"
 		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
@@ -1083,7 +1082,7 @@ build_jsonglib $@
 build_gstreamer $@
 build_farsight $@
 
-#build_libpurple $@
+build_libpurple $@
 
 #build_sipe $@
 #build_gfire $@
