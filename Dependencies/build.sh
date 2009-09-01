@@ -982,6 +982,34 @@ build_nice() {
 }
 
 ##
+# farsight
+#
+build_farsight() {
+	build_nice $@
+	
+	prereq "farsight" \
+		"http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.14.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/farsight"
+	
+	if needsconfigure $@; then
+		status "Configuring farsight"
+		export NM="nm -arch all"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-python \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing farsight"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
 # make_po_files
 #
 make_po_files() {
@@ -1053,7 +1081,7 @@ build_intltool $@
 build_jsonglib $@
 
 build_gstreamer $@
-build_nice $@
+build_farsight $@
 
 #build_libpurple $@
 
