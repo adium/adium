@@ -957,6 +957,31 @@ build_gstreamer() {
 }
 
 ##
+# libNICE
+#
+build_nice() {
+	prereq "nice" \
+		"http://nice.freedesktop.org/releases/libnice-0.0.9.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/nice"
+	
+	if needsconfigure $@; then
+		status "Configuring NICE"
+		export NM="nm -arch all"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing NICE"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
 # make_po_files
 #
 make_po_files() {
@@ -1028,6 +1053,7 @@ build_intltool $@
 build_jsonglib $@
 
 build_gstreamer $@
+build_nice $@
 
 #build_libpurple $@
 
