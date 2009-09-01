@@ -417,7 +417,7 @@ build_glib() {
 #
 build_meanwhile() {
 	prereq "meanwhile" \
-		"http://dl.sourceforge.net/sourceforge/meanwhile/meanwhile-1.0.2.tar.gz"
+		"http://downloads.sourceforge.net/project/meanwhile/meanwhile/1.0.2/meanwhile-1.0.2.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/meanwhile"
 	
