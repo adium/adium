@@ -1031,7 +1031,8 @@ prep_headers() {
 	#glib
 	status "Staging glib headers"
 	local glibDir="${ROOTDIR}/build/lib/include/libglib-${GLIB_VERSION}.0"
-	cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}" "${glibDir}/"
+	quiet mkdir "${glibDir}" || true
+	cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}" "${glibDir}"
 	
 	#gmodule
 	status "Staging gmodule headers"
@@ -1069,6 +1070,7 @@ prep_headers() {
 	#gstreamer
 	status "Staging gstreamer and plugins headers"
 	local gstDir="${ROOTDIR}/build/lib/include/libgstreamer-${GSTREAMER_VERSION}.0"
+	quiet mkdir "${gstDir}" || true
 	cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
 	
 	local non_includes=( "libgstbase-${GSTREAMER_VERSION}.0" \
