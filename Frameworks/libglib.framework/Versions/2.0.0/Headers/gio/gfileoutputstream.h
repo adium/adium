@@ -1,5 +1,5 @@
 /* GIO - GLib Input, Output and Streaming Library
- * 
+ *
  * Copyright (C) 2006-2007 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
@@ -28,7 +28,6 @@
 #define __G_FILE_OUTPUT_STREAM_H__
 
 #include <gio/goutputstream.h>
-#include <gio/gfileinfo.h>
 
 G_BEGIN_DECLS
 
@@ -47,14 +46,13 @@ G_BEGIN_DECLS
  *
  * #GFileOutputStream implements GSeekable.
  **/
-typedef struct _GFileOutputStream         GFileOutputStream;
 typedef struct _GFileOutputStreamClass    GFileOutputStreamClass;
 typedef struct _GFileOutputStreamPrivate  GFileOutputStreamPrivate;
 
 struct _GFileOutputStream
 {
   GOutputStream parent_instance;
-  
+
   /*< private >*/
   GFileOutputStreamPrivate *priv;
 };
@@ -63,33 +61,33 @@ struct _GFileOutputStreamClass
 {
   GOutputStreamClass parent_class;
 
-  goffset    (*tell)          (GFileOutputStream     *stream);
-  gboolean   (*can_seek)      (GFileOutputStream     *stream);
-  gboolean   (*seek)	      (GFileOutputStream     *stream,
-			       goffset               offset,
-			       GSeekType             type,
-			       GCancellable         *cancellable,
-			       GError              **error);
-  gboolean   (*can_truncate)  (GFileOutputStream    *stream);
-  gboolean   (*truncate_fn)   (GFileOutputStream    *stream,
-			       goffset               size,
-			       GCancellable         *cancellable,
-			       GError              **error);
-  GFileInfo *(*query_info)    (GFileOutputStream    *stream,
-			       char                 *attributes,
-			       GCancellable         *cancellable,
-			       GError              **error);
-  void       (*query_info_async)  (GFileOutputStream     *stream,
-				   char                 *attributes,
-				   int                   io_priority,
-				   GCancellable         *cancellable,
-				   GAsyncReadyCallback   callback,
-				   gpointer              user_data);
-  GFileInfo *(*query_info_finish) (GFileOutputStream     *stream,
-				   GAsyncResult         *res,
-				   GError              **error);
-  char      *(*get_etag)      (GFileOutputStream    *stream);
-    
+  goffset     (* tell)              (GFileOutputStream    *stream);
+  gboolean    (* can_seek)          (GFileOutputStream    *stream);
+  gboolean    (* seek)	            (GFileOutputStream    *stream,
+                                     goffset               offset,
+                                     GSeekType             type,
+                                     GCancellable         *cancellable,
+                                     GError              **error);
+  gboolean    (* can_truncate)      (GFileOutputStream    *stream);
+  gboolean    (* truncate_fn)       (GFileOutputStream    *stream,
+                                     goffset               size,
+                                     GCancellable         *cancellable,
+                                     GError              **error);
+  GFileInfo * (* query_info)        (GFileOutputStream    *stream,
+                                     const char           *attributes,
+                                     GCancellable         *cancellable,
+                                     GError              **error);
+  void        (* query_info_async)  (GFileOutputStream     *stream,
+                                     const char            *attributes,
+                                     int                   io_priority,
+                                     GCancellable         *cancellable,
+                                     GAsyncReadyCallback   callback,
+                                     gpointer              user_data);
+  GFileInfo * (* query_info_finish) (GFileOutputStream     *stream,
+                                     GAsyncResult         *res,
+                                     GError              **error);
+  char      * (* get_etag)          (GFileOutputStream    *stream);
+
   /* Padding for future expansion */
   void (*_g_reserved1) (void);
   void (*_g_reserved2) (void);
@@ -98,23 +96,23 @@ struct _GFileOutputStreamClass
   void (*_g_reserved5) (void);
 };
 
-GType g_file_output_stream_get_type (void) G_GNUC_CONST;
+GType      g_file_output_stream_get_type          (void) G_GNUC_CONST;
 
 
-GFileInfo *g_file_output_stream_query_info (GFileOutputStream  *stream,
-					    char               *attributes,
-					    GCancellable       *cancellable,
-					    GError            **error);
-void       g_file_output_stream_query_info_async  (GFileOutputStream     *stream,
-						   char                 *attributes,
+GFileInfo *g_file_output_stream_query_info        (GFileOutputStream    *stream,
+                                                   const char           *attributes,
+                                                   GCancellable         *cancellable,
+                                                   GError              **error);
+void       g_file_output_stream_query_info_async  (GFileOutputStream    *stream,
+						   const char           *attributes,
 						   int                   io_priority,
 						   GCancellable         *cancellable,
 						   GAsyncReadyCallback   callback,
 						   gpointer              user_data);
-GFileInfo *g_file_output_stream_query_info_finish (GFileOutputStream     *stream,
+GFileInfo *g_file_output_stream_query_info_finish (GFileOutputStream    *stream,
 						   GAsyncResult         *result,
 						   GError              **error);
-char *     g_file_output_stream_get_etag      (GFileOutputStream  *stream);
+char *     g_file_output_stream_get_etag          (GFileOutputStream    *stream);
 
 G_END_DECLS
 

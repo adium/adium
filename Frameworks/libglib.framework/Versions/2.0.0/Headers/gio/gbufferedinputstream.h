@@ -1,5 +1,5 @@
 /* GIO - GLib Input, Output and Streaming Library
- * 
+ *
  * Copyright (C) 2006-2007 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
@@ -17,7 +17,7 @@
  * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Christian Kellner <gicmo@gnome.org> 
+ * Author: Christian Kellner <gicmo@gnome.org>
  */
 
 #if !defined (__GIO_GIO_H_INSIDE__) && !defined (GIO_COMPILATION)
@@ -27,7 +27,6 @@
 #ifndef __G_BUFFERED_INPUT_STREAM_H__
 #define __G_BUFFERED_INPUT_STREAM_H__
 
-#include <glib-object.h>
 #include <gio/gfilterinputstream.h>
 
 G_BEGIN_DECLS
@@ -41,10 +40,9 @@ G_BEGIN_DECLS
 
 /**
  * GBufferedInputStream:
- * 
+ *
  * Implements #GFilterInputStream with a sized input buffer.
  **/
-typedef struct _GBufferedInputStream         GBufferedInputStream;
 typedef struct _GBufferedInputStreamClass    GBufferedInputStreamClass;
 typedef struct _GBufferedInputStreamPrivate  GBufferedInputStreamPrivate;
 
@@ -58,7 +56,7 @@ struct _GBufferedInputStream
 
 struct _GBufferedInputStreamClass
 {
- GFilterInputStreamClass parent_class;
+  GFilterInputStreamClass parent_class;
 
   gssize   (* fill)        (GBufferedInputStream *stream,
 			    gssize                count,
@@ -119,7 +117,6 @@ gssize        g_buffered_input_stream_fill_finish     (GBufferedInputStream  *st
 int           g_buffered_input_stream_read_byte       (GBufferedInputStream  *stream,
 						       GCancellable          *cancellable,
 						       GError               **error);
-
 
 G_END_DECLS
 

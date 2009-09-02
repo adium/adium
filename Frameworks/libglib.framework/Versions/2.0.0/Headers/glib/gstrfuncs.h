@@ -21,8 +21,12 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_STRFUNCS_H__
 #define __G_STRFUNCS_H__
@@ -214,7 +218,7 @@ gchar*                g_strescape      (const gchar *source,
 					const gchar *exceptions) G_GNUC_MALLOC;
 
 gpointer              g_memdup	       (gconstpointer mem,
-					guint	       byte_size) G_GNUC_MALLOC;
+					guint	       byte_size) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(2);
 
 /* NULL terminated string arrays.
  * g_strsplit(), g_strsplit_set() split up string into max_tokens tokens
@@ -241,11 +245,21 @@ gchar*                g_stpcpy         (gchar        *dest,
                                         const char   *src);
 
 G_CONST_RETURN gchar *g_strip_context  (const gchar *msgid, 
-					const gchar *msgval);
+					const gchar *msgval) G_GNUC_FORMAT(1);
 
+G_CONST_RETURN gchar *g_dgettext       (const gchar *domain,
+					const gchar *msgid) G_GNUC_FORMAT(2);
+
+G_CONST_RETURN gchar *g_dngettext      (const gchar *domain,
+					const gchar *msgid,
+					const gchar *msgid_plural,
+					gulong       n) G_GNUC_FORMAT(3);
 G_CONST_RETURN gchar *g_dpgettext      (const gchar *domain,
                                         const gchar *msgctxtid,
-                                        gsize        msgidoffset);
+                                        gsize        msgidoffset) G_GNUC_FORMAT(2);
+G_CONST_RETURN gchar *g_dpgettext2     (const gchar *domain,
+                                        const gchar *context,
+                                        const gchar *msgid) G_GNUC_FORMAT(3);
 
 G_END_DECLS
 

@@ -18,6 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_CHECKSUM_H__
 #define __G_CHECKSUM_H__
 
@@ -45,11 +49,21 @@ typedef enum {
   G_CHECKSUM_SHA256
 } GChecksumType;
 
+/**
+ * GChecksum:
+ *
+ * An opaque structure representing a checksumming operation.
+ * To create a new GChecksum, use g_checksum_new(). To free
+ * a GChecksum, use g_checksum_free().
+ *
+ * Since: 2.16
+ */
 typedef struct _GChecksum       GChecksum;
 
 gssize                g_checksum_type_get_length (GChecksumType checksum_type);
 
 GChecksum *           g_checksum_new        (GChecksumType     checksum_type);
+void                  g_checksum_reset      (GChecksum        *checksum);
 GChecksum *           g_checksum_copy       (const GChecksum  *checksum);
 void                  g_checksum_free       (GChecksum        *checksum);
 void                  g_checksum_update     (GChecksum        *checksum,
