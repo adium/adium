@@ -48,6 +48,9 @@
 	return self.message;
 }
 
-@synthesize eventType = statusType;
+- (NSString *)eventType
+{
+	return [super status];
+}
 
 @end

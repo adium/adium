@@ -198,6 +198,7 @@ typedef enum {
 	BOOL									useContactListGroups;
 	int									indentationPerLevel[9];
 }
+@property (readonly, nonatomic) AIListOutlineView *contactListView;
 
 - (id)initWithContactListView:(AIListOutlineView *)inContactListView inScrollView:(AIAutoScrollView *)inScrollView_contactList delegate:(id<AIListControllerDelegate>)inDelegate;
 - (id)delegate;
