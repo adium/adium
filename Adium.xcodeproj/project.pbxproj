@@ -1443,6 +1443,8 @@
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
 		7E824CEB06387FAF00813072 /* SHLinkManagementPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */; };
+		7E9A8CB3104DEBC400F210CC /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
+		7EE09627104DFCBC00587F35 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1477,9 +1479,7 @@
 		9E124DEE07D34C7400AA91C5 /* NEHGrowlPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */; };
 		9E124DF107D34C9100AA91C5 /* GrowlAlert.nib in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DEF07D34C9000AA91C5 /* GrowlAlert.nib */; };
 		9E124DF207D34C9100AA91C5 /* GrowlAlert.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E124DF007D34C9000AA91C5 /* GrowlAlert.png */; };
-		9E124DF607D34CF500AA91C5 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E124DF507D34CF500AA91C5 /* Growl-WithInstaller.framework */; };
 		9E125C6607D3571400AA91C5 /* ESBlockingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E125C6407D3571400AA91C5 /* ESBlockingPlugin.m */; };
-		9E12765407D38B5000AA91C5 /* Growl-WithInstaller.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9E124DF507D34CF500AA91C5 /* Growl-WithInstaller.framework */; };
 		9E1E1DFD0A96741500E16DFC /* LMX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1E1DFC0A96741500E16DFC /* LMX.framework */; };
 		9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1E1DFC0A96741500E16DFC /* LMX.framework */; };
 		9E20910E06A601AF00E33E27 /* CBStatusMenuItemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E791DA40577094400547562 /* CBStatusMenuItemController.m */; };
@@ -1698,6 +1698,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7EE09627104DFCBC00587F35 /* Growl.framework in Copy Frameworks */,
 				34B89477102BCDB4000ABB8E /* libxml.framework in Copy Frameworks */,
 				34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */,
 				34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */,
@@ -1722,7 +1723,6 @@
 				F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */,
 				341BDBBB0968BC9B00CF83F5 /* OTR.framework in Copy Frameworks */,
 				3419FE230531586A00C68BA3 /* Adium.framework in Copy Frameworks */,
-				9E12765407D38B5000AA91C5 /* Growl-WithInstaller.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -4631,6 +4631,7 @@
 		7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkEditorWindowController.m; sourceTree = "<group>"; };
 		7E824CDB06387FAF00813072 /* SHLinkManagementPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHLinkManagementPlugin.h; sourceTree = "<group>"; };
 		7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkManagementPlugin.m; sourceTree = "<group>"; };
+		7E9A8CB2104DEBC400F210CC /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
@@ -4666,7 +4667,6 @@
 		9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NEHGrowlPlugin.m; path = Source/NEHGrowlPlugin.m; sourceTree = "<group>"; };
 		9E124DEF07D34C9000AA91C5 /* GrowlAlert.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = GrowlAlert.nib; path = Resources/GrowlAlert.nib; sourceTree = "<group>"; };
 		9E124DF007D34C9000AA91C5 /* GrowlAlert.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GrowlAlert.png; path = Resources/GrowlAlert.png; sourceTree = "<group>"; };
-		9E124DF507D34CF500AA91C5 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Growl-WithInstaller.framework"; path = "Frameworks/Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		9E125C6307D3571400AA91C5 /* ESBlockingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ESBlockingPlugin.h; path = Source/ESBlockingPlugin.h; sourceTree = "<group>"; };
 		9E125C6407D3571400AA91C5 /* ESBlockingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ESBlockingPlugin.m; path = Source/ESBlockingPlugin.m; sourceTree = "<group>"; };
 		9E1E1DFC0A96741500E16DFC /* LMX.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LMX.framework; path = Frameworks/LMX.framework; sourceTree = "<group>"; };
@@ -4848,7 +4848,6 @@
 				34BD9D5A053146CC000AB133 /* Carbon.framework in Frameworks */,
 				34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */,
 				34C18B0D06CAC95400FF5FF9 /* SystemConfiguration.framework in Frameworks */,
-				9E124DF607D34CF500AA91C5 /* Growl-WithInstaller.framework in Frameworks */,
 				638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */,
 				F58904F20A7828B9001F0ADC /* OTR.framework in Frameworks */,
 				9E1E1DFD0A96741500E16DFC /* LMX.framework in Frameworks */,
@@ -4861,6 +4860,7 @@
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
 				34C846E6101E518F00140B4B /* QuickTime.framework in Frameworks */,
+				7E9A8CB3104DEBC400F210CC /* Growl.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7399,7 +7399,7 @@
 				9E124DF007D34C9000AA91C5 /* GrowlAlert.png */,
 				9E124DE907D34C7300AA91C5 /* NEHGrowlPlugin.h */,
 				9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */,
-				9E124DF507D34CF500AA91C5 /* Growl-WithInstaller.framework */,
+				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
