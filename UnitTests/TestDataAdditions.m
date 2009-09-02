@@ -21,7 +21,7 @@ static char bytesForSubdataTests[lengthForSubdataTests] = { 'f', 'o', 'o', 'b', 
 	NSData *data = [NSData dataWithBytesNoCopy:bytesForSubdataTests length:lengthForSubdataTests freeWhenDone:NO];
 
 	NSData *subdata = [data subdataFromIndex:fromIndexForSubdataTests];
-	STAssertEquals([subdata length], subdataLengthForSubdataTests, @"Subdata was not of expected length");
+	STAssertEquals([subdata length], (NSUInteger)subdataLengthForSubdataTests, @"Subdata was not of expected length");
 
 	const char *bytes = [subdata bytes];
 	//Cast explanation: Character literals are of type int. STAssertEquals also checks that the two sides are of the same type, and const char is not int, so the assertion fails unless we cast the literals to const char.
@@ -33,7 +33,7 @@ static char bytesForSubdataTests[lengthForSubdataTests] = { 'f', 'o', 'o', 'b', 
 	NSData *data = [NSData dataWithBytesNoCopy:bytesForSubdataTests length:lengthForSubdataTests freeWhenDone:NO];
 
 	NSData *subdata = [data subdataToIndex:toIndexForSubdataTests];
-	STAssertEquals([subdata length], subdataLengthForSubdataTests, @"Subdata was not of expected length");
+	STAssertEquals([subdata length], (NSUInteger)subdataLengthForSubdataTests, @"Subdata was not of expected length");
 
 	const char *bytes = [subdata bytes];
 	//Cast explanation: Character literals are of type int. STAssertEquals also checks that the two sides are of the same type, and const char is not int, so the assertion fails unless we cast the literals to const char.

@@ -157,7 +157,7 @@ void getRGBFromHueLuminanceSaturation(float *r, float *g, float *b, float hue, f
  *	@param	dBrit	The brightness delta.
  *	@return	The adjusted color, in the calibrated-RGB color space.
  */
-- (NSColor *)adjustHue:(float)dHue saturation:(float)dSat brightness:(float)dBrit;
+- (NSColor *)adjustHue:(CGFloat)dHue saturation:(CGFloat)dSat brightness:(CGFloat)dBrit;
 
 @end
 

@@ -6,9 +6,9 @@
 
 - (NSMutableDictionary *)startingDictionary {
 	return [NSMutableDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithUnsignedInt:0U], @"Foo",
-		[NSNumber numberWithUnsignedInt:1U], @"Bar",
-		[NSNumber numberWithUnsignedInt:2U], @"Baz",
+		[NSNumber numberWithUnsignedInteger:0U], @"Foo",
+		[NSNumber numberWithUnsignedInteger:1U], @"Bar",
+		[NSNumber numberWithUnsignedInteger:2U], @"Baz",
 		nil];
 }
 - (NSDictionary *)translation {
@@ -20,9 +20,9 @@
 }
 - (NSDictionary *)addition {
 	return [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithUnsignedInt:3U], @"Qux",
-		[NSNumber numberWithUnsignedInt:4U], @"Quux",
-		[NSNumber numberWithUnsignedInt:5U], @"Quuux",
+		[NSNumber numberWithUnsignedInteger:3U], @"Qux",
+		[NSNumber numberWithUnsignedInteger:4U], @"Quux",
+		[NSNumber numberWithUnsignedInteger:5U], @"Quuux",
 		nil];
 }
 - (NSSet *)deletia {

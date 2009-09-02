@@ -11,16 +11,16 @@
 @implementation NSDate (AIDateAdditions)
 
 + (void) convertTimeInterval:(NSTimeInterval)interval
-                    toWeeks:(out int *)outWeeks
-                       days:(out int *)outDays
-                      hours:(out int *)outHours
-                    minutes:(out int *)outMinutes
+                    toWeeks:(out NSInteger *)outWeeks
+                       days:(out NSInteger *)outDays
+                      hours:(out NSInteger *)outHours
+                    minutes:(out NSInteger *)outMinutes
                     seconds:(out NSTimeInterval *)outSeconds
 {
 	NSTimeInterval	workIntervalSeconds = interval;
 
 	if (outSeconds) *outSeconds = fmod(workIntervalSeconds, 60.0); //Get the fraction of a minute in seconds.
-	int workInterval = workIntervalSeconds / 60.0; //Now it's minutes.
+	NSInteger workInterval = workIntervalSeconds / 60.0; //Now it's minutes.
 
 	if (outMinutes) *outMinutes = workInterval % 60; //Get the fraction of an hour in minutes.
 	workInterval = workInterval / 60; //Now it's hours.

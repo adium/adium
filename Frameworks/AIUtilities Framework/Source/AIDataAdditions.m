@@ -17,10 +17,10 @@
 
 @implementation NSData(AIDataAdditions)
 
-- (NSData *)subdataFromIndex:(unsigned)start {
+- (NSData *)subdataFromIndex:(NSUInteger)start {
 	return [self subdataWithRange:NSMakeRange(start, [self length] - start)];
 }
-- (NSData *)subdataToIndex:(unsigned)stop {
+- (NSData *)subdataToIndex:(NSUInteger)stop {
 	return [self subdataWithRange:NSMakeRange(0, stop)];
 }
 

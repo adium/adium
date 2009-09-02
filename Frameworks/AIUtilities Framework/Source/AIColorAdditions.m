@@ -280,7 +280,7 @@ end:
 
 //Linearly adjust a color
 #define cap(x) { if (x < 0) {x = 0;} else if (x > 1) {x = 1;} }
-- (NSColor *)adjustHue:(float)dHue saturation:(float)dSat brightness:(float)dBrit
+- (NSColor *)adjustHue:(CGFloat)dHue saturation:(CGFloat)dSat brightness:(CGFloat)dBrit
 {
     CGFloat hue, sat, brit, alpha;
     

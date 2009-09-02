@@ -22,10 +22,10 @@
  *	@param	outSeconds	If non-\c NULL, the \c NSTimeInterval at this address will be set to the number of seconds covered by the interval.
  */
 + (void) convertTimeInterval:(NSTimeInterval)interval
-                    toWeeks:(out int *)outWeeks
-                       days:(out int *)outDays
-                      hours:(out int *)outHours
-                    minutes:(out int *)outMinutes
+                    toWeeks:(out NSInteger *)outWeeks
+                       days:(out NSInteger *)outDays
+                      hours:(out NSInteger *)outHours
+                    minutes:(out NSInteger *)outMinutes
                     seconds:(out NSTimeInterval *)outSeconds;
 
 @end

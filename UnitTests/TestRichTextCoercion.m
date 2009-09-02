@@ -15,6 +15,7 @@
 	NSDictionary *scriptSuite = nil;
 
 	NSFileManager *mgr = [NSFileManager defaultManager];
+#warning 64BIT: Check formatting arguments
 	NSString *scriptSuitesFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"AdiumTest-%u-ScriptSuites", getpid()]];
 	NSLog(@"scriptSuitesFolder: %@", scriptSuitesFolder);
 	if([mgr createDirectoryAtPath:scriptSuitesFolder attributes:nil]) {
@@ -50,6 +51,7 @@
 	NSDictionary *scriptTerminology = nil;
 	
 	NSFileManager *mgr = [NSFileManager defaultManager];
+#warning 64BIT: Check formatting arguments
 	NSString *scriptTerminologiesFolder = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"AdiumTest-%u-ScriptTerminologies", getpid()]];
 	NSLog(@"scriptTerminologiesFolder: %@", scriptTerminologiesFolder);
 	if([mgr createDirectoryAtPath:scriptTerminologiesFolder attributes:nil]) {

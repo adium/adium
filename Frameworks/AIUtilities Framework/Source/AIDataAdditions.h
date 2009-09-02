@@ -15,7 +15,7 @@
 
 @interface NSData(AIDataAdditions)
 
-- (NSData *)subdataFromIndex:(unsigned)start;
-- (NSData *)subdataToIndex:(unsigned)stop;
+- (NSData *)subdataFromIndex:(NSUInteger)start;
+- (NSData *)subdataToIndex:(NSUInteger)stop;
 
 @end
