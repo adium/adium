@@ -413,8 +413,6 @@
 	return (AIListObject<AIContainingObject> *)contactList;
 }
 
-@synthesize contactListView;
-
 - (void)reloadListObject:(NSNotification *)notification
 {
 	AIListObject *object = notification.object;

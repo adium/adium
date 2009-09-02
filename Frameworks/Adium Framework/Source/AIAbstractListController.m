@@ -68,6 +68,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 @end
 
 @implementation AIAbstractListController
+@synthesize contactListView;
 /*!
  * @brief Initialize
  *

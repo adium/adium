@@ -34,7 +34,7 @@ typedef enum {
 	NSInteger						forcedWindowWidth;
 
 	AIDockToBottomType 		dockToBottomOfScreen;
-	
+
 	BOOL					needsAutoResize;
 }
 
@@ -44,7 +44,6 @@ typedef enum {
 				 delegate:(id<AIListControllerDelegate>)inDelegate;
 
 - (AIListObject<AIContainingObject> *) contactList;
-@property (readonly, nonatomic) AIListOutlineView *contactListView;
 
 //Call to close down and release the listController
 - (void)close;
