@@ -579,7 +579,6 @@
 			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
 			buildSettings = {
 				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
 				GCC_VERSION = 4.2;
@@ -763,7 +762,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(NATIVE_ARCH)";
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
 				GCC_VERSION = 4.2;
@@ -771,7 +770,6 @@
 				PRODUCT_NAME = RBSplitView;
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
-				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
 			};
 			name = Debug;
 		};
@@ -780,7 +778,6 @@
 			baseConfigurationReference = D508879A0AA1D2A100F4ECB3 /* RB.xcconfig */;
 			buildSettings = {
 				APPLY_RULES_IN_COPY_FILES = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CURRENT_PROJECT_VERSION = 1.1.4;
 				GCC_PREFIX_HEADER = Source/RBSplitView_Prefix.pch;
 				GCC_VERSION = 4.2;
