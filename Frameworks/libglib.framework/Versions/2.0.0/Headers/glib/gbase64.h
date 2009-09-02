@@ -18,6 +18,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_BASE64_H__
 #define __G_BASE64_H__
 
@@ -44,6 +48,9 @@ gsize   g_base64_decode_step  (const gchar  *in,
 			       guint        *save);
 guchar *g_base64_decode       (const gchar  *text,
 			       gsize        *out_len) G_GNUC_MALLOC;
+guchar *g_base64_decode_inplace (gchar      *text,
+                                 gsize      *out_len);
+
 
 G_END_DECLS
 

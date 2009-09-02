@@ -8,7 +8,7 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gst-plugins-bad-0.10.13/gst-libs/gst/interfaces/photography.h" */
+/* enumerations from "photography.h" */
 GType gst_white_balance_mode_get_type (void);
 #define GST_TYPE_WHITE_BALANCE_MODE (gst_white_balance_mode_get_type())
 GType gst_colour_tone_mode_get_type (void);

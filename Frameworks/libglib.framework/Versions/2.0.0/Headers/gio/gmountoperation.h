@@ -1,5 +1,5 @@
 /* GIO - GLib Input, Output and Streaming Library
- * 
+ *
  * Copyright (C) 2006-2007 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
@@ -27,9 +27,7 @@
 #ifndef __G_MOUNT_OPERATION_H__
 #define __G_MOUNT_OPERATION_H__
 
-#include <sys/stat.h>
-
-#include <glib-object.h>
+#include <gio/giotypes.h>
 
 G_BEGIN_DECLS
 
@@ -42,11 +40,10 @@ G_BEGIN_DECLS
 
 /**
  * GMountOperation:
- * 
- * Class for providing authentication methods for mounting operations, 
+ *
+ * Class for providing authentication methods for mounting operations,
  * such as mounting a file locally, or authenticating with a server.
  **/
-typedef struct _GMountOperation        GMountOperation;
 typedef struct _GMountOperationClass   GMountOperationClass;
 typedef struct _GMountOperationPrivate GMountOperationPrivate;
 
@@ -57,75 +54,27 @@ struct _GMountOperation
   GMountOperationPrivate *priv;
 };
 
-/**
- * GAskPasswordFlags:
- * @G_ASK_PASSWORD_NEED_PASSWORD: operation requires a password.
- * @G_ASK_PASSWORD_NEED_USERNAME: operation requires a username.
- * @G_ASK_PASSWORD_NEED_DOMAIN: operation requires a domain.
- * @G_ASK_PASSWORD_SAVING_SUPPORTED: operation supports saving settings.
- * @G_ASK_PASSWORD_ANONYMOUS_SUPPORTED: operation supports anonymous users.
- * 
- * #GAskPasswordFlags are used to request specific information from the 
- * user, or to notify the user of their choices in an authentication
- * situation. 
- * 
- **/ 
-typedef enum {
-  G_ASK_PASSWORD_NEED_PASSWORD       = 1<<0,
-  G_ASK_PASSWORD_NEED_USERNAME       = 1<<1,
-  G_ASK_PASSWORD_NEED_DOMAIN         = 1<<2,
-  G_ASK_PASSWORD_SAVING_SUPPORTED    = 1<<3,
-  G_ASK_PASSWORD_ANONYMOUS_SUPPORTED = 1<<4
-} GAskPasswordFlags;
-
-/**
- * GPasswordSave:
- * @G_PASSWORD_SAVE_NEVER: never save a password.
- * @G_PASSWORD_SAVE_FOR_SESSION: save a password for the session.
- * @G_PASSWORD_SAVE_PERMANENTLY: save a password permanently.
- * 
- * #GPasswordSave is used to indicate the lifespan of a saved password.
- **/ 
-typedef enum {
-  G_PASSWORD_SAVE_NEVER,
-  G_PASSWORD_SAVE_FOR_SESSION,
-  G_PASSWORD_SAVE_PERMANENTLY
-} GPasswordSave;
-
-/**
- * GMountOperationResult:
- * @G_MOUNT_OPERATION_HANDLED: The request was fulfilled and the user specified data is now availible
- * @G_MOUNT_OPERATION_ABORTED: The user requested the mount operation to be aborted
- * @G_MOUNT_OPERATION_UNHANDLED: The request was unhandled (i.e. not implemented)
- * 
- * #GMountOperationResult is returned as a result when a request for information
- * is send by the mounting operation.
- **/ 
-typedef enum {
-  G_MOUNT_OPERATION_HANDLED,
-  G_MOUNT_OPERATION_ABORTED,
-  G_MOUNT_OPERATION_UNHANDLED
-} GMountOperationResult;
-
 struct _GMountOperationClass
 {
   GObjectClass parent_class;
 
   /* signals: */
 
-  void (* ask_password) (GMountOperation *op,
-			 const char      *message,
-			 const char      *default_user,
-			 const char      *default_domain,
-			 GAskPasswordFlags flags);
+  void (* ask_password) (GMountOperation       *op,
+			 const char            *message,
+			 const char            *default_user,
+			 const char            *default_domain,
+			 GAskPasswordFlags      flags);
 
-  void (* ask_question) (GMountOperation *op,
-			 const char      *message,
-			 const char      *choices[]);
-  
-  void (* reply)        (GMountOperation *op,
-			 GMountOperationResult result);
-  
+  void (* ask_question) (GMountOperation       *op,
+			 const char            *message,
+			 const char            *choices[]);
+
+  void (* reply)        (GMountOperation       *op,
+			 GMountOperationResult  result);
+
+  void (* aborted)      (GMountOperation       *op);
+
   /*< private >*/
   /* Padding for future expansion */
   void (*_g_reserved1) (void);
@@ -139,12 +88,10 @@ struct _GMountOperationClass
   void (*_g_reserved9) (void);
   void (*_g_reserved10) (void);
   void (*_g_reserved11) (void);
-  void (*_g_reserved12) (void);
 };
 
-GType g_mount_operation_get_type (void) G_GNUC_CONST;
-  
-GMountOperation *  g_mount_operation_new (void);
+GType             g_mount_operation_get_type      (void) G_GNUC_CONST;
+GMountOperation * g_mount_operation_new           (void);
 
 const char *  g_mount_operation_get_username      (GMountOperation *op);
 void          g_mount_operation_set_username      (GMountOperation *op,

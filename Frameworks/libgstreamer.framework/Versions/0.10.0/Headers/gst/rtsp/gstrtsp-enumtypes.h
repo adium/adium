@@ -8,7 +8,7 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gst-plugins-base-0.10.23/gst-libs/gst/rtsp/gstrtspdefs.h" */
+/* enumerations from "gstrtspdefs.h" */
 GType gst_rtsp_result_get_type (void);
 #define GST_TYPE_RTSP_RESULT (gst_rtsp_result_get_type())
 GType gst_rtsp_event_get_type (void);

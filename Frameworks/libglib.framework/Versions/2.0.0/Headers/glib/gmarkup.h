@@ -18,6 +18,10 @@
  *   Boston, MA 02111-1307, USA.
  */
 
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_MARKUP_H__
 #define __G_MARKUP_H__
 
@@ -108,6 +112,10 @@ gboolean             g_markup_parse_context_parse (GMarkupParseContext *context,
                                                    const gchar         *text,
                                                    gssize               text_len,  
                                                    GError             **error);
+void                 g_markup_parse_context_push  (GMarkupParseContext *context,
+                                                   GMarkupParser       *parser,
+                                                   gpointer             user_data);
+gpointer             g_markup_parse_context_pop   (GMarkupParseContext *context);
                                                    
 gboolean             g_markup_parse_context_end_parse (GMarkupParseContext *context,
                                                        GError             **error);
@@ -118,6 +126,7 @@ G_CONST_RETURN GSList *g_markup_parse_context_get_element_stack (GMarkupParseCon
 void                 g_markup_parse_context_get_position (GMarkupParseContext *context,
                                                           gint                *line_number,
                                                           gint                *char_number);
+gpointer             g_markup_parse_context_get_user_data (GMarkupParseContext *context);
 
 /* useful when saving */
 gchar* g_markup_escape_text (const gchar *text,
@@ -152,4 +161,3 @@ gboolean   g_markup_collect_attributes (const gchar         *element_name,
 G_END_DECLS
 
 #endif /* __G_MARKUP_H__ */
-

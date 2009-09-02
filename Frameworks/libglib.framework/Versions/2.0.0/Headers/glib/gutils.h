@@ -21,8 +21,12 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_UTILS_H__
 #define __G_UTILS_H__
@@ -97,11 +101,7 @@ G_BEGIN_DECLS
 #  define G_INLINE_FUNC
 #  undef  G_CAN_INLINE
 #elif defined (__GNUC__) 
-#  if defined (__GNUC_STDC_INLINE__) || defined (__GNUC_GNU_INLINE__)
-#   define G_INLINE_FUNC extern inline __attribute__ ((__gnu_inline__))
-#  else
-#   define G_INLINE_FUNC extern inline
-#  endif
+#  define G_INLINE_FUNC static __inline __attribute__ ((unused))
 #elif defined (G_CAN_INLINE) 
 #  define G_INLINE_FUNC static inline
 #else /* can't inline */
@@ -133,16 +133,21 @@ G_CONST_RETURN gchar*    g_get_user_cache_dir     (void);
 G_CONST_RETURN gchar* G_CONST_RETURN * g_get_system_data_dirs   (void);
 
 #ifdef G_OS_WIN32
-G_CONST_RETURN gchar* G_CONST_RETURN * g_win32_get_system_data_dirs_for_module (gconstpointer address);
+/* This functions is not part of the public GLib API */
+G_CONST_RETURN gchar* G_CONST_RETURN * g_win32_get_system_data_dirs_for_module (void (*address_of_function)());
 #endif
 
 #if defined (G_OS_WIN32) && defined (G_CAN_INLINE) && !defined (__cplusplus)
+/* This function is not part of the public GLib API either. Just call
+ * g_get_system_data_dirs() in your code, never mind that that is
+ * actually a macro and you will in fact call this inline function.
+ */
 static inline G_CONST_RETURN gchar * G_CONST_RETURN *
-g_win32_get_system_data_dirs (void)
+_g_win32_get_system_data_dirs (void)
 {
-  return g_win32_get_system_data_dirs_for_module ((gconstpointer) &g_win32_get_system_data_dirs);
+  return g_win32_get_system_data_dirs_for_module ((void (*)()) &_g_win32_get_system_data_dirs);
 }
-#define g_get_system_data_dirs g_win32_get_system_data_dirs
+#define g_get_system_data_dirs _g_win32_get_system_data_dirs
 #endif
 
 G_CONST_RETURN gchar* G_CONST_RETURN * g_get_system_config_dirs (void);
@@ -189,8 +194,8 @@ G_CONST_RETURN gchar* g_get_user_special_dir (GUserDirectory directory);
 typedef struct _GDebugKey	GDebugKey;
 struct _GDebugKey
 {
-  gchar *key;
-  guint	 value;
+  const gchar *key;
+  guint	       value;
 };
 
 /* Miscellaneous utility functions
@@ -430,11 +435,13 @@ const gchar * glib_check_version (guint required_major,
 
 G_END_DECLS
 
+#ifndef G_DISABLE_DEPRECATED
+
 /*
- * This macro will be deprecated in the future. This DllMain() is too
- * complex. It is recommended to have a DLlMain() that just saves the
- * handle to the DLL and then use that handle in normal code instead,
- * for instance passing it to
+ * This macro is deprecated. This DllMain() is too complex. It is
+ * recommended to write an explicit minimal DLlMain() that just saves
+ * the handle to the DLL and then use that handle instead, for
+ * instance passing it to
  * g_win32_get_package_installation_directory_of_module().
  *
  * On Windows, this macro defines a DllMain function that stores the
@@ -472,6 +479,9 @@ DllMain (HINSTANCE hinstDLL,						\
 									\
   return TRUE;								\
 }
+
+#endif	/* !G_DISABLE_DEPRECATED */
+
 #endif /* G_PLATFORM_WIN32 */
 
 #endif /* __G_UTILS_H__ */

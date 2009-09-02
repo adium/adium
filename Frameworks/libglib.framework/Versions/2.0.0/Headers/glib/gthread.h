@@ -21,8 +21,12 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_THREAD_H__
 #define __G_THREAD_H__
@@ -130,6 +134,11 @@ void    g_thread_init   (GThreadFunctions       *vtable);
  */
 void    g_thread_init_with_errorcheck_mutexes (GThreadFunctions* vtable);
 
+/* Checks if thread support is initialized.  Identical to the
+ * g_thread_supported macro but provided for language bindings.
+ */
+gboolean g_thread_get_initialized (void);
+
 /* A random number to recognize debug calls to g_mutex_... */
 #define G_MUTEX_DEBUG_MAGIC 0xf8e18ad7
 
@@ -141,7 +150,7 @@ void    g_thread_init_with_errorcheck_mutexes (GThreadFunctions* vtable);
 GMutex* g_static_mutex_get_mutex_impl   (GMutex **mutex);
 
 #define g_static_mutex_get_mutex_impl_shortcut(mutex) \
-  (g_atomic_pointer_get ((gpointer*)(void*)mutex) ? *(mutex) : \
+  (g_atomic_pointer_get (mutex) ? *(mutex) : \
    g_static_mutex_get_mutex_impl (mutex))
 
 /* shorthands for conditional and unconditional function calls */
@@ -332,7 +341,7 @@ void                    g_once_init_leave       (volatile gsize *value_location,
 G_INLINE_FUNC gboolean
 g_once_init_enter (volatile gsize *value_location)
 {
-  if G_LIKELY (g_atomic_pointer_get ((void*volatile*) value_location) != NULL)
+  if G_LIKELY ((gpointer) g_atomic_pointer_get (value_location) != NULL)
     return FALSE;
   else
     return g_once_init_enter_impl (value_location);
@@ -389,7 +398,6 @@ extern void glib_dummy_decl (void);
 #  define G_UNLOCK(name)
 #  define G_TRYLOCK(name)               (TRUE)
 #endif  /* !G_THREADS_ENABLED */
-
 
 G_END_DECLS
 

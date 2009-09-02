@@ -21,13 +21,18 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_TYPES_H__
 #define __G_TYPES_H__
 
 #include <glibconfig.h>
+#include <glib/gmacros.h>
 
 G_BEGIN_DECLS
 
@@ -403,7 +408,7 @@ struct _GTimeVal
 G_END_DECLS
 
 /* We prefix variable declarations so they can
- * properly get exported in windows dlls.
+ * properly get exported in Windows DLLs.
  */
 #ifndef GLIB_VAR
 #  ifdef G_PLATFORM_WIN32
@@ -426,4 +431,3 @@ G_END_DECLS
 #endif /* GLIB_VAR */
 
 #endif /* __G_TYPES_H__ */
-

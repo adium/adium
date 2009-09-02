@@ -1,5 +1,5 @@
 /* GIO - GLib Input, Output and Streaming Library
- * 
+ *
  * Copyright (C) 2006-2007 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@
 #ifndef __G_CANCELLABLE_H__
 #define __G_CANCELLABLE_H__
 
-#include <glib-object.h>
+#include <gio/giotypes.h>
 
 G_BEGIN_DECLS
 
@@ -40,10 +40,9 @@ G_BEGIN_DECLS
 
 /**
  * GCancellable:
- * 
+ *
  * Allows actions to be cancelled.
  */
-typedef struct _GCancellable        GCancellable;
 typedef struct _GCancellableClass   GCancellableClass;
 
 struct _GCancellableClass
@@ -51,7 +50,7 @@ struct _GCancellableClass
   GObjectClass parent_class;
 
   void (* cancelled) (GCancellable *cancellable);
-  
+
   /*< private >*/
   /* Padding for future expansion */
   void (*_g_reserved1) (void);
@@ -61,15 +60,19 @@ struct _GCancellableClass
   void (*_g_reserved5) (void);
 };
 
-GType g_cancellable_get_type (void) G_GNUC_CONST;
+GType         g_cancellable_get_type               (void) G_GNUC_CONST;
 
-GCancellable *g_cancellable_new          (void);
+GCancellable *g_cancellable_new                    (void);
 
 /* These are only safe to call inside a cancellable op */
 gboolean      g_cancellable_is_cancelled           (GCancellable  *cancellable);
 gboolean      g_cancellable_set_error_if_cancelled (GCancellable  *cancellable,
 						    GError       **error);
+
 int           g_cancellable_get_fd                 (GCancellable  *cancellable);
+void          g_cancellable_make_pollfd            (GCancellable  *cancellable,
+						    GPollFD       *pollfd);
+
 GCancellable *g_cancellable_get_current            (void);
 void          g_cancellable_push_current           (GCancellable  *cancellable);
 void          g_cancellable_pop_current            (GCancellable  *cancellable);

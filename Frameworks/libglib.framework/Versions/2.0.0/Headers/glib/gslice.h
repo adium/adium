@@ -16,6 +16,11 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
+
 #ifndef __G_SLICE_H__
 #define __G_SLICE_H__
 
@@ -29,10 +34,10 @@ G_BEGIN_DECLS
 
 /* slices - fast allocation/release of small memory blocks
  */
-gpointer g_slice_alloc          	(gsize	       block_size) G_GNUC_MALLOC;
-gpointer g_slice_alloc0         	(gsize         block_size) G_GNUC_MALLOC;
+gpointer g_slice_alloc          	(gsize	       block_size) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(1);
+gpointer g_slice_alloc0         	(gsize         block_size) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(1);
 gpointer g_slice_copy                   (gsize         block_size,
-                                         gconstpointer mem_block) G_GNUC_MALLOC;
+                                         gconstpointer mem_block) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(1);
 void     g_slice_free1          	(gsize         block_size,
 					 gpointer      mem_block);
 void     g_slice_free_chain_with_offset (gsize         block_size,
@@ -54,7 +59,7 @@ void     g_slice_free_chain_with_offset (gsize         block_size,
 
 /* we go through extra hoops to ensure type safety */
 #define g_slice_dup(type, mem)                                  \
-  (1 ? (type*) g_slice_copy (sizeof (type), (mem)) 		\
+  (1 ? (type*) g_slice_copy (sizeof (type), (mem))              \
      : ((void) ((type*) 0 == (mem)), (type*) 0))
 #define g_slice_free(type, mem)				do {	\
   if (1) g_slice_free1 (sizeof (type), (mem));			\

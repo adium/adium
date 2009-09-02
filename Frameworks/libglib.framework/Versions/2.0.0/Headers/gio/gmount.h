@@ -1,6 +1,6 @@
 /* GIO - GLib Input, Output and Streaming Library
- * 
- * Copyright (C) 2006-2007 Red Hat, Inc.
+ *
+ * Copyright (C) 2006-2008 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,8 +28,7 @@
 #ifndef __G_MOUNT_H__
 #define __G_MOUNT_H__
 
-#include <glib-object.h>
-#include <gio/gfile.h>
+#include <gio/giotypes.h>
 
 G_BEGIN_DECLS
 
@@ -37,21 +36,6 @@ G_BEGIN_DECLS
 #define G_MOUNT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), G_TYPE_MOUNT, GMount))
 #define G_IS_MOUNT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), G_TYPE_MOUNT))
 #define G_MOUNT_GET_IFACE(obj)  (G_TYPE_INSTANCE_GET_INTERFACE ((obj), G_TYPE_MOUNT, GMountIface))
-
-/* GMount typedef is in gfile.h due to include order issues */
-/**
- * GVolume:
- * 
- * Opaque mountable volume object.
- **/
-typedef struct _GVolume GVolume; /* Dummy typedef */
-
-/**
- * GDrive:
- * 
- * Opaque drive object.
- **/
-typedef struct _GDrive          GDrive; /* Dummy typedef */
 
 typedef struct _GMountIface    GMountIface;
 
@@ -74,7 +58,12 @@ typedef struct _GMountIface    GMountIface;
  * @eject_finish: Finishes an eject operation.
  * @remount: Starts remounting a #GMount.
  * @remount_finish: Finishes a remounting operation.
- * 
+ * @guess_content_type: Starts guessing the type of the content of a #GMount.
+ *     See g_mount_guess_content_type() for more information on content
+ *     type guessing. This operation was added in 2.18.
+ * @guess_content_type_finish: Finishes a contenet type guessing operation. Added in 2.18.
+ * @guess_content_type_sync: Synchronous variant of @guess_content_type. Added in 2.18
+ *
  * Interface for implementing operations for mounts.
  **/
 struct _GMountIface
@@ -83,81 +72,117 @@ struct _GMountIface
 
   /* signals */
 
-  void (*changed) (GMount *mount);
-  void (*unmounted) (GMount *mount);
-  
+  void        (* changed)                   (GMount              *mount);
+  void        (* unmounted)                 (GMount              *mount);
+
   /* Virtual Table */
 
-  GFile *            (*get_root)             (GMount         *mount);
-  char *             (*get_name)             (GMount         *mount);
-  GIcon *            (*get_icon)             (GMount         *mount);
-  char *             (*get_uuid)             (GMount         *mount);
-  GVolume *          (*get_volume)           (GMount         *mount);
-  GDrive *           (*get_drive)            (GMount         *mount);
-  gboolean           (*can_unmount)          (GMount         *mount);
-  gboolean           (*can_eject)            (GMount         *mount);
-  void               (*unmount)              (GMount         *mount,
-					      GMountUnmountFlags flags,
-                                              GCancellable    *cancellable,
-                                              GAsyncReadyCallback callback,
-                                              gpointer         user_data);
-  gboolean           (*unmount_finish)       (GMount         *mount,
-                                              GAsyncResult    *result,
-                                              GError         **error);
-  void               (*eject)                (GMount         *mount,
-					      GMountUnmountFlags flags,
-                                              GCancellable    *cancellable,
-                                              GAsyncReadyCallback callback,
-                                              gpointer         user_data);
-  gboolean           (*eject_finish)         (GMount         *mount,
-                                              GAsyncResult    *result,
-                                              GError         **error);
-  void               (*remount)              (GMount         *mount,
-					      GMountMountFlags     flags,
-					      GMountOperation     *mount_operation,
-                                              GCancellable    *cancellable,
-                                              GAsyncReadyCallback callback,
-                                              gpointer         user_data);
-  gboolean           (*remount_finish)       (GMount         *mount,
-                                              GAsyncResult    *result,
-                                              GError         **error);
+  GFile     * (* get_root)                  (GMount              *mount);
+  char      * (* get_name)                  (GMount              *mount);
+  GIcon     * (* get_icon)                  (GMount              *mount);
+  char      * (* get_uuid)                  (GMount              *mount);
+  GVolume   * (* get_volume)                (GMount              *mount);
+  GDrive    * (* get_drive)                 (GMount              *mount);
+  gboolean    (* can_unmount)               (GMount              *mount);
+  gboolean    (* can_eject)                 (GMount              *mount);
+
+  void        (* unmount)                   (GMount              *mount,
+                                             GMountUnmountFlags   flags,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gboolean    (* unmount_finish)            (GMount              *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
+
+  void        (* eject)                     (GMount              *mount,
+                                             GMountUnmountFlags   flags,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gboolean    (* eject_finish)              (GMount              *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
+
+  void        (* remount)                   (GMount              *mount,
+                                             GMountMountFlags     flags,
+                                             GMountOperation     *mount_operation,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gboolean    (* remount_finish)            (GMount              *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
+
+  void        (* guess_content_type)        (GMount              *mount,
+                                             gboolean             force_rescan,
+                                             GCancellable        *cancellable,
+                                             GAsyncReadyCallback  callback,
+                                             gpointer             user_data);
+  gchar    ** (* guess_content_type_finish) (GMount              *mount,
+                                             GAsyncResult        *result,
+                                             GError             **error);
+  gchar    ** (* guess_content_type_sync)   (GMount              *mount,
+                                             gboolean             force_rescan,
+                                             GCancellable        *cancellable,
+                                             GError             **error);
 };
 
-GType g_mount_get_type (void) G_GNUC_CONST;
+GType       g_mount_get_type                  (void) G_GNUC_CONST;
 
-GFile *            g_mount_get_root             (GMount              *mount);
-char *             g_mount_get_name             (GMount              *mount);
-GIcon *            g_mount_get_icon             (GMount              *mount);
-char *             g_mount_get_uuid             (GMount              *mount);
-GVolume *          g_mount_get_volume           (GMount              *mount);
-GDrive *           g_mount_get_drive            (GMount              *mount);
-gboolean           g_mount_can_unmount          (GMount              *mount);
-gboolean           g_mount_can_eject            (GMount              *mount);
-void               g_mount_unmount              (GMount              *mount,
-						 GMountUnmountFlags   flags,
-                                                 GCancellable        *cancellable,
-                                                 GAsyncReadyCallback  callback,
-                                                 gpointer             user_data);
-gboolean           g_mount_unmount_finish       (GMount              *mount,
-                                                 GAsyncResult        *result,
-                                                 GError             **error);
-void               g_mount_eject                (GMount              *mount,
-						 GMountUnmountFlags   flags,
-                                                 GCancellable        *cancellable,
-                                                 GAsyncReadyCallback  callback,
-                                                 gpointer             user_data);
-gboolean           g_mount_eject_finish         (GMount              *mount,
-                                                 GAsyncResult        *result,
-                                                 GError             **error);
-void               g_mount_remount              (GMount              *mount,
-						 GMountMountFlags     flags,
-						 GMountOperation     *mount_operation,
-                                                 GCancellable        *cancellable,
-                                                 GAsyncReadyCallback  callback,
-                                                 gpointer             user_data);
-gboolean           g_mount_remount_finish       (GMount              *mount,
-                                                 GAsyncResult        *result,
-                                                 GError             **error);
+GFile     * g_mount_get_root                  (GMount              *mount);
+char      * g_mount_get_name                  (GMount              *mount);
+GIcon     * g_mount_get_icon                  (GMount              *mount);
+char      * g_mount_get_uuid                  (GMount              *mount);
+GVolume   * g_mount_get_volume                (GMount              *mount);
+GDrive    * g_mount_get_drive                 (GMount              *mount);
+gboolean    g_mount_can_unmount               (GMount              *mount);
+gboolean    g_mount_can_eject                 (GMount              *mount);
+
+void        g_mount_unmount                   (GMount              *mount,
+                                               GMountUnmountFlags   flags,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gboolean    g_mount_unmount_finish            (GMount              *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
+
+void        g_mount_eject                     (GMount              *mount,
+                                               GMountUnmountFlags   flags,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gboolean    g_mount_eject_finish              (GMount              *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
+
+void        g_mount_remount                   (GMount              *mount,
+                                               GMountMountFlags     flags,
+                                               GMountOperation     *mount_operation,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gboolean    g_mount_remount_finish            (GMount              *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
+
+void        g_mount_guess_content_type        (GMount              *mount,
+                                               gboolean             force_rescan,
+                                               GCancellable        *cancellable,
+                                               GAsyncReadyCallback  callback,
+                                               gpointer             user_data);
+gchar    ** g_mount_guess_content_type_finish (GMount              *mount,
+                                               GAsyncResult        *result,
+                                               GError             **error);
+gchar    ** g_mount_guess_content_type_sync   (GMount              *mount,
+                                               gboolean             force_rescan,
+                                               GCancellable        *cancellable,
+                                               GError             **error);
+
+gboolean    g_mount_is_shadowed               (GMount              *mount);
+void        g_mount_shadow                    (GMount              *mount);
+void        g_mount_unshadow                  (GMount              *mount);
 
 G_END_DECLS
 

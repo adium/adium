@@ -8,11 +8,11 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gst-plugins-base-0.10.23/gst-libs/gst/audio/multichannel.h" */
+/* enumerations from "multichannel.h" */
 GType gst_audio_channel_position_get_type (void);
 #define GST_TYPE_AUDIO_CHANNEL_POSITION (gst_audio_channel_position_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gst-plugins-base-0.10.23/gst-libs/gst/audio/gstringbuffer.h" */
+/* enumerations from "gstringbuffer.h" */
 GType gst_ring_buffer_state_get_type (void);
 #define GST_TYPE_RING_BUFFER_STATE (gst_ring_buffer_state_get_type())
 GType gst_ring_buffer_seg_state_get_type (void);

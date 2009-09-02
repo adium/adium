@@ -21,8 +21,12 @@
  * Modified by the GLib Team and others 1997-2000.  See the AUTHORS
  * file for a list of people on the GLib Team.  See the ChangeLog
  * files for a list of changes.  These files are distributed with
- * GLib at ftp://ftp.gtk.org/pub/gtk/. 
+ * GLib at ftp://ftp.gtk.org/pub/gtk/.
  */
+
+#if defined(G_DISABLE_SINGLE_INCLUDES) && !defined (__GLIB_H_INSIDE__) && !defined (GLIB_COMPILATION)
+#error "Only <glib.h> can be included directly."
+#endif
 
 #ifndef __G_IOCHANNEL_H__
 #define __G_IOCHANNEL_H__
@@ -324,7 +328,15 @@ gint        g_io_channel_win32_poll   (GPollFD    *fds,
 				       gint        timeout_);
 
 /* Create an IO channel for Windows messages for window handle hwnd. */
+#if GLIB_SIZEOF_VOID_P == 8
+/* We use gsize here so that it is still an integer type and not a
+ * pointer, like the guint in the traditional prototype. We can't use
+ * intptr_t as that is not portable enough.
+ */
+GIOChannel *g_io_channel_win32_new_messages (gsize hwnd);
+#else
 GIOChannel *g_io_channel_win32_new_messages (guint hwnd);
+#endif
 
 /* Create an IO channel for C runtime (emulated Unix-like) file
  * descriptors. After calling g_io_add_watch() on a IO channel
@@ -333,7 +345,7 @@ GIOChannel *g_io_channel_win32_new_messages (guint hwnd);
  * implemented on Win32 by starting a thread that sits blocked in a
  * read() from the file descriptor most of the time. All reads from
  * the file descriptor should be done by this internal GLib
- * thread. Your code should call only g_io_channel_read().
+ * thread. Your code should call only g_io_channel_read_chars().
  */
 GIOChannel* g_io_channel_win32_new_fd (gint         fd);
 

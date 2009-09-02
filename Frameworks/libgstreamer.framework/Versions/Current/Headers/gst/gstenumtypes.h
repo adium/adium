@@ -8,35 +8,35 @@
 
 G_BEGIN_DECLS
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstobject.h" */
+/* enumerations from "gstobject.h" */
 GType gst_object_flags_get_type (void);
 #define GST_TYPE_OBJECT_FLAGS (gst_object_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstbin.h" */
+/* enumerations from "gstbin.h" */
 GType gst_bin_flags_get_type (void);
 #define GST_TYPE_BIN_FLAGS (gst_bin_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstbuffer.h" */
+/* enumerations from "gstbuffer.h" */
 GType gst_buffer_flag_get_type (void);
 #define GST_TYPE_BUFFER_FLAG (gst_buffer_flag_get_type())
 GType gst_buffer_copy_flags_get_type (void);
 #define GST_TYPE_BUFFER_COPY_FLAGS (gst_buffer_copy_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstbufferlist.h" */
+/* enumerations from "gstbufferlist.h" */
 GType gst_buffer_list_item_get_type (void);
 #define GST_TYPE_BUFFER_LIST_ITEM (gst_buffer_list_item_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstbus.h" */
+/* enumerations from "gstbus.h" */
 GType gst_bus_flags_get_type (void);
 #define GST_TYPE_BUS_FLAGS (gst_bus_flags_get_type())
 GType gst_bus_sync_reply_get_type (void);
 #define GST_TYPE_BUS_SYNC_REPLY (gst_bus_sync_reply_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstcaps.h" */
+/* enumerations from "gstcaps.h" */
 GType gst_caps_flags_get_type (void);
 #define GST_TYPE_CAPS_FLAGS (gst_caps_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstclock.h" */
+/* enumerations from "gstclock.h" */
 GType gst_clock_return_get_type (void);
 #define GST_TYPE_CLOCK_RETURN (gst_clock_return_get_type())
 GType gst_clock_entry_type_get_type (void);
@@ -44,11 +44,11 @@ GType gst_clock_entry_type_get_type (void);
 GType gst_clock_flags_get_type (void);
 #define GST_TYPE_CLOCK_FLAGS (gst_clock_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstdebugutils.h" */
+/* enumerations from "gstdebugutils.h" */
 GType gst_debug_graph_details_get_type (void);
 #define GST_TYPE_DEBUG_GRAPH_DETAILS (gst_debug_graph_details_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstelement.h" */
+/* enumerations from "gstelement.h" */
 GType gst_state_get_type (void);
 #define GST_TYPE_STATE (gst_state_get_type())
 GType gst_state_change_return_get_type (void);
@@ -58,7 +58,7 @@ GType gst_state_change_get_type (void);
 GType gst_element_flags_get_type (void);
 #define GST_TYPE_ELEMENT_FLAGS (gst_element_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsterror.h" */
+/* enumerations from "gsterror.h" */
 GType gst_core_error_get_type (void);
 #define GST_TYPE_CORE_ERROR (gst_core_error_get_type())
 GType gst_library_error_get_type (void);
@@ -68,7 +68,7 @@ GType gst_resource_error_get_type (void);
 GType gst_stream_error_get_type (void);
 #define GST_TYPE_STREAM_ERROR (gst_stream_error_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstevent.h" */
+/* enumerations from "gstevent.h" */
 GType gst_event_type_flags_get_type (void);
 #define GST_TYPE_EVENT_TYPE_FLAGS (gst_event_type_flags_get_type())
 GType gst_event_type_get_type (void);
@@ -78,11 +78,11 @@ GType gst_seek_type_get_type (void);
 GType gst_seek_flags_get_type (void);
 #define GST_TYPE_SEEK_FLAGS (gst_seek_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstformat.h" */
+/* enumerations from "gstformat.h" */
 GType gst_format_get_type (void);
 #define GST_TYPE_FORMAT (gst_format_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstindex.h" */
+/* enumerations from "gstindex.h" */
 GType gst_index_certainty_get_type (void);
 #define GST_TYPE_INDEX_CERTAINTY (gst_index_certainty_get_type())
 GType gst_index_entry_type_get_type (void);
@@ -96,19 +96,19 @@ GType gst_index_resolver_method_get_type (void);
 GType gst_index_flags_get_type (void);
 #define GST_TYPE_INDEX_FLAGS (gst_index_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstinfo.h" */
+/* enumerations from "gstinfo.h" */
 GType gst_debug_level_get_type (void);
 #define GST_TYPE_DEBUG_LEVEL (gst_debug_level_get_type())
 GType gst_debug_color_flags_get_type (void);
 #define GST_TYPE_DEBUG_COLOR_FLAGS (gst_debug_color_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstiterator.h" */
+/* enumerations from "gstiterator.h" */
 GType gst_iterator_result_get_type (void);
 #define GST_TYPE_ITERATOR_RESULT (gst_iterator_result_get_type())
 GType gst_iterator_item_get_type (void);
 #define GST_TYPE_ITERATOR_ITEM (gst_iterator_item_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstmessage.h" */
+/* enumerations from "gstmessage.h" */
 GType gst_message_type_get_type (void);
 #define GST_TYPE_MESSAGE_TYPE (gst_message_type_get_type())
 GType gst_structure_change_type_get_type (void);
@@ -116,11 +116,11 @@ GType gst_structure_change_type_get_type (void);
 GType gst_stream_status_type_get_type (void);
 #define GST_TYPE_STREAM_STATUS_TYPE (gst_stream_status_type_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstminiobject.h" */
+/* enumerations from "gstminiobject.h" */
 GType gst_mini_object_flags_get_type (void);
 #define GST_TYPE_MINI_OBJECT_FLAGS (gst_mini_object_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstpad.h" */
+/* enumerations from "gstpad.h" */
 GType gst_pad_link_return_get_type (void);
 #define GST_TYPE_PAD_LINK_RETURN (gst_pad_link_return_get_type())
 GType gst_flow_return_get_type (void);
@@ -132,17 +132,17 @@ GType gst_pad_direction_get_type (void);
 GType gst_pad_flags_get_type (void);
 #define GST_TYPE_PAD_FLAGS (gst_pad_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstpadtemplate.h" */
+/* enumerations from "gstpadtemplate.h" */
 GType gst_pad_presence_get_type (void);
 #define GST_TYPE_PAD_PRESENCE (gst_pad_presence_get_type())
 GType gst_pad_template_flags_get_type (void);
 #define GST_TYPE_PAD_TEMPLATE_FLAGS (gst_pad_template_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstpipeline.h" */
+/* enumerations from "gstpipeline.h" */
 GType gst_pipeline_flags_get_type (void);
 #define GST_TYPE_PIPELINE_FLAGS (gst_pipeline_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstplugin.h" */
+/* enumerations from "gstplugin.h" */
 GType gst_plugin_error_get_type (void);
 #define GST_TYPE_PLUGIN_ERROR (gst_plugin_error_get_type())
 GType gst_plugin_flags_get_type (void);
@@ -150,47 +150,47 @@ GType gst_plugin_flags_get_type (void);
 GType gst_plugin_dependency_flags_get_type (void);
 #define GST_TYPE_PLUGIN_DEPENDENCY_FLAGS (gst_plugin_dependency_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstpluginfeature.h" */
+/* enumerations from "gstpluginfeature.h" */
 GType gst_rank_get_type (void);
 #define GST_TYPE_RANK (gst_rank_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstquery.h" */
+/* enumerations from "gstquery.h" */
 GType gst_query_type_get_type (void);
 #define GST_TYPE_QUERY_TYPE (gst_query_type_get_type())
 GType gst_buffering_mode_get_type (void);
 #define GST_TYPE_BUFFERING_MODE (gst_buffering_mode_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstsystemclock.h" */
+/* enumerations from "gstsystemclock.h" */
 GType gst_clock_type_get_type (void);
 #define GST_TYPE_CLOCK_TYPE (gst_clock_type_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsttaglist.h" */
+/* enumerations from "gsttaglist.h" */
 GType gst_tag_merge_mode_get_type (void);
 #define GST_TYPE_TAG_MERGE_MODE (gst_tag_merge_mode_get_type())
 GType gst_tag_flag_get_type (void);
 #define GST_TYPE_TAG_FLAG (gst_tag_flag_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsttask.h" */
+/* enumerations from "gsttask.h" */
 GType gst_task_state_get_type (void);
 #define GST_TYPE_TASK_STATE (gst_task_state_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsttrace.h" */
+/* enumerations from "gsttrace.h" */
 GType gst_alloc_trace_flags_get_type (void);
 #define GST_TYPE_ALLOC_TRACE_FLAGS (gst_alloc_trace_flags_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsttypefind.h" */
+/* enumerations from "gsttypefind.h" */
 GType gst_type_find_probability_get_type (void);
 #define GST_TYPE_TYPE_FIND_PROBABILITY (gst_type_find_probability_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gsturi.h" */
+/* enumerations from "gsturi.h" */
 GType gst_uri_type_get_type (void);
 #define GST_TYPE_URI_TYPE (gst_uri_type_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstutils.h" */
+/* enumerations from "gstutils.h" */
 GType gst_search_mode_get_type (void);
 #define GST_TYPE_SEARCH_MODE (gst_search_mode_get_type())
 
-/* enumerations from "/Users/evands/adium/Utilities/dep-build-scripts/source/gstreamer-0.10.24/gst/gstparse.h" */
+/* enumerations from "gstparse.h" */
 GType gst_parse_error_get_type (void);
 #define GST_TYPE_PARSE_ERROR (gst_parse_error_get_type())
 GType gst_parse_flags_get_type (void);
