@@ -1033,6 +1033,8 @@ prep_headers() {
 	local glibDir="${ROOTDIR}/build/lib/include/libglib-${GLIB_VERSION}.0"
 	quiet mkdir "${glibDir}" || true
 	cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}" "${glibDir}"
+	cp "${ROOTDIR}/build/lib/glib-${GLIB_VERSION}/include/glibconfig.h" \
+		"${glibDir}"
 	
 	#gmodule
 	status "Staging gmodule headers"
