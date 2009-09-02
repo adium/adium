@@ -259,7 +259,7 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 
 + (NSString *)stringForTimeInterval:(NSTimeInterval)interval showingSeconds:(BOOL)showSeconds abbreviated:(BOOL)abbreviate approximated:(BOOL)approximate
 {
-    int				weeks = 0, days = 0, hours = 0, minutes = 0;
+    NSInteger		weeks = 0, days = 0, hours = 0, minutes = 0;
 	NSTimeInterval	seconds = 0; 
 	NSString		*weeksString = nil, *daysString = nil, *hoursString = nil, *minutesString = nil, *secondsString = nil;
 

@@ -20,7 +20,7 @@
 	gregorianCalendar.timeZone = tz;
 	NSDateComponents *components;
 
-	int weeks, days, hours, minutes;
+	NSInteger weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test exactly one week ago.
@@ -33,10 +33,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 1, @"Expected the difference between now and 7 days ago, which is %f seconds, to be 1 week; result was %iw, %id, %ih, %im, %fs", [now timeIntervalSinceDate:then], weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 7 days ago to be 1 week, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)1, @"Expected the difference between now and 7 days ago, which is %f seconds, to be 1 week; result was %iw, %id, %ih, %im, %fs", [now timeIntervalSinceDate:then], weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 7 days ago to be 1 week, 0 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 7 days ago to be 1 week, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 7 days ago to be 1 week, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 7 days ago to be 1 week, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test eight days ago. [Insert obligatory Beatles reference]
@@ -48,10 +48,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)1, @"Expected the difference between now and 8 days ago to be 1 week, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 8 days ago to be 1 week, 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test six days (almost, but not quite, one week) ago. [Insert obligatory DJ Shadow reference]
@@ -64,10 +64,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 6 days ago to be 0 weeks, 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 6, @"Expected the difference between now and 6 days ago to be 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 6 days ago to be 6 days, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 6 days ago to be 6 days, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 6 days ago to be 0 weeks, 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)6, @"Expected the difference between now and 6 days ago to be 6 days; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 6 days ago to be 6 days, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 6 days ago to be 6 days, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 6 days ago to be 6 days, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 - (void)testConvertIntervalToDays
@@ -80,7 +80,7 @@
 	gregorianCalendar.timeZone = tz;
 	NSDateComponents *components;
 
-	int weeks, days, hours, minutes;
+	NSInteger weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one day ago.
@@ -93,10 +93,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 day ago to be 0 weeks, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 1, @"Expected the difference between now and 1 day ago to be 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 0 weeks, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)1, @"Expected the difference between now and 1 day ago to be 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 day ago to be 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test one day ago, expressed as hours.
@@ -109,10 +109,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 day ago to be 0 weeks, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 1, @"Expected the difference between now and 1 day ago to be 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 day ago to be 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 0 weeks, 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)1, @"Expected the difference between now and 1 day ago to be 1 day; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 1 day, 0 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 1 day ago to be 1 day, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 day ago to be 1 day, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	
 	//Test 23 hours (almost, but not quite, one day) ago.
@@ -125,10 +125,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 23 hours ago to be 0 weeks, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 23 hours ago to be 0 days, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 23, @"Expected the difference between now and 23 hours ago to be 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 23 hours ago to be 23 hours, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 23 hours ago to be 0 weeks, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 23 hours ago to be 0 days, 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)23, @"Expected the difference between now and 23 hours ago to be 23 hours; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 23 hours ago to be 23 hours, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 23 hours ago to be 23 hours, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 - (void)testConvertIntervalToHours
@@ -141,7 +141,7 @@
 	gregorianCalendar.timeZone = tz;
 	NSDateComponents *components;
 
-	int weeks, days, hours, minutes;
+	NSInteger weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one hour ago.
@@ -154,10 +154,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 hour ago to be 0 weeks, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 1 hour ago to be 0 days, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 1, @"Expected the difference between now and 1 hour ago to be 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 0 weeks, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 0 days, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)1, @"Expected the difference between now and 1 hour ago to be 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test one hour ago, expressed as minutes.
@@ -170,10 +170,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 hour ago to be 0 weeks, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 1 hour ago to be 0 days, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 1, @"Expected the difference between now and 1 hour ago to be 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 0 weeks, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 0 days, 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)1, @"Expected the difference between now and 1 hour ago to be 1 hour; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 hour ago to be 1 hour, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test 59 minutes (almost, but not quite, one hour) ago.
@@ -186,10 +186,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 59 minutes ago to be 0 weeks, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 59 minutes ago to be 0 days, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 59 minutes ago to be 0 hours, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 59, @"Expected the difference between now and 59 minutes ago to be 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 59 minutes ago to be 0 weeks, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 59 minutes ago to be 0 days, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 59 minutes ago to be 0 hours, 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)59, @"Expected the difference between now and 59 minutes ago to be 59 minutes; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 59 minutes ago to be 59 minutes, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 - (void)testConvertIntervalToMinutes
@@ -202,7 +202,7 @@
 	gregorianCalendar.timeZone = tz;
 	NSDateComponents *components;
 
-	int weeks, days, hours, minutes;
+	NSInteger weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one minute ago.
@@ -215,10 +215,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 minute ago to be 0 weeks, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 1 minute ago to be 0 days, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 1 minute ago to be 0 hours, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 1, @"Expected the difference between now and 1 minute ago to be 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 minute ago to be 0 weeks, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 1 minute ago to be 0 days, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 1 minute ago to be 0 hours, 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)1, @"Expected the difference between now and 1 minute ago to be 1 minute; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 0.0, @"Expected the difference between now and 1 minute ago to be 1 minute, 0 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 
 	//Test 59 seconds (almost, but not quite, one minute) ago.
@@ -231,10 +231,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 59 seconds ago to be 0 weeks, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 59 seconds ago to be 0 days, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 59 seconds ago to be 0 hours, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 59 seconds ago to be 0 minutes, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 59 seconds ago to be 0 weeks, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 59 seconds ago to be 0 days, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 59 seconds ago to be 0 hours, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 59 seconds ago to be 0 minutes, 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 59.0, @"Expected the difference between now and 59 seconds ago to be 59 seconds; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 - (void)testConvertIntervalToSeconds
@@ -247,7 +247,7 @@
 	gregorianCalendar.timeZone = tz;
 	NSDateComponents *components;
 
-	int weeks, days, hours, minutes;
+	NSInteger weeks, days, hours, minutes;
 	NSTimeInterval seconds;
 
 	//Test one second ago.
@@ -260,10 +260,10 @@
 						  hours:&hours
 						minutes:&minutes
 						seconds:&seconds];
-	STAssertEquals(weeks, 0, @"Expected the difference between now and 1 second ago to be 0 weeks, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals( days, 0, @"Expected the difference between now and 1 second ago to be 0 days, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(hours, 0, @"Expected the difference between now and 1 second ago to be 0 hours, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
-	STAssertEquals(minutes, 0, @"Expected the difference between now and 1 second ago to be 0 minutes, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(weeks, (NSInteger)0, @"Expected the difference between now and 1 second ago to be 0 weeks, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals( days, (NSInteger)0, @"Expected the difference between now and 1 second ago to be 0 days, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(hours, (NSInteger)0, @"Expected the difference between now and 1 second ago to be 0 hours, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
+	STAssertEquals(minutes, (NSInteger)0, @"Expected the difference between now and 1 second ago to be 0 minutes, 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 	STAssertEquals(seconds, 1.0, @"Expected the difference between now and 1 second ago to be 1 second; result was %iw, %id, %ih, %im, %fs", weeks, days, hours, minutes, seconds);
 }
 

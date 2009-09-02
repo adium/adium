@@ -85,9 +85,9 @@
 - (void)testDarkenRed
 {
 	NSColor *red = [NSColor redColor];
-	STAssertEquals([red redComponent], 1.0f, @"Expected red's red component to be 1.0");
+	STAssertEquals([red redComponent], (CGFloat)1.0f, @"Expected red's red component to be 1.0");
 	NSColor *redDarkened = [red darkenBy:0.5];
-	STAssertEquals([redDarkened redComponent],   0.5f, @"Darkening red by 0.5 should result in 0.5, 0, 0");
+	STAssertEquals([redDarkened redComponent],   (CGFloat)0.5f, @"Darkening red by 0.5 should result in 0.5, 0, 0");
 	STAssertEquals([redDarkened greenComponent], [red greenComponent], @"Darkening red by 0.5 should not change its green");
 	STAssertEquals([redDarkened blueComponent],  [red blueComponent],  @"Darkening red by 0.5 should not change its blue");
 }
@@ -97,9 +97,9 @@
 - (void)testDarkenAndSaturateRed
 {
 	NSColor *red = [NSColor redColor];
-	STAssertEquals([red redComponent], 1.0f, @"Expected red's red component to be 1.0");
+	STAssertEquals([red redComponent], (CGFloat)1.0f, @"Expected red's red component to be 1.0");
 	NSColor *redDarkened = [red darkenBy:0.5];
-	STAssertEquals([redDarkened redComponent],   0.5f, @"Darkening and saturating red by 0.5 should result in 0.5, 0, 0");
+	STAssertEquals([redDarkened redComponent],   (CGFloat)0.5f, @"Darkening and saturating red by 0.5 should result in 0.5, 0, 0");
 	STAssertEquals([redDarkened greenComponent], [red greenComponent], @"Darkening and saturating red by 0.5 should not change its green");
 	STAssertEquals([redDarkened blueComponent],  [red blueComponent],  @"Darkening and saturating red by 0.5 should not change its blue");
 }
@@ -109,13 +109,13 @@
 										 saturation:0.5 //This is what makes it pink, rather than red.
 										 brightness:1.0
 											  alpha:1.0];
-	STAssertEquals([pink   redComponent], 1.0f, @"Expected pink's red component to be 1.0");
-	STAssertEquals([pink greenComponent], 0.5f, @"Expected pink's green component to be 0.5");
-	STAssertEquals([pink  blueComponent], 0.5f, @"Expected pink's blue component to be 0.5");
+	STAssertEquals([pink   redComponent], (CGFloat)1.0f, @"Expected pink's red component to be 1.0");
+	STAssertEquals([pink greenComponent], (CGFloat)0.5f, @"Expected pink's green component to be 0.5");
+	STAssertEquals([pink  blueComponent], (CGFloat)0.5f, @"Expected pink's blue component to be 0.5");
 	NSColor *pinkDarkened = [pink darkenBy:0.5];
-	STAssertEquals([pinkDarkened   redComponent], 0.5f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
-	STAssertEquals([pinkDarkened greenComponent], 0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
-	STAssertEquals([pinkDarkened  blueComponent], 0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
+	STAssertEquals([pinkDarkened   redComponent], (CGFloat)0.5f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
+	STAssertEquals([pinkDarkened greenComponent], (CGFloat)0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
+	STAssertEquals([pinkDarkened  blueComponent], (CGFloat)0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
 }
 
 #pragma mark -colorWithInvertedLuminance
@@ -123,25 +123,25 @@
 {
 	NSColor *white = [NSColor whiteColor];
 	NSColor *black = [white colorWithInvertedLuminance];
-	STAssertEquals([black   redComponent], 1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (red component should be %f",   1.0f - [white whiteComponent]);
-	STAssertEquals([black greenComponent], 1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (green component should be %f", 1.0f - [white whiteComponent]);
-	STAssertEquals([black  blueComponent], 1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (blue component should be %f",  1.0f - [white whiteComponent]);
+	STAssertEquals([black   redComponent], (CGFloat)1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (red component should be %f",   (CGFloat)1.0f - [white whiteComponent]);
+	STAssertEquals([black greenComponent], (CGFloat)1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (green component should be %f", (CGFloat)1.0f - [white whiteComponent]);
+	STAssertEquals([black  blueComponent], (CGFloat)1.0f - [white whiteComponent], @"White, luminance-inverted, should be black (blue component should be %f",  (CGFloat)1.0f - [white whiteComponent]);
 }
 - (void)testInvertLuminanceOfBlack
 {
 	NSColor *black = [NSColor blackColor];
 	NSColor *white = [black colorWithInvertedLuminance];
-	STAssertEquals([white   redComponent], 1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (red component should be %f",   1.0f - [white whiteComponent]);
-	STAssertEquals([white greenComponent], 1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (green component should be %f", 1.0f - [white whiteComponent]);
-	STAssertEquals([white  blueComponent], 1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (blue component should be %f",  1.0f - [white whiteComponent]);
+	STAssertEquals([white   redComponent], (CGFloat)1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (red component should be %f",   (CGFloat)1.0f - [white whiteComponent]);
+	STAssertEquals([white greenComponent], (CGFloat)1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (green component should be %f", (CGFloat)1.0f - [white whiteComponent]);
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f - [black whiteComponent], @"Black, luminance-inverted, should be white (blue component should be %f",  (CGFloat)1.0f - [white whiteComponent]);
 }
 - (void)testInvertLuminanceOfRed
 {
 	NSColor *red = [NSColor redColor];
 	NSColor *black = [red colorWithInvertedLuminance];
-	STAssertEquals([black   redComponent], 0.0f, @"Red, luminance-inverted, should be black");
-	STAssertEquals([black greenComponent], 0.0f, @"Red, luminance-inverted, should not have any green");
-	STAssertEquals([black  blueComponent], 0.0f, @"Red, luminance-inverted, should not have any blue");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f, @"Red, luminance-inverted, should be black");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Red, luminance-inverted, should not have any green");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f, @"Red, luminance-inverted, should not have any blue");
 }
 
 #pragma mark -contrastingColor
@@ -150,25 +150,25 @@
 	NSColor *white = [NSColor whiteColor];
 	NSColor *contrastingColor = [white contrastingColor];
 	//contrastingColor inverts the R, G, and B components if the receiver is not medium, so its result will be in an RGB color space. This is why we compare its RGB components rather than its white component (it has no white component).
-	STAssertEquals([contrastingColor   redComponent], 0.0f, @"White's contrasting color should be black (its red component should be 0)");
-	STAssertEquals([contrastingColor greenComponent], 0.0f, @"White's contrasting color should be black (its green component should be 0)");
-	STAssertEquals([contrastingColor  blueComponent], 0.0f, @"White's contrasting color should be black (its blue component should be 0)");
+	STAssertEquals([contrastingColor   redComponent], (CGFloat)0.0f, @"White's contrasting color should be black (its red component should be 0)");
+	STAssertEquals([contrastingColor greenComponent], (CGFloat)0.0f, @"White's contrasting color should be black (its green component should be 0)");
+	STAssertEquals([contrastingColor  blueComponent], (CGFloat)0.0f, @"White's contrasting color should be black (its blue component should be 0)");
 }
 - (void)testContrastingColorForBlack
 {
 	NSColor *black = [NSColor blackColor];
 	NSColor *contrastingColor = [black contrastingColor];
 	//contrastingColor inverts the R, G, and B components if the receiver is not medium, so its result will be in an RGB color space. This is why we compare its RGB components rather than its white component (it has no white component).
-	STAssertEquals([contrastingColor   redComponent], 1.0f, @"Black's contrasting color should be white (its red component should be 1)");
-	STAssertEquals([contrastingColor greenComponent], 1.0f, @"Black's contrasting color should be white (its green component should be 1)");
-	STAssertEquals([contrastingColor  blueComponent], 1.0f, @"Black's contrasting color should be white (its blue component should be 1)");
+	STAssertEquals([contrastingColor   redComponent], (CGFloat)1.0f, @"Black's contrasting color should be white (its red component should be 1)");
+	STAssertEquals([contrastingColor greenComponent], (CGFloat)1.0f, @"Black's contrasting color should be white (its green component should be 1)");
+	STAssertEquals([contrastingColor  blueComponent], (CGFloat)1.0f, @"Black's contrasting color should be white (its blue component should be 1)");
 }
 - (void)testContrastingColorForGray
 {
 	NSColor *gray = [NSColor grayColor];
 	//Gray's whiteComponent is 0.5. This is medium, but not dark. As such, its contrasting color should be black.
 	NSColor *contrastingColor = [gray contrastingColor];
-	STAssertEquals([contrastingColor whiteComponent], 0.0f, @"Gray's contrasting color should be black");
+	STAssertEquals([contrastingColor whiteComponent], (CGFloat)0.0f, @"Gray's contrasting color should be black");
 }
 
 #pragma mark -adjustHue:saturation:brightness:
@@ -177,27 +177,27 @@
 {
 	NSColor *red = [NSColor redColor];
 	NSColor *green = [red adjustHue:+(1.0 / 3.0) saturation:0.0 brightness:0.0];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0");
 }
 //Saturation -= 1
 - (void)testAdjustRedToWhite
 {
 	NSColor *red = [NSColor redColor];
 	NSColor *white = [red adjustHue:0.0 saturation:-1.0 brightness:0.0];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of green should be 1");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of green should be 1");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1");
 }
 //Brightness -= 1
 - (void)testAdjustRedToBlack
 {
 	NSColor *red = [NSColor redColor];
 	NSColor *white = [red adjustHue:0.0 saturation:0.0 brightness:-1.0];
-	STAssertEquals([white   redComponent], 0.0f,   @"Red component of white should be 0");
-	STAssertEquals([white greenComponent], 0.0f, @"Green component of green should be 0");
-	STAssertEquals([white  blueComponent], 0.0f,  @"Blue component of white should be 0");
+	STAssertEquals([white   redComponent], (CGFloat)0.0f,   @"Red component of white should be 0");
+	STAssertEquals([white greenComponent], (CGFloat)0.0f, @"Green component of green should be 0");
+	STAssertEquals([white  blueComponent], (CGFloat)0.0f,  @"Blue component of white should be 0");
 }
 
 #pragma mark -hexString
@@ -403,49 +403,49 @@
 
 - (void)testCSSRepresentationForSemiTransparentRed
 {
-	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(255,0,0,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for red (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentYellow
 {
-	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(255,255,0,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for yellow (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentGreen
 {
-	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(0,255,0,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for green (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentCyan
 {
-	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(0,255,255,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for cyan (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentBlue
 {
-	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(0,0,255,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for blue (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentMagenta
 {
-	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(255,0,255,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for magenta (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentWhite
 {
-	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(255,255,255,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for white (with alpha = 0.5) should be %@", correctString);
 }
 - (void)testCSSRepresentationForSemiTransparentBlack
 {
-	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:0.5f];
+	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:(CGFloat)0.5f];
 	NSString *correctString = @"rgba(0,0,0,0.5)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for black (with alpha = 0.5) should be %@", correctString);
 }
@@ -454,49 +454,49 @@
 
 - (void)testCSSRepresentationForTransparentRed
 {
-	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(255,0,0,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for red (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentYellow
 {
-	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(255,255,0,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for yellow (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentGreen
 {
-	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(0,255,0,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for green (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentCyan
 {
-	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(0,255,255,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for cyan (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentBlue
 {
-	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(0,0,255,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for blue (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentMagenta
 {
-	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(255,0,255,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for magenta (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentWhite
 {
-	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(255,255,255,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for white (with alpha = 0) should be %@", correctString);
 }
 - (void)testCSSRepresentationForTransparentBlack
 {
-	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:0.0f];
+	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:(CGFloat)0.0f];
 	NSString *correctString = @"rgba(0,0,0,0)";
 	STAssertEqualObjects([color CSSRepresentation], correctString, @"CSS representation for black (with alpha = 0) should be %@", correctString);
 }
@@ -555,32 +555,32 @@
 - (void)testRepresentedColorWithThreeNonZeroComponents
 {
 	NSColor *white = [@"255,255,255" representedColor];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1");
 }
 - (void)testRepresentedColorWithThreeZeroComponents
 {
 	NSColor *black = [@"0,0,0" representedColor];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0");
 }
 - (void)testRepresentedColorWithFourNonZeroComponents;
 {
 	NSColor *white = [@"255,255,255,127" representedColor];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1");
-	STAssertEquals([white alphaComponent], 127.0f / 255.0f, @"Alpha component of white should be %f", 127.0f / 255.0f);
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1");
+	STAssertEquals([white alphaComponent], (CGFloat)127.0f / (CGFloat)255.0f, @"Alpha component of white should be %f", (CGFloat)127.0f / (CGFloat)255.0f);
 }
 - (void)testRepresentedColorWithFourZeroComponents;
 {
 	NSColor *black = [@"0,0,0,0" representedColor];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0");
-	STAssertEquals([black alphaComponent], 0.0f, @"Alpha component of black should be 0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0");
+	STAssertEquals([black alphaComponent], (CGFloat)0.0f, @"Alpha component of black should be 0");
 }
 //Invalid
 - (void)testRepresentedColorWithEmptyString
@@ -614,34 +614,34 @@
 - (void)testRepresentedColorWithAlphaWithThreeNonZeroComponents
 {
 	NSColor *white = [@"255,255,255" representedColorWithAlpha:0.5];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white alphaComponent], 0.5f, @"Alpha component of white (with alpha forced to 0.5) should be 0.5");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white alphaComponent], (CGFloat)0.5f, @"Alpha component of white (with alpha forced to 0.5) should be 0.5");
 }
 - (void)testRepresentedColorWithAlphaWithThreeZeroComponents
 {
 	NSColor *black = [@"0,0,0" representedColorWithAlpha:0.5];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black alphaComponent], 0.5f, @"Alpha component of black (with alpha forced to 0.5) should be 0.5");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black alphaComponent], (CGFloat)0.5f, @"Alpha component of black (with alpha forced to 0.5) should be 0.5");
 }
 - (void)testRepresentedColorWithAlphaWithFourNonZeroComponents;
 {
 	NSColor *white = [@"255,255,255,127" representedColorWithAlpha:0.5];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
-	STAssertEquals([white alphaComponent], 0.5f, @"Alpha component of white (with alpha forced to 0.5) should be 0.5");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
+	STAssertEquals([white alphaComponent], (CGFloat)0.5f, @"Alpha component of white (with alpha forced to 0.5) should be 0.5");
 }
 - (void)testRepresentedColorWithAlphaWithFourZeroComponents;
 {
 	NSColor *black = [@"0,0,0,0" representedColorWithAlpha:0.5];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
-	STAssertEquals([black alphaComponent], 0.5f, @"Alpha component of black (with alpha forced to 0.5) should be 0.5");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
+	STAssertEquals([black alphaComponent], (CGFloat)0.5f, @"Alpha component of black (with alpha forced to 0.5) should be 0.5");
 }
 //Invalid
 - (void)testRepresentedColorWithAlphaWithEmptyString
@@ -669,7 +669,7 @@
 - (void)testRandomColorHasAlpha1
 {
 	NSColor *color = [NSColor randomColor];
-	STAssertEquals([color alphaComponent], 1.0f, @"Alpha component of color from +randomColor should be 1");
+	STAssertEquals([color alphaComponent], (CGFloat)1.0f, @"Alpha component of color from +randomColor should be 1");
 }
 
 #pragma mark +colorWithHTMLString:
@@ -679,1096 +679,1096 @@
 {
 	NSString *string = @"#ff0000";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForRedUppercase
 {
 	NSString *string = @"#FF0000";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForYellowLowercase
 {
 	NSString *string = @"#ffff00";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForYellowUppercase
 {
 	NSString *string = @"#FFFF00";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForGreenLowercase
 {
 	NSString *string = @"#00ff00";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForGreenUppercase
 {
 	NSString *string = @"#00FF00";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForCyanLowercase
 {
 	NSString *string = @"#00ffff";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForCyanUppercase
 {
 	NSString *string = @"#00FFFF";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForBlueLowercase
 {
 	NSString *string = @"#0000ff";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForBlueUppercase
 {
 	NSString *string = @"#0000FF";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForMagentaLowercase
 {
 	NSString *string = @"#ff00ff";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForMagentaUppercase
 {
 	NSString *string = @"#FF00FF";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForWhiteLowercase
 {
 	NSString *string = @"#ffffff";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForWhiteUppercase
 {
 	NSString *string = @"#FFFFFF";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForBlackLowercase
 {
 	NSString *string = @"#000000";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForBlackUppercase
 {
 	NSString *string = @"#000000";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
 }
 
 - (void)testColorWith3DigitHTMLStringForRedLowercase
 {
 	NSString *string = @"#f00";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForRedUppercase
 {
 	NSString *string = @"#F00";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForYellowLowercase
 {
 	NSString *string = @"#ff0";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForYellowUppercase
 {
 	NSString *string = @"#FF0";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForGreenLowercase
 {
 	NSString *string = @"#0f0";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForGreenUppercase
 {
 	NSString *string = @"#0F0";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForCyanLowercase
 {
 	NSString *string = @"#0ff";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForCyanUppercase
 {
 	NSString *string = @"#0FF";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForBlueLowercase
 {
 	NSString *string = @"#00f";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForBlueUppercase
 {
 	NSString *string = @"#00F";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForMagentaLowercase
 {
 	NSString *string = @"#f0f";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForMagentaUppercase
 {
 	NSString *string = @"#F0F";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForWhiteLowercase
 {
 	NSString *string = @"#fff";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForWhiteUppercase
 {
 	NSString *string = @"#FFF";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForBlackLowercase
 {
 	NSString *string = @"#000";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForBlackUppercase
 {
 	NSString *string = @"#000";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
 }
 
 - (void)testColorWith8DigitHTMLStringForRedLowercase
 {
 	NSString *string = @"#ff0000ff";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
-	STAssertEquals([red alphaComponent], 1.0f, @"Alpha component of red should be 1.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red alphaComponent], (CGFloat)1.0f, @"Alpha component of red should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForRedUppercase
 {
 	NSString *string = @"#FF0000FF";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
-	STAssertEquals([red alphaComponent], 1.0f, @"Alpha component of red should be 1.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red alphaComponent], (CGFloat)1.0f, @"Alpha component of red should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForYellowLowercase
 {
 	NSString *string = @"#ffff00ff";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
-	STAssertEquals([yellow alphaComponent], 1.0f, @"Alpha component of yellow should be 1.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow alphaComponent], (CGFloat)1.0f, @"Alpha component of yellow should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForYellowUppercase
 {
 	NSString *string = @"#FFFF00FF";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
-	STAssertEquals([yellow alphaComponent], 1.0f, @"Alpha component of yellow should be 1.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow alphaComponent], (CGFloat)1.0f, @"Alpha component of yellow should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForGreenLowercase
 {
 	NSString *string = @"#00ff00ff";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
-	STAssertEquals([green alphaComponent], 1.0f, @"Alpha component of green should be 1.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green alphaComponent], (CGFloat)1.0f, @"Alpha component of green should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForGreenUppercase
 {
 	NSString *string = @"#00FF00FF";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
-	STAssertEquals([green alphaComponent], 1.0f, @"Alpha component of green should be 1.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green alphaComponent], (CGFloat)1.0f, @"Alpha component of green should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForCyanLowercase
 {
 	NSString *string = @"#00ffffff";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
-	STAssertEquals([cyan alphaComponent], 1.0f, @"Alpha component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan alphaComponent], (CGFloat)1.0f, @"Alpha component of cyan should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForCyanUppercase
 {
 	NSString *string = @"#00FFFFFF";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
-	STAssertEquals([cyan alphaComponent], 1.0f, @"Alpha component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan alphaComponent], (CGFloat)1.0f, @"Alpha component of cyan should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForBlueLowercase
 {
 	NSString *string = @"#0000ffff";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
-	STAssertEquals([blue alphaComponent], 1.0f, @"Alpha component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue alphaComponent], (CGFloat)1.0f, @"Alpha component of blue should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForBlueUppercase
 {
 	NSString *string = @"#0000FFFF";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
-	STAssertEquals([blue alphaComponent], 1.0f, @"Alpha component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue alphaComponent], (CGFloat)1.0f, @"Alpha component of blue should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForMagentaLowercase
 {
 	NSString *string = @"#ff00ffff";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
-	STAssertEquals([magenta alphaComponent], 1.0f, @"Alpha component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta alphaComponent], (CGFloat)1.0f, @"Alpha component of magenta should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForMagentaUppercase
 {
 	NSString *string = @"#FF00FFFF";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
-	STAssertEquals([magenta alphaComponent], 1.0f, @"Alpha component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta alphaComponent], (CGFloat)1.0f, @"Alpha component of magenta should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForWhiteLowercase
 {
 	NSString *string = @"#ffffffff";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
-	STAssertEquals([white alphaComponent], 1.0f, @"Alpha component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white alphaComponent], (CGFloat)1.0f, @"Alpha component of white should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForWhiteUppercase
 {
 	NSString *string = @"#FFFFFFFF";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
-	STAssertEquals([white alphaComponent], 1.0f, @"Alpha component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white alphaComponent], (CGFloat)1.0f, @"Alpha component of white should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForBlackLowercase
 {
 	NSString *string = @"#000000ff";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
-	STAssertEquals([black alphaComponent], 1.0f, @"Alpha component of black should be 1.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black alphaComponent], (CGFloat)1.0f, @"Alpha component of black should be 1.0");
 }
 - (void)testColorWith8DigitHTMLStringForBlackUppercase
 {
 	NSString *string = @"#000000FF";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
-	STAssertEquals([black alphaComponent], 1.0f, @"Alpha component of black should be 1.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black alphaComponent], (CGFloat)1.0f, @"Alpha component of black should be 1.0");
 }
 
 - (void)testColorWith4DigitHTMLStringForRedLowercase
 {
 	NSString *string = @"#f00f";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
-	STAssertEquals([red alphaComponent], 1.0f, @"Alpha component of red should be 1.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red alphaComponent], (CGFloat)1.0f, @"Alpha component of red should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForRedUppercase
 {
 	NSString *string = @"#F00F";
 	NSColor *red = [NSColor colorWithHTMLString:string];
-	STAssertEquals([red   redComponent], 1.0f,   @"Red component of red should be 1.0");
-	STAssertEquals([red greenComponent], 0.0f, @"Green component of red should be 0.0");
-	STAssertEquals([red  blueComponent], 0.0f,  @"Blue component of red should be 0.0");
-	STAssertEquals([red alphaComponent], 1.0f, @"Alpha component of red should be 1.0");
+	STAssertEquals([red   redComponent], (CGFloat)1.0f,   @"Red component of red should be 1.0");
+	STAssertEquals([red greenComponent], (CGFloat)0.0f, @"Green component of red should be 0.0");
+	STAssertEquals([red  blueComponent], (CGFloat)0.0f,  @"Blue component of red should be 0.0");
+	STAssertEquals([red alphaComponent], (CGFloat)1.0f, @"Alpha component of red should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForYellowLowercase
 {
 	NSString *string = @"#ff0f";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
-	STAssertEquals([yellow alphaComponent], 1.0f, @"Alpha component of yellow should be 1.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow alphaComponent], (CGFloat)1.0f, @"Alpha component of yellow should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForYellowUppercase
 {
 	NSString *string = @"#FF0F";
 	NSColor *yellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([yellow   redComponent], 1.0f,   @"Red component of yellow should be 1.0");
-	STAssertEquals([yellow greenComponent], 1.0f, @"Green component of yellow should be 1.0");
-	STAssertEquals([yellow  blueComponent], 0.0f,  @"Blue component of yellow should be 0.0");
-	STAssertEquals([yellow alphaComponent], 1.0f, @"Alpha component of yellow should be 1.0");
+	STAssertEquals([yellow   redComponent], (CGFloat)1.0f,   @"Red component of yellow should be 1.0");
+	STAssertEquals([yellow greenComponent], (CGFloat)1.0f, @"Green component of yellow should be 1.0");
+	STAssertEquals([yellow  blueComponent], (CGFloat)0.0f,  @"Blue component of yellow should be 0.0");
+	STAssertEquals([yellow alphaComponent], (CGFloat)1.0f, @"Alpha component of yellow should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForGreenLowercase
 {
 	NSString *string = @"#0f0f";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
-	STAssertEquals([green alphaComponent], 1.0f, @"Alpha component of green should be 1.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green alphaComponent], (CGFloat)1.0f, @"Alpha component of green should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForGreenUppercase
 {
 	NSString *string = @"#0F0F";
 	NSColor *green = [NSColor colorWithHTMLString:string];
-	STAssertEquals([green   redComponent], 0.0f,   @"Red component of green should be 0.0");
-	STAssertEquals([green greenComponent], 1.0f, @"Green component of green should be 1.0");
-	STAssertEquals([green  blueComponent], 0.0f,  @"Blue component of green should be 0.0");
-	STAssertEquals([green alphaComponent], 1.0f, @"Alpha component of green should be 1.0");
+	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0.0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1.0");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0.0");
+	STAssertEquals([green alphaComponent], (CGFloat)1.0f, @"Alpha component of green should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForCyanLowercase
 {
 	NSString *string = @"#0fff";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
-	STAssertEquals([cyan alphaComponent], 1.0f, @"Alpha component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan alphaComponent], (CGFloat)1.0f, @"Alpha component of cyan should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForCyanUppercase
 {
 	NSString *string = @"#0FFF";
 	NSColor *cyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([cyan   redComponent], 0.0f,   @"Red component of cyan should be 0.0");
-	STAssertEquals([cyan greenComponent], 1.0f, @"Green component of cyan should be 1.0");
-	STAssertEquals([cyan  blueComponent], 1.0f,  @"Blue component of cyan should be 1.0");
-	STAssertEquals([cyan alphaComponent], 1.0f, @"Alpha component of cyan should be 1.0");
+	STAssertEquals([cyan   redComponent], (CGFloat)0.0f,   @"Red component of cyan should be 0.0");
+	STAssertEquals([cyan greenComponent], (CGFloat)1.0f, @"Green component of cyan should be 1.0");
+	STAssertEquals([cyan  blueComponent], (CGFloat)1.0f,  @"Blue component of cyan should be 1.0");
+	STAssertEquals([cyan alphaComponent], (CGFloat)1.0f, @"Alpha component of cyan should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForBlueLowercase
 {
 	NSString *string = @"#00ff";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
-	STAssertEquals([blue alphaComponent], 1.0f, @"Alpha component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue alphaComponent], (CGFloat)1.0f, @"Alpha component of blue should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForBlueUppercase
 {
 	NSString *string = @"#00FF";
 	NSColor *blue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([blue   redComponent], 0.0f,   @"Red component of blue should be 0.0");
-	STAssertEquals([blue greenComponent], 0.0f, @"Green component of blue should be 0.0");
-	STAssertEquals([blue  blueComponent], 1.0f,  @"Blue component of blue should be 1.0");
-	STAssertEquals([blue alphaComponent], 1.0f, @"Alpha component of blue should be 1.0");
+	STAssertEquals([blue   redComponent], (CGFloat)0.0f,   @"Red component of blue should be 0.0");
+	STAssertEquals([blue greenComponent], (CGFloat)0.0f, @"Green component of blue should be 0.0");
+	STAssertEquals([blue  blueComponent], (CGFloat)1.0f,  @"Blue component of blue should be 1.0");
+	STAssertEquals([blue alphaComponent], (CGFloat)1.0f, @"Alpha component of blue should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForMagentaLowercase
 {
 	NSString *string = @"#f0ff";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
-	STAssertEquals([magenta alphaComponent], 1.0f, @"Alpha component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta alphaComponent], (CGFloat)1.0f, @"Alpha component of magenta should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForMagentaUppercase
 {
 	NSString *string = @"#F0FF";
 	NSColor *magenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([magenta   redComponent], 1.0f,   @"Red component of magenta should be 1.0");
-	STAssertEquals([magenta greenComponent], 0.0f, @"Green component of magenta should be 0.0");
-	STAssertEquals([magenta  blueComponent], 1.0f,  @"Blue component of magenta should be 1.0");
-	STAssertEquals([magenta alphaComponent], 1.0f, @"Alpha component of magenta should be 1.0");
+	STAssertEquals([magenta   redComponent], (CGFloat)1.0f,   @"Red component of magenta should be 1.0");
+	STAssertEquals([magenta greenComponent], (CGFloat)0.0f, @"Green component of magenta should be 0.0");
+	STAssertEquals([magenta  blueComponent], (CGFloat)1.0f,  @"Blue component of magenta should be 1.0");
+	STAssertEquals([magenta alphaComponent], (CGFloat)1.0f, @"Alpha component of magenta should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForWhiteLowercase
 {
 	NSString *string = @"#ffff";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
-	STAssertEquals([white alphaComponent], 1.0f, @"Alpha component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white alphaComponent], (CGFloat)1.0f, @"Alpha component of white should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForWhiteUppercase
 {
 	NSString *string = @"#FFFF";
 	NSColor *white = [NSColor colorWithHTMLString:string];
-	STAssertEquals([white   redComponent], 1.0f,   @"Red component of white should be 1.0");
-	STAssertEquals([white greenComponent], 1.0f, @"Green component of white should be 1.0");
-	STAssertEquals([white  blueComponent], 1.0f,  @"Blue component of white should be 1.0");
-	STAssertEquals([white alphaComponent], 1.0f, @"Alpha component of white should be 1.0");
+	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1.0");
+	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white should be 1.0");
+	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1.0");
+	STAssertEquals([white alphaComponent], (CGFloat)1.0f, @"Alpha component of white should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForBlackLowercase
 {
 	NSString *string = @"#000f";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
-	STAssertEquals([black alphaComponent], 1.0f, @"Alpha component of black should be 1.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black alphaComponent], (CGFloat)1.0f, @"Alpha component of black should be 1.0");
 }
 - (void)testColorWith4DigitHTMLStringForBlackUppercase
 {
 	NSString *string = @"#000F";
 	NSColor *black = [NSColor colorWithHTMLString:string];
-	STAssertEquals([black   redComponent], 0.0f,   @"Red component of black should be 0.0");
-	STAssertEquals([black greenComponent], 0.0f, @"Green component of black should be 0.0");
-	STAssertEquals([black  blueComponent], 0.0f,  @"Blue component of black should be 0.0");
-	STAssertEquals([black alphaComponent], 1.0f, @"Alpha component of black should be 1.0");
+	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black should be 0.0");
+	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black should be 0.0");
+	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black should be 0.0");
+	STAssertEquals([black alphaComponent], (CGFloat)1.0f, @"Alpha component of black should be 1.0");
 }
 
 - (void)testColorWith6DigitHTMLStringForTransparentRedLowercase
 {
 	NSString *string = @"#ff0000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentRedUppercase
 {
 	NSString *string = @"#FF0000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentYellowLowercase
 {
 	NSString *string = @"#ffff00";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentYellowUppercase
 {
 	NSString *string = @"#FFFF00";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentGreenLowercase
 {
 	NSString *string = @"#00ff00";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentGreenUppercase
 {
 	NSString *string = @"#00FF00";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentCyanLowercase
 {
 	NSString *string = @"#00ffff";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentCyanUppercase
 {
 	NSString *string = @"#00FFFF";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentBlueLowercase
 {
 	NSString *string = @"#0000ff";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentBlueUppercase
 {
 	NSString *string = @"#0000FF";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentMagentaLowercase
 {
 	NSString *string = @"#ff00ff";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentMagentaUppercase
 {
 	NSString *string = @"#FF00FF";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentWhiteLowercase
 {
 	NSString *string = @"#ffffff";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentWhiteUppercase
 {
 	NSString *string = @"#FFFFFF";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentBlackLowercase
 {
 	NSString *string = @"#000000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
 }
 - (void)testColorWith6DigitHTMLStringForTransparentBlackUppercase
 {
 	NSString *string = @"#000000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
 }
 
 - (void)testColorWith3DigitHTMLStringForTransparentRedLowercase
 {
 	NSString *string = @"#f00";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentRedUppercase
 {
 	NSString *string = @"#F00";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentYellowLowercase
 {
 	NSString *string = @"#ff0";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentYellowUppercase
 {
 	NSString *string = @"#FF0";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentGreenLowercase
 {
 	NSString *string = @"#0f0";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentGreenUppercase
 {
 	NSString *string = @"#0F0";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentCyanLowercase
 {
 	NSString *string = @"#0ff";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentCyanUppercase
 {
 	NSString *string = @"#0FF";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentBlueLowercase
 {
 	NSString *string = @"#00f";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentBlueUppercase
 {
 	NSString *string = @"#00F";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentMagentaLowercase
 {
 	NSString *string = @"#f0f";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentMagentaUppercase
 {
 	NSString *string = @"#F0F";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentWhiteLowercase
 {
 	NSString *string = @"#fff";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentWhiteUppercase
 {
 	NSString *string = @"#FFF";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentBlackLowercase
 {
 	NSString *string = @"#000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
 }
 - (void)testColorWith3DigitHTMLStringForTransparentBlackUppercase
 {
 	NSString *string = @"#000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
 }
 
 - (void)testColorWith8DigitHTMLStringForTransparentRedLowercase
 {
 	NSString *string = @"#ff000000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
-	STAssertEquals([transparentRed alphaComponent], 0.0f, @"Alpha component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent red should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentRedUppercase
 {
 	NSString *string = @"#FF000000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
-	STAssertEquals([transparentRed alphaComponent], 0.0f, @"Alpha component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent red should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentYellowLowercase
 {
 	NSString *string = @"#ffff0000";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
-	STAssertEquals([transparentYellow alphaComponent], 0.0f, @"Alpha component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent yellow should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentYellowUppercase
 {
 	NSString *string = @"#FFFF0000";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
-	STAssertEquals([transparentYellow alphaComponent], 0.0f, @"Alpha component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent yellow should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentGreenLowercase
 {
 	NSString *string = @"#00ff0000";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen alphaComponent], 0.0f, @"Alpha component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent green should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentGreenUppercase
 {
 	NSString *string = @"#00FF0000";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen alphaComponent], 0.0f, @"Alpha component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent green should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentCyanLowercase
 {
 	NSString *string = @"#00ffff00";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan alphaComponent], 0.0f, @"Alpha component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent cyan should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentCyanUppercase
 {
 	NSString *string = @"#00FFFF00";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan alphaComponent], 0.0f, @"Alpha component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent cyan should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentBlueLowercase
 {
 	NSString *string = @"#0000ff00";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
-	STAssertEquals([transparentBlue alphaComponent], 0.0f, @"Alpha component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent blue should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentBlueUppercase
 {
 	NSString *string = @"#0000FF00";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
-	STAssertEquals([transparentBlue alphaComponent], 0.0f, @"Alpha component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent blue should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentMagentaLowercase
 {
 	NSString *string = @"#ff00ff00";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta alphaComponent], 0.0f, @"Alpha component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent magenta should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentMagentaUppercase
 {
 	NSString *string = @"#FF00FF00";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta alphaComponent], 0.0f, @"Alpha component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent magenta should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentWhiteLowercase
 {
 	NSString *string = @"#ffffff00";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite alphaComponent], 0.0f, @"Alpha component of transparent white should be 0.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent white should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentWhiteUppercase
 {
 	NSString *string = @"#FFFFFF00";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite alphaComponent], 0.0f, @"Alpha component of transparent white should be 0.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent white should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentBlackLowercase
 {
 	NSString *string = @"#00000000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack alphaComponent], 0.0f, @"Alpha component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent black should be 0.0");
 }
 - (void)testColorWith8DigitHTMLStringForTransparentBlackUppercase
 {
 	NSString *string = @"#00000000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack alphaComponent], 0.0f, @"Alpha component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent black should be 0.0");
 }
 
 - (void)testColorWith4DigitHTMLStringForTransparentRedLowercase
 {
 	NSString *string = @"#f000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
-	STAssertEquals([transparentRed alphaComponent], 0.0f, @"Alpha component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent red should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentRedUppercase
 {
 	NSString *string = @"#F000";
 	NSColor *transparentRed = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentRed   redComponent], 1.0f,   @"Red component of transparent red should be 1.0");
-	STAssertEquals([transparentRed greenComponent], 0.0f, @"Green component of transparent red should be 0.0");
-	STAssertEquals([transparentRed  blueComponent], 0.0f,  @"Blue component of transparent red should be 0.0");
-	STAssertEquals([transparentRed alphaComponent], 0.0f, @"Alpha component of transparent red should be 0.0");
+	STAssertEquals([transparentRed   redComponent], (CGFloat)1.0f,   @"Red component of transparent red should be 1.0");
+	STAssertEquals([transparentRed greenComponent], (CGFloat)0.0f, @"Green component of transparent red should be 0.0");
+	STAssertEquals([transparentRed  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent red should be 0.0");
+	STAssertEquals([transparentRed alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent red should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentYellowLowercase
 {
 	NSString *string = @"#ff00";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
-	STAssertEquals([transparentYellow alphaComponent], 0.0f, @"Alpha component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent yellow should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentYellowUppercase
 {
 	NSString *string = @"#FF00";
 	NSColor *transparentYellow = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentYellow   redComponent], 1.0f,   @"Red component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow greenComponent], 1.0f, @"Green component of transparent yellow should be 1.0");
-	STAssertEquals([transparentYellow  blueComponent], 0.0f,  @"Blue component of transparent yellow should be 0.0");
-	STAssertEquals([transparentYellow alphaComponent], 0.0f, @"Alpha component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow   redComponent], (CGFloat)1.0f,   @"Red component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow greenComponent], (CGFloat)1.0f, @"Green component of transparent yellow should be 1.0");
+	STAssertEquals([transparentYellow  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent yellow should be 0.0");
+	STAssertEquals([transparentYellow alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent yellow should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentGreenLowercase
 {
 	NSString *string = @"#0f00";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen alphaComponent], 0.0f, @"Alpha component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent green should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentGreenUppercase
 {
 	NSString *string = @"#0F00";
 	NSColor *transparentGreen = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentGreen   redComponent], 0.0f,   @"Red component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen greenComponent], 1.0f, @"Green component of transparent green should be 1.0");
-	STAssertEquals([transparentGreen  blueComponent], 0.0f,  @"Blue component of transparent green should be 0.0");
-	STAssertEquals([transparentGreen alphaComponent], 0.0f, @"Alpha component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen   redComponent], (CGFloat)0.0f,   @"Red component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen greenComponent], (CGFloat)1.0f, @"Green component of transparent green should be 1.0");
+	STAssertEquals([transparentGreen  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent green should be 0.0");
+	STAssertEquals([transparentGreen alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent green should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentCyanLowercase
 {
 	NSString *string = @"#0ff0";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan alphaComponent], 0.0f, @"Alpha component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent cyan should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentCyanUppercase
 {
 	NSString *string = @"#0FF0";
 	NSColor *transparentCyan = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentCyan   redComponent], 0.0f,   @"Red component of transparent cyan should be 0.0");
-	STAssertEquals([transparentCyan greenComponent], 1.0f, @"Green component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan  blueComponent], 1.0f,  @"Blue component of transparent cyan should be 1.0");
-	STAssertEquals([transparentCyan alphaComponent], 0.0f, @"Alpha component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan   redComponent], (CGFloat)0.0f,   @"Red component of transparent cyan should be 0.0");
+	STAssertEquals([transparentCyan greenComponent], (CGFloat)1.0f, @"Green component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent cyan should be 1.0");
+	STAssertEquals([transparentCyan alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent cyan should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentBlueLowercase
 {
 	NSString *string = @"#00f0";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
-	STAssertEquals([transparentBlue alphaComponent], 0.0f, @"Alpha component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent blue should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentBlueUppercase
 {
 	NSString *string = @"#00F0";
 	NSColor *transparentBlue = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlue   redComponent], 0.0f,   @"Red component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue greenComponent], 0.0f, @"Green component of transparent blue should be 0.0");
-	STAssertEquals([transparentBlue  blueComponent], 1.0f,  @"Blue component of transparent blue should be 1.0");
-	STAssertEquals([transparentBlue alphaComponent], 0.0f, @"Alpha component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue   redComponent], (CGFloat)0.0f,   @"Red component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue greenComponent], (CGFloat)0.0f, @"Green component of transparent blue should be 0.0");
+	STAssertEquals([transparentBlue  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent blue should be 1.0");
+	STAssertEquals([transparentBlue alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent blue should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentMagentaLowercase
 {
 	NSString *string = @"#f0f0";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta alphaComponent], 0.0f, @"Alpha component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent magenta should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentMagentaUppercase
 {
 	NSString *string = @"#F0F0";
 	NSColor *transparentMagenta = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentMagenta   redComponent], 1.0f,   @"Red component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta greenComponent], 0.0f, @"Green component of transparent magenta should be 0.0");
-	STAssertEquals([transparentMagenta  blueComponent], 1.0f,  @"Blue component of transparent magenta should be 1.0");
-	STAssertEquals([transparentMagenta alphaComponent], 0.0f, @"Alpha component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta   redComponent], (CGFloat)1.0f,   @"Red component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta greenComponent], (CGFloat)0.0f, @"Green component of transparent magenta should be 0.0");
+	STAssertEquals([transparentMagenta  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent magenta should be 1.0");
+	STAssertEquals([transparentMagenta alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent magenta should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentWhiteLowercase
 {
 	NSString *string = @"#fff0";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite alphaComponent], 0.0f, @"Alpha component of transparent white should be 0.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent white should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentWhiteUppercase
 {
 	NSString *string = @"#FFF0";
 	NSColor *transparentWhite = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentWhite   redComponent], 1.0f,   @"Red component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite greenComponent], 1.0f, @"Green component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite  blueComponent], 1.0f,  @"Blue component of transparent white should be 1.0");
-	STAssertEquals([transparentWhite alphaComponent], 0.0f, @"Alpha component of transparent white should be 0.0");
+	STAssertEquals([transparentWhite   redComponent], (CGFloat)1.0f,   @"Red component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite greenComponent], (CGFloat)1.0f, @"Green component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite  blueComponent], (CGFloat)1.0f,  @"Blue component of transparent white should be 1.0");
+	STAssertEquals([transparentWhite alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent white should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentBlackLowercase
 {
 	NSString *string = @"#0000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack alphaComponent], 0.0f, @"Alpha component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent black should be 0.0");
 }
 - (void)testColorWith4DigitHTMLStringForTransparentBlackUppercase
 {
 	NSString *string = @"#0000";
 	NSColor *transparentBlack = [NSColor colorWithHTMLString:string];
-	STAssertEquals([transparentBlack   redComponent], 0.0f,   @"Red component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack greenComponent], 0.0f, @"Green component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack  blueComponent], 0.0f,  @"Blue component of transparent black should be 0.0");
-	STAssertEquals([transparentBlack alphaComponent], 0.0f, @"Alpha component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack   redComponent], (CGFloat)0.0f,   @"Red component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack greenComponent], (CGFloat)0.0f, @"Green component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack  blueComponent], (CGFloat)0.0f,  @"Blue component of transparent black should be 0.0");
+	STAssertEquals([transparentBlack alphaComponent], (CGFloat)0.0f, @"Alpha component of transparent black should be 0.0");
 }
 
 //End of automatically-generated methods
@@ -1779,10 +1779,10 @@
 {
 	NSString *string = @"rgba(255, 255, 0, 0.75)";
 	NSColor *color = [NSColor colorWithHTMLString:string];
-	STAssertEquals([color redComponent], 1.0f, @"Red component of color should be 1.0");
-	STAssertEquals([color greenComponent], 1.0f, @"Green component of color should be 1.0");
-	STAssertEquals([color blueComponent], 0.0f, @"Blue component of color should be 0.0");
-	STAssertEquals([color alphaComponent], 0.75f, @"Alpha component of color should be 0.75");
+	STAssertEquals([color redComponent], (CGFloat)1.0f, @"Red component of color should be 1.0");
+	STAssertEquals([color greenComponent], (CGFloat)1.0f, @"Green component of color should be 1.0");
+	STAssertEquals([color blueComponent], (CGFloat)0.0f, @"Blue component of color should be 0.0");
+	STAssertEquals([color alphaComponent], (CGFloat)0.75f, @"Alpha component of color should be 0.75");
 }
 
 #pragma mark -

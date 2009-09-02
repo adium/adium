@@ -9,11 +9,11 @@
 {
 	//Test at least two different lengths, and see what happens when we ask for 0.
 	NSString *str = [NSString randomStringOfLength:6];
-	STAssertEquals([str length], 6U, @"+randomStringOfLength:6 did not return a 6-character string; it returned \"%@\", which is %u characters", str, [str length]);
+	STAssertEquals([str length], (NSUInteger)6U, @"+randomStringOfLength:6 did not return a 6-character string; it returned \"%@\", which is %u characters", str, [str length]);
 	str = [NSString randomStringOfLength:12];
-	STAssertEquals([str length], 12U, @"+randomStringOfLength:12 did not return a 12-character string; it returned \"%@\", which is %u characters", str, [str length]);
+	STAssertEquals([str length], (NSUInteger)12U, @"+randomStringOfLength:12 did not return a 12-character string; it returned \"%@\", which is %u characters", str, [str length]);
 	str = [NSString randomStringOfLength:0];
-	STAssertEquals([str length], 0U, @"+randomStringOfLength:0 did not return a 0-character string; it returned \"%@\", which is %u characters", str, [str length]);
+	STAssertEquals([str length], (NSUInteger)0U, @"+randomStringOfLength:0 did not return a 0-character string; it returned \"%@\", which is %u characters", str, [str length]);
 }
 - (void)testStringWithContentsOfUTF8File
 {
@@ -40,20 +40,20 @@
 }
 - (void)testEllipsis
 {
-	STAssertEquals([[NSString ellipsis] length], 1U, @"+ellipsis did not return a 1-character string; it returned \"%@\"", [NSString ellipsis]);
-	STAssertEquals((unsigned int)[[NSString ellipsis] characterAtIndex:0U], 0x2026U, @"+ellipsis did not return a horizontal ellipsis (U+2026); it returned \"%@\" instead", [NSString ellipsis]);
+	STAssertEquals([[NSString ellipsis] length], (NSUInteger)1U, @"+ellipsis did not return a 1-character string; it returned \"%@\"", [NSString ellipsis]);
+	STAssertEquals((NSUInteger)[[NSString ellipsis] characterAtIndex:0U], (NSUInteger)0x2026U, @"+ellipsis did not return a horizontal ellipsis (U+2026); it returned \"%@\" instead", [NSString ellipsis]);
 }
 - (void)testMutableEllipsis
 {
-	STAssertEquals([[NSMutableString ellipsis] length], 1U, @"+ellipsis did not return a 1-character string; it returned \"%@\"", [NSString ellipsis]);
-	STAssertEquals((unsigned int)[[NSMutableString ellipsis] characterAtIndex:0U], 0x2026U, @"+ellipsis did not return a horizontal ellipsis (U+2026); it returned \"%@\" instead", [NSString ellipsis]);
+	STAssertEquals([[NSMutableString ellipsis] length], (NSUInteger)1U, @"+ellipsis did not return a 1-character string; it returned \"%@\"", [NSString ellipsis]);
+	STAssertEquals((NSUInteger)[[NSMutableString ellipsis] characterAtIndex:0U], (NSUInteger)0x2026U, @"+ellipsis did not return a horizontal ellipsis (U+2026); it returned \"%@\" instead", [NSString ellipsis]);
 	STAssertTrue([[NSMutableString ellipsis] isKindOfClass:[NSMutableString class]], @"Sending +ellipsis to NSMutableString should result in a mutable string");
 }
 - (void)testStringByAppendingEllipsis
 {
 	NSString *before = @"Foo";
 	NSString *after  = [before stringByAppendingEllipsis];
-	STAssertEquals(([after length] - [before length]), 1U, @"Appending a single character should result in a string that is one character longer. before is \"%@\"; after is \"%@\"", before, after);
+	STAssertEquals(([after length] - [before length]), (NSUInteger)1U, @"Appending a single character should result in a string that is one character longer. before is \"%@\"; after is \"%@\"", before, after);
 	STAssertTrue([after hasSuffix:[NSString ellipsis]], @"String formed by appending [NSString ellipsis] should end with [NSString ellipsis]. before is \"%@\"; after is \"%@\"", before, after);
 }
 - (void)testCompactedString
@@ -78,9 +78,9 @@
 
 	//Third, try truncating to a shorter length. This one should actually truncate the string and append an ellipsis.
 	after = [before stringWithEllipsisByTruncatingToLength:[before length] - 1];
-	STAssertEquals(([before length] - [after length]), 1U, @"Appending a single character should result in a string that is one character longer. before is \"%@\"; after is \"%@\"", before, after);
+	STAssertEquals(([before length] - [after length]), (NSUInteger)1U, @"Appending a single character should result in a string that is one character longer. before is \"%@\"; after is \"%@\"", before, after);
 	//The part before the ellipsis in after should be equal to the same portion of before.
-	unsigned cutHere = [after length] - 1;
+	NSUInteger cutHere = [after length] - 1;
 	STAssertEqualObjects([after  substringToIndex:cutHere - 1],
 	                     [before substringToIndex:cutHere - 1],
 						 @"Truncating a string should not result in any changes before the truncation point before is \"%@\"; after is \"%@\"", before, after);
@@ -453,7 +453,7 @@
 - (void) testCaseInsensitivelyEqualToThingsThatAreNotStrings {
 	NSString *str = @"Adium rocks!";
 	STAssertThrows([str isCaseInsensitivelyEqualToString:[[[NSObject alloc] init] autorelease]], @"can't compare string to plain object; this should have thrown");
-	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSNumber numberWithInt:42]], @"can't compare string to number; this should have thrown");
+	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSNumber numberWithInteger:42]], @"can't compare string to number; this should have thrown");
 	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSValue valueWithRect:NSMakeRect(0.0, 0.0, 128.0, 128.0)]], @"can't compare string to rect value; this should have thrown");
 	STAssertThrows([str isCaseInsensitivelyEqualToString:(NSString *)[NSImage imageNamed:@"NSDefaultApplicationIcon"]], @"can't compare string to image; this should have thrown");
 }
