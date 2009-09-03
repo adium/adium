@@ -14,12 +14,12 @@ build_pkgconfig() {
 	
 	if needsconfigure $@; then
 		status "Configuring pkg-config"
-		./configure --prefix="$ROOTDIR/build"
+		log ./configure --prefix="$ROOTDIR/build"
 	fi
 	
 	status "Building and installing pkg-config"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -38,17 +38,19 @@ build_gettext() {
 	
 	if needsconfigure $@; then
 		status "Configuring gettext"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
-			--prefix="$ROOTDIR/build" \
-			--disable-java \
-			--disable-static \
-			--enable-shared \
-			--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		log ./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-java \
+				--disable-static \
+				--enable-shared \
+				--disable-dependency-tracking
 	fi
 	
 	status "Building and installing gettext"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 
 	# Undo all of our patches... goodbye!
 	revpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0
@@ -94,8 +96,8 @@ build_glib() {
 	fi
 	
 	status "Building and installing glib"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	# Revert the patches
 	revpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0
@@ -136,22 +138,25 @@ build_meanwhile() {
 		rm -f libtool
 		
 		status "Configuring Meanwhile"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			GLIB_LIBS="$ROOTDIR/build/lib" \
-			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
-			             -I$ROOTDIR/build/lib/glib-2.0/include" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-static \
-				--enable-shared \
-				--disable-doxygen \
-				--disable-mailme \
-				--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		export GLIB_LIBS="$ROOTDIR/build/lib"
+		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			-I$ROOTDIR/build/lib/glib-2.0/include"
+		log ./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-static \
+			--enable-shared \
+			--disable-doxygen \
+			-disable-mailme \
+			--disable-dependency-tracking
 	fi
 	
 	status "Building and installing Meanwhile"
-	CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" make -j $NUMBER_OF_CORES
-	make install
+	export CFLAGS="$ARCH_CFLAGS"
+	export LDFLAGS="$ARCH_LDFLAGS"
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	# Undo all the patches
 	revpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0
@@ -185,8 +190,8 @@ build_gadugadu() {
 	fi
 	
 	status "Building and installing Gadu-Gadu"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -204,12 +209,12 @@ build_intltool() {
 	
 	if needsconfigure $@; then
 		status "Configuring intltool"
-		./configure --prefix="$ROOTDIR/build" --disable-dependency-tracking
+		log ./configure --prefix="$ROOTDIR/build" --disable-dependency-tracking
 	fi
 	
 	status "Building and installing intltool"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -226,21 +231,22 @@ build_jsonglib() {
 	
 	if needsconfigure $@; then
 		status "Configuring json-glib"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			GLIB_LIBS="$ROOTDIR/build/lib" \
-			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
-			             -I$ROOTDIR/build/lib/glib-2.0/include" \
-			./configure \
-			--prefix="$ROOTDIR/build" \
-			--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		export GLIB_LIBS="$ROOTDIR/build/lib"
+		export GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			-I$ROOTDIR/build/lib/glib-2.0/include"
+		log ./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-dependency-tracking
 	fi
 	
 	status "Building and installing json-glib"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	# C'mon, why do you make me do this?
-	ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+	log ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
 		"$ROOTDIR/build/include/json-glib"
 	
 	quiet popd

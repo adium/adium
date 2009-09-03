@@ -94,7 +94,7 @@ for option in ${@:1} ; do
 			BASE_CFLAGS="-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
 			BASE_LDFLAGS="-Wl,-headerpad_max_install_names \
 				-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
-			warning "Building with LLVM!  This is unsupported and will probably break things!"
+			warning "Building with LLVM! This is unsupported and will probably break things!"
 			;;
 		--libpurple-rev=*)
 			MTN_REV=${option##*=}
@@ -126,6 +126,12 @@ Note that explicitly setting any arch flags implies a forced reconfigure.'
 			;;
 	esac
 done
+
+# this file contans the stdio and stderr of the most recent build
+LOG_FILE="${ROOTDIR}/build.log"
+
+: > ${LOG_FILE}
+
 # set -arch flags now, after the user has had a chance to diasble one or more
 set_arch_flags
 

@@ -12,16 +12,17 @@ build_libxml2() {
 	
 	if needsconfigure $@; then
 		status "Configuring xml2"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--with-python=no \
-				--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		log ./configure \
+			--prefix="$ROOTDIR/build" \
+			--with-python=no \
+			--disable-dependency-tracking
 	fi
 	
 	status "Building and installing xml2"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -70,8 +71,8 @@ build_gst_plugins_base() {
 	fi
 	
 	status "Building and installing gst-plugins-base"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -101,8 +102,8 @@ build_gst_plugins_good() {
 	fi
 	
 	status "Building and installing gst-plugins-good"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -131,8 +132,8 @@ build_gst_plugins_bad() {
 	fi
 	
 	status "Building and installing gst-plugins-bad"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -149,15 +150,15 @@ build_gst_plugins_farsight() {
 	if needsconfigure $@; then
 		status "Configuring gst-plugins-farsight"
 		export NM="nm -arch all"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		log ./configure --prefix="$ROOTDIR/build" \
+			--disable-dependency-tracking
 	fi
 	
 	status "Building and installing gst-plugins-farsight"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -197,8 +198,8 @@ build_gstreamer() {
 	
 	status "Building and installing gstreamer"
 	warning "Building too much! Patch the Makefile"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 	
@@ -217,15 +218,16 @@ build_nice() {
 	if needsconfigure $@; then
 		status "Configuring NICE"
 		export NM="nm -arch all"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		log ./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-dependency-tracking
 	fi
 	
 	status "Building and installing NICE"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }
@@ -244,16 +246,17 @@ build_farsight() {
 	if needsconfigure $@; then
 		status "Configuring farsight"
 		export NM="nm -arch all"
-		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
-			./configure \
-				--prefix="$ROOTDIR/build" \
-				--disable-python \
-				--disable-dependency-tracking
+		export CFLAGS="$ARCH_CFLAGS"
+		export LDFLAGS="$ARCH_LDFLAGS"
+		log ./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-python \
+			--disable-dependency-tracking
 	fi
 	
 	status "Building and installing farsight"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	quiet popd
 }

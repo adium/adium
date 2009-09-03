@@ -66,7 +66,7 @@ build_libpurple() {
 	# Copy the headers from Cyrus-SASL
 	status "Copying headers from Cyrus-SASL"
 	quiet mkdir -p "$ROOTDIR/build/include/sasl"
-	cp -f "$ROOTDIR/source/cyrus-sasl/include/"*.h "$ROOTDIR/build/include/sasl"
+	log cp -f "$ROOTDIR/source/cyrus-sasl/include/"*.h "$ROOTDIR/build/include/sasl"
 	
 	quiet pushd "$ROOTDIR/source/im.pidgin.adium"
 	
@@ -123,11 +123,11 @@ build_libpurple() {
 	fi
 	
 	status "Building and installing libpurple"
-	make -j $NUMBER_OF_CORES
-	make install
+	log make -j $NUMBER_OF_CORES
+	log make install
 	
 	status "Copying internal libpurple headers"
-	cp -f "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/oscar.h" \
+	log cp -f "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/oscar.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/snactypes.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/oscar/peer.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/cmds.h" \

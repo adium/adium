@@ -22,6 +22,22 @@ warning() {
 }
 
 ##
+# log <command>
+#
+# Logs the given commands output to $LOG_FILE
+#
+log() {
+	local localPWD=`pwd`
+	echo "
+
+Running command:
+	${localPWD}/${@:1}
+" >> ${LOG_FILE}
+
+	"${@:1}" >> ${LOG_FILE} 2>&1
+}
+
+##
 # asserttools <tool> ...
 #
 # Checks to make sure the listed tools are installed, and errors if one is not
@@ -202,11 +218,11 @@ xcompile() {
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
-		${3} --prefix="$ROOTDIR/build"
+		log ${3} --prefix="$ROOTDIR/build"
 		
 		status "...making and installing for native host"
-		make -j $NUMBER_OF_CORES
-		make install
+		log make -j $NUMBER_OF_CORES
+		log make install
 		
 		# we're done now, exit early
 		return
@@ -217,12 +233,12 @@ xcompile() {
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
-		${3} --host="${HOSTS[0]}" --build="${HOSTS[0]}" \
+		log ${3} --host="${HOSTS[0]}" --build="${HOSTS[0]}" \
 			--prefix="$ROOTDIR/build" 
 		
 		status "...making and installing for ${ARCH[0]} Only"
-		make -j $NUMBER_OF_CORES
-		make install
+		log make -j $NUMBER_OF_CORES
+		log make install
 		
 		# we're done now, exit early
 		return
@@ -234,13 +250,13 @@ xcompile() {
 		quiet mkdir "${ROOTDIR}/sandbox/root-${ARCHS[i]}"
 		export CFLAGS="${1} -arch ${ARCHS[i]}"
 		export LDFLAGS="${2} -arch ${ARCHS[i]}"
-		
-		${3} --host="${HOSTS[i]}" --build="${HOSTS[i]}" \
+		local arch=`arch`
+		log ${3} --host="${HOSTS[i]}" --build="${HOSTS[i]}" \
 			--prefix="${ROOTDIR}/sandbox/root-${ARCHS[i]}"
 		
 		status "...making and installing for ${HOSTS[i]}"
-		make -j $NUMBER_OF_CORES
-		make install
+		log make -j $NUMBER_OF_CORES
+		log make install
 		quiet make clean
 	done
 	
@@ -263,7 +279,7 @@ xcompile() {
 	#copy headers
 	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/include/*"
 	for f in ${files} ; do
-		cp -R ${f} "${ROOTDIR}/build/include"
+		log cp -R ${f} "${ROOTDIR}/build/include"
 	done
 	
 	#copy pkgconfig files and modify prefix
@@ -290,7 +306,7 @@ xcompile() {
 	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/*"
 	for f in ${files} ; do
 		if [ -h ${f} ] ; then
-			cp -a ${f} "${ROOTDIR}/build/lib"
+			log cp -a ${f} "${ROOTDIR}/build/lib"
 		fi
 	done
 	quiet rm -rf "${ROOTDIR}/sandbox"
@@ -309,7 +325,7 @@ xconfigure() {
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
-		${3}
+		log ${3}
 		
 		# we're done here
 		return
@@ -319,7 +335,7 @@ xconfigure() {
 		export CFLAGS="${1} -arch ${ARCHS[i]}"
 		export LDFLAGS="${2} -arch ${ARCHS[i]}"
 		CONFIG_CMD="${3} --host=${HOSTS[i]}"
-		${CONFIG_CMD}
+		log ${CONFIG_CMD}
 		
 		#only do this for more than 1 arch
 		if [[ 1 < ${#ARCHS[@]} ]] ; then
@@ -340,7 +356,7 @@ xconfigure() {
 		export CFLAGS="${1} ${ARCH_FLAGS}"
 		export LDFLAGS="${2} ${ARCH_FLAGS}"
 		local self_host=`gcc -dumpmachine`
-		${3}
+		log ${3}
 		
 		# mux headers
 		for FILE in ${@:4} ; do
