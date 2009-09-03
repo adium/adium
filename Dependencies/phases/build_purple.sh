@@ -11,7 +11,7 @@ fetch_libpurple() {
 		status "Pulling latest changes to libpurple"
 		cd "im.pidgin.adium"
 		$MTN pull
-		$MTN update
+		$MTN update "${MTN_UPDATE_PARAM}"
 		
 	else
 		
