@@ -19,7 +19,7 @@
 	NSURL *linkURL = [NSURL URLWithString:linkURLString];
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
-	NSAttributedString *attributedString;
+	NSAttributedString *attributedString = nil;
 	NSRange attributedStringRange;
 
 	//First, try a string containing a URL.
@@ -54,7 +54,7 @@
 	NSRange intendedLinkRange = { 9UL, 5UL }; //@"Adium"
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
-	NSAttributedString *attributedString;
+	NSAttributedString *attributedString = nil;
 
 	//First, try a string containing a URL.
 	STAssertNoThrow(attributedString = [NSAttributedString attributedStringWithString:linkLabel linkRange:intendedLinkRange linkDestination:linkURLString], @"attributedStringWithLinkLabel:linkDestination: threw an exception");
@@ -86,7 +86,7 @@
 	NSRange intendedLinkRange = { 0UL, [linkLabel length] };
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
-	NSAttributedString *attributedString;
+	NSAttributedString *attributedString = nil;
 	NSRange attributedStringRange;
 
 	//First, try a string containing a URL.
@@ -121,7 +121,7 @@
 	NSRange intendedLinkRange = { 9UL, 0UL }; //@""
 	NSRange linkRange = { 0UL, 0UL };
 	id linkValue;
-	NSAttributedString *attributedString;
+	NSAttributedString *attributedString = nil;
 	NSRange attributedStringRange;
 
 	//First, try a string containing a URL.
@@ -152,7 +152,7 @@
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
 
-	NSAttributedString *result;
+	NSAttributedString *result = nil;
 	STAssertNoThrow(result = [input attributedStringByConvertingLinksToStrings], @"-attributedStringByConvertingLinksToStrings threw an exception");
 	STAssertNotNil(result, @"-attributedStringByConvertingLinksToStrings returned nil");
 
@@ -164,7 +164,7 @@
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://adiumx.com/"] range:[[input string] rangeOfString:@"Adium"]];
 	[input addAttribute:NSLinkAttributeName value:[NSURL URLWithString:@"http://growl.info/"] range:[[input string] rangeOfString:@"Growl"]];
 
-	NSAttributedString *result;
+	NSAttributedString *result = nil;
 	STAssertNoThrow(result = [input attributedStringByConvertingLinksToURLStrings], @"-attributedStringByConvertingLinksToURLStrings threw an exception");
 	STAssertNotNil(result, @"-attributedStringByConvertingLinksToURLStrings returned nil");
 
