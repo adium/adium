@@ -1,0 +1,243 @@
+#!/bin/bash -eu
+
+##
+# pkg-config
+#
+# We only need a native pkg-config, so no worries about making it a Universal
+# Binary.
+#
+build_pkgconfig() {
+	prereq "pkg-config" \
+		"http://pkgconfig.freedesktop.org/releases/pkg-config-0.22.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/pkg-config"
+	
+	if needsconfigure $@; then
+		status "Configuring pkg-config"
+		./configure --prefix="$ROOTDIR/build"
+	fi
+	
+	status "Building and installing pkg-config"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# gettext
+#
+build_gettext() {
+	prereq "gettext" \
+		"http://mirrors.kernel.org/gnu/gettext/gettext-0.17.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gettext"
+	
+	# Patch to reduce the number of superfluous things we build
+	fwdpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0 || true
+	
+	if needsconfigure $@; then
+		status "Configuring gettext"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" ./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-java \
+			--disable-static \
+			--enable-shared \
+			--disable-dependency-tracking
+	fi
+	
+	status "Building and installing gettext"
+	make -j $NUMBER_OF_CORES
+	make install
+
+	# Undo all of our patches... goodbye!
+	revpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0
+
+	quiet popd
+}
+
+##
+# glib
+#
+build_glib() {
+	prereq "glib" \
+		"ftp://ftp.gnome.org/pub/gnome/sources/glib/2.20/glib-2.20.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/glib"
+	
+	# We may have to apply a patch if we're building on PowerPC
+	if [ "$(arch)" = "ppc" ]; then
+		warning "glib may not build correctly from PowerPC."
+	fi
+	
+	# Patch to fix building with the native libiconv
+	fwdpatch "$ROOTDIR/patches/glib-gconvert.c.diff" -p0 || true
+	
+	# Patch to reduce the number of superfluous things we build
+	fwdpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0 || true
+	
+	if needsconfigure $@; then
+		status "Configuring glib"
+		export MSGFMT="${ROOTDIR}/build/bin/msgfmt"
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
+				--disable-static \
+				--enable-shared \
+				--with-libiconv=native \
+				--disable-fam \
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/glib/config.h" \
+			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
+			"${ROOTDIR}/source/glib/glibconfig.h"
+	fi
+	
+	status "Building and installing glib"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	# Revert the patches
+	revpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0
+	revpatch "$ROOTDIR/patches/glib-gconvert.c.diff" -p0
+
+	quiet popd
+}
+
+##
+# Meanwhile
+#
+build_meanwhile() {
+	prereq "meanwhile" \
+		"http://downloads.sourceforge.net/project/meanwhile/meanwhile/1.0.2/meanwhile-1.0.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/meanwhile"
+	
+	# Mikael Berthe writes, "It seems that the last guint32_get() fails when
+	# Meanwhile receives the FT offer. I think we can skip it -- works for me
+	# but I can't check it with an older server.
+	fwdpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0 || true
+	
+	# Fixes Awareness Snapshots with recent Sametime servers, thanks to Mikael
+	# Berthe. "With recent Sametime servers there seem to be 2 bytes after the
+	# Snapshot Message Blocks. This patch tries to use the end of block offset
+	# provided by th server."
+	fwdpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0 || true
+	
+	# Patch to fix a crash in blist parsing
+	fwdpatch "$ROOTDIR/patches/Meanwhile-st_list.c.diff" -p0 || true
+	
+	# The provided libtool ignores our Universal Binary-makin' flags
+	fwdpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0 || true
+	
+	if needsconfigure $@; then
+		# Delete 'libtool' if it exists, so that we'll generate a new one 
+		rm -f libtool
+		
+		status "Configuring Meanwhile"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			GLIB_LIBS="$ROOTDIR/build/lib" \
+			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			             -I$ROOTDIR/build/lib/glib-2.0/include" \
+			./configure \
+				--prefix="$ROOTDIR/build" \
+				--disable-static \
+				--enable-shared \
+				--disable-doxygen \
+				--disable-mailme \
+				--disable-dependency-tracking
+	fi
+	
+	status "Building and installing Meanwhile"
+	CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" make -j $NUMBER_OF_CORES
+	make install
+	
+	# Undo all the patches
+	revpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0
+	revpatch "$ROOTDIR/patches/Meanwhile-st_list.c.diff" -p0
+	revpatch "$ROOTDIR/patches/Meanwhile-common.c.diff" -p0
+	revpatch "$ROOTDIR/patches/Meanwhile-srvc_ft.c.diff" -p0
+	
+	quiet popd
+}
+
+##
+# Gadu-Gadu
+#
+build_gadugadu() {
+	# We used to use 1.7.1, which is pretty outdated. Is there a reason?
+	prereq "gadu-gadu" \
+		"http://toxygen.net/libgadu/files/libgadu-1.8.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/gadu-gadu"
+	
+	if needsconfigure $@; then
+		status "Configuring Gadu-Gadu"
+		CONFIG_CMD="./configure \
+			--prefix=$ROOTDIR/build \
+			--disable-static \
+			--enable-shared \
+			--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gadu-gadu/config.h" \
+			"${ROOTDIR}/source/gadu-gadu/include/libgadu.h"
+	fi
+	
+	status "Building and installing Gadu-Gadu"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# intltool
+#
+build_intltool() {
+	# We used to use 0.36.2, but I switched to the latest MacPorts is using
+	prereq "intltool" \
+		"http://ftp.gnome.org/pub/gnome/sources/intltool/0.40/intltool-0.40.6.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/intltool"
+	
+	if needsconfigure $@; then
+		status "Configuring intltool"
+		./configure --prefix="$ROOTDIR/build" --disable-dependency-tracking
+	fi
+	
+	status "Building and installing intltool"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	quiet popd
+}
+
+##
+# json-glib
+#
+build_jsonglib() {
+	prereq "json-glib" \
+		"http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.2.tar.gz"
+	
+	quiet pushd "$ROOTDIR/source/json-glib"
+	
+	if needsconfigure $@; then
+		status "Configuring json-glib"
+		CFLAGS="$ARCH_CFLAGS" LDFLAGS="$ARCH_LDFLAGS" \
+			GLIB_LIBS="$ROOTDIR/build/lib" \
+			GLIB_CFLAGS="-I$ROOTDIR/build/include/glib-2.0 \
+			             -I$ROOTDIR/build/lib/glib-2.0/include" \
+			./configure \
+			--prefix="$ROOTDIR/build" \
+			--disable-dependency-tracking
+	fi
+	
+	status "Building and installing json-glib"
+	make -j $NUMBER_OF_CORES
+	make install
+	
+	# C'mon, why do you make me do this?
+	ln -fs "$ROOTDIR/build/include/json-glib-1.0/json-glib" \
+		"$ROOTDIR/build/include/json-glib"
+	
+	quiet popd
+}
