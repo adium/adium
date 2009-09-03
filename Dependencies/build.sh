@@ -59,6 +59,7 @@ set_arch_flags() {
 # handle commandline options
 FORCE_CONFIGURE=false
 NATIVE_BUILD=false
+MTN_UPDATE_PARAM=""
 for option in ${@:1} ; do
 	case $option in
 		--configure)
@@ -95,16 +96,26 @@ for option in ${@:1} ; do
 				-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
 			warning "Building with LLVM!  This is unsupported and will probably break things!"
 			;;
+		--libpurple-rev=*)
+			MTN_REV=${option##*=}
+			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -r ${MTN_REV}"
+			;;
+		--libpurple-branch=*)
+			MTN_BRANCH=${option##*=}
+			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -b ${MTN_BRANCH}"
+			;;
 		-h|-help|--help)
 			echo 'The following options are valid:
 
-	--configure         : Force a configure during the build process
-	--disable-[arch]    : Eliminate [arch] from the build process
-	--build-native      : Build only for your current architecture
-	                      (currently breaks liboil on x86_64)
-	--enable-llvm       : Enable building with llvm-gcc.
-	                      WARNING: This is currently broken!
-	--help              : This help text
+  --configure                 : Force a configure during the build process
+  --disable-[arch]            : Eliminate [arch] from the build process
+  --build-native              : Build only for your current architecture
+                                (currently breaks liboil on x86_64)
+  --enable-llvm               : Enable building with llvm-gcc.
+                                WARNING: This is currently broken!
+  --libpurple-rev=[rev]       : Force a specific libpurple revision
+  --libpurple-branch=[branch] : Force a secific libpurple branch
+  --help                      : This help text
 	
 Note that explicitly setting any arch flags implies a forced reconfigure.'
 			exit 0
