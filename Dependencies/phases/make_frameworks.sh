@@ -10,28 +10,28 @@ prep_headers() {
 	status "Staging libintl headers"
 	local libintlDir="${ROOTDIR}/build/lib/include/libintl-${INTL_VERSION}"
 	quiet mkdir "${libintlDir}" || true
-	cp "${ROOTDIR}/build/include/libintl.h" "${libintlDir}/"
+	log cp "${ROOTDIR}/build/include/libintl.h" "${libintlDir}/"
 	
 	#glib
 	status "Staging glib headers"
 	local glibDir="${ROOTDIR}/build/lib/include/libglib-${GLIB_VERSION}.0"
 	quiet mkdir "${glibDir}" || true
-	cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}" "${glibDir}"
-	cp "${ROOTDIR}/build/lib/glib-${GLIB_VERSION}/include/glibconfig.h" \
+	log cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}" "${glibDir}"
+	log cp "${ROOTDIR}/build/lib/glib-${GLIB_VERSION}/include/glibconfig.h" \
 		"${glibDir}"
 	
 	#gmodule
 	status "Staging gmodule headers"
 	local gmoduleDir="${ROOTDIR}/build/lib/include/libgmodule-${GLIB_VERSION}.0"
 	quiet mkdir "${gmoduleDir}" || true
-	cp "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/gmodule.h" "${gmoduleDir}"
+	log cp "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/gmodule.h" "${gmoduleDir}"
 	
 	#gobject
 	status "Staging gobject headers"
 	local gobjectDir="${ROOTDIR}/build/lib/include/libgobject-${GLIB_VERSION}.0"
 	quiet mkdir "${gobjectDir}" || true
-	cp "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/glib-object.h" "${gobjectDir}"
-	cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/gobject/" "${gobjectDir}"
+	log cp "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/glib-object.h" "${gobjectDir}"
+	log cp -R "${ROOTDIR}/build/include/glib-${GLIB_VERSION}/gobject/" "${gobjectDir}"
 	
 	#gthread
 	status "Staging gthread non-headers"
@@ -49,7 +49,7 @@ prep_headers() {
 	status "Staging json-glib headers"
 	local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
 	quiet mkdir "${jsonDir}" || true
-	cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
+	log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
 	
 	## VV stuff
 	
@@ -57,7 +57,7 @@ prep_headers() {
 	status "Staging gstreamer and plugins headers"
 	local gstDir="${ROOTDIR}/build/lib/include/libgstreamer-${GSTREAMER_VERSION}.0"
 	quiet mkdir "${gstDir}" || true
-	cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
+	log cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
 	
 	local non_includes=( "libgstbase-${GSTREAMER_VERSION}.0" \
 						 "libgstfarsight-${GSTREAMER_VERSION}.0" \
@@ -71,14 +71,14 @@ prep_headers() {
 	status "Staging libxml headers"
 	local xml2Dir="${ROOTDIR}/build/lib/include/libxml-${XML_VERSION}"
 	quiet mkdir "${xml2Dir}" || true
-	cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
+	log cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
 	
 	#libpurple
 	status "Staging libpurple headers"
 	local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
 	quiet rm -rf "${purpleDir}"
-	cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
-	cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
+	log cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
+	log cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
 	status "Completed staging headers"
 }
 
@@ -100,21 +100,21 @@ make_framework() {
 		if [ -h ${file} ] ; then
 			local resolvedLink=`/usr/bin/readlink -n ${file}`
 			status "... ${file} -> ${ROOTDIR}/build/lib/${resolvedLink}"
-			rm "${file}"
-			cp "${ROOTDIR}/build/lib/${resolvedLink}" "${file}"
+			log rm "${file}"
+			log cp "${ROOTDIR}/build/lib/${resolvedLink}" "${file}"
 		fi
 	done
 	
 	status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
-	python "${ROOTDIR}/framework_maker/frameworkize.py" \
+	log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 		"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
 		"${FRAMEWORK_DIR}"
 	
 	status "Adding the Adium framework header..."
-	cp "${ROOTDIR}/libpurple-full.h" \
+	log cp "${ROOTDIR}/libpurple-full.h" \
 		"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Headers/libpurple.h"
 
-	cp "${ROOTDIR}/Libpurple-Info.plist" \
+	log cp "${ROOTDIR}/Libpurple-Info.plist" \
 		"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
 	
 	status "Done!"
@@ -128,19 +128,19 @@ make_po_files() {
 	
 	status "Building libpurple po files"
 	quiet pushd "${ROOTDIR}/source/im.pidgin.adium/po"
-		make all
-		make install
+		log make all
+		log make install
 	quiet popd
 	
 	status "Copy po files to frameowrk"
 	quiet pushd "${ROOTDIR}/build/share/locale"
 		quiet mkdir "${PURPLE_RSRC_DIR}" || true
-		cp -v -r * "${PURPLE_RSRC_DIR}"
+		log cp -v -r * "${PURPLE_RSRC_DIR}"
 	quiet popd
 	
 	status "Trimming the fat..."
 	quiet pushd "${PURPLE_RSRC_DIR}"
-		find . \( -name gettext-runtime.mo -or -name gettext-tools.mo -or -name glib20.mo \) -type f -delete
+		log find . \( -name gettext-runtime.mo -or -name gettext-tools.mo -or -name glib20.mo \) -type f -delete
 	quiet popd
 	
 	status "libpurple po files built!"
