@@ -3,6 +3,7 @@
 ##
 # xml2
 #
+XML_VERSION=2.2
 build_libxml2() {
 	prereq "xml2" \
 		"ftp://xmlsoft.org:21//libxml2/libxml2-sources-2.7.3.tar.gz"
@@ -175,6 +176,7 @@ build_gst_plugins() {
 ##
 # gstreamer
 #
+GSTREAMER_VERSION=0.10
 build_gstreamer() {
     build_libxml2 $@
 
@@ -235,7 +237,7 @@ build_farsight() {
 	build_nice $@
 	
 	prereq "farsight" \
-		"http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.14.tar.gz"
+		"http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.15.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/farsight"
 	

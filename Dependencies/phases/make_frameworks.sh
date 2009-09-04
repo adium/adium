@@ -4,14 +4,6 @@
 # prep_headers
 #
 prep_headers() {
-	GLIB_VERSION=2.0
-	GSTREAMER_VERSION=0.10
-	INTL_VERSION=8
-	JSON_GLIB_VERSION=1.0
-	MEANWHILE_VERSION=1
-	XML_VERSION=2.2
-	LIBPURPLE_VERSION=0.6.2
-	
 	## purple prereqs
 	quiet mkdir "${ROOTDIR}/build/lib/include" || true
 	#libintl

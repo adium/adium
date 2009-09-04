@@ -1,6 +1,23 @@
 #!/bin/bash -eu
 
 ##
+# sniff_libpurple_version
+#
+# We pull libpurple from monotone, so we may not know the version number
+# ahead of time
+#
+sniff_libpurple_version() {
+	LIBPURPLE_VERSION=''
+	while read LINE ; do
+		local version=`expr "'${LINE}'" : '.* PURPLE_.*_VERSION (\([0-9]*\)).*'`
+		if [[ '' != ${version} ]] ; then
+			LIBPURPLE_VERSION="${LIBPURPLE_VERSION}.${version}"
+		fi
+	done < "${ROOTDIR}/source/im.pidgin.adium/libpurple/version.h"
+	LIBPURPLE_VERSION="0.${LIBPURPLE_VERSION:3}"
+}
+
+##
 # fetch_libpurple
 #
 fetch_libpurple() {
@@ -11,7 +28,7 @@ fetch_libpurple() {
 		status "Pulling latest changes to libpurple"
 		cd "im.pidgin.adium"
 		$MTN pull
-		$MTN update "${MTN_UPDATE_PARAM}"
+		$MTN update ${MTN_UPDATE_PARAM}
 		
 	else
 		
@@ -131,4 +148,5 @@ build_libpurple() {
 		  "$ROOTDIR/build/include/libpurple"
 	
 	quiet popd
+	sniff_libpurple_version
 }
