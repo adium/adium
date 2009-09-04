@@ -178,15 +178,9 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
  */
 - (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume
 {
-#ifdef __LP64__
-	for(NSSound *sound in soundCacheDict) {
-		[sound setVolume:inVolume];
+	for(id sound in  [soundCacheDict allValues]) {
+		[(NSSound *)sound setVolume:inVolume];
 	}
-#else
-	for(QTMovie *movie in soundCacheDict) {
-		[movie setVolume:inVolume];
-	}
-#endif
 }
 
 /*!
