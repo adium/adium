@@ -8,7 +8,7 @@
 #
 build_pkgconfig() {
 	prereq "pkg-config" \
-		"http://pkgconfig.freedesktop.org/releases/pkg-config-0.22.tar.gz"
+		"http://pkgconfig.freedesktop.org/releases/pkg-config-0.23.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/pkg-config"
 	
@@ -59,9 +59,10 @@ build_gettext() {
 ##
 # glib
 #
+GLIB_VERSION=2.0
 build_glib() {
 	prereq "glib" \
-		"ftp://ftp.gnome.org/pub/gnome/sources/glib/2.20/glib-2.20.2.tar.gz"
+		"ftp://ftp.gnome.org/pub/gnome/sources/glib/2.20/glib-2.20.5.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/glib"
 	
@@ -106,6 +107,7 @@ build_glib() {
 ##
 # Meanwhile
 #
+MEANWHILE_VERSION=1
 build_meanwhile() {
 	prereq "meanwhile" \
 		"http://downloads.sourceforge.net/project/meanwhile/meanwhile/1.0.2/meanwhile-1.0.2.tar.gz"
@@ -192,6 +194,7 @@ build_gadugadu() {
 ##
 # intltool
 #
+INTL_VERSION=8
 build_intltool() {
 	# We used to use 0.36.2, but I switched to the latest MacPorts is using
 	prereq "intltool" \
@@ -214,6 +217,7 @@ build_intltool() {
 ##
 # json-glib
 #
+JSON_GLIB_VERSION=1.0
 build_jsonglib() {
 	prereq "json-glib" \
 		"http://folks.o-hand.com/~ebassi/sources/json-glib-0.6.2.tar.gz"
