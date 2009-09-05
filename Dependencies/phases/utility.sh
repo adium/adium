@@ -34,7 +34,9 @@ Running command:
 	${localPWD}/${@:1}
 " >> ${LOG_FILE}
 
-	"${@:1}" >> ${LOG_FILE} 2>&1
+	(
+		${@:1}
+	) >> ${LOG_FILE} 2>&1
 }
 
 ##
@@ -215,6 +217,7 @@ xcompile() {
 	# if not, just do a native build.
 	if ${NATIVE_BUILD} ; then
 		status "...configuring for native host"
+		(
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
@@ -223,13 +226,14 @@ xcompile() {
 		status "...making and installing for native host"
 		log make -j $NUMBER_OF_CORES
 		log make install
-		
+		)
 		# we're done now, exit early
 		return
 
 	# Things are simpler if we only have one arch to build, too.
 	elif [[ 1 == ${#ARCHS[@]} ]] ; then
 		status "...configuring for ${ARCH[0]} Only"
+		(
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
@@ -239,13 +243,14 @@ xcompile() {
 		status "...making and installing for ${ARCH[0]} Only"
 		log make -j $NUMBER_OF_CORES
 		log make install
-		
+		)
 		# we're done now, exit early
 		return
 	fi
 	
 	quiet mkdir "${ROOTDIR}/sandbox"
 	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
+	(
 		status "...configuring for ${HOSTS[i]}"
 		quiet mkdir "${ROOTDIR}/sandbox/root-${ARCHS[i]}"
 		export CFLAGS="${1} -arch ${ARCHS[i]}"
@@ -258,6 +263,7 @@ xcompile() {
 		log make -j $NUMBER_OF_CORES
 		log make install
 		quiet make clean
+	)
 	done
 	
 	# create universal
@@ -322,21 +328,23 @@ xconfigure() {
 	# just do a native configure if no archs are given
 	if ${NATIVE_BUILD} ; then
 		status "...configuring for native host"
+		(
 		export CFLAGS="${1}"
 		export LDFLAGS="${2}"
 		
 		log ${3}
-		
+		)
 		# we're done here
 		return
 	fi
 	for (( i=0; i<${#HOSTS[@]}; i++ )) ; do
 		status "...for ${HOSTS[i]}"
+		(
 		export CFLAGS="${1} -arch ${ARCHS[i]}"
 		export LDFLAGS="${2} -arch ${ARCHS[i]}"
 		CONFIG_CMD="${3} --host=${HOSTS[i]}"
 		log ${CONFIG_CMD}
-		
+		)
 		#only do this for more than 1 arch
 		if [[ 1 < ${#ARCHS[@]} ]] ; then
 			for FILE in ${@:4} ; do
@@ -353,10 +361,12 @@ xconfigure() {
 		# Yes, it's an ugly hack, and should probably be replaced with
 		# find and a sed script.
 		status "...for universal build"
+		(
 		export CFLAGS="${1} ${ARCH_FLAGS}"
 		export LDFLAGS="${2} ${ARCH_FLAGS}"
 		local self_host=`gcc -dumpmachine`
 		log ${3}
+		)
 		
 		# mux headers
 		for FILE in ${@:4} ; do

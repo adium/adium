@@ -37,6 +37,7 @@ build_gettext() {
 	fwdpatch "$ROOTDIR/patches/gettext-Makefile.in.diff" -p0 || true
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gettext"
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
@@ -46,6 +47,7 @@ build_gettext() {
 				--disable-static \
 				--enable-shared \
 				--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing gettext"
@@ -80,6 +82,7 @@ build_glib() {
 	fwdpatch "$ROOTDIR/patches/glib-Makefile.in.diff" -p0 || true
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring glib"
 		export MSGFMT="${ROOTDIR}/build/bin/msgfmt"
 		CONFIG_CMD="./configure \
@@ -93,6 +96,7 @@ build_glib() {
 			"${ROOTDIR}/source/glib/config.h" \
 			"${ROOTDIR}/source/glib/gmodule/gmoduleconf.h" \
 			"${ROOTDIR}/source/glib/glibconfig.h"
+	)
 	fi
 	
 	status "Building and installing glib"
@@ -134,6 +138,7 @@ build_meanwhile() {
 	fwdpatch "$ROOTDIR/patches/Meanwhile-ltmain.sh.diff" -p0 || true
 	
 	if needsconfigure $@; then
+	(
 		# Delete 'libtool' if it exists, so that we'll generate a new one 
 		rm -f libtool
 		
@@ -150,6 +155,7 @@ build_meanwhile() {
 			--disable-doxygen \
 			-disable-mailme \
 			--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing Meanwhile"
@@ -178,6 +184,7 @@ build_gadugadu() {
 	quiet pushd "$ROOTDIR/source/gadu-gadu"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring Gadu-Gadu"
 		CONFIG_CMD="./configure \
 			--prefix=$ROOTDIR/build \
@@ -187,6 +194,7 @@ build_gadugadu() {
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gadu-gadu/config.h" \
 			"${ROOTDIR}/source/gadu-gadu/include/libgadu.h"
+	)
 	fi
 	
 	status "Building and installing Gadu-Gadu"
@@ -208,8 +216,10 @@ build_intltool() {
 	quiet pushd "$ROOTDIR/source/intltool"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring intltool"
 		log ./configure --prefix="$ROOTDIR/build" --disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing intltool"
@@ -230,6 +240,7 @@ build_jsonglib() {
 	quiet pushd "$ROOTDIR/source/json-glib"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring json-glib"
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
@@ -239,6 +250,7 @@ build_jsonglib() {
 		log ./configure \
 				--prefix="$ROOTDIR/build" \
 				--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing json-glib"

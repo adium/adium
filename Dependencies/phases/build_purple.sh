@@ -85,6 +85,7 @@ build_libpurple() {
 	fi
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring libpurple"
 		export ACLOCAL_FLAGS="-I $ROOTDIR/build/share/aclocal"
 		export LIBXML_CFLAGS="-I/usr/include/libxml2"
@@ -120,6 +121,7 @@ build_libpurple() {
 			"${CONFIG_CMD}" \
 			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
 			"${ROOTDIR}/source/im.pidgin.adium/config.h"
+	)
 	fi
 	
 	status "Building and installing libpurple"
