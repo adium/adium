@@ -11,6 +11,7 @@ build_libxml2() {
 	quiet pushd "$ROOTDIR/source/xml2"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring xml2"
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
@@ -18,6 +19,7 @@ build_libxml2() {
 			--prefix="$ROOTDIR/build" \
 			--with-python=no \
 			--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing xml2"
@@ -60,6 +62,7 @@ build_gst_plugins_base() {
 	quiet pushd "$ROOTDIR/source/gst-plugins-base"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gst-plugins-base"
 		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
@@ -68,6 +71,7 @@ build_gst_plugins_base() {
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-base/config.h" \
 			"${ROOTDIR}/source/gst-plugins-base/_stdint.h"
+	)
 	fi
 	
 	status "Building and installing gst-plugins-base"
@@ -87,6 +91,7 @@ build_gst_plugins_good() {
 	quiet pushd "$ROOTDIR/source/gst-plugins-good"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gst-plugins-good"
 		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
@@ -99,6 +104,7 @@ build_gst_plugins_good() {
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-good/config.h" \
 			"${ROOTDIR}/source/gst-plugins-good/_stdint.h"
+	)
 	fi
 	
 	status "Building and installing gst-plugins-good"
@@ -118,6 +124,7 @@ build_gst_plugins_bad() {
 	quiet pushd "$ROOTDIR/source/gst-plugins-bad"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gst-plugins-bad"
 		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
@@ -129,6 +136,7 @@ build_gst_plugins_bad() {
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-bad/config.h" \
 			"${ROOTDIR}/source/gst-plugins-bad/_stdint.h"
+	)
 	fi
 	
 	status "Building and installing gst-plugins-bad"
@@ -148,12 +156,14 @@ build_gst_plugins_farsight() {
 	quiet pushd "$ROOTDIR/source/gst-plugins-farsight"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gst-plugins-farsight"
 		export NM="nm -arch all"
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
 		log ./configure --prefix="$ROOTDIR/build" \
 			--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing gst-plugins-farsight"
@@ -187,6 +197,7 @@ build_gstreamer() {
 	quiet pushd "$ROOTDIR/source/gstreamer"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring gstreamer"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
@@ -194,6 +205,7 @@ build_gstreamer() {
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \
 			"$ROOTDIR/source/gstreamer/config.h"
+	)
 	fi
 	
 	status "Building and installing gstreamer"
@@ -216,6 +228,7 @@ build_nice() {
 	quiet pushd "$ROOTDIR/source/nice"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring NICE"
 		export NM="nm -arch all"
 		export CFLAGS="$ARCH_CFLAGS"
@@ -223,6 +236,7 @@ build_nice() {
 		log ./configure \
 			--prefix="$ROOTDIR/build" \
 			--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing NICE"
@@ -244,6 +258,7 @@ build_farsight() {
 	quiet pushd "$ROOTDIR/source/farsight"
 	
 	if needsconfigure $@; then
+	(
 		status "Configuring farsight"
 		export NM="nm -arch all"
 		export CFLAGS="$ARCH_CFLAGS"
@@ -252,6 +267,7 @@ build_farsight() {
 			--prefix="$ROOTDIR/build" \
 			--disable-python \
 			--disable-dependency-tracking
+	)
 	fi
 	
 	status "Building and installing farsight"
