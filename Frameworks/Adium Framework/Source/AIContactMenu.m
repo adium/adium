@@ -290,7 +290,7 @@
 		
 		NSString *displayName = listObject.displayName;
 		
-		if (!shouldUseDisplayName && listObject.formattedUID) {
+		if (!displayName || (!shouldUseDisplayName && listObject.formattedUID)) {
 			displayName = listObject.formattedUID;
 		}
 		
