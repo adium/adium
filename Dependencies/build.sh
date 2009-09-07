@@ -21,7 +21,7 @@ HOSTS=( "x86_64-${TARGET_BASE}" "i686-${TARGET_BASE}" "powerpc-${TARGET_BASE}" )
 NUMBER_OF_CORES=`sysctl -n hw.activecpu`
 SDK_ROOT="/Developer/SDKs/MacOSX10.5.sdk"
 MIN_OS_VERSION="10.5"
-BASE_CFLAGS="-isysroot $SDK_ROOT \
+BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
 	-mmacosx-version-min=$MIN_OS_VERSION \
 	-I$ROOTDIR/build/include \
 	-L$ROOTDIR/build/lib"
@@ -91,9 +91,6 @@ for option in ${@:1} ; do
 			asserttools "/Developer/usr/bin/llvm-gcc"
 			export CC="/Developer/usr/bin/llvm-gcc"
 			export CXX="/Developer/usr/bin/llvm-g++"
-			BASE_CFLAGS="-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
-			BASE_LDFLAGS="-Wl,-headerpad_max_install_names \
-				-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
 			warning "Building with LLVM! This is unsupported and will probably break things!"
 			;;
 		--libpurple-rev=*)
