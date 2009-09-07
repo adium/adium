@@ -87,12 +87,14 @@ adium_media_get_type(void)
 
 	if (type == 0) {
 		static const GTypeInfo info = {
+#warning 64BIT: Inspect use of sizeof
 			sizeof(AdiumMediaClass),
 			NULL,
 			NULL,
 			(GClassInitFunc) adium_media_class_init,
 			NULL,
 			NULL,
+#warning 64BIT: Inspect use of sizeof
 			sizeof(AdiumMedia),
 			0,
 			(GInstanceInitFunc) adium_media_init,
@@ -140,6 +142,7 @@ adium_media_class_init (AdiumMediaClass *klass)
 			GST_TYPE_ELEMENT,
 			G_PARAM_READWRITE));
 
+#warning 64BIT: Inspect use of sizeof
 	g_type_class_add_private(klass, sizeof(AdiumMediaPrivate));
 }
 
@@ -162,7 +165,7 @@ adium_media_delete_event_cb(GtkWidget *widget,
 }
 
 #ifdef HAVE_X11
-static int
+static NSInteger
 adium_x_error_handler(Display *display, XErrorEvent *event)
 {
 	const gchar *error_type;
@@ -210,6 +213,8 @@ static GtkItemFactoryEntry menu_items[] = {
 	{ N_("/Media/_Hangup"), NULL, menu_hangup, 0, "<Item>", NULL },
 };
 
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 static gint menu_item_count = sizeof(menu_items) / sizeof(menu_items[0]);
 
 static const char *
@@ -445,14 +450,14 @@ adium_media_error_cb(AdiumMedia *media, const char *error, AdiumMedia *gtkmedia)
 }
 
 static void
-adium_media_accept_cb(PurpleMedia *media, int index)
+adium_media_accept_cb(PurpleMedia *media, NSInteger index)
 {
 	purple_media_stream_info(media, PURPLE_MEDIA_INFO_ACCEPT,
 			NULL, NULL, TRUE);
 }
 
 static void
-adium_media_reject_cb(PurpleMedia *media, int index)
+adium_media_reject_cb(PurpleMedia *media, NSInteger index)
 {
 	purple_media_stream_info(media, PURPLE_MEDIA_INFO_REJECT,
 			NULL, NULL, TRUE);

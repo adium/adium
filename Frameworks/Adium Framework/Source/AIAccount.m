@@ -271,7 +271,7 @@ typedef enum
  *
  * If this implementation is not called, dialog should be released by the subclass.
  */
-- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(int)returnCode
+- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode
 {
 	if(returnCode == NSAlertDefaultReturn) {
 		[self performDelete];

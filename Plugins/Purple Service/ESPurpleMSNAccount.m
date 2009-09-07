@@ -150,7 +150,7 @@
 	purple_account_set_bool(account, "http_method", HTTPConnect);
 }
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{
@@ -346,7 +346,7 @@
 			 * part of an encoded character being cut off, so we instead truncate to smaller and smaller strings and encode, until it fits
 			 */
 			const char *friendlyNameUTF8String = [friendlyName UTF8String];
-			int currentMaxNumberOfPreEncodedCharacters = BUDDY_ALIAS_MAXLEN;
+			NSInteger currentMaxNumberOfPreEncodedCharacters = BUDDY_ALIAS_MAXLEN;
 
 			while (friendlyNameUTF8String &&
 				   strlen(purple_url_encode(friendlyNameUTF8String)) > BUDDY_ALIAS_MAXLEN) {

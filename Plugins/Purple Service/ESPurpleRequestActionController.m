@@ -50,7 +50,7 @@
 		NSArray				*buttonNamesArray;
 		NSString			*title = nil, *message = nil;
 		NSString			*messageHeader = nil, *defaultButton = nil, *alternateButton = nil, *otherButton = nil;
-		unsigned			buttonNamesArrayCount;
+		NSUInteger			buttonNamesArrayCount;
 
 		infoDict = [self translatedInfoDict:infoDict];
 
@@ -118,8 +118,8 @@
 - (BOOL)textAndButtonsWindowDidEnd:(NSWindow *)window returnCode:(AITextAndButtonsReturnCode)returnCode suppression:(BOOL)suppression userInfo:(id)userInfo
 {
 	GCallback		*theCallBacks;
-	unsigned int	actionCount;
-	int				callBackIndex;
+	NSUInteger	actionCount;
+	NSInteger				callBackIndex;
 
 	theCallBacks = [[userInfo objectForKey:@"callBacks"] pointerValue];
 	actionCount = [[userInfo objectForKey:@"Button Names"] count];
@@ -146,7 +146,7 @@
 	if ((callBackIndex != -1) && (theCallBacks[callBackIndex] != NULL)) {
 		[self doRequestActionCbValue:[NSValue valueWithPointer:theCallBacks[callBackIndex]]
 				   withUserDataValue:[userInfo objectForKey:@"userData"]
-					   callBackIndex:[NSNumber numberWithInt:callBackIndex]];
+					   callBackIndex:[NSNumber numberWithInteger:callBackIndex]];
 
 	} else {
 		NSLog(@"Failure.");
@@ -169,7 +169,7 @@
 
 	PurpleRequestActionCb callBack = [callBackValue pointerValue];
 	if (callBack) {
-		callBack([userDataValue pointerValue],[callBackIndexNumber intValue]);
+		callBack([userDataValue pointerValue],[callBackIndexNumber integerValue]);
 	}
 }
 

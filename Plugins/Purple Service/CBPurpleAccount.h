@@ -86,7 +86,7 @@
 - (void)configureAccountProxyNotifyingTarget:(id)target selector:(SEL)selector;
 - (void)disconnect;
 - (PurpleConnectionError)lastDisconnectionReason;
-- (NSString *)connectionStringForStep:(int)step;
+- (NSString *)connectionStringForStep:(NSInteger)step;
 - (void)configurePurpleAccount;
 - (PurpleSslConnection *)secureConnection;
 

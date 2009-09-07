@@ -104,7 +104,7 @@
 }
 
 #pragma mark Connection
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{
@@ -227,7 +227,7 @@
 
 		if (f->status == YAHOO_STATUS_IDLE) {
 			//Now idle
-			int		idle = f->idle;
+			NSInteger		idle = f->idle;
 			NSDate	*idleSince;
 			
 			if (idle != -1) {
@@ -241,7 +241,7 @@
 								 notify:NotifyLater];
 			
 		} else if (f->status == YAHOO_STATUS_INVISIBLE) {
-			statusTypeNumber = [NSNumber numberWithInt:AIInvisibleStatusType]; /* Invisible has a special status type */
+			statusTypeNumber = [NSNumber numberWithInteger:AIInvisibleStatusType]; /* Invisible has a special status type */
 		}
 	}
 

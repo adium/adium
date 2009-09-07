@@ -35,7 +35,7 @@
     return "prpl-gg";
 }
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{

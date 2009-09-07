@@ -217,7 +217,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	return shouldAttemptReconnect;
 }
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{
@@ -553,7 +553,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	if (purpleImagesToUnref) {
 		NSNumber	 *imgstoreNumber;
 		for (imgstoreNumber in purpleImagesToUnref) {
-			purple_imgstore_unref_by_id([imgstoreNumber intValue]);			
+			purple_imgstore_unref_by_id([imgstoreNumber integerValue]);			
 		}
 		
 		[purpleImagesToUnref release]; purpleImagesToUnref = nil;
@@ -697,11 +697,11 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 						if (![[filename pathExtension] length])
 							filename = [filename stringByAppendingPathExtension:extension];
 
-						unsigned imgBytesLength = [imageData length];
+						NSUInteger imgBytesLength = [imageData length];
 						gpointer imgBytes = malloc(imgBytesLength);
 						[imageData getBytes:imgBytes];
 						/* purple_imgstore_add_with_id() will take ownership of imgBytes and free it when done*/
-						int	imgstore = purple_imgstore_add_with_id(imgBytes, imgBytesLength, [filename UTF8String]);
+						NSInteger	imgstore = purple_imgstore_add_with_id(imgBytes, imgBytesLength, [filename UTF8String]);
 						
 						AILog(@"Adding image id %i with name %s", imgstore, (filename ? [filename UTF8String] : "(null)"));
 						
@@ -709,7 +709,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 						[processedString appendString:newTag];
 						
 						if (!purpleImagesToUnref) purpleImagesToUnref = [[NSMutableSet alloc] init];
-						[purpleImagesToUnref addObject:[NSNumber numberWithInt:imgstore]];
+						[purpleImagesToUnref addObject:[NSNumber numberWithInteger:imgstore]];
 					}
 				}
 				
@@ -753,7 +753,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	 * before someone will notice this "odd" behavior and file a bug report... -evands
 	 */
 	 
-	if ((theContact.statusType == [statusTypeNumber intValue]) &&
+	if ((theContact.statusType == [statusTypeNumber integerValue]) &&
 		((statusName && !theContact.statusName) || [theContact.statusName isEqualToString:statusName])) {
 		//Type and name match...
 		NSString *currentStatusMessage = [theContact statusMessageString];
@@ -822,8 +822,8 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	NSString *onlineSinceKey = [NSString stringWithUTF8String:_("Online Since")];
 	NSString *memberSinceKey = [NSString stringWithUTF8String:_("Member Since")];
 
-	int i;
-	unsigned int count = [array count];
+	NSInteger i;
+	NSUInteger count = [array count];
 	for (i = 0; i < count; i++) {
 		NSDictionary *dict = [array objectAtIndex:i];
 		NSString *key = [dict objectForKey:KEY_KEY];

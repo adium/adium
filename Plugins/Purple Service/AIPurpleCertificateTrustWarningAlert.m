@@ -100,7 +100,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 	if(err == noErr) {
 		// Did we ask the user to confirm this certificate before?
 		// Note that this information is not stored on the disk, which is on purpose.
-		NSUInteger oldCertHash = [[acceptedCertificates objectForKey:hostname] unsignedIntValue];
+		NSUInteger oldCertHash = [[acceptedCertificates objectForKey:hostname] unsignedIntegerValue];
 		if (oldCertHash) {
 			NSData *certData = [[NSData alloc] initWithBytesNoCopy:data.Data length:data.Length freeWhenDone:NO];
 			NSUInteger newCertHash = [certData hash];
@@ -278,7 +278,7 @@ static SecPolicyRef SSLSecPolicyCopy()
 	[self runTrustPanelOnWindow:window];	
 }
 
-- (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	BOOL didTrustCerficate = (returnCode == NSOKButton);
 	NSWindow *parentWindow = (NSWindow *)contextInfo;
 
@@ -290,7 +290,7 @@ static SecPolicyRef SSLSecPolicyCopy()
 		CSSM_DATA certdata;
 		OSStatus err = SecCertificateGetData((SecCertificateRef)CFArrayGetValueAtIndex(certificates, 0), &certdata);
 		if(err == noErr) {
-			[acceptedCertificates setObject:[NSNumber numberWithUnsignedInt:[[NSData dataWithBytes:certdata.Data length:certdata.Length] hash]]
+			[acceptedCertificates setObject:[NSNumber numberWithUnsignedInteger:[[NSData dataWithBytes:certdata.Data length:certdata.Length] hash]]
 									 forKey:hostname];
 		}
 	}

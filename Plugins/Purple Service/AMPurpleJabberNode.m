@@ -7,7 +7,7 @@
 
 #import "AMPurpleJabberNode.h"
 
-static unsigned iqCounter = 0;
+static NSUInteger iqCounter = 0;
 
 @interface AMPurpleJabberNode()
 @property (readwrite, copy, nonatomic) NSString *name;
@@ -234,7 +234,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
-	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%u,",[self className], iqCounter++]]];
+	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%lu,",[self className], iqCounter++]]];
 	
 	NSXMLElement *query = [NSXMLNode elementWithName:@"query"];
 	[query addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://jabber.org/protocol/disco#items"]];
@@ -256,7 +256,7 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	[iq addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"get"]];
 	if (jid)
 		[iq addAttribute:[NSXMLNode attributeWithName:@"to" stringValue:jid]];
-	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%u",[self className], iqCounter++]]];
+	[iq addAttribute:[NSXMLNode attributeWithName:@"id" stringValue:[NSString stringWithFormat:@"%@%lu",[self className], iqCounter++]]];
 	
 	NSXMLElement *query = [NSXMLNode elementWithName:@"query"];
 	[query addNamespace:[NSXMLNode namespaceWithName:@"" stringValue:@"http://jabber.org/protocol/disco#info"]];

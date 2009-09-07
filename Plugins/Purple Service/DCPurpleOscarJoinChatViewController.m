@@ -74,7 +74,7 @@
 - (void)joinChatWithAccount:(AIAccount *)inAccount
 {	
 	NSString		*room;
-	int				exchange;
+	NSInteger				exchange;
 	NSDictionary	*chatCreationInfo;
 	
 	//Obtain room and exchange from the view
@@ -85,7 +85,7 @@
 		exchange = 4;
 				
 		//The chatCreationInfo has keys corresponding to the GHashTable keys and values to match them.
-		chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:room,@"room",[NSNumber numberWithInt:exchange],@"exchange",nil];
+		chatCreationInfo = [NSDictionary dictionaryWithObjectsAndKeys:room,@"room",[NSNumber numberWithInteger:exchange],@"exchange",nil];
 		
 		NSString *invitationMessage = [textField_inviteMessage stringValue];
 		

@@ -20,6 +20,7 @@
 #import <Adium/AIService.h>
 #import <Adium/AIContactList.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#include <tgmath.h>
 
 #define SERVERFEEDRSSURL @"http://xmpp.org/services/services-full.xml"
 
@@ -75,7 +76,7 @@
 	[textField_ftProxies setStringValue:ftProxies ?: @""];
 		
 	//Subscription behavior
-	int subbeh = [[account preferenceForKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR group:GROUP_ACCOUNT_STATUS] intValue];
+	NSInteger subbeh = [[account preferenceForKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR group:GROUP_ACCOUNT_STATUS] integerValue];
 	[popup_subscriptionBehavior selectItemWithTag:subbeh];
 	NSString *defaultGroup = [account preferenceForKey:KEY_JABBER_SUBSCRIPTION_GROUP group:GROUP_ACCOUNT_STATUS];
 	[comboBox_subscriptionGroup setStringValue:(defaultGroup ? defaultGroup : @"")];
@@ -115,15 +116,15 @@
 					forKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
 	
 	//Priority
-	[account setPreference:([textField_priorityAvailable intValue] ? [NSNumber numberWithInt:[textField_priorityAvailable intValue]] : nil)
+	[account setPreference:([textField_priorityAvailable integerValue] ? [NSNumber numberWithInteger:[textField_priorityAvailable integerValue]] : nil)
 					forKey:KEY_JABBER_PRIORITY_AVAILABLE
 					 group:GROUP_ACCOUNT_STATUS];
-	[account setPreference:([textField_priorityAway intValue] ? [NSNumber numberWithInt:[textField_priorityAway intValue]] : nil)
+	[account setPreference:([textField_priorityAway integerValue] ? [NSNumber numberWithInteger:[textField_priorityAway integerValue]] : nil)
 					forKey:KEY_JABBER_PRIORITY_AWAY
 					 group:GROUP_ACCOUNT_STATUS];
 
 	//Subscription Behavior
-	[account setPreference:([[popup_subscriptionBehavior selectedItem] tag] ? [NSNumber numberWithInt:[[popup_subscriptionBehavior selectedItem] tag]] : nil)
+	[account setPreference:([[popup_subscriptionBehavior selectedItem] tag] ? [NSNumber numberWithInteger:[[popup_subscriptionBehavior selectedItem] tag]] : nil)
 					forKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR
 					 group:GROUP_ACCOUNT_STATUS];
 	[account setPreference:([[comboBox_subscriptionGroup stringValue] length] ? [comboBox_subscriptionGroup stringValue] : nil)
@@ -132,7 +133,7 @@
 
 - (IBAction)subscriptionModeDidChange:(id)sender {
 	// only show these two when "accept and add to contact list" is selected
-	int tag = [[popup_subscriptionBehavior selectedItem] tag];
+	NSInteger tag = [[popup_subscriptionBehavior selectedItem] tag];
 	[textField_subscriptionModeLabel setHidden:tag != 2];
 	[comboBox_subscriptionGroup setHidden:tag != 2];
 }
@@ -192,8 +193,8 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	if((id)dist1obj == [NSNull null])
 		return NSOrderedDescending;
 	
-	float dist1 = [dist1obj floatValue];
-	float dist2 = [dist2obj floatValue];
+	CGFloat dist1 = [dist1obj doubleValue];
+	CGFloat dist2 = [dist2obj doubleValue];
 	
 	if(fabs(dist1 - dist2) < 0.000001)
 		return NSOrderedSame;
@@ -227,8 +228,8 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 				MachineLocation loc;
 				ReadLocation(&loc);
 				
-				float latitude = FractToFloat(loc.latitude)*(M_PI/2.0f);
-				float longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
+				CGFloat latitude = FractToFloat(loc.latitude)*(M_PI/2.0f);
+				CGFloat longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
 				
 				servers = [[NSMutableArray alloc] init];
 				
@@ -250,16 +251,16 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 						 * If it turns out to be flat or doughnut-shaped, this will not work!
 						 */
 						
-						float latitude2 = [[latitudeNode stringValue] floatValue] * (M_PI/180.0f);
-						float longitude2 = [[longitudeNode stringValue] floatValue] * (M_PI/180.0f);
+						CGFloat latitude2 = [[latitudeNode stringValue] doubleValue] * (M_PI/180.0f);
+						CGFloat longitude2 = [[longitudeNode stringValue] doubleValue] * (M_PI/180.0f);
 						
-						float d_lat = sinf((latitude2 - latitude)/2.0);
-						float d_long = sinf((longitude2 - longitude)/2.0);
-						float a = d_lat*d_lat + cosf(latitude)*cosf(latitude2)*d_long*d_long;
-						float c = 2*atan2f(sqrtf(a),sqrtf(1.0-a));
-						float d = 6372.797*c; // mean earth radius
+						CGFloat d_lat = sinf((latitude2 - latitude)/2.0);
+						CGFloat d_long = sinf((longitude2 - longitude)/2.0);
+						CGFloat a = d_lat*d_lat + cosf(latitude)*cosf(latitude2)*d_long*d_long;
+						CGFloat c = 2*atan2f(sqrt(a),sqrt(1.0-a));
+						CGFloat d = 6372.797*c; // mean earth radius
 						
-						distance = [NSNumber numberWithFloat:d];
+						distance = [NSNumber numberWithDouble:d];
 					}
 					
 					[(NSMutableArray*)servers addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -285,7 +286,7 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 		  contextInfo:NULL];
 }
 
-- (void)registrationSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+- (void)registrationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	
 }
@@ -328,7 +329,7 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 		return;
 	}
 	
-	[account setPreference:[NSNumber numberWithInt:[textField_registerServerPort intValue]]
+	[account setPreference:[NSNumber numberWithInteger:[textField_registerServerPort integerValue]]
 					forKey:KEY_CONNECT_PORT group:GROUP_ACCOUNT_STATUS];
 
 	NSString *newUID;

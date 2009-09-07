@@ -294,7 +294,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
 {
 	[theContact setStatusWithName:statusName
-					   statusType:[statusTypeNumber intValue]
+					   statusType:[statusTypeNumber integerValue]
 						   notify:NotifyLater];
 	[theContact setStatusMessage:statusMessage
 						  notify:NotifyLater];
@@ -325,7 +325,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 //Evil level (warning level)
 - (void)updateEvil:(AIListContact *)theContact withData:(NSNumber *)evilNumber
 {
-	[theContact setWarningLevel:[evilNumber intValue]
+	[theContact setWarningLevel:[evilNumber integerValue]
 						 notify:NotifyLater];
 
 	//Apply any changes
@@ -398,13 +398,13 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			case PURPLE_NOTIFY_USER_INFO_ENTRY_SECTION_HEADER:
 				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 								  [NSString stringWithUTF8String:purple_notify_user_info_entry_get_label(user_info_entry)], KEY_KEY,
-								  [NSNumber numberWithInt:AIUserInfoSectionHeader], KEY_TYPE,
+								  [NSNumber numberWithInteger:AIUserInfoSectionHeader], KEY_TYPE,
 								  nil]];
 				
 				break;
 			case PURPLE_NOTIFY_USER_INFO_ENTRY_SECTION_BREAK:
 				[array addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-								  [NSNumber numberWithInt:AIUserInfoSectionBreak], KEY_TYPE,
+								  [NSNumber numberWithInteger:AIUserInfoSectionBreak], KEY_TYPE,
 								  nil]];
 				break;
 				
@@ -451,8 +451,8 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 	NSString *webProfileValue = [NSString stringWithFormat:@"%s</a>", _("View web profile")];
 	
-	int i;
-	unsigned int count = [array count];
+	NSInteger i;
+	NSUInteger count = [array count];
 	for (i = 0; i < count; i++) {
 		NSDictionary *dict = [array objectAtIndex:i];
 		NSString *value = [dict objectForKey:KEY_VALUE];
@@ -1129,7 +1129,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateForChat:(AIChat *)chat type:(NSNumber *)type
 {
-	AIChatUpdateType	updateType = [type intValue];
+	AIChatUpdateType	updateType = [type integerValue];
 	NSString			*key = nil;
 	switch (updateType) {
 		case AIChatTimedOut:
@@ -1563,7 +1563,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 			AILog(@"Set privacy options for %@ (%x %x) to %i",
 				  self,account,purple_account_get_connection(account),account->perm_deny);
 
-			[self setPreference:[NSNumber numberWithInt:option]
+			[self setPreference:[NSNumber numberWithInteger:option]
 						 forKey:KEY_PRIVACY_OPTION
 						  group:GROUP_ACCOUNT_STATUS];			
 		}
@@ -1684,7 +1684,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 //Update an ESFileTransfer object progress
 - (void)updateProgressForFileTransfer:(ESFileTransfer *)fileTransfer percent:(NSNumber *)percent bytesSent:(NSNumber *)bytesSent
 {
-	float percentDone = [percent floatValue];
+	CGFloat percentDone = [percent doubleValue];
     [fileTransfer setPercentDone:percentDone bytesSent:[bytesSent unsignedLongValue]];
 }
 
@@ -1881,7 +1881,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)configurePurpleAccount
 {
 	NSString	*hostName;
-	int			portNumber;
+	NSInteger			portNumber;
 
 	//Host (server)
 	hostName = [self hostForPurple];
@@ -1975,7 +1975,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 }
 
 //Sublcasses should override to provide a string for each progress step
-- (NSString *)connectionStringForStep:(int)step { return nil; };
+- (NSString *)connectionStringForStep:(NSInteger)step { return nil; };
 
 /*!
  * @brief Should the account's status be updated as soon as it is connected?
@@ -2021,7 +2021,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)accountConnectionProgressStep:(NSNumber *)step percentDone:(NSNumber *)connectionProgressPrecent
 {
-	NSString	*connectionProgressString = [self connectionStringForStep:[step intValue]];
+	NSString	*connectionProgressString = [self connectionStringForStep:[step integerValue]];
 
 	[self setValue:connectionProgressString forProperty:@"ConnectionProgressString" notify:NO];
 	[self setValue:connectionProgressPrecent forProperty:@"ConnectionProgressPercent" notify:NO];	
@@ -2029,7 +2029,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	//Apply any changes
 	[self notifyOfChangedPropertiesSilently:NO];
 	
-	AILog(@"************ %@ --step-- %i",self.UID,[step intValue]);
+	AILog(@"************ %@ --step-- %i",self.UID,[step integerValue]);
 }
 
 /*!
@@ -2357,8 +2357,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 		[arguments setObject:(name ? name : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TITLE]];
 		[arguments setObject:([tuneinfo objectForKey:ITUNES_ALBUM] ? [tuneinfo objectForKey:ITUNES_ALBUM] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_ALBUM]];
 		[arguments setObject:([tuneinfo objectForKey:ITUNES_GENRE] ? [tuneinfo objectForKey:ITUNES_GENRE] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_GENRE]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
-		[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInt:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_TOTAL_TIME] ? [tuneinfo objectForKey:ITUNES_TOTAL_TIME]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_TIME]];
+		[arguments setObject:([tuneinfo objectForKey:ITUNES_YEAR] ? [tuneinfo objectForKey:ITUNES_YEAR]:[NSNumber numberWithInteger:-1]) forKey:[NSString stringWithUTF8String:PURPLE_TUNE_YEAR]];
 		[arguments setObject:([tuneinfo objectForKey:ITUNES_STORE_URL] ? [tuneinfo objectForKey:ITUNES_STORE_URL] : @"") forKey:[NSString stringWithUTF8String:PURPLE_TUNE_URL]];
 		
 		[arguments setObject:[NSString stringWithFormat:@"%@%@%@", (name ? name : @""), (name && artist ? @" - " : @""), (artist ? artist : @"")]
@@ -2542,7 +2542,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 			if (prpl_info && (prpl_info->icon_spec.format)) {
 				BOOL		smallEnough, prplScales;
-				unsigned	i;
+				NSUInteger	i;
 				
 				/* We need to scale it down if:
 				 *	1) The prpl needs to scale before it sends to the server or other buddies AND
@@ -2555,8 +2555,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 				prplScales = (prpl_info->icon_spec.scale_rules & PURPLE_ICON_SCALE_SEND) || (prpl_info->icon_spec.scale_rules & PURPLE_ICON_SCALE_DISPLAY);
 
 				if (prplScales && !smallEnough) {
-					int width = imageSize.width;
-					int height = imageSize.height;
+					gint width = (gint)imageSize.width;
+					gint height = (gint)imageSize.height;
 					
 					purple_buddy_icon_get_scale_size(&prpl_info->icon_spec, &width, &height);
 					//Determine the scaled size.  If it's too big, scale to the largest permissable size
@@ -2955,7 +2955,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	}
 }
 
-- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(int)returnCode
+- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode
 {
 	PurplePluginProtocolInfo *prpl_info = self.protocolInfo;
 	
@@ -3128,7 +3128,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 	NSAssert(!chat.isGroupChat, @"Chat cannot be a group chat for typing.");
 	
     AITypingState currentTypingState = [chat integerValueForProperty:KEY_TYPING];
-	AITypingState newTypingState = [typingStateNumber intValue];
+	AITypingState newTypingState = [typingStateNumber integerValue];
 	
     if (currentTypingState != newTypingState) {
 		if (newTypingState == AITyping && openPsychicChats && ![chat isOpen]) {

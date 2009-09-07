@@ -295,7 +295,7 @@
 }
 
 - (id)authorizationRequestWithDict:(NSDictionary*)dict {
-	switch ([[self preferenceForKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR group:GROUP_ACCOUNT_STATUS] intValue]) {
+	switch ([[self preferenceForKey:KEY_JABBER_SUBSCRIPTION_BEHAVIOR group:GROUP_ACCOUNT_STATUS] integerValue]) {
 		case 2: // always accept + add
 			// add
 			{
@@ -384,7 +384,7 @@
     return (AILocalizedString(@"Roster","Roster - the Jabber default group"));
 }
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step) {
 		case 0:
@@ -660,7 +660,7 @@
 	}
 
 	//Set our priority, which is actually set along with the status...Default is 0.
-	[arguments setObject:(priority ? priority : [NSNumber numberWithInt:0])
+	[arguments setObject:(priority ? priority : [NSNumber numberWithInteger:0])
 				  forKey:@"priority"];
 	
 	//We could potentially set buzz on a per-status basis. We have no UI for this, however.

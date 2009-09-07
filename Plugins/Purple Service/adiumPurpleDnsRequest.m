@@ -137,7 +137,7 @@ static void host_client_cb(CFHostRef theHost, CFHostInfoType typeInfo,
 		memcpy(addr_to_return, addr, addr->sa_len);
 		addr_to_return->sin_port = htons(port);
 
-		returnAddresses = g_slist_append(returnAddresses, GINT_TO_POINTER((int)(addr_to_return->sin_len)));
+		returnAddresses = g_slist_append(returnAddresses, GINT_TO_POINTER((NSInteger)(addr_to_return->sin_len)));
 		returnAddresses = g_slist_append(returnAddresses, addr_to_return);
 	}
 

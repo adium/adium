@@ -59,8 +59,8 @@ static void adiumPurpleWebcamNew(PurpleWebcam *gwc)
 static NSMutableData	*frameData = nil;
 
 static void adiumPurpleWebcamUpdate(PurpleWebcam *gwc,
-								  const unsigned char *image, unsigned int size,
-								  unsigned int timestamp, unsigned int id)
+								  const unsigned char *image, NSUInteger size,
+								  NSUInteger timestamp, NSUInteger id)
 {
 	AILog(@"adiumPurpleWebcamUpdate (Frame %i , %i bytes)", id, size);
 	
@@ -92,7 +92,7 @@ static void adiumPurpleWebcamUpdate(PurpleWebcam *gwc,
 	//	}
 }
 
-static void adiumPurpleWebcamFrameFinished(PurpleWebcam *wc, unsigned int id)
+static void adiumPurpleWebcamFrameFinished(PurpleWebcam *wc, NSUInteger id)
 {
 	AILog(@"adiumPurpleWebcamFrameFinished");
 	

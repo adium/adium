@@ -41,7 +41,7 @@ enum AMPurpleJabberAdHocCommandNoteType {
 - (void)setSessionid:(NSString *)_sessionid; /* this can be used by the AMPurpleJabberAdHocServerDelegate for tracking the specific session */
 
 /* actions is an NSArray of NSStrings, which can be any combination of @"execute", @"cancel", @"prev", @"next", @"complete" */
-- (AMPurpleJabberAdHocCommand *)generateReplyWithForm:(AMPurpleJabberFormGenerator *)form actions:(NSArray *)actions defaultAction:(unsigned)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status;
+- (AMPurpleJabberAdHocCommand *)generateReplyWithForm:(AMPurpleJabberFormGenerator *)form actions:(NSArray *)actions defaultAction:(NSUInteger)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status;
 - (AMPurpleJabberAdHocCommand *)generateReplyWithNote:(NSString *)text type:(enum AMPurpleJabberAdHocCommandNoteType)type status:(enum AMPurpleJabberAdHocCommandStatus)status;
 
 - (void)send;

@@ -89,7 +89,7 @@ static void buddy_event_cb(PurpleBuddy *buddy, PurpleBuddyEvent event)
 				break;
 			}
 			default: {
-				data = [NSNumber numberWithInt:event];
+				data = [NSNumber numberWithInteger:event];
 				break;
 			}
 		}
@@ -135,7 +135,7 @@ static void buddy_status_changed_cb(PurpleBuddy *buddy, PurpleStatus *oldstatus,
 	isAvailable = ((purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_AVAILABLE) ||
 				   (purple_status_type_get_primitive(purple_status_get_type(status)) == PURPLE_STATUS_OFFLINE));
 	isMobile = purple_presence_is_status_primitive_active(purple_buddy_get_presence(buddy), PURPLE_STATUS_MOBILE);
-	statusTypeNumber = [NSNumber numberWithInt:(isAvailable ? 
+	statusTypeNumber = [NSNumber numberWithInteger:(isAvailable ? 
 												AIAvailableStatusType : 
 												AIAwayStatusType)];
 
@@ -262,8 +262,8 @@ static NSDictionary *dictionaryFromHashTable(GHashTable *data)
 		void *value = g_hash_table_lookup(data, key);
 		NSString *keyString = [NSString stringWithUTF8String:key];
 		NSString *valueString = [NSString stringWithUTF8String:value];
-		if ([valueString intValue]) {
-			[dict setValue:[NSNumber numberWithInt:[valueString intValue]]
+		if ([valueString integerValue]) {
+			[dict setValue:[NSNumber numberWithInteger:[valueString integerValue]]
 					forKey:keyString];
 		}  else {
 			[dict setValue:valueString
@@ -306,14 +306,14 @@ static void typing_changed(PurpleAccount *acct, const char *name, AITypingState 
 	}
 
 	if (chat)
-		[account typingUpdateForIMChat:chat typing:[NSNumber numberWithInt:typingState]];
+		[account typingUpdateForIMChat:chat typing:[NSNumber numberWithInteger:typingState]];
 }
 
 static void conversation_created_cb(PurpleConversation *conv, void *data) {
 	if (purple_conversation_get_type(conv) == PURPLE_CONV_TYPE_IM) {
 		AIChat *chat = imChatLookupFromConv(conv);
 		//When a conversation is created, we must clear the typing flag, as libpurple won't notify us properly
-		[accountLookup(purple_conversation_get_account(conv)) typingUpdateForIMChat:chat typing:[NSNumber numberWithInt:AINotTyping]];
+		[accountLookup(purple_conversation_get_account(conv)) typingUpdateForIMChat:chat typing:[NSNumber numberWithInteger:AINotTyping]];
 	}
 }
 

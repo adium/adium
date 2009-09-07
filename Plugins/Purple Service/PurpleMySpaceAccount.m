@@ -15,7 +15,7 @@
     return "prpl-myspace";
 }
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step) {
 	case 0:

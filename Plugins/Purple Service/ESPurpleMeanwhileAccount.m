@@ -50,15 +50,15 @@ extern const char *mwServiceAware_getText(void *, void *);
 									group:GROUP_ACCOUNT_STATUS] boolValue];
 	purple_account_set_bool(account, MW_KEY_FAKE_IT, fakeIt);
 	if (fakeIt) {
-		int client;
+		NSInteger client;
 		if ((client = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeClient"]))
 			purple_account_set_int(account, MW_KEY_CLIENT, client);
 
-		int majorVersion;
+		NSInteger majorVersion;
 		if (!(majorVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeMajorVersion"]))
 			majorVersion = 0x001e;
 
-		int minorVersion;
+		NSInteger minorVersion;
 		if (!(minorVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeMinorVersion"]))
 			minorVersion = 0x196f;
 		
@@ -90,7 +90,7 @@ extern const char *mwServiceAware_getText(void *, void *);
 
 #pragma mark Status
 
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{

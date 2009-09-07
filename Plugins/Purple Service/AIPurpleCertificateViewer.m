@@ -48,7 +48,7 @@
 	[panel beginSheetForWindow:window modalDelegate:self didEndSelector:@selector(certificateSheetDidEnd:returnCode:contextInfo:) contextInfo:window certificates:(NSArray*)certificatechain showGroup:YES];
 }
 
-- (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	NSWindow *win = (NSWindow*)contextInfo;
 	[panel release];
 	[win performSelector:@selector(performClose:) withObject:nil afterDelay:0.0];

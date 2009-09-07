@@ -28,7 +28,7 @@ gboolean purple_init_novell_plugin(void);
 }
 
 #pragma mark Status
-- (NSString *)connectionStringForStep:(int)step
+- (NSString *)connectionStringForStep:(NSInteger)step
 {
 	switch (step)
 	{
