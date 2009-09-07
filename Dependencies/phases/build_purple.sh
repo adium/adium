@@ -147,6 +147,7 @@ build_libpurple() {
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/si.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/jabber.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/iq.h" \
+		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/irc/irc.h" \
 		  "$ROOTDIR/build/include/libpurple"
 	
 	quiet popd
