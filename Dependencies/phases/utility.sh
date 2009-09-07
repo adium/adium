@@ -32,11 +32,11 @@ log() {
 
 Running command:
 	${localPWD}/${@:1}
-" >> ${LOG_FILE}
+" >> ${LOG_FILE} >> ${ERR_FILE}
 
 	(
 		${@:1}
-	) >> ${LOG_FILE} 2>&1
+	) >> ${LOG_FILE} 2>> ${ERR_FILE}
 }
 
 ##
