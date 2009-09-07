@@ -188,7 +188,7 @@ typedef enum {
 - (void)willBeDeleted;
 @property (readonly, nonatomic) id<AIAccountControllerRemoveConfirmationDialog> confirmationDialogForAccountDeletion;
 @property (readonly, nonatomic) NSAlert *alertForAccountDeletion;
-- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(int)returnCode;
+- (void)alertForAccountDeletion:(id<AIAccountControllerRemoveConfirmationDialog>)dialog didReturn:(NSInteger)returnCode;
 @property (readonly, nonatomic) NSString *explicitFormattedUID;
 @property (readonly, nonatomic) BOOL useHostForPasswordServerName;
 @property (readonly, nonatomic) BOOL useInternalObjectIDForPasswordName;

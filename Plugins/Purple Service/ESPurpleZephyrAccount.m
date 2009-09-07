@@ -153,7 +153,7 @@ gboolean purple_init_zephyr_plugin(void);
         inData = [readHandle readDataToEndOfFile];
         [zhm waitUntilExit];
 
-        int status = [zhm terminationStatus];
+        NSInteger status = [zhm terminationStatus];
         if (status != 0 && status != -1) { 
 			//zhm returned an error (why is -1 also not an error???)
             NSString *tempString = [[NSString alloc] initWithData:inData encoding:NSASCIIStringEncoding];

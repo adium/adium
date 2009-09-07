@@ -48,7 +48,7 @@ static NSMutableDictionary	*sourceInfoDict = nil;
 @interface SourceInfo : NSObject {
 
 @public	CFSocketRef socket;
-@public	int fd;
+@public	NSInteger fd;
 @public	CFRunLoopSourceRef run_loop_source;
 	
 @public	guint timer_tag;
@@ -139,7 +139,7 @@ void updateSocketForSourceInfo(SourceInfo *sourceInfo)
 }
 
 gboolean adium_source_remove(guint tag) {
-	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:tag];
+	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:tag];
     SourceInfo *sourceInfo = (SourceInfo *)[sourceInfoDict objectForKey:tagNumber];
 	BOOL didRemove;
 
@@ -219,7 +219,7 @@ void callTimerFunc(CFRunLoopTimerRef timer, void *info)
 {
 	SourceInfo *sourceInfo = info;
 
-	if (![sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInt:sourceInfo->timer_tag]])
+	if (![sourceInfoDict objectForKey:[NSNumber numberWithUnsignedInteger:sourceInfo->timer_tag]])
 		NSLog(@"**** WARNING: %@ has already been removed, but we're calling its timer function!", info);
 
 	if (!sourceInfo->timer_function ||
@@ -250,7 +250,7 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 	info->timer_user_data = data;	
 	info->timer_tag = timer_tag;
 
-	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:timer_tag];
+	NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:timer_tag];
 	[sourceInfoDict setObject:info
 					   forKey:tagNumber];
 	[tagNumber release];
@@ -261,7 +261,7 @@ guint adium_timeout_add(guint interval, GSourceFunc function, gpointer data)
 	return timer_tag;
 }
 
-guint adium_input_add(int fd, PurpleInputCondition condition,
+guint adium_input_add(gint fd, PurpleInputCondition condition,
 					  PurpleInputFunction func, gpointer user_data)
 {	
 	if (fd < 0) {
@@ -308,7 +308,7 @@ guint adium_input_add(int fd, PurpleInputCondition condition,
 		info->read_ioFunction = func;
 		info->read_user_data = user_data;
 		
-		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:info->read_tag];
+		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:info->read_tag];
 		[sourceInfoDict setObject:info
 						   forKey:tagNumber];
 		[tagNumber release];
@@ -318,7 +318,7 @@ guint adium_input_add(int fd, PurpleInputCondition condition,
 		info->write_ioFunction = func;
 		info->write_user_data = user_data;
 		
-		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInt:info->write_tag];
+		NSNumber *tagNumber = [[NSNumber alloc] initWithUnsignedInteger:info->write_tag];
 		[sourceInfoDict setObject:info
 						   forKey:tagNumber];
 		[tagNumber release];
@@ -383,9 +383,9 @@ static void socketCallback(CFSocketRef s,
 	}
 }
 
-int adium_input_get_error(int fd, int *error)
+gint adium_input_get_error(gint fd, NSInteger *error)
 {
-	int		  ret;
+	gint		  ret;
 	socklen_t len;
 	len = sizeof(*error);
 	

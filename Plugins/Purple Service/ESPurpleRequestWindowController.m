@@ -58,7 +58,7 @@
 	NSRect		windowFrame;
 	NSWindow	*window;
 	
-	int			heightChange = 0;
+	NSInteger			heightChange = 0;
 
 	//Ensure the window is loaded
 	window = [self window];

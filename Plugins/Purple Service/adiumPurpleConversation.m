@@ -88,7 +88,7 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 									flags:flags];
 		} else {
 			NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
-			NSNumber			*purpleMessageFlags = [NSNumber numberWithInt:flags];
+			NSNumber			*purpleMessageFlags = [NSNumber numberWithInteger:flags];
 			NSString			*normalizedUID = get_real_name_for_account_conv_buddy(purpleAccount, conv, (char *)who);
 			
 			if (normalizedUID.length) {
@@ -148,7 +148,7 @@ static void adiumPurpleConvWriteIm(PurpleConversation *conv, const char *who,
 			messageString = processPurpleImages(messageString, adiumAccount);
 			
 			messageDict = [NSDictionary dictionaryWithObjectsAndKeys:messageString,@"Message",
-						   [NSNumber numberWithInt:flags],@"PurpleMessageFlags",
+						   [NSNumber numberWithInteger:flags],@"PurpleMessageFlags",
 						   [NSDate dateWithTimeIntervalSince1970:mtime],@"Date",nil];
 			
 			[adiumAccount receivedIMChatMessage:messageDict
@@ -214,7 +214,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		if (errorType != AIChatUnknownError) {
 			[accountLookup(purple_conversation_get_account(conv)) performSelector:@selector(errorForChat:type:)
 			 withObject:chat
-			 withObject:[NSNumber numberWithInt:errorType]
+			 withObject:[NSNumber numberWithInteger:errorType]
 			 afterDelay:0];
 		} else {
 			[adium.contentController performSelector:@selector(displayEvent:ofType:inChat:)
@@ -229,7 +229,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		BOOL				shouldDisplayMessage = TRUE;
 		if (strcmp(message, _("Direct IM established")) == 0) {
 			[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject
-											   forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_CONNECTED]];
+											   forEvent:[NSNumber numberWithInteger:PURPLE_BUDDY_DIRECTIM_CONNECTED]];
 			shouldDisplayMessage = FALSE;
 			
 		} else {
@@ -256,7 +256,7 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 												   inChat:chat];
 				}
 				
-				[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject forEvent:[NSNumber numberWithInt:PURPLE_BUDDY_DIRECTIM_DISCONNECTED]];
+				[accountLookup(purple_conversation_get_account(conv)) updateContact:chat.listObject forEvent:[NSNumber numberWithInteger:PURPLE_BUDDY_DIRECTIM_DISCONNECTED]];
 				shouldDisplayMessage = FALSE;
 			}
 		}
@@ -483,7 +483,7 @@ static void adiumPurpleConvUpdated(PurpleConversation *conv, PurpleConvUpdateTyp
 						break;
 				}
 
-				NSNumber	*typingStateNumber = [NSNumber numberWithInt:typingState];
+				NSNumber	*typingStateNumber = [NSNumber numberWithInteger:typingState];
 
 				[accountLookup(purple_conversation_get_account(conv)) typingUpdateForIMChat:imChatLookupFromConv(conv)
 															 typing:typingStateNumber];

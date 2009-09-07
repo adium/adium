@@ -52,7 +52,7 @@
 		const char *titlestr = purple_value_get_string(title);
 		const char *artiststr = NULL;
 		const char *albumstr = NULL;
-		int timeval = -1;
+		NSInteger timeval = -1;
 		if (!titlestr)
 			return nil;
 		if (artist)

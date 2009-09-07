@@ -105,7 +105,7 @@
 {
 	SEL updateSelector = nil;
 	
-	switch ([event intValue]) {
+	switch ([event integerValue]) {
 		case PURPLE_BUDDY_INFO_UPDATED: {
 			updateSelector = @selector(updateInfo:);
 			break;

@@ -162,11 +162,11 @@
 - (NSXMLElement*)xhtml {
 	NSXMLElement *result = [super xhtml];
 	
-	int defaultvalue = purple_request_field_int_get_default_value(field);
+	NSInteger defaultvalue = purple_request_field_int_get_default_value(field);
 	
 	NSXMLElement *textinput = [NSXMLNode elementWithName:@"input"];
 	[textinput addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"text"]];
-	[textinput addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%d",defaultvalue]]];
+	[textinput addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%ld",defaultvalue]]];
 	[textinput addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
 	// XXX add javascript to make sure this is integer-only
 
@@ -178,7 +178,7 @@
 }
 
 - (void)applyValue:(NSString*)value {
-	purple_request_field_int_set_value(field, [value intValue]);
+	purple_request_field_int_set_value(field, [value integerValue]);
 }
 
 @end
@@ -220,13 +220,13 @@
 	GList *labels = purple_request_field_choice_get_labels(field);
 	
 	guint len = g_list_length(labels);
-	int defaultvalue = purple_request_field_choice_get_default_value(field);
+	NSInteger defaultvalue = purple_request_field_choice_get_default_value(field);
 	
 	// Apple HIG: Don't use checkboxes for lists of more than 5 items, use a popupbutton instead
 	if(len > 5) {
 		NSXMLElement *popup = [NSXMLNode elementWithName:@"select"];
 		[popup addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
-		int i=0;
+		NSInteger i=0;
 		GList *label;
 		for(label = labels; label; label = g_list_next(label), ++i) {
 			const char *labelstr = label->data;
@@ -234,7 +234,7 @@
 				continue;
 			
 			NSXMLElement *option = [NSXMLNode elementWithName:@"option" stringValue:[NSString stringWithUTF8String:labelstr]];
-			[option addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%u",i]]];
+			[option addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%lu",i]]];
 			if(i == defaultvalue)
 				[option addAttribute:[NSXMLNode attributeWithName:@"selected" stringValue:@"selected"]];
 			[popup addChild:option];
@@ -243,7 +243,7 @@
 										   children:[NSArray arrayWithObject:popup]
 										 attributes:[NSArray arrayWithObject:[NSXMLNode attributeWithName:@"class" stringValue:@"input"]]]];
 	} else {
-		int i=0;
+		NSInteger i=0;
 		NSMutableArray *radios = [NSMutableArray array];
 		GList *label;
 		for(label = labels; label; label = g_list_next(label), ++i) {
@@ -253,7 +253,7 @@
 			
 			NSXMLElement *radiobutton = [NSXMLNode elementWithName:@"input"];
 			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"radio"]];
-			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%u",i]]];
+			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"value" stringValue:[NSString stringWithFormat:@"%lu",i]]];
 			[radiobutton addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[self key]]];
 
 			if(i == defaultvalue)
@@ -271,7 +271,7 @@
 }
 
 - (void)applyValue:(NSString*)value {
-	purple_request_field_choice_set_value(field, [value intValue]);
+	purple_request_field_choice_set_value(field, [value integerValue]);
 }
 
 @end

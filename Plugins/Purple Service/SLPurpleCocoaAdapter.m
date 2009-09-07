@@ -148,9 +148,9 @@ static NSMutableArray		*libpurplePluginArray = nil;
     return self;
 }
 
-static void ZombieKiller_Signal(int i)
+static void ZombieKiller_Signal(SInt32 i)
 {
-	int status;
+	SInt32 status;
 	pid_t child_pid;
 
 	while ((child_pid = waitpid(-1, &status, WNOHANG)) > 0);
@@ -485,7 +485,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 						char	*valueUTF8String = NULL;
 						
 						if ([value isKindOfClass:[NSNumber class]]) {
-							valueUTF8String = g_strdup_printf("%d",[value intValue]);
+							valueUTF8String = g_strdup_printf("%ld",[value integerValue]);
 
 						} else if ([value isKindOfClass:[NSString class]]) {
 							valueUTF8String = g_strdup([value UTF8String]);
@@ -549,7 +549,7 @@ PurpleConversation* existingConvLookupFromChat(AIChat *chat)
 
 void* adium_purple_get_handle(void)
 {
-	static int adium_purple_handle;
+	static NSInteger adium_purple_handle;
 	
 	return &adium_purple_handle;
 }
@@ -569,7 +569,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
     NSMutableString		*newString;
 	NSString			*targetString = @"<IMG ID=";
 	NSCharacterSet		*quoteApostropheCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"\"\'"];
-    int imageID;
+    NSInteger imageID;
 	
 	if ([inString rangeOfString:targetString options:NSCaseInsensitiveSearch].location == NSNotFound) {
 		return inString;
@@ -595,7 +595,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 			[scanner scanCharactersFromSet:quoteApostropheCharacterSet intoString:NULL];
 			
 			//Get the image ID from the tag
-			[scanner scanInt:&imageID];
+			[scanner scanInteger:&imageID];
 
 			//Skip past a quote or apostrophe
 			[scanner scanCharactersFromSet:quoteApostropheCharacterSet intoString:NULL];
@@ -639,7 +639,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 
 			} else {
 				//If we didn't get a purpleImage, just leave the tag for now.. maybe it was important?
-				[newString appendFormat:@"<IMG ID=\"%i\">",chunkString];
+				[newString appendFormat:@"<IMG ID=\"%ld\">",chunkString];
 			}
 		}
 	}
@@ -1214,7 +1214,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 				const char *value = NULL;
 
 				if ([valueObject isKindOfClass:[NSNumber class]])
-					value = GINT_TO_POINTER([valueObject intValue]);
+					value = GINT_TO_POINTER([valueObject integerValue]);
 				else if ([valueObject isKindOfClass:[NSString class]])
 					value = [valueObject UTF8String];
 				else
@@ -1301,7 +1301,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
 	if (account) {
-		unsigned len = [buddyImageData length];
+		NSUInteger len = [buddyImageData length];
 		/* purple_buddy_icons_set_account_icon() takes responsibility for the buddy icon memory */
 		purple_buddy_icons_set_account_icon(account, g_memdup([buddyImageData bytes], len), len);
 	}

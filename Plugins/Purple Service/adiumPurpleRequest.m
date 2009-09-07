@@ -127,7 +127,7 @@ static void *adiumPurpleRequestInput(
 }
 
 static void *adiumPurpleRequestChoice(const char *title, const char *primary,
-									const char *secondary, int defaultValue,
+									const char *secondary, gint defaultValue,
 									const char *okText, GCallback okCb,
 									const char *cancelText, GCallback cancelCb,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
@@ -143,7 +143,7 @@ static void *adiumPurpleRequestChoice(const char *title, const char *primary,
 
 //Purple requests the user take an action such as accept or deny a buddy's attempt to add us to her list 
 static void *adiumPurpleRequestAction(const char *title, const char *primary,
-									const char *secondary, int default_action,
+									const char *secondary, gint default_action,
 									PurpleAccount *account, const char *who, PurpleConversation *conv,
 									void *userData,
 									size_t actionCount, va_list actions)
@@ -151,7 +151,7 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
     NSString			*titleString = (title ? [NSString stringWithUTF8String:title] : @"");
 	NSString			*primaryString = (primary ? [NSString stringWithUTF8String:primary] : nil);
 	id					requestController = nil;
-	int					i;
+	NSInteger					i;
 	BOOL				handled = NO;
 
 	if (primaryString && ([primaryString isEqualToString:[NSString stringWithFormat:[NSString stringWithUTF8String:_("%s has just asked to directly connect to %s")],
@@ -160,7 +160,7 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
 
 		// Look up the user preference for this setting -- we use the same settings as the File Transfer code.
 		AIFileTransferAutoAcceptType autoAccept = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT 
-																							group:PREF_GROUP_FILE_TRANSFER] intValue];
+																							group:PREF_GROUP_FILE_TRANSFER] integerValue];
 		if ((autoAccept == AutoAccept_All) || 
 			((autoAccept == AutoAccept_FromContactList) && adiumContact && [adiumContact isIntentionallyNotAStranger])) {
 			GCallback ok_cb;
@@ -199,7 +199,7 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
 		}
 		
 		//Make default_action (or first if none specified) the last one
-		if (default_action < (int)actionCount-1) {
+		if (default_action < (NSInteger)actionCount-1) {
 			// If there's no default_action, assume the first one is, and move it to the end.
 			if (default_action == -1)
 				default_action = 0;

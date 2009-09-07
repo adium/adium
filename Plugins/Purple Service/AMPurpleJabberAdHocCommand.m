@@ -55,7 +55,7 @@
 	[old release];
 }
 
-- (AMPurpleJabberAdHocCommand*)generateReplyWithForm:(AMPurpleJabberFormGenerator*)form actions:(NSArray*)actions defaultAction:(unsigned)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status {
+- (AMPurpleJabberAdHocCommand*)generateReplyWithForm:(AMPurpleJabberFormGenerator*)form actions:(NSArray*)actions defaultAction:(NSUInteger)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status {
 	const char *nodeattr = xmlnode_get_attrib(command,"node");
 	if(!nodeattr)
 		return nil;
@@ -146,7 +146,7 @@
 		xmlnode_set_attrib(cmdcopy, "sessionid", [sessionid UTF8String]);
 	xmlnode_insert_child(iq, cmdcopy);
 	
-	int len = 0;
+	gint len = 0;
 	char *text = xmlnode_to_str(iq, &len);
 	PURPLE_PLUGIN_PROTOCOL_INFO(purple_account_get_connection(account)->prpl)->send_raw(purple_account_get_connection(account), text, len);
 	g_free(text);

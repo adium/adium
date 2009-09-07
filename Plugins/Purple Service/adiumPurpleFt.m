@@ -41,7 +41,7 @@ static void adiumPurpleUpdateProgress(PurpleXfer *xfer, double percent)
 	
 	if (fileTransfer) {
 		[accountLookup(xfer->account) updateProgressForFileTransfer:fileTransfer
-															percent:[NSNumber numberWithFloat:percent]
+															percent:[NSNumber numberWithDouble:percent]
 														  bytesSent:[NSNumber numberWithUnsignedLong:xfer->bytes_sent]];
 	}
 }

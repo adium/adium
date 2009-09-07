@@ -1,4 +1,3 @@
-
 @protocol AILibpurplePlugin <AIPlugin>
 /*!
  * @brief Perform early libpurple-specific installation of the plugin. 

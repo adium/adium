@@ -73,7 +73,7 @@ static NSImage *det_triangle_closed = nil;
 
 - (IBAction)openService:(id)sender
 {
-    int row = [outlineview clickedRow];
+    NSInteger row = [outlineview clickedRow];
     if (row != -1) {
 		AMPurpleJabberNode *item = [outlineview itemAtRow:row];
 		NSArray *identities = [item identities];
@@ -130,7 +130,7 @@ static NSImage *det_triangle_closed = nil;
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent
 {
 	NSMenu	*menu = nil;
-	int		row = [outlineView rowAtPoint:[outlineView convertPoint:[theEvent locationInWindow]
+	NSInteger		row = [outlineView rowAtPoint:[outlineView convertPoint:[theEvent locationInWindow]
 														fromView:nil]];
 	
 	if (row != -1) {
@@ -352,7 +352,7 @@ static NSImage *det_triangle_closed = nil;
 				NSButtonCell *triangleCell = [[NSButtonCell alloc] initImageCell:nil];
 				[triangleCell setButtonType:NSOnOffButton];
 				[triangleCell setBezelStyle:NSDisclosureBezelStyle];
-				[triangleCell setIntValue:NSOffState];
+				[triangleCell setIntegerValue:NSOffState];
 				
 				[det_triangle_closed lockFocus];
 				[triangleCell drawWithFrame:NSMakeRect(0.0,0.0,13.0,13.0) inView:outlineView];

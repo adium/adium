@@ -48,7 +48,7 @@ struct mwPurplePluginData {
 	guint save_event;
 	
 	/** socket fd */
-	int socket;
+	NSInteger socket;
 	
 	PurpleConnection *gc;
 };

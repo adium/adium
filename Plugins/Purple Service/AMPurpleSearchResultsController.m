@@ -21,7 +21,7 @@
 		purpleresults = results;
 		
 		// add the action buttons
-		float offset = [buttonview frame].size.width - 20.0f;
+		CGFloat offset = [buttonview frame].size.width - 20.0f;
 		searchButtons = [[NSMutableDictionary alloc] init];
 		GList *but;
 		for(but = results->buttons; but; but = g_list_next(but)) {
@@ -82,11 +82,11 @@
 			[tableview removeTableColumn:[[tableview tableColumns] objectAtIndex:0]];
 		
 		// add the ones we need
-		unsigned index = 0;
+		NSUInteger index = 0;
 		GList *column;
 		for(column = results->columns; column; column = g_list_next(column)) {
 			PurpleNotifySearchColumn *scol = column->data;
-			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithUnsignedInt:index++]];
+			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:index++]];
 			
 			if(scol->title)
 				[[tcol headerCell] setStringValue:[NSString stringWithUTF8String:scol->title]];
@@ -100,13 +100,13 @@
 		GList *row;
 		for(row = results->rows; row; row = g_list_next(row)) {
 			NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-			unsigned col = 0;
+			NSUInteger col = 0;
 			[searchResults addObject:dict];
 			GList *cell;
 			for(cell = row->data; cell; cell = g_list_next(cell)) {
 				const char *text = cell->data;
 				if(text)
-					[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInt:col++]];
+					[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInteger:col++]];
 			}
 			[dict release];
 		}
@@ -129,13 +129,13 @@
 	GList *row;
 	for(row = results->rows; row; row = g_list_next(row)) {
 		NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-		unsigned col = 0;
+		NSUInteger col = 0;
 		[searchResults addObject:dict];
 		GList *cell;
 		for(cell = row->data; cell; cell = g_list_next(cell)) {
 			const char *text = cell->data;
 			if(text)
-				[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInt:col++]];
+				[dict setObject:[NSString stringWithUTF8String:text] forKey:[NSNumber numberWithUnsignedInteger:col++]];
 		}
 		[dict release];
 	}
@@ -174,7 +174,7 @@
 		NSBeep();
 		return;
 	}
-	int row = [tableview selectedRow];
+	NSInteger row = [tableview selectedRow];
 	GList *rowptr = NULL;
 	if(row != -1)
 		rowptr = g_list_nth_data(purpleresults->rows,row);

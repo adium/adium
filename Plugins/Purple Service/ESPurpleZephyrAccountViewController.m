@@ -132,7 +132,7 @@
  * @brief Remove the selected row from the list of servers.
  */
 - (IBAction)removeSelectedRowFromServerList:(id)sender {
-    int idx = [tableView_servers selectedRow];
+    NSInteger idx = [tableView_servers selectedRow];
     if (idx != -1) {
         NSMutableArray *ray = [[account preferenceForKey:KEY_ZEPHYR_SERVERS group:GROUP_ACCOUNT_STATUS] mutableCopy];
         
