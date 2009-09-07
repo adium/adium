@@ -342,7 +342,7 @@ xconfigure() {
 		(
 		export CFLAGS="${1} -arch ${ARCHS[i]}"
 		export LDFLAGS="${2} -arch ${ARCHS[i]}"
-		CONFIG_CMD="${3} --host=${HOSTS[i]}"
+		CONFIG_CMD="${3} --host=${HOSTS[i]} --build=${HOSTS[i]}"
 		log ${CONFIG_CMD}
 		)
 		#only do this for more than 1 arch

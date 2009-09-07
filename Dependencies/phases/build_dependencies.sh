@@ -39,14 +39,16 @@ build_gettext() {
 	if needsconfigure $@; then
 	(
 		status "Configuring gettext"
-		export CFLAGS="$ARCH_CFLAGS"
-		export LDFLAGS="$ARCH_LDFLAGS"
-		log ./configure \
-				--prefix="$ROOTDIR/build" \
+		CONFIG_CMD="./configure \
+				--prefix=$ROOTDIR/build \
 				--disable-java \
 				--disable-static \
 				--enable-shared \
-				--disable-dependency-tracking
+				--disable-dependency-tracking"
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+			"${ROOTDIR}/source/gettext/gettext-runtime/config.h" \
+			"${ROOTDIR}/source/gettext/gettext-runtime/libasprintf/config.h" \
+			"${ROOTDIR}/source/gettext/gettext-tools/config.h"
 	)
 	fi
 	
