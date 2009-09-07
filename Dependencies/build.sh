@@ -129,8 +129,10 @@ done
 
 # this file contans the stdio and stderr of the most recent build
 LOG_FILE="${ROOTDIR}/build.log"
+ERR_FILE="${ROOTDIR}/error.log"
 
 : > ${LOG_FILE}
+: > ${ERR_FILE}
 
 # set -arch flags now, after the user has had a chance to diasble one or more
 set_arch_flags
