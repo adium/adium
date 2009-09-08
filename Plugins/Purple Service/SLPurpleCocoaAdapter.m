@@ -485,7 +485,7 @@ PurpleConversation* convLookupFromChat(AIChat *chat, id adiumAccount)
 						char	*valueUTF8String = NULL;
 						
 						if ([value isKindOfClass:[NSNumber class]]) {
-							valueUTF8String = g_strdup_printf("%ld",[value integerValue]);
+							valueUTF8String = g_strdup_printf("%ld",(long int)[value integerValue]);
 
 						} else if ([value isKindOfClass:[NSString class]]) {
 							valueUTF8String = g_strdup([value UTF8String]);

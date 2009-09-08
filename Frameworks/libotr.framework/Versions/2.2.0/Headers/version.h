@@ -1,6 +1,6 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2007  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,10 +20,10 @@
 #ifndef __VERSION_H__
 #define __VERSION_H__
 
-#define OTRL_VERSION "3.1.0"
+#define OTRL_VERSION "3.2.0"
 
 #define OTRL_VERSION_MAJOR 3
-#define OTRL_VERSION_MINOR 1
+#define OTRL_VERSION_MINOR 2
 #define OTRL_VERSION_SUB 0
 
 #endif

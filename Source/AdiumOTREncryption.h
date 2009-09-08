@@ -5,8 +5,8 @@
 //  Created by Evan Schoenberg on 12/28/05.
 //
 
-#import <OTR/context.h>
-#import <OTR/userstate.h>
+#import <libotr/context.h>
+#import <libotr/userstate.h>
 #import <Adium/AIContentControllerProtocol.h>
 
 @class ESOTRPreferences, AIContentMessage, AIAccount, AIListContact, AIChat;

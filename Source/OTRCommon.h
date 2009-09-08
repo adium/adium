@@ -1,5 +1,5 @@
 /* libotr headers */
-#import <OTR/proto.h>
-#import <OTR/context.h>
-#import <OTR/message.h>
-#import <OTR/privkey.h>
+#import <libotr/proto.h>
+#import <libotr/context.h>
+#import <libotr/message.h>
+#import <libotr/privkey.h>

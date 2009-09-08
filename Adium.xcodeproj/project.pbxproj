@@ -283,7 +283,6 @@
 		341BD5700965EC3500CF83F5 /* OTRFingerprintDetailsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 341BD56E0965EC3500CF83F5 /* OTRFingerprintDetailsWindow.nib */; };
 		341BD5710965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 341BD56F0965EC3500CF83F5 /* OTRPrivateKeyGenerationWindow.nib */; };
 		341BD57B0965EC4700CF83F5 /* OTRPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 341BD5790965EC4700CF83F5 /* OTRPrefs.nib */; };
-		341BDBBB0968BC9B00CF83F5 /* OTR.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 341BDBBA0968BC9A00CF83F5 /* OTR.framework */; };
 		341BDF5E0969814A00CF83F5 /* BadgerDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 341BDF5D0969814900CF83F5 /* BadgerDefaults.plist */; };
 		341BDF700969829E00CF83F5 /* DockUnviewedContentDefaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 341BDF6F0969829E00CF83F5 /* DockUnviewedContentDefaults.plist */; };
 		342353D709D45726009FF634 /* AILogViewerWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 342353D509D45725009FF634 /* AILogViewerWindowController.m */; };
@@ -1439,6 +1438,8 @@
 		6EC1684D06C170A000F9FAD3 /* DCInviteToChatPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684806C170A000F9FAD3 /* DCInviteToChatPlugin.m */; };
 		6EC1684F06C170A000F9FAD3 /* DCInviteToChatWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EC1684A06C170A000F9FAD3 /* DCInviteToChatWindowController.m */; };
 		6EC1685006C170A000F9FAD3 /* InviteToChatWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6EC1684B06C170A000F9FAD3 /* InviteToChatWindow.nib */; };
+		7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
+		7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E6F8A93105611B700C6D80D /* libotr.framework */; };
 		7E824CDD06387FAF00813072 /* LinkEditor.nib in Resources */ = {isa = PBXBuildFile; fileRef = 7E824CCE06387FAF00813072 /* LinkEditor.nib */; };
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
@@ -1502,7 +1503,6 @@
 		F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F51BCEEA0A15793E000FDC06 /* AutoHyperlinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3496A8EA07CE6CA30055BBAB /* AutoHyperlinks.framework */; };
 		F551B1000B8F5130007D3A3C /* FireLogImporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = F56E0DAF0A4CDF9C008D1EB5 /* FireLogImporter.nib */; };
-		F58904F20A7828B9001F0ADC /* OTR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341BDBBA0968BC9A00CF83F5 /* OTR.framework */; };
 		F5F8CA4D0A1A9C9400154550 /* GBQuestionHandlerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F5F8CA4B0A1A9C9400154550 /* GBQuestionHandlerPlugin.m */; };
 /* End PBXBuildFile section */
 
@@ -1720,8 +1720,8 @@
 				EE5754ED0B3D7A7A00100989 /* Sparkle.framework in Copy Frameworks */,
 				377ED0220AE95D7D00CB7BDF /* PSMTabBarControl.framework in Copy Frameworks */,
 				9E1E1E270A96770C00E16DFC /* LMX.framework in Copy Frameworks */,
+				7E6F8ACD105613AD00C6D80D /* libotr.framework in Copy Frameworks */,
 				F51BCD3B0A156261000FDC06 /* AutoHyperlinks.framework in Copy Frameworks */,
-				341BDBBB0968BC9B00CF83F5 /* OTR.framework in Copy Frameworks */,
 				3419FE230531586A00C68BA3 /* Adium.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
@@ -2239,7 +2239,6 @@
 		341BD5890965ECC200CF83F5 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = Resources/de.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
 		341BD58A0965ECC800CF83F5 /* cs */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = cs; path = Resources/cs.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
 		341BD58B0965ECCD00CF83F5 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = Resources/ca.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
-		341BDBBA0968BC9A00CF83F5 /* OTR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OTR.framework; path = Frameworks/OTR.framework; sourceTree = "<group>"; };
 		341BDF5D0969814900CF83F5 /* BadgerDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = BadgerDefaults.plist; path = Resources/BadgerDefaults.plist; sourceTree = SOURCE_ROOT; };
 		341BDF6F0969829E00CF83F5 /* DockUnviewedContentDefaults.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = DockUnviewedContentDefaults.plist; path = Resources/DockUnviewedContentDefaults.plist; sourceTree = "<group>"; };
 		341DE02F07FE104700EB7B06 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = Resources/de.lproj/ESFileTransferProgressView.nib; sourceTree = "<group>"; };
@@ -4624,6 +4623,7 @@
 		77D903500B78CF1000B86C42 /* zhm */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; name = zhm; path = "Plugins/Purple Service/zhm"; sourceTree = "<group>"; };
 		7E1E8176063A3EEC00EB00F7 /* AIContextMenuTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIContextMenuTextView.h; path = "Frameworks/Adium Framework/Source/AIContextMenuTextView.h"; sourceTree = "<group>"; };
 		7E1E8177063A3EEC00EB00F7 /* AIContextMenuTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIContextMenuTextView.m; path = "Frameworks/Adium Framework/Source/AIContextMenuTextView.m"; sourceTree = "<group>"; };
+		7E6F8A93105611B700C6D80D /* libotr.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libotr.framework; path = Frameworks/libotr.framework; sourceTree = "<group>"; };
 		7E824CCE06387FAF00813072 /* LinkEditor.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = LinkEditor.nib; path = Resources/LinkEditor.nib; sourceTree = SOURCE_ROOT; };
 		7E824CD106387FAF00813072 /* SHAutoValidatingTextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHAutoValidatingTextView.h; sourceTree = "<group>"; };
 		7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHAutoValidatingTextView.m; sourceTree = "<group>"; };
@@ -4827,6 +4827,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */,
 				633405A90F9C2C7D003C77A9 /* AIUtilities.framework in Frameworks */,
 				639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */,
 				3448758E06D1EBDF00DA778C /* Cocoa.framework in Frameworks */,
@@ -4849,7 +4850,6 @@
 				34B588A1058D833A00E7EF0D /* ExceptionHandling.framework in Frameworks */,
 				34C18B0D06CAC95400FF5FF9 /* SystemConfiguration.framework in Frameworks */,
 				638392F809D4D67A0067B9B7 /* Sparkle.framework in Frameworks */,
-				F58904F20A7828B9001F0ADC /* OTR.framework in Frameworks */,
 				9E1E1DFD0A96741500E16DFC /* LMX.framework in Frameworks */,
 				377EC8940AE9525B00CB7BDF /* PSMTabBarControl.framework in Frameworks */,
 				8163F99C0B318824002005EE /* Sparkle.framework in Frameworks */,
@@ -5152,7 +5152,7 @@
 				34D1AB510D693DEB00470520 /* RBSplitView.xcodeproj */,
 				3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */,
 				346636860D41541A006C9034 /* FriBidi.xcodeproj */,
-				341BDBBA0968BC9A00CF83F5 /* OTR.framework */,
+				7E6F8A93105611B700C6D80D /* libotr.framework */,
 				348E5ACA06D2A74C004C051C /* AddressBook.framework */,
 				F5819CE9032124CE01A8010A /* AppKit.framework */,
 				F531836F019E40BB01A80165 /* Carbon.framework */,
@@ -10042,23 +10042,23 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Frameworks/libpurple.framework/Versions/Current/libpurple",
-				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework/Versions/A/Growl-WithInstaller",
+				"$(SRCROOT)/Frameworks/Growl/Versions/A/Growl-WithInstaller",
 				"$(SRCROOT)/Frameworks/LMX.framework/Versions/A/LMX",
 				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl",
 				"$(SRCROOT)/Frameworks/Sparkle.framework/Versions/A/Sparkle",
-				"$(SRCROOT)/Frameworks/OTR.framework/Versions/A/OTR",
+				"$(SRCROOT)/Frameworks/libotr.framework/Versions/A/OTR",
 			);
 			outputPaths = (
-				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework",
+				"$(SRCROOT)/Frameworks/Growl.framework",
 				"$(SRCROOT)/Frameworks/libpurple.framework",
 				"$(SRCROOT)/Frameworks/LMX.framework",
 				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework",
 				"$(SRCROOT)/Frameworks/Sparkle.framework",
-				"$(SRCROOT)/Frameworks/OTR.framework",
+				"$(SRCROOT)/Frameworks/libotr.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/OTR.framework\"\n";
+			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
