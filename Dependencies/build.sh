@@ -155,6 +155,7 @@ quiet mkdir "build"
 build_pkgconfig $@
 build_gettext $@
 build_glib $@
+build_otr $@
 
 build_meanwhile $@
 build_gadugadu $@
