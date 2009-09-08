@@ -39,6 +39,15 @@ prep_headers() {
 	quiet mkdir "${gthreadDir}" || true
 	touch "${gthreadDir}/no_headers_here.txt"
 	
+	#libotr
+	status "Staging libotr headers"
+	local otrDir="${ROOTDIR}/build/lib/include/libotr-${OTR_VERSION}"
+	quiet mkdir "${otrDir}" || true
+	log cp -R "${ROOTDIR}/build/include/libotr/" "${otrDir}"
+	log cp "${ROOTDIR}/build/include/gcrypt.h" "${otrDir}"
+	log cp "${ROOTDIR}/build/include/gcrypt-module.h" "${otrDir}"
+	log cp "${ROOTDIR}/build/include/gpg-error.h" "${otrDir}"
+	
 	#meanwhile
 	status "Staging meanwhile non-headers"
 	local meanwhileDir="${ROOTDIR}/build/lib/include/libmeanwhile-${MEANWHILE_VERSION}"
@@ -108,6 +117,11 @@ make_framework() {
 	status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
 	log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 		"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
+		"${FRAMEWORK_DIR}"
+	
+	status "Making a framework for libotr..."
+	log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+		"${ROOTDIR}/build/lib/libotr.${OTR_VERSION}.dylib" \
 		"${FRAMEWORK_DIR}"
 	
 	status "Adding the Adium framework header..."

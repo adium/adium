@@ -32,7 +32,13 @@ log() {
 
 Running command:
 	${localPWD}/${@:1}
-" >> ${LOG_FILE} >> ${ERR_FILE}
+" >> ${LOG_FILE}
+
+	echo "
+
+Running command:
+	${localPWD}/${@:1}
+" >> ${ERR_FILE}
 
 	(
 		${@:1}
@@ -289,19 +295,21 @@ xcompile() {
 	done
 	
 	#copy pkgconfig files and modify prefix
-	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
-	for f in ${files} ; do
-		status "patching pkgconfig file: ${f}"
-		local basename=`basename ${f}`
-		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
-		local SEDPAT="s/^prefix=.*/prefix=${SEDREP}\\/build/"
-		sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/pkgconfig/${basename}"
-	done
+	if [ -d "${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig" ] ; then
+		local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
+		for f in ${files} ; do
+			status "patching pkgconfig file: ${f}"
+			local basename=`basename ${f}`
+			local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
+			local SEDPAT="s/^prefix=.*/prefix=${SEDREP}\\/build/"
+			sed -e "${SEDPAT}" "${f}" > "${ROOTDIR}/build/lib/pkgconfig/${basename}"
+		done
+	fi
 	
 	#copy .la files and modify
 	local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/*.la"
 	for f in ${files} ; do
-		status "patching pkgconfig file: ${f}"
+		status "patching .la file: ${f}"
 		local basename=`basename ${f}`
 		local SEDREP=`echo $ROOTDIR | awk '{gsub("\\\\\/", "\\\\\\/");print}'`
 		local SEDPAT="s/^libdir=.*/libdir=\'${SEDREP}\\/build\\/lib\'/"
