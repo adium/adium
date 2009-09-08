@@ -1,6 +1,6 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2007  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -190,6 +190,12 @@ void otrl_message_disconnect(OtrlUserState us, const OtrlMessageAppOps *ops,
 void otrl_message_initiate_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
 	void *opdata, ConnContext *context, const unsigned char *secret,
 	size_t secretlen);
+
+/* Initiate the Socialist Millionaires' Protocol and send a prompt
+ * question to the buddy */
+void otrl_message_initiate_smp_q(OtrlUserState us,
+	const OtrlMessageAppOps *ops, void *opdata, ConnContext *context,
+	const char *question, const unsigned char *secret, size_t secretlen);
 
 /* Respond to a buddy initiating the Socialist Millionaires' Protocol */
 void otrl_message_respond_smp(OtrlUserState us, const OtrlMessageAppOps *ops,

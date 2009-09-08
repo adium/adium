@@ -1,6 +1,6 @@
 /*
  *  Off-the-Record Messaging library
- *  Copyright (C) 2004-2007  Ian Goldberg, Chris Alexander, Nikita Borisov
+ *  Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
  *                           <otr@cypherpunks.ca>
  *
  *  This library is free software; you can redistribute it and/or
@@ -41,6 +41,9 @@ typedef struct s_OtrlTLV {
 #define OTRL_TLV_SMP3            0x0004
 #define OTRL_TLV_SMP4            0x0005
 #define OTRL_TLV_SMP_ABORT       0x0006
+/* Like OTRL_TLV_SMP1, but there's a question for the buddy at the
+ * beginning */
+#define OTRL_TLV_SMP1Q           0x0007
 
 /* Make a single TLV, copying the supplied data */
 OtrlTLV *otrl_tlv_new(unsigned short type, unsigned short len,
