@@ -232,6 +232,21 @@
 	}
 }
 
+/*!
+ * @brief Delete the fingerprint for the contact selected in the fingerprints NSTableView
+ */
+
+- (IBAction)forgetFingerprint:(id)sender
+{
+	NSInteger selectedRow = [tableView_fingerprints selectedRow];
+	if (selectedRow >= 0) {
+		NSDictionary *fingerprintDict = [fingerprintDictArray objectAtIndex:selectedRow];
+		Fingerprint	*fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
+		
+		otrg_ui_forget_fingerprint(fingerprint);
+	}
+}
+
 //Fingerprint tableview ------------------------------------------------------------------------------------------------
 #pragma mark Fingerprint tableview
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
@@ -266,6 +281,7 @@
 {
 	NSInteger selectedRow = [tableView_fingerprints selectedRow];
 	[button_showFingerprint setEnabled:(selectedRow != -1)];
+	[button_forgetFingerprint setEnabled:(selectedRow != -1)];
 }
 
 
