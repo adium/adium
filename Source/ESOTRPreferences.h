@@ -24,6 +24,7 @@
 	
 	IBOutlet	NSTableView		*tableView_fingerprints;
 	IBOutlet	NSButton		*button_showFingerprint;
+	IBOutlet	NSButton		*button_forgetFingerprint;
 	
 	BOOL						viewIsOpen;
 	
@@ -33,6 +34,7 @@
 
 - (IBAction)generate:(id)sender;
 - (IBAction)showFingerprint:(id)sender;
+- (IBAction)forgetFingerprint:(id)sender;
 
 - (void)updateFingerprintsList;
 - (void)updatePrivateKeyList;

@@ -87,7 +87,6 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 	
 	[[self window] setTitle:AILocalizedString(@"OTR Fingerprint",nil)];
 	[button_OK setLocalizedString:AILocalizedString(@"OK",nil)];
-	[button_forgetFingerprint setLocalizedString:AILocalizedString(@"Forget Fingerprint","Button title to make Adium no longer know a user's encryption fingerprint")];
 	
 	[super windowDidLoad];
 }
@@ -108,15 +107,5 @@ static ESOTRFingerprintDetailsWindowController	*sharedController = nil;
 {
 	return @"OTR Fingerprint Details Window";
 }
-
-- (IBAction)forgetFingerprint:(id)sender
-{
-	Fingerprint	*fingerprint = [[fingerprintDict objectForKey:@"FingerprintValue"] pointerValue];
-
-	otrg_ui_forget_fingerprint(fingerprint);
-
-	[self closeWindow:nil];
-}
-
 
 @end
