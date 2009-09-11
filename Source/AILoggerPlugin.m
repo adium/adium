@@ -50,6 +50,8 @@
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 
+#import <libkern/OSAtomic.h>
+
 #import "AILogFileUpgradeWindowController.h"
 
 #import "AdiumSpotlightImporter.h"
@@ -79,6 +81,7 @@ enum {
 
 @interface AILoggerPlugin ()
 + (NSString *)dereferenceLogFolderAlias;
++ (NSOperationQueue *)operationQueue;
 - (void)configureMenuItems;
 - (SKIndexRef)createLogIndex;
 - (void)closeLogIndex;
@@ -209,6 +212,22 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[adium.preferenceController removeObserver:self forKeyPath:PREF_KEYPATH_LOGGER_ENABLE];
+}
+
++ (NSOperationQueue *)operationQueue {
+	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
+	static NSOperationQueue *loggerQueue = nil;
+	
+	OSSpinLockLock(&spinLock);
+	if (!loggerQueue) {
+		loggerQueue = [[NSOperationQueue alloc] init];
+		if([loggerQueue respondsToSelector:@selector(setName:)]) {
+			[loggerQueue setName:@"AILoggerPluginOperationQueue"];
+		}
+	}
+	OSSpinLockUnlock(&spinLock);
+	
+	return loggerQueue;
 }
 
 //If logBasePath refers to an alias file, dereference the alias and replace logBasePath with that pathname.
@@ -1262,9 +1281,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		if (index_Content) {
 			AILogWithSignature(@"Triggerring the flushIndex thread and queuing index closing");
 			
-			[NSThread detachNewThreadSelector:@selector(flushIndex:)
-									 toTarget:self
-								   withObject:(id)index_Content];
+			[[AILoggerPlugin operationQueue] addOperation:
+			 [[NSInvocationOperation alloc] initWithTarget:self
+												  selector:@selector(flushIndex:)
+													object:(id)index_Content]];
 			
 			[self cancelClosingLogIndex];
 			[self performSelector:@selector(finishClosingIndex)
@@ -1359,7 +1379,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     [dirtyLogSet removeAllObjects];
 	[dirtyLogLock unlock];
 	//[self _dirtyAllLogsThread];
-	[NSThread detachNewThreadSelector:@selector(_dirtyAllLogsThread) toTarget:self withObject:nil];
+	[[AILoggerPlugin operationQueue] addOperation:[[NSInvocationOperation alloc]
+												   initWithTarget:self
+												   selector:@selector(_dirtyAllLogsThread)
+												   object:nil]];
 }
 - (void)_dirtyAllLogsThread
 {
@@ -1434,7 +1457,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     logsIndexed = 0;
 	AILogWithSignature(@"cleanDirtyLogs: logsToIndex is %i",logsToIndex);
 	if (logsToIndex > 0) {
-		[NSThread detachNewThreadSelector:@selector(_cleanDirtyLogsThread:) toTarget:self withObject:(id)[self logContentIndex]];
+		[[AILoggerPlugin operationQueue] addOperation:
+		 [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_cleanDirtyLogsThread:) object:(id)[self logContentIndex]]];
 	}
 }
 
@@ -1627,12 +1651,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)removePathsFromIndex:(NSSet *)paths
 {
-	[NSThread detachNewThreadSelector:@selector(_removePathsFromIndexThread:)
-							 toTarget:self
-						   withObject:[NSDictionary dictionaryWithObjectsAndKeys:
-							   (id)[self logContentIndex], @"SKIndexRef",
-							   paths, @"Paths",
-							   nil]];
+	[[AILoggerPlugin operationQueue] addOperation:[[NSInvocationOperation alloc]
+												   initWithTarget:self
+												   selector:@selector(_removePathsFromIndexThread:)
+												   object:[NSDictionary dictionaryWithObjectsAndKeys:
+														   (id)[self logContentIndex], @"SKIndexRef",
+														   paths, @"Paths",
+														   nil]]];
 }
 
 
