@@ -39,6 +39,9 @@
 	if (!sharedWriterQueue) {
 		sharedWriterQueue = [[NSOperationQueue alloc] init];
 		[sharedWriterQueue setMaxConcurrentOperationCount:1];
+		if([sharedWriterQueue respondsToSelector:@selector(setName:)]) {
+			[sharedWriterQueue setName:@"AISharedWriterQueue"];
+		}
 	}
 	
 	OSSpinLockUnlock(&spinLock);
