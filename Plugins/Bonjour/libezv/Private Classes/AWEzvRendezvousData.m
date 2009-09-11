@@ -151,7 +151,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
             tmpData = [NSData dataWithBytes:[data bytes] + i length:fieldLen];
             fieldContent = [[[NSString alloc] initWithData:tmpData encoding:NSUTF8StringEncoding] autorelease];
         } else {
-            fieldContent = [NSString stringWithCString:[data bytes] + i length:fieldLen];
+			fieldContent = [[[NSString alloc] initWithBytes:[data bytes] + i length:fieldLen encoding:NSUTF8StringEncoding] autorelease];
         }
         i = i + fieldLen;
 	
@@ -465,7 +465,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
 	    }
 	    hexdata[[(NSData *)value length] * 2] = '\0';
 	    
-	    [infoData appendString:[NSString stringWithCString:hexdata]];
+	    [infoData appendString:[NSString stringWithUTF8String:hexdata]];
 	} else {
 	    [infoData appendString:value];
 	}
@@ -497,7 +497,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
 			sprintf(hexdata + (i*2), "%.2x", ((unsigned char *)[(NSData *)value bytes])[i]);
 		    }
 		    hexdata[[(NSData *)value length] * 2] = '\0';
-			valueToSet = [[NSString stringWithCString:hexdata] UTF8String];
+			valueToSet = [[NSString stringWithUTF8String:hexdata] UTF8String];
 			valueSize = strlen(valueToSet);
 			free(hexdata);
 		} else {
@@ -575,7 +575,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
 			[infoData appendFormat:@"%c", ([(NSData *)value length] * 2 + [key length] + 1)];
 			[infoData appendString:key];
 			[infoData appendString:@"="];
-			[infoData appendString:[NSString stringWithCString:hexdata]];
+			[infoData appendString:[NSString stringWithUTF8String:hexdata]];
 			free(hexdata);
 		} else {
 			const char *val = [(NSString *)value UTF8String];
