@@ -14,6 +14,7 @@
  * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 #import "AISharedWriterQueue.h"
+#import <libkern/OSAtomic.h>
 
 @interface AISharedWriterQueue()
 + (NSOperationQueue *)queue;
@@ -30,12 +31,17 @@
 }
 
 + (NSOperationQueue *)queue {
-	NSAssert([NSThread currentThread] == [NSThread mainThread], @"Do not try to use AISharedWriterQueue from non-main threads");
+	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
 	static NSOperationQueue *sharedWriterQueue = nil;
+	
+	OSSpinLockLock(&spinLock);
+	
 	if (!sharedWriterQueue) {
 		sharedWriterQueue = [[NSOperationQueue alloc] init];
 		[sharedWriterQueue setMaxConcurrentOperationCount:1];
 	}
+	
+	OSSpinLockUnlock(&spinLock);
 	return sharedWriterQueue;
 }
 
