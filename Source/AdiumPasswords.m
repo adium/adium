@@ -23,6 +23,7 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <objc/objc-runtime.h>
+#import <libkern/OSAtomic.h>
 
 #import "AISpecialPasswordPromptController.h"
 #import "ESAccountPasswordPromptController.h"
@@ -31,6 +32,7 @@
 #define KEY_PERFORMED_ACCOUNT_PASSWORD_UPGRADE @"Adium 1.3: Account Passwords Upgraded"
 
 @interface AdiumPasswords ()
++ (NSOperationQueue *)operationQueue;
 - (NSString *)_oldStyleAccountNameForAccount:(AIAccount *)inAccount;
 - (NSString *)_passKeyForAccount:(AIAccount *)inAccount;
 - (NSString *)_accountNameForAccount:(AIAccount *)inAccount;
@@ -51,6 +53,22 @@
 - (void)controllerDidLoad 
  {
 	[self _upgradeAccountPasswordKeychainEntries];
+}
+
++ (NSOperationQueue *)operationQueue {
+	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
+	static NSOperationQueue *passwordQueue = nil;
+	
+	OSSpinLockLock(&spinLock);
+	if (!passwordQueue) {
+		passwordQueue = [[NSOperationQueue alloc] init];
+		if([passwordQueue respondsToSelector:@selector(setName:)]) {
+			[passwordQueue setName:@"AdiumPasswordsOperationQueue"];
+		}
+	}
+	OSSpinLockUnlock(&spinLock);
+	
+	return passwordQueue;
 }
 
 //Accounts -------------------------------------------------------------------------------------------------------------
@@ -203,15 +221,16 @@
  */
 - (void)passwordForAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)promptOption notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
-	[NSThread detachNewThreadSelector:@selector(threadedPasswordRetrieval:)
-							 toTarget:self
-						   withObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-									   inAccount, @"Account",
-									   [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
-									   inTarget, @"Target",
-									   NSStringFromSelector(inSelector), @"Selector",
-									   inContext, @"Context" /* may be nil so should be last */,
-									   nil]];
+	[[AdiumPasswords operationQueue] addOperation:[[NSInvocationOperation alloc]
+												   initWithTarget:self
+												   selector:@selector(threadedPasswordRetrieval:)
+												   object:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+														   inAccount, @"Account",
+														   [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
+														   inTarget, @"Target",
+														   NSStringFromSelector(inSelector), @"Selector",
+														   inContext, @"Context" /* may be nil so should be last */,
+														   nil]]];
 }
 
 //Proxy Servers --------------------------------------------------------------------------------------------------------
