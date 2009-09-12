@@ -264,14 +264,19 @@ NSString *GetTextContentForXMLLog(NSString *pathToFile)
 {
 	NSError *err=nil;
 	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
-	NSString *contentString;
+	NSString *contentString = nil;
 	NSXMLDocument *xmlDoc;
-	xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:furl
-												  options:NSXMLNodePreserveCDATA
-													error:&err];    
-	NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()"
-											error:&err];
-	contentString = [contentArray componentsJoinedByString:@" "];
-	[xmlDoc release];
+	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
+	if (data) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
+	}
+	
+	if (xmlDoc) {
+		NSArray *contentArray = [xmlDoc nodesForXPath:@"//message//text()"
+												error:&err];
+		contentString = [contentArray componentsJoinedByString:@" "];
+		[xmlDoc release];
+	}
+	
 	return contentString;
 }
