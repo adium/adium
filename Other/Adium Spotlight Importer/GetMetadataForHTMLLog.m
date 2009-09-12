@@ -8,6 +8,8 @@
 #import "GetMetadataForHTMLLog.h"
 #import "GetMetadataForHTMLLog-Additions.h"
 
+#include <sys/stat.h>
+
 static char *gaim_markup_strip_html(const char *str);
 
 //Scan an Adium date string, supahfast C style
@@ -104,11 +106,26 @@ NSString *GetTextContentForHTMLLog(NSString *pathToFile)
 	/* Perhaps we want to decode the HTML instead of stripping it so we can process
 	 * the attributed contents to turn links into link (URL) for searching purposes...
 	 */
-	NSString	*textContent = [NSString stringWithContentsOfUTF8File:pathToFile];
+	NSString *textContent;
 
-	if (textContent) {
+	NSMutableData *UTF8Data = nil;
+	char *UTF8HTMLCString = nil;
+
+	int fd = open([pathToFile fileSystemRepresentation], O_RDONLY);
+	if (fd > -1) {
+		struct stat sb;
+		if (fstat(fd, &sb) == 0) {
+			UTF8Data = [NSMutableData dataWithLength:sb.st_size + 1UL];
+			UTF8HTMLCString = [UTF8Data mutableBytes];
+			if (UTF8HTMLCString != NULL)
+				read(fd, UTF8HTMLCString, sb.st_size);
+		}
+		close(fd);
+	}
+
+	if (UTF8HTMLCString) {
 		//Strip the HTML markup
-		char *plainText = gaim_markup_strip_html([textContent UTF8String]);
+		char *plainText = gaim_markup_strip_html(UTF8HTMLCString);
 		textContent = [NSString stringWithUTF8String:plainText];
 		free((void *)plainText);
 	} else {
