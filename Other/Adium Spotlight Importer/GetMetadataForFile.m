@@ -128,7 +128,7 @@ CFStringRef CopyTextContentForFile(CFStringRef contentTypeUTI,
 Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFile)
 {
 	Boolean ret = YES;
-	NSXMLDocument *xmlDoc;
+	NSXMLDocument *xmlDoc = nil;
 	NSError *err=nil;
 	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
 	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
@@ -265,7 +265,7 @@ NSString *GetTextContentForXMLLog(NSString *pathToFile)
 	NSError *err=nil;
 	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
 	NSString *contentString = nil;
-	NSXMLDocument *xmlDoc;
+	NSXMLDocument *xmlDoc = nil;
 	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
 	if (data) {
 		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
