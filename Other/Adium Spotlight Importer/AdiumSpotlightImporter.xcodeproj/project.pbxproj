@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2C05A19C06CAA52B00D84F6F /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
+		31583FDC105C0CDA00E4447D /* AFSIAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */; };
+		31583FE1105C0D7200E4447D /* AFSIMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */; };
+		31583FE4105C0D8600E4447D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D5B49A704867FD3000E48DA /* InfoPlist.strings */; };
+		3158400B105C12A100E4447D /* AFSIMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 3158400A105C12A100E4447D /* AFSIMain.m */; };
+		3158400E105C12C400E4447D /* GetMetadataForHTMLLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 34611BF609B664FC00870036 /* GetMetadataForHTMLLog.m */; };
+		3158400F105C12C500E4447D /* GetMetadataForFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */; };
+		31584033105C189800E4447D /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
+		3158403A105C18B400E4447D /* NSCalendarDate+ISO8601Parsing.m in Sources */ = {isa = PBXBuildFile; fileRef = F520600E0A53082C003BFC03 /* NSCalendarDate+ISO8601Parsing.m */; };
 		3459CBBB0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = 3459CBB90A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.h */; };
 		3459CBBC0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3459CBBA0A25FC0800ECC256 /* GetMetadataForHTMLLog-Additions.m */; };
 		3459CBC80A25FEA200ECC256 /* AdiumSpotlightImporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 3459CBC70A25FEA200ECC256 /* AdiumSpotlightImporter.h */; };
@@ -37,6 +45,12 @@
 		08FB77B6FE84183AC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		0AA1909FFE8422F4C02AAC07 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = /System/Library/Frameworks/CoreFoundation.framework; sourceTree = "<absolute>"; };
 		2C05A19B06CAA52B00D84F6F /* GetMetadataForFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetMetadataForFile.m; sourceTree = "<group>"; };
+		31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdiumFauxSpotlightImporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		31583FD4105C0C4F00E4447D /* AdiumFauxSpotlightImporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AdiumFauxSpotlightImporter-Info.plist"; sourceTree = "<group>"; };
+		31583FDA105C0CDA00E4447D /* AFSIAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSIAppDelegate.h; sourceTree = "<group>"; };
+		31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSIAppDelegate.m; sourceTree = "<group>"; };
+		31583FE0105C0D7200E4447D /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AFSIMainMenu.xib; sourceTree = "<group>"; };
+		3158400A105C12A100E4447D /* AFSIMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSIMain.m; sourceTree = "<group>"; };
 		3450766C0E106DF400BF0883 /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/schema.strings; sourceTree = "<group>"; };
 		3450766D0E106DF600BF0883 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/schema.strings; sourceTree = "<group>"; };
 		3450766E0E106DF800BF0883 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/schema.strings; sourceTree = "<group>"; };
@@ -91,6 +105,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		31583FD0105C0C4F00E4447D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		345AF7CE0A5D559900D7DA6F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -143,6 +164,8 @@
 				C88FB7D7067446EC006EBB30 /* schema.xml */,
 				8D576317048677EA00EA77CD /* Info.plist */,
 				8D5B49A704867FD3000E48DA /* InfoPlist.strings */,
+				31583FD4105C0C4F00E4447D /* AdiumFauxSpotlightImporter-Info.plist */,
+				31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -154,6 +177,9 @@
 				3459CBD40A25FEE200ECC256 /* Log Importing */,
 				08FB77B6FE84183AC02AAC07 /* main.c */,
 				345AF91F0A5D560600D7DA6F /* maintest.m */,
+				31583FDA105C0CDA00E4447D /* AFSIAppDelegate.h */,
+				31583FDB105C0CDA00E4447D /* AFSIAppDelegate.m */,
+				3158400A105C12A100E4447D /* AFSIMain.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -163,6 +189,7 @@
 			children = (
 				8D576316048677EA00EA77CD /* AdiumSpotlightImporter.mdimporter */,
 				345AF7D00A5D559900D7DA6F /* AISpotlightImporterTest */,
+				31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -213,6 +240,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		31583FD1105C0C4F00E4447D /* AdiumFauxSpotlightImporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 31583FD8105C0C5000E4447D /* Build configuration list for PBXNativeTarget "AdiumFauxSpotlightImporter" */;
+			buildPhases = (
+				31583FCE105C0C4F00E4447D /* Resources */,
+				31583FCF105C0C4F00E4447D /* Sources */,
+				31583FD0105C0C4F00E4447D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AdiumFauxSpotlightImporter;
+			productName = AdiumFauxSpotlightImporter;
+			productReference = 31583FD2105C0C4F00E4447D /* AdiumFauxSpotlightImporter.app */;
+			productType = "com.apple.product-type.application";
+		};
 		345AF7CF0A5D559900D7DA6F /* AISpotlightImporterTest */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 345AF7D50A5D55BC00D7DA6F /* Build configuration list for PBXNativeTarget "AISpotlightImporterTest" */;
@@ -292,11 +336,21 @@
 			targets = (
 				8D57630D048677EA00EA77CD /* AdiumSpotlightImporter */,
 				345AF7CF0A5D559900D7DA6F /* AISpotlightImporterTest */,
+				31583FD1105C0C4F00E4447D /* AdiumFauxSpotlightImporter */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		31583FCE105C0C4F00E4447D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31583FE1105C0D7200E4447D /* AFSIMainMenu.xib in Resources */,
+				31583FE4105C0D8600E4447D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D57630F048677EA00EA77CD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,6 +364,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		31583FCF105C0C4F00E4447D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31583FDC105C0CDA00E4447D /* AFSIAppDelegate.m in Sources */,
+				3158400B105C12A100E4447D /* AFSIMain.m in Sources */,
+				3158400E105C12C400E4447D /* GetMetadataForHTMLLog.m in Sources */,
+				3158400F105C12C500E4447D /* GetMetadataForFile.m in Sources */,
+				31584033105C189800E4447D /* GetMetadataForHTMLLog-Additions.m in Sources */,
+				3158403A105C18B400E4447D /* NSCalendarDate+ISO8601Parsing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		345AF7CD0A5D559900D7DA6F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -337,6 +404,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		31583FDF105C0D7200E4447D /* AFSIMainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31583FE0105C0D7200E4447D /* English */,
+			);
+			name = AFSIMainMenu.xib;
+			sourceTree = "<group>";
+		};
 		8D5B49A704867FD3000E48DA /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -418,6 +493,75 @@
 				SDKROOT = macosx10.5;
 				SYMROOT = ../../build;
 				VALID_ARCHS = "i386 ppc ppc64 ppc7400 ppc970 x86_64";
+			};
+			name = Debug;
+		};
+		31583FD5105C0C5000E4447D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		31583FD6105C0C5000E4447D /* Release-Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
+			};
+			name = "Release-Debug";
+		};
+		31583FD7105C0C5000E4447D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "AdiumFauxSpotlightImporter-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = AdiumFauxSpotlightImporter;
 			};
 			name = Debug;
 		};
@@ -538,6 +682,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		31583FD8105C0C5000E4447D /* Build configuration list for PBXNativeTarget "AdiumFauxSpotlightImporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				31583FD5105C0C5000E4447D /* Release */,
+				31583FD6105C0C5000E4447D /* Release-Debug */,
+				31583FD7105C0C5000E4447D /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		345AF7D50A5D55BC00D7DA6F /* Build configuration list for PBXNativeTarget "AISpotlightImporterTest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
