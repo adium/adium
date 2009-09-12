@@ -2,6 +2,7 @@
 
 source phases/utility.sh
 source phases/build_dependencies.sh
+source phases/build_otr.sh
 source phases/build_vv_dependencies.sh
 source phases/build_purple.sh
 source phases/make_frameworks.sh
@@ -59,6 +60,7 @@ set_arch_flags() {
 # handle commandline options
 FORCE_CONFIGURE=false
 NATIVE_BUILD=false
+BUILD_OTR=false
 MTN_UPDATE_PARAM=""
 for option in ${@:1} ; do
 	case $option in
@@ -87,6 +89,10 @@ for option in ${@:1} ; do
 				-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
 			warning "libpurple will be build for your native arcticture only!"
 			;;
+		--build-otr)
+			BUILD_OTR=true
+			status "Building libotr"
+			;;
 		--enable-llvm)
 			asserttools "/Developer/usr/bin/llvm-gcc"
 			export CC="/Developer/usr/bin/llvm-gcc"
@@ -108,6 +114,8 @@ for option in ${@:1} ; do
   --disable-[arch]            : Eliminate [arch] from the build process
   --build-native              : Build only for your current architecture
                                 (currently breaks liboil on x86_64)
+  --build-otr                 : Build libotr and dependancies instead
+                                of libpurple.
   --enable-llvm               : Enable building with llvm-gcc.
                                 WARNING: This is currently broken!
   --libpurple-rev=[rev]       : Force a specific libpurple revision
@@ -155,20 +163,28 @@ quiet mkdir "build"
 build_pkgconfig $@
 build_gettext $@
 build_glib $@
-build_otr $@
 
-build_meanwhile $@
-build_gadugadu $@
+if $BUILD_OTR; then
+	build_otr $@
+else
+	build_meanwhile $@
+	build_gadugadu $@
 
-build_intltool $@
-build_jsonglib $@
+	build_intltool $@
+	build_jsonglib $@
 
-build_gstreamer $@
-build_farsight $@
+	build_gstreamer $@
+	build_farsight $@
 
-build_libpurple $@
+	build_libpurple $@	
+
+	#build_sipe $@
+	#build_gfire $@
+fi
+
 make_framework $@
-make_po_files $@
 
-#build_sipe $@
-#build_gfire $@
+#ugly.  gotta be a better way
+if [[ !$BUILD_OTR ]] ; then
+	make_po_files $@
+fi

@@ -39,56 +39,58 @@ prep_headers() {
 	quiet mkdir "${gthreadDir}" || true
 	touch "${gthreadDir}/no_headers_here.txt"
 	
+	if $BUILD_OTR; then
 	#libotr
-	status "Staging libotr headers"
-	local otrDir="${ROOTDIR}/build/lib/include/libotr-${OTR_VERSION}"
-	quiet mkdir "${otrDir}" || true
-	log cp -R "${ROOTDIR}/build/include/libotr/" "${otrDir}"
-	log cp "${ROOTDIR}/build/include/gcrypt.h" "${otrDir}"
-	log cp "${ROOTDIR}/build/include/gcrypt-module.h" "${otrDir}"
-	log cp "${ROOTDIR}/build/include/gpg-error.h" "${otrDir}"
-	
-	#meanwhile
-	status "Staging meanwhile non-headers"
-	local meanwhileDir="${ROOTDIR}/build/lib/include/libmeanwhile-${MEANWHILE_VERSION}"
-	quiet mkdir "${meanwhileDir}" || true
-	touch "${meanwhileDir}/no_headers_here.txt"
-	
-	#json-glib
-	status "Staging json-glib headers"
-	local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
-	quiet mkdir "${jsonDir}" || true
-	log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
-	
-	## VV stuff
-	
-	#gstreamer
-	status "Staging gstreamer and plugins headers"
-	local gstDir="${ROOTDIR}/build/lib/include/libgstreamer-${GSTREAMER_VERSION}.0"
-	quiet mkdir "${gstDir}" || true
-	log cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
-	
-	local non_includes=( "libgstbase-${GSTREAMER_VERSION}.0" \
-						 "libgstfarsight-${GSTREAMER_VERSION}.0" \
-						 "libgstinterfaces-${GSTREAMER_VERSION}.0" )
-	for no_include_lib in ${non_includes[@]} ; do
-		quiet mkdir "${ROOTDIR}/build/lib/include/${no_include_lib}" || true
-		touch "${ROOTDIR}/build/lib/include/${no_include_lib}/no_headers_here.txt"
-	done
-	
-	#libxml
-	status "Staging libxml headers"
-	local xml2Dir="${ROOTDIR}/build/lib/include/libxml-${XML_VERSION}"
-	quiet mkdir "${xml2Dir}" || true
-	log cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
-	
-	#libpurple
-	status "Staging libpurple headers"
-	local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
-	quiet rm -rf "${purpleDir}"
-	log cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
-	log cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
-	status "Completed staging headers"
+		status "Staging libotr headers"
+		local otrDir="${ROOTDIR}/build/lib/include/libotr-${OTR_VERSION}"
+		quiet mkdir "${otrDir}" || true
+		log cp -R "${ROOTDIR}/build/include/libotr/" "${otrDir}"
+		log cp "${ROOTDIR}/build/include/gcrypt.h" "${otrDir}"
+		log cp "${ROOTDIR}/build/include/gcrypt-module.h" "${otrDir}"
+		log cp "${ROOTDIR}/build/include/gpg-error.h" "${otrDir}"
+	else
+		#meanwhile
+		status "Staging meanwhile non-headers"
+		local meanwhileDir="${ROOTDIR}/build/lib/include/libmeanwhile-${MEANWHILE_VERSION}"
+		quiet mkdir "${meanwhileDir}" || true
+		touch "${meanwhileDir}/no_headers_here.txt"
+		
+		#json-glib
+		status "Staging json-glib headers"
+		local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
+		quiet mkdir "${jsonDir}" || true
+		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
+		
+		## VV stuff
+		
+		#gstreamer
+		status "Staging gstreamer and plugins headers"
+		local gstDir="${ROOTDIR}/build/lib/include/libgstreamer-${GSTREAMER_VERSION}.0"
+		quiet mkdir "${gstDir}" || true
+		log cp -R "${ROOTDIR}/build/include/gstreamer-${GSTREAMER_VERSION}" "${gstDir}"
+		
+		local non_includes=( "libgstbase-${GSTREAMER_VERSION}.0" \
+							 "libgstfarsight-${GSTREAMER_VERSION}.0" \
+							 "libgstinterfaces-${GSTREAMER_VERSION}.0" )
+		for no_include_lib in ${non_includes[@]} ; do
+			quiet mkdir "${ROOTDIR}/build/lib/include/${no_include_lib}" || true
+			touch "${ROOTDIR}/build/lib/include/${no_include_lib}/no_headers_here.txt"
+		done
+		
+		#libxml
+		status "Staging libxml headers"
+		local xml2Dir="${ROOTDIR}/build/lib/include/libxml-${XML_VERSION}"
+		quiet mkdir "${xml2Dir}" || true
+		log cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
+		
+		#libpurple
+		status "Staging libpurple headers"
+		local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
+		quiet rm -rf "${purpleDir}"
+		log cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
+		log cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
+		status "Completed staging headers"
+	fi
 }
 
 ##
@@ -114,22 +116,27 @@ make_framework() {
 		fi
 	done
 	
-	status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
-	log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-		"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
-		"${FRAMEWORK_DIR}"
-	
-	status "Making a framework for libotr..."
-	log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-		"${ROOTDIR}/build/lib/libotr.${OTR_VERSION}.dylib" \
-		"${FRAMEWORK_DIR}"
-	
-	status "Adding the Adium framework header..."
-	log cp "${ROOTDIR}/libpurple-full.h" \
-		"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Headers/libpurple.h"
+	if $BUILD_OTR; then
+		status "Making a framework for libotr..."
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libotr.${OTR_VERSION}.dylib" \
+			"${FRAMEWORK_DIR}"
+		
+		log cp "${ROOTDIR}/Libotr-Info.plist" \
+			"${FRAMEWORK_DIR}/libotr.subproj/libotr.framework/Resources/Info.plist"
+		else
+		status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
+			"${FRAMEWORK_DIR}"
 
-	log cp "${ROOTDIR}/Libpurple-Info.plist" \
-		"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
+		status "Adding the Adium framework header..."
+		log cp "${ROOTDIR}/libpurple-full.h" \
+			"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Headers/libpurple.h"
+
+		log cp "${ROOTDIR}/Libpurple-Info.plist" \
+			"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
+	fi
 	
 	status "Done!"
 }
