@@ -294,6 +294,10 @@ xcompile() {
 		log cp -R ${f} "${ROOTDIR}/build/include"
 	done
 	
+	#copy bin
+	cp -R "${ROOTDIR}/sandbox/root-${ARCHS[0]}/bin/" \
+		"${ROOTDIR}/build/bin"
+	
 	#copy pkgconfig files and modify prefix
 	if [ -d "${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig" ] ; then
 		local files="${ROOTDIR}/sandbox/root-${ARCHS[0]}/lib/pkgconfig/*"
