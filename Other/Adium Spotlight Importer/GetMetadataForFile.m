@@ -131,10 +131,11 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 	NSXMLDocument *xmlDoc;
 	NSError *err=nil;
 	NSURL *furl = [NSURL fileURLWithPath:(NSString *)pathToFile];
-	xmlDoc = [[NSXMLDocument alloc] initWithContentsOfURL:furl
-																		options:NSXMLNodePreserveCDATA
-																		  error:&err];    
-	
+	NSData *data = [NSData dataWithContentsOfURL:furl options:NSUncachedRead error:&err];
+	if (data) {
+		xmlDoc = [[NSXMLDocument alloc] initWithData:data options:NSXMLNodePreserveCDATA error:&err];
+	}
+
 	if (xmlDoc)
 	{   
 		NSArray *senderNodes = [xmlDoc nodesForXPath:@"//message/@sender"
