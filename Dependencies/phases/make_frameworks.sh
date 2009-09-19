@@ -124,7 +124,7 @@ make_framework() {
 		
 		log cp "${ROOTDIR}/Libotr-Info.plist" \
 			"${FRAMEWORK_DIR}/libotr.subproj/libotr.framework/Resources/Info.plist"
-		else
+	else
 		status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
 		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 			"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
@@ -136,6 +136,13 @@ make_framework() {
 
 		log cp "${ROOTDIR}/Libpurple-Info.plist" \
 			"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
+		
+		status "Adding gst plugins..."
+		GST_PLUGINS_DIR="${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
+		quiet mkdir "${GST_PLUGINS_DIR}"
+		pushd "${ROOTDIR}/build/lib/gstreamer-0.10/"
+		log cp *.so "${GST_PLUGINS_DIR}"
+		popd
 	fi
 	
 	status "Done!"
