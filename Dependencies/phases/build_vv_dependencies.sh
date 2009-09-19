@@ -67,6 +67,19 @@ build_gst_plugins_base() {
 		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
+				--disable-examples \
+				--disable-playback \
+				--disable-audiotestsrc \
+				--disable-cdparanoia \
+				--disable-subparse \
+				--disable-videotestsrc \
+				--disable-x \
+				--disable-xvideo \
+				--disable-xshm \
+				--disable-gst_v4l \
+				--disable-alsa \
+				--disable-gnome_vfs \
+				--disable-libvisual \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-base/config.h" \
@@ -97,9 +110,47 @@ build_gst_plugins_good() {
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-aalib \
+				--disable-videofilter \
+				--disable-apetag \
+				--disable-alpha \
+				--disable-audiofx \
+				--disable-auparse \
+				--disable-avi \
+				--disable-cutter \
+				--disable-debugutils \
+				--disable-deinterlace \
+				--disable-effectv \
+				--disable-flv \
+				--disable-id3demux \
+				--disable-icydemux \
 				--disable-examples \
+				--disable-interleave \
 				--disable-goom \
 				--disable-goom2k1 \
+				--disable-matroska \
+				--disable-monoscope \
+				--disable-multifile \
+				--disable-multipart \
+				--disable-qtdemux \
+				--disable-replaygain \
+				--disable-smpte \
+				--disable-spectrum \
+				--disable-directsound \
+				--disable-oss \
+				--disable-sunaudio \
+				--disable-osx_video \
+				--disable-gst_v4l2 \
+				--disable-x \
+				--disable-xshm \
+				--disable-xvideo \
+				--disable-annodex \
+				--disable-cairo \
+				--disable-esd \
+				--disable-flac \
+				--disable-libcaca \
+				--disable-taglib  \
+				--disable-wavpack \
+				--disable-shout2 \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-good/config.h" \
@@ -180,7 +231,7 @@ build_gst_plugins() {
 	build_liboil $@
 	build_gst_plugins_base $@
 	build_gst_plugins_good $@
-	build_gst_plugins_bad $@
+#	build_gst_plugins_bad $@
 	build_gst_plugins_farsight $@
 }
 
@@ -201,6 +252,8 @@ build_gstreamer() {
 		status "Configuring gstreamer"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
+				--disable-examples \
+				--disable-tests \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \
