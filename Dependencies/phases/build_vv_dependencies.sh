@@ -1,36 +1,6 @@
 #!/bin/bash -eu
 
 ##
-# xml2
-#
-XML_VERSION=2.2
-build_libxml2() {
-	prereq "xml2" \
-		"ftp://xmlsoft.org:21//libxml2/libxml2-sources-2.7.3.tar.gz"
-	
-	quiet pushd "$ROOTDIR/source/xml2"
-	
-	if needsconfigure $@; then
-	(
-		status "Configuring xml2"
-		export CFLAGS="$ARCH_CFLAGS"
-		export LDFLAGS="$ARCH_LDFLAGS"
-		log ./configure \
-			--prefix="$ROOTDIR/build" \
-			--with-python=no \
-			--disable-dependency-tracking
-	)
-	fi
-	
-	status "Building and installing xml2"
-	log make -j $NUMBER_OF_CORES
-	log make install
-	
-	quiet popd
-}
-
-
-##
 # liboil
 # liboil needs special threatment.  Rather than placing platform specific code
 # in a ifdef, it sequesters it by directory and invokes a makefile.  woowoo.
@@ -240,8 +210,6 @@ build_gst_plugins() {
 #
 GSTREAMER_VERSION=0.10
 build_gstreamer() {
-    build_libxml2 $@
-
 	prereq "gstreamer" \
 		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.24.tar.gz"
 	
@@ -250,6 +218,7 @@ build_gstreamer() {
 	if needsconfigure $@; then
 	(
 		status "Configuring gstreamer"
+		export XML_CFLAGS=" -I$SDK_ROOT/usr/include/libxml2"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-examples \

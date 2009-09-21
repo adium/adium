@@ -77,12 +77,6 @@ prep_headers() {
 			touch "${ROOTDIR}/build/lib/include/${no_include_lib}/no_headers_here.txt"
 		done
 		
-		#libxml
-		status "Staging libxml headers"
-		local xml2Dir="${ROOTDIR}/build/lib/include/libxml-${XML_VERSION}"
-		quiet mkdir "${xml2Dir}" || true
-		log cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
-		
 		#libpurple
 		status "Staging libpurple headers"
 		local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
