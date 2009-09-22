@@ -108,7 +108,6 @@ build_gst_plugins_good() {
 				--disable-directsound \
 				--disable-oss \
 				--disable-sunaudio \
-				--disable-osx_video \
 				--disable-gst_v4l2 \
 				--disable-x \
 				--disable-xshm \
