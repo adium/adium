@@ -55,6 +55,7 @@ struct irc_conn {
 	char *server;
 	int fd;
 	guint timer;
+	guint who_channel_timer;
 	GHashTable *buddies;
 
 	gboolean ison_outstanding;
@@ -72,7 +73,7 @@ struct irc_conn {
 		char *name;
 		char *server;
 		char *serverinfo;
-		char *channels;
+		GString *channels;
 		int ircop;
 		int identified;
 		int idle;
@@ -97,12 +98,14 @@ struct irc_buddy {
 	char *name;
 	gboolean online;
 	gboolean flag;
+	int ref;
 };
 
 typedef int (*IRCCmdCallback) (struct irc_conn *irc, const char *cmd, const char *target, const char **args);
 
 int irc_send(struct irc_conn *irc, const char *buf);
 gboolean irc_blist_timeout(struct irc_conn *irc);
+gboolean irc_who_channel_timeout(struct irc_conn *irc);
 
 char *irc_escape_privmsg(const char *text, gssize length);
 
@@ -160,6 +163,7 @@ void irc_msg_unavailable(struct irc_conn *irc, const char *name, const char *fro
 void irc_msg_unknown(struct irc_conn *irc, const char *name, const char *from, char **args);
 void irc_msg_wallops(struct irc_conn *irc, const char *name, const char *from, char **args);
 void irc_msg_whois(struct irc_conn *irc, const char *name, const char *from, char **args);
+void irc_msg_who(struct irc_conn *irc, const char *name, const char *from, char **args);
 
 void irc_msg_ignore(struct irc_conn *irc, const char *name, const char *from, char **args);
 
