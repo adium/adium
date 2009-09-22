@@ -8,7 +8,7 @@ fi
 
 ADIUM="`dirname $0`/.."
 
-cp -r "$ROOTDIR"/Frameworks/*.subproj/*.framework "$ADIUM/Frameworks/"
+cp -R "$ROOTDIR"/Frameworks/*.subproj/*.framework "$ADIUM/Frameworks/"
 
 pushd "$ADIUM/build" > /dev/null 2>&1
 	rm -rf */AdiumLibpurple.framework 
