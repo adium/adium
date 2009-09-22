@@ -101,7 +101,7 @@ typedef unsigned long guintptr;
 
 #define GLIB_MAJOR_VERSION 2
 #define GLIB_MINOR_VERSION 20
-#define GLIB_MICRO_VERSION 2
+#define GLIB_MICRO_VERSION 5
 
 #define G_OS_UNIX
 
@@ -327,7 +327,7 @@ typedef unsigned int guintptr;
 
 #define GLIB_MAJOR_VERSION 2
 #define GLIB_MINOR_VERSION 20
-#define GLIB_MICRO_VERSION 2
+#define GLIB_MICRO_VERSION 5
 
 #define G_OS_UNIX
 
@@ -552,7 +552,7 @@ typedef unsigned int guintptr;
 
 #define GLIB_MAJOR_VERSION 2
 #define GLIB_MINOR_VERSION 20
-#define GLIB_MICRO_VERSION 2
+#define GLIB_MICRO_VERSION 5
 
 #define G_OS_UNIX
 
