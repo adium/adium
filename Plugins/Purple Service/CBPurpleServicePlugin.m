@@ -38,10 +38,7 @@
 																		forClass:[self class]]
 										  forGroup:GROUP_ACCOUNT_STATUS];
 	
-    //Set the gstreamer plugin path
-	setenv("GST_PLUGIN_PATH", [[[NSBundle mainBundle] bundlePath] cStringUsingEncoding:NSUTF8StringEncoding], 0);
-	
-	//Install the services
+    //Install the services
 	[ESAIMService registerService];
 	[ESDotMacService registerService];
 	[AIMobileMeService registerService];
