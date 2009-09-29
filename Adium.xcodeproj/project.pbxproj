@@ -1442,8 +1442,8 @@
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
 		7E824CEB06387FAF00813072 /* SHLinkManagementPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */; };
-		7E9A8CB3104DEBC400F210CC /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
-		7EE09627104DFCBC00587F35 /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
+		7EDAC0A31072596200B77631 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */; };
+		7EDAC0D0107259A900B77631 /* Growl-WithInstaller.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1696,7 +1696,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7EE09627104DFCBC00587F35 /* Growl.framework in Copy Frameworks */,
+				7EDAC0D0107259A900B77631 /* Growl-WithInstaller.framework in Copy Frameworks */,
 				34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */,
 				34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */,
 				34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */,
@@ -4628,6 +4628,7 @@
 		7E824CDB06387FAF00813072 /* SHLinkManagementPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHLinkManagementPlugin.h; sourceTree = "<group>"; };
 		7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkManagementPlugin.m; sourceTree = "<group>"; };
 		7E9A8CB2104DEBC400F210CC /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
+		7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Growl-WithInstaller.framework"; path = "Frameworks/Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
@@ -4855,7 +4856,7 @@
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
 				34C846E6101E518F00140B4B /* QuickTime.framework in Frameworks */,
-				7E9A8CB3104DEBC400F210CC /* Growl.framework in Frameworks */,
+				7EDAC0A31072596200B77631 /* Growl-WithInstaller.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5133,6 +5134,7 @@
 		29B97323FDCFA39411CA2CEA /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */,
 				34C846E5101E518F00140B4B /* QuickTime.framework */,
 				34C846AE101E515900140B4B /* QTKit.framework */,
 				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
@@ -10036,14 +10038,14 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Frameworks/libpurple.framework/Versions/Current/libpurple",
-				"$(SRCROOT)/Frameworks/Growl/Versions/A/Growl-WithInstaller",
+				"$(SRCROOT)/Frameworks/Growl-WithInstaller/Versions/A/Growl-WithInstaller",
 				"$(SRCROOT)/Frameworks/LMX.framework/Versions/A/LMX",
 				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework/Versions/A/PSMTabBarControl",
 				"$(SRCROOT)/Frameworks/Sparkle.framework/Versions/A/Sparkle",
 				"$(SRCROOT)/Frameworks/libotr.framework/Versions/A/OTR",
 			);
 			outputPaths = (
-				"$(SRCROOT)/Frameworks/Growl.framework",
+				"$(SRCROOT)/Frameworks/Growl-WithInstaller.framework",
 				"$(SRCROOT)/Frameworks/libpurple.framework",
 				"$(SRCROOT)/Frameworks/LMX.framework",
 				"$(SRCROOT)/Frameworks/PSMTabBarControl.framework",
@@ -10052,7 +10054,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
+			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

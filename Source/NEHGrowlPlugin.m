@@ -35,7 +35,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AIObjectAdditions.h>
-#import <Growl/Growl.h>
+#import <Growl-WithInstaller/Growl.h>
 
 //#define GROWL_DEBUG 1
 

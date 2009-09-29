@@ -15,7 +15,7 @@
  */
 
 #import <Adium/AIContactAlertsControllerProtocol.h>
-#import <Growl/GrowlApplicationBridge.h>
+#import <Growl-WithInstaller/GrowlApplicationBridge.h>
 
 #define KEY_GROWL_ALERT_STICKY	@"Growl Sticky"
 #define KEY_GROWL_PRIORITY		@"Growl Priority"
