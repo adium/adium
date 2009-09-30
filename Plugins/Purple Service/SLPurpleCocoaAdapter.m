@@ -148,9 +148,9 @@ static NSMutableArray		*libpurplePluginArray = nil;
     return self;
 }
 
-static void ZombieKiller_Signal(SInt32 i)
+static void ZombieKiller_Signal(int i)
 {
-	SInt32 status;
+	int status;
 	pid_t child_pid;
 
 	while ((child_pid = waitpid(-1, &status, WNOHANG)) > 0);
