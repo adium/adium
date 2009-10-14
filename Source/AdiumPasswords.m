@@ -221,16 +221,17 @@
  */
 - (void)passwordForAccount:(AIAccount *)inAccount promptOption:(AIPromptOption)promptOption notifyingTarget:(id)inTarget selector:(SEL)inSelector context:(id)inContext
 {
-	[[AdiumPasswords operationQueue] addOperation:[[NSInvocationOperation alloc]
-												   initWithTarget:self
-												   selector:@selector(threadedPasswordRetrieval:)
-												   object:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-														   inAccount, @"Account",
-														   [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
-														   inTarget, @"Target",
-														   NSStringFromSelector(inSelector), @"Selector",
-														   inContext, @"Context" /* may be nil so should be last */,
-														   nil]]];
+	[[AdiumPasswords operationQueue] addOperation:[[[NSInvocationOperation alloc]
+																									initWithTarget:self
+																									      selector:@selector(threadedPasswordRetrieval:)
+																									        object:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+																													        inAccount, @"Account",
+																													        [NSNumber numberWithInteger:promptOption], @"AIPromptOption",
+																													        inTarget, @"Target",
+																													        NSStringFromSelector(inSelector), @"Selector",
+																													        inContext, @"Context" /* may be nil so should be last */,
+																													        nil]]
+																								  autorelease]];
 }
 
 //Proxy Servers --------------------------------------------------------------------------------------------------------
