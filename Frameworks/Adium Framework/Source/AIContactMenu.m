@@ -294,7 +294,9 @@
 			displayName = listObject.formattedUID;
 		}
 		
-		[menuItem setTitle:displayName];
+		if (displayName)
+			[menuItem setTitle:displayName];
+		
 		[menuItem setToolTip:(shouldSetTooltip ? [listObject.statusMessage string] : nil)];
 
 		[[menuItem menu] setMenuChangedMessagesEnabled:YES];
