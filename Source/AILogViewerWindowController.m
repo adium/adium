@@ -1812,7 +1812,12 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 - (void)tableViewDeleteSelectedRows:(NSTableView *)tableView
 {
-    [self deleteSelection:nil];
+	[resultsLock lock];
+	NSArray *selectedLogs = [tableView_results selectedItemsFromArray:currentSearchResults];
+	[resultsLock unlock];
+	
+	NSAlert *alert = [self alertForDeletionOfLogCount:[selectedLogs count]];
+	[alert beginSheetModalForWindow:[self window] modalDelegate:self didEndSelector:@selector(deleteLogsAlertDidEnd:returnCode:contextInfo:) contextInfo:[selectedLogs retain]];
 }
 
 - (void)tableViewColumnDidResize:(NSNotification *)aNotification
