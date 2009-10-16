@@ -47,8 +47,8 @@ fetch_libpurple() {
 		status "Pulling updates to monotone database"
 		$MTN -d "pidgin.mtn" pull --set-default "mtn.pidgin.im" "im.pidgin.*"
 	
-		status "Checking out im.pidgin.adium.1-4 branch"
-		$MTN -d "pidgin.mtn" co -b "im.pidgin.adium.1-4" .
+		status "Checking out im.pidgin.adium branch"
+		$MTN -d "pidgin.mtn" co -b "im.pidgin.adium" .
 	
 	fi
 	
