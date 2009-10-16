@@ -30,6 +30,12 @@
 	
 	textField_APIpath.stringValue = [account preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP] ?: @"";
 	[textField_APIpath setEnabled:YES];
+
+	[checkBox_useSSL setEnabled:YES];
+	
+	BOOL useSSL = [[account preferenceForKey:LACONICA_PREFERENCE_SSL group:LACONICA_PREF_GROUP] boolValue];
+	[checkBox_useSSL setState:useSSL];
+
 }
 
 /*!
@@ -41,6 +47,10 @@
 
 	[account setPreference:textField_APIpath.stringValue
 					forKey:LACONICA_PREFERENCE_PATH
+					 group:LACONICA_PREF_GROUP];
+	
+	[account setPreference:[NSNumber numberWithBool:[checkBox_useSSL state]]
+					forKey:LACONICA_PREFERENCE_SSL
 					 group:LACONICA_PREF_GROUP];
 	
 }

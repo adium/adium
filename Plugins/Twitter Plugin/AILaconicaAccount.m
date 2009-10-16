@@ -19,6 +19,15 @@
 
 @implementation AILaconicaAccount
 
+- (void)initAccount
+{
+	[super initAccount];
+	[adium.preferenceController registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
+												  [NSNumber numberWithBool:YES], LACONICA_PREFERENCE_SSL, nil]
+										forGroup:LACONICA_PREF_GROUP
+										  object:self];
+}
+
 - (void)connect
 {	
 	if (!self.host) {
@@ -85,6 +94,14 @@
 }
 
 /*!
+ * @brief Not all StatusNet instances support HTTPS connections.
+ */
+- (BOOL)useSSL
+{
+	return [[self preferenceForKey:LACONICA_PREFERENCE_SSL group:LACONICA_PREF_GROUP] boolValue];
+}
+
+/*!
  * @brief Laconica does not yet support OAuth.
  */
 - (BOOL)useOAuth
@@ -104,14 +121,16 @@
 	
 	NSString *fullAddress = [self.host stringByAppendingPathComponent:[self preferenceForKey:LACONICA_PREFERENCE_PATH group:LACONICA_PREF_GROUP]];
 	
+	NSString *protocol = self.useSSL ? @"https" : @"http";
+	
 	if (linkType == AITwitterLinkStatus) {
-		address = [NSString stringWithFormat:@"https://%@/notice/%@", fullAddress, statusID];
+		address = [NSString stringWithFormat:@"%@://%@/notice/%@", protocol, fullAddress, statusID];
 	} else if (linkType == AITwitterLinkFriends) {
-		address = [NSString stringWithFormat:@"https://%@/%@/subscriptions", fullAddress, userID];
+		address = [NSString stringWithFormat:@"%@://%@/%@/subscriptions", protocol, fullAddress, userID];
 	} else if (linkType == AITwitterLinkFollowers) {
-		address = [NSString stringWithFormat:@"https://%@/%@/subscribers", fullAddress, userID]; 
+		address = [NSString stringWithFormat:@"%@://%@/%@/subscribers", protocol, fullAddress, userID]; 
 	} else if (linkType == AITwitterLinkUserPage) {
-		address = [NSString stringWithFormat:@"https://%@/%@", fullAddress, userID]; 
+		address = [NSString stringWithFormat:@"%@://%@/%@", protocol, fullAddress, userID]; 
 	} else if (linkType == AITwitterLinkSearchHash) {
 		address = [NSString stringWithFormat:@"http://%@/tag/%@", fullAddress, context];
 	} else if (linkType == AITwitterLinkGroup) {

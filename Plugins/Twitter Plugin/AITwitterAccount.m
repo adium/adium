@@ -147,6 +147,8 @@
 	
 	[twitterEngine setAPIDomain:[self.host stringByAppendingPathComponent:self.apiPath]];
 	
+	[twitterEngine setUsesSecureConnection:self.useSSL];
+	
 	if (self.useOAuth) {
 		if (!self.passwordWhileConnected.length) {
 			[self setLastDisconnectionError:TWITTER_OAUTH_NOT_AUTHORIZED];
@@ -286,6 +288,14 @@
 - (NSString *)sourceToken
 {
 	return @"adiumofficial";
+}
+
+/*!
+ * @brief Returns whether or not to connect to Twitter API over HTTPS.
+ */
+- (BOOL)useSSL
+{
+	return YES;
 }
 
 /*!

@@ -17,6 +17,7 @@
 #import "AITwitterAccount.h"
 
 #define LACONICA_PREFERENCE_PATH		@"Path"
+#define LACONICA_PREFERENCE_SSL			@"SSL"
 #define LACONICA_PREF_GROUP				@"Laconica Preferences"
 
 @interface AILaconicaAccount : AITwitterAccount {
