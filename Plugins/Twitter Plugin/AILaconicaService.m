@@ -47,10 +47,10 @@
 	return @"Laconica";
 }
 - (NSString *)shortDescription{
-	return @"Laconica";
+	return @"StatusNet";
 }
 - (NSString *)longDescription{
-	return @"Laconica";
+	return @"StatusNet";
 }
 - (NSCharacterSet *)allowedCharacters{
 	return [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_"];
