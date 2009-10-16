@@ -53,9 +53,9 @@
 
 	[checkBox_confirmBeforeQuitting setState:[[confirmationDict objectForKey:KEY_CONFIRM_QUIT] boolValue]];
 	[matrix_quitConfirmType selectCellWithTag:[[confirmationDict objectForKey:KEY_CONFIRM_QUIT_TYPE] integerValue]];
-	[checkBox_quitConfirmFT setState:[[confirmationDict objectForKey:KEY_CONFIRM_QUIT_FT] boolValue]];
-	[checkBox_quitConfirmOpenChats setState:[[confirmationDict objectForKey:KEY_CONFIRM_QUIT_OPEN] boolValue]];
-	[checkBox_quitConfirmUnread setState:[[confirmationDict objectForKey:KEY_CONFIRM_QUIT_UNREAD] boolValue]];
+	[checkBox_quitConfirmFT setState:![[confirmationDict objectForKey:KEY_CONFIRM_QUIT_FT] boolValue]];
+	[checkBox_quitConfirmOpenChats setState:![[confirmationDict objectForKey:KEY_CONFIRM_QUIT_OPEN] boolValue]];
+	[checkBox_quitConfirmUnread setState:![[confirmationDict objectForKey:KEY_CONFIRM_QUIT_UNREAD] boolValue]];
 	
 	[checkBox_confirmBeforeClosing setState:[[confirmationDict objectForKey:KEY_CONFIRM_MSG_CLOSE] boolValue]];
 	[matrix_closeConfirmType selectCellWithTag:[[confirmationDict objectForKey:KEY_CONFIRM_MSG_CLOSE_TYPE] integerValue]];
@@ -81,19 +81,19 @@
 	}
 	
 	if (sender == checkBox_quitConfirmFT) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:![sender state]]
 										   forKey:KEY_CONFIRM_QUIT_FT
 											group:PREF_GROUP_CONFIRMATIONS];
 	}
 	
 	if (sender == checkBox_quitConfirmUnread) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:![sender state]]
 										   forKey:KEY_CONFIRM_QUIT_UNREAD
 											group:PREF_GROUP_CONFIRMATIONS];		
 	}
 	
 	if (sender == checkBox_quitConfirmOpenChats) {
-		[adium.preferenceController setPreference:[NSNumber numberWithBool:[sender state]]
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:![sender state]]
 										   forKey:KEY_CONFIRM_QUIT_OPEN
 											group:PREF_GROUP_CONFIRMATIONS];
 	}
