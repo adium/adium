@@ -10,6 +10,9 @@
 @interface ESPurpleQQAccountViewController : PurpleAccountViewController {
 	IBOutlet	NSButton	*checkBox_useTCP;
 	IBOutlet	NSTextField *label_connection;
+	
+	IBOutlet	NSTextField		*label_clientVersion;
+	IBOutlet	NSPopUpButton	*popUp_clientVersion;
 }
 
 @end
