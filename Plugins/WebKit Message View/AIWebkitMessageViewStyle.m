@@ -869,6 +869,9 @@ static NSArray *validSenderColors;
 
 		NSString *displayName = [content.chat displayNameForContact:contentSource];
 		
+		[inString replaceKeyword:@"%status%"
+					  withString:@""];
+
 		[inString replaceKeyword:@"%senderScreenName%" 
 					  withString:[(formattedUID ?
 								   formattedUID :
@@ -1070,6 +1073,15 @@ static NSArray *validSenderColors;
 		
 		[inString replaceKeyword:@"%statusSender%" 
 				  withString:[theSource.displayName stringByEscapingForXMLWithEntities:nil]];
+
+		[inString replaceKeyword:@"%senderScreenName%"
+				  withString:@""];
+
+		[inString replaceKeyword:@"%senderPrefix%"
+				  withString:@""];
+
+		[inString replaceKeyword:@"%sender%"
+				  withString:@""];
 
 		if ((statusPhrase = [[content userInfo] objectForKey:@"Status Phrase"])) {
 			do{
