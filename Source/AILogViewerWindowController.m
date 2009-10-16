@@ -89,6 +89,8 @@
 - (void)filterForChatName:(NSString *)chatName withAccount:(AIAccount *)account;
 - (void)selectCachedIndex;
 
+- (NSAlert *)alertForDeletionOfLogCount:(NSUInteger)logCount;
+
 - (void)_willOpenForContact;
 - (void)_didOpenForContact;
 
