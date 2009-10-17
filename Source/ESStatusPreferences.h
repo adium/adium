@@ -8,7 +8,7 @@
 
 #import "AIPreferencePane.h"
 
-@class AIAutoScrollView, AIStatus;
+@class AIAutoScrollView, AIStatus, AIAlternatingRowOutlineView;
 
 @interface ESStatusPreferences : AIPreferencePane {
 	//Status state tableview
@@ -16,8 +16,8 @@
 	IBOutlet	NSButton			*button_deleteState;
 	IBOutlet	NSButton			*button_addGroup;
 
-	IBOutlet	NSOutlineView		*outlineView_stateList;
-	IBOutlet	AIAutoScrollView	*scrollView_stateList;
+	IBOutlet	AIAlternatingRowOutlineView		*outlineView_stateList;
+	IBOutlet	AIAutoScrollView				*scrollView_stateList;
 	
 	NSArray				*draggingItems;
 	
