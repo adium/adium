@@ -856,6 +856,10 @@ static NSArray *validSenderColors;
 	[inString replaceKeyword:@"%service%" 
 				  withString:[content.chat.account.service shortDescription]];
 	
+	[inString replaceKeyword:@"%serviceIconPath%"
+				  withString:[AIServiceIcons pathForServiceIconForServiceID:content.chat.account.service.serviceID
+																	   type:AIServiceIconLarge]];
+	
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
 		
@@ -1180,6 +1184,9 @@ static NSArray *validSenderColors;
 	
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];
+	
+	[inString replaceKeyword:@"%serviceIconPath%"
+				  withString:serviceIconPath];
 	
 	[inString replaceKeyword:@"%timeOpened%"
 				  withString:[timeStampFormatter stringFromDate:[chat dateOpened]]];
