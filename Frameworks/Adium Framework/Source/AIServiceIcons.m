@@ -95,7 +95,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 		} else {
 			AIService *service = [adium.accountController firstServiceWithServiceID:serviceID];
 			if (service) {
-				serviceIcon = [service defaultServiceIconOfType:iconType];
+				serviceIcon = [[service defaultServiceIconOfType:iconType] retain];
 			}
 		}
 
