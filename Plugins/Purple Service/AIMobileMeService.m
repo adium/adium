@@ -75,4 +75,21 @@
 					  forClass:[self class] loadLazily:YES];
 }
 
+/*!
+ * @brief Path for default icon
+ *
+ * For use in message views, this is the path to a default icon as described above.
+ *
+ * @param iconType The AIServiceIconType of the icon to return.
+ * @return The path to the image, otherwise nil.
+ */
+- (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType
+{
+	if ((iconType == AIServiceIconSmall) || (iconType == AIServiceIconList)) {
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"MobileMe-small"];
+	} else {
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"MobileMe-large"];		
+	}
+}
+
 @end

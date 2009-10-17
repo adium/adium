@@ -53,6 +53,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *UIDPlaceholder;
 @property (readonly, nonatomic) AIServiceImportance serviceImportance;
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType;
+- (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType;
 
 //Service Properties
 @property (readonly, nonatomic) NSCharacterSet *allowedCharacters;
