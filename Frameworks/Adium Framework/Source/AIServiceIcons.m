@@ -74,7 +74,12 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 	if (iconName) {
 		return [serviceIconBasePath stringByAppendingPathComponent:iconName];
 	} else {
-		return nil;
+		AIService *service = [adium.accountController firstServiceWithServiceID:serviceID];
+		if (service) {
+			return [service pathForDefaultServiceIconOfType:iconType];
+		} else {
+			return nil;
+		}
 	}
 }
 
