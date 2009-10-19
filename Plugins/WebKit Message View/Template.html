@@ -15,21 +15,74 @@
 			var documentFragment = range.createContextualFragment(html);
 			node.appendChild(documentFragment);
 		}
+		
+		// a coalesced HTML object buffers and outputs DOM objects en masse.
+		// saves A LOT of CSS recalculation time when loading many messages.
+		// (ex. a long twitter timeline)
+		function CoalescedHTML() {
+			var self = this;
+			this.fragment = document.createDocumentFragment();
+			this.timeoutID = 0;
+			this.isCoalescing = false;
+			this.shouldScroll = false;
+		
+			function outputHTML() {
+				var insert = document.getElementById("insert");
+				if(insert) 
+					insert.parentNode.removeChild(insert);
+					
+				document.getElementById("Chat").appendChild(self.fragment);
+				alignChat(self.shouldScroll);
+				
+				self.fragment = document.createDocumentFragment();
+				self.shouldScroll = false;
+				self.isCoalescing = false;
+			}
+			
+			this.coalesce = function() {
+				if(!self.isCoalescing) {
+					self.timeoutID = window.setTimeout(outputHTML, 200);
+					self.isCoalescing = true;
+				}
+			}
+			
+			// if we need to append content into an insertion div,
+			// we need to clear the buffer and cancel the timeout.
+			this.cancel = function() {
+				if(self.isCoalescing) {
+					window.clearTimeout(self.timeoutID);
+					outputHTML();
+				}
+			}
+			
+			this.append = function(html, shouldScroll) {
+				var newMessage = document.createElement("div");
+				newMessage.innerHTML = html;
+				var children = newMessage.childNodes;
+				for (var i = 0; i < children.length; i++) {
+					self.fragment.appendChild(children[i]);
+				}
+				if(shouldScroll) self.shouldScroll = shouldScroll;
+				self.coalesce();
+			}
+		}
+		var coalescedHTML;
 
 		//Appending new content to the message view
 		function appendMessage(html) {
 			var shouldScroll = nearBottom();
-			appendMessageNoScroll(html);
-			alignChat(shouldScroll);
+			appendMessageNoScroll(html, shouldScroll);
 		}
 		
-		function appendMessageNoScroll(html) {			
+		function appendMessageNoScroll(html, shouldScroll) {			
+			shouldScroll = shouldScroll || false;
+			
 			//Remove the current insertion point
 			var insert = document.getElementById("insert");
 			if(insert) 
 				insert.parentNode.removeChild(insert);
 			
-			appendHTML(html);
+			coalescedHTML.append(html, shouldScroll)
 		}
 		
 		function appendNextMessage(html){
@@ -39,6 +92,9 @@
 		}
 		
 		function appendNextMessageNoScroll(html){
+			//cancel any coallescing
+			coalescedHTML.cancel();
+			
 			//Locate the insertion point
 			var insert = document.getElementById("insert");
 			if(insert){
@@ -55,6 +111,9 @@
 		}
 
 		function replaceLastMessage(html){
+			//cancel any coallescing
+			coalescedHTML.cancel();
+			
 			shouldScroll = nearBottom();
 
 			//Retrieve the current insertion point, then remove it
@@ -168,6 +227,11 @@
 		window.onresize = function windowDidResize(){
 			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
 		}
+		
+		function adiumOnLoad() {
+			alignChat(true);
+			coalescedHTML = new CoalescedHTML();
+		}
 	</script>
 
 	<style type="text/css">
@@ -190,7 +254,7 @@
 	</style>
 
 </head>
-<body onload="alignChat(true);" style="==bodyBackground==">
+<body onload="adiumOnLoad();" style="==bodyBackground==">
 %@
 <div id="Chat">
 </div>
