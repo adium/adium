@@ -23,6 +23,7 @@
 			var self = this;
 			this.fragment = document.createElement("div");
 			this.timeoutID = 0;
+			this.coalesceRounds = 0;
 			this.isCoalescing = false;
 			this.shouldScroll = false;
 			
@@ -42,6 +43,7 @@
 				self.fragment = document.createElement("div");
 				self.shouldScroll = false;
 				self.isCoalescing = false;
+				self.coalesceRounds = 0;
 			}
 			
 			function createHTMLNode(html) {
@@ -51,10 +53,11 @@
 			}
 			
 			this.coalesce = function() {
-				if(!self.isCoalescing) {
-					self.timeoutID = window.setTimeout(outputHTML, 100);
-					self.isCoalescing = true;
-				}
+				window.clearTimeout(self.timeoutID);
+				self.timeoutID = window.setTimeout(outputHTML, 10);
+				self.isCoalescing = true;
+				if(100 < self.coalesceRounds)
+					self.cancel();
 			}
 			
 			// if we need to append content into an insertion div,
