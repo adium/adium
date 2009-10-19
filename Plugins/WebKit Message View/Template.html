@@ -50,7 +50,7 @@
 			
 			this.coalesce = function() {
 				if(!self.isCoalescing) {
-					self.timeoutID = window.setTimeout(outputHTML, 200);
+					self.timeoutID = window.setTimeout(outputHTML, 100);
 					self.isCoalescing = true;
 				}
 			}
