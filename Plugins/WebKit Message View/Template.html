@@ -33,8 +33,8 @@
 					insert.parentNode.removeChild(insert);
 				
 				var documentFragment = document.createDocumentFragment();
-				for (var i = 0; i < self.fragment.children.length; i++) {
-					documentFragment.appendChild(self.fragment.children[i]);
+				while(self.fragment.hasChildNodes()) {
+					documentFragment.appendChild(self.fragment.firstChild);
 				}
 				
 				document.getElementById("Chat").appendChild(documentFragment);
@@ -49,14 +49,15 @@
 			function createHTMLNode(html) {
 				var newMessage = document.createElement("div");
 				newMessage.innerHTML = html;
-				return newMessage.childNodes;
+				return newMessage.firstChild;
 			}
 			
 			this.coalesce = function() {
 				window.clearTimeout(self.timeoutID);
 				self.timeoutID = window.setTimeout(outputHTML, 10);
 				self.isCoalescing = true;
-				if(100 < self.coalesceRounds)
+				self.coalesceRounds += 1;
+				if(500 < self.coalesceRounds)
 					self.cancel();
 			}
 			
@@ -70,24 +71,22 @@
 			}
 			
 			this.append = function(html, shouldScroll) {
-				var insert = self.fragment.querySelector("#insert");
-				if(insert)
-					insert.parentNode.removeChild(insert);
-				
 				var node = createHTMLNode(html);
-				for (var i = 0; i < node.length; i++) {
-					self.fragment.appendChild(node[i].cloneNode(true));
+				var insert = self.fragment.querySelector("#insert");
+				if(insert) {
+					insert.parentNode.removeChild(insert);
 				}
+				self.fragment.appendChild(node);
 
 				if(shouldScroll) self.shouldScroll = shouldScroll;
 				self.coalesce();
 			}
 			
 			this.appendNext = function(html, shouldScroll) {
-				insert = self.fragment.querySelector("#insert");
+				var insert = self.fragment.querySelector("#insert");
 				if(insert) {
 					var node = createHTMLNode(html);
-					insert.parentNode.replaceChild(node[0].cloneNode(true),insert);
+					insert.insertBefore(node);
 				} else {
 					self.append(html, shouldScroll);
 				}
@@ -112,7 +111,6 @@
 		function appendNextMessage(html){
 			var shouldScroll = nearBottom();
 			appendNextMessageNoScroll(html, shouldScroll);
-			alignChat(shouldScroll);
 		}
 		
 		function appendNextMessageNoScroll(html, shouldScroll){
@@ -130,6 +128,7 @@
 
 					//swap
 					insert.parentNode.replaceChild(newNode,insert);
+					alignChat(shouldScroll);
 				} else {
 					appendMessageNoScroll(html);
 				}
