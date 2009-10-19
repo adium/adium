@@ -21,7 +21,7 @@
 		// (ex. a long twitter timeline)
 		function CoalescedHTML() {
 			var self = this;
-			this.fragment = document.createDocumentFragment();
+			this.fragment = document.createElement("div");
 			this.timeoutID = 0;
 			this.isCoalescing = false;
 			this.shouldScroll = false;
@@ -30,22 +30,24 @@
 				var insert = document.getElementById("insert");
 				if(insert)
 					insert.parentNode.removeChild(insert);
-
-				document.getElementById("Chat").appendChild(self.fragment);
+				
+				var documentFragment = document.createDocumentFragment();
+				for (var i = 0; i < self.fragment.children.length; i++) {
+					documentFragment.appendChild(self.fragment.children[i]);
+				}
+				
+				document.getElementById("Chat").appendChild(documentFragment);
 				alignChat(self.shouldScroll);
 				
-				self.fragment = document.createDocumentFragment();
+				self.fragment = document.createElement("div");
 				self.shouldScroll = false;
 				self.isCoalescing = false;
 			}
 			
-			function insertHTMLToNode(html, node) {
+			function createHTMLNode(html) {
 				var newMessage = document.createElement("div");
 				newMessage.innerHTML = html;
-				var children = newMessage.childNodes;
-				for (var i = 0; i < children.length; i++) {
-					node.appendChild(children[i]);
-				}
+				return newMessage.childNodes;
 			}
 			
 			this.coalesce = function() {
@@ -65,14 +67,14 @@
 			}
 			
 			this.append = function(html, shouldScroll) {
-				var lastAppend = self.fragment.lastChild;
-				if(lastAppend){
-					var insert = lastAppend.querySelector("#insert");
-					if(insert)
-						insert.parentNode.removeChild(insert);
-				}
+				var insert = self.fragment.querySelector("#insert");
+				if(insert)
+					insert.parentNode.removeChild(insert);
 				
-				insertHTMLToNode(html, self.fragment);
+				var node = createHTMLNode(html);
+				for (var i = 0; i < node.length; i++) {
+					self.fragment.appendChild(node[i].cloneNode(true));
+				}
 
 				if(shouldScroll) self.shouldScroll = shouldScroll;
 				self.coalesce();
@@ -81,9 +83,8 @@
 			this.appendNext = function(html, shouldScroll) {
 				insert = self.fragment.querySelector("#insert");
 				if(insert) {
-					var insertParent = insert.parentNode;
-					insertParent.removeNode(insert);
-					insertHTMLToNode(html, insertParent);
+					var node = createHTMLNode(html);
+					insert.parentNode.replaceChild(node[0].cloneNode(true),insert);
 				} else {
 					self.append(html, shouldScroll);
 				}
