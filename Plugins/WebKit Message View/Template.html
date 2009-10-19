@@ -25,7 +25,11 @@
 			this.timeoutID = 0;
 			this.isCoalescing = false;
 			this.shouldScroll = false;
-		
+			
+			function rmInsert() {
+				
+			}
+			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
 				if(insert) 
@@ -56,6 +60,14 @@
 			}
 			
 			this.append = function(html, shouldScroll) {
+				
+				var lastAppend = self.fragment.lastChild;
+				if(lastAppend){
+					var insert = lastAppend.querySelector("#insert");
+					if(insert)
+						insert.parentNode.removeChild(insert);
+				}
+				
 				var newMessage = document.createElement("div");
 				newMessage.innerHTML = html;
 				var children = newMessage.childNodes;
