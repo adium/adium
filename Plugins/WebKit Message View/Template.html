@@ -32,6 +32,7 @@
 				if(insert)
 					insert.parentNode.removeChild(insert);
 				
+				// wrap the elements into a documentFragment for fast insertion
 				var documentFragment = document.createDocumentFragment();
 				while(self.fragment.hasChildNodes()) {
 					documentFragment.appendChild(self.fragment.firstChild);
@@ -40,7 +41,7 @@
 				document.getElementById("Chat").appendChild(documentFragment);
 				alignChat(self.shouldScroll);
 				
-				self.fragment = document.createElement("div");
+				// reset state to empty/non-coalescing
 				self.shouldScroll = false;
 				self.isCoalescing = false;
 				self.coalesceRounds = 0;
