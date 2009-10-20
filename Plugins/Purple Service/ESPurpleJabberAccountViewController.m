@@ -67,7 +67,7 @@
 	
 	// BOSH server
 	NSString *boshServer = [account preferenceForKey:KEY_JABBER_BOSH_SERVER group:GROUP_ACCOUNT_STATUS];
-	[textField_connectServer setStringValue:(boshServer ?: @"")];	
+	[textField_BOSHserver setStringValue:(boshServer ?: @"")];	
 	
 	//Priority
 	NSNumber *priority = [account preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
