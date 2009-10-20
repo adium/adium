@@ -48,8 +48,14 @@
 			
 			function createHTMLNode(html) {
 				var newMessage = document.createElement("div");
+				var documentFragment = document.createDocumentFragment();
 				newMessage.innerHTML = html;
-				return newMessage.firstChild;
+				
+				while(newMessage.hasChildNodes()) {
+					documentFragment.appendChild(newMessage.firstChild);
+				}
+				
+				return documentFragment;
 			}
 			
 			this.coalesce = function() {
@@ -86,7 +92,7 @@
 				var insert = self.fragment.querySelector("#insert");
 				if(insert) {
 					var node = createHTMLNode(html);
-					insert.insertBefore(node);
+					insert.parentNode.replaceChild(node, insert);
 				} else {
 					self.append(html, shouldScroll);
 				}
