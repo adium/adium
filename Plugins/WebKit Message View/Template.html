@@ -101,6 +101,17 @@
 					self.shouldScroll = shouldScroll;
 				self.coalesce();
 			}
+			
+			this.replaceLast = function (html, shouldScroll) {
+				var node = createHTMLNode(html);
+				var insert = self.fragment.querySelector("#insert");
+				if(insert)
+					insert.parentNode.removeChild(insert);
+				var lastMessage = self.fragment.lastChild;
+				lastMessage.parentNode.replaceChild(node, lastMessage);
+				if(shouldScroll)
+					self.shouldScroll = shouldScroll;
+			}
 		}
 		var coalescedHTML;
 
@@ -143,25 +154,25 @@
 		}
 
 		function replaceLastMessage(html){
-			//cancel any coallescing
-			coalescedHTML.cancel();
-			
 			shouldScroll = nearBottom();
+			if(coalescedHTML.isCoalescing){
+				coalescedHTML.replaceLast(html, shouldScroll);
+			} else {
+				//Retrieve the current insertion point, then remove it
+				//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
+				var insert = document.getElementById("insert");
+				if(insert){
+					var parentNode = insert.parentNode;
+					parentNode.removeChild(insert);
+					var lastMessage = document.getElementById("Chat").lastChild;
+					document.getElementById("Chat").removeChild(lastMessage);
+				}
 
-			//Retrieve the current insertion point, then remove it
-			//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
-			var insert = document.getElementById("insert");
-			if(insert){
-				var parentNode = insert.parentNode;
-				parentNode.removeChild(insert);
-				var lastMessage = document.getElementById("Chat").lastChild;
-				document.getElementById("Chat").removeChild(lastMessage);
+				//Now append the message itself
+				appendHTML(html);
+
+				alignChat(shouldScroll);
 			}
-
-			//Now append the message itself
-			appendHTML(html);
-
-			alignChat(shouldScroll);
 		}
 
 		//Auto-scroll to bottom.  Use nearBottom to determine if a scrollToBottom is desired.
