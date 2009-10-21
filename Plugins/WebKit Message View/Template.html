@@ -59,6 +59,13 @@
 				return documentFragment;
 			}
 			
+			// removes first insert node from the internal fragment.
+			function rmInsertNode() {
+				var insert = self.fragment.querySelector("#insert");
+				if(insert)
+					insert.parentNode.removeChild(insert);
+			}
+			
 			this.coalesce = function() {
 				window.clearTimeout(self.timeoutID);
 				self.timeoutID = window.setTimeout(outputHTML, 10);
@@ -78,11 +85,8 @@
 			}
 			
 			this.append = function(html, shouldScroll) {
+				rmInsertNode();
 				var node = createHTMLNode(html);
-				var insert = self.fragment.querySelector("#insert");
-				if(insert) {
-					insert.parentNode.removeChild(insert);
-				}
 				self.fragment.appendChild(node);
 
 				if(shouldScroll) self.shouldScroll = shouldScroll;
@@ -103,10 +107,8 @@
 			}
 			
 			this.replaceLast = function (html, shouldScroll) {
+				rmInsertNode();
 				var node = createHTMLNode(html);
-				var insert = self.fragment.querySelector("#insert");
-				if(insert)
-					insert.parentNode.removeChild(insert);
 				var lastMessage = self.fragment.lastChild;
 				lastMessage.parentNode.replaceChild(node, lastMessage);
 				if(shouldScroll)
