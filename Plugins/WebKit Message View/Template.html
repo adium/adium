@@ -25,7 +25,7 @@
 			this.timeoutID = 0;
 			this.coalesceRounds = 0;
 			this.isCoalescing = false;
-			this.shouldScroll = false;
+			this.shouldScroll = undefined;
 			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
@@ -37,7 +37,7 @@
 				alignChat(self.shouldScroll);
 				
 				// reset state to empty/non-coalescing
-				self.shouldScroll = false;
+				self.shouldScroll = undefined;
 				self.isCoalescing = false;
 				self.coalesceRounds = 0;
 			}
@@ -130,7 +130,14 @@
 
 		//Appending new content to the message view
 		function appendMessage(html) {
-			var shouldScroll = nearBottom();
+			var shouldScroll;
+			
+			// Only call nearBottom() if should scroll is undefined.
+			if(undefined === coalescedHTML.shouldScroll) {
+				shouldScroll = nearBottom();
+			} else {
+				shouldScroll = coalescedHTML.shouldScroll;
+			}
 			appendMessageNoScroll(html, shouldScroll);
 		}
 		
@@ -141,7 +148,12 @@
 		}
 		
 		function appendNextMessage(html){
-			var shouldScroll = nearBottom();
+			var shouldScroll;
+			if(undefined === coalescedHTML.shouldScroll) {
+				shouldScroll = nearBottom();
+			} else {
+				shouldScroll = coalescedHTML.shouldScroll;
+			}
 			appendNextMessageNoScroll(html, shouldScroll);
 		}
 		
@@ -169,11 +181,17 @@
 		}
 
 		function replaceLastMessage(html){
-			shouldScroll = nearBottom();
+			var shouldScroll;
 			// only replace messages if we're already coalescing
 			if(coalescedHTML.isCoalescing){
+				if(undefined === coalescedHTML.shouldScroll) {
+					shouldScroll = nearBottom();
+				} else {
+					shouldScroll = coalescedHTML.shouldScroll;
+				}
 				coalescedHTML.replaceLast(html, shouldScroll);
 			} else {
+				shouldScroll = nearBottom();
 				//Retrieve the current insertion point, then remove it
 				//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
 				var insert = document.getElementById("insert");
