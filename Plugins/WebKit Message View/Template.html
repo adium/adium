@@ -21,7 +21,7 @@
 		// (ex. a long twitter timeline)
 		function CoalescedHTML() {
 			var self = this;
-			this.fragment = document.createElement("div");
+			this.fragment = document.createDocumentFragment();
 			this.timeoutID = 0;
 			this.coalesceRounds = 0;
 			this.isCoalescing = false;
@@ -32,17 +32,11 @@
 				if(insert)
 					insert.parentNode.removeChild(insert);
 				
-				// wrap the elements into a documentFragment for fast insertion
-				var documentFragment = document.createDocumentFragment();
-				while(self.fragment.hasChildNodes()) {
-					documentFragment.appendChild(self.fragment.firstChild);
-				}
-				
-				document.getElementById("Chat").appendChild(documentFragment);
+				// insert the documentFragment into the live DOM
+				document.getElementById("Chat").appendChild(self.fragment);
 				alignChat(self.shouldScroll);
 				
 				// reset state to empty/non-coalescing
-				documentFragment = null;
 				self.shouldScroll = false;
 				self.isCoalescing = false;
 				self.coalesceRounds = 0;
