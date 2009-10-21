@@ -42,6 +42,7 @@
 				alignChat(self.shouldScroll);
 				
 				// reset state to empty/non-coalescing
+				documentFragment = null;
 				self.shouldScroll = false;
 				self.isCoalescing = false;
 				self.coalesceRounds = 0;
@@ -99,6 +100,8 @@
 				rmInsertNode();
 				var node = createHTMLNode(html);
 				self.fragment.appendChild(node);
+				
+				node = null;
 
 				if(shouldScroll) self.shouldScroll = shouldScroll;
 				self.coalesce();
@@ -109,6 +112,8 @@
 				if(insert) {
 					var node = createHTMLNode(html);
 					insert.parentNode.replaceChild(node, insert);
+					
+					node = null;
 				} else {
 					self.append(html, shouldScroll);
 				}
@@ -122,6 +127,7 @@
 				var node = createHTMLNode(html);
 				var lastMessage = self.fragment.lastChild;
 				lastMessage.parentNode.replaceChild(node, lastMessage);
+				node = null;
 				if(shouldScroll)
 					self.shouldScroll = shouldScroll;
 			}
