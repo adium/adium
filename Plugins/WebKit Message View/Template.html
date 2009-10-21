@@ -47,6 +47,8 @@
 				self.coalesceRounds = 0;
 			}
 			
+			// creates and returns a new documentFragment, containing all content nodes
+			// which can be inserted as a single node.
 			function createHTMLNode(html) {
 				var newMessage = document.createElement("div");
 				var documentFragment = document.createDocumentFragment();
@@ -66,6 +68,12 @@
 					insert.parentNode.removeChild(insert);
 			}
 			
+			// (re)start the coalescing timer.
+			//   we wait 10ms for a new message to come in.
+			//   If we get one, restart the timer and wait another 10ms.
+			//   If not, run outputHTML()
+			//  We do this a maximum of 500 times, for 5s max that can be spent
+			//  coalescing input, since this will block display.
 			this.coalesce = function() {
 				window.clearTimeout(self.timeoutID);
 				self.timeoutID = window.setTimeout(outputHTML, 10);
@@ -83,6 +91,9 @@
 					outputHTML();
 				}
 			}
+			
+			
+			// coalased analogs to the global functions
 			
 			this.append = function(html, shouldScroll) {
 				rmInsertNode();
@@ -125,6 +136,7 @@
 		
 		function appendMessageNoScroll(html, shouldScroll) {			
 			shouldScroll = shouldScroll || false;
+			// always try to coalesce new, non-griuped, messages
 			coalescedHTML.append(html, shouldScroll)
 		}
 		
@@ -135,6 +147,7 @@
 		
 		function appendNextMessageNoScroll(html, shouldScroll){
 			shouldScroll = shouldScroll || false;
+			// only group next messages if we're already coalescing input
 			if(coalescedHTML.isCoalescing){
 				coalescedHTML.appendNext(html, shouldScroll);
 			} else {
@@ -157,6 +170,7 @@
 
 		function replaceLastMessage(html){
 			shouldScroll = nearBottom();
+			// only replace messages if we're already coalescing
 			if(coalescedHTML.isCoalescing){
 				coalescedHTML.replaceLast(html, shouldScroll);
 			} else {
