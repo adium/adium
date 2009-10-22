@@ -64,17 +64,17 @@
 			}
 			
 			// (re)start the coalescing timer.
-			//   we wait 10ms for a new message to come in.
+			//   we wait 25ms for a new message to come in.
 			//   If we get one, restart the timer and wait another 10ms.
 			//   If not, run outputHTML()
-			//  We do this a maximum of 500 times, for 5s max that can be spent
+			//  We do this a maximum of 400 times, for 10s max that can be spent
 			//  coalescing input, since this will block display.
 			this.coalesce = function() {
 				window.clearTimeout(self.timeoutID);
-				self.timeoutID = window.setTimeout(outputHTML, 10);
+				self.timeoutID = window.setTimeout(outputHTML, 25);
 				self.isCoalescing = true;
 				self.coalesceRounds += 1;
-				if(500 < self.coalesceRounds)
+				if(400 < self.coalesceRounds)
 					self.cancel();
 			}
 			
