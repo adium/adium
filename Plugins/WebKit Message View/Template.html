@@ -25,6 +25,7 @@
 			this.timeoutID = 0;
 			this.coalesceRounds = 0;
 			this.isCoalescing = false;
+			this.isConsecutive = undefined;
 			this.shouldScroll = undefined;
 			
 			function outputHTML() {
@@ -38,6 +39,7 @@
 				
 				// reset state to empty/non-coalescing
 				self.shouldScroll = undefined;
+				self.isConsecutive = undefined;
 				self.isCoalescing = false;
 				self.coalesceRounds = 0;
 			}
@@ -91,6 +93,12 @@
 			// coalased analogs to the global functions
 			
 			this.append = function(html, shouldScroll) {
+				// if we started this fragment with a consecuative message,
+				// cancel and output before we continue
+				if(undefined === self.isConsecutive || !self.isConsecutive) {
+					self.cancel();
+				}
+				self.isConsecutive = false;
 				rmInsertNode();
 				var node = createHTMLNode(html);
 				self.fragment.appendChild(node);
@@ -102,6 +110,7 @@
 			}
 			
 			this.appendNext = function(html, shouldScroll) {
+				self.isConsecutive = self.isConsecutive||true;
 				var insert = self.fragment.querySelector("#insert");
 				if(insert) {
 					var node = createHTMLNode(html);
@@ -160,24 +169,7 @@
 		function appendNextMessageNoScroll(html, shouldScroll){
 			shouldScroll = shouldScroll || false;
 			// only group next messages if we're already coalescing input
-			if(coalescedHTML.isCoalescing){
-				coalescedHTML.appendNext(html, shouldScroll);
-			} else {
-				//Locate the insertion point
-				var insert = document.getElementById("insert");
-				if(insert){
-					//make new node
-					var range = document.createRange();
-					range.selectNode(insert.parentNode);
-					var newNode = range.createContextualFragment(html);
-
-					//swap
-					insert.parentNode.replaceChild(newNode,insert);
-					alignChat(shouldScroll);
-				} else {
-					appendMessageNoScroll(html);
-				}
-			}
+			coalescedHTML.appendNext(html, shouldScroll);
 		}
 
 		function replaceLastMessage(html){
