@@ -30,11 +30,14 @@
 			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
-				if(insert)
-					insert.parentNode.removeChild(insert);
-				
-				// insert the documentFragment into the live DOM
-				document.getElementById("Chat").appendChild(self.fragment);
+				if(insert && self.isConsecutive) {
+					insert.parentNode.replaceChild(self.fragment, insert);
+				} else {
+					if(insert)
+						insert.parentNode.removeChild(insert);
+					// insert the documentFragment into the live DOM
+					document.getElementById("Chat").appendChild(self.fragment);
+				}
 				alignChat(self.shouldScroll);
 				
 				// reset state to empty/non-coalescing
