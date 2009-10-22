@@ -95,7 +95,7 @@
 			this.append = function(html, shouldScroll) {
 				// if we started this fragment with a consecuative message,
 				// cancel and output before we continue
-				if(undefined === self.isConsecutive || !self.isConsecutive) {
+				if(undefined === self.isConsecutive || self.isConsecutive) {
 					self.cancel();
 				}
 				self.isConsecutive = false;
