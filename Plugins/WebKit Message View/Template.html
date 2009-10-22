@@ -30,7 +30,7 @@
 			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
-				if(insert && self.isConsecutive) {
+				if(!!insert && self.isConsecutive) {
 					insert.parentNode.replaceChild(self.fragment, insert);
 				} else {
 					if(insert)
@@ -98,7 +98,7 @@
 			this.append = function(html, shouldScroll) {
 				// if we started this fragment with a consecuative message,
 				// cancel and output before we continue
-				if(undefined === self.isConsecutive || self.isConsecutive) {
+				if(self.isConsecutive) {
 					self.cancel();
 				}
 				self.isConsecutive = false;
@@ -113,16 +113,16 @@
 			}
 			
 			this.appendNext = function(html, shouldScroll) {
-				self.isConsecutive = self.isConsecutive||true;
+				if(undefined === self.isConsecutive)
+					self.isConsecutive = true;
+				var node = createHTMLNode(html);
 				var insert = self.fragment.querySelector("#insert");
 				if(insert) {
-					var node = createHTMLNode(html);
 					insert.parentNode.replaceChild(node, insert);
-					
-					node = null;
 				} else {
-					self.append(html, shouldScroll);
+					self.fragment.appendChild(node);
 				}
+				node = null;
 				if(shouldScroll)
 					self.shouldScroll = shouldScroll;
 				self.coalesce();
