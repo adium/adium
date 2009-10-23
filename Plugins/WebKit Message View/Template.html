@@ -15,62 +15,193 @@
 			var documentFragment = range.createContextualFragment(html);
 			node.appendChild(documentFragment);
 		}
+		
+		// a coalesced HTML object buffers and outputs DOM objects en masse.
+		// saves A LOT of CSS recalculation time when loading many messages.
+		// (ex. a long twitter timeline)
+		function CoalescedHTML() {
+			var self = this;
+			this.fragment = document.createDocumentFragment();
+			this.timeoutID = 0;
+			this.coalesceRounds = 0;
+			this.isCoalescing = false;
+			this.isConsecutive = undefined;
+			this.shouldScroll = undefined;
+			
+			function outputHTML() {
+				var insert = document.getElementById("insert");
+				if(!!insert && self.isConsecutive) {
+					insert.parentNode.replaceChild(self.fragment, insert);
+				} else {
+					if(insert)
+						insert.parentNode.removeChild(insert);
+					// insert the documentFragment into the live DOM
+					document.getElementById("Chat").appendChild(self.fragment);
+				}
+				alignChat(self.shouldScroll);
+				
+				// reset state to empty/non-coalescing
+				self.shouldScroll = undefined;
+				self.isConsecutive = undefined;
+				self.isCoalescing = false;
+				self.coalesceRounds = 0;
+			}
+			
+			// creates and returns a new documentFragment, containing all content nodes
+			// which can be inserted as a single node.
+			function createHTMLNode(html) {
+				var newMessage = document.createElement("div");
+				var documentFragment = document.createDocumentFragment();
+				newMessage.innerHTML = html;
+				
+				while(newMessage.hasChildNodes()) {
+					documentFragment.appendChild(newMessage.firstChild);
+				}
+				
+				return documentFragment;
+			}
+			
+			// removes first insert node from the internal fragment.
+			function rmInsertNode() {
+				var insert = self.fragment.querySelector("#insert");
+				if(insert)
+					insert.parentNode.removeChild(insert);
+			}
+			
+			// (re)start the coalescing timer.
+			//   we wait 25ms for a new message to come in.
+			//   If we get one, restart the timer and wait another 10ms.
+			//   If not, run outputHTML()
+			//  We do this a maximum of 400 times, for 10s max that can be spent
+			//  coalescing input, since this will block display.
+			this.coalesce = function() {
+				window.clearTimeout(self.timeoutID);
+				self.timeoutID = window.setTimeout(outputHTML, 25);
+				self.isCoalescing = true;
+				self.coalesceRounds += 1;
+				if(400 < self.coalesceRounds)
+					self.cancel();
+			}
+			
+			// if we need to append content into an insertion div,
+			// we need to clear the buffer and cancel the timeout.
+			this.cancel = function() {
+				if(self.isCoalescing) {
+					window.clearTimeout(self.timeoutID);
+					outputHTML();
+				}
+			}
+			
+			
+			// coalased analogs to the global functions
+			
+			this.append = function(html, shouldScroll) {
+				// if we started this fragment with a consecuative message,
+				// cancel and output before we continue
+				if(self.isConsecutive) {
+					self.cancel();
+				}
+				self.isConsecutive = false;
+				rmInsertNode();
+				var node = createHTMLNode(html);
+				self.fragment.appendChild(node);
+				
+				node = null;
+
+				if(shouldScroll) self.shouldScroll = shouldScroll;
+				self.coalesce();
+			}
+			
+			this.appendNext = function(html, shouldScroll) {
+				if(undefined === self.isConsecutive)
+					self.isConsecutive = true;
+				var node = createHTMLNode(html);
+				var insert = self.fragment.querySelector("#insert");
+				if(insert) {
+					insert.parentNode.replaceChild(node, insert);
+				} else {
+					self.fragment.appendChild(node);
+				}
+				node = null;
+				if(shouldScroll)
+					self.shouldScroll = shouldScroll;
+				self.coalesce();
+			}
+			
+			this.replaceLast = function (html, shouldScroll) {
+				rmInsertNode();
+				var node = createHTMLNode(html);
+				var lastMessage = self.fragment.lastChild;
+				lastMessage.parentNode.replaceChild(node, lastMessage);
+				node = null;
+				if(shouldScroll)
+					self.shouldScroll = shouldScroll;
+			}
+		}
+		var coalescedHTML;
 
 		//Appending new content to the message view
 		function appendMessage(html) {
-			var shouldScroll = nearBottom();
-			appendMessageNoScroll(html);
-			alignChat(shouldScroll);
+			var shouldScroll;
+			
+			// Only call nearBottom() if should scroll is undefined.
+			if(undefined === coalescedHTML.shouldScroll) {
+				shouldScroll = nearBottom();
+			} else {
+				shouldScroll = coalescedHTML.shouldScroll;
+			}
+			appendMessageNoScroll(html, shouldScroll);
 		}
 		
-		function appendMessageNoScroll(html) {			
-			//Remove the current insertion point
-			var insert = document.getElementById("insert");
-			if(insert) 
-				insert.parentNode.removeChild(insert);
-			
-			appendHTML(html);
+		function appendMessageNoScroll(html, shouldScroll) {			
+			shouldScroll = shouldScroll || false;
+			// always try to coalesce new, non-griuped, messages
+			coalescedHTML.append(html, shouldScroll)
 		}
 		
 		function appendNextMessage(html){
-			var shouldScroll = nearBottom();
-			appendNextMessageNoScroll(html);
-			alignChat(shouldScroll);
+			var shouldScroll;
+			if(undefined === coalescedHTML.shouldScroll) {
+				shouldScroll = nearBottom();
+			} else {
+				shouldScroll = coalescedHTML.shouldScroll;
+			}
+			appendNextMessageNoScroll(html, shouldScroll);
 		}
 		
-		function appendNextMessageNoScroll(html){
-			//Locate the insertion point
-			var insert = document.getElementById("insert");
-			if(insert){
-				//make new node
-				var range = document.createRange();
-				range.selectNode(insert.parentNode);
-				var newNode = range.createContextualFragment(html);
-
-				//swap
-				insert.parentNode.replaceChild(newNode,insert);
-			} else {
-				appendMessageNoScroll(html);
-			}
+		function appendNextMessageNoScroll(html, shouldScroll){
+			shouldScroll = shouldScroll || false;
+			// only group next messages if we're already coalescing input
+			coalescedHTML.appendNext(html, shouldScroll);
 		}
 
 		function replaceLastMessage(html){
-			shouldScroll = nearBottom();
+			var shouldScroll;
+			// only replace messages if we're already coalescing
+			if(coalescedHTML.isCoalescing){
+				if(undefined === coalescedHTML.shouldScroll) {
+					shouldScroll = nearBottom();
+				} else {
+					shouldScroll = coalescedHTML.shouldScroll;
+				}
+				coalescedHTML.replaceLast(html, shouldScroll);
+			} else {
+				shouldScroll = nearBottom();
+				//Retrieve the current insertion point, then remove it
+				//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
+				var insert = document.getElementById("insert");
+				if(insert){
+					var parentNode = insert.parentNode;
+					parentNode.removeChild(insert);
+					var lastMessage = document.getElementById("Chat").lastChild;
+					document.getElementById("Chat").removeChild(lastMessage);
+				}
 
-			//Retrieve the current insertion point, then remove it
-			//This requires that there have been an insertion point... is there a better way to retrieve the last element? -evands
-			var insert = document.getElementById("insert");
-			if(insert){
-				var parentNode = insert.parentNode;
-				parentNode.removeChild(insert);
-				var lastMessage = document.getElementById("Chat").lastChild;
-				document.getElementById("Chat").removeChild(lastMessage);
+				//Now append the message itself
+				appendHTML(html);
+
+				alignChat(shouldScroll);
 			}
-
-			//Now append the message itself
-			appendHTML(html);
-
-			alignChat(shouldScroll);
 		}
 
 		//Auto-scroll to bottom.  Use nearBottom to determine if a scrollToBottom is desired.
@@ -168,6 +299,11 @@
 		window.onresize = function windowDidResize(){
 			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
 		}
+		
+		function adiumOnLoad() {
+			alignChat(true);
+			coalescedHTML = new CoalescedHTML();
+		}
 	</script>
 
 	<style type="text/css">
@@ -190,7 +326,7 @@
 	</style>
 
 </head>
-<body onload="alignChat(true);" style="==bodyBackground==">
+<body onload="adiumOnLoad();" style="==bodyBackground==">
 %@
 <div id="Chat">
 </div>

@@ -17,6 +17,7 @@
 #import "CBPurpleAccount.h"
 
 #define KEY_JABBER_CONNECT_SERVER		@"Jabber:Connect Server"
+#define KEY_JABBER_BOSH_SERVER			@"Jabber:BOSH Server"
 #define KEY_JABBER_PRIORITY_AVAILABLE	@"Jabber:Priority when Available"
 #define KEY_JABBER_PRIORITY_AWAY		@"Jabber:Priority when Away"
 #define KEY_JABBER_RESOURCE				@"Jabber:Resource"

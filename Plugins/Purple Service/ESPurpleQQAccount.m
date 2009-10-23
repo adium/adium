@@ -20,6 +20,7 @@
 	[super configurePurpleAccount];
 	
 	purple_account_set_bool(account, "use_tcp", [[self preferenceForKey:KEY_QQ_USE_TCP group:GROUP_ACCOUNT_STATUS] boolValue]);
+	purple_account_set_string(account, "client_version", [[self preferenceForKey:KEY_QQ_CLIENT_VERSION group:GROUP_ACCOUNT_STATUS] UTF8String]);
 }
 
 /*!

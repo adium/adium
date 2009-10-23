@@ -1,36 +1,6 @@
 #!/bin/bash -eu
 
 ##
-# xml2
-#
-XML_VERSION=2.2
-build_libxml2() {
-	prereq "xml2" \
-		"ftp://xmlsoft.org:21//libxml2/libxml2-sources-2.7.3.tar.gz"
-	
-	quiet pushd "$ROOTDIR/source/xml2"
-	
-	if needsconfigure $@; then
-	(
-		status "Configuring xml2"
-		export CFLAGS="$ARCH_CFLAGS"
-		export LDFLAGS="$ARCH_LDFLAGS"
-		log ./configure \
-			--prefix="$ROOTDIR/build" \
-			--with-python=no \
-			--disable-dependency-tracking
-	)
-	fi
-	
-	status "Building and installing xml2"
-	log make -j $NUMBER_OF_CORES
-	log make install
-	
-	quiet popd
-}
-
-
-##
 # liboil
 # liboil needs special threatment.  Rather than placing platform specific code
 # in a ifdef, it sequesters it by directory and invokes a makefile.  woowoo.
@@ -67,6 +37,19 @@ build_gst_plugins_base() {
 		export NM="nm -arch all"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
+				--disable-examples \
+				--disable-playback \
+				--disable-audiotestsrc \
+				--disable-cdparanoia \
+				--disable-subparse \
+				--disable-videotestsrc \
+				--disable-x \
+				--disable-xvideo \
+				--disable-xshm \
+				--disable-gst_v4l \
+				--disable-alsa \
+				--disable-gnome_vfs \
+				--disable-libvisual \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-base/config.h" \
@@ -97,9 +80,46 @@ build_gst_plugins_good() {
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-aalib \
+				--disable-videofilter \
+				--disable-apetag \
+				--disable-alpha \
+				--disable-audiofx \
+				--disable-auparse \
+				--disable-avi \
+				--disable-cutter \
+				--disable-debugutils \
+				--disable-deinterlace \
+				--disable-effectv \
+				--disable-flv \
+				--disable-id3demux \
+				--disable-icydemux \
 				--disable-examples \
+				--disable-interleave \
 				--disable-goom \
 				--disable-goom2k1 \
+				--disable-matroska \
+				--disable-monoscope \
+				--disable-multifile \
+				--disable-multipart \
+				--disable-qtdemux \
+				--disable-replaygain \
+				--disable-smpte \
+				--disable-spectrum \
+				--disable-directsound \
+				--disable-oss \
+				--disable-sunaudio \
+				--disable-gst_v4l2 \
+				--disable-x \
+				--disable-xshm \
+				--disable-xvideo \
+				--disable-annodex \
+				--disable-cairo \
+				--disable-esd \
+				--disable-flac \
+				--disable-libcaca \
+				--disable-taglib  \
+				--disable-wavpack \
+				--disable-shout2 \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-good/config.h" \
@@ -180,7 +200,7 @@ build_gst_plugins() {
 	build_liboil $@
 	build_gst_plugins_base $@
 	build_gst_plugins_good $@
-	build_gst_plugins_bad $@
+#	build_gst_plugins_bad $@
 	build_gst_plugins_farsight $@
 }
 
@@ -189,8 +209,6 @@ build_gst_plugins() {
 #
 GSTREAMER_VERSION=0.10
 build_gstreamer() {
-    build_libxml2 $@
-
 	prereq "gstreamer" \
 		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.24.tar.gz"
 	
@@ -199,8 +217,11 @@ build_gstreamer() {
 	if needsconfigure $@; then
 	(
 		status "Configuring gstreamer"
+		export XML_CFLAGS=" -I$SDK_ROOT/usr/include/libxml2"
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
+				--disable-examples \
+				--disable-tests \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \

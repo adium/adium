@@ -19,6 +19,7 @@
 #import <AIUtilities/AIAutoScrollView.h>
 #import <AIUtilities/AIVerticallyCenteredTextCell.h>
 #import <AIUtilities/AIOutlineViewAdditions.h>
+#import <AIUtilities/AIAlternatingRowOutlineView.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
 #define STATE_DRAG_TYPE	@"AIState"
@@ -62,6 +63,9 @@
 	//Configure the controls
 	[self configureStateList];
 
+	[outlineView_stateList setDrawsBackground:NO];
+	[outlineView_stateList setUsesAlternatingRowBackgroundColors:YES];
+	
 	//Manually size and position our buttons
 	{
 		NSRect	newFrame, oldFrame;

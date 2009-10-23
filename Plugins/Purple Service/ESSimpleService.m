@@ -83,4 +83,17 @@
 	return [NSImage imageNamed:@"simple" forClass:[self class] loadLazily:YES];
 }
 
+/*!
+ * @brief Path for default icon
+ *
+ * For use in message views, this is the path to a default icon as described above.
+ *
+ * @param iconType The AIServiceIconType of the icon to return.
+ * @return The path to the image, otherwise nil.
+ */
+- (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType
+{
+	return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"simple"];		
+}
+
 @end

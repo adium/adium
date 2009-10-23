@@ -206,6 +206,7 @@
 	
 	[textField_connectHost setEnabled:NO];
 	[textField_APIpath setEnabled:NO];
+	[checkBox_useSSL setEnabled:NO];
 }
 
 /*!

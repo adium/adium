@@ -19,6 +19,7 @@
 
 @interface ESPurpleJabberAccountViewController : PurpleAccountViewController {
     IBOutlet	NSTextField		*textField_connectServer;
+	IBOutlet	NSTextField		*textField_BOSHserver;
 	IBOutlet	NSTextField		*textField_resource;
 	IBOutlet	NSTextField		*textField_priorityAvailable;
 	IBOutlet	NSTextField		*textField_priorityAway;
