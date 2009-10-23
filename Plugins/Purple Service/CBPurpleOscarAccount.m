@@ -859,7 +859,8 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 		return [NSString stringWithFormat:AILocalizedString(@"Re-request Authorization from %@",nil),inContact.formattedUID];
 		
 	} else 	if (strcmp(label, _("Get AIM Info")) == 0) {
-		return [NSString stringWithFormat:AILocalizedString(@"Get AIM information for %@",nil),inContact.formattedUID];
+		//Handled via Get Info
+		return nil;
 
 	} else if (strcmp(label, _("Direct IM")) == 0) {
 		return [NSString stringWithFormat:AILocalizedString(@"Initiate Direct IM with %@",nil),inContact.formattedUID];

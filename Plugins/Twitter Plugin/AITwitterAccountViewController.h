@@ -31,6 +31,7 @@
 	// Options
 	
 	IBOutlet	NSTextField		*textField_APIpath;
+	IBOutlet	NSButton		*checkBox_useSSL;
 	
 	IBOutlet	NSButton		*checkBox_retweet;
 	IBOutlet	NSButton		*checkBox_loadContacts;

@@ -165,6 +165,7 @@ typedef enum {
 @property (readonly, nonatomic) NSString *sourceToken;
 @property (readonly, nonatomic) NSString *defaultServer;
 
+@property (readonly, nonatomic) BOOL useSSL;
 @property (readonly, nonatomic) BOOL useOAuth;
 @property (readonly, nonatomic) NSString *consumerKey;
 @property (readonly, nonatomic) NSString *secretKey;

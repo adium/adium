@@ -65,6 +65,10 @@
 	NSString *connectServer = [account preferenceForKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
 	[textField_connectServer setStringValue:(connectServer ? connectServer : @"")];
 	
+	// BOSH server
+	NSString *boshServer = [account preferenceForKey:KEY_JABBER_BOSH_SERVER group:GROUP_ACCOUNT_STATUS];
+	[textField_BOSHserver setStringValue:(boshServer ?: @"")];	
+	
 	//Priority
 	NSNumber *priority = [account preferenceForKey:KEY_JABBER_PRIORITY_AVAILABLE group:GROUP_ACCOUNT_STATUS];
 	[textField_priorityAvailable setStringValue:(priority ? [priority stringValue] : @"")];
@@ -110,6 +114,10 @@
 	//Connect server
 	[account setPreference:([[textField_connectServer stringValue] length] ? [textField_connectServer stringValue] : nil)
 					forKey:KEY_JABBER_CONNECT_SERVER group:GROUP_ACCOUNT_STATUS];
+	
+	//BOSH server
+	[account setPreference:([[textField_BOSHserver stringValue] length] ? [textField_BOSHserver stringValue] : nil)
+					forKey:KEY_JABBER_BOSH_SERVER group:GROUP_ACCOUNT_STATUS];	
 	
 	//FT proxies
 	[account setPreference:[textField_ftProxies stringValue]

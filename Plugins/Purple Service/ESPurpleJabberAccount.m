@@ -135,6 +135,10 @@
 														[connectServer UTF8String] :
 														""));
 	
+	NSString *boshServer = [self preferenceForKey:KEY_JABBER_BOSH_SERVER group:GROUP_ACCOUNT_STATUS];
+	
+	purple_account_set_string(account, "bosh_url", (boshServer ? [boshServer UTF8String] : ""));
+	
 	// FT proxies
 	NSString *ftProxies = [self preferenceForKey:KEY_JABBER_FT_PROXIES group:GROUP_ACCOUNT_STATUS];
 	if (ftProxies.length) {

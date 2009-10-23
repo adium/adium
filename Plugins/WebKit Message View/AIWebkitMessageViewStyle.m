@@ -856,6 +856,10 @@ static NSArray *validSenderColors;
 	[inString replaceKeyword:@"%service%" 
 				  withString:[content.chat.account.service shortDescription]];
 	
+	[inString replaceKeyword:@"%serviceIconPath%"
+				  withString:[AIServiceIcons pathForServiceIconForServiceID:content.chat.account.service.serviceID
+																	   type:AIServiceIconLarge]];
+	
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
 		
@@ -869,6 +873,9 @@ static NSArray *validSenderColors;
 
 		NSString *displayName = [content.chat displayNameForContact:contentSource];
 		
+		[inString replaceKeyword:@"%status%"
+					  withString:@""];
+
 		[inString replaceKeyword:@"%senderScreenName%" 
 					  withString:[(formattedUID ?
 								   formattedUID :
@@ -1071,6 +1078,15 @@ static NSArray *validSenderColors;
 		[inString replaceKeyword:@"%statusSender%" 
 				  withString:[theSource.displayName stringByEscapingForXMLWithEntities:nil]];
 
+		[inString replaceKeyword:@"%senderScreenName%"
+				  withString:@""];
+
+		[inString replaceKeyword:@"%senderPrefix%"
+				  withString:@""];
+
+		[inString replaceKeyword:@"%sender%"
+				  withString:@""];
+
 		if ((statusPhrase = [[content userInfo] objectForKey:@"Status Phrase"])) {
 			do{
 				range = [inString rangeOfString:@"%statusPhrase%"];
@@ -1168,6 +1184,9 @@ static NSArray *validSenderColors;
 	
 	[inString replaceKeyword:@"%serviceIconImg%"
 				  withString:serviceIconTag];
+	
+	[inString replaceKeyword:@"%serviceIconPath%"
+				  withString:serviceIconPath];
 	
 	[inString replaceKeyword:@"%timeOpened%"
 				  withString:[timeStampFormatter stringFromDate:[chat dateOpened]]];

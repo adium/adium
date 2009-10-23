@@ -77,12 +77,6 @@ prep_headers() {
 			touch "${ROOTDIR}/build/lib/include/${no_include_lib}/no_headers_here.txt"
 		done
 		
-		#libxml
-		status "Staging libxml headers"
-		local xml2Dir="${ROOTDIR}/build/lib/include/libxml-${XML_VERSION}"
-		quiet mkdir "${xml2Dir}" || true
-		log cp -R "${ROOTDIR}/build/include/libxml2" "${xml2Dir}"
-		
 		#libpurple
 		status "Staging libpurple headers"
 		local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
@@ -124,7 +118,7 @@ make_framework() {
 		
 		log cp "${ROOTDIR}/Libotr-Info.plist" \
 			"${FRAMEWORK_DIR}/libotr.subproj/libotr.framework/Resources/Info.plist"
-		else
+	else
 		status "Making a framework for libpurple-${LIBPURPLE_VERSION} and all dependencies..."
 		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 			"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
@@ -136,6 +130,13 @@ make_framework() {
 
 		log cp "${ROOTDIR}/Libpurple-Info.plist" \
 			"${FRAMEWORK_DIR}/libpurple.subproj/libpurple.framework/Resources/Info.plist"
+		
+		status "Adding gst plugins..."
+		GST_PLUGINS_DIR="${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
+		quiet mkdir "${GST_PLUGINS_DIR}"
+		pushd "${ROOTDIR}/build/lib/gstreamer-0.10/"
+		log cp *.so "${GST_PLUGINS_DIR}"
+		popd
 	fi
 	
 	status "Done!"

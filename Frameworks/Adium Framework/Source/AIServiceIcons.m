@@ -17,6 +17,7 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIService.h>
 #import <Adium/AIServiceIcons.h>
+#import <Adium/AIAccountControllerProtocol.h>
 
 static NSMutableDictionary	*serviceIcons[NUMBER_OF_SERVICE_ICON_TYPES][NUMBER_OF_ICON_DIRECTIONS];
 
@@ -68,7 +69,18 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 
 + (NSString *)pathForServiceIconForServiceID:(NSString *)serviceID type:(AIServiceIconType)iconType
 {
-	return [serviceIconBasePath stringByAppendingPathComponent:[serviceIconNames[iconType] objectForKey:serviceID]];
+	NSString *iconName = [serviceIconNames[iconType] objectForKey:serviceID];
+	
+	if (iconName) {
+		return [serviceIconBasePath stringByAppendingPathComponent:iconName];
+	} else {
+		AIService *service = [adium.accountController firstServiceWithServiceID:serviceID];
+		if (service) {
+			return [service pathForDefaultServiceIconOfType:iconType];
+		} else {
+			return nil;
+		}
+	}
 }
 
 //Retrieve the correct service icon for a service by ID
@@ -85,19 +97,24 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 
 		if (path) {
 			serviceIcon = [[NSImage alloc] initWithContentsOfFile:path];
+		} else {
+			AIService *service = [adium.accountController firstServiceWithServiceID:serviceID];
+			if (service) {
+				serviceIcon = [[service defaultServiceIconOfType:iconType] retain];
+			}
+		}
 
+		if (serviceIcon) {
+			if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
+			[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
+			[serviceIcon release];
+		} else {
+			//Attempt to load the default service icon
+			serviceIcon = [self defaultServiceIconForType:iconType serviceID:serviceID];
 			if (serviceIcon) {
+				//Cache the default service icon (until the pack is changed) so we have it immediately next time
 				if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
 				[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
-				[serviceIcon release];
-			} else {
-				//Attempt to load the default service icon
-				serviceIcon = [self defaultServiceIconForType:iconType serviceID:serviceID];
-				if (serviceIcon) {
-					//Cache the default service icon (until the pack is changed) so we have it immediately next time
-					if (iconDirection == AIIconFlipped) [serviceIcon setFlipped:YES];
-					[serviceIcons[iconType][iconDirection] setObject:serviceIcon forKey:serviceID];
-				}
 			}
 		}
 	}

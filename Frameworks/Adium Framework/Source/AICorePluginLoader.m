@@ -46,6 +46,7 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 @interface AICorePluginLoader ()
 - (void)loadPlugins;
 + (BOOL)confirmPluginAtPath:(NSString *)pluginPath;
++ (BOOL)confirmPluginArchitectureAtPath:(NSString *)pluginPath;
 + (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath;
 + (void)disablePlugin:(NSString *)pluginPath;
 + (BOOL)allDependenciesMetForPluginAtPath:(NSString *)pluginPath;
@@ -145,6 +146,19 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 #ifdef PLUGIN_LOAD_TIMING
 	NSDate *start = [NSDate date];
 #endif	
+	// Confirm plugins can load on this arch
+	if(![self confirmPluginArchitectureAtPath:pluginPath]) {
+		NSRunInformationalAlertPanel([NSString stringWithFormat:AILocalizedString(@"Plugin %@ Will be Disabled", "%@ will be the name of a plugin. This is the title of the dialogue shown when an plugin is loaded on an unsupported architecture."),
+									  [[pluginPath lastPathComponent] stringByDeletingPathExtension]],
+									 AILocalizedString(@"This plugin does not support your native architecture.", nil),
+									 AILocalizedString(@"Disable", nil),
+									 nil,
+									 nil);
+		[self disablePlugin:pluginPath];
+		return;
+	}
+	
+	
 	//Confirm the presence of external plugins with the user
 	if (confirmLoading && 
 		(![self confirmMinimumVersionMetForPluginAtPath:pluginPath] ||
@@ -236,6 +250,26 @@ static  NSMutableArray		*deferredPluginPaths = nil;
 	}
 	
 	return loadPlugin;
+}
+
++ (BOOL)confirmPluginArchitectureAtPath:(NSString *)pluginPath
+{
+#ifndef CURRENT_BUNDLE_ARCH_IS_DEFINED
+	#if defined(__x86_64__)
+		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureX86_64
+	#elif defined(__i386__)
+		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitectureI386
+	#elif defined(__ppc__)
+		#define CURRENT_BUNDLE_ARCH NSBundleExecutableArchitecturePPC
+	#else
+		#error Unsupported Architecture!
+	#endif
+	#define CURRENT_BUNDLE_ARCH_IS_DEFINED 1
+#endif
+	NSBundle *pluginBundle = [NSBundle bundleWithPath:pluginPath];
+	NSArray *pluginArchs = [pluginBundle executableArchitectures];
+	
+	return [pluginArchs containsObject:[NSNumber numberWithInteger:CURRENT_BUNDLE_ARCH]];
 }
 
 + (BOOL)confirmMinimumVersionMetForPluginAtPath:(NSString *)pluginPath
