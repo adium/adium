@@ -273,7 +273,7 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 		//CFHostGetAddressing returns a CFArrayRef of CFDataRefs which wrap struct sockaddr
 		CFArrayRef addresses = CFHostGetAddressing(theHost, NULL);
 		
-		if (!CFArrayGetCount(addresses)) {
+		if (!addresses || !CFArrayGetCount(addresses)) {
 			/* We were not able to resolve the host name to an IP address.  This is most likely because we have no
 			 * Internet connection or because the user is attempting to connect to MSN.
 			 *
@@ -281,96 +281,96 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 			 */
 			[self addUnconfiguredHost:host
 							 observer:observer];
-		}
-		
-		// Only add 1 observer for IPv6 and one for IPv4.
-		BOOL addedIPv4 = NO, addedIPv6 = NO;
-		
-		for (NSData *saData in (NSArray *)addresses) {
-			struct sockaddr							*remoteAddr = (struct sockaddr *)saData.bytes;
+		} else if (addresses) {
+			// Only add 1 observer for IPv6 and one for IPv4.
+			BOOL addedIPv4 = NO, addedIPv6 = NO;
 			
-			if ((remoteAddr->sa_family == AF_INET && addedIPv4) || (remoteAddr->sa_family == AF_INET6 && addedIPv6)) {
-				continue;
-			}
-			
-			if (remoteAddr->sa_family == AF_INET)
-				addedIPv4 = YES;
-			if (remoteAddr->sa_family == AF_INET6)
-				addedIPv6 = YES;
-						
-			SCNetworkReachabilityRef		reachabilityRef;
-			SCNetworkReachabilityContext	reachabilityContext = {
-				.version         = 0,
-				.info            = self,
-				.retain          = CFRetain,
-				.release         = CFRelease,
-				.copyDescription = CFCopyDescription,
-			};
-			SCNetworkConnectionFlags				flags;
-			struct sockaddr_in						localAddr;
-			
-			/* Create a reachability reference pair with localhost and the remote host */
-			
-			//Our local address is 127.0.0.1
-			bzero(&localAddr, sizeof(localAddr));
-			localAddr.sin_len = sizeof(localAddr);
-			localAddr.sin_family = AF_INET;
-			inet_aton("127.0.0.1", &localAddr.sin_addr);
-			
-			//Create the pair
-			reachabilityRef = SCNetworkReachabilityCreateWithAddressPair(NULL, 
-																		 (struct sockaddr *)&localAddr, 
-																		 remoteAddr);
-			
-			//Configure our callback
-			SCNetworkReachabilitySetCallback(reachabilityRef, 
-											 hostReachabilityChangedCallback, 
-											 &reachabilityContext);
-			
-			//Add it to the run loop so we will receive the notifications
-			SCNetworkReachabilityScheduleWithRunLoop(reachabilityRef,
-													 CFRunLoopGetCurrent(),
-													 kCFRunLoopDefaultMode);
-			
-			//Note that we succesfully configured for reachability notifications
-			[self gotReachabilityRef:(SCNetworkReachabilityRef)[(NSObject *)reachabilityRef autorelease]
-							 forHost:host
-							observer:observer];
-
-			if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags)) {
-				//We already have valid flags for the reachabilityRef
-		#if CONNECTIVITY_DEBUG
-				NSLog(@"Immediate reachability info for %@", reachabilityRef);
-		#endif
-				hostReachabilityChangedCallback(reachabilityRef,
-												flags,
-												self);
-
-			} else {
-				/* Perform an immediate reachability check, since we've just scheduled checks for future changes
-				* and won't be notified immediately.  We update the hostContext to include our reachabilityRef before
-				* scheduling the info resolution (it's still in our run loop from when we requested the IP address).
-				*/
-				CFHostClientContext	hostContext = {
-					.version		 = 0,
-					.info			 = [NSDictionary dictionaryWithObjectsAndKeys:
-						self, @"self",
-						host, @"host",
-						observer, @"observer",
-						reachabilityRef, @"reachabilityRef",
-						nil],
-					.retain			 = CFRetain,
-					.release		 = CFRelease,
+			for (NSData *saData in (NSArray *)addresses) {
+				struct sockaddr							*remoteAddr = (struct sockaddr *)saData.bytes;
+				
+				if ((remoteAddr->sa_family == AF_INET && addedIPv4) || (remoteAddr->sa_family == AF_INET6 && addedIPv6)) {
+					continue;
+				}
+				
+				if (remoteAddr->sa_family == AF_INET)
+					addedIPv4 = YES;
+				if (remoteAddr->sa_family == AF_INET6)
+					addedIPv6 = YES;
+							
+				SCNetworkReachabilityRef		reachabilityRef;
+				SCNetworkReachabilityContext	reachabilityContext = {
+					.version         = 0,
+					.info            = self,
+					.retain          = CFRetain,
+					.release         = CFRelease,
 					.copyDescription = CFCopyDescription,
 				};
-				CFHostSetClient(theHost,
-								hostResolvedCallback,
-								&hostContext);
-				CFHostStartInfoResolution(theHost,
-										  kCFHostReachability,
-										  NULL);
-			}
+				SCNetworkConnectionFlags				flags;
+				struct sockaddr_in						localAddr;
+				
+				/* Create a reachability reference pair with localhost and the remote host */
+				
+				//Our local address is 127.0.0.1
+				bzero(&localAddr, sizeof(localAddr));
+				localAddr.sin_len = sizeof(localAddr);
+				localAddr.sin_family = AF_INET;
+				inet_aton("127.0.0.1", &localAddr.sin_addr);
+				
+				//Create the pair
+				reachabilityRef = SCNetworkReachabilityCreateWithAddressPair(NULL, 
+																			 (struct sockaddr *)&localAddr, 
+																			 remoteAddr);
+				
+				//Configure our callback
+				SCNetworkReachabilitySetCallback(reachabilityRef, 
+												 hostReachabilityChangedCallback, 
+												 &reachabilityContext);
+				
+				//Add it to the run loop so we will receive the notifications
+				SCNetworkReachabilityScheduleWithRunLoop(reachabilityRef,
+														 CFRunLoopGetCurrent(),
+														 kCFRunLoopDefaultMode);
+				
+				//Note that we succesfully configured for reachability notifications
+				[self gotReachabilityRef:(SCNetworkReachabilityRef)[(NSObject *)reachabilityRef autorelease]
+								 forHost:host
+								observer:observer];
 
+				if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags)) {
+					//We already have valid flags for the reachabilityRef
+			#if CONNECTIVITY_DEBUG
+					NSLog(@"Immediate reachability info for %@", reachabilityRef);
+			#endif
+					hostReachabilityChangedCallback(reachabilityRef,
+													flags,
+													self);
+
+				} else {
+					/* Perform an immediate reachability check, since we've just scheduled checks for future changes
+					* and won't be notified immediately.  We update the hostContext to include our reachabilityRef before
+					* scheduling the info resolution (it's still in our run loop from when we requested the IP address).
+					*/
+					CFHostClientContext	hostContext = {
+						.version		 = 0,
+						.info			 = [NSDictionary dictionaryWithObjectsAndKeys:
+							self, @"self",
+							host, @"host",
+							observer, @"observer",
+							reachabilityRef, @"reachabilityRef",
+							nil],
+						.retain			 = CFRetain,
+						.release		 = CFRelease,
+						.copyDescription = CFCopyDescription,
+					};
+					CFHostSetClient(theHost,
+									hostResolvedCallback,
+									&hostContext);
+					CFHostStartInfoResolution(theHost,
+											  kCFHostReachability,
+											  NULL);
+				}
+
+			}
 		}
 		
 	} else if (typeInfo == kCFHostReachability) {
