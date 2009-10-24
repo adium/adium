@@ -196,7 +196,6 @@ static AIHostReachabilityMonitor *singleton = nil;
  * @brief A host's reachability changed
  *
  * @param reachability The SCNetworkReachabilityRef for the host which changed
- * @param isReachable YES if the host is now reachable; NO if it is not reachable
  */
 - (void)reachabilityChanged:(SCNetworkReachabilityRef)reachability
 {
