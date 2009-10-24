@@ -198,7 +198,7 @@ static AIHostReachabilityMonitor *singleton = nil;
  * @param reachability The SCNetworkReachabilityRef for the host which changed
  * @param isReachable YES if the host is now reachable; NO if it is not reachable
  */
-- (void)reachability:(SCNetworkReachabilityRef)reachability changedToReachable:(BOOL)isReachable
+- (void)reachabilityChanged:(SCNetworkReachabilityRef)reachability
 {
 	[hostAndObserverListLock lock];
 
@@ -207,7 +207,26 @@ static AIHostReachabilityMonitor *singleton = nil;
 		NSString *host = [hosts objectAtIndex:i];
 		id <AIHostReachabilityObserver> observer = [observers objectAtIndex:i];
 		
-		if (isReachable) {
+		BOOL anyHostsReachable = NO;
+		
+		// If we have multiple host <-> IP links (AAAA record and an A record), we need to check agreement.
+		for (NSUInteger index = 0; index < hosts.count; index++) {
+			if (![host isEqualToString:[hosts objectAtIndex:index]])
+				continue;
+			
+			SCNetworkReachabilityRef otherReachability = (SCNetworkReachabilityRef)[reachabilities objectAtIndex:index];
+			SCNetworkConnectionFlags flags;
+
+			if (SCNetworkReachabilityGetFlags(otherReachability, &flags)
+				&& (flags & kSCNetworkFlagsReachable)
+				&& !(flags & kSCNetworkFlagsConnectionRequired)) {
+				anyHostsReachable = YES;
+				break;
+			}
+		}
+		
+		// Return reachability based on any reachability response.
+		if (anyHostsReachable) {
 			[observer hostReachabilityMonitor:self hostIsReachable:host];
 		} else {
 			[observer hostReachabilityMonitor:self hostIsNotReachable:host];
@@ -224,9 +243,6 @@ static AIHostReachabilityMonitor *singleton = nil;
  */
 static void hostReachabilityChangedCallback(SCNetworkReachabilityRef target, SCNetworkConnectionFlags flags, void *info)
 {
-	BOOL reachable =  (flags & kSCNetworkFlagsReachable)			&&
-					 !(flags & kSCNetworkFlagsConnectionRequired);
-
 #if CONNECTIVITY_DEBUG
 	NSLog(@"*** hostReachabilityChangedCallback got flags: %c%c%c%c%c%c%c \n",  
  	      (flags & kSCNetworkFlagsTransientConnection)  ? 't' : '-',  
@@ -237,9 +253,9 @@ static void hostReachabilityChangedCallback(SCNetworkReachabilityRef target, SCN
  	      (flags & kSCNetworkFlagsIsLocalAddress)       ? 'l' : '-',  
  	      (flags & kSCNetworkFlagsIsDirect)             ? 'd' : '-');
 #endif
-
+	
 	AIHostReachabilityMonitor *self = info;
-	[self reachability:target changedToReachable:reachable];
+	[self reachabilityChanged:target];
 }
 
 /*
@@ -255,8 +271,34 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 	NSString					*host = [infoDict objectForKey:@"host"];
 
 	if (typeInfo == kCFHostAddresses) {
+		//CFHostGetAddressing returns a CFArrayRef of CFDataRefs which wrap struct sockaddr
 		CFArrayRef addresses = CFHostGetAddressing(theHost, NULL);
-		if (addresses && CFArrayGetCount(addresses)) {
+		
+		if (!CFArrayGetCount(addresses)) {
+			/* We were not able to resolve the host name to an IP address.  This is most likely because we have no
+			 * Internet connection or because the user is attempting to connect to MSN.
+			 *
+			 * Add to unconfiguredHostsAndObservers so we can try configuring again later.
+			 */
+			[self addUnconfiguredHost:host
+							 observer:observer];
+		}
+		
+		// Only add 1 observer for IPv6 and one for IPv4.
+		BOOL addedIPv4 = NO, addedIPv6 = NO;
+		
+		for (NSData *saData in (NSArray *)addresses) {
+			struct sockaddr							*remoteAddr = (struct sockaddr *)saData.bytes;
+			
+			if ((remoteAddr->sa_family == AF_INET && addedIPv4) || (remoteAddr->sa_family == AF_INET6 && addedIPv6)) {
+				continue;
+			}
+			
+			if (remoteAddr->sa_family == AF_INET)
+				addedIPv4 = YES;
+			if (remoteAddr->sa_family == AF_INET6)
+				addedIPv6 = YES;
+						
 			SCNetworkReachabilityRef		reachabilityRef;
 			SCNetworkReachabilityContext	reachabilityContext = {
 				.version         = 0,
@@ -267,7 +309,6 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 			};
 			SCNetworkConnectionFlags				flags;
 			struct sockaddr_in						localAddr;
-			struct sockaddr							*remoteAddr;
 			
 			/* Create a reachability reference pair with localhost and the remote host */
 			
@@ -276,10 +317,6 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 			localAddr.sin_len = sizeof(localAddr);
 			localAddr.sin_family = AF_INET;
 			inet_aton("127.0.0.1", &localAddr.sin_addr);
-			
-			//CFHostGetAddressing returns a CFArrayRef of CFDataRefs which wrap struct sockaddr
-			CFDataRef saData = (CFDataRef)CFArrayGetValueAtIndex(addresses, 0);
-			remoteAddr = (struct sockaddr *)CFDataGetBytePtr(saData);
 			
 			//Create the pair
 			reachabilityRef = SCNetworkReachabilityCreateWithAddressPair(NULL, 
@@ -303,9 +340,9 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 
 			if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags)) {
 				//We already have valid flags for the reachabilityRef
-#if CONNECTIVITY_DEBUG
+		#if CONNECTIVITY_DEBUG
 				NSLog(@"Immediate reachability info for %@", reachabilityRef);
-#endif
+		#endif
 				hostReachabilityChangedCallback(reachabilityRef,
 												flags,
 												self);
@@ -335,14 +372,6 @@ static void hostResolvedCallback(CFHostRef theHost, CFHostInfoType typeInfo,  co
 										  NULL);
 			}
 
-		} else {
-			/* We were not able to resolve the host name to an IP address.  This is most likely because we have no
-			* Internet connection or because the user is attempting to connect to MSN.
-			*
-			* Add to unconfiguredHostsAndObservers so we can try configuring again later.
-			*/
-			[self addUnconfiguredHost:host
-							 observer:observer];
 		}
 		
 	} else if (typeInfo == kCFHostReachability) {
