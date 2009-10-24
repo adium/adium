@@ -1156,6 +1156,9 @@ static NSArray *validSenderColors;
 	AIListContact	*listObject = chat.listObject;
 	NSString		*iconPath = nil;
 	
+	[inString replaceKeyword:@"%senderColor%"
+				  withString:[NSColor representedColorForObject:listObject.UID withValidColors:validSenderColors]];
+	
 	if (listObject) {
 		iconPath = [listObject valueForProperty:KEY_WEBKIT_USER_ICON];
 		if (!iconPath) {
