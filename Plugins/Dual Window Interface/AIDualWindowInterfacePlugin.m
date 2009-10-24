@@ -257,8 +257,11 @@
 //Open a new container
 - (AIMessageWindowController *)openContainerWithID:(NSString *)containerID name:(NSString *)containerName
 {
-	if (!containerID)
-		containerID = [NSString stringWithFormat:@"%@:%ld", ADIUM_UNIQUE_CONTAINER, (long)uniqueContainerNumber++];
+	if (!containerID) {
+		while (!containerID || [containers objectForKey:containerID]) {
+			containerID = [NSString stringWithFormat:@"%@:%ld", ADIUM_UNIQUE_CONTAINER, (long)uniqueContainerNumber++];
+		}
+	}
 
 	AIMessageWindowController	*windowController = [containers objectForKey:containerID];
 	if (!windowController) {
@@ -359,9 +362,8 @@
 }
 
 - (id)openNewContainer
-{
-	AIMessageWindowController *controller = [self openContainerWithID:[NSString stringWithFormat:@"%@:%ld", ADIUM_UNIQUE_CONTAINER, (long)uniqueContainerNumber++]
-													name:nil];
+{	
+	AIMessageWindowController *controller = [self openContainerWithID:nil name:nil];
 	return controller;
 }
 
