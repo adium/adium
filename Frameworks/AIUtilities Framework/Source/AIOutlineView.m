@@ -93,12 +93,21 @@
 			}
 
         } else if (pressedChar == NSLeftArrowFunctionKey) { //left
-			NSEnumerator *enumerator = [[self arrayOfSelectedItems] objectEnumerator];
-			id object;
-			while ((object = [enumerator nextObject])) {
+			NSArray *selectedItems = [self arrayOfSelectedItems];
+			
+			BOOL anyCollapsable = NO;
+			for (id object in selectedItems) {
 				if ([self isExpandable:object] && [self isItemExpanded:object]) {
+					anyCollapsable = YES;
 					[self collapseItem:object];
 				}
+			}
+			
+			if (!anyCollapsable && selectedItems.count == 1) {
+				id parentObject = [self parentForItem:[selectedItems objectAtIndex:0]];
+				
+				if (parentObject)
+					[self selectItemsInArray:[NSArray arrayWithObject:parentObject]];
 			}
 
         } else if (pressedChar == NSRightArrowFunctionKey) { //right
