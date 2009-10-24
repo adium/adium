@@ -50,15 +50,9 @@
 			// creates and returns a new documentFragment, containing all content nodes
 			// which can be inserted as a single node.
 			function createHTMLNode(html) {
-				var newMessage = document.createElement("div");
-				var documentFragment = document.createDocumentFragment();
-				newMessage.innerHTML = html;
-				
-				while(newMessage.hasChildNodes()) {
-					documentFragment.appendChild(newMessage.firstChild);
-				}
-				
-				return documentFragment;
+				var range = document.createRange();
+				range.selectNode(document.getElementById("Chat"));
+				return range.createContextualFragment(html);
 			}
 			
 			// removes first insert node from the internal fragment.
