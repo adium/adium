@@ -1219,6 +1219,9 @@ static NSArray *validSenderColors;
 		}
 	} while (range.location != NSNotFound);
 	
+	[inString replaceKeyword:@"%dateOpened%"
+				  withString:[[NSDateFormatter localizedDateFormatter] stringFromDate:[chat dateOpened]]];
+	
 	//Background
 	{
 		range = [inString rangeOfString:@"==bodyBackground=="];
