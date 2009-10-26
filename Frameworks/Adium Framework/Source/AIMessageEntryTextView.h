@@ -26,6 +26,7 @@
  * @brief Should the tab key trigger an autocomplete?
  */
 - (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView;
+- (NSRange)textView:(NSTextView *)inTextView rangeForCompletion:(NSRange)completionRange;
 - (void)textViewDidCancel:(NSTextView *)inTextView;
 @end
 

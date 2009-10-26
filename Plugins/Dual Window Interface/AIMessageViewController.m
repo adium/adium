@@ -90,6 +90,8 @@
 - (void)setUserListVisible:(BOOL)inVisible;
 - (void)setupShelfView;
 - (void)updateUserCount;
+
+- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
 @end
 
 @implementation AIMessageViewController
@@ -974,6 +976,12 @@
 }
 
 #pragma mark Autocompletion
+- (BOOL)canTabCompleteForPartialWord:(NSString *)partialWord
+{
+	return ([self contactsMatchingBeginningString:partialWord].count > 0 ||
+			[self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound);
+}
+
 /*!
  * @brief Should the tab key cause an autocompletion if possible?
  *
@@ -981,55 +989,90 @@
  */
 - (BOOL)textViewShouldTabComplete:(NSTextView *)inTextView
 {
-	return self.chat.isGroupChat;
+	if (self.chat.isGroupChat) {
+		NSRange completionRange = inTextView.rangeForUserCompletion;
+		NSString *partialWord = [inTextView.textStorage.string substringWithRange:completionRange];
+		return [self canTabCompleteForPartialWord:partialWord]; 
+	}
+	
+	return NO;
+}
+
+- (NSRange)textView:(NSTextView *)inTextView rangeForCompletion:(NSRange)charRange
+{
+	if (self.chat.isGroupChat && charRange.location > 0) {
+		NSString *partialWord = nil;
+		NSString *allText = [inTextView.textStorage.string substringWithRange:NSMakeRange(0, NSMaxRange(charRange))];
+		NSRange whitespacePosition = [allText rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:NSBackwardsSearch];
+		
+		if (whitespacePosition.location == NSNotFound) {
+			// We went back to the beginning of the string and still didn't find a whitespace; use the whole thing.
+			partialWord = allText;
+			whitespacePosition = NSMakeRange(0, 0);
+		} else {
+			// We found a whitespace, use from it until our current position.
+			partialWord = [allText substringWithRange:NSMakeRange(NSMaxRange(whitespacePosition), allText.length - NSMaxRange(whitespacePosition))];
+		}
+		
+		// If this matches any contacts or the room name, use this new range for autocompletion.
+		if ([self canTabCompleteForPartialWord:partialWord]) {
+			charRange = NSMakeRange(NSMaxRange(whitespacePosition), allText.length - NSMaxRange(whitespacePosition));
+		}
+	}
+	
+	return charRange;
+}
+
+- (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord
+{
+	NSMutableArray *contacts = [NSMutableArray array];
+	
+	for (AIListContact *listContact in self.chat) {
+		if ([listContact.UID rangeOfString:partialWord
+								   options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
+			[listContact.formattedUID rangeOfString:partialWord
+											options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
+			[listContact.displayName rangeOfString:partialWord
+										   options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
+				[contacts addObject:listContact];
+		}
+	}
+	
+	return contacts;
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
 {
-	NSMutableArray	*completions;
+	NSMutableArray	*completions = nil;
 	
 	if (self.chat.isGroupChat) {
-		NSString		*partialWord = [[textView.textStorage attributedSubstringFromRange:charRange] string];
-		
+		NSString *suffix = nil;
+		NSString *partialWord = [textView.textStorage.string substringWithRange:charRange];
 		BOOL autoCompleteUID = [self.chat.account chatShouldAutocompleteUID:self.chat];
 		
-		NSString		*suffix;
+		//At the start of a line, append ": "
 		if (charRange.location == 0) {
-			//At the start of a line, append ": "
 			suffix = @": ";
-		} else {
-			suffix = nil;
 		}
 		
 		completions = [NSMutableArray array];
-		for(AIListContact *listContact in self.chat) {
-			if ([listContact.displayName rangeOfString:partialWord
-												 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
-				[listContact.formattedUID rangeOfString:partialWord
-												options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound ||
-				[listContact.UID rangeOfString:partialWord
-										 options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
-
-				NSString *displayName = [self.chat aliasForContact:listContact];
-				
-				if (!displayName) {
-					displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
-				}
-
-				[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
-			}
+		
+		for (AIListContact *listContact in [self contactsMatchingBeginningString:partialWord]) {
+			NSString *displayName = [self.chat aliasForContact:listContact];
+			
+			if (!displayName)
+				displayName = autoCompleteUID ? listContact.formattedUID : listContact.displayName;
+			
+			[completions addObject:(suffix ? [displayName stringByAppendingString:suffix] : displayName)];
 		}
 		
-		if ([self.chat.name rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
-			[completions addObject:self.chat.name];
+		if ([self.chat.displayName rangeOfString:partialWord options:(NSDiacriticInsensitiveSearch | NSCaseInsensitiveSearch | NSAnchoredSearch)].location != NSNotFound) {
+			[completions addObject:self.chat.displayName];
 		}
 
 		if ([completions count]) {			
 			*index = 0;
 		}
-
-	} else {
-		completions = nil;
 	}
 
 	return [completions count] ? completions : words;
