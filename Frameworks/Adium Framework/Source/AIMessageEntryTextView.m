@@ -1504,6 +1504,18 @@
 										group:PREF_GROUP_DUAL_WINDOW_INTERFACE];
 }
 
+#pragma mark Autocompleting
+- (NSRange)rangeForUserCompletion
+{
+	NSRange completionRange = [super rangeForUserCompletion];
+	
+	if ([self.delegate respondsToSelector:@selector(textView:rangeForCompletion:)]) {
+		completionRange = [self.delegate textView:self rangeForCompletion:completionRange];
+	}
+	
+	return completionRange;
+}
+
 #pragma mark Writing Direction
 - (void)toggleBaseWritingDirection:(id)sender
 {
