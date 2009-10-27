@@ -709,12 +709,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Status string
 - (void)setResizeThumbStringValue:(NSString *)inString
 {
-	if (![inString isEqualToString:stringValue]) {
-		[stringValue release];
-		stringValue = [inString copy];
-		
+	if (attributedStringValue && ![inString isEqualToString:[attributedStringValue string]]) {		
 		[attributedStringValue release];
-		if (stringValue) {
+		if (inString) {
 			NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSParagraphStyle styleWithAlignment:NSLeftTextAlignment
 									   lineBreakMode:NSLineBreakByTruncatingTail], NSParagraphStyleAttributeName,
@@ -722,7 +719,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				nil];
 			
 			stringHeight = [NSAttributedString stringHeightForAttributes:attributes];
-			attributedStringValue = [[NSAttributedString alloc] initWithString:stringValue
+			attributedStringValue = [[NSAttributedString alloc] initWithString:[inString retain]
 																	attributes:attributes];
 		} else {
 			attributedStringValue = nil;

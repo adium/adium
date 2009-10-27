@@ -65,7 +65,6 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 	BOOL						drawLine;
 	BOOL						shelfOnRight;
 	
-	NSString	*stringValue;
 	NSAttributedString *attributedStringValue;
 	CGFloat		stringHeight;
 	
