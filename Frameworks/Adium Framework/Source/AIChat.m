@@ -90,6 +90,8 @@ static int nextChatNumber = 0;
 	[account release];
 	[self removeAllParticipatingContactsSilently];
 	[participatingContacts release];
+	[participatingContactsFlags release];
+	[participatingContactsAliases release];
 	[dateOpened release];
 	[ignoredListContacts release];
 	[pendingOutgoingContentObjects release];
