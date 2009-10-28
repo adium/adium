@@ -400,12 +400,12 @@ NSString	*endn = @"\x00\x00\x00\x00";
     key = @"slumming";
     fieldlen = [key length];
     fieldlenBE = htons(fieldlen);
-    [data appendBytes:&fieldlen length:2];
+    [data appendBytes:&fieldlenBE length:2];
     [data appendBytes:[key UTF8String] length:[key length]];
     value = @"1";
     fieldlen = [(NSData *)value length];
     fieldlenBE = htons(fieldlen);
-    [data appendBytes:&fieldlen length:2];
+    [data appendBytes:&fieldlenBE length:2];
     [data appendBytes:[value UTF8String] length:[(NSData *)value length]];
     
     /* create XML plist of data and convert to string */
