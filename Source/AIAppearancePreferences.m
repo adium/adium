@@ -833,7 +833,7 @@ typedef enum {
 															  keyEquivalent:@""] autorelease];
 	[menu addItem:menuItem];
 	
-	return menu;	
+	return [menu autorelease];	
 }
 
 /*!
@@ -874,7 +874,7 @@ typedef enum {
 															  keyEquivalent:@""] autorelease];
 	[menu addItem:menuItem];
 	
-	return menu;	
+	return [menu autorelease];	
 }
 
 
@@ -942,7 +942,7 @@ typedef enum {
  */
 - (void)configureDockIconMenu
 {
-	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*tempMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON
 																		   group:PREF_GROUP_APPEARANCE];
@@ -995,7 +995,7 @@ typedef enum {
 
 - (void)configureStatusIconsMenu
 {
-	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*tempMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_STATUS_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
@@ -1022,7 +1022,7 @@ typedef enum {
 
 - (void)configureServiceIconsMenu
 {
-	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*tempMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_SERVICE_ICON_PACK
 																		   group:PREF_GROUP_APPEARANCE];
@@ -1049,7 +1049,7 @@ typedef enum {
 
 - (void)configureMenuBarIconsMenu
 {
-	NSMenu		*tempMenu = [[NSMenu allocWithZone:[NSMenu menuZone]] init];
+	NSMenu		*tempMenu = [[[NSMenu allocWithZone:[NSMenu menuZone]] init] autorelease];
 	NSString	*iconPath;
 	NSString	*activePackName = [adium.preferenceController preferenceForKey:KEY_MENU_BAR_ICONS
 																		   group:PREF_GROUP_APPEARANCE];
