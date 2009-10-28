@@ -578,8 +578,8 @@ static BOOL is_leap_year(unsigned year) {
 												  month:month_or_week
 													day:day
 												   hour:hour
-												 minute:minute
-												 second:second
+												 minute:(NSUInteger)minute
+												 second:(NSUInteger)second
 											   timeZone:timeZone];
 					break;
 
@@ -600,8 +600,8 @@ static BOOL is_leap_year(unsigned year) {
 												  month:1
 													day:1
 												   hour:hour
-												 minute:minute
-												 second:second
+												 minute:(NSUInteger)minute
+												 second:(NSUInteger)second
 											   timeZone:timeZone];
 					date = [date dateByAddingYears:0
 											months:0
