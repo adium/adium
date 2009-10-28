@@ -182,7 +182,7 @@ Boolean GetMetadataForXMLLog(NSMutableDictionary *attributes, NSString *pathToFi
 			dateStr = [[(NSXMLElement *)[children lastObject] attributeForName:@"time"] objectValue];
 			endDate = (dateStr ? [NSCalendarDate calendarDateWithString:dateStr] : nil);
 			if (endDate)
-				[(NSMutableDictionary *)attributes setObject:[NSNumber numberWithInt:[endDate timeIntervalSinceDate:startDate]]
+				[(NSMutableDictionary *)attributes setObject:[NSNumber numberWithDouble:[endDate timeIntervalSinceDate:startDate]]
 													  forKey:(NSString *)kMDItemDurationSeconds];
 		}
 
