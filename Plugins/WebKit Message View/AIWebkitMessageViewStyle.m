@@ -731,9 +731,6 @@ static NSArray *validSenderColors;
 				  withString:(date ? [timeStampFormatter stringFromDate:date] : @"")];
 
 	NSString *shortTimeString = (date ? [[NSDateFormatter localizedDateFormatterShowingSeconds:NO showingAMorPM:NO] stringFromDate:date] : @"");
-#warning working around http://trac.adium.im/ticket/11981
-	if ([shortTimeString hasSuffix:@" "])
-		shortTimeString = [shortTimeString substringToIndex:shortTimeString.length - 1];
 	[inString replaceKeyword:@"%shortTime%"
 				  withString:shortTimeString];
 
