@@ -703,12 +703,8 @@ static NSArray *validSenderColors;
 	 */
 	NSString		*htmlEncodedMessage = [AIHTMLDecoder encodeHTML:[content message]
 															headers:NO 
-														   fontTags:([content isOutgoing] ?
-																	 YES :
-																	 showIncomingFonts)
-												 includingColorTags:(allowsColors ?
-																	 ([content isOutgoing] ? YES : showIncomingColors) :
-																	 NO)
+														   fontTags:showIncomingFonts
+												 includingColorTags:showIncomingColors
 													  closeFontTags:YES
 														  styleTags:YES
 										 closeStyleTagsOnFontChange:YES
