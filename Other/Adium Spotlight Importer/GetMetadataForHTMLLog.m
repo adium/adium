@@ -249,13 +249,13 @@ static char *gaim_unescape_html(const char *html) {
 static char *
 gaim_markup_strip_html(const char *str)
 {
-	int i, j, k;
+	size_t i, j, k;
 	BOOL visible = TRUE;
 	BOOL closing_td_p = FALSE;
 	char *str2;
 	const char *cdata_close_tag = NULL;
 	char *href = NULL;
-	int href_st = 0;
+	size_t href_st = 0;
 	
 	if(!str)
 		return NULL;
@@ -314,8 +314,8 @@ gaim_markup_strip_html(const char *str)
 				if (strncasecmp(str2 + i, "<a", 2) == 0 &&
 				    g_ascii_isspace(str2[i+2]))
 				{
-					int st; /* start of href, inclusive [ */
-					int end; /* end of href, exclusive ) */
+					size_t st; /* start of href, inclusive [ */
+					size_t end; /* end of href, exclusive ) */
 					char delim = ' ';
 					/* Find start of href */
 					for (st = i + 3; st < k; st++)
