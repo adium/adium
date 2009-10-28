@@ -128,8 +128,15 @@
 {
 	NSResponder *responder = [[NSApp mainWindow] firstResponder];
 
-	return (([responder isKindOfClass:[NSTextView class]]) &&
-			(![[(NSTextView *)responder typingAttributes] isEqualToDictionary:[self defaultFormattingAttributes]]));
+	if (![responder isKindOfClass:[NSTextView class]]) {
+		return NO;
+	}
+	
+	NSDictionary *defaultAttributes = [self defaultFormattingAttributes];
+	NSSet *defaultAttributeKeysSet = [NSSet setWithArray:[defaultAttributes allKeys]];
+	NSDictionary *typingAttributes = [[(NSTextView *)responder typingAttributes] dictionaryWithIntersectionWithSetOfKeys:defaultAttributeKeysSet];
+	
+	return (![typingAttributes isEqualToDictionary:defaultAttributes]);
 }
 
 @end
