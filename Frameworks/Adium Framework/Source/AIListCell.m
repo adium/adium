@@ -395,17 +395,21 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 
 #pragma mark Accessibility
 
+#if ACCESSIBILITY_DEBUG
 - (NSArray *)accessibilityAttributeNames
 {
 	AILogWithSignature(@"names: %@", [super accessibilityAttributeNames]);
 	return [super accessibilityAttributeNames];
 }
+#endif
 
 - (id)accessibilityAttributeValue:(NSString *)attribute
 {
 	id value;
 
+#if ACCESSIBILITY_DEBUG
 	AILogWithSignature(@"Asked %@ for %@", listObject, attribute);
+#endif
 
 	if([attribute isEqualToString:NSAccessibilityRoleAttribute]) {
 		value = NSAccessibilityRowRole;

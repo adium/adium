@@ -334,6 +334,7 @@
 }
 
 #pragma mark Accessibility
+#if ACCESSIBILITY_DEBUG
 - (NSArray *)accessibilityAttributeNames
 {
 	AILogWithSignature(@"names: %@", [super accessibilityAttributeNames]);
@@ -346,6 +347,7 @@
 	return [super accessibilityAttributeValue:attribute];
 	
 }
+#endif
 
 @end
 
