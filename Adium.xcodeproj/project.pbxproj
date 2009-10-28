@@ -56,6 +56,7 @@
 		0CD3C3AD0C43C8CC003E637C /* NSWindowScriptingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD3C3AB0C43C8CC003E637C /* NSWindowScriptingAdditions.m */; };
 		0CD41C710C2776550082F83B /* AICreateCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CD41C6F0C2776550082F83B /* AICreateCommand.m */; };
 		0CFA98C90D35C18000A077C6 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CFA98C70D35C18000A077C6 /* NSDataAdditions.m */; };
+		11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 11000D031098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m */; };
 		110763F608676CC9005987A5 /* RAFBlockEditorPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 110763F208676CC9005987A5 /* RAFBlockEditorPlugin.m */; };
 		110763F808676CC9005987A5 /* RAFBlockEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 110763F408676CC9005987A5 /* RAFBlockEditorWindowController.m */; };
 		110763FA08676D05005987A5 /* BlockEditorWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 110763F908676D04005987A5 /* BlockEditorWindow.nib */; };
@@ -1797,6 +1798,8 @@
 		0CD41C6F0C2776550082F83B /* AICreateCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AICreateCommand.m; path = Source/AICreateCommand.m; sourceTree = "<group>"; };
 		0CFA98C60D35C18000A077C6 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSDataAdditions.h; path = Source/NSDataAdditions.h; sourceTree = "<group>"; };
 		0CFA98C70D35C18000A077C6 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSDataAdditions.m; path = Source/NSDataAdditions.m; sourceTree = "<group>"; };
+		11000D021098863B0096A1E2 /* AIDefaultFontRemovalPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIDefaultFontRemovalPlugin.h; path = Source/AIDefaultFontRemovalPlugin.h; sourceTree = "<group>"; };
+		11000D031098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIDefaultFontRemovalPlugin.m; path = Source/AIDefaultFontRemovalPlugin.m; sourceTree = "<group>"; };
 		110763F108676CC9005987A5 /* RAFBlockEditorPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAFBlockEditorPlugin.h; path = Source/RAFBlockEditorPlugin.h; sourceTree = "<group>"; };
 		110763F208676CC9005987A5 /* RAFBlockEditorPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RAFBlockEditorPlugin.m; path = Source/RAFBlockEditorPlugin.m; sourceTree = "<group>"; };
 		110763F308676CC9005987A5 /* RAFBlockEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RAFBlockEditorWindowController.h; path = Source/RAFBlockEditorWindowController.h; sourceTree = "<group>"; };
@@ -4908,6 +4911,15 @@
 			name = Localized;
 			sourceTree = "<group>";
 		};
+		11000CFE109886010096A1E2 /* Removal of Helvetica@12 */ = {
+			isa = PBXGroup;
+			children = (
+				11000D021098863B0096A1E2 /* AIDefaultFontRemovalPlugin.h */,
+				11000D031098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m */,
+			);
+			name = "Removal of Helvetica@12";
+			sourceTree = "<group>";
+		};
 		111E89030F93FE3B00A5F18B /* IRC */ = {
 			isa = PBXGroup;
 			children = (
@@ -5906,6 +5918,7 @@
 				F1D0C631051AC2380000000E /* Message Alias Support */,
 				6E5A43DC0611604B0078C342 /* Message History */,
 				F569E38102CA876501A8010A /* Message Window Interface */,
+				11000CFE109886010096A1E2 /* Removal of Helvetica@12 */,
 				343022240AB4763D0082CF7C /* Removal of NULs in Messages */,
 				34A65AF606A5A0C400898470 /* Safari Link Toolbar Item */,
 				34DFF46607A5EAC800B92233 /* Secure Messaging */,
@@ -10580,6 +10593,7 @@
 				1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */,
 				112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */,
 				11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */,
+				11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
