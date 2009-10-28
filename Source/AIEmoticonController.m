@@ -344,9 +344,13 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 			if (acceptable) {
 				replacement = [emoticon attributedStringWithTextEquivalent:replacementString attachImages:!isMessage];
 				
+				NSDictionary *originalAttributes = [originalAttributedString attributesAtIndex:originalEmoticonLocation
+																				effectiveRange:nil];
+				
+				originalAttributes = [originalAttributes dictionaryWithDifferenceWithSetOfKeys:[NSSet setWithObject:NSAttachmentAttributeName]];
+				
 				//grab the original attributes, to ensure that the background is not lost in a message consisting only of an emoticon
-				[replacement addAttributes:[originalAttributedString attributesAtIndex:originalEmoticonLocation
-																		effectiveRange:nil] 
+				[replacement addAttributes:originalAttributes
 									 range:NSMakeRange(0,1)];
 				
 				//insert the emoticon
