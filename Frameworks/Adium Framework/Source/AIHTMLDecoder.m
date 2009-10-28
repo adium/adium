@@ -249,10 +249,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	}	
 	
 	//Setup the default attributes
-	NSString		*currentFamily = nil;
+	NSString		*currentFamily = [@"Helvetica" retain];
 	NSString		*currentColor = nil;
 	NSString		*currentBackColor = nil;
-	int				 currentSize = 0;
+	int				 currentSize = 12;
 	BOOL			 currentItalic = NO;
 	BOOL			 currentBold = NO;
 	BOOL			 currentUnderline = NO;
