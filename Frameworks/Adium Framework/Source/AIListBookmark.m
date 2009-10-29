@@ -28,6 +28,8 @@
 - (BOOL)chatIsOurs:(AIChat *)chat;
 - (AIChat *)openChatWithoutActivating;
 - (void)restoreGrouping;
+
+- (void)claimChatIfOurs:(AIChat *)chat;
 @end
 
 @implementation AIListBookmark
@@ -57,6 +59,11 @@
 									 selector:@selector(chatDidOpen:) 
 										 name:Chat_DidOpen
 									   object:nil];
+		
+		// Scan all open chats to claim them, if we loaded after they were available.
+		for (AIChat *chat in adium.interfaceController.openChats) {
+			[self claimChatIfOurs:chat];
+		}
 		
 		AILog(@"Created %@", self);
 		
@@ -293,8 +300,19 @@
 - (void)chatDidOpen:(NSNotification *)notification
 {
 	AIChat *chat = [notification object];
-	
-	// If this is our chat, we should set it up appropriately.
+
+	[self claimChatIfOurs:chat];
+}
+
+/*!
+ * @brief Claim a chat
+ *
+ * Has no effect if the chat is not ours.
+ *
+ * Establishes any defaults we wish for our chats to have. Called when they are created.
+ */
+- (void)claimChatIfOurs:(AIChat *)chat
+{
 	if ([self chatIsOurs:chat]) {
 		chat.displayName = self.displayName;
 	}
