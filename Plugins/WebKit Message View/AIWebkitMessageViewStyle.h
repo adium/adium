@@ -103,6 +103,9 @@ typedef enum {
 	BOOL				transparentDefaultBackground;
 	BOOL				allowsUserIcons;
 	BOOL				usingCustomTemplateHTML;
+	
+	BOOL				checkedSenderColors;
+	NSArray				*validSenderColors;
 
 	//Behavior
 	NSDateFormatter		*timeStampFormatter;
@@ -235,6 +238,11 @@ typedef enum {
  * @brief Style supports display of text colors
  */
 @property (readonly, nonatomic) BOOL allowsColors;
+
+/*!
+ * @brief The style's sender colors
+ */
+@property (readonly, nonatomic) NSArray *validSenderColors;
 
 //Behavior
 /*!
