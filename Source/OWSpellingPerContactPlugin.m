@@ -18,6 +18,9 @@
 #import <Adium/AIChat.h>
 #import <Adium/AIListContact.h>
 
+#import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AILeopardCompatibility.h>
+
 #define GROUP_LAST_USED_SPELLING	@"Last Used Spelling"
 #define KEY_LAST_USED_SPELLING		@"Last Used Spelling Languge"
 
@@ -49,13 +52,15 @@
 	languageDict = [[NSMutableDictionary alloc] init];
 	
 	//Find the first language the user prefers which the spellchecker knows about, then keep it around for future reference
-	NSEnumerator *enumerator = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectEnumerator];
-	NSString	 *language;
-	while ((language = [enumerator nextObject])) {
-		if ([[NSSpellChecker sharedSpellChecker] setLanguage:language]) {
-			preferredLanguage = [language retain];
-			break;
-		}
+	NSArray *preferredLanguages = nil;
+	if ([NSApp isOnSnowLeopardOrBetter]) {
+		preferredLanguages = [[NSSpellChecker sharedSpellChecker] userPreferredLanguages];
+	} else {
+		preferredLanguages = [[NSSpellChecker sharedSpellChecker] availableLanguages];
+	}
+		
+	if (preferredLanguages.count) {
+		preferredLanguage = [preferredLanguages objectAtIndex:0];
 	}
 }
 
@@ -135,8 +140,9 @@
 		NSString	 *chatID = chat.uniqueChatID;
 		NSString	 *chatLanguage = [languageDict objectForKey:chatID];
 
-		//If we didn't cache a language for this chat, we might just never have made it inactive; use the spell checker's current language
-		if (!chatLanguage) chatLanguage = [[NSSpellChecker sharedSpellChecker] language];
+		//If we didn't cache a language for this chat, or the chat is currently the active chat, use the spell checker's value.
+		if (!chatLanguage || adium.interfaceController.activeChat == chat)
+			chatLanguage = [[NSSpellChecker sharedSpellChecker] language];
 
 		//Now, if we end up at the user's default language, we don't want to store anything
 		if ([preferredLanguage isEqualToString:chatLanguage])
@@ -147,14 +153,7 @@
 			 (!previousLanguage && chatLanguage)) {
 			[listObject setPreference:chatLanguage
 							   forKey:KEY_LAST_USED_SPELLING
-								group:GROUP_LAST_USED_SPELLING];			
-			
-			/* Set this as a global preference such that it will be the default choice for future new chats.
-			 * If a listObject doesn't have its own preference set, this will be inherited.
-			 */
-			[[adium preferenceController] setPreference:chatLanguage
-												 forKey:KEY_LAST_USED_SPELLING
-												  group:GROUP_LAST_USED_SPELLING];
+								group:GROUP_LAST_USED_SPELLING];
 		}
 		
 		[languageDict removeObjectForKey:chatID];
