@@ -55,8 +55,6 @@
 // We set back, when the user finishes editing, the correct topic, which wipes out the existance of the span before. We don't need to undo the dbl click action.
 #define TOPIC_INDIVIDUAL_WRAPPER		@"<span id=\"topicEdit\" ondblclick=\"this.setAttribute('contentEditable', true); this.focus();\">%@</span>"
 
-static NSArray *validSenderColors;
-
 @interface NSMutableString (AIKeywordReplacementAdditions)
 - (void) replaceKeyword:(NSString *)word withString:(NSString *)newWord;
 - (void) safeReplaceCharactersInRange:(NSRange)range withString:(NSString *)newWord;
@@ -246,6 +244,21 @@ static NSArray *validSenderColors;
 #pragma mark Settings
 
 @synthesize allowsCustomBackground, allowsUserIcons, allowsColors, userIconMask;
+
+- (NSArray *)validSenderColors
+{
+	if(!checkedSenderColors) {
+		NSURL *url = [NSURL fileURLWithPath:[stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"]];
+		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+		
+		if(senderColorsFile)
+			validSenderColors = [[senderColorsFile componentsSeparatedByString:@":"] retain];
+		
+		checkedSenderColors = YES;
+	}
+	
+	return validSenderColors;
+}
 
 - (BOOL)isBackgroundTransparent
 {
@@ -776,15 +789,8 @@ static NSArray *validSenderColors;
 	[inString replaceKeyword:@"%messageClasses%"
 				  withString:[(contentIsSimilar ? @"consecutive " : @"") stringByAppendingString:[[content displayClasses] componentsJoinedByString:@" "]]];
 	
-	if(!validSenderColors) {
-		NSURL *url = [NSURL fileURLWithPath:[stylePath stringByAppendingPathComponent:@"Incoming/SenderColors.txt"]];
-		NSString *senderColorsFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
-		
-		if(senderColorsFile)
-			validSenderColors = [[senderColorsFile componentsSeparatedByString:@":"] retain];
-	}
 	[inString replaceKeyword:@"%senderColor%"
-				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:validSenderColors]];
+				  withString:[NSColor representedColorForObject:contentSource.UID withValidColors:self.validSenderColors]];
 	
 	//HAX. The odd conditional here detects the rtl html that our html parser spits out.
 	[inString replaceKeyword:@"%messageDirection%"
@@ -1149,8 +1155,11 @@ static NSArray *validSenderColors;
 	AIListContact	*listObject = chat.listObject;
 	NSString		*iconPath = nil;
 	
-	[inString replaceKeyword:@"%senderColor%"
-				  withString:[NSColor representedColorForObject:listObject.UID withValidColors:validSenderColors]];
+	[inString replaceKeyword:@"%incomingColor%"
+				  withString:[NSColor representedColorForObject:listObject.UID withValidColors:self.validSenderColors]];
+	
+	[inString replaceKeyword:@"%outgoingColor%"
+				  withString:[NSColor representedColorForObject:chat.account.UID withValidColors:self.validSenderColors]];
 	
 	if (listObject) {
 		iconPath = [listObject valueForProperty:KEY_WEBKIT_USER_ICON];
