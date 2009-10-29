@@ -171,14 +171,15 @@ static AIDateFormatterCache *sharedFormatterCache = nil;
 									  options:NSBackwardsSearch | NSLiteralSearch
 										range:NSMakeRange(0,[newFormat length])];
 		
-		formatString = [newFormat stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-		[newFormat release];
-		
-		if (setFormat)
-			[*cachePointer setDateFormat:formatString];
+		formatString = [newFormat autorelease];
 	} else {
 		formatString = [*cachePointer dateFormat];
 	}
+	
+	formatString = [formatString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	if (setFormat)
+		[*cachePointer setDateFormat:formatString];
 	
 	return formatString;
 }
