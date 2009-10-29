@@ -53,10 +53,9 @@
 //Create and return an opaque bitmap image rep, replacing transparency with [NSColor whiteColor]
 - (NSBitmapImageRep *)opaqueBitmapImageRep
 {
-	NSImage			*tempImage;
-	NSEnumerator	*enumerator;
-	NSImageRep		*imageRep;
-	NSSize			size = [self size];
+	NSImage				*tempImage = nil;
+	NSBitmapImageRep	*imageRep = nil;
+	NSSize				size = [self size];
 	
 	//Work with a temporary image so we don't modify self
 	tempImage = [[[NSImage allocWithZone:[self zone]] initWithSize:size] autorelease];
@@ -75,10 +74,10 @@
 	[tempImage unlockFocus];
 	
 	//Find an NSBitmapImageRep from the temporary image
-	enumerator = [[tempImage representations] objectEnumerator];
-	while ((imageRep = [enumerator nextObject])) {
-		if ([imageRep isKindOfClass:[NSBitmapImageRep class]])
-			break;
+	for (NSImageRep *rep in tempImage.representations) {
+		if ([rep isKindOfClass:[NSBitmapImageRep class]]) {
+			imageRep = (NSBitmapImageRep *)rep;
+		}
 	}
 	
 	//Make one if necessary
@@ -86,7 +85,11 @@
 		imageRep = [NSBitmapImageRep imageRepWithData:[tempImage TIFFRepresentation]];
     }
 	
-	return (NSBitmapImageRep *)imageRep;
+	// 10.6 behavior: Drawing into a new image copies the display's color profile in.
+	// Remove the color profile so we don't bloat the image size.
+	[imageRep setProperty:NSImageColorSyncProfileData withValue:nil];
+	
+	return imageRep;
 }
 
 - (NSBitmapImageRep *)largestBitmapImageRep
