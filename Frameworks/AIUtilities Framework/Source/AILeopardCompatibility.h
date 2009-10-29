@@ -36,6 +36,10 @@
 - (BOOL)isAutomaticSpellingCorrectionEnabled;
 - (void)toggleAutomaticSpellingCorrection:(id)sender;
 @end
+
+@interface NSSpellChecker(NSSpellCheckerLeopardMethods)
+- (NSArray *)userPreferredLanguages;
+@end
 #endif
 
 #else //Not compiling for 10.6
