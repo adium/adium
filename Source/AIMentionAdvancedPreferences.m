@@ -29,7 +29,7 @@
     return @"AIMentionAdvancedPreferences";
 }
 - (NSImage *)image{
-	return [NSImage imageNamed:@"pref-events" forClass:[AIPreferenceWindowController class]];
+	return [NSImage imageNamed:@"pref-mention" forClass:[AIPreferenceWindowController class]];
 }
 
 - (void)saveTerms

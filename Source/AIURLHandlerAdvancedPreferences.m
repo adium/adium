@@ -40,7 +40,7 @@
     return @"AIURLHandlerPreferences";
 }
 - (NSImage *)image{
-	return [NSImage imageNamed:@"pref-accounts" forClass:[AIPreferenceWindowController class]];
+	return [NSImage imageNamed:@"pref-defaultclient" forClass:[AIPreferenceWindowController class]];
 }
 
 - (void)viewDidLoad
