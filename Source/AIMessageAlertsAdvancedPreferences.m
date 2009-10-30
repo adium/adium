@@ -24,7 +24,7 @@
     return @"AIMessageAlertsAdvancedPreferences";
 }
 - (NSImage *)image{
-	return [NSImage imageNamed:@"pref-status" forClass:[self class]];
+	return [NSImage imageNamed:@"pref-messagealerts" forClass:[self class]];
 }
 
 #pragma mark Preference toggling
