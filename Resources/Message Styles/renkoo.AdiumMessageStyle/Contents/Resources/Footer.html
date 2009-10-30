@@ -212,20 +212,6 @@
 			this.cancel();
 	}
 	
-	//Do this on load
-	function initEvents() {
-		if(document.getElementById("heading") == null){
-			document.getElementById("bodyNode").style.marginTop = "5px";
-		}
-		if(isDebug == false) {
-			document.getElementById("debug").style.display = "none";
-		}
-	}
 
-	function adiumOnLoad() {
-		initEvents();
-		alignChat(true);
-		coalescedHTML = new CoalescedHTML();
-	}
 	
 </script>
