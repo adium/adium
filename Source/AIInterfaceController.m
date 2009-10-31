@@ -211,10 +211,10 @@
 	[menuItem release];
 	
 	// Authorization requests menu item
-	menuItem = [[NSMenuItem alloc] initWithTitle:AUTHORIZATION_REQUESTS
-													   target:self
-													   action:@selector(openAuthorizationWindow:)
-												keyEquivalent:@""];
+	menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedStringFromTableInBundle(@"Authorization Requests",nil, [NSBundle bundleForClass:[AIAuthorizationRequestsWindowController class]], nil)
+										  target:self
+										  action:@selector(openAuthorizationWindow:)
+								   keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:menuItem toLocation:LOC_Window_Auxiliary];
 	[menuItem release];
