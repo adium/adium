@@ -28,18 +28,9 @@
 			this.isConsecutive = undefined;
 			this.shouldScroll = undefined;
 			
-			var appendElement = undefined;
-			
-			// hook in a custom method to append new data
-			// to the chat.
-			this.setAppendElementMethod = function (func) {
-				if(typeof func === 'function')
-					appendElement = func;
-			}
-			
-			this.setAppendElementMethod(function (elem) {
+			var appendElement = function (elem) {
 				document.getElementById("Chat").appendChild(elem);
-			});
+			};
 			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
@@ -75,6 +66,18 @@
 					insert.parentNode.removeChild(insert);
 			}
 			
+			function setShouldScroll(flag) {
+				if(flag && undefined === self.shouldScroll)
+					self.shouldScroll = flag;
+			}
+			
+			// hook in a custom method to append new data
+			// to the chat.
+			this.setAppendElementMethod = function (func) {
+				if(typeof func === 'function')
+					appendElement = func;
+			}
+						
 			// (re)start the coalescing timer.
 			//   we wait 25ms for a new message to come in.
 			//   If we get one, restart the timer and wait another 10ms.
@@ -115,7 +118,7 @@
 				
 				node = null;
 
-				if(shouldScroll) self.shouldScroll = shouldScroll;
+				setShouldScroll(shouldScroll);
 				self.coalesce();
 			}
 			
@@ -130,8 +133,7 @@
 					self.fragment.appendChild(node);
 				}
 				node = null;
-				if(shouldScroll)
-					self.shouldScroll = shouldScroll;
+				setShouldScroll(shouldScroll);
 				self.coalesce();
 			}
 			
@@ -141,8 +143,7 @@
 				var lastMessage = self.fragment.lastChild;
 				lastMessage.parentNode.replaceChild(node, lastMessage);
 				node = null;
-				if(shouldScroll)
-					self.shouldScroll = shouldScroll;
+				setShouldScroll(shouldScroll);
 			}
 		}
 		var coalescedHTML;
