@@ -1149,7 +1149,6 @@
 		6318DBA40F8D93F200C5E584 /* SoulEdge.png in Resources */ = {isa = PBXBuildFile; fileRef = 34C2DF00063498ED0018E5D2 /* SoulEdge.png */; };
 		6318DBA50F8D93F200C5E584 /* terminator.png in Resources */ = {isa = PBXBuildFile; fileRef = 34C2DF01063498ED0018E5D2 /* terminator.png */; };
 		6318DBA60F8D93F200C5E584 /* Template.html in Resources */ = {isa = PBXBuildFile; fileRef = 4B03711506595A70008F5981 /* Template.html */; };
-		6318DBA70F8D93F200C5E584 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3402E07507CB0FAA0044F818 /* Localizable.strings */; };
 		6318DBB40F8D940A00C5E584 /* AIWebKitMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B539C5205EFD6FB00E5921A /* AIWebKitMessageViewController.m */; };
 		6318DBB50F8D940A00C5E584 /* AIWebKitMessageViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B539C4C05EFD6CD00E5921A /* AIWebKitMessageViewPlugin.m */; };
 		6318DBB60F8D940A00C5E584 /* ESWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C9A2405FFE3DF000F5A8A /* ESWebView.m */; };
@@ -1522,6 +1521,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		11F6CB2D109BC6AC0070022D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34BD9DAF05314751000AB133 /* Adium.Framework */;
+			remoteInfo = Adium.Framework;
+		};
 		31A763FA0DA570E9000AC729 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3496A8E707CE6CA30055BBAB /* AutoHyperlinks.framework.xcodeproj */;
@@ -2067,7 +2073,6 @@
 		3402E02D07CB0DBB0044F818 /* AboutBox.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AboutBox.nib; path = Resources/AboutBox.nib; sourceTree = "<group>"; };
 		3402E03F07CB0E400044F818 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3402E04B07CB0EA70044F818 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = "Plugins/Purple Service/en.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		3402E06C07CB0F9D0044F818 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = "Plugins/WebKit Message View/en.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3403F4300D2EF01D006B08FB /* AIAddressBookUserIconSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAddressBookUserIconSource.h; path = "Frameworks/Adium Framework/Source/AIAddressBookUserIconSource.h"; sourceTree = "<group>"; };
 		3403F4310D2EF01D006B08FB /* AIAddressBookUserIconSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAddressBookUserIconSource.m; path = "Frameworks/Adium Framework/Source/AIAddressBookUserIconSource.m"; sourceTree = "<group>"; };
 		3403F4CE0D2EFE10006B08FB /* AIManuallySetUserIconSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIManuallySetUserIconSource.h; path = "Frameworks/Adium Framework/Source/AIManuallySetUserIconSource.h"; sourceTree = "<group>"; };
@@ -2100,7 +2105,6 @@
 		340580A2087EEFA200664D64 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Resources/ru.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		340580A3087EEFA200664D64 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Resources/ru.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		340580A4087EEFA200664D64 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = Resources/ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		340580A5087EEFA200664D64 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = "Plugins/WebKit Message View/ru.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		340580A6087EEFA200664D64 /* ru */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ru; path = "Plugins/Purple Service/ru.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		340580A9087EEFA200664D64 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Resources/ru.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
 		340580AA087EEFA200664D64 /* ru */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ru; path = Resources/ru.lproj/ProxyPasswordPrompt.nib; sourceTree = "<group>"; };
@@ -2285,7 +2289,6 @@
 		34208D140D502D3F003138D1 /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr_CA; path = Resources/fr_CA.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		34208D150D502D3F003138D1 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = "Plugins/Purple Service/fr_CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34208D160D502D40003138D1 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = "Frameworks/Adium Framework/Resources/fr_CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		34208D170D502D40003138D1 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = "Plugins/WebKit Message View/fr_CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34208D180D502D40003138D1 /* fr_CA */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr_CA; path = Resources/fr_CA.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34208D190D502D40003138D1 /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr_CA; path = Resources/fr_CA.lproj/MessageHistoryConfiguration.nib; sourceTree = "<group>"; };
 		34208D1A0D502D40003138D1 /* fr_CA */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fr_CA; path = Resources/fr_CA.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
@@ -2371,7 +2374,6 @@
 		342CE140085A08A100005C63 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Resources/sv.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		342CE141085A08A100005C63 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = Resources/sv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		342CE143085A08A100005C63 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = "Plugins/Purple Service/sv.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		342CE144085A08A100005C63 /* sv */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = sv; path = "Plugins/WebKit Message View/sv.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		342CE146085A08A200005C63 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Resources/sv.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
 		342CE147085A08A200005C63 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Resources/sv.lproj/ProxyPasswordPrompt.nib; sourceTree = "<group>"; };
 		342CE148085A08A200005C63 /* sv */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = sv; path = Resources/sv.lproj/StatusPreferences.nib; sourceTree = "<group>"; };
@@ -2398,7 +2400,6 @@
 		342CE16B085A08C600005C63 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = "Plugins/Purple Service/ca.lproj/ESPurpleZephyrAccountView.nib"; sourceTree = "<group>"; };
 		342CE16D085A08C700005C63 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = Resources/ca.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		342CE16E085A08C700005C63 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = Resources/ca.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
-		342CE16F085A08C700005C63 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = "Plugins/WebKit Message View/ca.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		342CE170085A08C700005C63 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = "Plugins/Purple Service/ca.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		342CE171085A08C700005C63 /* ca */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ca; path = Resources/ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		342CE174085A08C700005C63 /* ca */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ca; path = Resources/ca.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
@@ -2439,7 +2440,6 @@
 		342F9E5B0B552629000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = Resources/fi.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
 		342F9E5E0B55262A000D5FC2 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = Resources/fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		342F9E600B55262B000D5FC2 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = "Plugins/Purple Service/fi.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		342F9E610B55262B000D5FC2 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = "Plugins/WebKit Message View/fi.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		342F9E630B55262B000D5FC2 /* fi */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fi; path = "Frameworks/Adium Framework/Resources/fi.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		342F9E640B55262B000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = Resources/fi.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		342F9E650B55262B000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = Resources/fi.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
@@ -2493,7 +2493,6 @@
 		343BB63A0C96DC1100506F9B /* MySpace-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MySpace-large.png"; path = "Plugins/Purple Service/MySpace-large.png"; sourceTree = "<group>"; };
 		343C45E20816C0FE00FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/WebKit Message View/it.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		343C45E50816C13300FF5FA7 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = Resources/nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		343C45E80816C13D00FF5FA7 /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = "Plugins/WebKit Message View/nl.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		343C46040816CC6800FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/ESPurpleZephyrAccountView.nib"; sourceTree = "<group>"; };
 		343C46070816CC8000FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/DCPurpleZephyrJoinChatView.nib"; sourceTree = "<group>"; };
 		343C460A0816CC9500FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/ESPurpleYahooAccountView.nib"; sourceTree = "<group>"; };
@@ -2509,7 +2508,6 @@
 		343C461E0816CCFD00FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/ESPurpleAIMAccountView.nib"; sourceTree = "<group>"; };
 		343C461F0816CD0400FF5FA7 /* it */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = it; path = "Plugins/Purple Service/it.lproj/DCPurpleOscarJoinChatView.nib"; sourceTree = "<group>"; };
 		343C47760816FBDA00FF5FA7 /* de */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = de; path = "Plugins/WebKit Message View/de.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
-		343C47790816FBE500FF5FA7 /* de */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = de; path = "Plugins/WebKit Message View/de.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		343EB4270808709E00E27095 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = Resources/en.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		343EC68F0809DD2900E27095 /* en */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en; path = Resources/en.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		343EC6C0096F7DEA00349098 /* StatusPreferencesAdvanced.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = StatusPreferencesAdvanced.nib; path = Resources/StatusPreferencesAdvanced.nib; sourceTree = "<group>"; };
@@ -2623,7 +2621,6 @@
 		345076AB0E106F5E00BF0883 /* en_GB */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en_GB; path = Resources/en_GB.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		345076AC0E106F5E00BF0883 /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en_GB; path = Resources/en_GB.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		345076AD0E106F5E00BF0883 /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en_GB; path = Resources/en_GB.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
-		345076AE0E106F5E00BF0883 /* en_GB */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en_GB; path = "Plugins/WebKit Message View/en_GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345076AF0E106F5E00BF0883 /* en_GB */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en_GB; path = "Plugins/Purple Service/en_GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345076B00E106F5F00BF0883 /* en_GB */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en_GB; path = Resources/en_GB.lproj/Localizable.strings; sourceTree = "<group>"; };
 		345076B10E106F5F00BF0883 /* en_GB */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = en_GB; path = Resources/en_GB.lproj/MessageHistoryConfiguration.nib; sourceTree = "<group>"; };
@@ -2664,7 +2661,6 @@
 		345076EC0E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = Resources/pt.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		345076ED0E106FD600BF0883 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = "Plugins/Purple Service/pt.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345076EE0E106FD600BF0883 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = Resources/pt.lproj/Localizable.strings; sourceTree = "<group>"; };
-		345076EF0E106FD600BF0883 /* pt */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt; path = "Plugins/WebKit Message View/pt.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345076F00E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = Resources/pt.lproj/MessageHistoryConfiguration.nib; sourceTree = "<group>"; };
 		345076F10E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = Resources/pt.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
 		345076F20E106FD600BF0883 /* pt */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt; path = Resources/pt.lproj/PersonalPreferences.nib; sourceTree = "<group>"; };
@@ -2839,7 +2835,6 @@
 		345F5BA9081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Resources/zh_TW.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		345F5BAA081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Resources/zh_TW.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		345F5BAB081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = Resources/zh_TW.lproj/Localizable.strings; sourceTree = "<group>"; };
-		345F5BAD081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = "Plugins/WebKit Message View/zh_TW.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345F5BAF081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_TW; path = "Plugins/Purple Service/zh_TW.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		345F5BB1081AC4F2001F733C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Resources/zh_TW.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
 		345F5BB2081AC4F3001F733C /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = zh_TW; path = Resources/zh_TW.lproj/ProxyPasswordPrompt.nib; sourceTree = "<group>"; };
@@ -2954,15 +2949,12 @@
 		34652313083719EF009565FE /* nb */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = nb; path = Resources/nb.lproj/DualWindowMessageAdvanced.nib; sourceTree = "<group>"; };
 		34652315083719EF009565FE /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = "Plugins/Purple Service/nb.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34652316083719F0009565FE /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = Resources/nb.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		34652318083719F0009565FE /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = "Plugins/WebKit Message View/nb.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34652319083719F0009565FE /* nb */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nb; path = Resources/nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3465232C083719FF009565FE /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Frameworks/Adium Framework/Resources/ja.lproj/EditStateSheet.nib"; sourceTree = "<group>"; };
 		3465233E08371A0C009565FE /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = Resources/ja.lproj/StatusPreferences.nib; sourceTree = "<group>"; };
 		3465235208371A3F009565FE /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = Resources/zh_CN.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3465235308371A3F009565FE /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = "Plugins/Purple Service/zh_CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		3465235408371A40009565FE /* zh_CN */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = zh_CN; path = "Plugins/WebKit Message View/zh_CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3465236508371A64009565FE /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = "Plugins/Purple Service/cs.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		3465236608371A64009565FE /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = "Plugins/WebKit Message View/cs.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		3465236808371A65009565FE /* cs */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = cs; path = Resources/cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		346544D90C8F686B0046ED68 /* AMPurpleJabberXMLConsole.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AMPurpleJabberXMLConsole.nib; path = "Plugins/Purple Service/AMPurpleJabberXMLConsole.nib"; sourceTree = "<group>"; };
 		346544DA0C8F686B0046ED68 /* AMPurpleJabberDiscoveryBrowser.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AMPurpleJabberDiscoveryBrowser.nib; path = "Plugins/Purple Service/AMPurpleJabberDiscoveryBrowser.nib"; sourceTree = "<group>"; };
@@ -3015,7 +3007,6 @@
 		346C9C110E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = Resources/hu.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		346C9C120E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = "Frameworks/Adium Framework/Resources/hu.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		346C9C130E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = Resources/hu.lproj/Localizable.strings; sourceTree = "<group>"; };
-		346C9C140E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = "Plugins/WebKit Message View/hu.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		346C9C150E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = "Plugins/Purple Service/hu.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		346C9C160E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = Resources/hu.lproj/MessageHistoryConfiguration.nib; sourceTree = "<group>"; };
 		346C9C170E70E1F7002314EE /* hu */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = hu; path = Resources/hu.lproj/OTRPrefs.nib; sourceTree = "<group>"; };
@@ -3338,7 +3329,6 @@
 		34B1FCDA0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el_GR; path = Resources/el_GR.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		34B1FCDB0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = el_GR; path = Resources/el_GR.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		34B1FCDC0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = el_GR; path = Resources/el_GR.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
-		34B1FCDD0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el_GR; path = "Plugins/WebKit Message View/el_GR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34B1FCDE0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el_GR; path = "Plugins/Purple Service/el_GR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34B1FCDF0F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el_GR; path = Resources/el_GR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34B1FCE00F112BF600C7E952 /* el_GR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = el_GR; path = Resources/el_GR.lproj/MessageHistoryConfiguration.nib; sourceTree = "<group>"; };
@@ -3450,10 +3440,6 @@
 		34C2A4930821859800F3363F /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Plugins/Purple Service/ja.lproj/ESPurpleAIMAccountView.nib"; sourceTree = "<group>"; };
 		34C2A4940821859800F3363F /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Plugins/Purple Service/ja.lproj/DCPurpleZephyrJoinChatView.nib"; sourceTree = "<group>"; };
 		34C2A4950821859800F3363F /* ja */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = ja; path = "Plugins/Purple Service/ja.lproj/ESPurpleNovellAccountView.nib"; sourceTree = "<group>"; };
-		34C2A4AC082185BE00F3363F /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = "Plugins/WebKit Message View/ja.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		34C2A4BB082185D700F3363F /* it */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = it; path = "Plugins/WebKit Message View/it.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		34C2A4D90821860900F3363F /* fr */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = fr; path = "Plugins/WebKit Message View/fr.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		34C2A4EA0821861800F3363F /* da */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = da; path = "Plugins/WebKit Message View/da.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34C2CF85063340540018E5D2 /* PurpleMultilineRequestWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = PurpleMultilineRequestWindow.nib; path = "Plugins/Purple Service/PurpleMultilineRequestWindow.nib"; sourceTree = "<group>"; };
 		34C2CF86063340540018E5D2 /* PurpleSinglelineRequestWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = PurpleSinglelineRequestWindow.nib; path = "Plugins/Purple Service/PurpleSinglelineRequestWindow.nib"; sourceTree = "<group>"; };
 		34C2D70306338E2E0018E5D2 /* ESWebKitMessageViewPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESWebKitMessageViewPreferences.h; path = "Plugins/WebKit Message View/ESWebKitMessageViewPreferences.h"; sourceTree = "<group>"; };
@@ -3697,7 +3683,6 @@
 		34F13F450BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Resources/pt_BR.lproj/ListLayoutSheet.nib; sourceTree = "<group>"; };
 		34F13F460BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Resources/pt_BR.lproj/ListThemeSheet.nib; sourceTree = "<group>"; };
 		34F13F470BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = "Plugins/Purple Service/pt_BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		34F13F480BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = "Plugins/WebKit Message View/pt_BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34F13F490BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = Resources/pt_BR.lproj/Localizable.strings; sourceTree = "<group>"; };
 		34F13F4A0BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = pt_BR; path = "Frameworks/Adium Framework/Resources/pt_BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		34F13F4C0BA6D56E000473DE /* pt_BR */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = pt_BR; path = Resources/pt_BR.lproj/PasswordPrompt.nib; sourceTree = "<group>"; };
@@ -8228,7 +8213,6 @@
 				4BD62D7F07CE8F240099EBA2 /* AIWebkitMessageViewStyle.m */,
 				34C2D70306338E2E0018E5D2 /* ESWebKitMessageViewPreferences.h */,
 				34C2D70406338E2E0018E5D2 /* ESWebKitMessageViewPreferences.m */,
-				3402E07507CB0FAA0044F818 /* Localizable.strings */,
 				34C2DBE5063449AF0018E5D2 /* Preview.plist */,
 				34C2DF00063498ED0018E5D2 /* SoulEdge.png */,
 				4B03711506595A70008F5981 /* Template.html */,
@@ -9200,6 +9184,7 @@
 				81F9D1DF0A7F81A5004A35BD /* PBXBuildRule */,
 			);
 			dependencies = (
+				11F6CB2E109BC6AC0070022D /* PBXTargetDependency */,
 				639DF9E30F97E687003C9A32 /* PBXTargetDependency */,
 				349C31630867D199000BF883 /* PBXTargetDependency */,
 				6329EFB50F9D33A600112489 /* PBXTargetDependency */,
@@ -9316,6 +9301,7 @@
 				hu,
 				el_GR,
 				English,
+				gy,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocAIMe2 */;
 			projectDirPath = "";
@@ -9507,7 +9493,6 @@
 				6318DBA40F8D93F200C5E584 /* SoulEdge.png in Resources */,
 				6318DBA50F8D93F200C5E584 /* terminator.png in Resources */,
 				6318DBA60F8D93F200C5E584 /* Template.html in Resources */,
-				6318DBA70F8D93F200C5E584 /* Localizable.strings in Resources */,
 				9EF0DBFA09D944C200FBCC1E /* Resources/block.png in Resources */,
 				9EF0DBFB09D944C200FBCC1E /* Resources/unblock.png in Resources */,
 				346F5D3208A43E7B0055C610 /* CurrentTunes.scpt in Resources */,
@@ -10646,6 +10631,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		11F6CB2E109BC6AC0070022D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 34BD9DAF05314751000AB133 /* Adium.Framework */;
+			targetProxy = 11F6CB2D109BC6AC0070022D /* PBXContainerItemProxy */;
+		};
 		31A763FB0DA570E9000AC729 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AutoHyperlinks.framework;
@@ -10970,34 +10960,6 @@
 				345076ED0E106FD600BF0883 /* pt */,
 				346C9C150E70E1F7002314EE /* hu */,
 				34B1FCDE0F112BF600C7E952 /* el_GR */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		3402E07507CB0FAA0044F818 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3402E06C07CB0F9D0044F818 /* en */,
-				343C45E80816C13D00FF5FA7 /* nl */,
-				343C47790816FBE500FF5FA7 /* de */,
-				345F5BAD081AC4F2001F733C /* zh_TW */,
-				34C2A4AC082185BE00F3363F /* ja */,
-				34C2A4BB082185D700F3363F /* it */,
-				34C2A4D90821860900F3363F /* fr */,
-				34C2A4EA0821861800F3363F /* da */,
-				34652318083719F0009565FE /* nb */,
-				3465235408371A40009565FE /* zh_CN */,
-				3465236608371A64009565FE /* cs */,
-				342CE144085A08A100005C63 /* sv */,
-				342CE16F085A08C700005C63 /* ca */,
-				340580A5087EEFA200664D64 /* ru */,
-				342F9E610B55262B000D5FC2 /* fi */,
-				34F13F480BA6D56E000473DE /* pt_BR */,
-				34208D170D502D40003138D1 /* fr_CA */,
-				345076AE0E106F5E00BF0883 /* en_GB */,
-				345076EF0E106FD600BF0883 /* pt */,
-				346C9C140E70E1F7002314EE /* hu */,
-				34B1FCDD0F112BF600C7E952 /* el_GR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
