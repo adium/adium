@@ -231,9 +231,10 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 
 	// The shelf can never be completely closed. We always have at least enough to show our resize thumb, otherwise
 	// if the delegate responds to shelfSplitView:validateWidth:, we use that width as our minimum shelf size
-	CGFloat				minShelf = NSWidth(resizeThumbRect)
+	CGFloat				minShelf = 100; /*NSWidth(resizeThumbRect)
 									+ (shouldDrawContextButton ? NSWidth(contextButtonRect) : 0)
-									+ (shouldDrawActionButton ? NSWidth(actionButtonRect) : 0);
+									+ (shouldDrawActionButton ? NSWidth(actionButtonRect) : 0);*/
+	
 	if( delegateHasValidateWidth ){
 		CGFloat				requestedWidth = [delegate shelfSplitView:self validateWidth: aWidth];
 		if( requestedWidth > minShelf ){
