@@ -63,7 +63,7 @@
 #define	USERLIST_THEME						@"UserList Theme"		//File name of the user list theme
 #define	USERLIST_LAYOUT						@"UserList Layout"		//File name of the user list layout
 #define	KEY_ENTRY_TEXTVIEW_MIN_HEIGHT		@"Minimum Text Height"	//Preference key for text entry height
-#define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Width"		//Preference key for user list width
+#define	KEY_ENTRY_USER_LIST_MIN_WIDTH		@"UserList Minimum Width"	//Preference key for user list width
 #define KEY_USER_LIST_VISIBLE_PREFIX		@"Userlist Visible Chat:" //Preference key prefix for user list visibility
 #define KEY_USER_LIST_ON_RIGHT				@"UserList On Right"	// Preference key for user list being on the right
 
