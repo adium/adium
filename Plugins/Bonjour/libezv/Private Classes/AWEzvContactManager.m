@@ -33,6 +33,7 @@
 #import "AWEzvContactManager.h"
 #import "AWEzvContactPrivate.h"
 #import "AWEzvXMLStream.h"
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @implementation AWEzvContactManager
 
