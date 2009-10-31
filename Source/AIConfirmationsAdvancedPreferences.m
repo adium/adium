@@ -28,7 +28,7 @@
     return @"AIConfirmationsAdvancedPreferences";
 }
 - (NSImage *)image{
-	return [NSImage imageNamed:@"pref-events" forClass:[AIPreferenceWindowController class]];
+	return [NSImage imageNamed:@"pref-confirmations" forClass:[AIPreferenceWindowController class]];
 }
 
 /*!
