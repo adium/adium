@@ -42,6 +42,23 @@
 		contacts = [[NSMutableDictionary alloc] init];
 		client = newClient;
 		isConnected = NO;
+		
+		/* find username and computer name */
+		CFStringRef consoleUser = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
+		CFStringRef computerName = SCDynamicStoreCopyLocalHostName(NULL);
+		if (!computerName) {
+			/* computerName can return NULL if the computer name is not set or an error occurs */
+			CFUUIDRef	uuid;
+			
+			uuid = CFUUIDCreate(NULL);
+			computerName = CFUUIDCreateString(NULL, uuid);
+			CFRelease(uuid);		
+		}
+		avInstanceName = [[NSString alloc] initWithFormat:@"%@@%@",
+						  (consoleUser ? (NSString *)consoleUser : @""),
+						  (computerName ? (NSString *)computerName : @"")];
+		if (consoleUser) CFRelease(consoleUser);
+		if (computerName) CFRelease(computerName);		
 	}
 
     return self;
@@ -71,7 +88,9 @@
 - (void)dealloc {
 	/* AWEzvContactManagerListener adds an observer; remove it */
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[userAnnounceData release];
+
+	[userAnnounceData release]; userAnnounceData = nil;
+	[avInstanceName release]; avInstanceName = nil;
 
 	[super dealloc];
 }
