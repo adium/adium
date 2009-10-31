@@ -159,22 +159,7 @@ void image_register_reply (
 	[userAnnounceData setField:@"version" content:@"1"];
 
 	[self setStatus:[client status] withMessage:nil];
-
-	/* find username and computer name */
-	CFStringRef consoleUser = SCDynamicStoreCopyConsoleUser(NULL, NULL, NULL);
-	CFStringRef computerName = SCDynamicStoreCopyLocalHostName(NULL);
-	if (!computerName) {
-		/* computerName can return NULL if the computer name is not set or an error occurs */
-		CFUUIDRef	uuid;
-
-		uuid = CFUUIDCreate(NULL);
-		computerName = CFUUIDCreateString(NULL, uuid);
-		CFRelease(uuid);		
-	}
-    avInstanceName = [NSString stringWithFormat:@"%@@%@", (consoleUser ? (NSString *)consoleUser : @""), (computerName ? (NSString *)computerName : @"")];
-	if (consoleUser) CFRelease(consoleUser);
-	if (computerName) CFRelease(computerName);
-	[avInstanceName retain];
+	
     /* register service with mDNSResponder */
 
 	DNSServiceRef servRef;
@@ -226,8 +211,6 @@ void image_register_reply (
 
 		avDNSReference = nil;
 		imageServiceRef = nil;
-		
-		[avInstanceName release]; avInstanceName = nil;
 	}
 
 	[self setConnected:NO];
