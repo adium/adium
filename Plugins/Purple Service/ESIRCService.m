@@ -102,13 +102,11 @@
  */
 - (NSImage *)defaultServiceIconOfType:(AIServiceIconType)iconType
 {
-	NSImage *baseImage = [NSImage imageNamed:@"irc" forClass:[self class] loadLazily:YES];
-
-	if (iconType == AIServiceIconSmall || iconType == AIServiceIconList) {
-		baseImage = [baseImage imageByScalingToSize:NSMakeSize(16, 16)];
-    }
-
-	return baseImage;
+	if ((iconType == AIServiceIconSmall) || (iconType == AIServiceIconList)) {
+		return [NSImage imageNamed:@"irc-small" forClass:[self class] loadLazily:YES];
+	} else {
+		return [NSImage imageNamed:@"irc" forClass:[self class] loadLazily:YES];
+	}
 }
 
 /*!
@@ -122,9 +120,9 @@
 - (NSString *)pathForDefaultServiceIconOfType:(AIServiceIconType)iconType
 {
 	if ((iconType == AIServiceIconSmall) || (iconType == AIServiceIconList)) {
-		return nil; //xxx add small IRC icon
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"irc-small"];
 	} else {
-		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"irc"];		
+		return [[NSBundle bundleForClass:[self class]] pathForImageResource:@"irc"];
 	}
 }
 
