@@ -149,6 +149,17 @@
 
 	NSDictionary *targetDict = [runningApplescriptsDict objectForKey:uniqueID];
 	if (targetDict) {
+		// Prevent a secondary "finish" from returning in the middle of the invocation.
+		[targetDict retain];
+		
+		//No further need for this dictionary entry
+		[runningApplescriptsDict removeObjectForKey:uniqueID];
+		
+		//If there's no others, release the dictionary.
+		if (![runningApplescriptsDict count]) {
+			[runningApplescriptsDict release]; runningApplescriptsDict = nil;
+		}
+		
 		id			 target = [targetDict objectForKey:@"target"];
 		//Selector will be of the form applescriptDidRun:resultString:
 		SEL			 selector = NSSelectorFromString([targetDict objectForKey:@"selector"]);
@@ -158,12 +169,7 @@
 					 withObject:[targetDict objectForKey:@"userInfo"]
 					 withObject:[userInfo objectForKey:@"resultString"]];
 		
-		//No further need for this dictionary entry
-		[runningApplescriptsDict removeObjectForKey:uniqueID];
-		
-		if (![runningApplescriptsDict count]) {
-			[runningApplescriptsDict release]; runningApplescriptsDict = nil;
-		}
+		[targetDict release];
 	}
 	[pool release];
 }
