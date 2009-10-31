@@ -28,6 +28,19 @@
 			this.isConsecutive = undefined;
 			this.shouldScroll = undefined;
 			
+			var appendElement = undefined;
+			
+			// hook in a custom method to append new data
+			// to the chat.
+			this.setAppendElementMethod = function (func) {
+				if(typeof func === 'function')
+					appendElement = func;
+			}
+			
+			this.setAppendElementMethod(function (elem) {
+				document.getElementById("Chat").appendChild(elem);
+			});
+			
 			function outputHTML() {
 				var insert = document.getElementById("insert");
 				if(!!insert && self.isConsecutive) {
@@ -36,7 +49,7 @@
 					if(insert)
 						insert.parentNode.removeChild(insert);
 					// insert the documentFragment into the live DOM
-					document.getElementById("Chat").appendChild(self.fragment);
+					appendElement(self.fragment);
 				}
 				alignChat(self.shouldScroll);
 				
@@ -294,9 +307,10 @@
 			alignChat(true/*nearBottom()*/); //nearBottom buggy with inactive tabs
 		}
 		
-		function adiumOnLoad() {
+		function initStyle() {
 			alignChat(true);
-			coalescedHTML = new CoalescedHTML();
+			if(!coalescedHTML)
+				coalescedHTML = new CoalescedHTML();
 		}
 	</script>
 
@@ -320,7 +334,7 @@
 	</style>
 
 </head>
-<body onload="adiumOnLoad();" style="==bodyBackground==">
+<body onload="initStyle();" style="==bodyBackground==">
 %@
 <div id="Chat">
 </div>

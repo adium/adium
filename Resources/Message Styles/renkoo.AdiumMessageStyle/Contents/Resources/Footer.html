@@ -176,42 +176,48 @@
 	
 	Fadomatic.prototype._updateOpacity = null;
 
+	// overload scrollingo for smooth scroll.
+	var intervall_scroll;
+	function scrollToBottom() {
+		//document.body.scrollTop = (document.body.scrollHeight-window.innerHeight);
+		//return;
+		if ( intervall_scroll ) clearInterval( intervall_scroll );
+		intervall_scroll = setInterval( function() {
+			var target_scroll = (document.body.scrollHeight-window.innerHeight);
+			var scrolldiff = target_scroll - document.body.scrollTop;
+			if ( document.body.scrollTop != target_scroll ) {
+				var saved_scroll = document.body.scrollTop;
+				document.body.scrollTop += scrolldiff / 5 + ( scrolldiff >= 0 ? (scrolldiff != 0 ) : -1 );
+			} else {
+				saved_scroll = -1;
+				clearInterval( intervall_scroll );
+			}
+		} , 10 );
+		return;
+	}
 
 	// Override CoalescedHTML methods
-	function outputHTML() {
-		var insert = document.getElementById("insert");
-		if(!!insert && coalescedHTML.isConsecutive) {
-			insert.parentNode.replaceChild(coalescedHTML.fragment, insert);
-		} else {
-			if(insert)
-				insert.parentNode.removeChild(insert);
-			// insert the documentFragment into the live DOM
-			try {
-				var fader = new Fadomatic(coalescedHTML.fragment, 9, 0, 0, 95);
-			} catch(e) {
-				trace(e);
-			}
-			fader.fadeIn();
+	function initStyle() {
+		if(null == document.getElementById("heading")){
+			document.getElementsByTagName('body').item(0).style.marginTop = "5px";
 		}
 		
-		alignChat(coalescedHTML.shouldScroll);
-		
-		// reset state to empty/non-coalescing
-		coalescedHTML.shouldScroll = undefined;
-		coalescedHTML.isConsecutive = undefined;
-		coalescedHTML.isCoalescing = false;
-		coalescedHTML.coalesceRounds = 0;
+		if(!coalescedHTML)
+			coalescedHTML = new CoalescedHTML();
+			
+		coalescedHTML.setAppendElementMethod(function (elem) {
+			document.getElementById("Chat").appendChild(elem);
+			if(!coalescedHTML.isConsecutive) {
+				var node = document.getElementById("Chat").lastElementChild;
+				try {
+					var fader = new Fadomatic(node, 9, 0, 0, 95);
+				} catch (e) {
+					appendHTML("<p>" + e + "</p>");
+				}
+				fader.fadeIn();
+			}
+			alignChat(true);
+		});
 	}
-
-	CoalescedHTML.prototype.coalesce = function() {
-		window.clearTimeout(this.timeoutID);
-		this.timeoutID = window.setTimeout(outputHTML, 25);
-		this.isCoalescing = true;
-		this.coalesceRounds += 1;
-		if(400 < self.coalesceRounds)
-			this.cancel();
-	}
-	
-
 	
 </script>
