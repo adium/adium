@@ -77,7 +77,7 @@
 		[attributes setObject:value forKey:property];
 	else {
 		NSLog(@"WARNING: %@ attempted to set %@ for %@", self, value, property);
-		AILogWithSignature(@"WARNING: %@ attempted to set %@ for %@", self, value, propery);
+		AILogWithSignature(@"WARNING: %@ attempted to set %@ for %@", self, value, property);
 	}
 
 }
