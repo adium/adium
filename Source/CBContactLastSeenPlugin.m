@@ -18,6 +18,7 @@
 #import "CBContactLastSeenPlugin.h"
 #import <AIUtilities/AIDateFormatterAdditions.h>
 #import <Adium/AIListObject.h>
+#import <Adium/AIMetaContact.h>
 
 #define PREF_GROUP_LAST_SEEN	@"Last Seen"
 #define KEY_LAST_SEEN_STATUS	@"Last Seen Status"
@@ -36,58 +37,51 @@
 {
     //Install our tooltip entry
     [adium.interfaceController registerContactListTooltipEntry:self secondaryEntry:NO];
-	
-	//Install our observers
-	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(statusUpdate:)
-									   name:CONTACT_SEEN_ONLINE_YES
-									 object:nil];
-									 
-	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(statusUpdate:)
-									   name:CONTACT_STATUS_ONLINE_NO
-									 object:nil];
 
-	[[NSNotificationCenter defaultCenter] addObserver:self
-								   selector:@selector(statusUpdate:)
-									   name:CONTACT_SEEN_ONLINE_NO
-									 object:nil];
+	//Observe status changes
+    [[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 }
 
-/*!
- * @brief Contact status change notification
- *
- * @param notification A notificaiton with an AIListObject object and an eventID name
- */
-- (void)statusUpdate:(NSNotification *)notification
+- (NSSet *)updateListObject:(AIListObject *)inObject keys:(NSSet *)inModifiedKeys silent:(BOOL)silent
 {
-	AIListObject	*inObject = [notification object];
+	/* Update only for contacts whose online status has changed */
+	if ([inObject isKindOfClass:[AIListContact class]]) {
+		if ([inModifiedKeys containsObject:@"Online"]) {
+			if (inObject.online) {
+				//Either they are online, or we've come online. Either way, update both their status and the time
+				[inObject setPreference:AILocalizedString(@"Online",nil)
+								 forKey:KEY_LAST_SEEN_STATUS
+								  group:PREF_GROUP_LAST_SEEN];
+				
+				[inObject setPreference:[NSDate date]
+								 forKey:KEY_LAST_SEEN_DATE
+								  group:PREF_GROUP_LAST_SEEN];
+				
+				
+			} else {
+				if (!silent) {
+					//They've signed off, update their status and the time		
+					[inObject setPreference:AILocalizedString(@"Signing off",nil)
+									 forKey:KEY_LAST_SEEN_STATUS
+									  group:PREF_GROUP_LAST_SEEN];
+					
+					[inObject setPreference:[NSDate date]
+									 forKey:KEY_LAST_SEEN_DATE
+									  group:PREF_GROUP_LAST_SEEN];	
+				} else {
+					/* Don't update the status, as we didn't see them signing off but
+					 * rather we signed off (silent updates are grouped ones.)
+					 * Just update the date.
+					 */
+					[inObject setPreference:[NSDate date]
+									 forKey:KEY_LAST_SEEN_DATE
+									  group:PREF_GROUP_LAST_SEEN];
+				}
+			}
+		}
+	}
 	
-	//Either they are online, or we've come online. Either way, update both their status and the time
-	if ([[notification name] isEqualToString:CONTACT_SEEN_ONLINE_YES]) {
-		[inObject setPreference:AILocalizedString(@"Online",nil)
-						 forKey:KEY_LAST_SEEN_STATUS
-						  group:PREF_GROUP_LAST_SEEN];
-
-		[inObject setPreference:[NSDate date]
-						 forKey:KEY_LAST_SEEN_DATE
-						  group:PREF_GROUP_LAST_SEEN];
-		
-	//They've signed off, update their status and the time		
-	} else if ([[notification name] isEqualToString:CONTACT_STATUS_ONLINE_NO]) {
-		[inObject setPreference:AILocalizedString(@"Signing off",nil)
-						 forKey:KEY_LAST_SEEN_STATUS
-						  group:PREF_GROUP_LAST_SEEN];
-
-		[inObject setPreference:[NSDate date]
-						 forKey:KEY_LAST_SEEN_DATE
-						  group:PREF_GROUP_LAST_SEEN];	
-
-	//Don't update the status, just the date
-	} else if ([[notification name] isEqualToString:CONTACT_SEEN_ONLINE_NO]) {
-		[inObject setPreference:[NSDate date]
-						 forKey:KEY_LAST_SEEN_DATE
-						  group:PREF_GROUP_LAST_SEEN];	}
+	return nil;	
 }
 
 #pragma mark Tooltip entry
