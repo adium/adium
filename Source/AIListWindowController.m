@@ -318,7 +318,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
 		[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
-
+		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
 				slideWindowIfNeededTimer = [[NSTimer scheduledTimerWithTimeInterval:DOCK_HIDING_MOUSE_POLL_INTERVAL
@@ -722,7 +722,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	//If we're hiding the window (generally) but now sliding it on screen, make sure it's on top
 	if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 		[self setWindowLevel:NSFloatingWindowLevel];
-		
 		[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
 		
 		overrodeWindowLevel = YES;
@@ -812,7 +811,6 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			shouldSlide = YES;
 		}
 	}
-
 	return shouldSlide;
 }
 
@@ -1225,25 +1223,25 @@ static BOOL AIScreenRectEdgeAdjacentToAnyOtherScreen(NSRectEdge edge, NSScreen *
 {
 	if ([self windowSlidOffScreenEdgeMask] != AINoEdges) {
 		NSWindow	*window = [self window];
-		NSRect		windowFrame = [window frame];
 		
-		if (!NSEqualRects(windowFrame, oldFrame)) {
-			//Restore shadow and frame if we're appearing from having slid off-screen
-			[window setHasShadow:[[adium.preferenceController preferenceForKey:KEY_CL_WINDOW_HAS_SHADOW
-																		   group:PREF_GROUP_CONTACT_LIST] boolValue]];			
-			[window orderFront:nil]; 
-			[contactListController contactListWillSlideOnScreen];
+		animate = animate && !NSEqualRects(window.frame, oldFrame);
+		
+		//Restore shadow and frame if we're appearing from having slid off-screen
+		[window setHasShadow:[[adium.preferenceController preferenceForKey:KEY_CL_WINDOW_HAS_SHADOW
+																	   group:PREF_GROUP_CONTACT_LIST] boolValue]];			
+		[window orderFront:nil];
+		
+		[contactListController contactListWillSlideOnScreen];
 
-			windowSlidOffScreenEdgeMask = AINoEdges;
-
-			if (animate) {
-				[self slideWindowToPoint:oldFrame.origin];
-			} else {
-				[self moveWindowToPoint:oldFrame.origin];
-			}
-			
-			[windowLastScreen release];	windowLastScreen = nil;
+		windowSlidOffScreenEdgeMask = AINoEdges;
+		
+		if (animate) {
+			[self slideWindowToPoint:oldFrame.origin];
+		} else {
+			[self moveWindowToPoint:oldFrame.origin];
 		}
+		
+		[windowLastScreen release];	windowLastScreen = nil;
 	}
 }
 
