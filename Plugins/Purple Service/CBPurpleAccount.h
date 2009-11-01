@@ -146,7 +146,7 @@
 - (void)receivedEventForChat:(AIChat *)chat
 					 message:(NSString *)message
 						date:(NSDate *)date
-					   flags:(PurpleMessageFlags)flags;
+					   flags:(NSNumber *)flagsNumber;
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat;
 - (void)leftChat:(AIChat *)chat;

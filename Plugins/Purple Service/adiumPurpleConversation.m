@@ -85,7 +85,7 @@ static void adiumPurpleConvWriteChat(PurpleConversation *conv, const char *who,
 			[account receivedEventForChat:groupChatLookupFromConv(conv)
 								  message:messageString
 									 date:date
-									flags:flags];
+									flags:[NSNumber numberWithInteger:flags]];
 		} else {
 			NSAttributedString	*attributedMessage = [AIHTMLDecoder decodeHTML:messageString];
 			NSNumber			*purpleMessageFlags = [NSNumber numberWithInteger:flags];
@@ -213,15 +213,15 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		 */
 		if (errorType != AIChatUnknownError) {
 			[accountLookup(purple_conversation_get_account(conv)) performSelector:@selector(errorForChat:type:)
-			 withObject:chat
-			 withObject:[NSNumber numberWithInteger:errorType]
-			 afterDelay:0];
+																	   withObject:chat
+																	   withObject:[NSNumber numberWithInteger:errorType]
+																	   afterDelay:0];
 		} else {
 			[adium.contentController performSelector:@selector(displayEvent:ofType:inChat:)
-			 withObject:messageString
-			 withObject:@"libpurpleMessage"
-			 withObject:chat
-			 afterDelay:0];
+										  withObject:messageString
+										  withObject:@"libpurpleMessage"
+										  withObject:chat
+										  afterDelay:0];
 		}
 		
 		AILog(@"*** Conversation error %@: %@", chat, messageString);
@@ -264,10 +264,12 @@ static void adiumPurpleConvWriteConv(PurpleConversation *conv, const char *who, 
 		if (shouldDisplayMessage) {
 			CBPurpleAccount *account = accountLookup(purple_conversation_get_account(conv));
 			
-			[account receivedEventForChat:chat
-								  message:messageString
-									 date:[NSDate dateWithTimeIntervalSince1970:mtime]
-									flags:flags];
+			[account performSelector:@selector(receivedEventForChat:message:date:flags:)
+						  withObject:chat
+						  withObject:messageString
+						  withObject:[NSDate dateWithTimeIntervalSince1970:mtime]
+						  withObject:[NSNumber numberWithInteger:flags]
+						  afterDelay:0];
 		}
 	}
 }
