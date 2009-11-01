@@ -93,9 +93,22 @@
 //into this view.
 - (void)keyDown:(NSEvent *)theEvent
 {
+	BOOL forwarded = YES;
+	
 	if (shouldForwardEvents) {
-		[self forwardSelector:@selector(keyDown:) withObject:theEvent];
-	} else {
+		unichar		 inChar = [[theEvent charactersIgnoringModifiers] characterAtIndex:0];
+		
+		// Don't forward navigation key events. If we're receiving them, it's because
+		// the frame itself didn't support them.
+		if (inChar != NSUpArrowFunctionKey && inChar != NSDownArrowFunctionKey &&
+			inChar != NSPageUpFunctionKey && inChar != NSPageDownFunctionKey)
+		{
+			[self forwardSelector:@selector(keyDown:) withObject:theEvent];
+			forwarded = YES;
+		}
+	}
+	
+	if (!forwarded) {
 		[super keyDown:theEvent];
 	}
 }
