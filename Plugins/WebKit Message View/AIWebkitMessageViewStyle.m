@@ -717,7 +717,7 @@
 	NSString		*htmlEncodedMessage = [AIHTMLDecoder encodeHTML:[content message]
 															headers:NO 
 														   fontTags:showIncomingFonts
-												 includingColorTags:showIncomingColors
+												 includingColorTags:(allowsColors && showIncomingColors)
 													  closeFontTags:YES
 														  styleTags:YES
 										 closeStyleTagsOnFontChange:YES
