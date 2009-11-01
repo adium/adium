@@ -330,13 +330,6 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 	return contactUIDIsServerContact(inContact.UID);
 }
 
-/*!
- * @brief Don't autoreply to server contacts (services) or FreeNode's stupidity.
- */
-- (BOOL)shouldSendAutoreplyToMessage:(AIContentMessage *)message
-{
-	return !contactUIDIsServerContact(message.source.UID);
-}
 
 /*!
  * @brief Don't log server contacts (services) or FreeNode's stupidity.
