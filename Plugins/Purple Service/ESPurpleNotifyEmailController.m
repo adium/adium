@@ -167,19 +167,22 @@
 + (void)showNotifyEmailWindowForAccount:(AIAccount *)account withMessage:(NSAttributedString *)inMessage URLString:(NSString *)inURLString
 {	
 	NSString *mailApplicationName = [self mailApplicationName];
-	[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"New Mail",nil)
-														  defaultButton:nil
-														alternateButton:(inURLString ? 
-																		 AILocalizedString(@"Open Mail in Browser",nil) :
-																		 nil)
-															otherButton:((mailApplicationName && [mailApplicationName length]) ?
-																		 [NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
-																		 nil)
-															   onWindow:nil
-													  withMessageHeader:nil
-															 andMessage:inMessage
-																 target:self
-															   userInfo:inURLString];	
+	
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"AINoNewMailWindow"]) {
+		[ESTextAndButtonsWindowController showTextAndButtonsWindowWithTitle:AILocalizedString(@"New Mail",nil)
+															  defaultButton:nil
+															alternateButton:(inURLString ? 
+																			 AILocalizedString(@"Open Mail in Browser",nil) :
+																			 nil)
+																otherButton:((mailApplicationName && [mailApplicationName length]) ?
+																			 [NSString stringWithFormat:AILocalizedString(@"Launch %@", nil), mailApplicationName] :
+																			 nil)
+																   onWindow:nil
+														  withMessageHeader:nil
+																 andMessage:inMessage
+																	 target:self
+																   userInfo:inURLString];
+	}
 	
 	//XXX - Hook this to the account for listobject
 	[adium.contactAlertsController generateEvent:ACCOUNT_RECEIVED_EMAIL
