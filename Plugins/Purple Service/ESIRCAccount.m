@@ -454,24 +454,27 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 {
 	AIOperationRequirement req = menuItem.tag;
 	AIChat *chat = adium.interfaceController.activeChat;
-	
-	if (!chat.chatContainer.messageViewController.selectedListObjects.count) {
-		return NO;
-	}
-	
+	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
+		
 	AIGroupChatFlags flags = [self flagsInChat:chat];
 	
 	switch (req) {
 		case AIRequiresHalfop:
-			return ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatHalfOp) == AIGroupChatHalfOp);
+			return (anySelected && ((flags & AIGroupChatOp) == AIGroupChatOp || (flags & AIGroupChatHalfOp) == AIGroupChatHalfOp));
 			break;
 			
 		case AIRequiresOp:
-			return ((flags & AIGroupChatOp) == AIGroupChatOp);
+			return (anySelected && ((flags & AIGroupChatOp) == AIGroupChatOp));
+			break;
+			
+		case AIRequiresNoLevel:
+			return anySelected;
+			break;
+			
+		default:
+			return YES;
 			break;
 	}
-	
-	return NO;
 }
 
 #pragma mark Action Menu's Actions

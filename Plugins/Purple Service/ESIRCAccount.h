@@ -14,6 +14,8 @@
 #define KEY_IRC_ENCODING	@"IRC:Encoding"
 
 typedef enum {
+	AIUnspecifiedOperation = 0,
+	AIRequiresNoLevel,
 	AIRequiresOp,
 	AIRequiresHalfop
 } AIOperationRequirement;
