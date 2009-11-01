@@ -67,7 +67,7 @@ typedef enum {
 } DCMessageViewType;
 
 @protocol AIInterfaceComponent, AIContactListComponent, AIMessageDisplayController, AIMessageDisplayPlugin;
-@protocol AIContactListTooltipEntry, AIFlashObserver;
+@protocol AIContactListTooltipEntry, AIFlashObserver, AIPlugin;
 
 @class AIListWindowController, AIMessageWindowController, AIMessageViewController;
 
