@@ -710,8 +710,8 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #pragma mark Status string
 - (void)setResizeThumbStringValue:(NSString *)inString
 {
-	if (attributedStringValue && ![inString isEqualToString:[attributedStringValue string]]) {		
-		[attributedStringValue release];
+	if (!(attributedStringValue && [inString isEqualToString:[attributedStringValue string]])) {		
+		if(attributedStringValue) [attributedStringValue release];
 		if (inString) {
 			NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 				[NSParagraphStyle styleWithAlignment:NSLeftTextAlignment
