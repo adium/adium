@@ -1175,8 +1175,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)receivedEventForChat:(AIChat *)chat
 					 message:(NSString *)message
 						date:(NSDate *)date
-					   flags:(PurpleMessageFlags)flags
+					   flags:(NSNumber *)flagsNumber
 {
+	PurpleMessageFlags flags = [flagsNumber integerValue];
+	
 	AIContentEvent *event = [AIContentEvent eventInChat:chat
 											 withSource:nil
 											destination:self
