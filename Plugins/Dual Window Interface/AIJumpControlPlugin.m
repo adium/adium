@@ -53,13 +53,6 @@
 												   keyEquivalent:@""];
 	
 	[adium.menuController addMenuItem:menuItem_add toLocation:LOC_Display_Jump];
-	
-	menuItem_focusLine = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Show Focus Lines", "Shows the focus lines inside the chats")
-													target:self
-													action:@selector(showFocusLines:)
-											 keyEquivalent:@""];
-	
-	[adium.menuController addMenuItem:menuItem_focusLine toLocation:LOC_Display_MessageControl];
 }
 
 - (void)uninstallPlugin
@@ -79,8 +72,6 @@
 		return [self.currentController nextMarkExists];
 	} else if (menuItem == menuItem_focus) {
 		return [self.currentController focusMarkExists];
-	} else if (menuItem == menuItem_focusLine) {
-		[menuItem setState:[[adium.preferenceController preferenceForKey:PREF_KEY_FOCUS_LINE group:PREF_GROUP_GENERAL] boolValue]];
 	}
 	
 	return (nil != adium.interfaceController.activeChat);
@@ -109,13 +100,6 @@
 - (void)addMark
 {
 	[self.currentController addMark];
-}
-
-- (void)showFocusLines:(id)sender
-{
-	[adium.preferenceController setPreference:[NSNumber numberWithBool:![sender state]]
-									   forKey:PREF_KEY_FOCUS_LINE 
-									    group:PREF_GROUP_GENERAL];
 }
 
 @end

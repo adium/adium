@@ -94,6 +94,7 @@
 
 @interface DOMDocument (FutureWebKitPublicMethodsIKnow)
 - (DOMNodeList *)getElementsByClassName:(NSString *)className;
+- (DOMNodeList *)querySelectorAll:(NSString *)selectors; // We require 10.5.8/Safari 4, all is well!
 @end
 
 static NSArray *draggedTypes = nil;
@@ -472,6 +473,7 @@ static NSArray *draggedTypes = nil;
 	[self.markedScroller removeAllMarks];
 	[previousContent release];
 	previousContent = nil;
+	nextMessageFocus = NO;
 	[chat clearUnviewedContentCount];
 }
 
@@ -677,6 +679,12 @@ static NSArray *draggedTypes = nil;
 		// Mark the current location (the start of this element) if it's a mention.
 		if (content.trackContent && [content.displayClasses containsObject:@"mention"]) {
 			[self markCurrentLocation];
+		}
+		
+		// Set it as a focus if appropriate.
+		if (nextMessageFocus && [content.type isEqualToString:CONTENT_MESSAGE_TYPE]) {
+			[content addDisplayClass:@"focus"];
+			nextMessageFocus = NO;
 		}
 		
 		//Add the content object
@@ -1451,18 +1459,23 @@ static NSArray *draggedTypes = nil;
 	[scroller removeMarkWithIdentifier:@"focus"];
 	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
 	
-	DOMElement *element = (DOMElement *)[webView.mainFrameDocument getElementById:@"focus"];
-	if (element) {
-		[element.parentNode removeChild:element];
+	nextMessageFocus = YES;
+	
+	DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".focus"];
+	DOMHTMLElement *node = nil; NSMutableArray *classes = nil;
+	for (NSUInteger i = 0; i < nodeList.length; i++)
+	{
+		node = (DOMHTMLElement *)[nodeList item:i];
+		classes = [[node.className componentsSeparatedByString:@" "] mutableCopy];
+		
+		[classes removeObject:@"focus"];
+		
+		node.className = [classes componentsJoinedByString:@" "];
+		
+		[classes release];
 	}
 	
-	if ([[adium.preferenceController preferenceForKey:PREF_KEY_FOCUS_LINE group:PREF_GROUP_GENERAL] boolValue]) {
-		element = [webView.mainFrameDocument createElement:@"hr"];
-		[element setAttribute:@"id" value:@"focus"];
-
-		[element setAttribute:@"style" value:[NSString stringWithFormat:@"position: absolute; top: %dpx;", self.currentOffsetHeight.integerValue - 1]];
-		[[(DOMHTMLDocument *)webView.mainFrameDocument body] appendChild:element];
-	}
+	nextMessageFocus = YES;
 }
 
 - (void)addMark
