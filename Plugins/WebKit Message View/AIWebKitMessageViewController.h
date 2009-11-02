@@ -47,6 +47,9 @@
 	NSImage						*imageMask;
 	NSMutableArray				*objectsWithUserIconsArray;
 	NSMutableDictionary			*objectIconPathDict;
+	
+	//Focus tracking
+	BOOL						nextMessageFocus;
 }
 
 /*!
