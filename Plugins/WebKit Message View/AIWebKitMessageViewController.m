@@ -683,7 +683,10 @@ static NSArray *draggedTypes = nil;
 		
 		// Set it as a focus if appropriate.
 		if (nextMessageFocus && [content.type isEqualToString:CONTENT_MESSAGE_TYPE]) {
-			[content addDisplayClass:@"focus"];
+			if (adium.interfaceController.activeChat != content.chat) {
+				[content addDisplayClass:@"focus"];
+			}
+			
 			nextMessageFocus = NO;
 		}
 		
