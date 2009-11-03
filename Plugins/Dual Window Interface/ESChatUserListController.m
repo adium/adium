@@ -21,6 +21,7 @@
 #import <Adium/AIListContactGroupChatCell.h>
 #import <Adium/AIProxyListObject.h>
 #import "AIMessageTabViewItem.h"
+#import "AIListBookmark.h"
 
 @implementation ESChatUserListController
 
@@ -87,6 +88,13 @@
 	for (AIProxyListObject *proxyObject in dragItems) {
 		AIListObject *listObject = proxyObject.listObject;
 		
+		//Dont allow Bookmarks to be invited to chat
+		if ([listObject isKindOfClass:[AIListBookmark class]])
+		{
+			success = NO;
+			break;
+		}
+		
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];
 		}
@@ -121,6 +129,11 @@
 
 	for (AIProxyListObject *proxyObject in dragItems) {
 		AIListObject *listObject = proxyObject.listObject;
+		
+		//Dont allow bookmarks to be dropped
+		if ([listObject isKindOfClass:[AIListBookmark class]]) {
+			return NSDragOperationNone;
+		}
 		
 		if ([listObject isKindOfClass:[AIMetaContact class]]) {
 			listObject = [(AIMetaContact *)listObject preferredContactWithCompatibleService:activeChatAccount.service];

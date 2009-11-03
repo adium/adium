@@ -27,6 +27,7 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIMetaContact.h>
 #import <Adium/AIService.h>
+#import "AIListBookmark.h"
 
 #define INVITE_CONTACT			AILocalizedString(@"Invite to Chat",nil)
 
@@ -118,7 +119,7 @@
 	NSArray			*openChats = [adium.interfaceController openChats];
 	NSMenu			*menu_chatMenu = nil;
 	
-	if (contact && ![contact isKindOfClass:[AIListGroup class]]) {
+	if (contact && ![contact isKindOfClass:[AIListGroup class]] && ![contact isKindOfClass:[AIListBookmark class]]) {
 		NSEnumerator	*enumerator;
 		NSString		*serviceClass;
 		NSDictionary	*serviceDict;
