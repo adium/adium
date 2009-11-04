@@ -10,7 +10,7 @@ build_liboil() {
 	
 	quiet pushd "$ROOTDIR/source/oil"
 	
-	status "Cross-comiling oil..."
+	status "Cross-compiling oil..."
 	CONFIG_CMD="./configure \
 				--disable-dependency-tracking"
 	xcompile "${BASE_CFLAGS}  -DHAVE_SYMBOL_UNDERSCORE" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
