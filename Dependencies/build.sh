@@ -87,7 +87,7 @@ for option in ${@:1} ; do
 			BASE_CFLAGS="-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
 			BASE_LDFLAGS="-Wl,-headerpad_max_install_names \
 				-I$ROOTDIR/build/include -L$ROOTDIR/build/lib"
-			warning "libpurple will be build for your native arcticture only!"
+			warning "libpurple will be built for your native arcticture only!"
 			;;
 		--build-otr)
 			BUILD_OTR=true
