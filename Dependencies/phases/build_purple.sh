@@ -59,7 +59,7 @@ fetch_libpurple() {
 # libpurple
 #
 build_libpurple() {
-	fetch_libpurple
+	# fetch_libpurple
 	prereq "cyrus-sasl" \
 		"ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/OLD-VERSIONS/sasl/cyrus-sasl-2.1.18.tar.gz"
 	
@@ -96,6 +96,7 @@ build_libpurple() {
 			-I$ROOTDIR/build/include/glib-2.0 \
 			-I$ROOTDIR/build/lib/glib-2.0/include"
 		export MEANWHILE_LIBS="-lmeanwhile -lglib-2.0 -liconv"
+		export MSGFMT="$ROOTDIR/build/bin/msgfmt"
 		CONFIG_CMD="./autogen.sh \
 				--disable-dependency-tracking \
 				--disable-gtkui \

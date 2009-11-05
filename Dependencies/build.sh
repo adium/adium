@@ -61,6 +61,7 @@ set_arch_flags() {
 FORCE_CONFIGURE=false
 NATIVE_BUILD=false
 BUILD_OTR=false
+STRAIGHT_TO_LIBPURPLE=false
 MTN_UPDATE_PARAM=""
 for option in ${@:1} ; do
 	case $option in
@@ -107,6 +108,9 @@ for option in ${@:1} ; do
 			MTN_BRANCH=${option##*=}
 			MTN_UPDATE_PARAM="${MTN_UPDATE_PARAM} -b ${MTN_BRANCH}"
 			;;
+        --libpurple-only)
+            STRAIGHT_TO_LIBPURPLE=true
+            ;;
 		-h|-help|--help)
 			echo 'The following options are valid:
 
@@ -120,13 +124,15 @@ for option in ${@:1} ; do
                                 WARNING: This is currently broken!
   --libpurple-rev=[rev]       : Force a specific libpurple revision
   --libpurple-branch=[branch] : Force a secific libpurple branch
+  --libpurple-only            : Assume all dependencies are already built
+                                and start the build with libpurple itself
   --help                      : This help text
 	
 Note that explicitly setting any arch flags implies a forced reconfigure.'
 			exit 0
 			;;
 		*)
-			echo "Unknown commannd.  Run ${0} --help for a list of commands."
+			echo "Unknown command.  Run ${0} --help for a list of commands."
 			exit 0
 			;;
 	esac
@@ -139,10 +145,10 @@ ERR_FILE="${ROOTDIR}/error.log"
 : > ${LOG_FILE}
 : > ${ERR_FILE}
 
-# set -arch flags now, after the user has had a chance to diasble one or more
+# set -arch flags now, after the user has had a chance to disable one or more
 set_arch_flags
 
-# assert that the developer can, infact, build libpurple.  Why waste his time if he can't?
+# assert that the developer can, in fact, build libpurple.  Why waste his time if he can't?
 asserttools gcc
 asserttools mtn
 
@@ -159,27 +165,31 @@ export PKG_CONFIG_PATH="$ROOTDIR/build/lib/pkgconfig:/usr/lib/pkgconfig"
 quiet mkdir "source"
 quiet mkdir "build"
 
-# TODO: Make this parameterizable 
-build_pkgconfig $@
-build_gettext $@
-build_glib $@
-
-if $BUILD_OTR; then
-	build_otr $@
+if $STRAIGHT_TO_LIBPURPLE; then
+    build_libpurple $@
 else
-	build_meanwhile $@
-	build_gadugadu $@
+    # TODO: Make this parameterizable 
+    build_pkgconfig $@
+    build_gettext $@
+    build_glib $@
 
-	build_intltool $@
-	build_jsonglib $@
+    if $BUILD_OTR; then
+    	build_otr $@
+    else
+	   build_meanwhile $@
+    	build_gadugadu $@
 
-	build_gstreamer $@
-	build_farsight $@
+    	build_intltool $@
+    	build_jsonglib $@
 
-	build_libpurple $@	
+    	build_gstreamer $@
+    	build_farsight $@
 
-	#build_sipe $@
-	#build_gfire $@
+    	build_libpurple $@	
+
+    	#build_sipe $@
+    	#build_gfire $@
+    fi
 fi
 
 make_framework $@
