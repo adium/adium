@@ -33,6 +33,11 @@
 	 * to us.
 	 */
 	purple_account_set_bool(account, "facebook_get_notifications", FALSE);
+	
+	// We do our own history; don't let the server's history get displayed as new messages
+	purple_account_set_bool(account, "facebook_show_history", FALSE);
+	
+	purple_account_set_bool(account, "facebook_use_groups", TRUE);
 }
 
 - (NSString *)host
