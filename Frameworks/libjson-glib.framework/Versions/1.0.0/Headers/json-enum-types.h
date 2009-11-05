@@ -1,6 +1,10 @@
 
 /* Generated data (by glib-mkenums) */
 
+#if !defined(__JSON_GLIB_INSIDE__) && !defined(JSON_COMPILATION)
+#error "Only <json-glib/json-glib.h> can be included directly."
+#endif
+
 #ifndef __JSON_ENUM_TYPES_H__
 #define __JSON_ENUM_TYPES_H__
 
