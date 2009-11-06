@@ -236,6 +236,11 @@ static GHashTable *adiumPurpleCoreGetUiInfo(void)
 		/* AOL wants us to use the distid 1551 (0x060f) */
 		g_hash_table_insert(ui_info, "prpl-aim-distid", GINT_TO_POINTER(1551));
 		g_hash_table_insert(ui_info, "prpl-icq-distid", GINT_TO_POINTER(1551));
+		
+		/* This is Adium's clientKey registered under Zachary West's account, fuark.
+		 * Key management occurs at: http://developer.aim.com/manageKeys.jsp */
+		g_hash_table_insert(ui_info, "prpl-aim-clientkey", "fu13Le5Ibonik3Sv");
+		g_hash_table_insert(ui_info, "prpl-icq-clientkey", "fu13Le5Ibonik3Sv");
 	}
 
 	return ui_info;
