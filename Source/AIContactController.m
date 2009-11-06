@@ -255,7 +255,6 @@
 			}
 			
 			[bookmarkDict setObject:bookmark forKey:bookmark.internalObjectID];
-			[contactDict setObject:bookmark forKey:bookmark.internalObjectID];
 			
 			//It's a newly created object, so set its initial attributes
 			[contactPropertiesObserverManager _updateAllAttributesOfObject:bookmark];
@@ -378,6 +377,11 @@
 	//Restore the grouping of all root-level contacts
 	for (AIListContact *contact in [self contactEnumerator]) {
 		[contact restoreGrouping];
+	}
+	
+	//Restore the grouping of all list bookmarks
+	for (AIListBookmark *bookmark in [self allBookmarks]) {
+		[bookmark restoreGrouping];
 	}
 
 	//Stop delaying object notifications; this will automatically resort the contact list, so we're done.
@@ -998,7 +1002,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 /*!
  * @brief Returns a flat array of all contacts
  *
- * This does not include metacontacts or bookmarks.
+ * This does not include metacontacts
  */
 - (NSArray *)allContacts
 {
@@ -1006,7 +1010,7 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 	for (AIListContact *contact in self.contactEnumerator) {
 		/* We want only contacts, not metacontacts. For a given contact, -[contact parentContact] could be used to access the meta. */
-		if (![contact conformsToProtocol:@protocol(AIContainingObject)] || [contact isKindOfClass:[AIListBookmark class]])
+		if (![contact conformsToProtocol:@protocol(AIContainingObject)])
 			[result addObject:contact];
 	}
 	
@@ -1259,7 +1263,6 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 {
 	[self moveContact:listBookmark fromGroups:listBookmark.groups intoGroups:[NSSet set]];
 	[bookmarkDict removeObjectForKey:listBookmark.internalObjectID];
-	[contactDict removeObjectForKey:listBookmark.internalObjectID];
 	
 	[self saveContactList];
 }
