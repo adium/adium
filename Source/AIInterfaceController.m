@@ -1777,6 +1777,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		if (!fontPanelAccessoryView) {
 			[NSBundle loadNibNamed:@"FontPanelAccessoryView" owner:self];
 			[fontPanel setAccessoryView:fontPanelAccessoryView];
+			
+			[button_fontPanelSetAsDefault setLocalizedString:AILocalizedString(@"Save This Setting As My Default Font", "Appears in the Format > Show Fonts window. You are limited for horizontal space, so try to keep it at most the length of the English string.")];
 		}
 		
 		[fontPanel orderFront:self]; 
