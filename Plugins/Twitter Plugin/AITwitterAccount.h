@@ -90,7 +90,7 @@ typedef enum {
 #define TWITTER_OAUTH_NOT_AUTHORIZED		AILocalizedString(@"Adium isn't allowed access to your account.", "Error message displayed when the server reports that our access has been revoked or invalid.")
 
 #define TWITTER_REMOTE_GROUP_NAME			@"Twitter"
-#define TWITTER_TIMELINE_NAME				AILocalizedString(@"Timeline (%@)", "Twitter timeline chat name, where %@ is the name of the account")
+#define TWITTER_TIMELINE_NAME				@"Timeline (%@)"
 
 #define TWITTER_PROPERTY_REQUESTED_USER_ICON	@"Twitter Requested User Icon"
 
