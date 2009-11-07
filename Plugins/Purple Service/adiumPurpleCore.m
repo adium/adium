@@ -159,13 +159,25 @@ static void adiumPurpleCoreUiInit(void)
 	bind_textdomain_codeset("pidgin", "UTF-8");
 	textdomain("pidgin");
 	
-	const char *preferredLocale = [[[[NSBundle bundleForClass:[SLPurpleCocoaAdapter class]] preferredLocalizations] objectAtIndex:0] UTF8String];
+	NSString *preferredLocale = [[[NSBundle bundleForClass:[SLPurpleCocoaAdapter class]] preferredLocalizations] objectAtIndex:0];
+	
+	// OS X-ism.. "pt" is Brazilian Portuguese, "pt_PT" is Portugal Portuguese.
+	// However, libpurple delivers us localizations in the form of pt for pt_PT and pt_BR for pt.
+	if ([preferredLocale isEqualToString:@"pt"]) {
+		preferredLocale = @"pt_BR";
+	} else if ([preferredLocale isEqualToString:@"pt_PT"]) {
+		preferredLocale = @"pt";
+	}
+	
+	AILog(@"Setting %@ as LC_ALL", preferredLocale);
+	
+	const char *preferredLocaleString = [preferredLocale UTF8String];
 	//We should be able to just do setlocale()... but it always returns NULL, which indicates failure
-	/* setlocale(LC_MESSAGES, preferredLocale); */
-
+	/* setlocale(LC_MESSAGES, preferredLocaleString); */
+	
 	//So we'll set the environment variable for this process, which does work
-	setenv("LC_ALL", preferredLocale, /* overwrite? */ 1);
-	setenv("LC_MESSAGES", preferredLocale, /* overwrite? */ 1);
+	setenv("LC_ALL", preferredLocaleString, /* overwrite? */ 1);
+	setenv("LC_MESSAGES", preferredLocaleString, /* overwrite? */ 1);
 
 	//Initialize all external plugins.
 	init_all_plugins();
