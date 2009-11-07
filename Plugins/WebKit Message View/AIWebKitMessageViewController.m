@@ -680,14 +680,19 @@ static NSArray *draggedTypes = nil;
 		if (content.trackContent && [content.displayClasses containsObject:@"mention"]) {
 			[self markCurrentLocation];
 		}
-		
-		// Set it as a focus if appropriate.
-		if (nextMessageFocus && [content.type isEqualToString:CONTENT_MESSAGE_TYPE]) {
-			if (adium.interfaceController.activeChat != content.chat) {
-				[content addDisplayClass:@"focus"];
+
+		if (adium.interfaceController.activeChat != content.chat && [content.type isEqualToString:CONTENT_MESSAGE_TYPE]) {
+			if (nextMessageFocus) {
+				[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
+				
+				// Add a class for "first message to lose focus"
+				[content addDisplayClass:@"firstFocus"];
+				
+				nextMessageFocus = NO;
 			}
-			
-			nextMessageFocus = NO;
+
+			// Add a class for "this message received while out of focus"
+			[content addDisplayClass:@"focus"];
 		}
 		
 		//Add the content object
@@ -1456,12 +1461,10 @@ static NSArray *draggedTypes = nil;
 
 - (void)markForFocusChange
 {
-	JVMarkedScroller *scroller = self.markedScroller;
-	
 	// We use the current Chat element's height to determine our mark location.
-	[scroller removeMarkWithIdentifier:@"focus"];
-	[scroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];	
+	[self.markedScroller removeMarkWithIdentifier:@"focus"];
 	
+	// The next message being inserted needs to add a mark.
 	nextMessageFocus = YES;
 	
 	DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".focus"];
@@ -1472,13 +1475,13 @@ static NSArray *draggedTypes = nil;
 		classes = [[node.className componentsSeparatedByString:@" "] mutableCopy];
 		
 		[classes removeObject:@"focus"];
+		[classes removeObject:@"firstFocus"];
 		
 		node.className = [classes componentsJoinedByString:@" "];
 		
 		[classes release];
 	}
 	
-	nextMessageFocus = YES;
 }
 
 - (void)addMark
