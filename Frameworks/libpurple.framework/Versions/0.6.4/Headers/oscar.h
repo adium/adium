@@ -623,7 +623,7 @@ struct aim_redirect_data
 	} chat;
 };
 
-int oscar_connect_to_bos(PurpleConnection *gc, OscarData *od, const char *host, guint16 port, guint8 *cookie, guint16 cookielen);
+int oscar_connect_to_bos(PurpleConnection *gc, OscarData *od, const char *host, guint16 port, guint8 *cookie, guint16 cookielen, const char *tls_certname);
 
 /* family_auth.c */
 
