@@ -40,6 +40,10 @@
 @interface NSSpellChecker(NSSpellCheckerLeopardMethods)
 - (NSArray *)userPreferredLanguages;
 @end
+
+@interface NSOperationQueue(NSOperationQueueLeopardMethods)
+- (void)setName:(NSString *)newName;
+@end
 #endif
 
 #else //Not compiling for 10.6

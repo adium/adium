@@ -15,6 +15,8 @@
  */
 #import "AISharedWriterQueue.h"
 #import <libkern/OSAtomic.h>
+#import "AIApplicationAdditions.h"
+#import "AILeopardCompatibility.h"
 
 @interface AISharedWriterQueue()
 + (NSOperationQueue *)queue;
@@ -39,7 +41,8 @@
 	if (!sharedWriterQueue) {
 		sharedWriterQueue = [[NSOperationQueue alloc] init];
 		[sharedWriterQueue setMaxConcurrentOperationCount:1];
-		if([sharedWriterQueue respondsToSelector:@selector(setName:)]) {
+		
+		if ([NSApp isOnSnowLeopardOrBetter]) {
 			[sharedWriterQueue setName:@"AISharedWriterQueue"];
 		}
 	}
