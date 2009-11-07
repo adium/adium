@@ -656,7 +656,7 @@
 	}
 	
 	//Alphabetize the variants
-	[availableVariants sortUsingSelector:@selector(compare:)];
+	[availableVariants sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 	
 	return availableVariants;
 }
