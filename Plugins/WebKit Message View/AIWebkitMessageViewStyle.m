@@ -35,6 +35,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContentControllerProtocol.h>
 #import <Adium/AIStatusIcons.h>
+#import <AIUtilities/AIApplicationAdditions.h>
 
 //
 #define LEGACY_VERSION_THRESHOLD		3	//Styles older than this version are considered legacy
@@ -656,7 +657,11 @@
 	}
 	
 	//Alphabetize the variants
-	[availableVariants sortUsingSelector:@selector(localizedStandardCompare:)];
+	if ([NSApp isOnSnowLeopardOrBetter]) {
+		[availableVariants sortUsingSelector:@selector(localizedStandardCompare:)];
+	} else {
+		[availableVariants sortUsingSelector:@selector(compare:)];
+	}
 	
 	return availableVariants;
 }
