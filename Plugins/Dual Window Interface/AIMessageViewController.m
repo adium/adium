@@ -1272,8 +1272,9 @@
 - (void)performDefaultActionOnSelectedObject:(AIListObject *)listObject sender:(NSOutlineView *)sender
 {
 	if ([listObject isKindOfClass:[AIListContact class]]) {
+		// We should default to this contact's account
 		[adium.interfaceController setActiveChat:[adium.chatController openChatWithContact:(AIListContact *)listObject
-												  onPreferredAccount:YES]];
+												  onPreferredAccount:NO]];
 	}
 }
 
