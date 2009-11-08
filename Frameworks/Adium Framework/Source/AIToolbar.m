@@ -42,13 +42,13 @@
 + (void)load
 {
 	//Anything you can do, I can do better...
-	method_exchangeImplementations(class_getInstanceMethod([NSToolbar class], @selector(dealloc)), class_getInstanceMethod(self, @selector(dealloc)));
+	method_exchangeImplementations(class_getInstanceMethod([NSToolbar class], @selector(dealloc)), class_getInstanceMethod(self, @selector(deallocWithNotifications)));
 }
 
 /*!
  * @brief Called before the toolbar deallocs
  */
-- (void)dealloc
+- (void)deallocWithNotifications
 {
 	NSNotificationCenter	*defaultCenter = [NSNotificationCenter defaultCenter];
 
@@ -65,7 +65,7 @@
 	}
 
 	//call the unswizzled implementation now that we're done with our additions
-	method_invoke(self, class_getInstanceMethod([AIToolbar class], @selector(dealloc)));
+	method_invoke(self, class_getInstanceMethod([AIToolbar class], @selector(deallocWithNotifications)));
 }
 
 @end
