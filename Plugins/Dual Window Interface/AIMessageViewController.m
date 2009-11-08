@@ -1278,6 +1278,21 @@
 	}
 }
 
+/*!
+ * @brief Capture all text input
+ *
+ * Capture all text input in our user list and forward it to the text entry view.
+ * This prevents the user list from becoming a black hole if it's clicked on.
+ */
+- (BOOL)forwardKeyEventToFindPanel:(NSEvent *)theEvent
+{
+	[self makeTextEntryViewFirstResponder];
+	
+	[self.textEntryView keyDown:theEvent];
+	
+	return YES;
+}
+
 /* 
  * @brief Update the width of our user list view
  *
