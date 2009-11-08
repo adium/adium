@@ -6,11 +6,16 @@
 	<array>
 		<dict>
 			<key>CLASS</key>
-			<string>AIObject</string>
+			<string>PurpleAccountViewController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_broadcastMusic</key>
+				<string>NSButton</string>
+			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>AIAccountViewController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -31,6 +36,27 @@
 			<string>NSTextView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>RBSplitView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>RBSplitSubview</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>pasteAsRichText</key>
@@ -49,11 +75,46 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>RBSplitSubview</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>FirstResponder</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>adiumPrint</key>
+				<string>id</string>
+				<key>didAdjustSubviews</key>
+				<string>RBSplitView</string>
+				<key>prefsWindowWillClose</key>
+				<string>SS_PrefsController</string>
+				<key>toggleFindPanel</key>
+				<string>id</string>
+				<key>willAdjustSubviews</key>
+				<string>RBSplitView</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -62,11 +123,51 @@
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
+				<key>checkBox_SSL</key>
+				<string>NSButton</string>
+				<key>checkBox_proxyServer</key>
+				<string>NSButton</string>
 				<key>textView_textProfile</key>
 				<string>NSTextView</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>AIAccountViewController</string>
+			<string>AIPurpleOscarAccountViewController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SS_PrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIPurpleOscarAccountViewController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_SSL</key>
+				<string>NSButton</string>
+				<key>checkBox_proxyServer</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>PurpleAccountViewController</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -106,6 +207,8 @@
 				<string>NSTextField</string>
 				<key>popUp_encryption</key>
 				<string>NSPopUpButton</string>
+				<key>progressIndicator_registering</key>
+				<string>NSProgressIndicator</string>
 				<key>textField_accountUID</key>
 				<string>NSTextField</string>
 				<key>textField_accountUIDLabel</key>
@@ -117,6 +220,8 @@
 				<key>textField_connectPort</key>
 				<string>NSTextField</string>
 				<key>textField_password</key>
+				<string>NSTextField</string>
+				<key>textField_registering</key>
 				<string>NSTextField</string>
 				<key>view_auxiliaryTabView</key>
 				<string>NSTabView</string>
@@ -130,7 +235,7 @@
 				<string>NSView</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>AIObject</string>
+			<string>NSObject</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
