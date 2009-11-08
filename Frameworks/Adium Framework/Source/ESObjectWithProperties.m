@@ -71,30 +71,24 @@
  * @param key The property to set the value to.
  * @param notify The notification timing. One of NotifyNow, NotifyLater, or NotifyNever.
  */
- - (void)setValue:(id)value forProperty:(NSString *)key notify:(NotifyTiming)notify
+- (void)setValue:(id)value forProperty:(NSString *)key notify:(NotifyTiming)notify
 {
-	if (key) {
-		if (value && [[self valueForKey:key] isEqual:value]) //No need to do all this work just to stay the same
-			return;
-		BOOL changedPropertiesDict = YES;
+    NSParameterAssert(key != nil);
+    id oldValue = [self valueForProperty:key];
+    if ((!oldValue && !value) ||
+        (value && [oldValue isEqual:value])) //No need to do all this work just to stay the same
+        return;
 
-		[self willChangeValueForKey:key];
-		if (value) {
-			[propertiesDictionary setObject:value forKey:key];
-		} else {
-			//If we are already nil and being told to set nil, we don't need to do anything at all
-			if ([propertiesDictionary objectForKey:key]) {
-				[propertiesDictionary removeObjectForKey:key];
-			} else {
-				changedPropertiesDict = NO;
-			}
-		}
-		
-		if (changedPropertiesDict) {
-			[self object:self didChangeValueForProperty:key notify:notify];
-		}
-		[self didChangeValueForKey:key];
-	}
+    [self willChangeValueForKey:key];
+    
+    if (value) {
+        [propertiesDictionary setObject:value forKey:key];
+    } else {
+        [propertiesDictionary removeObjectForKey:key];
+    }
+    
+    [self object:self didChangeValueForProperty:key notify:notify];
+    [self didChangeValueForKey:key];
 }
 
 /*!
