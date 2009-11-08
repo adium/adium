@@ -48,11 +48,57 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>ESPurpleICQAccountViewController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_SSL</key>
+				<string>NSButton</string>
+				<key>checkBox_proxyServer</key>
+				<string>NSButton</string>
+				<key>checkBox_webAware</key>
+				<string>NSButton</string>
+				<key>popUp_encoding</key>
+				<string>NSPopUpButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIPurpleOscarAccountViewController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>RBSplitSubview</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AILocalizationTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>view_anchorToLeftSide</key>
+				<string>NSView</string>
+				<key>view_anchorToRightSide</key>
+				<string>NSView</string>
+				<key>window_anchorOnLeftSide</key>
+				<string>NSWindow</string>
+				<key>window_anchorOnRightSide</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -72,6 +118,14 @@
 			<string>NSObject</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -102,28 +156,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>ESPurpleICQAccountViewController</string>
+			<string>SS_PrefsController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>checkBox_SSL</key>
-				<string>NSButton</string>
-				<key>checkBox_proxyServer</key>
-				<string>NSButton</string>
-				<key>checkBox_webAware</key>
-				<string>NSButton</string>
-				<key>popUp_encoding</key>
-				<string>NSPopUpButton</string>
+				<key>delegate</key>
+				<string>id</string>
 			</dict>
-			<key>SUPERCLASS</key>
-			<string>AIPurpleOscarAccountViewController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
 		</dict>
@@ -134,6 +174,21 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIPurpleOscarAccountViewController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_SSL</key>
+				<string>NSButton</string>
+				<key>checkBox_proxyServer</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>PurpleAccountViewController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -194,61 +249,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>AILocalizationTextField</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>view_anchorToLeftSide</key>
-				<string>NSView</string>
-				<key>view_anchorToRightSide</key>
-				<string>NSView</string>
-				<key>window_anchorOnLeftSide</key>
-				<string>NSWindow</string>
-				<key>window_anchorOnRightSide</key>
-				<string>NSWindow</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSTextField</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSButtonCell</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSActionCell</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>SS_PrefsController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>AIPurpleOscarAccountViewController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>checkBox_SSL</key>
-				<string>NSButton</string>
-				<key>checkBox_proxyServer</key>
-				<string>NSButton</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>PurpleAccountViewController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
