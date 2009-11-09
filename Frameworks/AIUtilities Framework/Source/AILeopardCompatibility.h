@@ -46,6 +46,8 @@
 @end
 #endif
 
+enum { NSWindowCollectionBehaviorStationary = 1 << 4 };
+
 #else //Not compiling for 10.6
 
 #endif //MAC_OS_X_VERSION_10_6

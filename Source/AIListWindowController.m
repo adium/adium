@@ -36,6 +36,7 @@
 #import <Adium/AIUserIcons.h>
 #import <AIUtilities/AIDockingWindow.h>
 #import <AIUtilities/AIEventAdditions.h>
+#import <AIUtilities/AILeopardCompatibility.h>
 #import <Adium/AIContactList.h>
 #import <Adium/AIContactHidingController.h>
 
@@ -291,6 +292,21 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	[[self window] setLevel:level];
 }
 
+//A “stationary” window stays pinned to the desktop during Exposé. A supported API for this was introduced in Snow Leopard.
+- (void)setCollectionBehaviorOfWindow:(NSWindow *)window
+					  showOnAllSpaces:(BOOL)allSpaces
+						 isStationary:(BOOL)stationary
+{
+	NSWindowCollectionBehavior behavior = NSWindowCollectionBehaviorDefault;
+
+	if (allSpaces)
+		behavior |= NSWindowCollectionBehaviorCanJoinAllSpaces;
+	if (stationary && [NSApp isOnSnowLeopardOrBetter])
+		behavior |= NSWindowCollectionBehaviorStationary;
+
+	[window setCollectionBehavior:behavior];
+}
+
 //Preferences have changed
 - (void)preferencesChangedForGroup:(NSString *)group 
 							   key:(NSString *)key
@@ -317,7 +333,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 		[[self window] setHidesOnDeactivate:(windowHidingStyle == AIContactListWindowHidingStyleBackground)];
 		
 	    showOnAllSpaces = [[prefDict objectForKey:KEY_CL_ALL_SPACES] boolValue];
-		[[self window] setCollectionBehavior:showOnAllSpaces ? NSWindowCollectionBehaviorCanJoinAllSpaces : NSWindowCollectionBehaviorDefault];
+		[self setCollectionBehaviorOfWindow:[self window]
+							showOnAllSpaces:showOnAllSpaces
+							   isStationary:YES];
 		
 		if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 			if (!slideWindowIfNeededTimer) {
@@ -722,7 +740,9 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	//If we're hiding the window (generally) but now sliding it on screen, make sure it's on top
 	if (windowHidingStyle == AIContactListWindowHidingStyleSliding) {
 		[self setWindowLevel:NSFloatingWindowLevel];
-		[[self window] setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
+		[self setCollectionBehaviorOfWindow:[self window]
+							showOnAllSpaces:YES
+							   isStationary:YES];
 		
 		overrodeWindowLevel = YES;
 	}
