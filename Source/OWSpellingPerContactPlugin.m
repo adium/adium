@@ -61,7 +61,7 @@
 	
 	for (NSString *language in preferredLanguages) {
 		if ([[NSSpellChecker sharedSpellChecker] setLanguage:language]) {
-			preferredLanguage = [[preferredLanguages objectAtIndex:0] retain];
+			preferredLanguage = [language retain];
 			break;
 		}
 	}
