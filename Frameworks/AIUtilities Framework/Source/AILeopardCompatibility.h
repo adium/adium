@@ -44,6 +44,11 @@
 @interface NSOperationQueue(NSOperationQueueLeopardMethods)
 - (void)setName:(NSString *)newName;
 @end
+
+@interface NSWindow(NSWindowLeopardMethods)
+- (BOOL)isOnActiveSpace;
+@end
+
 #endif
 
 enum { NSWindowCollectionBehaviorStationary = 1 << 4 };
