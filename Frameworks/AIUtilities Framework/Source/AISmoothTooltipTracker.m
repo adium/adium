@@ -10,6 +10,7 @@
 
 #import "AISmoothTooltipTracker.h"
 #import "AIDockingWindow.h"
+#import "AILeopardCompatibility.h"
 
 #define TOOL_TIP_CHECK_INTERVAL	45.0	//Check for mouse X times a second
 #define TOOL_TIP_DELAY			35.0	//Number of check intervals of no movement before a tip is displayed
@@ -323,6 +324,9 @@ extern CGSConnection _CGSDefaultConnection(void);
 
 - (BOOL)isOnCurrentWorkspace
 {
+	if ([self respondsToSelector:@selector(isOnActiveSpace)])
+		return [self isOnActiveSpace];
+
 	OSStatus err;
 	int currentWorkspace, windowWorkspace;
 
