@@ -56,11 +56,14 @@
 	if ([NSApp isOnSnowLeopardOrBetter]) {
 		preferredLanguages = [[NSSpellChecker sharedSpellChecker] userPreferredLanguages];
 	} else {
-		preferredLanguages = [[NSSpellChecker sharedSpellChecker] availableLanguages];
+		preferredLanguages = [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
 	}
-		
-	if (preferredLanguages.count) {
-		preferredLanguage = [preferredLanguages objectAtIndex:0];
+	
+	for (NSString *language in preferredLanguages) {
+		if ([[NSSpellChecker sharedSpellChecker] setLanguage:language]) {
+			preferredLanguage = [[preferredLanguages objectAtIndex:0] retain];
+			break;
+		}
 	}
 }
 
