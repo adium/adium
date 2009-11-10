@@ -676,26 +676,23 @@ static NSArray *draggedTypes = nil;
 		
 		[topicElement setInnerHTML:[messageStyle completedTemplateForContent:content similar:similar]];
 	} else {
-		if (content.trackContent) {
-			// Mark the current location (the start of this element) if it's a mention.
-			if ([content.displayClasses containsObject:@"mention"]) {
-				[self markCurrentLocation];
+		// Mark the current location (the start of this element) if it's a mention.
+		if (content.trackContent && [content.displayClasses containsObject:@"mention"]) {
+			[self markCurrentLocation];
+		}
+		
+		if (content.postProcessContent && adium.interfaceController.activeChat != content.chat) {
+			if (nextMessageFocus) {
+				[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
+				
+				// Add a class for "first content to lose focus"
+				[content addDisplayClass:@"firstFocus"];
+				
+				nextMessageFocus = NO;
 			}
 
-			// Apply focus classes appropriately.
-			if (adium.interfaceController.activeChat != content.chat) {
-				if (nextMessageFocus) {
-					[self.markedScroller addMarkAt:[self.currentOffsetHeight integerValue] withIdentifier:@"focus" withColor:[NSColor redColor]];
-					
-					// Add a class for "first content to lose focus"
-					[content addDisplayClass:@"firstFocus"];
-					
-					nextMessageFocus = NO;
-				}
-
-				// Add a class for "this content received while out of focus"
-				[content addDisplayClass:@"focus"];
-			}
+			// Add a class for "this content received while out of focus"
+			[content addDisplayClass:@"focus"];
 		}
 		
 		//Add the content object
