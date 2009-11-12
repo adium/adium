@@ -121,6 +121,13 @@
     [loginDict setObject:selectedUserName forKey:LOGIN_LAST_USER];
 #endif
 
+#ifndef DEBUG_BUILD
+	// If we're not in a debug build, activate debug logging if checked.
+	if (checkBox_debugMode.state == NSOnState) {
+		AIEnableDebugLogging();
+	}
+#endif
+	
     //Save the login preferences
     [loginDict asyncWriteToPath:[adium applicationSupportDirectory]
 					   withName:LOGIN_PREFERENCES_FILE_NAME];
@@ -235,6 +242,15 @@
 
     //Setup the 'display on launch' checkbox
     [checkbox_displayOnStartup setState:[[loginDict objectForKey:LOGIN_SHOW_WINDOW] boolValue]];
+	
+	//Setup the 'start in debug mode' checkbox
+#ifdef DEBUG_BUILD
+	//Disabled, checked for debug builds
+	checkBox_debugMode.state = NSOnState;
+	[checkBox_debugMode setEnabled:NO];	
+#else
+	checkBox_debugMode.state = NSOffState;
+#endif
 
     //Select the login they used last
 #if DEBUG_BUILD
