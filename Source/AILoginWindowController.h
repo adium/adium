@@ -24,6 +24,8 @@
     IBOutlet		NSTableView	*tableView_editableUserList;
     IBOutlet		NSPanel		*panel_userListEditor;
     IBOutlet		NSButton	*checkbox_displayOnStartup;
+	
+	IBOutlet		NSButton	*checkBox_debugMode;
 
     AILoginController	 		*owner;
     NSMutableArray				*userArray;
