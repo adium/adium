@@ -129,6 +129,8 @@
 		1163F0EC0F6C7A8300F12F5D /* AIURLShortenerPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1163F0EB0F6C7A8300F12F5D /* AIURLShortenerPlugin.m */; };
 		1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */ = {isa = PBXBuildFile; fileRef = 1164A90B0F7AD4AB00110AE4 /* AIContentTopic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1164A9270F7AD70700110AE4 /* AIContentTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1164A90C0F7AD4AB00110AE4 /* AIContentTopic.m */; };
+		116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
+		116E373310B729E9002EDB0F /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E9A8CB2104DEBC400F210CC /* Growl.framework */; };
 		117009A70F7E7D720078D6AB /* AIIRCServicesPasswordPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 117009A10F7E7D3A0078D6AB /* AIIRCServicesPasswordPlugin.m */; };
 		11700A350F7E8BE80078D6AB /* AISpecialPasswordPromptController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11700A340F7E8BE80078D6AB /* AISpecialPasswordPromptController.m */; };
 		11700A440F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11700A430F7E8CB60078D6AB /* AISpecialPasswordPrompt.nib */; };
@@ -1446,8 +1448,6 @@
 		7E824CE106387FAF00813072 /* SHAutoValidatingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD206387FAF00813072 /* SHAutoValidatingTextView.m */; };
 		7E824CE306387FAF00813072 /* SHLinkEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CD406387FAF00813072 /* SHLinkEditorWindowController.m */; };
 		7E824CEB06387FAF00813072 /* SHLinkManagementPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */; };
-		7EDAC0A31072596200B77631 /* Growl-WithInstaller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */; };
-		7EDAC0D0107259A900B77631 /* Growl-WithInstaller.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1707,7 +1707,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7EDAC0D0107259A900B77631 /* Growl-WithInstaller.framework in Copy Frameworks */,
+				116E369A10B72934002EDB0F /* Growl.framework in Copy Frameworks */,
 				34B89478102BCDB4000ABB8E /* libgstreamer.framework in Copy Frameworks */,
 				34B89479102BCDB4000ABB8E /* libgstinterfaces.framework in Copy Frameworks */,
 				34B8947A102BCDB4000ABB8E /* libgstfarsight.framework in Copy Frameworks */,
@@ -4621,7 +4621,6 @@
 		7E824CDB06387FAF00813072 /* SHLinkManagementPlugin.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHLinkManagementPlugin.h; sourceTree = "<group>"; };
 		7E824CDC06387FAF00813072 /* SHLinkManagementPlugin.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SHLinkManagementPlugin.m; sourceTree = "<group>"; };
 		7E9A8CB2104DEBC400F210CC /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = Frameworks/Growl.framework; sourceTree = "<group>"; };
-		7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Growl-WithInstaller.framework"; path = "Frameworks/Growl-WithInstaller.framework"; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
@@ -4816,6 +4815,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				116E373310B729E9002EDB0F /* Growl.framework in Frameworks */,
 				7E6F8A94105611B700C6D80D /* libotr.framework in Frameworks */,
 				633405A90F9C2C7D003C77A9 /* AIUtilities.framework in Frameworks */,
 				639DF9140F97E639003C9A32 /* AdiumLibpurple.framework in Frameworks */,
@@ -4849,7 +4849,6 @@
 				118A44510FEEA828008153C0 /* libjson-glib.framework in Frameworks */,
 				34C846AF101E515900140B4B /* QTKit.framework in Frameworks */,
 				34C846E6101E518F00140B4B /* QuickTime.framework in Frameworks */,
-				7EDAC0A31072596200B77631 /* Growl-WithInstaller.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5136,7 +5135,7 @@
 		29B97323FDCFA39411CA2CEA /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7EDAC0A21072596200B77631 /* Growl-WithInstaller.framework */,
+				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 				34C846E5101E518F00140B4B /* QuickTime.framework */,
 				34C846AE101E515900140B4B /* QTKit.framework */,
 				11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */,
@@ -7399,7 +7398,6 @@
 				9E124DF007D34C9000AA91C5 /* GrowlAlert.png */,
 				9E124DE907D34C7300AA91C5 /* NEHGrowlPlugin.h */,
 				9E124DEA07D34C7300AA91C5 /* NEHGrowlPlugin.m */,
-				7E9A8CB2104DEBC400F210CC /* Growl.framework */,
 			);
 			name = Growl;
 			sourceTree = "<group>";
