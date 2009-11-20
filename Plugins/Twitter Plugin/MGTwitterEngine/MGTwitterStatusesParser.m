@@ -26,12 +26,17 @@
         // Make new entry in parsedObjects.
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [parsedObjects addObject:newNode];
-        currentNode = newNode;
+        currentNode = newNode;		
     } else if ([elementName isEqualToString:@"user"]) {
         // Add a 'user' dictionary to current node.
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [currentNode setObject:newNode forKey:elementName];
         currentNode = newNode;
+	} else if ([elementName isEqualToString:@"retweeted_status"]) {
+        // Add a 'retweeted_status' dictionary to current node.
+        NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
+        [currentNode setObject:newNode forKey:elementName];
+        currentNode = newNode;		
     } else if (currentNode) {
         // Create relevant name-value pair.
         [currentNode setObject:[NSMutableString string] forKey:elementName];
@@ -54,7 +59,7 @@
 {
     [super parser:theParser didEndElement:elementName namespaceURI:namespaceURI qualifiedName:qName];
     
-    if ([elementName isEqualToString:@"user"]) {
+    if ([elementName isEqualToString:@"user"] || [elementName isEqualToString:@"retweeted_status"]) {
         currentNode = [parsedObjects lastObject];
     } else if ([elementName isEqualToString:@"status"]) {
         [self addSource];

@@ -182,6 +182,7 @@ typedef enum {
 			  location:(NSString *)location
 		   description:(NSString *)description;
 
+- (void)retweetTweet:(NSString *)tweetID;
 - (void)toggleFavoriteTweet:(NSString *)tweetID;
 - (void)destroyTweet:(NSString *)tweetID;
 - (void)destroyDirectMessage:(NSString *)messageID

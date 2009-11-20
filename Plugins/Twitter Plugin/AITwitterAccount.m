@@ -1195,6 +1195,25 @@
 }
 
 /*!
+ * @brief Retweet the selected tweet.
+ *
+ * Attempts to retweet a tweet.
+ * Prints a status message in the chat on success/failure, behaves identical to sending a new tweet.
+ */
+- (void)retweetTweet:(NSString *)tweetID
+{
+	NSString *requestID = [twitterEngine retweetUpdate:tweetID];
+	
+	if (requestID) {
+		[self setRequestType:AITwitterSendUpdate
+				forRequestID:requestID
+			  withDictionary:[NSDictionary dictionaryWithObjectsAndKeys:tweetID, @"tweetID", nil]];
+	} else {
+		[self.timelineChat receivedError:[NSNumber numberWithInt:AIChatMessageSendingConnectionError]];
+	}
+}
+
+/*!
  * @brief Toggle the favorite status for a tweet.
  *
  * Attempts to favorite a tweet. If that fails, it removes favorite status.
@@ -1708,7 +1727,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			AIChat	*chat = [[self dictionaryForRequestID:identifier] objectForKey:@"Chat"];
 			
 			if (chat) {
-				[chat receivedError:[NSNumber numberWithInt:AIChatUnknownError]];
+				[chat receivedError:[NSNumber numberWithInt:AIChatMessageSendingConnectionError]];
 				
 				AILogWithSignature(@"%@ Chat send error on %@", self, chat);
 			}
@@ -1896,7 +1915,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
  * @brief Status updates received
  */
 - (void)statusesReceived:(NSArray *)statuses forRequest:(NSString *)identifier
-{		
+{
 	if([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline ||
 	   [self requestTypeForRequestID:identifier] == AITwitterUpdateReplies) {
 		NSString *lastID;

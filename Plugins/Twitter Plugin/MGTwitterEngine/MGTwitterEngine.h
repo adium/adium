@@ -128,6 +128,7 @@
 - (NSString *)sendUpdate:(NSString *)status inReplyTo:(NSString *)updateID;
 - (NSString *)deleteUpdate:(NSString *)updateID;                 // this user must be the AUTHOR
 - (NSString *)markUpdate:(NSString *)updateID asFavorite:(BOOL)flag;
+- (NSString *)retweetUpdate:(NSString *)updateID;
 
 // Sending and editing direct messages
 - (NSString *)sendDirectMessage:(NSString *)message to:(NSString *)username;
