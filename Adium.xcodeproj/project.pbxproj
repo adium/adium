@@ -10064,7 +10064,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl-WithInstaller.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
+			shellScript = "#############################################################################################\n# Set framework bundles to have their executables' dates, thereby letting Xcode suck less.  #\n#############################################################################################\ntouch \"$SRCROOT/Frameworks/libpurple.framework\"\ntouch \"$SRCROOT/Frameworks/Growl.framework\"\ntouch \"$SRCROOT/Frameworks/LMX.framework\"\ntouch \"$SRCROOT/Frameworks/PSMTabBarControl.framework\"\ntouch \"$SRCROOT/Frameworks/Sparkle.framework\"\ntouch \"$SRCROOT/Frameworks/libotr.framework\"\n";
 		};
 		F53C25AD0A2F95F100F7B73D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
