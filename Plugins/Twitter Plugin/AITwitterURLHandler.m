@@ -98,8 +98,10 @@
 		// No exact match. Fail.
 		return;
 	}
-
-	if ([inAction isEqualToString:@"reply"] || [inAction isEqualToString:@"retweet"]) {
+	
+	if ([inAction isEqualToString:@"retweet"]) {
+		[account retweetTweet:inTweet];
+	} else if ([inAction isEqualToString:@"reply"]) {
 		AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
 																onAccount:account];
 		
@@ -120,13 +122,7 @@
 		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
 
 		// Insert the @reply text
-		NSString *prefix = nil;
-		
-		if (inMessage) {
-			prefix = [NSString stringWithFormat:@"RT @%@ %@", inUser, [inMessage stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-		} else {
-			prefix = [NSString stringWithFormat:@"@%@ ", inUser];
-		}
+		NSString *prefix = [NSString stringWithFormat:@"@%@ ", inUser];
 		
 		if (![textView.string hasPrefix:prefix]) {
 			NSMutableAttributedString *newString;
