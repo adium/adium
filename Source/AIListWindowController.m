@@ -95,7 +95,8 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 	if ((self = [self initWithWindowNibName:[[self class] nibName]])) {
 		preventHiding = NO;
 		previousAlpha = 0;
-		
+		typeToFindEnabled = ![[NSUserDefaults standardUserDefaults] boolForKey:@"AIDisableContactListTypeToFind"];
+
 		[NSBundle loadNibNamed:@"Filter Bar" owner:self];
 		
 		[self setContactList:contactList];
@@ -1617,6 +1618,9 @@ static BOOL canSnap(CGFloat a, CGFloat b)
  */
 - (BOOL)forwardKeyEventToFindPanel:(NSEvent *)theEvent;
 {
+	if (!typeToFindEnabled)
+		return NO;
+
 	//if we were not searching something before, we need to show the filter bar first without animation
 	NSString	*charString = [theEvent charactersIgnoringModifiers];
 	unichar		pressedChar = 0;
