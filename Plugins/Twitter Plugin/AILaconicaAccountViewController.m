@@ -43,6 +43,10 @@
  */
 - (void)saveConfiguration
 {
+	// Strip out http:// or https:// in case the user entered them.
+	textField_connectHost.stringValue = [textField_connectHost.stringValue stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+	textField_connectHost.stringValue = [textField_connectHost.stringValue stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+	
 	[super saveConfiguration];
 
 	[account setPreference:textField_APIpath.stringValue
