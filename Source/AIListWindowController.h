@@ -93,6 +93,7 @@ typedef enum {
 	BOOL									filterBarShownAutomatically;
 	NSViewAnimation							*filterBarAnimation;
 	NSArray									*filterBarPreviouslySelected;
+	BOOL									typeToFindEnabled;
 	
 	IBOutlet	AIFilterBarView				*filterBarView;
 	IBOutlet	NSSearchField				*searchField;
