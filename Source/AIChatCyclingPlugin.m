@@ -116,7 +116,11 @@
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	return [[adium.interfaceController openChats] count] != 0;
+	if (!adium.interfaceController.activeChat) return NO;
+	
+	NSString *containerID = [adium.interfaceController containerIDForChat:adium.interfaceController.activeChat];
+	
+	return ([adium.interfaceController openChatsInContainerWithID:containerID].count > 0);
 }
 
 /*!

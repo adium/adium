@@ -750,6 +750,17 @@
 }
 
 /*!
+ * @brief The container ID for a chat
+ *
+ * @param chat The chat to look up
+ * @returns The container ID for the container the chat is in.
+ */
+- (NSString *)containerIDForChat:(AIChat *)chat
+{
+	return [interfacePlugin containerIDForChat:chat];
+}
+
+/*!
  * @brief Resets the cache of open chats
  */
 - (void)_resetOpenChatsCache
@@ -1085,16 +1096,17 @@
  */
 - (void)nextChat:(id)sender
 {
-	NSArray	*openChats = [self openChats];
+	if (!activeChat) return;
+	
+	NSString *containerID = [self containerIDForChat:activeChat];
+	NSArray *chats = [self openChatsInContainerWithID:containerID];
 
-	if ([openChats count]) {
-		if (activeChat) {
-			NSInteger chatIndex = [openChats indexOfObject:activeChat]+1;
-			[self setActiveChat:[openChats objectAtIndex:(chatIndex < [openChats count] ? chatIndex : 0)]];
-		} else {
-			[self setActiveChat:[openChats objectAtIndex:0]];
-		}
-	}
+	NSInteger nextChat = [chats indexOfObject:activeChat] + 1;
+	
+	if (nextChat >= chats.count)
+		nextChat = 0;
+	
+	[self setActiveChat:[chats objectAtIndex:nextChat]];
 }
 
 /*!
@@ -1102,16 +1114,17 @@
  */
 - (void)previousChat:(id)sender
 {
-	NSArray	*openChats = [self openChats];
+	if (!activeChat) return;
 	
-	if ([openChats count]) {
-		if (activeChat) {
-			NSInteger chatIndex = [openChats indexOfObject:activeChat]-1;
-			[self setActiveChat:[openChats objectAtIndex:(chatIndex >= 0 ? chatIndex : [openChats count]-1)]];
-		} else {
-			[self setActiveChat:[openChats lastObject]];
-		}
-	}
+	NSString *containerID = [self containerIDForChat:activeChat];
+	NSArray *chats = [self openChatsInContainerWithID:containerID];
+	
+	NSInteger nextChat = [chats indexOfObject:activeChat] - 1;
+	
+	if (nextChat < 0)
+		nextChat = chats.count - 1;
+	
+	[self setActiveChat:[chats objectAtIndex:nextChat]];
 }
 
 //Selected contact ------------------------------------------------

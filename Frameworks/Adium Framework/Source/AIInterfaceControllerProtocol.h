@@ -165,7 +165,7 @@ typedef enum {
  * @brief Active Chat property
  *
  * Setter brings the tab/window for a chat to the front and sets it as active
- * If no chat is active (a non-chat window is focued, or Adium is not focused), getter returns nil.
+ * If no chat is active (a non-chat window is focused, or Adium is not focused), getter returns nil.
  */
 @property (nonatomic, retain) AIChat *activeChat;
 
@@ -192,6 +192,14 @@ typedef enum {
 - (NSArray *)openChatsInContainerWithID:(NSString *)containerID;
 
 /*!
+ * @brief The container ID for a chat
+ *
+ * @param chat The chat to look up
+ * @returns The container ID for the container the chat is in.
+ */
+- (NSString *)containerIDForChat:(AIChat *)chat;
+
+/*!
  * @brief Get an array of the containerIDs of all open containers
  */
 @property (nonatomic, readonly) NSArray *openContainerIDs;
@@ -209,14 +217,14 @@ typedef enum {
 /*!
  * @brief Cycles to the next open chat, making it active
  *
- * This crosses container boundaries.
+ * This does not cross container boundaries. If there is no currently active chat, this has no effect.
  */
 - (void)nextChat:(id)sender;
 
 /*!
  * @brief Cycles to the previous open chat, making it active
  *
- * This crosses container boundaries.
+ * This does not cross container boundaries. If there is no currently active chat, this has no effect.
  */
 - (void)previousChat:(id)sender;
 
