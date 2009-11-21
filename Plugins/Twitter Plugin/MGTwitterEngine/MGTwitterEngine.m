@@ -838,13 +838,8 @@
     
     NSString *path = @"account/update_location.xml";
     
-    NSString *trimmedText = location;
-    if ([trimmedText length] > MAX_LOCATION_LENGTH) {
-        trimmedText = [trimmedText substringToIndex:MAX_LOCATION_LENGTH];
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    [params setObject:trimmedText forKey:@"location"];
+    [params setObject:location forKey:@"location"];
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
     return [self _sendRequestWithMethod:HTTP_POST_METHOD path:path 
@@ -1278,13 +1273,8 @@
     
     NSString *path = @"statuses/update.xml";
     
-    NSString *trimmedText = status;
-    if ([trimmedText length] > MAX_MESSAGE_LENGTH) {
-        trimmedText = [trimmedText substringToIndex:MAX_MESSAGE_LENGTH];
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    [params setObject:trimmedText forKey:@"status"];
+    [params setObject:status forKey:@"status"];
     if (updateID > 0) {
         [params setObject:updateID forKey:@"in_reply_to_status_id"];
     }
@@ -1338,13 +1328,8 @@
     
     NSString *path = @"direct_messages/new.xml";
     
-    NSString *trimmedText = message;
-    if ([trimmedText length] > MAX_MESSAGE_LENGTH) {
-        trimmedText = [trimmedText substringToIndex:MAX_MESSAGE_LENGTH];
-    }
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
-    [params setObject:trimmedText forKey:@"text"];
+    [params setObject:message forKey:@"text"];
     [params setObject:username forKey:@"user"];
     NSString *body = [self _queryStringWithBase:nil parameters:params prefixed:NO];
     
