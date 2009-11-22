@@ -368,6 +368,7 @@ gboolean jabber_video_enabled(JabberStream *js, const char *unused);
 gboolean jabber_initiate_media(PurpleAccount *account, const char *who,
 		PurpleMediaSessionType type);
 PurpleMediaCaps jabber_get_media_caps(PurpleAccount *account, const char *who);
+gboolean jabber_can_receive_file(PurpleConnection *gc, const gchar *who);
 
 void jabber_register_commands(void);
 void jabber_unregister_commands(void);
