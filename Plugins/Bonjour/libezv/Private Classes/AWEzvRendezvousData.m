@@ -32,6 +32,7 @@
  
 #import "AWEzvRendezvousData.h"
 #import "AWEzvSupportRoutines.h"
+#import <AIUtilities/AIStringAdditions.h>
 
 @implementation AWEzvRendezvousData
 
@@ -509,9 +510,48 @@ NSString	*endn = @"\x00\x00\x00\x00";
 			/* TXTRecord */ &txtRecord,
 			/* key */ [key UTF8String],
 			/* size, may be zero */ valueSize,
-			/* value, may be null */ valueToSet /* may be NULL */);
+			/* value, may be null */ valueToSet);
+		
+		if ((txtRecordError == kDNSServiceErr_Invalid) &&
+			[value isKindOfClass:[NSString class]]) {
+			/* kDNSServiceErr_Invalid may be returned if:
+			 *	1. Invalid characters were included (per documentation)
+			 *	2. The length of the value is >= 250 characters (at least for the msg key)
+			 *
+			 * So: First, try stripping out any non-ASCII characters, as I'm not sure what might consitute an
+			 * "illegal character" in a field which requests UTF8.
+			 *
+			 * Then, if that still fails, truncate the string to 248 characters (248,249,250 are the ellipsis).
+			 */
+			valueToSet = [[value dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES] bytes];
+			valueSize = strlen(valueToSet);
+
+			txtRecordError = TXTRecordSetValue (
+												/* TXTRecord */ &txtRecord,
+												/* key */ [key UTF8String],
+												/* size, may be zero */ valueSize,
+												/* value, may be null */ valueToSet);
+
+			if (txtRecordError == kDNSServiceErr_Invalid) {
+				valueToSet = [[value stringWithEllipsisByTruncatingToLength:248] UTF8String];
+				valueSize = strlen(valueToSet);
+				txtRecordError = TXTRecordSetValue (
+													/* TXTRecord */ &txtRecord,
+													/* key */ [key UTF8String],
+													/* size, may be zero */ valueSize,
+													/* value, may be null */ valueToSet);				
+			}
+		}
+
 		if (txtRecordError != kDNSServiceErr_NoError) {
-			AWEzvLog(@"Error setting TXTRecord of key=%@ and value=%@", key, valueToSet);
+			if (txtRecordError == kDNSServiceErr_Invalid) {
+				AWEzvLog(@"Error setting TXTRecord of key=%@ and value=%s: Value contains illegal characters", key, valueToSet);
+				
+			} else if (txtRecordError == kDNSServiceErr_NoMemory) {
+				AWEzvLog(@"Error setting TXTRecord of key=%@ and value=%s: Exceeded available storage", key, valueToSet);
+			} else {
+				AWEzvLog(@"Error setting TXTRecord of key=%@ and value=%s: Error is %i", key, valueToSet, txtRecordError);
+			}
 			
 		}
 		
