@@ -27,6 +27,14 @@
 
 #ifdef HAVE_CDSA
 
+#if __LP64__ || NS_BUILD_32_LIKE_64
+typedef long NSInteger;
+typedef unsigned long NSUInteger;
+#else
+typedef int NSInteger;
+typedef unsigned int NSUInteger;
+#endif
+
 //#define CDSA_DEBUG
 
 #import <Security/Security.h>
@@ -183,7 +191,7 @@ static OSStatus SocketRead(
     UInt32      bytesToGo = *dataLength;
     UInt32       initLen = bytesToGo;
     UInt8      *currData = (UInt8 *)data;
-    int        sock = (int)connection;
+    NSInteger        sock = (NSInteger)connection;
     OSStatus    rtn = noErr;
     UInt32      bytesRead;
     int        rrtn;
@@ -239,8 +247,8 @@ static OSStatus SocketWrite(
                      size_t         *dataLength)  /* IN/OUT */ 
                      {
     UInt32    bytesSent = 0;
-    int      sock = (int)connection;
-    UInt32     length;
+    NSInteger sock = (NSInteger)connection;
+    UInt32    length;
     UInt32    dataLen = *dataLength;
     const UInt8 *dataPtr = (UInt8 *)data;
     OSStatus  ortn;
@@ -319,7 +327,7 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
     /*
      * Pass the connection information to the connection to be used by our callbacks
      */
-    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx,(SSLConnectionRef)gsc->fd);
+    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)gsc->fd);
     if (err != noErr) {
 		purple_debug_error("cdsa", "SSLSetConnection failed\n");
 		if (gsc->error_cb != NULL)
