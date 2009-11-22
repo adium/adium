@@ -204,6 +204,19 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	}
 }
 
+#warning It's quite possible that we don't need to use this private method.
+//Custom highlighting (This is a private cell method we're overriding that handles selection drawing)
+- (void)_drawHighlightWithFrame:(NSRect)cellFrame inView:(NSView *)inControlView
+{
+	//Cell spacing
+	cellFrame.origin.y += [self topSpacing];
+	cellFrame.size.height -= [self bottomSpacing] + [self topSpacing];
+	cellFrame.origin.x += [self leftSpacing];
+	cellFrame.size.width -= [self rightSpacing] + [self leftSpacing];
+	
+	[self drawSelectionWithFrame:cellFrame];
+}
+
 //Draw Selection
 - (void)drawSelectionWithFrame:(NSRect)rect {}
 	
