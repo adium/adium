@@ -2773,7 +2773,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 //Subclasses may override to provide a localized label and/or prevent a specified label from being shown
 - (NSString *)titleForContactMenuLabel:(const char *)label forContact:(AIListContact *)inContact
 {
-	return [NSString stringWithUTF8String:label];
+	/* Remove the underscore 'hints' which libpurple includes for gtk usage */
+	return [[NSString stringWithUTF8String:label] stringByReplacingOccurrencesOfString:@"_" withString:@""];
 }
 
 /*!
