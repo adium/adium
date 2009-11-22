@@ -279,8 +279,9 @@ static int nextChatNumber = 0;
 - (void)setDisplayName:(NSString *)inDisplayName
 {
 	[[self displayArrayForKey:@"Display Name"] setObject:inDisplayName
-											   withOwner:self];
-	
+											   withOwner:self
+										   priorityLevel:Highest_Priority];
+
 	//The display array doesn't cause an attribute update; fake it.
 	[adium.chatController chatStatusChanged:self
 						 modifiedStatusKeys:[NSSet setWithObject:@"Display Name"]
