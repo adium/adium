@@ -43,6 +43,10 @@
 - (void)_upgradeAccountPasswordKeychainEntries;
 @end
 
+@interface NSOperationQueue (SnowLeopardMethodsICheckFor)
+- (void)setName:(NSString *)name;
+@end
+
 @implementation AdiumPasswords
 
 /*!
