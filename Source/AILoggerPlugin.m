@@ -50,6 +50,9 @@
 #import <AIUtilities/NSCalendarDate+ISO8601Unparsing.h>
 #import <AIUtilities/NSCalendarDate+ISO8601Parsing.h>
 
+#import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AILeopardCompatibility.h>
+
 #import <libkern/OSAtomic.h>
 
 #import "AILogFileUpgradeWindowController.h"
@@ -225,7 +228,8 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	OSSpinLockLock(&spinLock);
 	if (!loggerQueue) {
 		loggerQueue = [[NSOperationQueue alloc] init];
-		if([loggerQueue respondsToSelector:@selector(setName:)]) {
+		
+		if([NSApp isOnSnowLeopardOrBetter]) {
 			[loggerQueue setName:@"AILoggerPluginOperationQueue"];
 		}
 	}
