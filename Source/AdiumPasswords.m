@@ -25,6 +25,9 @@
 #import <objc/objc-runtime.h>
 #import <libkern/OSAtomic.h>
 
+#import <AIUtilities/AIApplicationAdditions.h>
+#import <AIUtilities/AILeopardCompatibility.h>
+
 #import "AISpecialPasswordPromptController.h"
 #import "ESAccountPasswordPromptController.h"
 #import "ESProxyPasswordPromptController.h"
@@ -66,7 +69,8 @@
 	OSSpinLockLock(&spinLock);
 	if (!passwordQueue) {
 		passwordQueue = [[NSOperationQueue alloc] init];
-		if([passwordQueue respondsToSelector:@selector(setName:)]) {
+		
+		if([NSApp isOnSnowLeopardOrBetter]) {
 			[passwordQueue setName:@"AdiumPasswordsOperationQueue"];
 		}
 	}
