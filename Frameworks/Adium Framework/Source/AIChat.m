@@ -419,6 +419,14 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	[adium.chatController chat:self addedListContacts:contacts notify:notify];
 }
 
+- (BOOL)addObject:(AIListObject *)inObject
+{
+	NSParameterAssert([inObject isKindOfClass:[AIListContact class]]);
+
+	[self addParticipatingListObject:(AIListContact *)inObject notify:YES];
+	return YES;
+}
+
 // Invite a list object to join the chat. Returns YES if the chat joins, NO otherwise
 - (BOOL)inviteListContact:(AIListContact *)inContact withMessage:(NSString *)inviteMessage
 {

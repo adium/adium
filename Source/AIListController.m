@@ -718,15 +718,12 @@
 							if ([NSEvent optionKey]) {
 								sourceGroups = [NSSet set];
 							} else {
-								if ([proxyObject.containingObject isKindOfClass:[AIMetaContact class]] ||
-									[proxyObject.containingObject isKindOfClass:[AIChat class]]) {
+								if ([proxyObject.containingObject isKindOfClass:[AIChat class]]) {
 									/*  Passing an empty sourceGroups set is equivalent to a simple addition.
-									 *
-									 * If we're dragging -from- a meta contact, just do an add;
-									 * the move performs the removal from the meta.
 									 *
 									 * If we're dragging from a chat, just do an add; a move is nonsense.
 									 */
+									AILogWithSignature(@"Moving out of a meta or a chat");
 									sourceGroups = [NSSet set];
 								} else {
 									sourceGroups = [NSSet setWithObject:proxyObject.containingObject];
