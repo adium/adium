@@ -29,59 +29,6 @@
 			<string>NSControl</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>adiumPrint</key>
-				<string>id</string>
-				<key>prefsWindowWillClose</key>
-				<string>SS_PrefsController</string>
-				<key>toggleFindPanel</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>NSObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSWindow</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>generate</key>
-				<string>id</string>
-				<key>selectAccount</key>
-				<string>id</string>
-				<key>showFingerprint</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>ESGaimOTRPreferences</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>button_generate</key>
-				<string>NSButton</string>
-				<key>button_showFingerprint</key>
-				<string>NSButton</string>
-				<key>popUp_accounts</key>
-				<string>NSPopUpButton</string>
-				<key>tableView_fingerprints</key>
-				<string>NSTableView</string>
-				<key>textField_privateKey</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>AIPreferencePane</string>
-		</dict>
-		<dict>
 			<key>CLASS</key>
 			<string>AILocalizationTextField</string>
 			<key>LANGUAGE</key>
@@ -107,6 +54,21 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>adiumPrint</key>
+				<string>id</string>
+				<key>prefsWindowWillClose</key>
+				<string>SS_PrefsController</string>
+				<key>toggleFindPanel</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -146,6 +108,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>SS_PrefsController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -164,6 +134,36 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>generate</key>
+				<string>id</string>
+				<key>selectAccount</key>
+				<string>id</string>
+				<key>showFingerprint</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>ESGaimOTRPreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>button_generate</key>
+				<string>NSButton</string>
+				<key>button_showFingerprint</key>
+				<string>NSButton</string>
+				<key>popUp_accounts</key>
+				<string>NSPopUpButton</string>
+				<key>tableView_fingerprints</key>
+				<string>NSTableView</string>
+				<key>textField_privateKey</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIPreferencePane</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
