@@ -383,9 +383,9 @@ static void socketCallback(CFSocketRef s,
 	}
 }
 
-gint adium_input_get_error(gint fd, NSInteger *error)
+int adium_input_get_error(int fd, int *error)
 {
-	gint		  ret;
+	int		  ret;
 	socklen_t len;
 	len = sizeof(*error);
 	
@@ -436,7 +436,10 @@ static PurpleEventLoopUiOps adiumEventLoopUiOps = {
     adium_input_add,
     adium_source_remove,
 	adium_input_get_error,
-	/* timeout_add_seconds */ NULL
+	/* timeout_add_seconds */ NULL,
+	/* _purple_reserved2 */ NULL,
+	/* _purple_reserved3 */ NULL,
+	/* _purple_reserved4 */ NULL
 };
 
 PurpleEventLoopUiOps *adium_purple_eventloop_get_ui_ops(void)
