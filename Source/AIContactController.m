@@ -274,7 +274,7 @@
 
 #pragma mark Contact Grouping
 
-- (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListGroup *)localGroup
+- (void)_addContactLocally:(AIListContact *)listContact toGroup:(AIListObject<AIContainingObject> *)localGroup
 {
 	BOOL			performedGrouping = NO;
 	
@@ -286,15 +286,20 @@
 		if (existingObject) {
 			//If an object exists in this group with the same UID and serviceID, create a MetaContact
 			//for the two.
-			[self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
+			AIMetaContact	*metaContact = [self groupContacts:[NSArray arrayWithObjects:listContact,existingObject,nil]];
+			AILogWithSignature(@"Grouping %@ with %@ because there was a sevice/UID match within %@, yielding %@ within %@",
+							   listContact, existingObject, localGroup,
+							   metaContact, metaContact.containingObjects);
 			performedGrouping = YES;
-			
+
 		} else {
 			AIMetaContact	*metaContact = [contactToMetaContactLookupDict objectForKey:listContact.internalObjectID];
 			
 			//If no object exists in this group which matches, we should check if there is already
 			//a MetaContact holding a matching ListContact, since we should include this contact in it
 			//If we found a metaContact to which we should add, do it.
+			AILogWithSignature(@"Adding %@ to %@ because %@ already is within a known metacontact, which is in %@",
+							   listContact, metaContact, listContact.internalObjectID, metaContact.containingObjects);
 			if (metaContact) {
 				[self addContact:listContact toMetaContact:metaContact];
 				performedGrouping = YES;
@@ -314,20 +319,30 @@
 	[listContact release];
 }
 
+/*!
+ * @brief Handle a local move
+ *
+ * This will remove listContact from our local tracking within each of oldGroups, which must be AIListObject<AIContainingObject>
+ * objects. It will then add them to groups, which must also be AIListObject<AIContainingObject> objects.
+ *
+ * This does not make any changes serverside; that should be handled separately.
+ */
 - (void)_moveContactLocally:(AIListContact *)listContact fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
 {
 	//Protect with a retain while we are removing and adding the contact to our arrays
 	[listContact retain];
 	
 	[contactPropertiesObserverManager delayListObjectNotifications];
-	
+
+	AILogWithSignature(@"Removing %@ from %@ locally to add to %@", listContact, oldGroups, groups);
+
 	//Remove this object from any local groups we have it in currently
-	for (AIListGroup *group in oldGroups) {
+	for (AIListObject<AIContainingObject> *group in oldGroups) {
 		[group removeObject:listContact];
 		[self _didChangeContainer:group object:listContact];
 	}
-	
-	for (AIListGroup *group in groups)
+
+	for (AIListObject<AIContainingObject> *group in groups)
 		[self _addContactLocally:listContact toGroup:group];
 	
 	[contactPropertiesObserverManager endListObjectNotificationsDelay];
@@ -650,7 +665,8 @@
 	BOOL								success;
 	
 	//Remove the object from its previous containing groups
-	[self _moveContactLocally:inContact fromGroups:inContact.groups toGroups:[NSSet set]];
+	if (inContact.groups.count)
+		[self _moveContactLocally:inContact fromGroups:inContact.groups toGroups:[NSSet set]];
 	
 	//AIMetaContact will handle reassigning the list object's grouping to being itself
 	if ((success = [metaContact addObject:inContact])) {
@@ -847,6 +863,13 @@
 	 */
 	for (AIListContact *listContact in contactsToGroupArray) {
 		[self addContact:listContact toMetaContact:metaContact];
+		
+		if ([listContact isKindOfClass:[AIMetaContact class]] && listContact != metaContact) {
+			/* If adding a metacontact to another metacontact, its contents will be recursively added.
+			 * The original metacontact must then be destroyed lest it give rise to a zombie metacontact apocalypse.
+			 */
+			[self explodeMetaContact:listContact];
+		}
 	}
 	
 	return metaContact;
@@ -854,6 +877,8 @@
 
 - (void)explodeMetaContact:(AIMetaContact *)metaContact
 {
+	AILogWithSignature(@"Exploding %@", metaContact);
+
 	//Remove the objects within it from being inside it
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	NSArray	*containedObjects = metaContact.containedObjects;
@@ -862,7 +887,6 @@
 																						 group:PREF_GROUP_CONTACT_LIST] mutableCopy];
 	
 	for (AIListContact *object in containedObjects) {
-		
 		//Remove from the contactToMetaContactLookupDict first so we don't try to reinsert into this metaContact
 		[contactToMetaContactLookupDict removeObjectForKey:[object internalObjectID]];
 		
@@ -1453,6 +1477,10 @@ NSInteger contactDisplayNameSort(AIListObject *objectA, AIListObject *objectB, v
 
 - (void)moveContact:(AIListContact *)contact fromGroups:(NSSet *)oldGroups intoGroups:(NSSet *)groups
 {
+	AILogWithSignature(@"Moving %@ (%@) from %@ into %@", 
+					   contact, (contact.existsServerside ? @"Serverside" : @"Not serverside"),
+					   oldGroups, groups);
+	
 	[contactPropertiesObserverManager delayListObjectNotifications];
 	if (contact.metaContact) {
 		AIMetaContact *meta = contact.metaContact;

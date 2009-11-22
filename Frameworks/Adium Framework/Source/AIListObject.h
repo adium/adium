@@ -77,6 +77,9 @@ typedef enum {
 @property (readonly, nonatomic) NSUInteger visibleCount;
 - (BOOL)canContainObject:(id)obj;
 
+- (BOOL)addObject:(AIListObject *)inObject;
+- (void)removeObject:(AIListObject *)inObject;
+
 @end
 
 @interface AIListObject : ESObjectWithProperties {

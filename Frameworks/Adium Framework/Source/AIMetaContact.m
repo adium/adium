@@ -151,7 +151,8 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 		[targetGroups addObject:adium.contactController.contactList];
 	}
 
-	[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:targetGroups];
+	if (self.groups.count || targetGroups.count)
+		[adium.contactController _moveContactLocally:self fromGroups:self.groups toGroups:targetGroups];
 }
 
 - (void)removeFromGroup:(AIListObject <AIContainingObject> *)group
