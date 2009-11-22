@@ -147,6 +147,9 @@ typedef enum {
 - (IBAction)hideFilterBar:(id)sender;
 - (IBAction)filterContacts:(id)sender;
 
+- (void)showFilterBarWithAnimation:(BOOL)useAnimation;
+- (void)hideFilterBarWithAnimation:(BOOL)useAnimation;
+
 @property (nonatomic, retain ) NSViewAnimation *filterBarAnimation;
 
 @end

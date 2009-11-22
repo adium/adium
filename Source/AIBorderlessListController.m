@@ -10,6 +10,8 @@
 
 @implementation AIBorderlessListController
 
+@synthesize enableEmptyListHiding;
+
 - (id)initWithContactList:(AIListObject<AIContainingObject> *)aContactList
 			inOutlineView:(AIListOutlineView *)inContactListView
 			 inScrollView:(AIAutoScrollView *)inScrollView_contactList
@@ -20,6 +22,8 @@
 							  inScrollView:inScrollView_contactList
 								  delegate:inDelegate])) {
 		emptyListHiding = NO;
+		enableEmptyListHiding = YES;
+
 		[self reloadListObject:nil];
 	}
 	
@@ -49,7 +53,7 @@
 		[[contactListView window] setAlphaValue:previousAlpha];
 		[[contactListView window] orderFront:nil];
 
-	} else if (!numberOfRows && !emptyListHiding) {	
+	} else if (!numberOfRows && !emptyListHiding && enableEmptyListHiding) {	
 		emptyListHiding = YES;
 		previousAlpha = [[contactListView window] alphaValue];
 		[[contactListView window] setAlphaValue:0.0];
