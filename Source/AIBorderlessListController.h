@@ -8,7 +8,10 @@
 
 @interface AIBorderlessListController : AIListController {
 	BOOL emptyListHiding;
+	BOOL enableEmptyListHiding;
 	CGFloat previousAlpha;
 }
+
+@property (nonatomic) BOOL enableEmptyListHiding;
 
 @end

@@ -868,7 +868,7 @@
 			/* If adding a metacontact to another metacontact, its contents will be recursively added.
 			 * The original metacontact must then be destroyed lest it give rise to a zombie metacontact apocalypse.
 			 */
-			[self explodeMetaContact:listContact];
+			[self explodeMetaContact:(AIMetaContact *)listContact];
 		}
 	}
 	

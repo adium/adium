@@ -61,4 +61,29 @@
 }
 
 
+
+/*!
+ * @brief Show the filter bar
+ *
+ * @param useAnimation If YES, the filter bar will scroll into view, otherwise it appears immediately
+ */
+- (void)showFilterBarWithAnimation:(BOOL)useAnimation
+{
+	((AIBorderlessListController *)contactListController).enableEmptyListHiding = NO;
+	
+	[super showFilterBarWithAnimation:useAnimation];
+}
+
+/*!
+ * @brief Hide the filter bar
+ *
+ * @param useAnimation If YES, the filter bar will scroll out of view, otherwise it disappears immediately
+ */
+- (void)hideFilterBarWithAnimation:(BOOL)useAnimation
+{
+	((AIBorderlessListController *)contactListController).enableEmptyListHiding = YES;
+	
+	[super hideFilterBarWithAnimation:useAnimation];
+}
+
 @end
