@@ -1,41 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
+<archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.01">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9J61</string>
-		<string key="IBDocument.InterfaceBuilderVersion">677</string>
-		<string key="IBDocument.AppKitVersion">949.46</string>
+		<string key="IBDocument.SystemVersion">9L31a</string>
+		<string key="IBDocument.InterfaceBuilderVersion">629</string>
+		<string key="IBDocument.AppKitVersion">949.54</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
+			<string id="586327554">com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">PurpleFacebookAccountViewController</string>
+				<string key="NSClassName" id="631011873">PurpleFacebookAccountViewController</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
 			</object>
 			<object class="NSCustomObject" id="1004">
-				<string key="NSClassName">NSApplication</string>
+				<string key="NSClassName" id="677210279">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1005">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,7 +38,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="410751486">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Inbox:</string>
+							<string type="base64-UTF8" key="NSContents">5pS25Lu2566x77yaA</string>
 							<object class="NSFont" key="NSSupport" id="730654449">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">1.300000e+01</double>
@@ -57,7 +47,7 @@
 							<reference key="NSControlView" ref="653993195"/>
 							<object class="NSColor" key="NSBackgroundColor">
 								<int key="NSColorSpace">6</int>
-								<string key="NSCatalogName">System</string>
+								<string key="NSCatalogName" id="110478488">System</string>
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
@@ -66,7 +56,7 @@
 							</object>
 							<object class="NSColor" key="NSTextColor">
 								<int key="NSColorSpace">6</int>
-								<string key="NSCatalogName">System</string>
+								<reference key="NSCatalogName" ref="110478488"/>
 								<string key="NSColorName">controlTextColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
@@ -84,7 +74,7 @@
 						<object class="NSButtonCell" key="NSCell" id="462688683">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Check for new inbox messages</string>
+							<string type="base64-UTF8" key="NSContents">5qC45p+l5pS25Lu2566x6YeM55qE5paw5L+h5oGvA</string>
 							<reference key="NSSupport" ref="730654449"/>
 							<reference key="NSControlView" ref="989900096"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -96,16 +86,15 @@
 							<object class="NSButtonImageSource" key="NSAlternateImage">
 								<string key="NSImageName">NSSwitch</string>
 							</object>
-							<string key="NSAlternateContents"/>
-							<string key="NSKeyEquivalent"/>
+							<string key="NSAlternateContents" id="224678628"/>
+							<reference key="NSKeyEquivalent" ref="224678628"/>
 							<int key="NSPeriodicDelay">200</int>
 							<int key="NSPeriodicInterval">25</int>
 						</object>
 					</object>
 				</object>
 				<string key="NSFrameSize">{424, 64}</string>
-				<reference key="NSSuperview"/>
-				<string key="NSClassName">NSView</string>
+				<string key="NSClassName" id="566062378">NSView</string>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -113,7 +102,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">view_options</string>
+						<string key="label" id="311823292">view_options</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="1005"/>
 					</object>
@@ -121,7 +110,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">changedPreference:</string>
+						<string key="label" id="999140226">changedPreference:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="989900096"/>
 					</object>
@@ -129,7 +118,7 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">checkBox_checkMail</string>
+						<string key="label" id="344575884">checkBox_checkMail</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="989900096"/>
 					</object>
@@ -224,16 +213,16 @@
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<reference ref="586327554"/>
+					<reference ref="586327554"/>
+					<reference ref="586327554"/>
 					<string>{{420, 554}, {424, 64}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<reference ref="586327554"/>
 					<string>{628, 654}</string>
 					<string>{{357, 416}, {480, 272}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES" id="5"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<reference ref="586327554"/>
+					<integer value="1" id="5"/>
+					<reference ref="586327554"/>
 					<reference ref="5"/>
 				</object>
 			</object>
@@ -263,17 +252,43 @@
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
-					<string key="className">AIAccountViewController</string>
-					<string key="superclassName">NSObject</string>
+					<string key="className" id="444513813">SS_PrefsController</string>
+					<string key="superclassName" id="662215147">NSObject</string>
+					<nil key="actions"/>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0" id="1066717744">delegate</string>
+						<string key="NS.object.0" id="775325434">id</string>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="531797823">
+						<string key="majorKey" id="921647267">IBProjectSource</string>
+						<string key="minorKey">Frameworks/Adium Framework/Source/SS_PrefsController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className" id="560039364">RBSplitView</string>
+					<string key="superclassName" id="227834065">RBSplitSubview</string>
+					<nil key="actions"/>
+					<object class="NSMutableDictionary" key="outlets">
+						<reference key="NS.key.0" ref="1066717744"/>
+						<reference key="NS.object.0" ref="775325434"/>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="677900749">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/RBSplitView/Source/RBSplitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className" id="949185862">AIAccountViewController</string>
+					<reference key="superclassName" ref="662215147"/>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">changedPreference:</string>
-						<string key="NS.object.0">id</string>
+						<reference key="NS.key.0" ref="999140226"/>
+						<reference key="NS.object.0" ref="775325434"/>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkBox_checkMail</string>
+							<reference ref="344575884"/>
 							<string>checkBox_sendTyping</string>
 							<string>label_alias</string>
 							<string>label_encryption</string>
@@ -291,224 +306,118 @@
 							<string>textField_password</string>
 							<string>textField_registering</string>
 							<string>view_auxiliaryTabView</string>
-							<string>view_options</string>
+							<reference ref="311823292"/>
 							<string>view_privacy</string>
 							<string>view_profile</string>
 							<string>view_setup</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSButton</string>
-							<string>NSButton</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
+							<string id="89099242">NSButton</string>
+							<reference ref="89099242"/>
+							<string id="599142812">NSTextField</string>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
 							<string>NSPopUpButton</string>
 							<string>NSProgressIndicator</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
-							<string>NSTextField</string>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
+							<reference ref="599142812"/>
 							<string>NSTabView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
-							<string>NSView</string>
+							<reference ref="566062378"/>
+							<reference ref="566062378"/>
+							<reference ref="566062378"/>
+							<reference ref="566062378"/>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Frameworks/Adium Framework/Source/AIAccountViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSApplication</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/ItIsNotACoincidenceThatMetalAndDevilNearlyRhymeWindow.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSButtonCell</string>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">toggleFindPanel:</string>
-						<string key="NS.object.0">id</string>
+					<reference key="className" ref="631011873"/>
+					<string key="superclassName" id="873619401">PurpleAccountViewController</string>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Purple Service/PurpleFacebookAccountViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="873619401"/>
+					<reference key="superclassName" ref="949185862"/>
+					<nil key="actions"/>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">checkBox_broadcastMusic</string>
+						<reference key="NS.object.0" ref="89099242"/>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIAbstractListController.h</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Purple Service/PurpleAccountViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="89099242"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIAccountControllerProtocol.h</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationButton.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="677210279"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIAccountMenu.h</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/ItIsNotACoincidenceThatMetalAndDevilNearlyRhymeWindow.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIChatCommandsController.h</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Source/AIServiceMenu.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIContactMenu.h</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Purple Service/AMPurpleJabberAdHocServer.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AICustomSocialNetworkingStatusWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIEditStateWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">adiumPrint:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIInterfaceControllerProtocol.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationAssistance.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIMenuControllerProtocol.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIMessageEntryTextView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIPreferenceControllerProtocol.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/AIStatusMenu.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/ESContactAlertsViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/ESPresetManagementController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/ESPresetNameSheetController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/ESTextAndButtonsWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/JVFontPreviewField.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/KFTypeSelectTableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">prefsWindowWillClose:</string>
-						<string key="NS.object.0">SS_PrefsController</string>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="531797823">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/SS_PrefsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/Adium Framework/Source/SUSpeaker.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
@@ -518,177 +427,451 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>RBSplitView</string>
-							<string>RBSplitView</string>
+							<reference ref="560039364"/>
+							<reference ref="560039364"/>
 						</object>
 					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="677900749">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/RBSplitView/Source/RBSplitView.h</string>
+					<nil key="outlets"/>
+					<reference key="sourceIdentifier" ref="677900749"/>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIPreferenceControllerProtocol.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRRecorderCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRRecorderControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRValidator.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Bonjour/libezv/Simple HTTP Server/AsyncSocket.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Purple Service/AMPurpleJabberAdHocServer.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Purple Service/AMPurpleJabberNode.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Purple Service/SLPurpleCocoaAdapter.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/WebKit Message View/ESWebView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Source/AIListLayoutWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Source/AIListThemeWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Source/AIMenuItemView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Source/AINewBookmarkWindowController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Source/AIServiceMenu.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Source/KNShelfSplitView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Source/OWABSearchWindowController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSTextField</string>
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/WebKit Message View/ESWebView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/KFTypeSelectTableView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Source/AIListLayoutWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">prefsWindowWillClose:</string>
+						<reference key="NS.object.0" ref="444513813"/>
+					</object>
+					<nil key="outlets"/>
+					<reference key="sourceIdentifier" ref="531797823"/>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIMenuControllerProtocol.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">adiumPrint:</string>
+						<reference key="NS.object.0" ref="775325434"/>
+					</object>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIInterfaceControllerProtocol.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Bonjour/libezv/Simple HTTP Server/AsyncSocket.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRValidator.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIAccountMenu.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Source/AINewBookmarkWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Purple Service/SLPurpleCocoaAdapter.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRRecorderControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIStatusMenu.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">toggleFindPanel:</string>
+						<reference key="NS.object.0" ref="775325434"/>
+					</object>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIAbstractListController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AICustomSocialNetworkingStatusWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/ESPresetManagementController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/ESContactAlertsViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/ShortcutRecorder/Source/SRRecorderCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationAssistance.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/JVFontPreviewField.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIMessageEntryTextView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIEditStateWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIChatCommandsController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIAccountControllerProtocol.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/ESTextAndButtonsWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Source/AIListThemeWindowController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Plugins/Purple Service/AMPurpleJabberNode.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/ESPresetNameSheetController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Source/KNShelfSplitView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/AIContactMenu.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="662215147"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
+						<string key="minorKey">Frameworks/Adium Framework/Source/SUSpeaker.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<reference key="className" ref="599142812"/>
+					<nil key="superclassName"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Frameworks/Adium Framework/Source/AILocalizationTextField.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">PurpleAccountViewController</string>
-					<string key="superclassName">AIAccountViewController</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">checkBox_broadcastMusic</string>
-						<string key="NS.object.0">NSButton</string>
-					</object>
+					<reference key="className" ref="227834065"/>
+					<reference key="superclassName" ref="566062378"/>
+					<nil key="actions"/>
+					<nil key="outlets"/>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Purple Service/PurpleAccountViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">PurpleFacebookAccountViewController</string>
-					<string key="superclassName">PurpleAccountViewController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Plugins/Purple Service/PurpleFacebookAccountViewController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RBSplitSubview</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
+						<reference key="majorKey" ref="921647267"/>
 						<string key="minorKey">Frameworks/RBSplitView/Source/RBSplitSubview.h</string>
 					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">RBSplitView</string>
-					<string key="superclassName">RBSplitSubview</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<reference key="sourceIdentifier" ref="677900749"/>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">SS_PrefsController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<reference key="sourceIdentifier" ref="531797823"/>
 				</object>
 			</object>
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.LastKnownRelativeProjectPath">../../Adium.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
+		<object class="NSMutableData" key="IBDocument.RunnableNib">
+			<bytes key="NS.bytes">YnBsaXN0MDDUAAEAAgADAAQABQAGAAkAClgkdmVyc2lvblQkdG9wWSRhcmNoaXZlclgkb2JqZWN0cxIA
+AYag0QAHAAhdSUIub2JqZWN0ZGF0YYABXxAPTlNLZXllZEFyY2hpdmVyrxBWAAsADAAxADUANgA8AD0A
+QQBFAEsAUwBeAGMAbwBwAIAAgQCJAIoAjQCXAJgAmQCeAKAApQCmAKkArQCzALoAuwDRANIA1wDYANkA
+3ADYAOAA4wDkAOcA6gDuALEA7wDyAPMA9wD8AP0BAgEDAQYBDwESARMBFQEeASgBMgEzATQBNQE2ATcB
+OAE5ATwBPwFMAVkBWgFbAMgBXACcAJQBXQFeAV8BYAFjAWYBaVUkbnVsbN8QEgANAA4ADwAQABEAEgAT
+ABQAFQAWABcAGAAZABoAGwAcAB0AHgAfACAAIQAiACMAJAAlACYAJwAoACkAKgArACwALQAuAC8AMFZO
+U1Jvb3RWJGNsYXNzXU5TT2JqZWN0c0tleXNfEA9OU0NsYXNzZXNWYWx1ZXNfEBlOU0FjY2Vzc2liaWxp
+dHlPaWRzVmFsdWVzXU5TQ29ubmVjdGlvbnNbTlNOYW1lc0tleXNbTlNGcmFtZXdvcmtdTlNDbGFzc2Vz
+S2V5c1pOU09pZHNLZXlzXU5TTmFtZXNWYWx1ZXNfEBlOU0FjY2Vzc2liaWxpdHlDb25uZWN0b3JzXU5T
+Rm9udE1hbmFnZXJfEBBOU1Zpc2libGVXaW5kb3dzXxAPTlNPYmplY3RzVmFsdWVzXxAXTlNBY2Nlc3Np
+YmlsaXR5T2lkc0tleXNZTlNOZXh0T2lkXE5TT2lkc1ZhbHVlc4ACgFWANoBFgFSACIA7gAWARIBGgDyA
+UoAAgAaAOoBTEAqAR9IADgAyADMANFtOU0NsYXNzTmFtZYAEgANfECNQdXJwbGVGYWNlYm9va0FjY291
+bnRWaWV3Q29udHJvbGxlctIANwA4ADkAOlgkY2xhc3Nlc1okY2xhc3NuYW1logA6ADteTlNDdXN0b21P
+YmplY3RYTlNPYmplY3RfEBBJQkNvY29hRnJhbWV3b3Jr0gAOAD4APwBAWk5TLm9iamVjdHOAB6DSADcA
+OABCAEOjAEMARAA7XE5TTXV0YWJsZVNldFVOU1NldNIADgA+AEYAR4ArowBIAEkASoAJgDGAM9QADgBM
+AE0ATgBPAFAAHwBSXU5TRGVzdGluYXRpb25YTlNTb3VyY2VXTlNMYWJlbIAwgAqAAoAv1gBUAA4AVQBW
+AFcAMgArAFkAWgBbAFwAXV8QD05TTmV4dFJlc3BvbmRlclpOU1N1YnZpZXdzWE5TdkZsYWdzW05TRnJh
+bWVTaXplgACALoALEQEMgCyALdIADgA+AEYAYIArogBhAGKADIAd1wBUAA4AZABlAFYAZgBnAFAAaQBq
+AGsAbABtAFBXTlNGcmFtZVZOU0NlbGxZTlNFbmFibGVkW05TU3VwZXJ2aWV3gAqAHIANgA4RAQgJgApf
+EBV7ey04LCA0N30sIHsxNDAsIDE3fX3YAHEADgByAHMAdAB1AHYAdwB4AHkAegB7AHwAYQB+AH9bTlND
+ZWxsRmxhZ3NfEBFOU0JhY2tncm91bmRDb2xvclpOU0NvbnRlbnRzWU5TU3VwcG9ydF1OU0NvbnRyb2xW
+aWV3XE5TQ2VsbEZsYWdzMltOU1RleHRDb2xvchIEAf4AgBuAE4APgBCADBIEQAAAgBhkZTZO9nux/xrU
+AA4AggCDAIQAhQCGAIcAiFZOU1NpemVWTlNOYW1lWE5TZkZsYWdzgBIjQCoAAAAAAACAEREEFFxMdWNp
+ZGFHcmFuZGXSADcAOACLAIyiAIwAO1ZOU0ZvbnTVAA4AjgCPAJAAkQCSAJMAlACVAJZXTlNDb2xvclxO
+U0NvbG9yU3BhY2VbTlNDb2xvck5hbWVdTlNDYXRhbG9nTmFtZYAXgBYQBoAVgBRWU3lzdGVtXGNvbnRy
+b2xDb2xvctMADgCPAJoAkgCcAJ1XTlNXaGl0ZYAXEANLMC42NjY2NjY2OQDSADcAOACfAI6iAI4AO9UA
+DgCOAI8AkACRAJIAogCUAKMAloAXgBqAGYAUXxAQY29udHJvbFRleHRDb2xvctMADgCPAJoAkgCcAKiA
+F0IwANIANwA4AKoAq6QAqwCsAGUAO18QD05TVGV4dEZpZWxkQ2VsbFxOU0FjdGlvbkNlbGzSADcAOACu
+AK+lAK8AsACxALIAO1tOU1RleHRGaWVsZFlOU0NvbnRyb2xWTlNWaWV3W05TUmVzcG9uZGVy1wBUAA4A
+ZABlAFYAZgBnAFAAtQC2ALcAbABtAFCACoAqgB6AHwmACl8QFnt7MTM1LCA0Nn0sIHsyODUsIDE4fX3e
+AHEADgC8AL0AvgC/AMAAwQBzAHQAdQDCAHYAwwB4AMQAxQDGAMcAyADJAMUAywB8AGIAzgDPANBfEBNO
+U0FsdGVybmF0ZUNvbnRlbnRzXU5TTm9ybWFsSW1hZ2VfEBJOU1BlcmlvZGljSW50ZXJ2YWxeTlNCdXR0
+b25GbGFnczJfEBBOU0FsdGVybmF0ZUltYWdlXxAPTlNLZXlFcXVpdmFsZW50XxAPTlNQZXJpb2RpY0Rl
+bGF5XU5TQnV0dG9uRmxhZ3OAKYAogCEQGRACgCWAKIAggBCAHRDIEAASSDxR/2poOGflZTZO9nuxkcx2
+hGWwT+Fgb9MADgAyANMA1ADVANZeTlNSZXNvdXJjZU5hbWWAJIAigCNXTlNJbWFnZVhOU1N3aXRjaNIA
+NwA4ANoA26IA2wA7XxAQTlNDdXN0b21SZXNvdXJjZdIADgDdAN4A31tOU0ltYWdlTmFtZYAngCbSADcA
+OADhAOKiAOIAO18QE05TQnV0dG9uSW1hZ2VTb3VyY2VQ0gA3ADgA5QDmpADmAKwAZQA7XE5TQnV0dG9u
+Q2VsbNIANwA4AOgA6aUA6QCwALEAsgA7WE5TQnV0dG9u0gA3ADgA6wDsowDsAO0AO15OU011dGFibGVB
+cnJheVdOU0FycmF5WXs0MjQsIDY0fdIANwA4APAA8aQA8QCxALIAO1xOU0N1c3RvbVZpZXdcdmlld19v
+cHRpb25z0gA3ADgA9AD1owD1APYAO18QFE5TTmliT3V0bGV0Q29ubmVjdG9yXk5TTmliQ29ubmVjdG9y
+1AAOAEwATQBOAE8AYgAfAPuAMIAdgAKAMl8QEmNoZWNrQm94X2NoZWNrTWFpbNQADgBMAE0ATgD+AB8A
+YgEBgDWAAoAdgDRfEBJjaGFuZ2VkUHJlZmVyZW5jZTrSADcAOAEEAQWjAQUA9gA7XxAVTlNOaWJDb250
+cm9sQ29ubmVjdG9y0gAOAD4BBwEIgDmmAGIAawC3AFAAYQEOgB2ADoAfgAqADIA30gAOADIAMwERgASA
+OF1OU0FwcGxpY2F0aW9u0gA3ADgBFADtogDtADvSAA4APgEHAReAOaYAUABhAGIAHwBQAB+ACoAMgB2A
+AoAKgALSAA4APgEHASCAOacAawBQAGEBDgBiALcAH4AOgAqADIA3gB2AH4AC0gAOAD4BBwEqgDmnASsB
+LAEtAS4BLwEwATGAPYA+gD+AQIBBgEKAQ28QFgBUAGUAeAB0ACAARgBpAGUAbABkACAAQwBlAGwAbAAg
+AChlNk72e7H/GgApV09wdGlvbnNvEBIAUwB0AGEAdABpAGMAIABUAGUAeAB0ACAAKGU2TvZ7sf8aAClb
+QXBwbGljYXRpb25vEBYAQwBoAGUAYwBrACAAQgBvAHgAIAAoaDhn5WU2TvZ7sZHMdoRlsE/hYG8AKW8Q
+GABCAHUAdAB0AG8AbgAgAEMAZQBsAGwAIAAoaDhn5WU2TvZ7sZHMdoRlsE/hYG8AKVxGaWxlJ3MgT3du
+ZXLSAA4APgEHATuAOaDSAA4APgEHAT6AOaDSAA4APgEHAUGAOaoAawBKAFAAYQEOAGIASABJALcAH4AO
+gDOACoAMgDeAHYAJgDGAH4AC0gAOAD4BBwFOgDmqAU8BUAFRAVIBUwFUAVUBVgFXAViASIBJgEqAS4BM
+gE2AToBPgFCAURAFEAcQARP//////////RAIEAQQCdIADgA+AEYBYoAroNIADgA+AQcBZYA5oNIADgA+
+AQcBaIA5oNIANwA4AWoBa6IBawA7Xk5TSUJPYmplY3REYXRhAAgAGQAiACcAMQA6AD8ARABSAFQAZgEV
+ARsBZgFtAXQBggGUAbABvgHKAdYB5AHvAf0CGQInAjoCTAJmAnACfQJ/AoECgwKFAocCiQKLAo0CjwKR
+ApMClQKXApkCmwKdAp8CoQKqArYCuAK6AuAC6QLyAv0DAgMRAxoDLQM2A0EDQwNEA00DVANhA2cDcANy
+A3kDewN9A38DkAOeA6cDrwOxA7MDtQO3A9AD4gPtA/YEAgQEBAYECAQLBA0EDwQYBBoEHwQhBCMEQARI
+BE8EWQRlBGcEaQRrBG0EcARxBHMEiwSsBLgEzATXBOEE7wT8BQgFDQUPBREFEwUVBRcFHAUeBScFOAU/
+BUYFTwVRBVoFXAVfBWwFdQV6BYEFlgWeBasFtwXFBccFyQXLBc0FzwXWBeMF8AX4BfoF/AYIBhEGFgYr
+Bi0GLwYxBjMGRgZTBlUGWAZhBmoGfAaJBpIGnQapBrMGugbGBuMG5QbnBukG6wbsBu4HBwdAB1YHZAd5
+B4gHmwetB78HzQfPB9EH0wfVB9cH2QfbB90H3wfhB+MH5QfqB/8IDAgbCB0IHwghCCkIMgg7CEAIUwhc
+CGgIaghsCHUIegiQCJEImgijCLAIuQjECM0I1gjdCOwI9Aj+CQcJEAkdCSoJMwk6CVEJYAlxCXMJdQl3
+CXkJjgmfCaEJowmlCacJvAnFCcwJ5AntCe8J/An+CgAKAgoECgYKCAoRChMKFQojCiwKMQo6CjwKSQpL
+Ck0KTwpRClMKVQpeCmAKbwpxCnMKdQp3CnkKewp9CoYKiAqXCpkKmwqdCp8KoQqjCqUK1ArcCwMLDws+
+C3ELfguHC4kLiguTC5ULlgufC6ELtgu4C7oLvAu+C8ALwgvEC8YLyAvKC9ML1QvqC+wL7gvwC/IL9Av2
+C/gL+gv8C/4MAAwCDAQMDQwPDBEMEwwcDB4MHwwoDCoMKww0DDYMNwxADEUAAAAAAAACAgAAAAAAAAFs
+AAAAAAAAAAAAAAAAAAAMVA</bytes>
+		</object>
 	</data>
 </archive>
