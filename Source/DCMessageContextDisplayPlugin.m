@@ -354,7 +354,7 @@ static NSInteger linesLeftToFind = 0;
 	}
 	else if ([elementStack count]) {
 		AIXMLElement *element = [AIXMLElement elementWithName:elementName];
-		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:element atIndex:0U];
+		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertEscapedObject:element atIndex:0U];
 		[elementStack insertObject:element atIndex:0U];
 	}
 }
@@ -362,7 +362,7 @@ static NSInteger linesLeftToFind = 0;
 - (void)parser:(LMXParser *)parser foundCharacters:(NSString *)string
 {
 	if ([elementStack count])
-		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:string atIndex:0U];
+		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertEscapedObject:string atIndex:0U];
 }
 
 - (void)parser:(LMXParser *)parser elementStarted:(NSString *)elementName attributes:(NSDictionary *)attributes
