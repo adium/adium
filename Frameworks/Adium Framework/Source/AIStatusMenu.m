@@ -400,7 +400,6 @@
 		baseStatusState = adium.statusController.activeStatusState;
 	}
 	
-#ifdef USE_LAST_STATUS_OF_THIS_TYPE
 	/* If we are going to a custom state of a different type, we don't want to prefill with baseStatusState as it stands.
 	 * Instead, we load the last used status of that type.
 	 */
@@ -411,17 +410,16 @@
 		AIStatus	*lastStatusStateOfThisType = (lastStatusStateData ?
 												  [NSKeyedUnarchiver unarchiveObjectWithData:lastStatusStateData] :
 												  nil);
-
-		baseStatusState = [[lastStatusStateOfThisType retain] autorelease];
+		if (lastStatusStateOfThisType) {
+			// Restore the current status message into this last-saved variety, since users tend want to keep them.
+			// If it doesn't exist, use the last-saved status message.
+			if (baseStatusState.statusMessage.length) {
+				lastStatusStateOfThisType.statusMessage = baseStatusState.statusMessage;
+			}
+			
+			baseStatusState = [[lastStatusStateOfThisType retain] autorelease];
+		}
 	}
-	
-	/* Don't use the current status state as a base, and when going from Away to Available, don't autofill the Available
-	 * status message with the old away message.
-	 */
-	if (baseStatusState.statusType != statusType) {
-		baseStatusState = nil;
-	}
-#endif
 
 	[AIEditStateWindowController editCustomState:baseStatusState
 										 forType:statusType
