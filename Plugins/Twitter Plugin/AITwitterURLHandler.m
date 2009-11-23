@@ -66,11 +66,16 @@
 		return;
 	}
 	
+	NSString *delimiter = @"&";
+	if ([urlString rangeOfString:@"&amp;"].location != NSNotFound) {
+		delimiter = @"&amp;";
+	}
+	
 	NSString *inUser = [url host];
-	NSString *inAction = [url queryArgumentForKey:@"action" withDelimiter:@"&"] ?: @"reply";
-	NSString *inTweet = [url queryArgumentForKey:@"status" withDelimiter:@"&"];
-	NSString *inDM = [url queryArgumentForKey:@"dm" withDelimiter:@"&"];
-	NSString *inMessage = [url queryArgumentForKey:@"message" withDelimiter:@"&"];
+	NSString *inAction = [url queryArgumentForKey:@"action" withDelimiter:delimiter] ?: @"reply";
+	NSString *inTweet = [url queryArgumentForKey:@"status" withDelimiter:delimiter];
+	NSString *inDM = [url queryArgumentForKey:@"dm" withDelimiter:delimiter];
+	NSString *inMessage = [url queryArgumentForKey:@"message" withDelimiter:delimiter];
 	NSString *inAccount = [url user];
 	
 	AILogWithSignature(@"Twitter Reply requested: %@", url);
