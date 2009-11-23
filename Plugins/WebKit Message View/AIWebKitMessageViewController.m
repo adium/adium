@@ -352,7 +352,8 @@ static NSArray *draggedTypes = nil;
 	activeStyle = [[[messageStyle bundle] bundleIdentifier] retain];
 	preferenceGroup = [[plugin preferenceGroupForChat:chat] retain];
 
-	[webView setPreferencesIdentifier:activeStyle];
+	[webView setPreferencesIdentifier:[NSString stringWithFormat:@"%@-%@",
+									   activeStyle, preferenceGroup]];
 
 	//Get the prefered variant (or the default if a prefered is not available)
 	activeVariant = [[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
