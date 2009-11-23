@@ -40,7 +40,6 @@
 	//Style & Variant
 	AIWebkitMessageViewStyle	*messageStyle;
 	NSString					*activeStyle;
-	NSString					*activeVariant;
 	NSString					*preferenceGroup;
 	
 	//User icon masking

@@ -119,6 +119,8 @@
 
 @implementation AIWebkitMessageViewStyle
 
+@synthesize activeVariant;
+
 + (id)messageViewStyleFromBundle:(NSBundle *)inBundle
 {
 	return [[[self alloc] initWithBundle:inBundle] autorelease];
@@ -231,6 +233,8 @@
 	[timeStampFormatter release];
 	
 	[statusIconPathCache release];
+
+	self.activeVariant = nil;
 	
 	[super dealloc];
 }
@@ -319,7 +323,7 @@
 
 //Templates ------------------------------------------------------------------------------------------------------------
 #pragma mark Templates
-- (NSString *)baseTemplateWithVariant:(NSString *)variant chat:(AIChat *)chat
+- (NSString *)baseTemplateForChat:(AIChat *)chat
 {
 	NSMutableString	*templateHTML;
 
@@ -339,14 +343,14 @@
 	if ((styleVersion < 3) && usingCustomTemplateHTML) {
 		templateHTML = [NSMutableString stringWithFormat:baseHTML,						//Template
 			[[NSURL fileURLWithPath:stylePath] absoluteString],							//Base path
-			[self pathForVariant:variant],												//Variant path
+			[self pathForVariant:self.activeVariant],									//Variant path
 			headerContent,
 			(footerHTML ? footerHTML : @"")];
 	} else {		
 		templateHTML = [NSMutableString stringWithFormat:baseHTML,						//Template
 			[[NSURL fileURLWithPath:stylePath] absoluteString],							//Base path
 			styleVersion < 3 ? @"" : @"@import url( \"main.css\" );",					//Import main.css for new enough styles
-			[self pathForVariant:variant],												//Variant path
+			[self pathForVariant:self.activeVariant],									//Variant path
 			headerContent,
 			(footerHTML ? footerHTML : @"")];
 	}
@@ -598,11 +602,9 @@
 	return [NSString stringWithFormat:script, [self _escapeStringForPassingToScript:newHTML]]; 
 }
 
-- (NSString *)scriptForChangingVariant:(NSString *)variant
+- (NSString *)scriptForChangingVariant
 {
-	AILogWithSignature(@"%@",[NSString stringWithFormat:@"setStylesheet(\"mainStyle\",\"%@\");",[self pathForVariant:variant]]);
-
-	return [NSString stringWithFormat:@"setStylesheet(\"mainStyle\",\"%@\");",[self pathForVariant:variant]];
+	return [NSString stringWithFormat:@"setStylesheet(\"mainStyle\",\"%@\");",[self pathForVariant:self.activeVariant]];
 }
 
 - (NSString *)scriptForScrollingAfterAddingMultipleContentObjects
@@ -863,7 +865,10 @@
 	[inString replaceKeyword:@"%serviceIconPath%"
 				  withString:[AIServiceIcons pathForServiceIconForServiceID:content.chat.account.service.serviceID
 																	   type:AIServiceIconLarge]];
-	
+
+	[inString replaceKeyword:@"%variant%"
+				  withString:self.activeVariant];
+
 	//message stuff
 	if ([content isKindOfClass:[AIContentMessage class]]) {
 		
@@ -1283,6 +1288,9 @@
  			[inString safeReplaceCharactersInRange:range withString:(bodyTag ? (NSString *)bodyTag : @"")];
  		}
  	}
+	
+	[inString replaceKeyword:@"%variant%"
+				  withString:self.activeVariant];
 
 	return inString;
 }
