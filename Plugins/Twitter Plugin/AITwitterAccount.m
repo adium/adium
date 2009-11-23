@@ -31,6 +31,7 @@
 #import <Adium/AIAccountControllerProtocol.h>
 #import <Adium/AIContactObserverManager.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIListGroup.h>
 #import <Adium/AIContentMessage.h>
 #import <Adium/AIListBookmark.h>
 #import <Adium/AIChat.h>
@@ -911,6 +912,11 @@
  */
 - (void)addContact:(AIListContact *)contact toGroup:(AIListGroup *)group
 {
+	if ([contact.UID isCaseInsensitivelyEqualToString:self.UID]) {
+		AILogWithSignature(@"Not adding contact %@ to group %@, it's me!", contact.UID, group.UID);
+		return;
+	}
+	
 	NSString	*requestID = [twitterEngine enableUpdatesFor:contact.UID];
 	
 	AILogWithSignature(@"%@ Requesting follow for: %@", self, contact.UID);
