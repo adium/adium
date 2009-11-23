@@ -83,6 +83,10 @@
 			}
 		}
 	}
+	
+	if (!listObject && adium.interfaceController.activeChat.isGroupChat) {
+		listObject = [adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat];
+	}
 
 	if (!listObject && (sender == menuItem_getInfoAlternate || sender == menuItem_getInfo)) {
 		listObject = adium.interfaceController.selectedListObject;
@@ -201,7 +205,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	if ((menuItem == menuItem_getInfo) || (menuItem == menuItem_getInfoAlternate)) {
-		return adium.interfaceController.selectedListObject != nil;
+		return adium.interfaceController.selectedListObject != nil || adium.interfaceController.activeChat.isGroupChat;
 		
 	} else if ((menuItem == menuItem_getInfoContextualContact) || (menuItem == menuItem_getInfoContextualGroup)) {
 		return adium.menuController.currentContextMenuObject != nil;
