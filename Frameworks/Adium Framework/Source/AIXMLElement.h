@@ -39,7 +39,7 @@
 
 - (NSString *) name;
 
-- (unsigned)numberOfAttributes;
+- (NSUInteger)numberOfAttributes;
 - (NSDictionary *)attributes;
 - (void) setAttributeNames:(NSArray *)newAttrNames values:(NSArray *)newAttrVals;
 
