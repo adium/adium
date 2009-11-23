@@ -201,7 +201,6 @@ static NSArray *draggedTypes = nil;
 	//Clean up style/variant info
 	[messageStyle release]; messageStyle = nil;
 	[activeStyle release]; activeStyle = nil;
-	[activeVariant release]; activeVariant = nil;
 	[preferenceGroup release]; preferenceGroup = nil;
 	
 	//Cleanup content processing
@@ -265,7 +264,7 @@ static NSArray *draggedTypes = nil;
 		NSString		*variantKey = [plugin styleSpecificKey:@"Variant" forStyle:activeStyle];
 		//Variant changes we can apply immediately.  All other changes require us to reload the view
 		if (!firstTime && [key isEqualToString:variantKey]) {
-			[activeVariant release]; activeVariant = [[prefDict objectForKey:variantKey] retain];
+			messageStyle.activeVariant = [prefDict objectForKey:variantKey];
 			[self _updateVariantWithoutPrimingView];
 			
 		} else if (shouldReflectPreferenceChanges) {
@@ -345,7 +344,6 @@ static NSArray *draggedTypes = nil;
 	//Cleanup first
 	[messageStyle autorelease]; messageStyle = nil;
 	[activeStyle release]; activeStyle = nil;
-	[activeVariant release]; activeVariant = nil;
 	
 	//Load the message style
 	messageStyle = [[plugin currentMessageStyleForChat:chat] retain];
@@ -356,18 +354,21 @@ static NSArray *draggedTypes = nil;
 									   activeStyle, preferenceGroup]];
 
 	//Get the prefered variant (or the default if a prefered is not available)
-	activeVariant = [[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
-															  group:preferenceGroup] retain];
-	if (!activeVariant) activeVariant = [[messageStyle defaultVariant] retain];
+	NSString *activeVariant;
+	activeVariant = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"Variant" forStyle:activeStyle]
+														   group:preferenceGroup];
+	if (!activeVariant)
+		activeVariant = [messageStyle defaultVariant];
 	if (!activeVariant) {
 		/* If the message style doesn't specify a default variant, choose the first one.
 		 * Note: Old styles (styleVersion < 3) will always report a variant for defaultVariant.
 		 */
 		NSArray *availableVariants = [messageStyle availableVariants];
 		if ([availableVariants count]) {
-			activeVariant = [[availableVariants objectAtIndex:0] retain];
+			activeVariant = [availableVariants objectAtIndex:0];
 		}
 	}
+	messageStyle.activeVariant = activeVariant;
 	
 	NSDictionary *prefDict = [adium.preferenceController preferencesForGroup:preferenceGroup];
 
@@ -457,7 +458,7 @@ static NSArray *draggedTypes = nil;
 {
 	//We can only change the variant if the web view is ready.  If it's not ready we wait a bit and try again.
 	if (webViewIsReady) {
-		[webView stringByEvaluatingJavaScriptFromString:[messageStyle scriptForChangingVariant:activeVariant]];			
+		[webView stringByEvaluatingJavaScriptFromString:[messageStyle scriptForChangingVariant]];			
 	} else {
 		[self performSelector:@selector(_updateVariantWithoutPrimingView) withObject:nil afterDelay:NEW_CONTENT_RETRY_DELAY];
 	}
@@ -490,7 +491,7 @@ static NSArray *draggedTypes = nil;
 
 	//Hack: this will re-set us for all the delegates, but that shouldn't matter
 	[delegateProxy addDelegate:self forView:webView];
-	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateWithVariant:activeVariant chat:chat] baseURL:nil];
+	[[webView mainFrame] loadHTMLString:[messageStyle baseTemplateForChat:chat] baseURL:nil];
 
 	if(chat.isGroupChat && chat.supportsTopic) {
 		// Force a topic update, so we set our topic appropriately.

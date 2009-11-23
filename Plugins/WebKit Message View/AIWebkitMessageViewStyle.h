@@ -77,9 +77,10 @@ typedef enum {
  *	@see AIWebKitMessageViewController
  */
 @interface AIWebkitMessageViewStyle : NSObject {
-	NSInteger		styleVersion;
+	NSInteger			styleVersion;
 	NSBundle			*styleBundle;
 	NSString			*stylePath;
+	NSString			*activeVariant;
 	
 	//Templates
 	NSString			*headerHTML;
@@ -148,6 +149,14 @@ typedef enum {
 - (void) reloadStyle;
 
 /*!
+ *  @brief The name of the active variant.
+ *
+ * This is only a store; if it is changed, the changing object is responsible for making
+ * any appropriate calls to update the display
+ */
+@property (nonatomic, retain) NSString *activeVariant;
+
+/*!
  *	Returns YES if this style is considered legacy
  *
  *	Legacy/outdated styles may perform sub-optimally because they lack beneficial changes made in modern styles.
@@ -160,7 +169,7 @@ typedef enum {
  *
  *	The base template is basically the empty view, and serves as the starting point of all content insertion.
  */
-- (NSString *)baseTemplateWithVariant:(NSString *)variant chat:(AIChat *)chat;
+- (NSString *)baseTemplateForChat:(AIChat *)chat;
 
 /*!
  *	@brief Returns the template for inserting content
@@ -180,9 +189,9 @@ typedef enum {
 - (NSString *)scriptForAppendingContent:(AIContentObject *)content similar:(BOOL)contentIsSimilar willAddMoreContentObjects:(BOOL)willAddMoreContentObjects replaceLastContent:(BOOL)replaceLastContent;
 
 /*!
- *	@brief Returns the BOM script for changing the view's variant
+ *	@brief Returns the BOM script for changing the view's variant to the active variant
  */
-- (NSString *)scriptForChangingVariant:(NSString *)variant;
+- (NSString *)scriptForChangingVariant;
 
 /*!
  *	@brief Returns the BOM script for scrolling after adding multiple content objects
