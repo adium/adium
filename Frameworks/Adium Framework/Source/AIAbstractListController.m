@@ -905,8 +905,14 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 {
 	//Provide an array of internalObjectIDs which can be used to reference all the dragged contacts
 	if ([type isEqualToString:@"AIListObjectUniqueIDs"]) {
-		if (dragItems)
-			 [sender setPropertyList:[dragItems valueForKey:@"internalObjectID"] forType:@"AIListObjectUniqueIDs"];
+		if (dragItems) {
+			NSMutableArray *array = [NSMutableArray array];
+			for (AIListObject *listObject in dragItems) {
+				[array addObject:listObject.internalObjectID];
+			}
+			
+			[sender setPropertyList:array forType:@"AIListObjectUniqueIDs"];
+		}
 	}
 }
 
