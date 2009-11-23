@@ -60,8 +60,6 @@
 	return YES;
 }
 
-
-
 /*!
  * @brief Show the filter bar
  *
