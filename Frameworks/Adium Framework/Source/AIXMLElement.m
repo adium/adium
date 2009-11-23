@@ -97,20 +97,47 @@
 
 #pragma mark -
 
-- (NSString *) name
+/*!
+ * @brief This element's name
+ *
+ * @returns An NSString of this element's name
+ */
+- (NSString *)name
 {
 	return name;
 }
 
-- (unsigned)numberOfAttributes
+/*!
+ * @brief Number of attributes
+ *
+ * @returns The number of attributes for this element.
+ */
+- (NSUInteger)numberOfAttributes
 {
 	return [attributeNames count];
 }
+
+/*!
+ * @brief Attributes for this element
+ *
+ * @returns An NSDictionary keyed on the attribute names with their values
+ */
 - (NSDictionary *)attributes
 {
 	return [NSDictionary dictionaryWithObjects:attributeValues forKeys:attributeNames];
 }
-- (void) setAttributeNames:(NSArray *)newAttrNames values:(NSArray *)newAttrVals
+
+/*!
+ * @brief Set attributes and their values
+ *
+ * @param newAttrNames An array of NSStrings, new names of the attributes
+ * @param newAttrVals An array of NSStrings, new values of the given attributes
+ *
+ * You cannot duplicate attributes in this assignment, and you must provide arrays of the same length.
+ *
+ * This overrides any currently-set attributes.
+ */
+- (void)setAttributeNames:(NSArray *)newAttrNames values:(NSArray *)newAttrVals
 {
 	NSAssert2([newAttrNames count] == [newAttrVals count], @"Attribute names and values have different lengths, %ui and %ui respectively", [newAttrNames count], [newAttrVals count]);
 	unsigned numberOfDuplicates = [newAttrNames count] - [[NSSet setWithArray:newAttrNames] count];
@@ -120,6 +147,14 @@
 	[attributeValues setArray:newAttrVals];
 }
 
+/*!
+ * @brief Set an attribute and its value
+ *
+ * This will replace any currently-set value if overriding, otherwise it adds the attribute.
+ *
+ * @param attrVal The NSString value for the attribute
+ * @param attrName The NSString name for the attribute
+ */
 - (void)setValue:(NSString *)attrVal forAttribute:(NSString *)attrName
 {
 	NSUInteger index = [attributeNames indexOfObject:attrName];
@@ -130,6 +165,13 @@
 		[attributeValues addObject:attrVal];
 	}
 }
+
+/*!
+ * @brief The value of an attribute
+ *
+ * @param attrName The name of the attribute
+ * @returns The value for the given attrName attribute
+ */
 - (NSString *)valueForAttribute:(NSString *)attrName
 {
 	NSUInteger index = [attributeNames indexOfObject:attrName];
@@ -142,8 +184,16 @@
 
 #pragma mark -
 
-//NSString: Unescaped string data (will be escaped for XMLification).
-//AIXMLElement: Sub-element (e.g. span in a p).
+/*!
+ * @brief Add an already-escaped object
+ *
+ * @param obj The already-escaped object, either an NSString or an AIXMLelement
+ *
+ * Adds the object as a child for this element at the last index.
+ *
+ * Unlike -addObject:, this does not attempt to escape any XML entities present in the string.
+ * This is useful for reading in already-escaped content, such as from an XML file.
+ */
 - (void)addEscapedObject:(id)obj
 {
 	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.
@@ -154,7 +204,14 @@
 	[contents addObject:obj];
 }
 
-- (void) addObject:(id)obj
+/*!
+ * @brief Add an unescaped object
+ *
+ * @param obj The unescaped object, either an NSString or an AIXMLelement
+ * 
+ * Adds the object as a child for this element at the last index.
+ */
+- (void)addObject:(id)obj
 {
 	//Warn but don't assert if null is added.  Adding nothing is a no-op, but we may want to investigate where this is happening further.
 	if (!obj) NSLog(@"Warning: Attempted to add (null) to %@", obj);
@@ -168,14 +225,45 @@
 
 	[contents addObject:obj];
 }
+
+/*!
+ * @brief Add objects from an array.
+ *
+ * @param array The NSArray of NSString or AIXMLElement elements to add as children.
+ *
+ * Calls -addObject: on all of the elements in the array, so they must all be valid inputs for -addObject:
+ */
 - (void) addObjectsFromArray:(NSArray *)array
 {
 	//We do it this way for the assertion, and to get free escaping of strings.
-	id obj;
-	for (obj in array) {
+	for (id obj in array) {
 		[self addObject:obj];
 	}
 }
+
+/*!
+ * @brief Insert an escaped object at an index
+ *
+ * @param obj The NSString or AIXMLElement object to insert
+ * @param idx The index to insert the object at
+ *
+ * Much like -addEscapedObject:, this inserts an object at a specific index without escaping it.
+ */
+- (void)insertEscapedObject:(id)obj atIndex:(unsigned)idx
+{
+	NSParameterAssert([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[AIXMLElement class]]);
+	
+	[contents insertObject:obj atIndex:idx];
+}
+
+/*!
+ * @brief Insert an unescaped object at an index
+ *
+ * @param obj The NSString or AIXMLElement object to insert
+ * @param idx The index to insert the object at
+ *
+ * Much like -addObject:, this inserts an object at a specific index after escaping it.
+ */
 - (void) insertObject:(id)obj atIndex:(unsigned)idx
 {
 	BOOL isString = [obj isKindOfClass:[NSString class]];
@@ -188,15 +276,33 @@
 	[contents insertObject:obj atIndex:idx];
 }
 
+/*!
+ * @brief The contents of this element
+ *
+ * @returns An NSArray of the NSString or AIXMLElement children for this element
+ */
 - (NSArray *)contents
 {
 	return contents;
 }
+
+/*!
+ * @brief Set the contents of this element
+ *
+ * @param newContents The NSArray of NSString or AIXMLElement elements to set as the new contents.
+ *
+ * This overrides any currently-set contents.
+ */
 - (void)setContents:(NSArray *)newContents
 {
 	[contents setArray:newContents];
 }
 
+/*!
+ * @brief The contents of this element as an XML string.
+ *
+ * @returns An NSString which corresponds to an XML representation of this element and its children.
+ */
 - (NSString *)contentsAsXMLString
 {
 	NSMutableString *contentString = [NSMutableString string];
@@ -212,12 +318,24 @@
 
 #pragma mark -
 
-- (NSString *) quotedXMLAttributeValueStringForString:(NSString *)str
+/*!
+ * @brief Quoted XML attribute value string for string
+ *
+ * @param str The string to quote
+ *
+ * @returns An escaped, quoted string for the given string.
+ */
+- (NSString *)quotedXMLAttributeValueStringForString:(NSString *)str
 {
 	return [NSString stringWithFormat:@"\"%@\"", [str stringByEscapingForXMLWithEntities:nil]];
 }
 
-- (void) appendXMLStringtoString:(NSMutableString *)string
+/*!
+ * @brief Append an XML representation of the element string to a mutable string
+ * 
+ * @param string The NSMutableString to append to
+ */
+- (void)appendXMLStringtoString:(NSMutableString *)string
 {
 	[string appendFormat:@"<%@", name];
 	if ([attributeNames count]) {
@@ -251,14 +369,29 @@
 		[string appendFormat:@"</%@>", name];
 	}
 }
-- (NSString *) XMLString
+
+/*!
+ * @brief An XML string representation of this element
+ *
+ * @returns An NSString of an XML representation of this element
+ *
+ * This is equivalent to -appendXMLStringToString: onto an empty string.
+ *
+ * This includes the element, its attributes, and its children and their attributes.
+ */
+- (NSString *)XMLString
 {
 	NSMutableString *string = [NSMutableString string];
 	[self appendXMLStringtoString:string];
 	return [NSString stringWithString:string];
 }
 
-- (void) appendUTF8XMLBytesToData:(NSMutableData *)data
+/*!
+ * @brief Append a UTF-8 XML representation of the element string to a mutable string
+ * 
+ * @param string The NSMutableString to append to
+ */
+- (void)appendUTF8XMLBytesToData:(NSMutableData *)data
 {
 	NSMutableString *startTag = [NSMutableString stringWithFormat:@"<%@", name];
 	if ([self numberOfAttributes]) {
@@ -293,6 +426,16 @@
 		[data appendData:[[NSString stringWithFormat:@"</%@>", name] dataUsingEncoding:NSUTF8StringEncoding]];
 	}
 }
+
+/*!
+ * @brief A UTF-8 XML string representation of this element
+ *
+ * @returns An NSString of a UTF-8 XML representation of this element
+ *
+ * This is equivalent to -appendUTF8XMLStringToString: onto an empty string.
+ *
+ * This includes the element, its attributes, and its children and their attributes.
+ */
 - (NSData *)UTF8XMLData
 {
 	NSMutableData *data = [NSMutableData data];
@@ -320,8 +463,6 @@
 
 	return [NSString stringWithString:string];
 }
-
-
 
 #pragma mark KVC
 
