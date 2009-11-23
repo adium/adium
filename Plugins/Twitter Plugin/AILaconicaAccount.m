@@ -167,4 +167,19 @@
 	return attributedString;
 }
 
+/*!
+ * @brief Retweet the selected tweet.
+ *
+ * Attempts to retweet a tweet.
+ * Prints a status message in the chat on success/failure, behaves identical to sending a new tweet.
+ *
+ * @returns YES if the account could send a retweet message, NO if the account doesn't support it.
+ *
+ * XXX When Laconica officially supports a retweet API, remove this method entirely.
+ */
+- (BOOL)retweetTweet:(NSString *)tweetID
+{
+	return NO;
+}
+
 @end
