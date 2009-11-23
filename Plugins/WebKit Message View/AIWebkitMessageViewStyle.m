@@ -1168,25 +1168,32 @@
 	
 	if (listObject) {
 		iconPath = [listObject valueForProperty:KEY_WEBKIT_USER_ICON];
-		if (!iconPath) {
+		if (!iconPath)
 			iconPath = [listObject valueForProperty:@"UserIconPath"];
-		}
+		
+		/* We couldn't get an icon... but perhaps we can for a parent contact */
+		if (!iconPath &&
+			[listObject isKindOfClass:[AIListContact class]] &&
+			([(AIListContact *)listObject parentContact] != listObject)) {
+			iconPath = [[(AIListContact *)listObject parentContact] valueForProperty:KEY_WEBKIT_USER_ICON];
+			if (!iconPath)
+				iconPath = [[(AIListContact *)listObject parentContact] valueForProperty:@"UserIconPath"];			
+		}		
 	}
 	[inString replaceKeyword:@"%incomingIconPath%"
 				  withString:(iconPath ? iconPath : @"incoming_icon.png")];
-	
+
 	AIListObject	*account = chat.account;
 	iconPath = nil;
 	
 	if (account) {
 		iconPath = [account valueForProperty:KEY_WEBKIT_USER_ICON];
-		if (!iconPath) {
+		if (!iconPath)
 			iconPath = [account valueForProperty:@"UserIconPath"];
-		}
 	}
 	[inString replaceKeyword:@"%outgoingIconPath%"
 				  withString:(iconPath ? iconPath : @"outgoing_icon.png")];
-	
+
 	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:account.service.serviceID
 																		  type:AIServiceIconLarge];
 	

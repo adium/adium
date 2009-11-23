@@ -1250,9 +1250,9 @@ static NSArray *draggedTypes = nil;
 			webKitUserIcon = userIcon;
 		}
 
-		oldWebKitUserIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];
+		oldWebKitUserIconPath = [objectIconPathDict objectForKey:iconSourceObject.internalObjectID];		
 		webKitUserIconPath = [iconSourceObject valueForProperty:KEY_WEBKIT_USER_ICON];
-
+		
 		if (!webKitUserIconPath) {
 			/* If the image doesn't know a path to use, write it out and set it.
 			 *
@@ -1266,8 +1266,10 @@ static NSArray *draggedTypes = nil;
 													 atomically:YES]) {
 				[iconSourceObject setValue:webKitUserIconPath
 										   forProperty:KEY_WEBKIT_USER_ICON
-										   notify:NO];				
-			}			
+										   notify:NO];
+			} else {
+				AILogWithSignature(@"Warning: Could not write out icon to %@", webKitUserIconPath);
+			}
 		}
 
 		//Make sure it's known that this user has been handled
@@ -1282,27 +1284,35 @@ static NSArray *draggedTypes = nil;
 		
 		if (!webKitUserIconPath) webKitUserIconPath = @"";
 
-		//Update existing images
-		AILogWithSignature(@"Updating %@ to %@", oldWebKitUserIconPath, webKitUserIconPath);
+		if ([webView mainFrameDocument]) {
+			//Update existing images if the webView has loaded and has a main frame
+			if (oldWebKitUserIconPath &&
+				![oldWebKitUserIconPath isEqualToString:webKitUserIconPath]) {
+				
+				DOMNodeList  *images = [[webView mainFrameDocument] getElementsByTagName:@"img"];
+				NSUInteger imagesCount = [images length];
 
-		if (oldWebKitUserIconPath &&
-			![oldWebKitUserIconPath isEqualToString:webKitUserIconPath]) {
-			DOMNodeList  *images = [[webView mainFrameDocument] getElementsByTagName:@"img"];
-			NSUInteger imagesCount = [images length];
+				webKitUserIconPath = [[webKitUserIconPath copy] autorelease];
 
-			webKitUserIconPath = [[webKitUserIconPath copy] autorelease];
-
-			for (NSInteger i = 0; i < imagesCount; i++) {
-				DOMHTMLImageElement *img = (DOMHTMLImageElement *)[images item:i];
-				NSString *currentSrc = [img getAttribute:@"src"];
-				if (currentSrc && ([currentSrc rangeOfString:oldWebKitUserIconPath].location != NSNotFound)) {
-					[img setSrc:webKitUserIconPath];
+				for (NSInteger i = 0; i < imagesCount; i++) {
+					DOMHTMLImageElement *img = (DOMHTMLImageElement *)[images item:i];
+					NSString *currentSrc = [img getAttribute:@"src"];
+					if (currentSrc && ([currentSrc rangeOfString:oldWebKitUserIconPath].location != NSNotFound)) {
+						[img setSrc:webKitUserIconPath];
+					}
 				}
 			}
+			
+			[objectIconPathDict setObject:webKitUserIconPath
+								   forKey:iconSourceObject.internalObjectID];
+		} else {
+			/* Otherwise, try to again in a moment. We've already done the heavy lifting
+			 * such as writing out the icon, so it's cheap to recurse.
+			 */			
+			[self performSelector:@selector(updateUserIconForObject:)
+					   withObject:inObject
+					   afterDelay:1];
 		}
-
-		[objectIconPathDict setObject:webKitUserIconPath
-							   forKey:iconSourceObject.internalObjectID];
 	}
 }
 
