@@ -274,4 +274,14 @@
 	return [self impliedValueForString:[self stringValue]];
 }
 
+- (void)draggingExited:(id <NSDraggingInfo>)sender
+{
+	
+}
+
+- (void)draggingEnded:(id <NSDraggingInfo>)sender
+{
+	
+}
+
 @end
