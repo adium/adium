@@ -1199,8 +1199,10 @@
  *
  * Attempts to retweet a tweet.
  * Prints a status message in the chat on success/failure, behaves identical to sending a new tweet.
+ *
+ * @returns YES if the account could send a retweet message, NO if the account doesn't support it.
  */
-- (void)retweetTweet:(NSString *)tweetID
+- (BOOL)retweetTweet:(NSString *)tweetID
 {
 	NSString *requestID = [twitterEngine retweetUpdate:tweetID];
 	
@@ -1211,6 +1213,8 @@
 	} else {
 		[self.timelineChat receivedError:[NSNumber numberWithInt:AIChatMessageSendingConnectionError]];
 	}
+	
+	return YES;
 }
 
 /*!

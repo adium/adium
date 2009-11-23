@@ -104,9 +104,13 @@
 		return;
 	}
 	
-	if ([inAction isEqualToString:@"retweet"]) {
-		[account retweetTweet:inTweet];
-	} else if ([inAction isEqualToString:@"reply"]) {
+	BOOL retweetAsReply = NO;
+	
+	if ([inAction isEqualToString:@"retweet"]) {	
+		retweetAsReply = ![account retweetTweet:inTweet];
+	}
+	
+	if (retweetAsReply || [inAction isEqualToString:@"reply"]) {
 		AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
 																onAccount:account];
 		
@@ -127,7 +131,7 @@
 		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
 
 		// Insert the @reply text
-		NSString *prefix = [NSString stringWithFormat:@"@%@ ", inUser];
+		NSString *prefix = retweetAsReply ? [NSString stringWithFormat:@"RT @%@: %@", inUser, [inMessage stringByDecodingURLEscapes]] : [NSString stringWithFormat:@"@%@ ", inUser];
 		
 		if (![textView.string hasPrefix:prefix]) {
 			NSMutableAttributedString *newString;
