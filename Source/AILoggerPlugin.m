@@ -108,10 +108,6 @@ enum {
 static NSString     *logBasePath = nil;     //The base directory of all logs
 static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path refers to an alias file, this is that path, and logBasePath is the destination of the alias; otherwise, this is nil and logBasePath is the usual Logs folder path.
 
-@interface NSOperationQueue (SnowLeopardMethodsICheckFor)
-- (void)setName:(NSString *)name;
-@end
-
 @implementation AILoggerPlugin
 
 - (void)installPlugin
