@@ -55,8 +55,8 @@
 - (void) addEscapedObject:(id)obj;
 - (void) addObject:(id)obj;
 - (void) addObjectsFromArray:(NSArray *)array;
-- (void) insertEscapedObject:(id)obj atIndex:(unsigned)idx;
-- (void) insertObject:(id)obj atIndex:(unsigned)idx;
+- (void) insertEscapedObject:(id)obj atIndex:(NSUInteger)idx;
+- (void) insertObject:(id)obj atIndex:(NSUInteger)idx;
 
 - (NSArray *)contents;
 - (void)setContents:(NSArray *)newContents;
