@@ -140,7 +140,7 @@
 - (void)setAttributeNames:(NSArray *)newAttrNames values:(NSArray *)newAttrVals
 {
 	NSAssert2([newAttrNames count] == [newAttrVals count], @"Attribute names and values have different lengths, %ui and %ui respectively", [newAttrNames count], [newAttrVals count]);
-	unsigned numberOfDuplicates = [newAttrNames count] - [[NSSet setWithArray:newAttrNames] count];
+	NSUInteger numberOfDuplicates = [newAttrNames count] - [[NSSet setWithArray:newAttrNames] count];
 	NSAssert1(numberOfDuplicates == 0, @"Duplicate attributes are not allowed; found %ui duplicate(s)",  numberOfDuplicates);
 	
 	[attributeNames setArray:newAttrNames];
@@ -249,7 +249,7 @@
  *
  * Much like -addEscapedObject:, this inserts an object at a specific index without escaping it.
  */
-- (void)insertEscapedObject:(id)obj atIndex:(unsigned)idx
+- (void)insertEscapedObject:(id)obj atIndex:(NSUInteger)idx
 {
 	NSParameterAssert([obj isKindOfClass:[NSString class]] || [obj isKindOfClass:[AIXMLElement class]]);
 	
@@ -264,7 +264,7 @@
  *
  * Much like -addObject:, this inserts an object at a specific index after escaping it.
  */
-- (void) insertObject:(id)obj atIndex:(unsigned)idx
+- (void) insertObject:(id)obj atIndex:(NSUInteger)idx
 {
 	BOOL isString = [obj isKindOfClass:[NSString class]];
 	NSParameterAssert(isString || [obj isKindOfClass:[AIXMLElement class]]);
@@ -339,7 +339,7 @@
 {
 	[string appendFormat:@"<%@", name];
 	if ([attributeNames count]) {
-		unsigned attributeIdx = 0U;
+		NSUInteger attributeIdx = 0U;
 		NSString *key;
 		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
@@ -395,7 +395,7 @@
 {
 	NSMutableString *startTag = [NSMutableString stringWithFormat:@"<%@", name];
 	if ([self numberOfAttributes]) {
-		unsigned attributeIdx = 0U;
+		NSUInteger attributeIdx = 0U;
 		NSString *key;
 		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
@@ -447,7 +447,7 @@
 {
 	NSMutableString *string = [NSMutableString stringWithFormat:@"<%@ AIXMLElement:id=\"%p\"", name, self];
 	if ([attributeNames count] && [attributeValues count]) { //there's no way these could be different values, but whatever
-		unsigned attributeIdx = 0U;
+		NSUInteger attributeIdx = 0U;
 		NSString *key;
 		for (key in attributeNames) {
 			NSString *value = [attributeValues objectAtIndex:attributeIdx++];
@@ -474,12 +474,12 @@ Adium[302:117] The following unhandled exception was ignored: NSUnknownKeyExcept
 */
 /*
 - (id) valueForKey:(NSString *)key {
-	unsigned idx = [attributeNames indexOfObject:key];	
+	NSUInteger idx = [attributeNames indexOfObject:key];	
 	return (idx != NSNotFound) ? [attributeValues objectAtIndex:idx] : [super valueForKey:key];
 }
 //FIXME: this shouldn't clobber setObject:forKey: on NSObject.
 - (void) setValue:(id)obj forKey:(NSString *)key {
-	unsigned idx = [attributeNames indexOfObject:key];
+	NSUInteger idx = [attributeNames indexOfObject:key];
 	if(idx == NSNotFound) {
 		[attributeNames addObject:key];
 		[attributeValues addObject:obj];
