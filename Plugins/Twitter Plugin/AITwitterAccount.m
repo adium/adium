@@ -620,7 +620,7 @@
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];	
 
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@",nil), inContact.UID]
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Enable device notifications for %@", "Enable sending Twitter notifications to your phone (device)"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
 															  keyEquivalent:@""] autorelease];
@@ -629,7 +629,7 @@
 	[menuItem setRepresentedObject:inContact];
 	[menuItemArray addObject:menuItem];
 
-	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@",nil), inContact.UID]
+	menuItem = [[[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:[NSString stringWithFormat:AILocalizedString(@"Disable device notifications for %@", "Disable sending Twitter notifications to your phone"), inContact.UID]
 																	 target:self
 																	 action:@selector(enableOrDisableNotifications:)
 															  keyEquivalent:@""] autorelease];
