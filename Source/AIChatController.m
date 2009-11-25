@@ -413,7 +413,9 @@
 		chat.identifier = identifier;
 		chat.isGroupChat = YES;
 		chat.chatCreationDictionary = chatCreationInfo;
-					
+		/* Negative preference so (default == NO) -> showing join/leave messages */
+		chat.showJoinLeave = ![[adium preferenceController] preferenceForKey:[NSString stringWithFormat:@"HideJoinLeave-%@", name]
+																	   group:PREF_GROUP_STATUS_PREFERENCES];		
 		[openChats addObject:chat];
 		
 		AILog(@"chatWithName:%@ identifier:%@ onAccount:%@ added <<%@>> [%@] [%@]",name,identifier,account,chat,openChats,chatCreationInfo);
@@ -844,6 +846,10 @@
 	}
 
 	chat.showJoinLeave = !chat.showJoinLeave;
+
+	[[adium preferenceController] setPreference:[NSNumber numberWithBool:!chat.showJoinLeave]
+										 forKey:[NSString stringWithFormat:@"HideJoinLeave-%@", chat.name]
+										  group:PREF_GROUP_STATUS_PREFERENCES];
 }
 
 /*!
