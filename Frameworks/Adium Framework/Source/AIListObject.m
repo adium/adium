@@ -668,7 +668,7 @@
 	
 	// Sanity check - are we trying to assign infinity?
 	if (orderIndexForObject == INFINITY) {
-		AILogWithSignature(@"Correcting for INFINITY index, inObj=%@ allObj=%@", listObject, [dict objectForKey:[NSNumber numberWithFloat:INFINITY]]);
+		AILogWithSignature(@"Correcting for INFINITY index, inObj=%@ allObj=%@", listObject, [newDict allKeysForObject:[NSNumber numberWithFloat:INFINITY]]);
 		
 		// Remove any objects that currently are currently set to INFINITY, they'll regenerate their position to the last place.
 		for (NSString *key in [newDict allKeysForObject:[NSNumber numberWithFloat:INFINITY]]) {
