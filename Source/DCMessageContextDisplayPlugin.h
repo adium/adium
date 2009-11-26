@@ -21,28 +21,9 @@
 
 // Pref keys
 #define KEY_DISPLAY_CONTEXT			@"Display Message Context"
-#define	KEY_DIM_RECENT_CONTEXT		@"Dim Recent Context"
 #define KEY_DISPLAY_LINES			@"Lines to Display"
-#define KEY_DISPLAY_MODE			@"Display Mode"
-#define KEY_HAVE_TALKED_DAYS		@"Have Talked Days"
-#define KEY_HAVE_NOT_TALKED_DAYS	@"Have Not Talked Days"
-#define KEY_HAVE_TALKED_UNITS		@"Have Talked Units"
-#define KEY_HAVE_NOT_TALKED_UNITS   @"Have Not Talked Units"
 
 #define CONTEXT_DISPLAY_DEFAULTS	@"MessageContextDisplayDefaults"
-
-// Possible Display Modes
-typedef enum AIMessageHistoryDisplayModes {
-	MODE_ALWAYS = 0,
-	MODE_HAVE_TALKED,
-	MODE_HAVE_NOT_TALKED
-} AIMessageHistoryDisplayModes;
-
-// Possible Units
-typedef enum AIMessageHistoryDisplayUnits {
-	UNIT_DAYS = 0,
-	UNIT_HOURS
-} AIMessageHistoryDisplayUnits;
 
 @class DCMessageContextDisplayPreferences, SMSQLiteLoggerPlugin;
 
@@ -51,13 +32,6 @@ typedef enum AIMessageHistoryDisplayUnits {
 	BOOL							shouldDisplay;
 	BOOL							dimRecentContext;
 	NSInteger								linesToDisplay;
-	
-	NSInteger								displayMode;
-	NSInteger								haveTalkedDays;
-	NSInteger								haveNotTalkedDays;
-	
-	NSInteger								haveTalkedUnits;
-	NSInteger								haveNotTalkedUnits;
 	
 	DCMessageContextDisplayPreferences  *preferences;
 	

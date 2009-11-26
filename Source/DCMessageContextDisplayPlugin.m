@@ -22,9 +22,6 @@
 #import <Adium/AIContentContext.h>
 #import <Adium/AIService.h>
 
-//#import "SMSQLiteLoggerPlugin.h"
-//#import "AICoreComponentLoader.h"
-
 //Old school
 #import <Adium/AIListContact.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
@@ -53,9 +50,6 @@
 @interface DCMessageContextDisplayPlugin ()
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
-- (void)old_preferencesChangedForGroup:(NSString *)group key:(NSString *)key
-								object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime;
-- (BOOL)contextShouldBeDisplayed:(NSCalendarDate *)inDate;
 - (NSArray *)contextForChat:(AIChat *)chat;
 @end
 
@@ -72,14 +66,6 @@
     [adium.preferenceController registerDefaults:[NSDictionary dictionaryNamed:CONTEXT_DISPLAY_DEFAULTS
 																		forClass:[self class]] 
 										  forGroup:PREF_GROUP_CONTEXT_DISPLAY];
-		
-	//Obtain the default preferences and use them - Adium 1.1 experiment to see if people use these prefs
-	[self old_preferencesChangedForGroup:PREF_GROUP_CONTEXT_DISPLAY
-								 key:nil
-							  object:nil
-					  preferenceDict:[NSDictionary dictionaryNamed:CONTEXT_DISPLAY_DEFAULTS
-														  forClass:[self class]]
-						   firstTime:YES];
 	
 	//Observe preference changes for whether or not to display message history
 	[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTEXT_DISPLAY];
@@ -117,23 +103,6 @@
 		}
 	}
 }
-/**
- * @brief Preferences for when to display history changed
- *
- * Only change our preferences in response to global preference notifications; specific objects use this group as well.
- */
-- (void)old_preferencesChangedForGroup:(NSString *)group key:(NSString *)key
-							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
-{
-	if (!object) {
-		haveTalkedDays = [[prefDict objectForKey:KEY_HAVE_TALKED_DAYS] integerValue];
-		haveNotTalkedDays = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_DAYS] integerValue];
-		displayMode = [[prefDict objectForKey:KEY_DISPLAY_MODE] integerValue];
-		
-		haveTalkedUnits = [[prefDict objectForKey:KEY_HAVE_TALKED_UNITS] integerValue];
-		haveNotTalkedUnits = [[prefDict objectForKey:KEY_HAVE_NOT_TALKED_UNITS] integerValue];		
-	}
-}
 
 /**
  * @brief Retrieve and display in-window message history
@@ -147,75 +116,23 @@
 	NSArray	*context = [self contextForChat:chat];
 
 	if (context && [context count] > 0 && shouldDisplay) {
-		//Check if the history fits the date restrictions
+		AIContentContext	*contextMessage;
+
+		for(contextMessage in context) {
+			/* Don't display immediately, so the message view can aggregate multiple message history items.
+			 * As required, we post Content_ChatDidFinishAddingUntrackedContent when finished adding. */
+			[contextMessage setDisplayContentImmediately:NO];
 		
-		//The most recent message is what determines whether we have "chatted in the last X days", "not chatted in the last X days", etc.
-		NSCalendarDate *mostRecentMessage = [[(AIContentContext *)[context lastObject] date] dateWithCalendarFormat:nil timeZone:nil];
-		if ([self contextShouldBeDisplayed:mostRecentMessage]) {
-			AIContentContext	*contextMessage;
-
-			for(contextMessage in context) {
-				/* Don't display immediately, so the message view can aggregate multiple message history items.
-				 * As required, we post Content_ChatDidFinishAddingUntrackedContent when finished adding. */
-				[contextMessage setDisplayContentImmediately:NO];
-			
-				[adium.contentController displayContentObject:contextMessage
-											usingContentFilters:YES
-													immediately:YES];
-			}
-
-			//We finished adding untracked content
-			[[NSNotificationCenter defaultCenter] postNotificationName:Content_ChatDidFinishAddingUntrackedContent
-												  	  object:chat];
+			[adium.contentController displayContentObject:contextMessage
+										usingContentFilters:YES
+												immediately:YES];
 		}
+
+		//We finished adding untracked content
+		[[NSNotificationCenter defaultCenter] postNotificationName:Content_ChatDidFinishAddingUntrackedContent
+												  object:chat];
 	}
 }
-
-/**
- * @brief Does a specified date match our criteria for display?
- *
- * The date passed should be the date of the _most recent_ stored message history item
- *
- * @result YES if the mesage history should be displayed
- */
-- (BOOL)contextShouldBeDisplayed:(NSCalendarDate *)inDate
-{
-	BOOL dateIsGood = YES;
-	NSInteger thresholdDays = 0;
-	NSInteger thresholdHours = 0;
-	
-	if (displayMode != MODE_ALWAYS) {
-		
-		if (displayMode == MODE_HAVE_TALKED) {
-			if (haveTalkedUnits == UNIT_DAYS)
-				thresholdDays = haveTalkedDays;
-			
-			else if (haveTalkedUnits == UNIT_HOURS)
-				thresholdHours = haveTalkedDays;
-			
-		} else if (displayMode == MODE_HAVE_NOT_TALKED) {
-			if ( haveTalkedUnits == UNIT_DAYS )
-				thresholdDays = haveNotTalkedDays;
-			else if (haveTalkedUnits == UNIT_HOURS)
-				thresholdHours = haveNotTalkedDays;
-		}
-		
-		// Take the most recent message's date, add our limits to it
-		// See if the new date is earlier or later than today's date
-		NSCalendarDate *newDate = [inDate dateByAddingYears:0 months:0 days:thresholdDays hours:thresholdHours minutes:0 seconds:0];
-
-		NSComparisonResult comparison = [newDate compare:[NSDate date]];
-		
-		if (((displayMode == MODE_HAVE_TALKED) && (comparison == NSOrderedAscending)) ||
-			((displayMode == MODE_HAVE_NOT_TALKED) && (comparison == NSOrderedDescending)) ) {
-			dateIsGood = NO;
-		}
-	}
-	
-	return dateIsGood;
-}
-
-static NSInteger linesLeftToFind = 0;
 /*!
  * @brief Retrieve the message history for a particular chat
  *
@@ -226,6 +143,8 @@ static NSInteger linesLeftToFind = 0;
 	//If there's no log there, there's no message history. Bail out.
 	NSArray *logPaths = [AILoggerPlugin sortedArrayOfLogFilesForChat:chat];
 	if(!logPaths) return nil;
+	
+	NSInteger linesLeftToFind = 0;
 
 	AIHTMLDecoder *decoder = [AIHTMLDecoder decoder];
 
@@ -237,7 +156,7 @@ static NSInteger linesLeftToFind = 0;
 		[AILoggerPlugin relativePathForLogWithObject:logObjectUID onAccount:chat.account]];	
 
 	if ([chat boolValueForProperty:@"Restored Chat"] && linesToDisplay < RESTORED_CHAT_CONTEXT_LINE_NUMBER) {
-		linesLeftToFind = RESTORED_CHAT_CONTEXT_LINE_NUMBER;
+		linesLeftToFind = MAX(linesLeftToFind, RESTORED_CHAT_CONTEXT_LINE_NUMBER);
 	} else {
 		linesLeftToFind = linesToDisplay;		
 	}
@@ -296,6 +215,7 @@ static NSInteger linesLeftToFind = 0;
 						   accountID, @"Account ID",
 						   chat, @"Chat",
 						   decoder, @"AIHTMLDecoder",
+						   [NSValue valueWithPointer:&linesLeftToFind], @"LinesLeftToFindValue",
 						   nil];
 			[parser setContextInfo:(void *)contextInfo];
 		}
@@ -342,6 +262,11 @@ static NSInteger linesLeftToFind = 0;
 		[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 		linesLeftToFind -= [outerFoundContentContexts count];
 	}
+	
+	if (linesLeftToFind > 0) {
+		AILogWithSignature(@"Unable to find %d logs for %@", linesLeftToFind, chat);
+	}
+	
 	return outerFoundContentContexts;
 }
 
@@ -384,7 +309,7 @@ static NSInteger linesLeftToFind = 0;
 			AIListObject *account     = [contextInfo objectForKey:@"Account"];
 			NSString     *accountID   = [contextInfo objectForKey:@"Account ID"];
 			AIChat       *chat        = [contextInfo objectForKey:@"Chat"];
-
+			
 			//Set up some doohickers.
 			NSDictionary	*attributes = [element attributes];
 			NSString		*timeString = [attributes objectForKey:@"time"];
@@ -427,9 +352,11 @@ static NSInteger linesLeftToFind = 0;
 				NSLog(@"Null message context display time for %@",element);
 			}
 		}
+		
+		NSInteger	 *linesLeftToFind = [[contextInfo objectForKey:@"LinesLeftToFindValue"] pointerValue];
 
 		[elementStack removeObjectAtIndex:0U];
-		if ([foundMessages count] == linesLeftToFind) {
+		if ([foundMessages count] == *linesLeftToFind) {
 			if ([elementStack count]) [elementStack removeAllObjects];
 			[parser abortParsing];
 		} else {

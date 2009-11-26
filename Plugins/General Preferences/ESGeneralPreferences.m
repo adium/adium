@@ -110,11 +110,7 @@
 	[popUp_tabPositionMenu setMenu:[self tabPositionMenu]];
 	[popUp_tabPositionMenu selectItemWithTag:[[adium.preferenceController preferenceForKey:KEY_TABBAR_POSITION
 																								 group:PREF_GROUP_DUAL_WINDOW_INTERFACE] intValue]];
-	
-	//Quit
-	//[checkBox_confirmOnQuit setState:[[adium.preferenceController preferenceForKey:KEY_CONFIRM_QUIT
-	//																			group:PREF_GROUP_CONFIRMATIONS] boolValue]];
-	
+
 	//Global hotkey
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
