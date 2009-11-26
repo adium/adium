@@ -1,44 +1,26 @@
 #!/bin/sh
 ###############
 #
-# Usage: update_adium_from_bundle SOURCE_BUNDLE_PATH LANGUAGE_NAME
+# Usage: update_adium_from_bundle SOURCE_BUNDLE_PATH LANGUAGE_NAME REPO_LOCATION
 #        for example:
-#            ~/bin/update_adium_from_bundle Desktop/Adium_French.app French
+#            ~/bin/update_adium_from_bundle Desktop/Adium_French.app French ~/adium
 #
-# Set REPO to your Adium repository
-#
-# This script does not cover new localizations initially; they must first be
-# added via Xcode
+# This script does not cover new localizations initially; they must first be added via Xcode
 ################
-REPO=~/adium
-
 SOURCE=$1
+REPO=$3
 
 ########
 # Functions
 ########
 
-# Update a nib. First argument is the name of the nib,
-# with the .nib extension. Second argument is the destination folder.
-# The nib must already exist in the destination.
-update_nib()
-{
-    for file in $1/*.nib ; do
-        cp $file $2/$1
-    done
-}
-
 # Copy all nibs and other files in the current directory to a given destination
+# Removes other copies of present in the target location first
 loc_copy()
 {
-    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/classes.nib" "$1/{}" ';'
-    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/keyedobjects.nib" "$1/{}" ';'
-    find . '(' -name "*.nib" ')' -prune -execdir cp "{}/objects.xib" "$1/{}" ';'
-
     for file in * ; do
-        if [ -f  "$file" ] ; then
-            cp "$file" "$1"
-        fi
+		rm -rf "$1/$file" || true
+		cp -R "$file" "$1"
     done
 }
 
@@ -70,6 +52,12 @@ update_language()
 		# Main resources
 		silent_pushd $LANG
 			loc_copy "$REPO/Resources/$DEST_LANG"
+			# Move the Twitter account view
+			rm -rf "$REPO/Plugins/Twitter Plugin/$DEST_LANG/AITwitterAccountView.nib"
+			mv "$REPO/Resources/$DEST_LANG/AITwitterAccountView.nib" "$REPO/Plugins/Twitter Plugin/$DEST_LANG"
+			# Move the WebKit preferences
+			rm -rf "$REPO/Plugins/WebKit Message View/$DEST_LANG/WebKitPreferencesView.nib"
+			mv "$REPO/Resources/$DEST_LANG/WebKitPreferencesView.nib" "$REPO/Plugins/WebKit Message View/$DEST_LANG"
 		silent_popd
     
 		# Emoticons
@@ -108,17 +96,12 @@ update_language()
 	#back to Contents
 		
 	silent_pushd Frameworks
-	   echo "Adium Framework"
-	       if [ -e  "Adium.framework/Versions/A/Resources/$LANG" ] ; then
-		      silent_pushd Adium.framework/Versions/A/Resources/$LANG
-			     loc_copy "$REPO/Frameworks/Adium Framework/Resources/$DEST_LANG"
-		      silent_popd
+		echo "Adium Framework"
+		if [ -e  "Adium.framework/Versions/A/Resources/$LANG" ] ; then
+			silent_pushd Adium.framework/Versions/A/Resources/$LANG
+				loc_copy "$REPO/Frameworks/Adium Framework/Resources/$DEST_LANG"
+			silent_popd
 		fi
-		
-		#No localized resources
-		#silent_pushd AIHyperlinks.framework/Versions/A/Resources/$LANG
-		#	loc_copy "$REPO/Frameworks/AIHyperlinks Framework/Resources/$LANG"
-		#silent_popd
 		
 		echo "AIUtilities.framework"
         if [ -e  "AIUtilities.framework/Versions/A/Resources/$LANG" ] ; then
@@ -126,38 +109,13 @@ update_language()
 			loc_copy "$REPO/Frameworks/AIUtilities Framework/Resources/$DEST_LANG"
 		  silent_popd
         fi
-        
-#warning: This needs to go upstream...
-        if [ -e  "Growl-WithInstaller.framework/Versions/A/Resources/$LANG" ] ; then
-    		silent_pushd Growl-WithInstaller.framework/Versions/A/Resources/$LANG
-	   		  loc_copy "$REPO/Frameworks/Growl-WithInstaller.framework/Resources/$DEST_LANG"
-		    silent_popd
-        fi
 
-#warning: This needs to go upstream...		
-        if [ -e  "Sparkle.framework/Versions/A/Resources/$LANG" ] ; then
-    		silent_pushd Sparkle.framework/Versions/A/Resources/$LANG
-	   		  loc_copy "$REPO/Frameworks/Sparkle.framework/Resources/$DEST_LANG"
-    		silent_popd
-		fi
-	silent_popd
-
-	#back to Contents
-	
-	# Plugins
-	silent_pushd PlugIns
-		if [ -e  "Purple.AdiumPlugin/Contents/Frameworks/AdiumLibpurple.framework/Versions/A/Resources/$LANG" ] ; then
-		silent_pushd Purple.AdiumPlugin/Contents/Frameworks/AdiumLibpurple.framework/Versions/A/Resources/$LANG
+		echo "AdiumLibpurple.framework"
+		if [ -e  "AdiumLibpurple.framework/Versions/A/Resources/$LANG" ] ; then
+		  silent_pushd AdiumLibpurple.framework/Versions/A/Resources/$LANG
 			loc_copy "$REPO/Plugins/Purple Service/$DEST_LANG"
-		silent_popd
+		  silent_popd
 		fi
-		
-		if [ -e "WebKit Message View.AdiumPlugin/Contents/Resources/$LANG" ] ; then
-		silent_pushd "WebKit Message View.AdiumPlugin/Contents/Resources/$LANG"
-			loc_copy "$REPO/Plugins/WebKit Message View/$DEST_LANG"
-		silent_popd
-		fi
-		
 	silent_popd
     
 	#back to Contents
