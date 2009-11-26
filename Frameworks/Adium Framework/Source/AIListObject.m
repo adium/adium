@@ -665,6 +665,26 @@
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
 												 group:ObjectStatusCache];
 	NSMutableDictionary *newDict = (dict ? [[dict mutableCopy] autorelease] : [NSMutableDictionary dictionary]);
+	
+	// Sanity check - are we trying to assign infinity?
+	if (orderIndexForObject == INFINITY) {
+		AILogWithSignature(@"Correcting for INFINITY index, inObj=%@ allObj=%@", listObject, [dict objectForKey:[NSNumber numberWithFloat:INFINITY]]);
+		
+		// Remove any objects that currently are currently set to INFINITY, they'll regenerate their position to the last place.
+		[newDict removeObjectForKey:[NSNumber numberWithFloat:INFINITY]];
+		
+		// Update the preference.
+		[self setPreference:newDict
+					 forKey:@"OrderIndexDictionary"
+					  group:ObjectStatusCache];
+		
+		// Update our largest cache.
+		[self updateOrderCache];
+		
+		// Assume an index of largest+1
+		orderIndexForObject = self.largestOrder + 1;
+	}
+	
 	NSNumber *orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 	
 	//Prevent setting an order index which we already have
