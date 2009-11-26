@@ -31,13 +31,9 @@
 	BOOL							isObserving;
 	BOOL							shouldDisplay;
 	BOOL							dimRecentContext;
-	NSInteger								linesToDisplay;
+	NSInteger						linesToDisplay;
 	
 	DCMessageContextDisplayPreferences  *preferences;
-	
-	NSMutableArray	  *foundMessages;
-	NSMutableArray	  *elementStack;
-	NSAutoreleasePool *parsingAutoreleasePool;
 }
 
 @end
