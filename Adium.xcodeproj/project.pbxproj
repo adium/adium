@@ -156,8 +156,10 @@
 		118A44540FEEA82E008153C0 /* libjson-glib.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 118A444F0FEEA828008153C0 /* libjson-glib.framework */; };
 		1192E6D90FD3056F003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */; };
 		1192E6DA0FD30578003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */; };
-		11945F400F7935A2002A54B3 /* Ignore.png in Resources */ = {isa = PBXBuildFile; fileRef = 11945F3F0F7935A2002A54B3 /* Ignore.png */; };
 		1197F6710FCF8D180032F19B /* AITwitterStatusFollowup.m in Sources */ = {isa = PBXBuildFile; fileRef = 1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */; };
+		1199AB0610BE13E600646322 /* Authorize.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1199AB0310BE13E600646322 /* Authorize.tiff */; };
+		1199AB0710BE13E600646322 /* Deny.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1199AB0410BE13E600646322 /* Deny.tiff */; };
+		1199AB0810BE13E600646322 /* Ignore.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1199AB0510BE13E600646322 /* Ignore.tiff */; };
 		11A2F10A0FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */; };
 		11A2F1220FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */; };
 		11AA10130FCE0969003908B6 /* AIProgressDataUploader.h in Headers */ = {isa = PBXBuildFile; fileRef = 11AA10110FCE0969003908B6 /* AIProgressDataUploader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -197,8 +199,6 @@
 		11EE1CD50CDD01120097F246 /* libpurple.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 1172FBC90CDAA8D400B8E233 /* libpurple.framework */; };
 		11F145F00B546AC500CA91F6 /* Menu Bar Icons in Copy Built-in Xtras */ = {isa = PBXBuildFile; fileRef = 11F145C70B546A6D00CA91F6 /* Menu Bar Icons */; };
 		11F1460C0B546C1200CA91F6 /* AIMenuBarIcons.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F1460A0B546C1200CA91F6 /* AIMenuBarIcons.m */; };
-		11F5E7810F78A39400837A0B /* Authorize.png in Resources */ = {isa = PBXBuildFile; fileRef = 11F5E7800F78A39400837A0B /* Authorize.png */; };
-		11F5E7840F78A3AA00837A0B /* Deny.png in Resources */ = {isa = PBXBuildFile; fileRef = 11F5E7830F78A3AA00837A0B /* Deny.png */; };
 		11F5E7910F78A41700837A0B /* GetInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 11F5E7900F78A41700837A0B /* GetInfo.png */; };
 		11F738F20F58D12200B3285B /* AITwitterAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F738F10F58D12200B3285B /* AITwitterAccount.m */; };
 		11F738F90F58D18700B3285B /* AITwitterService.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F738F80F58D18700B3285B /* AITwitterService.m */; };
@@ -1957,9 +1957,11 @@
 		118A444F0FEEA828008153C0 /* libjson-glib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "libjson-glib.framework"; path = "Frameworks/libjson-glib.framework"; sourceTree = "<group>"; };
 		1192E6B10FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAnnoyingIRCMessagesHiderPlugin.h; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.h"; sourceTree = "<group>"; };
 		1192E6B20FD30307003CAEF5 /* AIAnnoyingIRCMessagesHiderPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAnnoyingIRCMessagesHiderPlugin.m; path = "Plugins/Purple Service/AIAnnoyingIRCMessagesHiderPlugin.m"; sourceTree = "<group>"; };
-		11945F3F0F7935A2002A54B3 /* Ignore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Ignore.png; path = "Frameworks/Adium Framework/Resources/Ignore.png"; sourceTree = "<group>"; };
 		1197F66F0FCF8D180032F19B /* AITwitterStatusFollowup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterStatusFollowup.h; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.h"; sourceTree = "<group>"; };
 		1197F6700FCF8D180032F19B /* AITwitterStatusFollowup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterStatusFollowup.m; path = "Plugins/Twitter Plugin/AITwitterStatusFollowup.m"; sourceTree = "<group>"; };
+		1199AB0310BE13E600646322 /* Authorize.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Authorize.tiff; path = "Frameworks/Adium Framework/Resources/Authorize.tiff"; sourceTree = "<group>"; };
+		1199AB0410BE13E600646322 /* Deny.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Deny.tiff; path = "Frameworks/Adium Framework/Resources/Deny.tiff"; sourceTree = "<group>"; };
+		1199AB0510BE13E600646322 /* Ignore.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Ignore.tiff; path = "Frameworks/Adium Framework/Resources/Ignore.tiff"; sourceTree = "<group>"; };
 		11A2F1090FC8FC1A00C3F05C /* AIMessageAlertsAdvancedPreferences.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMessageAlertsAdvancedPreferences.nib; path = Resources/AIMessageAlertsAdvancedPreferences.nib; sourceTree = "<group>"; };
 		11A2F1200FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMessageAlertsAdvancedPreferences.h; path = Source/AIMessageAlertsAdvancedPreferences.h; sourceTree = "<group>"; };
 		11A2F1210FC8FC9D00C3F05C /* AIMessageAlertsAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMessageAlertsAdvancedPreferences.m; path = Source/AIMessageAlertsAdvancedPreferences.m; sourceTree = "<group>"; };
@@ -2023,8 +2025,6 @@
 		11F145C70B546A6D00CA91F6 /* Menu Bar Icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Menu Bar Icons"; path = "Resources/Menu Bar Icons"; sourceTree = "<group>"; };
 		11F146090B546C1200CA91F6 /* AIMenuBarIcons.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIMenuBarIcons.h; path = Source/AIMenuBarIcons.h; sourceTree = "<group>"; };
 		11F1460A0B546C1200CA91F6 /* AIMenuBarIcons.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIMenuBarIcons.m; path = Source/AIMenuBarIcons.m; sourceTree = "<group>"; };
-		11F5E7800F78A39400837A0B /* Authorize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Authorize.png; path = "Frameworks/Adium Framework/Resources/Authorize.png"; sourceTree = "<group>"; };
-		11F5E7830F78A3AA00837A0B /* Deny.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Deny.png; path = "Frameworks/Adium Framework/Resources/Deny.png"; sourceTree = "<group>"; };
 		11F5E7900F78A41700837A0B /* GetInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = GetInfo.png; path = "Frameworks/Adium Framework/Resources/GetInfo.png"; sourceTree = "<group>"; };
 		11F738F00F58D12200B3285B /* AITwitterAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterAccount.h; path = "Plugins/Twitter Plugin/AITwitterAccount.h"; sourceTree = "<group>"; };
 		11F738F10F58D12200B3285B /* AITwitterAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccount.m; path = "Plugins/Twitter Plugin/AITwitterAccount.m"; sourceTree = "<group>"; };
@@ -7226,10 +7226,10 @@
 		4BE5AC7F07AFD46800422AD5 /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				11945F3F0F7935A2002A54B3 /* Ignore.png */,
-				11F5E7800F78A39400837A0B /* Authorize.png */,
+				1199AB0310BE13E600646322 /* Authorize.tiff */,
+				1199AB0410BE13E600646322 /* Deny.tiff */,
+				1199AB0510BE13E600646322 /* Ignore.tiff */,
 				11F5E7900F78A41700837A0B /* GetInfo.png */,
-				11F5E7830F78A3AA00837A0B /* Deny.png */,
 				114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */,
 				114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */,
 				114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */,
@@ -9960,10 +9960,10 @@
 				34F144430BA8FF3C000473DE /* EmoticonNames.strings in Resources */,
 				34A1A8E70DFB276E00AC78CF /* SocialNetworkingCustomStatus.nib in Resources */,
 				114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */,
-				11F5E7810F78A39400837A0B /* Authorize.png in Resources */,
-				11F5E7840F78A3AA00837A0B /* Deny.png in Resources */,
 				11F5E7910F78A41700837A0B /* GetInfo.png in Resources */,
-				11945F400F7935A2002A54B3 /* Ignore.png in Resources */,
+				1199AB0610BE13E600646322 /* Authorize.tiff in Resources */,
+				1199AB0710BE13E600646322 /* Deny.tiff in Resources */,
+				1199AB0810BE13E600646322 /* Ignore.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
