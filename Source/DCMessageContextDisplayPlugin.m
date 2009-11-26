@@ -359,12 +359,6 @@
 		if ([foundMessages count] == *linesLeftToFind) {
 			if ([elementStack count]) [elementStack removeAllObjects];
 			[parser abortParsing];
-		} else {
-			//We're still looking for more messages in this file.
-			//Pop the current autorelease pool and start a new one.
-			//This frees the most recent tree of autoreleased AIXMLElements.
-			[parsingAutoreleasePool release];
-			parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
 		}
 	}
 }
