@@ -1328,6 +1328,7 @@
 	if (!hashCharacters) {
 		NSMutableCharacterSet	*disallowedCharacters = [[NSCharacterSet punctuationCharacterSet] mutableCopy];
 		[disallowedCharacters formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+		[disallowedCharacters removeCharactersInString:@"_"];
 		
 		hashCharacters = [[disallowedCharacters invertedSet] retain];
 		
