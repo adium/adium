@@ -164,9 +164,6 @@
 	//Initialize a place to store found messages
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
-	// These set of file's autorelease pool.
-	NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
-	
 	//Iterate over the elements of the log path array.
 	NSEnumerator *pathsEnumerator = [logPaths objectEnumerator];
 	NSString *logPath = nil;
@@ -237,6 +234,9 @@
 		off_t offset = [file offsetInFile];
 		enum LMXParseResult result = LMXParsedIncomplete;
 
+		// These set of file's autorelease pool.
+		NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
+		
 		do {
 			//Calculate the new offset
 			offset = (offset <= readSize) ? 0 : offset - readSize;
@@ -256,7 +256,7 @@
 		} while ([foundMessages count] < linesLeftToFind && offset > 0 && result != LMXParsedCompletely);
 
 		//Drain our autorelease pool.
-		[parsingAutoreleasePool drain];
+		[parsingAutoreleasePool release];
 
 		//Be a good citizen and close the file
 		[file closeFile];
@@ -265,9 +265,7 @@
 		[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 		linesLeftToFind -= [outerFoundContentContexts count];
 	}
-	
-	[parsingAutoreleasePool release];
-	
+		
 	if (linesLeftToFind > 0) {
 		AILogWithSignature(@"Unable to find %d logs for %@", linesLeftToFind, chat);
 	}
@@ -312,7 +310,7 @@
 			[element setAttributeNames:[attributes allKeys] values:[attributes allValues]];
 		}
 		
-		NSMutableArray	*foundMessages = [contextInfo objectForKey:@"FoundMessagesValue"];
+		NSMutableArray	*foundMessages = [contextInfo objectForKey:@"FoundMessages"];
 		NSInteger	 *linesLeftToFind = [[contextInfo objectForKey:@"LinesLeftToFindValue"] pointerValue];
 		
 		if ([elementName isEqualToString:@"message"]) {
