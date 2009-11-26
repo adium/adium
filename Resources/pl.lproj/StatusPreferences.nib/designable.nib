@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -38,7 +39,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="233989011">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -53,7 +54,7 @@
 					<object class="NSCustomView" id="622288970">
 						<reference key="NSNextResponder" ref="233989011"/>
 						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{480, 182}, {57, 22}}</string>
+						<string key="NSFrame">{{523, 182}, {57, 22}}</string>
 						<reference key="NSSuperview" ref="233989011"/>
 						<string key="NSClassName">AIPlasticButton</string>
 						<string key="NSExtension">NSButton</string>
@@ -71,7 +72,7 @@
 									<object class="NSTableView" id="959707119">
 										<reference key="NSNextResponder" ref="759048456"/>
 										<int key="NSvFlags">256</int>
-										<string key="NSFrameSize">{515, 193}</string>
+										<string key="NSFrameSize">{558, 193}</string>
 										<reference key="NSSuperview" ref="759048456"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="_NSCornerView" key="NSCornerView">
@@ -140,7 +141,7 @@
 											<string key="NSColorName">controlBackgroundColor</string>
 											<object class="NSColor" key="NSColor" id="81588344">
 												<int key="NSColorSpace">3</int>
-												<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+												<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
 											</object>
 										</object>
 										<object class="NSColor" key="NSGridColor">
@@ -163,7 +164,7 @@
 										<int key="NSTableViewDraggingDestinationStyle">0</int>
 									</object>
 								</object>
-								<string key="NSFrame">{{1, 1}, {515, 193}}</string>
+								<string key="NSFrame">{{1, 1}, {558, 193}}</string>
 								<reference key="NSSuperview" ref="523109454"/>
 								<reference key="NSNextKeyView" ref="959707119"/>
 								<reference key="NSDocView" ref="959707119"/>
@@ -190,7 +191,7 @@
 								<double key="NSPercent">0.99047619104385376</double>
 							</object>
 						</object>
-						<string key="NSFrame">{{20, 212}, {517, 195}}</string>
+						<string key="NSFrame">{{20, 212}, {560, 195}}</string>
 						<reference key="NSSuperview" ref="233989011"/>
 						<reference key="NSNextKeyView" ref="759048456"/>
 						<int key="NSsFlags">530</int>
@@ -476,13 +477,13 @@
 					<object class="NSButton" id="892418623">
 						<reference key="NSNextResponder" ref="233989011"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{20, 82}, {290, 18}}</string>
+						<string key="NSFrame">{{20, 82}, {353, 18}}</string>
 						<reference key="NSSuperview" ref="233989011"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="772706654">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">When Fast User Switching is activated, set:</string>
+							<string key="NSContents">Gdy szybkie przełączanie użytk. jest aktywne ustaw:</string>
 							<reference key="NSSupport" ref="737878247"/>
 							<reference key="NSControlView" ref="892418623"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -498,7 +499,7 @@
 					<object class="NSPopUpButton" id="484907120">
 						<reference key="NSNextResponder" ref="233989011"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{312, 77}, {203, 26}}</string>
+						<string key="NSFrame">{{376, 77}, {203, 26}}</string>
 						<reference key="NSSuperview" ref="233989011"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="25838272">
@@ -568,7 +569,7 @@
 					<object class="NSCustomView" id="674591305">
 						<reference key="NSNextResponder" ref="233989011"/>
 						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{73, 182}, {92, 22}}</string>
+						<string key="NSFrame">{{116, 182}, {92, 22}}</string>
 						<reference key="NSSuperview" ref="233989011"/>
 						<string key="NSClassName">AIPlasticButton</string>
 						<string key="NSExtension">NSButton</string>
@@ -666,7 +667,8 @@
 						</object>
 					</object>
 				</object>
-				<string key="NSFrameSize">{557, 427}</string>
+				<string key="NSFrameSize">{600, 427}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -1083,7 +1085,6 @@
 							<reference ref="180792006"/>
 							<reference ref="133371167"/>
 							<reference ref="892418623"/>
-							<reference ref="484907120"/>
 							<reference ref="674591305"/>
 							<reference ref="557425076"/>
 							<reference ref="229682253"/>
@@ -1093,6 +1094,7 @@
 							<reference ref="567239048"/>
 							<reference ref="91158684"/>
 							<reference ref="763715519"/>
+							<reference ref="484907120"/>
 							<reference ref="1044244288"/>
 						</object>
 						<reference key="parent" ref="0"/>
@@ -1613,7 +1615,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{329, 384}, {557, 427}}</string>
+					<string>{{329, 384}, {600, 427}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
