@@ -238,7 +238,8 @@
 		NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
 		
 		do {
-			//Calculate the new offset
+			//Calculate the new offset. This also leaves offset where it needs to be
+			//for the next iteration, since we modify it for the round every time.
 			offset = (offset <= readSize) ? 0 : offset - readSize;
 			
 			//Seek to it and read greedily until we hit readSize or run out of file.
@@ -247,20 +248,19 @@
 				amountRead = pread(fd, buf + idx, readSize, offset + idx); 
 			   if (amountRead <= 0) break;
 			}
-			offset -= idx;
 			
 			//Parse
 			result = [parser parseChunk:chunk];
 			
 		//Continue to parse as long as we need more elements, we have data to read, and LMX doesn't think we're done.
 		} while ([foundMessages count] < linesLeftToFind && offset > 0 && result != LMXParsedCompletely);
-
+		
 		//Drain our autorelease pool.
 		[parsingAutoreleasePool release];
 
 		//Be a good citizen and close the file
 		[file closeFile];
-
+		
 		//Add our locals to the outer array; we're probably looping again.
 		[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 		linesLeftToFind -= [outerFoundContentContexts count];
