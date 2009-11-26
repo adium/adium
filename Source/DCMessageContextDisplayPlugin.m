@@ -164,6 +164,9 @@
 	//Initialize a place to store found messages
 	NSMutableArray *outerFoundContentContexts = [NSMutableArray arrayWithCapacity:linesLeftToFind]; 
 
+	// These set of file's autorelease pool.
+	NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
+	
 	//Iterate over the elements of the log path array.
 	NSEnumerator *pathsEnumerator = [logPaths objectEnumerator];
 	NSString *logPath = nil;
@@ -193,8 +196,8 @@
 		}
 
 		//Initialize the found messages array and element stack for us-as-delegate
-		foundMessages = [NSMutableArray arrayWithCapacity:linesLeftToFind];
-		elementStack = [NSMutableArray array];
+		NSMutableArray *foundMessages = [NSMutableArray arrayWithCapacity:linesLeftToFind];
+		NSMutableArray *elementStack = [NSMutableArray array];
 
 		//Create the parser and set ourselves as the delegate
 		LMXParser *parser = [LMXParser parser];
@@ -216,6 +219,8 @@
 						   chat, @"Chat",
 						   decoder, @"AIHTMLDecoder",
 						   [NSValue valueWithPointer:&linesLeftToFind], @"LinesLeftToFindValue",
+						   foundMessages, @"FoundMessages",
+						   elementStack, @"ElementStack",
 						   nil];
 			[parser setContextInfo:(void *)contextInfo];
 		}
@@ -231,8 +236,6 @@
 		char *buf = [chunk mutableBytes];
 		off_t offset = [file offsetInFile];
 		enum LMXParseResult result = LMXParsedIncomplete;
-
-		parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
 
 		do {
 			//Calculate the new offset
@@ -252,8 +255,8 @@
 		//Continue to parse as long as we need more elements, we have data to read, and LMX doesn't think we're done.
 		} while ([foundMessages count] < linesLeftToFind && offset > 0 && result != LMXParsedCompletely);
 
-		//Pop our autorelease pool.
-		[parsingAutoreleasePool release]; parsingAutoreleasePool = nil;
+		//Drain our autorelease pool.
+		[parsingAutoreleasePool drain];
 
 		//Be a good citizen and close the file
 		[file closeFile];
@@ -262,6 +265,8 @@
 		[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 		linesLeftToFind -= [outerFoundContentContexts count];
 	}
+	
+	[parsingAutoreleasePool release];
 	
 	if (linesLeftToFind > 0) {
 		AILogWithSignature(@"Unable to find %d logs for %@", linesLeftToFind, chat);
@@ -274,6 +279,9 @@
 
 - (void)parser:(LMXParser *)parser elementEnded:(NSString *)elementName
 {
+	NSMutableDictionary *contextInfo = [parser contextInfo];
+	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
+	
 	if ([elementName isEqualToString:@"message"]) {
 		[elementStack insertObject:[AIXMLElement elementWithName:elementName] atIndex:0U];
 	}
@@ -286,20 +294,27 @@
 
 - (void)parser:(LMXParser *)parser foundCharacters:(NSString *)string
 {
+	NSMutableDictionary *contextInfo = [parser contextInfo];
+	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
+	
 	if ([elementStack count])
 		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:string atIndex:0U];
 }
 
 - (void)parser:(LMXParser *)parser elementStarted:(NSString *)elementName attributes:(NSDictionary *)attributes
 {
+	NSMutableDictionary *contextInfo = [parser contextInfo];
+	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
+	
 	if ([elementStack count]) {
 		AIXMLElement *element = [elementStack objectAtIndex:0U];
 		if (attributes) {
 			[element setAttributeNames:[attributes allKeys] values:[attributes allValues]];
 		}
 		
-		NSMutableDictionary *contextInfo = [parser contextInfo];
-
+		NSMutableArray	*foundMessages = [contextInfo objectForKey:@"FoundMessagesValue"];
+		NSInteger	 *linesLeftToFind = [[contextInfo objectForKey:@"LinesLeftToFindValue"] pointerValue];
+		
 		if ([elementName isEqualToString:@"message"]) {
 			//A message element has started!
 			//This means that we have all of this message now, and therefore can create a single content object from the AIXMLElement tree and then throw away that tree.
@@ -353,8 +368,6 @@
 			}
 		}
 		
-		NSInteger	 *linesLeftToFind = [[contextInfo objectForKey:@"LinesLeftToFindValue"] pointerValue];
-
 		[elementStack removeObjectAtIndex:0U];
 		if ([foundMessages count] == *linesLeftToFind) {
 			if ([elementStack count]) [elementStack removeAllObjects];
