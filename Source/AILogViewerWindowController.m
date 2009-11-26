@@ -88,6 +88,7 @@
 - (void)filterForContact:(AIListContact *)inContact;
 - (void)filterForChatName:(NSString *)chatName withAccount:(AIAccount *)account;
 - (void)selectCachedIndex;
+- (void)tableViewSelectionDidChangeDelayed;
 
 - (NSAlert *)alertForDeletionOfLogCount:(NSUInteger)logCount;
 
@@ -447,7 +448,8 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     [self initLogFiltering];
 
     //Begin our initial search
-	[self setSearchMode:LOG_SEARCH_TO];
+	if (!isOpeningForContact)
+		[self setSearchMode:LOG_SEARCH_TO];
 
     [searchField_logs setStringValue:(activeSearchString ? activeSearchString : @"")];
 	suppressSearchRequests = NO;
@@ -628,6 +630,13 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     NSInteger count = [currentSearchResults count];
     [resultsLock unlock];
 	AILog(@"refreshResultsSearchIsComplete: %i (count is %i)",searchIsComplete,count);
+	
+	if (searchIsComplete &&
+		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
+		searchIDToReattemptWhenComplete = -1;
+		[self startSearchingClearingCurrentResults:NO];
+	}
+	
     if (!searching || count <= MAX_LOGS_TO_SORT_WHILE_SEARCHING) {
 		//Sort the logs correctly which will also reload the table
 		[self resortLogs];
@@ -638,18 +647,12 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 			
 		} else {
 			BOOL oldAutomaticSearch = automaticSearch;
-
+			
 			//We don't want the above re-selection to change our automaticSearch tracking
 			//(The only reason automaticSearch should change is in response to user action)
 			automaticSearch = oldAutomaticSearch;
 		}
     }
-	
-	if (searchIsComplete &&
-		((activeSearchID == searchIDToReattemptWhenComplete) && !windowIsClosing)) {
-		searchIDToReattemptWhenComplete = -1;
-		[self startSearchingClearingCurrentResults:NO];
-	}
 	
 	if(deleteOccurred)
 		[self selectCachedIndex];
