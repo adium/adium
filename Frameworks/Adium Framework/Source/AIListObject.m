@@ -671,7 +671,9 @@
 		AILogWithSignature(@"Correcting for INFINITY index, inObj=%@ allObj=%@", listObject, [dict objectForKey:[NSNumber numberWithFloat:INFINITY]]);
 		
 		// Remove any objects that currently are currently set to INFINITY, they'll regenerate their position to the last place.
-		[newDict removeObjectForKey:[NSNumber numberWithFloat:INFINITY]];
+		for (NSString *key in [newDict allKeysForObject:[NSNumber numberWithFloat:INFINITY]]) {
+			[newDict removeObjectForKey:key];
+		}
 		
 		// Update the preference.
 		[self setPreference:newDict
