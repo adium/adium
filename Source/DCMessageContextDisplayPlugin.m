@@ -230,7 +230,6 @@
 		NSInteger readSize = 4 * getpagesize(); //Read 4 pages at a time.
 		NSMutableData *chunk = [NSMutableData dataWithLength:readSize];
 		NSInteger fd = [file fileDescriptor];
-		char *buf = [chunk mutableBytes];
 		off_t offset = [file offsetInFile];
 		enum LMXParseResult result = LMXParsedIncomplete;
 
@@ -238,17 +237,39 @@
 		NSAutoreleasePool *parsingAutoreleasePool = [[NSAutoreleasePool alloc] init];
 		
 		do {
-			//Calculate the new offset. This also leaves offset where it needs to be
-			//for the next iteration, since we modify it for the round every time.
-			offset = (offset <= readSize) ? 0 : offset - readSize;
+			// The location we're going to read for *this* set of reads.
+			off_t readOffset = offset - readSize;
+
+			if (readOffset < 0) {
+				// Decrease it by the amount we're over.
+				readSize += readOffset;
+				// Start from the beginning.
+				readOffset = 0;
+			}
 			
+			if (chunk.length != readSize) {
+				// In case we short-read last time, or we're reading a smaller amount this time.
+				[chunk setLength:readSize];				
+			}
+			
+			char *buf = [chunk mutableBytes];
+
 			//Seek to it and read greedily until we hit readSize or run out of file.
 			NSInteger idx = 0;
-			for (ssize_t amountRead = 0; idx < readSize; idx += amountRead) { 
-				amountRead = pread(fd, buf + idx, readSize, offset + idx); 
+			ssize_t amountRead = 0;
+			for (amountRead = 0; idx < readSize; idx += amountRead) { 
+				amountRead = pread(fd, buf + idx, readSize, readOffset + idx); 
 			   if (amountRead <= 0) break;
 			}
 			
+			if (idx != readSize) {
+				// If we short read, we don't want to read unknown buffer contents.
+				[chunk setLength:idx];
+			}
+			
+			// Adjust the real offset
+			offset -= idx;
+
 			//Parse
 			result = [parser parseChunk:chunk];
 			
@@ -265,7 +286,7 @@
 		[outerFoundContentContexts replaceObjectsInRange:NSMakeRange(0, 0) withObjectsFromArray:foundMessages];
 		linesLeftToFind -= [outerFoundContentContexts count];
 	}
-		
+	
 	if (linesLeftToFind > 0) {
 		AILogWithSignature(@"Unable to find %d logs for %@", linesLeftToFind, chat);
 	}
@@ -358,7 +379,7 @@
 				//Don't log this object
 				[message setPostProcessContent:NO];
 				[message setTrackContent:NO];
-
+				
 				//Add it to the array (in front, since we're working backwards, and we want the array in forward order)
 				[foundMessages insertObject:message atIndex:0];
 			} else {
