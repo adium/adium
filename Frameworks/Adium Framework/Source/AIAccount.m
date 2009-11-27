@@ -1208,14 +1208,6 @@ typedef enum
 }
 
 /**
- * @brief Returns the current status message as rich text
- */
-- (NSTextStorage *)scriptingStatusMessage
-{
-	return [[[NSTextStorage alloc] initWithAttributedString:self.statusState.statusMessage] autorelease];
-}
-
-/**
  * @brief Returns a mutable status
  *
  * If the current status is built in, we create a temporary copy of the current status and set that.
