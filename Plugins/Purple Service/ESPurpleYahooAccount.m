@@ -39,6 +39,9 @@
 
 	purple_account_set_string(account, "room_list_locale", [[self preferenceForKey:KEY_YAHOO_ROOM_LIST_LOCALE
 																		   group:GROUP_ACCOUNT_STATUS] UTF8String]);
+	
+	// We only have account proxies; use the account proxy for SSL connections.
+	purple_account_set_bool(account, "proxy_ssl", TRUE);
 }
 
 - (NSString *)stringByRemovingYahooSuffix:(NSString *)inString
