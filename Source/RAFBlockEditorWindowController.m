@@ -83,6 +83,9 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 								   selector:@selector(privacySettingsChangedExternally:)
 									   name:@"AIPrivacySettingsChangedOutsideOfPrivacyWindow"
 									 object:nil];
+
+	// Force an update, so the window will resize properly.
+	[self accountMenu:accountMenu didSelectAccount:[self selectedAccount]];	
 	
 	[[AIContactObserverManager sharedManager] registerListObjectObserver:self];
 
