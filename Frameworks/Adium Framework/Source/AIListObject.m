@@ -604,16 +604,6 @@
 	}
 }
 
-- (NSString *)scriptingStatusMessage
-{
-	return [self statusMessageString];
-}
-- (void)setScriptingStatusMessage:(NSString *)message
-{
-	[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
-	[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't set the status of a contact."];
-}
-
 - (void)setBaseAvailableStatusAndNotify:(NotifyTiming)notify
 {
 	[self setStatusWithName:nil
@@ -828,6 +818,15 @@
 	}
 	return 0;
 }
+
+/**
+ * @brief Returns the current status message as rich text
+ */
+- (NSTextStorage *)scriptingStatusMessage
+{
+	return [[[NSTextStorage alloc] initWithAttributedString:self.statusMessage] autorelease];
+}
+
 @end
 
 /*
