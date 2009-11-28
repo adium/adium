@@ -165,8 +165,8 @@
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download {
-	NSString		*lastPathComponent = [[dest lowercaseString] lastPathComponent];
-	NSString		*pathExtension = [lastPathComponent pathExtension];
+	NSString		*lastPathComponent = [dest lastPathComponent];
+	NSString		*pathExtension = [[lastPathComponent pathExtension] lowercaseString];
 	BOOL			decompressionSuccess = YES, success = NO;
 	
 	if ([pathExtension isEqualToString:@"tgz"] || [lastPathComponent hasSuffix:@".tar.gz"]) {
