@@ -1,59 +1,140 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                customizeEmoticons = id; 
-                customizeListLayout = id; 
-                customizeListTheme = id; 
-                showAllDockIcons = id; 
-            }; 
-            CLASS = AIAppearancePreferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "checkBox_horizontalAutosizing" = NSButton; 
-                "checkBox_verticalAutosizing" = NSButton; 
-                "label_dockIcons" = NSTextField; 
-                "label_menuBarIcons" = NSTextField; 
-                "label_serviceIcons" = NSTextField; 
-                "label_statusIcons" = NSTextField; 
-                "popUp_colorTheme" = NSPopUpButton; 
-                "popUp_dockIcon" = NSPopUpButton; 
-                "popUp_emoticons" = NSPopUpButton; 
-                "popUp_listLayout" = NSPopUpButton; 
-                "popUp_menuBarIcons" = NSPopUpButton; 
-                "popUp_serviceIcons" = NSPopUpButton; 
-                "popUp_statusIcons" = NSPopUpButton; 
-                "popUp_windowStyle" = NSPopUpButton; 
-                "slider_horizontalWidth" = NSSlider; 
-                "slider_windowOpacity" = NSSlider; 
-                "textField_horizontalWidthIndicator" = NSTextField; 
-                "textField_horizontalWidthText" = NSTextField; 
-                "textField_windowOpacity" = NSTextField; 
-            }; 
-            SUPERCLASS = AIPreferencePane; 
-        }, 
-        {
-            CLASS = AILocalizationTextField; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "view_anchorToLeftSide" = NSView; 
-                "view_anchorToRightSide" = NSView; 
-                "window_anchorOnLeftSide" = NSWindow; 
-                "window_anchorOnRightSide" = NSWindow; 
-            }; 
-            SUPERCLASS = NSTextField; 
-        }, 
-        {
-            ACTIONS = {changePreference = id; }; 
-            CLASS = AIModularPane; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {plugin = id; view = NSView; }; 
-            SUPERCLASS = AIObject; 
-        }, 
-        {CLASS = AIObject; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = AIPreferencePane; LANGUAGE = ObjC; SUPERCLASS = AIModularPane; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>AIObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AILocalizationTextField</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>view_anchorToLeftSide</key>
+				<string>NSView</string>
+				<key>view_anchorToRightSide</key>
+				<string>NSView</string>
+				<key>window_anchorOnLeftSide</key>
+				<string>NSWindow</string>
+				<key>window_anchorOnRightSide</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSTextField</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>AIPreferencePane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>AIModularPane</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changePreference</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIModularPane</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>plugin</key>
+				<string>id</string>
+				<key>view</key>
+				<string>NSView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>customizeEmoticons</key>
+				<string>id</string>
+				<key>customizeListLayout</key>
+				<string>id</string>
+				<key>customizeListTheme</key>
+				<string>id</string>
+				<key>showAllDockIcons</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIAppearancePreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkBox_horizontalAutosizing</key>
+				<string>NSButton</string>
+				<key>checkBox_verticalAutosizing</key>
+				<string>NSButton</string>
+				<key>label_dockIcons</key>
+				<string>NSTextField</string>
+				<key>label_menuBarIcons</key>
+				<string>NSTextField</string>
+				<key>label_serviceIcons</key>
+				<string>NSTextField</string>
+				<key>label_statusIcons</key>
+				<string>NSTextField</string>
+				<key>popUp_colorTheme</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_dockIcon</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_emoticons</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_listLayout</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_menuBarIcons</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_serviceIcons</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_statusIcons</key>
+				<string>NSPopUpButton</string>
+				<key>popUp_windowStyle</key>
+				<string>NSPopUpButton</string>
+				<key>slider_horizontalWidth</key>
+				<string>NSSlider</string>
+				<key>slider_windowOpacity</key>
+				<string>NSSlider</string>
+				<key>textField_horizontalWidthIndicator</key>
+				<string>NSTextField</string>
+				<key>textField_horizontalWidthText</key>
+				<string>NSTextField</string>
+				<key>textField_windowOpacity</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>AIPreferencePane</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
