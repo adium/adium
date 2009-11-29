@@ -1127,11 +1127,6 @@ static NSString	*prefsCategory;
 	return profileInfo;
 }
 
-- (NSArray *)updaterInfoWithoutProfile
-{
-    return [NSArray arrayWithObjects:UPDATE_GENERATION_DICT, UPDATE_TYPE_DICT, nil];
-}
-
 - (id <SUVersionComparison>)versionComparatorForUpdater:(SUUpdater *)updater
 {
     return self;
