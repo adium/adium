@@ -56,14 +56,14 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 		[controller setTarget:inTarget selector:inSelector context:inContext];
 		
 	} else {
-		if ((controller = [[self alloc] initWithWindowNibName:SPECIAL_ACCOUNT_PASSWORD_PROMPT 
+		if ((controller = [[[self alloc] initWithWindowNibName:SPECIAL_ACCOUNT_PASSWORD_PROMPT 
 												   forAccount:inAccount 
 														 type:inType
 														 name:inName
 													 password:inPassword
 											  notifyingTarget:inTarget
 													 selector:inSelector
-													  context:inContext])) {
+													  context:inContext] autorelease])) {
 			[passwordPromptControllerDict setObject:controller
 											 forKey:identifier];
 		}	
