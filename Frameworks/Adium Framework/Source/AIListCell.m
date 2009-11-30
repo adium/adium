@@ -204,8 +204,10 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	}
 }
 
-#warning It's quite possible that we don't need to use this private method.
-//Custom highlighting (This is a private cell method we're overriding that handles selection drawing)
+/* Custom highlighting (This is a private cell method we're overriding that handles selection drawing)
+ * Bubble and Mockie Cells depend upon drawSelectionWithFrame: being called from here; perhaps we could call that
+ * from elsewhere.
+ */
 - (void)_drawHighlightWithFrame:(NSRect)cellFrame inView:(NSView *)inControlView
 {
 	//Cell spacing
