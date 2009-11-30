@@ -192,8 +192,8 @@
 	
 	if (unknownLinkURL) {
 		//If a link exists at our selection, expand the selection to encompass that entire link
-		[textView setSelectedRange:rangeOfLinkAttribute];
 		selectedRange = rangeOfLinkAttribute;
+		[textView setSelectedRange:selectedRange];
 
 		if([unknownLinkURL isKindOfClass:[NSURL class]]) {
 			linkURL = [(NSURL *)unknownLinkURL absoluteString];
