@@ -2051,7 +2051,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	} else if ([self requestTypeForRequestID:identifier] == AITwitterProfileStatusUpdates) {
 		AIListContact *listContact = [[self dictionaryForRequestID:identifier] objectForKey:@"ListContact"];
 
-		NSMutableArray *profileArray = [[listContact profileArray] mutableCopy];
+		NSMutableArray *profileArray = [[[listContact profileArray] mutableCopy] autorelease];
 		
 		AILogWithSignature(@"%@ Updating statuses for profile, user %@", self, listContact);
 		
