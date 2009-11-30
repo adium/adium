@@ -598,7 +598,7 @@ static float hexCharsToFloat(char firstChar, char secondChar)
 		//we still have one more component to go: this is alpha.
 		//without this component, alpha defaults to 1.0 (see initialiser above).
 		firstChar = *(hexString++);
-		secondChar = (isLong ? *(hexString++) : 0x0);
+		secondChar = (isLong ? *hexString : 0x0);
 		alpha = hexCharsToFloat(firstChar, secondChar);
 	}
 
