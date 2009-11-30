@@ -200,11 +200,11 @@
 	[self setLastDisconnectionError:nil];
 	
 	// Creating the fake timeline account.
-	AIListBookmark *timelineBookmark = nil;
+	AIListBookmark *timelineBookmark = [adium.contactController existingBookmarkForChatName:self.timelineChatName
+																				  onAccount:self
+																		   chatCreationInfo:nil];
 	
-	if(!(timelineBookmark = [adium.contactController existingBookmarkForChatName:self.timelineChatName
-																	   onAccount:self
-																chatCreationInfo:nil])) {
+	if(!timelineBookmark) {
 		AIChat *newTimelineChat = [adium.chatController chatWithName:self.timelineChatName
 														  identifier:nil
 														   onAccount:self 
@@ -214,6 +214,10 @@
 		
 		timelineBookmark = [adium.contactController bookmarkForChat:newTimelineChat inGroup:[adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]];
 
+
+		if(!timelineBookmark) {
+			AILog(@"%@ Timeline bookmark is nil! Tried checking for existing bookmark for chat name %@, and creating a bookmark for chat %@ in group %@", self.timelineChatName, newTimelineChat, [adium.contactController groupWithUID:TWITTER_REMOTE_GROUP_NAME]);
+		}
 	}
 	
 	NSTimeInterval updateInterval = [[self preferenceForKey:TWITTER_PREFERENCE_UPDATE_INTERVAL group:TWITTER_PREFERENCE_GROUP_UPDATES] integerValue] * 60;
