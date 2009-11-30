@@ -158,13 +158,12 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 {
     int             index = 0;
     int             stringLength = [self length];
-    float           backgroundBrightness=0.0f, backgroundSum=0.0f;
+    float           backgroundBrightness=0.0f;
     NSColor         *backColor=nil;
     //--get the brightness of our background--
     if (backgroundColor) {
         backColor = [backgroundColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
         backgroundBrightness = [backColor brightnessComponent];
-        backgroundSum = [backColor redComponent] + [backColor greenComponent] + [backColor blueComponent];
     }
     
     //we need to scan each colored "chunk" of the message - and check to make sure it is a "visible" color
@@ -202,7 +201,6 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         if (!backgroundColor) {
             backColor = fontBackColor;
             backgroundBrightness = [backColor brightnessComponent];
-            backgroundSum = [backColor redComponent] + [backColor greenComponent] + [backColor blueComponent];
         } else {
             deltaBrightness = (brightness - [fontBackColor brightnessComponent]);
             backgroundIsDark = [backgroundColor colorIsDark];
