@@ -104,9 +104,9 @@
 		return;
 	}
 	
-	BOOL retweetAsReply = NO;
+	BOOL retweetAsReply = [[NSUserDefaults standardUserDefaults] boolForKey:@"AITwitterUseNonstandardRetweet"];
 	
-	if ([inAction isEqualToString:@"retweet"]) {	
+	if (!retweetAsReply && [inAction isEqualToString:@"retweet"]) {	
 		retweetAsReply = ![account retweetTweet:inTweet];
 	}
 	
