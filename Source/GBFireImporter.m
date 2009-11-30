@@ -342,6 +342,7 @@
 				break;
 			case 4:
 				adiumType = AIInvisibleStatusType;
+				break;
 			case 3:
 			case 2:
 			default:
@@ -597,6 +598,7 @@ NSComparisonResult groupSort(id left, id right, void *context)
 				break;
 			case 4:
 				adiumType = AIInvisibleStatusType;
+				break;
 			case 3:
 			case 2:
 			default:
