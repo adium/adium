@@ -136,11 +136,13 @@
 		
 		//Apply the image to the appropriate listObject
 		image = (inData ? [[[NSImage alloc] initWithData:inData] autorelease] : nil);
-		
-		//Address book can feed us giant images, which we really don't want to keep around
-		NSSize size = [image size];
-		if (size.width > 96 || size.height > 96)
-			image = [image imageByScalingToSize:NSMakeSize(96, 96)];
+
+		if (image) {
+			//Address book can feed us giant images, which we really don't want to keep around
+			NSSize size = [image size];
+			if (size.width > 96 || size.height > 96)
+				image = [image imageByScalingToSize:NSMakeSize(96, 96)];
+		}
 		
 		//Get the object from our tracking dictionary
 		setOrObject = [trackingDict objectForKey:tagNumber];
