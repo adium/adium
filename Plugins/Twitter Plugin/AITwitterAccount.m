@@ -1192,13 +1192,15 @@
 	} else if (linkType == AITwitterLinkReply) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=reply&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkRetweet) {
-		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=retweet&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=retweet&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkFavorite) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=favorite&status=%@", self.internalObjectID, userID, statusID];
 	} else if (linkType == AITwitterLinkDestroyStatus) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=destroy&status=%@&message=%@", self.internalObjectID, userID, statusID, context];
 	} else if (linkType == AITwitterLinkDestroyDM) {
 		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=destroy&dm=%@&message=%@", self.internalObjectID, userID, statusID, context];		
+	} else if (linkType == AITwitterLinkQuote) {
+		address = [NSString stringWithFormat:@"twitterreply://%@@%@?action=quote&message=%@", self.internalObjectID, userID, context];
 	}
 	
 	return address;
@@ -1419,11 +1421,28 @@
 					linkAddress = [self addressForLinkType:AITwitterLinkRetweet
 													userID:userID
 												  statusID:tweetID
+												   context:nil];
+					
+					// If the account doesn't support retweets, it returns nil.
+					if (linkAddress) {
+						[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
+																				   linkDestination:linkAddress
+																						 linkClass:AITwitterRetweetClassName]];
+						
+						[mutableMessage appendString:@", " withAttributes:nil];
+					}
+									
+					linkAddress = [self addressForLinkType:AITwitterLinkQuote
+													userID:userID
+												  statusID:tweetID
 												   context:[inMessage stringByAddingPercentEscapesForAllCharacters]];
 					
-					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:@"RT"
+#define PILCROW_SIGN @"\u00B6"
+					
+					[mutableMessage appendAttributedString:[self attributedStringWithLinkLabel:PILCROW_SIGN
 																			   linkDestination:linkAddress
-																					 linkClass:AITwitterRetweetClassName]];
+																					 linkClass:AITwitterQuoteClassName]];					
+					
 					commaNeeded = YES;
 				}
 				
