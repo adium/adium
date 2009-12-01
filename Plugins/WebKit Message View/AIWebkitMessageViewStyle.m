@@ -928,8 +928,11 @@
 						if (!senderDisplay) {
 							senderDisplay = formattedUID;
 							if (!senderDisplay) {
-								AILog(@"wtf. we don't have a sender for %@ (%@)", content, [content message]);
-								NSAssert1(senderDisplay, @"Sender has no known display name that we can use! displayName and formattedUID were both nil for sender %@", contentSource);
+								AILog(@"XXX we don't have a sender for %@ (%@)", content, [content message]);
+								NSLog(@"Enormous error: we don't have a sender for %@ (%@)", content, [content message]);
+								
+								// This shouldn't happen.
+								senderDisplay = @"(unknown)";
 							}
 						}
 					}
