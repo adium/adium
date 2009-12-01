@@ -104,13 +104,13 @@
 		return;
 	}
 	
-	BOOL retweetAsReply = [[NSUserDefaults standardUserDefaults] boolForKey:@"AITwitterUseNonstandardRetweet"];
+	BOOL treatAsQuote = [inAction isEqualToString:@"quote"];
 	
-	if (!retweetAsReply && [inAction isEqualToString:@"retweet"]) {	
-		retweetAsReply = ![account retweetTweet:inTweet];
+	if (!treatAsQuote && [inAction isEqualToString:@"retweet"]) {	
+		treatAsQuote = ![account retweetTweet:inTweet];
 	}
 	
-	if (retweetAsReply || [inAction isEqualToString:@"reply"]) {
+	if (treatAsQuote || [inAction isEqualToString:@"reply"]) {
 		AIChat *timelineChat = [adium.chatController existingChatWithName:account.timelineChatName
 																onAccount:account];
 		
@@ -131,7 +131,7 @@
 		AIMessageEntryTextView *textView = ((AIMessageTabViewItem *)[timelineChat valueForProperty:@"MessageTabViewItem"]).messageViewController.textEntryView;
 
 		// Insert the @reply text
-		NSString *prefix = retweetAsReply ? [NSString stringWithFormat:@"RT @%@: %@", inUser, [inMessage stringByDecodingURLEscapes]] : [NSString stringWithFormat:@"@%@ ", inUser];
+		NSString *prefix = treatAsQuote ? [NSString stringWithFormat:@"%@ /via @%@ ", [inMessage stringByDecodingURLEscapes], inUser] : [NSString stringWithFormat:@"@%@ ", inUser];
 		
 		if (![textView.string hasPrefix:prefix]) {
 			NSMutableAttributedString *newString;
@@ -153,15 +153,17 @@
 		// Make the text view have focus
 		[[adium.interfaceController windowForChat:timelineChat] makeFirstResponder:textView];
 		
-		[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
-		[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
-		[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
+		if (!treatAsQuote) {
+			[timelineChat setValue:inTweet forProperty:@"TweetInReplyToStatusID" notify:NotifyNow];
+			[timelineChat setValue:inUser forProperty:@"TweetInReplyToUserID" notify:NotifyNow];
+			[timelineChat setValue:@"@" forProperty:@"Character Counter Prefix" notify:NotifyNow];
 		
-		AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
+			AILogWithSignature(@"Flagging chat %@ to in_reply_to_status_id = %@", timelineChat, inTweet);
 		
-		[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
+			[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTextDidChangeNotification object:textView];
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:textView];
+		}
 	} else if ([inAction isEqualToString:@"favorite"]) {
 		[account toggleFavoriteTweet:inTweet];
 	} else if ([inAction isEqualToString:@"destroy"] && exactMatchForInternalID) {

@@ -135,6 +135,8 @@
 		address = [NSString stringWithFormat:@"http://%@/tag/%@", fullAddress, context];
 	} else if (linkType == AITwitterLinkGroup) {
 		address = [NSString stringWithFormat:@"http://%@/group/%@", fullAddress, context];
+	} else if (linkType == AITwitterLinkRetweet) {
+		address = nil;
 	}
 	
 	return address;

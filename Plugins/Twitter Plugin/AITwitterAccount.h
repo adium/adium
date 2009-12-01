@@ -56,6 +56,7 @@ typedef enum {
 typedef enum {
 	AITwitterLinkReply = 0,
 	AITwitterLinkRetweet,
+	AITwitterLinkQuote,
 	AITwitterLinkFavorite,
 	AITwitterLinkStatus,
 	AITwitterLinkFriends,
@@ -69,6 +70,7 @@ typedef enum {
 
 // HTML class names
 #define AITwitterInReplyToClassName		@"twitter_inReplyTo"
+#define AITwitterQuoteClassName			@"twitter_quote"
 #define AITwitterRetweetClassName		@"twitter_reTweet"
 #define AITwitterReplyClassName			@"twitter_reply"
 #define AITwitterDeleteClassName		@"twitter_delete"
