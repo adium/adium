@@ -58,6 +58,7 @@ prep_headers() {
 		#json-glib
 		status "Staging json-glib headers"
 		local jsonDir="${ROOTDIR}/build/lib/include/libjson-glib-${JSON_GLIB_VERSION}.0"
+		quiet rm -r "${jsonDir}" || true
 		quiet mkdir "${jsonDir}" || true
 		log cp -R "${ROOTDIR}/build/include/json-glib-${JSON_GLIB_VERSION}/json-glib" "${jsonDir}"
 		
@@ -93,6 +94,8 @@ prep_headers() {
 make_framework() {
 	FRAMEWORK_DIR="${ROOTDIR}/Frameworks"
 	quiet mkdir "${FRAMEWORK_DIR}"
+	
+	status "Making the framework. If 'Done making framework!' is not displayed, check error.log."
 	
 	prep_headers
 	
@@ -139,7 +142,7 @@ make_framework() {
 		popd
 	fi
 	
-	status "Done!"
+	status "Done making framework!"
 }
 
 ##
