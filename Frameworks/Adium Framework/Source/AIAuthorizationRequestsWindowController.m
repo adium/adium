@@ -309,15 +309,11 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 /*!
  * @brief Remove requests for a given account
  *
- * Called in the case of, for example, an account going offline. Returns the dict removed.
+ * Called in the case of, for example, an account going offline.
  */
 - (void)removeRequest:(id)request
 {
-	for (NSDictionary *dict in [[requests mutableCopy] autorelease]) {
-		if (dict == request) {
-			[requests removeObject:dict];
-		}
-	}
+	[requests removeObject:request];
 
 	[self reloadData];
 }
