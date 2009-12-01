@@ -42,6 +42,9 @@
 	
 	// Allow for moving through libpurple
 	purple_account_set_bool(account, "facebook_manage_friends", TRUE);
+	
+	// Disable the Facebook CAPTCHA since it causes heartache and pain.
+	purple_account_set_bool(account, "ignore-facebook-captcha", TRUE);
 }
 
 - (NSString *)host
