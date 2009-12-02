@@ -56,14 +56,15 @@ static NSMutableDictionary	*passwordPromptControllerDict = nil;
 		[controller setTarget:inTarget selector:inSelector context:inContext];
 		
 	} else {
-		if ((controller = [[[self alloc] initWithWindowNibName:SPECIAL_ACCOUNT_PASSWORD_PROMPT 
+		// Do not trust the static analyzer, look at the superclass. This is not a leak.
+		if ((controller = [[self alloc] initWithWindowNibName:SPECIAL_ACCOUNT_PASSWORD_PROMPT 
 												   forAccount:inAccount 
 														 type:inType
 														 name:inName
 													 password:inPassword
 											  notifyingTarget:inTarget
 													 selector:inSelector
-													  context:inContext] autorelease])) {
+													  context:inContext])) {
 			[passwordPromptControllerDict setObject:controller
 											 forKey:identifier];
 		}	
