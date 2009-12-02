@@ -84,18 +84,18 @@
 		}
 	}
 	
-	if (!listObject && adium.interfaceController.activeChat.isGroupChat) {
+	if (!listObject && adium.interfaceController.activeChat.isGroupChat && sender != menuItem_getInfoContextualContact) {
 		listObject = [adium.contactController existingBookmarkForChat:adium.interfaceController.activeChat];
 	}
-
+	
 	if (!listObject && (sender == menuItem_getInfoAlternate || sender == menuItem_getInfo)) {
 		listObject = adium.interfaceController.selectedListObject;
 	}
-	
+		
 	if (!listObject) {
 		listObject = adium.menuController.currentContextMenuObject;
 	}
-	
+		
 	if ([listObject isKindOfClass:[AIListObject class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
 
