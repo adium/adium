@@ -13,6 +13,7 @@
 #import <Adium/AIServiceIcons.h>
 #import <Adium/AIContactControllerProtocol.h>
 #import <Adium/AIListContact.h>
+#import <Adium/AIAccountControllerProtocol.h>
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIImageTextCell.h>
 #import <AIUtilities/AIImageAdditions.h>
@@ -490,9 +491,29 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 											   type:AIServiceIconLarge
 										   direction:AIIconNormal] imageByScalingToSize:NSMakeSize(MINIMUM_ROW_HEIGHT-2, MINIMUM_ROW_HEIGHT-2)];
 	} else if ([identifier isEqualToString:@"request"]) {
-		return [NSString stringWithFormat:AILocalizedString(@"%@ on the account %@", nil),
-				[[requests objectAtIndex:rowIndex] objectForKey:@"Remote Name"],
-				((AIAccount *)[[requests objectAtIndex:rowIndex] objectForKey:@"Account"]).explicitFormattedUID];
+		AIAccount *account = [[requests objectAtIndex:rowIndex] objectForKey:@"Account"];
+		NSString *displayName = [[requests objectAtIndex:rowIndex] objectForKey:@"Alias"];
+		NSString *UID = [[requests objectAtIndex:rowIndex] objectForKey:@"Remote Name"];
+		NSString *finalDisplay = nil;
+		
+		if (displayName && UID) {
+			finalDisplay = [NSString stringWithFormat:@"%@ (%@)", displayName, UID];
+		} else if (displayName) {
+			finalDisplay = displayName;
+		} else { // if (UID) {
+			finalDisplay = UID;
+		}
+		
+		NSArray *accounts = [adium.accountController accountsCompatibleWithService:account.service];
+		
+		if (accounts.count > 1) {
+			// Only show the account if it's the only one of its type.
+			return [NSString stringWithFormat:AILocalizedString(@"%@ on the account %@", nil),
+					finalDisplay,
+					((AIAccount *)[[requests objectAtIndex:rowIndex] objectForKey:@"Account"]).explicitFormattedUID];	
+		} else {
+			return finalDisplay;
+		}
 	}
 	
 	return nil;
