@@ -19,6 +19,29 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>ESIRCAccountViewController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>checkbox_useSSL</key>
+				<string>NSButton</string>
+				<key>popUp_encoding</key>
+				<string>NSPopUpButton</string>
+				<key>textField_realname</key>
+				<string>NSTextField</string>
+				<key>textField_username</key>
+				<string>NSTextField</string>
+				<key>textView_commands</key>
+				<string>NSTextView</string>
+				<key>textfield_Nick</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>PurpleAccountViewController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSApplication</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -55,6 +78,14 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>adiumPrint</key>
@@ -75,9 +106,22 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>FirstResponder</string>
+			<string>NSButtonCell</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>SS_PrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>
 		</dict>
@@ -145,50 +189,6 @@
 				<string>NSView</string>
 				<key>view_setup</key>
 				<string>NSView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>ESIRCAccountViewController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>checkbox_useSSL</key>
-				<string>NSButton</string>
-				<key>popUp_encoding</key>
-				<string>NSPopUpButton</string>
-				<key>textField_realname</key>
-				<string>NSTextField</string>
-				<key>textField_username</key>
-				<string>NSTextField</string>
-				<key>textView_commands</key>
-				<string>NSTextView</string>
-				<key>textfield_Nick</key>
-				<string>NSTextField</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>PurpleAccountViewController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSButtonCell</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSActionCell</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>SS_PrefsController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>delegate</key>
-				<string>id</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSObject</string>

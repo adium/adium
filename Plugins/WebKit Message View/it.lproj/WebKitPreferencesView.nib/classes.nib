@@ -86,6 +86,14 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>adiumPrint</key>
@@ -105,32 +113,6 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>showImagePicker</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>AIImageViewWithImagePicker</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSImageView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>FirstResponder</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
 			<key>CLASS</key>
 			<string>AIPreferencePane</string>
 			<key>LANGUAGE</key>
@@ -148,6 +130,14 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>AIModularPane</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSButtonCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSActionCell</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -171,11 +161,42 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>SS_PrefsController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>NSButton</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSControl</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showImagePicker</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AIImageViewWithImagePicker</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSImageView</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -191,27 +212,6 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSTextField</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSButtonCell</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSActionCell</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>SS_PrefsController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>
