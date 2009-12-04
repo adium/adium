@@ -238,10 +238,10 @@ build_intltool() {
 #
 JSON_GLIB_VERSION=1.0
 build_jsonglib() {
-	prereq "json-glib" \
-		"http://ftp.gnome.org/pub/GNOME/sources/json-glib/0.8/json-glib-0.8.2.tar.gz"
+	prereq "json-glib-0.9.2" \
+		"http://ftp.gnome.org/pub/GNOME/sources/json-glib/0.9/json-glib-0.9.2.tar.gz"
 	
-	quiet pushd "$ROOTDIR/source/json-glib"
+	quiet pushd "$ROOTDIR/source/json-glib-0.9.2"
 	
 	if needsconfigure $@; then
 	(
