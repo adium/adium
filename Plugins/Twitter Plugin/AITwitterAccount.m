@@ -862,7 +862,7 @@
 - (NSData *)serversideIconDataForContact:(AIListContact *)listContact
 {
 	if (![AIUserIcons userIconSourceForObject:listContact] &&
-		![AIUserIcons cachedUserIconDataForObject:listContact]) {
+		![AIUserIcons cachedUserIconExistsForObject:listContact]) {
 		return [[self.service defaultServiceIconOfType:AIServiceIconLarge] TIFFRepresentation];
 	} else {
 		return nil;
