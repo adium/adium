@@ -308,6 +308,16 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 }
 
 /*!
+ * @brief Returns if a cached user icon exists.
+ *
+ * @result YES if a cached user icon exists, NO otherwise.
+ */
++ (BOOL)cachedUserIconExistsForObject:(AIListObject *)inObject
+{
+	return [cachedUserIconSource cachedUserIconExistsForObject:inObject];
+}
+
+/*!
  * @brief Get the user icon for an object
  *
  * If it's not already cached, the icon sources will be queried as needed.

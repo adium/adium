@@ -103,6 +103,13 @@ typedef float AIUserIconPriority;
 + (NSData *)cachedUserIconDataForObject:(AIListObject *)inObject;
 
 /*!
+ * @brief Returns if a cached user icon exists.
+ *
+ * @result YES if a cached user icon exists, NO otherwise.
+ */
++ (BOOL)cachedUserIconExistsForObject:(AIListObject *)inObject;
+
+/*!
  * @brief Retreive the serverside icon for an object, if there is one.
  */
 + (NSData *)serversideUserIconDataForObject:(AIListObject *)inObject;

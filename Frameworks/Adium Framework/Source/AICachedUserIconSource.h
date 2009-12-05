@@ -13,5 +13,6 @@
 
 + (BOOL)cacheUserIconData:(NSData *)inData forObject:(AIListObject *)inObject;
 - (NSData *)cachedUserIconDataForObject:(AIListObject *)inObject;
+- (BOOL)cachedUserIconExistsForObject:(AIListObject *)inObject;
 
 @end
