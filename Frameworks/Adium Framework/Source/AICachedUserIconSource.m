@@ -118,6 +118,16 @@ static AICachedUserIconSource *sharedCachedUserIconSourceInstance = nil;
 }
 
 /*!
+ * @brief Returns if a cached user icon exists.
+ *
+ * @result YES if a cached user icon exists, NO otherwise.
+ */
+- (BOOL)cachedUserIconExistsForObject:(AIListObject *)inObject
+{
+	return ([[NSFileManager defaultManager] fileExistsAtPath:[[self class] _cachedImagePathForObject:inObject]]);
+}
+
+/*!
  * @brief The priority at which this source should be used. See the #defines in AIUserIcons.h for posible values.
  */
 - (AIUserIconPriority)priority
