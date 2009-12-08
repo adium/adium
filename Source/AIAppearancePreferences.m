@@ -118,7 +118,9 @@ typedef enum {
 	NSString *filenameExtension = [notification object];
 
 	//Convert our filename extension into a Uniform Type Identifier so that we can robustly determine what type of Xtra this is.
-	CFStringRef type = (CFStringRef)[(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (CFStringRef)filenameExtension, /*inConformingToUTI*/ NULL) autorelease];
+	CFStringRef type = (CFStringRef)[(NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, 
+																					   (CFStringRef)filenameExtension,
+																					   /*inConformingToUTI*/ NULL) autorelease];
 
 	if (!type || UTTypeEqual(type, CFSTR("com.adiumx.emoticonset"))) {
 		[self _rebuildEmoticonMenuAndSelectActivePack];
@@ -258,7 +260,11 @@ typedef enum {
 			[popUp_colorTheme selectItemWithRepresentedObject:[prefDict objectForKey:KEY_LIST_THEME_NAME]];	
 		}	
 		if (firstTime || [key isEqualToString:KEY_ACTIVE_DOCK_ICON]) {
-			[popUp_dockIcon selectItemWithRepresentedObject:[prefDict objectForKey:KEY_ACTIVE_DOCK_ICON]];
+			/* popUp_dockIcon initially is a single-item popup menu with just the active icon; it is built
+			 * lazily in menuNeedsUpdate:.  If we haven't displayed it yet, we'll need to configure again
+			 * to show just the current icon */
+			if (![popUp_dockIcon selectItemWithRepresentedObject:[prefDict objectForKey:KEY_ACTIVE_DOCK_ICON]])
+				[self configureDockIconMenu];
 		}
 	}
 }
