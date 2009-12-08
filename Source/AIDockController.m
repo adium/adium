@@ -383,25 +383,32 @@
 			[iconStates addObject:state];
 	}
 
-	//Generate the composited icon state
-	[currentIconState release];
-	currentIconState = [[AIIconState alloc] initByCompositingStates:iconStates];
-
-	if (![currentIconState animated]) { //Static icon
-		NSImage *image = [currentIconState image];
-		if (image) {
-			 [[NSApplication sharedApplication] setApplicationIconImage:image];
+	@try {
+		//Generate the composited icon state
+		[currentIconState release];
+		currentIconState = [[AIIconState alloc] initByCompositingStates:iconStates];
+		
+		if (![currentIconState animated]) { //Static icon
+			NSImage *image = [currentIconState image];
+			if (image) {
+				[[NSApplication sharedApplication] setApplicationIconImage:image];
+			}
+		} else { //Animated icon
+			//Our dock icon can run its animation at any speed, but we want to try and sync it with the global Adium flashing.  To do this, we delay starting our timer until the next flash occurs.
+			[adium.interfaceController registerFlashObserver:self];
+			observingFlash = YES;
+			
+			//Set the first frame of our animation
+			[self animateIcon:nil]; //Set the icon and move to the next frame
 		}
-	} else { //Animated icon
-		//Our dock icon can run its animation at any speed, but we want to try and sync it with the global Adium flashing.  To do this, we delay starting our timer until the next flash occurs.
-		[adium.interfaceController registerFlashObserver:self];
-		observingFlash = YES;
-
-		//Set the first frame of our animation
-		[self animateIcon:nil]; //Set the icon and move to the next frame
 	}
-
-	needsDisplay = NO;
+	@catch (NSException *exception) {
+		if ([[exception name] isEqualToString:NSImageCacheException])
+			currentIconState = nil;
+	}
+	@finally {
+		needsDisplay = NO;
+	}
 }
 
 - (void)flash:(int)value
