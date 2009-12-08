@@ -138,7 +138,6 @@
 		NSBezierPath *fullPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0, 0, size.width, size.height)];
 		displayImage = [image copy];
 		
-		[displayImage setFlipped:YES];
 		[displayImage lockFocus];
 		
 		if (index == currentHoveredIndex) {

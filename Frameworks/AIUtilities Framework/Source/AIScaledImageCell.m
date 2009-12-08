@@ -36,9 +36,6 @@
 	NSImage	*img = [self image];
 	
 	if (img) {
-		//Handle flipped axis
-		[img setFlipped:![img isFlipped]];
-		
 		//Size and location
 		//Get image metrics
 		NSSize	imgSize = [img size];
@@ -76,14 +73,27 @@
 		//Centering
 		targetRect = NSOffsetRect(targetRect, round((cellFrame.size.width - targetRect.size.width) / 2), round((cellFrame.size.height - targetRect.size.height) / 2));
 		
+		//Flip & reposition image
+		[NSGraphicsContext saveGraphicsState];
+		
+		long cellPosition = floor(cellFrame.origin.y / cellFrame.size.height) + 1;
+		long yOffset = fmodl(cellFrame.origin.y, cellFrame.size.height);
+		
+		NSAffineTransform *xform = [NSAffineTransform transform];
+		[xform translateXBy: 0.f yBy: cellPosition * cellFrame.size.height + yOffset];
+		[xform scaleXBy: 1.f yBy: -1.f];
+		[xform concat];
+		
+		//y offset already handled by translation
+		targetRect.origin.y = 0.f;
+		
 		//Draw Image
 		[img drawInRect:targetRect
 			   fromRect:imgRect
 			  operation:NSCompositeSourceOver 
 			   fraction:([self isEnabled] ? 1.0 : 0.5)];
 		
-		//Clean-up
-		[img setFlipped:![img isFlipped]];
+		[NSGraphicsContext restoreGraphicsState];				
 	}
 }
 
