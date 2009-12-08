@@ -19,6 +19,8 @@
 #import "AIAppearancePreferencesPlugin.h"
 #import <AIUtilities/AIFileManagerAdditions.h>
 #import <AIUtilities/AIImageGridView.h>
+#import <AIUtilities/AIBezierPathAdditions.h>
+#import <AIUtilities/AIGradientAdditions.h>
 #import <Adium/AIIconState.h>
 
 #define PREF_GROUP_DOCK_ICON		@"Dock Icon"
@@ -120,48 +122,7 @@
 	}
 }
 
-
-
-
-
 //Build an array of available icon packs
-
-
-
-//- (void)_buildIconArray
-//{
-//    NSDirectoryEnumerator	*fileEnumerator;
-//    NSString				*iconPath;
-//    NSString				*filePath;
-//	NSEnumerator			*enumerator;
-//
-//    //Create a fresh icon array
-//    [iconArray release]; iconArray = [[NSMutableArray alloc] init];
-//	enumerator = [[adium resourcePathsForName:FOLDER_DOCK_ICONS] objectEnumerator];
-//	
-//    while ((iconPath = [enumerator nextObject])) {            
-//        fileEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:iconPath];
-//        
-//        //Find all the .AdiumIcon's
-//        while ((filePath = [fileEnumerator nextObject])) {
-//            if ([[filePath pathExtension] caseInsensitiveCompare:@"AdiumIcon"] == NSOrderedSame) {
-//                NSString		*fullPath;
-//                AIIconState		*previewState;
-//                
-//                //Get the icon pack's full path and preview state
-//                fullPath = [iconPath stringByAppendingPathComponent:filePath];
-//				previewState = [adium.dockController previewStateForIconPackAtPath:fullPath];
-//    
-//                //Add this icon to our icon array
-//                [iconArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:fullPath, @"Path", previewState, @"State", previewState, @"Original State", nil]];    
-//			}
-//        }
-//    }
-//    
-//    //Update our view and re-select the correct icon
-//	[imageGridView_icons reloadData];
-//	[self selectIconWithName:[adium.preferenceController preferenceForKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE]];
-//}
 
 //Set the selected icon by name
 - (void)selectIconWithName:(NSString *)selectName
@@ -238,13 +199,30 @@
 	return [iconArray count];
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)inIndex
 {
-	if (index == animatedIndex) {
-		return [animatedIconState image];
-	} else {
-		return [[[iconArray objectAtIndex:index] objectForKey:@"State"] image];
+	NSImage *image  = ((inIndex == animatedIndex) ?
+					   animatedIconState.image :
+					   [[[iconArray objectAtIndex:inIndex] objectForKey:@"State"] image]);
+
+	if (inIndex == imageGridView_icons.selectedIndex) {
+		NSSize size = image.size;
+		NSRect fullRect = NSMakeRect(0, 0, size.width, size.height);
+		NSImage *selectedImage = [[NSImage alloc] initWithSize:size];
+		[selectedImage lockFocus];
+		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:fullRect
+															  radius:6.0];
+		[[NSGradient selectedControlGradient] drawInBezierPath:path angle:90];
+		[image drawInRect:fullRect
+				 fromRect:fullRect
+				operation:NSCompositeSourceOver
+				 fraction:0.9];
+		[selectedImage unlockFocus];
+		
+		image = [selectedImage autorelease];
 	}
+
+	return image;
 }
 
 - (void)imageGridViewSelectionDidChange:(NSNotification *)notification
