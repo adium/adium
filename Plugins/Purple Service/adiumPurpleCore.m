@@ -30,6 +30,7 @@
 #import "adiumPurpleSignals.h"
 #import "adiumPurpleWebcam.h"
 #import "adiumPurpleCertificateTrustWarning.h"
+#import "adiumPurpleMedia.h"
 
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
 #import "AILibpurplePlugin.h"
@@ -217,9 +218,7 @@ static void adiumPurpleCoreUiInit(void)
 	
 	adiumPurpleConversation_init();
 
-#if	ENABLE_WEBCAM
-	initPurpleWebcamSupport();
-#endif
+	adiumPurpleMedia_init();
 	
 	load_external_plugins();
 }

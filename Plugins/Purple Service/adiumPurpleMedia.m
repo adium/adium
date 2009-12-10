@@ -27,61 +27,29 @@
 
 static void
 level_message_cb(PurpleMedia *media, gchar *session_id, gchar *participant,
-		double level, AdiumMedia *gtkmedia)
+		double level, AIMedia *adiumMedia)
 {
-	GtkWidget *progress;
-	if (participant == NULL)
-		progress = gtkmedia->priv->send_progress;
-	else
-		progress = gtkmedia->priv->recv_progress;
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), level);
+	if (participant == NULL) {
+		// Send progress
+		[adiumMedia setSendProgress:(CGFloat)level];
+	} else {
+		// Receive progress
+		[adiumMedia setReceiveProgress:(CGFloat)level];
+	}
 }
 
-
+#error Must be called when destroying AIMedia
 static void
-adium_media_disconnect_levels(PurpleMedia *media, AdiumMedia *gtkmedia)
+adium_media_disconnect_levels(PurpleMedia *media, AIMedia *adiumMedia)
 {
 	PurpleMediaManager *manager = purple_media_get_manager(media);
 	GstElement *element = purple_media_manager_get_pipeline(manager);
 	gulong handler_id = g_signal_handler_find(G_OBJECT(gst_pipeline_get_bus(GST_PIPELINE(element))),
 						  G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, 
-						  NULL, G_CALLBACK(level_message_cb), gtkmedia);
+						  NULL, G_CALLBACK(level_message_cb), adiumMedia);
 	if (handler_id)
 		g_signal_handler_disconnect(G_OBJECT(gst_pipeline_get_bus(GST_PIPELINE(element))),
 					    handler_id);
-}
-
-static void
-adium_media_dispose(GObject *media)
-{
-	AdiumMedia *gtkmedia = ADIUM_MEDIA(media);
-	purple_debug_info("gtkmedia", "adium_media_dispose\n");
-
-	if (gtkmedia->priv->media) {
-		purple_request_close_with_handle(gtkmedia);
-		purple_media_remove_output_windows(gtkmedia->priv->media);
-		adium_media_disconnect_levels(gtkmedia->priv->media, gtkmedia);
-		g_object_unref(gtkmedia->priv->media);
-		gtkmedia->priv->media = NULL;
-	}
-
-	if (gtkmedia->priv->item_factory) {
-		g_object_unref(gtkmedia->priv->item_factory);
-		gtkmedia->priv->item_factory = NULL;
-	}
-
-	G_OBJECT_CLASS(parent_class)->dispose(media);
-}
-
-static void
-adium_media_emit_message(AdiumMedia *gtkmedia, const char *msg)
-{
-	PurpleConversation *conv = purple_find_conversation_with_account(
-			PURPLE_CONV_TYPE_ANY, gtkmedia->priv->screenname,
-			purple_media_get_account(gtkmedia->priv->media));
-	if (conv != NULL)
-		purple_conversation_write(conv, NULL, msg,
-				PURPLE_MESSAGE_SYSTEM, time(NULL));
 }
 
 typedef struct

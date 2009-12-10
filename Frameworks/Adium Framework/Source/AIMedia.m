@@ -24,7 +24,7 @@
 								onAccount:inAccount] autorelease];
 }
 
-@synthesize listContact, mediaState, account, protocolInfo;
+@synthesize listContact, mediaState, account, protocolInfo, sendProgress, receiveProgress;
 
 - (id)initWithContact:(AIListContact *)inListContact
 			  onAccount:(AIAccount *)inAccount

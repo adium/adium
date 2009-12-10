@@ -15,12 +15,17 @@
 	AIListContact	*listContact;
 	id				protocolInfo;
 	
+	CGFloat			sendProgress;
+	CGFloat			receiveProgress;
+	
 	AIMediaState	mediaState;
 }
 
 @property (assign, nonatomic) id protocolInfo;
 
 @property (readwrite, nonatomic) AIMediaState mediaState;
+@property (readwrite, nonatomic) CGFloat sendProgress;
+@property (readwrite, nonatomic) CGFloat receiveProgress;
 @property (readwrite, retain, nonatomic) AIAccount *account;
 @property (readwrite, retain, nonatomic) AIListContact *listContact;
 
