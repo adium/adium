@@ -8,16 +8,17 @@
 
 #import <Adium/AIMediaControllerProtocol.h>
 
+@protocol AIAccount_Media;
 @class AIListContact, AIAccount;
 
 @interface AIMedia : NSObject {
-	AIAccount		*account;
-	AIListContact	*listContact;
-	id				protocolInfo;
+	AIAccount <AIAccount_Media>	*account;
+	AIListContact				*listContact;
+	id							protocolInfo;
 	
 	CGFloat			sendProgress;
 	CGFloat			receiveProgress;
-	
+
 	AIMediaType		mediaType;
 	AIMediaState	mediaState;
 }
@@ -28,12 +29,11 @@
 @property (readwrite, nonatomic) AIMediaState mediaState;
 @property (readwrite, nonatomic) CGFloat sendProgress;
 @property (readwrite, nonatomic) CGFloat receiveProgress;
-@property (readwrite, retain, nonatomic) AIAccount *account;
+
+@property (readwrite, retain, nonatomic) AIAccount <AIAccount_Media> *account;
 @property (readwrite, retain, nonatomic) AIListContact *listContact;
 
 + (AIMedia *)mediaWithContact:(AIListContact *)inListContact
 					onAccount:(AIAccount *)inAccount;
-
-- (void)show;
 
 @end

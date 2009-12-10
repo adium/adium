@@ -15,3 +15,4 @@
  */
 
 void adiumPurpleMedia_init(void);
+void adium_media_remove(AIMedia *adiumMedia);

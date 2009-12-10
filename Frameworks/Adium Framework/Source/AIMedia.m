@@ -12,13 +12,13 @@
 
 @interface AIMedia()
 - (id)initWithContact:(AIListContact *)inListContact
-			  onAccount:(AIAccount *)inAccount;
+			  onAccount:(AIAccount <AIAccount_Media> *)inAccount;
 @end
 
 @implementation AIMedia
 
 + (AIMedia *)mediaWithContact:(AIListContact *)inListContact
-					onAccount:(AIAccount *)inAccount
+					onAccount:(AIAccount <AIAccount_Media> *)inAccount
 {
 	return [[[self alloc] initWithContact:inListContact
 								onAccount:inAccount] autorelease];
@@ -40,8 +40,10 @@
 
 - (void)dealloc
 {
-	[account release];
-	[listContact release];
+	[account destroyMedia:self];
+	
+	self.account = nil;
+	self.listContact = nil;
 	
 	[super dealloc];
 }
@@ -51,11 +53,6 @@
 	mediaState = inMediaState;
 	
 	[adium.mediaController media:self didSetState:inMediaState];
-}
-
-- (void)show
-{
-	
 }
 
 @end

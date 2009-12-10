@@ -43,7 +43,17 @@
 	return nil;
 }
 
+- (NSWindowController <AIMediaWindowController> *)windowControllerForMedia:(AIMedia *)media
+{
+	return nil;
+}
+
 - (void)media:(AIMedia *)media didSetState:(AIMediaState)state
+{
+	
+}
+
+- (void)showMedia:(AIMedia *)media
 {
 	
 }

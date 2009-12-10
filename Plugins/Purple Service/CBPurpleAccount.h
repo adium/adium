@@ -77,6 +77,7 @@
 - (void)media:(AIMedia *)media setInputVolume:(CGFloat)inputVolume;
 - (void)media:(AIMedia *)media setOutputVolume:(CGFloat)outputVolume;
 - (void)closeMedia:(AIMedia *)media;
+- (void)destroyMedia:(AIMedia *)media;
 - (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept;
 #pragma mark -
 
