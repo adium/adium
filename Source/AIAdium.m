@@ -33,6 +33,7 @@
 #import "AISoundController.h"
 #import "AIStatusController.h"
 #import "AIToolbarController.h"
+#import "AIMediaController.h"
 #import "ESApplescriptabilityController.h"
 #import "ESContactAlertsController.h"
 #import "ESFileTransferController.h"
@@ -86,7 +87,7 @@ static NSString	*prefsCategory;
 }
 
 #pragma mark Core Controllers
-@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, applescriptabilityController, debugController;
+@synthesize accountController, chatController, contactController, contentController, dockController, emoticonController, interfaceController, loginController, menuController, preferenceController, soundController, statusController, toolbarController, contactAlertsController, fileTransferController, mediaController, applescriptabilityController, debugController;
 
 #pragma mark Loaders
 
@@ -180,6 +181,7 @@ static NSString	*prefsCategory;
 	fileTransferController = [[ESFileTransferController alloc] init];
 	applescriptabilityController = [[ESApplescriptabilityController alloc] init];
 	statusController = [[AIStatusController alloc] init];
+	mediaController = [[AIMediaController alloc] init];
 
 	//Finish setting up the preference controller before the components and plugins load so they can read prefs 
 	[preferenceController controllerDidLoad];
