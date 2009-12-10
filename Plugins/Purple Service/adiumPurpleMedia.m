@@ -1,9 +1,32 @@
+/* 
+ * Adium is the legal property of its developers, whose names are listed in the copyright file included
+ * with this source distribution.
+ * 
+ * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
+ * General Public License as published by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even
+ * the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General
+ * Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program; if not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 #import <AdiumLibpurple/SLPurpleCocoaAdapter.h>
+#import <Adium/AIAccount.h>
+#import <Adium/AIListContact.h>
+#import <Adium/AIMedia.h>
+#import <Adium/AIMediaControllerProtocol.h>
 #include <string.h>
 #include <libpurple/media.h>
 #include <libpurple/mediamanager.h>
 #include <libpurple/media-gst.h>
 #include <gst/interfaces/xoverlay.h>
+
+
+
 
 #define ADIUM_TYPE_MEDIA            (adium_media_get_type())
 #define ADIUM_MEDIA(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), ADIUM_TYPE_MEDIA, AdiumMedia))
@@ -15,18 +38,6 @@
 typedef struct _AdiumMedia AdiumMedia;
 typedef struct _AdiumMediaClass AdiumMediaClass;
 typedef struct _AdiumMediaPrivate AdiumMediaPrivate;
-
-typedef enum
-{
-	/* Waiting for response */
-	ADIUM_MEDIA_WAITING = 1,
-	/* Got request */
-	ADIUM_MEDIA_REQUESTED,
-	/* Accepted call */
-	ADIUM_MEDIA_ACCEPTED,
-	/* Rejected call */
-	ADIUM_MEDIA_REJECTED,
-} AdiumMediaState;
 
 struct _AdiumMediaClass
 {
@@ -861,15 +872,14 @@ static gboolean
 adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 		PurpleAccount *account, gchar *screenname, gpointer nul)
 {
-	AdiumMedia *gtkmedia = ADIUM_MEDIA(
-			adium_media_new(media, screenname));
-	PurpleBuddy *buddy = purple_find_buddy(account, screenname);
-	const gchar *alias = buddy ? 
-			purple_buddy_get_contact_alias(buddy) : screenname; 
-	gtk_window_set_title(GTK_WINDOW(gtkmedia), alias);
+	AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(account, screenname));
+	AIAccount *adiumAccount = accountLookup(account);
+	
+	AIMedia *adiumMedia = [adium.mediaController mediaWithContact:contact onAccount:adiumAccount];
 
-	if (purple_media_is_initiator(media, NULL, NULL) == TRUE)
-		gtk_widget_show(GTK_WIDGET(gtkmedia));
+	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {
+		[adium.mediaController showMedia:adiumMedia];
+	}
 
 	return TRUE;
 }
@@ -982,7 +992,6 @@ create_default_audio_sink(PurpleMedia *media,
 void
 adium_medias_init(void)
 {
-#ifdef USE_VV
 	PurpleMediaManager *manager = purple_media_manager_get();
 	PurpleMediaElementInfo *default_video_src =
 			g_object_new(PURPLE_TYPE_MEDIA_ELEMENT_INFO,
@@ -1020,7 +1029,7 @@ adium_medias_init(void)
 			"create-cb", create_default_audio_sink, NULL);
 
 	g_signal_connect(G_OBJECT(manager), "init-media",
-			 G_CALLBACK(adiumadium_media_new_cb), NULL);
+			 G_CALLBACK(adium_media_new_cb), NULL);
 
 	purple_media_manager_set_ui_caps(manager, 
 			PURPLE_MEDIA_CAPS_AUDIO |
@@ -1033,6 +1042,5 @@ adium_medias_init(void)
 	purple_media_manager_set_active_element(manager, default_video_src);
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);
-	purple_media_manager_set_active_element(manager, default_audio_sink);
-#endif
+	purple_media_manager_set_active_element(manager, default_audio_sink)
 }

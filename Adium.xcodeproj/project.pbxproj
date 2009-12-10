@@ -151,6 +151,10 @@
 		117D6DC00BC5F0C40080D02B /* notify.png in Resources */ = {isa = PBXBuildFile; fileRef = 117D6DBF0BC5F0C40080D02B /* notify.png */; };
 		1181976810D0B0D2003E8ECA /* adiumPurpleMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 113E06A910D0ABA0005D5B9A /* adiumPurpleMedia.m */; };
 		1181981310D0B17C003E8ECA /* adiumPurpleMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 1181981210D0B17C003E8ECA /* adiumPurpleMedia.h */; };
+		118199C610D0B65A003E8ECA /* AIMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 118199C410D0B65A003E8ECA /* AIMedia.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		118199C710D0B65A003E8ECA /* AIMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 118199C510D0B65A003E8ECA /* AIMedia.m */; };
+		11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11819A0310D0B8BE003E8ECA /* AIMediaController.m */; };
+		11819A1B10D0B95D003E8ECA /* AIMediaControllerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		11879C0B0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = 11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */; };
 		11879DF80F6FFC0B00CACFB1 /* OAuthConsumer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
 		11879E0A0F6FFC1000CACFB1 /* OAuthConsumer.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */; };
@@ -1957,6 +1961,11 @@
 		117866DD0EC759B9003E9B97 /* FTProgressResendRollover.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FTProgressResendRollover.tif; path = Resources/FTProgressResendRollover.tif; sourceTree = "<group>"; };
 		117D6DBF0BC5F0C40080D02B /* notify.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = notify.png; path = Resources/notify.png; sourceTree = SOURCE_ROOT; };
 		1181981210D0B17C003E8ECA /* adiumPurpleMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = adiumPurpleMedia.h; path = "Plugins/Purple Service/adiumPurpleMedia.h"; sourceTree = "<group>"; };
+		118199C410D0B65A003E8ECA /* AIMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMedia.h; path = "Frameworks/Adium Framework/Source/AIMedia.h"; sourceTree = "<group>"; };
+		118199C510D0B65A003E8ECA /* AIMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMedia.m; path = "Frameworks/Adium Framework/Source/AIMedia.m"; sourceTree = "<group>"; };
+		11819A0210D0B8BE003E8ECA /* AIMediaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaController.h; path = Source/AIMediaController.h; sourceTree = "<group>"; };
+		11819A0310D0B8BE003E8ECA /* AIMediaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMediaController.m; path = Source/AIMediaController.m; sourceTree = "<group>"; };
+		11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaControllerProtocol.h; path = "Frameworks/Adium Framework/Source/AIMediaControllerProtocol.h"; sourceTree = "<group>"; };
 		11879C090F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterAccountOAuthSetup.h; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.h"; sourceTree = "<group>"; };
 		11879C0A0F6FF4C400CACFB1 /* AITwitterAccountOAuthSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterAccountOAuthSetup.m; path = "Plugins/Twitter Plugin/AITwitterAccountOAuthSetup.m"; sourceTree = "<group>"; };
 		11879DF70F6FFC0B00CACFB1 /* OAuthConsumer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OAuthConsumer.framework; path = Frameworks/OAuthConsumer.framework; sourceTree = "<group>"; };
@@ -4983,6 +4992,13 @@
 			name = "Uploader which updates its progress";
 			sourceTree = "<group>";
 		};
+		118198DB10D0B494003E8ECA /* Media */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Media;
+			sourceTree = "<group>";
+		};
 		11BE28E30FCC7DA8000E6A10 /* Image Uploading */ = {
 			isa = PBXGroup;
 			children = (
@@ -6266,6 +6282,7 @@
 		34C7C62109EC4E480060FB4A /* AdiumLibpurple */ = {
 			isa = PBXGroup;
 			children = (
+				118198DB10D0B494003E8ECA /* Media */,
 				8110354B0CDE7EFF00EC6038 /* Certificate Viewer */,
 				34415880059F8F050019246B /* Services */,
 				34F59B760667A33900F01E8C /* Notify UI */,
@@ -6863,6 +6880,8 @@
 				348862CE05645E95003C9627 /* ESFileTransfer.m */,
 				34F2E83907C2CDBD007EAAAB /* ESFileWrapperExtension.h */,
 				34F2E83807C2CDBD007EAAAB /* ESFileWrapperExtension.m */,
+				118199C410D0B65A003E8ECA /* AIMedia.h */,
+				118199C510D0B65A003E8ECA /* AIMedia.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -7011,6 +7030,7 @@
 				340D0DFF0A7E7B090059A3AF /* AIInterfaceControllerProtocol.h */,
 				340D0E190A7E7DC30059A3AF /* AILoginControllerProtocol.h */,
 				340D0E1D0A7E7E7B0059A3AF /* AIMenuControllerProtocol.h */,
+				11819A0910D0B90E003E8ECA /* AIMediaControllerProtocol.h */,
 				340D0E210A7E7F160059A3AF /* AIPreferenceControllerProtocol.h */,
 				340D0E8A0A7E80000059A3AF /* AISoundControllerProtocol.h */,
 				340D0EA90A7E826C0059A3AF /* AIStatusControllerProtocol.h */,
@@ -7177,6 +7197,8 @@
 				340C1E750BD59A0500D09235 /* GBImportPlugin.m */,
 				340C1E760BD59A0500D09235 /* GBImportPlugin.h */,
 				344C0D4306B6D5E300DA7200 /* Applescriptability */,
+				11819A0210D0B8BE003E8ECA /* AIMediaController.h */,
+				11819A0310D0B8BE003E8ECA /* AIMediaController.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -9072,6 +9094,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11819A1B10D0B95D003E8ECA /* AIMediaControllerProtocol.h in Headers */,
 				111D58210F7FC1B900883487 /* AIListContactGroupChatCell.h in Headers */,
 				1164A90D0F7AD4AB00110AE4 /* AIContentTopic.h in Headers */,
 				11FC23C20F768C1600C1C906 /* AIXMLElement.h in Headers */,
@@ -9197,6 +9220,7 @@
 				112B47670F82E0FC00690E84 /* AIXtraInfo.h in Headers */,
 				34F17FCE0F8EAC34009C5A39 /* AIListOutlineView+Drawing.h in Headers */,
 				63B0EC9D0F8FBB660062476B /* AIProxyListObject.h in Headers */,
+				118199C610D0B65A003E8ECA /* AIMedia.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10603,6 +10627,7 @@
 				112939100FD5AE1400FA8F53 /* AIConfirmationsAdvancedPreferences.m in Sources */,
 				11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */,
 				11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */,
+				11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10713,6 +10738,7 @@
 				112B47680F82E0FC00690E84 /* AIXtraInfo.m in Sources */,
 				34F17FCF0F8EAC34009C5A39 /* AIListOutlineView+Drawing.m in Sources */,
 				63B0EC9C0F8FBB660062476B /* AIProxyListObject.m in Sources */,
+				118199C710D0B65A003E8ECA /* AIMedia.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

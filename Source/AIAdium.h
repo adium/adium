@@ -30,7 +30,7 @@
 			AIPreferenceController, AIMenuController, AIApplescriptabilityController, AIStatusController,
 			AIContentController, AIToolbarController, AISoundController, AIEmoticonController,
 			AIFileTransferController, AILoginController, AIInterfaceController, AIContactController,
-			AIDockController;
+			AIDockController, AIMediaController;
 
 @interface AIAdium : NSObject <AIAdium, SUVersionComparison> {
 @private
@@ -52,6 +52,7 @@
 	NSObject <AIContactAlertsController>			*contactAlertsController;
 	NSObject <AIFileTransferController>				*fileTransferController;
 	NSObject <AIApplescriptabilityController>		*applescriptabilityController;
+	NSObject <AIMediaController>					*mediaController;
 	NSObject <AIDebugController>						*debugController;
 
 	AICoreComponentLoader		*componentLoader;
