@@ -54,7 +54,7 @@ adium_media_disconnect_levels(PurpleMedia *media, AIMedia *adiumMedia)
 
 typedef struct
 {
-	AdiumMedia *gtkmedia;
+	AIMedia *adiumMedia;
 	gchar *session_id;
 	gchar *participant;
 } AdiumMediaRealizeData;
@@ -106,110 +106,11 @@ adium_media_error_cb(PurpleMedia *media, const char *error, AIMedia *adiumMedia)
 #error error message
 }
 
-static GtkWidget *
-adium_media_add_audio_widget(AdiumMedia *gtkmedia,
-		PurpleMediaSessionType type)
-{
-	GtkWidget *volume_widget, *progress_parent, *volume, *progress;
-	double value;
-
-	if (type & PURPLE_MEDIA_SEND_AUDIO) {
-		value = purple_prefs_get_int(
-			"/purple/media/audio/volume/input");
-	} else if (type & PURPLE_MEDIA_RECV_AUDIO) {
-		value = purple_prefs_get_int(
-			"/purple/media/audio/volume/output");
-	} else
-		g_return_val_if_reached(NULL);
-
-#if GTK_CHECK_VERSION(2,12,0)
-	/* Setup widget structure */
-	volume_widget = gtk_hbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
-	progress_parent = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(volume_widget),
-			progress_parent, TRUE, TRUE, 0);
-
-	/* Volume button */
-	volume = gtk_volume_button_new();
-	gtk_scale_button_set_value(GTK_SCALE_BUTTON(volume), value/100.0);
-	gtk_box_pack_end(GTK_BOX(volume_widget),
-			volume, FALSE, FALSE, 0);
-#else
-	/* Setup widget structure */
-	volume_widget = gtk_vbox_new(FALSE, 0);
-	progress_parent = volume_widget;
-
-	/* Volume slider */
-	volume = gtk_hscale_new_with_range(0.0, 100.0, 5.0);
-	gtk_range_set_increments(GTK_RANGE(volume), 5.0, 25.0);
-	gtk_range_set_value(GTK_RANGE(volume), value);
-	gtk_scale_set_draw_value(GTK_SCALE(volume), FALSE);
-	gtk_box_pack_end(GTK_BOX(volume_widget),
-			volume, TRUE, FALSE, 0);
-#endif
-
-	/* Volume level indicator */
-	progress = gtk_progress_bar_new();
-	gtk_widget_set_size_request(progress, 250, 10);
-	gtk_box_pack_end(GTK_BOX(progress_parent), progress, TRUE, FALSE, 0);
-
-	if (type & PURPLE_MEDIA_SEND_AUDIO) {
-		g_signal_connect (G_OBJECT(volume), "value-changed",
-				G_CALLBACK(adium_media_input_volume_changed),
-				gtkmedia->priv->media);
-		gtkmedia->priv->send_progress = progress;
-	} else if (type & PURPLE_MEDIA_RECV_AUDIO) {
-		g_signal_connect (G_OBJECT(volume), "value-changed",
-				G_CALLBACK(adium_media_output_volume_changed),
-				gtkmedia->priv->media);
-		gtkmedia->priv->recv_progress = progress;
-	}
-
-	gtk_widget_show_all(volume_widget);
-
-	return volume_widget;
-}
-
 static void
 adium_media_ready_cb(PurpleMedia *media, AIMedia *adiumMedia, const gchar *sid)
 {
 	PurpleMediaSessionType type = purple_media_get_session_type(media, sid);
-
-	if (gtkmedia->priv->recv_widget == NULL
-			&& type & (PURPLE_MEDIA_RECV_VIDEO |
-			PURPLE_MEDIA_RECV_AUDIO)) {
-		recv_widget = gtk_vbox_new(FALSE, ADIUM_HIG_BOX_SPACE);	
-		gtk_box_pack_start(GTK_BOX(gtkmedia->priv->display),
-				recv_widget, TRUE, TRUE, 0);
-		gtk_widget_show(recv_widget);
-	} else
-		recv_widget = gtkmedia->priv->recv_widget;
-	if (gtkmedia->priv->send_widget == NULL
-			&& type & (PURPLE_MEDIA_SEND_VIDEO |
-			PURPLE_MEDIA_SEND_AUDIO)) {
-		send_widget = gtk_vbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
-		gtk_box_pack_start(GTK_BOX(gtkmedia->priv->display),
-				send_widget, TRUE, TRUE, 0);
-		button_widget = gtk_hbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
-		gtk_box_pack_end(GTK_BOX(send_widget), button_widget,
-				FALSE, FALSE, 0);
-		gtk_widget_show(GTK_WIDGET(button_widget));
-		gtk_widget_show(send_widget);
-
-		/* Hold button */
-		gtkmedia->priv->hold =
-				gtk_toggle_button_new_with_mnemonic("_Hold");
-		g_signal_connect(gtkmedia->priv->hold, "toggled",
-				G_CALLBACK(adium_media_hold_toggled),
-				gtkmedia);
-		gtk_box_pack_end(GTK_BOX(button_widget), gtkmedia->priv->hold,
-				FALSE, FALSE, 0);
-		gtk_widget_show(gtkmedia->priv->hold);
-	} else {
-		send_widget = gtkmedia->priv->send_widget;
-		button_widget = gtkmedia->priv->button_widget;
-	}
-
+	
 	if (type & PURPLE_MEDIA_RECV_VIDEO) {
 		AdiumMediaRealizeData *data;
 		GtkWidget *aspect;
@@ -236,6 +137,7 @@ adium_media_ready_cb(PurpleMedia *media, AIMedia *adiumMedia, const gchar *sid)
 
 		gtkmedia->priv->remote_video = remote_video;
 	}
+	
 	if (type & PURPLE_MEDIA_SEND_VIDEO) {
 		AdiumMediaRealizeData *data;
 		GtkWidget *aspect;
@@ -301,34 +203,16 @@ adium_media_ready_cb(PurpleMedia *media, AIMedia *adiumMedia, const gchar *sid)
 				gtkmedia);
 	}
 
-	if (send_widget != NULL)
-		gtkmedia->priv->send_widget = send_widget;
-	if (recv_widget != NULL)
-		gtkmedia->priv->recv_widget = recv_widget;
-	if (button_widget != NULL)
-		gtkmedia->priv->button_widget = button_widget;
-
 	if (purple_media_is_initiator(media, sid, NULL) == FALSE) {
 #error XXX Add something to accept or reject this media
 	}
 
 	/* set the window icon according to the type */
 	if (type & PURPLE_MEDIA_VIDEO) {
-		icon = gtk_widget_render_icon(GTK_WIDGET(gtkmedia),
-			ADIUM_STOCK_TOOLBAR_VIDEO_CALL,
-			gtk_icon_size_from_name(ADIUM_ICON_SIZE_TANGO_LARGE), NULL);
+		adiumMedia.mediaType = AIMediaTypeVideo;
 	} else if (type & PURPLE_MEDIA_AUDIO) {
-		icon = gtk_widget_render_icon(GTK_WIDGET(gtkmedia),
-			ADIUM_STOCK_TOOLBAR_AUDIO_CALL,
-			gtk_icon_size_from_name(ADIUM_ICON_SIZE_TANGO_LARGE), NULL);
+		adiumMedia.mediaType = AIMediaTypeAudio;
 	}
-
-	if (icon) {
-		gtk_window_set_icon(GTK_WINDOW(gtkmedia), icon);
-		g_object_unref(icon);
-	}
-	
-	gtk_widget_show(gtkmedia->priv->display);
 }
 
 static void
@@ -354,7 +238,7 @@ adium_media_stream_info_cb(PurpleMedia *media, PurpleMediaInfoType type, gchar *
 #warning Check for pending accept/deny
 		adiumMedia.mediaState = AIMediaStateAccepted;
 		
-		adium_media_emit_message(gtkmedia, _("Call in progress."));
+#error		adium_media_emit_message(gtkmedia, _("Call in progress."));
 	}
 }
 
