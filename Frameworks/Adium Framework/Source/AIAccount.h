@@ -123,11 +123,30 @@ typedef enum {
 - (void)media:(AIMedia *)media setPause:(BOOL)pause;
 
 /*!
+ * @brief Set the input volume for media.
+ *
+ * @param inputVolume The input volume between 0 and 1.0
+ */
+- (void)media:(AIMedia *)media setInputVolume:(CGFloat)inputVolume;
+
+/*!
+ * @brief Set the output volume for media.
+ *
+ * @param outputVolume The output volume between 0 and 1.0
+ */
+- (void)media:(AIMedia *)media setOutputVolume:(CGFloat)outputVolume;
+
+/*!
  * @brief Close a media
  *
  * @param media The AIMedia to close
  */
 - (void)closeMedia:(AIMedia *)media;
+
+/*!
+ * @brief Accept a pending media
+ */
+- (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept;
 @end
 
 /*!
