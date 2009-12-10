@@ -64,6 +64,7 @@
 #import "ESiTunesPlugin.h"
 #import "AMPurpleTuneTooltip.h"
 #import "adiumPurpleRequest.h"
+#import "adiumPurpleMedia.h"
 #import "AIDualWindowInterfacePlugin.h"
 
 #ifdef HAVE_CDSA
@@ -1829,6 +1830,18 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
 							 PURPLE_MEDIA_INFO_HANGUP,
 							 NULL, NULL, TRUE);
+}
+
+/*!
+ * @brief Destroy a media
+ *
+ * @param media The media to be destroyed
+ *
+ * Gives the account an opportunity to teardown.
+ */
+- (void)destroyMedia:(AIMedia *)media
+{
+	adium_media_remove(media);
 }
 
 /*!

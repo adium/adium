@@ -144,6 +144,15 @@ typedef enum {
 - (void)closeMedia:(AIMedia *)media;
 
 /*!
+ * @brief Destroy a media
+ *
+ * @param media The media to be destroyed
+ *
+ * Gives the account an opportunity to teardown.
+ */
+- (void)destroyMedia:(AIMedia *)media;
+
+/*!
  * @brief Accept a pending media
  */
 - (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept;
