@@ -15,11 +15,6 @@ typedef enum {
 	AIMediaStateRejected,		/* Rejected call */
 } AIMediaState;
 
-typedef enum {
-	AIMediaPropertyMedia = 1,	/* A pointer to the PurpleMedia* */
-	AIMediaPropertyScreenName	/* The screen name of the user */
-} AIMediaProperty;
-
 @class AIMedia, AIListContact, AIAccount;
 
 @protocol AIMediaController <AIController>
@@ -30,5 +25,7 @@ typedef enum {
 							onAccount:(AIAccount *)account;
 
 - (void)showMedia:(AIMedia *)media;
+
+- (void)media:(AIMedia *)media didSetState:(AIMediaState)state;
 
 @end

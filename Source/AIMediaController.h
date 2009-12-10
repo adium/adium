@@ -9,7 +9,7 @@
 #import <Adium/AIMediaControllerProtocol.h>
 
 @interface AIMediaController : NSObject <AIMediaController> {
-
+	NSMutableArray *openMedias;
 }
 
 @end

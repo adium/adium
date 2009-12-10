@@ -8,31 +8,47 @@
 
 #import "AIMediaController.h"
 
+#import <Adium/AIMedia.h>
 
 @implementation AIMediaController
 - (void)controllerDidLoad
 {
-	
+	openMedias = [[NSMutableArray alloc] init];
 }
 
 - (void)controllerWillClose
 {
-	
+	[openMedias release]; openMedias = nil;
 }
 
 - (AIMedia *)mediaWithContact:(AIListContact *)contact
 					onAccount:(AIAccount *)account
 {
-	return nil;
+	AIMedia *media = [AIMedia mediaWithContact:contact onAccount:account];
+	
+	[openMedias addObject:media];
+	
+	return media;
 }
 
 - (AIMedia *)existingMediaWithContact:(AIListContact *)contact
 							onAccount:(AIAccount *)account
 {
+	for (AIMedia *media in openMedias) {
+		if (media.account == account && media.listContact == contact) {
+			return media;
+		}
+	}
+	
 	return nil;
 }
 
 - (void)showMedia:(AIMedia *)media
+{
+	
+}
+
+- (void)media:(AIMedia *)media didSetState:(AIMediaState)state
 {
 	
 }

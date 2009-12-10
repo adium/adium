@@ -25,25 +25,6 @@
 #include <libpurple/media-gst.h>
 #include <gst/interfaces/xoverlay.h>
 
-
-
-
-#define ADIUM_TYPE_MEDIA            (adium_media_get_type())
-#define ADIUM_MEDIA(obj)            (G_TYPE_CHECK_INSTANCE_CAST((obj), ADIUM_TYPE_MEDIA, AdiumMedia))
-#define ADIUM_MEDIA_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST((klass), ADIUM_TYPE_MEDIA, AdiumMediaClass))
-#define ADIUM_IS_MEDIA(obj)         (G_TYPE_CHECK_INSTANCE_TYPE((obj), ADIUM_TYPE_MEDIA))
-#define ADIUM_IS_MEDIA_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), ADIUM_TYPE_MEDIA))
-#define ADIUM_MEDIA_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), ADIUM_TYPE_MEDIA, AdiumMediaClass))
-
-typedef struct _AdiumMedia AdiumMedia;
-typedef struct _AdiumMediaClass AdiumMediaClass;
-typedef struct _AdiumMediaPrivate AdiumMediaPrivate;
-
-struct _AdiumMediaClass
-{
-	GtkWindowClass parent_class;
-};
-
 struct _AdiumMedia
 {
 	GtkWindow parent;
@@ -79,121 +60,6 @@ struct _AdiumMediaPrivate
 	guint timeout_id;
 	PurpleMediaSessionType request_type;
 };
-
-#define ADIUM_MEDIA_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), ADIUM_TYPE_MEDIA, AdiumMediaPrivate))
-
-static void adium_media_class_init (AdiumMediaClass *klass);
-static void adium_media_init (AdiumMedia *media);
-static void adium_media_dispose (GObject *object);
-static void adium_media_finalize (GObject *object);
-static void adium_media_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
-static void adium_media_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void adium_media_set_state(AdiumMedia *gtkmedia, AdiumMediaState state);
-
-static GtkWindowClass *parent_class = NULL;
-
-
-#if 0
-enum {
-	LAST_SIGNAL
-};
-static guint adium_media_signals[LAST_SIGNAL] = {0};
-#endif
-
-enum {
-	PROP_0,
-	PROP_MEDIA,
-	PROP_SCREENNAME
-};
-
-static GType
-adium_media_get_type(void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(AdiumMediaClass),
-			NULL,
-			NULL,
-			(GClassInitFunc) adium_media_class_init,
-			NULL,
-			NULL,
-			sizeof(AdiumMedia),
-			0,
-			(GInstanceInitFunc) adium_media_init,
-			NULL
-		};
-		type = g_type_register_static(GTK_TYPE_WINDOW, "AdiumMedia", &info, 0);
-	}
-	return type;
-}
-
-
-static void
-adium_media_class_init (AdiumMediaClass *klass)
-{
-	GObjectClass *gobject_class = (GObjectClass*)klass;
-/*	GtkContainerClass *container_class = (GtkContainerClass*)klass; */
-	parent_class = g_type_class_peek_parent(klass);
-
-	gobject_class->dispose = adium_media_dispose;
-	gobject_class->finalize = adium_media_finalize;
-	gobject_class->set_property = adium_media_set_property;
-	gobject_class->get_property = adium_media_get_property;
-
-	g_object_class_install_property(gobject_class, PROP_MEDIA,
-			g_param_spec_object("media",
-			"PurpleMedia",
-			"The PurpleMedia associated with this media.",
-			PURPLE_TYPE_MEDIA,
-			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-	g_object_class_install_property(gobject_class, PROP_SCREENNAME,
-			g_param_spec_string("screenname",
-			"Screenname",
-			"The screenname of the user this session is with.",
-			NULL,
-			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-
-	g_type_class_add_private(klass, sizeof(AdiumMediaPrivate));
-}
-
-static void
-adium_media_hold_toggled(GtkToggleButton *toggle, AdiumMedia *media)
-{
-	purple_media_stream_info(media->priv->media,
-			gtk_toggle_button_get_active(toggle) ?
-			PURPLE_MEDIA_INFO_HOLD : PURPLE_MEDIA_INFO_UNHOLD,
-			NULL, NULL, TRUE);
-}
-
-static void
-adium_media_mute_toggled(GtkToggleButton *toggle, AdiumMedia *media)
-{
-	purple_media_stream_info(media->priv->media,
-			gtk_toggle_button_get_active(toggle) ?
-			PURPLE_MEDIA_INFO_MUTE : PURPLE_MEDIA_INFO_UNMUTE,
-			NULL, NULL, TRUE);
-}
-
-static void
-adium_media_pause_toggled(GtkToggleButton *toggle, AdiumMedia *media)
-{
-	purple_media_stream_info(media->priv->media,
-			gtk_toggle_button_get_active(toggle) ?
-			PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
-			NULL, NULL, TRUE);
-}
-
-static gboolean
-adium_media_delete_event_cb(GtkWidget *widget,
-		GdkEvent *event, AdiumMedia *media)
-{
-	if (media->priv->media)
-		purple_media_stream_info(media->priv->media,
-				PURPLE_MEDIA_INFO_HANGUP, NULL, NULL, TRUE);
-	return FALSE;
-}
 
 #ifdef HAVE_X11
 static int
@@ -877,6 +743,8 @@ adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 	
 	AIMedia *adiumMedia = [adium.mediaController mediaWithContact:contact onAccount:adiumAccount];
 
+	adiumMedia.protocolInfo = media;
+	
 	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {
 		[adium.mediaController showMedia:adiumMedia];
 	}
@@ -1042,5 +910,5 @@ adium_medias_init(void)
 	purple_media_manager_set_active_element(manager, default_video_src);
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);
-	purple_media_manager_set_active_element(manager, default_audio_sink)
+	purple_media_manager_set_active_element(manager, default_audio_sink);
 }

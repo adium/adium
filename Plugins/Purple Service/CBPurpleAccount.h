@@ -63,14 +63,41 @@
 - (AIService *)_serviceForUID:(NSString *)contactUID;
 - (void)unregisteredAccount:(BOOL)success;
 
-/* CBPurpleAccount odes not implement AIAccount_Files; however, all subclasses which do use the same code.
-	The superclass therefore has the code and declares the methods here. */
+#pragma mark Subclass-reuse but not declared
 	//Instructs the account to accept a file transfer request
 - (void)acceptFileTransferRequest:(ESFileTransfer *)fileTransfer;
 	//Instructs the account to reject a file receive request
 - (void)rejectFileReceiveRequest:(ESFileTransfer *)fileTransfer;
 	//Instructs the account to cancel a file transfer in progress
 - (void)cancelFileTransfer:(ESFileTransfer *)fileTransfer;
+
+/*!
+ * @brief Set the hold state for media.
+ *
+ * @param hold If the media's state should be hold
+ */
+- (void)media:(AIMedia *)media setHold:(BOOL)hold;
+
+/*!
+ * @brief Set the mute state for media.
+ *
+ * @param mute If the media's state should be mute
+ */
+- (void)media:(AIMedia *)media setMute:(BOOL)mute;
+
+/*!
+ * @brief Set the pause state for media.
+ *
+ * @param pause If the media's state should be pause
+ */
+- (void)media:(AIMedia *)media setPause:(BOOL)pause;
+
+/*!
+ * @brief Close a media
+ *
+ * @param media The AIMedia to close
+ */
+- (void)closeMedia:(AIMedia *)media;
 
 	//Private (for subclasses only) file transfer methods
 - (PurpleXfer *)newOutgoingXferForFileTransfer:(ESFileTransfer *)fileTransfer;
