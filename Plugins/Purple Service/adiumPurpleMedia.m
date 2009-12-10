@@ -43,10 +43,27 @@ struct _AdiumMediaPrivate
 {
 	PurpleMedia *media;
 	gchar *screenname;
-	GstElement *send_level;
-	GstElement *recv_level;
+	gulong level_handler_id;
+
+	GtkItemFactory *item_factory;
+	GtkWidget *menubar;
+	GtkWidget *statusbar;
+
+	GtkWidget *hold;
+	GtkWidget *mute;
+	GtkWidget *pause;
+
+	GtkWidget *send_progress;
+	GtkWidget *recv_progress;
 
 	AdiumMediaState state;
+
+	GtkWidget *display;
+	GtkWidget *send_widget;
+	GtkWidget *recv_widget;
+	GtkWidget *button_widget;
+	GtkWidget *local_video;
+	GtkWidget *remote_video;
 
 	guint timeout_id;
 	PurpleMediaSessionType request_type;
@@ -62,6 +79,9 @@ static void adium_media_get_property (GObject *object, guint prop_id, GValue *va
 static void adium_media_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void adium_media_set_state(AdiumMedia *gtkmedia, AdiumMediaState state);
 
+static GtkWindowClass *parent_class = NULL;
+
+
 #if 0
 enum {
 	LAST_SIGNAL
@@ -72,9 +92,7 @@ static guint adium_media_signals[LAST_SIGNAL] = {0};
 enum {
 	PROP_0,
 	PROP_MEDIA,
-	PROP_SCREENNAME,
-	PROP_SEND_LEVEL,
-	PROP_RECV_LEVEL
+	PROP_SCREENNAME
 };
 
 static GType
@@ -84,14 +102,12 @@ adium_media_get_type(void)
 
 	if (type == 0) {
 		static const GTypeInfo info = {
-#warning 64BIT: Inspect use of sizeof
 			sizeof(AdiumMediaClass),
 			NULL,
 			NULL,
 			(GClassInitFunc) adium_media_class_init,
 			NULL,
 			NULL,
-#warning 64BIT: Inspect use of sizeof
 			sizeof(AdiumMedia),
 			0,
 			(GInstanceInitFunc) adium_media_init,
@@ -107,6 +123,7 @@ static void
 adium_media_class_init (AdiumMediaClass *klass)
 {
 	GObjectClass *gobject_class = (GObjectClass*)klass;
+/*	GtkContainerClass *container_class = (GtkContainerClass*)klass; */
 	parent_class = g_type_class_peek_parent(klass);
 
 	gobject_class->dispose = adium_media_dispose;
@@ -126,28 +143,34 @@ adium_media_class_init (AdiumMediaClass *klass)
 			"The screenname of the user this session is with.",
 			NULL,
 			G_PARAM_CONSTRUCT_ONLY | G_PARAM_READWRITE));
-	g_object_class_install_property(gobject_class, PROP_SEND_LEVEL,
-			g_param_spec_object("send-level",
-			"Send level",
-			"The GstElement of this media's send 'level'",
-			GST_TYPE_ELEMENT,
-			G_PARAM_READWRITE));
-	g_object_class_install_property(gobject_class, PROP_RECV_LEVEL,
-			g_param_spec_object("recv-level",
-			"Receive level",
-			"The GstElement of this media's recv 'level'",
-			GST_TYPE_ELEMENT,
-			G_PARAM_READWRITE));
 
-#warning 64BIT: Inspect use of sizeof
 	g_type_class_add_private(klass, sizeof(AdiumMediaPrivate));
 }
 
 static void
-adium_media_set_is_muted(AdiumMedia *media, BOOL isMuted)
+adium_media_hold_toggled(GtkToggleButton *toggle, AdiumMedia *media)
 {
 	purple_media_stream_info(media->priv->media,
-			(isMuted ? PURPLE_MEDIA_INFO_MUTE : PURPLE_MEDIA_INFO_UNMUTE),
+			gtk_toggle_button_get_active(toggle) ?
+			PURPLE_MEDIA_INFO_HOLD : PURPLE_MEDIA_INFO_UNHOLD,
+			NULL, NULL, TRUE);
+}
+
+static void
+adium_media_mute_toggled(GtkToggleButton *toggle, AdiumMedia *media)
+{
+	purple_media_stream_info(media->priv->media,
+			gtk_toggle_button_get_active(toggle) ?
+			PURPLE_MEDIA_INFO_MUTE : PURPLE_MEDIA_INFO_UNMUTE,
+			NULL, NULL, TRUE);
+}
+
+static void
+adium_media_pause_toggled(GtkToggleButton *toggle, AdiumMedia *media)
+{
+	purple_media_stream_info(media->priv->media,
+			gtk_toggle_button_get_active(toggle) ?
+			PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
 			NULL, NULL, TRUE);
 }
 
@@ -162,7 +185,7 @@ adium_media_delete_event_cb(GtkWidget *widget,
 }
 
 #ifdef HAVE_X11
-static NSInteger
+static int
 adium_x_error_handler(Display *display, XErrorEvent *event)
 {
 	const gchar *error_type;
@@ -210,8 +233,6 @@ static GtkItemFactoryEntry menu_items[] = {
 	{ N_("/Media/_Hangup"), NULL, menu_hangup, 0, "<Item>", NULL },
 };
 
-#warning 64BIT: Inspect use of sizeof
-#warning 64BIT: Inspect use of sizeof
 static gint menu_item_count = sizeof(menu_items) / sizeof(menu_items[0]);
 
 static const char *
@@ -284,45 +305,16 @@ adium_media_init (AdiumMedia *media)
 			G_CALLBACK(adium_media_delete_event_cb), media);
 }
 
-static gboolean
-level_message_cb(GstBus *bus, GstMessage *message, AdiumMedia *gtkmedia)
+static void
+level_message_cb(PurpleMedia *media, gchar *session_id, gchar *participant,
+		double level, AdiumMedia *gtkmedia)
 {
-	gdouble rms_db;
-	gdouble percent;
-	const GValue *list;
-	const GValue *value;
-
-	GstElement *src = GST_ELEMENT(GST_MESSAGE_SRC(message));
 	GtkWidget *progress;
-
-	if (message->type != GST_MESSAGE_ELEMENT)
-		return TRUE;
-
-	if (!gst_structure_has_name(
-			gst_message_get_structure(message), "level"))
-		return TRUE;
-
-	if (src == gtkmedia->priv->send_level)
+	if (participant == NULL)
 		progress = gtkmedia->priv->send_progress;
-	else if (src == gtkmedia->priv->recv_level)
-		progress = gtkmedia->priv->recv_progress;
 	else
-		return TRUE;
-
-	list = gst_structure_get_value(
-			gst_message_get_structure(message), "rms");
-
-	/* Only bother with the first channel. */
-	value = gst_value_list_get_value(list, 0);
-	rms_db = g_value_get_double(value);
-
-	percent = pow(10, rms_db / 20) * 5;
-
-	if(percent > 1.0)
-		percent = 1.0;
-
-	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), percent);
-	return TRUE;
+		progress = gtkmedia->priv->recv_progress;
+	gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progress), level);
 }
 
 
@@ -356,16 +348,6 @@ adium_media_dispose(GObject *media)
 	if (gtkmedia->priv->item_factory) {
 		g_object_unref(gtkmedia->priv->item_factory);
 		gtkmedia->priv->item_factory = NULL;
-	}
-
-	if (gtkmedia->priv->send_level) {
-		gst_object_unref(gtkmedia->priv->send_level);
-		gtkmedia->priv->send_level = NULL;
-	}
-
-	if (gtkmedia->priv->recv_level) {
-		gst_object_unref(gtkmedia->priv->recv_level);
-		gtkmedia->priv->recv_level = NULL;
 	}
 
 	G_OBJECT_CLASS(parent_class)->dispose(media);
@@ -447,14 +429,14 @@ adium_media_error_cb(AdiumMedia *media, const char *error, AdiumMedia *gtkmedia)
 }
 
 static void
-adium_media_accept_cb(PurpleMedia *media, NSInteger index)
+adium_media_accept_cb(PurpleMedia *media, int index)
 {
 	purple_media_stream_info(media, PURPLE_MEDIA_INFO_ACCEPT,
 			NULL, NULL, TRUE);
 }
 
 static void
-adium_media_reject_cb(PurpleMedia *media, NSInteger index)
+adium_media_reject_cb(PurpleMedia *media, int index)
 {
 	purple_media_stream_info(media, PURPLE_MEDIA_INFO_REJECT,
 			NULL, NULL, TRUE);
@@ -488,13 +470,14 @@ adium_request_timeout_cb(AdiumMedia *gtkmedia)
 	}
 
 	gtkmedia->priv->request_type = PURPLE_MEDIA_NONE;
-
-	purple_request_accept_cancel(gtkmedia, "Media invitation",
-			message, NULL, PURPLE_DEFAULT_ACTION_NONE,
-			(void*)account, gtkmedia->priv->screenname, NULL,
-			gtkmedia->priv->media,
-			adium_media_accept_cb,
-			adium_media_reject_cb);
+	if (!purple_media_accepted(gtkmedia->priv->media, NULL, NULL)) {
+		purple_request_accept_cancel(gtkmedia, _("Incoming Call"),
+				message, NULL, PURPLE_DEFAULT_ACTION_NONE,
+				(void*)account, gtkmedia->priv->screenname,
+				NULL, gtkmedia->priv->media,
+				adium_media_accept_cb,
+				adium_media_reject_cb);
+	}
 	adium_media_emit_message(gtkmedia, message);
 	g_free(message);
 	return FALSE;
@@ -511,8 +494,7 @@ adium_media_input_volume_changed(GtkRange *range, PurpleMedia *media)
 {
 	double val = (double)gtk_range_get_value(GTK_RANGE(range));
 #endif
-	purple_prefs_set_int("/adium/media/audio/volume/input", val);
-	purple_media_set_input_volume(media, NULL, val / 10.0);
+	purple_media_set_input_volume(media, NULL, val);
 }
 
 static void
@@ -526,8 +508,7 @@ adium_media_output_volume_changed(GtkRange *range, PurpleMedia *media)
 {
 	double val = (double)gtk_range_get_value(GTK_RANGE(range));
 #endif
-	purple_prefs_set_int("/adium/media/audio/volume/output", val);
-	purple_media_set_output_volume(media, NULL, NULL, val / 10.0);
+	purple_media_set_output_volume(media, NULL, NULL, val);
 }
 
 static GtkWidget *
@@ -539,10 +520,10 @@ adium_media_add_audio_widget(AdiumMedia *gtkmedia,
 
 	if (type & PURPLE_MEDIA_SEND_AUDIO) {
 		value = purple_prefs_get_int(
-			"/adium/media/audio/volume/input");
+			"/purple/media/audio/volume/input");
 	} else if (type & PURPLE_MEDIA_RECV_AUDIO) {
 		value = purple_prefs_get_int(
-			"/adium/media/audio/volume/output");
+			"/purple/media/audio/volume/output");
 	} else
 		g_return_val_if_reached(NULL);
 
@@ -597,11 +578,10 @@ adium_media_add_audio_widget(AdiumMedia *gtkmedia,
 static void
 adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 {
-	PurpleMediaManager *manager = purple_media_get_manager(media);
-	GstElement *pipeline = purple_media_manager_get_pipeline(manager);
-	GtkWidget *send_widget = NULL, *recv_widget = NULL;
+	GtkWidget *send_widget = NULL, *recv_widget = NULL, *button_widget = NULL;
 	PurpleMediaSessionType type =
 			purple_media_get_session_type(media, sid);
+	GdkPixbuf *icon = NULL;
 
 	if (gtkmedia->priv->recv_widget == NULL
 			&& type & (PURPLE_MEDIA_RECV_VIDEO |
@@ -618,9 +598,25 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 		send_widget = gtk_vbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
 		gtk_box_pack_start(GTK_BOX(gtkmedia->priv->display),
 				send_widget, TRUE, TRUE, 0);
+		button_widget = gtk_hbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
+		gtk_box_pack_end(GTK_BOX(send_widget), button_widget,
+				FALSE, FALSE, 0);
+		gtk_widget_show(GTK_WIDGET(button_widget));
 		gtk_widget_show(send_widget);
-	} else
+
+		/* Hold button */
+		gtkmedia->priv->hold =
+				gtk_toggle_button_new_with_mnemonic("_Hold");
+		g_signal_connect(gtkmedia->priv->hold, "toggled",
+				G_CALLBACK(adium_media_hold_toggled),
+				gtkmedia);
+		gtk_box_pack_end(GTK_BOX(button_widget), gtkmedia->priv->hold,
+				FALSE, FALSE, 0);
+		gtk_widget_show(gtkmedia->priv->hold);
+	} else {
 		send_widget = gtkmedia->priv->send_widget;
+		button_widget = gtkmedia->priv->button_widget;
+	}
 
 	if (type & PURPLE_MEDIA_RECV_VIDEO) {
 		AdiumMediaRealizeData *data;
@@ -673,6 +669,15 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 		gtk_widget_show(local_video);
 		gtk_widget_show(aspect);
 
+		gtkmedia->priv->pause =
+				gtk_toggle_button_new_with_mnemonic(_("_Pause"));
+		g_signal_connect(gtkmedia->priv->pause, "toggled",
+				G_CALLBACK(adium_media_pause_toggled),
+				gtkmedia);
+		gtk_box_pack_end(GTK_BOX(button_widget), gtkmedia->priv->pause,
+				FALSE, FALSE, 0);
+		gtk_widget_show(gtkmedia->priv->pause);
+
 		gtkmedia->priv->local_video = local_video;
 	}
 
@@ -682,44 +687,34 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 				PURPLE_MEDIA_RECV_AUDIO), FALSE, FALSE, 0);
 	}
 	if (type & PURPLE_MEDIA_SEND_AUDIO) {
-		GstElement *media_src;
-		GtkWidget *hbox;
-
-		hbox = gtk_hbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
-		gtk_box_pack_end(GTK_BOX(send_widget), hbox, FALSE, FALSE, 0);
 		gtkmedia->priv->mute =
 				gtk_toggle_button_new_with_mnemonic("_Mute");
 		g_signal_connect(gtkmedia->priv->mute, "toggled",
 				G_CALLBACK(adium_media_mute_toggled),
 				gtkmedia);
-		gtk_box_pack_end(GTK_BOX(hbox), gtkmedia->priv->mute,
+		gtk_box_pack_end(GTK_BOX(button_widget), gtkmedia->priv->mute,
 				FALSE, FALSE, 0);
 		gtk_widget_show(gtkmedia->priv->mute);
-		gtk_widget_show(GTK_WIDGET(hbox));
-
-		media_src = purple_media_get_src(media, sid);
-		gtkmedia->priv->send_level = gst_bin_get_by_name(
-				GST_BIN(media_src), "sendlevel");
 
 		gtk_box_pack_end(GTK_BOX(send_widget),
 				adium_media_add_audio_widget(gtkmedia,
 				PURPLE_MEDIA_SEND_AUDIO), FALSE, FALSE, 0);
-
-		gtk_widget_show(gtkmedia->priv->mute);
 	}
 
 
-	if (type & PURPLE_MEDIA_AUDIO) {
-		GstBus *bus = gst_pipeline_get_bus(GST_PIPELINE(pipeline));
-		g_signal_connect(G_OBJECT(bus), "message::element",
-				G_CALLBACK(level_message_cb), gtkmedia);
-		gst_object_unref(bus);
+	if (type & PURPLE_MEDIA_AUDIO &&
+			gtkmedia->priv->level_handler_id == 0) {
+		gtkmedia->priv->level_handler_id = g_signal_connect(
+				media, "level", G_CALLBACK(level_message_cb),
+				gtkmedia);
 	}
 
 	if (send_widget != NULL)
 		gtkmedia->priv->send_widget = send_widget;
 	if (recv_widget != NULL)
 		gtkmedia->priv->recv_widget = recv_widget;
+	if (button_widget != NULL)
+		gtkmedia->priv->button_widget = button_widget;
 
 	if (purple_media_is_initiator(media, sid, NULL) == FALSE) {
 		if (gtkmedia->priv->timeout_id != 0)
@@ -730,6 +725,22 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 				gtkmedia);
 	}
 
+	/* set the window icon according to the type */
+	if (type & PURPLE_MEDIA_VIDEO) {
+		icon = gtk_widget_render_icon(GTK_WIDGET(gtkmedia),
+			ADIUM_STOCK_TOOLBAR_VIDEO_CALL,
+			gtk_icon_size_from_name(ADIUM_ICON_SIZE_TANGO_LARGE), NULL);
+	} else if (type & PURPLE_MEDIA_AUDIO) {
+		icon = gtk_widget_render_icon(GTK_WIDGET(gtkmedia),
+			ADIUM_STOCK_TOOLBAR_AUDIO_CALL,
+			gtk_icon_size_from_name(ADIUM_ICON_SIZE_TANGO_LARGE), NULL);
+	}
+
+	if (icon) {
+		gtk_window_set_icon(GTK_WINDOW(gtkmedia), icon);
+		g_object_unref(icon);
+	}
+	
 	gtk_widget_show(gtkmedia->priv->display);
 }
 
@@ -748,25 +759,6 @@ adium_media_state_changed_cb(PurpleMedia *media, PurpleMediaState state,
 	} else if (state == PURPLE_MEDIA_STATE_NEW &&
 			sid != NULL && name != NULL) {
 		adium_media_ready_cb(media, gtkmedia, sid);
-	} else if (state == PURPLE_MEDIA_STATE_CONNECTED &&
-			purple_media_get_session_type(media, sid) &
-			PURPLE_MEDIA_RECV_AUDIO) {
-		GstElement *tee = purple_media_get_tee(media, sid, name);
-		GstIterator *iter = gst_element_iterate_src_pads(tee);
-		GstPad *sinkpad;
-		if (gst_iterator_next(iter, (gpointer)&sinkpad)
-				 == GST_ITERATOR_OK) {
-			GstPad *peer = gst_pad_get_peer(sinkpad);
-			if (peer != NULL) {
-				gtkmedia->priv->recv_level =
-						gst_bin_get_by_name(
-						GST_BIN(GST_OBJECT_PARENT(
-						peer)), "recvlevel");
-				gst_object_unref(peer);
-			}
-			gst_object_unref(sinkpad);
-		}
-		gst_iterator_free(iter);
 	}
 }
 
@@ -779,6 +771,8 @@ adium_media_stream_info_cb(PurpleMedia *media, PurpleMediaInfoType type,
 		adium_media_emit_message(gtkmedia,
 				_("You have rejected the call."));
 	} else if (type == PURPLE_MEDIA_INFO_ACCEPT) {
+		if (local == TRUE)
+			purple_request_close_with_handle(gtkmedia);
 		adium_media_set_state(gtkmedia, ADIUM_MEDIA_ACCEPTED);
 		adium_media_emit_message(gtkmedia, _("Call in progress."));
 		gtk_statusbar_push(GTK_STATUSBAR(gtkmedia->priv->statusbar),
@@ -821,18 +815,6 @@ adium_media_set_property (GObject *object, guint prop_id, const GValue *value, G
 				g_free(media->priv->screenname);
 			media->priv->screenname = g_value_dup_string(value);
 			break;
-		case PROP_SEND_LEVEL:
-			if (media->priv->send_level)
-				gst_object_unref(media->priv->send_level);
-			media->priv->send_level = g_value_get_object(value);
-			g_object_ref(media->priv->send_level);
-			break;
-		case PROP_RECV_LEVEL:
-			if (media->priv->recv_level)
-				gst_object_unref(media->priv->recv_level);
-			media->priv->recv_level = g_value_get_object(value);
-			g_object_ref(media->priv->recv_level);
-			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 			break;
@@ -853,12 +835,6 @@ adium_media_get_property (GObject *object, guint prop_id, GValue *value, GParamS
 			break;
 		case PROP_SCREENNAME:
 			g_value_set_string(value, media->priv->screenname);
-			break;
-		case PROP_SEND_LEVEL:
-			g_value_set_object(value, media->priv->send_level);
-			break;
-		case PROP_RECV_LEVEL:
-			g_value_set_object(value, media->priv->recv_level);
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -907,6 +883,14 @@ create_default_video_src(PurpleMedia *media,
 	GstPad *ghost;
 	GstCaps *caps;
 
+#ifdef _WIN32
+	/* autovideosrc doesn't pick ksvideosrc for some reason */
+	src = gst_element_factory_make("ksvideosrc", NULL);
+	if (src == NULL)
+		src = gst_element_factory_make("dshowvideosrc", NULL);
+	if (src == NULL)
+		src = gst_element_factory_make("autovideosrc", NULL);
+#else
 	src = gst_element_factory_make("gconfvideosrc", NULL);
 	if (src == NULL)
 		src = gst_element_factory_make("autovideosrc", NULL);
@@ -914,10 +898,7 @@ create_default_video_src(PurpleMedia *media,
 		src = gst_element_factory_make("v4l2src", NULL);
 	if (src == NULL)
 		src = gst_element_factory_make("v4lsrc", NULL);
-	if (src == NULL)
-		src = gst_element_factory_make("ksvideosrc", NULL);
-	if (src == NULL)
-		src = gst_element_factory_make("dshowvideosrc", NULL);
+#endif
 	if (src == NULL) {
 		purple_debug_error("gtkmedia", "Unable to find a suitable "
 				"element for the default video source.\n");
@@ -962,11 +943,7 @@ static GstElement *
 create_default_audio_src(PurpleMedia *media,
 		const gchar *session_id, const gchar *participant)
 {
-	GstElement *bin, *src, *volume, *level;
-	GstPad *pad, *ghost;
-	double input_volume = purple_prefs_get_int(
-			"/adium/media/audio/volume/input")/10.0;
-
+	GstElement *src;
 	src = gst_element_factory_make("gconfaudiosrc", NULL);
 	if (src == NULL)
 		src = gst_element_factory_make("autoaudiosrc", NULL);
@@ -981,31 +958,15 @@ create_default_audio_src(PurpleMedia *media,
 				"element for the default audio source.\n");
 		return NULL;
 	}
-
-	bin = gst_bin_new("adiumdefaultaudiosrc");
-	volume = gst_element_factory_make("volume", "purpleaudioinputvolume");
-	g_object_set(volume, "volume", input_volume, NULL);
-	level = gst_element_factory_make("level", "sendlevel");
-	gst_bin_add_many(GST_BIN(bin), src, volume, level, NULL);
-	gst_element_link(src, volume);
-	gst_element_link(volume, level);
-	pad = gst_element_get_pad(level, "src");
-	ghost = gst_ghost_pad_new("ghostsrc", pad);
-	gst_element_add_pad(bin, ghost);
-	g_object_set(G_OBJECT(level), "message", TRUE, NULL);
-
-	return bin;
+	gst_element_set_name(src, "adiumdefaultaudiosrc");
+	return src;
 }
 
 static GstElement *
 create_default_audio_sink(PurpleMedia *media,
 		const gchar *session_id, const gchar *participant)
 {
-	GstElement *bin, *sink, *volume, *level, *queue;
-	GstPad *pad, *ghost;
-	double output_volume = purple_prefs_get_int(
-			"/adium/media/audio/volume/output")/10.0;
-
+	GstElement *sink;
 	sink = gst_element_factory_make("gconfaudiosink", NULL);
 	if (sink == NULL)
 		sink = gst_element_factory_make("autoaudiosink",NULL);
@@ -1014,22 +975,7 @@ create_default_audio_sink(PurpleMedia *media,
 				"element for the default audio sink.\n");
 		return NULL;
 	}
-
-	bin = gst_bin_new("adiumrecvaudiobin");
-	volume = gst_element_factory_make("volume", "purpleaudiooutputvolume");
-	g_object_set(volume, "volume", output_volume, NULL);
-	level = gst_element_factory_make("level", "recvlevel");
-	queue = gst_element_factory_make("queue", NULL);
-	gst_bin_add_many(GST_BIN(bin), sink, volume, level, queue, NULL);
-	gst_element_link(level, sink);
-	gst_element_link(volume, level);
-	gst_element_link(queue, volume);
-	pad = gst_element_get_pad(queue, "sink");
-	ghost = gst_ghost_pad_new("ghostsink", pad);
-	gst_element_add_pad(bin, ghost);
-	g_object_set(G_OBJECT(level), "message", TRUE, NULL);
-
-	return bin;
+	return sink;
 }
 #endif  /* USE_VV */
 
@@ -1074,7 +1020,7 @@ adium_medias_init(void)
 			"create-cb", create_default_audio_sink, NULL);
 
 	g_signal_connect(G_OBJECT(manager), "init-media",
-			 G_CALLBACK(adium_media_new_cb), NULL);
+			 G_CALLBACK(adiumadium_media_new_cb), NULL);
 
 	purple_media_manager_set_ui_caps(manager, 
 			PURPLE_MEDIA_CAPS_AUDIO |
@@ -1088,12 +1034,5 @@ adium_medias_init(void)
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);
 	purple_media_manager_set_active_element(manager, default_audio_sink);
-
-	purple_prefs_add_none("/adium/media");
-	purple_prefs_add_none("/adium/media/audio");
-	purple_prefs_add_none("/adium/media/audio/volume");
-	purple_prefs_add_int("/adium/media/audio/volume/input", 10);
-	purple_prefs_add_int("/adium/media/audio/volume/output", 10);
 #endif
 }
-
