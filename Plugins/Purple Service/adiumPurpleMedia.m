@@ -2,10 +2,7 @@
 #include <string.h>
 #include <libpurple/media.h>
 #include <libpurple/mediamanager.h>
-
-//XXX
-#include "media-gst.h"
-
+#include <libpurple/media-gst.h>
 #include <gst/interfaces/xoverlay.h>
 
 #define ADIUM_TYPE_MEDIA            (adium_media_get_type())
