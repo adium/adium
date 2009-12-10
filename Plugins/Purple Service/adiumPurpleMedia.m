@@ -25,163 +25,6 @@
 #include <libpurple/media-gst.h>
 #include <gst/interfaces/xoverlay.h>
 
-struct _AdiumMedia
-{
-	GtkWindow parent;
-	AdiumMediaPrivate *priv;
-};
-
-struct _AdiumMediaPrivate
-{
-	PurpleMedia *media;
-	gchar *screenname;
-	gulong level_handler_id;
-
-	GtkItemFactory *item_factory;
-	GtkWidget *menubar;
-	GtkWidget *statusbar;
-
-	GtkWidget *hold;
-	GtkWidget *mute;
-	GtkWidget *pause;
-
-	GtkWidget *send_progress;
-	GtkWidget *recv_progress;
-
-	AdiumMediaState state;
-
-	GtkWidget *display;
-	GtkWidget *send_widget;
-	GtkWidget *recv_widget;
-	GtkWidget *button_widget;
-	GtkWidget *local_video;
-	GtkWidget *remote_video;
-
-	guint timeout_id;
-	PurpleMediaSessionType request_type;
-};
-
-#ifdef HAVE_X11
-static int
-adium_x_error_handler(Display *display, XErrorEvent *event)
-{
-	const gchar *error_type;
-	switch (event->error_code) {
-#define XERRORCASE(type) case type: error_type = #type; break
-		XERRORCASE(BadAccess);
-		XERRORCASE(BadAlloc);
-		XERRORCASE(BadAtom);
-		XERRORCASE(BadColor);
-		XERRORCASE(BadCursor);
-		XERRORCASE(BadDrawable);
-		XERRORCASE(BadFont);
-		XERRORCASE(BadGC);
-		XERRORCASE(BadIDChoice);
-		XERRORCASE(BadImplementation);
-		XERRORCASE(BadLength);
-		XERRORCASE(BadMatch);
-		XERRORCASE(BadName);
-		XERRORCASE(BadPixmap);
-		XERRORCASE(BadRequest);
-		XERRORCASE(BadValue);
-		XERRORCASE(BadWindow);
-#undef XERRORCASE
-		default:
-			error_type = "unknown";
-			break;
-	}
-	purple_debug_error("media", "A %s Xlib error has occurred. "
-			"The program would normally crash now.\n",
-			error_type);
-	return 0;
-}
-#endif
-
-static void
-menu_hangup(gpointer data, guint action, GtkWidget *item)
-{
-	AdiumMedia *gtkmedia = ADIUM_MEDIA(data);
-	purple_media_stream_info(gtkmedia->priv->media,
-			PURPLE_MEDIA_INFO_HANGUP, NULL, NULL, TRUE);
-}
-
-static GtkItemFactoryEntry menu_items[] = {
-	{ N_("/_Media"), NULL, NULL, 0, "<Branch>", NULL },
-	{ N_("/Media/_Hangup"), NULL, menu_hangup, 0, "<Item>", NULL },
-};
-
-static gint menu_item_count = sizeof(menu_items) / sizeof(menu_items[0]);
-
-static const char *
-item_factory_translate_func (const char *path, gpointer func_data)
-{
-	return _(path);
-}
-
-static GtkWidget *
-setup_menubar(AdiumMedia *window)
-{
-	GtkAccelGroup *accel_group;
-	GtkWidget *menu;
-
-	accel_group = gtk_accel_group_new ();
-	gtk_window_add_accel_group(GTK_WINDOW(window), accel_group);
-	g_object_unref(accel_group);
-
-	window->priv->item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR,
-			"<main>", accel_group);
-
-	gtk_item_factory_set_translate_func(window->priv->item_factory,
-			(GtkTranslateFunc)item_factory_translate_func,
-			NULL, NULL);
-
-	gtk_item_factory_create_items(window->priv->item_factory,
-			menu_item_count, menu_items, window);
-	g_signal_connect(G_OBJECT(accel_group), "accel-changed",
-			G_CALLBACK(adium_save_accels_cb), NULL);
-
-	menu = gtk_item_factory_get_widget(
-			window->priv->item_factory, "<main>");
-
-	gtk_widget_show(menu);
-	return menu;
-}
-
-static void
-adium_media_init (AdiumMedia *media)
-{
-	GtkWidget *vbox;
-	media->priv = ADIUM_MEDIA_GET_PRIVATE(media);
-
-#ifdef HAVE_X11
-	XSetErrorHandler(adium_x_error_handler);
-#endif
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_container_add(GTK_CONTAINER(media), vbox);
-
-	media->priv->statusbar = gtk_statusbar_new();
-	gtk_box_pack_end(GTK_BOX(vbox), media->priv->statusbar,
-			FALSE, FALSE, 0);
-	gtk_statusbar_push(GTK_STATUSBAR(media->priv->statusbar),
-			0, _("Calling..."));
-	gtk_widget_show(media->priv->statusbar);
-
-	media->priv->menubar = setup_menubar(media);
-	gtk_box_pack_start(GTK_BOX(vbox), media->priv->menubar,
-			FALSE, TRUE, 0);
-
-	media->priv->display = gtk_vbox_new(FALSE, ADIUM_HIG_BOX_SPACE);
-	gtk_container_set_border_width(GTK_CONTAINER(media->priv->display),
-			ADIUM_HIG_BOX_SPACE);
-	gtk_box_pack_start(GTK_BOX(vbox), media->priv->display,
-			TRUE, TRUE, ADIUM_HIG_BOX_SPACE);
-	gtk_widget_show(vbox);
-
-	g_signal_connect(G_OBJECT(media), "delete-event",
-			G_CALLBACK(adium_media_delete_event_cb), media);
-}
-
 static void
 level_message_cb(PurpleMedia *media, gchar *session_id, gchar *participant,
 		double level, AdiumMedia *gtkmedia)
@@ -228,15 +71,6 @@ adium_media_dispose(GObject *media)
 	}
 
 	G_OBJECT_CLASS(parent_class)->dispose(media);
-}
-
-static void
-adium_media_finalize(GObject *media)
-{
-	/* AdiumMedia *gtkmedia = ADIUM_MEDIA(media); */
-	purple_debug_info("gtkmedia", "adium_media_finalize\n");
-
-	G_OBJECT_CLASS(parent_class)->finalize(media);
 }
 
 static void
@@ -303,89 +137,6 @@ adium_media_error_cb(AdiumMedia *media, const char *error, AdiumMedia *gtkmedia)
 				PURPLE_MESSAGE_ERROR, time(NULL));
 	gtk_statusbar_push(GTK_STATUSBAR(gtkmedia->priv->statusbar),
 			0, error);
-}
-
-static void
-adium_media_accept_cb(PurpleMedia *media, int index)
-{
-	purple_media_stream_info(media, PURPLE_MEDIA_INFO_ACCEPT,
-			NULL, NULL, TRUE);
-}
-
-static void
-adium_media_reject_cb(PurpleMedia *media, int index)
-{
-	purple_media_stream_info(media, PURPLE_MEDIA_INFO_REJECT,
-			NULL, NULL, TRUE);
-}
-
-static gboolean
-adium_request_timeout_cb(AdiumMedia *gtkmedia)
-{
-	PurpleAccount *account;
-	PurpleBuddy *buddy;
-	const gchar *alias;
-	PurpleMediaSessionType type;
-	gchar *message = NULL;
-
-	account = purple_media_get_account(gtkmedia->priv->media);
-	buddy = purple_find_buddy(account, gtkmedia->priv->screenname);
-	alias = buddy ? purple_buddy_get_contact_alias(buddy) :
-			gtkmedia->priv->screenname;
-	type = gtkmedia->priv->request_type;
-	gtkmedia->priv->timeout_id = 0;
-
-	if (type & PURPLE_MEDIA_AUDIO && type & PURPLE_MEDIA_VIDEO) {
-		message = g_strdup_printf(_("%s wishes to start an audio/video session with you."),
-				alias);
-	} else if (type & PURPLE_MEDIA_AUDIO) {
-		message = g_strdup_printf(_("%s wishes to start an audio session with you."),
-				alias);
-	} else if (type & PURPLE_MEDIA_VIDEO) {
-		message = g_strdup_printf(_("%s wishes to start a video session with you."),
-				alias);
-	}
-
-	gtkmedia->priv->request_type = PURPLE_MEDIA_NONE;
-	if (!purple_media_accepted(gtkmedia->priv->media, NULL, NULL)) {
-		purple_request_accept_cancel(gtkmedia, _("Incoming Call"),
-				message, NULL, PURPLE_DEFAULT_ACTION_NONE,
-				(void*)account, gtkmedia->priv->screenname,
-				NULL, gtkmedia->priv->media,
-				adium_media_accept_cb,
-				adium_media_reject_cb);
-	}
-	adium_media_emit_message(gtkmedia, message);
-	g_free(message);
-	return FALSE;
-}
-
-static void
-#if GTK_CHECK_VERSION(2,12,0)
-adium_media_input_volume_changed(GtkScaleButton *range, double value,
-		PurpleMedia *media)
-{
-	double val = (double)value * 100.0;
-#else
-adium_media_input_volume_changed(GtkRange *range, PurpleMedia *media)
-{
-	double val = (double)gtk_range_get_value(GTK_RANGE(range));
-#endif
-	purple_media_set_input_volume(media, NULL, val);
-}
-
-static void
-#if GTK_CHECK_VERSION(2,12,0)
-adium_media_output_volume_changed(GtkScaleButton *range, double value,
-		PurpleMedia *media)
-{
-	double val = (double)value * 100.0;
-#else
-adium_media_output_volume_changed(GtkRange *range, PurpleMedia *media)
-{
-	double val = (double)gtk_range_get_value(GTK_RANGE(range));
-#endif
-	purple_media_set_output_volume(media, NULL, NULL, val);
 }
 
 static GtkWidget *
@@ -594,12 +345,7 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 		gtkmedia->priv->button_widget = button_widget;
 
 	if (purple_media_is_initiator(media, sid, NULL) == FALSE) {
-		if (gtkmedia->priv->timeout_id != 0)
-			g_source_remove(gtkmedia->priv->timeout_id);
-		gtkmedia->priv->request_type |= type;
-		gtkmedia->priv->timeout_id = g_timeout_add(500,
-				(GSourceFunc)adium_request_timeout_cb,
-				gtkmedia);
+#error XXX Add something to accept or reject this media
 	}
 
 	/* set the window icon according to the type */
@@ -743,7 +489,7 @@ adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 	
 	AIMedia *adiumMedia = [adium.mediaController mediaWithContact:contact onAccount:adiumAccount];
 
-	adiumMedia.protocolInfo = media;
+	adiumMedia.protocolInfo = (id)media;
 	
 	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {
 		[adium.mediaController showMedia:adiumMedia];
@@ -855,8 +601,7 @@ create_default_audio_sink(PurpleMedia *media,
 	}
 	return sink;
 }
-#endif  /* USE_VV */
-
+	
 void
 adium_medias_init(void)
 {
@@ -906,7 +651,7 @@ adium_medias_init(void)
 			PURPLE_MEDIA_CAPS_VIDEO_SINGLE_DIRECTION |
 			PURPLE_MEDIA_CAPS_AUDIO_VIDEO);
 
-	purple_debug_info("gtkmedia", "Registering media element types\n");
+	AILog(@"Registering media element types");
 	purple_media_manager_set_active_element(manager, default_video_src);
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);

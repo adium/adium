@@ -1800,6 +1800,26 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 }
 
 /*!
+ * @brief Set the input volume for media.
+ *
+ * @param inputVolume The input volume between 0 and 1.0
+ */
+- (void)media:(AIMedia *)media setInputVolume:(CGFloat)inputVolume
+{
+	purple_media_set_input_volume((PurpleMedia *)media.protocolInfo, NULL, (double)inputVolume);
+}
+
+/*!
+ * @brief Set the output volume for media.
+ *
+ * @param outputVolume The output volume between 0 and 1.0
+ */
+- (void)media:(AIMedia *)media setOutputVolume:(CGFloat)outputVolume
+{
+	purple_media_set_output_volume((PurpleMedia *)media.protocolInfo, NULL, NULL, (double)outputVolume);
+}
+
+/*!
  * @brief Close a media
  *
  * @param media The AIMedia to close
@@ -1809,6 +1829,17 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
 							 PURPLE_MEDIA_INFO_HANGUP,
 							 NULL, NULL, TRUE);
+}
+
+/*!
+ * @brief Accept a pending media
+ */
+- (void)incomingMedia:(AIMedia *)media acceptPendingRequest:(BOOL)accept
+{
+	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
+							 accept ? PURPLE_MEDIA_INFO_ACCEPT : PURPLE_MEDIA_INFO_REJECT,
+							 NULL, NULL, TRUE);
+	
 }
 
 //Account Connectivity -------------------------------------------------------------------------------------------------
