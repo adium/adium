@@ -58,6 +58,8 @@
 #import <AIUtilities/AIMutableStringAdditions.h>
 #import <AIUtilities/AISystemNetworkDefaults.h>
 #import <Adium/AdiumAuthorization.h>
+#import <Adium/AIMedia.h>
+#import <Adium/AIMediaControllerProtocol.h>
 
 #import "ESiTunesPlugin.h"
 #import "AMPurpleTuneTooltip.h"
@@ -1758,6 +1760,55 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 	if (xfer) {
 		[purpleAdapter xferCancel:xfer];
 	}	
+}
+
+#pragma mark Media
+/*!
+ * @brief Set the hold state for media.
+ *
+ * @param hold If the media's state should be hold
+ */
+- (void)media:(AIMedia *)media setHold:(BOOL)hold
+{
+	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
+							 hold ? PURPLE_MEDIA_INFO_HOLD : PURPLE_MEDIA_INFO_UNHOLD,
+							 NULL, NULL, TRUE);
+}
+
+/*!
+ * @brief Set the mute state for media.
+ *
+ * @param mute If the media's state should be mute
+ */
+- (void)media:(AIMedia *)media setMute:(BOOL)mute
+{
+	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
+							 mute ? PURPLE_MEDIA_INFO_MUTE : PURPLE_MEDIA_INFO_UNMUTE,
+							 NULL, NULL, TRUE);
+}
+
+/*!
+ * @brief Set the pause state for media.
+ *
+ * @param pause If the media's state should be pause
+ */
+- (void)media:(AIMedia *)media setPause:(BOOL)pause
+{
+	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
+							 pause ? PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
+							 NULL, NULL, TRUE);	
+}
+
+/*!
+ * @brief Close a media
+ *
+ * @param media The AIMedia to close
+ */
+- (void)closeMedia:(AIMedia *)media
+{
+	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
+							 PURPLE_MEDIA_INFO_HANGUP,
+							 NULL, NULL, TRUE);
 }
 
 //Account Connectivity -------------------------------------------------------------------------------------------------

@@ -97,6 +97,39 @@ typedef enum {
 	- (void)cancelFileTransfer:(ESFileTransfer *)fileTransfer;
 @end
 
+@class AIMedia;
+
+//Support for media
+@protocol AIAccount_Media
+/*!
+ * @brief Set the hold state for media.
+ *
+ * @param hold If the media's state should be hold
+ */
+- (void)media:(AIMedia *)media setHold:(BOOL)hold;
+
+/*!
+ * @brief Set the mute state for media.
+ *
+ * @param mute If the media's state should be mute
+ */
+- (void)media:(AIMedia *)media setMute:(BOOL)mute;
+
+/*!
+ * @brief Set the pause state for media.
+ *
+ * @param pause If the media's state should be pause
+ */
+- (void)media:(AIMedia *)media setPause:(BOOL)pause;
+
+/*!
+ * @brief Close a media
+ *
+ * @param media The AIMedia to close
+ */
+- (void)closeMedia:(AIMedia *)media;
+@end
+
 /*!
  * @protocol AIAccount_Privacy
  * @brief Support for privacy settings
