@@ -9,6 +9,11 @@
 #import <Adium/AIControllerProtocol.h>
 
 typedef enum {
+	AIMediaTypeAudio,
+	AIMediaTypeVideo
+} AIMediaType;
+
+typedef enum {
 	AIMediaStateWaiting = 1, 	/* Waiting for response */
 	AIMediaStateRequested,		/* Got request */
 	AIMediaStateAccepted,		/* Accepted call */

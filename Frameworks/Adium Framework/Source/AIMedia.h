@@ -18,11 +18,13 @@
 	CGFloat			sendProgress;
 	CGFloat			receiveProgress;
 	
+	AIMediaType		mediaType;
 	AIMediaState	mediaState;
 }
 
 @property (assign, nonatomic) id protocolInfo;
 
+@property (readwrite, nonatomic) AIMediaType mediaType;
 @property (readwrite, nonatomic) AIMediaState mediaState;
 @property (readwrite, nonatomic) CGFloat sendProgress;
 @property (readwrite, nonatomic) CGFloat receiveProgress;
