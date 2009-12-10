@@ -95,16 +95,15 @@ realize_cb(GtkWidget *widget, AdiumMediaRealizeData *data)
 }
 
 static void
-adium_media_error_cb(AdiumMedia *media, const char *error, AdiumMedia *gtkmedia)
+adium_media_emit_message(PurpleMedia *media, const char *message, AIMedia *adiumMedia)
 {
-	PurpleConversation *conv = purple_find_conversation_with_account(
-			PURPLE_CONV_TYPE_ANY, gtkmedia->priv->screenname,
-			purple_media_get_account(gtkmedia->priv->media));
-	if (conv != NULL)
-		purple_conversation_write(conv, NULL, error,
-				PURPLE_MESSAGE_ERROR, time(NULL));
-	gtk_statusbar_push(GTK_STATUSBAR(gtkmedia->priv->statusbar),
-			0, error);
+#error emit message	
+}
+
+static void
+adium_media_error_cb(PurpleMedia *media, const char *error, AIMedia *adiumMedia)
+{
+#error error message
 }
 
 static GtkWidget *
@@ -172,12 +171,9 @@ adium_media_add_audio_widget(AdiumMedia *gtkmedia,
 }
 
 static void
-adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
+adium_media_ready_cb(PurpleMedia *media, AIMedia *adiumMedia, const gchar *sid)
 {
-	GtkWidget *send_widget = NULL, *recv_widget = NULL, *button_widget = NULL;
-	PurpleMediaSessionType type =
-			purple_media_get_session_type(media, sid);
-	GdkPixbuf *icon = NULL;
+	PurpleMediaSessionType type = purple_media_get_session_type(media, sid);
 
 	if (gtkmedia->priv->recv_widget == NULL
 			&& type & (PURPLE_MEDIA_RECV_VIDEO |
@@ -336,116 +332,30 @@ adium_media_ready_cb(PurpleMedia *media, AdiumMedia *gtkmedia, const gchar *sid)
 }
 
 static void
-adium_media_state_changed_cb(PurpleMedia *media, PurpleMediaState state,
-		gchar *sid, gchar *name, AdiumMedia *gtkmedia)
+adium_media_state_changed_cb(PurpleMedia *media, PurpleMediaState state, gchar *sid, gchar *name, AIMedia *adiumMedia)
 {
-	purple_debug_info("gtkmedia", "state: %d sid: %s name: %s\n",
-			state, sid ? sid : "(null)", name ? name : "(null)");
+	AILog(@"state: %d sid: %s name: %s\n", state, sid ? sid : "(null)", name ? name : "(null)");
+	
 	if (sid == NULL && name == NULL) {
 		if (state == PURPLE_MEDIA_STATE_END) {
-			adium_media_emit_message(gtkmedia,
-					_("The call has been terminated."));
-			gtk_widget_destroy(GTK_WIDGET(gtkmedia));
+#error			adium_media_emit_message(adiumMedia, _("The call has been terminated."));
 		}
-	} else if (state == PURPLE_MEDIA_STATE_NEW &&
-			sid != NULL && name != NULL) {
-		adium_media_ready_cb(media, gtkmedia, sid);
+	} else if (state == PURPLE_MEDIA_STATE_NEW && sid != NULL && name != NULL) {
+		adium_media_ready_cb(media, adiumMedia, sid);
 	}
 }
 
 static void
-adium_media_stream_info_cb(PurpleMedia *media, PurpleMediaInfoType type,
-		gchar *sid, gchar *name, gboolean local,
-		AdiumMedia *gtkmedia)
+adium_media_stream_info_cb(PurpleMedia *media, PurpleMediaInfoType type, gchar *sid, gchar *name, gboolean local, AIMedia *adiumMedia)
 {
 	if (type == PURPLE_MEDIA_INFO_REJECT) {
-		adium_media_emit_message(gtkmedia,
-				_("You have rejected the call."));
-	} else if (type == PURPLE_MEDIA_INFO_ACCEPT) {
-		if (local == TRUE)
-			purple_request_close_with_handle(gtkmedia);
-		adium_media_set_state(gtkmedia, ADIUM_MEDIA_ACCEPTED);
+#warning		adium_media_emit_message(gtkmedia, _("You have rejected the call."));
+	} else if (type == PURPLE_MEDIA_INFO_ACCEPT) {		
+#warning Check for pending accept/deny
+		adiumMedia.mediaState = AIMediaStateAccepted;
+		
 		adium_media_emit_message(gtkmedia, _("Call in progress."));
-		gtk_statusbar_push(GTK_STATUSBAR(gtkmedia->priv->statusbar),
-				0, _("Call in progress."));
-		gtk_widget_show(GTK_WIDGET(gtkmedia));
 	}
-}
-
-static void
-adium_media_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
-{
-	AdiumMedia *media;
-	g_return_if_fail(ADIUM_IS_MEDIA(object));
-
-	media = ADIUM_MEDIA(object);
-	switch (prop_id) {
-		case PROP_MEDIA:
-		{
-			if (media->priv->media)
-				g_object_unref(media->priv->media);
-			media->priv->media = g_value_get_object(value);
-			g_object_ref(media->priv->media);
-
-			if (purple_media_is_initiator(media->priv->media,
-					 NULL, NULL) == TRUE)
-				adium_media_set_state(media, ADIUM_MEDIA_WAITING);
-			else
-				adium_media_set_state(media, ADIUM_MEDIA_REQUESTED);
-
-			g_signal_connect(G_OBJECT(media->priv->media), "error",
-				G_CALLBACK(adium_media_error_cb), media);
-			g_signal_connect(G_OBJECT(media->priv->media), "state-changed",
-				G_CALLBACK(adium_media_state_changed_cb), media);
-			g_signal_connect(G_OBJECT(media->priv->media), "stream-info",
-				G_CALLBACK(adium_media_stream_info_cb), media);
-			break;
-		}
-		case PROP_SCREENNAME:
-			if (media->priv->screenname)
-				g_free(media->priv->screenname);
-			media->priv->screenname = g_value_dup_string(value);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-			break;
-	}
-}
-
-static void
-adium_media_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
-{
-	AdiumMedia *media;
-	g_return_if_fail(ADIUM_IS_MEDIA(object));
-
-	media = ADIUM_MEDIA(object);
-
-	switch (prop_id) {
-		case PROP_MEDIA:
-			g_value_set_object(value, media->priv->media);
-			break;
-		case PROP_SCREENNAME:
-			g_value_set_string(value, media->priv->screenname);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-			break;
-	}
-}
-
-static GtkWidget *
-adium_media_new(PurpleMedia *media, const gchar *screenname)
-{
-	AdiumMedia *gtkmedia = g_object_new(adium_media_get_type(),
-					     "media", media,
-					     "screenname", screenname, NULL);
-	return GTK_WIDGET(gtkmedia);
-}
-
-static void
-adium_media_set_state(AdiumMedia *gtkmedia, AdiumMediaState state)
-{
-	gtkmedia->priv->state = state;
 }
 
 static gboolean
@@ -461,8 +371,19 @@ adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 	
 	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {
 		[adium.mediaController showMedia:adiumMedia];
+		
+		adiumMedia.mediaState = AIMediaStateWaiting;
+	} else {
+		adiumMedia.mediaState = AIMediaStateRequested;
 	}
-
+	
+	g_signal_connect(G_OBJECT(media), "error",
+					 G_CALLBACK(adium_media_error_cb), adiumMedia);
+	g_signal_connect(G_OBJECT(media), "state-changed",
+					 G_CALLBACK(adium_media_state_changed_cb), adiumMedia);
+	g_signal_connect(G_OBJECT(media), "stream-info",
+					 G_CALLBACK(adium_media_stream_info_cb), adiumMedia);
+	
 	return TRUE;
 }
 
