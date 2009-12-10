@@ -94,7 +94,7 @@ adium_media_ready_cb(PurpleMedia *media, AIMedia *adiumMedia, const gchar *sid)
 static void
 adium_media_state_changed_cb(PurpleMedia *media, PurpleMediaState state, gchar *sid, gchar *name, AIMedia *adiumMedia)
 {
-	AILog(@"state: %d sid: %s name: %s\n", state, sid ? sid : "(null)", name ? name : "(null)");
+	NSLog(@"state: %d sid: %s name: %s\n", state, sid ? sid : "(null)", name ? name : "(null)");
 	
 	adiumMedia.mediaState = state;
 	
@@ -110,6 +110,8 @@ adium_media_state_changed_cb(PurpleMedia *media, PurpleMediaState state, gchar *
 static void
 adium_media_stream_info_cb(PurpleMedia *media, PurpleMediaInfoType type, gchar *sid, gchar *name, gboolean local, AIMedia *adiumMedia)
 {
+	NSLog(@"Media stream info cb: %d", type);
+	
 	if (type == PURPLE_MEDIA_INFO_REJECT) {
 		adium_media_emit_message(adiumMedia, _("You have rejected the call."));
 	} else if (type == PURPLE_MEDIA_INFO_ACCEPT) {		
@@ -124,6 +126,8 @@ static gboolean
 adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 		PurpleAccount *account, gchar *screenname, gpointer nul)
 {
+	NSLog(@"Media new cb: %s", screenname);
+	
 	AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(account, screenname));
 	AIAccount *adiumAccount = accountLookup(account);
 	
@@ -294,7 +298,7 @@ adiumPurpleMedia_init(void)
 			PURPLE_MEDIA_CAPS_VIDEO_SINGLE_DIRECTION |
 			PURPLE_MEDIA_CAPS_AUDIO_VIDEO);
 
-	AILog(@"Registering media element types");
+	NSLog(@"Registering media element types");
 	purple_media_manager_set_active_element(manager, default_video_src);
 	purple_media_manager_set_active_element(manager, default_video_sink);
 	purple_media_manager_set_active_element(manager, default_audio_src);
