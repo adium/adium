@@ -34,4 +34,6 @@
 + (AIMedia *)mediaWithContact:(AIListContact *)inListContact
 					onAccount:(AIAccount *)inAccount;
 
+- (void)show;
+
 @end
