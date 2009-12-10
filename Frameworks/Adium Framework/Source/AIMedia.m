@@ -53,4 +53,9 @@
 	[adium.mediaController media:self didSetState:inMediaState];
 }
 
+- (void)show
+{
+	
+}
+
 @end

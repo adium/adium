@@ -43,11 +43,6 @@
 	return nil;
 }
 
-- (void)showMedia:(AIMedia *)media
-{
-	
-}
-
 - (void)media:(AIMedia *)media didSetState:(AIMediaState)state
 {
 	
