@@ -53,9 +53,4 @@
 	
 }
 
-- (void)showMedia:(AIMedia *)media
-{
-	
-}
-
 @end
