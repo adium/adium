@@ -21,4 +21,6 @@
 @property (readwrite, retain, nonatomic) NSView *outgoingVideo;
 @property (readwrite, retain, nonatomic) NSView *incomingVideo;
 
++ (AIMediaWindowController *)mediaWindowControllerForMedia:(AIMedia *)media;
+
 @end

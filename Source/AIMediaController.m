@@ -8,17 +8,22 @@
 
 #import "AIMediaController.h"
 
+#import <Adium/AIMediaControllerProtocol.h>
 #import <Adium/AIMedia.h>
+
+#import "AIMediaWindowController.h"
 
 @implementation AIMediaController
 - (void)controllerDidLoad
 {
 	openMedias = [[NSMutableArray alloc] init];
+	openMediaControllers = [[NSMutableArray alloc] init];
 }
 
 - (void)controllerWillClose
 {
 	[openMedias release]; openMedias = nil;
+	[openMediaControllers release]; openMediaControllers = nil;
 }
 
 - (AIMedia *)mediaWithContact:(AIListContact *)contact
@@ -45,7 +50,22 @@
 
 - (NSWindowController <AIMediaWindowController> *)windowControllerForMedia:(AIMedia *)media
 {
-	return nil;
+	for (NSWindowController <AIMediaWindowController> *windowController in openMediaControllers) {
+		if (windowController.media == media)
+			return windowController;
+	}
+	
+	NSWindowController *windowController = [AIMediaWindowController mediaWindowControllerForMedia:media];
+	[openMediaControllers addObject:windowController];
+	
+	return windowController;
+}
+
+- (void)closeMediaWindowController:(NSWindowController <AIMediaWindowController> *)mediaWindowController
+{
+	[[mediaWindowController retain] autorelease];
+	
+	[openMediaControllers removeObject:mediaWindowController];
 }
 
 - (void)media:(AIMedia *)media didSetState:(AIMediaState)state

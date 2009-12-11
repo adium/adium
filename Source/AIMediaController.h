@@ -10,6 +10,7 @@
 
 @interface AIMediaController : NSObject <AIMediaController> {
 	NSMutableArray *openMedias;
+	NSMutableArray *openMediaControllers;
 }
 
 @end

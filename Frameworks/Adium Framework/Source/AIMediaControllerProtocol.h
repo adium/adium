@@ -20,12 +20,13 @@ typedef enum {
 	AIMediaStateRejected,		/* Rejected call */
 } AIMediaState;
 
+@class AIMedia, AIListContact, AIAccount;
+
 @protocol AIMediaWindowController
+@property (readwrite, retain, nonatomic) AIMedia *media;
 @property (readwrite, retain, nonatomic) NSView *outgoingVideo;
 @property (readwrite, retain, nonatomic) NSView *incomingVideo;
 @end
-
-@class AIMedia, AIListContact, AIAccount;
 
 @protocol AIMediaController <AIController>
 - (AIMedia *)mediaWithContact:(AIListContact *)contact
@@ -35,6 +36,7 @@ typedef enum {
 							onAccount:(AIAccount *)account;
 
 - (NSWindowController <AIMediaWindowController> *)windowControllerForMedia:(AIMedia *)media;
+- (void)closeMediaWindowController:(NSWindowController <AIMediaWindowController> *)mediaWindowController;
 
 - (void)media:(AIMedia *)media didSetState:(AIMediaState)state;
 
