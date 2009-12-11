@@ -137,6 +137,9 @@ make_framework() {
 		status "Adding gst plugins..."
 		GST_PLUGINS_DIR="${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
 		quiet mkdir "${GST_PLUGINS_DIR}"
+		
+		log python "${ROOTDIR}/framework_maker/pluginize.py" "${ROOTDIR}/build/lib/gstreamer-0.10" "${ROOTDIR}/Frameworks/libgstreamer.subproj/libgstreamer.framework/PlugIns"
+		
 		pushd "${ROOTDIR}/build/lib/gstreamer-0.10/"
 		log cp *.so "${GST_PLUGINS_DIR}"
 		popd
