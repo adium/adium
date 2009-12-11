@@ -251,20 +251,7 @@ create_default_audio_sink(PurpleMedia *media,
 	
 void
 adiumPurpleMedia_init(void)
-{
-	gst_registry_fork_set_enabled (FALSE);
-	
-	GError *error = NULL;
-	if (gst_init_check(NULL, NULL, &error)) {
-		purple_notify_error(NULL, _("GStreamer Failure"),
-							_("GStreamer failed to initialize."),
-							error ? error->message : "");
-		if (error) {
-			g_error_free(error);
-			error = NULL;
-		}
-	}
-	
+{	
 	PurpleMediaManager *manager = purple_media_manager_get();
 	PurpleMediaElementInfo *default_video_src =
 			g_object_new(PURPLE_TYPE_MEDIA_ELEMENT_INFO,
