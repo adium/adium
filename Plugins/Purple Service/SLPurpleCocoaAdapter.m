@@ -163,6 +163,21 @@ static void ZombieKiller_Signal(SInt32 i)
 
 - (void)initLibPurple
 {
+	// Init the glib type system (used by GObjects)
+	g_type_init();
+	
+	// Don't fork!
+	gst_registry_fork_set_enabled (FALSE);
+	
+	GError *error = NULL;
+	if (gst_init_check(NULL, NULL, &error)) {
+		NSLog(@"Failed to init GStreamer: %s", error ? error->message : "no error message.");
+		if (error) {
+			g_error_free(error);
+			error = NULL;
+		}
+	}
+	
 	//Set the gaim user directory to be within this user's directory
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"Adium 1.0.3 moved to libpurple"]) {
 		//Remove old icons cache

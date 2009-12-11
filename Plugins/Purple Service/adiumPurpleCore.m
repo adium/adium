@@ -155,7 +155,7 @@ static void associateLibpurpleAccounts(void)
 
 /* The core is ready... finish configuring libpurple and its plugins */
 static void adiumPurpleCoreUiInit(void)
-{		
+{
 	bindtextdomain("pidgin", [[[NSBundle bundleWithIdentifier:@"im.pidgin.libpurple"] resourcePath] fileSystemRepresentation]);
 	bind_textdomain_codeset("pidgin", "UTF-8");
 	textdomain("pidgin");
