@@ -123,6 +123,8 @@
 		1139FFAA0F85260E0081A418 /* AIIRCChannelLinker.m in Sources */ = {isa = PBXBuildFile; fileRef = 1139FFA90F85260E0081A418 /* AIIRCChannelLinker.m */; };
 		113E06AF10D0ABE3005D5B9A /* adiumPurpleMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = 113E06AE10D0ABE3005D5B9A /* adiumPurpleMedia.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		113F26A00F5CC03F00954772 /* AITwitterURLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 113F269F0F5CC03F00954772 /* AITwitterURLParser.m */; };
+		1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1147FCC310D1CB4C004E9E8D /* AIMediaWindowController.m */; };
+		1147FCC810D1CB83004E9E8D /* AIMediaWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 1147FCC710D1CB83004E9E8D /* AIMediaWindow.nib */; };
 		114849B90F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		114849BA0F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */; };
 		114849BC0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = 114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */; };
@@ -1907,6 +1909,9 @@
 		113E06AE10D0ABE3005D5B9A /* adiumPurpleMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = adiumPurpleMedia.h; path = "Plugins/Purple Service/adiumPurpleMedia.h"; sourceTree = "<group>"; };
 		113F269E0F5CC03F00954772 /* AITwitterURLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AITwitterURLParser.h; path = "Plugins/Twitter Plugin/AITwitterURLParser.h"; sourceTree = "<group>"; };
 		113F269F0F5CC03F00954772 /* AITwitterURLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AITwitterURLParser.m; path = "Plugins/Twitter Plugin/AITwitterURLParser.m"; sourceTree = "<group>"; };
+		1147FCC210D1CB4C004E9E8D /* AIMediaWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIMediaWindowController.h; path = Source/AIMediaWindowController.h; sourceTree = "<group>"; };
+		1147FCC310D1CB4C004E9E8D /* AIMediaWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIMediaWindowController.m; path = Source/AIMediaWindowController.m; sourceTree = "<group>"; };
+		1147FCC710D1CB83004E9E8D /* AIMediaWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIMediaWindow.nib; path = Resources/AIMediaWindow.nib; sourceTree = "<group>"; };
 		114849B70F7841C600EA5264 /* AIAuthorizationRequestsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIAuthorizationRequestsWindowController.h; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.h"; sourceTree = "<group>"; };
 		114849B80F7841C600EA5264 /* AIAuthorizationRequestsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AIAuthorizationRequestsWindowController.m; path = "Frameworks/Adium Framework/Source/AIAuthorizationRequestsWindowController.m"; sourceTree = "<group>"; };
 		114849BB0F78420300EA5264 /* AIAuthorizationRequestsWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = AIAuthorizationRequestsWindow.nib; path = "Frameworks/Adium Framework/Resources/AIAuthorizationRequestsWindow.nib"; sourceTree = "<group>"; };
@@ -7199,6 +7204,9 @@
 				344C0D4306B6D5E300DA7200 /* Applescriptability */,
 				11819A0210D0B8BE003E8ECA /* AIMediaController.h */,
 				11819A0310D0B8BE003E8ECA /* AIMediaController.m */,
+				1147FCC710D1CB83004E9E8D /* AIMediaWindow.nib */,
+				1147FCC210D1CB4C004E9E8D /* AIMediaWindowController.h */,
+				1147FCC310D1CB4C004E9E8D /* AIMediaWindowController.m */,
 			);
 			name = Other;
 			sourceTree = "<group>";
@@ -9962,6 +9970,7 @@
 				1130EA9D109B445D00FB3454 /* pref-mention.png in Resources */,
 				1130EA9E109B445D00FB3454 /* pref-messagealerts.png in Resources */,
 				11AE5555109CC88C0074BDC2 /* pref-confirmations.png in Resources */,
+				1147FCC810D1CB83004E9E8D /* AIMediaWindow.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10628,6 +10637,7 @@
 				11D915720FFC100700B39713 /* AIGenericMultipartImageUploader.m in Sources */,
 				11000D041098863B0096A1E2 /* AIDefaultFontRemovalPlugin.m in Sources */,
 				11819A0410D0B8BE003E8ECA /* AIMediaController.m in Sources */,
+				1147FCC410D1CB4C004E9E8D /* AIMediaWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

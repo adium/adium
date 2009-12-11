@@ -135,10 +135,10 @@ adium_media_new_cb(PurpleMediaManager *manager, PurpleMedia *media,
 
 	adiumMedia.protocolInfo = (id)media;
 	
-	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {
-		[adium.mediaController showMedia:adiumMedia];
-		
+	if (purple_media_is_initiator(media, NULL, NULL) == TRUE) {		
 		adiumMedia.mediaState = AIMediaStateWaiting;
+		
+		[[adium.mediaController windowControllerForMedia:adiumMedia] showWindow:nil];
 	} else {
 		adiumMedia.mediaState = AIMediaStateRequested;
 	}

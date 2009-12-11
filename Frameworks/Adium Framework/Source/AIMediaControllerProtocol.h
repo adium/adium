@@ -21,8 +21,8 @@ typedef enum {
 } AIMediaState;
 
 @protocol AIMediaWindowController
-@property (readwrite, retain) NSView *outgoingVideo;
-@property (readwrite, retain) NSView *incomingVideo;
+@property (readwrite, retain, nonatomic) NSView *outgoingVideo;
+@property (readwrite, retain, nonatomic) NSView *incomingVideo;
 @end
 
 @class AIMedia, AIListContact, AIAccount;
@@ -35,8 +35,6 @@ typedef enum {
 							onAccount:(AIAccount *)account;
 
 - (NSWindowController <AIMediaWindowController> *)windowControllerForMedia:(AIMedia *)media;
-
-- (void)showMedia:(AIMedia *)media;
 
 - (void)media:(AIMedia *)media didSetState:(AIMediaState)state;
 
