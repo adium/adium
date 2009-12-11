@@ -12,8 +12,9 @@
 @interface AIMediaWindowController : AIWindowController <AIMediaWindowController> {
 	AIMedia	*media;
 	
-	NSView	*outgoingVideo;
-	NSView	*incomingVideo;
+	IBOutlet NSView *controlView;
+	IBOutlet NSView	*outgoingVideo;
+	IBOutlet NSView	*incomingVideo;
 }
 
 @property (readwrite, retain, nonatomic) AIMedia *media;
