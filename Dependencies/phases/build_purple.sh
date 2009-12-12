@@ -59,7 +59,7 @@ fetch_libpurple() {
 # libpurple
 #
 build_libpurple() {
-	fetch_libpurple
+	#fetch_libpurple
 	prereq "cyrus-sasl" \
 		"ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/OLD-VERSIONS/sasl/cyrus-sasl-2.1.18.tar.gz"
 	
@@ -117,8 +117,8 @@ build_libpurple() {
 				--disable-idn \
 				$KERBEROS"
 		xconfigure "$BASE_CFLAGS -I/usr/include/kerberosIV -DHAVE_SSL \
-			        -DHAVE_OPENSSL -fno-common" \
-			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0" \
+			        -DHAVE_OPENSSL -fno-common -DHAVE_ZLIB" \
+			"$BASE_LDFLAGS -lsasl2 -ljson-glib-1.0 -lz" \
 			"${CONFIG_CMD}" \
 			"${ROOTDIR}/source/im.pidgin.adium/libpurple/purple.h" \
 			"${ROOTDIR}/source/im.pidgin.adium/config.h"
