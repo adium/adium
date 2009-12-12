@@ -222,6 +222,7 @@ build_gstreamer() {
 				--prefix=$ROOTDIR/build \
 				--disable-examples \
 				--disable-tests \
+				--disable-option-parsing \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \
