@@ -96,13 +96,14 @@
  */
 - (void)checkHandledSchemes
 {
-	if ((![[adium.preferenceController preferenceForKey:PREF_KEY_SET_DEFAULT_FIRST_TIME
-												  group:GROUP_URL_HANDLING] boolValue]) ||
-		([[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
-												 group:GROUP_URL_HANDLING] boolValue])) {
-		// Either this is our first launch, or we're set to enforce our defaults.
-		// Set ourself as the default for everything.
-		
+	if (![[adium.preferenceController preferenceForKey:PREF_KEY_SET_DEFAULT_FIRST_TIME
+												 group:GROUP_URL_HANDLING] boolValue]) {
+		[adium.preferenceController setPreference:[NSNumber numberWithBool:YES]
+										   forKey:PREF_KEY_SET_DEFAULT_FIRST_TIME
+											group:GROUP_URL_HANDLING];
+		[self setAdiumAsDefault];
+	} else if ([[adium.preferenceController preferenceForKey:PREF_KEY_ENFORCE_DEFAULT
+													   group:GROUP_URL_HANDLING] boolValue]) {
 		[self setAdiumAsDefault];
 	}
 	
