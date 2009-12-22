@@ -720,7 +720,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				nil];
 			
 			stringHeight = [NSAttributedString stringHeightForAttributes:attributes];
-			attributedStringValue = [[NSAttributedString alloc] initWithString:[inString retain]
+			attributedStringValue = [[NSAttributedString alloc] initWithString:inString
 																	attributes:attributes];
 		} else {
 			attributedStringValue = nil;
