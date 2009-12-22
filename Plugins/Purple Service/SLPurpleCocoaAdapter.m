@@ -38,6 +38,7 @@
 #import <libpurple/libpurple.h>
 #import <glib.h>
 #import <stdlib.h>
+#import <gst/gst.h>
 
 #import "ESPurpleAIMAccount.h"
 #import "CBPurpleOscarAccount.h"
