@@ -327,7 +327,7 @@ ssl_cdsa_connect(PurpleSslConnection *gsc) {
     /*
      * Pass the connection information to the connection to be used by our callbacks
      */
-    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)gsc->fd);
+    err = (OSStatus)SSLSetConnection(cdsa_data->ssl_ctx, (SSLConnectionRef)(intptr_t)gsc->fd);
     if (err != noErr) {
 		purple_debug_error("cdsa", "SSLSetConnection failed\n");
 		if (gsc->error_cb != NULL)
