@@ -313,9 +313,9 @@
 		342F88C00A2A74D50001DB29 /* SRRecorderControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B40A2A74D40001DB29 /* SRRecorderControl.m */; };
 		342F88C20A2A74D50001DB29 /* SRCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B60A2A74D40001DB29 /* SRCommon.m */; };
 		342F88C40A2A74D50001DB29 /* SRRecorderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88B80A2A74D40001DB29 /* SRRecorderCell.m */; };
-		342F88CF0A2A74EB0001DB29 /* PTKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88C90A2A74EA0001DB29 /* PTKeyCombo.m */; };
-		342F88D10A2A74EB0001DB29 /* PTHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CB0A2A74EA0001DB29 /* PTHotKeyCenter.m */; };
-		342F88D30A2A74EB0001DB29 /* PTHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CD0A2A74EB0001DB29 /* PTHotKey.m */; };
+		342F88CF0A2A74EB0001DB29 /* SGKeyCombo.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88C90A2A74EA0001DB29 /* SGKeyCombo.m */; };
+		342F88D10A2A74EB0001DB29 /* SGHotKeyCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CB0A2A74EA0001DB29 /* SGHotKeyCenter.m */; };
+		342F88D30A2A74EB0001DB29 /* SGHotKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 342F88CD0A2A74EB0001DB29 /* SGHotKey.m */; };
 		3430222A0AB4766E0082CF7C /* AINulRemovalPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 343022280AB4766E0082CF7C /* AINulRemovalPlugin.m */; };
 		343700A70A9C1E170028604E /* AIAdvancedPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = 343700A50A9C1E170028604E /* AIAdvancedPreferencePane.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		343700A80A9C1E170028604E /* AIAdvancedPreferencePane.m in Sources */ = {isa = PBXBuildFile; fileRef = 343700A60A9C1E170028604E /* AIAdvancedPreferencePane.m */; };
@@ -1176,7 +1176,7 @@
 		6329EF000F9D333B00112489 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EEFF0F9D333B00112489 /* CoreFoundation.framework */; };
 		6329EF040F9D334D00112489 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EF030F9D334D00112489 /* Foundation.framework */; };
 		6329EF080F9D335800112489 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6329EF070F9D335800112489 /* CoreServices.framework */; };
-		632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */; };
+		632ADC150E9EDDCA00AB6817 /* SGKeyCodeTranslator.m in Sources */ = {isa = PBXBuildFile; fileRef = 632ADC130E9EDDCA00AB6817 /* SGKeyCodeTranslator.m */; };
 		632D60C1094B81AB003A9786 /* AIDockIconPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */; };
 		632D801708E7E0A40032C187 /* XtrasManager.nib in Resources */ = {isa = PBXBuildFile; fileRef = 632D801608E7E0A40032C187 /* XtrasManager.nib */; };
 		632D859E0DB70FC800040EC7 /* AIMentionEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 632D859D0DB70FC800040EC7 /* AIMentionEventPlugin.m */; };
@@ -2467,12 +2467,12 @@
 		342F88B70A2A74D40001DB29 /* SRKeyCodeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SRKeyCodeTransformer.h; path = Frameworks/ShortcutRecorder/Source/SRKeyCodeTransformer.h; sourceTree = "<group>"; };
 		342F88B80A2A74D40001DB29 /* SRRecorderCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SRRecorderCell.m; path = Frameworks/ShortcutRecorder/Source/SRRecorderCell.m; sourceTree = "<group>"; };
 		342F88B90A2A74D40001DB29 /* SRRecorderCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SRRecorderCell.h; path = Frameworks/ShortcutRecorder/Source/SRRecorderCell.h; sourceTree = "<group>"; };
-		342F88C90A2A74EA0001DB29 /* PTKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTKeyCombo.m; path = Source/PTKeyCombo.m; sourceTree = "<group>"; };
-		342F88CA0A2A74EA0001DB29 /* PTKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTKeyCombo.h; path = Source/PTKeyCombo.h; sourceTree = "<group>"; };
-		342F88CB0A2A74EA0001DB29 /* PTHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKeyCenter.m; path = Source/PTHotKeyCenter.m; sourceTree = "<group>"; };
-		342F88CC0A2A74EA0001DB29 /* PTHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKeyCenter.h; path = Source/PTHotKeyCenter.h; sourceTree = "<group>"; };
-		342F88CD0A2A74EB0001DB29 /* PTHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PTHotKey.m; path = Source/PTHotKey.m; sourceTree = "<group>"; };
-		342F88CE0A2A74EB0001DB29 /* PTHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PTHotKey.h; path = Source/PTHotKey.h; sourceTree = "<group>"; };
+		342F88C90A2A74EA0001DB29 /* SGKeyCombo.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SGKeyCombo.m; path = Source/SGKeyCombo.m; sourceTree = "<group>"; };
+		342F88CA0A2A74EA0001DB29 /* SGKeyCombo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SGKeyCombo.h; path = Source/SGKeyCombo.h; sourceTree = "<group>"; };
+		342F88CB0A2A74EA0001DB29 /* SGHotKeyCenter.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SGHotKeyCenter.m; path = Source/SGHotKeyCenter.m; sourceTree = "<group>"; };
+		342F88CC0A2A74EA0001DB29 /* SGHotKeyCenter.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SGHotKeyCenter.h; path = Source/SGHotKeyCenter.h; sourceTree = "<group>"; };
+		342F88CD0A2A74EB0001DB29 /* SGHotKey.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SGHotKey.m; path = Source/SGHotKey.m; sourceTree = "<group>"; };
+		342F88CE0A2A74EB0001DB29 /* SGHotKey.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SGHotKey.h; path = Source/SGHotKey.h; sourceTree = "<group>"; };
 		342F9E520B552627000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = "Plugins/WebKit Message View/fi.lproj/WebKitPreferencesView.nib"; sourceTree = "<group>"; };
 		342F9E530B552627000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = Resources/fi.lproj/StatusSortConfiguration.nib; sourceTree = "<group>"; };
 		342F9E540B552627000D5FC2 /* fi */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = fi; path = Resources/fi.lproj/StatusPreferences.nib; sourceTree = "<group>"; };
@@ -4219,8 +4219,8 @@
 		6329EEFF0F9D333B00112489 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		6329EF030F9D334D00112489 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6329EF070F9D335800112489 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
-		632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PTKeyCodeTranslator.m; path = Source/PTKeyCodeTranslator.m; sourceTree = "<group>"; };
-		632ADC140E9EDDCA00AB6817 /* PTKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTKeyCodeTranslator.h; path = Source/PTKeyCodeTranslator.h; sourceTree = "<group>"; };
+		632ADC130E9EDDCA00AB6817 /* SGKeyCodeTranslator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGKeyCodeTranslator.m; path = Source/SGKeyCodeTranslator.m; sourceTree = "<group>"; };
+		632ADC140E9EDDCA00AB6817 /* SGKeyCodeTranslator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGKeyCodeTranslator.h; path = Source/SGKeyCodeTranslator.h; sourceTree = "<group>"; };
 		632D608D094B7EEB003A9786 /* AIXtraPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIXtraPreviewController.h; path = Source/AIXtraPreviewController.h; sourceTree = "<group>"; };
 		632D60BE094B81AB003A9786 /* AIDockIconPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AIDockIconPreviewController.h; path = Source/AIDockIconPreviewController.h; sourceTree = "<group>"; };
 		632D60BF094B81AB003A9786 /* AIDockIconPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = AIDockIconPreviewController.m; path = Source/AIDockIconPreviewController.m; sourceTree = "<group>"; };
@@ -8348,14 +8348,14 @@
 		83B920F809E70778008D8436 /* Hot Key */ = {
 			isa = PBXGroup;
 			children = (
-				342F88CE0A2A74EB0001DB29 /* PTHotKey.h */,
-				342F88CD0A2A74EB0001DB29 /* PTHotKey.m */,
-				342F88CC0A2A74EA0001DB29 /* PTHotKeyCenter.h */,
-				342F88CB0A2A74EA0001DB29 /* PTHotKeyCenter.m */,
-				342F88CA0A2A74EA0001DB29 /* PTKeyCombo.h */,
-				342F88C90A2A74EA0001DB29 /* PTKeyCombo.m */,
-				632ADC130E9EDDCA00AB6817 /* PTKeyCodeTranslator.m */,
-				632ADC140E9EDDCA00AB6817 /* PTKeyCodeTranslator.h */,
+				342F88CE0A2A74EB0001DB29 /* SGHotKey.h */,
+				342F88CD0A2A74EB0001DB29 /* SGHotKey.m */,
+				342F88CC0A2A74EA0001DB29 /* SGHotKeyCenter.h */,
+				342F88CB0A2A74EA0001DB29 /* SGHotKeyCenter.m */,
+				342F88CA0A2A74EA0001DB29 /* SGKeyCombo.h */,
+				342F88C90A2A74EA0001DB29 /* SGKeyCombo.m */,
+				632ADC140E9EDDCA00AB6817 /* SGKeyCodeTranslator.h */,
+				632ADC130E9EDDCA00AB6817 /* SGKeyCodeTranslator.m */,
 				342F88B30A2A74D40001DB29 /* SRCommon.h */,
 				342F88B60A2A74D40001DB29 /* SRCommon.m */,
 				347374BB0AA9206B00AD18E3 /* ShortcutRecorder.strings */,
@@ -10483,9 +10483,9 @@
 				342F88C00A2A74D50001DB29 /* SRRecorderControl.m in Sources */,
 				342F88C20A2A74D50001DB29 /* SRCommon.m in Sources */,
 				342F88C40A2A74D50001DB29 /* SRRecorderCell.m in Sources */,
-				342F88CF0A2A74EB0001DB29 /* PTKeyCombo.m in Sources */,
-				342F88D10A2A74EB0001DB29 /* PTHotKeyCenter.m in Sources */,
-				342F88D30A2A74EB0001DB29 /* PTHotKey.m in Sources */,
+				342F88CF0A2A74EB0001DB29 /* SGKeyCombo.m in Sources */,
+				342F88D10A2A74EB0001DB29 /* SGHotKeyCenter.m in Sources */,
+				342F88D30A2A74EB0001DB29 /* SGHotKey.m in Sources */,
 				3456231C0A3771D800E7FC97 /* ESRankingCell.m in Sources */,
 				345623200A3771E100E7FC97 /* AIChatLog.m in Sources */,
 				3456232A0A3771F400E7FC97 /* AILogToGroup.m in Sources */,
@@ -10593,7 +10593,7 @@
 				34A1AB6C0DFC531000AC78CF /* AIXMLChatlogConverter.m in Sources */,
 				34A1B2C30DFDBA1200AC78CF /* AIStringDebug.m in Sources */,
 				111DDF3A0E8E7D2F00114FCA /* AIAutomaticStatus.m in Sources */,
-				632ADC150E9EDDCA00AB6817 /* PTKeyCodeTranslator.m in Sources */,
+				632ADC150E9EDDCA00AB6817 /* SGKeyCodeTranslator.m in Sources */,
 				5A1781860EC1215D00BA1E04 /* AIAutoScrollTextView.m in Sources */,
 				11F738F20F58D12200B3285B /* AITwitterAccount.m in Sources */,
 				11F738F90F58D18700B3285B /* AITwitterService.m in Sources */,

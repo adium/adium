@@ -13,7 +13,7 @@
 
 #import "SRKeyCodeTransformer.h"
 #import "SRCommon.h"
-#import "PTKeyCodeTranslator.h"
+#import "SGKeyCodeTranslator.h"
 
 static NSMutableDictionary  *stringToKeyCodeDict = nil;
 static NSDictionary         *keyCodeToStringDict = nil;
@@ -132,7 +132,7 @@ static NSArray              *padKeysArray        = nil;
 	NSString *unmappedString = [keyCodeToStringDict objectForKey: SRInt( keyCode )];
 	if ( unmappedString != nil ) return unmappedString;
 	
-	return [[PTKeyCodeTranslator currentTranslator] translateKeyCode:keyCode];
+	return [[SGKeyCodeTranslator currentTranslator] translateKeyCode:keyCode];
 }
 
 //---------------------------------------------------------- 

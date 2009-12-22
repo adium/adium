@@ -19,10 +19,10 @@
 #import "AISoundController.h"
 #import "ESGeneralPreferences.h"
 #import "ESGeneralPreferencesPlugin.h"
-#import "PTHotKeyCenter.h"
-#import "PTHotKey.h"
+#import "SGHotKeyCenter.h"
+#import "SGHotKey.h"
 #import "SRRecorderControl.h"
-#import "PTHotKey.h"
+#import "SGHotKey.h"
 #import "AIMessageHistoryPreferencesWindowController.h"
 #import "AIMessageWindowController.h"
 #import <Adium/AIServiceIcons.h>
@@ -115,7 +115,7 @@
 	TISInputSourceRef currentLayout = TISCopyCurrentKeyboardLayoutInputSource();
 	
 	if (TISGetInputSourceProperty(currentLayout, kTISPropertyUnicodeKeyLayoutData)) {
-		PTKeyCombo *keyCombo = [[[PTKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
+		SGKeyCombo *keyCombo = [[[SGKeyCombo alloc] initWithPlistRepresentation:[adium.preferenceController preferenceForKey:KEY_GENERAL_HOTKEY
 																														 group:PREF_GROUP_GENERAL]] autorelease];
 		[shortcutRecorder setKeyCombo:SRMakeKeyCombo([keyCombo keyCode], [shortcutRecorder carbonToCocoaFlags:[keyCombo modifiers]])];
 		[shortcutRecorder setAnimates:YES];
@@ -231,7 +231,7 @@
 - (void)shortcutRecorder:(SRRecorderControl *)aRecorder keyComboDidChange:(KeyCombo)newKeyCombo
 {
 	if (aRecorder == shortcutRecorder) {
-		PTKeyCombo *keyCombo = [PTKeyCombo keyComboWithKeyCode:[shortcutRecorder keyCombo].code
+		SGKeyCombo *keyCombo = [SGKeyCombo keyComboWithKeyCode:[shortcutRecorder keyCombo].code
 													 modifiers:[shortcutRecorder cocoaToCarbonFlags:[shortcutRecorder keyCombo].flags]];
 		[adium.preferenceController setPreference:[keyCombo plistRepresentation]
 											 forKey:KEY_GENERAL_HOTKEY

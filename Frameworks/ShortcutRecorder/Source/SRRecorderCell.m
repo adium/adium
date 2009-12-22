@@ -1195,7 +1195,7 @@
 		NSDictionary *defaultsValue = [NSDictionary dictionaryWithObjectsAndKeys:
 			[NSNumber numberWithShort: keyCombo.code], @"keyCode",
 			[NSNumber numberWithUnsignedInt: keyCombo.flags], @"modifierFlags", // cocoa
-			[NSNumber numberWithUnsignedInt: SRCocoaToCarbonFlags(keyCombo.flags)], @"modifiers", // carbon, for compatibility with PTKeyCombo
+			[NSNumber numberWithUnsignedInt: SRCocoaToCarbonFlags(keyCombo.flags)], @"modifiers", // carbon, for compatibility with SGKeyCombo
 			nil];
 		
 		if (hasKeyChars) {
@@ -1222,7 +1222,7 @@
 		
 		signed short keyCode = [[savedCombo valueForKey: @"keyCode"] shortValue];
 		unsigned int flags;
-		if ((nil == [savedCombo valueForKey:@"modifierFlags"]) && (nil != [savedCombo valueForKey:@"modifiers"])) { // carbon, for compatibility with PTKeyCombo
+		if ((nil == [savedCombo valueForKey:@"modifierFlags"]) && (nil != [savedCombo valueForKey:@"modifiers"])) { // carbon, for compatibility with SGKeyCombo
 			flags = SRCarbonToCocoaFlags([[savedCombo valueForKey: @"modifiers"] unsignedIntValue]);
 		} else { // cocoa
 			flags = [[savedCombo valueForKey: @"modifierFlags"] unsignedIntValue];
