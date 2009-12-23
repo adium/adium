@@ -30,9 +30,9 @@
 
 	//Apple wants us to do some pretty crazy stuff for selections in 10.3
 	NSIndexSet *indices = [self selectedRowIndexes];
-	unsigned int bufSize = [indices count];
+	NSUInteger bufSize = [indices count];
 	NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
-	unsigned int i;
+	NSUInteger i;
 
 	NSRange range = NSMakeRange([indices firstIndex], ([indices lastIndex]-[indices firstIndex]) + 1);
 	[indices getIndexes:buf maxCount:bufSize inIndexRange:&range];

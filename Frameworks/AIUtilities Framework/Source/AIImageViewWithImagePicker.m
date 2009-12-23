@@ -272,8 +272,8 @@
 
 	// Work out if the mouse has been dragged far enough - it stops accidental drags
 	NSPoint mousePos = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	float dx = mousePos.x-mouseDownPos.x;
-	float dy = mousePos.y-mouseDownPos.y;	
+	CGFloat dx = mousePos.x-mouseDownPos.x;
+	CGFloat dy = mousePos.y-mouseDownPos.y;	
 	if ((dx*dx) + (dy*dy) < DRAGGING_THRESHOLD) {
 		return;
 	}

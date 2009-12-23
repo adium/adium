@@ -39,7 +39,7 @@
 	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.
 		NSArray		*tableColumns = [self tableColumns];
 		id			item = [self itemAtRow:row];
-		unsigned	tableColumnIndex, count = [tableColumns count];
+		NSUInteger	tableColumnIndex, count = [tableColumns count];
 		
 		BOOL		delegateRespondsToExtendToEdgeColumn = [[self delegate] respondsToSelector:@selector(outlineView:extendToEdgeColumn:ofRow:)];
 

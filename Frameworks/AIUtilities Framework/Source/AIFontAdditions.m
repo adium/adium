@@ -21,7 +21,7 @@
 //Returns the requested font
 //NSFont's 'FontWithName' method leaks memory.  This wrapper attempts to minimize the leaking.
 //It appears to be leaking an NSString somehow, which isn't as bad as what NSFont does.
-+ (NSFont *)cachedFontWithName:(NSString *)fontName size:(float)fontSize
++ (NSFont *)cachedFontWithName:(NSString *)fontName size:(CGFloat)fontSize
 {
     static NSMutableDictionary	*fontDict = nil;
     NSString					*sizeString = [NSString stringWithFormat:@"%0.2f",fontSize];
@@ -80,7 +80,7 @@
 - (NSString *)CSSRepresentation
 {
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:3];
-	[result addObject:[NSString stringWithFormat:@"%@pt %@", [NSString stringWithFloat:[self pointSize] maxDigits:2], [self familyName]]];
+	[result addObject:[NSString stringWithFormat:@"%@pt %@", [NSString stringWithCGFloat:[self pointSize] maxDigits:2], [self familyName]]];
 
 	NSFontTraitMask traits = [[NSFontManager sharedFontManager] traitsOfFont:self];
 	if (traits & NSItalicFontMask) {
@@ -124,8 +124,8 @@
 - (NSFont *)representedFont
 {
     NSString	*fontName;
-    float	fontSize;
-    int		divider;
+    CGFloat		fontSize;
+    NSInteger	divider;
     
     divider = [self rangeOfString:@","].location;
     fontName = [self substringToIndex:divider];

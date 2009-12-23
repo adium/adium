@@ -129,10 +129,10 @@
 	unsigned	rectNumber = 0;
 	
 	//Setup
-	unsigned numberOfRows = [self numberOfRows];
-	unsigned rowHeight = [self rowHeight];
+	NSInteger numberOfRows = [self numberOfRows];
+	CGFloat rowHeight = [self rowHeight];
     
-	NSRectArray gridRects = (NSRectArray)alloca(sizeof(NSRect) * (numberOfRows + ((int)round(((rect.size.height / rowHeight) / 2) + 0.5))));
+	NSRectArray gridRects = (NSRectArray)alloca(sizeof(NSRect) * (numberOfRows + ((NSInteger)round(((rect.size.height / rowHeight) / 2) + 0.5))));
 	for (unsigned row = 0; row < numberOfRows; row += 2) {
 		if (row < numberOfRows) {
 			NSRect	thisRect = [self rectOfRow:row];
@@ -167,9 +167,9 @@
 
 	if (drawsGradientSelection && [[self window] isKeyWindow] && ([[self window] firstResponder] == self)) {
 		NSIndexSet *indices = [self selectedRowIndexes];
-		unsigned int bufSize = [indices count];
+		NSUInteger bufSize = [indices count];
 		NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
-		unsigned int i = 0, j = 0;
+		NSUInteger i = 0, j = 0;
 
 		NSGradient *gradient = [NSGradient selectedControlGradient];
 		
@@ -179,8 +179,8 @@
 		NSRect *selectionLineRects = (NSRect *)malloc(sizeof(NSRect) * bufSize);
 		
 		while (i < bufSize) {
-			int startIndex = buf[i];
-			int lastIndex = buf[i];
+			NSUInteger startIndex = buf[i];
+			NSUInteger lastIndex = buf[i];
 
 			while ((i + 1 < bufSize) &&
 				   (buf[i + 1] == lastIndex + 1)){
@@ -252,8 +252,8 @@
 {
     NSEnumerator	*enumerator;
     NSTableColumn	*column;
-    float		xPos = 0.5;
-    int			intercellWidth = [self intercellSpacing].width;
+    CGFloat		xPos = 0.5;
+    CGFloat			intercellWidth = [self intercellSpacing].width;
     
     [[self gridColor] set];
     [NSBezierPath setDefaultLineWidth:1.0];

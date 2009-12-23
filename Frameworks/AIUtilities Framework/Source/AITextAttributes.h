@@ -26,7 +26,7 @@
 
     NSString			*fontFamilyName;
     NSFontTraitMask		fontTraitsMask;
-    int					fontSize;
+    NSInteger					fontSize;
 }
 
 /*!
@@ -37,7 +37,7 @@
  * @param inSize Font point size
  * @return The newly created (autoreleased) <tt>AITextAttributes</tt> object
 */
-+ (id)textAttributesWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(int)inSize;
++ (id)textAttributesWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize;
 
 /*!
  * @brief Create a new <tt>AITextAttributes</tt> instance from a dictionary of attributes
@@ -81,9 +81,9 @@
  * Set the font size
  * @param inSize Font point size
 */	
-- (void)setFontSize:(int)inSize;
+- (void)setFontSize:(NSInteger)inSize;
 
-- (int)fontSize;
+- (NSInteger)fontSize;
 
 /*!
  * @brief Add a trait to the current mask

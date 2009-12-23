@@ -15,5 +15,5 @@
 
 @interface NSTabView (AITabViewAdditions)
 - (NSTabViewItem *)tabViewItemWithIdentifier:(id)identifier;
-- (int)indexOfSelectedTabViewItem;
+- (NSInteger)indexOfSelectedTabViewItem;
 @end

@@ -85,7 +85,7 @@
  *	@param	amount The amount (greater than 0.0 and at most 1.0) to subtract from the receiver's brightness.
  *	@return	A new, darker color, in the calibrated-RGB color space.
  */
-- (NSColor *)darkenBy:(float)amount;
+- (NSColor *)darkenBy:(CGFloat)amount;
 /*!	@brief	Returns a new color, darker than the receiver and more saturated, both by a single fixed amount.
  *
  *	@par	This method subtracts \a amount from the brightness of the receiver (as measured using <code>-[NSColor brightnessComponent]</code>) and adds \a amount to its saturation (as measured using <code>-[NSColor saturationComponent]</code>), and returns a new \c NSColor created with the unchanged other component values and the new saturation and brightness values.
@@ -97,7 +97,7 @@
  *	@param	amount The amount (greater than 0.0 and at most 1.0) to subtract from the receiver's brightness and add to the receiver's saturation.
  *	@return	A new, darker, more saturated color, in the calibrated-RGB color space.
  */
-- (NSColor *)darkenAndAdjustSaturationBy:(float)amount;
+- (NSColor *)darkenAndAdjustSaturationBy:(CGFloat)amount;
 /*!	@brief	Inverts a color's brightness without affecting the hue.
  *
  *	@par	The naïve method for inverting a color is to subtract all of its color components from 1.0, but this moves colors not in the center of the color wheel to the opposite side of the wheel—for example, it changes orange into light blue. In other words, it inverts not the brightness (except for shades of gray), but the hue.
@@ -130,7 +130,7 @@
  *	@param	g	The green component of the color to convert.
  *	@param	b	The blue component of the color to convert. 
  */
-void getHueLuminanceSaturationFromRGB(float *hue, float *luminance, float *saturation, float r, float g, float b);
+void getHueLuminanceSaturationFromRGB(CGFloat *hue, CGFloat *luminance, CGFloat *saturation, CGFloat r, CGFloat g, CGFloat b);
 /*!	@brief	Computes the red, green, and blue of a given hue, saturation, and brightness triplet.
  *
  *	@par	This function exists to help you compute RGB values without first creating an \c NSColor instance. It also gets the job done in only one function call, rather than at least two Objective-C messages.
@@ -144,7 +144,7 @@ void getHueLuminanceSaturationFromRGB(float *hue, float *luminance, float *satur
  *	@param	saturation	The saturation component of the color to convert.
  *	@param	luminance	The luminance (brightness) component of the color to convert. 
  */
-void getRGBFromHueLuminanceSaturation(float *r, float *g, float *b, float hue, float luminance, float saturation);
+void getRGBFromHueLuminanceSaturation(CGFloat *r, CGFloat *g, CGFloat *b, CGFloat hue, CGFloat luminance, CGFloat saturation);
 
 @interface NSColor (AIColorAdditions_HLS)
 
@@ -216,7 +216,7 @@ int hexToInt(char hex);
  *
  *	@return	A lowercase character, encoded in ASCII, representing the number in hexadecimal.
  */
-char intToHex(int digit);
+char intToHex(NSInteger digit);
 
 @interface NSString (AIColorAdditions_RepresentingColors)
 
@@ -245,7 +245,7 @@ char intToHex(int digit);
  *
  *	@return	A color in the calibrated-RGB color space, or \c nil.
  */
-- (NSColor *)representedColorWithAlpha:(float)alpha;
+- (NSColor *)representedColorWithAlpha:(CGFloat)alpha;
 
 @end
 

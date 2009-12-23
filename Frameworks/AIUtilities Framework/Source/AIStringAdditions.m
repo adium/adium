@@ -131,7 +131,7 @@ enum {
 		BOOL	handled = NO;
 
 		if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
-			int		errorCode = [error code];
+			NSInteger		errorCode = [error code];
 
 			if (errorCode == NSFileReadNoSuchFileError) {
 				string = nil;
@@ -182,7 +182,7 @@ enum {
 - (NSString *)stringByTranslatingByOffset:(int)offset
 {
 	NSMutableString	*newString = [NSMutableString string];
-	unsigned		i, length = [self length];
+	NSUInteger		i, length = [self length];
 
 	for (i = 0 ; i < length ; i++) {
 		/* Offset by the desired amount */
@@ -198,7 +198,7 @@ enum {
 - (NSString *)compactedString
 {
 	NSMutableString 	*outName;
-	unsigned			pos = 0, len;
+	NSUInteger			pos = 0, len;
 	NSRange				range = NSMakeRange(0, 0);
 	
 	outName = [self mutableCopy];
@@ -265,7 +265,7 @@ enum {
 
 - (NSString *)safeFilenameString
 {
-	unsigned length = [self length];
+	NSUInteger length = [self length];
 	
 	if (!length)
 		return self;
@@ -368,7 +368,7 @@ enum {
 	char				*destPtr;
 	NSMutableData		*destData;
 	unsigned	 sourceIndex = 0;
-	unsigned			 sourceLength = [UTF8Data length];
+	NSUInteger			 sourceLength = [UTF8Data length];
 	unsigned	 destIndex = 0;
 
 	//this table translates plusses to spaces, and flags all characters that need hex-encoding with 0x00.
@@ -438,7 +438,7 @@ enum {
 	char				*destPtr;
 	NSMutableData		*destData;
 	unsigned	 sourceIndex = 0;
-	unsigned			 sourceLength = [UTF8Data length];
+	NSUInteger			 sourceLength = [UTF8Data length];
 	unsigned	 destIndex = 0;
 
 	//this table translates spaces to plusses, and vice versa.
@@ -556,7 +556,7 @@ enum {
 
 - (NSString *)stringByEscapingForShell
 {
-	unsigned myLength = [self length];
+	NSUInteger myLength = [self length];
 	unichar *myBuf = malloc(sizeof(unichar) * myLength);
 	if (!myBuf) return nil;
 	[self getCharacters:myBuf];
@@ -639,7 +639,7 @@ enum {
 
 - (NSString *)stringByEscapingForRegexp
 {
-	unsigned myLength = [self length];
+	NSUInteger myLength = [self length];
 	unichar *myBuf = malloc(sizeof(unichar) * myLength);
 	if (!myBuf) return nil;
 	[self getCharacters:myBuf];
@@ -713,14 +713,14 @@ return nil; \
 }
 
 - (unichar)lastCharacter {
-	unsigned length = [self length];
+	NSUInteger length = [self length];
 	if (length < 1)
 		return 0xffff;
 	else
 		return [self characterAtIndex:length - 1];
 }
 - (unichar)nextToLastCharacter {
-	unsigned length = [self length];
+	NSUInteger length = [self length];
 	if (length < 2)
 		return 0xffff;
 	else
@@ -748,7 +748,7 @@ return nil; \
 	return [uuidStr autorelease];
 }
 
-+ (NSString *)stringWithFloat:(float)f maxDigits:(unsigned)numDigits
++ (NSString *)stringWithCGFloat:(CGFloat)f maxDigits:(NSUInteger)numDigits
 {
 	//012345678 <-Indices.
 	//42.123400 <-Assuming numDigits = 6.
@@ -757,7 +757,7 @@ return nil; \
 	//^^        <-Returns this substring (everything before the decimal point) for a whole number.
 	NSString *format = numDigits ? [NSString stringWithFormat:@"%%.%uf", numDigits] : @"%f";
 	NSString *str = [NSString stringWithFormat:format, (double)f];
-	unsigned i = [str length];
+	NSUInteger i = [str length];
 	while (i-- > 0) {
 		if ([str characterAtIndex:i] != '0') {
 			//If we have run out of zeroes, this is a whole number. Leave off the decimal point.

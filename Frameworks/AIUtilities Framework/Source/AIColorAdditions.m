@@ -24,9 +24,9 @@
 static NSArray *defaultValidColors = nil;
 #define VALID_COLORS_ARRAY [[NSArray alloc] initWithObjects:@"aqua", @"aquamarine", @"blue", @"blueviolet", @"brown", @"burlywood", @"cadetblue", @"chartreuse", @"chocolate", @"coral", @"cornflowerblue", @"crimson", @"cyan", @"darkblue", @"darkcyan", @"darkgoldenrod", @"darkgreen", @"darkgrey", @"darkkhaki", @"darkmagenta", @"darkolivegreen", @"darkorange", @"darkorchid", @"darkred", @"darksalmon", @"darkseagreen", @"darkslateblue", @"darkslategrey", @"darkturquoise", @"darkviolet", @"deeppink", @"deepskyblue", @"dimgrey", @"dodgerblue", @"firebrick", @"forestgreen", @"fuchsia", @"gold", @"goldenrod", @"green", @"greenyellow", @"grey", @"hotpink", @"indianred", @"indigo", @"lawngreen", @"lightblue", @"lightcoral", @"lightgreen", @"lightgrey", @"lightpink", @"lightsalmon", @"lightseagreen", @"lightskyblue", @"lightslategrey", @"lightsteelblue", @"lime", @"limegreen", @"magenta", @"maroon", @"mediumaquamarine", @"mediumblue", @"mediumorchid", @"mediumpurple", @"mediumseagreen", @"mediumslateblue", @"mediumspringgreen", @"mediumturquoise", @"mediumvioletred", @"midnightblue", @"navy", @"olive", @"olivedrab", @"orange", @"orangered", @"orchid", @"palegreen", @"paleturquoise", @"palevioletred", @"peru", @"pink", @"plum", @"powderblue", @"purple", @"red", @"rosybrown", @"royalblue", @"saddlebrown", @"salmon", @"sandybrown", @"seagreen", @"sienna", @"silver", @"skyblue", @"slateblue", @"slategrey", @"springgreen", @"steelblue", @"tan", @"teal", @"thistle", @"tomato", @"turquoise", @"violet", @"yellowgreen", nil]
 
-static const float ONE_THIRD = 1.0/3.0;
-static const float ONE_SIXTH = 1.0/6.0;
-static const float TWO_THIRD = 2.0/3.0;
+static const CGFloat ONE_THIRD = 1.0/3.0;
+static const CGFloat ONE_SIXTH = 1.0/6.0;
+static const CGFloat TWO_THIRD = 2.0/3.0;
 
 static NSMutableDictionary *RGBColorValues = nil;
 
@@ -52,7 +52,7 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 	if (!data) return nil;
 	
 	char *ch = [data mutableBytes]; //we use mutable bytes because we want to tokenise the string by replacing separators with '\0'.
-	unsigned length = [data length];
+	NSUInteger length = [data length];
 	struct {
 		const char *redStart, *greenStart, *blueStart, *nameStart;
 		const char *redEnd,   *greenEnd,   *blueEnd;
@@ -214,12 +214,12 @@ end:
 
 - (BOOL)colorIsMedium
 {
-	float brightness = [[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
+	CGFloat brightness = [[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
 	return (0.35 < brightness && brightness < 0.65);
 }
 
 //Percent should be -1.0 to 1.0 (negatives will make the color brighter)
-- (NSColor *)darkenBy:(float)amount
+- (NSColor *)darkenBy:(CGFloat)amount
 {
     NSColor	*convertedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     
@@ -229,7 +229,7 @@ end:
                                      alpha:[convertedColor alphaComponent]];
 }
 
-- (NSColor *)darkenAndAdjustSaturationBy:(float)amount
+- (NSColor *)darkenAndAdjustSaturationBy:(CGFloat)amount
 {
     NSColor	*convertedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     
@@ -287,7 +287,7 @@ end:
     [self getHue:&hue saturation:&sat brightness:&brit alpha:&alpha];
 
 	//For some reason, redColor's hue is 1.0f, not 0.0f, as of Mac OS X 10.4.10 and 10.5.2. Therefore, we must normalize any multiple of 1.0 to 0.0. We do this by taking the remainder of hue ÷ 1.
-	hue = fmodf(hue, 1.0f);
+	hue = fmod(hue, 1.0);
 
     hue += dHue;
     cap(hue);
@@ -307,21 +307,21 @@ end:
 {
     CGFloat 	red,green,blue;
     char	hexString[7];
-    int		tempNum;
+    NSInteger		tempNum;
     NSColor	*convertedColor;
 
     convertedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     [convertedColor getRed:&red green:&green blue:&blue alpha:NULL];
     
-    tempNum = (red * 255.0f);
+    tempNum = (red * 255.0);
     hexString[0] = intToHex(tempNum / 16);
     hexString[1] = intToHex(tempNum % 16);
 
-    tempNum = (green * 255.0f);
+    tempNum = (green * 255.0);
     hexString[2] = intToHex(tempNum / 16);
     hexString[3] = intToHex(tempNum % 16);
 
-    tempNum = (blue * 255.0f);
+    tempNum = (blue * 255.0);
     hexString[4] = intToHex(tempNum / 16);
     hexString[5] = intToHex(tempNum % 16);
     hexString[6] = '\0';
@@ -333,7 +333,7 @@ end:
 - (NSString *)stringRepresentation
 {
     NSColor	*tempColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	float alphaComponent = [tempColor alphaComponent];
+	CGFloat alphaComponent = [tempColor alphaComponent];
 
 	if (alphaComponent == 1.0) {
 		return [NSString stringWithFormat:@"%d,%d,%d",
@@ -352,15 +352,15 @@ end:
 
 - (NSString *)CSSRepresentation
 {
-	float alpha = [self alphaComponent];
+	CGFloat alpha = [self alphaComponent];
 	if ((1.0 - alpha) >= 0.000001) {
 		NSColor *rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 		//CSS3 defines rgba() to take 0..255 for the color components, but 0..1 for the alpha component. Thus, we must multiply by 255 for the color components, but not for the alpha component.
 		return [NSString stringWithFormat:@"rgba(%@,%@,%@,%@)",
-			[NSString stringWithFloat:[rgb redComponent]   * 255.0f maxDigits:6],
-			[NSString stringWithFloat:[rgb greenComponent] * 255.0f maxDigits:6],
-			[NSString stringWithFloat:[rgb blueComponent]  * 255.0f maxDigits:6],
-			[NSString stringWithFloat:alpha                         maxDigits:6]];
+			[NSString stringWithCGFloat:[rgb redComponent]   * 255.0 maxDigits:6],
+			[NSString stringWithCGFloat:[rgb greenComponent] * 255.0 maxDigits:6],
+			[NSString stringWithCGFloat:[rgb blueComponent]  * 255.0 maxDigits:6],
+			[NSString stringWithCGFloat:alpha                         maxDigits:6]];
 	} else {
 		return [@"#" stringByAppendingString:[self hexString]];
 	}
@@ -372,8 +372,8 @@ end:
 
 - (NSColor *)representedColor
 {
-    unsigned int	r = 255, g = 255, b = 255;
-    unsigned int	a = 255;
+    NSUInteger	r = 255, g = 255, b = 255;
+    NSUInteger	a = 255;
 
 	const char *selfUTF8 = [self UTF8String];
 	
@@ -406,11 +406,11 @@ scanFailed:
 	return nil;
 }
 
-- (NSColor *)representedColorWithAlpha:(float)alpha
+- (NSColor *)representedColorWithAlpha:(CGFloat)alpha
 {
 	//this is the same as above, but the alpha component is overridden.
 
-    unsigned int	r, g, b;
+  NSUInteger	r, g, b;
 
 	const char *selfUTF8 = [self UTF8String];
 	
@@ -471,10 +471,10 @@ scanFailed:
  * @param secondChar The second hex character, or 0x0 if only one character is to be used
  * @result The float value. Returns 0 as a bailout value if firstChar or secondChar are not valid hexadecimal characters ([0-9]|[A-F]|[a-f]). Also returns 0 if firstChar and secondChar equal 0.
  */
-static float hexCharsToFloat(char firstChar, char secondChar)
+static CGFloat hexCharsToFloat(char firstChar, char secondChar)
 {
-	float	hexValue;
-	int		firstDigit;
+	CGFloat				hexValue;
+	NSUInteger		firstDigit;
 	firstDigit = hexToInt(firstChar);
 	if (firstDigit != -1) {
 		hexValue = firstDigit;
@@ -499,7 +499,7 @@ static float hexCharsToFloat(char firstChar, char secondChar)
 {
 	if (!str) return defaultColor;
 
-	unsigned strLength = [str length];
+	NSUInteger strLength = [str length];
 	
 	NSString *colorValue = str;
 	
@@ -554,8 +554,8 @@ static float hexCharsToFloat(char firstChar, char secondChar)
 	}
 	const char *hexString = hexStringArray;
 
-	float 	red,green,blue;
-	float	alpha = 1.0;
+	CGFloat		red,green,blue;
+	CGFloat		alpha = 1.0;
 
 	//skip # if present.
 	if (*hexString == '#') {
@@ -640,7 +640,7 @@ int hexToInt(char hex)
 }
 
 //Convert int to a hex
-char intToHex(int digit)
+char intToHex(NSInteger digit)
 {
     if (digit > 9) {
 		if (digit <= 0xf) {

@@ -17,7 +17,7 @@
 - (void)setContentSize:(NSSize)aSize display:(BOOL)displayFlag animate:(BOOL)animateFlag;
 @property (readonly, nonatomic) BOOL isBorderless;
 - (void)betterCenter;
-@property (readonly, nonatomic) float toolbarHeight;
+@property (readonly, nonatomic) CGFloat toolbarHeight;
 
 - (NSResponder *)earliestResponderWhichRespondsToSelector:(SEL)selector andIsNotOfClass:(Class)classToAvoid;
 - (NSResponder *)earliestResponderOfClass:(Class)targetClass;

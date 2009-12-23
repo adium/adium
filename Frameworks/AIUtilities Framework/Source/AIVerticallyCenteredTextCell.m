@@ -53,7 +53,7 @@
 	//Draw the cell's text
 	if (title != nil) {
 		NSDictionary	*attributes;
-		float			 stringHeight;
+		CGFloat			 stringHeight;
 		NSColor			*textColor;
 
 		if (highlighted) {

@@ -77,7 +77,7 @@
 
 + (NSString *)uuid;
 
-+ (NSString *)stringWithFloat:(float)f maxDigits:(unsigned)numDigits;
++ (NSString *)stringWithCGFloat:(CGFloat)f maxDigits:(NSUInteger)numDigits;
 
 /*!
  * @brief Finds a line-breaking character within a substring of a string.

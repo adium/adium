@@ -52,7 +52,7 @@
 
 - (void)removeAllItems
 {
-	int count = [self numberOfItems];
+	NSInteger count = [self numberOfItems];
 	while (count--) {
 		[self removeItemAtIndex:0];
 	}
@@ -60,7 +60,7 @@
 
 - (void)removeAllItemsButFirst
 {
-	int count = [self numberOfItems];
+	NSInteger count = [self numberOfItems];
 	if (count > 1) {
 		while (--count) {
 			[self removeItemAtIndex:1];
@@ -125,7 +125,7 @@
 - (void)removeKeyEquivalent
 {
 	NSMenu	*menu = [self menu];
-	int		index = [menu indexOfItem:self];
+	NSInteger		index = [menu indexOfItem:self];
 
 	[self retain];
 	[menu removeItemAtIndex:index];
@@ -171,10 +171,10 @@
 	if (itemA == itemB) return;
 
 	NSMenu	*menuA  = [[itemA retain] menu];
-	int		 indexA = menuA ? [menuA indexOfItem:itemA] : -1;
+	NSInteger		 indexA = menuA ? [menuA indexOfItem:itemA] : -1;
 
 	NSMenu	*menuB  = [[itemB retain] menu];
-	int		 indexB = menuB ? [menuB indexOfItem:itemB] : -1;
+	NSInteger		 indexB = menuB ? [menuB indexOfItem:itemB] : -1;
 
 	if ((menuA == menuB) && (indexA < indexB)) {
 		if (indexB > -1) {
@@ -203,7 +203,7 @@
 + (void)updateAlternateMenuItem:(NSMenuItem *)alternateItem
 {
     NSMenu		*containingMenu = [alternateItem menu];
-    int			menuItemIndex = [containingMenu indexOfItem:alternateItem];
+    NSInteger			menuItemIndex = [containingMenu indexOfItem:alternateItem];
     NSMenuItem  *primaryItem = [containingMenu itemAtIndex:(menuItemIndex-1)];
 	
 	//Remove the primary item and readd it

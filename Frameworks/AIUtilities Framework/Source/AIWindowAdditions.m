@@ -54,10 +54,10 @@
  *
  * @result The height of the toolbar, or 0 if no toolbar exists or is visible
  */
-- (float)toolbarHeight
+- (CGFloat)toolbarHeight
 {
 	NSToolbar 	*toolbar = [self toolbar];
-	float 		toolbarHeight = 0.0;
+	CGFloat 		toolbarHeight = 0.0;
 	
 	if (toolbar && [toolbar isVisible]) {
 		NSRect 		windowFrame = [NSWindow contentRectForFrameRect:[self frame]

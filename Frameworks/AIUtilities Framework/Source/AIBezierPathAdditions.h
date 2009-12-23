@@ -23,11 +23,11 @@
 
 #pragma mark Rounded rectangles
 
-+ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius;
++ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(CGFloat)radius;
 + (NSBezierPath *)bezierPathRoundedRectOfSize:(NSSize)backgroundSize;
 + (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)bounds;
-+ (NSBezierPath *)bezierPathWithRoundedTopCorners:(NSRect)rect radius:(float)radius;
-+ (NSBezierPath *)bezierPathWithRoundedBottomCorners:(NSRect)rect radius:(float)radius;
++ (NSBezierPath *)bezierPathWithRoundedTopCorners:(NSRect)rect radius:(CGFloat)radius;
++ (NSBezierPath *)bezierPathWithRoundedBottomCorners:(NSRect)rect radius:(CGFloat)radius;
 
 #pragma mark Arrows
 
@@ -46,9 +46,9 @@
  *
  * the other three methods allow you to override either or both of these metrics.
  */
-+ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(float)shaftLengthMulti shaftWidth:(float)shaftWidth;
-+ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(float)shaftLengthMulti;
-+ (NSBezierPath *)bezierPathWithArrowWithShaftWidth:(float)shaftWidth;
++ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(CGFloat)shaftLengthMulti shaftWidth:(CGFloat)shaftWidth;
++ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(CGFloat)shaftLengthMulti;
++ (NSBezierPath *)bezierPathWithArrowWithShaftWidth:(CGFloat)shaftWidth;
 + (NSBezierPath *)bezierPathWithArrow;
 
 #pragma mark Nifty things

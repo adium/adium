@@ -85,7 +85,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
-	OSStatus err = SecKeychainUnlock(/*keychain*/ NULL, [data length], [data bytes], /*usePassword*/ true);
+	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
+	OSStatus err = SecKeychainUnlock(/*keychain*/ NULL, (UInt32)[data length], [data bytes], /*usePassword*/ true);
 
 	[pool release];
 
@@ -295,7 +296,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 		if (password) {
 			NSData  *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 			passwordBytes      = (void *)[data bytes];
-			passwordLength     = [data length];
+			NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
+			passwordLength     = (UInt32)[data length];
 		}
 
 		OSStatus err = SecKeychainCreate([path fileSystemRepresentation], passwordLength, passwordBytes, prompt, initialAccess, &keychainRef);
@@ -501,7 +503,8 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *data = [password dataUsingEncoding:NSUTF8StringEncoding];
 	
 	/* If keychainRef is NULL, the default keychain will unlocked */
-	OSStatus err = SecKeychainUnlock(keychainRef, [data length], [data bytes], /*usePassword*/ true);
+	NSAssert( UINT_MAX >= [data length], @"Attempting to send more data than Keychain can handle.  Abort." );
+	OSStatus err = SecKeychainUnlock(keychainRef, (UInt32)[data length], [data bytes], /*usePassword*/ true);
 
 	[pool release];
 
@@ -578,22 +581,28 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *pathData    = [path    dataUsingEncoding:NSUTF8StringEncoding];
 
+	NSAssert( (UINT_MAX >= [passwordData length]) &&
+					  (UINT_MAX >= [serverData length]) &&
+					  (UINT_MAX >= [domainData length]) &&
+					  (UINT_MAX >= [accountData length]) &&
+					  (UINT_MAX >= [pathData length]),
+					  @"Attempting to send more data than Keychain can handle.  Abort." );
 	/* If keychainRef is NNULL, the password will be added to the default keychain */
 	OSStatus err = SecKeychainAddInternetPassword(keychainRef,
-												  [serverData length],  [serverData bytes],
+												  (UInt32)[serverData length],  [serverData bytes],
 												  //domain is optional, so be sure to handle domain == nil
-												  domainData ? [domainData length] : 0,
+												  domainData ? (UInt32)[domainData length] : 0,
 												  domainData ? [domainData bytes]  : NULL,
 												  //account appears optional, even though it isn't so documented
-												  accountData ? [accountData length] : 0,
+												  accountData ? (UInt32)[accountData length] : 0,
 												  accountData ? [accountData bytes]  : NULL,
 												  //path appears optional, even though it isn't so documented
-												  pathData ? [pathData length] : 0,
+												  pathData ? (UInt32)[pathData length] : 0,
 												  pathData ? [pathData bytes]  : NULL,
 												  port,
 												  protocol,
 												  authType,
-												  [passwordData length], [passwordData bytes],
+												  (UInt32)[passwordData length], [passwordData bytes],
 												  outKeychainItem);
 
 	[pool release];
@@ -653,17 +662,22 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *pathData    = [path    dataUsingEncoding:NSUTF8StringEncoding];
 	NSString *passwordString = nil;
 
+	NSAssert( (UINT_MAX >= [serverData length]) &&
+					  (UINT_MAX >= [domainData length]) &&
+					  (UINT_MAX >= [accountData length]) &&
+					  (UINT_MAX >= [pathData length]),
+					  @"Attempting to send more data than Keychain can handle.  Abort." );
 	/* If keychainRef is NULL, the users's default keychain search list will be used */
 	OSStatus err = SecKeychainFindInternetPassword(keychainRef,
-												   [serverData length],  [serverData bytes],
+												   (UInt32)[serverData length],  [serverData bytes],
 												   //domain is optional, so be sure to handle domain == nil
-												   domainData ? [domainData length] : 0,
+												   domainData ? (UInt32)[domainData length] : 0,
 												   domainData ? [domainData bytes]  : NULL,
 												   //account appears optional, even though it isn't so documented
-												   accountData ? [accountData length] : 0,
+												   accountData ? (UInt32)[accountData length] : 0,
 												   accountData ? [accountData bytes]  : NULL,
 												   //path appears optional, even though it isn't so documented
-												   pathData ? [pathData length] : 0,
+												   pathData ? (UInt32)[pathData length] : 0,
 												   pathData ? [pathData bytes]  : NULL,
 												   port,
 												   protocol,
@@ -712,6 +726,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 - (NSDictionary *)dictionaryFromKeychainForServer:(NSString *)server protocol:(SecProtocolType)protocol error:(out NSError **)outError
 {
+	NSAssert( UINT_MAX >= [server length], @"Attempting to send more data than Keychain can handle.  Abort." );
 	NSDictionary *result = nil;
 
 	//search for keychain items whose server is our key.
@@ -720,7 +735,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	struct SecKeychainAttribute searchAttrs[] = {
 		{
 			.tag    = kSecServerItemAttr,
-			.length = [server length],
+			.length = (UInt32)[server length],
 			.data   = (void *)[server UTF8String],
 		},
 		{
@@ -825,7 +840,7 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					 keychainItem:outKeychainItem
 							error:&error];
 		if (error) {
-			OSStatus err = [error code];
+			NSInteger err = [error code];
 
 			if (err == errSecDuplicateItem) {
 				/*we already have an item for this, so find it and change it.
@@ -852,11 +867,12 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 					if (outError) *outError = [error retain];
 				} else {
 					NSData   *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
+					NSAssert( UINT_MAX >= [passwordData length], @"Attempting to send more data than Keychain can handle.  Abort." );
 
 					//change the password.
 					err = SecKeychainItemModifyAttributesAndData(item,
 																 /*attrList*/ NULL,
-																 [passwordData length],
+																 (UInt32)[passwordData length],
 																 [passwordData bytes]);
 					if (outError) {
 						if (err == noErr) {
@@ -991,12 +1007,15 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
-
+	NSAssert( (UINT_MAX >= [passwordData length]) &&
+					  (UINT_MAX >= [serviceData length]) &&
+					  (UINT_MAX >= [accountData length]),
+					  @"Attempting to send more data than Keychain can handle.  Abort." );
 	/* If keychainRef is NULL, the default keychain will be used */
 	OSStatus err = SecKeychainAddGenericPassword(keychainRef,
-												  [serviceData length],  [serviceData bytes],
-												  [accountData length],  [accountData bytes],
-												 [passwordData length], [passwordData bytes],
+												  (UInt32)[serviceData length],  [serviceData bytes],
+												  (UInt32)[accountData length],  [accountData bytes],
+												 (UInt32)[passwordData length], [passwordData bytes],
 												 outKeychainItem);
 
 	[pool release];
@@ -1029,11 +1048,13 @@ static AIKeychain *lastKnownDefaultKeychain = nil;
 	NSData *serviceData = [service dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *accountData = [account dataUsingEncoding:NSUTF8StringEncoding];
 	NSString *passwordString = nil;
-
+	NSAssert( (UINT_MAX >= [serviceData length]) &&
+					  (UINT_MAX >= [accountData length]),
+					  @"Attempting to send more data than Keychain can handle.  Abort." );
 	/* If keychainRef is NULL, the users's default keychain search list will be used */
 	OSStatus err = SecKeychainFindGenericPassword(keychainRef,
-												  [serviceData length],  [serviceData bytes],
-												  [accountData length],  [accountData bytes],
+												  (UInt32)[serviceData length],  [serviceData bytes],
+												  (UInt32)[accountData length],  [accountData bytes],
 												  &passwordLength,
 												  &passwordData,
 												  outKeychainItem);

@@ -16,7 +16,7 @@
 
 @interface AIFloater ()
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
-- (void)_setWindowOpacity:(float)opacity;
+- (void)_setWindowOpacity:(CGFloat)opacity;
 @end
 
 @implementation AIFloater
@@ -90,7 +90,7 @@
     [self release];
 }
 
-- (void)setMaxOpacity:(float)inMaxOpacity
+- (void)setMaxOpacity:(CGFloat)inMaxOpacity
 {
     maxOpacity = inMaxOpacity;
     if (windowIsVisible) [self _setWindowOpacity:maxOpacity];
@@ -125,7 +125,7 @@
     }
 }
 
-- (void)_setWindowOpacity:(float)opacity
+- (void)_setWindowOpacity:(CGFloat)opacity
 {
     [panel setAlphaValue:opacity];
 }

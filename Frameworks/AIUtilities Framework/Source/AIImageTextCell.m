@@ -156,13 +156,13 @@
 
 		//Center image vertically, or scale as needed
 		if (destSize.height > cellFrame.size.height) {
-			float proportionChange = cellFrame.size.height / destSize.height;
+			CGFloat proportionChange = cellFrame.size.height / destSize.height;
 			destSize.height = cellFrame.size.height;
 			destSize.width = destSize.width * proportionChange;
 		}
 		
 		if (destSize.width > maxImageWidth) {
-			float proportionChange = maxImageWidth / destSize.width;
+			CGFloat proportionChange = maxImageWidth / destSize.width;
 			destSize.width = maxImageWidth;
 			destSize.height = destSize.height * proportionChange;
 		}
@@ -243,13 +243,13 @@
 	
 	//Center image vertically, or scale as needed
 	if (destRect.size.height > cellFrame.size.height) {
-		 float proportionChange = cellFrame.size.height / size.height;
+		 CGFloat proportionChange = cellFrame.size.height / size.height;
 		 destRect.size.height = cellFrame.size.height;
 		 destRect.size.width = size.width * proportionChange;
 	 }
 	 
 	 if (destRect.size.width > maxImageWidth) {
-		 float proportionChange = maxImageWidth / destRect.size.width;
+		 CGFloat proportionChange = maxImageWidth / destRect.size.width;
 		 destRect.size.width = maxImageWidth;
 		 destRect.size.height = destRect.size.height * proportionChange;
 	 }
@@ -305,7 +305,7 @@
 		NSAttributedString	*attributedMainString = nil, *attributedSubString = nil;
 		NSColor				*mainTextColor, *subStringTextColor;
 		NSDictionary		*mainAttributes = nil, *subStringAttributes = nil;
-		float				mainStringHeight = 0.0, subStringHeight = 0.0, textSpacing = 0.0;
+		CGFloat				mainStringHeight = 0.0, subStringHeight = 0.0, textSpacing = 0.0;
 
 		//Determine the correct text color
 		NSWindow			*window;

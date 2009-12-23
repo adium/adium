@@ -13,11 +13,11 @@
  | write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  \------------------------------------------------------------------------------------------------------ */
 
-#define Highest_Priority  	0.0
-#define High_Priority  		0.25
-#define Medium_Priority  	0.5
-#define Low_Priority  		0.75
-#define Lowest_Priority  	1.0
+#define Highest_Priority  	0.0f
+#define High_Priority  		0.25f
+#define Medium_Priority  	0.5f
+#define Low_Priority  		0.75f
+#define Lowest_Priority  	1.0f
 
 @class AIMutableOwnerArray;
 

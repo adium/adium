@@ -154,25 +154,25 @@
 	BOOL	changed = NO;
 	
 	//Left
-	if ((abs(NSMinX((*inWindowFrame)) - NSMinX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+	if ((labs(NSMinX((*inWindowFrame)) - NSMinX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.x = inScreenFrame.origin.x;
 		changed = YES;
 	}
 	
 	//Bottom
-	if ((abs(NSMinY(*inWindowFrame) - NSMinY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+	if ((labs(NSMinY(*inWindowFrame) - NSMinY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.y = inScreenFrame.origin.y;
 		changed = YES;
 	}
 	
 	//Right
-	if ((abs(NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+	if ((labs(NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.x -= NSMaxX(*inWindowFrame) - NSMaxX(inScreenFrame);
 		changed = YES;
 	}
 	
 	//Top
-	if ((abs(NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
+	if ((labs(NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame)) < BORDERLESS_WINDOW_DOCKING_DISTANCE)) {
 		(*inWindowFrame).origin.y -= NSMaxY(*inWindowFrame) - NSMaxY(inScreenFrame);
 		changed = YES;
 	}

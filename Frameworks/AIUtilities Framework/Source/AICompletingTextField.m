@@ -127,7 +127,7 @@
 - (void)textDidChange:(NSNotification *)notification
 {
     NSString		*userValue, *lastValue, *completionValue;
-	unsigned int	userValueLength, lastValueLength;
+    NSUInteger	userValueLength, lastValueLength;
 	
     //Auto-complete
     userValue = [self stringValue];
@@ -196,7 +196,7 @@
     NSEnumerator	*enumerator;
 	NSString		*compString = inString;
     NSString		*autoString;
-    int				length;
+    NSUInteger				length;
     NSRange			range;
 
 	// Find only the last item in the list, if we are to autocomplete only after separators

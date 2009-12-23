@@ -17,7 +17,7 @@
 
 @implementation NSFontManager (AIFontManagerAdditions)
 
-- (NSFont *)fontWithFamilyInsensitively:(NSString *)name traits:(NSFontTraitMask)fontTraitMask weight:(int)weight size:(float)size
+- (NSFont *)fontWithFamilyInsensitively:(NSString *)name traits:(NSFontTraitMask)fontTraitMask weight:(NSInteger)weight size:(CGFloat)size
 {
 	NSFont			*theFont = nil;
 	NSFontManager	*fontManager = [NSFontManager sharedFontManager];

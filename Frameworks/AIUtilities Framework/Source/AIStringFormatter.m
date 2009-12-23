@@ -78,8 +78,8 @@
 			shouldIncreaseErrorCounter = YES;
 			
         } else {
-			unsigned validSegmentLength = [validSegment length];
-			unsigned partialStringPtrLength = [*partialStringPtr length];
+			NSUInteger validSegmentLength = [validSegment length];
+			NSUInteger partialStringPtrLength = [*partialStringPtr length];
 			
 			if (validSegmentLength != partialStringPtrLength) {
 				valid = NO;

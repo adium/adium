@@ -17,9 +17,9 @@
 
 #pragma mark Rect utilities
 
-float AICoordinateForRect_edge_(const NSRect rect, const NSRectEdge edge)
+CGFloat AICoordinateForRect_edge_(const NSRect rect, const NSRectEdge edge)
 {
-	float coordinate = 0.0;
+	CGFloat coordinate = 0.0;
 	switch (edge) {
 		case NSMinXEdge : coordinate = NSMinX(rect); break;
 		case NSMinYEdge : coordinate = NSMinY(rect); break;
@@ -32,10 +32,10 @@ float AICoordinateForRect_edge_(const NSRect rect, const NSRectEdge edge)
 
 // returns the distance that a point lies outside a rect on a particular side.  If the point lies 
 // on the interior side of the edge, the number returned will be negative
-float AISignedExteriorDistanceRect_edge_toPoint_(const NSRect rect, const NSRectEdge edge, const NSPoint point)
+CGFloat AISignedExteriorDistanceRect_edge_toPoint_(const NSRect rect, const NSRectEdge edge, const NSPoint point)
 {
-	float distanceOutside = 0.0;
-	float rectEdgeCoordinate = AICoordinateForRect_edge_(rect, edge);
+	CGFloat distanceOutside = 0.0;
+	CGFloat rectEdgeCoordinate = AICoordinateForRect_edge_(rect, edge);
 	switch (edge) {
 		case NSMinXEdge: distanceOutside = rectEdgeCoordinate - point.x; break;
 		case NSMaxXEdge: distanceOutside = point.x - rectEdgeCoordinate; break;
@@ -64,7 +64,7 @@ NSRectEdge AIOppositeRectEdge_(const NSRectEdge edge)
 // undefined if aligning left to top or something else that does not make sense
 NSRect AIRectByAligningRect_edge_toRect_edge_(NSRect mobileRect, const NSRectEdge mobileRectEdge, const NSRect stationaryRect, const NSRectEdge stationaryRectEdge)
 {
-	float alignToCoordinate = AICoordinateForRect_edge_(stationaryRect, stationaryRectEdge);
+	CGFloat alignToCoordinate = AICoordinateForRect_edge_(stationaryRect, stationaryRectEdge);
 	switch (mobileRectEdge) {
 		case NSMinXEdge: mobileRect.origin.x = alignToCoordinate; break;
 		case NSMinYEdge: mobileRect.origin.y = alignToCoordinate; break;
@@ -75,9 +75,14 @@ NSRect AIRectByAligningRect_edge_toRect_edge_(NSRect mobileRect, const NSRectEdg
 	return mobileRect;
 }
 
-BOOL AIRectIsAligned_edge_toRect_edge_tolerance_(const NSRect rect1, const NSRectEdge edge1, const NSRect rect2, const NSRectEdge edge2, const float tolerance)
+BOOL AIRectIsAligned_edge_toRect_edge_tolerance_(const NSRect rect1, const NSRectEdge edge1, const NSRect rect2, const NSRectEdge edge2, const CGFloat tolerance)
 {
-	return fabsf(AICoordinateForRect_edge_(rect1, edge1) - AICoordinateForRect_edge_(rect2, edge2)) < tolerance;
+#ifdef __LP64__
+	#define AIfabs( X ) fabs((X))
+#else
+	#define AIfabs( X ) fabsf(X))
+#endif
+	return AIfabs(AICoordinateForRect_edge_(rect1, edge1) - AICoordinateForRect_edge_(rect2, edge2)) < tolerance;
 }
 
 // minimally translate mobileRect so that it lies within stationaryRect

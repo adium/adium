@@ -137,22 +137,22 @@
 - (NSRect)dockWindowFrame:(NSRect)windowFrame toScreenFrame:(NSRect)screenFrame
 {
 	//Left
-	if (abs(NSMinX(windowFrame) - NSMinX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+	if (labs(NSMinX(windowFrame) - NSMinX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.x = screenFrame.origin.x;
 	}
 	
 	//Bottom
-	if (abs(NSMinY(windowFrame) - NSMinY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+	if (labs(NSMinY(windowFrame) - NSMinY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.y = screenFrame.origin.y;
 	}
 	
 	//Right
-	if (abs(NSMaxX(windowFrame) - NSMaxX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+	if (labs(NSMaxX(windowFrame) - NSMaxX(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.x -= NSMaxX(windowFrame) - NSMaxX(screenFrame);
 	}
 	
 	//Top
-	if (abs(NSMaxY(windowFrame) - NSMaxY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
+	if (labs(NSMaxY(windowFrame) - NSMaxY(screenFrame)) < WINDOW_DOCKING_DISTANCE) {
 		windowFrame.origin.y -= NSMaxY(windowFrame) - NSMaxY(screenFrame);
 	}
 	

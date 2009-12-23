@@ -127,7 +127,7 @@ static AIHostReachabilityMonitor *singleton = nil;
 
 	[hostAndObserverListLock lock];
 
-	unsigned numObservers = [observers count];
+	NSUInteger numObservers = [observers count];
 	for (unsigned i = 0; i < numObservers; ) {
 		BOOL removed = NO;
 		if (newObserver == [observers objectAtIndex:i]) {
@@ -164,7 +164,7 @@ static AIHostReachabilityMonitor *singleton = nil;
 	[hostAndObserverListLock lock];
 
 	if (host && observer) {
-		unsigned numObservers = [observers count];
+		NSUInteger numObservers = [observers count];
 		for (unsigned i = 0; i < numObservers; i++) {
 			if ((observer == [observers objectAtIndex:i]) &&
 				([host isEqualToString:[hosts objectAtIndex:i]])) {
@@ -649,7 +649,7 @@ static OSStatus CreateIPAddressListChangeCallbackSCF(SCDynamicStoreCallBack call
 	
 	[hostAndObserverListLock unlock];
 
-	unsigned numObservers = [oldObservers count];
+	NSUInteger numObservers = [oldObservers count];
 	for (unsigned i = 0; i < numObservers; i++) {
 		NSString						*host = [oldHosts objectAtIndex:i];
 		id<AIHostReachabilityObserver>	observer = [oldObservers objectAtIndex:i];

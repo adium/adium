@@ -130,8 +130,8 @@
 
 - (void)interpretKeyEvents:(NSArray *)eventArray
 {
-	unsigned 	index = 0;
-	unsigned	numEvents = [eventArray count];
+	NSUInteger 	index = 0;
+	NSUInteger	numEvents = [eventArray count];
 
     while (index < numEvents) {
 		NSEvent		*theEvent = [eventArray objectAtIndex:index];

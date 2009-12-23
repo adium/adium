@@ -22,7 +22,7 @@
 - (BOOL)selectItemWithRepresentedObject:(id)object
 {
 	if ([self numberOfItems] > 0) {
-		int	index = [self indexOfItemWithRepresentedObject:object];
+		NSInteger	index = [self indexOfItemWithRepresentedObject:object];
 		if (index != -1) {
 			[self selectItemAtIndex:index];
 			return YES;

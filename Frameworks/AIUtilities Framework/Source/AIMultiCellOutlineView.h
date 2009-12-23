@@ -18,8 +18,8 @@
 	NSCell	*contentCell;
 	NSCell	*groupCell;
 	
-	float   groupRowHeight;
-	float   contentRowHeight;
+	CGFloat   groupRowHeight;
+	CGFloat   contentRowHeight;
 }
 
 /*!

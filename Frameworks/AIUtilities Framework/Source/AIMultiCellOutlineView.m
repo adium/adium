@@ -89,7 +89,7 @@
 - (BOOL)handleExpandedStateToggleForEvent:(NSEvent *)theEvent needsExpandCollapseSuppression:(BOOL *)needsExpandCollapseSuppression
 {
 	NSPoint viewPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil]; 
-	int		row = [self rowAtPoint:viewPoint]; 
+	NSInteger		row = [self rowAtPoint:viewPoint]; 
 	id		item = [self itemAtRow:row]; 
 	BOOL	handled;
 

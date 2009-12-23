@@ -27,7 +27,7 @@
 
 	NSString *string = [self string];
 	NSRange range = { .location = [self scanLocation], .length = 0 };
-	unsigned length = [string length] - range.location;
+	NSInteger length = [string length] - range.location;
 	range.length = length;
 
 	unichar *buf = malloc(length * sizeof(unichar));

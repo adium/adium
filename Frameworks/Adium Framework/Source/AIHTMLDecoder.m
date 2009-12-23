@@ -805,7 +805,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 		[mutableAttributes setObject:[font familyName]
 		                      forKey:AIFontFamilyAttributeName];
-		[mutableAttributes setObject:[NSString stringWithFormat:@"%@pt", [NSString stringWithFloat:[font pointSize] maxDigits:2]]
+		[mutableAttributes setObject:[NSString stringWithFormat:@"%@pt", [NSString stringWithCGFloat:[font pointSize] maxDigits:2]]
 		                      forKey:AIFontSizeAttributeName];
 
 		NSFontTraitMask traits = [[NSFontManager sharedFontManager] traitsOfFont:font];

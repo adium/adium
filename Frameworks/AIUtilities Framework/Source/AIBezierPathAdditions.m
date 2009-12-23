@@ -44,12 +44,12 @@
 	return [self bezierPathWithRoundedRect:bounds radius:MIN(bounds.size.width, bounds.size.height) / 2.0];
 }
 
-+ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius
++ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(CGFloat)radius
 {
 	return [NSBezierPath bezierPathWithRoundedRect:rect xRadius:radius yRadius:radius];
 }
 
-+ (NSBezierPath *)bezierPathWithRoundedTopCorners:(NSRect)rect radius:(float)radius
++ (NSBezierPath *)bezierPathWithRoundedTopCorners:(NSRect)rect radius:(CGFloat)radius
 {
     NSBezierPath	*path = [NSBezierPath bezierPath];
     NSPoint 		topLeft, topRight, bottomLeft, bottomRight;
@@ -80,7 +80,7 @@
     return path;
 }
 
-+ (NSBezierPath *)bezierPathWithRoundedBottomCorners:(NSRect)rect radius:(float)radius
++ (NSBezierPath *)bezierPathWithRoundedBottomCorners:(NSRect)rect radius:(CGFloat)radius
 {
     NSBezierPath	*path = [NSBezierPath bezierPath];
     NSPoint 		topLeft, topRight, bottomLeft, bottomRight;
@@ -113,7 +113,7 @@
 
 #pragma mark Arrows
 
-+ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(float)shaftLengthMulti shaftWidth:(float)shaftWidth {
++ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(CGFloat)shaftLengthMulti shaftWidth:(CGFloat)shaftWidth {
 	NSBezierPath *arrowPath = [NSBezierPath bezierPath];
 
 	/*   5
@@ -124,10 +124,10 @@
 	 *  1-2
 	 */
 
-	const float shaftLength = ONE_HALF * shaftLengthMulti;
-	const float shaftEndY = -(shaftLength - ONE_HALF); //the end of the arrow shaft (points 1-2).
+	const CGFloat shaftLength = ONE_HALF * shaftLengthMulti;
+	const CGFloat shaftEndY = -(shaftLength - ONE_HALF); //the end of the arrow shaft (points 1-2).
 	//wing width = the distance between 6 and 7 and 3 and 4.
-	const float wingWidth = (1.0 - shaftWidth) * 0.5;
+	const CGFloat wingWidth = (1.0 - shaftWidth) * 0.5;
 
 	//start with the bottom vertex.
 	[arrowPath moveToPoint:NSMakePoint(wingWidth,  shaftEndY)]; //1
@@ -148,11 +148,11 @@
 	return arrowPath;
 }
 
-+ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(float)shaftLengthMulti {
++ (NSBezierPath *)bezierPathWithArrowWithShaftLengthMultiplier:(CGFloat)shaftLengthMulti {
 	return [self bezierPathWithArrowWithShaftLengthMultiplier:shaftLengthMulti
 	                                               shaftWidth:DEFAULT_SHAFT_WIDTH];
 }
-+ (NSBezierPath *)bezierPathWithArrowWithShaftWidth:(float)shaftWidth {
++ (NSBezierPath *)bezierPathWithArrowWithShaftWidth:(CGFloat)shaftWidth {
 	return [self bezierPathWithArrowWithShaftLengthMultiplier:DEFAULT_SHAFT_LENGTH_MULTI
 	                                               shaftWidth:shaftWidth];
 }

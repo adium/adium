@@ -38,12 +38,12 @@ struct _mark {
 	[super drawRect:rect];
 	
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	float width = [[self class] scrollerWidthForControlSize:[self controlSize]];
+	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
 	
-	float scale = [self scaleToContentView];
+	CGFloat scale = [self scaleToContentView];
 	[transform scaleXBy:( sFlags.isHoriz ? scale : 1. ) yBy:( sFlags.isHoriz ? 1. : scale )];
 	
-	float offset = [self rectForPart:NSScrollerKnobSlot].origin.y;
+	CGFloat offset = [self rectForPart:NSScrollerKnobSlot].origin.y;
 	[transform translateXBy:( sFlags.isHoriz ? offset / scale : 0. ) yBy:( sFlags.isHoriz ? 0. : offset / scale )];
 	
 	NSBezierPath *shades = [NSBezierPath bezierPath];
@@ -91,7 +91,7 @@ struct _mark {
 	enumerator = [_marks objectEnumerator];
 	NSValue *currentMark = nil;
 	
-	unsigned long long currentPosition = ( _currentMark != NSNotFound ? _currentMark : [self floatValue] * [self contentViewLength] );
+	unsigned long long currentPosition = ( _currentMark != NSNotFound ? _currentMark : (CGFloat)[self floatValue] * [self contentViewLength] );
 	BOOL foundNext = NO, foundPrevious = NO;
 	NSRect knobRect = [self rectForPart:NSScrollerKnob];
 	
@@ -112,8 +112,8 @@ struct _mark {
 		
 		NSPoint point = NSMakePoint( ( sFlags.isHoriz ? value : 0. ), ( sFlags.isHoriz ? 0. : value ) );
 		point = [transform transformPoint:point];
-		point.x = ( sFlags.isHoriz ? roundf( point.x ) + 0.5 : point.x );
-		point.y = ( sFlags.isHoriz ? point.y : roundf( point.y ) + 0.5 );
+		point.x = ( sFlags.isHoriz ? round( point.x ) + 0.5 : point.x );
+		point.y = ( sFlags.isHoriz ? point.y : round( point.y ) + 0.5 );
 		
 		if( ! NSPointInRect( point, knobRect ) ) {
 			if( mark.color ) {
@@ -236,7 +236,7 @@ struct _mark {
 	NSEnumerator *enumerator = [_marks objectEnumerator];
 	NSValue *currentMark = nil;
 	
-	unsigned long long currentPosition = ( _currentMark != NSNotFound ? _currentMark : [self floatValue] * [self contentViewLength] );
+	unsigned long long currentPosition = ( _currentMark != NSNotFound ? _currentMark : (CGFloat)[self floatValue] * [self contentViewLength] );
 	BOOL foundNext = NO, foundPrevious = NO;
 	
 	while( ( currentMark = [enumerator nextObject] ) ) {
@@ -265,7 +265,7 @@ struct _mark {
 	NSEvent *event = [[NSApplication sharedApplication] currentEvent];
 	NSPoint where = [self convertPoint:[event locationInWindow] fromView:nil];
 	NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];
-	float scale = [self scaleToContentView];
+	CGFloat scale = [self scaleToContentView];
 	[self removeMarksLessThan:( ( sFlags.isHoriz ? where.x - NSMinX( slotRect ) : where.y - NSMinY( slotRect ) ) / scale )];
 }
 
@@ -273,7 +273,7 @@ struct _mark {
 	NSEvent *event = [[NSApplication sharedApplication] currentEvent];
 	NSPoint where = [self convertPoint:[event locationInWindow] fromView:nil];
 	NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];
-	float scale = [self scaleToContentView];
+	CGFloat scale = [self scaleToContentView];
 	[self removeMarksGreaterThan:( ( sFlags.isHoriz ? where.x - NSMinX( slotRect ) : where.y - NSMinY( slotRect ) ) / scale )];
 }
 
@@ -301,7 +301,7 @@ struct _mark {
 	if( _nearestPreviousMark != NSNotFound ) {
 		_currentMark = _nearestPreviousMark;
 		_jumpingToMark = YES;
-		float shift = [self shiftAmountToCenterAlign];
+		CGFloat shift = [self shiftAmountToCenterAlign];
 		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
 		_jumpingToMark = NO;
 		
@@ -318,7 +318,7 @@ struct _mark {
 	if( _nearestNextMark != NSNotFound ) {
 		_currentMark = _nearestNextMark;
 		_jumpingToMark = YES;
-		float shift = [self shiftAmountToCenterAlign];
+		CGFloat shift = [self shiftAmountToCenterAlign];
 		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
 		_jumpingToMark = NO;
 		
@@ -368,7 +368,7 @@ struct _mark {
 	}
 	
 	if( foundMark ) {
-		float shift = [self shiftAmountToCenterAlign];
+		CGFloat shift = [self shiftAmountToCenterAlign];
 		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 	}
@@ -568,13 +568,13 @@ struct _mark {
 	else return ( NSHeight( [self frame] ) / [self knobProportion] );
 }
 
-- (float) scaleToContentView {
+- (CGFloat) scaleToContentView {
 	if( sFlags.isHoriz ) return NSWidth( [self rectForPart:NSScrollerKnobSlot] ) / NSWidth( [[(NSScrollView *)[self superview] contentView] documentRect] );
 	else return NSHeight( [self rectForPart:NSScrollerKnobSlot] ) / NSHeight( [[(NSScrollView *)[self superview] contentView] documentRect] );
 }
 
-- (float) shiftAmountToCenterAlign {
-	float scale = [self scaleToContentView];
+- (CGFloat) shiftAmountToCenterAlign {
+	CGFloat scale = [self scaleToContentView];
 	if( sFlags.isHoriz ) return ( ( NSWidth( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2. ) / scale;
 	else return ( ( NSHeight( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2. ) / scale;
 }
