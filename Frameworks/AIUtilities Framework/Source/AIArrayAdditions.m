@@ -99,7 +99,7 @@
 
 - (void)moveObject:(id)object toIndex:(unsigned)newIndex
 {
-	unsigned	currentIndex = [self indexOfObject:object];
+	NSUInteger	currentIndex = [self indexOfObject:object];
 	
 	//if we're already there, do no work
 	if (currentIndex == newIndex) 

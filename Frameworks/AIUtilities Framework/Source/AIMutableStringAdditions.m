@@ -30,7 +30,7 @@
 - (void)convertNewlinesToSlashes
 {
 	NSRange fullRange = NSMakeRange(0, [self length]);
-	unsigned int replacements = 0;
+	NSUInteger replacements = 0;
 
 	//First, we remove duplicate linebreaks.
 	do {
@@ -70,7 +70,7 @@
 							   range:fullRange];
 }
 
-- (unsigned int)replaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(unsigned)opts
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)opts
 {
 	return [self replaceOccurrencesOfString:target withString:replacement options:opts range:NSMakeRange(0, [self length])];
 }

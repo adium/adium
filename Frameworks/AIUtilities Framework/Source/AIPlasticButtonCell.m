@@ -119,9 +119,9 @@
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
     NSRect	sourceRect, destRect, frame;
-    int		capWidth;
-    int		capHeight;
-    int		middleRight;
+    CGFloat		capWidth;
+    CGFloat		capHeight;
+    CGFloat		middleRight;
     NSImage	*caps;
     NSImage	*middle;
 	NSCellImagePosition imagePosition = [self imagePosition];

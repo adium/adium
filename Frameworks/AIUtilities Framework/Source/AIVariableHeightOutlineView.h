@@ -15,7 +15,7 @@
  * This <tt>AIAlternatingRowOutlineView</tt> subclass allows each row to have a different height as determined by the data source. Note that the delegate <b>must</b> implement the method(s) described in <tt>AIVariableHeightOutlineViewDataSource</tt>. 
  */
 @interface AIVariableHeightOutlineView : AIAlternatingRowOutlineView {
-	int		totalHeight;
+	NSInteger		totalHeight;
 
 	BOOL	drawHighlightOnlyWhenMain;
 	BOOL	drawsSelectedRowHighlight;

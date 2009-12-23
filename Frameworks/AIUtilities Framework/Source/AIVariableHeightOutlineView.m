@@ -15,7 +15,7 @@
 
 @interface AIVariableHeightOutlineView ()
 - (void)_initVariableHeightOutlineView;
-- (NSImage *)dragImageForRows:(NSUInteger *)buf count:(unsigned int)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset;
+- (NSImage *)dragImageForRows:(NSUInteger *)buf count:(NSUInteger)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset;
 @end
 
 @implementation AIVariableHeightOutlineView
@@ -84,7 +84,7 @@
 - (BOOL)handleExpandedStateToggleForEvent:(NSEvent *)theEvent needsExpandCollapseSuppression:(BOOL *)needsExpandCollapseSuppression
 {
 	NSPoint viewPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil]; 
-	int		row = [self rowAtPoint:viewPoint]; 
+	NSInteger		row = [self rowAtPoint:viewPoint]; 
 	id		item = [self itemAtRow:row]; 
 	BOOL	handled;
 
@@ -204,7 +204,7 @@
 	 */
 	if ([self usesAlternatingRowBackgroundColors]) {
 		BOOL alternateColor = YES;
-		int numberOfRows = [self numberOfRows], rectNumber = 0;
+		NSInteger numberOfRows = [self numberOfRows], rectNumber = 0;
 		NSTableColumn *tableColumn = [[self tableColumns] objectAtIndex:0];
 		NSRect *gridRects = (NSRect *)alloca(sizeof(NSRect) * numberOfRows);
 		
@@ -235,7 +235,7 @@
 	if (row >= 0 && row < [self numberOfRows]) { //Somebody keeps calling this method with row = numberOfRows, which is wrong.
 		NSArray		*tableColumns = [self tableColumns];
 		id			item = [self itemAtRow:row];
-		unsigned	tableColumnIndex, count = [tableColumns count];
+		NSUInteger	tableColumnIndex, count = [tableColumns count];
 
 		for (tableColumnIndex = 0 ; tableColumnIndex < count ; tableColumnIndex++) {
 			NSTableColumn	*tableColumn;
@@ -267,12 +267,12 @@
 	}
 }
 
-- (NSImage *)dragImageForRows:(NSUInteger *)buf count:(unsigned int)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
+- (NSImage *)dragImageForRows:(NSUInteger *)buf count:(NSUInteger)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
 	NSRect			rowRect;
-	float			yOffset;
-	unsigned int	i, firstRow, row = 0, tableColumnsCount;
+	CGFloat			yOffset;
+	NSUInteger	i, firstRow, row = 0, tableColumnsCount;
 
 	firstRow = buf[0];
 
@@ -335,7 +335,7 @@
 - (NSImage *)dragImageForRowsWithIndexes:(NSIndexSet *)dragRows tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
-	unsigned int	bufSize = [dragRows count];
+	NSUInteger	bufSize = [dragRows count];
 	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
 
 	NSRange range = NSMakeRange([dragRows firstIndex], ([dragRows lastIndex]-[dragRows firstIndex]) + 1);
@@ -352,7 +352,7 @@
 - (NSImage *)dragImageForRows:(NSArray *)dragRows event:(NSEvent *)dragEvent dragImageOffset:(NSPointPointer)dragImageOffset
 {
 	NSImage			*image;
-	unsigned int	i, bufSize = [dragRows count];
+	NSUInteger	i, bufSize = [dragRows count];
 	NSUInteger	*buf = malloc(bufSize * sizeof(NSUInteger));
 
 	for (i = 0; i < bufSize; i++) {
@@ -369,10 +369,10 @@
 - (NSInteger)totalHeight
 {
 	if (totalHeight == -1) {
-		int	numberOfRows = [self numberOfRows];
+		NSInteger	numberOfRows = [self numberOfRows];
 		NSSize	intercellSpacing = [self intercellSpacing];
 		
-		for (int i = 0; i < numberOfRows; i++) {
+		for (NSInteger i = 0; i < numberOfRows; i++) {
 			totalHeight += ([self rectOfRow:i].size.height + intercellSpacing.height);
 		}
 	}
@@ -405,9 +405,9 @@
 		} else {
 			//But NSOutlineView's own handling won't deal with our variable heights properly
 			NSIndexSet *indices = [self selectedRowIndexes];
-			unsigned int bufSize = [indices count];
+			NSUInteger bufSize = [indices count];
 			NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
-			unsigned int i = 0, j = 0;
+			NSUInteger i = 0, j = 0;
 			
 			NSRange range = NSMakeRange([indices firstIndex], ([indices lastIndex]-[indices firstIndex]) + 1);
 			[indices getIndexes:buf maxCount:bufSize inIndexRange:&range];
@@ -415,8 +415,8 @@
 			NSRect *selectionRects = (NSRect *)malloc(sizeof(NSRect) * bufSize);
 			
 			while (i < bufSize) {
-				int startIndex = buf[i];
-				int lastIndex = buf[i];
+				NSUInteger startIndex = buf[i];
+				NSUInteger lastIndex = buf[i];
 				while ((i + 1 < bufSize) &&
 					   (buf[i + 1] == lastIndex + 1)){
 					i++;

@@ -22,7 +22,7 @@ Adium, Copyright 2001-2005, Adam Iser
 - (void)_initImageGridView;
 - (void)_updateGrid;
 - (void)_updateGridForNewFrame:(NSRect)newFrame;
-- (void)_setHoveredIndex:(int)index;
+- (void)_setHoveredIndex:(NSInteger)index;
 @end
 
 @implementation AIImageGridView
@@ -114,7 +114,7 @@ Adium, Copyright 2001-2005, Adam Iser
 #pragma mark Drawing and sizing
 
 //Redisplay an image in the grid
-- (void)setNeedsDisplayOfImageAtIndex:(int)index
+- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)index
 {
 	if (index >= 0) {
 		[self setNeedsDisplayInRect:[self rectForImageAtIndex:index]];
@@ -122,10 +122,10 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 //Returns the rect for an image in our grid
-- (NSRect)rectForImageAtIndex:(int)index
+- (NSRect)rectForImageAtIndex:(NSInteger)index
 {
-	int row = index / columns;
-	int column = index % columns;
+	NSInteger row = index / columns;
+	NSInteger column = index % columns;
 
 	return NSMakeRect(column * (imageSize.width  + padding.width)  + padding.width,
 	                  row    * (imageSize.height + padding.height) + padding.height,
@@ -134,11 +134,11 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 //Returns the image index at the specified point in our grid
-- (int)imageIndexAtPoint:(NSPoint)point
+- (NSInteger)imageIndexAtPoint:(NSPoint)point
 {
-	int 	numberOfImages = [delegate numberOfImagesInImageGridView:self];
+	NSUInteger 	numberOfImages = [delegate numberOfImagesInImageGridView:self];
 	//Determine which image was clicked
-	for (int i = 0; i < numberOfImages; i++) {
+	for (NSUInteger i = 0; i < numberOfImages; i++) {
 		if (NSPointInRect(point, [self rectForImageAtIndex:i])) {
 			return i;
 		}
@@ -162,7 +162,7 @@ Adium, Copyright 2001-2005, Adam Iser
 //Draw
 - (void)drawRect:(NSRect)drawRect
 {
-	int numberOfImages = [delegate numberOfImagesInImageGridView:self];
+	NSUInteger numberOfImages = [delegate numberOfImagesInImageGridView:self];
 	
 	if (drawsBackground) {
 		[[NSColor controlBackgroundColor] set];
@@ -170,7 +170,7 @@ Adium, Copyright 2001-2005, Adam Iser
 	}
 	
 	//Draw all images that lie in the dirty rect
-	for (int i = 0; i < numberOfImages; i++) {
+	for (NSUInteger i = 0; i < numberOfImages; i++) {
 		NSRect	imageRect = [self rectForImageAtIndex:i];
 
 		if (NSIntersectsRect(drawRect, imageRect)) {
@@ -195,8 +195,8 @@ Adium, Copyright 2001-2005, Adam Iser
 - (void)_updateGridForNewFrame:(NSRect)newFrame
 {
 	NSScrollView	*scrollView = [self enclosingScrollView];
-	int 			numberOfImages = [delegate numberOfImagesInImageGridView:self];
-	int 			rows;
+	NSUInteger 			numberOfImages = [delegate numberOfImagesInImageGridView:self];
+	NSUInteger 			rows;
 
 	//Recalculate the number of columns
 	columns = newFrame.size.width / (imageSize.width + MIN_PADDING);
@@ -222,9 +222,9 @@ Adium, Copyright 2001-2005, Adam Iser
 
 //Sets our selected index to the passed value, restricting it to within the allowable bounds if necessary.
 //The delegate will be informed of the new selection and the view will be updated to reflect it.
-- (void)selectIndex:(int)index
+- (void)selectIndex:(NSInteger)index
 {
-	int		numberOfImages = [delegate numberOfImagesInImageGridView:self];
+	NSUInteger		numberOfImages = [delegate numberOfImagesInImageGridView:self];
 	BOOL	shouldSelect = YES;
 	
 	//Restrict the index to our bounds
@@ -258,7 +258,7 @@ Adium, Copyright 2001-2005, Adam Iser
 		}
 	}
 }
-- (int)selectedIndex
+- (NSInteger)selectedIndex
 {
 	return selectedIndex;
 }
@@ -276,7 +276,7 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 //selects an index relative to the current selectedIndex.
-- (void)selectRelativeIndex:(signed int)delta
+- (void)selectRelativeIndex:(NSInteger)delta
 {
 	if (delta) {
 		[self selectIndex:selectedIndex + delta];
@@ -371,7 +371,7 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 //Set the hovered image index
-- (void)_setHoveredIndex:(int)index
+- (void)_setHoveredIndex:(NSInteger)index
 {
 	if (index != hoveredIndex) {
 		//Mark the old and new hovered image for redraw

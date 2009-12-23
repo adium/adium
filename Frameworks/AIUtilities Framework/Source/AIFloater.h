@@ -19,7 +19,7 @@
     NSPanel				*panel;
     BOOL                windowIsVisible;
     NSViewAnimation     *fadeAnimation;
-    float               maxOpacity;
+    CGFloat               maxOpacity;
 }
 
 /*!
@@ -70,7 +70,7 @@
  *
  * @param inMaxOpacity The maximum opacity
  */
-- (void)setMaxOpacity:(float)inMaxOpacity;
+- (void)setMaxOpacity:(CGFloat)inMaxOpacity;
 
 //- (void)endFloater;
 

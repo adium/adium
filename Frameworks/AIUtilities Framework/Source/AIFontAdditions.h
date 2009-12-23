@@ -14,7 +14,7 @@
  \------------------------------------------------------------------------------------------------------ */
 
 @interface NSFont (AIFontAdditions)
-+ (NSFont *)cachedFontWithName:(NSString *)fontName size:(float)fontSize;
++ (NSFont *)cachedFontWithName:(NSString *)fontName size:(CGFloat)fontSize;
 - (NSString *)stringRepresentation;
 - (NSString *)CSSRepresentation;
 - (BOOL)supportsBold;

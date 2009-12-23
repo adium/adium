@@ -99,10 +99,10 @@
 	NSBitmapImageRep *bestRep = nil;
 	NSImageRep *rep;
 	Class NSBitmapImageRepClass = [NSBitmapImageRep class];
-	float maxWidth = 0;
+	CGFloat maxWidth = 0;
 	while ((rep = [repsEnum nextObject])) {
 		if ([rep isKindOfClass:NSBitmapImageRepClass]) {
-			float thisWidth = [rep size].width;
+			CGFloat thisWidth = [rep size].width;
 			if (thisWidth >= maxWidth) {
 				//Cast explanation: GCC warns about us returning an NSImageRep here, presumably because it could be some other kind of NSImageRep if we don't check the class. Fortunately, we have such a check. This cast silences the warning.
 				bestRep = (NSBitmapImageRep *)rep;
@@ -120,7 +120,7 @@
 
 - (NSData *)JPEGRepresentation
 {	
-	return [self JPEGRepresentationWithCompressionFactor:1.0];
+	return [self JPEGRepresentationWithCompressionFactor:1.0f];
 }
 
 - (NSData *)JPEGRepresentationWithCompressionFactor:(float)compressionFactor
@@ -129,7 +129,7 @@
 	* before creating our representation or transparent parts will become black.  White is preferable.
 	*/
 	return ([[self opaqueBitmapImageRep] representationUsingType:NSJPEGFileType 
-													  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
+													  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:(float)compressionFactor] 
 																							 forKey:NSImageCompressionFactor]]);	
 }
 - (NSData *)JPEGRepresentationWithMaximumByteSize:(NSUInteger)maxByteSize
@@ -139,7 +139,7 @@
 	 */
 	NSBitmapImageRep *opaqueBitmapImageRep = [self opaqueBitmapImageRep];
 	NSData *data = nil;
-	for (float compressionFactor = 0.99; compressionFactor > 0.4; compressionFactor -= 0.01) {
+	for (float compressionFactor = 0.99f; compressionFactor > 0.4f; compressionFactor -= 0.01f) {
 		data = [opaqueBitmapImageRep representationUsingType:NSJPEGFileType 
 												  properties:[NSDictionary dictionaryWithObject:[NSNumber numberWithFloat:compressionFactor] 
 																						 forKey:NSImageCompressionFactor]];
@@ -190,7 +190,7 @@
 - (NSBitmapImageRep *)bitmapRepForGIFRepresentation
 {
 	NSArray *reps = [self representations];
-	int i = [reps count];
+	NSUInteger i = [reps count];
 	while (i--) {
 		NSBitmapImageRep *rep = (NSBitmapImageRep *)[reps objectAtIndex:i];
 		if ([rep isKindOfClass:[NSBitmapImageRep class]] &&
@@ -233,7 +233,7 @@
 + (AIBitmapImageFileType)fileTypeOfData:(NSData *)inData
 {
 	const char *data = [inData bytes];
-	unsigned len = [inData length];
+	NSUInteger len = [inData length];
 	AIBitmapImageFileType fileType = AIUnknownFileType;
 
 	if (len >= 4) {

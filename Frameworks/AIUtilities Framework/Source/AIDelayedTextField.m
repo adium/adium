@@ -33,7 +33,7 @@
 
 - (id)_init
 {
-	delayInterval = 0.5;
+	delayInterval = 0.5f;
 	
 	return self;
 }

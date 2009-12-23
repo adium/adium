@@ -37,9 +37,9 @@ Adium, Copyright 2001-2005, Adam Iser
 	
 	NSSize				imageSize;
 	NSSize				padding;			//Padding between images
-	int					columns;			//Number of columns
-	int 				selectedIndex;		//Currently selected image index
-	int					hoveredIndex;		//Currently hovered image index
+	NSInteger			columns;			//Number of columns
+	NSInteger 		selectedIndex;		//Currently selected image index
+	NSInteger			hoveredIndex;		//Currently hovered image index
 	
 	//The optional methods our current delegate responds to (So we don't have to ask it repeatedly)
 	BOOL		_respondsToShouldSelect;
@@ -90,7 +90,7 @@ Adium, Copyright 2001-2005, Adam Iser
  * @param index Index of the image
  * @return <tt>NSRect</tt> the image occupies in our grid
  */
-- (NSRect)rectForImageAtIndex:(int)index;
+- (NSRect)rectForImageAtIndex:(NSInteger)index;
 
 /*!
  * @brief Returns the image present at a point in our grid
@@ -98,14 +98,14 @@ Adium, Copyright 2001-2005, Adam Iser
  * @param point Location
  * @return index of the image at point
  */
-- (int)imageIndexAtPoint:(NSPoint)point;
+- (NSInteger)imageIndexAtPoint:(NSPoint)point;
 
 /*!
  * @brief Redisplay an image in our grid
  *
  * @param index Index of the image
  */
-- (void)setNeedsDisplayOfImageAtIndex:(int)index;
+- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)index;
 
 /*!
  * @brief Set the selected image
@@ -113,7 +113,7 @@ Adium, Copyright 2001-2005, Adam Iser
  * Set the currently selected image.  The delegate is informed of selection changes.
  * @param index Image index to select
  */
-- (void)selectIndex:(int)index;
+- (void)selectIndex:(NSInteger)index;
 
 /*!
  * @brief Set the selected image, relative to the current one
@@ -121,14 +121,14 @@ Adium, Copyright 2001-2005, Adam Iser
  * Select an image with a position relative to the current selected image.  The delegate is informed of selection changes.
  * @param delta Amount of positions to relocate the selection (0 = keep current selection; +1 = select next item)
  */
-- (void)selectRelativeIndex:(signed int)delta;
+- (void)selectRelativeIndex:(NSInteger)delta;
 
 /*!
  * @brief Retrieve the selected image
  *
  * @return index of the currently selected image
  */
-- (int)selectedIndex;
+- (NSInteger)selectedIndex;
 
 /*!
  * @brief Check whether the receiver is set to draw its background

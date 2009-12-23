@@ -23,8 +23,8 @@
 	NSSize shadowOffset = [self shadowOffset];
 	return [NSString stringWithFormat:@"%@ %@pt %@pt %@pt",
 		[[self shadowColor] CSSRepresentation],
-		[NSString stringWithFloat:shadowOffset.width maxDigits:2], [NSString stringWithFloat:shadowOffset.height maxDigits:2],
-		[NSString stringWithFloat:[self shadowBlurRadius] maxDigits:2]];
+		[NSString stringWithCGFloat:shadowOffset.width maxDigits:2], [NSString stringWithCGFloat:shadowOffset.height maxDigits:2],
+		[NSString stringWithCGFloat:[self shadowBlurRadius] maxDigits:2]];
 }
 
 @end

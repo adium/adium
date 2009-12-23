@@ -47,7 +47,7 @@ enum {
  *
  *	@return An X or Y coordinate.
  */
-float AICoordinateForRect_edge_(NSRect rect, NSRectEdge edge);
+CGFloat AICoordinateForRect_edge_(NSRect rect, NSRectEdge edge);
 
 /*!	@brief Measures a line from \a edge to \a point.
  *
@@ -57,7 +57,7 @@ float AICoordinateForRect_edge_(NSRect rect, NSRectEdge edge);
  *
  *	@return The distance between the edge and the point. It is positive if the point is outside the edge, negative if it is inside the edge (even it is outside the rectangle).
  */
-float AISignedExteriorDistanceRect_edge_toPoint_(NSRect rect, NSRectEdge edge, NSPoint point);
+CGFloat AISignedExteriorDistanceRect_edge_toPoint_(NSRect rect, NSRectEdge edge, NSPoint point);
 
 /*!	@brief Returns the edge that would be across a rectangle from \a edge.
  *
@@ -81,7 +81,7 @@ BOOL AIRectIsAligned_edge_toRect_edge_tolerance_(NSRect rect1,
 												 NSRectEdge edge1, 
 												 NSRect rect2, 
 												 NSRectEdge edge2, 
-												 float tolerance);
+												 CGFloat tolerance);
 
 // minimally translate mobileRect so that it lies within stationaryRect
 NSRect AIRectByMovingRect_intoRect_(NSRect mobileRect, NSRect stationaryRect);

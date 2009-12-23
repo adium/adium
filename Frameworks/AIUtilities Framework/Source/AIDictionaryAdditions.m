@@ -199,14 +199,14 @@ return validated;
 	} else {
 		NSMutableSet *addedKeys = nil;
 		if (outAddedKeys) {
-			unsigned capacity = [self count];
+			NSUInteger capacity = [self count];
 			if (flag) capacity += [other count];
 			addedKeys = [NSMutableSet setWithCapacity:capacity];
 		}
 
 		NSMutableSet *removedKeys = nil;
 		if (outRemovedKeys) {
-			unsigned capacity = [other count];
+			NSUInteger capacity = [other count];
 			if (flag) capacity += [self count];
 			removedKeys = [NSMutableSet setWithCapacity:capacity];
 		}

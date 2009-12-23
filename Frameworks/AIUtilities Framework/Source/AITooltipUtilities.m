@@ -316,10 +316,10 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
         tooltipBodyRect = NSZeroRect;   
     }
     
-    float titleAndBodyMargin = (hasTitle && hasBody) ? TOOLTIP_TITLE_BODY_MARGIN : 0;
+    CGFloat titleAndBodyMargin = (hasTitle && hasBody) ? TOOLTIP_TITLE_BODY_MARGIN : 0;
     //width is the greater of the body and title widths
-    float windowWidth = TOOLTIP_INSET*2 + ((tooltipBodyRect.size.width > tooltipTitleRect.size.width) ? tooltipBodyRect.size.width : tooltipTitleRect.size.width);
-    float windowHeight = titleAndBodyMargin + TOOLTIP_INSET*2 + (tooltipTitleRect.size.height + tooltipBodyRect.size.height);
+    CGFloat windowWidth = TOOLTIP_INSET*2 + ((tooltipBodyRect.size.width > tooltipTitleRect.size.width) ? tooltipBodyRect.size.width : tooltipTitleRect.size.width);
+    CGFloat windowHeight = titleAndBodyMargin + TOOLTIP_INSET*2 + (tooltipTitleRect.size.height + tooltipBodyRect.size.height);
     
     //Set the textView's origin 
 //  tooltipTitleRect.origin =  NSMakePoint(windowWidth/2 - tooltipTitleRect.size.width/2,TOOLTIP_INSET + tooltipBodyRect.size.height); //center the title
@@ -330,7 +330,7 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 		BOOL imageIsTallerThanTitle;
 		
         //if the image isn't going to fit without overlapping the title, expand the window's width
-        float neededWidth = imageSize.width + tooltipTitleRect.size.width + (TOOLTIP_INSET * 3);
+        CGFloat neededWidth = imageSize.width + tooltipTitleRect.size.width + (TOOLTIP_INSET * 3);
         if (neededWidth > windowWidth) {
             windowWidth = neededWidth;   
         }

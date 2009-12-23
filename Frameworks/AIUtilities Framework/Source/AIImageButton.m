@@ -44,7 +44,7 @@
 {
 	if ([self isEnabled]) {
 		NSWindow	*window = [self window];
-		float		maxXOrigin;
+		CGFloat		maxXOrigin;
 
 		[self highlight:YES];
 

@@ -45,10 +45,10 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     [tempString release];
 }
 
-- (unsigned int)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement options:(unsigned)opts range:(NSRange)searchRange
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement options:(NSStringCompareOptions)opts range:(NSRange)searchRange
 {
     NSRange		theRange;
-    unsigned	numberOfReplacements = 0, replacementLength = [replacement length];
+    NSUInteger	numberOfReplacements = 0, replacementLength = [replacement length];
 
     while ( (theRange = [[self string] rangeOfString:target 
 											 options:opts
@@ -64,10 +64,10 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     return numberOfReplacements;
 }
 
-- (unsigned int)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement attributes:(NSDictionary*)attributes options:(unsigned)opts range:(NSRange)searchRange
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement attributes:(NSDictionary*)attributes options:(NSStringCompareOptions)opts range:(NSRange)searchRange
 {
     NSRange				theRange;
-    unsigned			numberOfReplacements = 0, replacementLength = [replacement length];
+    NSUInteger			numberOfReplacements = 0, replacementLength = [replacement length];
     NSAttributedString	*replacementString = [[NSAttributedString alloc] initWithString:replacement 
 																			 attributes:attributes];
     
@@ -94,9 +94,9 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 //adjust the colors in the string so they're visible on the background
 - (void)adjustColorsToShowOnBackground:(NSColor *)backgroundColor
 {
-    int		index = 0;
-    int		stringLength = [self length];
-    float	backgroundBrightness, backgroundSum;
+    NSUInteger		index = 0;
+    NSUInteger		stringLength = [self length];
+    CGFloat	backgroundBrightness, backgroundSum;
     
     //--get the brightness of our background--
     backgroundColor = [backgroundColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -106,8 +106,8 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     while (index < stringLength) {
         NSColor		*fontColor;
         NSRange		effectiveRange;
-        float		brightness, sum;
-        float		deltaBrightness, deltaSum;
+        CGFloat		brightness, sum;
+        CGFloat		deltaBrightness, deltaSum;
         BOOL		colorChanged = NO;
         
         //--get the font color--
@@ -156,9 +156,9 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 //adjust the colors in the string so they're visible on the background, adjusting brightness in proportion to the original background
 - (void)adjustColorsToShowOnBackgroundRelativeToOriginalBackground:(NSColor *)backgroundColor
 {
-    int             index = 0;
-    int             stringLength = [self length];
-    float           backgroundBrightness=0.0f;
+    NSUInteger      index = 0;
+    NSUInteger      stringLength = [self length];
+    CGFloat         backgroundBrightness=0.0f;
     NSColor         *backColor=nil;
     //--get the brightness of our background--
     if (backgroundColor) {
@@ -172,8 +172,8 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         NSColor         *fontBackColor;
 
         NSRange		effectiveRange, backgroundRange;
-        float		brightness, newBrightness;
-        float		deltaBrightness, deltaSum;
+        CGFloat		brightness, newBrightness;
+        CGFloat		deltaBrightness, deltaSum;
         BOOL		colorChanged = NO, backgroundIsDark, fontBackIsDark;
         
         //--get the font color--
@@ -269,7 +269,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 - (void)addFormattingForLinks
 {
 	NSRange		searchRange;
-	unsigned	length = [self length];
+	NSUInteger	length = [self length];
 	
 	searchRange = NSMakeRange(0,0);
 	while (searchRange.location < length) {
@@ -285,7 +285,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 - (void)convertAttachmentsToStringsUsingPlaceholder:(NSString *)placeholder
 {
     if ([self length] && [self containsAttachments]) {
-        int							currentLocation = 0;
+        NSInteger							currentLocation = 0;
         NSRange						attachmentRange;
 		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];
 		
@@ -409,7 +409,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 //Height of a string
 #define FONT_HEIGHT_STRING		@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789()"
-+ (float)stringHeightForAttributes:(NSDictionary *)attributes
++ (CGFloat)stringHeightForAttributes:(NSDictionary *)attributes
 {
 	NSAttributedString	*string = [[[NSAttributedString alloc] initWithString:FONT_HEIGHT_STRING
 																   attributes:attributes] autorelease];
@@ -452,7 +452,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     return [[[self alloc] initWithString:inString attributes:attributes] autorelease];
 }
 
-- (float)heightWithWidth:(float)width
+- (CGFloat)heightWithWidth:(CGFloat)width
 {	
     //Setup the layout manager and text container
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self];
@@ -467,7 +467,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     //Force the layout manager to layout its text
     (void)[layoutManager glyphRangeForTextContainer:textContainer];
 
-	float height = [layoutManager usedRectForTextContainer:textContainer].size.height;
+	CGFloat height = [layoutManager usedRectForTextContainer:textContainer].size.height;
 
 	[textStorage release];
 	[textContainer release];
@@ -543,7 +543,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 - (NSAttributedString *)attributedStringByConvertingLinksToStringsWithTitles:(BOOL)includeTitles
 {
 	NSMutableAttributedString	*newAttributedString = nil;
-	unsigned					length = [self length];
+	NSUInteger					length = [self length];
 
 	if (length) {
 		NSRange						searchRange = NSMakeRange(0,0);

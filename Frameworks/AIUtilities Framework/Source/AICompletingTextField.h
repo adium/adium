@@ -26,9 +26,9 @@
     NSMutableSet			*stringSet;
 	NSMutableDictionary		*impliedCompletionDictionary;
 	
-    int						minLength;
+    NSUInteger						minLength;
 	BOOL					completeAfterSeparator;
-    int						oldUserLength;
+    NSUInteger						oldUserLength;
 }
 
 /*!

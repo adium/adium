@@ -38,8 +38,8 @@
 - (void)_setMouseOverLink:(AIFlexibleLink *)inHoveredLink atPoint:(NSPoint)inPoint;
 @end
 
-BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, int arraySize, BOOL flipped);
-NSRectArray _copyRectArray(NSRectArray someRects, int arraySize);
+BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, NSUInteger arraySize, BOOL flipped);
+NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 
 @implementation AILinkTrackingController
 //Create a link tracking controller for any view
@@ -102,8 +102,8 @@ NSRectArray _copyRectArray(NSRectArray someRects, int arraySize);
 {
     BOOL			success = NO;
     NSPoint			mouseLoc;
-    unsigned int	glyphIndex;
-    unsigned int	charIndex;
+    NSUInteger	glyphIndex;
+    NSUInteger	charIndex;
     NSRectArray		linkRects = nil;
 	
     [self _setMouseOverLink:NO atPoint:NSMakePoint(0,0)]; //Remove any tooltips
@@ -364,7 +364,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, int arraySize);
 }
 
 //Check for the presence of a point in multiple rects
-BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, int arraySize, BOOL flipped)
+BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, NSUInteger arraySize, BOOL flipped)
 {
     int	index;
 
@@ -378,7 +378,7 @@ BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, int arraySize, BOOL fl
 }
 
 //Copy rects
-NSRectArray _copyRectArray(NSRectArray someRects, int arraySize)
+NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize)
 {
     NSRectArray		newArray;
 

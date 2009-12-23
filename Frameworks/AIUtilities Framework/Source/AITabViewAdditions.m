@@ -25,7 +25,7 @@
 	return ((index != NSNotFound) ? [self tabViewItemAtIndex:index] : nil);
 }
 
-- (int)indexOfSelectedTabViewItem
+- (NSInteger)indexOfSelectedTabViewItem
 {
 	return [self indexOfTabViewItem:[self selectedTabViewItem]];
 }

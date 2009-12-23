@@ -376,7 +376,7 @@ static NSArray *draggedTypes = nil;
 	[messageStyle setShowUserIcons:[[prefDict objectForKey:KEY_WEBKIT_SHOW_USER_ICONS] boolValue]];
 	[messageStyle setShowHeader:[[prefDict objectForKey:KEY_WEBKIT_SHOW_HEADER] boolValue]];
 	[messageStyle setUseCustomNameFormat:[[prefDict objectForKey:KEY_WEBKIT_USE_NAME_FORMAT] boolValue]];
-	[messageStyle setNameFormat:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] integerValue]];
+	[messageStyle setNameFormat:[[prefDict objectForKey:KEY_WEBKIT_NAME_FORMAT] intValue]];
 	[messageStyle setDateFormat:[prefDict objectForKey:KEY_WEBKIT_TIME_STAMP_FORMAT]];
 	[messageStyle setShowIncomingMessageColors:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_COLORS] boolValue]];
 	[messageStyle setShowIncomingMessageFonts:[[prefDict objectForKey:KEY_WEBKIT_SHOW_MESSAGE_FONTS] boolValue]];
@@ -423,7 +423,7 @@ static NSArray *draggedTypes = nil;
 
 	[messageStyle setCustomBackgroundPath:cachePath];
 	[messageStyle setCustomBackgroundType:[[adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"BackgroundType" forStyle:activeStyle]
-																					group:preferenceGroup] integerValue]];
+																					group:preferenceGroup] intValue]];
 	
 	BOOL isBackgroundTransparent = [[self messageStyle] isBackgroundTransparent];
 	[webView setTransparent:isBackgroundTransparent];
@@ -438,11 +438,11 @@ static NSArray *draggedTypes = nil;
 	
 	NSNumber	*fontSize = [adium.preferenceController preferenceForKey:[plugin styleSpecificKey:@"FontSize" forStyle:activeStyle]
 																  group:preferenceGroup];
-	[[webView preferences] setDefaultFontSize:[(fontSize ? fontSize : [messageStyle defaultFontSize]) integerValue]];
+	[[webView preferences] setDefaultFontSize:[(fontSize ? fontSize : [messageStyle defaultFontSize]) intValue]];
 	
 	NSNumber	*minSize = [adium.preferenceController preferenceForKey:KEY_WEBKIT_MIN_FONT_SIZE
 																 group:preferenceGroup];
-	[[webView preferences] setMinimumFontSize:(minSize ? [minSize integerValue] : 1)];
+	[[webView preferences] setMinimumFontSize:(minSize ? [minSize intValue] : 1)];
 
 	//Update our icons before doing any loading
 	[self sourceOrDestinationChanged:nil];
@@ -1296,7 +1296,7 @@ static NSArray *draggedTypes = nil;
 
 				webKitUserIconPath = [[webKitUserIconPath copy] autorelease];
 
-				for (NSInteger i = 0; i < imagesCount; i++) {
+				for (unsigned i = 0; i < imagesCount; i++) {
 					DOMHTMLImageElement *img = (DOMHTMLImageElement *)[images item:i];
 					NSString *currentSrc = [img getAttribute:@"src"];
 					if (currentSrc && ([currentSrc rangeOfString:oldWebKitUserIconPath].location != NSNotFound)) {
@@ -1330,7 +1330,7 @@ static NSArray *draggedTypes = nil;
 	NSString *serviceIconPath = [AIServiceIcons pathForServiceIconForServiceID:chat.account.service.serviceID 
 																type:AIServiceIconLarge];
 	
-	for (NSInteger i = 0; i < imagesCount; i++) {
+	for (unsigned i = 0; i < imagesCount; i++) {
 		DOMHTMLImageElement *img = (DOMHTMLImageElement *)[serviceIconImages item:i];
 		[img setSrc:serviceIconPath];
 	}	
@@ -1348,14 +1348,14 @@ static NSArray *draggedTypes = nil;
 		NSSize		emoticonSize = [[emoticon image] size];
 		BOOL		updatedImage = NO;
 		path = [[NSURL fileURLWithPath:path] absoluteString];
-		for (NSInteger i = 0; i < imagesCount; i++) {
+		for (unsigned i = 0; i < imagesCount; i++) {
 			DOMHTMLImageElement *img = (DOMHTMLImageElement *)[images item:i];
 			
 			if ([[img className] isEqualToString:@"emoticon"] &&
 				[[img getAttribute:@"alt"] isEqualToString:textEquivalent]) {
 				[img setSrc:path];
-				[img setWidth:emoticonSize.width];
-				[img setHeight:emoticonSize.height];
+				[img setWidth:(int)emoticonSize.width];
+				[img setHeight:(int)emoticonSize.height];
 				updatedImage = YES;
 			}
 		}
@@ -1481,7 +1481,7 @@ static NSArray *draggedTypes = nil;
 	
 	DOMNodeList *nodeList = [webView.mainFrameDocument querySelectorAll:@".focus"];
 	DOMHTMLElement *node = nil; NSMutableArray *classes = nil;
-	for (NSUInteger i = 0; i < nodeList.length; i++)
+	for (unsigned i = 0; i < nodeList.length; i++)
 	{
 		node = (DOMHTMLElement *)[nodeList item:i];
 		classes = [[node.className componentsSeparatedByString:@" "] mutableCopy];

@@ -109,7 +109,7 @@ static double read_double(const unsigned char *str, const unsigned char **next) 
 	return value;
 }
 
-static BOOL is_leap_year(unsigned year) {
+static BOOL is_leap_year(NSInteger year) {
 	return \
 	    ((year %   4U) == 0U)
 	&& (((year % 100U) != 0U)
@@ -176,7 +176,7 @@ static BOOL is_leap_year(unsigned year) {
 	}
 	
 	NSCalendarDate *now = [NSCalendarDate calendarDate];
-	unsigned
+	NSUInteger
 		//Date
 		year = 0U,
 		month_or_week = 0U,
@@ -212,8 +212,8 @@ static BOOL is_leap_year(unsigned year) {
 		isValidDate = NO;
 	} else {
 		//Skip leading whitespace.
-		unsigned i = 0U;
-		for(unsigned len = strlen((const char *)ch); i < len; ++i) {
+		NSUInteger i = 0U;
+		for(NSInteger len = strlen((const char *)ch); i < len; ++i) {
 			if(!isspace(ch[i]))
 				break;
 		}
@@ -314,7 +314,7 @@ static BOOL is_leap_year(unsigned year) {
 									case 3: //DDD
 										day = segment % 1000U;
 										dateSpecification = dateOnly;
-										if(strict && (day > (365U + is_leap_year(year))))
+										if(strict && (day > (365 + is_leap_year(year))))
 											isValidDate = NO;
 										break;
 	
@@ -438,11 +438,11 @@ static BOOL is_leap_year(unsigned year) {
 
 						case 1:; //-YY; -YY-MM (implicit century)
 							NSLog(@"(%@) found %u digits and one hyphen, so this is either -YY or -YY-MM; segment (year) is %u", str, num_digits, segment);
-							unsigned current_year = [now yearOfCommonEra];
-							unsigned current_century = (current_year % 100U);
+							NSInteger current_year = [now yearOfCommonEra];
+							NSInteger current_century = (current_year % 100);
 							year = segment + (current_year - century);
 							if(num_digits == 1U) //implied decade
-								year += current_century - (current_year % 10U);
+								year += current_century - (current_year % 10);
 
 							if(*ch == '-') {
 								++ch;
@@ -586,12 +586,12 @@ static BOOL is_leap_year(unsigned year) {
 				case week:;
 					//Adapted from <http://personal.ecu.edu/mccartyr/ISOwdALG.txt>.
 					//This works by converting the week date into an ordinal date, then letting the next case handle it.
-					unsigned prevYear = year - 1U;
-					unsigned YY = prevYear % 100U;
-					unsigned C = prevYear - YY;
-					unsigned G = YY + YY / 4U;
-					unsigned isLeapYear = (((C / 100U) % 4U) * 5U);
-					unsigned Jan1Weekday = (isLeapYear + G) % 7U;
+					NSInteger prevYear = year - 1U;
+					NSInteger YY = prevYear % 100U;
+					NSInteger C = prevYear - YY;
+					NSInteger G = YY + YY / 4U;
+					NSInteger isLeapYear = (((C / 100U) % 4U) * 5U);
+					NSInteger Jan1Weekday = (isLeapYear + G) % 7U;
 					enum { monday, tuesday, wednesday, thursday/*, friday, saturday, sunday*/ };
 					day = ((8U - Jan1Weekday) + (7U * (Jan1Weekday > thursday))) + (day - 1U) + (7U * (month_or_week - 2));
 

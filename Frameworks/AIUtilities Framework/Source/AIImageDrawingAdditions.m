@@ -45,12 +45,12 @@
 	return ([self imageByScalingToSize:size fraction:1.0 flipImage:NO proportionally:YES allowAnimation:YES]);
 }
 
-- (NSImage *)imageByFadingToFraction:(float)delta
+- (NSImage *)imageByFadingToFraction:(CGFloat)delta
 {
 	return [self imageByScalingToSize:[self size] fraction:delta flipImage:NO proportionally:NO allowAnimation:YES];
 }
 
-- (NSImage *)imageByScalingToSize:(NSSize)size fraction:(float)delta
+- (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta
 {
 	return [self imageByScalingToSize:size fraction:delta flipImage:NO proportionally:YES allowAnimation:YES];
 }
@@ -64,7 +64,7 @@
 					   allowAnimation:NO];	
 }
 
-- (NSImage *)imageByScalingToSize:(NSSize)size fraction:(float)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation
+- (NSImage *)imageByScalingToSize:(NSSize)size fraction:(CGFloat)delta flipImage:(BOOL)flipImage proportionally:(BOOL)proportionally allowAnimation:(BOOL)allowAnimation
 {
 	NSSize  originalSize = [self size];
 	
@@ -198,7 +198,7 @@
 
 //Fun drawing toys
 //Draw an image, altering and returning the available destination rect
-- (NSRect)drawInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(float)fraction
+- (NSRect)drawInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)fraction
 {
 	//We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
 	NSSize	ownSize = [self size];
@@ -291,19 +291,19 @@
 }
 
 //General purpose draw image rounded in a NSRect.
-- (NSRect)drawRoundedInRect:(NSRect)rect radius:(float)radius
+- (NSRect)drawRoundedInRect:(NSRect)rect radius:(CGFloat)radius
 {
 	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:1.0 radius:radius];
 }
 
 //Perhaps if you desired to draw it rounded in the tooltip.
-- (NSRect)drawRoundedInRect:(NSRect)rect fraction:(float)fraction radius:(float)radius
+- (NSRect)drawRoundedInRect:(NSRect)rect fraction:(CGFloat)fraction radius:(CGFloat)radius
 {
 	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:fraction radius:radius];
 }
 
 //Draw an image, round the corner. Meant to replace the method above.
-- (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(float)fraction radius:(float)radius
+- (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)fraction radius:(CGFloat)radius
 {
 	NSRect	drawRect;
 	

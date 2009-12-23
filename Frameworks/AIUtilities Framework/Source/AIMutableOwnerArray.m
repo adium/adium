@@ -123,7 +123,7 @@
 
 - (NSNumber *)numberValue
 {
-	int count;
+	NSUInteger count;
 	if (ownerArray && (count = [ownerArray count])) {
 		//If we have more than one object and the object we want is not already in the front of our arrays, 
 		//we need to find the object with largest int value and move it to the front
@@ -155,18 +155,18 @@
 
 - (NSInteger)intValue
 {
-	int count;
+	NSUInteger count;
 	if (ownerArray && (count = [ownerArray count])) {
 		//If we have more than one object and the object we want is not already in the front of our arrays, 
 		//we need to find the object with largest int value and move it to the front
 		if (count != 1 && !valueIsSortedToFront) {
-			int 	currentMax = 0;
+			NSInteger 	currentMax = 0;
 			int		indexOfMax = 0;
 			int		index = 0;
 			
 			//Find the object with the largest int value
 			for (index = 0;index < count;index++) {
-				int	value = [[contentArray objectAtIndex:index] integerValue];
+				NSInteger	value = [[contentArray objectAtIndex:index] integerValue];
 				
 				if (value > currentMax) {
 					currentMax = value;
@@ -187,7 +187,7 @@
 
 - (double)doubleValue
 {
-	int count;
+	NSUInteger count;
 	if (ownerArray && (count = [ownerArray count])) {
 		
 		//If we have more than one object and the object we want is not already in the front of our arrays, 
@@ -221,7 +221,7 @@
 
 - (NSDate *)date
 {
-	int count;
+	NSInteger count;
 	if (ownerArray && (count = [ownerArray count])) {
 		//If we have more than one object and the object we want is not already in the front of our arrays, 
 		//we need to find the object with largest double value and move it to the front
@@ -256,7 +256,7 @@
 	//If we have more than one object and the object we want is not already in the front of our arrays, 
 	//we need to find the object with highest priority and move it to the front
 	if ([priorityArray count] != 1 && !valueIsSortedToFront) {
-		float			currentMax = Lowest_Priority;
+		CGFloat			currentMax = Lowest_Priority;
 		int				indexOfMax = 0;
 		int				index = 0;
 		
@@ -306,7 +306,7 @@
         NSUInteger	index = [ownerArray indexOfObject:inOwner];
 		if (index != NSNotFound) return [[priorityArray objectAtIndex:index] floatValue];
 	}
-	return 0.0;
+	return 0.0f;
 }
 
 - (id)ownerWithObject:(id)inObject
@@ -325,7 +325,7 @@
         NSUInteger	index = [contentArray indexOfObject:inObject];
 		if (index != NSNotFound) return [[priorityArray objectAtIndex:index] floatValue];
 	}
-	return 0.0;
+	return 0.0f;
 }
 
 - (NSEnumerator *)objectEnumerator

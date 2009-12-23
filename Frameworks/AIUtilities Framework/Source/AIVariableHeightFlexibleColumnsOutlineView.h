@@ -15,5 +15,5 @@
 @end
 
 @interface NSObject (AIVariableHeightFlexibleColumnsOutlineViewDelegate)
-- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(int)column ofRow:(int)row;
+- (BOOL)outlineView:(NSOutlineView *)inOutlineView extendToEdgeColumn:(NSInteger)column ofRow:(NSInteger)row;
 @end

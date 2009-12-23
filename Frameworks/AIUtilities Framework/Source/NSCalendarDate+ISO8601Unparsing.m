@@ -11,11 +11,11 @@
 #endif
 unichar ISO8601UnparserDefaultTimeSeparatorCharacter = DEFAULT_TIME_SEPARATOR;
 
-static BOOL is_leap_year(unsigned year) {
+static BOOL is_leap_year(NSInteger year) {
 	return \
-	    ((year %   4U) == 0U)
-	&& (((year % 100U) != 0U)
-	||  ((year % 400U) == 0U));
+	    ((year %   4) == 0)
+	&& (((year % 100) != 0)
+	||  ((year % 400) == 0));
 }
 
 @interface NSString(ISO8601Unparsing)
@@ -35,7 +35,7 @@ static BOOL is_leap_year(unsigned year) {
 	NSString *str = [formatter stringForObjectValue:self];
 	[formatter release];
 	if(includeTime) {
-		int offset = [[self timeZone] secondsFromGMT];
+		NSInteger offset = [[self timeZone] secondsFromGMT];
 		offset /= 60;  //bring down to minutes
 		if(offset == 0)
 			str = [str stringByAppendingString:@"Z"];
@@ -62,22 +62,22 @@ static BOOL is_leap_year(unsigned year) {
 		october, november, december
 	};
 
-	unsigned year = [self yearOfCommonEra];
-	unsigned week = 0U;
-	unsigned dayOfWeek = ([self dayOfWeek] + 6U) % 7U;
-	unsigned dayOfYear = [self dayOfYear];
+	NSInteger year = [self yearOfCommonEra];
+	NSInteger week = 0;
+	NSInteger dayOfWeek = ([self dayOfWeek] + 6) % 7;
+	NSInteger dayOfYear = [self dayOfYear];
 
-	unsigned prevYear = year - 1U;
+	NSInteger prevYear = year - 1U;
 
 	BOOL yearIsLeapYear = is_leap_year(year);
 	BOOL prevYearIsLeapYear = is_leap_year(prevYear);
 
-	unsigned YY = prevYear % 100U;
-	unsigned C = prevYear - YY;
-	unsigned G = YY + YY / 4U;
-	unsigned Jan1Weekday = (((((C / 100U) % 4U) * 5U) + G) % 7U);
+	NSInteger YY = prevYear % 100;
+	NSInteger C = prevYear - YY;
+	NSInteger G = YY + YY / 4;
+	NSInteger Jan1Weekday = (((((C / 100) % 4) * 5) + G) % 7);
 
-	unsigned weekday = ((dayOfYear + Jan1Weekday) - 1U) % 7U;
+	NSInteger weekday = ((dayOfYear + Jan1Weekday) - 1) % 7;
 
 	if((dayOfYear <= (7U - Jan1Weekday)) && (Jan1Weekday > thursday)) {
 		week = 52U + ((Jan1Weekday == friday) || ((Jan1Weekday == saturday) && prevYearIsLeapYear));
@@ -88,7 +88,7 @@ static BOOL is_leap_year(unsigned year) {
 			++year;
 			week = 1U;
 		} else {
-			unsigned J = dayOfYear + (sunday - weekday) + Jan1Weekday;
+			NSInteger J = dayOfYear + (sunday - weekday) + Jan1Weekday;
 			week = J / 7U - (Jan1Weekday > thursday);
 		}
 	}

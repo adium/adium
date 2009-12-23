@@ -24,7 +24,7 @@
 #define FONT_DEFAULT_NAME	@"Helvetica"
 
 @interface AITextAttributes ()
-- (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(int)inSize;
+- (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize;
 - (id)initWithDictionary:(NSDictionary *)inAttributes;
 - (void)updateFont;
 @end
@@ -32,7 +32,7 @@
 @implementation AITextAttributes
 
 //Creates a new instance of AITextAttributes
-+ (id)textAttributesWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(int)inSize
++ (id)textAttributesWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize
 {
     return [[[self alloc] initWithFontFamily:inFamilyName traits:inTraits size:inSize] autorelease];
 }
@@ -43,7 +43,7 @@
 }
 
 //init
-- (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(int)inSize
+- (id)initWithFontFamily:(NSString *)inFamilyName traits:(NSFontTraitMask)inTraits size:(NSInteger)inSize
 {
 	if ((self = [self init])) {
 		fontFamilyName = [inFamilyName retain];
@@ -126,13 +126,13 @@
 	}
 }
 
-- (int)fontSize
+- (NSInteger)fontSize
 {
 	return fontSize;
 }
 
 //Set the font size
-- (void)setFontSize:(int)inSize
+- (void)setFontSize:(NSInteger)inSize
 {
 	if (fontSize != inSize) {
 		fontSize = inSize;
@@ -256,7 +256,7 @@
 // Enable or disable subscript
 - (void)setSubscript:(BOOL)inSubscript{
 	if (inSubscript) {
-		[dictionary setObject:[NSNumber numberWithFloat:(fontSize / -2.0f)] forKey:NSBaselineOffsetAttributeName];
+		[dictionary setObject:[NSNumber numberWithFloat:((float)fontSize / -2.0f)] forKey:NSBaselineOffsetAttributeName];
 		[self setFontSize:(fontSize - 2)];
 		
 	} else {
@@ -273,7 +273,7 @@
 // Enable or disable superscript
 - (void)setSuperscript:(BOOL)inSuperscript{
 	if (inSuperscript) {
-		[dictionary setObject:[NSNumber numberWithFloat:(fontSize / 2.0f)] forKey:NSBaselineOffsetAttributeName];
+		[dictionary setObject:[NSNumber numberWithFloat:((float)fontSize / 2.0f)] forKey:NSBaselineOffsetAttributeName];
 		[self setFontSize:(fontSize - 2)];
 
 	} else {

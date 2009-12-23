@@ -12,7 +12,7 @@
 
 - (id)firstSelectedItem
 {
-    int selectedRow = [self selectedRow];
+    NSInteger selectedRow = [self selectedRow];
 	
     if (selectedRow >= 0 && selectedRow < [self numberOfRows]) {
         return [self itemAtRow:selectedRow];
@@ -25,7 +25,7 @@
 - (void)redisplayItem:(id)item
 {
 	if (item) {
-		int row = [self rowForItem:item];
+		NSInteger row = [self rowForItem:item];
 		if (row >= 0 && row < [self numberOfRows]) {
 			[self setNeedsDisplayInRect:[self rectOfRow:row]];
 		}
@@ -41,7 +41,7 @@
 	
 	//Apple wants us to do some pretty crazy stuff for selections in 10.3
 	NSIndexSet *indices = [self selectedRowIndexes];
-	unsigned int bufSize = [indices count];
+	NSUInteger bufSize = [indices count];
 	NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
 	unsigned int i;
 

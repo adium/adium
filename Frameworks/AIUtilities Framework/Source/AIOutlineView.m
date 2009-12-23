@@ -230,8 +230,8 @@
 	//After reloading data, we correctly expand/collapse all groups
 	if ([[self delegate] respondsToSelector:@selector(outlineView:expandStateOfItem:)]) {
 		id		delegate = [self delegate];
-		int 	numberOfRows = [delegate outlineView:self numberOfChildrenOfItem:rootItem];
-		int 	row;
+		NSInteger 	numberOfRows = [delegate outlineView:self numberOfChildrenOfItem:rootItem];
+		NSInteger 	row;
 		
 		//go through all items
 		for (row = 0; row < numberOfRows; row++) {

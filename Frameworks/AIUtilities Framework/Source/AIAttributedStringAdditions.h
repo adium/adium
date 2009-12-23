@@ -44,7 +44,7 @@ extern NSString *AIFontStyleAttributeName;
  * @param searchRange The range in which to search
  * @return Returns the number of replacements made
  */
-- (unsigned int)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement options:(unsigned)opts range:(NSRange)searchRange;
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement options:(NSStringCompareOptions)opts range:(NSRange)searchRange;
 
 /*!
  * @brief Find and replace on an attributed string setting the attributes of the replacements
@@ -57,7 +57,7 @@ extern NSString *AIFontStyleAttributeName;
  * @param searchRange The range in which to search
  * @return Returns the number of replacements made
  */
-- (unsigned int)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement attributes:(NSDictionary*)attributes options:(unsigned)opts range:(NSRange)searchRange;
+- (NSUInteger)replaceOccurrencesOfString:(NSString *)target withString:(NSString*)replacement attributes:(NSDictionary*)attributes options:(NSStringCompareOptions)opts range:(NSRange)searchRange;
 
 /*!
  * @brief Apply color adjustments for a background
@@ -154,7 +154,7 @@ extern NSString *AIFontStyleAttributeName;
  * @param attributes An <tt>NSDictionary</tt> of attributes
  * @return The needed height, as a float
  */
-+ (float)stringHeightForAttributes:(NSDictionary *)attributes;
++ (CGFloat)stringHeightForAttributes:(NSDictionary *)attributes;
 
 /*!
  * @brief Determine the height needed for display at a width
@@ -163,7 +163,7 @@ extern NSString *AIFontStyleAttributeName;
  * @param width The available width for display
  * @return The needed height, as a float
  */
-- (float)heightWithWidth:(float)width;
+- (CGFloat)heightWithWidth:(CGFloat)width;
 
 /*!
  * @brief Encode to <tt>NSData</tt>
