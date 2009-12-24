@@ -16,5 +16,5 @@
 @interface NSMutableArray (ESArrayAdditions)
 - (void)addObjectsFromArrayIgnoringDuplicates:(NSArray *)inArray;
 - (void)moveObject:(id)object toIndex:(unsigned)newIndex;
-- (void)setObject:(id)object atIndex:(unsigned)index;
+- (void)setObject:(id)object atIndex:(unsigned)idx;
 @end

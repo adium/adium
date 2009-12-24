@@ -77,16 +77,16 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 - (void)mouseEntered:(NSEvent *)theEvent
 {
 	NSWindow		*window = [theEvent window];
-    AIFlexibleLink	*link = [theEvent userData];
+    AIFlexibleLink	*trackedLink = [theEvent userData];
     NSPoint		location;
 
-    location = [link trackingRect].origin;
+    location = [trackedLink trackingRect].origin;
     location = [controlView convertPoint:location toView:nil];
     location = [[theEvent window] convertBaseToScreen:location];
 
     //Ignore the mouse entry if our view is hidden, or our window is non-main
     if ([window isMainWindow] && [controlView canDraw]) {
-        [self _setMouseOverLink:link
+        [self _setMouseOverLink:trackedLink
                         atPoint:location];
     }
 }
@@ -274,7 +274,7 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 		
 		if (linkURL) {
             NSRectArray linkRects;
-            unsigned	index;
+            unsigned	idx;
             NSUInteger	linkCount;
 			
             //Get an array of rects that define the location of this link
@@ -282,14 +282,14 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
                                      withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0)
                                                   inTextContainer:textContainer
                                                         rectCount:&linkCount];
-            for (index = 0; index < linkCount; index++) {
+            for (idx = 0; idx < linkCount; idx++) {
                 NSRect			linkRect;
                 NSRect			visibleLinkRect;
-                AIFlexibleLink		*link;
+                AIFlexibleLink		*trackedLink;
                 NSTrackingRectTag	trackingTag;
 
                 //Get the link rect
-                linkRect = linkRects[index];
+                linkRect = linkRects[idx];
 
                 //Adjust the link rect back to our view's coordinates
                 linkRect.origin.x += offset.x;
@@ -297,16 +297,16 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
                 visibleLinkRect = NSIntersectionRect(linkRect, visibleRect);
                 
                 //Create a flexible link instance
-                link = [[[AIFlexibleLink alloc] initWithTrackingRect:linkRect
+                trackedLink = [[[AIFlexibleLink alloc] initWithTrackingRect:linkRect
 																 url:linkURL
 															   title:[[textStorage string] substringWithRange:scanRange]] autorelease];
                 if (!linkArray) linkArray = [[NSMutableArray alloc] init];
-                [linkArray addObject:link];
+                [linkArray addObject:trackedLink];
 
 				
                 //Install a tracking rect for the link (The userData of each tracking rect is the AIFlexibleLink it covers)
-                trackingTag = [controlView addTrackingRect:visibleLinkRect owner:self userData:link assumeInside:NO];
-                [link setTrackingTag:trackingTag];
+                trackingTag = [controlView addTrackingRect:visibleLinkRect owner:self userData:trackedLink assumeInside:NO];
+                [trackedLink setTrackingTag:trackingTag];
             }
         }
     }
@@ -316,12 +316,12 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 - (void)_endCursorTracking
 {
     NSEnumerator	*enumerator;
-    AIFlexibleLink	*link;
+    AIFlexibleLink	*trackedLink;
 
     //Remove all existing tracking rects
     enumerator = [linkArray objectEnumerator];
-    while ((link = [enumerator nextObject])) {
-        [controlView removeTrackingRect:[link trackingTag]];
+    while ((trackedLink = [enumerator nextObject])) {
+        [controlView removeTrackingRect:[trackedLink trackingTag]];
     }
 
     //Flush the link array
@@ -366,10 +366,10 @@ NSRectArray _copyRectArray(NSRectArray someRects, NSUInteger arraySize);
 //Check for the presence of a point in multiple rects
 BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, NSUInteger arraySize, BOOL flipped)
 {
-    int	index;
+    int	idx;
 
-    for (index = 0; index < arraySize; index++) {
-        if (NSMouseInRect(aPoint, someRects[index], flipped)) {
+    for (idx = 0; idx < arraySize; idx++) {
+        if (NSMouseInRect(aPoint, someRects[idx], flipped)) {
             return YES;
         }
     }

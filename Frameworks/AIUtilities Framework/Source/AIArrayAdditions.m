@@ -117,9 +117,9 @@
 
 //just a better name for an existing NSMutableArray method.
 //this makes it uniform in style with -[NSMutableDictionary setObject:forKey:].
-- (void)setObject:(id)object atIndex:(unsigned)index
+- (void)setObject:(id)object atIndex:(unsigned)idx
 {
-	[self replaceObjectAtIndex:index withObject:object];
+	[self replaceObjectAtIndex:idx withObject:object];
 }
 
 @end

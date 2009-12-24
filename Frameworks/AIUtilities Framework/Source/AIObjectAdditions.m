@@ -200,17 +200,17 @@
 {	
 	NSInvocation	*invocation;
 	va_list			args;
-	int				index = 2;
+	int				idx = 2;
 
 	invocation = [NSInvocation invocationWithMethodSignature:[self methodSignatureForSelector:aSelector]];
 	[invocation setSelector:aSelector];
-	[invocation setArgument:&argument1 atIndex:index++];
+	[invocation setArgument:&argument1 atIndex:idx++];
 
 	va_start(args, argument1);
 	
 	id anArgument;
 	while ((anArgument = va_arg(args, id))) {
-		[invocation setArgument:&anArgument atIndex:index++];
+		[invocation setArgument:&anArgument atIndex:idx++];
 	}
 
 	va_end(args);

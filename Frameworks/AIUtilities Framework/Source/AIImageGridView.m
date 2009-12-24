@@ -22,7 +22,7 @@ Adium, Copyright 2001-2005, Adam Iser
 - (void)_initImageGridView;
 - (void)_updateGrid;
 - (void)_updateGridForNewFrame:(NSRect)newFrame;
-- (void)_setHoveredIndex:(NSInteger)index;
+- (void)_setHoveredIndex:(NSInteger)idx;
 @end
 
 @implementation AIImageGridView
@@ -114,18 +114,18 @@ Adium, Copyright 2001-2005, Adam Iser
 #pragma mark Drawing and sizing
 
 //Redisplay an image in the grid
-- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)index
+- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)idx
 {
-	if (index >= 0) {
-		[self setNeedsDisplayInRect:[self rectForImageAtIndex:index]];
+	if (idx >= 0) {
+		[self setNeedsDisplayInRect:[self rectForImageAtIndex:idx]];
 	}
 }
 
 //Returns the rect for an image in our grid
-- (NSRect)rectForImageAtIndex:(NSInteger)index
+- (NSRect)rectForImageAtIndex:(NSInteger)idx
 {
-	NSInteger row = index / columns;
-	NSInteger column = index % columns;
+	NSInteger row = idx / columns;
+	NSInteger column = idx % columns;
 
 	return NSMakeRect(column * (imageSize.width  + padding.width)  + padding.width,
 	                  row    * (imageSize.height + padding.height) + padding.height,
@@ -222,22 +222,22 @@ Adium, Copyright 2001-2005, Adam Iser
 
 //Sets our selected index to the passed value, restricting it to within the allowable bounds if necessary.
 //The delegate will be informed of the new selection and the view will be updated to reflect it.
-- (void)selectIndex:(NSInteger)index
+- (void)selectIndex:(NSInteger)idx
 {
 	NSUInteger		numberOfImages = [delegate numberOfImagesInImageGridView:self];
 	BOOL	shouldSelect = YES;
 	
 	//Restrict the index to our bounds
-	while (index < 0) index += numberOfImages;
-	while (index > numberOfImages-1) index -= numberOfImages;
+	while (idx < 0) idx += numberOfImages;
+	while (idx > numberOfImages-1) idx -= numberOfImages;
 	
 	//If the delegate supports it, confirm that this selection should be allowed
 	if (_respondsToShouldSelect) {
-		shouldSelect = [delegate imageGridView:self shouldSelectIndex:index];
+		shouldSelect = [delegate imageGridView:self shouldSelectIndex:idx];
 	}
 	
 	//Make the selection change, update our view and notify
-	if (shouldSelect && index != selectedIndex) {
+	if (shouldSelect && idx != selectedIndex) {
 		//Notification: Selection is changing 
 		[[NSNotificationCenter defaultCenter] postNotificationName:AIImageGridViewSelectionIsChangingNotification object:self];
 		if (_respondsToSelectionIsChanging) {
@@ -246,9 +246,9 @@ Adium, Copyright 2001-2005, Adam Iser
 		
 		//Mark the old and new selections for redraw
 		[self setNeedsDisplayOfImageAtIndex:selectedIndex];
-		[self setNeedsDisplayOfImageAtIndex:index];
+		[self setNeedsDisplayOfImageAtIndex:idx];
 		
-		selectedIndex = index;
+		selectedIndex = idx;
 		[self scrollRectToVisible:NSInsetRect([self rectForImageAtIndex:selectedIndex], -padding.width, -padding.height)];
 		
 		//Notification: Selection did change 
@@ -371,15 +371,15 @@ Adium, Copyright 2001-2005, Adam Iser
 }
 
 //Set the hovered image index
-- (void)_setHoveredIndex:(NSInteger)index
+- (void)_setHoveredIndex:(NSInteger)idx
 {
-	if (index != hoveredIndex) {
+	if (idx != hoveredIndex) {
 		//Mark the old and new hovered image for redraw
 		[self setNeedsDisplayOfImageAtIndex:hoveredIndex];
-		[self setNeedsDisplayOfImageAtIndex:index];
+		[self setNeedsDisplayOfImageAtIndex:idx];
 		
 		//Make the change and notify our delegate
-		hoveredIndex = index;
+		hoveredIndex = idx;
 		if (_respondsToImageHovered) [delegate imageGridView:self cursorIsHoveringImageAtIndex:hoveredIndex];
 	}
 }

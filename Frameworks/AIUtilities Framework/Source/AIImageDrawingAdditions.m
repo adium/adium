@@ -198,7 +198,7 @@
 
 //Fun drawing toys
 //Draw an image, altering and returning the available destination rect
-- (NSRect)drawInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)fraction
+- (NSRect)drawInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)inFraction
 {
 	//We use our own size for drawing purposes no matter the passed size to avoid distorting the image via stretching
 	NSSize	ownSize = [self size];
@@ -225,7 +225,7 @@
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
-			fraction:fraction];
+			fraction:inFraction];
 	
 	//Shift the origin if needed, and decrease the available destination rect width, by the passed size
 	//(which may exceed the actual image dimensions)
@@ -297,13 +297,13 @@
 }
 
 //Perhaps if you desired to draw it rounded in the tooltip.
-- (NSRect)drawRoundedInRect:(NSRect)rect fraction:(CGFloat)fraction radius:(CGFloat)radius
+- (NSRect)drawRoundedInRect:(NSRect)rect fraction:(CGFloat)inFraction radius:(CGFloat)radius
 {
-	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:fraction radius:radius];
+	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:inFraction radius:radius];
 }
 
 //Draw an image, round the corner. Meant to replace the method above.
-- (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)fraction radius:(CGFloat)radius
+- (NSRect)drawRoundedInRect:(NSRect)rect atSize:(NSSize)size position:(IMAGE_POSITION)position fraction:(CGFloat)inFraction radius:(CGFloat)radius
 {
 	NSRect	drawRect;
 	
@@ -337,7 +337,7 @@
 	[self drawInRect:drawRect
 			fromRect:NSMakeRect(0, 0, ownSize.width, ownSize.height)
 		   operation:NSCompositeSourceOver
-			fraction:fraction];
+			fraction:inFraction];
 	
 	[NSGraphicsContext restoreGraphicsState];
 	//Shift the origin if needed, and decrease the available destination rect width, by the passed size

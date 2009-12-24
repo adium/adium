@@ -287,13 +287,13 @@ static void AIProgressDataUploaderCallback(CFReadStreamRef callbackStream,
 {
 	UInt8 buffer[BUFFER_SIZE];
 	
-	CFIndex read = CFReadStreamRead(stream, 
+	CFIndex len = CFReadStreamRead(stream, 
 									buffer, 
 									BUFFER_SIZE);
 	
-	if (read) {
+	if (len) {
 		[returnedData appendBytes:(const void *)buffer
-						   length:(NSUInteger)read];		
+						   length:(NSUInteger)len];		
 	}
 }
 

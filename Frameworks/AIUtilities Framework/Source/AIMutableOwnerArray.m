@@ -130,15 +130,15 @@
 		if (count != 1 && !valueIsSortedToFront) {
 			NSNumber 	*currentMax = [NSNumber numberWithInt:0];
 			int			indexOfMax = 0;
-			int			index = 0;
+			int			idx = 0;
 			
 			//Find the object with the largest int value
-			for (index = 0;index < count;index++) {
-				NSNumber	*value = [contentArray objectAtIndex:index];
+			for (idx = 0;idx < count;idx++) {
+				NSNumber	*value = [contentArray objectAtIndex:idx];
 
 				if ([value compare:currentMax] == NSOrderedDescending) {
 					currentMax = value;
-					indexOfMax = index;
+					indexOfMax = idx;
 				}
 			}
 			
@@ -162,15 +162,15 @@
 		if (count != 1 && !valueIsSortedToFront) {
 			NSInteger 	currentMax = 0;
 			int		indexOfMax = 0;
-			int		index = 0;
+			int		idx = 0;
 			
 			//Find the object with the largest int value
-			for (index = 0;index < count;index++) {
-				NSInteger	value = [[contentArray objectAtIndex:index] integerValue];
+			for (idx = 0;idx < count;idx++) {
+				NSInteger	value = [[contentArray objectAtIndex:idx] integerValue];
 				
 				if (value > currentMax) {
 					currentMax = value;
-					indexOfMax = index;
+					indexOfMax = idx;
 				}
 			}
 			
@@ -195,15 +195,15 @@
 		if (count != 1 && !valueIsSortedToFront) {
 			double  currentMax = 0;
 			int		indexOfMax = 0;
-			int		index = 0;
+			int		idx = 0;
 			
 			//Find the object with the largest double value
-			for (index = 0;index < count;index++) {
-				double	value = [[contentArray objectAtIndex:index] doubleValue];
+			for (idx = 0;idx < count;idx++) {
+				double	value = [[contentArray objectAtIndex:idx] doubleValue];
 				
 				if (value > currentMax) {
 					currentMax = value;
-					indexOfMax = index;
+					indexOfMax = idx;
 				}
 			}
 			
@@ -228,15 +228,15 @@
 		if (count != 1 && !valueIsSortedToFront) {
 			NSDate  *currentMax = nil;
 			int		indexOfMax = 0;
-			int		index = 0;
+			int		idx = 0;
 			
 			//Find the object with the earliest date
-			for (index = 0;index < count;index++) {
-				NSDate	*value = [contentArray objectAtIndex:index];
+			for (idx = 0;idx < count;idx++) {
+				NSDate	*value = [contentArray objectAtIndex:idx];
 				
 				if (!currentMax || [currentMax timeIntervalSinceDate:value] > 0) {
 					currentMax = value;
-					indexOfMax = index;
+					indexOfMax = idx;
 				}
 			}
 			
@@ -258,16 +258,16 @@
 	if ([priorityArray count] != 1 && !valueIsSortedToFront) {
 		CGFloat			currentMax = Lowest_Priority;
 		int				indexOfMax = 0;
-		int				index = 0;
+		int				idx = 0;
 		
 		//Find the object with highest priority
 		for (NSNumber *priority in priorityArray) {
 			float	value = [priority floatValue];
 			if (value < currentMax) {
 				currentMax = value;
-				indexOfMax = index;
+				indexOfMax = idx;
 			}
-			index++;
+			idx++;
 		}
 
 		//Move the object to the front, so we don't have to find it next time
@@ -293,8 +293,8 @@
 - (id)objectWithOwner:(id)inOwner
 {
     if (ownerArray && contentArray) {
-        NSUInteger	index = [ownerArray indexOfObject:inOwner];
-        if (index != NSNotFound) return [contentArray objectAtIndex:index];
+        NSUInteger	idx = [ownerArray indexOfObject:inOwner];
+        if (idx != NSNotFound) return [contentArray objectAtIndex:idx];
     }
     
     return nil;
@@ -303,8 +303,8 @@
 - (float)priorityOfObjectWithOwner:(id)inOwner
 {
 	if (ownerArray && priorityArray) {
-        NSUInteger	index = [ownerArray indexOfObject:inOwner];
-		if (index != NSNotFound) return [[priorityArray objectAtIndex:index] floatValue];
+        NSUInteger	idx = [ownerArray indexOfObject:inOwner];
+		if (idx != NSNotFound) return [[priorityArray objectAtIndex:idx] floatValue];
 	}
 	return 0.0f;
 }
@@ -312,8 +312,8 @@
 - (id)ownerWithObject:(id)inObject
 {
     if (ownerArray && contentArray) {
-        NSUInteger	index = [contentArray indexOfObject:inObject];
-        if (index != NSNotFound) return [ownerArray objectAtIndex:index];
+        NSUInteger	idx = [contentArray indexOfObject:inObject];
+        if (idx != NSNotFound) return [ownerArray objectAtIndex:idx];
     }
     
     return nil;
@@ -322,8 +322,8 @@
 - (float)priorityOfObject:(id)inObject
 {
 	if (contentArray && priorityArray) {
-        NSUInteger	index = [contentArray indexOfObject:inObject];
-		if (index != NSNotFound) return [[priorityArray objectAtIndex:index] floatValue];
+        NSUInteger	idx = [contentArray indexOfObject:inObject];
+		if (idx != NSNotFound) return [[priorityArray objectAtIndex:idx] floatValue];
 	}
 	return 0.0f;
 }

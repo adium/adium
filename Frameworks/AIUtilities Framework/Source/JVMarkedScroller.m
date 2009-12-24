@@ -55,28 +55,28 @@ struct _mark {
 		unsigned long long start = [startNum unsignedLongLongValue];
 		unsigned long long stop = [stopNum unsignedLongLongValue];
 		
-		NSRect rect = NSZeroRect;
-		if( sFlags.isHoriz ) rect = NSMakeRect( start, 0., ( stop - start ), width );
-		else rect = NSMakeRect( 0., start, width, ( stop - start ) );
+		NSRect shadesRect = NSZeroRect;
+		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0., ( stop - start ), width );
+		else shadesRect = NSMakeRect( 0., start, width, ( stop - start ) );
 		
-		rect.origin = [transform transformPoint:rect.origin];
-		rect.size = [transform transformSize:rect.size];
+		shadesRect.origin = [transform transformPoint:shadesRect.origin];
+		shadesRect.size = [transform transformSize:shadesRect.size];
 		
-		[shades appendBezierPathWithRect:rect];
+		[shades appendBezierPathWithRect:shadesRect];
 	}
 	
 	if( ( [_shades count] % 2 ) == 1 ) {
-		NSRect rect = NSZeroRect;
+		NSRect shadesRect = NSZeroRect;
 		unsigned long long start = [[_shades lastObject] unsignedLongLongValue];
 		unsigned long long stop = [self contentViewLength];
 		
-		if( sFlags.isHoriz ) rect = NSMakeRect( start, 0., ( stop - start ), width );
-		else rect = NSMakeRect( 0., start, width, ( stop - start ) );
+		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0., ( stop - start ), width );
+		else shadesRect = NSMakeRect( 0., start, width, ( stop - start ) );
 		
-		rect.origin = [transform transformPoint:rect.origin];
-		rect.size = [transform transformSize:rect.size];
+		shadesRect.origin = [transform transformPoint:shadesRect.origin];
+		shadesRect.size = [transform transformSize:shadesRect.size];
 		
-		[shades appendBezierPathWithRect:NSIntegralRect( rect )];
+		[shades appendBezierPathWithRect:NSIntegralRect( shadesRect )];
 	}
 	
 	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], ( sFlags.isHoriz ? 4. : 3. ), ( sFlags.isHoriz ? 3. : 4. ) ) );

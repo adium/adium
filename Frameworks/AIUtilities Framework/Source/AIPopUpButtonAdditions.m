@@ -22,9 +22,9 @@
 - (BOOL)selectItemWithRepresentedObject:(id)object
 {
 	if ([self numberOfItems] > 0) {
-		NSInteger	index = [self indexOfItemWithRepresentedObject:object];
-		if (index != -1) {
-			[self selectItemAtIndex:index];
+		NSInteger	idx = [self indexOfItemWithRepresentedObject:object];
+		if (idx != -1) {
+			[self selectItemAtIndex:idx];
 			return YES;
 		}
 	}
@@ -70,9 +70,9 @@
 
 - (BOOL)selectItemWithRepresentedObject:(id)object
 {
-    NSInteger	index = [self indexOfItemWithRepresentedObject:object];
-	if (index != NSNotFound) {
-		[self selectItemAtIndex:index];
+    NSInteger	idx = [self indexOfItemWithRepresentedObject:object];
+	if (idx != NSNotFound) {
+		[self selectItemAtIndex:idx];
 		return YES;
 	}
 	

@@ -209,11 +209,11 @@ static AIHostReachabilityMonitor *singleton = nil;
 		BOOL anyHostsReachable = NO;
 		
 		// If we have multiple host <-> IP links (AAAA record and an A record), we need to check agreement.
-		for (NSUInteger index = 0; index < hosts.count; index++) {
-			if (![host isEqualToString:[hosts objectAtIndex:index]])
+		for (NSUInteger idx = 0; idx < hosts.count; idx++) {
+			if (![host isEqualToString:[hosts objectAtIndex:idx]])
 				continue;
 			
-			SCNetworkReachabilityRef otherReachability = (SCNetworkReachabilityRef)[reachabilities objectAtIndex:index];
+			SCNetworkReachabilityRef otherReachability = (SCNetworkReachabilityRef)[reachabilities objectAtIndex:idx];
 			SCNetworkConnectionFlags flags;
 
 			if (SCNetworkReachabilityGetFlags(otherReachability, &flags)
