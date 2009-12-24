@@ -21,6 +21,10 @@
 - (void)_toolbarPillButtonClicked:(id)sender;
 @end
 
+@interface NSObject (FriendsDontLetFriendsUsePrivateNSWindowDelegateMethods)
+- (void)windowDidToggleToolbarShown:(id)sender;
+@end
+
 @implementation AIDockingWindow
 
 - (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)aStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)flag

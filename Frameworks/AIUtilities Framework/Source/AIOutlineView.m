@@ -19,6 +19,7 @@
 @interface AIOutlineView ()
 - (void)_initOutlineView;
 - (void)expandOrCollapseItemsOfItem:(id)rootItem;
+- (void)_reloadData;
 @end
 
 @interface AIOutlineView (KFTypeSelectTableViewSupport)

@@ -8,6 +8,10 @@
 
 #import "AIRolloverButton.h"
 
+@interface AIRolloverButton (PRIVATE)
+- (void)rolloverFrameDidChange:(NSNotification *)inNotification;
+@end
+
 @implementation AIRolloverButton
 
 - (void)awakeFromNib

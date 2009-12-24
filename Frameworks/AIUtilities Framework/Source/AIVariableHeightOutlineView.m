@@ -16,6 +16,8 @@
 @interface AIVariableHeightOutlineView ()
 - (void)_initVariableHeightOutlineView;
 - (NSImage *)dragImageForRows:(NSUInteger *)buf count:(NSUInteger)count tableColumns:(NSArray *)tableColumns event:(NSEvent*)dragEvent offset:(NSPointPointer)dragImageOffset;
+- (void)itemDidExpand:(NSNotification *)notification;
+- (void)itemDidCollapse:(NSNotification *)notification;
 @end
 
 @implementation AIVariableHeightOutlineView

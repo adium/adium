@@ -29,6 +29,7 @@
 
 @interface AIToolbarTabView ()
 - (void)installToolbarItems;
+- (IBAction)selectCategory:(id)sender;
 @end
 
 @implementation AIToolbarTabView

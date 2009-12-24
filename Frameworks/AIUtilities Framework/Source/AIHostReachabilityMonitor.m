@@ -26,6 +26,8 @@ static AIHostReachabilityMonitor *singleton = nil;
 
 - (void)beginMonitorngIPChanges;
 - (void)stopMonitoringIPChanges;
+
+- (void)systemDidWake:(NSNotification *)notification;
 @end
 
 @implementation AIHostReachabilityMonitor

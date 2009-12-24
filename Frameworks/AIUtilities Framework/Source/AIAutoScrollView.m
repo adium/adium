@@ -19,6 +19,7 @@
 
 @interface AIAutoScrollView ()
 - (void)_initAutoScrollView;
+- (void)documentFrameDidChange:(NSNotification *)notification;
 @end
 
 @implementation AIAutoScrollView

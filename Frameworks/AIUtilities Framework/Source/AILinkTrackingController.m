@@ -36,6 +36,7 @@
 - (void)_beginCursorTrackingInRect:(NSRect)visibleRect withOffset:(NSPoint)offset;
 - (void)_endCursorTracking;
 - (void)_setMouseOverLink:(AIFlexibleLink *)inHoveredLink atPoint:(NSPoint)inPoint;
+- (void)copyLink:(id)sender;
 @end
 
 BOOL _mouseInRects(NSPoint aPoint, NSRectArray someRects, NSUInteger arraySize, BOOL flipped);

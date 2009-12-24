@@ -7,6 +7,11 @@
 
 #import "AIRichTextCoercer.h"
 
+@interface AIRichTextCoercer (PRIVATE)
++ (id)coerceRichText:(NSTextStorage *)input toClass:(Class)class;
++ (id)coercePlainText:(NSString *)input toClass:(Class)class;
+@end
+
 @implementation AIRichTextCoercer
 
 + (void)enableRichTextCoercion

@@ -29,6 +29,7 @@
 @interface AIAlternatingRowOutlineView ()
 - (void)initAlternatingRowOutlineView;
 - (void)_drawGridInClipRect:(NSRect)rect;
+- (void)alternatingRowOutlineViewSelectionDidChange:(NSNotification *)notification;
 @end
 
 @interface NSOutlineView (Undocumented)
