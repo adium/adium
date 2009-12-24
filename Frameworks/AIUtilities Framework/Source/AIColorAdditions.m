@@ -372,36 +372,36 @@ end:
 
 - (NSColor *)representedColor
 {
-    NSUInteger	r = 255, g = 255, b = 255;
-    NSUInteger	a = 255;
+    CGFloat	r = 255, g = 255, b = 255;
+    CGFloat	a = 255;
 
 	const char *selfUTF8 = [self UTF8String];
 	
 	//format: r,g,b[,a]
 	//all components are decimal numbers 0..255.
 	if (!isdigit(*selfUTF8)) goto scanFailed;
-	r = strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
+	r = (CGFloat)strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
 
 	if(*selfUTF8 == ',') ++selfUTF8;
 	else                 goto scanFailed;
 
 	if (!isdigit(*selfUTF8)) goto scanFailed;
-	g = strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
+	g = (CGFloat)strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
 	if(*selfUTF8 == ',') ++selfUTF8;
 	else                 goto scanFailed;
 
 	if (!isdigit(*selfUTF8)) goto scanFailed;
-	b = strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
+	b = (CGFloat)strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
 	if (*selfUTF8 == ',') {
 		++selfUTF8;
-		a = strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
+		a = (CGFloat)strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
 
 		if (*selfUTF8) goto scanFailed;
 	} else if (*selfUTF8 != '\0') {
 		goto scanFailed;
 	}
 
-    return [NSColor colorWithCalibratedRed:(r/(CGFloat)255.0f) green:(g/(CGFloat)255.0f) blue:(b/(CGFloat)255.0f) alpha:(a/(CGFloat)255.0f)] ;
+    return [NSColor colorWithCalibratedRed:(r/255) green:(g/255) blue:(b/255) alpha:(a/255)] ;
 scanFailed:
 	return nil;
 }
