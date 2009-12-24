@@ -71,12 +71,12 @@
 		}
 		
 		//Centering
-		targetRect = NSOffsetRect(targetRect, round((cellFrame.size.width - targetRect.size.width) / 2), round((cellFrame.size.height - targetRect.size.height) / 2));
+		targetRect = NSOffsetRect(targetRect, AIround((cellFrame.size.width - targetRect.size.width) / 2), AIround((cellFrame.size.height - targetRect.size.height) / 2));
 		
 		//Flip & reposition image
 		[NSGraphicsContext saveGraphicsState];
 		
-		long cellPosition = floor(cellFrame.origin.y / cellFrame.size.height) + 1;
+		long cellPosition = AIfloor(cellFrame.origin.y / cellFrame.size.height) + 1;
 		long yOffset = fmodl(cellFrame.origin.y, cellFrame.size.height);
 		
 		NSAffineTransform *xform = [NSAffineTransform transform];
@@ -91,7 +91,7 @@
 		[img drawInRect:targetRect
 			   fromRect:imgRect
 			  operation:NSCompositeSourceOver 
-			   fraction:([self isEnabled] ? 1.0 : 0.5)];
+			   fraction:([self isEnabled] ? 1.0f : 0.5f)];
 		
 		[NSGraphicsContext restoreGraphicsState];				
 	}

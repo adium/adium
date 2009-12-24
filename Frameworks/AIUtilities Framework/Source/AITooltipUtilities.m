@@ -16,13 +16,13 @@
 #import "AITooltipUtilities.h"
 
 #define TOOLTIP_MAX_WIDTH			300
-#define TOOLTIP_INSET				4.0
-#define TOOLTIP_TITLE_BODY_MARGIN	10.0
-#define MAX_IMAGE_DIMENSION			96.0
+#define TOOLTIP_INSET				4.0f
+#define TOOLTIP_TITLE_BODY_MARGIN	10.0f
+#define MAX_IMAGE_DIMENSION			96.0f
 
-#define TOOLTIP_OPACITY				0.9
-#define TOOLTIP_FADEOUT_INTERVAL	0.025
-#define TOOLTIP_FADOUT_STEP			0.1
+#define TOOLTIP_OPACITY				0.9f
+#define TOOLTIP_FADEOUT_INTERVAL	0.025f
+#define TOOLTIP_FADOUT_STEP			0.1f
 
 @interface AITooltipUtilities ()
 + (void)_createTooltip;
@@ -57,7 +57,7 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 	if (self != [AITooltipUtilities class])
 		return;
 	if (!titleAndBodyMarginLineColor) {
-		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7] retain];
+		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
 	}
 }
 
@@ -146,12 +146,12 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 				
 				//Constrain our image proportionally
 				if (imageSize.height > MAX_IMAGE_DIMENSION) {
-					imageSize.width = round(imageSize.width * (MAX_IMAGE_DIMENSION / imageSize.height));
+					imageSize.width = AIround(imageSize.width * (MAX_IMAGE_DIMENSION / imageSize.height));
 					imageSize.height = MAX_IMAGE_DIMENSION;
 				}
 				
 				if (imageSize.width > MAX_IMAGE_DIMENSION) {
-					imageSize.height = round(imageSize.height * (MAX_IMAGE_DIMENSION / imageSize.width));
+					imageSize.height = AIround(imageSize.height * (MAX_IMAGE_DIMENSION / imageSize.width));
 					imageSize.width = MAX_IMAGE_DIMENSION;
 				}
 				
@@ -160,13 +160,13 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 			}
 			
 			//If we're fading out, hide the window before moving and then show it at normal opacity
-			if (fadingOut) [tooltipWindow setAlphaValue:0.0];
+			if (fadingOut) [tooltipWindow setAlphaValue:0.0f];
             [self _sizeTooltip];
 			if (fadingOut) [tooltipWindow setAlphaValue:TOOLTIP_OPACITY];
 				
         } else if (newLocation) { //Everything is the same but the location is different
 				//If we're fading out, hide the window before moving and then show it at normal opacity
-				if (fadingOut) [tooltipWindow setAlphaValue:0.0];
+				if (fadingOut) [tooltipWindow setAlphaValue:0.0f];
                 [tooltipWindow setFrameOrigin:[self _tooltipFrameOriginForSize:[[tooltipWindow contentView] frame].size]];
 				if (fadingOut) [tooltipWindow setAlphaValue:TOOLTIP_OPACITY];
         }
@@ -209,8 +209,8 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 		[textStorage_tooltipTitle addLayoutManager:layoutManager];
 		[layoutManager release];
 
-		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0)];
-		[container setLineFragmentPadding:1.0]; //so widths will caclulate properly
+		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0f)];
+		[container setLineFragmentPadding:1.0f]; //so widths will caclulate properly
 		[layoutManager addTextContainer:container];
 		[container release];
 
@@ -229,8 +229,8 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 		[textStorage_tooltipBody addLayoutManager:layoutManager];
 		[layoutManager release];
 		
-		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0)];
-		[container setLineFragmentPadding:0.0]; //so widths will caclulate properly
+		container = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(TOOLTIP_MAX_WIDTH,10000000.0f)];
+		[container setLineFragmentPadding:0.0f]; //so widths will caclulate properly
 		[layoutManager addTextContainer:container];
 		[container release];
 
@@ -256,7 +256,7 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 		NSViewAnimationFadeOutEffect, NSViewAnimationEffectKey,
 	nil]]];
 	[fadeOutAnimation setDelegate:self];
-	[fadeOutAnimation setDuration:0.25];
+	[fadeOutAnimation setDuration:0.25f];
 	[fadeOutAnimation setAnimationCurve:NSAnimationLinear];
 	[fadeOutAnimation startAnimation];
 }
@@ -341,7 +341,7 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 			windowHeight = titleAndBodyMargin + imageSize.height + tooltipBodyRect.size.height + TOOLTIP_INSET * 2;
 			
 			//If the image is taller than the title, shift the title up 
-			tooltipTitleRect.origin.y = (windowHeight - ((imageSize.height) * 0.5) - (tooltipTitleRect.size.height * 0.5));
+			tooltipTitleRect.origin.y = (windowHeight - ((imageSize.height) * 0.5f) - (tooltipTitleRect.size.height * 0.5f));
         }
 
         if (imageOnRight) {
@@ -379,9 +379,9 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
     if (titleAndBodyMargin) {
         [[tooltipWindow contentView] lockFocus];
         [titleAndBodyMarginLineColor set];
-        [NSBezierPath setDefaultLineWidth:0.5];
-        [NSBezierPath strokeLineFromPoint:NSMakePoint(TOOLTIP_INSET, (titleAndBodyMargin * 0.5) + tooltipBodyRect.size.height + 4)
-                                  toPoint:NSMakePoint(windowWidth - TOOLTIP_INSET, (titleAndBodyMargin * 0.5) + tooltipBodyRect.size.height + 4)];
+        [NSBezierPath setDefaultLineWidth:0.5f];
+        [NSBezierPath strokeLineFromPoint:NSMakePoint(TOOLTIP_INSET, (titleAndBodyMargin * 0.5f) + tooltipBodyRect.size.height + 4)
+                                  toPoint:NSMakePoint(windowWidth - TOOLTIP_INSET, (titleAndBodyMargin * 0.5f) + tooltipBodyRect.size.height + 4)];
         [[tooltipWindow contentView] unlockFocus];
     }
     

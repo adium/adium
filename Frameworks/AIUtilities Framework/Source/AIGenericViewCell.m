@@ -89,7 +89,7 @@
 		[subImage drawInRect:subFrame
 					fromRect:subUsableFrame
 				   operation:NSCompositeSourceOver
-					fraction:1.0];
+					fraction:1.0f];
 	}
 	[image unlockFocus];
 
@@ -97,7 +97,7 @@
 	[image drawInRect:cellFrame
 			 fromRect:usableFrame
 			operation:NSCompositeSourceOver
-			 fraction:1.0];	
+			 fraction:1.0f];	
 }
 
 - (NSUInteger)hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView

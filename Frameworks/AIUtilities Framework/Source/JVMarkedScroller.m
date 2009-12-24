@@ -5,7 +5,7 @@
 #import "AIStringUtilities.h"
 
 struct _mark {
-	unsigned long long location;
+	NSUInteger location;
 	NSString *identifier;
 	NSColor *color;
 };
@@ -46,10 +46,10 @@ struct _mark {
 	CGFloat width = [[self class] scrollerWidthForControlSize:[self controlSize]];
 	
 	CGFloat scale = [self scaleToContentView];
-	[transform scaleXBy:( sFlags.isHoriz ? scale : 1. ) yBy:( sFlags.isHoriz ? 1. : scale )];
+	[transform scaleXBy:( sFlags.isHoriz ? scale : 1.f ) yBy:( sFlags.isHoriz ? 1.f : scale )];
 	
 	CGFloat offset = [self rectForPart:NSScrollerKnobSlot].origin.y;
-	[transform translateXBy:( sFlags.isHoriz ? offset / scale : 0. ) yBy:( sFlags.isHoriz ? 0. : offset / scale )];
+	[transform translateXBy:( sFlags.isHoriz ? offset / scale : 0.f ) yBy:( sFlags.isHoriz ? 0.f : offset / scale )];
 	
 	NSBezierPath *shades = [NSBezierPath bezierPath];
 	NSEnumerator *enumerator = [_shades objectEnumerator];
@@ -57,12 +57,12 @@ struct _mark {
 	NSNumber *stopNum = nil;
 	
 	while( ( startNum = [enumerator nextObject] ) && ( stopNum = [enumerator nextObject] ) ) {
-		unsigned long long start = [startNum unsignedLongLongValue];
-		unsigned long long stop = [stopNum unsignedLongLongValue];
+		NSUInteger start = [startNum unsignedIntegerValue];
+		NSUInteger stop = [stopNum unsignedIntegerValue];
 		
 		NSRect shadesRect = NSZeroRect;
-		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0., ( stop - start ), width );
-		else shadesRect = NSMakeRect( 0., start, width, ( stop - start ) );
+		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0.f, ( stop - start ), width );
+		else shadesRect = NSMakeRect( 0.f, start, width, ( stop - start ) );
 		
 		shadesRect.origin = [transform transformPoint:shadesRect.origin];
 		shadesRect.size = [transform transformSize:shadesRect.size];
@@ -72,11 +72,11 @@ struct _mark {
 	
 	if( ( [_shades count] % 2 ) == 1 ) {
 		NSRect shadesRect = NSZeroRect;
-		unsigned long long start = [[_shades lastObject] unsignedLongLongValue];
-		unsigned long long stop = [self contentViewLength];
+		NSUInteger start = [[_shades lastObject] unsignedIntegerValue];
+		CGFloat stop = [self contentViewLength];
 		
-		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0., ( stop - start ), width );
-		else shadesRect = NSMakeRect( 0., start, width, ( stop - start ) );
+		if( sFlags.isHoriz ) shadesRect = NSMakeRect( start, 0.f, ( stop - start ), width );
+		else shadesRect = NSMakeRect( 0.f, start, width, ( stop - start ) );
 		
 		shadesRect.origin = [transform transformPoint:shadesRect.origin];
 		shadesRect.size = [transform transformSize:shadesRect.size];
@@ -84,10 +84,10 @@ struct _mark {
 		[shades appendBezierPathWithRect:NSIntegralRect( shadesRect )];
 	}
 	
-	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], ( sFlags.isHoriz ? 4. : 3. ), ( sFlags.isHoriz ? 3. : 4. ) ) );
+	NSRectClip( NSInsetRect( [self rectForPart:NSScrollerKnobSlot], ( sFlags.isHoriz ? 4.f : 3.f ), ( sFlags.isHoriz ? 3.f : 4.f ) ) );
 	
 	if( ! [shades isEmpty ] ) {
-		[[[NSColor knobColor] colorWithAlphaComponent:0.45] set];
+		[[[NSColor knobColor] colorWithAlphaComponent:0.45f] set];
 		[shades fill];
 	}
 	
@@ -96,14 +96,14 @@ struct _mark {
 	enumerator = [_marks objectEnumerator];
 	NSValue *currentMark = nil;
 	
-	unsigned long long currentPosition = ( _currentMark != NSNotFound ? _currentMark : (CGFloat)[self floatValue] * [self contentViewLength] );
+	NSUInteger currentPosition = ( _currentMark != NSNotFound ? _currentMark : (CGFloat)[self floatValue] * [self contentViewLength] );
 	BOOL foundNext = NO, foundPrevious = NO;
 	NSRect knobRect = [self rectForPart:NSScrollerKnob];
 	
 	while( ( currentMark = [enumerator nextObject] ) ) {
 		struct _mark mark;
 		[currentMark getValue:&mark];
-		unsigned long long value = mark.location;
+		NSUInteger value = mark.location;
 		
 		if( value < currentPosition && ( ! foundPrevious || value > _nearestPreviousMark ) ) {
 			_nearestPreviousMark = value;
@@ -115,24 +115,24 @@ struct _mark {
 			foundNext = YES;
 		}
 		
-		NSPoint point = NSMakePoint( ( sFlags.isHoriz ? value : 0. ), ( sFlags.isHoriz ? 0. : value ) );
+		NSPoint point = NSMakePoint( ( sFlags.isHoriz ? value : 0 ), ( sFlags.isHoriz ? 0 : value ) );
 		point = [transform transformPoint:point];
-		point.x = ( sFlags.isHoriz ? round( point.x ) + 0.5 : point.x );
-		point.y = ( sFlags.isHoriz ? point.y : round( point.y ) + 0.5 );
+		point.x = ( sFlags.isHoriz ? AIround( point.x ) + 0.5f : point.x );
+		point.y = ( sFlags.isHoriz ? point.y : AIround( point.y ) + 0.5f );
 		
 		if( ! NSPointInRect( point, knobRect ) ) {
 			if( mark.color ) {
 				NSBezierPath *line = [NSBezierPath bezierPath];
 				[line moveToPoint:point];
 				
-				point = NSMakePoint( ( sFlags.isHoriz ? 0. : width ), ( sFlags.isHoriz ? width : 0. ) );
+				point = NSMakePoint( ( sFlags.isHoriz ? 0.f : width ), ( sFlags.isHoriz ? width : 0.f ) );
 				[line relativeLineToPoint:point];
 				[lineArray addObject:mark.color];
 				[lineArray addObject:line];
 			} else {
 				[lines moveToPoint:point];
 				
-				point = NSMakePoint( ( sFlags.isHoriz ? 0. : width ), ( sFlags.isHoriz ? width : 0. ) );
+				point = NSMakePoint( ( sFlags.isHoriz ? 0.f : width ), ( sFlags.isHoriz ? width : 0.f ) );
 				[lines relativeLineToPoint:point];
 			}
 		}
@@ -247,7 +247,7 @@ struct _mark {
 	while( ( currentMark = [enumerator nextObject] ) ) {
 		struct _mark mark;
 		[currentMark getValue:&mark];
-		unsigned long long value = mark.location;
+		NSUInteger value = mark.location;
 		
 		if( value < currentPosition && ( ! foundPrevious || value > _nearestPreviousMark ) ) {
 			_nearestPreviousMark = value;
@@ -284,7 +284,7 @@ struct _mark {
 
 #pragma mark -
 
-- (void) setLocationOfCurrentMark:(unsigned long long) location {
+- (void) setLocationOfCurrentMark:(NSUInteger) location {
 	if( _currentMark != location ) {
 		_currentMark = location;
 		[self updateNextAndPreviousMarks];
@@ -307,7 +307,7 @@ struct _mark {
 		_currentMark = _nearestPreviousMark;
 		_jumpingToMark = YES;
 		CGFloat shift = [self shiftAmountToCenterAlign];
-		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
+		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0.f, _currentMark - shift )];
 		_jumpingToMark = NO;
 		
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
@@ -324,7 +324,7 @@ struct _mark {
 		_currentMark = _nearestNextMark;
 		_jumpingToMark = YES;
 		CGFloat shift = [self shiftAmountToCenterAlign];
-		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
+		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0.f, _currentMark - shift )];
 		_jumpingToMark = NO;
 		
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
@@ -374,7 +374,7 @@ struct _mark {
 	
 	if( foundMark ) {
 		CGFloat shift = [self shiftAmountToCenterAlign];
-		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0., _currentMark - shift )];
+		[[(NSScrollView *)[self superview] documentView] scrollPoint:NSMakePoint( 0.f, _currentMark - shift )];
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 	}
 	
@@ -383,7 +383,7 @@ struct _mark {
 
 #pragma mark -
 
-- (void) shiftMarksAndShadedAreasBy:(long long) displacement {
+- (void) shiftMarksAndShadedAreasBy:(NSInteger) displacement {
 	BOOL negative = ( displacement >= 0 ? NO : YES );
 	NSMutableSet *shiftedMarks = [NSMutableSet set];
 	NSValue *location = nil;
@@ -435,37 +435,37 @@ struct _mark {
 
 #pragma mark -
 
-- (void) addMarkAt:(unsigned long long) location {
+- (void) addMarkAt:(NSUInteger) location {
 	[self addMarkAt:location withIdentifier:nil withColor:nil];
 }
 
-- (void) addMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier {
+- (void) addMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier {
 	[self addMarkAt:location withIdentifier:identifier withColor:nil];
 }
 
-- (void) addMarkAt:(unsigned long long) location withColor:(NSColor *) color {
+- (void) addMarkAt:(NSUInteger) location withColor:(NSColor *) color {
 	[self addMarkAt:location withIdentifier:nil withColor:color];
 }
 
-- (void) addMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color {
+- (void) addMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color {
 	struct _mark mark = {location, identifier, color};
 	[_marks addObject:[NSValue value:&mark withObjCType:@encode( struct _mark )]];
 	[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 }
 
-- (void) removeMarkAt:(unsigned long long) location {
+- (void) removeMarkAt:(NSUInteger) location {
 	[self removeMarkAt:location withIdentifier:nil withColor:nil];
 }
 
-- (void) removeMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier {
+- (void) removeMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier {
 	[self removeMarkAt:location withIdentifier:identifier withColor:nil];
 }
 
-- (void) removeMarkAt:(unsigned long long) location withColor:(NSColor *) color {
+- (void) removeMarkAt:(NSUInteger) location withColor:(NSColor *) color {
 	[self removeMarkAt:location withIdentifier:nil withColor:color];
 }
 
-- (void) removeMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color {
+- (void) removeMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color {
 	struct _mark mark = {location, identifier, color};
 	[_marks removeObject:[NSValue value:&mark withObjCType:@encode( struct _mark )]];
 	[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
@@ -485,7 +485,7 @@ struct _mark {
 	[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 }
 
-- (void) removeMarksGreaterThan:(unsigned long long) location {
+- (void) removeMarksGreaterThan:(NSUInteger) location {
 	NSEnumerator *enumerator = [[[_marks copy] autorelease] objectEnumerator];
 	NSValue *obj = nil;
 	
@@ -499,7 +499,7 @@ struct _mark {
 	[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 }
 
-- (void) removeMarksLessThan:(unsigned long long) location {
+- (void) removeMarksLessThan:(NSUInteger) location {
 	NSEnumerator *enumerator = [[[_marks copy] autorelease] objectEnumerator];
 	NSValue *obj = nil;
 	
@@ -520,7 +520,7 @@ struct _mark {
 	while( ( obj = [enumerator nextObject] ) ) {
 		struct _mark mark;
 		[obj getValue:&mark];
-		if( NSLocationInRange( (unsigned int)mark.location, range ) )
+		if( NSLocationInRange( mark.location, range ) )
 			[_marks removeObject:obj];
 	}
 	
@@ -545,14 +545,14 @@ struct _mark {
 
 #pragma mark -
 
-- (void) startShadedAreaAt:(unsigned long long) location {
+- (void) startShadedAreaAt:(NSUInteger) location {
 	if( ! [_shades count] || ! ( [_shades count] % 2 ) ) {
 		[_shades addObject:[NSNumber numberWithUnsignedLongLong:location]];
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
 	}
 }
 
-- (void) stopShadedAreaAt:(unsigned long long) location {
+- (void) stopShadedAreaAt:(NSUInteger) location {
 	if( [_shades count] && ( [_shades count] % 2 ) == 1 ) {
 		[_shades addObject:[NSNumber numberWithUnsignedLongLong:location]];
 		[self setNeedsDisplayInRect:[self rectForPart:NSScrollerKnobSlot]];
@@ -568,7 +568,7 @@ struct _mark {
 
 #pragma mark -
 
-- (unsigned long long) contentViewLength {
+- (CGFloat) contentViewLength {
 	if( sFlags.isHoriz ) return ( NSWidth( [self frame] ) / [self knobProportion] );
 	else return ( NSHeight( [self frame] ) / [self knobProportion] );
 }
@@ -580,7 +580,7 @@ struct _mark {
 
 - (CGFloat) shiftAmountToCenterAlign {
 	CGFloat scale = [self scaleToContentView];
-	if( sFlags.isHoriz ) return ( ( NSWidth( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2. ) / scale;
-	else return ( ( NSHeight( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2. ) / scale;
+	if( sFlags.isHoriz ) return ( ( NSWidth( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2.f ) / scale;
+	else return ( ( NSHeight( [self rectForPart:NSScrollerKnobSlot] ) * [self knobProportion] ) / 2.f ) / scale;
 }
 @end

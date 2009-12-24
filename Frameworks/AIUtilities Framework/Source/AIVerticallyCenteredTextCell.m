@@ -99,7 +99,7 @@
 		//Calculate the centered rect
 		stringHeight = [attributedTitle heightWithWidth:cellFrame.size.width];
 		if (stringHeight < cellFrame.size.height) {
-			cellFrame.origin.y += (cellFrame.size.height - stringHeight) / 2.0;
+			cellFrame.origin.y += (cellFrame.size.height - stringHeight) / 2.0f;
 		}
 
 		//Draw the string

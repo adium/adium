@@ -19,7 +19,7 @@
 
 CGFloat AICoordinateForRect_edge_(const NSRect rect, const NSRectEdge edge)
 {
-	CGFloat coordinate = 0.0;
+	CGFloat coordinate = 0.0f;
 	switch (edge) {
 		case NSMinXEdge : coordinate = NSMinX(rect); break;
 		case NSMinYEdge : coordinate = NSMinY(rect); break;
@@ -34,7 +34,7 @@ CGFloat AICoordinateForRect_edge_(const NSRect rect, const NSRectEdge edge)
 // on the interior side of the edge, the number returned will be negative
 CGFloat AISignedExteriorDistanceRect_edge_toPoint_(const NSRect rect, const NSRectEdge edge, const NSPoint point)
 {
-	CGFloat distanceOutside = 0.0;
+	CGFloat distanceOutside = 0.0f;
 	CGFloat rectEdgeCoordinate = AICoordinateForRect_edge_(rect, edge);
 	switch (edge) {
 		case NSMinXEdge: distanceOutside = rectEdgeCoordinate - point.x; break;
@@ -77,11 +77,6 @@ NSRect AIRectByAligningRect_edge_toRect_edge_(NSRect mobileRect, const NSRectEdg
 
 BOOL AIRectIsAligned_edge_toRect_edge_tolerance_(const NSRect rect1, const NSRectEdge edge1, const NSRect rect2, const NSRectEdge edge2, const CGFloat tolerance)
 {
-#ifdef __LP64__
-	#define AIfabs( X ) fabs((X))
-#else
-	#define AIfabs( X ) fabsf((X))
-#endif
 	return AIfabs(AICoordinateForRect_edge_(rect1, edge1) - AICoordinateForRect_edge_(rect2, edge2)) < tolerance;
 }
 

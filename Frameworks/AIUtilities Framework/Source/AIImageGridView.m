@@ -202,12 +202,12 @@ Adium, Copyright 2001-2005, Adam Iser
 	columns = newFrame.size.width / (imageSize.width + MIN_PADDING);
 	
 	//Increase padding to stretch the columns to the full width of our view
-	padding.width = round((newFrame.size.width - (columns * imageSize.width)) / (columns + 1));
+	padding.width = AIround((newFrame.size.width - (columns * imageSize.width)) / (columns + 1));
 	padding.height = padding.width;
 	
 	//Resize our view so it's tall enuogh to display enough rows for all our images and that it always
 	//covers the entire visible area in our scroll view.
-	rows = ceil((double)numberOfImages / (double)columns);
+	rows = AIceil(numberOfImages / columns);
 	newFrame.size.height = rows * (imageSize.height + padding.height) + padding.height;
 	if (scrollView && [scrollView contentSize].height > newFrame.size.height) {
 		newFrame.size.height = [scrollView contentSize].height;

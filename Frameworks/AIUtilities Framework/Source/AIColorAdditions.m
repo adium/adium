@@ -24,9 +24,9 @@
 static NSArray *defaultValidColors = nil;
 #define VALID_COLORS_ARRAY [[NSArray alloc] initWithObjects:@"aqua", @"aquamarine", @"blue", @"blueviolet", @"brown", @"burlywood", @"cadetblue", @"chartreuse", @"chocolate", @"coral", @"cornflowerblue", @"crimson", @"cyan", @"darkblue", @"darkcyan", @"darkgoldenrod", @"darkgreen", @"darkgrey", @"darkkhaki", @"darkmagenta", @"darkolivegreen", @"darkorange", @"darkorchid", @"darkred", @"darksalmon", @"darkseagreen", @"darkslateblue", @"darkslategrey", @"darkturquoise", @"darkviolet", @"deeppink", @"deepskyblue", @"dimgrey", @"dodgerblue", @"firebrick", @"forestgreen", @"fuchsia", @"gold", @"goldenrod", @"green", @"greenyellow", @"grey", @"hotpink", @"indianred", @"indigo", @"lawngreen", @"lightblue", @"lightcoral", @"lightgreen", @"lightgrey", @"lightpink", @"lightsalmon", @"lightseagreen", @"lightskyblue", @"lightslategrey", @"lightsteelblue", @"lime", @"limegreen", @"magenta", @"maroon", @"mediumaquamarine", @"mediumblue", @"mediumorchid", @"mediumpurple", @"mediumseagreen", @"mediumslateblue", @"mediumspringgreen", @"mediumturquoise", @"mediumvioletred", @"midnightblue", @"navy", @"olive", @"olivedrab", @"orange", @"orangered", @"orchid", @"palegreen", @"paleturquoise", @"palevioletred", @"peru", @"pink", @"plum", @"powderblue", @"purple", @"red", @"rosybrown", @"royalblue", @"saddlebrown", @"salmon", @"sandybrown", @"seagreen", @"sienna", @"silver", @"skyblue", @"slateblue", @"slategrey", @"springgreen", @"steelblue", @"tan", @"teal", @"thistle", @"tomato", @"turquoise", @"violet", @"yellowgreen", nil]
 
-static const CGFloat ONE_THIRD = 1.0/3.0;
-static const CGFloat ONE_SIXTH = 1.0/6.0;
-static const CGFloat TWO_THIRD = 2.0/3.0;
+static const CGFloat ONE_THIRD = 1.0f/3.0f;
+static const CGFloat ONE_SIXTH = 1.0f/6.0f;
+static const CGFloat TWO_THIRD = 2.0f/3.0f;
 
 static NSMutableDictionary *RGBColorValues = nil;
 
@@ -103,7 +103,7 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 				NSColor *color = [NSColor colorWithCalibratedRed:state.red
 														   green:state.green
 															blue:state.blue
-														   alpha:1.0];
+														   alpha:1.0f];
 				[mutableDict setObject:color forKey:name];
 				NSString *lowercaseName = [name lowercaseString];
 				if (![mutableDict objectForKey:lowercaseName]) {
@@ -120,13 +120,13 @@ static NSString *defaultRGBTxtLocation2 = @"etc/rgb.txt";
 			} else {
 				if (!state.redStart) {
 					state.redStart = &ch[i];
-					state.red = (float)(strtod(state.redStart, (char **)&state.redEnd) / 255.0);
+					state.red = (float)(strtod(state.redStart, (char **)&state.redEnd) / 255.0f);
 				} else if ((!state.greenStart) && state.redEnd && (&ch[i] >= state.redEnd)) {
 					state.greenStart = &ch[i];
-					state.green = (float)(strtod(state.greenStart, (char **)&state.greenEnd) / 255.0);
+					state.green = (float)(strtod(state.greenStart, (char **)&state.greenEnd) / 255.0f);
 				} else if ((!state.blueStart) && state.greenEnd && (&ch[i] >= state.greenEnd)) {
 					state.blueStart = &ch[i];
-					state.blue = (float)(strtod(state.blueStart, (char **)&state.blueEnd) / 255.0);
+					state.blue = (float)(strtod(state.blueStart, (char **)&state.blueEnd) / 255.0f);
 				} else if ((!state.nameStart) && state.blueEnd && (&ch[i] >= state.blueEnd)) {
 					state.nameStart  = &ch[i];
 				}
@@ -209,13 +209,13 @@ end:
 //Returns YES if this color is dark
 - (BOOL)colorIsDark
 {
-    return ([[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent] < 0.5);
+    return ([[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent] < 0.5f);
 }
 
 - (BOOL)colorIsMedium
 {
 	CGFloat brightness = [[self colorUsingColorSpaceName:NSCalibratedRGBColorSpace] brightnessComponent];
-	return (0.35 < brightness && brightness < 0.65);
+	return (0.35f < brightness && brightness < 0.65f);
 }
 
 //Percent should be -1.0 to 1.0 (negatives will make the color brighter)
@@ -234,7 +234,7 @@ end:
     NSColor	*convertedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     
     return [NSColor colorWithCalibratedHue:[convertedColor hueComponent]
-                                saturation:(([convertedColor saturationComponent] == 0.0) ? [convertedColor saturationComponent] : ([convertedColor saturationComponent] + amount))
+                                saturation:(([convertedColor saturationComponent] == 0.0f) ? [convertedColor saturationComponent] : ([convertedColor saturationComponent] + amount))
                                 brightness:([convertedColor brightnessComponent] - amount)
                                      alpha:[convertedColor alphaComponent]];
 }
@@ -250,10 +250,10 @@ end:
     [convertedColor getHue:&h saturation:&s brightness:&l alpha:NULL];
 
     //Invert L
-    l = 1.0 - l;
+    l = 1.0f - l;
 
     //Return the new color
-    return [NSColor colorWithCalibratedHue:h saturation:s brightness:l alpha:1.0];
+    return [NSColor colorWithCalibratedHue:h saturation:s brightness:l alpha:1.0f];
 }
 
 //Returns a color that contrasts well with this one
@@ -267,10 +267,10 @@ end:
 
 	} else {
 		NSColor *rgbColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-		return [NSColor colorWithCalibratedRed:(1.0 - [rgbColor redComponent])
-										 green:(1.0 - [rgbColor greenComponent])
-										  blue:(1.0 - [rgbColor blueComponent])
-										 alpha:1.0];
+		return [NSColor colorWithCalibratedRed:(1.0f - [rgbColor redComponent])
+										 green:(1.0f - [rgbColor greenComponent])
+										  blue:(1.0f - [rgbColor blueComponent])
+										 alpha:1.0f];
 	}
 }
 
@@ -287,7 +287,7 @@ end:
     [self getHue:&hue saturation:&sat brightness:&brit alpha:&alpha];
 
 	//For some reason, redColor's hue is 1.0f, not 0.0f, as of Mac OS X 10.4.10 and 10.5.2. Therefore, we must normalize any multiple of 1.0 to 0.0. We do this by taking the remainder of hue ÷ 1.
-	hue = fmod(hue, 1.0);
+	hue = AIfmod(hue, 1.0f);
 
     hue += dHue;
     cap(hue);
@@ -313,15 +313,15 @@ end:
     convertedColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     [convertedColor getRed:&red green:&green blue:&blue alpha:NULL];
     
-    tempNum = (red * 255.0);
+    tempNum = (red * 255.0f);
     hexString[0] = intToHex(tempNum / 16);
     hexString[1] = intToHex(tempNum % 16);
 
-    tempNum = (green * 255.0);
+    tempNum = (green * 255.0f);
     hexString[2] = intToHex(tempNum / 16);
     hexString[3] = intToHex(tempNum % 16);
 
-    tempNum = (blue * 255.0);
+    tempNum = (blue * 255.0f);
     hexString[4] = intToHex(tempNum / 16);
     hexString[5] = intToHex(tempNum % 16);
     hexString[6] = '\0';
@@ -357,9 +357,9 @@ end:
 		NSColor *rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 		//CSS3 defines rgba() to take 0..255 for the color components, but 0..1 for the alpha component. Thus, we must multiply by 255 for the color components, but not for the alpha component.
 		return [NSString stringWithFormat:@"rgba(%@,%@,%@,%@)",
-			[NSString stringWithCGFloat:[rgb redComponent]   * 255.0 maxDigits:6],
-			[NSString stringWithCGFloat:[rgb greenComponent] * 255.0 maxDigits:6],
-			[NSString stringWithCGFloat:[rgb blueComponent]  * 255.0 maxDigits:6],
+			[NSString stringWithCGFloat:[rgb redComponent]   * 255.0f maxDigits:6],
+			[NSString stringWithCGFloat:[rgb greenComponent] * 255.0f maxDigits:6],
+			[NSString stringWithCGFloat:[rgb blueComponent]  * 255.0f maxDigits:6],
 			[NSString stringWithCGFloat:alpha                         maxDigits:6]];
 	} else {
 		return [@"#" stringByAppendingString:[self hexString]];
@@ -401,7 +401,7 @@ end:
 		goto scanFailed;
 	}
 
-    return [NSColor colorWithCalibratedRed:(r/255.0) green:(g/255.0) blue:(b/255.0) alpha:(a/255.0)] ;
+    return [NSColor colorWithCalibratedRed:(r/255) green:(g/255) blue:(b/255) alpha:(a/255)] ;
 scanFailed:
 	return nil;
 }
@@ -431,7 +431,7 @@ scanFailed:
 	if (!isdigit(*selfUTF8)) goto scanFailed;
 	b = strtoul(selfUTF8, (char **)&selfUTF8, /*base*/ 10);
 
-    return [NSColor colorWithCalibratedRed:(r/255.0) green:(g/255.0) blue:(b/255.0) alpha:alpha];
+    return [NSColor colorWithCalibratedRed:(r/255) green:(g/255) blue:(b/255) alpha:alpha];
 scanFailed:
 	return nil;
 }
@@ -442,17 +442,17 @@ scanFailed:
 
 + (NSColor *)randomColor
 {
-	return [NSColor colorWithCalibratedRed:(arc4random() % 65536) / 65536.0
-	                                 green:(arc4random() % 65536) / 65536.0
-	                                  blue:(arc4random() % 65536) / 65536.0
-	                                 alpha:1.0];
+	return [NSColor colorWithCalibratedRed:(arc4random() % 65536) / 65536.0f
+	                                 green:(arc4random() % 65536) / 65536.0f
+	                                  blue:(arc4random() % 65536) / 65536.0f
+	                                 alpha:1.0f];
 }
 + (NSColor *)randomColorWithAlpha
 {
-	return [NSColor colorWithCalibratedRed:(arc4random() % 65536) / 65536.0
-	                                 green:(arc4random() % 65536) / 65536.0
-	                                  blue:(arc4random() % 65536) / 65536.0
-	                                 alpha:(arc4random() % 65536) / 65536.0];
+	return [NSColor colorWithCalibratedRed:(arc4random() % 65536) / 65536.0f
+	                                 green:(arc4random() % 65536) / 65536.0f
+	                                  blue:(arc4random() % 65536) / 65536.0f
+	                                 alpha:(arc4random() % 65536) / 65536.0f];
 }
 
 @end
@@ -481,11 +481,11 @@ static CGFloat hexCharsToFloat(char firstChar, char secondChar)
 		if (secondChar != 0x0) {
 			int secondDigit = hexToInt(secondChar);
 			if (secondDigit != -1)
-				hexValue = (hexValue * 16.0 + secondDigit) / 255.0;
+				hexValue = (hexValue * 16.0f + secondDigit) / 255.0f;
 			else
 				hexValue = 0;
 		} else {
-			hexValue /= 15.0;
+			hexValue /= 15.0f;
 		}
 
 	} else {
@@ -555,7 +555,7 @@ static CGFloat hexCharsToFloat(char firstChar, char secondChar)
 	const char *hexString = hexStringArray;
 
 	CGFloat		red,green,blue;
-	CGFloat		alpha = 1.0;
+	CGFloat		alpha = 1.0f;
 
 	//skip # if present.
 	if (*hexString == '#') {

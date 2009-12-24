@@ -4,12 +4,12 @@
 @interface JVMarkedScroller : NSScroller {
 	NSMutableSet *_marks;
 	NSMutableArray *_shades;
-	unsigned long long _nearestPreviousMark;
-	unsigned long long _nearestNextMark;
-	unsigned long long _currentMark;
+	NSUInteger _nearestPreviousMark;
+	NSUInteger _nearestNextMark;
+	NSUInteger _currentMark;
 	BOOL _jumpingToMark;
 }
-- (void) setLocationOfCurrentMark:(unsigned long long) location;
+- (void) setLocationOfCurrentMark:(NSUInteger) location;
 - (unsigned long long) locationOfCurrentMark;
 
 - (BOOL)previousMarkExists;
@@ -23,32 +23,32 @@
 
 - (void) jumpToMarkWithIdentifier:(NSString *) identifier;
 
-- (void) shiftMarksAndShadedAreasBy:(long long) displacement;
+- (void) shiftMarksAndShadedAreasBy:(NSInteger) displacement;
 
-- (void) addMarkAt:(unsigned long long) location;
-- (void) addMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier;
-- (void) addMarkAt:(unsigned long long) location withColor:(NSColor *) color;
-- (void) addMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color;
+- (void) addMarkAt:(NSUInteger) location;
+- (void) addMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier;
+- (void) addMarkAt:(NSUInteger) location withColor:(NSColor *) color;
+- (void) addMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color;
 
-- (void) removeMarkAt:(unsigned long long) location;
-- (void) removeMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier;
-- (void) removeMarkAt:(unsigned long long) location withColor:(NSColor *) color;
-- (void) removeMarkAt:(unsigned long long) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color;
+- (void) removeMarkAt:(NSUInteger) location;
+- (void) removeMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier;
+- (void) removeMarkAt:(NSUInteger) location withColor:(NSColor *) color;
+- (void) removeMarkAt:(NSUInteger) location withIdentifier:(NSString *) identifier withColor:(NSColor *) color;
 - (void) removeMarkWithIdentifier:(NSString *) identifier;
-- (void) removeMarksGreaterThan:(unsigned long long) location;
-- (void) removeMarksLessThan:(unsigned long long) location;
+- (void) removeMarksGreaterThan:(NSUInteger) location;
+- (void) removeMarksLessThan:(NSUInteger) location;
 - (void) removeMarksInRange:(NSRange) range;
 - (void) removeAllMarks;
 
 - (void) setMarks:(NSSet *) marks;
 - (NSSet *) marks;
 
-- (void) startShadedAreaAt:(unsigned long long) location;
-- (void) stopShadedAreaAt:(unsigned long long) location;
+- (void) startShadedAreaAt:(NSUInteger) location;
+- (void) stopShadedAreaAt:(NSUInteger) location;
 
 - (void) removeAllShadedAreas;
 
-- (unsigned long long) contentViewLength;
+- (CGFloat) contentViewLength;
 - (CGFloat) scaleToContentView;
 - (CGFloat) shiftAmountToCenterAlign;
 @end

@@ -21,12 +21,12 @@
 
 #import "AIBezierPathAdditions.h"
 
-#define ONE_THIRD  (1.0/3.0)
-#define TWO_THIRDS (2.0/3.0)
-#define ONE_HALF    0.5
+#define ONE_THIRD  (1.0f/3.0f)
+#define TWO_THIRDS (2.0f/3.0f)
+#define ONE_HALF    0.5f
 
 #define DEFAULT_SHAFT_WIDTH ONE_THIRD
-#define DEFAULT_SHAFT_LENGTH_MULTI 1.0
+#define DEFAULT_SHAFT_LENGTH_MULTI 1.0f
 
 @implementation NSBezierPath (AIBezierPathAdditions)
 
@@ -41,7 +41,7 @@
 
 + (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)bounds
 {
-	return [self bezierPathWithRoundedRect:bounds radius:MIN(bounds.size.width, bounds.size.height) / 2.0];
+	return [self bezierPathWithRoundedRect:bounds radius:MIN(bounds.size.width, bounds.size.height) / 2.0f];
 }
 
 + (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(CGFloat)radius
@@ -127,21 +127,21 @@
 	const CGFloat shaftLength = ONE_HALF * shaftLengthMulti;
 	const CGFloat shaftEndY = -(shaftLength - ONE_HALF); //the end of the arrow shaft (points 1-2).
 	//wing width = the distance between 6 and 7 and 3 and 4.
-	const CGFloat wingWidth = (1.0 - shaftWidth) * 0.5;
+	const CGFloat wingWidth = (1.0f - shaftWidth) * 0.5f;
 
 	//start with the bottom vertex.
 	[arrowPath moveToPoint:NSMakePoint(wingWidth,  shaftEndY)]; //1
-	[arrowPath relativeLineToPoint:NSMakePoint(shaftWidth, 0.0)]; //2
+	[arrowPath relativeLineToPoint:NSMakePoint(shaftWidth, 0.0f)]; //2
 	//up to the inner right corner.
-	[arrowPath relativeLineToPoint:NSMakePoint(0.0, shaftLength)]; //3
+	[arrowPath relativeLineToPoint:NSMakePoint(0.0f, shaftLength)]; //3
 	//far right.
-	[arrowPath relativeLineToPoint:NSMakePoint(wingWidth,  0.0)]; //4
+	[arrowPath relativeLineToPoint:NSMakePoint(wingWidth,  0.0f)]; //4
 	//top center - the point of the arrow.
-	[arrowPath lineToPoint:NSMakePoint(ONE_HALF,  1.0)]; //5
+	[arrowPath lineToPoint:NSMakePoint(ONE_HALF,  1.0f)]; //5
 	//far left.
-	[arrowPath lineToPoint:NSMakePoint(0.0,  ONE_HALF)]; //6
+	[arrowPath lineToPoint:NSMakePoint(0.0f,  ONE_HALF)]; //6
 	//inner left corner.
-	[arrowPath relativeLineToPoint:NSMakePoint(wingWidth,  0.0)]; //7
+	[arrowPath relativeLineToPoint:NSMakePoint(wingWidth,  0.0f)]; //7
 	//to the finish line! yay!
 	[arrowPath closePath];
 
@@ -168,8 +168,8 @@
 	NSAffineTransform *transform = [NSAffineTransform transform];
 
 	//adapted from http://developer.apple.com/documentation/Carbon/Conceptual/QuickDrawToQuartz2D/tq_other/chapter_3_section_2.html
-	[transform translateXBy: 1.0 yBy: 0.0];
-	[transform     scaleXBy:-1.0 yBy: 1.0];
+	[transform translateXBy: 1.0f yBy: 0.0f];
+	[transform     scaleXBy:-1.0f yBy: 1.0f];
 
 	[self transformUsingAffineTransform:transform];
 	return self;
@@ -178,8 +178,8 @@
 	NSAffineTransform *transform = [NSAffineTransform transform];
 
 	//http://developer.apple.com/documentation/Carbon/Conceptual/QuickDrawToQuartz2D/tq_other/chapter_3_section_2.html
-	[transform translateXBy: 0.0 yBy: 1.0];
-	[transform     scaleXBy: 1.0 yBy:-1.0];
+	[transform translateXBy: 0.0f yBy: 1.0f];
+	[transform     scaleXBy: 1.0f yBy:-1.0f];
 
 	[self transformUsingAffineTransform:transform];
 	return self;
