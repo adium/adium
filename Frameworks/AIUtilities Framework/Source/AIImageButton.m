@@ -74,7 +74,7 @@
 		}
 
 		imageFloater = [[AIFloater floaterWithImage:bigImage styleMask:NSBorderlessWindowMask] retain];
-		[imageFloater setMaxOpacity:1.00];
+		[imageFloater setMaxOpacity:1.00f];
 		[imageFloater moveFloaterToPoint:point];
 		[imageFloater setVisible:YES animate:NO];
 		imageFloaterShouldBeOpen = TRUE;

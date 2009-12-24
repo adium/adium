@@ -20,7 +20,7 @@
 	NSTimeInterval	workIntervalSeconds = interval;
 
 	if (outSeconds) *outSeconds = fmod(workIntervalSeconds, 60.0); //Get the fraction of a minute in seconds.
-	NSInteger workInterval = workIntervalSeconds / 60.0; //Now it's minutes.
+	NSInteger workInterval = (NSInteger)(workIntervalSeconds / 60.0); //Now it's minutes.
 
 	if (outMinutes) *outMinutes = workInterval % 60; //Get the fraction of an hour in minutes.
 	workInterval = workInterval / 60; //Now it's hours.

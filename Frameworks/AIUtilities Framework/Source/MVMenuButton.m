@@ -138,7 +138,7 @@
 
 	//Draw the popup arrow
 	if (drawsArrow) {
-		[[[NSColor blackColor] colorWithAlphaComponent:0.75] set];
+		[[[NSColor blackColor] colorWithAlphaComponent:0.75f] set];
 		[[self popUpArrowPath] fill];
 	}
 }

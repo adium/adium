@@ -13,10 +13,10 @@
 //Draw this image in a rect, tiling if the rect is larger than the image
 - (void)tileInRect:(NSRect)rect
 {
-    NSSize  size = [self size];
-    NSRect  destRect = NSMakeRect(rect.origin.x, rect.origin.y, size.width, size.height);
-    double  top = rect.origin.y + rect.size.height;
-    double  right = rect.origin.x + rect.size.width;
+    NSSize	size = [self size];
+    NSRect	destRect = NSMakeRect(rect.origin.x, rect.origin.y, size.width, size.height);
+    CGFloat	top = rect.origin.y + rect.size.height;
+    CGFloat	right = rect.origin.x + rect.size.width;
     
     //Tile vertically
     while (destRect.origin.y < top) {
@@ -42,7 +42,7 @@
 
 - (NSImage *)imageByScalingToSize:(NSSize)size
 {
-	return ([self imageByScalingToSize:size fraction:1.0 flipImage:NO proportionally:YES allowAnimation:YES]);
+	return ([self imageByScalingToSize:size fraction:1.0f flipImage:NO proportionally:YES allowAnimation:YES]);
 }
 
 - (NSImage *)imageByFadingToFraction:(CGFloat)delta
@@ -58,7 +58,7 @@
 - (NSImage *)imageByScalingForMenuItem
 {
 	return [self imageByScalingToSize:NSMakeSize(16,16)
-							 fraction:1.0
+							 fraction:1.0f
 							flipImage:NO
 					   proportionally:YES
 					   allowAnimation:NO];	
@@ -293,7 +293,7 @@
 //General purpose draw image rounded in a NSRect.
 - (NSRect)drawRoundedInRect:(NSRect)rect radius:(CGFloat)radius
 {
-	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:1.0 radius:radius];
+	return [self drawRoundedInRect:rect atSize:NSMakeSize(0,0) position:0 fraction:1.0f radius:radius];
 }
 
 //Perhaps if you desired to draw it rounded in the tooltip.

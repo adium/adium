@@ -7,12 +7,12 @@
 #import "AIFloater.h"
 #import "AIEventAdditions.h"
 
-#define WINDOW_FADE_FPS                         24.0
-#define WINDOW_FADE_STEP                        0.3
-#define WINDOW_FADE_SLOW_STEP                   0.1
-#define WINDOW_FADE_MAX                         1.0
-#define WINDOW_FADE_MIN                         0.0
-#define WINDOW_FADE_SNAP                        0.05 //How close to min/max we must get before fade is finished
+#define WINDOW_FADE_FPS                         24.0f
+#define WINDOW_FADE_STEP                        0.3f
+#define WINDOW_FADE_SLOW_STEP                   0.1f
+#define WINDOW_FADE_MAX                         1.0f
+#define WINDOW_FADE_MIN                         0.0f
+#define WINDOW_FADE_SNAP                        0.05f //How close to min/max we must get before fade is finished
 
 @interface AIFloater ()
 - (id)initWithImage:(NSImage *)inImage styleMask:(unsigned int)styleMask;
@@ -111,11 +111,11 @@
 					nil];
                 fadeAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObject:animDict]];
 
-				//1.0 / FPS = duration per step
-				//1.0 / step = number of steps (e.g.: If step = 0.1, 1.0 / step = 10 steps)
+				//1.0f / FPS = duration per step
+				//1.0f / step = number of steps (e.g.: If step = 0.1f, 1.0f / step = 10 steps)
 				//duration per step * number of steps = total duration
 				NSTimeInterval step = [[NSApp currentEvent] shiftKey] ? WINDOW_FADE_SLOW_STEP : WINDOW_FADE_STEP;
-				fadeAnimation.duration = (1.0 / step) * (1.0 / WINDOW_FADE_FPS);
+				fadeAnimation.duration = (1.0f / step) * (1.0f / WINDOW_FADE_FPS);
 
 				[fadeAnimation startAnimation];
             }

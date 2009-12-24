@@ -27,7 +27,7 @@
 	NSRect frameOfCell = [super frameOfCellAtColumn:column row:row];
 	if ([[self delegate] respondsToSelector:@selector(outlineView:extendToEdgeColumn:ofRow:)] &&
 	   [[self delegate] outlineView:self extendToEdgeColumn:column ofRow:row]) {
-		frameOfCell.size.width = [self frame].size.width - frameOfCell.origin.x - round(([self intercellSpacing].width)/2);
+		frameOfCell.size.width = [self frame].size.width - frameOfCell.origin.x - AIround(([self intercellSpacing].width)/2);
 	}
 	
 	return frameOfCell;
@@ -77,7 +77,7 @@
 					NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
 
 					NSPoint			center = NSMakePoint(cellFrame.origin.x + FLIPPY_WIDTH/2,
-														 cellFrame.origin.y + (cellFrame.size.height/2.0));
+														 cellFrame.origin.y + (cellFrame.size.height/2.0f));
 					/* Remember: The view is flipped */
 					if ([self isItemExpanded:item]) {
 						//Bottom point

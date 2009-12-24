@@ -51,7 +51,7 @@
 	
 	//This could be done better. Ask the dataSource for color and width!
 	[[NSColor headerColor] set];
-	[NSBezierPath setDefaultLineWidth:1.5];
+	[NSBezierPath setDefaultLineWidth:1.5f];
 
 	//Drawing the divider
 	switch (dividerPosition) {
@@ -69,8 +69,8 @@
 			
 		case AIDividerPositionIsDivider:
 			//The item itself is the divider
-			[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(rowRect)+5, (NSMaxY(rowRect)+NSMinY(rowRect)) / 2.0)
-									  toPoint:NSMakePoint(NSMaxX(rowRect)-5, (NSMaxY(rowRect)+NSMinY(rowRect)) / 2.0)];
+			[NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(rowRect)+5, (NSMaxY(rowRect)+NSMinY(rowRect)) / 2.0f)
+									  toPoint:NSMakePoint(NSMaxX(rowRect)-5, (NSMaxY(rowRect)+NSMinY(rowRect)) / 2.0f)];
 			break;
 			
 		case AIDividerPositionNone:

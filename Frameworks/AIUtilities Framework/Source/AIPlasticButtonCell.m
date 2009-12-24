@@ -18,7 +18,7 @@
 #define IMAGE_OFFSET_Y	0
 
 #define PLASTIC_ARROW_WIDTH		8
-#define PLASTIC_ARROW_HEIGHT	(PLASTIC_ARROW_WIDTH/2.0)
+#define PLASTIC_ARROW_HEIGHT	(PLASTIC_ARROW_WIDTH/2.0f)
 #define PLASTIC_ARROW_XOFFSET	12
 #define PLASTIC_ARROW_YOFFSET	12
 #define PLASTIC_ARROW_PADDING	8
@@ -144,7 +144,7 @@
     //Precalc some sizes
     NSSize capsSize = [caps size];
     frame = cellFrame;//[controlView bounds];
-    capWidth = capsSize.width / 2.0;
+    capWidth = capsSize.width / 2.0f;
     capHeight = capsSize.height;
     middleRight = ((frame.origin.x + frame.size.width) - capWidth);
 
@@ -153,7 +153,7 @@
     [caps drawInRect:destRect
 			fromRect:NSMakeRect(0, 0, capWidth, capHeight)
 		   operation:NSCompositeSourceOver
-			fraction:1.0];
+			fraction:1.0f];
 
     //Draw the middle, which tiles across the button (excepting the areas drawn by the left and right caps)
     NSSize middleSize = [middle size];
@@ -169,7 +169,7 @@
         [middle drawInRect:destRect
 				  fromRect:sourceRect
 				 operation:NSCompositeSourceOver
-				  fraction:1.0];
+				  fraction:1.0f];
         destRect.origin.x += destRect.size.width;
     }
 	
@@ -178,7 +178,7 @@
 	[caps drawInRect:destRect
 			fromRect:NSMakeRect(capWidth, 0, capWidth, capHeight)
 		   operation:NSCompositeSourceOver
-			fraction:1.0];
+			fraction:1.0f];
 	
     //Draw Label
 #warning XXX handle NSCellImagePosition values other than these two correctly
@@ -186,14 +186,14 @@
 		NSString *title = [self title];
 		if (title) {
 			//Prep attributes
-			NSColor *color = [self isEnabled] ? [NSColor blackColor] : [NSColor colorWithCalibratedWhite:0.0 alpha:0.5];
+			NSColor *color = [self isEnabled] ? [NSColor blackColor] : [NSColor colorWithCalibratedWhite:0.0f alpha:0.5f];
 
 			NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[self font], NSFontAttributeName, color, NSForegroundColorAttributeName, nil];
 
 			//Calculate center
 			NSSize size = [title sizeWithAttributes:attributes];
-			NSPoint centeredPoint = NSMakePoint(frame.origin.x + round((frame.size.width - size.width) / 2.0) + LABEL_OFFSET_X,
-										frame.origin.y + round((frame.size.height - size.height) / 2.0) + LABEL_OFFSET_Y);
+			NSPoint centeredPoint = NSMakePoint(frame.origin.x + AIround((frame.size.width - size.width) / 2.0f) + LABEL_OFFSET_X,
+										frame.origin.y + AIround((frame.size.height - size.height) / 2.0f) + LABEL_OFFSET_Y);
 
 			//Draw
 			[title drawAtPoint:centeredPoint withAttributes:attributes];
@@ -209,8 +209,8 @@
 
 			if ([self menu]) frame.size.width -= PLASTIC_ARROW_PADDING;
 
-			centeredRect = NSMakeRect(frame.origin.x + (int)((frame.size.width - size.width) / 2.0) + IMAGE_OFFSET_X,
-									  frame.origin.y + (int)((frame.size.height - size.height) / 2.0) + IMAGE_OFFSET_Y,
+			centeredRect = NSMakeRect(frame.origin.x + (int)((frame.size.width - size.width) / 2.0f) + IMAGE_OFFSET_X,
+									  frame.origin.y + (int)((frame.size.height - size.height) / 2.0f) + IMAGE_OFFSET_Y,
 									  size.width,
 									  size.height);
 
@@ -218,7 +218,7 @@
 			[image drawInRect:centeredRect
 					 fromRect:NSMakeRect(0,0,size.width,size.height) 
 					operation:NSCompositeSourceOver 
-					 fraction:([self isEnabled] ? 1.0 : 0.5)];
+					 fraction:([self isEnabled] ? 1.0f : 0.5f)];
 		}
     }
     

@@ -59,7 +59,7 @@
 	[self setUsesAlternatingRowBackgroundColors:NO];
 	drawsBackground = YES;
 	drawsGradientSelection = NO;
-	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0/255.0) green:(243.0/255.0) blue:(254.0/255.0) alpha:1.0] retain];
+	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0f/255.0f) green:(243.0f/255.0f) blue:(254.0f/255.0f) alpha:1.0f] retain];
 
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(alternatingRowOutlineViewSelectionDidChange:)
@@ -133,7 +133,7 @@
 	NSInteger numberOfRows = [self numberOfRows];
 	CGFloat rowHeight = [self rowHeight];
     
-	NSRectArray gridRects = (NSRectArray)alloca(sizeof(NSRect) * (numberOfRows + ((NSInteger)round(((rect.size.height / rowHeight) / 2) + 0.5))));
+	NSRectArray gridRects = (NSRectArray)alloca(sizeof(NSRect) * (numberOfRows + ((NSInteger)round(((rect.size.height / rowHeight) / 2) + 0.5f))));
 	for (unsigned row = 0; row < numberOfRows; row += 2) {
 		if (row < numberOfRows) {
 			NSRect	thisRect = [self rectOfRow:row];
@@ -199,7 +199,7 @@
 					thisRect = startRow;
 				}
 
-				[gradient drawInRect:thisRect angle:90.0];
+				[gradient drawInRect:thisRect angle:90.0f];
 				
 				//Draw a line at the light side, to make it look a lot cleaner
 				thisRect.size.height = 1;
@@ -253,11 +253,11 @@
 {
     NSEnumerator	*enumerator;
     NSTableColumn	*column;
-    CGFloat		xPos = 0.5;
+    CGFloat		xPos = 0.5f;
     CGFloat			intercellWidth = [self intercellSpacing].width;
     
     [[self gridColor] set];
-    [NSBezierPath setDefaultLineWidth:1.0];
+    [NSBezierPath setDefaultLineWidth:1.0f];
 
     enumerator = [[self tableColumns] objectEnumerator];
     while ((column = [enumerator nextObject])) {

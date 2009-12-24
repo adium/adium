@@ -175,7 +175,7 @@
 	[self lockFocus];
 	
 	NSSize size = [self size];
-	NSRect rect = NSMakeRect(0.0, 0.0, size.width, size.height);
+	NSRect rect = NSMakeRect(0.0f, 0.0f, size.width, size.height);
 	NSBitmapImageRep	*bm = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:rect] autorelease];
 	
 	[self unlockFocus];
@@ -315,7 +315,7 @@
 	while (data.length > maximumSize) {
 		// New width/height using our ratio
 		NSUInteger width = (imageRep.pixelsWide - 100);
-		NSUInteger height = ((CGFloat)imageRep.pixelsWide - 100.0)*ratio;
+		NSUInteger height = ((CGFloat)imageRep.pixelsWide - 100.0f)*ratio;
 		
 		// Create a new rep with the lowered size
 		NSBitmapImageRep *newImageRep = [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL

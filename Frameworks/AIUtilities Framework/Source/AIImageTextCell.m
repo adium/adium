@@ -255,7 +255,7 @@
 	 }
 	 
 	if (destRect.size.height < cellFrame.size.height) {
-		destRect.origin.y += (cellFrame.size.height - destRect.size.height) / 2.0;
+		destRect.origin.y += (cellFrame.size.height - destRect.size.height) / 2.0f;
 	} 
 	
 	BOOL flippedIt = NO;
@@ -269,7 +269,7 @@
 	[image drawInRect:destRect
 			 fromRect:NSMakeRect(0,0,size.width,size.height)
 			operation:NSCompositeSourceOver
-			 fraction:1.0];
+			 fraction:1.0f];
 	[NSGraphicsContext restoreGraphicsState];
 
 	if (flippedIt) {
@@ -296,7 +296,7 @@
 		
 		//Shift the origin over to the right edge of the image we just drew
 		NSAffineTransform *imageTranslation = [NSAffineTransform transform];
-		[imageTranslation translateXBy:(imageTextPadding + drawnImageSize.width) yBy:0.0];
+		[imageTranslation translateXBy:(imageTextPadding + drawnImageSize.width) yBy:0.0f];
 		[imageTranslation concat];
 	}
 	
@@ -305,7 +305,7 @@
 		NSAttributedString	*attributedMainString = nil, *attributedSubString = nil;
 		NSColor				*mainTextColor, *subStringTextColor;
 		NSDictionary		*mainAttributes = nil, *subStringAttributes = nil;
-		CGFloat				mainStringHeight = 0.0, subStringHeight = 0.0, textSpacing = 0.0;
+		CGFloat				mainStringHeight = 0.0f, subStringHeight = 0.0f, textSpacing = 0.0f;
 
 		//Determine the correct text color
 		NSWindow			*window;
@@ -321,11 +321,11 @@
 			if ([self isEnabled]) {
 				// Draw the text regular
 				mainTextColor = [NSColor controlTextColor];
-				subStringTextColor = [NSColor colorWithCalibratedWhite:0.4 alpha:1.0];
+				subStringTextColor = [NSColor colorWithCalibratedWhite:0.4f alpha:1.0f];
 			} else {
 				// Draw the text disabled
 				mainTextColor = [NSColor grayColor];
-				subStringTextColor = [NSColor colorWithCalibratedWhite:0.8 alpha:1.0];
+				subStringTextColor = [NSColor colorWithCalibratedWhite:0.8f alpha:1.0f];
 			}
 		}
 		
@@ -392,13 +392,13 @@
 		//Calculate the centered rect
 		if (!subString && mainStringHeight < cellFrame.size.height) {
 			// Space out the main string evenly
-			cellFrame.origin.y += (cellFrame.size.height - mainStringHeight) / 2.0;
+			cellFrame.origin.y += (cellFrame.size.height - mainStringHeight) / 2.0f;
 		} else if (subString) {
 			// Space out our extra space evenly
-			textSpacing = (cellFrame.size.height - mainStringHeight - subStringHeight) / 3.0;
+			textSpacing = (cellFrame.size.height - mainStringHeight - subStringHeight) / 3.0f;
 			// In case we don't have enough height..
-			if (textSpacing < 0.0)
-				textSpacing = 0.0;
+			if (textSpacing < 0.0f)
+				textSpacing = 0.0f;
 			cellFrame.origin.y += textSpacing;
 		}
 
@@ -413,7 +413,7 @@
 			NSSize attributedMainStringSize = [attributedMainString size];
 
 			NSAffineTransform *spacingTranslation = [NSAffineTransform transform];
-			[spacingTranslation translateXBy:(imageTextPadding + attributedMainStringSize.width) yBy:-(attributedMainStringSize.height / 2.0)];
+			[spacingTranslation translateXBy:(imageTextPadding + attributedMainStringSize.width) yBy:-(attributedMainStringSize.height / 2.0f)];
 			[spacingTranslation concat];
 
 			[self drawImage:image withFrame:cellFrame];
@@ -426,7 +426,7 @@
 		//Draw the substring
 		if (subString) {
 			NSAffineTransform *subStringTranslation = [NSAffineTransform transform];
-			[subStringTranslation translateXBy:0.0 yBy:mainStringHeight + textSpacing];
+			[subStringTranslation translateXBy:0.0f yBy:mainStringHeight + textSpacing];
 			[subStringTranslation concat];
 			
 			//Draw the substring

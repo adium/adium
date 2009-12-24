@@ -42,8 +42,8 @@
 	NSRect	frame = [self frame];
 	NSRect	screen = [[self screen] visibleFrame];
 		
-	[self setFrame:NSMakeRect(screen.origin.x + (screen.size.width - frame.size.width) / 2.0,
-							  screen.origin.y + (screen.size.height - frame.size.height) / 1.2,
+	[self setFrame:NSMakeRect(screen.origin.x + (screen.size.width - frame.size.width) / 2.0f,
+							  screen.origin.y + (screen.size.height - frame.size.height) / 1.2f,
 							  frame.size.width,
 							  frame.size.height)
 		   display:NO];
@@ -57,7 +57,7 @@
 - (CGFloat)toolbarHeight
 {
 	NSToolbar 	*toolbar = [self toolbar];
-	CGFloat 		toolbarHeight = 0.0;
+	CGFloat 		toolbarHeight = 0.0f;
 	
 	if (toolbar && [toolbar isVisible]) {
 		NSRect 		windowFrame = [NSWindow contentRectForFrameRect:[self frame]

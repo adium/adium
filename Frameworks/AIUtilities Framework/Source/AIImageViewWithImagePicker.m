@@ -294,7 +294,7 @@
 	
 	//Draw our original image as 50% transparent
 	[dragImage lockFocus];
-	[[self image] dissolveToPoint:NSZeroPoint fraction:0.5];
+	[[self image] dissolveToPoint:NSZeroPoint fraction:0.5f];
 	[dragImage unlockFocus];
 	
 	//We want the image to resize

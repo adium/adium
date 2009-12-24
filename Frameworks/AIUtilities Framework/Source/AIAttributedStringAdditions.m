@@ -118,15 +118,15 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         //--check brightness--
         brightness = [fontColor brightnessComponent];
         deltaBrightness = backgroundBrightness - brightness;
-        if (deltaBrightness >= 0 && deltaBrightness < 0.4) { //too close                    
+        if (deltaBrightness >= 0 && deltaBrightness < 0.4f) { //too close                    
                                                            //change the color
-            fontColor = [NSColor colorWithCalibratedHue:[fontColor hueComponent] saturation:[fontColor saturationComponent] brightness:backgroundBrightness - 0.4 alpha:[fontColor alphaComponent]];
+            fontColor = [NSColor colorWithCalibratedHue:[fontColor hueComponent] saturation:[fontColor saturationComponent] brightness:backgroundBrightness - 0.4f alpha:[fontColor alphaComponent]];
             fontColor = [fontColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
                 colorChanged = YES;
             
-        } else if (deltaBrightness < 0 && deltaBrightness > -0.4) { //too close
+        } else if (deltaBrightness < 0 && deltaBrightness > -0.4f) { //too close
                                                                  //change the color
-            fontColor = [NSColor colorWithCalibratedHue:[fontColor hueComponent] saturation:[fontColor saturationComponent] brightness:backgroundBrightness + 0.4 alpha:[fontColor alphaComponent]];
+            fontColor = [NSColor colorWithCalibratedHue:[fontColor hueComponent] saturation:[fontColor saturationComponent] brightness:backgroundBrightness + 0.4f alpha:[fontColor alphaComponent]];
             fontColor = [fontColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
             
             colorChanged = YES;
@@ -135,9 +135,9 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         //--check components--
         sum = [fontColor redComponent] + [fontColor greenComponent] + [fontColor blueComponent];
         deltaSum = backgroundSum - sum;
-        if (deltaSum < 1.0 && deltaSum > -1.0) { //still too similar                    
+        if (deltaSum < 1.0f && deltaSum > -1.0f) { //still too similar                    
                                                //just give up and make the color black or white
-            if (backgroundBrightness <= 0.5) {
+            if (backgroundBrightness <= 0.5f) {
                 fontColor = [[NSColor whiteColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
             } else {
                 fontColor = [[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -208,13 +208,13 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
             if (!backgroundIsDark && fontBackIsDark) {
                 newBrightness = brightness - (deltaBrightness)/2;
                 if (newBrightness <= 0)
-                    newBrightness = .2;
+                    newBrightness = .2f;
                 colorChanged = YES;
             }
             else if (backgroundIsDark && !fontBackIsDark) {
                 newBrightness = brightness + (deltaBrightness)/2;
                 if (newBrightness >= 1)
-                    newBrightness = .8;
+                    newBrightness = .8f;
                 colorChanged = YES;
             }
             
@@ -227,14 +227,14 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         //--check brightness--
         brightness = [fontColor brightnessComponent];
         deltaBrightness = backgroundBrightness - brightness;       
-        if (deltaBrightness >= 0 && deltaBrightness <= 0.4) {    //too close 
-            fontColor = [fontColor adjustHue:0.0 saturation:0.0 brightness:-.4]; //change the color
+        if (deltaBrightness >= 0 && deltaBrightness <= 0.4f) {    //too close 
+            fontColor = [fontColor adjustHue:0.0f saturation:0.0f brightness:-.4f]; //change the color
             colorChanged = YES;
             
-        } else if (deltaBrightness >= -0.4 && deltaBrightness <0) { //too close
+        } else if (deltaBrightness >= -0.4f && deltaBrightness <0) { //too close
                                                                  //change the color
 
-            fontColor = [fontColor adjustHue:0.0 saturation:0.0 brightness:.4];
+            fontColor = [fontColor adjustHue:0.0f saturation:0.0f brightness:.4f];
             
             colorChanged = YES;
         }
@@ -248,8 +248,8 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
             
         deltaSum = backLuminance - fontLuminance;
         
-        if (deltaSum >= -0.3 && deltaSum <= 0.3) { //still too similar     
-            if (backgroundBrightness <= 0.5) {
+        if (deltaSum >= -0.3f && deltaSum <= 0.3f) { //still too similar     
+            if (backgroundBrightness <= 0.5f) {
                fontColor = [[NSColor whiteColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
             } else {
                 fontColor = [[NSColor blackColor] colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -413,7 +413,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 {
 	NSAttributedString	*string = [[[NSAttributedString alloc] initWithString:FONT_HEIGHT_STRING
 																   attributes:attributes] autorelease];
-	return [string heightWithWidth:1e7];
+	return [string heightWithWidth:1e7f];
 }
 
 + (NSAttributedString *)stringWithString:(NSString *)inString
@@ -456,11 +456,11 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 {	
     //Setup the layout manager and text container
     NSTextStorage *textStorage = [[NSTextStorage alloc] initWithAttributedString:self];
-    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(width, 1e7)];
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(width, 1e7f)];
     NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
 
     //Configure
-    [textContainer setLineFragmentPadding:0.0];
+    [textContainer setLineFragmentPadding:0.0f];
     [layoutManager addTextContainer:textContainer];
     [textStorage addLayoutManager:layoutManager];
 
