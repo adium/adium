@@ -94,7 +94,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 //adjust the colors in the string so they're visible on the background
 - (void)adjustColorsToShowOnBackground:(NSColor *)backgroundColor
 {
-    NSUInteger		index = 0;
+    NSUInteger		idx = 0;
     NSUInteger		stringLength = [self length];
     CGFloat	backgroundBrightness, backgroundSum;
     
@@ -103,7 +103,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     backgroundBrightness = [backgroundColor brightnessComponent];
     backgroundSum = [backgroundColor redComponent] + [backgroundColor greenComponent] + [backgroundColor blueComponent];
     //we need to scan each colored "chunk" of the message - and check to make sure it is a "visible" color
-    while (index < stringLength) {
+    while (idx < stringLength) {
         NSColor		*fontColor;
         NSRange		effectiveRange;
         CGFloat		brightness, sum;
@@ -111,7 +111,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         BOOL		colorChanged = NO;
         
         //--get the font color--
-        fontColor = [self attribute:NSForegroundColorAttributeName atIndex:index effectiveRange:&effectiveRange];                
+        fontColor = [self attribute:NSForegroundColorAttributeName atIndex:idx effectiveRange:&effectiveRange];                
         if (fontColor == nil) fontColor = [NSColor blackColor];
         fontColor = [fontColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
         
@@ -149,14 +149,14 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
             [self addAttribute:NSForegroundColorAttributeName value:fontColor range:effectiveRange];
         }
         
-        index = effectiveRange.location + effectiveRange.length;
+        idx = effectiveRange.location + effectiveRange.length;
     }
 }
 
 //adjust the colors in the string so they're visible on the background, adjusting brightness in proportion to the original background
 - (void)adjustColorsToShowOnBackgroundRelativeToOriginalBackground:(NSColor *)backgroundColor
 {
-    NSUInteger      index = 0;
+    NSUInteger      idx = 0;
     NSUInteger      stringLength = [self length];
     CGFloat         backgroundBrightness=0.0f;
     NSColor         *backColor=nil;
@@ -167,7 +167,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
     }
     
     //we need to scan each colored "chunk" of the message - and check to make sure it is a "visible" color
-    while (index < stringLength) {
+    while (idx < stringLength) {
         NSColor		*fontColor;
         NSColor         *fontBackColor;
 
@@ -177,12 +177,12 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
         BOOL		colorChanged = NO, backgroundIsDark, fontBackIsDark;
         
         //--get the font color--
-        fontColor = [self attribute:NSForegroundColorAttributeName atIndex:index effectiveRange:&effectiveRange];
+        fontColor = [self attribute:NSForegroundColorAttributeName atIndex:idx effectiveRange:&effectiveRange];
         //--get the background color in this range
-        fontBackColor = [self attribute:NSBackgroundColorAttributeName atIndex:index effectiveRange:&backgroundRange];
+        fontBackColor = [self attribute:NSBackgroundColorAttributeName atIndex:idx effectiveRange:&backgroundRange];
         if (!fontBackColor) {
             //Background coloring
-            fontBackColor = [self attribute:AIBodyColorAttributeName atIndex:index effectiveRange:&backgroundRange];
+            fontBackColor = [self attribute:AIBodyColorAttributeName atIndex:idx effectiveRange:&backgroundRange];
             if (!fontBackColor) {
                 fontBackColor = [NSColor whiteColor];
                 fontBackColor = [fontBackColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -262,7 +262,7 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
             [self addAttribute:NSForegroundColorAttributeName value:fontColor range:effectiveRange];
         }
         
-        index = effectiveRange.location + effectiveRange.length;
+        idx = effectiveRange.location + effectiveRange.length;
     }
 }
 
@@ -422,33 +422,33 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 	return [[[NSAttributedString alloc] initWithString:inString] autorelease];
 }
 
-+ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)link
++ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)inLink
 {
     NSParameterAssert(inString != nil);
 
-    if ([link isKindOfClass:[NSString class]]) {
-        link = [NSURL URLWithString:link];
+    if ([inLink isKindOfClass:[NSString class]]) {
+        inLink = [NSURL URLWithString:inLink];
     }
-    NSParameterAssert(link != nil);
-    NSParameterAssert([link isKindOfClass:[NSURL class]]);
+    NSParameterAssert(inLink != nil);
+    NSParameterAssert([inLink isKindOfClass:[NSURL class]]);
 
     NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithString:inString] autorelease];
     //Throws NSInvalidArgumentException if the range is out-of-range.
-    [attributedString addAttribute:NSLinkAttributeName value:link range:linkRange];
+    [attributedString addAttribute:NSLinkAttributeName value:inLink range:linkRange];
 
     return attributedString;
 }
-+ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)link
++ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)inLink
 {
     NSParameterAssert(inString != nil);
 
-    if ([link isKindOfClass:[NSString class]]) {
-        link = [NSURL URLWithString:link];
+    if ([inLink isKindOfClass:[NSString class]]) {
+        inLink = [NSURL URLWithString:inLink];
     }
-    NSParameterAssert(link != nil);
-    NSParameterAssert([link isKindOfClass:[NSURL class]]);
+    NSParameterAssert(inLink != nil);
+    NSParameterAssert([inLink isKindOfClass:[NSURL class]]);
 
-    NSDictionary *attributes = [NSDictionary dictionaryWithObject:link forKey:NSLinkAttributeName];
+    NSDictionary *attributes = [NSDictionary dictionaryWithObject:inLink forKey:NSLinkAttributeName];
     return [[[self alloc] initWithString:inString attributes:attributes] autorelease];
 }
 

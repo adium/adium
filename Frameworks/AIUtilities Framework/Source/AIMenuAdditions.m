@@ -68,12 +68,12 @@
 	}
 }
 
-- (void)removeAllItemsAfterIndex:(NSInteger)index
+- (void)removeAllItemsAfterIndex:(NSInteger)idx
 {
-	NSParameterAssert(index < self.numberOfItems);
+	NSParameterAssert(idx < self.numberOfItems);
 	
 	NSInteger count = self.numberOfItems;
-	while (--count > index) {
+	while (--count > idx) {
 		[self removeItemAtIndex:count];
 	}
 }
@@ -125,12 +125,12 @@
 - (void)removeKeyEquivalent
 {
 	NSMenu	*menu = [self menu];
-	NSInteger		index = [menu indexOfItem:self];
+	NSInteger		idx = [menu indexOfItem:self];
 
 	[self retain];
-	[menu removeItemAtIndex:index];
+	[menu removeItemAtIndex:idx];
 	[self setKeyEquivalent:@""];
-	[menu insertItem:self atIndex:index];
+	[menu insertItem:self atIndex:idx];
 	[self release];
 }
 

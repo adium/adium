@@ -90,7 +90,7 @@ Adium, Copyright 2001-2005, Adam Iser
  * @param index Index of the image
  * @return <tt>NSRect</tt> the image occupies in our grid
  */
-- (NSRect)rectForImageAtIndex:(NSInteger)index;
+- (NSRect)rectForImageAtIndex:(NSInteger)idx;
 
 /*!
  * @brief Returns the image present at a point in our grid
@@ -105,7 +105,7 @@ Adium, Copyright 2001-2005, Adam Iser
  *
  * @param index Index of the image
  */
-- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)index;
+- (void)setNeedsDisplayOfImageAtIndex:(NSInteger)idx;
 
 /*!
  * @brief Set the selected image
@@ -113,7 +113,7 @@ Adium, Copyright 2001-2005, Adam Iser
  * Set the currently selected image.  The delegate is informed of selection changes.
  * @param index Image index to select
  */
-- (void)selectIndex:(NSInteger)index;
+- (void)selectIndex:(NSInteger)idx;
 
 /*!
  * @brief Set the selected image, relative to the current one
@@ -149,11 +149,11 @@ Adium, Copyright 2001-2005, Adam Iser
 //AIImageGridView delegate methods.  These are very similar to NSTableView.
 @protocol AIImageGridViewDelegate <NSObject>
 - (NSUInteger)numberOfImagesInImageGridView:(AIImageGridView *)imageGridView;
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index;
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)idx;
 @optional
-- (BOOL)imageGridView:(AIImageGridView *)imageGridView shouldSelectIndex:(NSUInteger)index;
+- (BOOL)imageGridView:(AIImageGridView *)imageGridView shouldSelectIndex:(NSUInteger)idx;
 - (void)imageGridViewDeleteSelectedImage:(AIImageGridView *)imageGridView;
-- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index;
+- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)idx;
 
 //Notifications.  These are automatically sent to the delegate.
 - (void)imageGridViewSelectionDidChange:(NSNotification *)notification;

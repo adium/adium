@@ -20,9 +20,9 @@
 
 - (NSTabViewItem *)tabViewItemWithIdentifier:(id)identifier
 {
-	NSUInteger	index = [self indexOfTabViewItemWithIdentifier:identifier];
+	NSUInteger	idx = [self indexOfTabViewItemWithIdentifier:identifier];
 
-	return ((index != NSNotFound) ? [self tabViewItemAtIndex:index] : nil);
+	return ((idx != NSNotFound) ? [self tabViewItemAtIndex:idx] : nil);
 }
 
 - (NSInteger)indexOfSelectedTabViewItem

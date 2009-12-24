@@ -231,7 +231,7 @@ extern NSString *AIFontStyleAttributeName;
  *	@throws	NSInvalidArgumentException	\a inString or \a link is \c nil.
  *	@return	An autoreleased \c NSAttributedString.
  */
-+ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)link;
++ (NSAttributedString *)attributedStringWithLinkLabel:(NSString *)inString linkDestination:(id)inLink;
 
 /*!	@brief	Create a new NSAttributedString containing a hyperlink.
  *
@@ -243,6 +243,6 @@ extern NSString *AIFontStyleAttributeName;
  *	@throws	NSInvalidArgumentException	\a inString or \a link is \c nil, or \a linkRange falls outside the extent of \a inString.
  *	@return	An autoreleased \c NSAttributedString.
  */
-+ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)link;
++ (NSAttributedString *)attributedStringWithString:(NSString *)inString linkRange:(NSRange)linkRange linkDestination:(id)inLink;
 
 @end

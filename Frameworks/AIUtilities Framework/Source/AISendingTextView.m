@@ -130,11 +130,11 @@
 
 - (void)interpretKeyEvents:(NSArray *)eventArray
 {
-	NSUInteger 	index = 0;
+	NSUInteger 	idx = 0;
 	NSUInteger	numEvents = [eventArray count];
 
-    while (index < numEvents) {
-		NSEvent		*theEvent = [eventArray objectAtIndex:index];
+    while (idx < numEvents) {
+		NSEvent		*theEvent = [eventArray objectAtIndex:idx];
 		
         if ([theEvent type] == NSKeyDown) {
 			unichar lastChar = [[theEvent charactersIgnoringModifiers] lastCharacter];
@@ -152,7 +152,7 @@
             }
         }
 		
-		index++;
+		idx++;
     }
 	
     [super interpretKeyEvents:eventArray];
