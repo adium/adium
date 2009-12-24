@@ -1175,9 +1175,9 @@ NSString* serviceIDForJabberUID(NSString *UID)
 				 * We don't make address book metacontacts actually persistent because then we would persist them even if the address
 				 * book card were modified or deleted or if the user disabled "Conslidate contacts listed on the card."
 				 */
-				NSDictionary *dict = [adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
+				NSDictionary *prefsDict = [adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
 																			  group:PREF_GROUP_ADDRESSBOOK];
-				NSNumber *metaContactObjectID = [dict objectForKey:uniqueId];
+				NSNumber *metaContactObjectID = [prefsDict objectForKey:uniqueId];
 				if (metaContactObjectID)
 					metaContactHint = [adium.contactController metaContactWithObjectID:metaContactObjectID];
 			}
@@ -1194,12 +1194,12 @@ NSString* serviceIDForJabberUID(NSString *UID)
 													forKey:uniqueId];
 				if (metaContact != metaContactHint) {
 					//Keep track of the use of this metacontact for this address book card
-					NSMutableDictionary *dict = [[[adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
+					NSMutableDictionary *prefsDict = [[[adium.preferenceController preferenceForKey:KEY_AB_TO_METACONTACT_DICT
 																						   group:PREF_GROUP_ADDRESSBOOK] mutableCopy] autorelease];
-					if (!dict) dict = [NSMutableDictionary dictionary];
-					[dict setObject:[metaContact objectID]
-							 forKey:uniqueId];
-					[adium.preferenceController setPreference:dict
+					if (!prefsDict) prefsDict = [NSMutableDictionary dictionary];
+					[prefsDict setObject:[metaContact objectID]
+                                  forKey:uniqueId];
+					[adium.preferenceController setPreference:prefsDict
 														 forKey:@"UniqueIDToMetaContactObjectIDDictionary"
 														  group:PREF_GROUP_ADDRESSBOOK];
 				}
