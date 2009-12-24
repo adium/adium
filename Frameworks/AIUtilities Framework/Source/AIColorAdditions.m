@@ -401,7 +401,7 @@ end:
 		goto scanFailed;
 	}
 
-    return [NSColor colorWithCalibratedRed:(r/255) green:(g/255) blue:(b/255) alpha:(a/255)] ;
+    return [NSColor colorWithCalibratedRed:(r/(CGFloat)255.0f) green:(g/(CGFloat)255.0f) blue:(b/(CGFloat)255.0f) alpha:(a/(CGFloat)255.0f)] ;
 scanFailed:
 	return nil;
 }
