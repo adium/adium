@@ -251,7 +251,6 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 	
 	if (includeDisabledAccountsMenu) {
 		NSMenu		*disabledAccountMenu = [[NSMenu alloc] init];
-		NSMenuItem	*menuItem;
 
 		for (AIAccount *account in accounts) {
 			if (!account.enabled &&
@@ -279,7 +278,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
 																	format:AILocalizedString(@"%@",nil)];
 			
 			
-			menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Add Account", nil)
+			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Add Account", nil)
 																						target:self
 																						action:@selector(dummyAction:)
 																				 keyEquivalent:@""
@@ -290,7 +289,7 @@ static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, 
         }
 
 		if ([disabledAccountMenu numberOfItems]) {
-			menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disabled Accounts", nil)
+			NSMenuItem *menuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:AILocalizedString(@"Disabled Accounts", nil)
                                                                             target:self
                                                                             action:@selector(dummyAction:)
                                                                      keyEquivalent:@""
