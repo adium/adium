@@ -27,6 +27,7 @@
 - (void)_startTrackingMouse;
 - (void)_stopTrackingMouse;
 - (void)_hideTooltip;
+- (void)mouseMovementTimer:(NSTimer *)inTimer;
 @end
 
 @interface NSWindow (SpacesDeterminationHackery)

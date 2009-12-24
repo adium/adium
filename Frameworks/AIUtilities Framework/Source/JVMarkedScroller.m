@@ -10,6 +10,11 @@ struct _mark {
 	NSColor *color;
 };
 
+@interface JVMarkedScroller (PRIVATE)
+- (IBAction) clearMarksHereLess:(id) sender;
+- (IBAction) clearMarksHereGreater:(id) sender;
+@end
+
 @implementation JVMarkedScroller
 - (id) initWithFrame:(NSRect) frame {
 	if( ( self = [super initWithFrame:frame] ) ) {

@@ -12,6 +12,11 @@
 #import <IOKit/IOMessage.h>
 #import "AISleepNotification.h"
 
+@interface AISleepNotification (PRIVATE)
++ (void)holdSleep:(NSNotification *)notification;
++ (void)continueSleep:(NSNotification *)notification;
+@end
+
 /*!
  * @class AISleepNotification
  * @brief Class to notify when the system goes to sleep and wakes from sleep and optionally place a hold on the sleep process.

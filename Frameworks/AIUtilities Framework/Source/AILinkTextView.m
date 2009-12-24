@@ -22,6 +22,7 @@
 
 @interface AILinkTextView ()
 - (void)_initLinkTextView;
+- (void)frameDidChange:(NSNotification *)notification;
 @end
 
 @implementation AILinkTextView

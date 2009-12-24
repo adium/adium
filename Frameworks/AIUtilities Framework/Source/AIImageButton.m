@@ -9,6 +9,10 @@
 #import "AIImageButton.h"
 #import "AIFloater.h"
 
+@interface AIImageButton (PRIVATE)
+- (void)destroyImageFloater;
+@end
+
 @implementation AIImageButton
 
 - (id)initWithFrame:(NSRect)frame
