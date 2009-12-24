@@ -469,7 +469,8 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 		[tableView setNeedsDisplayInRect:[tableView rectOfRow:row]];
 		[tableView noteHeightOfRowsWithIndexesChanged:[NSIndexSet indexSetWithIndex:row]];
 		
-		[requiredHeightDict setObject:[NSNumber numberWithDouble:MIN(MAXIMUM_ROW_HEIGHT, MAX(MINIMUM_ROW_HEIGHT, combinedHeight))]
+        CGFloat bottomClampedRowHeight = MAX(MINIMUM_ROW_HEIGHT, combinedHeight);
+		[requiredHeightDict setObject:[NSNumber numberWithDouble:MIN(MAXIMUM_ROW_HEIGHT, bottomClampedRowHeight)]
 							   forKey:[NSNumber numberWithInteger:row]];
 	}
 }
