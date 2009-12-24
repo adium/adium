@@ -1644,14 +1644,14 @@
 						 updateFilenames:NO];
 				
 				//Now create an AITextAttachmentExtension pointing to it
-				AITextAttachmentExtension   *attachment = [[AITextAttachmentExtension alloc] init];
-				[attachment setPath:destinationPath];
-				[attachment setString:preferredName];
-				[attachment setShouldSaveImageForLogging:YES];
+				AITextAttachmentExtension   *textAttachment = [[AITextAttachmentExtension alloc] init];
+				[textAttachment setPath:destinationPath];
+				[textAttachment setString:preferredName];
+				[textAttachment setShouldSaveImageForLogging:YES];
 
 				//Insert an attributed string into the text at the current insertion point
-				replacement = [self attributedStringWithTextAttachmentExtension:attachment];
-				[attachment release];
+				replacement = [self attributedStringWithTextAttachmentExtension:textAttachment];
+				[textAttachment release];
 				
 				//Remove the NSTextAttachment, replacing it the AITextAttachmentExtension
 				[attributedString replaceCharactersInRange:attachmentRange
