@@ -80,7 +80,7 @@ BOOL AIRectIsAligned_edge_toRect_edge_tolerance_(const NSRect rect1, const NSRec
 #ifdef __LP64__
 	#define AIfabs( X ) fabs((X))
 #else
-	#define AIfabs( X ) fabsf(X))
+	#define AIfabs( X ) fabsf((X))
 #endif
 	return AIfabs(AICoordinateForRect_edge_(rect1, edge1) - AICoordinateForRect_edge_(rect2, edge2)) < tolerance;
 }
