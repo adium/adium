@@ -43,7 +43,10 @@ static PurpleRoomlistUiOps adiumPurpleRoomlistOps = {
 	adiumPurpleRoomlistSetFields,
 	adiumPurpleRoomlistAddRoom,
 	adiumPurpleRoomlistInProgress,
-	adiumPurpleRoomlistDestroy
+	adiumPurpleRoomlistDestroy,
+	
+	/* _purple_reserved 1-4 */
+	NULL, NULL, NULL, NULL
 };
 
 PurpleRoomlistUiOps *adium_purple_roomlist_get_ui_ops()

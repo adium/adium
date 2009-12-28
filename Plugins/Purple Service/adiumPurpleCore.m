@@ -48,8 +48,17 @@ static void adiumPurpleDebugPrint(PurpleDebugLevel level, const char *category, 
 	AILog(@"(Libpurple: %s) %s",category, debug_msg);
 }
 
+static int adiumPurpleDebugIsEnabled(PurpleDebugLevel level, const char *category)
+{
+	return TRUE;
+}
+
 static PurpleDebugUiOps adiumPurpleDebugOps = {
-    adiumPurpleDebugPrint
+    adiumPurpleDebugPrint,
+    adiumPurpleDebugIsEnabled,
+	
+    /* _purple_reserved 1-4 */
+    NULL, NULL, NULL, NULL
 };
 
 PurpleDebugUiOps *adium_purple_debug_get_ui_ops(void)
@@ -262,7 +271,10 @@ static PurpleCoreUiOps adiumPurpleCoreOps = {
     adiumPurpleCoreDebugInit,
     adiumPurpleCoreUiInit,
     adiumPurpleCoreQuit,
-	adiumPurpleCoreGetUiInfo
+	adiumPurpleCoreGetUiInfo,
+	
+	/* _purple_reserved 1-3 */
+	NULL, NULL, NULL
 };
 
 PurpleCoreUiOps *adium_purple_core_get_ops(void)

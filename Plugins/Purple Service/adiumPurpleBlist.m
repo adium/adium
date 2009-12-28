@@ -83,7 +83,11 @@ static PurpleBlistUiOps adiumPurpleBlistOps = {
     adiumPurpleBlistSetVisible,
     adiumPurpleBlistRequestAddBuddy,
     adiumPurpleBlistRequestAddChat,
-    adiumPurpleBlistRequestAddGroup
+    adiumPurpleBlistRequestAddGroup,
+    /* save_node */ NULL,
+    /* remove_node */ NULL,
+    /* save_account */ NULL,
+    /* _purple_reserved1 */ NULL
 };
 
 PurpleBlistUiOps *adium_purple_blist_get_ui_ops(void)

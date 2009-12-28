@@ -254,7 +254,9 @@ void adiumPurpleDnsRequestDestroy(PurpleDnsQueryData *query_data)
 
 static PurpleDnsQueryUiOps adiumPurpleDnsRequestOps = {
 	adiumPurpleDnsRequestResolve,
-	adiumPurpleDnsRequestDestroy
+	adiumPurpleDnsRequestDestroy,
+	/* _purple_reserved 1-4 */
+	NULL, NULL, NULL, NULL
 };
 
 PurpleDnsQueryUiOps *adium_purple_dns_request_get_ui_ops(void)

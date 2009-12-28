@@ -38,7 +38,9 @@ static PurplePrivacyUiOps adiumPurplePrivacyOps = {
     adiumPurplePermitAdded,
     adiumPurplePermitRemoved,
     adiumPurpleDenyAdded,
-    adiumPurpleDenyRemoved
+    adiumPurpleDenyRemoved,
+	/* _purple_reserved 1-4 */
+	NULL, NULL, NULL, NULL
 };
 
 PurplePrivacyUiOps *adium_purple_privacy_get_ui_ops()
