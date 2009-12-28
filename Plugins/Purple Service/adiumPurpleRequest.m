@@ -160,7 +160,7 @@ static void *adiumPurpleRequestAction(const char *title, const char *primary,
 
 		// Look up the user preference for this setting -- we use the same settings as the File Transfer code.
 		AIFileTransferAutoAcceptType autoAccept = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT 
-																							group:PREF_GROUP_FILE_TRANSFER] integerValue];
+																							group:PREF_GROUP_FILE_TRANSFER] intValue];
 		if ((autoAccept == AutoAccept_All) || 
 			((autoAccept == AutoAccept_FromContactList) && adiumContact && [adiumContact isIntentionallyNotAStranger])) {
 			GCallback ok_cb;

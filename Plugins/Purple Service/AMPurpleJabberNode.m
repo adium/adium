@@ -244,8 +244,11 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	
 	NSData *xmlData = [[iq XMLString] dataUsingEncoding:NSUTF8StringEncoding];
 	
+	NSAssert( INT_MAX >= [xmlData length],
+					 @"More XML data than libpurple can handle.  Abort." );
+	
 	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)
-		(PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)(gc, [xmlData bytes], [xmlData length]);
+		(PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)(gc, [xmlData bytes], (int)[xmlData length]);
 }
 
 - (void)fetchInfo {
@@ -266,8 +269,11 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 	
 	NSData *xmlData = [[iq XMLString] dataUsingEncoding:NSUTF8StringEncoding];
 	
+	NSAssert( INT_MAX >= [xmlData length],
+					 @"More XML data than libpurple can handle.  Abort." );
+	
 	if (PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)
-		(PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)(gc, [xmlData bytes], [xmlData length]);
+		(PURPLE_PLUGIN_PROTOCOL_INFO(gc->prpl)->send_raw)(gc, [xmlData bytes], (gint)[xmlData length]);
 }
 
 - (NSArray*)items {

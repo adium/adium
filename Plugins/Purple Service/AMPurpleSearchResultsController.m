@@ -175,9 +175,11 @@
 		return;
 	}
 	NSInteger row = [tableview selectedRow];
+	NSAssert( INT_MAX >= row,
+					 @"Holy crap that's a lot of rows!  GList can't handle that.  Abort." );
 	GList *rowptr = NULL;
 	if(row != -1)
-		rowptr = g_list_nth_data(purpleresults->rows,row);
+		rowptr = g_list_nth_data(purpleresults->rows,(guint)row);
 	button->callback(gc, rowptr, user_data);
 }
 

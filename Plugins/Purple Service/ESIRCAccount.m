@@ -452,7 +452,7 @@ BOOL contactUIDIsServerContact(NSString *contactUID)
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	AIOperationRequirement req = menuItem.tag;
+	AIOperationRequirement req = (AIOperationRequirement)menuItem.tag;
 	AIChat *chat = adium.interfaceController.activeChat;
 	BOOL anySelected = chat.chatContainer.messageViewController.selectedListObjects.count > 0;
 		

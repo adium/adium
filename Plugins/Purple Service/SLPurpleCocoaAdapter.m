@@ -585,7 +585,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
     NSMutableString		*newString;
 	NSString			*targetString = @"<IMG ID=";
 	NSCharacterSet		*quoteApostropheCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"\"\'"];
-    NSInteger imageID;
+    int imageID;
 	
 	if ([inString rangeOfString:targetString options:NSCaseInsensitiveSearch].location == NSNotFound) {
 		return inString;
@@ -611,7 +611,7 @@ NSString *processPurpleImages(NSString* inString, AIAccount* adiumAccount)
 			[scanner scanCharactersFromSet:quoteApostropheCharacterSet intoString:NULL];
 			
 			//Get the image ID from the tag
-			[scanner scanInteger:&imageID];
+			[scanner scanInt:&imageID];
 
 			//Skip past a quote or apostrophe
 			[scanner scanCharactersFromSet:quoteApostropheCharacterSet intoString:NULL];
@@ -1319,7 +1319,9 @@ GList *createListFromDictionary(NSDictionary *arguments)
 	if (account) {
 		NSUInteger len = [buddyImageData length];
 		/* purple_buddy_icons_set_account_icon() takes responsibility for the buddy icon memory */
-		purple_buddy_icons_set_account_icon(account, g_memdup([buddyImageData bytes], len), len);
+		NSAssert( UINT_MAX >= [buddyImageData length],
+						 @"Attempting to send more data than libPurple can handle.  Abort." );
+		purple_buddy_icons_set_account_icon(account, g_memdup([buddyImageData bytes], (unsigned int)len), len);
 	}
 }
 
@@ -1332,7 +1334,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 
 		presence = purple_account_get_presence(account);
 
-		purple_presence_set_idle(presence, (idle > 0), idle);
+		purple_presence_set_idle(presence, (idle > 0), (long)idle);
 	}
 }
 

@@ -188,14 +188,17 @@ static OSStatus SocketRead(
                                                * RETURNED */
                     size_t         *dataLength)  /* IN/OUT */ 
                     {
-    UInt32      bytesToGo = *dataLength;
-    UInt32       initLen = bytesToGo;
+    NSUInteger      bytesToGo = *dataLength;
+    NSUInteger       initLen = bytesToGo;
     UInt8      *currData = (UInt8 *)data;
-    NSInteger        sock = (NSInteger)connection;
+    int        sock;
     OSStatus    rtn = noErr;
-    UInt32      bytesRead;
-    int        rrtn;
+    ssize_t      bytesRead;
+    ssize_t     rrtn;
     
+		assert( UINT_MAX >= (NSUInteger)connection );
+		sock = (int)(NSUInteger)connection;
+										 
     *dataLength = 0;
     
     for(;;) {
@@ -216,8 +219,8 @@ static OSStatus SocketRead(
                     rtn = errSSLWouldBlock;
                     break;
                 default:
-                    fprintf(stderr,"SocketRead: read(%d) error %d\n", 
-                             (int)bytesToGo, theErr);
+                    fprintf(stderr,"SocketRead: read(%ld) error %d\n", 
+                             bytesToGo, theErr);
                     rtn = errSSLFatalAlert;
                     break;
             }
@@ -246,13 +249,16 @@ static OSStatus SocketWrite(
                      const void       *data, 
                      size_t         *dataLength)  /* IN/OUT */ 
                      {
-    UInt32    bytesSent = 0;
-    NSInteger sock = (NSInteger)connection;
-    UInt32    length;
-    UInt32    dataLen = *dataLength;
+    NSUInteger    bytesSent = 0;
+    int sock;
+    ssize_t    length;
+    NSUInteger    dataLen = *dataLength;
     const UInt8 *dataPtr = (UInt8 *)data;
     OSStatus  ortn;
 
+		assert( UINT_MAX >= (NSUInteger)connection );
+		sock = (int)(NSUInteger)connection;
+											
     *dataLength = 0;
     
     do {

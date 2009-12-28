@@ -169,7 +169,7 @@
 
 	PurpleRequestActionCb callBack = [callBackValue pointerValue];
 	if (callBack) {
-		callBack([userDataValue pointerValue],[callBackIndexNumber integerValue]);
+		callBack([userDataValue pointerValue],[callBackIndexNumber intValue]);
 	}
 }
 

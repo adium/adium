@@ -553,7 +553,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	if (purpleImagesToUnref) {
 		NSNumber	 *imgstoreNumber;
 		for (imgstoreNumber in purpleImagesToUnref) {
-			purple_imgstore_unref_by_id([imgstoreNumber integerValue]);			
+			purple_imgstore_unref_by_id([imgstoreNumber intValue]);			
 		}
 		
 		[purpleImagesToUnref release]; purpleImagesToUnref = nil;
@@ -676,7 +676,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 						if (requiresConversionToJPEG) {
 							NSImage				*image = [[NSImage alloc] initWithData:imageData];
 							
-							imageData = [[[image JPEGRepresentationWithCompressionFactor:1.0] retain] autorelease];
+							imageData = [[[image JPEGRepresentationWithCompressionFactor:1.0f] retain] autorelease];
 							extension = @"jpg";
 							[image release];
 

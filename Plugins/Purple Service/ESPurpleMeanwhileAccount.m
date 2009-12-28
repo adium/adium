@@ -51,8 +51,11 @@ extern const char *mwServiceAware_getText(void *, void *);
 	purple_account_set_bool(account, MW_KEY_FAKE_IT, fakeIt);
 	if (fakeIt) {
 		NSInteger client;
-		if ((client = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeClient"]))
-			purple_account_set_int(account, MW_KEY_CLIENT, client);
+		if ((client = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeClient"])) {
+			NSAssert( INT_MAX >= client,
+							 @"client value larget than libpurple can handle.  Abort." );
+			purple_account_set_int(account, MW_KEY_CLIENT, (int)client);
+		}
 
 		NSInteger majorVersion;
 		if (!(majorVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeMajorVersion"]))
@@ -62,8 +65,13 @@ extern const char *mwServiceAware_getText(void *, void *);
 		if (!(minorVersion = [[NSUserDefaults standardUserDefaults] integerForKey:@"AISametimeMinorVersion"]))
 			minorVersion = 0x196f;
 		
-		purple_account_set_int(account, MW_KEY_MAJOR, majorVersion);
-		purple_account_set_int(account, MW_KEY_MINOR, minorVersion);
+		NSAssert( INT_MAX >= majorVersion,
+						 @"majorVersion value larget than libpurple can handle.  Abort." );
+		NSAssert( INT_MAX >= minorVersion,
+						 @"minorVersion value larget than libpurple can handle.  Abort." );
+		
+		purple_account_set_int(account, MW_KEY_MAJOR, (int)majorVersion);
+		purple_account_set_int(account, MW_KEY_MINOR, (int)minorVersion);
 	}
 }
 
