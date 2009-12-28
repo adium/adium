@@ -29,7 +29,7 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 	
 	NSString *string = [self string];
 	NSRange range = NSMakeRange([self scanLocation], 0);
-	register unsigned length = [string length] - range.location; //register because it is used in the loop below.
+	register NSUInteger length = [string length] - range.location; //register because it is used in the loop below.
 	range.length = length;
 	
 	unichar *buf = malloc(length * sizeof(unichar));
@@ -83,7 +83,7 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 			BOOL	handled = NO;
 			
 			if ([[error domain] isEqualToString:NSCocoaErrorDomain]) {
-				int		errorCode = [error code];
+				NSInteger		errorCode = [error code];
 				
 				//XXX - I'm sure these constants are defined somewhere, but I can't find them. -eds
 				if (errorCode == 260) {
@@ -170,7 +170,7 @@ static BOOL getSurrogatesForUnicodeScalarValue(const UTF32Char scalar, unichar *
 				nil];
 		}
 		
-		unsigned len = [self length];
+		NSUInteger len = [self length];
 		NSMutableString *result = [NSMutableString stringWithCapacity:len];
 		NSScanner *scanner = [NSScanner scannerWithString:self];
 		[scanner setCharactersToBeSkipped:[NSCharacterSet characterSetWithRange:(NSRange){ 0, 0 }]];
