@@ -16,6 +16,11 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
+@interface AISocialNetworkingStatusMenu ()
++ (void)setToCurrentAdiumStatus:(NSMenuItem *)sender;
++ (void)showCustomSocialNetworkingStatusWindow:(NSMenuItem *)sender;
+@end
+
 @implementation AISocialNetworkingStatusMenu
 
 + (NSMenu *)socialNetworkingSubmenuForAccount:(AIAccount *)inAccount

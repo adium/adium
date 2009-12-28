@@ -37,6 +37,9 @@
 - (void)cleanUpDetailsPane;
 
 - (void)updateHeaderView;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)alertDetailsForHeaderChanged:(NSNotification *)aNotification;
 @end
 
 @implementation CSNewContactAlertWindowController

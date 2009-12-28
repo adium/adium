@@ -13,6 +13,10 @@ AIMessageHistory_HaveTalkedInInterval,
 AIMessageHistory_HaveNotTalkedInInterval
 } AIMessageHistoryDisplayPref;
 
+@interface AIMessageHistoryPreferencesWindowController ()
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+@end
+
 @implementation AIMessageHistoryPreferencesWindowController
 /*!
  * @brief Configure message history preferences

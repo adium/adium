@@ -58,6 +58,11 @@
 - (void)addToAddressBookDict:(NSArray *)people;
 - (void)removeFromAddressBookDict:(NSArray *)UIDs;
 - (void)installAddressBookActions;
+
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+- (void)addToAddressBook;
+- (void)addressBookChanged:(NSNotification *)notification;
+- (void)accountListChanged:(NSNotification *)notification;
 @end
 
 /*!

@@ -22,6 +22,7 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName presets:(NSArray *)inPresets namedByKey:(NSString *)inNameKey withDelegate:(id)inDelegate;
 - (void)configureControlDimming;
 - (void)tableViewSelectionDidChange:(NSNotification *)notification;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!

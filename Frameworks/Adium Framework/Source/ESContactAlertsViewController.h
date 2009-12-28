@@ -78,4 +78,5 @@
 
 @interface NSObject (AIActionHandlerOptionalMethods)
 - (void)performPreviewForAlert:(NSDictionary *)alert;
+- (void)alertUpdated:(NSDictionary *)newAlert oldAlert:(NSDictionary *)oldAlert;
 @end

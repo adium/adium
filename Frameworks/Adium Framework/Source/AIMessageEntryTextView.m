@@ -111,6 +111,10 @@
 - (void)positionCharacterCounter;
 
 - (void)positionIndicators:(NSNotification *)notification;
+
+- (void)frameDidChange:(NSNotification *)notification;
+- (void)toggleMessageSending:(NSNotification *)not;
+- (void)contentObjectAdded:(NSNotification *)notification;
 @end
 
 @interface NSMutableAttributedString (AIMessageEntryTextViewAdditions)

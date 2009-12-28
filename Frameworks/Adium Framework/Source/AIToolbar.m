@@ -31,6 +31,7 @@
  */
 @interface NSToolbar (AIPrivate)
 - (void)_postWillDeallocToolbarNotifications;
+- (void)deallocWithNotifications;
 @end
 
 @implementation AIToolbar

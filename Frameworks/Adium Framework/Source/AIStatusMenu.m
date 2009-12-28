@@ -25,6 +25,12 @@
 
 @interface AIStatusMenu ()
 - (id)initWithDelegate:(id<AIStatusMenuDelegate>)inDelegate;
+- (void)stateArrayChanged:(NSNotification *)notification;
+- (void)activeStatusStateChanged:(NSNotification *)notification;
+- (void)statusIconSetChanged:(NSNotification *)notification;
+- (void)selectCustomState:(id)sender;
+- (void)selectState:(id)sender;
++ (void)dummyAction:(id)sender;
 @end
 
 @implementation AIStatusMenu

@@ -49,6 +49,16 @@
 
 @interface AIAccount (Abstract_PRIVATE)
 - (void)passwordReturnedForConnect:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(id)inContext;
+- (void)requestImmediateDynamicContentUpdate:(NSNotification *)notification;
+- (void)adiumDidLoad:(NSNotification *)inNotification;
+- (void)_endSilenceAllUpdates;
+- (void)_delayedUpdateStatusTimer:(NSTimer *)inTimer;
+- (void)gotFilteredOutgoingContent:(NSAttributedString *)filteredValue context:(NSDictionary *)contextDict;
+- (void)_refreshAttributedStrings:(NSTimer *)inTimer;
+- (void)performAutoreconnect;
+- (void)fastUserSwitchLeave:(NSNotification *)notification;
+- (void)fastUserSwitchReturn:(NSNotification *)notification;
+- (void)gotProxyServerPassword:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode proxyConfiguration:(NSMutableDictionary *)proxyConfiguration;
 @end
 
 /*!

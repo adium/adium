@@ -20,6 +20,7 @@
 
 @interface ESTextAndButtonsWindowController ()
 - (void)configureWindow;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESTextAndButtonsWindowController

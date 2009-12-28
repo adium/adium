@@ -21,6 +21,7 @@
 @interface ESPresetNameSheetController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName defaultName:(NSString *)inDefaultName explanatoryText:(NSString *)inExplanatoryText notifyingTarget:(id)inTarget userInfo:(id)inUserInfo;
 - (void)configureExplanatoryTextWithString:(NSString *)inExplanatoryText;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESPresetNameSheetController

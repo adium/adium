@@ -12,6 +12,11 @@
 #import <AIUtilities/AIColorAdditions.h>
 #import <Adium/AIListGroup.h>
 
+@interface AIListOutlineView (AIListOutlineView_Drawing_Private)
+- (void)windowBecameMain:(NSNotification *)notification;
+- (void)windowResignedMain:(NSNotification *)notification;
+@end
+
 @implementation AIListOutlineView (AIListOutlineView_Drawing)
 
 //Prevent the display of a focus ring around the contact list in 10.3 and greater

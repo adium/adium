@@ -20,6 +20,7 @@
 - (NSArray *)contactMenusForListObjects:(NSArray *)listObjects;
 - (NSArray *)listObjectsForMenuFromArrayOfListObjects:(NSArray *)listObjects;
 - (void)_updateMenuItem:(NSMenuItem *)menuItem;
+- (void)contactOrderChanged:(NSNotification *)notification;
 @end
 
 @implementation AIContactMenu
