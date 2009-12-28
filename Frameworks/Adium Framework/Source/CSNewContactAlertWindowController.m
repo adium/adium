@@ -276,9 +276,9 @@
 	}
 
 	//Resize our window for best fit
-	int		currentDetailHeight = [view_auxiliary frame].size.height;
-	int	 	desiredDetailHeight = [detailsView frame].size.height;
-	int		difference = (currentDetailHeight - desiredDetailHeight);
+	CGFloat		currentDetailHeight = [view_auxiliary frame].size.height;
+	CGFloat	 	desiredDetailHeight = [detailsView frame].size.height;
+	CGFloat		difference = (currentDetailHeight - desiredDetailHeight);
 	NSRect	frame = [[self window] frame];
 	[[self window] setFrame:NSMakeRect(frame.origin.x, frame.origin.y + difference, frame.size.width, frame.size.height - difference)
 					display:[[self window] isVisible]

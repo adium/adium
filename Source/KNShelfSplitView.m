@@ -43,13 +43,13 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 #import <AIUtilities/AIToolbarUtilities.h>
 #import "AIAdium.h"
 
-#define DEFAULT_SHELF_WIDTH 200.0
-#define CONTROL_HEIGHT 22.0
-#define BUTTON_WIDTH 30.0
-#define THUMB_LINE_SPACING 2.0
+#define DEFAULT_SHELF_WIDTH 200.0f
+#define CONTROL_HEIGHT 22.0f
+#define BUTTON_WIDTH 30.0f
+#define THUMB_LINE_SPACING 2.0f
 #define THUMB_LINE_COUNT 3
 #define THUMB_WIDTH 13
-#define RESIZE_BAR_EFFECTIVE_WIDTH 0.0
+#define RESIZE_BAR_EFFECTIVE_WIDTH 0.0f
 
 #define CONTROL_PART_NONE 0
 #define CONTROL_PART_ACTION_BUTTON 1
@@ -289,9 +289,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		
 		// Resize bar
 		if (shelfOnRight) {
-			resizeBarRect = NSMakeRect(leftShelfX - RESIZE_BAR_EFFECTIVE_WIDTH/2.0, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
+			resizeBarRect = NSMakeRect(leftShelfX - RESIZE_BAR_EFFECTIVE_WIDTH/2.0f, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
 		} else {
-			resizeBarRect = NSMakeRect(leftShelfX + currentShelfWidth - RESIZE_BAR_EFFECTIVE_WIDTH/2.0, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
+			resizeBarRect = NSMakeRect(leftShelfX + currentShelfWidth - RESIZE_BAR_EFFECTIVE_WIDTH/2.0f, 0, RESIZE_BAR_EFFECTIVE_WIDTH, self.frame.size.height);
 		}
 		
 		// Action button
@@ -562,7 +562,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				}
 				
 				if( targetRect.size.width < actionButtonRect.size.width ){
-					targetRect.origin.x += (actionButtonRect.size.width - targetRect.size.width) / 2.0;
+					targetRect.origin.x += (actionButtonRect.size.width - targetRect.size.width) / 2.0f;
 				}
 				
 				if( targetRect.size.height > actionButtonRect.size.height ){
@@ -570,7 +570,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				}
 				
 				if( targetRect.size.height < actionButtonRect.size.height ){
-					targetRect.origin.y += (actionButtonRect.size.height - targetRect.size.height) / 2.0;
+					targetRect.origin.y += (actionButtonRect.size.height - targetRect.size.height) / 2.0f;
 				}
 				
 				[actionButtonImage compositeToPoint:NSMakePoint(actionButtonRect.origin.x,
@@ -597,7 +597,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				}
 				
 				if( targetRect.size.width < contextButtonRect.size.width ){
-					targetRect.origin.x += (contextButtonRect.size.width - targetRect.size.width) / 2.0;
+					targetRect.origin.x += (contextButtonRect.size.width - targetRect.size.width) / 2.0f;
 				}
 				
 				if( targetRect.size.height > contextButtonRect.size.height ){
@@ -605,7 +605,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 				}
 				
 				if( targetRect.size.height < contextButtonRect.size.height ){
-					targetRect.origin.y += (contextButtonRect.size.height - targetRect.size.height) / 2.0;
+					targetRect.origin.y += (contextButtonRect.size.height - targetRect.size.height) / 2.0f;
 				}
 				
 				[contextButtonImage drawInRect:targetRect
@@ -636,9 +636,9 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
 		[[NSColor disabledControlTextColor] set];
 		NSRect			thumbLineRect = NSMakeRect( 
 											resizeThumbRect.origin.x + THUMB_LINE_SPACING*2, 
-											resizeThumbRect.size.height / 4.0, 
-											1.0, 
-											resizeThumbRect.size.height / 2.0
+											resizeThumbRect.size.height / 4.0f, 
+											1.0f, 
+											resizeThumbRect.size.height / 2.0f
 										);
 		NSInteger i;
 		for( i=0; i<THUMB_LINE_COUNT; i++ ){
@@ -696,7 +696,7 @@ OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMA
         [background drawInRect:destRect
 					  fromRect:sourceRect
 					 operation:(isActive ? NSCompositeSourceIn : NSCompositeSourceOver)
-					  fraction:(isActive ? 0.75 : 1.0)];
+					  fraction:(isActive ? 0.75f : 1.0f)];
 		
         destRect.origin.x += destRect.size.width;
     }

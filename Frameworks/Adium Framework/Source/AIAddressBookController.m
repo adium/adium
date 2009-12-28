@@ -509,7 +509,7 @@ NSString* serviceIDForJabberUID(NSString *UID);
 
 	//load new displayFormat
 	enableImport = [[prefDict objectForKey:KEY_AB_ENABLE_IMPORT] boolValue];
-	displayFormat = [[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
+	displayFormat = (NameStyle)[[prefDict objectForKey:KEY_AB_DISPLAYFORMAT] integerValue];
 	automaticUserIconSync = [[prefDict objectForKey:KEY_AB_IMAGE_SYNC] boolValue];
 	useNickName = [[prefDict objectForKey:KEY_AB_USE_NICKNAME] boolValue];
 	useMiddleName = [[prefDict objectForKey:KEY_AB_USE_MIDDLE] boolValue];

@@ -23,7 +23,7 @@
     
     BOOL debug;
 	
-	float minimumWidthForToolbar;
+	CGFloat minimumWidthForToolbar;
 	
 	id delegate;
 }
@@ -50,7 +50,7 @@
 - (void)activatePane:(NSString*)path;
 - (void)debugLog:(NSString*)msg;
 
-float ToolbarHeightForWindow(NSWindow *window);
+CGFloat ToolbarHeightForWindow(NSWindow *window);
 - (void)createPrefsToolbar;
 - (void)prefsToolbarItemClicked:(NSToolbarItem*)item;
 

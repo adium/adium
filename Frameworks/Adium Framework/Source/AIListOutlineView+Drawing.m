@@ -37,7 +37,7 @@
 		if (backgroundImage && enclosingScrollView) {
 			NSRect	visRect = [enclosingScrollView documentVisibleRect];
 			NSSize	imageSize = [backgroundImage size];
-			NSRect	imageRect = NSMakeRect(0.0, 0.0, imageSize.width, imageSize.height);
+			NSRect	imageRect = NSMakeRect(0.0f, 0.0f, imageSize.width, imageSize.height);
 			
 			switch (backgroundStyle) {
 					
@@ -184,7 +184,7 @@
 {
 	//Factor in opacity
 	if (!_backgroundColorWithOpacity) { 
-		float backgroundAlpha = ([backgroundColor alphaComponent] * backgroundOpacity);
+		CGFloat backgroundAlpha = ([backgroundColor alphaComponent] * backgroundOpacity);
 		_backgroundColorWithOpacity = [[backgroundColor colorWithAlphaComponent:backgroundAlpha] retain];
 		
 		//Mockie and pillow lists always require a non-opaque window, other lists only require a non-opaque window when
@@ -283,7 +283,7 @@
 {
 	NSColor		*myHighlightColor = [self highlightColor];
 	NSGradient 	*gradient = (myHighlightColor ?
-							 [[[NSGradient alloc] initWithStartingColor:myHighlightColor endingColor:[myHighlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+							 [[[NSGradient alloc] initWithStartingColor:myHighlightColor endingColor:[myHighlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
 							 [NSGradient selectedControlGradient]);
 	
 	return gradient;
@@ -344,7 +344,7 @@
 - (void)performDrawDropHighlightBetweenUpperRow:(int)theUpperRowIndex andLowerRow:(int)theLowerRowIndex atOffset:(float)theOffset
 {	
 	NSRect	aHighlightRect;
-	float	aYPosition = 0;
+	CGFloat	aYPosition = 0;
 	int		indentationLevelRow;
 	
 	if (theUpperRowIndex < 0) {
@@ -385,7 +385,7 @@
 	float	anAccentRectSize = 6;
 	float	anAccentRectXOffset = 2;
 	NSRect	anAccentRect = NSMakeRect(NSMinX(aHighlightRect) + anAccentRectXOffset,
-									  aYPosition - anAccentRectSize*.5,
+									  aYPosition - anAccentRectSize*0.5f,
 									  anAccentRectSize,
 									  anAccentRectSize);
 	
@@ -405,7 +405,7 @@
 	//Fill with white for the accent circle and stroke the path with black
 	[[NSColor whiteColor] set];
 	[aHighlightPath fill];
-	[aHighlightPath setLineWidth:2.0];
+	[aHighlightPath setLineWidth:2.0f];
 	[[NSColor blackColor] set];
 	[aHighlightPath stroke];
 	

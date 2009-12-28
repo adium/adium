@@ -70,7 +70,7 @@
 	updateShadowsWhileDrawing = NO;
 	
 	backgroundImage = nil;
-	backgroundFade = 1.0;
+	backgroundFade = 1.0f;
 	backgroundColor = nil;
 	backgroundStyle = AINormalBackground;
 		
@@ -151,9 +151,9 @@
  */
 - (NSInteger)desiredWidth
 {
-	unsigned	row;
-	unsigned	numberOfRows = [self numberOfRows];
-	int			widestCell = 0;
+	NSInteger	row;
+	NSInteger	numberOfRows = [self numberOfRows];
+	CGFloat			widestCell = 0;
 	id			theDelegate = self.delegate;
 	
 	//Enumerate all rows, find the widest one
@@ -162,7 +162,7 @@
 		NSCell		*cell = ([theDelegate outlineView:self isGroup:item] ? groupCell : contentCell);
 	
 		[theDelegate outlineView:self willDisplayCell:cell forTableColumn:nil item:item];
-		int	width = [(AIListCell *)cell cellWidth];
+		CGFloat	width = [(AIListCell *)cell cellWidth];
 		if (width > widestCell) widestCell = width;
 	}
 	return ((widestCell > minimumDesiredWidth) ? widestCell : minimumDesiredWidth);
@@ -180,7 +180,7 @@
 //Return the selected object (to auto-configure the contact menu)
 - (AIListObject *)listObject
 {
-    int selectedRow = [self selectedRow];
+    NSInteger selectedRow = [self selectedRow];
 
     if (selectedRow >= 0 && selectedRow < [self numberOfRows]) {
         return ((AIProxyListObject *)[self itemAtRow:selectedRow]).listObject;
@@ -212,7 +212,7 @@
 
 - (AIListContact *)firstVisibleListContact
 {
-	unsigned int numberOfRows = [self numberOfRows];
+	NSInteger numberOfRows = [self numberOfRows];
 	for (unsigned i = 0; i <numberOfRows ; i++) {
 		AIProxyListObject *item = [self itemAtRow:i];
 		if ([item isKindOfClass:[AIListContact class]]) {
@@ -225,7 +225,7 @@
 
 - (int)indexOfFirstVisibleListContact
 {
-	unsigned int numberOfRows = [self numberOfRows];
+	NSInteger numberOfRows = [self numberOfRows];
 	for (unsigned i = 0; i <numberOfRows ; i++) {
 		if ([[self itemAtRow:i] isKindOfClass:[AIListContact class]]) {
 			return i;
@@ -242,7 +242,7 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
 	NSPoint	viewPoint = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	int		row = [self rowAtPoint:viewPoint];
+	NSInteger		row = [self rowAtPoint:viewPoint];
 	id		item = [self itemAtRow:row];
 	
 	// Let super handle it if it's not a group, or the command key is down (dealing with selection)
@@ -314,7 +314,7 @@
 		NSIndexSet *selection = [self selectedRowIndexes];
 
 		NSMutableArray *items = [NSMutableArray arrayWithCapacity:[selection count]];
-		for (unsigned idx = [selection firstIndex]; idx <= [selection lastIndex]; idx = [selection indexGreaterThanIndex:idx]) {
+		for (NSUInteger idx = [selection firstIndex]; idx <= [selection lastIndex]; idx = [selection indexGreaterThanIndex:idx]) {
 			[items addObject:[self itemAtRow:idx]];
 		}
 

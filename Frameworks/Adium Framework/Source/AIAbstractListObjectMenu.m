@@ -164,8 +164,8 @@
 	//Render the image
 	NSImage	*composite = [[NSImage alloc] initWithSize:compositeSize];
 	[composite lockFocus];
-	[statusIcon drawInRect:compositeRect atSize:[statusIcon size] position:IMAGE_POSITION_LEFT fraction:1.0];
-	[secondaryIcon drawInRect:compositeRect atSize:[secondaryIcon size] position:IMAGE_POSITION_RIGHT fraction:1.0];
+	[statusIcon drawInRect:compositeRect atSize:[statusIcon size] position:IMAGE_POSITION_LEFT fraction:1.0f];
+	[secondaryIcon drawInRect:compositeRect atSize:[secondaryIcon size] position:IMAGE_POSITION_RIGHT fraction:1.0f];
 	[composite unlockFocus];
 	
 	return [composite autorelease];

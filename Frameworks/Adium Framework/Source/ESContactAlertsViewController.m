@@ -218,7 +218,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 //Edit existing alert
 - (IBAction)editAlert:(id)sender
 {
-	int	selectedRow = [outlineView_summary selectedRow];
+	NSInteger	selectedRow = [outlineView_summary selectedRow];
 	if (selectedRow >= 0 && selectedRow < [outlineView_summary numberOfRows]) {
 		NSDictionary	*alert = [outlineView_summary itemAtRow:selectedRow];
 		
@@ -234,7 +234,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 //Delete an alert
 - (IBAction)deleteAlert:(id)sender
 {
-	unsigned int selectedRow = [outlineView_summary selectedRow];
+	NSInteger selectedRow = [outlineView_summary selectedRow];
 	if (selectedRow != -1) {
 		id	item = [outlineView_summary itemAtRow:selectedRow];
 		
@@ -243,8 +243,8 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 		if ([contactAlertsActions containsObjectIdenticalTo:item]) {
 			/* Deleting an entire event */
 			
-			NSArray		*contactEvents = (NSArray *)item;
-			unsigned	contactEventsCount = [contactEvents count];
+			NSArray			*contactEvents = (NSArray *)item;
+			NSUInteger	contactEventsCount = [contactEvents count];
 			
 			if (contactEventsCount > 1) {
 				//Warn before deleting more than one event simultaneously
@@ -349,7 +349,7 @@ int globalAlertAlphabeticalSort(id objectA, id objectB, void *context);
 	[verticallyCenteredTextCell release];
 
 	[outlineView_summary setUsesAlternatingRowBackgroundColors:YES];
-	[outlineView_summary setIntercellSpacing:NSMakeSize(6.0,6.0)];
+	[outlineView_summary setIntercellSpacing:NSMakeSize(6.0f,6.0f)];
 	[outlineView_summary setIndentationPerLevel:0];
 	[outlineView_summary setTarget:self];
 	[outlineView_summary setDelegate:self];
@@ -371,10 +371,10 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 								extendToEdgeColumn:EVENT_COLUMN_INDEX
 											ofRow:[outlineView_summary rowForItem:item]];
 	BOOL			enforceMinimumHeight = ([(NSArray *)item count] > 0);
-	float			necessaryHeight = 0;
+	CGFloat			necessaryHeight = 0;
 	NSRect			rectOfLastColumn = [outlineView_summary rectOfColumn:([outlineView_summary numberOfColumns] - 1)];
 	NSRect			rectOfEventColumn = [outlineView_summary rectOfColumn:EVENT_COLUMN_INDEX];
-	float			expandedEventWidth = NSMaxX(rectOfLastColumn) - NSMinX(rectOfEventColumn);
+	CGFloat			expandedEventWidth = NSMaxX(rectOfLastColumn) - NSMinX(rectOfEventColumn);
 
 	//This pool seems to fix a crash. I don't know why.
 	enumerator = [[outlineView_summary tableColumns] objectEnumerator];
@@ -391,7 +391,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 							 objectValueForTableColumn:tableColumn
 												byItem:item];
 			
-			float			thisHeight, tableColumnWidth;
+			CGFloat			thisHeight, tableColumnWidth;
 			NSFont			*font = [dataCell font];
 			NSDictionary	*attributes = nil;
 			
@@ -432,7 +432,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 										 ((necessaryHeight > MINIMUM_ROW_HEIGHT) ? necessaryHeight : MINIMUM_ROW_HEIGHT) :
 										 necessaryHeight));
 #endif
-	[requiredHeightDict setObject:[NSNumber numberWithFloat:(enforceMinimumHeight ? 
+	[requiredHeightDict setObject:[NSNumber numberWithDouble:(enforceMinimumHeight ? 
 															 ((necessaryHeight > MINIMUM_ROW_HEIGHT) ? necessaryHeight : MINIMUM_ROW_HEIGHT) :
 															 necessaryHeight)]
 						   forKey:[NSValue valueWithPointer:item]];	
@@ -459,7 +459,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	NSString		*eventID;
 	NSString		*selectedEventID = nil;
 	
-	int		row = [outlineView_summary selectedRow];
+	NSInteger		row = [outlineView_summary selectedRow];
 	
 	if (row != -1) {
 		id item = [outlineView_summary itemAtRow:row];
@@ -523,7 +523,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
  */
 - (IBAction)didDoubleClick:(id)sender
 {
-	int		row = [outlineView_summary selectedRow];
+	NSInteger		row = [outlineView_summary selectedRow];
 	
 	if (row != -1) {
 		id item = [outlineView_summary itemAtRow:row];
@@ -629,9 +629,9 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 			
 		} else if ([identifier isEqualToString:@"action"]) {
 			NSMutableString	*actionDescription = [NSMutableString string];
-			NSDictionary	*eventDict;
-			BOOL			appended = NO;
-			unsigned		i, count;
+			NSDictionary		*eventDict;
+			BOOL						appended = NO;
+			NSUInteger			i, count;
 			
 			count = [contactEvents count];
 			for (i = 0; i < count; i++) {
@@ -804,7 +804,7 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	NSOutlineView	*outlineView = [notification object];
 	if (!outlineView || (outlineView == outlineView_summary)) {
 		//Enable/disable our configure button
-		int row = [outlineView_summary selectedRow];
+		NSInteger row = [outlineView_summary selectedRow];
 		
 		if (row != -1) {
 			[button_add	setEnabled:YES];

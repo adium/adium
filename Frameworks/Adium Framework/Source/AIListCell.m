@@ -146,7 +146,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	return NSMakeSize(0, [self topSpacing] + [self topPadding] + [self bottomPadding] + [self bottomSpacing]);
 }
 
-- (int)cellWidth
+- (CGFloat)cellWidth
 {
 	return [self leftSpacing] + [self leftPadding] + [self rightPadding] + [self rightSpacing];
 }
@@ -239,18 +239,18 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	[[NSBezierPath bezierPathWithRect:rect] addClip];
 	
 	rect.size.width -= DROP_HIGHLIGHT_WIDTH_MARGIN;
-	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0;
+	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0f;
 	
 	rect.size.height -= DROP_HIGHLIGHT_HEIGHT_MARGIN;
-	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0;
+	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0f;
 
-	NSBezierPath	*path = [NSBezierPath bezierPathWithRoundedRect:rect radius:4.0];
+	NSBezierPath	*path = [NSBezierPath bezierPathWithRoundedRect:rect radius:4.0f];
 
-	[[[NSColor blueColor] colorWithAlphaComponent:0.2] set];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.2f] set];
 	[path fill];
 	
-	[[[NSColor blueColor] colorWithAlphaComponent:0.8] set];
-	[path setLineWidth:2.0];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.8f] set];
+	[path setLineWidth:2.0f];
 	[path stroke];
 
 	[NSGraphicsContext restoreGraphicsState];	
@@ -298,7 +298,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	//Alignment
 	switch ([self textAlignment]) {
 		case NSCenterTextAlignment:
-			rect.origin.x += (rect.size.width - nameSize.width) / 2.0;
+			rect.origin.x += (rect.size.width - nameSize.width) / 2.0f;
 		break;
 		case NSRightTextAlignment:
 			rect.origin.x += (rect.size.width - nameSize.width);
@@ -308,7 +308,7 @@ static NSMutableParagraphStyle	*leftParagraphStyleWithTruncatingTail = nil;
 	}
 
 	//Draw (centered vertical)
-	int half = ceil((rect.size.height - labelFontHeight) / 2.0);
+	CGFloat half = AIceil((rect.size.height - labelFontHeight) / 2.0f);
 	[displayName drawInRect:NSMakeRect(rect.origin.x,
 									   rect.origin.y + half,
 									   rect.size.width,

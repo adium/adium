@@ -21,8 +21,8 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/MVMenuButton.h>
 
-#define MINIMUM_ROW_HEIGHT				42.0 // It's, like, the answer.
-#define MAXIMUM_ROW_HEIGHT				300.0
+#define MINIMUM_ROW_HEIGHT				42.0f // It's, like, the answer.
+#define MAXIMUM_ROW_HEIGHT				300.0f
 #define MINIMUM_CELL_SPACING			4
 
 @interface AIAuthorizationRequestsWindowController()
@@ -540,7 +540,7 @@ static AIAuthorizationRequestsWindowController *sharedController = nil;
 {
 	NSNumber *cachedHeight = [requiredHeightDict objectForKey:[NSNumber numberWithInteger:row]];
 	if (cachedHeight) {
-		return [cachedHeight doubleValue];
+		return (CGFloat)[cachedHeight doubleValue];
 	}
 	
 	// The row should be cached, so this shouldn't be hit.

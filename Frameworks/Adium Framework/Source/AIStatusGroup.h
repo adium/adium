@@ -22,9 +22,9 @@
 
 - (void)setContainedStatusItems:(NSArray *)inContainedStatusItems;
 
-- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(int)index;
+- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(NSUInteger)index;
 - (void)removeStatusItem:(AIStatusItem *)inStatusItem;
-- (int)moveStatusItem:(AIStatusItem *)statusState toIndex:(int)destIndex;
+- (NSUInteger)moveStatusItem:(AIStatusItem *)statusState toIndex:(NSUInteger)destIndex;
 - (void)replaceExistingStatusState:(AIStatus *)oldStatusState withStatusState:(AIStatus *)newStatusState;
 
 - (NSArray *)containedStatusItems;

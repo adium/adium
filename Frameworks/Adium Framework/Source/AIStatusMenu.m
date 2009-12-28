@@ -391,7 +391,7 @@
 {
 	NSDictionary	*dict = [sender representedObject];
 	AIAccount		*account = [dict objectForKey:@"AIAccount"];
-	AIStatusType	statusType = [sender tag];
+	AIStatusType	statusType = (AIStatusType)[sender tag];
 	AIStatus		*baseStatusState;
 	
 	if (account) {

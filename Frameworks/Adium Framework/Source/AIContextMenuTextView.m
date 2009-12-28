@@ -65,7 +65,7 @@
 	
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
-		int i = [(NSMenu *)contextualMenu numberOfItems];
+		NSInteger i = [(NSMenu *)contextualMenu numberOfItems];
 		for (menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
@@ -85,7 +85,7 @@
 //Set our string, preserving the selected range
 - (void)setAttributedString:(NSAttributedString *)inAttributedString
 {
-    int			length = [inAttributedString length];
+    NSInteger			length = [inAttributedString length];
     NSRange 	oldRange = [self selectedRange];
 	
     //Change our string

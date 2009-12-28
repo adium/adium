@@ -45,8 +45,8 @@ typedef enum {
 } AILocalizationAnchorMovementType;
 
 @interface NSObject (PRIVATE_AILocalizationControls)
-- (void)_resizeWindow:(NSWindow *)inWindow leftBy:(float)difference;
-- (void)_resizeWindow:(NSWindow *)inWindow rightBy:(float)difference;
+- (void)_resizeWindow:(NSWindow *)inWindow leftBy:(CGFloat)difference;
+- (void)_resizeWindow:(NSWindow *)inWindow rightBy:(CGFloat)difference;
 - (void)setRightAnchorMovementType:(AILocalizationAnchorMovementType)inType;
 - (void)_handleSizingWithOldFrame:(NSRect)oldFrame stringValue:(NSString *)inStringValue;
 - (NSControl *)viewForSizing;

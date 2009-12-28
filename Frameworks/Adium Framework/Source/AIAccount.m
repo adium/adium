@@ -50,7 +50,7 @@
 
 @property (readwrite, retain, nonatomic) id userData;
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end
 
@@ -80,7 +80,7 @@
 	[alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
 	[account alertForAccountDeletion:self didReturn:returnCode];
 }
 
@@ -513,7 +513,7 @@ typedef enum
  */
 - (float)delayedUpdateStatusInterval
 {
-	return 0.5;
+	return 0.5f;
 }
 
 /*!
@@ -1099,7 +1099,7 @@ typedef enum
 			return nil;
 		}
 		AIMessageWindowController *chatWindowController = nil;
-		int index = -1; //at end by default
+		NSInteger index = -1; //at end by default
 		if ([resolvedKeyDictionary objectForKey:@"newChatWindow"]) {
 			//I need to put this in a new chat window
 			chatWindowController = [adium.interfaceController openContainerWithID:nil name:nil];

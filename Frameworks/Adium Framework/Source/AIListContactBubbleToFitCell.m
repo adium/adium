@@ -30,13 +30,13 @@
 - (NSRect)bubbleRectForFrame:(NSRect)rect
 {
 	NSSize				nameSize = [[self labelString] sizeWithAttributes:[self labelAttributes]];
-	float				originalWidth = rect.size.width;
-	float				originalX = rect.origin.x;
+	CGFloat				originalWidth = rect.size.width;
+	CGFloat				originalX = rect.origin.x;
 	
 	//Alignment
 	switch ([self textAlignment]) {
 		case NSCenterTextAlignment:
-			rect.origin.x += ((rect.size.width - nameSize.width) / 2.0) - [self leftPadding];
+			rect.origin.x += ((rect.size.width - nameSize.width) / 2.0f) - [self leftPadding];
 			break;
 		case NSRightTextAlignment:
 			rect.origin.x += (rect.size.width - nameSize.width) - [self leftPadding] - [self rightPadding];
@@ -52,7 +52,7 @@
 	
 	//User icon
 	if (userIconVisible) {
-		float userIconChange;
+		CGFloat userIconChange;
 
 		userIconChange = userIconSize.width;
 		userIconChange += USER_ICON_LEFT_PAD + USER_ICON_RIGHT_PAD;
@@ -68,7 +68,7 @@
 	//Status icon
 	if (statusIconsVisible &&
 	   (statusIconPosition != LIST_POSITION_BADGE_LEFT && statusIconPosition != LIST_POSITION_BADGE_RIGHT)) {
-		float	statusIconChange;
+		CGFloat	statusIconChange;
 
 		statusIconChange = [[self statusImage] size].width;
 		statusIconChange += STATUS_ICON_LEFT_PAD + STATUS_ICON_RIGHT_PAD;
@@ -84,7 +84,7 @@
 	//Service icon
 	if (serviceIconsVisible &&
 	   (serviceIconPosition != LIST_POSITION_BADGE_LEFT && serviceIconPosition != LIST_POSITION_BADGE_RIGHT)) {
-		float serviceIconChange;
+		CGFloat serviceIconChange;
 		
 		serviceIconChange = [[self serviceImage] size].width;
 		serviceIconChange += SERVICE_ICON_LEFT_PAD + SERVICE_ICON_RIGHT_PAD;

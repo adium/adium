@@ -61,8 +61,8 @@ typedef enum {
 @property (readonly, nonatomic) NSCharacterSet *allowedCharactersForAccountName;
 @property (readonly, nonatomic) NSCharacterSet *ignoredCharacters;
 @property (readonly, nonatomic) NSUInteger allowedLength;
-@property (readonly, nonatomic) int allowedLengthForUIDs;
-@property (readonly, nonatomic) int allowedLengthForAccountName;
+@property (readonly, nonatomic) NSUInteger allowedLengthForUIDs;
+@property (readonly, nonatomic) NSUInteger allowedLengthForAccountName;
 @property (readonly, nonatomic) BOOL caseSensitive;
 @property (readonly, nonatomic) BOOL canCreateGroupChats;
 @property (readonly, nonatomic) BOOL canRegisterNewAccounts;

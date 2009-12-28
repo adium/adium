@@ -24,12 +24,12 @@ typedef enum {
 	AIUserIconSourceLookingUpIconAsynchronously
 } AIUserIconSourceQueryResult;
 
-typedef float AIUserIconPriority;
-#define AIUserIconHighestPriority   0.00
-#define AIUserIconHighPriority      0.25
-#define AIUserIconMediumPriority    0.50
-#define AIUserIconLowPriority       0.75
-#define AIUserIconLowestPriority    1.00
+typedef CGFloat AIUserIconPriority;
+#define AIUserIconHighestPriority   0.00f
+#define AIUserIconHighPriority      0.25f
+#define AIUserIconMediumPriority    0.50f
+#define AIUserIconLowPriority       0.75f
+#define AIUserIconLowestPriority    1.00f
 
 @protocol AIUserIconSource
 /*!

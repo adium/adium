@@ -283,8 +283,8 @@
 - (void)configureWindow
 {
 	NSWindow	*window = [self window];
-	int			heightChange = 0;
-	int			distanceFromBottomOfMessageToButtons = 24;
+	CGFloat		heightChange = 0;
+	NSInteger	distanceFromBottomOfMessageToButtons = 24;
 	NSRect		windowFrame = [window frame];
 
 	//Set the image if we have one
@@ -332,7 +332,7 @@
 		}
 		
 		//verticalChange is how far we can move our message area up since we don't have a messageHeader
-		int verticalChange = (messageHeaderFrame.size.height +
+		CGFloat verticalChange = (messageHeaderFrame.size.height +
 							  (messageHeaderFrame.origin.y - (scrollFrame.origin.y+scrollFrame.size.height)));
 
 		scrollFrame.size.height += verticalChange;
@@ -342,7 +342,7 @@
 
 	//Set the message, then change the window size accordingly
 	{
-		int		messageHeightChange;
+		CGFloat		messageHeightChange;
 
 		[textView_message setVerticallyResizable:YES];
 		[textView_message setDrawsBackground:NO];
@@ -395,7 +395,7 @@
 	/* For NSButtons, sizeToFit is 8 pixels smaller than the HIG recommended size  */
 	newFrame.size.width += 8;
 	/* Only use integral widths to keep alignment correct; round up as an extra pixel of whitespace never hurt anybody */
-	newFrame.size.width = round(NSWidth(newFrame) + 0.5);
+	newFrame.size.width = AIround(NSWidth(newFrame) + 0.5f);
 	if (newFrame.size.width < 90) newFrame.size.width = 90;
 	newFrame.origin.x = NSWidth([window frame]) - NSWidth(newFrame) - 14;
 
@@ -412,7 +412,7 @@
 		/* For NSButtons, sizeToFit is 8 pixels smaller than the HIG recommended size  */
 		newFrame.size.width += 8;
 		/* Only use integral widths to keep alignment correct; round up as an extra pixel of whitespace never hurt anybody */
-		newFrame.size.width = round(NSWidth(newFrame) + 0.5);
+		newFrame.size.width = AIround(NSWidth(newFrame) + 0.5f);
 		if (newFrame.size.width < 90) newFrame.size.width = 90;
 		newFrame.origin.x = NSMinX([button_default frame]) - NSWidth(newFrame) + 2;
 
@@ -432,7 +432,7 @@
 			/* For NSButtons, sizeToFit is 8 pixels smaller than the HIG recommended size  */
 			newFrame.size.width += 8;
 			/* Only use integral widths to keep alignment correct; round up as an extra pixel of whitespace never hurt anybody */
-			newFrame.size.width = round(NSWidth(newFrame) + 0.5);
+			newFrame.size.width = AIround(NSWidth(newFrame) + 0.5f);
 			if (newFrame.size.width < 90) newFrame.size.width = 90;
 
 			newFrame.origin.x = NSMinX([button_alternate frame]) - 36 - NSWidth(newFrame);
@@ -440,7 +440,7 @@
 			[button_other setFrame:newFrame];
 			
 			//Increase the window size to keep our origin in the same location after resizing
-			unsigned int oldAutosizingMask = [button_other autoresizingMask]; 
+			NSUInteger oldAutosizingMask = [button_other autoresizingMask]; 
 			[button_other setAutoresizingMask:(NSViewMinYMargin | NSViewMinXMargin)];
 			windowFrame.size.width += oldFrame.origin.x - newFrame.origin.x;
 			[window setFrame:windowFrame display:NO animate:NO];

@@ -19,17 +19,17 @@
 #define ERRORS_BEFORE_DIALOG	3	//Number of mistakes that can be made before an error dialog will appear
 
 @interface AIStringFormatter ()
-- (id)initAllowingCharacters:(NSCharacterSet *)inCharacters length:(int)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage;
+- (id)initAllowingCharacters:(NSCharacterSet *)inCharacters length:(NSInteger)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage;
 @end
 
 @implementation AIStringFormatter
 
-+ (id)stringFormatterAllowingCharacters:(NSCharacterSet *)inCharacters length:(int)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage
++ (id)stringFormatterAllowingCharacters:(NSCharacterSet *)inCharacters length:(NSInteger)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage
 {
     return [[[self alloc] initAllowingCharacters:inCharacters length:inLength caseSensitive:inCaseSensitive errorMessage:inErrorMessage] autorelease];
 }
 
-- (id)initAllowingCharacters:(NSCharacterSet *)inCharacters length:(int)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage
+- (id)initAllowingCharacters:(NSCharacterSet *)inCharacters length:(NSInteger)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)inErrorMessage
 {
 	if ((self = [super init])) {
 		errorMessage = [inErrorMessage retain];

@@ -187,14 +187,14 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 
 				if (anIconSize.width < targetRect.size.width) {
-					float difference = (targetRect.size.width - anIconSize.width)/2;
+					CGFloat difference = (targetRect.size.width - anIconSize.width)/2;
 
 					targetRect.size.width -= difference;
 					targetRect.origin.x += difference;
 				}
 
 				if (anIconSize.height < targetRect.size.height) {
-					float difference = (targetRect.size.height - anIconSize.height)/2;
+					CGFloat difference = (targetRect.size.height - anIconSize.height)/2;
 
 					targetRect.size.height -= difference;
 					targetRect.origin.y += difference;
@@ -203,7 +203,7 @@ static NSDictionary			*serviceIconNames[NUMBER_OF_SERVICE_ICON_TYPES];
 				[anIcon drawInRect:targetRect
 							fromRect:NSMakeRect(0,0,anIconSize.width,anIconSize.height)
 						   operation:NSCompositeCopy
-							fraction:1.0];
+							fraction:1.0f];
 
 				//Shift right in preparation for next image
 				xOrigin += PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN;

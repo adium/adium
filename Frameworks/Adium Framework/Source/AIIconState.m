@@ -22,7 +22,7 @@
 
 @implementation AIIconState
 
-- (id)initWithImages:(NSArray *)inImages delay:(float)inDelay looping:(BOOL)inLooping overlay:(BOOL)inOverlay
+- (id)initWithImages:(NSArray *)inImages delay:(CGFloat)inDelay looping:(BOOL)inLooping overlay:(BOOL)inOverlay
 {
     //init
     if ((self = [super init]))
@@ -134,7 +134,7 @@
     iconRendering_baseState = nil;
     iconRendering_animationState = nil;
     
-    delay = 1.0;
+    delay = 1.0f;
     looping = NO;
     overlay = NO;
     currentFrame = 0;
@@ -152,7 +152,7 @@
     [super dealloc];
 }
 
-- (int)currentFrame
+- (NSInteger)currentFrame
 {
     return currentFrame;
 }
@@ -160,7 +160,7 @@
 - (void)nextFrame
 {
     if (animated) {
-		unsigned imageArrayCount = [imageArray count];
+		NSUInteger imageArrayCount = [imageArray count];
 
         //Next frame
         if (++currentFrame >= numberOfFrames) {
@@ -197,11 +197,11 @@
     return animated;
 }
 
-- (float)animationDelay{
+- (CGFloat)animationDelay{
     return delay;
 }
 
-- (int)numberOfFrames{
+- (NSInteger)numberOfFrames{
     return numberOfFrames;
 }
 
@@ -221,11 +221,11 @@
     return image;
 }
 
-- (NSImage *)_compositeStates:(NSArray *)iconStateArray withBaseState:(AIIconState *)baseState animatingState:(AIIconState *)animatingState forFrame:(int)frame
+- (NSImage *)_compositeStates:(NSArray *)iconStateArray withBaseState:(AIIconState *)baseState animatingState:(AIIconState *)animatingState forFrame:(NSInteger)frame
 {
     NSImage			*workingImage;
     AIIconState		*iconState;
-	int				animatingStateNumberOfFrames = [animatingState numberOfFrames];
+	NSInteger				animatingStateNumberOfFrames = [animatingState numberOfFrames];
 	
 	NSMutableArray *imagesToComposite = [NSMutableArray array];
 	
@@ -266,7 +266,7 @@
 		[overlayImage drawAtPoint:NSMakePoint(0,0)
 						 fromRect:NSMakeRect(0,0,size.width,size.height)
 						operation:NSCompositeSourceOver
-						 fraction:1.0];
+						 fraction:1.0f];
 	}
 	[workingImage unlockFocus];
 	

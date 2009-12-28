@@ -43,16 +43,16 @@
  *
  * We'll be added a space and parenthesis to the group count if it's displayed, so we need to add on their width
  */
-- (int)cellWidth
+- (CGFloat)cellWidth
 {
-	int width = [super cellWidth];
+	CGFloat width = [super cellWidth];
 
 	if ([listObject boolValueForProperty:@"Show Count"] && 
 		[listObject valueForProperty:@"Count Text"]) {
 		//We'll be added a space and parenthesis to the group count if it's displayed
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:@" ()"
 																		attributes:[self labelAttributes]];
-		width += ceil([countText size].width);
+		width += AIceil([countText size].width);
 		[countText release];
 	}
 	
@@ -76,13 +76,13 @@
 - (NSRect)bubbleRectForFrame:(NSRect)rect
 {
 	NSSize				nameSize = [self.displayName size];
-	float				originalWidth = rect.size.width;
-	float				originalX = rect.origin.x;
+	CGFloat				originalWidth = rect.size.width;
+	CGFloat				originalX = rect.origin.x;
 
 	//Alignment
 	switch ([self textAlignment]) {
 		case NSCenterTextAlignment:
-			rect.origin.x += ((rect.size.width - nameSize.width) / 2.0) - [self leftPadding];
+			rect.origin.x += ((rect.size.width - nameSize.width) / 2.0f) - [self leftPadding];
 		break;
 		case NSRightTextAlignment:
 			rect.origin.x += (rect.size.width - nameSize.width) - [self leftPadding] - [self rightPadding];

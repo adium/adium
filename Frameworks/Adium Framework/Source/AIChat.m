@@ -310,7 +310,7 @@ static int nextChatNumber = 0;
  */
 - (AIGroupChatFlags)flagsForContact:(AIListObject *)contact
 {
-	return [[participatingContactsFlags objectForKey:contact.UID] integerValue];
+	return [(NSNumber *)[participatingContactsFlags objectForKey:contact.UID] intValue];
 }
 
 /*!
@@ -584,16 +584,16 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 - (void)incrementUnviewedContentCount
 {
-	int currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_CONTENT];
-	[self setValue:[NSNumber numberWithInt:(currentUnviewed+1)]
+	NSInteger currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_CONTENT];
+	[self setValue:[NSNumber numberWithInteger:(currentUnviewed+1)]
 					 forProperty:KEY_UNVIEWED_CONTENT
 					 notify:NotifyNow];
 }
 
 - (void)incrementUnviewedMentionCount
 {
-	int currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_MENTION];
-	[self setValue:[NSNumber numberWithInt:(currentUnviewed+1)]
+	NSInteger currentUnviewed = [self integerValueForProperty:KEY_UNVIEWED_MENTION];
+	[self setValue:[NSNumber numberWithInteger:(currentUnviewed+1)]
 	   forProperty:KEY_UNVIEWED_MENTION
 			notify:NotifyNow];
 }
@@ -726,7 +726,7 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 
 //Not used
 - (float)smallestOrder { return 0; }
-- (float)largestOrder { return 1E10; }
+- (float)largestOrder { return 1E10f; }
 - (float)orderIndexForObject:(AIListObject *)listObject { return 0; }
 - (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex {};
 

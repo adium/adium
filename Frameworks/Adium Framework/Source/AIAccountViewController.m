@@ -311,7 +311,7 @@
 					 group:GROUP_ACCOUNT_STATUS];
 
 	//Encryption
-	[account setPreference:[NSNumber numberWithInt:[[popUp_encryption selectedItem] tag]]
+	[account setPreference:[NSNumber numberWithInteger:[[popUp_encryption selectedItem] tag]]
 					forKey:KEY_ENCRYPTED_CHAT_PREFERENCE
 					 group:GROUP_ENCRYPTION];
 	
