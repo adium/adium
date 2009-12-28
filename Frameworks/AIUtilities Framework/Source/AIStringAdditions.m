@@ -248,7 +248,7 @@ enum {
 }
 
 
-- (NSString *)stringWithEllipsisByTruncatingToLength:(unsigned int)length
+- (NSString *)stringWithEllipsisByTruncatingToLength:(NSUInteger)length
 {
 	NSString *returnString;
 	
