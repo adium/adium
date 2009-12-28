@@ -632,9 +632,9 @@ NSComparisonResult userListSort (id objectA, id objectB, void *context)
 	return [participatingContacts containsObjectIdenticalTo:inObject];
 }
 
-- (id)visibleObjectAtIndex:(NSUInteger)index
+- (id)visibleObjectAtIndex:(NSUInteger)idx
 {
-	return [participatingContacts objectAtIndex:index];
+	return [participatingContacts objectAtIndex:idx];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj

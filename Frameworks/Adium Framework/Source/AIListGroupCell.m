@@ -266,13 +266,13 @@
 		labelAttributes = super.labelAttributes;
 		
 		if (shadowColor) {
-			NSShadow	*shadow = [[[NSShadow alloc] init] autorelease];
+			NSShadow	*textShadow = [[[NSShadow alloc] init] autorelease];
 			
-			[shadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
-			[shadow setShadowBlurRadius:2.0f];
-			[shadow setShadowColor:shadowColor];
+			[textShadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
+			[textShadow setShadowBlurRadius:2.0f];
+			[textShadow setShadowColor:shadowColor];
 			
-			[labelAttributes setObject:shadow forKey:NSShadowAttributeName];
+			[labelAttributes setObject:textShadow forKey:NSShadowAttributeName];
 		}
 	}
 	

@@ -203,25 +203,25 @@
 		[self addContainingGroup:inGroup];
 }
 
-- (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)index
+- (void) moveContainedObject:(AIListObject *)listObject toIndex:(NSInteger)idx
 {
 	AIListObject<AIContainingObject> *container = (AIListObject<AIContainingObject> *)self;
 	
 	// We can't enforce this, since we're asked to set it for objects we don't yet *officially* contain.
 	//NSAssert([container.containedObjects containsObject:listObject], @"Asked to set an index for an object which doesn't exist.");
 	
-	if (index == 0) {
+	if (idx == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
 		[container listObject:listObject didSetOrderIndex: self.smallestOrder / 2.0f];
 		
-	} else if (index >= container.visibleCount) {
+	} else if (idx >= container.visibleCount) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
 		[container listObject:listObject didSetOrderIndex: self.largestOrder + 1.0f];
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
-		AIListObject	*previousObject = [container.visibleContainedObjects objectAtIndex:index-1];
-		AIListObject	*nextObject = [container.visibleContainedObjects objectAtIndex:index];
+		AIListObject	*previousObject = [container.visibleContainedObjects objectAtIndex:idx-1];
+		AIListObject	*nextObject = [container.visibleContainedObjects objectAtIndex:idx];
 		CGFloat nextLowest = [container orderIndexForObject:previousObject];
 		CGFloat nextHighest = [container orderIndexForObject:nextObject];
 		
@@ -239,7 +239,7 @@
 		 * Only the sort controller knows the answer as to where this contact should be positioned in the end.
 		 */
 		AILogWithSignature(@"%@: Moving %@ into %@'s index %i using order index %f (between %@ and %@)",
-						   container, listObject, container.visibleContainedObjects, index, 
+						   container, listObject, container.visibleContainedObjects, idx, 
 						   (nextHighest + nextLowest) / 2.0, nextObject, previousObject);
 		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0f];
 	}	
@@ -758,9 +758,9 @@
 	
 	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
 	
-	for (NSNumber *index in orderIndex.allValues) {
-		smallest = MIN(smallest, index.floatValue);
-		largest = MAX(largest, index.floatValue);
+	for (NSNumber *idx in orderIndex.allValues) {
+		smallest = MIN(smallest, idx.floatValue);
+		largest = MAX(largest, idx.floatValue);
 	}
 	
 	cachedSmallestOrder = (smallest == INFINITY ? 1 : smallest);

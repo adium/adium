@@ -565,16 +565,16 @@ static	NSMutableDictionary	*controllerDict = nil;
 {
 	//State menu
 	NSString	*description;
-	NSUInteger			index;
+	NSUInteger			idx;
 
 	if (needToRebuildPopUpState) {
 		[self configureStateMenu];
 	}
 
 	description = [adium.statusController descriptionForStateOfStatus:statusState];
-	index = (description ? [popUp_state indexOfItemWithTitle:description] : -1);
-	if (index != -1) {
-		[popUp_state selectItemAtIndex:index];
+	idx = (description ? [popUp_state indexOfItemWithTitle:description] : -1);
+	if (idx != -1) {
+		[popUp_state selectItemAtIndex:idx];
 
 	} else {
 		if (description) {

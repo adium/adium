@@ -157,9 +157,9 @@
  */
 - (void)setValue:(NSString *)attrVal forAttribute:(NSString *)attrName
 {
-	NSUInteger index = [attributeNames indexOfObject:attrName];
-	if (index != NSNotFound) {
-		[attributeValues replaceObjectAtIndex:index withObject:attrVal];
+	NSUInteger idx = [attributeNames indexOfObject:attrName];
+	if (idx != NSNotFound) {
+		[attributeValues replaceObjectAtIndex:idx withObject:attrVal];
 	} else {
 		[attributeNames addObject:attrName];
 		[attributeValues addObject:attrVal];
@@ -174,9 +174,9 @@
  */
 - (NSString *)valueForAttribute:(NSString *)attrName
 {
-	NSUInteger index = [attributeNames indexOfObject:attrName];
-	if (index != NSNotFound)
-		return [attributeValues objectAtIndex:index];
+	NSUInteger idx = [attributeNames indexOfObject:attrName];
+	if (idx != NSNotFound)
+		return [attributeValues objectAtIndex:idx];
 	return nil;
 }
 

@@ -186,7 +186,7 @@ static NSMutableArray *sortControllers = nil;
 {
 	NSEnumerator 	*enumerator = [inObjects objectEnumerator];
 	AIListObject	*object;
-	int				index = 0;
+	int				idx = 0;
 	
 	SortContext context = {
 		sortFunction,
@@ -195,13 +195,13 @@ static NSMutableArray *sortControllers = nil;
 	
 	if (alwaysSortGroupsToTop) {
 		while ((object = [enumerator nextObject]) && ((object == inObject) || 
-			  basicGroupSort(inObject, object, &context) == NSOrderedDescending)) index++;
+			  basicGroupSort(inObject, object, &context) == NSOrderedDescending)) idx++;
 	} else {
 		while ((object = [enumerator nextObject]) && ((object == inObject) ||
-			  basicSort(inObject, object, &context) == NSOrderedDescending)) index++;
+			  basicSort(inObject, object, &context) == NSOrderedDescending)) idx++;
 	}
 	
-	return index;
+	return idx;
 }
 
 /*!

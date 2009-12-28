@@ -257,7 +257,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	BOOL			 currentBold = NO;
 	BOOL			 currentUnderline = NO;
 	BOOL			 currentStrikethrough = NO;
-	NSString		*link = nil;
+	NSString		*newLink = nil;
 	NSString		*oldLink = nil;
 	
 	//Append the body tag (If there is a background color)
@@ -287,11 +287,11 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		BOOL			 isBold = (traits & NSBoldFontMask);
 		BOOL			 isItalic = (traits & NSItalicFontMask);
 		
-		link = [[attributes objectForKey:NSLinkAttributeName] absoluteString];
+		newLink = [[attributes objectForKey:NSLinkAttributeName] absoluteString];
 		
 		//If we had a link on the last pass, and we don't now or we have a different one, close the link tag
 		if (oldLink &&
-			(!link || (([link length] != 0) && ![oldLink isEqualToString:link]))) {
+			(!newLink || (([newLink length] != 0) && ![oldLink isEqualToString:newLink]))) {
 
 			//Close Link
 			[string appendString:@"</a>"];
@@ -406,8 +406,8 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		}
 
 		//Link
-		if (!oldLink && link && [link length] != 0) {
-			NSString	*linkString = ([link isKindOfClass:[NSURL class]] ? [(NSURL *)link absoluteString] : link);
+		if (!oldLink && newLink && [newLink length] != 0) {
+			NSString	*linkString = ([newLink isKindOfClass:[NSURL class]] ? [(NSURL *)newLink absoluteString] : newLink);
 
 			/* For incoming messages, javascript urls are both dangerous and useless.
 			 * If thingsToInclude.allowJavascriptURLs is NO, we refuse to create <a> tags for links starting with javascript.

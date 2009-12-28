@@ -1053,13 +1053,13 @@ typedef enum
 	
 	return newContact;
 }
-- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(int)index
+- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(int)idx
 {
 	//Intentially unimplemented. This should never be called (contacts are created a different way), but is required for KVC-compliance.
 }
-- (void)removeObjectFromContactsAtIndex:(NSInteger)index
+- (void)removeObjectFromContactsAtIndex:(NSInteger)idx
 {
-	AIListObject *object = [self.contacts objectAtIndex:index];
+	AIListObject *object = [self.contacts objectAtIndex:idx];
 	
 	for (AIListGroup *group in object.groups) {
 		[object removeFromGroup:group];
@@ -1099,7 +1099,7 @@ typedef enum
 			return nil;
 		}
 		AIMessageWindowController *chatWindowController = nil;
-		NSInteger index = -1; //at end by default
+		NSInteger idx = -1; //at end by default
 		if ([resolvedKeyDictionary objectForKey:@"newChatWindow"]) {
 			//I need to put this in a new chat window
 			chatWindowController = [adium.interfaceController openContainerWithID:nil name:nil];
@@ -1108,7 +1108,7 @@ typedef enum
 			//NSLog(@"Here is the info about the location specifier: %@",[resolvedKeyDictionary objectForKey:@"Location"]);
 			NSPositionalSpecifier *location = [resolvedKeyDictionary objectForKey:@"Location"];
 			AIMessageWindow *chatWindow = [location insertionContainer];
-			index = [location insertionIndex];
+			idx = [location insertionIndex];
 			chatWindowController = (AIMessageWindowController *)[chatWindow windowController];
 		}
 		
@@ -1120,7 +1120,7 @@ typedef enum
 		
 		AIChat *newChat = [adium.chatController chatWithContact:contact];
 //		NSLog(@"Making new chat %@ in chat window %@:%@",newChat,chatWindowController,[chatWindowController containerID]);
-		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:index];
+		[adium.interfaceController openChat:newChat inContainerWithID:[chatWindowController containerID] atIndex:idx];
 		return newChat;
 	} else {
 		if (![self.service canCreateGroupChats]) {

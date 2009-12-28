@@ -604,17 +604,17 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 //Outline View data source ---------------------------------------------------------------------------------------------
 #pragma mark Outline View data source
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(AIProxyListObject *)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(AIProxyListObject *)item
 {
 	AIProxyListObject *proxyListObject;
 
 	if (item) {
 		AIListObject<AIContainingObject> *listObject = item.listObject;
-		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:index]
+		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[listObject visibleObjectAtIndex:idx]
 															 inListObject:listObject];
 
 	} else if (hideRoot)
-		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:index]
+		proxyListObject = [AIProxyListObject proxyListObjectForListObject:[contactList visibleObjectAtIndex:idx]
 															 inListObject:contactList];
 	else
 		proxyListObject = [AIProxyListObject proxyListObjectForListObject:contactList
@@ -860,7 +860,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 	return YES;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)idx
 {	
 	//Post a notification that the drag ended so any other list controllers which have cached the drag can clear it
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"AIListControllerDragEnded"
@@ -880,7 +880,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
  * @param index The index within item into which the drag would currently drop. It may be a 0-based index inside item or may be NSOutlineViewDropOnItemIndex.
  * @result The drag operation we will allow
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(AIProxyListObject *)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(AIProxyListObject *)item proposedChildIndex:(NSInteger)idx
 {	
 	return NSDragOperationMove;
 }
