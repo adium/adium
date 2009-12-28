@@ -44,6 +44,9 @@
 
 - (void)calculateAllHeights;
 - (void)calculateHeightForItem:(id)item;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (IBAction)didDoubleClick:(id)sender;
 @end
 
 int alertAlphabeticalSort(id objectA, id objectB, void *context);

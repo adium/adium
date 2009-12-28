@@ -49,6 +49,10 @@
 - (NSMenu *)actionsMenuForAccount:(AIAccount *)inAccount;
 - (void)menuNeedsUpdate:(NSMenu*)menu;
 - (void)rebuildActionsSubmenu:(NSMenu*)actionsSubmenu withAccount:(AIAccount*)account;
+- (void)toggleAccountEnabled:(id)sender;
+- (void)dummyAction:(id)sender;
+- (void)editAccount:(id)sender;
+- (void)toggleAccountEnabled:(id)sender;
 @end
 
 static NSMenu *socialNetworkingSubmenuForAccount(AIAccount *account, id target, SEL action, id self);

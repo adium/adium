@@ -18,6 +18,10 @@
 #import <AIUtilities/AIMutableOwnerArray.h>
 #import <Adium/AIProxyListObject.h>
 
+@interface ESObjectWithProperties (AIPrivate)
+- (void)_applyDelayedProperties:(NSDictionary *)infoDict;
+@end
+
 /*!
  * @class ESObjectWithProperties
  * @brief Abstract superclass for objects with a system of properties and display arrays

@@ -7,6 +7,10 @@
 - (id)initWithPanes:(NSArray *)inArray delegate:(id)inDelegate;
 @end
 
+@interface NSObject (AIModularPaneMethods)
+- (void)closeView;
+@end
+
 @implementation SS_PrefsController
 
 #define Last_Pane_Defaults_Key	[[[NSBundle mainBundle] bundleIdentifier] stringByAppendingString:@"_Preferences_Last_Pane_Defaults_Key"]

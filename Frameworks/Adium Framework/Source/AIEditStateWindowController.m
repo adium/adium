@@ -40,6 +40,9 @@
 - (void)setOriginalStatusState:(AIStatus *)inState forType:(AIStatusType)inStatusType;
 - (void)setAccount:(AIAccount *)inAccount;
 - (void)configureForAccountAndWorkingStatusState;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)notifyOfStateChange;
 @end
 
 /*!

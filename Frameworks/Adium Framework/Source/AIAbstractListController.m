@@ -65,6 +65,10 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 
 @interface AIAbstractListController ()
 - (LIST_POSITION)pillowsFittedIconPositionForIconPosition:(LIST_POSITION)iconPosition contentCellAlignment:(NSTextAlignment)contentCellAlignment;
+- (void)listControllerDragEnded:(NSNotification *)notification;
+- (void)performExpandItem:(NSNotification *)notification;
+- (void)performCollapseItem:(NSNotification *)notification;
+- (void)displayableContainedObjectsDidChange:(NSNotification *)notification;
 @end
 
 @implementation AIAbstractListController

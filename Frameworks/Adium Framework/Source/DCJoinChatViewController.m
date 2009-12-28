@@ -26,6 +26,7 @@
 
 @interface DCJoinChatViewController ()
 - (NSString *)impliedCompletion:(NSString *)aString;
+- (void)inviteUsers:(NSTimer *)inTimer;
 @end
 
 @implementation DCJoinChatViewController

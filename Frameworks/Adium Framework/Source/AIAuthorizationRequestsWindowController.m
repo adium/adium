@@ -31,6 +31,15 @@
 
 - (void)configureToolbar;
 - (void)applyResponse:(AIAuthorizationResponse)response;
+
+- (void)authorize:(id)sender;
+- (void)getInfo:(id)sender;
+- (void)deny:(id)sender;
+- (void)denyBlock:(id)sender;
+- (void)ignore:(id)sender;
+- (void)ignoreBlock:(id)sender;
+- (void)authorize:(id)sender;
+- (void)authorizeAdd:(id)sender;
 @end
 
 @implementation AIAuthorizationRequestsWindowController
