@@ -16,12 +16,14 @@
 	#define AIceil( X ) ceil((X))
 	#define AIfloor( X ) floor((X))
 	#define AIfmod( X, Y ) fmod((X),(Y))
+	#define AIfmin( X, Y ) fmin((X),(Y))
 #else
 	#define AIfabs( X ) fabsf((X))
 	#define AIround( X ) roundf((X))
 	#define AIceil( X ) ceilf((X))
 	#define AIfloor( X ) floorf((X))
 	#define AIfmod( X, Y ) fmodf((X),(Y))
+	#define AIfmin( X, Y ) fminf((X),(Y))
 #endif
 
 #endif

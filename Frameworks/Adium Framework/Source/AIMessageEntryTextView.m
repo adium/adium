@@ -105,7 +105,7 @@
 - (void)addAttachmentsFromPasteboard:(NSPasteboard *)pasteboard;
 
 - (void)setCharacterCounterVisible:(BOOL)visible;
-- (void)setCharacterCounterMaximum:(int)inMaxCharacters;
+- (void)setCharacterCounterMaximum:(NSInteger)inMaxCharacters;
 - (void)setCharacterCounterPrefix:(NSString *)prefix;
 - (void)updateCharacterCounter;
 - (void)positionCharacterCounter;
@@ -228,7 +228,7 @@
 
 	if ([charactersIgnoringModifiers length]) {
 		unichar		 inChar = [charactersIgnoringModifiers characterAtIndex:0];
-		unsigned int flags = [inEvent modifierFlags];
+		NSUInteger flags = [inEvent modifierFlags];
 		
 		//We have to test ctrl before option, because otherwise we'd miss ctrl-option-* events
 		if (pushPopEnabled &&
@@ -465,7 +465,7 @@
 //Set our string, preserving the selected range
 - (void)setAttributedString:(NSAttributedString *)inAttributedString
 {
-    int			length = [inAttributedString length];
+    NSUInteger			length = [inAttributedString length];
     NSRange 	oldRange = [self selectedRange];
 
     //Change our string
@@ -753,7 +753,7 @@
 - (NSSize)desiredSize
 {
     if (_desiredSizeCached.width == 0) {
-        float 		textHeight;
+        CGFloat 		textHeight;
         if ([[self textStorage] length] != 0) {
             //If there is text in this view, let the container tell us its height
 
@@ -1002,7 +1002,7 @@
 {
     NSRect visRect = [[self superview] bounds];
     NSRect indFrame = [pushIndicator frame];
-	float counterPadding = characterCounter ? NSWidth([characterCounter frame]) : 0;
+	CGFloat counterPadding = characterCounter ? NSWidth([characterCounter frame]) : 0;
 	[pushIndicator setFrameOrigin:NSMakePoint(NSMaxX(visRect) - NSWidth(indFrame) - INDICATOR_RIGHT_PADDING - counterPadding, 
 											  NSMidY([self frame]) - NSHeight(indFrame)/2)];
     [[self enclosingScrollView] setNeedsDisplay:YES];
@@ -1080,7 +1080,7 @@
 /**
  * @brief Set the number of characters the character counter should count down from.
  */
-- (void)setCharacterCounterMaximum:(int)inMaxCharacters
+- (void)setCharacterCounterMaximum:(NSInteger)inMaxCharacters
 {
 	maxCharacters = inMaxCharacters;
 	
@@ -1096,20 +1096,20 @@
 	NSRect visRect = [[self superview] bounds];
 	
 	NSString *inputString = [self.chat.account encodedAttributedString:[self textStorage] forListObject:self.chat.listObject];
-	int currentCount = (maxCharacters - [inputString length]);
+	NSInteger currentCount = (maxCharacters - [inputString length]);
 
 	if(maxCharacters && currentCount < 0) {
 		savedTextColor = [[self textColor] retain];
 		
-		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
-													  saturation:0.43
-													  brightness:0.99
-														   alpha:1.0]];
+		[self setBackgroundColor:[NSColor colorWithCalibratedHue:0.983f
+													  saturation:0.43f
+													  brightness:0.99f
+														   alpha:1.0f]];
 		
-		[self.enclosingScrollView setBackgroundColor:[NSColor colorWithCalibratedHue:0.983
-																		  saturation:0.43
-																		  brightness:0.99
-																			   alpha:1.0]];
+		[self.enclosingScrollView setBackgroundColor:[NSColor colorWithCalibratedHue:0.983f
+																		  saturation:0.43f
+																		  brightness:0.99f
+																			   alpha:1.0f]];
 	} else {
 		if (savedTextColor) {
 			[self setTextColor:savedTextColor];
@@ -1136,11 +1136,11 @@
 	[self positionCharacterCounter];
 	
 	//Shift the text entry view over as necessary.
-	float indent = 0;
+	CGFloat indent = 0;
 	if (pushIndicatorVisible || characterCounter) {
-		float pushIndicatorX = pushIndicator ? NSMinX([pushIndicator frame]) : NSMaxX([self bounds]);
-		float characterCounterX = characterCounter ? NSMinX([characterCounter frame]) : NSMaxX([self bounds]);
-		indent = NSWidth(visRect) - fminf(pushIndicatorX, characterCounterX);
+		CGFloat pushIndicatorX = pushIndicator ? NSMinX([pushIndicator frame]) : NSMaxX([self bounds]);
+		CGFloat characterCounterX = characterCounter ? NSMinX([characterCounter frame]) : NSMaxX([self bounds]);
+		indent = NSWidth(visRect) - AIfmin(pushIndicatorX, characterCounterX);
 	}
 	[self setFrameSize:NSMakeSize(NSWidth(visRect) - indent, NSHeight([self frame]))];
 	
@@ -1215,7 +1215,7 @@
 
 		if (editLinkItem) {
 			//There was an Edit Link item.  Remove it, and add out own link editing items in its place.
-			int editIndex = [contextualMenu indexOfItem:editLinkItem];
+			NSInteger editIndex = [contextualMenu indexOfItem:editLinkItem];
 			[contextualMenu removeItem:editLinkItem];
 			
 			NSMenu  *linkItemsMenu = [adium.menuController contextualMenuWithLocations:[NSArray arrayWithObject:
@@ -1241,7 +1241,7 @@
 	
 	if ([itemsArray count] > 0) {
 		[contextualMenu addItem:[NSMenuItem separatorItem]];
-		int i = [(NSMenu *)contextualMenu numberOfItems];
+		NSInteger i = [(NSMenu *)contextualMenu numberOfItems];
 		for (NSMenuItem *menuItem in itemsArray) {
 			//We're going to be copying; call menu needs update now since it won't be called later.
 			NSMenu	*submenu = [menuItem submenu];
@@ -1610,7 +1610,7 @@
 	NSMutableAttributedString *attributedString = [[[NSMutableAttributedString alloc] initWithRTFD:data
 																				documentAttributes:NULL] autorelease];
 	if ([attributedString length] && [attributedString containsAttachments]) {
-		int							currentLocation = 0;
+		NSUInteger							currentLocation = 0;
 		NSRange						attachmentRange;
 		
 		NSString					*attachmentCharacterString = [NSString stringWithFormat:@"%C",NSAttachmentCharacter];

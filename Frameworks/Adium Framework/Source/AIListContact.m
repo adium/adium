@@ -614,7 +614,7 @@
 	}
 	
 	if (prefNumber)
-		pref = [prefNumber integerValue];
+		pref = [prefNumber intValue];
 	
 	return pref;
 }
@@ -846,7 +846,7 @@
 }
 
 - (void)setBaseWritingDirection:(NSWritingDirection)direction {
-	[self setPreference:[NSNumber numberWithInt:direction]
+	[self setPreference:[NSNumber numberWithInteger:direction]
 				 forKey:KEY_BASE_WRITING_DIRECTION
 				  group:PREF_GROUP_WRITING_DIRECTION];
 }

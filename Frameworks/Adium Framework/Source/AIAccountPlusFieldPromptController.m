@@ -117,7 +117,7 @@
 	NSString *accountID = [adium.preferenceController preferenceForKey:[NSString stringWithFormat:@"AccountPlusFieldLastAccountID:%@", [self lastAccountIDKey]]
 																   group:ACCOUNT_PLUS_FIELD_GROUP];
 	AIAccount *account = [adium.accountController accountWithInternalObjectID:accountID];
-	int accountIndex = (account ? [[popUp_service menu] indexOfItemWithRepresentedObject:account] : -1);
+	NSInteger accountIndex = (account ? [[popUp_service menu] indexOfItemWithRepresentedObject:account] : -1);
 
 	if (accountIndex != -1) {
 		[popUp_service selectItemAtIndex:accountIndex];

@@ -214,7 +214,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 	//Setup the incoming message as a regular string, and get its length
 	NSString		*inMessageString = [inMessage string];
-	unsigned		 messageLength = [inMessageString length];
+	NSUInteger		 messageLength = [inMessageString length];
 	
 	//Setup the destination HTML string
 	NSMutableString *string = [NSMutableString string];
@@ -252,7 +252,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 	NSString		*currentFamily = [@"Helvetica" retain];
 	NSString		*currentColor = nil;
 	NSString		*currentBackColor = nil;
-	int				 currentSize = 12;
+	CGFloat			 currentSize = 12;
 	BOOL			 currentItalic = NO;
 	BOOL			 currentBold = NO;
 	BOOL			 currentUnderline = NO;
@@ -279,7 +279,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		NSString		*color = (thingsToInclude.colorTags ? [[attributes objectForKey:NSForegroundColorAttributeName] hexString] : nil);
 		NSString		*backColor = (thingsToInclude.colorTags ? [[attributes objectForKey:NSBackgroundColorAttributeName] hexString] : nil);
 		NSString		*familyName = [font familyName];
-		float			 pointSize = [font pointSize];
+		CGFloat			 pointSize = [font pointSize];
 
 		NSFontTraitMask	 traits = [fontManager traitsOfFont:font];
 		BOOL			 hasUnderline = [[attributes objectForKey:NSUnderlineStyleAttributeName] intValue];
@@ -539,7 +539,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 		if (chunk) {
 			NSRange	fullRange;
-			unsigned int replacements;
+			NSUInteger replacements;
 
 			//Escape special HTML characters.
 			fullRange = NSMakeRange(0, [chunk length]);
@@ -609,8 +609,8 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			 * character, replacing any non-ascii characters with the designated SGML escape sequence.
 			 */
 			if (thingsToInclude.nonASCII) {
-				unsigned length = [chunk length];
-				for (unsigned i = 0; i < length; i++) {
+				NSUInteger length = [chunk length];
+				for (NSUInteger i = 0; i < length; i++) {
 					unichar currentChar = [chunk characterAtIndex:i];
 					if (currentChar < 32) {
 						//Control character.
@@ -748,8 +748,8 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 			NSTextAttachmentCell *cell = (NSTextAttachmentCell *)[attachmentValue attachmentCell];
 			NSSize size = [cell cellSize];
-			[imageElement setValue:[[NSNumber numberWithFloat:size.width] stringValue] forAttribute:@"width"];
-			[imageElement setValue:[[NSNumber numberWithFloat:size.height] stringValue] forAttribute:@"height"];
+			[imageElement setValue:[[NSNumber numberWithDouble:size.width] stringValue] forAttribute:@"width"];
+			[imageElement setValue:[[NSNumber numberWithDouble:size.height] stringValue] forAttribute:@"height"];
 
 			NSString *path = [extension path];
 			if (path) {
@@ -830,7 +830,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 
 	//Setup the incoming message as a regular string, and get its length
 	NSString		*inMessageString = [inMessage string];
-	unsigned		 messageLength = [inMessageString length];
+	NSUInteger		 messageLength = [inMessageString length];
 
 	NSSet *emptySet = [NSSet set];
 
@@ -944,7 +944,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Sort the keys by the length of their range.
 			//First, we build a list of [length, attribute-name] arrays.
 			NSMutableArray *startedKeysArray = [[startedKeys allObjects] mutableCopy];
-			for (unsigned i = 0, count = [startedKeysArray count]; i < count; ++i) {
+			for (NSUInteger i = 0, count = [startedKeysArray count]; i < count; ++i) {
 				NSRange attributeRange;
 				NSString *attributeName = [startedKeysArray objectAtIndex:i];
 				[inMessage  attribute:attributeName
@@ -953,7 +953,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				              inRange:searchRange];
 
 				NSMutableArray *item = [[NSMutableArray alloc] initWithCapacity:2];
-				[item addObject:[NSNumber numberWithUnsignedInt:attributeRange.length]];
+				[item addObject:[NSNumber numberWithUnsignedInteger:attributeRange.length]];
 				[item addObject:attributeName];
 				[startedKeysArray replaceObjectAtIndex:i withObject:item];
 				[item release];
@@ -962,12 +962,12 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			[startedKeysArray sortUsingSelector:@selector(compare:)];
 
 			//Consolidate keys by length.
-			for (unsigned i = 0, count = [startedKeysArray count]; i < count; ++i) {
+			for (NSUInteger i = 0, count = [startedKeysArray count]; i < count; ++i) {
 				NSMutableSet *itemKeys = [NSMutableSet setWithCapacity:1];
 				[itemKeys addObject:[[startedKeysArray objectAtIndex:i] objectAtIndex:1]];
 
 				//Eat any equal keys that follow.
-				unsigned j = i + 1;
+				NSUInteger j = i + 1;
 				while (
 					(j < count)
 				&&	([[[startedKeysArray objectAtIndex:i] objectAtIndex:0] unsignedIntValue] == [[[startedKeysArray objectAtIndex:j] objectAtIndex:0] unsignedIntValue])
@@ -1130,7 +1130,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		
 		//Process the tag
 		if ([scanner scanCharactersFromSet:tagCharStart intoString:&tagOpen]) { //If a tag wasn't found, we don't process.
-			unsigned scanLocation = [scanner scanLocation]; //Remember our location (if this is an invalid tag we'll need to move back)
+			NSUInteger scanLocation = [scanner scanLocation]; //Remember our location (if this is an invalid tag we'll need to move back)
 
 			if ([tagOpen isEqualToString:@"<"]) { // HTML <tag>
 				BOOL		validTag = [scanner scanUpToCharactersFromSet:tagEnd intoString:&chunkString]; //Get the tag
@@ -1198,7 +1198,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						}
 
 					} else if ([chunkString caseInsensitiveCompare:@"/FONT"] == NSOrderedSame) {
-						int changedAttributesCount = [fontTagChangedAttributesQueue count];
+						NSInteger changedAttributesCount = [fontTagChangedAttributesQueue count];
 						if (changedAttributesCount) {
 							[self restoreAttributesFromDict:[fontTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
 							[fontTagChangedAttributesQueue removeObjectAtIndex:([fontTagChangedAttributesQueue count] - 1)];	
@@ -1214,7 +1214,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						}
 
 					} else if ([chunkString caseInsensitiveCompare:@"/SPAN"] == NSOrderedSame) {
-						int changedAttributesCount = [spanTagChangedAttributesQueue count];
+						NSInteger changedAttributesCount = [spanTagChangedAttributesQueue count];
 						if (changedAttributesCount) {
 							[self restoreAttributesFromDict:[spanTagChangedAttributesQueue lastObject] intoAttributes:textAttributes];
 							[spanTagChangedAttributesQueue removeObjectAtIndex:([spanTagChangedAttributesQueue count] - 1)];	
@@ -1487,14 +1487,14 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				static int pointSizes[] = { 9, 10, 12, 14, 18, 24, 48, 72 };
 				int size = (absSize <= 8 ? pointSizes[absSize-1] : 12);
 				
-				[originalAttributes setObject:[NSNumber numberWithInt:[textAttributes fontSize]]
+				[originalAttributes setObject:[NSNumber numberWithDouble:[textAttributes fontSize]]
 									   forKey:@"setFontSizeFromNumber:"];
 
 				[textAttributes setFontSize:size];
 			}
 
 		} else if ([arg caseInsensitiveCompare:@"absz"] == NSOrderedSame) {
-			[originalAttributes setObject:[NSNumber numberWithInt:[textAttributes fontSize]]
+			[originalAttributes setObject:[NSNumber numberWithDouble:[textAttributes fontSize]]
 								   forKey:@"setFontSizeFromNumber:"];
 
 			[textAttributes setFontSize:[[inArgs objectForKey:arg] intValue]];
@@ -1525,13 +1525,13 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				[originalAttributes setObject:([textAttributes textColor] ? (id)[textAttributes textColor] : (id)[NSNull null])
 					
 									   forKey:@"setTextColor:"];
-				[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0 green:0.5 blue:0.0 alpha:1.0]];
+				[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0f green:0.5f blue:0.0f alpha:1.0f]];
 
 			} else if (inDiv && receive) {
 				[originalAttributes setObject:([textAttributes textColor] ? (id)[textAttributes textColor] : (id)[NSNull null])
 									   forKey:@"setTextColor:"];
 				
-				[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0 green:0.0 blue:0.5 alpha:1.0]];
+				[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0f green:0.0f blue:0.5f alpha:1.0f]];
 			}
 		}	
 	}
@@ -1561,17 +1561,17 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 				if (inDiv && send) {
 					[originalAttributes setObject:([textAttributes textColor] ? (id)[textAttributes textColor] : (id)[NSNull null])
 										   forKey:@"setTextColor:"];
-					[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0 
-																		   green:0.5
-																			blue:0.0 
-																		   alpha:1.0]];
+					[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0f 
+																		   green:0.5f
+																			blue:0.0f
+																		   alpha:1.0f]];
 				} else if (inDiv && receive) {
 					[originalAttributes setObject:([textAttributes textColor] ? (id)[textAttributes textColor] : (id)[NSNull null])
 										   forKey:@"setTextColor:"];
-					[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0
-																		   green:0.0
-																			blue:0.5 
-																		   alpha:1.0]];
+					[textAttributes setTextColor:[NSColor colorWithCalibratedRed:0.0f
+																		   green:0.0f
+																			blue:0.5f 
+																		   alpha:1.0f]];
 				}
 
 			} else if ([class caseInsensitiveCompare:@"timestamp"] == NSOrderedSame) {
@@ -1590,7 +1590,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			{
 				[styleScanner scanString:@";" intoString:nil];
 				
-				int styleLength = [style length];
+				NSUInteger styleLength = [style length];
 
 				attributeRange = [style rangeOfString:@"font-family:" options:NSCaseInsensitiveSearch];
 				if (attributeRange.location != NSNotFound) {
@@ -1636,7 +1636,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 						}
 					}
 					
-					[originalAttributes setObject:[NSNumber numberWithInt:[textAttributes fontSize]]
+					[originalAttributes setObject:[NSNumber numberWithDouble:[textAttributes fontSize]]
 										   forKey:@"setFontSizeFromNumber:"];
 					[textAttributes setFontSize:size];
 				}
@@ -1646,7 +1646,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					NSString *fontWeight = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
 												stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-					[originalAttributes setObject:[NSNumber numberWithUnsignedInt:[textAttributes traits]]
+					[originalAttributes setObject:[NSNumber numberWithUnsignedInteger:[textAttributes traits]]
 										   forKey:@"setTraits:"];
 					if (([fontWeight caseInsensitiveCompare:@"bold"] == NSOrderedSame) ||
 						([fontWeight caseInsensitiveCompare:@"bolder"] == NSOrderedSame) ||
@@ -1662,7 +1662,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 					NSString *fontStyle = [[style substringWithRange:NSMakeRange(NSMaxRange(attributeRange), styleLength - NSMaxRange(attributeRange))]
 											 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 
-					[originalAttributes setObject:[NSNumber numberWithUnsignedInt:[textAttributes traits]]
+					[originalAttributes setObject:[NSNumber numberWithUnsignedInteger:[textAttributes traits]]
 																 forKey:@"setTraits:"];
 					if (([fontStyle caseInsensitiveCompare:@"italic"] == NSOrderedSame) ||
 							([fontStyle caseInsensitiveCompare:@"oblique"] == NSOrderedSame)) {
@@ -2271,7 +2271,7 @@ int HTMLEquivalentForFontSize(int fontSize)
 	
 	NSData *utf8Data = [self dataUsingEncoding:NSUTF8StringEncoding];
 	const char *utf8String = [utf8Data bytes];
-	unsigned sourceLength = [utf8Data length];
+	NSUInteger sourceLength = [utf8Data length];
 	
 	for (int i = 0; i < sourceLength; i++) {
 		unichar	ch = utf8String[i];
@@ -2339,7 +2339,7 @@ int HTMLEquivalentForFontSize(int fontSize)
 	
 	NSData *utf8Data = [self dataUsingEncoding:NSUTF8StringEncoding];
 	const char *utf8String = [utf8Data bytes];
-	unsigned sourceLength = [utf8Data length];
+	NSUInteger sourceLength = [utf8Data length];
 	
 	for (int i = 0; i < sourceLength; i++) {
 		unichar	ch = utf8String[i];

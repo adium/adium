@@ -23,9 +23,9 @@
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/AIBezierPathAdditions.h>
 
-#define MAGIC_ARROW_SCALE       0.85
-#define MAGIC_ARROW_TRANSLATE_X 2.85
-#define MAGIC_ARROW_TRANSLATE_Y 0.75
+#define MAGIC_ARROW_SCALE       0.85f
+#define MAGIC_ARROW_TRANSLATE_X 2.85f
+#define MAGIC_ARROW_TRANSLATE_Y 0.75f
 
 @interface ESFileTransfer ()
 - (id)initWithContact:(AIListContact *)inContact forAccount:(AIAccount *)inAccount type:(AIFileTransferType)inType;
@@ -224,9 +224,9 @@ static NSMutableDictionary *fileTransferDict = nil;
  * @param inPercent The percentage complete.  If 0, inBytesSent will be used to calculate the percent complete if possible.
  * @param inBytesSent The number of bytes sent. If 0, inPercent will be used to calculate bytes sent if possible.
  */
-- (void)setPercentDone:(float)inPercent bytesSent:(unsigned long long)inBytesSent
+- (void)setPercentDone:(CGFloat)inPercent bytesSent:(unsigned long long)inBytesSent
 {	
-	float oldPercentDone = percentDone;
+	CGFloat oldPercentDone = percentDone;
 	unsigned long long oldBytesSent = bytesSent;
 
     if (inPercent == 0) {		
@@ -242,7 +242,7 @@ static NSMutableDictionary *fileTransferDict = nil;
 
     if (inBytesSent == 0) {
         if (inPercent != 0 && size != 0) {
-            bytesSent = inPercent * size;
+            bytesSent = (double)inPercent * size;
 		} else {
 			bytesSent = inBytesSent;			
 		}
@@ -322,14 +322,14 @@ static NSMutableDictionary *fileTransferDict = nil;
 	NSRect	rect = { NSZeroPoint, [iconImage size] };
 	NSRect	bottomRight = NSMakeRect(NSMidX(rect), 
 									 ([iconImage isFlipped] ? NSMidY(rect) : NSMinY(rect)), 
-									 (NSWidth(rect)/2.0),
-									 (NSHeight(rect)/2.0));		
+									 (NSWidth(rect)/2.0f),
+									 (NSHeight(rect)/2.0f));		
 	
 	[iconImage lockFocus];
 	
 	[systemIcon compositeToPoint:NSZeroPoint operation:NSCompositeSourceOver];
 	
-	float line = ((NSWidth(bottomRight) / 15) + ((NSHeight(bottomRight) / 15) / 2));
+	CGFloat line = ((NSWidth(bottomRight) / 15) + ((NSHeight(bottomRight) / 15) / 2));
 	NSRect	circleRect = NSMakeRect(NSMinX(bottomRight),
 									NSMinY(bottomRight) + (line),
 									NSWidth(bottomRight) - (line),
@@ -338,8 +338,8 @@ static NSMutableDictionary *fileTransferDict = nil;
 	//draw our circle background...
 	NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:circleRect];
 	[circle setLineWidth:line];
-	[[[NSColor alternateSelectedControlColor] colorWithAlphaComponent:0.75] setStroke];
-	[[[NSColor alternateSelectedControlTextColor] colorWithAlphaComponent:0.75] setFill];
+	[[[NSColor alternateSelectedControlColor] colorWithAlphaComponent:0.75f] setStroke];
+	[[[NSColor alternateSelectedControlTextColor] colorWithAlphaComponent:0.75f] setFill];
 	[circle fill];
 	[circle stroke];
 	

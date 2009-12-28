@@ -49,7 +49,7 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 + (void)updateScreenBoundariesRect:(id)sender
 {
 	NSArray *screens = [NSScreen screens];
-	int numScreens = [screens count];
+	NSUInteger numScreens = [screens count];
 	
 	if (numScreens > 0) {
 		//The menubar screen is a special case - the menubar is not a part of the rect we're interested in
@@ -225,10 +225,10 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 	return YES;
 }
 
-static float ToolbarHeightForWindow(NSWindow *window)
+static CGFloat ToolbarHeightForWindow(NSWindow *window)
 {
     NSToolbar *toolbar;
-    float toolbarHeight = 0.0;
+    CGFloat toolbarHeight = 0.0f;
     NSRect windowFrame;
 
     toolbar = [window toolbar];
@@ -254,7 +254,7 @@ static float ToolbarHeightForWindow(NSWindow *window)
 	NSWindow *window = [self window];
 	NSRect frame = [window frame];
 	NSRect screenFrame = [[window screen] frame];
-	float toolbarHeight = ToolbarHeightForWindow(window);
+	CGFloat toolbarHeight = ToolbarHeightForWindow(window);
 
 	//The window starts off without a toolbar, so we need to save its size as such
 	frame.size.height -= toolbarHeight;

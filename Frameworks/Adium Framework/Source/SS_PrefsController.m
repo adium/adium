@@ -414,10 +414,10 @@
 // ************************************************
 
 
-float ToolbarHeightForWindow(NSWindow *window)
+CGFloat ToolbarHeightForWindow(NSWindow *window)
 {
     NSToolbar *toolbar;
-    float toolbarHeight = 0.0;
+    CGFloat toolbarHeight = 0.0f;
     NSRect windowFrame;
     
     toolbar = [window toolbar];

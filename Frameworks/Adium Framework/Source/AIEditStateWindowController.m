@@ -34,7 +34,7 @@
 
 @interface AIEditStateWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName forType:(AIStatusType)inStatusType andAccount:(AIAccount *)inAccount customState:(AIStatus *)inStatusState notifyingTarget:(id)inTarget showSaveCheckbox:(BOOL)inShowSaveCheckbox;
-- (id)_positionControl:(id)control relativeTo:(id)guide height:(int *)height;
+- (id)_positionControl:(id)control relativeTo:(id)guide height:(CGFloat *)height;
 - (void)configureStateMenu;
 
 - (void)setOriginalStatusState:(AIStatus *)inState forType:(AIStatusType)inStatusType;
@@ -70,7 +70,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 {
 	AIEditStateWindowController	*controller;
 
-	NSNumber	*targetHash = [NSNumber numberWithUnsignedInt:[inTarget hash]];
+	NSNumber	*targetHash = [NSNumber numberWithUnsignedInteger:[inTarget hash]];
 		
 	if ((controller = [controllerDict objectForKey:targetHash])) {
 		[controller setAccount:inAccount];
@@ -277,7 +277,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	[super windowWillClose:sender];
 
 	//Stop tracking with the controllerDict
-	NSNumber	*targetHash = [NSNumber numberWithUnsignedInt:[target hash]];
+	NSNumber	*targetHash = [NSNumber numberWithUnsignedInteger:[target hash]];
 	[controllerDict removeObjectForKey:targetHash];
 
 	[self autorelease];
@@ -289,7 +289,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
 {
 	//Stop tracking with the controllerDict
-	NSNumber	*targetHash = [NSNumber numberWithUnsignedInt:[target hash]];
+	NSNumber	*targetHash = [NSNumber numberWithUnsignedInteger:[target hash]];
 	[controllerDict removeObjectForKey:targetHash];
 	
     [sheet orderOut:nil];
@@ -453,7 +453,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	NSString *stringWithSavedFrame;
 
 	NSRect frame = [window frame];
-	float delta  = 0;
+	CGFloat delta  = 0;
 	delta += ([scrollView_autoReply isHidden] ? ([scrollView_autoReply frame].size.height + CONTROL_SPACING) : 0);
 	delta += ([checkbox_customAutoReply isHidden] ? ([checkbox_customAutoReply frame].size.height + CONTROL_SPACING) : 0);
 	delta += ([box_idle isHidden] ? ([box_idle frame].size.height + CONTROL_SPACING) : 0);
@@ -473,7 +473,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 {
 	NSRect savedFrame = [super savedFrameFromString:frameString];
 	
-	float delta  = 0;
+	CGFloat delta  = 0;
 	delta += ([scrollView_autoReply isHidden] ? ([scrollView_autoReply frame].size.height + CONTROL_SPACING) : 0);
 	delta += ([checkbox_customAutoReply isHidden] ? ([checkbox_customAutoReply frame].size.height + CONTROL_SPACING) : 0);
 	delta += ([box_idle isHidden] ? ([box_idle frame].size.height + CONTROL_SPACING) : 0);	
@@ -506,7 +506,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 	//Sizing
 	//XXX - This is quick & dirty -ai
 	id	current = box_title;
-	int	height = WINDOW_HEIGHT_PADDING + [current frame].size.height;
+	CGFloat	height = WINDOW_HEIGHT_PADDING + [current frame].size.height;
 
 	current = [self _positionControl:box_separatorLine relativeTo:current height:&height];
 	current = [self _positionControl:box_state relativeTo:current height:&height];	
@@ -535,7 +535,7 @@ static	NSMutableDictionary	*controllerDict = nil;
  * @param height A pointer to the total control height, which will be updated to include control
  * @return Returns control if it's visible, otherwise returns guide
  */
-- (id)_positionControl:(id)control relativeTo:(id)guide height:(int *)height
+- (id)_positionControl:(id)control relativeTo:(id)guide height:(CGFloat *)height
 {
 	if (![control isHidden]) {
 		NSRect	frame = [control frame];
@@ -565,7 +565,7 @@ static	NSMutableDictionary	*controllerDict = nil;
 {
 	//State menu
 	NSString	*description;
-	int			index;
+	NSUInteger			index;
 
 	if (needToRebuildPopUpState) {
 		[self configureStateMenu];

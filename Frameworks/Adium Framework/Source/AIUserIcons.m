@@ -75,8 +75,8 @@ static AICachedUserIconSource		*cachedUserIconSource = nil;
 
 static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUserIconSource> sourceB, void *context)
 {
-	float priorityA = [sourceA priority];
-	float priorityB = [sourceB priority];
+	CGFloat priorityA = [sourceA priority];
+	CGFloat priorityB = [sourceB priority];
 	if (priorityA < priorityB)
 		return NSOrderedAscending;
 	else if (priorityB < priorityA)
@@ -384,7 +384,7 @@ static NSComparisonResult compareSources(id <AIUserIconSource> sourceA, id <AIUs
 	//Render the icon if it's not cached
 	if (!userIcon) {
 		userIcon = [[inObject userIcon] imageByScalingToSize:size 
-													 fraction:1.0
+													 fraction:1.0f
 													flipImage:YES
 											   proportionally:YES
 											   allowAnimation:YES];

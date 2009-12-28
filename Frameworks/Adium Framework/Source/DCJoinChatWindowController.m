@@ -73,7 +73,7 @@ static DCJoinChatWindowController *sharedJoinChatInstance = nil;
 - (void)configureForAccount:(AIAccount *)inAccount
 {
 	NSRect 	windowFrame = [[self window] frame];
-	int		diff;
+	CGFloat		diff;
 
 	//Remove the previous view controller's view
 	[currentView removeFromSuperview];

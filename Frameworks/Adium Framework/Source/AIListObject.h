@@ -176,8 +176,8 @@ typedef enum {
  */
 @property (readonly, nonatomic) CGFloat smallestOrder;
 @property (readonly, nonatomic) CGFloat largestOrder;
-- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)inOrderIndex;
-- (float)orderIndexForObject:(AIListObject *)listObject;
+- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(CGFloat)inOrderIndex;
+- (CGFloat)orderIndexForObject:(AIListObject *)listObject;
 - (void) moveContainedObject:(AIListObject *)object toIndex:(NSInteger)index;
 
 @end

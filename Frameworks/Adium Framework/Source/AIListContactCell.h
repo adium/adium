@@ -43,8 +43,8 @@
 	BOOL				idleTimeVisible;
 	
 	NSSize				userIconSize;
-	int					userIconRoundingRadius;
-	int					statusFontHeight;	
+	NSInteger					userIconRoundingRadius;
+	CGFloat			statusFontHeight;	
 	
 	BOOL				backgroundColorIsStatus;
 	BOOL				backgroundColorIsEvents;
@@ -58,7 +58,7 @@
 	BOOL				useStatusMessageAsExtendedStatus;
 	BOOL				useAliasesOnNonParentContacts;
 
-	float				backgroundOpacity;
+	CGFloat				backgroundOpacity;
 
 	NSFont				*statusFont;
 	NSColor				*statusColor;
@@ -79,8 +79,8 @@
 //Display options
 - (void)setUserIconVisible:(BOOL)inShowIcon;
 - (BOOL)userIconVisible;
-- (void)setUserIconSize:(int)inSize;
-- (int)userIconSize;
+- (void)setUserIconSize:(NSInteger)inSize;
+- (CGFloat)userIconSize;
 
 - (void)setExtendedStatusVisible:(BOOL)inShowStatus;
 - (BOOL)extendedStatusVisible;
@@ -99,8 +99,8 @@
 - (void)setUserIconPosition:(LIST_POSITION)inPosition;
 - (void)setStatusIconPosition:(LIST_POSITION)inPosition;
 - (void)setServiceIconPosition:(LIST_POSITION)inPosition;
-- (void)setBackgroundOpacity:(float)inOpacity;
-- (float)backgroundOpacity;
+- (void)setBackgroundOpacity:(CGFloat)inOpacity;
+- (CGFloat)backgroundOpacity;
 - (void)setBackgroundColorIsStatus:(BOOL)isStatus;
 - (void)setBackgroundColorIsEvents:(BOOL)isEvents;
 - (void)setShouldUseContactTextColors:(BOOL)flag;

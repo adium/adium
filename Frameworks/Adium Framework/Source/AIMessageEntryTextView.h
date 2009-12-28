@@ -64,7 +64,7 @@
 
 	AISimpleTextView	*characterCounter;
 	NSString			*characterCounterPrefix;
-	int					maxCharacters;
+	NSInteger					maxCharacters;
 	NSColor				*savedTextColor;
 }
 

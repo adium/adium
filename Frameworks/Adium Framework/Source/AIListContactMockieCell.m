@@ -53,8 +53,8 @@
 - (NSBezierPath *)bezierPathForDrawingInRect:(NSRect)rect
 {
 	NSBezierPath *bezierPath;
-	int			 row = [controlView rowForItem:proxyObject];
-	unsigned	 numberOfRows = [controlView numberOfRows];
+	NSInteger			 row = [controlView rowForItem:proxyObject];
+	NSInteger	 numberOfRows = [controlView numberOfRows];
 
 	if (row == 0) {
 		if (numberOfRows > 1) {
@@ -107,16 +107,16 @@
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
 		NSGradient 	*gradient = (highlightColor ?
-								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+								 [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
 								 [NSGradient selectedControlGradient]);
 
 		[lastBackgroundBezierPath release];
 		lastBackgroundBezierPath = [[self bezierPathForDrawingInRect:cellFrame] retain];
 		
 		if (lastBackgroundBezierPath)
-			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
+			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0f];
 		else
-			[gradient drawInRect:cellFrame angle:90.0];
+			[gradient drawInRect:cellFrame angle:90.0f];
 	}
 }
 
@@ -135,19 +135,19 @@
 	
 	//Margin for the drop highlight
 	rect.size.width -= DROP_HIGHLIGHT_WIDTH_MARGIN;
-	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0;
+	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0f;
 	
 	rect.size.height -= DROP_HIGHLIGHT_HEIGHT_MARGIN;
-	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0;	
+	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0f;	
 
 	NSBezierPath *path = [self bezierPathForDrawingInRect:rect];
 	if (!path) path = [NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS];
 
-	[[[NSColor blueColor] colorWithAlphaComponent:0.2] set];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.2f] set];
 	[path fill];
 	
-	[[[NSColor blueColor] colorWithAlphaComponent:0.8] set];
-	[path setLineWidth:2.0];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.8f] set];
+	[path setLineWidth:2.0f];
 	[path stroke];
 
 	[NSGraphicsContext restoreGraphicsState];	

@@ -263,7 +263,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
  * @param inStatusItem The item to add
  * @param index The index at which to add it, or -1 to add it at the end
  */
-- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(int)index
+- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(NSUInteger)index
 {
 	if (index >= 0 && index < [containedStatusItems count]) {
 		[containedStatusItems insertObject:inStatusItem atIndex:index];
@@ -312,9 +312,9 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
  * @param statusState AIStatus to move
  * @param destIndex Destination index
  */
-- (int)moveStatusItem:(AIStatusItem *)statusState toIndex:(int)destIndex
+- (NSUInteger)moveStatusItem:(AIStatusItem *)statusState toIndex:(NSUInteger)destIndex
 {
-    int sourceIndex = [containedStatusItems indexOfObjectIdenticalTo:statusState];
+    NSUInteger sourceIndex = [containedStatusItems indexOfObjectIdenticalTo:statusState];
 
     //Remove the state
     [statusState retain];
@@ -345,7 +345,7 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 - (void)replaceExistingStatusState:(AIStatus *)oldStatusState withStatusState:(AIStatus *)newStatusState
 {
 	if (oldStatusState != newStatusState) {
-		int index = [containedStatusItems indexOfObject:oldStatusState];
+		NSUInteger index = [containedStatusItems indexOfObject:oldStatusState];
 		
 		if (index >= 0 && index < [containedStatusItems count]) {
 			[containedStatusItems replaceObjectAtIndex:index withObject:newStatusState];
@@ -429,8 +429,8 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context)
 					NSArray	*originalArray = (NSArray *)context;
 					
 					//Return them in the same relative order as the original array if they are of the same type
-					int indexA = [originalArray indexOfObjectIdenticalTo:objectA];
-					int indexB = [originalArray indexOfObjectIdenticalTo:objectB];
+					NSUInteger indexA = [originalArray indexOfObjectIdenticalTo:objectA];
+					NSUInteger indexB = [originalArray indexOfObjectIdenticalTo:objectB];
 					
 					if (indexA > indexB) {
 						return NSOrderedDescending;

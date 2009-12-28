@@ -90,7 +90,7 @@
 	if (_actualFont) {
 		NSMutableAttributedString *text = nil;
 
-		[super setFont:[[NSFontManager sharedFontManager] convertFont:_actualFont toSize:11.]];
+		[super setFont:[[NSFontManager sharedFontManager] convertFont:_actualFont toSize:11.0f]];
 		
 		if (_showPointSize) {
 			text = [[[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %.0f", (_showFontFace ? [_actualFont displayName] : [_actualFont familyName]), [_actualFont pointSize]]] autorelease];

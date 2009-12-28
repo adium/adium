@@ -16,8 +16,8 @@
 
 @class AIListObject, AIListOutlineView, AIAdium, AIProxyListObject;
 
-#define DROP_HIGHLIGHT_WIDTH_MARGIN 5.0
-#define DROP_HIGHLIGHT_HEIGHT_MARGIN 1.0
+#define DROP_HIGHLIGHT_WIDTH_MARGIN 5.0f
+#define DROP_HIGHLIGHT_HEIGHT_MARGIN 1.0f
 
 @interface AIListCell : NSCell {
 	AIListOutlineView	*controlView;
@@ -26,19 +26,19 @@
     BOOL				isGroup;
 	
 	NSTextAlignment		textAlignment;
-	int					labelFontHeight;
+	CGFloat					labelFontHeight;
 	
-	int					topSpacing;
-	int					bottomSpacing;
-	int					topPadding;
-	int					bottomPadding;
+	CGFloat					topSpacing;
+	CGFloat					bottomSpacing;
+	CGFloat					topPadding;
+	CGFloat					bottomPadding;
 
-	int					leftPadding;
-	int					rightPadding;
-	int					leftSpacing;
-	int					rightSpacing;
+	CGFloat					leftPadding;
+	CGFloat					rightPadding;
+	CGFloat					leftSpacing;
+	CGFloat					rightSpacing;
 	
-	int					indentation;
+	CGFloat					indentation;
 
 	NSColor				*textColor;
 	NSColor				*invertedTextColor;
@@ -63,16 +63,16 @@
 - (void) setSplitVerticalSpacing:(int) inSpacing;
 - (void) setSplitVerticalPadding:(int) inPadding;
 @property (readonly, nonatomic) NSSize cellSize;
-@property (readonly, nonatomic) int cellWidth;
-@property (readwrite, nonatomic) int rightSpacing;
-@property (readwrite, nonatomic) int leftSpacing;
-@property (readwrite, nonatomic) int topSpacing;
-@property (readwrite, nonatomic) int bottomSpacing;
-@property (readwrite, nonatomic) int rightPadding;
-@property (readwrite, nonatomic) int leftPadding;
-@property (readwrite, nonatomic) int topPadding;
-@property (readwrite, nonatomic) int bottomPadding;
-@property (readwrite, nonatomic) int indentation;
+@property (readonly, nonatomic) CGFloat cellWidth;
+@property (readwrite, nonatomic) CGFloat rightSpacing;
+@property (readwrite, nonatomic) CGFloat leftSpacing;
+@property (readwrite, nonatomic) CGFloat topSpacing;
+@property (readwrite, nonatomic) CGFloat bottomSpacing;
+@property (readwrite, nonatomic) CGFloat rightPadding;
+@property (readwrite, nonatomic) CGFloat leftPadding;
+@property (readwrite, nonatomic) CGFloat topPadding;
+@property (readwrite, nonatomic) CGFloat bottomPadding;
+@property (readwrite, nonatomic) CGFloat indentation;
 
 //Drawing
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;

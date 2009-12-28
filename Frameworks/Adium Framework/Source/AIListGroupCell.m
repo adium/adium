@@ -114,16 +114,16 @@
 //Sizing & Padding -----------------------------------------------------------------------------------------------------
 #pragma mark Sizing & Padding
 //Padding.  Gives our cell a bit of extra padding for the group name and flippy triangle (disclosure triangle)
-- (int)topPadding{
+- (CGFloat)topPadding{
 	return [super topPadding] + 1;
 }
-- (int)bottomPadding{
+- (CGFloat)bottomPadding{
 	return [super bottomPadding] + 1;
 }
-- (int)leftPadding{
+- (CGFloat)leftPadding{
 	return [super leftPadding] + 2;
 }
-- (int)rightPadding{
+- (CGFloat)rightPadding{
 	return [super rightPadding] + 4;
 }
 
@@ -133,18 +133,18 @@
 	NSSize	size = [super cellSize];
 	return NSMakeSize(0, [layoutManager defaultLineHeightForFont:[self font]] + size.height);
 }
-- (int)cellWidth
+- (CGFloat)cellWidth
 {
-	unsigned			width = [super cellWidth] + [self flippyIndent] + GROUP_COUNT_PADDING;
+	CGFloat			width = [super cellWidth] + [self flippyIndent] + GROUP_COUNT_PADDING;
 	
 	//Get the size of our display name
-	width += ceil(self.displayNameSize.width) + 1;
+	width += AIceil(self.displayNameSize.width) + 1;
 	
 	if ([listObject boolValueForProperty:@"Show Count"] && 
 		[listObject valueForProperty:@"Count Text"]) {
 		NSAttributedString *countText = [[NSAttributedString alloc] initWithString:[listObject valueForProperty:@"Count Text"]
 																		attributes:[self labelAttributes]];
-		width += ceil([countText size].width) + 1;
+		width += AIceil([countText size].width) + 1;
 		[countText release];
 	}
 	
@@ -156,11 +156,11 @@
  *
  * This is the space used by the flippy triangle (disclosure triangle)... more or less.
  */
-- (int)flippyIndent
+- (CGFloat)flippyIndent
 {
 //	if ([self textAlignment] != NSCenterTextAlignment) {
 		NSSize size = [self cellSize];
-		return size.height*.4 + size.height*.2 + FLIPPY_TEXT_PADDING;
+		return size.height*0.4f + size.height*0.2f + FLIPPY_TEXT_PADDING;
 /*	} else {
 		return 0;
 	}
@@ -177,24 +177,24 @@
 	[[self flippyColor] set];
 	
 	NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
-	NSPoint			center = NSMakePoint(rect.origin.x + rect.size.height*.4, rect.origin.y + (rect.size.height/2.0));
+	NSPoint			center = NSMakePoint(rect.origin.x + rect.size.height*0.4f, rect.origin.y + (rect.size.height/2.0f));
 
 	if ([controlView isItemExpanded:proxyObject]) {
-		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*.3, center.y - rect.size.height*.15)];
-		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*.6, 0)];
-		[arrowPath relativeLineToPoint:NSMakePoint(-rect.size.height*.3, rect.size.height*.4)];		
+		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*0.3f, center.y - rect.size.height*0.15f)];
+		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*0.6f, 0)];
+		[arrowPath relativeLineToPoint:NSMakePoint(-rect.size.height*0.3f, rect.size.height*0.4f)];		
 	} else {
-		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*.2, center.y - rect.size.height*.3)];
-		[arrowPath relativeLineToPoint:NSMakePoint( 0, rect.size.height*.6)];
-		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*.4, -rect.size.height*.3)];		
+		[arrowPath moveToPoint:NSMakePoint(center.x - rect.size.height*0.2f, center.y - rect.size.height*0.3f)];
+		[arrowPath relativeLineToPoint:NSMakePoint( 0, rect.size.height*0.6f)];
+		[arrowPath relativeLineToPoint:NSMakePoint( rect.size.height*0.4f, -rect.size.height*0.3f)];		
 	}
 		
 	[arrowPath closePath];
 	[arrowPath fill];
 
 //	if ([self textAlignment] != NSCenterTextAlignment) {
-		rect.origin.x += rect.size.height*.4 + rect.size.height*.2 + FLIPPY_TEXT_PADDING;
-		rect.size.width -= rect.size.height*.4 + rect.size.height*.2 + FLIPPY_TEXT_PADDING;
+		rect.origin.x += rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
+		rect.size.width -= rect.size.height*0.4f + rect.size.height*0.2f + FLIPPY_TEXT_PADDING;
 //	}
 	
 	if ([listObject boolValueForProperty:@"Show Count"]) {
@@ -223,7 +223,7 @@
 			rect.origin.x += (rect.size.width - countSize.width);
 		}
 		
-		int half = ceil((rect.size.height - labelFontHeight) / 2.0);
+		CGFloat half = AIceil((rect.size.height - labelFontHeight) / 2.0f);
 		[groupCount drawInRect:NSMakeRect(rect.origin.x,
 										  rect.origin.y + half,
 										  rect.size.width,
@@ -244,7 +244,7 @@
 		[[self cachedGradient:rect.size] drawInRect:rect
 										   fromRect:NSMakeRect(0,0,rect.size.width,rect.size.height)
 										  operation:NSCompositeCopy
-										   fraction:1.0];
+										   fraction:1.0f];
 	}
 }
 
@@ -268,8 +268,8 @@
 		if (shadowColor) {
 			NSShadow	*shadow = [[[NSShadow alloc] init] autorelease];
 			
-			[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-			[shadow setShadowBlurRadius:2.0];
+			[shadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
+			[shadow setShadowBlurRadius:2.0f];
 			[shadow setShadowColor:shadowColor];
 			
 			[labelAttributes setObject:shadow forKey:NSShadowAttributeName];
@@ -316,7 +316,7 @@
 	CGFloat gradientL;
 	
 	//Gradient
-	[[self backgroundGradient] drawInRect:inRect angle:90.0];
+	[[self backgroundGradient] drawInRect:inRect angle:90.0f];
 	
 	//Add a sealing line at the light side of the gradient to make it look more polished.  Apple does this with
 	//most gradients in OS X.

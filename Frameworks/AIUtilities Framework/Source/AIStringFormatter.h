@@ -21,11 +21,11 @@
  */
 @interface AIStringFormatter : NSFormatter {
     NSCharacterSet	*characters;
-    int				length;
+    NSInteger				length;
     BOOL			caseSensitive;
 
     NSString		*errorMessage;
-    int				errorCount;
+    NSInteger				errorCount;
 }
 
 /*!
@@ -38,6 +38,6 @@
  * @param errorMessage A message to be displayed to the user after 3 invalid input attempts. If nil, no error message is displayed.
  * @return An <tt>AIStringFormatter</tt> object
  */
-+ (id)stringFormatterAllowingCharacters:(NSCharacterSet *)inCharacters length:(int)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)errorMessage;
++ (id)stringFormatterAllowingCharacters:(NSCharacterSet *)inCharacters length:(NSInteger)inLength caseSensitive:(BOOL)inCaseSensitive errorMessage:(NSString *)errorMessage;
 
 @end

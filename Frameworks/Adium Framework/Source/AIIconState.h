@@ -24,10 +24,10 @@
 
     //Animated
     NSMutableArray	*imageArray;
-    float			delay;
+    CGFloat			delay;
     BOOL 			looping;
-    int				currentFrame;
-    int				numberOfFrames;
+    NSInteger				currentFrame;
+    NSInteger				numberOfFrames;
 
     //Animated w/ delayed rendering
     NSArray			*iconRendering_states;
@@ -35,19 +35,19 @@
     AIIconState		*iconRendering_animationState;
 }
 
-- (id)initWithImages:(NSArray *)inImages delay:(float)inDelay looping:(BOOL)inLooping overlay:(BOOL)inOverlay;
+- (id)initWithImages:(NSArray *)inImages delay:(CGFloat)inDelay looping:(BOOL)inLooping overlay:(BOOL)inOverlay;
 - (id)initWithImage:(NSImage *)inImage overlay:(BOOL)inOverlay;
 - (id)initByCompositingStates:(NSArray *)inIconStates;
 - (BOOL)animated;
-- (float)animationDelay;
+- (CGFloat)animationDelay;
 - (BOOL)looping;
 - (BOOL)overlay;
 - (NSArray *)imageArray;
 - (NSImage *)image;
-- (NSImage *)_compositeStates:(NSArray *)iconStateArray withBaseState:(AIIconState *)baseState animatingState:(AIIconState *)animatingState forFrame:(int)frame;
-- (int)currentFrame;
+- (NSImage *)_compositeStates:(NSArray *)iconStateArray withBaseState:(AIIconState *)baseState animatingState:(AIIconState *)animatingState forFrame:(NSInteger)frame;
+- (NSInteger)currentFrame;
 - (void)nextFrame;
-- (int)numberOfFrames;
+- (NSInteger)numberOfFrames;
 
 @end
 

@@ -35,7 +35,7 @@
 	NSString					*remoteFilename;
 	id							accountData;
 
-	float						percentDone;
+	CGFloat						percentDone;
 	unsigned long long			size;
 	unsigned long long			bytesSent;
 	BOOL                        isDirectory;
@@ -64,8 +64,8 @@
 @property (readwrite, nonatomic) AIFileTransferStatus status;
 
 - (void)setPercentDone:(NSNumber *)percent bytes:(NSNumber *)bytes;
-- (void)setPercentDone:(float)inPercent bytesSent:(unsigned long long)inBytesSent;
-@property (readonly, nonatomic) float percentDone;
+- (void)setPercentDone:(CGFloat)inPercent bytesSent:(unsigned long long)inBytesSent;
+@property (readonly, nonatomic) CGFloat percentDone;
 @property (readonly, nonatomic) unsigned long long bytesSent;
 - (void)setSizeWithNumber:(NSNumber *)newSize;
 - (NSNumber *)sizeNumber;

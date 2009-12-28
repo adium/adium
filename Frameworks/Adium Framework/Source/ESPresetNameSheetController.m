@@ -136,7 +136,7 @@
 - (void)configureExplanatoryTextWithString:(NSString *)inExplanatoryText
 {
 	NSRect	frame = [[self window] frame];
-	int		heightChange = 0;
+	CGFloat		heightChange = 0;
 		
 	//Set the explanatory text and resize as needed
 	[textView_explanatoryText setString:inExplanatoryText];

@@ -242,7 +242,7 @@ NSString *defaultNameForStatusType(AIStatusType statusType)
 //Returns the state icon for the passed chat (new content, typing, ...)
 static NSString *statusNameForChat(AIChat *inChat)
 {
-	AITypingState typingState = [inChat integerValueForProperty:KEY_TYPING];
+	AITypingState typingState = (AITypingState)[inChat integerValueForProperty:KEY_TYPING];
 
 	if (typingState == AITyping) {
 		return @"typing";
@@ -339,14 +339,14 @@ static NSString *statusNameForChat(AIChat *inChat)
 				NSRect	targetRect = NSMakeRect(xOrigin, 0, PREVIEW_MENU_IMAGE_SIZE, PREVIEW_MENU_IMAGE_SIZE);
 				
 				if (anIconSize.width < targetRect.size.width) {
-					float difference = (targetRect.size.width - anIconSize.width)/2;
+					CGFloat difference = (targetRect.size.width - anIconSize.width)/2;
 					
 					targetRect.size.width -= difference;
 					targetRect.origin.x += difference;
 				}
 				
 				if (anIconSize.height < targetRect.size.height) {
-					float difference = (targetRect.size.height - anIconSize.height)/2;
+					CGFloat difference = (targetRect.size.height - anIconSize.height)/2;
 					
 					targetRect.size.height -= difference;
 					targetRect.origin.y += difference;
@@ -355,7 +355,7 @@ static NSString *statusNameForChat(AIChat *inChat)
 				[anIcon drawInRect:targetRect
 						  fromRect:NSMakeRect(0,0,anIconSize.width,anIconSize.height)
 						 operation:NSCompositeCopy
-						  fraction:1.0];
+						  fraction:1.0f];
 				
 				//Shift right in preparation for next image
 				xOrigin += PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN;

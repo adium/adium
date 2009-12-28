@@ -30,7 +30,7 @@
 	NSSize		_gradientSize;
 }
 
-- (int)flippyIndent;
+- (CGFloat)flippyIndent;
 - (void)setShadowColor:(NSColor *)inColor;
 - (NSColor *)shadowColor;
 - (NSRect)drawGroupCountWithFrame:(NSRect)inRect;

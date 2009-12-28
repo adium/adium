@@ -87,7 +87,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 		showTooltips = YES;
 		showTooltipsInBackground = NO;
 		useContactListGroups = YES;
-		backgroundOpacity = 1.0;
+		backgroundOpacity = 1.0f;
 
 		//Watch for drags ending so we can clear any cached drag data
 		[[NSNotificationCenter defaultCenter] addObserver:self
@@ -710,7 +710,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 - (NSMenu *)outlineView:(NSOutlineView *)outlineView menuForEvent:(NSEvent *)theEvent
 {
     NSPoint	location;
-    int		row;
+    NSInteger		row;
     id		item;
 	
     //Get the clicked item

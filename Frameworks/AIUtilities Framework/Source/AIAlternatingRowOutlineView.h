@@ -48,7 +48,7 @@
  * @param row An integer row
  * @return An <tt>NSColor</tt> used to draw the background for <b>row</b>
  */
-- (NSColor *)backgroundColorForRow:(int)row;
+- (NSColor *)backgroundColorForRow:(NSInteger)row;
 
 @property (readwrite, nonatomic) BOOL drawsGradientSelection;
 @end

@@ -50,7 +50,7 @@
 {
     if ((self = [super init]))
 	{
-		backgroundOpacity = 1.0;
+		backgroundOpacity = 1.0f;
 		statusFont = [[NSFont systemFontOfSize:12] retain];
 		statusColor = nil;
 		_statusAttributes = nil;
@@ -80,7 +80,7 @@
 //Size our cell to fit our content
 - (NSSize)cellSize
 {
-	int		largestElementHeight;
+	CGFloat		largestElementHeight;
 		
 	//Display Name Height (And status text if below name)
 	if (extendedStatusVisible && (idleTimeIsBelow || statusMessageIsBelow)) {
@@ -106,12 +106,12 @@
 	return NSMakeSize(0, [super cellSize].height + largestElementHeight);
 }
 
-- (int)cellWidth
+- (CGFloat)cellWidth
 {
-	int		width = [super cellWidth];
+	CGFloat		width = [super cellWidth];
 	
 	//Name
-	width += ceil(self.displayNameSize.width);
+	width += AIceil(self.displayNameSize.width);
 	
 	// Also account for idle times.
 	if (extendedStatusVisible && idleTimeVisible && !idleTimeIsBelow && [listObject valueForProperty:@"IdleReadable"]) {
@@ -123,28 +123,28 @@
 		}
 		
 		NSAttributedString *idleAttString = [[NSAttributedString alloc] initWithString:idleTimeString attributes:self.statusAttributes];
-		width += ceil([idleAttString size].width);
+		width += AIceil([idleAttString size].width);
 		width += NAME_STATUS_PAD;
 		[idleAttString release];
 	}
 		
 	//User icon
 	if (userIconVisible) {
-		width += ceil(userIconSize.width);
+		width += AIceil(userIconSize.width);
 		width += USER_ICON_LEFT_PAD + USER_ICON_RIGHT_PAD;
 	}
 	
 	//Status icon
 	if (statusIconsVisible &&
 	   (statusIconPosition != LIST_POSITION_BADGE_LEFT && statusIconPosition != LIST_POSITION_BADGE_RIGHT)) {
-		width += ceil([[self statusImage] size].width);
+		width += AIceil([[self statusImage] size].width);
 		width += STATUS_ICON_LEFT_PAD + STATUS_ICON_RIGHT_PAD;
 	}
 
 	//Service icon
 	if (serviceIconsVisible &&
 	   (serviceIconPosition != LIST_POSITION_BADGE_LEFT && serviceIconPosition != LIST_POSITION_BADGE_RIGHT)) {
-		width += ceil([[self serviceImage] size].width);
+		width += AIceil([[self serviceImage] size].width);
 		width += SERVICE_ICON_LEFT_PAD + SERVICE_ICON_RIGHT_PAD;
 	}
 	
@@ -261,14 +261,14 @@
 }
 
 //User Icon Size
-- (void)setUserIconSize:(int)inSize
+- (void)setUserIconSize:(NSInteger)inSize
 {
 	userIconSize = NSMakeSize(inSize, inSize);
-	userIconRoundingRadius = (userIconSize.width / 4.0);
+	userIconRoundingRadius = (userIconSize.width / 4);
 	if (userIconRoundingRadius > 3) userIconRoundingRadius = 3;
 }
 
-- (int)userIconSize{
+- (CGFloat)userIconSize{
 	return userIconSize.height;
 }
 
@@ -326,11 +326,11 @@
 }
 
 //Opacity
-- (void)setBackgroundOpacity:(float)inOpacity
+- (void)setBackgroundOpacity:(CGFloat)inOpacity
 {
 	backgroundOpacity = inOpacity;
 }
-- (float)backgroundOpacity{
+- (CGFloat)backgroundOpacity{
 	return backgroundOpacity;
 }
 
@@ -525,7 +525,7 @@
 		rect = [image drawInRect:rect
 						  atSize:NSMakeSize(0, 0)
 						position:position
-						fraction:1.0];
+						fraction:1.0f];
 		[image setFlipped:![image isFlipped]];
 		
 		if (!isBadge) {
@@ -572,7 +572,7 @@
 {
 	if (extendedStatusVisible && (drawUnder || [self textAlignment] != NSCenterTextAlignment)) {
 		if (string) {
-			int	halfHeight = rect.size.height / 2;
+			CGFloat	halfHeight = rect.size.height / 2;
 
 			//Pad
 			if (drawUnder) {
@@ -596,7 +596,7 @@
 			
 			switch ([self textAlignment]) {
 				case NSCenterTextAlignment:
-					drawRect.origin.x += (drawRect.size.width - nameSize.width) / 2.0;
+					drawRect.origin.x += (drawRect.size.width - nameSize.width) / 2.0f;
 				break;
 				case NSRightTextAlignment:
 					drawRect.origin.x += (drawRect.size.width - nameSize.width);
@@ -605,13 +605,13 @@
 				break;
 			}
 			
-			float half, offset;
+			CGFloat half, offset;
 			
 			if (drawUnder) {
-				half = ceilf((drawRect.size.height - statusFontHeight) / 2.0);
+				half = AIceil((drawRect.size.height - statusFontHeight) / 2.0f);
 				offset = 0;
 			} else {
-				half = ceilf((drawRect.size.height - labelFontHeight) / 2.0);
+				half = AIceil((drawRect.size.height - labelFontHeight) / 2.0f);
 				offset = (labelFontHeight - statusFontHeight) + ([[self font] descender] - [[self statusFont] descender]);
 			}
 
@@ -655,8 +655,8 @@
 	
 	if ((isEvent && backgroundColorIsEvents) || (!isEvent && backgroundColorIsStatus)) {
 		NSColor		*labelColor = [listObject valueForProperty:@"Label Color"];
-		float		colorOpacity = [labelColor alphaComponent];
-		float		targetOpacity = backgroundOpacity * colorOpacity;
+		CGFloat		colorOpacity = [labelColor alphaComponent];
+		CGFloat		targetOpacity = backgroundOpacity * colorOpacity;
 
 		return (targetOpacity != colorOpacity) ? [labelColor colorWithAlphaComponent:targetOpacity] : labelColor;
 
@@ -704,7 +704,7 @@
 - (float)imageOpacityForDrawing
 {
 	NSNumber *imageOpacityNumber = [listObject numberValueForProperty:@"Image Opacity"];
-	return (imageOpacityNumber ? [imageOpacityNumber floatValue] : 0.0);
+	return (imageOpacityNumber ? [imageOpacityNumber floatValue] : 0.0f);
 }
 
 @end

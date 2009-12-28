@@ -34,7 +34,7 @@
 	{
 		lastBackgroundBezierPath = nil;
 		outlineBubble = NO;
-		outlineBubbleLineWidth = 1.0;
+		outlineBubbleLineWidth = 1.0f;
 		drawWithGradient = NO;
 	}	
 	
@@ -58,16 +58,16 @@
 }
 
 //Give ourselves extra padding to compensate for the rounded bubble
-- (int)leftPadding{
+- (CGFloat)leftPadding{
 	return [super leftPadding] + EDGE_INDENT;
 }
-- (int)rightPadding{
+- (CGFloat)rightPadding{
 	return [super rightPadding] + EDGE_INDENT;
 }
 
-- (int)cellWidth
+- (CGFloat)cellWidth
 {
-	int		width = [super cellWidth];
+	CGFloat		width = [super cellWidth];
 
 	return width + EDGE_INDENT;
 }
@@ -90,8 +90,8 @@
 		//Draw using a (slow) AIGradient if requested, otherwise just fill
 		if (drawWithGradient) {
 			
-			NSGradient *gradient = [[[NSGradient alloc] initWithStartingColor:labelColor endingColor:[labelColor darkenAndAdjustSaturationBy:0.4]] autorelease];
-			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
+			NSGradient *gradient = [[[NSGradient alloc] initWithStartingColor:labelColor endingColor:[labelColor darkenAndAdjustSaturationBy:0.4f]] autorelease];
+			[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0f];
 			
 		} else {
 			[labelColor set];
@@ -113,14 +113,14 @@
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
 		NSGradient 	*gradient = highlightColor
-			? [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease]
+			? [[[NSGradient alloc] initWithStartingColor:highlightColor endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease]
 			: [NSGradient selectedControlGradient];
 
 		[lastBackgroundBezierPath release];
 		lastBackgroundBezierPath = [[NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:cellFrame]] retain];
 
 		//Draw our bubble with the selected control gradient
-		[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0];
+		[gradient drawInBezierPath:lastBackgroundBezierPath angle:90.0f];
 	}
 }
 
@@ -139,18 +139,18 @@
 	
 	//Margin for the drop highlight
 	rect.size.width -= DROP_HIGHLIGHT_WIDTH_MARGIN;
-	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0;
+	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0f;
 	
 	rect.size.height -= DROP_HIGHLIGHT_HEIGHT_MARGIN;
-	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0;	
+	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0f;	
 	
 	NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:[self bubbleRectForFrame:rect]];
 	
-	[[[NSColor blueColor] colorWithAlphaComponent:0.2] set];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.2f] set];
 	[path fill];
 	
-	[[[NSColor blueColor] colorWithAlphaComponent:0.8] set];
-	[path setLineWidth:2.0];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.8f] set];
+	[path setLineWidth:2.0f];
 	[path stroke];
 	
 	[NSGraphicsContext restoreGraphicsState];	

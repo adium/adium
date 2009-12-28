@@ -114,7 +114,7 @@
 }
 
 //Returns the color which will be drawn behind the specified row
-- (NSColor *)backgroundColorForRow:(int)row
+- (NSColor *)backgroundColorForRow:(NSInteger)row
 {
 	return ((row % 2) ? [self backgroundColor] : [self alternatingRowColor]);
 }

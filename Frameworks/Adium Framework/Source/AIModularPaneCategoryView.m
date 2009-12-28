@@ -30,10 +30,10 @@
 //Desired Height -------------------------------------------------------------------------------------------------------
 #pragma mark Desired Height
 //Set and retrieve this view's desired height
-- (void)setDesiredHeight:(int)inHeight{
+- (void)setDesiredHeight:(CGFloat)inHeight{
     desiredHeight = inHeight;
 }
-- (int)desiredHeight{
+- (CGFloat)desiredHeight{
     return desiredHeight;
 }
 
@@ -44,7 +44,7 @@
 - (void)setPanes:(NSArray *)paneArray
 {
     AIPreferencePane	*pane;
-    int					yPos = 0;
+    CGFloat					yPos = 0;
     
     //Add their views
     for (pane in paneArray) {
@@ -82,14 +82,14 @@
 
 //Pass this a tab view containing module pane category views.  It will return the height of the tallest modular pane
 //within that tab view
-+ (int)heightForTabView:(NSTabView *)tabView
++ (CGFloat)heightForTabView:(NSTabView *)tabView
 {
-    int				maxHeight = 0;
+    CGFloat				maxHeight = 0;
 	
     //Determine the tallest view contained within this tab view.
     for (NSTabViewItem *tabViewItem in [tabView tabViewItems]) {		
         for (NSView *subView in [tabViewItem.view subviews]) {
-            int		height = ((AIModularPaneCategoryView *)subView).desiredHeight;
+            CGFloat		height = ((AIModularPaneCategoryView *)subView).desiredHeight;
 
             if (height > maxHeight) {
                 maxHeight = height;

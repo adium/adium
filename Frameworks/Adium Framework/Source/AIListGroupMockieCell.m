@@ -77,13 +77,13 @@
 	if ([self cellIsSelected]) {
 		NSColor *highlightColor = [controlView highlightColor];
 		NSGradient 	*gradient = (highlightColor ?
-								 [[[NSGradient alloc] initWithStartingColor:highlightColor	endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4]] autorelease] :
+								 [[[NSGradient alloc] initWithStartingColor:highlightColor	endingColor:[highlightColor darkenAndAdjustSaturationBy:0.4f]] autorelease] :
 								 [NSGradient selectedControlGradient]);
 
 		if ([controlView isItemExpanded:proxyObject]) {
-			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
+			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:cellFrame radius:MOCKIE_RADIUS] angle:90.0f];
 		} else {
-			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:cellFrame radius:MOCKIE_RADIUS] angle:90.0];
+			[gradient drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:cellFrame radius:MOCKIE_RADIUS] angle:90.0f];
 		}
 	}
 }
@@ -120,9 +120,9 @@
 - (void)drawBackgroundGradientInRect:(NSRect)rect
 {
 	if ([controlView isItemExpanded:proxyObject]) {
-		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS] angle:90.0];
+		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedTopCorners:rect radius:MOCKIE_RADIUS] angle:90.0f];
 	} else {
-		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS] angle:90.0];
+		[[self backgroundGradient] drawInBezierPath:[NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS] angle:90.0f];
 	}
 }
 
@@ -141,10 +141,10 @@
 	
 	//Margin for the drop highlight
 	rect.size.width -= DROP_HIGHLIGHT_WIDTH_MARGIN;
-	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0;
+	rect.origin.x += DROP_HIGHLIGHT_WIDTH_MARGIN / 2.0f;
 	
 	rect.size.height -= DROP_HIGHLIGHT_HEIGHT_MARGIN;
-	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0;
+	rect.origin.y += DROP_HIGHLIGHT_HEIGHT_MARGIN / 2.0f;
 
 	NSBezierPath	*path;
 	if ([controlView isItemExpanded:proxyObject]) {
@@ -153,11 +153,11 @@
 		path = [NSBezierPath bezierPathWithRoundedRect:rect radius:MOCKIE_RADIUS];
 	}
 
-	[[[NSColor blueColor] colorWithAlphaComponent:0.2] set];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.2f] set];
 	[path fill];
 	
-	[[[NSColor blueColor] colorWithAlphaComponent:0.8] set];
-	[path setLineWidth:2.0];
+	[[[NSColor blueColor] colorWithAlphaComponent:0.8f] set];
+	[path setLineWidth:2.0f];
 	[path stroke];
 	
 	[NSGraphicsContext restoreGraphicsState];	

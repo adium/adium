@@ -773,8 +773,8 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 {
 	NSMutableArray		*newMenuItems = [NSMutableArray array];
 	NSArray				*accountMenuItems = [self menuItems];
-	unsigned int		accountMenuItemsCount = [accountMenuItems count];
-	unsigned int		i;
+	NSUInteger		accountMenuItemsCount = [accountMenuItems count];
+	NSUInteger		i;
 	
 	//Add status items only if we have more than one account
 	if (accountMenuItemsCount <= 1) return;
@@ -804,8 +804,8 @@ NSMenu *statusMenuForAccountMenuItem(NSArray *menuItemArray, NSMenuItem *account
 			NSMenu			*thisItemSubmenu;
 
 			if ((thisItemSubmenu = [menuItem submenu])) {
-				unsigned int	thisItemSubmenuCount = [thisItemSubmenu numberOfItems];
-				unsigned int	j;
+				NSUInteger	thisItemSubmenuCount = [thisItemSubmenu numberOfItems];
+				NSUInteger	j;
 				
 				for (j = 0; j < thisItemSubmenuCount; j++) {
 					menuItem = [thisItemSubmenu itemAtIndex:j];

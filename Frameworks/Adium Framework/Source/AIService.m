@@ -323,7 +323,7 @@
  * and instead subclass allowedLength.
  * @return Max name length
  */
-- (int)allowedLengthForAccountName
+- (NSUInteger)allowedLengthForAccountName
 {
 	return [self allowedLength];
 }
@@ -336,7 +336,7 @@
  * and instead subclass allowedLength.
  * @return Max name length
  */
-- (int)allowedLengthForUIDs
+- (NSUInteger)allowedLengthForUIDs
 {
 	return [self allowedLength];
 }
@@ -476,9 +476,9 @@
 	NSCharacterSet	*ignoredCharacters = [self ignoredCharacters];
 
 	//Prepare a little buffer for our filtered UID
-	unsigned	destLength = 0;
-	unsigned	workingStringLength = [workingString length];
-	unichar		*dest = malloc(workingStringLength * sizeof(unichar));
+	NSUInteger	destLength = 0;
+	NSUInteger	workingStringLength = [workingString length];
+	unichar			*dest = malloc(workingStringLength * sizeof(unichar));
 
 	//Filter the UID
 	unsigned	pos;
