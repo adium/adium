@@ -274,20 +274,20 @@ NSString* serviceClassForPurpleProtocolID(const char *protocolID)
 /*
  * Finds an instance of CBPurpleAccount for a pointer to a PurpleAccount struct.
  */
-CBPurpleAccount* accountLookup(PurpleAccount *acct)
+CBPurpleAccount* accountLookup(PurpleAccount *account)
 {
-	CBPurpleAccount *adiumPurpleAccount = (acct ? (CBPurpleAccount *)acct->ui_data : nil);
+	CBPurpleAccount *adiumPurpleAccount = (account ? (CBPurpleAccount *)account->ui_data : nil);
 	/* If the account doesn't have its ui_data associated yet (we haven't tried to connect) but we want this
 	 * lookup data, we have to do some manual parsing.  This is used for example from the OTR preferences.
 	 */
-	if (!adiumPurpleAccount && acct) {
-		const char	*protocolID = acct->protocol_id;
+	if (!adiumPurpleAccount && account) {
+		const char	*protocolID = account->protocol_id;
 		NSString	*serviceClass = serviceClassForPurpleProtocolID(protocolID);
 
 		for (adiumPurpleAccount in adium.accountController.accounts) {
 			if ([adiumPurpleAccount isKindOfClass:[CBPurpleAccount class]] &&
 			   [adiumPurpleAccount.service.serviceClass isEqualToString:serviceClass] &&
-			   [adiumPurpleAccount.UID caseInsensitiveCompare:[NSString stringWithUTF8String:acct->username]] == NSOrderedSame) {
+			   [adiumPurpleAccount.UID caseInsensitiveCompare:[NSString stringWithUTF8String:account->username]] == NSOrderedSame) {
 				break;
 			}
 		}
@@ -1398,7 +1398,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 }
 
 #pragma mark Protocol specific accessors
-- (void)OSCAREditComment:(NSString *)comment forUID:(NSString *)inUID onAccount:(id)adiumAccount
+- (void)OSCAREditComment:(NSString *)inComment forUID:(NSString *)inUID onAccount:(id)adiumAccount
 {
 	PurpleAccount *account = accountLookupFromAdiumAccount(adiumAccount);
 	if (purple_account_is_connected(account)) {
@@ -1411,7 +1411,7 @@ GList *createListFromDictionary(NSDictionary *arguments)
 		if ((buddy = purple_find_buddy(account, uidUTF8String)) &&
 			(g = purple_buddy_get_group(buddy)) && 
 			(od = purple_account_get_connection(account)->proto_data)) {
-			aim_ssi_editcomment(od, purple_group_get_name(g), uidUTF8String, [comment UTF8String]);	
+			aim_ssi_editcomment(od, purple_group_get_name(g), uidUTF8String, [inComment UTF8String]);	
 		}
 	}
 }

@@ -65,11 +65,11 @@ static void AMPurpleJabberNode_received_data_cb(PurpleConnection *gc, xmlnode **
 			if (item->type == XMLNODE_TYPE_TAG) {
 				if (!strcmp(item->name, "identity")) {
 					const char *category = xmlnode_get_attrib(item,"category");
-					const char *type = xmlnode_get_attrib(item, "type");
+					const char *ltype = xmlnode_get_attrib(item, "type");
 					const char *queryName = xmlnode_get_attrib(item, "name");
 					[identities addObject:[NSDictionary dictionaryWithObjectsAndKeys:
 										   category?[NSString stringWithUTF8String:category]:[NSNull null], @"category",
-										   type?[NSString stringWithUTF8String:type]:[NSNull null], @"type",
+										   ltype?[NSString stringWithUTF8String:ltype]:[NSNull null], @"type",
 										   queryName?[NSString stringWithUTF8String:queryName]:[NSNull null], @"name",
 										   nil]];
 				} else if (!strcmp(item->name, "feature")) {

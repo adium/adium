@@ -791,7 +791,7 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	struct tm tm;
 
 	if (inDateAndTime && (strptime([inDateAndTime UTF8String], "%c", &tm) != NULL)) {
-		NSString	*valueDay, *valueTime, *replacementString;
+		NSString	*valueDay, *valueTime;
 		NSDate		*date;
 		/* Not set by strptime(); tells mktime()
 		 * to determine whether daylight saving time

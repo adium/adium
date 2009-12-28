@@ -181,11 +181,11 @@ static NSImage *det_triangle_closed = nil;
 
 #pragma mark Outline View
 
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(id)item
 {
 	if (!item)
 		return node;
-	return [[item items] objectAtIndex:index];
+	return [[item items] objectAtIndex:idx];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item

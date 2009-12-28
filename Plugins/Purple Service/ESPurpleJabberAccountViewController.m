@@ -164,8 +164,8 @@
 	return [adium.contactController.contactList countOfContainedObjects];
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
-	return [[adium.contactController.contactList.containedObjects objectAtIndex:index] formattedUID];
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)idx {
+	return [[adium.contactController.contactList.containedObjects objectAtIndex:idx] formattedUID];
 }
 
 - (NSUInteger)comboBox:(NSComboBox *)aComboBox indexOfItemWithStringValue:(NSString *)string {

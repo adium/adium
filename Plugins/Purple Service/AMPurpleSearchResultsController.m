@@ -26,33 +26,33 @@
 		GList *but;
 		for(but = results->buttons; but; but = g_list_next(but)) {
 			PurpleNotifySearchButton *button = but->data;
-			NSString *title = nil;
+			NSString *buttonTitle = nil;
 			switch(button->type) {
 				case PURPLE_NOTIFY_BUTTON_LABELED:
 					if(button->label)
-						title = [NSString stringWithUTF8String:button->label];
+						buttonTitle = [NSString stringWithUTF8String:button->label];
 					break;
 				case PURPLE_NOTIFY_BUTTON_CONTINUE:
-					title = AILocalizedString(@"Continue",nil);
+					buttonTitle = AILocalizedString(@"Continue",nil);
 					break;
 				case PURPLE_NOTIFY_BUTTON_ADD:
-					title = AILocalizedString(@"Add",nil);
+					buttonTitle = AILocalizedString(@"Add",nil);
 					break;
 				case PURPLE_NOTIFY_BUTTON_INFO:
-					title = AILocalizedString(@"Info",nil);
+					buttonTitle = AILocalizedString(@"Info",nil);
 					break;
 				case PURPLE_NOTIFY_BUTTON_IM:
-					title = AILocalizedString(@"Send Message",nil);
+					buttonTitle = AILocalizedString(@"Send Message",nil);
 					break;
 				case PURPLE_NOTIFY_BUTTON_JOIN:
-					title = AILocalizedString(@"Join",nil);
+					buttonTitle = AILocalizedString(@"Join",nil);
 					break;
 				case PURPLE_NOTIFY_BUTTON_INVITE:
-					title = AILocalizedString(@"Invite",nil);
+					buttonTitle = AILocalizedString(@"Invite",nil);
 					break;
 			}
 			NSButton *newbutton = [[NSButton alloc] initWithFrame:NSMakeRect(0.0f, 0.0f, 100.0f, 100.0f)];
-			[newbutton setTitle:title];
+			[newbutton setTitle:buttonTitle];
 			[[newbutton cell] setControlSize:NSRegularControlSize];
 			[newbutton setTarget:self];
 			[newbutton setAction:@selector(invokeAction:)];
@@ -82,11 +82,11 @@
 			[tableview removeTableColumn:[[tableview tableColumns] objectAtIndex:0]];
 		
 		// add the ones we need
-		NSUInteger index = 0;
+		NSUInteger idx = 0;
 		GList *column;
 		for(column = results->columns; column; column = g_list_next(column)) {
 			PurpleNotifySearchColumn *scol = column->data;
-			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:index++]];
+			NSTableColumn *tcol = [[NSTableColumn alloc] initWithIdentifier:[NSNumber numberWithUnsignedInteger:idx++]];
 			
 			if(scol->title)
 				[[tcol headerCell] setStringValue:[NSString stringWithUTF8String:scol->title]];

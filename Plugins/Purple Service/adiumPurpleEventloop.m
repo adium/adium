@@ -110,24 +110,24 @@ static SourceInfo *createSourceInfo(void)
  */
 void updateSocketForSourceInfo(SourceInfo *sourceInfo)
 {
-	CFSocketRef socket = sourceInfo->socket;
+	CFSocketRef sourceSocket = sourceInfo->socket;
 	
-	if (!socket) return;
+	if (!sourceSocket) return;
 
 	//Reading
 #ifdef PURPLE_SOCKET_DEBUG
 	AILogWithSignature(@"%@", sourceInfo);
 #endif
 	if (sourceInfo->read_tag)
-		CFSocketEnableCallBacks(socket, kCFSocketReadCallBack);
+		CFSocketEnableCallBacks(sourceSocket, kCFSocketReadCallBack);
 	else
-		CFSocketDisableCallBacks(socket, kCFSocketReadCallBack);
+		CFSocketDisableCallBacks(sourceSocket, kCFSocketReadCallBack);
 
 	//Writing
 	if (sourceInfo->write_tag)
-		CFSocketEnableCallBacks(socket, kCFSocketWriteCallBack);
+		CFSocketEnableCallBacks(sourceSocket, kCFSocketWriteCallBack);
 	else
-		CFSocketDisableCallBacks(socket, kCFSocketWriteCallBack);
+		CFSocketDisableCallBacks(sourceSocket, kCFSocketWriteCallBack);
 	
 	//Re-enable callbacks automatically and, by starting with 0, _don't_ close the socket on invalidate
 	CFOptionFlags flags = 0;
@@ -135,7 +135,7 @@ void updateSocketForSourceInfo(SourceInfo *sourceInfo)
 	if (sourceInfo->read_tag) flags |= kCFSocketAutomaticallyReenableReadCallBack;
 	if (sourceInfo->write_tag) flags |= kCFSocketAutomaticallyReenableWriteCallBack;
 	
-	CFSocketSetSocketFlags(socket, flags);
+	CFSocketSetSocketFlags(sourceSocket, flags);
 }
 
 gboolean adium_source_remove(guint tag) {
@@ -282,7 +282,7 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 #ifdef PURPLE_SOCKET_DEBUG
 	AILog(@"adium_input_add(): Adding input %i on fd %i", condition, fd);
 #endif
-	CFSocketRef socket = CFSocketCreateWithNative(NULL,
+	CFSocketRef newSocket = CFSocketCreateWithNative(NULL,
 												  fd,
 												  (kCFSocketReadCallBack | kCFSocketWriteCallBack),
 												  socketCallback,
@@ -293,15 +293,15 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 	 * In that case, the socket's info was not updated.
 	 */
 	CFSocketContext actualSocketContext = { 0, NULL, NULL, NULL, NULL };
-	CFSocketGetContext(socket, &actualSocketContext);
+	CFSocketGetContext(newSocket, &actualSocketContext);
 	if (actualSocketContext.info != info) {
 		[info release];
-		CFRelease(socket);
+		CFRelease(newSocket);
 		info = [(SourceInfo *)(actualSocketContext.info) retain];
 	}
 
 	info->fd = fd;
-	info->socket = socket;
+	info->socket = newSocket;
 
     if ((condition & PURPLE_INPUT_READ)) {
 		info->read_tag = ++sourceId;
@@ -328,11 +328,11 @@ guint adium_input_add(gint fd, PurpleInputCondition condition,
 	
 	//Add it to our run loop
 	if (!(info->run_loop_source)) {
-		info->run_loop_source = CFSocketCreateRunLoopSource(NULL, socket, 0);
+		info->run_loop_source = CFSocketCreateRunLoopSource(NULL, newSocket, 0);
 		if (info->run_loop_source) {
 			CFRunLoopAddSource(purpleRunLoop, info->run_loop_source, kCFRunLoopCommonModes);
 		} else {
-			AILog(@"*** Unable to create run loop source for %p",socket);
+			AILog(@"*** Unable to create run loop source for %p",newSocket);
 		}		
 	}
 
