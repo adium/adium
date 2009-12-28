@@ -141,7 +141,7 @@ Boolean GetMetadataForHTMLLog(NSMutableDictionary *attributes, NSString *pathToF
 	* or HTML log is stored as ServiceID.Account_Name/Destination_Name/Destination_Name (2006-03-30).AdiumHTMLLog
 	*/
 	NSArray *pathComponents = [pathToFile pathComponents];
-	unsigned count = [pathComponents count];
+	NSUInteger count = [pathComponents count];
 	NSString *toUID = ((count >= 2) ? [pathComponents objectAtIndex:(count - 2)] : nil);
 	NSString *sourceFolder = ((count >= 3) ? [pathComponents objectAtIndex:(count - 3)] : nil);
 	NSString *serviceClass, *fromUID;
