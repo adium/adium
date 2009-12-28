@@ -196,7 +196,10 @@ static PurpleNotifyUiOps adiumPurpleNotifyOps = {
 	adiumPurpleNotifySearchResultsNewRows,
 	adiumPurpleNotifyUserinfo,
     adiumPurpleNotifyUri,
-    adiumPurpleNotifyClose
+    adiumPurpleNotifyClose,
+	
+	/* _purple_reserved 1-4 */
+	NULL, NULL, NULL, NULL
 };
 
 PurpleNotifyUiOps *adium_purple_notify_get_ui_ops(void)
