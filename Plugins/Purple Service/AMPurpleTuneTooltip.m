@@ -47,7 +47,7 @@
 		
 		PurpleValue *artist = purple_status_get_attr_value(status, "tune_artist");
 		PurpleValue *album = purple_status_get_attr_value(status, "tune_album");
-		PurpleValue *time = purple_status_get_attr_value(status, "tune_time");
+		PurpleValue *duration = purple_status_get_attr_value(status, "tune_time");
 		
 		const char *titlestr = purple_value_get_string(title);
 		const char *artiststr = NULL;
@@ -59,8 +59,8 @@
 			artiststr = purple_value_get_string(artist);
 		if (album)
 			albumstr = purple_value_get_string(album);
-		if (time)
-			timeval = purple_value_get_int(time);
+		if (duration)
+			timeval = purple_value_get_int(duration);
 		
 		NSMutableString *text = [NSMutableString string];
 		

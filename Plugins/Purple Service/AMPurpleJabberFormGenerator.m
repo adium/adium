@@ -115,17 +115,17 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = xmlnode_new("field");
+	xmlnode *xml_result = xmlnode_new("field");
 	if(label)
-		xmlnode_set_attrib(result,"label",[label UTF8String]);
+		xmlnode_set_attrib(xml_result,"label",[label UTF8String]);
 	if(var)
-		xmlnode_set_attrib(result,"var",[var UTF8String]);
+		xmlnode_set_attrib(xml_result,"var",[var UTF8String]);
 	if(required)
-		xmlnode_new_child(result,"required");
+		xmlnode_new_child(xml_result,"required");
 	if(desc)
-		xmlnode_insert_data(xmlnode_new_child(result,"desc"), [desc UTF8String], -1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"desc"), [desc UTF8String], -1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -154,13 +154,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","boolean");
+	xmlnode_set_attrib(xml_result,"type","boolean");
 	if(value)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),"1",-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),"1",-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -195,13 +195,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","fixed");
+	xmlnode_set_attrib(xml_result,"type","fixed");
 	if(value)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -236,13 +236,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","hidden");
+	xmlnode_set_attrib(xml_result,"type","hidden");
 	if(value)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -281,16 +281,16 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","jid-multi");
+	xmlnode_set_attrib(xml_result,"type","jid-multi");
 	if(jids) {
 		NSString *jid;
 		for(jid in jids)
-			xmlnode_insert_data(xmlnode_new_child(result,"value"),[jid UTF8String],-1);
+			xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[jid UTF8String],-1);
 	}
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -325,13 +325,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","jid-single");
+	xmlnode_set_attrib(xml_result,"type","jid-single");
 	if(jid)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),[jid UTF8String],-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[jid UTF8String],-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -356,13 +356,13 @@
 		for(option = xml->child; option; option = option->next) {
 			if(option->type == XMLNODE_TYPE_TAG && !strcmp(option->name, "option")) {
 				const char *labelstr = xmlnode_get_attrib(option,"label");
-				xmlnode *valuenode = xmlnode_get_child(option,"value");
+				xmlnode *lvaluenode = xmlnode_get_child(option,"value");
 				if(!valuenode) {
 					/* invalid field */
 					[self release];
 					return nil;
 				}
-				const char *valuestr = xmlnode_get_data(valuenode);
+				const char *valuestr = xmlnode_get_data(lvaluenode);
 				if(!valuestr) {
 					[self release];
 					return nil;
@@ -405,21 +405,21 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","list-multi");
+	xmlnode_set_attrib(xml_result,"type","list-multi");
 	if(options) {
 		for(NSDictionary *option in options) {
-			xmlnode *optnode = xmlnode_new_child(result,"option");
+			xmlnode *optnode = xmlnode_new_child(xml_result,"option");
 			xmlnode_set_attrib(optnode,"label",[[option objectForKey:@"label"] UTF8String]);
 			xmlnode_insert_data(xmlnode_new_child(optnode,"value"),[[option objectForKey:@"value"] UTF8String],-1);
 		}
 		NSString *value;
 		for(value in values)
-			xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+			xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	}
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -440,13 +440,13 @@
 		for(option = xml->child; option; option = option->next) {
 			if(option->type == XMLNODE_TYPE_TAG && !strcmp(option->name, "option")) {
 				const char *labelstr = xmlnode_get_attrib(option,"label");
-				xmlnode *valuenode = xmlnode_get_child(option,"value");
-				if(!valuenode) {
+				xmlnode *lvaluenode = xmlnode_get_child(option,"value");
+				if(!lvaluenode) {
 					/* invalid field */
 					[self release];
 					return nil;
 				}
-				const char *valuestr = xmlnode_get_data(valuenode);
+				const char *valuestr = xmlnode_get_data(lvaluenode);
 				if(!valuestr) {
 					[self release];
 					return nil;
@@ -489,21 +489,21 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","list-single");
+	xmlnode_set_attrib(xml_result,"type","list-single");
 	if(options) {
 		NSDictionary *option;
 		for(option in options) {
-			xmlnode *optnode = xmlnode_new_child(result,"option");
+			xmlnode *optnode = xmlnode_new_child(xml_result,"option");
 			xmlnode_set_attrib(optnode,"label",[[option objectForKey:@"label"] UTF8String]);
 			xmlnode_insert_data(xmlnode_new_child(optnode,"value"),[[option objectForKey:@"value"] UTF8String],-1);
 		}
 		if(value)
-			xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+			xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	}
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -542,15 +542,15 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","text-multi");
+	xmlnode_set_attrib(xml_result,"type","text-multi");
 	if(value) {
 		for (NSString *line in [value componentsSeparatedByString:@"\n"])
-			xmlnode_insert_data(xmlnode_new_child(result,"value"),[line UTF8String],-1);
+			xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[line UTF8String],-1);
 	}
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -585,13 +585,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","text-single");
+	xmlnode_set_attrib(xml_result,"type","text-single");
 	if(value)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end
@@ -626,13 +626,13 @@
 }
 
 - (xmlnode*)xml {
-	xmlnode *result = [super xml];
+	xmlnode *xml_result = [super xml];
 	
-	xmlnode_set_attrib(result,"type","text-private");
+	xmlnode_set_attrib(xml_result,"type","text-private");
 	if(value)
-		xmlnode_insert_data(xmlnode_new_child(result,"value"),[value UTF8String],-1);
+		xmlnode_insert_data(xmlnode_new_child(xml_result,"value"),[value UTF8String],-1);
 	
-	return result;
+	return xml_result;
 }
 
 @end

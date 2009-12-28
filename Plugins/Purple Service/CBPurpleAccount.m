@@ -1793,10 +1793,10 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
  *
  * @param pause If the media's state should be pause
  */
-- (void)media:(AIMedia *)media setPause:(BOOL)pause
+- (void)media:(AIMedia *)media setPause:(BOOL)willPause
 {
 	purple_media_stream_info((PurpleMedia *)media.protocolInfo,
-							 pause ? PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
+							 willPause ? PURPLE_MEDIA_INFO_PAUSE : PURPLE_MEDIA_INFO_UNPAUSE,
 							 NULL, NULL, TRUE);	
 }
 
@@ -2715,12 +2715,12 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 							}						
 						}
 						
-						size_t maxSize = prpl_info->icon_spec.max_filesize;
-						if (maxSize > 0 && ([buddyIconData length] > maxSize)) {
-							AILog(@"Image %i is larger than %i!",[buddyIconData length],maxSize);
+						size_t maxFileSize = prpl_info->icon_spec.max_filesize;
+						if (maxFileSize > 0 && ([buddyIconData length] > maxFileSize)) {
+							AILog(@"Image %i is larger than %i!",[buddyIconData length],maxFileSize);
 							for (i = 0; prpl_formats[i]; i++) {
 								if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {
-									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxSize];
+									buddyIconData = [image JPEGRepresentationWithMaximumByteSize:maxFileSize];
 								}
 							}
 						}

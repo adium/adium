@@ -288,10 +288,10 @@ static void chat_join_failed_cb(PurpleConnection *gc, GHashTable *components)
 	}
 }
 
-static void typing_changed(PurpleAccount *acct, const char *name, AITypingState typingState)
+static void typing_changed(PurpleAccount *account, const char *name, AITypingState typingState)
 {
-	CBPurpleAccount	*account = accountLookup(acct);
-	AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(acct, name));
+	CBPurpleAccount	*cbaccount = accountLookup(account);
+	AIListContact *contact = contactLookupFromBuddy(purple_find_buddy(account, name));
 	
 	// Don't do anything for those who aren't on our contact list.
 	if (contact.isStranger) {
@@ -306,7 +306,7 @@ static void typing_changed(PurpleAccount *acct, const char *name, AITypingState 
 	}
 
 	if (chat)
-		[account typingUpdateForIMChat:chat typing:[NSNumber numberWithInteger:typingState]];
+		[cbaccount typingUpdateForIMChat:chat typing:[NSNumber numberWithInteger:typingState]];
 }
 
 static void conversation_created_cb(PurpleConversation *conv, void *data) {
@@ -324,18 +324,18 @@ static void conversation_created_cb(PurpleConversation *conv, void *data) {
  */
  
 static void
-buddy_typing_cb(PurpleAccount *acct, const char *name, void *data) {
-	typing_changed(acct, name, AITyping);
+buddy_typing_cb(PurpleAccount *account, const char *name, void *data) {
+	typing_changed(account, name, AITyping);
 }
 
 static void
-buddy_typed_cb(PurpleAccount *acct, const char *name, void *data) {
-	typing_changed(acct, name, AIEnteredText);
+buddy_typed_cb(PurpleAccount *account, const char *name, void *data) {
+	typing_changed(account, name, AIEnteredText);
 }
 
 static void
-buddy_typing_stopped_cb(PurpleAccount *acct, const char *name, void *data) {
-	typing_changed(acct, name, AINotTyping);
+buddy_typing_stopped_cb(PurpleAccount *account, const char *name, void *data) {
+	typing_changed(account, name, AINotTyping);
 }
 
 static void

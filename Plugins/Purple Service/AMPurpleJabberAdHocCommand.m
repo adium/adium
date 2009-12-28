@@ -30,8 +30,8 @@
 }
 
 - (AMPurpleJabberFormGenerator*)form {
-	xmlnode *form = xmlnode_get_child_with_namespace(command,"x","jabber:x:data");
-	if(!form)
+	xmlnode *jabberForm = xmlnode_get_child_with_namespace(command,"x","jabber:x:data");
+	if(!jabberForm)
 		return nil;
 	return [[[AMPurpleJabberFormGenerator alloc] initWithXML:form] autorelease];
 }
@@ -55,7 +55,7 @@
 	[old release];
 }
 
-- (AMPurpleJabberAdHocCommand*)generateReplyWithForm:(AMPurpleJabberFormGenerator*)form actions:(NSArray*)actions defaultAction:(NSUInteger)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status {
+- (AMPurpleJabberAdHocCommand*)generateReplyWithForm:(AMPurpleJabberFormGenerator*)jabberForm actions:(NSArray*)actions defaultAction:(NSUInteger)defaultAction status:(enum AMPurpleJabberAdHocCommandStatus)status {
 	const char *nodeattr = xmlnode_get_attrib(command,"node");
 	if(!nodeattr)
 		return nil;
@@ -85,7 +85,7 @@
 			xmlnode_new_child(actionsnode, [actionstr UTF8String]);
 	}
 	
-	xmlnode_insert_child(newcmd,[form xml]);
+	xmlnode_insert_child(newcmd,[jabberForm xml]);
 	
 	AMPurpleJabberAdHocCommand *cmd = [[AMPurpleJabberAdHocCommand alloc] initWithServer:server command:newcmd jid:jid iqid:iqid];
 	xmlnode_free(newcmd);
