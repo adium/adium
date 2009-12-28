@@ -48,7 +48,7 @@ static NSMutableDictionary	*sourceInfoDict = nil;
 @interface SourceInfo : NSObject {
 
 @public	CFSocketRef socket;
-@public	NSInteger fd;
+@public	gint fd;
 @public	CFRunLoopSourceRef run_loop_source;
 	
 @public	guint timer_tag;

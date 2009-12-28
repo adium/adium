@@ -80,7 +80,9 @@ xmlnode_sent_cb(PurpleConnection *gc, char **packet, gpointer this)
 
 - (IBAction)sendXML:(id)sender {
     NSData *rawXMLData = [[xmlInjectView string] dataUsingEncoding:NSUTF8StringEncoding];
-    jabber_prpl_send_raw(gc, [rawXMLData bytes], [rawXMLData length]);
+    NSAssert( INT_MAX >= [rawXMLData length],
+						 @"Sending more jabber data value than libpurple can handle.  Abort." );
+    jabber_prpl_send_raw(gc, [rawXMLData bytes], (int)[rawXMLData length]);
 
     // remove from text field
     [xmlInjectView setString:@""];

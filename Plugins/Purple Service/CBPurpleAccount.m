@@ -297,7 +297,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 - (void)updateStatusForContact:(AIListContact *)theContact toStatusType:(NSNumber *)statusTypeNumber statusName:(NSString *)statusName statusMessage:(NSAttributedString *)statusMessage isMobile:(BOOL)isMobile
 {
 	[theContact setStatusWithName:statusName
-					   statusType:[statusTypeNumber integerValue]
+					   statusType:[statusTypeNumber intValue]
 						   notify:NotifyLater];
 	[theContact setStatusMessage:statusMessage
 						  notify:NotifyLater];
@@ -1132,7 +1132,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)updateForChat:(AIChat *)chat type:(NSNumber *)type
 {
-	AIChatUpdateType	updateType = [type integerValue];
+	AIChatUpdateType	updateType = [type intValue];
 	NSString			*key = nil;
 	switch (updateType) {
 		case AIChatTimedOut:
@@ -1154,7 +1154,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {
-	PurpleMessageFlags		flags = [[messageDict objectForKey:@"PurpleMessageFlags"] integerValue];
+	PurpleMessageFlags		flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 
 	NSAttributedString		*attributedMessage;
 	AIListContact			*listContact;
@@ -1180,7 +1180,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 						date:(NSDate *)date
 					   flags:(NSNumber *)flagsNumber
 {
-	PurpleMessageFlags flags = [flagsNumber integerValue];
+	PurpleMessageFlags flags = [flagsNumber intValue];
 	
 	AIContentEvent *event = [AIContentEvent eventInChat:chat
 											 withSource:nil
@@ -1196,7 +1196,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {	
-	PurpleMessageFlags	flags = [[messageDict objectForKey:@"PurpleMessageFlags"] integerValue];
+	PurpleMessageFlags	flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
 	NSString			*source = [messageDict objectForKey:@"Source"];
 	
@@ -1689,7 +1689,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 //Update an ESFileTransfer object progress
 - (void)updateProgressForFileTransfer:(ESFileTransfer *)fileTransfer percent:(NSNumber *)percent bytesSent:(NSNumber *)bytesSent
 {
-	CGFloat percentDone = [percent doubleValue];
+	CGFloat percentDone = (CGFloat)[percent doubleValue];
     [fileTransfer setPercentDone:percentDone bytesSent:[bytesSent unsignedLongValue]];
 }
 
@@ -1978,7 +1978,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)configurePurpleAccount
 {
 	NSString	*hostName;
-	NSInteger			portNumber;
+	int			portNumber;
 
 	//Host (server)
 	hostName = [self hostForPurple];
@@ -2030,7 +2030,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	PurpleProxyInfo		*proxy_info;
 	
-	AdiumProxyType  	proxyType = [[proxyConfig objectForKey:@"AdiumProxyType"] integerValue];
+	AdiumProxyType  	proxyType = [[proxyConfig objectForKey:@"AdiumProxyType"] intValue];
 	
 	proxy_info = purple_proxy_info_new();
 	purple_account_set_proxy_info(account, proxy_info);
@@ -2060,7 +2060,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	if (proxyType != Adium_Proxy_None) {
 		purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
-		purple_proxy_info_set_port(proxy_info, [[proxyConfig objectForKey:@"Port"] integerValue]);
+		purple_proxy_info_set_port(proxy_info, [[proxyConfig objectForKey:@"Port"] intValue]);
 
 		purple_proxy_info_set_username(proxy_info, (char *)[[proxyConfig objectForKey:@"Username"] UTF8String]);
 		purple_proxy_info_set_password(proxy_info, (char *)[[proxyConfig objectForKey:@"Password"] UTF8String]);
@@ -2693,7 +2693,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 									break;
 								
 							} else if ((strcmp(prpl_formats[i],"jpeg") == 0) || (strcmp(prpl_formats[i],"jpg") == 0)) {								
-								buddyIconData = [image JPEGRepresentationWithCompressionFactor:1.0];
+								buddyIconData = [image JPEGRepresentationWithCompressionFactor:1.0f];
 								if (buddyIconData)
 									break;
 								
@@ -3225,8 +3225,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	NSAssert(!chat.isGroupChat, @"Chat cannot be a group chat for typing.");
 	
-    AITypingState currentTypingState = [chat integerValueForProperty:KEY_TYPING];
-	AITypingState newTypingState = [typingStateNumber integerValue];
+    AITypingState currentTypingState = (AITypingState)[chat integerValueForProperty:KEY_TYPING];
+	AITypingState newTypingState = [typingStateNumber intValue];
 	
     if (currentTypingState != newTypingState) {
 		if (newTypingState == AITyping && openPsychicChats && ![chat isOpen]) {

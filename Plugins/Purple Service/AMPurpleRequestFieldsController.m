@@ -178,7 +178,7 @@
 }
 
 - (void)applyValue:(NSString*)value {
-	purple_request_field_int_set_value(field, [value integerValue]);
+	purple_request_field_int_set_value(field, [value intValue]);
 }
 
 @end
@@ -271,7 +271,7 @@
 }
 
 - (void)applyValue:(NSString*)value {
-	purple_request_field_choice_set_value(field, [value integerValue]);
+	purple_request_field_choice_set_value(field, [value intValue]);
 }
 
 @end

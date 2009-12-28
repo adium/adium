@@ -70,7 +70,7 @@
 - (void)setIdle:(BOOL)isIdle sinceDate:(NSDate *)idleSinceDate notify:(NotifyTiming)notify;
 - (void)setServersideIconData:(NSData *)iconData notify:(NotifyTiming)notify;
 
-- (void)setWarningLevel:(int)warningLevel notify:(NotifyTiming)notify;
+- (void)setWarningLevel:(NSInteger)warningLevel notify:(NotifyTiming)notify;
 - (NSInteger)warningLevel;
 
 - (void)setProfileArray:(NSArray *)array notify:(NotifyTiming)notify;

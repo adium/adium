@@ -441,10 +441,10 @@
  * @param warningLevel The warning level, an integer between 0 and 100
  * @param notify The NotifyTiming
  */
-- (void)setWarningLevel:(int)warningLevel notify:(NotifyTiming)notify
+- (void)setWarningLevel:(NSInteger)warningLevel notify:(NotifyTiming)notify
 {
 	if (warningLevel != self.warningLevel) {
-		[self setValue:[NSNumber numberWithInt:warningLevel]
+		[self setValue:[NSNumber numberWithInteger:warningLevel]
 					   forProperty:@"Warning"
 					   notify:notify];
 	}

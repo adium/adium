@@ -309,16 +309,16 @@ static NSImage *det_triangle_closed = nil;
 		NSImage *img = [[NSImage alloc] initWithSize:imgsize];
 		NSAffineTransform *transform = [NSAffineTransform transform];
 		
-		[transform translateXBy:imgsize.width/2.0 yBy:imgsize.height/2.0];
+		[transform translateXBy:imgsize.width/2.0f yBy:imgsize.height/2.0f];
 		NSTimeInterval intv = [NSDate timeIntervalSinceReferenceDate];
 		intv -= floor(intv); // only get the fractional part
-		[transform rotateByRadians:2.0*M_PI * (1.0-intv)];
-		[transform translateXBy:-imgsize.width/2.0 yBy:-imgsize.height/2.0];
+		[transform rotateByRadians:(CGFloat)(2.0*M_PI * (1.0-intv))];
+		[transform translateXBy:-imgsize.width/2.0f yBy:-imgsize.height/2.0f];
 		
 		[img lockFocus];
 		[transform set];
-		[downloadprogress drawInRect:NSMakeRect(0.0,0.0,imgsize.width,imgsize.height) fromRect:NSMakeRect(0.0,0.0,imgsize.width,imgsize.height)
-						   operation:NSCompositeSourceOver fraction:1.0];
+		[downloadprogress drawInRect:NSMakeRect(0.0f,0.0f,imgsize.width,imgsize.height) fromRect:NSMakeRect(0.0f,0.0f,imgsize.width,imgsize.height)
+						   operation:NSCompositeSourceOver fraction:1.0f];
 		[[NSAffineTransform transform] set];
 		[img unlockFocus];
 		[cell setImage:img];
@@ -332,14 +332,14 @@ static NSImage *det_triangle_closed = nil;
 	} else {
 		if (expanded) {
 			if (!det_triangle_opened) {
-				det_triangle_opened = [[NSImage alloc] initWithSize:NSMakeSize(13.0,13.0)];
+				det_triangle_opened = [[NSImage alloc] initWithSize:NSMakeSize(13.0f,13.0f)];
 				NSButtonCell *triangleCell = [[NSButtonCell alloc] initImageCell:nil];
 				[triangleCell setButtonType:NSOnOffButton];
 				[triangleCell setBezelStyle:NSDisclosureBezelStyle];
 				[triangleCell setState:NSOnState];
 				
 				[det_triangle_opened lockFocus];
-				[triangleCell drawWithFrame:NSMakeRect(0.0,0.0,13.0,13.0) inView:outlineView];
+				[triangleCell drawWithFrame:NSMakeRect(0.0f,0.0f,13.0f,13.0f) inView:outlineView];
 				[det_triangle_opened unlockFocus];
 				
 				[triangleCell release];
@@ -348,14 +348,14 @@ static NSImage *det_triangle_closed = nil;
 			[cell setImage:det_triangle_opened];
 		} else {
 			if (!det_triangle_closed) {
-				det_triangle_closed = [[NSImage alloc] initWithSize:NSMakeSize(13.0,13.0)];
+				det_triangle_closed = [[NSImage alloc] initWithSize:NSMakeSize(13.0f,13.0f)];
 				NSButtonCell *triangleCell = [[NSButtonCell alloc] initImageCell:nil];
 				[triangleCell setButtonType:NSOnOffButton];
 				[triangleCell setBezelStyle:NSDisclosureBezelStyle];
 				[triangleCell setIntegerValue:NSOffState];
 				
 				[det_triangle_closed lockFocus];
-				[triangleCell drawWithFrame:NSMakeRect(0.0,0.0,13.0,13.0) inView:outlineView];
+				[triangleCell drawWithFrame:NSMakeRect(0.0f,0.0f,13.0f,13.0f) inView:outlineView];
 				[det_triangle_closed unlockFocus];
 				
 				[triangleCell release];

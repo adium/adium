@@ -201,8 +201,8 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 	if((id)dist1obj == [NSNull null])
 		return NSOrderedDescending;
 	
-	CGFloat dist1 = [dist1obj doubleValue];
-	CGFloat dist2 = [dist2obj doubleValue];
+	CGFloat dist1 = (CGFloat)[dist1obj doubleValue];
+	CGFloat dist2 = (CGFloat)[dist2obj doubleValue];
 	
 	if(fabs(dist1 - dist2) < 0.000001)
 		return NSOrderedSame;
@@ -236,8 +236,8 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 				MachineLocation loc;
 				ReadLocation(&loc);
 				
-				CGFloat latitude = FractToFloat(loc.latitude)*(M_PI/2.0f);
-				CGFloat longitude = FractToFloat(loc.longitude)*(M_PI/2.0f);
+				CGFloat latitude = (CGFloat)(FractToFloat(loc.latitude)*(M_PI/2.0));
+				CGFloat longitude = (CGFloat)(FractToFloat(loc.longitude)*(M_PI/2.0));
 				
 				servers = [[NSMutableArray alloc] init];
 				
@@ -259,14 +259,14 @@ static NSComparisonResult compareByDistance(id one, id two, void*context) {
 						 * If it turns out to be flat or doughnut-shaped, this will not work!
 						 */
 						
-						CGFloat latitude2 = [[latitudeNode stringValue] doubleValue] * (M_PI/180.0f);
-						CGFloat longitude2 = [[longitudeNode stringValue] doubleValue] * (M_PI/180.0f);
+						CGFloat latitude2 = (CGFloat)([[latitudeNode stringValue] doubleValue] * (M_PI/180.0));
+						CGFloat longitude2 = (CGFloat)([[longitudeNode stringValue] doubleValue] * (M_PI/180.0));
 						
-						CGFloat d_lat = sinf((latitude2 - latitude)/2.0);
-						CGFloat d_long = sinf((longitude2 - longitude)/2.0);
-						CGFloat a = d_lat*d_lat + cosf(latitude)*cosf(latitude2)*d_long*d_long;
-						CGFloat c = 2*atan2f(sqrt(a),sqrt(1.0-a));
-						CGFloat d = 6372.797*c; // mean earth radius
+						CGFloat d_lat = AIsin((latitude2 - latitude)/2.0f);
+						CGFloat d_long = AIsin((longitude2 - longitude)/2.0f);
+						CGFloat a = d_lat*d_lat + AIcos(latitude)*AIcos(latitude2)*d_long*d_long;
+						CGFloat c = 2*AIatan2(AIsqrt(a),AIsqrt(1.0f-a));
+						CGFloat d = 6372.797f*c; // mean earth radius
 						
 						distance = [NSNumber numberWithDouble:d];
 					}

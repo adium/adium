@@ -130,9 +130,12 @@ static NSMutableDictionary *acceptedCertificates = nil;
 		return;
 	}
 
+	NSAssert( UINT_MAX > [hostname length],
+					 @"More string data than libpurple can handle.  Abort." );
+	
 	CSSM_APPLE_TP_SSL_OPTIONS ssloptions = {
 		.Version = CSSM_APPLE_TP_SSL_OPTS_VERSION,
-		.ServerNameLen = [hostname length]+1,
+		.ServerNameLen = (UInt32)([hostname length]+1),
 		.ServerName = [hostname cStringUsingEncoding:NSASCIIStringEncoding],
 		.Flags = 0
 	};
