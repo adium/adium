@@ -156,9 +156,9 @@
 /*!
  * @brief Get the visible object at a given index
  */
-- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)idx
 {
-	return [_visibleObjects objectAtIndex:index];
+	return [_visibleObjects objectAtIndex:idx];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj
@@ -188,9 +188,9 @@
 }
 
 //Retrieve an object by index
-- (id)objectAtIndex:(NSUInteger)index
+- (id)objectAtIndex:(NSUInteger)idx
 {
-    return [_containedObjects objectAtIndex:index];
+    return [_containedObjects objectAtIndex:idx];
 }
 
 - (NSArray *)uniqueContainedObjects
@@ -346,9 +346,9 @@
 	return self.containedObjects;
 }
 
-- (id)moveContacts:(AIListObject *)contact toIndex:(int)index
+- (id)moveContacts:(AIListObject *)contact toIndex:(int)idx
 {
-	[self moveContainedObject:contact toIndex:index];
+	[self moveContainedObject:contact toIndex:idx];
 	[adium.contactController sortContactList];
 	return nil;
 }

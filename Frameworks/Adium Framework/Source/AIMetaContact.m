@@ -551,9 +551,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 	return self.uniqueContainedObjects.count;
 }
 
-- (AIListObject *)uniqueObjectAtIndex:(int)index
+- (AIListObject *)uniqueObjectAtIndex:(int)idx
 {
-	return [self.uniqueContainedObjects objectAtIndex:index];
+	return [self.uniqueContainedObjects objectAtIndex:idx];
 }
 
 /**
@@ -892,9 +892,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 }
 
 //Retrieve an object by index
-- (id)objectAtIndex:(NSUInteger)index
+- (id)objectAtIndex:(NSUInteger)idx
 {
-    return [self.uniqueContainedObjects objectAtIndex:index];
+    return [self.uniqueContainedObjects objectAtIndex:idx];
 }
 
 - (AIListObject *)objectWithService:(AIService *)inService UID:(NSString *)inUID
@@ -985,9 +985,9 @@ NSComparisonResult containedContactSort(AIListContact *objectA, AIListContact *o
 /*!
  * @brief Get the visbile object at a given index
  */
-- (AIListObject *)visibleObjectAtIndex:(NSUInteger)index
+- (AIListObject *)visibleObjectAtIndex:(NSUInteger)idx
 {
-	return [self.visibleListContacts objectAtIndex:index];
+	return [self.visibleListContacts objectAtIndex:idx];
 }
 
 - (NSUInteger)visibleIndexOfObject:(AIListObject *)obj

@@ -263,10 +263,10 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
  * @param inStatusItem The item to add
  * @param index The index at which to add it, or -1 to add it at the end
  */
-- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(NSUInteger)index
+- (void)addStatusItem:(AIStatusItem *)inStatusItem atIndex:(NSUInteger)idx
 {
-	if (index >= 0 && index < [containedStatusItems count]) {
-		[containedStatusItems insertObject:inStatusItem atIndex:index];
+	if (idx >= 0 && idx < [containedStatusItems count]) {
+		[containedStatusItems insertObject:inStatusItem atIndex:idx];
 	} else {
 		[containedStatusItems addObject:inStatusItem];		
 	}
@@ -345,10 +345,10 @@ NSComparisonResult statusArraySort(id objectA, id objectB, void *context);
 - (void)replaceExistingStatusState:(AIStatus *)oldStatusState withStatusState:(AIStatus *)newStatusState
 {
 	if (oldStatusState != newStatusState) {
-		NSUInteger index = [containedStatusItems indexOfObject:oldStatusState];
+		NSUInteger idx = [containedStatusItems indexOfObject:oldStatusState];
 		
-		if (index >= 0 && index < [containedStatusItems count]) {
-			[containedStatusItems replaceObjectAtIndex:index withObject:newStatusState];
+		if (idx >= 0 && idx < [containedStatusItems count]) {
+			[containedStatusItems replaceObjectAtIndex:idx withObject:newStatusState];
 		}
 
 		[newStatusState setContainingStatusGroup:self];

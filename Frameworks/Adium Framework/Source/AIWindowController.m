@@ -83,14 +83,14 @@ static NSRect screenBoundariesRect = { {0.0f, 0.0f}, {0.0f, 0.0f} };
 - (NSRect)savedFrameFromString:(NSString *)frameString
 {
 	NSRect		windowFrame = NSRectFromString(frameString);
-	NSSize		minSize = [[self window] minSize];
-	NSSize		maxSize = [[self window] maxSize];
+	NSSize		minFrameSize = [[self window] minSize];
+	NSSize		maxFrameSize = [[self window] maxSize];
 	
 	//Respect the min and max sizes
-	if (windowFrame.size.width < minSize.width) windowFrame.size.width = minSize.width;
-	if (windowFrame.size.height < minSize.height) windowFrame.size.height = minSize.height;
-	if (windowFrame.size.width > maxSize.width) windowFrame.size.width = maxSize.width;
-	if (windowFrame.size.height > maxSize.height) windowFrame.size.height = maxSize.height;
+	if (windowFrame.size.width < minFrameSize.width) windowFrame.size.width = minFrameSize.width;
+	if (windowFrame.size.height < minFrameSize.height) windowFrame.size.height = minFrameSize.height;
+	if (windowFrame.size.width > maxFrameSize.width) windowFrame.size.width = maxFrameSize.width;
+	if (windowFrame.size.height > maxFrameSize.height) windowFrame.size.height = maxFrameSize.height;
 	
 	//Don't allow the window to shrink smaller than its toolbar
 	NSRect 		contentFrame = [NSWindow contentRectForFrameRect:windowFrame

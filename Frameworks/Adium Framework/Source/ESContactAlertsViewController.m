@@ -542,13 +542,13 @@ NSComparisonResult actionSort(id objectA, id objectB, void *context)
 	}
 }
 
-- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)idx ofItem:(id)item
 {
 	if (item == nil) item = contactAlertsActions;
 	
 	//Return an event array from whithin contactAlertsActions
-	if (index < [item count]) {
-		return [item objectAtIndex:index];
+	if (idx < [item count]) {
+		return [item objectAtIndex:idx];
 	} else {
 		return nil;
 	}
