@@ -8,9 +8,9 @@
  */
 
 #ifndef AIMathCompatibility
-#define AIMathCompatibility
+#define AIMathCompatibility 1
 
-#ifdef __LP64__
+#if __LP64__ || NS_BUILD_32_LIKE_64
 	#define AIfabs( X )			fabs((X))
 	#define AIround( X )		round((X))
 	#define AIceil( X )			ceil((X))
