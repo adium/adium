@@ -38,7 +38,7 @@
 
 - (NSString *)safeFilenameString;
 
-- (NSString *)stringWithEllipsisByTruncatingToLength:(unsigned int)length;
+- (NSString *)stringWithEllipsisByTruncatingToLength:(NSUInteger)length;
 
 - (NSString *)string;
 
