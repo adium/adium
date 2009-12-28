@@ -26,6 +26,7 @@
 + (void)openURLString:(NSString *)urlString;
 + (void)startMailApplication;
 + (NSString *)mailApplicationName;
++ (void)showNotifyEmailWindowForAccount:(AIAccount *)account withMessage:(NSAttributedString *)inMessage URLString:(NSString *)inURLString;
 @end
 
 @implementation ESPurpleNotifyEmailController

@@ -19,6 +19,8 @@
 
 @interface AIIRCServicesPasswordPlugin()
 - (BOOL)message:(NSString *)message containsFragments:(NSArray *)fragments;
+- (void)willReceiveContent:(NSNotification *)notification;
+- (void)passwordReturned:(NSString *)inPassword returnCode:(AIPasswordPromptReturn)returnCode context:(NSDictionary *)inDict;
 @end
 
 @implementation AIIRCServicesPasswordPlugin

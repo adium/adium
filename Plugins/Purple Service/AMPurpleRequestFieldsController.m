@@ -379,6 +379,12 @@
 
 @end
 
+
+@interface AMPurpleRequestFieldsController ()
+- (void)loadForm:(NSXMLDocument*)doc;
+- (void)webviewWindowWillClose:(NSNotification *)notification;
+@end
+
 @implementation AMPurpleRequestFieldsController
 
 - (id)initWithTitle:(NSString*)title

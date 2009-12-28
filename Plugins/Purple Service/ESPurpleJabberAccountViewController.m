@@ -24,6 +24,11 @@
 
 #define SERVERFEEDRSSURL @"http://xmpp.org/services/services-full.xml"
 
+@interface ESPurpleJabberAccountViewController ()
+- (void)contactListChanged:(NSNotification *)n;
+- (void)registrationSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+@end
+
 @implementation ESPurpleJabberAccountViewController
 
 - (NSString *)nibName{

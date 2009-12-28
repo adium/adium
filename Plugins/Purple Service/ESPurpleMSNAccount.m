@@ -42,6 +42,7 @@
 @interface ESPurpleMSNAccount ()
 - (void)updateFriendlyNameAfterConnect;
 - (void)setServersideDisplayName:(NSString *)friendlyName;
+- (void)gotFilteredFriendlyName:(NSAttributedString *)filteredFriendlyName context:(NSDictionary *)infoDict;
 @end
 
 @implementation ESPurpleMSNAccount

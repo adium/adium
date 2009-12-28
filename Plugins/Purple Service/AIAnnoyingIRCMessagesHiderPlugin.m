@@ -17,6 +17,10 @@
 #import <Adium/AIListObject.h>
 #import <Adium/AIChat.h>
 
+@interface AIAnnoyingIRCMessagesHiderPlugin()
+- (void)willReceiveContent:(NSNotification *)notification;
+@end
+
 @implementation AIAnnoyingIRCMessagesHiderPlugin
 - (void)installPlugin
 {

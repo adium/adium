@@ -28,6 +28,7 @@ static NSMutableDictionary *acceptedCertificates = nil;
 			 userData:(void*)ud;
 - (IBAction)showWindow:(id)sender;
 - (void)runTrustPanelOnWindow:(NSWindow *)window;
+- (void)certificateTrustSheetDidEnd:(SFCertificateTrustPanel *)trustpanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @interface SFCertificateTrustPanel (SecretsIKnow)

@@ -44,6 +44,8 @@
 
 @interface ESPurpleJabberAccount ()
 - (BOOL)enableXMLConsole;
+- (void)registerGateway:(NSMenuItem *)mitem;
+- (void)removeGateway:(NSMenuItem *)mitem;
 @end
 
 @implementation ESPurpleJabberAccount

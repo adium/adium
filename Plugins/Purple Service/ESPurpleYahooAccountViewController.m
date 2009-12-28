@@ -24,6 +24,10 @@
 - (NSMenu *)chatServerMenu;
 @end
 
+@interface NSMenuItem (ItemCreationAdditionsMethods)
+- (NSComparisonResult)titleCompare:(NSMenuItem *)inMenuItem;
+@end
+
 @implementation ESPurpleYahooAccountViewController
 
 /*!
