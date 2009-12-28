@@ -93,6 +93,9 @@
 - (void)performAccountMenuAction:(NSMenuItem *)sender;
 
 - (void)showServerCertificate;
+
+- (void)retrievedProxyConfiguration:(NSDictionary *)proxyConfig context:(NSInvocation *)invocation;
+- (void)iTunesDidUpdate:(NSNotification *)notification;
 @end
 
 @implementation CBPurpleAccount
@@ -1154,7 +1157,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)receivedIMChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {
-	PurpleMessageFlags		flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
+	PurpleMessageFlags		flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 
 	NSAttributedString		*attributedMessage;
 	AIListContact			*listContact;
@@ -1196,7 +1199,7 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 
 - (void)receivedMultiChatMessage:(NSDictionary *)messageDict inChat:(AIChat *)chat
 {	
-	PurpleMessageFlags	flags = [[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
+	PurpleMessageFlags	flags = [(NSNumber*)[messageDict objectForKey:@"PurpleMessageFlags"] intValue];
 	NSAttributedString	*attributedMessage = [messageDict objectForKey:@"AttributedMessage"];;
 	NSString			*source = [messageDict objectForKey:@"Source"];
 	
@@ -2030,7 +2033,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 {
 	PurpleProxyInfo		*proxy_info;
 	
-	AdiumProxyType  	proxyType = [[proxyConfig objectForKey:@"AdiumProxyType"] intValue];
+	AdiumProxyType  	proxyType = [(NSNumber*)[proxyConfig objectForKey:@"AdiumProxyType"] intValue];
 	
 	proxy_info = purple_proxy_info_new();
 	purple_account_set_proxy_info(account, proxy_info);
@@ -2060,7 +2063,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 	if (proxyType != Adium_Proxy_None) {
 		purple_proxy_info_set_host(proxy_info, (char *)[[proxyConfig objectForKey:@"Host"] UTF8String]);
-		purple_proxy_info_set_port(proxy_info, [[proxyConfig objectForKey:@"Port"] intValue]);
+		purple_proxy_info_set_port(proxy_info, [(NSNumber*)[proxyConfig objectForKey:@"Port"] intValue]);
 
 		purple_proxy_info_set_username(proxy_info, (char *)[[proxyConfig objectForKey:@"Username"] UTF8String]);
 		purple_proxy_info_set_password(proxy_info, (char *)[[proxyConfig objectForKey:@"Password"] UTF8String]);

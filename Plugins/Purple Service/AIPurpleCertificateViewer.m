@@ -14,6 +14,7 @@
 
 - (id)initWithCertificateChain:(CFArrayRef)cc forAccount:(AIAccount*)_account;
 - (IBAction)showWindow:(id)sender;
+- (void)certificateSheetDidEnd:(SFCertificatePanel*)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end
 

@@ -13,3 +13,9 @@
 }
 
 @end
+
+@interface ESPurpleAIMAccount (Informal)
+- (void)updateInfo:(AIListContact *)theContact;
+- (void)directIMConnected:(AIListContact *)theContact;
+- (void)directIMDisconnected:(AIListContact *)theContact;
+@end

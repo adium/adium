@@ -26,6 +26,13 @@
 @interface ESIRCAccount()
 - (void)sendRawCommand:(NSString *)command;
 - (void)apply:(BOOL)apply operation:(NSString *)operation flag:(NSString *)flag;
+
+- (void)op;
+- (void)deop;
+- (void)devoice;
+- (void)kick;
+- (void)ban;
+- (void)bankick;
 @end
 
 static PurpleConversation *fakeConversation(PurpleAccount *account);
