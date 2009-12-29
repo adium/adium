@@ -24,35 +24,35 @@
 #pragma mark -equalToRGBColor:
 - (void)testCompareEqualColors
 {
-	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
 	STAssertTrue([colorA equalToRGBColor:colorB], @"Two colors with equal R, G, B, and A must compare equal");
 }
 - (void)testCompareColorsInequalInRed
 {
-	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-	NSColor *colorB = [NSColor colorWithCalibratedRed:0.0 green:1.0 blue:1.0 alpha:1.0];
+	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	NSColor *colorB = [NSColor colorWithCalibratedRed:0.0f green:1.0f blue:1.0f alpha:1.0f];
 	//                                                ^ The difference
 	STAssertFalse([colorA equalToRGBColor:colorB], @"Two colors with inequal R must compare equal");
 }
 - (void)testCompareColorsInequalInGreen
 {
-	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0 green:0.0 blue:1.0 alpha:1.0];
+	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0f green:0.0f blue:1.0f alpha:1.0f];
 	//                                                          ^ The difference
 	STAssertFalse([colorA equalToRGBColor:colorB], @"Two colors with inequal G must compare equal");
 }
 - (void)testCompareColorsInequalInBlue
 {
-	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:0.0 alpha:1.0];
+	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:0.0f alpha:1.0f];
 	//                                                                   ^ The difference
 	STAssertFalse([colorA equalToRGBColor:colorB], @"Two colors with inequal B must compare equal");
 }
 - (void)testCompareColorsInequalInAlpha
 {
-	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0];
-	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:0.0];
+	NSColor *colorA = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f];
+	NSColor *colorB = [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:0.0f];
 	//                                                                             ^ The difference
 	STAssertFalse([colorA equalToRGBColor:colorB], @"Two colors with inequal A must compare equal");
 }
@@ -85,8 +85,8 @@
 - (void)testDarkenRed
 {
 	NSColor *red = [NSColor redColor];
-	STAssertEquals([red redComponent], (CGFloat)1.0f, @"Expected red's red component to be 1.0");
-	NSColor *redDarkened = [red darkenBy:0.5];
+	STAssertEquals([red redComponent], (CGFloat)1.0f, @"Expected red's red component to be 1.0f");
+	NSColor *redDarkened = [red darkenBy:0.5f];
 	STAssertEquals([redDarkened redComponent],   (CGFloat)0.5f, @"Darkening red by 0.5 should result in 0.5, 0, 0");
 	STAssertEquals([redDarkened greenComponent], [red greenComponent], @"Darkening red by 0.5 should not change its green");
 	STAssertEquals([redDarkened blueComponent],  [red blueComponent],  @"Darkening red by 0.5 should not change its blue");
@@ -98,21 +98,21 @@
 {
 	NSColor *red = [NSColor redColor];
 	STAssertEquals([red redComponent], (CGFloat)1.0f, @"Expected red's red component to be 1.0");
-	NSColor *redDarkened = [red darkenBy:0.5];
+	NSColor *redDarkened = [red darkenBy:0.5f];
 	STAssertEquals([redDarkened redComponent],   (CGFloat)0.5f, @"Darkening and saturating red by 0.5 should result in 0.5, 0, 0");
 	STAssertEquals([redDarkened greenComponent], [red greenComponent], @"Darkening and saturating red by 0.5 should not change its green");
 	STAssertEquals([redDarkened blueComponent],  [red blueComponent],  @"Darkening and saturating red by 0.5 should not change its blue");
 }
 - (void)testDarkenAndSaturatePink
 {
-	NSColor *pink = [NSColor colorWithCalibratedHue:0.0
-										 saturation:0.5 //This is what makes it pink, rather than red.
-										 brightness:1.0
-											  alpha:1.0];
+	NSColor *pink = [NSColor colorWithCalibratedHue:0.0f
+										 saturation:0.5f //This is what makes it pink, rather than red.
+										 brightness:1.0f
+											  alpha:1.0f];
 	STAssertEquals([pink   redComponent], (CGFloat)1.0f, @"Expected pink's red component to be 1.0");
 	STAssertEquals([pink greenComponent], (CGFloat)0.5f, @"Expected pink's green component to be 0.5");
 	STAssertEquals([pink  blueComponent], (CGFloat)0.5f, @"Expected pink's blue component to be 0.5");
-	NSColor *pinkDarkened = [pink darkenBy:0.5];
+	NSColor *pinkDarkened = [pink darkenBy:0.5f];
 	STAssertEquals([pinkDarkened   redComponent], (CGFloat)0.5f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
 	STAssertEquals([pinkDarkened greenComponent], (CGFloat)0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
 	STAssertEquals([pinkDarkened  blueComponent], (CGFloat)0.25f, @"Darkening and saturating pink by 0.5 should result in 0.5, 0.25, 0.25");
@@ -176,16 +176,16 @@
 - (void)testAdjustRedToGreen
 {
 	NSColor *red = [NSColor redColor];
-	NSColor *green = [red adjustHue:+(1.0 / 3.0) saturation:0.0 brightness:0.0];
-	STAssertEquals([green   redComponent], (CGFloat)0.0f,   @"Red component of green should be 0");
-	STAssertEquals([green greenComponent], (CGFloat)1.0f, @"Green component of green should be 1");
-	STAssertEquals([green  blueComponent], (CGFloat)0.0f,  @"Blue component of green should be 0");
+	NSColor *green = [red adjustHue:(CGFloat)(+(1.0 / 3.0)) saturation:0.0f brightness:0.0f];
+	STAssertEquals([green   redComponent], (CGFloat)0.0,   @"Red component of green should be 0");
+	STAssertEquals([green greenComponent], (CGFloat)1.0, @"Green component of green should be 1");
+	STAssertEquals([green  blueComponent], (CGFloat)0.0,  @"Blue component of green should be 0");
 }
 //Saturation -= 1
 - (void)testAdjustRedToWhite
 {
 	NSColor *red = [NSColor redColor];
-	NSColor *white = [red adjustHue:0.0 saturation:-1.0 brightness:0.0];
+	NSColor *white = [red adjustHue:0.0f saturation:-1.0f brightness:0.0f];
 	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white should be 1");
 	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of green should be 1");
 	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white should be 1");
@@ -194,7 +194,7 @@
 - (void)testAdjustRedToBlack
 {
 	NSColor *red = [NSColor redColor];
-	NSColor *white = [red adjustHue:0.0 saturation:0.0 brightness:-1.0];
+	NSColor *white = [red adjustHue:0.0f saturation:0.0f brightness:-1.0f];
 	STAssertEquals([white   redComponent], (CGFloat)0.0f,   @"Red component of white should be 0");
 	STAssertEquals([white greenComponent], (CGFloat)0.0f, @"Green component of green should be 0");
 	STAssertEquals([white  blueComponent], (CGFloat)0.0f,  @"Blue component of white should be 0");
@@ -302,49 +302,49 @@
 
 - (void)testStringRepresentationForSemiTransparentRed
 {
-	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor redColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"255,0,0,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for red should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentYellow
 {
-	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor yellowColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"255,255,0,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for yellow should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentGreen
 {
-	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor greenColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"0,255,0,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for green should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentCyan
 {
-	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor cyanColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"0,255,255,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for cyan should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentBlue
 {
-	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor blueColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"0,0,255,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for blue should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentMagenta
 {
-	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor magentaColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"255,0,255,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for magenta should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentWhite
 {
-	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor whiteColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"255,255,255,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for white should be %@", correctString);
 }
 - (void)testStringRepresentationForSemiTransparentBlack
 {
-	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:0.5];
+	NSColor *color = [[NSColor blackColor] colorWithAlphaComponent:0.5f];
 	NSString *correctString = @"0,0,0,127";
 	STAssertEqualObjects([color stringRepresentation], correctString, @"String representation for black should be %@", correctString);
 }
@@ -613,7 +613,7 @@
 //Valid
 - (void)testRepresentedColorWithAlphaWithThreeNonZeroComponents
 {
-	NSColor *white = [@"255,255,255" representedColorWithAlpha:0.5];
+	NSColor *white = [@"255,255,255" representedColorWithAlpha:0.5f];
 	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
 	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
 	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
@@ -621,7 +621,7 @@
 }
 - (void)testRepresentedColorWithAlphaWithThreeZeroComponents
 {
-	NSColor *black = [@"0,0,0" representedColorWithAlpha:0.5];
+	NSColor *black = [@"0,0,0" representedColorWithAlpha:0.5f];
 	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
 	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
 	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
@@ -629,7 +629,7 @@
 }
 - (void)testRepresentedColorWithAlphaWithFourNonZeroComponents;
 {
-	NSColor *white = [@"255,255,255,127" representedColorWithAlpha:0.5];
+	NSColor *white = [@"255,255,255,127" representedColorWithAlpha:0.5f];
 	STAssertEquals([white   redComponent], (CGFloat)1.0f,   @"Red component of white (with alpha forced to 0.5) should be 1");
 	STAssertEquals([white greenComponent], (CGFloat)1.0f, @"Green component of white (with alpha forced to 0.5) should be 1");
 	STAssertEquals([white  blueComponent], (CGFloat)1.0f,  @"Blue component of white (with alpha forced to 0.5) should be 1");
@@ -637,7 +637,7 @@
 }
 - (void)testRepresentedColorWithAlphaWithFourZeroComponents;
 {
-	NSColor *black = [@"0,0,0,0" representedColorWithAlpha:0.5];
+	NSColor *black = [@"0,0,0,0" representedColorWithAlpha:0.5f];
 	STAssertEquals([black   redComponent], (CGFloat)0.0f,   @"Red component of black (with alpha forced to 0.5) should be 0");
 	STAssertEquals([black greenComponent], (CGFloat)0.0f, @"Green component of black (with alpha forced to 0.5) should be 0");
 	STAssertEquals([black  blueComponent], (CGFloat)0.0f,  @"Blue component of black (with alpha forced to 0.5) should be 0");
@@ -646,22 +646,22 @@
 //Invalid
 - (void)testRepresentedColorWithAlphaWithEmptyString
 {
-	NSColor *noColor = [@"" representedColorWithAlpha:0.5];
-	STAssertEquals(noColor, (NSColor *)nil, @"Color represented by the empty string (with alpha forced to 0.5) should be nil");
+	NSColor *noColor = [@"" representedColorWithAlpha:0.5f];
+	STAssertEquals(noColor, (NSColor *)nil, @"Color represented by the empty string (with alpha forced to 0.5f) should be nil");
 }
 - (void)testRepresentedColorWithAlphaWithInvalidString;
 {
-	NSColor *noColor = [TEST_STRING_2 representedColorWithAlpha:0.5];
+	NSColor *noColor = [TEST_STRING_2 representedColorWithAlpha:0.5f];
 	STAssertEquals(noColor, (NSColor *)nil, @"Color represented by '%@' (with alpha forced to 0.5) should be nil", TEST_STRING_1);
 }
 - (void)testRepresentedColorWithAlphaWithTwoCommas;
 {
-	NSColor *noColor = [@",," representedColorWithAlpha:0.5];
+	NSColor *noColor = [@",," representedColorWithAlpha:0.5f];
 	STAssertEquals(noColor, (NSColor *)nil, @"Color represented by two commas (with alpha forced to 0.5) should be nil");
 }
 - (void)testRepresentedColorWithAlphaWithThreeCommas;
 {
-	NSColor *noColor = [@",,," representedColorWithAlpha:0.5];
+	NSColor *noColor = [@",,," representedColorWithAlpha:0.5f];
 	STAssertEquals(noColor, (NSColor *)nil, @"Color represented by three commas (with alpha forced to 0.5) should be nil");
 }
 
