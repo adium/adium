@@ -181,7 +181,6 @@
 			fraction:1.0f];
 	
     //Draw Label
-#warning XXX handle NSCellImagePosition values other than these two correctly
 	if(imagePosition != NSImageOnly) {
 		NSString *title = [self title];
 		if (title) {

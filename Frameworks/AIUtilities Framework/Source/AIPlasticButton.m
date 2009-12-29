@@ -4,7 +4,6 @@
 //
 //  Created by Adam Iser on Thu Jun 26 2003.
 //
-#warning Cocoa can do this for us now, this class (and its siblings) should go away when someone has time
 
 #import "AIPlasticButton.h"
 #import "AIPlasticButtonCell.h"
