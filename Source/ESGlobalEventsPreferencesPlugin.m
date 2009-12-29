@@ -33,10 +33,6 @@
 #define EVENT_SOUNDS_DEFAULT_PREFS	@"EventSoundDefaults"
 
 @interface ESGlobalEventsPreferencesPlugin ()
-- (void)activateDockBehaviorSet:(NSArray *)behaviorArray;
-- (void)activateSpeechPreset:(NSArray *)presetArray;
-- (void)activateGrowlPreset:(NSArray *)presetArray;
-- (NSArray *)_behaviorForPreset:(NSString *)presetName inPresetArray:(NSArray *)presetArray;
 - (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector;
 
 - (void)adiumFinishedLaunching:(NSNotification *)notification;
@@ -142,42 +138,7 @@
 	[adium.preferenceController delayPreferenceChangedNotifications:NO];
 }
 
-
-#pragma mark Dock behavior sets
-- (void)activateDockBehaviorSet:(NSArray *)behaviorArray
-{
-	[self _activateSet:behaviorArray withActionID:DOCK_BEHAVIOR_ALERT_IDENTIFIER alertGenerationSelector:@selector(dockAlertFromPresetDictionary:)];
-}
-
-#pragma mark Speech presets
-- (void)activateSpeechPreset:(NSArray *)presetArray
-{
-	[self _activateSet:presetArray
-		  withActionID:SPEAK_EVENT_ALERT_IDENTIFIER
-alertGenerationSelector:@selector(speechAlertFromDictionary:)];
-}
-
-#pragma mark Growl presets
-- (void)activateGrowlPreset:(NSArray *)presetArray
-{
-	[self _activateSet:presetArray withActionID:GROWL_EVENT_ALERT_IDENTIFIER alertGenerationSelector:@selector(growlAlertFromDictionary:)];
-}
-
 #pragma mark All simple presets
-//Returns the behavior for a preset
-- (NSArray *)_behaviorForPreset:(NSString *)presetName inPresetArray:(NSArray *)presetArray
-{
-    NSDictionary	*set;
-    
-    //Search for the desired set
-    for (set in presetArray) {
-        if ([presetName isEqualToString:[set objectForKey:@"Name"]]) {
-            return [set objectForKey:@"Behavior"];
-        }
-    }
-    
-    return nil;
-}
 
 - (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector
 {
