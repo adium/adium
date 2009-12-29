@@ -88,7 +88,7 @@
 	NSRect rect;
 
 	if (animDict) {
-		CGFloat progress = [[animDict objectForKey:@"progress"] doubleValue];
+		CGFloat progress = (CGFloat)[[animDict objectForKey:@"progress"] doubleValue];
 		NSRect oldR = [[animDict objectForKey:@"old rect"] rectValue];
 		NSRect newR = [self unanimatedRectOfRow:rowIndex];
 

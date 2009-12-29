@@ -14,7 +14,7 @@
 #define LEFT_MARGIN		5
 #define IMAGE_MARGIN	4
 #define ARROW_WIDTH		8
-#define ARROW_HEIGHT	(ARROW_WIDTH/2.0)
+#define ARROW_HEIGHT	(ARROW_WIDTH/2.0f)
 #define ARROW_XOFFSET	5
 #define RIGHT_MARGIN	5
 
@@ -27,7 +27,7 @@
 	textSize = NSZeroSize;
 	imageSize = NSZeroSize;
 	hovered = NO;
-	hoveredFraction = 0.0;
+	hoveredFraction = 0.0f;
 
 	statusParagraphStyle = [[NSMutableParagraphStyle styleWithAlignment:NSLeftTextAlignment
 														  lineBreakMode:NSLineBreakByTruncatingTail] retain];
@@ -136,9 +136,9 @@
 - (void)fadeHovered:(NSControl *)currentControlView
 {
 	if (hovered) {
-		if (hoveredFraction < 1.0) hoveredFraction += 0.05;
+		if (hoveredFraction < 1.0) hoveredFraction += 0.05f;
 	} else {
-		if (hoveredFraction > 0.0) hoveredFraction -= 0.05;
+		if (hoveredFraction > 0.0) hoveredFraction -= 0.05f;
 	}
 
 	[currentControlView setNeedsDisplay:YES];
@@ -162,7 +162,7 @@
 	if (animate && (hovered != inHovered)) {
 		hovered = inHovered;
 
-		hoveredFraction = (hovered ? 0.80 : 0.20);
+		hoveredFraction = (hovered ? 0.80f : 0.20f);
 		
 		[NSObject cancelPreviousPerformRequestsWithTarget:self
 												 selector:@selector(fadeHovered:)
@@ -173,7 +173,7 @@
 	} else {
 		hovered = inHovered;
 
-		hoveredFraction = (hovered ? 1.0 : 0.0);
+		hoveredFraction = (hovered ? 1.0f : 0.0f);
 		[[self controlView] setNeedsDisplay:YES];	
 	}
 }
@@ -278,7 +278,7 @@
 											cellFrame.size.height)
 						  atSize:imageSize
 						position:IMAGE_POSITION_LEFT
-						fraction:1.0];
+						fraction:1.0f];
 	}
 
 	[statusAttributes setObject:drawingColor

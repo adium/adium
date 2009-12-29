@@ -436,11 +436,11 @@
 		NSRect srcRect = { NSZeroPoint, [badgeImage size] };
 		//Draw in the lower-right quadrant.
 		NSRect destRect = {
-			{ .x = srcRect.size.width, .y = 0.0 },
+			{ .x = srcRect.size.width, .y = 0.0f },
 			[duckImage size]
 		};
-		destRect.size.width  *= 0.5;
-		destRect.size.height *= 0.5;
+		destRect.size.width  *= 0.5f;
+		destRect.size.height *= 0.5f;
 		
 		//If the badge is bigger than that portion, resize proportionally. Otherwise, leave it alone and adjust the destination origin appropriately.
 		if ((srcRect.size.width > destRect.size.width) || (srcRect.size.height > destRect.size.height)) {
@@ -465,7 +465,7 @@
 		[badgeImage drawInRect:destRect
 					  fromRect:srcRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+					  fraction:1.0f];
 		[image unlockFocus];
 	}
 	

@@ -76,13 +76,13 @@
 		NSImage *snapbackImage = [NSImage imageNamed:@"SRSnapback" forClass:[self class]];
 		NSRect snapBackRect = [self _snapbackRectForFrame:[self bounds]];
 		if (resetImageHovered) {
-			[[[NSColor blackColor] colorWithAlphaComponent:0.8] set];		
+			[[[NSColor blackColor] colorWithAlphaComponent:0.8f] set];		
 		} else {
-			[[[NSColor blackColor] colorWithAlphaComponent:0.5] set];
+			[[[NSColor blackColor] colorWithAlphaComponent:0.5f] set];
 		}
 		
 		[[NSBezierPath bezierPathWithOvalInRect:snapBackRect] fill];
-		[snapbackImage dissolveToPoint:snapBackRect.origin fraction:1.0];
+		[snapbackImage dissolveToPoint:snapBackRect.origin fraction:1.0f];
 	}
 		
 	/*

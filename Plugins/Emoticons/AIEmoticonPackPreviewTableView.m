@@ -18,7 +18,7 @@
 #import <AIUtilities/AIGenericViewCell.h>
 #import <AIUtilities/AIImageDrawingAdditions.h>
 
-#define	DRAG_IMAGE_FRACTION	0.75
+#define	DRAG_IMAGE_FRACTION	0.75f
 
 /*!
  * @class AIEmoticonPackPreviewTableView
@@ -87,7 +87,7 @@
 	
 	//Offset the drag image (Remember: The system centers it by default, so this is an offset from center)
 	NSPoint clickLocation = [self convertPoint:[dragEvent locationInWindow] fromView:nil];
-	dragImageOffset->x = (rowRect.size.width / 2.0) - clickLocation.x;
+	dragImageOffset->x = (rowRect.size.width / 2.0f) - clickLocation.x;
 	
 	return [image imageByFadingToFraction:DRAG_IMAGE_FRACTION];
 }

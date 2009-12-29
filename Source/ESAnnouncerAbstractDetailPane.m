@@ -235,8 +235,8 @@
 	   (sender == slider_pitch || sender == checkBox_customPitch) ||
 	   (sender == slider_rate ||  sender == checkBox_customRate)) {
 		[adium.soundController speakDemoTextForVoice:voice
-											 withPitch:([checkBox_customPitch state] ? [slider_pitch floatValue] : 0.0)
-											   andRate:([checkBox_customRate state] ? [slider_rate floatValue] : 0.0)];
+											 withPitch:([checkBox_customPitch state] ? [slider_pitch floatValue] : 0.0f)
+											   andRate:([checkBox_customRate state] ? [slider_rate floatValue] : 0.0f)];
 	}
 	
 	[super changePreference:sender];

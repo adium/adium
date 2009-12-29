@@ -146,7 +146,7 @@
 				[anIcon drawInRect:targetRect
 							fromRect:NSMakeRect(0,0,anIconSize.width,anIconSize.height)
 						   operation:NSCompositeCopy
-							fraction:1.0];
+							fraction:1.0f];
 
 				//Shift right in preparation for next image
 				xOrigin += PREVIEW_MENU_IMAGE_SIZE + PREVIEW_MENU_IMAGE_MARGIN;

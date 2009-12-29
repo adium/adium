@@ -261,7 +261,7 @@
 	if(buttonText) {
 		button_OAuthStart.title = buttonText;
 		[button_OAuthStart sizeToFit];
-		[button_OAuthStart setFrameOrigin:NSMakePoint(NSMidX(button_OAuthStart.superview.frame) - NSWidth(button_OAuthStart.frame)/2.0,
+		[button_OAuthStart setFrameOrigin:NSMakePoint(NSMidX(button_OAuthStart.superview.frame) - NSWidth(button_OAuthStart.frame)/2.0f,
 													  NSMinY(button_OAuthStart.frame))];
 	}
 }

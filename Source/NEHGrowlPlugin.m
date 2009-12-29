@@ -68,7 +68,7 @@
 
 - (void)postMultipleEventID:(NSString *)eventID
 					 sticky:(BOOL)sticky
-				   priority:(NSInteger)priority
+				   priority:(signed int)priority
 			  forListObject:(AIListObject *)listObject
 					forChat:(AIChat *)chat
 				  withCount:(NSUInteger)count;
@@ -330,7 +330,7 @@
 		NSDictionary *anyEventDetails = [[events objectAtIndex:0] objectForKey:@"Details"];
 		
 		BOOL sticky = [[anyEventDetails objectForKey:KEY_GROWL_ALERT_STICKY] boolValue];
-		NSInteger priority = [[anyEventDetails objectForKey:KEY_GROWL_PRIORITY] integerValue];
+		unsigned priority = [[anyEventDetails objectForKey:KEY_GROWL_PRIORITY] unsignedIntValue];
 		
 		// Post the events combined. Use any random event to see if sticky.
 		[self postMultipleEventID:eventID
@@ -464,7 +464,7 @@
 								description:description
 						   notificationName:eventID
 								   iconData:iconData
-								   priority:[[details objectForKey:KEY_GROWL_PRIORITY] integerValue]
+								   priority:[[details objectForKey:KEY_GROWL_PRIORITY] intValue]
 								   isSticky:[[details objectForKey:KEY_GROWL_ALERT_STICKY] boolValue]
 							   clickContext:clickContext
 								 identifier:identifier];
@@ -472,7 +472,7 @@
 
 - (void)postMultipleEventID:(NSString *)eventID
 					 sticky:(BOOL)sticky
-				   priority:(NSInteger)priority
+				   priority:(signed int)priority
 			  forListObject:(AIListObject *)listObject
 					forChat:(AIChat *)chat
 				  withCount:(NSUInteger)count

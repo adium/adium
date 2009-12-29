@@ -171,7 +171,7 @@
 /*!
  * @brief Set the minimum desired width reported by -[self desiredWidth]
  */
-- (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth
+- (void)setMinimumDesiredWidth:(CGFloat)inMinimumDesiredWidth
 {
 	minimumDesiredWidth = inMinimumDesiredWidth;
 }

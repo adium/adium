@@ -241,7 +241,7 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 	BOOL success = YES;
 	NSData *inputData = [NSData dataWithContentsOfFile:inFile];
 	inputFileString = [[NSString alloc] initWithData:inputData encoding:NSUTF8StringEncoding];
-	NSInteger outfd = open([outFile fileSystemRepresentation], O_CREAT | O_WRONLY, 0644);
+	int outfd = open([outFile fileSystemRepresentation], O_CREAT | O_WRONLY, 0644);
 	outputFileHandle = [[NSFileHandle alloc] initWithFileDescriptor:outfd closeOnDealloc:YES];
 	
 	CFXMLParserCallBacks callbacks = {

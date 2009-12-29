@@ -287,8 +287,8 @@
 		
 		[adium.soundController speakText:textToSpeak
 								 withVoice:[details objectForKey:KEY_VOICE_STRING]
-									 pitch:(pitchNumber ? [pitchNumber floatValue] : 0.0)
-									  rate:(rateNumber ? [rateNumber floatValue] : 0.0)];
+									 pitch:(pitchNumber ? [pitchNumber floatValue] : 0.0f)
+									  rate:(rateNumber ? [rateNumber floatValue] : 0.0f)];
 	}
 	
 	return (textToSpeak != nil);

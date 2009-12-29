@@ -108,7 +108,7 @@
 - (IBAction)okay:(id)sender
 {
 	[statusGroup setTitle:[textField_title stringValue]];
-	[statusGroup setStatusType:[[popUp_groupWith selectedItem] tag]];
+	[statusGroup setStatusType:(AIStatusType)[[popUp_groupWith selectedItem] tag]];
 
 	if (target && [target respondsToSelector:@selector(finishedStatusGroupEdit:)]) {
 		//Perform on a delay so the sheet can begin closing immediately.

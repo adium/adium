@@ -76,7 +76,7 @@
 		
 		if ([inChat valueForProperty:KEY_CHAT_ERROR] != nil) {
 			
-			AIChatErrorType errorType = [inChat integerValueForProperty:KEY_CHAT_ERROR];
+			AIChatErrorType errorType = [inChat intValueForProperty:KEY_CHAT_ERROR];
 			type = @"chat-error";
 			
 			switch (errorType) {

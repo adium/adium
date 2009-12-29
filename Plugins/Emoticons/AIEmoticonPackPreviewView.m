@@ -95,7 +95,7 @@ static  CGFloat   distanceBetweenEmoticons = 0;
 				[image drawInRect:destRect
 						 fromRect:NSMakeRect(0, 0, imageSize.width, imageSize.height)
 						operation:NSCompositeSourceOver
-						 fraction:1.0];
+						 fraction:1.0f];
 			}
 			
 			//Move over for the next emoticon, leaving some space

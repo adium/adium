@@ -31,7 +31,7 @@
 
 @interface AdiumSound ()
 - (void)_stopAndReleaseAllSounds;
-- (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume;
+- (void)_setVolumeOfAllSoundsTo:(float)inVolume;
 - (void)cachedPlaySound:(NSString *)inPath;
 - (void)_uncacheLeastRecentlyUsedSound;
 #ifdef __LP64__
@@ -152,7 +152,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	CGFloat newVolume = [[prefDict objectForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL] doubleValue];
+	float newVolume = [[prefDict objectForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL] floatValue];
 
 	//If sound volume has changed, we must update all existing sounds to the new volume
 	if (customVolume != newVolume) {
@@ -176,7 +176,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 /*!
  * @brief Update the volume of all cached sounds
  */
-- (void)_setVolumeOfAllSoundsTo:(CGFloat)inVolume
+- (void)_setVolumeOfAllSoundsTo:(float)inVolume
 {
 	for(id sound in  [soundCacheDict allValues]) {
 		[(NSSound *)sound setVolume:inVolume];
@@ -400,7 +400,7 @@ static OSStatus systemOutputDeviceDidChange(AudioHardwarePropertyID property, vo
 {
 	//QTMovie gets confused if we're playing when we do this, so pause momentarily.
 	CGFloat savedRate = [movie rate];
-	[movie setRate:0.0];
+	[movie setRate:0.0f];
 	
 	//Exchange the audio context for a new one with the new device.
 	QTAudioContextRef newAudioContext = [self createAudioContextWithSystemOutputDevice];

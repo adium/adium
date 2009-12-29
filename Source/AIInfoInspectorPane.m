@@ -250,7 +250,7 @@
 
 		for (NSDictionary *lineDict in listContact.profileArray) {
 			NSString *key = [lineDict objectForKey:KEY_KEY];
-			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] integerValue];
+			AIUserInfoEntryType entryType = [[lineDict objectForKey:KEY_TYPE] intValue];
 			NSInteger insertionIndex = -1;
 	
 			switch (entryType) {

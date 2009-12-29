@@ -338,7 +338,7 @@
 		
 		//Align our view to the top and insert it into the window
 		if (width && (NSWidth([setupView frame]) > NSWidth([customView frame])))
-			[customView setFrameOrigin:NSMakePoint(floor((NSWidth([setupView frame]) - NSWidth([customView frame])) / 2),
+			[customView setFrameOrigin:NSMakePoint(AIfloor((NSWidth([setupView frame]) - NSWidth([customView frame])) / 2),
 												   NSHeight([setupView frame]) - NSHeight([customView frame]))];
 		else
 			[customView setFrameOrigin:NSMakePoint(0,

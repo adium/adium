@@ -92,7 +92,7 @@
 
 		//Recall how the contact list was docked last time Adium was open
 		dockToBottomOfScreen = [[adium.preferenceController preferenceForKey:KEY_CONTACT_LIST_DOCKED_TO_BOTTOM_OF_SCREEN
-																		 group:PREF_GROUP_WINDOW_POSITIONS] integerValue];
+																		 group:PREF_GROUP_WINDOW_POSITIONS] intValue];
 		
 		//Observe preference changes
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_CONTACT_LIST];
@@ -951,7 +951,7 @@
 {
 	NSNumber	*windowStyleNumber = [adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE 
 																			  group:PREF_GROUP_APPEARANCE];
-	return (windowStyleNumber ? [windowStyleNumber integerValue] : AIContactListWindowStyleStandard);
+	return (windowStyleNumber ? [windowStyleNumber intValue] : AIContactListWindowStyleStandard);
 }
 
 

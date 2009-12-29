@@ -94,7 +94,7 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 		progressRows = [[NSMutableArray alloc] init];
 		
 		[self.window setAutorecalculatesContentBorderThickness:YES forEdge:NSMinYEdge];
-		[self.window setContentBorderThickness:24.0 forEdge: NSMinYEdge];
+		[self.window setContentBorderThickness:24.0f forEdge: NSMinYEdge];
 	}
 	
 	return self;

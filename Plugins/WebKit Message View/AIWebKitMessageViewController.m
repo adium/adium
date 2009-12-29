@@ -1245,7 +1245,7 @@ static NSArray *draggedTypes = nil;
 			[userIcon drawInRect:NSMakeRect(0,0,[webKitUserIcon size].width,[webKitUserIcon size].height)
 						fromRect:NSMakeRect(0,0,[userIcon size].width,[userIcon size].height)
 					   operation:NSCompositeSourceIn
-						fraction:1.0];
+						fraction:1.0f];
 			[webKitUserIcon unlockFocus];
 		} else {
 			//Otherwise, just use the icon as-is

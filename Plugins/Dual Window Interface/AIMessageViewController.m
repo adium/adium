@@ -53,8 +53,8 @@
 #import "RBSplitView.h"
 
 //Heights and Widths
-#define MESSAGE_VIEW_MIN_HEIGHT_RATIO		.50						//Mininum height ratio of the message view
-#define MESSAGE_VIEW_MIN_WIDTH_RATIO		.50						//Mininum width ratio of the message view
+#define MESSAGE_VIEW_MIN_HEIGHT_RATIO		.50f						//Mininum height ratio of the message view
+#define MESSAGE_VIEW_MIN_WIDTH_RATIO		.50f						//Mininum width ratio of the message view
 #define ENTRY_TEXTVIEW_MIN_HEIGHT			20						//Mininum height of the text entry view
 #define USER_LIST_DEFAULT_WIDTH				120						//Default width of the user list
 
@@ -237,8 +237,8 @@
 
 - (void)updateGradientColors
 {
-	NSColor *darkerColor = [NSColor colorWithCalibratedWhite:0.90 alpha:1.0];
-	NSColor *lighterColor = [NSColor colorWithCalibratedWhite:0.92 alpha:1.0];
+	NSColor *darkerColor = [NSColor colorWithCalibratedWhite:0.90f alpha:1.0f];
+	NSColor *lighterColor = [NSColor colorWithCalibratedWhite:0.92f alpha:1.0f];
 	NSColor *leftColor = nil, *rightColor = nil;
 
 	switch ([messageWindowController tabPosition]) {
@@ -547,7 +547,7 @@
  */ 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	AIChatSendingAbilityType messageSendingAbility = [(NSNumber *)contextInfo integerValue];
+	AIChatSendingAbilityType messageSendingAbility = [(NSNumber *)contextInfo intValue];
 
 	switch (returnCode) {
 		case NSAlertFirstButtonReturn:
@@ -960,7 +960,7 @@
 - (NSInteger)_textEntryViewProperHeightIgnoringUserMininum:(BOOL)ignoreUserMininum
 {
 	NSInteger dividerThickness = [splitView_textEntryHorizontal dividerThickness];
-	NSInteger allowedHeight = ([splitView_textEntryHorizontal frame].size.height / 2.0) - dividerThickness;
+	NSInteger allowedHeight = ([splitView_textEntryHorizontal frame].size.height / 2.0f) - dividerThickness;
 	NSInteger	height;
 	
 	//Our primary goal is to display all the entered text
@@ -1332,7 +1332,7 @@
 - (NSInteger)_userListViewProperWidth
 {
 	NSInteger dividerThickness = 1;
-	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0) - dividerThickness;
+	NSInteger allowedWidth = ([shelfView frame].size.width / 2.0f) - dividerThickness;
 	NSInteger width = userListMinWidth;
 	
 	//We must never fall below the user's prefered mininum or above the allowed width

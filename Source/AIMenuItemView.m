@@ -164,7 +164,7 @@
 				menuItemRect.size.width -= 1;
 				
 				//Indent the menu item if appropriate
-				CGFloat indentation = [menuItem indentationLevel] * 5.0;
+				CGFloat indentation = [menuItem indentationLevel] * 5;
 				menuItemRect.origin.x += indentation;
 				menuItemRect.size.width -= indentation;
 
@@ -189,7 +189,7 @@
 						[originalImage drawInRect:NSMakeRect(0, 0, size.width, size.height)
 										 fromRect:NSMakeRect(0, 0, size.width, size.height)
 										operation:NSCompositeDestinationAtop
-										 fraction:1.0];
+										 fraction:1.0f];
 						[onStateImage unlockFocus];
 						
 					} else {
@@ -201,7 +201,7 @@
 														  menuItemRect.origin.y + ((menuItemRect.size.height - size.height) / 2))
 									 fromRect:NSMakeRect(0, 0, size.width, size.height)
 									operation:NSCompositeSourceOver
-									 fraction:(currentlyHovered ? 1.0 : 0.85)];
+									 fraction:(currentlyHovered ? 1.0f : 0.85f)];
 				}
 				
 				NSDictionary	*currentTextAttributes;

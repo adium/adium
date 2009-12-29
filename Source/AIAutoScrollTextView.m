@@ -16,8 +16,8 @@
 
 #import "AIAutoScrollTextView.h"
 
-#define ABOUT_SCROLL_FPS	30.0
-#define ABOUT_SCROLL_RATE	1.0
+#define ABOUT_SCROLL_FPS	30.0f
+#define ABOUT_SCROLL_RATE	1.0f
 
 @interface AIAutoScrollTextView (Private)
 - (void)startScrolling;
@@ -58,8 +58,8 @@
 
 - (void)startScrolling
 {
-	[[self enclosingScrollView] setLineScroll:0.0];
-	[[self enclosingScrollView] setPageScroll:0.0];
+	[[self enclosingScrollView] setLineScroll:0.0f];
+	[[self enclosingScrollView] setPageScroll:0.0f];
 	[[self enclosingScrollView] setVerticalScroller:nil];
 	[[self enclosingScrollView] setHasVerticalScroller:NO];
 	
@@ -85,8 +85,8 @@
 	[eventLoopScrollTimer invalidate]; [eventLoopScrollTimer release]; eventLoopScrollTimer = nil;
 
 	//Enable scrolling and show the scrollbar
-	[[self enclosingScrollView] setLineScroll:10.0];
-	[[self enclosingScrollView] setPageScroll:10.0];
+	[[self enclosingScrollView] setLineScroll:10.0f];
+	[[self enclosingScrollView] setPageScroll:10.0f];
 	[[self enclosingScrollView] setVerticalScroller:[[[NSScroller alloc] init] autorelease]];
 	[[self enclosingScrollView] setHasVerticalScroller:YES];
 }

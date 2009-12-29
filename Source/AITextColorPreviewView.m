@@ -52,7 +52,7 @@
 	
 	//Background
 	if (([backgroundEnabled state] != NSOffState) && backgroundGradientColor) {
-		[[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] autorelease] drawInRect:rect angle:90.0];
+		[[[[NSGradient alloc] initWithStartingColor:[backgroundGradientColor color] endingColor:[backgroundColor color]] autorelease] drawInRect:rect angle:90.0f];
 	} else {
 		NSColor *backColor = (backColorOverride ? backColorOverride : [backgroundColor color]);
 		if (backColor) {
@@ -64,8 +64,8 @@
 	//Shadow
 	if (([textShadowColorEnabled state] != NSOffState) && [textShadowColor color]) {
 		shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-		[shadow setShadowBlurRadius:2.0];
+		[shadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
+		[shadow setShadowBlurRadius:2.0f];
 		[shadow setShadowColor:[textShadowColor color]];
 	}
 
@@ -88,8 +88,8 @@
 											  attributes:attributes] autorelease];
 	sampleSize = [sample size];
 
-	[sample drawInRect:NSIntegralRect(NSMakeRect(rect.origin.x + ((rect.size.width - sampleSize.width) / 2.0),
-												 rect.origin.y + ((rect.size.height - sampleSize.height) / 2.0),
+	[sample drawInRect:NSIntegralRect(NSMakeRect(rect.origin.x + ((rect.size.width - sampleSize.width) / 2.0f),
+												 rect.origin.y + ((rect.size.height - sampleSize.height) / 2.0f),
 												 sampleSize.width,
 												 sampleSize.height))];
 }

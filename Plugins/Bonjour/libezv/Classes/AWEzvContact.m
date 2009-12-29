@@ -175,7 +175,7 @@
 	if (findRange.location != NSNotFound && findRange.length == 5) {
 		/* We have a correct ABSZ= string */
 		[mutableHTML insertString:@"\"" atIndex:(findRange.location + findRange.length)];
-		int i = (findRange.location + findRange.length);
+		NSInteger i = (findRange.location + findRange.length);
 		while (([mutableHTML characterAtIndex:i] != ' ') && ([mutableHTML characterAtIndex:i] != '>')) {
 			i++;
 		}
@@ -186,7 +186,7 @@
 	if (findRange.location != NSNotFound && findRange.length == 5) {
 		/* We have a correct SIZE= string */
 		[mutableHTML insertString:@"\"" atIndex:(findRange.location + findRange.length)];
-		int i = (findRange.location + findRange.length);
+		NSInteger i = (findRange.location + findRange.length);
 		while (([mutableHTML characterAtIndex:i] != ' ') && ([mutableHTML characterAtIndex:i] != '>')) {
 			i++;
 		}

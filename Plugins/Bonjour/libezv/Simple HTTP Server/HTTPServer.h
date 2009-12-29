@@ -42,7 +42,7 @@
 - (BOOL)start:(NSError **)error;
 - (BOOL)stop;
 
-- (int)numberOfHTTPConnections;
+- (NSInteger)numberOfHTTPConnections;
 
 @end
 

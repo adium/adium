@@ -58,23 +58,23 @@
         [background drawInRect:destRect
 					  fromRect:sourceRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+					  fraction:1.0f];
         destRect.origin.x += NSWidth(destRect);
     }
 	
 	//Draw the borders
 	[[NSColor windowFrameColor] set];
-	NSRectFill(NSMakeRect(aRect.origin.x, aRect.origin.y, aRect.size.width, 1.0));
-	NSRectFill(NSMakeRect(aRect.origin.x, aRect.origin.y + aRect.size.height - 1, aRect.size.width, 1.0));
+	NSRectFill(NSMakeRect(aRect.origin.x, aRect.origin.y, aRect.size.width, 1.0f));
+	NSRectFill(NSMakeRect(aRect.origin.x, aRect.origin.y + aRect.size.height - 1, aRect.size.width, 1.0f));
 	
 	//Draw the thumb
 	//[[NSColor blackColor] set];
-	NSBezierPath *ovalPath = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(aRect.origin.x + (aRect.size.width / 2.0) - 2,
-																			   aRect.origin.y + (aRect.size.height / 2.0) - 2,
+	NSBezierPath *ovalPath = [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(aRect.origin.x + (aRect.size.width / 2.0f) - 2,
+																			   aRect.origin.y + (aRect.size.height / 2.0f) - 2,
 																			   4,
 																			   4
 																			   )];
-	[[[NSColor lightGrayColor] colorWithAlphaComponent:0.5] set];
+	[[[NSColor lightGrayColor] colorWithAlphaComponent:0.5f] set];
 	[ovalPath fill];
 
 	[ovalPath setLineWidth:0];

@@ -137,14 +137,14 @@
 - (IBAction)changePreference:(id)sender
 {
     if (sender == popUp_tabKeys) {
-		AITabKeys keySelection = [[sender selectedItem] tag];
+		AITabKeys keySelection = (AITabKeys)[[sender selectedItem] tag];
 
 		[adium.preferenceController setPreference:[NSNumber numberWithInt:keySelection]
 											 forKey:KEY_TAB_SWITCH_KEYS
 											  group:PREF_GROUP_CHAT_CYCLING];
 		
 	} else if (sender == popUp_sendKeys) {
-		AISendKeys 	keySelection = [[sender selectedItem] tag];
+		AISendKeys 	keySelection = (AISendKeys)[[sender selectedItem] tag];
 		BOOL		sendOnEnter = (keySelection == AISendOnEnter || keySelection == AISendOnBoth);
 		BOOL		sendOnReturn = (keySelection == AISendOnReturn || keySelection == AISendOnBoth);
 		
@@ -223,7 +223,7 @@
 	return [menu autorelease];		
 }
 
-- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(unsigned int)flags reason:(NSString **)aReason
+- (BOOL)shortcutRecorder:(SRRecorderControl *)aRecorder isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
 {
 	return NO;
 }

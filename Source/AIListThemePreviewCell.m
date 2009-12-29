@@ -106,7 +106,7 @@
 	}
 
 	[[NSColor blackColor] set];
-	[NSBezierPath strokeRect:NSOffsetRect(cellFrame, .5, .5)];
+	[NSBezierPath strokeRect:NSOffsetRect(cellFrame, .5f, .5f)];
 	
 }
 
@@ -115,7 +115,7 @@
 {
 	//Draw the gradient
 	NSGradient *gradient = [NSGradient selectedControlGradient];
-	[gradient drawInRect:cellFrame angle:90.0];
+	[gradient drawInRect:cellFrame angle:90.0f];
 	
 	//Draw a line at the light side, to make it look a lot cleaner
 	cellFrame.size.height = 1;

@@ -85,7 +85,7 @@ static void endStructure(CFXMLParserRef parser, void *xmlType, void *context);
 		if ([[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_NAME_FORMAT
 													  group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] boolValue]) {
 			nameFormat = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_NAME_FORMAT
-																   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] integerValue];
+																   group:PREF_GROUP_WEBKIT_MESSAGE_DISPLAY] intValue];
 		} else {
 			nameFormat = AIDefaultName;
 		}

@@ -45,13 +45,13 @@
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
 
 #define SLIDE_ALLOWED_RECT_EDGE_MASK			(AIMinXEdgeMask | AIMaxXEdgeMask) /* Screen edges on which sliding is allowde */
-#define DOCK_HIDING_MOUSE_POLL_INTERVAL			0.1 /* Interval at which to check the mouse position for sliding */
-#define	WINDOW_SLIDING_DELAY					0.2 /* Time after the mouse is in the right place before the window slides on screen */
+#define DOCK_HIDING_MOUSE_POLL_INTERVAL			0.1f /* Interval at which to check the mouse position for sliding */
+#define	WINDOW_SLIDING_DELAY					0.2f /* Time after the mouse is in the right place before the window slides on screen */
 #define WINDOW_ALIGNMENT_TOLERANCE				2.0f /* Threshold distance far the window from an edge to be considered on it */
 #define MOUSE_EDGE_SLIDE_ON_DISTANCE			1.1f /* ??? */
 #define WINDOW_SLIDING_MOUSE_DISTANCE_TOLERANCE 3.0f /* Distance the mouse must be from the window's frame to be considered outside it */
 
-#define SNAP_DISTANCE							15.0 /* Distance beween one window's edge and another's at which they should snap together */
+#define SNAP_DISTANCE							15.0f /* Distance beween one window's edge and another's at which they should snap together */
 
 @interface AIListWindowController ()
 - (id)initWithContactList:(AIListObject<AIContainingObject> *)contactList;
@@ -244,7 +244,7 @@ static NSMutableDictionary *screenSlideBoundaryRectDictionary = nil;
 {
 	if ([self windowSlidOffScreenEdgeMask] != AINoEdges) {
 		//Hide the window while it's still off-screen
-		[[self window] setAlphaValue:0.0];
+		[[self window] setAlphaValue:0.0f];
 		AILogWithSignature(@"Setting to alpha 0 while the window is offscreen");
 		
 		//Then move it back on screen so that we'll save the proper position in -[AIWindowController windowWillClose:]
@@ -322,13 +322,13 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			return;
 
     if ([group isEqualToString:PREF_GROUP_CONTACT_LIST]) {
-		windowLevel = [[prefDict objectForKey:KEY_CL_WINDOW_LEVEL] integerValue];
+		windowLevel = [[prefDict objectForKey:KEY_CL_WINDOW_LEVEL] intValue];
 		[self setWindowLevel:levelForAIWindowLevel(windowLevel)];
 
 		listHasShadow = [[prefDict objectForKey:KEY_CL_WINDOW_HAS_SHADOW] boolValue];
 		[[self window] setHasShadow:listHasShadow];
 		
-		windowHidingStyle = [[prefDict objectForKey:KEY_CL_WINDOW_HIDING_STYLE] integerValue];
+		windowHidingStyle = [[prefDict objectForKey:KEY_CL_WINDOW_HIDING_STYLE] intValue];
 		slideOnlyInBackground = [[prefDict objectForKey:KEY_CL_SLIDE_ONLY_IN_BACKGROUND] boolValue];
 		
 		[[self window] setHidesOnDeactivate:(windowHidingStyle == AIContactListWindowHidingStyleBackground)];
@@ -358,7 +358,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 	
 	//Auto-Resizing
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
-		AIContactListWindowStyle	windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue];
+		AIContactListWindowStyle	windowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
 		BOOL	autoResizeHorizontally = [[prefDict objectForKey:KEY_LIST_LAYOUT_HORIZONTAL_AUTOSIZE] boolValue];
 		BOOL	autoResizeVertically = YES;
 		NSInteger		forcedWindowWidth, maxWindowWidth;
@@ -454,7 +454,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 
 	//Window opacity
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
-		CGFloat opacity = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue];		
+		CGFloat opacity = (CGFloat)[[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_OPACITY] doubleValue];		
 		[contactListController setBackgroundOpacity:opacity];
 
 		/*
@@ -499,8 +499,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			}
 		}
 
-		EXTENDED_STATUS_STYLE statusStyle = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue];
-		EXTENDED_STATUS_POSITION statusPosition = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue];
+		EXTENDED_STATUS_STYLE statusStyle = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] intValue];
+		EXTENDED_STATUS_POSITION statusPosition = [[layoutDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] intValue];
 		contactListController.autoResizeHorizontallyWithIdleTime = 
 		 ((statusStyle == IDLE_ONLY || statusStyle == IDLE_AND_STATUS) &&
 		  (statusPosition == EXTENDED_STATUS_POSITION_BESIDE_NAME || statusPosition == EXTENDED_STATUS_POSITION_BOTH));
@@ -1007,7 +1007,7 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 			[[self window] setHasShadow:NO];	
 
 			previousAlpha = [[self window] alphaValue];
-			[[self window] setAlphaValue:0.0];
+			[[self window] setAlphaValue:0.0f];
 			AILogWithSignature(@"Previous alpha is now %f; window set to alpha 0.0 ", previousAlpha);
 		}
 		
@@ -1115,8 +1115,8 @@ NSInteger levelForAIWindowLevel(AIWindowLevel windowLevel)
 							   myWindow, NSViewAnimationTargetKey,
 							   [NSValue valueWithRect:frame], NSViewAnimationEndFrameKey,
 							   nil]]] autorelease];
-	[windowAnimation setFrameRate:0.0];
-	[windowAnimation setDuration:0.25];
+	[windowAnimation setFrameRate:0.0f];
+	[windowAnimation setDuration:0.25f];
 	[windowAnimation setDelegate:self];
 	[windowAnimation setAnimationBlockingMode:NSAnimationNonblocking];
 	[windowAnimation startAnimation];
@@ -1380,7 +1380,7 @@ static BOOL isInRangeOfRect(NSRect sourceRect, NSRect targetRect)
  */
 static BOOL canSnap(CGFloat a, CGFloat b)
 {
-	return (abs(a - b) <= SNAP_DISTANCE);
+	return (AIfabs(a - b) <= SNAP_DISTANCE);
 }
 
 - (NSPoint)snapTo:(NSWindow*)neighborWindow with:(NSRect)currentRect saveTo:(NSPoint)location{
@@ -1434,9 +1434,9 @@ static BOOL canSnap(CGFloat a, CGFloat b)
  */
 - (NSPoint)windowSpacing {
 	AIContactListWindowStyle style = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
-														  group:PREF_GROUP_APPEARANCE] integerValue];
-	NSInteger space = [[adium.preferenceController preferenceForKey:@"Group Top Spacing" 
-														  group:@"List Layout"] integerValue];
+														  group:PREF_GROUP_APPEARANCE] intValue];
+	CGFloat space = (CGFloat)[[adium.preferenceController preferenceForKey:@"Group Top Spacing" 
+														  group:@"List Layout"] doubleValue];
 	
 	switch (style) {
 		case AIContactListWindowStyleStandard:
@@ -1494,7 +1494,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 	[contactListView setEnableAnimation:NO];
 	
 	// Animate the filter bar into view	
-	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0)];
+	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0f)];
 }
 
 /*!
@@ -1518,7 +1518,7 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 										  group:PREF_GROUP_CONTACT_LIST] boolValue]];
 	
 	// Animate the filter bar out of view
-	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0)];
+	[self animateFilterBarWithDuration:(useAnimation ? 0.15f : 0.0f)];
 }
 
 /*!
@@ -1737,10 +1737,10 @@ static BOOL canSnap(CGFloat a, CGFloat b)
 		
 	} else {
 		//White on light red (like Firefox!)
-		[[searchField cell] setTextColor:[NSColor whiteColor] backgroundColor:[NSColor colorWithCalibratedHue:0.983
-																								   saturation:0.43
-																								   brightness:0.99
-																										alpha:1.0]];
+		[[searchField cell] setTextColor:[NSColor whiteColor] backgroundColor:[NSColor colorWithCalibratedHue:0.983f
+																								   saturation:0.43f
+																								   brightness:0.99f
+																										alpha:1.0f]];
 	}
 }
 

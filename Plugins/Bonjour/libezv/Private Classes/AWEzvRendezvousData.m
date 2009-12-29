@@ -60,7 +60,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
     UInt32	version;	/* the version of the iChat announcement (?) */
     UInt32	fieldCount;	/* number of fields in the announcement */
     UInt16	fieldLen;	/* length of field being read */
-    UInt32	i;		/* read index into data buffer */
+    NSInteger	i;		/* read index into data buffer */
     NSString	*fieldName;	/* name of field */
     NSString	*fieldContent;	/* contents of field */
     NSData	*tmpData;	/* temporary data */
@@ -365,7 +365,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
     [data appendBytes:&serialBE length:4];
     [data appendBytes:[endn UTF8String] length:[endn length]];
     /* add a field containing the number of fields for the rest of the data */
-    keycount = [keys count] + 1; /* +1 for slumming field */
+    keycount = (UInt32)[keys count] + 1; /* +1 for slumming field */
     keycount = htonl(keycount);
     [data appendBytes:&keycount length:4];
 
@@ -619,7 +619,7 @@ NSString	*endn = @"\x00\x00\x00\x00";
 			free(hexdata);
 		} else {
 			const char *val = [(NSString *)value UTF8String];
-			int len = strlen(val);
+			NSInteger len = strlen(val);
 			[infoData appendFormat:@"%c", len + [key length] + 1];
 			[infoData appendString:key];
 			[infoData appendString:@"="];

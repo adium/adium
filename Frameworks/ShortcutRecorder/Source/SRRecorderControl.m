@@ -184,12 +184,12 @@
 
 #pragma mark *** Key Combination Control ***
 
-- (unsigned int)allowedFlags
+- (NSUInteger)allowedFlags
 {
 	return [SRCell allowedFlags];
 }
 
-- (void)setAllowedFlags:(unsigned int)flags
+- (void)setAllowedFlags:(NSUInteger)flags
 {
 	[SRCell setAllowedFlags: flags];
 }
@@ -216,12 +216,12 @@
 	[[self cell] setCanCaptureGlobalHotKeys:inState];
 }
 
-- (unsigned int)requiredFlags
+- (NSUInteger)requiredFlags
 {
 	return [SRCell requiredFlags];
 }
 
-- (void)setRequiredFlags:(unsigned int)flags
+- (void)setRequiredFlags:(NSUInteger)flags
 {
 	[SRCell setRequiredFlags: flags];
 }
@@ -257,12 +257,12 @@
 
 #pragma mark *** Conversion Methods ***
 
-- (unsigned int)cocoaToCarbonFlags:(unsigned int)cocoaFlags
+- (NSUInteger)cocoaToCarbonFlags:(NSUInteger)cocoaFlags
 {
 	return SRCocoaToCarbonFlags( cocoaFlags );
 }
 
-- (unsigned int)carbonToCocoaFlags:(unsigned int)carbonFlags;
+- (NSUInteger)carbonToCocoaFlags:(NSUInteger)carbonFlags;
 {
 	return SRCarbonToCocoaFlags( carbonFlags );
 }
@@ -282,7 +282,7 @@
 
 #pragma mark *** Delegate pass-through ***
 
-- (BOOL)shortcutRecorderCell:(SRRecorderCell *)aRecorderCell isKeyCode:(signed short)keyCode andFlagsTaken:(unsigned int)flags reason:(NSString **)aReason
+- (BOOL)shortcutRecorderCell:(SRRecorderCell *)aRecorderCell isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason
 {
 	if (delegate != nil && [delegate respondsToSelector: @selector(shortcutRecorder:isKeyCode:andFlagsTaken:reason:)])
 		return [delegate shortcutRecorder:self isKeyCode:keyCode andFlagsTaken:flags reason:aReason];

@@ -122,7 +122,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 	//Resize the window frame to fit the error title
 	[textView_errorTitle sizeToFit];
-	int	titleHeightChange = [textView_errorTitle frame].size.height - [scrollView_errorTitle documentVisibleRect].size.height;
+	CGFloat	titleHeightChange = [textView_errorTitle frame].size.height - [scrollView_errorTitle documentVisibleRect].size.height;
 	
 	NSRect errorTitleFrame = [scrollView_errorTitle frame];
 	errorTitleFrame.size.height += titleHeightChange;
@@ -137,7 +137,7 @@ static ErrorMessageWindowController *sharedErrorMessageInstance = nil;
 
 	//Resize the window frame to fit the error message
 	[textView_errorInfo sizeToFit];
-	int errorInfoChange = [textView_errorInfo frame].size.height - [scrollView_errorInfo documentVisibleRect].size.height;
+	CGFloat errorInfoChange = [textView_errorInfo frame].size.height - [scrollView_errorInfo documentVisibleRect].size.height;
 
 	NSRect errorInfoFrame = [scrollView_errorInfo frame];
 	

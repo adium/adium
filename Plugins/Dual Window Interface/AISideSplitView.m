@@ -5,12 +5,12 @@
 
 - (CGFloat) dividerThickness
 {
-	return .50;
+	return .50f;
 }
 
 - (void)drawDividerInRect:(NSRect)aRect
 {
-	[[NSColor colorWithCalibratedWhite:0.65 alpha:1.] set];
+	[[NSColor colorWithCalibratedWhite:0.65f alpha:1.0f] set];
 	NSRectFill(aRect);	
 }	
 

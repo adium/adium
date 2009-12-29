@@ -394,7 +394,7 @@ static RAFBlockEditorWindowController *sharedInstance = nil;
 
 - (AIPrivacyOption)selectedPrivacyOption
 {
-	return [[stateChooser selectedItem] tag];
+	return (AIPrivacyOption)[[stateChooser selectedItem] tag];
 }
 
 /*!

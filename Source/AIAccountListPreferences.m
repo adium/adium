@@ -820,8 +820,8 @@
 												type:AIServiceIconLarge
 										   direction:AIIconNormal] imageByScalingToSize:NSMakeSize(MINIMUM_ROW_HEIGHT-2, MINIMUM_ROW_HEIGHT-2)
 																			   fraction:(account.enabled ?
-																						 1.0 :
-																						 0.75)];
+																						 1.0f :
+																						 0.75f)];
 
 	} else if ([identifier isEqualToString:@"name"]) {
 		return [[account explicitFormattedUID] length] ? [account explicitFormattedUID] : NEW_ACCOUNT_DISPLAY_TEXT;
@@ -873,7 +873,7 @@
 	
 	NSNumber *cachedHeight = [requiredHeightDict objectForKey:[NSNumber numberWithInteger:row]];
 	if (cachedHeight) {
-		necessaryHeight = [cachedHeight doubleValue];
+		necessaryHeight = (CGFloat)[cachedHeight doubleValue];
 	}
 	
 	return necessaryHeight;
@@ -902,7 +902,7 @@
 			[cell setImage:nil];
 		}
 
-		[cell setImageTextPadding:MINIMUM_CELL_SPACING/2.0];
+		[cell setImageTextPadding:MINIMUM_CELL_SPACING/2.0f];
 		
 		[cell setEnabled:account.enabled];
 

@@ -436,17 +436,20 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	finderInfoEntry.entryID = htonl(AS_ENTRY_FINDER_INFO);
 	finderInfoEntry.length = htonl(sizeof(fileInfo));
 	/*Offset so that it is at the end of the *3* AppleSingleEntries*/
-	finderInfoEntry.offset = htonl(offset);
+	NSAssert( UINT_MAX >= offset, @"offset exceeds UINT_MAX");
+	finderInfoEntry.offset = htonl((UInt32)offset);
 	offset += sizeof(fileInfo);
 
 	/*Real Name*/
 	const char *realName = [[URI lastPathComponent] UTF8String];
-	unsigned nameLength = [[URI lastPathComponent] length];
+	NSUInteger nameLength = [[URI lastPathComponent] length];
 
 	realNameEntry.entryID = htonl(AS_ENTRY_REAL_NAME);
-	realNameEntry.length = htonl(nameLength);
+	NSAssert( UINT_MAX >= nameLength, @"nameLength exceeds UINT_MAX");
+	realNameEntry.length = htonl((UInt32)nameLength);
 	/*Offset so that it is at the end of the *3* AppleSingleEntries*/
-	realNameEntry.offset = htonl(offset);
+	NSAssert( UINT_MAX >= offset, @"offset exceeds UINT_MAX");
+	realNameEntry.offset = htonl((UInt32)offset);
 
 	offset += nameLength;
 	unsigned long long newSize;
@@ -457,8 +460,10 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	}
 	/*Data resource fork */
 	dataEntry.entryID = htonl(AS_ENTRY_DATA_FORK);
-	dataEntry.length = htonl(newSize);
-	dataEntry.offset = htonl(offset);
+	NSAssert( UINT_MAX >= newSize, @"offset exceeds UINT_MAX");
+	dataEntry.length = htonl((UInt32)newSize);
+	NSAssert( UINT_MAX >= offset, @"offset exceeds UINT_MAX");
+	dataEntry.offset = htonl((UInt32)offset);
 
 	NSMutableData *data = [NSMutableData dataWithBytes:&info length: APPLE_SINGLE_HEADER_LENGTH];
 	[data appendBytes:&finderInfoEntry length:sizeof(finderInfoEntry)];

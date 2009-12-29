@@ -219,7 +219,7 @@ static OSStatus SocketRead(
                     rtn = errSSLWouldBlock;
                     break;
                 default:
-                    fprintf(stderr,"SocketRead: read(%ld) error %d\n", 
+                    fprintf(stderr,"SocketRead: read(%lu) error %d\n", 
                              bytesToGo, theErr);
                     rtn = errSSLFatalAlert;
                     break;

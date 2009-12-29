@@ -152,7 +152,7 @@ static	ABAddressBook	*sharedAddressBook = nil;
 	//Create a small explanation text
 	[accessoryView setStringValue:AILocalizedString(@"Select an entry from your address book, or add a new person.",
 													nil)];
-	[accessoryView setFont:[NSFont systemFontOfSize:10.0]];
+	[accessoryView setFont:[NSFont systemFontOfSize:10.0f]];
 	[accessoryView setDrawsBackground:NO];
 	[accessoryView setEnabled:NO];
 	[accessoryView setBezeled:NO];

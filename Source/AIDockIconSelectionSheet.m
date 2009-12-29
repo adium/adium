@@ -211,12 +211,12 @@
 		NSImage *selectedImage = [[NSImage alloc] initWithSize:size];
 		[selectedImage lockFocus];
 		NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:fullRect
-															  radius:6.0];
+															  radius:6.0f];
 		[[NSGradient selectedControlGradient] drawInBezierPath:path angle:90];
 		[image drawInRect:fullRect
 				 fromRect:fullRect
 				operation:NSCompositeSourceOver
-				 fraction:0.9];
+				 fraction:0.9f];
 		[selectedImage unlockFocus];
 		
 		image = [selectedImage autorelease];

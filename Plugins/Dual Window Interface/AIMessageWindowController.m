@@ -387,7 +387,7 @@
 		if (firstTime || [key isEqualToString:KEY_TABBAR_POSITION]) {
 			PSMTabBarOrientation orientation;
 			
-			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] integerValue];
+			tabPosition = [[prefDict objectForKey:KEY_TABBAR_POSITION] intValue];
 			orientation = ((tabPosition == AdiumTabPositionBottom || tabPosition == AdiumTabPositionTop) ?
 						   PSMTabBarHorizontalOrientation :
 						   PSMTabBarVerticalOrientation);
@@ -448,7 +448,7 @@
 				case PSMTabBarVerticalOrientation:
 				{
 					CGFloat width = ([prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] ?
-								   [[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
+								   (CGFloat)[[prefDict objectForKey:KEY_VERTICAL_TABS_WIDTH] doubleValue] :
 								   100);
 					lastTabBarWidth = width;
 					
@@ -483,13 +483,13 @@
 					if (tabPosition == AdiumTabPositionLeft) {
 						[tabView_splitView addSubview:tabView_tabBar];
 						[tabView_splitView addSubview:tabView_messages];
-						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.92 alpha:1.0]
-											 rightColor:[NSColor colorWithCalibratedWhite:0.91 alpha:1.0]];
+						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]
+											 rightColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]];
 					} else {
 						[tabView_splitView addSubview:tabView_messages];
 						[tabView_splitView addSubview:tabView_tabBar];
-						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.91 alpha:1.0]
-											 rightColor:[NSColor colorWithCalibratedWhite:0.92 alpha:1.0]];
+						[tabView_splitView setLeftColor:[NSColor colorWithCalibratedWhite:0.91f alpha:1.0f]
+											 rightColor:[NSColor colorWithCalibratedWhite:0.92f alpha:1.0f]];
 					}
 					[tabView_splitView adjustSubviews];
 					[tabView_splitView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
@@ -512,7 +512,7 @@
 		
 		[self _updateWindowTitleAndIcon];
 
-		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] integerValue];
+		AIWindowLevel	windowLevel = [[prefDict objectForKey:KEY_WINDOW_LEVEL] intValue];
 		NSInteger				level = NSNormalWindowLevel;
 		
 		switch (windowLevel) {
@@ -1001,7 +1001,7 @@
 	NSRectFill(tabFrame);
 	//draw the background flipped, which is actually the right way up
 	NSAffineTransform *transform = [NSAffineTransform transform];
-	[transform scaleXBy:1.0 yBy:-1.0];
+	[transform scaleXBy:1.0f yBy:-1.0f];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
 	[(id <PSMTabStyle>)[[tabView delegate] style] drawBackgroundInRect:tabFrame];
@@ -1394,7 +1394,7 @@
 										 newChatImageSize.width, newChatImageSize.height)
 					 fromRect:NSMakeRect(0, 0, chatImageSize.width, chatImageSize.height)
 					operation:NSCompositeSourceOver
-					 fraction:1.0];
+					 fraction:1.0f];
 		
 		//Draw the Adium icon as a badge in the bottom right
 		[appImage drawInRect:NSMakeRect(128 - badgeSize.width,
@@ -1403,7 +1403,7 @@
 										badgeSize.height)
 					fromRect:NSMakeRect(0, 0, appImageSize.width, appImageSize.height)
 				   operation:NSCompositeSourceOver
-					fraction:1.0];
+					fraction:1.0f];
 	}
 	[miniwindowImage unlockFocus];
 	

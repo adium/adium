@@ -361,12 +361,12 @@
 
 	if ([[[menuItem menu] title] isEqualToString:ENCRYPTION_MENU_TITLE]) {
 		/* Options submenu */
-		AIEncryptedChatPreference tag = [menuItem tag];
+		AIEncryptedChatPreference tag = (AIEncryptedChatPreference)[menuItem tag];
 		
 		AIListContact	*listContact = chat.listObject.parentContact;
 		
 		AIEncryptedChatPreference userPreference = [[listContact preferenceForKey:KEY_ENCRYPTED_CHAT_PREFERENCE
-																			group:GROUP_ENCRYPTION] integerValue];
+																			group:GROUP_ENCRYPTION] intValue];
 		
 		switch (tag) {
 			case EncryptedChat_Default:
@@ -394,7 +394,7 @@
 		}
 	} else {
 		/* Items on the main menu */
-		AISecureMessagingMenuTag tag = [menuItem tag];
+		AISecureMessagingMenuTag tag = (AISecureMessagingMenuTag)[menuItem tag];
 		
 		switch (tag) {
 			case AISecureMessagingMenu_Root:

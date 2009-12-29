@@ -50,7 +50,7 @@
 - (void)viewDidLoad
 {
 	[shelf_splitView setFrame:[[shelf_splitView superview] frame]];
-	[shelf_splitView setShelfWidth:[[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
+	[shelf_splitView setShelfWidth:(CGFloat)[[adium.preferenceController preferenceForKey:KEY_ADVANCED_PREFERENCE_SHELF_WIDTH
 																			 group:PREF_GROUP_WINDOW_POSITIONS] doubleValue]];
 
 	[tableView_categories accessibilitySetOverrideValue:AILocalizedString(@"Advanced Preference Categories", nil)

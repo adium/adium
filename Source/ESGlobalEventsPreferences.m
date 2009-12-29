@@ -402,12 +402,12 @@
 	NSMutableDictionary	*newEventPreset = [preset mutableCopy];
 	CGFloat newOrderIndex;
 	if (index == 0) {		
-		newOrderIndex = [[[presets objectAtIndex:0] objectForKey:@"OrderIndex"] doubleValue] / 2.0;
+		newOrderIndex = (CGFloat)[[[presets objectAtIndex:0] objectForKey:@"OrderIndex"] doubleValue] / 2.0f;
 
 	} else if (index < [presets count]) {
-		CGFloat above = [[[presets objectAtIndex:index-1] objectForKey:@"OrderIndex"] doubleValue];
-		CGFloat below = [[[presets objectAtIndex:index] objectForKey:@"OrderIndex"] doubleValue];
-		newOrderIndex = ((above + below) / 2.0);
+		CGFloat above = (CGFloat)[[[presets objectAtIndex:index-1] objectForKey:@"OrderIndex"] doubleValue];
+		CGFloat below = (CGFloat)[[[presets objectAtIndex:index] objectForKey:@"OrderIndex"] doubleValue];
+		newOrderIndex = ((above + below) / 2.0f);
 
 	} else {
 		newOrderIndex = [plugin nextOrderIndex];
@@ -588,12 +588,12 @@
     CGFloat			volume, oldVolume;
 	
 	if (sender == slider_volume) {
-		volume = [slider_volume doubleValue];
+		volume = (CGFloat)[slider_volume doubleValue];
 	} else if (sender == button_maxvolume) {
-		volume = [slider_volume maxValue];
+		volume = (CGFloat)[slider_volume maxValue];
 		[slider_volume setDoubleValue:volume];
 	} else if (sender == button_minvolume) {
-		volume = [slider_volume minValue];
+		volume = (CGFloat)[slider_volume minValue];
 		[slider_volume setDoubleValue:volume];
 	} else {
 		volume = 0;
@@ -601,7 +601,7 @@
 	
 	NSNumber *oldVolumeValue = [adium.preferenceController preferenceForKey:KEY_SOUND_CUSTOM_VOLUME_LEVEL
 																		group:PREF_GROUP_SOUNDS];
-	oldVolume = (oldVolumeValue ? [oldVolumeValue doubleValue] : -1.0);
+	oldVolume = (oldVolumeValue ? (CGFloat)[oldVolumeValue doubleValue] : -1.0f);
 	
     //Volume
     if (volume != oldVolume) {

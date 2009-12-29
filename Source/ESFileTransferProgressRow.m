@@ -439,7 +439,7 @@
 	NSDictionary *plural = [NSDictionary dictionaryWithObjectsAndKeys:AILocalizedString( @"seconds", "plural seconds" ), [NSNumber numberWithUnsignedInteger:1], AILocalizedString( @"minutes", "plural minutes" ), [NSNumber numberWithUnsignedInteger:60], AILocalizedString( @"hours", "plural hours" ), [NSNumber numberWithUnsignedInteger:3600], AILocalizedString( @"days", "plural days" ), [NSNumber numberWithUnsignedInteger:86400], AILocalizedString( @"weeks", "plural weeks" ), [NSNumber numberWithUnsignedInteger:604800], AILocalizedString( @"months", "plural months" ), [NSNumber numberWithUnsignedInteger:2628000], AILocalizedString( @"years", "plural years" ), [NSNumber numberWithUnsignedInteger:31536000], nil];
 	NSDictionary *use = nil;
 	NSMutableArray *breaks = nil;
-	NSUInteger val = 0.;
+	NSUInteger val = 0;
 	NSString *retval = nil;
 	
 	if ( secs < 0 ) secs *= -1;

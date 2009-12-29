@@ -669,7 +669,7 @@
 	AIContactListWindowStyle	windowStyle;
 	BOOL				tabViewCurrentHasAdvancedContactBubbles;
 	
-	windowStyle = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] integerValue];
+	windowStyle = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE group:PREF_GROUP_APPEARANCE] intValue];
 	tabViewCurrentHasAdvancedContactBubbles = ([[tabView_preferences tabViewItems] containsObjectIdenticalTo:tabViewItem_advancedContactBubbles]);
 	
 	if ((windowStyle == AIContactListWindowStyleContactBubbles_Fitted) ||

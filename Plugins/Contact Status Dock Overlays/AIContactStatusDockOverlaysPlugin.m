@@ -309,7 +309,7 @@
         //Set the state
 		if (shouldAnimate) {
 			overlayState = [[AIIconState alloc] initWithImages:[NSArray arrayWithObjects:[self overlayImageFlash:NO], [self overlayImageFlash:YES], nil]
-														 delay:0.5
+														 delay:0.5f
 												       looping:YES 
 													   overlay:YES];
 		} else {
@@ -327,9 +327,9 @@
     ESObjectWithProperties  *object;
     NSFont				*font;
     NSParagraphStyle	*paragraphStyle;
-    float				dockIconScale;
-    int					iconHeight;
-    float				top, bottom;
+    CGFloat				dockIconScale;
+    CGFloat					iconHeight;
+    CGFloat				top, bottom;
     NSImage				*image = (flash ? image1 : image2);
 	
     //Pre-calc some sizes
@@ -351,7 +351,7 @@
     //Draw overlays for each contact
     enumerator = [overlayObjectsArray reverseObjectEnumerator];
     while ((object = [enumerator nextObject]) && !(top < 0) && bottom < 128) {
-        float			left, right, arcRadius, stringInset;
+        CGFloat			left, right, arcRadius, stringInset;
         NSBezierPath	*path;
         NSColor			*backColor = nil, *textColor = nil, *borderColor = nil;
 		
@@ -362,7 +362,7 @@
         right = 127 - arcRadius;
 		
         path = [NSBezierPath bezierPath];
-        [path setLineWidth:((iconHeight/2.0) * 0.13333f)];
+        [path setLineWidth:((iconHeight/2.0f) * 0.13333f)];
         //Top
         [path moveToPoint: NSMakePoint(left, top)];
         [path lineToPoint: NSMakePoint(right, top)];
@@ -420,11 +420,11 @@
 		
         //Lighten/Darken the back color slightly
         if ([backColor colorIsDark]) {
-            backColor = [backColor darkenBy:-0.15];
-            borderColor = [backColor darkenBy:-0.3];
+            backColor = [backColor darkenBy:-0.15f];
+            borderColor = [backColor darkenBy:-0.3f];
         } else {
-            backColor = [backColor darkenBy:0.15];
-            borderColor = [backColor darkenBy:0.3];
+            backColor = [backColor darkenBy:0.15f];
+            borderColor = [backColor darkenBy:0.3f];
         }
 		
         //Draw
@@ -441,7 +441,7 @@
         [nameString drawInRect:NSMakeRect(0 + stringInset, bottom + 1, 128 - (stringInset * 2), top - bottom)];*/
 		
         //Move down to the next pill
-		top -= (iconHeight + 7.0 * dockIconScale);
+		top -= (iconHeight + 7.0f * dockIconScale);
 		bottom = top - iconHeight;
     }
 	

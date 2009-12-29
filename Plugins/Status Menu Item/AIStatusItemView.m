@@ -101,7 +101,7 @@
  */
 - (NSUInteger)desiredWidth
 {
-	return [cell cellSizeForBounds:NSMakeRect(0,0,1e6,1e6)].width;
+	return [cell cellSizeForBounds:NSMakeRect(0,0,1e6f,1e6f)].width;
 }
 
 #pragma mark Accessors

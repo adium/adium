@@ -93,7 +93,7 @@
 														  protocol:FOUR_CHAR_CODE('AdIM')
 															 error:&error];
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't ignore it if we're trying to set the password, though (because that would be strange).
 		 *we don't get here at all for noErr (error will be nil).
@@ -120,7 +120,7 @@
 										error:&error];
 
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't get here at all for noErr (error will be nil).
 		 */
@@ -147,7 +147,7 @@
 														  error:&error];
 	
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't get here at all for noErr (error will be nil).
 		 */
@@ -163,7 +163,7 @@
 {
 	NSString		*password = [requestDict objectForKey:@"Password"];
 	AIAccount		*account = [requestDict objectForKey:@"Account"];
-	AIPromptOption	promptOption = [[requestDict objectForKey:@"AIPromptOption"] integerValue];
+	AIPromptOption	promptOption = [[requestDict objectForKey:@"AIPromptOption"] intValue];
 	id				target = [requestDict objectForKey:@"Target"];
 	SEL				selector = NSSelectorFromString([requestDict objectForKey:@"Selector"]);
 	id				context = [requestDict objectForKey:@"Context"];
@@ -260,7 +260,7 @@
 														  protocol:FOUR_CHAR_CODE('AdIM')
 															 error:&error];
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't ignore it if we're trying to set the password, though (because that would be strange).
 		 *we don't get here at all for noErr (error will be nil).
@@ -295,7 +295,7 @@
 													   protocol:FOUR_CHAR_CODE('AdIM')
 														  error:&error];
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't get here at all for noErr (error will be nil).
 		 */
@@ -350,7 +350,7 @@
 														  protocol:FOUR_CHAR_CODE('AdIM')
 															 error:&error];
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't ignore it if we're trying to set the password, though (because that would be strange).
 		 *we don't get here at all for noErr (error will be nil).
@@ -376,7 +376,7 @@
 													   protocol:FOUR_CHAR_CODE('AdIM')
 														  error:&error];
 	if (error) {
-		OSStatus err = [error code];
+		OSStatus err = (OSStatus)[error code];
 		/*errSecItemNotFound: no entry in the keychain. a harmless error.
 		 *we don't get here at all for noErr (error will be nil).
 		 */
@@ -486,7 +486,7 @@
 												  protocol:FOUR_CHAR_CODE('AdIM')
 													 error:&error];
 			if (error) {
-				OSStatus err = [error code];
+				OSStatus err = (OSStatus)[error code];
 				if (err != errSecItemNotFound) {
 					NSDictionary *userInfo = [error userInfo];
 					NSLog(@"could not retrieve password for account %@: %@ returned %i (%@)", [self _oldStyleAccountNameForAccount:account], [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_SECURITYFUNCTIONNAME], err, [userInfo objectForKey:AIKEYCHAIN_ERROR_USERINFO_ERRORDESCRIPTION]);
@@ -500,7 +500,7 @@
 												 protocol:FOUR_CHAR_CODE('AdIM')
 													error:&error];
 				if (error) {
-					OSStatus err = [error code];
+					OSStatus err = (OSStatus)[error code];
 					/*errSecItemNotFound: no entry in the keychain. a harmless error.
 					 *we don't get here at all for noErr (error will be nil).
 					 */

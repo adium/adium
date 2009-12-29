@@ -134,7 +134,7 @@
 - (void)positionImagePickerIfNeeded
 {
 	LIST_POSITION					layoutUserIconPosition = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_USER_ICON_POSITION
-																						 group:PREF_GROUP_LIST_LAYOUT] integerValue];
+																						 group:PREF_GROUP_LIST_LAYOUT] intValue];
 	ContactListImagePickerPosition  desiredImagePickerPosition;
 	
 	//Determine where we want the image picker now

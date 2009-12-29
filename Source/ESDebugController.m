@@ -155,7 +155,7 @@ void AIExplodeOnEnumerationMutation(id dummy) {
 		NSCalendarDate *date = [NSCalendarDate calendarDate];
 		NSString *folder, *dateString, *filename, *pathname;
 		NSUInteger counter = 0;
-		NSInteger fd;
+		int fd;
 		
 		//make sure the containing folder for debug logs exists.
 		folder = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, /*expandTilde*/ YES) objectAtIndex:0];

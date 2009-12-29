@@ -533,7 +533,7 @@ static NSString *AIWebURLsWithTitlesPboardType = @"WebURLsWithTitlesPboardType";
 }
 
 //Background opacity is set independently from layout
-- (void)setBackgroundOpacity:(float)opacity
+- (void)setBackgroundOpacity:(CGFloat)opacity
 {
 	backgroundOpacity = opacity;
 
