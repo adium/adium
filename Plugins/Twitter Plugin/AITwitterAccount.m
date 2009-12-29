@@ -1581,10 +1581,10 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 	NSDictionary *status = nil, *previousStatus = nil;
 	
 	// Starting at index 1, checking backwards. We'll never exceed bounds this way.
-	for(NSUInteger index = 1; index < inArray.count; index++)
+	for(NSUInteger idx = 1; idx < inArray.count; idx++)
 	{
-		status = [inArray objectAtIndex:index];
-		previousStatus = [inArray objectAtIndex:index-1];
+		status = [inArray objectAtIndex:idx];
+		previousStatus = [inArray objectAtIndex:idx-1];
 		
 		if([[status objectForKey:TWITTER_STATUS_ID] isEqualToString:[previousStatus objectForKey:TWITTER_STATUS_ID]]) {
 			[mutableArray removeObject:status];
@@ -2318,12 +2318,12 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 			
 			NSMutableArray *profileArray = [NSMutableArray array];
 			
-			for (NSUInteger index = 0; index < keyNames.count; index++) {
-				NSString			*keyName = [keyNames objectAtIndex:index];
+			for (NSUInteger idx = 0; idx < keyNames.count; idx++) {
+				NSString			*keyName = [keyNames objectAtIndex:idx];
 				NSString			*unattributedValue = [thisUserInfo objectForKey:keyName];
 				
 				if(![unattributedValue isEqualToString:@""]) {
-					NSString			*readableName = [readableNames objectAtIndex:index];
+					NSString			*readableName = [readableNames objectAtIndex:idx];
 					NSAttributedString	*value;
 					
 					if([keyName isEqualToString:@"friends_count"]) {

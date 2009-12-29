@@ -138,11 +138,11 @@
 {
 	NSMutableString	*responderChain = [NSMutableString string];
 	
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
 #warning 64BIT: Check formatting arguments
-	[responderChain appendFormat:@"%@ (%i): ",keyWindow,[keyWindow respondsToSelector:@selector(print:)]];
+	[responderChain appendFormat:@"%@ (%i): ",keyWin,[keyWin respondsToSelector:@selector(print:)]];
 	
-	NSResponder	*responder = [keyWindow firstResponder];
+	NSResponder	*responder = [keyWin firstResponder];
 	
 	//First, walk down the responder chain looking for a responder which can handle the preferred selector
 	while (responder) {
@@ -605,7 +605,7 @@
 	}
 }
 
-- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(NSUInteger)index
+- (id)openChat:(AIChat *)inChat inContainerWithID:(NSString *)containerID atIndex:(NSUInteger)idx
 {	
 	NSArray		*openContainerIDs = [interfacePlugin openContainerIDs];
 
@@ -619,7 +619,7 @@
 	}
 
 	//Determine the correct placement for this chat within the container
-	id tabViewItem = [interfacePlugin openChat:inChat inContainerWithID:containerID withName:nil atIndex:index];
+	id tabViewItem = [interfacePlugin openChat:inChat inContainerWithID:containerID withName:nil atIndex:idx];
 	if (![inChat isOpen]) {
 		[inChat setIsOpen:YES];
 		
@@ -674,7 +674,7 @@
 		while ((chat = [chatEnumerator nextObject])) {
 			[interfacePlugin moveChat:chat
 					toContainerWithID:firstContainerID
-								index:-1];
+								idx:-1];
 		}
 		
 		[openChats release];
@@ -1734,15 +1734,15 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
  */
 - (void)_pasteWithPreferredSelector:(SEL)selector sender:(id)sender
 {
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
 	NSResponder	*responder;
 
 	//First, look for a responder which can handle the preferred selector
-	if (!(responder = [keyWindow earliestResponderWhichRespondsToSelector:selector
+	if (!(responder = [keyWin earliestResponderWhichRespondsToSelector:selector
 														  andIsNotOfClass:NSClassFromString(@"WebHTMLView")])) {		
 		//No responder found.  Try again, looking for one which will respond to paste:
 		selector = @selector(paste:);
-		responder = [keyWindow earliestResponderWhichRespondsToSelector:selector
+		responder = [keyWin earliestResponderWhichRespondsToSelector:selector
 														andIsNotOfClass:NSClassFromString(@"WebHTMLView")];
 	}
 
@@ -1752,7 +1752,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 	}
 
 	if (selector) {
-		[keyWindow makeFirstResponder:responder];
+		[keyWin makeFirstResponder:responder];
 		[responder performSelector:selector
 						withObject:sender];
 	}
@@ -1807,8 +1807,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 										  group:PREF_GROUP_FORMATTING];
 	
 	//We can't get foreground/background color from the font panel so far as I can tell... so we do the best we can.
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
-	NSResponder *responder = [keyWindow firstResponder]; 
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+	NSResponder *responder = [keyWin firstResponder]; 
 	if ([responder isKindOfClass:[NSTextView class]]) {
 		NSDictionary	*typingAttributes = [(NSTextView *)responder typingAttributes];
 		NSColor			*foregroundColor, *backgroundColor;
@@ -1857,8 +1857,8 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
-	NSResponder *responder = [keyWindow firstResponder]; 
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+	NSResponder *responder = [keyWin firstResponder]; 
 	
     if (menuItem == menuItem_bold || menuItem == menuItem_italic) {
 		NSFont			*selectedFont = [[NSFontManager sharedFontManager] selectedFont];
@@ -1884,18 +1884,18 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		return ([pboard availableTypeFromArray:nonImageTypes] != nil) || [NSImage canInitWithPasteboard:pboard];
 	
 	} else if (menuItem == menuItem_showToolbar) {
-		[menuItem_showToolbar setTitle:([[keyWindow toolbar] isVisible] ? 
+		[menuItem_showToolbar setTitle:([[keyWin toolbar] isVisible] ? 
 										AILocalizedString(@"Hide Toolbar",nil) : 
 										AILocalizedString(@"Show Toolbar",nil))];
-		return [keyWindow toolbar] != nil;
+		return [keyWin toolbar] != nil;
 	
 	} else if (menuItem == menuItem_customizeToolbar) {
-		return ([keyWindow toolbar] != nil && [[keyWindow toolbar] isVisible] && [[keyWindow windowController] canCustomizeToolbar]);
+		return ([keyWin toolbar] != nil && [[keyWin toolbar] isVisible] && [[keyWin windowController] canCustomizeToolbar]);
 
 	} else if (menuItem == menuItem_close) {
-		return (keyWindow && ([[keyWindow standardWindowButton:NSWindowCloseButton] isEnabled] ||
-							  ([[keyWindow windowController] respondsToSelector:@selector(windowPermitsClose)] &&
-							   [[keyWindow windowController] windowPermitsClose])));
+		return (keyWin && ([[keyWin standardWindowButton:NSWindowCloseButton] isEnabled] ||
+							  ([[keyWin windowController] respondsToSelector:@selector(windowPermitsClose)] &&
+							   [[keyWin windowController] windowPermitsClose])));
 		
 	} else if (menuItem == menuItem_closeChat || menuItem == menuItem_clearDisplay) {
 		return activeChat != nil;
@@ -1904,7 +1904,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
 		return [[self openChats] count] > 0;
 
 	} else if (menuItem == menuItem_print) {
-		NSWindowController *windowController = [keyWindow windowController];
+		NSWindowController *windowController = [keyWin windowController];
 
 		return ([windowController respondsToSelector:@selector(adiumPrint:)] &&
 				(![windowController respondsToSelector:@selector(validatePrintMenuItem:)] ||

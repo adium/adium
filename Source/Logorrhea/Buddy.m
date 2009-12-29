@@ -38,9 +38,9 @@
 
 - (void) deleteChat:(Chat *) c
 {
-	NSInteger index = [chats indexOfObjectIdenticalTo:c];
-	if (index != -1)
-		[chats removeObjectAtIndex:index];
+	NSInteger idx = [chats indexOfObjectIdenticalTo:c];
+	if (idx != -1)
+		[chats removeObjectAtIndex:idx];
 }
 
 - (void) doSort
@@ -54,9 +54,9 @@
     return [chats count];
 }
 
-- (Chat *)chatAtIndex:(NSInteger)index
+- (Chat *)chatAtIndex:(NSInteger)idx
 {
-    return [chats objectAtIndex:index];
+    return [chats objectAtIndex:idx];
 }
 
 //Asks each Chat if it contains string, if so, add that chat to chatsWithString.

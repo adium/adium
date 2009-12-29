@@ -320,15 +320,15 @@
 		[(AIXMLElement *)[elementStack objectAtIndex:0U] insertObject:string atIndex:0U];
 }
 
-- (void)parser:(LMXParser *)parser elementStarted:(NSString *)elementName attributes:(NSDictionary *)attributes
+- (void)parser:(LMXParser *)parser elementStarted:(NSString *)elementName attributes:(NSDictionary *)inAttributes
 {
 	NSMutableDictionary *contextInfo = [parser contextInfo];
 	NSMutableArray *elementStack = [contextInfo objectForKey:@"ElementStack"];
 	
 	if ([elementStack count]) {
 		AIXMLElement *element = [elementStack objectAtIndex:0U];
-		if (attributes) {
-			[element setAttributeNames:[attributes allKeys] values:[attributes allValues]];
+		if (inAttributes) {
+			[element setAttributeNames:[inAttributes allKeys] values:[inAttributes allValues]];
 		}
 		
 		NSMutableArray	*foundMessages = [contextInfo objectForKey:@"FoundMessages"];
@@ -349,7 +349,7 @@
 			NSString		*timeString = [attributes objectForKey:@"time"];
 			//Create the context object
 			if (timeString) {
-				NSCalendarDate *time = [NSCalendarDate calendarDateWithString:timeString];
+				NSCalendarDate *timeVal = [NSCalendarDate calendarDateWithString:timeString];
 
 				NSString		*autoreplyAttribute = [attributes objectForKey:@"auto"];
 				NSString		*sender = [NSString stringWithFormat:@"%@.%@", serviceName, [attributes objectForKey:@"sender"]];
@@ -359,7 +359,7 @@
 				 *since that will be resuming a conversation, not starting a new one.
 				 *Why the class trickery? Less code duplication, clearer what is actually different between the two cases.
 				 */
-				Class messageClass = (-[time timeIntervalSinceNow] > 300.0) ? [AIContentContext class] : [AIContentMessage class];
+				Class messageClass = (-[timeVal timeIntervalSinceNow] > 300.0) ? [AIContentContext class] : [AIContentMessage class];
 				
 				AIListContact *listContact = nil;
 				
@@ -372,7 +372,7 @@
 				AIContentMessage *message = [messageClass messageInChat:chat 
 															 withSource:(sentByMe ? account : listContact)
 															destination:(sentByMe ? (chat.isGroupChat ? nil : chat.listObject) : account)
-																   date:time
+																   date:timeVal
 																message:[[contextInfo objectForKey:@"AIHTMLDecoder"] decodeHTML:[element contentsAsXMLString]]
 															  autoreply:(autoreplyAttribute && [autoreplyAttribute caseInsensitiveCompare:@"true"] == NSOrderedSame)];
 				

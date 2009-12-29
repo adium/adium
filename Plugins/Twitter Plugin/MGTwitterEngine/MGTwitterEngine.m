@@ -662,11 +662,11 @@
     
     if (NO) {
         // Display headers for debugging.
-        NSHTTPURLResponse *resp = (NSHTTPURLResponse *)response;
+        NSHTTPURLResponse *noResp = (NSHTTPURLResponse *)response;
         NSLog(@"(%d) [%@]:\r%@", 
-              [resp statusCode], 
-              [NSHTTPURLResponse localizedStringForStatusCode:[resp statusCode]], 
-              [resp allHeaderFields]);
+              [noResp statusCode], 
+              [NSHTTPURLResponse localizedStringForStatusCode:[noResp statusCode]], 
+              [noResp allHeaderFields]);
     }
 }
 

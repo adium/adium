@@ -824,7 +824,7 @@ void resolve_reply (DNSServiceRef sdRef,
 
 #pragma mark mDNS Address Callback
 
-void AddressQueryRecordReply( DNSServiceRef DNSServiceRef, DNSServiceFlags flags, uint32_t interfaceIndex, 
+void AddressQueryRecordReply( DNSServiceRef serviceRef, DNSServiceFlags flags, uint32_t interfaceIndex, 
 								DNSServiceErrorType errorCode, const char *fullname, uint16_t rrtype, uint16_t rrclass, 
 								uint16_t rdlen, const void *rdata, uint32_t ttl, void *context )
 // DNSServiceQueryRecord callback used to look up IP addresses.
@@ -838,7 +838,7 @@ void AddressQueryRecordReply( DNSServiceRef DNSServiceRef, DNSServiceFlags flags
 }
 
 #pragma mark mDNS Image Callback
-void ImageQueryRecordReply( DNSServiceRef DNSServiceRef, DNSServiceFlags flags, uint32_t interfaceIndex, 
+void ImageQueryRecordReply( DNSServiceRef serviceRef, DNSServiceFlags flags, uint32_t interfaceIndex, 
 								DNSServiceErrorType errorCode, const char *fullname, uint16_t rrtype, uint16_t rrclass, 
 								uint16_t rdlen, const void *rdata, uint32_t ttl, void *context )
 // DNSServiceQueryRecord callback used to look up buddy icon.

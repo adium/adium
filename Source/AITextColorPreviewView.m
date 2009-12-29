@@ -47,7 +47,7 @@
 {
 	NSMutableDictionary	*attributes;
 	NSAttributedString	*sample;
-	NSShadow			*shadow = nil;
+	NSShadow			*textShadow = nil;
 	NSSize				sampleSize;
 	
 	//Background
@@ -63,10 +63,10 @@
 
 	//Shadow
 	if (([textShadowColorEnabled state] != NSOffState) && [textShadowColor color]) {
-		shadow = [[[NSShadow alloc] init] autorelease];
-		[shadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
-		[shadow setShadowBlurRadius:2.0f];
-		[shadow setShadowColor:[textShadowColor color]];
+		textShadow = [[[NSShadow alloc] init] autorelease];
+		[textShadow setShadowOffset:NSMakeSize(0.0f, -1.0f)];
+		[textShadow setShadowBlurRadius:2.0f];
+		[textShadow setShadowColor:[textShadowColor color]];
 	}
 
 	//Text
@@ -81,7 +81,7 @@
 		[NSFont systemFontOfSize:12], NSFontAttributeName,
 		[NSParagraphStyle styleWithAlignment:NSCenterTextAlignment], NSParagraphStyleAttributeName,
 		colorForText, NSForegroundColorAttributeName,
-		shadow, NSShadowAttributeName,
+		textShadow, NSShadowAttributeName,
 		nil];
 	
 	sample = [[[NSAttributedString alloc] initWithString:AILocalizedString(@"Sample",nil)

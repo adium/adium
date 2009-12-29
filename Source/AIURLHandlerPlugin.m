@@ -313,9 +313,9 @@
 				
 			} else if ([host caseInsensitiveCompare:@"BuddyIcon"] == NSOrderedSame) {
 				//aim:BuddyIcon?src=http://www.nbc.com//Heroes/images/wallpapers/heroes-downloads-icon-single-48x48-07.gif
-				NSString *urlString = [url queryArgumentForKey:@"src"];
-				if ([urlString length]) {
-					NSURL *urlToDownload = [[NSURL alloc] initWithString:urlString];
+				NSString *iconURLString = [url queryArgumentForKey:@"src"];
+				if ([iconURLString length]) {
+					NSURL *urlToDownload = [[NSURL alloc] initWithString:iconURLString];
 					NSData *imageData = (urlToDownload ? [NSData dataWithContentsOfURL:urlToDownload] : nil);
 					[urlToDownload release];
 					
@@ -434,7 +434,7 @@
 		} else {
 			//Default to opening the host as a name.
 			NSString	*user = [url user];
-			NSString	*host = [url host];
+			NSString	*ircHost = [url host];
 			NSString	*name;
 			if (user && [user length]) {
 				//jabber://tekjew@jabber.org
@@ -442,7 +442,7 @@
 				name = [NSString stringWithFormat:@"%@@%@",[url user],[url host]];
 			} else {
 				//aim://tekjew
-				name = host;
+				name = ircHost;
 			}
 			
 			[self _openChatToContactWithName:[name compactedString]

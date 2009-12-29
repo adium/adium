@@ -633,7 +633,7 @@ Failed:;
 	struct sockaddr *pSockAddr = (struct sockaddr *)[addr bytes];
 	int addressFamily = pSockAddr->sa_family;
 	
-	CFSocketRef socket = CFSocketCreate(kCFAllocatorDefault,
+	CFSocketRef acceptSocket = CFSocketCreate(kCFAllocatorDefault,
 										addressFamily,
 										SOCK_STREAM,
 										0,
@@ -641,12 +641,12 @@ Failed:;
 										(CFSocketCallBack)&MyCFSocketCallback,  // Callback method
 										&theContext);
 
-	if(socket == NULL)
+	if(acceptSocket == NULL)
 	{
 		if(errPtr) *errPtr = [self getSocketError];
 	}
 	
-	return socket;
+	return acceptSocket;
 }
 
 - (BOOL)createSocketForAddress:(NSData *)remoteAddr error:(NSError **)errPtr
@@ -1018,24 +1018,24 @@ Failed:;
 	CFDataGetBytes(nativeProp, CFRangeMake(0, CFDataGetLength(nativeProp)), (UInt8 *)&native);
 	CFRelease(nativeProp);
 	
-	CFSocketRef socket = CFSocketCreateWithNative(kCFAllocatorDefault, native, 0, NULL, NULL);
-	if(socket == NULL)
+	CFSocketRef sock = CFSocketCreateWithNative(kCFAllocatorDefault, native, 0, NULL, NULL);
+	if(sock == NULL)
 	{
 		if (errPtr) *errPtr = [self getSocketError];
 		return NO;
 	}
 	
 	// Determine whether the connection was IPv4 or IPv6
-	CFDataRef peeraddr = CFSocketCopyPeerAddress(socket);
+	CFDataRef peeraddr = CFSocketCopyPeerAddress(sock);
 	struct sockaddr *sa = (struct sockaddr *)CFDataGetBytePtr(peeraddr);
 	
 	if(sa->sa_family == AF_INET)
 	{
-		theSocket = socket;
+		theSocket = sock;
 	}
 	else
 	{
-		theSocket6 = socket;
+		theSocket6 = sock;
 	}
 	
 	CFRelease(peeraddr);
@@ -1396,13 +1396,13 @@ Failed:;
 		return [self localPort:theSocket6];
 }
 
-- (NSString *)connectedHost:(CFSocketRef)socket
+- (NSString *)connectedHost:(CFSocketRef)sock
 {
-	if (socket == NULL) return nil;
+	if (sock == NULL) return nil;
 	CFDataRef peeraddr;
 	NSString *peerstr = nil;
 
-	if(socket && (peeraddr = CFSocketCopyPeerAddress(socket)))
+	if(sock && (peeraddr = CFSocketCopyPeerAddress(sock)))
 	{
 		peerstr = [self addressHost:peeraddr];
 		CFRelease (peeraddr);
@@ -1411,13 +1411,13 @@ Failed:;
 	return peerstr;
 }
 
-- (UInt16)connectedPort:(CFSocketRef)socket
+- (UInt16)connectedPort:(CFSocketRef)sock
 {
-	if (socket == NULL) return 0;
+	if (sock == NULL) return 0;
 	CFDataRef peeraddr;
 	UInt16 peerport = 0;
 
-	if(socket && (peeraddr = CFSocketCopyPeerAddress(socket)))
+	if(socket && (peeraddr = CFSocketCopyPeerAddress(sock)))
 	{
 		peerport = [self addressPort:peeraddr];
 		CFRelease (peeraddr);
@@ -1426,13 +1426,13 @@ Failed:;
 	return peerport;
 }
 
-- (NSString *)localHost:(CFSocketRef)socket
+- (NSString *)localHost:(CFSocketRef)sock
 {
-	if (socket == NULL) return nil;
+	if (sock == NULL) return nil;
 	CFDataRef selfaddr;
 	NSString *selfstr = nil;
 
-	if(socket && (selfaddr = CFSocketCopyAddress(socket)))
+	if(sock && (selfaddr = CFSocketCopyAddress(socket)))
 	{
 		selfstr = [self addressHost:selfaddr];
 		CFRelease (selfaddr);
@@ -1441,13 +1441,13 @@ Failed:;
 	return selfstr;
 }
 
-- (UInt16)localPort:(CFSocketRef)socket
+- (UInt16)localPort:(CFSocketRef)sock
 {
-	if (socket == NULL) return 0;
+	if (sock == NULL) return 0;
 	CFDataRef selfaddr;
 	UInt16 selfport = 0;
 
-	if (socket && (selfaddr = CFSocketCopyAddress(socket)))
+	if (sock && (selfaddr = CFSocketCopyAddress(sock)))
 	{
 		selfport = [self addressPort:selfaddr];
 		CFRelease (selfaddr);
@@ -2080,8 +2080,8 @@ static void MyCFSocketCallback (CFSocketRef sref, CFSocketCallBackType type, CFD
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	AsyncSocket *socket = [[(AsyncSocket *)pInfo retain] autorelease];
-	[socket doCFSocketCallback:type forSocket:sref withAddress:(NSData *)address withData:pData];
+	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
+	[sock doCFSocketCallback:type forSocket:sref withAddress:(NSData *)address withData:pData];
 	
 	[pool release];
 }
@@ -2094,8 +2094,8 @@ static void MyCFReadStreamCallback (CFReadStreamRef stream, CFStreamEventType ty
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	AsyncSocket *socket = [[(AsyncSocket *)pInfo retain] autorelease];
-	[socket doCFReadStreamCallback:type forStream:stream];
+	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
+	[sock doCFReadStreamCallback:type forStream:stream];
 	
 	[pool release];
 }
@@ -2108,8 +2108,8 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	AsyncSocket *socket = [[(AsyncSocket *)pInfo retain] autorelease];
-	[socket doCFWriteStreamCallback:type forStream:stream];
+	AsyncSocket *sock = [[(AsyncSocket *)pInfo retain] autorelease];
+	[sock doCFWriteStreamCallback:type forStream:stream];
 	
 	[pool release];
 }

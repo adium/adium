@@ -192,7 +192,7 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 					if (localizedTitle) title = localizedTitle;
 
 					if (keyword && [keyword length] && title && [title length]) {
-						NSMutableDictionary	*infoDict;
+						NSMutableDictionary	*newInfoDict;
 						
 						arguments = [[scriptDict objectForKey:@"Arguments"] componentsSeparatedByString:@","];
 						
@@ -202,22 +202,22 @@ NSInteger _scriptKeywordLengthSort(id scriptA, id scriptB, void *context);
 							prefixOnlyNumber = [NSNumber numberWithBool:[keyword hasPrefix:@"/"]];
 						}
 
-						infoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+						newInfoDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
 							scriptFilePath, @"Path", keyword, @"Keyword", title, @"Title", 
 							prefixOnlyNumber, @"PrefixOnly", nil];
 						
 						//The bundle may not be part of (or for defining) a set of scripts
 						if (scriptsSetName) {
-							[infoDict setObject:scriptsSetName forKey:@"Set"];
+							[newInfoDict setObject:scriptsSetName forKey:@"Set"];
 						}
 						//Arguments may be nil
 						if (arguments) {
-							[infoDict setObject:arguments forKey:@"Arguments"];
+							[newInfoDict setObject:arguments forKey:@"Arguments"];
 						}
 						
 						//Place the entry in our script arrays
-						[scriptArray addObject:infoDict];
-						[flatScriptArray addObject:infoDict];
+						[scriptArray addObject:newInfoDict];
+						[flatScriptArray addObject:newInfoDict];
 						
 						//Scripts must always be updated via polling
 						[adium.contentController registerFilterStringWhichRequiresPolling:keyword];

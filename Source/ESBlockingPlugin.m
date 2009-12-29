@@ -178,20 +178,20 @@
 				AIListContact *containedContact = nil;
 				
 				while ((containedContact = [enumerator nextObject])) {
-					AIAccount <AIAccount_Privacy> *acct = containedContact.account;
-					if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+					AIAccount <AIAccount_Privacy> *account = containedContact.account;
+					if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 						[self _setContact:containedContact isBlocked:shouldBlock];
 					} else {
-						NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", acct, containedContact);
+						NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", account, containedContact);
 					}
 				}
 			} else {
-				AIListContact *contact = (AIListContact *)object;
-				AIAccount <AIAccount_Privacy> *acct = contact.account;
-				if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
-					[self _setContact:contact isBlocked:shouldBlock];
+				AIListContact *singleContact = (AIListContact *)object;
+				AIAccount <AIAccount_Privacy> *account = singleContact.account;
+				if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+					[self _setContact:singleContact isBlocked:shouldBlock];
 				} else {
-					NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", acct, contact);
+					NSLog(@"Account %@ does not support blocking (contact %@ not blocked on this account)", account, singleContact);
 				}
 			}
 			
@@ -238,10 +238,10 @@
 			NSInteger				votesForUnblock = 0;
 
 			while ((contact = [enumerator nextObject])) {
-				AIAccount <AIAccount_Privacy> *acct = contact.account;
-				if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
-					AIPrivacyType privType = (([acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
-					if ([[acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
+				AIAccount <AIAccount_Privacy> *account = contact.account;
+				if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+					AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
+					if ([[account listObjectsOnPrivacyList:privType] containsObject:contact]) {
 						switch (privType) {
 							case AIPrivacyTypePermit:
 								/* He's on a permit list. The action would remove him, blocking him */
@@ -283,10 +283,10 @@
 
 		} else {
 			AIListContact *contact = (AIListContact *)object;
-			AIAccount <AIAccount_Privacy> *acct = contact.account;
+			AIAccount <AIAccount_Privacy> *account = contact.account;
 			if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
-				AIPrivacyType privType = (([acct privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
-				if ([[acct listObjectsOnPrivacyList:privType] containsObject:contact]) {
+				AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
+				if ([[account listObjectsOnPrivacyList:privType] containsObject:contact]) {
 					switch (privType) {
 						case AIPrivacyTypePermit:
 							/* He's on a permit list. The action would remove him, blocking him */

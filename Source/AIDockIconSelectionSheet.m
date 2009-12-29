@@ -128,15 +128,15 @@
 - (void)selectIconWithName:(NSString *)selectName
 {
 	NSDictionary	*iconDict;
-	NSInteger				index = 0;
+	NSInteger				idx = 0;
 	
 	for (iconDict in iconArray) {
 		NSString	*iconName = [[[iconDict objectForKey:@"Path"] lastPathComponent] stringByDeletingPathExtension]		;
 		if ([iconName isEqualToString:selectName]) {
-			[imageGridView_icons selectIndex:index];
+			[imageGridView_icons selectIndex:idx];
 			break; //we can exit early
 		}
-		index++;
+		idx++;
 	}
 }
 
@@ -144,11 +144,11 @@
 //Animation ------------------------------------------------------------------------------------------------------------
 #pragma mark Animation
 //Start animating an icon in our grid by index (pass -1 to stop animation)
-- (void)setAnimatedDockIconAtIndex:(NSInteger)index
+- (void)setAnimatedDockIconAtIndex:(NSInteger)idx
 {
 	//Schedule the old and new animating images for redraw
 	[imageGridView_icons setNeedsDisplayOfImageAtIndex:animatedIndex];
-	[imageGridView_icons setNeedsDisplayOfImageAtIndex:index];
+	[imageGridView_icons setNeedsDisplayOfImageAtIndex:idx];
 	
 	//Stop the current animation
     if (animationTimer) {
@@ -160,11 +160,11 @@
 	animatedIndex = -1;
 
 	//Start the new animation
-	if (index != -1) {
-		NSString	*path = [[iconArray objectAtIndex:index] objectForKey:@"Path"];
+	if (idx != -1) {
+		NSString	*path = [[iconArray objectAtIndex:idx] objectForKey:@"Path"];
 
 		animatedIconState = [[self animatedStateForDockIconAtPath:path] retain];
-		animatedIndex = index;
+		animatedIndex = idx;
 		animationTimer = [[NSTimer scheduledTimerWithTimeInterval:[animatedIconState animationDelay]
 														   target:self
 														 selector:@selector(animate:)
@@ -234,9 +234,9 @@
 		[adium.preferenceController setPreference:iconName forKey:KEY_ACTIVE_DOCK_ICON group:PREF_GROUP_APPEARANCE];
 }
 
-- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index
+- (void)imageGridView:(AIImageGridView *)imageGridView cursorIsHoveringImageAtIndex:(NSUInteger)idx
 {
-	[self setAnimatedDockIconAtIndex:index];
+	[self setAnimatedDockIconAtIndex:idx];
 }
 
 

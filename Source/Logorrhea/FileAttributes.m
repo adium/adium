@@ -28,11 +28,11 @@ NSDate* convertUTCtoNSDate(UTCDateTime input)
 	{
 		UTCDateTime local;
 		UInt64 shifted;
-	} time;
-	time.local = input;
-	if (time.shifted)
+	} u_time;
+	u_time.local = input;
+	if (u_time.shifted)
 	{
-		result = [[[NSDate alloc] initWithTimeInterval:time.shifted/65536
+		result = [[[NSDate alloc] initWithTimeInterval:u_time.shifted/65536
 			sinceDate:dateForJan1904()] autorelease];
 	}
 	return result;

@@ -397,16 +397,16 @@
 	return [plugin storedEventPresetsArray];
 }
 
-- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(NSUInteger)index inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
+- (NSArray *)movePreset:(NSDictionary *)preset toIndex:(NSUInteger)idx inPresets:(NSArray *)presets presetAfterMove:(id *)presetAfterMove
 {
 	NSMutableDictionary	*newEventPreset = [preset mutableCopy];
 	CGFloat newOrderIndex;
-	if (index == 0) {		
+	if (idx == 0) {		
 		newOrderIndex = (CGFloat)[[[presets objectAtIndex:0] objectForKey:@"OrderIndex"] doubleValue] / 2.0f;
 
-	} else if (index < [presets count]) {
-		CGFloat above = (CGFloat)[[[presets objectAtIndex:index-1] objectForKey:@"OrderIndex"] doubleValue];
-		CGFloat below = (CGFloat)[[[presets objectAtIndex:index] objectForKey:@"OrderIndex"] doubleValue];
+	} else if (idx < [presets count]) {
+		CGFloat above = (CGFloat)[[[presets objectAtIndex:idx-1] objectForKey:@"OrderIndex"] doubleValue];
+		CGFloat below = (CGFloat)[[[presets objectAtIndex:idx] objectForKey:@"OrderIndex"] doubleValue];
 		newOrderIndex = ((above + below) / 2.0f);
 
 	} else {

@@ -879,14 +879,14 @@
 	if (withDefault) {
 		[encryptionMenu addItem:[NSMenuItem separatorItem]];
 		
-		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Default",nil)
+		NSMenuItem *defaultMenuItem = [[NSMenuItem alloc] initWithTitle:AILocalizedString(@"Default",nil)
 														  target:target
 														  action:@selector(selectedEncryptionPreference:)
 												   keyEquivalent:@""];
 		
-		[menuItem setTag:EncryptedChat_Default];
-		[encryptionMenu addItem:menuItem];
-		[menuItem release];
+		[defaultMenuItem setTag:EncryptedChat_Default];
+		[encryptionMenu addItem:defaultMenuItem];
+		[defaultMenuItem release];
 	}
 	
 	return [encryptionMenu autorelease];

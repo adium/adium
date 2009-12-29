@@ -710,18 +710,18 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 //Pack ordering --------------------------------------------------------------------------------------------------------
 #pragma mark Pack ordering
 //Re-arrange an emoticon pack
-- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(NSUInteger)index
+- (void)moveEmoticonPacks:(NSArray *)inPacks toIndex:(NSUInteger)idx
 {        
     //Remove each pack
     for (AIEmoticonPack *pack in inPacks) {
-        if ([_availableEmoticonPacks indexOfObject:pack] < index) index--;
+        if ([_availableEmoticonPacks indexOfObject:pack] < idx) idx--;
         [_availableEmoticonPacks removeObject:pack];
     }
 	
     //Add back the packs in their new location
     for (AIEmoticonPack *pack in inPacks) {
-        [_availableEmoticonPacks insertObject:pack atIndex:index];
-        index++;
+        [_availableEmoticonPacks insertObject:pack atIndex:idx];
+        idx++;
     }
 	
     //Save our new ordering

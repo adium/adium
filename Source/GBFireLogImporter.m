@@ -102,8 +102,8 @@ NSString *quotes[] = {
 	NSMutableDictionary *defaultScreenname = [NSMutableDictionary dictionary];
 	for(current = [accounts count] - 1; current >= 0; current--)
 	{
-		AIAccount *acct = [accounts objectAtIndex:current];
-		[defaultScreenname setObject:acct.UID forKey:acct.service.serviceID];
+		AIAccount *account = [accounts objectAtIndex:current];
+		[defaultScreenname setObject:account.UID forKey:account.service.serviceID];
 	}
 	
 	[progressIndicator setDoubleValue:0.0];
@@ -456,25 +456,25 @@ static Boolean errorStructure (CFXMLParserRef parser, CFXMLParserStatusCode erro
 					
 					//Hmm...  there is a bug in Fire's logging format that logs action messages like <span>username </span>message
 					NSInteger cutIndex = 0;
-					NSInteger index = [message rangeOfString:@"<span>"].location;
-					if(index == 0)
+					NSInteger idx = [message rangeOfString:@"<span>"].location;
+					if(idx == 0)
 					{
 						NSInteger endIndex = [message rangeOfString:@"</span>"].location;
 						if(sender == nil)
 							sender = [[message substringWithRange:NSMakeRange(6, endIndex-7)] retain];  //6 is length of <span>.  7 is length of <span> plus trailing space
-						index = cutIndex = endIndex + 7;  //7 is length of </span>
+						idx = cutIndex = endIndex + 7;  //7 is length of </span>
 					}
 					else
-						index = 0;
-					while([message characterAtIndex:index] == '<')
+						idx = 0;
+					while([message characterAtIndex:idx] == '<')
 					{
-						NSRange searchRange = NSMakeRange(index, [message length] - index);
+						NSRange searchRange = NSMakeRange(idx, [message length] - idx);
 						NSRange range = [message rangeOfString:@">" options:0 range:searchRange];
-						index = range.location + 1;
+						idx = range.location + 1;
 					}
 					NSString *newMessage = nil;
 					if(message)
-						newMessage = [[NSString alloc] initWithFormat:@"%@/me %@", [message substringWithRange:NSMakeRange(cutIndex, index-cutIndex)], [message substringFromIndex:index]];
+						newMessage = [[NSString alloc] initWithFormat:@"%@/me %@", [message substringWithRange:NSMakeRange(cutIndex, idx-cutIndex)], [message substringFromIndex:idx]];
 					else
 						newMessage = [[NSString alloc] initWithString:@"/me "];
 					message = [newMessage autorelease];

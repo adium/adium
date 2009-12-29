@@ -79,7 +79,7 @@
 //Interface: Chat Control ----------------------------------------------------------------------------------------------
 #pragma mark Interface: Chat Control
 //Open a new chat window
-- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(NSUInteger)index
+- (id)openChat:(AIChat *)chat inContainerWithID:(NSString *)containerID withName:(NSString *)containerName atIndex:(NSUInteger)idx
 {
 	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)[chat chatContainer];
 	AIMessageWindowController	*container = nil;
@@ -97,7 +97,7 @@
 		[chat setValue:messageTab
 		   forProperty:@"MessageTabViewItem"
 				notify:NotifyNever];
-		[container addTabViewItem:messageTab atIndex:index silent:NO];
+		[container addTabViewItem:messageTab atIndex:idx silent:NO];
 	}
 
     //Display the account selector if necessary
@@ -139,13 +139,13 @@
 }
 
 //Move a chat
-- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(NSUInteger)index
+- (void)moveChat:(AIChat *)chat toContainerWithID:(NSString *)containerID index:(NSUInteger)idx
 {
 	AIMessageTabViewItem		*messageTab = (AIMessageTabViewItem *)[chat chatContainer];
 	AIMessageWindowController	*windowController = [containers objectForKey:containerID];
 
 	if ([messageTab windowController] == windowController) {
-		[windowController moveTabViewItem:messageTab toIndex:index];
+		[windowController moveTabViewItem:messageTab toIndex:idx];
 	} else {
 		[messageTab retain];
 		[[messageTab windowController] removeTabViewItem:messageTab silent:YES];
@@ -155,7 +155,7 @@
 			windowController = [self openContainerWithID:containerID name:containerID];
 		}
 
-		[windowController addTabViewItem:messageTab atIndex:index silent:YES];
+		[windowController addTabViewItem:messageTab atIndex:idx silent:YES];
 		[messageTab release];
 	}
 }
@@ -312,7 +312,7 @@
 //Transfer a tab from one window to another (or to its own window)
 - (void)transferMessageTab:(AIMessageTabViewItem *)tabViewItem
 			   toContainer:(id)newMessageWindowController
-				   atIndex:(NSInteger)index
+				   atIndex:(NSInteger)idx
 		 withTabBarAtPoint:(NSPoint)screenPoint
 {
 	AIMessageWindowController 	*oldMessageWindowController = [tabViewItem windowController];
@@ -353,7 +353,7 @@
 			[[newMessageWindowController window] setFrame:newFrame display:NO];
 		}
 		
-		[(AIMessageWindowController *)newMessageWindowController addTabViewItem:tabViewItem atIndex:index silent:YES]; 
+		[(AIMessageWindowController *)newMessageWindowController addTabViewItem:tabViewItem atIndex:idx silent:YES]; 
 		[adium.interfaceController chatOrderDidChange];
 		[tabViewItem makeActive:nil];
 		[tabViewItem release];
