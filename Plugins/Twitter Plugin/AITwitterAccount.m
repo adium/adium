@@ -67,6 +67,10 @@
 - (void)displayQueuedUpdatesForRequestType:(AITwitterRequestType)requestType;
 
 - (void)getRateLimitAmount;
+
+- (void)openUserPage:(NSMenuItem *)menuItem;
+- (void)enableOrDisableNotifications:(NSMenuItem *)menuItem;
+- (void)replyToTweet;
 @end
 
 @implementation AITwitterAccount

@@ -31,6 +31,7 @@
 - (void)reloadAllData;
 - (void)_removeFileTransfer:(ESFileTransfer *)inFileTransfer;
 - (ESFileTransferProgressRow *)existingRowForFileTransfer:(ESFileTransfer *)inFileTransfer;
+- (void)newFileTransfer:(NSNotification *)notification;
 @end
 
 @interface ESFileTransferController ()

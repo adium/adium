@@ -51,3 +51,7 @@
 }
 
 @end
+
+@interface NSObject (AIStatusController_StatusMenuTarget)
+- (void)selectStatus:(id)sender;
+@end

@@ -73,6 +73,13 @@
 - (void)insertStringIntoMessageEntryView:(NSString *)inString;
 - (void)insertAttributedStringIntoMessageEntryView:(NSAttributedString *)inString;
 - (void)loadiTunesCurrentInfoViaApplescript;
+
+- (void)fireUpdateiTunesInfo;
+- (void)iTunesUpdate:(NSNotification *)aNotification;
+- (void)insertFilteredString:(id)sender;
+- (void)insertiTMSLink;
+- (void)gatherSelection;
+- (void)bringiTunesToFront;
 @end
 
 /*!

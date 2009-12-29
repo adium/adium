@@ -23,6 +23,11 @@
 #define ADD_BOOKMARK							AILocalizedString(@"Add Group Chat Bookmark", "Add a chat bookmark")
 #define ADD_BOOKMARK_CONTEXT_MENU				AILocalizedString(@"Add Bookmark", "Add a chat bookmark (context menu)")
 
+@interface AIAddBookmarkPlugin ()
+- (void)addBookmark:(id)sender;
+- (void)addBookmarkContext:(id)sender;
+@end
+
 @implementation AIAddBookmarkPlugin
 /*!
  * @name installPlugin

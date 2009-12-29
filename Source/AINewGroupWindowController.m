@@ -20,6 +20,10 @@
 
 #define ADD_GROUP_PROMPT_NIB	@"AddGroup"
 
+@interface AINewGroupWindowController ()
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+@end
+
 /*!
  * @class AINewGroupWindowController
  * @brief Window controller for adding groups

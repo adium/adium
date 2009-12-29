@@ -26,6 +26,7 @@
 - (void)uploadImage;
 
 - (void)insertImageAddress:(NSString *)inAddress intoTextView:(NSTextView *)textView;
+- (void)setImageUploader:(NSMenuItem *)menuItem;
 @end
 
 @implementation AIImageUploaderPlugin

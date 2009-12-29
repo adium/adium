@@ -28,3 +28,7 @@
 - (IBAction)cancel:(id)sender;
 
 @end
+
+@interface NSObject (ESStatusGroupWindowControllerDelegate)
+- (void)finishedStatusGroupEdit:(AIStatusGroup *)inStatusGroup;
+@end

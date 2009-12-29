@@ -284,7 +284,7 @@
 		} else {
 			AIListContact *contact = (AIListContact *)object;
 			AIAccount <AIAccount_Privacy> *account = contact.account;
-			if ([acct conformsToProtocol:@protocol(AIAccount_Privacy)]) {
+			if ([account conformsToProtocol:@protocol(AIAccount_Privacy)]) {
 				AIPrivacyType privType = (([account privacyOptions] == AIPrivacyOptionAllowUsers) ? AIPrivacyTypePermit : AIPrivacyTypeDeny);
 				if ([[account listObjectsOnPrivacyList:privType] containsObject:contact]) {
 					switch (privType) {

@@ -30,6 +30,7 @@
 - (void)updateSliderValues;
 - (void)configureBackgroundColoring;
 - (NSMenu *)displayImageStyleMenu;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AIListThemeWindowController

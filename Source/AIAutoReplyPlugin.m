@@ -25,6 +25,12 @@
 #import <Adium/AIStatus.h>
 #import <Adium/AIContentObject.h>
 
+@interface AIAutoReplyPlugin ()
+- (void)didReceiveContent:(NSNotification *)notification;
+- (void)didSendContent:(NSNotification *)notification;
+- (void)chatWillClose:(NSNotification *)notification;
+@end
+
 /*!
  * @class AIAutoReplyPlugin
  * @brief Provides AutoReply functionality for the state system

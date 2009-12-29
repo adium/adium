@@ -25,6 +25,10 @@
 #define SHOW_CONTACT_LIST_BEHAVIOR_ALERT_SHORT	AILocalizedString(@"Show the contact list window",nil)
 #define SHOW_CONTACT_LIST_BEHAVIOR_ALERT_LONG	AILocalizedString(@"Show the contact list window for %.1f seconds",nil)
 
+@interface SMContactListShowBehaviorPlugin ()
+- (void)hideContactList:(NSTimer *)timer;
+@end
+
 /*!
  * @class SMContactListShowBehaviorPlugin
  * @brief Show hidden contact list action component

@@ -26,6 +26,11 @@
 #define SAFARI_LINK_IDENTIFER	@"SafariLink"
 #define SAFARI_LINK_SCRIPT_PATH	[[NSBundle bundleForClass:[self class]] pathForResource:@"Safari.scpt" ofType:nil]
 
+@interface ESSafariLinkToolbarItemPlugin ()
+- (void)insertSafariLink:(id)sender;
+- (void)applescriptDidRun:(id)userInfo resultString:(NSString *)resultString;
+@end
+
 /*!
  * @class ESSafariLinkToolbarItemPlugin
  * @brief Component to add a toolbar item which inserts a link to the active Safari web page

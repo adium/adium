@@ -65,6 +65,8 @@
 - (void)showFilterBarWithAnimation:(BOOL)flag;
 - (void)hideFilterBarWithAnimation:(BOOL)flag;
 - (void)animateFilterBarWithDuration:(CGFloat)duration;
+
+- (void)screenParametersChanged:(NSNotification *)notification;
 @end
 
 @implementation AIListWindowController

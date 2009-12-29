@@ -50,5 +50,6 @@
 - (NSComparisonResult)compareDateReverse:(AIChatLog *)inLog;
 - (NSComparisonResult)compareService:(AIChatLog *)inLog;
 - (NSComparisonResult)compareServiceReverse:(AIChatLog *)inLog;
-
+- (NSComparisonResult)compareRank:(AIChatLog *)inLog;
+- (NSComparisonResult)compareRankReverse:(AIChatLog *)inLog;
 @end

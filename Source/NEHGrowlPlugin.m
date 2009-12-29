@@ -72,6 +72,10 @@
 			  forListObject:(AIListObject *)listObject
 					forChat:(AIChat *)chat
 				  withCount:(NSUInteger)count;
+
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+- (void)beginGrowling;
+- (void)clearQueue:(NSDictionary *)callDict;
 @end
  
 /*!

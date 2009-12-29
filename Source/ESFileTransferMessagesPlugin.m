@@ -24,6 +24,7 @@
 
 @interface ESFileTransferMessagesPlugin ()
 - (void)statusMessage:(NSString *)message forContact:(AIListContact *)contact withType:(NSString *)type;
+- (void)handleFileTransferEvent:(NSNotification *)notification;
 @end
 
 /*!

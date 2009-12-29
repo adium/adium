@@ -28,6 +28,10 @@
 #define PREF_GROUP_PREFERRED_ACCOUNTS   @"Preferred Accounts"
 #define KEY_PREFERRED_SOURCE_ACCOUNT	@"Preferred Account"
 
+@interface AdiumPreferredAccounts ()
+- (void)didSendContent:(NSNotification *)notification;
+@end
+
 @implementation AdiumPreferredAccounts
 
 /*!

@@ -30,6 +30,9 @@
 - (void)selectIconWithName:(NSString *)selectName;
 - (void)xtrasChanged:(NSNotification *)notification;
 - (void)selectIconWithName:(NSString *)selectName;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)trashConfirmSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(NSString *)selectedIconPath;
 @end
 
 @implementation AIDockIconSelectionSheet

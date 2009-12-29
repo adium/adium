@@ -40,6 +40,7 @@
 -(void)importLogs;
 -(void)importStatuses;
 -(void)addStatusFromString:(NSString *)statusString isAway:(BOOL)shouldBeAway withGroup:(AIStatusGroup *)parentGroup;
+-(void)deleteAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation BGICImportController

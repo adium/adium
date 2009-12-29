@@ -29,6 +29,7 @@
 - (NSAttributedString *)attributedStatusTitleForStatus:(AIStatus *)statusState withIcon:(NSImage *)statusIcon;
 - (NSArray *)awayAccounts;
 - (void)setupMultistatusTable;
+- (void)statusIconSetChanged:(NSNotification *)inNotification;
 @end
 
 /*!

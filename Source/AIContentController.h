@@ -33,3 +33,7 @@
 }
 
 @end
+
+@interface NSObject (AIContentController_EncryptionMenuNotifyingTarget)
+- (void)selectedEncryptionPreference:(id)sender;
+@end

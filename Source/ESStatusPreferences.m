@@ -30,7 +30,14 @@
 - (void)saveTimeValues;
 - (void)_selectStatusWithUniqueID:(NSNumber *)uniqueID inPopUpButton:(NSPopUpButton *)inPopUpButton;
 
+- (void)reselectDraggedItems:(NSArray *)theDraggedItems;
+- (void)changedAutoAwayStatus:(id)sender;
+- (void)changedFastUserSwitchingStatus:(id)sender;
+- (void)changedScreenSaverStatus:(id)sender;
+
 - (BOOL)addItemIfNeeded:(NSMenuItem *)menuItem toPopUpButton:(NSPopUpButton *)popUpButton alreadyShowingAnItem:(BOOL)alreadyShowing;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESStatusPreferences

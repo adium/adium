@@ -17,6 +17,10 @@
 
 #define	STATUS_DEFAULT_PREFS @"StatusDefaults"
 
+@interface ESStatusPreferencesPlugin ()
+- (void)showStatusPreferences:(id)sender;
+@end
+
 /*!
  * @class ESStatusPreferencesPlugin
  * @brief Component to install our status preferences pane

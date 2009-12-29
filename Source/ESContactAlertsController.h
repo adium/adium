@@ -24,3 +24,8 @@
 }
 
 @end
+
+@interface NSObject (ESContactAlertsController_EventsTarget)
+- (void)selectEvent:(id)sender;
+- (void)selectAction:(id)sender;
+@end

@@ -26,6 +26,11 @@
 @interface ESAccountNetworkConnectivityPlugin ()
 - (void)handleConnectivityForAccount:(AIAccount *)account reachable:(BOOL)reachable;
 - (BOOL)_accountsAreOnlineOrDisconnecting:(BOOL)considerConnecting;
+
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+- (void)systemWillSleep:(NSNotification *)notification;
+- (void)systemDidWake:(NSNotification *)notification;
+- (void)accountListChanged:(NSNotification *)notification;
 @end
 
 /*!

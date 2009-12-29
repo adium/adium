@@ -103,6 +103,16 @@ enum {
 - (AIXMLAppender *)appenderForChat:(AIChat *)chat;
 - (void)closeAppenderForChat:(AIChat *)chat;
 - (void)finishClosingAppender:(NSString *)chatKey;
+
+- (void)showLogViewerForActiveChat:(id)sender;
+- (void)showLogNotification:(NSNotification *)inNotification;
+- (void)contentObjectAdded:(NSNotification *)notification;
+- (void)chatClosed:(NSNotification *)notification;
+- (void)chatOpened:(NSNotification *)notification;
+- (void)chatWillDelete:(NSNotification *)notification;
+- (void)showLogViewer:(id)sender;
+- (void)showLogViewerForGroupChat:(id)sender;
+- (void)_cleanDirtyLogsThread:(SKIndexRef)searchIndex;
 @end
 
 static NSString     *logBasePath = nil;     //The base directory of all logs

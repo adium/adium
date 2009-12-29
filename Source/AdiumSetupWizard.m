@@ -31,6 +31,10 @@ enum{
 	WIZARD_TAB_DONE = 3
 };
 
+@interface AdiumSetupWizard ()
+- (void)multipleImportAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+@end
+
 /*!
  * @class AdiumSetupWizard
  * @brief Class responsible for the first-run setup wizard

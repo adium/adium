@@ -8,6 +8,10 @@
 #import "AIHoveringPopUpButton.h"
 #import "AIHoveringPopUpButtonCell.h"
 
+@interface AIHoveringPopUpButton ()
+- (void)frameDidChange:(NSNotification *)inNotification;
+@end
+
 @implementation AIHoveringPopUpButton
 
 + (void)initialize {

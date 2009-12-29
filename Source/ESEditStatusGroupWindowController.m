@@ -15,6 +15,7 @@
 @interface ESEditStatusGroupWindowController ()
 - (NSMenu *)groupWithStatusMenu;
 - (id)initWithWindowNibName:(NSString *)windowNibName forStatusGroup:(AIStatusGroup *)inStatusGroup notifyingTarget:(id)inTarget;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESEditStatusGroupWindowController

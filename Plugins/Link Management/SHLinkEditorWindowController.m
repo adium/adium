@@ -29,6 +29,12 @@
 - (id)initWithWindowNibName:(NSString *)windowNibName forTextView:(NSTextView *)inTextView notifyingTarget:(id)inTarget;
 - (void)insertLinkTo:(NSURL *)urlString withText:(NSString *)linkString inView:(NSTextView *)inView;
 - (void)informTargetOfLink;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+@end
+
+@interface NSObject (SHLinkEditorAdditions)
+- (void)linkEditorLinkDidChange:(NSDictionary *)linkDict;
 @end
 
 @implementation SHLinkEditorWindowController

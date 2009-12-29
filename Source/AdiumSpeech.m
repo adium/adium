@@ -29,6 +29,8 @@
 - (void)_speakNext;
 - (void)_stopSpeaking;
 - (void)_setVolumeOfVoicesTo:(float)newVolume;
+- (void)workspaceSessionDidBecomeActive:(NSNotification *)notification;
+- (void)workspaceSessionDidResignActive:(NSNotification *)notification;
 @end
 
 @implementation AdiumSpeech

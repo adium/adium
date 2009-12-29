@@ -38,6 +38,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 // For the KEY_SHOW_OFFLINE_CONTACTS and PREF_GROUP_CONTACT_LIST_DISPLAY
 #import "AIContactController.h"
+#import "AIInterfaceController.h"
 
 #define STATUS_ITEM_MARGIN 8
 
@@ -49,6 +50,10 @@
 - (void)updateUnreadCount;
 - (void)updateOpenChats;
 - (void)updateStatusItemLength;
+
+- (void)switchToChat:(id)sender;
+- (void)activateAccountList:(id)sender;
+- (void)disableStatusItem:(id)sender;
 @end
 
 @implementation CBStatusMenuItemController

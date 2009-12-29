@@ -73,6 +73,14 @@ static NSString	*prefsCategory;
 - (void)completeLogin;
 - (void)openAppropriatePreferencesIfNeeded;
 - (void)deleteTemporaryFiles;
+
+- (void)handleURLEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent;
+- (void)systemTimeZoneDidChange:(NSNotification *)inNotification;
+- (void)kickRunLoop:(NSTimer *)dummy;
+- (void)confirmQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
+- (void)fileTransferQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
+- (void)openChatQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
+- (void)unreadQuitQuestion:(NSNumber *)number userInfo:(id)info suppression:(NSNumber *)suppressed;
 @end
 
 @implementation AIAdium

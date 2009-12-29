@@ -23,6 +23,11 @@
 #import <Adium/AIListContact.h>
 #import <Adium/AIStatusIcons.h>
 
+@interface AITabStatusIconsPlugin ()
+- (void)statusIconSetDidChange:(NSNotification *)aNotification;
+@end
+
+
 /*!
  * @class AITabStatusIconsPlugin
  * @brief Tab status icons component

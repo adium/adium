@@ -32,6 +32,10 @@
 #import <Adium/AIInterfaceControllerProtocol.h>
 #import <Adium/AIContentControllerProtocol.h>
 
+@interface AITwitterURLHandler ()
+- (void)urlRequest:(NSNotification *)notification;
+@end
+
 @implementation AITwitterURLHandler
 
 /*!

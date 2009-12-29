@@ -26,6 +26,11 @@
 #define CONSOLIDATE_CHATS_MENU_TITLE	AILocalizedString(@"Consolidate Chats",nil)
 #define NEW_TAB_MENU_TITLE				AILocalizedString(@"Move Chat to New Window",nil)
 
+@interface AIChatConsolidationPlugin ()
+- (void)consolidateChats:(id)sender;
+- (void)moveChatToNewWindow:(id)sender;
+@end
+
 /*!
  * @class AIChatConsolidationPlugin
  * @brief Component which provides the Conslidate Chats menu item

@@ -26,6 +26,9 @@
 
 @interface AIStateMenuPlugin ()
 - (void)updateKeyEquivalents;
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+- (void)stateMenuSelectionsChanged:(NSNotification *)notification;
+- (void)dummyAction:(id)sender;
 @end
 
 /*!

@@ -56,6 +56,10 @@
 // We set back, when the user finishes editing, the correct topic, which wipes out the existance of the span before. We don't need to undo the dbl click action.
 #define TOPIC_INDIVIDUAL_WRAPPER		@"<span id=\"topicEdit\" ondblclick=\"this.setAttribute('contentEditable', true); this.focus();\">%@</span>"
 
+@interface NSString (NewSnowLeopardMethods)
+- (NSComparisonResult)localizedStandardCompare:(NSString *)string;
+@end
+
 @interface NSMutableString (AIKeywordReplacementAdditions)
 - (void) replaceKeyword:(NSString *)word withString:(NSString *)newWord;
 - (void) safeReplaceCharactersInRange:(NSRange)range withString:(NSString *)newWord;

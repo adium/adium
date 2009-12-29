@@ -22,6 +22,12 @@
 
 #define ACCOUNT_CONNECTION_STATUS_GROUPING  4.0
 
+@interface ESAccountEvents ()
+- (void)accountConnection:(NSTimer *)timer;
+- (void)accountDisconnection:(NSTimer *)timer;
+@end
+
+
 /*!
  * @class ESAccountEvents
  * @brief Component to handle account-related Contact Alerts events

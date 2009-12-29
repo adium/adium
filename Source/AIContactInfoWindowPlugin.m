@@ -35,6 +35,8 @@
 
 @interface AIContactInfoWindowPlugin ()
 - (void)prepareContactInfo;
+- (void)contactListDidBecomeMain:(NSNotification *)notification;
+- (void)contactListDidResignMain:(NSNotification *)notification;
 @end
 
 @implementation AIContactInfoWindowPlugin

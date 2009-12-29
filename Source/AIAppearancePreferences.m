@@ -49,6 +49,8 @@ typedef enum {
 - (void)_rebuildEmoticonMenuAndSelectActivePack;
 - (void)_addWindowStyleOption:(NSString *)option withTag:(NSInteger)tag toMenu:(NSMenu *)menu;
 - (void)_updateSliderValues;
+- (void)_editListThemeWithName:(NSString *)name;
+- (void)_editListLayoutWithName:(NSString *)name;
 - (void)xtrasChanged:(NSNotification *)notification;
 
 - (void)configureDockIconMenu;

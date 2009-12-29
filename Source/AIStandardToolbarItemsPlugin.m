@@ -26,6 +26,10 @@
 
 #define MESSAGE	AILocalizedString(@"Message", nil)
 
+@interface AIStandardToolbarItemsPlugin ()
+- (void)showSourceDestinationPicker:(NSToolbarItem *)toolbarItem;
+@end
+
 /*!
  * @class AIStandardToolbarItemsPlugin
  * @brief Component to provide general-use toolbar items

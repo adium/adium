@@ -38,6 +38,8 @@
 - (void)_localizeTabViewItemLabels;
 - (void)saveConfiguration;
 - (void)configureControlDimming;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!

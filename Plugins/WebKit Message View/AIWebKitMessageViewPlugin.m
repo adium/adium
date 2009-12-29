@@ -29,6 +29,7 @@
 
 @interface AIWebKitMessageViewPlugin ()
 - (void) resetStylesForType:(AIWebkitStyleType)styleType;
+- (void) xtrasChanged:(NSNotification *)notification;
 @end
 
 @implementation AIWebKitMessageViewPlugin
