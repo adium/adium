@@ -220,7 +220,7 @@ static OSStatus SocketRead(
                     break;
                 default:
                     fprintf(stderr,"SocketRead: read(%lu) error %d\n", 
-                             bytesToGo, theErr);
+                             (unsigned long)bytesToGo, theErr);
                     rtn = errSSLFatalAlert;
                     break;
             }
