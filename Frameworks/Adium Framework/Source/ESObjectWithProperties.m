@@ -175,6 +175,12 @@
 	return number ? [number integerValue] : 0;
 }
 
+- (int)intValueForProperty:(NSString *)key
+{
+	NSNumber *number = [self numberValueForProperty:key];
+	return number ? [number intValue] : 0;
+}
+
 - (BOOL)boolValueForProperty:(NSString *)key
 {
 	NSNumber *number = [self numberValueForProperty:key];

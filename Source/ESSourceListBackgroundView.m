@@ -63,7 +63,7 @@
         [background drawInRect:destRect
 					  fromRect:sourceRect
 					 operation:NSCompositeSourceOver
-					  fraction:1.0];
+					  fraction:1.0f];
         destRect.origin.x += NSWidth(destRect);
     }
 	

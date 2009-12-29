@@ -122,7 +122,7 @@
 		NSString		*serviceClass;
 		NSDictionary	*serviceDict;
 		NSMutableSet	*addedChats = nil;
-		unsigned		currentNumberOfItems, numberOfMenuItems = 0;
+		NSUInteger		currentNumberOfItems, numberOfMenuItems = 0;
 
 		// Get a dictionary of (service class, contacts in that service)
 		serviceDict = ([contact isKindOfClass:[AIMetaContact class]] ?

@@ -27,7 +27,7 @@
     return [theMenuItem autorelease];
 }
 
-- (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(int)tag
+- (NSMenuItem *)addItemWithTitle:(NSString *)aString target:(id)target action:(SEL)aSelector keyEquivalent:(NSString *)charCode tag:(NSInteger)tag
 {
     NSMenuItem	*theMenuItem = [[NSMenuItem allocWithZone:[NSMenu menuZone]] initWithTitle:aString action:aSelector keyEquivalent:charCode];
     [theMenuItem setTarget:target];

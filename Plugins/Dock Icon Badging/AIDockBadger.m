@@ -134,7 +134,7 @@
 
 #pragma mark Work methods
 
-- (NSImage *)numberedBadge:(int)count
+- (NSImage *)numberedBadge:(NSInteger)count
 {
 	if(!badgeTwoDigits) {
 		badgeTwoDigits = [[NSImage imageNamed:@"newContentTwoDigits"] retain];
@@ -150,7 +150,7 @@
 	}
 
 	badgeToComposite = ((count < 10) ? badgeTwoDigits : badgeThreeDigits);
-	numString = [[NSNumber numberWithInt:count] description];
+	numString = [[NSNumber numberWithInteger:count] description];
 
 	NSRect rect = { NSZeroPoint, [badgeToComposite size] };
 	NSFont *font = [NSFont fontWithName:@"Helvetica-Bold" size:24];
@@ -195,7 +195,7 @@
  */
 - (void)_setOverlay
 {
-	int contentCount = (showConversationCount ?
+	NSInteger contentCount = (showConversationCount ?
 					   [adium.chatController unviewedConversationCount] : [adium.chatController unviewedContentCount]);
 
 	if (contentCount != lastUnviewedContentCount) {

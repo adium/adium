@@ -188,7 +188,7 @@ enum {
 	
 	//Open our file handle and seek if necessary
 	const char *pathCString = [appender.path fileSystemRepresentation];
-	NSInteger fd = open(pathCString, O_CREAT | O_WRONLY, 0600);
+	int fd = open(pathCString, O_CREAT | O_WRONLY, 0600);
 	if(fd == -1) {
 		AILog(@"Couldn't open log file %@ (%s - length %u) for writing!",
 			  appender.path, pathCString, (pathCString ? strlen(pathCString) : 0));

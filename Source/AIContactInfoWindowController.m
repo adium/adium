@@ -65,7 +65,7 @@ enum segments {
 - (void)contactInfoListControllerSelectionDidChangeToListObject:(AIListObject *)listObject;
 
 //View Animation
--(void)addInspectorPanel:(int)newSegment animate:(BOOL)doAnimate;
+-(void)addInspectorPanel:(NSInteger)newSegment animate:(BOOL)doAnimate;
 -(void)animateViewIn:(NSView *)aView;
 -(void)animateViewOut:(NSView *)aView;
 @end
@@ -88,7 +88,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 - (void)segmentSelected:(id)sender animate:(BOOL)shouldAnimate
 {
 	//Action method for the Segmented Control, which is actually the toolbar.
-	int currentSegment = [sender selectedColumn];
+	NSInteger currentSegment = [sender selectedColumn];
 	
 	//Take focus away from any textual controls to ensure that they register changes and save
 	if ([[[self window] firstResponder] isKindOfClass:[NSText class]]) {
@@ -198,7 +198,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 {
 	AILogWithSignature(@"");
 		
-	[[adium preferenceController] setPreference:[NSNumber numberWithInt:[inspectorToolbar selectedColumn]]
+	[[adium preferenceController] setPreference:[NSNumber numberWithInteger:[inspectorToolbar selectedColumn]]
 										  forKey:KEY_INFO_SELECTED_CATEGORY
 										   group:PREF_GROUP_WINDOW_POSITIONS];
 	
@@ -304,7 +304,7 @@ static AIContactInfoWindowController *sharedContactInfoInstance = nil;
 }
 
 #pragma mark View Management and Animation
--(void)addInspectorPanel:(int)newSegment animate:(BOOL)doAnimate
+-(void)addInspectorPanel:(NSInteger)newSegment animate:(BOOL)doAnimate
 {	
 	NSView *newPane = [[loadedContent objectAtIndex:newSegment] inspectorContentView];
 	

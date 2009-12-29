@@ -37,9 +37,9 @@
 
 @implementation AIContactStatusColoringPlugin
 
-#define OFFLINE_IMAGE_OPACITY	0.5
-#define FULL_IMAGE_OPACITY		1.0
-#define	OPACITY_REFRESH			0.2
+#define OFFLINE_IMAGE_OPACITY	0.5f
+#define FULL_IMAGE_OPACITY		1.0f
+#define	OPACITY_REFRESH			0.2f
 
 #define CONTACT_STATUS_COLORING_DEFAULT_PREFS	@"ContactStatusColoringDefaults"
 

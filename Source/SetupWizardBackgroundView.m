@@ -66,7 +66,7 @@
 			[backgroundImage drawInRect:imageDrawingRect
 								 atSize:imageSize
 							   position:IMAGE_POSITION_LEFT
-							   fraction:.30];
+							   fraction:.30f];
 			[NSGraphicsContext restoreGraphicsState];
 		}		
 
@@ -80,7 +80,7 @@
 		[backgroundImage drawInRect:imageDrawingRect
 							 atSize:imageSize
 						   position:IMAGE_POSITION_LEFT
-						   fraction:1.0];
+						   fraction:1.0f];
 		[NSGraphicsContext restoreGraphicsState];
 	}
 }

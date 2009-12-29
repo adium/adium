@@ -482,7 +482,7 @@
 {	
 	if ([group isEqualToString:PREF_GROUP_APPEARANCE]) {
 		if (firstTime || !key || [key isEqualToString:KEY_LIST_LAYOUT_WINDOW_STYLE]) {
-			NSInteger	newWindowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] integerValue];
+			AIContactListWindowStyle	newWindowStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_WINDOW_STYLE] intValue];
 			
 			if (newWindowStyle != windowStyle) {
 				windowStyle = newWindowStyle;

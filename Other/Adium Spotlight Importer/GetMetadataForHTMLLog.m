@@ -115,10 +115,10 @@ NSString *GetTextContentForHTMLLog(NSString *pathToFile)
 	if (fd > -1) {
 		struct stat sb;
 		if (fstat(fd, &sb) == 0) {
-			UTF8Data = [NSMutableData dataWithLength:sb.st_size + 1UL];
+			UTF8Data = [NSMutableData dataWithLength:(NSUInteger)(sb.st_size + 1ULL)];
 			UTF8HTMLCString = [UTF8Data mutableBytes];
 			if (UTF8HTMLCString != NULL)
-				read(fd, UTF8HTMLCString, sb.st_size);
+				read(fd, UTF8HTMLCString, (size_t)sb.st_size);
 		}
 		close(fd);
 	}

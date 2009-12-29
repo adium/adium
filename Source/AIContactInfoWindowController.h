@@ -33,7 +33,7 @@
 					NSArray							*loadedContent;
 					
 					AIListObject					*displayedObject;
-					int								lastSegment;
+					NSInteger								lastSegment;
 	
 	BOOL											deallocating;
 }

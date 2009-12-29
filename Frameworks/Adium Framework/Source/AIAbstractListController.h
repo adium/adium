@@ -181,7 +181,7 @@ typedef enum {
 	ESObjectWithProperties<AIContainingObject> *contactList;
 	BOOL									hideRoot;
 	
-	float 							backgroundOpacity;
+	CGFloat 							backgroundOpacity;
 	
 	BOOL									inDrag;
 	NSArray							*dragItems;
@@ -212,7 +212,7 @@ typedef enum {
 - (void)setUseContactListGroups:(BOOL)useContactListGroups;
 - (void)reloadData;
 
-- (void)setBackgroundOpacity:(float)opacity;
+- (void)setBackgroundOpacity:(CGFloat)opacity;
 
 - (IBAction)performDefaultActionOnSelectedItem:(NSOutlineView *)sender;
 

@@ -143,7 +143,7 @@
 	NSNumber	*idleNumber = nil;
 	
 	if (idleSince) { //Set the handle's 'idle' value
-		NSInteger	idle = -[idleSince timeIntervalSinceNow] / 60.0;
+		NSInteger	idle = (CGFloat)(-[idleSince timeIntervalSinceNow]) / 60.0f;
 		
 		/* They are idle; a non-zero idle time is needed.  We'll treat them as generically idle until this updates */
 		if (idle == 0) {

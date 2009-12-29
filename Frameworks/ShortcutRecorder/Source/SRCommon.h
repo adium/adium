@@ -21,7 +21,7 @@
 #pragma mark Typedefs
 
 typedef struct _KeyCombo {
-	unsigned int flags; // 0 for no flags
+	NSUInteger flags; // 0 for no flags
 	signed short code; // -1 for no code
 } KeyCombo;
 
@@ -135,29 +135,29 @@ enum {
 // SRCharacter...      - X - -
 //
 NSString * SRStringForKeyCode( signed short keyCode );
-NSString * SRStringForCarbonModifierFlags( unsigned int flags );
-NSString * SRStringForCarbonModifierFlagsAndKeyCode( unsigned int flags, signed short keyCode );
-NSString * SRStringForCocoaModifierFlags( unsigned int flags );
-NSString * SRStringForCocoaModifierFlagsAndKeyCode( unsigned int flags, signed short keyCode );
-NSString * SRReadableStringForCarbonModifierFlagsAndKeyCode( unsigned int flags, signed short keyCode );
-NSString * SRReadableStringForCocoaModifierFlagsAndKeyCode( unsigned int flags, signed short keyCode );
-NSString *SRCharacterForKeyCodeAndCarbonFlags(signed short keyCode, unsigned int carbonFlags);
-NSString *SRCharacterForKeyCodeAndCocoaFlags(signed short keyCode, unsigned int cocoaFlags);
+NSString * SRStringForCarbonModifierFlags( NSUInteger flags );
+NSString * SRStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
+NSString * SRStringForCocoaModifierFlags( NSUInteger flags );
+NSString * SRStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
+NSString * SRReadableStringForCarbonModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
+NSString * SRReadableStringForCocoaModifierFlagsAndKeyCode( NSUInteger flags, signed short keyCode );
+NSString *SRCharacterForKeyCodeAndCarbonFlags(signed short keyCode, NSUInteger carbonFlags);
+NSString *SRCharacterForKeyCodeAndCocoaFlags(signed short keyCode, NSUInteger cocoaFlags);
 
 #pragma mark Converting between Cocoa and Carbon modifier flags
 
-unsigned int SRCarbonToCocoaFlags( unsigned int carbonFlags );
-unsigned int SRCocoaToCarbonFlags( unsigned int cocoaFlags );
+NSUInteger SRCarbonToCocoaFlags( NSUInteger carbonFlags );
+NSUInteger SRCocoaToCarbonFlags( NSUInteger cocoaFlags );
 
 #pragma mark -
 #pragma mark Animation pace function
 
-double SRAnimationEaseInOut(double t);
+CGFloat SRAnimationEaseInOut(CGFloat t);
 
 #pragma mark -
 #pragma mark Inlines
 
-FOUNDATION_STATIC_INLINE KeyCombo SRMakeKeyCombo(signed short code, unsigned int flags) {
+FOUNDATION_STATIC_INLINE KeyCombo SRMakeKeyCombo(signed short code, NSUInteger flags) {
 	KeyCombo kc;
 	kc.code = code;
 	kc.flags = flags;
@@ -179,7 +179,7 @@ FOUNDATION_STATIC_INLINE BOOL SRIsSpecialKey(signed short keyCode) {
 // (or Copyright demands) are stated, so we pretend it's public domain. 
 //
 @interface NSBezierPath( SRAdditions )
-+ (NSBezierPath*)bezierPathWithSRCRoundRectInRect:(NSRect)aRect radius:(float)radius;
++ (NSBezierPath*)bezierPathWithSRCRoundRectInRect:(NSRect)aRect radius:(CGFloat)radius;
 @end
 
 @interface NSError( SRAdditions )

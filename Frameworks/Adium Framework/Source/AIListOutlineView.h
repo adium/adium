@@ -33,21 +33,21 @@ typedef enum {
 	BOOL				updateShadowsWhileDrawing;	
 
 	NSImage				*backgroundImage;
-	float				backgroundFade;
+	CGFloat				backgroundFade;
 	BOOL				_drawBackground;
 	AIBackgroundStyle	backgroundStyle;
 	AIContactListWindowStyle windowStyle;
 	
 	NSColor				*backgroundColor;
 	NSColor				*_backgroundColorWithOpacity;
-	float				backgroundOpacity;
+	CGFloat				backgroundOpacity;
 	
 	NSColor				*highlightColor;
 
 	NSColor				*rowColor;
 	NSColor				*_rowColorWithOpacity;
 	
-	float				minimumDesiredWidth;
+	CGFloat				minimumDesiredWidth;
 	BOOL	 			desiredHeightPadding;
 
 	NSArray				*draggedItems;
@@ -55,7 +55,7 @@ typedef enum {
 
 @property (readonly, nonatomic) NSInteger desiredHeight;
 @property (readonly, nonatomic) NSInteger desiredWidth;
-- (void)setMinimumDesiredWidth:(int)inMinimumDesiredWidth;
+- (void)setMinimumDesiredWidth:(CGFloat)inMinimumDesiredWidth;
 - (void)setDesiredHeightPadding:(int)inPadding;
 
 //Contact menu
@@ -81,8 +81,8 @@ typedef enum {
 //Backgrounds
 - (void)setBackgroundImage:(NSImage *)inImage;
 - (void)setBackgroundStyle:(AIBackgroundStyle)inBackgroundStyle;
-- (void)setBackgroundOpacity:(float)opacity forWindowStyle:(AIContactListWindowStyle)windowStyle;
-- (void)setBackgroundFade:(float)fade;
+- (void)setBackgroundOpacity:(CGFloat)opacity forWindowStyle:(AIContactListWindowStyle)windowStyle;
+- (void)setBackgroundFade:(CGFloat)fade;
 @property (readwrite, nonatomic, retain) NSColor *backgroundColor;
 @property (readwrite, nonatomic, retain) NSColor *highlightColor;
 @property (readwrite, nonatomic, retain) NSColor *alternatingRowColor;

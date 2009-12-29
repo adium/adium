@@ -133,7 +133,7 @@ void xml_char_data	(void *userData,
 
 - (void) dataReceived:(NSNotification *)aNotification {
     NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-    int	status;
+    NSInteger	status;
     
     if ([data length] == 0) {
         if (connection != nil)
@@ -142,7 +142,8 @@ void xml_char_data	(void *userData,
         [delegate XMLConnectionClosed];
     }
     
-    status = XML_Parse(parser, [data bytes], [data length], [data length] == 0 ? 1 : 0);
+    NSAssert( UINT_MAX >= [data length], @"Received too much data to parse" );
+    status = XML_Parse(parser, [data bytes], (unsigned int)[data length], [data length] == 0 ? 1 : 0);
     
     if (connection != nil)
        [[aNotification object] waitForDataInBackgroundAndNotify];

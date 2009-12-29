@@ -333,7 +333,7 @@ static void MyCFWriteStreamCallback (CFWriteStreamRef stream, CFStreamEventType 
 	if (done != NULL)  *done = d;
 	if (total != NULL) *total = t;
 	float ratio = (float)d/(float)t;
-	return isnan(ratio) ? 1.0 : ratio; // 0 of 0 bytes is 100% done.
+	return isnan(ratio) ? 1.0f : ratio; // 0 of 0 bytes is 100% done.
 }
 
 - (float) progressOfWriteReturningTag:(long *)tag bytesDone:(CFIndex *)done total:(CFIndex *)total
@@ -1502,7 +1502,8 @@ Failed:;
 							(void *)(&(pSockAddrV4->sin_addr)) :
 							(void *)(&(pSockAddrV6->sin6_addr));
 
-	const char *pStr = inet_ntop (pSockAddr->sa_family, pAddr, addrBuf, sizeof(addrBuf));
+	NSAssert( UINT_MAX >= sizeof(addrBuf), @"somehow, the address buffer got too big to fit a 32bit int!" );
+	const char *pStr = inet_ntop (pSockAddr->sa_family, pAddr, addrBuf, (socklen_t)sizeof(addrBuf));
 	if (pStr == NULL) [NSException raise: NSInternalInconsistencyException
 								  format: @"Cannot convert address to string."];
 
@@ -1594,7 +1595,7 @@ Failed:;
 		int percentDone;
 		if ([theCurrentRead->buffer length] != 0)
 			percentDone = (float)theCurrentRead->bytesDone /
-						  (float)[theCurrentRead->buffer length] * 100.0;
+						  (float)[theCurrentRead->buffer length] * 100.0f;
 		else
 			percentDone = 100;
 
@@ -1610,7 +1611,7 @@ Failed:;
 		int percentDone;
 		if ([theCurrentWrite->buffer length] != 0)
 			percentDone = (float)theCurrentWrite->bytesDone /
-						  (float)[theCurrentWrite->buffer length] * 100.0;
+						  (float)[theCurrentWrite->buffer length] * 100.0f;
 		else
 			percentDone = 100;
 
@@ -1779,7 +1780,7 @@ Failed:;
 				if(theCurrentRead->term != nil)
 				{
 					// Search for the terminating sequence in the buffer.
-					int termlen = [theCurrentRead->term length];
+					NSInteger termlen = [theCurrentRead->term length];
 					if(theCurrentRead->bytesDone >= termlen)
 					{
 						const void *buf = [theCurrentRead->buffer bytes] + (theCurrentRead->bytesDone - termlen);

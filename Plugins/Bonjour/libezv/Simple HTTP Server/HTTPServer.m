@@ -201,7 +201,7 @@
 /**
  * Returns the number of clients that are currently connected to the server.
 **/
-- (int)numberOfHTTPConnections
+- (NSInteger)numberOfHTTPConnections
 {
 	return [connections count];
 }

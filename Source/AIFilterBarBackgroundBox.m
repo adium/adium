@@ -22,11 +22,11 @@
 	static NSGradient *gradient;
 	if (!gradient) {
 		//Filter bar color's selflessly borrowed from Safari 3's inline search bar
-		NSColor *topColor = [NSColor colorWithCalibratedRed:0.914 green:0.914 blue:0.914 alpha:1.0];
-		NSColor *bottomColor = [NSColor colorWithCalibratedRed:0.816 green:0.816 blue:0.816 alpha:1.0];
+		NSColor *topColor = [NSColor colorWithCalibratedRed:0.914f green:0.914f blue:0.914f alpha:1.0f];
+		NSColor *bottomColor = [NSColor colorWithCalibratedRed:0.816f green:0.816f blue:0.816f alpha:1.0f];
 		gradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor]; //intentional one time leak
 	}
 	
-	[gradient drawInRect:[self bounds] angle:270.0];
+	[gradient drawInRect:[self bounds] angle:270.0f];
 }
 @end

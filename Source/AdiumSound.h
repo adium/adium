@@ -21,7 +21,7 @@
     NSMutableArray		*soundCacheArray;
 	NSTimer				*soundCacheCleanupTimer;
 
-    CGFloat				customVolume;
+    float				customVolume;
 	
 	NSUInteger			soundsAreMuted;
 

@@ -9,16 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 @interface SGKeyCombo : NSObject {
-  NSInteger keyCode;
-  NSInteger modifiers;
+  signed short keyCode;
+  NSUInteger modifiers;
 }
 
-@property (nonatomic, assign) NSInteger keyCode;
-@property (nonatomic, assign) NSInteger modifiers;
+@property (nonatomic, assign) signed short keyCode;
+@property (nonatomic, assign) NSUInteger modifiers;
 
 + (id)clearKeyCombo;
-+ (id)keyComboWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers;
-- (id)initWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers;
++ (id)keyComboWithKeyCode:(signed short)theKeyCode modifiers:(NSUInteger)theModifiers;
+- (id)initWithKeyCode:(signed short)theKeyCode modifiers:(NSUInteger)theModifiers;
 
 - (id)initWithPlistRepresentation:(id)thePlist;
 - (id)plistRepresentation;

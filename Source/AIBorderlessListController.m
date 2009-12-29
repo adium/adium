@@ -56,7 +56,7 @@
 	} else if (!numberOfRows && !emptyListHiding && enableEmptyListHiding) {	
 		emptyListHiding = YES;
 		previousAlpha = [[contactListView window] alphaValue];
-		[[contactListView window] setAlphaValue:0.0];
+		[[contactListView window] setAlphaValue:0.0f];
 	}
 }
 

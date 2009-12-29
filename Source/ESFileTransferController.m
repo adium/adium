@@ -604,7 +604,7 @@ static ESFileTransferPreferences *preferences;
 - (void)preferencesChangedForGroup:(NSString *)group key:(NSString *)key
 							object:(AIListObject *)object preferenceDict:(NSDictionary *)prefDict firstTime:(BOOL)firstTime
 {
-	autoAcceptType = [[prefDict objectForKey:KEY_FT_AUTO_ACCEPT] integerValue];
+	autoAcceptType = [[prefDict objectForKey:KEY_FT_AUTO_ACCEPT] intValue];
 	autoOpenSafe = [[prefDict objectForKey:KEY_FT_AUTO_OPEN_SAFE] boolValue];
 	
 	//If we created a safe file extensions set and no longer need it, desroy it

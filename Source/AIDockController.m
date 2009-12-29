@@ -247,7 +247,7 @@
 		//Get the state information
 		BOOL overlay = [[stateDict objectForKey:@"Overlay"] boolValue];
 		BOOL looping = [[stateDict objectForKey:@"Looping"] boolValue];
-		CGFloat delay   = [[stateDict objectForKey:@"Delay"] doubleValue];
+		CGFloat delay   = (CGFloat)[[stateDict objectForKey:@"Delay"] doubleValue];
 		NSArray *imageNameArray = [stateDict objectForKey:@"Images"];
 
 		//Load the images
@@ -450,25 +450,25 @@
 	NSSize trueSize = mainScreen.visibleFrame.size;
 	NSSize availableSize = mainScreen.frame.size;
 
-	NSInteger	dHeight = availableSize.height - trueSize.height;
-	NSInteger dWidth = availableSize.width - trueSize.width;
+	CGFloat	dHeight = availableSize.height - trueSize.height;
+	CGFloat dWidth = availableSize.width - trueSize.width;
 	CGFloat dockScale = 0;
 
 	if (dHeight != 22) { //dock is on the bottom
 		if (dHeight != 26) { //dock is not hidden
-			dockScale = (dHeight-22)/128.0;
+			dockScale = (dHeight-22)/128;
 		}
 	} else if (dWidth != 0) { //dock is on the side
 		if (dWidth != 4) { //dock is not hidden
-			dockScale = (dWidth)/128.0;
+			dockScale = (dWidth)/128;
 		}
 	} else {
 		//multiple monitors?
 		//Add support for multiple monitors
 	}
 
-	if (dockScale <= 0 || dockScale > 1.0) {
-		dockScale = 0.3;
+	if (dockScale <= 0 || dockScale > 1.0f) {
+		dockScale = 0.3f;
 	}
 
 	return dockScale;

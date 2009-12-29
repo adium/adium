@@ -140,7 +140,7 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void)setBackgroundOpacity:(float)opacity forWindowStyle:(AIContactListWindowStyle)inWindowStyle
+- (void)setBackgroundOpacity:(CGFloat)opacity forWindowStyle:(AIContactListWindowStyle)inWindowStyle
 {
 	backgroundOpacity = opacity;
 	
@@ -163,12 +163,12 @@
 	                    afterDelay:0.2];
 }
 
-- (void)setBackgroundFade:(float)fade
+- (void)setBackgroundFade:(CGFloat)fade
 {
 	backgroundFade = fade;
 	[self setNeedsDisplay:YES];
 }
-- (float)backgroundFade
+- (CGFloat)backgroundFade
 {
 	//Factor in opacity
 	return backgroundFade * backgroundOpacity;

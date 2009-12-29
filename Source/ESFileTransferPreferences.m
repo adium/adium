@@ -72,7 +72,7 @@
 - (void)viewDidLoad
 {
 	AIFileTransferAutoAcceptType	autoAcceptType = [[adium.preferenceController preferenceForKey:KEY_FT_AUTO_ACCEPT
-																				   group:PREF_GROUP_FILE_TRANSFER] integerValue];
+																				   group:PREF_GROUP_FILE_TRANSFER] intValue];
 	
 	[self buildDownloadLocationMenu];
 	

@@ -46,10 +46,10 @@ typedef enum {
 #define FILTER_DIRECTION_COUNT 2
 
 #define HIGHEST_FILTER_PRIORITY 0
-#define HIGH_FILTER_PRIORITY 0.25
-#define DEFAULT_FILTER_PRIORITY 0.5
-#define LOW_FILTER_PRIORITY 0.75
-#define LOWEST_FILTER_PRIORITY 1.0
+#define HIGH_FILTER_PRIORITY 0.25f
+#define DEFAULT_FILTER_PRIORITY 0.5f
+#define LOW_FILTER_PRIORITY 0.75f
+#define LOWEST_FILTER_PRIORITY 1.0f
 
 @protocol AIContentFilter, AIDelayedContentFilter, AIHTMLContentFilter;
 @protocol AdiumMessageEncryptor;

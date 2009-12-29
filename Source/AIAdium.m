@@ -273,7 +273,7 @@ static NSString	*prefsCategory;
 	}
 		
 	AIQuitConfirmationType		confirmationType = [[preferenceController preferenceForKey:@"Confirm Quit Type"
-																							group:@"Confirmations"] integerValue];
+																							group:@"Confirmations"] intValue];
 	BOOL confirmUnreadMessages	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for Unread Messages"
 																	group:@"Confirmations"] boolValue];
 	BOOL confirmFileTransfers	= ![[preferenceController preferenceForKey:@"Suppress Quit Confirmation for File Transfers"
@@ -415,7 +415,7 @@ static NSString	*prefsCategory;
 											 group:@"Confirmations"];
 	}
 	
-	AITextAndButtonsReturnCode result = [number integerValue];
+	AITextAndButtonsReturnCode result = [number intValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -439,7 +439,7 @@ static NSString	*prefsCategory;
 											 group:@"Confirmations"];
 	}
 	
-	AITextAndButtonsReturnCode result = [number integerValue];
+	AITextAndButtonsReturnCode result = [number intValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -463,7 +463,7 @@ static NSString	*prefsCategory;
 											 group:@"Confirmations"];
 	}
 	
-	AITextAndButtonsReturnCode result = [number integerValue];
+	AITextAndButtonsReturnCode result = [number intValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:
@@ -486,7 +486,7 @@ static NSString	*prefsCategory;
 											 group:@"Confirmations"];
 	}
 	
-	AITextAndButtonsReturnCode result = [number integerValue];
+	AITextAndButtonsReturnCode result = [number intValue];
 	switch(result)
 	{
 		case AITextAndButtonsDefaultReturn:

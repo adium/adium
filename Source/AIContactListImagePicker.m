@@ -89,16 +89,16 @@
 	[super drawRect:inRect];
 	
 	if (hovered) {
-		[[[NSColor blackColor] colorWithAlphaComponent:0.40] set];
+		[[[NSColor blackColor] colorWithAlphaComponent:0.40f] set];
 		[clipPath fill];
 
 		//Draw the arrow
 		NSBezierPath	*arrowPath = [NSBezierPath bezierPath];
 		NSRect			frame = [self frame];
 		[arrowPath moveToPoint:NSMakePoint(frame.size.width - ARROW_XOFFSET - ARROW_WIDTH, 
-										   (ARROW_YOFFSET + ARROW_HEIGHT))];
+										   (ARROW_YOFFSET + (CGFloat)ARROW_HEIGHT))];
 		[arrowPath relativeLineToPoint:NSMakePoint(ARROW_WIDTH, 0)];
-		[arrowPath relativeLineToPoint:NSMakePoint(-(ARROW_WIDTH/2), -(ARROW_HEIGHT))];
+		[arrowPath relativeLineToPoint:NSMakePoint(-(ARROW_WIDTH/2.0f), -((CGFloat)ARROW_HEIGHT))];
 		
 		[[NSColor whiteColor] set];
 		[arrowPath fill];

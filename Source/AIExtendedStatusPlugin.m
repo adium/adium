@@ -67,11 +67,11 @@
 	BOOL oldShowIdle = showIdle;
 	BOOL oldIncludeIdleInExtendedStatus = includeIdleInExtendedStatus;
 
-	EXTENDED_STATUS_STYLE statusStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] integerValue];
+	EXTENDED_STATUS_STYLE statusStyle = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_STYLE] intValue];
 	showStatus = ((statusStyle == STATUS_ONLY) || (statusStyle == IDLE_AND_STATUS));
 	showIdle = ((statusStyle == IDLE_ONLY) || (statusStyle == IDLE_AND_STATUS));
 	
-	EXTENDED_STATUS_POSITION statusPosition = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] integerValue];
+	EXTENDED_STATUS_POSITION statusPosition = [[prefDict objectForKey:KEY_LIST_LAYOUT_EXTENDED_STATUS_POSITION] intValue];
 	includeIdleInExtendedStatus = (statusPosition != EXTENDED_STATUS_POSITION_BOTH);
 	
 	if (firstTime) {

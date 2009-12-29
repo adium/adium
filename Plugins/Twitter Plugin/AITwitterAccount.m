@@ -1985,7 +1985,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		
 		// See if we need to pull more updates.
 		if (nextPageNecessary) {
-			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
+			int	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			NSString	*requestID;
 			
 			if ([self requestTypeForRequestID:identifier] == AITwitterUpdateFollowedTimeline) {
@@ -2190,7 +2190,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		AILogWithSignature(@"%@ Last ID: %@ Largest Tweet: %@ Next Page Necessary: %d", self, lastID, largestTweet, nextPageNecessary);
 		
 		if(nextPageNecessary) {
-			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
+			int	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			
 			NSString	*requestID = [twitterEngine getDirectMessagesSinceID:lastID
 														      startingAtPage:nextPage];
@@ -2286,7 +2286,7 @@ NSInteger queuedDMSort(id dm1, id dm2, void *context)
 		[[AIContactObserverManager sharedManager] endListObjectNotificationsDelay];
 		
 		if (nextPageNecessary) {
-			NSInteger	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
+			int	nextPage = [[[self dictionaryForRequestID:identifier] objectForKey:@"Page"] intValue] + 1;
 			NSString	*requestID = [twitterEngine getRecentlyUpdatedFriendsFor:self.UID startingAtPage:nextPage];
 			
 			AILogWithSignature(@"%@ Pulling additional user info page %d", self, nextPage);

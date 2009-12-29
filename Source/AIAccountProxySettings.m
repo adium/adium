@@ -212,7 +212,7 @@
 
 - (BOOL)showProxyDetailsControls
 {
-	AdiumProxyType	proxyType = [[popUpButton_proxy selectedItem] tag];
+	AdiumProxyType	proxyType = (AdiumProxyType)[[popUpButton_proxy selectedItem] tag];
 	BOOL			usingSystemwide = (proxyType == Adium_Proxy_Default_SOCKS5 ||
 									   proxyType == Adium_Proxy_Default_HTTP || 
 									   proxyType == Adium_Proxy_Default_SOCKS4);
@@ -225,7 +225,7 @@
  */
 - (void)configureControlDimming
 {
-	AdiumProxyType	proxyType = [[popUpButton_proxy selectedItem] tag];
+	AdiumProxyType	proxyType = (AdiumProxyType)[[popUpButton_proxy selectedItem] tag];
 	BOOL			proxyEnabled = [checkBox_useProxy state];
 	BOOL			usingSystemwide = (proxyType == Adium_Proxy_Default_SOCKS5 ||
 									   proxyType == Adium_Proxy_Default_HTTP || 

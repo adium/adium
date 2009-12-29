@@ -892,7 +892,7 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
 	NSResponder					*responder = [[[NSApplication sharedApplication] keyWindow] firstResponder];
-	KGiTunesPluginMenuItemKind	tag = [menuItem tag];
+	KGiTunesPluginMenuItemKind	tag = (KGiTunesPluginMenuItemKind)[menuItem tag];
 	BOOL						enable;
 
 	//we only insert things into textviews

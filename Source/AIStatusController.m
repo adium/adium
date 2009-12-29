@@ -885,11 +885,11 @@ static 	NSMutableSet			*temporaryStateArray = nil;
  */
 - (AIStatusType)activeStatusTypeTreatingInvisibleAsAway:(BOOL)invisibleIsAway
 {
-	NSInteger			statusTypeCount[STATUS_TYPES_COUNT];
+	AIStatusType		statusTypeCount[STATUS_TYPES_COUNT];
 	AIStatusType		activeStatusType = AIOfflineStatusType;
 	NSUInteger			highestCount = 0;
 
-	NSUInteger i;
+	int i;
 	for (i = 0 ; i < STATUS_TYPES_COUNT ; i++) {
 		statusTypeCount[i] = 0;
 	}

@@ -86,7 +86,7 @@
 		return;
 	
 	if(firstTime || [key isEqualToString:KEY_SHORTENER_PREFERENCE]) {
-		shortener = [[prefDict objectForKey:KEY_SHORTENER_PREFERENCE] integerValue];
+		shortener = [[prefDict objectForKey:KEY_SHORTENER_PREFERENCE] intValue];
 	}
 }
 

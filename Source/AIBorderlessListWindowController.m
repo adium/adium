@@ -41,7 +41,7 @@
 	[[self window] setMinSize:NSZeroSize];
 	
 	AIContactListWindowStyle style = [[adium.preferenceController preferenceForKey:KEY_LIST_LAYOUT_WINDOW_STYLE
-																			 group:PREF_GROUP_APPEARANCE] integerValue];
+																			 group:PREF_GROUP_APPEARANCE] intValue];
 	
 	filterBarView.drawsBackground = YES;
 	filterBarView.backgroundColor = [NSColor whiteColor];

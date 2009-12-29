@@ -145,12 +145,12 @@
 
 		int foundCount = 0;
 
-		int searchTermsCount = [searchTerms count];
+		NSUInteger searchTermsCount = [searchTerms count];
 		for (int i=0; i < searchTermsCount; i++)
 		{
 			NSString *searchTerm = [searchTerms objectAtIndex:i];
 			
-			for (unsigned int j=0; j < [instantMessages count]; j++)
+			for (NSUInteger j=0; j < [instantMessages count]; j++)
 			{
 				InstantMessage *im = [instantMessages objectAtIndex:j];
 				
@@ -189,9 +189,9 @@
 		NSString *retAsString = [retWithHilite string];
 		NSDictionary *colorAttrib = [NSDictionary dictionaryWithObject:[NSColor yellowColor] forKey:NSBackgroundColorAttributeName];
 		
-		for (unsigned int i=0; i < [searchTerms count]; i++)
+		for (NSUInteger i=0; i < [searchTerms count]; i++)
 		{
-			unsigned int strLength = [retAsString length];
+			NSUInteger strLength = [retAsString length];
 			NSString *searchTerm = [searchTerms objectAtIndex:i];
 		
 			NSRange searchRange = NSMakeRange(0, strLength);
@@ -229,7 +229,7 @@
 {
 	[self loadContents];
 	NSMutableAttributedString *buf = [[NSMutableAttributedString alloc] initWithString:@""];
-	NSDictionary *gapAttrib = [NSDictionary dictionaryWithObject:[NSFont userFontOfSize:3.0] forKey:NSFontAttributeName];
+	NSDictionary *gapAttrib = [NSDictionary dictionaryWithObject:[NSFont userFontOfSize:3.0f] forKey:NSFontAttributeName];
 	NSAttributedString *gap = [[NSAttributedString alloc] initWithString:@"\n" attributes:gapAttrib];
 
 	[buf appendAttributedString:gap];

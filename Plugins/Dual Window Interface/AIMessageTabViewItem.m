@@ -370,7 +370,7 @@
 
 - (NSColor *)countColor
 {
-	return self.chat.unviewedMentionCount ? [NSColor colorWithCalibratedRed:1.0 green:0.3 blue:0.3 alpha:0.6] : [NSColor colorWithCalibratedWhite:0.3 alpha:0.6];
+	return self.chat.unviewedMentionCount ? [NSColor colorWithCalibratedRed:1.0f green:0.3f blue:0.3f alpha:0.6f] : [NSColor colorWithCalibratedWhite:0.3f alpha:0.6f];
 }
 
 - (void)tabViewDidChangeVisibility

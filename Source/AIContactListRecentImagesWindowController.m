@@ -141,7 +141,7 @@
 		[displayImage lockFocus];
 		
 		if (index == currentHoveredIndex) {
-			[[[NSColor blueColor] colorWithAlphaComponent:0.30] set];
+			[[[NSColor blueColor] colorWithAlphaComponent:0.30f] set];
 			[fullPath fill];
 			
 			[[NSColor blueColor] set];
@@ -243,7 +243,7 @@
 - (void)fadeOut:(NSTimer *)inTimer
 {
 	CGFloat				currentAlpha = [[self window] alphaValue];
-	currentAlpha -= 0.15;
+	currentAlpha -= 0.15f;
 	
 	if (currentAlpha <= 0) {
 		[self close];

@@ -219,7 +219,7 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 																			  group:PREF_GROUP_EVENT_PRESETS];
 	CGFloat	nextOrderIndex;
 	
-	nextOrderIndex = (nextOrderIndexNumber ? [nextOrderIndexNumber doubleValue] : 1.0);
+	nextOrderIndex = (nextOrderIndexNumber ? (CGFloat)[nextOrderIndexNumber doubleValue] : 1.0f);
 	
 	[adium.preferenceController setPreference:[NSNumber numberWithDouble:(nextOrderIndex + 1)]
 										 forKey:KEY_NEXT_ORDER_INDEX
@@ -296,8 +296,8 @@ alertGenerationSelector:@selector(speechAlertFromDictionary:)];
 
 NSInteger eventPresetsSort(id eventPresetA, id eventPresetB, void *context)
 {
-	CGFloat orderIndexA = [[eventPresetA objectForKey:KEY_ORDER_INDEX] doubleValue];
-	CGFloat orderIndexB = [[eventPresetB objectForKey:KEY_ORDER_INDEX] doubleValue];
+	CGFloat orderIndexA = (CGFloat)[[eventPresetA objectForKey:KEY_ORDER_INDEX] doubleValue];
+	CGFloat orderIndexB = (CGFloat)[[eventPresetB objectForKey:KEY_ORDER_INDEX] doubleValue];
 	
 	if (orderIndexA > orderIndexB) {
 		return NSOrderedDescending;

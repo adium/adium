@@ -1073,7 +1073,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
     automaticSearch = NO;
 
 	//First, update the search mode to the newly selected type
-    [self setSearchMode:[sender tag]]; 
+    [self setSearchMode:(LogSearchMode)[sender tag]]; 
 	
 	//Then, ensure we are ready to search using the current string
 	[self setSearchString:activeSearchString];
@@ -1201,7 +1201,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 			//Make it half again as large as the desired width from the @"Rank" header title
 			[resultsColumn sizeToFit];
-			[resultsColumn setWidth:([resultsColumn width] * 1.5)];
+			[resultsColumn setWidth:([resultsColumn width] * 1.5f)];
 			
 			tableColumns = [tableView_results tableColumns];
 			if ([tableColumns indexOfObject:resultsColumn] > 0) {
@@ -1437,7 +1437,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 	CGFloat			largestRankingValue = 0;
 	SKSearchRef		thisSearch;
     Boolean			more = true;
-    UInt32			totalCount = 0;
+    unsigned long			totalCount = 0;
 	
 	[currentSearchLock lock];
 	if (currentSearch) {
@@ -1590,7 +1590,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 - (void)filterLogsWithSearch:(NSDictionary *)searchInfoDict
 {
     NSAutoreleasePool       *pool = [[NSAutoreleasePool alloc] init];
-    NSInteger                     mode = [[searchInfoDict objectForKey:@"Mode"] integerValue];
+    LogSearchMode                     mode = [[searchInfoDict objectForKey:@"Mode"] intValue];
     NSInteger                     searchID = [[searchInfoDict objectForKey:@"ID"] integerValue];
     NSString                *searchString = [searchInfoDict objectForKey:@"String"];
 
@@ -1862,7 +1862,7 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 
 			for (NSInteger j = 0; (j < NUMBER_DATE_STYLES) && (requiredWidth > width); j++) {
 				[dateFormatter setDateStyle:formatterStyles[j]];
-				requiredWidth = [cell cellSizeForBounds:NSMakeRect(0,0,1e6,1e6)].width;
+				requiredWidth = [cell cellSizeForBounds:NSMakeRect(0,0,1e6f,1e6f)].width;
 				//Require a bit of space so the date looks comfortable. Very long dates relative to the current date can still overflow...
 				requiredWidth += 3;					
 			}
@@ -2340,7 +2340,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context)
  */
 - (void)selectDateType:(id)sender
 {
-	[self selectedDateType:[sender tag]];
+	[self selectedDateType:(AIDateType)[sender tag]];
 	[self startSearchingClearingCurrentResults:YES];
 }
 

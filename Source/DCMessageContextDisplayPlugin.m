@@ -229,7 +229,7 @@
 		//Set up some more doohickeys and then start the parse loop
 		NSInteger readSize = 4 * getpagesize(); //Read 4 pages at a time.
 		NSMutableData *chunk = [NSMutableData dataWithLength:readSize];
-		NSInteger fd = [file fileDescriptor];
+		int fd = [file fileDescriptor];
 		off_t offset = [file offsetInFile];
 		enum LMXParseResult result = LMXParsedIncomplete;
 
@@ -242,7 +242,7 @@
 
 			if (readOffset < 0) {
 				// Decrease it by the amount we're over.
-				readSize += readOffset;
+				readSize += (NSInteger)readOffset;
 				// Start from the beginning.
 				readOffset = 0;
 			}

@@ -97,7 +97,7 @@
 	}
 }
 
-- (void)moveObject:(id)object toIndex:(unsigned)newIndex
+- (void)moveObject:(id)object toIndex:(NSUInteger)newIndex
 {
 	NSUInteger	currentIndex = [self indexOfObject:object];
 	
@@ -117,7 +117,7 @@
 
 //just a better name for an existing NSMutableArray method.
 //this makes it uniform in style with -[NSMutableDictionary setObject:forKey:].
-- (void)setObject:(id)object atIndex:(unsigned)idx
+- (void)setObject:(id)object atIndex:(NSUInteger)idx
 {
 	[self replaceObjectAtIndex:idx withObject:object];
 }

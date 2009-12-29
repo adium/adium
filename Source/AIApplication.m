@@ -160,7 +160,7 @@
 	if (!properties || ![properties objectForKey:@"statusTypeApplescript"])
 		type = AIAvailableStatusTypeAS;
 	else
-		type = [[properties objectForKey:@"statusTypeApplescript"] unsignedIntegerValue];
+		type = [[properties objectForKey:@"statusTypeApplescript"] unsignedIntValue];
 	
 	AIStatusType realType;
 	switch (type) {

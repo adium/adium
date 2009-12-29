@@ -21,7 +21,7 @@
 @interface AIDockBadger : AIPlugin <AIChatObserver> {
 	AIIconState					*overlayState;
 	NSImage						*badgeTwoDigits, *badgeThreeDigits;
-	int							lastUnviewedContentCount;
+	NSInteger							lastUnviewedContentCount;
 	
 	BOOL						shouldBadge;
 	BOOL						showConversationCount;

@@ -44,6 +44,7 @@ typedef enum {
 @property (readonly, nonatomic) NSDictionary *properties;
 - (id)valueForProperty:(NSString *)key;
 - (NSInteger)integerValueForProperty:(NSString *)key;
+- (int)intValueForProperty:(NSString *)key;
 - (BOOL)boolValueForProperty:(NSString *)key;
 - (NSNumber *)numberValueForProperty:(NSString *)key;
 

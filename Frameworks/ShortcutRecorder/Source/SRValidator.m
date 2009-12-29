@@ -33,7 +33,7 @@
 //---------------------------------------------------------- 
 // isKeyCode:andFlagsTaken:error:
 //---------------------------------------------------------- 
-- (BOOL) isKeyCode:(signed short)keyCode andFlagsTaken:(unsigned int)flags error:(NSError **)error;
+- (BOOL) isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags error:(NSError **)error;
 {
     // if we have a delegate, it goes first...
 	if ( delegate )
@@ -150,7 +150,7 @@
 //---------------------------------------------------------- 
 // isKeyCode:andFlags:takenInMenu:error:
 //---------------------------------------------------------- 
-- (BOOL) isKeyCode:(signed short)keyCode andFlags:(unsigned int)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
+- (BOOL) isKeyCode:(signed short)keyCode andFlags:(NSUInteger)flags takenInMenu:(NSMenu *)menu error:(NSError **)error;
 {
     NSArray *menuItemsArray = [menu itemArray];
 	NSMenuItem *menuItem;
@@ -185,7 +185,7 @@
 			menuItemShiftMod = NO;
 			menuItemCtrlMod = NO;
 			
-			menuItemModifierFlags = [menuItem keyEquivalentModifierMask];
+			menuItemModifierFlags = (unsigned int)[menuItem keyEquivalentModifierMask];
             
 			if ( menuItemModifierFlags & NSCommandKeyMask )     menuItemCommandMod = YES;
 			if ( menuItemModifierFlags & NSAlternateKeyMask )   menuItemOptionMod = YES;
@@ -253,7 +253,7 @@
 //---------------------------------------------------------- 
 // shortcutValidator:isKeyCode:andFlagsTaken:reason:
 //---------------------------------------------------------- 
-- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(signed short)keyCode andFlagsTaken:(unsigned int)flags reason:(NSString **)aReason;
+- (BOOL) shortcutValidator:(SRValidator *)validator isKeyCode:(signed short)keyCode andFlagsTaken:(NSUInteger)flags reason:(NSString **)aReason;
 {
     return NO;
 }

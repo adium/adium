@@ -49,7 +49,7 @@
 #import "AIMessageViewController.h"
 
 #define ERROR_MESSAGE_WINDOW_TITLE		AILocalizedString(@"Adium : Error","Error message window title")
-#define LABEL_ENTRY_SPACING				4.0
+#define LABEL_ENTRY_SPACING				4.0f
 #define DISPLAY_IMAGE_ON_RIGHT			NO
 
 #define PREF_GROUP_FORMATTING			@"Formatting"
@@ -1682,7 +1682,7 @@ withAttributedDescription:[[[NSAttributedString alloc] initWithString:inDesc
         [entryString removeAttribute:NSBackgroundColorAttributeName range:fullLength];
         
         //adjust foreground colors for the tooltip background
-        [entryString adjustColorsToShowOnBackground:[NSColor colorWithCalibratedRed:1.000 green:1.000 blue:0.800 alpha:1.0]];
+        [entryString adjustColorsToShowOnBackground:[NSColor colorWithCalibratedRed:1.000f green:1.000f blue:0.800f alpha:1.0f]];
 
         //headIndent doesn't apply to the first line of a paragraph... so when new lines are in the entry, we need to tab over to the proper location
 		if ([entryString replaceOccurrencesOfString:@"\r" withString:@"\r\t\t" options:NSLiteralSearch range:fullLength])

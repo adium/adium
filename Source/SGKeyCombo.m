@@ -22,12 +22,12 @@ NSString * const kModifiersDictionaryKey = @"modifiers";
   return [self keyComboWithKeyCode:-1 modifiers:-1];
 }
 
-+ (id)keyComboWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers {
++ (id)keyComboWithKeyCode:(signed short)theKeyCode modifiers:(NSUInteger)theModifiers {
   return [[[self alloc] initWithKeyCode:theKeyCode modifiers:theModifiers] autorelease];
 }
 
 
-- (id)initWithKeyCode:(NSInteger)theKeyCode modifiers:(NSInteger)theModifiers {
+- (id)initWithKeyCode:(signed short)theKeyCode modifiers:(NSUInteger)theModifiers {
   if ((self = [super init])) {
     keyCode = theKeyCode;
     modifiers = theModifiers;

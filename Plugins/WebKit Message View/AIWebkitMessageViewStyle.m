@@ -69,7 +69,7 @@
 	[self replaceOccurrencesOfString:keyWord
 						  withString:newWord
 							 options:NSLiteralSearch
-							   range:NSMakeRange(0.0, [self length])];
+							   range:NSMakeRange(0.0f, [self length])];
 }
 
 - (void) safeReplaceCharactersInRange:(NSRange)range withString:(NSString *)newWord

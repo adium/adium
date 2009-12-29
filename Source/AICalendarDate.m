@@ -16,9 +16,9 @@
 {
 	if ((self = [super initWithCoder:decoder])) {
 		if ([decoder allowsKeyedCoding]) {
-			granularity = [[decoder decodeObjectForKey:@"Granularity"] integerValue];
+			granularity = [[decoder decodeObjectForKey:@"Granularity"] intValue];
 		} else {
-			granularity = [[decoder decodeObject] integerValue];			
+			granularity = [[decoder decodeObject] intValue];			
 		}
 	}
 	

@@ -41,7 +41,7 @@
 		
 		defaultRemovedAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
 									 defaultFont, NSFontAttributeName,
-									 [NSColor colorWithCalibratedRed:1.0 green:1.0 blue:1.0 alpha:1.0], NSBackgroundColorAttributeName,
+									 [NSColor colorWithCalibratedRed:1.0f green:1.0f blue:1.0f alpha:1.0f], NSBackgroundColorAttributeName,
 									 nil] retain];
 	}
 	

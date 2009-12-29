@@ -286,7 +286,7 @@
 		
 		// Store the state of the account
 		[previousStatus setObject:currentStatusState
-						   forKey:[NSNumber numberWithUnsignedInt:[account hash]]];
+						   forKey:[NSNumber numberWithUnsignedInteger:[account hash]]];
 		
 		AILogWithSignature(@"Setting %@ to status %@", account, targetStatusState);
 		
@@ -314,7 +314,7 @@
 - (void)returnFromAutoAway
 {
 	for (AIAccount *account in adium.accountController.accounts) {
-		AIStatus *previousStatusState = [previousStatus objectForKey:[NSNumber numberWithUnsignedInt:[account hash]]];
+		AIStatus *previousStatusState = [previousStatus objectForKey:[NSNumber numberWithUnsignedInteger:[account hash]]];
 		
 		// Skip accounts without stored information.
 		if (!previousStatusState) {

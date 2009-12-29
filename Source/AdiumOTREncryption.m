@@ -110,7 +110,7 @@ TrustLevel otrg_plugin_context_to_trust(ConnContext *context);
 	/* Make our OtrlUserState; we'll only use the one. */
 	otrg_plugin_userstate = otrl_userstate_create();
 
-	NSInteger err;
+	unsigned int err;
 	
 	err = otrl_privkey_read(otrg_plugin_userstate, PRIVKEY_PATH);
 	if (err) {
@@ -421,7 +421,7 @@ static void inject_message_cb(void *opdata, const char *accountname,
  *
  * @result 0 if we handled displaying the message; 1 if we could not
  */
-static NSInteger display_otr_message(const char *accountname, const char *protocol,
+static int display_otr_message(const char *accountname, const char *protocol,
 							   const char *username, const char *msg)
 {
 	NSString			*message;
@@ -656,7 +656,7 @@ int max_message_size_cb(void *opdata, ConnContext *context)
 	/* This will return 0 if we don't know (unknown protocol) or don't need it (Jabber),
 	 * which will disable fragmentation.
 	 */
-	return [[maxSizeByServiceClassDict objectForKey:chat.account.service.serviceClass] integerValue];
+	return [[maxSizeByServiceClassDict objectForKey:chat.account.service.serviceClass] intValue];
 }
 
 static OtrlMessageAppOps ui_ops = {
@@ -828,7 +828,7 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 			if (nextMsg != OTRL_SMP_EXPECT2)
 				otrg_plugin_abort_smp(context);
 			else {
-				otrg_dialog_update_smp(context, 0.6);
+				otrg_dialog_update_smp(context, 0.6f);
 				context->smstate->nextExpected = OTRL_SMP_EXPECT4;
 			}
 		}
@@ -837,7 +837,7 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 			if (nextMsg != OTRL_SMP_EXPECT3)
 				otrg_plugin_abort_smp(context);
 			else {
-				otrg_dialog_update_smp(context, 1.0);
+				otrg_dialog_update_smp(context, 1.0f);
 				context->smstate->nextExpected = OTRL_SMP_EXPECT1;
 			}
 		}
@@ -846,13 +846,13 @@ static void otrg_dialog_update_smp(ConnContext *context, CGFloat percentage)
 			if (nextMsg != OTRL_SMP_EXPECT4)
 				otrg_plugin_abort_smp(context);
 			else {
-				otrg_dialog_update_smp(context, 1.0);
+				otrg_dialog_update_smp(context, 1.0f);
 				context->smstate->nextExpected = OTRL_SMP_EXPECT1;
 			}
 		}
 		tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP_ABORT);
 		if (tlv) {
-			otrg_dialog_update_smp(context, 0.0);
+			otrg_dialog_update_smp(context, 0.0f);
 			context->smstate->nextExpected = OTRL_SMP_EXPECT1;
 		}
 	}
