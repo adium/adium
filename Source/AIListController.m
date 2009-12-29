@@ -56,6 +56,7 @@
 
 @interface AIListController ()
 - (void)promptToCombineItems:(NSArray *)items withContact:(AIListContact *)inContact;
+- (void)mergeContactSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AIListController

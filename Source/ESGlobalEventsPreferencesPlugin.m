@@ -38,6 +38,8 @@
 - (void)activateGrowlPreset:(NSArray *)presetArray;
 - (NSArray *)_behaviorForPreset:(NSString *)presetName inPresetArray:(NSArray *)presetArray;
 - (void)_activateSet:(NSArray *)setArray withActionID:(NSString *)actionID alertGenerationSelector:(SEL)selector;
+
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
 @end
 
 @implementation ESGlobalEventsPreferencesPlugin

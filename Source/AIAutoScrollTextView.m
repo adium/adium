@@ -22,6 +22,7 @@
 @interface AIAutoScrollTextView (Private)
 - (void)startScrolling;
 - (void)stopScrolling;
+- (void)scrollTimer:(NSTimer *)scrollTimer;
 @end
 
 @implementation AIAutoScrollTextView

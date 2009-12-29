@@ -15,6 +15,10 @@
 
 #define ADDRESS_BOOK_NIB_NAME (@"AIAddressBookInspectorPane")
 
+@interface AIAddressBookInspectorPane ()
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+@end
+
 @implementation AIAddressBookInspectorPane
 
 - (id)init

@@ -23,6 +23,10 @@
 
 #import "AIGuestAccountWindowController.h"
 
+@interface AIAccountMenuAccessPlugin ()
+- (void)showGuestAccountWindow:(id)sender;
+@end
+
 /*!
  * @class AIAccountMenuAccessPlugin
  * @brief Provide menu access to account connection/disconnect

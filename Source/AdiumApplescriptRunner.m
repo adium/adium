@@ -7,6 +7,12 @@
 
 #import "AdiumApplescriptRunner.h"
 
+@interface AdiumApplescriptRunner ()
+- (void)applescriptRunnerIsReady:(NSNotification *)inNotification;
+- (void)applescriptRunnerDidQuit:(NSNotification *)inNotification;
+- (void)applescriptDidRun:(NSNotification *)inNotification;
+@end
+
 @implementation AdiumApplescriptRunner
 - (id)init
 {

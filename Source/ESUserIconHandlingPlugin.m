@@ -40,6 +40,12 @@
 - (void)_updateToolbarIconOfChat:(AIChat *)inChat inWindow:(NSWindow *)window;
 - (void)_updateToolbarItem:(NSToolbarItem *)item forChat:(AIChat *)chat;
 - (void)updateToolbarItemForObject:(AIListObject *)inObject;
+- (void)toolbarDidAddItem:(NSToolbarItem *)item;
+
+- (void)chatDidBecomeVisible:(NSNotification *)notification;
+
+- (void)listObjectAttributesChanged:(NSNotification *)notification;
+- (void)dummyAction:(id)sender;
 @end
 
 /*!

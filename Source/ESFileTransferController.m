@@ -60,6 +60,8 @@ static ESFileTransferPreferences *preferences;
 - (void)showProgressWindowIfNotOpen:(id)sender;
 - (void)_finishReceiveRequestForFileTransfer:(ESFileTransfer *)fileTransfer localFilename:(NSString *)localFilename;
 - (BOOL)shouldOpenCompleteFileTransfer:(ESFileTransfer *)fileTransfer;
+- (void)contextualMenuSendFile:(id)sender;
+- (void)sendFileToSelectedContact:(id)sender;
 @end
 
 @implementation ESFileTransferController

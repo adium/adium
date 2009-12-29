@@ -38,6 +38,11 @@
 #define MORE_CONTACTS_STRING AILocalizedString(@"%d others", @"Used to describe omitted contacts.\
                                                                The first parameter is the number of omitted contacts")
 
+@interface AIListObjectContentsPlugin ()
+- (void)toggleMetaContactExpansion:(id)sender;
+- (void)inspectedObjectDidChange:(NSNotification *)inNotification;
+@end
+
 /*!
  * @class AIListObjectContentsPlugin
  * @brief Tooltip component: Show the contacts contained by metaContacts, with service and status state.

@@ -29,6 +29,12 @@
 @interface AIChatController ()
 - (NSSet *)_informObserversOfChatStatusChange:(AIChat *)inChat withKeys:(NSSet *)modifiedKeys silent:(BOOL)silent;
 - (void)chatAttributesChanged:(AIChat *)inChat modifiedKeys:(NSSet *)inModifiedKeys;
+
+- (void)toggleIgnoreOfContact:(id)sender;
+- (void)toggleShowJoinLeave:(id)sender;
+- (void)didExchangeContent:(NSNotification *)notification;
+
+- (void)adiumWillTerminate:(NSNotification *)inNotification;
 @end
 
 /*!

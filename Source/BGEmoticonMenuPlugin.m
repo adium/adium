@@ -28,6 +28,8 @@
 
 @interface BGEmoticonMenuPlugin()
 - (void)registerToolbarItem;
+- (void)dummyTarget:(id)sender;
+- (void)insertEmoticon:(id)sender;
 @end
 
 /*!

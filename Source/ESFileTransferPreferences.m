@@ -26,6 +26,8 @@
 @interface ESFileTransferPreferences ()
 - (NSMenu *)downloadLocationMenu;
 - (void)buildDownloadLocationMenu;
+- (void)selectOtherDownloadFolder:(id)sender;
+- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation ESFileTransferPreferences

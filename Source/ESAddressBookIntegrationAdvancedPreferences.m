@@ -36,6 +36,7 @@
 @interface ESAddressBookIntegrationAdvancedPreferences ()
 - (void)configureFormatMenu;
 - (IBAction)changeFormat:(id)sender;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!

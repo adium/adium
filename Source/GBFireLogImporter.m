@@ -30,6 +30,7 @@
 @interface GBFireLogImporter ()
 - (void)askBeforeImport;
 - (void)importFireLogs;
+- (void)importQuestionResponse:(NSNumber *)response userInfo:(id)info;
 @end
 
 @implementation GBFireLogImporter

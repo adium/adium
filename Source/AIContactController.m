@@ -101,6 +101,9 @@
 - (void)_didChangeContainer:(AIListObject<AIContainingObject> *)inContainingObject object:(AIListObject *)object;
 - (void)prepareShowHideGroups;
 - (void)_performChangeOfUseContactListGroups;
+- (void)didSendContent:(NSNotification *)notification;
+- (void)toggleShowGroups:(id)sender;
+- (void)toggleShowGroupsToolbar:(id)sender;
 
 //MetaContacts
 - (BOOL)_restoreContactsToMetaContact:(AIMetaContact *)metaContact;

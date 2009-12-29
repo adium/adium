@@ -24,6 +24,11 @@
 #define GROUP_LAST_USED_SPELLING	@"Last Used Spelling"
 #define KEY_LAST_USED_SPELLING		@"Last Used Spelling Languge"
 
+@interface OWSpellingPerContactPlugin ()
+- (void)chatWillClose:(NSNotification *)notification;
+- (void)chatBecameActive:(NSNotification *)notification;
+@end
+
 /*!
  * @class OWSpellingPerContactPlugin
  * @brief Component to save and restore spelling dictionary language preferences on a per-contact basis for chats

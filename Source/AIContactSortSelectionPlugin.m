@@ -34,6 +34,10 @@
 - (void)_setActiveSortControllerFromPreferences;
 - (void)_setConfigureSortMenuItemTitleForController:(AISortController *)controller;
 - (void)_configureSortSelectionMenuItems;
+
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+- (void)changedSortSelection:(id)sender;
+- (void)configureSort:(id)sender;
 @end
 
 /*!

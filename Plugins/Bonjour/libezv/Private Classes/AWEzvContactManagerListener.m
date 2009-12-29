@@ -44,6 +44,9 @@
 
 #define	MAXBACKLOG	5
 
+@interface AWEzvContactManager (Listener_Private)
+- (void)connectionReceived:(NSNotification *)aNotification;
+@end
 
 @implementation AWEzvContactManager (Listener)
 /* start listening for incoming connections

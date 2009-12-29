@@ -25,6 +25,7 @@
 
 @interface AIDockUnviewedContentPlugin ()
 - (void)removeAlert;
+- (void)chatWillClose:(NSNotification *)notification;
 @end
 
 /*!

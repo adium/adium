@@ -32,6 +32,7 @@
 
 @interface DCInviteToChatPlugin ()
 - (NSMenu *)groupChatMenuForContact:(AIListContact *)contact;
+- (void)dummyTarget:(id)sender;
 @end
 
 @implementation DCInviteToChatPlugin

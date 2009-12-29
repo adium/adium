@@ -29,6 +29,10 @@
 
 #define APPEARANCE_DEFAULT_PREFS 	@"AppearanceDefaults"
 
+@interface AIAppearancePreferencesPlugin ()
+- (void)invalidStatusSetActivated:(NSNotification *)inNotification;
+@end
+
 @implementation AIAppearancePreferencesPlugin
 
 - (void)installPlugin

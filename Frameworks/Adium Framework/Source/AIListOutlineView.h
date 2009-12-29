@@ -61,6 +61,7 @@ typedef enum {
 //Contact menu
 @property (readonly, nonatomic) AIListObject *listObject;
 @property (readonly, nonatomic) NSArray *arrayOfListObjects;
+@property (readonly, nonatomic) NSArray *arrayOfListObjectsWithGroups;
 @property (readonly, nonatomic) AIListContact *firstVisibleListContact;
 
 //Contacts

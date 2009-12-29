@@ -29,6 +29,7 @@
 - (id)initWithWindowNibName:(NSString *)inWindowNibName
 				imagePicker:(AIContactListImagePicker *)inPicker;
 - (void)fadeOutAndClose;
+- (void)parentWindowWillClose:(NSNotification *)aNotification;
 @end
 
 @implementation AIContactListRecentImagesWindowController

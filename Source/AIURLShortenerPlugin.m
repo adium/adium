@@ -34,6 +34,7 @@
 
 - (void)insertResultFromURL:(NSURL *)inURL intoTextView:(NSTextView *)textView;
 - (NSString *)resultFromURL:(NSURL *)inURL;
+- (void)setShortener:(NSMenuItem *)menuItem;
 @end
 
 @implementation AIURLShortenerPlugin

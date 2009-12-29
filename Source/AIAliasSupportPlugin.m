@@ -37,6 +37,7 @@
 @interface AIAliasSupportPlugin ()
 - (NSSet *)_applyAlias:(NSString *)inAlias toObject:(AIListObject *)inObject notify:(BOOL)notify;
 - (NSMenu *)_contactNameMenu;
+- (void)applyAliasRequested:(NSNotification *)notification;
 @end
 
 /*!

@@ -54,6 +54,11 @@
 - (void)calculateAllHeights;
 
 - (void)updateReconnectTime:(NSTimer *)timer;
+
+- (void)iconPackDidChange:(NSNotification *)notification;
+- (void)updateAccountsForStatus:(id)sender;
+- (void)toggleOnlineForAccounts:(id)sender;
+- (void)toggleEnabledForAccounts:(id)sender;
 @end
 
 /*!

@@ -79,6 +79,7 @@
 - (void)setAttributedString:(NSAttributedString *)inAttributedString;
 - (void)setString:(NSString *)string;
 - (void)setTypingAttributes:(NSDictionary *)attrs;
+- (void)pasteAsPlainTextWithTraits:(id)sender;
 - (void)pasteAsRichText:(id)sender;
 - (NSSize)desiredSize;
 

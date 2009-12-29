@@ -25,6 +25,10 @@
 
 #define DEFAULT_FORMATTING_DEFAULT_PREFS	@"FormattingDefaults"
 
+@interface AdiumFormatting ()
+- (void)restoreDefaultFormat:(id)sender;
+@end
+
 @implementation AdiumFormatting
 
 /*!

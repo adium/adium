@@ -21,6 +21,7 @@
 
 @interface CBGrowlAlertDetailPane()
 - (NSMenu *)priorityMenu;
+- (void)dummyAction;
 @end
 
 /*!

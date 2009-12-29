@@ -25,6 +25,10 @@
 #import <AIUtilities/AIMenuAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
+@interface AINewMessagePanelPlugin ()
+- (void)contextualOpenChat:(id)sender;
+@end
+
 /*!
  * @class AINewMessagePanelPlugin
  * @brief Component to provide the New Message window, which allows messaging an arbitrary contact.

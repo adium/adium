@@ -90,6 +90,13 @@
 - (JVMarkedScroller *)markedScroller;
 - (NSNumber *)currentOffsetHeight;
 - (void)markCurrentLocation;
+
+- (void)contentObjectAdded:(NSNotification *)notification;
+- (void)chatDidFinishAddingUntrackedContent:(NSNotification *)notification;
+- (void)customEmoticonUpdated:(NSNotification *)inNotification;
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)listObjectAttributesChanged:(NSNotification *)notification;
+- (BOOL)zoomImage:(DOMHTMLImageElement *)img;
 @end
 
 @interface DOMDocument (FutureWebKitPublicMethodsIKnow)

@@ -35,6 +35,10 @@
 
 #define	KEY_HIDE_CONTACT_LIST_GROUPS			@"Hide Contact List Groups"
 
+@interface CBContactCountingDisplayPlugin ()
+- (void)toggleMenuItem:(id)sender;
+@end
+
 /*!
  * @class CBContactCountingDisplayPlugin
  *

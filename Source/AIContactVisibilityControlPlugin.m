@@ -41,6 +41,7 @@
 
 @interface AIContactVisibilityControlPlugin()
 - (void)updateAccountMenu;
+- (void)toggleHide:(id)sender;
 @end
 
 /*!

@@ -38,6 +38,9 @@
 - (void)setLargeImage:(NSImage *)inImage;
 - (void)updateTabStatusIcon;
 - (void)updateTabContactIcon;
+
+- (void)chatSourceOrDestinationChanged:(NSNotification *)notification;
+- (void)chatAttributesChanged:(NSNotification *)notification;
 @end
 
 @implementation AIMessageTabViewItem

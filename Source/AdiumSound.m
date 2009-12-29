@@ -42,6 +42,9 @@
 - (void)configureAudioContextForMovie:(QTMovie *)movie;
 #endif
 - (NSArray *)allSounds;
+- (void)workspaceSessionDidBecomeActive:(NSNotification *)notification;
+- (void)workspaceSessionDidResignActive:(NSNotification *)notification;
+- (void)systemWillSleep:(NSNotification *)notification;
 @end
 
 @interface NSProcessInfo (AIProcessorInfoAdditions)

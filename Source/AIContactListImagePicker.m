@@ -19,6 +19,10 @@
 #define ARROW_XOFFSET	2
 #define ARROW_YOFFSET	3
 
+@interface AIContactListImagePicker ()
+- (void)frameDidChange:(NSNotification *)inNotification;
+@end
+
 @implementation AIContactListImagePicker
 
 - (void)configureTracking

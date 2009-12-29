@@ -56,6 +56,11 @@
 - (void)setAndConfigureEventPresetsMenu;
 - (void)updateSoundSetSelection;
 - (void)updateSoundSetSelectionForSoundSet:(AISoundSet *)soundSet;
+
+- (void)selectEventPreset:(id)sender;
+- (void)addNewPreset:(id)sender;
+- (void)editPresets:(id)sender;
+- (void)showPresetCopySheet:(NSString *)originalPresetName;
 @end
 
 @implementation ESGlobalEventsPreferences

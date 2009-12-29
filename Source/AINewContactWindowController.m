@@ -38,6 +38,8 @@
 
 @interface AINewContactWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName contactName:(NSString *)inName service:(AIService *)inService  account:(AIAccount *)inAccount;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+
 - (void)buildGroupMenu;
 - (void)buildContactTypeMenu;
 - (void)configureForCurrentServiceType;
@@ -45,6 +47,11 @@
 - (void)updateAccountList;
 - (void)_setServiceType:(AIService *)inService;
 - (void)selectServiceType:(id)sender;
+
+- (void)selectGroup:(id)sender;
+- (void)newGroup:(id)sender;
+- (void)newGroupDidEnd:(NSNotification *)inNotification;
+- (void)accountListChanged:(NSNotification *)notification;
 
 - (void)configureControlDimming;
 @end

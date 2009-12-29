@@ -29,6 +29,8 @@
 @interface ESEventSoundAlertDetailPane ()
 - (NSMenu *)soundListMenu;
 - (void)addSound:(NSString *)soundPath toMenu:(NSMenu *)soundMenu;
+- (void)selectSound:(id)sender;
+- (void)concludeOtherPanel:(NSOpenPanel *)panel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 /*!

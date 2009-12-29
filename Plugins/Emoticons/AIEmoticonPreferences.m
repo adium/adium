@@ -37,6 +37,9 @@
 - (void)_configureEmoticonListForSelection;
 - (void)moveSelectedPacksToTrash;
 - (void)configurePreviewControllers;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)trashConfirmSheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AIEmoticonPreferences

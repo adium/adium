@@ -12,6 +12,10 @@
 
 static AIWebKitDelegate *AISharedWebKitDelegate;
 
+@interface AIWebKitMessageViewController (DelegateCallbacks)
+- (void)webViewIsReady;
+@end
+
 @implementation AIWebKitDelegate
 
 - (id)init 

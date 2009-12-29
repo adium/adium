@@ -22,6 +22,10 @@
 
 #define AB_SEARCH_NIB	@"ABSearch"
 
+@interface NSObject (OWABSearchWindowControllerDelegate_Weak)
+- (void)OWABSearchWindowControllerDidSelectPerson:(OWABSearchWindowController *)controller;
+@end
+
 @interface OWABSearchWindowController ()
 - (id)initWithWindowNibName:(NSString *)windowNibName initialService:(AIService *)inService;
 - (void)_configurePeoplePicker;

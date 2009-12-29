@@ -42,6 +42,9 @@
 - (BOOL)_bounceWithInterval:(double)delay;
 - (AIIconState *)iconStateFromStateDict:(NSDictionary *)stateDict folderPath:(NSString *)folderPath;
 - (void)updateAppBundleIcon;
+
+- (void)appWillChangeActive:(NSNotification *)notification;
+- (void)bounceWithTimer:(NSTimer *)timer;
 @end
 
 @implementation AIDockController

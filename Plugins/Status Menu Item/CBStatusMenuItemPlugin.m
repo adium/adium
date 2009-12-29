@@ -18,6 +18,11 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AIApplicationAdditions.h>
 
+@interface CBStatusMenuItemPlugin()
+- (void)adiumFinishedLaunching:(NSNotification *)notification;
+@end
+
+
 @implementation CBStatusMenuItemPlugin
 
 - (void)installPlugin

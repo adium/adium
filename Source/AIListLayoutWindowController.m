@@ -38,6 +38,7 @@
 - (NSMenu *)positionMenuWithChoices:(NSInteger [])positionChoices;
 - (NSMenu *)extendedStatusStyleMenu;
 - (NSMenu *)extendedStatusPositionMenu;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AIListLayoutWindowController

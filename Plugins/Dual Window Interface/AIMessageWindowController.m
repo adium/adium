@@ -39,6 +39,7 @@
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import "AIMessageTabSplitView.h"
 #import <Adium/AIStatusIcons.h>
+#import "AIInterfaceController.h"
 
 #define KEY_MESSAGE_WINDOW_POSITION 			@"Message Window"
 
@@ -61,6 +62,10 @@
 - (void)_updateWindowTitleAndIcon;
 - (NSString *)_frameSaveKey;
 - (void)_reloadContainedChats;
+
+- (void)tabDraggingNotificationReceived:(NSNotification *)notification;
+- (void)tabBarFrameChanged:(NSNotification *)notification;
+- (void)closeAlertDidEnd:(NSAlert *)alert returnCode:(int)result contextInfo:(void *)contextInfo;
 @end
 
 //Used to squelch compiler warnings on this private call

@@ -43,6 +43,8 @@
 - (void)_setOverlay;
 - (NSImage *)overlayImageFlash:(BOOL)flash;
 - (void)flushPreferenceColorCache;
+- (void)chatClosed:(NSNotification *)notification;
+- (void)removeDockOverlay:(NSTimer *)removeTimer;
 @end
 
 @implementation AIContactStatusDockOverlaysPlugin

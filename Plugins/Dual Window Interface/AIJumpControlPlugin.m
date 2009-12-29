@@ -19,6 +19,9 @@
 
 @interface AIJumpControlPlugin()
 - (NSObject<AIMessageDisplayController> *)currentController;
+- (void)jumpToPrevious;
+- (void)jumpToNext;
+- (void)jumpToFocus;
 @end
 
 @implementation AIJumpControlPlugin

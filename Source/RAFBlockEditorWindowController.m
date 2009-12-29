@@ -24,6 +24,7 @@
 - (void)configureTextField;
 - (NSSet *)contactsFromTextField;
 - (AIPrivacyOption)selectedPrivacyOption;
+- (void)privacySettingsChangedExternally:(NSNotification *)inNotification;
 @end
 
 @implementation RAFBlockEditorWindowController

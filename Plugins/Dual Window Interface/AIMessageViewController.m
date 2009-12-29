@@ -92,6 +92,10 @@
 - (void)updateUserCount;
 
 - (NSArray *)contactsMatchingBeginningString:(NSString *)partialWord;
+
+- (void)alertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
+- (void)gotFilteredMessageToSendLater:(NSAttributedString *)filteredMessage receivingContext:(NSMutableDictionary *)alertDict;
+- (void)outgoingTextViewDesiredSizeDidChange:(NSNotification *)notification;
 @end
 
 @implementation AIMessageViewController

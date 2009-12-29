@@ -16,6 +16,8 @@
 - (id)initWithWindowNibName:(NSString *)nibName
 				   delegate:(id)inDelegate
 					   chat:(AIChat *)inChat;
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AIImageUploaderWindowController

@@ -14,6 +14,11 @@
 #import <Adium/AIAccount.h>
 #import <Adium/AIListObject.h>
 
+@interface ESAwayStatusWindowPlugin ()
+- (void)processStatusUpdate;
+@end
+
+
 /*!
  * @class ESAwayStatusWindowPlugin
  * @brief Component to manage the status window optionally displayed when one or more accounts are away

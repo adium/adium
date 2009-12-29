@@ -96,6 +96,10 @@
 - (void)_didOpenForContact;
 
 - (void)deleteSelection:(id)sender;
+
+- (void)outlineViewSelectionDidChangeDelayed;
+- (void)openChatOnDoubleAction:(id)sender;
+- (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AILogViewerWindowController

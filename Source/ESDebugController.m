@@ -31,6 +31,7 @@
 
 @interface ESDebugController()
 - (void) start:(NSNotification *)dummy;
+- (void) showDebugWindow:(id)sender;
 @end
 
 @implementation ESDebugController

@@ -45,6 +45,7 @@
 #import "AIMessageTabViewItem.h"
 #import "KNShelfSplitview.h"
 #import <Adium/AIContactList.h>
+#import "AIListOutlineView.h"
 
 #import "AIMessageViewController.h"
 
@@ -59,6 +60,10 @@
 
 //#define	LOG_RESPONDER_CHAIN
 
+@interface NSObject (AIInterfaceController_WindowPrefsTarget)
+- (void)selectedWindowLevel:(id)sender;
+@end
+
 @interface AIInterfaceController ()
 - (void)_resetOpenChatsCache;
 - (void)_addItemToMainMenuAndDock:(NSMenuItem *)item;
@@ -69,6 +74,16 @@
 
 - (void)saveContainers;
 - (void)restoreSavedContainers;
+- (void)saveContainersOnQuit:(NSNotification *)notification;
+
+- (void)toggleUserlist:(id)sender;
+- (void)toggleUserlistSide:(id)sender;
+- (void)clearDisplay:(id)sender;
+- (void)closeContextualChat:(id)sender;
+- (void)openAuthorizationWindow:(id)sender;
+- (void)didReceiveContent:(NSNotification *)notification;
+- (void)adiumDidFinishLoading:(NSNotification *)inNotification;
+- (void)flashTimer:(NSTimer *)inTimer;
 
 //Window Menu
 - (void)updateActiveWindowMenuItem;
@@ -674,7 +689,7 @@
 		while ((chat = [chatEnumerator nextObject])) {
 			[interfacePlugin moveChat:chat
 					toContainerWithID:firstContainerID
-								idx:-1];
+								index:-1];
 		}
 		
 		[openChats release];

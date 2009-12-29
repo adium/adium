@@ -18,6 +18,7 @@
 
 @interface SRRecorderControl ()
 - (void)resetTrackingRects;
+- (void)viewFrameDidChange:(NSNotification *)aNotification;
 @end
 
 @implementation SRRecorderControl

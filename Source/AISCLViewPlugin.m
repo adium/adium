@@ -41,6 +41,12 @@
 - (void)loadDetachedGroups;
 - (void)loadWindowPreferences:(NSDictionary *)windowPreferences;
 - (void)saveAndCloseDetachedGroups;
+
+- (void)detachFromWindow:(id)sender;
+- (void)contactListIsEmpty:(NSNotification *)notification;
+- (void)attachToWindow:(id)sender;
+- (void)closeAndReopencontactList;
+- (void)dummyAction:(id)sender;
 @end
 
 /*!

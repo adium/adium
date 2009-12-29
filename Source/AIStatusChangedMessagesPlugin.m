@@ -30,6 +30,11 @@
  phraseWithoutSubject:(NSString *)statusPhrase
 		loggedMessage:(NSAttributedString *)loggedMessage
 			  inChats:(NSSet *)inChats;
+
+- (void)contactStatusChanged:(NSNotification *)notification;
+- (void)contactAwayChanged:(NSNotification *)notification;
+- (void)contact_statusMessage:(NSNotification *)notification;
+- (void)chatWillClose:(NSNotification *)inNotification;
 @end
 
 /*!

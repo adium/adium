@@ -32,6 +32,11 @@
 - (void)setTypingState:(AITypingState)typingState ofChat:(AIChat *)chat;
 - (void)monitorTypingInChat:(AIChat *)chat;
 - (void)stopMonitoringTypingInChat:(AIChat *)chat;
+- (void)_clearUserTypingForChat:(AIChat *)chat;
+- (void)_typingHasPausedInChat:(NSTimer *)inTimer;
+
+- (void)didSendMessage:(NSNotification *)notification;
+- (void)chatWillClose:(NSNotification *)notification;
 @end
 
 @implementation AdiumTyping

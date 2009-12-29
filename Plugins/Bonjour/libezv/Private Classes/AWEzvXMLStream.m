@@ -53,6 +53,8 @@ void xml_char_data	(void *userData,
 
 @interface AWEzvXMLStream ()
 - (void) connectionDidEnd;
+- (void) dataReceived:(NSNotification *)aNotification;
+- (void) dataAvailable:(NSNotification *)aNotification;
 @end
 
 @implementation AWEzvXMLStream

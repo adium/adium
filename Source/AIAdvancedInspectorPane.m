@@ -35,6 +35,8 @@
 @interface AIAdvancedInspectorPane()
 - (void)reloadPopup;
 - (void)configureControlDimming;
+- (void)addNewGroup:(id)sender;
+- (void)newGroupControllerDidEnd:(NSNotification *)notification;
 @end
 
 @implementation AIAdvancedInspectorPane

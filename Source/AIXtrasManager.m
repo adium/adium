@@ -35,6 +35,7 @@
 @interface AIXtrasManager ()
 - (void)installToolbar;
 - (void)updateForSelectedCategory;
+- (void)xtrasChanged:(NSNotification *)not;
 @end
 
 @implementation AIXtrasManager

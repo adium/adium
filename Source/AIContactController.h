@@ -53,3 +53,7 @@
 - (NSEnumerator *)contactEnumerator;
 - (NSEnumerator *)groupEnumerator;
 @end
+
+@interface NSObject (AIContactControllerInspector)
+- (void)selectGroup:(id)sender;
+@end

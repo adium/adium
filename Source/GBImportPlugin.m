@@ -22,6 +22,13 @@
 #import "BGICImportController.h"
 #import "AILoggerPlugin.h"
 
+@interface GBImportPlugin ()
+- (void)importIChat:(id)sender;
+- (void)importFire:(id)sender;
+- (void)importFireLogs:(id)sender;
+- (void)reindexAdiumLogs:(id)sender;
+@end
+
 @implementation GBImportPlugin
 
 - (void)installPlugin

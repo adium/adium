@@ -17,6 +17,9 @@
 @interface AINewBookmarkWindowController ()
 - (id)initWithWindowNibName:(NSString *)nibName forChat:(AIChat *)inChat notifyingTarget:(id)inTarget;
 - (void)buildGroupMenu;
+- (void)newGroup:(id)sender;
+- (void)newGroupDidEnd:(NSNotification *)inNotification;
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 @end
 
 @implementation AINewBookmarkWindowController

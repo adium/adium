@@ -61,6 +61,12 @@
 - (void)displayContentObject:(AIContentObject *)inObject immediately:(BOOL)immediately;
 
 - (BOOL)processAndSendContentObject:(AIContentObject *)inContentObject;
+
+- (void)didFilterAttributedString:(NSAttributedString *)filteredMessage receivingContext:(AIContentObject *)inObject;
+- (void)didFilterAttributedString:(NSAttributedString *)filteredString contentSendingContext:(AIContentObject *)inObject;
+- (void)didFilterAttributedString:(NSAttributedString *)filteredString autoreplySendingContext:(AIContentObject *)inObject;
+- (void)didFilterAttributedString:(NSAttributedString *)filteredString contentFilterDisplayContext:(AIContentObject *)inObject;
+- (void)didFilterAttributedString:(NSAttributedString *)filteredString displayContext:(AIContentObject *)inObject;
 @end
 
 /*!
