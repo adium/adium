@@ -1417,7 +1417,7 @@ Failed:;
 	CFDataRef peeraddr;
 	UInt16 peerport = 0;
 
-	if(socket && (peeraddr = CFSocketCopyPeerAddress(sock)))
+	if(sock && (peeraddr = CFSocketCopyPeerAddress(sock)))
 	{
 		peerport = [self addressPort:peeraddr];
 		CFRelease (peeraddr);
@@ -1432,7 +1432,7 @@ Failed:;
 	CFDataRef selfaddr;
 	NSString *selfstr = nil;
 
-	if(sock && (selfaddr = CFSocketCopyAddress(socket)))
+	if(sock && (selfaddr = CFSocketCopyAddress(sock)))
 	{
 		selfstr = [self addressHost:selfaddr];
 		CFRelease (selfaddr);
