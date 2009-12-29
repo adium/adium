@@ -290,7 +290,7 @@
  * This rebuilds menus incrementally, in place, and only updating items that need it.
  *
  */
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel
+- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)idx shouldCancel:(BOOL)shouldCancel
 {
 	NSArray			*activePacks = [adium.emoticonController activeEmoticonPacks];
 	AIEmoticonPack	*pack;
@@ -300,17 +300,17 @@
 	* this shouldn't be necessary, but NSToolbar is evil.
 	*/
 	if ([[[menu itemAtIndex:0] title] isEqualToString:TITLE_EMOTICON]) {
-		if (index == 0) {
+		if (idx == 0) {
 			return YES;
 		} else {
-			--index;
+			--idx;
 		}
 	}
 	
 	// Add in flat emoticon menu
 	if ([activePacks count] == 1) {
 		pack = [activePacks objectAtIndex:0];
-		AIEmoticon	*emoticon = [[pack enabledEmoticons] objectAtIndex:index];
+		AIEmoticon	*emoticon = [[pack enabledEmoticons] objectAtIndex:idx];
 		if ([emoticon isEnabled] && ![[item representedObject] isEqualTo:emoticon]) {
 			[item setTitle:[emoticon name]];
 			[item setTarget:self];
@@ -322,7 +322,7 @@
 		}
 	// Add in multi-pack menu
 	} else if ([activePacks count] > 1) {
-		pack = [activePacks objectAtIndex:index];
+		pack = [activePacks objectAtIndex:idx];
 		if (![[item title] isEqualToString:[pack name]]){
 			[item setTitle:[pack name]];
 			[item setTarget:nil];

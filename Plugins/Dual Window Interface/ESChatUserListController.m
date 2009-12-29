@@ -77,7 +77,7 @@
  *
  * When a drop of a contact is performed onto the user list, invite the contact to the chat
  */
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)idx
 {
 	//Invite the dragged contact(s) to the chat
 	BOOL			success = NO;
@@ -98,7 +98,7 @@
 		}
 	}
 
-	success = [super outlineView:outlineView acceptDrop:info item:item childIndex:index] && success;
+	success = [super outlineView:outlineView acceptDrop:info item:item childIndex:idx] && success;
 	
 	return success;
 }
@@ -114,7 +114,7 @@
  * @param index The index within item into which the drag would currently drop. It may be a 0-based index inside item or may be NSOutlineViewDropOnItemIndex.
  * @result The drag operation we will allow
  */
-- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView*)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)idx
 {
 	AIChat			*activeChat = [adium.interfaceController activeChatInWindow:[info draggingDestinationWindow]];
 	AIAccount		*activeChatAccount = activeChat.account;

@@ -290,10 +290,10 @@
  */
 - (IBAction)deleteAccount:(id)sender
 {
-    NSInteger index = [tableView_accountList selectedRow];
+    NSInteger idx = [tableView_accountList selectedRow];
 
-    if ([tableView_accountList numberOfSelectedRows] == 1 && index >= 0 && index < [accountArray count]) {
-		[[(AIAccount *)[accountArray objectAtIndex:index] confirmationDialogForAccountDeletion] beginSheetModalForWindow:[[self view] window]];
+    if ([tableView_accountList numberOfSelectedRows] == 1 && idx >= 0 && idx < [accountArray count]) {
+		[[(AIAccount *)[accountArray objectAtIndex:idx] confirmationDialogForAccountDeletion] beginSheetModalForWindow:[[self view] window]];
 	}
 }
 

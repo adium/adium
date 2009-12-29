@@ -45,7 +45,7 @@
 	BOOL blocked;
 }
 
-- (id)initScreenname:(NSString *)screen forAccount:(AIAccount *)acct;
+- (id)initScreenname:(NSString *)screen forAccount:(AIAccount *)inAccount;
 - (AIAccount *)account;
 - (void)setGroup:(NSString *)group;
 - (void)setBlocked:(BOOL)block;
@@ -55,14 +55,14 @@
 @end
 
 @implementation GBFireImportedBuddy
-- (id)initScreenname:(NSString *)screen forAccount:(AIAccount *)acct
+- (id)initScreenname:(NSString *)screen forAccount:(AIAccount *)inAccount
 {
 	self = [super init];
 	if(!self)
 		return nil;
 	
 	screenname = [screen retain];
-	account = [acct retain];
+	account = [inAccount retain];
 	groupName = nil;
 	displayName = nil;
 	blocked = NO;
@@ -177,7 +177,7 @@
 - (void)accountConnected:(NSNotification *)notification
 {
 	id <AIContactController> contactController = adium.contactController;
-	AIAccount *acct = [notification object];
+	AIAccount *account = [notification object];
 	
 	for (NSArray *personContacts in [NSArray arrayWithArray:personLists]) {
 		BOOL aBuddyNotCreated = NO;
@@ -190,7 +190,7 @@
 				[thisMetaContact addObject:contact];
 				continue;
 			}
-			if(buddy.account == acct)
+			if(buddy.account == account)
 			{
 				contact = [buddy createContact];
 				[thisMetaContact addObject:contact];
@@ -207,7 +207,7 @@
 			[personLists removeObject:personContacts];
 		[thisMetaContact release];
 	}
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:ACCOUNT_CONNECTED object:acct];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:ACCOUNT_CONNECTED object:account];
 	[self autorelease];
 }
 
@@ -633,17 +633,17 @@ NSComparisonResult groupSort(id left, id right, void *context)
 		if(permissionsDict != nil)
 		{
 			for (NSString *accountKey in permissionsDict) {
-				AIAccount *acct = [accountUIDtoAccount objectForKey:accountKey];
-				if(acct != nil && [[[permissionsDict objectForKey:accountKey] objectForKey:@"BuddyinList"] boolValue])
-					[accounts addObject:acct];
+				AIAccount *account = [accountUIDtoAccount objectForKey:accountKey];
+				if(account != nil && [[[permissionsDict objectForKey:accountKey] objectForKey:@"BuddyinList"] boolValue])
+					[accounts addObject:account];
 			}
 		}
 		else
 		{
-			for (AIAccount *acct in accountUIDtoAccount)
+			for (AIAccount *account in accountUIDtoAccount)
 			{
-				if([acct.service.serviceClass isEqualToString:[buddy objectForKey:@"service"]])
-					[accounts addObject:acct];
+				if([account.service.serviceClass isEqualToString:[buddy objectForKey:@"service"]])
+					[accounts addObject:account];
 			}
 		}
 		

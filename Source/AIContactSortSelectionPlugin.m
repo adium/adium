@@ -140,14 +140,14 @@
 	[adium.menuController addMenuItem:menuItem_configureSort toLocation:LOC_View_Sorting];
 	
 	AISortController	*activeSortController;
-	NSInteger					index;
+	NSInteger					idx;
 	
 	//Show a check by the active sort controller's menu item...
 	activeSortController = [AISortController activeSortController];
 	
-	index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:activeSortController];
-	if (index != NSNotFound) {
-		[[[menuItem_configureSort menu] itemAtIndex:index] setState:NSOnState];
+	idx = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:activeSortController];
+	if (idx != NSNotFound) {
+		[[[menuItem_configureSort menu] itemAtIndex:idx] setState:NSOnState];
 	}
 	
 	///...and set the Configure Sort menu title appropriately
@@ -173,9 +173,9 @@
 	AISortController	*controller = [sender representedObject];
 	
 	//Uncheck the old active sort controller
-	NSInteger index = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[AISortController activeSortController]];
-	if (index != NSNotFound) {
-		[[[menuItem_configureSort menu] itemAtIndex:index] setState:NSOffState];
+	NSInteger idx = [[menuItem_configureSort menu] indexOfItemWithRepresentedObject:[AISortController activeSortController]];
+	if (idx != NSNotFound) {
+		[[[menuItem_configureSort menu] itemAtIndex:idx] setState:NSOffState];
 	}
 	
 	//Save the new preference

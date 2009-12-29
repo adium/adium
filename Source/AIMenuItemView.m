@@ -95,23 +95,23 @@
 - (NSInteger)indexAtPoint:(NSPoint)inPoint
 {
 	CGFloat	heightFromTop = [self frame].size.height - inPoint.y;
-	NSInteger		index = 0;
+	NSInteger		idx = 0;
 
-	while ((heightFromTop - (((MENU_ITEM_HEIGHT + MENU_ITEM_SPACING) * index) + MENU_ITEM_HEIGHT)) > 0) {
-		index++;
+	while ((heightFromTop - (((MENU_ITEM_HEIGHT + MENU_ITEM_SPACING) * idx) + MENU_ITEM_HEIGHT)) > 0) {
+		idx++;
 	}
 
-	return index;
+	return idx;
 }
 
 /*!
  * @brief Return the rect (in local coordinates) for a menu item by index
  */
-- (NSRect)rectForIndex:(NSInteger)index
+- (NSRect)rectForIndex:(NSInteger)idx
 {
 	NSRect	myFrame = [self frame];
 	return NSMakeRect(0,
-					  (myFrame.size.height - (((MENU_ITEM_HEIGHT + MENU_ITEM_SPACING) * index) + MENU_ITEM_HEIGHT)),
+					  (myFrame.size.height - (((MENU_ITEM_HEIGHT + MENU_ITEM_SPACING) * idx) + MENU_ITEM_HEIGHT)),
 					  myFrame.size.width,
 					  MENU_ITEM_HEIGHT);
 	

@@ -443,10 +443,10 @@ static NSCalendarDate *dateFromFileName(NSString *fileName)
 	unsigned long   hour = 0;
 	unsigned long   minute = 0;
 	unsigned long   second = 0;
-	  long   timezone = NSNotFound;
+	  long   tzone = NSNotFound;
 	BOOL			hasTime = NO;
 	  
-	if (scandate([fileName UTF8String], &year, &month, &day, &hasTime, &hour, &minute, &second, &timezone)) {
+	if (scandate([fileName UTF8String], &year, &month, &day, &hasTime, &hour, &minute, &second, &tzone)) {
 		if (year && month && day) {
 			AICalendarDate *calendarDate;
 			
@@ -456,7 +456,7 @@ static NSCalendarDate *dateFromFileName(NSString *fileName)
 												   hour:hour
 												 minute:minute
 												 second:second
-											   timeZone:((timezone == NSNotFound) ? nil : [NSTimeZone timeZoneForSecondsFromGMT:(timezone * 60)])];
+											   timeZone:((tzone == NSNotFound) ? nil : [NSTimeZone timeZoneForSecondsFromGMT:(tzone * 60)])];
 			[calendarDate setGranularity:(hasTime ? AISecondGranularity : AIDayGranularity)];
 
 			return calendarDate;

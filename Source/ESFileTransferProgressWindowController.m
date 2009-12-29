@@ -412,10 +412,10 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 }
 
 #pragma mark OutlineView dataSource
-- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)inOutlineView child:(NSInteger)idx ofItem:(id)item
 {
-	if (index < [progressRows count]) {
-		return [progressRows objectAtIndex:index];
+	if (idx < [progressRows count]) {
+		return [progressRows objectAtIndex:idx];
 	} else {
 		return nil;
 	}
@@ -526,8 +526,8 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 {
 	NSRect	oldWindowFrame = [inWindow frame];
 	NSRect	windowFrame = oldWindowFrame;
-	NSSize	minSize = [inWindow minSize];
-	NSSize	maxSize = [inWindow maxSize];
+	NSSize	minWinSize = [inWindow minSize];
+	NSSize	maxWinSize = [inWindow maxSize];
 
 	//Take the desired height and add the parts of the window which aren't in the scrollView.
 	NSInteger desiredHeight = ([outlineView totalHeight] + (windowFrame.size.height - [scrollView frame].size.height));
@@ -536,10 +536,10 @@ static ESFileTransferProgressWindowController *sharedTransferProgressInstance = 
 	windowFrame.size.width = 300;
 
 	//Respect the min and max sizes
-	if (windowFrame.size.width < minSize.width) windowFrame.size.width = minSize.width;
-	if (windowFrame.size.height < minSize.height) windowFrame.size.height = minSize.height;
-	if (windowFrame.size.width > maxSize.width) windowFrame.size.width = maxSize.width;
-	if (windowFrame.size.height > maxSize.height) windowFrame.size.height = maxSize.height;
+	if (windowFrame.size.width < minWinSize.width) windowFrame.size.width = minWinSize.width;
+	if (windowFrame.size.height < minWinSize.height) windowFrame.size.height = minWinSize.height;
+	if (windowFrame.size.width > maxWinSize.width) windowFrame.size.width = maxWinSize.width;
+	if (windowFrame.size.height > maxWinSize.height) windowFrame.size.height = maxWinSize.height;
 
 	//Keep the top-left corner the same
 	windowFrame.origin.y = oldWindowFrame.origin.y + oldWindowFrame.size.height - windowFrame.size.height;

@@ -473,13 +473,13 @@
 - (NSDragOperation)outlineView:(NSOutlineView*)outlineView 
 				  validateDrop:(id <NSDraggingInfo>)info
 				  proposedItem:(AIProxyListObject *)item
-			proposedChildIndex:(NSInteger)index
+			proposedChildIndex:(NSInteger)idx
 {
     NSArray			*types = [[info draggingPasteboard] types];
 	NSDragOperation retVal = NSDragOperationNone;
 	
 	//No dropping into contacts
-	BOOL allowBetweenContactDrop = (index == NSOutlineViewDropOnItemIndex);
+	BOOL allowBetweenContactDrop = (idx == NSOutlineViewDropOnItemIndex);
 	AIListObject *proposedListObject = item.listObject;
 
 	if ([types containsObject:@"AIListObject"]) {
@@ -502,11 +502,11 @@
 		/* If this is a reorder within a metacontact, allow it in all cases. */
 		if (([primaryDragItem isKindOfClass:[AIListContact class]] && [proposedListObject isKindOfClass:[AIListContact class]]) &&
 			([(AIListContact *)primaryDragItem parentContact] == [(AIListContact *)proposedListObject parentContact])) {
-			return ((index != NSOutlineViewDropOnItemIndex) ? NSDragOperationMove : NSDragOperationNone);
+			return ((idx != NSOutlineViewDropOnItemIndex) ? NSDragOperationMove : NSDragOperationNone);
 		}
 		
 		if ([primaryDragItem isKindOfClass:[AIListGroup class]]) {
-			NSUInteger dropIndex = index;
+			NSUInteger dropIndex = idx;
 			
 			//Disallow dragging groups into or onto other objects
 			if (item != nil) {
@@ -543,23 +543,23 @@
 			 * Do this right by shifting the drop to that group. 
 			 */
 			AIProxyListObject *itemAboveProposedIndex = (AIProxyListObject *)[[outlineView dataSource] outlineView:outlineView
-																											 child:((index > 0) ? (index - 1) : 0)
+																											 child:((idx > 0) ? (idx - 1) : 0)
 																											ofItem:nil];
 			if (![itemAboveProposedIndex isKindOfClass:[AIListGroup class]]) {
 				itemAboveProposedIndex = [outlineView parentForItem:itemAboveProposedIndex];
 			}
 
-			index = ((index > 0) ?
+			idx = ((idx > 0) ?
 					 [[outlineView dataSource] outlineView:outlineView numberOfChildrenOfItem:itemAboveProposedIndex] :
 					 NSOutlineViewDropOnItemIndex);
 			
 			item = itemAboveProposedIndex;
 			proposedListObject = item.listObject;
 
-			[outlineView setDropItem:item dropChildIndex:index];
+			[outlineView setDropItem:item dropChildIndex:idx];
 		}
 
-		if ((index == NSOutlineViewDropOnItemIndex) && [proposedListObject isKindOfClass:[AIListContact class]] &&
+		if ((idx == NSOutlineViewDropOnItemIndex) && [proposedListObject isKindOfClass:[AIListContact class]] &&
 			([info draggingSource] == [self contactListView])) {
 			//Dropping into a contact or attaching groups: "link"
 			if (([contactListView rowForItem:primaryDragItem] == -1) ||
@@ -610,9 +610,9 @@
 				 */
 				if (proposedListObject && [proposedListObject isKindOfClass:[AIMetaContact class]]) {
 					BOOL isExpanded = [outlineView isItemExpanded:item];
-					if ((isExpanded && (index == [[outlineView dataSource] outlineView:outlineView
+					if ((isExpanded && (idx == [[outlineView dataSource] outlineView:outlineView
 																numberOfChildrenOfItem:item])) ||
-						(!isExpanded && (index != NSOutlineViewDropOnItemIndex))) {
+						(!isExpanded && (idx != NSOutlineViewDropOnItemIndex))) {
 						
 						AIProxyListObject<AIContainingObject> *parentObject = [outlineView parentForItem:item];
 
@@ -658,7 +658,7 @@
 	return realDragItems;
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(AIProxyListObject *)item childIndex:(NSInteger)idx
 {
 	BOOL		success = YES;
 	NSPasteboard *draggingPasteboard = [info draggingPasteboard];
@@ -746,7 +746,7 @@
 						}
 					}
 					
-					[group moveContainedObject:listObject toIndex:index];
+					[group moveContainedObject:listObject toIndex:idx];
 					[adium.contactController sortListObject:listObject];
 				}
 				
@@ -771,7 +771,7 @@
 				[set intersectSet:[NSSet setWithArray:((AIMetaContact *)item).containedObjects]];
 
 				for (AIListObject *obj in set) {
-					[(AIMetaContact *)item moveContainedObject:(AIListContact *)obj toIndex:index];
+					[(AIMetaContact *)item moveContainedObject:(AIListContact *)obj toIndex:idx];
 				}
 			}
 			[outlineView reloadData];
@@ -866,7 +866,7 @@
 		}
 	}
 	
-	[super outlineView:outlineView acceptDrop:info item:item childIndex:index];
+	[super outlineView:outlineView acceptDrop:info item:item childIndex:idx];
 	
     return success;
 }

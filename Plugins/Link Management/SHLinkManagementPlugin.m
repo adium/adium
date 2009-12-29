@@ -91,13 +91,13 @@
 //Add or edit a link
 - (IBAction)editFormattedLink:(id)sender
 {
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
-	NSTextView	*earliestTextView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+	NSTextView	*earliestTextView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
 
     if (earliestTextView &&
-		![[keyWindow windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
+		![[keyWin windowController] isKindOfClass:[SHLinkEditorWindowController class]]) {
 		[SHLinkEditorWindowController showLinkEditorForTextView:earliestTextView
-													   onWindow:keyWindow
+													   onWindow:keyWin
 												  showFavorites:YES
 												notifyingTarget:nil];
     }
@@ -105,8 +105,8 @@
 
 - (IBAction)removeFormattedLink:(id)sender
 {
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
-	NSTextView	*earliestTextView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+	NSTextView	*earliestTextView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
     
 	if (earliestTextView) {
 		NSRange	selectedRange = [earliestTextView selectedRange];

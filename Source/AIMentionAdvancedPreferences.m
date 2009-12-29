@@ -53,9 +53,9 @@
 	
 	[tableView reloadData];
 	
-	NSInteger index = mentionTerms.count-1;
-	[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
-	[tableView editColumn:0 row:index withEvent:nil select:YES];
+	NSInteger idx = mentionTerms.count-1;
+	[tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:idx] byExtendingSelection:NO];
+	[tableView editColumn:0 row:idx withEvent:nil select:YES];
 }
 
 /*!

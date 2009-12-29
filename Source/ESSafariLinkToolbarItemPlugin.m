@@ -97,8 +97,8 @@
  */
 - (IBAction)insertSafariLink:(id)sender
 {
-	NSWindow	*keyWindow = [[NSApplication sharedApplication] keyWindow];
-	NSTextView	*earliestTextView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
+	NSWindow	*keyWin = [[NSApplication sharedApplication] keyWindow];
+	NSTextView	*earliestTextView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
 
 	if (earliestTextView) {
 		NSArray	*arguments = [NSArray arrayWithObject:AILocalizedString(@"Multiple browsers are open. Please select one link:", "Prompt when more than one web browser is available when inserting a link from the active browser.")];

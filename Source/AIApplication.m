@@ -55,7 +55,7 @@
 	[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 	[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create window. At least, not like that."];
 }
-- (void)insertObject:(NSWindow *)w inOrderedWindowsAtIndex:(NSUInteger)index
+- (void)insertObject:(NSWindow *)w inOrderedWindowsAtIndex:(NSUInteger)idx
 {
 	[[NSScriptCommand currentCommand] setScriptErrorNumber:errOSACantAssign];
 	[[NSScriptCommand currentCommand] setScriptErrorString:@"Can't create window. At least, not like that."];
@@ -89,13 +89,13 @@
 {
 	return adium.contactController.allContacts;
 }
-- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(NSInteger)index
+- (void)insertObject:(AIListObject *)contact inContactsAtIndex:(NSInteger)idx
 {
 	//Intentially unimplemented. This should never be called (contacts are created a different way), but is required for KVC-compliance.
 }
-- (void)removeObjectFromContactsAtIndex:(NSInteger)index
+- (void)removeObjectFromContactsAtIndex:(NSInteger)idx
 {
-	AIListObject *object = [self.contacts objectAtIndex:index];
+	AIListObject *object = [self.contacts objectAtIndex:idx];
 	
 	for (AIListGroup *group in object.groups) {
 		[object removeFromGroup:group];
@@ -197,8 +197,8 @@
 	
 	if ([keyDictionary objectForKey:@"Location"]) {
 		NSPositionalSpecifier *location = [keyDictionary objectForKey:@"Location"];
-		NSUInteger index = [location insertionIndex];
-		[[adium.statusController rootStateGroup] addStatusItem:status atIndex:index];
+		NSUInteger idx = [location insertionIndex];
+		[[adium.statusController rootStateGroup] addStatusItem:status atIndex:idx];
 	} else {
 		[adium.statusController addStatusState:status];
 	}

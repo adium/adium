@@ -1889,19 +1889,19 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 }
 
 #pragma mark Outline View Data source
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(id)item
 {
 	if (!item) {
-		if (index == 0) {
+		if (idx == 0) {
 			return allContactsIdentifier;
 
 		} else {
-			return [toArray objectAtIndex:index-1]; //-1 for the All item, which is index 0
+			return [toArray objectAtIndex:idx-1]; //-1 for the All item, which is index 0
 		}
 
 	} else {
 		if ([item isKindOfClass:[AIMetaContact class]]) {
-			return [[(AIMetaContact *)item listContactsIncludingOfflineAccounts] objectAtIndex:index];
+			return [[(AIMetaContact *)item listContactsIncludingOfflineAccounts] objectAtIndex:idx];
 		}
 	}
 	
@@ -2845,9 +2845,9 @@ NSString *handleSpecialCasesForUIDAndServiceClass(NSString *contactUID, NSString
 	iCalFirstDayOfWeekDetermined = NO;
 	
 	[popUp_dateFilter setMenu:[self dateTypeMenu]];
-	NSInteger index = [popUp_dateFilter indexOfItemWithTag:AIDateTypeAnyDate];
-	if(index != NSNotFound)
-		[popUp_dateFilter selectItemAtIndex:index];
+	NSInteger idx = [popUp_dateFilter indexOfItemWithTag:AIDateTypeAnyDate];
+	if(idx != NSNotFound)
+		[popUp_dateFilter selectItemAtIndex:idx];
 	[self selectedDateType:AIDateTypeAnyDate];
 	
 	[datePicker setDateValue:[NSDate date]];

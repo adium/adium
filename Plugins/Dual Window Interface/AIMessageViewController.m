@@ -1041,7 +1041,7 @@
 	return contacts;
 }
 
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)idx
 {
 	NSMutableArray	*completions = nil;
 	
@@ -1071,7 +1071,7 @@
 		}
 
 		if ([completions count]) {			
-			*index = 0;
+			*idx = 0;
 		}
 	}
 

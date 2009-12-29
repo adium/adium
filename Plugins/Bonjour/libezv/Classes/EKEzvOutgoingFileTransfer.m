@@ -285,22 +285,22 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 
 		if (directory) {
 			// handle the creation of the directory xml
-			NSXMLElement *directory = [[[NSXMLElement alloc] initWithName:@"dir"] autorelease];
+			NSXMLElement *directoryNode = [[[NSXMLElement alloc] initWithName:@"dir"] autorelease];
 			NSString *posixFlags = [self posixFlagsForPath: newPath];
 			if (posixFlags != nil) {
-				[directory addAttribute:[NSXMLNode attributeWithName:@"posixflags" stringValue:posixFlags]];
+				[directoryNode addAttribute:[NSXMLNode attributeWithName:@"posixflags" stringValue:posixFlags]];
 			}
 
 			NSXMLElement *name = [[[NSXMLElement alloc] initWithName:@"name" stringValue:file] autorelease];
-			[directory addChild:name];
+			[directoryNode addChild:name];
 
 			NSArray *dirChildren = [self generateXMLFromDirectory:newPath];
 
 			for (NSXMLElement *child in dirChildren) {
-				[directory addChild:child];
+				[directoryNode addChild:child];
 			}
 
-			[children addObject:directory];
+			[children addObject:directoryNode];
 		} else {
 			// create the file xml
 			NSXMLElement *fileXML = [[[NSXMLElement alloc] initWithName:@"file"] autorelease];

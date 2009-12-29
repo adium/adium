@@ -226,11 +226,11 @@
 		 */
 		[newState setUniqueStatusID:[originalState uniqueStatusID]];
 		
-		for (AIAccount *account in adium.accountController.accounts) {
-			if (account.statusState == originalState) {
-				[account setStatusStateAndRemainOffline:newState];
+		for (AIAccount *loopAccount in adium.accountController.accounts) {
+			if (loopAccount.statusState == originalState) {
+				[loopAccount setStatusStateAndRemainOffline:newState];
 				
-				[account notifyOfChangedPropertiesSilently:YES];
+				[loopAccount notifyOfChangedPropertiesSilently:YES];
 			}
 		}
 
@@ -340,11 +340,11 @@
 
 //State List OutlinView Delegate --------------------------------------------------------------------------------------------
 #pragma mark State List (OutlineView Delegate)
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)idx ofItem:(id)item
 {
 	AIStatusGroup *statusGroup = (item ? item : [adium.statusController rootStateGroup]);
 	
-	return [[statusGroup containedStatusItems] objectAtIndex:index];
+	return [[statusGroup containedStatusItems] objectAtIndex:idx];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -439,9 +439,9 @@
     return YES;
 }
 
-- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)index
+- (NSDragOperation)outlineView:(NSOutlineView *)outlineView validateDrop:(id <NSDraggingInfo>)info proposedItem:(id)item proposedChildIndex:(NSInteger)idx
 {
-    if (index == NSOutlineViewDropOnItemIndex && ![item isKindOfClass:[AIStatusGroup class]]) {
+    if (idx == NSOutlineViewDropOnItemIndex && ![item isKindOfClass:[AIStatusGroup class]]) {
 		AIStatusGroup *dropItem = [item containingStatusGroup];
 		if (dropItem == [adium.statusController rootStateGroup])
 			dropItem = nil;
@@ -456,7 +456,7 @@
 /*!
 * @brief Drag complete
  */
-- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)index
+- (BOOL)outlineView:(NSOutlineView *)outlineView acceptDrop:(id <NSDraggingInfo>)info item:(id)item childIndex:(NSInteger)idx
 {
     NSString	*avaliableType = [[info draggingPasteboard] availableTypeFromArray:[NSArray arrayWithObject:STATE_DRAG_TYPE]];
     if ([avaliableType isEqualToString:STATE_DRAG_TYPE]) {		
@@ -470,23 +470,23 @@
 		for (statusItem in draggingItems) {
 			if ([statusItem containingStatusGroup] == item) {
 				BOOL shouldIncrement = NO;
-				if ([[[statusItem containingStatusGroup] containedStatusItems] indexOfObject:statusItem] > index) {
+				if ([[[statusItem containingStatusGroup] containedStatusItems] indexOfObject:statusItem] > idx) {
 					shouldIncrement = YES;
 				}
 				
 				//Move the state and select it in the new location
-				[item moveStatusItem:statusItem toIndex:index];
+				[item moveStatusItem:statusItem toIndex:idx];
 				
-				if (shouldIncrement) index++;
+				if (shouldIncrement) idx++;
 			} else {
 				//Don't let an object be moved into itself...
 				if (item != statusItem) {
 					[statusItem retain];
 					[[statusItem containingStatusGroup] removeStatusItem:statusItem];
-					[item addStatusItem:statusItem atIndex:index];
+					[item addStatusItem:statusItem atIndex:idx];
 					[statusItem release];
 					
-					index++;
+					idx++;
 				}
 			}
 		}

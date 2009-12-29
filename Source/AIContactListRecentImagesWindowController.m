@@ -128,19 +128,19 @@
 	return [[(IKPictureTakerRecentPictureRepository *)[IKPictureTakerRecentPictureRepository recentRepository] recentPictures] valueForKey:@"smallIcon"];
 }
 
-- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)index
+- (NSImage *)imageGridView:(AIImageGridView *)imageGridView imageAtIndex:(NSUInteger)idx
 {
 	NSImage		*displayImage;
 	NSArray		*recentSmallIcons = [self recentSmallIcons];
-	if (index < [recentSmallIcons count]) {
-		NSImage		 *image = [recentSmallIcons objectAtIndex:index];
+	if (idx < [recentSmallIcons count]) {
+		NSImage		 *image = [recentSmallIcons objectAtIndex:idx];
 		NSSize		size = [image size];
 		NSBezierPath *fullPath = [NSBezierPath bezierPathWithRect:NSMakeRect(0, 0, size.width, size.height)];
 		displayImage = [image copy];
 		
 		[displayImage lockFocus];
 		
-		if (index == currentHoveredIndex) {
+		if (idx == currentHoveredIndex) {
 			[[[NSColor blueColor] colorWithAlphaComponent:0.30f] set];
 			[fullPath fill];
 			
@@ -169,11 +169,11 @@
 	return [displayImage autorelease];
 }
 
-- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(NSUInteger)index
+- (void)imageGridView:(AIImageGridView *)inImageGridView cursorIsHoveringImageAtIndex:(NSUInteger)idx
 {
 	//Update our hovered index and redisplay the image
-	currentHoveredIndex = index;
-	[imageGridView setNeedsDisplayOfImageAtIndex:index];
+	currentHoveredIndex = idx;
+	[imageGridView setNeedsDisplayOfImageAtIndex:idx];
 }
 
 - (void)imageGridViewSelectionDidChange:(NSNotification *)notification

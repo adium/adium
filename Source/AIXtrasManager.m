@@ -192,10 +192,10 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (NSArray *)arrayOfXtrasAtPaths:(NSArray *)paths
 {
 	NSMutableArray	*contents = [NSMutableArray array];
-	NSFileManager	*manager = [NSFileManager defaultManager];
+	NSFileManager	*fileManager = [NSFileManager defaultManager];
 
 	for (NSString *path in paths) {
-		for (NSString *xtraName in [manager contentsOfDirectoryAtPath:path error:NULL]) {
+		for (NSString *xtraName in [fileManager contentsOfDirectoryAtPath:path error:NULL]) {
 			if (![xtraName hasPrefix:@"."]) {
 				[contents addObject:[AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:xtraName]]]];
 			}
@@ -203,7 +203,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 		
 		NSString *disabledPath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:
 								  [[path lastPathComponent] stringByAppendingString:@" (Disabled)"]];
-		for (NSString *xtraName in [manager contentsOfDirectoryAtPath:disabledPath error:NULL]) {
+		for (NSString *xtraName in [fileManager contentsOfDirectoryAtPath:disabledPath error:NULL]) {
 			if (![xtraName hasPrefix:@"."]) {
 				AIXtraInfo *xtraInfo = [AIXtraInfo infoWithURL:[NSURL fileURLWithPath:[disabledPath stringByAppendingPathComponent:xtraName]]];
 				[xtraInfo setEnabled:NO];
@@ -312,7 +312,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 - (void)deleteXtrasAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
 	if (returnCode == NSAlertDefaultReturn) {
-		NSFileManager * manager = [NSFileManager defaultManager];
+		NSFileManager * fileManager = [NSFileManager defaultManager];
 		NSIndexSet * indices = [xtraList selectedRowIndexes];
 		NSMutableSet * pathExtensions = [NSMutableSet set];
 		NSString * path;
@@ -320,7 +320,7 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 			if ([indices containsIndex:i]) {
 				path = [[selectedCategory objectAtIndex:i] path];
 				[pathExtensions addObject:[path pathExtension]];
-				[manager trashFileAtPath:path];
+				[fileManager trashFileAtPath:path];
 			}
 		}
 		[xtraList selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
@@ -371,11 +371,11 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 	NSString *resourcesPath = [contentsPath stringByAppendingPathComponent:@"Resources"];
 	NSString *infoPlistPath = [contentsPath stringByAppendingPathComponent:@"Info.plist"];
 
-	NSFileManager * manager = [NSFileManager defaultManager];
+	NSFileManager * fileManager = [NSFileManager defaultManager];
 	NSString * name = [[path lastPathComponent] stringByDeletingPathExtension];
-	if (![manager fileExistsAtPath:path]) {
-		[manager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL];
-		[manager createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:NULL];
+	if (![fileManager fileExistsAtPath:path]) {
+		[fileManager createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:NULL];
+		[fileManager createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:NULL];
 
 		//Info.plist
 		[[NSDictionary dictionaryWithObjectsAndKeys:
@@ -388,13 +388,13 @@ NSInteger categorySort(id categoryA, id categoryB, void * context)
 			nil] writeToFile:infoPlistPath atomically:YES];
 
 		//Resources
-		[manager createDirectoryAtPath:resourcesPath withIntermediateDirectories:YES attributes:nil error:NULL];
+		[fileManager createDirectoryAtPath:resourcesPath withIntermediateDirectories:YES attributes:nil error:NULL];
 	}
 
 	BOOL isDir = NO, success;
-	success = [manager fileExistsAtPath:resourcesPath isDirectory:&isDir] && isDir;
+	success = [fileManager fileExistsAtPath:resourcesPath isDirectory:&isDir] && isDir;
 	if (success)
-		success = [manager fileExistsAtPath:infoPlistPath isDirectory:&isDir] && !isDir;
+		success = [fileManager fileExistsAtPath:infoPlistPath isDirectory:&isDir] && !isDir;
 	return success;
 }
 

@@ -310,9 +310,9 @@
 				[account setValue:nil forProperty:@"Waiting for Network" notify:NotifyNow];
 
 				//Check if any enabled accounts are still using this now-disabled account's host
-				for (AIAccount *account in adium.accountController.accounts) {
-					if (account.enabled && account.connectivityBasedOnNetworkReachability) {
-						if ([thisHost caseInsensitiveCompare:account.host] == NSOrderedSame) {
+				for (AIAccount *loopAccount in adium.accountController.accounts) {
+					if (loopAccount.enabled && loopAccount.connectivityBasedOnNetworkReachability) {
+						if ([thisHost caseInsensitiveCompare:loopAccount.host] == NSOrderedSame) {
 							enabledAccountUsingThisHost = YES;
 							break;
 						}

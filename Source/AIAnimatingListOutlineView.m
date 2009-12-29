@@ -185,9 +185,9 @@
 {
 	if (!dict) dict = [NSMutableDictionary dictionary];
 
-	NSInteger index = (item ? [self rowForItem:item] : -1);
+	NSInteger idx = (item ? [self rowForItem:item] : -1);
 
-	if ((index != -1) || !item) {
+	if ((idx != -1) || !item) {
 		if (!item || ([self isExpandable:item] &&
 					  [self isItemExpanded:item])) {
 			NSInteger numChildren = [[self dataSource] outlineView:self numberOfChildrenOfItem:item];
@@ -198,7 +198,7 @@
 			}
 		}
 		
-		if (item) [dict setObject:[NSNumber numberWithInteger:index] forKey:[NSValue valueWithPointer:item]];
+		if (item) [dict setObject:[NSNumber numberWithInteger:idx] forKey:[NSValue valueWithPointer:item]];
 	}
 
 	return dict;

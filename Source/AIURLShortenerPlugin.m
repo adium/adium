@@ -172,8 +172,8 @@
  */
 - (void)shortenLink
 {
-	NSWindow	*keyWindow = NSApplication.sharedApplication.keyWindow;
-	NSTextView	*textView = (NSTextView *)[keyWindow earliestResponderOfClass:[NSTextView class]];
+	NSWindow	*keyWin = NSApplication.sharedApplication.keyWindow;
+	NSTextView	*textView = (NSTextView *)[keyWin earliestResponderOfClass:[NSTextView class]];
 	
 	// Don't try and do anything on an empty input line or if we're at the end
 	if(!textView.textStorage.length || textView.selectedRange.location == textView.textStorage.length) {

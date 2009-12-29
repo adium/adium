@@ -568,17 +568,17 @@
 
 //Add a tab view item container (without changing the current selection)
 //If silent is NO, the interface controller will be informed of the add
-- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)index silent:(BOOL)silent
+- (void)addTabViewItem:(AIMessageTabViewItem *)inTabViewItem atIndex:(NSInteger)idx silent:(BOOL)silent
 {
 	/* XXX This mirrors the hack in -[AIMessageTabViewItem initWithMessageView]. It may have been undone
 	 * in removeTabViewItem:silent: below if the tab was moving between windows.
 	 */
 	[inTabViewItem setIdentifier:inTabViewItem];
 
-	if (index == -1) {
+	if (idx == -1) {
 		[tabView_messages addTabViewItem:inTabViewItem];
 	} else {
-		[tabView_messages insertTabViewItem:inTabViewItem atIndex:index];
+		[tabView_messages insertTabViewItem:inTabViewItem atIndex:idx];
 	}
 
 	//Refresh our list and order of chats
@@ -636,16 +636,16 @@
 	}
 }
 
-- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)index
+- (void)moveTabViewItem:(AIMessageTabViewItem *)inTabViewItem toIndex:(NSInteger)idx
 {
 	AIChat	*chat = inTabViewItem.chat;
 
-	if ([self.containedChats indexOfObject:chat] != index) {
+	if ([self.containedChats indexOfObject:chat] != idx) {
 		NSMutableArray *cells = [tabView_tabBar cells];
 		
-		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:index];
+		[cells moveObject:[cells objectAtIndex:[[tabView_tabBar representedTabViewItems] indexOfObject:inTabViewItem]] toIndex:idx];
 		[tabView_tabBar setNeedsDisplay:YES];
-		[m_containedChats moveObject:chat toIndex:index];
+		[m_containedChats moveObject:chat toIndex:idx];
 		
 		[adium.interfaceController chatOrderDidChange];
 	}
@@ -1331,17 +1331,17 @@
 	NSArray			*itemArray = [toolbar items];
 	NSEnumerator	*enumerator = [itemArray objectEnumerator];
 	NSToolbarItem	*item;
-	NSInteger		index = NSNotFound;
+	NSInteger		idx = NSNotFound;
 
 	while ((item = [enumerator nextObject])) {
 		if ([[item itemIdentifier] isEqualToString:identifier]) {
-			index = [itemArray indexOfObject:item];
+			idx = [itemArray indexOfObject:item];
 			break;
 		}
 	}
 
-	if (index != NSNotFound) {
-		[toolbar removeItemAtIndex:index];
+	if (idx != NSNotFound) {
+		[toolbar removeItemAtIndex:idx];
 	}
 }
 

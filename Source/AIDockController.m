@@ -446,9 +446,9 @@
 //returns the % of the dock icon's full size that it currently is (0.0 - 1.0)
 - (CGFloat)dockIconScale
 {
-	NSScreen *mainScreen = [NSScreen mainScreen];
-	NSSize trueSize = mainScreen.visibleFrame.size;
-	NSSize availableSize = mainScreen.frame.size;
+	NSScreen *screen = [NSScreen mainScreen];
+	NSSize trueSize = screen.visibleFrame.size;
+	NSSize availableSize = screen.frame.size;
 
 	CGFloat	dHeight = availableSize.height - trueSize.height;
 	CGFloat dWidth = availableSize.width - trueSize.width;

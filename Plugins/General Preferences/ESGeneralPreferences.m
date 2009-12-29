@@ -137,16 +137,16 @@
 - (IBAction)changePreference:(id)sender
 {
     if (sender == popUp_tabKeys) {
-		AITabKeys keySelection = (AITabKeys)[[sender selectedItem] tag];
+		AITabKeys keySelect = (AITabKeys)[[sender selectedItem] tag];
 
-		[adium.preferenceController setPreference:[NSNumber numberWithInt:keySelection]
+		[adium.preferenceController setPreference:[NSNumber numberWithInt:keySelect]
 											 forKey:KEY_TAB_SWITCH_KEYS
 											  group:PREF_GROUP_CHAT_CYCLING];
 		
 	} else if (sender == popUp_sendKeys) {
-		AISendKeys 	keySelection = (AISendKeys)[[sender selectedItem] tag];
-		BOOL		sendOnEnter = (keySelection == AISendOnEnter || keySelection == AISendOnBoth);
-		BOOL		sendOnReturn = (keySelection == AISendOnReturn || keySelection == AISendOnBoth);
+		AISendKeys 	keySelect = (AISendKeys)[[sender selectedItem] tag];
+		BOOL		sendOnEnter = (keySelect == AISendOnEnter || keySelect == AISendOnBoth);
+		BOOL		sendOnReturn = (keySelect == AISendOnReturn || keySelect == AISendOnBoth);
 		
 		[adium.preferenceController setPreference:[NSNumber numberWithInt:sendOnEnter]
 											 forKey:SEND_ON_ENTER
