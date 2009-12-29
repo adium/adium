@@ -18,7 +18,6 @@
 #import <sys/types.h>
 #import <unistd.h>
 
-#warning This wants modernizing: take NSURLs, provide NSErrors
 
 @implementation NSFileManager (AIFileManagerAdditions)
 
