@@ -30,7 +30,7 @@
 
 #pragma mark *** Key Combination Control ***
 
-- (unsigned int)allowedFlags;
+- (NSUInteger)allowedFlags;
 - (void)setAllowedFlags:(NSUInteger)flags;
 
 - (BOOL)allowsKeyOnly;
@@ -40,7 +40,7 @@
 - (BOOL)canCaptureGlobalHotKeys;
 - (void)setCanCaptureGlobalHotKeys:(BOOL)inState;
 
-- (unsigned int)requiredFlags;
+- (NSUInteger)requiredFlags;
 - (void)setRequiredFlags:(NSUInteger)flags;
 
 - (KeyCombo)keyCombo;
