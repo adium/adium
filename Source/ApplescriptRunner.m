@@ -17,6 +17,12 @@
 - (void)resetAutomaticQuitTimer;
 @end
 
+@interface AIApplescriptRunner ()
+- (void)respondIfReady:(NSNotification *)inNotification;
+- (void)executeScript:(NSNotification *)inNotification;
+- (void)quit:(NSNotification *)inNotification;
+@end
+
 @implementation AIApplescriptRunner
 - (id)init
 {
