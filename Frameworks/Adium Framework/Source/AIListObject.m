@@ -212,18 +212,18 @@
 	
 	if (idx == 0) {
 		//Moved to the top of a group.  New index is between 0 and the lowest current index
-		[container listObject:listObject didSetOrderIndex: self.smallestOrder / 2.0f];
+		[container listObject:listObject didSetOrderIndex: self.smallestOrder / 2];
 		
 	} else if (idx >= container.visibleCount) {
 		//Moved to the bottom of a group.  New index is one higher than the highest current index
-		[container listObject:listObject didSetOrderIndex: self.largestOrder + 1.0f];
+		[container listObject:listObject didSetOrderIndex: self.largestOrder + 1];
 		
 	} else {
 		//Moved somewhere in the middle.  New index is the average of the next largest and smallest index
 		AIListObject	*previousObject = [container.visibleContainedObjects objectAtIndex:idx-1];
 		AIListObject	*nextObject = [container.visibleContainedObjects objectAtIndex:idx];
-		CGFloat nextLowest = [container orderIndexForObject:previousObject];
-		CGFloat nextHighest = [container orderIndexForObject:nextObject];
+		float nextLowest = [container orderIndexForObject:previousObject];
+		float nextHighest = [container orderIndexForObject:nextObject];
 		
 		/* XXX - Fixme as per below
 		 * It's possible that nextLowest > nextHighest if ordering is not strictly based on the ordering indexes themselves.
@@ -240,8 +240,8 @@
 		 */
 		AILogWithSignature(@"%@: Moving %@ into %@'s index %i using order index %f (between %@ and %@)",
 						   container, listObject, container.visibleContainedObjects, idx, 
-						   (nextHighest + nextLowest) / 2.0, nextObject, previousObject);
-		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2.0f];
+						   (nextHighest + nextLowest) / 2, nextObject, previousObject);
+		[container listObject: listObject didSetOrderIndex: (nextHighest + nextLowest) / 2];
 	}	
 }
 
@@ -650,7 +650,7 @@
 }
 
 #pragma mark Methods for AIContainingObject-compliant classes to inherit
-- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(CGFloat)orderIndexForObject
+- (void)listObject:(AIListObject *)listObject didSetOrderIndex:(float)orderIndexForObject
 {
 	NSDictionary		*dict = [self preferenceForKey:@"OrderIndexDictionary"
 												 group:ObjectStatusCache];
@@ -674,10 +674,10 @@
 		[self updateOrderCache];
 		
 		// Assume an index of largest+1
-		orderIndexForObject = self.largestOrder + 1.0f;
+		orderIndexForObject = self.largestOrder + 1;
 	}
 	
-	NSNumber *orderIndexForObjectNumber = [NSNumber numberWithDouble:orderIndexForObject];
+	NSNumber *orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 	
 	//Prevent setting an order index which we already have
 	NSArray *existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
@@ -687,7 +687,7 @@
 							   listObject, orderIndexForObject, self, orderIndexForObject+1);
 
 			orderIndexForObject++;
-			orderIndexForObjectNumber = [NSNumber numberWithDouble:orderIndexForObject];
+			orderIndexForObjectNumber = [NSNumber numberWithFloat:orderIndexForObject];
 			existingKeys = [dict allKeysForObject:orderIndexForObjectNumber];
 			
 		} else {
@@ -713,13 +713,13 @@
 }
 
 //Order index
-- (CGFloat)orderIndexForObject:(AIListObject *)listObject
+- (float)orderIndexForObject:(AIListObject *)listObject
 {
 	NSDictionary *dict = [self preferenceForKey:@"OrderIndexDictionary"
 										  group:ObjectStatusCache 
 						 ];
 	NSNumber *orderIndexForObjectNumber = [dict objectForKey:listObject.internalObjectID];
-	CGFloat orderIndexForObject = (orderIndexForObjectNumber ? (CGFloat)[orderIndexForObjectNumber doubleValue] : 0);
+	float orderIndexForObject = (orderIndexForObjectNumber ? [orderIndexForObjectNumber floatValue] : 0);
 	
 	//Evan: I don't know how we got up to infinity.. perhaps pref corruption in a previous version?
 	//In any case, check against it; if we stored it, reset to a reasonable number.
@@ -727,14 +727,14 @@
 	if  (!(orderIndexForObject < INFINITY)) orderIndexForObject = 0;
 
 	if (!orderIndexForObject) {
-		orderIndexForObject = self.largestOrder + 1.0f;
+		orderIndexForObject = self.largestOrder + 1;
 		[(AIListObject<AIContainingObject> *)self listObject:listObject didSetOrderIndex: orderIndexForObject];
 	}
 	
 	return orderIndexForObject;
 }
 
-- (CGFloat)smallestOrder
+- (float)smallestOrder
 {
 	if (!cachedSmallestOrder) {
 		[self updateOrderCache];
@@ -743,7 +743,7 @@
 	return cachedSmallestOrder;
 }
 
-- (CGFloat)largestOrder
+- (float)largestOrder
 {
 	if (!cachedLargestOrder) {
 		[self updateOrderCache];
@@ -754,7 +754,7 @@
 
 - (void)updateOrderCache
 {
-	CGFloat smallest = INFINITY, largest = 0;
+	float smallest = INFINITY, largest = 0;
 	
 	NSDictionary *orderIndex = [self preferenceForKey:@"OrderIndexDictionary" group:ObjectStatusCache];
 	
