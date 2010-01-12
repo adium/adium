@@ -142,7 +142,7 @@ prepare-release-bundle:
 	@# delete unneeded nib files for non-beta builds
 	@echo Cleaning Adium.app for release
 ifeq ($(BUILD_IN_DEBUG_MODE),FALSE)
-	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib \) -type f -delete
+	find $(BUILD_DIR) \( -name classes.nib -or -name info.nib -or -name designable.nib \) -type f -delete
 endif
 	
 	@# delete backup files
