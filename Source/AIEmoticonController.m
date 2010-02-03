@@ -29,6 +29,7 @@
 #import <AIUtilities/AIDictionaryAdditions.h>
 #import <AIUtilities/AICharacterSetAdditions.h>
 #import <Adium/AIChat.h>
+#import <Adium/AIContentEvent.h>
 
 #define EMOTICON_DEFAULT_PREFS				@"EmoticonDefaults"
 #define EMOTICONS_PATH_NAME					@"Emoticons"
@@ -134,7 +135,11 @@ NSInteger packSortFunction(id packA, id packB, void *packOrderingArray);
 - (NSAttributedString *)filterAttributedString:(NSAttributedString *)inAttributedString context:(id)context
 {
     NSMutableAttributedString   *replacementMessage = nil;
-    if (inAttributedString) {
+		// We want to filter some status event messages (e.g. changes in status messages), but not fileTransfer messages.
+		// Filenames, afterall, should not have emoticons in them.
+    if (inAttributedString &&
+				!([context isKindOfClass:[AIContentEvent class]] &&
+					[[(AIContentEvent *)context type] rangeOfString:@"fileTransfer"].location == NSNotFound)) {
         /* First, we do a quick scan of the message for any characters that might end up being emoticons
          * This avoids having to do the slower, more complicated scan for the majority of messages.
 		 *
