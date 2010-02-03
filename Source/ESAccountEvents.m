@@ -187,7 +187,7 @@
 									forChat:(AIChat *)chat
 								  withCount:(NSUInteger)count
 {
-	NSString *format;
+	NSString *format = nil;
 	
 	if ([eventID isEqualToString:ACCOUNT_CONNECTED]) {
 		format = AILocalizedString(@"%u accounts connected",nil);
