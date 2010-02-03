@@ -1865,6 +1865,9 @@ static SLPurpleCocoaAdapter *purpleAdapter = nil;
 {
 	finishedConnectProcess = NO;
 
+    // When we *start* to connect, ensure there is no previous error.  Waiting until connection succeeds
+    // could lead to looping.
+    [self setLastDisconnectionError:nil];    
 	[super connect];
 
 	//Ensure we have a purple account if one does not already exist
@@ -2196,7 +2199,14 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 
 - (void)setLastDisconnectionReason:(PurpleConnectionError)reason
 {
-	lastDisconnectionReason = reason;
+    // Libpurple now calls this twice, once with the real error, and once when we're disconnected.
+    // Discard the second call.
+    // BE CAREFUL to always call setLastDisconnectionReason BEFORE setLastDisconnectionError
+    // for this to work.
+    if (!lastDisconnectionError)
+    {
+        lastDisconnectionReason = reason;        
+    }
 }
 
 - (PurpleConnectionError)lastDisconnectionReason
@@ -2209,8 +2219,8 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
  */
 - (void)accountConnectionReportDisconnect:(NSString *)text withReason:(PurpleConnectionError)reason
 {
-	[self setLastDisconnectionError:text];
 	[self setLastDisconnectionReason:reason];
+	[self setLastDisconnectionError:text];
 
 	if (reason == PURPLE_CONNECTION_ERROR_AUTHENTICATION_FAILED)
 		[self serverReportedInvalidPassword];
