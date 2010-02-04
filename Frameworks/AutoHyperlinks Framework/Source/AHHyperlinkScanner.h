@@ -44,12 +44,12 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 
 @interface AHHyperlinkScanner : NSObject <NSFastEnumeration>
 {
-	NSDictionary				*m_urlSchemes;
-	NSString					*m_scanString;
-	NSAttributedString			*m_scanAttrString;
-	BOOL						 m_strictChecking;
-	unsigned long				 m_scanLocation;
-	unsigned long				 m_scanStringLength;
+	NSDictionary        *m_urlSchemes;
+	NSString            *m_scanString;
+	NSAttributedString  *m_scanAttrString;
+	BOOL                 m_strictChecking;
+	unsigned long        m_scanLocation;
+	unsigned long        m_scanStringLength;
 }
 
 
