@@ -317,10 +317,10 @@
             }
             
             //make a marked link
-            markedLink = [[[AHMarkedHyperlink alloc] initWithString:_scanString
+            markedLink = [AHMarkedHyperlink hyperlinkWithString:_scanString
 											  withValidationStatus:validStatus
 													  parentString:m_scanString
-														  andRange:scannedRange] autorelease];
+														  andRange:scannedRange];
             return [markedLink URL]? markedLink : nil;
         }
 

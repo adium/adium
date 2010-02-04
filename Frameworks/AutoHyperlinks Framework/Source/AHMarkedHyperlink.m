@@ -29,16 +29,31 @@
 
 @implementation AHMarkedHyperlink
 
+@synthesize range = linkRange, URL = linkURL, parentString = pString, validationStatus = urlStatus;
 #pragma mark init and dealloc
 
++ (id)hyperlinkWithString:(NSString *)inString
+		 withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
+						 parentString:(NSString *)pInString
+								 andRange:(NSRange)inRange
+{
+	return [[[[self class] alloc] initWithString:inString
+													withValidationStatus:status
+																	parentString:pInString
+																			andRange:inRange] autorelease];
+}
+
 // one really big init method that does it all...
-- (id)initWithString:(NSString *)inString withValidationStatus:(AH_URI_VERIFICATION_STATUS)status parentString:(NSString *)pInString andRange:(NSRange)inRange
+- (id)initWithString:(NSString *)inString
+withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
+				parentString:(NSString *)pInString
+						andRange:(NSRange)inRange
 {
 	if((self = [self init])) {
 		[self setURLFromString:inString];
-		linkRange = inRange;
-		[self setParentString:pInString];
-		urlStatus = status;
+		self.range = inRange;
+		self.parentString = pInString;
+		self.validationStatus = status;
 	}
 
 	return self;
@@ -47,57 +62,26 @@
 - (id)init
 {
 	if((self = [super init])){
-		linkURL = nil;
-		pString = nil;
+		self.range = NSMakeRange(0, 0);
+		self.validationStatus = 0;
+		self.parentString = nil;
+		self.URL = nil;
 	}
-
+	
 	return self;
 }
 
 - (void)dealloc
 {
-	[linkURL release];
-	[pString release];
+	self.range = NSMakeRange(0, 0);
+	self.validationStatus = 0;
+	self.parentString = nil;
+	self.URL = nil;
 
 	[super dealloc];
 }
 
-#pragma mark Accessors
-
-- (NSRange)range
-{
-	return linkRange;
-}
-
-- (NSString *)parentString
-{
-	return pString;
-}
-
-- (NSURL *)URL
-{
-	return linkURL;
-}
-
-- (AH_URI_VERIFICATION_STATUS)validationStatus
-{
-	return urlStatus;
-}
-
 #pragma mark Transformers
-
-- (void)setRange:(NSRange)inRange
-{
-	linkRange = inRange;
-}
-
-- (void)setURL:(NSURL *)inURL
-{
-	if(linkURL != inURL){
-		[linkURL release];
-		linkURL = [inURL retain];
-	}
-}
 
 - (void)setURLFromString:(NSString *)inString
 {
@@ -114,8 +98,7 @@
 																	 NULL,
 																	 kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
 
-	[linkURL release];
-	linkURL = [[NSURL alloc] initWithString:linkString];
+	self.URL = [[NSURL alloc] initWithString:linkString];
 
 	[linkString release];
 	if(preString) [preString release];
@@ -138,10 +121,10 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	AHMarkedHyperlink   *newLink = [[[self class] allocWithZone:zone] initWithString:[[self URL] absoluteString]
-	                                                            withValidationStatus:[self validationStatus]
-	                                                                    parentString:[self parentString]
-	                                                                        andRange:[self range]];
+	AHMarkedHyperlink   *newLink = [[[self class] allocWithZone:zone] initWithString:[self.URL absoluteString]
+	                                                            withValidationStatus:self.validationStatus
+	                                                                    parentString:self.parentString
+	                                                                        andRange:self.range];
 	return newLink;
 }
 
@@ -149,33 +132,33 @@
 - (BOOL)doesContain:(id)object
 {
 	if([object isKindOfClass:[NSURL class]])
-		return [(NSURL *)object isEqualTo:[self URL]]? YES : NO;
+		return [(NSURL *)object isEqualTo:self.URL]? YES : NO;
 	if([object isKindOfClass:[NSString class]])
-		return [(NSString *)object isEqualTo:[self parentString]]? YES : NO;
+		return [(NSString *)object isEqualTo:self.parentString]? YES : NO;
 	
 	return NO;
 }
 
 - (BOOL)isLike:(NSString *)aString
 {
-	return [[[self parentString] substringWithRange:[self range]] isLike:aString] ||
-			[[[self URL] absoluteString] isLike:aString];
+	return [[self.parentString substringWithRange:self.range] isLike:aString] ||
+			[[self.URL absoluteString] isLike:aString];
 }
 
 - (BOOL)isCaseInsensitiveLike:(NSString *)aString
 {
-	return [[[self parentString] substringWithRange:[self range]] isCaseInsensitiveLike:aString] ||
-			[[[self URL] absoluteString] isCaseInsensitiveLike:aString];
+	return [[self.parentString substringWithRange:self.range] isCaseInsensitiveLike:aString] ||
+			[[self.URL absoluteString] isCaseInsensitiveLike:aString];
 }
 
 - (BOOL)isEqualTo:(id)object
 {
 	if([object isKindOfClass:[AHMarkedHyperlink class]] &&
-	   [(AHMarkedHyperlink *) object validationStatus] == [self validationStatus] &&
-	   [(AHMarkedHyperlink *)object range].location == [self range].location &&
-	   [(AHMarkedHyperlink *)object range].length == [self range].length &&
-	   [[(AHMarkedHyperlink *)object parentString] isEqualTo:[self parentString]] &&
-	   [[(AHMarkedHyperlink *)object URL] isEqualTo:[self URL]])
+	   ((AHMarkedHyperlink *)object).validationStatus == self.validationStatus &&
+	   ((AHMarkedHyperlink *)object).range.location == self.range.location &&
+	   ((AHMarkedHyperlink *)object).range.length == self.range.length &&
+	   [((AHMarkedHyperlink *)object).parentString isEqualTo:self.parentString] &&
+	   [((AHMarkedHyperlink *)object).URL isEqualTo:self.URL])
 		return YES;
 	return NO;
 }
@@ -183,17 +166,17 @@
 - (BOOL)isGreaterThan:(id)object
 {
 	if([object isKindOfClass:[AHMarkedHyperlink class]])
-		return [[[object parentString] substringWithRange:[object range]]
-				isGreaterThan:[[self parentString] substringWithRange:[self range]]]? YES : NO;
+		return [[((AHMarkedHyperlink *)object).parentString substringWithRange:((AHMarkedHyperlink *)object).range]
+				isGreaterThan:[self.parentString substringWithRange:self.range]]? YES : NO;
 	return NO;
 }
 
 - (BOOL)isLessThan:(id)object
 {
 	if([object isKindOfClass:[NSURL class]])
-		return [(NSURL *)object isLessThan:[self URL]]? YES : NO;
+		return [(NSURL *)object isLessThan:self.URL]? YES : NO;
 	if([object isKindOfClass:[NSString class]])
-		return [(NSString *)object isLessThan:[self parentString]]? YES : NO;
+		return [(NSString *)object isLessThan:self.parentString]? YES : NO;
 	return NO;
 }
 

@@ -32,20 +32,17 @@
     NSRange                      linkRange;
     NSURL                       *linkURL;
     NSString                    *pString;
-    AH_URI_VERIFICATION_STATUS      urlStatus;
+    AH_URI_VERIFICATION_STATUS	 urlStatus;
 }
 
+@property(assign) NSRange											 range;
+@property(retain) NSURL												*URL;
+@property(retain) NSString										*parentString;
+@property(assign) AH_URI_VERIFICATION_STATUS	 validationStatus;
+
++ (id)hyperlinkWithString:(NSString *)inString withValidationStatus:(AH_URI_VERIFICATION_STATUS)status parentString:(NSString *)pInString andRange:(NSRange)inRange;
 -(id)initWithString:(NSString *)inString withValidationStatus:(AH_URI_VERIFICATION_STATUS)status parentString:(NSString *)pInString andRange:(NSRange)inRange;
--(NSString *)parentString;
--(NSRange)range;
--(NSURL *)URL;
--(AH_URI_VERIFICATION_STATUS)validationStatus;
 
--(void)setRange:(NSRange)inRange;
--(void)setURL:(NSURL *)inURL;
 -(void)setURLFromString:(NSString *)inString;
--(void)setValidationStatus:(AH_URI_VERIFICATION_STATUS)status;
--(void)setParentString:(NSString *)pInString;
-
 
 @end
