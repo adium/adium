@@ -132,9 +132,9 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 - (BOOL)doesContain:(id)object
 {
 	if([object isKindOfClass:[NSURL class]])
-		return [(NSURL *)object isEqualTo:self.URL]? YES : NO;
+		return [(NSURL *)object isEqualTo:self.URL];
 	if([object isKindOfClass:[NSString class]])
-		return [(NSString *)object isEqualTo:self.parentString]? YES : NO;
+		return [(NSString *)object isEqualTo:self.parentString];
 	
 	return NO;
 }
@@ -167,16 +167,16 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 {
 	if([object isKindOfClass:[AHMarkedHyperlink class]])
 		return [[((AHMarkedHyperlink *)object).parentString substringWithRange:((AHMarkedHyperlink *)object).range]
-				isGreaterThan:[self.parentString substringWithRange:self.range]]? YES : NO;
+				isGreaterThan:[self.parentString substringWithRange:self.range]];
 	return NO;
 }
 
 - (BOOL)isLessThan:(id)object
 {
 	if([object isKindOfClass:[NSURL class]])
-		return [(NSURL *)object isLessThan:self.URL]? YES : NO;
+		return [(NSURL *)object isLessThan:self.URL];
 	if([object isKindOfClass:[NSString class]])
-		return [(NSString *)object isLessThan:self.parentString]? YES : NO;
+		return [(NSString *)object isLessThan:self.parentString];
 	return NO;
 }
 
