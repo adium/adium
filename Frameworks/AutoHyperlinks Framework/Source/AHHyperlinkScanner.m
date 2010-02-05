@@ -359,9 +359,11 @@
 
 - (AHMarkedHyperlink *)nextURI
 {
+	AHMarkedHyperlink *link = nil;
 	@synchronized(self) {
-		return [self nextURIFromLocation:&m_scanLocation];
+		link = [self nextURIFromLocation:&m_scanLocation];
 	}
+	return link;
 }
 
 -(NSArray *)allURIs
