@@ -52,6 +52,7 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 	unsigned long        m_scanStringLength;
 }
 
+@property (assign) unsigned long scanLocation;
 
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given NSString
@@ -145,8 +146,5 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
  * @return An autoreleased NSAttributedString.
  */
 - (NSAttributedString *)linkifiedString;
-
-- (unsigned long)scanLocation;
-- (void)setScanLocation:(unsigned int)location;
 
 @end
