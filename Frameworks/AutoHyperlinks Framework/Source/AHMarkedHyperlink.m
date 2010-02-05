@@ -98,7 +98,7 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 																	 NULL,
 																	 kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
 
-	self.URL = [[NSURL alloc] initWithString:linkString];
+	self.URL = [NSURL URLWithString:linkString];
 
 	[linkString release];
 	if(preString) [preString release];
