@@ -47,12 +47,14 @@ extern void AH_delete_buffer(AH_BUFFER_STATE, yyscan_t scanner);
 	NSDictionary        *m_urlSchemes;
 	NSString            *m_scanString;
 	NSAttributedString  *m_scanAttrString;
+	NSAttributedString  *m_linkifiedString;
 	BOOL                 m_strictChecking;
 	unsigned long        m_scanLocation;
 	unsigned long        m_scanStringLength;
 }
 
 @property (assign) unsigned long scanLocation;
+@property (readonly) NSAttributedString *linkifiedString;
 
 /*!
  * @brief Allocs and inits a new lax AHHyperlinkScanner with the given NSString
