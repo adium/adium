@@ -28,6 +28,7 @@
 #import "AHHyperlinkScanner.h"
 #import "AHLinkLexer.h"
 #import "AHMarkedHyperlink.h"
+#import <libkern/OSAtomic.h>
 
 #define	DEFAULT_URL_SCHEME	@"http://"
 #define ENC_INDEX_KEY @"encIndex"
@@ -35,6 +36,7 @@
 
 @interface AHHyperlinkScanner (PRIVATE)
 - (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
+- (NSAttributedString *)_createLinkifiedString;
 - (NSRange)_longestBalancedEnclosureInRange:(NSRange)inRange;
 - (BOOL)_scanString:(NSString *)inString upToCharactersFromSet:(NSCharacterSet *)inCharSet intoRange:(NSRange *)outRangeRef fromIndex:(unsigned long *)idx;
 - (BOOL)_scanString:(NSString *)inString charactersFromSet:(NSCharacterSet *)inCharSet intoRange:(NSRange *)outRangeRef fromIndex:(unsigned long *)idx;
@@ -53,6 +55,7 @@
 	static NSArray			*encKeys = nil;
 
 @synthesize scanLocation = m_scanLocation;
+@dynamic linkifiedString;
 
 #pragma mark Class Methods
 + (id)hyperlinkScannerWithString:(NSString *)inString
@@ -132,6 +135,7 @@
 {
 	if((self = [super init])){
 		self.scanLocation = 0;
+		m_linkifiedString = nil;
 	}
 	return self;
 }
@@ -166,6 +170,8 @@
 
 - (void)dealloc
 {
+	self.scanLocation = 0;
+	[m_linkifiedString release];
 	[m_scanString release];
 	[m_urlSchemes release];
 	if(m_scanAttrString) [m_scanAttrString release];
@@ -371,16 +377,17 @@
 	return rangeArray;
 }
 
--(NSAttributedString *)linkifiedString
+-(NSAttributedString *)_createLinkifiedString
 {
-	NSMutableAttributedString	*linkifiedString;
+	NSMutableAttributedString	*_linkifiedString;
 	AHMarkedHyperlink			*markedLink;
 	BOOL						_didFindLinks = NO;
-
+	unsigned long _scanLocationCache = self.scanLocation;
+	
 	if(m_scanAttrString) {
-		linkifiedString = [[m_scanAttrString mutableCopy] autorelease];
+		_linkifiedString = [m_scanAttrString mutableCopy];
 	} else {
-		linkifiedString = [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
+		_linkifiedString = [[NSMutableAttributedString alloc] initWithString:m_scanString];
 	}
 
 	//for each SHMarkedHyperlink, add the proper URL to the proper range in the string.
@@ -388,14 +395,27 @@
 		NSURL *markedLinkURL;
 		_didFindLinks = YES;
 		if((markedLinkURL = [markedLink URL])) {
-			[linkifiedString addAttribute:NSLinkAttributeName
+			[_linkifiedString addAttribute:NSLinkAttributeName
 									value:markedLinkURL
 									range:[markedLink range]];
 		}
 	}
 			
-	return _didFindLinks? linkifiedString :
-						  m_scanAttrString ? [[m_scanAttrString retain] autorelease] : [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
+	self.scanLocation = _scanLocationCache;
+	return _didFindLinks? _linkifiedString :
+						  m_scanAttrString ? m_scanAttrString : [[NSMutableAttributedString alloc] initWithString:m_scanString];
+}
+
+-(NSAttributedString *)linkifiedString
+{
+	if(!m_linkifiedString){
+		NSAttributedString *newLinkifiedString = [self _createLinkifiedString];
+		// compare the old object to nil, and swap in the new value if they match.
+		// if the old object (m_linkifiedString) already has a value, release the duplicated new object
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newLinkifiedString, (void *)&m_linkifiedString))
+			[newLinkifiedString release];
+	}
+	return [[[NSAttributedString alloc] initWithAttributedString:m_linkifiedString] autorelease];
 }
 
 #pragma mark NSFastEnumeration
