@@ -34,7 +34,7 @@
 #define ENC_CHAR_KEY @"encChar"
 
 @interface AHHyperlinkScanner (PRIVATE)
-- (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)scanLocation;
+- (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long *)_scanLocation;
 - (NSRange)_longestBalancedEnclosureInRange:(NSRange)inRange;
 - (BOOL)_scanString:(NSString *)inString upToCharactersFromSet:(NSCharacterSet *)inCharSet intoRange:(NSRange *)outRangeRef fromIndex:(unsigned long *)idx;
 - (BOOL)_scanString:(NSString *)inString charactersFromSet:(NSCharacterSet *)inCharSet intoRange:(NSRange *)outRangeRef fromIndex:(unsigned long *)idx;
@@ -51,7 +51,9 @@
 	static NSCharacterSet	*enclosureSet = nil;
 	static NSArray			*enclosureStopArray = nil;
 	static NSArray			*encKeys = nil;
-	
+
+@synthesize scanLocation = m_scanLocation;
+
 #pragma mark Class Methods
 + (id)hyperlinkScannerWithString:(NSString *)inString
 {
@@ -129,7 +131,7 @@
 - (id)init
 {
 	if((self = [super init])){
-		m_scanLocation = 0;
+		self.scanLocation = 0;
 	}
 	return self;
 }
@@ -244,10 +246,10 @@
 
 #pragma mark Accessors
 
-- (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long * const)scanLocation
+- (AHMarkedHyperlink *)nextURIFromLocation:(unsigned long * const)_scanLocation
 {
 	NSRange	scannedRange = NSMakeRange(0, 0);
-	unsigned long scannedLocation = *scanLocation;
+	unsigned long scannedLocation = *_scanLocation;
 	
 	// scan upto the next whitespace char so that we don't unnecessarity confuse flex
 	// otherwise we end up validating urls that look like this "http://www.adium.im/ <--cool"
@@ -288,7 +290,7 @@
 		NSString					*_scanString = nil;
 		if(3 < scannedRange.length) _scanString = [m_scanString substringWithRange:scannedRange];
 		
-		if((3 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:scanLocation withStatus:&validStatus]){
+		if((3 < scannedRange.length) && [[self class] isStringValidURI:_scanString usingStrict:m_strictChecking fromIndex:_scanLocation withStatus:&validStatus]){
 			AHMarkedHyperlink	*markedLink;
 			
 			//insert typical specifiers if the URL is degenerate
@@ -331,21 +333,21 @@
 		
 		//step location after scanning a string
 		if (foundUnpairedEnclosureCharacter){
-			(*scanLocation)++;
+			(*_scanLocation)++;
 		}else{
 			NSRange startRange = [m_scanString rangeOfCharacterFromSet:puncSet options:NSLiteralSearch range:scannedRange];
 			if (startRange.location != NSNotFound)
-				*scanLocation = startRange.location + startRange.length;
+				*_scanLocation = startRange.location + startRange.length;
 			else
-				*scanLocation += scannedRange.length;
+				*_scanLocation += scannedRange.length;
 		}
 		
-		scannedLocation = *scanLocation;
+		scannedLocation = *_scanLocation;
 	}
 	
 	// if we're here, then NSScanner hit the end of the string
 	// set AHStringOffset to the string length here so we avoid potential infinite looping with many trailing spaces.
-	*scanLocation = m_scanStringLength;
+	*_scanLocation = m_scanStringLength;
 	return nil;
 }
 
@@ -394,16 +396,6 @@
 			
 	return _didFindLinks? linkifiedString :
 						  m_scanAttrString ? [[m_scanAttrString retain] autorelease] : [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
-}
-
--(unsigned long)scanLocation
-{
-	return m_scanLocation;
-}
-
-- (void)setScanLocation:(unsigned int)location
-{
-	m_scanLocation = location;
 }
 
 #pragma mark NSFastEnumeration
