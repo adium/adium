@@ -387,25 +387,25 @@
 	unsigned long _scanLocationCache = self.scanLocation;
 	
 	if(m_scanAttrString) {
-		_linkifiedString = [m_scanAttrString mutableCopy];
+		_linkifiedString = [[m_scanAttrString mutableCopy] autorelease];
 	} else {
-		_linkifiedString = [[NSMutableAttributedString alloc] initWithString:m_scanString];
+		_linkifiedString = [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
 	}
 
 	//for each SHMarkedHyperlink, add the proper URL to the proper range in the string.
 	for(markedLink in self) {
 		NSURL *markedLinkURL;
 		_didFindLinks = YES;
-		if((markedLinkURL = [markedLink URL])) {
+		if((markedLinkURL = markedLink.URL)) {
 			[_linkifiedString addAttribute:NSLinkAttributeName
 									value:markedLinkURL
-									range:[markedLink range]];
+									range:markedLink.range];
 		}
 	}
 			
 	self.scanLocation = _scanLocationCache;
 	return _didFindLinks? _linkifiedString :
-						  m_scanAttrString ? m_scanAttrString : [[NSMutableAttributedString alloc] initWithString:m_scanString];
+						  m_scanAttrString ? [[m_scanAttrString retain] autorelease] : [[[NSMutableAttributedString alloc] initWithString:m_scanString] autorelease];
 }
 
 -(NSAttributedString *)linkifiedString
@@ -414,10 +414,10 @@
 		NSAttributedString *newLinkifiedString = [self _createLinkifiedString];
 		// compare the old object to nil, and swap in the new value if they match.
 		// if the old object (m_linkifiedString) already has a value, release the duplicated new object
-		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newLinkifiedString, (void *)&m_linkifiedString))
-			[newLinkifiedString release];
+		if(OSAtomicCompareAndSwapPtrBarrier(nil, newLinkifiedString, (void *)&m_linkifiedString))
+			[m_linkifiedString retain];
 	}
-	return [[[NSAttributedString alloc] initWithAttributedString:m_linkifiedString] autorelease];
+	return m_linkifiedString;
 }
 
 #pragma mark NSFastEnumeration
