@@ -25,7 +25,8 @@ MIN_OS_VERSION="10.5"
 BASE_CFLAGS="-fstack-protector -isysroot $SDK_ROOT \
 	-mmacosx-version-min=$MIN_OS_VERSION \
 	-I$ROOTDIR/build/include \
-	-L$ROOTDIR/build/lib"
+	-L$ROOTDIR/build/lib \
+	-Os"
 BASE_LDFLAGS="-mmacosx-version-min=$MIN_OS_VERSION \
 	-Wl,-syslibroot,$SDK_ROOT \
 	-Wl,-headerpad_max_install_names \
