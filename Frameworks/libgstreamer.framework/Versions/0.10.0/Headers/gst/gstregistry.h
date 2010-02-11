@@ -24,7 +24,6 @@
 #ifndef __GST_REGISTRY_H__
 #define __GST_REGISTRY_H__
 
-#include <stdio.h> /* FIXME: because of cache_file below */
 #include <gst/gstconfig.h>
 #include <gst/gstplugin.h>
 #include <gst/gstpluginfeature.h>
@@ -40,6 +39,7 @@ G_BEGIN_DECLS
 
 typedef struct _GstRegistry GstRegistry;
 typedef struct _GstRegistryClass GstRegistryClass;
+typedef struct _GstRegistryPrivate GstRegistryPrivate;
 
 /**
  * GstRegistry:
@@ -60,9 +60,13 @@ struct _GstRegistry {
 
   /* hash to speedup _lookup_feature_locked() */
   GHashTable *feature_hash;
+  /* hash to speedup _lookup */
+  GHashTable *basename_hash;
+
+  GstRegistryPrivate *priv;
 
   /*< private >*/
-  gpointer _gst_reserved[GST_PADDING-1];
+  gpointer _gst_reserved[GST_PADDING-3];
 };
 
 struct _GstRegistryClass {
@@ -103,6 +107,7 @@ GList*			gst_registry_feature_filter	(GstRegistry *registry,
 GList *                 gst_registry_get_feature_list   (GstRegistry *registry,
                                                          GType type);
 GList *                 gst_registry_get_feature_list_by_plugin (GstRegistry *registry, const gchar *name);
+guint32                 gst_registry_get_feature_list_cookie (GstRegistry *registry);
 
 GstPlugin*		gst_registry_find_plugin	(GstRegistry *registry, const gchar *name);
 GstPluginFeature*	gst_registry_find_feature	(GstRegistry *registry, const gchar *name, GType type);
@@ -110,9 +115,13 @@ GstPluginFeature*	gst_registry_find_feature	(GstRegistry *registry, const gchar 
 GstPlugin * 		gst_registry_lookup 		(GstRegistry *registry, const char *filename);
 GstPluginFeature * 	gst_registry_lookup_feature 	(GstRegistry *registry, const char *name);
 
-/* FIXME 0.11: do we really want to export these? (If yes, we should add a GError argument) */
+/* These are only here because at some point they were in a public header
+ * (even though they should have been private) and we can't really remove
+ * them now (FIXME: 0.11). They don't do anything other than return FALSE. */
+#ifndef GST_DISABLE_DEPRECATED
 gboolean 		gst_registry_xml_read_cache 	(GstRegistry * registry, const char *location);
 gboolean 		gst_registry_xml_write_cache 	(GstRegistry * registry, const char *location);
+#endif
 
 /* convinience defines for the default registry */
 
@@ -199,6 +208,19 @@ gboolean 		gst_registry_xml_write_cache 	(GstRegistry * registry, const char *lo
  */
 #define gst_default_registry_feature_filter(filter,first,user_data) \
   gst_registry_feature_filter (gst_registry_get_default(),filter,first,user_data)
+
+/**
+ * gst_default_registry_get_feature_list_cookie:
+ *
+ * Returns the default registrys feature list cookie. This changes
+ * every time a feature is added or removed from the registry.
+ *
+ * Returns: the feature list cookie.
+ *
+ * Since: 0.10.26
+ */
+#define gst_default_registry_get_feature_list_cookie() \
+  gst_registry_get_feature_list_cookie (gst_registry_get_default())
 
 gboolean                gst_default_registry_check_feature_version (const gchar *feature_name,
                                                                     guint        min_major,

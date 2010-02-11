@@ -33,8 +33,8 @@ typedef struct _GstMessageClass GstMessageClass;
  * @GST_MESSAGE_EOS: end-of-stream reached in a pipeline. The application will
  * only receive this message in the PLAYING state and every time it sets a
  * pipeline to PLAYING that is in the EOS state. The application can perform a
- * flushing seek in the pipeline, which will undo the EOS state again. 
- * @GST_MESSAGE_ERROR: an error occured. Whe the application receives an error
+ * flushing seek in the pipeline, which will undo the EOS state again.
+ * @GST_MESSAGE_ERROR: an error occured. When the application receives an error
  * message it should stop playback of the pipeline and not assume that more
  * data will be played.
  * @GST_MESSAGE_WARNING: a warning occured.
@@ -49,19 +49,20 @@ typedef struct _GstMessageClass GstMessageClass;
  * @GST_MESSAGE_STATE_CHANGED: a state change happened
  * @GST_MESSAGE_STATE_DIRTY: an element changed state in a streaming thread.
  * This message is deprecated.
- * @GST_MESSAGE_STEP_DONE: a framestep finished. This message is not yet
- * implemented.
+ * @GST_MESSAGE_STEP_DONE: a stepping operation finished.
  * @GST_MESSAGE_CLOCK_PROVIDE: an element notifies its capability of providing
  *                             a clock. This message is used internally and
  *                             never forwarded to the application.
  * @GST_MESSAGE_CLOCK_LOST: The current clock as selected by the pipeline became
  *                          unusable. The pipeline will select a new clock on
- *                          the next PLAYING state change.
+ *                          the next PLAYING state change. The application
+ *                          should set the pipeline to PAUSED and back to
+ *                          PLAYING when this message is received.
  * @GST_MESSAGE_NEW_CLOCK: a new clock was selected in the pipeline.
  * @GST_MESSAGE_STRUCTURE_CHANGE: the structure of the pipeline changed. This
  * message is used internally and never forwarded to the application.
  * @GST_MESSAGE_STREAM_STATUS: status about a stream, emitted when it starts,
- *                             stops, errors, etc.. Not implemented yet.
+ *                             stops, errors, etc..
  * @GST_MESSAGE_APPLICATION: message posted by the application, possibly
  *                           via an application-specific element.
  * @GST_MESSAGE_ELEMENT: element-specific message, see the specific element's
@@ -75,12 +76,12 @@ typedef struct _GstMessageClass GstMessageClass;
  * can get the new duration with a duration query.
  * @GST_MESSAGE_ASYNC_START: Posted by elements when they start an ASYNC state
  * change. This message is not forwarded to the application but is used
- * internally. Since: 0.10.13. 
+ * internally. Since: 0.10.13.
  * @GST_MESSAGE_ASYNC_DONE: Posted by elements when they complete an ASYNC state
  * change. The application will only receive this message from the toplevel
  * pipeline. Since: 0.10.13
  * @GST_MESSAGE_LATENCY: Posted by elements when their latency changes. The
- * pipeline will calculate and distribute a new latency. Since: 0.10.12
+ * application should recalculate and distribute a new latency. Since: 0.10.12
  * @GST_MESSAGE_REQUEST_STATE: Posted by elements when they want the pipeline to
  * change state. This message is a suggestion to the application which can
  * decide to perform the state change on (part of) the pipeline. Since: 0.10.23.
@@ -89,9 +90,9 @@ typedef struct _GstMessageClass GstMessageClass;
  *
  * The different message types that are available.
  */
-/* NOTE: keep in sync with quark registration in gstmessage.c 
+/* NOTE: keep in sync with quark registration in gstmessage.c
  * NOTE: keep GST_MESSAGE_ANY a valid gint to avoid compiler warnings.
- */ 
+ */
 typedef enum
 {
   GST_MESSAGE_UNKNOWN           = 0,
@@ -133,9 +134,9 @@ typedef enum
  *
  * The name used for memory allocation tracing
  */
-#define GST_MESSAGE_TRACE_NAME	"GstMessage"
+#define GST_MESSAGE_TRACE_NAME  "GstMessage"
 
-#define GST_TYPE_MESSAGE			 (gst_message_get_type())
+#define GST_TYPE_MESSAGE                         (gst_message_get_type())
 #define GST_IS_MESSAGE(obj)                      (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GST_TYPE_MESSAGE))
 #define GST_IS_MESSAGE_CLASS(klass)              (G_TYPE_CHECK_CLASS_TYPE ((klass), GST_TYPE_MESSAGE))
 #define GST_MESSAGE_GET_CLASS(obj)               (G_TYPE_INSTANCE_GET_CLASS ((obj), GST_TYPE_MESSAGE, GstMessageClass))
@@ -146,12 +147,12 @@ typedef enum
 /* the lock is used to handle the synchronous handling of messages,
  * the emiting thread is block until the handling thread processed
  * the message using this mutex/cond pair */
-#define GST_MESSAGE_GET_LOCK(message)	(GST_MESSAGE(message)->lock)
-#define GST_MESSAGE_LOCK(message)	g_mutex_lock(GST_MESSAGE_GET_LOCK(message))
-#define GST_MESSAGE_UNLOCK(message)	g_mutex_unlock(GST_MESSAGE_GET_LOCK(message))
-#define GST_MESSAGE_COND(message)	(GST_MESSAGE(message)->cond)
-#define GST_MESSAGE_WAIT(message)	g_cond_wait(GST_MESSAGE_COND(message),GST_MESSAGE_GET_LOCK(message))
-#define GST_MESSAGE_SIGNAL(message)	g_cond_signal(GST_MESSAGE_COND(message))
+#define GST_MESSAGE_GET_LOCK(message)   (GST_MESSAGE_CAST(message)->lock)
+#define GST_MESSAGE_LOCK(message)       g_mutex_lock(GST_MESSAGE_GET_LOCK(message))
+#define GST_MESSAGE_UNLOCK(message)     g_mutex_unlock(GST_MESSAGE_GET_LOCK(message))
+#define GST_MESSAGE_COND(message)       (GST_MESSAGE_CAST(message)->cond)
+#define GST_MESSAGE_WAIT(message)       g_cond_wait(GST_MESSAGE_COND(message),GST_MESSAGE_GET_LOCK(message))
+#define GST_MESSAGE_SIGNAL(message)     g_cond_signal(GST_MESSAGE_COND(message))
 
 /**
  * GST_MESSAGE_TYPE:
@@ -159,7 +160,7 @@ typedef enum
  *
  * Get the #GstMessageType of @message.
  */
-#define GST_MESSAGE_TYPE(message)	(GST_MESSAGE(message)->type)
+#define GST_MESSAGE_TYPE(message)       (GST_MESSAGE_CAST(message)->type)
 /**
  * GST_MESSAGE_TYPE_NAME:
  * @message: a #GstMessage
@@ -168,7 +169,7 @@ typedef enum
  *
  * Since: 0.10.4
  */
-#define GST_MESSAGE_TYPE_NAME(message)	gst_message_type_get_name(GST_MESSAGE_TYPE(message))
+#define GST_MESSAGE_TYPE_NAME(message)  gst_message_type_get_name(GST_MESSAGE_TYPE(message))
 /**
  * GST_MESSAGE_TIMESTAMP:
  * @message: a #GstMessage
@@ -176,14 +177,14 @@ typedef enum
  * Get the timestamp of @message. This is the timestamp when the message
  * was created.
  */
-#define GST_MESSAGE_TIMESTAMP(message)	(GST_MESSAGE(message)->timestamp)
+#define GST_MESSAGE_TIMESTAMP(message)  (GST_MESSAGE_CAST(message)->timestamp)
 /**
  * GST_MESSAGE_SRC:
  * @message: a #GstMessage
  *
  * Get the object that posted @message.
  */
-#define GST_MESSAGE_SRC(message)	(GST_MESSAGE(message)->src)
+#define GST_MESSAGE_SRC(message)        (GST_MESSAGE_CAST(message)->src)
 /**
  * GST_MESSAGE_SRC_NAME:
  * @message: a #GstMessage
@@ -193,7 +194,7 @@ typedef enum
  *
  * Since: 0.10.24
  */
-#define GST_MESSAGE_SRC_NAME(message)	(GST_MESSAGE_SRC(message) ? \
+#define GST_MESSAGE_SRC_NAME(message)   (GST_MESSAGE_SRC(message) ? \
     GST_OBJECT_NAME (GST_MESSAGE_SRC(message)) : "(NULL)")
 
 /**
@@ -201,7 +202,7 @@ typedef enum
  * @GST_STRUCTURE_CHANGE_TYPE_PAD_LINK: Pad linking is starting or done.
  * @GST_STRUCTURE_CHANGE_TYPE_PAD_UNLINK: Pad unlinking is starting or done.
  *
- * The type of a #GstMessageStructureChange.
+ * The type of a %GST_MESSAGE_STRUCTURE_CHANGE.
  *
  * Since: 0.10.22
  */
@@ -220,7 +221,7 @@ typedef enum {
  * @GST_STREAM_STATUS_TYPE_PAUSE: a thread is paused
  * @GST_STREAM_STATUS_TYPE_STOP: a thread is stopped
  *
- * The type of a #GstMessageStreamStatus. The stream status messages inform the
+ * The type of a %GST_MESSAGE_STREAM_STATUS. The stream status messages inform the
  * application of new streaming threads and their status.
  *
  * Since: 0.10.24
@@ -278,10 +279,10 @@ struct _GstMessageClass {
   gpointer _gst_reserved[GST_PADDING];
 };
 
-GType		gst_message_get_type		(void);
+GType           gst_message_get_type            (void);
 
-const gchar*	gst_message_type_get_name	(GstMessageType type);
-GQuark		gst_message_type_to_quark	(GstMessageType type);
+const gchar*    gst_message_type_get_name       (GstMessageType type);
+GQuark          gst_message_type_to_quark       (GstMessageType type);
 
 /* refcounting */
 /**
@@ -299,7 +300,7 @@ G_INLINE_FUNC GstMessage * gst_message_ref (GstMessage * msg);
 static inline GstMessage *
 gst_message_ref (GstMessage * msg)
 {
-  return (GstMessage *) gst_mini_object_ref (GST_MINI_OBJECT (msg));
+  return (GstMessage *) gst_mini_object_ref (GST_MINI_OBJECT_CAST (msg));
 }
 
 /**
@@ -337,7 +338,7 @@ G_INLINE_FUNC GstMessage * gst_message_copy (const GstMessage * msg);
 static inline GstMessage *
 gst_message_copy (const GstMessage * msg)
 {
-  return GST_MESSAGE (gst_mini_object_copy (GST_MINI_OBJECT_CAST (msg)));
+  return GST_MESSAGE_CAST (gst_mini_object_copy (GST_MINI_OBJECT_CAST (msg)));
 }
 
 /**
@@ -349,37 +350,37 @@ gst_message_copy (const GstMessage * msg)
  *
  * MT safe
  */
-#define         gst_message_make_writable(msg)	GST_MESSAGE (gst_mini_object_make_writable (GST_MINI_OBJECT (msg)))
+#define         gst_message_make_writable(msg)  GST_MESSAGE_CAST (gst_mini_object_make_writable (GST_MINI_OBJECT_CAST (msg)))
 
 /* identifiers for events and messages */
 guint32         gst_message_get_seqnum          (GstMessage *message);
 void            gst_message_set_seqnum          (GstMessage *message, guint32 seqnum);
 
 /* EOS */
-GstMessage *	gst_message_new_eos		(GstObject * src);
+GstMessage *    gst_message_new_eos             (GstObject * src);
 
 /* ERROR */
 
-GstMessage *	gst_message_new_error		(GstObject * src, GError * error, const gchar * debug);
-void		gst_message_parse_error		(GstMessage *message, GError **gerror, gchar **debug);
+GstMessage *    gst_message_new_error           (GstObject * src, GError * error, const gchar * debug);
+void            gst_message_parse_error         (GstMessage *message, GError **gerror, gchar **debug);
 
 /* WARNING */
-GstMessage *	gst_message_new_warning		(GstObject * src, GError * error, const gchar * debug);
-void		gst_message_parse_warning	(GstMessage *message, GError **gerror, gchar **debug);
+GstMessage *    gst_message_new_warning         (GstObject * src, GError * error, const gchar * debug);
+void            gst_message_parse_warning       (GstMessage *message, GError **gerror, gchar **debug);
 
 /* INFO */
-GstMessage *	gst_message_new_info		(GstObject * src, GError * error, const gchar * debug);
-void		gst_message_parse_info 		(GstMessage *message, GError **gerror, gchar **debug);
+GstMessage *    gst_message_new_info            (GstObject * src, GError * error, const gchar * debug);
+void            gst_message_parse_info          (GstMessage *message, GError **gerror, gchar **debug);
 
 /* TAG */
-GstMessage *	gst_message_new_tag		(GstObject * src, GstTagList * tag_list);
-GstMessage *	gst_message_new_tag_full	(GstObject * src, GstPad *pad, GstTagList * tag_list);
-void		gst_message_parse_tag		(GstMessage *message, GstTagList **tag_list);
-void		gst_message_parse_tag_full	(GstMessage *message, GstPad **pad, GstTagList **tag_list);
+GstMessage *    gst_message_new_tag             (GstObject * src, GstTagList * tag_list);
+GstMessage *    gst_message_new_tag_full        (GstObject * src, GstPad *pad, GstTagList * tag_list);
+void            gst_message_parse_tag           (GstMessage *message, GstTagList **tag_list);
+void            gst_message_parse_tag_full      (GstMessage *message, GstPad **pad, GstTagList **tag_list);
 
 /* BUFFERING */
-GstMessage *	gst_message_new_buffering	  (GstObject * src, gint percent);
-void 		gst_message_parse_buffering	  (GstMessage *message, gint *percent);
+GstMessage *    gst_message_new_buffering         (GstObject * src, gint percent);
+void            gst_message_parse_buffering       (GstMessage *message, gint *percent);
 void            gst_message_set_buffering_stats   (GstMessage *message, GstBufferingMode mode,
                                                    gint avg_in, gint avg_out,
                                                    gint64 buffering_left);
@@ -388,75 +389,75 @@ void            gst_message_parse_buffering_stats (GstMessage *message, GstBuffe
                                                    gint64 *buffering_left);
 
 /* STATE_CHANGED */
-GstMessage *	gst_message_new_state_changed	(GstObject * src, GstState oldstate,
+GstMessage *    gst_message_new_state_changed   (GstObject * src, GstState oldstate,
                                                  GstState newstate, GstState pending);
-void		gst_message_parse_state_changed	(GstMessage *message, GstState *oldstate,
+void            gst_message_parse_state_changed (GstMessage *message, GstState *oldstate,
                                                  GstState *newstate, GstState *pending);
 
 /* STATE_DIRTY */
-GstMessage *	gst_message_new_state_dirty	(GstObject * src);
+GstMessage *    gst_message_new_state_dirty     (GstObject * src);
 
 /* STEP_DONE */
 GstMessage *    gst_message_new_step_done       (GstObject * src, GstFormat format, guint64 amount,
-                                                 gdouble rate, gboolean flush, gboolean intermediate, 
-						 guint64 duration, gboolean eos);
+                                                 gdouble rate, gboolean flush, gboolean intermediate,
+                                                 guint64 duration, gboolean eos);
 void            gst_message_parse_step_done     (GstMessage * message, GstFormat *format, guint64 *amount,
                                                  gdouble *rate, gboolean *flush, gboolean *intermediate,
-						 guint64 *duration, gboolean *eos);
+                                                 guint64 *duration, gboolean *eos);
 /* CLOCK_PROVIDE */
-GstMessage *	gst_message_new_clock_provide	(GstObject * src, GstClock *clock, gboolean ready);
-void		gst_message_parse_clock_provide (GstMessage *message, GstClock **clock,
+GstMessage *    gst_message_new_clock_provide   (GstObject * src, GstClock *clock, gboolean ready);
+void            gst_message_parse_clock_provide (GstMessage *message, GstClock **clock,
                                                  gboolean *ready);
 
 /* CLOCK_LOST */
-GstMessage *	gst_message_new_clock_lost	(GstObject * src, GstClock *clock);
-void		gst_message_parse_clock_lost	(GstMessage *message, GstClock **clock);
+GstMessage *    gst_message_new_clock_lost      (GstObject * src, GstClock *clock);
+void            gst_message_parse_clock_lost    (GstMessage *message, GstClock **clock);
 
 /* NEW_CLOCK */
-GstMessage *	gst_message_new_new_clock	(GstObject * src, GstClock *clock);
-void		gst_message_parse_new_clock	(GstMessage *message, GstClock **clock);
+GstMessage *    gst_message_new_new_clock       (GstObject * src, GstClock *clock);
+void            gst_message_parse_new_clock     (GstMessage *message, GstClock **clock);
 
 /* APPLICATION */
-GstMessage *	gst_message_new_application	(GstObject * src, GstStructure * structure);
+GstMessage *    gst_message_new_application     (GstObject * src, GstStructure * structure);
 
 /* ELEMENT */
-GstMessage *	gst_message_new_element		(GstObject * src, GstStructure * structure);
+GstMessage *    gst_message_new_element         (GstObject * src, GstStructure * structure);
 
 /* SEGMENT_START */
-GstMessage *	gst_message_new_segment_start	(GstObject * src, GstFormat format, gint64 position);
-void		gst_message_parse_segment_start (GstMessage *message, GstFormat *format,
+GstMessage *    gst_message_new_segment_start   (GstObject * src, GstFormat format, gint64 position);
+void            gst_message_parse_segment_start (GstMessage *message, GstFormat *format,
                                                  gint64 *position);
 
 /* SEGMENT_DONE */
-GstMessage *	gst_message_new_segment_done	(GstObject * src, GstFormat format, gint64 position);
-void		gst_message_parse_segment_done	(GstMessage *message, GstFormat *format,
+GstMessage *    gst_message_new_segment_done    (GstObject * src, GstFormat format, gint64 position);
+void            gst_message_parse_segment_done  (GstMessage *message, GstFormat *format,
                                                  gint64 *position);
 
 /* DURATION */
-GstMessage *	gst_message_new_duration	(GstObject * src, GstFormat format, gint64 duration);
-void		gst_message_parse_duration	(GstMessage *message, GstFormat *format,
+GstMessage *    gst_message_new_duration        (GstObject * src, GstFormat format, gint64 duration);
+void            gst_message_parse_duration      (GstMessage *message, GstFormat *format,
                                                  gint64 *duration);
 
 /* LATENCY */
-GstMessage *	gst_message_new_latency         (GstObject * src);
+GstMessage *    gst_message_new_latency         (GstObject * src);
 
 /* ASYNC_START */
-GstMessage *	gst_message_new_async_start	(GstObject * src, gboolean new_base_time);
-void		gst_message_parse_async_start	(GstMessage *message, gboolean *new_base_time);
+GstMessage *    gst_message_new_async_start     (GstObject * src, gboolean new_base_time);
+void            gst_message_parse_async_start   (GstMessage *message, gboolean *new_base_time);
 
 /* ASYNC_DONE */
-GstMessage *	gst_message_new_async_done	(GstObject * src);
+GstMessage *    gst_message_new_async_done      (GstObject * src);
 
 /* STRUCTURE CHANGE */
-GstMessage *	gst_message_new_structure_change   (GstObject * src, GstStructureChangeType type,
+GstMessage *    gst_message_new_structure_change   (GstObject * src, GstStructureChangeType type,
                                                     GstElement *owner, gboolean busy);
-void		gst_message_parse_structure_change (GstMessage *message, GstStructureChangeType *type,
+void            gst_message_parse_structure_change (GstMessage *message, GstStructureChangeType *type,
                                                     GstElement **owner, gboolean *busy);
 
 /* STREAM STATUS */
-GstMessage *	gst_message_new_stream_status        (GstObject * src, GstStreamStatusType type,
+GstMessage *    gst_message_new_stream_status        (GstObject * src, GstStreamStatusType type,
                                                       GstElement *owner);
-void		gst_message_parse_stream_status      (GstMessage *message, GstStreamStatusType *type,
+void            gst_message_parse_stream_status      (GstMessage *message, GstStreamStatusType *type,
                                                       GstElement **owner);
 void            gst_message_set_stream_status_object (GstMessage *message, const GValue *object);
 const GValue *  gst_message_get_stream_status_object (GstMessage *message);
@@ -468,16 +469,16 @@ void            gst_message_parse_request_state (GstMessage * message, GstState 
 /* STEP_START */
 GstMessage *    gst_message_new_step_start      (GstObject * src, gboolean active, GstFormat format,
                                                  guint64 amount, gdouble rate, gboolean flush,
-						 gboolean intermediate);
+                                                 gboolean intermediate);
 void            gst_message_parse_step_start    (GstMessage * message, gboolean *active, GstFormat *format,
                                                  guint64 *amount, gdouble *rate, gboolean *flush,
-						 gboolean *intermediate);
+                                                 gboolean *intermediate);
 
 /* custom messages */
-GstMessage *	gst_message_new_custom		(GstMessageType type,
-						 GstObject    * src,
-						 GstStructure * structure);
-const GstStructure *  gst_message_get_structure	(GstMessage *message);
+GstMessage *    gst_message_new_custom          (GstMessageType type,
+                                                 GstObject    * src,
+                                                 GstStructure * structure);
+const GstStructure *  gst_message_get_structure (GstMessage *message);
 
 G_END_DECLS
 

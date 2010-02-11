@@ -418,7 +418,7 @@ GstDebugCategory *_gst_debug_get_category (const gchar *name);
  * @name: log category name
  *
  * Lookup an exiting #GstDebugCategory by its @name and sets @cat. If category
- * is not found, but %GST_CAT_DEFAULT is defined, that is assigned to @cat.
+ * is not found, but GST_CAT_DEFAULT is defined, that is assigned to @cat.
  * Otherwise cat will be NULL.
  *
  * |[
@@ -427,7 +427,7 @@ GstDebugCategory *_gst_debug_get_category (const gchar *name);
  * GST_DEBUG_CATEGORY_STATIC (GST_CAT_PERFORMANCE);
  * ...
  * GST_DEBUG_CATEGORY_INIT (gst_myplugin_debug, "myplugin", 0, "nice element");
- * GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "performance);
+ * GST_DEBUG_CATEGORY_GET (GST_CAT_PERFORMANCE, "performance");
  * ]|
  *
  * Since: 0.10.24
@@ -1101,11 +1101,26 @@ G_CONST_RETURN gchar *
 	_gst_debug_nameof_funcptr	(GstDebugFuncPtr	func);
 
 /**
+ * GST_DEBUG_REGISTER_FUNCPTR:
+ * @ptr: pointer to the function to register
+ *
+ * Register a pointer to a function with its name, so it can later be used by
+ * GST_DEBUG_FUNCPTR_NAME().
+ *
+ * Use this variant of #GST_DEBUG_FUNCPTR if you do not need to use @ptr.
+ *
+ * Since: 0.10.26
+ */
+#define GST_DEBUG_REGISTER_FUNCPTR(ptr) \
+  _gst_debug_register_funcptr((GstDebugFuncPtr)(ptr), #ptr)
+/**
  * GST_DEBUG_FUNCPTR:
  * @ptr: pointer to the function to register
  *
  * Register a pointer to a function with its name, so it can later be used by
  * GST_DEBUG_FUNCPTR_NAME().
+ *
+ * Returns: the value passed to @ptr.
  */
 #define GST_DEBUG_FUNCPTR(ptr) \
   (_gst_debug_register_funcptr((GstDebugFuncPtr)(ptr), #ptr) , ptr)
@@ -1137,37 +1152,37 @@ G_CONST_RETURN gchar *
 
 #define __gst_debug_min GST_LEVEL_NONE
 
-#define _gst_debug_init()				/* NOP */
+#define _gst_debug_init()				G_STMT_START{ }G_STMT_END
 
-#define gst_debug_set_default_threshold(level)		/* NOP */
+#define gst_debug_set_default_threshold(level)		G_STMT_START{ }G_STMT_END
 #define gst_debug_get_default_threshold()		(GST_LEVEL_NONE)
 
 #define gst_debug_level_get_name(level)				("NONE")
 #define gst_debug_message_get(message)  			("")
-#define gst_debug_add_log_function(func,data)		/* NOP */
+#define gst_debug_add_log_function(func,data)		G_STMT_START{ }G_STMT_END
 guint gst_debug_remove_log_function (GstLogFunction func);
 guint gst_debug_remove_log_function_by_data (gpointer data);
-#define gst_debug_set_active(active)			/* NOP */
+#define gst_debug_set_active(active)			G_STMT_START{ }G_STMT_END
 #define gst_debug_is_active()				(FALSE)
-#define gst_debug_set_colored(colored)			/* NOP */
+#define gst_debug_set_colored(colored)			G_STMT_START{ }G_STMT_END
 #define gst_debug_is_colored()				(FALSE)
-#define gst_debug_set_default_threshold(level)		/* NOP */
+#define gst_debug_set_default_threshold(level)		G_STMT_START{ }G_STMT_END
 #define gst_debug_get_default_threshold()		(GST_LEVEL_NONE)
-#define gst_debug_set_threshold_for_name(name,level)	/* NOP */
-#define gst_debug_unset_threshold_for_name(name)	/* NOP */
+#define gst_debug_set_threshold_for_name(name,level)	G_STMT_START{ }G_STMT_END
+#define gst_debug_unset_threshold_for_name(name)	G_STMT_START{ }G_STMT_END
 
-#define GST_DEBUG_CATEGORY(var)				/* NOP */
-#define GST_DEBUG_CATEGORY_EXTERN(var)			/* NOP */
+#define GST_DEBUG_CATEGORY(var)				void _gst_dummy_declaration (void)
+#define GST_DEBUG_CATEGORY_EXTERN(var)			void _gst_dummy_declaration (void)
 #if !defined(G_HAVE_GNUC_VARARGS) && !defined(G_HAVE_ISO_VARARGS)
 #define GST_DEBUG_CATEGORY_STATIC(var)			static GstDebugCategory *var = NULL
 #else
-#define GST_DEBUG_CATEGORY_STATIC(var)			/* NOP */
+#define GST_DEBUG_CATEGORY_STATIC(var)			void _gst_dummy_declaration (void)
 #endif
-#define GST_DEBUG_CATEGORY_INIT(var,name,color,desc)	/* NOP */
-#define GST_DEBUG_CATEGORY_GET(var,name)		/* NOP */
-#define gst_debug_category_free(category)		/* NOP */
-#define gst_debug_category_set_threshold(category,level) /* NOP */
-#define gst_debug_category_reset_threshold(category)	/* NOP */
+#define GST_DEBUG_CATEGORY_INIT(var,name,color,desc)	G_STMT_START{ }G_STMT_END
+#define GST_DEBUG_CATEGORY_GET(var,name)		G_STMT_START{ }G_STMT_END
+#define gst_debug_category_free(category)		G_STMT_START{ }G_STMT_END
+#define gst_debug_category_set_threshold(category,level) G_STMT_START{ }G_STMT_END
+#define gst_debug_category_reset_threshold(category)	G_STMT_START{ }G_STMT_END
 #define gst_debug_category_get_threshold(category)	(GST_LEVEL_NONE)
 #define gst_debug_category_get_name(cat)		("")
 #define gst_debug_category_get_color(cat)		(0)
@@ -1180,68 +1195,68 @@ guint gst_debug_remove_log_function_by_data (gpointer data);
 
 #ifdef G_HAVE_ISO_VARARGS
 
-#define GST_CAT_LEVEL_LOG(cat,level,...)		/* NOP */
+#define GST_CAT_LEVEL_LOG(cat,level,...)		G_STMT_START{ }G_STMT_END
 
-#define GST_CAT_ERROR_OBJECT(...)			/* NOP */
-#define GST_CAT_WARNING_OBJECT(...)			/* NOP */
-#define GST_CAT_INFO_OBJECT(...)			/* NOP */
-#define GST_CAT_DEBUG_OBJECT(...)			/* NOP */
-#define GST_CAT_LOG_OBJECT(...)				/* NOP */
-#define GST_CAT_FIXME_OBJECT(...)			/* NOP */
+#define GST_CAT_ERROR_OBJECT(...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_WARNING_OBJECT(...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_INFO_OBJECT(...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_DEBUG_OBJECT(...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_LOG_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_FIXME_OBJECT(...)			G_STMT_START{ }G_STMT_END
 
-#define GST_CAT_ERROR(...)				/* NOP */
-#define GST_CAT_WARNING(...)				/* NOP */
-#define GST_CAT_INFO(...)				/* NOP */
-#define GST_CAT_DEBUG(...)				/* NOP */
-#define GST_CAT_LOG(...)				/* NOP */
-#define GST_CAT_FIXME(...)				/* NOP */
+#define GST_CAT_ERROR(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_WARNING(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_INFO(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_DEBUG(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_LOG(...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_FIXME(...)				G_STMT_START{ }G_STMT_END
 
-#define GST_ERROR_OBJECT(...)				/* NOP */
-#define GST_WARNING_OBJECT(...)				/* NOP */
-#define GST_INFO_OBJECT(...)				/* NOP */
-#define GST_DEBUG_OBJECT(...)				/* NOP */
-#define GST_LOG_OBJECT(...)				/* NOP */
-#define GST_FIXME_OBJECT(...)				/* NOP */
+#define GST_ERROR_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_WARNING_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_INFO_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_DEBUG_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_LOG_OBJECT(...)				G_STMT_START{ }G_STMT_END
+#define GST_FIXME_OBJECT(...)				G_STMT_START{ }G_STMT_END
 
-#define GST_ERROR(...)					/* NOP */
-#define GST_WARNING(...)				/* NOP */
-#define GST_INFO(...)					/* NOP */
-#define GST_DEBUG(...)					/* NOP */
-#define GST_LOG(...)					/* NOP */
-#define GST_FIXME(...)					/* NOP */
+#define GST_ERROR(...)					G_STMT_START{ }G_STMT_END
+#define GST_WARNING(...)				G_STMT_START{ }G_STMT_END
+#define GST_INFO(...)					G_STMT_START{ }G_STMT_END
+#define GST_DEBUG(...)					G_STMT_START{ }G_STMT_END
+#define GST_LOG(...)					G_STMT_START{ }G_STMT_END
+#define GST_FIXME(...)					G_STMT_START{ }G_STMT_END
 
 #else /* !G_HAVE_ISO_VARARGS */
 #ifdef G_HAVE_GNUC_VARARGS
 
-#define GST_CAT_LEVEL_LOG(cat,level,args...)		/* NOP */
+#define GST_CAT_LEVEL_LOG(cat,level,args...)		G_STMT_START{ }G_STMT_END
 
-#define GST_CAT_ERROR_OBJECT(args...)			/* NOP */
-#define GST_CAT_WARNING_OBJECT(args...)			/* NOP */
-#define GST_CAT_INFO_OBJECT(args...)			/* NOP */
-#define GST_CAT_DEBUG_OBJECT(args...)			/* NOP */
-#define GST_CAT_LOG_OBJECT(args...)			/* NOP */
-#define GST_CAT_FIXME_OBJECT(args...)			/* NOP */
+#define GST_CAT_ERROR_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_WARNING_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_INFO_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_DEBUG_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_LOG_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_FIXME_OBJECT(args...)			G_STMT_START{ }G_STMT_END
 
-#define GST_CAT_ERROR(args...)				/* NOP */
-#define GST_CAT_WARNING(args...)			/* NOP */
-#define GST_CAT_INFO(args...)				/* NOP */
-#define GST_CAT_DEBUG(args...)				/* NOP */
-#define GST_CAT_LOG(args...)				/* NOP */
-#define GST_CAT_FIXME(args...)				/* NOP */
+#define GST_CAT_ERROR(args...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_WARNING(args...)			G_STMT_START{ }G_STMT_END
+#define GST_CAT_INFO(args...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_DEBUG(args...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_LOG(args...)				G_STMT_START{ }G_STMT_END
+#define GST_CAT_FIXME(args...)				G_STMT_START{ }G_STMT_END
 
-#define GST_ERROR_OBJECT(args...)			/* NOP */
-#define GST_WARNING_OBJECT(args...)			/* NOP */
-#define GST_INFO_OBJECT(args...)			/* NOP */
-#define GST_DEBUG_OBJECT(args...)			/* NOP */
-#define GST_LOG_OBJECT(args...)				/* NOP */
-#define GST_FIXME_OBJECT(args...)			/* NOP */
+#define GST_ERROR_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_WARNING_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_INFO_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_DEBUG_OBJECT(args...)			G_STMT_START{ }G_STMT_END
+#define GST_LOG_OBJECT(args...)				G_STMT_START{ }G_STMT_END
+#define GST_FIXME_OBJECT(args...)			G_STMT_START{ }G_STMT_END
 
-#define GST_ERROR(args...)				/* NOP */
-#define GST_WARNING(args...)				/* NOP */
-#define GST_INFO(args...)				/* NOP */
-#define GST_DEBUG(args...)				/* NOP */
-#define GST_LOG(args...)				/* NOP */
-#define GST_FIXME(args...)				/* NOP */
+#define GST_ERROR(args...)				G_STMT_START{ }G_STMT_END
+#define GST_WARNING(args...)				G_STMT_START{ }G_STMT_END
+#define GST_INFO(args...)				G_STMT_START{ }G_STMT_END
+#define GST_DEBUG(args...)				G_STMT_START{ }G_STMT_END
+#define GST_LOG(args...)				G_STMT_START{ }G_STMT_END
+#define GST_FIXME(args...)				G_STMT_START{ }G_STMT_END
 
 #else /* !G_HAVE_GNUC_VARARGS */
 static inline void
@@ -1379,13 +1394,14 @@ GST_FIXME (const char *format, ...)
 #endif /* G_HAVE_GNUC_VARARGS */
 #endif /* G_HAVE_ISO_VARARGS */
 
+#define GST_DEBUG_REGISTER_FUNCPTR(ptr) G_STMT_START{ }G_STMT_END
 #define GST_DEBUG_FUNCPTR(ptr) (ptr)
 #define GST_DEBUG_FUNCPTR_NAME(ptr) (g_strdup_printf ("%p", ptr))
 
-#define GST_CAT_MEMDUMP_OBJECT(cat,obj,msg,data,length) /* NOP */
-#define GST_CAT_MEMDUMP(cat,msg,data,length)            /* NOP */
-#define GST_MEMDUMP_OBJECT(obj,msg,data,length)         /* NOP */
-#define GST_MEMDUMP(msg,data,length)                    /* NOP */
+#define GST_CAT_MEMDUMP_OBJECT(cat,obj,msg,data,length) G_STMT_START{ }G_STMT_END
+#define GST_CAT_MEMDUMP(cat,msg,data,length)            G_STMT_START{ }G_STMT_END
+#define GST_MEMDUMP_OBJECT(obj,msg,data,length)         G_STMT_START{ }G_STMT_END
+#define GST_MEMDUMP(msg,data,length)                    G_STMT_START{ }G_STMT_END
 
 #endif /* GST_DISABLE_GST_DEBUG */
 

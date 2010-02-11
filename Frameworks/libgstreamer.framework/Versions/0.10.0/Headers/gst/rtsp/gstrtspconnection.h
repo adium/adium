@@ -1,5 +1,5 @@
 /* GStreamer
- * Copyright (C) <2005,2006> Wim Taymans <wim@fluendo.com>
+ * Copyright (C) <2005,2009> Wim Taymans <wim.taymans@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -45,6 +45,7 @@
 
 #include <glib.h>
 
+#include <gst/gstconfig.h>
 #include <gst/rtsp/gstrtspdefs.h>
 #include <gst/rtsp/gstrtspurl.h>
 #include <gst/rtsp/gstrtspmessage.h>
@@ -60,6 +61,11 @@ typedef struct _GstRTSPConnection GstRTSPConnection;
 
 /* opening/closing a connection */
 GstRTSPResult      gst_rtsp_connection_create        (const GstRTSPUrl *url, GstRTSPConnection **conn);
+GstRTSPResult      gst_rtsp_connection_create_from_fd (gint fd,
+                                                       const gchar * ip,
+                                                       guint16 port,
+                                                       const gchar * initial_buffer,
+                                                       GstRTSPConnection ** conn);
 GstRTSPResult      gst_rtsp_connection_accept        (gint sock, GstRTSPConnection **conn);
 GstRTSPResult      gst_rtsp_connection_connect       (GstRTSPConnection *conn, GTimeVal *timeout);
 GstRTSPResult      gst_rtsp_connection_close         (GstRTSPConnection *conn);
@@ -114,6 +120,9 @@ void               gst_rtsp_connection_set_ip        (GstRTSPConnection *conn, c
 gint               gst_rtsp_connection_get_readfd    (const GstRTSPConnection *conn);
 gint               gst_rtsp_connection_get_writefd   (const GstRTSPConnection *conn);
 
+void               gst_rtsp_connection_set_http_mode (GstRTSPConnection *conn,
+                                                      gboolean enable);
+
 /* tunneling */
 void               gst_rtsp_connection_set_tunneled  (GstRTSPConnection *conn, gboolean tunneled);
 gboolean           gst_rtsp_connection_is_tunneled   (const GstRTSPConnection *conn);
@@ -142,6 +151,8 @@ typedef struct _GstRTSPWatch GstRTSPWatch;
  * @tunnel_complete: a client finished a tunneled connection. In this callback
  *   you usually pair the tunnelid of this connection with the saved one using
  *   gst_rtsp_connection_do_tunnel().
+ * @error_full: callback when an error occured with more information than
+ *   the @error callback. Since 0.10.25
  *
  * Callback functions from a #GstRTSPWatch.
  *
@@ -150,16 +161,19 @@ typedef struct _GstRTSPWatch GstRTSPWatch;
 typedef struct {
   GstRTSPResult     (*message_received) (GstRTSPWatch *watch, GstRTSPMessage *message,
                                          gpointer user_data);
-  GstRTSPResult     (*message_sent)     (GstRTSPWatch *watch, guint cseq, 
+  GstRTSPResult     (*message_sent)     (GstRTSPWatch *watch, guint id,
                                          gpointer user_data);
   GstRTSPResult     (*closed)           (GstRTSPWatch *watch, gpointer user_data);
   GstRTSPResult     (*error)            (GstRTSPWatch *watch, GstRTSPResult result,
                                          gpointer user_data);
   GstRTSPStatusCode (*tunnel_start)     (GstRTSPWatch *watch, gpointer user_data);
   GstRTSPResult     (*tunnel_complete)  (GstRTSPWatch *watch, gpointer user_data);
+  GstRTSPResult     (*error_full)       (GstRTSPWatch *watch, GstRTSPResult result,
+                                         GstRTSPMessage *message, guint id,
+                                         gpointer user_data);
 
   /*< private >*/
-  gpointer _gst_reserved[GST_PADDING];
+  gpointer _gst_reserved[GST_PADDING - 1];
 } GstRTSPWatchFuncs;
 
 GstRTSPWatch *     gst_rtsp_watch_new                (GstRTSPConnection *conn,
@@ -172,8 +186,20 @@ void               gst_rtsp_watch_unref              (GstRTSPWatch *watch);
 guint              gst_rtsp_watch_attach             (GstRTSPWatch *watch,
                                                       GMainContext *context);
 
+GstRTSPResult      gst_rtsp_watch_write_data         (GstRTSPWatch *watch,
+                                                      const guint8 *data,
+                                                      guint size, guint *id);
+GstRTSPResult      gst_rtsp_watch_send_message       (GstRTSPWatch *watch,
+                                                      GstRTSPMessage *message,
+                                                      guint *id);
+
+#ifndef GST_DISABLE_DEPRECATED
+guint              gst_rtsp_watch_queue_data         (GstRTSPWatch * watch,
+                                                      const guint8 * data,
+                                                      guint size);
 guint              gst_rtsp_watch_queue_message      (GstRTSPWatch *watch,
                                                       GstRTSPMessage *message);
+#endif
 
 G_END_DECLS
 

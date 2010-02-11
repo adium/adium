@@ -33,6 +33,7 @@ G_BEGIN_DECLS
 
 /* tags */
 #define GST_RIFF_TAG_RIFF GST_MAKE_FOURCC ('R','I','F','F')
+#define GST_RIFF_TAG_AVF0 GST_MAKE_FOURCC ('A','V','F','0')
 #define GST_RIFF_TAG_RIFX GST_MAKE_FOURCC ('R','I','F','X')
 #define GST_RIFF_TAG_LIST GST_MAKE_FOURCC ('L','I','S','T')
 #define GST_RIFF_TAG_avih GST_MAKE_FOURCC ('a','v','i','h')
@@ -407,6 +408,7 @@ typedef struct _gst_riff_strf_auds {       /* == WaveHeader (?) */
 #define GST_RIFF_WAVE_FORMAT_IPI_RPELP      (0x0251)
 #define GST_RIFF_WAVE_FORMAT_CS2            (0x0260)
 #define GST_RIFF_WAVE_FORMAT_SONY_ATRAC3    (0x0270)
+#define GST_RIFF_WAVE_FORMAT_SIREN          (0x028E)
 #define GST_RIFF_WAVE_FORMAT_FM_TOWNS_SND   (0x0300)
 #define GST_RIFF_WAVE_FORMAT_BTV_DIGITAL    (0x0400)
 #define GST_RIFF_WAVE_FORMAT_IMC            (0x0401)

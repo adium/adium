@@ -99,7 +99,7 @@ typedef enum
 #define GST_OBJECT_LOCK(obj)                   g_mutex_lock(GST_OBJECT_GET_LOCK(obj))
 /**
  * GST_OBJECT_TRYLOCK:
- * @obj: a #Object.
+ * @obj: a #GstObject.
  *
  * This macro will try to obtain a lock on the object, but will return with
  * FALSE if it can't get it immediately.
@@ -239,12 +239,20 @@ struct _GstObject {
  */
 #define GST_CLASS_UNLOCK(obj)           (g_static_rec_mutex_unlock(GST_CLASS_GET_LOCK(obj)))
 
-/*
+/**
  * GstObjectClass:
- *
+ * @parent_class: parent
+ * @path_string_separator: separator used by gst_object_get_path_string()
  * @signal_object: is used to signal to the whole class
+ * @lock: class lock to be used with GST_CLASS_GET_LOCK(), GST_CLASS_LOCK(), GST_CLASS_UNLOCK() and others.
+ * @parent_set: default signal handler
+ * @parent_unset: default signal handler
+ * @object_saved: default signal handler
+ * @deep_notify: default signal handler
  * @save_thyself: xml serialisation
  * @restore_thyself: xml de-serialisation
+ *
+ * GStreamer base object class.
  */
 struct _GstObjectClass {
   GObjectClass	parent_class;
@@ -252,9 +260,11 @@ struct _GstObjectClass {
   gchar		*path_string_separator;
   GObject	*signal_object;
 
+  /* FIXME-0.11: remove this, plus the above GST_CLASS_*_LOCK macros */
   GStaticRecMutex *lock;
 
   /* signals */
+  /* FIXME-0.11: remove, and pass NULL in g_signal_new(), we never used them */
   void          (*parent_set)       (GstObject * object, GstObject * parent);
   void          (*parent_unset)     (GstObject * object, GstObject * parent);
   void          (*object_saved)     (GstObject * object, GstXmlNodePtr parent);
@@ -307,7 +317,7 @@ gboolean	gst_object_check_uniqueness	(GList *list, const gchar *name);
 GstXmlNodePtr   gst_object_save_thyself    (GstObject *object, GstXmlNodePtr parent);
 void            gst_object_restore_thyself (GstObject *object, GstXmlNodePtr self);
 #else
-#if defined _GNUC_ && _GNUC_ >= 3
+#if defined __GNUC__ && __GNUC__ >= 3
 #pragma GCC poison gst_object_save_thyself
 #pragma GCC poison gst_object_restore_thyself
 #endif
@@ -324,7 +334,7 @@ void        gst_class_signal_emit_by_name   (GstObject     * object,
                                              const gchar   * name,
                                              GstXmlNodePtr   self);
 #else
-#if defined _GNUC_ && _GNUC_ >= 3
+#if defined __GNUC__ && __GNUC__ >= 3
 #pragma GCC poison gst_class_signal_emit_by_name
 #endif
 #endif
