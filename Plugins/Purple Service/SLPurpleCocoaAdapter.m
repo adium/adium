@@ -178,7 +178,7 @@ static void ZombieKiller_Signal(int i)
 				[[[NSBundle bundleWithIdentifier:@"com.googlepages.openspecies.rtool.libgstreamer"] builtInPlugInsPath] fileSystemRepresentation]);
 	
 	GError *error = NULL;
-	if (gst_init_check(NULL, NULL, &error)) {
+	if (!gst_init_check(NULL, NULL, &error)) {
 		NSLog(@"Failed to init GStreamer: %s", error ? error->message : "no error message.");
 		if (error) {
 			g_error_free(error);
