@@ -66,7 +66,7 @@ typedef enum
  * @GST_MIXER_MESSAGE_MIXER_CHANGED: A mixer-changed GstMixer message, posted
  *     when the list of available mixer tracks has changed. The application
  *     should re-build its interface in this case (Since: 0.10.18)
- * 
+ *
  * An enumeration for the type of a GstMixer message received on the bus
  *
  * Since: 0.10.14
@@ -85,17 +85,17 @@ typedef enum
 /**
  * GstMixerFlags:
  * @GST_MIXER_FLAG_NONE: No flags
- * @GST_MIXER_FLAG_AUTO_NOTIFICATIONS: The mixer implementation automatically sends
- *    notification messages.
- * @GST_MIXER_FLAG_HAS_WHITELIST: The mixer implementation flags tracks that should
- *    be displayed by default (whitelisted). Since: 0.10.23
- *
+ * @GST_MIXER_FLAG_AUTO_NOTIFICATIONS: The mixer implementation automatically
+ *    sends notification messages.
+ * @GST_MIXER_FLAG_HAS_WHITELIST: The mixer implementation flags tracks that
+ *    should be displayed by default (whitelisted). Since: 0.10.23
  * @GST_MIXER_FLAG_GROUPING: The mixer implementation will leave some controls
  *    marked without either input or output.  Controls marked as input or
  *    output should be grouped with input & output sliders, even if they
  *    are options or bare switches. Since: 0.10.23
- * 
- * Flags for supported features.
+ *
+ * Flags indicating which optional features are supported by a mixer
+ * implementation.
  *
  * Since: 0.10.14
  */
@@ -111,7 +111,7 @@ struct _GstMixerClass {
   GTypeInterface klass;
 
   GstMixerType mixer_type;
-  
+
   /* virtual functions */
   const GList *  (* list_tracks)   (GstMixer      *mixer);
 
@@ -157,7 +157,7 @@ struct _GstMixerClass {
   gpointer padding2;
 #endif /* not GST_DISABLE_DEPRECATED */
 
-  GstMixerFlags (* get_mixer_flags) (GstMixer *mixer); 
+  GstMixerFlags (* get_mixer_flags) (GstMixer *mixer);
 
   /*< private >*/
   gpointer _gst_reserved[GST_PADDING-1];
@@ -204,6 +204,7 @@ void            gst_mixer_mixer_changed   (GstMixer        *mixer);
 void            gst_mixer_options_list_changed (GstMixer        *mixer,
                                                 GstMixerOptions *opts);
 
+GstMixerType    gst_mixer_get_mixer_type  (GstMixer *mixer);
 
 GstMixerFlags   gst_mixer_get_mixer_flags (GstMixer *mixer);
 

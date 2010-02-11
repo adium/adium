@@ -78,9 +78,9 @@ G_STMT_START { \
  * @GST_RTSP_ENET: a network problem occured, h_errno contains more details
  * @GST_RTSP_ENOTIP: the host is not an IP host
  * @GST_RTSP_ETIMEOUT: a timeout occured
- * @GST_RTSP_ELAST: last error
  * @GST_RTSP_ETGET: the tunnel GET request has been performed
  * @GST_RTSP_ETPOST: the tunnel POST request has been performed
+ * @GST_RTSP_ELAST: last error
  *
  * Result codes from the RTSP functions.
  */
@@ -157,12 +157,14 @@ typedef enum {
  * GstRTSPVersion:
  * @GST_RTSP_VERSION_INVALID: unknown/invalid version
  * @GST_RTSP_VERSION_1_0: version 1.0
+ * @GST_RTSP_VERSION_1_1: version 1.1. Since 0.10.25
  *
  * The supported RTSP versions.
  */
 typedef enum {
   GST_RTSP_VERSION_INVALID = 0x00,
-  GST_RTSP_VERSION_1_0     = 0x10
+  GST_RTSP_VERSION_1_0     = 0x10,
+  GST_RTSP_VERSION_1_1     = 0x11
 } GstRTSPVersion;
 
 /**
@@ -179,6 +181,8 @@ typedef enum {
  * @GST_RTSP_SETUP: the SETUP method
  * @GST_RTSP_SET_PARAMETER: the SET_PARAMETER method
  * @GST_RTSP_TEARDOWN: the TEARDOWN method
+ * @GST_RTSP_GET: the GET method (HTTP). Since 0.10.25
+ * @GST_RTSP_POST: the POST method (HTTP). Since 0.10.25
  *
  * The different supported RTSP methods. 
  */
@@ -194,7 +198,9 @@ typedef enum {
   GST_RTSP_REDIRECT         = (1 <<  7),
   GST_RTSP_SETUP            = (1 <<  8),
   GST_RTSP_SET_PARAMETER    = (1 <<  9),
-  GST_RTSP_TEARDOWN         = (1 << 10)
+  GST_RTSP_TEARDOWN         = (1 << 10),
+  GST_RTSP_GET              = (1 << 11),
+  GST_RTSP_POST             = (1 << 12)
 } GstRTSPMethod;
 
 /**
@@ -308,8 +314,19 @@ typedef enum {
   GST_RTSP_HDR_X_PROXY_CLIENT_VERB, /* X-Proxy-Client-Verb */
   GST_RTSP_HDR_X_RECEDING_PLAYLISTCHANGE, /* X-Receding-PlaylistChange */
   GST_RTSP_HDR_X_RTP_INFO,          /* X-RTP-Info */
-  GST_RTSP_HDR_X_STARTUPPROFILE     /* X-StartupProfile */
+  GST_RTSP_HDR_X_STARTUPPROFILE,    /* X-StartupProfile */
 
+  /* Since 0.10.24 */
+  GST_RTSP_HDR_TIMESTAMP,           /* Timestamp */
+
+  /* Since 0.10.25 */
+  GST_RTSP_HDR_AUTHENTICATION_INFO, /* Authentication-Info */
+  GST_RTSP_HDR_HOST,                /* Host */
+  GST_RTSP_HDR_PRAGMA,              /* Pragma */
+  GST_RTSP_HDR_X_SERVER_IP_ADDRESS, /* X-Server-IP-Address */
+  GST_RTSP_HDR_X_SESSIONCOOKIE,     /* X-Sessioncookie */
+
+  GST_RTSP_HDR_LAST
 } GstRTSPHeaderField;
 
 typedef enum {
@@ -371,6 +388,8 @@ gchar*             gst_rtsp_options_as_text    (GstRTSPMethod options);
 
 GstRTSPHeaderField gst_rtsp_find_header_field  (const gchar *header);
 GstRTSPMethod      gst_rtsp_find_method        (const gchar *method);
+
+gboolean           gst_rtsp_header_allow_multiple (GstRTSPHeaderField field);
 
 G_END_DECLS
 

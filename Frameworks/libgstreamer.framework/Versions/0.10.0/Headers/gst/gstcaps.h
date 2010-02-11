@@ -207,6 +207,9 @@ GstStructure *    gst_caps_get_structure           (const GstCaps *caps,
                                                     guint          index);
 GstCaps *         gst_caps_copy_nth                (const GstCaps *caps, guint nth);
 void              gst_caps_truncate                (GstCaps       *caps);
+void              gst_caps_set_value               (GstCaps       *caps,
+                                                    const char    *field,
+                                                    const GValue  *value);
 void              gst_caps_set_simple              (GstCaps       *caps,
                                                     const char    *field, ...) G_GNUC_NULL_TERMINATED;
 void              gst_caps_set_simple_valist       (GstCaps       *caps,
@@ -225,6 +228,8 @@ gboolean          gst_caps_is_equal		   (const GstCaps *caps1,
 						    const GstCaps *caps2);
 gboolean          gst_caps_is_equal_fixed          (const GstCaps *caps1,
 						    const GstCaps *caps2);
+gboolean          gst_caps_can_intersect           (const GstCaps * caps1,
+						    const GstCaps * caps2);
 
 
 /* operations */

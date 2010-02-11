@@ -71,10 +71,17 @@ typedef enum
   GST_PLUGIN_ERROR_NAME_MISMATCH
 } GstPluginError;
 
-
+/**
+ * GstPluginFlags:
+ * @GST_PLUGIN_FLAG_CACHED: Temporarily loaded plugins
+ * @GST_PLUGIN_FLAG_BLACKLISTED: The plugin won't be scanned (again)
+ *
+ * The plugin loading state
+ */
 typedef enum
 {
-  GST_PLUGIN_FLAG_CACHED = (1<<0)
+  GST_PLUGIN_FLAG_CACHED = (1<<0),
+  GST_PLUGIN_FLAG_BLACKLISTED = (1<<1)
 } GstPluginFlags;
 
 /**
@@ -100,11 +107,12 @@ typedef enum {
 
 /**
  * GstPluginInitFunc:
- * @plugin: The plugin object that can be used to register #GstPluginFeatures for this plugin.
+ * @plugin: The plugin object
  *
  * A plugin should provide a pointer to a function of this type in the
  * plugin_desc struct.
- * This function will be called by the loader at startup.
+ * This function will be called by the loader at startup. One would then
+ * register each #GstPluginFeature.
  *
  * Returns: %TRUE if plugin initialised successfully
  */
@@ -112,12 +120,13 @@ typedef gboolean (*GstPluginInitFunc) (GstPlugin *plugin);
 
 /**
  * GstPluginInitFullFunc:
- * @plugin: The plugin object that can be used to register #GstPluginFeatures for this plugin.
- * @user_data: The user data.
+ * @plugin: The plugin object
+ * @user_data: extra data
  *
  * A plugin should provide a pointer to a function of either #GstPluginInitFunc
  * or this type in the plugin_desc struct.
- * The function will be called by the loader at startup. This version allows
+ * The function will be called by the loader at startup. One would then
+ * register each #GstPluginFeature. This version allows
  * user data to be passed to init function (useful for bindings).
  *
  * Returns: %TRUE if plugin initialised successfully
@@ -226,6 +235,7 @@ struct _GstPluginClass {
  * The macro uses a define named PACKAGE for the #GstPluginDesc,source field.
  */
 #define GST_PLUGIN_DEFINE(major,minor,name,description,init,version,license,package,origin)	\
+G_BEGIN_DECLS \
 GST_PLUGIN_EXPORT GstPluginDesc gst_plugin_desc = {	\
   major,						\
   minor,						\
@@ -238,7 +248,8 @@ GST_PLUGIN_EXPORT GstPluginDesc gst_plugin_desc = {	\
   package,						\
   origin,						\
   GST_PADDING_INIT				        \
-};
+}; \
+G_END_DECLS
 
 /**
  * GST_PLUGIN_DEFINE_STATIC:

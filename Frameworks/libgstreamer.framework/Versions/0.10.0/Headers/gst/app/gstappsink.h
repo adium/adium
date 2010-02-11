@@ -57,6 +57,11 @@ typedef struct _GstAppSinkPrivate GstAppSinkPrivate;
  *       The new buffer can be retrieved with
  *       gst_app_sink_pull_buffer() either from this callback
  *       or from any other thread.
+ * @new_buffer_list: Called when a new bufferlist is available. 
+ *       This callback is called from the steaming thread.
+ *       The new bufferlist can be retrieved with
+ *       gst_app_sink_pull_buffer_list() either from this callback
+ *       or from any other thread.
  *
  * A set of callbacks that can be installed on the appsink with
  * gst_app_sink_set_callbacks().
@@ -64,12 +69,13 @@ typedef struct _GstAppSinkPrivate GstAppSinkPrivate;
  * Since: 0.10.23
  */
 typedef struct {
-  void          (*eos)           (GstAppSink *sink, gpointer user_data);
-  GstFlowReturn (*new_preroll)   (GstAppSink *sink, gpointer user_data);
-  GstFlowReturn (*new_buffer)    (GstAppSink *sink, gpointer user_data);
+  void          (*eos)              (GstAppSink *sink, gpointer user_data);
+  GstFlowReturn (*new_preroll)      (GstAppSink *sink, gpointer user_data);
+  GstFlowReturn (*new_buffer)       (GstAppSink *sink, gpointer user_data);
+  GstFlowReturn (*new_buffer_list)  (GstAppSink *sink, gpointer user_data);
 
   /*< private >*/
-  gpointer     _gst_reserved[GST_PADDING];
+  gpointer     _gst_reserved[GST_PADDING - 1];
 } GstAppSinkCallbacks;
 
 struct _GstAppSink
@@ -93,11 +99,15 @@ struct _GstAppSinkClass
   void        (*new_buffer)   (GstAppSink *sink);
 
   /* actions */
-  GstBuffer * (*pull_preroll)  (GstAppSink *sink);
-  GstBuffer * (*pull_buffer)   (GstAppSink *sink);
+  GstBuffer     * (*pull_preroll)      (GstAppSink *sink);
+  GstBuffer     * (*pull_buffer)       (GstAppSink *sink);
+
+  /* ABI added */
+  GstBufferList * (*new_buffer_list)   (GstAppSink *sink);
+  GstBufferList * (*pull_buffer_list)  (GstAppSink *sink);
 
   /*< private >*/
-  gpointer     _gst_reserved[GST_PADDING];
+  gpointer     _gst_reserved[GST_PADDING - 2];
 };
 
 GType gst_app_sink_get_type(void);
@@ -118,6 +128,7 @@ gboolean        gst_app_sink_get_drop         (GstAppSink *appsink);
 
 GstBuffer *     gst_app_sink_pull_preroll     (GstAppSink *appsink);
 GstBuffer *     gst_app_sink_pull_buffer      (GstAppSink *appsink);
+GstBufferList * gst_app_sink_pull_buffer_list (GstAppSink *appsink);
 
 void            gst_app_sink_set_callbacks    (GstAppSink * appsink,
                                                GstAppSinkCallbacks *callbacks,
