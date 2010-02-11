@@ -27,7 +27,7 @@ build_liboil() {
 #
 build_gst_plugins_base() {
 	prereq "gst-plugins-base" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.23.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.26.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-base"
 	
@@ -38,8 +38,12 @@ build_gst_plugins_base() {
 		CONFIG_CMD="./configure \
 				--prefix=$ROOTDIR/build \
 				--disable-examples \
+				--disable-gdp \
+				--disable-app \
 				--disable-playback \
+				--disable-subparse \
 				--disable-audiotestsrc \
+				--disable-videotestsrc \
 				--disable-cdparanoia \
 				--disable-subparse \
 				--disable-videotestsrc \
@@ -49,9 +53,15 @@ build_gst_plugins_base() {
 				--disable-gst_v4l \
 				--disable-alsa \
 				--disable-gnome_vfs \
+				--disable-gio \
 				--disable-libvisual \
+				--disable-ogg \
+				--disable-pango \
+				--disable-theora \
+				--disable-vorbis \
+				--disable-freetypetest \
 				--disable-dependency-tracking"
-		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-base/config.h" \
 			"${ROOTDIR}/source/gst-plugins-base/_stdint.h"
 	)
@@ -69,7 +79,7 @@ build_gst_plugins_base() {
 #
 build_gst_plugins_good() {
 	prereq "gst-plugins-good" \
-		"http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.15.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.18.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gst-plugins-good"
 	
@@ -91,6 +101,7 @@ build_gst_plugins_good() {
 				--disable-deinterlace \
 				--disable-effectv \
 				--disable-flv \
+				--disable-flx \
 				--disable-id3demux \
 				--disable-icydemux \
 				--disable-examples \
@@ -106,6 +117,7 @@ build_gst_plugins_good() {
 				--disable-smpte \
 				--disable-spectrum \
 				--disable-directsound \
+				--disable-y4m \
 				--disable-oss \
 				--disable-sunaudio \
 				--disable-gst_v4l2 \
@@ -117,11 +129,16 @@ build_gst_plugins_good() {
 				--disable-esd \
 				--disable-flac \
 				--disable-libcaca \
+				--disable-libdv \
+				--disable-libpng \
+				--disable-pulse \
 				--disable-taglib  \
 				--disable-wavpack \
+				--disable-zlib \
+				--disable-bz2 \
 				--disable-shout2 \
 				--disable-dependency-tracking"
-		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
+		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/gst-plugins-good/config.h" \
 			"${ROOTDIR}/source/gst-plugins-good/_stdint.h"
 	)
@@ -210,7 +227,7 @@ build_gst_plugins() {
 GSTREAMER_VERSION=0.10
 build_gstreamer() {
 	prereq "gstreamer" \
-		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.24.tar.gz"
+		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.26.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/gstreamer"
 	
@@ -223,6 +240,7 @@ build_gstreamer() {
 				--disable-examples \
 				--disable-tests \
 				--disable-option-parsing \
+				--disable-check \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS}" "${CONFIG_CMD}" \
 			"$ROOTDIR/source/gstreamer/gst/gstconfig.h" \
@@ -245,7 +263,7 @@ build_gstreamer() {
 #
 build_nice() {
 	prereq "nice" \
-		"http://nice.freedesktop.org/releases/libnice-0.0.9.tar.gz"
+		"http://nice.freedesktop.org/releases/libnice-0.0.10.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/nice"
 	
@@ -275,7 +293,7 @@ build_farsight() {
 	build_nice $@
 	
 	prereq "farsight" \
-		"http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.15.tar.gz"
+		"http://farsight.freedesktop.org/releases/farsight2/farsight2-0.0.17.tar.gz"
 	
 	quiet pushd "$ROOTDIR/source/farsight"
 	

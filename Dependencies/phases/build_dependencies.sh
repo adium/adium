@@ -93,6 +93,8 @@ build_glib() {
 				--enable-shared \
 				--with-libiconv=native \
 				--disable-fam \
+				--disable-selinux \
+				--with-threads=posix \
 				--disable-dependency-tracking"
 		xconfigure "${BASE_CFLAGS}" "${BASE_LDFLAGS} -lintl" "${CONFIG_CMD}" \
 			"${ROOTDIR}/source/glib/config.h" \
