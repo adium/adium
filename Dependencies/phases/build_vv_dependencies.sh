@@ -39,7 +39,7 @@ build_gst_plugins_base() {
 				--prefix=$ROOTDIR/build \
 				--disable-examples \
 				--disable-gdp \
-				--disable-app \
+				--disable-audioconvert \
 				--disable-playback \
 				--disable-subparse \
 				--disable-audiotestsrc \
@@ -100,6 +100,7 @@ build_gst_plugins_good() {
 				--disable-debugutils \
 				--disable-deinterlace \
 				--disable-effectv \
+				--disable-equalizer \
 				--disable-flv \
 				--disable-flx \
 				--disable-id3demux \
@@ -117,6 +118,8 @@ build_gst_plugins_good() {
 				--disable-smpte \
 				--disable-spectrum \
 				--disable-directsound \
+				--disable-wavenc \
+				--disable-wavparse \
 				--disable-y4m \
 				--disable-oss \
 				--disable-sunaudio \
@@ -199,6 +202,8 @@ build_gst_plugins_farsight() {
 		export CFLAGS="$ARCH_CFLAGS"
 		export LDFLAGS="$ARCH_LDFLAGS"
 		log ./configure --prefix="$ROOTDIR/build" \
+			--disable-jrtplib \
+			--disable-gconf \
 			--disable-dependency-tracking
 	)
 	fi
