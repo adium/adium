@@ -126,6 +126,26 @@ make_framework() {
 		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
 			"${ROOTDIR}/build/lib/libpurple.${LIBPURPLE_VERSION}.dylib" \
 			"${FRAMEWORK_DIR}"
+		
+		status "Adding gst support frameworks..."
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libgstapp-${GSTREAMER_VERSION}.0.dylib" \
+			"${FRAMEWORK_DIR}"
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libgstnet-${GSTREAMER_VERSION}.0.dylib" \
+			"${FRAMEWORK_DIR}"
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libgstnetbuffer-${GSTREAMER_VERSION}.0.dylib" \
+			"${FRAMEWORK_DIR}"
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libgstrtp-${GSTREAMER_VERSION}.0.dylib" \
+			"${FRAMEWORK_DIR}"
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libgstsdp-${GSTREAMER_VERSION}.0.dylib" \
+			"${FRAMEWORK_DIR}"
+		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+			"${ROOTDIR}/build/lib/libnice.0.dylib" \
+			"${FRAMEWORK_DIR}"
 
 		status "Adding the Adium framework header..."
 		log cp "${ROOTDIR}/libpurple-full.h" \
