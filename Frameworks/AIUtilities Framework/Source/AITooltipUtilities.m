@@ -14,6 +14,7 @@
  \------------------------------------------------------------------------------------------------------ */
 
 #import "AITooltipUtilities.h"
+#import <libkern/OSAtomic.h>
 
 #define TOOLTIP_MAX_WIDTH			300
 #define TOOLTIP_INSET				4.0f
@@ -49,17 +50,6 @@ static  NSSize                  imageSize;
 static  BOOL                    imageOnRight;
 static	NSPoint					tooltipPoint;
 static	AITooltipOrientation	tooltipOrientation;
-
-static	NSColor					*titleAndBodyMarginLineColor = nil;
-
-+ (void)initialize
-{
-	if (self != [AITooltipUtilities class])
-		return;
-	if (!titleAndBodyMarginLineColor) {
-		titleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
-	}
-}
 
 //Tooltips
 + (void)showTooltipWithString:(NSString *)inString onWindow:(NSWindow *)inWindow atPoint:(NSPoint)inPoint orientation:(AITooltipOrientation)inOrientation
@@ -292,12 +282,21 @@ static	NSColor					*titleAndBodyMarginLineColor = nil;
 
 + (void)_sizeTooltip
 {
+    static  NSColor *titleAndBodyMarginLineColor = nil;
     NSRect  tooltipTitleRect;
     NSRect  tooltipBodyRect;
     NSRect  tooltipWindowRect;
     
     BOOL hasTitle = tooltipTitle && [tooltipTitle length];
     BOOL hasBody = tooltipBody && [tooltipBody length];
+	
+    //init titleAndBodyMarginLineColor only once (Drop 10.5 and use blocks, dispatch_once)
+    if(!titleAndBodyMarginLineColor) {
+        NSColor *newTitleAndBodyMarginLineColor = [[[NSColor grayColor] colorWithAlphaComponent:.7f] retain];
+        if(!OSAtomicCompareAndSwapPtrBarrier(nil, newTitleAndBodyMarginLineColor, (void *)&titleAndBodyMarginLineColor))
+            [newTitleAndBodyMarginLineColor release];
+    }
+
     if (hasTitle) {
         //Make sure we're not wrapping by default
         //Set up the tooltip's bounds
