@@ -34,24 +34,6 @@ static	NSMutableDictionary		*eventHandlersByGroup[EVENT_HANDLER_GROUP_COUNT];
 static	NSMutableDictionary		*globalOnlyEventHandlersByGroup[EVENT_HANDLER_GROUP_COUNT];
 
 /*!
- * @brief Initialize before the class is used
- */
-+ (void)initialize
-{
-	if (self != [ESContactAlertsController class])
-		return;
-	static BOOL didInitialize = NO;
-	if (!didInitialize) {
-		for (NSInteger i = 0; i < EVENT_HANDLER_GROUP_COUNT; i++) {
-			eventHandlersByGroup[i] = nil;
-			globalOnlyEventHandlersByGroup[i] = nil;
-		}
-
-		didInitialize = YES;
-	}
-}
-
-/*!
  * @brief Init
  */
 - (id)init
