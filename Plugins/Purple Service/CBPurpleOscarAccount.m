@@ -35,14 +35,9 @@
 #import <AIUtilities/AIObjectAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 
+#import <libkern/OSAtomic.h>
 
 #define DELAYED_UPDATE_INTERVAL			2.0
-
-static BOOL				createdEncoders = NO;
-static AIHTMLDecoder	*encoderCloseFontTagsAttachmentsAsText = nil;
-static AIHTMLDecoder	*encoderCloseFontTags = nil;
-static AIHTMLDecoder	*encoderAttachmentsAsText = nil;
-static AIHTMLDecoder	*encoderGroupChat = nil;
 
 @interface CBPurpleOscarAccount ()
 - (NSString *)stringByProcessingImgTagsForDirectIM:(NSString *)inString forContactWithUID:(const char *)who;
@@ -54,71 +49,6 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 {
 	NSLog(@"WARNING: Subclass must override");
     return "";
-}
-
-- (void)initAccount
-{
-	if (!createdEncoders) {
-		encoderCloseFontTagsAttachmentsAsText = [[AIHTMLDecoder alloc] init];
-		[encoderCloseFontTagsAttachmentsAsText setIncludesHeaders:YES];
-		[encoderCloseFontTagsAttachmentsAsText setIncludesFontTags:YES];
-		[encoderCloseFontTagsAttachmentsAsText setClosesFontTags:YES];
-		[encoderCloseFontTagsAttachmentsAsText setIncludesStyleTags:YES];
-		[encoderCloseFontTagsAttachmentsAsText setIncludesColorTags:YES];
-		[encoderCloseFontTagsAttachmentsAsText setEncodesNonASCII:NO];
-		[encoderCloseFontTagsAttachmentsAsText setPreservesAllSpaces:NO];
-		[encoderCloseFontTagsAttachmentsAsText setUsesAttachmentTextEquivalents:YES];
-		[encoderCloseFontTagsAttachmentsAsText setOnlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage:YES];
-		[encoderCloseFontTagsAttachmentsAsText setOnlyUsesSimpleTags:NO];
-		[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
-		[encoderCloseFontTagsAttachmentsAsText setAllowJavascriptURLs:YES];
-		
-		encoderCloseFontTags = [[AIHTMLDecoder alloc] init];
-		[encoderCloseFontTags setIncludesHeaders:YES];
-		[encoderCloseFontTags setIncludesFontTags:YES];
-		[encoderCloseFontTags setClosesFontTags:YES];
-		[encoderCloseFontTags setIncludesStyleTags:YES];
-		[encoderCloseFontTags setIncludesColorTags:YES];
-		[encoderCloseFontTags setEncodesNonASCII:NO];
-		[encoderCloseFontTags setPreservesAllSpaces:NO];
-		[encoderCloseFontTags setUsesAttachmentTextEquivalents:NO];
-		[encoderCloseFontTags setOnlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage:YES];
-		[encoderCloseFontTags setOnlyUsesSimpleTags:NO];
-		[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
-		[encoderCloseFontTags setAllowJavascriptURLs:YES];
-		
-		encoderAttachmentsAsText = [[AIHTMLDecoder alloc] init];
-		[encoderAttachmentsAsText setIncludesHeaders:YES];
-		[encoderAttachmentsAsText setIncludesFontTags:YES];
-		[encoderAttachmentsAsText setClosesFontTags:NO];
-		[encoderAttachmentsAsText setIncludesStyleTags:YES];
-		[encoderAttachmentsAsText setIncludesColorTags:YES];
-		[encoderAttachmentsAsText setEncodesNonASCII:NO];
-		[encoderAttachmentsAsText setPreservesAllSpaces:NO];
-		[encoderAttachmentsAsText setUsesAttachmentTextEquivalents:YES];
-		[encoderAttachmentsAsText setOnlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage:YES];
-		[encoderAttachmentsAsText setOnlyUsesSimpleTags:NO];
-		[encoderAttachmentsAsText setAllowAIMsubprofileLinks:YES];
-		[encoderAttachmentsAsText setAllowJavascriptURLs:YES];
-		
-		encoderGroupChat = [[AIHTMLDecoder alloc] init];
-		[encoderGroupChat setIncludesHeaders:NO];
-		[encoderGroupChat setIncludesFontTags:YES];
-		[encoderGroupChat setClosesFontTags:NO];
-		[encoderGroupChat setIncludesStyleTags:YES];
-		[encoderGroupChat setIncludesColorTags:YES];
-		[encoderGroupChat setEncodesNonASCII:NO];
-		[encoderGroupChat setPreservesAllSpaces:NO];
-		[encoderGroupChat setUsesAttachmentTextEquivalents:YES];
-		[encoderGroupChat setOnlyConvertImageAttachmentsToIMGTagsWhenSendingAMessage:YES];
-		[encoderGroupChat setOnlyUsesSimpleTags:YES];
-		[encoderGroupChat setAllowAIMsubprofileLinks:YES];
-		[encoderGroupChat setAllowJavascriptURLs:YES];
-		
-		createdEncoders = YES;
-	}	
-
-	[super initAccount];
 }
 
 #pragma mark AIListContact and AIService special cases for OSCAR
@@ -451,7 +381,28 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 }
 
 - (NSString *)encodedAttributedString:(NSAttributedString *)inAttributedString forListObject:(AIListObject *)inListObject
-{	
+{
+	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
+	static AIHTMLDecoder * encoderCloseFontTagsAttachmentsAsText = nil;
+	
+	OSSpinLockLock(&spinLock);
+	if(!encoderCloseFontTagsAttachmentsAsText) {
+		encoderCloseFontTagsAttachmentsAsText = [[AIHTMLDecoder alloc] initWithHeaders:YES
+																																					fontTags:YES
+																																		 closeFontTags:YES
+																																				 colorTags:YES
+																																				 styleTags:YES
+																																		encodeNonASCII:NO
+																																			encodeSpaces:NO
+																																 attachmentsAsText:YES
+																												 onlyIncludeOutgoingImages:YES
+																																		simpleTagsOnly:NO
+																																		bodyBackground:NO
+																															 allowJavascriptURLs:YES];
+		[encoderCloseFontTagsAttachmentsAsText setAllowAIMsubprofileLinks:YES];
+	}
+	OSSpinLockUnlock(&spinLock);
+	
 	return ([inAttributedString length] ? [encoderCloseFontTagsAttachmentsAsText encodeHTML:inAttributedString imagesPath:nil] : nil);
 }
 
@@ -460,6 +411,42 @@ static AIHTMLDecoder	*encoderGroupChat = nil;
 	AIListObject		*inListObject = [inContentMessage destination];
 	NSAttributedString	*inAttributedString = inContentMessage.message;
 	NSString			*encodedString;
+	
+	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
+	static AIHTMLDecoder * encoderCloseFontTags = nil;
+	static AIHTMLDecoder * encoderGroupChat = nil;
+	
+	OSSpinLockLock(&spinLock);
+	if(!(encoderCloseFontTags && encoderGroupChat)) {
+		encoderCloseFontTags = [[AIHTMLDecoder alloc] initWithHeaders:YES
+																												 fontTags:YES
+																										closeFontTags:YES
+																												colorTags:YES
+																												styleTags:YES
+																									 encodeNonASCII:NO
+																										 encodeSpaces:NO
+																								attachmentsAsText:NO
+																				onlyIncludeOutgoingImages:YES
+																									 simpleTagsOnly:NO
+																									 bodyBackground:NO
+																							allowJavascriptURLs:YES];
+		
+		encoderGroupChat = [[AIHTMLDecoder alloc] initWithHeaders:NO
+																										 fontTags:YES
+																								closeFontTags:NO
+																										colorTags:YES
+																										styleTags:YES
+																							 encodeNonASCII:NO
+																								 encodeSpaces:NO
+																						attachmentsAsText:YES
+																		onlyIncludeOutgoingImages:YES
+																							 simpleTagsOnly:YES
+																							 bodyBackground:NO
+																					allowJavascriptURLs:YES];
+		[encoderCloseFontTags setAllowAIMsubprofileLinks:YES];
+		[encoderGroupChat setAllowAIMsubprofileLinks:YES];
+	}
+	OSSpinLockUnlock(&spinLock);
 	
 	if (inListObject) {
 		if (inContentMessage.chat.isSecure &&
