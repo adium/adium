@@ -255,23 +255,6 @@
 
 
 /**
- * This method is automatically called (courtesy of Cocoa) before the first instantiation of this class.
- * We use it to initialize any static variables.
-**/
-+ (void)initialize
-{
-	if (self != [HTTPConnection class])
-		return;
-	static BOOL initialized = NO;
-	if (!initialized)
-	{
-		
-		initialized = YES;
-	}
-}
-
-
-/**
  * Sole Constructor.
  * Associates this new HTTP connection with the given AsyncSocket.
  * This HTTP connection object will become the socket's delegate and take over responsibility for the socket.
