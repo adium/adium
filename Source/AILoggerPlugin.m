@@ -228,18 +228,16 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 }
 
 + (NSOperationQueue *)operationQueue {
-	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
 	static NSOperationQueue *loggerQueue = nil;
 	
-	OSSpinLockLock(&spinLock);
 	if (!loggerQueue) {
-		loggerQueue = [[NSOperationQueue alloc] init];
+		NSOperationQueue *newQueue = [[NSOperationQueue alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&loggerQueue))
+			[newQueue release];
 		
-		if([NSApp isOnSnowLeopardOrBetter]) {
-			[loggerQueue setName:@"AILoggerPluginOperationQueue"];
-		}
+		if([NSApp isOnSnowLeopardOrBetter])
+			[loggerQueue performSelector:@selector(setName:) withObject:@"AILoggerPluginOperationQueue"];
 	}
-	OSSpinLockUnlock(&spinLock);
 	
 	return loggerQueue;
 }

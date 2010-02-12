@@ -33,21 +33,19 @@
 }
 
 + (NSOperationQueue *)queue {
-	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
 	static NSOperationQueue *sharedWriterQueue = nil;
 	
-	OSSpinLockLock(&spinLock);
 	
 	if (!sharedWriterQueue) {
-		sharedWriterQueue = [[NSOperationQueue alloc] init];
+		NSOperationQueue *newWriterQueue = [[NSOperationQueue alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newWriterQueue, (void *)&sharedWriterQueue))
+			 [newWriterQueue release];
+			 
 		[sharedWriterQueue setMaxConcurrentOperationCount:1];
-		
-		if ([NSApp isOnSnowLeopardOrBetter]) {
-			[sharedWriterQueue setName:@"AISharedWriterQueue"];
-		}
+		if ([NSApp isOnSnowLeopardOrBetter])
+			[sharedWriterQueue performSelector:@selector(setName:) withObject:@"AISharedWriterQueue"];
 	}
 	
-	OSSpinLockUnlock(&spinLock);
 	return sharedWriterQueue;
 }
 

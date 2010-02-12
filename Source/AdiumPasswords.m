@@ -59,18 +59,16 @@
 }
 
 + (NSOperationQueue *)operationQueue {
-	static OSSpinLock spinLock = OS_SPINLOCK_INIT;
 	static NSOperationQueue *passwordQueue = nil;
 	
-	OSSpinLockLock(&spinLock);
 	if (!passwordQueue) {
-		passwordQueue = [[NSOperationQueue alloc] init];
+		NSOperationQueue *newQueue = [[NSOperationQueue alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&passwordQueue))
+			[newQueue release];
 		
-		if([NSApp isOnSnowLeopardOrBetter]) {
-			[passwordQueue setName:@"AdiumPasswordsOperationQueue"];
-		}
+		if([NSApp isOnSnowLeopardOrBetter])
+			[passwordQueue performSelector:@selector(setName:) withObject:@"AdiumPasswordsOperationQueue"];
 	}
-	OSSpinLockUnlock(&spinLock);
 	
 	return passwordQueue;
 }
