@@ -11,10 +11,11 @@
 #import <arpa/inet.h>
 #import <netdb.h>
 #import <netinet/in.h>
+#import <libkern/OSAtomic.h>
 
 #define CONNECTIVITY_DEBUG FALSE
 
-static AIHostReachabilityMonitor *singleton = nil;
+static AIHostReachabilityMonitor *sharedMonitor = nil;
 
 @interface AIHostReachabilityMonitor ()
 - (void)scheduleReachabilityMonitoringForHost:(NSString *)nodename observer:(id)observer;
@@ -40,11 +41,13 @@ static AIHostReachabilityMonitor *singleton = nil;
  */
 + (id)defaultMonitor
 {
-	if (!singleton) {
-		singleton = [[AIHostReachabilityMonitor alloc] init];
+	if (!sharedMonitor) {
+		AIHostReachabilityMonitor *newMonitor = [[AIHostReachabilityMonitor alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newMonitor, (void *)&sharedMonitor))
+			[newMonitor release];
 	}
 
-	return singleton;
+	return sharedMonitor;
 }
 
 #pragma mark -
@@ -59,15 +62,12 @@ static AIHostReachabilityMonitor *singleton = nil;
 		hostAndObserverListLock = [[NSLock alloc] init];
 		[hostAndObserverListLock setName:@"HostAndObserverListLock"];
 
-		[hostAndObserverListLock lock];
 		hosts          = [[NSMutableArray alloc] init];
 		observers      = [[NSMutableArray alloc] init];
 		reachabilities = [[NSMutableArray alloc] init];
 		
 		unconfiguredHostsAndObservers = [[NSMutableSet alloc] init];
 		ipChangesRunLoopSourceRef = nil;
-
-		[hostAndObserverListLock unlock];
 		
 		//Monitor system sleep so we can accurately report connectivity changes when the system wakes
 		[[NSNotificationCenter defaultCenter] addObserver:self
