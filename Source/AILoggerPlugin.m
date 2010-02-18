@@ -1129,6 +1129,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)cleanUpLogContentSearching
 {
 	indexingAllowed = NO;
+	[[[self class] operationQueue] cancelAllOperations];
 	[[[self class] operationQueue] addOperation:
 	 [[NSInvocationOperation alloc] initWithTarget:self
 																				selector:@selector(closeLogIndex)
