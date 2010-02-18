@@ -206,7 +206,6 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	dirtyLogLock = [[NSLock alloc] init];
 	[dirtyLogLock setName:@"DirtyLogLock"];
 	logWritingLock = [[NSConditionLock alloc] initWithCondition:AIIndexFileAvailable];
-	logClosingLock = [[NSConditionLock alloc] initWithCondition:AIIndexFileAvailable];
 
 	//Init index searching
 	[self initLogIndexing];
@@ -1126,20 +1125,20 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	SKIndexRef	returnIndex;
 
-	AILogWithSignature(@"Got %@", logClosingLock);
+	AILogWithSignature(@"Got %@", logWritingLock);
 	/* We shouldn't have to lock here except in createLogIndex.  However, a 'window period' exists after an SKIndex has been closed via SKIndexClose()
 	 * in which an attempt to load the index from disk returns NULL (presumably because it's still being written-to asynchronously).  We therefore lock
 	 * around the full access to make the process reliable.  The documentation says that SKIndex is thread-safe, but that seems to assume that you keep
 	 * a single instance of SKIndex open at all times... which is a major memory hit for a large index of a significant number of logs. We only keep the index
 	 * open as long as the transcript viewer window is open.
 	 */
-	[logClosingLock lockWhenCondition:AIIndexFileAvailable];
+	[logWritingLock lockWhenCondition:AIIndexFileAvailable];
 	[self cancelClosingLogIndex];
 	if (!index_Content) {
 		index_Content = [self createLogIndex];
 	}
 	returnIndex = (SKIndexRef)[[(NSObject *)index_Content retain] autorelease];
-	[logClosingLock unlockWithCondition:AIIndexFileAvailable];
+	[logWritingLock unlockWithCondition:AIIndexFileAvailable];
 
 	return returnIndex;
 }
@@ -1250,9 +1249,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 	} else {
 		//No writing or opening/closing while we call SKIndexClose()
-		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
-		[logClosingLock lockWhenCondition:AIIndexFileAvailable];
-		
+		[logWritingLock lockWhenCondition:AIIndexFileAvailable];		
 		AILogWithSignature(@"finishClosingIndex: %p",index_Content);
 		
 		if (index_Content) {
@@ -1261,7 +1258,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		}
 		
 		[logWritingLock unlockWithCondition:AIIndexFileAvailable];
-		[logClosingLock unlockWithCondition:AIIndexFileAvailable];
 	}
 }
 	
