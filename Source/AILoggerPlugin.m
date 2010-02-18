@@ -123,7 +123,6 @@ enum {
 - (void)initLogIndexing;
 - (void)markLogDirtyAtPath:(NSString *)path forChat:(AIChat *)chat;
 
-- (void)stopIndexingThreads;
 - (void)dirtyAllLogs;
 - (void)cleanDirtyLogs;
 @end
@@ -200,7 +199,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 
 	dirtyLogSet = [[NSMutableSet alloc] init];
 	index_Content = nil;
-	stopIndexingThreads = NO;
+	indexingAllowed = YES;
 	suspendDirtySetSaving = NO;		
 	indexingThreadLock = [[NSLock alloc] init];
 	[indexingThreadLock setName:@"LogIndexingThreadLock"];
@@ -1107,7 +1106,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	//Load the contentIndex immediately; this will clear dirtyLogSet if necessary
 	[self logContentIndex];
 
-	stopIndexingThreads = NO;
+	indexingAllowed = YES;
 	if (reindex) {
 		[self dirtyAllLogs];
 	} else {
@@ -1118,7 +1117,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 //Close down and clean up the log index  (Call when finished using the logSearchIndex)
 - (void)cleanUpLogContentSearching
 {
-	[self stopIndexingThreads];
+	indexingAllowed = NO;
 	[self closeLogIndex];
 }
 
@@ -1388,12 +1387,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 //Threaded Indexing ----------------------------------------------------------------------------------------------------
 #pragma mark Threaded Indexing
-//Stop any indexing related threads
-- (void)stopIndexingThreads
-{
-    //Let any indexing threads know it's time to stop, and wait for them to finish.
-    stopIndexingThreads = YES;
-}
 
 //The following methods will be run in a separate thread to avoid blocking the interface during index operations
 //THREAD: Flag every log as dirty (Do this when there is no log index)
@@ -1457,7 +1450,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	suspendDirtySetSaving = NO; //Re-allow saving of the dirty set
     
     //Begin cleaning the logs (If the log viewer is open)
-    if (!stopIndexingThreads && [AILogViewerWindowController existingWindowController]) {
+    if (indexingAllowed && [AILogViewerWindowController existingWindowController]) {
 		[self cleanDirtyLogs];
     }
     
@@ -1473,7 +1466,7 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)cleanDirtyLogs
 {
 	//Do nothing if we're paused
-	if (logIndexingPauses) return;
+	if (!indexingAllowed) return;
 
     //Reset the cleaning progress
     [dirtyLogLock lock];
@@ -1513,22 +1506,17 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)pauseIndexing
 {
 	if (logsToIndex) {
-		[self stopIndexingThreads];
+		indexingAllowed = NO;
 		logsToIndex = 0;
-		logIndexingPauses++;
-		AILogWithSignature(@"Pausing %i",logIndexingPauses);
+		AILogWithSignature(@"Paused Indexing");
 	}
 }
 
 - (void)resumeIndexing
 {
-	if (logIndexingPauses)
-		logIndexingPauses--;
-	AILogWithSignature(@"Told to resume; log indexing paauses is now %i",logIndexingPauses);
-	if (logIndexingPauses == 0) {
-		stopIndexingThreads = NO;
-		[self cleanDirtyLogs];
-	}
+	AILogWithSignature(@"Told to resume indexing");
+	indexingAllowed = YES;
+	[self cleanDirtyLogs];
 }
 
 - (void)_cleanDirtyLogsThread:(SKIndexRef)searchIndex
@@ -1559,14 +1547,14 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
     logsIndexed = 0;
 
     //Start cleaning (If we're still supposed to go)
-    if (!stopIndexingThreads) {
+    if (indexingAllowed) {
 		UInt32	lastUpdate = TickCount();
 		NSInteger		unsavedChanges = 0;
 
 		AILogWithSignature(@"Cleaning %i dirty logs", [dirtyLogSet count]);
 
 		//Scan until we're done or told to stop
-		while (!stopIndexingThreads) {
+		while (indexingAllowed) {
 			NSString	*logPath = nil;
 			
 			//Get the next dirty log
