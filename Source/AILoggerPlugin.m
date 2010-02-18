@@ -1489,23 +1489,14 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 }
 
-- (void)pauseIndexing
+- (void)cancelIndexing
 {
 	if (logsToIndex) {
 		indexingAllowed = NO;
+		[[[self class] operationQueue] cancelAllOperations];
 		logsToIndex = 0;
-		AILogWithSignature(@"Paused Indexing");
+		AILogWithSignature(@"Canceling indexing operations.");
 	}
-}
-
-- (void)resumeIndexing
-{
-	AILogWithSignature(@"Told to resume indexing");
-	indexingAllowed = YES;
-	[[[self class] operationQueue] addOperation:
-	 [[NSInvocationOperation alloc] initWithTarget:self
-																				selector:@selector(cleanDirtyLogs)
-																					object:nil]];
 }
 
 - (void)_cleanDirtyLogsThread:(SKIndexRef)searchIndex
