@@ -370,7 +370,7 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 
 	[super windowDidLoad];
 
-	[plugin pauseIndexing];
+	[plugin cancelIndexing];
 
 	[[self window] setTitle:AILocalizedString(@"Chat Transcript Viewer",nil)];
     [textField_progress setStringValue:@""];
@@ -465,8 +465,6 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	
 	[tableView_results setAutosaveName:@"LogViewerResults"];
 	[tableView_results setAutosaveTableColumns:YES];
-
-	[plugin resumeIndexing];
 }
 
 -(void)rebuildIndices
@@ -1602,7 +1600,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		searching = YES;
 		AILog(@"filterLogsWithSearch (search ID %i): %@",searchID,searchInfoDict);
 		//Search
-		[plugin pauseIndexing];
 		if (searchString && [searchString length]) {
 			switch (mode) {
 				case LOG_SEARCH_FROM:
@@ -1626,7 +1623,6 @@ NSArray *pathComponentsForDocument(SKDocumentRef inDocument)
 		
 		//Refresh
 		searching = NO;
-		[plugin resumeIndexing];
 		[self performSelectorOnMainThread:@selector(searchComplete) withObject:nil waitUntilDone:NO];
 		AILog(@"filterLogsWithSearch (search ID %i): finished",searchID);
     }

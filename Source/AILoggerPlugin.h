@@ -78,8 +78,7 @@
 - (void)markLogDirtyAtPath:(NSString *)path;
 - (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
-- (void)pauseIndexing;
-- (void)resumeIndexing;
+- (void)cancelIndexing;
 
 - (void)removePathsFromIndex:(NSSet *)paths;
 
