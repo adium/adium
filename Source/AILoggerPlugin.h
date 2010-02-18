@@ -15,61 +15,59 @@
  */
 
 
-#define PATH_LOGS                       @"/Logs"
-#define LOGGING_DEFAULT_PREFS           @"LoggingDefaults"
+#define PATH_LOGS                     @"/Logs"
+#define LOGGING_DEFAULT_PREFS         @"LoggingDefaults"
 
-#define PREF_GROUP_LOGGING              @"Logging"
-#define KEY_LOGGER_ENABLE               @"Enable Logging"
+#define PREF_GROUP_LOGGING            @"Logging"
+#define KEY_LOGGER_ENABLE             @"Enable Logging"
 
-#define PREF_KEYPATH_LOGGER_ENABLE		PREF_GROUP_LOGGING @"." KEY_LOGGER_ENABLE
+#define PREF_KEYPATH_LOGGER_ENABLE    PREF_GROUP_LOGGING @"." KEY_LOGGER_ENABLE
 
-#define XML_LOGGING_NAMESPACE		@"http://purl.org/net/ulf/ns/0.4-02"
+#define XML_LOGGING_NAMESPACE         @"http://purl.org/net/ulf/ns/0.4-02"
 
-@class AIAccount, AIHTMLDecoder, AIChat, AILoggerPreferences;
+@class AIAccount, AIHTMLDecoder, AIChat;
 
-@interface AILoggerPlugin : AIPlugin {
-    AILoggerPreferences                 *preferences;
-    
-    //Current logging settings
-    BOOL				observingContent;
-    BOOL				logHTML;
-
-	NSMutableDictionary					*activeAppenders;
-	NSMutableDictionary					*appenderCloseTimers;
+@interface AILoggerPlugin : AIPlugin {	
+	//Current logging settings
+	BOOL                 observingContent;
+	BOOL                 logHTML;
 	
-	AIHTMLDecoder						*xhtmlDecoder;
-	NSDictionary						*statusTranslation;
+	NSMutableDictionary *activeAppenders;
+	NSMutableDictionary *appenderCloseTimers;
 	
-    //Log viewer menu items
-    NSMenuItem                          *logViewerMenuItem;
-    NSMenuItem                          *viewContactLogsMenuItem;
-    NSMenuItem                          *viewContactLogsContextMenuItem;
-	NSMenuItem							*viewGroupLogsContextMenuItem;
-
-    //Log content search index
-	BOOL				logIndexingEnabled; //Does this system use log indexing?
-    SKIndexRef			index_Content;	
-
-    //Dirty all information (First build of the dirty cache)
-    BOOL				stopIndexingThreads;    //Set to YES to abort a dirty all or clean
-    BOOL				suspendDirtySetSaving;  //YES to prevent saving of the dirty index	
-	BOOL				isFlushingIndex;
-    NSLock				*indexingThreadLock;	//Locked by the plugin when a dirty all or clean thread is running
-
+	AIHTMLDecoder       *xhtmlDecoder;
+	NSDictionary        *statusTranslation;
+	
+	//Log viewer menu items
+	NSMenuItem          *logViewerMenuItem;
+	NSMenuItem          *viewContactLogsMenuItem;
+	NSMenuItem          *viewContactLogsContextMenuItem;
+	NSMenuItem          *viewGroupLogsContextMenuItem;
+	
+	//Log content search index
+	BOOL                 logIndexingEnabled; //Does this system use log indexing?
+	SKIndexRef           index_Content;	
+	
+	//Dirty all information (First build of the dirty cache)
+	BOOL                 stopIndexingThreads;    //Set to YES to abort a dirty all or clean
+	BOOL                 suspendDirtySetSaving;  //YES to prevent saving of the dirty index	
+	BOOL                 isFlushingIndex;
+	NSLock              *indexingThreadLock;	//Locked by the plugin when a dirty all or clean thread is running
+	
 	//Locked by the plugin while the index is being modified
-	NSConditionLock		*logWritingLock;
+	NSConditionLock     *logWritingLock;
 	//Locked by the plugin while the index is being closed
-    NSConditionLock		*logClosingLock;
+	NSConditionLock     *logClosingLock;
 	
-    //Set of dirty logs / Logs that need re-indexing.  (Locked access)
-    NSMutableSet		*dirtyLogSet;
-    NSLock				*dirtyLogLock;
-    
-    //Indexing progress
-    NSInteger					logsToIndex;
-    NSInteger					logsIndexed;
-	NSInteger					logIndexingPauses;
-    
+	//Set of dirty logs / Logs that need re-indexing.  (Locked access)
+	NSMutableSet        *dirtyLogSet;
+	NSLock              *dirtyLogLock;
+	
+	//Indexing progress
+	NSInteger            logsToIndex;
+	NSInteger            logsIndexed;
+	NSInteger            logIndexingPauses;
+	
 }
 
 //Paths
