@@ -448,9 +448,11 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
  */
 - (void)showLogViewerAndReindex:(id)sender
 {
-	[self dirtyAllLogs];
-	
 	[AILogViewerWindowController openForContact:nil plugin:self];
+	[[[self class] operationQueue] addOperation:
+	 [[NSInvocationOperation alloc] initWithTarget:self
+																				selector:@selector(dirtyAllLogs)
+																					object:nil]];
 }
 
 /*!
@@ -1104,12 +1106,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 
 	//Load the contentIndex immediately; this will clear dirtyLogSet if necessary
-	[[[self class] operationQueue] addOperation:
-	 [[NSInvocationOperation alloc] initWithTarget:self
-																				selector:@selector(logContentIndex)
-																					object:nil]];
-	[[[self class] operationQueue] waitUntilAllOperationsAreFinished];
-
+	NSInvocationOperation *indexOp = [[NSInvocationOperation alloc] initWithTarget:self
+																																				selector:@selector(logContentIndex)
+																																					object:nil];
 	indexingAllowed = YES;
 	NSInvocationOperation *op;
 	if (reindex) {
@@ -1121,6 +1120,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 																							selector:@selector(cleanDirtyLogs)
 																								object:nil];
 	}
+	[op addDependency:indexOp];
+	[[[self class] operationQueue] addOperation:indexOp];
 	[[[self class] operationQueue] addOperation:op];
 }
 
@@ -1241,7 +1242,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			AILogWithSignature(@"Created a new log index %x at %@ with textAnalysisProperties %@. Will reindex all logs.",newIndex,logIndexPathURL,textAnalysisProperties);
 			//Clear the dirty log set in case it was loaded (this can happen if the user mucks with the cache directory)
 			[[NSFileManager defaultManager] removeItemAtPath:[self _dirtyLogSetPath] error:NULL];
+			[dirtyLogLock lock];
 			[dirtyLogSet removeAllObjects];
+			[dirtyLogLock unlock];
 		} else {
 			AILogWithSignature(@"AILoggerPlugin warning: SKIndexCreateWithURL() returned NULL");
 		}
