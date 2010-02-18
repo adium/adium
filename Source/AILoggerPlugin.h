@@ -52,14 +52,12 @@
 	BOOL                 indexingAllowed;    //Set to YES to abort a dirty all or clean
 	BOOL                 suspendDirtySetSaving;  //YES to prevent saving of the dirty index	
 	BOOL                 isFlushingIndex;
-	NSLock              *indexingThreadLock;	//Locked by the plugin when a dirty all or clean thread is running
-	
-	//Locked by the plugin while the index is being modified
-	NSConditionLock     *logWritingLock;
 	
 	//Set of dirty logs / Logs that need re-indexing.  (Locked access)
 	NSMutableSet        *dirtyLogSet;
 	NSLock              *dirtyLogLock;
+	
+	NSLock              *createIndexLock;
 	
 	//Indexing progress
 	NSInteger            logsToIndex;

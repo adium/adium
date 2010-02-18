@@ -200,12 +200,12 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 	dirtyLogSet = [[NSMutableSet alloc] init];
 	index_Content = nil;
 	indexingAllowed = YES;
-	suspendDirtySetSaving = NO;		
-	indexingThreadLock = [[NSLock alloc] init];
-	[indexingThreadLock setName:@"LogIndexingThreadLock"];
+	suspendDirtySetSaving = NO;
 	dirtyLogLock = [[NSLock alloc] init];
 	[dirtyLogLock setName:@"DirtyLogLock"];
-	logWritingLock = [[NSConditionLock alloc] initWithCondition:AIIndexFileAvailable];
+	
+	createIndexLock = [[NSLock alloc] init];
+	[createIndexLock setName:@"createIndexLock"];
 
 	//Init index searching
 	[self initLogIndexing];
@@ -246,6 +246,7 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&loggerQueue))
 			[newQueue release];
 		
+		[loggerQueue setMaxConcurrentOperationCount:1];
 		if([NSApp isOnSnowLeopardOrBetter])
 			[loggerQueue performSelector:@selector(setName:) withObject:@"AILoggerPluginOperationQueue"];
 	}
@@ -1103,21 +1104,34 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 
 	//Load the contentIndex immediately; this will clear dirtyLogSet if necessary
-	[self logContentIndex];
+	[[[self class] operationQueue] addOperation:
+	 [[NSInvocationOperation alloc] initWithTarget:self
+																				selector:@selector(logContentIndex)
+																					object:nil]];
+	[[[self class] operationQueue] waitUntilAllOperationsAreFinished];
 
 	indexingAllowed = YES;
+	NSInvocationOperation *op;
 	if (reindex) {
-		[self dirtyAllLogs];
+		op = [[NSInvocationOperation alloc] initWithTarget:self
+																							selector:@selector(dirtyAllLogs)
+																								object:nil];
 	} else {
-		[self cleanDirtyLogs];
+		op = [[NSInvocationOperation alloc] initWithTarget:self
+																							selector:@selector(cleanDirtyLogs)
+																								object:nil];
 	}
+	[[[self class] operationQueue] addOperation:op];
 }
 
 //Close down and clean up the log index  (Call when finished using the logSearchIndex)
 - (void)cleanUpLogContentSearching
 {
 	indexingAllowed = NO;
-	[self closeLogIndex];
+	[[[self class] operationQueue] addOperation:
+	 [[NSInvocationOperation alloc] initWithTarget:self
+																				selector:@selector(closeLogIndex)
+																					object:nil]];
 }
 
 //Returns the Search Kit index for log content searching
@@ -1125,20 +1139,19 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	SKIndexRef	returnIndex;
 
-	AILogWithSignature(@"Got %@", logWritingLock);
 	/* We shouldn't have to lock here except in createLogIndex.  However, a 'window period' exists after an SKIndex has been closed via SKIndexClose()
 	 * in which an attempt to load the index from disk returns NULL (presumably because it's still being written-to asynchronously).  We therefore lock
 	 * around the full access to make the process reliable.  The documentation says that SKIndex is thread-safe, but that seems to assume that you keep
 	 * a single instance of SKIndex open at all times... which is a major memory hit for a large index of a significant number of logs. We only keep the index
 	 * open as long as the transcript viewer window is open.
 	 */
-	[logWritingLock lockWhenCondition:AIIndexFileAvailable];
 	[self cancelClosingLogIndex];
+	[createIndexLock lock];
 	if (!index_Content) {
 		index_Content = [self createLogIndex];
 	}
 	returnIndex = (SKIndexRef)[[(NSObject *)index_Content retain] autorelease];
-	[logWritingLock unlockWithCondition:AIIndexFileAvailable];
+	[createIndexLock unlock];
 
 	return returnIndex;
 }
@@ -1249,15 +1262,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 	} else {
 		//No writing or opening/closing while we call SKIndexClose()
-		[logWritingLock lockWhenCondition:AIIndexFileAvailable];		
 		AILogWithSignature(@"finishClosingIndex: %p",index_Content);
-		
 		if (index_Content) {
 			SKIndexClose(index_Content);
 			index_Content = nil;
 		}
-		
-		[logWritingLock unlockWithCondition:AIIndexFileAvailable];
 	}
 }
 	
@@ -1270,7 +1279,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 - (void)flushIndex:(SKIndexRef)inIndex
 {
     NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
-	[logWritingLock lockWhenCondition:AIIndexFileIsClosing];
 	if (inIndex) {
 		AILogWithSignature(@"**** Flushing index %p",inIndex);
 		CFRetain(inIndex);
@@ -1278,7 +1286,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		CFRelease(inIndex);
 		AILogWithSignature(@"**** Finished flushing index %p, and released it",inIndex);
 	}
-	[logWritingLock unlockWithCondition:AIIndexFileAvailable];
 
 	[pool release];
 }
@@ -1294,28 +1301,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 					   withObject:nil
 					   afterDelay:30];
 		}
-		
-	} else {
-		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
-		
+	} else {		
 		if (index_Content) {
 			AILogWithSignature(@"Triggerring the flushIndex thread and queuing index closing");
-			
-			[[AILoggerPlugin operationQueue] addOperation:
-			 [[NSInvocationOperation alloc] initWithTarget:self
-												  selector:@selector(flushIndex:)
-													object:(id)index_Content]];
-			
+			[self flushIndex:index_Content];
 			[self cancelClosingLogIndex];
-			[self performSelector:@selector(finishClosingIndex)
-					   withObject:nil
-					   afterDelay:30];
+			[self finishClosingIndex];
 		}
-		
-		/* Note that we're waiting on the index file to close.  An attempt to open the index file before
-		 * it closes will return nil and make us think that we have a corrupt index file.
-		 */
-		[logWritingLock unlockWithCondition:AIIndexFileIsClosing];
 	}
 }
 
@@ -1367,11 +1359,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 //Save the dirty lod set
 - (void)_saveDirtyLogSet
 {
+	[dirtyLogLock lock];
     if ([dirtyLogSet count] > 0 && !suspendDirtySetSaving) {
-		[dirtyLogLock lock];
-		[[dirtyLogSet allObjects] writeToFile:[self _dirtyLogSetPath] atomically:NO];
-		[dirtyLogLock unlock];
+			[[dirtyLogSet allObjects] writeToFile:[self _dirtyLogSetPath] atomically:NO];
     }
+	[dirtyLogLock unlock];
 }
 
 //Path of the dirty log set file
@@ -1388,28 +1380,24 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 //THREAD: Flag every log as dirty (Do this when there is no log index)
 - (void)dirtyAllLogs
 {
-    //Reset and rebuild the dirty set
+	//Reset and rebuild the dirty set
 	[dirtyLogLock lock];
-    [dirtyLogSet removeAllObjects];
+	[dirtyLogSet removeAllObjects];
 	[dirtyLogLock unlock];
-	//[self _dirtyAllLogsThread];
-	[[AILoggerPlugin operationQueue] addOperation:[[NSInvocationOperation alloc]
-												   initWithTarget:self
-												   selector:@selector(_dirtyAllLogsThread)
-												   object:nil]];
+	[self _dirtyAllLogsThread];
 }
+
 - (void)_dirtyAllLogsThread
 {
     NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 
-    [indexingThreadLock lock];
     suspendDirtySetSaving = YES;    //Prevent saving of the dirty set until we're finished building it
     
     //Create a fresh dirty log set
-    [dirtyLogLock lock];
+	[dirtyLogLock lock];
     [dirtyLogSet removeAllObjects];
 	AILogWithSignature(@"Dirtying all logs.");
-    [dirtyLogLock unlock];
+	[dirtyLogLock unlock];
 	
     //Process each from folder
 	NSArray *fromNames = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[self logBasePath]
@@ -1425,11 +1413,11 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			for (AIChatLog *theLog in [toGroup logEnumerator]) {
 				//Add this log's path to our dirty set.  The dirty set is guarded with a lock
 				//since it will be accessed from outside this thread as well
-				[dirtyLogLock lock];
 				if (theLog != nil) {
+					[dirtyLogLock lock];
 					[dirtyLogSet addObject:[logBasePath stringByAppendingPathComponent:[theLog relativePath]]];
+					[dirtyLogLock unlock];
 				}
-				[dirtyLogLock unlock];
 			}
 			
 			//Flush our pool
@@ -1450,7 +1438,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		[self cleanDirtyLogs];
     }
     
-    [indexingThreadLock unlock];
     [pool release];
 }
 
@@ -1465,22 +1452,21 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	if (!indexingAllowed) return;
 
     //Reset the cleaning progress
-    [dirtyLogLock lock];
+	[dirtyLogLock lock];
     logsToIndex = [dirtyLogSet count];
-    [dirtyLogLock unlock];
+	[dirtyLogLock unlock];
     logsIndexed = 0;
 	AILogWithSignature(@"cleanDirtyLogs: logsToIndex is %i",logsToIndex);
 	if (logsToIndex > 0) {
-		[[AILoggerPlugin operationQueue] addOperation:
-		 [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_cleanDirtyLogsThread:) object:(id)[self logContentIndex]]];
+		[self _cleanDirtyLogsThread:[self logContentIndex]];
 	}
 }
 
 - (void)didCleanDirtyLogs
 {
 	[dirtyLogLock lock];
-    logsToIndex = [dirtyLogSet count];
-    [dirtyLogLock unlock];
+	logsToIndex = [dirtyLogSet count];
+	[dirtyLogLock unlock];
 
 	[[AILogViewerWindowController existingWindowController] logIndexingProgressUpdate];
 
@@ -1512,18 +1498,18 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	AILogWithSignature(@"Told to resume indexing");
 	indexingAllowed = YES;
-	[self cleanDirtyLogs];
+	[[[self class] operationQueue] addOperation:
+	 [[NSInvocationOperation alloc] initWithTarget:self
+																				selector:@selector(cleanDirtyLogs)
+																					object:nil]];
 }
 
 - (void)_cleanDirtyLogsThread:(SKIndexRef)searchIndex
 {
     NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 
-	[indexingThreadLock lock];
-
 	//If log indexing was already in progress, we can just cancel since it is now complete
 	if (logsToIndex == 0) {
-		[indexingThreadLock unlock];
 		AILogWithSignature(@"Nothing to clean!");
 		[self performSelectorOnMainThread:@selector(didCleanDirtyLogs)
 							   withObject:nil
@@ -1533,7 +1519,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	}
 
 	if (!searchIndex) {
-		[indexingThreadLock unlock];
 		AILogWithSignature(@"*** Warning: Called -[%@ _cleanDirtyLogsThread:] with a NULL searchIndex. That shouldn't happen!", self);
 		[pool release];
 		return;
@@ -1617,12 +1602,10 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 		}
 
 		isFlushingIndex = YES;
-		[logWritingLock lockWhenCondition:AIIndexFileAvailable];
 		SKIndexFlush(searchIndex);
 		AILogWithSignature(@"After cleaning dirty logs, the search index has a max ID of %i and a count of %i",
 			  SKIndexGetMaximumDocumentID(searchIndex),
 			  SKIndexGetDocumentCount(searchIndex));
-		[logWritingLock unlockWithCondition:AIIndexFileAvailable];
 		isFlushingIndex = NO;
 		
 		[self performSelectorOnMainThread:@selector(didCleanDirtyLogs)
@@ -1632,7 +1615,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 	CFRelease(searchIndex);
 
-	[indexingThreadLock unlock];
 
     [pool release];
 }
@@ -1641,7 +1623,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 {
 	NSAutoreleasePool   *pool = [[NSAutoreleasePool alloc] init];
 
-	[indexingThreadLock lock];
 
 	SKIndexRef logSearchIndex = (SKIndexRef)[userInfo objectForKey:@"SKIndexRef"];
 	
@@ -1652,8 +1633,6 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 			CFRelease(document);
 		}
 	}
-
-	[indexingThreadLock unlock];
 
 	[pool release];
 }
