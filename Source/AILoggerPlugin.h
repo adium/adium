@@ -77,23 +77,13 @@
 //Message History
 + (NSArray *)sortedArrayOfLogFilesForChat:(AIChat *)chat;
 
-//Log viewer
-- (void)showLogViewerAndReindex:(id)sender;
-- (void)showLogViewerToSelectedContact:(id)sender;
-- (void)showLogViewerToSelectedContextContact:(id)sender;
-
 //Log indexing
-- (void)initLogIndexing;
 - (void)prepareLogContentSearching;
 - (void)cleanUpLogContentSearching;
 - (SKIndexRef)logContentIndex;
-- (void)markLogDirtyAtPath:(NSString *)path forChat:(AIChat *)chat;
 - (void)markLogDirtyAtPath:(NSString *)path;
 - (BOOL)getIndexingProgress:(NSUInteger *)complete outOf:(NSUInteger *)total;
 
-- (void)stopIndexingThreads;
-- (void)dirtyAllLogs;
-- (void)cleanDirtyLogs;
 - (void)pauseIndexing;
 - (void)resumeIndexing;
 

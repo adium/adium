@@ -113,6 +113,19 @@ enum {
 - (void)showLogViewer:(id)sender;
 - (void)showLogViewerForGroupChat:(id)sender;
 - (void)_cleanDirtyLogsThread:(SKIndexRef)searchIndex;
+
+//Log viewer
+- (void)showLogViewerAndReindex:(id)sender;
+- (void)showLogViewerToSelectedContact:(id)sender;
+- (void)showLogViewerToSelectedContextContact:(id)sender;
+
+//Log indexing
+- (void)initLogIndexing;
+- (void)markLogDirtyAtPath:(NSString *)path forChat:(AIChat *)chat;
+
+- (void)stopIndexingThreads;
+- (void)dirtyAllLogs;
+- (void)cleanDirtyLogs;
 @end
 
 static NSString     *logBasePath = nil;     //The base directory of all logs
