@@ -4,6 +4,8 @@
 # liboil
 # liboil needs special threatment.  Rather than placing platform specific code
 # in a ifdef, it sequesters it by directory and invokes a makefile.  woowoo.
+GSTREAMER_VERSION=0.10
+GST_DEPS=( "liboil-0.3.0.dylib" )
 build_liboil() {
 	prereq "oil" \
 		"http://liboil.freedesktop.org/download/liboil-0.3.16.tar.gz"
@@ -25,6 +27,7 @@ build_liboil() {
 ##
 # gst-plugins-base
 #
+GST_DEPS=( ${GST_DEPS[@]} "libgstaudio-${GSTREAMER_VERSION}.0.dylib" "libgstvideo-${GSTREAMER_VERSION}.0.dylib" )
 build_gst_plugins_base() {
 	prereq "gst-plugins-base" \
 		"http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-0.10.26.tar.gz"
@@ -77,6 +80,7 @@ build_gst_plugins_base() {
 ##
 # gst-plugins-good
 #
+GST_DEPS=( ${GST_DEPS[@]} "libgstapp-${GSTREAMER_VERSION}.0.dylib" "libgstnet-${GSTREAMER_VERSION}.0.dylib" "libgstnetbuffer-${GSTREAMER_VERSION}.0.dylib" "libgstdataprotocol-${GSTREAMER_VERSION}.0.dylib" "libgstcontroller-${GSTREAMER_VERSION}.0.dylib" "libgsttag-${GSTREAMER_VERSION}.0.dylib" )
 build_gst_plugins_good() {
 	prereq "gst-plugins-good" \
 		"http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-0.10.18.tar.gz"
@@ -189,6 +193,7 @@ build_gst_plugins_bad() {
 ##
 # gst-plugins-farsight
 #
+GST_DEPS=( ${GST_DEPS[@]} "libgstrtp-${GSTREAMER_VERSION}.0.dylib" "libgstsdp-${GSTREAMER_VERSION}.0.dylib" "libgstrtsp-${GSTREAMER_VERSION}.0.dylib" )
 build_gst_plugins_farsight() {
 	prereq "gst-plugins-farsight" \
 		"http://farsight.freedesktop.org/releases/gst-plugins-farsight/gst-plugins-farsight-0.12.11.tar.gz"
@@ -229,7 +234,6 @@ build_gst_plugins() {
 ##
 # gstreamer
 #
-GSTREAMER_VERSION=0.10
 build_gstreamer() {
 	prereq "gstreamer" \
 		"http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-0.10.26.tar.gz"
@@ -266,6 +270,7 @@ build_gstreamer() {
 ##
 # libNICE
 #
+GST_DEPS=( ${GST_DEPS[@]} "libnice.0.dylib" )
 build_nice() {
 	prereq "nice" \
 		"http://nice.freedesktop.org/releases/libnice-0.0.10.tar.gz"
