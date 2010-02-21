@@ -1481,6 +1481,8 @@
 		7EA7F05D1124AAA900E0C1F0 /* libgstrtsp.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */; };
 		7EA7F05E1124AAA900E0C1F0 /* libgstvideo.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */; };
 		7EA7F05F1124AAA900E0C1F0 /* liboil.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EA7F0461124AA8500E0C1F0 /* liboil.framework */; };
+		7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
+		7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDDBF131130D02400D31F1E /* libgsttag.framework */; };
 		811033510CDE170B00EC6038 /* ssl-cdsa.c in Sources */ = {isa = PBXBuildFile; fileRef = 811033500CDE170B00EC6038 /* ssl-cdsa.c */; };
 		811034050CDE216F00EC6038 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340C1ABE0BD58FAB00D09235 /* Security.framework */; };
 		811035180CDE783800EC6038 /* SecurityInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811035170CDE783800EC6038 /* SecurityInterface.framework */; };
@@ -1740,6 +1742,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				7EDDBF1F1130D06700D31F1E /* libgsttag.framework in Copy Frameworks */,
 				7E7CF7F51124B9A8001CFC73 /* libgstsdp.framework in Copy Frameworks */,
 				7EA7F05A1124AAA900E0C1F0 /* libgstaudio.framework in Copy Frameworks */,
 				7EA7F05B1124AAA900E0C1F0 /* libgstcontroller.framework in Copy Frameworks */,
@@ -4690,6 +4693,7 @@
 		7EA7F0421124AA8500E0C1F0 /* libgstrtsp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstrtsp.framework; path = Frameworks/libgstrtsp.framework; sourceTree = "<group>"; };
 		7EA7F0441124AA8500E0C1F0 /* libgstvideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgstvideo.framework; path = Frameworks/libgstvideo.framework; sourceTree = "<group>"; };
 		7EA7F0461124AA8500E0C1F0 /* liboil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = liboil.framework; path = Frameworks/liboil.framework; sourceTree = "<group>"; };
+		7EDDBF131130D02400D31F1E /* libgsttag.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = libgsttag.framework; path = Frameworks/libgsttag.framework; sourceTree = "<group>"; };
 		811033500CDE170B00EC6038 /* ssl-cdsa.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ssl-cdsa.c"; sourceTree = "<group>"; };
 		811035170CDE783800EC6038 /* SecurityInterface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityInterface.framework; path = /System/Library/Frameworks/SecurityInterface.framework; sourceTree = "<absolute>"; };
 		811036160CDE8A2500EC6038 /* AIPurpleCertificateViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AIPurpleCertificateViewer.h; path = "Plugins/Purple Service/AIPurpleCertificateViewer.h"; sourceTree = "<group>"; };
@@ -4881,6 +4885,7 @@
 				7EA7F0451124AA8500E0C1F0 /* libgstvideo.framework in Frameworks */,
 				7EA7F0471124AA8500E0C1F0 /* liboil.framework in Frameworks */,
 				7E7CF7F11124B982001CFC73 /* libgstsdp.framework in Frameworks */,
+				7EDDBF141130D02400D31F1E /* libgsttag.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5032,6 +5037,7 @@
 		1172FCA10CDAA8DE00B8E233 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7EDDBF131130D02400D31F1E /* libgsttag.framework */,
 				7E7CF7F01124B982001CFC73 /* libgstsdp.framework */,
 				7EA7F03C1124AA8500E0C1F0 /* libgstaudio.framework */,
 				7EA7F03E1124AA8500E0C1F0 /* libgstcontroller.framework */,
