@@ -128,42 +128,11 @@ make_framework() {
 			"${FRAMEWORK_DIR}"
 		
 		status "Adding gst support frameworks..."
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstaudio-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstvideo-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstapp-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstnet-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstnetbuffer-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstrtp-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstsdp-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstrtsp-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstdataprotocol-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libgstcontroller-${GSTREAMER_VERSION}.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/libnice.0.dylib" \
-			"${FRAMEWORK_DIR}"
-		log python "${ROOTDIR}/framework_maker/frameworkize.py" \
-			"${ROOTDIR}/build/lib/liboil-0.3.0.dylib" \
-			"${FRAMEWORK_DIR}"
+		for (( i=0; i<${#GST_DEPS[@]}; i++ )) ; do
+			log python "${ROOTDIR}/framework_maker/frameworkize.py" \
+				"${ROOTDIR}/build/lib/${GST_DEPS[i]}" \
+				"${FRAMEWORK_DIR}"
+		done
 
 		status "Adding the Adium framework header..."
 		log cp "${ROOTDIR}/libpurple-full.h" \
