@@ -450,9 +450,9 @@ static NSString     *logBaseAliasPath = nil;     //If the usual Logs folder path
 {
 	[AILogViewerWindowController openForContact:nil plugin:self];
 	[[[self class] operationQueue] addOperation:
-	 [[NSInvocationOperation alloc] initWithTarget:self
+	 [[[NSInvocationOperation alloc] initWithTarget:self
 																				selector:@selector(dirtyAllLogs)
-																					object:nil]];
+																					object:nil] autorelease]];
 }
 
 /*!
@@ -1121,8 +1121,8 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 																								object:nil];
 	}
 	[op addDependency:indexOp];
-	[[[self class] operationQueue] addOperation:indexOp];
-	[[[self class] operationQueue] addOperation:op];
+	[[[self class] operationQueue] addOperation:[indexOp autorelease]];
+	[[[self class] operationQueue] addOperation:[op autorelease]];
 }
 
 //Close down and clean up the log index  (Call when finished using the logSearchIndex)
@@ -1131,9 +1131,9 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 	indexingAllowed = NO;
 	[[[self class] operationQueue] cancelAllOperations];
 	[[[self class] operationQueue] addOperation:
-	 [[NSInvocationOperation alloc] initWithTarget:self
+	 [[[NSInvocationOperation alloc] initWithTarget:self
 																				selector:@selector(closeLogIndex)
-																					object:nil]];
+																					object:nil] autorelease]];
 }
 
 //Returns the Search Kit index for log content searching
@@ -1634,13 +1634,13 @@ NSComparisonResult sortPaths(NSString *path1, NSString *path2, void *context)
 
 - (void)removePathsFromIndex:(NSSet *)paths
 {
-	[[AILoggerPlugin operationQueue] addOperation:[[NSInvocationOperation alloc]
+	[[AILoggerPlugin operationQueue] addOperation:[[[NSInvocationOperation alloc]
 												   initWithTarget:self
 												   selector:@selector(_removePathsFromIndexThread:)
 												   object:[NSDictionary dictionaryWithObjectsAndKeys:
 														   (id)[self logContentIndex], @"SKIndexRef",
 														   paths, @"Paths",
-														   nil]]];
+														   nil]] autorelease]];
 }
 
 
