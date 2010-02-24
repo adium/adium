@@ -42,6 +42,8 @@
 #import <AIUtilities/AIApplicationAdditions.h>
 #import <AIUtilities/AIDividedAlternatingRowOutlineView.h>
 
+#import <libkern/OSAtomic.h>
+
 #define KEY_LOG_VIEWER_WINDOW_FRAME		@"Log Viewer Frame"
 #define KEY_LOG_VIEWER_GROUP_STATE		@"Log Viewer Group State"	//Expand/Collapse state of groups
 #define TOOLBAR_LOG_VIEWER				@"Log Viewer Toolbar"
@@ -68,10 +70,15 @@
 #define IMAGE_TIMESTAMPS_OFF			@"timestamp32"
 #define IMAGE_TIMESTAMPS_ON				@"timestamp32_transparent"
 
+#define LOG_TEXT_KEY		@"logTextKey"
+#define LOG_SCROLL_LOCATION_KEY	@"logScrollLocationKey"
+#define LOG_SCROLL_LENGTH_KEY	@"logScrollLengthKey"
 
 #define	REFRESH_RESULTS_INTERVAL		1.0 //Interval between results refreshes while searching
 
 @interface AILogViewerWindowController ()
++ (NSOperationQueue *)sharedLogViewerQueue;
+
 - (id)initWithWindowNibName:(NSString *)windowNibName plugin:(id)inPlugin;
 - (void)initLogFiltering;
 - (void)displayLog:(AIChatLog *)log;
@@ -97,6 +104,10 @@
 
 - (void)deleteSelection:(id)sender;
 
+- (void)_displayLogs:(NSArray *)logArray;
+- (void)displayLogTextAndScroll:(NSDictionary *)context;
+- (void)_displayLogText:(NSAttributedString *)logText andScrollTo:(NSRange)scrollRange;
+
 - (void)outlineViewSelectionDidChangeDelayed;
 - (void)openChatOnDoubleAction:(id)sender;
 - (void)deleteLogsAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
@@ -106,6 +117,20 @@
 
 static AILogViewerWindowController	*sharedLogViewerInstance = nil;
 static NSInteger toArraySort(id itemA, id itemB, void *context);
+
++ (NSOperationQueue *)sharedLogViewerQueue
+{
+	static NSOperationQueue *logViewerQueue = nil;
+	if(!logViewerQueue) {
+		NSOperationQueue *newQueue = [[NSOperationQueue alloc] init];
+		if(!OSAtomicCompareAndSwapPtrBarrier(nil, newQueue, (void *)&logViewerQueue))
+			[newQueue release];
+		
+		if([logViewerQueue respondsToSelector:@selector(setName:)])
+			[logViewerQueue performSelector:@selector(setName:) withObject:@"sharedLogViewerQueue"];
+	}
+	return logViewerQueue;
+}
 
 + (NSString *)nibName
 {
@@ -679,10 +704,22 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 	}
 }
 
+//Detaches a thread which displays the log after rendering it off the main thread
+- (void)displayLogs:(NSArray *)logArray
+{
+	[displayOperation cancel];
+	[displayOperation autorelease];
+	[self _displayLogText:[NSAttributedString stringWithString:@"Loading..."] andScrollTo:NSMakeRange(0, 0)];
+	displayOperation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(_displayLogs:) object:logArray];
+	[[[self class] sharedLogViewerQueue] addOperation:displayOperation];
+}
+
 //Displays the contents of the specified log in our window
-- (void)displayLogs:(NSArray *)logArray;
-{	
-    NSMutableAttributedString	*displayText = nil;
+- (void)_displayLogs:(NSArray *)logArray
+{
+	NSAutoreleasePool *threadPool = [[NSAutoreleasePool alloc] init];
+	NSInvocationOperation *thisOperation = displayOperation;
+	NSMutableAttributedString	*displayText = nil;
 	NSAttributedString			*finalDisplayText = nil;
 	NSRange						scrollRange = NSMakeRange(0,0);
 	BOOL						appendedFirstLog = NO;
@@ -885,22 +922,43 @@ static NSInteger toArraySort(id itemA, id itemB, void *context);
 		finalDisplayText = displayText;
 	}
 
-	if (finalDisplayText) {
-		[[textView_content textStorage] setAttributedString:finalDisplayText];
+	// only step into this if the current operation is still running.
+	if(![thisOperation isCancelled]) {
+		[self performSelectorOnMainThread:@selector(displayLogTextAndScroll:)
+													 withObject:[NSDictionary dictionaryWithObjectsAndKeys:finalDisplayText, LOG_TEXT_KEY,
+																			 [NSNumber numberWithUnsignedInteger:scrollRange.location], LOG_SCROLL_LOCATION_KEY,
+																			 [NSNumber numberWithUnsignedInteger:scrollRange.length], LOG_SCROLL_LENGTH_KEY,
+																			 nil]
+												waitUntilDone:YES];
+	}
 
+	[displayText release];
+	[threadPool drain];
+}
+
+- (void)displayLogTextAndScroll:(NSDictionary *)context
+{
+	NSAttributedString *logText = [context objectForKey:LOG_TEXT_KEY];
+	NSRange scrollRange = NSMakeRange([(NSNumber *)[context objectForKey:LOG_SCROLL_LOCATION_KEY] unsignedIntegerValue],
+																		[(NSNumber *)[context objectForKey:LOG_SCROLL_LENGTH_KEY] unsignedIntegerValue]);
+	[self _displayLogText:logText andScrollTo:scrollRange];
+}
+
+- (void)_displayLogText:(NSAttributedString *)logText andScrollTo:(NSRange)scrollRange
+{
+	if (logText) {
+		[[textView_content textStorage] setAttributedString:logText];
+		
 		//Set this string and scroll to the top/bottom/occurrence
 		if ((searchMode == LOG_SEARCH_CONTENT) || automaticSearch) {
 			[textView_content scrollRangeToVisible:scrollRange];
 		} else {
 			[textView_content scrollRangeToVisible:NSMakeRange(0,0)];
 		}
-
 	} else {
 		//No log selected, empty the view
 		[textView_content setString:@""];
 	}
-
-	[displayText release];
 }
 
 - (void)displayLog:(AIChatLog *)theLog

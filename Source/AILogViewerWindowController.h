@@ -153,6 +153,8 @@ typedef enum {
 
 	SKSearchRef currentSearch;
 	NSLock		*currentSearchLock;
+	
+	NSInvocationOperation *displayOperation;
 }
 
 + (id)openForPlugin:(id)inPlugin;
