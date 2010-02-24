@@ -268,15 +268,16 @@ NSString *AIFontStyleAttributeName  = @"AIFontStyle";
 
 - (void)addFormattingForLinks
 {
-	NSRange		searchRange;
+	NSRange		searchRange = NSMakeRange(0,0);
 	NSUInteger	length = [self length];
+	NSColor *calibratedBlueColor = [NSColor blueColor];
+	NSNumber *YESBool = [NSNumber numberWithBool:YES];
 	
-	searchRange = NSMakeRange(0,0);
 	while (searchRange.location < length) {
 		NSDictionary	*attributes = [self attributesAtIndex:searchRange.location effectiveRange:&searchRange];
 		if ([attributes objectForKey:NSLinkAttributeName] != nil) {
-			[self addAttribute:NSForegroundColorAttributeName value:[NSColor blueColor] range:searchRange];
-			[self addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithBool:YES] range:searchRange];
+			[self addAttribute:NSForegroundColorAttributeName value:calibratedBlueColor range:searchRange];
+			[self addAttribute:NSUnderlineStyleAttributeName value:YESBool range:searchRange];
 		}
 		searchRange.location += searchRange.length;
 	}
