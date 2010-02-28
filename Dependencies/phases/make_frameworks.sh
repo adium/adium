@@ -82,6 +82,7 @@ prep_headers() {
 		status "Staging libpurple headers"
 		local purpleDir="${ROOTDIR}/build/lib/include/libpurple-${LIBPURPLE_VERSION}"
 		quiet rm -rf "${purpleDir}"
+		quiet mkdir "${purpleDir}"
 		log cp -R "${ROOTDIR}/build/include/libpurple" "${purpleDir}"
 		log cp "${ROOTDIR}/build/include/libgadu.h" "${purpleDir}/"
 		status "Completed staging headers"
