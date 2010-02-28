@@ -140,6 +140,7 @@ build_libpurple() {
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/buddylist.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/gg.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/gg/search.h" \
+		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/auth.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/bosh.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/buddy.h" \
 		  "$ROOTDIR/source/im.pidgin.adium/libpurple/protocols/jabber/caps.h" \
