@@ -50,6 +50,7 @@
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIAttributedStringAdditions.h>
 #import <AIUtilities/JVMarkedScroller.h>
+#import <AIUtilities/AISharedWriterQueue.h>
 #import <objc/objc-runtime.h>
 
 #define KEY_WEBKIT_CHATS_USING_CACHED_ICON @"WebKit:Chats Using Cached Icon"
@@ -73,6 +74,7 @@
 - (void)releaseCurrentWebKitUserIconForObject:(AIListObject *)inObject;
 - (void)releaseAllCachedIcons;
 - (void)updateUserIconForObject:(AIListObject *)inObject;
+- (void)_updateUserIconForObject:(AIListObject *)inObject;
 - (void)userIconForObjectDidChange:(AIListObject *)inObject;
 - (void)updateServiceIcon;
 - (void)updateTopic;
@@ -1219,10 +1221,17 @@ static NSArray *draggedTypes = nil;
 	}
 }
 
+- (void)updateUserIconForObject:(AIListObject *)inObject
+{
+	[AISharedWriterQueue addOperation:
+	 [[[NSInvocationOperation alloc] initWithTarget:self
+																				 selector:@selector(_updateUserIconForObject:)
+																					 object:inObject] autorelease]];
+}
 /*!
  * @brief Generate an updated masked user icon for the passed list object
  */
-- (void)updateUserIconForObject:(AIListObject *)inObject
+- (void)_updateUserIconForObject:(AIListObject *)inObject
 {
 	AIListObject		*iconSourceObject = ([inObject isKindOfClass:[AIListContact class]] ?
 											 [(AIListContact *)inObject parentContact] :
