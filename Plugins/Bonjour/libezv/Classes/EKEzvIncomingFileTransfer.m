@@ -285,6 +285,7 @@ typedef struct AppleSingleFinderInfo AppleSingleFinderInfo;
 	NSMutableURLRequest *theRequest=[NSMutableURLRequest requestWithURL:downloadURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
 	NSString *value = [NSString stringWithString:@"AppleSingle"];
 	[theRequest addValue:value forHTTPHeaderField:@"Accept-Encoding"];
+	[theRequest setHTTPShouldHandleCookies:NO];
 
 	// create the connection with the request
 	// and start loading the data

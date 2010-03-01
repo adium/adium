@@ -319,7 +319,9 @@
 	
 	// We send a synchronous request so the user can't change selection on us.
 	// If the target site is slow, this may seem unpleasant.
-	NSData	*shortenedData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:inURL]
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:inURL];
+	[request setHTTPShouldHandleCookies:NO];
+	NSData	*shortenedData = [NSURLConnection sendSynchronousRequest:request
 												  returningResponse:&response
 															  error:&errorResponse];
 	
