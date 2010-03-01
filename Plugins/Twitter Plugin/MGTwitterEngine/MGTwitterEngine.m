@@ -359,6 +359,7 @@
     NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:url 
                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                           timeoutInterval:URL_REQUEST_TIMEOUT];
+	[theRequest setHTTPShouldHandleCookies:NO];
     
     // Create a connection using this request, with the default timeout and caching policy, 
     // and appropriate Twitter request and response types for parsing and error reporting.
@@ -418,6 +419,7 @@
     NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:finalURL 
                                                               cachePolicy:NSURLRequestReloadIgnoringCacheData 
                                                           timeoutInterval:URL_REQUEST_TIMEOUT];
+	[theRequest setHTTPShouldHandleCookies:NO];
 	if(method && [method isEqualToString:HTTP_MULTIPART_METHOD]) {
 		method = HTTP_POST_METHOD;
 		[theRequest setValue:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", MULTIPART_FORM_BOUNDARY] forHTTPHeaderField:@"Content-type"];

@@ -98,7 +98,9 @@
 													   ([url query] ? [url query] : @"")]];
 //		dest = [NSTemporaryDirectory() stringByAppendingPathComponent:[[urlToDownload path] lastPathComponent]];
 		AILogWithSignature(@"Downloading %@", urlToDownload);
-		download = [[NSURLDownload alloc] initWithRequest:[NSURLRequest requestWithURL:urlToDownload] delegate:self];
+		NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlToDownload];
+		[request setHTTPShouldHandleCookies:NO];
+		download = [[NSURLDownload alloc] initWithRequest:request delegate:self];
 //		[download setDestination:dest allowOverwrite:YES];
 
 		[urlToDownload release];

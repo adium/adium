@@ -111,7 +111,9 @@
 	[url appendFormat:@"&username=%@", username];
 	[url appendFormat:@"&network=%@", network];
 	
-	NSURLConnection *connection = [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]
+	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+	[request setHTTPShouldHandleCookies:NO];
+	NSURLConnection *connection = [NSURLConnection connectionWithRequest:request
 																delegate:self];
 	
 	// We don't implement any delegate methods, because if this fails we don't bother retrying.
