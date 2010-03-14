@@ -707,6 +707,9 @@ typedef enum
 /*!
  * @brief Contact list editable?
  *
+ * Editable means contacts can be added or removed.  Contacts should always be able to be moved between groups.
+ * The account may have to implement its own grouping store if a serverside store does not exist.
+ *
  * @return YES if the contact list is currently editable
  */
 - (BOOL)contactListEditable
