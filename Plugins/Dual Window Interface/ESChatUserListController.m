@@ -89,8 +89,7 @@
 		AIListObject *listObject = proxyObject.listObject;
 		
 		//Dont allow Bookmarks to be invited to chat
-		if ([listObject isKindOfClass:[AIListBookmark class]])
-		{
+		if ([listObject isKindOfClass:[AIListBookmark class]]) {
 			success = NO;
 			break;
 		}
