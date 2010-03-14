@@ -128,7 +128,11 @@ static NSArray *draggedTypes = nil;
 		objectsWithUserIconsArray = [[NSMutableArray alloc] init];
 		shouldReflectPreferenceChanges = NO;
 		storedContentObjects = nil;
-
+		/* If we receive content before gaining focus, we'll want to know the first content received is the first to be
+		 * classed as such.
+		 */
+		nextMessageFocus = YES;
+		
 		//Observe preference changes.
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_REGULAR_MESSAGE_DISPLAY];
 		[adium.preferenceController registerPreferenceObserver:self forGroup:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY];
