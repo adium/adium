@@ -50,6 +50,11 @@
 	purple_account_set_bool(account, "ignore-facebook-captcha", TRUE);
 }
 
+- (BOOL)contactListEditable
+{
+	return NO;
+}
+
 - (NSString *)host
 {
 	return @"login.facebook.com";
