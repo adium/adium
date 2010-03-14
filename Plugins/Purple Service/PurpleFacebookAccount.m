@@ -37,11 +37,14 @@
 	// We do our own history; don't let the server's history get displayed as new messages
 	purple_account_set_bool(account, "facebook_show_history", FALSE);
 	
-	// Use friends list as groups.
+	// Use friends list as groups. This also allows moving between groups through libpurple
 	purple_account_set_bool(account, "facebook_use_groups", TRUE);
 	
-	// Allow for moving through libpurple
-	purple_account_set_bool(account, "facebook_manage_friends", TRUE);
+	/* Don't prompt for authorization. Don't delete friends from the Facebook friend list,
+	 * as doing so is not a clear way to remove the friend entirely but that's what would
+	 * happen. Adding friends isn't supported, anyways.
+	 */
+	purple_account_set_bool(account, "facebook_manage_friends", FALSE);
 	
 	// Disable the Facebook CAPTCHA since it causes heartache and pain.
 	purple_account_set_bool(account, "ignore-facebook-captcha", TRUE);
