@@ -363,7 +363,10 @@
 	[imageView_backgroundImage setEnabled:allowCustomBackground];
 	
 	//Disable the header control if this style doesn't have a header or topic
-	[checkBox_showHeader setEnabled:([messageStyle hasHeader] || [messageStyle hasTopic]) && anyControlsEnabled];
+	if (self.currentTab == AIWebkitGroupChat)
+		[checkBox_showHeader setEnabled:[messageStyle hasTopic] && anyControlsEnabled];
+	else
+		[checkBox_showHeader setEnabled:[messageStyle hasHeader] && anyControlsEnabled];
 	
 	//Disable user icon toggling if the style doesn't support them
 	[checkBox_showUserIcons setEnabled:[messageStyle allowsUserIcons] && anyControlsEnabled];
