@@ -337,8 +337,9 @@
 - (void)configureControlDimming
 {	
 	// Controls are enabled if we're the regular chat tab, or we're not using regular preferences.
-	BOOL anyControlsEnabled = (self.currentTab == AIWebkitRegularChat || ![[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
-																			group:self.preferenceGroupForCurrentTab] boolValue]);
+	BOOL useRegularPreferences = [[adium.preferenceController preferenceForKey:KEY_WEBKIT_USE_REGULAR_PREFERENCES
+																		 group:PREF_GROUP_WEBKIT_GROUP_MESSAGE_DISPLAY] boolValue];
+	BOOL anyControlsEnabled = (self.currentTab == AIWebkitRegularChat || !useRegularPreferences);
 	
 	// General controls with no other qualifiers.
 	[popUp_styles setEnabled:anyControlsEnabled];
@@ -366,7 +367,7 @@
 	if (self.currentTab == AIWebkitGroupChat)
 		[checkBox_showHeader setEnabled:[messageStyle hasTopic] && anyControlsEnabled];
 	else
-		[checkBox_showHeader setEnabled:[messageStyle hasHeader] && anyControlsEnabled];
+		[checkBox_showHeader setEnabled:[messageStyle hasHeader] || ([messageStyle hasTopic] && useRegularPreferences)];
 	
 	//Disable user icon toggling if the style doesn't support them
 	[checkBox_showUserIcons setEnabled:[messageStyle allowsUserIcons] && anyControlsEnabled];
