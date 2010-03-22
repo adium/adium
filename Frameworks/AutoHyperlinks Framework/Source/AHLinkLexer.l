@@ -49,7 +49,10 @@ ccTLD           (ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|az|ba|bb|bd|be|
 sTLD            (com|edu|gov|int|mil|net|org|biz|info|name|pro)
 uTLD            (aero|coop|museum|mobi|cat|jobs|travel)
 
+SLDs            (ac|co|gov|ltd|me|mod|net|nhs|nic|org|parliament|plc|police|sch|edu|asn|id)
 TLDs            ({ccTLD}|{sTLD}|{uTLD}|arpa|local)
+uTLDs           (({SLDs}\.{ccTLD})|{sTLD}|{uTLD}|arpa|local)
+
 %{
 /*The Unicode standard, version 4.1, table 3-6, says that the highest byte that will occur in a valid UTF-8 sequence is 0xF4.*/
 %}
@@ -57,7 +60,7 @@ userAndPass     [^:@]+(:[^:@]+)?
 singleDomain    [_[:alnum:]\x80-\xf4-]+
 
 urlPath         \/[^[:space:]]*
-urlSpec         ({singleDomain}\.)+{TLDs}(:[0-9]+)?{urlPath}?
+urlSpec         ({singleDomain}\.)+{uTLDs}(:[0-9]+)?{urlPath}?
 urlCSpec        {singleDomain}(\.{singleDomain})*(:[0-9]+)?{urlPath}?
 
 ipv4address     ([0-9]{1,3}\.){3}([0-9]{1,3})
@@ -70,7 +73,7 @@ ipv6Address     {ipv6HexPart}({ipv4address})?
 ipv6URL         \[{ipv6Address}](:[0-9]+)?{urlPath}?
 
 userAtDomain	[^:@\/[:space:]]+\@{singleDomain}(\.{singleDomain})*
-mailSpec        {userAtDomain}\.{TLDs}
+mailSpec        {userAtDomain}\.({ccTLD}|{sTLD}|{uTLD}|arpa|local)
 jabberSpec      xmpp:{mailSpec}{urlPath}?(\?[^[:space:]]+)?
 aolIMSpec       aim:goim\?screenname=[^\ \t\n&]+(&message=.+)?
 aolChatSpec     aim:gochat\?roomname=[^\ \t\n&]+
