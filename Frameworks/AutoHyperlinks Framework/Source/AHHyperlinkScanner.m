@@ -263,6 +263,13 @@
 	
 	// main scanning loop
 	while([self _scanString:m_scanString upToCharactersFromSet:skipSet intoRange:&scannedRange fromIndex:&scannedLocation]) {
+		
+		// back off if the last character is puncuation.
+		unichar s_char = [m_scanString characterAtIndex:(scannedRange.location + scannedRange.length - 1)];
+		if(4 < scannedRange.length && [puncSet characterIsMember:s_char]) {
+			scannedRange.length--;
+		}
+		
 		BOOL foundUnpairedEnclosureCharacter = NO;
 		
 		// Check for and filter enclosures.  We can't add (, [, etc. to the skipSet as they may be in a URI
