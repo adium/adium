@@ -95,6 +95,23 @@
 @end
 
 /*!
+ * @protocol AIAlternatingRowsProtocol
+ * @brief Delegate protocol for <tt>AIOutlineView</tt>
+ *
+ * Implementation of all methods is optional.
+ */
+@protocol AIAlternatingRowsProtocol
+
+/*!
+ * @brief Draws rows of the view with alternating colors
+ *
+ * @param rect The <tt>NSRect</tt> defining the background to color.
+ */
+- (void)drawAlternatingRowsInRect:(NSRect)rect;
+@end
+
+
+/*!
  * @class AIOutlineView
  * @brief An NSOutlineView subclass with several improvments
  *

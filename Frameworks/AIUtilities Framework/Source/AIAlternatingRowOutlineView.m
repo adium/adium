@@ -164,8 +164,6 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {
-	[self drawAlternatingRowsInRect:clipRect];
-
 	if (drawsGradientSelection && [[self window] isKeyWindow] && ([[self window] firstResponder] == self)) {
 		NSIndexSet *indices = [self selectedRowIndexes];
 		NSUInteger bufSize = [indices count];
