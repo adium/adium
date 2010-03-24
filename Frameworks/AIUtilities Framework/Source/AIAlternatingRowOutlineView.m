@@ -29,7 +29,6 @@
 @interface AIAlternatingRowOutlineView ()
 - (void)initAlternatingRowOutlineView;
 - (void)_drawGridInClipRect:(NSRect)rect;
-- (void)alternatingRowOutlineViewSelectionDidChange:(NSNotification *)notification;
 @end
 
 @interface NSOutlineView (Undocumented)
@@ -60,17 +59,11 @@
 	drawsBackground = YES;
 	drawsGradientSelection = NO;
 	alternatingRowColor = [[NSColor colorWithCalibratedRed:(237.0f/255.0f) green:(243.0f/255.0f) blue:(254.0f/255.0f) alpha:1.0f] retain];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(alternatingRowOutlineViewSelectionDidChange:)
-												 name:NSOutlineViewSelectionDidChangeNotification
-											   object:self];
 }
 
 - (void)dealloc
 {
 	[alternatingRowColor release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	[super dealloc];
 }
@@ -164,9 +157,10 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)clipRect
 {
-	if (drawsGradientSelection && [[self window] isKeyWindow] && ([[self window] firstResponder] == self)) {
-		NSIndexSet *indices = [self selectedRowIndexes];
-		NSUInteger bufSize = [indices count];
+	NSIndexSet *indices = [self selectedRowIndexes];
+	NSUInteger bufSize = [indices count];
+	
+	if (drawsGradientSelection && bufSize > 0 && [[self window] isKeyWindow] && ([[self window] firstResponder] == self)) {
 		NSUInteger *buf = malloc(bufSize * sizeof(NSUInteger));
 		NSUInteger i = 0, j = 0;
 
@@ -225,14 +219,6 @@
 		return nil;
 	} else {
 		return [super _highlightColorForCell:cell];
-	}
-}
-
-- (void)alternatingRowOutlineViewSelectionDidChange:(NSNotification *)notification
-{
-	if (drawsGradientSelection) {
-		//We do fancy drawing, so we need a full redisplay when selection changes
-		[self setNeedsDisplay:YES];
 	}
 }
 
