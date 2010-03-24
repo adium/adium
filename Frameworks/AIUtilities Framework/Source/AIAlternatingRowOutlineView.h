@@ -21,7 +21,7 @@
  *
  * This functionality was added, with less control to the programmer, in OS X 10.3.  <tt>AIAlternatingRowOutlineView</tt> also supports disabling it from drawing its background (useful if cells wish to draw their own backgrounds and potentially be transparent).
  */
-@interface AIAlternatingRowOutlineView : AIOutlineView {
+@interface AIAlternatingRowOutlineView : AIOutlineView <AIAlternatingRowsProtocol> {
 	NSColor		*alternatingRowColor;
 	
 	BOOL		drawsBackground;

@@ -37,6 +37,9 @@
 		[[self backgroundColor] set];
 		NSRectFill(clipRect);
 		
+		if([self conformsToProtocol:@protocol(AIAlternatingRowsProtocol)])
+			[(id<AIAlternatingRowsProtocol>)self drawAlternatingRowsInRect:clipRect];
+		
 		//Image
 		NSScrollView	*enclosingScrollView = [self enclosingScrollView];
 		if (backgroundImage && enclosingScrollView) {

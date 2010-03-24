@@ -444,8 +444,6 @@
 			free(selectionRects);
 		}
 
-	} else {
-		[self drawAlternatingRowsInRect:clipRect];
 	}
 }
 
