@@ -116,11 +116,6 @@
 
 }
 
-- (void)moveListObjects:(NSArray *)objects fromGroups:(NSSet *)oldGroups toGroups:(NSSet *)groups
-{
-	//XXX does bonjour support groups?
-}
-
 #pragma mark Libezv Callbacks
 
 /*!

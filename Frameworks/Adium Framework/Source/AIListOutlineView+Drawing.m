@@ -43,6 +43,7 @@
 			NSRect	visRect = [enclosingScrollView documentVisibleRect];
 			NSSize	imageSize = [backgroundImage size];
 			NSRect	imageRect = NSMakeRect(0.0f, 0.0f, imageSize.width, imageSize.height);
+			CGFloat imageFade = backgroundFade * backgroundOpacity;
 			
 			switch (backgroundStyle) {
 					
@@ -51,7 +52,7 @@
 					[backgroundImage drawInRect:NSMakeRect(visRect.origin.x, visRect.origin.y, imageSize.width, imageSize.height)
 									   fromRect:imageRect
 									  operation:NSCompositeSourceOver
-									   fraction:backgroundFade];
+									   fraction:imageFade];
 					break;
 				}
 				case AIFillProportionatelyBackground: {
@@ -69,7 +70,7 @@
 					[backgroundImage drawInRect:visRect
 									   fromRect:imageRect
 									  operation:NSCompositeSourceOver
-									   fraction:backgroundFade];
+									   fraction:imageFade];
 					break;
 				}
 				case AIFillStretchBackground: {
@@ -77,7 +78,7 @@
 					[backgroundImage drawInRect:visRect
 									   fromRect:imageRect
 									  operation:NSCompositeSourceOver
-									   fraction:backgroundFade];
+									   fraction:imageFade];
 					break;
 				}
 				case AITileBackground: {
@@ -98,7 +99,7 @@
 								[backgroundImage drawInRect:drawingRect
 												   fromRect:imageRect
 												  operation:NSCompositeSourceOver
-												   fraction:backgroundFade];
+												   fraction:imageFade];
 							}
 							
 							//Shift right for the next iteration
@@ -118,6 +119,9 @@
 		[[NSColor clearColor] set];
 		NSRectFill(clipRect);
 	}
+	
+	if([self conformsToProtocol:@protocol(AIAlternatingRowsProtocol)])
+		[(id<AIAlternatingRowsProtocol>)self drawAlternatingRowsInRect:clipRect];
 }
 
 #pragma mark Background
@@ -252,7 +256,8 @@
 - (NSColor *)alternatingRowColor
 {
 	if (!_rowColorWithOpacity) {
-		_rowColorWithOpacity = [[rowColor colorWithAlphaComponent:backgroundOpacity] retain];
+		CGFloat rowAlpha = [rowColor alphaComponent];
+		_rowColorWithOpacity = [[rowColor colorWithAlphaComponent:(rowAlpha * backgroundOpacity)] retain];
 	}
 	
 	return _rowColorWithOpacity;
