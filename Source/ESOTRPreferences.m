@@ -194,8 +194,10 @@
 													   fingerprint_buf, accountname, protocol);
 				
 				if (fingerprint) {
+					[button_generate setTitle:AILocalizedString(@"Regenerate", nil)];
 					fingerprintString = [NSString stringWithFormat:AILocalizedString(@"Fingerprint: %.80s",nil), fingerprint];
 				} else {
+					[button_generate setTitle:AILocalizedString(@"Generate", nil)];
 					fingerprintString = AILocalizedString(@"No private key present", "Message to show in the Encryption OTR preferences when an account is selected which does not have a private key");
 				}
 			}
