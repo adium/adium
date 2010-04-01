@@ -673,7 +673,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		oldLink = nil;
 	}
 
-	if (thingsToInclude.fontTags && thingsToInclude.closingFontTags && openFontTag) {
+	if (thingsToInclude.closingFontTags && openFontTag) {
 		//Close any open font tag
 		[string appendString:@"</FONT>"];
 	}
