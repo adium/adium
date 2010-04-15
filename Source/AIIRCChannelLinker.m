@@ -128,8 +128,9 @@
 					}
 				}
 				
-				NSString *linkURL = [NSString stringWithFormat:@"irc://%@/%@",
+				NSString *linkURL = [NSString stringWithFormat:@"irc://%@:%d/%@",
 									 account.host,
+									 account.port,
 									 channelName];
 
 				[newString addAttribute:NSLinkAttributeName
