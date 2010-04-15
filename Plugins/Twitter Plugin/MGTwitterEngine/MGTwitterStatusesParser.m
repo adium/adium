@@ -27,7 +27,8 @@
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [parsedObjects addObject:newNode];
         currentNode = newNode;		
-    } else if ([elementName isEqualToString:@"user"]) {
+    } else if ([elementName isEqualToString:@"user"] || [elementName isEqualToString:@"geo"] ||
+			   [elementName isEqualToString:@"coordinates"] || [elementName isEqualToString:@"place"]) {
         // Add a 'user' dictionary to current node.
         NSMutableDictionary *newNode = [NSMutableDictionary dictionaryWithCapacity:0];
         [currentNode setObject:newNode forKey:elementName];
