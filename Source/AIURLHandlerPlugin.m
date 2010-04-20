@@ -11,6 +11,8 @@
 #import "AINewContactWindowController.h"
 #import "XtrasInstaller.h"
 
+#import "AITemporaryIRCAccountWindowController.h"
+
 #import <AIUtilities/AIURLAdditions.h>
 #import <AIUtilities/AIStringAdditions.h>
 #import <AIUtilities/AIWindowAdditions.h>
@@ -502,13 +504,7 @@
 	}
 	
 	if (!ircAccount) {
-		NSRunAlertPanel(AILocalizedString(@"Unable to Join Channel", nil),
-						AILocalizedString(@"Unable to join the channel %@, no account exists for server %@.", nil),
-						AILocalizedStringFromTable(@"OK", @"Buttons", "Verb 'OK' on a button"),
-						nil,
-						nil,
-						name,
-						server);
+		[[AITemporaryIRCAccountWindowController alloc] initWithChannel:name server:server port:port andPassword:password];
 	} else if (name) {
 		[adium.chatController chatWithName:name
 		 identifier:nil
