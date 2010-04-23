@@ -250,10 +250,17 @@ struct _PurpleCertificateScheme
 	/** Retrieve the certificate activation/expiration times */
 	gboolean (* get_times)(PurpleCertificate *crt, time_t *activation, time_t *expiration);
 
+	/** Imports certificates from a file
+	 *
+	 *  @param filename   File to import the certificates from
+	 *  @return           GSList of pointers to the newly allocated Certificate structs
+	 *                    or NULL on failure.
+	 */
+	GSList * (* import_certificates)(const gchar * filename);
+
 	void (*_purple_reserved1)(void);
 	void (*_purple_reserved2)(void);
 	void (*_purple_reserved3)(void);
-	void (*_purple_reserved4)(void);
 };
 
 /** A set of operations used to provide logic for verifying a Certificate's
@@ -490,6 +497,16 @@ purple_certificate_check_signature_chain(GList *chain);
  */
 PurpleCertificate *
 purple_certificate_import(PurpleCertificateScheme *scheme, const gchar *filename);
+
+/**
+ * Imports a list of PurpleCertificates from a file
+ *
+ * @param scheme      Scheme to import under
+ * @param filename    File path to import from
+ * @return Pointer to a GSList of new PurpleCertificates, or NULL on failure
+ */
+GSList *
+purple_certificates_import(PurpleCertificateScheme *scheme, const gchar *filename);
 
 /**
  * Exports a PurpleCertificate to a file

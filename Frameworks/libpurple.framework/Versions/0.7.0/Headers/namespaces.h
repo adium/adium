@@ -30,6 +30,7 @@
 #define NS_XMPP_SESSION "urn:ietf:params:xml:ns:xmpp-session"
 #define NS_XMPP_STANZAS "urn:ietf:params:xml:ns:xmpp-stanzas"
 #define NS_XMPP_STREAMS "http://etherx.jabber.org/streams"
+#define NS_XMPP_TLS "urn:ietf:params:xml:ns:xmpp-tls"
 
 /* XEP-0012 Last Activity (and XEP-0256 Last Activity in Presence) */
 #define NS_LAST_ACTIVITY "jabber:iq:last"

@@ -85,5 +85,6 @@ JabberBuddyState jabber_buddy_status_id_get_state(const char *id);
 /* show attr (presence stanza) -> state */
 JabberBuddyState jabber_buddy_show_get_state(const char *id);
 
-char *jabber_calculate_data_sha1sum(gconstpointer data, size_t len);
+char *jabber_calculate_data_hash(gconstpointer data, size_t len,
+    const gchar *hash_algo);
 #endif /* PURPLE_JABBER_JUTIL_H_ */

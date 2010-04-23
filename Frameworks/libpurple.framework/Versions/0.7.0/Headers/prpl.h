@@ -569,6 +569,12 @@ struct _PurplePluginProtocolInfo
 	 */
 	PurpleMediaCaps (*get_media_caps)(PurpleAccount *account,
 					  const char *who);
+
+	/**
+	 * Returns an array of "PurpleMood"s, with the last one having
+	 * "mood" set to @c NULL.
+	 */
+	PurpleMood *(*get_moods)(PurpleAccount *account);
 };
 
 #define PURPLE_PROTOCOL_PLUGIN_HAS_FUNC(prpl, member) \

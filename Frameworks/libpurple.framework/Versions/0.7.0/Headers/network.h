@@ -123,8 +123,8 @@ const char *purple_network_get_my_ip(int fd);
  * The default value is TRUE
  *
  * @param map_external Should the open port be mapped externally?
- * @deprecated In 3.0.0 a boolean will be added to the above functions to
- *             perform the same function.
+ * @deprecated In 3.0.0 a boolean will be added to the functions mentioned
+ *             above to perform the same function.
  * @since 2.3.0
  */
 void purple_network_listen_map_external(gboolean map_external);
@@ -236,15 +236,15 @@ void purple_network_force_online(void);
  */
 void *purple_network_get_handle(void);
 
-/**	
+/**
  * Update the STUN server IP given the host name
  * Will result in a DNS query being executed asynchronous
- * 
+ *
  * @param stun_server The host name of the STUN server to set
  * @since 2.6.0
  */
 void purple_network_set_stun_server(const gchar *stun_server);
-	
+
 /**
  * Get the IP address of the STUN server as a string representation
  *
@@ -252,16 +252,16 @@ void purple_network_set_stun_server(const gchar *stun_server);
  * @since 2.6.0
  */
 const gchar *purple_network_get_stun_ip(void);
-	
-/**	
+
+/**
  * Update the TURN server IP given the host name
  * Will result in a DNS query being executed asynchronous
- * 
+ *
  * @param turn_server The host name of the TURN server to set
  * @since 2.6.0
  */
 void purple_network_set_turn_server(const gchar *turn_server);
-	
+
 /**
  * Get the IP address of the TURN server as a string representation
  *
@@ -269,14 +269,14 @@ void purple_network_set_turn_server(const gchar *turn_server);
  * @since 2.6.0
  */
 const gchar *purple_network_get_turn_ip(void);
-		
+
 /**
  * Remove a port mapping (UPnP or NAT-PMP) associated with listening socket
  *
  * @param fd Socket to remove the port mapping for
  * @since 2.6.0
  */
-void purple_network_remove_port_mapping(gint fd);	
+void purple_network_remove_port_mapping(gint fd);
 
 /**
  * Convert a UTF-8 domain name to ASCII in accordance with the IDNA
