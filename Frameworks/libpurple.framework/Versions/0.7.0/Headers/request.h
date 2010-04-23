@@ -150,6 +150,7 @@ struct _PurpleRequestField
 		struct
 		{
 			GList *items;
+			GList *icons;
 			GHashTable *item_data;
 			GList *selected;
 			GHashTable *selected_table;
@@ -953,9 +954,22 @@ void *purple_request_field_list_get_data(const PurpleRequestField *field,
  * @param field The list field.
  * @param item  The list item.
  * @param data  The associated data.
+ *
+ * @deprecated Use purple_request_field_list_add_icon() instead.
  */
 void purple_request_field_list_add(PurpleRequestField *field,
 								 const char *item, void *data);
+
+/**
+ * Adds an item to a list field.
+ *
+ * @param field The list field.
+ * @param item  The list item.
+ * @param icon_path The path to icon file, or @c NULL for no icon.
+ * @param data  The associated data.
+ */
+void purple_request_field_list_add_icon(PurpleRequestField *field,
+								 const char *item, const char* icon_path, void* data);
 
 /**
  * Adds a selected item to the list field.
@@ -1014,6 +1028,18 @@ GList *purple_request_field_list_get_selected(
  * @constreturn The list of items.
  */
 GList *purple_request_field_list_get_items(const PurpleRequestField *field);
+
+/**
+ * Returns a list of icons in a list field.
+ *
+ * The icons will correspond with the items, in order.
+ *
+ * @param field The field.
+ *
+ * @constreturn The list of icons or @c NULL (i.e. the empty GList) if no
+ *              items have icons.
+ */
+GList *purple_request_field_list_get_icons(const PurpleRequestField *field);
 
 /*@}*/
 

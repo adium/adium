@@ -414,6 +414,14 @@ void purple_account_set_enabled(PurpleAccount *account, const char *ui,
 void purple_account_set_proxy_info(PurpleAccount *account, PurpleProxyInfo *info);
 
 /**
+ * Sets the account's privacy type.
+ *
+ * @param account      The account.
+ * @param privacy_type The privacy type.
+ */
+void purple_account_set_privacy_type(PurpleAccount *account, PurplePrivacyType privacy_type);
+
+/**
  * Sets the account's status types.
  *
  * @param account      The account.
@@ -681,6 +689,15 @@ gboolean purple_account_get_enabled(const PurpleAccount *account,
  * @return The proxy information.
  */
 PurpleProxyInfo *purple_account_get_proxy_info(const PurpleAccount *account);
+
+/**
+ * Returns the account's privacy type.
+ *
+ * @param account   The account.
+ *
+ * @return The privacy type.
+ */
+PurplePrivacyType purple_account_get_privacy_type(const PurpleAccount *account);
 
 /**
  * Returns the active status for this account.  This looks through

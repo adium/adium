@@ -355,6 +355,8 @@ void purple_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER_POINTER_POINTER(
 void purple_marshal_BOOLEAN__INT_POINTER(
 		PurpleCallback cb, va_list args, void *data, void **return_val);
 
+void purple_marshal_POINTER__POINTER(
+		PurpleCallback cb, va_list args, void *data, void **return_val);
 void purple_marshal_POINTER__POINTER_INT(
 		PurpleCallback cb, va_list args, void *data, void **return_val);
 void purple_marshal_POINTER__POINTER_INT64(
