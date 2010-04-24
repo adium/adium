@@ -29,7 +29,7 @@
 #include "cmds.h"
 #include "prpl.h"
 
-#define YAHOO_PAGER_HOST "scsa.msg.yahoo.com"
+#define YAHOO_PAGER_HOST_REQ_URL "http://vcs1.msg.yahoo.com/capacity"
 #define YAHOO_PAGER_PORT 5050
 #define YAHOO_PAGER_PORT_P2P 5101
 #define YAHOO_LOGIN_URL "https://login.yahoo.com/config/pwtoken_login?src=ymsgr&ts=&token=%s"
@@ -44,9 +44,9 @@
 #define YAHOO_XFER_RELAY_PORT 80
 #define YAHOO_ROOMLIST_URL "http://insider.msg.yahoo.com/ycontent/"
 #define YAHOO_ROOMLIST_LOCALE "us"
-/* really we should get the list of servers from
- http://update.messenger.yahoo.co.jp/servers.html */
-#define YAHOOJP_PAGER_HOST "cs.yahoo.co.jp"
+
+/* Yahoo! JAPAN stuff */
+#define YAHOOJP_PAGER_HOST_REQ_URL "http://cs1.msg.vip.ogk.yahoo.co.jp/capacity"
 #define YAHOOJP_TOKEN_URL "https://login.yahoo.co.jp/config/pwtoken_get?src=ymsgr&ts=&login=%s&passwd=%s&chal=%s"
 #define YAHOOJP_LOGIN_URL "https://login.yahoo.co.jp/config/pwtoken_login?src=ymsgr&ts=&token=%s"
 #define YAHOOJP_PROFILE_URL "http://profiles.yahoo.co.jp/"
@@ -90,8 +90,8 @@
 #define YAHOO_CLIENT_VERSION_ID "4194239"
 #define YAHOO_CLIENT_VERSION "9.0.0.2162"
 
-#define YAHOOJP_CLIENT_VERSION_ID "4194239"
-#define YAHOOJP_CLIENT_VERSION "9.0.0.2162"
+#define YAHOOJP_CLIENT_VERSION_ID "4186047"
+#define YAHOOJP_CLIENT_VERSION "9.0.0.1727"
 
 #define YAHOO_CLIENT_USERAGENT "Mozilla/5.0"
 
@@ -119,6 +119,7 @@ enum yahoo_status {
 	YAHOO_STATUS_ONVACATION,
 	YAHOO_STATUS_OUTTOLUNCH,
 	YAHOO_STATUS_STEPPEDOUT,
+	YAHOO_STATUS_P2P = 11,
 	YAHOO_STATUS_INVISIBLE = 12,
 	YAHOO_STATUS_CUSTOM = 99,
 	YAHOO_STATUS_IDLE = 999,
@@ -219,6 +220,7 @@ typedef struct {
 	gsize auth_written;
 	char *cookie_y;
 	char *cookie_t;
+	char *cookie_b;
 	int session_id;
 	gboolean jp;
 	gboolean wm; /* connected w/ web messenger method */

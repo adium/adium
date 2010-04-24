@@ -30,6 +30,25 @@
 #include "session.h"
 #include "slpcall.h"
 
+#define MAX_FILE_NAME_LEN 260 /* MAX_PATH in Windows */
+
+/**
+ * The context data for a file transfer request
+ */
+#pragma pack(push,1) /* Couldn't they have made it the right size? */
+typedef struct
+{
+	guint32   length;       /*< Length of header */
+	guint32   version;      /*< MSN version */
+	guint64   file_size;    /*< Size of file */
+	guint32   type;         /*< Transfer type */
+	gunichar2 file_name[MAX_FILE_NAME_LEN]; /*< Self-explanatory */
+	gchar     unknown1[30]; /*< Used somehow for background sharing */
+	guint32   unknown2;     /*< Possibly for background sharing as well */
+	gchar     preview[1];   /*< File preview data, 96x96 PNG */
+} MsnFileContext;
+#pragma pack(pop)
+
 MsnSlpCall * msn_slp_sip_recv(MsnSlpLink *slplink,
 							  const char *body);
 

@@ -44,8 +44,9 @@ typedef enum
 	PURPLE_CONNECTION_NO_FONTSIZE = 0x0020, /**< Connection does not send/receive font sizes */
 	PURPLE_CONNECTION_NO_URLDESC = 0x0040,  /**< Connection does not support descriptions with links */
 	PURPLE_CONNECTION_NO_IMAGES = 0x0080,  /**< Connection does not support sending of images */
-	PURPLE_CONNECTION_ALLOW_CUSTOM_SMILEY = 0x0100 /**< Connection supports sending and receiving custom smileys */
-	
+	PURPLE_CONNECTION_ALLOW_CUSTOM_SMILEY = 0x0100, /**< Connection supports sending and receiving custom smileys */
+	PURPLE_CONNECTION_SUPPORT_MOODS = 0x0200, /**< Connection supports setting moods */
+	PURPLE_CONNECTION_SUPPORT_MOOD_MESSAGES = 0x0400 /**< Connection supports setting a message on moods */
 } PurpleConnectionFlags;
 
 typedef enum
