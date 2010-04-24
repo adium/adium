@@ -45,7 +45,7 @@ typedef struct _PeerConnection        PeerConnection;
 #define PEER_TYPE_PROMPT 0x0101 /* "I am going to send you this file, is that ok?" */
 #define PEER_TYPE_RESUMEACCEPT 0x0106 /* We are accepting the resume */
 #define PEER_TYPE_ACK 0x0202 /* "Yes, it is ok for you to send me that file" */
-#define PEER_TYPE_DONE 0x0204 /* "I received that file with no problems, thanks a bunch" */
+#define PEER_TYPE_DONE 0x0204 /* "I received that file with no problems" or "I already have that file, great!" */
 #define PEER_TYPE_RESUME 0x0205 /* Resume transferring, sent by whoever receives */
 #define PEER_TYPE_RESUMEACK 0x0207 /* Our resume accept was ACKed */
 
@@ -136,7 +136,7 @@ struct _ProxyFrame
 struct _PeerConnection
 {
 	OscarData *od;
-	OscarCapability type;
+	guint64 type;
 	char *bn;
 	guchar magic[4];
 	guchar cookie[8];
@@ -228,11 +228,11 @@ struct _PeerConnection
  * @param type The type of the peer connection.  One of
  *        OSCAR_CAPABILITY_DIRECTIM or OSCAR_CAPABILITY_SENDFILE.
  */
-PeerConnection *peer_connection_new(OscarData *od, OscarCapability type, const char *bn);
+PeerConnection *peer_connection_new(OscarData *od, guint64 type, const char *bn);
 
 void peer_connection_destroy(PeerConnection *conn, OscarDisconnectReason reason, const gchar *error_message);
 void peer_connection_schedule_destroy(PeerConnection *conn, OscarDisconnectReason reason, const gchar *error_message);
-PeerConnection *peer_connection_find_by_type(OscarData *od, const char *bn, OscarCapability type);
+PeerConnection *peer_connection_find_by_type(OscarData *od, const char *bn, guint64 type);
 PeerConnection *peer_connection_find_by_cookie(OscarData *od, const char *bn, const guchar *cookie);
 
 void peer_connection_listen_cb(gpointer data, gint source, PurpleInputCondition cond);
@@ -241,7 +241,7 @@ void peer_connection_send(PeerConnection *conn, ByteStream *bs);
 
 void peer_connection_trynext(PeerConnection *conn);
 void peer_connection_finalize_connection(PeerConnection *conn);
-void peer_connection_propose(OscarData *od, OscarCapability type, const char *bn);
+void peer_connection_propose(OscarData *od, guint64 type, const char *bn);
 void peer_connection_got_proposition(OscarData *od, const gchar *bn, const gchar *message, IcbmArgsCh2 *args);
 
 /*

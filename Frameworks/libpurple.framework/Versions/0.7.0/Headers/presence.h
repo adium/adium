@@ -24,9 +24,62 @@
 #ifndef PURPLE_JABBER_PRESENCE_H_
 #define PURPLE_JABBER_PRESENCE_H_
 
+typedef enum {
+	JABBER_PRESENCE_ERROR = -2,
+	JABBER_PRESENCE_PROBE = -1,
+	JABBER_PRESENCE_AVAILABLE,
+	JABBER_PRESENCE_UNAVAILABLE,
+	JABBER_PRESENCE_SUBSCRIBE,
+	JABBER_PRESENCE_SUBSCRIBED,
+	JABBER_PRESENCE_UNSUBSCRIBE,
+	JABBER_PRESENCE_UNSUBSCRIBED
+} JabberPresenceType;
+
+typedef struct _JabberPresenceChatInfo JabberPresenceChatInfo;
+typedef struct _JabberPresence JabberPresence;
+
 #include "buddy.h"
+#include "chat.h"
 #include "jabber.h"
+#include "jutil.h"
 #include "xmlnode.h"
+
+struct _JabberPresenceChatInfo {
+	GSList *codes;
+	xmlnode *item;
+};
+
+struct _JabberPresence {
+	JabberPresenceType type;
+	JabberID *jid_from;
+	const char *from;
+	const char *to;
+	const char *id;
+
+	JabberBuddy *jb;
+	JabberChat *chat;
+	JabberPresenceChatInfo chat_info;
+	xmlnode *caps; /* TODO: Temporary, see presence.c:parse_caps */
+
+	JabberBuddyState state;
+	gchar *status;
+	int priority;
+
+	char *vcard_avatar_hash;
+	char *nickname;
+
+	gboolean delayed;
+	time_t sent;
+	int idle;
+};
+
+typedef void (JabberPresenceHandler)(JabberStream *js, JabberPresence *presence,
+                                     xmlnode *child);
+void jabber_presence_register_handler(const char *node, const char *xmlns,
+                                      JabberPresenceHandler *handler);
+
+void jabber_presence_init(void);
+void jabber_presence_uninit(void);
 
 void jabber_set_status(PurpleAccount *account, PurpleStatus *status);
 

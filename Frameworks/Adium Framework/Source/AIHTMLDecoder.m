@@ -310,6 +310,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Close any existing font tags, and open a new one
 			if (thingsToInclude.closingFontTags && openFontTag) {
 				[string appendString:@"</FONT>"];
+				openFontTag = NO;
 			}
 			if (!thingsToInclude.simpleTagsOnly) {
 				openFontTag = YES;
@@ -320,6 +321,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Family
 			if (thingsToInclude.fontTags && familyName && (![familyName isEqualToString:currentFamily] || thingsToInclude.closingFontTags)) {
 				if (thingsToInclude.simpleTagsOnly) {
+					openFontTag = YES;
 					[string appendString:[NSString stringWithFormat:@"<FONT FACE=\"%@\">",familyName]];
 				} else {
 					//(traits | NSNonStandardCharacterSetFontMask) seems to be the proper test... but it is true for all fonts!
@@ -344,6 +346,7 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 			//Color
 			if (color) {
 				if (thingsToInclude.simpleTagsOnly) {
+					openFontTag = YES;
 					[string appendString:[NSString stringWithFormat:@"<FONT COLOR=\"#%@\">",color]];	
 				} else {
 					[string appendString:[NSString stringWithFormat:@" COLOR=\"#%@\"",color]];
@@ -673,9 +676,10 @@ onlyIncludeOutgoingImages:(BOOL)onlyIncludeOutgoingImages
 		oldLink = nil;
 	}
 
-	if (thingsToInclude.fontTags && thingsToInclude.closingFontTags && openFontTag) {
+	if (thingsToInclude.closingFontTags && openFontTag) {
 		//Close any open font tag
 		[string appendString:@"</FONT>"];
+		openFontTag = NO;
 	}
 	if (rightToLeft) {
 		//Close any open div
