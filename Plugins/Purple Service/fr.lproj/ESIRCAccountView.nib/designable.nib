@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="121"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,7 +38,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="677724530">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -52,7 +51,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="210518773">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Mot de passe :</string>
+							<string key="NSContents">Mot de Passe :</string>
 							<object class="NSFont" key="NSSupport" id="705754341">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
@@ -171,7 +170,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="817006018">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Nom de domaine :</string>
+							<string key="NSContents">Nom de l'hôte :</string>
 							<reference key="NSSupport" ref="705754341"/>
 							<reference key="NSControlView" ref="674610423"/>
 							<reference key="NSBackgroundColor" ref="630544313"/>
@@ -180,7 +179,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{417, 78}</string>
-				<reference key="NSSuperview"/>
 				<object class="NSMutableString" key="NSClassName">
 					<characters key="NS.bytes">NSView</characters>
 				</object>
@@ -270,7 +268,7 @@
 										<object class="NSTextFieldCell" key="NSCell" id="401100779">
 											<int key="NSCellFlags">68288064</int>
 											<int key="NSCellFlags2">272761856</int>
-											<string key="NSContents">Une par ligne, / est facultatif. $me sera remplacée par votre pseudo actuel.</string>
+											<string key="NSContents">Une par ligne (facultatif). $me sera remplacé par votre pseudo actuel.</string>
 											<object class="NSFont" key="NSSupport" id="26">
 												<string key="NSName">LucidaGrande</string>
 												<double key="NSSize">11</double>
@@ -442,7 +440,7 @@
 						<object class="NSTextFieldCell" key="NSTitleCell">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Executer la commande lors de la connexion:</string>
+							<string key="NSContents">Exécution des commandes lors de la connexion :</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSBackgroundColor" ref="507415680"/>
 							<object class="NSColor" key="NSTextColor">
@@ -562,7 +560,7 @@
 					<object class="NSTextField" id="324101962">
 						<reference key="NSNextResponder" ref="189085683"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{121, 35}, {70, 17}}</string>
+						<string key="NSFrame">{{123, 34}, {70, 17}}</string>
 						<reference key="NSSuperview" ref="189085683"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="69468048">
@@ -595,13 +593,13 @@
 					<object class="NSTextField" id="736155124">
 						<reference key="NSNextResponder" ref="189085683"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{36, 2}, {155, 17}}</string>
+						<string key="NSFrame">{{27, 2}, {166, 17}}</string>
 						<reference key="NSSuperview" ref="189085683"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="659978859">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Nom utilisateur (Ident) :</string>
+							<string key="NSContents">Nom d'utilisateur (Ident) :</string>
 							<reference key="NSSupport" ref="705754341"/>
 							<reference key="NSControlView" ref="736155124"/>
 							<reference key="NSBackgroundColor" ref="630544313"/>
@@ -943,10 +941,10 @@
 						<reference key="object" ref="189085683"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="736155124"/>
 							<reference ref="2573600"/>
-							<reference ref="324101962"/>
 							<reference ref="927993188"/>
+							<reference ref="736155124"/>
+							<reference ref="324101962"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Personal</string>
@@ -1184,6 +1182,7 @@
 					<string>314.ImportedFromIB2</string>
 					<string>315.IBPluginDependency</string>
 					<string>315.ImportedFromIB2</string>
+					<string>317.IBEditorWindowLastContentRect</string>
 					<string>317.IBPluginDependency</string>
 					<string>317.ImportedFromIB2</string>
 					<string>318.IBPluginDependency</string>
@@ -1216,7 +1215,7 @@
 					<string>{{281, 514}, {417, 78}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{106, 181}, {440, 258}}</string>
+					<string>{{278, 229}, {440, 258}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1263,6 +1262,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>{{372, 433}, {206, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

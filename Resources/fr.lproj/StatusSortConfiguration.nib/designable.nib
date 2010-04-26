@@ -134,7 +134,7 @@
 						<object class="NSButtonCell" key="NSCell" id="685667484">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Grouper tous les contacts inactifs</string>
+							<string key="NSContents">Grouper tous les contacts en veille</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="1030470406"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -155,7 +155,7 @@
 					<object class="NSButton" id="514053877">
 						<reference key="NSNextResponder" ref="1014163631"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{18, 231}, {282, 18}}</string>
+						<string key="NSFrame">{{18, 231}, {290, 18}}</string>
 						<reference key="NSSuperview" ref="1014163631"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="58308887">
@@ -177,13 +177,13 @@
 					<object class="NSButton" id="649293892">
 						<reference key="NSNextResponder" ref="1014163631"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{18, 211}, {278, 18}}</string>
+						<string key="NSFrame">{{18, 211}, {279, 18}}</string>
 						<reference key="NSSuperview" ref="1014163631"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="936443328">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Trier les groupes alphabétiquement</string>
+							<string key="NSContents">Trier les groupes par ordre alphabétique</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="649293892"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -205,7 +205,7 @@
 						<object class="NSButtonCell" key="NSCell" id="915233021">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Grouper tous les contacts absents</string>
+							<string key="NSContents">Grouper tous les contacts partis</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="1035068162"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -221,13 +221,13 @@
 					<object class="NSTextField" id="527498166">
 						<reference key="NSNextResponder" ref="1014163631"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{17, 179}, {280, 17}}</string>
+						<string key="NSFrame">{{17, 179}, {286, 17}}</string>
 						<reference key="NSSuperview" ref="1014163631"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="871670229">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Trier dans chaque regroupement :</string>
+							<string key="NSContents">Trier les contacts de chaque regroupement :</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="527498166"/>
 							<reference key="NSBackgroundColor" ref="611762838"/>
@@ -278,7 +278,7 @@
 						<object class="NSButtonCell" key="NSCell" id="701413757">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Grouper les contacts disponibles</string>
+							<string key="NSContents">Regrouper les contacts disponibles</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="344557027"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -461,6 +461,7 @@
 								</object>
 								<string key="NSFrame">{{1, 1}, {123, 76}}</string>
 								<reference key="NSSuperview" ref="235788817"/>
+								<reference key="NSNextKeyView" ref="1067321842"/>
 								<reference key="NSDocView" ref="1067321842"/>
 								<reference key="NSBGColor" ref="923405773"/>
 								<int key="NScvFlags">4</int>
@@ -487,6 +488,7 @@
 						</object>
 						<string key="NSFrame">{{169, 20}, {125, 78}}</string>
 						<reference key="NSSuperview" ref="1014163631"/>
+						<reference key="NSNextKeyView" ref="506655281"/>
 						<int key="NSsFlags">530</int>
 						<reference key="NSVScroller" ref="498077180"/>
 						<reference key="NSHScroller" ref="247753667"/>
@@ -521,7 +523,7 @@
 							<object class="NSButtonCell" id="1058045522">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Grouper les indisponibles séparément :</string>
+								<string key="NSContents">Grouper les indisponibles séparément</string>
 								<reference key="NSSupport" ref="853079605"/>
 								<reference key="NSControlView" ref="906049241"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -580,13 +582,13 @@
 					<object class="NSButton" id="188175473">
 						<reference key="NSNextResponder" ref="1014163631"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{37, 254}, {259, 18}}</string>
+						<string key="NSFrame">{{37, 254}, {265, 18}}</string>
 						<reference key="NSSuperview" ref="1014163631"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="52092564">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Grouper tous ceux inactifs et absents</string>
+							<string key="NSContents">Grouper les contacts en veille et partis</string>
 							<reference key="NSSupport" ref="853079605"/>
 							<reference key="NSControlView" ref="188175473"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -882,7 +884,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="566506401"/>
 							<reference ref="1030470406"/>
-							<reference ref="514053877"/>
 							<reference ref="1035068162"/>
 							<reference ref="527498166"/>
 							<reference ref="713404358"/>
@@ -897,6 +898,7 @@
 							<reference ref="188175473"/>
 							<reference ref="398811819"/>
 							<reference ref="649293892"/>
+							<reference ref="514053877"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">View</string>
@@ -1353,7 +1355,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{593, 272}, {318, 429}}</string>
+					<string>{{688, 243}, {318, 429}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>AILocalizationButton</string>

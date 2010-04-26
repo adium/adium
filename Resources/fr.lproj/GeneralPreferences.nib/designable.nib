@@ -21,6 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="5"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -48,7 +49,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="854546029">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">258</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -204,13 +205,13 @@
 					<object class="NSButton" id="431055635">
 						<reference key="NSNextResponder" ref="854546029"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{178, 164}, {328, 18}}</string>
+						<string key="NSFrame">{{178, 164}, {335, 18}}</string>
 						<reference key="NSSuperview" ref="854546029"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="56466105">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Afficher l'icône de statut dans la barre de menus</string>
+							<string key="NSContents">Afficher l'icone de statut dans la barre des menus</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="431055635"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -313,7 +314,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="275396460">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">Ce raccourci amène Adium au premier plan.</string>
+							<string key="NSContents">Ce raccourci amènera Adium au premier plan</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -376,7 +377,7 @@
 						<object class="NSButtonCell" key="NSCell" id="1056041568">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Ranger les nouvelles discussions par onglets</string>
+							<string key="NSContents">Ranger les nouvelles discussions par onglet</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="847653286"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -398,7 +399,7 @@
 						<object class="NSButtonCell" key="NSCell" id="358497441">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Ranger les onglets par groupes</string>
+							<string key="NSContents">Ranger les onglets par groupe</string>
 							<reference key="NSSupport" ref="1051231212"/>
 							<reference key="NSControlView" ref="806959144"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -431,9 +432,9 @@
 							</object>
 							<int key="NSPeriodicDelay">400</int>
 							<int key="NSPeriodicInterval">75</int>
-							<object class="NSMenuItem" key="NSMenuItem" id="973138356">
+							<object class="NSMenuItem" key="NSMenuItem" id="1043226218">
 								<reference key="NSMenu" ref="181094675"/>
-								<string key="NSTitle">Bas</string>
+								<string key="NSTitle">A droite</string>
 								<string key="NSKeyEquiv"/>
 								<int key="NSKeyEquivModMask">1048576</int>
 								<int key="NSMnemonicLoc">2147483647</int>
@@ -441,6 +442,7 @@
 								<reference key="NSOnImage" ref="465479313"/>
 								<reference key="NSMixedImage" ref="518580995"/>
 								<string key="NSAction">_popUpItemAction:</string>
+								<int key="NSTag">3</int>
 								<reference key="NSTarget" ref="615898173"/>
 							</object>
 							<bool key="NSMenuItemRespectAlignment">YES</bool>
@@ -450,10 +452,20 @@
 								</object>
 								<object class="NSMutableArray" key="NSMenuItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
-									<reference ref="973138356"/>
+									<object class="NSMenuItem" id="973138356">
+										<reference key="NSMenu" ref="181094675"/>
+										<string key="NSTitle">En bas</string>
+										<string key="NSKeyEquiv"/>
+										<int key="NSKeyEquivModMask">1048576</int>
+										<int key="NSMnemonicLoc">2147483647</int>
+										<reference key="NSOnImage" ref="465479313"/>
+										<reference key="NSMixedImage" ref="518580995"/>
+										<string key="NSAction">_popUpItemAction:</string>
+										<reference key="NSTarget" ref="615898173"/>
+									</object>
 									<object class="NSMenuItem" id="871677763">
 										<reference key="NSMenu" ref="181094675"/>
-										<string key="NSTitle">Haut</string>
+										<string key="NSTitle">En haut</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
@@ -465,7 +477,7 @@
 									</object>
 									<object class="NSMenuItem" id="781022226">
 										<reference key="NSMenu" ref="181094675"/>
-										<string key="NSTitle">Gauche</string>
+										<string key="NSTitle">A gauche</string>
 										<string key="NSKeyEquiv"/>
 										<int key="NSKeyEquivModMask">1048576</int>
 										<int key="NSMnemonicLoc">2147483647</int>
@@ -475,20 +487,10 @@
 										<int key="NSTag">2</int>
 										<reference key="NSTarget" ref="615898173"/>
 									</object>
-									<object class="NSMenuItem" id="1043226218">
-										<reference key="NSMenu" ref="181094675"/>
-										<string key="NSTitle">Droite</string>
-										<string key="NSKeyEquiv"/>
-										<int key="NSKeyEquivModMask">1048576</int>
-										<int key="NSMnemonicLoc">2147483647</int>
-										<reference key="NSOnImage" ref="465479313"/>
-										<reference key="NSMixedImage" ref="518580995"/>
-										<string key="NSAction">_popUpItemAction:</string>
-										<int key="NSTag">3</int>
-										<reference key="NSTarget" ref="615898173"/>
-									</object>
+									<reference ref="1043226218"/>
 								</object>
 							</object>
+							<int key="NSSelectedIndex">3</int>
 							<int key="NSPreferredEdge">3</int>
 							<bool key="NSUsesItemFromMenu">YES</bool>
 							<bool key="NSAltersState">YES</bool>
@@ -680,6 +682,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{637, 425}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -1898,7 +1901,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{637, 309}, {147, 83}}</string>
+					<string>{{941, 473}, {147, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1959,7 +1962,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{335, 331}, {637, 425}}</string>
+					<string>{{302, 253}, {637, 425}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>AILocalizationButton</string>
