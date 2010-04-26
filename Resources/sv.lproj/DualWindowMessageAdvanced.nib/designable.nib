@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="143"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -38,7 +39,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="237326165">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -129,7 +130,7 @@
 								<string key="NSColorName">controlColor</string>
 								<object class="NSColor" key="NSColor">
 									<int key="NSColorSpace">3</int>
-									<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+									<bytes key="NSWhite">MC42NjY2NjY2ODY1AA</bytes>
 								</object>
 							</object>
 							<object class="NSColor" key="NSTextColor" id="229612630">
@@ -277,13 +278,13 @@
 					<object class="NSButton" id="542428259">
 						<reference key="NSNextResponder" ref="237326165"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{7, 176}, {246, 18}}</string>
+						<string key="NSFrame">{{7, 176}, {270, 18}}</string>
 						<reference key="NSSuperview" ref="237326165"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="207758709">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Visa antal olästa meddelanden i flikar</string>
+							<string key="NSContents">Visa antal olästa meddelanden i respektive flik</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="542428259"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -321,13 +322,13 @@
 					<object class="NSButton" id="170189098">
 						<reference key="NSNextResponder" ref="237326165"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{7, 246}, {160, 16}}</string>
+						<string key="NSFrame">{{7, 244}, {160, 18}}</string>
 						<reference key="NSSuperview" ref="237326165"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="744063261">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">131072</int>
-							<string key="NSContents">Use custom name format:</string>
+							<string key="NSContents">Anpassa namnformat:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="170189098"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -525,13 +526,13 @@
 					<object class="NSTextField" id="723690484">
 						<reference key="NSNextResponder" ref="237326165"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{57, 223}, {111, 14}}</string>
+						<string key="NSFrame">{{47, 220}, {111, 17}}</string>
 						<reference key="NSSuperview" ref="237326165"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="239975037">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Time stamp format:</string>
+							<string key="NSContents">Tidsformat:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="723690484"/>
 							<reference key="NSBackgroundColor" ref="37852972"/>
@@ -541,13 +542,13 @@
 					<object class="NSTextField" id="500225292">
 						<reference key="NSNextResponder" ref="237326165"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{57, 200}, {115, 14}}</string>
+						<string key="NSFrame">{{47, 186}, {121, 28}}</string>
 						<reference key="NSSuperview" ref="237326165"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="47952569">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">4194304</int>
-							<string key="NSContents">Minimum Font Size:</string>
+							<string key="NSContents">Minsta teckenstorlek:</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="500225292"/>
 							<reference key="NSBackgroundColor" ref="37852972"/>
@@ -564,10 +565,9 @@
 							<object class="NSTabViewItem" id="627403686">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="529199338">
-									<reference key="NSNextResponder" ref="397792055"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
-									<reference key="NSSuperview" ref="397792055"/>
 								</object>
 								<string key="NSLabel">Vanliga samtal</string>
 								<reference key="NSColor" ref="37852972"/>
@@ -576,20 +576,20 @@
 							<object class="NSTabViewItem" id="208455714">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="308615649">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="397792055"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
 										<object class="NSButton" id="538077264">
 											<reference key="NSNextResponder" ref="308615649"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{14, 2}, {243, 18}}</string>
+											<string key="NSFrame">{{14, 2}, {261, 18}}</string>
 											<reference key="NSSuperview" ref="308615649"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="844201595">
 												<int key="NSCellFlags">67239424</int>
 												<int key="NSCellFlags2">131072</int>
-												<string key="NSContents">…only count number of unread mentions</string>
+												<string key="NSContents">…räkna endast antalet olästa omnämnanden</string>
 												<reference key="NSSupport" ref="26"/>
 												<reference key="NSControlView" ref="538077264"/>
 												<int key="NSButtonFlags">1211912703</int>
@@ -604,24 +604,26 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {314, 107}}</string>
+									<reference key="NSSuperview" ref="397792055"/>
 								</object>
 								<string key="NSLabel">Gruppsamtal</string>
 								<reference key="NSColor" ref="37852972"/>
 								<reference key="NSTabView" ref="397792055"/>
 							</object>
 						</object>
-						<reference key="NSSelectedTabViewItem" ref="627403686"/>
+						<reference key="NSSelectedTabViewItem" ref="208455714"/>
 						<reference key="NSFont" ref="855724646"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="529199338"/>
+							<reference ref="308615649"/>
 						</object>
 					</object>
 				</object>
 				<string key="NSFrameSize">{330, 289}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
@@ -1454,7 +1456,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{42, 810}, {330, 289}}</string>
+					<string>{{289, 249}, {330, 289}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
