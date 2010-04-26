@@ -1234,18 +1234,46 @@ NSString* serviceIDForJabberUID(NSString *UID)
 }
 
 #pragma mark AB contextual menu
+
+/*!
+ * @brief Does the specified listObject have information valid to be added to the address book?
+ *
+ * Specifically, this requires one or more contacts in the listObject to be on a service we know how
+ * to parse into an ABPerson.
+ */
+- (BOOL)contactMayBeAddedToAddressBook:(AIListObject *)contact
+{
+	BOOL mayBeAdded = NO;
+	if ([contact isKindOfClass:[AIMetaContact class]]) {
+		for (AIListObject *c in [(AIMetaContact *)contact uniqueContainedObjects]) {
+			if ([AIAddressBookController propertyFromService:c.service] != nil) {
+				mayBeAdded = YES;
+				break;
+			}
+		}
+
+	} else {
+		mayBeAdded = ([AIAddressBookController propertyFromService:contact.service] != nil);
+	}
+	
+	return mayBeAdded;
+}
+
+
+
 /*!
  * @brief Validate menu item
  */
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-	BOOL	hasABEntry = ([[self class] personForListObject:adium.menuController.currentContextMenuObject] != nil);
-	BOOL	result = NO;
+	AIListObject *listObject = adium.menuController.currentContextMenuObject;
+	BOOL		 hasABEntry = ([[self class] personForListObject:listObject] != nil);
+	BOOL		 result = NO;
 	
 	if ([menuItem tag] == AIRequiresAddressBookEntry) {
 		result = hasABEntry;
 	} else if ([menuItem tag] == AIRequiresNoAddressBookEntry) {
-		result = !hasABEntry;
+		result = (!hasABEntry && [self contactMayBeAddedToAddressBook:listObject]);
 	}
 	
 	return result;
@@ -1271,35 +1299,48 @@ NSString* serviceIDForJabberUID(NSString *UID)
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
+/*!
+ * @brief Adds the selected contact to the Address Book
+ */
 - (void)addToAddressBook
 {
-	AIListObject			*contact = adium.menuController.currentContextMenuObject;
-	NSString				*serviceProperty = [AIAddressBookController propertyFromService:contact.service];
+	AIListObject *contact = adium.menuController.currentContextMenuObject;
+	ABPerson	 *person = [[ABPerson alloc] init];
+	NSArray		 *contacts = ([contact isKindOfClass:[AIMetaContact class]] ? 
+							  [(AIMetaContact *)contact uniqueContainedObjects] :
+							  [NSArray arrayWithObject:contact]);
+	BOOL		 validForAddition = NO;
+	BOOL		 success = NO;
 	
-	if (serviceProperty) {
-		ABPerson				*person = [[ABPerson alloc] init];
-		
-		//Set the name
-		[person setValue:contact.displayName forKey:kABFirstNameProperty];
-		if (![[contact phoneticName] isEqualToString:contact.displayName])
-			[person setValue:[contact phoneticName] forKey:kABFirstNamePhoneticProperty];
+	//Set the name
+	[person setValue:contact.displayName forKey:kABFirstNameProperty];
+	if (![[contact phoneticName] isEqualToString:contact.displayName])
+		[person setValue:[contact phoneticName] forKey:kABFirstNamePhoneticProperty];
 
-		NSString				*UID = contact.formattedUID;
+	for (AIListObject *c in contacts) {
+		NSString *UID = c.formattedUID;
+		NSString *serviceProperty = [AIAddressBookController propertyFromService:c.service];
 		
-		NSArray *contacts = [contact isKindOfClass:[AIMetaContact class]] ? [(AIMetaContact *)contact uniqueContainedObjects] : [NSArray arrayWithObject:contact];
+		/* We may get here with a metacontact which contains one or more contacts ineligible for addition to the Address
+		 * Book; skip these entries.
+		 */		
+		if (!UID || !serviceProperty)
+			continue;
 		
-		for (AIListObject *c in contacts) {
-			ABMutableMultiValue *multiValue = [[ABMutableMultiValue alloc] init];
-			UID = c.formattedUID;
-			serviceProperty = [AIAddressBookController propertyFromService:c.service];
-			
-			//Set the IM property
-			[multiValue addValue:UID withLabel:serviceProperty];
-			[person setValue:multiValue forKey:serviceProperty];
-			
-			[multiValue release];
-		}
-
+		/* Reuse a previously added multivalue for this property if present;
+		 * this happens if a metacontact has multiple UIDs for a single service, e.g. multiple AIM names
+		 */
+		ABMutableMultiValue *multiValue = [person valueForKey:serviceProperty];
+		if (!multiValue)
+			multiValue = [[[ABMutableMultiValue alloc] init] autorelease];
+		
+		[multiValue addValue:UID withLabel:serviceProperty];
+		[person setValue:multiValue forKey:serviceProperty];
+		
+		validForAddition = YES;		
+	}
+	
+	if (validForAddition) {
 		//Set the image
 		[person setImageData:[contact userIconData]];
 		
@@ -1315,22 +1356,26 @@ NSString* serviceIDForJabberUID(NSString *UID)
 			
 			//Ask the user whether it would like to edit the new contact
 			NSInteger result = NSRunAlertPanel(CONTACT_ADDED_SUCCESS_TITLE,
-										 CONTACT_ADDED_SUCCESS_Message,
-										 AILocalizedString(@"Yes", nil),
-										 AILocalizedString(@"No", nil), nil, UID);
+											   CONTACT_ADDED_SUCCESS_Message,
+											   AILocalizedString(@"Yes", nil),
+											   AILocalizedString(@"No", nil), nil, contact.displayName);
 			
 			if (result == NSOKButton) {
 				NSString *url = [[NSString alloc] initWithFormat:@"addressbook://%@?edit", [person uniqueId]];
 				[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 				[url release];
 			}
-		} else {
-			NSRunAlertPanel(CONTACT_ADDED_ERROR_TITLE, CONTACT_ADDED_ERROR_Message, nil, nil, nil);
+			
+			success = YES;
 		}
-		
-		//Clean up
-		[person release];
 	}
+	
+	
+	if (!success)
+		NSRunAlertPanel(CONTACT_ADDED_ERROR_TITLE, CONTACT_ADDED_ERROR_Message, nil, nil, nil);
+
+	//Clean up
+	[person release];
 }
 
 @end
