@@ -121,7 +121,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="377809920">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">71303168</int>
-							<string key="NSContents">Byt flikar med:</string>
+							<string key="NSContents">Byt flik med:</string>
 							<reference key="NSSupport" ref="352886408"/>
 							<reference key="NSControlView" ref="595215985"/>
 							<reference key="NSBackgroundColor" ref="238245217"/>
@@ -303,13 +303,13 @@
 					<object class="NSTextField" id="162924380">
 						<reference key="NSNextResponder" ref="903094863"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{177, 3}, {229, 28}}</string>
+						<string key="NSFrame">{{165, 3}, {252, 28}}</string>
 						<reference key="NSSuperview" ref="903094863"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="725358018">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">138412032</int>
-							<string key="NSContents">När genvägen används placeras Adiumfönstret överst</string>
+							<string key="NSContents">Genvägen används för att lägga Adium överst.</string>
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">11</double>
@@ -317,7 +317,10 @@
 							</object>
 							<reference key="NSControlView" ref="162924380"/>
 							<reference key="NSBackgroundColor" ref="238245217"/>
-							<reference key="NSTextColor" ref="652811800"/>
+							<object class="NSColor" key="NSTextColor">
+								<int key="NSColorSpace">1</int>
+								<bytes key="NSRGB">MC4yNTQ5MDE5NzU0IDAuMjU0OTAxOTc1NCAwLjI1NDkwMTk3NTQAA</bytes>
+							</object>
 						</object>
 					</object>
 					<object class="SRRecorderControl" id="223203735">
@@ -550,7 +553,7 @@
 						<object class="NSButtonCell" key="NSCell" id="381616917">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Inkludera anonym systemprofil</string>
+							<string key="NSContents">Inkludera anonym systeminformation</string>
 							<reference key="NSSupport" ref="352886408"/>
 							<reference key="NSControlView" ref="38596461"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -571,7 +574,7 @@
 						<object class="NSButtonCell" key="NSCell" id="383100045">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Uppdatera till betaversioner vid möjlighet</string>
+							<string key="NSContents">Uppdatera även till betaversioner</string>
 							<reference key="NSSupport" ref="352886408"/>
 							<reference key="NSControlView" ref="73703199"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -655,7 +658,7 @@
 						<object class="NSButtonCell" key="NSCell" id="795069341">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Spara öppna samtal när Adium avslutas</string>
+							<string key="NSContents">Spara öppna samtalsfönster vid avslut</string>
 							<reference key="NSSupport" ref="352886408"/>
 							<reference key="NSControlView" ref="256169698"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -1945,7 +1948,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{576, 567}, {540, 408}}</string>
+					<string>{{438, 748}, {540, 408}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>AILocalizationButton</string>
