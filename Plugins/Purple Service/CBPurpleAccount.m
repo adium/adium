@@ -1932,7 +1932,7 @@ static void prompt_host_ok_cb(CBPurpleAccount *self, const char *host) {
 - (void)continueConnectWithConfiguredProxy
 {
 	//Set password and connect
-	purple_account_set_password(account, [password UTF8String]);
+	purple_account_set_password(account, ([password length] ? [password UTF8String] : NULL));
 
 	//Set our current status state after filtering its statusMessage as appropriate. This will take us online in the process.
 	AIStatus	*statusState = [self valueForProperty:@"StatusState"];
