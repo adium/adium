@@ -157,7 +157,7 @@
 
 			if (selectedRange.length > 0) {
 				//If the selected text is a URL (more or less), good enough for us.
-				return [AHHyperlinkScanner isStringValidURI:[text.string substringWithRange:selectedRange] usingStrict:NO fromIndex:NULL withStatus:NULL];
+				return [AHHyperlinkScanner isStringValidURI:[text.string substringWithRange:selectedRange] usingStrict:NO fromIndex:NULL withStatus:NULL schemeLength:NULL];
 			}
 		}
 	}
