@@ -33,21 +33,21 @@
 #pragma mark init and dealloc
 
 + (id)hyperlinkWithString:(NSString *)inString
-		 withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
-						 parentString:(NSString *)pInString
-								 andRange:(NSRange)inRange
+	 withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
+			 parentString:(NSString *)pInString
+				 andRange:(NSRange)inRange
 {
 	return [[[[self class] alloc] initWithString:inString
-													withValidationStatus:status
-																	parentString:pInString
-																			andRange:inRange] autorelease];
+							withValidationStatus:status
+									parentString:pInString
+										andRange:inRange] autorelease];
 }
 
 // one really big init method that does it all...
 - (id)initWithString:(NSString *)inString
 withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
-				parentString:(NSString *)pInString
-						andRange:(NSRange)inRange
+		parentString:(NSString *)pInString
+			andRange:(NSRange)inRange
 {
 	if((self = [self init])) {
 		[self setURLFromString:inString];
@@ -55,7 +55,7 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 		self.parentString = pInString;
 		self.validationStatus = status;
 	}
-
+	
 	return self;
 }
 
@@ -77,7 +77,7 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 	self.validationStatus = 0;
 	self.parentString = nil;
 	self.URL = nil;
-
+	
 	[super dealloc];
 }
 
@@ -86,7 +86,7 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 - (void)setURLFromString:(NSString *)inString
 {
 	NSString	*linkString, *preString;
-
+	
 	preString = (NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(kCFAllocatorDefault, 
 																					(CFStringRef)inString, 
 																					CFSTR(""), 
@@ -96,10 +96,10 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 																	 preString? (CFStringRef)preString : (CFStringRef)inString,
 																	 (CFStringRef)@"#[]",
 																	 NULL,
-																	 kCFStringEncodingUTF8); // kCFStringEncodingISOLatin1 );
-
+																	 kCFStringEncodingUTF8);
+	
 	self.URL = [NSURL URLWithString:linkString];
-
+	
 	[linkString release];
 	if(preString) [preString release];
 }
@@ -142,13 +142,13 @@ withValidationStatus:(AH_URI_VERIFICATION_STATUS)status
 - (BOOL)isLike:(NSString *)aString
 {
 	return [[self.parentString substringWithRange:self.range] isLike:aString] ||
-			[[self.URL absoluteString] isLike:aString];
+	[[self.URL absoluteString] isLike:aString];
 }
 
 - (BOOL)isCaseInsensitiveLike:(NSString *)aString
 {
 	return [[self.parentString substringWithRange:self.range] isCaseInsensitiveLike:aString] ||
-			[[self.URL absoluteString] isCaseInsensitiveLike:aString];
+	[[self.URL absoluteString] isCaseInsensitiveLike:aString];
 }
 
 - (BOOL)isEqualTo:(id)object

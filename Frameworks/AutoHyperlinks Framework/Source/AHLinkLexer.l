@@ -73,19 +73,7 @@ ipv6Address     {ipv6HexPart}({ipv4address})?
 ipv6URL         \[{ipv6Address}](:[0-9]+)?{urlPath}?
 
 userAtDomain	[^:@\/[:space:]]+\@{singleDomain}(\.{singleDomain})*
-mailSpec        {userAtDomain}\.({ccTLD}|{sTLD}|{uTLD}|arpa|local)
-jabberSpec      xmpp:{mailSpec}{urlPath}?(\?[^[:space:]]+)?
-aolIMSpec       aim:goim\?screenname=[^\ \t\n&]+(&message=.+)?
-aolChatSpec     aim:gochat\?roomname=[^\ \t\n&]+
-yahooIMSpecOld  (ymsgr|yahoo):sendim\?.+
-yahooIMSpecNew	(ymsgr|yahoo):(\/\/)?im\?to=.+
-yahooIMSpec     {yahooIMSpecOld}|{yahooIMSpecNew}
-rdarSpec        (rdar|radr|radar|x-radar):\/\/(problems?\/)?[0-9]+(&[0-9]+)*
-spotifySpec     spotify:(track|album|artist|search|playlist|user|radio):[^<>]+
-gtalkSpec       gtalk:(chat|call|gtalk)\?jid={mailSpec}(&from_jid={mailSpec})?
-myimSpec        myim:(addContact|sendIM)\?(((uID|cID)=[0-9]*&?)|(auto=(true|false)&?))+
-msnSpec         msnim:(chat|add|voice|video)\?contact={mailSpec}
-dictSpec		dict:{urlPath}
+mailSpec        {userAtDomain}\.{TLDs}
 
 %{
 /* Special patterns to ignore */
@@ -95,59 +83,51 @@ ignoreable      (b\.sc|m\.in)
 
 %option noyywrap nounput 8bit caseless never-interactive reentrant warn prefix="AH"
 
-%x CANONICAL
+%x CANONICAL TENTATIVE
 %%
 
-<CANONICAL>({userAndPass}@)?{urlCSpec}|{ipURL}|{ipv6URL} {yyleng += yyextra;
+<CANONICAL>({userAndPass}@)?{urlCSpec}|{ipURL}|{ipv6URL} {yyleng += yyextra.urlLength;
                                                           BEGIN INITIAL;
                                                           return AH_URL_VALID;}
 
 <CANONICAL>.*                                            {BEGIN INITIAL;
                                                           return AH_URL_INVALID;}
 
+<TENTATIVE>[^[:space:]]+                                 {yyleng += yyextra.urlLength;
+                                                          BEGIN INITIAL;
+                                                          return AH_URL_TENTATIVE;}
+
+<TENTATIVE>.*                                            {BEGIN INITIAL;
+                                                          return AH_URL_INVALID;}
+
 {ignoreable}            {return AH_URL_INVALID;}
 
 file:\/\/\/.*           {return AH_FILE_VALID;}
 
-https?:\/\/             |
-s?ftp:\/\/              |
-feed:\/\/               |
-ssh:\/\/                |
+
 telnet:\/\/             |
-rts?p:\/\/              |
-irc:\/\/                |
-nntp:\/\/               |
-cifs:\/\/               |
-smb:\/\/                |
-hydra:\/\/              |
+daap:\/\/               |
 itms:\/\/               |
-see:\/\/                |
+smb:\/\/                |
 afp:\/\/                |
-adiumxtra:\/\/          |
-webcal:\/\/             |
-svn(\+ssh)?:\/\/        |
-notes:\/\/              |
-gopher:\/\/             |
-git:\/\/                |
+s?ftp:\/\/              |
 vnc:\/\/                |
-x-man-page:\/\/         {yyextra = yyleng; BEGIN CANONICAL;}
+webcal:\/\/             |
+feeds?:\/\/             |
+cifs:\/\/               |
+help:\/\/               |
+rtsp:\/\/               |
+ssh:\/\/                |
+https?:\/\/             {yyextra.urlLength = yyleng; yyextra.schemeLength = yyleng - 3; BEGIN CANONICAL;}
+
+[[:alnum:]\-_]+:\/\/    {yyextra.urlLength = yyleng; yyextra.schemeLength = yyleng - 3; BEGIN TENTATIVE;}
 
 mailto:{mailSpec}       {return AH_MAILTO_VALID;}
 {mailSpec}              {return AH_MAILTO_DEGENERATE;}
 
-{urlSpec}               {return AH_URL_DEGENERATE;}
+[[:alnum:]\-_]+:        {yyextra.urlLength = yyleng; yyextra.schemeLength = yyleng - 1; BEGIN TENTATIVE;}
 
-sip:{mailSpec}          |
-{myimSpec}              |
-{jabberSpec}            |
-{gtalkSpec}             |
-{aolIMSpec}             |
-{aolChatSpec}           |
-{yahooIMSpec}           |
-{rdarSpec}              |
-{msnSpec}               |
-{dictSpec}              |
-{spotifySpec}           {return AH_URL_VALID;}
+{urlSpec}               {return AH_URL_DEGENERATE;}
 
 .                       {return AH_URL_INVALID;}
 %%

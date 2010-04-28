@@ -406,45 +406,9 @@
 }
 
 - (void)testInternationalDomainNameURI {
-#if 0
-	NSString *URLString;
-	NSURL *correctURL, *foundURL;
-
 	//http://ουτοπία.δπθ.gr/, aka utoria.duth.gr. Link borrowed from <http://en.wikipedia.org/wiki/Image:IDN-utopia-greek.jpg>.
-	URLString = [NSString stringWithUTF8String:"\x68\x74\x74\x70\x3A\x2F\x2F\xCE\xBF\xCF\x85\xCF\x84\xCE\xBF\xCF\x80\xCE\xAF\xCE\xB1\x2E\xCE\xB4\xCF\x80\xCE\xB8\x2E\x67\x72\x2F"]; //With pathname (/)
-	testHyperlink(URLString);
-
-	scanner = [AHHyperlinkScanner strictHyperlinkScannerWithString:URLString];
-	foundURL = [[scanner nextURI] URL];
-	STAssertNotNil(foundURL, @"%@ is a valid URL but scanner returned nil", URLString);
-	if (foundURL) {
-		correctURL = [NSURL URLWithString:@"http://xn--kxae4bafwg.xn--pxaix.gr/"];
-		STAssertEqualObjects(foundURL, correctURL, @"Hyperlink scanner returned incorrect URL");
-	}
-
-	URLString = [NSString stringWithUTF8String:"\x68\x74\x74\x70\x3A\x2F\x2F\xCE\xBF\xCF\x85\xCF\x84\xCE\xBF\xCF\x80\xCE\xAF\xCE\xB1\x2E\xCE\xB4\xCF\x80\xCE\xB8\x2E\x67\x72"]; //Without pathname
-	testHyperlink(URLString);
-
-	scanner = [AHHyperlinkScanner strictHyperlinkScannerWithString:URLString];
-	foundURL = [[scanner nextURI] URL];
-	STAssertNotNil(foundURL, @"%@ is a valid URL but scanner returned nil", URLString);
-	if (foundURL) {
-		correctURL = [NSURL URLWithString:@"http://xn--kxae4bafwg.xn--pxaix.gr/"];
-		STAssertEqualObjects(foundURL, correctURL, @"Hyperlink scanner returned incorrect URL");
-	}
-
-	//<http://➡.ws/ﷺ>, which is the shortened URL for <http://➡.ws/>.
-	URLString = [NSString stringWithUTF8String:"\x68\x74\x74\x70\x3a\x2f\x2f\xe2\x9e\xa1\x2e\x77\x73\x2f\xef\xb7\xba"];
-	testHyperlink(URLString);
-
-	scanner = [AHHyperlinkScanner strictHyperlinkScannerWithString:URLString];
-	foundURL = [[scanner nextURI] URL];
-	STAssertNotNil(foundURL, @"%@ is a valid URL but scanner returned nil", URLString);
-	if (foundURL) {
-		correctURL = [NSURL URLWithString:@"http://xn--hgi.ws/%EF%B7%BA"];
-		STAssertEqualObjects(foundURL, correctURL, @"Hyperlink scanner returned incorrect URL");
-	}
-#endif
+	testHyperlink([NSString stringWithUTF8String:"\x68\x74\x74\x70\x3A\x2F\x2F\xCE\xBF\xCF\x85\xCF\x84\xCE\xBF\xCF\x80\xCE\xAF\xCE\xB1\x2E\xCE\xB4\xCF\x80\xCE\xB8\x2E\x67\x72\x2F"]); //With pathname (/)
+	testHyperlink([NSString stringWithUTF8String:"\x68\x74\x74\x70\x3A\x2F\x2F\xCE\xBF\xCF\x85\xCF\x84\xCE\xBF\xCF\x80\xCE\xAF\xCE\xB1\x2E\xCE\xB4\xCF\x80\xCE\xB8\x2E\x67\x72"]); //Without pathname
 }
 
 - (void)testUniqueURI {
@@ -457,7 +421,6 @@
 	//Variants with '&' instead of ';': Adium accepts these, although the XEP does not specify them.
 	testHyperlink(@"xmpp:romeo@montague.net?message&body=Here%27s%20a%20test%20message");
 	testHyperlink(@"xmpp:romeo@montague.net?message&subject=Test%20Message&body=Here%27s%20a%20test%20message");
-	testHyperlink(@"xmpp:foo@conference.example.com?join");
 	testHyperlink(@"aim:goim?screenname=adiumx");
 	testHyperlink(@"aim:goim?screenname=adiumx&message=Hey!+Does+this+work?");
 	testHyperlink(@"ymsgr:sendim?adiumy");
